@@ -1,0 +1,57 @@
+<?php /*
+for more information: see languages.txt in the lang folder. 
+*/
+$langStatDB              = "Statistiekendatabank";
+$langEnableTracking      = "Statistieken inschakelen";
+$langInstituteShortName  = "De korte naam van uw organisatie";
+$langWarningResponsible  = "Gebruik dit script enkel na een back-up. Het Dokeosteam is niet verantwoordelijk indien u data verliest of data corrupt wordt.";
+$langAllowSelfRegProf  = "Zelfregistratie als cursusbeheerder toelaten";
+$langEG = "bv.";
+$langDBHost = "Databankserver";
+$langDBLogin = "Gebruikersnaam voor de databank";
+$langDBPassword = "Wachtwoord voor de databank";
+$langMainDB = "Centrale Dokeosdatabank";
+$langAllFieldsRequired = "alle velden vereist";
+$langPrintVers = "Afdrukbare versie";
+$langLocalPath = "Corresponderend lokaal pad";
+$langAdminEmail = "E-mailadres administrator";
+$langAdminName = "Naam administrator";
+$langAdminSurname = "Familienaam administrator";
+$langAdminLogin = "Inlognaam administrator";
+$langAdminPass = "Wachtwoord administrator (<font color=\"red\">aangewezen te wijzigen</font>)";
+$langEducationManager = "Projectleider";
+$langHelpDeskPhone = "Telefoonnummer helpdesk";
+$langCampusName = "Campustitel";
+$langInstituteName = "Naam instituut";
+$langDBSettingIntro = "Het installatiescript zal de Dokeosdatabank(en) aanmaken. Merk op dat Dokeos standaard meerdere databanken aanmaakt. Als u enkel gebruik kan maken van één databank bij uw hosting provider, dan zal Dokeos niet kunnen werken met meerdere databanken en moet u de optie \"Eén databank\" aanduiden.";
+$langStep1 = "Stap 1 van 6";
+$langStep2 = "Stap 2 van 6";
+$langStep3 = "Stap 3 van 6";
+$langStep4 = "Stap 4 van 6";
+$langStep5 = "Stap 5 van 6";
+$langStep6 = "Stap 6 van 6";
+$langCfgSetting = "Configuratieinstellingen";
+$langDBSetting = "Instellingen MySQL-databank";
+$langMainLang = "Standaardtaal";
+$langLicence = "Licentie";
+$langLastCheck = "Laatste controle voor installatie";
+$langRequirements = "Vereisten";
+$langDbPrefixForm = "MySQL database prefix";
+$langDbPrefixCom = "Leeg laten indien niet vereist";
+$langEncryptUserPass = "Encrypteer de gebruikerswachtwoorden in de databank";
+$langSingleDb = "Gebruik een of meerdere databanken voor Dokeos";
+$langAllowSelfReg = "Zelfregistratie als gebruiker toelaten";
+$langRecommended = "(aanbevolen)";
+$langScormDB = "Scormdatabank";
+$langAdminLastName = "Naam administrator";
+$langAdminFirstName = "Voornaam administrator";
+$langAdminPhone = "Telefoonnummer administrator";
+$langInstituteURL = "URL van de organisatie";
+$langDokeosURL = "URL van Dokeos";
+$langUserDB = "Gebruikersdatabank";
+$ReadThoroughly = "Grondig lezen a.u.b.";
+$DokeosNeedFollowingOnServer = "Voor de goede werking van Dokeos, heeft u het volgende nodig op uw server";
+$WarningExistingDokeosInstallationDetected = "Opgelet!<br />Er is een bestaande Dokeosinstallatie aanwezig op uw systeem.";
+$NewInstallation = "Nieuwe installatie";
+$CheckDatabaseConnection = "Controleer databankverbinding";
+?>
