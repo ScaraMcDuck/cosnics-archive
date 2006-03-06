@@ -1,4 +1,11 @@
 <?php
+
+/**
+==============================================================================
+ * This is the configuration file. You'll probably want to modify the values.
+==============================================================================
+ */
+
 $configuration = array();
 
 $configuration['general']['data_manager']
@@ -9,4 +16,5 @@ $configuration['database']['connection_string']
 
 $configuration['database']['table_name_prefix']
 	= 'dokeos_';
+
 ?>
