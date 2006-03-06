@@ -371,7 +371,7 @@ class DatabaseDataManager extends DataManager
 		}
 		else
 		{
-			die('Cannot translate condition:');
+			die('Cannot translate condition');
 		}
 	}
 }
