@@ -20,7 +20,7 @@ $dataManager = DataManager :: get_instance();
 <tr><th>ID</th><th>Type</th><th>Title</th></tr>
 <?php
 
-
+$started = microtime(true);
 $objects = $dataManager->retrieve_learning_objects(
 	// WHERE $key=$value
 	array ('owner' => 1, 'type' => 'link'),
@@ -30,6 +30,8 @@ $objects = $dataManager->retrieve_learning_objects(
 	array ('title'),
 	// DESC
 	array (true));
+$completed = microtime(true);
+$total_time = $completed - $started;
 
 foreach ($objects as $o)
 {
@@ -37,12 +39,12 @@ foreach ($objects as $o)
 }
 ?>
 </table>
+<p><em>Completed in <strong><?php echo $total_time; ?></strong> seconds.</em></p>
 <h2>Any Type</h2>
 <table border="1">
 <tr><th>ID</th><th>Type</th><th>Title</th></tr>
 <?php
-
-
+$started = microtime(true);
 $objects = $dataManager->retrieve_learning_objects(
 	// WHERE $key=$value
 	array ('owner' => 1),
@@ -52,6 +54,8 @@ $objects = $dataManager->retrieve_learning_objects(
 	array ('title'),
 	// DESC
 	array (true));
+$completed = microtime(true);
+$total_time = $completed - $started;
 
 foreach ($objects as $o)
 {
@@ -59,5 +63,6 @@ foreach ($objects as $o)
 }
 ?>
 </table>
+<p><em>Completed in <strong><?php echo $total_time; ?></strong> seconds.</em></p>
 </body>
 </html>
