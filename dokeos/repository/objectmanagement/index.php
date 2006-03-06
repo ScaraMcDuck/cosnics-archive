@@ -34,7 +34,7 @@ function get_objects($from, $number_of_items, $column, $direction)
 	}
 	$order_by[] = $table_columns[$column];
 	$order_desc[] = $direction == SORT_ASC ? 1 : 0;
-	$objects = $datamanager->retrieve_learning_objects($properties,$partial_properties,$order_by,$order_desc);
+	$objects = $datamanager->retrieve_learning_objects($properties,$partial_properties,$order_by,$order_desc,$from,$number_of_items);
 	$table_data = array();
 	foreach($objects as $index => $object)
 	{
@@ -42,7 +42,7 @@ function get_objects($from, $number_of_items, $column, $direction)
 		$row[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/>';
 		$row[] = $object->get_title();
 		$row[] = $object->get_description();
-		$row[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif" alt="'.get_lang('Edit').'"/>';
+		$row[] = '<a href="edit.php?id='.$object->get_id().'" title="'.get_lang('Edit').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif" alt="'.get_lang('Edit').'"/></a>';
  		$table_data[] = $row;
 	}
 	return $table_data;
@@ -64,6 +64,12 @@ $form->addElement('submit','submit',get_lang('Search'));
 $form->display();
 // Create a sortable table to display the learning objects
 $table = new SortableTable('objects','get_number_of_objects','get_objects');
+$parameters = array();
+if (isset ($_GET['keyword']))
+{
+	$parameters = array ('keyword' => $_GET['keyword']);
+}
+$table->set_additional_parameters($parameters);
 $column = 0;
 $table->set_header($column++,get_lang('Type'));
 $table->set_header($column++,get_lang('Title'));
