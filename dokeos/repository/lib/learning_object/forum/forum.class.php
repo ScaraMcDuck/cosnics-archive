@@ -1,19 +1,8 @@
 <?php
 require_once dirname(__FILE__) . '/../../learningobject.class.php';
 
-class Forum extends LearningObject {
-	function get_access () {
-		return $this->get_additional_property('access');
-	}
-	function set_access ($access) {
-		return $this->set_additional_property('access', $access);
-	}
-	function get_moderator () {
-		return $this->get_additional_property('moderator');
-	}
-	function set_moderator ($moderator) {
-		return $this->set_additional_property('moderator', $moderator);
-	}
+class Forum extends LearningObject 
+{
 	function get_topics () {
 		return $this->get_additional_property('topics');
 	}

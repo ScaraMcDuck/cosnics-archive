@@ -1,11 +1,8 @@
 <?php
-/**
- * @package learningobject.announcement
- */
 require_once dirname(__FILE__) . '/../../learningobject_form.class.php';
-class AnnouncementForm extends LearningObjectForm
+class ForumPostForm extends LearningObjectForm
 {
-	public function AnnouncementForm($formName, $method = 'post', $action = null)
+	public function ForumPostForm($formName, $method = 'post', $action = null)
 	{
 		parent :: LearningObjectForm($formName, $method, $action);
 	}
@@ -24,12 +21,12 @@ class AnnouncementForm extends LearningObjectForm
 	{
 		$values = $this->exportValues();
 		$dataManager = DataManager::get_instance();
-		$announcement = new Announcement();
-		$announcement->set_owner_id($owner);
-		$announcement->set_title($values['title']);
-		$announcement->set_description($values['description']);
-		$announcement->create();
-		return $announcement;
+		$forumPost = new ForumPost();
+		$forumPost->set_owner_id($owner);
+		$forumPost->set_title($values['title']);
+		$forumPost->set_description($values['description']);
+		$forumPost->create();
+		return $forumPost;
 	}
 	public function update_learning_object(& $object)
 	{
