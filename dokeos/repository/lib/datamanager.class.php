@@ -66,6 +66,14 @@ abstract class DataManager
 	}
 
 	/**
+	 * Returns the registered types
+	 * @return array The types
+	 */
+	public function get_registered_types()
+	{
+		return array_keys($this->typeProperties);
+	}
+	/**
 	 * Checks if a type name corresponds to an extended learning object type.
 	 * @param string $type The type name.
 	 * @return boolean True if the corresponding type is extended, false
