@@ -17,13 +17,13 @@ $dataManager = DataManager :: get_instance();
 <h1>Learning Object Retrieval Test</h1>
 <h2>Single Type</h2>
 <table border="1">
-<tr><th>ID</th><th>Type</th><th>Title</th></tr>
+<tr><th>ID</th><th>Owner ID</th><th>Type</th><th>Title</th></tr>
 <?php
 
 $started = microtime(true);
 $objects = $dataManager->retrieve_learning_objects(
 	// WHERE $key=$value
-	array ('owner' => 1, 'type' => 'link'),
+	array ('owner' => array(1, 2), 'type' => 'link'),
 	// WHERE $key LIKE %$value%
 	array ('title' => 'xy', 'description' => 'a'),
 	// ORDER BY $col
@@ -35,14 +35,14 @@ $total_time = $completed - $started;
 
 foreach ($objects as $o)
 {
-	echo '<tr><td>'.$o->get_id().'</td><td>'.$o->get_type().'</td><td>'.$o->get_title().'</td></tr>';
+	echo '<tr><td>'.$o->get_id().'</td><td>'.$o->get_owner_id().'</td><td>'.$o->get_type().'</td><td>'.$o->get_title().'</td></tr>';
 }
 ?>
 </table>
 <p><em>Completed in <strong><?php echo $total_time; ?></strong> seconds.</em></p>
 <h2>Any Type</h2>
 <table border="1">
-<tr><th>ID</th><th>Type</th><th>Title</th></tr>
+<tr><th>ID</th><th>Owner ID</th><th>Type</th><th>Title</th></tr>
 <?php
 $started = microtime(true);
 $objects = $dataManager->retrieve_learning_objects(
@@ -59,7 +59,7 @@ $total_time = $completed - $started;
 
 foreach ($objects as $o)
 {
-	echo '<tr><td>'.$o->get_id().'</td><td>'.$o->get_type().'</td><td>'.$o->get_title().'</td></tr>';
+	echo '<tr><td>'.$o->get_id().'</td><td>'.$o->get_owner_id().'</td><td>'.$o->get_type().'</td><td>'.$o->get_title().'</td></tr>';
 }
 ?>
 </table>
