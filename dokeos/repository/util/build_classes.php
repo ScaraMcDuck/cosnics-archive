@@ -15,13 +15,13 @@ if ($handle = opendir($path)) {
 				if ($fh = fopen($p . '/' . $file . '.class.php', 'w')) {
 					fwrite($fh, HEADER);
 					$cls = ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $file));
-					fwrite($fh, 'class ' . $cls . ' extends LearningObject {' . "\n");
+					fwrite($fh, 'class ' . $cls . ' extends LearningObject '."\n".'{' . "\n");
 					foreach ($properties as $prop) {
 						$prop = rtrim($prop);
-						fwrite($fh, "\tfunction get_$prop () {\n"
+						fwrite($fh, "\tfunction get_$prop () \n\t{\n"
 							. "\t\treturn \$this->get_additional_property('$prop');\n"
 							. "\t}\n"
-							. "\tfunction set_$prop (\$$prop) {\n"
+							. "\tfunction set_$prop (\$$prop) \n\t{\n"
 							. "\t\treturn \$this->set_additional_property('$prop', \$$prop);\n"
 							. "\t}\n");
 					}
