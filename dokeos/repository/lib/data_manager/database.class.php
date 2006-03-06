@@ -6,10 +6,14 @@ require_once 'DB.php';
 
 /**
 ==============================================================================
-*	This is a data manager that uses a database for storage. It was written
-*	for MySQL, but should be compatible with most SQL flavors.
+ *	This is a data manager that uses a database for storage. It was written
+ *	for MySQL, but should be compatible with most SQL flavors.
+ *
+ *	@author Tim De Pauw
+ *	@author Bart Mollet
 ==============================================================================
-*/
+ */
+
 class DatabaseDataManager extends DataManager {
 	/**
 	 * The database connection.
