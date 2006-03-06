@@ -60,7 +60,7 @@ abstract class DataManager
 	 * @param string $type The learning object type.
 	 * @return array The properties.
 	 */
-	protected function get_additional_properties($type)
+	function get_additional_properties($type)
 	{
 		return $this->typeProperties[$type];
 	}
@@ -69,7 +69,7 @@ abstract class DataManager
 	 * Returns the learning object types registered with the data manager.
 	 * @return array The types.
 	 */
-	public function get_registered_types()
+	function get_registered_types()
 	{
 		return array_keys($this->typeProperties);
 	}
@@ -80,7 +80,7 @@ abstract class DataManager
 	 * @return boolean True if the corresponding type is extended, false
 	 *                 otherwise.
 	 */
-	public function is_extended_type($type)
+	function is_extended_type($type)
 	{
 		return (count($this->typeProperties[$type]) > 0);
 	}
