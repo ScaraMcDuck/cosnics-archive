@@ -16,23 +16,26 @@ $dataManager = DataManager :: get_instance();
 <body>
 <h1>Learning Object Retrieval Test</h1>
 <h2>Single Type</h2>
+<?php
+$type = 'link';
+$condition = new AndCondition(array (
+	new OrCondition(array (
+		new ExactMatchCondition('owner', 1),
+		new ExactMatchCondition('owner', 2)
+	)), 
+	new PatternMatchCondition('title', '*x?'),
+	new PatternMatchCondition('description', '*yv*')
+));
+$count = $dataManager->count_learning_objects($type, $condition);
+?>
+<p><em>Matching records: <strong><?php echo $count; ?></strong>.</em></p>
 <table border="1">
 <tr><th>ID</th><th>Owner ID</th><th>Type</th><th>Title</th></tr>
 <?php
-
 $started = microtime(true);
 $objects = $dataManager->retrieve_learning_objects(
-	// Type
-	'link',
-	// Conditions (classes have been loaded by data manager)
-	new AndCondition(array (
-		new OrCondition(array (
-			new ExactMatchCondition('owner', 1),
-			new ExactMatchCondition('owner', 2)
-		)), 
-		new PatternMatchCondition('title', '*x?'),
-		new PatternMatchCondition('description', '*yv*')
-	)),
+	$type,
+	$condition,
 	// ORDER BY $col
 	array ('title'),
 	// DESC
@@ -52,18 +55,23 @@ foreach ($objects as $o)
 </table>
 <p><em>Completed in <strong><?php echo $total_time; ?></strong> milliseconds.</em></p>
 <h2>Any Type</h2>
+<?php
+$type = null;
+$condition = new AndCondition(array (
+	new ExactMatchCondition('owner', 1),
+	new PatternMatchCondition('title', '*xy*'),
+	new PatternMatchCondition('description', '*a*')
+));
+$count = $dataManager->count_learning_objects($type, $condition);
+?>
+<p><em>Matching records: <strong><?php echo $count; ?></strong>.</em></p>
 <table border="1">
 <tr><th>ID</th><th>Owner ID</th><th>Type</th><th>Title</th></tr>
 <?php
-
 $started = microtime(true);
 $objects = $dataManager->retrieve_learning_objects(
-	null,
-	new AndCondition(array (
-		new ExactMatchCondition('owner', 1),
-		new PatternMatchCondition('title', '*xy*'),
-		new PatternMatchCondition('description', '*a*')
-	)),
+	$type,
+	$condition,
 	array ('title'),
 	array (SORT_ASC),
 	0,
