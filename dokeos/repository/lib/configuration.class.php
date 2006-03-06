@@ -1,9 +1,7 @@
 <?php
 /**
 ==============================================================================
-*	This is a class representing a configuration based on an INI file called
-*	"configuration.ini" in the "conf" directory. It uses a singleton pattern
-*	to ensure that the file is read only once.
+*	This class represents the current configuration.
 ==============================================================================
 */
 class Configuration {
@@ -13,8 +11,7 @@ class Configuration {
 	private static $instance;
 	
 	/**
-	 * Parameters defined in the configuration file. Stored as an associative
-	 * array, as returned by PHP's parse_ini_file() function.
+	 * Parameters defined in the configuration. Stored as an associative array.
 	 */
 	private $params;
 	
@@ -22,9 +19,9 @@ class Configuration {
 	 * Constructor.
 	 */
     private function Configuration () {
-    	$this->params = parse_ini_file(
-    		dirname(__FILE__) . '/../conf/configuration.ini', 
-    		true);
+    	global $configuration;
+    	require_once dirname(__FILE__) . '/../conf/configuration.php';
+    	$this->params =& $configuration;
     }
     
     /**
