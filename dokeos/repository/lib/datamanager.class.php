@@ -66,13 +66,14 @@ abstract class DataManager
 	}
 
 	/**
-	 * Returns the registered types
-	 * @return array The types
+	 * Returns the learning object types registered with the data manager.
+	 * @return array The types.
 	 */
 	public function get_registered_types()
 	{
 		return array_keys($this->typeProperties);
 	}
+
 	/**
 	 * Checks if a type name corresponds to an extended learning object type.
 	 * @param string $type The type name.
@@ -140,13 +141,20 @@ abstract class DataManager
 	 *                                 matching.
 	 * @param array $orderBy An array of properties to sort the learning
 	 *                       objects on.
-	 * @param array $orderDesc An array of booleans to indicate that the
-	 *                         sorting order should be reversed for the
-	 *                         property at the corresponding index of the
-	 *                         array of sorting properties.
+	 * @param array $orderDir An array that indicates the sorting direction
+	 *                        for the property at the corresponding position
+	 *                        in $orderBy. The PHP constant SORT_DESC sorts
+	 *                        the objects in descending order; SORT_ASC is
+	 *                        the default and uses ascending order.
+	 * @param int $firstIndex The index of the first object to return. If
+	 *                        omitted or negative, the result set will start
+	 *                        from the first object.
+	 * @param int $maxObjects The maximum number of objects to return. If
+	 *                        omitted or non-positive, every object from the
+	 *                        first index will be returned.
 	 * @return array An array of the matching learning objects.
 	 */
-	abstract function retrieve_learning_objects($properties = array (), $propertiesPartial = array (), $orderBy = array (), $orderDesc = array ());
+	abstract function retrieve_learning_objects($properties = array (), $propertiesPartial = array (), $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1);
 
 	/**
 	 * Makes the given learning object persistent, assigning an ID to it.

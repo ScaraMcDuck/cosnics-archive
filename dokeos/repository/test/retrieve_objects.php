@@ -29,7 +29,11 @@ $objects = $dataManager->retrieve_learning_objects(
 	// ORDER BY $col
 	array ('title'),
 	// DESC
-	array (true));
+	array (SORT_DESC),
+	// First
+	0,
+	// Max.
+	5);
 $completed = microtime(true);
 $total_time = $completed - $started;
 
@@ -52,8 +56,12 @@ $objects = $dataManager->retrieve_learning_objects(
 	array ('title' => 'xy', 'description' => 'a'),
 	// ORDER BY $col
 	array ('title'),
-	// DESC
-	array (true));
+	// ASC
+	array (SORT_ASC),
+	// First
+	0,
+	// Max.
+	5);
 $completed = microtime(true);
 $total_time = $completed - $started;
 

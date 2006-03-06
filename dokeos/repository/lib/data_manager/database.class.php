@@ -58,7 +58,7 @@ class DatabaseDataManager extends DataManager
 	}
 
 	// Inherited.
-	function retrieve_learning_objects($properties = array (), $propertiesPartial = array (), $orderBy = array (), $orderDesc = array ())
+	function retrieve_learning_objects($properties = array (), $propertiesPartial = array (), $orderBy = array (), $orderDir = array (), $firstIndex = 0, $maxObjects = -1)
 	{
 		$type = null;
 		if (isset ($properties['type']) && !is_array($properties['type']))
@@ -112,11 +112,22 @@ class DatabaseDataManager extends DataManager
 		$order = array ();
 		for ($i = 0; $i < count($orderBy); $i ++)
 		{
-			$order[] = $this->escape_column_name($orderBy[$i]).' '. ($orderDesc[$i] ? 'DESC' : 'ASC');
+			$order[] = $this->escape_column_name($orderBy[$i]).' '. ($orderDir[$i] === SORT_DESC ? 'DESC' : 'ASC');
 		}
 		if (count($order))
 		{
 			$query .= ' ORDER BY '.implode(', ', $order);
+		}
+		if ($maxObjects > 0) {
+			if ($firstIndex > 0) {
+				$query .= ' LIMIT ' . $firstIndex . ',' . $maxObjects;
+			}
+			else {
+				$query .= ' LIMIT ' . $maxObjects;
+			}
+		}
+		elseif ($firstIndex > 0) {
+			$query .= ' LIMIT ' . $firstIndex . ',999999999999';
 		}
 		$sth = $this->connection->prepare($query);
 		$res = & $this->connection->execute($sth, $params);
