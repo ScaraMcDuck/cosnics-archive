@@ -71,7 +71,7 @@ abstract class DataManager
 	 * @return boolean True if the corresponding type is extended, false
 	 *                 otherwise.
 	 */
-	protected function is_extended_type($type)
+	public function is_extended_type($type)
 	{
 		return (count($this->typeProperties[$type]) > 0);
 	}
@@ -85,9 +85,9 @@ abstract class DataManager
 	 *                                 default properties of the learning
 	 *                                 object.
 	 * @param array $additionalProperties An associative array containing the
-	 *                                    additional (type-specific) 
+	 *                                    additional (type-specific)
 	 *                                    properties of the learning object.
-	 * @return LearningObjec The newly instantiated learning object. 
+	 * @return LearningObjec The newly instantiated learning object.
 	 */
 	protected function factory($type, $id, $defaultProperties, $additionalProperties)
 	{
@@ -121,7 +121,7 @@ abstract class DataManager
 	 * Retrieves the learning objects that match the given criteria from
 	 * persistent storage. There are some limitations:
 	 * - For now, you can only use the standard learning object properties,
-	 *   not the type-specific ones. 
+	 *   not the type-specific ones.
 	 * - Future versions may include statistical functions.
 	 * @param array $properties An associative array of learning object
 	 *                          properties to match exactly. If the value of
@@ -129,7 +129,7 @@ abstract class DataManager
 	 *                          values will be accepted.
 	 * @param array $propertiesPartial An associative array of learning
 	 *                                 object properties for partial
-	 *                                 matching. 
+	 *                                 matching.
 	 * @param array $orderBy An array of properties to sort the learning
 	 *                       objects on.
 	 * @param array $orderDesc An array of booleans to indicate that the
