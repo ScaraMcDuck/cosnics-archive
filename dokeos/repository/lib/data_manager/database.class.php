@@ -15,12 +15,12 @@ class DatabaseDataManager extends DataManager {
 	 * The database connection.
 	 */
 	private $connection;
-	
+
 	/**
 	 * The table name prefix, if any.
 	 */
 	private $prefix;
-	
+
 	// Inherited.
     function initialize () {
 		PEAR::setErrorHandling(PEAR_ERROR_CALLBACK,
@@ -30,7 +30,7 @@ class DatabaseDataManager extends DataManager {
     		$conf->get_parameter('database', 'connection_string'));
     	$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
     }
-    
+
     // Inherited.
     function determine_learning_object_type ($id) {
     	$sth = $this->connection->prepare(
@@ -38,9 +38,9 @@ class DatabaseDataManager extends DataManager {
 			. $this->prefix . 'learning_object` WHERE `id`=? LIMIT 1');
 		$res =& $this->connection->execute($sth, $id);
 		$row = $res->fetchRow(DB_FETCHMODE_ORDERED);
-		return $row[0];		
+		return $row[0];
     }
-    
+
     // Inherited.
     function retrieve_learning_object ($id, $type = null) {
     	if (is_null($type)) {
@@ -56,7 +56,7 @@ class DatabaseDataManager extends DataManager {
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return self::record_to_learning_object($row);
     }
-    
+
     // Inherited.
     function retrieve_learning_objects
    	($properties = array(), $propertiesPartial = array(),
@@ -65,11 +65,11 @@ class DatabaseDataManager extends DataManager {
 			. $this->prefix . 'learning_object`';
 		$where = array();
 		$params = array();
-		foreach ($properties as $p => $v) { 
+		foreach ($properties as $p => $v) {
 			  $where[] = '`' . $p . '`=?';
 			  $params[] = $v;
 		}
-		foreach ($propertiesPartial as $p => $v) { 
+		foreach ($propertiesPartial as $p => $v) {
 			  $where[] = '`' . $p . '` LIKE ?';
 			  $params[] = '%' . $this->connection->escapeSimple($v) . '%';
 		}
@@ -79,7 +79,7 @@ class DatabaseDataManager extends DataManager {
 		$order = array();
 		for ($i = 0; $i < count($orderBy); $i++) {
 			$order[] = '`' . $orderBy[$i] . '` '
-				. ($orderDesc[$i] ? 'DESC' : 'ASC'); 
+				. ($orderDesc[$i] ? 'DESC' : 'ASC');
 		}
 		if (count($order)) {
 			$query .= 'ORDER BY ' . implode(', ', $order);
@@ -93,7 +93,7 @@ class DatabaseDataManager extends DataManager {
 		}
 		return $objects;
     }
-    
+
     // Inherited.
     function create_learning_object ($object) {
     	$id = $this->connection->nextId($this->prefix . 'learning_object');
@@ -106,7 +106,7 @@ class DatabaseDataManager extends DataManager {
 			$this->prefix . 'learning_object',
 			$props,
 			DB_AUTOQUERY_INSERT
-		);	
+		);
     	if ($object->is_extended()) {
     		$props = $object->get_additional_properties();
     		$props['id'] = $id;
@@ -114,7 +114,7 @@ class DatabaseDataManager extends DataManager {
     			$this->prefix . $object->get_type(),
     			$props,
     			DB_AUTOQUERY_INSERT
-    		);	
+    		);
     	}
     	return $id;
     }
@@ -122,7 +122,7 @@ class DatabaseDataManager extends DataManager {
     // Inherited.
     function update_learning_object ($object) {
     	$where = '`id`=' . $object->get_id();
-    	$props = $object->get_default_properties();    	
+    	$props = $object->get_default_properties();
 		$props['created'] = self::to_db_date($props['created']);
 		$props['modified'] = self::to_db_date($props['modified']);
 		$this->connection->autoExecute(
@@ -137,10 +137,10 @@ class DatabaseDataManager extends DataManager {
     			$object->get_additional_properties(),
     			DB_AUTOQUERY_UPDATE,
     			$where
-    		);	
+    		);
     	}
     }
-    
+
     // Inherited.
     function delete_learning_object ($object) {
     	$sth = $this->connection->prepare(
@@ -155,11 +155,11 @@ class DatabaseDataManager extends DataManager {
 	    	$this->connection->execute($sth, $object->get_id());
     	}
     }
-    
+
     /**
      * Handles PEAR errors. If an error is encountered, the program dies with
      * a descriptive error message.
-     * @param DB_Error $error The error object. 
+     * @param DB_Error $error The error object.
      */
 	static function handle_error ($error) {
 		die(__FILE__ . ':' . __LINE__ . ': '
@@ -168,8 +168,8 @@ class DatabaseDataManager extends DataManager {
 			//. ' (' . $error->getDebugInfo() . ')'
 			);
 	}
-	
-	/** 
+
+	/**
 	 * Converts a datetime value (as retrieved from the database) to a UNIX
 	 * timestamp (as returned by time()).
 	 * @param string $date The date as a UNIX timestamp.
@@ -181,8 +181,8 @@ class DatabaseDataManager extends DataManager {
 		}
 		return null;
 	}
-	
-	/** 
+
+	/**
 	 * Converts a UNIX timestamp (as returned by time()) to a datetime string
 	 * for use in SQL queries.
 	 * @param int $date The date as a UNIX timestamp.
@@ -212,7 +212,7 @@ class DatabaseDataManager extends DataManager {
 		$properties = $this->get_additional_properties($record['type']);
 		if (count($properties) > 0) {
 			foreach ($properties as $prop) {
-				$additionalProp[$prop] = $row[$prop];
+				$additionalProp[$prop] = $record[$prop];
 			}
 		}
 		return $this->factory($record['type'], $record['id'],
