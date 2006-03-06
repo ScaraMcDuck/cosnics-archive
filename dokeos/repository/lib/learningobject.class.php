@@ -8,7 +8,7 @@
  *	Learning objects have a number of default properties:
  *	- id: the numeric ID of the learning object;
  *	- parent: the numeric ID of the parent of this learning object, which
- *	  is also a learning object (not applicable for any learning object); 
+ *	  is also a learning object (not applicable for any learning object);
  *	- owner: the ID of the user who owns the learning object;
  *	- title: the title of the learning object;
  *	- description: a brief description of the learning object; may also be
@@ -45,7 +45,7 @@
  *	  not need columns for the default properties! These are stored elsewhere.
  *	When you've completed these steps, you should be able to instantiate the
  *	class and manipulate the objects at will.
- * 
+ *
  *	@author Tim De Pauw
 ==============================================================================
  */
@@ -218,7 +218,7 @@ class LearningObject
 	 */
 	function is_extended()
 	{
-		return DataManager :: getInstance()->is_extended_type($this->get_type());
+		return DataManager :: get_instance()->is_extended_type($this->get_type());
 	}
 
 	/**
@@ -262,7 +262,7 @@ class LearningObject
 	}
 
 	/**
-	 * Gets the default properties of this learning object. 
+	 * Gets the default properties of this learning object.
 	 * @return array An associative array containing the properties.
 	 */
 	function get_default_properties()
@@ -272,7 +272,7 @@ class LearningObject
 
 	/**
 	 * Gets the additional (type-specific) properties of this learning
-	 * object. 
+	 * object.
 	 * @return array An associative array containing the properties.
 	 */
 	function get_additional_properties()
