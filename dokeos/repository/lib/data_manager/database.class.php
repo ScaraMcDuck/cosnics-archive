@@ -109,7 +109,7 @@ class DatabaseDataManager extends DataManager {
 		}
 		foreach ($propertiesPartial as $p => $v) { 
 			$where[] = $this->escape_column_name($p) . ' LIKE ?';
-			$params[] = '%' . $this->connection->escapeSimple($v) . '%';
+			$params[] = '%' . $this->escape_wildcard_characters($v) . '%';
 		}
 		if (count($where)) {
 			$query .= ' WHERE ' . implode(' AND ', $where);
@@ -263,6 +263,16 @@ class DatabaseDataManager extends DataManager {
 		}
 		return $this->factory($record['type'], $record['id'],
 			$defaultProp, $additionalProp);
+    }
+    
+    /**
+     * Escapes SQL wildcard characters in the given string. Should be suitable
+     * for any SQL flavor.
+     * @param string $string The string that contains wildcard characters.
+     * @return string The escaped string.
+     */
+    private static function escape_wildcard_characters ($string) {
+    	return preg_replace('/([%\'\\\\_])/e', "'\\\\\\\\' . '\\1'", $string);
     }
     
     /**
