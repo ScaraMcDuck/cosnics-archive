@@ -1,7 +1,20 @@
 <?php
 require_once dirname(__FILE__) . '/condition.class.php';
 
-class PatternMatchCondition extends Condition
+/**
+==============================================================================
+ *	This class represents a selection condition that uses a pattern for
+ *	matching. An example of an instance would be a condition that requires
+ *	that the title of a learning object containts the word "math". The pattern
+ *	is case insensitive and supports two types of wildcard characters: an
+ *	asterisk (*) must match any sequence of characters, and a question mark
+ *	(?) must match a single character.
+ *
+ *	@author Tim De Pauw
+==============================================================================
+ */
+
+class PatternMatchCondition implements Condition
 {
 	private $name;
 	

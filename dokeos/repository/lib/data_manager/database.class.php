@@ -2,6 +2,13 @@
 require_once dirname(__FILE__).'/../datamanager.class.php';
 require_once dirname(__FILE__).'/../configuration.class.php';
 require_once dirname(__FILE__).'/../learningobject.class.php';
+require_once dirname(__FILE__).'/../condition/condition.class.php';
+require_once dirname(__FILE__).'/../condition/exactmatchcondition.class.php';
+require_once dirname(__FILE__).'/../condition/patternmatchcondition.class.php';
+require_once dirname(__FILE__).'/../condition/aggregatecondition.class.php';
+require_once dirname(__FILE__).'/../condition/andcondition.class.php';
+require_once dirname(__FILE__).'/../condition/orcondition.class.php';
+require_once dirname(__FILE__).'/../condition/notcondition.class.php';
 require_once 'DB.php';
 
 /**
@@ -58,13 +65,11 @@ class DatabaseDataManager extends DataManager
 	}
 
 	// Inherited.
-	function retrieve_learning_objects($properties = array (), $propertiesPartial = array (), $orderBy = array (), $orderDir = array (), $firstIndex = 0, $maxObjects = -1)
+	function retrieve_learning_objects($type = null, $conditions = null, $orderBy = array (), $orderDir = array (), $firstIndex = 0, $maxObjects = -1)
 	{
-		$type = null;
-		if (isset ($properties['type']) && !is_array($properties['type']))
+			// TODO: Extract methods.
+	if (isset ($type))
 		{
-			$type = $properties['type'];
-			unset ($properties['type']);
 			if ($this->is_extended_type($type))
 			{
 				$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS t1'.' JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name('id').'=t2.'.$this->escape_column_name('id');
@@ -72,42 +77,18 @@ class DatabaseDataManager extends DataManager
 			else
 			{
 				$query = 'SELECT * FROM '.$this->escape_table_name('learning_object');
+				$match = new ExactMatchCondition('type', $type);
+				$conditions = isset ($conditions) ? new AndCondition(array ($match, $conditions)) : $match;
 			}
 		}
 		else
 		{
 			$query = 'SELECT '.$this->escape_column_name('id').', '.$this->escape_column_name('type').' FROM '.$this->escape_table_name('learning_object');
 		}
-		$where = array ();
 		$params = array ();
-		foreach ($properties as $p => $v)
+		if (isset ($conditions))
 		{
-			if (is_array($v))
-			{
-				$stmt = $this->escape_column_name($p).' IN (?';
-				$params[] = array_shift($v);
-				foreach ($v as $alt)
-				{
-					$params[] = $alt;
-					$stmt .= ',?';
-				}
-				$stmt .= ')';
-				$where[] = $stmt;
-			}
-			else
-			{
-				$where[] = $this->escape_column_name($p).'=?';
-				$params[] = $v;
-			}
-		}
-		foreach ($propertiesPartial as $p => $v)
-		{
-			$where[] = $this->escape_column_name($p).' LIKE ?';
-			$params[] = '%'.$this->escape_wildcard_characters($v).'%';
-		}
-		if (count($where))
-		{
-			$query .= ' WHERE '.implode(' AND ', $where);
+			$query .= ' WHERE '.$this->translate_condition($conditions, & $params);
 		}
 		$order = array ();
 		for ($i = 0; $i < count($orderBy); $i ++)
@@ -118,16 +99,20 @@ class DatabaseDataManager extends DataManager
 		{
 			$query .= ' ORDER BY '.implode(', ', $order);
 		}
-		if ($maxObjects > 0) {
-			if ($firstIndex > 0) {
-				$query .= ' LIMIT ' . $firstIndex . ',' . $maxObjects;
+		if ($maxObjects > 0)
+		{
+			if ($firstIndex > 0)
+			{
+				$query .= ' LIMIT '.$firstIndex.','.$maxObjects;
 			}
-			else {
-				$query .= ' LIMIT ' . $maxObjects;
+			else
+			{
+				$query .= ' LIMIT '.$maxObjects;
 			}
 		}
-		elseif ($firstIndex > 0) {
-			$query .= ' LIMIT ' . $firstIndex . ',999999999999';
+		elseif ($firstIndex > 0)
+		{
+			$query .= ' LIMIT '.$firstIndex.',999999999999';
 		}
 		$sth = $this->connection->prepare($query);
 		$res = & $this->connection->execute($sth, $params);
@@ -265,14 +250,27 @@ class DatabaseDataManager extends DataManager
 	}
 
 	/**
-	 * Escapes SQL wildcard characters in the given string. Should be suitable
-	 * for any SQL flavor.
+	 * Translates a string with wildcard characters "?" (single character)
+	 * and "*" (any character sequence) to a SQL pattern for use in a LIKE
+	 * condition. Should be suitable for any SQL flavor.
 	 * @param string $string The string that contains wildcard characters.
 	 * @return string The escaped string.
 	 */
-	private static function escape_wildcard_characters($string)
+	private static function translate_search_string($string)
 	{
-		return preg_replace('/([%\'\\\\_])/e', "'\\\\\\\\' . '\\1'", $string);
+		/*
+		======================================================================
+		 * A brief explanation of these regexps:
+		 * - The first one escapes SQL wildcard characters, thus prefixing
+		 *   %, ', \ and _ with a backslash.
+		 * - The second one replaces asterisks that are not prefixed with a
+		 *   backslash (which escapes them) with the SQL equivalent, namely a
+		 *   percent sign.
+		 * - The third one is similar to the second: it replaces question 
+		 *   marks that are not escaped with the SQL equivalent _.
+		======================================================================
+		 */
+		return preg_replace(array ('/([%\'\\\\_])/e', '/(?<!\\\\)\*/', '/(?<!\\\\)\?/'), array ("'\\\\\\\\' . '\\1'", '%', '_'), $string);
 	}
 
 	/**
@@ -293,6 +291,88 @@ class DatabaseDataManager extends DataManager
 	private function escape_table_name($name)
 	{
 		return $this->connection->quoteIdentifier($this->prefix.$name);
+	}
+
+	/**
+	 * Translates any type of condition to a SQL WHERE clause.
+	 * @param Condition $condition The Condition object.
+	 * @param array $params A reference to the query's parameter list. 
+	 * @return string The WHERE clause.
+	 */
+	private function translate_condition($condition, & $params)
+	{
+		if (is_a($condition, 'AggregateCondition'))
+		{
+			return $this->translate_aggregate_condition($condition, & $params);
+		}
+		elseif (is_a($condition, 'Condition'))
+		{
+			return $this->translate_simple_condition($condition, & $params);
+		}
+		else
+		{
+			die('Need a Condition instance');
+		}
+	}
+
+	/**
+	 * Translates an aggregate condition to a SQL WHERE clause.
+	 * @param AggregateCondition $condition The AggregateCondition object.
+	 * @param array $params A reference to the query's parameter list. 
+	 * @return string The WHERE clause.
+	 */
+	private function translate_aggregate_condition($condition, & $params)
+	{
+		if (is_a($condition, 'AndCondition'))
+		{
+			$cond = array ();
+			foreach ($condition->get_conditions() as $c)
+			{
+				$cond[] = $this->translate_condition($c, & $params);
+			}
+			return '('.implode(' AND ', $cond).')';
+		}
+		elseif (is_a($condition, 'OrCondition'))
+		{
+			$cond = array ();
+			foreach ($condition->get_conditions() as $c)
+			{
+				$cond[] = $this->translate_condition($c, & $params);
+			}
+			return '('.implode(' OR ', $cond).')';
+		}
+		elseif (is_a($condition, 'NotCondition'))
+		{
+			return 'NOT '.$condition->get_condition();
+		}
+		else
+		{
+			die('Cannot translate aggregate condition');
+		}
+	}
+
+	/**
+	 * Translates a simple condition to a SQL WHERE clause.
+	 * @param Condition $condition The Condition object.
+	 * @param array $params A reference to the query's parameter list. 
+	 * @return string The WHERE clause.
+	 */
+	private function translate_simple_condition($condition, & $params)
+	{
+		if (is_a($condition, 'ExactMatchCondition'))
+		{
+			$params[] = $condition->get_value();
+			return $this->escape_column_name($condition->get_name()).' = ?';
+		}
+		elseif (is_a($condition, 'PatternMatchCondition'))
+		{
+			$params[] = $this->translate_search_string($condition->get_pattern());
+			return $this->escape_column_name($condition->get_name()).' LIKE ?';
+		}
+		else
+		{
+			die('Cannot translate condition:');
+		}
 	}
 }
 ?>

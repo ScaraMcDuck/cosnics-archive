@@ -1,14 +1,15 @@
 <?php
-abstract class Condition
+
+/**
+==============================================================================
+ *	All conditions used for learning object selection in the data source must
+ *	implement this interface.
+ * 
+ *	@author Tim De Pauw
+==============================================================================
+ */
+
+interface Condition
 {
-	private $name;
-
-	private $value;
-
-	function Condition($name, $value)
-	{
-		$this->name = $name;
-		$this->value = $value;
-	}
 }
 ?>

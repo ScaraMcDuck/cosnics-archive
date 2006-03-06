@@ -130,15 +130,18 @@ abstract class DataManager
 	 * Retrieves the learning objects that match the given criteria from
 	 * persistent storage. There are some limitations:
 	 * - For now, you can only use the standard learning object properties,
-	 *   not the type-specific ones.
+	 *   not the type-specific ones IF you do not specify a single type of
+	 *   learning object to retrieve.
 	 * - Future versions may include statistical functions.
-	 * @param array $properties An associative array of learning object
-	 *                          properties to match exactly. If the value of
-	 *                          an element is an array, any of the array
-	 *                          values will be accepted.
-	 * @param array $propertiesPartial An associative array of learning
-	 *                                 object properties for partial
-	 *                                 matching.
+	 * @param string $type The type of learning objects to retrieve, if any.
+	 *                     If you do not specify a type, or the type is not
+	 *                     known in advance, you will only be able to select
+	 *                     on default properties; also, there will be a
+	 *                     significant performance decrease.
+	 * @param Condition $condition The condition to use for learning object
+	 *                             selection, structured as a Condition
+	 *                             object. Please consult the appropriate
+	 *                             documentation.
 	 * @param array $orderBy An array of properties to sort the learning
 	 *                       objects on.
 	 * @param array $orderDir An array that indicates the sorting direction
@@ -154,7 +157,7 @@ abstract class DataManager
 	 *                        first index will be returned.
 	 * @return array An array of the matching learning objects.
 	 */
-	abstract function retrieve_learning_objects($properties = array (), $propertiesPartial = array (), $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1);
+	abstract function retrieve_learning_objects($type = null, $conditions = null, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1);
 
 	/**
 	 * Makes the given learning object persistent, assigning an ID to it.
