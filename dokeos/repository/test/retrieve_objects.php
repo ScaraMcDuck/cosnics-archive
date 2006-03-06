@@ -22,10 +22,17 @@ $dataManager = DataManager :: get_instance();
 
 $started = microtime(true);
 $objects = $dataManager->retrieve_learning_objects(
-	// WHERE $key=$value
-	array ('owner' => array(1, 2), 'type' => 'link'),
-	// WHERE $key LIKE %$value%
-	array ('title' => 'xy', 'description' => 'a'),
+	// Type
+	'link',
+	// Conditions (classes have been loaded by data manager)
+	new AndCondition(array (
+		new OrCondition(array (
+			new ExactMatchCondition('owner', 1),
+			new ExactMatchCondition('owner', 2)
+		)), 
+		new PatternMatchCondition('title', '*x?'),
+		new PatternMatchCondition('description', '*yv*')
+	)),
 	// ORDER BY $col
 	array ('title'),
 	// DESC
@@ -33,44 +40,43 @@ $objects = $dataManager->retrieve_learning_objects(
 	// First
 	0,
 	// Max.
-	5);
+	10);
 $completed = microtime(true);
-$total_time = $completed - $started;
+$total_time = ($completed - $started) * 1000;
 
 foreach ($objects as $o)
 {
-	echo '<tr><td>'.$o->get_id().'</td><td>'.$o->get_owner_id().'</td><td>'.$o->get_type().'</td><td>'.$o->get_title().'</td></tr>';
+	echo '<tr><td>'.$o->get_id().'</td><td>'.$o->get_owner_id().'</td><td>'.$o->get_type().'</td><td>'.$o->get_title().'</td></tr>'."\n";
 }
 ?>
 </table>
-<p><em>Completed in <strong><?php echo $total_time; ?></strong> seconds.</em></p>
+<p><em>Completed in <strong><?php echo $total_time; ?></strong> milliseconds.</em></p>
 <h2>Any Type</h2>
 <table border="1">
 <tr><th>ID</th><th>Owner ID</th><th>Type</th><th>Title</th></tr>
 <?php
+
 $started = microtime(true);
 $objects = $dataManager->retrieve_learning_objects(
-	// WHERE $key=$value
-	array ('owner' => 1),
-	// WHERE $key LIKE %$value%
-	array ('title' => 'xy', 'description' => 'a'),
-	// ORDER BY $col
+	null,
+	new AndCondition(array (
+		new ExactMatchCondition('owner', 1),
+		new PatternMatchCondition('title', '*xy*'),
+		new PatternMatchCondition('description', '*a*')
+	)),
 	array ('title'),
-	// ASC
 	array (SORT_ASC),
-	// First
 	0,
-	// Max.
-	5);
+	10);
 $completed = microtime(true);
-$total_time = $completed - $started;
+$total_time = ($completed - $started) * 1000;
 
 foreach ($objects as $o)
 {
-	echo '<tr><td>'.$o->get_id().'</td><td>'.$o->get_owner_id().'</td><td>'.$o->get_type().'</td><td>'.$o->get_title().'</td></tr>';
+	echo '<tr><td>'.$o->get_id().'</td><td>'.$o->get_owner_id().'</td><td>'.$o->get_type().'</td><td>'.$o->get_title().'</td></tr>'."\n";
 }
 ?>
 </table>
-<p><em>Completed in <strong><?php echo $total_time; ?></strong> seconds.</em></p>
+<p><em>Completed in <strong><?php echo $total_time; ?></strong> milliseconds.</em></p>
 </body>
 </html>
