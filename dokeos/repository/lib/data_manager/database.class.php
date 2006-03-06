@@ -65,14 +65,14 @@ class DatabaseDataManager extends DataManager
 	}
 
 	// Inherited.
+	// TODO: Extract methods.
 	function retrieve_learning_objects($type = null, $conditions = null, $orderBy = array (), $orderDir = array (), $firstIndex = 0, $maxObjects = -1)
 	{
-			// TODO: Extract methods.
-	if (isset ($type))
+		if (isset ($type))
 		{
 			if ($this->is_extended_type($type))
 			{
-				$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS t1'.' JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name('id').'=t2.'.$this->escape_column_name('id');
+				$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS t1 JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name('id').' = t2.'.$this->escape_column_name('id');
 			}
 			else
 			{
@@ -132,6 +132,38 @@ class DatabaseDataManager extends DataManager
 			}
 		}
 		return $objects;
+	}
+
+	// Inherited.
+	// TODO: Extract methods; share stuff with retrieve_learning_objects.
+	function count_learning_objects($type = null, $conditions = null)
+	{
+		if (isset ($type))
+		{
+			if ($this->is_extended_type($type))
+			{
+				$query = 'SELECT COUNT(t1.'.$this->escape_column_name('id').') FROM '.$this->escape_table_name('learning_object').' AS t1 JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name('id').' = t2.'.$this->escape_column_name('id');
+			}
+			else
+			{
+				$query = 'SELECT COUNT('.$this->escape_column_name('id').') FROM '.$this->escape_table_name('learning_object');
+				$match = new ExactMatchCondition('type', $type);
+				$conditions = isset ($conditions) ? new AndCondition(array ($match, $conditions)) : $match;
+			}
+		}
+		else
+		{
+			$query = 'SELECT COUNT('.$this->escape_column_name('id').') FROM '.$this->escape_table_name('learning_object');
+		}
+		$params = array ();
+		if (isset ($conditions))
+		{
+			$query .= ' WHERE '.$this->translate_condition($conditions, & $params);
+		}
+		$sth = $this->connection->prepare($query);
+		$res = & $this->connection->execute($sth, $params);
+		$record = $res->fetchRow(DB_FETCHMODE_ORDERED);
+		return $record[0];
 	}
 
 	// Inherited.

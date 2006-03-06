@@ -158,6 +158,22 @@ abstract class DataManager
 	 * @return array An array of the matching learning objects.
 	 */
 	abstract function retrieve_learning_objects($type = null, $conditions = null, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1);
+	
+	/**
+	 * Returns the number of learning objects that match the given criteria.
+	 * This method has the same limitations as retrieve_learning_objects.
+	 * @param string $type The type of learning objects to search for, if any.
+	 *                     If you do not specify a type, or the type is not
+	 *                     known in advance, you will only be able to select
+	 *                     on default properties; also, there will be a
+	 *                     significant performance decrease.
+	 * @param Condition $condition The condition to use for learning object
+	 *                             selection, structured as a Condition
+	 *                             object. Please consult the appropriate
+	 *                             documentation.
+	 * @return int The number of matching learning objects.
+	 */	
+	abstract function count_learning_objects($type = null, $conditions = null);
 
 	/**
 	 * Makes the given learning object persistent, assigning an ID to it.
