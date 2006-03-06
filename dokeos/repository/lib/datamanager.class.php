@@ -124,7 +124,9 @@ abstract class DataManager
 	 *   not the type-specific ones. 
 	 * - Future versions may include statistical functions.
 	 * @param array $properties An associative array of learning object
-	 *                          properties to match exactly.
+	 *                          properties to match exactly. If the value of
+	 *                          an element is an array, any of the array
+	 *                          values will be accepted.
 	 * @param array $propertiesPartial An associative array of learning
 	 *                                 object properties for partial
 	 *                                 matching. 

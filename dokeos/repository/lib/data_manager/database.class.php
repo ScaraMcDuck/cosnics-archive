@@ -69,7 +69,7 @@ class DatabaseDataManager extends DataManager {
    	($properties = array(), $propertiesPartial = array(),
 	$orderBy = array(), $orderDesc = array()) {
 		$type = null;
-		if (isset($properties['type'])) {
+		if (isset($properties['type']) && !is_array($properties['type'])) {
 			$type = $properties['type'];
 			unset($properties['type']);
 			if ($this->is_extended_type($type)) {
@@ -91,13 +91,25 @@ class DatabaseDataManager extends DataManager {
 		}
 		$where = array();
 		$params = array();
-		foreach ($properties as $p => $v) { 
-			  $where[] = $this->escape_column_name($p) . '=?';
-			  $params[] = $v;
+		foreach ($properties as $p => $v) {
+			if (is_array($v)) {
+				$stmt = $this->escape_column_name($p) . ' IN (?';
+				$params[] = array_shift($v);
+				foreach ($v as $alt) {
+					$params[] = $alt;
+					$stmt .= ',?';
+				}
+				$stmt .= ')';
+				$where[] = $stmt;
+			} 
+			else {
+				$where[] = $this->escape_column_name($p) . '=?';
+				$params[] = $v;
+			}
 		}
 		foreach ($propertiesPartial as $p => $v) { 
-			  $where[] = $this->escape_column_name($p) . ' LIKE ?';
-			  $params[] = '%' . $this->connection->escapeSimple($v) . '%';
+			$where[] = $this->escape_column_name($p) . ' LIKE ?';
+			$params[] = '%' . $this->connection->escapeSimple($v) . '%';
 		}
 		if (count($where)) {
 			$query .= ' WHERE ' . implode(' AND ', $where);
