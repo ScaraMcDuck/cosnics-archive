@@ -204,7 +204,7 @@ class LearningObject {
      *                 otherwise.
      */
     function is_extended () {
-    	return (count($this->additionalProperties) > 0);
+    	return DataManager::getInstance()->is_extended_type($this->get_type());
     }
     
     /**

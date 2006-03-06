@@ -15,12 +15,12 @@ class DatabaseDataManager extends DataManager {
 	 * The database connection.
 	 */
 	private $connection;
-
+	
 	/**
 	 * The table name prefix, if any.
 	 */
 	private $prefix;
-
+	
 	// Inherited.
     function initialize () {
 		PEAR::setErrorHandling(PEAR_ERROR_CALLBACK,
@@ -30,47 +30,69 @@ class DatabaseDataManager extends DataManager {
     		$conf->get_parameter('database', 'connection_string'));
     	$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
     }
-
+    
     // Inherited.
     function determine_learning_object_type ($id) {
     	$sth = $this->connection->prepare(
-			'SELECT `type` FROM `'
-			. $this->prefix . 'learning_object` WHERE `id`=? LIMIT 1');
+			'SELECT ' . $this->escape_column_name('type') . ' FROM '
+			. $this->escape_table_name('learning_object')
+			. ' WHERE ' . $this->escape_column_name('id') . '=? LIMIT 1');
 		$res =& $this->connection->execute($sth, $id);
-		$row = $res->fetchRow(DB_FETCHMODE_ORDERED);
-		return $row[0];
+		$record = $res->fetchRow(DB_FETCHMODE_ORDERED);
+		return $record[0];		
     }
-
+    
     // Inherited.
     function retrieve_learning_object ($id, $type = null) {
     	if (is_null($type)) {
     		$type = $this->determine_learning_object_type($id);
     	}
     	$sth = $this->connection->prepare(
-			'SELECT * FROM `'
-			. $this->prefix . 'learning_object` AS `l`'
-    		. ' JOIN `' . $this->prefix . $type
-    		. '` AS `a` ON `l`.`id`=`a`.`id`'
-    		. ' WHERE `l`.`id`=? LIMIT 1');
+			'SELECT * FROM '
+			. $this->escape_table_name('learning_object') . ' AS t1'
+    		. ' JOIN ' . $this->escape_table_name($type)
+    		. ' AS t2 ON t1.' . $this->escape_column_name('id')
+    		. '=t2.' . $this->escape_column_name('id')
+    		. ' WHERE t1.' . $this->escape_column_name('id')
+    		. '=? LIMIT 1');
     	$res =& $this->connection->execute($sth, $id);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
-		return self::record_to_learning_object($row);
+		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		return self::record_to_learning_object($record);
     }
-
+    
     // Inherited.
     function retrieve_learning_objects
    	($properties = array(), $propertiesPartial = array(),
 	$orderBy = array(), $orderDesc = array()) {
-		$query = 'SELECT `id`, `type` FROM `'
-			. $this->prefix . 'learning_object`';
+		$type = null;
+		if (isset($properties['type'])) {
+			$type = $properties['type'];
+			unset($properties['type']);
+			if ($this->is_extended_type($type)) {
+				$query = 'SELECT * FROM '
+					. $this->escape_table_name('learning_object') . ' AS t1'
+					. ' JOIN ' . $this->escape_table_name($type)
+					. ' AS t2 ON t1.' . $this->escape_column_name('id')
+					. '=t2.' . $this->escape_column_name('id');
+			}
+			else {
+				$query = 'SELECT * FROM '
+					. $this->escape_table_name('learning_object');
+			}
+		}
+		else {
+			$query = 'SELECT ' . $this->escape_column_name('id')
+				. ', ' . $this->escape_column_name('type') . ' FROM '
+				. $this->escape_table_name('learning_object');
+		}
 		$where = array();
 		$params = array();
-		foreach ($properties as $p => $v) {
-			  $where[] = '`' . $p . '`=?';
+		foreach ($properties as $p => $v) { 
+			  $where[] = $this->escape_column_name($p) . '=?';
 			  $params[] = $v;
 		}
-		foreach ($propertiesPartial as $p => $v) {
-			  $where[] = '`' . $p . '` LIKE ?';
+		foreach ($propertiesPartial as $p => $v) { 
+			  $where[] = $this->escape_column_name($p) . ' LIKE ?';
 			  $params[] = '%' . $this->connection->escapeSimple($v) . '%';
 		}
 		if (count($where)) {
@@ -78,22 +100,29 @@ class DatabaseDataManager extends DataManager {
 		}
 		$order = array();
 		for ($i = 0; $i < count($orderBy); $i++) {
-			$order[] = '`' . $orderBy[$i] . '` '
-				. ($orderDesc[$i] ? 'DESC' : 'ASC');
+			$order[] = $this->escape_column_name($orderBy[$i]) . ' '
+				. ($orderDesc[$i] ? 'DESC' : 'ASC'); 
 		}
 		if (count($order)) {
-			$query .= 'ORDER BY ' . implode(', ', $order);
+			$query .= ' ORDER BY ' . implode(', ', $order);
 		}
     	$sth = $this->connection->prepare($query);
     	$res =& $this->connection->execute($sth, $params);
     	$objects = array();
-		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-			$objects[] = $this->retrieve_learning_object(
-				$row['id'], $row['type']);
-		}
+    	if (isset($type)) {
+			while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
+				$objects[] = self::record_to_learning_object($record);
+			}
+    	}
+    	else {
+			while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
+				$objects[] = $this->retrieve_learning_object(
+					$record['id'], $record['type']);
+			}
+    	}
 		return $objects;
     }
-
+    
     // Inherited.
     function create_learning_object ($object) {
     	$id = $this->connection->nextId($this->prefix . 'learning_object');
@@ -106,7 +135,7 @@ class DatabaseDataManager extends DataManager {
 			$this->prefix . 'learning_object',
 			$props,
 			DB_AUTOQUERY_INSERT
-		);
+		);	
     	if ($object->is_extended()) {
     		$props = $object->get_additional_properties();
     		$props['id'] = $id;
@@ -114,15 +143,15 @@ class DatabaseDataManager extends DataManager {
     			$this->prefix . $object->get_type(),
     			$props,
     			DB_AUTOQUERY_INSERT
-    		);
+    		);	
     	}
     	return $id;
     }
 
     // Inherited.
     function update_learning_object ($object) {
-    	$where = '`id`=' . $object->get_id();
-    	$props = $object->get_default_properties();
+    	$where = $this->escape_column_name('id') . '=' . $object->get_id();
+    	$props = $object->get_default_properties();    	
 		$props['created'] = self::to_db_date($props['created']);
 		$props['modified'] = self::to_db_date($props['modified']);
 		$this->connection->autoExecute(
@@ -137,29 +166,30 @@ class DatabaseDataManager extends DataManager {
     			$object->get_additional_properties(),
     			DB_AUTOQUERY_UPDATE,
     			$where
-    		);
+    		);	
     	}
     }
-
+    
     // Inherited.
     function delete_learning_object ($object) {
     	$sth = $this->connection->prepare(
-			'DELETE FROM `'
-			. $this->prefix
-			. 'learning_object` WHERE `id`=?');
+			'DELETE FROM '
+			. $this->escape_table_name('learning_object')
+			. ' WHERE ' . $this->escape_column_name('id') . '=?');
     	$this->connection->execute($sth, $object->get_id());
     	if ($object->is_extended()) {
 	    	$sth = $this->connection->prepare(
-				'DELETE FROM `'
-				. $this->prefix . $object->get_type() . '` WHERE `id`=?');
+				'DELETE FROM '
+				. $this->escape_table_name($object->get_type())
+				. ' WHERE ' . $this->escape_column_name('id') . '=?');
 	    	$this->connection->execute($sth, $object->get_id());
     	}
     }
-
+    
     /**
      * Handles PEAR errors. If an error is encountered, the program dies with
      * a descriptive error message.
-     * @param DB_Error $error The error object.
+     * @param DB_Error $error The error object. 
      */
 	static function handle_error ($error) {
 		die(__FILE__ . ':' . __LINE__ . ': '
@@ -168,8 +198,8 @@ class DatabaseDataManager extends DataManager {
 			//. ' (' . $error->getDebugInfo() . ')'
 			);
 	}
-
-	/**
+	
+	/** 
 	 * Converts a datetime value (as retrieved from the database) to a UNIX
 	 * timestamp (as returned by time()).
 	 * @param string $date The date as a UNIX timestamp.
@@ -181,8 +211,8 @@ class DatabaseDataManager extends DataManager {
 		}
 		return null;
 	}
-
-	/**
+	
+	/** 
 	 * Converts a UNIX timestamp (as returned by time()) to a datetime string
 	 * for use in SQL queries.
 	 * @param int $date The date as a UNIX timestamp.
@@ -217,6 +247,24 @@ class DatabaseDataManager extends DataManager {
 		}
 		return $this->factory($record['type'], $record['id'],
 			$defaultProp, $additionalProp);
+    }
+    
+    /**
+     * Escapes a column name in accordance with the database type.
+     * @param string $name The column name.
+     * @return string The escaped column name.
+     */
+    private function escape_column_name ($name) {
+    	return $this->connection->quoteIdentifier($name);
+    }
+    
+    /**
+     * Escapes a table name in accordance with the database type.
+     * @param string $name The table name.
+     * @return string The escaped table name.
+     */
+    private function escape_table_name ($name) {
+    	return $this->connection->quoteIdentifier($this->prefix . $name);
     }
 }
 ?>
