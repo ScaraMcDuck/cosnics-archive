@@ -8,26 +8,28 @@ abstract class LearningObjectForm extends FormValidator
 {
 	/**
 	 * The learning object
-	 * @param string $formName The name to use in the form-tag
-	 * @param string $method The method to use ('post' or 'get')
-	 * @param string $action The URL to which the form should be submitted
-	 */
+ 	 */
 	protected $learningObject;
 	/**
 	 * Constructor
+	 * @param  string $formName The name to use in the form-tag
+	 * @param string $method The method to use ('post' or 'get')
+	 * @param string $action The URL to which the form should be submitted
 	 */
 	protected function LearningObjectForm($formName, $method = 'post', $action = null)
 	{
 		parent :: FormValidator($formName, $method, $action);
 	}
 	/**
-	 * Build a form to create a new learning object
+	 * Get the learning object
 	 */
 	protected function get_learning_object()
 	{
 		return $this->learningObject;
 	}
-
+	/**
+	 * Build a form to create a new learning object
+	 */
 	protected function build_create_form()
 	{
 		$this->addElement('text', 'title', 'Title');
