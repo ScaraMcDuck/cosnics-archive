@@ -101,7 +101,7 @@ class DatabaseDataManager extends DataManager
 		$order = array ();
 		for ($i = 0; $i < count($orderBy); $i ++)
 		{
-			$order[] = $this->escape_column_name($orderBy[$i]).' '. ($orderDir[$i] === SORT_DESC ? 'DESC' : 'ASC');
+			$order[] = $this->escape_column_name($orderBy[$i]).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
 		}
 		if (count($order))
 		{
