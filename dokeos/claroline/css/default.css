@@ -733,13 +733,13 @@ div.system_announcement_content{
 }
 
 /* Learning object display styles */
-div.learning_object > div.icon
+div.learning_object div.icon
 {
 	width: 26px;
 	height: 26px;
 	float: left;
 }
-div.learning_object > div.title
+div.learning_object div.title
 {
 	font-weight: bold;
 	font-size: larger;
@@ -750,7 +750,7 @@ div.learning_object > div.title
 	width: 60%;
 	margin-bottom: 10px;
 }
-div.learning_object > div.description
+div.learning_object div.description
 {
 	margin-left: 10px;
 	clear: both;
