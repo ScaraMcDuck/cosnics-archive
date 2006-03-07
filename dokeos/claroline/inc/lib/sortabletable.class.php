@@ -1,25 +1,25 @@
 <?php
 //$Id$
 /*
-============================================================================== 
+==============================================================================
 	Dokeos - elearning and course management software
-	
+
 	Copyright (c) 2005 Dokeos S.A.
 	Copyright (c) Bart Mollet (bart.mollet@hogent.be)
-	
+
 	For a full list of contributors, see "credits.txt".
 	The full license can be read in "license.txt".
-	
+
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
 	as published by the Free Software Foundation; either version 2
 	of the License, or (at your option) any later version.
-	
+
 	See the GNU General Public License for more details.
-	
+
 	Contact address: Dokeos, 44 rue des palais, B-1030 Brussels, Belgium
 	Mail: info@dokeos.com
-============================================================================== 
+==============================================================================
 */
 require_once "HTML/Table.php"; //See http://pear.php.net/package/HTML_Table
 require_once "Pager/Pager.php"; //See http://pear.php.net/package/Pager
@@ -50,7 +50,7 @@ class SortableTable extends HTML_Table
 	 */
 	var $column;
 	/**
-	 * The sorting direction (ASC or DESC)
+	 * The sorting direction (SORT_ASC or SORT_DESC)
 	 */
 	var $direction;
 	/**
@@ -127,7 +127,7 @@ class SortableTable extends HTML_Table
 		$this->param_prefix = $table_name.'_';
 		$this->page_nr = isset ($_GET[$this->param_prefix.'page_nr']) ? $_GET[$this->param_prefix.'page_nr'] : 1;
 		$this->column = isset ($_GET[$this->param_prefix.'column']) ? $_GET[$this->param_prefix.'column'] : $default_column;
-		$this->direction = isset ($_GET[$this->param_prefix.'direction']) ? $_GET[$this->param_prefix.'direction'] : 'ASC';
+		$this->direction = isset ($_GET[$this->param_prefix.'direction']) ? $_GET[$this->param_prefix.'direction'] : SORT_ASC;
 		$this->per_page = isset ($_GET[$this->param_prefix.'per_page']) ? $_GET[$this->param_prefix.'per_page'] : $default_items_per_page;
 		$this->pager = null;
 		$this->default_items_per_page = $default_items_per_page;
@@ -218,7 +218,7 @@ class SortableTable extends HTML_Table
 									}
 								}
 							}
-							/* ]]> */		
+							/* ]]> */
 							</script>';
 				$params = $this->get_sortable_table_param_string.'&amp;'.$this->get_additional_url_paramstring();
 
@@ -358,10 +358,10 @@ class SortableTable extends HTML_Table
 	 */
 	function set_header($column, $label, $sortable = true, $th_attributes = null, $td_attributes = null)
 	{
-		$param['direction'] = 'ASC';
-		if ($this->column == $column && $this->direction == 'ASC')
+		$param['direction'] = SORT_ASC;
+		if ($this->column == $column && $this->direction == SORT_ASC)
 		{
-			$param['direction'] = 'DESC';
+			$param['direction'] = SORT_DESC;
 		}
 		$param['page_nr'] = $this->page_nr;
 		$param['per_page'] = $this->per_page;
@@ -377,7 +377,7 @@ class SortableTable extends HTML_Table
 			$link .= '">'.$label.'</a>';
 			if ($this->column == $column)
 			{
-				$link .= $this->direction == 'ASC' ? ' &#8595;' : ' &#8593;';
+				$link .= $this->direction == SORT_ASC ? ' &#8595;' : ' &#8593;';
 			}
 		}
 		else
@@ -420,7 +420,7 @@ class SortableTable extends HTML_Table
 			foreach ($param as $key => $value)
 			{
 				$param_string_parts[] = urlencode($key).'='.urlencode($value);
-			}	
+			}
 			if(count($param_string_parts) > 0)
 				$result .= '&amp;'.implode('&amp;', $param_string_parts);
 		}
@@ -488,7 +488,7 @@ class SortableTable extends HTML_Table
 	 */
 	function set_other_tables($tablenames)
 	{
-		$this->other_tables = $tablenames;	
+		$this->other_tables = $tablenames;
 	}
 	/**
 	 * Transform all data in a table-row, using the filters defined by the
