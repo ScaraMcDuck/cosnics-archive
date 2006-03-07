@@ -731,3 +731,27 @@ div.system_announcement_content{
 .view_role_form {
 	display: inline;
 }
+
+/* Learning object display styles */
+div.learning_object > div.icon
+{
+	width: 26px;
+	height: 26px;
+	float: left;
+}
+div.learning_object > div.title
+{
+	font-weight: bold;
+	font-size: larger;
+	padding: 3px;
+	float: left;
+	vertical-align: center;
+	border-bottom: 1px solid #CCCCCC;
+	width: 60%;
+	margin-bottom: 10px;
+}
+div.learning_object > div.description
+{
+	margin-left: 10px;
+	clear: both;
+}
