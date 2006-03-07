@@ -289,7 +289,9 @@ class LearningObject
 	 */
 	function create()
 	{
-		$this->set_creation_date(time());
+		$now = time();
+		$this->set_creation_date($now);
+		$this->set_modification_date($now);
 		return DataManager :: get_instance()->create_learning_object($this);
 	}
 
