@@ -46,7 +46,7 @@ function get_objects($from, $number_of_items, $column, $direction)
 		$row = array();
 		$row[] = $object->get_id();
 		$row[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/>';
-		$row[] = $object->get_title();
+		$row[] = '<a href="view.php?id='.$object->get_id().'">'.$object->get_title().'</a>';
 		$row[] = $object->get_description();
 		$row[] = date('Y-m-d, H:i', is_null($object->get_modification_date()) ? $object->get_creation_date() : $object->get_modification_date());
 		$modify = '<a href="edit.php?id='.$object->get_id().'" title="'.get_lang('Edit').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif" alt="'.get_lang('Edit').'"/></a>';
