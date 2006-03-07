@@ -126,6 +126,11 @@ class DatabaseDataManager extends DataManager
 		}
 		else
 		{
+			/*
+			 * TODO: Extend so additional properties can be fetched when
+			 * needed. This would probably involve reviewing LearningObject's
+			 * additional property accessor methods.
+			 */
 			while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$objects[] = $this->retrieve_learning_object($record['id'], $record['type']);
