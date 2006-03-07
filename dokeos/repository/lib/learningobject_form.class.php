@@ -3,6 +3,7 @@
  * A form to create and edit a LearningObject
  * @package learningobject
  */
+require_once dirname(__FILE__) . '/../../claroline/inc/lib/formvalidator/FormValidator.class.php'; 
 class LearningObjectForm extends FormValidator
 {
 	/**
@@ -19,6 +20,11 @@ class LearningObjectForm extends FormValidator
 	/**
 	 * Build a form to create a new learning object
 	 */
+	protected function get_learning_object()
+	{
+		return $this->learningObject;
+	}		
+	
 	protected function build_create_form()
 	{
 		$this->addElement('text', 'title', 'Title');
