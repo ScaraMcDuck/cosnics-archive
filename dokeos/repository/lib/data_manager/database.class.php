@@ -384,11 +384,11 @@ class DatabaseDataManager extends DataManager
 	 */
 	private function translate_condition($condition, & $params)
 	{
-		if (is_a($condition, 'AggregateCondition'))
+		if ($condition instanceof AggregateCondition)
 		{
 			return $this->translate_aggregate_condition($condition, & $params);
 		}
-		elseif (is_a($condition, 'Condition'))
+		elseif ($condition instanceof Condition)
 		{
 			return $this->translate_simple_condition($condition, & $params);
 		}
@@ -406,7 +406,7 @@ class DatabaseDataManager extends DataManager
 	 */
 	private function translate_aggregate_condition($condition, & $params)
 	{
-		if (is_a($condition, 'AndCondition'))
+		if ($condition instanceof AndCondition)
 		{
 			$cond = array ();
 			foreach ($condition->get_conditions() as $c)
@@ -415,7 +415,7 @@ class DatabaseDataManager extends DataManager
 			}
 			return '('.implode(' AND ', $cond).')';
 		}
-		elseif (is_a($condition, 'OrCondition'))
+		elseif ($condition instanceof OrCondition)
 		{
 			$cond = array ();
 			foreach ($condition->get_conditions() as $c)
@@ -424,7 +424,7 @@ class DatabaseDataManager extends DataManager
 			}
 			return '('.implode(' OR ', $cond).')';
 		}
-		elseif (is_a($condition, 'NotCondition'))
+		elseif ($condition instanceof NotCondition)
 		{
 			return 'NOT '.$condition->get_condition();
 		}
@@ -442,12 +442,12 @@ class DatabaseDataManager extends DataManager
 	 */
 	private function translate_simple_condition($condition, & $params)
 	{
-		if (is_a($condition, 'ExactMatchCondition'))
+		if ($condition instanceof ExactMatchCondition)
 		{
 			$params[] = $condition->get_value();
 			return $this->escape_column_name($condition->get_name()).' = ?';
 		}
-		elseif (is_a($condition, 'PatternMatchCondition'))
+		elseif ($condition instanceof PatternMatchCondition)
 		{
 			$params[] = $this->translate_search_string($condition->get_pattern());
 			return $this->escape_column_name($condition->get_name()).' LIKE ?';
