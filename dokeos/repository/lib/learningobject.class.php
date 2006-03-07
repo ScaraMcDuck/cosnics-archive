@@ -56,7 +56,7 @@ class LearningObject
 	/**
 	 * Names of default properties of any learning object.
 	 */
-	static $DEFAULT_PROPERTIES = array ('owner', 'title', 'description', 'created', 'modified');
+	static $DEFAULT_PROPERTIES = array ('owner', 'title', 'description', 'category', 'created', 'modified');
 
 	/**
 	 * Numeric identifier of the learning object.
@@ -136,6 +136,16 @@ class LearningObject
 	{
 		return $this->get_default_property('description');
 	}
+	
+	/**
+	 * Returns the numeric identifier of the category that this learning
+	 * object is associated with.
+	 * @return int The identifier.
+	 */
+	function get_category_id()
+	{
+		return $this->get_default_property('category');
+	}
 
 	/**
 	 * Returns the date when this learning object was created, as returned
@@ -191,6 +201,16 @@ class LearningObject
 	function set_description($description)
 	{
 		$this->set_default_property('description', $description);
+	}
+
+	/**
+	 * Sets the ID of the category that this learning object is associated
+	 * with.
+	 * @param int $category The ID.
+	 */
+	function set_category_id($category)
+	{
+		$this->set_default_property('category', $category);
 	}
 
 	/**

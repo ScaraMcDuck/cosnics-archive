@@ -195,6 +195,26 @@ abstract class DataManager
 	abstract function delete_learning_object($object);
 
 	/**
+	 * Makes the given category persistent, assigning an ID to it.
+	 * @param Category $category The category.
+	 * @return int The newly assigned ID.
+	 */
+	abstract function create_category($category);
+
+	/**
+	 * Updates the given category in persistent storage.
+	 * @param Category $category The category.
+	 */
+	abstract function update_category($category);
+
+	/**
+	 * Deletes the given category from persistent storage. Does not delete
+	 * any associated learning objects.
+	 * @param Category $category The category.
+	 */
+	abstract function delete_category($category);
+
+	/**
 	 * Checks if an identifier is a valid name for a learning object type.
 	 * @param string $name The name.
 	 * @return boolean True if a valid learning object type name was passed,
@@ -216,7 +236,7 @@ abstract class DataManager
 	}
 
 	/**
-	 * Converts a learning object class name to the corresponding class type.
+	 * Converts a class name to the corresponding learning object type name.
 	 * @param string $class The class name.
 	 * @return string The type name.
 	 */
