@@ -4,6 +4,7 @@ require_once(api_get_library_path().'/formvalidator/FormValidator.class.php');
 require_once('../lib/datamanager.class.php');
 require_once('../lib/learningobject_form.class.php');
 require_once('../lib/learning_object/announcement/form.class.php');
+require_once(api_get_library_path().'/text.lib.php');
 /**
  * Get the condition to use when retrieving objects from the datamanager
  */
@@ -34,7 +35,7 @@ function get_number_of_objects()
  */
 function get_objects($from, $number_of_items, $column, $direction)
 {
-	$table_columns = array('type','title','description','id');
+	$table_columns = array('type','title','description','modified','id');
 	$datamanager = DataManager::get_instance();
 	$order_by[] = $table_columns[$column];
 	$order_desc[] = $direction;
@@ -46,6 +47,7 @@ function get_objects($from, $number_of_items, $column, $direction)
 		$row[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/>';
 		$row[] = $object->get_title();
 		$row[] = $object->get_description();
+		$row[] = date('Y-m-d, H:i', is_null($object->get_modification_date()) ? $object->get_creation_date() : $object->get_modification_date());
 		$row[] = '<a href="edit.php?id='.$object->get_id().'" title="'.get_lang('Edit').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif" alt="'.get_lang('Edit').'"/></a>';
  		$table_data[] = $row;
 	}
@@ -78,6 +80,7 @@ $column = 0;
 $table->set_header($column++,get_lang('Type'));
 $table->set_header($column++,get_lang('Title'));
 $table->set_header($column++,get_lang('Description'));
+$table->set_header($column++,get_lang('LastModified'));
 $table->set_header($column++,get_lang('Modify'),false);
 $table->display();
 // Display footer
