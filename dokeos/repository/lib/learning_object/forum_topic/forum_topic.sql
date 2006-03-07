@@ -1,4 +1,4 @@
-CREATE TABLE `dokeos_forum_topic` (
+CREATE TABLE `%prefix%forum_topic` (
   `id` int(10) unsigned NOT NULL,
   `views` int(10) default NULL,
   `replies` int(10) NOT NULL default '0',

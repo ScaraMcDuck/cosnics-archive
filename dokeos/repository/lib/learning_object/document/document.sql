@@ -1,4 +1,4 @@
-CREATE TABLE `dokeos_document` (
+CREATE TABLE `%prefix%document` (
   `id` int(11) unsigned NOT NULL default '0',
   `path` text NOT NULL,
   `filename` text NOT NULL,
