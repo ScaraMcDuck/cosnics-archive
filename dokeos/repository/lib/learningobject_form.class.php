@@ -3,11 +3,14 @@
  * A form to create and edit a LearningObject
  * @package learningobject
  */
-require_once dirname(__FILE__) . '/../../claroline/inc/lib/formvalidator/FormValidator.class.php'; 
-class LearningObjectForm extends FormValidator
+require_once dirname(__FILE__) . '/../../claroline/inc/lib/formvalidator/FormValidator.class.php';
+abstract class LearningObjectForm extends FormValidator
 {
 	/**
 	 * The learning object
+	 * @param string $formName The name to use in the form-tag
+	 * @param string $method The method to use ('post' or 'get')
+	 * @param string $action The URL to which the form should be submitted
 	 */
 	protected $learningObject;
 	/**
@@ -23,8 +26,8 @@ class LearningObjectForm extends FormValidator
 	protected function get_learning_object()
 	{
 		return $this->learningObject;
-	}		
-	
+	}
+
 	protected function build_create_form()
 	{
 		$this->addElement('text', 'title', 'Title');
@@ -52,6 +55,7 @@ class LearningObjectForm extends FormValidator
 	}
 	/**
 	 * Set default values
+	 * @param array $defaults Default values for this form
 	 */
 	public function setDefaults($defaults = array ())
 	{
@@ -65,20 +69,20 @@ class LearningObjectForm extends FormValidator
 	}
 	/**
 	 * Create a learning object from the submitted form values
+	 * @param int $owner The user-id of the owner of the learning object
 	 */
-	protected function create_learning_object()
-	{
-		return;
-	}
+	abstract function create_learning_object($owner);
 	/**
 	 * Update a learning object with the submitted form values
+	 * @param LearningObject $learning_object The object to update
 	 */
-	protected function update_learning_object()
-	{
-		return;
-	}
+	abstract function update_learning_object(& $learning_object);
 	/**
-	 *
+	 * Create a form object to manage a learning object
+	 * @param string $type The type of the learning object
+	 * @param string $formName The name to use in the form-tag
+	 * @param string $method The method to use ('post' or 'get')
+	 * @param string $action The URL to which the form should be submitted
 	 */
 	public static function factory($type,$formName,$method='post',$action = null)
 	{
