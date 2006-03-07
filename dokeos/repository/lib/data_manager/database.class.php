@@ -91,7 +91,7 @@ class DatabaseDataManager extends DataManager
 		}
 		else
 		{
-			$query = 'SELECT '.$this->escape_column_name('id').', '.$this->escape_column_name('type').' FROM '.$this->escape_table_name('learning_object');
+			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object');
 		}
 		$params = array ();
 		if (isset ($conditions))
@@ -141,7 +141,14 @@ class DatabaseDataManager extends DataManager
 			 */
 			while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				$objects[] = $this->retrieve_learning_object($record['id'], $record['type']);
+				if ($this->is_extended_type($record['type']))
+				{
+					$objects[] = $this->retrieve_learning_object($record['id'], $record['type']);
+				}
+				else
+				{
+					$objects[] = self :: record_to_learning_object($record);
+				}
 			}
 		}
 		return $objects;

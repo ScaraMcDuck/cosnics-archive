@@ -100,7 +100,7 @@ abstract class DataManager
 	 */
 	protected function factory($type, $id, $defaultProperties, $additionalProperties)
 	{
-		$class = ucfirst($type);
+		$class = self :: type_to_class($type);
 		return new $class ($id, $defaultProperties, $additionalProperties);
 	}
 
@@ -203,6 +203,26 @@ abstract class DataManager
 	function is_learning_object_type_name($name)
 	{
 		return (preg_match('/^[a-z][a-z_]+$/', $name) > 0);
+	}
+	
+	/**
+	 * Converts a learning object type name to the corresponding class name.
+	 * @param string $type The type name.
+	 * @return string The class name.
+	 */
+	function type_to_class($type)
+	{
+		return ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $type));
+	}
+
+	/**
+	 * Converts a learning object class name to the corresponding class type.
+	 * @param string $class The class name.
+	 * @return string The type name.
+	 */
+	function class_to_type($class)
+	{
+		return preg_replace(array ('/^([A-Z])/e', '/([A-Z])/e'), array ('strtolower(\1)', '"_".strtolower(\1)'), $class);
 	}
 
 	/**

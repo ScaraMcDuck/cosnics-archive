@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/datamanager.class.php';
 
 /**
 ==============================================================================
@@ -106,7 +107,7 @@ class LearningObject
 	 */
 	function get_type()
 	{
-		return preg_replace(array ('/^([A-Z])/e', '/([A-Z])/e'), array ('strtolower(\1)', '"_".strtolower(\1)'), get_class($this));
+		return DataManager::class_to_type(get_class($this));
 	}
 
 	/**

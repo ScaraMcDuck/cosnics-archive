@@ -15,6 +15,8 @@
 ==============================================================================
  */
 
+require_once dirname(__FILE__).'/../lib/datamanager.class.php';
+
 define(HEADER, "<?php\nrequire_once dirname(__FILE__) . '/../../learningobject.class.php';\n\n");
 define(FOOTER, "}\n?".">");
 
@@ -34,7 +36,7 @@ if ($handle = opendir($path))
 				if ($fh = fopen($p.'/'.$file.'.class.php', 'w'))
 				{
 					fwrite($fh, HEADER);
-					$cls = ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $file));
+					$cls = DataManager::type_to_class($file);
 					fwrite($fh, 'class '.$cls.' extends LearningObject\n{'."\n");
 					foreach ($properties as $prop)
 					{
