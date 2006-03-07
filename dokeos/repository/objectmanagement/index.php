@@ -10,13 +10,16 @@ require_once('../lib/learning_object/announcement/form.class.php');
 function get_number_of_objects()
 {
 	$datamanager = DataManager::get_instance();
-	$properties['owner'] = api_get_user_id();
+	$condition = new ExactMatchCondition('owner',api_get_user_id());
 	if (isset ($_GET['keyword']))
 	{
-		$partial_properties['title'] = $_GET['keyword'];
-		// Should be completed to description property
+		$pattern = '*'.$_GET['keyword'].'*';
+		$simple_search_conditions[] = new PatternMatchCondition('title',$pattern);
+		$simple_search_conditions[] = new PatternMatchCondition('description',$pattern);
+		$simple_search_condition = new OrCondition($simple_search_conditions);
+		$condition = new AndCondition(array($condition,$simple_search_condition));
 	}
-	$objects = $datamanager->retrieve_learning_objects($properties,$partial_properties);
+	$objects = $datamanager->retrieve_learning_objects(null,$condition);
 	return count($objects);
 }
 /**
@@ -26,15 +29,18 @@ function get_objects($from, $number_of_items, $column, $direction)
 {
 	$table_columns = array('type','title','description','id');
 	$datamanager = DataManager::get_instance();
-	$properties['owner'] = api_get_user_id();
+	$condition = new ExactMatchCondition('owner',api_get_user_id());
 	if (isset ($_GET['keyword']))
 	{
-		$partial_properties['title'] = $_GET['keyword'];
-		// Should be completed to description property
+		$pattern = '*'.$_GET['keyword'].'*';
+		$simple_search_conditions[] = new PatternMatchCondition('title',$pattern);
+		$simple_search_conditions[] = new PatternMatchCondition('description',$pattern);
+		$simple_search_condition = new OrCondition($simple_search_conditions);
+		$condition = new AndCondition(array($condition,$simple_search_condition));
 	}
 	$order_by[] = $table_columns[$column];
 	$order_desc[] = $direction == SORT_ASC ? 1 : 0;
-	$objects = $datamanager->retrieve_learning_objects($properties,$partial_properties,$order_by,$order_desc,$from,$number_of_items);
+	$objects = $datamanager->retrieve_learning_objects(null,$condition,$order_by,$order_desc,$from,$number_of_items);
 	$table_data = array();
 	foreach($objects as $index => $object)
 	{
