@@ -50,7 +50,7 @@ function get_objects($from, $number_of_items, $column, $direction)
 		$row[] = $object->get_description();
 		$row[] = date('Y-m-d, H:i', is_null($object->get_modification_date()) ? $object->get_creation_date() : $object->get_modification_date());
 		$modify = '<a href="edit.php?id='.$object->get_id().'" title="'.get_lang('Edit').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif" alt="'.get_lang('Edit').'"/></a>';
- 		$modify .= '<a href="index.php?action=delete&amp;id='.$object->get_id().'" title="'.get_lang('Delete').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete.gif" alt="'.get_lang('Delete').'"/></a>';
+ 		$modify .= '<a href="index.php?action=delete&amp;id='.$object->get_id().'" title="'.get_lang('Delete').'"  onclick="javascript:if(!confirm(\''.addslashes(htmlentities(get_lang("ConfirmYourChoice"))).'\')) return false;"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete.gif" alt="'.get_lang('Delete').'"/></a>';
  		$row[] = $modify;
  		$table_data[] = $row;
 	}
