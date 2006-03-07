@@ -35,7 +35,7 @@ function get_number_of_objects()
  */
 function get_objects($from, $number_of_items, $column, $direction)
 {
-	$table_columns = array('type','title','description','modified','id');
+	$table_columns = array('id','type','title','description','modified','id');
 	$datamanager = DataManager::get_instance();
 	$order_by[] = $table_columns[$column];
 	$order_desc[] = $direction;
@@ -44,14 +44,43 @@ function get_objects($from, $number_of_items, $column, $direction)
 	foreach($objects as $index => $object)
 	{
 		$row = array();
+		$row[] = $object->get_id();
 		$row[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/>';
 		$row[] = $object->get_title();
 		$row[] = $object->get_description();
 		$row[] = date('Y-m-d, H:i', is_null($object->get_modification_date()) ? $object->get_creation_date() : $object->get_modification_date());
-		$row[] = '<a href="edit.php?id='.$object->get_id().'" title="'.get_lang('Edit').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif" alt="'.get_lang('Edit').'"/></a>';
+		$modify = '<a href="edit.php?id='.$object->get_id().'" title="'.get_lang('Edit').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif" alt="'.get_lang('Edit').'"/></a>';
+ 		$modify .= '<a href="index.php?action=delete&amp;id='.$object->get_id().'" title="'.get_lang('Delete').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete.gif" alt="'.get_lang('Delete').'"/></a>';
+ 		$row[] = $modify;
  		$table_data[] = $row;
 	}
 	return $table_data;
+}
+// Load datamanager
+$datamanager = DataManager::get_instance();
+// Perform actions if needed
+if(isset($_GET['action']))
+{
+	switch($_GET['action'])
+	{
+		case 'delete':
+			$object = $datamanager->retrieve_learning_object($_GET['id']);
+			$object->delete();
+			break;
+	}
+}
+if(isset($_POST['action']))
+{
+	switch($_POST['action'])
+	{
+		case 'delete_selected':
+			foreach($_POST['id'] as $index => $object_id)
+			{
+				$object = $datamanager->retrieve_learning_object($object_id);
+				$object->delete();
+			}
+			break;
+	}
 }
 /*
  * Display page
@@ -60,7 +89,6 @@ function get_objects($from, $number_of_items, $column, $direction)
 $tool_name = get_lang('MyLearningObjects');
 Display::display_header($tool_name);
 api_display_tool_title($tool_name);
-$datamanager = DataManager::get_instance();
 // Create a search-box
 $form = new FormValidator('search_simple','get','','',null,false);
 $renderer =& $form->defaultRenderer();
@@ -77,11 +105,14 @@ if (isset ($_GET['keyword']))
 }
 $table->set_additional_parameters($parameters);
 $column = 0;
+$table->set_header($column++,'');
 $table->set_header($column++,get_lang('Type'));
 $table->set_header($column++,get_lang('Title'));
 $table->set_header($column++,get_lang('Description'));
 $table->set_header($column++,get_lang('LastModified'));
 $table->set_header($column++,get_lang('Modify'),false);
+$actions['delete_selected'] = get_lang('Delete');
+$table->set_form_actions($actions);
 $table->display();
 // Display footer
 Display::display_footer();
