@@ -58,7 +58,15 @@ class DatabaseDataManager extends DataManager
 		{
 			$type = $this->determine_learning_object_type($id);
 		}
-		$sth = $this->connection->prepare('SELECT * FROM '.$this->escape_table_name('learning_object').' AS t1'.' JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name('id').'=t2.'.$this->escape_column_name('id').' WHERE t1.'.$this->escape_column_name('id').'=? LIMIT 1');
+		if ($this->is_extended_type($type))
+		{
+			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS t1'.' JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name('id').'=t2.'.$this->escape_column_name('id').' WHERE t1.'.$this->escape_column_name('id').'=? LIMIT 1';
+		}
+		else
+		{
+			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name('id').'=? LIMIT 1';
+		}
+		$sth = $this->connection->prepare($query);
 		$res = & $this->connection->execute($sth, $id);
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return self :: record_to_learning_object($record);
@@ -219,17 +227,17 @@ class DatabaseDataManager extends DataManager
 	/**
 	 * Handles PEAR errors. If an error is encountered, the program dies with
 	 * a descriptive error message.
-	 * @param DB_Error $error The error object. 
+	 * @param DB_Error $error The error object.
 	 */
 	static function handle_error($error)
 	{
 		die(__FILE__.':'.__LINE__.': '.$error->getMessage()
 		// For debugging only. May create a security hazard.
-		//. ' (' . $error->getDebugInfo() . ')'
+		. ' (' . $error->getDebugInfo() . ')'
 		);
 	}
 
-	/** 
+	/**
 	 * Converts a datetime value (as retrieved from the database) to a UNIX
 	 * timestamp (as returned by time()).
 	 * @param string $date The date as a UNIX timestamp.
@@ -244,7 +252,7 @@ class DatabaseDataManager extends DataManager
 		return null;
 	}
 
-	/** 
+	/**
 	 * Converts a UNIX timestamp (as returned by time()) to a datetime string
 	 * for use in SQL queries.
 	 * @param int $date The date as a UNIX timestamp.
@@ -303,7 +311,7 @@ class DatabaseDataManager extends DataManager
 		 * - The second one replaces asterisks that are not prefixed with a
 		 *   backslash (which escapes them) with the SQL equivalent, namely a
 		 *   percent sign.
-		 * - The third one is similar to the second: it replaces question 
+		 * - The third one is similar to the second: it replaces question
 		 *   marks that are not escaped with the SQL equivalent _.
 		======================================================================
 		 */
@@ -333,7 +341,7 @@ class DatabaseDataManager extends DataManager
 	/**
 	 * Translates any type of condition to a SQL WHERE clause.
 	 * @param Condition $condition The Condition object.
-	 * @param array $params A reference to the query's parameter list. 
+	 * @param array $params A reference to the query's parameter list.
 	 * @return string The WHERE clause.
 	 */
 	private function translate_condition($condition, & $params)
@@ -355,7 +363,7 @@ class DatabaseDataManager extends DataManager
 	/**
 	 * Translates an aggregate condition to a SQL WHERE clause.
 	 * @param AggregateCondition $condition The AggregateCondition object.
-	 * @param array $params A reference to the query's parameter list. 
+	 * @param array $params A reference to the query's parameter list.
 	 * @return string The WHERE clause.
 	 */
 	private function translate_aggregate_condition($condition, & $params)
@@ -391,7 +399,7 @@ class DatabaseDataManager extends DataManager
 	/**
 	 * Translates a simple condition to a SQL WHERE clause.
 	 * @param Condition $condition The Condition object.
-	 * @param array $params A reference to the query's parameter list. 
+	 * @param array $params A reference to the query's parameter list.
 	 * @return string The WHERE clause.
 	 */
 	private function translate_simple_condition($condition, & $params)
