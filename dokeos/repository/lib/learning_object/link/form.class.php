@@ -12,14 +12,16 @@ class LinkForm extends LearningObjectForm
 	public function build_create_form()
 	{
 		$this->addElement('text', 'url', 'Url');
+		$this->addRule('url', 'Url is required', 'required');
 		parent :: build_create_form();
 		$this->addSubmitButton();
 	}
 	public function build_edit_form($object)
 	{
-		parent :: build_edit_form($object);
 		$this->addElement('text', 'url', 'Url');
+		$this->addRule('url', 'Url is required', 'required');
 		$this->setDefaults();
+		parent :: build_edit_form($object);
 		$this->addSubmitButton();
 	}
 	public function setDefaults($defaults = array ())
@@ -40,6 +42,7 @@ class LinkForm extends LearningObjectForm
 		$link->set_title($values['title']);
 		$link->set_description($values['description']);
 		$link->set_url($values['url']);
+		$link->set_category_id($values['category']);
 		$link->create();
 		return $link;
 	}
@@ -49,6 +52,7 @@ class LinkForm extends LearningObjectForm
 		$object->set_title($values['title']);
 		$object->set_description($values['description']);
 		$object->set_url($values['url']);
+		$object>set_category_id($values['category']);
 		$object->update();
 	}
 }

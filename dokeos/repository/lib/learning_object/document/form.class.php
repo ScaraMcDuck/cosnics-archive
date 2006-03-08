@@ -41,6 +41,7 @@ class DocumentForm extends LearningObjectForm
 		$document->set_description($values['description']);
 		$document->set_path($values['path']);
 		$document->set_filename($values['filename']);
+		$document->set_category_id($values['category']);
 		$document->create();
 		return $document;
 	}
@@ -51,6 +52,7 @@ class DocumentForm extends LearningObjectForm
 		$object->set_description($values['description']);
 		$object->set_path($values['path']);
 		$object->set_filename($values['filename']);
+		$object->set_category_id($values['category']);
 		$object->update();
 	}
 }
