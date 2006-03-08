@@ -37,7 +37,7 @@ if ($handle = opendir($path))
 				{
 					fwrite($fh, HEADER);
 					$cls = DataManager::type_to_class($file);
-					fwrite($fh, 'class '.$cls.' extends LearningObject\n{'."\n");
+					fwrite($fh, 'class '.$cls.' extends LearningObject'."\n".'{'."\n");
 					foreach ($properties as $prop)
 					{
 						$prop = rtrim($prop);

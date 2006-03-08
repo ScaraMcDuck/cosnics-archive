@@ -231,37 +231,6 @@ class DatabaseDataManager extends DataManager
 		}
 	}
 	
-	// Inherited.
-	function create_category($category)
-	{
-		$id = $this->connection->nextId($this->prefix.'category');
-		$props = array(
-			'id' => $id,
-			'title' => $category->get_title(),
-			'parent' => $category->get_parent_category_id()
-		);
-		$this->connection->autoExecute($this->prefix.'category', $props, DB_AUTOQUERY_INSERT);
-		return $id;
-	}
-	
-	// Inherited.
-	function update_category($category)
-	{
-		$where = $this->escape_column_name('id').'='.$category->get_id();
-		$props = array(
-			'title' => $category->get_title(),
-			'parent' => $category->get_parent_category_id()
-		);
-		$this->connection->autoExecute($this->prefix.'category', $props, DB_AUTOQUERY_UPDATE, $where);
-	}
-	
-	// Inherited.
-	function delete_category($category)
-	{
-		$sth = $this->connection->prepare('DELETE FROM '.$this->escape_table_name('category').' WHERE '.$this->escape_column_name('id').'=?');
-		$this->connection->execute($sth, $category->get_id());
-	}
-
 	/**
 	 * Handles PEAR errors. If an error is encountered, the program dies with
 	 * a descriptive error message.
