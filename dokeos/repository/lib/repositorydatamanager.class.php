@@ -161,17 +161,16 @@ abstract class RepositoryDataManager
 	abstract function retrieve_learning_objects($type = null, $conditions = null, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1);
 
 	/**
-	 * Returns the root category of a users repository
-	 * @param int $owner The user id of the owner
-	 * @return Category The root category of this users repository
+	 * Returns the root category of a user's repository.
+	 * @param int $owner The user ID of the owner.
+	 * @return Category The root category of this user's repository.
 	 */
 	function retrieve_root_category($owner)
 	{
-		$condition1 = new ExactMatchCondition('owner',$owner);
-		$condition2 = new ExactMatchCondition('category',0);
-		$condition = new AndCondition($condition1,$condition2);
- 		$datamanager = RepositoryDataManager::get_instance();
-		$object = $datamanager->retrieve_learning_objects('category',$condition);
+		$condition1 = new ExactMatchCondition('owner', $owner);
+		$condition2 = new ExactMatchCondition('category', 0);
+		$condition = new AndCondition($condition1, $condition2);
+		$object = $this->retrieve_learning_objects('category', $condition, null, null, null, 1);
 		return $object[0];
 	}
 
@@ -213,7 +212,7 @@ abstract class RepositoryDataManager
 	/**
 	 * Deletes all known learning objects from persistent storage.
 	 */
-	abstract function delete_all_learning_objects ();
+	abstract function delete_all_learning_objects();
 
 	/**
 	 * Automagically loads all the available types of learning objects
