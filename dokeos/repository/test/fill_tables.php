@@ -88,7 +88,7 @@ for ($i = 0; $i < $links; $i ++)
 	$link->set_owner_id(random_user());
 	$link->set_title(random_string(2));
 	$link->set_description(random_string(8));
-	$link->set_url('http://www.google.com/');
+	$link->set_url(random_url());
 	$link->create();
 }
 
@@ -99,10 +99,15 @@ for ($i = 0; $i < $student_publications; $i ++)
 	$student_publication->set_title(random_string(2));
 	$student_publication->set_description(random_string(8));
 	$student_publication->set_author(random_user());
-	$student_publication->set_url('http://webs.hogent.be/~'.random_string(8).'/'.random_string(8).'.'.random_string(3));
+	$student_publication->set_url(random_url());
 	$student_publication->set_active(true);
 	$student_publication->set_accepted(true);
 	$student_publication->create();
+}
+
+function random_url()
+{
+	return 'http://webs.hogent.be/~'.random_word(8).'/'.str_replace(' ', '%20', random_string(2)).'.'.random_word(3);
 }
 
 function random_user()
@@ -121,9 +126,12 @@ function random_string($length)
 	return implode(' ', $words);
 }
 
-function random_word()
+function random_word($length = 0)
 {
-	$length = rand(4, 16);
+	if ($length <= 0)
+	{
+		$length = rand(4, 16);
+	}
 	$str = '';
 	for ($i = 0; $i < $length; $i ++)
 	{
@@ -148,7 +156,7 @@ function create_category($owner, $parent = 0, $level = 0)
 	$count = rand(1, $max_categories[$level]);
 	for ($i = 0; $i < $count; $i ++)
 	{
-		create_category($owner, $id, $level + 1);
+		create_category($owner, $id, $level +1);
 	}
 	return $id;
 }
