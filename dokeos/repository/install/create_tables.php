@@ -46,13 +46,6 @@ if (!file_exists($lo_file))
 }
 parse_sql_file('learning_object', $lo_file);
 
-$cat_file = dirname(__FILE__).'/category.sql';
-if (!file_exists($cat_file))
-{
-	die('File not found: '.$cat_file);
-}
-parse_sql_file('category', $cat_file);
-
 $dir = dirname(__FILE__).'/../lib/learning_object';
 if (!($handle = opendir($dir)))
 {

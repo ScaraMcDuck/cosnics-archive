@@ -15,6 +15,8 @@ require_once dirname(__FILE__).'/../lib/datamanager.class.php';
 
 $users = 1;
 
+$max_categories = array (10, 10, 10, 10);
+
 $announcements = rand(100, 500);
 $calendar_events = rand(100, 500);
 $documents = rand(100, 500);
@@ -30,6 +32,11 @@ $learnpaths = rand(100,500);
 */
 
 $dataManager = DataManager :: get_instance();
+
+for ($u = 1; $i <= $users; $i ++)
+{
+	create_category($u);
+}
 
 for ($i = 0; $i < $announcements; $i ++)
 {
@@ -121,6 +128,27 @@ function random_word()
 		$str .= chr(rand(97, 122));
 	}
 	return $str;
+}
+
+function create_category($owner, $parent = 0, $level = 0)
+{
+	global $max_categories;
+	$cat = new Category();
+	$cat->set_owner_id($owner);
+	$cat->set_parent_category_id($parent);
+	$cat->set_title(random_string(2));
+	$cat->set_description(random_string(8));
+	$id = $cat->create();
+	if (!$max_categories[$level])
+	{
+		return;
+	}
+	$count = rand(1, $max_categories[$level]);
+	for ($i = 0; $i < $count; $i ++)
+	{
+		create_category($owner, $id, $level + 1);
+	}
+	return $id;
 }
 ?>
 <html>
