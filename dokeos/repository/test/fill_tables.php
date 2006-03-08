@@ -3,9 +3,9 @@
 
 /**
 ==============================================================================
- *	This is a simple test script that fills the LCMS data source with garbage
- *	data. For testing purposes only. Does not empty tables prior to adding
- *	new learning objects.
+ *	This is a simple test script that removes all learning objects from the
+ *	LCMS data source and fills it with garbage data. For testing purposes
+ *	only.
  * 
  *	@author Tim De Pauw
 ==============================================================================
@@ -32,6 +32,8 @@ $learnpaths = rand(100,500);
 */
 
 $dataManager = RepositoryDataManager :: get_instance();
+
+$dataManager->delete_all_learning_objects();
 
 for ($u = 1; $i <= $users; $i ++)
 {
