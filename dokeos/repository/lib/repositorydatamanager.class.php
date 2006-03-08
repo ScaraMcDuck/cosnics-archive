@@ -159,7 +159,22 @@ abstract class RepositoryDataManager
 	 * @return array An array of the matching learning objects.
 	 */
 	abstract function retrieve_learning_objects($type = null, $conditions = null, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1);
-	
+
+	/**
+	 * Returns the root category of a users repository
+	 * @param int $owner The user id of the owner
+	 * @return Category The root category of this users repository
+	 */
+	function retrieve_root_category($owner)
+	{
+		$condition1 = new ExactMatchCondition('owner',$owner);
+		$condition2 = new ExactMatchCondition('category',0);
+		$condition = new AndCondition($condition1,$condition2);
+ 		$datamanager = RepositoryDataManager::get_instance();
+		$object = $datamanager->retrieve_learning_objects('category',$condition);
+		return $object[0];
+	}
+
 	/**
 	 * Returns the number of learning objects that match the given criteria.
 	 * This method has the same limitations as retrieve_learning_objects.
@@ -173,7 +188,7 @@ abstract class RepositoryDataManager
 	 *                             object. Please consult the appropriate
 	 *                             documentation.
 	 * @return int The number of matching learning objects.
-	 */	
+	 */
 	abstract function count_learning_objects($type = null, $conditions = null);
 
 	/**
@@ -194,7 +209,7 @@ abstract class RepositoryDataManager
 	 * @param LearningObject $object The learning object.
 	 */
 	abstract function delete_learning_object($object);
-	
+
 	/**
 	 * Deletes all known learning objects from persistent storage.
 	 */
@@ -266,7 +281,7 @@ abstract class RepositoryDataManager
 	{
 		return (preg_match('/^[a-z][a-z_]+$/', $name) > 0);
 	}
-	
+
 	/**
 	 * Converts a learning object type name to the corresponding class name.
 	 * @param string $type The type name.
