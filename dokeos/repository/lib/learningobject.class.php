@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/datamanager.class.php';
+require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 
 /**
 ==============================================================================
@@ -107,7 +107,7 @@ class LearningObject
 	 */
 	function get_type()
 	{
-		return DataManager::class_to_type(get_class($this));
+		return RepositoryDataManager::class_to_type(get_class($this));
 	}
 
 	/**
@@ -239,7 +239,7 @@ class LearningObject
 	 */
 	function is_extended()
 	{
-		return DataManager :: get_instance()->is_extended_type($this->get_type());
+		return RepositoryDataManager :: get_instance()->is_extended_type($this->get_type());
 	}
 
 	/**
@@ -313,7 +313,7 @@ class LearningObject
 		$now = time();
 		$this->set_creation_date($now);
 		$this->set_modification_date($now);
-		return DataManager :: get_instance()->create_learning_object($this);
+		return RepositoryDataManager :: get_instance()->create_learning_object($this);
 	}
 
 	/**
@@ -324,7 +324,7 @@ class LearningObject
 	function update()
 	{
 		$this->set_modification_date(time());
-		return DataManager :: get_instance()->update_learning_object($this);
+		return RepositoryDataManager :: get_instance()->update_learning_object($this);
 	}
 
 	/**
@@ -332,7 +332,7 @@ class LearningObject
 	 */
 	function delete()
 	{
-		return DataManager :: get_instance()->delete_learning_object($this);
+		return RepositoryDataManager :: get_instance()->delete_learning_object($this);
 	}
 
 	// XXX: Keep this around? Override? Make useful?

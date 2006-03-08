@@ -34,7 +34,7 @@ class DocumentForm extends LearningObjectForm
 	public function create_learning_object($owner)
 	{
 		$values = $this->exportValues();
-		$dataManager = DataManager::get_instance();
+		$dataManager = RepositoryDataManager::get_instance();
 		$document = new Document();
 		$document->set_owner_id($owner);
 		$document->set_title($values['title']);

@@ -31,7 +31,7 @@ class LearnpathChapterForm extends LearningObjectForm
 	public function create_learning_object($owner)
 	{
 		$values = $this->exportValues();
-		$dataManager = DataManager::get_instance();
+		$dataManager = RepositoryDataManager::get_instance();
 		$learnpathChapter = new LearnpathChapter();
 		$learnpathChapter->set_owner_id($owner);
 		$learnpathChapter->set_title($values['title']);

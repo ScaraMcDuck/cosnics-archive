@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../datamanager.class.php';
+require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../configuration.class.php';
 require_once dirname(__FILE__).'/../learningobject.class.php';
 require_once dirname(__FILE__).'/../condition/condition.class.php';
@@ -21,7 +21,7 @@ require_once 'DB.php';
 ==============================================================================
  */
 
-class DatabaseDataManager extends DataManager
+class DatabaseRepositoryDataManager extends RepositoryDataManager
 {
 	/**
 	 * The database connection.

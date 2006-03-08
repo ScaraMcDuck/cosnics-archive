@@ -20,7 +20,7 @@ class LearnPathForm extends LearningObjectForm
 	public function create_learning_object($owner)
 	{
 		$values = $this->exportValues();
-		$dataManager = DataManager::get_instance();
+		$dataManager = RepositoryDataManager::get_instance();
 		$learnPath = new LearnPath();
 		$learnPath->set_owner_id($owner);
 		$learnPath->set_title($values['title']);

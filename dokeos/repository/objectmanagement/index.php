@@ -1,7 +1,7 @@
 <?php
 require_once('../../claroline/inc/claro_init_global.inc.php');
 require_once(api_get_library_path().'/formvalidator/FormValidator.class.php');
-require_once('../lib/datamanager.class.php');
+require_once('../lib/repositorydatamanager.class.php');
 require_once('../lib/learningobject_form.class.php');
 require_once('../lib/learning_object/announcement/form.class.php');
 require_once(api_get_library_path().'/text.lib.php');
@@ -26,7 +26,7 @@ function get_condition()
  */
 function get_number_of_objects()
 {
-	$datamanager = DataManager::get_instance();
+	$datamanager = RepositoryDataManager::get_instance();
 	$objects = $datamanager->retrieve_learning_objects(null,get_condition());
 	return count($objects);
 }
@@ -36,7 +36,7 @@ function get_number_of_objects()
 function get_objects($from, $number_of_items, $column, $direction)
 {
 	$table_columns = array('id','type','title','description','modified','id');
-	$datamanager = DataManager::get_instance();
+	$datamanager = RepositoryDataManager::get_instance();
 	$order_by[] = $table_columns[$column];
 	$order_desc[] = $direction;
 	$objects = $datamanager->retrieve_learning_objects(null,get_condition(),$order_by,$order_desc,$from,$number_of_items);
@@ -57,7 +57,7 @@ function get_objects($from, $number_of_items, $column, $direction)
 	return $table_data;
 }
 // Load datamanager
-$datamanager = DataManager::get_instance();
+$datamanager = RepositoryDataManager::get_instance();
 // Perform actions if needed
 if(isset($_GET['action']))
 {

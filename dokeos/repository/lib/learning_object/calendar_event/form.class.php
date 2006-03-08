@@ -21,7 +21,7 @@ class CalendarEventForm extends LearningObjectForm
 	public function create_learning_object($owner)
 	{
 		$values = $this->exportValues();
-		$dataManager = DataManager::get_instance();
+		$dataManager = RepositoryDataManager::get_instance();
 		$calendarEvent = new CalendarEvent();
 		$calendarEvent->set_owner_id($owner);
 		$calendarEvent->set_title($values['title']);

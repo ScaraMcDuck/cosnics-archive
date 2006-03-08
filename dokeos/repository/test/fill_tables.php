@@ -11,7 +11,7 @@
 ==============================================================================
  */
 
-require_once dirname(__FILE__).'/../lib/datamanager.class.php';
+require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 
 $users = 1;
 
@@ -31,7 +31,7 @@ $forum_topics = rand(100,500);
 $learnpaths = rand(100,500);
 */
 
-$dataManager = DataManager :: get_instance();
+$dataManager = RepositoryDataManager :: get_instance();
 
 for ($u = 1; $i <= $users; $i ++)
 {
