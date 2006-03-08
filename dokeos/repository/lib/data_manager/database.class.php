@@ -231,6 +231,19 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 	}
 	
+	// Inherited.
+	function delete_all_learning_objects ()
+	{
+		foreach ($this->get_registered_types() as $type) {
+			if ($this->is_extended_type($type)) {
+				$sth = $this->connection->prepare('DELETE FROM '.$this->escape_table_name($type));
+				$this->connection->execute($sth);
+			}
+		}
+		$sth = $this->connection->prepare('DELETE FROM '.$this->escape_table_name('learning_object'));
+		$this->connection->execute($sth);
+	}
+	
 	/**
 	 * Handles PEAR errors. If an error is encountered, the program dies with
 	 * a descriptive error message.

@@ -194,6 +194,11 @@ abstract class RepositoryDataManager
 	 * @param LearningObject $object The learning object.
 	 */
 	abstract function delete_learning_object($object);
+	
+	/**
+	 * Deletes all known learning objects from persistent storage.
+	 */
+	abstract function delete_all_learning_objects ();
 
 	/**
 	 * Checks if an identifier is a valid name for a learning object type.
