@@ -23,7 +23,7 @@ class AnnouncementForm extends LearningObjectForm
 	public function create_learning_object($owner)
 	{
 		$values = $this->exportValues();
-		$dataManager = DataManager::get_instance();
+		$dataManager = RepositoryDataManager::get_instance();
 		$announcement = new Announcement();
 		$announcement->set_owner_id($owner);
 		$announcement->set_title($values['title']);

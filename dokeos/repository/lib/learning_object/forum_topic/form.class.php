@@ -20,7 +20,7 @@ class ForumTopicForm extends LearningObjectForm
 	public function create_learning_object($owner)
 	{
 		$values = $this->exportValues();
-		$dataManager = DataManager::get_instance();
+		$dataManager = RepositoryDataManager::get_instance();
 		$forumTopic = new ForumTopic();
 		$forumTopic->set_owner_id($owner);
 		$forumTopic->set_title($values['title']);

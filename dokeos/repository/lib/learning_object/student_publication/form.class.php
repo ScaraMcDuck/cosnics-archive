@@ -34,7 +34,7 @@ class StudentPublicationForm extends LearningObjectForm
 	public function create_learning_object($owner)
 	{
 		$values = $this->exportValues();
-		$dataManager = DataManager::get_instance();
+		$dataManager = RepositoryDataManager::get_instance();
 		$studentPublication = new StudentPublication();
 		$studentPublication->set_owner_id($owner);
 		$studentPublication->set_title($values['title']);

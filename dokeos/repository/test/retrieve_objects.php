@@ -9,8 +9,8 @@
 ==============================================================================
  */
 
-require_once dirname(__FILE__).'/../lib/datamanager.class.php';
-$dataManager = DataManager :: get_instance();
+require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
+$dataManager = RepositoryDataManager :: get_instance();
 ?>
 <html>
 <body>

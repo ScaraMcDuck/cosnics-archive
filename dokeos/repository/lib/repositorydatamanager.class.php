@@ -3,17 +3,18 @@ require_once dirname(__FILE__).'/configuration.class.php';
 
 /**
 ==============================================================================
- *	This is a skeleton for a data manager. Data managers must extend this
- *	class and implement its abstract methods. If the user configuration
- *	dictates that the "database" data manager is to be used, this class will
- *	automatically attempt to load "DatabaseDataManager"; hence, this naming
- *	convention must be respected for all extensions of this class.
+ *	This is a skeleton for a data manager for the learning object repository.
+ *	Data managers must extend this class and implement its abstract methods.
+ *	If the user configuration dictates that the "database" data manager is to
+ *	be used, this class will automatically attempt to instantiate
+ *	"DatabaseRepositoryDataManager"; hence, this naming convention must be
+ *	respected for all extensions of this class.
  *
  *	@author Tim De Pauw
 ==============================================================================
  */
 
-abstract class DataManager
+abstract class RepositoryDataManager
 {
 	/**
 	 * Instance of this class for the singleton pattern.
@@ -29,7 +30,7 @@ abstract class DataManager
 	/**
 	 * Constructor.
 	 */
-	protected function DataManager()
+	protected function RepositoryDataManager()
 	{
 		$this->initialize();
 		$this->typeProperties = array ();
@@ -40,7 +41,7 @@ abstract class DataManager
 	 * Uses a singleton pattern and a factory pattern to return the data
 	 * manager. The configuration determines which data manager class is to
 	 * be instantiated.
-	 * @return DataManager The data manager.
+	 * @return RepositoryDataManager The data manager.
 	 */
 	static function get_instance()
 	{
@@ -48,7 +49,7 @@ abstract class DataManager
 		{
 			$type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
 			require_once dirname(__FILE__).'/data_manager/'.strtolower($type).'.class.php';
-			$class = $type.'DataManager';
+			$class = $type.'RepositoryDataManager';
 			self :: $instance = new $class ();
 		}
 		return self :: $instance;

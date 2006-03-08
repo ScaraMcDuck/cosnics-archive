@@ -20,7 +20,7 @@ class ForumPostForm extends LearningObjectForm
 	public function create_learning_object($owner)
 	{
 		$values = $this->exportValues();
-		$dataManager = DataManager::get_instance();
+		$dataManager = RepositoryDataManager::get_instance();
 		$forumPost = new ForumPost();
 		$forumPost->set_owner_id($owner);
 		$forumPost->set_title($values['title']);

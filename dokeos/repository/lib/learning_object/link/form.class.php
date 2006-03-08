@@ -34,7 +34,7 @@ class LinkForm extends LearningObjectForm
 	public function create_learning_object($owner)
 	{
 		$values = $this->exportValues();
-		$dataManager = DataManager::get_instance();
+		$dataManager = RepositoryDataManager::get_instance();
 		$link = new Link();
 		$link->set_owner_id($owner);
 		$link->set_title($values['title']);
