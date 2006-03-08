@@ -201,37 +201,6 @@ abstract class RepositoryDataManager
 	abstract function delete_all_learning_objects ();
 
 	/**
-	 * Checks if an identifier is a valid name for a learning object type.
-	 * @param string $name The name.
-	 * @return boolean True if a valid learning object type name was passed,
-	 *                 false otherwise.
-	 */
-	function is_learning_object_type_name($name)
-	{
-		return (preg_match('/^[a-z][a-z_]+$/', $name) > 0);
-	}
-	
-	/**
-	 * Converts a learning object type name to the corresponding class name.
-	 * @param string $type The type name.
-	 * @return string The class name.
-	 */
-	function type_to_class($type)
-	{
-		return ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $type));
-	}
-
-	/**
-	 * Converts a class name to the corresponding learning object type name.
-	 * @param string $class The class name.
-	 * @return string The type name.
-	 */
-	function class_to_type($class)
-	{
-		return preg_replace(array ('/^([A-Z])/e', '/([A-Z])/e'), array ('strtolower(\1)', '"_".strtolower(\1)'), $class);
-	}
-
-	/**
 	 * Automagically loads all the available types of learning objects
 	 * and registers them with this data manager.
 	 */
@@ -285,6 +254,37 @@ abstract class RepositoryDataManager
 			die('Type already registered: '.$type);
 		}
 		$this->typeProperties[$type] = $additionalProperties;
+	}
+
+	/**
+	 * Checks if an identifier is a valid name for a learning object type.
+	 * @param string $name The name.
+	 * @return boolean True if a valid learning object type name was passed,
+	 *                 false otherwise.
+	 */
+	static function is_learning_object_type_name($name)
+	{
+		return (preg_match('/^[a-z][a-z_]+$/', $name) > 0);
+	}
+	
+	/**
+	 * Converts a learning object type name to the corresponding class name.
+	 * @param string $type The type name.
+	 * @return string The class name.
+	 */
+	static function type_to_class($type)
+	{
+		return ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $type));
+	}
+
+	/**
+	 * Converts a class name to the corresponding learning object type name.
+	 * @param string $class The class name.
+	 * @return string The type name.
+	 */
+	static function class_to_type($class)
+	{
+		return preg_replace(array ('/^([A-Z])/e', '/([A-Z])/e'), array ('strtolower(\1)', '"_".strtolower(\1)'), $class);
 	}
 }
 ?>
