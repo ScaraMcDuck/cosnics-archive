@@ -1,6 +1,5 @@
 <?php
 
-
 /**
 ==============================================================================
  *	This is a simple test script that removes all learning objects from the
@@ -17,11 +16,11 @@ $users = 1;
 
 $max_categories = array (5, 3, 0, 0);
 
-$announcements = rand(2,10);
-$calendar_events = rand(2,10);
-$documents = rand(2,10);
-$links = rand(2,10);
-$student_publications = rand(2,10);
+$announcements = rand(2, 10);
+$calendar_events = rand(2, 10);
+$documents = rand(2, 10);
+$links = rand(2, 10);
+$student_publications = rand(2, 10);
 
 // TODO
 /*
@@ -30,6 +29,31 @@ $forum_posts = rand(100,500);
 $forum_topics = rand(100,500);
 $learnpaths = rand(100,500);
 */
+
+$randomText =<<<END
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cras vel erat.
+Phasellus est. Curabitur nunc leo, laoreet eu, varius sit amet, faucibus
+faucibus, magna. Quisque venenatis, ante quis dictum sodales, orci velit
+molestie nisl, mollis adipiscing ante erat eget tellus. Etiam nec tellus
+ut lacus sollicitudin commodo. Duis sed massa in ipsum pharetra scelerisque.
+Cum sociis natoque penatibus et magnis dis parturient montes, nascetur
+ridiculus mus. Donec quis elit. Maecenas suscipit pretium tortor. Mauris augue
+ligula, molestie id, laoreet quis, sollicitudin eget, orci. Fusce luctus
+auctor sem. Integer turpis. Curabitur id lectus. Aenean eget lectus. Donec
+vitae nisl. Duis et tellus sed nunc congue sollicitudin. Vivamus sed ipsum a
+magna accumsan convallis. Donec egestas tincidunt dolor. Donec ornare nonummy
+lacus. Maecenas posuere. Vestibulum urna. Curabitur bibendum gravida pede.
+Duis volutpat, sapien eu sagittis interdum, lectus risus tempus lacus, eu
+consequat massa tortor et ligula. Nullam gravida fermentum elit. Nam venenatis
+quam vel pede. Praesent sed metus. Proin at pede in odio fringilla euismod.
+Quisque mattis, ante suscipit bibendum porttitor, risus pede hendrerit erat,
+quis pellentesque turpis lacus et pede. Proin condimentum est at nulla. Nam
+gravida. Suspendisse dapibus, enim non congue euismod, nulla ipsum mattis
+felis, pulvinar commodo metus neque nec tortor. Donec luctus. Vestibulum
+rhoncus. Pellentesque iaculis suscipit arcu.
+END;
+
+$words = preg_split('/\W+/', preg_replace(array ('/^\W+/', '/\W+$/'), array ('', ''), strtolower($randomText)));
 
 $dataManager = RepositoryDataManager :: get_instance();
 
@@ -119,7 +143,7 @@ for ($i = 0; $i < $student_publications; $i ++)
 
 function random_url()
 {
-	return 'http://webs.hogent.be/~'.random_word(8).'/'.str_replace(' ', '%20', random_string(2)).'.'.random_word(3);
+	return 'http://webs.hogent.be/~'.totally_random_word(8).'/'.str_replace(' ', '%20', random_string(2)).'.'.totally_random_word(3);
 }
 
 function random_user()
@@ -138,12 +162,8 @@ function random_string($length)
 	return implode(' ', $words);
 }
 
-function random_word($length = 0)
+function totally_random_word($length)
 {
-	if ($length <= 0)
-	{
-		$length = rand(4, 16);
-	}
 	$str = '';
 	for ($i = 0; $i < $length; $i ++)
 	{
@@ -152,10 +172,16 @@ function random_word($length = 0)
 	return $str;
 }
 
+function random_word()
+{
+	global $words;
+	return $words[rand(0, count($words) - 1)];
+}
+
 function random_category($owner)
 {
-	global  $created_categories;
-	return  $created_categories[$owner][rand(0,count($created_categories[$owner])-1)];
+	global $created_categories;
+	return $created_categories[$owner][rand(0, count($created_categories[$owner]) - 1)];
 }
 
 function create_category($owner, $parent = 0, $level = 0)
