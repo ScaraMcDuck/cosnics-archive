@@ -1,5 +1,7 @@
 <?php
 require_once 'HTML/Menu.php';
+require_once 'HTML/Menu/DirectTreeRenderer.php';
+require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through his
  * categories of learning objects
