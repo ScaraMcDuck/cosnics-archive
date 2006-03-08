@@ -137,7 +137,7 @@ function create_category($owner, $parent = 0, $level = 0)
 	global $max_categories;
 	$cat = new Category();
 	$cat->set_owner_id($owner);
-	$cat->set_parent_category_id($parent);
+	$cat->set_category_id($parent);
 	$cat->set_title(random_string(2));
 	$cat->set_description(random_string(8));
 	$id = $cat->create();
