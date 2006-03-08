@@ -14,6 +14,7 @@ require_once dirname(__FILE__).'/repositorydatamanager.class.php';
  *	- title: the title of the learning object;
  *	- description: a brief description of the learning object; may also be
  *	  used to store its content in select cases;
+ *	- category: the numeric ID of the category of this learning object;
  *	- created: the date when the learning object was created, as returned by
  *	  PHP's time() function (UNIX time, seconds since the epoch);
  *	- modified: the date when the learning object was last modified, as
