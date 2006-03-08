@@ -4,7 +4,7 @@ require_once(api_get_library_path().'/formvalidator/FormValidator.class.php');
 require_once('../lib/repositorydatamanager.class.php');
 require_once('../lib/learningobject_form.class.php');
 require_once('../lib/learning_object/announcement/form.class.php');
-require_once('categorymenu.class.php');
+require_once('../lib/categorymenu.class.php');
 require_once(api_get_library_path().'/text.lib.php');
 if( !api_get_user_id())
 {
@@ -119,6 +119,9 @@ $renderer->setElementTemplate('<span>{element}</span> ');
 $form->addElement('text','keyword',get_lang('keyword'));
 $form->addElement('submit','submit',get_lang('Search'));
 $form->display();
+// Create a navigation menu to browse through the categories
+$menu = new CategoryMenu(api_get_user_id(),$current_category_id);
+$menu->show();
 // Create a sortable table to display the learning objects
 $table = new SortableTable('objects','get_number_of_objects','get_objects');
 $parameters = array();
