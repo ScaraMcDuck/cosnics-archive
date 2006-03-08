@@ -319,11 +319,18 @@ class LearningObject
 	/**
 	 * Instructs the data manager to update the learning object, making any
 	 * modifications permanent. Also sets the learning object's modification
-	 * date to the current time.
+	 * date to the current time if the update is a true update. A true update
+	 * is an update that implicates a change to a property that affects the
+	 * learning object itself; changing the learning object's category, for
+	 * instance, should not change the last modification date.
+	 * @param boolean $trueUpdate True if the update is a true update
+	 *                            (default), false otherwise. 
 	 */
-	function update()
+	function update($trueUpdate = true)
 	{
-		$this->set_modification_date(time());
+		if ($trueUpdate) {
+			$this->set_modification_date(time());
+		}
 		return RepositoryDataManager :: get_instance()->update_learning_object($this);
 	}
 
