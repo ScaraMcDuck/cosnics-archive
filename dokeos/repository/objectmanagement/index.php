@@ -5,6 +5,10 @@ require_once('../lib/repositorydatamanager.class.php');
 require_once('../lib/learningobject_form.class.php');
 require_once('../lib/learning_object/announcement/form.class.php');
 require_once(api_get_library_path().'/text.lib.php');
+if( !api_get_user_id())
+{
+	api_not_allowed();
+}
 /**
  * Get the condition to use when retrieving objects from the datamanager
  */
