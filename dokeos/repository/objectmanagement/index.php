@@ -4,6 +4,7 @@ require_once(api_get_library_path().'/formvalidator/FormValidator.class.php');
 require_once('../lib/repositorydatamanager.class.php');
 require_once('../lib/learningobject_form.class.php');
 require_once('../lib/learning_object/announcement/form.class.php');
+require_once('categorymenu.class.php');
 require_once(api_get_library_path().'/text.lib.php');
 if( !api_get_user_id())
 {
@@ -14,7 +15,10 @@ if( !api_get_user_id())
  */
 function get_condition()
 {
-	$condition = new ExactMatchCondition('owner',api_get_user_id());
+	global $current_category_id;
+	$condition1 = new ExactMatchCondition('owner',api_get_user_id());
+	$condition2 = new ExactMatchCondition('category',$current_category_id);
+	$condition = new AndCondition($condition1,$condition2);
 	if (isset ($_GET['keyword']))
 	{
 		$pattern = '*'.$_GET['keyword'].'*';
@@ -50,7 +54,14 @@ function get_objects($from, $number_of_items, $column, $direction)
 		$row = array();
 		$row[] = $object->get_id();
 		$row[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/>';
-		$row[] = '<a href="view.php?id='.$object->get_id().'">'.$object->get_title().'</a>';
+		if($object->get_type() == 'category')
+		{
+			$row[] = '<a href="index.php?category='.$object->get_id().'">'.$object->get_title().'</a>';
+		}
+		else
+		{
+			$row[] = '<a href="view.php?id='.$object->get_id().'">'.$object->get_title().'</a>';
+		}
 		$row[] = $object->get_description();
 		$row[] = date('Y-m-d, H:i', is_null($object->get_modification_date()) ? $object->get_creation_date() : $object->get_modification_date());
 		$modify = '<a href="edit.php?id='.$object->get_id().'" title="'.get_lang('Edit').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif" alt="'.get_lang('Edit').'"/></a>';
@@ -62,6 +73,14 @@ function get_objects($from, $number_of_items, $column, $direction)
 }
 // Load datamanager
 $datamanager = RepositoryDataManager::get_instance();
+// Load category
+$current_category_id = isset($_GET['category']) ? intval($_GET['category']) : NULL;
+if( is_null($current_category_id))
+{
+	$root_category = $datamanager->retrieve_root_category(api_get_user_id());
+	$current_category_id = $root_category->get_id();
+}
+
 // Perform actions if needed
 if(isset($_GET['action']))
 {
