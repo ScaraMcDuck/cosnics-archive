@@ -755,3 +755,46 @@ div.learning_object div.description
 	margin-left: 10px;
 	clear: both;
 }
+
+/* Semantic tabbed pane style */
+.tabbed-pane-tabs
+{
+	list-style: none;
+	margin: 0 0 0 1em;
+	padding: 0;
+}
+.tabbed-pane-tabs li
+{
+	display: inline;
+	float: left;
+	margin: 0 0.5ex 0 0;
+	padding: 0;
+}
+.tabbed-pane-tabs li a
+{
+	display: block;
+	margin: 0.25em 0 0 0;
+	padding: 0.25em 1em;
+	color: #4271b5;
+	text-decoration: none;
+	border: 1px solid #4271b5;
+	border-bottom: 0;
+}
+.tabbed-pane-tabs li a:hover
+{
+	background: #4271b5;
+	color: white;
+	margin-top: 0;
+	padding-bottom: 0.5em;
+}
+.tabbed-pane-tabs li a:active
+{
+	color: black;
+}
+.tabbed-pane-content
+{
+	clear: both;
+	border: 1px solid #4271b5;
+	margin: 0;
+	padding: 1em;
+}
