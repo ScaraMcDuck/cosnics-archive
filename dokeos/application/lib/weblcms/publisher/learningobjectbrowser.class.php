@@ -7,18 +7,10 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 {
 	private static $COLUMNS = array ('type', 'title', 'description', 'select');
 	
-	private $additionalParameters;
-	
-	function LearningObjectBrowser($owner, $type)
-	{
-		parent :: __construct($owner, $type);
-		$this->additionalParameters = array();
-	}
-
 	function display()
 	{
 		$table = new SortableTable('objects', array ($this, 'get_object_count'), array ($this, 'get_objects'));
-		$table->set_additional_parameters($this->additionalParameters);
+		$table->set_additional_parameters($this->get_additional_parameters());
 		$column = 0;
 		$table->set_header($column ++, get_lang('Type'));
 		$table->set_header($column ++, get_lang('Title'));
@@ -27,11 +19,6 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 		$table->display();
 	}
 	
-	function set_additional_parameter($name, $value)
-	{
-		$this->additionalParameters[$name] = $value;
-	}
-
 	protected function get_condition()
 	{
 		return new ExactMatchCondition('owner', $this->get_owner());
@@ -46,11 +33,18 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 	{
 		$objects = RepositoryDataManager :: get_instance()->retrieve_learning_objects($this->get_type(), $this->get_condition(), array (self :: $COLUMNS[$column]), array ($direction), $from, $number_of_items);
 		$data = array ();
+		$par = $this->get_additional_parameters();
+		$par['publish_action'] = 'viewer';
+		$string = '';
+		foreach ($par as $p => $v)
+		{
+			$string .= '&amp;' . urlencode($p) . '=' . urlencode($v);
+		}
 		foreach ($objects as $object)
 		{
 			$row = array ();
 			$row[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/>';
-			$row[] = '<a href="?id='.$object->get_id().'">'.$object->get_title().'</a>';
+			$row[] = '<a href="?object='.$object->get_id().$string.'">'.$object->get_title().'</a>';
 			$row[] = $object->get_description();
 			$row[] = '[ USE ]';
 			$data[] = $row;
