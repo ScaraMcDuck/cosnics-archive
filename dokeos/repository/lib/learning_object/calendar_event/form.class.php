@@ -7,9 +7,9 @@ class CalendarEventForm extends LearningObjectForm
     {
     	parent :: LearningObjectForm($formName, $method, $action);
     }
-    public function build_create_form()
+    public function build_create_form($type)
     {
-    	parent :: build_create_form();
+    	parent :: build_create_form($type);
     	$this->addElement('datepicker', 'start', get_lang('StartTimeWindow'), array ('form_name' => 'system_announcement'));
 		$this->addRule('start', 'Invalid date', 'date');
 		$this->addElement('datepicker', 'end', get_lang('EndTimeWindow'), array ('form_name' => 'system_announcement'));
