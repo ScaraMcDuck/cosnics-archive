@@ -4,7 +4,7 @@ class LearningObjectPublisher
 	private $owner;
 	
 	private $type;
-	
+		
     function LearningObjectPublisher($owner, $type)
     {
     	$this->owner = $owner;
