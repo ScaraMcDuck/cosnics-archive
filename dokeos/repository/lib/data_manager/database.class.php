@@ -262,7 +262,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		 */
 		return $this->connection;
 	}
-	
+
 	/**
 	 * Returns the prefix for database table names, if any. This method is
 	 * visible for the same reason as get_connection().
@@ -467,5 +467,52 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			die('Cannot translate condition');
 		}
 	}
+
+	/**
+	 * Get the disk space used by the given owner.
+	 * @return int The number of bytes
+	 */
+	public function get_used_disk_space($owner)
+	{
+		$condition_owner = new ExactMatchCondition('owner',$owner);
+		$types = $this->get_registered_types();
+		foreach($types as $index => $type)
+		{
+			$class = $this->type_to_class($type);
+			$properties = call_user_func(array($class,'get_disk_space_properties'));
+			if(is_null($properties))
+			{
+				continue;
+			}
+			if( !is_array($properties))
+			{
+				$properties = array($properties);
+			}
+			$sum = array();
+			foreach($properties as $index => $property)
+			{
+				$sum[] = 'SUM('.$property.')';
+			}
+			if ($this->is_extended_type($type))
+			{
+				$query = 'SELECT '.implode('+',$sum).' AS disk_space FROM '.$this->escape_table_name('learning_object').' AS t1 JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name('id').' = t2.'.$this->escape_column_name('id');
+				$condition = $condition_owner;
+			}
+			else
+			{
+				$query = 'SELECT '.implode('+',$sum).' AS disk_space FROM '.$this->escape_table_name('learning_object');
+				$match = new ExactMatchCondition('type', $type);
+				$condition = new AndCondition(array ($match, $condition_owner));
+			}
+			$params = array ();
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params);
+			$sth = $this->connection->prepare($query);
+			$res = & $this->connection->execute($sth, $params);
+			$record = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			$disk_space += $record->disk_space;
+		}
+		return $disk_space;
+	}
+
 }
 ?>
