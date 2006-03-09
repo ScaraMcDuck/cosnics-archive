@@ -217,11 +217,21 @@ if(isset($_POST['action']))
 /*
  * Display page
  */
+$renderer =& new HTML_Menu_ArrayRenderer();
+$menu->render($renderer,'urhere');
+$breadcrumbs = $renderer->toArray();
+//$tool_name = $breadcrumbs[count[$breadcrumbs]]
+$current_location = array_pop($breadcrumbs);
+foreach($breadcrumbs as $index => $breadcrumb)
+{
+	$interbredcrump[] = array ("url" => $breadcrumb['url'], "name" => $breadcrumb['title']);
+}
 // Display header
-Display::display_header($tool_name);
-api_display_tool_title($tool_name);
-// Display search form
+Display::display_header($current_location['title']);
+api_display_tool_title($current_location['title']);
+// Display create form
 $create_form->display();
+// Display search form
 $form->display();
 // Display message if needed
 if(isset($message))
@@ -229,13 +239,15 @@ if(isset($message))
 	Display::display_normal_message($message);
 }
 //TODO: Get rid of table -> move to css styled layout
-echo '<table width="100%"><tr><td width="180px">';
+echo '<div style="float:left;width:20%;">';
 // Display menu
-$menu->show();
-echo '</td><td>';
+$renderer =& new HTML_Menu_DirectTreeRenderer();
+$menu->render($renderer,'sitemap');
+echo $renderer->toHtml();
+echo '</div><div style="float:right;width:80%;">';
 // Display table
 $table->display();
-echo '</td></tr></table>';
+echo '</div>';
 // Display footer
 Display::display_footer();
 ?>
