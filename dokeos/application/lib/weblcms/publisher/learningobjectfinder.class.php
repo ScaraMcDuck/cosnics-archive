@@ -19,12 +19,13 @@ class LearningObjectFinder extends LearningObjectBrowser
 		$this->form->addRule('keyword', 'query', 'required');
 		$this->form->addElement('submit', 'submit', get_lang('Find'));
 		$defaults['tool'] = $_GET['tool'];
-		$defaults['publish_action'] = $_GET['publish_action'];  
+		$defaults['publish_action'] = $_GET['publish_action'];
 	}
 
 	function display()
 	{
 		$this->form->display();
+		$this->set_additional_parameter('query', $this->get_pattern());
 		parent :: display();
 	}
 
@@ -33,7 +34,11 @@ class LearningObjectFinder extends LearningObjectBrowser
 		if ($this->form->validate())
 		{
 			$values = $this->form->exportValues();
-			return '*'.$values['query'].'*';
+			return $values['query'];
+		}
+		if ($_GET['query'])
+		{
+			return $_GET['query'];
 		}
 		return null;
 	}
@@ -46,6 +51,7 @@ class LearningObjectFinder extends LearningObjectBrowser
 		{
 			return $oc;
 		};
+		$p = '*'.$p.'*';
 		return new AndCondition($oc, new OrCondition(new PatternMatchCondition('title', $p), new PatternMatchCondition('description', $p)));
 	}
 }

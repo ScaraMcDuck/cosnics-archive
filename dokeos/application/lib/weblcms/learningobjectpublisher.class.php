@@ -25,6 +25,8 @@ class LearningObjectPublisher
     	require_once dirname(__FILE__) . '/publisher/learningobject'.$action.'.class.php';
     	$class = 'LearningObject' . ucfirst($action);
     	$f = new $class($this->owner, $this->type);
+    	$f->set_additional_parameter('tool', $_GET['tool']);
+    	$f->set_additional_parameter('publish_action', $action);
     	$f->display();
     	echo '</div>';
     	echo '</div>';
