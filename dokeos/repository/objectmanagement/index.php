@@ -100,7 +100,7 @@ $renderer->setElementTemplate('<span>{element}</span> ');
 $form->addElement('text','keyword',get_lang('keyword'));
 $form->addElement('submit','submit',get_lang('Search'));
 // Create a dropdownlist with learning objecttypes
-$create_form = new FormValidator('type_list', 'get', 'create.php');
+$create_form = new FormValidator('type_list', 'post', 'create.php');
 $renderer =& $create_form->defaultRenderer();
 $renderer->setElementTemplate('<span>{element}</span> ');
 $create_form->addElement('select','type',null,$t,$t);
