@@ -10,5 +10,7 @@ Display::display_header(api_get_setting('siteName'));
 $app = new WebLCMS();
 $app->run();
 
-Display::display_footer();
+// TODO: Reinstate.
+// Crashes due to DB conflict.
+//Display::display_footer();
 ?>
