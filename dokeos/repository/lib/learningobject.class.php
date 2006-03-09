@@ -137,7 +137,7 @@ class LearningObject
 	{
 		return $this->get_default_property('description');
 	}
-	
+
 	/**
 	 * Returns the numeric identifier of the category that this learning
 	 * object is associated with.
@@ -325,7 +325,7 @@ class LearningObject
 	 * learning object itself; changing the learning object's category, for
 	 * instance, should not change the last modification date.
 	 * @param boolean $trueUpdate True if the update is a true update
-	 *                            (default), false otherwise. 
+	 *                            (default), false otherwise.
 	 */
 	function update($trueUpdate = true)
 	{
@@ -347,6 +347,17 @@ class LearningObject
 	function __tostring()
 	{
 		return get_class($this).'#'.$this->get_id().' ('.$this->get_title().')';
+	}
+
+	/**
+	 * Get all properties of this type of learning object that should be taken
+	 * into account to calculate the used diskspace
+	 * @return mixed The return value can be a string or an array of strings or
+	 * null.
+	 */
+	static function get_disk_space_properties()
+	{
+		return null;
 	}
 }
 ?>
