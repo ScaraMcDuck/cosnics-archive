@@ -84,6 +84,14 @@ if( is_null($current_category_id))
 	$current_category_id = $root_category->get_id();
 }
 
+$tool_name = get_lang('MyLearningObjects');
+// Retrieve learning objecttypes
+$object_types = $datamanager->get_registered_types();
+$t = array();
+foreach($object_types as $key => $type)
+{
+	$t[$type] = $type;
+}
 $tool_name = get_lang('MyRepository');
 // Create a search-box
 $form = new FormValidator('search_simple','get','','',null,false);
@@ -91,6 +99,12 @@ $renderer =& $form->defaultRenderer();
 $renderer->setElementTemplate('<span>{element}</span> ');
 $form->addElement('text','keyword',get_lang('keyword'));
 $form->addElement('submit','submit',get_lang('Search'));
+// Create a dropdownlist with learning objecttypes
+$create_form = new FormValidator('type_list', 'get', 'create.php');
+$renderer =& $create_form->defaultRenderer();
+$renderer->setElementTemplate('<span>{element}</span> ');
+$create_form->addElement('select','type',null,$t,$t);
+$create_form->addElement('submit','submit',get_lang('Create'));
 // Create a navigation menu to browse through the categories
 $menu = new CategoryMenu(api_get_user_id(),$current_category_id);
 // Create a sortable table to display the learning objects
@@ -203,19 +217,11 @@ if(isset($_POST['action']))
 /*
  * Display page
  */
-$renderer =& new HTML_Menu_ArrayRenderer();
-$menu->render($renderer,'urhere');
-$breadcrumbs = $renderer->toArray();
-//$tool_name = $breadcrumbs[count[$breadcrumbs]]
-$current_location = array_pop($breadcrumbs);
-foreach($breadcrumbs as $index => $breadcrumb)
-{
-	$interbredcrump[] = array ("url" => $breadcrumb['url'], "name" => $breadcrumb['title']);
-}
 // Display header
-Display::display_header($current_location['title']);
-api_display_tool_title($current_location['title']);
+Display::display_header($tool_name);
+api_display_tool_title($tool_name);
 // Display search form
+$create_form->display();
 $form->display();
 // Display message if needed
 if(isset($message))
@@ -223,15 +229,13 @@ if(isset($message))
 	Display::display_normal_message($message);
 }
 //TODO: Get rid of table -> move to css styled layout
-echo '<div style="float:left;width:20%;">';
+echo '<table width="100%"><tr><td width="180px">';
 // Display menu
-$renderer =& new HTML_Menu_DirectTreeRenderer();
-$menu->render($renderer,'sitemap');
-echo $renderer->toHtml();
-echo '</div><div style="float:right;width:80%;">';
+$menu->show();
+echo '</td><td>';
 // Display table
 $table->display();
-echo '</div>';
+echo '</td></tr></table>';
 // Display footer
 Display::display_footer();
 ?>
