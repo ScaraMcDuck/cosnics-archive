@@ -20,5 +20,9 @@ class Document extends LearningObject {
 	function set_filesize ($filesize) {
 		return $this->set_additional_property('filesize', $filesize);
 	}
+	static function get_disk_space_properties()
+	{
+		return 'filesize';
+	}
 }
 ?>
