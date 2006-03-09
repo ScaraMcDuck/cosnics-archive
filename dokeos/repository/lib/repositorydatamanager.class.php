@@ -300,5 +300,11 @@ abstract class RepositoryDataManager
 	{
 		return preg_replace(array ('/^([A-Z])/e', '/([A-Z])/e'), array ('strtolower(\1)', '"_".strtolower(\1)'), $class);
 	}
+
+	/**
+	 * Get the disk space used by the given owner.
+	 * @return int The number of bytes
+	 */
+	abstract function get_used_disk_space($owner);
 }
 ?>
