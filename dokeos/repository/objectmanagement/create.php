@@ -13,7 +13,7 @@ if( isset($_POST['type']))
 {
 	$type = $_POST['type'];
 	$form = LearningObjectForm::factory($type,'create','post','create.php?type='.$type);
-	$form->build_create_form();
+	$form->build_create_form($type);
 	if($form->validate())
 	{
 		$object = $form->create_learning_object(api_get_user_id());
