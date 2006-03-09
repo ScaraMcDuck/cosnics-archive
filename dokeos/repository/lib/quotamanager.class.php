@@ -2,7 +2,7 @@
 require_once 'repositorydatamanager.class.php';
 /**
 ==============================================================================
- * This	 class provides some funcionality to manage user quota's. There are two
+ * This class provides some functionality to manage user quotas. There are two
  * different quota types. One is the disk space used by the user. The other is
  * the database space used by the user.
  *
@@ -51,7 +51,7 @@ class QuotaManager
 	}
 	/**
 	 * Get the used database space
-	 * @return int The number of learning objects in the repository the the
+	 * @return int The number of learning objects in the repository of the
 	 * owner
 	 */
 	public function get_used_database_space()
