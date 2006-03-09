@@ -21,6 +21,8 @@ abstract class WebLCMSDataManager
 		}
 		return self :: $instance;
 	}
+	
+	abstract function initialize();
 }
 
 ?>
