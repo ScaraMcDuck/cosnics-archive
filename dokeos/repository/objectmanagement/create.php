@@ -9,9 +9,9 @@ if( !api_get_user_id())
 {
 	api_not_allowed();
 }
-if( isset($_GET['type']))
+if( isset($_POST['type']))
 {
-	$type = $_GET['type'];
+	$type = $_POST['type'];
 	$form = LearningObjectForm::factory($type,'create','post','create.php?type='.$type);
 	$form->build_create_form();
 	if($form->validate())
