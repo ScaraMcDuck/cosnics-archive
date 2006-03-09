@@ -9,8 +9,8 @@ class DocumentForm extends LearningObjectForm
 	public function build_create_form($type)
 	{
 		parent :: build_create_form($type);
-		$this->addElement('text', 'path', 'Path');
-		$this->addElement('text', 'filename', 'Filename');
+		$this->addElement('file', 'filename', 'Filename');
+		$this->addRule('filename',get_lang('DiskQuotaExceeded'),'disk_quota');
 		$this->addSubmitButton();
 	}
 	public function build_edit_form($object)
