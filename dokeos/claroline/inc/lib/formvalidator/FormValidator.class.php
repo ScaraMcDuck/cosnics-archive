@@ -3,20 +3,20 @@
 /*
 ==============================================================================
 	Dokeos - elearning and course management software
-	
+
 	Copyright (c) 2004-2005 Dokeos S.A.
 	Copyright (c) Bart Mollet, Hogeschool Gent
-	
+
 	For a full list of contributors, see "credits.txt".
 	The full license can be read in "license.txt".
-	
+
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
 	as published by the Free Software Foundation; either version 2
 	of the License, or (at your option) any later version.
-	
+
 	See the GNU General Public License for more details.
-	
+
 	Contact address: Dokeos, 44 rue des palais, B-1030 Brussels, Belgium
 	Mail: info@dokeos.com
 ==============================================================================
@@ -61,6 +61,7 @@ class FormValidator extends HTML_QuickForm
 		$this->registerRule('username_available',null,'HTML_QuickForm_Rule_UsernameAvailable',$dir.'Rule/UsernameAvailable.php');
 		$this->registerRule('username',null,'HTML_QuickForm_Rule_Username',$dir.'Rule/Username.php');
 		$this->registerRule('filetype',null,'HTML_QuickForm_Rule_Filetype',$dir.'Rule/Filetype.php');
+		$this->registerRule('disk_quota',null,'HTML_QuickForm_Rule_DiskQuota',$dir.'Rule/DiskQuota.php');
 
 		// Modify the default templates
 		$renderer = & $this->defaultRenderer();
@@ -105,7 +106,7 @@ EOT;
 	}
 
 	/**
-	 * Add a textfield to the form. 
+	 * Add a textfield to the form.
 	 * A trim-filter is attached to the field.
 	 * @param string $label The label for the form-element
 	 * @param string $name The element name
@@ -119,11 +120,11 @@ EOT;
 		if($required)
 		{
 			$this->addRule($name, get_lang('ThisFieldIsRequired'), 'required');
-		}	
+		}
 	}
 
 	/**
-	 * Add a HTML-editor to the form to fill in a title. 
+	 * Add a HTML-editor to the form to fill in a title.
 	 * A trim-filter is attached to the field.
 	 * A HTML-filter is attached to the field (cleans HTML)
 	 * A rule is attached to check for unwanted HTML
@@ -138,7 +139,7 @@ EOT;
 		$html_type = $_SESSION['status'] == COURSEMANAGER ? TEACHER_HTML : STUDENT_HTML;
 		if($full_page)
 		{
-			$html_type = $_SESSION['status'] == COURSEMANAGER ? TEACHER_HTML_FULLPAGE : STUDENT_HTML_FULLPAGE;	
+			$html_type = $_SESSION['status'] == COURSEMANAGER ? TEACHER_HTML_FULLPAGE : STUDENT_HTML_FULLPAGE;
 			//First *filter* the HTML (markup, indenting, ...)
 			$this->applyFilter($name,'html_filter_teacher_fullpage');
 		}
@@ -150,7 +151,7 @@ EOT;
 		if($required)
 		{
 			$this->addRule($name, get_lang('ThisFieldIsRequired'), 'required');
-		}	
+		}
 		if($full_page)
 		{
 			$el = $this->getElement($name);
@@ -169,11 +170,11 @@ EOT;
 	function add_datepicker($name,$label)
 	{
 		$this->addElement('datepicker', $name, $label, array ('form_name' => $this->getAttribute('name')));
-		$this->addRule($name, get_lang('InvalidDate'), 'date');	
+		$this->addRule($name, get_lang('InvalidDate'), 'date');
 	}
 
 	/**
-	 * Add a timewindow element to the form. 
+	 * Add a timewindow element to the form.
 	 * 2 datepicker elements are added and a rule to check if the first date is
 	 * before the second one.
 	 * @param string $label The label for the form-element
@@ -183,10 +184,10 @@ EOT;
 	{
 		$this->add_datepicker($name_1, $label_1);
 		$this->add_datepicker( $name_2, $label_2);
-		$this->addRule(array ($name_1, $name_2), get_lang('StartDateShouldBeBeforeEndDate'), 'date_compare', 'lte');	
+		$this->addRule(array ($name_1, $name_2), get_lang('StartDateShouldBeBeforeEndDate'), 'date_compare', 'lte');
 	}
 	/**
-	 * Add a button to the form to add resources. 
+	 * Add a button to the form to add resources.
 	 */
 	function add_resource_button()
 	{
@@ -195,7 +196,7 @@ EOT;
 		$this->addGroup($group);
 	}
 	/**
-	 * Display the form. 
+	 * Display the form.
 	 * If an element in the form didn't validate, an error message is showed
 	 * asking the user to complete the form.
 	 */
@@ -214,12 +215,12 @@ EOT;
 		{
 			Display::display_error_message(get_lang('FormHasErrorsPleaseComplete'));
 		}
-		parent::display();	
+		parent::display();
 	}
 }
 
 /**
- * Clean HTML 
+ * Clean HTML
  * @param string HTML to clean
  * @param int $mode
  * @return string The cleaned HTML
@@ -233,18 +234,18 @@ function html_filter($html, $mode = NO_HTML)
 }
 function html_filter_teacher($html)
 {
-	return html_filter($html,TEACHER_HTML);	
+	return html_filter($html,TEACHER_HTML);
 }
 function html_filter_student($html)
 {
-	return html_filter($html,STUDENT_HTML);	
+	return html_filter($html,STUDENT_HTML);
 }
 function html_filter_teacher_fullpage($html)
 {
-	return html_filter($html,TEACHER_HTML_FULLPAGE);	
+	return html_filter($html,TEACHER_HTML_FULLPAGE);
 }
 function html_filter_student_fullpage($html)
 {
-	return html_filter($html,STUDENT_HTML_FULLPAGE);	
+	return html_filter($html,STUDENT_HTML_FULLPAGE);
 }
 ?>
