@@ -192,6 +192,7 @@ abstract class RepositoryDataManager
 
 	/**
 	 * Makes the given learning object persistent, assigning an ID to it.
+	 * Must call the object's set_id method to set its ID.
 	 * @param LearningObject $object The learning object.
 	 * @return int The newly assigned ID.
 	 */

@@ -202,6 +202,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$props['id'] = $id;
 			$this->connection->autoExecute($this->prefix.$object->get_type(), $props, DB_AUTOQUERY_INSERT);
 		}
+		$object->set_id($id);
 		return $id;
 	}
 
