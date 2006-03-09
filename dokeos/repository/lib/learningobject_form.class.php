@@ -6,6 +6,7 @@
 require_once dirname(__FILE__) . '/../../claroline/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__) . '/condition/exactmatchcondition.class.php';
 require_once dirname(__FILE__) . '/repositorydatamanager.class.php';
+require_once dirname(__FILE__) . '/quotamanager.class.php';
 abstract class LearningObjectForm extends FormValidator
 {
 	/**
@@ -34,6 +35,7 @@ abstract class LearningObjectForm extends FormValidator
 	 */
 	protected function build_create_form($type)
 	{
+		$this->addElement('hidden','type',$type);
 		$this->addElement('header', 'category_type', ucfirst($type));
 		$this->addElement('text', 'title', 'Title');
 		$this->addRule('title', 'Required', 'required');
@@ -76,6 +78,10 @@ abstract class LearningObjectForm extends FormValidator
 		}
 		parent :: setDefaults($defaults);
 	}
+	/**
+	 * Get the categories defined in the users repository
+	 * @return array The categories
+	 */
 	public function getCategories()
 	{
 		$datamanager = RepositoryDataManager::get_instance();
@@ -111,5 +117,6 @@ abstract class LearningObjectForm extends FormValidator
 		require_once(dirname(__FILE__).'/learning_object/'.strtolower($type).'/form.class.php');
 		return new $class($formName,$method,$action);
 	}
+
 }
 ?>
