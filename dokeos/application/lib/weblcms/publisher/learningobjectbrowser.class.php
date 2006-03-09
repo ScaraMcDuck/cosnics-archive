@@ -6,16 +6,30 @@ require_once dirname(__FILE__).'/../../../../repository/lib/condition/exactmatch
 class LearningObjectBrowser extends LearningObjectPublisherComponent
 {
 	private static $COLUMNS = array ('type', 'title', 'description', 'select');
+	
+	private $additionalParameters;
+	
+	function LearningObjectBrowser($owner, $type)
+	{
+		parent :: __construct($owner, $type);
+		$this->additionalParameters = array();
+	}
 
 	function display()
 	{
 		$table = new SortableTable('objects', array ($this, 'get_object_count'), array ($this, 'get_objects'));
+		$table->set_additional_parameters($this->additionalParameters);
 		$column = 0;
 		$table->set_header($column ++, get_lang('Type'));
 		$table->set_header($column ++, get_lang('Title'));
 		$table->set_header($column ++, get_lang('Description'));
 		$table->set_header($column ++, get_lang('Use'));
 		$table->display();
+	}
+	
+	function set_additional_parameter($name, $value)
+	{
+		$this->additionalParameters[$name] = $value;
 	}
 
 	protected function get_condition()
