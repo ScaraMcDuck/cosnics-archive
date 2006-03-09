@@ -22,7 +22,10 @@ function get_condition()
 	$condition = new AndCondition($condition1,$condition2);
 	if (isset ($_GET['keyword']))
 	{
-		$condition = new AndCondition(array($condition, RepositoryUtilities :: query_to_condition($_GET['keyword'])));
+		$c = RepositoryUtilities :: query_to_condition($_GET['keyword']);
+		if (!is_null($c)) {
+			$condition = new AndCondition($condition, $c);
+		}
 	}
 	return $condition;
 }
