@@ -6,6 +6,7 @@ require_once('../lib/learningobject_form.class.php');
 require_once('../lib/learning_object/announcement/form.class.php');
 require_once('../lib/categorymenu.class.php');
 require_once(api_get_library_path().'/text.lib.php');
+require_once dirname(__FILE__).'/../lib/repositoryutilities.class.php';
 if( !api_get_user_id())
 {
 	api_not_allowed();
@@ -21,11 +22,7 @@ function get_condition()
 	$condition = new AndCondition($condition1,$condition2);
 	if (isset ($_GET['keyword']))
 	{
-		$pattern = '*'.$_GET['keyword'].'*';
-		$simple_search_conditions[] = new PatternMatchCondition('title',$pattern);
-		$simple_search_conditions[] = new PatternMatchCondition('description',$pattern);
-		$simple_search_condition = new OrCondition($simple_search_conditions);
-		$condition = new AndCondition(array($condition,$simple_search_condition));
+		$condition = new AndCondition(array($condition, RepositoryUtilities :: query_to_condition($_GET['keyword'])));
 	}
 	return $condition;
 }

@@ -3,6 +3,7 @@ require_once dirname(__FILE__).'/learningobjectbrowser.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/patternmatchcondition.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
 require_once 'HTML/QuickForm.php';
 
 class LearningObjectFinder extends LearningObjectBrowser
@@ -25,11 +26,11 @@ class LearningObjectFinder extends LearningObjectBrowser
 	function display()
 	{
 		$this->form->display();
-		$this->set_additional_parameter('query', $this->get_pattern());
+		$this->set_additional_parameter('query', $this->get_query());
 		parent :: display();
 	}
 
-	function get_pattern()
+	function get_query()
 	{
 		if ($this->form->validate())
 		{
@@ -46,13 +47,13 @@ class LearningObjectFinder extends LearningObjectBrowser
 	protected function get_condition()
 	{
 		$oc = parent :: get_condition();
-		$p = $this->get_pattern();
+		$p = $this->get_query();
 		if (!isset ($p))
 		{
 			return $oc;
 		};
-		$p = '*'.$p.'*';
-		return new AndCondition($oc, new OrCondition(new PatternMatchCondition('title', $p), new PatternMatchCondition('description', $p)));
+		$c = RepositoryUtilities :: query_to_condition($p);
+		return (!is_null($c) ? new AndCondition($oc, $c) : $oc);
 	}
 }
 ?>
