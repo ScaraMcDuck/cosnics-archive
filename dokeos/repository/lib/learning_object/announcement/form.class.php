@@ -9,9 +9,9 @@ class AnnouncementForm extends LearningObjectForm
 	{
 		parent :: LearningObjectForm($formName, $method, $action);
 	}
-	public function build_create_form()
+	public function build_create_form($type)
 	{
-		parent :: build_create_form();
+		parent :: build_create_form($type);
 		$this->addSubmitButton();
 	}
 	public function build_edit_form($object)

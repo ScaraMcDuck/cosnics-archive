@@ -6,9 +6,9 @@ class DocumentForm extends LearningObjectForm
 	{
 		parent :: LearningObjectForm($formName, $method, $action);
 	}
-	public function build_create_form()
+	public function build_create_form($type)
 	{
-		parent :: build_create_form();
+		parent :: build_create_form($type);
 		$this->addElement('text', 'path', 'Path');
 		$this->addElement('text', 'filename', 'Filename');
 		$this->addSubmitButton();
