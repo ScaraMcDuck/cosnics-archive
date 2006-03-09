@@ -238,7 +238,6 @@ if(isset($message))
 {
 	Display::display_normal_message($message);
 }
-//TODO: Get rid of table -> move to css styled layout
 echo '<div style="float:left;width:20%;">';
 // Display menu
 $renderer =& new HTML_Menu_DirectTreeRenderer();
