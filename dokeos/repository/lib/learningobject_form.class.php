@@ -57,7 +57,7 @@ abstract class LearningObjectForm extends FormValidator
 		$this->learningObject = $learningObject;
 		$this->addElement('text', 'title', 'Title');
 		$this->addRule('title', 'Required', 'required');
-		$this->addElement('text', 'category', Category');
+		$this->addElement('text', 'category', 'Category');
 		$this->addRule('category', 'Category is required', 'required');
 		$this->add_html_editor('description', 'Description');
 		$this->addElement('hidden', 'id');
