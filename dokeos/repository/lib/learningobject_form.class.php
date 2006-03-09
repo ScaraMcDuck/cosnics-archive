@@ -4,6 +4,8 @@
  * @package learningobject
  */
 require_once dirname(__FILE__) . '/../../claroline/inc/lib/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__) . '/condition/exactmatchcondition.class.php';
+require_once dirname(__FILE__) . '/repositorydatamanager.class.php';
 abstract class LearningObjectForm extends FormValidator
 {
 	/**
@@ -30,11 +32,12 @@ abstract class LearningObjectForm extends FormValidator
 	/**
 	 * Build a form to create a new learning object
 	 */
-	protected function build_create_form()
+	protected function build_create_form($type)
 	{
+		$this->addElement('header', 'category_type', ucfirst($type));
 		$this->addElement('text', 'title', 'Title');
 		$this->addRule('title', 'Required', 'required');
-		$this->addElement('text', 'category', 'Category');
+		$this->addElement('select', 'category', get_lang('Category'), $this->getCategories());
 		$this->addRule('category', 'Category is required', 'required');
 		$this->add_html_editor('description', 'Description');
 	}
@@ -54,7 +57,7 @@ abstract class LearningObjectForm extends FormValidator
 		$this->learningObject = $learningObject;
 		$this->addElement('text', 'title', 'Title');
 		$this->addRule('title', 'Required', 'required');
-		$this->addElement('text', 'category', 'Category');
+		$this->addElement('text', 'category', Category');
 		$this->addRule('category', 'Category is required', 'required');
 		$this->add_html_editor('description', 'Description');
 		$this->addElement('hidden', 'id');
@@ -72,6 +75,18 @@ abstract class LearningObjectForm extends FormValidator
 			$defaults['description'] = $this->learningObject->get_description();
 		}
 		parent :: setDefaults($defaults);
+	}
+	public function getCategories()
+	{
+		$datamanager = RepositoryDataManager::get_instance();
+		$condition = new ExactMatchCondition('owner',api_get_user_id());
+		$categories = $datamanager->retrieve_learning_objects('category',$condition);
+		$category_choices = array();
+		foreach($categories as $index => $category)
+		{
+			$category_choices[$category->get_id()] = $category->get_title();
+		}
+		return $category_choices;
 	}
 	/**
 	 * Create a learning object from the submitted form values
