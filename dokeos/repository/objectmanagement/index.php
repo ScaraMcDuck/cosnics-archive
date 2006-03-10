@@ -142,12 +142,17 @@ if(isset($_GET['action']))
 			$message = get_lang('ObjectDeleted');
 			break;
 		case 'move':
-			$condition = new ExactMatchCondition('owner',api_get_user_id());
-			$categories = $datamanager->retrieve_learning_objects('category',$condition);
-			$category_choices = array();
+			$renderer =& new HTML_Menu_ArrayRenderer();
+			$menu->render($renderer,'sitemap');
+			$categories = $renderer->toArray();
 			foreach($categories as $index => $category)
 			{
-				$category_choices[$category->get_id()] = $category->get_title();
+				$prefix = '';
+				if($category['level'] > 0)
+				{
+					$prefix = str_repeat('&nbsp;&nbsp;&nbsp;',$category['level']-1).'&mdash; ';
+				}
+				$category_choices[$category['id']] = $prefix.$category['title'];
 			}
 			$popup_form = new FormValidator('move_form','get');
 			$popup_form->addElement('hidden','id',$_GET['id']);
@@ -230,6 +235,7 @@ foreach($breadcrumbs as $index => $breadcrumb)
 {
 	$interbredcrump[] = array ("url" => $breadcrumb['url'], "name" => $breadcrumb['title']);
 }
+$htmlHeadXtra[] = '<script language="JavaScript" type="text/javascript" src="'.api_get_path(WEB_CODE_PATH).'javascript/treemenu.js"></script>';
 // Display header
 Display::display_header($current_location['title']);
 api_display_tool_title($current_location['title']);
@@ -244,7 +250,7 @@ if(isset($message))
 }
 echo '<div style="float:left;width:20%;">';
 // Display menu
-$renderer =& new HTML_Menu_DirectTreeRenderer();
+$renderer =& new TreeMenuRenderer();
 $menu->render($renderer,'sitemap');
 echo $renderer->toHtml();
 echo '</div><div style="float:right;width:80%;">';
