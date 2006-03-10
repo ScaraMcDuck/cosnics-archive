@@ -292,7 +292,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * @param string $date The date as a UNIX timestamp.
 	 * @return int The date as a UNIX timestamp.
 	 */
-	private static function from_db_date($date)
+	static function from_db_date($date)
 	{
 		if (isset ($date))
 		{
@@ -307,7 +307,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * @param int $date The date as a UNIX timestamp.
 	 * @return string The date in datetime format.
 	 */
-	private static function to_db_date($date)
+	static function to_db_date($date)
 	{
 		if (isset ($date))
 		{
@@ -350,7 +350,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * @param string $string The string that contains wildcard characters.
 	 * @return string The escaped string.
 	 */
-	private static function translate_search_string($string)
+	static function translate_search_string($string)
 	{
 		/*
 		======================================================================
@@ -372,7 +372,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * @param string $name The column name.
 	 * @return string The escaped column name.
 	 */
-	private function escape_column_name($name)
+	function escape_column_name($name)
 	{
 		return $this->connection->quoteIdentifier($name);
 	}
@@ -382,7 +382,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * @param string $name The table name.
 	 * @return string The escaped table name.
 	 */
-	private function escape_table_name($name)
+	function escape_table_name($name)
 	{
 		return $this->connection->quoteIdentifier($this->prefix.$name);
 	}
@@ -393,7 +393,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * @param array $params A reference to the query's parameter list.
 	 * @return string The WHERE clause.
 	 */
-	private function translate_condition($condition, & $params)
+	function translate_condition($condition, & $params)
 	{
 		if ($condition instanceof AggregateCondition)
 		{
@@ -415,7 +415,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * @param array $params A reference to the query's parameter list.
 	 * @return string The WHERE clause.
 	 */
-	private function translate_aggregate_condition($condition, & $params)
+	function translate_aggregate_condition($condition, & $params)
 	{
 		if ($condition instanceof AndCondition)
 		{
@@ -451,7 +451,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * @param array $params A reference to the query's parameter list.
 	 * @return string The WHERE clause.
 	 */
-	private function translate_simple_condition($condition, & $params)
+	function translate_simple_condition($condition, & $params)
 	{
 		if ($condition instanceof ExactMatchCondition)
 		{
