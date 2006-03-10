@@ -14,6 +14,8 @@ abstract class LearningObjectForm extends FormValidator
 	 * The learning object
 		 */
 	protected $learningObject;
+	
+	protected $category;
 	/**
 	 * Constructor
 	 * @param  string $formName The name to use in the form-tag
@@ -38,7 +40,9 @@ abstract class LearningObjectForm extends FormValidator
 	{
 		$this->addElement('text', 'title', 'Title');
 		$this->addRule('title', 'Required', 'required');
-		$this->addElement('select', 'category', get_lang('Category'), $this->get_categories());
+		$select= & $this->addElement('select', 'category', get_lang('Category'), $this->get_categories());
+		if (isset($this->category)) 
+			$select->setSelected($this->category);
 		$this->addRule('category', 'Category is required', 'required');
 		$this->add_html_editor('description', 'Description');
 	}
@@ -58,8 +62,8 @@ abstract class LearningObjectForm extends FormValidator
 		$this->learningObject = $learningObject;
 		$this->addElement('text', 'title', 'Title');
 		$this->addRule('title', 'Required', 'required');
-		$this->addElement('text', 'category', 'Category');
-		$this->addRule('category', 'Category is required', 'required');
+		$select= & $this->addElement('select', 'category', get_lang('Category'), $this->get_categories());
+		$select->setSelected($this->learningObject->get_category_id());
 		$this->add_html_editor('description', 'Description');
 		$this->addElement('hidden', 'id');
 	}
@@ -92,6 +96,10 @@ abstract class LearningObjectForm extends FormValidator
 			$category_choices[$category->get_id()] = $category->get_title();
 		}
 		return $category_choices;
+	}
+	function set_default_category ($category)
+	{
+		$this->category = $category;
 	}
 	/**
 	 * Create a learning object from the submitted form values
