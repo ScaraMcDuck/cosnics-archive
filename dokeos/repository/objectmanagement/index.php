@@ -103,7 +103,7 @@ $form->addElement('submit','submit',get_lang('Search'));
 $create_form = new FormValidator('type_list', 'post', 'create.php');
 $renderer =& $create_form->defaultRenderer();
 $renderer->setElementTemplate('<span>{element}</span> ');
-$create_form->addElement('hidden', 'category_id',$current_category_id);
+$create_form->addElement('hidden', 'category',$current_category_id);
 $create_form->addElement('select','type',null,$t,$t);
 $create_form->addElement('submit','submit',get_lang('Create'));
 // Create a navigation menu to browse through the categories
@@ -134,7 +134,7 @@ if(isset($_GET['action']))
 	switch($_GET['action'])
 	{
 		case 'show_message':
-			$message = get_lang($_GET['message']);
+			$message = $_GET['message'];
 			break;
 		case 'delete':
 			$object = $datamanager->retrieve_learning_object($_GET['id']);
