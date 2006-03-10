@@ -8,13 +8,14 @@ require_once dirname(__FILE__).'/../../claroline/inc/lib/formvalidator/FormValid
 require_once dirname(__FILE__).'/condition/exactmatchcondition.class.php';
 require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/quotamanager.class.php';
+require_once dirname(__FILE__).'/categorymenu.class.php';
 abstract class LearningObjectForm extends FormValidator
 {
 	/**
 	 * The learning object
 		 */
 	protected $learningObject;
-	
+
 	protected $category;
 	/**
 	 * Constructor
@@ -41,7 +42,7 @@ abstract class LearningObjectForm extends FormValidator
 		$this->addElement('text', 'title', 'Title');
 		$this->addRule('title', 'Required', 'required');
 		$select= & $this->addElement('select', 'category', get_lang('Category'), $this->get_categories());
-		if (isset($this->category)) 
+		if (isset($this->category))
 			$select->setSelected($this->category);
 		$this->addRule('category', 'Category is required', 'required');
 		$this->add_html_editor('description', 'Description');
@@ -87,13 +88,19 @@ abstract class LearningObjectForm extends FormValidator
 	 */
 	public function get_categories()
 	{
-		$datamanager = RepositoryDataManager :: get_instance();
-		$condition = new ExactMatchCondition('owner', api_get_user_id());
-		$categories = $datamanager->retrieve_learning_objects('category', $condition);
-		$category_choices = array ();
-		foreach ($categories as $index => $category)
+		$categorymenu = new CategoryMenu(api_get_user_id());
+		$renderer =& new HTML_Menu_ArrayRenderer();
+		$categorymenu->render($renderer,'sitemap');
+		$categories = $renderer->toArray();
+		$category_choices = array();
+		foreach($categories as $index => $category)
 		{
-			$category_choices[$category->get_id()] = $category->get_title();
+			$prefix = '';
+			if($category['level'] > 0)
+			{
+				$prefix = str_repeat('&nbsp;&nbsp;&nbsp;',$category['level']-1).'&mdash; ';
+			}
+			$category_choices[$category['id']] = $prefix.$category['title'];
 		}
 		return $category_choices;
 	}
