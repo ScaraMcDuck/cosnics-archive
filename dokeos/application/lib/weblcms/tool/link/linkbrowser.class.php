@@ -38,16 +38,16 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 	{
 		// TODO: Share sensible default condition with other tools.
 		$time = time();
-		$shown_cond = new ExactMatchCondition('hidden', 0);
-		$date_from_zero = new ExactMatchCondition('from_date', 0);
-		$date_to_zero = new ExactMatchCondition('to_date', 0);
+		$shown_cond = new EqualityCondition('hidden', 0);
+		$date_from_zero = new EqualityCondition('from_date', 0);
+		$date_to_zero = new EqualityCondition('to_date', 0);
 		$date_from_passed = new InequalityCondition('from_date', InequalityCondition :: LESS_THAN, $time);
 		$date_to_coming = new InequalityCondition('to_date', InequalityCondition :: GREATER_THAN, $time);
 		$date1 = new OrCondition($date_from_zero, $date_from_passed);
 		$date2 = new OrCondition($date_to_zero, $date_to_coming);
 		$date_cond = new AndCondition($date1, $date2);
-		$user_cond = new ExactMatchCondition('user', $this->get_user());
-		$course_cond = new ExactMatchCondition('course', $this->get_course());
+		$user_cond = new EqualityCondition('user', $this->get_user());
+		$course_cond = new EqualityCondition('course', $this->get_course());
 		return new AndCondition($shown_cond, $date_cond, $user_cond, $course_cond);
 	}
 }

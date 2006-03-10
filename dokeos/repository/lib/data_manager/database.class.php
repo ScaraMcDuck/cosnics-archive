@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../configuration.class.php';
 require_once dirname(__FILE__).'/../learningobject.class.php';
 require_once dirname(__FILE__).'/../condition/condition.class.php';
-require_once dirname(__FILE__).'/../condition/exactmatchcondition.class.php';
+require_once dirname(__FILE__).'/../condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../condition/inequalitycondition.class.php';
 require_once dirname(__FILE__).'/../condition/patternmatchcondition.class.php';
 require_once dirname(__FILE__).'/../condition/aggregatecondition.class.php';
@@ -86,7 +86,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			else
 			{
 				$query = 'SELECT * FROM '.$this->escape_table_name('learning_object');
-				$match = new ExactMatchCondition('type', $type);
+				$match = new EqualityCondition('type', $type);
 				$conditions = isset ($conditions) ? new AndCondition(array ($match, $conditions)) : $match;
 			}
 		}
@@ -168,7 +168,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			else
 			{
 				$query = 'SELECT COUNT('.$this->escape_column_name('id').') FROM '.$this->escape_table_name('learning_object');
-				$match = new ExactMatchCondition('type', $type);
+				$match = new EqualityCondition('type', $type);
 				$conditions = isset ($conditions) ? new AndCondition(array ($match, $conditions)) : $match;
 			}
 		}
@@ -454,7 +454,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	function translate_simple_condition($condition, & $params)
 	{
-		if ($condition instanceof ExactMatchCondition)
+		if ($condition instanceof EqualityCondition)
 		{
 			$name = $condition->get_name();
 			$value = $condition->get_value();
@@ -513,7 +513,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	public function get_used_disk_space($owner)
 	{
-		$condition_owner = new ExactMatchCondition('owner',$owner);
+		$condition_owner = new EqualityCondition('owner',$owner);
 		$types = $this->get_registered_types();
 		foreach($types as $index => $type)
 		{
@@ -540,7 +540,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			else
 			{
 				$query = 'SELECT '.implode('+',$sum).' AS disk_space FROM '.$this->escape_table_name('learning_object');
-				$match = new ExactMatchCondition('type', $type);
+				$match = new EqualityCondition('type', $type);
 				$condition = new AndCondition(array ($match, $condition_owner));
 			}
 			$params = array ();

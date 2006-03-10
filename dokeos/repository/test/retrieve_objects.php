@@ -20,8 +20,8 @@ $dataManager = RepositoryDataManager :: get_instance();
 $type = 'link';
 $condition = new AndCondition(array (
 	new OrCondition(array (
-		new ExactMatchCondition('owner', 1),
-		new ExactMatchCondition('owner', 2)
+		new EqualityCondition('owner', 1),
+		new EqualityCondition('owner', 2)
 	)), 
 	new PatternMatchCondition('title', '*x?'),
 	new PatternMatchCondition('description', '*yv*')
@@ -58,7 +58,7 @@ foreach ($objects as $o)
 <?php
 $type = null;
 $condition = new AndCondition(array (
-	new ExactMatchCondition('owner', 1),
+	new EqualityCondition('owner', 1),
 	new PatternMatchCondition('title', '*xy*'),
 	new PatternMatchCondition('description', '*a*')
 ));

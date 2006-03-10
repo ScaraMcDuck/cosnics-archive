@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'/../learningobjectpublishercomponent.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/orcondition.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/condition/exactmatchcondition.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/condition/equalitycondition.class.php';
 
 class LearningObjectBrowser extends LearningObjectPublisherComponent
 {
@@ -23,7 +23,7 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 	
 	protected function get_condition()
 	{
-		return new ExactMatchCondition('owner', $this->get_owner());
+		return new EqualityCondition('owner', $this->get_owner());
 	}
 
 	function get_object_count()
@@ -33,7 +33,7 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 		if (count($types) > 1) {
 			$c = array();
 			foreach ($types as $t) {
-				$c[] = new ExactMatchCondition('type', $t);
+				$c[] = new EqualityCondition('type', $t);
 			}
 			$c = new OrCondition($c);
 			$cond = (is_null($cond) ? $c : new AndCondition($cond, $c));
@@ -52,7 +52,7 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 		if (count($types) > 1) {
 			$c = array();
 			foreach ($types as $t) {
-				$c[] = new ExactMatchCondition('type', $t);
+				$c[] = new EqualityCondition('type', $t);
 			}
 			$c = new OrCondition($c);
 			$cond = (is_null($cond) ? $c : new AndCondition($cond, $c));

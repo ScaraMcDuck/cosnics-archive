@@ -32,7 +32,7 @@ class CategoryMenu extends HTML_Menu
 	 */
 	private function get_menu_items()
 	{
-		$condition = new ExactMatchCondition('owner', $this->owner);
+		$condition = new EqualityCondition('owner', $this->owner);
 		$datamanager = RepositoryDataManager :: get_instance();
 		$objects = $datamanager->retrieve_learning_objects('category', $condition);
 		$categories = array ();

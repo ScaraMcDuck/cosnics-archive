@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'/condition.class.php';
 
 /**
 ==============================================================================
- *	This class represents a selection condition that requires an exact match.
+ *	This class represents a selection condition that requires an equality.
  *	An example of an instance would be a condition that requires that the ID
  *	of a learning object be the number 4.
  * 
@@ -11,13 +11,13 @@ require_once dirname(__FILE__).'/condition.class.php';
 ==============================================================================
  */
 
-class ExactMatchCondition implements Condition
+class EqualityCondition implements Condition
 {
 	private $name;
 
 	private $value;
 
-	function ExactMatchCondition($name, $value)
+	function EqualityCondition($name, $value)
 	{
 		$this->name = $name;
 		$this->value = $value;
