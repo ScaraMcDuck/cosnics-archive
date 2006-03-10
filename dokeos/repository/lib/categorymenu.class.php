@@ -18,11 +18,11 @@ class CategoryMenu extends HTML_Menu
 	 * this menu
 	 * @param int $current_category The id of the current category in the menu
 	 */
-	public function CategoryMenu($owner,$current_category)
+	public function CategoryMenu($owner, $current_category)
 	{
 		$this->owner = $owner;
 		$menu = $this->get_menu_items();
-		parent::HTML_Menu($menu);
+		parent :: HTML_Menu($menu);
 		$this->forceCurrentUrl('index.php?category='.$current_category);
 	}
 	/**
@@ -32,15 +32,15 @@ class CategoryMenu extends HTML_Menu
 	 */
 	private function get_menu_items()
 	{
-		$condition = new ExactMatchCondition('owner',$this->owner);
-		$datamanager = RepositoryDataManager::get_instance();
-		$objects = $datamanager->retrieve_learning_objects('category',$condition);
-		$categories = array();
-		foreach($objects as $index => $category)
+		$condition = new ExactMatchCondition('owner', $this->owner);
+		$datamanager = RepositoryDataManager :: get_instance();
+		$objects = $datamanager->retrieve_learning_objects('category', $condition);
+		$categories = array ();
+		foreach ($objects as $index => $category)
 		{
 			$categories[$category->get_category_id()][] = $category;
 		}
-		return $this->get_sub_menu_items($categories,0);
+		return $this->get_sub_menu_items($categories, 0);
 	}
 	/**
 	 * Get the menu items.
@@ -49,16 +49,17 @@ class CategoryMenu extends HTML_Menu
 	 * @return array An array with all menu items. The structure of this array
 	 * is the structure needed by PEAR::HTML_Menu on which this class is based.
 	 */
-	private function get_sub_menu_items(&$categories,$parent)
+	private function get_sub_menu_items(& $categories, $parent)
 	{
-		$sub_tree = array();
-		foreach($categories[$parent] as $index => $category)
+		$sub_tree = array ();
+		foreach ($categories[$parent] as $index => $category)
 		{
 			$menu_item['title'] = $category->get_title();
 			$menu_item['url'] = 'index.php?category='.$category->get_id();
-			if(count($categories[$category->get_id()]) > 0)
+			$menu_item['id'] = $category->get_id();
+			if (count($categories[$category->get_id()]) > 0)
 			{
-				$menu_item['sub'] = $this->get_sub_menu_items($categories,$category->get_id());
+				$menu_item['sub'] = $this->get_sub_menu_items($categories, $category->get_id());
 			}
 			$sub_tree[$category->get_id()] = $menu_item;
 		}
@@ -68,4 +69,31 @@ class CategoryMenu extends HTML_Menu
 /**
  * TODO Write a good MenuRenderer
  */
+class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
+{
+	public function TreeMenuRenderer()
+	{
+		$entryTemplates = array (HTML_MENU_ENTRY_INACTIVE => '<a href="{url}">{title}</a>', HTML_MENU_ENTRY_ACTIVE => '<!--ACTIVE--><a href="{url}" class="treeMenuActive">{title}</a>', HTML_MENU_ENTRY_ACTIVEPATH => '<a href="{url}">{title}</a>');
+		parent :: setEntryTemplate($entryTemplates);
+		parent :: setItemTemplate('<li>', '</li>');
+	}
+	function finishLevel($level)
+	{
+		if ($level == 0)
+		{
+			parent :: setLevelTemplate('<ul id="treeMenu">', '</ul>');
+		}
+		parent :: finishLevel($level);
+		if ($level == 0)
+		{
+			parent :: setLevelTemplate('<ul>', '</ul>');
+		}
+	}
+	function toHtml()
+	{
+		$html = parent::toHtml();
+		$html = str_replace('<li><!--ACTIVE-->','<li id="treeMenuSelect">',$html);
+		return $html;
+	}
+}
 ?>
