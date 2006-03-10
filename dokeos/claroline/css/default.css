@@ -757,6 +757,10 @@ div.learning_object div.description
 }
 
 /* Semantic tabbed pane style */
+.tabbed-pane
+{
+	clear: both;
+}
 .tabbed-pane-tabs
 {
 	list-style: none;
