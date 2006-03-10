@@ -18,7 +18,7 @@ class StudentPublicationForm extends LearningObjectForm
 	function build_edit_form($object)
 	{
 		parent :: build_edit_form($object);
-		$this->addElement('text', 'url', 'Url');
+		$this->addElement('text', 'url', 'URL');
 		$this->setDefaults();
 		$this->add_submit_button();
 	}
