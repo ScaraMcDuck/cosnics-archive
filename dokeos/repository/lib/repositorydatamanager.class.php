@@ -87,6 +87,20 @@ abstract class RepositoryDataManager
 	}
 
 	/**
+	 * Returns the root category of a user's repository.
+	 * @param int $owner The user ID of the owner.
+	 * @return Category The root category of this user's repository.
+	 */
+	function retrieve_root_category($owner)
+	{
+		$condition1 = new ExactMatchCondition('owner', $owner);
+		$condition2 = new ExactMatchCondition('category', 0);
+		$condition = new AndCondition($condition1, $condition2);
+		$object = $this->retrieve_learning_objects('category', $condition, null, null, null, 1);
+		return $object[0];
+	}
+
+	/**
 	 * Invokes the constructor of the class that corresponds to the specified
 	 * type of learning object.
 	 * @param string $type The learning object type.
@@ -159,20 +173,6 @@ abstract class RepositoryDataManager
 	 * @return array An array of the matching learning objects.
 	 */
 	abstract function retrieve_learning_objects($type = null, $conditions = null, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1);
-
-	/**
-	 * Returns the root category of a user's repository.
-	 * @param int $owner The user ID of the owner.
-	 * @return Category The root category of this user's repository.
-	 */
-	function retrieve_root_category($owner)
-	{
-		$condition1 = new ExactMatchCondition('owner', $owner);
-		$condition2 = new ExactMatchCondition('category', 0);
-		$condition = new AndCondition($condition1, $condition2);
-		$object = $this->retrieve_learning_objects('category', $condition, null, null, null, 1);
-		return $object[0];
-	}
 
 	/**
 	 * Returns the number of learning objects that match the given criteria.
