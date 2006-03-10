@@ -1,4 +1,5 @@
 <?php
+$langFile = 'admin';
 require_once '../../claroline/inc/claro_init_global.inc.php';
 require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
 require_once '../lib/quotamanager.class.php';
@@ -69,12 +70,38 @@ function get_objects($from, $number_of_items, $column, $direction)
 // Load datamanager
 $datamanager = RepositoryDataManager::get_instance();
 
-// Create a search-box
-$search_form = new FormValidator('search_simple','get','search.php','',null,false);
-$renderer =& $search_form->defaultRenderer();
-$renderer->setElementTemplate('<span>{element}</span> ');
-$search_form->addElement('text','keyword',get_lang('keyword'));
-$search_form->addElement('submit','submit',get_lang('Search'));
+$search_form = null;
+
+if( isset($_GET['action']))
+{
+	switch ($_GET['action'])
+	{
+		// Create an advanced search-box
+		case 'advanced_search':
+			$types = $datamanager->get_registered_types();
+			$type_choices = array();
+			foreach($types as $index => $type)
+			{
+				$type_choices[$type] = get_lang($type);
+			}
+			$search_form = new FormValidator('search_advanced','get','search.php','',null,false);
+			$search_form->addElement('text','keyword',get_lang('Title'));
+			$search_form->addElement('text','description',get_lang('Description'));
+			$search_form->addElement('select','type',get_lang('Type'),$type_choices,'multiple="multiple"');
+			$search_form->addElement('submit','submit',get_lang('Search'));
+			break;
+	}
+}
+if( is_null($search_form))
+{
+	// Create a search-box
+	$search_form = new FormValidator('search_simple','get','search.php','',null,false);
+	$renderer =& $search_form->defaultRenderer();
+	$renderer->setElementTemplate('<span>{element}</span> ');
+	$search_form->addElement('text','keyword',get_lang('keyword'));
+	$search_form->addElement('submit','submit',get_lang('Search'));
+	$search_form->addElement('static','advanced','pom','<a href="search.php?action=advanced_search">'.get_lang('AdvancedSearch').'</a>');
+}
 
 // Create a sortable table to display the learning objects
 $table = new SortableTable('objects','get_number_of_objects','get_objects');
@@ -94,8 +121,10 @@ $table->set_header($column++,get_lang('LastModified'));
 // Display header
 Display::display_header(get_lang('Search'));
 
+echo '<div style="text-align:center;margin:20px;">';
 // Display search box
 $search_form->display();
+echo '</div>';
 
 // Display search results
 $table->display();
