@@ -802,3 +802,58 @@ div.learning_object div.description
 	margin: 0;
 	padding: 1em;
 }
+
+/* treemenu */
+
+#treeMenu, #treeMenu ul {
+	list-style-type: none;
+	background: url(../img/treemenu/tree-branch.gif) repeat-y;
+	padding: 0;
+	margin: 0;
+}
+#treeMenu li {
+	padding: 0px;
+	padding-left: 18px;
+	margin: 2px 0px 2px 0px;
+	background: url(../img/treemenu/tree-leaf.gif) no-repeat;
+}
+#treeMenu a {
+	padding: 0px 4px 0px 18px;
+	background: url(../img/treemenu/tree-folder.gif) no-repeat;
+	margin: 2px 0px 2px 0px;
+	height: auto;
+}
+#treeMenu .itemOpen {
+	background: url(../img/treemenu/tree-node-open.gif) no-repeat;
+}
+#treeMenu .itemOpenEnd {
+	background: white url(../img/treemenu/tree-node-open-end.gif) no-repeat;
+}
+#treeMenu .itemOpen ul, #treeMenu .itemOpenEnd ul {
+	display: block;
+}
+#treeMenu .itemOpen a, #treeMenu .itemOpen a {
+	background: url(../img/treemenu/tree-folder-open.gif) no-repeat;
+}
+#treeMenu .itemClose {
+	background: url(../img/treemenu/tree-node.gif) no-repeat;
+}
+#treeMenu .itemCloseEnd {
+	background: white url(../img/treemenu/tree-node-end.gif) no-repeat;
+}
+#treeMenu .itemClose ul, #treeMenu .itemCloseEnd ul {
+	display: none;
+}
+#treeMenu .itemClose a, #treeMenu .itemCloseEnd a {
+	background: url(../img/treemenu/tree-folder.gif) no-repeat;
+}
+#treeMenu li.endItem {
+	background: white url(../img/treemenu/tree-leaf-end.gif) no-repeat;
+}
+#treeMenu .item a {
+	background: url(../img/treemenu/tree-folder.gif) no-repeat;
+	padding-right: 2px;
+}
+#treeMenu a.treeMenuActive{
+	background: url(../img/treemenu/tree-folder-open.gif) no-repeat;
+}
