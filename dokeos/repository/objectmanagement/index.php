@@ -133,6 +133,9 @@ if(isset($_GET['action']))
 {
 	switch($_GET['action'])
 	{
+		case 'show_message':
+			$message = get_lang($_GET['message']);
+			break;
 		case 'delete':
 			$object = $datamanager->retrieve_learning_object($_GET['id']);
 			$object->delete();
