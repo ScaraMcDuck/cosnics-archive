@@ -94,11 +94,11 @@ foreach($object_types as $key => $type)
 }
 $tool_name = get_lang('MyRepository');
 // Create a search-box
-$form = new FormValidator('search_simple','get','','',null,false);
-$renderer =& $form->defaultRenderer();
+$search_form = new FormValidator('search_simple','get','','',null,false);
+$renderer =& $search_form->defaultRenderer();
 $renderer->setElementTemplate('<span>{element}</span> ');
-$form->addElement('text','keyword',get_lang('keyword'));
-$form->addElement('submit','submit',get_lang('Search'));
+$search_form->addElement('text','keyword',get_lang('keyword'));
+$search_form->addElement('submit','submit',get_lang('Search'));
 // Create a dropdownlist with learning objecttypes
 $create_form = new FormValidator('type_list', 'post', 'create.php');
 $renderer =& $create_form->defaultRenderer();
@@ -242,7 +242,7 @@ api_display_tool_title($current_location['title']);
 // Display create form
 $create_form->display();
 // Display search form
-$form->display();
+$search_form->display();
 // Display message if needed
 if(isset($message))
 {
