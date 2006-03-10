@@ -1,17 +1,18 @@
 <?php
+
 /**
  * A form to create and edit a LearningObject
  * @package learningobject
  */
-require_once dirname(__FILE__) . '/../../claroline/inc/lib/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__) . '/condition/exactmatchcondition.class.php';
-require_once dirname(__FILE__) . '/repositorydatamanager.class.php';
-require_once dirname(__FILE__) . '/quotamanager.class.php';
+require_once dirname(__FILE__).'/../../claroline/inc/lib/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/condition/exactmatchcondition.class.php';
+require_once dirname(__FILE__).'/repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/quotamanager.class.php';
 abstract class LearningObjectForm extends FormValidator
 {
 	/**
 	 * The learning object
- 	 */
+		 */
 	protected $learningObject;
 	/**
 	 * Constructor
@@ -33,22 +34,20 @@ abstract class LearningObjectForm extends FormValidator
 	/**
 	 * Build a form to create a new learning object
 	 */
-	protected function build_create_form($type)
+	protected function build_create_form()
 	{
-		$this->addElement('hidden','type',$type);
-		$this->addElement('header', 'category_type', ucfirst($type));
 		$this->addElement('text', 'title', 'Title');
 		$this->addRule('title', 'Required', 'required');
-		$this->addElement('select', 'category', get_lang('Category'), $this->getCategories());
+		$this->addElement('select', 'category', get_lang('Category'), $this->get_categories());
 		$this->addRule('category', 'Category is required', 'required');
 		$this->add_html_editor('description', 'Description');
 	}
 	/**
 	 * Add a submit button to the form
 	 */
-	protected function addSubmitButton()
+	protected function add_submit_button()
 	{
-		$this->addElement('submit', 'submit', 'Ok');
+		$this->addElement('submit', 'submit', 'OK');
 	}
 	/**
 	 * Build a form to edit a learning object
@@ -82,13 +81,13 @@ abstract class LearningObjectForm extends FormValidator
 	 * Get the categories defined in the users repository
 	 * @return array The categories
 	 */
-	public function getCategories()
+	public function get_categories()
 	{
-		$datamanager = RepositoryDataManager::get_instance();
-		$condition = new ExactMatchCondition('owner',api_get_user_id());
-		$categories = $datamanager->retrieve_learning_objects('category',$condition);
-		$category_choices = array();
-		foreach($categories as $index => $category)
+		$datamanager = RepositoryDataManager :: get_instance();
+		$condition = new ExactMatchCondition('owner', api_get_user_id());
+		$categories = $datamanager->retrieve_learning_objects('category', $condition);
+		$category_choices = array ();
+		foreach ($categories as $index => $category)
 		{
 			$category_choices[$category->get_id()] = $category->get_title();
 		}
@@ -111,11 +110,11 @@ abstract class LearningObjectForm extends FormValidator
 	 * @param string $method The method to use ('post' or 'get')
 	 * @param string $action The URL to which the form should be submitted
 	 */
-	public static function factory($type,$formName,$method='post',$action = null)
+	public static function factory($type, $formName, $method = 'post', $action = null)
 	{
 		$class = RepositoryDataManager :: type_to_class($type).'Form';
-		require_once(dirname(__FILE__).'/learning_object/'.strtolower($type).'/form.class.php');
-		return new $class($formName,$method,$action);
+		require_once (dirname(__FILE__).'/learning_object/'.$type.'/form.class.php');
+		return new $class ($formName, $method, $action);
 	}
 
 }

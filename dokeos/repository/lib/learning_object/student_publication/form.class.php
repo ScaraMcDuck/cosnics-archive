@@ -7,22 +7,22 @@ class StudentPublicationForm extends LearningObjectForm
 {
 	public function StudentPublicationForm($formName, $method = 'post', $action = null)
 	{
-		parent :: LearningObjectForm($formName, $method, $action);
+		parent :: __construct($formName, $method, $action);
 	}
-	public function build_create_form()
+	function build_create_form()
 	{
 		parent :: build_create_form();
-		$this->addElement('text', 'url', 'Url');
-		$this->addSubmitButton();
+		$this->addElement('text', 'url', 'URL');
+		$this->add_submit_button();
 	}
-	public function build_edit_form($object)
+	function build_edit_form($object)
 	{
 		parent :: build_edit_form($object);
 		$this->addElement('text', 'url', 'Url');
 		$this->setDefaults();
-		$this->addSubmitButton();
+		$this->add_submit_button();
 	}
-	public function setDefaults($defaults = array ())
+	function setDefaults($defaults = array ())
 	{
 		$lo = $this->get_learning_object();
 		if (isset ($lo))
@@ -31,7 +31,7 @@ class StudentPublicationForm extends LearningObjectForm
 		}
 		parent :: setDefaults($defaults);
 	}
-	public function create_learning_object($owner)
+	function create_learning_object($owner)
 	{
 		$values = $this->exportValues();
 		$dataManager = RepositoryDataManager::get_instance();
@@ -43,7 +43,7 @@ class StudentPublicationForm extends LearningObjectForm
 		$studentPublication->create();
 		return $studentPublication;
 	}
-	public function update_learning_object(& $object)
+	function update_learning_object(& $object)
 	{
 		$values = $this->exportValues();
 		$object->set_title($values['title']);
