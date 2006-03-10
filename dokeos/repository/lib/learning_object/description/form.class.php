@@ -1,7 +1,4 @@
 <?php
-/**
- * @package learningobject.announcement
- */
 require_once dirname(__FILE__) . '/../../learningobject_form.class.php';
 class DescriptionForm extends LearningObjectForm
 {
@@ -12,13 +9,13 @@ class DescriptionForm extends LearningObjectForm
 	public function build_create_form($type)
 	{
 		parent :: build_create_form($type);
-		$this->addSubmitButton();
+		$this->add_submit_button();
 	}
 	public function build_edit_form($object)
 	{
 		parent :: build_edit_form($object);
 		$this->setDefaults();
-		$this->addSubmitButton();
+		$this->add_submit_button();
 	}
 	public function create_learning_object($owner)
 	{
