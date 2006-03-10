@@ -1,5 +1,6 @@
 <?php
 $cidReset = true;
+$langFile = 'admin';
 require_once('../../claroline/inc/claro_init_global.inc.php');
 require_once(api_get_library_path().'/formvalidator/FormValidator.class.php');
 require_once('../lib/repositorydatamanager.class.php');
@@ -94,7 +95,7 @@ foreach($object_types as $key => $type)
 }
 $tool_name = get_lang('MyRepository');
 // Create a search-box
-$search_form = new FormValidator('search_simple','get','','',null,false);
+$search_form = new FormValidator('search_simple','get','search.php','',null,false);
 $renderer =& $search_form->defaultRenderer();
 $renderer->setElementTemplate('<span>{element}</span> ');
 $search_form->addElement('text','keyword',get_lang('keyword'));
@@ -239,10 +240,13 @@ $htmlHeadXtra[] = '<script language="JavaScript" type="text/javascript" src="'.a
 // Display header
 Display::display_header($current_location['title']);
 api_display_tool_title($current_location['title']);
+echo '<div style="float:left;width:40%;margin:5px;">';
 // Display create form
 $create_form->display();
+echo '</div><div style="float:right;width:40%;text-align:right;margin:5px;">';
 // Display search form
 $search_form->display();
+echo '</div>';
 // Display message if needed
 if(isset($message))
 {
