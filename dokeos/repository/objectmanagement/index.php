@@ -18,8 +18,8 @@ if( !api_get_user_id())
 function get_condition()
 {
 	global $current_category_id;
-	$condition1 = new ExactMatchCondition('owner',api_get_user_id());
-	$condition2 = new ExactMatchCondition('category',$current_category_id);
+	$condition1 = new EqualityCondition('owner',api_get_user_id());
+	$condition2 = new EqualityCondition('category',$current_category_id);
 	$condition = new AndCondition($condition1,$condition2);
 	if (isset ($_GET['keyword']))
 	{
@@ -189,7 +189,7 @@ if(isset($_POST['action']))
 			$message = get_lang('ObjectsDeleted');
 			break;
 		case 'move_selected':
-			$condition = new ExactMatchCondition('owner',api_get_user_id());
+			$condition = new EqualityCondition('owner',api_get_user_id());
 			$categories = $datamanager->retrieve_learning_objects('category',$condition);
 			$category_choices = array();
 			foreach($categories as $index => $category)

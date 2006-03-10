@@ -93,8 +93,8 @@ abstract class RepositoryDataManager
 	 */
 	function retrieve_root_category($owner)
 	{
-		$condition1 = new ExactMatchCondition('owner', $owner);
-		$condition2 = new ExactMatchCondition('category', 0);
+		$condition1 = new EqualityCondition('owner', $owner);
+		$condition2 = new EqualityCondition('category', 0);
 		$condition = new AndCondition($condition1, $condition2);
 		$object = $this->retrieve_learning_objects('category', $condition, null, null, null, 1);
 		return $object[0];

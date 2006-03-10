@@ -16,7 +16,7 @@ if( !api_get_user_id())
 function get_condition()
 {
 	global $current_category_id;
-	$condition = new ExactMatchCondition('owner',api_get_user_id());
+	$condition = new EqualityCondition('owner',api_get_user_id());
 	if (isset ($_GET['keyword']))
 	{
 		$c = RepositoryUtilities :: query_to_condition($_GET['keyword']);
