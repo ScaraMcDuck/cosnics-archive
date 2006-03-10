@@ -3,12 +3,12 @@ class LearningObjectPublisher
 {
 	private $owner;
 	
-	private $type;
+	private $types;
 		
-    function LearningObjectPublisher($owner, $type)
+    function LearningObjectPublisher($owner, $types)
     {
     	$this->owner = $owner;
-    	$this->type = $type;
+    	$this->types = (is_array($types) ? $types : array($types));
     }
     
     function display()
@@ -24,12 +24,22 @@ class LearningObjectPublisher
     	echo '<div class="tabbed-pane-content">';
     	require_once dirname(__FILE__) . '/publisher/learningobject'.$action.'.class.php';
     	$class = 'LearningObject' . ucfirst($action);
-    	$f = new $class($this->owner, $this->type);
+    	$f = new $class($this->get_owner(), $this->get_types());
     	$f->set_additional_parameter('tool', $_GET['tool']);
     	$f->set_additional_parameter('publish_action', $action);
     	$f->display();
     	echo '</div>';
     	echo '</div>';
+    }
+    
+    function get_owner()
+	{
+		return $this->owner;
+	}
+    
+    function get_types()
+    {
+    	return $this->types;
     }
 }
 ?>
