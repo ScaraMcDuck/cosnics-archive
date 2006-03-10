@@ -103,6 +103,7 @@ $form->addElement('submit','submit',get_lang('Search'));
 $create_form = new FormValidator('type_list', 'post', 'create.php');
 $renderer =& $create_form->defaultRenderer();
 $renderer->setElementTemplate('<span>{element}</span> ');
+$create_form->addElement('hidden', 'category_id',$current_category_id);
 $create_form->addElement('select','type',null,$t,$t);
 $create_form->addElement('submit','submit',get_lang('Create'));
 // Create a navigation menu to browse through the categories
