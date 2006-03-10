@@ -1,6 +1,8 @@
 <?php
 require_once dirname(__FILE__).'/../learningobjectpublishercomponent.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/condition/andcondition.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/exactmatchcondition.class.php';
 
 class LearningObjectBrowser extends LearningObjectPublisherComponent
@@ -26,12 +28,40 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 
 	function get_object_count()
 	{
-		return RepositoryDataManager :: get_instance()->count_learning_objects($this->get_type(), $this->get_condition());
+		$cond = $this->get_condition();
+		$types = $this->get_types();
+		if (count($types) > 1) {
+			$c = array();
+			foreach ($types as $t) {
+				$c[] = new ExactMatchCondition('type', $t);
+			}
+			$c = new OrCondition($c);
+			$cond = (is_null($cond) ? $c : new AndCondition($cond, $c));
+			$type = null;
+		}
+		else {
+			$type = $types[0];
+		}
+		return RepositoryDataManager :: get_instance()->count_learning_objects($type, $cond);
 	}
 
 	function get_objects($from, $number_of_items, $column, $direction)
 	{
-		$objects = RepositoryDataManager :: get_instance()->retrieve_learning_objects($this->get_type(), $this->get_condition(), array (self :: $COLUMNS[$column]), array ($direction), $from, $number_of_items);
+		$cond = $this->get_condition();
+		$types = $this->get_types();
+		if (count($types) > 1) {
+			$c = array();
+			foreach ($types as $t) {
+				$c[] = new ExactMatchCondition('type', $t);
+			}
+			$c = new OrCondition($c);
+			$cond = (is_null($cond) ? $c : new AndCondition($cond, $c));
+			$type = null;
+		}
+		else {
+			$type = $types[0];
+		}
+		$objects = RepositoryDataManager :: get_instance()->retrieve_learning_objects($type, $cond, array (self :: $COLUMNS[$column]), array ($direction), $from, $number_of_items);
 		$data = array ();
 		$par = $this->get_additional_parameters();
 		$par['publish_action'] = 'viewer';

@@ -3,14 +3,14 @@ abstract class LearningObjectPublisherComponent
 {
 	private $owner;
 
-	private $type;
+	private $types;
 
 	private $additionalParameters;
 
-	function LearningObjectPublisherComponent($owner, $type)
+	function LearningObjectPublisherComponent($owner, $types)
 	{
 		$this->owner = $owner;
-		$this->type = $type;
+		$this->types = (is_array($types) ? $types : array($types));
 		$this->additionalParameters = array ();
 	}
 
@@ -19,9 +19,9 @@ abstract class LearningObjectPublisherComponent
 		return $this->owner;
 	}
 
-	protected function get_type()
+	protected function get_types()
 	{
-		return $this->type;
+		return $this->types;
 	}
 
 	abstract function display();

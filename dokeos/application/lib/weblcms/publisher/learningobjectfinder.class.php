@@ -10,17 +10,15 @@ class LearningObjectFinder extends LearningObjectBrowser
 {
 	private $form;
 
-	function LearningObjectFinder($owner, $type)
+	function LearningObjectFinder($owner, $types)
 	{
-		parent :: __construct($owner, $type);
+		parent :: __construct($owner, $types);
 		$this->form = new HTML_QuickForm('search', 'get');
 		$this->form->addElement('hidden', 'tool');
 		$this->form->addElement('hidden', 'publish_action');
 		$this->form->addElement('text', 'query', '');
 		$this->form->addRule('keyword', 'query', 'required');
 		$this->form->addElement('submit', 'submit', get_lang('Find'));
-		$defaults['tool'] = $_GET['tool'];
-		$defaults['publish_action'] = $_GET['publish_action'];
 	}
 
 	function display()
