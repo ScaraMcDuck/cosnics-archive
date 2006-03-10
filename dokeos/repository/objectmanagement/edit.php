@@ -16,11 +16,11 @@ if( isset($_GET['id']))
 	if($form->validate())
 	{
 		$form->update_learning_object($object);
-		header('Location: index.php');
+		header('Location: index.php?show_message&message='.get_lang(urlencode('ObjectEdited')));
 	}
 	else
 	{
-		Display::display_header('Create');
+		Display::display_header('Edit');
 		$form->display();
 		Display::display_footer();
 	}
