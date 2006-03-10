@@ -30,6 +30,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	function retrieve_learning_object_publications($conditions = null, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1)
 	{
+		// TODO: Check group.
 		$query  = 'SELECT lop.* FROM '
 			.$this->escape_table_name('learning_object_publication_user').' AS lopu'
 			.' JOIN '.$this->escape_table_name('learning_object_publication').' AS lop ON lop.'.$this->escape_column_name('id').'=lopu.'.$this->escape_column_name('publication')
@@ -49,6 +50,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	function count_learning_object_publications($conditions = null)
 	{
+		// TODO: Check group.
 		$query  = 'SELECT COUNT(*) FROM '
 			.$this->escape_table_name('learning_object_publication_user').' AS lopu'
 			.' JOIN '.$this->escape_table_name('learning_object_publication').' AS lop ON lop.'.$this->escape_column_name('id').'=lopu.'.$this->escape_column_name('publication')
