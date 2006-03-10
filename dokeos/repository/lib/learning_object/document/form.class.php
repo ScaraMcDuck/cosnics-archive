@@ -37,7 +37,7 @@ class DocumentForm extends LearningObjectForm
 		$file = $_FILES['filename'];
 		$filename = strtolower(ereg_replace('[^0-9a-zA-Z\.]','',$file['name']));
 		$path = api_get_user_id().'/'.$filename;
-		$filename_t = Configuration::get_instance()->get_parameter('general', 'upload_path').$path;
+		$main_upload_dir = Configuration::get_instance()->get_parameter('general', 'upload_path');
 		$dataManager = RepositoryDataManager::get_instance();
 		$document = new Document();
 		$document->set_owner_id($owner);
@@ -47,7 +47,16 @@ class DocumentForm extends LearningObjectForm
 		$document->set_filename($filename);
 		$document->set_category_id($values['category']);
 		$document->create();
-		move_uploaded_file($_FILES['filename']['tmp_name'], Configuration::get_instance()->get_parameter('general', 'upload_path').$path);
+		$i = 1;
+		while (file_exists($main_upload_dir.$path))
+		{
+			$file_base = substr($filename, 0, strlen($filename)-4);
+			$file_ext = substr($filename, strlen($filename)-4, strlen($filename));
+			$filename = $file_base."_".$i.$file_ext;
+			$path = api_get_user_id().'/'.$filename;
+			$i++;
+		}
+		move_uploaded_file($_FILES['filename']['tmp_name'], $main_upload_dir.$path);
 		return $document;
 	}
 	public function update_learning_object(& $object)
