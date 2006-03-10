@@ -2,6 +2,7 @@
 require_once '../../claroline/inc/claro_init_global.inc.php';
 require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
 require_once '../lib/quotamanager.class.php';
+require_once api_get_library_path().'/fileDisplay.lib.php';
 require_once api_get_library_path().'/text.lib.php';
 if( !api_get_user_id())
 {
@@ -27,7 +28,7 @@ Display::display_header(get_lang('Quota'));
 api_display_tool_title(get_lang('Quota'));
 $percent = $quotamanager->get_used_disk_space_percent();
 echo '<h3>'.get_lang('Disk').'</h3>';
-echo $quotamanager->get_used_disk_space().' / '.$quotamanager->get_max_disk_space();
+echo format_file_size($quotamanager->get_used_disk_space()).' / '.format_file_size($quotamanager->get_max_disk_space());
 echo get_bar($percent);
 echo '<h3>'.get_lang('Database').'</h3>';
 echo $quotamanager->get_used_database_space().' / '.$quotamanager->get_max_database_space();
