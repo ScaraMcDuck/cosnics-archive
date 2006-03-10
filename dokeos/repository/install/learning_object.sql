@@ -3,7 +3,7 @@ CREATE TABLE `%prefix%learning_object` (
   `owner` int(11) unsigned NOT NULL default '0',
   `type` varchar(255) NOT NULL default '',
   `title` text NOT NULL,
-  `description` text,
+  `description` text NOT NULL,
   `category` int(10) unsigned NOT NULL default '0',
   `created` datetime default NULL,
   `modified` datetime default NULL,

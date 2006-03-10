@@ -4,6 +4,7 @@ require_once dirname(__FILE__).'/../configuration.class.php';
 require_once dirname(__FILE__).'/../learningobject.class.php';
 require_once dirname(__FILE__).'/../condition/condition.class.php';
 require_once dirname(__FILE__).'/../condition/exactmatchcondition.class.php';
+require_once dirname(__FILE__).'/../condition/inequalitycondition.class.php';
 require_once dirname(__FILE__).'/../condition/patternmatchcondition.class.php';
 require_once dirname(__FILE__).'/../condition/aggregatecondition.class.php';
 require_once dirname(__FILE__).'/../condition/andcondition.class.php';
@@ -455,8 +456,40 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		if ($condition instanceof ExactMatchCondition)
 		{
-			$params[] = $condition->get_value();
-			return $this->escape_column_name($condition->get_name()).' = ?';
+			$name = $condition->get_name();
+			$value = $condition->get_value();
+			if (self :: is_date_column($name)) {
+				$value = self :: to_db_date($value);
+			}
+			$params[] = $value;
+			return $this->escape_column_name($name).' = ?';
+		}
+		elseif ($condition instanceof InequalityCondition)
+		{
+			$name = $condition->get_name();
+			$value = $condition->get_value();
+			if (self :: is_date_column($name)) {
+				$value = self :: to_db_date($value);
+			}
+			$params[] = $value;
+			switch ($condition->get_operator())
+			{
+				case InequalityCondition :: GREATER_THAN:
+					$operator = '>';
+					break;
+				case InequalityCondition :: GREATER_THAN_OR_EQUAL:
+					$operator = '>=';
+					break;
+				case InequalityCondition :: LESS_THAN:
+					$operator = '<';
+					break;
+				case InequalityCondition :: LESS_THAN_OR_EQUAL:
+					$operator = '<=';
+					break;
+				default:
+					die('Unknown operator for inequality condition');
+			}
+			return $this->escape_column_name($name).' '.$operator.' ?';
 		}
 		elseif ($condition instanceof PatternMatchCondition)
 		{
@@ -467,6 +500,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			die('Cannot translate condition');
 		}
+	}
+	
+	public static function is_date_column($name)
+	{
+		return ($name == 'created' || $name == 'modified');
 	}
 
 	/**
