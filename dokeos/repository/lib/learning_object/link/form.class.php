@@ -5,26 +5,26 @@
 require_once dirname(__FILE__) . '/../../learningobject_form.class.php';
 class LinkForm extends LearningObjectForm
 {
-	public function LinkForm($formName, $method = 'post', $action = null)
+	function LinkForm($formName, $method = 'post', $action = null)
 	{
-		parent :: LearningObjectForm($formName, $method, $action);
+		parent :: __construct($formName, $method, $action);
 	}
-	public function build_create_form()
+	function build_create_form()
 	{
-		$this->addElement('text', 'url', 'Url');
-		$this->addRule('url', 'Url is required', 'required');
-		parent :: build_create_form();
-		$this->addSubmitButton();
+		parent :: build_create_form('link', true);
+		$this->addElement('text', 'url', 'URL');
+		$this->addRule('url', 'URL is required', 'required');
+		$this->add_submit_button();
 	}
-	public function build_edit_form($object)
+	function build_edit_form($object)
 	{
-		$this->addElement('text', 'url', 'Url');
-		$this->addRule('url', 'Url is required', 'required');
+		$this->addElement('text', 'url', 'URL');
+		$this->addRule('url', 'URL is required', 'required');
 		$this->setDefaults();
 		parent :: build_edit_form($object);
-		$this->addSubmitButton();
+		$this->add_submit_button();
 	}
-	public function setDefaults($defaults = array ())
+	function setDefaults($defaults = array ())
 	{
 		$lo = $this->get_learning_object();
 		if (isset ($lo))
@@ -33,7 +33,7 @@ class LinkForm extends LearningObjectForm
 		}
 		parent :: setDefaults($defaults);
 	}
-	public function create_learning_object($owner)
+	function create_learning_object($owner)
 	{
 		$values = $this->exportValues();
 		$dataManager = RepositoryDataManager::get_instance();
@@ -46,7 +46,7 @@ class LinkForm extends LearningObjectForm
 		$link->create();
 		return $link;
 	}
-	public function update_learning_object(& $object)
+	function update_learning_object(& $object)
 	{
 		$values = $this->exportValues();
 		$object->set_title($values['title']);

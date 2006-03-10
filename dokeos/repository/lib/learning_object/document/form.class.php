@@ -4,14 +4,14 @@ class DocumentForm extends LearningObjectForm
 {
 	public function DocumentForm($formName, $method = 'post', $action = null)
 	{
-		parent :: LearningObjectForm($formName, $method, $action);
+		parent :: __construct($formName, $method, $action);
 	}
-	public function build_create_form($type)
+	public function build_create_form()
 	{
-		parent :: build_create_form($type);
+		parent :: build_create_form();
 		$this->addElement('file', 'filename', 'Filename');
 		$this->addRule('filename',get_lang('DiskQuotaExceeded'),'disk_quota');
-		$this->addSubmitButton();
+		$this->add_submit_button();
 	}
 	public function build_edit_form($object)
 	{
@@ -19,7 +19,7 @@ class DocumentForm extends LearningObjectForm
 		$this->setDefaults();
 		$this->addElement('text', 'path', 'Path');
 		$this->addElement('text', 'filename', 'Filename');
-		$this->addSubmitButton();
+		$this->add_submit_button();
 	}
 	public function setDefaults($defaults = array ())
 	{

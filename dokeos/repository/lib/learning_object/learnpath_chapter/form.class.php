@@ -4,20 +4,20 @@ class LearnpathChapterForm extends LearningObjectForm
 {
 	public function LearnpathChapterForm($formName, $method = 'post', $action = null)
 	{
-		parent :: LearningObjectForm($formName, $method, $action);
+		parent :: __construct($formName, $method, $action);
 	}
 	public function build_create_form()
 	{
 		parent :: build_create_form();
 		$this->addElement('text', 'display_order', 'Display order');
-		$this->addSubmitButton();
+		$this->add_submit_button();
 	}
 	public function build_edit_form($object)
 	{
 		parent :: build_edit_form($object);
 		$this->setDefaults();
 		$this->addElement('text', 'display_order', 'Display order');
-		$this->addSubmitButton();
+		$this->add_submit_button();
 	}
 	public function setDefaults($defaults = array ())
 	{
