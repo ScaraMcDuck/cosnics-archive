@@ -17,7 +17,7 @@ $configuration['database']['connection_string']
 $configuration['database']['table_name_prefix']
 	= 'dokeos_';
 	
-$configuration['general']['upload_path'] = '/your/upload/folder/';
-
+$configuration['general']['upload_path']
+	= '/your/upload/folder';
 
 ?>
