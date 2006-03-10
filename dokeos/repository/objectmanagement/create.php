@@ -12,12 +12,14 @@ if( !api_get_user_id())
 if( isset($_REQUEST['type']))
 {
 	$type = $_REQUEST['type'];
+	$current_category = $_REQUEST['category_id'];
 	$form = LearningObjectForm::factory($type,'create','post','create.php?type='.$type);
+	$form->set_default_category($current_category);
 	$form->build_create_form();
 	if($form->validate())
 	{
 		$object = $form->create_learning_object(api_get_user_id());
-		var_dump($object);
+		var_dump($object);	
 	}
 	else
 	{
