@@ -48,15 +48,15 @@ class DocumentForm extends LearningObjectForm
 		$document->set_category_id($values['category']);
 		$document->create();
 		$i = 1;
-		while (file_exists($main_upload_dir.$path))
+		while (file_exists($main_upload_dir.'/'.$path))
 		{
 			$file_base = substr($filename, 0, strlen($filename)-4);
 			$file_ext = substr($filename, strlen($filename)-4, strlen($filename));
-			$filename = $file_base."_".$i.$file_ext;
+			$filename = $file_base.$i.$file_ext;
 			$path = api_get_user_id().'/'.$filename;
 			$i++;
 		}
-		move_uploaded_file($_FILES['filename']['tmp_name'], $main_upload_dir.$path);
+		move_uploaded_file($_FILES['filename']['tmp_name'], $main_upload_dir.'/'.$path);
 		return $document;
 	}
 	public function update_learning_object(& $object)
