@@ -2,6 +2,7 @@
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/DirectTreeRenderer.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
+require_once dirname(__FILE__).'/../../repository/lib/condition/equalitycondition.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through his
  * categories of learning objects
