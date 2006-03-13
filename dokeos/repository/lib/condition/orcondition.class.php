@@ -12,5 +12,14 @@ require_once dirname(__FILE__).'/multipleaggregatecondition.class.php';
 
 class OrCondition extends MultipleAggregateCondition
 {
+	function __toString()
+	{
+		$conditions = $this->get_conditions();
+		foreach($conditions as $index => $condition)
+		{
+			$cond_string[] = '('.$condition->__toString().')';
+		}
+		return implode(' OR ',$cond_string);
+	}
 }
 ?>

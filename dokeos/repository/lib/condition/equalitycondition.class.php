@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/condition.class.php';
  *	This class represents a selection condition that requires an equality.
  *	An example of an instance would be a condition that requires that the ID
  *	of a learning object be the number 4.
- * 
+ *
  *	@author Tim De Pauw
 ==============================================================================
  */
@@ -31,6 +31,10 @@ class EqualityCondition implements Condition
 	function get_value()
 	{
 		return $this->value;
+	}
+	function __toString()
+	{
+		return $this->get_name().' = \''.$this->get_value().'\'';
 	}
 }
 ?>
