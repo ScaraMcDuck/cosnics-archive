@@ -228,19 +228,12 @@ if(isset($_POST['action']))
 /*
  * Display page
  */
-$renderer =& new HTML_Menu_ArrayRenderer();
-$menu->render($renderer,'urhere');
-$breadcrumbs = $renderer->toArray();
-//$tool_name = $breadcrumbs[count[$breadcrumbs]]
-$current_location = array_pop($breadcrumbs);
-foreach($breadcrumbs as $index => $breadcrumb)
-{
-	$interbredcrump[] = array ("url" => $breadcrumb['url'], "name" => $breadcrumb['title']);
-}
+$interbredcrump = $menu->get_breadcrumbs();
+$current_location = array_pop($interbredcrump);
 $htmlHeadXtra[] = '<script language="JavaScript" type="text/javascript" src="'.api_get_path(WEB_CODE_PATH).'javascript/treemenu.js"></script>';
 // Display header
-Display::display_header($current_location['title']);
-api_display_tool_title($current_location['title']);
+Display::display_header($current_location['name']);
+api_display_tool_title($current_location['name']);
 echo '<div style="float:left;width:40%;margin:5px;">';
 // Display create form
 $create_form->display();
