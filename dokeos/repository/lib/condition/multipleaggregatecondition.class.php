@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/aggregatecondition.class.php';
  *	This class represents a condition that consists of multiple aggregated
  *	conditions. Thus, it is used to model a single relationship (AND, OR
  *	and perhaps others) between its aggregated conditions.
- * 
+ *
  *	@author Tim De Pauw
 ==============================================================================
  */
