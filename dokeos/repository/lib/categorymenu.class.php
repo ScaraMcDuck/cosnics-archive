@@ -66,6 +66,22 @@ class CategoryMenu extends HTML_Menu
 		}
 		return $sub_tree;
 	}
+	/**
+	 * Get the breadcrumbs which lead to the current category
+	 * @return array The array with the breadcrumbs
+	 */
+	public function get_breadcrumbs()
+	{
+		$renderer =& new HTML_Menu_ArrayRenderer();
+		$this->render($renderer,'urhere');
+		$breadcrumbs = $renderer->toArray();
+		//$current_location = array_pop($breadcrumbs);
+		foreach($breadcrumbs as $index => $breadcrumb)
+		{
+			$interbredcrump[] = array ("url" => $breadcrumb['url'], "name" => $breadcrumb['title']);
+		}
+		return $interbredcrump;
+	}
 }
 /**
  * Renderer which can be used to include a tree menu in your page.
