@@ -16,13 +16,39 @@ if( !api_get_user_id())
  */
 function get_condition()
 {
-	global $current_category_id;
-	$condition = new EqualityCondition('owner',api_get_user_id());
-	if (isset ($_GET['keyword']))
+	$cond_owner = new EqualityCondition('owner',api_get_user_id());
+	if (isset ($_GET['action']))
 	{
-		$c = RepositoryUtilities :: query_to_condition($_GET['keyword']);
-		if (!is_null($c)) {
-			$condition = new AndCondition($condition, $c);
+		switch($_GET['action'])
+		{
+			case 'advanced_search':
+				$cond_title = RepositoryUtilities::query_to_condition($_GET['title'],'title');
+				$cond_description = RepositoryUtilities::query_to_condition($_GET['description'],'description');
+				foreach($_GET['type'] as $index => $type)
+				{
+					$cond_type[] = new EqualityCondition('type',$type);
+				}
+				$search_conditions = array();
+				if( !is_null($cond_title))
+				{
+					$search_conditions[] = $cond_title;
+				}
+				if( !is_null($cond_description))
+				{
+					$search_conditions[] = $cond_description;
+				}
+				if(count($cond_type)>0)
+				{
+					$search_conditions[] = new OrCondition($cond_type);
+				}
+				$condition = new AndCondition($search_conditions);
+				break;
+			default:
+				$cond_keyword = RepositoryUtilities :: query_to_condition($_GET['keyword']);
+				if (!is_null($cond_keyword)) {
+					$condition = new AndCondition($cond_owner, $cond_keyword);
+				}
+				break;
 		}
 	}
 	return $condition;
@@ -42,7 +68,6 @@ function get_number_of_objects()
  */
 function get_objects($from, $number_of_items, $column, $direction)
 {
-	global $current_category_id;
 	$table_columns = array('id','type','title','description','modified','category');
 	$datamanager = RepositoryDataManager::get_instance();
 	$order_by[] = $table_columns[$column];
@@ -70,8 +95,6 @@ function get_objects($from, $number_of_items, $column, $direction)
 // Load datamanager
 $datamanager = RepositoryDataManager::get_instance();
 
-$search_form = null;
-
 if( isset($_GET['action']))
 {
 	switch ($_GET['action'])
@@ -85,38 +108,35 @@ if( isset($_GET['action']))
 				$type_choices[$type] = get_lang($type);
 			}
 			$search_form = new FormValidator('search_advanced','get','search.php','',null,false);
-			$search_form->addElement('text','keyword',get_lang('Title'));
-			$search_form->addElement('text','description',get_lang('Description'));
-			$search_form->addElement('select','type',get_lang('Type'),$type_choices,'multiple="multiple"');
+			$search_form->addElement('hidden','action','advanded_search');
+			$search_form->addElement('text','title',get_lang('Title'),'size="50"');
+			$search_form->addElement('text','description',get_lang('Description'),'size="50"');
+			$search_form->addElement('select','type',get_lang('Type'),$type_choices,'multiple="multiple" size="5"');
 			$search_form->addElement('submit','submit',get_lang('Search'));
+			break;
+		// Create a simple search-box
+		default:
+			$search_form = new FormValidator('search_simple','get','search.php','',null,false);
+			$renderer =& $search_form->defaultRenderer();
+			$renderer->setElementTemplate('<span>{element}</span> ');
+			$search_form->addElement('text','keyword',get_lang('keyword'),'size="50"');
+			$search_form->addElement('submit','submit',get_lang('Search'));
+			$search_form->addElement('static','advanced','pom','<a href="search.php?action=advanced_search">'.get_lang('AdvancedSearch').'</a>');
 			break;
 	}
 }
-if( is_null($search_form))
+if(isset($_GET['action']))
 {
-	// Create a search-box
-	$search_form = new FormValidator('search_simple','get','search.php','',null,false);
-	$renderer =& $search_form->defaultRenderer();
-	$renderer->setElementTemplate('<span>{element}</span> ');
-	$search_form->addElement('text','keyword',get_lang('keyword'));
-	$search_form->addElement('submit','submit',get_lang('Search'));
-	$search_form->addElement('static','advanced','pom','<a href="search.php?action=advanced_search">'.get_lang('AdvancedSearch').'</a>');
+	// Create a sortable table to display the learning objects
+	$table = new SortableTable('objects','get_number_of_objects','get_objects');
+	$parameters = $search_form->exportValues();
+	$table->set_additional_parameters($parameters);
+	$column = 0;
+	$table->set_header($column++,get_lang('Type'));
+	$table->set_header($column++,get_lang('Title'));
+	$table->set_header($column++,get_lang('Description'));
+	$table->set_header($column++,get_lang('LastModified'));
 }
-
-// Create a sortable table to display the learning objects
-$table = new SortableTable('objects','get_number_of_objects','get_objects');
-$parameters = array();
-$parameters['category'] = $current_category_id;
-if (isset ($_GET['keyword']))
-{
-	$parameters = array ('keyword' => $_GET['keyword']);
-}
-$table->set_additional_parameters($parameters);
-$column = 0;
-$table->set_header($column++,get_lang('Type'));
-$table->set_header($column++,get_lang('Title'));
-$table->set_header($column++,get_lang('Description'));
-$table->set_header($column++,get_lang('LastModified'));
 
 // Display header
 Display::display_header(get_lang('Search'));
@@ -126,8 +146,11 @@ echo '<div style="text-align:center;margin:20px;">';
 $search_form->display();
 echo '</div>';
 
-// Display search results
-$table->display();
+if(!is_null($table))
+{
+	// Display search results
+	$table->display();
+}
 
 // Display footer
 Display::display_footer();
