@@ -4,11 +4,14 @@ class LearningObjectPublisher
 	private $owner;
 	
 	private $types;
+	
+	private $course;
 		
-    function LearningObjectPublisher($owner, $types)
+    function LearningObjectPublisher($types, $course, $owner)
     {
     	$this->owner = $owner;
     	$this->types = (is_array($types) ? $types : array($types));
+    	$this->course = $course;
     }
     
     function display()
@@ -40,6 +43,11 @@ class LearningObjectPublisher
     function get_types()
     {
     	return $this->types;
+    }
+    
+    function get_course ()
+    {
+    	return $this->course;
     }
 }
 ?>
