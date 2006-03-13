@@ -15,7 +15,7 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 		$dm = WebLCMSDataManager::get_instance();
 		$orderBy = null;
 		$orderDir = null;
-		$pubs = $dm->retrieve_learning_object_publications($this->get_condition(), $orderBy, $orderDir);
+		$pubs = $dm->retrieve_learning_object_publications($this->get_user(), $this->get_course(), $this->get_condition(), $orderBy, $orderDir);
 		$data = array();
 		foreach ($pubs as $publication)
 		{
@@ -31,7 +31,7 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 	function get_table_row_count()
 	{
 		$dm = WebLCMSDataManager::get_instance();
-		return $dm->count_learning_object_publications($this->get_condition());
+		return $dm->count_learning_object_publications($this->get_user(), $this->get_course(), $this->get_condition());
 	}
 	
 	private function get_condition()
@@ -46,9 +46,7 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 		$date1 = new OrCondition($date_from_zero, $date_from_passed);
 		$date2 = new OrCondition($date_to_zero, $date_to_coming);
 		$date_cond = new AndCondition($date1, $date2);
-		$user_cond = new EqualityCondition('user', $this->get_user());
-		$course_cond = new EqualityCondition('course', $this->get_course());
-		return new AndCondition($shown_cond, $date_cond, $user_cond, $course_cond);
+		return new AndCondition($shown_cond, $date_cond);
 	}
 }
 ?>

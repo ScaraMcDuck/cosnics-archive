@@ -34,15 +34,12 @@ abstract class WebLCMSDataManager
 	
 	/**
 	 * Retrieves learning object publications from persistent storage.
-	 * @param mixed $learningObjects The learning objects to retrieve
-	 *                               publications of. May be a single
-	 *                               LearningObject or its ID, an array
-	 *                               of LearningObjects or IDs, or null.
-	 * @param mixed $courses The courses to retrieve publications for. For
-	 *                       now, only course IDs are supported, either as a
-	 *                       single ID or an array of IDs. May be null.
-	 * @param Condition $conditions Additional conditions for publication
-	 *                              selection. See the Conditions framework.
+	 * @param string $course The ID of the course to find publications in, or
+	 *                       null if none.
+	 * @param int $user The ID of the user who should have access to the
+	 *                  publications, or null if none.
+	 * @param Condition $conditions Conditions for publication selection. See
+	 *                              the Conditions framework.
 	 * @param array $orderBy The properties to order publications by.
 	 * @param array $orderDesc An array representing the sorting direction
 	 *                         for the corresponding property of $orderBy.
@@ -52,22 +49,19 @@ abstract class WebLCMSDataManager
 	 * @param int $maxObjects The maximum number of objects to retrieve.
 	 * @return array An array of LearningObjectPublications.
 	 */ 
-	abstract function retrieve_learning_object_publications($learningObjects, $courses, $conditions = null, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1);
+	abstract function retrieve_learning_object_publications($course = null, $user = null, $conditions = null, $orderBy = array ('display_order'), $orderDesc = array (SORT_ASC), $firstIndex = 0, $maxObjects = -1);
 
 	/**
 	 * Counts learning object publications in persistent storage.
-	 * @param mixed $learningObjects The learning objects to accept
-	 *                               publications of. May be a single
-	 *                               LearningObject or its ID, an array of
-	 *                               LearningObjects or IDs, or null.
-	 * @param mixed $courses The courses to accept publications for. For
-	 *                       now, only course IDs are supported, either as a
-	 *                       single ID or an array of IDs. May be null.
-	 * @param Condition $conditions Additional conditions for publication
-	 *                              selection. See the Conditions framework.
+	 * @param string $course The ID of the course to find publications in, or
+	 *                       null if none.
+	 * @param int $user The ID of the user who should have access to the
+	 *                  publications, or null if none.
+	 * @param Condition $conditions Conditions for publication selection. See
+	 *                              the Conditions framework.
 	 * @return int The number of matching learning object publications.
 	 */
-	abstract function count_learning_object_publications($learningObjects, $courses, $conditions = null);
+	abstract function count_learning_object_publications($course = null, $user = null, $conditions = null);
 
 	/**
 	 * Creates a learning object publication in persistent storage, assigning

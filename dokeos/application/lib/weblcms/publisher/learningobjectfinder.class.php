@@ -17,7 +17,7 @@ class LearningObjectFinder extends LearningObjectBrowser
 		$this->form->addElement('hidden', 'tool');
 		$this->form->addElement('hidden', 'publish_action');
 		$this->form->addElement('text', 'query', '');
-		$this->form->addRule('keyword', 'query', 'required');
+		$this->form->addRule('query', get_lang('ThisFieldIsRequired'), 'required');
 		$this->form->addElement('submit', 'submit', get_lang('Find'));
 	}
 
