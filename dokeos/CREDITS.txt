@@ -1,4 +1,12 @@
 ========================================
+ Dokeos LCMS development - CREDITS
+========================================
+---------------------------------
+ CSS Tree Menu
+---------------------------------
+Edwin Vlieg
+
+========================================
  Dokeos 2.1 community release - CREDITS
 ========================================
 
@@ -250,7 +258,7 @@ Roan Embrechts, Hugues Peeters, Ren�Haentjens
 --------------------------------
 
 ---- Arabic ----
-Jason Githeko 
+Jason Githeko
 Yassine Jelman (yjelmam@myrealbox.com)
 Ali Pakdel
 Koen Vanmeerbeek
@@ -299,7 +307,7 @@ Bart Mollet
 Denis Smidts (Smidts@ipm.ucl.ac.be)
 Bert Vanderkimpen
 Toon Van Hoecke (toon.vanhoecke@ugent.be)
-Frederik Vermeire,  
+Frederik Vermeire,
 Herwig Vroman
 Willem Wieme (willem.wieme@ugent.be)
 
