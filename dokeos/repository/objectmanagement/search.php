@@ -53,7 +53,6 @@ function get_condition()
 	}
 	return $condition;
 }
-
 /**
  * Get the total number of objects
  */
@@ -95,7 +94,7 @@ function get_objects($from, $number_of_items, $column, $direction)
 // Load datamanager
 $datamanager = RepositoryDataManager::get_instance();
 
-if( isset($_GET['action']))
+if(isset($_GET['action']))
 {
 	switch ($_GET['action'])
 	{
@@ -119,6 +118,7 @@ if( isset($_GET['action']))
 			$search_form = new FormValidator('search_simple','get','search.php','',null,false);
 			$renderer =& $search_form->defaultRenderer();
 			$renderer->setElementTemplate('<span>{element}</span> ');
+			$search_form->addElement('hidden','action','simple_search');
 			$search_form->addElement('text','keyword',get_lang('keyword'),'size="50"');
 			$search_form->addElement('submit','submit',get_lang('Search'));
 			$search_form->addElement('static','advanced','pom','<a href="search.php?action=advanced_search">'.get_lang('AdvancedSearch').'</a>');
