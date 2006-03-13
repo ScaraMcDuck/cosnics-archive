@@ -9,15 +9,30 @@ class RepositoryUtilities
 		{
 			foreach ($matches[$i] as $m)
 			{
-				if (!is_null($m))
+				if (!is_null($m) && strlen($m) > 0)
 					$parts[] = $m;
 			}
 		}
 		return (count($parts) ? $parts : null);
 	}
-
-	static function query_to_condition($query)
+	/**
+	 * Transforms a search string (given by an end user in a search form) to a
+	 * Condition which can be used to retrieve learning objects from the
+	 * repository
+	 * @param string $query The query as given by the end user
+	 * @param mixed $properties The learning object properties which should be
+	 * taken into account for the condition. When passing for example array
+	 * ('title','type'), a Condition will be returned which can be used to
+	 * search for learning objects on the properties 'title' or 'type'. By
+	 * default the properties are 'title' and 'description'. A string is also
+	 * allowed when you only need a condition on one property.
+	 */
+	static function query_to_condition($query,$properties = array('title','description'))
 	{
+		if(!is_array($properties))
+		{
+			$properties = array($properties);
+		}
 		$queries = self :: split_query($query);
 		if (is_null($queries))
 		{
@@ -27,9 +42,22 @@ class RepositoryUtilities
 		foreach ($queries as $q)
 		{
 			$q = '*'.$q.'*';
-			$cond[] = new OrCondition(new PatternMatchCondition('title', $q), new PatternMatchCondition('description', $q));
+			$pattern_conditions = array();
+			foreach($properties as $index => $property)
+			{
+				$pattern_conditions[] = new PatternMatchCondition($property, $q);
+			}
+			if(count($pattern_conditions)>1)
+			{
+				$cond[] = new OrCondition($pattern_conditions);
+			}
+			else
+			{
+				$cond[] = $pattern_conditions[0];
+			}
 		}
-		return new AndCondition($cond);
+		$result = new AndCondition($cond);
+		return $result;
 	}
 }
 ?>
