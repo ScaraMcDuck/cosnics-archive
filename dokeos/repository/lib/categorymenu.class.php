@@ -68,16 +68,22 @@ class CategoryMenu extends HTML_Menu
 	}
 }
 /**
- * TODO Write a good MenuRenderer
+ * Renderer which can be used to include a tree menu in your page.
  */
 class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 {
+	/**
+	 * Constructor
+	 */
 	public function TreeMenuRenderer()
 	{
 		$entryTemplates = array (HTML_MENU_ENTRY_INACTIVE => '<a href="{url}">{title}</a>', HTML_MENU_ENTRY_ACTIVE => '<!--ACTIVE--><a href="{url}" class="treeMenuActive">{title}</a>', HTML_MENU_ENTRY_ACTIVEPATH => '<a href="{url}">{title}</a>');
 		parent :: setEntryTemplate($entryTemplates);
 		parent :: setItemTemplate('<li>', '</li>');
 	}
+	/**
+	 * @see HTML_Menu_DirectTreeRenderer::finishLevel()
+	 */
 	function finishLevel($level)
 	{
 		if ($level == 0)
@@ -90,6 +96,9 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 			parent :: setLevelTemplate('<ul>', '</ul>');
 		}
 	}
+	/**
+	 * @see HTML_Menu_DirectTreeRenderer::toHtml()
+	 */
 	function toHtml()
 	{
 		$html = parent::toHtml();
