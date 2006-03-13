@@ -11,7 +11,6 @@ class HtmlDocumentForm extends LearningObjectForm
 		parent :: build_create_form();
 		$this->addElement('text', 'filename', get_lang('Filename'));
 		$this->addElement('html_editor', 'htmldoc', get_lang('HtmlDocument'));
-		$this->applyFilter('htmldoc', 'html_filter');
 		$this->add_submit_button();
 	}
 	public function build_edit_form($object)
@@ -21,7 +20,6 @@ class HtmlDocumentForm extends LearningObjectForm
 		$this->addElement('text', 'path', get_lang('Path'));
 		$this->addElement('text', 'filename', get_lang('Filename'));
 		$this->addElement('html_editor', 'htmldoc', get_lang('HtmlDocument'));
-		$this->applyFilter('htmldoc', 'html_filter');
 		$this->add_submit_button();
 	}
 	public function setDefaults($defaults = array ())
@@ -54,7 +52,7 @@ class HtmlDocumentForm extends LearningObjectForm
 			$path = api_get_user_id().'/'.$filename;
 			$i++;
 		}
-		$create_file = fopen($main_upload_dir.'/'.$path, 'w') or die("can't open file");
+		$create_file = fopen($main_upload_dir.'/'.$path, 'w');
 		fwrite ($create_file, $values['htmldoc']);
 		fclose($create_file);
 		$filesize = filesize($main_upload_dir.'/'.$path);
@@ -73,10 +71,16 @@ class HtmlDocumentForm extends LearningObjectForm
 	public function update_learning_object(& $object)
 	{
 		$values = $this->exportValues();	
+		$main_upload_dir = Configuration::get_instance()->get_parameter('general', 'upload_path');
+		$update_file = fopen($main_upload_dir.'/'.$values['path'], 'w');
+		fwrite($update_file, $values['htmldoc']);
+		fclose($update_file);
+		$filesize = filesize($main_upload_dir.'/'.$values['path']);
 		$object->set_title($values['title']);
 		$object->set_description($values['description']);
 		$object->set_path($values['path']);
 		$object->set_filename($values['filename']);
+		$object->set_filesize($filesize);
 		$object->set_category_id($values['category']);
 		$object->update();
 	}
