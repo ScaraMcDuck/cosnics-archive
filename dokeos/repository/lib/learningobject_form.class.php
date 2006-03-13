@@ -38,13 +38,13 @@ abstract class LearningObjectForm extends FormValidator
 	 */
 	protected function build_create_form()
 	{
-		$this->addElement('text', 'title', 'Title');
+		$this->addElement('text', 'title', get_lang('Title'));
 		$this->addRule('title', 'Required', 'required');
 		$select= & $this->addElement('select', 'category', get_lang('Category'), $this->get_categories());
 		if (isset($this->category))
 			$select->setSelected($this->category);
-		$this->addRule('category', 'Category is required', 'required');
-		$this->add_html_editor('description', 'Description');
+		$this->addRule('category', get_lang('CategoryIsRequired'), 'required');
+		$this->add_html_editor('description', get_lang('Description'));
 	}
 	/**
 	 * Add a submit button to the form
