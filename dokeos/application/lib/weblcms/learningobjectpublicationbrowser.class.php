@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/browser/learningobjectpublicationtable.class.php';
 require_once dirname(__FILE__).'/browser/learningobjectpublicationcategorytree.class.php'; 
+require_once dirname(__FILE__).'/../../../claroline/inc/lib/groupmanager.lib.php';
 
 abstract class LearningObjectPublicationBrowser
 {
@@ -46,6 +47,11 @@ abstract class LearningObjectPublicationBrowser
 	function get_course()
 	{
 		return $this->course;
+	}
+	
+	function get_groups()
+	{
+		return GroupManager::get_group_ids($this->get_course(), $this->get_user());
 	}
 	
 	abstract function get_table_data($from, $number_of_items, $column, $direction);
