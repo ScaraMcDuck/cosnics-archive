@@ -29,16 +29,55 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	function retrieve_learning_object_publications($course = null, $user = null, $conditions = null, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1)
 	{
-		// TODO: Add groups (UNION?)
-		$query = 'SELECT lop.* FROM '
-			.$this->escape_table_name('learning_object_publication_user')
-			.' AS lopu'
-			.' JOIN '.$this->escape_table_name('learning_object_publication')
-			.' AS lop ON lop.'.$this->escape_column_name('id')
-			.'=lopu.'.$this->escape_column_name('publication')
-			.' JOIN '.$this->escape_table_name('learning_object')
-			.' AS lo ON lop.'.$this->escape_column_name('learning_object')
-			.'=lo.'.$this->escape_column_name('id');
+		$query = 'SELECT * FROM (SELECT '
+			. $this->escape_table_name('learning_object_publication')
+			. '.*, '
+			. 'NULL AS ' . $this->escape_column_name('user')
+			. ' FROM '
+			. $this->escape_table_name('learning_object_publication')
+			. ' UNION '
+			. 'SELECT '
+			. $this->escape_table_name('learning_object_publication')
+			. '.*, '
+			. $this->escape_table_name('learning_object_publication_user')
+			. '.' . $this->escape_column_name('user')
+			. ' AS ' . $this->escape_column_name('user')
+			. ' FROM '
+			. $this->escape_table_name('learning_object_publication')
+			. ' JOIN '
+			. $this->escape_table_name('learning_object_publication_user')
+			. ' ON '
+			. $this->escape_table_name('learning_object_publication')
+			. '.' . $this->escape_column_name('id')
+			. '='
+			. $this->escape_table_name('learning_object_publication_user')
+			. '.' . $this->escape_column_name('publication')
+			. ' UNION '
+			. 'SELECT '
+			. $this->escape_table_name('learning_object_publication')
+			. '.*, '
+			. $this->escape_table_name('user_group')
+			. '.' . $this->escape_column_name('user')
+			. ' AS ' . $this->escape_column_name('user')
+			. ' FROM '
+			. $this->escape_table_name('learning_object_publication')
+			. ' JOIN '
+			. $this->escape_table_name('learning_object_publication_group')
+			. ' ON '
+			. $this->escape_table_name('learning_object_publication')
+			. '.' . $this->escape_column_name('id')
+			. '='
+			. $this->escape_table_name('learning_object_publication_group')
+			. '.' . $this->escape_column_name('publication')
+			. ' JOIN '
+			. $this->escape_table_name('user_group')
+			. ' ON '
+			. $this->escape_table_name('learning_object_publication_group')
+			. '.' . $this->escape_column_name('group')
+			. '='
+			. $this->escape_table_name('user_group')
+			. '.' . $this->escape_column_name('group')
+			. ')';
 		$cond = array ();
 		if (!is_null($course))
 		{
@@ -46,7 +85,6 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		}
 		if (!is_null($user))
 		{
-			// TODO: Check group.
 			$cond[] = new EqualityCondition('user', $user);
 		}
 		if (count($cond))
@@ -71,40 +109,8 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	function count_learning_object_publications($course = null, $user = null, $conditions = null)
 	{
-		// TODO: Add groups (UNION?)
-		$query = 'SELECT COUNT(*) FROM '
-			.$this->escape_table_name('learning_object_publication_user')
-			.' AS lopu'
-			.' JOIN '.$this->escape_table_name('learning_object_publication')
-			.' AS lop ON lop.'.$this->escape_column_name('id')
-			.'=lopu.'.$this->escape_column_name('publication')
-			.' JOIN '.$this->escape_table_name('learning_object')
-			.' AS lo ON lop.'.$this->escape_column_name('learning_object')
-			.'=lo.'.$this->escape_column_name('id');
-		$cond = array ();
-		if (!is_null($course))
-		{
-			$cond[] = new EqualityCondition('course', $course);
-		}
-		if (!is_null($user))
-		{
-			// TODO: Check group.
-			$cond[] = new EqualityCondition('user', $user);
-		}
-		if (count($cond))
-		{
-			$c = new AndCondition($cond);
-			$conditions = (is_null($conditions) ? $c : new AndCondition($c, $conditions));
-		}
-		$params = array ();
-		if (isset ($conditions))
-		{
-			$query .= ' WHERE '.$this->translate_condition($conditions, & $params);
-		}
-		$sth = $this->connection->prepare($query);
-		$res = & $this->connection->execute($sth, $params);
-		$record = $res->fetchRow(DB_FETCHMODE_ORDERED);
-		return $record[0];
+		// TODO: Use SQL COUNT(*) etc.
+		return count($this->retrieve_learning_object_publications($course, $user));
 	}
 
 	function create_learning_object_publication($publication)
