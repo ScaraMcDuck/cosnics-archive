@@ -16,9 +16,9 @@ class DocumentForm extends LearningObjectForm
 	public function build_edit_form($object)
 	{
 		parent :: build_edit_form($object);
+		$this->addElement('hidden', 'path', get_lang('Filename'));
+		$this->addElement('file', 'filename', get_lang('Filename'));
 		$this->setDefaults();
-		$this->addElement('text', 'path', get_lang('Path'));
-		$this->addElement('text', 'filename', get_lang('Filename'));
 		$this->add_submit_button();
 	}
 	public function setDefaults($defaults = array ())
@@ -27,7 +27,6 @@ class DocumentForm extends LearningObjectForm
 		if (isset ($lo))
 		{
 			$defaults['path'] = $lo->get_path();
-			$defaults['filename'] = $lo->get_filename();
 		}
 		parent :: setDefaults($defaults);
 	}
@@ -56,10 +55,7 @@ class DocumentForm extends LearningObjectForm
 		if(preg_match('/^\.x?html?$/', $file_ext) === 1)
 			$document = new HtmlDocument();
 		else
-		{
 			$document = new Document();
-			var_dump(preg_match('/^\.x?html?$/', $file_ext));
-		}
 		move_uploaded_file($_FILES['filename']['tmp_name'], $main_upload_dir.'/'.$path);
 		$dataManager = RepositoryDataManager::get_instance();
 		$document->set_owner_id($owner);
@@ -74,11 +70,33 @@ class DocumentForm extends LearningObjectForm
 	}
 	public function update_learning_object(& $object)
 	{
-		$values = $this->exportValues();	
+		$values = $this->exportValues();
+		$file = $_FILES['filename'];
+		$filename = strtolower(ereg_replace('[^0-9a-zA-Z\.]','',$file['name']));
+		$path = api_get_user_id().'/'.$filename;
+		$main_upload_dir = Configuration::get_instance()->get_parameter('general', 'upload_path');
+		unlink($main_upload_dir.'/'.$values['path']);
+		$i = 1;
+		$file_base = $filename;
+		$file_ext = '';
+		$dot_pos = strrpos($filename, '.');
+		if ($dot_pos != FALSE)
+		{
+			$file_base = substr($filename, 0, $dot_pos);
+			$file_ext = substr($filename, $dot_pos);
+		}				
+		while (file_exists($main_upload_dir.'/'.$path))
+		{	
+			$filename = $file_base.$i.$file_ext;
+			$path = api_get_user_id().'/'.$filename;
+			$i++;
+		}
+		move_uploaded_file($_FILES['filename']['tmp_name'], $main_upload_dir.'/'.$path);
 		$object->set_title($values['title']);
 		$object->set_description($values['description']);
-		$object->set_path($values['path']);
-		$object->set_filename($values['filename']);
+		$object->set_path($path);
+		$object->set_filename($filename);
+		$object->set_filesize(filesize($main_upload_dir.'/'.$path));
 		$object->set_category_id($values['category']);
 		$object->update();
 	}
