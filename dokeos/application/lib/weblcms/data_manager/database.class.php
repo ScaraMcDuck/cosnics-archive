@@ -29,18 +29,8 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	function retrieve_learning_object_publications($course = null, $user = null, $groups = null, $conditions = null, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1)
 	{
-		$query = 'SELECT p.* FROM '
-			. $this->escape_table_name('learning_object_publication')
-			. ' AS p'
-			. ' LEFT JOIN '
-			. $this->escape_table_name('learning_object_publication_group')
-			. ' AS pg ON p.' . $this->escape_column_name('id')
-			. '=pg.' . $this->escape_column_name('publication')
-			. ' LEFT JOIN '
-			. $this->escape_table_name('learning_object_publication_user')
-			. ' AS pu ON p.' . $this->escape_column_name('id')
-			. '=pu.' . $this->escape_column_name('publication');
-		$cond = array();
+		$query = 'SELECT p.* FROM '.$this->escape_table_name('learning_object_publication').' AS p'.' LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name('id').'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name('id').'=pu.'.$this->escape_column_name('publication');
+		$cond = array ();
 		if (!is_null($course))
 		{
 			$cond[] = new EqualityCondition('course', $course);
@@ -48,7 +38,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		/*
 		 * Add 0 to allowed users and groups: for records without restriction.
 		 */
-		$users = (is_null($user) ? array(0) : array($user, 0));
+		$users = (is_null($user) ? array (0) : array ($user, 0));
 		if (is_null($groups))
 		{
 			$groups = array ();
@@ -57,14 +47,16 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		/*
 		 * Condition for allowed users.
 		 */
-		$c = array();
-		foreach ($users as $u) {
+		$c = array ();
+		foreach ($users as $u)
+		{
 			$c[] = new EqualityCondition('user', $u);
 		}
 		/*
 		 * Condition for allowed groups.
 		 */
-		foreach ($groups as $g) {
+		foreach ($groups as $g)
+		{
 			$c[] = new EqualityCondition('group', $g);
 		}
 		/*
@@ -73,16 +65,19 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$cond[] = new OrCondition($c);
 		$conditions = (is_null($conditions) ? new AndCondition($cond) : new AndCondition($cond, $conditions));
 		/*
+		 * Always respect display order as a last resort.
+		 */
+		$orderBy[] = 'display_order';
+		$orderDesc[] = SORT_ASC;
+		/*
 		 * Build query.
 		 */
 		$params = array ();
 		$query .= ' WHERE '.$this->translate_condition($conditions, & $params);
-		$orderBy[] = 'display_order';
-		$orderDesc[] = SORT_ASC;
-		$query .= ' ORDER BY '.$this->escape_column_name($orderBy[0]).' '.($orderDesc[0] == SORT_ASC ? 'ASC' : 'DESC');
-		for ($i = 1; $i < count($orderBy); $i++)
+		$query .= ' ORDER BY '.$this->escape_column_name($orderBy[0]).' '. ($orderDesc[0] == SORT_ASC ? 'ASC' : 'DESC');
+		for ($i = 1; $i < count($orderBy); $i ++)
 		{
-			$query .= ',' . $this->escape_column_name($orderBy[$i]).' '.($orderDesc[$i] == SORT_ASC ? 'ASC' : 'DESC');
+			$query .= ','.$this->escape_column_name($orderBy[$i]).' '. ($orderDesc[$i] == SORT_ASC ? 'ASC' : 'DESC');
 		}
 		if ($maxObjects > 0)
 		{
@@ -114,8 +109,8 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	function count_learning_object_publications($course = null, $user = null, $groups = null, $conditions = null)
 	{
-		// TODO: Use SQL COUNT(*) etc.
-		return count($this->retrieve_learning_object_publications($course, $user, $groups));
+			// TODO: Use SQL COUNT(*) etc.
+	return count($this->retrieve_learning_object_publications($course, $user, $groups));
 	}
 
 	function create_learning_object_publication($publication)
