@@ -73,10 +73,35 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$cond[] = new OrCondition($c);
 		$conditions = (is_null($conditions) ? new AndCondition($cond) : new AndCondition($cond, $conditions));
 		/*
-		 * Get publications.
+		 * Build query.
 		 */
 		$params = array ();
 		$query .= ' WHERE '.$this->translate_condition($conditions, & $params);
+		$orderBy[] = 'display_order';
+		$orderDesc[] = SORT_ASC;
+		$query .= ' ORDER BY '.$this->escape_column_name($orderBy[0]).' '.($orderDesc[0] == SORT_ASC ? 'ASC' : 'DESC');
+		for ($i = 1; $i < count($orderBy); $i++)
+		{
+			$query .= ',' . $this->escape_column_name($orderBy[$i]).' '.($orderDesc[$i] == SORT_ASC ? 'ASC' : 'DESC');
+		}
+		if ($maxObjects > 0)
+		{
+			if ($firstIndex > 0)
+			{
+				$query .= ' LIMIT '.$firstIndex.','.$maxObjects;
+			}
+			else
+			{
+				$query .= ' LIMIT '.$maxObjects;
+			}
+		}
+		elseif ($firstIndex > 0)
+		{
+			$query .= ' LIMIT '.$firstIndex.',999999999999';
+		}
+		/*
+		 * Get publications.
+		 */
 		$sth = $this->connection->prepare($query);
 		$res = & $this->connection->execute($sth, $params);
 		$results = array ();
