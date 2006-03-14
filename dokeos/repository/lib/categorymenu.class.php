@@ -14,17 +14,25 @@ class CategoryMenu extends HTML_Menu
 	 */
 	private $owner;
 	/**
-	 * Creates a new navigation menu
-	 * @param int $owner The id of the owner of the categories to provide in
-	 * this menu
-	 * @param int $current_category The id of the current category in the menu
+	 * The string passed to sprintf() to format category URLs
 	 */
-	public function CategoryMenu($owner, $current_category)
+	private $urlFmt;
+	/**
+	 * Creates a new category navigation menu.
+	 * @param int $owner The ID of the owner of the categories to provide in
+	 * this menu.
+	 * @param int $current_category The ID of the current category in the menu.
+	 * @param string $url_format The format to use for the URL of a category.
+	 *                           Passed to sprintf(). Defaults to the string
+	 *                           "?category=%s".
+	 */
+	public function CategoryMenu($owner, $current_category, $url_format = '?category=%s')
 	{
 		$this->owner = $owner;
+		$this->urlFmt = $url_format;
 		$menu = $this->get_menu_items();
 		parent :: HTML_Menu($menu);
-		$this->forceCurrentUrl('index.php?category='.$current_category);
+		$this->forceCurrentUrl($this->get_category_url($current_category));
 	}
 	/**
 	 * Get the menu items.
@@ -56,7 +64,7 @@ class CategoryMenu extends HTML_Menu
 		foreach ($categories[$parent] as $index => $category)
 		{
 			$menu_item['title'] = $category->get_title();
-			$menu_item['url'] = 'index.php?category='.$category->get_id();
+			$menu_item['url'] = $this->get_category_url($category->get_id());
 			$menu_item['id'] = $category->get_id();
 			if (count($categories[$category->get_id()]) > 0)
 			{
@@ -65,6 +73,10 @@ class CategoryMenu extends HTML_Menu
 			$sub_tree[$category->get_id()] = $menu_item;
 		}
 		return $sub_tree;
+	}
+	private function get_category_url ($category)
+	{
+		return sprintf($this->urlFmt, $category);
 	}
 	/**
 	 * Get the breadcrumbs which lead to the current category
