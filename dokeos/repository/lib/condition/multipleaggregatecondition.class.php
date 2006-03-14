@@ -22,7 +22,7 @@ abstract class MultipleAggregateCondition extends AggregateCondition
 	 */
 	function MultipleAggregateCondition($conditions)
 	{
-		$this->conditions = (func_num_args() == 1 ? $conditions : func_get_args());
+		$this->conditions = (is_array($conditions) ? $conditions : func_get_args());
 	}
 
 	function get_conditions()

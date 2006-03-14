@@ -27,76 +27,56 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		return $this->record_to_publication($record);
 	}
 
-	function retrieve_learning_object_publications($course = null, $user = null, $conditions = null, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1)
+	function retrieve_learning_object_publications($course = null, $user = null, $groups = null, $conditions = null, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1)
 	{
-		$query = 'SELECT * FROM (SELECT '
+		$query = 'SELECT p.* FROM '
 			. $this->escape_table_name('learning_object_publication')
-			. '.*, '
-			. 'NULL AS ' . $this->escape_column_name('user')
-			. ' FROM '
-			. $this->escape_table_name('learning_object_publication')
-			. ' UNION '
-			. 'SELECT '
-			. $this->escape_table_name('learning_object_publication')
-			. '.*, '
-			. $this->escape_table_name('learning_object_publication_user')
-			. '.' . $this->escape_column_name('user')
-			. ' AS ' . $this->escape_column_name('user')
-			. ' FROM '
-			. $this->escape_table_name('learning_object_publication')
-			. ' JOIN '
-			. $this->escape_table_name('learning_object_publication_user')
-			. ' ON '
-			. $this->escape_table_name('learning_object_publication')
-			. '.' . $this->escape_column_name('id')
-			. '='
-			. $this->escape_table_name('learning_object_publication_user')
-			. '.' . $this->escape_column_name('publication')
-			. ' UNION '
-			. 'SELECT '
-			. $this->escape_table_name('learning_object_publication')
-			. '.*, '
-			. $this->escape_table_name('user_group')
-			. '.' . $this->escape_column_name('user')
-			. ' AS ' . $this->escape_column_name('user')
-			. ' FROM '
-			. $this->escape_table_name('learning_object_publication')
-			. ' JOIN '
+			. ' AS p'
+			. ' LEFT JOIN '
 			. $this->escape_table_name('learning_object_publication_group')
-			. ' ON '
-			. $this->escape_table_name('learning_object_publication')
-			. '.' . $this->escape_column_name('id')
-			. '='
-			. $this->escape_table_name('learning_object_publication_group')
-			. '.' . $this->escape_column_name('publication')
-			. ' JOIN '
-			. $this->escape_table_name('user_group')
-			. ' ON '
-			. $this->escape_table_name('learning_object_publication_group')
-			. '.' . $this->escape_column_name('group')
-			. '='
-			. $this->escape_table_name('user_group')
-			. '.' . $this->escape_column_name('group')
-			. ')';
-		$cond = array ();
+			. ' AS pg ON p.' . $this->escape_column_name('id')
+			. '=pg.' . $this->escape_column_name('publication')
+			. ' LEFT JOIN '
+			. $this->escape_table_name('learning_object_publication_user')
+			. ' AS pu ON p.' . $this->escape_column_name('id')
+			. '=pu.' . $this->escape_column_name('publication');
+		$cond = array();
 		if (!is_null($course))
 		{
 			$cond[] = new EqualityCondition('course', $course);
 		}
-		if (!is_null($user))
+		/*
+		 * Add 0 to allowed users and groups: for records without restriction.
+		 */
+		$users = (is_null($user) ? array(0) : array($user, 0));
+		if (is_null($groups))
 		{
-			$cond[] = new EqualityCondition('user', $user);
+			$groups = array ();
 		}
-		if (count($cond))
-		{
-			$c = new AndCondition($cond);
-			$conditions = (is_null($conditions) ? $c : new AndCondition($c, $conditions));
+		$groups[] = 0;
+		/*
+		 * Condition for allowed users.
+		 */
+		$c = array();
+		foreach ($users as $u) {
+			$c[] = new EqualityCondition('user', $u);
 		}
+		/*
+		 * Condition for allowed groups.
+		 */
+		foreach ($groups as $g) {
+			$c[] = new EqualityCondition('group', $g);
+		}
+		/*
+		 * Add user/group conditions to global condition.
+		 */
+		$cond[] = new OrCondition($c);
+		$conditions = (is_null($conditions) ? new AndCondition($cond) : new AndCondition($cond, $conditions));
+		/*
+		 * Get publications.
+		 */
 		$params = array ();
-		if (isset ($conditions))
-		{
-			$query .= ' WHERE '.$this->translate_condition($conditions, & $params);
-		}
+		$query .= ' WHERE '.$this->translate_condition($conditions, & $params);
 		$sth = $this->connection->prepare($query);
 		$res = & $this->connection->execute($sth, $params);
 		$results = array ();
@@ -107,10 +87,10 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		return $results;
 	}
 
-	function count_learning_object_publications($course = null, $user = null, $conditions = null)
+	function count_learning_object_publications($course = null, $user = null, $groups = null, $conditions = null)
 	{
 		// TODO: Use SQL COUNT(*) etc.
-		return count($this->retrieve_learning_object_publications($course, $user));
+		return count($this->retrieve_learning_object_publications($course, $user, $groups));
 	}
 
 	function create_learning_object_publication($publication)
