@@ -36,8 +36,12 @@ abstract class WebLCMSDataManager
 	 * Retrieves learning object publications from persistent storage.
 	 * @param string $course The ID of the course to find publications in, or
 	 *                       null if none.
-	 * @param int $user The ID of the user who should have access to the
-	 *                  publications, or null if none.
+	 * @param mixed $categories The IDs of the category that publications must
+	 *                          located in, or null if none.
+	 * @param mixed $users The IDs of the user who should have access to the
+	 *                     publications, or null if none.
+	 * @param mixed $groups The IDs of the groups who should have access to
+	 *                      the publications, or null if none.
 	 * @param Condition $conditions Conditions for publication selection. See
 	 *                              the Conditions framework.
 	 * @param array $orderBy The properties to order publications by.
@@ -49,19 +53,23 @@ abstract class WebLCMSDataManager
 	 * @param int $maxObjects The maximum number of objects to retrieve.
 	 * @return array An array of LearningObjectPublications.
 	 */ 
-	abstract function retrieve_learning_object_publications($course = null, $user = null, $conditions = null, $orderBy = array ('display_order'), $orderDesc = array (SORT_ASC), $firstIndex = 0, $maxObjects = -1);
+	abstract function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null, $orderBy = array ('display_order'), $orderDesc = array (SORT_ASC), $firstIndex = 0, $maxObjects = -1);
 
 	/**
 	 * Counts learning object publications in persistent storage.
 	 * @param string $course The ID of the course to find publications in, or
 	 *                       null if none.
-	 * @param int $user The ID of the user who should have access to the
-	 *                  publications, or null if none.
+	 * @param mixed $categories The IDs of the category that publications must
+	 *                          located in, or null if none.
+	 * @param mixed $users The IDs of the user who should have access to the
+	 *                     publications, or null if none.
+	 * @param mixed $groups The IDs of the groups who should have access to
+	 *                      the publications, or null if none.
 	 * @param Condition $conditions Conditions for publication selection. See
 	 *                              the Conditions framework.
 	 * @return int The number of matching learning object publications.
 	 */
-	abstract function count_learning_object_publications($course = null, $user = null, $conditions = null);
+	abstract function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null);
 
 	/**
 	 * Creates a learning object publication in persistent storage, assigning

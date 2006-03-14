@@ -6,34 +6,34 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 {
 	function LinkBrowser()
 	{
-		parent :: __construct('link', api_get_course_id(), api_get_user_id());
+		parent :: __construct('link', api_get_course_id(), $_GET['category'] || 0, api_get_user_id());
 		$this->set_column_titles(get_lang('Title'), get_lang('Description'));
 	}
 
-	function get_table_data($from, $number_of_items, $column, $direction)
+	function get_publications($from, $number_of_items, $column, $direction)
 	{
-		$dm = WebLCMSDataManager::get_instance();
+		$dm = WebLCMSDataManager :: get_instance();
 		$orderBy = null;
 		$orderDir = null;
-		$pubs = $dm->retrieve_learning_object_publications($this->get_course(), $this->get_user(), $this->get_groups(), $this->get_condition(), $orderBy, $orderDir);
-		$data = array();
+		$pubs = $dm->retrieve_learning_object_publications($this->get_course(), $this->get_category(), $this->get_user(), $this->get_groups(), $this->get_condition(), $orderBy, $orderDir);
+		$data = array ();
 		foreach ($pubs as $publication)
 		{
 			$lo = $publication->get_learning_object();
-			$row = array();
-			$row[] = '<a href="' . $lo->get_url() . '">' . htmlentities($lo->get_title()) . '</a>';
+			$row = array ();
+			$row[] = '<a href="'.$lo->get_url().'">'.htmlentities($lo->get_title()).'</a>';
 			$row[] = $lo->get_description();
 			$data[] = $row;
 		}
 		return $data;
 	}
 
-	function get_table_row_count()
+	function get_publication_count()
 	{
-		$dm = WebLCMSDataManager::get_instance();
-		return $dm->count_learning_object_publications($this->get_course(), $this->get_user(), $this->get_groups(), $this->get_condition());
+		$dm = WebLCMSDataManager :: get_instance();
+		return $dm->count_learning_object_publications($this->get_course(), $this->get_category(), $this->get_user(), $this->get_groups(), $this->get_condition());
 	}
-	
+
 	private function get_condition()
 	{
 		// TODO: Share sensible default condition with other tools.
