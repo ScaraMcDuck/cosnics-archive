@@ -7,7 +7,7 @@ class LearningObjectPublicationTable extends SortableTable
 	{
 		// TODO: Assign a dynamic table name.
 		$name = 'pubtbl';
-		parent :: __construct($name, array($browser, 'get_table_row_count'), array($browser, 'get_table_data'));
+		parent :: __construct($name, array($browser, 'get_publication_count'), array($browser, 'get_publications'));
 		$this->browser = $browser; 
 	}
 	
