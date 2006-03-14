@@ -17,7 +17,7 @@ if( isset($_GET['id']))
 	{
 		$form->update_learning_object($object);
 		$current_category_id = $object->get_category_id();
-		header('Location: index.php?category='.$current_category.'&action=show_message&message='.urlencode(get_lang('ObjectEdited')));
+		header('Location: index.php?category='.$current_category_id.'&action=show_message&message='.urlencode(get_lang('ObjectEdited')));
 	}
 	else
 	{
