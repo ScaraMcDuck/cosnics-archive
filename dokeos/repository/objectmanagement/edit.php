@@ -23,7 +23,7 @@ if( isset($_GET['id']))
 	{
 		// Create a navigation menu to browse through the categories
 		$current_category_id = $object->get_category_id();
-		$menu = new CategoryMenu(api_get_user_id(),$current_category_id);
+		$menu = new CategoryMenu(api_get_user_id(),$current_category_id,'index.php?category=%s');
 		$interbredcrump = $menu->get_breadcrumbs();
 		$tool_name = get_lang('Edit').': '.$object->get_title();
 		Display::display_header($tool_name);
