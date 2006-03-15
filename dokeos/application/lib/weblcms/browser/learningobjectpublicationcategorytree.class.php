@@ -11,7 +11,6 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 	
 	function display()
 	{
-		echo '<script language="JavaScript" type="text/javascript" src="'.api_get_path(WEB_CODE_PATH).'javascript/treemenu.js"></script>';
 		$renderer =& new TreeMenuRenderer();
 		$this->render($renderer, 'sitemap');
 		echo $renderer->toHtml();

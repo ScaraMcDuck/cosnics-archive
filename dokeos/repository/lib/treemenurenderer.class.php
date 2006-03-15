@@ -1,5 +1,8 @@
 <?php
 require_once 'HTML/Menu/DirectTreeRenderer.php';
+
+$htmlHeadXtra[] = '<script language="JavaScript" type="text/javascript" src="'.api_get_path(WEB_CODE_PATH).'javascript/treemenu.js"></script>';
+
 /**
  * Renderer which can be used to include a tree menu in your page.
  */
@@ -21,7 +24,7 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 	{
 		if ($level == 0)
 		{
-			parent :: setLevelTemplate('<ul id="treeMenu">', '</ul>');
+			parent :: setLevelTemplate('<ul class="treeMenu">', '</ul>');
 		}
 		parent :: finishLevel($level);
 		if ($level == 0)
@@ -35,7 +38,7 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 	function toHtml()
 	{
 		$html = parent::toHtml();
-		$html = str_replace('<li><!--ACTIVE-->','<li id="treeMenuSelect">',$html);
+		$html = str_replace('<li><!--ACTIVE-->','<li class="treeMenuSelect">',$html);
 		return $html;
 	}
 }
