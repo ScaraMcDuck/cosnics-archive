@@ -2,13 +2,19 @@
 $langFile = 'admin';
 require_once '../../claroline/inc/claro_init_global.inc.php';
 require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
-require_once '../lib/quotamanager.class.php';
+require_once '../lib/categorymenu.class.php';
 require_once api_get_library_path().'/fileDisplay.lib.php';
 require_once api_get_library_path().'/text.lib.php';
 require_once dirname(__FILE__).'/../lib/repositoryutilities.class.php';
+require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 if( !api_get_user_id())
 {
 	api_not_allowed();
+}
+
+if(!isset($_GET['action']))
+{
+	$_GET['action'] = 'simple_search';
 }
 
 /**
@@ -41,12 +47,23 @@ function get_condition()
 				{
 					$search_conditions[] = new OrCondition($cond_type);
 				}
-				$condition = new AndCondition($search_conditions);
+				if(count($search_conditions) > 0)
+				{
+					$condition = new AndCondition($search_conditions);
+				}
+				else
+				{
+					$condition = null;
+				}
 				break;
 			default:
 				$cond_keyword = RepositoryUtilities :: query_to_condition($_GET['keyword']);
 				if (!is_null($cond_keyword)) {
 					$condition = new AndCondition($cond_owner, $cond_keyword);
+				}
+				else
+				{
+					$condition = null;
 				}
 				break;
 		}
@@ -125,7 +142,7 @@ if(isset($_GET['action']))
 			break;
 	}
 }
-if(isset($_GET['action']))
+if(isset($_GET['action']) && !is_null(get_condition()))
 {
 	// Create a sortable table to display the learning objects
 	$table = new SortableTable('objects','get_number_of_objects','get_objects');
@@ -138,9 +155,20 @@ if(isset($_GET['action']))
 	$table->set_header($column++,get_lang('LastModified'));
 }
 
-// Display header
-Display::display_header(get_lang('Search'));
+$tool_name = get_lang('Search');
 
+$root_category = $datamanager->retrieve_root_category(api_get_user_id());
+$menu = new CategoryMenu(api_get_user_id(),$root_category->get_id(),'index.php?category=%s');
+$interbredcrump = $menu->get_breadcrumbs();
+if(isset($_GET['action']) && $_GET['action'] == 'advanced_search')
+{
+	$interbredcrump[] = array('url' => 'search.php', 'name' => get_lang('Search'));
+	$tool_name = get_lang('AdvancedSearch');
+}
+
+// Display header
+Display::display_header($tool_name);
+api_display_tool_title($tool_name);
 echo '<div style="text-align:center;margin:20px;">';
 // Display search box
 $search_form->display();
