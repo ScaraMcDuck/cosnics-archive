@@ -37,7 +37,7 @@ abstract class LearningObjectDisplay
 	public static function factory(&$object)
 	{
 		$type = $object->get_type();
-		$class = ucfirst($type).'Display';
+		$class = RepositoryDataManager :: type_to_class($type).'Display';
 		require_once(dirname(__FILE__).'/learning_object/'.strtolower($type).'/display.class.php');
 		return new $class($object);
 	}
