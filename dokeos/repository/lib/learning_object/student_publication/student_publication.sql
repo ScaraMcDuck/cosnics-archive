@@ -1,4 +1,4 @@
-CREATE TABLE `%dokeos%student_publication` (
+CREATE TABLE `%prefix%student_publication` (
   `id` int(10) unsigned NOT NULL default '0',
   `url` text NOT NULL,
   `author` int(10) unsigned NOT NULL default '0',
