@@ -126,20 +126,20 @@ for ($i = 0; $i < $links; $i ++)
 	$link->create();
 }
 
-for ($i = 0; $i < $student_publications; $i ++)
-{
-	$user = random_user();
-	$student_publication = new StudentPublication();
-	$student_publication->set_owner_id($user);
-	$student_publication->set_title(random_string(2));
-	$student_publication->set_description(random_string(8));
-	$student_publication->set_author(random_user());
-	$student_publication->set_url(random_url());
-	$student_publication->set_active(true);
-	$student_publication->set_accepted(true);
-	$student_publication->set_category_id(random_category($user));
-	$student_publication->create();
-}
+//for ($i = 0; $i < $student_publications; $i ++)
+//{
+//	$user = random_user();
+//	$student_publication = new StudentPublication();
+//	$student_publication->set_owner_id($user);
+//	$student_publication->set_title(random_string(2));
+//	$student_publication->set_description(random_string(8));
+//	$student_publication->set_author(random_user());
+//	$student_publication->set_url(random_url());
+//	$student_publication->set_active(true);
+//	$student_publication->set_accepted(true);
+//	$student_publication->set_category_id(random_category($user));
+//	$student_publication->create();
+//}
 
 function random_url()
 {
@@ -190,7 +190,7 @@ function create_category($owner, $parent = 0, $level = 0)
 	$cat = new Category();
 	$cat->set_owner_id($owner);
 	$cat->set_category_id($parent);
-	$cat->set_title(random_string(2));
+	$cat->set_title($parent == 0 ? 'My Repository' : random_string(2));
 	$cat->set_description(random_string(8));
 	$id = $cat->create();
 	if (!$max_categories[$level])
