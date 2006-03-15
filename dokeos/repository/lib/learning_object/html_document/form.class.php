@@ -17,7 +17,7 @@ class HtmlDocumentForm extends LearningObjectForm
 	{
 		parent :: build_edit_form($object);
 		$this->setDefaults();
-		$this->addElement('text', 'path', get_lang('Path'));
+		$this->addElement('hidden', 'path', get_lang('Path'));
 		$this->addElement('text', 'filename', get_lang('Filename'));
 		$this->addElement('html_editor', 'htmldoc', get_lang('HtmlDocument'));
 		$this->add_submit_button();
@@ -36,26 +36,13 @@ class HtmlDocumentForm extends LearningObjectForm
 	}
 	public function create_learning_object($owner)
 	{
-		
+		global $path;
+		global $filename;
+		global $main_upload_dir;
 		$values = $this->exportValues();
-		$file = $values['filename'];
-		$file_base = strtolower(ereg_replace('[^0-9a-zA-Z\.]','',$file));
-		$filename = $file_base.'.html';
-		$path = api_get_user_id().'/'.$filename;
-		$main_upload_dir = Configuration::get_instance()->get_parameter('general', 'upload_path');
-		$i = 1;
-		while (file_exists($main_upload_dir.'/'.$path))
-		{
-			$file_base = substr($filename, 0, strlen($filename)-5);
-			$file_ext = substr($filename, strlen($filename)-5, strlen($filename));
-			$filename = $file_base.$i.$file_ext;
-			$path = api_get_user_id().'/'.$filename;
-			$i++;
-		}
 		$create_file = fopen($main_upload_dir.'/'.$path, 'w');
 		fwrite ($create_file, $values['htmldoc']);
 		fclose($create_file);
-		$filesize = filesize($main_upload_dir.'/'.$path);
 		$dataManager = RepositoryDataManager::get_instance();
 		$document = new HtmlDocument();
 		$document->set_owner_id($owner);
@@ -63,7 +50,7 @@ class HtmlDocumentForm extends LearningObjectForm
 		$document->set_description($values['description']);
 		$document->set_path($path);
 		$document->set_filename($filename);
-		$document->set_filesize($filesize);
+		$document->set_filesize(filesize($main_upload_dir.'/'.$path));
 		$document->set_category_id($values['category']);
 		$document->create();
 		return $document;
@@ -83,6 +70,26 @@ class HtmlDocumentForm extends LearningObjectForm
 		$object->set_filesize($filesize);
 		$object->set_category_id($values['category']);
 		$object->update();
+	}
+	public function upload_document()
+	{
+		global $path;
+		global $filename;
+		global $main_upload_dir;
+		$file = $values['filename'];
+		$file_base = strtolower(ereg_replace('[^0-9a-zA-Z\.]','',$file));
+		$filename = $file_base.'.html';
+		$path = api_get_user_id().'/'.$filename;
+		$main_upload_dir = Configuration::get_instance()->get_parameter('general', 'upload_path');
+		$i = 1;
+		while (file_exists($main_upload_dir.'/'.$path))
+		{
+			$file_base = substr($filename, 0, strlen($filename)-5);
+			$file_ext = substr($filename, strlen($filename)-5, strlen($filename));
+			$filename = $file_base.$i.$file_ext;
+			$path = api_get_user_id().'/'.$filename;
+			$i++;
+		}			
 	}
 }
 ?>
