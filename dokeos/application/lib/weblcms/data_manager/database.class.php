@@ -39,11 +39,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 			.' LEFT JOIN '
 			.$this->escape_table_name('learning_object_publication_user')
 			.' AS pu ON p.'.$this->escape_column_name('id')
-			.'=pu.'.$this->escape_column_name('publication')
-			. ' JOIN '
-			.$this->escape_table_name('learning_object_publication_category_link')
-			.' AS pcl ON p.'.$this->escape_column_name('id')
-			.'=pcl.'.$this->escape_column_name('publication');
+			.'=pu.'.$this->escape_column_name('publication');
 		$cond = array ();
 		if (!is_null($course))
 		{

@@ -8,8 +8,3 @@ CREATE TABLE `%prefix%learning_object_publication_category` (
   KEY `course` (`course`),
   KEY `type` (`type`)
 );
-CREATE TABLE `%prefix%learning_object_publication_category_link` (
-  `publication` int(10) unsigned NOT NULL default '0',
-  `category` int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`publication`)
-);
