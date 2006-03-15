@@ -6,6 +6,7 @@ require_once(api_get_library_path().'/formvalidator/FormValidator.class.php');
 require_once('../lib/repositorydatamanager.class.php');
 require_once('../lib/learningobject_form.class.php');
 require_once('../lib/categorymenu.class.php');
+require_once('../lib/treemenurenderer.class.php');
 require_once(api_get_library_path().'/text.lib.php');
 require_once dirname(__FILE__).'/../lib/repositoryutilities.class.php';
 if( !api_get_user_id())
