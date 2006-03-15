@@ -10,7 +10,10 @@ Display::display_header(api_get_setting('siteName'));
 $app = new WebLCMS();
 $app->run();
 
-// TODO: Reinstate.
-// Crashes due to DB conflict.
-//Display::display_footer();
+// TODO: Next lines reconnect to dokeos-database due
+// to conflict with DB-connection in repository. This problem
+// should be fixed.
+mysql_connect($dbHost,$dbLogin,$dbPass);
+mysql_select_db($mainDbName);
+Display::display_footer();
 ?>
