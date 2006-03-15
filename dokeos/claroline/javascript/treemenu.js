@@ -1,6 +1,8 @@
 /**
 	 * cssTreeMenu
 	 * Author: E. Vlieg - Flydesign.nl
+	 * Tweaked by Tim De Pauw for use with Dokeos
+	 * Cannot handle multiple tree menus on a single page--yet
 	 */
 
 
@@ -8,10 +10,11 @@
 	 * Create the + and - items in the menu and find the selected node
 	 */
 	onload = function(){
-		makeMenu(document.getElementById('treeMenu'));
 		// Find the selected node and open all the parent menus
-		if(document.getElementById('treeMenuSelect')){
-			openParentNode(document.getElementById('treeMenuSelect'));
+		var tms = getElementByClassName('li', 'treeMenuSelect');
+		makeMenu(getElementByClassName('ul', 'treeMenu'));
+		if(tms){
+			openParentNode(tms);
 		}
 	}
 
@@ -46,30 +49,30 @@
 	 * @param object oTree
 	 */
 	function makeMenu(oTree){
-		var oChilds = oTree.childNodes;
+		var oChildren = oTree.childNodes;
 		var bLast = false;
 		var aLastState = getCookie("treeMenuState").split("-");
 
 		// Iterate through every child
-		for(var i=oChilds.length-1; i >= 0; i--){
+		for(var i=oChildren.length-1; i >= 0; i--){
 			// Create a new submenu when the li element contains a ul element
-			if(oChilds[i].nodeName == "LI" && hasSubmenu(oChilds[i])){
+			if(oChildren[i].nodeName == "LI" && hasSubmenu(oChildren[i])){
 				// If this is the last node, give it a different class
 				var sClassName = (arrayContains(aLastState, aTreeMenu.length))? " itemOpen" : " itemClose";
 				if(!bLast){
-					oChilds[i].className += sClassName + "End";
+					oChildren[i].className += sClassName + "End";
 					bLast = true;
 				} else
-					oChilds[i].className += sClassName;
+					oChildren[i].className += sClassName;
 
-				aTreeMenu[aTreeMenu.length] = oChilds[i];
+				aTreeMenu[aTreeMenu.length] = oChildren[i];
 
 				// If the boolean is set and the href of the firstChild A is '#'
 				// the item opens and closes the menu
-				if(makeMenuParentsOpenMenu && oChilds[i].firstChild.nodeName == "A"){
-					if(oChilds[i].firstChild.href == location.href.replace("#","")+"#"){
-						oChilds[i].firstChild.href="javascript:void(0);";
-						oChilds[i].firstChild.onclick = function(event){
+				if(makeMenuParentsOpenMenu && oChildren[i].firstChild.nodeName == "A"){
+					if(oChildren[i].firstChild.href == location.href.replace("#","")+"#"){
+						oChildren[i].firstChild.href="javascript:void(0);";
+						oChildren[i].firstChild.onclick = function(event){
 							if(!event){
 								event = window.event;
 								oObj = event.srcElement.parentNode;
@@ -82,7 +85,7 @@
 				}
 
 				// Register the event handler for this node
-				oChilds[i].onclick = function(event){
+				oChildren[i].onclick = function(event){
 					if(!event){
 						event = window.event;
 						oObj = event.srcElement;
@@ -91,11 +94,11 @@
 					event.cancelBubble = true;
 					switchClassname(oObj);
 				};
-			} else if(oChilds[i].nodeName == "LI") {
-				oChilds[i].className = "item " + oChilds[i].className;
+			} else if(oChildren[i].nodeName == "LI") {
+				oChildren[i].className = "item " + oChildren[i].className;
 				// If this is the last node, give it an extra class
 				if(!bLast){
-					oChilds[i].className += " endItem";
+					oChildren[i].className += " endItem";
 					bLast = true;
 				}
 			}
@@ -120,13 +123,13 @@
 	 * @return boolean
 	 */
 	function hasSubmenu(oList){
-		var oMenuChilds = oList.childNodes;
+		var oMenuChildren = oList.childNodes;
 		var bHasList = false;
 
 		// Iterate through all the child nodes and search for a ul tag
-		for(var j = 0; j < oMenuChilds.length; j++){
-			if(oMenuChilds[j].nodeName == "UL") {
-				makeMenu(oMenuChilds[j]);
+		for(var j = 0; j < oMenuChildren.length; j++){
+			if(oMenuChildren[j].nodeName == "UL") {
+				makeMenu(oMenuChildren[j]);
 				bHasList = true;
 			}
 		}
@@ -175,4 +178,15 @@
             	return true;
         }
         return false;
+    }
+    
+    function getElementByClassName(type, className) {
+    	var e = document.getElementsByTagName(type);
+    	for (var i = 0; i < e.length; i++) {
+    		var el = e[i];
+    		if (el.className == className) {
+    			return el;
+    		}
+    	}
+    	return null;
     }

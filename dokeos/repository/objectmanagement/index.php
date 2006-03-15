@@ -231,7 +231,6 @@ if(isset($_POST['action']))
  */
 $interbredcrump = $menu->get_breadcrumbs();
 $current_location = array_pop($interbredcrump);
-$htmlHeadXtra[] = '<script language="JavaScript" type="text/javascript" src="'.api_get_path(WEB_CODE_PATH).'javascript/treemenu.js"></script>';
 // Display header
 Display::display_header($current_location['name']);
 api_display_tool_title($current_location['name']);
