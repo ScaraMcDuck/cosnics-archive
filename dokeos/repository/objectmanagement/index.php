@@ -7,6 +7,7 @@ require_once('../lib/repositorydatamanager.class.php');
 require_once('../lib/learningobject_form.class.php');
 require_once('../lib/categorymenu.class.php');
 require_once('../lib/treemenurenderer.class.php');
+require_once('../lib/optionsmenurenderer.class.php');
 require_once(api_get_library_path().'/text.lib.php');
 require_once dirname(__FILE__).'/../lib/repositoryutilities.class.php';
 if( !api_get_user_id())
@@ -89,10 +90,10 @@ if( is_null($current_category_id))
 $tool_name = get_lang('MyLearningObjects');
 // Retrieve learning objecttypes
 $object_types = $datamanager->get_registered_types();
-$t = array();
+$type_choices = array();
 foreach($object_types as $key => $type)
 {
-	$t[$type] = $type;
+	$type_choices[$type] = get_lang($type);
 }
 $tool_name = get_lang('MyRepository');
 // Create a search-box
@@ -107,7 +108,7 @@ $create_form = new FormValidator('type_list', 'post', 'create.php');
 $renderer =& $create_form->defaultRenderer();
 $renderer->setElementTemplate('<span>{element}</span> ');
 $create_form->addElement('hidden', 'category',$current_category_id);
-$create_form->addElement('select','type',null,$t,$t);
+$create_form->addElement('select','type',null,$type_choices);
 $create_form->addElement('submit','submit',get_lang('Create'));
 // Create a navigation menu to browse through the categories
 $menu = new CategoryMenu(api_get_user_id(),$current_category_id);
@@ -145,18 +146,9 @@ if(isset($_GET['action']))
 			$message = get_lang('ObjectDeleted');
 			break;
 		case 'move':
-			$renderer =& new HTML_Menu_ArrayRenderer();
+			$renderer =& new OptionsMenuRenderer();
 			$menu->render($renderer,'sitemap');
-			$categories = $renderer->toArray();
-			foreach($categories as $index => $category)
-			{
-				$prefix = '';
-				if($category['level'] > 0)
-				{
-					$prefix = str_repeat('&nbsp;&nbsp;&nbsp;',$category['level']-1).'&mdash; ';
-				}
-				$category_choices[$category['id']] = $prefix.$category['title'];
-			}
+			$category_choices = $renderer->toArray('id',$_GET['id']);
 			$popup_form = new FormValidator('move_form','get');
 			$popup_form->addElement('hidden','id',$_GET['id']);
 			$popup_form->addElement('hidden','action','move');
@@ -192,12 +184,9 @@ if(isset($_POST['action']))
 			break;
 		case 'move_selected':
 			$condition = new EqualityCondition('owner',api_get_user_id());
-			$categories = $datamanager->retrieve_learning_objects('category',$condition);
-			$category_choices = array();
-			foreach($categories as $index => $category)
-			{
-				$category_choices[$category->get_id()] = $category->get_title();
-			}
+			$renderer =& new OptionsMenuRenderer();
+			$menu->render($renderer,'sitemap');
+			$category_choices = $renderer->toArray('id',$_POST['id']);
 			$popup_form = new FormValidator('move_form','post');
 			foreach($_POST['id'] as $index => $object_id)
 			{
