@@ -2,6 +2,7 @@ CREATE TABLE `%prefix%learning_object_publication` (
   `id` int(10) unsigned NOT NULL default '0',
   `learning_object` int(10) unsigned NOT NULL default '0',
   `course` varchar(255) NOT NULL default '',
+  `category` int(10) unsigned NOT NULL default '0',
   `from_date` int(10) unsigned NOT NULL default '0',
   `to_date` int(10) unsigned NOT NULL default '0',
   `hidden` int(1) unsigned NOT NULL default '0',
@@ -9,7 +10,8 @@ CREATE TABLE `%prefix%learning_object_publication` (
   PRIMARY KEY  (`id`),
   KEY `from_date` (`from_date`,`to_date`),
   KEY `hidden` (`hidden`),
-  KEY `course` (`course`)
+  KEY `course` (`course`),
+  KEY `category` (`category`)
 );
 
 CREATE TABLE `%prefix%learning_object_publication_group` (
