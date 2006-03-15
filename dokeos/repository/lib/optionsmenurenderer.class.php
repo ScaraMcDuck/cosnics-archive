@@ -22,8 +22,10 @@ class OptionsMenuRenderer extends HTML_Menu_ArrayRenderer
 		$choices = array();
 		while (list($index, $item) = each($array))
 		{
+			//echo 'TEST '.$item['title'].' '.$item['level'].'<br />';
 			if(!in_array($item[$key],$exclude))
 			{
+				//echo ' + '.$item['title'].' '.$item['level'].'<br />';
 				$prefix = '';
 				if($item['level'] > 0)
 				{
@@ -34,11 +36,21 @@ class OptionsMenuRenderer extends HTML_Menu_ArrayRenderer
 			else
 			{
 				$exclude_level = $item['level'];
+				//echo 'EXCLUDE - '.$item['title'].' '.$item['level'].'<br />';
 				$next_item = next($array);
-				$next_item = next($array);
-				while($next_item['level'] > $exclude_level)
+				//echo ' - '.$next_item['title'].' '.$next_item['level'].'<br />';
+				if($next_item['level'] > $exclude_level)
 				{
-					$next_item = next($array);
+					do
+					{
+						$next_item = next($array);
+						//echo ' - '.$next_item['title'].' '.$next_item['level'].'<br />';
+					}
+					while($next_item['level'] > $exclude_level);
+				}
+				else
+				{
+					prev($array);
 				}
 			}
 		}
