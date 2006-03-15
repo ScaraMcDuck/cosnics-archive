@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../../../../repository/lib/categorymenu.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/treemenurenderer.class.php';
 require_once 'HTML/Menu.php';
 class LearningObjectPublicationCategoryTree extends HTML_Menu
 {
