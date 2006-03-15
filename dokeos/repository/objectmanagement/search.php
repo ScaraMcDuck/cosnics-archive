@@ -104,6 +104,8 @@ function get_objects($from, $number_of_items, $column, $direction)
 		}
 		$row[] = $object->get_description();
 		$row[] = date('Y-m-d, H:i', is_null($object->get_modification_date()) ? $object->get_creation_date() : $object->get_modification_date());
+		$modify = '<a href="edit.php?id='.$object->get_id().'" title="'.get_lang('Edit').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif" alt="'.get_lang('Edit').'"/></a>';
+		$row[] = $modify;
  		$table_data[] = $row;
 	}
 	return $table_data;
@@ -153,6 +155,7 @@ if(isset($_GET['action']) && !is_null(get_condition()))
 	$table->set_header($column++,get_lang('Title'));
 	$table->set_header($column++,get_lang('Description'));
 	$table->set_header($column++,get_lang('LastModified'));
+	$table->set_header($column++,'');
 }
 
 $tool_name = get_lang('Search');
