@@ -10,5 +10,5 @@ CREATE TABLE `%prefix%learning_object` (
   PRIMARY KEY  (`id`),
   KEY `owner` (`owner`),
   KEY `type` (`type`),
-  KEY `category` (`category`)
+  KEY `parent` (`parent`)
 );
