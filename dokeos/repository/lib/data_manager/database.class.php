@@ -222,15 +222,29 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
 	// Inherited.
+	// TODO: Don't delete objects which are in use somewhere in an application
 	function delete_learning_object($object)
 	{
-		$sth = $this->connection->prepare('DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name('id').'=?');
-		$this->connection->execute($sth, $object->get_id());
-		if ($object->is_extended())
+		$condition = new EqualityCondition('category',$object->get_id());
+		$children = $this->retrieve_learning_objects(null,$condition);
+		$children_deleted = true;
+		foreach($children as $index => $child)
 		{
-			$sth = $this->connection->prepare('DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name('id').'=?');
-			$this->connection->execute($sth, $object->get_id());
+			$child_deleted = $this->delete_learning_object($child);
+			$children_deleted = $children_deleted && $child_deleted;
 		}
+		if($children_deleted)
+		{
+			$sth = $this->connection->prepare('DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name('id').'=?');
+			$this->connection->execute($sth, $object->get_id());
+			if ($object->is_extended())
+			{
+				$sth = $this->connection->prepare('DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name('id').'=?');
+				$this->connection->execute($sth, $object->get_id());
+			}
+			return true;
+		}
+		return false;
 	}
 
 	// Inherited.
@@ -501,7 +515,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			die('Cannot translate condition');
 		}
 	}
-	
+
 	public static function is_date_column($name)
 	{
 		return ($name == 'created' || $name == 'modified');
