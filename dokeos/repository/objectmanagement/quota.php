@@ -2,6 +2,8 @@
 require_once '../../claroline/inc/claro_init_global.inc.php';
 require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
 require_once '../lib/quotamanager.class.php';
+require_once '../lib/repositorydatamanager.class.php';
+require_once '../lib/categorymenu.class.php';
 require_once api_get_library_path().'/fileDisplay.lib.php';
 require_once api_get_library_path().'/text.lib.php';
 if( !api_get_user_id())
@@ -21,7 +23,16 @@ function get_bar($percent)
 	return $html;
 }
 
+// Load quotamanager
 $quotamanager = new QuotaManager(api_get_user_id());
+// Load datamanager
+$datamanager = RepositoryDataManager::get_instance();
+
+// Create a category-menu (for displaying correct breadcrumbs)
+$root_category = $datamanager->retrieve_root_category(api_get_user_id());
+$menu = new CategoryMenu(api_get_user_id(),$root_category->get_id(),'index.php?category=%s');
+$interbredcrump = $menu->get_breadcrumbs();
+
 
 // Display header
 Display::display_header(get_lang('Quota'));
