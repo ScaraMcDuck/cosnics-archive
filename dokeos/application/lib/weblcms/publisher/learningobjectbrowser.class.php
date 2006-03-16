@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../../../../repository/lib/condition/equalityco
 class LearningObjectBrowser extends LearningObjectPublisherComponent
 {
 	private static $COLUMNS = array ('type', 'title', 'description', 'select');
-	
+
 	function display()
 	{
 		$table = new SortableTable('objects', array ($this, 'get_object_count'), array ($this, 'get_objects'));
@@ -20,7 +20,7 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 		$table->set_header($column ++, get_lang('Use'));
 		$table->display();
 	}
-	
+
 	protected function get_condition()
 	{
 		return new EqualityCondition('owner', $this->get_owner());
@@ -70,13 +70,20 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 		{
 			$string .= '&amp;' . urlencode($p) . '=' . urlencode($v);
 		}
+		$par = $this->get_additional_parameters();
+		$par['publish_action'] = 'publicationCreator';
+		$use_query_string = '';
+		foreach ($par as $p => $v)
+		{
+			$use_query_string .= '&amp;' . urlencode($p) . '=' . urlencode($v);
+		}
 		foreach ($objects as $object)
 		{
 			$row = array ();
 			$row[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/>';
 			$row[] = '<a href="?object='.$object->get_id().$string.'">'.$object->get_title().'</a>';
 			$row[] = $object->get_description();
-			$row[] = '[ USE ]';
+			$row[] = '<a href="?object='.$object->get_id().$use_query_string.'">use</a>';
 			$data[] = $row;
 		}
 		return $data;
