@@ -207,6 +207,10 @@ abstract class RepositoryDataManager
 	/**
 	 * Deletes the given learning object from persistent storage.
 	 * @param LearningObject $object The learning object.
+	 * @return boolean Returns true if the given object was succesfully deleted.
+	 * Returns false when the object couldn't be deleted (this is the case when
+	 * the object is used somewhere in an application or if one of it's
+	 * children is in use)
 	 */
 	abstract function delete_learning_object($object);
 
