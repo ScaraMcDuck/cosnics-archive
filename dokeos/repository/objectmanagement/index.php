@@ -144,6 +144,8 @@ if(isset($_GET['action']))
 			$object = $datamanager->retrieve_learning_object($_GET['id']);
 			$object->delete();
 			$message = get_lang('ObjectDeleted');
+			// re-initialize the menu
+			$menu = new CategoryMenu(api_get_user_id(),$current_category_id);
 			break;
 		case 'move':
 			$renderer =& new OptionsMenuRenderer();
@@ -161,6 +163,8 @@ if(isset($_GET['action']))
 				$object->set_category_id($values['new_category']);
 				$object->update(false);
 				$message = get_lang('ObjectMoved');
+				// re-initialize the menu
+				$menu = new CategoryMenu(api_get_user_id(),$current_category_id);
 			}
 			else
 			{
@@ -181,6 +185,8 @@ if(isset($_POST['action']))
 				$object->delete();
 			}
 			$message = get_lang('ObjectsDeleted');
+			// re-initialize the menu
+			$menu = new CategoryMenu(api_get_user_id(),$current_category_id);
 			break;
 		case 'move_selected':
 			$condition = new EqualityCondition('owner',api_get_user_id());
@@ -211,6 +217,8 @@ if(isset($_POST['action']))
 				$message = get_lang('SelectCategory');
 				$message .= $popup_form->toHtml();
 			}
+			// re-initialize the menu
+			$menu = new CategoryMenu(api_get_user_id(),$current_category_id);
 			break;
 	}
 }
