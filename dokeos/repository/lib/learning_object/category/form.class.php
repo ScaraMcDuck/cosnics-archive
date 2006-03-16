@@ -28,7 +28,7 @@ class CategoryForm extends LearningObjectForm
 		$object->set_owner_id($owner);
 		$object->set_title($values['title']);
 		$object->set_description($values['description']);
-		$object->set_category_id($values['category']);
+		$object->set_parent_id($values['category']);
 		$object->create();
 		return $object;
 	}
@@ -37,7 +37,7 @@ class CategoryForm extends LearningObjectForm
 		$values = $this->exportValues();
 		$object->set_title($values['title']);
 		$object->set_description($values['description']);
-		$object->set_category_id($values['category']);
+		$object->set_parent_id($values['category']);
 		$object->update();
 	}
 }

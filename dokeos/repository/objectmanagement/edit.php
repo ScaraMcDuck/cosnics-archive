@@ -16,13 +16,13 @@ if( isset($_GET['id']))
 	if($form->validate())
 	{
 		$form->update_learning_object($object);
-		$current_category_id = $object->get_category_id();
+		$current_category_id = $object->get_parent_id();
 		header('Location: index.php?category='.$current_category_id.'&action=show_message&message='.urlencode(get_lang('ObjectEdited')));
 	}
 	else
 	{
 		// Create a navigation menu to browse through the categories
-		$current_category_id = $object->get_category_id();
+		$current_category_id = $object->get_parent_id();
 		$menu = new CategoryMenu(api_get_user_id(),$current_category_id,'index.php?category=%s');
 		$interbredcrump = $menu->get_breadcrumbs();
 		$tool_name = get_lang('Edit').': '.$object->get_title();

@@ -28,7 +28,7 @@ class AnnouncementForm extends LearningObjectForm
 		$announcement->set_owner_id($owner);
 		$announcement->set_title($values['title']);
 		$announcement->set_description($values['description']);
-		$announcement->set_category_id($values['category']);
+		$announcement->set_parent_id($values['category']);
 		$announcement->create();
 		return $announcement;
 	}
@@ -37,7 +37,7 @@ class AnnouncementForm extends LearningObjectForm
 		$values = $this->exportValues();
 		$object->set_title($values['title']);
 		$object->set_description($values['description']);
-		$object->set_category_id($values['category']);
+		$object->set_parent_id($values['category']);
 		$object->update();
 	}
 }

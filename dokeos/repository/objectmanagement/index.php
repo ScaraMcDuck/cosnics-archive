@@ -21,7 +21,7 @@ function get_condition()
 {
 	global $current_category_id;
 	$condition1 = new EqualityCondition('owner',api_get_user_id());
-	$condition2 = new EqualityCondition('category',$current_category_id);
+	$condition2 = new EqualityCondition('parent',$current_category_id);
 	$condition = new AndCondition($condition1,$condition2);
 	if (isset ($_GET['keyword']))
 	{
@@ -161,7 +161,7 @@ if(isset($_GET['action']))
 			{
 				$values = $popup_form->exportValues();
 				$object = $datamanager->retrieve_learning_object($_GET['id']);
-				$object->set_category_id($values['new_category']);
+				$object->set_parent_id($values['new_category']);
 				$object->update(false);
 				$message = get_lang('ObjectMoved');
 				// re-initialize the menu
@@ -208,7 +208,7 @@ if(isset($_POST['action']))
 				foreach($_POST['id'] as $index => $object_id)
 				{
 					$object = $datamanager->retrieve_learning_object($object_id);
-					$object->set_category_id($values['category']);
+					$object->set_parent_id($values['category']);
 					$object->update(false);
 				}
 				$message = get_lang('ObjectsMoved');

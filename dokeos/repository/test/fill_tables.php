@@ -71,7 +71,7 @@ for ($i = 0; $i < $announcements; $i ++)
 	$announcement->set_owner_id($user);
 	$announcement->set_title(random_string(2));
 	$announcement->set_description(random_string(8));
-	$announcement->set_category_id(random_category($user));
+	$announcement->set_parent_id(random_category($user));
 	$announcement->create();
 }
 
@@ -82,7 +82,7 @@ for ($i = 0; $i < $calendar_events; $i ++)
 	$event->set_owner_id($user);
 	$event->set_title(random_string(2));
 	$event->set_description(random_string(8));
-	$event->set_category_id(random_category($user));
+	$event->set_parent_id(random_category($user));
 	$event->create();
 }
 
@@ -96,7 +96,7 @@ for ($i = 0; $i < $documents; $i ++)
 	$document->set_path('/'.random_word().'/'.random_word());
 	$document->set_filename(random_word());
 	$document->set_filesize(rand(1000, 10000));
-	$document->set_category_id(random_category($user));
+	$document->set_parent_id(random_category($user));
 	$document->create();
 }
 
@@ -110,7 +110,7 @@ for ($i = 0; $i < $forums; $i ++)
 	$document->set_path('/'.random_word().'/'.random_word());
 	$document->set_filename(random_word());
 	$document->set_filesize(rand(1000, 10000));
-	$document->set_category_id(random_category($user));
+	$document->set_parent_id(random_category($user));
 	$document->create();
 }
 
@@ -122,7 +122,7 @@ for ($i = 0; $i < $links; $i ++)
 	$link->set_title(random_string(2));
 	$link->set_description(random_string(8));
 	$link->set_url(random_url());
-	$link->set_category_id(random_category($user));
+	$link->set_parent_id(random_category($user));
 	$link->create();
 }
 
@@ -137,7 +137,7 @@ for ($i = 0; $i < $links; $i ++)
 //	$student_publication->set_url(random_url());
 //	$student_publication->set_active(true);
 //	$student_publication->set_accepted(true);
-//	$student_publication->set_category_id(random_category($user));
+//	$student_publication->set_parent_id(random_category($user));
 //	$student_publication->create();
 //}
 
@@ -189,7 +189,7 @@ function create_category($owner, $parent = 0, $level = 0)
 	global $max_categories, $created_categories;
 	$cat = new Category();
 	$cat->set_owner_id($owner);
-	$cat->set_category_id($parent);
+	$cat->set_parent_id($parent);
 	$cat->set_title($parent == 0 ? 'My Repository' : random_string(2));
 	$cat->set_description(random_string(8));
 	$id = $cat->create();

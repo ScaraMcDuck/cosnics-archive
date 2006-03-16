@@ -46,7 +46,7 @@ class CategoryMenu extends HTML_Menu
 		$categories = array ();
 		foreach ($objects as $index => $category)
 		{
-			$categories[$category->get_category_id()][] = $category;
+			$categories[$category->get_parent_id()][] = $category;
 		}
 		return $this->get_sub_menu_items($categories, 0);
 	}
