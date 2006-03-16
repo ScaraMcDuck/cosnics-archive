@@ -40,7 +40,7 @@ class LinkForm extends LearningObjectForm
 		$link->set_title($values['title']);
 		$link->set_description($values['description']);
 		$link->set_url($values['url']);
-		$link->set_category_id($values['category']);
+		$link->set_parent_id($values['category']);
 		$link->create();
 		return $link;
 	}
@@ -50,7 +50,7 @@ class LinkForm extends LearningObjectForm
 		$object->set_title($values['title']);
 		$object->set_description($values['description']);
 		$object->set_url($values['url']);
-		$object->set_category_id($values['category']);
+		$object->set_parent_id($values['category']);
 		$object->update();
 	}
 }

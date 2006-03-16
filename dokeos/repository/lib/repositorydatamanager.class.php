@@ -94,7 +94,7 @@ abstract class RepositoryDataManager
 	function retrieve_root_category($owner)
 	{
 		$condition1 = new EqualityCondition('owner', $owner);
-		$condition2 = new EqualityCondition('category', 0);
+		$condition2 = new EqualityCondition('parent', 0);
 		$condition = new AndCondition($condition1, $condition2);
 		$object = $this->retrieve_learning_objects('category', $condition, null, null, null, 1);
 		return $object[0];
@@ -207,10 +207,10 @@ abstract class RepositoryDataManager
 	/**
 	 * Deletes the given learning object from persistent storage.
 	 * @param LearningObject $object The learning object.
-	 * @return boolean Returns true if the given object was succesfully deleted.
-	 * Returns false when the object couldn't be deleted (this is the case when
-	 * the object is used somewhere in an application or if one of it's
-	 * children is in use)
+	 * @return boolean True if the given object was succesfully deleted,
+	 * false if the object couldn't be deleted; deletion fails when
+	 * the object is used somewhere in an application or if one of its
+	 * children is in use.
 	 */
 	abstract function delete_learning_object($object);
 

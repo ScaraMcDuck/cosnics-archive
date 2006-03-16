@@ -48,7 +48,7 @@ class DocumentForm extends LearningObjectForm
 		$document->set_path($path);
 		$document->set_filename($filename);
 		$document->set_filesize(filesize($main_upload_dir.'/'.$path));
-		$document->set_category_id($values['category']);
+		$document->set_parent_id($values['category']);
 		$document->create();
 		return $document;
 	}
@@ -65,7 +65,7 @@ class DocumentForm extends LearningObjectForm
 		$object->set_path($path);
 		$object->set_filename($filename);
 		$object->set_filesize(filesize($main_upload_dir.'/'.$path));
-		$object->set_category_id($values['category']);
+		$object->set_parent_id($values['category']);
 		$object->update();
 	}
 	public function upload_document()

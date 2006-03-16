@@ -4,7 +4,7 @@ CREATE TABLE `%prefix%learning_object` (
   `type` varchar(255) NOT NULL default '',
   `title` text NOT NULL,
   `description` text NOT NULL,
-  `category` int(10) unsigned NOT NULL default '0',
+  `parent` int(10) unsigned NOT NULL default '0',
   `created` datetime default NULL,
   `modified` datetime default NULL,
   PRIMARY KEY  (`id`),

@@ -46,7 +46,7 @@ class CalendarEventForm extends LearningObjectForm
 		$calendarEvent->set_owner_id($owner);
 		$calendarEvent->set_title($values['title']);
 		$calendarEvent->set_description($values['description']);
-		$calendarEvent->set_category_id($values['category']);
+		$calendarEvent->set_parent_id($values['category']);
 		$calendarEvent->set_start_date($values['start']);
 		$calendarEvent->set_end_date($values['end']);
 		$calendarEvent->create();
@@ -57,7 +57,7 @@ class CalendarEventForm extends LearningObjectForm
 		$values = $this->exportValues();
 		$object->set_title($values['title']);
 		$object->set_description($values['description']);
-		$object->set_category_id($values['category']);
+		$object->set_parent_id($values['category']);
 		$object->set_start_date($values['start']);
 		$object->set_end_date($values['end']);
 		$object->update();

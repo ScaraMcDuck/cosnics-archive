@@ -8,13 +8,12 @@ require_once dirname(__FILE__).'/repositorydatamanager.class.php';
  *
  *	Learning objects have a number of default properties:
  *	- id: the numeric ID of the learning object;
- *	- parent: the numeric ID of the parent of this learning object, which
- *	  is also a learning object (not applicable for any learning object);
  *	- owner: the ID of the user who owns the learning object;
  *	- title: the title of the learning object;
  *	- description: a brief description of the learning object; may also be
  *	  used to store its content in select cases;
- *	- category: the numeric ID of the category of this learning object;
+ *	- parent: the numeric ID of the parent object of this learning object;
+ *    this is a learning object by itself, usually a category.
  *	- created: the date when the learning object was created, as returned by
  *	  PHP's time() function (UNIX time, seconds since the epoch);
  *	- modified: the date when the learning object was last modified, as
@@ -57,7 +56,7 @@ class LearningObject
 	/**
 	 * Names of default properties of any learning object.
 	 */
-	static $DEFAULT_PROPERTIES = array ('owner', 'title', 'description', 'category', 'created', 'modified');
+	static $DEFAULT_PROPERTIES = array ('owner', 'title', 'description', 'parent', 'created', 'modified');
 
 	/**
 	 * Numeric identifier of the learning object.
@@ -139,13 +138,13 @@ class LearningObject
 	}
 
 	/**
-	 * Returns the numeric identifier of the category that this learning
-	 * object is associated with.
+	 * Returns the numeric identifier of the learning object's parent learning
+	 * object.
 	 * @return int The identifier.
 	 */
-	function get_category_id()
+	function get_parent_id()
 	{
-		return $this->get_default_property('category');
+		return $this->get_default_property('parent');
 	}
 
 	/**
@@ -205,13 +204,12 @@ class LearningObject
 	}
 
 	/**
-	 * Sets the ID of the category that this learning object is associated
-	 * with.
-	 * @param int $category The ID.
+	 * Sets the ID of this learning object's parent learning object.
+	 * @param int $parent The ID.
 	 */
-	function set_category_id($category)
+	function set_parent_id($parent)
 	{
-		$this->set_default_property('category', $category);
+		$this->set_default_property('parent', $parent);
 	}
 
 	/**

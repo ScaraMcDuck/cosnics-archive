@@ -63,7 +63,7 @@ abstract class LearningObjectForm extends FormValidator
 		$this->addElement('text', 'title', 'Title');
 		$this->addRule('title', 'Required', 'required');
 		$select= & $this->addElement('select', 'category', get_lang('Category'), $this->get_categories());
-		$select->setSelected($this->learningObject->get_category_id());
+		$select->setSelected($this->learningObject->get_parent_id());
 		$this->add_html_editor('description', 'Description');
 		$this->addElement('hidden', 'id');
 	}

@@ -25,7 +25,7 @@ class DescriptionForm extends LearningObjectForm
 		$description->set_owner_id($owner);
 		$description->set_title($values['title']);
 		$description->set_description($values['description']);
-		$description->set_category_id($values['category']);
+		$description->set_parent_id($values['category']);
 		$description->create();
 		return $description;
 	}
@@ -34,7 +34,7 @@ class DescriptionForm extends LearningObjectForm
 		$values = $this->exportValues();
 		$object->set_title($values['title']);
 		$object->set_description($values['description']);
-		$object->set_category_id($values['category']);
+		$object->set_parent_id($values['category']);
 		$object->update();
 	}
 }
