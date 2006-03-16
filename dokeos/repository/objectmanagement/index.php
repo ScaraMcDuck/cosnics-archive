@@ -243,6 +243,9 @@ echo $renderer->toHtml();
 echo '</div><div style="float:right;width:80%;">';
 // Display table
 $table->display();
+// Link to quota-page
+echo '<a href="quota.php" style="float:right;"><img src="'.api_get_path(WEB_CODE_PATH).'/img/statistics.gif" style="vertical-align:middle;">'.get_lang('Quota').'</a>';
+
 echo '</div>';
 // Display footer
 Display::display_footer();
