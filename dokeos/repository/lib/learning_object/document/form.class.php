@@ -9,8 +9,9 @@ class DocumentForm extends LearningObjectForm
 	public function build_create_form()
 	{
 		parent :: build_create_form();
-		$this->addElement('file', 'filename', get_lang('Filename'));
+		//$this->addElement('file', 'filename', get_lang('Filename'));
 		//$this->addRule('filename',get_lang('DiskQuotaExceeded'),'disk_quota');
+		$this->addElement('upload_or_create','filename');
 		$this->add_submit_button();
 	}
 	public function build_edit_form($object)
@@ -35,12 +36,12 @@ class DocumentForm extends LearningObjectForm
 		global $path;
 		global $filename;
 		global $main_upload_dir;
-		$values = $this->exportValues();			
+		$values = $this->exportValues();
 		$this->upload_document();
 		if(preg_match('/\.x?html?$/', $filename) === 1)
 			$document = new HtmlDocument();
 		else
-			$document = new Document();			
+			$document = new Document();
 		$dataManager = RepositoryDataManager::get_instance();
 		$document->set_owner_id($owner);
 		$document->set_title($values['title']);
@@ -59,7 +60,7 @@ class DocumentForm extends LearningObjectForm
 		global $main_upload_dir;
 		$values = $this->exportValues();
 		unlink(Configuration::get_instance()->get_parameter('general', 'upload_path').'/'.$values['path']);
-		$this->upload_document();		
+		$this->upload_document();
 		$object->set_title($values['title']);
 		$object->set_description($values['description']);
 		$object->set_path($path);
@@ -85,9 +86,9 @@ class DocumentForm extends LearningObjectForm
 		{
 			$file_base = substr($filename, 0, $dot_pos);
 			$file_ext = substr($filename, $dot_pos);
-		}			
+		}
 		while (file_exists($main_upload_dir.'/'.$path))
-		{	
+		{
 			$filename = $file_base.$i.$file_ext;
 			$path = api_get_user_id().'/'.$filename;
 			$i++;
