@@ -6,11 +6,11 @@ require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.c
 
 class LearningObjectPublicationCreator extends LearningObjectPublisherComponent
 {
-	function display()
+	function as_html()
 	{
 		if ($_GET['object']) {
 			$object = RepositoryDataManager::get_instance()->retrieve_learning_object($_GET['object']);
-			echo LearningObjectDisplay::factory($object)->get_full_html();
+			$out = LearningObjectDisplay::factory($object)->get_full_html();
 			$par = $this->get_additional_parameters();
 			$par['publish_action'] = 'publicationCreator';
 			$query_string = '';
@@ -18,10 +18,10 @@ class LearningObjectPublicationCreator extends LearningObjectPublisherComponent
 			{
 				$query_string .= '&amp;' . urlencode($p) . '=' . urlencode($v);
 			}
-			echo 'TODO: form with publication options (groups/user/timerange/...)';
+			// TODO: Form with publication options (groups/user/timerange/...)
 			$form = new FormValidator('create_publication','post','?object='.$object->get_id().$query_string);
 			$form->addElement('submit','submit',get_lang('Ok'));
-			$form->display();
+			return $out . $form->asHtml();
 		}
 	}
 }

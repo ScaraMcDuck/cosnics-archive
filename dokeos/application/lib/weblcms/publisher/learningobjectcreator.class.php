@@ -10,20 +10,20 @@ class LearningObjectCreator extends LearningObjectPublisherComponent
 		return (count($types) == 1 ? $types[0] : $_REQUEST['type']);
 	}
 
-	function display()
+	function as_html()
 	{
 		$type = $this->get_type();
 		if ($type)
 		{
-			$this->display_creation_form($type);
+			return $this->get_creation_form($type);
 		}
 		else
 		{
-			$this->display_type_selector();
+			return $this->get_type_selector();
 		}
 	}
 
-	private function display_type_selector()
+	private function get_type_selector()
 	{
 		$types = array ();
 		foreach ($this->get_types() as $t)
@@ -36,10 +36,10 @@ class LearningObjectCreator extends LearningObjectPublisherComponent
 		$form->addElement('select', 'type', '', $types);
 		$form->addElement('submit', 'submit', get_lang('OK'));
 		$form->setDefaults(array ('tool' => $_GET['tool'], 'publish_action' => $_GET['publish_action']));
-		$form->display();
+		return $form->asHtml();
 	}
 
-	private function display_creation_form($type)
+	private function get_creation_form($type)
 	{
 		$form = LearningObjectForm :: factory($type, 'create', 'post', $_ENV['SCRIPT_NAME'].'?tool='.$_GET['tool'].'&publish_action='.$_GET['publish_action']);
 		$form->build_create_form($type);
@@ -48,11 +48,12 @@ class LearningObjectCreator extends LearningObjectPublisherComponent
 		if ($form->validate())
 		{
 			$object = $form->create_learning_object(api_get_user_id());
+			// TODO: Publish.
 			var_dump($object);
 		}
 		else
 		{
-			$form->display();
+			return $form->asHtml();
 		}
 	}
 }

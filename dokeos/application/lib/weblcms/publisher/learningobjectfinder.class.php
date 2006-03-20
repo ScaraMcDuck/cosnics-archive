@@ -21,11 +21,10 @@ class LearningObjectFinder extends LearningObjectBrowser
 		$this->form->addElement('submit', 'submit', get_lang('Find'));
 	}
 
-	function display()
+	function as_html()
 	{
-		$this->form->display();
 		$this->set_additional_parameter('query', $this->get_query());
-		parent :: display();
+		return $this->form->as_html() . parent :: as_html();
 	}
 
 	function get_query()

@@ -9,11 +9,11 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 		$this->browser = $browser; 
 	}
 	
-	function display()
+	function as_html()
 	{
 		$renderer =& new TreeMenuRenderer();
 		$this->render($renderer, 'sitemap');
-		echo $renderer->toHtml();
+		return $renderer->toHtml();
 	}
 }
 ?>
