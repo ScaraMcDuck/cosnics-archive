@@ -4,9 +4,9 @@ require_once dirname(__FILE__).'/../../learningobjectpublicationbrowser.class.ph
 
 class LinkBrowser extends LearningObjectPublicationBrowser
 {
-	function LinkBrowser()
+	function LinkBrowser($parent)
 	{
-		parent :: __construct('link', api_get_course_id(), intval($_GET['category']), api_get_user_id());
+		parent :: __construct($parent, 'link', api_get_course_id(), intval($_GET['category']), api_get_user_id());
 		$this->set_column_titles(get_lang('Title'), get_lang('Description'));
 	}
 

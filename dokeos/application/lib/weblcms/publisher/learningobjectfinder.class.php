@@ -10,21 +10,21 @@ class LearningObjectFinder extends LearningObjectBrowser
 {
 	private $form;
 
-	function LearningObjectFinder($owner, $types)
+	function LearningObjectFinder($parent, $owner, $types)
 	{
-		parent :: __construct($owner, $types);
+		parent :: __construct($parent, $owner, $types);
 		$this->form = new HTML_QuickForm('search', 'get');
 		$this->form->addElement('hidden', 'tool');
 		$this->form->addElement('hidden', 'publish_action');
 		$this->form->addElement('text', 'query', '');
 		$this->form->addRule('query', get_lang('ThisFieldIsRequired'), 'required');
 		$this->form->addElement('submit', 'submit', get_lang('Find'));
+		$this->set_parameter('query', $this->get_query());
 	}
 
 	function as_html()
 	{
-		$this->set_additional_parameter('query', $this->get_query());
-		return $this->form->as_html() . parent :: as_html();
+		return $this->form->toHTML() . parent :: as_html();
 	}
 
 	function get_query()

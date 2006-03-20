@@ -1,17 +1,22 @@
 <?php
 abstract class LearningObjectPublisherComponent
 {
+	private $parent;
+	
 	private $owner;
 
 	private $types;
-
-	private $additionalParameters;
-
-	function LearningObjectPublisherComponent($owner, $types)
+	
+	function LearningObjectPublisherComponent($parent, $owner, $types)
 	{
+		$this->parent = $parent;
 		$this->owner = $owner;
 		$this->types = (is_array($types) ? $types : array($types));
-		$this->additionalParameters = array ();
+	}
+	
+	protected function get_parent()
+	{
+		return $this->parent;
 	}
 
 	protected function get_owner()
@@ -25,20 +30,20 @@ abstract class LearningObjectPublisherComponent
 	}
 
 	abstract function as_html();
-
-	function get_additional_parameters()
+	
+	function get_url($parameters = array())
 	{
-		return $this->additionalParameters;
+		return $this->parent->get_url($parameters);
 	}
 
-	function get_additional_parameter($name)
+	function get_parameters()
 	{
-		return $this->additionalParameters[$name];
+		return $this->parent->get_parameters();
 	}
-
-	function set_additional_parameter($name, $value)
+	
+	function set_parameter($name, $value)
 	{
-		$this->additionalParameters[$name] = $value;
+		$this->parent->set_parameter($name, $value);
 	}
 }
 ?>

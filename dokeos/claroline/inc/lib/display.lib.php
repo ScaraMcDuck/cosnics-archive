@@ -263,34 +263,28 @@ class Display
 	* to display any normal information messages.
 	*
 	* @author Roan Embrechts
+	* @author Tim De Pauw
 	* @param string $message - include any additional html
 	*                          tags if you need them
-	* @return void
+	* @param boolean $return
+	* @return mixed
 	*/
-	function display_normal_message($message)
+	function display_normal_message($message, $return = false)
 	{
+		$out = '';
 		if (!headers_sent())
 		{
-?>
-
-<style type="text/css" media="screen, projection">
+			$out .= '<style type="text/css" media="screen, projection">
 /*<![CDATA[*/
-@import "<?php echo api_get_path(WEB_CODE_PATH); ?>css/default.css";
+@import "' . api_get_path(WEB_CODE_PATH) . 'css/default.css";
 /*]]>*/
-</style>
-
-<?php
-
-
+</style>';
 		}
-?>
-		<div class="normal-message">
-		<?php echo $message ?>
-		</div>
-
-<?php
-
-
+		$out .= '<div class="normal-message">'.$message.'</div>';
+		if ($return) {
+			return $out;
+		}
+		echo $out;
 	}
 
 	/**
@@ -299,33 +293,28 @@ class Display
 	*
 	* @author Hugues Peeters
 	* @author Roan Embrechts
+	* @author Tim De Pauw
 	* @param string $message - include any additional html
 	*                          tags if you need them
-	* @return void
+	* @param boolean $return
+	* @return mixed
 	*/
-	function display_error_message($message)
+	function display_error_message($message, $return = false)
 	{
+		$out = '';
 		if (!headers_sent())
 		{
-?>
-
-<style type="text/css" media="screen, projection">
+			$out .= '<style type="text/css" media="screen, projection">
 /*<![CDATA[*/
-@import "<?php echo api_get_path(WEB_CODE_PATH); ?>css/default.css";
+@import "' . api_get_path(WEB_CODE_PATH) . 'css/default.css";
 /*]]>*/
-</style>
-
-<?php
-
-
+</style>';
 		}
-?>
-		<div class="error-message">
-			<?php echo $message ?>
-		</div>
-		<?php
-
-
+		$out .= '<div class="error-message">'.$message.'</div>';
+		if ($return) {
+			return $out;
+		}
+		echo $out;
 	}
 	/**
 	 * Return an encrypted mailto hyperlink

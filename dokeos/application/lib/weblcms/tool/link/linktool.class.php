@@ -11,16 +11,16 @@ class LinkTool extends RepositoryTool
 		}
 		if ($_SESSION['linkadmin'])
 		{
-			echo '<p>Go to <a href="?linkadmin=0&amp;tool=link">User Mode</a> &hellip;</p>';
+			echo '<p>Go to <a href="' . $this->get_url(array('linkadmin' => 0)) . '">User Mode</a> &hellip;</p>';
 			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
-			$pub = new LearningObjectPublisher('link', api_get_course_id(), api_get_user_id());
+			$pub = new LearningObjectPublisher($this, 'link', api_get_course_id(), api_get_user_id());
 			echo $pub->as_html();
 		}
 		else
 		{
-			echo '<p>Go to <a href="?linkadmin=1&amp;tool=link">Publisher Mode</a> &hellip;</p>';
+			echo '<p>Go to <a href="' . $this->get_url(array('linkadmin' => 1)) . '">Publisher Mode</a> &hellip;</p>';
 			require_once dirname(__FILE__).'/linkbrowser.class.php';
-			$browser = new LinkBrowser();
+			$browser = new LinkBrowser($this);
 			echo $browser->as_html();
 		}
 	}
