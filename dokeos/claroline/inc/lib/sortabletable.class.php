@@ -181,7 +181,7 @@ class SortableTable extends HTML_Table
 	 */
 	function display()
 	{
-		return $this->as_html();
+		echo $this->as_html();
 	}
 	/**
 	 * Returns the complete table HTML. Alias of as_html().
