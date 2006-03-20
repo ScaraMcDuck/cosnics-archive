@@ -49,7 +49,7 @@ class WebLCMS extends Application
 
 	function register_tool($tool)
 	{
-		if (array_key_exists($tool, $this->tools))
+		if (in_array($tool, $this->tools))
 		{
 			die('Tool already registered: '.$tool);
 		}
