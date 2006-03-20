@@ -59,5 +59,13 @@ class RepositoryUtilities
 		$result = new AndCondition($cond);
 		return $result;
 	}
+	
+	static function date_from_datepicker($string)
+	{
+		list($date, $time) = split(' ', $string);
+		list($year, $month, $day) = split('-', $date);
+		list($hours, $minutes, $seconds) = split(':', $time);
+		return mktime($hours, $minutes, $seconds, $month, $day, $year);
+	}
 }
 ?>
