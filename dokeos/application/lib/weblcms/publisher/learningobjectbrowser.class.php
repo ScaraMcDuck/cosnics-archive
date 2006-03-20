@@ -17,7 +17,7 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 		$table->set_header($column ++, get_lang('Type'));
 		$table->set_header($column ++, get_lang('Title'));
 		$table->set_header($column ++, get_lang('Description'));
-		$table->set_header($column ++, get_lang('Use'));
+		$table->set_header($column ++, get_lang('Publish'), false);
 		return $table->as_html();
 	}
 
@@ -69,7 +69,7 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 			$row[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/>';
 			$row[] = '<a href="' . $this->get_url(array('publish_action' => 'viewer', 'object' => $object->get_id())) . '">'.$object->get_title().'</a>';
 			$row[] = $object->get_description();
-			$row[] = '<a href="' . $this->get_url(array('publish_action' => 'publicationcreator', 'object' => $object->get_id())) . '">use</a>';
+			$row[] = '<a href="' . $this->get_url(array('publish_action' => 'publicationcreator', 'object' => $object->get_id())) . '"><img src="'.api_get_path(WEB_CODE_PATH).'img/publish.gif" alt="'.get_lang('Publish').'"/></a>';
 			$data[] = $row;
 		}
 		return $data;
