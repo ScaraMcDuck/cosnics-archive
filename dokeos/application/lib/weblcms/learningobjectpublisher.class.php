@@ -21,7 +21,7 @@ class LearningObjectPublisher
 	function as_html()
 	{
 		$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-		foreach (array ('browser', 'finder', 'creator') as $a)
+		foreach (array ('browser', 'finder', 'publicationcreator') as $a)
 		{
 			$out .= '<li><a href="'.$this->get_url(array ('publish_action' => $a)).'">'.get_lang(ucfirst($a).'Title').'</a></li>';
 		}
