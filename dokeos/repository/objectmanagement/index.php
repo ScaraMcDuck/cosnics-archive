@@ -232,6 +232,10 @@ $interbredcrump = $menu->get_breadcrumbs();
 $current_location = array_pop($interbredcrump);
 // Display header
 Display::display_header($current_location['name']);
+if(isset($message))
+{
+	Display::display_normal_message($message);
+}
 api_display_tool_title($current_location['name']);
 echo '<div style="float:left;width:40%;margin:5px;">';
 // Display create form
@@ -239,13 +243,8 @@ $create_form->display();
 echo '</div><div style="float:right;width:40%;text-align:right;margin:5px;">';
 // Display search form
 $search_form->display();
-echo '</div>';
 // Display message if needed
-if(isset($message))
-{
-	Display::display_normal_message($message);
-}
-echo '<div style="float:left;width:20%;">';
+echo '</div><div style="float:left;width:20%;">';
 // Display menu
 $renderer =& new TreeMenuRenderer();
 $menu->render($renderer,'sitemap');
@@ -255,7 +254,6 @@ echo '</div><div style="float:right;width:80%;">';
 $table->display();
 // Link to quota-page
 echo '<a href="quota.php" style="float:right;"><img src="'.api_get_path(WEB_CODE_PATH).'/img/statistics.gif" style="vertical-align:middle;">'.get_lang('Quota').'</a>';
-
 echo '</div>';
 // Display footer
 Display::display_footer();
