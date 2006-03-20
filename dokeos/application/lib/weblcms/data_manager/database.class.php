@@ -8,15 +8,12 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 {
 	private $connection;
 
-	private $prefix;
-
 	private $repoDM;
 
 	function initialize()
 	{
 		$this->repoDM = & RepositoryDataManager :: get_instance();
 		$this->connection = & $this->repoDM->get_connection();
-		$this->prefix = & $this->repoDM->get_table_name_prefix();
 	}
 
 	function retrieve_learning_object_publication($pid)
@@ -61,53 +58,49 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 				$cond[] = new EqualityCondition('category', $categories);
 			}
 		}
-		/*
-		 * Add 0 to allowed users and groups: for records without restriction.
-		 */
-		if (is_null($users))
-		{
-			$users = array (0);
-		}
-		elseif (is_array($users))
-		{
-			$users[] = 0;
-		}
-		else
-		{
-			$users = array ($users, 0);
-		}
-		if (is_null($groups))
-		{
-			$groups = array (0);
-		}
-		elseif (is_array($groups))
-		{
-			$groups[] = 0;
-		}
-		else
-		{
-			$groups = array ($groups, 0);
-		}
-		/*
-		 * Condition for allowed users.
-		 */
 		$c = array ();
-		foreach ($users as $u)
+		if (!is_null($users))
 		{
-			$c[] = new EqualityCondition('user', $u);
+			if (is_array($users))
+			{
+				$users[] = null;
+			}
+			else
+			{
+				$users = array ($users, null);
+			}
+			foreach ($users as $u)
+			{
+				$c[] = new EqualityCondition('user', $u);
+			}
 		}
-		/*
-		 * Condition for allowed groups.
-		 */
-		foreach ($groups as $g)
+		if (!is_null($groups))
 		{
-			$c[] = new EqualityCondition('group', $g);
+			if (is_array($groups))
+			{
+				$groups[] = null;
+			}
+			else
+			{
+				$groups = array ($groups, null);
+			}
+			foreach ($groups as $g)
+			{
+				$c[] = new EqualityCondition('group', $g);
+			}
 		}
 		/*
 		 * Add user/group conditions to global condition.
 		 */
-		$cond[] = new OrCondition($c);
-		$conditions = (is_null($conditions) ? new AndCondition($cond) : new AndCondition($cond, $conditions));
+		if (count($c))
+		{
+			$cond[] = new OrCondition($c);
+			if (!is_null($conditions))
+			{
+				$cond[] = $conditions;
+			}
+			$conditions = new AndCondition($cond);
+		}
 		/*
 		 * Always respect display order as a last resort.
 		 */
@@ -117,7 +110,10 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		 * Build query.
 		 */
 		$params = array ();
-		$query .= ' WHERE '.$this->translate_condition($conditions, & $params);
+		if (!is_null($conditions))
+		{
+			$query .= ' WHERE '.$this->translate_condition($conditions, & $params);
+		}
 		$query .= ' ORDER BY '.$this->escape_column_name($orderBy[0]).' '. ($orderDesc[0] == SORT_ASC ? 'ASC' : 'DESC');
 		for ($i = 1; $i < count($orderBy); $i ++)
 		{
@@ -159,7 +155,18 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	function create_learning_object_publication($publication)
 	{
-		// TODO
+		$id = $this->connection->nextId($this->get_table_name('learning_object_publication'));
+		$props = array();
+		$props['id'] = $id;
+		$props['learning_object'] = $publication->get_learning_object()->get_id();
+		$props['course'] = $publication->get_course_id();
+		$props['category'] = $publication->get_category_id();
+		$props['from_date'] = $publication->get_from_date();
+		$props['to_date'] = $publication->get_to_date();
+		$props['hidden'] = $publication->is_hidden();
+		$props['display_order'] = $publication->get_display_order_index();
+		$this->connection->autoExecute($this->get_table_name('learning_object_publication'), $props, DB_AUTOQUERY_INSERT);
+		return $id;
 	}
 
 	function update_learning_object_publication($publication)
@@ -210,12 +217,17 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 	private function record_to_publication($record)
 	{
 		$obj = $this->repoDM->retrieve_learning_object($record['learning_object']);
-		return new LearningObjectPublication($record['id'], $obj, $record['course'], $record['target_users'], $record['target_groups'], self :: from_db_date($record['from_date']), self :: from_db_date($record['to_date']), $record['hidden'] != 0, $record['display_order']);
+		return new LearningObjectPublication($record['id'], $obj, $record['course'], $record['category'], $record['target_users'], $record['target_groups'], self :: from_db_date($record['from_date']), self :: from_db_date($record['to_date']), $record['hidden'] != 0, $record['display_order']);
 	}
 
 	private function translate_condition($condition, & $params)
 	{
 		return $this->repoDM->translate_condition($condition, & $params);
+	}
+
+	private function get_table_name($name)
+	{
+		return $this->repoDM->get_table_name($name);
 	}
 
 	private function escape_table_name($name)

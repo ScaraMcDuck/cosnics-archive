@@ -7,6 +7,8 @@ class LearningObjectPublication
 	
 	private $course;
 	
+	private $category;
+	
 	private $targetUsers;
 	
 	private $targetGroups;
@@ -19,11 +21,12 @@ class LearningObjectPublication
 	
 	private $displayOrder;
 	
-	function LearningObjectPublication($id, $learningObject, $course, $targetUsers, $targetGroups, $fromDate, $toDate, $hidden, $displayOrder) 
+	function LearningObjectPublication($id, $learningObject, $course, $category, $targetUsers, $targetGroups, $fromDate, $toDate, $hidden, $displayOrder) 
 	{
 		$this->id = $id;
 		$this->learningObject = $learningObject;
 		$this->course = $course;
+		$this->category = $category;
 		$this->targetUsers = $targetUsers;
 		$this->targetGroups = $targetGroups;
 		$this->fromDate = $fromDate;
@@ -47,6 +50,11 @@ class LearningObjectPublication
 		return $this->course;
 	}
 	
+	function get_category_id()
+	{
+		return $this->category;
+	}
+	
 	function get_target_users()
 	{
 		return $this->targetUsers;
@@ -64,7 +72,7 @@ class LearningObjectPublication
 
 	function get_to_date()
 	{
-		return $this->fromDate;
+		return $this->toDate;
 	}
 
 	function is_hidden()
@@ -90,6 +98,11 @@ class LearningObjectPublication
 	function set_course_id($course)
 	{
 		$this->course = $course;
+	}
+
+	function set_category_id($category)
+	{
+		$this->category = $category;
 	}
 	
 	function set_target_users($targetUsers)
