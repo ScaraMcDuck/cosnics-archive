@@ -49,7 +49,7 @@ class LearningObjectFinder extends LearningObjectBrowser
 		if (!isset ($p))
 		{
 			return $oc;
-		};
+		}
 		$c = RepositoryUtilities :: query_to_condition($p);
 		return (!is_null($c) ? new AndCondition($oc, $c) : $oc);
 	}
