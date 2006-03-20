@@ -3,11 +3,11 @@ require_once dirname(__FILE__) . '/../../learningobject.class.php';
 
 class LearnpathChapter extends LearningObject 
 {
-	function get_display_order () 
+	function get_display_order_index () 
 	{
 		return $this->get_additional_property('display_order');
 	}
-	function set_display_order ($display_order) 
+	function set_display_order_index ($display_order) 
 	{
 		return $this->set_additional_property('display_order', $display_order);
 	}

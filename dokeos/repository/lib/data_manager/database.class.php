@@ -487,6 +487,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			if (self :: is_date_column($name)) {
 				$value = self :: to_db_date($value);
 			}
+			if (is_null($value))
+			{
+				return $this->escape_column_name($name).' IS NULL';
+			}
 			$params[] = $value;
 			return $this->escape_column_name($name).' = ?';
 		}

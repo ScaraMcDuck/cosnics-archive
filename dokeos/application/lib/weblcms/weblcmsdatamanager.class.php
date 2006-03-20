@@ -38,10 +38,13 @@ abstract class WebLCMSDataManager
 	 *                       null if none.
 	 * @param mixed $categories The IDs of the category that publications must
 	 *                          located in, or null if none.
-	 * @param mixed $users The IDs of the user who should have access to the
-	 *                     publications, or null if none.
-	 * @param mixed $groups The IDs of the groups who should have access to
-	 *                      the publications, or null if none.
+	 * @param mixed $users The IDs of the users who should have access to the
+	 *                     publications, or null if any. An empty array means
+	 *                     the publication should be accessible to all users.
+	 * @param mixed $groups The IDs of the groups that should have access to
+	 *                      the publications, or null if any. An empty array
+	 *                      means the publication should be accessible to all
+	 *                      groups.
 	 * @param Condition $conditions Conditions for publication selection. See
 	 *                              the Conditions framework.
 	 * @param array $orderBy The properties to order publications by.

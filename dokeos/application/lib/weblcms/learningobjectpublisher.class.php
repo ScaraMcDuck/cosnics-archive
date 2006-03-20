@@ -73,5 +73,10 @@ class LearningObjectPublisher
 	{
 		$this->parent->set_parameter($name, $value);
 	}
+	
+	function get_categories()
+	{
+		return $this->parent->get_categories($this->course, $_GET['tool']);
+	}
 }
 ?>

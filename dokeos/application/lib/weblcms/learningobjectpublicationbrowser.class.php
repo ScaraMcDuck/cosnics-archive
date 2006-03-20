@@ -1,7 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/browser/learningobjectpublicationtable.class.php';
 require_once dirname(__FILE__).'/browser/learningobjectpublicationcategorytree.class.php';
-require_once dirname(__FILE__).'/../../../claroline/inc/lib/groupmanager.lib.php';
 
 abstract class LearningObjectPublicationBrowser
 {
@@ -62,31 +61,19 @@ abstract class LearningObjectPublicationBrowser
 
 	function get_groups()
 	{
-		return GroupManager :: get_group_ids($this->get_course(), $this->get_user());
+		return $this->parent->get_groups($this->get_course(), $this->get_user());
 	}
-
+	
 	function get_categories()
 	{
-		$category_tree = WebLCMSDataManager :: get_instance()->retrieve_publication_categories($this->get_course(), $_GET['tool']);
-		return array (0 => array ('title' => get_lang('RootCategory'), 'url' => $this->get_url(), 'sub' => $this->convert_tree(& $category_tree)));
+		return $this->parent->get_categories($this->get_course(), $_GET['tool']);
 	}
-
-	private function convert_tree(& $tree)
+	
+	function get_url($parameters = array())
 	{
-		$new_tree = array ();
-		$i = 0;
-		foreach ($tree as $t)
-		{
-			$a = array ();
-			$obj = $t['obj'];
-			$a['title'] = $obj->get_title();
-			$a['url'] = $this->get_url(array('category' => $obj->get_id()));
-			$a['sub'] = $this->convert_tree(& $t['sub']);
-			$new_tree[$i ++] = $a;
-		}
-		return (count($new_tree) ? $new_tree : null);
+		return $this->parent->get_url($parameters);
 	}
-
+	
 	abstract function get_publications($from, $number_of_items, $column, $direction);
 
 	abstract function get_publication_count();

@@ -45,5 +45,10 @@ abstract class LearningObjectPublisherComponent
 	{
 		$this->parent->set_parameter($name, $value);
 	}
+	
+	function get_categories()
+	{
+		return $this->parent->get_categories();
+	}
 }
 ?>

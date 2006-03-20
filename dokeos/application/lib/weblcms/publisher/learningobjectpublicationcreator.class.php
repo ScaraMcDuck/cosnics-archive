@@ -1,8 +1,10 @@
 <?php
 require_once dirname(__FILE__).'/../learningobjectpublishercomponent.class.php';
+require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/learningobject_display.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/learningobject_form.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';
 
 class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
@@ -74,12 +76,66 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		{
 			$out .= Display :: display_normal_message(get_lang('ObjectCreated'), true);
 		}
-		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
-		$out .= LearningObjectDisplay :: factory($object)->get_full_html();
-		// TODO: Form with publication options (groups/user/timerange/...)
-		$form = new FormValidator('create_publication', 'post', $this->get_url(array ('object' => $object->get_id())));
+		$form = new FormValidator('create_publication', 'post', $this->get_url(array ('object' => $objectID)));
+		$form->addElement('select', 'category', get_lang('Category'), $this->get_categories());
+		$form->addElement('datepicker', 'from_date', get_lang('StartTimeWindow'));
+		$form->addElement('datepicker', 'to_date', get_lang('EndTimeWindow'));
+		$form->addElement('checkbox', 'hidden', get_lang('Hidden'));
 		$form->addElement('submit', 'submit', get_lang('Ok'));
-		return $out.$form->toHtml();
+		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
+		if ($form->validate())
+		{
+			$values = $form->exportValues();
+			$from = RepositoryUtilities :: time_from_datepicker($values['from_date']);
+			$to = RepositoryUtilities :: time_from_datepicker($values['to_date']);
+			$hidden = ($values['hidden'] ? 1 : 0);
+			$category = $values['category'];
+			$users = array ();
+			$groups = array ();
+			$course = $this->get_parent()->get_course();
+			$dm = WebLCMSDataManager :: get_instance();
+			$displayOrder = $this->get_last_publication_index($course, $category) + 1;
+			$pub = new LearningObjectPublication(null, $object, $course, $category, $users, $groups, $from, $to, $hidden, $displayOrder);
+			$dm->create_learning_object_publication($pub);
+			$out .= Display :: display_normal_message(get_lang('ObjectPublished'), true);
+		}
+		else
+		{
+			$out .= LearningObjectDisplay :: factory($object)->get_full_html();
+			$out .= $form->toHtml();
+		}
+		return $out;
+	}
+	
+	private function get_last_publication_index($course, $category)
+	{
+		$dm = WebLCMSDataManager :: get_instance();
+		$results = $dm->retrieve_learning_object_publications($course, $category, null, null, null, array ('display_order'), array (SORT_DESC));
+		// TODO: Make this a data manager function and use MAX(display_order)
+		return (count($results) ? $results[0]->get_display_order_index() : 0);
+	}
+
+	function get_categories()
+	{
+		$categories = array ();
+		$tree = parent :: get_categories();
+		self :: translate_category_tree(& $tree, & $categories);
+		return $categories;
+	}
+
+	private static function translate_category_tree(& $tree, & $categories, $level = 0)
+	{
+		foreach ($tree as $node)
+		{
+			$c = $node['obj'];
+			$prefix = ($level ? str_repeat('&nbsp;&nbsp;&nbsp;', $level).'&mdash; ' : '');
+			$categories[$c->get_id()] = $prefix.$c->get_title();
+			$subtree = $node['sub'];
+			if (is_array($subtree) && count($subtree))
+			{
+				self :: translate_category_tree(& $subtree, & $categories, $level +1);
+			}
+		}
 	}
 }
 ?>
