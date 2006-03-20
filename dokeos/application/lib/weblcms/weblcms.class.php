@@ -6,23 +6,24 @@ class WebLCMS extends Application
 {
 	private $tools;
 
-	private $currentTool;
+	private $parameters;
 
 	function WebLCMS($tool = null)
 	{
-		$this->currentTool = (isset ($tool) ? $tool : $_GET['tool']);
+		$this->parameters = array ();
+		$this->set_parameter('tool', $_GET['tool']);
 		$this->tools = array ();
 		$this->load_tools();
 	}
 
 	function run()
 	{
-		$tool = $this->get_current_tool();
+		$tool = $this->get_parameter('tool');
 		if (isset ($tool))
 		{
 			$class = self :: tool_to_class($tool);
 			api_display_tool_title(get_lang($class.'Title'));
-			$t = new $class ();
+			$t = new $class ($this);
 			$t->run();
 		}
 		else
@@ -31,15 +32,43 @@ class WebLCMS extends Application
 			foreach ($this->get_registered_tools() as $tool)
 			{
 				$class = self :: tool_to_class($tool);
-				echo '<li><a href="'.$_SERVER['SCRIPT_NAME'].'?tool='.$tool.'">'.get_lang($class.'Title').'</a></li>';
+				echo '<li><a href="'.$this->get_url(array ('tool' => $tool)).'">'.get_lang($class.'Title').'</a></li>';
 			}
 			echo '</ul>';
 		}
 	}
 
-	function get_current_tool()
+	function get_url($parameters = array ())
 	{
-		return $this->currentTool;
+		$string = '';
+		if (count($parameters))
+		{
+			$parameters = array_merge($this->parameters, $parameters);
+		}
+		else
+		{
+			$parameters = & $this->parameters;
+		}
+		foreach ($parameters as $name => $value)
+		{
+			$string .= '&'.urlencode($name).'='.urlencode($value);
+		}
+		return $_SERVER['PHP_SELF'].'?'.$string;
+	}
+
+	function get_parameters()
+	{
+		return $this->parameters;
+	}
+
+	function get_parameter($name)
+	{
+		return $this->parameters[$name];
+	}
+
+	function set_parameter($name, $value)
+	{
+		$this->parameters[$name] = $value;
 	}
 
 	function get_registered_tools()

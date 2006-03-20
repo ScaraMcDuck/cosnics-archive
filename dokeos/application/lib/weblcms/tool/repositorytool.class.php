@@ -5,12 +5,6 @@ require_once dirname(__FILE__) . '/../../../../claroline/inc/lib/groupmanager.li
 
 abstract class RepositoryTool extends Tool
 {
-	function RepositoryTool()
-	{
-		parent :: __construct();
-		$this->set_parameter('tool', $_GET['tool']);
-	}
-	
 	function get_groups($course, $user)
 	{
 		return GroupManager :: get_group_ids($course, $user);
