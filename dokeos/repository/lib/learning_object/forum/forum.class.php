@@ -1,7 +1,9 @@
 <?php
 require_once dirname(__FILE__) . '/../../learningobject.class.php';
-
-class Forum extends LearningObject 
+/**
+ * @package learningobject.forum
+ */
+class Forum extends LearningObject
 {
 	function get_topics () {
 		return $this->get_additional_property('topics');

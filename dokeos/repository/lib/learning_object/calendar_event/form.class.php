@@ -1,7 +1,9 @@
 <?php
 require_once dirname(__FILE__) . '/../../learningobject_form.class.php';
 require_once dirname(__FILE__) . '/../../repositoryutilities.class.php';
-
+/**
+ * @package learningobject.calendarevent
+ */
 class CalendarEventForm extends LearningObjectForm
 {
     public function CalendarEventForm($formName, $method='post', $action=null)

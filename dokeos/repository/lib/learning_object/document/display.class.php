@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package learningobject.document
+ */
 class DocumentDisplay extends LearningObjectDisplay
 {
 	public function DocumentDisplay(&$object)

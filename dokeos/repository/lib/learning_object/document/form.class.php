@@ -2,9 +2,11 @@
 require_once dirname(__FILE__) . '/../../learningobject_form.class.php';
 
 define(MAIN_UPLOAD_DIR,Configuration::get_instance()->get_parameter('general', 'upload_path'));
-
+/**
+ * @package learningobject.document
+ */
 class DocumentForm extends LearningObjectForm
-{	
+{
 	public function DocumentForm($formName, $method = 'post', $action = null)
 	{
 		parent :: __construct($formName, $method, $action);
@@ -24,7 +26,7 @@ class DocumentForm extends LearningObjectForm
 			$this->addElement('html_editor', 'html_content', get_lang('HtmlDocument'));
 		else
 			$this->addElement('file', 'file', get_lang(FileName));
-		$this->setDefaults();		
+		$this->setDefaults();
 		$this->add_submit_button();
 	}
 	public function setDefaults($defaults = array ())
@@ -46,7 +48,7 @@ class DocumentForm extends LearningObjectForm
 		{
 			$filename = strtolower(ereg_replace('[^0-9a-zA-Z\.]','',$values['title']));
 			$path = api_get_user_id().'/'.$filename.'.html';
-			$this->check_file();		
+			$this->check_file();
 			$create_file = fopen(MAIN_UPLOAD_DIR.'/'.$path, 'w');
 			fwrite ($create_file, $values['html_content']);
 			fclose($create_file);
@@ -129,7 +131,7 @@ class DocumentForm extends LearningObjectForm
 				$path = api_get_user_id().'/'.$filename;
 				$i++;
 			}
-		}		
+		}
 	}
 }
 ?>
