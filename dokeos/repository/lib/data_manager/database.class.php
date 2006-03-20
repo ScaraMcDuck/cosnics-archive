@@ -225,7 +225,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// TODO: Don't delete objects which are in use somewhere in an application
 	function delete_learning_object($object)
 	{
-		$condition = new EqualityCondition('category',$object->get_id());
+		$condition = new EqualityCondition('parent',$object->get_id());
 		$children = $this->retrieve_learning_objects(null,$condition);
 		$children_deleted = true;
 		foreach($children as $index => $child)
@@ -566,6 +566,5 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		return $disk_space;
 	}
-
 }
 ?>
