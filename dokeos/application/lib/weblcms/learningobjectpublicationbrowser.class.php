@@ -16,9 +16,12 @@ abstract class LearningObjectPublicationBrowser
 	private $objectTable;
 
 	private $categoryTree;
+	
+	private $parent;
 
-	function LearningObjectPublicationBrowser($types, $course, $category = 0, $user)
+	function LearningObjectPublicationBrowser($parent, $types, $course, $category = 0, $user)
 	{
+		$this->parent = $parent;
 		$this->types = is_array($types) ? $types : array ($types);
 		$this->course = $course;
 		$this->user = $user;
@@ -64,8 +67,8 @@ abstract class LearningObjectPublicationBrowser
 
 	function get_categories()
 	{
-		$category_tree = WebLCMSDataManager :: get_instance()->retrieve_publication_categories($this->get_course(), $_REQUEST['tool']);
-		return array (0 => array ('title' => get_lang('RootCategory'), 'url' => '?tool='.$_REQUEST['tool'], 'sub' => $this->convert_tree(& $category_tree)));
+		$category_tree = WebLCMSDataManager :: get_instance()->retrieve_publication_categories($this->get_course(), $_GET['tool']);
+		return array (0 => array ('title' => get_lang('RootCategory'), 'url' => $this->get_url(), 'sub' => $this->convert_tree(& $category_tree)));
 	}
 
 	private function convert_tree(& $tree)
@@ -77,7 +80,7 @@ abstract class LearningObjectPublicationBrowser
 			$a = array ();
 			$obj = $t['obj'];
 			$a['title'] = $obj->get_title();
-			$a['url'] = '?tool='.$_REQUEST['tool'].'&amp;category='.$obj->get_id();
+			$a['url'] = $this->get_url(array('category' => $obj->get_id()));
 			$a['sub'] = $this->convert_tree(& $t['sub']);
 			$new_tree[$i ++] = $a;
 		}

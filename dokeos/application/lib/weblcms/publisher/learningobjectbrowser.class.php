@@ -12,7 +12,7 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 	function as_html()
 	{
 		$table = new SortableTable('objects', array ($this, 'get_object_count'), array ($this, 'get_objects'));
-		$table->set_additional_parameters($this->get_additional_parameters());
+		$table->set_additional_parameters($this->get_parameters());
 		$column = 0;
 		$table->set_header($column ++, get_lang('Type'));
 		$table->set_header($column ++, get_lang('Title'));
@@ -63,27 +63,13 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 		}
 		$objects = RepositoryDataManager :: get_instance()->retrieve_learning_objects($type, $cond, array (self :: $COLUMNS[$column]), array ($direction), $from, $number_of_items);
 		$data = array ();
-		$par = $this->get_additional_parameters();
-		$par['publish_action'] = 'viewer';
-		$string = '';
-		foreach ($par as $p => $v)
-		{
-			$string .= '&amp;' . urlencode($p) . '=' . urlencode($v);
-		}
-		$par = $this->get_additional_parameters();
-		$par['publish_action'] = 'publicationCreator';
-		$use_query_string = '';
-		foreach ($par as $p => $v)
-		{
-			$use_query_string .= '&amp;' . urlencode($p) . '=' . urlencode($v);
-		}
 		foreach ($objects as $object)
 		{
 			$row = array ();
 			$row[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/>';
-			$row[] = '<a href="?object='.$object->get_id().$string.'">'.$object->get_title().'</a>';
+			$row[] = '<a href="' . $this->get_url(array('publish_action' => 'viewer', 'object' => $object->get_id())) . '">'.$object->get_title().'</a>';
 			$row[] = $object->get_description();
-			$row[] = '<a href="?object='.$object->get_id().$use_query_string.'">use</a>';
+			$row[] = '<a href="' . $this->get_url(array('publish_action' => 'publicationcreator', 'object' => $object->get_id())) . '">use</a>';
 			$data[] = $row;
 		}
 		return $data;

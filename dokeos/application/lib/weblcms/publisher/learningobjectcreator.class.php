@@ -41,19 +41,21 @@ class LearningObjectCreator extends LearningObjectPublisherComponent
 
 	private function get_creation_form($type)
 	{
-		$form = LearningObjectForm :: factory($type, 'create', 'post', $_ENV['SCRIPT_NAME'].'?tool='.$_GET['tool'].'&publish_action='.$_GET['publish_action']);
+		$form = LearningObjectForm :: factory($type, 'create', 'post', $this->get_url());
 		$form->build_create_form($type);
 		$form->addElement('hidden', 'type');
 		$form->setDefaults(array ('type' => $type));
 		if ($form->validate())
 		{
 			$object = $form->create_learning_object(api_get_user_id());
-			// TODO: Publish.
-			var_dump($object);
+			$url = $this->get_url(array('id' => $object->get_id())); 
+			return Display :: display_normal_message(
+				get_lang('ObjectCreated')
+				. ' <a href="' . htmlentities($url) . '">' . get_lang('PublishObject') . '</a>', true);
 		}
 		else
 		{
-			return $form->asHtml();
+			return $form->toHTML();
 		}
 	}
 }

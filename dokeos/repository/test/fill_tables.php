@@ -19,7 +19,7 @@ $max_categories = array (5, 3, 0, 0);
 $announcements = rand(2, 10);
 $calendar_events = rand(2, 10);
 $documents = rand(2, 10);
-$links = rand(2, 10);
+$links = rand(50, 100);
 $student_publications = rand(2, 10);
 
 // TODO
