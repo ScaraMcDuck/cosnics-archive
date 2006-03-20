@@ -190,18 +190,18 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// Inherited.
 	function create_learning_object($object)
 	{
-		$id = $this->connection->nextId($this->prefix.'learning_object');
+		$id = $this->connection->nextId($this->get_table_name('learning_object'));
 		$props = $object->get_default_properties();
 		$props['id'] = $id;
 		$props['type'] = $object->get_type();
 		$props['created'] = self :: to_db_date($props['created']);
 		$props['modified'] = self :: to_db_date($props['modified']);
-		$this->connection->autoExecute($this->prefix.'learning_object', $props, DB_AUTOQUERY_INSERT);
+		$this->connection->autoExecute($this->get_table_name('learning_object'), $props, DB_AUTOQUERY_INSERT);
 		if ($object->is_extended())
 		{
 			$props = $object->get_additional_properties();
 			$props['id'] = $id;
-			$this->connection->autoExecute($this->prefix.$object->get_type(), $props, DB_AUTOQUERY_INSERT);
+			$this->connection->autoExecute($this->get_table_name($object->get_type()), $props, DB_AUTOQUERY_INSERT);
 		}
 		$object->set_id($id);
 		return $id;
@@ -214,10 +214,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$props = $object->get_default_properties();
 		$props['created'] = self :: to_db_date($props['created']);
 		$props['modified'] = self :: to_db_date($props['modified']);
-		$this->connection->autoExecute($this->prefix.'learning_object', $props, DB_AUTOQUERY_UPDATE, $where);
+		$this->connection->autoExecute($this->get_table_name('learning_object'), $props, DB_AUTOQUERY_UPDATE, $where);
 		if ($object->is_extended())
 		{
-			$this->connection->autoExecute($this->prefix.$object->get_type(), $object->get_additional_properties(), DB_AUTOQUERY_UPDATE, $where);
+			$this->connection->autoExecute($this->get_table_name($object->get_type()), $object->get_additional_properties(), DB_AUTOQUERY_UPDATE, $where);
 		}
 	}
 
@@ -391,15 +391,27 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		return $this->connection->quoteIdentifier($name);
 	}
+	
+	/**
+	 * Expands a table identifier to the real table name. Currently, this
+	 * method prefixes the given table name with the user-defined prefix, if
+	 * any.
+	 * @param string $name The table identifier.
+	 * @return string The actual table name.
+	 */
+	function get_table_name($name)
+	{
+		return $this->prefix.$name;
+	}
 
 	/**
 	 * Escapes a table name in accordance with the database type.
-	 * @param string $name The table name.
+	 * @param string $name The table identifier.
 	 * @return string The escaped table name.
 	 */
 	function escape_table_name($name)
 	{
-		return $this->connection->quoteIdentifier($this->prefix.$name);
+		return $this->connection->quoteIdentifier($this->get_table_name($name));
 	}
 
 	/**
