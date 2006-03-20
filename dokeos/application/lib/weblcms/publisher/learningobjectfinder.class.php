@@ -4,7 +4,7 @@ require_once dirname(__FILE__).'/../../../../repository/lib/condition/andconditi
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/patternmatchcondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
-require_once 'HTML/QuickForm.php';
+require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
 
 class LearningObjectFinder extends LearningObjectBrowser
 {
@@ -13,12 +13,13 @@ class LearningObjectFinder extends LearningObjectBrowser
 	function LearningObjectFinder($parent, $owner, $types)
 	{
 		parent :: __construct($parent, $owner, $types);
-		$this->form = new HTML_QuickForm('search', 'get');
+		$this->form = new FormValidator('search', 'get','','',null,false);
 		$this->form->addElement('hidden', 'tool');
 		$this->form->addElement('hidden', 'publish_action');
 		$this->form->addElement('text', 'query', '');
-		$this->form->addRule('query', get_lang('ThisFieldIsRequired'), 'required');
-		$this->form->addElement('submit', 'submit', get_lang('Find'));
+		$this->form->addElement('submit', 'submit', get_lang('Search'));
+		$renderer =& $this->form->defaultRenderer();
+		$renderer->setElementTemplate('<span>{element}</span> ');
 		$this->set_parameter('query', $this->get_query());
 	}
 
