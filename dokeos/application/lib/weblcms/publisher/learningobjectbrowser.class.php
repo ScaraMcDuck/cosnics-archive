@@ -30,16 +30,19 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 	{
 		$cond = $this->get_condition();
 		$types = $this->get_types();
-		if (count($types) > 1) {
-			$c = array();
-			foreach ($types as $t) {
+		if (count($types) > 1)
+		{
+			$c = array ();
+			foreach ($types as $t)
+			{
 				$c[] = new EqualityCondition('type', $t);
 			}
 			$c = new OrCondition($c);
 			$cond = (is_null($cond) ? $c : new AndCondition($cond, $c));
 			$type = null;
 		}
-		else {
+		else
+		{
 			$type = $types[0];
 		}
 		return RepositoryDataManager :: get_instance()->count_learning_objects($type, $cond);
@@ -49,16 +52,19 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 	{
 		$cond = $this->get_condition();
 		$types = $this->get_types();
-		if (count($types) > 1) {
-			$c = array();
-			foreach ($types as $t) {
+		if (count($types) > 1)
+		{
+			$c = array ();
+			foreach ($types as $t)
+			{
 				$c[] = new EqualityCondition('type', $t);
 			}
 			$c = new OrCondition($c);
 			$cond = (is_null($cond) ? $c : new AndCondition($cond, $c));
 			$type = null;
 		}
-		else {
+		else
+		{
 			$type = $types[0];
 		}
 		$objects = RepositoryDataManager :: get_instance()->retrieve_learning_objects($type, $cond, array (self :: $COLUMNS[$column]), array ($direction), $from, $number_of_items);
@@ -67,9 +73,9 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 		{
 			$row = array ();
 			$row[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/>';
-			$row[] = '<a href="' . $this->get_url(array('publish_action' => 'viewer', 'object' => $object->get_id())) . '">'.$object->get_title().'</a>';
+			$row[] = '<a href="'.$this->get_url(array ('publish_action' => 'viewer', 'object' => $object->get_id())).'">'.$object->get_title().'</a>';
 			$row[] = $object->get_description();
-			$row[] = '<a href="' . $this->get_url(array('publish_action' => 'publicationcreator', 'object' => $object->get_id())) . '"><img src="'.api_get_path(WEB_CODE_PATH).'img/publish.gif" alt="'.get_lang('Publish').'"/></a>';
+			$row[] = '<a href="'.$this->get_url(array ('publish_action' => 'publicationcreator', 'object' => $object->get_id())).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/publish.gif" alt="'.get_lang('Publish').'"/></a>';
 			$data[] = $row;
 		}
 		return $data;
