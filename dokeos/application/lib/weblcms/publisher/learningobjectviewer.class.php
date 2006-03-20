@@ -5,12 +5,12 @@ require_once dirname(__FILE__).'/../../../../repository/lib/learningobject_displ
 
 class LearningObjectViewer extends LearningObjectPublisherComponent
 {
-	function display()
+	function as_html()
 	{
 		if ($_GET['object']) {
 			$object = RepositoryDataManager::get_instance()->retrieve_learning_object($_GET['object']);
-			echo LearningObjectDisplay::factory($object)->get_full_html();
-			echo '<p>[ USE ]</p>';
+			return LearningObjectDisplay::factory($object)->get_full_html()
+				. '<p>[ USE ]</p>';
 		}		
 	}
 }

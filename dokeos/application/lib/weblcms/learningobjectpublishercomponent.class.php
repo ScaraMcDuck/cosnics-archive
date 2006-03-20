@@ -24,7 +24,7 @@ abstract class LearningObjectPublisherComponent
 		return $this->types;
 	}
 
-	abstract function display();
+	abstract function as_html();
 
 	function get_additional_parameters()
 	{

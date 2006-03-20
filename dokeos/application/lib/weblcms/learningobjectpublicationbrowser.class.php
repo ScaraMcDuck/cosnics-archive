@@ -32,14 +32,14 @@ abstract class LearningObjectPublicationBrowser
 		$this->objectTable->set_column_titles(func_get_args());
 	}
 
-	function display()
+	function as_html()
 	{
-		echo '<div style="float: left; width: 20%">';
-		$this->categoryTree->display();
-		echo '</div>';
-		echo '<div style="float: right; width: 80%">';
-		$this->objectTable->display();
-		echo '</div>';
+		return '<div style="float: left; width: 20%">'
+			. $this->categoryTree->as_html()
+			. '</div>'
+			. '<div style="float: right; width: 80%">'
+			. $this->objectTable->as_html()
+			. '</div>';
 	}
 
 	function get_user()

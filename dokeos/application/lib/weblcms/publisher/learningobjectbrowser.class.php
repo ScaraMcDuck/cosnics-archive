@@ -9,7 +9,7 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 {
 	private static $COLUMNS = array ('type', 'title', 'description', 'select');
 
-	function display()
+	function as_html()
 	{
 		$table = new SortableTable('objects', array ($this, 'get_object_count'), array ($this, 'get_objects'));
 		$table->set_additional_parameters($this->get_additional_parameters());
@@ -18,7 +18,7 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 		$table->set_header($column ++, get_lang('Title'));
 		$table->set_header($column ++, get_lang('Description'));
 		$table->set_header($column ++, get_lang('Use'));
-		$table->display();
+		return $table->as_html();
 	}
 
 	protected function get_condition()
