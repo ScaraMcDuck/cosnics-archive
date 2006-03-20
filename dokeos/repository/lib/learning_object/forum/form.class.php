@@ -1,5 +1,8 @@
 <?php
 require_once dirname(__FILE__) . '/../../learningobject_form.class.php';
+/**
+ * @package learningobject.forum
+ */
 class ForumForm extends LearningObjectForm
 {
 	public function ForumForm($formName, $method = 'post', $action = null)

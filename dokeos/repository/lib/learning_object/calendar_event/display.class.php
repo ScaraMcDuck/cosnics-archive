@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package learningobject.calendarevent
+ */
 class CalendarEventDisplay extends LearningObjectDisplay
 {
 	public function CalendarEventDisplay(&$object)

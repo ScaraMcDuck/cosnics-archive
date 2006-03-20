@@ -1,6 +1,6 @@
 <?php
 /**
- * @package learningobject.announcement
+ * @package learningobject.link
  */
 require_once dirname(__FILE__) . '/../../learningobject_form.class.php';
 class LinkForm extends LearningObjectForm
