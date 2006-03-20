@@ -1,7 +1,10 @@
 <?php
 require_once dirname(__FILE__) . '/../../learningobject_form.class.php';
+
+define(MAIN_UPLOAD_DIR,Configuration::get_instance()->get_parameter('general', 'upload_path'));
+
 class DocumentForm extends LearningObjectForm
-{
+{	
 	public function DocumentForm($formName, $method = 'post', $action = null)
 	{
 		parent :: __construct($formName, $method, $action);
@@ -36,44 +39,22 @@ class DocumentForm extends LearningObjectForm
 	}
 	public function create_learning_object($owner)
 	{
+		global $path;
+		global $filename;
 		$values = $this->exportValues();
-		$main_upload_dir = Configuration::get_instance()->get_parameter('general', 'upload_path');
 		if($values['choice'] === '1')
 		{
 			$filename = strtolower(ereg_replace('[^0-9a-zA-Z\.]','',$values['title']));
 			$path = api_get_user_id().'/'.$filename.'.html';
-			$i = 1;
-			while (file_exists($main_upload_dir.'/'.$path))
-			{
-				$filename = $filename.$i;
-				$path = api_get_user_id().'/'.$filename.'.html';
-				$i++;
-			}
-			$create_file = fopen($main_upload_dir.'/'.$path, 'w');
+			$this->check_file();		
+			$create_file = fopen(MAIN_UPLOAD_DIR.'/'.$path, 'w');
 			fwrite ($create_file, $values['html_content']);
 			fclose($create_file);
 		}
 		else
 		{
-			$file = $_FILES['file'];
-			$filename = strtolower(ereg_replace('[^0-9a-zA-Z\.]','',$file['name']));
-			$path = api_get_user_id().'/'.$filename;
-			$i = 1;
-			$file_base = $filename;
-			$file_ext = '';
-			$dot_pos = strrpos($filename, '.');
-			if ($dot_pos != FALSE)
-			{
-				$file_base = substr($filename, 0, $dot_pos);
-				$file_ext = substr($filename, $dot_pos);
-			}
-			while (file_exists($main_upload_dir.'/'.$path))
-			{
-				$filename = $file_base.$i.$file_ext;
-				$path = api_get_user_id().'/'.$filename;
-				$i++;
-			}
-			move_uploaded_file($_FILES['file']['tmp_name'], $main_upload_dir.'/'.$path);
+			$this->check_file();
+			move_uploaded_file($_FILES['file']['tmp_name'], MAIN_UPLOAD_DIR.'/'.$path);
 		}
 		$dataManager = RepositoryDataManager::get_instance();
 		$document = new Document();
@@ -82,37 +63,58 @@ class DocumentForm extends LearningObjectForm
 		$document->set_description($values['description']);
 		$document->set_path($path);
 		$document->set_filename($filename);
-		$document->set_filesize(filesize($main_upload_dir.'/'.$path));
+		$document->set_filesize(filesize(MAIN_UPLOAD_DIR.'/'.$path));
 		$document->set_parent_id($values['category']);
 		$document->create();
 		return $document;
 	}
 	public function update_learning_object(& $object)
 	{
+		global $path;
+		global $filename;
 		$values = $this->exportValues();
-		$main_upload_dir = Configuration::get_instance()->get_parameter('general', 'upload_path');
-		unlink($main_upload_dir.'/'.$values['path']);
+		unlink(MAIN_UPLOAD_DIR.'/'.$values['path']);
 		if(isset($values['html_content']))
 		{
 			$filename = strtolower(ereg_replace('[^0-9a-zA-Z\.]','',$values['title']));
 			$path = api_get_user_id().'/'.$filename.'.html';
-			$i = 1;
-			while (file_exists($main_upload_dir.'/'.$path))
+			$this->check_file();
+			$create_file = fopen(MAIN_UPLOAD_DIR.'/'.$path, 'w');
+			fwrite ($create_file, $values['html_content']);
+			fclose($create_file);
+		}
+		else
+		{
+			$this->check_file();
+			move_uploaded_file($_FILES['file']['tmp_name'], MAIN_UPLOAD_DIR.'/'.$path);
+		}
+		$object->set_title($values['title']);
+		$object->set_description($values['description']);
+		$object->set_path($path);
+		$object->set_filename($filename);
+		$object->set_filesize(filesize(MAIN_UPLOAD_DIR.'/'.$path));
+		$object->set_parent_id($values['category']);
+		$object->update();
+	}
+	public function check_file()
+	{
+		global $path;
+		global $filename;
+		$i = 1;
+		if(preg_match('/\.x?html?$/',$path) === 1)
+		{
+			while(file_exists(MAIN_UPLOAD_DIR.'/'.$path))
 			{
 				$filename = $filename.$i;
 				$path = api_get_user_id().'/'.$filename.'.html';
 				$i++;
 			}
-			$create_file = fopen($main_upload_dir.'/'.$path, 'w');
-			fwrite ($create_file, $values['html_content']);
-			fclose($create_file);
 		}
 		else
 		{
 			$file = $_FILES['file'];
 			$filename = strtolower(ereg_replace('[^0-9a-zA-Z\.]','',$file['name']));
 			$path = api_get_user_id().'/'.$filename;
-			$i = 1;
 			$file_base = $filename;
 			$file_ext = '';
 			$dot_pos = strrpos($filename, '.');
@@ -121,21 +123,13 @@ class DocumentForm extends LearningObjectForm
 				$file_base = substr($filename, 0, $dot_pos);
 				$file_ext = substr($filename, $dot_pos);
 			}
-			while (file_exists($main_upload_dir.'/'.$path))
+			while (file_exists(MAIN_UPLOAD_DIR.'/'.$path))
 			{
 				$filename = $file_base.$i.$file_ext;
 				$path = api_get_user_id().'/'.$filename;
 				$i++;
 			}
-			move_uploaded_file($_FILES['file']['tmp_name'], $main_upload_dir.'/'.$path);
-		}
-		$object->set_title($values['title']);
-		$object->set_description($values['description']);
-		$object->set_path($path);
-		$object->set_filename($filename);
-		$object->set_filesize(filesize($main_upload_dir.'/'.$path));
-		$object->set_parent_id($values['category']);
-		$object->update();
+		}		
 	}
 }
 ?>
