@@ -1,46 +1,33 @@
 <?php
 abstract class Tool
 {
-	private $parameters;
+	private $parent;
 	
-	function Tool()
+	function Tool($parent)
 	{
-		$this->parameters = array();
+		$this->parent = $parent;
 	}
 	
 	abstract function run();
 	
 	function get_parameters()
 	{
-		return $this->parameters;
+		return $this->parent->get_parameters();
 	}
 	
 	function get_parameter($name)
 	{
-		return $this->parameters[$name];
+		return $this->parent->get_parameter($name);
 	}
 
 	function set_parameter($name, $value)
 	{
-		$this->parameters[$name] = $value;
+		$this->parent->set_parameter($name, $value);
 	}
 
 	function get_url($parameters = array())
 	{
-		$string = '';
-		if (count($parameters))
-		{
-			$parameters = array_merge($this->parameters, $parameters);
-		}
-		else
-		{
-			$parameters = & $this->parameters;
-		}
-		foreach ($parameters as $name => $value)
-		{
-			$string .= '&' . urlencode($name) . '=' . urlencode($value);
-		}
-		return $_SERVER['PHP_SELF'] . '?' . $string;
+		return $this->parent->get_url($parameters);
 	}
 }
 ?>
