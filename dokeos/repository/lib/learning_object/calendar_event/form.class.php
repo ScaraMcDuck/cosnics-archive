@@ -48,8 +48,8 @@ class CalendarEventForm extends LearningObjectForm
 		$calendarEvent->set_title($values['title']);
 		$calendarEvent->set_description($values['description']);
 		$calendarEvent->set_parent_id($values['category']);
-		$calendarEvent->set_start_date(RepositoryUtilities :: date_from_datepicker($values['start']));
-		$calendarEvent->set_end_date(RepositoryUtilities :: date_from_datepicker($values['end']));
+		$calendarEvent->set_start_date(RepositoryUtilities :: time_from_datepicker($values['start']));
+		$calendarEvent->set_end_date(RepositoryUtilities :: time_from_datepicker($values['end']));
 		$calendarEvent->create();
 		return $calendarEvent;
 	}
@@ -59,8 +59,8 @@ class CalendarEventForm extends LearningObjectForm
 		$object->set_title($values['title']);
 		$object->set_description($values['description']);
 		$object->set_parent_id($values['category']);
-		$object->set_start_date(RepositoryUtilities :: date_from_datepicker($values['start']));
-		$object->set_end_date(RepositoryUtilities :: date_from_datepicker($values['end']));
+		$object->set_start_date(RepositoryUtilities :: time_from_datepicker($values['start']));
+		$object->set_end_date(RepositoryUtilities :: time_from_datepicker($values['end']));
 		$object->update();
 	}
 }

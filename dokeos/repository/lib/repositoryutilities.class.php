@@ -60,7 +60,7 @@ class RepositoryUtilities
 		return $result;
 	}
 	
-	static function date_from_datepicker($string)
+	static function time_from_datepicker($string)
 	{
 		list($date, $time) = split(' ', $string);
 		list($year, $month, $day) = split('-', $date);
