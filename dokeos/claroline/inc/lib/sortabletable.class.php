@@ -181,6 +181,20 @@ class SortableTable extends HTML_Table
 	 */
 	function display()
 	{
+		return $this->as_html();
+	}
+	/**
+	 * Returns the complete table HTML. Alias of as_html().
+	 */
+	function toHTML()
+	{
+		return $this->as_html();
+	}
+	/**
+	 * Returns the complete table HTML.
+	 */
+	function as_html()
+	{
 		$empty_table = false;
 		if ($this->get_total_number_of_items() == 0)
 		{
@@ -258,7 +272,7 @@ class SortableTable extends HTML_Table
 				$html .= '</form>';
 			}
 		}
-		echo $html;
+		return $html;
 	}
 	/**
 	 * Get the HTML-code with the navigational buttons to browse through the
@@ -297,7 +311,7 @@ class SortableTable extends HTML_Table
 		{
 			$this->setColAttributes($column, $attributes);
 		}
-		return $this->toHTML();
+		return parent :: toHTML();
 	}
 	/**
 	 * Get the HTML-code wich represents a form to select how many items a page
