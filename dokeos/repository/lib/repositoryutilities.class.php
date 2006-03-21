@@ -1,6 +1,23 @@
 <?php
+
+/**
+==============================================================================
+ *	This class provides some common methods that are used throughout the
+ *	repository.
+ *
+ *	@author Tim De Pauw
+==============================================================================
+ */
+
 class RepositoryUtilities
 {
+	/**
+	 * Splits a Google-style search query. For example, the query
+	 * /"dokeos repository" utilities/ would be parsed into
+	 * array('dokeos repository', 'utilities').   
+	 * @param $pattern The query.
+	 * @return array The query's parts.
+	 */
 	static function split_query($pattern)
 	{
 		preg_match_all('/(?:"([^"]+)"|""|(\S+))/', $pattern, $matches);
@@ -15,17 +32,22 @@ class RepositoryUtilities
 		}
 		return (count($parts) ? $parts : null);
 	}
+	
 	/**
 	 * Transforms a search string (given by an end user in a search form) to a
-	 * Condition which can be used to retrieve learning objects from the
-	 * repository
-	 * @param string $query The query as given by the end user
+	 * Condition, which can be used to retrieve learning objects from the
+	 * repository.
+	 * @param string $query The query as given by the end user.
 	 * @param mixed $properties The learning object properties which should be
-	 * taken into account for the condition. When passing for example array
-	 * ('title','type'), a Condition will be returned which can be used to
-	 * search for learning objects on the properties 'title' or 'type'. By
-	 * default the properties are 'title' and 'description'. A string is also
-	 * allowed when you only need a condition on one property.
+	 *                          taken into account for the condition. For
+	 *                          example, array('title','type') will yield a
+	 *                          Condition which can be used to search for
+	 *                          learning objects on the properties 'title' or
+	 *                          'type'. By default the properties are 'title'
+	 *                          and 'description'. If the condition should
+	 *                          apply to a single property, you can pass a
+	 *                          string instead of an array.
+	 * @return Condition The condition. 
 	 */
 	static function query_to_condition($query,$properties = array('title','description'))
 	{
@@ -60,6 +82,12 @@ class RepositoryUtilities
 		return $result;
 	}
 	
+	/**
+	 * Converts a date/time value retrieved from a FormValidator datepicker
+	 * element to the corresponding UNIX itmestamp.
+	 * @param string $string The date/time value.
+	 * @return int The UNIX timestamp.
+	 */
 	static function time_from_datepicker($string)
 	{
 		list($date, $time) = split(' ', $string);

@@ -10,9 +10,9 @@ abstract class RepositoryTool extends Tool
 		return GroupManager :: get_group_ids($course, $user);
 	}
 	
-	function get_categories($course, $type)
+	function get_categories($course, $types)
 	{
-		return WebLCMSDataManager :: get_instance()->retrieve_publication_categories($course, $type);
+		return WebLCMSDataManager :: get_instance()->retrieve_publication_categories($course, $types);
 	}
 }
 ?>

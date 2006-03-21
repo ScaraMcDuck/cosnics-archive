@@ -179,11 +179,13 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		// TODO
 	}
 
-	function retrieve_publication_categories($course, $type)
+	function retrieve_publication_categories($course, $types)
 	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('type').'=?';
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('type').' IN ('.str_repeat('?,',count($types)-1).'?)';
 		$sth = $this->connection->prepare($query);
-		$res = & $this->connection->execute($sth, array ($course, $type));
+		$params = $types;
+		array_unshift ($params, $course);
+		$res = & $this->connection->execute($sth, $params);
 		$cats = array ();
 		while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
