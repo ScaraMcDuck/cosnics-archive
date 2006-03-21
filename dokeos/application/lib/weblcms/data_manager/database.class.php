@@ -58,7 +58,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 				$cond[] = new EqualityCondition('category', $categories);
 			}
 		}
-		$c = array ();
+		$accessConditions = array ();
 		if (!is_null($users))
 		{
 			if (is_array($users))
@@ -71,7 +71,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 			}
 			foreach ($users as $u)
 			{
-				$c[] = new EqualityCondition('user', $u);
+				$accessConditions[] = new EqualityCondition('user', $u);
 			}
 		}
 		if (!is_null($groups))
@@ -86,15 +86,15 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 			}
 			foreach ($groups as $g)
 			{
-				$c[] = new EqualityCondition('group', $g);
+				$accessConditions[] = new EqualityCondition('group', $g);
 			}
 		}
 		/*
 		 * Add user/group conditions to global condition.
 		 */
-		if (count($c))
+		if (count($accessConditions))
 		{
-			$cond[] = new OrCondition($c);
+			$cond[] = new OrCondition($accessConditions);
 			if (!is_null($conditions))
 			{
 				$cond[] = $conditions;
@@ -189,8 +189,8 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		{
 			$parent = $record['parent'];
 			$cat = $this->record_to_publication_category($record);
-			$a = & $cats[$parent];
-			$a[] = $cat;
+			$siblings = & $cats[$parent];
+			$siblings[] = $cat;
 		}
 		return $this->get_publication_category_tree(0, & $cats);
 	}

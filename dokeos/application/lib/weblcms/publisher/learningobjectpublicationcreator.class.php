@@ -127,9 +127,9 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 	{
 		foreach ($tree as $node)
 		{
-			$c = $node['obj'];
+			$obj = $node['obj'];
 			$prefix = ($level ? str_repeat('&nbsp;&nbsp;&nbsp;', $level).'&mdash; ' : '');
-			$categories[$c->get_id()] = $prefix.$c->get_title();
+			$categories[$obj->get_id()] = $prefix.$obj->get_title();
 			$subtree = $node['sub'];
 			if (is_array($subtree) && count($subtree))
 			{
