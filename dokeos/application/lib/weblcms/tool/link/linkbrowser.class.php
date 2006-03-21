@@ -6,7 +6,7 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 {
 	function LinkBrowser($parent)
 	{
-		parent :: __construct($parent, 'link', api_get_course_id(), intval($_GET['category']), api_get_user_id());
+		parent :: __construct($parent, 'link', intval($_GET['category']));
 		$this->set_column_titles(get_lang('Title'), get_lang('Description'));
 	}
 
@@ -15,7 +15,7 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 		$dm = WebLCMSDataManager :: get_instance();
 		$orderBy = null;
 		$orderDir = null;
-		$pubs = $dm->retrieve_learning_object_publications($this->get_course(), $this->get_category(), $this->get_user(), $this->get_groups(), $this->get_condition(), $orderBy, $orderDir);
+		$pubs = $dm->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $this->get_user_id(), $this->get_groups(), $this->get_condition(), $orderBy, $orderDir);
 		$data = array ();
 		foreach ($pubs as $publication)
 		{
@@ -31,7 +31,7 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 	function get_publication_count()
 	{
 		$dm = WebLCMSDataManager :: get_instance();
-		return $dm->count_learning_object_publications($this->get_course(), $this->get_category(), $this->get_user(), $this->get_groups(), $this->get_condition());
+		return $dm->count_learning_object_publications($this->get_course_id(), $this->get_category(), $this->get_user_id(), $this->get_groups(), $this->get_condition());
 	}
 
 	private function get_condition()

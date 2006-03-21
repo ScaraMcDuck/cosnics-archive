@@ -13,7 +13,7 @@ class LinkTool extends RepositoryTool
 		{
 			echo '<p>Go to <a href="' . $this->get_url(array('linkadmin' => 0)) . '">User Mode</a> &hellip;</p>';
 			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
-			$pub = new LearningObjectPublisher($this, 'link', api_get_course_id(), api_get_user_id());
+			$pub = new LearningObjectPublisher($this, 'link', $this->get_course_id(), $this->get_user_id());
 			echo $pub->as_html();
 		}
 		else

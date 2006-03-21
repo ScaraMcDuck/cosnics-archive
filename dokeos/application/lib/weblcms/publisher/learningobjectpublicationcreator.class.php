@@ -60,7 +60,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		$form->setDefaults(array ('type' => $type));
 		if ($form->validate())
 		{
-			$object = $form->create_learning_object(api_get_user_id());
+			$object = $form->create_learning_object($this->get_user_id());
 			return $this->get_publication_form($object->get_id(), true);
 		}
 		else
@@ -99,7 +99,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 			$category = $values['category'];
 			$users = array ();
 			$groups = array ();
-			$course = $this->get_parent()->get_course();
+			$course = $this->get_course_id();
 			$dm = WebLCMSDataManager :: get_instance();
 			$displayOrder = $this->get_last_publication_index($course, $category) + 1;
 			$pub = new LearningObjectPublication(null, $object, $course, $category, $users, $groups, $from, $to, $hidden, $displayOrder);
