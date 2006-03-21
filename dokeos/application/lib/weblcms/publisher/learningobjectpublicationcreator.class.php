@@ -76,6 +76,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		{
 			$out .= Display :: display_normal_message(get_lang('ObjectCreated'), true);
 		}
+		// TODO: Extract form for publication modification.
 		$form = new FormValidator('create_publication', 'post', $this->get_url(array ('object' => $objectID)));
 		$categories = $this->get_categories();
 		if(count($categories)>0)
@@ -89,6 +90,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		$form->add_timewindow('from_date', 'to_date', get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
 		$form->addElement('checkbox', 'forever', get_lang('Forever'));
 		$form->addElement('checkbox', 'hidden', get_lang('Hidden'));
+		$form->setDefaults(array('forever' => 1));
 		$form->addElement('submit', 'submit', get_lang('Ok'));
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
 		if ($form->validate())
