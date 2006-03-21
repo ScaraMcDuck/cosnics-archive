@@ -79,14 +79,18 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		// TODO: Extract form for publication modification.
 		$form = new FormValidator('create_publication', 'post', $this->get_url(array ('object' => $objectID)));
 		$categories = $this->get_categories();
-		if(count($categories)>0)
+		if(count($categories) > 1)
 		{
+			// More than one category -> let user select one
 			$form->addElement('select', 'category', get_lang('Category'), $categories);
 		}
 		else
 		{
+			// Only root category -> store object in root category
 			$form->addElement('hidden','category',0);
 		}
+		// TODO: add list of possible users and groups to receivers element
+		$form->addElement('receivers','target_users_and_groups',get_lang('PublishFor'));
 		$form->add_timewindow('from_date', 'to_date', get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
 		$form->addElement('checkbox', 'forever', get_lang('Forever'));
 		$form->addElement('checkbox', 'hidden', get_lang('Hidden'));
