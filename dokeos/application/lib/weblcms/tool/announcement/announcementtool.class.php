@@ -33,6 +33,7 @@ class AnnouncementTool extends RepositoryTool
 	function display()
 	{
 		$announcement_publications = $this->get_announcement_publications();
+		$number_of_announcements = count($announcement_publications);
 		foreach($announcement_publications as $index => $announcement_publication)
 		{
 			$announcement = $announcement_publication->get_learning_object();
@@ -41,6 +42,13 @@ class AnnouncementTool extends RepositoryTool
 			$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$announcement->get_type().'.gif" alt="'.$announcement->get_type().'"/></div>';
 			$html[] = '<div class="title">'.$announcement->get_title().'</div>';
 			$html[] = '<div class="description">'.$announcement->get_description();
+			$html[] = '<br />';
+			$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'/img/delete.gif"/>';
+			$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'/img/visible.gif"/>';
+			$down_img = ($index == $number_of_announcements-1 ? 'down_na.gif' : 'down.gif');
+			$up_img = ($index == 0 ? 'up_na.gif' : 'up.gif');
+			$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$up_img.'"/>';
+			$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$down_img.'"/>';
 			$html[] = '</div>';
 			$html[] = '</div>';
 			$html[] = '<br /><br />';
