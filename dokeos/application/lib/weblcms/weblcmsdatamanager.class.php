@@ -1,15 +1,35 @@
 <?php
 require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php';
 
+/**
+==============================================================================
+ *	This is a skeleton for a data manager for the WebLCMS application. Data
+ *	managers must extend this class.
+ *
+ *	@author Tim De Pauw
+==============================================================================
+ */
+
 abstract class WebLCMSDataManager
 {
+	/**
+	 * Instance of the class, for the singleton pattern.
+	 */
 	private static $instance;
-
+	
+	/**
+	 * Constructor. Initializes the data manager.
+	 */
 	protected function WebLCMSDataManager()
 	{
 		$this->initialize();
 	}
-
+	
+	/**
+	 * Creates the shared instance of the configured data manager if
+	 * necessary and returns it. Uses a factory pattern.
+	 * @return WebLCMSDataManager The instance.
+	 */
 	static function get_instance()
 	{
 		if (!isset (self :: $instance))
@@ -22,6 +42,9 @@ abstract class WebLCMSDataManager
 		return self :: $instance;
 	}
 	
+	/**
+	 * Initializes the data manager.
+	 */
 	abstract function initialize();
 	
 	/**
