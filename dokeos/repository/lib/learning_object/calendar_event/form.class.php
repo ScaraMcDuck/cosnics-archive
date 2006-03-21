@@ -13,21 +13,13 @@ class CalendarEventForm extends LearningObjectForm
     public function build_create_form()
     {
     	parent :: build_create_form();
-    	$this->addElement('datepicker', 'start', get_lang('StartTimeWindow'), array ('form_name' => $this->getAttribute('id')));
-		$this->addRule('start', get_lang('InvalidDate'), 'date');
-		$this->addElement('datepicker', 'end', get_lang('EndTimeWindow'), array ('form_name' => $this->getAttribute('id')));
-		$this->addRule('end', get_lang('InvalidDate'), 'date');
-		$this->addRule(array ('start', 'end'), get_lang('StartDateShouldBeBeforeEndDate'), 'date_compare', 'lte');
+    	$this->add_timewindow('start', 'end', get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
     	$this->add_submit_button();
     }
     public function build_edit_form($object)
     {
 		parent :: build_edit_form($object);
-		$this->addElement('datepicker', 'start', get_lang('StartTimeWindow'), array ('form_name' => $this->getAttribute('id')));
-		$this->addRule('start', get_lang('InvalidDate'), 'date');
-		$this->addElement('datepicker', 'end', get_lang('EndTimeWindow'), array ('form_name' => $this->getAttribute('id')));
-		$this->addRule('end', get_lang('InvalidDate'), 'date');
-		$this->addRule(array ('start', 'end'), get_lang('StartDateShouldBeBeforeEndDate'), 'date_compare', 'lte');
+    	$this->add_timewindow('start', 'end', get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
 		$this->setDefaults();
 		$this->add_submit_button();
 	}

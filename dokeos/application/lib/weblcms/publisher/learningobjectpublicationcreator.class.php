@@ -78,8 +78,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		}
 		$form = new FormValidator('create_publication', 'post', $this->get_url(array ('object' => $objectID)));
 		$form->addElement('select', 'category', get_lang('Category'), $this->get_categories());
-		$form->addElement('datepicker', 'from_date', get_lang('StartTimeWindow'));
-		$form->addElement('datepicker', 'to_date', get_lang('EndTimeWindow'));
+		$form->add_timewindow('from_date', 'to_date', get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
 		$form->addElement('checkbox', 'hidden', get_lang('Hidden'));
 		$form->addElement('submit', 'submit', get_lang('Ok'));
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
