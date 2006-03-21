@@ -1,6 +1,9 @@
 <?php
-require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php';
 require_once dirname(__FILE__).'/../application.class.php';
+require_once dirname(__FILE__).'/weblcmsdatamanager.class.php';
+require_once dirname(__FILE__).'/learningobjectpublicationcategory.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php';
+require_once dirname(__FILE__).'/../../../claroline/inc/lib/groupmanager.lib.php';
 
 /**
 ==============================================================================
@@ -62,6 +65,45 @@ class WebLCMS extends Application
 		}
 	}
 	
+	/**
+	 * Returns the numeric identifier of the active user.
+	 * @return string The user identifier.
+	 */
+	function get_user_id()
+	{
+		return api_get_user_id();
+	}
+	
+	/**
+	 * Returns the identifier of the course that is being used.
+	 * @return string The course identifier.
+	 */
+	function get_course_id()
+	{
+		return api_get_course_id();
+	}
+	
+	function get_groups()
+	{
+		return GroupManager :: get_group_ids($this->get_course_id(), $this->get_user_id());
+	}
+	
+	function get_categories()
+	{
+		/*
+		 * Add the root category.
+		 */
+		$course = $this->get_course_id();
+		$tool = $this->get_parameter('tool');
+		$cats = WebLCMSDataManager :: get_instance()->retrieve_publication_categories($course, $tool);
+		$root = array();
+		$root['obj'] = & new LearningObjectPublicationCategory(0, get_lang('RootCategory'), $course, $tool, 0);
+		$root['sub'] = & $cats;
+		$tree = array();
+		$tree[] = & $root;
+		return $tree;
+	}
+
 	/**
 	 * Gets the URL of the current page in the application. Optionally takes
 	 * an associative array of name/value pairs representing additional query

@@ -20,7 +20,7 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 
 	private function get_as_tree($categories)
 	{
-		return array (0 => array ('title' => get_lang('RootCategory'), 'url' => $this->browser->get_url(), 'sub' => $this->convert_tree($categories)));
+		return $this->convert_tree($categories);
 	}
 
 	private function convert_tree(& $tree)

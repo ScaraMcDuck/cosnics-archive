@@ -10,6 +10,11 @@ abstract class Tool
 	
 	abstract function run();
 	
+	function get_parent()
+	{
+		return $this->parent;
+	}
+	
 	function get_parameters()
 	{
 		return $this->parent->get_parameters();

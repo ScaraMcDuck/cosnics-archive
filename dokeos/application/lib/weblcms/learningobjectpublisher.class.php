@@ -11,21 +11,10 @@
 class LearningObjectPublisher
 {
 	/**
-	 * The owner of the learning object to publish.
-	 */
-	private $owner;
-
-	/**
 	 * The types of learning object that this publisher is aware of and may
 	 * publish.
 	 */
 	private $types;
-
-	/**
-	 * The identifier of the course that learning objects will be published
-	 * in.
-	 */
-	private $course;
 
 	/**
 	 * The RepositoryTool instance from which this publisher was created.
@@ -36,16 +25,11 @@ class LearningObjectPublisher
 	 * Constructor.
 	 * @param RepositoryTool $parent The tool that is creating this object.
 	 * @param array $types The learning object types that may be published.
-	 * @param string $course The identifier of the course to publish in.
-	 * @param int $owner The numeric identifier of the user who should own
-	 *                   the learning object.
 	 */
-	function LearningObjectPublisher($parent, $types, $course, $owner)
+	function LearningObjectPublisher($parent, $types)
 	{
 		$this->parent = $parent;
-		$this->owner = $owner;
 		$this->types = (is_array($types) ? $types : array ($types));
-		$this->course = $course;
 		$parent->set_parameter('publish_action', $this->get_action());
 	}
 
@@ -64,7 +48,7 @@ class LearningObjectPublisher
 		$action = $this->get_action();
 		require_once dirname(__FILE__).'/publisher/learningobject'.$action.'.class.php';
 		$class = 'LearningObject'.ucfirst($action);
-		$component = new $class ($this, $this->get_owner(), $this->get_types());
+		$component = new $class ($this);
 		$out .= $component->as_html().'</div></div>';
 		return $out;
 	}
@@ -77,17 +61,23 @@ class LearningObjectPublisher
 	{
 		return $this->parent;
 	}
+	
+	/**
+	 * @see RepositoryTool::get_user_id()
+	 */
+	function get_user_id()
+	{
+		return $this->parent->get_user_id();
+	}
 
 	/**
-	 * Returns the numeric identifier of the owner of the learning object
-	 * that this object may publish.
-	 * @return int The user identifier.
+	 * @see RepositoryTool::get_course_id()
 	 */
-	function get_owner()
+	function get_course_id()
 	{
-		return $this->owner;
+		return $this->parent->get_course_id();
 	}
-	
+
 	/**
 	 * Returns the types of learning object that this object may publish.
 	 * @return array The types.
@@ -97,15 +87,6 @@ class LearningObjectPublisher
 		return $this->types;
 	}
 	
-	/**
-	 * Returns the identifier of the course that this object may publish in.
-	 * @return string The course identifier.
-	 */
-	function get_course()
-	{
-		return $this->course;
-	}
-
 	/**
 	 * Returns the action that the user selected, or "browser" if none.
 	 * @return string The action.
@@ -140,13 +121,11 @@ class LearningObjectPublisher
 	}
 	
 	/**
-	 * Returns the categories that this object may publish in, i.e. the
-	 * categories for the current course and t
 	 * @see RepositoryTool::get_categories()
 	 */
 	function get_categories()
 	{
-		return $this->parent->get_categories($this->course, $this->types);
+		return $this->parent->get_categories();
 	}
 }
 ?>

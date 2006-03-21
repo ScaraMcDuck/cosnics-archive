@@ -10,9 +10,9 @@ class LearningObjectFinder extends LearningObjectBrowser
 {
 	private $form;
 
-	function LearningObjectFinder($parent, $owner, $types)
+	function LearningObjectFinder($parent)
 	{
-		parent :: __construct($parent, $owner, $types);
+		parent :: __construct($parent);
 		$this->form = new FormValidator('search', 'get','','',null,false);
 		$this->form->addElement('hidden', 'tool');
 		$this->form->addElement('hidden', 'publish_action');

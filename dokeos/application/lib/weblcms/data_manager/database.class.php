@@ -147,10 +147,10 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		return $results;
 	}
 
-	function count_learning_object_publications($course = null, $categories = null, $user = null, $groups = null, $conditions = null)
+	function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null)
 	{
-			// TODO: Use SQL COUNT(*) etc.
-	return count($this->retrieve_learning_object_publications($course, $categories, $user, $groups));
+		// TODO: Use SQL COUNT(*) etc.
+		return count($this->retrieve_learning_object_publications($course, $categories, $users, $groups, $conditions));
 	}
 
 	function create_learning_object_publication($publication)
@@ -181,7 +181,11 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	function retrieve_publication_categories($course, $types)
 	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('type').' IN ('.str_repeat('?,',count($types)-1).'?)';
+		if (!is_array($types))
+		{
+			$types = array($types);
+		}
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('tool').' IN ('.str_repeat('?,',count($types)-1).'?)';
 		$sth = $this->connection->prepare($query);
 		$params = $types;
 		array_unshift ($params, $course);
@@ -213,7 +217,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	private static function record_to_publication_category($record)
 	{
-		return new LearningObjectPublicationCategory($record['id'], $record['title'], $record['course'], $record['type'], $record['parent']);
+		return new LearningObjectPublicationCategory($record['id'], $record['title'], $record['course'], $record['tool'], $record['parent']);
 	}
 
 	private function record_to_publication($record)

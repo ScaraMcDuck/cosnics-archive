@@ -18,7 +18,7 @@ class AnnouncementTool extends RepositoryTool
 		{
 			echo '<p>Go to <a href="' . $this->get_url(array('announcementadmin' => 0)) . '">User Mode</a> &hellip;</p>';
 			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
-			$pub = new LearningObjectPublisher($this, 'announcement', api_get_course_id(), api_get_user_id());
+			$pub = new LearningObjectPublisher($this, 'announcement');
 			echo $pub->as_html();
 		}
 		else
@@ -62,7 +62,7 @@ class AnnouncementTool extends RepositoryTool
 	function get_announcement_publications()
 	{
 		$datamanager = WebLCMSDataManager :: get_instance();
-		$announcement_publications = $datamanager->retrieve_learning_object_publications(api_get_course_id(), null, api_get_user_id(), $this->get_groups());
+		$announcement_publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups());
 		return $announcement_publications;
 	}
 }

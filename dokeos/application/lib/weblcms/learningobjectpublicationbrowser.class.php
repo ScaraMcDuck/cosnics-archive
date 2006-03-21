@@ -6,11 +6,7 @@ abstract class LearningObjectPublicationBrowser
 {
 	private $types;
 
-	private $course;
-
 	private $category;
-
-	private $user;
 
 	private $objectTable;
 
@@ -18,12 +14,10 @@ abstract class LearningObjectPublicationBrowser
 	
 	private $parent;
 
-	function LearningObjectPublicationBrowser($parent, $types, $course, $category = 0, $user)
+	function LearningObjectPublicationBrowser($parent, $types, $category = 0)
 	{
 		$this->parent = $parent;
 		$this->types = is_array($types) ? $types : array ($types);
-		$this->course = $course;
-		$this->user = $user;
 		$this->category = $category;
 		$this->objectTable = new LearningObjectPublicationTable($this);
 		$this->categoryTree = new LearningObjectPublicationCategoryTree($this);
@@ -44,29 +38,29 @@ abstract class LearningObjectPublicationBrowser
 			. '</div>';
 	}
 
-	function get_user()
-	{
-		return $this->user;
-	}
-
-	function get_course()
-	{
-		return $this->course;
-	}
-
 	function get_category()
 	{
 		return $this->category;
 	}
 
+	function get_user_id()
+	{
+		return $this->parent->get_user_id();
+	}
+	
+	function get_course_id()
+	{
+		return $this->parent->get_course_id();
+	}
+	
 	function get_groups()
 	{
-		return $this->parent->get_groups($this->get_course(), $this->get_user());
+		return $this->parent->get_groups();
 	}
 	
 	function get_categories()
 	{
-		return $this->parent->get_categories($this->get_course(), $_GET['tool']);
+		return $this->parent->get_categories();
 	}
 	
 	function get_url($parameters = array())
