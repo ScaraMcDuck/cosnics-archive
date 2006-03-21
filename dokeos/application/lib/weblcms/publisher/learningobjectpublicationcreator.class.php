@@ -77,7 +77,15 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 			$out .= Display :: display_normal_message(get_lang('ObjectCreated'), true);
 		}
 		$form = new FormValidator('create_publication', 'post', $this->get_url(array ('object' => $objectID)));
-		$form->addElement('select', 'category', get_lang('Category'), $this->get_categories());
+		$categories = $this->get_categories();
+		if(count($categories)>0)
+		{
+			$form->addElement('select', 'category', get_lang('Category'), $categories);
+		}
+		else
+		{
+			$form->addElement('hidden','category',0);
+		}
 		$form->add_timewindow('from_date', 'to_date', get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
 		$form->addElement('checkbox', 'hidden', get_lang('Hidden'));
 		$form->addElement('submit', 'submit', get_lang('Ok'));
@@ -105,7 +113,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		}
 		return $out;
 	}
-	
+
 	private function get_last_publication_index($course, $category)
 	{
 		$dm = WebLCMSDataManager :: get_instance();
