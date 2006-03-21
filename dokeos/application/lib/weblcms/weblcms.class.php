@@ -23,8 +23,8 @@ class WebLCMS extends Application
 		{
 			$class = self :: tool_to_class($tool);
 			api_display_tool_title(get_lang($class.'Title'));
-			$t = new $class ($this);
-			$t->run();
+			$toolObj = new $class ($this);
+			$toolObj->run();
 		}
 		else
 		{
@@ -92,10 +92,10 @@ class WebLCMS extends Application
 		{
 			while (false !== ($file = readdir($handle)))
 			{
-				$p = $path.'/'.$file;
-				if (is_dir($p) && self :: is_tool_name($file))
+				$toolPath = $path.'/'.$file;
+				if (is_dir($toolPath) && self :: is_tool_name($file))
 				{
-					require_once $p.'/'.$file.'tool.class.php';
+					require_once $toolPath.'/'.$file.'tool.class.php';
 					$this->register_tool($file);
 				}
 			}

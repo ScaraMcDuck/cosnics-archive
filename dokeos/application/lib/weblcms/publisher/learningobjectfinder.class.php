@@ -45,12 +45,12 @@ class LearningObjectFinder extends LearningObjectBrowser
 	protected function get_condition()
 	{
 		$oc = parent :: get_condition();
-		$p = $this->get_query();
-		if (!isset ($p))
+		$query = $this->get_query();
+		if (!isset ($query))
 		{
 			return $oc;
 		}
-		$c = RepositoryUtilities :: query_to_condition($p);
+		$c = RepositoryUtilities :: query_to_condition($query);
 		return (!is_null($c) ? new AndCondition($oc, $c) : $oc);
 	}
 }

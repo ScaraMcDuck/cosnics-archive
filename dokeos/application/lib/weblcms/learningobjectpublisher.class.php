@@ -21,16 +21,16 @@ class LearningObjectPublisher
 	function as_html()
 	{
 		$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-		foreach (array ('browser', 'finder', 'publicationcreator') as $a)
+		foreach (array ('browser', 'finder', 'publicationcreator') as $action)
 		{
-			$out .= '<li><a href="'.$this->get_url(array ('publish_action' => $a)).'">'.get_lang(ucfirst($a).'Title').'</a></li>';
+			$out .= '<li><a href="'.$this->get_url(array ('publish_action' => $action)).'">'.get_lang(ucfirst($action).'Title').'</a></li>';
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
 		$action = $this->get_action();
 		require_once dirname(__FILE__).'/publisher/learningobject'.$action.'.class.php';
 		$class = 'LearningObject'.ucfirst($action);
-		$f = new $class ($this, $this->get_owner(), $this->get_types());
-		$out .= $f->as_html().'</div></div>';
+		$component = new $class ($this, $this->get_owner(), $this->get_types());
+		$out .= $component->as_html().'</div></div>';
 		return $out;
 	}
 
