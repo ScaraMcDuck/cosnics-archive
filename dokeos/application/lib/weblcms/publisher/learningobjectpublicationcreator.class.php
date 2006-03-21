@@ -87,14 +87,22 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 			$form->addElement('hidden','category',0);
 		}
 		$form->add_timewindow('from_date', 'to_date', get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
+		$form->addElement('checkbox', 'forever', get_lang('Forever'));
 		$form->addElement('checkbox', 'hidden', get_lang('Hidden'));
 		$form->addElement('submit', 'submit', get_lang('Ok'));
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
 		if ($form->validate())
 		{
 			$values = $form->exportValues();
-			$from = RepositoryUtilities :: time_from_datepicker($values['from_date']);
-			$to = RepositoryUtilities :: time_from_datepicker($values['to_date']);
+			if ($values['forever'])
+			{
+				$from = $to = 0;
+			}
+			else
+			{
+				$from = RepositoryUtilities :: time_from_datepicker($values['from_date']);
+				$to = RepositoryUtilities :: time_from_datepicker($values['to_date']);
+			}
 			$hidden = ($values['hidden'] ? 1 : 0);
 			$category = $values['category'];
 			$users = array ();
