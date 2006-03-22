@@ -88,7 +88,8 @@ class AnnouncementTool extends RepositoryTool
 	function get_announcement_publications()
 	{
 		$datamanager = WebLCMSDataManager :: get_instance();
-		$announcement_publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups());
+		$condition = new EqualityCondition('tool','announcement');
+		$announcement_publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups(),$condition);
 		return $announcement_publications;
 	}
 }
