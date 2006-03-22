@@ -242,6 +242,23 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		return true;
 	}
 
+	function get_next_publication_display_order($course,$tool,$category)
+	{
+		$query = 'SELECT MAX(display_order)+1 AS new_display_order FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('tool').'=?  AND '.$this->escape_column_name('category').'=?';
+		$statement = $this->connection->prepare($query);
+		$params['course'] = $course;
+		$params['tool'] = $tool;
+		$params['category'] = $category;
+		$res = & $this->connection->execute($statement, $params);
+		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$new_display_order = $record['new_display_order'];
+		if(!is_null($new_display_order))
+		{
+			return $new_display_order;
+		}
+		return 1;
+	}
+
 	private function get_publication_category_tree($parent, & $categories)
 	{
 		$subtree = array ();

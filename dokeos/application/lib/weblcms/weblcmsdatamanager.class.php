@@ -134,6 +134,17 @@ abstract class WebLCMSDataManager
 	 * down
 	 */
 	abstract function move_learning_object_publication_down($publication);
+
+	/**
+	 * Get the next available display order
+	 * @param string $course Course in which the publication will be
+	 * added
+	 * @param string $tool Tool in which the publication will be added
+	 * @param string $category Category in which the publication will be
+	 * added
+	 * @return int The requested display order
+	 */
+	abstract function get_next_publication_display_order($course,$tool,$category);
 }
 
 ?>
