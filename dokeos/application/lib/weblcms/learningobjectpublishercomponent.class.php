@@ -7,7 +7,7 @@
  *
  *	@author Tim De Pauw
 ==============================================================================
- */ 
+ */
 
 abstract class LearningObjectPublisherComponent
 {
@@ -15,7 +15,7 @@ abstract class LearningObjectPublisherComponent
 	 * The LearningObjectPublisher instance that created this object.
 	 */
 	private $parent;
-	
+
 	/**
 	 * Constructor.
 	 * @param LearningObjectPublisher $parent The creator of this object.
@@ -24,7 +24,7 @@ abstract class LearningObjectPublisherComponent
 	{
 		$this->parent = $parent;
 	}
-	
+
 	/**
 	 * Returns the creator of this object.
 	 * @return LearningObjectPublisher The creator.
@@ -57,13 +57,13 @@ abstract class LearningObjectPublisherComponent
 	{
 		return $this->parent->get_types();
 	}
-	
+
 	/**
 	 * Returns the publisher component's output in HTML format.
 	 * @return string The output.
 	 */
 	abstract function as_html();
-	
+
 	/**
 	 * @see LearningObjectPublisher::get_url()
 	 */
@@ -79,7 +79,16 @@ abstract class LearningObjectPublisherComponent
 	{
 		return $this->parent->get_parameters();
 	}
-	
+
+	/**
+	 * @see LearningObjectPublisher::get_parameter()
+	 */
+	function get_parameter($name)
+	{
+		$parameters = $this->get_parameters();
+		return $parameters[$name];
+	}
+
 	/**
 	 * @see LearningObjectPublisher::set_parameter()
 	 */
@@ -87,7 +96,7 @@ abstract class LearningObjectPublisherComponent
 	{
 		$this->parent->set_parameter($name, $value);
 	}
-	
+
 	/**
 	 * @see LearningObjectPublisher::get_categories()
 	 */

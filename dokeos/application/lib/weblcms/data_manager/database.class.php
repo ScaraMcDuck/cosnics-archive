@@ -160,6 +160,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$props['id'] = $id;
 		$props['learning_object'] = $publication->get_learning_object()->get_id();
 		$props['course'] = $publication->get_course_id();
+		$props['tool'] = $publication->get_tool();
 		$props['category'] = $publication->get_category_id();
 		$props['from_date'] = $publication->get_from_date();
 		$props['to_date'] = $publication->get_to_date();
@@ -209,7 +210,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	function move_learning_object_publication_up($publication)
 	{
-		$sql = 'SELECT co1.id AS id1, co2.id AS id2, co1.display_order AS display_order1, co2.display_order AS display_order2 FROM '.$this->escape_table_name('learning_object_publication').' co1, '.$this->escape_table_name('learning_object_publication').' co2 WHERE co1.course = co2.course AND co1.category = co2.category AND co1.id = ? AND co1.id <> co2.id AND co2.display_order < co1.display_order ORDER BY co2.display_order DESC LIMIT 1';
+		$sql = 'SELECT co1.id AS id1, co2.id AS id2, co1.display_order AS display_order1, co2.display_order AS display_order2 FROM '.$this->escape_table_name('learning_object_publication').' co1, '.$this->escape_table_name('learning_object_publication').' co2 WHERE co1.course = co2.course AND co1.tool = co2.tool AND co1.category = co2.category AND co1.id = ? AND co1.id <> co2.id AND co2.display_order < co1.display_order ORDER BY co2.display_order DESC LIMIT 1';
 		$statement = $this->connection->prepare($sql);
 		$result =& $this->connection->execute($statement, array ($publication->get_id()));
 		if ($result->numRows() == 0)
@@ -226,7 +227,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	function move_learning_object_publication_down($publication)
 	{
-		$sql = 'SELECT co1.id AS id1, co2.id AS id2, co1.display_order AS display_order1, co2.display_order AS display_order2 FROM '.$this->escape_table_name('learning_object_publication').' co1, '.$this->escape_table_name('learning_object_publication').' co2 WHERE co1.course = co2.course AND co1.category = co2.category AND co1.id = ? AND co1.id <> co2.id AND co2.display_order > co1.display_order ORDER BY co2.display_order ASC LIMIT 1';
+		$sql = 'SELECT co1.id AS id1, co2.id AS id2, co1.display_order AS display_order1, co2.display_order AS display_order2 FROM '.$this->escape_table_name('learning_object_publication').' co1, '.$this->escape_table_name('learning_object_publication').' co2 WHERE co1.course = co2.course AND co1.tool = co2.tool AND co1.category = co2.category AND co1.id = ? AND co1.id <> co2.id AND co2.display_order > co1.display_order ORDER BY co2.display_order ASC LIMIT 1';
 		$statement = $this->connection->prepare($sql);
 		$result =& $this->connection->execute($statement, array ($publication->get_id()));
 		if ($result->numRows() == 0)
