@@ -171,7 +171,10 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	function update_learning_object_publication($publication)
 	{
-		// TODO
+		$where = $this->escape_column_name('id').'='.$publication->get_id();
+		$props = array();
+		$props['hidden'] = $publication->is_hidden();
+		return $this->connection->autoExecute($this->get_table_name('learning_object_publication'), $props, DB_AUTOQUERY_UPDATE, $where);
 	}
 
 	function delete_learning_object_publication($publication)
@@ -202,6 +205,40 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 			$siblings[] = $cat;
 		}
 		return $this->get_publication_category_tree(0, & $cats);
+	}
+
+	function move_learning_object_publication_up($publication)
+	{
+		$sql = 'SELECT co1.id AS id1, co2.id AS id2, co1.display_order AS display_order1, co2.display_order AS display_order2 FROM '.$this->escape_table_name('learning_object_publication').' co1, '.$this->escape_table_name('learning_object_publication').' co2 WHERE co1.course = co2.course AND co1.category = co2.category AND co1.id = ? AND co1.id <> co2.id AND co2.display_order < co1.display_order ORDER BY co2.display_order DESC LIMIT 1';
+		$statement = $this->connection->prepare($sql);
+		$result =& $this->connection->execute($statement, array ($publication->get_id()));
+		if ($result->numRows() == 0)
+		{
+			return false;
+		}
+		$obj = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		$sql = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET display_order = ? WHERE id = ?';
+		$statement = $this->connection->prepare($sql);
+		$this->connection->execute($statement, array ($obj->display_order1, $obj->id2));
+		$this->connection->execute($statement, array ($obj->display_order2, $obj->id1));
+		return true;
+	}
+
+	function move_learning_object_publication_down($publication)
+	{
+		$sql = 'SELECT co1.id AS id1, co2.id AS id2, co1.display_order AS display_order1, co2.display_order AS display_order2 FROM '.$this->escape_table_name('learning_object_publication').' co1, '.$this->escape_table_name('learning_object_publication').' co2 WHERE co1.course = co2.course AND co1.category = co2.category AND co1.id = ? AND co1.id <> co2.id AND co2.display_order > co1.display_order ORDER BY co2.display_order ASC LIMIT 1';
+		$statement = $this->connection->prepare($sql);
+		$result =& $this->connection->execute($statement, array ($publication->get_id()));
+		if ($result->numRows() == 0)
+		{
+			return false;
+		}
+		$obj = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		$sql = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET display_order = ? WHERE id = ?';
+		$statement = $this->connection->prepare($sql);
+		$this->connection->execute($statement, array ($obj->display_order1, $obj->id2));
+		$this->connection->execute($statement, array ($obj->display_order2, $obj->id1));
+		return true;
 	}
 
 	private function get_publication_category_tree($parent, & $categories)
