@@ -2,26 +2,26 @@
 class LearningObjectPublication
 {
 	private $id;
-	
+
 	private $learningObject;
-	
+
 	private $course;
-	
+
 	private $category;
-	
+
 	private $targetUsers;
-	
+
 	private $targetGroups;
-	
+
 	private $fromDate;
-	
+
 	private $toDate;
-	
+
 	private $hidden;
-	
+
 	private $displayOrder;
-	
-	function LearningObjectPublication($id, $learningObject, $course, $category, $targetUsers, $targetGroups, $fromDate, $toDate, $hidden, $displayOrder) 
+
+	function LearningObjectPublication($id, $learningObject, $course, $category, $targetUsers, $targetGroups, $fromDate, $toDate, $hidden, $displayOrder)
 	{
 		$this->id = $id;
 		$this->learningObject = $learningObject;
@@ -32,39 +32,39 @@ class LearningObjectPublication
 		$this->fromDate = $fromDate;
 		$this->toDate = $toDate;
 		$this->hidden = $hidden;
-		$this->displayOrder = $displayOrder; 
+		$this->displayOrder = $displayOrder;
 	}
-	
+
 	function get_id()
 	{
-		return $this->id();
+		return $this->id;
 	}
-	
+
 	function get_learning_object ()
 	{
 		return $this->learningObject;
 	}
-	
+
 	function get_course_id()
 	{
 		return $this->course;
 	}
-	
+
 	function get_category_id()
 	{
 		return $this->category;
 	}
-	
+
 	function get_target_users()
 	{
 		return $this->targetUsers;
 	}
-	
+
 	function get_target_groups()
 	{
 		return $this->targetGroups;
 	}
-	
+
 	function get_from_date()
 	{
 		return $this->fromDate;
@@ -89,7 +89,7 @@ class LearningObjectPublication
 	{
 		$this->id = $id;
 	}
-	
+
 	function set_learning_object($learningObject)
 	{
 		$this->learningObject = $learningObject;
@@ -104,7 +104,7 @@ class LearningObjectPublication
 	{
 		$this->category = $category;
 	}
-	
+
 	function set_target_users($targetUsers)
 	{
 		$this->targetUsers = $targetUsers;
@@ -114,7 +114,7 @@ class LearningObjectPublication
 	{
 		$this->targetGroups = $targetGroups;
 	}
-	
+
 	function set_from_date($fromDate)
 	{
 		$this->fromDate = $fromDate;
@@ -129,10 +129,10 @@ class LearningObjectPublication
 	{
 		$this->hidden = $hidden;
 	}
-	
+
 	function set_display_order_index($displayOrder)
 	{
 		$this->displayOrder = $displayOrder;
 	}
-} 
+}
 ?>
