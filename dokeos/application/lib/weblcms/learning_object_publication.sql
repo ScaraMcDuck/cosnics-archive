@@ -2,6 +2,7 @@ CREATE TABLE `%prefix%learning_object_publication` (
   `id` int(10) unsigned NOT NULL default '0',
   `learning_object` int(10) unsigned NOT NULL default '0',
   `course` varchar(255) NOT NULL default '',
+  `tool` varchar(255) NOT NULL default '',
   `category` int(10) unsigned NOT NULL default '0',
   `from_date` int(10) unsigned NOT NULL default '0',
   `to_date` int(10) unsigned NOT NULL default '0',

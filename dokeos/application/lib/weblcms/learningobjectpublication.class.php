@@ -7,6 +7,8 @@ class LearningObjectPublication
 
 	private $course;
 
+	private $tool;
+
 	private $category;
 
 	private $targetUsers;
@@ -21,11 +23,12 @@ class LearningObjectPublication
 
 	private $displayOrder;
 
-	function LearningObjectPublication($id, $learningObject, $course, $category, $targetUsers, $targetGroups, $fromDate, $toDate, $hidden, $displayOrder)
+	function LearningObjectPublication($id, $learningObject, $course, $tool,$category, $targetUsers, $targetGroups, $fromDate, $toDate, $hidden, $displayOrder)
 	{
 		$this->id = $id;
 		$this->learningObject = $learningObject;
 		$this->course = $course;
+		$this->tool = $tool;
 		$this->category = $category;
 		$this->targetUsers = $targetUsers;
 		$this->targetGroups = $targetGroups;
@@ -48,6 +51,11 @@ class LearningObjectPublication
 	function get_course_id()
 	{
 		return $this->course;
+	}
+
+	function get_tool()
+	{
+		return $this->tool;
 	}
 
 	function get_category_id()

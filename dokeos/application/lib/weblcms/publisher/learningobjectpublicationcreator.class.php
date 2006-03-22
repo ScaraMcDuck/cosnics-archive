@@ -114,9 +114,10 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 			$users = array ();
 			$groups = array ();
 			$course = $this->get_course_id();
+			$tool = parent::get_parameter('tool');
 			$dm = WebLCMSDataManager :: get_instance();
 			$displayOrder = $this->get_last_publication_index($course, $category) + 1;
-			$pub = new LearningObjectPublication(null, $object, $course, $category, $users, $groups, $from, $to, $hidden, $displayOrder);
+			$pub = new LearningObjectPublication(null, $object, $course, $tool,$category, $users, $groups, $from, $to, $hidden, $displayOrder);
 			$dm->create_learning_object_publication($pub);
 			$out .= Display :: display_normal_message(get_lang('ObjectPublished'), true);
 		}
