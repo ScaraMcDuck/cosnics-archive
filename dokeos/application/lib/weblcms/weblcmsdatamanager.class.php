@@ -16,7 +16,7 @@ abstract class WebLCMSDataManager
 	 * Instance of the class, for the singleton pattern.
 	 */
 	private static $instance;
-	
+
 	/**
 	 * Constructor. Initializes the data manager.
 	 */
@@ -24,7 +24,7 @@ abstract class WebLCMSDataManager
 	{
 		$this->initialize();
 	}
-	
+
 	/**
 	 * Creates the shared instance of the configured data manager if
 	 * necessary and returns it. Uses a factory pattern.
@@ -41,12 +41,12 @@ abstract class WebLCMSDataManager
 		}
 		return self :: $instance;
 	}
-	
+
 	/**
 	 * Initializes the data manager.
 	 */
 	abstract function initialize();
-	
+
 	/**
 	 * Retrieves a single learning object publication from persistent
 	 * storage.
@@ -54,7 +54,7 @@ abstract class WebLCMSDataManager
 	 * @return LearningObjectPublication The publication.
 	 */
 	abstract function retrieve_learning_object_publication($pid);
-	
+
 	/**
 	 * Retrieves learning object publications from persistent storage.
 	 * @param string $course The ID of the course to find publications in, or
@@ -78,7 +78,7 @@ abstract class WebLCMSDataManager
 	 * @param int $firstIndex The index of the first publication to retrieve.
 	 * @param int $maxObjects The maximum number of objects to retrieve.
 	 * @return array An array of LearningObjectPublications.
-	 */ 
+	 */
 	abstract function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null, $orderBy = array ('display_order'), $orderDesc = array (SORT_ASC), $firstIndex = 0, $maxObjects = -1);
 
 	/**
@@ -103,22 +103,37 @@ abstract class WebLCMSDataManager
 	 * @param LearningObjectPublication $publication The publication to make
 	 *                                               persistent.
 	 * @return int The publication's newly assigned ID.
-	 */     
+	 */
 	abstract function create_learning_object_publication($publication);
-	
+
 	/**
 	 * Updates a learning object publication in persistent storage.
 	 * @param LearningObjectPublication $publication The publication to update
 	 *                                               in storage.
 	 */
 	abstract function update_learning_object_publication($publication);
-	
+
 	/**
 	 * Removes learning object publication from persistent storage.
 	 * @param LearningObjectPublication $publication The publication to remove
 	 *                                               from storage.
 	 */
 	abstract function delete_learning_object_publication($publication);
+
+	/**
+	 * Moves a learning object publication one place up in the location where it
+	 * is published.
+	 * @param LearningObjectPublication $publication The publication to move up
+	 */
+	abstract function move_learning_object_publication_up($publication);
+
+	/**
+	 * Moves a learning object publication one place down in the location where
+	 * it is published.
+	 * @param LearningObjectPublication $publication The publication to move
+	 * down
+	 */
+	abstract function move_learning_object_publication_down($publication);
 }
 
 ?>

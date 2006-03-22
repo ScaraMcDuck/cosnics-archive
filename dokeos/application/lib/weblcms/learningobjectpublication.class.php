@@ -150,5 +150,14 @@ class LearningObjectPublication
 		return WebLCMSDataManager :: get_instance()->update_learning_object_publication($this);
 	}
 
+	function move_up()
+	{
+		return WebLCMSDataManager :: get_instance()->move_learning_object_publication_up($this);
+	}
+
+	function move_down()
+	{
+		return WebLCMSDataManager :: get_instance()->move_learning_object_publication_down($this);
+	}
 }
 ?>
