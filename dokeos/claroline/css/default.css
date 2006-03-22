@@ -857,3 +857,46 @@ div.learning_object div.description
 .treeMenu a.treeMenuActive{
 	background: url(../img/treemenu/tree-folder-open.gif) no-repeat;
 }
+
+/* Calendar */
+table.calendar
+{
+ width: 100%;
+ border-collapse: collapse;
+ font-size: 10px;
+}
+table.calendar tr
+{
+ margin: 0px;
+ padding: 0px;
+}
+table.calendar td
+{
+border: 1px solid #000000;
+margin: 0px;
+padding: 2px;
+height: 60px;
+vertical-align: top;
+width:13%;
+}
+table.calendar th
+{
+	width: 13%;
+}
+div.event
+{
+ border: 1px solid #CCCCCC;
+ background-color: #F3F4F6;
+ margin: 1px;
+ padding: 2px;
+/* height: 20px;*/
+}
+div.event:hover
+{
+ 	background-color: #DDFFDD;
+}
+table.calendar td.highlight
+{
+	border: 2px solid black;
+	background-color: white;
+}
