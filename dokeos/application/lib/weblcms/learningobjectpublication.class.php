@@ -134,5 +134,21 @@ class LearningObjectPublication
 	{
 		$this->displayOrder = $displayOrder;
 	}
+
+	function change_visibility()
+	{
+		$this->set_hidden(!$this->is_hidden());
+	}
+
+	function delete()
+	{
+		return WebLCMSDataManager :: get_instance()->delete_learning_object_publication($this);
+	}
+
+	function update()
+	{
+		return WebLCMSDataManager :: get_instance()->update_learning_object_publication($this);
+	}
+
 }
 ?>
