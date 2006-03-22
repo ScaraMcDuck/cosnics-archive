@@ -176,7 +176,10 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	function delete_learning_object_publication($publication)
 	{
-		// TODO
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication').' WHERE id = ?';
+		$statement = $this->connection->prepare($query);
+		$parameters['id'] = $publication->get_id();
+		return $this->connection->execute($statement, $parameters);
 	}
 
 	function retrieve_publication_categories($course, $types)
