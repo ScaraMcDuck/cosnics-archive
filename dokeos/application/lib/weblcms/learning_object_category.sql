@@ -6,5 +6,5 @@ CREATE TABLE `%prefix%learning_object_publication_category` (
   `parent` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `course` (`course`),
-  KEY `type` (`type`)
+  KEY `tool` (`tool`)
 );
