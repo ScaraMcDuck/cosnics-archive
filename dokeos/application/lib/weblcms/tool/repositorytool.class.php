@@ -55,14 +55,14 @@ abstract class RepositoryTool extends Tool
 					break;
 				case 'move_up':
 					$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
-					if($publication->move_up())
+					if($publication->move(-1))
 					{
 						$message = get_lang('LearningObjectPublicationMovedUp');
 					}
 					break;
 				case 'move_down':
 					$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
-					if($publication->move_down())
+					if($publication->move(1))
 					{
 						$message = get_lang('LearningObjectPublicationMovedDown');
 					}

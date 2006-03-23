@@ -126,6 +126,7 @@ abstract class WebLCMSDataManager
 	 * @param LearningObjectPublication $publication The publication to move.
 	 * @param int $places The number of places to move the publication down
 	 *                    by. If negative, the publication will be moved up.
+	 * @return int The number of places that the publication was moved down.
 	 */
 	abstract function move_learning_object_publication($publication, $places);
 

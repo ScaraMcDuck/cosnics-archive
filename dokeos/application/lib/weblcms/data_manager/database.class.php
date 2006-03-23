@@ -199,16 +199,28 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 	function move_learning_object_publication($publication, $places)
 	{
 		// TODO: Optimize.
-		while ($places < 0)
+		if ($places < 0)
 		{
-			$this->move_learning_object_publication_up($publication);
-			$places++;
+			$places = abs($places);
+			for ($i = 0; $i < $places; $i++)
+			{
+				if (!$this->move_learning_object_publication_up($publication))
+				{
+					return $i;
+				}
+			}
 		}
-		while ($places > 0)
+		else
 		{
-			$this->move_learning_object_publication_down($publication);
-			$places--;
+			for ($i = 0; $i < $places; $i++)
+			{
+				if (!$this->move_learning_object_publication_down($publication))
+				{
+					return $i;
+				}
+			}
 		}
+		return $places;
 	}
 
 	private function move_learning_object_publication_up($publication)
