@@ -123,28 +123,22 @@ abstract class WebLCMSDataManager
 	/**
 	 * Moves a learning object publication one place up in the location where it
 	 * is published.
-	 * @param LearningObjectPublication $publication The publication to move up
+	 * @param LearningObjectPublication $publication The publication to move.
+	 * @param int $places The number of places to move the publication down
+	 *                    by. If negative, the publication will be moved up.
 	 */
-	abstract function move_learning_object_publication_up($publication);
+	abstract function move_learning_object_publication($publication);
 
 	/**
-	 * Moves a learning object publication one place down in the location where
-	 * it is published.
-	 * @param LearningObjectPublication $publication The publication to move
-	 * down
+	 * Returns the next available index in the display order.
+	 * @param string $course The course in which the publication will be
+	 * added.
+	 * @param string $tool The tool in which the publication will be added.
+	 * @param string $category The category in which the publication will be
+	 * added.
+	 * @return int The requested display order index.
 	 */
-	abstract function move_learning_object_publication_down($publication);
-
-	/**
-	 * Get the next available display order
-	 * @param string $course Course in which the publication will be
-	 * added
-	 * @param string $tool Tool in which the publication will be added
-	 * @param string $category Category in which the publication will be
-	 * added
-	 * @return int The requested display order
-	 */
-	abstract function get_next_publication_display_order($course,$tool,$category);
+	abstract function get_next_publication_display_order_index($course,$tool,$category);
 }
 
 ?>

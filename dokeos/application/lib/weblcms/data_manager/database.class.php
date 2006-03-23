@@ -207,9 +207,15 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		}
 		return $this->get_publication_category_tree(0, & $cats);
 	}
-
-	function move_learning_object_publication_up($publication)
+	
+	function move_learning_object_publication($publication, $places)
 	{
+		// TODO
+	}
+
+	private function move_learning_object_publication_up($publication)
+	{
+		// TODO: Escape table and column names.
 		$sql = 'SELECT co1.id AS id1, co2.id AS id2, co1.display_order AS display_order1, co2.display_order AS display_order2 FROM '.$this->escape_table_name('learning_object_publication').' co1, '.$this->escape_table_name('learning_object_publication').' co2 WHERE co1.course = co2.course AND co1.tool = co2.tool AND co1.category = co2.category AND co1.id = ? AND co1.id <> co2.id AND co2.display_order < co1.display_order ORDER BY co2.display_order DESC LIMIT 1';
 		$statement = $this->connection->prepare($sql);
 		$result =& $this->connection->execute($statement, array ($publication->get_id()));
@@ -225,8 +231,9 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		return true;
 	}
 
-	function move_learning_object_publication_down($publication)
+	private function move_learning_object_publication_down($publication)
 	{
+		// TODO: Escape table and column names.
 		$sql = 'SELECT co1.id AS id1, co2.id AS id2, co1.display_order AS display_order1, co2.display_order AS display_order2 FROM '.$this->escape_table_name('learning_object_publication').' co1, '.$this->escape_table_name('learning_object_publication').' co2 WHERE co1.course = co2.course AND co1.tool = co2.tool AND co1.category = co2.category AND co1.id = ? AND co1.id <> co2.id AND co2.display_order > co1.display_order ORDER BY co2.display_order ASC LIMIT 1';
 		$statement = $this->connection->prepare($sql);
 		$result =& $this->connection->execute($statement, array ($publication->get_id()));
@@ -242,8 +249,9 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		return true;
 	}
 
-	function get_next_publication_display_order($course,$tool,$category)
+	function get_next_publication_display_order_index($course,$tool,$category)
 	{
+		// TODO: Escape table and column names.
 		$query = 'SELECT MAX(display_order)+1 AS new_display_order FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('tool').'=?  AND '.$this->escape_column_name('category').'=?';
 		$statement = $this->connection->prepare($query);
 		$params['course'] = $course;
