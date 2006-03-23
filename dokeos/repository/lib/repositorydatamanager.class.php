@@ -96,7 +96,7 @@ abstract class RepositoryDataManager
 		$condition1 = new EqualityCondition('owner', $owner);
 		$condition2 = new EqualityCondition('parent', 0);
 		$condition = new AndCondition($condition1, $condition2);
-		$object = $this->retrieve_learning_objects('category', $condition, null, null, null, 1);
+		$object = $this->retrieve_learning_objects('category', $condition, null, null, 0, 1);
 		return $object[0];
 	}
 
