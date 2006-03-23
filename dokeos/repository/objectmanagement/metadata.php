@@ -14,7 +14,7 @@ if( isset($_GET['id']))
 	$object = $datamanager->retrieve_learning_object($_GET['id']);
 	$display = LearningObjectDisplay::factory($object);
 	// Create a navigation menu to browse through the categories
-	$current_category_id = $object->get_category_id();
+	$current_category_id = $object->get_parent_id();
 	$menu = new CategoryMenu(api_get_user_id(),$current_category_id,'index.php?category=%s');
 	$interbredcrump = $menu->get_breadcrumbs();
 	$tool_name = get_lang('Metadata').': '.$object->get_title();
