@@ -38,8 +38,7 @@ function get_condition()
 function get_number_of_objects()
 {
 	$datamanager = RepositoryDataManager::get_instance();
-	$objects = $datamanager->retrieve_learning_objects(null,get_condition());
-	return count($objects);
+	return $datamanager->count_learning_objects(null,get_condition());
 }
 /**
  * Get the objects to display in the table
