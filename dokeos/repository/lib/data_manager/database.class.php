@@ -118,7 +118,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			 */
 			$maxObjects = 9999999999;
 		}
-		$res = & $this->connection->limitQuery($query, $firstIndex, $maxObjects, $params);
+		$res = & $this->connection->limitQuery($query, intval($firstIndex), intval($maxObjects), $params);
 		$objects = array ();
 		if (isset ($type))
 		{
