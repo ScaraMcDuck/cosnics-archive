@@ -259,7 +259,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		return true;
 	}
 
-	function get_next_publication_display_order_index($course,$tool,$category)
+	function get_next_learning_object_publication_display_order_index($course,$tool,$category)
 	{
 		// TODO: Escape table and column names.
 		$query = 'SELECT MAX(display_order)+1 AS new_display_order FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('tool').'=?  AND '.$this->escape_column_name('category').'=?';

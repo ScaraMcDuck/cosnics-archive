@@ -138,7 +138,7 @@ abstract class WebLCMSDataManager
 	 * added.
 	 * @return int The requested display order index.
 	 */
-	abstract function get_next_publication_display_order_index($course,$tool,$category);
+	abstract function get_next_learning_object_publication_display_order_index($course,$tool,$category);
 }
 
 ?>
