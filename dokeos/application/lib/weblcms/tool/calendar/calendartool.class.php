@@ -37,20 +37,31 @@ class CalendarTool extends RepositoryTool
 		$this->set_parameter('time',$time);
 		echo '<a href="'.$this->get_url(array('view'=>'month')).'">month</a> | ';
 		echo '<a href="'.$this->get_url(array('view'=>'week')).'">week</a> | ';
-		echo '<a href="'.$this->get_url(array('view'=>'day')).'">day</a> | ';
-		switch($_GET['view'])
+		echo '<a href="'.$this->get_url(array('view'=>'day')).'">day</a> <br/><br/>';
+		$show_calendar = true;
+		if(isset($_GET['pid']))
 		{
-			case 'day':
-				$this->set_parameter('view','day');
-				$this->display_day_view($time);
-				break;
-			case 'week':
-				$this->set_parameter('view','week');
-				$this->display_week_view($time);
-				break;
-			default:
-				$this->display_month_view($time);
-				break;
+			$this->set_parameter('view',$_GET['view']);
+			$this->display_publication($_GET['pid']);
+			$show_calendar = false;
+		}
+		if($show_calendar)
+		{
+			switch($_GET['view'])
+			{
+				case 'day':
+					$this->set_parameter('view','day');
+					$this->display_day_view($time);
+					break;
+				case 'week':
+					$this->set_parameter('view','week');
+					$this->display_week_view($time);
+					break;
+				default:
+					$this->set_parameter('view','month');
+					$this->display_month_view($time);
+					break;
+			}
 		}
 	}
 	/**
@@ -73,10 +84,12 @@ class CalendarTool extends RepositoryTool
 			do
 			{
 				$cell_contents = date('d',$table_date);
-				$events = $this->get_calendar_events($table_date,strtotime('+1 Day',$table_date));
-				foreach($events as $index => $event)
+				$publications = $this->get_calendar_events($table_date,strtotime('+1 Day',$table_date));
+				foreach($publications as $index => $publication)
 				{
-					$cell_contents .= '<div class="event">'.date('H:i',$event->get_start_date()).' '.$event->get_title().'</div>';
+					$event = $publication->get_learning_object();
+					$event_url = $this->get_url(array('pid'=>$publication->get_id()));
+					$cell_contents .= '<div class="event"><a href="'.$event_url.'">'.date('H:i',$event->get_start_date()).' '.$event->get_title().'</a></div>';
 				}
 				$calendar_table->setCellContents(intval($cell / 7) + 1, $cell % 7, $cell_contents );
 				if(date('Ymd',$table_date) == date('Ymd'))
@@ -127,14 +140,16 @@ class CalendarTool extends RepositoryTool
 		}
 		$from_time = mktime(0,0,0,date('m',$first_day),date('d',$first_day),date('Y',$first_day));
 		$to_time = mktime(23,59,59,date('m',$last_day),date('d',$last_day),date('Y',$last_day));
-		$events = $this->get_calendar_events($from_time,$to_time);
-		foreach($events as $index => $event)
+		$publications = $this->get_calendar_events($from_time,$to_time);
+		foreach($publications as $index => $publication)
 		{
+			$event = $publication->get_learning_object();
 			$row = date('H',$event->get_start_date())/4+1;
 			$col = date('w',$event->get_start_date());
 			$col = ($col == 0 ? 7 : $col);
+			$event_url = $this->get_url(array('pid'=>$publication->get_id()));
 			$cell_contents = $calendar_table->getCellContents($row,$col);
-			$cell_contents .= '<div class="event">'.date('H:i',$event->get_start_date()).' '.$event->get_title().'</div>';
+			$cell_contents .= '<div class="event"><a href="'.$event_url.'">'.date('H:i',$event->get_start_date()).' '.$event->get_title().'</a></div>';
 			$calendar_table->setCellContents($row,$col,$cell_contents);
 		}
 		$calendar_table->setRowType(0,'th');
@@ -162,12 +177,14 @@ class CalendarTool extends RepositoryTool
 		}
 		$from_time = mktime(0,0,0,date('m',$time),date('d',$time),date('Y',$time));
 		$to_time = mktime(23,59,59,date('m',$time),date('d',$time),date('Y',$time));
-		$events = $this->get_calendar_events($from_time,$to_time);
-		foreach($events as $index => $event)
+		$publications = $this->get_calendar_events($from_time,$to_time);
+		foreach($publications as $index => $publication)
 		{
+			$event = $publication->get_learning_object();
+			$event_url = $this->get_url(array('pid'=>$publication->get_id()));
 			$row = 	date('H',$event->get_start_date())/2;
 			$cell_contents = $calendar_table->getCellContents($row,0);
-			$cell_contents .= '<div class="event">'.date('H:i',$event->get_start_date()).' '.$event->get_title().'<br/>'.$event->get_description().'</div>';
+			$cell_contents .= '<div class="event"><a href="'.$event_url.'">'.date('H:i',$event->get_start_date()).' '.$event->get_title().'</a><br/>'.$event->get_description().'</div>';
 			$calendar_table->setCellContents($row,0,$cell_contents);
 		}
 		$prev = strtotime('-1 Day',$time);
@@ -178,6 +195,31 @@ class CalendarTool extends RepositoryTool
 		echo ' <a href="'.$this->get_url(array('time' => $next)).'">&gt;&gt;</a> ';
 		echo '</div>';
 		$calendar_table->display();
+	}
+	/**
+	 * Display a pubication
+	 */
+	function display_publication($publication_id)
+	{
+		$datamanager = WebLCMSDataManager :: get_instance();
+		$publication = $datamanager->retrieve_learning_object_publication($publication_id);
+		$object = $publication->get_learning_object();
+		$delete_url = $this->get_url(array('action'=>'delete','pid'=>$publication->get_id()));
+		$visible_url = $this->get_url(array('action'=>'change_visibility','pid'=>$publication->get_id()));
+		$visibility_img = ($publication->is_hidden() ? 'visible.gif' : 'invisible.gif');
+		$html = array();
+		$html[] = '<a href="'.$this->get_url().'">&laquo;&laquo; '.get_lang('Back').'</a>';
+		$html[] = '<div class="learning_object">';
+		$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/></div>';
+		$html[] = '<div class="title">'.$object->get_title().'</div>';
+		$html[] = '<div class="description">'.$object->get_description();
+		$html[] = '<br />';
+		$html[] = '<a href="'.$delete_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/delete.gif"/></a>';
+		$html[] = '<a href="'.$visible_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$visibility_img.'"/></a>';
+		$html[] = '</div>';
+		$html[] = '</div>';
+		$html[] = '<br /><br />';
+		echo implode("\n",$html);
 	}
 	/**
 	 * Get calendar events in a certain time range
@@ -195,7 +237,7 @@ class CalendarTool extends RepositoryTool
 			$start_date = $event->get_start_date();
 			if($from_time <= $start_date && $start_date <= $to_time)
 			{
-				$events[] = $event;
+				$events[] = $publication;
 			}
 		}
 		return $events;
