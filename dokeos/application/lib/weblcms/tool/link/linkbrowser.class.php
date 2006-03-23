@@ -38,6 +38,7 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 	{
 		// TODO: Share sensible default condition with other tools.
 		$time = time();
+		$tool_cond = new EqualityCondition('tool','link');
 		$shown_cond = new EqualityCondition('hidden', 0);
 		$date_from_zero = new EqualityCondition('from_date', 0);
 		$date_to_zero = new EqualityCondition('to_date', 0);
@@ -46,7 +47,7 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 		$date1 = new OrCondition($date_from_zero, $date_from_passed);
 		$date2 = new OrCondition($date_to_zero, $date_to_coming);
 		$date_cond = new AndCondition($date1, $date2);
-		return new AndCondition($shown_cond, $date_cond);
+		return new AndCondition($shown_cond, $date_cond, $tool_cond);
 	}
 }
 ?>
