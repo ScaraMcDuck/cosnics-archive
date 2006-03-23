@@ -12,7 +12,8 @@ CREATE TABLE `%prefix%learning_object_publication` (
   KEY `from_date` (`from_date`,`to_date`),
   KEY `hidden` (`hidden`),
   KEY `course` (`course`),
-  KEY `category` (`category`)
+  KEY `category` (`category`),
+  KEY `tool` (`tool`)
 );
 
 CREATE TABLE `%prefix%learning_object_publication_group` (
@@ -25,4 +26,15 @@ CREATE TABLE `%prefix%learning_object_publication_user` (
   `publication` int(10) unsigned NOT NULL default '0',
   `user` int(10) unsigned NOT NULL default '0',
   KEY `publication` (`publication`)
+);
+
+CREATE TABLE `%prefix%learning_object_publication_category` (
+  `id` int(10) unsigned NOT NULL default '0',
+  `title` text NOT NULL,
+  `course` varchar(255) NOT NULL default '',
+  `tool` varchar(255) NOT NULL default '',
+  `parent` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `course` (`course`),
+  KEY `tool` (`tool`)
 );
