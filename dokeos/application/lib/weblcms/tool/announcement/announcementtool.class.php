@@ -5,8 +5,8 @@ require_once dirname(__FILE__).'/../repositorytool.class.php';
  */
 class AnnouncementTool extends RepositoryTool
 {
-	/**
-	 * inherited
+	/*
+	 * Inherited.
 	 */
 	function run()
 	{

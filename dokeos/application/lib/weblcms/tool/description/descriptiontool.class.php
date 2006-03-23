@@ -5,8 +5,8 @@ require_once dirname(__FILE__).'/../repositorytool.class.php';
  */
 class DescriptionTool extends RepositoryTool
 {
-	/**
-	 * inherited
+	/*
+	 * Inherited.
 	 */
 	function run()
 	{

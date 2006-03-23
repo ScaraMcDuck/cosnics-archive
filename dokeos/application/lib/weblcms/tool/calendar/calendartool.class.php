@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/../repositorytool.class.php';
 class CalendarTool extends RepositoryTool
 {
 	/**
-	 * inherited
+	 * Inherited.
 	 */
 	function run()
 	{
