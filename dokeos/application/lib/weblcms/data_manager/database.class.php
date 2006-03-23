@@ -126,7 +126,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		/*
 		 * Get publications.
 		 */
-		$res = & $this->connection->limitQuery($query, $firstIndex, $maxObjects, $params);
+		$res = & $this->connection->limitQuery($query, intval($firstIndex), intval($maxObjects), $params);
 		$results = array ();
 		while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
