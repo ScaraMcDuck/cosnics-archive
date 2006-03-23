@@ -65,13 +65,20 @@ class CalendarTool extends RepositoryTool
 		$first_day = mktime(0, 0, 0, $m, 1, $y);
 		$first_day_nr = date('w', $first_day) == 0 ? 6 : date('w', $first_day) - 1;
 		$calendar_table->addRow(array ('ma', 'di', 'wo', 'do', 'vr', 'za', 'zo'));
-		$table_date = strtotime('Monday',strtotime('-1 Week',$first_day));
+		$first_table_date = strtotime('Monday',strtotime('-1 Week',$first_day));
+		$table_date = $first_table_date;
 		$cell = 0;
 		while(date('Ym',$table_date) <= date('Ym',$time))
 		{
 			do
 			{
-				$calendar_table->setCellContents(intval($cell / 7) + 1, $cell % 7, date('d',$table_date));
+				$cell_contents = date('d',$table_date);
+				$events = $this->get_calendar_events($table_date,strtotime('+1 Day',$table_date));
+				foreach($events as $index => $event)
+				{
+					$cell_contents .= '<div class="event">'.date('H:i',$event->get_start_date()).' '.$event->get_title().'</div>';
+				}
+				$calendar_table->setCellContents(intval($cell / 7) + 1, $cell % 7, $cell_contents );
 				if(date('Ymd',$table_date) == date('Ymd'))
 				{
 					$calendar_table->updateCellAttributes(intval($cell / 7) + 1, $cell % 7,'class="highlight"');
@@ -104,7 +111,8 @@ class CalendarTool extends RepositoryTool
 		$calendar_table = new HTML_Table(array ('class' => 'calendar'));
 		for($hour = 0; $hour < 24; $hour += 4)
 		{
-			$calendar_table->setCellContents($hour/4+1,0,$hour.'u - '.($hour+4).'u');
+			$cell_content = $hour.'u - '.($hour+4).'u';
+			$calendar_table->setCellContents($hour/4+1,0,$cell_content);
 		}
 		$dates[] = '';
 		$today = date('Y-m-d');
@@ -122,10 +130,11 @@ class CalendarTool extends RepositoryTool
 		$events = $this->get_calendar_events($from_time,$to_time);
 		foreach($events as $index => $event)
 		{
-			$row = date('H',strtotime($event->get_start_date()))/4+1;
-			$col = date('w',strtotime($event->get_start_date()));
+			$row = date('H',$event->get_start_date())/4+1;
+			$col = date('w',$event->get_start_date());
+			$col = ($col == 0 ? 7 : $col);
 			$cell_contents = $calendar_table->getCellContents($row,$col);
-			$cell_contents .= '<div class="event">'.$event->get_title().'</div>';
+			$cell_contents .= '<div class="event">'.date('H:i',$event->get_start_date()).' '.$event->get_title().'</div>';
 			$calendar_table->setCellContents($row,$col,$cell_contents);
 		}
 		$calendar_table->setRowType(0,'th');
@@ -156,9 +165,9 @@ class CalendarTool extends RepositoryTool
 		$events = $this->get_calendar_events($from_time,$to_time);
 		foreach($events as $index => $event)
 		{
-			$row = 	date('H',strtotime($event->get_start_date()))/2;
+			$row = 	date('H',$event->get_start_date())/2;
 			$cell_contents = $calendar_table->getCellContents($row,0);
-			$cell_contents .= '<div class="event">'.$event->get_title().'<br/>'.$event->get_description().'</div>';
+			$cell_contents .= '<div class="event">'.date('H:i',$event->get_start_date()).' '.$event->get_title().'<br/>'.$event->get_description().'</div>';
 			$calendar_table->setCellContents($row,0,$cell_contents);
 		}
 		$prev = strtotime('-1 Day',$time);
@@ -171,7 +180,10 @@ class CalendarTool extends RepositoryTool
 		$calendar_table->display();
 	}
 	/**
-	 *
+	 * Get calendar events in a certain time range
+	 * @param int $from_time
+	 * @param int $to_time
+	 * @return array A set of publications of calendar_events
 	 */
 	function get_calendar_events($from_time,$to_time)
 	{
@@ -181,7 +193,7 @@ class CalendarTool extends RepositoryTool
 		{
 			$event = $publication->get_learning_object();
 			$start_date = $event->get_start_date();
-			if($from_time <= strtotime($start_date) && strtotime($start_date) <= $to_time)
+			if($from_time <= $start_date && $start_date <= $to_time)
 			{
 				$events[] = $event;
 			}
@@ -194,10 +206,14 @@ class CalendarTool extends RepositoryTool
 	 */
 	function get_publications()
 	{
+		if( isset($this->publications))
+		{
+			return $this->publications;
+		}
 		$datamanager = WebLCMSDataManager :: get_instance();
 		$condition = new EqualityCondition('tool','calendar');
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups(),$condition);
-		return $publications;
+		$this->publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups(),$condition);
+		return $this->publications;
 	}
 }
 ?>
