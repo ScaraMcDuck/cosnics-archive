@@ -16,8 +16,9 @@ class CalendarEventDisplay extends LearningObjectDisplay
 		$html[] = '<div class="title">'.$object->get_title().'</div>';
 		$html[] = '<div class="description">'.$object->get_description().'</div>';
 		$html[] = '<br>';
-		$html[] = '<div class="start_date">'.$object->get_start_date().'</div>';
-		$html[] = '<div class="end_date">'.$object->get_end_date().'</div>';
+		//TODO change date output to locale date format
+		$html[] = '<div class="start_date">'.date('r',$object->get_start_date()).'</div>';
+		$html[] = '<div class="end_date">'.date('r',$object->get_end_date()).'</div>';
 		$html[] = '</div>';
 		return implode("\n",$html);
 	}
