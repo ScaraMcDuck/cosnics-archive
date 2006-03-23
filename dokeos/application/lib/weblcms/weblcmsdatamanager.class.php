@@ -127,7 +127,7 @@ abstract class WebLCMSDataManager
 	 * @param int $places The number of places to move the publication down
 	 *                    by. If negative, the publication will be moved up.
 	 */
-	abstract function move_learning_object_publication($publication);
+	abstract function move_learning_object_publication($publication, $places);
 
 	/**
 	 * Returns the next available index in the display order.
