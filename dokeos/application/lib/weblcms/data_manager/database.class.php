@@ -18,9 +18,8 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	function retrieve_learning_object_publication($pid)
 	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name('id').'=? LIMIT 1';
-		$sth = $this->connection->prepare($query);
-		$res = & $this->connection->execute($sth, $pid);
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name('id').'=?';
+		$res = & $this->connection->limitQuery($query, 0, 1, array($pid));
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $this->record_to_publication($record);
 	}
@@ -119,26 +118,15 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		{
 			$query .= ','.$this->escape_column_name($orderBy[$i]).' '. ($orderDesc[$i] == SORT_ASC ? 'ASC' : 'DESC');
 		}
-		if ($maxObjects > 0)
+		// XXX: Is this necessary?
+		if ($maxObjects < 0)
 		{
-			if ($firstIndex > 0)
-			{
-				$query .= ' LIMIT '.$firstIndex.','.$maxObjects;
-			}
-			else
-			{
-				$query .= ' LIMIT '.$maxObjects;
-			}
-		}
-		elseif ($firstIndex > 0)
-		{
-			$query .= ' LIMIT '.$firstIndex.',999999999999';
+			$maxObjects = 999999999;
 		}
 		/*
 		 * Get publications.
 		 */
-		$sth = $this->connection->prepare($query);
-		$res = & $this->connection->execute($sth, $params);
+		$res = & $this->connection->limitQuery($query, $firstIndex, $maxObjects, $params);
 		$results = array ();
 		while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -225,7 +213,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	private function move_learning_object_publication_up($publication)
 	{
-		// TODO: Escape table and column names.
+		// TODO: Escape table and column names, use limitQuery.
 		$sql = 'SELECT co1.id AS id1, co2.id AS id2, co1.display_order AS display_order1, co2.display_order AS display_order2 FROM '.$this->escape_table_name('learning_object_publication').' co1, '.$this->escape_table_name('learning_object_publication').' co2 WHERE co1.course = co2.course AND co1.tool = co2.tool AND co1.category = co2.category AND co1.id = ? AND co1.id <> co2.id AND co2.display_order < co1.display_order ORDER BY co2.display_order DESC LIMIT 1';
 		$statement = $this->connection->prepare($sql);
 		$result =& $this->connection->execute($statement, array ($publication->get_id()));
@@ -243,7 +231,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	private function move_learning_object_publication_down($publication)
 	{
-		// TODO: Escape table and column names.
+		// TODO: Escape table and column names, use limitQuery.
 		$sql = 'SELECT co1.id AS id1, co2.id AS id2, co1.display_order AS display_order1, co2.display_order AS display_order2 FROM '.$this->escape_table_name('learning_object_publication').' co1, '.$this->escape_table_name('learning_object_publication').' co2 WHERE co1.course = co2.course AND co1.tool = co2.tool AND co1.category = co2.category AND co1.id = ? AND co1.id <> co2.id AND co2.display_order > co1.display_order ORDER BY co2.display_order ASC LIMIT 1';
 		$statement = $this->connection->prepare($sql);
 		$result =& $this->connection->execute($statement, array ($publication->get_id()));
@@ -261,7 +249,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	function get_next_learning_object_publication_display_order_index($course,$tool,$category)
 	{
-		// TODO: Escape table and column names.
+		// TODO: Escape table and column names, limitQuery.
 		$query = 'SELECT MAX(display_order)+1 AS new_display_order FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('tool').'=?  AND '.$this->escape_column_name('category').'=?';
 		$statement = $this->connection->prepare($query);
 		$params['course'] = $course;

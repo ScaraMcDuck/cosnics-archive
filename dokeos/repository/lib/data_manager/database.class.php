@@ -46,8 +46,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// Inherited.
 	function determine_learning_object_type($id)
 	{
-		$sth = $this->connection->prepare('SELECT '.$this->escape_column_name('type').' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name('id').'=? LIMIT 1');
-		$res = & $this->connection->execute($sth, $id);
+		$res = & $this->connection->limitQuery('SELECT '.$this->escape_column_name('type').' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name('id').'=?', 0, 1, array($id));
 		$record = $res->fetchRow(DB_FETCHMODE_ORDERED);
 		return $record[0];
 	}
@@ -61,14 +60,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		if ($this->is_extended_type($type))
 		{
-			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS t1'.' JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name('id').'=t2.'.$this->escape_column_name('id').' WHERE t1.'.$this->escape_column_name('id').'=? LIMIT 1';
+			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS t1'.' JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name('id').'=t2.'.$this->escape_column_name('id').' WHERE t1.'.$this->escape_column_name('id').'=?';
 		}
 		else
 		{
-			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name('id').'=? LIMIT 1';
+			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name('id').'=?';
 		}
-		$sth = $this->connection->prepare($query);
-		$res = & $this->connection->execute($sth, $id);
+		$res = & $this->connection->limitQuery($query, 0, 1, array($id));
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return self :: record_to_learning_object($record);
 	}
@@ -108,23 +106,19 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$query .= ' ORDER BY '.implode(', ', $order);
 		}
-		if ($maxObjects > 0)
+		// XXX: Is this necessary?
+		if ($maxObjects < 0)
 		{
-			if ($firstIndex > 0)
-			{
-				$query .= ' LIMIT '.$firstIndex.','.$maxObjects;
-			}
-			else
-			{
-				$query .= ' LIMIT '.$maxObjects;
-			}
+			/*
+			 * Note: too big a number here can cause PHP to use scientific
+			 * notation, which breaks the query. For example, the rando
+			 * number 18446744073709551615, like in the MySQL documentation,
+			 * evaluates to 1.8E+19, which in its turn evaluates to 1,
+			 * apparently.
+			 */
+			$maxObjects = 9999999999;
 		}
-		elseif ($firstIndex > 0)
-		{
-			$query .= ' LIMIT '.$firstIndex.',999999999999';
-		}
-		$sth = $this->connection->prepare($query);
-		$res = & $this->connection->execute($sth, $params);
+		$res = & $this->connection->limitQuery($query, $firstIndex, $maxObjects, $params);
 		$objects = array ();
 		if (isset ($type))
 		{
