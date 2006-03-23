@@ -158,14 +158,16 @@ class LearningObjectPublication
 		return WebLCMSDataManager :: get_instance()->update_learning_object_publication($this);
 	}
 
-	function move_up()
+	/**
+	 * Moves the publication up or down in the list.
+	 * @param $places The number of places to move the publication down. A
+	 *                negative number moves it up.
+	 * @return int The number of places that the publication was moved
+	 *             down. 
+	 */
+	function move($places)
 	{
-		return WebLCMSDataManager :: get_instance()->move_learning_object_publication_up($this);
-	}
-
-	function move_down()
-	{
-		return WebLCMSDataManager :: get_instance()->move_learning_object_publication_down($this);
+		return WebLCMSDataManager :: get_instance()->move_learning_object_publication($this, $places);
 	}
 }
 ?>
