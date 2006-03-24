@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/../../../../repository/lib/learningobject_displ
 require_once dirname(__FILE__).'/../../../../repository/lib/learningobject_form.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';
+require_once api_get_path(SYS_CODE_PATH).'/inc/lib/course.lib.php';
 
 class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 {
@@ -89,8 +90,15 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 			// Only root category -> store object in root category
 			$form->addElement('hidden','category',0);
 		}
-		// TODO: add list of possible users and groups to receivers element
-		$form->addElement('receivers','target_users_and_groups',get_lang('PublishFor'));
+		// TODO: add list of possible groups to receivers element
+		$users = CourseManager::get_user_list_from_course_code(api_get_course_id());
+		$receiver_choices = array();
+		foreach($users as $index => $user)
+		{
+			$receiver_choices[$user['user_id']] = $user['firstName'].' '.$user['lastName'];
+		}
+		$attributes['receivers'] = $receiver_choices;
+		$form->addElement('receivers','target_users_and_groups',get_lang('PublishFor'),$attributes);
 		$form->add_timewindow('from_date', 'to_date', get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
 		$form->addElement('checkbox', 'forever', get_lang('Forever'));
 		$form->addElement('checkbox', 'hidden', get_lang('Hidden'));
