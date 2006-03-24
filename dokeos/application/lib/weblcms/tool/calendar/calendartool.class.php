@@ -25,7 +25,7 @@ class CalendarTool extends RepositoryTool
 		{
 			echo '<p>Go to <a href="' . $this->get_url(array('calendaradmin' => 1)) . '">Publisher Mode</a> &hellip;</p>';
 			$this->perform_requested_actions();
-			if($_GET['action'] == 'delete')
+			if($_GET['action'] == 'delete' || $_GET['view'] == 'list')
 			{
 				unset($_GET['pid']);
 			}
@@ -39,6 +39,7 @@ class CalendarTool extends RepositoryTool
 	{
 		$time = isset($_GET['time']) ? intval($_GET['time']) : time();
 		$this->set_parameter('time',$time);
+		echo '<a href="'.$this->get_url(array('view'=>'list')).'">list</a> | ';
 		echo '<a href="'.$this->get_url(array('view'=>'month')).'">month</a> | ';
 		echo '<a href="'.$this->get_url(array('view'=>'week')).'">week</a> | ';
 		echo '<a href="'.$this->get_url(array('view'=>'day')).'">day</a> <br/><br/>';
@@ -53,6 +54,10 @@ class CalendarTool extends RepositoryTool
 		{
 			switch($_GET['view'])
 			{
+				case 'list':
+					$this->set_parameter('view','list');
+					$this->display_list_view($time);
+					break;
 				case 'day':
 					$this->set_parameter('view','day');
 					$this->display_day_view($time);
@@ -199,6 +204,46 @@ class CalendarTool extends RepositoryTool
 		echo ' <a href="'.$this->get_url(array('time' => $next)).'">&gt;&gt;</a> ';
 		echo '</div>';
 		$calendar_table->display();
+	}
+	/**
+	 * Display a day view of the calendar
+	 * @param int $time A moment in the day to be displayed
+	 */
+	function display_list_view($time)
+	{
+		$publications = $this->get_publications();
+		$events = array();
+		foreach($publications as $index => $publication)
+		{
+			$event = $publication->get_learning_object();
+			$events[$event->get_start_date()][] = $publication;
+		}
+		ksort($events);
+		foreach($events as $time => $publications)
+		{
+			foreach($publications as $index => $publication)
+			{
+				$object = $publication->get_learning_object();
+				$delete_url = $this->get_url(array('action'=>'delete','pid'=>$publication->get_id()));
+				$visible_url = $this->get_url(array('action'=>'change_visibility','pid'=>$publication->get_id()));
+				$visibility_img = ($publication->is_hidden() ? 'invisible.gif' : 'visible.gif');
+				$html = array();
+				$html[] = '<div class="learning_object">';
+				$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/></div>';
+				$html[] = '<div class="title">'.$object->get_title().'</div>';
+				$html[] = '<div class="description">';
+				$html[] = '<em>'.date('r',$object->get_start_date()).' - '.date('r',$object->get_end_date()).'</em>';
+				$html[] = '<br />';
+				$html[] = $object->get_description();
+				$html[] = '<br />';
+				$html[] = '<a href="'.$delete_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/delete.gif"/></a>';
+				$html[] = '<a href="'.$visible_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$visibility_img.'"/></a>';
+				$html[] = '</div>';
+				$html[] = '</div>';
+				$html[] = '<br /><br />';
+				echo implode("\n",$html);
+			}
+		}
 	}
 	/**
 	 * Display a pubication
