@@ -62,7 +62,7 @@ class DescriptionTool extends RepositoryTool
 			{
 				$down_link = '<img src="'.api_get_path(WEB_CODE_PATH).'/img/down_na.gif"/></a>';
 			}
-			$visibility_img = ($publication->is_hidden() ? 'visible.gif' : 'invisible.gif');
+			$visibility_img = ($publication->is_hidden() ? 'invisible.gif' : 'visible.gif');
 
 			$html = array();
 			$html[] = '<div class="learning_object">';
