@@ -15,6 +15,10 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		$oid = $_GET['object'];
 		if ($oid)
 		{
+			if ($_GET['edit'])
+			{
+				return $this->get_modification_form($oid);
+			}
 			return $this->get_publication_form($oid);
 		}
 		else
@@ -67,6 +71,21 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		else
 		{
 			return $form->toHTML();
+		}
+	}
+	
+	private function get_modification_form($objectID)
+	{
+		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
+		$form = LearningObjectForm::factory($object->get_type(),'edit','post',$this->get_url(array('object' => $objectID, 'edit' => 1)));
+		$form->build_edit_form($object);
+		if ($form->validate())
+		{
+			$object = $form->create_learning_object($this->get_user_id());
+			return $this->get_publication_form($object->get_id(), true);
+		}
+		else {
+			return $form->toHtml();
 		}
 	}
 
