@@ -764,8 +764,8 @@ div.learning_object div.description
 .tabbed-pane-tabs
 {
 	list-style: none;
-	margin: 0 0 0 1em;
-	padding: 0;
+	margin: 0;
+	padding: 0 0 0 1em;
 }
 .tabbed-pane-tabs li
 {
@@ -779,15 +779,15 @@ div.learning_object div.description
 	display: block;
 	margin: 0.25em 0 0 0;
 	padding: 0.25em 1em;
-	color: #4271b5;
+	background: #E5EDF9;
+	color: #4171b5;
 	text-decoration: none;
 	border: 1px solid #4271b5;
 	border-bottom: 0;
 }
 .tabbed-pane-tabs li a:hover
 {
-	background: #4271b5;
-	color: white;
+	background: white;
 	margin-top: 0;
 	padding-bottom: 0.5em;
 }
@@ -832,7 +832,7 @@ div.learning_object div.description
 .treeMenu .itemOpen ul, .treeMenu .itemOpenEnd ul {
 	display: block;
 }
-.treeMenu .itemOpen a, .treeMenu .itemOpen a {
+.treeMenu .itemOpen a, .treeMenu .itemOpenEnd a {
 	background: url(../img/treemenu/tree-folder-open.gif) no-repeat;
 }
 .treeMenu .itemClose {
