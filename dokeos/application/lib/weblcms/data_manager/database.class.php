@@ -214,57 +214,47 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		}
 		return $places;
 	}
-
+	
 	private function move_learning_object_publication_up($publication)
 	{
-		// TODO: Escape table and column names, use limitQuery.
-		$sql = 'SELECT co1.id AS id1, co2.id AS id2, co1.display_order AS display_order1, co2.display_order AS display_order2 FROM '.$this->escape_table_name('learning_object_publication').' co1, '.$this->escape_table_name('learning_object_publication').' co2 WHERE co1.course = co2.course AND co1.tool = co2.tool AND co1.category = co2.category AND co1.id = ? AND co1.id <> co2.id AND co2.display_order < co1.display_order ORDER BY co2.display_order DESC LIMIT 1';
-		$statement = $this->connection->prepare($sql);
-		$result =& $this->connection->execute($statement, array ($publication->get_id()));
+		$sql = 'SELECT pub1.'.$this->escape_column_name('id').' AS id1, pub2.'.$this->escape_column_name('id').' AS id2, pub1.'.$this->escape_column_name('display_order').' AS ord1, pub2.'.$this->escape_column_name('display_order').' AS ord2 FROM '.$this->escape_table_name('learning_object_publication').' AS pub1,'.$this->escape_table_name('learning_object_publication').' AS pub2 WHERE pub1.'.$this->escape_column_name('course').' = pub2.'.$this->escape_column_name('course').' AND pub1.'.$this->escape_column_name('tool').' = pub2.'.$this->escape_column_name('tool').' AND pub1.'.$this->escape_column_name('category').' = pub2.'.$this->escape_column_name('category').' AND pub1.'.$this->escape_column_name('id').' = ? AND pub1.'.$this->escape_column_name('id').' <> pub2.'.$this->escape_column_name('id').' AND pub2.'.$this->escape_column_name('display_order').' < pub1.'.$this->escape_column_name('display_order').' ORDER BY pub2.'.$this->escape_column_name('display_order').' DESC';
+		$result = & $this->connection->limitQuery($sql, 0, 1, array ($publication->get_id()));
 		if ($result->numRows() == 0)
 		{
 			return false;
 		}
-		$obj = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		$obj = $result->fetchRow(DB_FETCHMODE_ASSOC);
 		$sql = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET display_order = ? WHERE id = ?';
-		$statement = $this->connection->prepare($sql);
-		$this->connection->execute($statement, array ($obj->display_order1, $obj->id2));
-		$this->connection->execute($statement, array ($obj->display_order2, $obj->id1));
+		$this->connection->limitQuery($sql, 0, 1, array ($obj['ord1'], $obj['id2']));
+		$this->connection->limitQuery($sql, 0, 1, array ($obj['ord2'], $obj['id1']));
 		return true;
 	}
 
 	private function move_learning_object_publication_down($publication)
 	{
-		// TODO: Escape table and column names, use limitQuery.
-		$sql = 'SELECT co1.id AS id1, co2.id AS id2, co1.display_order AS display_order1, co2.display_order AS display_order2 FROM '.$this->escape_table_name('learning_object_publication').' co1, '.$this->escape_table_name('learning_object_publication').' co2 WHERE co1.course = co2.course AND co1.tool = co2.tool AND co1.category = co2.category AND co1.id = ? AND co1.id <> co2.id AND co2.display_order > co1.display_order ORDER BY co2.display_order ASC LIMIT 1';
-		$statement = $this->connection->prepare($sql);
-		$result =& $this->connection->execute($statement, array ($publication->get_id()));
+		$sql = 'SELECT pub1.'.$this->escape_column_name('id').' AS id1, pub2.'.$this->escape_column_name('id').' AS id2, pub1.'.$this->escape_column_name('display_order').' AS ord1, pub2.'.$this->escape_column_name('display_order').' AS ord2 FROM '.$this->escape_table_name('learning_object_publication').' AS pub1,'.$this->escape_table_name('learning_object_publication').' AS pub2 WHERE pub1.'.$this->escape_column_name('course').' = pub2.'.$this->escape_column_name('course').' AND pub1.'.$this->escape_column_name('tool').' = pub2.'.$this->escape_column_name('tool').' AND pub1.'.$this->escape_column_name('category').' = pub2.'.$this->escape_column_name('category').' AND pub1.'.$this->escape_column_name('id').' = ? AND pub1.'.$this->escape_column_name('id').' <> pub2.'.$this->escape_column_name('id').' AND pub2.'.$this->escape_column_name('display_order').' > pub1.'.$this->escape_column_name('display_order').' ORDER BY pub2.'.$this->escape_column_name('display_order').' ASC';
+		$result = & $this->connection->limitQuery($sql, 0, 1, array ($publication->get_id()));
 		if ($result->numRows() == 0)
 		{
 			return false;
 		}
-		$obj = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		$obj = $result->fetchRow(DB_FETCHMODE_ASSOC);
 		$sql = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET display_order = ? WHERE id = ?';
-		$statement = $this->connection->prepare($sql);
-		$this->connection->execute($statement, array ($obj->display_order1, $obj->id2));
-		$this->connection->execute($statement, array ($obj->display_order2, $obj->id1));
+		$this->connection->limitQuery($sql, 0, 1, array ($obj['ord1'], $obj['id2']));
+		$this->connection->limitQuery($sql, 0, 1, array ($obj['ord2'], $obj['id1']));
 		return true;
 	}
 
-	function get_next_learning_object_publication_display_order_index($course,$tool,$category)
+	function get_next_learning_object_publication_display_order_index($course, $tool, $category)
 	{
-		// TODO: Escape table and column names, limitQuery.
-		$query = 'SELECT MAX(display_order)+1 AS new_display_order FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('tool').'=?  AND '.$this->escape_column_name('category').'=?';
+		$query = 'SELECT MAX('.$this->escape_column_name('display_order').') AS h FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('tool').'=?  AND '.$this->escape_column_name('category').'=?';
 		$statement = $this->connection->prepare($query);
-		$params['course'] = $course;
-		$params['tool'] = $tool;
-		$params['category'] = $category;
-		$res = & $this->connection->execute($statement, $params);
+		$res = & $this->connection->execute($statement, array ($course, $tool, $category));
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
-		$new_display_order = $record['new_display_order'];
-		if(!is_null($new_display_order))
+		$highest_index = $record['h'];
+		if (!is_null($highest_index))
 		{
-			return $new_display_order;
+			return $highest_index +1;
 		}
 		return 1;
 	}
