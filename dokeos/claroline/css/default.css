@@ -777,19 +777,19 @@ div.learning_object div.description
 .tabbed-pane-tabs li a
 {
 	display: block;
-	margin: 0.25em 0 0 0;
+	margin: 0.25em 0 -1px 0;
 	padding: 0.25em 1em;
 	background: #E5EDF9;
 	color: #4171b5;
 	text-decoration: none;
 	border: 1px solid #4271b5;
-	border-bottom: 0;
 }
 .tabbed-pane-tabs li a:hover
 {
 	background: white;
 	margin-top: 0;
 	padding-bottom: 0.5em;
+	border-bottom-color: white;
 }
 .tabbed-pane-tabs li a:active
 {
