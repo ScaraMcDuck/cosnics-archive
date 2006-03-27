@@ -187,62 +187,51 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		}
 		return $this->get_publication_category_tree(0, & $cats);
 	}
-
+	
 	function move_learning_object_publication($publication, $places)
 	{
-		// TODO: Optimize.
 		if ($places < 0)
 		{
-			$places = abs($places);
-			for ($i = 0; $i < $places; $i++)
-			{
-				if (!$this->move_learning_object_publication_up($publication))
-				{
-					return $i;
-				}
-			}
+			return $this->move_learning_object_publication_up($publication, abs($places));
 		}
 		else
 		{
-			for ($i = 0; $i < $places; $i++)
-			{
-				if (!$this->move_learning_object_publication_down($publication))
-				{
-					return $i;
-				}
-			}
+			return $this->move_learning_object_publication_down($publication, $places);
 		}
-		return $places;
 	}
 	
-	private function move_learning_object_publication_up($publication)
+	private function move_learning_object_publication_up($publication, $places)
 	{
-		$sql = 'SELECT pub1.'.$this->escape_column_name('id').' AS id1, pub2.'.$this->escape_column_name('id').' AS id2, pub1.'.$this->escape_column_name('display_order').' AS ord1, pub2.'.$this->escape_column_name('display_order').' AS ord2 FROM '.$this->escape_table_name('learning_object_publication').' AS pub1,'.$this->escape_table_name('learning_object_publication').' AS pub2 WHERE pub1.'.$this->escape_column_name('course').' = pub2.'.$this->escape_column_name('course').' AND pub1.'.$this->escape_column_name('tool').' = pub2.'.$this->escape_column_name('tool').' AND pub1.'.$this->escape_column_name('category').' = pub2.'.$this->escape_column_name('category').' AND pub1.'.$this->escape_column_name('id').' = ? AND pub1.'.$this->escape_column_name('id').' <> pub2.'.$this->escape_column_name('id').' AND pub2.'.$this->escape_column_name('display_order').' < pub1.'.$this->escape_column_name('display_order').' ORDER BY pub2.'.$this->escape_column_name('display_order').' DESC';
-		$result = & $this->connection->limitQuery($sql, 0, 1, array ($publication->get_id()));
-		if ($result->numRows() == 0)
-		{
-			return false;
-		}
-		$obj = $result->fetchRow(DB_FETCHMODE_ASSOC);
-		$sql = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET display_order = ? WHERE id = ?';
-		$this->connection->limitQuery($sql, 0, 1, array ($obj['ord1'], $obj['id2']));
-		$this->connection->limitQuery($sql, 0, 1, array ($obj['ord2'], $obj['id1']));
-		return true;
+		/*
+		 * TODO: Make this work for non-contiguous indexes. Currently, moving
+		 * a publication up decreases its index by $places and moves $places
+		 * publications that were above it, down one row, by increasing their
+		 * indices by 1. This does not work if any indices are missing.
+		 */
+		$oldIndex = $publication->get_display_order_index();
+		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name('display_order').'='.$this->escape_column_name('display_order').'+1 WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('tool').'=? AND '.$this->escape_column_name('category').'=? AND '.$this->escape_column_name('display_order').'<? ORDER BY '.$this->escape_column_name('display_order').' DESC';
+		$this->connection->limitQuery($query, 0, $places, array($publication->get_course_id(), $publication->get_tool(), $publication->get_category_id(), $oldIndex));
+		$rowsMoved = $this->connection->affectedRows();
+		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name('display_order').'=? WHERE '.$this->escape_column_name('id').'=?';
+		$this->connection->limitQuery($query, 0, 1, array($oldIndex - $places, $publication->get_id()));
+		return $rowsMoved;
 	}
 
-	private function move_learning_object_publication_down($publication)
+	private function move_learning_object_publication_down($publication, $places)
 	{
-		$sql = 'SELECT pub1.'.$this->escape_column_name('id').' AS id1, pub2.'.$this->escape_column_name('id').' AS id2, pub1.'.$this->escape_column_name('display_order').' AS ord1, pub2.'.$this->escape_column_name('display_order').' AS ord2 FROM '.$this->escape_table_name('learning_object_publication').' AS pub1,'.$this->escape_table_name('learning_object_publication').' AS pub2 WHERE pub1.'.$this->escape_column_name('course').' = pub2.'.$this->escape_column_name('course').' AND pub1.'.$this->escape_column_name('tool').' = pub2.'.$this->escape_column_name('tool').' AND pub1.'.$this->escape_column_name('category').' = pub2.'.$this->escape_column_name('category').' AND pub1.'.$this->escape_column_name('id').' = ? AND pub1.'.$this->escape_column_name('id').' <> pub2.'.$this->escape_column_name('id').' AND pub2.'.$this->escape_column_name('display_order').' > pub1.'.$this->escape_column_name('display_order').' ORDER BY pub2.'.$this->escape_column_name('display_order').' ASC';
-		$result = & $this->connection->limitQuery($sql, 0, 1, array ($publication->get_id()));
-		if ($result->numRows() == 0)
-		{
-			return false;
-		}
-		$obj = $result->fetchRow(DB_FETCHMODE_ASSOC);
-		$sql = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET display_order = ? WHERE id = ?';
-		$this->connection->limitQuery($sql, 0, 1, array ($obj['ord1'], $obj['id2']));
-		$this->connection->limitQuery($sql, 0, 1, array ($obj['ord2'], $obj['id1']));
-		return true;
+		/*
+		 * TODO: Make this work for non-contiguous indexes. Currently, moving
+		 * a publication down increases its index by $places and moves $places
+		 * publications that were below it, up one row, by increasing their
+		 * indices by 1. This does not work if any indices are missing.
+		 */
+		$oldIndex = $publication->get_display_order_index();
+		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name('display_order').'='.$this->escape_column_name('display_order').'-1 WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('tool').'=? AND '.$this->escape_column_name('category').'=? AND '.$this->escape_column_name('display_order').'>? ORDER BY '.$this->escape_column_name('display_order').' ASC';
+		$this->connection->limitQuery($query, 0, $places, array($publication->get_course_id(), $publication->get_tool(), $publication->get_category_id(), $oldIndex));
+		$rowsMoved = $this->connection->affectedRows();
+		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name('display_order').'=? WHERE '.$this->escape_column_name('id').'=?';
+		$this->connection->limitQuery($query, 0, 1, array($oldIndex + $places, $publication->get_id()));
+		return $rowsMoved;
 	}
 
 	function get_next_learning_object_publication_display_order_index($course, $tool, $category)
