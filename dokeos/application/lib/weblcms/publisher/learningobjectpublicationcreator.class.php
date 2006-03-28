@@ -7,6 +7,7 @@ require_once dirname(__FILE__).'/../../../../repository/lib/learningobject_form.
 require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/course.lib.php';
+require_once api_get_path(SYS_CODE_PATH).'/inc/lib/groupmanager.lib.php';
 
 class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 {
@@ -73,7 +74,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 			return $form->toHTML();
 		}
 	}
-	
+
 	private function get_modification_form($objectID)
 	{
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
@@ -109,19 +110,31 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 			// Only root category -> store object in root category
 			$form->addElement('hidden','category',0);
 		}
-		// TODO: add list of possible groups to receivers element
 		$users = CourseManager::get_user_list_from_course_code(api_get_course_id());
 		$receiver_choices = array();
 		foreach($users as $index => $user)
 		{
-			$receiver_choices[$user['user_id']] = $user['firstName'].' '.$user['lastName'];
+			$receiver_choices['user-'.$user['user_id']] = $user['firstName'].' '.$user['lastName'];
+		}
+		// TODO: Next lines reconnect to dokeos-database due
+		// to conflict with DB-connection in repository. This problem
+		// should be fixed.
+		global $dbHost,$dbLogin,$dbPass,$mainDbName;
+		mysql_connect($dbHost,$dbLogin,$dbPass);
+		mysql_select_db($mainDbName);
+		$groups = GroupManager::get_group_list();
+		foreach($groups as $index => $group)
+		{
+			$receiver_choices['group-'.$group['id']] = $group['name'];
 		}
 		$attributes['receivers'] = $receiver_choices;
 		$form->addElement('receivers','target_users_and_groups',get_lang('PublishFor'),$attributes);
 		$form->add_timewindow('from_date', 'to_date', get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
 		$form->addElement('checkbox', 'forever', get_lang('Forever'));
 		$form->addElement('checkbox', 'hidden', get_lang('Hidden'));
-		$form->setDefaults(array('forever' => 1));
+		$defaults['target_users_and_groups']['receivers'] = 0;
+		$defaults['forever'] = 1;
+		$form->setDefaults($defaults);
 		$form->addElement('submit', 'submit', get_lang('Ok'));
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
 		if ($form->validate())
