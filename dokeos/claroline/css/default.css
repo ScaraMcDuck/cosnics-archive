@@ -784,14 +784,14 @@ div.learning_object div.description
 	text-decoration: none;
 	border: 1px solid #4271b5;
 }
-.tabbed-pane-tabs li a:hover
+.tabbed-pane-tabs li a:hover, .tabbed-pane-tabs li a.current
 {
 	background: white;
 	margin-top: 0;
 	padding-bottom: 0.5em;
 	border-bottom-color: white;
 }
-.tabbed-pane-tabs li a:active
+.tabbed-pane-tabs li a:active, .tabbed-pane-tabs li a.current
 {
 	color: black;
 }
