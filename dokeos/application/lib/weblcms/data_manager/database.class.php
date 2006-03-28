@@ -136,33 +136,86 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 	{
 		$id = $this->connection->nextId($this->get_table_name('learning_object_publication'));
 		$props = array ();
-		$props['id'] = $id;
-		$props['learning_object'] = $publication->get_learning_object()->get_id();
-		$props['course'] = $publication->get_course_id();
-		$props['tool'] = $publication->get_tool();
-		$props['category'] = $publication->get_category_id();
-		$props['from_date'] = $publication->get_from_date();
-		$props['to_date'] = $publication->get_to_date();
-		$props['hidden'] = $publication->is_hidden();
-		$props['display_order'] = $publication->get_display_order_index();
+		$props[$this->escape_column_name('id')] = $id;
+		$props[$this->escape_column_name('learning_object')] = $publication->get_learning_object()->get_id();
+		$props[$this->escape_column_name('course')] = $publication->get_course_id();
+		$props[$this->escape_column_name('tool')] = $publication->get_tool();
+		$props[$this->escape_column_name('category')] = $publication->get_category_id();
+		$props[$this->escape_column_name('from_date')] = $publication->get_from_date();
+		$props[$this->escape_column_name('to_date')] = $publication->get_to_date();
+		$props[$this->escape_column_name('hidden')] = $publication->is_hidden();
+		$props[$this->escape_column_name('display_order')] = $publication->get_display_order_index();
 		$this->connection->autoExecute($this->get_table_name('learning_object_publication'), $props, DB_AUTOQUERY_INSERT);
+		$users = $publication->get_target_users();
+		foreach($users as $index => $user_id)
+		{
+			$props = array();
+			$props[$this->escape_column_name('publication')] = $id;
+			$props[$this->escape_column_name('user')] = $user_id;
+			$this->connection->autoExecute($this->get_table_name('learning_object_publication_user'), $props, DB_AUTOQUERY_INSERT);
+		}
+		$groups = $publication->get_target_groups();
+		foreach($users as $index => $group_id)
+		{
+			$props = array();
+			$props[$this->escape_column_name('publication')] = $id;
+			$props[$this->escape_column_name('group')] = $group_id;
+			$this->connection->autoExecute($this->get_table_name('learning_object_publication_group'), $props, DB_AUTOQUERY_INSERT);
+		}
 		return $id;
 	}
 
 	function update_learning_object_publication($publication)
 	{
+		// Delete target users and groups
+		$parameters['id'] = $publication->get_id();
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_user').' WHERE publication = ?';
+		$statement = $this->connection->prepare($query);
+		$this->connection->execute($statement, $parameters);
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_group').' WHERE publication = ?';
+		$statement = $this->connection->prepare($query);
+		$this->connection->execute($statement, $parameters);
+		// Add updated target users and groups
+		$users = $publication->get_target_users();
+		foreach($users as $index => $user_id)
+		{
+			$props = array();
+			$props[$this->escape_column_name('publication')] = $publication->get_id();
+			$props[$this->escape_column_name('user')] = $user_id;
+			$this->connection->autoExecute($this->get_table_name('learning_object_publication_user'), $props, DB_AUTOQUERY_INSERT);
+		}
+		$groups = $publication->get_target_groups();
+		foreach($users as $index => $group_id)
+		{
+			$props = array();
+			$props[$this->escape_column_name('publication')] = $publication->get_id();
+			$props[$this->escape_column_name('group')] = $group_id;
+			$this->connection->autoExecute($this->get_table_name('learning_object_publication_group'), $props, DB_AUTOQUERY_INSERT);
+		}
+		// Update publication properties
 		$where = $this->escape_column_name('id').'='.$publication->get_id();
 		$props = array();
-		//TODO add other properties
-		$props['hidden'] = $publication->is_hidden();
+		$props[$this->escape_column_name('course')] = $publication->get_course_id();
+		$props[$this->escape_column_name('tool')] = $publication->get_tool();
+		$props[$this->escape_column_name('category')] = $publication->get_category_id();
+		$props[$this->escape_column_name('from_date')] = $publication->get_from_date();
+		$props[$this->escape_column_name('to_date')] = $publication->get_to_date();
+		$props[$this->escape_column_name('hidden')] = $publication->is_hidden();
+		$props[$this->escape_column_name('display_order')] = $publication->get_display_order_index();
 		return $this->connection->autoExecute($this->get_table_name('learning_object_publication'), $props, DB_AUTOQUERY_UPDATE, $where);
 	}
 
 	function delete_learning_object_publication($publication)
 	{
+		$parameters['id'] = $publication->get_id();
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_user').' WHERE publication = ?';
+		$statement = $this->connection->prepare($query);
+		$this->connection->execute($statement, $parameters);
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_group').' WHERE publication = ?';
+		$statement = $this->connection->prepare($query);
+		$this->connection->execute($statement, $parameters);
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication').' WHERE id = ?';
 		$statement = $this->connection->prepare($query);
-		$parameters['id'] = $publication->get_id();
 		return $this->connection->execute($statement, $parameters);
 	}
 
@@ -187,7 +240,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		}
 		return $this->get_publication_category_tree(0, & $cats);
 	}
-	
+
 	function move_learning_object_publication($publication, $places)
 	{
 		if ($places < 0)
@@ -199,7 +252,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 			return $this->move_learning_object_publication_down($publication, $places);
 		}
 	}
-	
+
 	private function move_learning_object_publication_up($publication, $places)
 	{
 		/*
