@@ -27,7 +27,7 @@ class LearningObjectPublicationCategoryManager
 				$html .= $this->get_category_creation_interface();
 				break;
 			case self :: ACTION_EDIT :
-				$html .= $this->get_category_edit_interface();
+				$html .= $this->get_category_editing_interface();
 				break;
 			case self :: ACTION_DELETE :
 				$html .= $this->get_category_deletion_interface();
@@ -74,7 +74,7 @@ class LearningObjectPublicationCategoryManager
 		$id = $_GET[self :: PARAM_ID];
 		$category = $this->parent->get_category($id);
 		$form = new LearningObjectPublicationCategoryForm($this, 'edit_category', 'post', $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT, self :: PARAM_ID => $id)));
-		$form->build_edit_form($category);
+		$form->build_editing_form($category);
 		if ($form->validate())
 		{
 			$category->set_title($form->get_category_title());
