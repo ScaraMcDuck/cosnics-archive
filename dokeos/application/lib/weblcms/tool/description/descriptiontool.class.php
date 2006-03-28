@@ -40,7 +40,7 @@ class DescriptionTool extends RepositoryTool
 			$object = $publication->get_learning_object();
 			$target_users = $publication->get_target_users();
 			$delete_url = $this->get_url(array('action'=>'delete','pid'=>$publication->get_id()));
-			$visible_url = $this->get_url(array('action'=>'change_visibility','pid'=>$publication->get_id()));
+			$visible_url = $this->get_url(array('action'=>'toggle_visibility','pid'=>$publication->get_id()));
 
 			if($index != 0)
 			{
