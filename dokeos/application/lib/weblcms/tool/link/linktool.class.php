@@ -5,23 +5,39 @@ class LinkTool extends RepositoryTool
 {
 	function run()
 	{
-		if (isset($_GET['linkadmin']))
+		if (isset($_GET['linktoolmode']))
 		{
-			$_SESSION['linkadmin'] = $_GET['linkadmin'];
+			$_SESSION['linktoolmode'] = $_GET['linktoolmode'];
 		}
-		if ($_SESSION['linkadmin'])
+		echo '<ul style="list-style: none; padding: 0; margin: 0 0 1em 0">';
+		$i = 0;
+		foreach (array('Browser Mode', 'Publisher Mode', 'Category Manager Mode') as $title)
 		{
-			echo '<p>Go to <a href="' . $this->get_url(array('linkadmin' => 0)) . '">User Mode</a> &hellip;</p>';
-			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
-			$pub = new LearningObjectPublisher($this, 'link', $this->get_course_id(), $this->get_user_id());
-			echo $pub->as_html();
+			$current = ($_SESSION['linktoolmode'] == $i);
+			echo '<li style="display: inline; margin: 0 1ex 0 0; padding: 0">';
+			if (!$current) echo '<a href="' . $this->get_url(array('linktoolmode' => $i)) . '">';
+			echo '[' . $title . ']';
+			if (!$current) echo '</a>';
+			echo '</li>';
+			$i++;
 		}
-		else
+		echo '</ul>';
+		switch ($_SESSION['linktoolmode'])
 		{
-			echo '<p>Go to <a href="' . $this->get_url(array('linkadmin' => 1)) . '">Publisher Mode</a> &hellip;</p>';
-			require_once dirname(__FILE__).'/linkbrowser.class.php';
-			$browser = new LinkBrowser($this);
-			echo $browser->as_html();
+			case 2:
+				require_once dirname(__FILE__).'/../../learningobjectpublicationcategorymanager.class.php';
+				$catman = new LearningObjectPublicationCategoryManager($this, 'link');
+				echo $catman->as_html();
+				break;
+			case 1:
+				require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
+				$pub = new LearningObjectPublisher($this, 'link');
+				echo $pub->as_html();
+				break;
+			default:
+				require_once dirname(__FILE__).'/linkbrowser.class.php';
+				$browser = new LinkBrowser($this);
+				echo $browser->as_html();
 		}
 	}
 }

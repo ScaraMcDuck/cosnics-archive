@@ -110,9 +110,11 @@ class WebLCMS extends Application
 	 * string parameters; these will either be added to the parameters already
 	 * present, or override them if a value with the same name exists.
 	 * @param array $parameters The additional parameters, or null if none.
+	 * @param boolean $encode Whether or not to encode HTML entities. Defaults
+	 *                        to false.
 	 * @return string The URL.
 	 */
-	function get_url($parameters = array ())
+	function get_url($parameters = array (), $encode = false)
 	{
 		$string = '';
 		if (count($parameters))
@@ -127,7 +129,12 @@ class WebLCMS extends Application
 		{
 			$string .= '&'.urlencode($name).'='.urlencode($value);
 		}
-		return $_SERVER['PHP_SELF'].'?'.$string;
+		$url = $_SERVER['PHP_SELF'].'?'.$string;
+		if ($encode)
+		{
+			$url = htmlentities($url);
+		}
+		return $url;
 	}
 
 	/**
