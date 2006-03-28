@@ -219,7 +219,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		return $this->connection->execute($statement, $parameters);
 	}
 
-	function retrieve_publication_categories($course, $types)
+	function retrieve_learning_object_publication_categories($course, $types)
 	{
 		if (!is_array($types))
 		{
@@ -239,6 +239,37 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 			$siblings[] = $cat;
 		}
 		return $this->get_publication_category_tree(0, & $cats);
+	}
+
+	function retrieve_learning_object_publication_category($id)
+	{
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name('id').'=?';
+		$res = & $this->connection->limitQuery($query, 0, 1, array($id));
+		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		return $this->record_to_publication_category($record);
+	}
+	
+	function update_learning_object_publication_category($category)
+	{
+		$where = $this->escape_column_name('id').'='.$category->get_id();
+		$props = array();
+		$props['title'] = $category->get_title();
+		$props['parent'] = $category->get_parent();
+		/*
+		 * XXX: Will course and tool ever change?
+		 */ 
+		$props['course'] = $category->get_course();
+		$props['tool'] = $category->get_tool();
+		$this->connection->autoExecute($this->get_table_name('learning_object_publication_category'), $props, DB_AUTOQUERY_UPDATE, $where);		
+	}
+	
+	function delete_learning_object_publication_category($category)
+	{
+		/*
+		 * TODO: Delete child categories and publications.
+		 */
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name('id').'=?';
+		$this->connection->limitQuery($query, 0, 1, array($category->get_id()));
 	}
 
 	function move_learning_object_publication($publication, $places)

@@ -97,5 +97,23 @@ class LearningObjectPublicationCategory {
     {
     	return $this->parent;
     }
+    
+    /**
+     * Sets the title of the category.
+     * @param string $title The title.
+     */
+    function set_title($title)
+    {
+    	$this->title = $title;
+    }
+    
+    /**
+     * Returns the numeric identifier of the parent category.
+     * @param int $parent The parent category identifier.
+     */
+    function set_parent($parent)
+    {
+    	$this->parent = $parent;
+    }
 }
 ?>

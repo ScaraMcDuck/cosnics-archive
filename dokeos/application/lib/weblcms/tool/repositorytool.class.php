@@ -23,6 +23,21 @@ abstract class RepositoryTool extends Tool
 		return $this->get_parent()->get_categories();
 	}
 
+	function get_category($id)
+	{
+		return $this->get_parent()->get_category($id);
+	}
+
+	function update_category($id)
+	{
+		return $this->get_parent()->update_category($id);
+	}
+
+	function delete_category($id)
+	{
+		return $this->get_parent()->delete_category($id);
+	}
+
 	/**
 	 * Handles requests like deleting a publication, changing display order of
 	 * publication, etc.

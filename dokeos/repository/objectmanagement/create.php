@@ -14,7 +14,7 @@ if( isset($_REQUEST['type']))
 	$current_category_id = $_REQUEST['category'];
 	$form = LearningObjectForm::factory($type,'create','post','create.php?type='.$type);
 	$form->set_default_category($current_category_id);
-	$form->build_create_form();
+	$form->build_creation_form();
 	if($form->validate())
 	{
 		$object = $form->create_learning_object(api_get_user_id());

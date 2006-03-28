@@ -53,7 +53,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		$form->addElement('hidden', 'tool');
 		$form->addElement('hidden', 'publish_action');
 		$form->addElement('select', 'type', '', $types);
-		$form->addElement('submit', 'submit', get_lang('OK'));
+		$form->addElement('submit', 'submit', get_lang('Ok'));
 		$form->setDefaults(array ('tool' => $_GET['tool'], 'publish_action' => $_GET['publish_action']));
 		return $form->asHtml();
 	}
@@ -61,7 +61,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 	private function get_creation_form($type)
 	{
 		$form = LearningObjectForm :: factory($type, 'create', 'post', $this->get_url());
-		$form->build_create_form($type);
+		$form->build_creation_form($type);
 		$form->addElement('hidden', 'type');
 		$form->setDefaults(array ('type' => $type));
 		if ($form->validate())
@@ -79,7 +79,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 	{
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
 		$form = LearningObjectForm::factory($object->get_type(),'edit','post',$this->get_url(array('object' => $objectID, 'edit' => 1)));
-		$form->build_edit_form($object);
+		$form->build_modification_form($object);
 		if ($form->validate())
 		{
 			$object = $form->create_learning_object($this->get_user_id());

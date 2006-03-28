@@ -7,7 +7,7 @@ class LearningObjectPublicationCategoryManager
 	const ACTION_CREATE = 'create';
 	const ACTION_MODIFY = 'modify';
 	const ACTION_REMOVE = 'remove';
-	
+
 	private $parent;
 
 	private $types;
@@ -23,31 +23,31 @@ class LearningObjectPublicationCategoryManager
 		$html = '';
 		switch ($_GET[self :: PARAM_ACTION])
 		{
-			case self :: ACTION_CREATE:
+			case self :: ACTION_CREATE :
 				$html .= $this->get_category_creation_interface();
 				break;
-			case self :: ACTION_MODIFY:
+			case self :: ACTION_MODIFY :
 				$html .= $this->get_category_modification_interface();
 				break;
-			case self :: ACTION_REMOVE:
+			case self :: ACTION_REMOVE :
 				$html .= $this->get_category_removal_interface();
 				break;
 		}
 		$categories = $this->parent->get_categories();
 		$html .= $this->category_tree_as_html($categories);
-		$html .= '<div><a href="' . $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE)) . '">' . get_lang('CreateNewCategory') . '</a></div>'; 
+		$html .= '<div><a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE)).'">'.get_lang('CreateNewCategory').'</a></div>';
 		return $html;
 	}
-	
-	function get_url ($parameters = array(), $encode = false)
+
+	function get_url($parameters = array (), $encode = false)
 	{
 		return $this->parent->get_url($parameters, $encode);
 	}
-	
+
 	private function get_category_creation_interface()
 	{
-		$form = new LearningObjectPublicationCategoryForm('create_category', 'post', $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE)));
-		//$form->build_creation_form();
+		$form = new LearningObjectPublicationCategoryForm('create_category', 'post', $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE)));
+		$form->build_creation_form();
 		if ($form->validate())
 		{
 			return Display :: display_normal_message(get_lang('CategoryCreated'), true);
@@ -57,13 +57,17 @@ class LearningObjectPublicationCategoryManager
 			return $form->toHTML();
 		}
 	}
-	
+
 	private function get_category_modification_interface()
 	{
-		$form = new LearningObjectPublicationCategoryForm('modify_category', 'post', $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MODIFY)));
-		//$form->build_modification_form();
+		$id = $_GET[self :: PARAM_ID];
+		$category = $this->parent->get_category($id);
+		$form = new LearningObjectPublicationCategoryForm('modify_category', 'post', $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MODIFY, self :: PARAM_ID => $id)));
+		$form->build_modification_form($category);
 		if ($form->validate())
 		{
+			$category->set_title($form->exportValue('title'));
+			$this->parent->update_category($category);
 			return Display :: display_normal_message(get_lang('CategoryModified'), true);
 		}
 		else
@@ -71,12 +75,15 @@ class LearningObjectPublicationCategoryManager
 			return $form->toHTML();
 		}
 	}
-	
+
 	private function get_category_removal_interface()
 	{
+		$id = $_GET[self :: PARAM_ID];
+		$category = $this->parent->get_category($id);
+		$this->parent->delete_category($category);
 		return Display :: display_normal_message(get_lang('CategoryRemoved'), true);
 	}
-	
+
 	private function category_tree_as_html($tree)
 	{
 		$html = '<ul>';
@@ -85,7 +92,7 @@ class LearningObjectPublicationCategoryManager
 			$subtree = $node['sub'];
 			$category = $node['obj'];
 			$id = $category->get_id();
-			$options = array();
+			$options = array ();
 			if ($id != 0)
 			{
 				$options[] = '<a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MODIFY, self :: PARAM_ID => $id)).'">'.'['.get_lang('Edit').']'.'</a>';

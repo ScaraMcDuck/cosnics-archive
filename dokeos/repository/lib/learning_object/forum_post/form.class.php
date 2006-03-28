@@ -6,14 +6,14 @@ class ForumPostForm extends LearningObjectForm
 	{
 		parent :: __construct($formName, $method, $action);
 	}
-	public function build_create_form()
+	public function build_creation_form()
 	{
-		parent :: build_create_form();
+		parent :: build_creation_form();
 		$this->add_submit_button();
 	}
-	public function build_edit_form($object)
+	public function build_modification_form($object)
 	{
-		parent :: build_edit_form($object);
+		parent :: build_modification_form($object);
 		$this->setDefaults();
 		$this->add_submit_button();
 	}
