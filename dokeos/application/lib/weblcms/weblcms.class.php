@@ -65,6 +65,11 @@ class WebLCMS extends Application
 		}
 	}
 	
+	function get_tool_id()
+	{
+		return $this->get_parameter('tool');
+	}
+	
 	/**
 	 * Returns the numeric identifier of the active user.
 	 * @return string The user identifier.
@@ -88,7 +93,12 @@ class WebLCMS extends Application
 		return GroupManager :: get_group_ids($this->get_course_id(), $this->get_user_id());
 	}
 	
-	function get_categories()
+	function get_categories($list = false)
+	{
+		return ($list ? $this->get_category_list() : $this->get_category_tree());
+	}
+	
+	private function get_category_tree()
 	{
 		/*
 		 * Add the root category.
@@ -104,11 +114,39 @@ class WebLCMS extends Application
 		return $tree;
 	}
 	
+	private function get_category_list()
+	{
+		$categories = array ();
+		$tree = $this->get_category_tree();
+		self :: translate_category_tree(& $tree, & $categories);
+		return $categories;
+	}
+
+	private static function translate_category_tree(& $tree, & $categories, $level = 0)
+	{
+		foreach ($tree as $node)
+		{
+			$obj = $node['obj'];
+			$prefix = ($level ? str_repeat('&nbsp;&nbsp;&nbsp;', $level).'&mdash; ' : '');
+			$categories[$obj->get_id()] = $prefix.$obj->get_title();
+			$subtree = $node['sub'];
+			if (is_array($subtree) && count($subtree))
+			{
+				self :: translate_category_tree(& $subtree, & $categories, $level +1);
+			}
+		}
+	}
+	
 	function get_category($id)
 	{
 		return WebLCMSDataManager :: get_instance()->retrieve_learning_object_publication_category($id);
 	}
 	
+	function create_category($category)
+	{
+		return WebLCMSDataManager :: get_instance()->create_learning_object_publication_category($category);
+	}
+
 	function update_category($category)
 	{
 		return WebLCMSDataManager :: get_instance()->update_learning_object_publication_category($category);

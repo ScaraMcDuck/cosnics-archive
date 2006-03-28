@@ -249,6 +249,19 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		return $this->record_to_publication_category($record);
 	}
 	
+	function create_learning_object_publication_category($category)
+	{
+		$id = $this->connection->nextId($this->get_table_name('learning_object_publication_category'));
+		$props = array();
+		$props['id'] = $id;
+		$props['title'] = $category->get_title();
+		$props['parent'] = $category->get_parent();
+		$props['course'] = $category->get_course();
+		$props['tool'] = $category->get_tool();
+		$this->connection->autoExecute($this->get_table_name('learning_object_publication_category'), $props, DB_AUTOQUERY_INSERT);
+		$category->set_id($id);
+	}
+	
 	function update_learning_object_publication_category($category)
 	{
 		$where = $this->escape_column_name('id').'='.$category->get_id();

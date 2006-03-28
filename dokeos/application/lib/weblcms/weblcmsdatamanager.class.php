@@ -145,6 +145,8 @@ abstract class WebLCMSDataManager
 	
 	abstract function retrieve_learning_object_publication_category($id);
 	
+	abstract function create_learning_object_publication_category($category);
+
 	abstract function update_learning_object_publication_category($category);
 	
 	abstract function delete_learning_object_publication_category($category);

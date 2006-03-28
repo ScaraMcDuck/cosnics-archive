@@ -99,7 +99,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		}
 		// TODO: Extract form for publication modification.
 		$form = new FormValidator('create_publication', 'post', $this->get_url(array ('object' => $objectID)));
-		$categories = $this->get_categories();
+		$categories = $this->get_categories(true);
 		if(count($categories) > 1)
 		{
 			// More than one category -> let user select one
@@ -182,29 +182,6 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 			$out .= $form->toHtml();
 		}
 		return $out;
-	}
-
-	function get_categories()
-	{
-		$categories = array ();
-		$tree = parent :: get_categories();
-		self :: translate_category_tree(& $tree, & $categories);
-		return $categories;
-	}
-
-	private static function translate_category_tree(& $tree, & $categories, $level = 0)
-	{
-		foreach ($tree as $node)
-		{
-			$obj = $node['obj'];
-			$prefix = ($level ? str_repeat('&nbsp;&nbsp;&nbsp;', $level).'&mdash; ' : '');
-			$categories[$obj->get_id()] = $prefix.$obj->get_title();
-			$subtree = $node['sub'];
-			if (is_array($subtree) && count($subtree))
-			{
-				self :: translate_category_tree(& $subtree, & $categories, $level +1);
-			}
-		}
 	}
 }
 ?>

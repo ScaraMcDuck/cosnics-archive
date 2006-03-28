@@ -100,9 +100,9 @@ abstract class LearningObjectPublisherComponent
 	/**
 	 * @see LearningObjectPublisher::get_categories()
 	 */
-	function get_categories()
+	function get_categories($list = false)
 	{
-		return $this->parent->get_categories();
+		return $this->parent->get_categories($list);
 	}
 }
 ?>

@@ -99,6 +99,15 @@ class LearningObjectPublicationCategory {
     }
     
     /**
+     * Sets the numeric identifier of the category.
+     * @param int $id The identifier.
+     */
+    function set_id($id)
+    {
+    	$this->id = $id;
+    }
+
+    /**
      * Sets the title of the category.
      * @param string $title The title.
      */
