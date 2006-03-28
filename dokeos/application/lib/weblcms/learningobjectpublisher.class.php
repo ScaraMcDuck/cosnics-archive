@@ -99,9 +99,9 @@ class LearningObjectPublisher
 	/**
 	 * @see RepositoryTool::get_url()
 	 */
-	function get_url($parameters = array())
+	function get_url($parameters = array(), $encode = false)
 	{
-		return $this->parent->get_url($parameters);
+		return $this->parent->get_url($parameters, $encode);
 	}
 	
 	/**

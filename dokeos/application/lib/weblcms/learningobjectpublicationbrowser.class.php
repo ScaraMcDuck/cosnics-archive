@@ -63,9 +63,9 @@ abstract class LearningObjectPublicationBrowser
 		return $this->parent->get_categories();
 	}
 	
-	function get_url($parameters = array())
+	function get_url($parameters = array(), $encode = false)
 	{
-		return $this->parent->get_url($parameters);
+		return $this->parent->get_url($parameters, $encode);
 	}
 	
 	abstract function get_publications($from, $number_of_items, $column, $direction);
