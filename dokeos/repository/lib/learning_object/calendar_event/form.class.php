@@ -16,9 +16,9 @@ class CalendarEventForm extends LearningObjectForm
     	$this->add_timewindow('start', 'end', get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
     	$this->add_submit_button();
     }
-    public function build_modification_form($object)
+    public function build_editing_form($object)
     {
-		parent :: build_modification_form($object);
+		parent :: build_editing_form($object);
     	$this->add_timewindow('start', 'end', get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
 		$this->setDefaults();
 		$this->add_submit_button();

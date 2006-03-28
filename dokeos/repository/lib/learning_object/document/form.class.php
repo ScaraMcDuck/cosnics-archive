@@ -18,9 +18,9 @@ class DocumentForm extends LearningObjectForm
 		$this->addElement('upload_or_create','');
 		$this->add_submit_button();
 	}
-	public function build_modification_form($object)
+	public function build_editing_form($object)
 	{
-		parent :: build_modification_form($object);
+		parent :: build_editing_form($object);
 		$this->addElement('hidden', 'path');
 		if(preg_match('/\.x?html?$/',$object->get_path()) === 1)
 			$this->addElement('html_editor', 'html_content', get_lang('HtmlDocument'));

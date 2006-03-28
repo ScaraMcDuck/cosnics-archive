@@ -12,9 +12,9 @@ class LearnpathChapterForm extends LearningObjectForm
 		$this->addElement('text', 'display_order', 'Display order');
 		$this->add_submit_button();
 	}
-	public function build_modification_form($object)
+	public function build_editing_form($object)
 	{
-		parent :: build_modification_form($object);
+		parent :: build_editing_form($object);
 		$this->setDefaults();
 		$this->addElement('text', 'display_order', 'Display order');
 		$this->add_submit_button();

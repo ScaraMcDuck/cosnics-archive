@@ -15,9 +15,9 @@ class ForumForm extends LearningObjectForm
 		$this->addElement('text', 'forum_type', 'Forum type');
 		$this->add_submit_button();
 	}
-	public function build_modification_form($object)
+	public function build_editing_form($object)
 	{
-		parent :: build_modification_form($object);
+		parent :: build_editing_form($object);
 		$this->addElement('text', 'forum_type', 'Forum type');
 		$this->setDefaults();
 		$this->add_submit_button();

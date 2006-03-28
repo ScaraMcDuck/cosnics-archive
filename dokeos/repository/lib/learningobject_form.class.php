@@ -58,7 +58,7 @@ abstract class LearningObjectForm extends FormValidator
 	 * add_submit_button() methods.
 	 * @param LearningObject $learningObject The learning object to edit.
 	 */
-	protected function build_modification_form($learningObject)
+	protected function build_editing_form($learningObject)
 	{
 		$this->learningObject = $learningObject;
 		$this->category = $this->learningObject->get_parent_id();
