@@ -153,6 +153,21 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 			$category = $values['category'];
 			$users = array ();
 			$groups = array ();
+			if($values['target_users_and_groups']['receivers'] == 1)
+			{
+				foreach($values['target_users_and_groups']['to'] as $index => $target)
+				{
+					list($type,$id) = explode('-',$target);
+					if($type == 'group')
+					{
+						$groups[] = $id;
+					}
+					elseif($type == 'user')
+					{
+						$users[] = $id;
+					}
+				}
+			}
 			$course = $this->get_course_id();
 			$tool = parent::get_parameter('tool');
 			$dm = WebLCMSDataManager :: get_instance();
