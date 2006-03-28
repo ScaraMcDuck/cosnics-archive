@@ -12,7 +12,7 @@ if( isset($_GET['id']))
 	$datamanager = RepositoryDataManager::get_instance();
 	$object = $datamanager->retrieve_learning_object($_GET['id']);
 	$form = LearningObjectForm::factory($object->get_type(),'edit','post','edit.php?id='.$object->get_id());
-	$form->build_edit_form($object);
+	$form->build_modification_form($object);
 	if($form->validate())
 	{
 		$form->update_learning_object($object);

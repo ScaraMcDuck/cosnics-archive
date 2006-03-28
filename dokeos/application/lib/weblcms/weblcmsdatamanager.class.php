@@ -140,6 +140,14 @@ abstract class WebLCMSDataManager
 	 * @return int The requested display order index.
 	 */
 	abstract function get_next_learning_object_publication_display_order_index($course,$tool,$category);
+	
+	abstract function retrieve_learning_object_publication_categories($course, $types);
+	
+	abstract function retrieve_learning_object_publication_category($id);
+	
+	abstract function update_learning_object_publication_category($category);
+	
+	abstract function delete_learning_object_publication_category($category);
 }
 
 ?>

@@ -95,13 +95,28 @@ class WebLCMS extends Application
 		 */
 		$course = $this->get_course_id();
 		$tool = $this->get_parameter('tool');
-		$cats = WebLCMSDataManager :: get_instance()->retrieve_publication_categories($course, $tool);
+		$cats = WebLCMSDataManager :: get_instance()->retrieve_learning_object_publication_categories($course, $tool);
 		$root = array();
 		$root['obj'] = & new LearningObjectPublicationCategory(0, get_lang('RootCategory'), $course, $tool, 0);
 		$root['sub'] = & $cats;
 		$tree = array();
 		$tree[] = & $root;
 		return $tree;
+	}
+	
+	function get_category($id)
+	{
+		return WebLCMSDataManager :: get_instance()->retrieve_learning_object_publication_category($id);
+	}
+	
+	function update_category($category)
+	{
+		return WebLCMSDataManager :: get_instance()->update_learning_object_publication_category($category);
+	}
+	
+	function delete_category($category)
+	{
+		return WebLCMSDataManager :: get_instance()->delete_learning_object_publication_category($category);
 	}
 
 	/**

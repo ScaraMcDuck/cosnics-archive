@@ -11,16 +11,16 @@ class DocumentForm extends LearningObjectForm
 	{
 		parent :: __construct($formName, $method, $action);
 	}
-	public function build_create_form()
+	public function build_creation_form()
 	{
-		parent :: build_create_form();
+		parent :: build_creation_form();
 		//$this->addRule('filename',get_lang('DiskQuotaExceeded'),'disk_quota');
 		$this->addElement('upload_or_create','');
 		$this->add_submit_button();
 	}
-	public function build_edit_form($object)
+	public function build_modification_form($object)
 	{
-		parent :: build_edit_form($object);
+		parent :: build_modification_form($object);
 		$this->addElement('hidden', 'path');
 		if(preg_match('/\.x?html?$/',$object->get_path()) === 1)
 			$this->addElement('html_editor', 'html_content', get_lang('HtmlDocument'));
