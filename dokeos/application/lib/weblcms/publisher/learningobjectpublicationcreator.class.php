@@ -18,7 +18,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		{
 			if ($_GET['edit'])
 			{
-				return $this->get_modification_form($oid);
+				return $this->get_editing_form($oid);
 			}
 			return $this->get_publication_form($oid);
 		}
@@ -75,11 +75,11 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		}
 	}
 
-	private function get_modification_form($objectID)
+	private function get_editing_form($objectID)
 	{
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
 		$form = LearningObjectForm::factory($object->get_type(),'edit','post',$this->get_url(array('object' => $objectID, 'edit' => 1)));
-		$form->build_modification_form($object);
+		$form->build_editing_form($object);
 		if ($form->validate())
 		{
 			$object = $form->create_learning_object($this->get_user_id());
@@ -97,7 +97,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		{
 			$out .= Display :: display_normal_message(get_lang('ObjectCreated'), true);
 		}
-		// TODO: Extract form for publication modification.
+		// TODO: Extract form for publication editing.
 		$form = new FormValidator('create_publication', 'post', $this->get_url(array ('object' => $objectID)));
 		$categories = $this->get_categories(true);
 		if(count($categories) > 1)

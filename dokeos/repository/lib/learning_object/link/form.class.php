@@ -15,9 +15,9 @@ class LinkForm extends LearningObjectForm
 		$this->add_textfield('url', 'URL',true,'size="50"');
 		$this->add_submit_button();
 	}
-	function build_modification_form($object)
+	function build_editing_form($object)
 	{
-		parent :: build_modification_form($object);
+		parent :: build_editing_form($object);
 		$this->add_textfield('url', 'URL',true,'size="50"');
 		$this->setDefaults();
 		$this->add_submit_button();
