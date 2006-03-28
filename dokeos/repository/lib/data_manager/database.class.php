@@ -46,7 +46,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// Inherited.
 	function determine_learning_object_type($id)
 	{
-		$res = & $this->connection->limitQuery('SELECT '.$this->escape_column_name('type').' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name('id').'=?', 0, 1, array($id));
+		$res = & $this->connection->limitQuery('SELECT '.$this->escape_column_name('type').' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name('id').'=?', 0, 1, array ($id));
 		$record = $res->fetchRow(DB_FETCHMODE_ORDERED);
 		return $record[0];
 	}
@@ -66,7 +66,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name('id').'=?';
 		}
-		$res = & $this->connection->limitQuery($query, 0, 1, array($id));
+		$res = & $this->connection->limitQuery($query, 0, 1, array ($id));
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return self :: record_to_learning_object($record);
 	}
@@ -219,22 +219,22 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// TODO: Don't delete objects which are in use somewhere in an application
 	function delete_learning_object($object)
 	{
-		$condition = new EqualityCondition('parent',$object->get_id());
-		$children = $this->retrieve_learning_objects(null,$condition);
+		$condition = new EqualityCondition('parent', $object->get_id());
+		$children = $this->retrieve_learning_objects(null, $condition);
 		$children_deleted = true;
-		foreach($children as $index => $child)
+		foreach ($children as $index => $child)
 		{
 			$child_deleted = $this->delete_learning_object($child);
 			$children_deleted = $children_deleted && $child_deleted;
 		}
-		if($children_deleted)
+		if ($children_deleted)
 		{
-			$sth = $this->connection->prepare('DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name('id').'=?');
-			$this->connection->execute($sth, $object->get_id());
+			$query = 'DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name('id').'=?';
+			$this->connection->limitQuery($query, 0, 1, array ($object->get_id()));
 			if ($object->is_extended())
 			{
-				$sth = $this->connection->prepare('DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name('id').'=?');
-				$this->connection->execute($sth, $object->get_id());
+				$query = 'DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name('id').'=?';
+				$this->connection->limitQuery($query, 0, 1, array ($object->get_id()));
 			}
 			return true;
 		}
@@ -385,7 +385,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		return $this->connection->quoteIdentifier($name);
 	}
-	
+
 	/**
 	 * Expands a table identifier to the real table name. Currently, this
 	 * method prefixes the given table name with the user-defined prefix, if
@@ -478,7 +478,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$name = $condition->get_name();
 			$value = $condition->get_value();
-			if (self :: is_date_column($name)) {
+			if (self :: is_date_column($name))
+			{
 				$value = self :: to_db_date($value);
 			}
 			if (is_null($value))
@@ -492,25 +493,26 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$name = $condition->get_name();
 			$value = $condition->get_value();
-			if (self :: is_date_column($name)) {
+			if (self :: is_date_column($name))
+			{
 				$value = self :: to_db_date($value);
 			}
 			$params[] = $value;
 			switch ($condition->get_operator())
 			{
-				case InequalityCondition :: GREATER_THAN:
+				case InequalityCondition :: GREATER_THAN :
 					$operator = '>';
 					break;
-				case InequalityCondition :: GREATER_THAN_OR_EQUAL:
+				case InequalityCondition :: GREATER_THAN_OR_EQUAL :
 					$operator = '>=';
 					break;
-				case InequalityCondition :: LESS_THAN:
+				case InequalityCondition :: LESS_THAN :
 					$operator = '<';
 					break;
-				case InequalityCondition :: LESS_THAN_OR_EQUAL:
+				case InequalityCondition :: LESS_THAN_OR_EQUAL :
 					$operator = '<=';
 					break;
-				default:
+				default :
 					die('Unknown operator for inequality condition');
 			}
 			return $this->escape_column_name($name).' '.$operator.' ?';
@@ -537,33 +539,33 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	public function get_used_disk_space($owner)
 	{
-		$condition_owner = new EqualityCondition('owner',$owner);
+		$condition_owner = new EqualityCondition('owner', $owner);
 		$types = $this->get_registered_types();
-		foreach($types as $index => $type)
+		foreach ($types as $index => $type)
 		{
 			$class = $this->type_to_class($type);
-			$properties = call_user_func(array($class,'get_disk_space_properties'));
-			if(is_null($properties))
+			$properties = call_user_func(array ($class, 'get_disk_space_properties'));
+			if (is_null($properties))
 			{
 				continue;
 			}
-			if( !is_array($properties))
+			if (!is_array($properties))
 			{
-				$properties = array($properties);
+				$properties = array ($properties);
 			}
-			$sum = array();
-			foreach($properties as $index => $property)
+			$sum = array ();
+			foreach ($properties as $index => $property)
 			{
 				$sum[] = 'SUM('.$property.')';
 			}
 			if ($this->is_extended_type($type))
 			{
-				$query = 'SELECT '.implode('+',$sum).' AS disk_space FROM '.$this->escape_table_name('learning_object').' AS t1 JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name('id').' = t2.'.$this->escape_column_name('id');
+				$query = 'SELECT '.implode('+', $sum).' AS disk_space FROM '.$this->escape_table_name('learning_object').' AS t1 JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name('id').' = t2.'.$this->escape_column_name('id');
 				$condition = $condition_owner;
 			}
 			else
 			{
-				$query = 'SELECT '.implode('+',$sum).' AS disk_space FROM '.$this->escape_table_name('learning_object');
+				$query = 'SELECT '.implode('+', $sum).' AS disk_space FROM '.$this->escape_table_name('learning_object');
 				$match = new EqualityCondition('type', $type);
 				$condition = new AndCondition(array ($match, $condition_owner));
 			}
