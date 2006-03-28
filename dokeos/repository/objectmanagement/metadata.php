@@ -12,6 +12,11 @@ if( isset($_GET['id']))
 {
 	$datamanager = RepositoryDataManager::get_instance();
 	$object = $datamanager->retrieve_learning_object($_GET['id']);
+	//TODO: this should change to roles & rights stuff
+	if($object->get_owner_id() != api_get_user_id())
+	{
+		api_not_allowed();
+	}
 	$display = LearningObjectDisplay::factory($object);
 	// Create a navigation menu to browse through the categories
 	$current_category_id = $object->get_parent_id();

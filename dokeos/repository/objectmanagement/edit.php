@@ -11,6 +11,11 @@ if( isset($_GET['id']))
 {
 	$datamanager = RepositoryDataManager::get_instance();
 	$object = $datamanager->retrieve_learning_object($_GET['id']);
+	//TODO: this should change to roles & rights stuff
+	if($object->get_owner_id() != api_get_user_id())
+	{
+		api_not_allowed();
+	}
 	$form = LearningObjectForm::factory($object->get_type(),'edit','post','edit.php?id='.$object->get_id());
 	$form->build_modification_form($object);
 	if($form->validate())
