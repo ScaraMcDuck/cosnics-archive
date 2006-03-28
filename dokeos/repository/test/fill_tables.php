@@ -27,7 +27,7 @@ $student_publications = rand(2, 10);
 $forums = rand(100,500);
 $forum_posts = rand(100,500);
 $forum_topics = rand(100,500);
-$learnpaths = rand(100,500);
+$learning_paths = rand(100,500);
 */
 
 $randomText =<<<END

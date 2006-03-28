@@ -1,8 +1,8 @@
 <?php
-require_once dirname(__FILE__) . '/../../learningobject_form.class.php';
-class LearnPathForm extends LearningObjectForm
+require_once dirname(__FILE__) . '/../../learningobjectform.class.php';
+class LearningPathForm extends LearningObjectForm
 {
-	public function LearnPathForm($formName, $method = 'post', $action = null)
+	public function LearningPathForm($formName, $method = 'post', $action = null)
 	{
 		parent :: __construct($formName, $method, $action);
 	}
@@ -21,12 +21,12 @@ class LearnPathForm extends LearningObjectForm
 	{
 		$values = $this->exportValues();
 		$dataManager = RepositoryDataManager::get_instance();
-		$learnPath = new LearnPath();
-		$learnPath->set_owner_id($owner);
-		$learnPath->set_title($values['title']);
-		$learnPath->set_description($values['description']);
-		$learnPath->create();
-		return $learnPath;
+		$learningPath = new LearningPath();
+		$learningPath->set_owner_id($owner);
+		$learningPath->set_title($values['title']);
+		$learningPath->set_description($values['description']);
+		$learningPath->create();
+		return $learningPath;
 	}
 	public function update_learning_object(& $object)
 	{

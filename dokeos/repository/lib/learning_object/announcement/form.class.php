@@ -2,7 +2,7 @@
 /**
  * @package learningobject.announcement
  */
-require_once dirname(__FILE__) . '/../../learningobject_form.class.php';
+require_once dirname(__FILE__) . '/../../learningobjectform.class.php';
 class AnnouncementForm extends LearningObjectForm
 {
 	public function AnnouncementForm($formName, $method = 'post', $action = null)
