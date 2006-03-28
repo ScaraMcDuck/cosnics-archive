@@ -214,9 +214,11 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_group').' WHERE publication = ?';
 		$statement = $this->connection->prepare($query);
 		$this->connection->execute($statement, $parameters);
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication').' WHERE id = ?';
+		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name('display_order').'='.$this->escape_column_name('display_order').'-1 WHERE '.$this->escape_column_name('display_order').'>?';
 		$statement = $this->connection->prepare($query);
-		return $this->connection->execute($statement, $parameters);
+		$this->connection->execute($statement, array($publication->get_display_order_index()));
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication').' WHERE id = ?';
+		return $this->connection->limitQuery($query, 0, 1, $parameters);
 	}
 
 	function retrieve_learning_object_publication_categories($course, $types)
@@ -299,12 +301,6 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	private function move_learning_object_publication_up($publication, $places)
 	{
-		/*
-		 * TODO: Make this work for non-contiguous indexes. Currently, moving
-		 * a publication up decreases its index by $places and moves $places
-		 * publications that were above it, down one row, by increasing their
-		 * indices by 1. This does not work if any indices are missing.
-		 */
 		$oldIndex = $publication->get_display_order_index();
 		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name('display_order').'='.$this->escape_column_name('display_order').'+1 WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('tool').'=? AND '.$this->escape_column_name('category').'=? AND '.$this->escape_column_name('display_order').'<? ORDER BY '.$this->escape_column_name('display_order').' DESC';
 		$this->connection->limitQuery($query, 0, $places, array($publication->get_course_id(), $publication->get_tool(), $publication->get_category_id(), $oldIndex));
@@ -316,12 +312,6 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	private function move_learning_object_publication_down($publication, $places)
 	{
-		/*
-		 * TODO: Make this work for non-contiguous indexes. Currently, moving
-		 * a publication down increases its index by $places and moves $places
-		 * publications that were below it, up one row, by increasing their
-		 * indices by 1. This does not work if any indices are missing.
-		 */
 		$oldIndex = $publication->get_display_order_index();
 		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name('display_order').'='.$this->escape_column_name('display_order').'-1 WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('tool').'=? AND '.$this->escape_column_name('category').'=? AND '.$this->escape_column_name('display_order').'>? ORDER BY '.$this->escape_column_name('display_order').' ASC';
 		$this->connection->limitQuery($query, 0, $places, array($publication->get_course_id(), $publication->get_tool(), $publication->get_category_id(), $oldIndex));
