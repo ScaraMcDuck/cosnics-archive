@@ -42,7 +42,9 @@ class LearningObjectPublisher
 		$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
 		foreach (array ('browser', 'finder', 'publicationcreator') as $action)
 		{
-			$out .= '<li><a href="'.$this->get_url(array ('publish_action' => $action)).'">'.get_lang(ucfirst($action).'Title').'</a></li>';
+			$out .= '<li><a';
+			if ($this->get_action() == $action) $out .= ' class="current"';
+			$out .= ' href="'.$this->get_url(array ('publish_action' => $action)).'">'.get_lang(ucfirst($action).'Title').'</a></li>';
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
 		$action = $this->get_action();
