@@ -123,9 +123,9 @@ class LearningObjectPublisher
 	/**
 	 * @see RepositoryTool::get_categories()
 	 */
-	function get_categories()
+	function get_categories($list = false)
 	{
-		return $this->parent->get_categories();
+		return $this->parent->get_categories($list);
 	}
 }
 ?>

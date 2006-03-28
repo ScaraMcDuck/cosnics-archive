@@ -58,9 +58,9 @@ abstract class LearningObjectPublicationBrowser
 		return $this->parent->get_groups();
 	}
 	
-	function get_categories()
+	function get_categories($list = false)
 	{
-		return $this->parent->get_categories();
+		return $this->parent->get_categories($list);
 	}
 	
 	function get_url($parameters = array(), $encode = false)

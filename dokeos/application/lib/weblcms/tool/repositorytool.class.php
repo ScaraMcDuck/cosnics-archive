@@ -3,6 +3,11 @@ require_once dirname(__FILE__) . '/tool.class.php';
 
 abstract class RepositoryTool extends Tool
 {
+	function get_tool_id()
+	{
+		return $this->get_parent()->get_tool_id();
+	}
+	
 	function get_user_id()
 	{
 		return $this->get_parent()->get_user_id();
@@ -18,14 +23,19 @@ abstract class RepositoryTool extends Tool
 		return $this->get_parent()->get_groups();
 	}
 
-	function get_categories()
+	function get_categories($list = false)
 	{
-		return $this->get_parent()->get_categories();
+		return $this->get_parent()->get_categories($list);
 	}
 
 	function get_category($id)
 	{
 		return $this->get_parent()->get_category($id);
+	}
+
+	function create_category($id)
+	{
+		return $this->get_parent()->create_category($id);
 	}
 
 	function update_category($id)

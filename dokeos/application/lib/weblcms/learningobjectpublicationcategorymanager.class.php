@@ -43,13 +43,24 @@ class LearningObjectPublicationCategoryManager
 	{
 		return $this->parent->get_url($parameters, $encode);
 	}
+	
+	function get_categories($list = false)
+	{
+		return $this->parent->get_categories($list);
+	}
 
 	private function get_category_creation_interface()
 	{
-		$form = new LearningObjectPublicationCategoryForm('create_category', 'post', $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE)));
+		$form = new LearningObjectPublicationCategoryForm($this, 'create_category', 'post', $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE)));
 		$form->build_creation_form();
 		if ($form->validate())
 		{
+			$title = $form->get_category_title();
+			$course = $this->parent->get_course_id();
+			$tool = $this->parent->get_tool_id();
+			$parent = $form->get_category_parent();
+			$category = new LearningObjectPublicationCategory(0, $title, $course, $tool, $parent);
+			$this->parent->create_category($category);
 			return Display :: display_normal_message(get_lang('CategoryCreated'), true);
 		}
 		else
@@ -62,11 +73,12 @@ class LearningObjectPublicationCategoryManager
 	{
 		$id = $_GET[self :: PARAM_ID];
 		$category = $this->parent->get_category($id);
-		$form = new LearningObjectPublicationCategoryForm('modify_category', 'post', $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MODIFY, self :: PARAM_ID => $id)));
+		$form = new LearningObjectPublicationCategoryForm($this, 'modify_category', 'post', $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MODIFY, self :: PARAM_ID => $id)));
 		$form->build_modification_form($category);
 		if ($form->validate())
 		{
-			$category->set_title($form->exportValue('title'));
+			$category->set_title($form->get_category_title());
+			$category->set_parent($form->get_category_parent());
 			$this->parent->update_category($category);
 			return Display :: display_normal_message(get_lang('CategoryModified'), true);
 		}
