@@ -1,8 +1,8 @@
 <?php
-require_once dirname(__FILE__) . '/../../learningobject_form.class.php';
-class LearnpathChapterForm extends LearningObjectForm
+require_once dirname(__FILE__) . '/../../learningobjectform.class.php';
+class LearningPathChapterForm extends LearningObjectForm
 {
-	public function LearnpathChapterForm($formName, $method = 'post', $action = null)
+	public function LearningPathChapterForm($formName, $method = 'post', $action = null)
 	{
 		parent :: __construct($formName, $method, $action);
 	}
@@ -32,13 +32,13 @@ class LearnpathChapterForm extends LearningObjectForm
 	{
 		$values = $this->exportValues();
 		$dataManager = RepositoryDataManager::get_instance();
-		$learnpathChapter = new LearnpathChapter();
-		$learnpathChapter->set_owner_id($owner);
-		$learnpathChapter->set_title($values['title']);
-		$learnpathChapter->set_description($values['description']);
-		$learnpathChapter->set_display_order($values['display_order']);
-		$learnpathChapter->create();
-		return $learnpathChapter;
+		$learningPathChapter = new LearningPathChapter();
+		$learningPathChapter->set_owner_id($owner);
+		$learningPathChapter->set_title($values['title']);
+		$learningPathChapter->set_description($values['description']);
+		$learningPathChapter->set_display_order($values['display_order']);
+		$learningPathChapter->create();
+		return $learningPathChapter;
 	}
 	public function update_learning_object(& $object)
 	{

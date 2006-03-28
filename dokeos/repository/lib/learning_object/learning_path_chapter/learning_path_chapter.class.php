@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../learningobject.class.php';
 
-class LearnpathChapter extends LearningObject 
+class LearningPathChapter extends LearningObject 
 {
 	function get_display_order_index () 
 	{

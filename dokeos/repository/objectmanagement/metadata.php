@@ -2,8 +2,8 @@
 require_once('../../claroline/inc/claro_init_global.inc.php');
 require_once(api_get_library_path().'/formvalidator/FormValidator.class.php');
 require_once('../lib/repositorydatamanager.class.php');
-require_once('../lib/learningobject_form.class.php');
-require_once('../lib/learningobject_display.class.php');
+require_once('../lib/learningobjectform.class.php');
+require_once('../lib/learningobjectdisplay.class.php');
 if( !api_get_user_id())
 {
 	api_not_allowed();

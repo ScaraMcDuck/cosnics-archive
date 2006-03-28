@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../../learningobject_form.class.php';
+require_once dirname(__FILE__) . '/../../learningobjectform.class.php';
 class ForumPostForm extends LearningObjectForm
 {
 	public function ForumPostForm($formName, $method = 'post', $action = null)

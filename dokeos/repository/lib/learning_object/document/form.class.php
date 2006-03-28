@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../../learningobject_form.class.php';
+require_once dirname(__FILE__) . '/../../learningobjectform.class.php';
 
 define(MAIN_UPLOAD_DIR,Configuration::get_instance()->get_parameter('general', 'upload_path'));
 /**
