@@ -225,7 +225,7 @@ class CalendarTool extends RepositoryTool
 			{
 				$object = $publication->get_learning_object();
 				$delete_url = $this->get_url(array('action'=>'delete','pid'=>$publication->get_id()));
-				$visible_url = $this->get_url(array('action'=>'change_visibility','pid'=>$publication->get_id()));
+				$visible_url = $this->get_url(array('action'=>'toggle_visibility','pid'=>$publication->get_id()));
 				$visibility_img = ($publication->is_hidden() ? 'invisible.gif' : 'visible.gif');
 				$html = array();
 				$html[] = '<div class="learning_object">';
@@ -254,7 +254,7 @@ class CalendarTool extends RepositoryTool
 		$publication = $datamanager->retrieve_learning_object_publication($publication_id);
 		$object = $publication->get_learning_object();
 		$delete_url = $this->get_url(array('action'=>'delete','pid'=>$publication->get_id()));
-		$visible_url = $this->get_url(array('action'=>'change_visibility','pid'=>$publication->get_id()));
+		$visible_url = $this->get_url(array('action'=>'toggle_visibility','pid'=>$publication->get_id()));
 		$visibility_img = ($publication->is_hidden() ? 'visible.gif' : 'invisible.gif');
 		$html = array();
 		$html[] = '<a href="'.$this->get_url().'">&laquo;&laquo; '.get_lang('Back').'</a>';

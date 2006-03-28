@@ -143,7 +143,7 @@ class LearningObjectPublication
 		$this->displayOrder = $displayOrder;
 	}
 
-	function change_visibility()
+	function toggle_visibility()
 	{
 		$this->set_hidden(!$this->is_hidden());
 	}

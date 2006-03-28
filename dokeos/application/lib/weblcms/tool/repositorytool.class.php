@@ -70,9 +70,9 @@ abstract class RepositoryTool extends Tool
 						$message = get_lang('LearningObjectPublicationDeleted');
 					}
 					break;
-				case 'change_visibility':
+				case 'toggle_visibility':
 					$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
-					$publication->change_visibility();
+					$publication->toggle_visibility();
 					if($publication->update())
 					{
 						$message = get_lang('LearningObjectPublicationVisibilityChanged');
