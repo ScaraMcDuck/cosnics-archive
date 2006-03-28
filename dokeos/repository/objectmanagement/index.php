@@ -87,6 +87,11 @@ if( is_null($current_category_id))
 	$root_category = $datamanager->retrieve_root_category(api_get_user_id());
 	$current_category_id = $root_category->get_id();
 }
+$object = $datamanager->retrieve_learning_object($current_category_id);
+if($object->get_owner_id() != api_get_user_id())
+{
+	api_not_allowed();
+}
 
 $tool_name = get_lang('MyLearningObjects');
 // Retrieve learning objecttypes
