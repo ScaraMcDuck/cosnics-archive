@@ -16,14 +16,14 @@ class CalendarTool extends RepositoryTool
 		}
 		if ($_SESSION['calendaradmin'])
 		{
-			echo '<p>Go to <a href="' . $this->get_url(array('calendaradmin' => 0)) . '">User Mode</a> &hellip;</p>';
+			echo '<p>Go to <a href="' . $this->get_url(array('calendaradmin' => 0), true) . '">User Mode</a> &hellip;</p>';
 			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
 			$pub = new LearningObjectPublisher($this, 'calendar_event');
 			echo $pub->as_html();
 		}
 		else
 		{
-			echo '<p>Go to <a href="' . $this->get_url(array('calendaradmin' => 1)) . '">Publisher Mode</a> &hellip;</p>';
+			echo '<p>Go to <a href="' . $this->get_url(array('calendaradmin' => 1), true) . '">Publisher Mode</a> &hellip;</p>';
 			$this->perform_requested_actions();
 			if($_GET['action'] == 'delete' || $_GET['view'] == 'list')
 			{
@@ -39,10 +39,10 @@ class CalendarTool extends RepositoryTool
 	{
 		$time = isset($_GET['time']) ? intval($_GET['time']) : time();
 		$this->set_parameter('time',$time);
-		echo '<a href="'.$this->get_url(array('view'=>'list')).'">list</a> | ';
-		echo '<a href="'.$this->get_url(array('view'=>'month')).'">month</a> | ';
-		echo '<a href="'.$this->get_url(array('view'=>'week')).'">week</a> | ';
-		echo '<a href="'.$this->get_url(array('view'=>'day')).'">day</a> <br/><br/>';
+		echo '<a href="'.$this->get_url(array('view'=>'list'), true).'">list</a> | ';
+		echo '<a href="'.$this->get_url(array('view'=>'month'), true).'">month</a> | ';
+		echo '<a href="'.$this->get_url(array('view'=>'week'), true).'">week</a> | ';
+		echo '<a href="'.$this->get_url(array('view'=>'day'), true).'">day</a> <br/><br/>';
 		$show_calendar = true;
 		if(isset($_GET['pid']))
 		{
@@ -97,8 +97,8 @@ class CalendarTool extends RepositoryTool
 				foreach($publications as $index => $publication)
 				{
 					$event = $publication->get_learning_object();
-					$event_url = $this->get_url(array('pid'=>$publication->get_id()));
-					$cell_contents .= '<div class="event"><a href="'.$event_url.'">'.date('H:i',$event->get_start_date()).' '.$event->get_title().'</a></div>';
+					$event_url = $this->get_url(array('pid'=>$publication->get_id()), true);
+					$cell_contents .= '<div class="event"><a href="'.$event_url.'">'.date('H:i',$event->get_start_date()).' '.htmlentities($event->get_title()).'</a></div>';
 				}
 				$calendar_table->setCellContents(intval($cell / 7) + 1, $cell % 7, $cell_contents );
 				if(date('Ymd',$table_date) == date('Ymd'))
@@ -114,9 +114,9 @@ class CalendarTool extends RepositoryTool
 		$prev = strtotime('-1 Month',$time);
 		$next = strtotime('+1 Month',$time);
 		echo '<div style="text-align: center;">';
-		echo '<a href="'.$this->get_url(array('time' => $prev)).'">&lt;&lt;</a> ';
+		echo '<a href="'.$this->get_url(array('time' => $prev), true).'">&lt;&lt;</a> ';
 		echo date('F Y',$first_day);
-		echo ' <a href="'.$this->get_url(array('time' => $next)).'">&gt;&gt;</a> ';
+		echo ' <a href="'.$this->get_url(array('time' => $next), true).'">&gt;&gt;</a> ';
 		echo '</div>';
 		$calendar_table->display();
 	}
@@ -156,9 +156,9 @@ class CalendarTool extends RepositoryTool
 			$row = date('H',$event->get_start_date())/4+1;
 			$col = date('w',$event->get_start_date());
 			$col = ($col == 0 ? 7 : $col);
-			$event_url = $this->get_url(array('pid'=>$publication->get_id()));
+			$event_url = $this->get_url(array('pid'=>$publication->get_id()), true);
 			$cell_contents = $calendar_table->getCellContents($row,$col);
-			$cell_contents .= '<div class="event"><a href="'.$event_url.'">'.date('H:i',$event->get_start_date()).' '.$event->get_title().'</a></div>';
+			$cell_contents .= '<div class="event"><a href="'.$event_url.'">'.date('H:i',$event->get_start_date()).' '.htmlentities($event->get_title()).'</a></div>';
 			$calendar_table->setCellContents($row,$col,$cell_contents);
 		}
 		$calendar_table->setRowType(0,'th');
@@ -166,9 +166,9 @@ class CalendarTool extends RepositoryTool
 		$prev = strtotime('-1 Week',$time);
 		$next = strtotime('+1 Week',$time);
 		echo '<div style="text-align: center;">';
-		echo '<a href="'.$this->get_url(array('time' => $prev)).'">&lt;&lt;</a> ';
+		echo '<a href="'.$this->get_url(array('time' => $prev), true).'">&lt;&lt;</a> ';
 		echo get_lang('Week').' '.$week_number.' : '.date('l d M Y',$first_day).' - '.date('l d M Y',strtotime('+6 Days',$first_day));
-		echo ' <a href="'.$this->get_url(array('time' => $next)).'">&gt;&gt;</a> ';
+		echo ' <a href="'.$this->get_url(array('time' => $next), true).'">&gt;&gt;</a> ';
 		echo '</div>';
 		$calendar_table->display();
 	}
@@ -190,18 +190,18 @@ class CalendarTool extends RepositoryTool
 		foreach($publications as $index => $publication)
 		{
 			$event = $publication->get_learning_object();
-			$event_url = $this->get_url(array('pid'=>$publication->get_id()));
+			$event_url = $this->get_url(array('pid'=>$publication->get_id()), true);
 			$row = 	date('H',$event->get_start_date())/2;
 			$cell_contents = $calendar_table->getCellContents($row,0);
-			$cell_contents .= '<div class="event"><a href="'.$event_url.'">'.date('H:i',$event->get_start_date()).' '.$event->get_title().'</a><br/>'.$event->get_description().'</div>';
+			$cell_contents .= '<div class="event"><a href="'.$event_url.'">'.date('H:i',$event->get_start_date()).' '.htmlentities($event->get_title()).'</a><br/>'.$event->get_description().'</div>';
 			$calendar_table->setCellContents($row,0,$cell_contents);
 		}
 		$prev = strtotime('-1 Day',$time);
 		$next = strtotime('+1 Day',$time);
 		echo '<div style="text-align: center;">';
-		echo '<a href="'.$this->get_url(array('time' => $prev)).'">&lt;&lt;</a> ';
+		echo '<a href="'.$this->get_url(array('time' => $prev), true).'">&lt;&lt;</a> ';
 		echo date('l d F Y',$time);
-		echo ' <a href="'.$this->get_url(array('time' => $next)).'">&gt;&gt;</a> ';
+		echo ' <a href="'.$this->get_url(array('time' => $next), true).'">&gt;&gt;</a> ';
 		echo '</div>';
 		$calendar_table->display();
 	}
@@ -224,13 +224,13 @@ class CalendarTool extends RepositoryTool
 			foreach($publications as $index => $publication)
 			{
 				$object = $publication->get_learning_object();
-				$delete_url = $this->get_url(array('action'=>'delete','pid'=>$publication->get_id()));
-				$visible_url = $this->get_url(array('action'=>'toggle_visibility','pid'=>$publication->get_id()));
+				$delete_url = $this->get_url(array('action'=>'delete','pid'=>$publication->get_id()), true);
+				$visible_url = $this->get_url(array('action'=>'toggle_visibility','pid'=>$publication->get_id()), true);
 				$visibility_img = ($publication->is_hidden() ? 'invisible.gif' : 'visible.gif');
 				$html = array();
 				$html[] = '<div class="learning_object">';
 				$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/></div>';
-				$html[] = '<div class="title">'.$object->get_title().'</div>';
+				$html[] = '<div class="title">'.htmlentities($object->get_title()).'</div>';
 				$html[] = '<div class="description">';
 				$html[] = '<em>'.date('r',$object->get_start_date()).' - '.date('r',$object->get_end_date()).'</em>';
 				$html[] = '<br />';
@@ -253,14 +253,14 @@ class CalendarTool extends RepositoryTool
 		$datamanager = WebLCMSDataManager :: get_instance();
 		$publication = $datamanager->retrieve_learning_object_publication($publication_id);
 		$object = $publication->get_learning_object();
-		$delete_url = $this->get_url(array('action'=>'delete','pid'=>$publication->get_id()));
-		$visible_url = $this->get_url(array('action'=>'toggle_visibility','pid'=>$publication->get_id()));
+		$delete_url = $this->get_url(array('action'=>'delete','pid'=>$publication->get_id()), true);
+		$visible_url = $this->get_url(array('action'=>'toggle_visibility','pid'=>$publication->get_id()), true);
 		$visibility_img = ($publication->is_hidden() ? 'visible.gif' : 'invisible.gif');
 		$html = array();
-		$html[] = '<a href="'.$this->get_url().'">&laquo;&laquo; '.get_lang('Back').'</a>';
+		$html[] = '<a href="'.$this->get_url(array(), true).'">&laquo;&laquo; '.get_lang('Back').'</a>';
 		$html[] = '<div class="learning_object">';
 		$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/></div>';
-		$html[] = '<div class="title">'.$object->get_title().'</div>';
+		$html[] = '<div class="title">'.htmlentities($object->get_title()).'</div>';
 		$html[] = '<div class="description">'.$object->get_description();
 		$html[] = '<br />';
 		$html[] = '<a href="'.$delete_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/delete.gif"/></a>';

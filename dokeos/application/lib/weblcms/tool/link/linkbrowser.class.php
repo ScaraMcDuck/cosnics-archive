@@ -21,7 +21,7 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 		{
 			$lo = $publication->get_learning_object();
 			$row = array ();
-			$row[] = '<a href="'.$lo->get_url().'">'.htmlentities($lo->get_title()).'</a>';
+			$row[] = '<a href="'.$lo->get_url(array(), true).'">'.htmlentities($lo->get_title()).'</a>';
 			$row[] = $lo->get_description();
 			$data[] = $row;
 		}

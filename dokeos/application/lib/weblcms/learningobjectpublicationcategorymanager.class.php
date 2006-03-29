@@ -35,7 +35,7 @@ class LearningObjectPublicationCategoryManager
 		}
 		$categories = $this->parent->get_categories();
 		$html .= $this->category_tree_as_html($categories);
-		$html .= '<div><a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE)).'">'.get_lang('CreateNewCategory').'</a></div>';
+		$html .= '<div><a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE), true).'">'.get_lang('CreateNewCategory').'</a></div>';
 		return $html;
 	}
 
@@ -107,11 +107,11 @@ class LearningObjectPublicationCategoryManager
 			$options = array ();
 			if ($id != 0)
 			{
-				$options[] = '<a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT, self :: PARAM_ID => $id)).'">'.'['.get_lang('Edit').']'.'</a>';
-				$options[] = '<a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE, self :: PARAM_ID => $id)).'">'.'['.get_lang('Delete').']'.'</a>';
+				$options[] = '<a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT, self :: PARAM_ID => $id), true).'">'.'['.get_lang('Edit').']'.'</a>';
+				$options[] = '<a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE, self :: PARAM_ID => $id), true).'">'.'['.get_lang('Delete').']'.'</a>';
 			}
 			$options = ' '.join(' ', $options);
-			$html .= '<li>'.$category->get_title().$options.$this->category_tree_as_html($subtree).'</li>';
+			$html .= '<li>'.htmlentities($category->get_title()).$options.$this->category_tree_as_html($subtree).'</li>';
 		}
 		$html .= '</ul>';
 		return $html;

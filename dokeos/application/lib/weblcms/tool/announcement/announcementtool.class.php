@@ -16,14 +16,14 @@ class AnnouncementTool extends RepositoryTool
 		}
 		if ($_SESSION['announcementadmin'])
 		{
-			echo '<p>Go to <a href="' . $this->get_url(array('announcementadmin' => 0)) . '">User Mode</a> &hellip;</p>';
+			echo '<p>Go to <a href="' . $this->get_url(array('announcementadmin' => 0), true) . '">User Mode</a> &hellip;</p>';
 			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
 			$pub = new LearningObjectPublisher($this, 'announcement');
 			echo $pub->as_html();
 		}
 		else
 		{
-			echo '<p>Go to <a href="' . $this->get_url(array('announcementadmin' => 1)) . '">Publisher Mode</a> &hellip;</p>';
+			echo '<p>Go to <a href="' . $this->get_url(array('announcementadmin' => 1), true) . '">Publisher Mode</a> &hellip;</p>';
 			$this->perform_requested_actions();
 			$this->display();
 		}
@@ -40,13 +40,13 @@ class AnnouncementTool extends RepositoryTool
 		{
 			$announcement = $announcement_publication->get_learning_object();
 			$target_users = $announcement_publication->get_target_users();
-			$delete_url = $this->get_url(array('action'=>'delete','pid'=>$announcement_publication->get_id()));
-			$visible_url = $this->get_url(array('action'=>'toggle_visibility','pid'=>$announcement_publication->get_id()));
+			$delete_url = $this->get_url(array('action'=>'delete','pid'=>$announcement_publication->get_id()), true);
+			$visible_url = $this->get_url(array('action'=>'toggle_visibility','pid'=>$announcement_publication->get_id()), true);
 
 			if($index != 0)
 			{
 				$up_img = 'up.gif';
-				$up_url = $this->get_url(array('action'=>'move_up','pid'=>$announcement_publication->get_id()));
+				$up_url = $this->get_url(array('action'=>'move_up','pid'=>$announcement_publication->get_id()), true);
 				$up_link = '<a href="'.$up_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$up_img.'"/></a>';
 			}
 			else
@@ -56,7 +56,7 @@ class AnnouncementTool extends RepositoryTool
 			if($index != $number_of_announcements-1)
 			{
 				$down_img = 'down.gif';
-				$down_url = $this->get_url(array('action'=>'move_down','pid'=>$announcement_publication->get_id()));
+				$down_url = $this->get_url(array('action'=>'move_down','pid'=>$announcement_publication->get_id()), true);
 				$down_link = '<a href="'.$down_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$down_img.'"/></a>';
 			}
 			else
@@ -68,7 +68,7 @@ class AnnouncementTool extends RepositoryTool
 			$html = array();
 			$html[] = '<div class="learning_object">';
 			$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$announcement->get_type().'.gif" alt="'.$announcement->get_type().'"/></div>';
-			$html[] = '<div class="title">'.$announcement->get_title().'</div>';
+			$html[] = '<div class="title">'.htmlentities($announcement->get_title()).'</div>';
 			$html[] = '<div class="description">'.$announcement->get_description();
 			$html[] = '<br />';
 			$html[] = '<a href="'.$delete_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/delete.gif"/></a>';
