@@ -16,14 +16,14 @@ class DescriptionTool extends RepositoryTool
 		}
 		if ($_SESSION['descriptionadmin'])
 		{
-			echo '<p>Go to <a href="' . $this->get_url(array('descriptionadmin' => 0)) . '">User Mode</a> &hellip;</p>';
+			echo '<p>Go to <a href="' . $this->get_url(array('descriptionadmin' => 0), true) . '">User Mode</a> &hellip;</p>';
 			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
 			$pub = new LearningObjectPublisher($this, 'description');
 			echo $pub->as_html();
 		}
 		else
 		{
-			echo '<p>Go to <a href="' . $this->get_url(array('descriptionadmin' => 1)) . '">Publisher Mode</a> &hellip;</p>';
+			echo '<p>Go to <a href="' . $this->get_url(array('descriptionadmin' => 1), true) . '">Publisher Mode</a> &hellip;</p>';
 			$this->perform_requested_actions();
 			$this->display();
 		}
@@ -39,13 +39,13 @@ class DescriptionTool extends RepositoryTool
 		{
 			$object = $publication->get_learning_object();
 			$target_users = $publication->get_target_users();
-			$delete_url = $this->get_url(array('action'=>'delete','pid'=>$publication->get_id()));
-			$visible_url = $this->get_url(array('action'=>'toggle_visibility','pid'=>$publication->get_id()));
+			$delete_url = $this->get_url(array('action'=>'delete','pid'=>$publication->get_id()), true);
+			$visible_url = $this->get_url(array('action'=>'toggle_visibility','pid'=>$publication->get_id()), true);
 
 			if($index != 0)
 			{
 				$up_img = 'up.gif';
-				$up_url = $this->get_url(array('action'=>'move_up','pid'=>$publication->get_id()));
+				$up_url = $this->get_url(array('action'=>'move_up','pid'=>$publication->get_id()), true);
 				$up_link = '<a href="'.$up_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$up_img.'"/></a>';
 			}
 			else
@@ -55,7 +55,7 @@ class DescriptionTool extends RepositoryTool
 			if($index != $number_of_publications-1)
 			{
 				$down_img = 'down.gif';
-				$down_url = $this->get_url(array('action'=>'move_down','pid'=>$publication->get_id()));
+				$down_url = $this->get_url(array('action'=>'move_down','pid'=>$publication->get_id()), true);
 				$down_link = '<a href="'.$down_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$down_img.'"/></a>';
 			}
 			else
@@ -67,7 +67,7 @@ class DescriptionTool extends RepositoryTool
 			$html = array();
 			$html[] = '<div class="learning_object">';
 			$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/></div>';
-			$html[] = '<div class="title">'.$object->get_title().'</div>';
+			$html[] = '<div class="title">'.htmlentities($object->get_title()).'</div>';
 			$html[] = '<div class="description">'.$object->get_description();
 			$html[] = '<br />';
 			$html[] = '<a href="'.$delete_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/delete.gif"/></a>';

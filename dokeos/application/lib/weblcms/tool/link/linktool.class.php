@@ -15,7 +15,7 @@ class LinkTool extends RepositoryTool
 		{
 			$current = ($_SESSION['linktoolmode'] == $i);
 			echo '<li style="display: inline; margin: 0 1ex 0 0; padding: 0">';
-			if (!$current) echo '<a href="' . $this->get_url(array('linktoolmode' => $i)) . '">';
+			if (!$current) echo '<a href="' . $this->get_url(array('linktoolmode' => $i), true) . '">';
 			echo '[' . $title . ']';
 			if (!$current) echo '</a>';
 			echo '</li>';
