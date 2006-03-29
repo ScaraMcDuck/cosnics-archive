@@ -28,6 +28,13 @@ class Document extends LearningObject {
 	{
 		return $this->set_additional_property('filesize', $filesize);
 	}
+	function delete()
+	{
+		$path = Configuration::get_instance()->get_parameter('general', 'upload_path');
+		$path = $path.'/'.$this->get_path();
+		unlink($path);
+		parent::delete();
+	}
 	static function get_disk_space_properties()
 	{
 		return 'filesize';
