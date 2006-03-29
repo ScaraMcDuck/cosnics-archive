@@ -814,7 +814,7 @@ ul.treeMenu, ul.treeMenu ul
 
 ul.treeMenu ul
 {
-	background: url(tree-branch.gif) repeat-y;
+	background: url(../img/treemenu/tree-branch.gif) repeat-y;
 }
 
 /*
@@ -835,13 +835,13 @@ ul.treeMenu li div
 {
 	margin: 0;
 	padding: 0 0 0 18px;
-	background: url(tree-node-open.gif) no-repeat;
+	background: url(../img/treemenu/tree-node-open.gif) no-repeat;
 	height: 18px;
 }
 
 ul.treeMenu li.collapsed div
 {
-	background-image: url(tree-node.gif);
+	background-image: url(../img/treemenu/tree-node.gif);
 }
 
 ul.treeMenu li.root
@@ -854,7 +854,7 @@ ul.treeMenu li.root
  */
 ul.treeMenu li.last div.last
 {
-	background-image: url(tree-node-open-end.gif);
+	background-image: url(../img/treemenu/tree-node-open-end.gif);
 }
 
 /*
@@ -862,12 +862,12 @@ ul.treeMenu li.last div.last
  */
 ul.treeMenu li.lastcollapsed div.last
 {
-	background-image: url(tree-node-end.gif);
+	background-image: url(../img/treemenu/tree-node-end.gif);
 }
 
 ul.treeMenu li.leaf div
 {
-	background-image: url(tree-leaf.gif);
+	background-image: url(../img/treemenu/tree-leaf.gif);
 }
 
 /*
@@ -875,14 +875,14 @@ ul.treeMenu li.leaf div
  */
 ul.treeMenu li.lastleaf div.last
 {
-	background-image: url(tree-leaf-end.gif);
+	background-image: url(../img/treemenu/tree-leaf-end.gif);
 }
 
 ul.treeMenu li div a
 {
 	margin: 0;
 	padding: 0 0 0 18px;
-	background: url(tree-folder-open.gif) no-repeat;
+	background: url(../img/treemenu/tree-folder-open.gif) no-repeat;
 	display: block;
 	height: 18px;
 	white-space: nowrap;
@@ -891,7 +891,7 @@ ul.treeMenu li div a
 
 ul.treeMenu li.collapsed div a
 {
-	background: url(tree-folder.gif) no-repeat;	
+	background: url(../img/treemenu/tree-folder.gif) no-repeat;	
 }
 
 ul.treeMenu li.collapsed ul
