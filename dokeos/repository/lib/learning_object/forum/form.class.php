@@ -40,6 +40,7 @@ class ForumForm extends LearningObjectForm
 		$forum->set_title($values['title']);
 		$forum->set_description($values['description']);
 		$forum->set_forum_type($values['forum_type']);
+		$forum->set_parent_id($values['category']);
 		$forum->create();
 		return $forum;
 	}
@@ -49,6 +50,7 @@ class ForumForm extends LearningObjectForm
 		$object->set_title($values['title']);
 		$object->set_description($values['description']);
 		$object->set_forum_type($values['forum_type']);
+		$object->set_parent_id($values['category']);
 		$object->update();
 	}
 }
