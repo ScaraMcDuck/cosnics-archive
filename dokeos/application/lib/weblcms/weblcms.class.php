@@ -59,7 +59,7 @@ class WebLCMS extends Application
 			foreach ($this->get_registered_tools() as $tool)
 			{
 				$class = self :: tool_to_class($tool);
-				echo '<li><a href="'.$this->get_url(array ('tool' => $tool)).'">'.get_lang($class.'Title').'</a></li>';
+				echo '<li><a href="'.$this->get_url(array ('tool' => $tool), true).'">'.get_lang($class.'Title').'</a></li>';
 			}
 			echo '</ul>';
 		}
