@@ -31,7 +31,7 @@ class DocumentForm extends LearningObjectForm
 	/**
 	 * Build a form to edit a document
 	 */
-	public function build_modification_form($object)
+	public function build_editing_form($object)
 	{
 		parent :: build_editing_form($object);
 		if($this->is_html_document($object->get_path()))
