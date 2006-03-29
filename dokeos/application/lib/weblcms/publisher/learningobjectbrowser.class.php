@@ -71,11 +71,11 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 		$data = array ();
 		foreach ($objects as $object)
 		{
-			$buttons = '<a href="'.$this->get_url(array ('publish_action' => 'publicationcreator', 'object' => $object->get_id())).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/publish.gif" alt="'.get_lang('Publish').'"/></a>';
-			$buttons .= '<a href="'.$this->get_url(array ('publish_action' => 'publicationcreator', 'object' => $object->get_id(), 'edit' => 1)).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/editpublish.gif" alt="'.get_lang('EditAndPublish').'"/></a>';
+			$buttons = '<a href="'.$this->get_url(array ('publish_action' => 'publicationcreator', 'object' => $object->get_id()), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/publish.gif" alt="'.get_lang('Publish').'"/></a>';
+			$buttons .= '<a href="'.$this->get_url(array ('publish_action' => 'publicationcreator', 'object' => $object->get_id(), 'edit' => 1), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/editpublish.gif" alt="'.get_lang('EditAndPublish').'"/></a>';
 			$row = array ();
 			$row[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/>';
-			$row[] = '<a href="'.$this->get_url(array ('publish_action' => 'viewer', 'object' => $object->get_id())).'">'.$object->get_title().'</a>';
+			$row[] = '<a href="'.$this->get_url(array ('publish_action' => 'viewer', 'object' => $object->get_id()), true).'">'.htmlentities($object->get_title()).'</a>';
 			$row[] = $object->get_description();
 			$row[] = $buttons;
 			$data[] = $row;
