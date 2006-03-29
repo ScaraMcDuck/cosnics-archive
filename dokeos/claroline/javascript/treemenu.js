@@ -6,7 +6,7 @@
 
 function initTrees ()
 {
-	var trees = getElementsByClassName("UL", "treeMenu");
+	var trees = getElementsByClassName("ul", "treeMenu");
 	for (var i = 0; i < trees.length; i++)
 	{
 		initTree(trees[i]);
@@ -24,7 +24,7 @@ function walkTree (tree)
 	for (var i = 0; i < children.length; i++)
 	{
 		var child = children[i];
-		if (child.tagName == "LI")
+		if (child.tagName.toLowerCase() == "li")
 		{
 			if (i == children.length - 1)
 			{
@@ -47,18 +47,19 @@ function parseNode (node)
 	for (var i = 0; i < children.length; i++)
 	{
 		var child = children[i];
-		if (child.tagName == "UL")
+		switch (child.tagName.toLowerCase())
 		{
-			walkTree(child);
-			hasChildren = true;
-			if (isLastNode(node))
-			{
-				addClassName(child, "last");
-			}
-		}
-		else if (child.tagName == "A")
-		{
-			link = child;
+			case "ul":
+				walkTree(child);
+				hasChildren = true;
+				if (isLastNode(node))
+				{
+					addClassName(child, "last");
+				}
+				break;
+			case "a":
+				link = child;
+				break;
 		}
 	}
 	if (!hasChildren)
