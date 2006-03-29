@@ -20,9 +20,12 @@ class DocumentForm extends LearningObjectForm
 	public function build_creation_form()
 	{
 		parent :: build_creation_form();
-		//$this->addRule('filename',get_lang('DiskQuotaExceeded'),'disk_quota');
 		$this->setDefaults();
 		$this->addElement('upload_or_create','');
+		//TODO: add Rule to check if diskquota doesn't exceed when creating a HTML-document
+		//TODO: add Rule to check if diskquota doesn't exceed when uploading a document
+		//TODO: add Rule to check if a file was actually uploaded when the 'upload' option was selected
+		//TODO: add Rule to check if a HTML-content was filled in when the 'create' option was selected
 		$this->add_submit_button();
 	}
 	/**
@@ -34,10 +37,14 @@ class DocumentForm extends LearningObjectForm
 		if($this->is_html_document($object->get_path()))
 		{
 			$this->addElement('html_editor', 'html_content', get_lang('HtmlDocument'));
+			//TODO: add option to upload & overwrite a HTML-document
+			//TODO: add Rule to check if diskquota doesn't exceed when creating a HTML-document
+			//TODO: add Rule to check if diskquota doesn't exceed when uploading a document
 		}
 		else
 		{
 			$this->addElement('file', 'file', get_lang('FileName'));
+			//TODO: add Rule to check if diskquota doesn't exceed when uploading a document
 		}
 		$this->setDefaults();
 		$this->add_submit_button();
