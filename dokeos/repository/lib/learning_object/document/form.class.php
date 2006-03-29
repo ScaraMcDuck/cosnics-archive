@@ -150,7 +150,8 @@ class DocumentForm extends LearningObjectForm
 	 */
 	private function create_unique_filename($path,$filename)
 	{
-		$new_filename = $this->create_valid_filename($filename);
+		$filename = $this->create_valid_filename($filename);
+		$new_filename = $filename;
 		$index = 0;
 		while(file_exists(MAIN_UPLOAD_DIR.'/'.$path.'/'.$new_filename))
 		{
