@@ -805,57 +805,122 @@ div.learning_object div.description
 
 /* treemenu */
 
-.treeMenu, .treeMenu ul {
-	list-style-type: none;
-	background: url(../img/treemenu/tree-branch.gif) repeat-y;
-	padding: 0;
+ul.treeMenu, ul.treeMenu ul
+{
+	list-style: none;
 	margin: 0;
+	padding: 0;
 }
-.treeMenu li {
-	padding: 0px;
-	padding-left: 18px;
-	margin: 2px 0px 2px 0px;
-	background: url(../img/treemenu/tree-leaf.gif) no-repeat;
+
+ul.treeMenu ul
+{
+	background: url(../img/treemenu/tree-branch.gif) repeat-y;
 }
-.treeMenu a {
-	padding: 0px 4px 0px 18px;
-	background: url(../img/treemenu/tree-folder.gif) no-repeat;
-	margin: 2px 0px 2px 0px;
-	height: auto;
+
+/*
+ * li.last > ul doesn't work in IE, so we force it this way
+ */
+ul.treeMenu li.last ul.last
+{
+	background: none;
 }
-.treeMenu .itemOpen {
+
+ul.treeMenu li
+{
+	margin: 0;
+	padding: 0 0 0 18px;
+}
+
+ul.treeMenu li div
+{
+	margin: 0;
+	padding: 0 0 0 18px;
 	background: url(../img/treemenu/tree-node-open.gif) no-repeat;
+	height: 18px;
+	/* TODO: Transparency */
+	background-color: white;
 }
-.treeMenu .itemOpenEnd {
-	background: white url(../img/treemenu/tree-node-open-end.gif) no-repeat;
+
+ul.treeMenu li.collapsed div
+{
+	background-image: url(../img/treemenu/tree-node.gif);
 }
-.treeMenu .itemOpen ul, .treeMenu .itemOpenEnd ul {
-	display: block;
+
+ul.treeMenu li.root
+{
+	padding-left: 0;
 }
-.treeMenu .itemOpen a, .treeMenu .itemOpenEnd a {
+
+/*
+ * see above (li.last > div)
+ */
+ul.treeMenu li.last div.last
+{
+	background-image: url(../img/treemenu/tree-node-open-end.gif);
+	/* TODO: Transparency */
+	background-color: white;
+}
+
+/*
+ * IE doesn't like li.last.collapsed
+ */
+ul.treeMenu li.lastcollapsed div.last
+{
+	background-image: url(../img/treemenu/tree-node-end.gif);
+}
+
+ul.treeMenu li.leaf div
+{
+	background-image: url(../img/treemenu/tree-leaf.gif);
+}
+
+/*
+ * IE doesn't like li.leaf.last
+ */
+ul.treeMenu li.lastleaf div.last
+{
+	background-image: url(../img/treemenu/tree-leaf-end.gif);
+}
+
+ul.treeMenu li div a
+{
+	margin: 0;
+	padding: 0 0 0 18px;
 	background: url(../img/treemenu/tree-folder-open.gif) no-repeat;
+	display: block;
+	height: 18px;
+	white-space: nowrap;
+	overflow: hidden;
+	/* TODO: Transparency */
+	background-color: white;
 }
-.treeMenu .itemClose {
-	background: url(../img/treemenu/tree-node.gif) no-repeat;
+
+ul.treeMenu li.collapsed div a
+{
+	background: url(../img/treemenu/tree-folder.gif) no-repeat;	
+	/* TODO: Transparency */
+	background-color: white;
 }
-.treeMenu .itemCloseEnd {
-	background: white url(../img/treemenu/tree-node-end.gif) no-repeat;
-}
-.treeMenu .itemClose ul, .treeMenu .itemCloseEnd ul {
+
+ul.treeMenu li.collapsed ul
+{
 	display: none;
 }
-.treeMenu .itemClose a, .treeMenu .itemCloseEnd a {
-	background: url(../img/treemenu/tree-folder.gif) no-repeat;
+
+/*
+ * Tweak: Font size is 12px, nodes are 18px high. That leaves (18 - 12) / 2px.
+ */
+ul.treeMenu li div a
+{
+	padding-top: 3px;
 }
-.treeMenu li.endItem {
-	background: white url(../img/treemenu/tree-leaf-end.gif) no-repeat;
-}
-.treeMenu .item a {
-	background: url(../img/treemenu/tree-folder.gif) no-repeat;
-	padding-right: 2px;
-}
-.treeMenu a.treeMenuActive{
-	background: url(../img/treemenu/tree-folder-open.gif) no-repeat;
+
+/*
+ * Tweak: Some extra space between folder and text--2px will do.
+ */
+ul.treeMenu li div a
+{
+	padding-left: 20px;
 }
 
 /* Calendar */

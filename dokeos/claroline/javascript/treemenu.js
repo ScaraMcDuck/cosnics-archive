@@ -1,214 +1,243 @@
 /**
- * cssTreeMenu
- * Author: E. Vlieg - Flydesign.nl
- * Tweaked by Tim De Pauw for use with Dokeos
- * Cannot handle multiple tree menus on a single page--yet
+ * Turns all UL elements that have "treeMenu" as their class name into nice
+ * tree menus.
+ * @author Tim De Pauw
  */
 
-
-/**
- * Create the + and - items in the menu and find the selected node
- */
-onload = function(){
-	// Find the selected node and open all the parent menus
-	var tms = getElementByClassName('li', 'treeMenuSelect');
-	makeMenu(getElementByClassName('ul', 'treeMenu'));
-	if(tms){
-		openParentNode(tms);
+function initTrees ()
+{
+	var trees = getElementsByClassName("UL", "treeMenu");
+	for (var i = 0; i < trees.length; i++)
+	{
+		initTree(trees[i]);
 	}
 }
 
-/**
- * Save the last state so we can show the current state the next time
- */
-onunload = function(){
-	saveState();
+function initTree (tree)
+{
+	walkTree(tree);
 }
 
-var aTreeMenu = new Array();
-var makeMenuParentsOpenMenu = true;
-
-/**
- * Save the last state in a cookie with the format "i-i-i"
- * Where i is an integer which matches the number of the submenu that is currently open
- */
-function saveState(){
-	var aCookie = new Array();
-	for(var i = 0; i < aTreeMenu.length; i++){
-		if(aTreeMenu[i].className.indexOf("itemOpen") != -1)
-			aCookie[aCookie.length] = i;
-	}
-	var sCookie = "treeMenuState="+escape(aCookie.join("-"));
-
-    document.cookie = sCookie;
-}
-
-/**
- * Run through the given list and check if a li node contains a ul node.
- * If this is true, create a clickable node to expand the ul
- * @param object oTree
- */
-function makeMenu(oTree){
-	var oChildren = oTree.childNodes;
-	var bLast = false;
-	var aLastState = getCookie("treeMenuState").split("-");
-
-	// Iterate through every child
-	for(var i=oChildren.length-1; i >= 0; i--){
-		// Create a new submenu when the li element contains a ul element
-		if(oChildren[i].nodeName == "LI" && hasSubmenu(oChildren[i])){
-			// If this is the last node, give it a different class
-			var sClassName = (arrayContains(aLastState, aTreeMenu.length))? " itemOpen" : " itemClose";
-			if(!bLast){
-				oChildren[i].className += sClassName + "End";
-				bLast = true;
-			} else
-				oChildren[i].className += sClassName;
-
-			aTreeMenu[aTreeMenu.length] = oChildren[i];
-
-			// If the boolean is set and the href of the firstChild A is '#'
-			// the item opens and closes the menu
-			if(makeMenuParentsOpenMenu && oChildren[i].firstChild.nodeName == "A"){
-				if(oChildren[i].firstChild.href == location.href.replace("#","")+"#"){
-					oChildren[i].firstChild.href="javascript:void(0);";
-					oChildren[i].firstChild.onclick = function(event){
-						if(!event){
-							event = window.event;
-							oObj = event.srcElement.parentNode;
-						} else
-							oObj = event.target.parentNode;
-						event.cancelBubble = true;
-						switchClassName(oObj);
-					};
-				}
+function walkTree (tree)
+{
+	var children = filterTextNodes(tree.childNodes);
+	for (var i = 0; i < children.length; i++)
+	{
+		var child = children[i];
+		if (child.tagName == "LI")
+		{
+			if (i == children.length - 1)
+			{
+				addClassName(child, "last");
 			}
+			if (isRootFolder(child))
+			{
+				addClassName(child, "root");
+			}
+			parseNode(child);
+		}
+	}
+}
 
-			// Register the event handler for this node
-			oChildren[i].onclick = function(event){
-				if(!event){
-					event = window.event;
-					oObj = event.srcElement;
-				} else
-					oObj = event.target;
-				event.cancelBubble = true;
-				switchClassName(oObj);
-			};
-		} else if(oChildren[i].nodeName == "LI") {
-			oChildren[i].className = "item " + oChildren[i].className;
-			// If this is the last node, give it an extra class
-			if(!bLast){
-				oChildren[i].className += " endItem";
-				bLast = true;
+function parseNode (node)
+{
+	var children = filterTextNodes(node.childNodes);
+	var hasChildren = false;
+	var link;
+	for (var i = 0; i < children.length; i++)
+	{
+		var child = children[i];
+		if (child.tagName == "UL")
+		{
+			walkTree(child);
+			hasChildren = true;
+			if (isLastNode(node))
+			{
+				addClassName(child, "last");
 			}
 		}
-	}
-}
-
-/**
- * Switch the class name of an object
- * @param object oObj
- */
-function switchClassName(oObj){
-	if(oObj.className.indexOf("itemOpen") != -1){
-		oObj.className = oObj.className.replace("itemOpen", "itemClose");
-	} else if(oObj.className.indexOf("itemClose") != -1) {
-		oObj.className = oObj.className.replace("itemClose", "itemOpen");
-	}
-}
-
-/**
- * Checks if a list object contains a ul object
- * @param object oList
- * @return boolean
- */
-function hasSubmenu(oList){
-	var oMenuChildren = oList.childNodes;
-	var bHasList = false;
-
-	// Iterate through all the child nodes and search for a ul tag
-	for(var j = 0; j < oMenuChildren.length; j++){
-		if(oMenuChildren[j].nodeName == "UL") {
-			makeMenu(oMenuChildren[j]);
-			bHasList = true;
+		else if (child.tagName == "A")
+		{
+			link = child;
 		}
 	}
-	return bHasList;
+	if (!hasChildren)
+	{
+		addClassName(node, "leaf");
+	}
+	wrapInDiv(link, hasChildren);
 }
 
-/**
- * Finds the parent menu in which this item is placed and opens the menu
- * @param object oItem
- */
-function openParentNode(oItem){
-	if(oItem.parentNode.nodeName == "UL" && oItem.parentNode.parentNode.nodeName == "LI"){
-		oMenu = oItem.parentNode.parentNode;
-		oMenu.className = oMenu.className.replace("itemClose", "itemOpen");
-		openParentNode(oMenu);
+function expandOrCollapse (node)
+{
+	if (isCollapsed(node))
+	{
+		expandNode(node);
+	}
+	else
+	{
+		collapseNode(node);
 	}
 }
 
-/**
- * Returns the value of the cookie with the given name
- * @param string name
- * @return string
- */
-function getCookie(name) {
-    var cookies = document.cookie.split(";");
-    for (var i = 0; i < cookies.length; i++) {
-        var a = cookies[i].split("=");
-        if (a.length == 2) {
-            if (a[0] == name) {
-                return unescape(a[1]);
-            }
-        }
-    }
-    return "";
+function expandNode (node)
+{
+	removeClassName(node, "collapsed");
 }
 
-/**
- * Checks if the needle exists in the haystack
- * @param array aSrc
- * @param string sNeedle
- * @return boolean
- */
-function arrayContains(aHayStack, sNeedle){
-    for (var i = 0; i < aHayStack.length; i++) {
-        if (aHayStack[i] == sNeedle)
-        	return true;
-    }
-    return false;
+function collapseNode (node)
+{
+	addClassName(node, "collapsed");
 }
 
-/**
- * Returns all elements of the given type and class name
- * @param string type
- * @param string className
- * @return array
- */
-function getElementByClassName(type, className) {
-	var e = document.getElementsByTagName(type);
-	for (var i = 0; i < e.length; i++) {
-		var el = e[i];
-		var classNames = el.className.split(/\s/);
-		if (arrayContains(classNames, className)) {
-			return el;
+function isCollapsed (node)
+{
+	return hasClassName(node, "collapsed");
+}
+
+function isRootFolder (node)
+{
+	return hasClassName(node.parentNode, "treeMenu");
+}
+
+function isLastNode (node)
+{
+	return hasClassName(node, "last");
+}
+
+function wrapInDiv (link, collapsible)
+{
+	var div = document.createElement("div");
+	var copy = link.cloneNode(true);
+	div.appendChild(copy);
+	var parent = link.parentNode;
+	parent.replaceChild(div, link);
+	if (hasClassName(parent, "last"))
+	{
+		div.className = "last";
+	}
+	if (collapsible)
+	{
+		div.onclick = function () {
+			expandOrCollapse(parent);
+		};
+	}
+}
+
+function filterTextNodes (nodes)
+{
+	var result = new Array();
+	for (var i = 0; i < nodes.length; i++)
+	{
+		if (nodes[i].tagName)
+		{
+			result[result.length] = nodes[i];
 		}
 	}
-	return null;
+	return result;
 }
 
-/**
- * Checks if an array contains a certain element
- * @param array
- * @param string
- * @return boolean
- */
-function arrayContains(haystack, needle) {
-	for (var i = 0; i < haystack.length; i++) {
-		if (haystack[i] == needle) {
+function getElementsByClassName (tagName, className)
+{
+	var el = document.getElementsByTagName(tagName);
+	var res = new Array();
+	for (var i = 0; i < el.length; i++)
+	{
+		var elmt = el[i];
+		if (hasClassName(elmt, className))
+		{
+			res[res.length] = elmt;
+		}
+	}
+	return res;
+}
+
+function addClassName (element, className)
+{
+	if (!hasClassName(element, className))
+	{
+		var names = getClassNames(element);
+		names[names.length] = className;
+		setClassNames(element, names);
+	}
+	if (needsCssFix(className))
+	{
+		ieCssFix(element);
+	}
+}
+
+function removeClassName (element, className)
+{
+	var names = getClassNames(element);
+	var newNames = new Array();
+	for (var i = 0; i < names.length; i++)
+	{
+		if (names[i] != className)
+		{
+			newNames[newNames.length] = names[i];
+		}
+	}
+	setClassNames(element, newNames);
+	if (needsCssFix(className))
+	{
+		ieCssFix(element);
+	}
+}
+
+function hasClassName (element, className)
+{
+	return arrayContains(getClassNames(element), className);
+}
+
+function getClassNames (element)
+{
+	return element.className.split(/ +/);
+}
+
+function setClassNames (element, classNames)
+{
+	var n = "";
+	for (var i = 0; i < classNames.length; i++)
+	{
+		n += classNames[i] + " ";
+	}
+	element.className = n;
+}
+
+function ieCssFix (element)
+{
+	removeClassName(element, "lastleaf");
+	removeClassName(element, "lastcollapsed");
+	var names = getClassNames(element);
+	if (!arrayContains(names, "last"))
+	{
+		return;
+	}
+	if (arrayContains(names, "leaf"))
+	{
+		addClassName(element, "lastleaf");
+	}
+	if (arrayContains(names, "collapsed"))
+	{
+		addClassName(element, "lastcollapsed");
+	}
+}
+
+function needsCssFix (className)
+{
+	return (className == "last" || className == "leaf" || className == "collapsed");
+}
+
+function arrayContains (haystack, needle)
+{
+	for (var i = 0; i < haystack.length; i++)
+	{
+		if (haystack[i] == needle)
+		{
 			return true;
 		}
 	}
 	return false;
 }
+
+window.onload = initTrees;

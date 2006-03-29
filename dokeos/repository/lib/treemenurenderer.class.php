@@ -12,7 +12,7 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 	 */
 	public function TreeMenuRenderer()
 	{
-		$entryTemplates = array (HTML_MENU_ENTRY_INACTIVE => '<a href="{url}">{title}</a>', HTML_MENU_ENTRY_ACTIVE => '<!--ACTIVE--><a href="{url}" class="treeMenuActive">{title}</a>', HTML_MENU_ENTRY_ACTIVEPATH => '<a href="{url}">{title}</a>');
+		$entryTemplates = array (HTML_MENU_ENTRY_INACTIVE => '<a href="{url}">{title}</a>', HTML_MENU_ENTRY_ACTIVE => '<!--ACTIVE--><a href="{url}">{title}</a>', HTML_MENU_ENTRY_ACTIVEPATH => '<a href="{url}">{title}</a>');
 		parent :: setEntryTemplate($entryTemplates);
 		parent :: setItemTemplate('<li>', '</li>');
 	}
@@ -37,7 +37,7 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 	function toHtml()
 	{
 		$html = parent :: toHtml();
-		$html = str_replace('<li><!--ACTIVE-->', '<li class="treeMenuSelect">', $html);
+		$html = str_replace('<li><!--ACTIVE-->', '<li>', $html);
 		if (self :: $initialized)
 		{
 			return $html;
