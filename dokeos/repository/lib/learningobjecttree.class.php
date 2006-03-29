@@ -19,9 +19,9 @@ class LearningObjectTree extends HTML_Menu
 	 */
 	public function LearningObjectTree($parent, $url_format = '?id=%s')
 	{
-		parent :: __construct($this->get_items($parent));
 		$this->parent = $parent;
-		$this->urlFmt = $url_format;			
+		$this->urlFmt = $url_format;		
+		parent :: __construct($this->get_items($parent));	
 	}
 
 	private function get_items($parent, $format)
