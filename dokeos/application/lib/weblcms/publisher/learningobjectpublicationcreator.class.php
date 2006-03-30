@@ -129,8 +129,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		}
 		$attributes['receivers'] = $receiver_choices;
 		$form->addElement('receivers','target_users_and_groups',get_lang('PublishFor'),$attributes);
-		$form->add_timewindow('from_date', 'to_date', get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
-		$form->addElement('checkbox', 'forever', get_lang('Forever'));
+		$form->add_forever_or_timewindow();
 		$form->addElement('checkbox', 'hidden', get_lang('Hidden'));
 		$defaults['target_users_and_groups']['receivers'] = 0;
 		$defaults['forever'] = 1;
