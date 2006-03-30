@@ -189,6 +189,30 @@ EOT;
 		$this->addRule(array ($name_1, $name_2), get_lang('StartDateShouldBeBeforeEndDate'), 'date_compare', 'lte');
 	}
 	/**
+	 *
+	 */
+	function add_forever_or_timewindow()
+	{
+		$this->addElement('radio','forever',get_lang('PublicationPeriod'),get_lang('Forever'),1,array ('onclick' => 'javascript:timewindow_hide(\'forever_timewindow\')'));
+		$this->addElement('radio','forever','',get_lang('LimitedPeriod'),0,array ('onclick' => 'javascript:timewindow_show(\'forever_timewindow\')'));
+		$this->addElement('html','<div style="margin-left:25px;display:block;" id="forever_timewindow">');
+		$this->add_timewindow('from_date','to_date','','');
+		$this->addElement('html','</div>');
+		$this->addElement('html',"<script type=\"text/javascript\">
+					/* <![CDATA[ */
+					timewindow_hide('forever_timewindow');
+					function timewindow_show(item) {
+						el = document.getElementById(item);
+						el.style.display='';
+					}
+					function timewindow_hide(item) {
+						el = document.getElementById(item);
+						el.style.display='none';
+					}
+					/* ]]> */
+					</script>\n");
+	}
+	/**
 	 * Add a button to the form to add resources.
 	 */
 	function add_resource_button()
