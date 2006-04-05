@@ -1,5 +1,6 @@
 <?php
 
+
 /**
 ==============================================================================
  *	This script checks the learning object library (found in
@@ -32,16 +33,20 @@ if ($handle = opendir($path))
 			$propertyFile = $p.'/'.$file.'.properties';
 			if (is_file($propertyFile) && !is_file($classFile))
 			{
-				$properties = file($propertyFile);
+				$properties = array_map('rtrim', file($propertyFile));
 				if ($fh = fopen($p.'/'.$file.'.class.php', 'w'))
 				{
 					fwrite($fh, HEADER);
-					$cls = RepositoryDataManager::type_to_class($file);
+					$cls = RepositoryDataManager :: type_to_class($file);
 					fwrite($fh, 'class '.$cls.' extends LearningObject'."\n".'{'."\n");
 					foreach ($properties as $prop)
 					{
-						$prop = rtrim($prop);
-						fwrite($fh, "\tfunction get_$prop ()\n\t{\n"."\t\treturn \$this->get_additional_property('$prop');\n"."\t}\n"."\tfunction set_$prop (\$$prop) \n\t{\n"."\t\treturn \$this->set_additional_property('$prop', \$$prop);\n"."\t}\n");
+						fwrite($fh, "\tconst ".get_property_constant_name($prop)." = '$prop';\n");
+					}
+					foreach ($properties as $prop)
+					{
+						$propconst = 'self :: '.get_property_constant_name($prop);
+						fwrite($fh, "\tfunction get_$prop ()\n\t{\n"."\t\treturn \$this->get_additional_property($propconst);\n"."\t}\n"."\tfunction set_$prop (\$$prop) \n\t{\n"."\t\treturn \$this->set_additional_property($propconst, \$$prop);\n"."\t}\n");
 					}
 					fwrite($fh, FOOTER);
 					fclose($fh);
@@ -51,5 +56,10 @@ if ($handle = opendir($path))
 		}
 	}
 	closedir($handle);
+}
+
+function get_property_constant_name($property)
+{
+	return 'PROPERTY_'.strtoupper($property);
 }
 ?>
