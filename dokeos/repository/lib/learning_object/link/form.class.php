@@ -9,9 +9,9 @@ class LinkForm extends LearningObjectForm
 	{
 		parent :: __construct($formName, $method, $action);
 	}
-	function build_creation_form()
+	function build_creation_form($default_learning_object = null)
 	{
-		parent :: build_creation_form('link', true);
+		parent :: build_creation_form($default_learning_object);
 		$this->add_textfield('url', 'URL',true,'size="50"');
 		$this->add_submit_button();
 	}
@@ -25,7 +25,7 @@ class LinkForm extends LearningObjectForm
 	function setDefaults($defaults = array ())
 	{
 		$lo = $this->get_learning_object();
-		if (isset ($lo))
+		if (isset($lo))
 		{
 			$defaults['url'] = $lo->get_url();
 		}

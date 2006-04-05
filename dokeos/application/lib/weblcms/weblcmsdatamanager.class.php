@@ -141,7 +141,7 @@ abstract class WebLCMSDataManager
 	 */
 	abstract function get_next_learning_object_publication_display_order_index($course,$tool,$category);
 	
-	abstract function retrieve_learning_object_publication_categories($course, $types);
+	abstract function retrieve_learning_object_publication_categories($course, $tools);
 	
 	abstract function retrieve_learning_object_publication_category($id);
 	
