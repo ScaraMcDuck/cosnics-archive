@@ -178,11 +178,12 @@ class WebLCMS extends Application
 		{
 			$parameters = & $this->parameters;
 		}
+		$pairs = array();
 		foreach ($parameters as $name => $value)
 		{
-			$string .= '&'.urlencode($name).'='.urlencode($value);
+			$pairs[] = urlencode($name).'='.urlencode($value);
 		}
-		$url = $_SERVER['PHP_SELF'].'?'.$string;
+		$url = $_SERVER['PHP_SELF'].'?'.join('&', $pairs);
 		if ($encode)
 		{
 			$url = htmlentities($url);

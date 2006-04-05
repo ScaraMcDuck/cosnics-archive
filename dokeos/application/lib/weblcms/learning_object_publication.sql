@@ -7,13 +7,16 @@ CREATE TABLE `%prefix%learning_object_publication` (
   `from_date` int(10) unsigned NOT NULL default '0',
   `to_date` int(10) unsigned NOT NULL default '0',
   `hidden` int(1) unsigned NOT NULL default '0',
+  `publisher` int(10) unsigned NOT NULL default '0',
+  `published` datetime NOT NULL default '0000-00-00 00:00:00',
   `display_order` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `from_date` (`from_date`,`to_date`),
   KEY `hidden` (`hidden`),
   KEY `course` (`course`),
   KEY `category` (`category`),
-  KEY `tool` (`tool`)
+  KEY `tool` (`tool`),
+  KEY `publisher` (`publisher`)
 );
 
 CREATE TABLE `%prefix%learning_object_publication_group` (

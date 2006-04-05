@@ -20,12 +20,17 @@ abstract class LearningObjectPublicationBrowser
 		$this->types = is_array($types) ? $types : array ($types);
 		$this->category = $category;
 		$this->objectTable = new LearningObjectPublicationTable($this);
-		$this->categoryTree = new LearningObjectPublicationCategoryTree($this);
+		$this->categoryTree = new LearningObjectPublicationCategoryTree($this, $category);
 	}
 
 	function set_column_titles()
 	{
 		$this->objectTable->set_column_titles(func_get_args());
+	}
+	
+	function set_header ($column, $label, $sortable = true)
+	{
+		$this->objectTable->set_header($column, $label, $sortable);
 	}
 
 	function as_html()
@@ -66,6 +71,11 @@ abstract class LearningObjectPublicationBrowser
 	function get_url($parameters = array(), $encode = false)
 	{
 		return $this->parent->get_url($parameters, $encode);
+	}
+	
+	function get_parameters ()
+	{
+		return $this->parent->get_parameters();
 	}
 	
 	abstract function get_publications($from, $number_of_items, $column, $direction);

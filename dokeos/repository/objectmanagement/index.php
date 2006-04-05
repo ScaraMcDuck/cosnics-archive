@@ -117,7 +117,7 @@ $create_form->addElement('hidden', 'category',$current_category_id);
 $create_form->addElement('select','type',null,$type_choices);
 $create_form->addElement('submit','submit',get_lang('Create'));
 // Create a navigation menu to browse through the categories
-$menu = new CategoryMenu(api_get_user_id(),$current_category_id);
+create_category_menu();
 // Create a sortable table to display the learning objects
 $table = new SortableTable('objects','get_number_of_objects','get_objects');
 $parameters = array();
@@ -151,7 +151,7 @@ if(isset($_GET['action']))
 			$object->delete();
 			$message = get_lang('ObjectDeleted');
 			// re-initialize the menu
-			$menu = new CategoryMenu(api_get_user_id(),$current_category_id);
+			create_category_menu();
 			break;
 		case 'move':
 			$renderer =& new OptionsMenuRenderer();
@@ -170,7 +170,7 @@ if(isset($_GET['action']))
 				$object->update(false);
 				$message = get_lang('ObjectMoved');
 				// re-initialize the menu
-				$menu = new CategoryMenu(api_get_user_id(),$current_category_id);
+				create_category_menu();
 			}
 			else
 			{
@@ -192,7 +192,7 @@ if(isset($_POST['action']))
 			}
 			$message = get_lang('ObjectsDeleted');
 			// re-initialize the menu
-			$menu = new CategoryMenu(api_get_user_id(),$current_category_id);
+			create_category_menu();
 			break;
 		case 'move_selected':
 			$condition = new EqualityCondition('owner',api_get_user_id());
@@ -224,7 +224,7 @@ if(isset($_POST['action']))
 				$message .= $popup_form->toHtml();
 			}
 			// re-initialize the menu
-			$menu = new CategoryMenu(api_get_user_id(),$current_category_id);
+			create_category_menu();
 			break;
 	}
 }
@@ -261,4 +261,10 @@ echo '<a href="quota.php" style="float:right;"><img src="'.api_get_path(WEB_CODE
 echo '</div>';
 // Display footer
 Display::display_footer();
+
+function create_category_menu ()
+{
+	global $menu, $current_category_id;
+	$menu = new CategoryMenu(api_get_user_id(),$current_category_id,'?category=%s',true);
+}
 ?>
