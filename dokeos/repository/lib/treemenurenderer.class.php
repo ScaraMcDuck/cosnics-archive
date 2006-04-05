@@ -24,12 +24,12 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 		$root = ($level == 0);
 		if ($root)
 		{
-			$this->setLevelTemplate('<ul class="treeMenu">', '</ul>'."\n");
+			$this->setLevelTemplate('<ul class="treeMenu">'."\n", '</ul>'."\n");
 		}
 		parent :: finishLevel($level);
 		if ($root)
 		{
-			$this->setLevelTemplate('<ul>', '</ul>'."\n");
+			$this->setLevelTemplate('<ul>'."\n", '</ul>'."\n");
 		}
 	}
 	/**
