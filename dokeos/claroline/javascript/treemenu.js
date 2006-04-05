@@ -1,8 +1,35 @@
 /**
+ *
+ * Tree Menu script
+ *
  * Turns all UL elements that have "treeMenu" as their class name into nice
  * tree menus.
- * @author Tim De Pauw
+ *
+ * Here's a trivial example:
+ *
+ * <ul class="treeMenu">
+ *   <li>
+ *     <a href="category1.html">Category 1</a>
+ *     <ul>
+ *       <li>
+ *         <a href="category1_1.html">Category 1.1 (empty)</a>
+ *         <ul><li></li></ul>
+ *       </li>
+ *       <li>
+ *         <a href="document1.html">Document 1</a>
+ *       </li>
+ *     </ul>
+ *   </li>
+ *   <li>
+ *     <a href="category2.html">Category 2 (empty)</a>
+ *   </li>
+ * </ul>
+ *
+ * @author Tim De Pauw <ct at xanoo dot com>
+ *
  */
+
+var treeCollapseLevel = 1;
 
 function initTrees ()
 {
@@ -15,12 +42,20 @@ function initTrees ()
 
 function initTree (tree)
 {
-	walkTree(tree);
+	tree.style.visibility = "hidden";
+	var activeNodes = new Array();
+	walkTree(tree, 0, activeNodes);
+	for (var i = 0; i < activeNodes.length; i++)
+	{
+		expandNode(activeNodes[i], true);
+	}
+	tree.style.visibility = "visible";
 }
 
-function walkTree (tree)
+function walkTree (tree, level, activeNodes)
 {
 	var children = filterTextNodes(tree.childNodes);
+	var hasChildren = false;
 	for (var i = 0; i < children.length; i++)
 	{
 		var child = children[i];
@@ -30,43 +65,75 @@ function walkTree (tree)
 			{
 				addClassName(child, "last");
 			}
-			if (isRootFolder(child))
+			if (isRootNode(child))
 			{
 				addClassName(child, "root");
 			}
-			parseNode(child);
+			var validChild = parseNode(child, level + 1, activeNodes);
+			if (validChild)
+			{
+				hasChildren = true;
+			}
+			if (hasClassName(child, "active"))
+			{
+				activeNodes[activeNodes.length] = child;
+			}
+			else if (level >= treeCollapseLevel)
+			{
+				collapseNode(child);
+			}
 		}
 	}
+	return hasChildren;
 }
 
-function parseNode (node)
+function parseNode (node, level, activeNodes)
 {
 	var children = filterTextNodes(node.childNodes);
-	var hasChildren = false;
+	// 0 = leaf, 1 = empty node, 2 = node with children
+	var type = 0;
 	var link;
 	for (var i = 0; i < children.length; i++)
 	{
 		var child = children[i];
 		switch (child.tagName.toLowerCase())
 		{
+			case "a":
+				link = child;
+				break;
 			case "ul":
-				walkTree(child);
-				hasChildren = true;
+				var hasChildren = walkTree(child, level, activeNodes);
+				if (hasChildren)
+				{
+					type = 2;
+				}
+				else
+				{
+					node.removeChild(child);
+					type = 1;
+				}
 				if (isLastNode(node))
 				{
 					addClassName(child, "last");
 				}
 				break;
-			case "a":
-				link = child;
-				break;
 		}
 	}
-	if (!hasChildren)
+	switch (type)
 	{
-		addClassName(node, "leaf");
+		case 0:
+			addClassName(node, "leaf");
+			break;
+		case 1:
+			addClassName(node, "empty");
+			break;
 	}
-	wrapInDiv(link, hasChildren);
+	if (link)
+	{
+		wrapInDiv(link, hasChildren);
+		return true;
+	}
+	return false;
 }
 
 function expandOrCollapse (node)
@@ -81,9 +148,13 @@ function expandOrCollapse (node)
 	}
 }
 
-function expandNode (node)
+function expandNode (node, climbUp)
 {
 	removeClassName(node, "collapsed");
+	if (climbUp && !isRootNode(node))
+	{
+		expandNode(node.parentNode.parentNode, true);
+	}
 }
 
 function collapseNode (node)
@@ -96,7 +167,7 @@ function isCollapsed (node)
 	return hasClassName(node, "collapsed");
 }
 
-function isRootFolder (node)
+function isRootNode (node)
 {
 	return hasClassName(node.parentNode, "treeMenu");
 }
@@ -110,6 +181,14 @@ function wrapInDiv (link, collapsible)
 {
 	var div = document.createElement("div");
 	var copy = link.cloneNode(true);
+	copy.onclick = function (e) {
+		if (!e)
+		{
+			e = window.event;
+		}
+		e.cancelBubble = true;
+		this.blur();
+	};
 	div.appendChild(copy);
 	var parent = link.parentNode;
 	parent.replaceChild(div, link);
@@ -161,7 +240,7 @@ function addClassName (element, className)
 		names[names.length] = className;
 		setClassNames(element, names);
 	}
-	if (needsCssFix(className))
+	if (requiresCssFix(className))
 	{
 		ieCssFix(element);
 	}
@@ -179,7 +258,7 @@ function removeClassName (element, className)
 		}
 	}
 	setClassNames(element, newNames);
-	if (needsCssFix(className))
+	if (requiresCssFix(className))
 	{
 		ieCssFix(element);
 	}
@@ -207,26 +286,30 @@ function setClassNames (element, classNames)
 
 function ieCssFix (element)
 {
-	removeClassName(element, "lastleaf");
-	removeClassName(element, "lastcollapsed");
+	removeClassName(element, "last-empty");
+	removeClassName(element, "last-leaf");
+	removeClassName(element, "last-collapsed");
 	var names = getClassNames(element);
-	if (!arrayContains(names, "last"))
+	if (arrayContains(names, "last"))
 	{
-		return;
-	}
-	if (arrayContains(names, "leaf"))
-	{
-		addClassName(element, "lastleaf");
-	}
-	if (arrayContains(names, "collapsed"))
-	{
-		addClassName(element, "lastcollapsed");
+		if (arrayContains(names, "empty"))
+		{
+			addClassName(element, "last-empty");
+		}
+		else if (arrayContains(names, "leaf"))
+		{
+			addClassName(element, "last-leaf");
+		}
+		else if (arrayContains(names, "collapsed"))
+		{
+			addClassName(element, "last-collapsed");
+		}
 	}
 }
 
-function needsCssFix (className)
+function requiresCssFix (className)
 {
-	return (className == "last" || className == "leaf" || className == "collapsed");
+	return (document.all && (className == "last" || className == "empty" || className == "leaf" || className == "collapsed"));
 }
 
 function arrayContains (haystack, needle)

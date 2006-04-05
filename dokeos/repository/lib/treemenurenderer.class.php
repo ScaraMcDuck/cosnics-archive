@@ -2,34 +2,50 @@
 require_once 'HTML/Menu/DirectTreeRenderer.php';
 
 /**
- * Renderer which can be used to include a tree menu in your page.
+ * Renderer which can be used to include a tree menu on your page.
  */
 class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 {
 	private static $initialized;
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	public function TreeMenuRenderer()
 	{
-		$entryTemplates = array (HTML_MENU_ENTRY_INACTIVE => '<a href="{url}">{title}</a>', HTML_MENU_ENTRY_ACTIVE => '<!--ACTIVE--><a href="{url}">{title}</a>', HTML_MENU_ENTRY_ACTIVEPATH => '<a href="{url}">{title}</a>');
-		parent :: setEntryTemplate($entryTemplates);
-		parent :: setItemTemplate('<li>', '</li>');
+		$entryTemplates = array (HTML_MENU_ENTRY_INACTIVE => '<a href="{url}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVE => '<!--A--><a href="{url}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVEPATH => '<!--P--><a href="{url}" class="{class}">{title}</a>');
+		$this->setEntryTemplate($entryTemplates);
+		$this->setItemTemplate('<li>', '</li>'."\n");
 	}
 	/**
 	 * @see HTML_Menu_DirectTreeRenderer::finishLevel()
 	 */
 	function finishLevel($level)
 	{
-		if ($level == 0)
+		$root = ($level == 0);
+		if ($root)
 		{
-			parent :: setLevelTemplate('<ul class="treeMenu">', '</ul>');
+			$this->setLevelTemplate('<ul class="treeMenu">', '</ul>'."\n");
 		}
 		parent :: finishLevel($level);
-		if ($level == 0)
+		if ($root)
 		{
-			parent :: setLevelTemplate('<ul>', '</ul>');
+			$this->setLevelTemplate('<ul>', '</ul>'."\n");
 		}
+	}
+	/**
+	 * @see HTML_Menu_DirectTreeRenderer::renderEntry()
+	 */
+	function renderEntry($node, $level, $type)
+	{
+		/*
+		 * Make sure there's a 'class' key, so {class} is always replaced in
+		 * the entry template.
+		 */
+		if (!array_key_exists('class', $node))
+		{
+			$node['class'] = '';
+		}
+		parent :: renderEntry($node, $level, $type);
 	}
 	/**
 	 * @see HTML_Menu_DirectTreeRenderer::toHtml()
@@ -37,7 +53,8 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 	function toHtml()
 	{
 		$html = parent :: toHtml();
-		$html = str_replace('<li><!--ACTIVE-->', '<li>', $html);
+		$class = array ('A' => 'active', 'P' => 'active-path');
+		$html = preg_replace('/<li><!--([AP])-->/e', '\'<li class="\'.$class[\1].\'">\'', $html);
 		if (self :: $initialized)
 		{
 			return $html;

@@ -1,14 +1,16 @@
 <?php
 require_once dirname(__FILE__).'/../../../../repository/lib/treemenurenderer.class.php';
 require_once 'HTML/Menu.php';
+
 class LearningObjectPublicationCategoryTree extends HTML_Menu
 {
 	private $browser;
 	
-	function LearningObjectPublicationCategoryTree($browser)
+	function LearningObjectPublicationCategoryTree($browser, $current_category)
 	{
 		$this->browser = $browser; 
 		parent :: __construct($this->get_as_tree($browser->get_categories()));
+		$this->forceCurrentUrl($this->get_category_url($current_category));
 	}
 	
 	function as_html()
@@ -32,11 +34,16 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 			$node = array ();
 			$obj = $oldNode['obj'];
 			$node['title'] = $obj->get_title();
-			$node['url'] = $this->browser->get_url(array('category' => $obj->get_id()));
+			$node['url'] = $this->get_category_url($obj->get_id());
 			$node['sub'] = $this->convert_tree(& $oldNode['sub']);
 			$new_tree[$i ++] = $node;
 		}
-		return (count($new_tree) ? $new_tree : null);
+		return $new_tree;
+	}
+	
+	private function get_category_url ($category_id)
+	{
+		return $this->browser->get_url(array('category' => $category_id));
 	}
 }
 ?>

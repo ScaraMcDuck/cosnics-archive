@@ -7,7 +7,8 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 	function LinkBrowser($parent)
 	{
 		parent :: __construct($parent, 'link', intval($_GET['category']));
-		$this->set_column_titles(get_lang('Title'), get_lang('Description'));
+		$this->set_header(0, get_lang('Title'), false);
+		$this->set_header(1, get_lang('Description'), false);
 	}
 
 	function get_publications($from, $number_of_items, $column, $direction)

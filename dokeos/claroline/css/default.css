@@ -860,20 +860,22 @@ ul.treeMenu li.last div.last
 /*
  * IE doesn't like li.last.collapsed
  */
-ul.treeMenu li.lastcollapsed div.last
+ul.treeMenu li.last.collapsed div.last,
+ul.treeMenu li.last-collapsed div.last
 {
 	background-image: url(../img/treemenu/tree-node-end.gif);
 }
 
-ul.treeMenu li.leaf div
+ul.treeMenu li.leaf div, ul.treeMenu li.empty div
 {
 	background-image: url(../img/treemenu/tree-leaf.gif);
 }
 
 /*
- * IE doesn't like li.leaf.last
+ * IE doesn't like li.last.leaf
  */
-ul.treeMenu li.lastleaf div.last
+ul.treeMenu li.last.leaf div.last, ul.treeMenu li.last.empty div.last,
+ul.treeMenu li.last-leaf div.last, ul.treeMenu li.last-empty div.last
 {
 	background-image: url(../img/treemenu/tree-leaf-end.gif);
 }
@@ -889,9 +891,24 @@ ul.treeMenu li div a
 	overflow: hidden;
 }
 
+ul.treeMenu li.empty div a
+{
+	background-image: url(../img/treemenu/tree-folder.gif);	
+}
+
+ul.treeMenu li.active div a
+{
+	background-image: url(../img/treemenu/tree-folder-open.gif);
+}
+
 ul.treeMenu li.collapsed div a
 {
-	background: url(../img/treemenu/tree-folder.gif) no-repeat;	
+	background-image: url(../img/treemenu/tree-folder.gif);	
+}
+
+ul.treeMenu li.leaf div a
+{
+	background-image: url(../img/treemenu/tree-document.gif);
 }
 
 ul.treeMenu li.collapsed ul
@@ -918,6 +935,14 @@ ul.treeMenu li div
 ul.treeMenu li div a
 {
 	padding-left: 20px;
+}
+
+/*
+ * Tweak: Trash icon.
+ */
+ul.treeMenu li div a.trash
+{
+	background: url(../img/treemenu/trash.gif) no-repeat;	
 }
 
 /* Calendar */
