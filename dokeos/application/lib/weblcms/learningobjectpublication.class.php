@@ -1,6 +1,18 @@
 <?php
 class LearningObjectPublication
 {
+	const PROPERTY_ID = 'id';
+	const PROPERTY_LEARNING_OBJECT_ID = 'learning_object';
+	const PROPERTY_COURSE_ID = 'course';
+	const PROPERTY_TOOL = 'tool';
+	const PROPERTY_CATEGORY_ID = 'category';
+	const PROPERTY_FROM_DATE = 'from_date';
+	const PROPERTY_TO_DATE = 'to_date';
+	const PROPERTY_HIDDEN = 'hidden';
+	const PROPERTY_PUBLISHER_ID = 'publisher';
+	const PROPERTY_PUBLICATION_DATE = 'published';
+	const PROPERTY_DISPLAY_ORDER_INDEX = 'display_order';
+	
 	private $id;
 
 	private $learningObject;
@@ -20,10 +32,14 @@ class LearningObjectPublication
 	private $toDate;
 
 	private $hidden;
+	
+	private $publisher;
+	
+	private $publicationDate;
 
 	private $displayOrder;
 
-	function LearningObjectPublication($id, $learningObject, $course, $tool,$category, $targetUsers, $targetGroups, $fromDate, $toDate, $hidden, $displayOrder)
+	function LearningObjectPublication($id, $learningObject, $course, $tool,$category, $targetUsers, $targetGroups, $fromDate, $toDate, $publisher, $publicationDate, $hidden, $displayOrder)
 	{
 		$this->id = $id;
 		$this->learningObject = $learningObject;
@@ -34,6 +50,8 @@ class LearningObjectPublication
 		$this->targetGroups = $targetGroups;
 		$this->fromDate = $fromDate;
 		$this->toDate = $toDate;
+		$this->publisher = $publisher;
+		$this->publicationDate = $publicationDate;
 		$this->hidden = $hidden;
 		$this->displayOrder = $displayOrder;
 	}
@@ -81,6 +99,16 @@ class LearningObjectPublication
 	function get_to_date()
 	{
 		return $this->toDate;
+	}
+	
+	function get_publisher_id()
+	{
+		return $this->publisher;
+	}
+	
+	function get_publication_date()
+	{
+		return $this->publicationDate;
 	}
 
 	function is_hidden()
@@ -131,6 +159,16 @@ class LearningObjectPublication
 	function set_to_date($toDate)
 	{
 		$this->toDate = $toDate;
+	}
+	
+	function set_publisher_id($publisher)
+	{
+		$this->publisher = $publisher;
+	}
+	
+	function set_publication_date($publicationDate)
+	{
+		$this->publicationDate = $publicationDate;
 	}
 
 	function set_hidden($hidden)

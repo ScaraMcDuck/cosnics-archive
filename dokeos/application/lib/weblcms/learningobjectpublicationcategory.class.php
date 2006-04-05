@@ -8,6 +8,12 @@
  */
 
 class LearningObjectPublicationCategory {
+	const PROPERTY_ID = 'id';
+	const PROPERTY_TITLE = 'title';
+	const PROPERTY_COURSE_ID = 'course';
+	const PROPERTY_TOOL = 'tool';
+	const PROPERTY_PARENT_CATEGORY_ID = 'parent';
+	
 	/**
 	 * The numeric identifier of the category.
 	 */

@@ -18,7 +18,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	function retrieve_learning_object_publication($pid)
 	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name('id').'=?';
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=?';
 		$res = & $this->connection->limitQuery($query, 0, 1, array ($pid));
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $this->record_to_publication($record);
@@ -26,11 +26,11 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1)
 	{
-		$query = 'SELECT p.* FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name('id').'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name('id').'=pu.'.$this->escape_column_name('publication');
+		$query = 'SELECT p.* FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
 		$cond = array ();
 		if (!is_null($course))
 		{
-			$cond[] = new EqualityCondition('course', $course);
+			$cond[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course);
 		}
 		if (!is_null($categories))
 		{
@@ -39,13 +39,13 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 				$cc = array ();
 				foreach ($categories as $cat)
 				{
-					$cc[] = new EqualityCondition('category', $cat);
+					$cc[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $cat);
 				}
 				$cond[] = new OrCondition($cc);
 			}
 			else
 			{
-				$cond[] = new EqualityCondition('category', $categories);
+				$cond[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $categories);
 			}
 		}
 		$accessConditions = array ();
@@ -94,7 +94,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		/*
 		 * Always respect display order as a last resort.
 		 */
-		$orderBy[] = 'display_order';
+		$orderBy[] = LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX;
 		$orderDesc[] = SORT_ASC;
 		/*
 		 * Build query.
@@ -136,15 +136,17 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 	{
 		$id = $this->connection->nextId($this->get_table_name('learning_object_publication'));
 		$props = array ();
-		$props[$this->escape_column_name('id')] = $id;
-		$props[$this->escape_column_name('learning_object')] = $publication->get_learning_object()->get_id();
-		$props[$this->escape_column_name('course')] = $publication->get_course_id();
-		$props[$this->escape_column_name('tool')] = $publication->get_tool();
-		$props[$this->escape_column_name('category')] = $publication->get_category_id();
-		$props[$this->escape_column_name('from_date')] = $publication->get_from_date();
-		$props[$this->escape_column_name('to_date')] = $publication->get_to_date();
-		$props[$this->escape_column_name('hidden')] = $publication->is_hidden();
-		$props[$this->escape_column_name('display_order')] = $publication->get_display_order_index();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID)] = $id;
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID)] = $publication->get_learning_object()->get_id();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID)] = $publication->get_course_id();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL)] = $publication->get_tool();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_CATEGORY_ID)] = $publication->get_category_id();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_FROM_DATE)] = $publication->get_from_date();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_TO_DATE)] = $publication->get_to_date();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLISHER_ID)] = $publication->get_publisher_id();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLICATION_DATE)] = self :: to_db_date($publication->get_publication_date());
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_HIDDEN)] = $publication->is_hidden();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX)] = $publication->get_display_order_index();
 		$this->connection->autoExecute($this->get_table_name('learning_object_publication'), $props, DB_AUTOQUERY_INSERT);
 		$users = $publication->get_target_users();
 		foreach($users as $index => $user_id)
@@ -193,15 +195,17 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 			$this->connection->autoExecute($this->get_table_name('learning_object_publication_group'), $props, DB_AUTOQUERY_INSERT);
 		}
 		// Update publication properties
-		$where = $this->escape_column_name('id').'='.$publication->get_id();
+		$where = $this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'='.$publication->get_id();
 		$props = array();
-		$props[$this->escape_column_name('course')] = $publication->get_course_id();
-		$props[$this->escape_column_name('tool')] = $publication->get_tool();
-		$props[$this->escape_column_name('category')] = $publication->get_category_id();
-		$props[$this->escape_column_name('from_date')] = $publication->get_from_date();
-		$props[$this->escape_column_name('to_date')] = $publication->get_to_date();
-		$props[$this->escape_column_name('hidden')] = $publication->is_hidden();
-		$props[$this->escape_column_name('display_order')] = $publication->get_display_order_index();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID)] = $publication->get_course_id();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL)] = $publication->get_tool();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_CATEGORY_ID)] = $publication->get_category_id();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_FROM_DATE)] = $publication->get_from_date();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_TO_DATE)] = $publication->get_to_date();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLISHER_ID)] = $publication->get_publisher_id();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLICATION_DATE)] = self :: to_db_date($publication->get_publication_date());
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_HIDDEN)] = $publication->is_hidden();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX)] = $publication->get_display_order_index();
 		return $this->connection->autoExecute($this->get_table_name('learning_object_publication'), $props, DB_AUTOQUERY_UPDATE, $where);
 	}
 
@@ -214,28 +218,28 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_group').' WHERE publication = ?';
 		$statement = $this->connection->prepare($query);
 		$this->connection->execute($statement, $parameters);
-		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name('display_order').'='.$this->escape_column_name('display_order').'-1 WHERE '.$this->escape_column_name('display_order').'>?';
+		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'-1 WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'>?';
 		$statement = $this->connection->prepare($query);
 		$this->connection->execute($statement, array($publication->get_display_order_index()));
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication').' WHERE id = ?';
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=?';
 		return $this->connection->limitQuery($query, 0, 1, $parameters);
 	}
 
-	function retrieve_learning_object_publication_categories($course, $types)
+	function retrieve_learning_object_publication_categories($course, $tools)
 	{
-		if (!is_array($types))
+		if (!is_array($tools))
 		{
-			$types = array($types);
+			$tools = array($tools);
 		}
-		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('tool').' IN ('.str_repeat('?,',count($types)-1).'?)';
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_COURSE_ID).'=? AND '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TOOL).' IN ('.str_repeat('?,',count($tools)-1).'?)';
 		$sth = $this->connection->prepare($query);
-		$params = $types;
+		$params = $tools;
 		array_unshift ($params, $course);
 		$res = & $this->connection->execute($sth, $params);
 		$cats = array ();
 		while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$parent = $record['parent'];
+			$parent = $record[LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID];
 			$cat = $this->record_to_publication_category($record);
 			$siblings = & $cats[$parent];
 			$siblings[] = $cat;
@@ -245,7 +249,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	function retrieve_learning_object_publication_category($id)
 	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name('id').'=?';
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'=?';
 		$res = & $this->connection->limitQuery($query, 0, 1, array($id));
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $this->record_to_publication_category($record);
@@ -255,26 +259,26 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 	{
 		$id = $this->connection->nextId($this->get_table_name('learning_object_publication_category'));
 		$props = array();
-		$props['id'] = $id;
-		$props['title'] = $category->get_title();
-		$props['parent'] = $category->get_parent();
-		$props['course'] = $category->get_course();
-		$props['tool'] = $category->get_tool();
+		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID)] = $id;
+		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TITLE)] = $category->get_title();
+		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID)] = $category->get_parent();
+		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_COURSE_ID)] = $category->get_course();
+		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TOOL)] = $category->get_tool();
 		$this->connection->autoExecute($this->get_table_name('learning_object_publication_category'), $props, DB_AUTOQUERY_INSERT);
 		$category->set_id($id);
 	}
 
 	function update_learning_object_publication_category($category)
 	{
-		$where = $this->escape_column_name('id').'='.$category->get_id();
+		$where = $this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'='.$category->get_id();
 		$props = array();
-		$props['title'] = $category->get_title();
-		$props['parent'] = $category->get_parent();
+		$props[LearningObjectPublicationCategory :: PROPERTY_TITLE] = $category->get_title();
+		$props[LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID] = $category->get_parent();
 		/*
 		 * XXX: Will course and tool ever change?
 		 */
-		$props['course'] = $category->get_course();
-		$props['tool'] = $category->get_tool();
+		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_COURSE_ID)] = $category->get_course();
+		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TOOL)] = $category->get_tool();
 		$this->connection->autoExecute($this->get_table_name('learning_object_publication_category'), $props, DB_AUTOQUERY_UPDATE, $where);
 	}
 
@@ -283,7 +287,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		/*
 		 * TODO: Delete child categories and publications.
 		 */
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name('id').'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'=?';
 		$this->connection->limitQuery($query, 0, 1, array($category->get_id()));
 	}
 
@@ -302,10 +306,10 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 	private function move_learning_object_publication_up($publication, $places)
 	{
 		$oldIndex = $publication->get_display_order_index();
-		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name('display_order').'='.$this->escape_column_name('display_order').'+1 WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('tool').'=? AND '.$this->escape_column_name('category').'=? AND '.$this->escape_column_name('display_order').'<? ORDER BY '.$this->escape_column_name('display_order').' DESC';
+		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'+1 WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_CATEGORY_ID).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'<? ORDER BY '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).' DESC';
 		$this->connection->limitQuery($query, 0, $places, array($publication->get_course_id(), $publication->get_tool(), $publication->get_category_id(), $oldIndex));
 		$rowsMoved = $this->connection->affectedRows();
-		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name('display_order').'=? WHERE '.$this->escape_column_name('id').'=?';
+		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'=? WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=?';
 		$this->connection->limitQuery($query, 0, 1, array($oldIndex - $places, $publication->get_id()));
 		return $rowsMoved;
 	}
@@ -313,17 +317,17 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 	private function move_learning_object_publication_down($publication, $places)
 	{
 		$oldIndex = $publication->get_display_order_index();
-		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name('display_order').'='.$this->escape_column_name('display_order').'-1 WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('tool').'=? AND '.$this->escape_column_name('category').'=? AND '.$this->escape_column_name('display_order').'>? ORDER BY '.$this->escape_column_name('display_order').' ASC';
+		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'-1 WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_CATEGORY_ID).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'>? ORDER BY '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).' ASC';
 		$this->connection->limitQuery($query, 0, $places, array($publication->get_course_id(), $publication->get_tool(), $publication->get_category_id(), $oldIndex));
 		$rowsMoved = $this->connection->affectedRows();
-		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name('display_order').'=? WHERE '.$this->escape_column_name('id').'=?';
+		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'=? WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=?';
 		$this->connection->limitQuery($query, 0, 1, array($oldIndex + $places, $publication->get_id()));
 		return $rowsMoved;
 	}
 
 	function get_next_learning_object_publication_display_order_index($course, $tool, $category)
 	{
-		$query = 'SELECT MAX('.$this->escape_column_name('display_order').') AS h FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name('course').'=? AND '.$this->escape_column_name('tool').'=?  AND '.$this->escape_column_name('category').'=?';
+		$query = 'SELECT MAX('.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).') AS h FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_CATEGORY_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		$res = & $this->connection->execute($statement, array ($course, $tool, $category));
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
@@ -351,13 +355,13 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 
 	private static function record_to_publication_category($record)
 	{
-		return new LearningObjectPublicationCategory($record['id'], $record['title'], $record['course'], $record['tool'], $record['parent']);
+		return new LearningObjectPublicationCategory($record[LearningObjectPublicationCategory :: PROPERTY_ID], $record[LearningObjectPublicationCategory :: PROPERTY_TITLE], $record[LearningObjectPublicationCategory :: PROPERTY_COURSE_ID], $record[LearningObjectPublicationCategory :: PROPERTY_TOOL], $record[LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID]);
 	}
 
 	private function record_to_publication($record)
 	{
-		$obj = $this->repoDM->retrieve_learning_object($record['learning_object']);
-		return new LearningObjectPublication($record['id'], $obj, $record['course'], $record['tool'], $record['category'], $record['target_users'], $record['target_groups'], self :: from_db_date($record['from_date']), self :: from_db_date($record['to_date']), $record['hidden'] != 0, $record['display_order']);
+		$obj = $this->repoDM->retrieve_learning_object($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
+		return new LearningObjectPublication($record[LearningObjectPublication :: PROPERTY_ID], $obj, $record[LearningObjectPublication :: PROPERTY_COURSE_ID], $record[LearningObjectPublication :: PROPERTY_TOOL], $record[LearningObjectPublication :: PROPERTY_CATEGORY_ID], $record['target_users'], $record['target_groups'], self :: from_db_date($record[LearningObjectPublication :: PROPERTY_FROM_DATE]), self :: from_db_date($record[LearningObjectPublication :: PROPERTY_TO_DATE]), $record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID], self :: from_db_date($record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE]), $record[LearningObjectPublication :: PROPERTY_HIDDEN] != 0, $record[LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX]);
 	}
 
 	private function translate_condition($condition, & $params)

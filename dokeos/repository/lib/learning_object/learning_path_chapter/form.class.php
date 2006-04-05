@@ -6,9 +6,9 @@ class LearningPathChapterForm extends LearningObjectForm
 	{
 		parent :: __construct($formName, $method, $action);
 	}
-	public function build_creation_form()
+	function build_creation_form($default_learning_object = null)
 	{
-		parent :: build_creation_form();
+		parent :: build_creation_form($default_learning_object);
 		$this->addElement('text', 'display_order', 'Display order');
 		$this->add_submit_button();
 	}

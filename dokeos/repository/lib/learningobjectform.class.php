@@ -23,7 +23,7 @@ abstract class LearningObjectForm extends FormValidator
 	protected $category;
 
 	/**
-	 *
+	 * Whether or not the creation form has been built.
 	 */
 	private $creation_form_built;
 
@@ -40,7 +40,8 @@ abstract class LearningObjectForm extends FormValidator
 	}
 
 	/**
-	 * Returns the learning object.
+	 * Returns the learning object associated with this form.
+	 * @return LearningObject The learning object, or null if none.
 	 */
 	protected function get_learning_object()
 	{

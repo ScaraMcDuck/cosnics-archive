@@ -22,7 +22,7 @@ class LearningObjectPublisher
 	private $parent;
 
 	/**
-	 *
+	 * The default learning objects, which are used for form defaults.
 	 */
 	private $default_learning_objects;
 
@@ -137,22 +137,23 @@ class LearningObjectPublisher
 	}
 
 	/**
-	 * Set a default learning object. When the creator module of this publisher
-	 * is displayed, the properties of the given learning object will be used as
-	 * the default form values.
-	 * @param string $type
-	 * @param LearningObject $learning_object
+	 * Sets a default learning object. When the creator component of this
+	 * publisher is displayed, the properties of the given learning object will
+	 * be used as the default form values.
+	 * @param string $type The learning object type.
+	 * @param LearningObject $learning_object The learning object to use as the
+	 *                                        default for the given type.
 	 */
-	function set_default_learning_object($type,$learning_object)
+	function set_default_learning_object($type, $learning_object)
 	{
 		$this->default_learning_objects[$type] = $learning_object;
 	}
 
 	/**
-	 * Retrieve the default learning object of which the properties can be used
+	 * Returns the default learning object, of which the properties can be used
 	 * as default form values.
-	 * @param string $type
-	 * @return mixed The LearningObject if available, else null
+	 * @param string $type The learning object type.
+	 * @return LearningObject The object, or null if it is unavailable.
 	 */
 	function get_default_learning_object($type)
 	{

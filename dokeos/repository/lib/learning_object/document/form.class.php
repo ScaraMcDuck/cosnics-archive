@@ -19,9 +19,9 @@ class DocumentForm extends LearningObjectForm
 	/**
 	 * Build a form to create a document
 	 */
-	public function build_creation_form()
+	function build_creation_form($default_learning_object = null)
 	{
-		parent :: build_creation_form();
+		parent :: build_creation_form($default_learning_object);
 		$this->addElement('upload_or_create','upload_or_create');
 		$this->addFormRule(array($this,'check_document_form'));
 		//TODO: add Rule to check if a HTML-content was filled in when the 'create' option was selected
