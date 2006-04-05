@@ -1,39 +1,44 @@
 <?php
-require_once dirname(__FILE__) . '/../../learningobject.class.php';
+require_once dirname(__FILE__).'/../../learningobject.class.php';
 /**
  * @package learningobject.document
  */
-class Document extends LearningObject {
-	function get_path ()
+class Document extends LearningObject
+{
+	const PROPERTY_PATH = 'path';
+	const PROPERTY_FILENAME = 'filename';
+	const PROPERTY_FILESIZE = 'filesize';
+
+	function get_path()
 	{
-		return $this->get_additional_property('path');
+		return $this->get_additional_property(self :: PROPERTY_PATH);
 	}
-	function set_path ($path)
+	function set_path($path)
 	{
-		return $this->set_additional_property('path', $path);
+		return $this->set_additional_property(self :: PROPERTY_PATH, $path);
 	}
-	function get_filename ()
+	function get_filename()
 	{
-		return $this->get_additional_property('filename');
+		return $this->get_additional_property(self :: PROPERTY_FILENAME);
 	}
-	function set_filename ($filename)
+	function set_filename($filename)
 	{
-		return $this->set_additional_property('filename', $filename);
+		return $this->set_additional_property(self :: PROPERTY_FILENAME, $filename);
 	}
-	function get_filesize ()
+	function get_filesize()
 	{
-		return $this->get_additional_property('filesize');
+		return $this->get_additional_property(self :: PROPERTY_FILESIZE);
 	}
-	function set_filesize ($filesize)
+	function set_filesize($filesize)
 	{
-		return $this->set_additional_property('filesize', $filesize);
+		return $this->set_additional_property(self :: PROPERTY_FILESIZE, $filesize);
 	}
 	function delete()
 	{
-		$path = Configuration::get_instance()->get_parameter('general', 'upload_path');
+		$path = Configuration :: get_instance()->get_parameter('general', 'upload_path');
 		$path = $path.'/'.$this->get_path();
 		unlink($path);
-		parent::delete();
+		parent :: delete();
 	}
 	static function get_disk_space_properties()
 	{

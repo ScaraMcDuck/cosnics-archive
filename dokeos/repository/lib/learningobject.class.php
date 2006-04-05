@@ -24,6 +24,11 @@ require_once dirname(__FILE__).'/repositorydatamanager.class.php';
  *	particular type of learning object, e.g. the path to a document. This
  *	class provides a framework for that purpose.
  *
+ * To access the values of the properties, this class and its subclasses
+ * should provide accessor methods. The names of the properties should be
+ * defined as class constants, for standardization purposes. It is recommended
+ * that the names of these constants start with the string "PROPERTY_".
+ *
  *	To create your own type of learning object, you should follow these steps:
  *	- Decide on a name for the type, e.g. "MyType".
  *	- Create a new subdirectory in /repository/lib/learning_object. For
@@ -53,10 +58,13 @@ require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 
 class LearningObject
 {
-	/**
-	 * Names of default properties of any learning object.
-	 */
-	static $DEFAULT_PROPERTIES = array ('owner', 'title', 'description', 'parent', 'created', 'modified');
+	const PROPERTY_ID = 'id';
+	const PROPERTY_OWNER_ID = 'owner';
+	const PROPERTY_TITLE = 'title';
+	const PROPERTY_DESCRIPTION = 'description';
+	const PROPERTY_PARENT_ID = 'parent';
+	const PROPERTY_CREATION_DATE = 'created';
+	const PROPERTY_MODIFICATION_DATE = 'modified';
 
 	/**
 	 * Numeric identifier of the learning object.
@@ -107,7 +115,7 @@ class LearningObject
 	 */
 	function get_type()
 	{
-		return RepositoryDataManager::class_to_type(get_class($this));
+		return RepositoryDataManager :: class_to_type(get_class($this));
 	}
 
 	/**
@@ -116,7 +124,7 @@ class LearningObject
 	 */
 	function get_owner_id()
 	{
-		return $this->get_default_property('owner');
+		return $this->get_default_property(self :: PROPERTY_OWNER_ID);
 	}
 
 	/**
@@ -125,7 +133,7 @@ class LearningObject
 	 */
 	function get_title()
 	{
-		return $this->get_default_property('title');
+		return $this->get_default_property(self :: PROPERTY_TITLE);
 	}
 
 	/**
@@ -134,7 +142,7 @@ class LearningObject
 	 */
 	function get_description()
 	{
-		return $this->get_default_property('description');
+		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
 	}
 
 	/**
@@ -144,7 +152,7 @@ class LearningObject
 	 */
 	function get_parent_id()
 	{
-		return $this->get_default_property('parent');
+		return $this->get_default_property(self :: PROPERTY_PARENT_ID);
 	}
 
 	/**
@@ -154,7 +162,7 @@ class LearningObject
 	 */
 	function get_creation_date()
 	{
-		return $this->get_default_property('created');
+		return $this->get_default_property(self :: PROPERTY_CREATION_DATE);
 	}
 
 	/**
@@ -164,7 +172,7 @@ class LearningObject
 	 */
 	function get_modification_date()
 	{
-		return $this->get_default_property('modified');
+		return $this->get_default_property(self :: PROPERTY_MODIFICATION_DATE);
 	}
 
 	/**
@@ -182,7 +190,7 @@ class LearningObject
 	 */
 	function set_owner_id($owner)
 	{
-		$this->set_default_property('owner', $owner);
+		$this->set_default_property(self :: PROPERTY_OWNER_ID, $owner);
 	}
 
 	/**
@@ -191,7 +199,7 @@ class LearningObject
 	 */
 	function set_title($title)
 	{
-		$this->set_default_property('title', $title);
+		$this->set_default_property(self :: PROPERTY_TITLE, $title);
 	}
 
 	/**
@@ -200,7 +208,7 @@ class LearningObject
 	 */
 	function set_description($description)
 	{
-		$this->set_default_property('description', $description);
+		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
 	}
 
 	/**
@@ -209,7 +217,7 @@ class LearningObject
 	 */
 	function set_parent_id($parent)
 	{
-		$this->set_default_property('parent', $parent);
+		$this->set_default_property(self :: PROPERTY_PARENT_ID, $parent);
 	}
 
 	/**
@@ -218,7 +226,7 @@ class LearningObject
 	 */
 	function set_creation_date($created)
 	{
-		$this->set_default_property('created', $created);
+		$this->set_default_property(self :: PROPERTY_CREATION_DATE, $created);
 	}
 
 	/**
@@ -227,7 +235,7 @@ class LearningObject
 	 */
 	function set_modification_date($modified)
 	{
-		$this->set_default_property('modified', $modified);
+		$this->set_default_property(self :: PROPERTY_MODIFICATION_DATE, $modified);
 	}
 
 	/**
@@ -327,7 +335,8 @@ class LearningObject
 	 */
 	function update($trueUpdate = true)
 	{
-		if ($trueUpdate) {
+		if ($trueUpdate)
+		{
 			$this->set_modification_date(time());
 		}
 		return RepositoryDataManager :: get_instance()->update_learning_object($this);
@@ -348,10 +357,19 @@ class LearningObject
 	}
 
 	/**
+	 * Get the default properties of all learning objects.
+	 * @return array The property names.
+	 */
+	static function get_default_property_names()
+	{
+		return array (self :: PROPERTY_OWNER_ID, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE);
+	}
+
+	/**
 	 * Get all properties of this type of learning object that should be taken
-	 * into account to calculate the used diskspace
-	 * @return mixed The return value can be a string or an array of strings or
-	 * null.
+	 * into account to calculate the used disk space.
+	 * @return mixed The property names. Either a string, an array of strings,
+	 *               or null if no properties affect disk quota.
 	 */
 	static function get_disk_space_properties()
 	{

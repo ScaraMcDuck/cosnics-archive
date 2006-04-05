@@ -334,7 +334,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	private function record_to_learning_object($record)
 	{
 		$defaultProp = array ();
-		foreach (LearningObject :: $DEFAULT_PROPERTIES as $prop)
+		foreach (LearningObject :: get_default_property_names() as $prop)
 		{
 			$defaultProp[$prop] = $record[$prop];
 		}
