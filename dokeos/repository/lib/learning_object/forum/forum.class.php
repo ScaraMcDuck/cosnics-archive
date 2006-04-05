@@ -9,7 +9,6 @@ class Forum extends LearningObject
 	const PROPERTY_POSTS = 'posts';
 	const PROPERTY_LAST_POST_ID = 'last_post_id';
 	const PROPERTY_CAT_ID = 'cat_id';
-	const PROPERTY_FORUM_TYPE = 'forum_type';
 	
 	function get_topics () {
 		return $this->get_additional_property(self :: PROPERTY_TOPICS);
@@ -34,12 +33,6 @@ class Forum extends LearningObject
 	}
 	function set_cat_id ($cat_id) {
 		return $this->set_additional_property(self :: PROPERTY_CAT_ID, $cat_id);
-	}
-	function get_forum_type () {
-		return $this->get_additional_property(self :: PROPERTY_FORUM_TYPE);
-	}
-	function set_forum_type ($forum_type) {
-		return $this->set_additional_property(self :: PROPERTY_FORUM_TYPE, $forum_type);
 	}
 }
 ?>
