@@ -104,5 +104,13 @@ abstract class LearningObjectPublisherComponent
 	{
 		return $this->parent->get_categories($list);
 	}
+
+	/**
+	 * @see LearningObjectPublisher::get_default_learning_object()
+	 */
+	function get_default_learning_object($type)
+	{
+		return $this->parent->get_default_learning_object($type);
+	}
 }
 ?>

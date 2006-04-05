@@ -10,10 +10,11 @@ class CalendarEventForm extends LearningObjectForm
     {
     	parent :: LearningObjectForm($formName, $method, $action);
     }
-    public function build_creation_form()
+    public function build_creation_form($default_learning_object = null)
     {
-    	parent :: build_creation_form();
+    	parent :: build_creation_form($default_learning_object);
     	$this->add_timewindow('start', 'end', get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
+    	$this->setDefaults();
     	$this->add_submit_button();
     }
     public function build_editing_form($object)

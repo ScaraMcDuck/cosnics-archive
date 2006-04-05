@@ -23,16 +23,22 @@ abstract class LearningObjectForm extends FormValidator
 	protected $category;
 
 	/**
+	 *
+	 */
+	private $creation_form_built;
+
+	/**
 	 * Constructor.
-	 * @param string $formName The name to use in the form tag.
+	 * @param  string $formName The name to use in the form tag.
 	 * @param string $method The method to use ('post' or 'get').
 	 * @param string $action The URL to which the form should be submitted.
 	 */
 	protected function LearningObjectForm($formName, $method = 'post', $action = null)
 	{
 		parent :: FormValidator($formName, $method, $action);
+		$this->creation_form_built = false;
 	}
-	
+
 	/**
 	 * Returns the learning object.
 	 */
@@ -40,17 +46,21 @@ abstract class LearningObjectForm extends FormValidator
 	{
 		return $this->learningObject;
 	}
-	
+
 	/**
 	 * Builds a form to create a new learning object. Traditionally, you will
 	 * extend this method so it adds fields for your learning object type's
 	 * additional properties, and then calls the add_submit_button() method.
+	 * @param LearningObject $default_learning_object The properties of this
+	 * learning object will be used as default values in the form
 	 */
-	protected function build_creation_form()
+	protected function build_creation_form($default_learning_object = null)
 	{
+		$this->learningObject = $default_learning_object;
 		$this->build_basic_form();
+		$this->creation_form_built = true;
 	}
-	
+
 	/**
 	 * Builds a form to edit a learning object. Traditionally, you will extend
 	 * this method so it adds fields for your learning object type's
@@ -64,8 +74,9 @@ abstract class LearningObjectForm extends FormValidator
 		$this->category = $this->learningObject->get_parent_id();
 		$this->build_basic_form();
 		$this->addElement('hidden', 'id');
+		$this->creation_form_built = false;
 	}
-	
+
 	/**
 	 * Builds a form to create or edit a learning object. Creates fields for
 	 * default learning object properties. The return value of this function
@@ -76,7 +87,7 @@ abstract class LearningObjectForm extends FormValidator
 	{
 		$this->addElement('text', 'title', get_lang('Title'));
 		$this->addRule('title', get_lang('ThisFieldIsRequired'), 'required');
-		$select = & $this->addElement('select', 'category', get_lang('Category'), $this->get_categories());
+		$select = & $this->addElement('select', 'category', get_lang('Category'),$this->get_categories());
 		if (isset ($this->category))
 		{
 			$select->setSelected($this->category);
@@ -84,7 +95,7 @@ abstract class LearningObjectForm extends FormValidator
 		$this->addRule('category', get_lang('ThisFieldIsRequired'), 'required');
 		$this->add_html_editor('description', get_lang('Description'));
 	}
-	
+
 	/**
 	 * Adds a submit button to the form.
 	 */
@@ -92,7 +103,7 @@ abstract class LearningObjectForm extends FormValidator
 	{
 		$this->addElement('submit', 'submit', get_lang('Ok'));
 	}
-	
+
 	/**
 	 * Sets default values. Traditionally, you will want to extend this method
 	 * so it sets default for your learning object type's additional
@@ -109,7 +120,7 @@ abstract class LearningObjectForm extends FormValidator
 		}
 		parent :: setDefaults($defaults);
 	}
-	
+
 	/**
 	 * Gets the categories defined in the user's repository.
 	 * @return array The categories.
@@ -132,7 +143,7 @@ abstract class LearningObjectForm extends FormValidator
 		}
 		return $category_choices;
 	}
-	
+
 	/**
 	 * Sets the default category.
 	 * @param int $category The category ID.
@@ -141,19 +152,19 @@ abstract class LearningObjectForm extends FormValidator
 	{
 		$this->category = $category;
 	}
-	
+
 	/**
 	 * Creates a learning object from the submitted form values.
 	 * @param int $owner The user ID of the owner of the learning object.
 	 */
 	abstract function create_learning_object($owner);
-	
+
 	/**
 	 * Updates a learning object with the submitted form values.
 	 * @param LearningObject $learning_object The object to update.
 	 */
 	abstract function update_learning_object(& $learning_object);
-	
+
 	/**
 	 * Creates a form object to manage a learning object.
 	 * @param string $type The type of the learning object.
@@ -166,6 +177,19 @@ abstract class LearningObjectForm extends FormValidator
 		$class = RepositoryDataManager :: type_to_class($type).'Form';
 		require_once (dirname(__FILE__).'/learning_object/'.$type.'/form.class.php');
 		return new $class ($formName, $method, $action);
+	}
+
+	public function display()
+	{
+		$quotamanager = new QuotaManager(api_get_user_id());
+		if($this->creation_form_built && $quotamanager->get_available_database_space() <= 0)
+		{
+			Display::display_error_message(get_lang('DatabaseQuotaExceeded'));
+		}
+		else
+		{
+			parent::display();
+		}
 	}
 }
 ?>

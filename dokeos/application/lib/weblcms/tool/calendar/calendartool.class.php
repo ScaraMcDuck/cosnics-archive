@@ -1,7 +1,13 @@
 <?php
+require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object/calendar_event/calendar_event.class.php';
 require_once dirname(__FILE__).'/../repositorytool.class.php';
 /**
  * This tool allows a user to publish events in his or her course.
+ * There are 4 calendar views available:
+ * - list view (chronological list of events)
+ * - month view
+ * - week view
+ * - day view
  */
 class CalendarTool extends RepositoryTool
 {
@@ -19,6 +25,10 @@ class CalendarTool extends RepositoryTool
 			echo '<p>Go to <a href="' . $this->get_url(array('calendaradmin' => 0), true) . '">User Mode</a> &hellip;</p>';
 			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
 			$pub = new LearningObjectPublisher($this, 'calendar_event');
+			$event = new CalendarEvent();
+			$event->set_start_date(intval($_GET['default_start_date']));
+			$event->set_end_date(intval($_GET['default_end_date']));
+			$pub->set_default_learning_object('calendar_event',$event);
 			echo $pub->as_html();
 		}
 		else
@@ -33,7 +43,7 @@ class CalendarTool extends RepositoryTool
 		}
 	}
 	/**
-	 * Display the list of announcements
+	 * Display the calendar
 	 */
 	function display()
 	{
@@ -92,7 +102,9 @@ class CalendarTool extends RepositoryTool
 		{
 			do
 			{
-				$cell_contents = date('d',$table_date);
+				$params = array('default_start_date' => $table_date,'default_end_date' => $table_date,'publish_action' => 'publicationcreator','calendaradmin' => '1');
+				$add_url = $this->get_url($params);
+				$cell_contents = '<a href="'.$add_url.'">'.date('d',$table_date).'</a>';
 				$publications = $this->get_calendar_events($table_date,strtotime('+1 Day',$table_date));
 				foreach($publications as $index => $publication)
 				{
@@ -135,6 +147,14 @@ class CalendarTool extends RepositoryTool
 		{
 			$cell_content = $hour.'u - '.($hour+4).'u';
 			$calendar_table->setCellContents($hour/4+1,0,$cell_content);
+			for($column = 1; $column <= 7; $column++)
+			{
+				$day = strtotime('+'.($column-1).' day',$first_day);
+				$default_start_date = mktime($hour,0,0,date('m',$day),date('d',$day),date('Y',$day));
+				$params = array('default_start_date' => $default_start_date,'default_end_date' => strtotime('+'.(date('H',$default_start_date)+4).' hours',$default_start_date),'publish_action' => 'publicationcreator','calendaradmin' => '1');
+				$add_url = $this->get_url($params);
+				$calendar_table->setCellContents($hour/4+1,$column,'<div style="text-align:right;"><a href="'.$add_url.'">+</a></div>');
+			}
 		}
 		$dates[] = '';
 		$today = date('Y-m-d');
@@ -181,7 +201,11 @@ class CalendarTool extends RepositoryTool
 		$calendar_table = new HTML_Table(array ('class' => 'calendar'));
 		for($hour = 0; $hour < 24; $hour += 2)
 		{
-			$calendar_table->setCellContents($hour/2,0,$hour.'u - '.($hour+2).'u');
+			$default_start_date = mktime($hour,0,0,date('m',$time),date('d',$time),date('Y',$time));
+			$params = array('default_start_date' => $default_start_date,'default_end_date' => strtotime('+'.(date('H',$default_start_date)+2).' hours',$default_start_date),'publish_action' => 'publicationcreator','calendaradmin' => '1');
+			$add_url = $this->get_url($params);
+			$cell_contents = '<a href="'.$add_url.'">'.$hour.'u - '.($hour+2).'u'.'</a>';
+			$calendar_table->setCellContents($hour/2,0,$cell_contents);
 
 		}
 		$from_time = mktime(0,0,0,date('m',$time),date('d',$time),date('Y',$time));
@@ -284,7 +308,8 @@ class CalendarTool extends RepositoryTool
 		{
 			$event = $publication->get_learning_object();
 			$start_date = $event->get_start_date();
-			if($from_time <= $start_date && $start_date <= $to_time)
+			$end_date = $event->get_end_date();
+			if($from_time <= $start_date && $start_date <= $to_time || $from_time <= $end_date && $end_date <= $to_time || $start_date <= $from_time && $to_time <= $end_date)
 			{
 				$events[] = $publication;
 			}

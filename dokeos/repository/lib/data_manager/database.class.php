@@ -46,7 +46,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// Inherited.
 	function determine_learning_object_type($id)
 	{
-		$res = & $this->connection->limitQuery('SELECT '.$this->escape_column_name('type').' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name('id').'=?', 0, 1, array ($id));
+		$res = & $this->connection->limitQuery('SELECT '.$this->escape_column_name('type').' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?', 0, 1, array ($id));
 		$record = $res->fetchRow(DB_FETCHMODE_ORDERED);
 		return $record[0];
 	}
@@ -60,11 +60,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		if ($this->is_extended_type($type))
 		{
-			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS t1'.' JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name('id').'=t2.'.$this->escape_column_name('id').' WHERE t1.'.$this->escape_column_name('id').'=?';
+			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS t1'.' JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=t2.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' WHERE t1.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
 		}
 		else
 		{
-			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name('id').'=?';
+			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
 		}
 		$res = & $this->connection->limitQuery($query, 0, 1, array ($id));
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
@@ -79,12 +79,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			if ($this->is_extended_type($type))
 			{
-				$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS t1 JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name('id').' = t2.'.$this->escape_column_name('id');
+				$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS t1 JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' = t2.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
 			}
 			else
 			{
 				$query = 'SELECT * FROM '.$this->escape_table_name('learning_object');
-				$match = new EqualityCondition('type', $type);
+				$match = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
 				$conditions = isset ($conditions) ? new AndCondition(array ($match, $conditions)) : $match;
 			}
 		}
@@ -136,9 +136,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			 */
 			while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				if ($this->is_extended_type($record['type']))
+				if ($this->is_extended_type($record[LearningObject :: PROPERTY_TYPE]))
 				{
-					$objects[] = $this->retrieve_learning_object($record['id'], $record['type']);
+					$objects[] = $this->retrieve_learning_object($record[LearningObject :: PROPERTY_ID], $record[LearningObject :: PROPERTY_TYPE]);
 				}
 				else
 				{
@@ -157,18 +157,18 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			if ($this->is_extended_type($type))
 			{
-				$query = 'SELECT COUNT(t1.'.$this->escape_column_name('id').') FROM '.$this->escape_table_name('learning_object').' AS t1 JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name('id').' = t2.'.$this->escape_column_name('id');
+				$query = 'SELECT COUNT(t1.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object').' AS t1 JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' = t2.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
 			}
 			else
 			{
-				$query = 'SELECT COUNT('.$this->escape_column_name('id').') FROM '.$this->escape_table_name('learning_object');
-				$match = new EqualityCondition('type', $type);
+				$query = 'SELECT COUNT('.$this->escape_column_name(LearningObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object');
+				$match = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
 				$conditions = isset ($conditions) ? new AndCondition(array ($match, $conditions)) : $match;
 			}
 		}
 		else
 		{
-			$query = 'SELECT COUNT('.$this->escape_column_name('id').') FROM '.$this->escape_table_name('learning_object');
+			$query = 'SELECT COUNT('.$this->escape_column_name(LearningObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object');
 		}
 		$params = array ();
 		if (isset ($conditions))
@@ -186,15 +186,15 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		$id = $this->connection->nextId($this->get_table_name('learning_object'));
 		$props = $object->get_default_properties();
-		$props['id'] = $id;
-		$props['type'] = $object->get_type();
-		$props['created'] = self :: to_db_date($props['created']);
-		$props['modified'] = self :: to_db_date($props['modified']);
+		$props[LearningObject :: PROPERTY_ID] = $id;
+		$props[LearningObject :: PROPERTY_TYPE] = $object->get_type();
+		$props[LearningObject :: PROPERTY_CREATION_DATE] = self :: to_db_date($props[LearningObject :: PROPERTY_CREATION_DATE]);
+		$props[LearningObject :: PROPERTY_MODIFICATION_DATE] = self :: to_db_date($props[LearningObject :: PROPERTY_MODIFICATION_DATE]);
 		$this->connection->autoExecute($this->get_table_name('learning_object'), $props, DB_AUTOQUERY_INSERT);
 		if ($object->is_extended())
 		{
 			$props = $object->get_additional_properties();
-			$props['id'] = $id;
+			$props[LearningObject :: PROPERTY_ID] = $id;
 			$this->connection->autoExecute($this->get_table_name($object->get_type()), $props, DB_AUTOQUERY_INSERT);
 		}
 		$object->set_id($id);
@@ -204,10 +204,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// Inherited.
 	function update_learning_object($object)
 	{
-		$where = $this->escape_column_name('id').'='.$object->get_id();
+		$where = $this->escape_column_name(LearningObject :: PROPERTY_ID).'='.$object->get_id();
 		$props = $object->get_default_properties();
-		$props['created'] = self :: to_db_date($props['created']);
-		$props['modified'] = self :: to_db_date($props['modified']);
+		$props[LearningObject :: PROPERTY_CREATION_DATE] = self :: to_db_date($props[LearningObject :: PROPERTY_CREATION_DATE]);
+		$props[LearningObject :: PROPERTY_MODIFICATION_DATE] = self :: to_db_date($props[LearningObject :: PROPERTY_MODIFICATION_DATE]);
 		$this->connection->autoExecute($this->get_table_name('learning_object'), $props, DB_AUTOQUERY_UPDATE, $where);
 		if ($object->is_extended())
 		{
@@ -219,7 +219,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// TODO: Don't delete objects which are in use somewhere in an application
 	function delete_learning_object($object)
 	{
-		$condition = new EqualityCondition('parent', $object->get_id());
+		$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $object->get_id());
 		$children = $this->retrieve_learning_objects(null, $condition);
 		$children_deleted = true;
 		foreach ($children as $index => $child)
@@ -229,11 +229,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		if ($children_deleted)
 		{
-			$query = 'DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name('id').'=?';
+			$query = 'DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
 			$this->connection->limitQuery($query, 0, 1, array ($object->get_id()));
 			if ($object->is_extended())
 			{
-				$query = 'DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name('id').'=?';
+				$query = 'DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
 				$this->connection->limitQuery($query, 0, 1, array ($object->get_id()));
 			}
 			return true;
@@ -338,10 +338,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$defaultProp[$prop] = $record[$prop];
 		}
-		$defaultProp['created'] = self :: from_db_date($defaultProp['created']);
-		$defaultProp['modified'] = self :: from_db_date($defaultProp['modified']);
+		$defaultProp[LearningObject :: PROPERTY_CREATION_DATE] = self :: from_db_date($defaultProp[LearningObject :: PROPERTY_CREATION_DATE]);
+		$defaultProp[LearningObject :: PROPERTY_MODIFICATION_DATE] = self :: from_db_date($defaultProp[LearningObject :: PROPERTY_MODIFICATION_DATE]);
 		$additionalProp = array ();
-		$properties = $this->get_additional_properties($record['type']);
+		$properties = $this->get_additional_properties($record[LearningObject :: PROPERTY_TYPE]);
 		if (count($properties) > 0)
 		{
 			foreach ($properties as $prop)
@@ -349,7 +349,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 				$additionalProp[$prop] = $record[$prop];
 			}
 		}
-		return $this->factory($record['type'], $record['id'], $defaultProp, $additionalProp);
+		return $this->factory($record[LearningObject :: PROPERTY_TYPE], $record[LearningObject :: PROPERTY_ID], $defaultProp, $additionalProp);
 	}
 
 	/**
@@ -528,18 +528,15 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 	}
 
-	public static function is_date_column($name)
+	static function is_date_column($name)
 	{
-		return ($name == 'created' || $name == 'modified');
+		return ($name == LearningObject :: PROPERTY_CREATION_DATE || $name == LearningObject :: PROPERTY_MODIFICATION_DATE);
 	}
-
-	/**
-	 * Get the disk space used by the given owner.
-	 * @return int The number of bytes
-	 */
-	public function get_used_disk_space($owner)
+	
+	// Inherited.
+	function get_used_disk_space($owner)
 	{
-		$condition_owner = new EqualityCondition('owner', $owner);
+		$condition_owner = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $owner);
 		$types = $this->get_registered_types();
 		foreach ($types as $index => $type)
 		{
@@ -556,17 +553,17 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$sum = array ();
 			foreach ($properties as $index => $property)
 			{
-				$sum[] = 'SUM('.$property.')';
+				$sum[] = 'SUM('.$this->escape_column_name($property).')';
 			}
 			if ($this->is_extended_type($type))
 			{
-				$query = 'SELECT '.implode('+', $sum).' AS disk_space FROM '.$this->escape_table_name('learning_object').' AS t1 JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name('id').' = t2.'.$this->escape_column_name('id');
+				$query = 'SELECT '.implode('+', $sum).' AS disk_space FROM '.$this->escape_table_name('learning_object').' AS t1 JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' = t2.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
 				$condition = $condition_owner;
 			}
 			else
 			{
 				$query = 'SELECT '.implode('+', $sum).' AS disk_space FROM '.$this->escape_table_name('learning_object');
-				$match = new EqualityCondition('type', $type);
+				$match = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
 				$condition = new AndCondition(array ($match, $condition_owner));
 			}
 			$params = array ();
