@@ -20,8 +20,8 @@ if( !api_get_user_id())
 function get_condition()
 {
 	global $current_category_id;
-	$condition1 = new EqualityCondition('owner',api_get_user_id());
-	$condition2 = new EqualityCondition('parent',$current_category_id);
+	$condition1 = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID,api_get_user_id());
+	$condition2 = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID,$current_category_id);
 	$condition = new AndCondition($condition1,$condition2);
 	if (isset ($_GET['keyword']))
 	{
@@ -195,7 +195,7 @@ if(isset($_POST['action']))
 			create_category_menu();
 			break;
 		case 'move_selected':
-			$condition = new EqualityCondition('owner',api_get_user_id());
+			$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID,api_get_user_id());
 			$renderer =& new OptionsMenuRenderer();
 			$menu->render($renderer,'sitemap');
 			$category_choices = $renderer->toArray('id',$_POST['id']);

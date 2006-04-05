@@ -23,7 +23,7 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 
 	protected function get_condition()
 	{
-		return new EqualityCondition('owner', $this->get_user_id());
+		return new EqualityCondition(LearningObject :: PROPERTY_OWNER, $this->get_user_id());
 	}
 
 	function get_object_count()
@@ -35,7 +35,7 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 			$c = array ();
 			foreach ($types as $t)
 			{
-				$c[] = new EqualityCondition('type', $t);
+				$c[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $t);
 			}
 			$c = new OrCondition($c);
 			$cond = (is_null($cond) ? $c : new AndCondition($cond, $c));
@@ -57,7 +57,7 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 			$c = array ();
 			foreach ($types as $t)
 			{
-				$c[] = new EqualityCondition('type', $t);
+				$c[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $t);
 			}
 			$c = new OrCondition($c);
 			$cond = (is_null($cond) ? $c : new AndCondition($cond, $c));

@@ -1,6 +1,7 @@
 <?php
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
+require_once dirname(__FILE__).'/../../repository/lib/learningobject.class.php';
 require_once dirname(__FILE__).'/../../repository/lib/condition/equalitycondition.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through his
@@ -43,7 +44,7 @@ class CategoryMenu extends HTML_Menu
 	 */
 	private function get_menu_items($include_trash)
 	{
-		$condition = new EqualityCondition('owner', $this->owner);
+		$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->owner);
 		$datamanager = RepositoryDataManager :: get_instance();
 		$objects = $datamanager->retrieve_learning_objects('category', $condition);
 		$categories = array ();

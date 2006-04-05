@@ -104,11 +104,11 @@ class AnnouncementTool extends RepositoryTool
 	function get_announcement_publications()
 	{
 		$datamanager = WebLCMSDataManager :: get_instance();
-		$tool_condition = new EqualityCondition('tool','announcement');
-		$from_date_condition = new InequalityCondition('from_date',InequalityCondition::LESS_THAN_OR_EQUAL,time());
-		$to_date_condition = new InequalityCondition('to_date',InequalityCondition::GREATER_THAN_OR_EQUAL,time());
+		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'announcement');
+		$from_date_condition = new InequalityCondition(LearningObjectPublication :: PROPERTY_FROM_DATE,InequalityCondition::LESS_THAN_OR_EQUAL,time());
+		$to_date_condition = new InequalityCondition(LearningObjectPublication :: PROPERTY_TO_DATE,InequalityCondition::GREATER_THAN_OR_EQUAL,time());
 		$publication_period_cond = new AndCondition($from_date_condition,$to_date_condition);
-		$forever_condition = new EqualityCondition('from_date',0);
+		$forever_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_FROM_DATE,0);
 		$time_condition = new OrCondition($publication_period_cond,$forever_condition);
 		$condition = new AndCondition($tool_condition,$time_condition);
 		$announcement_publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups(),$condition);

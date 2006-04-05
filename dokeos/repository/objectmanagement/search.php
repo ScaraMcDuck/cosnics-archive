@@ -22,17 +22,17 @@ if(!isset($_GET['action']))
  */
 function get_condition()
 {
-	$cond_owner = new EqualityCondition('owner',api_get_user_id());
+	$cond_owner = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID,api_get_user_id());
 	if (isset ($_GET['action']))
 	{
 		switch($_GET['action'])
 		{
 			case 'advanced_search':
-				$cond_title = RepositoryUtilities::query_to_condition($_GET['title'],'title');
-				$cond_description = RepositoryUtilities::query_to_condition($_GET['description'],'description');
+				$cond_title = RepositoryUtilities::query_to_condition($_GET['title'],LearningObject :: PROPERTY_TITLE);
+				$cond_description = RepositoryUtilities::query_to_condition($_GET['description'], LearningObject :: PROPERTY_DESCRIPTION);
 				foreach($_GET['type'] as $index => $type)
 				{
-					$cond_type[] = new EqualityCondition('type',$type);
+					$cond_type[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE,$type);
 				}
 				$search_conditions = array();
 				if( !is_null($cond_title))

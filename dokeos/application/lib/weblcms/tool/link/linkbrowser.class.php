@@ -39,12 +39,12 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 	{
 		// TODO: Share sensible default condition with other tools.
 		$time = time();
-		$tool_cond = new EqualityCondition('tool','link');
-		$shown_cond = new EqualityCondition('hidden', 0);
-		$date_from_zero = new EqualityCondition('from_date', 0);
-		$date_to_zero = new EqualityCondition('to_date', 0);
-		$date_from_passed = new InequalityCondition('from_date', InequalityCondition :: LESS_THAN, $time);
-		$date_to_coming = new InequalityCondition('to_date', InequalityCondition :: GREATER_THAN, $time);
+		$tool_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'link');
+		$shown_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_HIDDEN, 0);
+		$date_from_zero = new EqualityCondition(LearningObjectPublication :: PROPERTY_FROM_DATE, 0);
+		$date_to_zero = new EqualityCondition(LearningObjectPublication :: PROPERTY_TO_DATE, 0);
+		$date_from_passed = new InequalityCondition(LearningObjectPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN, $time);
+		$date_to_coming = new InequalityCondition(LearningObjectPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN, $time);
 		$date1 = new OrCondition($date_from_zero, $date_from_passed);
 		$date2 = new OrCondition($date_to_zero, $date_to_coming);
 		$date_cond = new AndCondition($date1, $date2);

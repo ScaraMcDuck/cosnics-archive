@@ -185,15 +185,23 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function create_learning_object($object)
 	{
 		$id = $this->connection->nextId($this->get_table_name('learning_object'));
-		$props = $object->get_default_properties();
+		$props = array();
+		foreach ($object->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
 		$props[$this->escape_column_name(LearningObject :: PROPERTY_ID)] = $id;
 		$props[$this->escape_column_name(LearningObject :: PROPERTY_TYPE)] = $object->get_type();
-		$props[$this->escape_column_name(LearningObject :: PROPERTY_CREATION_DATE)] = self :: to_db_date($props[LearningObject :: PROPERTY_CREATION_DATE]);
-		$props[$this->escape_column_name(LearningObject :: PROPERTY_MODIFICATION_DATE)] = self :: to_db_date($props[LearningObject :: PROPERTY_MODIFICATION_DATE]);
+		$props[$this->escape_column_name(LearningObject :: PROPERTY_CREATION_DATE)] = self :: to_db_date($object->get_creation_date());
+		$props[$this->escape_column_name(LearningObject :: PROPERTY_MODIFICATION_DATE)] = self :: to_db_date($object->get_modification_date());
 		$this->connection->autoExecute($this->get_table_name('learning_object'), $props, DB_AUTOQUERY_INSERT);
 		if ($object->is_extended())
 		{
-			$props = $object->get_additional_properties();
+			$props = array();
+			foreach ($object->get_additional_properties() as $key => $value)
+			{
+				$props[$this->escape_column_name($key)] = $value;
+			}
 			$props[$this->escape_column_name(LearningObject :: PROPERTY_ID)] = $id;
 			$this->connection->autoExecute($this->get_table_name($object->get_type()), $props, DB_AUTOQUERY_INSERT);
 		}
@@ -205,13 +213,22 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function update_learning_object($object)
 	{
 		$where = $this->escape_column_name(LearningObject :: PROPERTY_ID).'='.$object->get_id();
-		$props = $object->get_default_properties();
-		$props[$this->escape_column_name(LearningObject :: PROPERTY_CREATION_DATE)] = self :: to_db_date($props[LearningObject :: PROPERTY_CREATION_DATE]);
-		$props[$this->escape_column_name(LearningObject :: PROPERTY_MODIFICATION_DATE)] = self :: to_db_date($props[LearningObject :: PROPERTY_MODIFICATION_DATE]);
+		$props = array();
+		foreach ($object->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$props[$this->escape_column_name(LearningObject :: PROPERTY_CREATION_DATE)] = self :: to_db_date($object->get_creation_date());
+		$props[$this->escape_column_name(LearningObject :: PROPERTY_MODIFICATION_DATE)] = self :: to_db_date($object->get_modification_date());
 		$this->connection->autoExecute($this->get_table_name('learning_object'), $props, DB_AUTOQUERY_UPDATE, $where);
 		if ($object->is_extended())
 		{
-			$this->connection->autoExecute($this->get_table_name($object->get_type()), $object->get_additional_properties(), DB_AUTOQUERY_UPDATE, $where);
+			$props = array();
+			foreach ($object->get_additional_properties() as $key => $value)
+			{
+				$props[$this->escape_column_name($key)] = $value;
+			}
+			$this->connection->autoExecute($this->get_table_name($object->get_type()), $props, DB_AUTOQUERY_UPDATE, $where);
 		}
 	}
 

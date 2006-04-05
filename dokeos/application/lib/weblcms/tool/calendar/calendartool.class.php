@@ -327,7 +327,7 @@ class CalendarTool extends RepositoryTool
 			return $this->publications;
 		}
 		$datamanager = WebLCMSDataManager :: get_instance();
-		$condition = new EqualityCondition('tool','calendar');
+		$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'calendar');
 		$this->publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups(),$condition);
 		return $this->publications;
 	}

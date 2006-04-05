@@ -20,11 +20,11 @@ $dataManager = RepositoryDataManager :: get_instance();
 $type = 'link';
 $condition = new AndCondition(array (
 	new OrCondition(array (
-		new EqualityCondition('owner', 1),
-		new EqualityCondition('owner', 2)
+		new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, 1),
+		new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, 2)
 	)), 
-	new PatternMatchCondition('title', '*x?'),
-	new PatternMatchCondition('description', '*yv*')
+	new PatternMatchCondition(LearningObject :: PROPERTY_TITLE, '*x?'),
+	new PatternMatchCondition(LearningObject :: PROPERTY_DESCRIPTION, '*yv*')
 ));
 $count = $dataManager->count_learning_objects($type, $condition);
 ?>
@@ -37,7 +37,7 @@ $objects = $dataManager->retrieve_learning_objects(
 	$type,
 	$condition,
 	// ORDER BY $col
-	array ('title'),
+	array (LearningObject :: PROPERTY_TITLE),
 	// DESC
 	array (SORT_DESC),
 	// First
@@ -58,9 +58,9 @@ foreach ($objects as $o)
 <?php
 $type = null;
 $condition = new AndCondition(array (
-	new EqualityCondition('owner', 1),
-	new PatternMatchCondition('title', '*xy*'),
-	new PatternMatchCondition('description', '*a*')
+	new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, 1),
+	new PatternMatchCondition(LearningObject :: PROPERTY_TITLE, '*xy*'),
+	new PatternMatchCondition(LearningObject :: PROPERTY_DESCRIPTION, '*a*')
 ));
 $count = $dataManager->count_learning_objects($type, $condition);
 ?>
@@ -72,7 +72,7 @@ $started = microtime(true);
 $objects = $dataManager->retrieve_learning_objects(
 	$type,
 	$condition,
-	array ('title'),
+	array (LearningObject :: PROPERTY_TITLE),
 	array (SORT_ASC),
 	0,
 	10);

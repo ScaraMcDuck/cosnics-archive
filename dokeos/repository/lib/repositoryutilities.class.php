@@ -49,7 +49,7 @@ class RepositoryUtilities
 	 *                          string instead of an array.
 	 * @return Condition The condition. 
 	 */
-	static function query_to_condition($query,$properties = array('title','description'))
+	static function query_to_condition($query,$properties = array(LearningObject :: PROPERTY_TITLE, LearningObject :: PROPERTY_DESCRIPTION))
 	{
 		if(!is_array($properties))
 		{
