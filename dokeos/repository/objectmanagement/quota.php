@@ -14,10 +14,30 @@ if( !api_get_user_id())
 function get_bar($percent)
 {
 	$html = '<blockquote>';
-	$html .= '<img src="'.api_get_path(WEB_CODE_PATH).'/img/bar_1m.gif" height="12"/>';
-	$html .= '<img src="'.api_get_path(WEB_CODE_PATH).'/img/bar_1u.gif" width="'.(2*$percent).'" height="12"/>';
-	$html .= '<img src="'.api_get_path(WEB_CODE_PATH).'/img/bar_1r.gif" width="'.(2*(100-$percent)).'" height="12"/>';
-	$html .= '<img src="'.api_get_path(WEB_CODE_PATH).'/img/bar_1.gif" height="12"/>';
+	//$html .= '<img src="'.api_get_path(WEB_CODE_PATH).'/img/bar_1m.gif" height="12"/>';
+	for($i = 0; $i< 100; $i++)
+	{
+		if($i > $percent)
+		{
+			$color = '#EEEEEE';
+		}
+		elseif($i >= 90)
+		{
+			$color = '#FF0000';
+		}
+		elseif($i >= 80)
+		{
+			$color = '#FFBE0F';
+		}
+		else
+		{
+			$color =  '#51CF33';
+		}
+		$html .= '<span style="background-color:'.$color.';margin-right:1px;">&nbsp;</span>';
+	}
+	//$html .= '<img src="'.api_get_path(WEB_CODE_PATH).'/img/bar_1u.gif" width="'.(2*$percent).'" height="12"/>';
+	//$html .= '<img src="'.api_get_path(WEB_CODE_PATH).'/img/bar_1r.gif" width="'.(2*(100-$percent)).'" height="12"/>';
+	//$html .= '<img src="'.api_get_path(WEB_CODE_PATH).'/img/bar_1.gif" height="12"/>';
 	$html .= ' '.$percent.' %';
 	$html .= '</blockquote>';
 	return $html;

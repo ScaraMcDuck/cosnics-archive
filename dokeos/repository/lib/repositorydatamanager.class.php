@@ -93,8 +93,8 @@ abstract class RepositoryDataManager
 	 */
 	function retrieve_root_category($owner)
 	{
-		$condition1 = new EqualityCondition('owner', $owner);
-		$condition2 = new EqualityCondition('parent', 0);
+		$condition1 = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $owner);
+		$condition2 = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, 0);
 		$condition = new AndCondition($condition1, $condition2);
 		$object = $this->retrieve_learning_objects('category', $condition, null, null, 0, 1);
 		return $object[0];
@@ -307,9 +307,10 @@ abstract class RepositoryDataManager
 	}
 
 	/**
-	 * Get the disk space used by the given owner.
-	 * @return int The number of bytes
+	 * Gets the disk space consumed by the given user.
+	 * @param int $user The user ID.
+	 * @return int The number of bytes used.
 	 */
-	abstract function get_used_disk_space($owner);
+	abstract function get_used_disk_space($user);
 }
 ?>

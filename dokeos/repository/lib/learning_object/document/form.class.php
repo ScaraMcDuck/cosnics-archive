@@ -1,5 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../learningobjectform.class.php';
+require_once dirname(__FILE__).'/../../../../claroline/inc/lib/formvalidator/Rule/DiskQuota.php';
+
 define('HTML_DOCUMENT','1');
 define('MAIN_UPLOAD_DIR',Configuration::get_instance()->get_parameter('general', 'upload_path'));
 /**
@@ -20,13 +22,11 @@ class DocumentForm extends LearningObjectForm
 	public function build_creation_form()
 	{
 		parent :: build_creation_form();
-		$this->setDefaults();
-		$this->addElement('upload_or_create','');
-		//TODO: add Rule to check if diskquota doesn't exceed when creating a HTML-document
-		//TODO: add Rule to check if diskquota doesn't exceed when uploading a document
-		//TODO: add Rule to check if a file was actually uploaded when the 'upload' option was selected
+		$this->addElement('upload_or_create','upload_or_create');
+		$this->addFormRule(array($this,'check_document_form'));
 		//TODO: add Rule to check if a HTML-content was filled in when the 'create' option was selected
 		$this->add_submit_button();
+		$this->setDefaults();
 	}
 	/**
 	 * Build a form to edit a document
@@ -44,6 +44,7 @@ class DocumentForm extends LearningObjectForm
 		else
 		{
 			$this->addElement('file', 'file', get_lang('FileName'));
+			$this->addRule('file',get_lang('DiskQuotaExceeded'),'disk_quota');
 			//TODO: add Rule to check if diskquota doesn't exceed when uploading a document
 		}
 		$this->setDefaults();
@@ -73,7 +74,6 @@ class DocumentForm extends LearningObjectForm
 			$filename = $values['title'].'.html';
 			$filename = $this->create_unique_filename(api_get_user_id(),$filename);
 			$path = api_get_user_id().'/'.$filename;
-			$this->check_file();
 			$create_file = fopen(MAIN_UPLOAD_DIR.'/'.$path, 'w');
 			fwrite ($create_file, $values['html_content']);
 			fclose($create_file);
@@ -159,6 +159,47 @@ class DocumentForm extends LearningObjectForm
 			$new_filename = array_shift($file_parts).($index++).'.'.implode($file_parts);
 		}
 		return $new_filename;
+	}
+	/**
+	 *
+	 */
+	public function check_document_form($fields)
+	{
+		$errors = array();
+		if($fields['choice'] == 0)
+		{
+			// Upload document
+			if( isset($_FILES['file']) && strlen($_FILES['file']['name']) > 0)
+			{
+				if(!HTML_QuickForm_Rule_DiskQuota::validate($_FILES['file']))
+				{
+					$errors['upload_or_create'] = get_lang('DiskQuotaExceeded');
+				}
+			}
+			else
+			{
+				$errors['upload_or_create'] = get_lang('NoFileSelected');
+			}
+		}
+		else
+		{
+			// Create a HTML-document
+			$tmpfname = tempnam ('','');
+			$handle = fopen($tmpfname, "w");
+			fwrite($handle, "writing to tempfile");
+			fclose($handle);
+			$file['size'] = filesize($tmpfname);
+			if(!HTML_QuickForm_Rule_DiskQuota::validate($file))
+			{
+				$errors['upload_or_create'] = get_lang('DiskQuotaExceeded');
+			}
+			unlink($tmpfname);
+		}
+		if(count($errors) == 0)
+		{
+			return true;
+		}
+		return $errors;
 	}
 }
 ?>

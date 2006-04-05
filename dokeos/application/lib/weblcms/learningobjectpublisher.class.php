@@ -22,6 +22,11 @@ class LearningObjectPublisher
 	private $parent;
 
 	/**
+	 *
+	 */
+	private $default_learning_objects;
+
+	/**
 	 * Constructor.
 	 * @param RepositoryTool $parent The tool that is creating this object.
 	 * @param array $types The learning object types that may be published.
@@ -29,6 +34,7 @@ class LearningObjectPublisher
 	function LearningObjectPublisher($parent, $types)
 	{
 		$this->parent = $parent;
+		$this->default_learning_objects = array();
 		$this->types = (is_array($types) ? $types : array ($types));
 		$parent->set_parameter('publish_action', $this->get_action());
 	}
@@ -63,7 +69,7 @@ class LearningObjectPublisher
 	{
 		return $this->parent;
 	}
-	
+
 	/**
 	 * @see RepositoryTool::get_user_id()
 	 */
@@ -83,12 +89,12 @@ class LearningObjectPublisher
 	/**
 	 * Returns the types of learning object that this object may publish.
 	 * @return array The types.
-	 */ 
+	 */
 	function get_types()
 	{
 		return $this->types;
 	}
-	
+
 	/**
 	 * Returns the action that the user selected, or "browser" if none.
 	 * @return string The action.
@@ -97,7 +103,7 @@ class LearningObjectPublisher
 	{
 		return ($_GET['publish_action'] ? $_GET['publish_action'] : 'browser');
 	}
-	
+
 	/**
 	 * @see RepositoryTool::get_url()
 	 */
@@ -105,7 +111,7 @@ class LearningObjectPublisher
 	{
 		return $this->parent->get_url($parameters, $encode);
 	}
-	
+
 	/**
 	 * @see RepositoryTool::get_parameters()
 	 */
@@ -113,7 +119,7 @@ class LearningObjectPublisher
 	{
 		return $this->parent->get_parameters();
 	}
-	
+
 	/**
 	 * @see RepositoryTool::set_parameter()
 	 */
@@ -121,13 +127,40 @@ class LearningObjectPublisher
 	{
 		$this->parent->set_parameter($name, $value);
 	}
-	
+
 	/**
 	 * @see RepositoryTool::get_categories()
 	 */
 	function get_categories($list = false)
 	{
 		return $this->parent->get_categories($list);
+	}
+
+	/**
+	 * Set a default learning object. When the creator module of this publisher
+	 * is displayed, the properties of the given learning object will be used as
+	 * the default form values.
+	 * @param string $type
+	 * @param LearningObject $learning_object
+	 */
+	function set_default_learning_object($type,$learning_object)
+	{
+		$this->default_learning_objects[$type] = $learning_object;
+	}
+
+	/**
+	 * Retrieve the default learning object of which the properties can be used
+	 * as default form values.
+	 * @param string $type
+	 * @return mixed The LearningObject if available, else null
+	 */
+	function get_default_learning_object($type)
+	{
+		if(isset($this->default_learning_objects[$type]))
+		{
+			return $this->default_learning_objects[$type];
+		}
+		return null;
 	}
 }
 ?>

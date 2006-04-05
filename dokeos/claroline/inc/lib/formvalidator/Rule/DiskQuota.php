@@ -31,7 +31,7 @@ class HTML_QuickForm_Rule_DiskQuota extends HTML_QuickForm_Rule
 	/**
 	 * Function to check if an uploaded file can be stored in the repository
 	 * @see HTML_QuickForm_Rule
-	 * @param string $file Uploaded file
+	 * @param mixed $file Uploaded file (array)
 	 * @return boolean True if the filesize doesn't cause a disk quota overflow
 	 */
 	function validate($file)

@@ -54,7 +54,7 @@ class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
 	{
 		$this->_elements[] = new HTML_QuickForm_Radio('choice', '', get_lang('Upload'), '0', array ('onclick' => 'javascript:editor_hide(\'editor_html_content\')'));
 		$this->_elements[0]->setChecked(true);
-		$this->_elements[] = new HTML_QuickForm_file('file','',get_lang('File'));
+		$this->_elements[] = new HTML_QuickForm_file('file','');
 		$this->_elements[] = new HTML_QuickForm_Radio('choice', '', get_lang('Create'), '1', array ('onclick' => 'javascript:editor_show(\'editor_html_content\')'));
 		$this->_elements[] = new HTML_QuickForm_html_editor('html_content','');
 	}

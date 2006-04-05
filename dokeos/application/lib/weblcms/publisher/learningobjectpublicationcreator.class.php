@@ -61,7 +61,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 	private function get_creation_form($type)
 	{
 		$form = LearningObjectForm :: factory($type, 'create', 'post', $this->get_url());
-		$form->build_creation_form($type);
+		$form->build_creation_form($this->get_default_learning_object($type));
 		$form->addElement('hidden', 'type');
 		$form->setDefaults(array ('type' => $type));
 		if ($form->validate())

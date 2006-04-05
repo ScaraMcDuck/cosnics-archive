@@ -193,8 +193,9 @@ EOT;
 	 */
 	function add_forever_or_timewindow()
 	{
-		$this->addElement('radio','forever',get_lang('PublicationPeriod'),get_lang('Forever'),1,array ('onclick' => 'javascript:timewindow_hide(\'forever_timewindow\')'));
-		$this->addElement('radio','forever','',get_lang('LimitedPeriod'),0,array ('onclick' => 'javascript:timewindow_show(\'forever_timewindow\')'));
+		$choices[] = $this->createElement('radio','forever','',get_lang('Forever'),1,array ('onclick' => 'javascript:timewindow_hide(\'forever_timewindow\')'));
+		$choices[] = $this->createElement('radio','forever','',get_lang('LimitedPeriod'),0,array ('onclick' => 'javascript:timewindow_show(\'forever_timewindow\')'));
+		$this->addGroup($choices,null,get_lang('PublicationPeriod'),'<br />',false);
 		$this->addElement('html','<div style="margin-left:25px;display:block;" id="forever_timewindow">');
 		$this->add_timewindow('from_date','to_date','','');
 		$this->addElement('html','</div>');

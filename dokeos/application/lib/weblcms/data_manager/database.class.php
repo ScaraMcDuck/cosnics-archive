@@ -155,7 +155,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 			$this->connection->autoExecute($this->get_table_name('learning_object_publication_user'), $props, DB_AUTOQUERY_INSERT);
 		}
 		$groups = $publication->get_target_groups();
-		foreach($users as $index => $group_id)
+		foreach($groups as $index => $group_id)
 		{
 			$props = array();
 			$props[$this->escape_column_name('publication')] = $id;
@@ -250,7 +250,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $this->record_to_publication_category($record);
 	}
-	
+
 	function create_learning_object_publication_category($category)
 	{
 		$id = $this->connection->nextId($this->get_table_name('learning_object_publication_category'));
@@ -263,7 +263,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$this->connection->autoExecute($this->get_table_name('learning_object_publication_category'), $props, DB_AUTOQUERY_INSERT);
 		$category->set_id($id);
 	}
-	
+
 	function update_learning_object_publication_category($category)
 	{
 		$where = $this->escape_column_name('id').'='.$category->get_id();
@@ -272,12 +272,12 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$props['parent'] = $category->get_parent();
 		/*
 		 * XXX: Will course and tool ever change?
-		 */ 
+		 */
 		$props['course'] = $category->get_course();
 		$props['tool'] = $category->get_tool();
-		$this->connection->autoExecute($this->get_table_name('learning_object_publication_category'), $props, DB_AUTOQUERY_UPDATE, $where);		
+		$this->connection->autoExecute($this->get_table_name('learning_object_publication_category'), $props, DB_AUTOQUERY_UPDATE, $where);
 	}
-	
+
 	function delete_learning_object_publication_category($category)
 	{
 		/*

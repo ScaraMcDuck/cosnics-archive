@@ -65,6 +65,21 @@ class AnnouncementTool extends RepositoryTool
 			}
 			$visibility_img = ($announcement_publication->is_hidden() ? 'invisible.gif' : 'visible.gif');
 
+			$users = $announcement_publication->get_target_users();
+			$groups = $announcement_publication->get_target_groups();
+			$target_list = array();
+			$target_list[] = '<select>';
+			foreach($users as $index => $user)
+			{
+				$target_list[] = '<option>'.$user.'</option>';
+			}
+			foreach($groups as $index => $group)
+			{
+				$target_list[] = '<option>'.$group.'</option>';
+			}
+			$target_list[] = '</select>';
+			$target_list = implode("\n",$target_list);
+
 			$html = array();
 			$html[] = '<div class="learning_object">';
 			$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$announcement->get_type().'.gif" alt="'.$announcement->get_type().'"/></div>';
@@ -76,6 +91,7 @@ class AnnouncementTool extends RepositoryTool
 			$html[] = $up_link;
 			$html[] = $down_link;
 			$html[] = '</div>';
+			$html[] = $target_list;
 			$html[] = '</div>';
 			$html[] = '<br /><br />';
 			echo implode("\n",$html);

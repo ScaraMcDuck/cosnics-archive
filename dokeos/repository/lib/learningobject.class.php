@@ -59,6 +59,7 @@ require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 class LearningObject
 {
 	const PROPERTY_ID = 'id';
+	const PROPERTY_TYPE = 'type';
 	const PROPERTY_OWNER_ID = 'owner';
 	const PROPERTY_TITLE = 'title';
 	const PROPERTY_DESCRIPTION = 'description';
