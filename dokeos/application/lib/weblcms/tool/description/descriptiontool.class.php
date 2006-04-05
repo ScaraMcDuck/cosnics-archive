@@ -87,7 +87,7 @@ class DescriptionTool extends RepositoryTool
 	function get_publications()
 	{
 		$datamanager = WebLCMSDataManager :: get_instance();
-		$condition = new EqualityCondition('tool','description');
+		$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'description');
 		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups(),$condition);
 		return $publications;
 	}
