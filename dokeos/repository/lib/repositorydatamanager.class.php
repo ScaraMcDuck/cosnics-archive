@@ -201,16 +201,17 @@ abstract class RepositoryDataManager
 	/**
 	 * Updates the given learning object in persistent storage.
 	 * @param LearningObject $object The learning object.
+	 * @return boolean True if the update succceeded, false otherwise.
 	 */
 	abstract function update_learning_object($object);
 
 	/**
 	 * Deletes the given learning object from persistent storage.
 	 * @param LearningObject $object The learning object.
-	 * @return boolean True if the given object was succesfully deleted,
-	 * false if the object couldn't be deleted; deletion fails when
-	 * the object is used somewhere in an application or if one of its
-	 * children is in use.
+	 * @return boolean True if the given object was succesfully deleted, false
+	 *                 otherwise. Deletion fails when the object is used
+	 *                 somewhere in an application or if one of its children
+	 *                 is in use.
 	 */
 	abstract function delete_learning_object($object);
 

@@ -1,26 +1,23 @@
 <?php
 require_once dirname(__FILE__) . '/../../learningobjectform.class.php';
 require_once dirname(__FILE__) . '/../../repositoryutilities.class.php';
+require_once dirname(__FILE__) . '/calendar_event.class.php';
 /**
  * @package learningobject.calendarevent
  */
 class CalendarEventForm extends LearningObjectForm
 {
-    public function CalendarEventForm($formName, $method='post', $action=null)
-    {
-    	parent :: LearningObjectForm($formName, $method, $action);
-    }
     public function build_creation_form($default_learning_object = null)
     {
     	parent :: build_creation_form($default_learning_object);
-    	$this->add_timewindow('start', 'end', get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
+    	$this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
     	$this->setDefaults();
     	$this->add_submit_button();
     }
     public function build_editing_form($object)
     {
 		parent :: build_editing_form($object);
-    	$this->add_timewindow('start', 'end', get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
+    	$this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
 		$this->setDefaults();
 		$this->add_submit_button();
 	}
@@ -29,34 +26,25 @@ class CalendarEventForm extends LearningObjectForm
 		$lo = $this->get_learning_object();
 		if (isset ($lo))
 		{
-			$defaults['start'] = $lo->get_start_date();
-			$defaults['end'] = $lo->get_end_date();
+			$defaults[CalendarEvent :: PROPERTY_START_DATE] = $lo->get_start_date();
+			$defaults[CalendarEvent :: PROPERTY_END_DATE] = $lo->get_end_date();
 		}
 		parent :: setDefaults($defaults);
 	}
-	public function create_learning_object($owner)
+	
+	function create_learning_object($owner)
 	{
-		$values = $this->exportValues();
-		$dataManager = RepositoryDataManager::get_instance();
-		$calendarEvent = new CalendarEvent();
-		$calendarEvent->set_owner_id($owner);
-		$calendarEvent->set_title($values['title']);
-		$calendarEvent->set_description($values['description']);
-		$calendarEvent->set_parent_id($values['category']);
-		$calendarEvent->set_start_date(RepositoryUtilities :: time_from_datepicker($values['start']));
-		$calendarEvent->set_end_date(RepositoryUtilities :: time_from_datepicker($values['end']));
-		$calendarEvent->create();
-		return $calendarEvent;
+		$object = new CalendarEvent();
+		$object->set_start_date($this->exportValue(RepositoryUtilities :: time_from_datepicker(CalendarEvent :: PROPERTY_START_DATE)));
+		$object->set_end_date($this->exportValue(RepositoryUtilities :: time_from_datepicker(CalendarEvent :: PROPERTY_END_DATE)));
+		$this->set_learning_object($object);
+		parent :: create_learning_object($owner);
 	}
-	public function update_learning_object(& $object)
+	function update_learning_object(& $object)
 	{
-		$values = $this->exportValues();
-		$object->set_title($values['title']);
-		$object->set_description($values['description']);
-		$object->set_parent_id($values['category']);
-		$object->set_start_date(RepositoryUtilities :: time_from_datepicker($values['start']));
-		$object->set_end_date(RepositoryUtilities :: time_from_datepicker($values['end']));
-		$object->update();
+		$object->set_start_date($this->exportValue(RepositoryUtilities :: time_from_datepicker(CalendarEvent :: PROPERTY_START_DATE)));
+		$object->set_end_date($this->exportValue(RepositoryUtilities :: time_from_datepicker(CalendarEvent :: PROPERTY_END_DATE)));
+		return parent :: update_learning_object(& $object);
 	}
 }
 ?>

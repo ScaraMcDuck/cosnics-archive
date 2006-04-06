@@ -350,6 +350,54 @@ class LearningObject
 	{
 		return RepositoryDataManager :: get_instance()->delete_learning_object($this);
 	}
+	
+	/**
+	 * Retrieves this learning object's ancestors.
+	 * @return array The ancestors, all learning objects.
+	 */
+	function get_ancestors()
+	{
+		$ancestors = array();
+		$aid = $this->get_parent_id();
+		while ($aid > 0)
+		{
+			$ancestor = RepositoryDataManager :: get_instance()->retrieve_learning_object($aid);
+			$ancestors[] = $ancestor;
+			$aid = $ancestor->get_parent_id();
+		}
+		return $ancestors;
+	}
+	
+	/**
+	 * Checks if the given ID is the ID of one of this learning object's
+	 * ancestors.
+	 * @return boolean True if the ID belongs to an ancestor, false otherwise.
+	 */
+	function has_ancestor($ancestor)
+	{
+		$aid = $this->get_parent_id();
+		while ($aid > 0)
+		{
+			if ($aid == $ancestor)
+			{
+				return true;
+			}
+			$ancestor = RepositoryDataManager :: get_instance()->retrieve_learning_object($aid);
+			$aid = $ancestor->get_parent_id();
+		}
+		return false;
+	}
+	
+	/**
+	 * Determines whether this learning object may be moved to the learning
+	 * object with the given ID.
+	 * @param int $target The ID of the target learning object.
+	 * @return boolean True if the move is allowed, false otherwise.
+	 */
+	function move_allowed($target)
+	{
+		return false;
+	}
 
 	// XXX: Keep this around? Override? Make useful?
 	function __tostring()
