@@ -38,7 +38,7 @@ abstract class LearningObjectDisplay
 	{
 		$type = $object->get_type();
 		$class = RepositoryDataManager :: type_to_class($type).'Display';
-		require_once(dirname(__FILE__).'/learning_object/'.strtolower($type).'/display.class.php');
+		require_once dirname(__FILE__).'/learning_object/'.strtolower($type).'/display.class.php';
 		return new $class($object);
 	}
 }

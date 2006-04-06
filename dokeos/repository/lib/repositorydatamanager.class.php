@@ -115,6 +115,10 @@ abstract class RepositoryDataManager
 	 */
 	protected function factory($type, $id, $defaultProperties, $additionalProperties)
 	{
+		if (!$this->is_registered_type($type))
+		{
+			die('Learning object type \''.$type.'\' not registered');
+		}
 		$class = self :: type_to_class($type);
 		return new $class ($id, $defaultProperties, $additionalProperties);
 	}
@@ -274,6 +278,11 @@ abstract class RepositoryDataManager
 			die('Type already registered: '.$type);
 		}
 		$this->typeProperties[$type] = $additionalProperties;
+	}
+	
+	private function is_registered_type($type)
+	{
+		return array_key_exists($type, $this->typeProperties);
 	}
 
 	/**
