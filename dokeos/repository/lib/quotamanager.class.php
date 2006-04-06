@@ -1,5 +1,5 @@
 <?php
-require_once 'repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 /**
 ==============================================================================
  * This class provides some functionality to manage user quotas. There are two

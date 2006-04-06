@@ -1,8 +1,10 @@
 <?php
+// TODO: Share learning object table display code between index.php and search.php. 
+
 $langFile = 'admin';
-require_once '../../claroline/inc/claro_init_global.inc.php';
+require_once dirname(__FILE__).'/../../claroline/inc/claro_init_global.inc.php';
 require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
-require_once '../lib/categorymenu.class.php';
+require_once dirname(__FILE__).'/../lib/categorymenu.class.php';
 require_once api_get_library_path().'/fileDisplay.lib.php';
 require_once api_get_library_path().'/text.lib.php';
 require_once dirname(__FILE__).'/../lib/repositoryutilities.class.php';
