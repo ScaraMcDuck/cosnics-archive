@@ -1,22 +1,19 @@
 <?php
-require_once dirname(__FILE__) . '/../../learningobjectform.class.php';
+require_once dirname(__FILE__).'/../../learningobjectform.class.php';
+require_once dirname(__FILE__).'/learning_path_chapter.class.php';
 class LearningPathChapterForm extends LearningObjectForm
 {
-	public function LearningPathChapterForm($formName, $method = 'post', $action = null)
-	{
-		parent :: __construct($formName, $method, $action);
-	}
 	function build_creation_form($default_learning_object = null)
 	{
 		parent :: build_creation_form($default_learning_object);
-		$this->addElement('text', 'display_order', 'Display order');
+		$this->addElement('text', LearningPathChapter :: PROPERTY_DISPLAY_ORDER, get_lang('DisplayOrder'));
 		$this->add_submit_button();
 	}
 	public function build_editing_form($object)
 	{
 		parent :: build_editing_form($object);
 		$this->setDefaults();
-		$this->addElement('text', 'display_order', 'Display order');
+		$this->addElement('text', LearningPathChapter :: PROPERTY_DISPLAY_ORDER, get_lang('DisplayOrder'));
 		$this->add_submit_button();
 	}
 	public function setDefaults($defaults = array ())
@@ -24,29 +21,21 @@ class LearningPathChapterForm extends LearningObjectForm
 		$lo = $this->get_learning_object();
 		if (isset ($lo))
 		{
-			$defaults['display_order'] = $lo->get_display_order();
+			$defaults[LearningPathChapter :: PROPERTY_DISPLAY_ORDER] = $lo->get_display_order();
 		}
 		parent :: setDefaults($defaults);
 	}
-	public function create_learning_object($owner)
+	function create_learning_object($owner)
 	{
-		$values = $this->exportValues();
-		$dataManager = RepositoryDataManager::get_instance();
-		$learningPathChapter = new LearningPathChapter();
-		$learningPathChapter->set_owner_id($owner);
-		$learningPathChapter->set_title($values['title']);
-		$learningPathChapter->set_description($values['description']);
-		$learningPathChapter->set_display_order($values['display_order']);
-		$learningPathChapter->create();
-		return $learningPathChapter;
+		$object = new LearningPathChapter();
+		$object->set_display_order($this->exportValue(LearningPathChapter :: PROPERTY_DISPLAY_ORDER));
+		$this->set_learning_object($object);
+		parent :: create_learning_object($owner);
 	}
-	public function update_learning_object(& $object)
+	function update_learning_object(& $object)
 	{
-		$values = $this->exportValues();
-		$object->set_title($values['title']);
-		$object->set_description($values['description']);
-		$object->set_display_order($values['display_order']);
-		$object->update();
+		$object->set_display_order($this->exportValue(LearningPathChapter :: PROPERTY_DISPLAY_ORDER));
+		return parent :: update_learning_object(& $object);
 	}
 }
 ?>

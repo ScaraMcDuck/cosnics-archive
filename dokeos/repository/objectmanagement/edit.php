@@ -20,9 +20,9 @@ if( isset($_GET['id']))
 	$form->build_editing_form($object);
 	if($form->validate())
 	{
-		$form->update_learning_object($object);
+		$success = $form->update_learning_object($object);
 		$current_category_id = $object->get_parent_id();
-		header('Location: index.php?category='.$current_category_id.'&action=show_message&message='.urlencode(get_lang('ObjectEdited')));
+		header('Location: index.php?category='.$current_category_id.'&action=show_message&message='.urlencode(get_lang($success ? 'ObjectUpdated' : 'ObjectUpdateFailed')));
 	}
 	else
 	{

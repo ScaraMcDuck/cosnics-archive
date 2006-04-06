@@ -23,7 +23,7 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 
 	protected function get_condition()
 	{
-		return new EqualityCondition(LearningObject :: PROPERTY_OWNER, $this->get_user_id());
+		return new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->get_user_id());
 	}
 
 	function get_object_count()

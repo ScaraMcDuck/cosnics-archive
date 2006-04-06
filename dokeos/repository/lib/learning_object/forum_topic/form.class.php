@@ -1,11 +1,8 @@
 <?php
-require_once dirname(__FILE__) . '/../../learningobjectform.class.php';
+require_once dirname(__FILE__).'/../../learningobjectform.class.php';
+require_once dirname(__FILE__).'/forum_topic.class.php';
 class ForumTopicForm extends LearningObjectForm
 {
-	public function ForumTopicForm($formName, $method = 'post', $action = null)
-	{
-		parent :: __construct($formName, $method, $action);
-	}
 	function build_creation_form($default_learning_object = null)
 	{
 		parent :: build_creation_form($default_learning_object);
@@ -17,23 +14,11 @@ class ForumTopicForm extends LearningObjectForm
 		$this->setDefaults();
 		$this->add_submit_button();
 	}
-	public function create_learning_object($owner)
+	function create_learning_object($owner)
 	{
-		$values = $this->exportValues();
-		$dataManager = RepositoryDataManager::get_instance();
-		$forumTopic = new ForumTopic();
-		$forumTopic->set_owner_id($owner);
-		$forumTopic->set_title($values['title']);
-		$forumTopic->set_description($values['description']);
-		$forumTopic->create();
-		return $forumTopic;
-	}
-	public function update_learning_object(& $object)
-	{
-		$values = $this->exportValues();
-		$object->set_title($values['title']);
-		$object->set_description($values['description']);
-		$object->update();
+		$object = new ForumTopic();
+		$this->set_learning_object($object);
+		parent :: create_learning_object($owner);
 	}
 }
 ?>

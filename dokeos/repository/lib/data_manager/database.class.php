@@ -230,6 +230,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			}
 			$this->connection->autoExecute($this->get_table_name($object->get_type()), $props, DB_AUTOQUERY_UPDATE, $where);
 		}
+		return true;
 	}
 
 	// Inherited.

@@ -82,7 +82,7 @@ function get_objects($from, $number_of_items, $column, $direction)
 $datamanager = RepositoryDataManager::get_instance();
 // Load category
 $current_category_id = isset($_GET['category']) ? intval($_GET['category']) : NULL;
-if( is_null($current_category_id))
+if($current_category_id <= 0)
 {
 	$root_category = $datamanager->retrieve_root_category(api_get_user_id());
 	$current_category_id = $root_category->get_id();

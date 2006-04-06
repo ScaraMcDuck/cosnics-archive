@@ -1,24 +1,13 @@
 <?php
-require_once dirname(__FILE__) . '/../../learningobjectform.class.php';
+require_once dirname(__FILE__).'/../../learningobjectform.class.php';
+require_once dirname(__FILE__).'/document.class.php';
 require_once dirname(__FILE__).'/../../../../claroline/inc/lib/formvalidator/Rule/DiskQuota.php';
 
-define('HTML_DOCUMENT','1');
-define('MAIN_UPLOAD_DIR',Configuration::get_instance()->get_parameter('general', 'upload_path'));
 /**
  * @package learningobject.document
  */
 class DocumentForm extends LearningObjectForm
 {
-	/**
-	 * Create a new form to handle a document
-	 */
-	public function DocumentForm($formName, $method = 'post', $action = null)
-	{
-		parent :: __construct($formName, $method, $action);
-	}
-	/**
-	 * Build a form to create a document
-	 */
 	function build_creation_form($default_learning_object = null)
 	{
 		parent :: build_creation_form($default_learning_object);
@@ -28,9 +17,6 @@ class DocumentForm extends LearningObjectForm
 		$this->add_submit_button();
 		$this->setDefaults();
 	}
-	/**
-	 * Build a form to edit a document
-	 */
 	public function build_editing_form($object)
 	{
 		parent :: build_editing_form($object);
@@ -50,110 +36,91 @@ class DocumentForm extends LearningObjectForm
 		$this->setDefaults();
 		$this->add_submit_button();
 	}
-	/**
-	 * Set the default values
-	 */
 	public function setDefaults($defaults = array ())
 	{
 		$object = $this->get_learning_object();
 		if (isset ($object) && $this->is_html_document($object->get_path()))
 		{
-			$defaults['html_content'] = file_get_contents(MAIN_UPLOAD_DIR.'/'.$object->get_path());
+			$defaults['html_content'] = file_get_contents($this->get_upload_path().'/'.$object->get_path());
 		}
 		$defaults['choice'] = 0;
 		parent :: setDefaults($defaults);
 	}
-	/**
-	 * Create a document from submitted the form values
-	 */
-	public function create_learning_object($owner)
+	function create_learning_object($owner)
 	{
 		$values = $this->exportValues();
-		if($values['choice'] === HTML_DOCUMENT)
+		if($values['choice'])
 		{
-			$filename = $values['title'].'.html';
-			$filename = $this->create_unique_filename(api_get_user_id(),$filename);
-			$path = api_get_user_id().'/'.$filename;
-			$create_file = fopen(MAIN_UPLOAD_DIR.'/'.$path, 'w');
+			$filename = $values[Document :: PROPERTY_TITLE].'.html';
+			$filename = $this->create_unique_filename($owner,$filename);
+			$path = $owner.'/'.$filename;
+			$create_file = fopen($this->get_upload_path().'/'.$path, 'w');
 			fwrite ($create_file, $values['html_content']);
 			fclose($create_file);
 		}
 		else
 		{
-			$filename = $this->create_unique_filename(api_get_user_id(),$_FILES['file']['name']);
-			$path = api_get_user_id().'/'.$filename;
-			$target = MAIN_UPLOAD_DIR.'/'.$path;
+			$filename = $this->create_unique_filename($owner,$_FILES['file']['name']);
+			$path = $owner.'/'.$filename;
+			$target = $this->get_upload_path().'/'.$path;
 			move_uploaded_file($_FILES['file']['tmp_name'],$target);
 		}
-		$dataManager = RepositoryDataManager::get_instance();
-		$document = new Document();
-		$document->set_owner_id($owner);
-		$document->set_title($values['title']);
-		$document->set_description($values['description']);
-		$document->set_path($path);
-		$document->set_filename($filename);
-		$document->set_filesize(filesize(MAIN_UPLOAD_DIR.'/'.$path));
-		$document->set_parent_id($values['category']);
-		$document->create();
-		return $document;
+		$object = new Document();
+		$object->set_path($path);
+		$object->set_filename($filename);
+		$object->set_filesize(filesize($this->get_upload_path().'/'.$path));
+		$this->set_learning_object($object);
+		parent :: create_learning_object($owner);
 	}
-	/**
-	 * Update a learning object from the submitted form values
-	 */
-	public function update_learning_object(& $object)
+	function update_learning_object(& $object)
 	{
 		$values = $this->exportValues();
 		$path = $object->get_path();
 		$filename = $object->get_filename();
+		$owner = $object->get_owner_id();
 		if(isset($values['html_content']))
 		{
-			$create_file = fopen(MAIN_UPLOAD_DIR.'/'.$object->get_path(), 'w');
+			$create_file = fopen($this->get_upload_path().'/'.$object->get_path(), 'w');
 			fwrite ($create_file, $values['html_content']);
 			fclose($create_file);
 		}
-		else
+		else if(strlen($_FILES['file']['name']) > 0)
 		{
-			if(strlen($_FILES['file']['name']) > 0)
-			{
-				unlink(MAIN_UPLOAD_DIR.'/'.$object->get_path());
-				$filename = $this->create_unique_filename(api_get_user_id(),$_FILES['file']['name']);
-				$path = api_get_user_id().'/'.$filename;
-				move_uploaded_file($_FILES['file']['tmp_name'], MAIN_UPLOAD_DIR.'/'.$path);
-			}
+			unlink($this->get_upload_path().'/'.$object->get_path());
+			$filename = $this->create_unique_filename($owner, $_FILES['file']['name']);
+			$path = $owner.'/'.$filename;
+			move_uploaded_file($_FILES['file']['tmp_name'], $this->get_upload_path().'/'.$path);
 		}
-		$object->set_title($values['title']);
-		$object->set_description($values['description']);
 		$object->set_path($path);
 		$object->set_filename($filename);
-		$object->set_filesize(filesize(MAIN_UPLOAD_DIR.'/'.$object->get_path()));
-		$object->set_parent_id($values['category']);
-		$object->update();
+		$object->set_filesize(filesize($this->get_upload_path().'/'.$object->get_path()));
+		return parent :: update_learning_object(& $object);
 	}
 	/**
-	 * Check if a file is a html-document
+	 * Checks if a file is an HTML document.
 	 */
 	private function is_html_document($path)
 	{
 		return 	(preg_match('/\.x?html?$/',$path) === 1);
 	}
 	/**
-	 * Create a valid filename
-	 * @param string $desired_filename desired filename
-	 * @return string A valid filename
+	 * Creates a valid filename.
+	 * @param string $desired_filename The desired filename.
+	 * @return string A valid filename.
 	 */
 	private function create_valid_filename($desired_filename)
 	{
 		return strtolower(ereg_replace('[^0-9a-zA-Z\.]','',$desired_filename));
 	}
 	/**
-	 * Create a unique path
+	 * Creates a unique path.
 	 */
 	private function create_unique_filename($path,$filename)
 	{
 		$filename = $this->create_valid_filename($filename);
 		$new_filename = $filename;
 		$index = 0;
-		while(file_exists(MAIN_UPLOAD_DIR.'/'.$path.'/'.$new_filename))
+		while(file_exists($this->get_upload_path().'/'.$path.'/'.$new_filename))
 		{
 			$file_parts = explode('.',$filename);
 			$new_filename = array_shift($file_parts).($index++).'.'.implode($file_parts);
@@ -166,7 +133,7 @@ class DocumentForm extends LearningObjectForm
 	public function check_document_form($fields)
 	{
 		$errors = array();
-		if($fields['choice'] == 0)
+		if(!$fields['choice'])
 		{
 			// Upload document
 			if( isset($_FILES['file']) && strlen($_FILES['file']['name']) > 0)
@@ -183,7 +150,7 @@ class DocumentForm extends LearningObjectForm
 		}
 		else
 		{
-			// Create a HTML-document
+			// Create an HTML-document
 			$tmpfname = tempnam ('','');
 			$handle = fopen($tmpfname, "w");
 			fwrite($handle, "writing to tempfile");
@@ -200,6 +167,11 @@ class DocumentForm extends LearningObjectForm
 			return true;
 		}
 		return $errors;
+	}
+	
+	private static function get_upload_path()
+	{
+		return Configuration::get_instance()->get_parameter('general', 'upload_path');
 	}
 }
 ?>
