@@ -182,7 +182,7 @@ abstract class LearningObjectForm extends FormValidator
 	}
 
 	/**
-	 * Creates a learning object from the submitted form value. Traditionally,
+	 * Creates a learning object from the submitted form values. Traditionally,
 	 * you override this method to ensure that the form's learning object is
 	 * set to the object that is to be created, and call the super method.
 	 * @param int $owner The user ID of the learning object's owner.
@@ -204,7 +204,7 @@ abstract class LearningObjectForm extends FormValidator
 	}
 
 	/**
-	 * Updates a learning object with the submitted form value. Traditionally,
+	 * Updates a learning object with the submitted form values. Traditionally,
 	 * you override this method to first set values for the necessary
 	 * additional learning object properties, and then call the super method.
 	 * @param LearningObject $learning_object The object to update.
