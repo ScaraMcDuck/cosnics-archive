@@ -16,9 +16,9 @@ class ForumTopicDisplay extends LearningObjectDisplay
 		$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/></div>';		
 		$html[] = '<div class="title">'.$object->get_title().'</div>';
 		$html[] = '<div class="description">'.$object->get_description().'</div></div>';
-		$types = array('forum_topic', 'forum_post');
+		$types = array('forum_post');
 		$leaf_types = array('forum_post');
-		$menu = new LearningObjectTree($object->get_id(),$types, $leaf_types);
+		$menu = new LearningObjectTree($object->get_id(),$leaf_types, $types);
 		$renderer =& new TreeMenuRenderer();
 		$menu->render($renderer,'sitemap');
 		$html[] = '<div>'.$renderer->toHtml().'</div>';
