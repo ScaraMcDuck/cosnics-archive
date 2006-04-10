@@ -18,7 +18,7 @@ class ForumTopicForm extends LearningObjectForm
 	{
 		$object = new ForumTopic();
 		$this->set_learning_object($object);
-		parent :: create_learning_object($owner);
+		return parent :: create_learning_object($owner);
 	}
 }
 ?>

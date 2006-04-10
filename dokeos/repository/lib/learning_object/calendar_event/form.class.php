@@ -38,7 +38,7 @@ class CalendarEventForm extends LearningObjectForm
 		$object->set_start_date($this->exportValue(RepositoryUtilities :: time_from_datepicker(CalendarEvent :: PROPERTY_START_DATE)));
 		$object->set_end_date($this->exportValue(RepositoryUtilities :: time_from_datepicker(CalendarEvent :: PROPERTY_END_DATE)));
 		$this->set_learning_object($object);
-		parent :: create_learning_object($owner);
+		return parent :: create_learning_object($owner);
 	}
 	function update_learning_object(& $object)
 	{

@@ -30,7 +30,7 @@ class LearningPathChapterForm extends LearningObjectForm
 		$object = new LearningPathChapter();
 		$object->set_display_order($this->exportValue(LearningPathChapter :: PROPERTY_DISPLAY_ORDER));
 		$this->set_learning_object($object);
-		parent :: create_learning_object($owner);
+		return parent :: create_learning_object($owner);
 	}
 	function update_learning_object(& $object)
 	{
