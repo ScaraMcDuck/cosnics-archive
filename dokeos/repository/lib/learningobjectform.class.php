@@ -217,7 +217,23 @@ abstract class LearningObjectForm extends FormValidator
 		$object->set_description($values[LearningObject :: PROPERTY_DESCRIPTION]);
 		if ($this->allows_category_selection())
 		{
-			$object->set_parent_id($values[LearningObject :: PROPERTY_PARENT_ID]);
+			$parent = $values[LearningObject :: PROPERTY_PARENT_ID];
+			if ($parent != $object->get_parent_id())
+			{
+				if ($object->move_allowed($parent))
+				{
+					$object->set_parent_id($parent);
+				}
+				else
+				{
+					/*
+					 * TODO: Make this more meaningful, e.g. by returning error
+					 * constants instead of booleans, like
+					 * LearningObjectForm :: SUCCESS (not implemented).
+					 */
+					return false;
+				}
+			}
 		}
 		return $object->update();
 	}
