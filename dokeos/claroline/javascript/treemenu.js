@@ -324,4 +324,20 @@ function arrayContains (haystack, needle)
 	return false;
 }
 
-window.onload = initTrees;
+function addOnloadFunction (f)
+{
+	if (window.onload != null)
+	{
+		var oldOnload = window.onload;
+		window.onload = function (e) {
+			oldOnload(e);
+			f();
+		};
+	}
+	else
+	{
+		window.onload = f;
+	}
+}
+
+addOnloadFunction(initTrees);
