@@ -11,13 +11,13 @@ class LearningObjectTree extends HTML_Menu
 	 */
 	private $urlFmt;
 	/**
-	 * The types of learning objects to retrieve.
-	 */
-	private $types;
-	/**
 	 * The types of learning objects to display as tree leaves.
 	 */
 	private $leafTypes;
+	/**
+	 * The types of learning objects to retrieve.
+	 */
+	private $types;
 	/**
 	 * The ID of the root learning object.
 	 */
@@ -31,32 +31,53 @@ class LearningObjectTree extends HTML_Menu
 	/**
 	 * Creates a new learning object tree.
 	 * @param int $root The ID of the root learning object.
-	 * @param array $types The types of learning objects to retrieve, or null
-	 *                     to accept any type.
 	 * @param array $leaf_types The types of learning objects to display as
 	 *                          tree leaves, or null for exhaustive retrieval.
+	 * @param array $types The types of learning objects to retrieve, or null
+	 *                     to accept any type.
 	 * @param string $url_format The format to use for the URL. Passed to
 	 *                           sprintf(). Defaults to the string "?id=%s".
 	 */
-	public function LearningObjectTree($root, $types, $leaf_types, $url_format = '?id=%s')
+	public function LearningObjectTree($root, $leaf_types, $types, $url_format = '?id=%s')
 	{
 		$this->root = $root;
 		$this->urlFmt = $url_format;
 		$this->leafTypes = $leaf_types;
 		$this->types = $types;
 		$this->typeCondition = self :: get_type_condition($types);
-		$items = & $this->get_items($root);
+		$items = & $this->get_root_item($root);
 		parent :: __construct($items);
 	}
+	
+	/**
+	 * Returns the item with the given ID.
+	 * @param int $root The ID of the root learning object.
+	 * @return array An array with all the tree items.
+	 */
+	private function get_root_item($root)
+	{
+		$datamanager = RepositoryDataManager :: get_instance();
+		$object = $datamanager->retrieve_learning_object($root);
+		$menu_item['title'] = $object->get_title();
+		$menu_item['url'] = $this->get_url($object->get_id()); 
+		$menu_item['id'] = $object->get_id();
+		if(!in_array($object->get_type(), $this->leafTypes))
+		{
+			$menu_item['sub'] = $this->get_sub_items($object->get_id());
+		}
+		$tree[] = $menu_item;
+		return $tree;	
+	}
+	
 	/**
 	 * Returns the items that have the learning object with the given ID as
 	 * their parent object.
 	 * @param int $parent The ID of the parent learning object.
-	 * @return array An array with all the tree items. The structure of this array
+	 * @return array An array with all the subtree items. The structure of this array
 	 *               is the structure needed by PEAR::HTML_Menu, on which this
 	 *               class is based.
 	 */
-	private function get_items($parent)
+	private function get_sub_items($parent)
 	{
 		$parentCond = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $parent);
 		$condition = (isset($this->typeCondition) ? new AndCondition($parentCond, $this->typeCondition) : $parentCond);
@@ -71,7 +92,7 @@ class LearningObjectTree extends HTML_Menu
 			$menu_item['id'] = $object->get_id();
 			if(!in_array($object->get_type(), $this->leafTypes))
 			{
-				$menu_item['sub'] = $this->get_items($object->get_id());
+				$menu_item['sub'] = $this->get_sub_items($object->get_id());
 			}
 			$sub_tree[] = $menu_item;
 		}
