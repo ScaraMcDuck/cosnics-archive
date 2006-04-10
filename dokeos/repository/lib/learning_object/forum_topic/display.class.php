@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../../treemenurenderer.class.php';
 require_once dirname(__FILE__).'/../../learningobjecttree.class.php';
+require_once dirname(__FILE__).'/../forum/forumtable.class.php';
 class ForumTopicDisplay extends LearningObjectDisplay
 {
 	public function ForumTopicDisplay(&$object)
@@ -15,11 +16,14 @@ class ForumTopicDisplay extends LearningObjectDisplay
 		$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/></div>';		
 		$html[] = '<div class="title">'.$object->get_title().'</div>';
 		$html[] = '<div class="description">'.$object->get_description().'</div></div>';
-		$type_array = array('forum', 'forum_topic', 'forum_post');
-		$menu = new LearningObjectTree($object->get_parent_id(),$type_array);
+		$types = array('forum_topic', 'forum_post');
+		$leaf_types = array('forum_post');
+		$menu = new LearningObjectTree($object->get_id(),$types, $leaf_types);
 		$renderer =& new TreeMenuRenderer();
 		$menu->render($renderer,'sitemap');
 		$html[] = '<div>'.$renderer->toHtml().'</div>';
+		$table = new ForumTable($object);
+		$table->display();
 		$html[] = '</div>';
 		return implode("\n",$html);
 	}
