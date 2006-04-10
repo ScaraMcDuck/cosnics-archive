@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../../learningobjectform.class.php';
-require_once dirname(__FILE__).'/forumpost.class.php';
+require_once dirname(__FILE__).'/forum_post.class.php';
 class ForumPostForm extends LearningObjectForm
 {
 	function build_creation_form($default_learning_object = null)
