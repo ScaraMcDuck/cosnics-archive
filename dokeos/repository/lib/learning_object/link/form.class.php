@@ -33,7 +33,7 @@ class LinkForm extends LearningObjectForm
 		$object = new Link();
 		$object->set_url($this->exportValue(Link :: PROPERTY_URL));
 		$this->set_learning_object($object);
-		parent :: create_learning_object($owner);
+		return parent :: create_learning_object($owner);
 	}
 	function update_learning_object(& $object)
 	{

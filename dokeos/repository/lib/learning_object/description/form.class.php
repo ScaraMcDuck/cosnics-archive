@@ -21,7 +21,7 @@ class DescriptionForm extends LearningObjectForm
 	{
 		$object = new Description();
 		$this->set_learning_object($object);
-		parent :: create_learning_object($owner);
+		return parent :: create_learning_object($owner);
 	}
 }
 ?>

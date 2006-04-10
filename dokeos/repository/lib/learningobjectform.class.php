@@ -186,6 +186,7 @@ abstract class LearningObjectForm extends FormValidator
 	 * you override this method to ensure that the form's learning object is
 	 * set to the object that is to be created, and call the super method.
 	 * @param int $owner The user ID of the learning object's owner.
+	 * @return LearningObject The newly created learning object.
 	 */
 	function create_learning_object($owner)
 	{
@@ -199,6 +200,7 @@ abstract class LearningObjectForm extends FormValidator
 			$object->set_parent_id($values[LearningObject :: PROPERTY_PARENT_ID]);
 		}
 		$object->create();
+		return $object;
 	}
 
 	/**

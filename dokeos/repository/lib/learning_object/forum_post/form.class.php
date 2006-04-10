@@ -18,7 +18,7 @@ class ForumPostForm extends LearningObjectForm
 	{
 		$object = new ForumPost();
 		$this->set_learning_object($object);
-		parent :: create_learning_object($owner);
+		return parent :: create_learning_object($owner);
 	}
 }
 ?>
