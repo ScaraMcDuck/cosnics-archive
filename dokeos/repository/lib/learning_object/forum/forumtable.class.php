@@ -29,11 +29,11 @@ class ForumTable extends SortableTable
 		$orderBy[] = $table_columns[$column];
 		$orderDir = $direction;
 		$condition = $this->get_condition();
-		$threads = $dm->retrieve_learning_objects(null,$condition,$orderBy, $orderDir);
+		$children = $dm->retrieve_learning_objects(null,$condition,$orderBy, $orderDir);
 		$data = array ();
-		foreach ($threads as $thread)
+		foreach ($children as $child)
 		{
-			$lo = $dm->retrieve_learning_object($thread->get_id());
+			$lo = $dm->retrieve_learning_object($child->get_id());
 			$row = array ();
 
 			$row[] = '<a href="view.php?id='.$lo->get_id().'">'.htmlentities($lo->get_title()).'</a>';
