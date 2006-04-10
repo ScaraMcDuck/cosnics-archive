@@ -331,7 +331,17 @@ class SortableTable extends HTML_Table
 		$param = array_merge($param, $this->additional_parameters);
 		foreach ($param as $key => $value)
 		{
-			$result[] = '<input type="hidden" name="'.$key.'" value="'.$value.'"/>';
+			if (is_array($value))
+			{
+				foreach ($value as $v)
+				{
+					$result[] = '<input type="hidden" name="'.$key.'%5B%5D" value="'.$v.'"/>';
+				}
+			}
+			else
+			{
+				$result[] = '<input type="hidden" name="'.$key.'" value="'.$value.'"/>';
+			}
 		}
 		$result[] = '<select name="'.$this->param_prefix.'per_page" onchange="javascript:this.form.submit();">';
 		for ($nr = 10; $nr <= min(50, $total_number_of_items); $nr += 10)
@@ -417,7 +427,17 @@ class SortableTable extends HTML_Table
 		$param_string_parts = array ();
 		foreach ($this->additional_parameters as $key => $value)
 		{
-			$param_string_parts[] = urlencode($key).'='.urlencode($value);
+			if (is_array($value))
+			{
+				foreach ($value as $v)
+				{
+					$param_string_parts[] = urlencode($key).'%5B%5D='.urlencode($v);
+				}
+			}
+			else
+			{
+				$param_string_parts[] = urlencode($key).'='.urlencode($value);
+			}
 		}
 		$result = implode('&amp;', $param_string_parts);
 		foreach($this->other_tables as $index => $tablename)
