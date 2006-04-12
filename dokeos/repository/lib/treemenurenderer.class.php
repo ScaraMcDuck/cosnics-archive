@@ -24,7 +24,7 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 		$root = ($level == 0);
 		if ($root)
 		{
-			$this->setLevelTemplate('<ul class="treeMenu">'."\n", '</ul>'."\n");
+			$this->setLevelTemplate('<ul class="tree-menu">'."\n", '</ul>'."\n");
 		}
 		parent :: finishLevel($level);
 		if ($root)

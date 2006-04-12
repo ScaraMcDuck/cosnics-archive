@@ -2,7 +2,7 @@
  *
  * Tree Menu script
  *
- * Turns all UL elements that have "treeMenu" as their class name into nice
+ * Turns all UL elements that have "tree-menu" as their class name into nice
  * tree menus.
  *
  * Here's a trivial example:
@@ -29,11 +29,12 @@
  *
  */
 
+var treeClassName = "tree-menu";
 var treeCollapseLevel = 1;
 
 function initTrees ()
 {
-	var trees = getElementsByClassName("ul", "treeMenu");
+	var trees = getElementsByClassName("ul", treeClassName);
 	for (var i = 0; i < trees.length; i++)
 	{
 		initTree(trees[i]);
@@ -169,7 +170,7 @@ function isCollapsed (node)
 
 function isRootNode (node)
 {
-	return hasClassName(node.parentNode, "treeMenu");
+	return hasClassName(node.parentNode, treeClassName);
 }
 
 function isLastNode (node)
