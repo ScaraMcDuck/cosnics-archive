@@ -133,22 +133,54 @@ abstract class WebLCMSDataManager
 	/**
 	 * Returns the next available index in the display order.
 	 * @param string $course The course in which the publication will be
-	 * added.
+	 *                       added.
 	 * @param string $tool The tool in which the publication will be added.
 	 * @param string $category The category in which the publication will be
-	 * added.
+	 *                         added.
 	 * @return int The requested display order index.
 	 */
 	abstract function get_next_learning_object_publication_display_order_index($course,$tool,$category);
 	
+	/**
+	 * Returns the available learning object publication categories for the
+	 * given course and tools.
+	 * @param string $course The course ID.
+	 * @param mixed $tools The tool names. May be a string if only one.
+	 * @return array The publication categories.
+	 */ 
 	abstract function retrieve_learning_object_publication_categories($course, $tools);
 	
+	/**
+	 * Retrieves a single learning object publication category by ID and
+	 * returns it.
+	 * @param int $id The category ID.
+	 * @return LearningObjectPublicationCategory The category, or null if it
+	 *                                           could not be found.
+	 */
 	abstract function retrieve_learning_object_publication_category($id);
 	
+	/**
+	 * Creates a new learning object publication category in persistent
+	 * storage. Also assigns an ID to the category through its set_id() method.
+	 * @param LearningObjectPublicationCategory $category The category to make
+	 *                                                    persistent.
+	 */
 	abstract function create_learning_object_publication_category($category);
-
-	abstract function update_learning_object_publication_category($category);
 	
+	/**
+	 * Updates a learning object publication category in persistent storage,
+	 * making any changes permanent.
+	 * @param LearningObjectPublicationCategory $category The category to
+	 *                                                    update.
+	 */ 
+	abstract function update_learning_object_publication_category($category);
+
+	/**
+	 * Removes a learning object publication category from persistent storage,
+	 * making it disappear forever. Also removes all child categories.
+	 * @param LearningObjectPublicationCategory $category The category to
+	 *                                                    delete.
+	 */
 	abstract function delete_learning_object_publication_category($category);
 }
 

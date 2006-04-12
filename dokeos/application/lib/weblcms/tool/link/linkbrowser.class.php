@@ -11,7 +11,7 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 		$this->set_header(1, get_lang('Description'), false);
 	}
 
-	function get_publications($from, $number_of_items, $column, $direction)
+	function get_publications($from, $count, $column, $direction)
 	{
 		$dm = WebLCMSDataManager :: get_instance();
 		$orderBy = null;
