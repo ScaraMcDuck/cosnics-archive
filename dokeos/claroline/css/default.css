@@ -805,14 +805,14 @@ div.learning_object div.description
 
 /* treemenu */
 
-ul.treeMenu, ul.treeMenu ul
+ul.tree-menu, ul.tree-menu ul
 {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
 
-ul.treeMenu ul
+ul.tree-menu ul
 {
 	background: url(../img/treemenu/tree-branch.gif) repeat-y;
 }
@@ -820,18 +820,18 @@ ul.treeMenu ul
 /*
  * li.last > ul doesn't work in IE, so we force it this way
  */
-ul.treeMenu li.last ul.last
+ul.tree-menu li.last ul.last
 {
 	background: none;
 }
 
-ul.treeMenu li
+ul.tree-menu li
 {
 	margin: 0;
 	padding: 0 0 0 18px;
 }
 
-ul.treeMenu li div
+ul.tree-menu li div
 {
 	margin: 0;
 	padding: 0 0 0 18px;
@@ -839,12 +839,12 @@ ul.treeMenu li div
 	height: 18px;
 }
 
-ul.treeMenu li.collapsed div
+ul.tree-menu li.collapsed div
 {
 	background-image: url(../img/treemenu/tree-node.gif);
 }
 
-ul.treeMenu li.root
+ul.tree-menu li.root
 {
 	padding-left: 0;
 }
@@ -852,7 +852,7 @@ ul.treeMenu li.root
 /*
  * see above (li.last > div)
  */
-ul.treeMenu li.last div.last
+ul.tree-menu li.last div.last
 {
 	background-image: url(../img/treemenu/tree-node-open-end.gif);
 }
@@ -860,13 +860,13 @@ ul.treeMenu li.last div.last
 /*
  * IE doesn't like li.last.collapsed
  */
-ul.treeMenu li.last.collapsed div.last,
-ul.treeMenu li.last-collapsed div.last
+ul.tree-menu li.last.collapsed div.last,
+ul.tree-menu li.last-collapsed div.last
 {
 	background-image: url(../img/treemenu/tree-node-end.gif);
 }
 
-ul.treeMenu li.leaf div, ul.treeMenu li.empty div
+ul.tree-menu li.leaf div, ul.tree-menu li.empty div
 {
 	background-image: url(../img/treemenu/tree-leaf.gif);
 }
@@ -874,13 +874,13 @@ ul.treeMenu li.leaf div, ul.treeMenu li.empty div
 /*
  * IE doesn't like li.last.leaf
  */
-ul.treeMenu li.last.leaf div.last, ul.treeMenu li.last.empty div.last,
-ul.treeMenu li.last-leaf div.last, ul.treeMenu li.last-empty div.last
+ul.tree-menu li.last.leaf div.last, ul.tree-menu li.last.empty div.last,
+ul.tree-menu li.last-leaf div.last, ul.tree-menu li.last-empty div.last
 {
 	background-image: url(../img/treemenu/tree-leaf-end.gif);
 }
 
-ul.treeMenu li div a
+ul.tree-menu li div a
 {
 	margin: 0;
 	padding: 0 0 0 18px;
@@ -891,27 +891,27 @@ ul.treeMenu li div a
 	overflow: hidden;
 }
 
-ul.treeMenu li.empty div a
+ul.tree-menu li.empty div a
 {
 	background-image: url(../img/treemenu/tree-folder.gif);	
 }
 
-ul.treeMenu li.active div a
+ul.tree-menu li.active div a
 {
 	background-image: url(../img/treemenu/tree-folder-open.gif);
 }
 
-ul.treeMenu li.collapsed div a
+ul.tree-menu li.collapsed div a
 {
 	background-image: url(../img/treemenu/tree-folder.gif);	
 }
 
-ul.treeMenu li.leaf div a
+ul.tree-menu li.leaf div a
 {
 	background-image: url(../img/treemenu/tree-document.gif);
 }
 
-ul.treeMenu li.collapsed ul
+ul.tree-menu li.collapsed ul
 {
 	display: none;
 }
@@ -919,12 +919,12 @@ ul.treeMenu li.collapsed ul
 /*
  * Tweak: Font size is 12px, nodes are 18px high. That leaves (18 - 12) / 2px.
  */
-ul.treeMenu li div a
+ul.tree-menu li div a
 {
 	padding-top: 3px;
 }
 
-ul.treeMenu li div
+ul.tree-menu li div
 {
 	overflow: hidden;
 }
@@ -932,7 +932,7 @@ ul.treeMenu li div
 /*
  * Tweak: Some extra space between folder and text--2px will do.
  */
-ul.treeMenu li div a
+ul.tree-menu li div a
 {
 	padding-left: 20px;
 }
@@ -940,7 +940,7 @@ ul.treeMenu li div a
 /*
  * Tweak: Trash icon.
  */
-ul.treeMenu li div a.trash
+ul.tree-menu li div a.trash
 {
 	background: url(../img/treemenu/trash.gif) no-repeat;	
 }
