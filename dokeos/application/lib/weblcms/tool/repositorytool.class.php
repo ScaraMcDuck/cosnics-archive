@@ -1,48 +1,76 @@
 <?php
 require_once dirname(__FILE__) . '/tool.class.php';
 
+/**
+==============================================================================
+ *	This is the base class for all tools used in applications that use the
+ *	repository. It offers additional repository-related functionality. 
+ *
+ *	@author Tim De Pauw
+==============================================================================
+ */
+
 abstract class RepositoryTool extends Tool
 {
-	function get_tool_id()
-	{
-		return $this->get_parent()->get_tool_id();
-	}
-	
+	/**
+	 * @see Application :: get_user_id()
+	 */
 	function get_user_id()
 	{
 		return $this->get_parent()->get_user_id();
 	}
 
+	/**
+	 * @see Application :: get_course_id()
+	 */
 	function get_course_id()
 	{
 		return $this->get_parent()->get_course_id();
 	}
 
+	/**
+	 * @see Application :: get_groups()
+	 */
 	function get_groups()
 	{
 		return $this->get_parent()->get_groups();
 	}
 
+	/**
+	 * @see Application :: get_categories()
+	 */
 	function get_categories($list = false)
 	{
 		return $this->get_parent()->get_categories($list);
 	}
 
+	/**
+	 * @see Application :: get_category()
+	 */
 	function get_category($id)
 	{
 		return $this->get_parent()->get_category($id);
 	}
 
+	/**
+	 * @see Application :: create_category()
+	 */
 	function create_category($id)
 	{
 		return $this->get_parent()->create_category($id);
 	}
 
+	/**
+	 * @see Application :: update_category()
+	 */
 	function update_category($id)
 	{
 		return $this->get_parent()->update_category($id);
 	}
 
+	/**
+	 * @see Application :: delete_category()
+	 */
 	function delete_category($id)
 	{
 		return $this->get_parent()->delete_category($id);
