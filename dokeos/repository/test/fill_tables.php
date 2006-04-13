@@ -14,7 +14,7 @@ require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 
 $users = 1;
 
-$max_categories = array (5, 3, 0, 0);
+$max_categories = array (5, 3, 2, 0);
 
 $announcements = rand(2, 10);
 $calendar_events = rand(2, 10);
@@ -22,7 +22,7 @@ $documents = rand(2, 10);
 $links = rand(50, 100);
 //$student_publications = rand(2, 10);
 
-$forums = rand(50,100);
+$forums = rand(10,50);
 $forum_topics = rand(100,500);
 $forum_posts = rand(1000,5000);
 
@@ -151,7 +151,7 @@ for ($i = 0; $i < $forum_topics; $i++)
 	$topic->set_description(random_string(8));
 	$topic->set_parent_id($forum->get_id());
 	$topic->create();
-	$created_forum_topics[] = & $topic;
+	$created_forum_topics[] = $topic;
 	// Map topic to its forum object, for convenience.
 	$topic_to_forum[$topic->get_id()] = $forum;
 	// Every topic needs at least one post.

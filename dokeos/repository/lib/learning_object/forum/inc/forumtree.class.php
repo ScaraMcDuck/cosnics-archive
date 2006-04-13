@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../../learningobjecttree.class.php';
+require_once dirname(__FILE__).'/../../../learningobjecttree.class.php';
 class ForumTree extends LearningObjectTree
 {
     function ForumTree($root, $active = 0)
