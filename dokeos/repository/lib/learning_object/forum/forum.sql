@@ -3,7 +3,7 @@ CREATE TABLE `%prefix%forum` (
   `topics` int(10) unsigned NOT NULL default '0',
   `posts` int(10) unsigned NOT NULL default '0',
   `last_post_id` int(10) unsigned NOT NULL default '0',
-  `cat_id` int(10) unsigned NOT NULL default '0',
+  `category_id` int(10) unsigned NOT NULL default '0',
   `forum_type` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`)
 );
