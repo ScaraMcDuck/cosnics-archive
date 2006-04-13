@@ -2,14 +2,16 @@
 class ForumTable extends SortableTable
 {
 	private $forum;
+	private $url_format;
 	
-	function ForumTable($forum)
+	function ForumTable($forum, $url_format = '?id=%s')
 	{
-		$name = 'frmtbl';
+		$name = 'forumtable'.$forum->get_id();
 		parent :: __construct($name, array($this,'get_children_count'), array($this,'get_children'),'3');
 		$this->set_additional_parameters(array('id' => $forum->get_id()));
 		$this->set_column_titles(get_lang('Title'), get_lang('Description'), get_lang('Created'), get_lang('LastModified'));
 		$this->forum = $forum;
+		$this->url_format = $url_format;
 	}	
 	function set_column_titles()
 	{
@@ -35,8 +37,7 @@ class ForumTable extends SortableTable
 		{
 			$lo = $dm->retrieve_learning_object($child->get_id());
 			$row = array ();
-
-			$row[] = '<a href="view.php?id='.$lo->get_id().'">'.htmlentities($lo->get_title()).'</a>';
+			$row[] = '<a href="'.$this->get_url($lo->get_id()).'">'.htmlentities($lo->get_title()).'</a>';
 			$row[] = $lo->get_description();
 			$row[] = date('Y-m-d, H:i',($lo->get_creation_date()));
 			$row[] = date('Y-m-d, H:i',($lo->get_modification_date()));
@@ -53,6 +54,10 @@ class ForumTable extends SortableTable
 	private function get_condition()
 	{
 		return new EqualityCondition('parent',$this->forum->get_id());
+	}
+	private function get_url($id)
+	{
+		return sprintf($this->url_format, $id);
 	}
 }
 ?>

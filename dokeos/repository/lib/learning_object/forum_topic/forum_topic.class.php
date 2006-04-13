@@ -4,26 +4,26 @@ require_once dirname(__FILE__) . '/../../learningobject.class.php';
 class ForumTopic extends LearningObject
 {
 	const PROPERTY_VIEWS = 'views';
-	const PROPERTY_REPLIES = 'replies';
+	const PROPERTY_REPLY_COUNT = 'replies';
 	const PROPERTY_LAST_POST_ID = 'last_post_id';
-	const PROPERTY_FORUM_ID = 'forum_id';
 	const PROPERTY_STATUS = 'status';
 	const PROPERTY_NOTIFY = 'notify';
-	function get_views ()
+	
+	function get_view_count ()
 	{
-		return $this->get_additional_property(self :: PROPERTY_VIEWS);
+		return $this->get_additional_property(self :: PROPERTY_VIEW_COUNT);
 	}
-	function set_views ($views) 
+	function set_view_count ($views) 
 	{
-		return $this->set_additional_property(self :: PROPERTY_VIEWS, $views);
+		return $this->set_additional_property(self :: PROPERTY_VIEW_COUNT, $views);
 	}
-	function get_replies ()
+	function get_reply_count ()
 	{
-		return $this->get_additional_property(self :: PROPERTY_REPLIES);
+		return $this->get_additional_property(self :: PROPERTY_REPLY_COUNT);
 	}
-	function set_replies ($replies) 
+	function set_reply_count ($replies) 
 	{
-		return $this->set_additional_property(self :: PROPERTY_REPLIES, $replies);
+		return $this->set_additional_property(self :: PROPERTY_REPLY_COUNT, $replies);
 	}
 	function get_last_post_id ()
 	{
@@ -32,14 +32,6 @@ class ForumTopic extends LearningObject
 	function set_last_post_id ($last_post_id) 
 	{
 		return $this->set_additional_property(self :: PROPERTY_LAST_POST_ID, $last_post_id);
-	}
-	function get_forum_id ()
-	{
-		return $this->get_additional_property(self :: PROPERTY_FORUM_ID);
-	}
-	function set_forum_id ($forum_id) 
-	{
-		return $this->set_additional_property(self :: PROPERTY_FORUM_ID, $forum_id);
 	}
 	function get_status ()
 	{

@@ -4,11 +4,7 @@
  */
 class AnnouncementDisplay extends LearningObjectDisplay
 {
-	public function AnnouncementDisplay(&$object)
-	{
-		parent :: LearningObjectDisplay($object);
-	}
-	public function get_full_html()
+	function get_full_html()
 	{
 		$object = $this->get_learning_object();
 		$html[] = '<div class="learning_object">';

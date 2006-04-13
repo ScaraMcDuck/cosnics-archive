@@ -20,15 +20,14 @@ $announcements = rand(2, 10);
 $calendar_events = rand(2, 10);
 $documents = rand(2, 10);
 $links = rand(50, 100);
-$student_publications = rand(2, 10);
+//$student_publications = rand(2, 10);
+
+$forums = rand(50,100);
+$forum_topics = rand(100,500);
+$forum_posts = rand(1000,5000);
 
 // TODO
-/*
-$forums = rand(100,500);
-$forum_posts = rand(100,500);
-$forum_topics = rand(100,500);
-$learning_paths = rand(100,500);
-*/
+//$learning_paths = rand(100,500);
 
 $randomText =<<<END
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cras vel erat.
@@ -100,20 +99,6 @@ for ($i = 0; $i < $documents; $i ++)
 	$document->create();
 }
 
-for ($i = 0; $i < $forums; $i ++)
-{
-	$user = random_user();
-	$document = new Forum();
-	$document->set_owner_id($user);
-	$document->set_title(random_string(2));
-	$document->set_description(random_string(8));
-	$document->set_path('/'.random_word().'/'.random_word());
-	$document->set_filename(random_word());
-	$document->set_filesize(rand(1000, 10000));
-	$document->set_parent_id(random_category($user));
-	$document->create();
-}
-
 for ($i = 0; $i < $links; $i ++)
 {
 	$user = random_user();
@@ -140,6 +125,79 @@ for ($i = 0; $i < $links; $i ++)
 //	$student_publication->set_parent_id(random_category($user));
 //	$student_publication->create();
 //}
+
+$created_forums = array();
+for ($i = 0; $i < $forums; $i++)
+{
+	$user = random_user();
+	$forum = new Forum();
+	$forum->set_owner_id($user);
+	$forum->set_title(random_string(2));
+	$forum->set_description(random_string(8));
+	$forum->set_parent_id(random_category($user));
+	$forum->create();
+	$created_forums[] = $forum;
+}
+
+$created_forum_topics = array();
+$topic_to_forum = array();
+for ($i = 0; $i < $forum_topics; $i++)
+{
+	$forum = random_forum();
+	$user = random_user();
+	$topic = new ForumTopic();
+	$topic->set_owner_id($user);
+	$topic->set_title(random_string(2));
+	$topic->set_description(random_string(8));
+	$topic->set_parent_id($forum->get_id());
+	$topic->create();
+	$created_forum_topics[] = & $topic;
+	// Map topic to its forum object, for convenience.
+	$topic_to_forum[$topic->get_id()] = $forum;
+	// Every topic needs at least one post.
+	$post = new ForumPost();
+	$post->set_owner_id($user);
+	$post->set_title(random_string(2));
+	$post->set_description(random_string(8));
+	$post->set_parent_id($topic->get_id());
+	$post->create();
+	// Update the topic.
+	$topic->set_last_post_id($post->get_id());
+	// Update the forum.
+	$forum->set_topic_count($forum->get_topic_count() + 1);
+	$forum->set_post_count($forum->get_post_count() + 1);
+	$forum->set_last_post_id($post->get_id());
+}
+
+for ($i = 0; $i < $forum_posts - $forum_topics; $i++)
+{
+	$user = random_user();
+	$topic = random_forum_topic();
+	$post = new ForumPost();
+	$post->set_owner_id($user);
+	$post->set_title(random_string(2));
+	$post->set_description(random_string(8));
+	$post->set_parent_id($topic->get_id());
+	$post->create();
+	// Update the topic.
+	$topic->set_reply_count($topic->get_reply_count() + 1);
+	$topic->set_last_post_id($post->get_id());
+	// Update the forum.
+	$forum = & $topic_to_forum[$topic->get_id()];
+	$forum->set_topic_count($forum->get_topic_count() + 1);
+	$forum->set_post_count($forum->get_post_count() + 1);
+	$forum->set_last_post_id($post->get_id());
+}
+
+foreach ($created_forum_topics as $topic)
+{
+	$topic->update();
+}
+
+foreach ($created_forums as $forum)
+{
+	$forum->update();
+}
 
 function random_url()
 {
@@ -175,13 +233,30 @@ function totally_random_word($length)
 function random_word()
 {
 	global $words;
-	return $words[rand(0, count($words) - 1)];
+	return random_array_element(& $words);
 }
 
 function random_category($owner)
 {
 	global $created_categories;
-	return $created_categories[$owner][rand(0, count($created_categories[$owner]) - 1)];
+	return random_array_element(& $created_categories[$owner]);
+}
+
+function random_forum()
+{
+	global $created_forums;
+	return random_array_element(& $created_forums);
+}
+
+function random_forum_topic()
+{
+	global $created_forum_topics;
+	return random_array_element(& $created_forum_topics);
+}
+
+function random_array_element(& $array)
+{
+	return $array[rand(0, count($array) - 1)];
 }
 
 function create_category($owner, $parent = 0, $level = 0)
