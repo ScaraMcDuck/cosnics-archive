@@ -248,7 +248,7 @@ abstract class LearningObjectForm extends FormValidator
 	static function factory($type, $formName, $method = 'post', $action = null)
 	{
 		$class = RepositoryDataManager :: type_to_class($type).'Form';
-		require_once (dirname(__FILE__).'/learning_object/'.$type.'/form.class.php');
+		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_form.class.php';
 		return new $class ($formName, $method, $action);
 	}
 
