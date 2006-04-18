@@ -90,12 +90,16 @@ class AnnouncementTool extends RepositoryTool
 				$target_list[] = '</select>';
 				$target_list = implode("\n",$target_list);
 			}
+			$publisher = api_get_user_info($announcement_publication->get_publisher_id());
 			$html = array();
 			$html[] = '<div class="learning_object">';
 			$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$announcement->get_type().'.gif" alt="'.$announcement->get_type().'"/></div>';
 			$html[] = '<div class="title'.($announcement_publication->is_hidden() ? ' invisible':'').'">'.htmlentities($announcement->get_title()).'</div>';
 			$html[] = '<div class="description'.($announcement_publication->is_hidden() ? ' invisible':'').'">'.$announcement->get_description();
 			$html[] = '<br /><i>';
+			//TODO: date-formatting
+			$html[] = get_lang('PublishedOn').' '.date('r',$announcement_publication->get_publication_date());
+			$html[] = get_lang('By').' '.$publisher['firstName'].' '.$publisher['lastName'].'. ';
 			$html[] = get_lang('SentTo').': ';
 			$html[] = $target_list;
 			$html[] = '</i><br />';
