@@ -67,31 +67,43 @@ class AnnouncementTool extends RepositoryTool
 
 			$users = $announcement_publication->get_target_users();
 			$groups = $announcement_publication->get_target_groups();
-			$target_list = array();
-			$target_list[] = '<select>';
-			foreach($users as $index => $user)
+			if(count($users) == 0 && count($groups) == 0)
 			{
-				$target_list[] = '<option>'.$user.'</option>';
+				$target_list = get_lang('Everybody');
 			}
-			foreach($groups as $index => $group)
+			else
 			{
-				$target_list[] = '<option>'.$group.'</option>';
+				$target_list = array();
+				$target_list[] = '<select>';
+				foreach($users as $index => $user_id)
+				{
+					$user = api_get_user_info($user_id);
+					$target_list[] = '<option>'.$user['firstName'].' '.$user['lastName'].'</option>';
+				}
+				foreach($groups as $index => $group_id)
+				{
+					//TODO: replace group id by group name (gives SQL-error now)
+					//$group = GroupManager::get_group_properties($group_id);
+					//$target_list[] = '<option>'.$group['name'].'</option>';
+					$target_list[] = '<option>'.'GROUP: '.$group_id.'</option>';
+				}
+				$target_list[] = '</select>';
+				$target_list = implode("\n",$target_list);
 			}
-			$target_list[] = '</select>';
-			$target_list = implode("\n",$target_list);
-
 			$html = array();
 			$html[] = '<div class="learning_object">';
 			$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$announcement->get_type().'.gif" alt="'.$announcement->get_type().'"/></div>';
 			$html[] = '<div class="title'.($announcement_publication->is_hidden() ? ' invisible':'').'">'.htmlentities($announcement->get_title()).'</div>';
 			$html[] = '<div class="description'.($announcement_publication->is_hidden() ? ' invisible':'').'">'.$announcement->get_description();
-			$html[] = '<br />';
+			$html[] = '<br /><i>';
+			$html[] = get_lang('SentTo').': ';
+			$html[] = $target_list;
+			$html[] = '</i><br />';
 			$html[] = '<a href="'.$delete_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/delete.gif"/></a>';
 			$html[] = '<a href="'.$visible_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$visibility_img.'"/></a>';
 			$html[] = $up_link;
 			$html[] = $down_link;
 			$html[] = '</div>';
-			$html[] = $target_list;
 			$html[] = '</div>';
 			$html[] = '<br /><br />';
 			echo implode("\n",$html);
