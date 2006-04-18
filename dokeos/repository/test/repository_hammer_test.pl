@@ -12,6 +12,8 @@ use constant LOGIN_PASSWORD => 'admin';
 use constant LEARNING_OBJECT_IDS_URL => 'http://193.191.154.68/dokeoslcms/repository/test/repository_hammer_test.php';
 use constant REPOSITORY_URL => 'http://193.191.154.68/dokeoslcms/repository/objectmanagement/';
 use constant LEARNING_OBJECT_URL_FORMAT => 'http://193.191.154.68/dokeoslcms/repository/objectmanagement/view.php?id=%d';
+use constant LEARNING_OBJECT_OUTPUT_PATTERN => qr/<div class="learning_object">/;
+use constant REPOSITORY_OUTPUT_PATTERN => qr/<table class="data_table">/;
 use constant REQUEST_COUNT => 5000;
 use constant INTERVAL => 0.5;
 use constant REPOSITORY_EVERY => 3;
@@ -33,7 +35,7 @@ print ' Got ', scalar(@$ids), ' IDs', $/, $/;
 
 my %statistics;
 
-foreach my $source ('RE', 'LO') {
+foreach my $source (qw/RE LO/) {
 	$statistics{$source} = {
 		'count' => 0,
 		'failures' => 0,
@@ -118,14 +120,10 @@ sub request_result {
 	my ($return_code, $return_content) = (0, undef);
 	if ($response->is_success()) {
 		$return_content = $response->content;
-		if (defined $id) {
-			if ($return_content !~ /<div class="learning_object">/) {
-				$return_code = -1
-			}
-		}
-		elsif ($return_content !~ /<table class="data_table">/) {
-			$return_code = -1;
-		}
+		my $pattern = (defined $id
+			? LEARNING_OBJECT_OUTPUT_PATTERN
+			: REPOSITORY_OUTPUT_PATTERN);
+		$return_code = -1 unless ($return_content =~ $pattern);
 	}
 	else {
 		$return_code = $response->code;
