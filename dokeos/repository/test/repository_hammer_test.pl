@@ -61,7 +61,7 @@ for (my $i = 1; $i <= REQUEST_COUNT; $i++) {
 	my $info_object = $statistics{$single_lo ? 'LO' : 'RE'};
 	$info_object->{'total_request_time'} += $request_time;
 	$info_object->{'count'}++;
-	$info_object->{'failures'}++ unless $result;
+	$info_object->{'failures'}++ if $result;
 	$info_object->{'avg_time'} = $info_object->{'total_request_time'} / $info_object->{'count'};
 	$info_object->{'std_dev_total'} += ($info_object->{'avg_time'} - $request_time) ** 2;
 	print $i, '.', "\t", (defined $id ? $id : '<R>'), "\t", ($result < 0 ? 'FAIL' : ($result || 'OK')), "\t", sprintf('%.0f', $request_time), ' ms', $/;
