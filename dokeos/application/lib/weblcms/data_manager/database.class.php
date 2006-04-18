@@ -24,9 +24,9 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		return $this->record_to_publication($record);
 	}
 
-	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1)
+	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null, $allowDuplicates = false, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1)
 	{
-		$query = 'SELECT p.* FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
+		$query = 'SELECT '.($allowDuplicates ? '' : 'DISTINCT ').'p.* FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
 		$cond = array ();
 		if (!is_null($course))
 		{
@@ -126,10 +126,10 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		return $results;
 	}
 
-	function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null)
+	function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null, $allowDuplicates = false)
 	{
-			// TODO: Use SQL COUNT(*) etc.
-	return count($this->retrieve_learning_object_publications($course, $categories, $users, $groups, $conditions));
+		// TODO: Use SQL COUNT(*) etc.
+		return count($this->retrieve_learning_object_publications($course, $categories, $users, $groups, $conditions, $allowDuplicates));
 	}
 
 	function create_learning_object_publication($publication)

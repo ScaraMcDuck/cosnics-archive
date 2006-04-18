@@ -70,6 +70,11 @@ abstract class WebLCMSDataManager
 	 *                      groups.
 	 * @param Condition $conditions Conditions for publication selection. See
 	 *                              the Conditions framework.
+	 * @param boolean $allowDuplicates Whether or not to allow the same
+	 *                                 publication to be returned twice, e.g.
+	 *                                 if it was published for several groups
+	 *                                 that the user is a member of. Defaults
+	 *                                 to false.
 	 * @param array $orderBy The properties to order publications by.
 	 * @param array $orderDesc An array representing the sorting direction
 	 *                         for the corresponding property of $orderBy.
@@ -79,7 +84,7 @@ abstract class WebLCMSDataManager
 	 * @param int $maxObjects The maximum number of objects to retrieve.
 	 * @return array An array of LearningObjectPublications.
 	 */
-	abstract function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null, $orderBy = array ('display_order'), $orderDesc = array (SORT_ASC), $firstIndex = 0, $maxObjects = -1);
+	abstract function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null, $allowDuplicates = false, $orderBy = array ('display_order'), $orderDesc = array (SORT_ASC), $firstIndex = 0, $maxObjects = -1);
 
 	/**
 	 * Counts learning object publications in persistent storage.
@@ -93,9 +98,14 @@ abstract class WebLCMSDataManager
 	 *                      the publications, or null if none.
 	 * @param Condition $conditions Conditions for publication selection. See
 	 *                              the Conditions framework.
+	 * @param boolean $allowDuplicates Whether or not to allow the same
+	 *                                 publication to be returned twice, e.g.
+	 *                                 if it was published for several groups
+	 *                                 that the user is a member of. Defaults
+	 *                                 to false.
 	 * @return int The number of matching learning object publications.
 	 */
-	abstract function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null);
+	abstract function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null, $allowDuplicates = false);
 
 	/**
 	 * Creates a learning object publication in persistent storage, assigning
