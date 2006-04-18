@@ -23,10 +23,58 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $this->record_to_publication($record);
 	}
-
+	
 	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null, $allowDuplicates = false, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1)
 	{
+		$params = array ();
 		$query = 'SELECT '.($allowDuplicates ? '' : 'DISTINCT ').'p.* FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
+		/*
+		 * Add WHERE clause (also extends $params).
+		 */
+		$query .= ' ' . $this->get_publication_retrieval_where_clause($course, $categories, $users, $groups, $conditions, & $params);
+		/*
+		 * Always respect display order as a last resort.
+		 */
+		$orderBy[] = LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX;
+		$orderDesc[] = SORT_ASC;
+		/*
+		 * Add ORDER clause.
+		 */
+		$query .= ' ORDER BY '.$this->escape_column_name($orderBy[0]).' '. ($orderDesc[0] == SORT_ASC ? 'ASC' : 'DESC');
+		for ($i = 1; $i < count($orderBy); $i ++)
+		{
+			$query .= ','.$this->escape_column_name($orderBy[$i]).' '. ($orderDesc[$i] == SORT_ASC ? 'ASC' : 'DESC');
+		}
+		// XXX: Is this necessary?
+		if ($maxObjects < 0)
+		{
+			$maxObjects = 999999999;
+		}
+		/*
+		 * Get publications.
+		 */
+		$res = & $this->connection->limitQuery($query, intval($firstIndex), intval($maxObjects), $params);
+		$results = array ();
+		while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$results[] = $this->record_to_publication($record);
+		}
+		return $results;
+	}
+
+	function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null, $allowDuplicates = false)
+	{
+		$params = array ();
+		$query = 'SELECT COUNT('.($allowDuplicates ? '*' : 'DISTINCT p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID)).') FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
+		$query .= ' ' . $this->get_publication_retrieval_where_clause($course, $categories, $users, $groups, $conditions, & $params);
+		$sth = $this->connection->prepare($query);
+		$res = & $this->connection->execute($sth, $params);
+		$record = $res->fetchRow(DB_FETCHMODE_ORDERED);
+		return $record[0];
+	}
+
+	private function get_publication_retrieval_where_clause ($course, $categories, $users, $groups, $conditions, & $params)
+	{
 		$cond = array ();
 		if (!is_null($course))
 		{
@@ -91,45 +139,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 			}
 			$conditions = new AndCondition($cond);
 		}
-		/*
-		 * Always respect display order as a last resort.
-		 */
-		$orderBy[] = LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX;
-		$orderDesc[] = SORT_ASC;
-		/*
-		 * Build query.
-		 */
-		$params = array ();
-		if (!is_null($conditions))
-		{
-			$query .= ' WHERE '.$this->translate_condition($conditions, & $params);
-		}
-		$query .= ' ORDER BY '.$this->escape_column_name($orderBy[0]).' '. ($orderDesc[0] == SORT_ASC ? 'ASC' : 'DESC');
-		for ($i = 1; $i < count($orderBy); $i ++)
-		{
-			$query .= ','.$this->escape_column_name($orderBy[$i]).' '. ($orderDesc[$i] == SORT_ASC ? 'ASC' : 'DESC');
-		}
-		// XXX: Is this necessary?
-		if ($maxObjects < 0)
-		{
-			$maxObjects = 999999999;
-		}
-		/*
-		 * Get publications.
-		 */
-		$res = & $this->connection->limitQuery($query, intval($firstIndex), intval($maxObjects), $params);
-		$results = array ();
-		while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$results[] = $this->record_to_publication($record);
-		}
-		return $results;
-	}
-
-	function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null, $allowDuplicates = false)
-	{
-		// TODO: Use SQL COUNT(*) etc.
-		return count($this->retrieve_learning_object_publications($course, $categories, $users, $groups, $conditions, $allowDuplicates));
+		return (is_null($conditions) ? '' : 'WHERE '.$this->translate_condition($conditions, & $params));
 	}
 
 	function create_learning_object_publication($publication)
