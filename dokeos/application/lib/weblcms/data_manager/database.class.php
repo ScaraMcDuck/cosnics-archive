@@ -23,7 +23,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $this->record_to_publication($record);
 	}
-	
+
 	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null, $allowDuplicates = false, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1)
 	{
 		$params = array ();
@@ -371,7 +371,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 	private function record_to_publication($record)
 	{
 		$obj = $this->repoDM->retrieve_learning_object($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
-		return new LearningObjectPublication($record[LearningObjectPublication :: PROPERTY_ID], $obj, $record[LearningObjectPublication :: PROPERTY_COURSE_ID], $record[LearningObjectPublication :: PROPERTY_TOOL], $record[LearningObjectPublication :: PROPERTY_CATEGORY_ID], $record['target_users'], $record['target_groups'], self :: from_db_date($record[LearningObjectPublication :: PROPERTY_FROM_DATE]), self :: from_db_date($record[LearningObjectPublication :: PROPERTY_TO_DATE]), $record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID], self :: from_db_date($record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE]), $record[LearningObjectPublication :: PROPERTY_HIDDEN] != 0, $record[LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX]);
+		return new LearningObjectPublication($record[LearningObjectPublication :: PROPERTY_ID], $obj, $record[LearningObjectPublication :: PROPERTY_COURSE_ID], $record[LearningObjectPublication :: PROPERTY_TOOL], $record[LearningObjectPublication :: PROPERTY_CATEGORY_ID], $record['target_users'], $record['target_groups'], $record[LearningObjectPublication :: PROPERTY_FROM_DATE], $record[LearningObjectPublication :: PROPERTY_TO_DATE], $record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID], self :: from_db_date($record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE]), $record[LearningObjectPublication :: PROPERTY_HIDDEN] != 0, $record[LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX]);
 	}
 
 	private function translate_condition($condition, & $params)
