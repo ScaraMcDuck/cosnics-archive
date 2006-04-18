@@ -371,7 +371,23 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 	private function record_to_publication($record)
 	{
 		$obj = $this->repoDM->retrieve_learning_object($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
-		return new LearningObjectPublication($record[LearningObjectPublication :: PROPERTY_ID], $obj, $record[LearningObjectPublication :: PROPERTY_COURSE_ID], $record[LearningObjectPublication :: PROPERTY_TOOL], $record[LearningObjectPublication :: PROPERTY_CATEGORY_ID], $record['target_users'], $record['target_groups'], $record[LearningObjectPublication :: PROPERTY_FROM_DATE], $record[LearningObjectPublication :: PROPERTY_TO_DATE], $record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID], self :: from_db_date($record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE]), $record[LearningObjectPublication :: PROPERTY_HIDDEN] != 0, $record[LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX]);
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_group').' WHERE publication = ?';
+		$sth = $this->connection->prepare($query);
+		$res = & $this->connection->execute($sth, $record[LearningObjectPublication :: PROPERTY_ID]);
+		$target_groups = array();
+		while($target_group = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$target_groups[] = $target_group['group'];
+		}
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_user').' WHERE publication = ?';
+		$sth = $this->connection->prepare($query);
+		$res = & $this->connection->execute($sth, $record[LearningObjectPublication :: PROPERTY_ID]);
+		$target_users = array();
+		while($target_user = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$target_users[] = $target_user['user'];
+		}
+		return new LearningObjectPublication($record[LearningObjectPublication :: PROPERTY_ID], $obj, $record[LearningObjectPublication :: PROPERTY_COURSE_ID], $record[LearningObjectPublication :: PROPERTY_TOOL], $record[LearningObjectPublication :: PROPERTY_CATEGORY_ID], $target_users, $target_groups, $record[LearningObjectPublication :: PROPERTY_FROM_DATE], $record[LearningObjectPublication :: PROPERTY_TO_DATE], $record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID], self :: from_db_date($record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE]), $record[LearningObjectPublication :: PROPERTY_HIDDEN] != 0, $record[LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX]);
 	}
 
 	private function translate_condition($condition, & $params)
