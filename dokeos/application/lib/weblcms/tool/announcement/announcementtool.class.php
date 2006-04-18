@@ -83,8 +83,8 @@ class AnnouncementTool extends RepositoryTool
 			$html = array();
 			$html[] = '<div class="learning_object">';
 			$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$announcement->get_type().'.gif" alt="'.$announcement->get_type().'"/></div>';
-			$html[] = '<div class="title">'.htmlentities($announcement->get_title()).'</div>';
-			$html[] = '<div class="description">'.$announcement->get_description();
+			$html[] = '<div class="title'.($announcement_publication->is_hidden() ? ' invisible':'').'">'.htmlentities($announcement->get_title()).'</div>';
+			$html[] = '<div class="description'.($announcement_publication->is_hidden() ? ' invisible':'').'">'.$announcement->get_description();
 			$html[] = '<br />';
 			$html[] = '<a href="'.$delete_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/delete.gif"/></a>';
 			$html[] = '<a href="'.$visible_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$visibility_img.'"/></a>';
