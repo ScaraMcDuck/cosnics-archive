@@ -82,6 +82,10 @@ for ($i = 0; $i < $calendar_events; $i ++)
 	$event->set_title(random_string(2));
 	$event->set_description(random_string(8));
 	$event->set_parent_id(random_category($user));
+	$start_date = rand(strtotime('-1 Month',time()),strtotime('+1 Month',time()));
+	$end_date = rand($start_date+1,strtotime('+1 Month',$start_date));
+	$event->set_start_date($start_date);
+	$event->set_end_date($end_date);
 	$event->create();
 }
 
