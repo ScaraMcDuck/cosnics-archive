@@ -14,7 +14,7 @@ class AnnouncementTool extends RepositoryTool
 		{
 			$_SESSION['announcementadmin'] = $_GET['announcementadmin'];
 		}
-		if ($_SESSION['announcementadmin'])
+		if ($_SESSION['announcementadmin'] && $this->is_allowed(ADD_RIGHT))
 		{
 			echo '<p>Go to <a href="' . $this->get_url(array('announcementadmin' => 0), true) . '">User Mode</a> &hellip;</p>';
 			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
@@ -23,7 +23,10 @@ class AnnouncementTool extends RepositoryTool
 		}
 		else
 		{
-			echo '<p>Go to <a href="' . $this->get_url(array('announcementadmin' => 1), true) . '">Publisher Mode</a> &hellip;</p>';
+			if($this->is_allowed(ADD_RIGHT))
+			{
+				echo '<p>Go to <a href="' . $this->get_url(array('announcementadmin' => 1), true) . '">Publisher Mode</a> &hellip;</p>';
+			}
 			$this->perform_requested_actions();
 			$this->display();
 		}
@@ -38,6 +41,11 @@ class AnnouncementTool extends RepositoryTool
 		$number_of_announcements = count($announcement_publications);
 		foreach($announcement_publications as $index => $announcement_publication)
 		{
+			// If the announcement is hidden and the user is not allowed to DELETE or EDIT, don't show this announcement
+			if($announcement_publication->is_hidden() && !($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
+			{
+				continue;
+			}
 			$announcement = $announcement_publication->get_learning_object();
 			$target_users = $announcement_publication->get_target_users();
 			$delete_url = $this->get_url(array('action'=>'delete','pid'=>$announcement_publication->get_id()), true);
@@ -102,11 +110,18 @@ class AnnouncementTool extends RepositoryTool
 			$html[] = get_lang('By').' '.$publisher['firstName'].' '.$publisher['lastName'].'. ';
 			$html[] = get_lang('SentTo').': ';
 			$html[] = $target_list;
-			$html[] = '</i><br />';
-			$html[] = '<a href="'.$delete_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/delete.gif"/></a>';
-			$html[] = '<a href="'.$visible_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$visibility_img.'"/></a>';
-			$html[] = $up_link;
-			$html[] = $down_link;
+			$html[] = '</i>';
+			$html[] = '<br />';
+			if($this->is_allowed(DELETE_RIGHT))
+			{
+				$html[] = '<a href="'.$delete_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/delete.gif"/></a>';
+			}
+			if($this->is_allowed(EDIT_RIGHT))
+			{
+				$html[] = '<a href="'.$visible_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$visibility_img.'"/></a>';
+				$html[] = $up_link;
+				$html[] = $down_link;
+			}
 			$html[] = '</div>';
 			$html[] = '</div>';
 			$html[] = '<br /><br />';

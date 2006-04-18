@@ -14,22 +14,33 @@ abstract class Tool
 	 * The application that the tool is associated with.
 	 */
 	private $parent;
-	
+
+	/**
+	 * The rights of the current user in this tool
+	 */
+	private $rights;
+
 	/**
 	 * Constructor.
 	 * @param Application $parent The application that the tool is associated
 	 *                            with.
-	 */ 
+	 */
 	function Tool($parent)
 	{
 		$this->parent = $parent;
+		// Roles and rights system
+		$user_id = api_get_user_id();
+		$course_id = api_get_course_id();
+		$role_id = RolesRights::get_local_user_role_id($user_id, $course_id);
+		$location_id = RolesRights::get_course_tool_location_id($course_id, $this->get_tool_id());
+		$this->rights = RolesRights::is_allowed_which_rights($role_id, $location_id);
 	}
-	
+
 	/**
 	 * Runs the tool, performing whatever actions are necessary.
 	 */
 	abstract function run();
-	
+
 	/**
 	 * Returns the application that this tool is associated with.
 	 * @return Application The application.
@@ -38,7 +49,7 @@ abstract class Tool
 	{
 		return $this->parent;
 	}
-	
+
 	/**
 	 * @see Application :: get_tool_id()
 	 */
@@ -46,7 +57,7 @@ abstract class Tool
 	{
 		return $this->parent->get_tool_id();
 	}
-	
+
 	/**
 	 * @see Application :: get_parameters()
 	 */
@@ -54,7 +65,7 @@ abstract class Tool
 	{
 		return $this->parent->get_parameters();
 	}
-	
+
 	/**
 	 * @see Application :: get_parameter()
 	 */
@@ -77,6 +88,16 @@ abstract class Tool
 	function get_url($parameters = array(), $encode = false)
 	{
 		return $this->parent->get_url($parameters, $encode);
+	}
+
+	/**
+	 * Check if the current user has a given right in this tool
+	 * @param int $right
+	 * @return boolean True if the current user has the right
+	 */
+	function is_allowed($right)
+	{
+		return $this->rights[$right];
 	}
 }
 ?>
