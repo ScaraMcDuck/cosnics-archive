@@ -31,17 +31,17 @@ my $ids = &get_ids();
 die($ids) unless (ref $ids eq 'ARRAY');
 print ' Got ', scalar(@$ids), ' IDs', $/, $/;
 
-my $repo_count = 0;
-my $repo_failures = 0;
-my $repo_total_request_time = 0;
-my $repo_std_dev_total = 0;
-my $repo_avg_time = 0;
+my %statistics;
 
-my $lo_count = 0;
-my $lo_failures = 0;
-my $lo_total_request_time = 0;
-my $lo_std_dev_total = 0;
-my $lo_avg_time = 0;
+foreach my $source ('RE', 'LO') {
+	$statistics{$source} = {
+		'count' => 0,
+		'failures' => 0,
+		'total_request_time' => 0,
+		'std_dev_total' => 0,
+		'avg_time' => 0
+	};
+}
 
 my $start_time = time();
 
@@ -58,35 +58,28 @@ for (my $i = 1; $i <= REQUEST_COUNT; $i++) {
 	my ($response, $request_time) = &get_url($url, $sid_cookie);
 	my ($result, $content) = &request_result($response, $id);
 	$request_time *= 1000;
-	if ($single_lo) {
-		$lo_total_request_time += $request_time;
-		$lo_count++;
-		$lo_failures++ unless $result;
-		$lo_avg_time = $lo_total_request_time / $lo_count;
-		$lo_std_dev_total += ($lo_avg_time - $request_time) ** 2;
-	}
-	else {
-		$repo_total_request_time += $request_time;
-		$repo_count++;
-		$repo_failures++ unless $result;
-		$repo_avg_time = $repo_total_request_time / $repo_count;
-		$repo_std_dev_total += ($repo_avg_time - $request_time) ** 2;
-	}
-	print $i, '.', "\t", (defined $id ? $id : 'R'), "\t", ($result < 0 ? 'FAIL' : ($result || 'OK')), "\t", sprintf('%.0f', $request_time), ' ms', $/;
+	my $info_object = $statistics{$single_lo ? 'LO' : 'RE'};
+	$info_object->{'total_request_time'} += $request_time;
+	$info_object->{'count'}++;
+	$info_object->{'failures'}++ unless $result;
+	$info_object->{'avg_time'} = $info_object->{'total_request_time'} / $info_object->{'count'};
+	$info_object->{'std_dev_total'} += ($info_object->{'avg_time'} - $request_time) ** 2;
+	print $i, '.', "\t", (defined $id ? $id : '<R>'), "\t", ($result < 0 ? 'FAIL' : ($result || 'OK')), "\t", sprintf('%.0f', $request_time), ' ms', $/;
 	print STDERR $content, $/ if ($result < 0);
 	unless ($i % REPORT_EVERY) {
 		my $current_time = time();
 		my $total_time = $current_time - $start_time;
 		print $/,
-			'STATUS:               ', sprintf('%.02f', $i / REQUEST_COUNT * 100), '% complete', $/,
-			'Elapsed time:         ', sprintf('%.03f', $total_time), ' seconds', $/,
-			'Average request time: R:  ', ($repo_count ? sprintf('%.0f', $repo_avg_time) : '-'), ' ms', $/,
-			'                      LO: ', ($lo_count ? sprintf('%.0f', $lo_avg_time) : '-'), ' ms', $/,
-			'Standard deviation:   R:  ', ($repo_count ? sprintf('%.0f', sqrt($repo_std_dev_total / $repo_count)) : '-'), ' ms', $/,
-			'                      LO: ', ($lo_count ? sprintf('%.0f', sqrt($lo_std_dev_total / $lo_count)) : '-'), ' ms', $/,
-			'Failures:             R:  ', $repo_failures, '/', $repo_count, ' (', sprintf('%.02f', $repo_failures / $repo_count * 100), '%)', $/,
-			'                      LO: ', $lo_failures, '/', $lo_count, ' (', sprintf('%.02f', $lo_failures / $lo_count * 100), '%)', $/,
-			$/;
+			'STATUS:                    ', sprintf('%.02f', $i / REQUEST_COUNT * 100), '% complete', $/,
+			'Elapsed time:              ', sprintf('%.03f', $total_time), ' seconds', $/;
+		while (my ($source, $info) = each %statistics) {
+			my $count = $info->{'count'};
+			next unless ($count);
+			print $source, ' > Average request time: ', sprintf('%.0f', $info->{'avg_time'}), ' ms', $/,
+				         '   > Standard deviation:   ', sprintf('%.0f', sqrt($info->{'std_dev_total'} / $count)), ' ms', $/,
+				         '   > Failures:             ', $info->{'failures'}, '/', $count, ' (', sprintf('%.02f', $info->{'failures'} / $count * 100), '%)', $/;
+		}
+		print $/;
 	}
 	sleep INTERVAL;
 }
