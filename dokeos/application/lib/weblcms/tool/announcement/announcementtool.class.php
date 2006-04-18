@@ -10,6 +10,11 @@ class AnnouncementTool extends RepositoryTool
 	 */
 	function run()
 	{
+		if(!$this->is_allowed(VIEW_RIGHT))
+		{
+			api_not_allowed();
+			return;
+		}
 		if (isset($_GET['announcementadmin']))
 		{
 			$_SESSION['announcementadmin'] = $_GET['announcementadmin'];
