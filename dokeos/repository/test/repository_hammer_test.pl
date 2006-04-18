@@ -127,5 +127,8 @@ sub request_result {
 			$return_code = -1;
 		}
 	}
+	else {
+		$return_code = $response->code;
+	}
 	return (wantarray ? ($return_code, $return_content) : $return_code);
 }
