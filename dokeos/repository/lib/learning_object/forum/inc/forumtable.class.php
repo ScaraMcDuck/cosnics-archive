@@ -7,7 +7,7 @@ class ForumTable extends SortableTable
 	function ForumTable($forum, $url_format = '?id=%s')
 	{
 		$name = 'forumtable'.$forum->get_id();
-		parent :: __construct($name, array($this,'get_children_count'), array($this,'get_children'),'3');
+		parent :: __construct($name, array($this,'get_children_count'), array($this,'get_children'),'2');
 		$this->set_additional_parameters(array('id' => $forum->get_id()));
 		$this->set_column_titles(get_lang('Title'), get_lang('Description'), get_lang('Created'), get_lang('LastModified'));
 		$this->forum = $forum;
