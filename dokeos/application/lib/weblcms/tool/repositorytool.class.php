@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/tool.class.php';
 /**
 ==============================================================================
  *	This is the base class for all tools used in applications that use the
- *	repository. It offers additional repository-related functionality. 
+ *	repository. It offers additional repository-related functionality.
  *
  *	@author Tim De Pauw
 ==============================================================================
@@ -92,32 +92,44 @@ abstract class RepositoryTool extends Tool
 			switch($_GET['action'])
 			{
 				case 'delete':
-					$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
-					if($publication->delete())
+					if($this->is_allowed(DELETE_RIGHT))
 					{
-						$message = get_lang('LearningObjectPublicationDeleted');
+						$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
+						if($publication->delete())
+						{
+							$message = get_lang('LearningObjectPublicationDeleted');
+						}
 					}
 					break;
 				case 'toggle_visibility':
-					$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
-					$publication->toggle_visibility();
-					if($publication->update())
+					if($this->is_allowed(EDIT_RIGHT))
 					{
-						$message = get_lang('LearningObjectPublicationVisibilityChanged');
+						$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
+						$publication->toggle_visibility();
+						if($publication->update())
+						{
+							$message = get_lang('LearningObjectPublicationVisibilityChanged');
+						}
 					}
 					break;
 				case 'move_up':
-					$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
-					if($publication->move(-1))
+					if($this->is_allowed(EDIT_RIGHT))
 					{
-						$message = get_lang('LearningObjectPublicationMovedUp');
+						$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
+						if($publication->move(-1))
+						{
+							$message = get_lang('LearningObjectPublicationMovedUp');
+						}
 					}
 					break;
 				case 'move_down':
-					$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
-					if($publication->move(1))
+					if($this->is_allowed(EDIT_RIGHT))
 					{
-						$message = get_lang('LearningObjectPublicationMovedDown');
+						$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
+						if($publication->move(1))
+						{
+							$message = get_lang('LearningObjectPublicationMovedDown');
+						}
 					}
 					break;
 			}
