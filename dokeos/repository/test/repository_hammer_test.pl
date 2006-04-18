@@ -17,13 +17,19 @@ use constant INTERVAL => 0.5;
 use constant REPOSITORY_EVERY => 3;
 use constant REPORT_EVERY => 10;
 
+$| = 1;
+
 my $ua = new LWP::UserAgent;
-my $ids;
 
 print 'Logging in as "' . LOGIN_USERNAME, '" ...';
 my $sid_cookie = &login(LOGIN_URL, LOGIN_USERNAME, LOGIN_PASSWORD);
 die 'Login failed' unless ($sid_cookie);
-print ' Success', $/, $/;
+print ' Logged in', $/;
+
+print 'Retrieving learning object IDs ...';
+my $ids = &get_ids();
+die($ids) unless (ref $ids eq 'ARRAY');
+print ' Got ', scalar(@$ids), ' IDs', $/, $/;
 
 my $repo_count = 0;
 my $repo_failures = 0;
@@ -50,7 +56,7 @@ for (my $i = 1; $i <= REQUEST_COUNT; $i++) {
 		$url = REPOSITORY_URL;
 	}
 	my ($response, $request_time) = &get_url($url, $sid_cookie);
-	my $result = &request_result($response, $id);
+	my ($result, $content) = &request_result($response, $id);
 	$request_time *= 1000;
 	if ($single_lo) {
 		$lo_total_request_time += $request_time;
@@ -67,6 +73,7 @@ for (my $i = 1; $i <= REQUEST_COUNT; $i++) {
 		$repo_std_dev_total += ($repo_avg_time - $request_time) ** 2;
 	}
 	print $i, '.', "\t", (defined $id ? $id : 'R'), "\t", ($result < 0 ? 'FAIL' : ($result || 'OK')), "\t", sprintf('%.0f', $request_time), ' ms', $/;
+	print STDERR $content, $/ if ($result < 0);
 	unless ($i % REPORT_EVERY) {
 		my $current_time = time();
 		my $total_time = $current_time - $start_time;
@@ -92,15 +99,11 @@ sub login {
 
 sub get_ids {
 	my $response = &get_url(LEARNING_OBJECT_IDS_URL);
-	die 'Failed to retrieve IDs: ' . $response->status_line
-		unless ($response->is_success());
-	my @ids = split(/\n/, $response->content);
-	print 'Retrieved ', scalar(@ids), ' learning object IDs', $/, $/;
-	return \@ids;
+	return $response->status_line unless ($response->is_success());
+	return [ split(/\n/, $response->content) ];
 }
 
 sub get_random_id {
-	$ids = &get_ids() unless (defined $ids);
 	return $ids->[int rand @$ids];
 }
 
@@ -119,7 +122,17 @@ sub get_url {
 
 sub request_result {
 	my ($response, $id) = @_;
-	return $response->code unless ($response->is_success());
-	return -1 unless (!defined $id || $response->content =~ /class="learning_object"/);
-	return 0;
+	my ($return_code, $return_content) = (0, undef);
+	if ($response->is_success()) {
+		$return_content = $response->content;
+		if (defined $id) {
+			if ($return_content !~ /<div class="learning_object">/) {
+				$return_code = -1
+			}
+		}
+		elsif ($return_content !~ /<table class="data_table">/) {
+			$return_code = -1;
+		}
+	}
+	return (wantarray ? ($return_code, $return_content) : $return_code);
 }
