@@ -9,13 +9,14 @@ class LinkForm extends LearningObjectForm
 	function build_creation_form($default_learning_object = null)
 	{
 		parent :: build_creation_form($default_learning_object);
-		$this->add_textfield(Link :: PROPERTY_URL, get_lang('URL'), true);
+		$this->add_textfield(Link :: PROPERTY_URL, get_lang('URL'), true,'size="100"');
+		$this->setDefaults();
 		$this->add_submit_button();
 	}
 	function build_editing_form($object)
 	{
 		parent :: build_editing_form($object);
-		$this->add_textfield(Link :: PROPERTY_URL, get_lang('URL'), true);
+		$this->add_textfield(Link :: PROPERTY_URL, get_lang('URL'), true,'size="100"');
 		$this->setDefaults();
 		$this->add_submit_button();
 	}
@@ -25,6 +26,10 @@ class LinkForm extends LearningObjectForm
 		if (isset($lo))
 		{
 			$defaults[Link :: PROPERTY_URL] = $lo->get_url();
+		}
+		else
+		{
+			$defaults[Link :: PROPERTY_URL] = 'http://';
 		}
 		parent :: setDefaults($defaults);
 	}
