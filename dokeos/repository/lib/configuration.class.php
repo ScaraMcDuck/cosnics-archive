@@ -5,6 +5,7 @@
  *	This class represents the current configuration.
  *
  *	@author Tim De Pauw
+ * @package repository
 ==============================================================================
  */
 

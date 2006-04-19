@@ -11,6 +11,7 @@ require_once dirname(__FILE__).'/configuration.class.php';
  *	respected for all extensions of this class.
  *
  *	@author Tim De Pauw
+ * @package repository
 ==============================================================================
  */
 
@@ -279,7 +280,7 @@ abstract class RepositoryDataManager
 		}
 		$this->typeProperties[$type] = $additionalProperties;
 	}
-	
+
 	private function is_registered_type($type)
 	{
 		return array_key_exists($type, $this->typeProperties);

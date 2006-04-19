@@ -53,6 +53,7 @@ require_once dirname(__FILE__).'/repositorydatamanager.class.php';
  *	class and manipulate the objects at will.
  *
  *	@author Tim De Pauw
+ * @package repository.learningobject
 ==============================================================================
  */
 
@@ -350,7 +351,7 @@ class LearningObject
 	{
 		return RepositoryDataManager :: get_instance()->delete_learning_object($this);
 	}
-	
+
 	/**
 	 * Retrieves this learning object's ancestors.
 	 * @return array The ancestors, all learning objects.
@@ -367,7 +368,7 @@ class LearningObject
 		}
 		return $ancestors;
 	}
-	
+
 	/**
 	 * Checks if the given ID is the ID of one of this learning object's
 	 * ancestors.
@@ -387,7 +388,7 @@ class LearningObject
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Determines whether this learning object may be moved to the learning
 	 * object with the given ID.

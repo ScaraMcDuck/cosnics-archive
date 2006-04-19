@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/../../repository/lib/condition/equalityconditio
 /**
  * This class provides a navigation menu to allow a user to browse through his
  * categories of learning objects
+ * @package repository
  */
 class CategoryMenu extends HTML_Menu
 {
@@ -25,7 +26,7 @@ class CategoryMenu extends HTML_Menu
 	 * @param string $url_format The format to use for the URL of a category.
 	 *                           Passed to sprintf(). Defaults to the string
 	 *                           "?category=%s".
-	 * @param boolean $include_trash Whether or not to include a Recycle Bin. 
+	 * @param boolean $include_trash Whether or not to include a Recycle Bin.
 	 */
 	public function CategoryMenu($owner, $current_category, $url_format = '?category=%s', $include_trash = false)
 	{
