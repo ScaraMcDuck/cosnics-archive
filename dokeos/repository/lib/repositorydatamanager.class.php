@@ -255,6 +255,33 @@ abstract class RepositoryDataManager
 		$object->set_display_order_index($index);
 		return $index;
 	}
+	
+	/**
+	 * Returns the learning objects that are attached to the learning object
+	 * with the given ID.
+	 * @param int $id The ID of the learning object for which to retrieve
+	 *                attachments.
+	 * @return array The attached learning objects.
+	 */
+	abstract function retrieve_attached_learning_objects ($id);
+	
+	/**
+	 * Adds a learning object to another's attachment list.
+	 * @param int $object_id The ID of the learning object to attach the other
+	 *                       learning object to.
+	 * @param int $attachment_id The ID of the object to attach.
+	 */
+	abstract function attach_learning_object ($object_id, $attachment_id);
+	
+	/**
+	 * Removes a learning object from another's attachment list.
+	 * @param int $object_id The ID of the learning object to detach the other
+	 *                       learning object from.
+	 * @param int $attachment_id The ID of the object to detach.
+	 * @return boolean True if the attachment was removed, false if it did not
+	 *                 exist.
+	 */
+	abstract function detach_learning_object ($object_id, $attachment_id);
 
 	/**
 	 * Automagically loads all the available types of learning objects

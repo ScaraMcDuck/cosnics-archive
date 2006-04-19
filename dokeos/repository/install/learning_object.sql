@@ -14,3 +14,9 @@ CREATE TABLE `%prefix%learning_object` (
   KEY `parent` (`parent`),
   KEY `display_order` (`display_order`)
 );
+
+CREATE TABLE `%prefix%learning_object_attachment` (
+  `learning_object` int(10) unsigned NOT NULL default '0',
+  `attachment` int(10) unsigned NOT NULL default '0',
+  KEY `learning_object` (`learning_object`)
+);

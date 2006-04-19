@@ -16,5 +16,10 @@ class LinkDisplay extends LearningObjectDisplay
 		$html[] = '</div>';
 		return implode("\n",$html);
 	}
+	function get_short_html()
+	{
+		$object = $this->get_learning_object();
+		return '<span class="learning_object"><a href="'.$object->get_url().'">'.htmlentities($object->get_title()).'</a></span>';
+	}
 }
 ?>

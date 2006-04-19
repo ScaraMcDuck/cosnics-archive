@@ -87,6 +87,11 @@ class LearningObject
 	 * in an associative array.
 	 */
 	private $additionalProperties;
+	
+	/**
+	 * Learning objects attached to this learning object.
+	 */
+	private $attachments;
 
 	/**
 	 * Creates a new learning object.
@@ -189,6 +194,20 @@ class LearningObject
 	{
 		return $this->get_default_property(self :: PROPERTY_MODIFICATION_DATE);
 	}
+	
+	/**
+	 * Returns the learning objects attached to this learning object.
+	 * @return array The learning objects.
+	 */
+	function get_attached_learning_objects ()
+	{
+		if (!is_array($this->attachments))
+		{
+			$dm = RepositoryDataManager :: get_instance();
+			$this->attachments = $dm->retrieve_attached_learning_objects($this->get_id());
+		}
+		return $this->attachments;
+	}
 
 	/**
 	 * Sets the ID of this learning object.
@@ -283,6 +302,41 @@ class LearningObject
 	function is_ordered()
 	{
 		return false;
+	}
+	
+	/**
+	 * Determines whether this learning object supports attachments, i.e.
+	 * whether other learning objects may be attached to it. A true value does
+	 * not imply that any objects are actually attached.
+	 * @return boolean True if attachments are supported, false otherwise.
+	 */
+	function supports_attachments()
+	{
+		return false;
+	}
+	
+	/**
+	 * Attaches the learning object with the given ID to this learning object.
+	 * @param int $id The ID of the learning object to attach.
+	 */
+	function attach_learning_object ($id)
+	{
+		$dm = RepositoryDataManager :: get_instance();
+		return $dm->attach_learning_object($this->get_id(), $id);
+	}
+
+	/**
+	 * Removes the learning object with the given ID from this learning
+	 * object's attachment list.
+	 * @param int $id The ID of the learning object to remove from the
+	 *                attachment list.
+	 * @return boolean True if the attachment was removed, false if it did not
+	 *                 exist.
+	 */
+	function detach_learning_object ($id)
+	{
+		$dm = RepositoryDataManager :: get_instance();
+		return $dm->detach_learning_object($this->get_id(), $id);
 	}
 
 	/**

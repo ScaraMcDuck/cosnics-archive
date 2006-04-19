@@ -96,5 +96,20 @@ class RepositoryUtilities
 		list($hours, $minutes, $seconds) = split(':', $time);
 		return mktime($hours, $minutes, $seconds, $month, $day, $year);
 	}
+	
+	/**
+	 * Orders the given learning objects by their title. Note that the
+	 * ordering happens in-place; there is no return value.
+	 * @param array $objects The learning objects to order.
+	 */ 
+	static function order_learning_objects_by_title (& $objects)
+	{
+		usort($objects, array(get_class(), 'by_title'));
+	}
+	
+	private static function by_title ($a, $b)
+	{
+		return strcasecmp($a->get_title(), $b->get_title()); 
+	}
 }
 ?>
