@@ -36,7 +36,7 @@ class LearningObjectPublicationCategoryForm extends FormValidator
 		if (isset($this->category))
 		{
 			$defaults[self :: PARAM_TITLE] = $this->category->get_title();
-			$defaults[self :: PARAM_CATEGORY] = $this->category->get_parent();
+			$defaults[self :: PARAM_CATEGORY] = $this->category->get_parent_category_id();
 		}
 		parent :: setDefaults($defaults);
 	}

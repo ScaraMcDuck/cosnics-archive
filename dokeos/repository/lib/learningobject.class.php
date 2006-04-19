@@ -13,7 +13,9 @@ require_once dirname(__FILE__).'/repositorydatamanager.class.php';
  *	- description: a brief description of the learning object; may also be
  *	  used to store its content in select cases;
  *	- parent: the numeric ID of the parent object of this learning object;
- *    this is a learning object by itself, usually a category.
+ *    this is a learning object by itself, usually a category;
+ *  - display_order: a number giving the learning object a position among its
+ *    siblings; only applies if the learning object is ordered;
  *	- created: the date when the learning object was created, as returned by
  *	  PHP's time() function (UNIX time, seconds since the epoch);
  *	- modified: the date when the learning object was last modified, as
@@ -65,6 +67,7 @@ class LearningObject
 	const PROPERTY_TITLE = 'title';
 	const PROPERTY_DESCRIPTION = 'description';
 	const PROPERTY_PARENT_ID = 'parent';
+	const PROPERTY_DISPLAY_ORDER_INDEX = 'display_order';
 	const PROPERTY_CREATION_DATE = 'created';
 	const PROPERTY_MODIFICATION_DATE = 'modified';
 
@@ -158,6 +161,16 @@ class LearningObject
 	}
 
 	/**
+	 * Returns the display order index of the learning object among its
+	 * siblings.
+	 * @return int The display order index.
+	 */
+	function get_display_order_index()
+	{
+		return $this->get_default_property(self :: PROPERTY_DISPLAY_ORDER_INDEX);
+	}
+
+	/**
 	 * Returns the date when this learning object was created, as returned
 	 * by PHP's time() function.
 	 * @return int The creation date.
@@ -223,6 +236,15 @@ class LearningObject
 	}
 
 	/**
+	 * Sets the display order index of the learning object among its siblings.
+	 * @param int $index The index.
+	 */
+	function set_display_order_index($index)
+	{
+		$this->set_default_property(self :: PROPERTY_DISPLAY_ORDER_INDEX, $index);
+	}
+
+	/**
 	 * Sets the date when this learning object was created.
 	 * @param int $created The creation date, as returned by time().
 	 */
@@ -249,6 +271,18 @@ class LearningObject
 	function is_extended()
 	{
 		return RepositoryDataManager :: get_instance()->is_extended_type($this->get_type());
+	}
+
+	/**
+	 * Determines whether this learning object is ordered, i.e. whether its
+	 * order within its parent learning object is fixed. The order is stored
+	 * in the display order index property, which is automatically maintained
+	 * by the learning object class.
+	 * @return boolean True if the object is ordered, false otherwise.
+	 */
+	function is_ordered()
+	{
+		return false;
 	}
 
 	/**
@@ -314,7 +348,7 @@ class LearningObject
 	 * Instructs the data manager to create the learning object, making it
 	 * persistent. Also sets the learning object's creation date to the
 	 * current time. The data manager automatically assigns an ID to the
-	 * learning object.
+	 * learning object. 
 	 * @return int The newly assigned ID of the learning object.
 	 */
 	function create()
@@ -322,7 +356,8 @@ class LearningObject
 		$now = time();
 		$this->set_creation_date($now);
 		$this->set_modification_date($now);
-		return RepositoryDataManager :: get_instance()->create_learning_object($this);
+		$dm = RepositoryDataManager :: get_instance();
+		return $dm->create_learning_object($this);
 	}
 
 	/**
@@ -358,7 +393,7 @@ class LearningObject
 	 */
 	function get_ancestors()
 	{
-		$ancestors = array();
+		$ancestors = array ();
 		$aid = $this->get_parent_id();
 		while ($aid > 0)
 		{

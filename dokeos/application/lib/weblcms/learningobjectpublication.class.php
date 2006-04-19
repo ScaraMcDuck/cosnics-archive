@@ -195,15 +195,20 @@ class LearningObjectPublication
 	{
 		$this->set_hidden(!$this->is_hidden());
 	}
-
-	function delete()
+	
+	function create()
 	{
-		return WebLCMSDataManager :: get_instance()->delete_learning_object_publication($this);
+		return WebLCMSDataManager :: get_instance()->create_learning_object_publication($this);
 	}
 
 	function update()
 	{
 		return WebLCMSDataManager :: get_instance()->update_learning_object_publication($this);
+	}
+	
+	function delete()
+	{
+		return WebLCMSDataManager :: get_instance()->delete_learning_object_publication($this);
 	}
 
 	/**

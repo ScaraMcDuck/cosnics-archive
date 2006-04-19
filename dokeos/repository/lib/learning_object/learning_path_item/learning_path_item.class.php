@@ -13,5 +13,9 @@ class LearningPathItem extends LearningObject
 	{
 		return $this->set_additional_property('object_id', $object_id);
 	}
+	function is_ordered()
+	{
+		return true;
+	}
 }
 ?>

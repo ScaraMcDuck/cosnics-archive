@@ -177,7 +177,7 @@ abstract class RepositoryDataManager
 	 *                        first index will be returned.
 	 * @return array An array of the matching learning objects.
 	 */
-	abstract function retrieve_learning_objects($type = null, $conditions = null, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1);
+	abstract function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1);
 
 	/**
 	 * Returns the number of learning objects that match the given criteria.
@@ -193,7 +193,7 @@ abstract class RepositoryDataManager
 	 *                             documentation.
 	 * @return int The number of matching learning objects.
 	 */
-	abstract function count_learning_objects($type = null, $conditions = null);
+	abstract function count_learning_objects($type = null, $condition = null);
 
 	/**
 	 * Makes the given learning object persistent, assigning an ID to it.
@@ -224,6 +224,37 @@ abstract class RepositoryDataManager
 	 * Deletes all known learning objects from persistent storage.
 	 */
 	abstract function delete_all_learning_objects();
+	
+	/**
+	 * Moves a learning object among its siblings.
+	 * @param LearningObject $object The learning object to move.
+	 * @param int $places The number of places to move the object down by. If
+	 *                    negative, the publication will be moved up.
+	 * @return int The number of places that the publication was moved down.
+	 */
+	abstract function move_learning_object($object, $places);
+
+	/**
+	 * Gets the next available index in the display order.
+	 * @param int $parent The numeric identifier of the learning object's
+	 *                    parent learning object.
+	 * @param string $type The type of learning object.
+	 * @return int The requested display order index.
+	 */
+	abstract function get_next_learning_object_display_order_index($parent, $type);
+	
+	/**
+	 * Sets the given learning object's display order index to the next
+	 * available index in the display order. This is a convenience function.
+	 * @param LearningObject $object The learning object.
+	 * @return int The newly assigned index.
+	 */
+	function assign_learning_object_display_order_index ($object)
+	{
+		$index = $this->get_next_learning_object_display_order_index($object->get_parent_id(), $object->get_type());
+		$object->set_display_order_index($index);
+		return $index;
+	}
 
 	/**
 	 * Automagically loads all the available types of learning objects

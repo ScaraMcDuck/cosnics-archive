@@ -69,7 +69,7 @@ class DocumentForm extends LearningObjectForm
 		$object->set_path($path);
 		$object->set_filename($filename);
 		$object->set_filesize(filesize($this->get_upload_path().'/'.$path));
-		$this->set_learning_object($object);
+		$this->set_learning_object(& $object);
 		return parent :: create_learning_object($owner);
 	}
 	function update_learning_object(& $object)
