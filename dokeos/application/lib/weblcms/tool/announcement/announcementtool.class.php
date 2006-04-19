@@ -47,7 +47,7 @@ class AnnouncementTool extends RepositoryTool
 		foreach($announcement_publications as $index => $announcement_publication)
 		{
 			// If the announcement is hidden and the user is not allowed to DELETE or EDIT, don't show this announcement
-			if($announcement_publication->is_hidden() && !($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
+			if(!$announcement_publication->is_visible_for_target_users() && !($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
 			{
 				continue;
 			}
@@ -107,15 +107,20 @@ class AnnouncementTool extends RepositoryTool
 			$html = array();
 			$html[] = '<div class="learning_object">';
 			$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$announcement->get_type().'.gif" alt="'.$announcement->get_type().'"/></div>';
-			$html[] = '<div class="title'.($announcement_publication->is_hidden() ? ' invisible':'').'">'.htmlentities($announcement->get_title()).'</div>';
-			$html[] = '<div class="description'.($announcement_publication->is_hidden() ? ' invisible':'').'">'.$announcement->get_description();
-			$html[] = '<br /><i>';
+			$html[] = '<div class="title'.($announcement_publication->is_visible_for_target_users() ? '':' invisible').'">'.htmlentities($announcement->get_title()).'</div>';
+			$html[] = '<div class="description'.($announcement_publication->is_visible_for_target_users() ? '':' invisible').'">'.$announcement->get_description();
+			$html[] = '<br /><em>';
 			//TODO: date-formatting
 			$html[] = get_lang('PublishedOn').' '.date('r',$announcement_publication->get_publication_date());
 			$html[] = get_lang('By').' '.$publisher['firstName'].' '.$publisher['lastName'].'. ';
 			$html[] = get_lang('SentTo').': ';
 			$html[] = $target_list;
-			$html[] = '</i>';
+			if(!$announcement_publication->is_forever())
+			{
+				//TODO: date-formatting
+				$html[] = ' ('.get_lang('From').' '.date('r',$announcement_publication->get_from_date()).' '.get_lang('To').' '.date('r',$announcement_publication->get_to_date()).')';
+			}
+			$html[] = '</em>';
 			$html[] = '<br />';
 			if($this->is_allowed(DELETE_RIGHT))
 			{
@@ -141,12 +146,13 @@ class AnnouncementTool extends RepositoryTool
 	{
 		$datamanager = WebLCMSDataManager :: get_instance();
 		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'announcement');
-		$from_date_condition = new InequalityCondition(LearningObjectPublication :: PROPERTY_FROM_DATE,InequalityCondition::LESS_THAN_OR_EQUAL,time());
-		$to_date_condition = new InequalityCondition(LearningObjectPublication :: PROPERTY_TO_DATE,InequalityCondition::GREATER_THAN_OR_EQUAL,time());
-		$publication_period_cond = new AndCondition($from_date_condition,$to_date_condition);
-		$forever_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_FROM_DATE,0);
-		$time_condition = new OrCondition($publication_period_cond,$forever_condition);
-		$condition = new AndCondition($tool_condition,$time_condition);
+		//$from_date_condition = new InequalityCondition(LearningObjectPublication :: PROPERTY_FROM_DATE,InequalityCondition::LESS_THAN_OR_EQUAL,time());
+		//$to_date_condition = new InequalityCondition(LearningObjectPublication :: PROPERTY_TO_DATE,InequalityCondition::GREATER_THAN_OR_EQUAL,time());
+		//$publication_period_cond = new AndCondition($from_date_condition,$to_date_condition);
+		//$forever_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_FROM_DATE,0);
+		//$time_condition = new OrCondition($publication_period_cond,$forever_condition);
+		//$condition = new AndCondition($tool_condition,$time_condition);
+		$condition = $tool_condition;
 		$announcement_publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups(),$condition);
 		return $announcement_publications;
 	}
