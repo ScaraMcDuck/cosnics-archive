@@ -733,6 +733,11 @@ div.system_announcement_content{
 }
 
 /* Learning object display styles */
+div.learning_object
+{
+	border: 1px solid #F0F0F0;
+	margin: 3px;
+}
 div.learning_object div.icon
 {
 	width: 26px;
@@ -754,6 +759,16 @@ div.learning_object div.description
 {
 	margin-left: 10px;
 	clear: both;
+}
+div.learning_object div.publication_info
+{
+	font-style: italic;
+	text-align: right;
+	padding: 3px;
+}
+div.learning_object div.publication_actions
+{
+	text-align: right;
 }
 
 /* Semantic tabbed pane style */
@@ -893,7 +908,7 @@ ul.tree-menu li div a
 
 ul.tree-menu li.empty div a
 {
-	background-image: url(../img/treemenu/tree-folder.gif);	
+	background-image: url(../img/treemenu/tree-folder.gif);
 }
 
 ul.tree-menu li.active div a
@@ -903,7 +918,7 @@ ul.tree-menu li.active div a
 
 ul.tree-menu li.collapsed div a
 {
-	background-image: url(../img/treemenu/tree-folder.gif);	
+	background-image: url(../img/treemenu/tree-folder.gif);
 }
 
 ul.tree-menu li.leaf div a
@@ -942,7 +957,7 @@ ul.tree-menu li div a
  */
 ul.tree-menu li div a.trash
 {
-	background: url(../img/treemenu/trash.gif) no-repeat;	
+	background: url(../img/treemenu/trash.gif) no-repeat;
 }
 
 /* Calendar */
