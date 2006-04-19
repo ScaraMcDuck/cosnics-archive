@@ -7,10 +7,15 @@ use Time::HiRes qw/sleep time/;
 use LWP::UserAgent qw//;
 
 use constant LOGIN_URL => 'http://193.191.154.68/dokeoslcms/index.php';
-use constant LOGIN_USERNAME => 'admin';
-use constant LOGIN_PASSWORD => 'admin';
-use constant LEARNING_OBJECT_IDS_URL => 'http://193.191.154.68/dokeoslcms/repository/test/repository_hammer_test.php';
+use constant USERS => {
+	1 => [ 'admin', 'admin' ],
+	2 => [ 'janedoe', 'janedoe' ],
+	3 => [ 'foobar', 'foobar'],
+	4 => [ 'jan', 'jan' ],
+	5 => [ 'bob', 'bob' ]
+};
 use constant REPOSITORY_URL => 'http://193.191.154.68/dokeoslcms/repository/objectmanagement/';
+use constant LEARNING_OBJECT_IDS_URL_FORMAT => 'http://193.191.154.68/dokeoslcms/repository/test/repository_hammer_test.php?owner=%d';
 use constant LEARNING_OBJECT_URL_FORMAT => 'http://193.191.154.68/dokeoslcms/repository/objectmanagement/view.php?id=%d';
 use constant LEARNING_OBJECT_OUTPUT_PATTERN => qr/<div class="learning_object">/;
 use constant REPOSITORY_OUTPUT_PATTERN => qr/<table class="data_table">/;
@@ -23,15 +28,23 @@ $| = 1;
 
 my $ua = new LWP::UserAgent;
 
-print 'Logging in as "' . LOGIN_USERNAME, '" ...';
-my $sid_cookie = &login(LOGIN_URL, LOGIN_USERNAME, LOGIN_PASSWORD);
-die 'Login failed' unless ($sid_cookie);
-print ' Logged in', $/;
+my $sid_cookies = {};
+my $ids = {};
 
-print 'Retrieving learning object IDs ...';
-my $ids = &get_ids();
-die($ids) unless (ref $ids eq 'ARRAY');
-print ' Got ', scalar(@$ids), ' IDs', $/, $/;
+my $uref = USERS;
+while (my ($uid, $info) = each %$uref) {
+	my ($login, $pass) = @$info;
+	print 'Logging in as "' . $login, '" ...';
+	my $sid_cookie = &login(LOGIN_URL, $login, $pass);
+	die 'Login failed' unless ($sid_cookie);
+	print ' Logged in', $/;	
+	$sid_cookies->{$uid} = $sid_cookie;
+	print 'Retrieving learning object IDs for "', $login, '" ...';
+	my $ids_user = &get_ids($uid);
+	die($ids_user) unless (ref $ids_user eq 'ARRAY');
+	print ' Got ', scalar(@$ids_user), ' IDs', $/, $/;
+	$ids->{$uid} = $ids_user;
+}
 
 my %statistics;
 
@@ -47,17 +60,19 @@ foreach my $source (qw/RE LO/) {
 
 my $start_time = time();
 
+my @uids = keys %$uref;
 for (my $i = 1; $i <= REQUEST_COUNT; $i++) {
+	my $uid = $uids[int rand @uids];
 	my $single_lo = int rand REPOSITORY_EVERY;
 	my ($id, $url);
 	if ($single_lo) {
-		$id = &get_random_id();
+		$id = &get_random_id($uid);
 		$url = &build_url($id);
 	}
 	else {
 		$url = REPOSITORY_URL;
 	}
-	my ($response, $request_time) = &get_url($url, $sid_cookie);
+	my ($response, $request_time) = &get_url($url, $sid_cookies->{$uid});
 	my ($result, $content) = &request_result($response, $id);
 	$request_time *= 1000;
 	my $info_object = $statistics{$single_lo ? 'LO' : 'RE'};
@@ -93,13 +108,17 @@ sub login {
 }
 
 sub get_ids {
-	my $response = &get_url(LEARNING_OBJECT_IDS_URL);
+	my $uid = shift;
+	my $url = sprintf(LEARNING_OBJECT_IDS_URL_FORMAT, $uid);
+	my $response = &get_url($url);
 	return $response->status_line unless ($response->is_success());
 	return [ split(/\n/, $response->content) ];
 }
 
 sub get_random_id {
-	return $ids->[int rand @$ids];
+	my $uid = shift;
+	my $ids_ref = $ids->{$uid};
+	return $ids_ref->[int rand @$ids_ref];
 }
 
 sub build_url {
