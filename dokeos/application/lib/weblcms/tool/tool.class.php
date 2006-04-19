@@ -28,12 +28,7 @@ abstract class Tool
 	function Tool($parent)
 	{
 		$this->parent = $parent;
-		// Roles and rights system
-		$user_id = api_get_user_id();
-		$course_id = api_get_course_id();
-		$role_id = RolesRights::get_local_user_role_id($user_id, $course_id);
-		$location_id = RolesRights::get_course_tool_location_id($course_id, $this->get_tool_id());
-		$this->rights = RolesRights::is_allowed_which_rights($role_id, $location_id);
+		$this->load_rights();
 	}
 
 	/**
@@ -98,6 +93,23 @@ abstract class Tool
 	function is_allowed($right)
 	{
 		return $this->rights[$right];
+	}
+
+	/**
+	 * Load the rights for the current user in this tool
+	 */
+	private function load_rights()
+	{
+		$tool_id = $this->get_tool_id();
+		//TODO: next lines map the tool-id to the Dokeos defined tool constants. The same values should be used everywhere.
+		$dokeos_tools['description'] = TOOL_COURSE_DESCRIPTION;
+		$dokeos_tools['announcement'] = TOOL_ANNOUNCEMENT;
+		// Roles and rights system
+		$user_id = api_get_user_id();
+		$course_id = api_get_course_id();
+		$role_id = RolesRights::get_local_user_role_id($user_id, $course_id);
+		$location_id = RolesRights::get_course_tool_location_id($course_id, $dokeos_tools[$tool_id]);
+		$this->rights = RolesRights::is_allowed_which_rights($role_id, $location_id);
 	}
 }
 ?>
