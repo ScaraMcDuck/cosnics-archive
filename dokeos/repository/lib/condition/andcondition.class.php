@@ -7,6 +7,7 @@ require_once dirname(__FILE__).'/multipleaggregatecondition.class.php';
  *	met.
  *
  *	@author Tim De Pauw
+ * @package repository.condition
 ==============================================================================
  */
 
