@@ -6,7 +6,6 @@ require_once dirname(__FILE__).'/../../repository/lib/condition/equalityconditio
 /**
  * This class provides a navigation menu to allow a user to browse through his
  * categories of learning objects
- * @package repository
  */
 class CategoryMenu extends HTML_Menu
 {
@@ -26,7 +25,7 @@ class CategoryMenu extends HTML_Menu
 	 * @param string $url_format The format to use for the URL of a category.
 	 *                           Passed to sprintf(). Defaults to the string
 	 *                           "?category=%s".
-	 * @param boolean $include_trash Whether or not to include a Recycle Bin.
+	 * @param boolean $include_trash Whether or not to include a Recycle Bin. 
 	 */
 	public function CategoryMenu($owner, $current_category, $url_format = '?category=%s', $include_trash = false)
 	{
@@ -47,7 +46,7 @@ class CategoryMenu extends HTML_Menu
 	{
 		$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->owner);
 		$datamanager = RepositoryDataManager :: get_instance();
-		$objects = $datamanager->retrieve_learning_objects('category', $condition);
+		$objects = $datamanager->retrieve_learning_objects('category', $condition, array(LearningObject :: PROPERTY_TITLE), array(SORT_ASC));
 		$categories = array ();
 		foreach ($objects as $index => $category)
 		{
