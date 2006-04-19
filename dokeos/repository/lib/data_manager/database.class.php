@@ -74,7 +74,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	// Inherited.
 	// TODO: Extract methods.
-	function retrieve_learning_objects($type = null, $conditions = null, $orderBy = array (), $orderDir = array (), $firstIndex = 0, $maxObjects = -1)
+	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $firstIndex = 0, $maxObjects = -1)
 	{
 		if (isset ($type))
 		{
@@ -86,7 +86,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			{
 				$query = 'SELECT * FROM '.$this->escape_table_name('learning_object');
 				$match = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
-				$conditions = isset ($conditions) ? new AndCondition(array ($match, $conditions)) : $match;
+				$condition = isset ($condition) ? new AndCondition(array ($match, $condition)) : $match;
 			}
 		}
 		else
@@ -94,10 +94,15 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object');
 		}
 		$params = array ();
-		if (isset ($conditions))
+		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($conditions, & $params);
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params);
 		}
+		/*
+		 * Always respect display order as a last resort.
+		 */
+		$orderBy[] = LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX;
+		$orderDir[] = SORT_ASC;
 		$order = array ();
 		for ($i = 0; $i < count($orderBy); $i ++)
 		{
@@ -152,7 +157,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	// Inherited.
 	// TODO: Extract methods; share stuff with retrieve_learning_objects.
-	function count_learning_objects($type = null, $conditions = null)
+	function count_learning_objects($type = null, $condition = null)
 	{
 		if (isset ($type))
 		{
@@ -172,9 +177,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$query = 'SELECT COUNT('.$this->escape_column_name(LearningObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object');
 		}
 		$params = array ();
-		if (isset ($conditions))
+		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($conditions, & $params);
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params);
 		}
 		$sth = $this->connection->prepare($query);
 		$res = & $this->connection->execute($sth, $params);
@@ -255,6 +260,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 				$query = 'DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
 				$this->connection->limitQuery($query, 0, 1, array ($object->get_id()));
 			}
+			$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'-1 WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'>?';
+			$statement = $this->connection->prepare($query);
+			$this->connection->execute($statement, array($object->get_display_order_index()));
 			return true;
 		}
 		return false;
@@ -273,6 +281,56 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		$sth = $this->connection->prepare('DELETE FROM '.$this->escape_table_name('learning_object'));
 		$this->connection->execute($sth);
+	}
+	
+	// Inherited.
+	function move_learning_object($object, $places)
+	{
+		if ($places < 0)
+		{
+			return $this->move_learning_object_up($object, - $places);
+		}
+		else
+		{
+			return $this->move_learning_object_down($object, $places);
+		}
+	}
+
+	private function move_learning_object_up($object, $places)
+	{
+		$oldIndex = $object->get_display_order_index();
+		$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'+1 WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_PARENT_ID).'=? AND '.$this->escape_column_name(LearningObject :: PROPERTY_TYPE).'=? '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'<? ORDER BY '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).' DESC';
+		$this->connection->limitQuery($query, 0, $places, array($object->get_parent_id(), $object->get_type(), $oldIndex));
+		$rowsMoved = $this->connection->affectedRows();
+		$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'=? WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+		$this->connection->limitQuery($query, 0, 1, array($oldIndex - $places, $object->get_id()));
+		return $rowsMoved;
+	}
+
+	private function move_learning_object_down($object, $places)
+	{
+		$oldIndex = $object->get_display_order_index();
+		$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'-1 WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_PARENT_ID).'=? AND '.$this->escape_column_name(LearningObject :: PROPERTY_TYPE).'=? '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'>? ORDER BY '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).' ASC';
+		$this->connection->limitQuery($query, 0, $places, array($object->get_parent_id(), $publication->get_type(), $oldIndex));
+		$rowsMoved = $this->connection->affectedRows();
+		$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'=? WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+		$this->connection->limitQuery($query, 0, 1, array($oldIndex + $places, $publication->get_id()));
+		return $rowsMoved;
+	}
+
+	// Inherited.
+	function get_next_learning_object_display_order_index($parent, $type)
+	{
+		$query = 'SELECT MAX('.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).') AS h FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_PARENT_ID).'=? AND '.$this->escape_column_name(LearningObject :: PROPERTY_TYPE).'=?';
+		$statement = $this->connection->prepare($query);
+		$res = & $this->connection->execute($statement, array ($parent, $type));
+		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$highest_index = $record['h'];
+		if (!is_null($highest_index))
+		{
+			return $highest_index +1;
+		}
+		return 1;
 	}
 
 	/**
@@ -546,7 +604,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			die('Cannot translate condition');
 		}
 	}
-
+	
+	/**
+	 * Checks whether the given column name is the name of a column that
+	 * contains a date value, and hence should be formatted as such.
+	 * @param string $name The column name.
+	 * @return boolean True if the column is a date column, false otherwise.
+	 */
 	static function is_date_column($name)
 	{
 		return ($name == LearningObject :: PROPERTY_CREATION_DATE || $name == LearningObject :: PROPERTY_MODIFICATION_DATE);

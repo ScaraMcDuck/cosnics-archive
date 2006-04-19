@@ -174,7 +174,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 			$publisher = $this->get_user_id();
 			$publicationDate = time();
 			$pub = new LearningObjectPublication(null, $object, $course, $tool, $category, $users, $groups, $from, $to, $publisher, $publicationDate, $hidden, $displayOrder);
-			$dm->create_learning_object_publication($pub);
+			$pub->create();
 			$out .= Display :: display_normal_message(get_lang('ObjectPublished'), true);
 		}
 		else

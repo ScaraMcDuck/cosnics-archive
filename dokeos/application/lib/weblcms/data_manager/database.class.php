@@ -23,15 +23,15 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $this->record_to_publication($record);
 	}
-
-	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null, $allowDuplicates = false, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1)
+	
+	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1)
 	{
 		$params = array ();
 		$query = 'SELECT '.($allowDuplicates ? '' : 'DISTINCT ').'p.* FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
 		/*
 		 * Add WHERE clause (also extends $params).
 		 */
-		$query .= ' ' . $this->get_publication_retrieval_where_clause($course, $categories, $users, $groups, $conditions, & $params);
+		$query .= ' ' . $this->get_publication_retrieval_where_clause($course, $categories, $users, $groups, $condition, & $params);
 		/*
 		 * Always respect display order as a last resort.
 		 */
@@ -62,18 +62,18 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		return $results;
 	}
 
-	function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $conditions = null, $allowDuplicates = false)
+	function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false)
 	{
 		$params = array ();
 		$query = 'SELECT COUNT('.($allowDuplicates ? '*' : 'DISTINCT p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID)).') FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
-		$query .= ' ' . $this->get_publication_retrieval_where_clause($course, $categories, $users, $groups, $conditions, & $params);
+		$query .= ' ' . $this->get_publication_retrieval_where_clause($course, $categories, $users, $groups, $condition, & $params);
 		$sth = $this->connection->prepare($query);
 		$res = & $this->connection->execute($sth, $params);
 		$record = $res->fetchRow(DB_FETCHMODE_ORDERED);
 		return $record[0];
 	}
 
-	private function get_publication_retrieval_where_clause ($course, $categories, $users, $groups, $conditions, & $params)
+	private function get_publication_retrieval_where_clause ($course, $categories, $users, $groups, $condition, & $params)
 	{
 		$cond = array ();
 		if (!is_null($course))
@@ -133,13 +133,13 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		if (count($accessConditions))
 		{
 			$cond[] = new OrCondition($accessConditions);
-			if (!is_null($conditions))
+			if (!is_null($condition))
 			{
-				$cond[] = $conditions;
+				$cond[] = $condition;
 			}
-			$conditions = new AndCondition($cond);
+			$condition = new AndCondition($cond);
 		}
-		return (is_null($conditions) ? '' : 'WHERE '.$this->translate_condition($conditions, & $params));
+		return (is_null($condition) ? '' : 'WHERE '.$this->translate_condition($condition, & $params));
 	}
 
 	function create_learning_object_publication($publication)
@@ -271,7 +271,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$props = array();
 		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID)] = $id;
 		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TITLE)] = $category->get_title();
-		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID)] = $category->get_parent();
+		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID)] = $category->get_parent_category_id();
 		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_COURSE_ID)] = $category->get_course();
 		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TOOL)] = $category->get_tool();
 		$this->connection->autoExecute($this->get_table_name('learning_object_publication_category'), $props, DB_AUTOQUERY_INSERT);
@@ -305,7 +305,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 	{
 		if ($places < 0)
 		{
-			return $this->move_learning_object_publication_up($publication, abs($places));
+			return $this->move_learning_object_publication_up($publication, - $places);
 		}
 		else
 		{

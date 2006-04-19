@@ -20,7 +20,7 @@ class AnnouncementForm extends LearningObjectForm
 	function create_learning_object($owner)
 	{
 		$object = new Announcement();
-		$this->set_learning_object($object);
+		$this->set_learning_object(& $object);
 		return parent :: create_learning_object($owner);
 	}
 }

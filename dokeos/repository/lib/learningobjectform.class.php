@@ -199,6 +199,11 @@ abstract class LearningObjectForm extends FormValidator
 		{
 			$object->set_parent_id($values[LearningObject :: PROPERTY_PARENT_ID]);
 		}
+		if ($object->is_ordered() && !$object->get_display_order_index())
+		{
+			$dm = RepositoryDataManager :: get_instance();
+			$dm->assign_learning_object_display_order_index(& $object);
+		}
 		$object->create();
 		return $object;
 	}

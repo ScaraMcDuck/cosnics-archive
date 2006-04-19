@@ -99,7 +99,7 @@ class LearningObjectPublicationCategory {
      * Returns the numeric identifier of the parent category.
      * @return int The parent category identifier.
      */
-    function get_parent()
+    function get_parent_category_id()
     {
     	return $this->parent;
     }
@@ -126,7 +126,7 @@ class LearningObjectPublicationCategory {
      * Returns the numeric identifier of the parent category.
      * @param int $parent The parent category identifier.
      */
-    function set_parent($parent)
+    function set_parent_category_id($parent)
     {
     	$this->parent = $parent;
     }

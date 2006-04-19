@@ -5,14 +5,9 @@ require_once dirname(__FILE__) . '/../../learningobject.class.php';
  */
 class LearningPathChapter extends LearningObject
 {
-	const PROPERTY_DISPLAY_ORDER = 'display_order';
-	function get_display_order_index ()
+	function is_ordered()
 	{
-		return $this->get_additional_property(self :: PROPERTY_DISPLAY_ORDER);
-	}
-	function set_display_order_index ($display_order)
-	{
-		return $this->set_additional_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
+		return true;
 	}
 }
 ?>

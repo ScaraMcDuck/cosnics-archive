@@ -78,7 +78,7 @@ class LearningObjectPublicationCategoryManager
 		if ($form->validate())
 		{
 			$category->set_title($form->get_category_title());
-			$category->set_parent($form->get_category_parent());
+			$category->set_parent_id($form->get_category_parent());
 			$this->parent->update_category($category);
 			return Display :: display_normal_message(get_lang('CategoryUpdated'), true);
 		}

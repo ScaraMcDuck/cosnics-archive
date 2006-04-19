@@ -5,10 +5,12 @@ CREATE TABLE `%prefix%learning_object` (
   `title` text NOT NULL,
   `description` text NOT NULL,
   `parent` int(10) unsigned NOT NULL default '0',
+  `display_order` int(10) unsigned NOT NULL default '0',
   `created` datetime default NULL,
   `modified` datetime default NULL,
   PRIMARY KEY  (`id`),
   KEY `owner` (`owner`),
   KEY `type` (`type`),
-  KEY `parent` (`parent`)
+  KEY `parent` (`parent`),
+  KEY `display_order` (`display_order`)
 );
