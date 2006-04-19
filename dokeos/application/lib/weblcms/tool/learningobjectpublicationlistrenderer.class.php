@@ -5,10 +5,19 @@
 class LearningObjectPublicationListRenderer {
 
 	var $tool;
+	/**
+	 * Create a new LearningObjectPublicationListRenderer
+	 * @param RepositoryTool $tool
+	 */
     function LearningObjectPublicationListRenderer($tool)
     {
     	$this->tool = $tool;
     }
+	/**
+	 * Render a list of publications
+	 * @param LearningObjectPublication[] $publications
+	 * @return string
+	 */
     function render($publications)
     {
     	foreach($publications as $index => $publication)
@@ -19,9 +28,11 @@ class LearningObjectPublicationListRenderer {
     	}
     	return implode("\n",$html);
     }
-    /**
-     *
-     */
+	/**
+	 * Render a publication
+	 * @param LearningObjectPublication $publication
+	 * @return string
+	 */
     //TODO: split in more render-functions (render_action_buttons, render_publication_information,...) So more specialized renderers can easily be defined
     function render_publication($publication,$first = false, $last = false)
     {
@@ -117,14 +128,20 @@ class LearningObjectPublicationListRenderer {
 		$html[] = '</div>';
     	return implode("\n",$html);
     }
-    function display($publication)
-    {
-		echo $this->render($publication);
-    }
+	/**
+	 * Render the title of the publication
+	 * @param LearningObjectPublication $publication
+	 * @return string
+	 */
 	function render_title($publication)
 	{
 		return $publication->get_learning_object()->get_title();
 	}
+	/**
+	 * Render the description of the publication
+	 * @param LearningObjectPublication $publication
+	 * @return string
+	 */
 	function render_description($publication)
 	{
 		return $publication->get_learning_object()->get_description();
