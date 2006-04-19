@@ -7,6 +7,7 @@ require_once dirname(__FILE__).'/repositorydatamanager.class.php';
  * the database space used by the user.
  *
  *	@author Bart Mollet
+ * @package repository
 ==============================================================================
  */
 

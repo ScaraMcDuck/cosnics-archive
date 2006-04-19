@@ -6,6 +6,7 @@
  *	repository.
  *
  *	@author Tim De Pauw
+ * @package repository
 ==============================================================================
  */
 
@@ -14,7 +15,7 @@ class RepositoryUtilities
 	/**
 	 * Splits a Google-style search query. For example, the query
 	 * /"dokeos repository" utilities/ would be parsed into
-	 * array('dokeos repository', 'utilities').   
+	 * array('dokeos repository', 'utilities').
 	 * @param $pattern The query.
 	 * @return array The query's parts.
 	 */
@@ -32,7 +33,7 @@ class RepositoryUtilities
 		}
 		return (count($parts) ? $parts : null);
 	}
-	
+
 	/**
 	 * Transforms a search string (given by an end user in a search form) to a
 	 * Condition, which can be used to retrieve learning objects from the
@@ -47,7 +48,7 @@ class RepositoryUtilities
 	 *                          and 'description'. If the condition should
 	 *                          apply to a single property, you can pass a
 	 *                          string instead of an array.
-	 * @return Condition The condition. 
+	 * @return Condition The condition.
 	 */
 	static function query_to_condition($query,$properties = array(LearningObject :: PROPERTY_TITLE, LearningObject :: PROPERTY_DESCRIPTION))
 	{
@@ -81,7 +82,7 @@ class RepositoryUtilities
 		$result = new AndCondition($cond);
 		return $result;
 	}
-	
+
 	/**
 	 * Converts a date/time value retrieved from a FormValidator datepicker
 	 * element to the corresponding UNIX itmestamp.

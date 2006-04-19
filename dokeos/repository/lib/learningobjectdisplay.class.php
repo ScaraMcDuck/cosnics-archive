@@ -1,7 +1,7 @@
 <?php
 /**
  * A class to display a LearningObject
- * @package learningobject
+ * @package repository.learningobject
  */
 abstract class LearningObjectDisplay
 {
@@ -30,7 +30,7 @@ abstract class LearningObjectDisplay
 	{
 		$object = $this->get_learning_object();
 		$html[] = '<div class="learning_object">';
-		$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/></div>';		
+		$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/></div>';
 		$html[] = '<div class="title">'.$object->get_title().'</div>';
 		$html[] = '<div class="description">'.$object->get_description().'</div>';
 		$html[] = '</div>';

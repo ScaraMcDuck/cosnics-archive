@@ -2,7 +2,7 @@
 
 /**
  * A form to create and edit a LearningObject.
- * @package learningobject
+ * @package repository.learningobject
  */
 
 require_once dirname(__FILE__).'/../../claroline/inc/lib/formvalidator/FormValidator.class.php';
@@ -22,7 +22,7 @@ abstract class LearningObjectForm extends FormValidator
 	 * The ID of the category to create a learning object in.
 	 */
 	private $category;
-	
+
 	/**
 	 * Whether or not the creation form has been built.
 	 */
@@ -162,7 +162,7 @@ abstract class LearningObjectForm extends FormValidator
 		}
 		return $category_choices;
 	}
-	
+
 	/**
 	 * Gets the default category.
 	 * @return int The category ID.
@@ -264,7 +264,7 @@ abstract class LearningObjectForm extends FormValidator
 			parent::display();
 		}
 	}
-	
+
 	private function allows_category_selection()
 	{
 		$lo = $this->get_learning_object();
