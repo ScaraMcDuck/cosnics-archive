@@ -332,6 +332,37 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		return 1;
 	}
+	
+	// Inherited.
+	function retrieve_attached_learning_objects ($id)
+	{
+		$query = 'SELECT '.$this->escape_column_name('attachment').' FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object').'=?';
+		$sth = $this->connection->prepare($query);
+		$res = & $this->connection->execute($sth, array($id));
+		$attachments = array();
+		while ($record = $res->fetchRow(DB_FETCHMODE_ORDERED))
+		{
+			$attachments[] = $this->retrieve_learning_object($record[0]);
+		}
+		return $attachments;
+	}
+	
+	// Inherited.
+	function attach_learning_object ($object_id, $attachment_id)
+	{
+		$props = array();
+		$props['learning_object'] = $object_id;
+		$props['attachment'] = $attachment_id;
+		$this->connection->autoExecute($this->get_table_name('learning_object_attachment'), $props, DB_AUTOQUERY_INSERT);
+	}
+	
+	// Inherited.
+	function detach_learning_object ($object_id, $attachment_id)
+	{
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object').'=? AND '.$this->escape_column_name('attachment').'=?';
+		$this->connection->limitQuery($query, 0, 1, array ($object_id, $attachment_id));
+		return ($this->connection->affectedRows() > 0);
+	}
 
 	/**
 	 * Returns the database connection directly. You should not use this
