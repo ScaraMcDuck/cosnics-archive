@@ -54,6 +54,7 @@ class AnnouncementTool extends RepositoryTool
 			$announcement = $announcement_publication->get_learning_object();
 			$target_users = $announcement_publication->get_target_users();
 			$delete_url = $this->get_url(array('action'=>'delete','pid'=>$announcement_publication->get_id()), true);
+			$edit_url = $this->get_url(array('action'=>'edit','pid'=>$announcement_publication->get_id()), true);
 			$visible_url = $this->get_url(array('action'=>'toggle_visibility','pid'=>$announcement_publication->get_id()), true);
 
 			if($index != 0)
@@ -128,6 +129,7 @@ class AnnouncementTool extends RepositoryTool
 			}
 			if($this->is_allowed(EDIT_RIGHT))
 			{
+				$html[] = '<a href="'.$edit_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/edit.gif"/></a>';
 				$html[] = '<a href="'.$visible_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$visibility_img.'"/></a>';
 				$html[] = $up_link;
 				$html[] = $down_link;
