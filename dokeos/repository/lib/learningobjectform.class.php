@@ -100,8 +100,7 @@ abstract class LearningObjectForm extends FormValidator
 	 */
 	private function build_basic_form()
 	{
-		$this->addElement('text', LearningObject :: PROPERTY_TITLE, get_lang('Title'));
-		$this->addRule(LearningObject :: PROPERTY_TITLE, get_lang('ThisFieldIsRequired'), 'required');
+		$this->add_textfield(LearningObject :: PROPERTY_TITLE, get_lang('Title'),true,'size="100"');
 		if ($this->allows_category_selection())
 		{
 			$select = & $this->addElement('select', LearningObject :: PROPERTY_PARENT_ID, get_lang('Category'),$this->get_categories());
