@@ -98,7 +98,7 @@ class LearningObjectPublicationListRenderer {
 		if(!$publication->is_forever())
 		{
 			//TODO: date-formatting
-			$html[] = ' ('.get_lang('From').' '.date('r',$publication->get_from_date()).' '.get_lang('To').' '.date('r',$announcement_publication->get_to_date()).')';
+			$html[] = ' ('.get_lang('From').' '.date('r',$publication->get_from_date()).' '.get_lang('To').' '.date('r',$publication->get_to_date()).')';
 		}
 		$html[] = '</div>';
 		$html[] = '<div class="publication_actions">';
