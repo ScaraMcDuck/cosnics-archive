@@ -7,6 +7,7 @@ require_once dirname(__FILE__).'/aggregatecondition.class.php';
  *	requiring that that condition not be met.
  *
  *	@author Tim De Pauw
+ * @package repository.condition
 ==============================================================================
  */
 

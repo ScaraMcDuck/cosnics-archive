@@ -11,6 +11,7 @@ require_once dirname(__FILE__) . '/condition.class.php';
  *	(?) must match a single character.
  *
  *	@author Tim De Pauw
+ * @package repository.condition
 ==============================================================================
  */
 

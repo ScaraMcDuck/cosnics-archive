@@ -8,6 +8,7 @@ require_once dirname(__FILE__).'/condition.class.php';
  *	of a learning object be the number 4.
  *
  *	@author Tim De Pauw
+ * @package repository.condition
 ==============================================================================
  */
 
