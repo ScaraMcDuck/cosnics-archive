@@ -2,6 +2,9 @@
 require_once dirname(__FILE__).'/../../../treemenurenderer.class.php';
 require_once dirname(__FILE__).'/forumtable.class.php';
 require_once dirname(__FILE__).'/forumtree.class.php';
+/**
+ * @package repository.learningobject.forum
+ */
 class ForumNodeDisplay extends LearningObjectDisplay
 {
 	function get_full_html()
@@ -12,7 +15,7 @@ class ForumNodeDisplay extends LearningObjectDisplay
 		$menu->render($renderer,'sitemap');
 		$html[] = '<div class="forum_tree" style="float:left;width:20%;">';
 		$html[] = $renderer->toHtml();
-		$html[] = '</div>';		
+		$html[] = '</div>';
 		$html[] = '<div class="forum_topics" style="float:right;width:80%;">';
 		$html[] = parent :: get_full_html();
 		$table = new ForumTable($object);

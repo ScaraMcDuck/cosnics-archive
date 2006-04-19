@@ -1,6 +1,9 @@
 <?php
 require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/forum_topic.class.php';
+/**
+ * @package repository.learningobject.forum
+ */
 class ForumTopicForm extends LearningObjectForm
 {
 	function build_creation_form($default_learning_object = null)

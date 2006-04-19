@@ -2,7 +2,7 @@
 require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/forum.class.php';
 /**
- * @package learningobject.forum
+ * @package repository.learningobject.forum
  */
 class ForumForm extends LearningObjectForm
 {

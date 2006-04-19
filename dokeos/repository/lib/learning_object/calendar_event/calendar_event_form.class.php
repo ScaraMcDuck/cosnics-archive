@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../../learningobjectform.class.php';
 require_once dirname(__FILE__) . '/../../repositoryutilities.class.php';
 require_once dirname(__FILE__) . '/calendar_event.class.php';
 /**
- * @package learningobject.calendarevent
+ * @package repository.learningobject.calendar_event
  */
 class CalendarEventForm extends LearningObjectForm
 {
@@ -31,7 +31,7 @@ class CalendarEventForm extends LearningObjectForm
 		}
 		parent :: setDefaults($defaults);
 	}
-	
+
 	function create_learning_object($owner)
 	{
 		$object = new CalendarEvent();

@@ -1,9 +1,12 @@
 <?php
+/**
+ * @package repository.learningobject.forum
+ */
 class ForumTable extends SortableTable
 {
 	private $forum;
 	private $url_format;
-	
+
 	function ForumTable($forum, $url_format = '?id=%s')
 	{
 		$name = 'forumtable'.$forum->get_id();
@@ -12,7 +15,7 @@ class ForumTable extends SortableTable
 		$this->set_column_titles(get_lang('Title'), get_lang('Description'), get_lang('Created'), get_lang('LastModified'));
 		$this->forum = $forum;
 		$this->url_format = $url_format;
-	}	
+	}
 	function set_column_titles()
 	{
 		$titles = func_get_args();

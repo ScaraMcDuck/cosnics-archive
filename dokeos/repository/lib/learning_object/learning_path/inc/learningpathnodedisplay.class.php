@@ -2,6 +2,9 @@
 require_once dirname(__FILE__).'/../../../treemenurenderer.class.php';
 require_once dirname(__FILE__).'/learningpathtable.class.php';
 require_once dirname(__FILE__).'/learningpathtree.class.php';
+/**
+ * @package repository.learningobject.learning_path
+ */
 class LearningPathNodeDisplay extends LearningObjectDisplay
 {
 	function get_full_html()
@@ -12,7 +15,7 @@ class LearningPathNodeDisplay extends LearningObjectDisplay
 		$menu->render($renderer,'sitemap');
 		$html[] = '<div class="forum_tree" style="float:left;width:20%;">';
 		$html[] = $renderer->toHtml();
-		$html[] = '</div>';		
+		$html[] = '</div>';
 		$html[] = '<div class="forum_topics" style="float:right;width:80%;">';
 		$html[] = parent :: get_full_html();
 		$table = new LearningPathTable($object);

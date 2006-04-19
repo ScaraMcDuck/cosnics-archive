@@ -1,9 +1,12 @@
 <?php
+/**
+ * @package repository.learningobject.learning_path
+ */
 class LearningPathTable extends SortableTable
 {
 	private $learning_path;
 	private $url_format;
-	
+
 	function LearningPathTable($learning_path, $url_format = '?id=%s')
 	{
 		$name = 'learningpathtable'.$learning_path->get_id();
@@ -13,7 +16,7 @@ class LearningPathTable extends SortableTable
 		$this->set_column_titles(get_lang('Type'),get_lang('Title'), get_lang('Description'), get_lang('Created'), get_lang('LastModified'));
 		$this->learning_path = $learning_path;
 		$this->url_format = $url_format;
-	}	
+	}
 	function set_column_titles()
 	{
 		$titles = func_get_args();

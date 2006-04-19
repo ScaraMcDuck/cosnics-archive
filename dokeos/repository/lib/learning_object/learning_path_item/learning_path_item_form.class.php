@@ -1,5 +1,8 @@
 <?php
 require_once dirname(__FILE__) . '/../../learningobjectform.class.php';
+/**
+ * @package repository.learningobject.learning_path
+ */
 class LearningPathItemForm extends LearningObjectForm
 {
 	public function LearningPathItemForm($formName, $method = 'post', $action = null)
