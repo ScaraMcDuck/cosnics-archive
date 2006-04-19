@@ -1,5 +1,11 @@
 <?php
+/**
+ * Announcement tool
+ * @package application.weblcms.tool
+ * @subpackage announcement
+ */
 require_once dirname(__FILE__).'/../repositorytool.class.php';
+require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
 /**
  * This tool allows a user to publish announcements in his or her course.
  */
@@ -44,6 +50,7 @@ class AnnouncementTool extends RepositoryTool
 	{
 		$announcement_publications = $this->get_announcement_publications();
 		$number_of_announcements = count($announcement_publications);
+		$renderer = new LearningObjectPublicationListRenderer($this);
 		foreach($announcement_publications as $index => $announcement_publication)
 		{
 			// If the announcement is hidden and the user is not allowed to DELETE or EDIT, don't show this announcement
@@ -51,93 +58,7 @@ class AnnouncementTool extends RepositoryTool
 			{
 				continue;
 			}
-			$announcement = $announcement_publication->get_learning_object();
-			$target_users = $announcement_publication->get_target_users();
-			$delete_url = $this->get_url(array('action'=>'delete','pid'=>$announcement_publication->get_id()), true);
-			$edit_url = $this->get_url(array('action'=>'edit','pid'=>$announcement_publication->get_id()), true);
-			$visible_url = $this->get_url(array('action'=>'toggle_visibility','pid'=>$announcement_publication->get_id()), true);
-
-			if($index != 0)
-			{
-				$up_img = 'up.gif';
-				$up_url = $this->get_url(array('action'=>'move_up','pid'=>$announcement_publication->get_id()), true);
-				$up_link = '<a href="'.$up_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$up_img.'"/></a>';
-			}
-			else
-			{
-				$up_link = '<img src="'.api_get_path(WEB_CODE_PATH).'/img/up_na.gif"/></a>';
-			}
-			if($index != $number_of_announcements-1)
-			{
-				$down_img = 'down.gif';
-				$down_url = $this->get_url(array('action'=>'move_down','pid'=>$announcement_publication->get_id()), true);
-				$down_link = '<a href="'.$down_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$down_img.'"/></a>';
-			}
-			else
-			{
-				$down_link = '<img src="'.api_get_path(WEB_CODE_PATH).'/img/down_na.gif"/></a>';
-			}
-			$visibility_img = ($announcement_publication->is_hidden() ? 'invisible.gif' : 'visible.gif');
-
-			$users = $announcement_publication->get_target_users();
-			$groups = $announcement_publication->get_target_groups();
-			if(count($users) == 0 && count($groups) == 0)
-			{
-				$target_list = get_lang('Everybody');
-			}
-			else
-			{
-				$target_list = array();
-				$target_list[] = '<select>';
-				foreach($users as $index => $user_id)
-				{
-					$user = api_get_user_info($user_id);
-					$target_list[] = '<option>'.$user['firstName'].' '.$user['lastName'].'</option>';
-				}
-				foreach($groups as $index => $group_id)
-				{
-					//TODO: replace group id by group name (gives SQL-error now)
-					//$group = GroupManager::get_group_properties($group_id);
-					//$target_list[] = '<option>'.$group['name'].'</option>';
-					$target_list[] = '<option>'.'GROUP: '.$group_id.'</option>';
-				}
-				$target_list[] = '</select>';
-				$target_list = implode("\n",$target_list);
-			}
-			$publisher = api_get_user_info($announcement_publication->get_publisher_id());
-			$html = array();
-			$html[] = '<div class="learning_object">';
-			$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$announcement->get_type().'.gif" alt="'.$announcement->get_type().'"/></div>';
-			$html[] = '<div class="title'.($announcement_publication->is_visible_for_target_users() ? '':' invisible').'">'.htmlentities($announcement->get_title()).'</div>';
-			$html[] = '<div class="description'.($announcement_publication->is_visible_for_target_users() ? '':' invisible').'">'.$announcement->get_description();
-			$html[] = '<br /><em>';
-			//TODO: date-formatting
-			$html[] = get_lang('PublishedOn').' '.date('r',$announcement_publication->get_publication_date());
-			$html[] = get_lang('By').' '.$publisher['firstName'].' '.$publisher['lastName'].'. ';
-			$html[] = get_lang('SentTo').': ';
-			$html[] = $target_list;
-			if(!$announcement_publication->is_forever())
-			{
-				//TODO: date-formatting
-				$html[] = ' ('.get_lang('From').' '.date('r',$announcement_publication->get_from_date()).' '.get_lang('To').' '.date('r',$announcement_publication->get_to_date()).')';
-			}
-			$html[] = '</em>';
-			$html[] = '<br />';
-			if($this->is_allowed(DELETE_RIGHT))
-			{
-				$html[] = '<a href="'.$delete_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/delete.gif"/></a>';
-			}
-			if($this->is_allowed(EDIT_RIGHT))
-			{
-				$html[] = '<a href="'.$edit_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/edit.gif"/></a>';
-				$html[] = '<a href="'.$visible_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$visibility_img.'"/></a>';
-				$html[] = $up_link;
-				$html[] = $down_link;
-			}
-			$html[] = '</div>';
-			$html[] = '</div>';
-			$html[] = '<br /><br />';
-			echo implode("\n",$html);
+			echo $renderer->render($announcement_publication);
 		}
 	}
 	/**
