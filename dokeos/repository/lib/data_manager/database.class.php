@@ -19,6 +19,7 @@ require_once 'DB.php';
  *
  *	@author Tim De Pauw
  *	@author Bart Mollet
+ * @package repository
 ==============================================================================
  */
 
@@ -550,7 +551,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		return ($name == LearningObject :: PROPERTY_CREATION_DATE || $name == LearningObject :: PROPERTY_MODIFICATION_DATE);
 	}
-	
+
 	// Inherited.
 	function get_used_disk_space($owner)
 	{
