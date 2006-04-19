@@ -48,18 +48,19 @@ class AnnouncementTool extends RepositoryTool
 	 */
 	function display()
 	{
-		$announcement_publications = $this->get_announcement_publications();
-		$number_of_announcements = count($announcement_publications);
+		$all_publications = $this->get_announcement_publications();
 		$renderer = new LearningObjectPublicationListRenderer($this);
-		foreach($announcement_publications as $index => $announcement_publication)
+		$visible_publications = array();
+		foreach($all_publications as $index => $publication)
 		{
-			// If the announcement is hidden and the user is not allowed to DELETE or EDIT, don't show this announcement
-			if(!$announcement_publication->is_visible_for_target_users() && !($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
+			// If the publication is hidden and the user is not allowed to DELETE or EDIT, don't show this publication
+			if(!$publication->is_visible_for_target_users() && !($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
 			{
 				continue;
 			}
-			echo $renderer->render($announcement_publication);
+			$visible_publications[] = $publication;
 		}
+		echo $renderer->render($visible_publications);
 	}
 	/**
 	 * Get the list of published announcements
@@ -69,12 +70,6 @@ class AnnouncementTool extends RepositoryTool
 	{
 		$datamanager = WebLCMSDataManager :: get_instance();
 		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'announcement');
-		//$from_date_condition = new InequalityCondition(LearningObjectPublication :: PROPERTY_FROM_DATE,InequalityCondition::LESS_THAN_OR_EQUAL,time());
-		//$to_date_condition = new InequalityCondition(LearningObjectPublication :: PROPERTY_TO_DATE,InequalityCondition::GREATER_THAN_OR_EQUAL,time());
-		//$publication_period_cond = new AndCondition($from_date_condition,$to_date_condition);
-		//$forever_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_FROM_DATE,0);
-		//$time_condition = new OrCondition($publication_period_cond,$forever_condition);
-		//$condition = new AndCondition($tool_condition,$time_condition);
 		$condition = $tool_condition;
 		$announcement_publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups(),$condition);
 		return $announcement_publications;

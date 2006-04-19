@@ -9,11 +9,21 @@ class LearningObjectPublicationListRenderer {
     {
     	$this->tool = $tool;
     }
+    function render($publications)
+    {
+    	foreach($publications as $index => $publication)
+    	{
+    		$first = $index == 0;
+    		$last = $index == count($publications)-1;
+    		$html[] = $this->render_publication($publication,$first,$last);
+    	}
+    	return implode("\n",$html);
+    }
     /**
      *
      */
     //TODO: split in more render-functions (render_action_buttons, render_publication_information,...) So more specialized renderers can easily be defined
-    function render($publication,$first = false, $last = false)
+    function render_publication($publication,$first = false, $last = false)
     {
 
   		$learning_object = $publication->get_learning_object();
