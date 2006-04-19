@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . '/../../learningobject.class.php';
 require_once dirname(__FILE__) . '/../../repositorydatamanager.class.php';
 /**
- * @package learningobject.category
+ * @package repository.learningobject.category
  */
 class Category extends LearningObject
 {

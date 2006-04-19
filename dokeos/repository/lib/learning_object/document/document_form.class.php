@@ -4,7 +4,7 @@ require_once dirname(__FILE__).'/document.class.php';
 require_once dirname(__FILE__).'/../../../../claroline/inc/lib/formvalidator/Rule/DiskQuota.php';
 
 /**
- * @package learningobject.document
+ * @package repository.learningobject.document
  */
 class DocumentForm extends LearningObjectForm
 {
@@ -168,7 +168,7 @@ class DocumentForm extends LearningObjectForm
 		}
 		return $errors;
 	}
-	
+
 	private static function get_upload_path()
 	{
 		return Configuration::get_instance()->get_parameter('general', 'upload_path');

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package learningobject.description
+ * @package repository.learningobject.description
  */
 class DescriptionDisplay extends LearningObjectDisplay
 {

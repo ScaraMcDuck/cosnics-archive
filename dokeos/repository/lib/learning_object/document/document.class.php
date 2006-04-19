@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../../learningobject.class.php';
 /**
- * @package learningobject.document
+ * @package repository.learningobject.document
  */
 class Document extends LearningObject
 {

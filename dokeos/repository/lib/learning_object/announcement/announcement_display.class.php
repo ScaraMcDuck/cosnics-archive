@@ -1,6 +1,6 @@
 <?php
 /**
- * @package learningobject.announcement
+ * @package repository.learningobject.announcement
  */
 class AnnouncementDisplay extends LearningObjectDisplay
 {

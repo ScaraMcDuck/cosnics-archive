@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../../learningobject.class.php';
 /**
- * @package learningobject.forum
+ * @package repository.learningobject.forum
  */
 class Forum extends LearningObject
 {

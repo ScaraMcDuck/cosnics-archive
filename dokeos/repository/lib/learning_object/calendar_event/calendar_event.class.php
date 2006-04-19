@@ -1,13 +1,13 @@
 <?php
 require_once dirname(__FILE__) . '/../../learningobject.class.php';
 /**
- * @package learningobject.calendarevent
+ * @package repository.learningobject.calendar_event
  */
 class CalendarEvent extends LearningObject
 {
 	const PROPERTY_START_DATE = 'start_date';
 	const PROPERTY_END_DATE = 'end_date';
-	
+
 	function get_start_date ()
 	{
 		return $this->get_additional_property(self :: PROPERTY_START_DATE);

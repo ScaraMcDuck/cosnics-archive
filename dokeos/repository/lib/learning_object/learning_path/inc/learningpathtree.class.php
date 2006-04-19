@@ -1,5 +1,8 @@
 <?php
 require_once dirname(__FILE__).'/../../../learningobjecttree.class.php';
+/**
+ * @package repository.learningobject.learning_path
+ */
 class LearningPathTree extends LearningObjectTree
 {
     function LearningPathTree($root, $active = 0)
