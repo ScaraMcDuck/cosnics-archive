@@ -12,7 +12,7 @@ class LearningObjectPublication
 	const PROPERTY_PUBLISHER_ID = 'publisher';
 	const PROPERTY_PUBLICATION_DATE = 'published';
 	const PROPERTY_DISPLAY_ORDER_INDEX = 'display_order';
-	
+
 	private $id;
 
 	private $learningObject;
@@ -32,9 +32,9 @@ class LearningObjectPublication
 	private $toDate;
 
 	private $hidden;
-	
+
 	private $publisher;
-	
+
 	private $publicationDate;
 
 	private $displayOrder;
@@ -100,12 +100,12 @@ class LearningObjectPublication
 	{
 		return $this->toDate;
 	}
-	
+
 	function get_publisher_id()
 	{
 		return $this->publisher;
 	}
-	
+
 	function get_publication_date()
 	{
 		return $this->publicationDate;
@@ -114,6 +114,16 @@ class LearningObjectPublication
 	function is_hidden()
 	{
 		return $this->hidden;
+	}
+
+	function is_forever()
+	{
+		return $this->get_from_date() == 0 && $this->get_to_date() == 0;
+	}
+
+	function is_visible_for_target_users()
+	{
+		return (!$this->is_hidden()) && ( $this->is_forever() || ($this->get_from_date() <= time() && time() <= $this->get_to_date()) );
 	}
 
 	function get_display_order_index()
@@ -160,12 +170,12 @@ class LearningObjectPublication
 	{
 		$this->toDate = $toDate;
 	}
-	
+
 	function set_publisher_id($publisher)
 	{
 		$this->publisher = $publisher;
 	}
-	
+
 	function set_publication_date($publicationDate)
 	{
 		$this->publicationDate = $publicationDate;
@@ -201,7 +211,7 @@ class LearningObjectPublication
 	 * @param $places The number of places to move the publication down. A
 	 *                negative number moves it up.
 	 * @return int The number of places that the publication was moved
-	 *             down. 
+	 *             down.
 	 */
 	function move($places)
 	{
