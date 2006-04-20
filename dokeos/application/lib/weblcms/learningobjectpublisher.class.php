@@ -10,6 +10,10 @@
 
 class LearningObjectPublisher
 {
+	const PARAM_ACTION = 'publish_action';
+	const PARAM_EDIT = 'edit';
+	const PARAM_LEARNING_OBJECT_ID = 'object';
+	
 	/**
 	 * The types of learning object that this publisher is aware of and may
 	 * publish.
@@ -36,7 +40,7 @@ class LearningObjectPublisher
 		$this->parent = $parent;
 		$this->default_learning_objects = array();
 		$this->types = (is_array($types) ? $types : array ($types));
-		$parent->set_parameter('publish_action', $this->get_action());
+		$parent->set_parameter(LearningObjectPublisher :: PARAM_ACTION, $this->get_action());
 	}
 
 	/**
@@ -50,7 +54,7 @@ class LearningObjectPublisher
 		{
 			$out .= '<li><a';
 			if ($this->get_action() == $action) $out .= ' class="current"';
-			$out .= ' href="'.$this->get_url(array ('publish_action' => $action), true).'">'.get_lang(ucfirst($action).'Title').'</a></li>';
+			$out .= ' href="'.$this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => $action), true).'">'.get_lang(ucfirst($action).'Title').'</a></li>';
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
 		$action = $this->get_action();
@@ -101,7 +105,7 @@ class LearningObjectPublisher
 	 */
 	function get_action()
 	{
-		return ($_GET['publish_action'] ? $_GET['publish_action'] : 'browser');
+		return ($_GET[LearningObjectPublisher :: PARAM_ACTION] ? $_GET[LearningObjectPublisher :: PARAM_ACTION] : 'browser');
 	}
 
 	/**
