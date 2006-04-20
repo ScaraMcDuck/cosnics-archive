@@ -1,4 +1,8 @@
 <?php
+/**
+ * Repository tool
+ * @package application.weblcms.tool
+ */
 require_once dirname(__FILE__) . '/tool.class.php';
 
 /**
