@@ -142,21 +142,6 @@ class WebLCMS extends Application
 		return WebLCMSDataManager :: get_instance()->retrieve_learning_object_publication_category($id);
 	}
 	
-	function create_category($category)
-	{
-		return WebLCMSDataManager :: get_instance()->create_learning_object_publication_category($category);
-	}
-
-	function update_category($category)
-	{
-		return WebLCMSDataManager :: get_instance()->update_learning_object_publication_category($category);
-	}
-	
-	function delete_category($category)
-	{
-		return WebLCMSDataManager :: get_instance()->delete_learning_object_publication_category($category);
-	}
-
 	/**
 	 * Gets the URL of the current page in the application. Optionally takes
 	 * an associative array of name/value pairs representing additional query

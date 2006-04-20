@@ -196,10 +196,15 @@ abstract class RepositoryDataManager
 	abstract function count_learning_objects($type = null, $condition = null);
 
 	/**
-	 * Makes the given learning object persistent, assigning an ID to it.
-	 * Must call the object's set_id method to set its ID.
+	 * Returns the next available learning object publication ID.
+	 * @return int The ID.
+	 */
+	abstract function get_next_learning_object_id();
+
+	/**
+	 * Makes the given learning object persistent.
 	 * @param LearningObject $object The learning object.
-	 * @return int The newly assigned ID.
+	 * @return boolean True if creation succceeded, false otherwise.
 	 */
 	abstract function create_learning_object($object);
 

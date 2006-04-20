@@ -198,7 +198,10 @@ class LearningObjectPublication
 	
 	function create()
 	{
-		return WebLCMSDataManager :: get_instance()->create_learning_object_publication($this);
+		$dm = WebLCMSDataManager :: get_instance();
+		$id = $dm->get_next_learning_object_publication_id();
+		$this->set_id($id);
+		return $dm->create_learning_object_publication($this);
 	}
 
 	function update()
