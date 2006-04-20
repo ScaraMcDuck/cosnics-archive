@@ -11,12 +11,13 @@ require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.
 class AnnouncementListRenderer extends LearningObjectPublicationListRenderer
 {
 	/**
-	 * Renders the up-action. By default, the most recent published
-	 * announcement, is displayed as first item in the list. So the actual
-	 * display order is the reverse of the display order in the database. The up
-	 * action in the announcement-tool should result in the down-action in the
-	 * database.
-	 * @return empty string
+	 * Renders the up-action.
+	 *
+	 * By default, the most recent published announcement, is displayed as first
+	 * item in the list. So the actual display order is the reverse of the
+	 * display order in the database. The up action in the announcement-tool
+	 * should result in the down-action in the database.
+	 * @return string Empty string
 	 */
 	function render_up_action($publication,$first = false)
 	{
@@ -24,12 +25,13 @@ class AnnouncementListRenderer extends LearningObjectPublicationListRenderer
 		return str_replace('action=move_up','action=move_down',$up_link);
 	}
 	/**
-	 * Renders the down-action. By default, the most recent published
-	 * announcement, is displayed as first item in the list. So the actual
-	 * display order is the reverse of the display order in the database. The
-	 * down action in the announcement-tool should result in the up-action in
-	 * the database.
-	 * @return empty string
+	 * Renders the down-action.
+	 *
+	 * By default, the most recent published announcement, is displayed as first
+	 * item in the list. So the actual display order is the reverse of the
+	 * display order in the database. The down action in the announcement-tool
+	 * should result in the up-action in the database.
+	 * @return string Empty string
 	 */
 	function render_down_action($publication,$last = false)
 	{
