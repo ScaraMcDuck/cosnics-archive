@@ -104,6 +104,7 @@ abstract class Tool
 		//TODO: next lines map the tool-id to the Dokeos defined tool constants. The same values should be used everywhere.
 		$dokeos_tools['description'] = TOOL_COURSE_DESCRIPTION;
 		$dokeos_tools['announcement'] = TOOL_ANNOUNCEMENT;
+		$dokeos_tools['calendar'] = TOOL_CALENDAR_EVENT;
 		// Roles and rights system
 		$user_id = api_get_user_id();
 		$course_id = api_get_course_id();
