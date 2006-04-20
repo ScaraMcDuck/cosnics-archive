@@ -50,7 +50,8 @@ class WebLCMS extends Application
 		{
 			echo '<div style="float: right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
 			echo '<form method="get" action="'.$this->get_url().'" style="display: inline;">';
-			echo 'Tool: <select onchange="submit();">';
+			echo '<select name="tool" onchange="submit();">';
+			echo '<option selected="selected">Select tool &hellip;</option>';
 			foreach ($this->get_registered_tools() as $tool)
 			{
 				echo '<option value="'.$tool.'">'.get_lang(self :: tool_to_class($tool).'Title').'</option>';
