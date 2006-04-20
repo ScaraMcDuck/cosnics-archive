@@ -334,10 +334,8 @@ class SortableTable extends HTML_Table
 		{
 			if (is_array($value))
 			{
-				foreach ($value as $v)
-				{
-					$result[] = '<input type="hidden" name="'.$key.'%5B%5D" value="'.$v.'"/>';
-				}
+				$ser = self :: serialize_array($value, $key);
+				$result = array_merge($result, $ser);
 			}
 			else
 			{
@@ -430,10 +428,8 @@ class SortableTable extends HTML_Table
 		{
 			if (is_array($value))
 			{
-				foreach ($value as $v)
-				{
-					$param_string_parts[] = urlencode($key).'%5B%5D='.urlencode($v);
-				}
+				$ser = self :: serialize_array($value, $key, true);
+				$param_string_parts = array_merge($param_string_parts, $ser);
 			}
 			else
 			{
@@ -591,6 +587,38 @@ class SortableTable extends HTML_Table
 			return call_user_func($this->get_data_function, $from, $this->per_page, $this->column, $this->direction);
 		}
 		return array ();
+	}
+	/**
+	 * Serializes a URL parameter passed as an array into a query string or
+	 * hidden inputs.
+	 * @param array $params The parameter's value.
+	 * @param string $key The parameter's name.
+	 * @param boolean $as_query_string True to format the result as a query
+	 *                                 string, false for hidden inputs.
+	 * @return array The query string parts (to be joined by ampersands or
+	 *               another separator), or the hidden inputs as HTML, each
+	 *               array element containing a single input.
+	 */
+	private function serialize_array ($params, $key, $as_query_string = false)
+	{
+		$out = array();
+		foreach ($params as $k => $v)
+		{
+			if (is_array($v))
+			{
+				$ser = self :: serialize_array($v, $key.'['.$k.']', $as_query_string);
+				$out = array_merge($out, $ser);
+			}
+			else
+			{
+				$v = urlencode($v);
+			}
+			$k = urlencode($key.'['.$k.']');
+			$out[] = ($as_query_string
+				? $k.'='.$v
+				: '<input type="hidden" name="'.$k.'" value="'.$v.'"/>');
+		}
+		return $out;
 	}
 }
 /**
