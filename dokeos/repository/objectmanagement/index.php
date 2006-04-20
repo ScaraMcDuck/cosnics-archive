@@ -1,5 +1,9 @@
 <?php
-// TODO: Share learning object table display code between index.php and search.php. 
+/**
+ * Overview of personal learning object repository
+ * @package repository.objectmanagement
+ */
+// TODO: Share learning object table display code between index.php and search.php.
 
 $cidReset = true;
 $langFile = 'admin';
@@ -38,15 +42,9 @@ if($object->get_owner_id() != api_get_user_id())
 
 $tool_name = get_lang('MyLearningObjects');
 
-//$tool_name = get_lang('MyRepository');
-
 
 // Create a navigation menu to browse through the categories
-
 create_category_menu();
-
-// Create a sortable table to display the learning objects
-
 
 
 // Perform actions if needed
@@ -176,7 +174,9 @@ echo '</div>';
 // Display footer
 Display::display_footer();
 
-// Create a search-box
+/**
+ * Create a search-box
+ */
 function create_search_form()
 {
 	$search_form = new FormValidator('search_simple','get','search.php','',null,false);
@@ -187,7 +187,9 @@ function create_search_form()
 	$search_form->addElement('submit','submit',get_lang('Search'));
 	$search_form->display();
 }
-// Create a dropdownlist with learning objecttypes
+/**
+ * Create a dropdownlist with learning objecttypes
+ */
 function create_learning_object_list()
 {
 	global $current_category_id;
@@ -199,7 +201,9 @@ function create_learning_object_list()
 	$create_form->addElement('submit','submit',get_lang('Create'));
 	$create_form->display();
 }
-
+/**
+ * Create a repository table
+ */
 function create_repository_table()
 {
 	global $object;
@@ -207,13 +211,17 @@ function create_repository_table()
 	$table->set_additional_parameters(array('category' =>$object->get_id()));
 	$table->display();
 }
-
+/**
+ * Create a category menu
+ */
 function create_category_menu ()
 {
 	global $menu, $current_category_id;
 	$menu = new CategoryMenu(api_get_user_id(),$current_category_id,'?category=%s',true);
 }
-// Retrieve learning objecttypes
+/**
+ * Retrieve learning objecttypes
+ */
 function retrieve_learning_object_types()
 {
 	global $datamanager;

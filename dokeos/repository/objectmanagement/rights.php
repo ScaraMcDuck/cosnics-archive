@@ -1,4 +1,8 @@
 <?php
+/**
+ * Manage learning object rights
+ * @package repository.objectmanagement
+ */
 require_once('../../claroline/inc/claro_init_global.inc.php');
 require_once(api_get_library_path().'/formvalidator/FormValidator.class.php');
 require_once('../lib/repositorydatamanager.class.php');
