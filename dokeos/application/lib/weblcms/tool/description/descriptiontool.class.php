@@ -5,14 +5,13 @@
  * @subpackage description
  */
 require_once dirname(__FILE__).'/../repositorytool.class.php';
+require_once dirname(__FILE__).'/descriptionbrowser.class.php';
 /**
  * This tool allows a user to publish descriptions in his or her course.
  */
 class DescriptionTool extends RepositoryTool
 {
-	/*
-	 * Inherited.
-	 */
+	// Inherited.
 	function run()
 	{
 		if(!$this->is_allowed(VIEW_RIGHT))
@@ -38,40 +37,9 @@ class DescriptionTool extends RepositoryTool
 				echo '<p>Go to <a href="' . $this->get_url(array('descriptionadmin' => 1), true) . '">Publisher Mode</a> &hellip;</p>';
 			}
 			$this->perform_requested_actions();
-			$this->display();
+			$browser = new DescriptionBrowser($this);
+			echo $browser->as_html();
 		}
-	}
-
-	/**
-	 * Display the list of descriptions
-	 */
-	function display()
-	{
-		$all_publications = $this->get_description_publications();
-		$renderer = new LearningObjectPublicationListRenderer($this);
-		$visible_publications = array();
-		foreach($all_publications as $index => $publication)
-		{
-			// If the publication is hidden and the user is not allowed to DELETE or EDIT, don't show this publication
-			if(!$publication->is_visible_for_target_users() && !($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
-			{
-				continue;
-			}
-			$visible_publications[] = $publication;
-		}
-		echo $renderer->render($visible_publications);
-	}
-	/**
-	 * Get the list of published descriptions
-	 * @return array An array with all publications of descriptions
-	 */
-	function get_description_publications()
-	{
-		$datamanager = WebLCMSDataManager :: get_instance();
-		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'description');
-		$condition = $tool_condition;
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups(),$condition);
-		return $publications;
 	}
 }
 ?>

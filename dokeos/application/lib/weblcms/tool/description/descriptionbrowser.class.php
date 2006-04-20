@@ -1,23 +1,23 @@
 <?php
 require_once dirname(__FILE__).'/../../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../../learningobjectpublicationbrowser.class.php';
-require_once dirname(__FILE__).'/announcementpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/descriptionpublicationlistrenderer.class.php';
 
-class AnnouncementBrowser extends LearningObjectPublicationBrowser
+class DescriptionBrowser extends LearningObjectPublicationBrowser
 {
-	function AnnouncementBrowser($parent, $types)
+	function DescriptionBrowser($parent, $types)
 	{
-		parent :: __construct($parent, 'announcement');
-		$renderer = new AnnouncementPublicationListRenderer($this);
+		parent :: __construct($parent, 'description');
+		$renderer = new DescriptionPublicationListRenderer($this);
 		$this->set_publication_list_renderer($renderer);
 	}
 
 	function get_publications($from, $count, $column, $direction)
 	{
 		$datamanager = WebLCMSDataManager :: get_instance();
-		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'announcement');
+		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'description');
 		$condition = $tool_condition;
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups(), $condition, false, array (Announcement :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC));
+		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups(), $condition, false, array (Description :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC));
 		$visible_publications = array ();
 		foreach ($publications as $index => $publication)
 		{

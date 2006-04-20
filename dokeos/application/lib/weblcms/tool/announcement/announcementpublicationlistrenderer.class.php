@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Announcement tool - list renderer
  * @package application.weblcms.tool
@@ -9,21 +8,6 @@ require_once dirname(__FILE__).'/../../browser/list_renderer/listlearningobjectp
 
 class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationListRenderer
 {
-	function render_publications($publications)
-	{
-		$all_publications = $this->get_parent()->get_publications();
-		$visible_publications = array ();
-		foreach ($all_publications as $index => $publication)
-		{
-			// If the publication is hidden and the user is not allowed to DELETE or EDIT, don't show this publication
-			if (!$publication->is_visible_for_target_users() && !($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
-			{
-				continue;
-			}
-			$visible_publications[] = $publication;
-		}
-		return parent :: render_publications($visible_publications);
-	}
 	function render_up_action($publication, $first = false)
 	{
 		/*
