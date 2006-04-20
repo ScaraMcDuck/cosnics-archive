@@ -1,6 +1,12 @@
 <?php
+/**
+ * Calendar tool
+ * @package application.weblcms.tool
+ * @subpackage calendar
+ */
 require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object/calendar_event/calendar_event.class.php';
 require_once dirname(__FILE__).'/../repositorytool.class.php';
+require_once dirname(__FILE__).'/calendarlistrenderer.class.php';
 /**
  * This tool allows a user to publish events in his or her course.
  * There are 4 calendar views available:
@@ -235,63 +241,31 @@ class CalendarTool extends RepositoryTool
 	 */
 	function display_list_view($time)
 	{
-		$publications = $this->get_publications();
-		$events = array();
-		foreach($publications as $index => $publication)
+		$all_publications = $this->get_publications();
+		$renderer = new CalendarListRenderer($this);
+		$visible_publications = array();
+		foreach($all_publications as $index => $publication)
 		{
-			$event = $publication->get_learning_object();
-			$events[$event->get_start_date()][] = $publication;
-		}
-		ksort($events);
-		foreach($events as $time => $publications)
-		{
-			foreach($publications as $index => $publication)
+			// If the publication is hidden and the user is not allowed to DELETE or EDIT, don't show this publication
+			if(!$publication->is_visible_for_target_users() && !($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
 			{
-				$object = $publication->get_learning_object();
-				$delete_url = $this->get_url(array('action'=>'delete','pid'=>$publication->get_id()), true);
-				$visible_url = $this->get_url(array('action'=>'toggle_visibility','pid'=>$publication->get_id()), true);
-				$visibility_img = ($publication->is_hidden() ? 'invisible.gif' : 'visible.gif');
-				$html = array();
-				$html[] = '<div class="learning_object">';
-				$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/></div>';
-				$html[] = '<div class="title">'.htmlentities($object->get_title()).'</div>';
-				$html[] = '<div class="description">';
-				$html[] = '<em>'.date('r',$object->get_start_date()).' - '.date('r',$object->get_end_date()).'</em>';
-				$html[] = '<br />';
-				$html[] = $object->get_description();
-				$html[] = '<br />';
-				$html[] = '<a href="'.$delete_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/delete.gif"/></a>';
-				$html[] = '<a href="'.$visible_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$visibility_img.'"/></a>';
-				$html[] = '</div>';
-				$html[] = '</div>';
-				$html[] = '<br /><br />';
-				echo implode("\n",$html);
+				continue;
 			}
+			$visible_publications[] = $publication;
 		}
+		echo $renderer->render($visible_publications);
 	}
 	/**
 	 * Display a pubication
 	 */
 	function display_publication($publication_id)
 	{
+		$renderer = new CalendarListRenderer($this);
 		$datamanager = WebLCMSDataManager :: get_instance();
 		$publication = $datamanager->retrieve_learning_object_publication($publication_id);
-		$object = $publication->get_learning_object();
-		$delete_url = $this->get_url(array('action'=>'delete','pid'=>$publication->get_id()), true);
-		$visible_url = $this->get_url(array('action'=>'toggle_visibility','pid'=>$publication->get_id()), true);
-		$visibility_img = ($publication->is_hidden() ? 'visible.gif' : 'invisible.gif');
 		$html = array();
 		$html[] = '<a href="'.$this->get_url(array(), true).'">&laquo;&laquo; '.get_lang('Back').'</a>';
-		$html[] = '<div class="learning_object">';
-		$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/></div>';
-		$html[] = '<div class="title">'.htmlentities($object->get_title()).'</div>';
-		$html[] = '<div class="description">'.$object->get_description();
-		$html[] = '<br />';
-		$html[] = '<a href="'.$delete_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/delete.gif"/></a>';
-		$html[] = '<a href="'.$visible_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$visibility_img.'"/></a>';
-		$html[] = '</div>';
-		$html[] = '</div>';
-		$html[] = '<br /><br />';
+		$html[] = $renderer->render_publication($publication);
 		echo implode("\n",$html);
 	}
 	/**
