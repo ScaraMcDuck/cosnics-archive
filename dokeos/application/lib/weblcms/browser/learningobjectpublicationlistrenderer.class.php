@@ -1,38 +1,61 @@
 <?php
 /**
- * List renderer
+ * Renderer for displaying a list of publications
  * @package application.weblcms.tool
  */
-/**
- * Renderer for displaying a list of publications
- */
-class LearningObjectPublicationListRenderer
+abstract class LearningObjectPublicationListRenderer
 {
-
-	var $tool;
+	private $browser;
+	
+	private $parameters;
+	
 	/**
-	 * Create a new LearningObjectPublicationListRenderer
-	 * @param RepositoryTool $tool
-	 */
-	function LearningObjectPublicationListRenderer($tool)
+	 * Constructor.
+	 * @param PublicationBrowser $browser The browser to associate this list
+	 *                                    renderer with.
+	 * @param array $parameters The parameters to pass to the renderer.
+	 */ 
+	function LearningObjectPublicationListRenderer($browser, $parameters = array())
 	{
-		$this->tool = $tool;
+		$this->parameters = $parameters;
+		$this->browser = $browser;
 	}
+	
 	/**
-	 * Render a list of publications
-	 * @param LearningObjectPublication[] $publications
+	 * Returns the value of the given renderer parameter.
+	 * @param string $name The name of the parameter.
+	 * @return mixed The value of the parameter.
+	 */
+	function get_parameter ($name)
+	{
+		return $this->parameters[$name];
+	}
+	
+	/**
+	 * Sets the value of the given renderer parameter.
+	 * @param string $name The name of the parameter.
+	 * @param mixed $value The new value for the parameter.
+	 */
+	function set_parameter ($name, $value)
+	{
+		$this->parameters[$name] = $value;
+	}
+	
+	/**
 	 * @return string
 	 */
-	function render($publications)
+	function render()
 	{
+		$publications = $this->browser->get_publications();
 		foreach ($publications as $index => $publication)
 		{
-			$first = $index == 0;
-			$last = $index == count($publications) - 1;
+			$first = ($index == 0);
+			$last = ($index == count($publications) - 1);
 			$html[] = $this->render_publication($publication, $first, $last);
 		}
 		return implode("\n", $html);
 	}
+	
 	/**
 	 * Render a publication
 	 * @param LearningObjectPublication $publication
@@ -62,6 +85,7 @@ class LearningObjectPublicationListRenderer
 		$html[] = '</div>';
 		return implode("\n", $html);
 	}
+	
 	/**
 	 * Render the title of the publication
 	 * @param LearningObjectPublication $publication
@@ -71,6 +95,7 @@ class LearningObjectPublicationListRenderer
 	{
 		return $publication->get_learning_object()->get_title();
 	}
+	
 	/**
 	 * Render the description of the publication
 	 * @param LearningObjectPublication $publication
@@ -80,6 +105,7 @@ class LearningObjectPublicationListRenderer
 	{
 		return $publication->get_learning_object()->get_description();
 	}
+	
 	/**
 	 * Render the publication information
 	 * @param LearningObjectPublication $publication
@@ -126,6 +152,7 @@ class LearningObjectPublicationListRenderer
 		}
 		return implode("\n",$html);
 	}
+	
 	/**
 	 * Render up-action
 	 * @param LearningObjectPublication $publication
@@ -138,7 +165,7 @@ class LearningObjectPublicationListRenderer
 		if (!$first)
 		{
 			$up_img = 'up.gif';
-			$up_url = $this->tool->get_url(array ('action' => 'move_up', 'pid' => $publication->get_id()), true);
+			$up_url = $this->get_url(array ('action' => 'move_up', 'pid' => $publication->get_id()), true);
 			$up_link = '<a href="'.$up_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$up_img.'" alt=""/></a>';
 		}
 		else
@@ -147,6 +174,7 @@ class LearningObjectPublicationListRenderer
 		}
 		return $up_link;
 	}
+	
 	/**
 	 * Render down-action
 	 * @param LearningObjectPublication $publication
@@ -159,7 +187,7 @@ class LearningObjectPublicationListRenderer
 		if (!$last)
 		{
 			$down_img = 'down.gif';
-			$down_url = $this->tool->get_url(array ('action' => 'move_down', 'pid' => $publication->get_id()), true);
+			$down_url = $this->get_url(array ('action' => 'move_down', 'pid' => $publication->get_id()), true);
 			$down_link = '<a href="'.$down_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$down_img.'"  alt=""/></a>';
 		}
 		else
@@ -168,6 +196,7 @@ class LearningObjectPublicationListRenderer
 		}
 		return $down_link;
 	}
+	
 	/**
 	 * Render visibility-action
 	 * @param LearningObjectPublication $publication
@@ -175,11 +204,12 @@ class LearningObjectPublicationListRenderer
 	 */
 	function render_visibility_action($publication)
 	{
-		$visibility_url = $this->tool->get_url(array ('action' => 'toggle_visibility', 'pid' => $publication->get_id()), true);
+		$visibility_url = $this->get_url(array ('action' => 'toggle_visibility', 'pid' => $publication->get_id()), true);
 		$visibility_img = ($publication->is_hidden() ? 'invisible.gif' : 'visible.gif');
 		$visibility_link = '<a href="'.$visibility_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$visibility_img.'"  alt=""/></a>';
 		return $visibility_link;
 	}
+	
 	/**
 	 * Render edit-action
 	 * @param LearningObjectPublication $publication
@@ -187,10 +217,11 @@ class LearningObjectPublicationListRenderer
 	 */
 	function render_edit_action($publication)
 	{
-		$edit_url = $this->tool->get_url(array ('action' => 'edit', 'pid' => $publication->get_id()), true);
+		$edit_url = $this->get_url(array ('action' => 'edit', 'pid' => $publication->get_id()), true);
 		$edit_link = '<a href="'.$edit_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif"  alt=""/></a>';
 		return $edit_link;
 	}
+	
 	/**
 	 * Render delete-action
 	 * @param LearningObjectPublication $publication
@@ -198,10 +229,11 @@ class LearningObjectPublicationListRenderer
 	 */
 	function render_delete_action($publication)
 	{
-		$delete_url = $this->tool->get_url(array ('action' => 'delete', 'pid' => $publication->get_id()), true);
+		$delete_url = $this->get_url(array ('action' => 'delete', 'pid' => $publication->get_id()), true);
 		$delete_link = '<a href="'.$delete_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete.gif"  alt=""/></a>';
 		return $delete_link;
 	}
+	
 	/**
 	 * Render publication actions
 	 * @param LearningObjectPublication $publication
@@ -213,11 +245,11 @@ class LearningObjectPublicationListRenderer
 	 */
 	function render_publication_actions($publication,$first,$last)
 	{
-		if ($this->tool->is_allowed(DELETE_RIGHT))
+		if ($this->is_allowed(DELETE_RIGHT))
 		{
 			$html[] = $this->render_delete_action($publication);
 		}
-		if ($this->tool->is_allowed(EDIT_RIGHT))
+		if ($this->is_allowed(EDIT_RIGHT))
 		{
 			$html[] = $this->render_edit_action($publication);
 			$html[] = $this->render_visibility_action($publication);
@@ -225,6 +257,16 @@ class LearningObjectPublicationListRenderer
 			$html[] = $this->render_down_action($publication,$last);
 		}
 		return implode("\n",$html);
+	}
+	
+	function get_url ($parameters = array(), $encode = false)
+	{
+		return $this->browser->get_url($parameters, $encode);
+	}
+	
+	function is_allowed ($right)
+	{
+		return $this->browser->is_allowed($right);
 	}
 }
 ?>

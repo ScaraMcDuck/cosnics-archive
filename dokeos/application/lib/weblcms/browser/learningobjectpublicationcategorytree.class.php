@@ -6,11 +6,14 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 {
 	private $browser;
 	
-	function LearningObjectPublicationCategoryTree($browser, $current_category)
+	private $tree_id;
+	
+	function LearningObjectPublicationCategoryTree($browser, $tree_id)
 	{
 		$this->browser = $browser; 
+		$this->tree_id = $tree_id;
 		parent :: __construct($this->get_as_tree($browser->get_categories()));
-		$this->forceCurrentUrl($this->get_category_url($current_category));
+		$this->forceCurrentUrl($this->get_category_url($this->get_current_category_id()));
 	}
 	
 	function as_html()
@@ -18,6 +21,11 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 		$renderer =& new TreeMenuRenderer();
 		$this->render($renderer, 'sitemap');
 		return $renderer->toHtml();
+	}
+	
+	function get_current_category_id()
+	{
+		return intval($_GET[$this->tree_id]);
 	}
 
 	private function get_as_tree($categories)
@@ -43,7 +51,7 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 	
 	private function get_category_url ($category_id)
 	{
-		return $this->browser->get_url(array('category' => $category_id));
+		return $this->browser->get_url(array($this->tree_id => $category_id));
 	}
 }
 ?>

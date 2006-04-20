@@ -1,13 +1,10 @@
 <?php
-require_once dirname(__FILE__).'/browser/learningobjectpublicationtable.class.php';
+require_once dirname(__FILE__).'/browser/learningobjectpublicationlistrenderer.class.php';
 require_once dirname(__FILE__).'/browser/learningobjectpublicationcategorytree.class.php';
 
 /**
 ==============================================================================
  *	This class allows the user to browse through learning object publications.
- *	For now, its layout is restricted to a sortable table of objects,
- *	accompanied by a tree view of categories. The intent is that tools
- *	extend this class in order to centralize publication browsing.
  *
  *	@author Tim De Pauw
 ==============================================================================
@@ -26,9 +23,9 @@ abstract class LearningObjectPublicationBrowser
 	private $category;
 	
 	/**
-	 * The table used to display objects.
+	 * The list renderer used to display objects.
 	 */
-	private $objectTable;
+	private $listRenderer;
 	
 	/**
 	 * The tree view used to display categories.
@@ -45,49 +42,63 @@ abstract class LearningObjectPublicationBrowser
 	 * @param RepositoryTool $parent The tool that instantiated this browser.
 	 * @param mixed $types The types of learning objects for which
 	 *                     publications need to be displayed.
-	 * @param int $category The ID of the category that is currently active.
 	 */
-	function LearningObjectPublicationBrowser($parent, $types, $category = 0)
+	function LearningObjectPublicationBrowser($parent, $types)
 	{
 		$this->parent = $parent;
 		$this->types = is_array($types) ? $types : array ($types);
-		$this->category = $category;
-		$this->objectTable = new LearningObjectPublicationTable($this);
-		$this->categoryTree = new LearningObjectPublicationCategoryTree($this, $category);
 	}
 
-	/**
-	 * Sets column titles for the learning object table.
-	 */
-	function set_column_titles()
-	{
-		$this->objectTable->set_column_titles(func_get_args());
-	}
-	
-	/**
-	 * Sets a header for the learning object table.
-	 * @param int $colmn The column index.
-	 * @param string $label The column title.
-	 * @param boolean $sortable True if the column's contents are sortable,
-	 *                          false otherwise. 
-	 */
-	function set_header ($column, $label, $sortable = true)
-	{
-		$this->objectTable->set_header($column, $label, $sortable);
-	}
-	
 	/**
 	 * Returns the publication browser's content in HTML format.
 	 * @return string The HTML.
 	 */
 	function as_html()
 	{
+		if (!isset($this->categoryTree))
+		{
+			return $this->listRenderer->render();
+		}
 		return '<div style="float: left; width: 20%">'
 			. $this->categoryTree->as_html()
 			. '</div>'
 			. '<div style="float: right; width: 80%">'
-			. $this->objectTable->as_html()
+			. $this->listRenderer->render()
 			. '</div>';
+	}
+	
+	/**
+	 * Returns the learning object publication list renderer associated with
+	 * this object.
+	 * @return LearningObjectPublicationRenderer The renderer.
+	 */
+	function get_publication_list_renderer()
+	{
+		return $this->listRenderer;
+	}
+	
+	function set_publication_list_renderer($renderer)
+	{
+		$this->listRenderer = $renderer;
+	}
+	
+	function get_publication_category_tree()
+	{
+		return $this->categoryTree;
+	}
+	
+	function set_publication_category_tree($tree)
+	{
+		$this->categoryTree = $tree;
+	}
+	
+	/**
+	 * Returns the repository tool that this browser is associated with.
+	 * @return RepositoryTool The tool. 
+	 */
+	function get_parent()
+	{
+		return $this->parent;
 	}
 	
 	/**
@@ -145,6 +156,14 @@ abstract class LearningObjectPublicationBrowser
 	function get_parameters ()
 	{
 		return $this->parent->get_parameters();
+	}
+	
+	/**
+	 * @see Tool :: is_allowed()
+	 */
+	function is_allowed ($right)
+	{
+		return $this->parent->is_allowed($right);
 	}
 	
 	/**

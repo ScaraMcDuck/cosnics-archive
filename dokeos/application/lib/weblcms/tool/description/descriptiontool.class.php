@@ -5,7 +5,6 @@
  * @subpackage description
  */
 require_once dirname(__FILE__).'/../repositorytool.class.php';
-require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
 /**
  * This tool allows a user to publish descriptions in his or her course.
  */
