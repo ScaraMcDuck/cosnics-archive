@@ -57,13 +57,13 @@ abstract class LearningObjectPublicationBrowser
 	{
 		if (!isset($this->categoryTree))
 		{
-			return $this->listRenderer->render();
+			return $this->listRenderer->as_html();
 		}
 		return '<div style="float: left; width: 20%">'
 			. $this->categoryTree->as_html()
 			. '</div>'
 			. '<div style="float: right; width: 80%">'
-			. $this->listRenderer->render()
+			. $this->listRenderer->as_html()
 			. '</div>';
 	}
 	

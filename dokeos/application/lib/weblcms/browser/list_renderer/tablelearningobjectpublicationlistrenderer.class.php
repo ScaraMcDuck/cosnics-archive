@@ -19,7 +19,7 @@ class TableLearningObjectPublicationListRenderer extends LearningObjectPublicati
 		return $this->table->set_header($column, $label, $sortable);
 	}
 	
-	function render()
+	function as_html()
 	{
 		return $this->table->as_html();
 	}

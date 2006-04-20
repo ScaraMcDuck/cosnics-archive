@@ -16,6 +16,15 @@ require_once dirname(__FILE__) . '/tool.class.php';
 
 abstract class RepositoryTool extends Tool
 {
+	const PARAM_ACTION = 'action';
+	const PARAM_PUBLICATION_ID = 'pid';
+	
+	const ACTION_EDIT = 'edit';
+	const ACTION_DELETE = 'delete';
+	const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
+	const ACTION_MOVE_UP = 'move_up';
+	const ACTION_MOVE_DOWN = 'move_down';
+	
 	/**
 	 * @see Application :: get_user_id()
 	 */
@@ -66,12 +75,13 @@ abstract class RepositoryTool extends Tool
 	 // TODO: add some input validation to check if the requested action can be performed
 	function perform_requested_actions()
 	{
-		if(isset($_GET['action']))
+		$action = $_GET[self :: PARAM_ACTION];
+		if(isset($action))
 		{
 			$datamanager = WebLCMSDataManager :: get_instance();
-			switch($_GET['action'])
+			switch($action)
 			{
-				case 'delete':
+				case self :: ACTION_DELETE:
 					if($this->is_allowed(DELETE_RIGHT))
 					{
 						$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
@@ -81,7 +91,7 @@ abstract class RepositoryTool extends Tool
 						}
 					}
 					break;
-				case 'toggle_visibility':
+				case self :: ACTION_TOGGLE_VISIBILITY:
 					if($this->is_allowed(EDIT_RIGHT))
 					{
 						$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
@@ -92,7 +102,7 @@ abstract class RepositoryTool extends Tool
 						}
 					}
 					break;
-				case 'move_up':
+				case self :: ACTION_MOVE_UP:
 					if($this->is_allowed(EDIT_RIGHT))
 					{
 						$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
@@ -102,7 +112,7 @@ abstract class RepositoryTool extends Tool
 						}
 					}
 					break;
-				case 'move_down':
+				case self :: ACTION_MOVE_DOWN:
 					if($this->is_allowed(EDIT_RIGHT))
 					{
 						$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);

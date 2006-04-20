@@ -40,9 +40,9 @@ class CalendarTool extends RepositoryTool
 		{
 			echo '<p>Go to <a href="' . $this->get_url(array('calendaradmin' => 1), true) . '">Publisher Mode</a> &hellip;</p>';
 			$this->perform_requested_actions();
-			if($_GET['action'] == 'delete' || $_GET['view'] == 'list')
+			if($_GET[self :: PARAM_ACTION] == self :: ACTION_DELETE || $_GET['view'] == 'list')
 			{
-				unset($_GET['pid']);
+				unset($_GET[self :: PARAM_PUBLICATION_ID]);
 			}
 			$this->display();
 		}

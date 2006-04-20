@@ -22,12 +22,12 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 		$dm = WebLCMSDataManager :: get_instance();
 		$pubs = $dm->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $this->get_user_id(), $this->get_groups(), $this->get_condition());
 		$data = array ();
+		$renderer = $this->get_publication_list_renderer();
 		foreach ($pubs as $publication)
 		{
-			$lo = $publication->get_learning_object();
 			$row = array ();
-			$row[] = '<a href="'.$lo->get_url(array(), true).'">'.htmlentities($lo->get_title()).'</a>';
-			$row[] = $lo->get_description();
+			$row[] = $renderer->render_title($publication);
+			$row[] = $renderer->render_description($publication);
 			$data[] = $row;
 		}
 		return $data;

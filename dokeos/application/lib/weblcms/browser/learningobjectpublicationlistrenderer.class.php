@@ -1,171 +1,150 @@
 <?php
 /**
- * Renderer for displaying a list of publications
+ * This is a generic renderer for a set of learning object publications.
  * @package application.weblcms.tool
+ * @author Bart Mollet
+ * @author Tim De Pauw
  */
+
 abstract class LearningObjectPublicationListRenderer
 {
 	private $browser;
-	
+
 	private $parameters;
-	
+
 	/**
 	 * Constructor.
 	 * @param PublicationBrowser $browser The browser to associate this list
 	 *                                    renderer with.
 	 * @param array $parameters The parameters to pass to the renderer.
-	 */ 
-	function LearningObjectPublicationListRenderer($browser, $parameters = array())
+	 */
+	function LearningObjectPublicationListRenderer($browser, $parameters = array ())
 	{
 		$this->parameters = $parameters;
 		$this->browser = $browser;
 	}
-	
+
 	/**
-	 * Returns the value of the given renderer parameter.
-	 * @param string $name The name of the parameter.
-	 * @return mixed The value of the parameter.
-	 */
-	function get_parameter ($name)
-	{
-		return $this->parameters[$name];
-	}
-	
-	/**
-	 * Sets the value of the given renderer parameter.
-	 * @param string $name The name of the parameter.
-	 * @param mixed $value The new value for the parameter.
-	 */
-	function set_parameter ($name, $value)
-	{
-		$this->parameters[$name] = $value;
-	}
-	
-	/**
-	 * @return string
-	 */
-	function render()
-	{
-		$publications = $this->browser->get_publications();
-		foreach ($publications as $index => $publication)
-		{
-			$first = ($index == 0);
-			$last = ($index == count($publications) - 1);
-			$html[] = $this->render_publication($publication, $first, $last);
-		}
-		return implode("\n", $html);
-	}
-	
-	/**
-	 * Render a publication
-	 * @param LearningObjectPublication $publication
-	 * @param boolean $first Is the publication the first one displayed in the
-	 * list?
-	 * @param boolean $last Is the publication the last one displayed in
-	 * the list?
-	 * @return string
-	 */
-	function render_publication($publication, $first = false, $last = false)
-	{
-		$html = array ();
-		$html[] = '<div class="learning_object">';
-		$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$publication->get_learning_object()->get_type().'.gif" alt="'.$publication->get_learning_object()->get_type().'"/></div>';
-		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
-		$html[] = htmlentities($this->render_title($publication));
-		$html[] = '</div>';
-		$html[] = '<div class="description'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
-		$html[] = $this->render_description($publication);
-		$html[] = '</div>';
-		$html[] = '<div class="publication_info'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
-		$html[] = $this->render_publication_information($publication);
-		$html[] = '</div>';
-		$html[] = '<div class="publication_actions">';
-		$html[] = $this->render_publication_actions($publication,$first,$last);
-		$html[] = '</div>';
-		$html[] = '</div>';
-		return implode("\n", $html);
-	}
-	
-	/**
-	 * Render the title of the publication
-	 * @param LearningObjectPublication $publication
-	 * @return string
+	 * Renders the title of the given publication.
+	 * @param LearningObjectPublication $publication The publication.
+	 * @return string The HTML rendering.
 	 */
 	function render_title($publication)
 	{
-		return $publication->get_learning_object()->get_title();
+		return htmlentities($publication->get_learning_object()->get_title());
 	}
-	
+
 	/**
-	 * Render the description of the publication
-	 * @param LearningObjectPublication $publication
-	 * @return string
+	 * Renders the description of the given publication.
+	 * @param LearningObjectPublication $publication The publication.
+	 * @return string The HTML rendering.
 	 */
 	function render_description($publication)
 	{
 		return $publication->get_learning_object()->get_description();
 	}
-	
+
 	/**
-	 * Render the publication information
-	 * @param LearningObjectPublication $publication
-	 * @return string
+	 * Renders information about the publisher of the given publication.
+	 * @param LearningObjectPublication $publication The publication.
+	 * @return string The HTML rendering.
 	 */
-	function render_publication_information($publication)
+	function render_publisher($publication)
 	{
-		$users = $publication->get_target_users();
-		$groups = $publication->get_target_groups();
-		if (count($users) == 0 && count($groups) == 0)
+		$user = api_get_user_info($publication->get_publisher_id());
+		return $user['firstName'].' '.$user['lastName'];
+	}
+
+	/**
+	 * Renders the date when the given publication was published.
+	 * @param LearningObjectPublication $publication The publication.
+	 * @return string The HTML rendering.
+	 */
+	function render_publication_date($publication)
+	{
+		return $this->format_date($publication->get_publication_date());
+	}
+
+	/**
+	 * Renders the users and groups the given publication was published for.
+	 * @param LearningObjectPublication $publication The publication.
+	 * @return string The HTML rendering.
+	 */
+	function render_publication_targets($publication)
+	{
+		if ($publication->is_for_everybody())
 		{
-			$target_list = get_lang('Everybody');
+			return get_lang('Everybody');
 		}
 		else
 		{
+			$users = $publication->get_target_users();
+			$groups = $publication->get_target_groups();
 			$target_list = array ();
-			$target_list[] = '<select>';
+			$target_list[] = '<ul>';
 			foreach ($users as $index => $user_id)
 			{
 				$user = api_get_user_info($user_id);
-				$target_list[] = '<option>'.$user['firstName'].' '.$user['lastName'].'</option>';
+				$target_list[] = '<li>'.$user['firstName'].' '.$user['lastName'].'</li>';
 			}
 			foreach ($groups as $index => $group_id)
 			{
 				//TODO: replace group id by group name (gives SQL-error now)
 				//$group = GroupManager::get_group_properties($group_id);
-				//$target_list[] = '<option>'.$group['name'].'</option>';
-				$target_list[] = '<option>'.'GROUP: '.$group_id.'</option>';
+				//$target_list[] = '<li>'.$group['name'].'</li>';
+				$target_list[] = '<li>'.'GROUP: '.$group_id.'</li>';
 			}
-			$target_list[] = '</select>';
-			$target_list = implode("\n", $target_list);
+			$target_list[] = '</ul>';
+			return implode("\n", $target_list);
 		}
+	}
+
+	/**
+	 * Renders the time period in which the given publication is active.
+	 * @param LearningObjectPublication $publication The publication.
+	 * @return string The HTML rendering.
+	 */
+	function render_publication_period($publication)
+	{
+		if ($publication->is_forever())
+		{
+			return get_lang('Forever');
+		}
+		return get_lang('From').' '.$this->format_date($publication->get_from_date()).' '.get_lang('Until').' '.$this->format_date($publication->get_to_date());
+	}
+
+	/**
+	 * Renders general publication information about the given publication.
+	 * @param LearningObjectPublication $publication The publication.
+	 * @return string The HTML rendering.
+	 */
+	function render_publication_information($publication)
+	{
 		$publisher = api_get_user_info($publication->get_publisher_id());
-		$html = array();
-		//TODO: date-formatting
-		$html[] = get_lang('PublishedOn').' '.date('r', $publication->get_publication_date());
-		$html[] = get_lang('By').' '.$publisher['firstName'].' '.$publisher['lastName'].'. ';
-		$html[] = get_lang('SentTo').': ';
-		$html[] = $target_list;
+		$html = array ();
+		$html[] = get_lang('PublishedOn').' '.$this->render_publication_date($publication);
+		$html[] = get_lang('By').' '.$this->render_publisher($publication);
+		$html[] = get_lang('For').' '.$this->render_publication_targets($publication);
 		if (!$publication->is_forever())
 		{
-			//TODO: date-formatting
-			$html[] = ' ('.get_lang('From').' '.date('r', $publication->get_from_date()).' '.get_lang('To').' '.date('r', $publication->get_to_date()).')';
+			$html[] = '('.$this->render_publication_period($publication).')';
 		}
-		return implode("\n",$html);
+		return implode("\n", $html);
 	}
-	
+
 	/**
-	 * Render up-action
-	 * @param LearningObjectPublication $publication
-	 * @param boolean $first Is the publication the first one displayed in the
-	 * list?
-	 * @return string
+	 * Renders the means to move the given publication up one place.
+	 * @param LearningObjectPublication $publication The publication.
+	 * @param boolean $first True if the publication is the first in the list
+	 *                       it is a part of.
+	 * @return string The HTML rendering.
 	 */
-	function render_up_action($publication,$first = false)
+	function render_up_action($publication, $first = false)
 	{
 		if (!$first)
 		{
 			$up_img = 'up.gif';
-			$up_url = $this->get_url(array ('action' => 'move_up', 'pid' => $publication->get_id()), true);
+			$up_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_UP, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 			$up_link = '<a href="'.$up_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$up_img.'" alt=""/></a>';
 		}
 		else
@@ -174,20 +153,20 @@ abstract class LearningObjectPublicationListRenderer
 		}
 		return $up_link;
 	}
-	
+
 	/**
-	 * Render down-action
-	 * @param LearningObjectPublication $publication
-	 * @param boolean $last Is the publication the last one displayed in the
-	 * list?
-	 * @return string
+	 * Renders the means to move the given publication down one place.
+	 * @param LearningObjectPublication $publication The publication.
+	 * @param boolean $last True if the publication is the last in the list
+	 *                      it is a part of.
+	 * @return string The HTML rendering.
 	 */
-	function render_down_action($publication,$last = false)
+	function render_down_action($publication, $last = false)
 	{
 		if (!$last)
 		{
 			$down_img = 'down.gif';
-			$down_url = $this->get_url(array ('action' => 'move_down', 'pid' => $publication->get_id()), true);
+			$down_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_DOWN, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 			$down_link = '<a href="'.$down_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$down_img.'"  alt=""/></a>';
 		}
 		else
@@ -196,75 +175,108 @@ abstract class LearningObjectPublicationListRenderer
 		}
 		return $down_link;
 	}
-	
+
 	/**
-	 * Render visibility-action
-	 * @param LearningObjectPublication $publication
-	 * @return string
+	 * Renders the means to toggle visibility for the given publication.
+	 * @param LearningObjectPublication $publication The publication.
+	 * @return string The HTML rendering.
 	 */
 	function render_visibility_action($publication)
 	{
-		$visibility_url = $this->get_url(array ('action' => 'toggle_visibility', 'pid' => $publication->get_id()), true);
+		$visibility_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_TOGGLE_VISIBILITY, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 		$visibility_img = ($publication->is_hidden() ? 'invisible.gif' : 'visible.gif');
 		$visibility_link = '<a href="'.$visibility_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$visibility_img.'"  alt=""/></a>';
 		return $visibility_link;
 	}
-	
+
 	/**
-	 * Render edit-action
-	 * @param LearningObjectPublication $publication
-	 * @return string
+	 * Renders the means to edit the given publication.
+	 * @param LearningObjectPublication $publication The publication.
+	 * @return string The HTML rendering.
 	 */
 	function render_edit_action($publication)
 	{
-		$edit_url = $this->get_url(array ('action' => 'edit', 'pid' => $publication->get_id()), true);
+		$edit_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_EDIT, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 		$edit_link = '<a href="'.$edit_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif"  alt=""/></a>';
 		return $edit_link;
 	}
-	
+
 	/**
-	 * Render delete-action
-	 * @param LearningObjectPublication $publication
-	 * @return string
+	 * Renders the means to delete the given publication.
+	 * @param LearningObjectPublication $publication The publication.
+	 * @return string The HTML rendering.
 	 */
 	function render_delete_action($publication)
 	{
-		$delete_url = $this->get_url(array ('action' => 'delete', 'pid' => $publication->get_id()), true);
+		$delete_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_DELETE, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 		$delete_link = '<a href="'.$delete_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete.gif"  alt=""/></a>';
 		return $delete_link;
 	}
-	
+
 	/**
-	 * Render publication actions
-	 * @param LearningObjectPublication $publication
-	 * @param boolean $first Is the publication the first one displayed in the
-	 * list?
-	 * @param boolean $last Is the publication the last one displayed in
-	 * the list?
-	 * @return string
+	 * Formats the given date in a human-readable format.
+	 * @param int $date A UNIX timestamp.
+	 * @return string The formatted date.
 	 */
-	function render_publication_actions($publication,$first,$last)
+	function format_date($date)
 	{
-		if ($this->is_allowed(DELETE_RIGHT))
-		{
-			$html[] = $this->render_delete_action($publication);
-		}
-		if ($this->is_allowed(EDIT_RIGHT))
-		{
-			$html[] = $this->render_edit_action($publication);
-			$html[] = $this->render_visibility_action($publication);
-			$html[] = $this->render_up_action($publication,$first);
-			$html[] = $this->render_down_action($publication,$last);
-		}
-		return implode("\n",$html);
+		return date('r', $date);
 	}
-	
-	function get_url ($parameters = array(), $encode = false)
+
+	/**
+	 * @see LearningObjectPublicationBrowser :: get_publications()
+	 */
+	function get_publications()
+	{
+		return $this->browser->get_publications();
+	}
+
+	/**
+	 * @see LearningObjectPublicationBrowser :: get_publication_count()
+	 */
+	function get_publication_count()
+	{
+		return $this->browser->get_publication_count();
+	}
+
+	/**
+	 * Returns the value of the given renderer parameter.
+	 * @param string $name The name of the parameter.
+	 * @return mixed The value of the parameter.
+	 */
+	function get_parameter($name)
+	{
+		return $this->parameters[$name];
+	}
+
+	/**
+	 * Sets the value of the given renderer parameter.
+	 * @param string $name The name of the parameter.
+	 * @param mixed $value The new value for the parameter.
+	 */
+	function set_parameter($name, $value)
+	{
+		$this->parameters[$name] = $value;
+	}
+
+	/**
+	 * Returns the output of the list renderer as HTML.
+	 * @return string The HTML.
+	 */
+	abstract function as_html();
+
+	/**
+	 * @see LearningObjectPublicationBrowser :: get_url()
+	 */
+	function get_url($parameters = array (), $encode = false)
 	{
 		return $this->browser->get_url($parameters, $encode);
 	}
-	
-	function is_allowed ($right)
+
+	/**
+	 * @see LearningObjectPublicationBrowser :: is_allowed()
+	 */
+	function is_allowed($right)
 	{
 		return $this->browser->is_allowed($right);
 	}
