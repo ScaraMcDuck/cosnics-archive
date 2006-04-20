@@ -15,7 +15,7 @@ class LearningObjectFinder extends LearningObjectBrowser
 		parent :: __construct($parent);
 		$this->form = new FormValidator('search', 'get','','',null,false);
 		$this->form->addElement('hidden', 'tool');
-		$this->form->addElement('hidden', 'publish_action');
+		$this->form->addElement('hidden', LearningObjectPublisher :: PARAM_ACTION);
 		$this->form->addElement('text', 'query', '');
 		$this->form->addElement('submit', 'submit', get_lang('Search'));
 		$renderer =& $this->form->defaultRenderer();

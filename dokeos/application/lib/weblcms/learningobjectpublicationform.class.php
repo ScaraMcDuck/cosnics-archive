@@ -1,0 +1,121 @@
+<?php
+require_once dirname(__FILE__).'/learningobjectpublication.class.php';
+require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';
+
+class LearningObjectPublicationForm extends FormValidator
+{
+	// XXX: Some of these constants heavily depend on FormValidator.
+	const PARAM_CATEGORY_ID = 'category'; 
+	const PARAM_TARGETS = 'target_users_and_groups';
+	const PARAM_RECEIVERS = 'receivers';
+	const PARAM_TARGETS_TO = 'to';
+	const PARAM_TARGET_USER_PREFIX = 'user';
+	const PARAM_TARGET_GROUP_PREFIX = 'group';
+	const PARAM_FOREVER = 'forever';
+	const PARAM_FROM_DATE = 'from_date';
+	const PARAM_TO_DATE = 'from_date';
+	const PARAM_HIDDEN = 'hidden';
+	
+	private $tool;
+	
+	private $learning_object;
+	
+    function LearningObjectPublicationForm($learning_object, $tool)
+    {
+    	$url = $tool->get_url(array (LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
+		parent :: __construct('publish', 'post', $url);
+		$this->tool = $tool;
+		$this->learning_object = $learning_object;
+		$this->build_form();
+		$this->setDefaults();
+    }
+    
+    function setDefaults()
+    {
+    	$defaults = array();
+    	$defaults[self :: PARAM_TARGETS][self :: PARAM_RECEIVERS] = 0;
+		$defaults[self :: PARAM_FOREVER] = 1;
+		parent :: setDefaults($defaults);
+    }
+    
+    function build_form()
+    {
+		$categories = $this->tool->get_categories(true);
+		if(count($categories) > 1)
+		{
+			// More than one category -> let user select one
+			$this->addElement('select', self :: PARAM_CATEGORY_ID, get_lang('Category'), $categories);
+		}
+		else
+		{
+			// Only root category -> store object in root category
+			$this->addElement('hidden',LearningObjectPublication :: PROPERTY_CATEGORY_ID,0);
+		}
+		$users = CourseManager::get_user_list_from_course_code(api_get_course_id());
+		$receiver_choices = array();
+		foreach($users as $index => $user)
+		{
+			$receiver_choices[self :: PARAM_TARGET_USER_PREFIX.'-'.$user['user_id']] = $user['firstName'].' '.$user['lastName'];
+		}
+		// TODO: Next lines reconnect to dokeos-database due
+		// to conflict with DB-connection in repository. This problem
+		// should be fixed.
+		global $dbHost,$dbLogin,$dbPass,$mainDbName;
+		mysql_connect($dbHost,$dbLogin,$dbPass);
+		mysql_select_db($mainDbName);
+		// --
+		$groups = GroupManager::get_group_list();
+		foreach($groups as $index => $group)
+		{
+			$receiver_choices[self :: PARAM_TARGET_GROUP_PREFIX.'-'.$group['id']] = $group['name'];
+		}
+		$attributes = array(self :: PARAM_RECEIVERS => $receiver_choices);
+		$this->addElement('receivers', self :: PARAM_TARGETS, get_lang('PublishFor'),$attributes);
+		$this->add_forever_or_timewindow();
+		$this->addElement('checkbox', self :: PARAM_HIDDEN, get_lang('Hidden'));
+		$this->addElement('submit', 'submit', get_lang('Ok'));
+    }
+    
+    function create_learning_object_publication()
+    {
+		$values = $this->exportValues();
+		if ($values[self :: PARAM_FOREVER])
+		{
+			$from = $to = 0;
+		}
+		else
+		{
+			$from = RepositoryUtilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]);
+			$to = RepositoryUtilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
+		}
+		$hidden = ($values[self :: PARAM_HIDDEN] ? 1 : 0);
+		$category = $values[self :: PARAM_CATEGORY_ID];
+		$users = array ();
+		$groups = array ();
+		if($values[self :: PARAM_TARGETS][self :: PARAM_RECEIVERS] == 1)
+		{
+			foreach($values[PARAM_TARGETS][self :: PARAM_TARGETS_TO] as $index => $target)
+			{
+				list($type,$id) = explode('-',$target);
+				if($type == self :: PARAM_TARGET_GROUP_PREFIX)
+				{
+					$groups[] = $id;
+				}
+				elseif($type == self :: PARAM_TARGET_USER_PREFIX)
+				{
+					$users[] = $id;
+				}
+			}
+		}
+		$course = $this->tool->get_course_id();
+		$tool = $this->tool->get_tool_id();
+		$dm = WebLCMSDataManager :: get_instance();
+		$displayOrder = $dm->get_next_learning_object_publication_display_order_index($course,$tool,$category);
+		$publisher = $this->tool->get_user_id();
+		$publicationDate = time();
+		$pub = new LearningObjectPublication(null, $this->learning_object, $course, $tool, $category, $users, $groups, $from, $to, $publisher, $publicationDate, $hidden, $displayOrder);
+		$pub->create();
+		return $pub;
+    }
+}
+?>
