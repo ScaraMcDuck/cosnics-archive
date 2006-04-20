@@ -121,6 +121,11 @@ class LearningObjectPublication
 		return $this->get_from_date() == 0 && $this->get_to_date() == 0;
 	}
 
+	function is_for_everybody()
+	{
+		return (!count($this->get_target_users()) && !count($this->get_target_groups()));
+	}
+	
 	function is_visible_for_target_users()
 	{
 		return (!$this->is_hidden()) && ( $this->is_forever() || ($this->get_from_date() <= time() && time() <= $this->get_to_date()) );

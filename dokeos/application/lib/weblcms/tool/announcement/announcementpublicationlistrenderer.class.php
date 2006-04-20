@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Announcement tool - list renderer
  * @package application.weblcms.tool
@@ -11,11 +12,11 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 	function render_publications($publications)
 	{
 		$all_publications = $this->get_parent()->get_publications();
-		$visible_publications = array();
-		foreach($all_publications as $index => $publication)
+		$visible_publications = array ();
+		foreach ($all_publications as $index => $publication)
 		{
 			// If the publication is hidden and the user is not allowed to DELETE or EDIT, don't show this publication
-			if(!$publication->is_visible_for_target_users() && !($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
+			if (!$publication->is_visible_for_target_users() && !($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
 			{
 				continue;
 			}
@@ -23,7 +24,7 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		}
 		return parent :: render_publications($visible_publications);
 	}
-	function render_up_action($publication,$first = false)
+	function render_up_action($publication, $first = false)
 	{
 		/*
 		 * By default, the most recently published announcement, is displayed as first
@@ -31,10 +32,10 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		 * display order in the database. The up action in the announcement-tool
 		 * should result in the down-action in the database.
 		 */
-		$up_link = parent::render_up_action($publication,$first);
-		return str_replace('action=move_up','action=move_down',$up_link);
+		$up_link = parent :: render_up_action($publication, $first);
+		return str_replace(RepositoryTool :: PARAM_ACTION.'='.RepositoryTool :: ACTION_MOVE_UP, RepositoryTool :: PARAM_ACTION.'='.RepositoryTool :: ACTION_MOVE_DOWN, $up_link);
 	}
-	function render_down_action($publication,$last = false)
+	function render_down_action($publication, $last = false)
 	{
 		/*
 		 * By default, the most recent published announcement, is displayed as first
@@ -42,8 +43,8 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		 * display order in the database. The down action in the announcement-tool
 		 * should result in the up-action in the database.
 		 */
-		$down_link = parent::render_down_action($publication,$last);
-		return str_replace('action=move_down','action=move_up',$down_link);
+		$down_link = parent :: render_down_action($publication, $last);
+		return str_replace(RepositoryTool :: PARAM_ACTION.'='.RepositoryTool :: ACTION_MOVE_DOWN, RepositoryTool :: PARAM_ACTION.'='.RepositoryTool :: ACTION_MOVE_UP, $down_link);
 	}
 }
 ?>
