@@ -141,12 +141,16 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		}
 		return (is_null($condition) ? '' : 'WHERE '.$this->translate_condition($condition, & $params));
 	}
+	
+	function get_next_learning_object_publication_id()
+	{
+		return $this->connection->nextId($this->get_table_name('learning_object_publication'));
+	}
 
 	function create_learning_object_publication($publication)
 	{
-		$id = $this->connection->nextId($this->get_table_name('learning_object_publication'));
 		$props = array ();
-		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID)] = $id;
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID)] = $publication->get_id();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID)] = $publication->get_learning_object()->get_id();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID)] = $publication->get_course_id();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL)] = $publication->get_tool();
@@ -162,7 +166,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		foreach($users as $index => $user_id)
 		{
 			$props = array();
-			$props[$this->escape_column_name('publication')] = $id;
+			$props[$this->escape_column_name('publication')] = $publication->get_id();
 			$props[$this->escape_column_name('user')] = $user_id;
 			$this->connection->autoExecute($this->get_table_name('learning_object_publication_user'), $props, DB_AUTOQUERY_INSERT);
 		}
@@ -170,11 +174,11 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		foreach($groups as $index => $group_id)
 		{
 			$props = array();
-			$props[$this->escape_column_name('publication')] = $id;
+			$props[$this->escape_column_name('publication')] = $publication->get_id();
 			$props[$this->escape_column_name('group')] = $group_id;
 			$this->connection->autoExecute($this->get_table_name('learning_object_publication_group'), $props, DB_AUTOQUERY_INSERT);
 		}
-		return $id;
+		return true;
 	}
 
 	function update_learning_object_publication($publication)
@@ -216,7 +220,8 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLICATION_DATE)] = self :: to_db_date($publication->get_publication_date());
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_HIDDEN)] = $publication->is_hidden();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX)] = $publication->get_display_order_index();
-		return $this->connection->autoExecute($this->get_table_name('learning_object_publication'), $props, DB_AUTOQUERY_UPDATE, $where);
+		$this->connection->autoExecute($this->get_table_name('learning_object_publication'), $props, DB_AUTOQUERY_UPDATE, $where);
+		return true;
 	}
 
 	function delete_learning_object_publication($publication)
@@ -232,7 +237,8 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$statement = $this->connection->prepare($query);
 		$this->connection->execute($statement, array($publication->get_display_order_index()));
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=?';
-		return $this->connection->limitQuery($query, 0, 1, $parameters);
+		$this->connection->limitQuery($query, 0, 1, $parameters);
+		return true;
 	}
 
 	function retrieve_learning_object_publication_categories($course, $tools)
@@ -264,18 +270,22 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $this->record_to_publication_category($record);
 	}
+	
+	function get_next_learning_object_publication_category_id()
+	{
+		return $this->connection->nextId($this->get_table_name('learning_object_publication_category'));
+	}
 
 	function create_learning_object_publication_category($category)
 	{
-		$id = $this->connection->nextId($this->get_table_name('learning_object_publication_category'));
 		$props = array();
-		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID)] = $id;
+		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID)] = $category->get_id();
 		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TITLE)] = $category->get_title();
 		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID)] = $category->get_parent_category_id();
 		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_COURSE_ID)] = $category->get_course();
 		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TOOL)] = $category->get_tool();
 		$this->connection->autoExecute($this->get_table_name('learning_object_publication_category'), $props, DB_AUTOQUERY_INSERT);
-		$category->set_id($id);
+		return true;
 	}
 
 	function update_learning_object_publication_category($category)
@@ -290,6 +300,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_COURSE_ID)] = $category->get_course();
 		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TOOL)] = $category->get_tool();
 		$this->connection->autoExecute($this->get_table_name('learning_object_publication_category'), $props, DB_AUTOQUERY_UPDATE, $where);
+		return true;
 	}
 
 	function delete_learning_object_publication_category($category)
@@ -299,6 +310,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		 */
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'=?';
 		$this->connection->limitQuery($query, 0, 1, array($category->get_id()));
+		return true;
 	}
 
 	function move_learning_object_publication($publication, $places)

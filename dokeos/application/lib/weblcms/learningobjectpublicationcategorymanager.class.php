@@ -60,7 +60,7 @@ class LearningObjectPublicationCategoryManager
 			$tool = $this->parent->get_tool_id();
 			$parent = $form->get_category_parent();
 			$category = new LearningObjectPublicationCategory(0, $title, $course, $tool, $parent);
-			$this->parent->create_category($category);
+			$category->create();
 			return Display :: display_normal_message(get_lang('CategoryCreated'), true);
 		}
 		else
@@ -79,7 +79,7 @@ class LearningObjectPublicationCategoryManager
 		{
 			$category->set_title($form->get_category_title());
 			$category->set_parent_id($form->get_category_parent());
-			$this->parent->update_category($category);
+			$category->update();
 			return Display :: display_normal_message(get_lang('CategoryUpdated'), true);
 		}
 		else
@@ -92,7 +92,7 @@ class LearningObjectPublicationCategoryManager
 	{
 		$id = $_GET[self :: PARAM_ID];
 		$category = $this->parent->get_category($id);
-		$this->parent->delete_category($category);
+		$category->delete();
 		return Display :: display_normal_message(get_lang('CategoryDeleted'), true);
 	}
 

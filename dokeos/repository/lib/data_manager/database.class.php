@@ -186,17 +186,22 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$record = $res->fetchRow(DB_FETCHMODE_ORDERED);
 		return $record[0];
 	}
+	
+	// Inherited.
+	function get_next_learning_object_id()
+	{
+		return $this->connection->nextId($success =$this->get_table_name('learning_object'));
+	}
 
 	// Inherited.
 	function create_learning_object($object)
 	{
-		$id = $this->connection->nextId($this->get_table_name('learning_object'));
 		$props = array();
 		foreach ($object->get_default_properties() as $key => $value)
 		{
 			$props[$this->escape_column_name($key)] = $value;
 		}
-		$props[$this->escape_column_name(LearningObject :: PROPERTY_ID)] = $id;
+		$props[$this->escape_column_name(LearningObject :: PROPERTY_ID)] = $object->get_id();
 		$props[$this->escape_column_name(LearningObject :: PROPERTY_TYPE)] = $object->get_type();
 		$props[$this->escape_column_name(LearningObject :: PROPERTY_CREATION_DATE)] = self :: to_db_date($object->get_creation_date());
 		$props[$this->escape_column_name(LearningObject :: PROPERTY_MODIFICATION_DATE)] = self :: to_db_date($object->get_modification_date());
@@ -208,11 +213,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			{
 				$props[$this->escape_column_name($key)] = $value;
 			}
-			$props[$this->escape_column_name(LearningObject :: PROPERTY_ID)] = $id;
+			$props[$this->escape_column_name(LearningObject :: PROPERTY_ID)] = $object->get_id();
 			$this->connection->autoExecute($this->get_table_name($object->get_type()), $props, DB_AUTOQUERY_INSERT);
 		}
-		$object->set_id($id);
-		return $id;
+		return true;
 	}
 
 	// Inherited.

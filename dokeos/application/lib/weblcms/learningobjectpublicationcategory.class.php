@@ -130,5 +130,23 @@ class LearningObjectPublicationCategory {
     {
     	$this->parent = $parent;
     }
+    
+    function create()
+	{
+		$dm = WebLCMSDataManager :: get_instance();
+		$id = $dm->get_next_learning_object_publication_category_id();
+		$this->set_id($id);
+		return $dm->create_learning_object_publication_category($this);
+	}
+
+	function update()
+	{
+		return WebLCMSDataManager :: get_instance()->update_learning_object_publication_category($this);
+	}
+	
+	function delete()
+	{
+		return WebLCMSDataManager :: get_instance()->delete_learning_object_publication_category($this);
+	}
 }
 ?>

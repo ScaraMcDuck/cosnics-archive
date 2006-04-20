@@ -106,13 +106,18 @@ abstract class WebLCMSDataManager
 	 * @return int The number of matching learning object publications.
 	 */
 	abstract function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false);
+	
+	/**
+	 * Returns the next available learning object publication ID.
+	 * @return int The ID.
+	 */
+	abstract function get_next_learning_object_publication_id();
 
 	/**
-	 * Creates a learning object publication in persistent storage, assigning
-	 * an ID to it. Uses the object's set_id function and returns the ID.
+	 * Creates a learning object publication in persistent storage.
 	 * @param LearningObjectPublication $publication The publication to make
 	 *                                               persistent.
-	 * @return int The publication's newly assigned ID.
+	 * @return boolean True if creation succceeded, false otherwise.
 	 */
 	abstract function create_learning_object_publication($publication);
 
@@ -120,6 +125,7 @@ abstract class WebLCMSDataManager
 	 * Updates a learning object publication in persistent storage.
 	 * @param LearningObjectPublication $publication The publication to update
 	 *                                               in storage.
+	 * @return boolean True if the update succceeded, false otherwise.
 	 */
 	abstract function update_learning_object_publication($publication);
 
@@ -127,6 +133,7 @@ abstract class WebLCMSDataManager
 	 * Removes learning object publication from persistent storage.
 	 * @param LearningObjectPublication $publication The publication to remove
 	 *                                               from storage.
+	 * @return boolean True if deletion succceeded, false otherwise.
 	 */
 	abstract function delete_learning_object_publication($publication);
 
@@ -169,10 +176,17 @@ abstract class WebLCMSDataManager
 	abstract function retrieve_learning_object_publication_category($id);
 	
 	/**
+	 * Returns the next available learning object publication category ID.
+	 * @return int The ID.
+	 */
+	abstract function get_next_learning_object_publication_category_id();
+
+	/**
 	 * Creates a new learning object publication category in persistent
-	 * storage. Also assigns an ID to the category through its set_id() method.
+	 * storage.
 	 * @param LearningObjectPublicationCategory $category The category to make
 	 *                                                    persistent.
+	 * @return boolean True if creation succceeded, false otherwise.
 	 */
 	abstract function create_learning_object_publication_category($category);
 	
@@ -181,6 +195,7 @@ abstract class WebLCMSDataManager
 	 * making any changes permanent.
 	 * @param LearningObjectPublicationCategory $category The category to
 	 *                                                    update.
+	 * @return boolean True if the update succceeded, false otherwise.
 	 */ 
 	abstract function update_learning_object_publication_category($category);
 
@@ -189,6 +204,7 @@ abstract class WebLCMSDataManager
 	 * making it disappear forever. Also removes all child categories.
 	 * @param LearningObjectPublicationCategory $category The category to
 	 *                                                    delete.
+	 * @return boolean True if deletion succceeded, false otherwise.
 	 */
 	abstract function delete_learning_object_publication_category($category);
 }

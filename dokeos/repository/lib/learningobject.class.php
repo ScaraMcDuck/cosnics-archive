@@ -400,10 +400,9 @@ class LearningObject
 
 	/**
 	 * Instructs the data manager to create the learning object, making it
-	 * persistent. Also sets the learning object's creation date to the
-	 * current time. The data manager automatically assigns an ID to the
-	 * learning object. 
-	 * @return int The newly assigned ID of the learning object.
+	 * persistent. Also assigns a unique ID to the learning object and sets
+	 * the learning object's creation date to the current time.
+	 * @return boolean True if creation succeeded, false otherwise.
 	 */
 	function create()
 	{
@@ -411,6 +410,8 @@ class LearningObject
 		$this->set_creation_date($now);
 		$this->set_modification_date($now);
 		$dm = RepositoryDataManager :: get_instance();
+		$id = $dm->get_next_learning_object_id();
+		$this->set_id($id);
 		return $dm->create_learning_object($this);
 	}
 
@@ -423,6 +424,7 @@ class LearningObject
 	 * instance, should not change the last modification date.
 	 * @param boolean $trueUpdate True if the update is a true update
 	 *                            (default), false otherwise.
+	 * @return boolean True if the update succeeded, false otherwise.
 	 */
 	function update($trueUpdate = true)
 	{
@@ -435,6 +437,7 @@ class LearningObject
 
 	/**
 	 * Instructs the data manager to delete the learning object.
+	 * @return boolean True if deletion succeeded, false otherwise.
 	 */
 	function delete()
 	{

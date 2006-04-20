@@ -57,30 +57,6 @@ abstract class RepositoryTool extends Tool
 	}
 
 	/**
-	 * @see Application :: create_category()
-	 */
-	function create_category($id)
-	{
-		return $this->get_parent()->create_category($id);
-	}
-
-	/**
-	 * @see Application :: update_category()
-	 */
-	function update_category($id)
-	{
-		return $this->get_parent()->update_category($id);
-	}
-
-	/**
-	 * @see Application :: delete_category()
-	 */
-	function delete_category($id)
-	{
-		return $this->get_parent()->delete_category($id);
-	}
-
-	/**
 	 * Handles requests like deleting a publication, changing display order of
 	 * publication, etc.
 	 * The action and the necessary parameters are retrieved from the query
