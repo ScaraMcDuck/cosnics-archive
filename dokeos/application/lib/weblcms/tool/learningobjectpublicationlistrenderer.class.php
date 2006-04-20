@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * List renderer
+ * @package application.weblcms.tool
+ */
 /**
  * Renderer for displaying a list of publications
  */
@@ -33,9 +36,12 @@ class LearningObjectPublicationListRenderer
 	/**
 	 * Render a publication
 	 * @param LearningObjectPublication $publication
+	 * @param boolean $first Is the publication the first one displayed in the
+	 * list?
+	 * @param boolean $last Is the publication the last one displayed in
+	 * the list?
 	 * @return string
 	 */
-	//TODO: split in more render-functions (render_action_buttons, render_publication_information,...) So more specialized renderers can easily be defined
 	function render_publication($publication, $first = false, $last = false)
 	{
 		$html = array ();
@@ -122,6 +128,10 @@ class LearningObjectPublicationListRenderer
 	}
 	/**
 	 * Render up-action
+	 * @param LearningObjectPublication $publication
+	 * @param boolean $first Is the publication the first one displayed in the
+	 * list?
+	 * @return string
 	 */
 	function render_up_action($publication,$first = false)
 	{
@@ -139,6 +149,10 @@ class LearningObjectPublicationListRenderer
 	}
 	/**
 	 * Render down-action
+	 * @param LearningObjectPublication $publication
+	 * @param boolean $last Is the publication the last one displayed in the
+	 * list?
+	 * @return string
 	 */
 	function render_down_action($publication,$last = false)
 	{
@@ -156,6 +170,8 @@ class LearningObjectPublicationListRenderer
 	}
 	/**
 	 * Render visibility-action
+	 * @param LearningObjectPublication $publication
+	 * @return string
 	 */
 	function render_visibility_action($publication)
 	{
@@ -166,6 +182,8 @@ class LearningObjectPublicationListRenderer
 	}
 	/**
 	 * Render edit-action
+	 * @param LearningObjectPublication $publication
+	 * @return string
 	 */
 	function render_edit_action($publication)
 	{
@@ -175,6 +193,8 @@ class LearningObjectPublicationListRenderer
 	}
 	/**
 	 * Render delete-action
+	 * @param LearningObjectPublication $publication
+	 * @return string
 	 */
 	function render_delete_action($publication)
 	{
@@ -184,6 +204,12 @@ class LearningObjectPublicationListRenderer
 	}
 	/**
 	 * Render publication actions
+	 * @param LearningObjectPublication $publication
+	 * @param boolean $first Is the publication the first one displayed in the
+	 * list?
+	 * @param boolean $last Is the publication the last one displayed in
+	 * the list?
+	 * @return string
 	 */
 	function render_publication_actions($publication,$first,$last)
 	{
