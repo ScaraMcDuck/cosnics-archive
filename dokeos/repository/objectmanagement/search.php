@@ -1,5 +1,9 @@
 <?php
-// TODO: Share learning object table display code between index.php and search.php. 
+/**
+ * Search in the repository
+ * @package repository.objectmanagement
+ */
+// TODO: Share learning object table display code between index.php and search.php.
 
 $langFile = 'admin';
 require_once dirname(__FILE__).'/../../claroline/inc/claro_init_global.inc.php';
@@ -57,11 +61,13 @@ if(isset($_GET['action']))
 	}
 }
 
-// Create a sortable table to display the learning objects
+/**
+ * Create a sortable table to display the learning objects
+ */
 function create_repository_table()
 {
 	global $search_form;
-	
+
 	if(isset($_GET['action']))
 	{
 		$table = new RepositoryBrowserTable();

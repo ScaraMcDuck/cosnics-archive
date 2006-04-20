@@ -1,4 +1,8 @@
 <?php
+/**
+ * Change metadata of learning objects
+ * @package repository.objectmanagement
+ */
 require_once dirname(__FILE__).'/../../claroline/inc/claro_init_global.inc.php';
 require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
