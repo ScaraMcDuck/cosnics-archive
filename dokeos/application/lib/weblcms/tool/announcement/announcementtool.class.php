@@ -5,7 +5,7 @@
  * @subpackage announcement
  */
 require_once dirname(__FILE__).'/../repositorytool.class.php';
-require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/announcementlistrenderer.class.php';
 /**
  * This tool allows a user to publish announcements in his or her course.
  */
@@ -49,7 +49,7 @@ class AnnouncementTool extends RepositoryTool
 	function display()
 	{
 		$all_publications = $this->get_announcement_publications();
-		$renderer = new LearningObjectPublicationListRenderer($this);
+		$renderer = new AnnouncementListRenderer($this);
 		$visible_publications = array();
 		foreach($all_publications as $index => $publication)
 		{
@@ -71,7 +71,7 @@ class AnnouncementTool extends RepositoryTool
 		$datamanager = WebLCMSDataManager :: get_instance();
 		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'announcement');
 		$condition = $tool_condition;
-		$announcement_publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups(),$condition);
+		$announcement_publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups(),$condition,false,array('display_order'),array(SORT_DESC));
 		return $announcement_publications;
 	}
 }
