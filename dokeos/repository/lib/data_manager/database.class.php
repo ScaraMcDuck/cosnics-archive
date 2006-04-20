@@ -169,7 +169,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			{
 				$query = 'SELECT COUNT('.$this->escape_column_name(LearningObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object');
 				$match = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
-				$conditions = isset ($conditions) ? new AndCondition(array ($match, $conditions)) : $match;
+				$condition = isset ($condition) ? new AndCondition(array ($match, $condition)) : $match;
 			}
 		}
 		else
