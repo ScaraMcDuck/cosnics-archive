@@ -1,0 +1,12 @@
+<?php
+/**
+ * Description tool - list renderer
+ * @package application.weblcms.tool
+ * @subpackage description
+ */
+require_once dirname(__FILE__).'/../../browser/list_renderer/listlearningobjectpublicationlistrenderer.class.php';
+
+class DescriptionPublicationListRenderer extends ListLearningObjectPublicationListRenderer
+{
+}
+?>
