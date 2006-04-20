@@ -6,7 +6,6 @@
  */
 require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object/calendar_event/calendar_event.class.php';
 require_once dirname(__FILE__).'/../repositorytool.class.php';
-require_once dirname(__FILE__).'/calendarlistrenderer.class.php';
 /**
  * This tool allows a user to publish events in his or her course.
  * There are 4 calendar views available:
@@ -242,7 +241,7 @@ class CalendarTool extends RepositoryTool
 	function display_list_view($time)
 	{
 		$all_publications = $this->get_publications();
-		$renderer = new CalendarListRenderer($this);
+		$renderer = new CalendarBrowser($this);
 		$visible_publications = array();
 		foreach($all_publications as $index => $publication)
 		{
@@ -260,7 +259,7 @@ class CalendarTool extends RepositoryTool
 	 */
 	function display_publication($publication_id)
 	{
-		$renderer = new CalendarListRenderer($this);
+		$renderer = new CalendarBrowser($this);
 		$datamanager = WebLCMSDataManager :: get_instance();
 		$publication = $datamanager->retrieve_learning_object_publication($publication_id);
 		$html = array();

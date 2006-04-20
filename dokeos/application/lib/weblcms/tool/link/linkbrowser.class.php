@@ -1,14 +1,20 @@
 <?php
 require_once dirname(__FILE__).'/../../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../../learningobjectpublicationbrowser.class.php';
+require_once dirname(__FILE__).'/../../browser/learningobjectpublicationcategorytree.class.php';
+require_once dirname(__FILE__).'/linkpublicationlistrenderer.class.php';
 
 class LinkBrowser extends LearningObjectPublicationBrowser
 {
-	function LinkBrowser($parent)
+	function LinkBrowser($parent, $types)
 	{
-		parent :: __construct($parent, 'link', intval($_GET['category']));
-		$this->set_header(0, get_lang('Title'), false);
-		$this->set_header(1, get_lang('Description'), false);
+		parent :: __construct($parent, 'link');
+		// TODO: Assign a dynamic tree name.
+		$tree_id = 'pcattree';
+		$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
+		$renderer = new LinkPublicationListRenderer($this);
+		$this->set_publication_list_renderer($renderer);
+		$this->set_publication_category_tree($tree);
 	}
 
 	function get_publications($from, $count, $column, $direction)
@@ -46,7 +52,8 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 		$date1 = new OrCondition($date_from_zero, $date_from_passed);
 		$date2 = new OrCondition($date_to_zero, $date_to_coming);
 		$date_cond = new AndCondition($date1, $date2);
-		return new AndCondition($shown_cond, $date_cond, $tool_cond);
+		$category_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $this->get_publication_category_tree()->get_current_category_id());
+		return new AndCondition($shown_cond, $date_cond, $tool_cond, $category_cond);
 	}
 }
 ?>
