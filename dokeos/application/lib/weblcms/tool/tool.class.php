@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Tool
+ * @package application.weblcms.tool
+ */
 /**
 ==============================================================================
  *	This is the base class for all tools used in applications.
