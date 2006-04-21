@@ -52,7 +52,7 @@ class WebLCMS extends Application
 		{
 			echo '<div style="float: right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
 			echo '<form method="get" action="'.$this->get_url().'" style="display: inline;">';
-			echo '<select name="' . self :: PARAM__TOOL . '" onchange="submit();">';
+			echo '<select name="' . self :: PARAM_TOOL . '" onchange="submit();">';
 			echo '<option selected="selected">Pick a Tool &hellip;</option>';
 			foreach ($this->get_registered_tools() as $t)
 			{
