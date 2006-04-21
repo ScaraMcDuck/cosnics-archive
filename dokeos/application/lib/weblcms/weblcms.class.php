@@ -17,6 +17,8 @@ require_once dirname(__FILE__).'/../../../claroline/inc/lib/groupmanager.lib.php
 
 class WebLCMS extends Application
 {
+	const PARAM_TOOL = 'tool';
+	
 	/**
 	 * The tools that this application offers.
 	 */
@@ -35,7 +37,7 @@ class WebLCMS extends Application
 	function WebLCMS($tool = null)
 	{
 		$this->parameters = array ();
-		$this->set_parameter('tool', $_GET['tool']);
+		$this->set_parameter(self :: PARAM_TOOL, $_GET[self :: PARAM_TOOL]);
 		$this->tools = array ();
 		$this->load_tools();
 	}
@@ -45,13 +47,13 @@ class WebLCMS extends Application
 	 */
 	function run()
 	{
-		$tool = $this->get_parameter('tool');
+		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		if (isset ($tool))
 		{
 			echo '<div style="float: right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
 			echo '<form method="get" action="'.$this->get_url().'" style="display: inline;">';
-			echo '<select name="tool" onchange="submit();">';
-			echo '<option selected="selected">Select tool &hellip;</option>';
+			echo '<select name="' . self :: PARAM__TOOL . '" onchange="submit();">';
+			echo '<option selected="selected">Pick a Tool &hellip;</option>';
 			foreach ($this->get_registered_tools() as $t)
 			{
 				echo '<option value="'.$t.'">'.get_lang(self :: tool_to_class($t).'Title').'</option>';
@@ -68,7 +70,7 @@ class WebLCMS extends Application
 			foreach ($this->get_registered_tools() as $tool)
 			{
 				$class = self :: tool_to_class($tool);
-				echo '<li><a href="'.$this->get_url(array ('tool' => $tool), true).'">'.get_lang($class.'Title').'</a></li>';
+				echo '<li><a href="'.$this->get_url(array (self :: PARAM_TOOL => $tool), true).'">'.get_lang($class.'Title').'</a></li>';
 			}
 			echo '</ul>';
 		}
@@ -76,7 +78,7 @@ class WebLCMS extends Application
 	
 	function get_tool_id()
 	{
-		return $this->get_parameter('tool');
+		return $this->get_parameter(self :: PARAM_TOOL);
 	}
 	
 	/**
@@ -113,7 +115,7 @@ class WebLCMS extends Application
 		 * Add the root category.
 		 */
 		$course = $this->get_course_id();
-		$tool = $this->get_parameter('tool');
+		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		$cats = WebLCMSDataManager :: get_instance()->retrieve_learning_object_publication_categories($course, $tool);
 		$root = array();
 		$root['obj'] = & new LearningObjectPublicationCategory(0, get_lang('RootCategory'), $course, $tool, 0);
