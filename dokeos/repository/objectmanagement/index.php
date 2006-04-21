@@ -3,8 +3,6 @@
  * Overview of personal learning object repository
  * @package repository.objectmanagement
  */
-// TODO: Share learning object table display code between index.php and search.php.
-
 $cidReset = true;
 $langFile = 'admin';
 require_once dirname(__FILE__).'/../../claroline/inc/claro_init_global.inc.php';
@@ -23,29 +21,14 @@ if( !api_get_user_id())
 	api_not_allowed();
 }
 
-// Load datamanager
-$datamanager = RepositoryDataManager::get_instance();
-
-// Load category
-$current_category_id = isset($_GET['category']) ? intval($_GET['category']) : NULL;
-if($current_category_id <= 0)
-{
-	$root_category = $datamanager->retrieve_root_category(api_get_user_id());
-	$current_category_id = $root_category->get_id();
-}
-$object = $datamanager->retrieve_learning_object($current_category_id);
+$object = get_datamanager()->retrieve_learning_object(get_current_category());
 
 if($object->get_owner_id() != api_get_user_id())
 {
 	api_not_allowed();
 }
-
-$tool_name = get_lang('MyLearningObjects');
-
-
 // Create a navigation menu to browse through the categories
 create_category_menu();
-
 
 // Perform actions if needed
 if(isset($_GET['action']))
@@ -56,11 +39,9 @@ if(isset($_GET['action']))
 			$message = $_GET['message'];
 			break;
 		case 'delete':
-			$object = $datamanager->retrieve_learning_object($_GET['id']);
+			$object = get_datamanager()->retrieve_learning_object($_GET['id']);
 			$object->delete();
 			$message = get_lang('ObjectDeleted');
-			// re-initialize the menu
-			create_category_menu();
 			break;
 		case 'move':
 			$renderer =& new OptionsMenuRenderer();
@@ -74,12 +55,10 @@ if(isset($_GET['action']))
 			if($popup_form->validate())
 			{
 				$values = $popup_form->exportValues();
-				$object = $datamanager->retrieve_learning_object($_GET['id']);
+				$object = get_datamanager()->retrieve_learning_object($_GET['id']);
 				$object->set_parent_id($values['new_category']);
 				$object->update(false);
 				$message = get_lang('ObjectMoved');
-				// re-initialize the menu
-				create_category_menu();
 			}
 			else
 			{
@@ -96,12 +75,10 @@ if(isset($_POST['action']))
 		case 'delete_selected':
 			foreach($_POST['id'] as $index => $object_id)
 			{
-				$object = $datamanager->retrieve_learning_object($object_id);
+				$object = get_datamanager()->retrieve_learning_object($object_id);
 				$object->delete();
 			}
 			$message = get_lang('ObjectsDeleted');
-			// re-initialize the menu
-			create_category_menu();
 			break;
 		case 'move_selected':
 			$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID,api_get_user_id());
@@ -121,7 +98,7 @@ if(isset($_POST['action']))
 				$values = $popup_form->exportValues();
 				foreach($_POST['id'] as $index => $object_id)
 				{
-					$object = $datamanager->retrieve_learning_object($object_id);
+					$object = get_datamanager()->retrieve_learning_object($object_id);
 					$object->set_parent_id($values['category']);
 					$object->update(false);
 				}
@@ -132,11 +109,10 @@ if(isset($_POST['action']))
 				$message = get_lang('SelectCategory');
 				$message .= $popup_form->toHtml();
 			}
-			// re-initialize the menu
-			create_category_menu();
 			break;
 	}
 }
+
 
 /*
  * Display page
@@ -153,21 +129,18 @@ api_display_tool_title($current_location['name']);
 echo '<div style="float:left;width:40%;margin:5px;">';
 // Display create form
 create_learning_object_list();
-
 echo '</div><div style="float:right;width:40%;text-align:right;margin:5px;">';
 // Display search form
 create_search_form();
 // Display message if needed
 echo '</div><div style="float:left;width:20%;">';
 // Display menu
-
 $renderer =& new TreeMenuRenderer();
 $menu->render($renderer,'sitemap');
 echo $renderer->toHtml();
 echo '</div><div style="float:right;width:80%;">';
 // Display table
 create_repository_table();
-
 // Link to quota-page
 echo '<a href="quota.php" style="float:right;"><img src="'.api_get_path(WEB_CODE_PATH).'/img/statistics.gif" style="vertical-align:middle;">'.get_lang('Quota').'</a>';
 echo '</div>';
@@ -192,11 +165,10 @@ function create_search_form()
  */
 function create_learning_object_list()
 {
-	global $current_category_id;
 	$create_form = new FormValidator('type_list', 'post', 'create.php');
 	$renderer =& $create_form->defaultRenderer();
 	$renderer->setElementTemplate('<span>{element}</span> ');
-	$create_form->addElement('hidden', 'category',$current_category_id);
+	$create_form->addElement('hidden', 'parent',get_current_category());
 	$create_form->addElement('select','type',null,retrieve_learning_object_types());
 	$create_form->addElement('submit','submit',get_lang('Create'));
 	$create_form->display();
@@ -206,26 +178,18 @@ function create_learning_object_list()
  */
 function create_repository_table()
 {
-	global $object;
+	$object = get_datamanager()->retrieve_learning_object(get_current_category());
 	$table = new RepositoryBrowserTable($object);
 	$table->set_additional_parameters(array('category' =>$object->get_id()));
 	$table->display();
 }
-/**
- * Create a category menu
- */
-function create_category_menu ()
-{
-	global $menu, $current_category_id;
-	$menu = new CategoryMenu(api_get_user_id(),$current_category_id,'?category=%s',true);
-}
+
 /**
  * Retrieve learning objecttypes
  */
 function retrieve_learning_object_types()
 {
-	global $datamanager;
-	$object_types = $datamanager->get_registered_types();
+	$object_types = get_datamanager()->get_registered_types();
 	$type_choices = array();
 	foreach($object_types as $key => $type)
 	{
@@ -233,4 +197,34 @@ function retrieve_learning_object_types()
 	}
 	return $type_choices;
 }
+/**
+ * Create a category menu
+ */
+function create_category_menu ()
+{
+	global $menu;
+	$menu = new CategoryMenu(api_get_user_id(),get_current_category(),'?category=%s',true);
+}
+/**
+ * Load datamanager
+ */
+function get_datamanager()
+{
+	return RepositoryDataManager::get_instance();	
+}
+
+/**
+ * Load current category
+ */
+function get_current_category()
+{
+	$current_category_id = isset($_GET['category']) ? intval($_GET['category']) : NULL;
+	if($current_category_id <= 0)
+	{
+		$root_category = get_datamanager()->retrieve_root_category(api_get_user_id());
+		$current_category_id = $root_category->get_id();
+	}
+	return $current_category_id;
+}
+
 ?>
