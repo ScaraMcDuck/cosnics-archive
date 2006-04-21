@@ -6,6 +6,7 @@
  */
 require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object/calendar_event/calendar_event.class.php';
 require_once dirname(__FILE__).'/../repositorytool.class.php';
+require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
 /**
  * This tool allows a user to publish events in his or her course.
  * There are 4 calendar views available:
@@ -99,7 +100,7 @@ class CalendarTool extends RepositoryTool
 		$y = date('Y',$time);
 		$first_day = mktime(0, 0, 0, $m, 1, $y);
 		$first_day_nr = date('w', $first_day) == 0 ? 6 : date('w', $first_day) - 1;
-		$calendar_table->addRow(array ('ma', 'di', 'wo', 'do', 'vr', 'za', 'zo'));
+		$calendar_table->addRow(array ('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'));
 		$first_table_date = strtotime('Monday',strtotime('-1 Week',$first_day));
 		$table_date = $first_table_date;
 		$cell = 0;
@@ -107,7 +108,7 @@ class CalendarTool extends RepositoryTool
 		{
 			do
 			{
-				$params = array('default_start_date' => $table_date,'default_end_date' => $table_date,'publish_action' => 'publicationcreator','calendaradmin' => '1');
+				$params = array('default_start_date' => $table_date,'default_end_date' => $table_date, LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator','calendaradmin' => '1');
 				$add_url = $this->get_url($params);
 				$cell_contents = '<a href="'.$add_url.'">'.date('d',$table_date).'</a>';
 				$publications = $this->get_calendar_events($table_date,strtotime('+1 Day',$table_date));
