@@ -24,7 +24,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 	 *                      it is a part of.
 	 * @return string The rendered HTML.
 	 */
-	private function render_publication($publication, $first = false, $last = false)
+	protected function render_publication($publication, $first = false, $last = false)
 	{
 		$html = array ();
 		$html[] = '<div class="learning_object">';
@@ -44,7 +44,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		$html[] = '</div>';
 		return implode("\n", $html);
 	}
-	
+
 	/**
 	 * Renders publication actions for the given publication.
 	 * @param LearningObjectPublication $publication The publication.
@@ -54,7 +54,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 	 *                      it is a part of.
 	 * @return string The rendered HTML.
 	 */
-	private function render_publication_actions($publication,$first,$last)
+	protected function render_publication_actions($publication,$first,$last)
 	{
 		if ($this->is_allowed(DELETE_RIGHT))
 		{

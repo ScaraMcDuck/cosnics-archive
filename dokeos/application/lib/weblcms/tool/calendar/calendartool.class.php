@@ -7,6 +7,7 @@
 require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object/calendar_event/calendar_event.class.php';
 require_once dirname(__FILE__).'/../repositorytool.class.php';
 require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
+require_once dirname(__FILE__).'/calendarbrowser.class.php';
 /**
  * This tool allows a user to publish events in his or her course.
  * There are 4 calendar views available:
@@ -241,6 +242,9 @@ class CalendarTool extends RepositoryTool
 	 */
 	function display_list_view($time)
 	{
+		$browser = new CalendarBrowser($this);
+		echo $browser->as_html();
+		return;
 		$all_publications = $this->get_publications();
 		$renderer = new CalendarBrowser($this);
 		$visible_publications = array();
