@@ -1,23 +1,24 @@
 // TODO: Provide an alternative if AJAX isn't supported.
 
-elementFinderSetup = new Array();
-elementFinderSetup['timeout'] = 500;
-elementFinderSetup['searching'] = 'Searching ...';
-elementFinderSetup['noresults'] = 'No results';
-elementFinderSetup['error'] = 'Error';
+elementFinderLocale = new Array();
+elementFinderLocale['Searching'] = 'Searching ...';
+elementFinderLocale['NoResults'] = 'No results';
+elementFinderLocale['Error'] = 'Error';
 
-var ajaxMethods = new Array(
+var elementFinderSearchDelay = 500;
+
+var elementFinderAjaxMethods = new Array(
 	function() { return new ActiveXObject("Msxml2.XMLHTTP") },
 	function() { return new ActiveXObject("Microsoft.XMLHTTP") },
 	function() { return new XMLHttpRequest() }
 );
 
-var ajaxMethodIndex = -1;
+var elementFinderAjaxMethodIndex = -1;
 
-for (var i = 0; i < ajaxMethods.length; i++) {
+for (var i = 0; i < elementFinderAjaxMethods.length; i++) {
 	try {
-		ajaxMethods[i]();
-		ajaxMethodIndex = i;
+		elementFinderAjaxMethods[i]();
+		elementFinderAjaxMethodIndex = i;
 		break;
 	} catch (e) { }
 }
@@ -35,9 +36,8 @@ function ElementFinderSearch (url, origin, destination) {
 	elementFinderObjects[destination] = this;
 	this.ajax = elementFinderGetAjaxObject();
 	destination.options.length = 0;
-	destination.options[0] = new Option(elementFinderSetup['searching'], 0);
+	destination.options[0] = new Option(elementFinderLocale['Searching'], 0);
 	origin.disabled = destination.disabled = true;
-	destination.style.fontFamily = 'monospace';
 	var searchObject = this;
 	this.ajax.onreadystatechange = function() {
 		searchObject.readyStateChanged();
@@ -53,7 +53,7 @@ ElementFinderSearch.prototype.readyStateChanged = function () {
 	}
 	else {
 		this.destination.options.length = 0;
-		this.destination.options[0] = new Option(elementFinderSetup['error'], 0);
+		this.destination.options[0] = new Option(elementFinderLocale['Error'], 0);
 	}
 	elementFinderObjects[this.destination] = null;
 }
@@ -62,34 +62,45 @@ ElementFinderSearch.prototype.returnResults = function () {
 	this.destination.options.length = 0;
 	var xml = this.ajax.responseXML;
 	if (!xml) {
-		this.destination.options[0] = new Option(elementFinderSetup['error'], 0);
+		this.destination.options[0] = new Option(elementFinderLocale['Error'], 0);
 		return;
 	}
-	var root = elementFinderExtractChild(xml);
+	var root = elementFinderLastChild(xml);
 	if (!root) {
-		this.destination.options[0] = new Option(elementFinderSetup['error'], 0);
+		this.destination.options[0] = new Option(elementFinderLocale['Error'], 0);
 		return;
 	}
-	var mainLeaf = elementFinderExtractChild(root);
+	var mainLeaf = elementFinderLastChild(root);
 	if (mainLeaf) {
 		this.origin.disabled = this.destination.disabled = false;
-		fillElementFinderResults(mainLeaf, this.destination, 0, false);
+		elementFinderAddResults(mainLeaf, this.destination, 0, false);
 	}
 	else {
-		this.destination.options[0] = new Option(elementFinderSetup['noresults'], 0);
+		this.destination.options[0] = new Option(elementFinderLocale['NoResults'], 0);
 	}
 }
 
-function elementFinderExtractChild (node) {
-	for (var i = 0; i < node.childNodes.length; i++) {
-		if (node.childNodes[i].nodeType == 1) {
-			return node.childNodes[i];
+function elementFinderFilterTextNodes (nodes) {
+	var result = new Array();
+	for (var i = 0; i < nodes.length; i++) {
+		var node = nodes[i];
+		if (node.nodeType != 3) {
+			result[result.length] = node;
 		}
 	}
-	return null;
+	return result;
 }
 
-function fillElementFinderResults (node, destination, indent, isLast) {
+function elementFinderLastChild (node) {
+	if (!node || !node.childNodes || node.childNodes.length == 0) {
+		return null;
+	}
+	var a = elementFinderFilterTextNodes(node.childNodes);
+	return (a.length == 0 ? null : a[a.length - 1]);
+}
+
+// TODO: Fix end determination.
+function elementFinderAddResults (node, destination, indent, isLast) {
 	var nbsp = String.fromCharCode(0xA0);
 	var trunk = String.fromCharCode(0x2502);
 	var leaf = String.fromCharCode(0x251C);
@@ -107,9 +118,10 @@ function fillElementFinderResults (node, destination, indent, isLast) {
 	if (indent > 0) {
 		prefix += trunk + nbsp;
 	}
-	for (var i = 0; i < node.childNodes.length; i++) {
-		var child = node.childNodes[i];
-		var isLast = (i == node.childNodes.length - 1);
+	var childNodes = elementFinderFilterTextNodes(node.childNodes);
+	for (var i = 0; i < childNodes.length; i++) {
+		var child = childNodes[i];
+		var isLast = (i == childNodes.length - 1);
 		switch (child.nodeName) {
 			case 'leaf':
 				var title = child.getAttribute('title');
@@ -121,7 +133,7 @@ function fillElementFinderResults (node, destination, indent, isLast) {
 				destination.options[destination.options.length] = opt;
 				break;
 			case 'node':
-				fillElementFinderResults(child, destination, indent + 1, isLast);
+				elementFinderAddResults(child, destination, indent + 1, isLast);
 				break;
 		}
 	}
@@ -135,11 +147,11 @@ function elementFinderFind (searchURL, origin, destination) {
 	}
 	elementFinderTimeout = setTimeout(function () {
 		new ElementFinderSearch(searchURL, origin, destination);
-	}, elementFinderSetup['timeout']);
+	}, elementFinderSearchDelay);
 }
 
 function elementFinderGetAjaxObject () {
-	return ajaxMethods[ajaxMethodIndex]();
+	return elementFinderAjaxMethods[elementFinderAjaxMethodIndex]();
 }
 
 function elementFinderMove (source, destination, hidden) {
@@ -162,7 +174,7 @@ function elementFinderExcludeString (elmt) {
 	return string;
 }
 
-function cloneActiveElements (source, destination) {
+function elementFinderClone (source, destination) {
 	var string = '';
 	if (source.options.length > 0) {
 		string = source.options[0].value

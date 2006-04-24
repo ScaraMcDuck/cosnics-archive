@@ -305,17 +305,6 @@ class LearningObject
 	}
 	
 	/**
-	 * Determines whether this learning object supports attachments, i.e.
-	 * whether other learning objects may be attached to it. A true value does
-	 * not imply that any objects are actually attached.
-	 * @return boolean True if attachments are supported, false otherwise.
-	 */
-	function supports_attachments()
-	{
-		return false;
-	}
-	
-	/**
 	 * Attaches the learning object with the given ID to this learning object.
 	 * @param int $id The ID of the learning object to attach.
 	 */
@@ -498,6 +487,16 @@ class LearningObject
 		return get_class($this).'#'.$this->get_id().' ('.$this->get_title().')';
 	}
 
+	/**
+	 * Determines whether this learning object type supports attachments, i.e.
+	 * whether other learning objects may be attached to it.
+	 * @return boolean True if attachments are supported, false otherwise.
+	 */
+	static function supports_attachments()
+	{
+		return false;
+	}
+	
 	/**
 	 * Get the default properties of all learning objects.
 	 * @return array The property names.

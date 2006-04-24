@@ -1,4 +1,9 @@
 <?php
+/* TODO: Integrate this with search.php and maybe index.php, since everything
+ * is really a search. An extra URL parameter could request XML output, e.g.
+ * <index.php?query=abc&exclude[]=1&exclude=[]=35&output=xml>.
+ */
+
 require_once dirname(__FILE__).'/../../claroline/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../lib/repositoryutilities.class.php';
@@ -7,6 +12,11 @@ require_once dirname(__FILE__).'/../lib/condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../lib/condition/notcondition.class.php';
 require_once dirname(__FILE__).'/../lib/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../lib/condition/orcondition.class.php';
+
+if( !api_get_user_id())
+{
+	api_not_allowed();
+}
 
 $conditions = array();
 
@@ -105,7 +115,7 @@ function dump_tree ($tree, & $objects)
 		foreach ($objects[$id] as $lo)
 		{
 			echo '<leaf id="', $lo->get_id(), '" title="',
-				htmlentities($lo->get_title() . ' [' . $lo->get_type() . ']'),
+				htmlentities($lo->get_title() . ' [' . htmlentities(get_lang($lo->get_type())) . ']'),
 				'"/>', "\n";				
 		}
 		echo '</node>', "\n";

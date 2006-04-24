@@ -36,7 +36,7 @@ abstract class LearningObjectForm extends FormValidator
 	 */
 	protected function LearningObjectForm($formName, $method = 'post', $action = null)
 	{
-		parent :: FormValidator($formName, $method, $action);
+		parent :: __construct($formName, $method, $action);
 		$this->creation_form_built = false;
 	}
 
@@ -95,12 +95,10 @@ abstract class LearningObjectForm extends FormValidator
 	 * default learning object properties. The result of this function is equal
 	 * to build_creation_form()'s, but that one may be overridden to extend the
 	 * form.
-	 * @param boolean $create True if creating a new object, false if editing
-	 *                        an existing one.
 	 */
 	private function build_basic_form()
 	{
-		$this->add_textfield(LearningObject :: PROPERTY_TITLE, get_lang('Title'),true,'size="100"');
+		$this->add_textfield(LearningObject :: PROPERTY_TITLE, get_lang('Title'),true,'size="100" style="width: 100%"');
 		if ($this->allows_category_selection())
 		{
 			$select = & $this->addElement('select', LearningObject :: PROPERTY_PARENT_ID, get_lang('Category'),$this->get_categories());
@@ -118,19 +116,16 @@ abstract class LearningObjectForm extends FormValidator
 	 */
 	protected function add_footer()
 	{
-		// TODO: Work on attachment stuff.
-		// TODO: Check if the LO type supports attachments.
-		$attachments_supported = true;
-		if ($attachments_supported)
+		if ($this->supports_attachments())
 		{
 			$object = $this->get_learning_object();
-			if (isset($object) && $object->supports_attachments())
+			if (isset($object))
 			{
-				$attachment_objects = $object->get_attached_learning_objects();
+				$attached_objects = $object->get_attached_learning_objects();
 				$attachments = array();
-				foreach ($attachment_objects as $ao)
+				foreach ($attached_objects as $ao)
 				{
-					$attachments[$ao->get_id()] = $ao->get_title();
+					$attachments[$ao->get_id()] = $ao->get_title() . ' [' . htmlentities(get_lang($ao->get_type())) . ']';
 				}
 			}
 			else
@@ -138,7 +133,14 @@ abstract class LearningObjectForm extends FormValidator
 				$attachments = array();
 			}
 			$url = api_get_root_rel().'repository/objectmanagement/search_xml.php';
-			$this->addElement('element_finder', 'attachments', get_lang('Attachments'), $url, $attachments);
+			$locale = array();
+			$locale['Display'] = get_lang('FindAttachments');
+			$locale['Searching'] = get_lang('Searching');
+			$locale['NoResults'] = get_lang('NoResults');
+			$locale['Error'] = get_lang('Error');
+			$hidden = true;
+			$elem = $this->addElement('element_finder', 'attachments', get_lang('Attachments'), $url, $locale, $attachments);
+			$elem->setCollapsed(true);
 		}
 		$this->addElement('submit', 'submit', get_lang('Ok'));
 	}
@@ -225,7 +227,6 @@ abstract class LearningObjectForm extends FormValidator
 			$dm = RepositoryDataManager :: get_instance();
 			$dm->assign_learning_object_display_order_index(& $object);
 		}
-		var_dump($values); exit;
 		$object->create();
 		if ($object->supports_attachments())
 		{
@@ -272,9 +273,32 @@ abstract class LearningObjectForm extends FormValidator
 		$result = $object->update();
 		if ($object->supports_attachments())
 		{
-			// TODO
+			// XXX: Make this faster.
+			foreach ($object->get_attached_learning_objects() as $o)
+			{
+				$object->detach_learning_object($o->get_id());
+			}
+			foreach ($values['attachments'] as $aid)
+			{
+				$object->attach_learning_object($aid);
+			}
 		}
 		return $result;
+	}
+	
+	/**
+	 * Checks whether the learning object that is being created or edited may
+	 * have learning objects attached to it.
+	 * @return boolean True if attachments are supported, false otherwise.
+	 */
+	function supports_attachments()
+	{
+		if (isset($this->learning_object))
+		{
+			return $this->learning_object->supports_attachments();
+		}
+		// TODO: Check attachment support if no default learning object.
+		return true; 
 	}
 
 	/**
@@ -290,7 +314,7 @@ abstract class LearningObjectForm extends FormValidator
 		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_form.class.php';
 		return new $class ($formName, $method, $action);
 	}
-
+	
 	function display()
 	{
 		$quotamanager = new QuotaManager(api_get_user_id());
