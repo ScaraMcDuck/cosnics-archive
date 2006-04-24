@@ -36,11 +36,11 @@ class QuotaManager
 	}
 	/**
 	 * Get the used disk space
-	 * @return int The percentage of disk space used
+	 * @return float The percentage of disk space used (0 <= value <= 100)
 	 */
 	public function get_used_disk_space_percent()
 	{
-		return round(100*$this->get_used_disk_space()/$this->get_max_disk_space());
+		return 100*$this->get_used_disk_space()/$this->get_max_disk_space();
 	}
 	/**
 	 * Get the available disk space
@@ -63,11 +63,11 @@ class QuotaManager
 	}
 	/**
 	 * Get the used database space
-	 * @return int The percentage of database space used
+	 * @return float The percentage of database space used (0 <= value <= 100)
 	 */
 	public function get_used_database_space_percent()
 	{
-		return round(100*$this->get_used_database_space()/$this->get_max_database_space());
+		return 100*$this->get_used_database_space()/$this->get_max_database_space();
 	}
 	/**
 	 * Get the available database space
