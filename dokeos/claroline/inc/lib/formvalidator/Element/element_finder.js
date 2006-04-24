@@ -77,12 +77,10 @@ function fillElementFinderResults (node, destination, indent, isLast) {
 	for (var i = 1; i < indent; i++) {
 		prefix += (isLast ? nbsp : trunk) + nbsp;
 	}
-	var opt = new Option(prefix
+	destination.options[destination.options.length] = new Option(prefix
 		+ (indent > 0 ? leaf + nbsp : '')
 		+ cat + nbsp
 		+ node.getAttribute('title'), 0);
-	opt.disabled = true;
-	destination.options[destination.options.length] = opt;
 	if (indent > 0) {
 		prefix += trunk + nbsp;
 	}
@@ -94,9 +92,11 @@ function fillElementFinderResults (node, destination, indent, isLast) {
 				var title = child.getAttribute('title');
 				var id = child.getAttribute('id');
 				var type = child.getAttribute('type');
-				destination.options[destination.options.length] = new Option(
+				var opt = new Option(
 					prefix + (isLast ? endLeaf : leaf) + nbsp + lo + nbsp + title + ' [' + type + ']',
 					id);
+				opt.otherText = title;
+				destination.options[destination.options.length] = opt;
 				break;
 			case 'category':
 				fillElementFinderResults(child, destination, indent + 1, isLast);
@@ -122,6 +122,9 @@ function elementFinderGetAjaxObject () {
 
 function elementFinderMove (source, destination, hidden) {
 	if (source.selectedIndex < 0 || source.options[source.selectedIndex].value <= 0) return;
+	var otherText = source.options[source.selectedIndex].text;
+	source.options[source.selectedIndex].text = source.options[source.selectedIndex].otherText;
+	source.options[source.selectedIndex].otherText = otherText;
 	if (destination) {
 		destination.options[destination.options.length] = source.options[source.selectedIndex];
 	}
