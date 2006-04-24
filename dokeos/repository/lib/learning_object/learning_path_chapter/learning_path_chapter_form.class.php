@@ -9,13 +9,13 @@ class LearningPathChapterForm extends LearningObjectForm
 	function build_creation_form($default_learning_object = null)
 	{
 		parent :: build_creation_form($default_learning_object);
-		$this->add_submit_button();
+		$this->add_footer();
 	}
 	function build_editing_form($object)
 	{
 		parent :: build_editing_form($object);
 		$this->setDefaults();
-		$this->add_submit_button();
+		$this->add_footer();
 	}
 	function create_learning_object($owner)
 	{

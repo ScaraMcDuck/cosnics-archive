@@ -12,13 +12,13 @@ class LearningPathItemForm extends LearningObjectForm
 	function build_creation_form()
 	{
 		parent :: build_creation_form();
-		$this->add_submit_button();
+		$this->add_footer();
 	}
 	function build_editing_form($object)
 	{
 		parent :: build_editing_form($object);
 		$this->setDefaults();
-		$this->add_submit_button();
+		$this->add_footer();
 	}
 	function create_learning_object($owner)
 	{
