@@ -84,7 +84,7 @@ function get_tree ($index, & $flat_tree)
 $tree = get_tree(0, & $categories);
 
 header('Content-Type: text/xml');
-echo '<?xml version="1.0" encoding="ISO-8859-1"?>', "\n", '<results>';
+echo '<?xml version="1.0" encoding="ISO-8859-1"?>', "\n", '<results>', "\n";
 
 function dump_tree ($tree, & $objects)
 {
@@ -100,15 +100,15 @@ function dump_tree ($tree, & $objects)
 		}
 		$id = $node['obj']->get_id();
 		echo '<node id="', $id, '" title="',
-			htmlentities($node['obj']->get_title()), '">';
+			htmlentities($node['obj']->get_title()), '">', "\n";
 		dump_tree($node['sub'], & $objects);
 		foreach ($objects[$id] as $lo)
 		{
 			echo '<leaf id="', $lo->get_id(), '" title="',
 				htmlentities($lo->get_title() . ' [' . $lo->get_type() . ']'),
-				'"/>';				
+				'"/>', "\n";				
 		}
-		echo '</node>';
+		echo '</node>', "\n";
 	}
 }
 
