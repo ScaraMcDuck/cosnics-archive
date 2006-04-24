@@ -71,15 +71,15 @@ function fillElementFinderResults (node, destination, indent, isLast) {
 	var trunk = String.fromCharCode(0x2502);
 	var leaf = String.fromCharCode(0x251C);
 	var endLeaf = String.fromCharCode(0x2514);
-	var lo = String.fromCharCode(0x25A1);
-	var cat = String.fromCharCode(0x25A0);
+	var leafIcon = String.fromCharCode(0x25A1);
+	var nodeIcon = String.fromCharCode(0x25A0);
 	var prefix = '';
 	for (var i = 1; i < indent; i++) {
 		prefix += (isLast ? nbsp : trunk) + nbsp;
 	}
 	destination.options[destination.options.length] = new Option(prefix
 		+ (indent > 0 ? leaf + nbsp : '')
-		+ cat + nbsp
+		+ nodeIcon + nbsp
 		+ node.getAttribute('title'), 0);
 	if (indent > 0) {
 		prefix += trunk + nbsp;
@@ -88,17 +88,16 @@ function fillElementFinderResults (node, destination, indent, isLast) {
 		var child = node.childNodes[i];
 		var isLast = (i == node.childNodes.length - 1);
 		switch (child.nodeName) {
-			case 'learning_object':
+			case 'leaf':
 				var title = child.getAttribute('title');
 				var id = child.getAttribute('id');
-				var type = child.getAttribute('type');
 				var opt = new Option(
-					prefix + (isLast ? endLeaf : leaf) + nbsp + lo + nbsp + title + ' [' + type + ']',
+					prefix + (isLast ? endLeaf : leaf) + nbsp + leafIcon + nbsp + title,
 					id);
-				opt.otherText = title + ' [' + type + ']';
+				opt.otherText = title;
 				destination.options[destination.options.length] = opt;
 				break;
-			case 'category':
+			case 'node':
 				fillElementFinderResults(child, destination, indent + 1, isLast);
 				break;
 		}

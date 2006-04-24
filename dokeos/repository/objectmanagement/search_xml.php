@@ -84,7 +84,7 @@ function get_tree ($index, & $flat_tree)
 $tree = get_tree(0, & $categories);
 
 header('Content-Type: text/xml');
-echo '<?xml version="1.0" encoding="ISO-8859-1"?>', "\n", '<result>';
+echo '<?xml version="1.0" encoding="ISO-8859-1"?>', "\n", '<results>';
 
 function dump_tree ($tree, & $objects)
 {
@@ -99,16 +99,16 @@ function dump_tree ($tree, & $objects)
 			continue;
 		}
 		$id = $node['obj']->get_id();
-		echo '<category id="', $id, '" title="',
+		echo '<node id="', $id, '" title="',
 			htmlentities($node['obj']->get_title()), '">';
 		dump_tree($node['sub'], & $objects);
 		foreach ($objects[$id] as $lo)
 		{
-			echo '<learning_object id="', $lo->get_id(), '" type="',
-				$lo->get_type(), '" title="',
-				htmlentities($lo->get_title()), '"/>';				
+			echo '<leaf id="', $lo->get_id(), '" title="',
+				htmlentities($lo->get_title() . ' [' . $lo->get_type() . ']'),
+				'"/>';				
 		}
-		echo '</category>';
+		echo '</node>';
 	}
 }
 
@@ -130,5 +130,5 @@ function contains_results ($node, & $objects)
 
 dump_tree($tree, & $objects_by_cat);
 
-echo '</result>';
+echo '</results>';
 ?>
