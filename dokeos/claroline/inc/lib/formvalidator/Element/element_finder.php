@@ -1,48 +1,42 @@
 <?php
-/*
- * TODO: Turn into an HTML_QuickForm_group or _advmultiselect and add other
- * QuickForm magic.
- */ 
-
 require_once 'HTML/QuickForm/text.php';
 require_once 'HTML/QuickForm/select.php';
 require_once 'HTML/QuickForm/button.php';
 require_once 'HTML/QuickForm/hidden.php';
+require_once 'HTML/QuickForm/group.php';
 
-class HTML_QuickForm_element_finder extends HTML_QuickForm_element
+class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 {
 	const ROW_COUNT = 10;
 	
 	private static $initialized;
 	
-	private $active_hidden;
-
-	private $select_inactive;
-	
-	private $select_active;
-	
-	private $input_search;
-	
-	private $button_activate;
-	
-	private $button_deactivate;
-	
 	private $search_url;
 	
-	private $name;
+	private $locale;
 	
-	function HTML_QuickForm_element_finder($elementName, $elementLabel, $search_url)
+	private $collapsed;
+	
+	function HTML_QuickForm_element_finder($elementName, $elementLabel, $search_url, $locale = array('Display' => 'Display'), $default_values = array())
 	{
 		parent :: __construct($elementName, $elementLabel);
 		$this->_type = 'element_finder';
+		$this->_persistantFreeze = true;
+		$this->_appendName = false;
+		$this->locale = $locale;
 		$this->search_url = $search_url;
-		$this->name = $elementName;
 		$this->build_elements();
+		$this->setValue($default_values);
 	}
 	
-	function getName ()
+	function isCollapsed()
 	{
-		return $this->name;
+		return $this->collapsed;
+	}
+	
+	function setCollapsed ($collapsed)
+	{
+		$this->collapsed = $collapsed;
 	}
 	
 	private function build_elements()
@@ -50,14 +44,17 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_element
 		$active_id = 'elf_'.$this->getName().'_active';
 		$inactive_id = 'elf_'.$this->getName().'_inactive';
 		$active_hidden_id = $active_id.'_hidden';
-		$this->active_hidden = new HTML_QuickForm_hidden($this->getName().'_active_hidden', null, array('id' => $active_hidden_id));
+		$this->_elements = array();
+		$this->_elements[] = new HTML_QuickForm_hidden($this->getName().'_active_hidden', null, array('id' => $active_hidden_id));
+		// TODO: Figure out why this doesn't happen automatically.
+		$this->_elements[0]->setValue($_REQUEST[$this->_elements[0]->getName()]);
 		$options = $this->get_active_elements();
-		$this->select_inactive = new HTML_QuickForm_select($this->getName().'_inactive', null, array(), array('size' => self :: ROW_COUNT - 1, 'style' => 'width: 100%', 'id' => $inactive_id));
-		$this->select_active = new HTML_QuickForm_select($this->getName().'_active', null, $options, array('size' => self :: ROW_COUNT, 'style' => 'width: 100%', 'id' => $active_id));
-		$this->select_active->setValue($this->active_hidden->getValue());
-		$this->input_search = new HTML_QuickForm_text($this->getName().'_search', null, array('style' => 'width: 100%', 'onkeyup' => 'elementFinderFind(\''.$this->search_url.'?query=\'+escape(this.value)+elementFinderExcludeString(document.getElementById(\''.$active_id.'\')), document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'))'));
-		$this->button_activate = new HTML_QuickForm_button($this->getName().'_activate', '<<', array('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elementFinderMove(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\')); cloneActiveElements(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$active_hidden_id.'\'));'));
-		$this->button_deactivate = new HTML_QuickForm_button($this->getName().'_activate', '>>', array('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elementFinderMove(document.getElementById(\''.$active_id.'\'), null); cloneActiveElements(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$active_hidden_id.'\'));'));
+		$this->_elements[] = new HTML_QuickForm_select($this->getName().'_inactive', null, array(), array('size' => self :: ROW_COUNT - 1, 'style' => 'width: 100%', 'id' => $inactive_id));
+		$this->_elements[] = new HTML_QuickForm_select($this->getName().'_active', null, $options, array('size' => self :: ROW_COUNT, 'style' => 'width: 100%; font-family: monospace', 'id' => $active_id));
+		$this->_elements[] = new HTML_QuickForm_text($this->getName().'_search', null, array('style' => 'width: 100%', 'onkeyup' => 'elementFinderFind(\''.$this->search_url.'?query=\'+escape(this.value)+elementFinderExcludeString(document.getElementById(\''.$active_id.'\')), document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'))'));
+		$this->_elements[3]->setValue('');
+		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '<<', array('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elementFinderMove(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\')); elementFinderClone(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$active_hidden_id.'\'));'));
+		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_activate', '>>', array('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elementFinderMove(document.getElementById(\''.$active_id.'\'), null); elementFinderClone(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$active_hidden_id.'\'));'));
 	}
 	
 	function getValue()
@@ -65,9 +62,28 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_element
 		return array_keys($this->get_active_elements());
 	}
 	
+	function exportValue (& $submitValues, $assoc = false)
+	{
+		if ($assoc)
+		{
+			return array($this->getName() => $this->getValue());
+		}
+		return $this->getValue();
+	}
+	
+	function setValue($value)
+	{
+		$str = array();
+		foreach ($value as $k => $v) {
+			$str[] = $k . "\t" . $v;
+		}
+		$this->_elements[0]->setValue(implode("\t", $str));
+		$this->_elements[2]->loadArray($value);
+	}
+	
 	private function get_active_elements ()
 	{
-		$temp = explode("\t", $this->active_hidden->getValue());
+		$temp = explode("\t", $this->_elements[0]->getValue());
 		$result = array();
 		for ($i = 0; $i < count($temp) - 1; $i += 2)
 		{
@@ -76,46 +92,69 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_element
 		return $result;
 	}
 	
-	function exportValue()
-	{
-		return $this->getValue();
-	}
-	
 	function toHTML()
 	{
+		/*
+		 * 0 active hidden
+		 * 1 inactive
+		 * 2 active
+		 * 3 search
+		 * 4 deactivate
+		 * 5 activate
+		 */
 		$html = array();
 		if (!self :: $initialized)
 		{
 			$html[] = '<script type="text/javascript">'.file_get_contents(dirname(__FILE__).'/element_finder.js').'</script>';
 			self :: $initialized = true;
 		}
-		$html[] = $this->active_hidden->toHTML();
-		$html[] = '<table border="0" cellpadding="0" cellspacing="0">';
+		if (count($this->locale))
+		{
+			$html[] = '<script type="text/javascript">';
+			foreach ($this->locale as $name => $value)
+			{
+				$html[] = 'elementFinderLocale["'.addslashes($name).'"] = "'.addslashes($value).'";';
+			}
+			$html[] = '</script>';
+		}
+		$html[] = $this->_elements[0]->toHTML();
+		$id = 'tbl_'.$this->getName();
+		$html[] = '<table border="0" cellpadding="0" cellspacing="0" id="' . $id . '"'.($this->isCollapsed() ? ' style="display: none;"' : '').'>';
 		$html[] = '<tr>';
 		$html[] = '<td width="50%">';
-		$html[] = $this->select_active->toHTML();
+		$html[] = $this->_elements[2]->toHTML();
 		$html[] = '</td>';
 		$html[] = '<td>';
-		$html[] = $this->button_deactivate->toHTML(); 
-		$html[] = $this->button_activate->toHTML();
+		$html[] = $this->_elements[4]->toHTML(); 
+		$html[] = $this->_elements[5]->toHTML();
 		$html[] = '</td>';
 		$html[] = '<td width="50%">';
 		$html[] = '<table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">';
 		$html[] = '<tr>';
 		$html[] = '<td>';
-		$html[] = $this->input_search->toHTML();
+		$html[] = $this->_elements[3]->toHTML();
 		$html[] = '</td>';
 		$html[] = '</tr>';
 		$html[] = '<tr>';
 		$html[] = '<td height="100%">';
-		$html[] = $this->select_inactive->toHTML();
+		$html[] = $this->_elements[1]->toHTML();
 		$html[] = '</td>';
 		$html[] = '</tr>';
 		$html[] = '</table>';
 		$html[] = '</td>';
 		$html[] = '</tr>';
 		$html[] = '</table>';
+		if ($this->isCollapsed())
+		{
+			$html[] = '<input type="button" value="'.htmlentities($this->locale['Display']).'" '
+				. 'onclick="document.getElementById(\''.$id.'\').style.display = \'\'; this.style.display = \'none\';" />';
+		}
 		return implode("\n", $html);
+	}
+	
+	function accept(& $renderer, $required = false, $error = null)
+	{
+		$renderer->renderElement($this, $required, $error);
 	}
 }
 ?>
