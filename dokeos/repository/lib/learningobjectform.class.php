@@ -61,7 +61,7 @@ abstract class LearningObjectForm extends FormValidator
 	/**
 	 * Builds a form to create a new learning object. Traditionally, you will
 	 * extend this method so it adds fields for your learning object type's
-	 * additional properties, and then calls the add_submit_button() method.
+	 * additional properties, and then calls the add_footer() method.
 	 * @param LearningObject $default_learning_object The properties of this
 	 *                                                learning object will be
 	 *                                                used as default values
@@ -78,7 +78,7 @@ abstract class LearningObjectForm extends FormValidator
 	 * Builds a form to edit a learning object. Traditionally, you will extend
 	 * this method so it adds fields for your learning object type's
 	 * additional properties, and then calls the setDefaults() and
-	 * add_submit_button() methods.
+	 * add_footer() methods.
 	 * @param LearningObject $learning_object The learning object to edit.
 	 */
 	protected function build_editing_form($learning_object)
@@ -114,10 +114,32 @@ abstract class LearningObjectForm extends FormValidator
 	}
 
 	/**
-	 * Adds a submit button to the form.
+	 * Adds a footer to the form, including a submit button.
 	 */
-	protected function add_submit_button()
+	protected function add_footer()
 	{
+		// TODO: Work on attachment stuff.
+		// TODO: Check if the LO type supports attachments.
+		$attachments_supported = true;
+		if ($attachments_supported)
+		{
+			$object = $this->get_learning_object();
+			if (isset($object) && $object->supports_attachments())
+			{
+				$attachment_objects = $object->get_attached_learning_objects();
+				$attachments = array();
+				foreach ($attachment_objects as $ao)
+				{
+					$attachments[$ao->get_id()] = $ao->get_title();
+				}
+			}
+			else
+			{
+				$attachments = array();
+			}
+			$url = api_get_root_rel().'repository/objectmanagement/search_xml.php';
+			$this->addElement('element_finder', 'attachments', get_lang('Attachments'), $url, $attachments);
+		}
 		$this->addElement('submit', 'submit', get_lang('Ok'));
 	}
 
@@ -203,7 +225,15 @@ abstract class LearningObjectForm extends FormValidator
 			$dm = RepositoryDataManager :: get_instance();
 			$dm->assign_learning_object_display_order_index(& $object);
 		}
+		var_dump($values); exit;
 		$object->create();
+		if ($object->supports_attachments())
+		{
+			foreach ($values['attachments'] as $aid)
+			{
+				$object->attach_learning_object($aid);
+			}
+		}
 		return $object;
 	}
 
@@ -239,7 +269,12 @@ abstract class LearningObjectForm extends FormValidator
 				}
 			}
 		}
-		return $object->update();
+		$result = $object->update();
+		if ($object->supports_attachments())
+		{
+			// TODO
+		}
+		return $result;
 	}
 
 	/**

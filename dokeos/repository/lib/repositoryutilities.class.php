@@ -1,4 +1,7 @@
 <?php
+require_once dirname(__FILE__).'/condition/andcondition.class.php';
+require_once dirname(__FILE__).'/condition/orcondition.class.php';
+require_once dirname(__FILE__).'/condition/patternmatchcondition.class.php';
 
 /**
 ==============================================================================
