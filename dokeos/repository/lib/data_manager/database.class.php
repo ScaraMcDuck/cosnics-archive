@@ -570,7 +570,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		elseif ($condition instanceof NotCondition)
 		{
-			return 'NOT '.$this->translate_condition($condition->get_condition(), & $params);
+			return 'NOT ('.$this->translate_condition($condition->get_condition(), & $params) . ')';
 		}
 		else
 		{
