@@ -7,6 +7,15 @@ elementFinderLocale['Error'] = 'Error';
 
 var elementFinderSearchDelay = 500;
 
+var elementFinderStyle = new Array();
+elementFinderStyle['Space'] = String.fromCharCode(0xA0);
+elementFinderStyle['Trunk'] = String.fromCharCode(0x2502);
+elementFinderStyle['Branch'] = String.fromCharCode(0x251C);
+elementFinderStyle['BranchEnd'] = String.fromCharCode(0x2514);
+elementFinderStyle['Leaf'] = String.fromCharCode(0x25A1);
+elementFinderStyle['Node'] = String.fromCharCode(0x25A0);
+
+
 var elementFinderAjaxMethods = new Array(
 	function() { return new ActiveXObject("Msxml2.XMLHTTP") },
 	function() { return new ActiveXObject("Microsoft.XMLHTTP") },
@@ -73,7 +82,7 @@ ElementFinderSearch.prototype.returnResults = function () {
 	var mainLeaf = elementFinderLastChild(root);
 	if (mainLeaf) {
 		this.origin.disabled = this.destination.disabled = false;
-		elementFinderAddResults(mainLeaf, this.destination, 0, false);
+		elementFinderAddResults(mainLeaf, this.destination);
 	}
 	else {
 		this.destination.options[0] = new Option(elementFinderLocale['NoResults'], 0);
@@ -99,45 +108,62 @@ function elementFinderLastChild (node) {
 	return (a.length == 0 ? null : a[a.length - 1]);
 }
 
-// TODO: Fix end determination.
-function elementFinderAddResults (node, destination, indent, isLast) {
-	var nbsp = String.fromCharCode(0xA0);
-	var trunk = String.fromCharCode(0x2502);
-	var leaf = String.fromCharCode(0x251C);
-	var endLeaf = String.fromCharCode(0x2514);
-	var leafIcon = String.fromCharCode(0x25A1);
-	var nodeIcon = String.fromCharCode(0x25A0);
+function elementFinderAddResults (node, destination, isLast) {
+	var nbsp = elementFinderStyle['Space'];
+	var trunk = elementFinderStyle['Trunk'];
+	var branch = elementFinderStyle['Branch'];
+	var endBranch = elementFinderStyle['BranchEnd'];
+	var leafIcon = elementFinderStyle['Leaf'];
+	var nodeIcon = elementFinderStyle['Node'];
+	if (!isLast) {
+		isLast = new Array(true);
+	}
 	var prefix = '';
-	for (var i = 1; i < indent; i++) {
-		prefix += (isLast ? nbsp : trunk) + nbsp;
+	for (var i = 1; i < isLast.length - 1; i++) {
+		prefix += (isLast[i] ? nbsp : trunk) + nbsp;
 	}
-	destination.options[destination.options.length] = new Option(prefix
-		+ (indent > 0 ? leaf + nbsp : '')
-		+ nodeIcon + nbsp
+	var br = (isLast.length > 1
+		? (isLast[isLast.length - 1] ? endBranch : branch) + nbsp
+		: '');
+	var parentOpt = new Option(prefix
+		+ br + nodeIcon + nbsp
 		+ node.getAttribute('title'), 0);
-	if (indent > 0) {
-		prefix += trunk + nbsp;
-	}
+	parentOpt.isNode = true;
+	parentOpt.isLast = isLast[isLast.length - 1];
+	destination.options[destination.options.length] = parentOpt;
+	prefix += (isLast.length > 1
+		? (isLast[isLast.length - 1] ? nbsp : trunk) + nbsp
+		: '');
 	var childNodes = elementFinderFilterTextNodes(node.childNodes);
 	for (var i = 0; i < childNodes.length; i++) {
 		var child = childNodes[i];
-		var isLast = (i == childNodes.length - 1);
+		var currentIsLast = (i == childNodes.length - 1);
 		switch (child.nodeName) {
 			case 'leaf':
 				var title = child.getAttribute('title');
 				var id = child.getAttribute('id');
 				var opt = new Option(
-					prefix + (isLast ? endLeaf : leaf) + nbsp + leafIcon + nbsp + title,
+					prefix + (currentIsLast ? endBranch : branch) + nbsp + leafIcon + nbsp + title,
 					id);
 				opt.otherText = title;
+				opt.isLast = currentIsLast;
 				destination.options[destination.options.length] = opt;
 				break;
 			case 'node':
-				elementFinderAddResults(child, destination, indent + 1, isLast);
+				var newIsLast = elementFinderPush(isLast, currentIsLast);
+				elementFinderAddResults(child, destination, newIsLast);
 				break;
 		}
 	}
+}
 
+function elementFinderPush (array, element) {
+	var a = new Array();
+	for (var i = 0; i < array.length; i++) {
+		a[i] = array[i];
+	}
+	a[array.length] = element;
+	return a;
 }
 
 function elementFinderFind (searchURL, origin, destination) {
@@ -161,8 +187,22 @@ function elementFinderMove (source, destination, hidden) {
 		var opt = new Option(src.otherText, src.value);
 		opt.otherText = src.text;
 		destination.options[destination.options.length] = opt;
+		if (src.isLast) {
+			var prev = source.options[source.selectedIndex - 1];
+			if (!prev.isNode) {
+				prev.isLast = true;
+				prev.text = prev.text.replace(
+					elementFinderStyle['Branch'],
+					elementFinderStyle['BranchEnd']);
+			}
+		}
 	}
-	source.options[source.selectedIndex] = null;
+	var oldIndex = source.selectedIndex;
+	source.options[oldIndex] = null;
+	source.selectedIndex
+		= (oldIndex >= source.options.length || source.options[oldIndex].isNode
+			? oldIndex - 1
+			: oldIndex);
 }
 
 function elementFinderExcludeString (elmt) {
