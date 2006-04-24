@@ -31,7 +31,7 @@ function ElementFinderSearch (url, origin, destination) {
 	destination.options.length = 0;
 	destination.options[0] = new Option("...", 0);
 	origin.disabled = destination.disabled = true;
-	origin.style.fontFamily = destination.style.fontFamily = 'monospace';
+	destination.style.fontFamily = 'monospace';
 	var searchObject = this;
 	this.ajax.onreadystatechange = function() {
 		searchObject.readyStateChanged();
@@ -95,7 +95,7 @@ function fillElementFinderResults (node, destination, indent, isLast) {
 				var opt = new Option(
 					prefix + (isLast ? endLeaf : leaf) + nbsp + lo + nbsp + title + ' [' + type + ']',
 					id);
-				opt.otherText = title;
+				opt.otherText = title + ' [' + type + ']';
 				destination.options[destination.options.length] = opt;
 				break;
 			case 'category':
