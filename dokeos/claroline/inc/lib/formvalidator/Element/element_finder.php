@@ -11,6 +11,8 @@ require_once 'HTML/QuickForm/group.php';
  */
 class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 {
+	const DEFAULT_ROW_COUNT = 10;
+	
 	private static $initialized;
 
 	private $search_url;
@@ -28,7 +30,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$this->_persistantFreeze = true;
 		$this->_appendName = false;
 		$this->locale = $locale;
-		$this->row_count = 10;
+		$this->row_count = self :: DEFAULT_ROW_COUNT;
 		$this->search_url = $search_url;
 		$this->build_elements();
 		$this->setValue($default_values);
