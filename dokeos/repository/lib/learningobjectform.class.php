@@ -134,13 +134,13 @@ abstract class LearningObjectForm extends FormValidator
 			}
 			$url = api_get_root_rel().'repository/objectmanagement/search_xml.php';
 			$locale = array();
-			$locale['Display'] = get_lang('FindAttachments');
+			$locale['Display'] = get_lang('AddAttachments');
 			$locale['Searching'] = get_lang('Searching');
 			$locale['NoResults'] = get_lang('NoResults');
 			$locale['Error'] = get_lang('Error');
 			$hidden = true;
 			$elem = $this->addElement('element_finder', 'attachments', get_lang('Attachments'), $url, $locale, $attachments);
-			$elem->setCollapsed(true);
+			$elem->setCollapsed(count($attachments) == 0);
 		}
 		$this->addElement('submit', 'submit', get_lang('Ok'));
 	}

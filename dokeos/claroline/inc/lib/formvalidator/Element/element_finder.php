@@ -49,8 +49,8 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		// TODO: Figure out why this doesn't happen automatically.
 		$this->_elements[0]->setValue($_REQUEST[$this->_elements[0]->getName()]);
 		$options = $this->get_active_elements();
-		$this->_elements[] = new HTML_QuickForm_select($this->getName().'_inactive', null, array(), array('size' => self :: ROW_COUNT - 1, 'style' => 'width: 100%', 'id' => $inactive_id));
-		$this->_elements[] = new HTML_QuickForm_select($this->getName().'_active', null, $options, array('size' => self :: ROW_COUNT, 'style' => 'width: 100%; font-family: monospace', 'id' => $active_id));
+		$this->_elements[] = new HTML_QuickForm_select($this->getName().'_inactive', null, array(), array('size' => self :: ROW_COUNT - 1, 'style' => 'width: 100%; font-family: monospace', 'id' => $inactive_id));
+		$this->_elements[] = new HTML_QuickForm_select($this->getName().'_active', null, $options, array('size' => self :: ROW_COUNT, 'style' => 'width: 100%', 'id' => $active_id));
 		$this->_elements[] = new HTML_QuickForm_text($this->getName().'_search', null, array('style' => 'width: 100%', 'onkeyup' => 'elementFinderFind(\''.$this->search_url.'?query=\'+escape(this.value)+elementFinderExcludeString(document.getElementById(\''.$active_id.'\')), document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'))'));
 		$this->_elements[3]->setValue('');
 		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '<<', array('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elementFinderMove(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\')); elementFinderClone(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$active_hidden_id.'\'));'));
