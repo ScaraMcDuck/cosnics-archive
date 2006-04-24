@@ -264,7 +264,8 @@ class CalendarTool extends RepositoryTool
 	 */
 	function display_publication($publication_id)
 	{
-		$renderer = new CalendarBrowser($this);
+		$browser = new CalendarBrowser($this);
+		$renderer = $browser->get_publication_list_renderer();
 		$datamanager = WebLCMSDataManager :: get_instance();
 		$publication = $datamanager->retrieve_learning_object_publication($publication_id);
 		$html = array();
