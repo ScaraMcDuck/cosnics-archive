@@ -1,12 +1,12 @@
 <?php
 
-class RepositoryBrowserTable extends SortableTable 
+class RepositoryBrowserTable extends SortableTable
 {
     private $lo;
-    
-    function RepositoryBrowserTable($lo) 
+
+    function RepositoryBrowserTable($lo)
     {
-    	$name = 'objects'.(!is_null($lo) ? $lo->get_id() : '');  	
+    	$name = 'objects'.(!is_null($lo) ? $lo->get_id() : '');
     	parent :: __construct($name, array($this,'get_objects_count'), array($this,'get_objects'),'1');
     	$this->set_column_titles('', get_lang('Type'), get_lang('Title'), get_lang('Description'), get_lang('LastModified'));
     	$actions['delete_selected'] = get_lang('Delete');
@@ -14,7 +14,7 @@ class RepositoryBrowserTable extends SortableTable
 		$this->set_form_actions($actions);
     	$this->lo = $lo;
     }
-    
+
     function set_column_titles()
 	{
 		$titles = func_get_args();
@@ -27,18 +27,18 @@ class RepositoryBrowserTable extends SortableTable
 		}
 		$this->set_header(count($titles), get_lang('Modify'), false);
 	}
-	
+
 	function get_objects($from, $number_of_items, $column, $direction)
 	{
-		$table_columns = array('id','type','title','description', 'lastmodified', 'modify');
+		$table_columns = array('id','type','title','description', 'modified', 'modify');
 		$dm = RepositoryDataManager :: get_instance();
 		$orderBy[] = $table_columns[$column];
-		$orderDir = $direction;
+		$orderDir[] = $direction;
 		$condition = $this->get_condition();
 		$children = $dm->retrieve_learning_objects(null,$condition,$orderBy, $orderDir,$from,$number_of_items);
 		$data = array ();
 		foreach ($children as $child)
-		{	
+		{
 			$object = $dm->retrieve_learning_object($child->get_id());
 			$row = array();
 			$row[] = $object->get_id();
@@ -55,18 +55,18 @@ class RepositoryBrowserTable extends SortableTable
  			$modify .= '<a href="metadata.php?id='.$object->get_id().'" title="'.get_lang('Metadata').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/info_small.gif" alt="'.get_lang('Metadata').'"/></a>';
  			$modify .= '<a href="rights.php?id='.$object->get_id().'" title="'.get_lang('Rights').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/group_small.gif" alt="'.get_lang('Rights').'"/></a>';
  			$row[] = $modify;
- 			$data[] = $row;		
+ 			$data[] = $row;
 		}
 		return $data;
 	}
-	
+
 	function get_objects_count()
 	{
 		$dm = RepositoryDataManager :: get_instance();
 		$condition = $this->get_condition();
 		return $dm->count_learning_objects(null, $condition);
 	}
-	
+
 	private function get_condition()
 	{
 		if (isset ($_GET['action']))
@@ -103,10 +103,10 @@ class RepositoryBrowserTable extends SortableTable
 					}
 					break;
 			case 'simple_search':
-					$condition = !is_null($_GET['keyword']) ? RepositoryUtilities :: query_to_condition($_GET['keyword']) : null;				
+					$condition = !is_null($_GET['keyword']) ? RepositoryUtilities :: query_to_condition($_GET['keyword']) : null;
 					break;
 			default:
-					$condition = new EqualityCondition('parent', $this->lo->get_id());			
+					$condition = new EqualityCondition('parent', $this->lo->get_id());
 			}
 		}
 		else
