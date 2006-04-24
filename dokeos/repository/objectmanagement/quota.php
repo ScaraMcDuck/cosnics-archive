@@ -42,7 +42,7 @@ function get_bar($percent)
 		}
 		$html .= '<span style="background-color:'.$color.';margin-right:1px;">&nbsp;</span>';
 	}
-	$html .= ' '.$percent.' %';
+	$html .= ' '.round($percent,2).' %';
 	$html .= '</blockquote>';
 	return $html;
 }
