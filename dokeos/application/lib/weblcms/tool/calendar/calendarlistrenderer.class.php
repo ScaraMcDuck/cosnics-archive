@@ -4,19 +4,15 @@
  * @package application.weblcms.tool
  * @subpackage calendar
  */
-require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/../../browser/list_renderer/listlearningobjectpublicationlistrenderer.class.php';
 /**
  * A renderer to display a list view of a calendar
  */
-class CalendarListRenderer extends LearningObjectPublicationListRenderer
+class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 {
-	/**
-	 * Render a list of publications
-	 * @param LearningObjectPublication[] $publications
-	 * @return string
-	 */
-	function render($publications)
+	function as_html()
 	{
+		$publications = $this->get_publications();
 		foreach ($publications as $index => $publication)
 		{
 			$first = $index == 0;
