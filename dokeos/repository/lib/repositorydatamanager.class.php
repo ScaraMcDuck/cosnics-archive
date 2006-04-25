@@ -109,6 +109,26 @@ abstract class RepositoryDataManager
 	}
 
 	/**
+	 * Checks all registered applications to find out if the given learning
+	 * object is published somewhere in an application
+	 * @param int $id The ID of the learning object.
+	 * @return boolean True if the given learning object is published in an
+	 * application
+	 */
+	function is_learning_object_published($id)
+	{
+		$applications = $this->get_registered_applications();
+		$result = false;
+		foreach($applications as $index => $application_name)
+		{
+			$application_class = self::application_to_class($application_name);
+			$application = new $application_class;
+			$result |= $application->is_published($id);
+		}
+		return $result;
+	}
+
+	/**
 	 * Invokes the constructor of the class that corresponds to the specified
 	 * type of learning object.
 	 * @param string $type The learning object type.
