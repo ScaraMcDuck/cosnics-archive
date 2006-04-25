@@ -38,7 +38,7 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 				$publications = $this->browser->get_calendar_events($table_date,strtotime('+1 Day',$table_date));
 				foreach($publications as $index => $publication)
 				{
-					$cell_contents = $this->render_publication($publication);
+					$cell_contents .= $this->render_publication($publication);
 				}
 				$calendar_table->setCellContents(intval($cell / 7) + 1, $cell % 7, $cell_contents );
 				if(date('Ymd',$table_date) == date('Ymd'))
