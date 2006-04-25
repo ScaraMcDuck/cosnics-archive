@@ -18,13 +18,13 @@ abstract class RepositoryTool extends Tool
 {
 	const PARAM_ACTION = 'action';
 	const PARAM_PUBLICATION_ID = 'pid';
-	
+
 	const ACTION_EDIT = 'edit';
 	const ACTION_DELETE = 'delete';
 	const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
 	const ACTION_MOVE_UP = 'move_up';
 	const ACTION_MOVE_DOWN = 'move_down';
-	
+
 	/**
 	 * @see Application :: get_user_id()
 	 */
@@ -78,7 +78,7 @@ abstract class RepositoryTool extends Tool
 		$action = $_GET[self :: PARAM_ACTION];
 		if(isset($action))
 		{
-			$datamanager = WebLCMSDataManager :: get_instance();
+			$datamanager = WeblcmsDataManager :: get_instance();
 			switch($action)
 			{
 				case self :: ACTION_DELETE:

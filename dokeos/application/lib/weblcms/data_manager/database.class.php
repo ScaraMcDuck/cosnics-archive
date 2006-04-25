@@ -4,7 +4,7 @@ require_once dirname(__FILE__).'/../learningobjectpublication.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublicationcategory.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/data_manager/database.class.php';
 
-class DatabaseWebLCMSDataManager extends WebLCMSDataManager
+class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 {
 	private $connection;
 
@@ -23,7 +23,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $this->record_to_publication($record);
 	}
-	
+
 	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1)
 	{
 		$params = array ();
@@ -141,7 +141,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		}
 		return (is_null($condition) ? '' : 'WHERE '.$this->translate_condition($condition, & $params));
 	}
-	
+
 	function get_next_learning_object_publication_id()
 	{
 		return $this->connection->nextId($this->get_table_name('learning_object_publication'));
@@ -270,7 +270,7 @@ class DatabaseWebLCMSDataManager extends WebLCMSDataManager
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $this->record_to_publication_category($record);
 	}
-	
+
 	function get_next_learning_object_publication_category_id()
 	{
 		return $this->connection->nextId($this->get_table_name('learning_object_publication_category'));

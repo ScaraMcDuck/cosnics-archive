@@ -125,7 +125,7 @@ class LearningObjectPublication
 	{
 		return (!count($this->get_target_users()) && !count($this->get_target_groups()));
 	}
-	
+
 	function is_visible_for_target_users()
 	{
 		return (!$this->is_hidden()) && ( $this->is_forever() || ($this->get_from_date() <= time() && time() <= $this->get_to_date()) );
@@ -200,10 +200,10 @@ class LearningObjectPublication
 	{
 		$this->set_hidden(!$this->is_hidden());
 	}
-	
+
 	function create()
 	{
-		$dm = WebLCMSDataManager :: get_instance();
+		$dm = WeblcmsDataManager :: get_instance();
 		$id = $dm->get_next_learning_object_publication_id();
 		$this->set_id($id);
 		return $dm->create_learning_object_publication($this);
@@ -211,12 +211,12 @@ class LearningObjectPublication
 
 	function update()
 	{
-		return WebLCMSDataManager :: get_instance()->update_learning_object_publication($this);
+		return WeblcmsDataManager :: get_instance()->update_learning_object_publication($this);
 	}
-	
+
 	function delete()
 	{
-		return WebLCMSDataManager :: get_instance()->delete_learning_object_publication($this);
+		return WeblcmsDataManager :: get_instance()->delete_learning_object_publication($this);
 	}
 
 	/**
@@ -228,7 +228,7 @@ class LearningObjectPublication
 	 */
 	function move($places)
 	{
-		return WebLCMSDataManager :: get_instance()->move_learning_object_publication($this, $places);
+		return WeblcmsDataManager :: get_instance()->move_learning_object_publication($this, $places);
 	}
 }
 ?>

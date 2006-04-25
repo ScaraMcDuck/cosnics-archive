@@ -15,10 +15,10 @@ require_once dirname(__FILE__).'/../../../claroline/inc/lib/groupmanager.lib.php
 ==============================================================================
  */
 
-class WebLCMS extends Application
+class Weblcms extends Application
 {
 	const PARAM_TOOL = 'tool';
-	
+
 	/**
 	 * The tools that this application offers.
 	 */
@@ -34,14 +34,14 @@ class WebLCMS extends Application
 	 * from the query string.
 	 * @param Tool $tool The default tool, or null if none.
 	 */
-	function WebLCMS($tool = null)
+	function Weblcms($tool = null)
 	{
 		$this->parameters = array ();
 		$this->set_parameter(self :: PARAM_TOOL, $_GET[self :: PARAM_TOOL]);
 		$this->tools = array ();
 		$this->load_tools();
 	}
-	
+
 	/*
 	 * Inherited.
 	 */
@@ -75,12 +75,12 @@ class WebLCMS extends Application
 			echo '</ul>';
 		}
 	}
-	
+
 	function get_tool_id()
 	{
 		return $this->get_parameter(self :: PARAM_TOOL);
 	}
-	
+
 	/**
 	 * Returns the numeric identifier of the active user.
 	 * @return string The user identifier.
@@ -89,7 +89,7 @@ class WebLCMS extends Application
 	{
 		return api_get_user_id();
 	}
-	
+
 	/**
 	 * Returns the identifier of the course that is being used.
 	 * @return string The course identifier.
@@ -98,17 +98,17 @@ class WebLCMS extends Application
 	{
 		return api_get_course_id();
 	}
-	
+
 	function get_groups()
 	{
 		return GroupManager :: get_group_ids($this->get_course_id(), $this->get_user_id());
 	}
-	
+
 	function get_categories($list = false)
 	{
 		return ($list ? $this->get_category_list() : $this->get_category_tree());
 	}
-	
+
 	private function get_category_tree()
 	{
 		/*
@@ -116,7 +116,7 @@ class WebLCMS extends Application
 		 */
 		$course = $this->get_course_id();
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
-		$cats = WebLCMSDataManager :: get_instance()->retrieve_learning_object_publication_categories($course, $tool);
+		$cats = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($course, $tool);
 		$root = array();
 		$root['obj'] = & new LearningObjectPublicationCategory(0, get_lang('RootCategory'), $course, $tool, 0);
 		$root['sub'] = & $cats;
@@ -124,7 +124,7 @@ class WebLCMS extends Application
 		$tree[] = & $root;
 		return $tree;
 	}
-	
+
 	private function get_category_list()
 	{
 		$categories = array ();
@@ -147,12 +147,12 @@ class WebLCMS extends Application
 			}
 		}
 	}
-	
+
 	function get_category($id)
 	{
-		return WebLCMSDataManager :: get_instance()->retrieve_learning_object_publication_category($id);
+		return WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($id);
 	}
-	
+
 	/**
 	 * Gets the URL of the current page in the application. Optionally takes
 	 * an associative array of name/value pairs representing additional query
@@ -195,7 +195,7 @@ class WebLCMS extends Application
 	{
 		return $this->parameters;
 	}
-	
+
 	/**
 	 * Returns the value of the given URL parameter.
 	 * @param string $name The parameter name.
@@ -205,7 +205,7 @@ class WebLCMS extends Application
 	{
 		return $this->parameters[$name];
 	}
-	
+
 	/**
 	 * Sets the value of a URL parameter.
 	 * @param string $name The parameter name.
@@ -224,7 +224,7 @@ class WebLCMS extends Application
 	{
 		return $this->tools;
 	}
-	
+
 	/**
 	 * Registers a tool with this application.
 	 * @param string $tool The tool name.
@@ -277,7 +277,7 @@ class WebLCMS extends Application
 	{
 		return ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $tool)).'Tool';
 	}
-	
+
 	/**
 	 * Converts a tool class name to the corresponding tool name.
 	 * @param string $class The class name.
@@ -287,7 +287,7 @@ class WebLCMS extends Application
 	{
 		return preg_replace(array ('/Tool$/', '/^([A-Z])/e', '/([A-Z])/e'), array ('', 'strtolower(\1)', '"_".strtolower(\1)'), $class);
 	}
-	
+
 	/**
 	 * Determines whether or not the given name is a valid tool name.
 	 * @param string $name The name to evaluate.

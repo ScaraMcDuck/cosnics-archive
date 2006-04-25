@@ -99,7 +99,7 @@ class CalendarTool extends RepositoryTool
 	{
 		$browser = new CalendarBrowser($this);
 		$renderer = $browser->get_publication_list_renderer();
-		$datamanager = WebLCMSDataManager :: get_instance();
+		$datamanager = WeblcmsDataManager :: get_instance();
 		$publication = $datamanager->retrieve_learning_object_publication($publication_id);
 		$html = array();
 		$html[] = '<a href="'.$this->get_url(array(), true).'">&laquo;&laquo; '.get_lang('Back').'</a>';
@@ -138,7 +138,7 @@ class CalendarTool extends RepositoryTool
 		{
 			return $this->publications;
 		}
-		$datamanager = WebLCMSDataManager :: get_instance();
+		$datamanager = WeblcmsDataManager :: get_instance();
 		$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'calendar');
 		$this->publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups(),$condition);
 		return $this->publications;
