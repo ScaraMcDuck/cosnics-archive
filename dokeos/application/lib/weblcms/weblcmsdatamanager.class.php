@@ -43,6 +43,14 @@ abstract class WeblcmsDataManager
 	}
 
 	/**
+	 * Checks if a given learning object is published somewhere
+	 * @param boolean $object_id
+	 * @return boolean True if the given learning object is in use in this
+	 * application
+	 */
+	abstract function is_published($object_id);
+
+	/**
 	 * Initializes the data manager.
 	 */
 	abstract function initialize();
