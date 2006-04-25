@@ -5,7 +5,7 @@ require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.c
 class LearningObjectPublicationForm extends FormValidator
 {
 	// XXX: Some of these constants heavily depend on FormValidator.
-	const PARAM_CATEGORY_ID = 'category'; 
+	const PARAM_CATEGORY_ID = 'category';
 	const PARAM_TARGETS = 'target_users_and_groups';
 	const PARAM_RECEIVERS = 'receivers';
 	const PARAM_TARGETS_TO = 'to';
@@ -15,11 +15,11 @@ class LearningObjectPublicationForm extends FormValidator
 	const PARAM_FROM_DATE = 'from_date';
 	const PARAM_TO_DATE = 'from_date';
 	const PARAM_HIDDEN = 'hidden';
-	
+
 	private $tool;
-	
+
 	private $learning_object;
-	
+
     function LearningObjectPublicationForm($learning_object, $tool)
     {
     	$url = $tool->get_url(array (LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
@@ -29,7 +29,7 @@ class LearningObjectPublicationForm extends FormValidator
 		$this->build_form();
 		$this->setDefaults();
     }
-    
+
     function setDefaults()
     {
     	$defaults = array();
@@ -37,7 +37,7 @@ class LearningObjectPublicationForm extends FormValidator
 		$defaults[self :: PARAM_FOREVER] = 1;
 		parent :: setDefaults($defaults);
     }
-    
+
     function build_form()
     {
 		$categories = $this->tool->get_categories(true);
@@ -75,7 +75,7 @@ class LearningObjectPublicationForm extends FormValidator
 		$this->addElement('checkbox', self :: PARAM_HIDDEN, get_lang('Hidden'));
 		$this->addElement('submit', 'submit', get_lang('Ok'));
     }
-    
+
     function create_learning_object_publication()
     {
 		$values = $this->exportValues();
@@ -109,7 +109,7 @@ class LearningObjectPublicationForm extends FormValidator
 		}
 		$course = $this->tool->get_course_id();
 		$tool = $this->tool->get_tool_id();
-		$dm = WebLCMSDataManager :: get_instance();
+		$dm = WeblcmsDataManager :: get_instance();
 		$displayOrder = $dm->get_next_learning_object_publication_display_order_index($course,$tool,$category);
 		$publisher = $this->tool->get_user_id();
 		$publicationDate = time();

@@ -13,32 +13,32 @@ class LearningObjectPublicationCategory {
 	const PROPERTY_COURSE_ID = 'course';
 	const PROPERTY_TOOL = 'tool';
 	const PROPERTY_PARENT_CATEGORY_ID = 'parent';
-	
+
 	/**
 	 * The numeric identifier of the category.
 	 */
 	private $id;
-	
+
 	/**
 	 * The title of the category.
 	 */
 	private $title;
-	
+
 	/**
 	 * The identifier of the course.
 	 */
 	private $course;
-	
+
 	/**
 	 * The name of the tool from which the publication was made.
 	 */
 	private $tool;
-	
+
 	/**
 	 * The numeric identifier of this category's parent category.
 	 */
 	private $parent;
-	
+
 	/**
 	 * Constructor.
 	 * @param int $id The numeric identifier of the category.
@@ -58,7 +58,7 @@ class LearningObjectPublicationCategory {
     	$this->tool = $tool;
     	$this->parent = $parent;
     }
-    
+
     /**
      * Returns the numeric identifier of the category.
      * @return int The identifier.
@@ -67,7 +67,7 @@ class LearningObjectPublicationCategory {
     {
     	return $this->id;
     }
-    
+
     /**
      * Returns the title of the category.
      * @return string The title.
@@ -76,7 +76,7 @@ class LearningObjectPublicationCategory {
     {
     	return $this->title;
     }
-    
+
     /**
      * Returns the identifier of the course.
      * @return string The course identifier.
@@ -85,7 +85,7 @@ class LearningObjectPublicationCategory {
     {
     	return $this->course;
     }
-    
+
     /**
      * Returns the name of the tool in which the publication occurred.
      * @return string The tool name.
@@ -94,7 +94,7 @@ class LearningObjectPublicationCategory {
     {
     	return $this->tool;
     }
-    
+
     /**
      * Returns the numeric identifier of the parent category.
      * @return int The parent category identifier.
@@ -103,7 +103,7 @@ class LearningObjectPublicationCategory {
     {
     	return $this->parent;
     }
-    
+
     /**
      * Sets the numeric identifier of the category.
      * @param int $id The identifier.
@@ -121,7 +121,7 @@ class LearningObjectPublicationCategory {
     {
     	$this->title = $title;
     }
-    
+
     /**
      * Returns the numeric identifier of the parent category.
      * @param int $parent The parent category identifier.
@@ -130,10 +130,10 @@ class LearningObjectPublicationCategory {
     {
     	$this->parent = $parent;
     }
-    
+
     function create()
 	{
-		$dm = WebLCMSDataManager :: get_instance();
+		$dm = WeblcmsDataManager :: get_instance();
 		$id = $dm->get_next_learning_object_publication_category_id();
 		$this->set_id($id);
 		return $dm->create_learning_object_publication_category($this);
@@ -141,12 +141,12 @@ class LearningObjectPublicationCategory {
 
 	function update()
 	{
-		return WebLCMSDataManager :: get_instance()->update_learning_object_publication_category($this);
+		return WeblcmsDataManager :: get_instance()->update_learning_object_publication_category($this);
 	}
-	
+
 	function delete()
 	{
-		return WebLCMSDataManager :: get_instance()->delete_learning_object_publication_category($this);
+		return WeblcmsDataManager :: get_instance()->delete_learning_object_publication_category($this);
 	}
 }
 ?>

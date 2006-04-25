@@ -3,14 +3,14 @@ require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php
 
 /**
 ==============================================================================
- *	This is a skeleton for a data manager for the WebLCMS application. Data
+ *	This is a skeleton for a data manager for the Weblcms application. Data
  *	managers must extend this class.
  *
  *	@author Tim De Pauw
 ==============================================================================
  */
 
-abstract class WebLCMSDataManager
+abstract class WeblcmsDataManager
 {
 	/**
 	 * Instance of the class, for the singleton pattern.
@@ -20,7 +20,7 @@ abstract class WebLCMSDataManager
 	/**
 	 * Constructor. Initializes the data manager.
 	 */
-	protected function WebLCMSDataManager()
+	protected function WeblcmsDataManager()
 	{
 		$this->initialize();
 	}
@@ -28,7 +28,7 @@ abstract class WebLCMSDataManager
 	/**
 	 * Creates the shared instance of the configured data manager if
 	 * necessary and returns it. Uses a factory pattern.
-	 * @return WebLCMSDataManager The instance.
+	 * @return WeblcmsDataManager The instance.
 	 */
 	static function get_instance()
 	{
@@ -36,7 +36,7 @@ abstract class WebLCMSDataManager
 		{
 			$type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
 			require_once dirname(__FILE__).'/data_manager/'.strtolower($type).'.class.php';
-			$class = $type.'WebLCMSDataManager';
+			$class = $type.'WeblcmsDataManager';
 			self :: $instance = new $class ();
 		}
 		return self :: $instance;
@@ -106,7 +106,7 @@ abstract class WebLCMSDataManager
 	 * @return int The number of matching learning object publications.
 	 */
 	abstract function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false);
-	
+
 	/**
 	 * Returns the next available learning object publication ID.
 	 * @return int The ID.
@@ -156,16 +156,16 @@ abstract class WebLCMSDataManager
 	 * @return int The requested display order index.
 	 */
 	abstract function get_next_learning_object_publication_display_order_index($course,$tool,$category);
-	
+
 	/**
 	 * Returns the available learning object publication categories for the
 	 * given course and tools.
 	 * @param string $course The course ID.
 	 * @param mixed $tools The tool names. May be a string if only one.
 	 * @return array The publication categories.
-	 */ 
+	 */
 	abstract function retrieve_learning_object_publication_categories($course, $tools);
-	
+
 	/**
 	 * Retrieves a single learning object publication category by ID and
 	 * returns it.
@@ -174,7 +174,7 @@ abstract class WebLCMSDataManager
 	 *                                           could not be found.
 	 */
 	abstract function retrieve_learning_object_publication_category($id);
-	
+
 	/**
 	 * Returns the next available learning object publication category ID.
 	 * @return int The ID.
@@ -189,14 +189,14 @@ abstract class WebLCMSDataManager
 	 * @return boolean True if creation succceeded, false otherwise.
 	 */
 	abstract function create_learning_object_publication_category($category);
-	
+
 	/**
 	 * Updates a learning object publication category in persistent storage,
 	 * making any changes permanent.
 	 * @param LearningObjectPublicationCategory $category The category to
 	 *                                                    update.
 	 * @return boolean True if the update succceeded, false otherwise.
-	 */ 
+	 */
 	abstract function update_learning_object_publication_category($category);
 
 	/**

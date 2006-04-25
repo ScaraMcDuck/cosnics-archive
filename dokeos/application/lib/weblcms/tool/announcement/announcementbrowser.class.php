@@ -14,7 +14,7 @@ class AnnouncementBrowser extends LearningObjectPublicationBrowser
 
 	function get_publications($from, $count, $column, $direction)
 	{
-		$datamanager = WebLCMSDataManager :: get_instance();
+		$datamanager = WeblcmsDataManager :: get_instance();
 		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'announcement');
 		$condition = $tool_condition;
 		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups(), $condition, false, array (Announcement :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC));
