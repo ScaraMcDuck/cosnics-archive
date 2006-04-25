@@ -6,14 +6,14 @@ require_once dirname(__FILE__).'/learning_path.class.php';
  */
 class LearningPathForm extends LearningObjectForm
 {
-	function build_creation_form($default_learning_object = null)
+	function build_creation_form(& $default_learning_object = null)
 	{
-		parent :: build_creation_form($default_learning_object);
+		parent :: build_creation_form(& $default_learning_object);
 		$this->add_footer();
 	}
-	public function build_editing_form($object)
+	public function build_editing_form(& $object)
 	{
-		parent :: build_editing_form($object);
+		parent :: build_editing_form(& $object);
 		$this->setDefaults();
 		$this->add_footer();
 	}

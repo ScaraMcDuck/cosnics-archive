@@ -6,14 +6,14 @@ require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/announcement.class.php';
 class AnnouncementForm extends LearningObjectForm
 {
-	function build_creation_form($default_learning_object = null)
+	function build_creation_form(& $default_learning_object = null)
 	{
-		parent :: build_creation_form($default_learning_object);
+		parent :: build_creation_form(& $default_learning_object);
 		$this->add_footer();
 	}
-	public function build_editing_form($object)
+	function build_editing_form(& $object)
 	{
-		parent :: build_editing_form($object);
+		parent :: build_editing_form(& $object);
 		$this->setDefaults();
 		$this->add_footer();
 	}

@@ -8,18 +8,18 @@ require_once dirname(__FILE__).'/../../../../claroline/inc/lib/formvalidator/Rul
  */
 class DocumentForm extends LearningObjectForm
 {
-	function build_creation_form($default_learning_object = null)
+	function build_creation_form(& $default_learning_object = null)
 	{
-		parent :: build_creation_form($default_learning_object);
+		parent :: build_creation_form(& $default_learning_object);
 		$this->addElement('upload_or_create','upload_or_create');
 		$this->addFormRule(array($this,'check_document_form'));
 		//TODO: add Rule to check if a HTML-content was filled in when the 'create' option was selected
 		$this->add_footer();
 		$this->setDefaults();
 	}
-	public function build_editing_form($object)
+	public function build_editing_form(& $object)
 	{
-		parent :: build_editing_form($object);
+		parent :: build_editing_form(& $object);
 		if($this->is_html_document($object->get_path()))
 		{
 			$this->addElement('html_editor', 'html_content', get_lang('HtmlDocument'));
