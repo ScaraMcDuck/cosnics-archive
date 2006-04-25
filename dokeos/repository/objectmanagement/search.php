@@ -45,7 +45,7 @@ if(isset($_GET['action']))
 			$search_form->addElement('text','title',get_lang('Title'),'size="50"');
 			$search_form->addElement('text','description',get_lang('Description'),'size="50"');
 			$search_form->addElement('select','type',get_lang('Type'),$type_choices,'multiple="multiple" size="5"');
-			$search_form->addElement('submit','submit',get_lang('Search'));
+			$search_form->addElement('submit','submit_search',get_lang('Search'));
 			$search_form->addElement('static','simple','','<a href="search.php?action=simple_search">'.get_lang('SimpleSearch').'</a>');
 			break;
 		// Create a simple search-box
@@ -55,7 +55,7 @@ if(isset($_GET['action']))
 			$renderer->setElementTemplate('<span>{element}</span> ');
 			$search_form->addElement('hidden','action','simple_search');
 			$search_form->addElement('text','keyword',get_lang('keyword'),'size="50"');
-			$search_form->addElement('submit','submit',get_lang('Search'));
+			$search_form->addElement('submit','submit_search',get_lang('Search'));
 			$search_form->addElement('static','advanced','pom','<a href="search.php?action=advanced_search">'.get_lang('AdvancedSearch').'</a>');
 			break;
 	}
@@ -89,7 +89,6 @@ if(isset($_GET['action']) && $_GET['action'] == 'advanced_search')
 	$interbredcrump[] = array('url' => 'search.php', 'name' => get_lang('Search'));
 	$tool_name = get_lang('AdvancedSearch');
 }
-
 // Display header
 Display::display_header($tool_name);
 api_display_tool_title($tool_name);
@@ -97,7 +96,7 @@ echo '<div style="text-align:center;margin:20px;">';
 // Display search box
 $search_form->display();
 echo '</div>';
-
+// Display table
 create_repository_table();
 
 // Display footer
