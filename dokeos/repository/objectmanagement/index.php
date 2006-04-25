@@ -35,9 +35,16 @@ if(isset($_GET['action']))
 			$message = $_GET['message'];
 			break;
 		case 'delete':
-			$object = get_datamanager()->retrieve_learning_object($_GET['id']);
-			$object->delete();
-			$message = get_lang('ObjectDeleted');
+			if(!get_datamanager()->is_learning_object_published($_GET['id']))
+			{
+				$object = get_datamanager()->retrieve_learning_object($_GET['id']);
+				$object->delete();
+				$message = get_lang('ObjectDeleted');
+			}
+			else
+			{
+				$message = get_lang('OperationNotAllowed');
+			}
 			break;
 		case 'move':
 			$renderer =& new OptionsMenuRenderer();
@@ -69,12 +76,20 @@ if(isset($_POST['action']))
 	switch($_POST['action'])
 	{
 		case 'delete_selected':
+			$deleted_all = true;
 			foreach($_POST['id'] as $index => $object_id)
 			{
-				$object = get_datamanager()->retrieve_learning_object($object_id);
-				$object->delete();
+				if(!get_datamanager()->is_learning_object_published($object_id))
+				{
+					$object = get_datamanager()->retrieve_learning_object($object_id);
+					$object->delete();
+				}
+				else
+				{
+					$deleted_all = false;
+				}
 			}
-			$message = get_lang('ObjectsDeleted');
+			$message = $deleted_all ? get_lang('ObjectsDeleted') : get_lang('NotAllObjectsDeleted');
 			break;
 		case 'move_selected':
 			$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID,api_get_user_id());
@@ -216,7 +231,7 @@ function create_category_menu ()
  */
 function get_datamanager()
 {
-	return RepositoryDataManager::get_instance();	
+	return RepositoryDataManager::get_instance();
 }
 
 /**
