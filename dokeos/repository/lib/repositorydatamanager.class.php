@@ -29,6 +29,12 @@ abstract class RepositoryDataManager
 	private $typeProperties;
 
 	/**
+	 * Array which contains the registered applications running on top of this
+	 * repositorydatamanager
+	 */
+	private $applications;
+
+	/**
 	 * Constructor.
 	 */
 	protected function RepositoryDataManager()
@@ -36,6 +42,7 @@ abstract class RepositoryDataManager
 		$this->initialize();
 		$this->typeProperties = array ();
 		$this->load_types();
+		$this->load_applications();
 	}
 
 	/**
@@ -229,7 +236,7 @@ abstract class RepositoryDataManager
 	 * Deletes all known learning objects from persistent storage.
 	 */
 	abstract function delete_all_learning_objects();
-	
+
 	/**
 	 * Moves a learning object among its siblings.
 	 * @param LearningObject $object The learning object to move.
@@ -247,7 +254,7 @@ abstract class RepositoryDataManager
 	 * @return int The requested display order index.
 	 */
 	abstract function get_next_learning_object_display_order_index($parent, $type);
-	
+
 	/**
 	 * Sets the given learning object's display order index to the next
 	 * available index in the display order. This is a convenience function.
@@ -260,7 +267,7 @@ abstract class RepositoryDataManager
 		$object->set_display_order_index($index);
 		return $index;
 	}
-	
+
 	/**
 	 * Returns the learning objects that are attached to the learning object
 	 * with the given ID.
@@ -269,7 +276,7 @@ abstract class RepositoryDataManager
 	 * @return array The attached learning objects.
 	 */
 	abstract function retrieve_attached_learning_objects ($id);
-	
+
 	/**
 	 * Adds a learning object to another's attachment list.
 	 * @param int $object_id The ID of the learning object to attach the other
@@ -277,7 +284,7 @@ abstract class RepositoryDataManager
 	 * @param int $attachment_id The ID of the object to attach.
 	 */
 	abstract function attach_learning_object ($object_id, $attachment_id);
-	
+
 	/**
 	 * Removes a learning object from another's attachment list.
 	 * @param int $object_id The ID of the learning object to detach the other
@@ -378,6 +385,91 @@ abstract class RepositoryDataManager
 	static function class_to_type($class)
 	{
 		return preg_replace(array ('/^([A-Z])/e', '/([A-Z])/e'), array ('strtolower(\1)', '"_".strtolower(\1)'), $class);
+	}
+
+
+	/**
+	 * Returns the names of the applications known to this
+	 * repositorydatamanager.
+	 * @return array The applications.
+	 */
+	function get_registered_applications()
+	{
+		return $this->applications;
+	}
+
+	/**
+	 * Registers an application with this repositorydatamanager.
+	 * @param string $application The application name.
+	 */
+	function register_application($application)
+	{
+		if (in_array($application, $this->applications))
+		{
+			die('Application already registered: '.$application);
+		}
+		$this->applications[] = $application;
+	}
+
+	/**
+	 * Loads the applications installed on the system. Applications are classes
+	 * in the /application/lib subdirectory. Each application is a directory,
+	 * which in its turn contains a class file named after the application. For
+	 * instance, the weblcms application is the class Weblcms, defined in
+	 * /application/lib/weblcms/weblcms.class.php. Applications must extend the
+	 * Application class.
+	 */
+	private function load_applications()
+	{
+		$path = dirname(__FILE__).'/../../application/lib';
+		if ($handle = opendir($path))
+		{
+			while (false !== ($file = readdir($handle)))
+			{
+				$toolPath = $path.'/'.$file;
+				if (is_dir($toolPath) && self :: is_application_name($file))
+				{
+					require_once $toolPath.'/'.$file.'.class.php';
+					$this->register_application($file);
+				}
+			}
+			closedir($handle);
+		}
+		else
+		{
+			die('Failed to load applications');
+		}
+
+	}
+
+	/**
+	 * Converts an application name to the corresponding class name.
+	 * @param string $application The application name.
+	 * @return string The class name.
+	 */
+	static function application_to_class($application)
+	{
+		return ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $application));
+	}
+
+	/**
+	 * Converts an application class name to the corresponding application name.
+	 * @param string $class The class name.
+	 * @return string The application name.
+	 */
+	static function class_to_application($class)
+	{
+		return preg_replace(array ('/^([A-Z])/e', '/([A-Z])/e'), array ('strtolower(\1)', '"_".strtolower(\1)'), $class);
+	}
+
+	/**
+	 * Determines whether or not the given name is a valid application name.
+	 * @param string $name The name to evaluate.
+	 * @return True if the name is a valid application name, false otherwise.
+	 */
+	static function is_application_name($name)
+	{
+		return (preg_match('/^[a-z][a-z_]+$/', $name) > 0);
 	}
 
 	/**
