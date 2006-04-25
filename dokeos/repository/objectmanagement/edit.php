@@ -22,7 +22,7 @@ if( isset($_GET['id']))
 		api_not_allowed();
 	}
 	$form = LearningObjectForm::factory($object->get_type(),'edit','post','edit.php?id='.$object->get_id());
-	$form->build_editing_form($object);
+	$form->build_editing_form(& $object);
 	// If form validates, update the learning object
 	if($form->validate())
 	{

@@ -53,7 +53,7 @@ abstract class LearningObjectForm extends FormValidator
 	 * Sets the learning object associated with this form.
 	 * @param LearningObject $object The learning object.
 	 */
-	protected function set_learning_object($object)
+	protected function set_learning_object(& $object)
 	{
 		$this->learning_object = $object;
 	}
@@ -67,9 +67,9 @@ abstract class LearningObjectForm extends FormValidator
 	 *                                                used as default values
 	 *                                                in the form.
 	 */
-	protected function build_creation_form($default_learning_object = null)
+	protected function build_creation_form(& $default_learning_object = null)
 	{
-		$this->set_learning_object($default_learning_object);
+		$this->set_learning_object(& $default_learning_object);
 		$this->creation_form_built = true;
 		$this->build_basic_form();
 	}
@@ -81,9 +81,9 @@ abstract class LearningObjectForm extends FormValidator
 	 * add_footer() methods.
 	 * @param LearningObject $learning_object The learning object to edit.
 	 */
-	protected function build_editing_form($learning_object)
+	protected function build_editing_form(& $learning_object)
 	{
-		$this->set_learning_object($learning_object);
+		$this->set_learning_object(& $learning_object);
 		$this->category = $learning_object->get_parent_id();
 		$this->creation_form_built = false;
 		$this->build_basic_form();
@@ -161,6 +161,15 @@ abstract class LearningObjectForm extends FormValidator
 			$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
 		}
 		parent :: setDefaults($defaults);
+	}
+	
+	/**
+	 * An alias of setDefaults, for good measure.
+	 * @see setDefaults()
+	 */
+	function set_defaults($defaults = array())
+	{
+		$this->setDefaults($defaults);
 	}
 
 	/**

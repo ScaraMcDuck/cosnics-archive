@@ -7,16 +7,16 @@ require_once dirname(__FILE__) . '/calendar_event.class.php';
  */
 class CalendarEventForm extends LearningObjectForm
 {
-    public function build_creation_form($default_learning_object = null)
+    public function build_creation_form(& $default_learning_object = null)
     {
-    	parent :: build_creation_form($default_learning_object);
+    	parent :: build_creation_form(& $default_learning_object);
     	$this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
     	$this->setDefaults();
     	$this->add_footer();
     }
-    public function build_editing_form($object)
+    public function build_editing_form(& $object)
     {
-		parent :: build_editing_form($object);
+		parent :: build_editing_form(& $object);
     	$this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
 		$this->setDefaults();
 		$this->add_footer();
