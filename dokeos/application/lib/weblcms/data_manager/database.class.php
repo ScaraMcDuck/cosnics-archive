@@ -24,6 +24,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->record_to_publication($record);
 	}
 
+	function is_published($object_id)
+	{
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID).'=?';
+		$res = & $this->connection->limitQuery($query, 0, 1, array ($object_id));
+		return $res->numRows() == 1;
+	}
+
 	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1)
 	{
 		$params = array ();

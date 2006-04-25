@@ -297,5 +297,12 @@ class Weblcms extends Application
 	{
 		return (preg_match('/^[a-z][a-z_]+$/', $name) > 0);
 	}
+	/*
+	 * Inherited
+	 */
+	function is_published($object_id)
+	{
+		return WeblcmsDataManager :: get_instance()->is_published($object_id);
+	}
 }
 ?>
