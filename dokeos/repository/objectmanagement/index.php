@@ -21,12 +21,8 @@ if( !api_get_user_id())
 	api_not_allowed();
 }
 
-$object = get_datamanager()->retrieve_learning_object(get_current_category());
+$object = get_property();
 
-if($object->get_owner_id() != api_get_user_id())
-{
-	api_not_allowed();
-}
 // Create a navigation menu to browse through the categories
 create_category_menu();
 
@@ -155,7 +151,8 @@ function create_search_form()
 	$search_form = new FormValidator('search_simple','get','search.php','',null,false);
 	$renderer =& $search_form->defaultRenderer();
 	$renderer->setElementTemplate('<span>{element}</span> ');
-	$search_form->addElement('hidden','action','simple_search');
+	//$search_form->addElement('hidden','action','simple_search');
+	$search_form->addElement('hidden','searchtype','simple_search');
 	$search_form->addElement('text','keyword',get_lang('keyword'));
 	$search_form->addElement('submit','submit',get_lang('Search'));
 	$search_form->display();
@@ -178,9 +175,18 @@ function create_learning_object_list()
  */
 function create_repository_table()
 {
-	$object = get_datamanager()->retrieve_learning_object(get_current_category());
-	$table = new RepositoryBrowserTable($object);
-	$table->set_additional_parameters(array('category' =>$object->get_id()));
+	$property = get_property();
+	if(!is_null($property))
+	{
+		$object = get_datamanager()->retrieve_learning_object($property);
+		$table = new RepositoryBrowserTable($object);
+		$table->set_additional_parameters(array('category' =>$object->get_id()));
+	}
+	else
+	{
+		$table = new RepositoryBrowserTable();
+		$table->set_additional_parameters(array('type' => $_GET['type']));
+	}
 	$table->display();
 }
 
@@ -226,5 +232,23 @@ function get_current_category()
 	}
 	return $current_category_id;
 }
-
+/**
+ * Load used property
+ */
+function get_property()
+{
+	if(isset($_GET['type']))
+	{
+		$current_property = NULL;
+	}
+	else
+	{
+		$current_property = get_current_category();
+		if(get_datamanager()->retrieve_learning_object($current_property)->get_owner_id() != api_get_user_id())
+		{
+			api_not_allowed();
+		}
+	}
+	return $current_property;
+}
 ?>
