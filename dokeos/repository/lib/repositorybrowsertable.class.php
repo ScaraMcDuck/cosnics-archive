@@ -42,7 +42,7 @@ class RepositoryBrowserTable extends SortableTable
 			$object = $dm->retrieve_learning_object($child->get_id());
 			$row = array();
 			$row[] = $object->get_id();
-			$row[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/>';
+			$row[] = '<a href="index.php?type='.$object->get_type().'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/></a>';
 			if($object->get_type() == 'category')
 				$row[] = '<a href="index.php?category='.$object->get_id().'">'.htmlentities($object->get_title()).'</a>';
 			else
@@ -112,9 +112,16 @@ class RepositoryBrowserTable extends SortableTable
 		}
 		else
 		{
+			if (isset ($_GET['type']))
+			{
+				$condition = new EqualityCondition('type', $_GET['type']);	
+			}
+			else
+			{
 			$condition = new EqualityCondition('parent', $this->lo->get_id());
+			}
 		}
-		return new AndCondition($condition, $cond_owner);
+		return !is_null($condition) ? new AndCondition($condition, $cond_owner) : $cond_owner;
 	}
 }
 ?>
