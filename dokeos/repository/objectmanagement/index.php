@@ -40,6 +40,7 @@ if(isset($_GET['action']))
 				$object = get_datamanager()->retrieve_learning_object($_GET['id']);
 				$object->delete();
 				$message = get_lang('ObjectDeleted');
+				create_category_menu();
 			}
 			else
 			{
@@ -62,6 +63,7 @@ if(isset($_GET['action']))
 				$object->set_parent_id($values[RepositoryBrowserTable::PARAM_CATEGORY_ID]);
 				$object->update(false);
 				$message = get_lang('ObjectMoved');
+				create_category_menu();
 			}
 			else
 			{
@@ -89,6 +91,7 @@ if(isset($_POST['action']))
 					$deleted_all = false;
 				}
 			}
+			create_category_menu();
 			$message = $deleted_all ? get_lang('ObjectsDeleted') : get_lang('NotAllObjectsDeleted');
 			break;
 		case 'move_selected':
@@ -230,7 +233,7 @@ function create_category_menu ()
  */
 function get_datamanager()
 {
-	return RepositoryDataManager::get_instance();	
+	return RepositoryDataManager::get_instance();
 }
 
 /**
