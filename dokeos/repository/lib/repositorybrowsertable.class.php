@@ -53,7 +53,7 @@ class RepositoryBrowserTable extends SortableTable
 			$row[] = $object->get_description();
 			$row[] = date('Y-m-d, H:i', is_null($object->get_modification_date()) ? $object->get_creation_date() : $object->get_modification_date());
 			$modify = '<a href="edit.php?id='.$object->get_id().'" title="'.get_lang('Edit').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif" alt="'.get_lang('Edit').'"/></a>';
- 			if($dm->is_learning_object_published($object->get_id()))
+ 			if($dm->learning_object_is_published($object->get_id()))
  			{
 	 			$modify .= '<img src="'.api_get_path(WEB_CODE_PATH).'img/delete_na.gif" alt="'.get_lang('Delete').'"/>';
  			}

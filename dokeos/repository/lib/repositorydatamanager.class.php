@@ -110,13 +110,13 @@ abstract class RepositoryDataManager
 	}
 
 	/**
-	 * Checks all registered applications to find out if the given learning
-	 * object is published somewhere in an application
+	 * Determines whether the learning object with the given ID has been
+	 * published in any of the registered applications.
 	 * @param int $id The ID of the learning object.
-	 * @return boolean True if the given learning object is published in an
-	 * application
+	 * @return boolean True if the learning object has been published anywhere,
+	 *                 false otherwise.
 	 */
-	function is_learning_object_published($id)
+	function learning_object_is_published($id)
 	{
 		$applications = $this->get_registered_applications();
 		$result = false;
@@ -124,14 +124,17 @@ abstract class RepositoryDataManager
 		{
 			$application_class = self::application_to_class($application_name);
 			$application = new $application_class;
-			$result |= $application->is_published($id);
+			if ($application->learning_object_is_published($id))
+			{
+				return true;
+			}
 		}
-		return $result;
+		return false;
 	}
 
 	/**
-	 * Checks with registered applications to determine where the learning
-	 * object with the given ID has been published.
+	 * Determines where the learning object with the given ID has been
+	 * published in the registered applications.
 	 * @param int $id The ID of the learning object.
 	 * @return array An array of LearningObjectPublicationAttributes objects;
 	 *               empty if the object has not been published anywhere.
