@@ -16,18 +16,20 @@ abstract class Application
 	 */
 	abstract function run();
 	/**
-	 * Checks if a given learning object is published in this application
-	 * @param int $object_id
-	 * @return boolean True if the given learning object is in use in this
-	 * application
+	 * Determines whether the given learning object has been published in this
+	 * application.
+	 * @param int $object_id The ID of the learning object.
+	 * @return boolean True if the object is currently published, false
+	 *                 otherwise.
 	 */
-	abstract function is_published($object_id);
+	abstract function learning_object_is_published($object_id);
 	/**
-	 * Get information about the publication of the given learning object
-	 * @param int $object_id
-	 * @return array An array of PublicationInformation objects (empty array if
-	 * the requested learning object isn't published in this application)
+	 * Determines where in this application the given learning object has been
+	 * published.
+	 * @param int $object_id The ID of the learning object.
+	 * @return array An array of LearningObjectPublicationAttributes objects;
+	 *               empty if the object has not been published anywhere.
 	 */
-	abstract function get_publication_information($object_id);
+	abstract function get_learning_object_publication_attributes($object_id);
 }
 ?>
