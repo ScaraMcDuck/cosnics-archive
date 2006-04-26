@@ -51,7 +51,7 @@ if(isset($_GET['action']))
 		// Create a simple search-box
 		case 'simple_search':
 			$search_form = new FormValidator('search_simple','get','search.php','',null,false);
-			$renderer =& $search_form->defaultRenderer();
+			$renderer = $search_form->defaultRenderer();
 			$renderer->setElementTemplate('<span>{element}</span> ');
 			$search_form->addElement('hidden','action','simple_search');
 			$search_form->addElement('text','keyword',get_lang('keyword'),'size="50"');

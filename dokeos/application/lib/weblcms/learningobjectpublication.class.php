@@ -141,7 +141,7 @@ class LearningObjectPublication
 		$this->id = $id;
 	}
 
-	function set_learning_object(& $learningObject)
+	function set_learning_object($learningObject)
 	{
 		$this->learningObject = $learningObject;
 	}

@@ -24,7 +24,7 @@ class LearningObjectPublicationCategoryForm extends FormValidator
 		$this->addElement('submit', 'submit', get_lang('Ok'));
 	}
 	
-	function build_editing_form(& $category)
+	function build_editing_form($category)
 	{
 		$this->category = $category;				
 		$this->build_creation_form();

@@ -18,7 +18,7 @@ class LearningObjectFinder extends LearningObjectBrowser
 		$this->form->addElement('hidden', LearningObjectPublisher :: PARAM_ACTION);
 		$this->form->addElement('text', 'query', '');
 		$this->form->addElement('submit', 'submit', get_lang('Search'));
-		$renderer =& $this->form->defaultRenderer();
+		$renderer = $this->form->defaultRenderer();
 		$renderer->setElementTemplate('<span>{element}</span> ');
 		$this->set_parameter('query', $this->get_query());
 	}

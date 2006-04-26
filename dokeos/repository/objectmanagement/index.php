@@ -164,7 +164,7 @@ Display::display_footer();
 function create_search_form()
 {
 	$search_form = new FormValidator('search_simple','get','search.php','',null,false);
-	$renderer =& $search_form->defaultRenderer();
+	$renderer = $search_form->defaultRenderer();
 	$renderer->setElementTemplate('<span>{element}</span> ');
 	//$search_form->addElement('hidden','action','simple_search');
 	$search_form->addElement('hidden','searchtype','simple_search');
@@ -178,7 +178,7 @@ function create_search_form()
 function create_learning_object_list()
 {
 	$create_form = new FormValidator('type_list', 'post', 'create.php');
-	$renderer =& $create_form->defaultRenderer();
+	$renderer = $create_form->defaultRenderer();
 	$renderer->setElementTemplate('<span>{element}</span> ');
 	$create_form->addElement('hidden', 'parent',get_current_category());
 	$create_form->addElement('select','type',null,retrieve_learning_object_types());

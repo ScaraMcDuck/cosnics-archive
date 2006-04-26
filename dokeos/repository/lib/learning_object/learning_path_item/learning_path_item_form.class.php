@@ -5,21 +5,21 @@ require_once dirname(__FILE__) . '/../../learningobjectform.class.php';
  */
 class LearningPathItemForm extends LearningObjectForm
 {
-	function build_creation_form(& $default_learning_object = null)
+	function build_creation_form($default_learning_object = null)
 	{
-		parent :: build_creation_form(& $default_learning_object);
+		parent :: build_creation_form($default_learning_object);
 		$this->add_footer();
 	}
-	function build_editing_form(& $object)
+	function build_editing_form($object)
 	{
-		parent :: build_editing_form(& $object);
+		parent :: build_editing_form($object);
 		$this->setDefaults();
 		$this->add_footer();
 	}
 	function create_learning_object($owner)
 	{
 		$object = new LearningPathItem();
-		$this->set_learning_object(& $object);
+		$this->set_learning_object($object);
 		return parent :: create_learning_object($owner);
 	}
 }
