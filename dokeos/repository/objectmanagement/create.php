@@ -23,12 +23,12 @@ if( isset($_REQUEST['type']))
 	if($form->validate())
 	{
 		$object = $form->create_learning_object(api_get_user_id());
-		header('Location: index.php?category='.$current_category_id.'&action=show_message&message='.urlencode(get_lang('ObjectCreated')));
+		header('Location: index.php?parent='.$current_category_id.'&action=show_message&message='.urlencode(get_lang('ObjectCreated')));
 	}
 	// Else, show the form
 	else
 	{
-		$menu = new CategoryMenu(api_get_user_id(),$current_category_id,'index.php?category=%s');
+		$menu = new CategoryMenu(api_get_user_id(),$current_category_id,'index.php?parent=%s');
 		$interbredcrump = $menu->get_breadcrumbs();
 		Display::display_header(get_lang('Create'));
 		$form->display();
