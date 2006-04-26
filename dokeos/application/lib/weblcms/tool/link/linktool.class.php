@@ -22,6 +22,7 @@ class LinkTool extends RepositoryTool
 			$i++;
 		}
 		echo '</ul>';
+		$this->perform_requested_actions();
 		switch ($_SESSION['linktoolmode'])
 		{
 			case 2:
