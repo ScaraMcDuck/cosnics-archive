@@ -108,6 +108,7 @@ abstract class Tool
 		$dokeos_tools['description'] = TOOL_COURSE_DESCRIPTION;
 		$dokeos_tools['announcement'] = TOOL_ANNOUNCEMENT;
 		$dokeos_tools['calendar'] = TOOL_CALENDAR_EVENT;
+		$dokeos_tools['link'] = TOOL_LINK;
 		// Roles and rights system
 		$user_id = api_get_user_id();
 		$course_id = api_get_course_id();
