@@ -1,20 +1,23 @@
 <?php
 
-class RepositoryBrowserTable extends SortableTable
+class RepositoryBrowserTable extends SortableTable 
 {
+    const PARAM_CATEGORY_ID = 'category';
     private $lo;
-
-    function RepositoryBrowserTable($lo)
+    private $parameters;
+    
+    function RepositoryBrowserTable($param)
     {
-    	$name = 'objects'.(!is_null($lo) ? $lo->get_id() : '');
-    	parent :: __construct($name, array($this,'get_objects_count'), array($this,'get_objects'),'1');
+    	$this->determine_parameters($param);
+    	$name = 'objects'.(!is_null($this->lo) ? $this->lo->get_id() : '');
+    	parent :: __construct($name, array($this,'get_objects_count'), array($this,'get_objects'),'2');
+    	$this->set_additional_parameters($this->get_parameters());
     	$this->set_column_titles('', get_lang('Type'), get_lang('Title'), get_lang('Description'), get_lang('LastModified'));
     	$actions['delete_selected'] = get_lang('Delete');
 		$actions['move_selected'] = get_lang('Move');
 		$this->set_form_actions($actions);
-    	$this->lo = $lo;
     }
-
+    
     function set_column_titles()
 	{
 		$titles = func_get_args();
@@ -27,7 +30,7 @@ class RepositoryBrowserTable extends SortableTable
 		}
 		$this->set_header(count($titles), get_lang('Modify'), false);
 	}
-
+	
 	function get_objects($from, $number_of_items, $column, $direction)
 	{
 		$table_columns = array('id','type','title','description', 'modified', 'modify');
@@ -38,7 +41,7 @@ class RepositoryBrowserTable extends SortableTable
 		$children = $dm->retrieve_learning_objects(null,$condition,$orderBy, $orderDir,$from,$number_of_items);
 		$data = array ();
 		foreach ($children as $child)
-		{
+		{	
 			$object = $dm->retrieve_learning_object($child->get_id());
 			$row = array();
 			$row[] = $object->get_id();
@@ -58,22 +61,22 @@ class RepositoryBrowserTable extends SortableTable
  			{
 	 			$modify .= '<a href="index.php?category='.$object->get_parent_id().'&amp;action=delete&amp;id='.$object->get_id().'" title="'.get_lang('Delete').'"  onclick="javascript:if(!confirm(\''.addslashes(htmlentities(get_lang("ConfirmYourChoice"))).'\')) return false;"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete.gif" alt="'.get_lang('Delete').'"/></a>';
  			}
- 			$modify .= '<a href="index.php?category='.$object->get_parent_id().'&amp;action=move&amp;id='.$object->get_id().'" title="'.get_lang('Move').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/move.gif" alt="'.get_lang('Move').'"/></a>';
+			$modify .= '<a href="index.php?category='.$object->get_parent_id().'&amp;action=move&amp;id='.$object->get_id().'" title="'.get_lang('Move').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/move.gif" alt="'.get_lang('Move').'"/></a>';
  			$modify .= '<a href="metadata.php?id='.$object->get_id().'" title="'.get_lang('Metadata').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/info_small.gif" alt="'.get_lang('Metadata').'"/></a>';
  			$modify .= '<a href="rights.php?id='.$object->get_id().'" title="'.get_lang('Rights').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/group_small.gif" alt="'.get_lang('Rights').'"/></a>';
  			$row[] = $modify;
- 			$data[] = $row;
+ 			$data[] = $row;		
 		}
 		return $data;
 	}
-
+	
 	function get_objects_count()
 	{
 		$dm = RepositoryDataManager :: get_instance();
 		$condition = $this->get_condition();
 		return $dm->count_learning_objects(null, $condition);
 	}
-
+	
 	private function get_condition()
 	{
 		$cond_owner = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID,api_get_user_id());
@@ -111,17 +114,17 @@ class RepositoryBrowserTable extends SortableTable
 					}
 					break;
 			case 'simple_search':
-					$condition = !is_null($_GET['keyword']) ? RepositoryUtilities :: query_to_condition($_GET['keyword']) : null;
+					$condition = !is_null($_GET['keyword']) ? RepositoryUtilities :: query_to_condition($_GET['keyword']) : null;				
 					break;
 			default:
-					$condition = new EqualityCondition('parent', $this->lo->get_id());
+					$condition = new EqualityCondition('parent', $this->lo->get_id());			
 			}
 		}
 		else
 		{
 			if (isset ($_GET['type']))
 			{
-				$condition = new EqualityCondition('type', $_GET['type']);
+				$condition = new EqualityCondition('type', $_GET['type']);	
 			}
 			else
 			{
@@ -129,6 +132,31 @@ class RepositoryBrowserTable extends SortableTable
 			}
 		}
 		return !is_null($condition) ? new AndCondition($condition, $cond_owner) : $cond_owner;
+	}
+	function get_selected_category()
+	{
+		return PARAM_CATEGORY_ID;
+	}
+	/**
+	 * Checks if the attribute is an object and sets the parameters
+	 */
+	function determine_parameters($param)
+	{
+		if(is_object($param))
+		{
+			$this->parameters['category'] = $param->get_id();
+			$this->lo = $param;
+		}
+		else
+			foreach($param as $parameter => $value)
+				$this->parameters[$parameter] = $value;
+	}
+	/**
+	 * returns the parameters
+	 */
+	function get_parameters()
+	{
+		return $this->parameters;
 	}
 }
 ?>
