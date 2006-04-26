@@ -1,6 +1,6 @@
 <?php
 
-class RepositoryBrowserTable extends SortableTable 
+class RepositoryBrowserTable extends SortableTable
 {
     const PARAM_PARENT_ID = 'parent';
     const PARAM_TYPE = 'type';
@@ -8,7 +8,7 @@ class RepositoryBrowserTable extends SortableTable
     const PARAM_TITLE = 'title';
     private $lo;
     private $parameters;
-    
+
     function RepositoryBrowserTable($param)
     {
     	$this->determine_parameters($param);
@@ -20,7 +20,7 @@ class RepositoryBrowserTable extends SortableTable
 		$actions['move_selected'] = get_lang('Move');
 		$this->set_form_actions($actions);
     }
-    
+
     function set_column_titles()
 	{
 		$titles = func_get_args();
@@ -33,7 +33,7 @@ class RepositoryBrowserTable extends SortableTable
 		}
 		$this->set_header(count($titles), get_lang('Modify'), false);
 	}
-	
+
 	function get_objects($from, $number_of_items, $column, $direction)
 	{
 		$table_columns = array('id','type','title','description', 'modified', 'modify');
@@ -44,7 +44,7 @@ class RepositoryBrowserTable extends SortableTable
 		$children = $dm->retrieve_learning_objects(null,$condition,$orderBy, $orderDir,$from,$number_of_items);
 		$data = array ();
 		foreach ($children as $child)
-		{	
+		{
 			$object = $dm->retrieve_learning_object($child->get_id());
 			$row = array();
 			$row[] = $object->get_id();
@@ -55,7 +55,7 @@ class RepositoryBrowserTable extends SortableTable
 				$row[] = '<a href="view.php?id='.$object->get_id().'">'.htmlentities($object->get_title()).'</a>';
 			$row[] = $object->get_description();
 			$row[] = date('Y-m-d, H:i', is_null($object->get_modification_date()) ? $object->get_creation_date() : $object->get_modification_date());
-			$modify = '<a href="edit.php?id='.$object->get_id().'" '.self :: PARAM_TITLE.'="'.get_lang('Edit').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif" alt="'.get_lang('Edit').'"/></a>';
+			$modify = '<a href="edit.php?id='.$object->get_id().'" title="'.get_lang('Edit').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif" alt="'.get_lang('Edit').'"/></a>';
  			if($dm->learning_object_is_published($object->get_id()))
  			{
 	 			$modify .= '<img src="'.api_get_path(WEB_CODE_PATH).'img/delete_na.gif" alt="'.get_lang('Delete').'"/>';
@@ -68,18 +68,18 @@ class RepositoryBrowserTable extends SortableTable
  			$modify .= '<a href="metadata.php?id='.$object->get_id().'" title="'.get_lang('Metadata').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/info_small.gif" alt="'.get_lang('Metadata').'"/></a>';
  			$modify .= '<a href="rights.php?id='.$object->get_id().'" title="'.get_lang('Rights').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/group_small.gif" alt="'.get_lang('Rights').'"/></a>';
  			$row[] = $modify;
- 			$data[] = $row;		
+ 			$data[] = $row;
 		}
 		return $data;
 	}
-	
+
 	function get_objects_count()
 	{
 		$dm = RepositoryDataManager :: get_instance();
 		$condition = $this->get_condition();
 		return $dm->count_learning_objects(null, $condition);
 	}
-	
+
 	private function get_condition()
 	{
 		$cond_owner = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID,api_get_user_id());
@@ -117,17 +117,17 @@ class RepositoryBrowserTable extends SortableTable
 					}
 					break;
 			case 'simple_search':
-					$condition = !is_null($_GET[self :: PARAM_KEYWORD]) ? RepositoryUtilities :: query_to_condition($_GET[self :: PARAM_KEYWORD]) : null;				
+					$condition = !is_null($_GET[self :: PARAM_KEYWORD]) ? RepositoryUtilities :: query_to_condition($_GET[self :: PARAM_KEYWORD]) : null;
 					break;
 			default:
-					$condition = new EqualityCondition(self :: PARAM_PARENT_ID, $this->lo->get_id());			
+					$condition = new EqualityCondition(self :: PARAM_PARENT_ID, $this->lo->get_id());
 			}
 		}
 		else
 		{
 			if (isset ($_GET[self :: PARAM_TYPE]))
 			{
-				$condition = new EqualityCondition(self :: PARAM_TYPE, $_GET[self :: PARAM_TYPE]);	
+				$condition = new EqualityCondition(self :: PARAM_TYPE, $_GET[self :: PARAM_TYPE]);
 			}
 			else
 			{
