@@ -65,6 +65,7 @@ abstract class LearningObjectDisplay
 			{
 				$html = array();
 				$html[] = '<div class="attachments">';
+				$html[] = '<div class="attachments-title">'.htmlentities(get_lang('Attachments')).'</div>';
 				$html[] = '<ul>';
 				RepositoryUtilities :: order_learning_objects_by_title(& $attachments);
 				foreach ($attachments as $attachment)
