@@ -30,7 +30,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		$html[] = '<div class="learning_object">';
 		$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$publication->get_learning_object()->get_type().'.gif" alt="'.$publication->get_learning_object()->get_type().'"/></div>';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
-		$html[] = htmlentities($this->render_title($publication));
+		$html[] = $this->render_title($publication);
 		$html[] = '</div>';
 		$html[] = '<div class="description'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_description($publication);
