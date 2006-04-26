@@ -44,7 +44,7 @@ if(isset($_GET['action']))
 			$search_form->addElement('hidden','action','advanded_search');
 			$search_form->addElement('text','title',get_lang('Title'),'size="50"');
 			$search_form->addElement('text','description',get_lang('Description'),'size="50"');
-			$search_form->addElement('select','type',get_lang('Type'),$type_choices,'multiple="multiple" size="5"');
+			$search_form->addElement('select',RepositoryBrowserTable::PARAM_TYPE,get_lang('Type'),$type_choices,'multiple="multiple" size="5"');
 			$search_form->addElement('submit','submit_search',get_lang('Search'));
 			$search_form->addElement('static','simple','','<a href="search.php?action=simple_search">'.get_lang('SimpleSearch').'</a>');
 			break;
@@ -54,7 +54,7 @@ if(isset($_GET['action']))
 			$renderer = $search_form->defaultRenderer();
 			$renderer->setElementTemplate('<span>{element}</span> ');
 			$search_form->addElement('hidden','action','simple_search');
-			$search_form->addElement('text','keyword',get_lang('keyword'),'size="50"');
+			$search_form->addElement('text',RepositoryBrowserTable::PARAM_KEYWORD,get_lang('keyword'),'size="50"');
 			$search_form->addElement('submit','submit_search',get_lang('Search'));
 			$search_form->addElement('static','advanced','pom','<a href="search.php?action=advanced_search">'.get_lang('AdvancedSearch').'</a>');
 			break;
@@ -70,9 +70,8 @@ function create_repository_table()
 
 	if(isset($_GET['action']))
 	{
-		$table = new RepositoryBrowserTable();
 		$parameters = $search_form->exportValues();
-		$table->set_additional_parameters($parameters);
+		$table = new RepositoryBrowserTable($parameters);
 		if(!is_null($table))
 		{
 			$table->display();

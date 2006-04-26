@@ -53,13 +53,13 @@ if(isset($_GET['action']))
 			$popup_form = new FormValidator('move_form','get');
 			$popup_form->addElement('hidden','id',$_GET['id']);
 			$popup_form->addElement('hidden','action','move');
-			$popup_form->addElement('select','new_category',get_lang('Category'),$category_choices);
+			$popup_form->addElement('select',RepositoryBrowserTable::PARAM_CATEGORY_ID,get_lang('Category'),$category_choices);
 			$popup_form->addElement('submit','submit',get_lang('Ok'));
 			if($popup_form->validate())
 			{
 				$values = $popup_form->exportValues();
 				$object = get_datamanager()->retrieve_learning_object($_GET['id']);
-				$object->set_parent_id($values['new_category']);
+				$object->set_parent_id($values[RepositoryBrowserTable::PARAM_CATEGORY_ID]);
 				$object->update(false);
 				$message = get_lang('ObjectMoved');
 			}
@@ -102,7 +102,7 @@ if(isset($_POST['action']))
 				$popup_form->addElement('hidden','id[]',$object_id);
 			}
 			$popup_form->addElement('hidden','action','move_selected');
-			$popup_form->addElement('select','category',get_lang('Category'),$category_choices);
+			$popup_form->addElement('select',RepositoryBrowserTable::PARAM_CATEGORY_ID,get_lang('Category'),$category_choices);
 			$popup_form->addElement('submit','submit',get_lang('Ok'));
 			if($popup_form->validate())
 			{
@@ -110,7 +110,7 @@ if(isset($_POST['action']))
 				foreach($_POST['id'] as $index => $object_id)
 				{
 					$object = get_datamanager()->retrieve_learning_object($object_id);
-					$object->set_parent_id($values['category']);
+					$object->set_parent_id($values[RepositoryBrowserTable::PARAM_CATEGORY_ID]);
 					$object->update(false);
 				}
 				$message = get_lang('ObjectsMoved');
@@ -168,7 +168,7 @@ function create_search_form()
 	$renderer->setElementTemplate('<span>{element}</span> ');
 	//$search_form->addElement('hidden','action','simple_search');
 	$search_form->addElement('hidden','searchtype','simple_search');
-	$search_form->addElement('text','keyword',get_lang('keyword'));
+	$search_form->addElement('text',RepositoryBrowserTable::PARAM_KEYWORD,get_lang('keyword'));
 	$search_form->addElement('submit','submit',get_lang('Search'));
 	$search_form->display();
 }
@@ -180,8 +180,8 @@ function create_learning_object_list()
 	$create_form = new FormValidator('type_list', 'post', 'create.php');
 	$renderer = $create_form->defaultRenderer();
 	$renderer->setElementTemplate('<span>{element}</span> ');
-	$create_form->addElement('hidden', 'parent',get_current_category());
-	$create_form->addElement('select','type',null,retrieve_learning_object_types());
+	$create_form->addElement('hidden', RepositoryBrowserTable::PARAM_PARENT_ID,get_current_category());
+	$create_form->addElement('select',RepositoryBrowserTable::PARAM_TYPE,null,retrieve_learning_object_types());
 	$create_form->addElement('submit','submit',get_lang('Create'));
 	$create_form->display();
 }
@@ -195,12 +195,11 @@ function create_repository_table()
 	{
 		$object = get_datamanager()->retrieve_learning_object($property);
 		$table = new RepositoryBrowserTable($object);
-		$table->set_additional_parameters(array('category' =>$object->get_id()));
 	}
 	else
 	{
-		$table = new RepositoryBrowserTable();
-		$table->set_additional_parameters(array('type' => $_GET['type']));
+		$parameters[RepositoryBrowserTable::PARAM_TYPE] = $_GET[RepositoryBrowserTable::PARAM_TYPE];
+		$table = new RepositoryBrowserTable($parameters);
 	}
 	$table->display();
 }
@@ -224,14 +223,14 @@ function retrieve_learning_object_types()
 function create_category_menu ()
 {
 	global $menu;
-	$menu = new CategoryMenu(api_get_user_id(),get_current_category(),'?category=%s',true);
+	$menu = new CategoryMenu(api_get_user_id(),get_current_category(),'?'.RepositoryBrowserTable::PARAM_PARENT_ID.'=%s',true);
 }
 /**
  * Load datamanager
  */
 function get_datamanager()
 {
-	return RepositoryDataManager::get_instance();
+	return RepositoryDataManager::get_instance();	
 }
 
 /**
@@ -239,7 +238,7 @@ function get_datamanager()
  */
 function get_current_category()
 {
-	$current_category_id = isset($_GET['category']) ? intval($_GET['category']) : NULL;
+	$current_category_id = isset($_GET[RepositoryBrowserTable::PARAM_PARENT_ID]) ? intval($_GET[RepositoryBrowserTable::PARAM_PARENT_ID]) : NULL;
 	if($current_category_id <= 0)
 	{
 		$root_category = get_datamanager()->retrieve_root_category(api_get_user_id());
@@ -252,7 +251,7 @@ function get_current_category()
  */
 function get_property()
 {
-	if(isset($_GET['type']))
+	if(isset($_GET[RepositoryBrowserTable::PARAM_TYPE]))
 	{
 		$current_property = NULL;
 	}
