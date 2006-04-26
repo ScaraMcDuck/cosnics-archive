@@ -56,10 +56,12 @@ class CalendarTool extends RepositoryTool
 	{
 		$time = isset($_GET['time']) ? intval($_GET['time']) : time();
 		$this->set_parameter('time',$time);
-		echo '<a href="'.$this->get_url(array('view'=>'list'), true).'">list</a> | ';
-		echo '<a href="'.$this->get_url(array('view'=>'month'), true).'">month</a> | ';
-		echo '<a href="'.$this->get_url(array('view'=>'week'), true).'">week</a> | ';
-		echo '<a href="'.$this->get_url(array('view'=>'day'), true).'">day</a> <br/><br/>';
+		echo '<ul class="calendar_view">';
+		echo '<li><a href="'.$this->get_url(array('view'=>'list'), true).'">list</a></li>';
+		echo '<li><a href="'.$this->get_url(array('view'=>'month'), true).'">month</a></li>';
+		echo '<li><a href="'.$this->get_url(array('view'=>'week'), true).'">week</a></li>';
+		echo '<li><a href="'.$this->get_url(array('view'=>'day'), true).'">day</a></li>';
+		echo '</ul>';
 		$show_calendar = true;
 		if(isset($_GET['pid']))
 		{

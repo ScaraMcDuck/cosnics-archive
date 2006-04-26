@@ -25,8 +25,10 @@ class LearningObjectFinder extends LearningObjectBrowser
 
 	function as_html()
 	{
+		$html = array();
+		$html[] = '<div class="lofinder_search_form">';
 		$html[] = $this->form->toHTML();
-		$html[] = '<br /><br />';
+		$html[] = '</div>';
 		if(strlen(trim($this->get_query())) > 0)
 		{
 			$html[] = parent::as_html();
