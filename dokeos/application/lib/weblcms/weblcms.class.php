@@ -304,5 +304,12 @@ class Weblcms extends Application
 	{
 		return WeblcmsDataManager :: get_instance()->is_published($object_id);
 	}
+	/*
+	 * Inherited
+	 */
+	function get_publication_information($object_id)
+	{
+		return WeblcmsDataManager :: get_instance()->get_publication_information($object_id);
+	}
 }
 ?>

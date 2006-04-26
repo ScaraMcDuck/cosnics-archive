@@ -31,6 +31,27 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $res->numRows() == 1;
 	}
 
+	function get_publication_information($object_id)
+	{
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID).'=?';
+		$statement = $this->connection->prepare($query);
+		$res = & $this->connection->execute($statement, array($object_id));
+		$publication_information = array();
+		while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$info = new PublicationInformation();
+			$info->set_publisher_user_id($record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID]);
+			$info->set_publication_date(self::from_db_date($record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE]));
+			$info->set_application('weblcms');
+			//TODO: i8n location string
+			$info->set_location($record[LearningObjectPublication :: PROPERTY_COURSE_ID].' &gt; '.$record[LearningObjectPublication :: PROPERTY_TOOL]);
+			//TODO: set correct URL
+			$info->set_url('TODO');
+			$publication_information[] = $info;
+		}
+		return $publication_information;
+	}
+
 	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1)
 	{
 		$params = array ();
