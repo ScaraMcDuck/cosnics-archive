@@ -1,6 +1,7 @@
 <?php
 /**
- * @package repository.learningobject.announcement
+ * @package repository.learningobject
+ * @subpackage announcement
  */
 require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/announcement.class.php';

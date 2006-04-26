@@ -1,6 +1,7 @@
 <?php
 /**
- * @package repository.learningobject.document
+ * @package repository.learningobject
+ * @subpackage document
  */
 class DocumentDisplay extends LearningObjectDisplay
 {

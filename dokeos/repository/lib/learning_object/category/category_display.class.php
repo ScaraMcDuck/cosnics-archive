@@ -1,6 +1,7 @@
 <?php
 /**
- * @package repository.learningobject.category
+ * @package repository.learningobject
+ * @subpackage category
  */
 class CategoryDisplay extends LearningObjectDisplay
 {

@@ -1,6 +1,7 @@
 <?php
 /**
- * @package repository.learningobject.forum
+ * @package repository.learningobject
+ * @subpackage forum
  */
 class ForumPostDisplay extends LearningObjectDisplay
 {

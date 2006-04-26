@@ -3,7 +3,8 @@ require_once dirname(__FILE__).'/../../../treemenurenderer.class.php';
 require_once dirname(__FILE__).'/learningpathtable.class.php';
 require_once dirname(__FILE__).'/learningpathtree.class.php';
 /**
- * @package repository.learningobject.learning_path
+ * @package repository.learningobject
+ * @subpackage learning_path
  */
 class LearningPathNodeDisplay extends LearningObjectDisplay
 {
