@@ -1,11 +1,12 @@
 <?php
 require_once dirname(__FILE__) . '/../../learningobject.class.php';
 /**
- * @package repository.learningobject.link
+ * @package repository.learningobject
+ * @subpackage link
  */
 class Link extends LearningObject {
 	const PROPERTY_URL = 'url';
-	
+
 	function get_url () {
 		return $this->get_additional_property(self :: PROPERTY_URL);
 	}

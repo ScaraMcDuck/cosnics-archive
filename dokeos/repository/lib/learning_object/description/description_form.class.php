@@ -2,7 +2,8 @@
 require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/description.class.php';
 /**
- * @package repository.learningobject.description
+ * @package repository.learningobject
+ * @subpackage description
  */
 class DescriptionForm extends LearningObjectForm
 {

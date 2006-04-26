@@ -1,7 +1,8 @@
 <?php
 require_once dirname(__FILE__).'/../../../learningobjecttree.class.php';
 /**
- * @package repository.learningobject.forum
+ * @package repository.learningobject
+ * @subpackage forum
  */
 class ForumTree extends LearningObjectTree
 {

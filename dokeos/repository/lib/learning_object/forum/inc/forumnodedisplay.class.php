@@ -3,7 +3,8 @@ require_once dirname(__FILE__).'/../../../treemenurenderer.class.php';
 require_once dirname(__FILE__).'/forumtable.class.php';
 require_once dirname(__FILE__).'/forumtree.class.php';
 /**
- * @package repository.learningobject.forum
+ * @package repository.learningobject
+ * @subpackage forum
  */
 class ForumNodeDisplay extends LearningObjectDisplay
 {

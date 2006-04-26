@@ -1,6 +1,7 @@
 <?php
 /**
- * @package repository.learningobject.calendar_event
+ * @package repository.learningobject
+ * @subpackage calendar_event
  */
 class CalendarEventDisplay extends LearningObjectDisplay
 {

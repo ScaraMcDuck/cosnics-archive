@@ -1,6 +1,7 @@
 <?php
 /**
- * @package repository.learningobject.link
+ * @package repository.learningobject
+ * @subpackage link
  */
 class LinkDisplay extends LearningObjectDisplay
 {

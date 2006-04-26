@@ -1,7 +1,8 @@
 <?php
 require_once dirname(__FILE__) . '/../../learningobject.class.php';
 /**
- * @package repository.learningobject.calendar_event
+ * @package repository.learningobject
+ * @subpackage calendar_event
  */
 class CalendarEvent extends LearningObject
 {

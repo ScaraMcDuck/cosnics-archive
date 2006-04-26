@@ -4,7 +4,8 @@ require_once dirname(__FILE__).'/document.class.php';
 require_once dirname(__FILE__).'/../../../../claroline/inc/lib/formvalidator/Rule/DiskQuota.php';
 
 /**
- * @package repository.learningobject.document
+ * @package repository.learningobject
+ * @subpackage document
  */
 class DocumentForm extends LearningObjectForm
 {
