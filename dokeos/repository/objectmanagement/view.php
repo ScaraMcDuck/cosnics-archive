@@ -31,6 +31,21 @@ if( isset($_GET['id']))
 	echo '<a href="edit.php?id='.$object->get_id().'" title="'.get_lang('Edit').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif" alt="'.get_lang('Edit').'"/> '.get_lang('Edit').'</a>';
 	echo '</p>';
 	echo $display->get_full_html();
+	$publication_information = $datamanager->get_publication_information($object->get_id());
+	if(count($publication_information) > 0)
+	{
+		echo '<br/><strong>'.get_lang('ObjectPublished').'</strong>';
+		echo '<ul>';
+		foreach($publication_information as $index => $info)
+		{
+			$publisher = api_get_user_info($info->get_publisher_user_id());
+			echo '<li>';
+			//TODO: date formatting
+			echo $info->get_application().': '.$info->get_location().' ('.$publisher['firstName'].' '.$publisher['lastName'].', '.date('r',$info->get_publication_date()).')';
+			echo '</li>';
+		}
+		echo '</ul>';
+	}
 	Display::display_footer();
 }
 ?>
