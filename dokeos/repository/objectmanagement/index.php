@@ -54,13 +54,13 @@ if(isset($_GET['action']))
 			$popup_form = new FormValidator('move_form','get');
 			$popup_form->addElement('hidden','id',$_GET['id']);
 			$popup_form->addElement('hidden','action','move');
-			$popup_form->addElement('select',RepositoryBrowserTable::PARAM_CATEGORY_ID,get_lang('Category'),$category_choices);
+			$popup_form->addElement('select',RepositoryBrowserTable::PARAM_PARENT_ID,get_lang('Category'),$category_choices);
 			$popup_form->addElement('submit','submit',get_lang('Ok'));
 			if($popup_form->validate())
 			{
 				$values = $popup_form->exportValues();
 				$object = get_datamanager()->retrieve_learning_object($_GET['id']);
-				$object->set_parent_id($values[RepositoryBrowserTable::PARAM_CATEGORY_ID]);
+				$object->set_parent_id($values[RepositoryBrowserTable::PARAM_PARENT_ID]);
 				$object->update(false);
 				$message = get_lang('ObjectMoved');
 				create_category_menu();
@@ -105,7 +105,7 @@ if(isset($_POST['action']))
 				$popup_form->addElement('hidden','id[]',$object_id);
 			}
 			$popup_form->addElement('hidden','action','move_selected');
-			$popup_form->addElement('select',RepositoryBrowserTable::PARAM_CATEGORY_ID,get_lang('Category'),$category_choices);
+			$popup_form->addElement('select',RepositoryBrowserTable::PARAM_PARENT_ID,get_lang('Category'),$category_choices);
 			$popup_form->addElement('submit','submit',get_lang('Ok'));
 			if($popup_form->validate())
 			{
@@ -113,7 +113,7 @@ if(isset($_POST['action']))
 				foreach($_POST['id'] as $index => $object_id)
 				{
 					$object = get_datamanager()->retrieve_learning_object($object_id);
-					$object->set_parent_id($values[RepositoryBrowserTable::PARAM_CATEGORY_ID]);
+					$object->set_parent_id($values[RepositoryBrowserTable::PARAM_PARENT_ID]);
 					$object->update(false);
 				}
 				$message = get_lang('ObjectsMoved');
