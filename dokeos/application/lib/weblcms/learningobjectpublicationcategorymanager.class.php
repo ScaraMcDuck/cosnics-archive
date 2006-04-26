@@ -43,7 +43,7 @@ class LearningObjectPublicationCategoryManager
 	{
 		return $this->parent->get_url($parameters, $encode);
 	}
-	
+
 	function get_categories($list = false)
 	{
 		return $this->parent->get_categories($list);
@@ -107,8 +107,8 @@ class LearningObjectPublicationCategoryManager
 			$options = array ();
 			if ($id != 0)
 			{
-				$options[] = '<a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT, self :: PARAM_ID => $id), true).'">'.'['.get_lang('Edit').']'.'</a>';
-				$options[] = '<a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE, self :: PARAM_ID => $id), true).'">'.'['.get_lang('Delete').']'.'</a>';
+				$options[] = '<a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT, self :: PARAM_ID => $id), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif"  alt=""/></a>';
+				$options[] = '<a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE, self :: PARAM_ID => $id), true).'" onclick="javascript:if(!confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\')) return false;"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete.gif"  alt=""/></a>';
 			}
 			$options = ' '.join(' ', $options);
 			$html .= '<li>'.htmlentities($category->get_title()).$options.$this->category_tree_as_html($subtree).'</li>';
