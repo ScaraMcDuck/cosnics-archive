@@ -13,7 +13,7 @@ abstract class LearningObjectDisplay
 	/**
 	 * Constructor.
 	 */
-	protected function LearningObjectDisplay(& $learning_object)
+	protected function LearningObjectDisplay($learning_object)
 	{
 		$this->learning_object = $learning_object;
 	}

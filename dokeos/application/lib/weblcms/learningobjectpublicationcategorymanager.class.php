@@ -74,7 +74,7 @@ class LearningObjectPublicationCategoryManager
 		$id = $_GET[self :: PARAM_ID];
 		$category = $this->parent->get_category($id);
 		$form = new LearningObjectPublicationCategoryForm($this, 'edit_category', 'post', $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT, self :: PARAM_ID => $id)));
-		$form->build_editing_form(& $category);
+		$form->build_editing_form($category);
 		if ($form->validate())
 		{
 			$category->set_title($form->get_category_title());

@@ -47,7 +47,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// Inherited.
 	function determine_learning_object_type($id)
 	{
-		$res = & $this->connection->limitQuery('SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_TYPE).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?', 0, 1, array ($id));
+		$res = $this->connection->limitQuery('SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_TYPE).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?', 0, 1, array ($id));
 		$record = $res->fetchRow(DB_FETCHMODE_ORDERED);
 		return $record[0];
 	}
@@ -67,7 +67,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
 		}
-		$res = & $this->connection->limitQuery($query, 0, 1, array ($id));
+		$res = $this->connection->limitQuery($query, 0, 1, array ($id));
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return self :: record_to_learning_object($record);
 	}
@@ -124,7 +124,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			 */
 			$maxObjects = 9999999999;
 		}
-		$res = & $this->connection->limitQuery($query, intval($firstIndex), intval($maxObjects), $params);
+		$res = $this->connection->limitQuery($query, intval($firstIndex), intval($maxObjects), $params);
 		$objects = array ();
 		if (isset ($type))
 		{
@@ -182,7 +182,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$query .= ' WHERE '.$this->translate_condition($condition, & $params);
 		}
 		$sth = $this->connection->prepare($query);
-		$res = & $this->connection->execute($sth, $params);
+		$res = $this->connection->execute($sth, $params);
 		$record = $res->fetchRow(DB_FETCHMODE_ORDERED);
 		return $record[0];
 	}
@@ -327,7 +327,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		$query = 'SELECT MAX('.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).') AS h FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_PARENT_ID).'=? AND '.$this->escape_column_name(LearningObject :: PROPERTY_TYPE).'=?';
 		$statement = $this->connection->prepare($query);
-		$res = & $this->connection->execute($statement, array ($parent, $type));
+		$res = $this->connection->execute($statement, array ($parent, $type));
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		$highest_index = $record['h'];
 		if (!is_null($highest_index))
@@ -342,7 +342,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		$query = 'SELECT '.$this->escape_column_name('attachment').' FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object').'=?';
 		$sth = $this->connection->prepare($query);
-		$res = & $this->connection->execute($sth, array($id));
+		$res = $this->connection->execute($sth, array($id));
 		$attachments = array();
 		while ($record = $res->fetchRow(DB_FETCHMODE_ORDERED))
 		{

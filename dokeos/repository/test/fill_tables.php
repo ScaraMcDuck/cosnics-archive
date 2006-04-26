@@ -187,7 +187,7 @@ for ($i = 0; $i < $forum_posts - $forum_topics; $i++)
 	$topic->set_reply_count($topic->get_reply_count() + 1);
 	$topic->set_last_post_id($post->get_id());
 	// Update the forum.
-	$forum = & $topic_to_forum[$topic->get_id()];
+	$forum = $topic_to_forum[$topic->get_id()];
 	$forum->set_topic_count($forum->get_topic_count() + 1);
 	$forum->set_post_count($forum->get_post_count() + 1);
 	$forum->set_last_post_id($post->get_id());

@@ -13,13 +13,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function initialize()
 	{
 		$this->repoDM = & RepositoryDataManager :: get_instance();
-		$this->connection = & $this->repoDM->get_connection();
+		$this->connection = $this->repoDM->get_connection();
 	}
 
 	function retrieve_learning_object_publication($pid)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=?';
-		$res = & $this->connection->limitQuery($query, 0, 1, array ($pid));
+		$res = $this->connection->limitQuery($query, 0, 1, array ($pid));
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $this->record_to_publication($record);
 	}
@@ -27,7 +27,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function is_published($object_id)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID).'=?';
-		$res = & $this->connection->limitQuery($query, 0, 1, array ($object_id));
+		$res = $this->connection->limitQuery($query, 0, 1, array ($object_id));
 		return $res->numRows() == 1;
 	}
 
@@ -35,7 +35,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID).'=?';
 		$statement = $this->connection->prepare($query);
-		$res = & $this->connection->execute($statement, array($object_id));
+		$res = $this->connection->execute($statement, array($object_id));
 		$publication_information = array();
 		while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -81,7 +81,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		/*
 		 * Get publications.
 		 */
-		$res = & $this->connection->limitQuery($query, intval($firstIndex), intval($maxObjects), $params);
+		$res = $this->connection->limitQuery($query, intval($firstIndex), intval($maxObjects), $params);
 		$results = array ();
 		while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -96,7 +96,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$query = 'SELECT COUNT('.($allowDuplicates ? '*' : 'DISTINCT p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID)).') FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
 		$query .= ' ' . $this->get_publication_retrieval_where_clause($course, $categories, $users, $groups, $condition, & $params);
 		$sth = $this->connection->prepare($query);
-		$res = & $this->connection->execute($sth, $params);
+		$res = $this->connection->execute($sth, $params);
 		$record = $res->fetchRow(DB_FETCHMODE_ORDERED);
 		return $record[0];
 	}
@@ -279,7 +279,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$sth = $this->connection->prepare($query);
 		$params = $tools;
 		array_unshift ($params, $course);
-		$res = & $this->connection->execute($sth, $params);
+		$res = $this->connection->execute($sth, $params);
 		$cats = array ();
 		while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -294,7 +294,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function retrieve_learning_object_publication_category($id)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'=?';
-		$res = & $this->connection->limitQuery($query, 0, 1, array($id));
+		$res = $this->connection->limitQuery($query, 0, 1, array($id));
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $this->record_to_publication_category($record);
 	}
@@ -379,7 +379,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$query = 'SELECT MAX('.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).') AS h FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_CATEGORY_ID).'=?';
 		$statement = $this->connection->prepare($query);
-		$res = & $this->connection->execute($statement, array ($course, $tool, $category));
+		$res = $this->connection->execute($statement, array ($course, $tool, $category));
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		$highest_index = $record['h'];
 		if (!is_null($highest_index))
@@ -413,7 +413,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$obj = $this->repoDM->retrieve_learning_object($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_group').' WHERE publication = ?';
 		$sth = $this->connection->prepare($query);
-		$res = & $this->connection->execute($sth, $record[LearningObjectPublication :: PROPERTY_ID]);
+		$res = $this->connection->execute($sth, $record[LearningObjectPublication :: PROPERTY_ID]);
 		$target_groups = array();
 		while($target_group = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -421,7 +421,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_user').' WHERE publication = ?';
 		$sth = $this->connection->prepare($query);
-		$res = & $this->connection->execute($sth, $record[LearningObjectPublication :: PROPERTY_ID]);
+		$res = $this->connection->execute($sth, $record[LearningObjectPublication :: PROPERTY_ID]);
 		$target_users = array();
 		while($target_user = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{

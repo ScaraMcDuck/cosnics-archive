@@ -6,16 +6,16 @@ require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/link.class.php';
 class LinkForm extends LearningObjectForm
 {
-	function build_creation_form(& $default_learning_object = null)
+	function build_creation_form($default_learning_object = null)
 	{
-		parent :: build_creation_form(& $default_learning_object);
+		parent :: build_creation_form($default_learning_object);
 		$this->add_textfield(Link :: PROPERTY_URL, get_lang('URL'), true,'size="100"');
 		$this->setDefaults();
 		$this->add_footer();
 	}
-	function build_editing_form(& $object)
+	function build_editing_form($object)
 	{
-		parent :: build_editing_form(& $object);
+		parent :: build_editing_form($object);
 		$this->add_textfield(Link :: PROPERTY_URL, get_lang('URL'), true,'size="100"');
 		$this->setDefaults();
 		$this->add_footer();
@@ -37,13 +37,13 @@ class LinkForm extends LearningObjectForm
 	{
 		$object = new Link();
 		$object->set_url($this->exportValue(Link :: PROPERTY_URL));
-		$this->set_learning_object(& $object);
+		$this->set_learning_object($object);
 		return parent :: create_learning_object($owner);
 	}
-	function update_learning_object(& $object)
+	function update_learning_object($object)
 	{
 		$object->set_url($this->exportValue(Link :: PROPERTY_URL));
-		return parent :: update_learning_object(& $object);
+		return parent :: update_learning_object($object);
 	}
 }
 ?>
