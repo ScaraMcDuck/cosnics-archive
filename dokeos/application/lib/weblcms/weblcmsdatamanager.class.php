@@ -51,6 +51,14 @@ abstract class WeblcmsDataManager
 	abstract function is_published($object_id);
 
 	/**
+	 * Get information about the publication of the given learning object
+	 * @param int $object_id
+	 * @return array An array of PublicationInformation objects (empty array if
+	 * the requested learning object isn't published in this application)
+	 */
+	abstract function get_publication_information($object_id);
+
+	/**
 	 * Initializes the data manager.
 	 */
 	abstract function initialize();
