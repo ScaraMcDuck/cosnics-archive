@@ -57,10 +57,10 @@ class CalendarTool extends RepositoryTool
 		$time = isset($_GET['time']) ? intval($_GET['time']) : time();
 		$this->set_parameter('time',$time);
 		echo '<ul class="calendar_view">';
-		echo '<li><a href="'.$this->get_url(array('view'=>'list'), true).'">list</a></li>';
-		echo '<li><a href="'.$this->get_url(array('view'=>'month'), true).'">month</a></li>';
-		echo '<li><a href="'.$this->get_url(array('view'=>'week'), true).'">week</a></li>';
-		echo '<li><a href="'.$this->get_url(array('view'=>'day'), true).'">day</a></li>';
+		echo '<li><a href="'.$this->get_url(array('view'=>'list'), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/calendar_down.gif"/></a></li>';
+		echo '<li><a href="'.$this->get_url(array('view'=>'month'), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/calendar_month.gif"/></a></li>';
+		echo '<li><a href="'.$this->get_url(array('view'=>'week'), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/calendar_week.gif"/></a></li>';
+		echo '<li><a href="'.$this->get_url(array('view'=>'day'), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/calendar_day.gif"/></a></li>';
 		echo '</ul>';
 		$show_calendar = true;
 		if(isset($_GET['pid']))
