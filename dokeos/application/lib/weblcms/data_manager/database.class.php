@@ -333,14 +333,21 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function delete_learning_object_publication_category($category)
 	{
-		/*
-		 * TODO: Delete child categories
-		 */
+		// Delete subcategories in the category we delete
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID).'=?';
+		$statement = $this->connection->prepare($query);
+		$res = $this->connection->execute($statement,  array($category->get_id()));
+		while($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->delete_learning_object_publication_category($this->record_to_publication_category($record));
+		}
+		// Delete publications in the category we delete
 		$publications = $this->retrieve_learning_object_publications($category->get_course(),$category->get_id());
 		foreach($publications as $index => $publication)
 		{
 			$publication->delete();
 		}
+		// Finally, delete the category itself
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'=?';
 		$this->connection->limitQuery($query, 0, 1, array($category->get_id()));
 		return true;
