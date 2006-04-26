@@ -24,22 +24,22 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->record_to_publication($record);
 	}
 
-	function is_published($object_id)
+	function learning_object_is_published($object_id)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID).'=?';
 		$res = $this->connection->limitQuery($query, 0, 1, array ($object_id));
 		return $res->numRows() == 1;
 	}
 
-	function get_publication_information($object_id)
+	function get_learning_object_publication_attributes($object_id)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		$res = $this->connection->execute($statement, array($object_id));
-		$publication_information = array();
+		$publication_attr = array();
 		while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$info = new PublicationInformation();
+			$info = new LearningObjectPublicationAttributes();
 			$info->set_publisher_user_id($record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID]);
 			$info->set_publication_date(self::from_db_date($record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE]));
 			$info->set_application('weblcms');
@@ -47,9 +47,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$info->set_location($record[LearningObjectPublication :: PROPERTY_COURSE_ID].' &gt; '.$record[LearningObjectPublication :: PROPERTY_TOOL]);
 			//TODO: set correct URL
 			$info->set_url('TODO');
-			$publication_information[] = $info;
+			$publication_attr[] = $info;
 		}
-		return $publication_information;
+		return $publication_attr;
 	}
 
 	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1)

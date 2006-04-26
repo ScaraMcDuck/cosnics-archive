@@ -300,16 +300,16 @@ class Weblcms extends Application
 	/*
 	 * Inherited
 	 */
-	function is_published($object_id)
+	function learning_object_is_published($object_id)
 	{
-		return WeblcmsDataManager :: get_instance()->is_published($object_id);
+		return WeblcmsDataManager :: get_instance()->learning_object_is_published($object_id);
 	}
 	/*
 	 * Inherited
 	 */
-	function get_publication_information($object_id)
+	function get_learning_object_publication_attributes($object_id)
 	{
-		return WeblcmsDataManager :: get_instance()->get_publication_information($object_id);
+		return WeblcmsDataManager :: get_instance()->get_learning_object_publication_attributes($object_id);
 	}
 }
 ?>

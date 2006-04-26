@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/configuration.class.php';
-require_once dirname(__FILE__).'/publicationinformation.class.php';
+require_once dirname(__FILE__).'/learningobjectpublicationattributes.class.php';
 
 /**
 ==============================================================================
@@ -130,13 +130,13 @@ abstract class RepositoryDataManager
 	}
 
 	/**
-	 * Checks all registered applications to retrieve information about the
-	 * locations where the learning object is published
+	 * Checks with registered applications to determine where the learning
+	 * object with the given ID has been published.
 	 * @param int $id The ID of the learning object.
-	 * @return array An array of PublicationInformation objects (empty array if
-	 * the requested learning object isn't published in this application)
+	 * @return array An array of LearningObjectPublicationAttributes objects;
+	 *               empty if the object has not been published anywhere.
 	 */
-	function get_publication_information($id)
+	function get_learning_object_publication_attributes($id)
 	{
 		$applications = $this->get_registered_applications();
 		$info = array();
@@ -144,7 +144,7 @@ abstract class RepositoryDataManager
 		{
 			$application_class = self::application_to_class($application_name);
 			$application = new $application_class;
-			$info = array_merge($info, $application->get_publication_information($id));
+			$info = array_merge($info, $application->get_learning_object_publication_attributes($id));
 		}
 		return $info;
 	}
