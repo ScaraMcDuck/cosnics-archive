@@ -189,7 +189,7 @@ abstract class RepositoryDataManager
 	 * @param array $additionalProperties An associative array containing the
 	 *                                    additional (type-specific)
 	 *                                    properties of the learning object.
-	 * @return LearningObjec The newly instantiated learning object.
+	 * @return LearningObject The newly instantiated learning object.
 	 */
 	protected function factory($type, $id, $defaultProperties, $additionalProperties)
 	{
