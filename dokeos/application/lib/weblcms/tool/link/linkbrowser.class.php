@@ -1,4 +1,9 @@
 <?php
+/**
+ * Link tool - browser
+ * @package application.weblcms.tool
+ * @subpackage link
+ */
 require_once dirname(__FILE__).'/../../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../../learningobjectpublicationbrowser.class.php';
 require_once dirname(__FILE__).'/../../browser/learningobjectpublicationcategorytree.class.php';

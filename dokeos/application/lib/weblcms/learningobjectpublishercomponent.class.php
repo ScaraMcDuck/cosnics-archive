@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @package application.weblcms.tool
+ */
 /**
 ==============================================================================
  *	This class represents a component of a LearningObjectPublisher. Its output
@@ -8,7 +10,6 @@
  *	@author Tim De Pauw
 ==============================================================================
  */
-
 abstract class LearningObjectPublisherComponent
 {
 	/**

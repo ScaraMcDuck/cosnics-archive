@@ -1,4 +1,9 @@
 <?php
+/**
+ * Announcement tool - browser
+ * @package application.weblcms.tool
+ * @subpackage announcement
+ */
 require_once dirname(__FILE__).'/../../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../../learningobjectpublicationbrowser.class.php';
 require_once dirname(__FILE__).'/announcementpublicationlistrenderer.class.php';

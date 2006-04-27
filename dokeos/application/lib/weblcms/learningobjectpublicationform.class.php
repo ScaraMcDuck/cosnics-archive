@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package application.weblcms.tool
+ */
 require_once dirname(__FILE__).'/learningobjectpublication.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';
 

@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package application.weblcms.tool
+ */
 require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
 
 class DayCalendarLearningObjectPublicationListRenderer extends LearningObjectPublicationListRenderer

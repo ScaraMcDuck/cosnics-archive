@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @package application.weblcms.tool
+ */
 /**
 ==============================================================================
  *	This class provides the means to publish a learning object.
@@ -13,7 +15,7 @@ class LearningObjectPublisher
 	const PARAM_ACTION = 'publish_action';
 	const PARAM_EDIT = 'edit';
 	const PARAM_LEARNING_OBJECT_ID = 'object';
-	
+
 	/**
 	 * The types of learning object that this publisher is aware of and may
 	 * publish.

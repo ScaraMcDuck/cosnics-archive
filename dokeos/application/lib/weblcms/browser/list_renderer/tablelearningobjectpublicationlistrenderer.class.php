@@ -1,10 +1,13 @@
 <?php
+/**
+ * @package application.weblcms.tool
+ */
 require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
 
 class TableLearningObjectPublicationListRenderer extends LearningObjectPublicationListRenderer
 {
 	private $table;
-	
+
 	function TableLearningObjectPublicationListRenderer($browser)
 	{
 		parent :: __construct($browser);
@@ -13,12 +16,12 @@ class TableLearningObjectPublicationListRenderer extends LearningObjectPublicati
 		$this->table = new SortableTable($name, array($browser, 'get_publication_count'), array($browser, 'get_publications'));
 		$this->table->set_additional_parameters($browser->get_parameters());
 	}
-	
+
 	function set_header($column, $label, $sortable = true)
 	{
 		return $this->table->set_header($column, $label, $sortable);
 	}
-	
+
 	function as_html()
 	{
 		return $this->table->as_html();

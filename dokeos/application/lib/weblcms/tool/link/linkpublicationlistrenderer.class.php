@@ -1,4 +1,9 @@
 <?php
+/**
+ * Link tool - list renderer
+ * @package application.weblcms.tool
+ * @subpackage link
+ */
 require_once dirname(__FILE__).'/../../browser/list_renderer/listlearningobjectpublicationlistrenderer.class.php';
 class LinkPublicationListRenderer extends ListLearningObjectPublicationListRenderer
 {

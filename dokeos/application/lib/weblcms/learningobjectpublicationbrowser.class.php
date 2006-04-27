@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package application.weblcms.tool
+ */
 require_once dirname(__FILE__).'/browser/learningobjectpublicationlistrenderer.class.php';
 require_once dirname(__FILE__).'/browser/learningobjectpublicationcategorytree.class.php';
 
@@ -16,22 +19,22 @@ abstract class LearningObjectPublicationBrowser
 	 * displayed.
 	 */
 	private $types;
-	
+
 	/**
 	 * The ID of the category that is currently active.
 	 */
 	private $category;
-	
+
 	/**
 	 * The list renderer used to display objects.
 	 */
 	private $listRenderer;
-	
+
 	/**
 	 * The tree view used to display categories.
 	 */
 	private $categoryTree;
-	
+
 	/**
 	 * The tool that instantiated this browser.
 	 */
@@ -66,7 +69,7 @@ abstract class LearningObjectPublicationBrowser
 			. $this->listRenderer->as_html()
 			. '</div>';
 	}
-	
+
 	/**
 	 * Returns the learning object publication list renderer associated with
 	 * this object.
@@ -76,31 +79,31 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->listRenderer;
 	}
-	
+
 	function set_publication_list_renderer($renderer)
 	{
 		$this->listRenderer = $renderer;
 	}
-	
+
 	function get_publication_category_tree()
 	{
 		return $this->categoryTree;
 	}
-	
+
 	function set_publication_category_tree($tree)
 	{
 		$this->categoryTree = $tree;
 	}
-	
+
 	/**
 	 * Returns the repository tool that this browser is associated with.
-	 * @return RepositoryTool The tool. 
+	 * @return RepositoryTool The tool.
 	 */
 	function get_parent()
 	{
 		return $this->parent;
 	}
-	
+
 	/**
 	 * Returns the ID of the current category.
 	 * @return int The category ID.
@@ -117,7 +120,7 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->parent->get_user_id();
 	}
-	
+
 	/**
 	 * @see RepositoryTool :: get_groups()
 	 */
@@ -125,7 +128,7 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->parent->get_groups();
 	}
-	
+
 	/**
 	 * @see RepositoryTool :: get_course_id()
 	 */
@@ -133,7 +136,7 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->parent->get_course_id();
 	}
-	
+
 	/**
 	 * @see RepositoryTool :: get_categories()
 	 */
@@ -141,7 +144,7 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->parent->get_categories($list);
 	}
-	
+
 	/**
 	 * @see RepositoryTool :: get_url()
 	 */
@@ -149,7 +152,7 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->parent->get_url($parameters, $encode);
 	}
-	
+
 	/**
 	 * @see RepositoryTool :: get_parameters()
 	 */
@@ -157,7 +160,7 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->parent->get_parameters();
 	}
-	
+
 	/**
 	 * @see Tool :: is_allowed()
 	 */
@@ -165,7 +168,7 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->parent->is_allowed($right);
 	}
-	
+
 	/**
 	 * Returns the learning object publications to display.
 	 * @param int $from The index of the first publication to return.
