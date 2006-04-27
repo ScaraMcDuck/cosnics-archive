@@ -56,13 +56,13 @@ class RepositoryBrowserTable extends SortableTable
 			$row[] = $object->get_description();
 			$row[] = date('Y-m-d, H:i', is_null($object->get_modification_date()) ? $object->get_creation_date() : $object->get_modification_date());
 			$modify = '<a href="edit.php?id='.$object->get_id().'" title="'.get_lang('Edit').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif" alt="'.get_lang('Edit').'"/></a>';
- 			if($dm->learning_object_is_published($object->get_id()))
- 			{
-	 			$modify .= '<img src="'.api_get_path(WEB_CODE_PATH).'img/delete_na.gif" alt="'.get_lang('Delete').'"/>';
- 			}
- 			else
+ 			if($dm->learning_object_can_be_deleted($object))
  			{
 	 			$modify .= '<a href="index.php?'.self :: PARAM_PARENT_ID.'='.$object->get_parent_id().'&amp;action=delete&amp;id='.$object->get_id().'" title="'.get_lang('Delete').'"  onclick="javascript:if(!confirm(\''.addslashes(htmlentities(get_lang("ConfirmYourChoice"))).'\')) return false;"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete.gif" alt="'.get_lang('Delete').'"/></a>';
+			}
+ 			else
+ 			{
+	 			$modify .= '<img src="'.api_get_path(WEB_CODE_PATH).'img/delete_na.gif" alt="'.get_lang('Delete').'"/>';
  			}
 			$modify .= '<a href="index.php?'.self :: PARAM_PARENT_ID.'='.$object->get_parent_id().'&amp;action=move&amp;id='.$object->get_id().'" title="'.get_lang('Move').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/move.gif" alt="'.get_lang('Move').'"/></a>';
  			$modify .= '<a href="metadata.php?id='.$object->get_id().'" title="'.get_lang('Metadata').'"><img src="'.api_get_path(WEB_CODE_PATH).'img/info_small.gif" alt="'.get_lang('Metadata').'"/></a>';
