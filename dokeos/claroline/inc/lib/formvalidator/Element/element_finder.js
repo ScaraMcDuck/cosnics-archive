@@ -1,20 +1,12 @@
 // TODO: Provide an alternative if AJAX isn't supported.
 
-elementFinderLocale = new Array();
+var elementFinderLocale = new Array();
 elementFinderLocale['Searching'] = 'Searching ...';
 elementFinderLocale['NoResults'] = 'No results';
 elementFinderLocale['Error'] = 'Error';
+elementFinderLocale['SelectedColor'] = '#E6E6FF';
 
 var elementFinderSearchDelay = 500;
-
-var elementFinderStyle = new Array();
-elementFinderStyle['Space'] = String.fromCharCode(0xA0);
-elementFinderStyle['Trunk'] = String.fromCharCode(0x2502);
-elementFinderStyle['Branch'] = String.fromCharCode(0x251C);
-elementFinderStyle['BranchEnd'] = String.fromCharCode(0x2514);
-elementFinderStyle['Leaf'] = String.fromCharCode(0x25A1);
-elementFinderStyle['Node'] = String.fromCharCode(0x25A0);
-
 
 var elementFinderAjaxMethods = new Array(
 	function() { return new ActiveXObject("Msxml2.XMLHTTP") },
@@ -32,21 +24,21 @@ for (var i = 0; i < elementFinderAjaxMethods.length; i++) {
 	} catch (e) { }
 }
 
-var elementFinderObjects = new Array();
-var elementFinderTimeout;
+var elementFinderSearches = new Array();
+var elementFinderTimeouts = new Array();
+var elementFinderSelectedElements = new Array();
 
 function ElementFinderSearch (url, origin, destination) {
-	if (elementFinderObjects[destination]) {
-		elementFinderObjects[destination].active = false;
+	if (elementFinderSearches[destination]) {
+		elementFinderSearches[destination].active = false;
 	}
+	elementFinderSearches[destination] = this;
 	this.origin = origin;
 	this.destination = destination;
 	this.active = true;
-	elementFinderObjects[destination] = this;
 	this.ajax = elementFinderGetAjaxObject();
-	destination.options.length = 0;
-	destination.options[0] = new Option(elementFinderLocale['Searching'], 0);
-	origin.disabled = destination.disabled = true;
+	this.emptyDestination();
+	elementFinderNotify('Searching', destination);
 	var searchObject = this;
 	this.ajax.onreadystatechange = function() {
 		searchObject.readyStateChanged();
@@ -61,32 +53,50 @@ ElementFinderSearch.prototype.readyStateChanged = function () {
 		this.returnResults();
 	}
 	else {
-		this.destination.options.length = 0;
-		this.destination.options[0] = new Option(elementFinderLocale['Error'], 0);
+		elementFinderNotify('Error', this.destination);
 	}
-	elementFinderObjects[this.destination] = null;
+	elementFinderSearches[this.destination] = null;
 }
 
 ElementFinderSearch.prototype.returnResults = function () {
-	this.destination.options.length = 0;
 	var xml = this.ajax.responseXML;
 	if (!xml) {
-		this.destination.options[0] = new Option(elementFinderLocale['Error'], 0);
+		elementFinderNotify('Error', this.destination);
 		return;
 	}
 	var root = elementFinderLastChild(xml);
 	if (!root) {
-		this.destination.options[0] = new Option(elementFinderLocale['Error'], 0);
+		elementFinderNotify('Error', this.destination);
 		return;
 	}
 	var mainLeaf = elementFinderLastChild(root);
 	if (mainLeaf) {
-		this.origin.disabled = this.destination.disabled = false;
-		elementFinderAddResults(mainLeaf, this.destination);
+		this.emptyDestination();
+		var ul = document.createElement('ul');
+		this.destination.appendChild(ul);
+		elementFinderBuildResults(mainLeaf, ul, this.destination.getAttribute('id'));
+		ul.className = treeClassName;
+		initTree(ul);
 	}
 	else {
-		this.destination.options[0] = new Option(elementFinderLocale['NoResults'], 0);
+		elementFinderNotify('NoResults', this.destination);
 	}
+}
+
+ElementFinderSearch.prototype.emptyDestination = function () {
+	elementFinderEmptyNode(this.destination);
+}
+
+function elementFinderEmptyNode (node) {
+	var children = node.childNodes;
+	for (var i = 0; i < children.length; i++) {
+		node.removeChild(children[i]);
+	}
+}
+
+function elementFinderNotify (msgID, destination) {
+	elementFinderEmptyNode(destination);
+	destination.appendChild(document.createTextNode(elementFinderLocale[msgID]));
 }
 
 function elementFinderFilterTextNodes (nodes) {
@@ -108,121 +118,231 @@ function elementFinderLastChild (node) {
 	return (a.length == 0 ? null : a[a.length - 1]);
 }
 
-function elementFinderAddResults (node, destination, isLast) {
-	var nbsp = elementFinderStyle['Space'];
-	var trunk = elementFinderStyle['Trunk'];
-	var branch = elementFinderStyle['Branch'];
-	var endBranch = elementFinderStyle['BranchEnd'];
-	var leafIcon = elementFinderStyle['Leaf'];
-	var nodeIcon = elementFinderStyle['Node'];
-	if (!isLast) {
-		isLast = new Array(true);
-	}
-	var prefix = '';
-	for (var i = 1; i < isLast.length - 1; i++) {
-		prefix += (isLast[i] ? nbsp : trunk) + nbsp;
-	}
-	var br = (isLast.length > 1
-		? (isLast[isLast.length - 1] ? endBranch : branch) + nbsp
-		: '');
-	var parentOpt = new Option(prefix
-		+ br + nodeIcon + nbsp
-		+ node.getAttribute('title'), 0);
-	parentOpt.isNode = true;
-	parentOpt.isLast = isLast[isLast.length - 1];
-	destination.options[destination.options.length] = parentOpt;
-	prefix += (isLast.length > 1
-		? (isLast[isLast.length - 1] ? nbsp : trunk) + nbsp
-		: '');
+function elementFinderBuildResults (node, ul, destinationID) {
+	var li = document.createElement('li');
+	ul.appendChild(li);
+	var a = document.createElement('a');
+	a.appendChild(document.createTextNode(node.getAttribute('title')));
+	a.setAttribute('href', 'javascript:void(0);');
+	li.appendChild(a);
+	var ulSub = document.createElement('ul');
+	li.appendChild(ulSub);
 	var childNodes = elementFinderFilterTextNodes(node.childNodes);
 	for (var i = 0; i < childNodes.length; i++) {
 		var child = childNodes[i];
-		var currentIsLast = (i == childNodes.length - 1);
 		switch (child.nodeName) {
 			case 'leaf':
 				var title = child.getAttribute('title');
 				var id = child.getAttribute('id');
-				var opt = new Option(
-					prefix + (currentIsLast ? endBranch : branch) + nbsp + leafIcon + nbsp + title,
-					id);
-				opt.otherText = title;
-				opt.isLast = currentIsLast;
-				destination.options[destination.options.length] = opt;
+				var li = document.createElement('li');
+				var a = document.createElement('a');
+				var aID = destinationID + '_' + id;
+				a.setAttribute('id', aID);
+				a.setAttribute('href', 'javascript:elementFinderToggleLinkSelectionState(document.getElementById("' + aID + '"), document.getElementById("' + destinationID + '"));');
+				a.setAttribute('element', id);
+				a.appendChild(document.createTextNode(title));
+				li.appendChild(a);
+				ulSub.appendChild(li);
 				break;
 			case 'node':
-				var newIsLast = elementFinderPush(isLast, currentIsLast);
-				elementFinderAddResults(child, destination, newIsLast);
+				elementFinderBuildResults(child, ulSub, destinationID);
 				break;
 		}
 	}
 }
 
-function elementFinderPush (array, element) {
-	var a = new Array();
-	for (var i = 0; i < array.length; i++) {
-		a[i] = array[i];
-	}
-	a[array.length] = element;
-	return a;
+function elementFinderToggleLinkSelectionState (link, destination) {
+	elementFinderSetLinkSelected(link, (link.style.backgroundColor ? false : true), destination);
 }
 
-function elementFinderFind (searchURL, origin, destination) {
-	if (elementFinderTimeout) {
-		clearTimeout(elementFinderTimeout);
-		elementFinderTimeout = null;
+function elementFinderSetLinkSelected (link, selected, destination) {
+	if (selected) {
+		link.style.backgroundColor = elementFinderLocale['SelectedColor'];
+		if (destination) {
+			elementFinderSelectedElements[destination] = elementFinderAddToArray(elementFinderSelectedElements[destination], link);
+		}
 	}
-	elementFinderTimeout = setTimeout(function () {
-		new ElementFinderSearch(searchURL, origin, destination);
+	else {
+		link.style.backgroundColor = null;
+		if (destination) {
+			elementFinderSelectedElements[destination] = elementFinderRemoveFromArray(elementFinderSelectedElements[destination], link);
+		}
+	}
+}
+
+function elementFinderActivate (inactive, active) {
+	var toActivate = elementFinderSelectedElements[inactive];
+	if (!toActivate || !toActivate.length) return;
+	var hiddenElmt = document.getElementById(active.getAttribute('id')+'_hidden');
+	var cached = elementFinderUnserialize(hiddenElmt.getAttribute('value'));
+	for (var j = 0; j < toActivate.length; j++) {
+		var link = toActivate[j];
+		var id = link.getAttribute('element');
+		var label = link.firstChild.nodeValue;
+		elementFinderActivateElement(id, label, active);
+		elementFinderSetLinkSelected(link, false);
+		elementFinderSetLinkEnabled(link, false);
+		cached = elementFinderAddToArray(cached, id + ":" + label);
+	}
+	hiddenElmt.setAttribute('value', elementFinderSerialize(cached));
+	toActivate.length = 0;
+}
+
+function elementFinderDeactivate (active, inactive) {
+	var toDeactivate = elementFinderSelectedElements[active];
+	if (!toDeactivate || !toDeactivate.length) return;
+	var hiddenElmt = document.getElementById(active.getAttribute('id')+'_hidden');
+	var cached = elementFinderUnserialize(hiddenElmt.getAttribute('value'));
+	for (var j = 0; j < toDeactivate.length; j++) {
+		var link = toDeactivate[j];
+		var id = link.getAttribute('element');
+		var label = link.firstChild.nodeValue;
+		var otherLink = document.getElementById(link.getAttribute('id').replace('_active_', '_inactive_'));
+		elementFinderDeactivateElement(id, active);
+		if (otherLink) {
+			elementFinderSetLinkEnabled(otherLink, true);
+		}
+		cached = elementFinderRemoveFromArray(cached, id + ":" + label);
+	}
+	hiddenElmt.setAttribute('value', elementFinderSerialize(cached));
+	toDeactivate.length = 0;
+}
+
+function elementFinderActivateElement (element, label, activeList) {
+	var ul = activeList.firstChild;
+	if (!ul) {
+		ul = document.createElement('ul');
+		ul.style.listStyle = 'none';
+		ul.style.margin = 0;
+		ul.style.padding = 0;
+		activeList.appendChild(ul);
+	}
+	var li = document.createElement('li');
+	li.style.margin = 0;
+	li.style.padding = 0;
+	li.style.display = 'block';
+	var containerID = activeList.getAttribute('id');
+	var aID = containerID + '_' + element;
+	var a = document.createElement('a');
+	a.style.display = 'block';
+	a.setAttribute('id', aID);
+	a.setAttribute('href', 'javascript:elementFinderToggleLinkSelectionState(document.getElementById("' + aID + '"),document.getElementById("' + containerID + '"));');
+	a.setAttribute('element', element);
+	a.appendChild(document.createTextNode(label));
+	li.appendChild(a);
+	ul.appendChild(li);
+}
+
+function elementFinderDeactivateElement (element, activeList) {
+	var ul = activeList.firstChild;
+	for (var i = 0; i < ul.childNodes.length; i++) {
+		var el = ul.childNodes[i];
+		if (el.firstChild.getAttribute('element') == element) {
+			ul.removeChild(el);
+			break;
+		}
+	}
+}
+
+function elementFinderSetLinkEnabled (link, enabled) {
+	var href = link.getAttribute('href');
+	var realHref = link.getAttribute('realHref');
+	if (enabled) {
+		if (realHref) {
+			link.setAttribute('href', realHref);
+			link.setAttribute('realHref', null);
+			link.style.fontWeight = null;
+		}
+	}
+	else if (href) {
+		link.setAttribute('realHref', href);
+		link.setAttribute('href', 'javascript:void(0);');
+		link.style.fontWeight = 'normal !important';
+	}
+}
+
+function elementFinderAddToArray (array, element) {
+	var newArray = (array ? elementFinderCloneArray(array) : new Array());
+	if (elementFinderArrayContains(array, element)) return newArray;
+	newArray[newArray.length] = element;
+	return newArray;
+}
+
+function elementFinderRemoveFromArray (array, element) {
+	var newArray = new Array();
+	if (!array) return newArray;
+	for (var i = 0; i < array.length; i++) {
+		if (array[i] != element) {
+			newArray[newArray.length] = array[i];
+		}
+	}
+	return newArray;
+}
+
+function elementFinderCloneArray (array) {
+	var newArray = new Array();
+	if (!array) return newArray;
+	for (var i = 0; i < array.length; i++) {
+		newArray[i] = array[i];
+	}
+	return newArray;
+}
+
+function elementFinderArrayContains (array, element) {
+	if (!array) return false;
+	for (var i = 0; i < array.length; i++) {
+		if (array[i] == element) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function elementFinderFind (query, searchURL, origin, destination) {
+	if (elementFinderTimeouts[destination]) {
+		clearTimeout(elementFinderTimeouts[destination]);
+		elementFinderTimeouts[destination] = null;
+	}
+	// TODO: exclude string
+	elementFinderTimeouts[destination] = setTimeout(function () {
+		new ElementFinderSearch(searchURL + '?query=' + escape(query) + elementFinderExcludeString(origin), origin, destination);
 	}, elementFinderSearchDelay);
 }
 
-function elementFinderGetAjaxObject () {
-	return elementFinderAjaxMethods[elementFinderAjaxMethodIndex]();
-}
-
-function elementFinderMove (source, destination, hidden) {
-	if (source.selectedIndex < 0 || source.options[source.selectedIndex].value <= 0) return;
-	if (destination) {
-		var src = source.options[source.selectedIndex];
-		var opt = new Option(src.otherText, src.value);
-		opt.otherText = src.text;
-		destination.options[destination.options.length] = opt;
-		if (src.isLast) {
-			var prev = source.options[source.selectedIndex - 1];
-			if (!prev.isNode) {
-				prev.isLast = true;
-				prev.text = prev.text.replace(
-					elementFinderStyle['Branch'],
-					elementFinderStyle['BranchEnd']);
-			}
-		}
+function elementFinderExcludeString (destination) {
+	var elmt = document.getElementById(destination.getAttribute('id')+'_hidden');
+	var chunks = elementFinderUnserialize(elmt.getAttribute('value'));
+	var str = '';
+	for (var i = 0; i < chunks.length; i++) {
+		var separatorIndex = chunks[i].indexOf(':');
+		str += "&exclude[]=" + chunks[i].substring(0, separatorIndex);
 	}
-	var oldIndex = source.selectedIndex;
-	source.options[oldIndex] = null;
-	source.selectedIndex
-		= (oldIndex >= source.options.length || source.options[oldIndex].isNode
-			? oldIndex - 1
-			: oldIndex);
+	return str;
 }
 
-function elementFinderExcludeString (elmt) {
-	var string = '';
-	var brackets = escape('[]');
-	for (var i = 0; i < elmt.options.length; i++) {
-		string += '&exclude' + brackets + '=' + elmt.options[i].value;
+function elementFinderRestoreFromCache (hiddenElmt, active) {
+	var cached = elementFinderUnserialize(hiddenElmt.getAttribute('value'));
+	for (var j = 0; j < cached.length; j++) {
+		var separatorIndex = cached[j].indexOf(':');
+		elementFinderActivateElement(cached[j].substring(0, separatorIndex), cached[j].substring(separatorIndex + 1), active);
+	}
+}
+
+function elementFinderSerialize (elements) {
+	if (!elements.length) {
+		return "";
+	}
+	var string = elements[0];
+	for (var i = 1; i < elements.length; i++) {
+		string += "\t" + elements[i];
 	}
 	return string;
 }
 
-function elementFinderClone (source, destination) {
-	var string = '';
-	if (source.options.length > 0) {
-		string = source.options[0].value
-			+ '\t' + source.options[0].text;
-		for (var i = 1; i < source.options.length; i++) {
-			string += '\t' + source.options[i].value
-				+ '\t' + source.options[i].text;
-		}
-	}
-	destination.value = string;
+function elementFinderUnserialize (elements) {
+	return elements.split("\t");
+}
+
+function elementFinderGetAjaxObject () {
+	return elementFinderAjaxMethods[elementFinderAjaxMethodIndex]();
 }

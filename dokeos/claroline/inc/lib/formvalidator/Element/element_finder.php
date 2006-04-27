@@ -11,7 +11,7 @@ require_once 'HTML/QuickForm/group.php';
  */
 class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 {
-	const DEFAULT_ROW_COUNT = 10;
+	const DEFAULT_HEIGHT = 150;
 	
 	private static $initialized;
 
@@ -19,10 +19,10 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 
 	private $locale;
 
-	private $collapsed;
+	private $default_collapsed;
 	
-	private $row_count;
-
+	private $height;
+	
 	function HTML_QuickForm_element_finder($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default_values = array ())
 	{
 		parent :: __construct($elementName, $elementLabel);
@@ -30,48 +30,51 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$this->_persistantFreeze = true;
 		$this->_appendName = false;
 		$this->locale = $locale;
-		$this->row_count = self :: DEFAULT_ROW_COUNT;
+		$this->height = self :: DEFAULT_HEIGHT;
 		$this->search_url = $search_url;
 		$this->build_elements();
 		$this->setValue($default_values);
 	}
-
-	function isCollapsed()
+	
+	function isCollapsed ()
 	{
-		return $this->collapsed;
+		return $this->isDefaultCollapsed() && !count($this->getValue());
+	}
+
+	function isDefaultCollapsed()
+	{
+		return $this->default_collapsed;
 	}
 	
-	function getRowCount()
+	function getHeight()
 	{
-		return $this->row_count;
-	}
-
-	function setCollapsed($collapsed)
-	{
-		$this->collapsed = $collapsed;
+		return $this->height;
 	}
 	
-	function setRowCount($row_count)
+	function setDefaultCollapsed($default_collapsed)
 	{
-		$this->row_count = $row_count;
+		$this->default_collapsed = $default_collapsed;
 	}
-
+	
+	function setHeight($height)
+	{
+		$this->height = $height;
+	}
+	
 	private function build_elements()
 	{
 		$active_id = 'elf_'.$this->getName().'_active';
 		$inactive_id = 'elf_'.$this->getName().'_inactive';
-		$active_hidden_id = $active_id.'_hidden';
+		$active_hidden_id = 'elf_'.$this->getName().'_active_hidden';
 		$this->_elements = array ();
 		$this->_elements[] = new HTML_QuickForm_hidden($this->getName().'_active_hidden', null, array ('id' => $active_hidden_id));
 		// TODO: Figure out why this doesn't happen automatically.
 		$this->_elements[0]->setValue($_REQUEST[$this->_elements[0]->getName()]);
 		$options = $this->get_active_elements();
-		$this->_elements[] = new HTML_QuickForm_select($this->getName().'_inactive', null, array (), array ('size' => $this->row_count - 1, 'style' => 'width: 100%; font-family: monospace', 'id' => $inactive_id));
-		$this->_elements[] = new HTML_QuickForm_select($this->getName().'_active', null, $options, array ('size' => $this->row_count, 'style' => 'width: 100%', 'id' => $active_id));
-		$this->_elements[] = new HTML_QuickForm_text($this->getName().'_search', null, array ('style' => 'width: 100%', 'onkeyup' => 'elementFinderFind(\''.$this->search_url.'?query=\'+escape(this.value)+elementFinderExcludeString(document.getElementById(\''.$active_id.'\')), document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'))'));
-		$this->_elements[3]->setValue('');
-		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '<<', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elementFinderMove(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\')); elementFinderClone(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$active_hidden_id.'\'));'));
-		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_activate', '>>', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elementFinderMove(document.getElementById(\''.$active_id.'\'), null); elementFinderClone(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$active_hidden_id.'\'));'));
+		$this->_elements[] = new HTML_QuickForm_text($this->getName().'_search', null, array ('style' => 'width: 100%', 'onkeyup' => 'elementFinderFind(this.value, \''.$this->search_url.'\', document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'))'));
+		$this->_elements[1]->setValue('');
+		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_activate', '<<', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elementFinderActivate(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\'));'));
+		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '>>', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elementFinderDeactivate(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));'));
 	}
 
 	function getValue()
@@ -93,19 +96,19 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$str = array ();
 		foreach ($value as $k => $v)
 		{
-			$str[] = $k."\t".$v;
+			$str[] = $k.':'.$v;
 		}
 		$this->_elements[0]->setValue(implode("\t", $str));
-		$this->_elements[2]->loadArray($value);
 	}
 
 	private function get_active_elements()
 	{
 		$temp = explode("\t", $this->_elements[0]->getValue());
 		$result = array ();
-		for ($i = 0; $i < count($temp) - 1; $i += 2)
+		foreach ($temp as $part)
 		{
-			$result[$temp[$i]] = $temp[$i +1];
+			$temp2 = explode(':', $part, 2);
+			$result[$temp2[0]] = $temp2[1];
 		}
 		return $result;
 	}
@@ -114,16 +117,16 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 	{
 		/*
 		 * 0 active hidden
-		 * 1 inactive
-		 * 2 active
-		 * 3 search
-		 * 4 deactivate
-		 * 5 activate
+		 * 1 search
+		 * 2 deactivate
+		 * 3 activate
 		 */
 		$html = array ();
 		if (!self :: $initialized)
 		{
-			$html[] = '<script type="text/javascript">'.file_get_contents(dirname(__FILE__).'/element_finder.js').'</script>';
+			// TODO: Include tree script only when needed; perhaps make proprietary.
+			$html[] = '<script type="text/javascript">'."\n".file_get_contents(dirname(__FILE__).'/../../../../javascript/treemenu.js')."\n".'</script>';
+			$html[] = '<script type="text/javascript">'."\n".file_get_contents(dirname(__FILE__).'/element_finder.js')."\n".'</script>';
 			self :: $initialized = true;
 		}
 		if (count($this->locale))
@@ -137,28 +140,24 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		}
 		$html[] = $this->_elements[0]->toHTML();
 		$id = 'tbl_'.$this->getName();
-		$html[] = '<table border="0" cellpadding="0" cellspacing="0" id="'.$id.'"'. ($this->isCollapsed() ? ' style="display: none;"' : '').'>';
+		$html[] = '<table border="0" width="100%" height="'.$this->getHeight().'" cellpadding="0" cellspacing="0" id="'.$id.'"'. ($this->isCollapsed() ? ' style="display: none;"' : '').'>';
 		$html[] = '<tr>';
-		$html[] = '<td width="50%">';
+		$html[] = '<td width="50%" rowspan="2" valign="top">';
+		// TODO: Make height: 100% work
+		$html[] = '<div id="elf_'.$this->getName().'_active" style="width: 100%; height: '.$this->getHeight().'px; overflow: auto; border: 1px solid black; padding: 1px;"></div>';
+		$html[] = '</td>';
+		$html[] = '<td rowspan="2" valign="middle">';
 		$html[] = $this->_elements[2]->toHTML();
-		$html[] = '</td>';
-		$html[] = '<td>';
-		$html[] = $this->_elements[4]->toHTML();
-		$html[] = $this->_elements[5]->toHTML();
-		$html[] = '</td>';
-		$html[] = '<td width="50%">';
-		$html[] = '<table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">';
-		$html[] = '<tr>';
-		$html[] = '<td>';
 		$html[] = $this->_elements[3]->toHTML();
 		$html[] = '</td>';
-		$html[] = '</tr>';
-		$html[] = '<tr>';
-		$html[] = '<td height="100%">';
+		$html[] = '<td width="50%" valign="top">';
 		$html[] = $this->_elements[1]->toHTML();
 		$html[] = '</td>';
 		$html[] = '</tr>';
-		$html[] = '</table>';
+		$html[] = '<tr>';
+		$html[] = '<td valign="top">';
+		// TODO: Make height: 100% work
+		$html[] = '<div id="elf_'.$this->getName().'_inactive" style="width: 100%; height: '.($this->getHeight()-20).'px; overflow: auto; border: 1px solid black; padding: 1px;"></div>';
 		$html[] = '</td>';
 		$html[] = '</tr>';
 		$html[] = '</table>';
@@ -166,6 +165,9 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		{
 			$html[] = '<input type="button" value="'.htmlentities($this->locale['Display']).'" '.'onclick="document.getElementById(\''.$id.'\').style.display = \'\'; this.style.display = \'none\';" />';
 		}
+		$html[] = '<script type="text/javascript">';
+		$html[] = 'elementFinderRestoreFromCache(document.getElementById(\'elf_'.$this->getName().'_active_hidden\'), document.getElementById(\'elf_'.$this->getName().'_active\'));';
+		$html[] = '</script>';
 		return implode("\n", $html);
 	}
 
