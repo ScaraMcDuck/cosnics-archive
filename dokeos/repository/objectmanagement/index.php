@@ -35,9 +35,9 @@ if(isset($_GET['action']))
 			$message = $_GET['message'];
 			break;
 		case 'delete':
-			if(!get_datamanager()->learning_object_is_published($_GET['id']))
+			$object = get_datamanager()->retrieve_learning_object($_GET['id']);
+			if(get_datamanager()->learning_object_can_be_deleted($object))
 			{
-				$object = get_datamanager()->retrieve_learning_object($_GET['id']);
 				$object->delete();
 				$message = get_lang('ObjectDeleted');
 				create_category_menu();
@@ -81,9 +81,9 @@ if(isset($_POST['action']))
 			$deleted_all = true;
 			foreach($_POST['id'] as $index => $object_id)
 			{
-				if(!get_datamanager()->learning_object_is_published($object_id))
+				$object = get_datamanager()->retrieve_learning_object($object_id);
+				if(get_datamanager()->learning_object_can_be_deleted($object))
 				{
-					$object = get_datamanager()->retrieve_learning_object($object_id);
 					$object->delete();
 				}
 				else
