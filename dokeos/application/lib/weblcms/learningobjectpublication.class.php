@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package application.weblcms
+ */
 class LearningObjectPublication
 {
 	const PROPERTY_ID = 'id';

@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package application.weblcms
+ */
 require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php';
 
 /**

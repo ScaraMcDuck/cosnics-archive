@@ -1,5 +1,8 @@
 <?php
 /**
+ * @package application.weblcms.tool
+ */
+/**
 ==============================================================================
  *	This class represents a category for publication within a repository tool.
  *

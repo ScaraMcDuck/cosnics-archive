@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package application.weblcms.tool
+ */
 require_once dirname(__FILE__).'/category_manager/learningobjectpublicationcategoryform.class.php';
 class LearningObjectPublicationCategoryManager
 {
