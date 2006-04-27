@@ -96,9 +96,9 @@ if(isset($_POST['action']))
 			break;
 		case 'move_selected':
 			$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID,api_get_user_id());
-			$renderer =& new OptionsMenuRenderer();
+			$renderer =& new OptionsMenuRenderer($_POST['id']);
 			$menu->render($renderer,'sitemap');
-			$category_choices = $renderer->toArray('id',$_POST['id']);
+			$category_choices = $renderer->toArray('id');
 			$popup_form = new FormValidator('move_form','post');
 			foreach($_POST['id'] as $index => $object_id)
 			{
