@@ -34,7 +34,7 @@ if( isset($_GET['id']))
 	$publication_attr = $datamanager->get_learning_object_publication_attributes($object->get_id());
 	if(count($publication_attr) > 0)
 	{
-		echo '<div class="publication_attributes_title"><strong>'.get_lang('ObjectPublished').'</strong></div>';
+		echo '<div class="publication_attributes_title">'.get_lang('ObjectPublished').'</div>';
 		echo '<ul>';
 		foreach($publication_attr as $index => $info)
 		{
