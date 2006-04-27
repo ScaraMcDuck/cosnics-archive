@@ -154,6 +154,31 @@ abstract class RepositoryDataManager
 	}
 
 	/**
+	 * Determines whether a learning object can be deleted.
+	 * A learning object can sefely be deleted if
+	 * - it isn't published in an application
+	 * - all of its children can be deleted
+	 * @param LearningObject $object
+	 * @return boolean True if the given learning object can be deleted
+	 */
+	function learning_object_can_be_deleted($object)
+	{
+		if( $this->learning_object_is_published($object->get_id()))
+		{
+			return false;
+		}
+		$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $object->get_id());
+		$children = $this->retrieve_learning_objects(null, $condition);
+		$all_children_can_be_deleted = true;
+		foreach ($children as $index => $child)
+		{
+			$child_can_be_deleted = $this->learning_object_can_be_deleted($child);
+			$all_children_can_be_deleted = $all_children_can_be_deleted && $child_can_be_deleted;
+		}
+		return $all_children_can_be_deleted;
+	}
+
+	/**
 	 * Invokes the constructor of the class that corresponds to the specified
 	 * type of learning object.
 	 * @param string $type The learning object type.
