@@ -186,7 +186,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$record = $res->fetchRow(DB_FETCHMODE_ORDERED);
 		return $record[0];
 	}
-	
+
 	// Inherited.
 	function get_next_learning_object_id()
 	{
@@ -244,9 +244,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
 	// Inherited.
-	// TODO: Don't delete objects which are in use somewhere in an application
 	function delete_learning_object($object)
 	{
+		if( !$this->learning_object_can_be_deleted($object))
+		{
+			return false;
+		}
 		$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $object->get_id());
 		$children = $this->retrieve_learning_objects(null, $condition);
 		$children_deleted = true;
@@ -286,7 +289,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$sth = $this->connection->prepare('DELETE FROM '.$this->escape_table_name('learning_object'));
 		$this->connection->execute($sth);
 	}
-	
+
 	// Inherited.
 	function move_learning_object($object, $places)
 	{
@@ -336,7 +339,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		return 1;
 	}
-	
+
 	// Inherited.
 	function retrieve_attached_learning_objects ($id)
 	{
@@ -350,7 +353,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		return $attachments;
 	}
-	
+
 	// Inherited.
 	function attach_learning_object ($object_id, $attachment_id)
 	{
@@ -359,7 +362,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$props['attachment'] = $attachment_id;
 		$this->connection->autoExecute($this->get_table_name('learning_object_attachment'), $props, DB_AUTOQUERY_INSERT);
 	}
-	
+
 	// Inherited.
 	function detach_learning_object ($object_id, $attachment_id)
 	{
@@ -639,7 +642,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			die('Cannot translate condition');
 		}
 	}
-	
+
 	/**
 	 * Checks whether the given column name is the name of a column that
 	 * contains a date value, and hence should be formatted as such.
