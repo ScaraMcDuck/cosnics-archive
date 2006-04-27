@@ -13,6 +13,13 @@ require_once 'Pager/Pager.php';
 
 class SearchPortal extends Application
 {
+	const PARAM_QUERY = 'query';
+	const PARAM_SOAP_URL = 'url';
+	
+	const CACHE_SESSION_KEY = 'portal_search_cache';
+
+	const LEARNING_OBJECTS_PER_PAGE = 10;
+
 	/**
 	 * The parameters that should be passed with every request.
 	 */
@@ -31,46 +38,140 @@ class SearchPortal extends Application
 	/*
 	 * Inherited.
 	 */
+	// TODO: Make this readable.
 	function run()
 	{
-		$form = new FormValidator('search_simple','get','','',null,false);
-		$renderer =& $form->defaultRenderer();
-		$renderer->setElementTemplate('<span>{element}</span> ');
-		$form->addElement('text','keyword','');
-		$form->addElement('submit','submit',get_lang('Search'));
-		//$form->addElement('static','search_advanced_link',null,'<a href="user_list.php?search=advanced">'.get_lang('AdvancedSearch').'</a>');
+		echo <<<END
+<style type="text/css"><!--
+.portal_search_result {
+	margin: 0 0 1em 0;
+}
+.portal_search_result_title {
+	font-size: 120%;
+	font-weight: bold;
+}
+.portal_search_result_byline {
+	font-size: 90%;
+}
+--></style>
+END;
+		$form = new FormValidator('search_simple', 'get', '', '', null, false);
+		$renderer = $form->defaultRenderer();
+		$renderer->setElementTemplate('<span>{label} {element}</span> ');
+		$form->addElement('text', self :: PARAM_QUERY, get_lang('Find'));
+		$form->addElement('text', self :: PARAM_SOAP_URL, get_lang('InRepository'), 'size="60" onclick="if (!this.disabled) return; this.disabled = false; this.value = \'\';"');
+		$form->addElement('submit', 'submit', get_lang('Search'));
 		echo '<div style="text-align:center;">';
 		$form->display();
 		echo '</div>';
-		if($form->validate())
+		if ($form->validate())
 		{
 			$repoDM = & RepositoryDataManager :: get_instance();
 			$form_values = $form->exportValues();
-			$query = $form_values['keyword'];
-			$condition = RepositoryUtilities::query_to_condition($query);
-			$total_number_of_objects = $repoDM->count_learning_objects(null,$condition);
-			$params['mode'] = 'Sliding';
-			$params['perPage'] = '10';
-			$params['totalItems'] = $total_number_of_objects;
-			$pager  = & Pager :: factory($params);
-			$pager_links = '<div style="text-align:center;margin:10px;">';
-			$pager_links .= $pager->links;
-			$pager_links .= '</div>';
-			echo $pager_links;
-			$offset = $pager->getOffsetByPageId();
-			$objects = $repoDM->retrieve_learning_objects(null,$condition,array(),array(),$offset[0],$pager->_perPage);
-			foreach($objects as $index => $object)
+			$query = $form_values[self :: PARAM_QUERY];
+			$soap_url = trim($form_values[self :: PARAM_SOAP_URL]);
+			$remote = !empty($soap_url);
+			if ($remote)
 			{
-				echo '<div style="margin:10px;font-size:14px;">';
-				echo '<b><a href="#">'.$object->get_title().'</a></b>';
-				echo '<br />';
-				echo $object->get_description();
-				echo '<div style="font-size:smaller;">';
-				echo $object->get_type().' - '.date('r',$object->get_modification_date());
-				echo '</div>';
-				echo '</div>';
+				$fault = null;
+				if (isset($_SESSION[self :: CACHE_SESSION_KEY]) && is_array($_SESSION[self :: CACHE_SESSION_KEY]) && $_SESSION[self :: CACHE_SESSION_KEY]['query'] == $query && $_SESSION[self :: CACHE_SESSION_KEY]['url'] == $soap_url)
+				{
+					$objects = $_SESSION[self :: CACHE_SESSION_KEY]['objects'];
+				}
+				else
+				{
+					require_once dirname(__FILE__).'/soap/learningobjectsearchutilities.class.php';
+					require_once dirname(__FILE__).'/soap/learningobjectsearchclient.class.php';
+					$file = LearningObjectSearchUtilities :: get_wsdl_file_path($soap_url);
+					$client = new LearningObjectSearchClient($file);
+					if ($client->is_initialized())
+					{
+						$objects = $client->search($query);
+						if (is_soap_fault($objects))
+						{
+							$fault = $objects;
+						}
+						else
+						{
+							$_SESSION[self :: CACHE_SESSION_KEY] = array(
+								'query' => $query,
+								'url' => $soap_url,
+								'objects' => $objects
+							);
+						}
+					}
+					else
+					{
+						$fault = $client->get_soap_fault();
+					}
+				}
+				if (isset ($fault))
+				{
+					echo '<p><b>'.get_lang('RemoteRepositoryError').':</b> '.htmlentities($fault->faultstring).' ('.htmlentities($fault->faultcode).')</p>';
+					$total_number_of_objects = -1;
+				}
+				else {
+					$total_number_of_objects = count($objects);
+				}
 			}
-			echo $pager_links;
+			else
+			{
+				$condition = RepositoryUtilities :: query_to_condition($query);
+				$total_number_of_objects = $repoDM->count_learning_objects(null, $condition);
+			}
+			if ($total_number_of_objects > 0)
+			{
+				$params = array ();
+				$params['mode'] = 'Sliding';
+				$params['perPage'] = self :: LEARNING_OBJECTS_PER_PAGE;
+				$params['totalItems'] = $total_number_of_objects;
+				$pager = Pager :: factory($params);
+				$pager_links = '<div style="text-align:center;margin:10px;">';
+				$pager_links .= $pager->links;
+				$pager_links .= '</div>';
+				echo $pager_links;
+				$offset = $pager->getOffsetByPageId();
+				$first = $offset[0];
+				if (!$remote)
+				{
+					$objects = $repoDM->retrieve_learning_objects(null, $condition, array (), array (), $first, self :: LEARNING_OBJECTS_PER_PAGE);
+				}
+				else
+				{
+					$objects = array_slice($objects, $first, self :: LEARNING_OBJECTS_PER_PAGE);
+				}
+				foreach ($objects as $index => $object)
+				{
+					if ($remote)
+					{
+						$title = $object->Title;
+						$description = $object->Description;
+						$type = $object->Type;
+						$modified = strtotime($object->Modified);
+						$url = $object->URL;
+					}
+					else
+					{
+						$title = $object->get_title();
+						$description = $object->get_description();
+						$type = $object->get_type();
+						$modified = $object->get_modification_date();
+						$url = $object->get_view_url();
+					}
+					echo '<div class="portal_search_result">';
+					echo '<div class="portal_search_result_title"><a href="'.htmlentities($url).'">'.htmlentities($title).'</a></div>';
+					echo '<div class="portal_search_result_description">'.$description.'</div>';
+					echo '<div class="portal_search_result_byline">';
+					echo $type.' | '.date('r', $modified);
+					echo '</div>';
+					echo '</div>';
+				}
+				echo $pager_links;
+			}
+			elseif ($total_number_of_objects == 0)
+			{
+				echo '<p>'.get_lang('NoResults').'</p>';
+			}
 		}
 	}
 	/**
@@ -94,7 +195,7 @@ class SearchPortal extends Application
 		{
 			$parameters = & $this->parameters;
 		}
-		$pairs = array();
+		$pairs = array ();
 		foreach ($parameters as $name => $value)
 		{
 			$pairs[] = urlencode($name).'='.urlencode($value);
@@ -148,7 +249,7 @@ class SearchPortal extends Application
 	 */
 	function get_learning_object_publication_attributes($object_id)
 	{
-		return array();
+		return array ();
 	}
 }
 ?>
