@@ -9,7 +9,7 @@
  *	@author Tim De Pauw
 ==============================================================================
  */
-
+require_once dirname(__FILE__).'/../../claroline/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 
 $users = 1;
