@@ -48,9 +48,9 @@ if(isset($_GET['action']))
 			}
 			break;
 		case 'move':
-			$renderer =& new OptionsMenuRenderer();
+			$renderer =& new OptionsMenuRenderer($_GET['id']);
 			$menu->render($renderer,'sitemap');
-			$category_choices = $renderer->toArray('id',$_GET['id']);
+			$category_choices = $renderer->toArray('id');
 			$popup_form = new FormValidator('move_form','get');
 			$popup_form->addElement('hidden','id',$_GET['id']);
 			$popup_form->addElement('hidden','action','move');
