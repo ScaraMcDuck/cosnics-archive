@@ -54,7 +54,7 @@ $datamanager = RepositoryDataManager::get_instance();
 
 // Create a category-menu (for displaying correct breadcrumbs)
 $root_category = $datamanager->retrieve_root_category(api_get_user_id());
-$menu = new CategoryMenu(api_get_user_id(),$root_category->get_id(),'index.php?category=%s');
+$menu = new CategoryMenu(api_get_user_id(),$root_category->get_id(),'index.php?parent=%s');
 $interbredcrump = $menu->get_breadcrumbs();
 
 
