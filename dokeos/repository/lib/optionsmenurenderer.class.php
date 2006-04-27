@@ -8,52 +8,59 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class OptionsMenuRenderer extends HTML_Menu_ArrayRenderer
 {
 	/**
-	 * Returns an array wich can be used as a list of options in a select-list
-	 * of a form.
-	 * @param string $key Which element of the menu item should be used as key
-	 * value in the resulting options list. Defaults to 'id'
+	 * Create a new OptionsMenuRenderer
 	 * @param array $exclude Which items should be excluded (based on the $key
 	 * value in the menu items). The whole submenu of which the elements of the
 	 * exclude array are the root elements will be excluded.
 	 */
-	public function toArray($key = 'id', $exclude = array())
+	function OptionsMenuRenderer($exclude = array())
 	{
 		$exclude = is_array($exclude) ? $exclude : array($exclude);
+		$this->exclude = $exclude;
+	}
+	/*
+	 * Inherited
+	 */
+	function renderEntry($node, $level, $type)
+    {
+    	// If this node is in the exclude list, add all its child-nodes to the exclude list
+    	if(in_array($node['id'],$this->exclude))
+    	{
+    		foreach($node['sub'] as $child_id => $child)
+    		{
+    			if(!in_array($child_id,$this->exclude))
+    			{
+	    			$this->exclude[] = $child_id;
+    			}
+    		}
+    	}
+    	// Else add this node to the array
+    	else
+    	{
+        	unset($node['sub']);
+        	$node['level'] = $level;
+        	$node['type']  = $type;
+        	$this->_menuAry[] = $node;
+    	}
+    }
+	/**
+	 * Returns an array wich can be used as a list of options in a select-list
+	 * of a form.
+	 * @param string $key Which element of the menu item should be used as key
+	 * value in the resulting options list. Defaults to 'id'
+	 */
+	public function toArray($key = 'id')
+	{
 		$array = parent::toArray();
 		$choices = array();
-		while (list($index, $item) = each($array))
+		foreach($array as $index => $item)
 		{
-			//echo 'TEST '.$item['title'].' '.$item['level'].'<br />';
-			if(!in_array($item[$key],$exclude))
+			$prefix = '';
+			if($item['level'] > 0)
 			{
-				//echo ' + '.$item['title'].' '.$item['level'].'<br />';
-				$prefix = '';
-				if($item['level'] > 0)
-				{
-					$prefix = str_repeat('&nbsp;&nbsp;&nbsp;',$item['level']-1).'&mdash; ';
-				}
-				$choices[$item[$key]] = $prefix.$item['title'];
+				$prefix = str_repeat('&nbsp;&nbsp;&nbsp;',$item['level']-1).'&mdash; ';
 			}
-			else
-			{
-				$exclude_level = $item['level'];
-				//echo 'EXCLUDE - '.$item['title'].' '.$item['level'].'<br />';
-				$next_item = next($array);
-				//echo ' - '.$next_item['title'].' '.$next_item['level'].'<br />';
-				if($next_item['level'] > $exclude_level)
-				{
-					do
-					{
-						$next_item = next($array);
-						//echo ' - '.$next_item['title'].' '.$next_item['level'].'<br />';
-					}
-					while($next_item['level'] > $exclude_level);
-				}
-				else
-				{
-					prev($array);
-				}
-			}
+			$choices[$item[$key]] = $prefix.$item['title'];
 		}
 		return $choices;
 	}
