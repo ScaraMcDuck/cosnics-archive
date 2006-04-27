@@ -781,6 +781,7 @@ div.learning_object div.publication_actions
 	list-style: none;
 	margin: 0;
 	padding: 0 0 0 1em;
+	height: 0; /* for IE */
 }
 .tabbed-pane-tabs li
 {
@@ -805,8 +806,10 @@ div.learning_object div.publication_actions
 	margin-top: 0;
 	padding-bottom: 0.5em;
 	border-bottom-color: white;
+	color: #4171b5;
 }
-.tabbed-pane-tabs li a:active, .tabbed-pane-tabs li a.current
+.tabbed-pane-tabs li a:active, .tabbed-pane-tabs li a.current,
+.tabbed-pane-tabs li a.current:hover
 {
 	color: black;
 }
