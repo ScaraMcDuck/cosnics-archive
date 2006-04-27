@@ -208,6 +208,15 @@ class LearningObject
 		}
 		return $this->attachments;
 	}
+	
+	/**
+	 * Returns the full URL where this learning object may be viewed.
+	 * @return string The URL.
+	 */
+	function get_view_url ()
+	{
+		return api_get_path(WEB_PATH).'learning_object.php?id='.$this->get_id();
+	}
 
 	/**
 	 * Sets the ID of this learning object.
