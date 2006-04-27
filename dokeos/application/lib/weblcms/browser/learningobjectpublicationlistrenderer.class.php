@@ -212,6 +212,31 @@ abstract class LearningObjectPublicationListRenderer
 		$delete_link = '<a href="'.$delete_url.'" onclick="javascript:if(!confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\')) return false;"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete.gif"  alt=""/></a>';
 		return $delete_link;
 	}
+	
+	/**
+	 * Renders publication actions for the given publication.
+	 * @param LearningObjectPublication $publication The publication.
+	 * @param boolean $first True if the publication is the first in the list
+	 *                       it is a part of.
+	 * @param boolean $last True if the publication is the last in the list
+	 *                      it is a part of.
+	 * @return string The rendered HTML.
+	 */
+	function render_publication_actions($publication,$first,$last)
+	{
+		if ($this->is_allowed(DELETE_RIGHT))
+		{
+			$html[] = $this->render_delete_action($publication);
+		}
+		if ($this->is_allowed(EDIT_RIGHT))
+		{
+			$html[] = $this->render_edit_action($publication);
+			$html[] = $this->render_visibility_action($publication);
+			$html[] = $this->render_up_action($publication,$first);
+			$html[] = $this->render_down_action($publication,$last);
+		}
+		return implode("\n",$html);
+	}
 
 	/**
 	 * Formats the given date in a human-readable format.
