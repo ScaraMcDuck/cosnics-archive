@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/../../claroline/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/configuration.class.php';
 require_once dirname(__FILE__).'/learningobjectpublicationattributes.class.php';
 
