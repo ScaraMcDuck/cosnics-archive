@@ -81,7 +81,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 	{
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
 		$form = LearningObjectForm::factory($object->get_type(),'edit','post',$this->get_url(array(LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $objectID, LearningObjectPublisher :: PARAM_EDIT => 1)));
-		$form->build_editing_form($object);
+		$form->build_creation_form($object);
 		if ($form->validate())
 		{
 			$object = $form->create_learning_object($this->get_user_id());
