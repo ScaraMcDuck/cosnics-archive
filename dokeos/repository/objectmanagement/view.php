@@ -23,7 +23,7 @@ if( isset($_GET['id']))
 	$display = LearningObjectDisplay::factory($object);
 	// Create a navigation menu to browse through the categories
 	$current_category_id = $object->get_parent_id();
-	$menu = new CategoryMenu(api_get_user_id(),$current_category_id,'index.php?category=%s');
+	$menu = new CategoryMenu(api_get_user_id(),$current_category_id,'index.php?parent=%s');
 	$interbredcrump = $menu->get_breadcrumbs();
 	Display::display_header($object->get_title());
 	api_display_tool_title(get_lang('LearningObjectDetails'));

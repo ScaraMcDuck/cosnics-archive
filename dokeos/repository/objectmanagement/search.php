@@ -81,7 +81,7 @@ function create_repository_table()
 $tool_name = get_lang('Search');
 
 $root_category = $datamanager->retrieve_root_category(api_get_user_id());
-$menu = new CategoryMenu(api_get_user_id(),$root_category->get_id(),'index.php?category=%s');
+$menu = new CategoryMenu(api_get_user_id(),$root_category->get_id(),'index.php?parent=%s');
 $interbredcrump = $menu->get_breadcrumbs();
 if(isset($_GET['action']) && $_GET['action'] == 'advanced_search')
 {
