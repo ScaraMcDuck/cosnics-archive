@@ -43,6 +43,7 @@ abstract class RepositoryDataManager
 		$this->initialize();
 		$this->typeProperties = array ();
 		$this->load_types();
+		$this->applications = array();
 		$this->load_applications();
 	}
 
