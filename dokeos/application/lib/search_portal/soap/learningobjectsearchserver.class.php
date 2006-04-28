@@ -53,8 +53,7 @@ class LearningObjectSearchServer
 			$title = $lo->get_title();
 			$description = $lo->get_description();
 			$url = $lo->get_view_url();
-			$remote_object = new RemoteLearningObject($lo->get_type(), $title, $description, $lo->get_creation_date(), $lo->get_modification_date(), $url);
-			$soap_vars[] = new SoapVar($remote_object, SOAP_ENC_OBJECT, 'RemoteLearningObject', 'urn:LearningObjectSearch');
+			$soap_vars[] = new RemoteLearningObject($lo->get_type(), $title, $description, $lo->get_creation_date(), $lo->get_modification_date(), $url);
 		}
 		return $soap_vars;
 	}
