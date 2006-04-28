@@ -4,20 +4,25 @@ require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php
 require_once dirname(__FILE__).'/../../../repository/lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/repositoryutilities.class.php';
 require_once 'Pager/Pager.php';
+
 /**
 ==============================================================================
  * This is an application that creates a portal in which internet users can
  * search for learning objects.
 ==============================================================================
  */
-
 class SearchPortal extends Application
 {
 	const PARAM_QUERY = 'query';
 	const PARAM_SOAP_URL = 'url';
 	
-	const CACHE_SESSION_KEY = 'portal_search_cache';
+	const KEY_CACHE_SESSION = 'portal_search_cache';
 
+	const KEY_OBJECTS = 'objects';
+	const KEY_QUERY = 'query';
+	const KEY_URL = 'url';
+	const KEY_LIMIT_REACHED = 'limit_reached';
+	
 	const LEARNING_OBJECTS_PER_PAGE = 10;
 
 	/**
@@ -74,9 +79,11 @@ END;
 			if ($remote)
 			{
 				$fault = null;
-				if (isset($_SESSION[self :: CACHE_SESSION_KEY]) && is_array($_SESSION[self :: CACHE_SESSION_KEY]) && $_SESSION[self :: CACHE_SESSION_KEY]['query'] == $query && $_SESSION[self :: CACHE_SESSION_KEY]['url'] == $soap_url)
+				$limit_reached = false;
+				if (isset($_SESSION[self :: KEY_CACHE_SESSION]) && is_array($_SESSION[self :: KEY_CACHE_SESSION]) && $_SESSION[self :: KEY_CACHE_SESSION][self :: KEY_QUERY] == $query && $_SESSION[self :: KEY_CACHE_SESSION][self :: KEY_URL] == $soap_url)
 				{
-					$objects = $_SESSION[self :: CACHE_SESSION_KEY]['objects'];
+					$objects = $_SESSION[self :: KEY_CACHE_SESSION][self :: KEY_OBJECTS];
+					$limit_reached = $_SESSION[self :: KEY_CACHE_SESSION][self :: KEY_LIMIT_REACHED];
 				}
 				else
 				{
@@ -86,17 +93,20 @@ END;
 					$client = new LearningObjectSearchClient($file);
 					if ($client->is_initialized())
 					{
-						$objects = $client->search($query);
-						if (is_soap_fault($objects))
+						$result = $client->search($query);
+						if (is_soap_fault($result))
 						{
-							$fault = $objects;
+							$fault = $result;
 						}
 						else
 						{
-							$_SESSION[self :: CACHE_SESSION_KEY] = array(
-								'query' => $query,
-								'url' => $soap_url,
-								'objects' => $objects
+							$objects = $result[LearningObjectSearchClient :: KEY_RESULTS];
+							$limit_reached = $result[LearningObjectSearchClient :: KEY_LIMIT_REACHED];
+							$_SESSION[self :: KEY_CACHE_SESSION] = array(
+								self :: KEY_QUERY => $query,
+								self :: KEY_URL => $soap_url,
+								self :: KEY_OBJECTS => $objects,
+								self :: KEY_LIMIT_REACHED => $limit_reached
 							);
 						}
 					}
@@ -126,10 +136,14 @@ END;
 				$params['perPage'] = self :: LEARNING_OBJECTS_PER_PAGE;
 				$params['totalItems'] = $total_number_of_objects;
 				$pager = Pager :: factory($params);
-				$pager_links = '<div style="text-align:center;margin:10px;">';
+				$pager_links = '<div style="text-align:center;margin:1em 0;">';
 				$pager_links .= $pager->links;
 				$pager_links .= '</div>';
 				echo $pager_links;
+				if ($remote && $limit_reached)
+				{
+					echo '<p><b>'.get_lang('Note').'</b> '.get_lang('RemoteRepositoryResultLimitReached').'</p>';
+				}
 				$offset = $pager->getOffsetByPageId();
 				$first = $offset[0];
 				if (!$remote)
@@ -138,7 +152,7 @@ END;
 				}
 				else
 				{
-					$objects = array_slice($objects, $first, self :: LEARNING_OBJECTS_PER_PAGE);
+					$objects = array_slice($objects, $first - 1, self :: LEARNING_OBJECTS_PER_PAGE);
 				}
 				foreach ($objects as $index => $object)
 				{

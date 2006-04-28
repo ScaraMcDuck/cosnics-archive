@@ -3,6 +3,9 @@ require_once dirname(__FILE__).'/learningobjectsearchutilities.class.php';
 
 class LearningObjectSearchClient
 {
+	const KEY_RESULTS = 'Results';
+	const KEY_LIMIT_REACHED = 'LimitReached';
+	
 	private $client;
 
 	private $soap_fault;
