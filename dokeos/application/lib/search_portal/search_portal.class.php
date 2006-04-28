@@ -152,7 +152,7 @@ END;
 				$first = $offset[0];
 				if (!$remote)
 				{
-					$objects = $repoDM->retrieve_learning_objects(null, $condition, array (), array (), $first, self :: LEARNING_OBJECTS_PER_PAGE)->as_array();
+					$objects = $repoDM->retrieve_learning_objects(null, $condition, array (LearningObject :: PROPERTY_TITLE), array (SORT_ASC), $first, self :: LEARNING_OBJECTS_PER_PAGE)->as_array();
 				}
 				else
 				{
