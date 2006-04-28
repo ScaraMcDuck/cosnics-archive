@@ -4,10 +4,10 @@ require_once dirname(__FILE__).'/learningobjectsearchutilities.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
 
-ini_set('soap.wsdl_cache_enabled', '0');
-
 class LearningObjectSearchServer
 {
+	const MAX_RESULTS = 500;
+	
 	private $server;
 
 	private $soap_fault;
@@ -46,16 +46,17 @@ class LearningObjectSearchServer
 	{
 		$dm = RepositoryDataManager :: get_instance();
 		$condition = RepositoryUtilities :: query_to_condition($query);
-		$objects = $dm->retrieve_learning_objects(null, $condition, array (LearningObject :: PROPERTY_TITLE), array (SORT_ASC));
-		$soap_vars = array ();
+		$objects = $dm->retrieve_learning_objects(null, $condition, array (LearningObject :: PROPERTY_TITLE), array (SORT_ASC), 0, self :: MAX_RESULTS);
+		$remote_objects = array ();
 		while ($lo = $objects->next_result())
 		{
 			$title = $lo->get_title();
 			$description = $lo->get_description();
 			$url = $lo->get_view_url();
-			$soap_vars[] = new RemoteLearningObject($lo->get_type(), $title, $description, $lo->get_creation_date(), $lo->get_modification_date(), $url);
+			$remote_objects[] = new RemoteLearningObject($lo->get_type(), $title, $description, $lo->get_creation_date(), $lo->get_modification_date(), $url);
 		}
-		return $soap_vars;
+		$limit_reached = (count($remote_objects) >= self :: MAX_RESULTS); 
+		return array($remote_objects, $limit_reached);
 	}
 }
 ?>
