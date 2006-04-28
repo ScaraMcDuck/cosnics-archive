@@ -98,7 +98,7 @@ class LearningObjectTree extends HTML_Menu
 		$parentCond = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $parent);
 		$condition = (isset($this->typeCondition) ? new AndCondition($parentCond, $this->typeCondition) : $parentCond);
 		$datamanager = RepositoryDataManager :: get_instance();
-		$objects = $datamanager->retrieve_learning_objects(null, $condition);
+		$objects = $datamanager->retrieve_learning_objects(null, $condition)->as_array();
 		$sub_tree = array();
 		foreach ($objects as $object)
 		{

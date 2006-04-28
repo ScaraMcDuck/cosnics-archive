@@ -106,8 +106,8 @@ abstract class RepositoryDataManager
 		$condition1 = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $owner);
 		$condition2 = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, 0);
 		$condition = new AndCondition($condition1, $condition2);
-		$object = $this->retrieve_learning_objects('category', $condition, null, null, 0, 1);
-		return $object[0];
+		$objects = $this->retrieve_learning_objects('category', $condition, null, null, 0, 1);
+		return $objects->next_result();
 	}
 
 	/**
@@ -168,7 +168,7 @@ abstract class RepositoryDataManager
 			return false;
 		}
 		$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $object->get_id());
-		$children = $this->retrieve_learning_objects(null, $condition);
+		$children = $this->retrieve_learning_objects(null, $condition)->as_array();
 		$all_children_can_be_deleted = true;
 		foreach ($children as $index => $child)
 		{
@@ -252,7 +252,7 @@ abstract class RepositoryDataManager
 	 * @param int $maxObjects The maximum number of objects to return. If
 	 *                        omitted or non-positive, every object from the
 	 *                        first index will be returned.
-	 * @return array An array of the matching learning objects.
+	 * @return ResultSet A set of matching learning objects.
 	 */
 	abstract function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1);
 

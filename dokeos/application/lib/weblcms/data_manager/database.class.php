@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/database/databaselearningobjectpublicationresultset.class.php';
 require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublication.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublicationcategory.class.php';
@@ -82,12 +83,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		 * Get publications.
 		 */
 		$res = $this->connection->limitQuery($query, intval($firstIndex), intval($maxObjects), $params);
-		$results = array ();
-		while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$results[] = $this->record_to_publication($record);
-		}
-		return $results;
+		return new DatabaseLearningObjectPublicationResultSet($this, $res);
 	}
 
 	function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false)
@@ -342,7 +338,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$this->delete_learning_object_publication_category($this->record_to_publication_category($record));
 		}
 		// Delete publications in the category we delete
-		$publications = $this->retrieve_learning_object_publications($category->get_course(),$category->get_id());
+		$publications = $this->retrieve_learning_object_publications($category->get_course(),$category->get_id())->as_array();
 		foreach($publications as $index => $publication)
 		{
 			$publication->delete();
@@ -415,12 +411,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $subtree;
 	}
 
-	private static function record_to_publication_category($record)
+	static function record_to_publication_category($record)
 	{
 		return new LearningObjectPublicationCategory($record[LearningObjectPublicationCategory :: PROPERTY_ID], $record[LearningObjectPublicationCategory :: PROPERTY_TITLE], $record[LearningObjectPublicationCategory :: PROPERTY_COURSE_ID], $record[LearningObjectPublicationCategory :: PROPERTY_TOOL], $record[LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID]);
 	}
 
-	private function record_to_publication($record)
+	function record_to_publication($record)
 	{
 		$obj = $this->repoDM->retrieve_learning_object($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_group').' WHERE publication = ?';

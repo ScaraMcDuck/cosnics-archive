@@ -27,7 +27,8 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 		$pubs = $dm->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $this->get_user_id(), $this->get_groups(), $this->get_condition());
 		$data = array ();
 		$renderer = $this->get_publication_list_renderer();
-		foreach ($pubs as $index => $publication)
+		$index = 0;
+		while ($publication = $pubs->next_result())
 		{
 			$first = ($index == 0);
 			$last = ($index == count($pubs) - 1);
@@ -39,6 +40,7 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 			$row[] = $renderer->render_publication_targets($publication);
 			$row[] = $renderer->render_publication_actions($publication, $first, $last);
 			$data[] = $row;
+			$index++;
 		}
 		return $data;
 	}

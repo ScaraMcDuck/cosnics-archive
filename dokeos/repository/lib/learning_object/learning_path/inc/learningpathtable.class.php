@@ -36,7 +36,7 @@ class LearningPathTable extends SortableTable
 		$orderBy[] = $table_columns[$column];
 		$orderDir = $direction;
 		$condition = $this->get_condition();
-		$children = $dm->retrieve_learning_objects(null,$condition,$orderBy, $orderDir);
+		$children = $dm->retrieve_learning_objects(null,$condition,$orderBy, $orderDir)->as_array();
 		$data = array ();
 		foreach ($children as $child)
 		{
