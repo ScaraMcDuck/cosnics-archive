@@ -70,6 +70,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		$res = $this->connection->limitQuery($query, 0, 1, array ($id));
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$res->free();
 		return self :: record_to_learning_object($record);
 	}
 
@@ -158,6 +159,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$sth = $this->connection->prepare($query);
 		$res = $this->connection->execute($sth, $params);
 		$record = $res->fetchRow(DB_FETCHMODE_ORDERED);
+		$res->free();
 		return $record[0];
 	}
 
@@ -306,6 +308,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$statement = $this->connection->prepare($query);
 		$res = $this->connection->execute($statement, array ($parent, $type));
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$res->free();
 		$highest_index = $record['h'];
 		if (!is_null($highest_index))
 		{
@@ -325,6 +328,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$attachments[] = $this->retrieve_learning_object($record[0]);
 		}
+		$res->free();
 		return $attachments;
 	}
 
@@ -667,6 +671,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$res = & $this->connection->execute($sth, $params);
 			$record = $res->fetchRow(DB_FETCHMODE_OBJECT);
 			$disk_space += $record->disk_space;
+			$res->free();
 		}
 		return $disk_space;
 	}
