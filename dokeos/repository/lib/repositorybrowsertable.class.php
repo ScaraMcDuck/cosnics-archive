@@ -48,7 +48,7 @@ class RepositoryBrowserTable extends SortableTable
 			$object = $dm->retrieve_learning_object($child->get_id());
 			$row = array();
 			$row[] = $object->get_id();
-			$row[] = '<a href="index.php?'.self :: PARAM_TYPE.'='.$object->get_type().'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/></a>';
+			$row[] = '<a href="index.php?'.self :: PARAM_TYPE.'='.$object->get_type().'&'.self :: PARAM_PARENT_ID.'='.$object->get_parent_id().'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/></a>';
 			if($object->get_type() == self :: PARAM_PARENT_ID)
 				$row[] = '<a href="index.php?'.self :: PARAM_PARENT_ID.'='.$object->get_id().'">'.htmlentities($object->get_title()).'</a>';
 			else
@@ -125,9 +125,11 @@ class RepositoryBrowserTable extends SortableTable
 		}
 		else
 		{
-			if (isset ($_GET[self :: PARAM_TYPE]))
+			if (!empty($_GET[self :: PARAM_TYPE]))
 			{
-				$condition = new EqualityCondition(self :: PARAM_TYPE, $_GET[self :: PARAM_TYPE]);
+				$type_condition = new EqualityCondition(self :: PARAM_TYPE, $_GET[self :: PARAM_TYPE]);
+				$parent_condition = new EqualityCondition(self :: PARAM_PARENT_ID, $this->lo->get_id());
+				$condition = new AndCondition($parent_condition, $type_condition);
 			}
 			else
 			{
