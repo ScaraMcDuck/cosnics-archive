@@ -9,6 +9,7 @@
 ==============================================================================
  */
 
+require_once dirname(__FILE__).'/../../claroline/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 $dataManager = RepositoryDataManager :: get_instance();
 ?>
@@ -43,7 +44,7 @@ $objects = $dataManager->retrieve_learning_objects(
 	// First
 	0,
 	// Max.
-	10);
+	10)->as_array();
 $completed = microtime(true);
 $total_time = ($completed - $started) * 1000;
 
@@ -75,7 +76,7 @@ $objects = $dataManager->retrieve_learning_objects(
 	array (LearningObject :: PROPERTY_TITLE),
 	array (SORT_ASC),
 	0,
-	10);
+	10)->as_array();
 $completed = microtime(true);
 $total_time = ($completed - $started) * 1000;
 

@@ -48,7 +48,7 @@ class LearningObjectSearchServer
 		$condition = RepositoryUtilities :: query_to_condition($query);
 		$objects = $dm->retrieve_learning_objects(null, $condition, array (LearningObject :: PROPERTY_TITLE), array (SORT_ASC));
 		$soap_vars = array ();
-		foreach ($objects as $lo)
+		while ($lo = $objects->next_result())
 		{
 			$title = $lo->get_title();
 			$description = $lo->get_description();

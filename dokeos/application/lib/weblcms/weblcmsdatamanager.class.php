@@ -103,7 +103,7 @@ abstract class WeblcmsDataManager
 	 *                         for descending.
 	 * @param int $firstIndex The index of the first publication to retrieve.
 	 * @param int $maxObjects The maximum number of objects to retrieve.
-	 * @return array An array of LearningObjectPublications.
+	 * @return ResultSet A set of LearningObjectPublications.
 	 */
 	abstract function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array ('display_order'), $orderDesc = array (SORT_ASC), $firstIndex = 0, $maxObjects = -1);
 

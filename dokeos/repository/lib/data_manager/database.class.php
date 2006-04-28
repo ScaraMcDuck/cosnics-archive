@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/database/databaselearningobjectresultset.class.php';
 require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../configuration.class.php';
 require_once dirname(__FILE__).'/../learningobject.class.php';
@@ -125,34 +126,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$maxObjects = 9999999999;
 		}
 		$res = $this->connection->limitQuery($query, intval($firstIndex), intval($maxObjects), $params);
-		$objects = array ();
-		if (isset ($type))
-		{
-			while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				$objects[] = self :: record_to_learning_object($record);
-			}
-		}
-		else
-		{
-			/*
-			 * TODO: Extend so additional properties can be fetched when
-			 * needed. This would probably involve reviewing LearningObject's
-			 * additional property accessor methods.
-			 */
-			while ($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				if ($this->is_extended_type($record[LearningObject :: PROPERTY_TYPE]))
-				{
-					$objects[] = $this->retrieve_learning_object($record[LearningObject :: PROPERTY_ID], $record[LearningObject :: PROPERTY_TYPE]);
-				}
-				else
-				{
-					$objects[] = self :: record_to_learning_object($record);
-				}
-			}
-		}
-		return $objects;
+		return new DatabaseLearningObjectResultSet($this, $res, isset($type));
 	}
 
 	// Inherited.
@@ -251,7 +225,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			return false;
 		}
 		$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $object->get_id());
-		$children = $this->retrieve_learning_objects(null, $condition);
+		$children = $this->retrieve_learning_objects(null, $condition)->as_array();
 		$children_deleted = true;
 		foreach ($children as $index => $child)
 		{
@@ -446,7 +420,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * @param array $record The associative array.
 	 * @return LearningObject The learning object.
 	 */
-	private function record_to_learning_object($record)
+	function record_to_learning_object($record)
 	{
 		$defaultProp = array ();
 		foreach (LearningObject :: get_default_property_names() as $prop)

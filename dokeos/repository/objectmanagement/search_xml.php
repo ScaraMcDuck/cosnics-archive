@@ -45,7 +45,7 @@ $condition = new AndCondition($conditions);
 $dm = RepositoryDataManager :: get_instance();
 $objects = $dm->retrieve_learning_objects(null, $condition, array(LearningObject :: PROPERTY_TITLE), array(SORT_ASC));
 
-foreach ($objects as $lo)
+while ($lo = $objects->next_result())
 {
 	$cat = $dm->retrieve_learning_object($lo->get_parent_id());
 	while ($cat->get_type() != 'category') {
@@ -65,7 +65,8 @@ foreach ($objects as $lo)
 $condition = new AndCondition($owner_condition, $category_type_condition);
 
 $categories = array();
-foreach ($dm->retrieve_learning_objects(null, $condition) as $cat)
+$cats = $dm->retrieve_learning_objects(null, $condition);
+while ($cat = $cats->next_result())
 {
 	$parent = $cat->get_parent_id();
 	if (is_array($categories[$parent]))

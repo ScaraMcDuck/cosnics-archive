@@ -48,7 +48,7 @@ class CategoryMenu extends HTML_Menu
 		$datamanager = RepositoryDataManager :: get_instance();
 		$objects = $datamanager->retrieve_learning_objects('category', $condition, array(LearningObject :: PROPERTY_TITLE), array(SORT_ASC));
 		$categories = array ();
-		foreach ($objects as $index => $category)
+		while ($category = $objects->next_result())
 		{
 			$categories[$category->get_parent_id()][] = $category;
 		}
