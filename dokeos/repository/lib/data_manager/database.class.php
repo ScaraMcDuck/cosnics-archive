@@ -226,6 +226,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			return false;
 		}
+		// Delete children
 		$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $object->get_id());
 		$children = $this->retrieve_learning_objects(null, $condition)->as_array();
 		$children_deleted = true;
@@ -234,8 +235,15 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$child_deleted = $this->delete_learning_object($child);
 			$children_deleted = $children_deleted && $child_deleted;
 		}
+		// If all children deleted -> delete object
 		if ($children_deleted)
 		{
+			// Delete all attachments (only the links, not the actual objects)
+			$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object').'=? OR '.$this->escape_column_name('attachment').'=?';
+			$sth = $this->connection->prepare($query);
+			$res = $this->connection->execute($sth, array($object->get_id()));
+
+			// Delete object
 			$query = 'DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
 			$this->connection->limitQuery($query, 0, 1, array ($object->get_id()));
 			if ($object->is_extended())
