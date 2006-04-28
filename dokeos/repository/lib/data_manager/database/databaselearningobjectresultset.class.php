@@ -45,5 +45,18 @@ class DatabaseLearningObjectResultSet extends ResultSet {
 		}
     	return null;
     }
+	
+	function size()
+	{
+		return $this->handle->numRows();
+	}
+	
+	function skip ($count)
+	{
+		for ($i = 0; $i < $count; $i++)
+		{
+			$this->handle->fetchRow();
+		}
+	}
 }
 ?>
