@@ -144,14 +144,14 @@ END;
 					echo '<p><b>'.get_lang('Note').'</b> '.get_lang('RemoteRepositoryResultLimitReached').'</p>';
 				}
 				$offset = $pager->getOffsetByPageId();
-				$first = $offset[0];
+				$first = $offset[0] - 1;
 				if (!$remote)
 				{
 					$objects = $repoDM->retrieve_learning_objects(null, $condition, array (LearningObject :: PROPERTY_TITLE), array (SORT_ASC), $first, self :: LEARNING_OBJECTS_PER_PAGE)->as_array();
 				}
 				else
 				{
-					$objects = array_slice($objects, $first -1, self :: LEARNING_OBJECTS_PER_PAGE);
+					$objects = array_slice($objects, $first, self :: LEARNING_OBJECTS_PER_PAGE);
 				}
 				foreach ($objects as $index => $object)
 				{
