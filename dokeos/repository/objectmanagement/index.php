@@ -16,7 +16,7 @@ require_once api_get_library_path().'/text.lib.php';
 require_once dirname(__FILE__).'/../lib/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/../lib/repositorybrowsertable.class.php';
 
-if( !api_get_user_id())
+if (!api_get_user_id())
 {
 	api_not_allowed();
 }
@@ -143,11 +143,17 @@ api_display_tool_title($current_location['name']);
 echo '<div style="float:left;width:40%;margin:5px;">';
 // Display create form
 create_learning_object_list();
-echo '</div><div style="float:right;width:40%;text-align:right;margin:5px;">';
+echo '</div>';
+echo '<div style="float:right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
+echo create_type_display();
+echo '</div>';
+echo '<div style="float:right;width:40%;text-align:right;margin:5px;">';
 // Display search form
+//echo create_type_display();
 create_search_form();
 // Display message if needed
-echo '</div><div style="float:left;width:20%;">';
+echo '</div>';
+echo '<div style="float:left;width:20%;">';
 // Display menu
 $renderer =& new TreeMenuRenderer();
 $menu->render($renderer,'sitemap');
@@ -161,6 +167,31 @@ echo '</div>';
 // Display footer
 Display::display_footer();
 
+
+function create_type_display()
+{
+	$choices = get_datamanager()->get_registered_types();
+	//$choices[] = 'ALL';
+	//$type_form = new FormValidator('type_select', 'post');
+	//$renderer = $type_form->defaultRenderer();
+	//$renderer->setElementTemplate('<span>{element}</span> ');
+	
+	$type[] = '<form method="get" action="'.$_SERVER['PHP_SELF'].'" style="display:inline;">';
+	$type[] = '<input type="hidden" name="'.RepositoryBrowserTable::PARAM_PARENT_ID.'" value="'.get_current_category().'"/>';
+	$type[] = '<select name="type" onchange="submit();">';	
+	$type[] = '<option value="">All objects</option>';
+	foreach($choices as $choice)
+	{
+		$type[] = '<option value="'.$choice.'"'.($choice == $_GET[RepositoryBrowserTable::PARAM_TYPE] ? 'selected="selected"' : '').'>'.get_lang($choice).'</option>'; 	
+	}
+	$type[] = '</select>';
+	$type[] = '<noscript>';
+	$type[] = '<input type="submit" value="ok"/>';
+	$type[] = '</noscript>';
+	$type[] = '</form>';
+	$type = implode("\n", $type);
+	return $type;	
+}
 /**
  * Create a search-box
  */
@@ -191,7 +222,7 @@ function create_learning_object_list()
 /**
  * Create a repository table
  */
-function create_repository_table()
+function create_repository_table_old()
 {
 	$property = get_property();
 	if(!is_null($property))
@@ -204,6 +235,13 @@ function create_repository_table()
 		$parameters[RepositoryBrowserTable::PARAM_TYPE] = $_GET[RepositoryBrowserTable::PARAM_TYPE];
 		$table = new RepositoryBrowserTable($parameters);
 	}
+	$table->display();
+}
+
+function create_repository_table()
+{
+	$object = get_datamanager()->retrieve_learning_object(get_current_category());
+	$table = new RepositoryBrowserTable($object, $_GET[RepositoryBrowserTable::PARAM_TYPE]);
 	$table->display();
 }
 
@@ -226,7 +264,9 @@ function retrieve_learning_object_types()
 function create_category_menu ()
 {
 	global $menu;
-	$menu = new CategoryMenu(api_get_user_id(),get_current_category(),'?'.RepositoryBrowserTable::PARAM_PARENT_ID.'=%s',true);
+	$url = '?'.RepositoryBrowserTable::PARAM_PARENT_ID.'=%s'.(!empty($_GET['type']) ? '&type='.$_GET['type'] : '');
+	$menu = new CategoryMenu(api_get_user_id(),get_current_category(),'?'.RepositoryBrowserTable::PARAM_PARENT_ID.'=%s'.(!empty($_GET['type']) ? '&type='.$_GET['type'] : ''),true);
+	//$menu = new CategoryMenu(api_get_user_id(),get_current_category(),$url,true);
 }
 /**
  * Load datamanager
