@@ -9,7 +9,7 @@ xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 xmlns="http://schemas.xmlsoap.org/wsdl/">
 	<types>
 		<xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:LearningObjectSearch">
-			<xsd:complexType name="RemoteLearningObject">
+			<xsd:complexType name="LearningObject">
 				<xsd:all>
 					<xsd:element name="Type" type="xsd:string" />
 					<xsd:element name="Title" type="xsd:string" />
@@ -19,10 +19,10 @@ xmlns="http://schemas.xmlsoap.org/wsdl/">
 					<xsd:element name="URL" type="xsd:string" />
 				</xsd:all>
 			</xsd:complexType>
-			<xsd:complexType name="RemoteLearningObjects">
+			<xsd:complexType name="LearningObjects">
 				<xsd:complexContent>
 					<xsd:restriction base="soapenc:Array">
-						<xsd:attribute ref="soapenc:arrayType" wsdl:arrayType="tns:RemoteLearningObject[]"/>
+						<xsd:attribute ref="soapenc:arrayType" wsdl:arrayType="tns:LearningObject[]"/>
 					</xsd:restriction>
 				</xsd:complexContent>
 			</xsd:complexType>
@@ -33,7 +33,7 @@ xmlns="http://schemas.xmlsoap.org/wsdl/">
 		<part name="Query" type="xsd:string"/>
 	</message>
 	<message name="getResults">
-		<part name="Results" type="tns:RemoteLearningObjects"/>
+		<part name="Results" type="tns:LearningObjects"/>
 		<part name="LimitReached" type="xsd:boolean"/>
 	</message>
 	

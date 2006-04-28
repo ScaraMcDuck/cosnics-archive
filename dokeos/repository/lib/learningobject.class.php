@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/accessiblelearningobject.class.php';
 require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 
 /**
@@ -59,7 +60,7 @@ require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 ==============================================================================
  */
 
-class LearningObject
+class LearningObject implements AccessibleLearningObject
 {
 	const PROPERTY_ID = 'id';
 	const PROPERTY_TYPE = 'type';

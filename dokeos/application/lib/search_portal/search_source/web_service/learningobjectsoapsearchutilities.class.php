@@ -1,7 +1,7 @@
 <?php
 ini_set('soap.wsdl_cache_enabled', '0');
 
-class LearningObjectSearchUtilities
+class LearningObjectSoapSearchUtilities
 {
 	private static $temp_dir;
 
@@ -15,9 +15,9 @@ class LearningObjectSearchUtilities
 		return $file;
 	}
 
-	static function soap_enabled()
+	static function soap_fault_to_exception($fault)
 	{
-		return extension_loaded('soap');
+		return new Exception($fault->faultstring.'('.$fault->faultcode.')');
 	}
 }
 ?>

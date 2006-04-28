@@ -2,7 +2,7 @@
 /**
  * @package application.weblcms
  */
-require_once dirname(__FILE__).'/../application.class.php';
+require_once dirname(__FILE__).'/../webapplication.class.php';
 require_once dirname(__FILE__).'/weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/learningobjectpublicationcategory.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php';
@@ -18,7 +18,7 @@ require_once dirname(__FILE__).'/../../../claroline/inc/lib/groupmanager.lib.php
 ==============================================================================
  */
 
-class Weblcms extends Application
+class Weblcms extends WebApplication
 {
 	const PARAM_TOOL = 'tool';
 
