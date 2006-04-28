@@ -17,15 +17,13 @@ class SearchPortal extends Application
 {
 	const PARAM_QUERY = 'query';
 	const PARAM_SOAP_URL = 'url';
-	
-	const KEY_CACHE_SESSION = 'portal_search_cache';
 
 	const KEY_OBJECTS = 'objects';
-	const KEY_QUERY = 'query';
-	const KEY_URL = 'url';
 	const KEY_LIMIT_REACHED = 'limit_reached';
-	
+
 	const LEARNING_OBJECTS_PER_PAGE = 10;
+
+	private static $cache_dir;
 
 	/**
 	 * The parameters that should be passed with every request.
@@ -48,7 +46,7 @@ class SearchPortal extends Application
 	// TODO: Make this readable.
 	function run()
 	{
-		echo <<<END
+		echo<<<END
 <style type="text/css"><!--
 .portal_search_result {
 	margin: 0 0 1em 0;
@@ -66,7 +64,7 @@ END;
 		$form = new FormValidator('search_simple', 'get', '', '', null, false);
 		$renderer = $form->defaultRenderer();
 		$renderer->setElementTemplate('<span>{label} {element}</span> ');
-		$form->addElement('text', self :: PARAM_QUERY, get_lang('Find'), 'size="'.($supports_remote ? 20 : 60).'"');
+		$form->addElement('text', self :: PARAM_QUERY, get_lang('Find'), 'size="'. ($supports_remote ? 20 : 60).'"');
 		if ($supports_remote)
 		{
 			$form->addElement('text', self :: PARAM_SOAP_URL, get_lang('InRepository'), 'size="60"');
@@ -81,15 +79,15 @@ END;
 			$form_values = $form->exportValues();
 			$query = $form_values[self :: PARAM_QUERY];
 			$soap_url = trim($form_values[self :: PARAM_SOAP_URL]);
-			$remote = !empty($soap_url);
+			$remote = !empty ($soap_url);
 			if ($remote)
 			{
 				$fault = null;
 				$limit_reached = false;
-				if (isset($_SESSION[self :: KEY_CACHE_SESSION]) && is_array($_SESSION[self :: KEY_CACHE_SESSION]) && $_SESSION[self :: KEY_CACHE_SESSION][self :: KEY_QUERY] == $query && $_SESSION[self :: KEY_CACHE_SESSION][self :: KEY_URL] == $soap_url)
+				if ($cache = self :: get_cached_result($soap_url, $query))
 				{
-					$objects = $_SESSION[self :: KEY_CACHE_SESSION][self :: KEY_OBJECTS];
-					$limit_reached = $_SESSION[self :: KEY_CACHE_SESSION][self :: KEY_LIMIT_REACHED];
+					$objects = $cache[self :: KEY_OBJECTS];
+					$limit_reached = $cache[self :: KEY_LIMIT_REACHED];
 				}
 				else
 				{
@@ -106,12 +104,8 @@ END;
 						{
 							$objects = $result[LearningObjectSearchClient :: KEY_RESULTS];
 							$limit_reached = $result[LearningObjectSearchClient :: KEY_LIMIT_REACHED];
-							$_SESSION[self :: KEY_CACHE_SESSION] = array(
-								self :: KEY_QUERY => $query,
-								self :: KEY_URL => $soap_url,
-								self :: KEY_OBJECTS => $objects,
-								self :: KEY_LIMIT_REACHED => $limit_reached
-							);
+							$cache = array (self :: KEY_OBJECTS => $objects, self :: KEY_LIMIT_REACHED => $limit_reached);
+							self :: cache_result($soap_url, $query, $cache);
 						}
 					}
 					else
@@ -124,7 +118,8 @@ END;
 					echo '<p><b>'.get_lang('RemoteRepositoryError').':</b> '.htmlentities($fault->faultstring).' ('.htmlentities($fault->faultcode).')</p>';
 					$total_number_of_objects = -1;
 				}
-				else {
+				else
+				{
 					$total_number_of_objects = count($objects);
 				}
 			}
@@ -156,7 +151,7 @@ END;
 				}
 				else
 				{
-					$objects = array_slice($objects, $first - 1, self :: LEARNING_OBJECTS_PER_PAGE);
+					$objects = array_slice($objects, $first -1, self :: LEARNING_OBJECTS_PER_PAGE);
 				}
 				foreach ($objects as $index => $object)
 				{
@@ -268,6 +263,59 @@ END;
 	function get_learning_object_publication_attributes($object_id)
 	{
 		return array ();
+	}
+	
+	private function get_cached_result($url, $query)
+	{
+		$file = self :: cache_file_path($url, $query);
+		if (!file_exists($file))
+		{
+			return null;
+		}
+		return unserialize(file_get_contents($file)); 
+	}
+	
+	private function cache_result($url, $query, $data)
+	{
+		$serialized = serialize($data);
+		$file = self :: cache_file_path($url, $query);
+		file_put_contents($file, $serialized);
+	}
+
+	private function cache_file_path($url, $query)
+	{
+		$md5sum = md5($url."\t".$query);
+		return self :: cache_dir().'/'.$md5sum;
+	}
+
+	private function cache_dir()
+	{
+		if (isset (self :: $cache_dir))
+		{
+			return self :: $cache_dir;
+		}
+		self :: $cache_dir = dirname(__FILE__).'/result_cache';
+		if (!is_dir(self :: $cache_dir) || !is_writable(self :: $cache_dir))
+		{
+			die('Cannot write to cache directory "'.self :: $cache_dir.'"');
+		}
+		self :: clean_cache_dir();
+		return self :: $cache_dir;
+	}
+
+	private function clean_cache_dir()
+	{
+		$cache_dir = self :: $cache_dir;
+		$handle = opendir($cache_dir);
+		$min_time = time() - 24 * 60 * 60;
+		while (($file = readdir($handle)) !== false)
+		{
+			$path = $cache_dir.'/'.$file;
+			if (is_file($path) && filemtime($path) < $min_time)
+			{
+				unlink($path);
+			}
+		}
 	}
 }
 ?>
