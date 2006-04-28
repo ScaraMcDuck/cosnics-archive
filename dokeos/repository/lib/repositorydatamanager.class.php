@@ -294,6 +294,12 @@ abstract class RepositoryDataManager
 
 	/**
 	 * Deletes the given learning object from persistent storage.
+	 * This function deletes
+	 * - all children of the given learning object (using this function
+	 *   recursively)
+	 * - links from this object to other objects (so called attachments)
+	 * - links from other objects to this object (so called attachments)
+	 * - the object itself
 	 * @param LearningObject $object The learning object.
 	 * @return boolean True if the given object was succesfully deleted, false
 	 *                 otherwise. Deletion fails when the object is used
@@ -304,6 +310,8 @@ abstract class RepositoryDataManager
 
 	/**
 	 * Deletes all known learning objects from persistent storage.
+	 * @note: Only for testing purpuses. This function also deletes the root
+	 * category of a users repository.
 	 */
 	abstract function delete_all_learning_objects();
 
