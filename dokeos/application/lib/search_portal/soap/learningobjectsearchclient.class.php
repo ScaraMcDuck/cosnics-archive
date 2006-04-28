@@ -44,5 +44,10 @@ class LearningObjectSearchClient
 			return $ex;
 		}
 	}
+	
+	static function is_supported()
+	{
+		return LearningObjectSearchUtilities :: soap_enabled();
+	}
 }
 ?>

@@ -3,6 +3,8 @@ require_once dirname(__FILE__).'/../application.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/repositoryutilities.class.php';
+require_once dirname(__FILE__).'/soap/learningobjectsearchutilities.class.php';
+require_once dirname(__FILE__).'/soap/learningobjectsearchclient.class.php';
 require_once 'Pager/Pager.php';
 
 /**
@@ -60,11 +62,15 @@ class SearchPortal extends Application
 }
 --></style>
 END;
+		$supports_remote = LearningObjectSearchClient :: is_supported();
 		$form = new FormValidator('search_simple', 'get', '', '', null, false);
 		$renderer = $form->defaultRenderer();
 		$renderer->setElementTemplate('<span>{label} {element}</span> ');
-		$form->addElement('text', self :: PARAM_QUERY, get_lang('Find'));
-		$form->addElement('text', self :: PARAM_SOAP_URL, get_lang('InRepository'), 'size="60" onclick="if (!this.disabled) return; this.disabled = false; this.value = \'\';"');
+		$form->addElement('text', self :: PARAM_QUERY, get_lang('Find'), 'size="'.($supports_remote ? 20 : 60).'"');
+		if ($supports_remote)
+		{
+			$form->addElement('text', self :: PARAM_SOAP_URL, get_lang('InRepository'), 'size="60"');
+		}
 		$form->addElement('submit', 'submit', get_lang('Search'));
 		echo '<div style="text-align:center;">';
 		$form->display();
@@ -87,8 +93,6 @@ END;
 				}
 				else
 				{
-					require_once dirname(__FILE__).'/soap/learningobjectsearchutilities.class.php';
-					require_once dirname(__FILE__).'/soap/learningobjectsearchclient.class.php';
 					$file = LearningObjectSearchUtilities :: get_wsdl_file_path($soap_url);
 					$client = new LearningObjectSearchClient($file);
 					if ($client->is_initialized())
