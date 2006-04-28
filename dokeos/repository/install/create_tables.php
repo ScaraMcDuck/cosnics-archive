@@ -12,6 +12,7 @@
 ==============================================================================
  */
 
+require_once dirname(__FILE__).'/../../claroline/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/../lib/configuration.class.php';
 require_once 'DB.php';
 ?>
