@@ -264,7 +264,7 @@ END;
 	{
 		return array ();
 	}
-	
+
 	private function get_cached_result($url, $query)
 	{
 		$file = self :: cache_file_path($url, $query);
@@ -272,9 +272,9 @@ END;
 		{
 			return null;
 		}
-		return unserialize(file_get_contents($file)); 
+		return unserialize(file_get_contents($file));
 	}
-	
+
 	private function cache_result($url, $query, $data)
 	{
 		$serialized = serialize($data);
@@ -285,7 +285,7 @@ END;
 	private function cache_file_path($url, $query)
 	{
 		$md5sum = md5($url."\t".$query);
-		return self :: cache_dir().'/'.$md5sum;
+		return self :: cache_dir().'/'.$md5sum.'.cache';
 	}
 
 	private function cache_dir()
@@ -310,10 +310,13 @@ END;
 		$min_time = time() - 24 * 60 * 60;
 		while (($file = readdir($handle)) !== false)
 		{
-			$path = $cache_dir.'/'.$file;
-			if (is_file($path) && filemtime($path) < $min_time)
+			if (strrpos($file, '.cache') !== false)
 			{
-				unlink($path);
+				$path = $cache_dir.'/'.$file;
+				if (is_file($path) && filemtime($path) < $min_time)
+				{
+					unlink($path);
+				}
 			}
 		}
 	}
