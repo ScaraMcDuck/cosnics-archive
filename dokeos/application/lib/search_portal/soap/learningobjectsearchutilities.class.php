@@ -4,8 +4,8 @@ ini_set('soap.wsdl_cache_enabled', '0');
 class LearningObjectSearchUtilities
 {
 	private static $temp_dir;
-	
-	static function get_wsdl_file_path ($url)
+
+	static function get_wsdl_file_path($url)
 	{
 		$file = tempnam(null, 'wsdl');
 		$template = file_get_contents(dirname(__FILE__).'/learningobjectsearch.template.wsdl');
@@ -13,6 +13,11 @@ class LearningObjectSearchUtilities
 		$contents = str_replace('%url%', $url, $template);
 		file_put_contents($file, $contents);
 		return $file;
+	}
+
+	static function soap_enabled()
+	{
+		return extension_loaded('soap');
 	}
 }
 ?>

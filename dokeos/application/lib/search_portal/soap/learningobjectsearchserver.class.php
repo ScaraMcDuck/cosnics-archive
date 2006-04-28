@@ -58,5 +58,10 @@ class LearningObjectSearchServer
 		$limit_reached = (count($remote_objects) >= self :: MAX_RESULTS); 
 		return array($remote_objects, $limit_reached);
 	}
+	
+	static function is_supported()
+	{
+		return LearningObjectSearchUtilities :: soap_enabled();
+	}
 }
 ?>
