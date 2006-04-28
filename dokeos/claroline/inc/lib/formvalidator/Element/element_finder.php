@@ -71,7 +71,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		// TODO: Figure out why this doesn't happen automatically.
 		$this->_elements[0]->setValue($_REQUEST[$this->_elements[0]->getName()]);
 		$options = $this->get_active_elements();
-		$this->_elements[] = new HTML_QuickForm_text($this->getName().'_search', null, array ('style' => 'width: 100%', 'onkeyup' => 'elementFinderFind(this.value, \''.$this->search_url.'\', document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'))'));
+		$this->_elements[] = new HTML_QuickForm_text($this->getName().'_search', null, array ('style' => 'width: 100%', 'onkeyup' => 'elementFinderFind(this.value, \''.$this->search_url.'\', document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));', 'onkeypress' => 'var evt = (window.event || event); if (evt && evt.keyCode == 13) return false;'));
 		$this->_elements[1]->setValue('');
 		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_activate', '<<', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elementFinderActivate(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\'));'));
 		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '>>', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elementFinderDeactivate(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));'));
