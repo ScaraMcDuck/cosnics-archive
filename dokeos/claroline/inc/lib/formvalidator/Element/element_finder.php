@@ -12,7 +12,7 @@ require_once 'HTML/QuickForm/group.php';
 class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 {
 	const DEFAULT_HEIGHT = 150;
-	
+
 	private static $initialized;
 
 	private $search_url;
@@ -20,9 +20,9 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 	private $locale;
 
 	private $default_collapsed;
-	
+
 	private $height;
-	
+
 	function HTML_QuickForm_element_finder($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default_values = array ())
 	{
 		parent :: __construct($elementName, $elementLabel);
@@ -35,7 +35,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$this->build_elements();
 		$this->setValue($default_values);
 	}
-	
+
 	function isCollapsed ()
 	{
 		return $this->isDefaultCollapsed() && !count($this->getValue());
@@ -45,22 +45,22 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 	{
 		return $this->default_collapsed;
 	}
-	
+
 	function getHeight()
 	{
 		return $this->height;
 	}
-	
+
 	function setDefaultCollapsed($default_collapsed)
 	{
 		$this->default_collapsed = $default_collapsed;
 	}
-	
+
 	function setHeight($height)
 	{
 		$this->height = $height;
 	}
-	
+
 	private function build_elements()
 	{
 		$active_id = 'elf_'.$this->getName().'_active';
@@ -108,7 +108,10 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		foreach ($temp as $part)
 		{
 			$temp2 = explode(':', $part, 2);
-			$result[$temp2[0]] = $temp2[1];
+			if(strlen($temp2[1]) > 0)
+			{
+				$result[$temp2[0]] = $temp2[1];
+			}
 		}
 		return $result;
 	}
