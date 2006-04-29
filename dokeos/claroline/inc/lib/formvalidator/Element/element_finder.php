@@ -66,6 +66,8 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$active_id = 'elf_'.$this->getName().'_active';
 		$inactive_id = 'elf_'.$this->getName().'_inactive';
 		$active_hidden_id = 'elf_'.$this->getName().'_active_hidden';
+		$activate_button_id = $inactive_id.'_button';
+		$deactivate_button_id = $active_id.'_button';
 		$this->_elements = array ();
 		$this->_elements[] = new HTML_QuickForm_hidden($this->getName().'_active_hidden', null, array ('id' => $active_hidden_id));
 		// TODO: Figure out why this doesn't happen automatically.
@@ -73,8 +75,8 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$options = $this->get_active_elements();
 		$this->_elements[] = new HTML_QuickForm_text($this->getName().'_search', null, array ('style' => 'width: 100%', 'onkeyup' => 'elementFinderFind(this.value, \''.$this->search_url.'\', document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));', 'onkeypress' => 'var evt = (window.event || event); if (evt && evt.keyCode == 13) return false;'));
 		$this->_elements[1]->setValue('');
-		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_activate', '<<', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elementFinderActivate(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\'));'));
-		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '>>', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elementFinderDeactivate(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));'));
+		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_activate', '<<', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elementFinderActivate(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\'));', 'id' => $activate_button_id, 'disabled' => 'disabled'));
+		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '>>', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elementFinderDeactivate(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));',  'id' => $deactivate_button_id, 'disabled' => 'disabled'));
 	}
 
 	function getValue()

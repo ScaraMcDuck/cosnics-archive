@@ -161,7 +161,7 @@ abstract class LearningObjectForm extends FormValidator
 			{
 				$attachments[$ao->get_id()] = $ao->get_title().' ['.htmlentities(get_lang($ao->get_type())).']';
 			}
-			$url = api_get_root_rel().'repository/objectmanagement/search_xml.php';
+			$url = api_get_root_rel().'repository/xml_feed.php';
 			$locale = array ();
 			$locale['Display'] = get_lang('AddAttachments');
 			$locale['Searching'] = get_lang('Searching');
