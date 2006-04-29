@@ -14,9 +14,11 @@ class DescriptionTool extends RepositoryTool
 	// Inherited.
 	function run()
 	{
+		$this->display_header();
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
 			api_not_allowed();
+			$this->display_footer();
 			return;
 		}
 		if (isset($_GET['descriptionadmin']))
@@ -40,6 +42,7 @@ class DescriptionTool extends RepositoryTool
 			$browser = new DescriptionBrowser($this);
 			echo $browser->as_html();
 		}
+		$this->display_footer();
 	}
 }
 ?>

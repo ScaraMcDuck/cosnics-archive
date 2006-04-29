@@ -1,8 +1,10 @@
 <?php
 class LearningObjectSoapSearchClient
 {
-	const KEY_RESULTS = 'Results';
-	const KEY_LIMIT_REACHED = 'LimitReached';
+	const KEY_REPOSITORY_TITLE = 'RepositoryTitle';
+	const KEY_REPOSITORY_URL = 'RepositoryURL';
+	const KEY_RETURNED_RESULTS = 'Results';
+	const KEY_RESULT_COUNT = 'ActualResultCount';
 	
 	private $client;
 

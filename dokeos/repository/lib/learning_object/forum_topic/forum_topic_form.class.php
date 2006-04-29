@@ -7,22 +7,22 @@ require_once dirname(__FILE__).'/forum_topic.class.php';
  */
 class ForumTopicForm extends LearningObjectForm
 {
-	function build_creation_form($default_learning_object = null)
+	protected function build_creation_form()
 	{
-		parent :: build_creation_form($default_learning_object);
+		parent :: build_creation_form();
 		$this->add_footer();
 	}
-	public function build_editing_form($object)
+	protected function build_editing_form()
 	{
-		parent :: build_editing_form($object);
+		parent :: build_editing_form();
 		$this->setDefaults();
 		$this->add_footer();
 	}
-	function create_learning_object($owner)
+	function create_learning_object()
 	{
 		$object = new ForumTopic();
 		$this->set_learning_object($object);
-		return parent :: create_learning_object($owner);
+		return parent :: create_learning_object();
 	}
 }
 ?>

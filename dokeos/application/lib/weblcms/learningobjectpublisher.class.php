@@ -1,12 +1,12 @@
 <?php
-/**
- * @package application.weblcms.tool
- */
+require_once dirname(__FILE__).'/../../../repository/lib/abstractlearningobject.class.php';
+
 /**
 ==============================================================================
  *	This class provides the means to publish a learning object.
  *
  *	@author Tim De Pauw
+ * @package application.weblcms.tool
 ==============================================================================
  */
 
@@ -167,7 +167,7 @@ class LearningObjectPublisher
 		{
 			return $this->default_learning_objects[$type];
 		}
-		return null;
+		return new AbstractLearningObject($type, $this->get_user_id());
 	}
 }
 ?>

@@ -23,6 +23,7 @@ class CalendarTool extends RepositoryTool
 	 */
 	function run()
 	{
+		$this->display_header();
 		if (isset($_GET['calendaradmin']))
 		{
 			$_SESSION['calendaradmin'] = $_GET['calendaradmin'];
@@ -48,6 +49,7 @@ class CalendarTool extends RepositoryTool
 			}
 			$this->display();
 		}
+		$this->display_footer();
 	}
 	/**
 	 * Display the calendar

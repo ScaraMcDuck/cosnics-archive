@@ -8,16 +8,16 @@ require_once dirname(__FILE__) . '/calendar_event.class.php';
  */
 class CalendarEventForm extends LearningObjectForm
 {
-    public function build_creation_form($default_learning_object = null)
+    protected function build_creation_form()
     {
-    	parent :: build_creation_form($default_learning_object);
+    	parent :: build_creation_form();
     	$this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
     	$this->setDefaults();
     	$this->add_footer();
     }
-    public function build_editing_form($object)
+    protected function build_editing_form()
     {
-		parent :: build_editing_form($object);
+		parent :: build_editing_form();
     	$this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
 		$this->setDefaults();
 		$this->add_footer();
@@ -33,19 +33,20 @@ class CalendarEventForm extends LearningObjectForm
 		parent :: setDefaults($defaults);
 	}
 
-	function create_learning_object($owner)
+	function create_learning_object()
 	{
 		$object = new CalendarEvent();
 		$object->set_start_date($this->exportValue(RepositoryUtilities :: time_from_datepicker(CalendarEvent :: PROPERTY_START_DATE)));
 		$object->set_end_date($this->exportValue(RepositoryUtilities :: time_from_datepicker(CalendarEvent :: PROPERTY_END_DATE)));
 		$this->set_learning_object($object);
-		return parent :: create_learning_object($owner);
+		return parent :: create_learning_object();
 	}
-	function update_learning_object($object)
+	function update_learning_object()
 	{
+		$object = $this->get_learning_object();
 		$object->set_start_date($this->exportValue(RepositoryUtilities :: time_from_datepicker(CalendarEvent :: PROPERTY_START_DATE)));
 		$object->set_end_date($this->exportValue(RepositoryUtilities :: time_from_datepicker(CalendarEvent :: PROPERTY_END_DATE)));
-		return parent :: update_learning_object($object);
+		return parent :: update_learning_object();
 	}
 }
 ?>

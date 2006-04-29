@@ -161,7 +161,7 @@ abstract class RepositoryDataManager
 	 * @param LearningObject $object
 	 * @return boolean True if the given learning object can be deleted
 	 */
-	function learning_object_can_be_deleted($object)
+	function learning_object_deletion_allowed($object)
 	{
 		if( $this->learning_object_is_published($object->get_id()))
 		{
@@ -169,13 +169,14 @@ abstract class RepositoryDataManager
 		}
 		$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $object->get_id());
 		$children = $this->retrieve_learning_objects(null, $condition)->as_array();
-		$all_children_can_be_deleted = true;
 		foreach ($children as $index => $child)
 		{
-			$child_can_be_deleted = $this->learning_object_can_be_deleted($child);
-			$all_children_can_be_deleted = $all_children_can_be_deleted && $child_can_be_deleted;
+			if (!$this->learning_object_deletion_allowed($child))
+			{
+				return false;
+			}
 		}
-		return $all_children_can_be_deleted;
+		return true;
 	}
 
 	/**
@@ -246,15 +247,15 @@ abstract class RepositoryDataManager
 	 *                        in $orderBy. The PHP constant SORT_DESC sorts
 	 *                        the objects in descending order; SORT_ASC is
 	 *                        the default and uses ascending order.
-	 * @param int $firstIndex The index of the first object to return. If
-	 *                        omitted or negative, the result set will start
-	 *                        from the first object.
+	 * @param int $offset The index of the first object to return. If
+	 *                    omitted or negative, the result set will start
+	 *                    from the first object.
 	 * @param int $maxObjects The maximum number of objects to return. If
 	 *                        omitted or non-positive, every object from the
 	 *                        first index will be returned.
 	 * @return ResultSet A set of matching learning objects.
 	 */
-	abstract function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1);
+	abstract function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
 
 	/**
 	 * Returns the number of learning objects that match the given criteria.

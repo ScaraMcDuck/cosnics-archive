@@ -8,7 +8,7 @@
 $langFile = 'admin';
 require_once dirname(__FILE__).'/../../claroline/inc/claro_init_global.inc.php';
 require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/../lib/categorymenu.class.php';
+require_once dirname(__FILE__).'/../lib/learningobjectcategorymenu.class.php';
 //require_once api_get_library_path().'/fileDisplay.lib.php';
 require_once api_get_library_path().'/text.lib.php';
 require_once dirname(__FILE__).'/../lib/repositoryutilities.class.php';
@@ -81,7 +81,7 @@ function create_repository_table()
 $tool_name = get_lang('Search');
 
 $root_category = $datamanager->retrieve_root_category(api_get_user_id());
-$menu = new CategoryMenu(api_get_user_id(),$root_category->get_id(),'index.php?parent=%s');
+$menu = new LearningObjectCategoryMenu(api_get_user_id(),$root_category->get_id(),'index.php?parent=%s');
 $interbredcrump = $menu->get_breadcrumbs();
 if(isset($_GET['action']) && $_GET['action'] == 'advanced_search')
 {

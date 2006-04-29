@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../../learningobject.class.php';
  */
 class Announcement extends LearningObject
 {
-	static function supports_attachments()
+	function supports_attachments()
 	{
 		return true;
 	}

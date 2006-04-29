@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../claroline/inc/claro_init_global.inc.php';
 require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../lib/learningobjectform.class.php';
-require_once dirname(__FILE__).'/../lib/categorymenu.class.php';
+require_once dirname(__FILE__).'/../lib/learningobjectcategorymenu.class.php';
 require_once dirname(__FILE__).'/../lib/treemenurenderer.class.php';
 require_once dirname(__FILE__).'/../lib/optionsmenurenderer.class.php';
 require_once api_get_library_path().'/text.lib.php';
@@ -36,7 +36,7 @@ if(isset($_GET['action']))
 			break;
 		case 'delete':
 			$object = get_datamanager()->retrieve_learning_object($_GET['id']);
-			if(get_datamanager()->learning_object_can_be_deleted($object))
+			if(get_datamanager()->learning_object_deletion_allowed($object))
 			{
 				$object->delete();
 				$message = get_lang('ObjectDeleted');
@@ -82,7 +82,7 @@ if(isset($_POST['action']))
 			foreach($_POST['id'] as $index => $object_id)
 			{
 				$object = get_datamanager()->retrieve_learning_object($object_id);
-				if(get_datamanager()->learning_object_can_be_deleted($object))
+				if(get_datamanager()->learning_object_deletion_allowed($object))
 				{
 					$object->delete();
 				}
@@ -144,7 +144,7 @@ echo '<div style="float:left;width:40%;margin:5px;">';
 // Display create form
 create_learning_object_list();
 echo '</div>';
-echo '<div style="float:right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
+echo '<div style="float:right; margin: 5px;">';
 echo create_type_display();
 echo '</div>';
 echo '<div style="float:right;width:40%;text-align:right;margin:5px;">';
@@ -175,11 +175,11 @@ function create_type_display()
 	//$type_form = new FormValidator('type_select', 'post');
 	//$renderer = $type_form->defaultRenderer();
 	//$renderer->setElementTemplate('<span>{element}</span> ');
-	
+	# TODO: Use FormValidator
 	$type[] = '<form method="get" action="'.$_SERVER['PHP_SELF'].'" style="display:inline;">';
 	$type[] = '<input type="hidden" name="'.RepositoryBrowserTable::PARAM_PARENT_ID.'" value="'.get_current_category().'"/>';
 	$type[] = '<select name="type" onchange="submit();">';	
-	$type[] = '<option value="">All objects</option>';
+	$type[] = '<option value="">'.get_lang('All Objects').'</option>';
 	foreach($choices as $choice)
 	{
 		$type[] = '<option value="'.$choice.'"'.($choice == $_GET[RepositoryBrowserTable::PARAM_TYPE] ? 'selected="selected"' : '').'>'.get_lang($choice).'</option>'; 	
@@ -265,8 +265,8 @@ function create_category_menu ()
 {
 	global $menu;
 	$url = '?'.RepositoryBrowserTable::PARAM_PARENT_ID.'=%s'.(!empty($_GET['type']) ? '&type='.$_GET['type'] : '');
-	$menu = new CategoryMenu(api_get_user_id(),get_current_category(),'?'.RepositoryBrowserTable::PARAM_PARENT_ID.'=%s'.(!empty($_GET['type']) ? '&type='.$_GET['type'] : ''),true);
-	//$menu = new CategoryMenu(api_get_user_id(),get_current_category(),$url,true);
+	$menu = new LearningObjectCategoryMenu(api_get_user_id(),get_current_category(),'?'.RepositoryBrowserTable::PARAM_PARENT_ID.'=%s'.(!empty($_GET['type']) ? '&type='.$_GET['type'] : ''),true);
+	//$menu = new LearningObjectCategoryMenu(api_get_user_id(),get_current_category(),$url,true);
 }
 /**
  * Load datamanager

@@ -5,6 +5,7 @@ class DocumentTool extends RepositoryTool
 {
 	function run()
 	{
+		$this->display_header();
 		if (isset($_GET['documenttoolmode']))
 		{
 			$_SESSION['documenttoolmode'] = $_GET['documenttoolmode'];
@@ -40,6 +41,7 @@ class DocumentTool extends RepositoryTool
 				$browser = new DocumentBrowser($this);
 				echo $browser->as_html();
 		}
+		$this->display_footer();
 	}	
 }
 ?>

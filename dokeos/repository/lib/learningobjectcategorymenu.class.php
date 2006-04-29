@@ -3,11 +3,14 @@ require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
 require_once dirname(__FILE__).'/../../repository/lib/learningobject.class.php';
 require_once dirname(__FILE__).'/../../repository/lib/condition/equalitycondition.class.php';
+require_once dirname(__FILE__).'/treemenurenderer.class.php';
+require_once dirname(__FILE__).'/optionsmenurenderer.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through his
- * categories of learning objects
+ * categories of learning objects.
+ * @author Bart Mollet
  */
-class CategoryMenu extends HTML_Menu
+class LearningObjectCategoryMenu extends HTML_Menu
 {
 	/**
 	 * The owner of the categories
@@ -27,7 +30,7 @@ class CategoryMenu extends HTML_Menu
 	 *                           "?category=%s".
 	 * @param boolean $include_trash Whether or not to include a Recycle Bin. 
 	 */
-	public function CategoryMenu($owner, $current_category, $url_format = '?category=%s', $include_trash = false)
+	public function LearningObjectCategoryMenu($owner, $current_category, $url_format = '?category=%s', $include_trash = false)
 	{
 		$this->owner = $owner;
 		$this->urlFmt = $url_format;
@@ -106,5 +109,12 @@ class CategoryMenu extends HTML_Menu
 			$interbredcrump[] = array ("url" => $breadcrumb['url'], "name" => $breadcrumb['title']);
 		}
 		return $interbredcrump;
+	}
+	
+	function render_as_tree()
+	{
+		$renderer = new TreeMenuRenderer();
+		$this->render($renderer, 'sitemap');
+		return $renderer->toHTML();
 	}
 }
