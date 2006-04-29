@@ -25,6 +25,7 @@ for (var i = 0; i < elementFinderAjaxMethods.length; i++) {
 }
 
 var elementFinderSearches = new Array();
+var elementFinderLastSearches = new Array();
 var elementFinderTimeouts = new Array();
 var elementFinderSelectedElements = new Array();
 
@@ -124,6 +125,10 @@ function elementFinderBuildResults (node, ul, destinationID) {
 	var a = document.createElement('a');
 	a.appendChild(document.createTextNode(node.getAttribute('title')));
 	a.setAttribute('href', 'javascript:void(0);');
+	var className = node.getAttribute('class');
+	if (className) {
+		a.setAttribute('class', className);
+	}
 	li.appendChild(a);
 	var ulSub = document.createElement('ul');
 	li.appendChild(ulSub);
@@ -133,13 +138,21 @@ function elementFinderBuildResults (node, ul, destinationID) {
 		switch (child.nodeName) {
 			case 'leaf':
 				var title = child.getAttribute('title');
+				var description = child.getAttribute('description');
 				var id = child.getAttribute('id');
+				var className = child.getAttribute('class');
 				var li = document.createElement('li');
 				var a = document.createElement('a');
 				var aID = destinationID + '_' + id;
 				a.setAttribute('id', aID);
 				a.setAttribute('href', 'javascript:elementFinderToggleLinkSelectionState(document.getElementById("' + aID + '"), document.getElementById("' + destinationID + '"));');
 				a.setAttribute('element', id);
+				if (className) {
+					a.setAttribute('class', className);
+				}
+				if (description) {
+					a.setAttribute('title', description);
+				}
 				a.appendChild(document.createTextNode(title));
 				li.appendChild(a);
 				ulSub.appendChild(li);
@@ -305,14 +318,43 @@ function elementFinderArrayContains (array, element) {
 }
 
 function elementFinderFind (query, searchURL, origin, destination) {
-	if (elementFinderTimeouts[destination]) {
-		clearTimeout(elementFinderTimeouts[destination]);
-		elementFinderTimeouts[destination] = null;
+	var destID = destination.getAttribute('id');
+	query = elementFinderStripWhitespace(query);
+	if (query.length > 0 && query == elementFinderLastSearches[destID]) {
+		return;
 	}
-	// TODO: exclude string
-	elementFinderTimeouts[destination] = setTimeout(function () {
+	if (elementFinderTimeouts[destID]) {
+		clearTimeout(elementFinderTimeouts[destID]);
+		elementFinderTimeouts[destID] = null;
+	}
+	if (query.length == 0) {
+		elementFinderEmptyNode(destination);
+		return;
+	}
+	elementFinderLastSearches[destID] = query;
+	elementFinderTimeouts[destID] = setTimeout(function () {
 		new ElementFinderSearch(searchURL + '?query=' + escape(query) + elementFinderExcludeString(origin), origin, destination);
 	}, elementFinderSearchDelay);
+}
+
+function elementFinderStripWhitespace (str) {
+	if (str.length == 0) return str;
+	var start;
+	for (start = 0; start < str.length; start++) {
+		var char = str.charAt(start);
+		if (char != " " && char != "\t") {
+			break;
+		}
+	}
+	if (start == str.length - 1) return "";
+	var end;
+	for (end = str.length - 1; end >= 0; end--) {
+		var char = str.charAt(end);
+		if (char != " " && char != "\t") {
+			break;
+		}
+	}
+	return str.substring(start, end + 1);
 }
 
 function elementFinderExcludeString (destination) {

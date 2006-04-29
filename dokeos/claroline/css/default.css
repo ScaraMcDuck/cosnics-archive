@@ -949,11 +949,11 @@ ul.tree-menu li div
 }
 
 /*
- * Tweak: Some extra space between folder and text--2px will do.
+ * Tweak: Some extra space between folder and text--3px will do.
  */
 ul.tree-menu li div a
 {
-	padding-left: 20px;
+	padding-left: 21px;
 }
 
 /*
@@ -961,7 +961,83 @@ ul.tree-menu li div a
  */
 ul.tree-menu li div a.trash
 {
-	background: url(../img/treemenu/trash.gif) no-repeat;
+	background-image: url(../img/treemenu/trash.gif);
+	background-repeat: no-repeat;
+}
+
+/*
+ * Types for element finder
+ */
+ul.tree-menu li div a.type_category
+{
+	background-image: url(../img/treemenu_types/category.gif);
+	background-repeat: no-repeat;
+}
+
+ul.tree-menu li div a.type_announcement
+{
+	background-image: url(../img/treemenu_types/announcement.gif);
+	background-repeat: no-repeat;
+}
+
+ul.tree-menu li div a.type_calendar_event
+{
+	background-image: url(../img/treemenu_types/calendar_event.gif);
+	background-repeat: no-repeat;
+}
+
+ul.tree-menu li div a.type_description
+{
+	background-image: url(../img/treemenu_types/description.gif);
+	background-repeat: no-repeat;
+}
+
+ul.tree-menu li div a.type_document
+{
+	background-image: url(../img/treemenu_types/document.gif);
+	background-repeat: no-repeat;
+}
+
+ul.tree-menu li div a.type_forum
+{
+	background-image: url(../img/treemenu_types/forum.gif);
+	background-repeat: no-repeat;
+}
+
+ul.tree-menu li div a.type_forum_post
+{
+	background-image: url(../img/treemenu_types/forum_post.gif);
+	background-repeat: no-repeat;
+}
+
+ul.tree-menu li div a.type_forum_topic
+{
+	background-image: url(../img/treemenu_types/forum_topic.gif);
+	background-repeat: no-repeat;
+}
+
+ul.tree-menu li div a.type_learning_path
+{
+	background-image: url(../img/treemenu_types/learning_path.gif);
+	background-repeat: no-repeat;
+}
+
+ul.tree-menu li div a.type_learning_path_chapter
+{
+	background-image: url(../img/treemenu_types/learning_path_chapter.gif);
+	background-repeat: no-repeat;
+}
+
+ul.tree-menu li div a.type_learning_path_item
+{
+	background-image: url(../img/treemenu_types/learning_path_item.gif);
+	background-repeat: no-repeat;
+}
+
+ul.tree-menu li div a.type_link
+{
+	background-image: url(../img/treemenu_types/link.gif);
+	background-repeat: no-repeat;
 }
 
 /* Calendar */

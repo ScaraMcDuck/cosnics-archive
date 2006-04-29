@@ -107,11 +107,11 @@ function dump_tree($tree, & $objects)
 			continue;
 		}
 		$id = $node['obj']->get_id();
-		echo '<node id="', $id, '" title="', htmlentities($node['obj']->get_title()), '">', "\n";
+		echo '<node id="', $id, '" class="type_category" title="', htmlentities($node['obj']->get_title()), '">', "\n";
 		dump_tree($node['sub'], & $objects);
 		foreach ($objects[$id] as $lo)
 		{
-			echo '<leaf id="', $lo->get_id(), '" title="', htmlentities($lo->get_title().' ['.htmlentities(get_lang($lo->get_type())).']'), '"/>', "\n";
+			echo '<leaf id="', $lo->get_id(), '" class="type_', $lo->get_type(), '" title="', htmlentities($lo->get_title()), '" description="', htmlentities(get_lang($lo->get_type().'TypeName')), '"/>', "\n";
 		}
 		echo '</node>', "\n";
 	}
