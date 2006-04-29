@@ -21,12 +21,11 @@ if( isset($_GET['id']))
 	{
 		api_not_allowed();
 	}
-	$form = LearningObjectForm::factory($object->get_type(),'edit','post','edit.php?id='.$object->get_id());
-	$form->build_editing_form($object);
+	$form = LearningObjectForm::factory(LearningObjectForm :: TYPE_EDIT,$object,'edit','post','edit.php?id='.$object->get_id());
 	// If form validates, update the learning object
 	if($form->validate())
 	{
-		$success = $form->update_learning_object($object);
+		$success = $form->update_learning_object();
 		$current_category_id = $object->get_parent_id();
 		header('Location: index.php?category='.$current_category_id.'&action=show_message&message='.urlencode(get_lang($success ? 'ObjectUpdated' : 'ObjectUpdateFailed')));
 	}
@@ -35,7 +34,7 @@ if( isset($_GET['id']))
 	{
 		// Create a navigation menu to browse through the categories
 		$current_category_id = $object->get_parent_id();
-		$menu = new CategoryMenu(api_get_user_id(),$current_category_id,'index.php?parent=%s');
+		$menu = new LearningObjectCategoryMenu(api_get_user_id(),$current_category_id,'index.php?parent=%s');
 		$interbredcrump = $menu->get_breadcrumbs();
 		$tool_name = get_lang('Edit').': '.$object->get_title();
 		// Display page

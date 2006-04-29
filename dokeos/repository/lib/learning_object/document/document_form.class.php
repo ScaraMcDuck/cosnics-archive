@@ -9,18 +9,18 @@ require_once dirname(__FILE__).'/../../../../claroline/inc/lib/formvalidator/Rul
  */
 class DocumentForm extends LearningObjectForm
 {
-	function build_creation_form($default_learning_object = null)
+	protected function build_creation_form()
 	{
-		parent :: build_creation_form($default_learning_object);
+		parent :: build_creation_form();
 		$this->addElement('upload_or_create','upload_or_create');
 		$this->addFormRule(array($this,'check_document_form'));
 		//TODO: add Rule to check if a HTML-content was filled in when the 'create' option was selected
 		$this->add_footer();
 		$this->setDefaults();
 	}
-	public function build_editing_form($object)
+	protected function build_editing_form()
 	{
-		parent :: build_editing_form($object);
+		parent :: build_editing_form();
 		if($this->is_html_document($object->get_path()))
 		{
 			$this->addElement('html_editor', 'html_content', get_lang('HtmlDocument'));
@@ -47,8 +47,9 @@ class DocumentForm extends LearningObjectForm
 		$defaults['choice'] = 0;
 		parent :: setDefaults($defaults);
 	}
-	function create_learning_object($owner)
+	function create_learning_object()
 	{
+		$owner = $this->get_owner_id();
 		$values = $this->exportValues();
 		if($values['choice'])
 		{
@@ -71,10 +72,11 @@ class DocumentForm extends LearningObjectForm
 		$object->set_filename($filename);
 		$object->set_filesize(filesize($this->get_upload_path().'/'.$path));
 		$this->set_learning_object($object);
-		return parent :: create_learning_object($owner);
+		return parent :: create_learning_object();
 	}
-	function update_learning_object($object)
+	function update_learning_object()
 	{
+		$object = $this->get_learning_object();
 		$values = $this->exportValues();
 		$path = $object->get_path();
 		$filename = $object->get_filename();
@@ -95,7 +97,7 @@ class DocumentForm extends LearningObjectForm
 		$object->set_path($path);
 		$object->set_filename($filename);
 		$object->set_filesize(filesize($this->get_upload_path().'/'.$object->get_path()));
-		return parent :: update_learning_object($object);
+		return parent :: update_learning_object();
 	}
 	/**
 	 * Checks if a file is an HTML document.

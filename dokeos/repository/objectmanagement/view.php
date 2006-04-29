@@ -6,7 +6,7 @@
 require_once('../../claroline/inc/claro_init_global.inc.php');
 require_once('../lib/repositorydatamanager.class.php');
 require_once('../lib/learningobjectdisplay.class.php');
-require_once('../lib/categorymenu.class.php');
+require_once('../lib/learningobjectcategorymenu.class.php');
 if( !api_get_user_id())
 {
 	api_not_allowed();
@@ -23,7 +23,7 @@ if( isset($_GET['id']))
 	$display = LearningObjectDisplay::factory($object);
 	// Create a navigation menu to browse through the categories
 	$current_category_id = $object->get_parent_id();
-	$menu = new CategoryMenu(api_get_user_id(),$current_category_id,'index.php?parent=%s');
+	$menu = new LearningObjectCategoryMenu(api_get_user_id(),$current_category_id,'index.php?parent=%s');
 	$interbredcrump = $menu->get_breadcrumbs();
 	Display::display_header($object->get_title());
 	api_display_tool_title(get_lang('LearningObjectDetails'));

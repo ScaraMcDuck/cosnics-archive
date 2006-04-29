@@ -9,6 +9,8 @@ require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
 class LearningObjectFinder extends LearningObjectBrowser
 {
 	private $form;
+	
+	private $renderer;
 
 	function LearningObjectFinder($parent)
 	{
@@ -16,18 +18,19 @@ class LearningObjectFinder extends LearningObjectBrowser
 		$this->form = new FormValidator('search', 'get','','',null,false);
 		$this->form->addElement('hidden', 'tool');
 		$this->form->addElement('hidden', LearningObjectPublisher :: PARAM_ACTION);
-		$this->form->addElement('text', 'query', '');
+		$this->form->addElement('text', 'query', get_lang('Find'), 'size="60" style="width: 60%;"');
 		$this->form->addElement('submit', 'submit', get_lang('Search'));
-		$renderer = $this->form->defaultRenderer();
-		$renderer->setElementTemplate('<span>{element}</span> ');
 		$this->set_parameter('query', $this->get_query());
+		$this->renderer = clone $this->form->defaultRenderer();
+		$this->renderer->setElementTemplate('<span>{element}</span> ');
+		$this->form->accept($this->renderer);
 	}
 
 	function as_html()
 	{
 		$html = array();
-		$html[] = '<div class="lofinder_search_form">';
-		$html[] = $this->form->toHTML();
+		$html[] = '<div class="lofinder_search_form" style="margin: 0 0 1em 0;">';
+		$html[] = $this->renderer->toHTML();
 		$html[] = '</div>';
 		if(strlen(trim($this->get_query())) > 0)
 		{

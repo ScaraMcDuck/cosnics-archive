@@ -97,15 +97,15 @@ abstract class WeblcmsDataManager
 	 *                                 that the user is a member of. Defaults
 	 *                                 to false.
 	 * @param array $orderBy The properties to order publications by.
-	 * @param array $orderDesc An array representing the sorting direction
-	 *                         for the corresponding property of $orderBy.
-	 *                         Use SORT_ASC for ascending order, SORT_DESC
-	 *                         for descending.
-	 * @param int $firstIndex The index of the first publication to retrieve.
+	 * @param array $orderDir An array representing the sorting direction
+	 *                        for the corresponding property of $orderBy.
+	 *                        Use SORT_ASC for ascending order, SORT_DESC
+	 *                        for descending.
+	 * @param int $offset The index of the first publication to retrieve.
 	 * @param int $maxObjects The maximum number of objects to retrieve.
 	 * @return ResultSet A set of LearningObjectPublications.
 	 */
-	abstract function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array ('display_order'), $orderDesc = array (SORT_ASC), $firstIndex = 0, $maxObjects = -1);
+	abstract function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array ('display_order'), $orderDir = array (SORT_ASC), $offset = 0, $maxObjects = -1);
 
 	/**
 	 * Counts learning object publications in persistent storage.

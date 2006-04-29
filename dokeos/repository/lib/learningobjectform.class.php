@@ -1,5 +1,4 @@
 <?php
-
 /**
  * A form to create and edit a LearningObject.
  * @package repository.learningobject
@@ -8,36 +7,49 @@
 require_once dirname(__FILE__).'/../../claroline/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/quotamanager.class.php';
-require_once dirname(__FILE__).'/categorymenu.class.php';
+require_once dirname(__FILE__).'/learningobjectcategorymenu.class.php';
 require_once dirname(__FILE__).'/learningobject.class.php';
+require_once dirname(__FILE__).'/abstractlearningobject.class.php';
 
 abstract class LearningObjectForm extends FormValidator
 {
+	const TYPE_CREATE = 1;
+	const TYPE_EDIT = 2;
+	
+	private $owner_id;
+
 	/**
 	 * The learning object.
 	 */
 	private $learning_object;
 
 	/**
-	 * The ID of the category to create a learning object in.
-	 */
-	private $category;
-
-	/**
-	 * Whether or not the creation form has been built.
-	 */
-	private $creation_form_built;
-
-	/**
 	 * Constructor.
-	 * @param string $formName The name to use in the form tag.
+	 * @param int $form_type The form type; either
+	 *                       LearningObjectForm :: TYPE_CREATE or
+	 *                       LearningObjectForm :: TYPE_EDIT.
+	 * @param LearningObject $learning_object The object to create or update.
+	 *                                        May be an AbstractLearningObject
+	 *                                        upon creation.
+	 * @param string $form_name The name to use in the form tag.
 	 * @param string $method The method to use ('post' or 'get').
 	 * @param string $action The URL to which the form should be submitted.
 	 */
-	protected function LearningObjectForm($formName, $method = 'post', $action = null)
+	function LearningObjectForm($form_type, $learning_object, $form_name, $method = 'post', $action = null)
 	{
-		parent :: __construct($formName, $method, $action);
-		$this->creation_form_built = false;
+		parent :: __construct($form_name, $method, $action);
+		$this->form_type = $form_type;
+		$this->learning_object = $learning_object;
+		$this->owner_id = $learning_object->get_owner_id();
+		if ($this->form_type == self :: TYPE_EDIT)
+		{
+			$this->build_editing_form();
+		}
+		else
+		{
+			$this->form_type = self :: TYPE_CREATE;
+			$this->build_creation_form();
+		}
 	}
 
 	/**
@@ -46,31 +58,61 @@ abstract class LearningObjectForm extends FormValidator
 	 */
 	protected function get_learning_object()
 	{
+		/*
+		 * For creation forms, $this->learning_object is the default learning
+		 * object and therefore may be abstract. In this case, we do not
+		 * return it.
+		 * For this reason, methods of this class itself will want to access
+		 * $this->learning_object directly, so as to take both the learning
+		 * object that is being updated and the default learning object into
+		 * account.
+		 */
+		if ($this->learning_object instanceof AbstractLearningObject)
+		{
+			return null;
+		}
 		return $this->learning_object;
+	}
+	
+	/**
+	 * Sets the learning object associated with this form.
+	 * @param LearningObject $learning_object The learning object.
+	 */
+	protected function set_learning_object($learning_object)
+	{
+		$this->learning_object = $learning_object;
 	}
 
 	/**
-	 * Sets the learning object associated with this form.
-	 * @param LearningObject $object The learning object.
+	 * Gets the categories defined in the user's repository.
+	 * @return array The categories.
 	 */
-	protected function set_learning_object($object)
+	function get_categories()
 	{
-		$this->learning_object = $object;
+		$categorymenu = new LearningObjectCategoryMenu($this->owner_id);
+		$renderer = new HTML_Menu_ArrayRenderer();
+		$categorymenu->render($renderer, 'sitemap');
+		$categories = $renderer->toArray();
+		$category_choices = array ();
+		foreach ($categories as $index => $category)
+		{
+			$prefix = '';
+			if ($category['level'] > 0)
+			{
+				$prefix = str_repeat('&nbsp;&nbsp;&nbsp;', $category['level'] - 1).'&mdash; ';
+			}
+			$category_choices[$category['id']] = $prefix.$category['title'];
+		}
+		return $category_choices;
 	}
 
 	/**
 	 * Builds a form to create a new learning object. Traditionally, you will
 	 * extend this method so it adds fields for your learning object type's
 	 * additional properties, and then calls the add_footer() method.
-	 * @param LearningObject $default_learning_object The properties of this
-	 *                                                learning object will be
-	 *                                                used as default values
-	 *                                                in the form.
 	 */
-	protected function build_creation_form($default_learning_object = null)
+	protected function build_creation_form()
 	{
-		$this->set_learning_object($default_learning_object);
-		$this->creation_form_built = true;
 		$this->build_basic_form();
 	}
 
@@ -79,13 +121,9 @@ abstract class LearningObjectForm extends FormValidator
 	 * this method so it adds fields for your learning object type's
 	 * additional properties, and then calls the setDefaults() and
 	 * add_footer() methods.
-	 * @param LearningObject $learning_object The learning object to edit.
 	 */
-	protected function build_editing_form($learning_object)
+	protected function build_editing_form()
 	{
-		$this->set_learning_object($learning_object);
-		$this->category = $learning_object->get_parent_id();
-		$this->creation_form_built = false;
 		$this->build_basic_form();
 		$this->addElement('hidden', LearningObject :: PROPERTY_ID);
 	}
@@ -98,14 +136,12 @@ abstract class LearningObjectForm extends FormValidator
 	 */
 	private function build_basic_form()
 	{
-		$this->add_textfield(LearningObject :: PROPERTY_TITLE, get_lang('Title'),true,'size="100" style="width: 100%"');
+		$this->add_textfield(LearningObject :: PROPERTY_TITLE, get_lang('Title'), true, 'size="100" style="width: 100%"');
+		$lo = $this->learning_object;
 		if ($this->allows_category_selection())
 		{
-			$select = $this->addElement('select', LearningObject :: PROPERTY_PARENT_ID, get_lang('Category'),$this->get_categories());
-			if (isset ($this->category))
-			{
-				$select->setSelected($this->category);
-			}
+			$select = $this->addElement('select', LearningObject :: PROPERTY_PARENT_ID, get_lang('Category'), $this->get_categories());
+			$select->setSelected($lo->get_parent_id());
 			$this->addRule(LearningObject :: PROPERTY_PARENT_ID, get_lang('ThisFieldIsRequired'), 'required');
 		}
 		$this->add_html_editor(LearningObject :: PROPERTY_DESCRIPTION, get_lang('Description'));
@@ -118,22 +154,15 @@ abstract class LearningObjectForm extends FormValidator
 	{
 		if ($this->supports_attachments())
 		{
-			$object = $this->get_learning_object();
-			if (isset($object))
+			$object = $this->learning_object;
+			$attached_objects = $object->get_attached_learning_objects();
+			$attachments = array ();
+			foreach ($attached_objects as $ao)
 			{
-				$attached_objects = $object->get_attached_learning_objects();
-				$attachments = array();
-				foreach ($attached_objects as $ao)
-				{
-					$attachments[$ao->get_id()] = $ao->get_title() . ' [' . htmlentities(get_lang($ao->get_type())) . ']';
-				}
-			}
-			else
-			{
-				$attachments = array();
+				$attachments[$ao->get_id()] = $ao->get_title().' ['.htmlentities(get_lang($ao->get_type())).']';
 			}
 			$url = api_get_root_rel().'repository/objectmanagement/search_xml.php';
-			$locale = array();
+			$locale = array ();
 			$locale['Display'] = get_lang('AddAttachments');
 			$locale['Searching'] = get_lang('Searching');
 			$locale['NoResults'] = get_lang('NoResults');
@@ -153,78 +182,33 @@ abstract class LearningObjectForm extends FormValidator
 	 */
 	function setDefaults($defaults = array ())
 	{
-		$lo = $this->get_learning_object();
-		if (isset ($lo))
-		{
-			$defaults[LearningObject :: PROPERTY_ID] = $lo->get_id();
-			$defaults[LearningObject :: PROPERTY_TITLE] = $lo->get_title();
-			$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
-		}
+		$lo = $this->learning_object;
+		$defaults[LearningObject :: PROPERTY_ID] = $lo->get_id();
+		$defaults[LearningObject :: PROPERTY_TITLE] = $lo->get_title();
+		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
 		parent :: setDefaults($defaults);
 	}
-	
+
 	/**
 	 * An alias of setDefaults, for good measure.
 	 * @see setDefaults()
 	 */
-	function set_defaults($defaults = array())
+	function set_defaults($defaults = array ())
 	{
 		$this->setDefaults($defaults);
-	}
-
-	/**
-	 * Gets the categories defined in the user's repository.
-	 * @return array The categories.
-	 */
-	function get_categories()
-	{
-		$categorymenu = new CategoryMenu(api_get_user_id());
-		$renderer = & new HTML_Menu_ArrayRenderer();
-		$categorymenu->render($renderer, 'sitemap');
-		$categories = $renderer->toArray();
-		$category_choices = array ();
-		foreach ($categories as $index => $category)
-		{
-			$prefix = '';
-			if ($category['level'] > 0)
-			{
-				$prefix = str_repeat('&nbsp;&nbsp;&nbsp;', $category['level'] - 1).'&mdash; ';
-			}
-			$category_choices[$category['id']] = $prefix.$category['title'];
-		}
-		return $category_choices;
-	}
-
-	/**
-	 * Gets the default category.
-	 * @return int The category ID.
-	 */
-	function get_default_category()
-	{
-		return $this->category;
-	}
-
-	/**
-	 * Sets the default category.
-	 * @param int $category The category ID.
-	 */
-	function set_default_category($category)
-	{
-		$this->category = $category;
 	}
 
 	/**
 	 * Creates a learning object from the submitted form values. Traditionally,
 	 * you override this method to ensure that the form's learning object is
 	 * set to the object that is to be created, and call the super method.
-	 * @param int $owner The user ID of the learning object's owner.
 	 * @return LearningObject The newly created learning object.
 	 */
-	function create_learning_object($owner)
+	function create_learning_object()
 	{
 		$values = $this->exportValues();
-		$object = $this->get_learning_object();
-		$object->set_owner_id($owner);
+		$object = $this->learning_object;
+		$object->set_owner_id($this->owner_id);
 		$object->set_title($values[LearningObject :: PROPERTY_TITLE]);
 		$object->set_description($values[LearningObject :: PROPERTY_DESCRIPTION]);
 		if ($this->allows_category_selection())
@@ -251,11 +235,11 @@ abstract class LearningObjectForm extends FormValidator
 	 * Updates a learning object with the submitted form values. Traditionally,
 	 * you override this method to first set values for the necessary
 	 * additional learning object properties, and then call the super method.
-	 * @param LearningObject $learning_object The object to update.
 	 * @return boolean True if the update succeeded, false otherwise.
 	 */
-	function update_learning_object($object)
+	function update_learning_object()
 	{
+		$object = $this->learning_object;
 		$values = $this->exportValues();
 		$object->set_title($values[LearningObject :: PROPERTY_TITLE]);
 		$object->set_description($values[LearningObject :: PROPERTY_DESCRIPTION]);
@@ -294,7 +278,7 @@ abstract class LearningObjectForm extends FormValidator
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Checks whether the learning object that is being created or edited may
 	 * have learning objects attached to it.
@@ -302,45 +286,47 @@ abstract class LearningObjectForm extends FormValidator
 	 */
 	function supports_attachments()
 	{
-		if (isset($this->learning_object))
-		{
-			return $this->learning_object->supports_attachments();
-		}
-		// TODO: Check attachment support if no default learning object.
-		return true; 
+		$lo = $this->learning_object;
+		return $lo->supports_attachments();
 	}
 
-	/**
-	 * Creates a form object to manage a learning object.
-	 * @param string $type The type of the learning object.
-	 * @param string $formName The name to use in the form tag.
-	 * @param string $method The method to use ('post' or 'get').
-	 * @param string $action The URL to which the form should be submitted.
-	 */
-	static function factory($type, $formName, $method = 'post', $action = null)
-	{
-		$class = RepositoryDataManager :: type_to_class($type).'Form';
-		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_form.class.php';
-		return new $class ($formName, $method, $action);
-	}
-	
 	function display()
 	{
 		$quotamanager = new QuotaManager(api_get_user_id());
-		if($this->creation_form_built && $quotamanager->get_available_database_space() <= 0)
+		if ($this->form_type == self :: TYPE_CREATE && $quotamanager->get_available_database_space() <= 0)
 		{
-			Display::display_error_message(get_lang('DatabaseQuotaExceeded'));
+			Display :: display_error_message(get_lang('DatabaseQuotaExceeded'));
 		}
 		else
 		{
-			parent::display();
+			parent :: display();
 		}
 	}
 
 	private function allows_category_selection()
 	{
-		$lo = $this->get_learning_object();
-		return ($this->creation_form_built || !isset($lo) || $lo->get_parent_id() > 0);
+		$lo = $this->learning_object;
+		return ($this->form_type == self :: TYPE_CREATE || $lo->get_parent_id());
+	}
+
+	/**
+	 * Creates a form object to manage a learning object.
+	 * @param int $form_type The form type; either
+	 *                       LearningObjectForm :: TYPE_CREATE or
+	 *                       LearningObjectForm :: TYPE_EDIT.
+	 * @param LearningObject $learning_object The object to create or update.
+	 *                                        May be an AbstractLearningObject
+	 *                                        upon creation.
+	 * @param string $form_name The name to use in the form tag.
+	 * @param string $method The method to use ('post' or 'get').
+	 * @param string $action The URL to which the form should be submitted.
+	 */
+	static function factory($form_type, $learning_object, $form_name, $method = 'post', $action = null)
+	{
+		$type = $learning_object->get_type();
+		$class = RepositoryDataManager :: type_to_class($type).'Form';
+		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_form.class.php';
+		return new $class ($form_type, $learning_object, $form_name, $method, $action);
 	}
 }
 ?>

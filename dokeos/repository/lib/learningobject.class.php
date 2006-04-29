@@ -482,13 +482,25 @@ class LearningObject implements AccessibleLearningObject
 
 	/**
 	 * Determines whether this learning object may be moved to the learning
-	 * object with the given ID.
+	 * object with the given ID. By default, a learning object may be moved
+	 * to another learning object if the other learning object is not the
+	 * learning object itself, the learning object is not an ancestor of the
+	 * other learning object, and the other learning object is a category.
 	 * @param int $target The ID of the target learning object.
 	 * @return boolean True if the move is allowed, false otherwise.
 	 */
 	function move_allowed($target)
 	{
-		return false;
+		if ($target == $this->get_id())
+		{
+			return false;
+		}
+		$target_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($target);
+		if ($target_object->get_type() != 'category')
+		{
+			return false;
+		}
+		return !$target_object->has_ancestor($this->get_id());
 	}
 
 	// XXX: Keep this around? Override? Make useful?
@@ -498,11 +510,11 @@ class LearningObject implements AccessibleLearningObject
 	}
 
 	/**
-	 * Determines whether this learning object type supports attachments, i.e.
+	 * Determines whether this learning object supports attachments, i.e.
 	 * whether other learning objects may be attached to it.
 	 * @return boolean True if attachments are supported, false otherwise.
 	 */
-	static function supports_attachments()
+	function supports_attachments()
 	{
 		return false;
 	}

@@ -16,8 +16,10 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		 * display order in the database. The up action in the announcement-tool
 		 * should result in the down-action in the database.
 		 */
-		$up_link = parent :: render_up_action($publication, $first);
-		return str_replace(RepositoryTool :: PARAM_ACTION.'='.RepositoryTool :: ACTION_MOVE_UP, RepositoryTool :: PARAM_ACTION.'='.RepositoryTool :: ACTION_MOVE_DOWN, $up_link);
+		// TODO: Fix this. It's horribly broken.
+		//$up_link = parent :: render_up_action($publication, $first);
+		//return str_replace(RepositoryTool :: PARAM_ACTION.'='.RepositoryTool :: ACTION_MOVE_UP, RepositoryTool :: PARAM_ACTION.'='.RepositoryTool :: ACTION_MOVE_DOWN, $up_link);
+		return parent :: render_down_action($publication, $first);
 	}
 	function render_down_action($publication, $last = false)
 	{
@@ -27,8 +29,10 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		 * display order in the database. The down action in the announcement-tool
 		 * should result in the up-action in the database.
 		 */
-		$down_link = parent :: render_down_action($publication, $last);
-		return str_replace(RepositoryTool :: PARAM_ACTION.'='.RepositoryTool :: ACTION_MOVE_DOWN, RepositoryTool :: PARAM_ACTION.'='.RepositoryTool :: ACTION_MOVE_UP, $down_link);
+		// TODO: Fix this. It's horribly broken.
+		//$down_link = parent :: render_down_action($publication, $last);
+		//return str_replace(RepositoryTool :: PARAM_ACTION.'='.RepositoryTool :: ACTION_MOVE_DOWN, RepositoryTool :: PARAM_ACTION.'='.RepositoryTool :: ACTION_MOVE_UP, $down_link);
+		return parent :: render_up_action($publication, $last);
 	}
 }
 ?>

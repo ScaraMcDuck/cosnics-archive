@@ -1,11 +1,13 @@
 <?php
-require_once dirname(__FILE__).'/searchsource.class.php';
+require_once dirname(__FILE__).'/../searchsource.class.php';
 require_once dirname(__FILE__).'/web_service/learningobjectsoapsearchclient.class.php';
 require_once dirname(__FILE__).'/web_service/learningobjectsoapsearchutilities.class.php';
 require_once dirname(__FILE__).'/web_service/learningobjectsoapsearchresultset.class.php';
+require_once dirname(__FILE__).'/../repositorysearchresult.class.php';
 
 class WebServiceSearchSource implements SearchSource
 {
+	const CACHE_TIME = 60; // minutes
 	const CACHE_FILE_EXTENSION = 'cache';
 	
 	private static $cache_dir;
@@ -42,10 +44,11 @@ class WebServiceSearchSource implements SearchSource
 			}
 			self :: cache_result($this->url, $query, $result);
 		}
-		$objects = $result[LearningObjectSoapSearchClient :: KEY_RESULTS];
-		# TODO: Report this somehow.
-		$limit_reached = $result[LearningObjectSoapSearchClient :: KEY_LIMIT_REACHED];
-		return new LearningObjectSoapSearchResultSet($objects);
+		$repository_title = $result[LearningObjectSoapSearchClient :: KEY_REPOSITORY_TITLE];
+		$repository_url = $result[LearningObjectSoapSearchClient :: KEY_REPOSITORY_URL];
+		$returned_results = new LearningObjectSoapSearchResultSet($result[LearningObjectSoapSearchClient :: KEY_RETURNED_RESULTS]);
+		$result_count = $result[LearningObjectSoapSearchClient :: KEY_RESULT_COUNT];
+		return new RepositorySearchResult($repository_title, $repository_url, $returned_results, $result_count);
 	}
 
 	static function is_supported()
@@ -95,7 +98,7 @@ class WebServiceSearchSource implements SearchSource
 	{
 		$cache_dir = self :: $cache_dir;
 		$handle = opendir($cache_dir);
-		$min_time = time() - 24 * 60 * 60;
+		$min_time = time() - self :: CACHE_TIME * 60;
 		while (($file = readdir($handle)) !== false)
 		{
 			if (strrpos($file, '.' . self :: CACHE_FILE_EXTENSION) !== false)

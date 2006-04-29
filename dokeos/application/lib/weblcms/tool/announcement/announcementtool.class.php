@@ -16,9 +16,11 @@ class AnnouncementTool extends RepositoryTool
 	 */
 	function run()
 	{
+		$this->display_header();
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
 			api_not_allowed();
+			$this->display_footer();
 			return;
 		}
 		if (isset($_GET['announcementadmin']))
@@ -42,6 +44,7 @@ class AnnouncementTool extends RepositoryTool
 			$browser = new AnnouncementBrowser($this);
 			echo $browser->as_html();
 		}
+		$this->display_footer();
 	}
 }
 ?>

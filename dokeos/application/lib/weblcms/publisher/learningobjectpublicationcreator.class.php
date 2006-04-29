@@ -62,13 +62,11 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 
 	private function get_creation_form($type)
 	{
-		$form = LearningObjectForm :: factory($type, 'create', 'post', $this->get_url());
-		$form->build_creation_form($this->get_default_learning_object($type));
-		$form->addElement('hidden', 'type');
-		$form->setDefaults(array ('type' => $type));
+		$default_lo = $this->get_default_learning_object($type);
+		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $default_lo, 'create', 'post', $this->get_url(array ('type' => $type)));
 		if ($form->validate())
 		{
-			$object = $form->create_learning_object($this->get_user_id());
+			$object = $form->create_learning_object();
 			return $this->get_publication_form($object->get_id(), true);
 		}
 		else
@@ -80,14 +78,14 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 	private function get_editing_form($objectID)
 	{
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
-		$form = LearningObjectForm::factory($object->get_type(),'edit','post',$this->get_url(array(LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $objectID, LearningObjectPublisher :: PARAM_EDIT => 1)));
-		$form->build_creation_form($object);
+		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'edit', 'post', $this->get_url(array (LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $objectID, LearningObjectPublisher :: PARAM_EDIT => 1)));
 		if ($form->validate())
 		{
-			$object = $form->create_learning_object($this->get_user_id());
+			$object = $form->create_learning_object();
 			return $this->get_publication_form($object->get_id(), true);
 		}
-		else {
+		else
+		{
 			return $form->toHtml();
 		}
 	}

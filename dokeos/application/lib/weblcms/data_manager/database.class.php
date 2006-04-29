@@ -53,7 +53,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $publication_attr;
 	}
 
-	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array (), $orderDesc = array (), $firstIndex = 0, $maxObjects = -1)
+	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		$params = array ();
 		$query = 'SELECT '.($allowDuplicates ? '' : 'DISTINCT ').'p.* FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
@@ -65,14 +65,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		 * Always respect display order as a last resort.
 		 */
 		$orderBy[] = LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX;
-		$orderDesc[] = SORT_ASC;
+		$orderDir[] = SORT_ASC;
 		/*
 		 * Add ORDER clause.
 		 */
-		$query .= ' ORDER BY '.$this->escape_column_name($orderBy[0]).' '. ($orderDesc[0] == SORT_ASC ? 'ASC' : 'DESC');
+		$query .= ' ORDER BY '.$this->escape_column_name($orderBy[0]).' '. ($orderDir[0] == SORT_ASC ? 'ASC' : 'DESC');
 		for ($i = 1; $i < count($orderBy); $i ++)
 		{
-			$query .= ','.$this->escape_column_name($orderBy[$i]).' '. ($orderDesc[$i] == SORT_ASC ? 'ASC' : 'DESC');
+			$query .= ','.$this->escape_column_name($orderBy[$i]).' '. ($orderDir[$i] == SORT_ASC ? 'ASC' : 'DESC');
 		}
 		// XXX: Is this necessary?
 		if ($maxObjects < 0)
@@ -82,7 +82,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		/*
 		 * Get publications.
 		 */
-		$res = $this->connection->limitQuery($query, intval($firstIndex), intval($maxObjects), $params);
+		$res = $this->connection->limitQuery($query, intval($offset), intval($maxObjects), $params);
 		return new DatabaseLearningObjectPublicationResultSet($this, $res);
 	}
 

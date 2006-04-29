@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/../../../../../repository/lib/repositoryutiliti
 
 class LearningObjectSoapSearchServer
 {
-	const MAX_RESULTS = 500;
+	const MAX_RESULTS = 100;
 	
 	private $server;
 
@@ -39,16 +39,16 @@ class LearningObjectSoapSearchServer
 		$dm = RepositoryDataManager :: get_instance();
 		$condition = RepositoryUtilities :: query_to_condition($query);
 		$objects = $dm->retrieve_learning_objects(null, $condition, array (LearningObject :: PROPERTY_TITLE), array (SORT_ASC), 0, self :: MAX_RESULTS);
-		$remote_objects = array ();
+		$object_count = $dm->count_learning_objects(null, $condition);
+		$soap_objects = array ();
 		while ($lo = $objects->next_result())
 		{
 			$title = $lo->get_title();
 			$description = $lo->get_description();
 			$url = $lo->get_view_url();
-			$remote_objects[] = new SoapLearningObject($lo->get_type(), $title, $description, $lo->get_creation_date(), $lo->get_modification_date(), $url);
+			$soap_objects[] = new SoapLearningObject($lo->get_type(), $title, $description, $lo->get_creation_date(), $lo->get_modification_date(), $url);
 		}
-		$limit_reached = (count($remote_objects) >= self :: MAX_RESULTS); 
-		return array($remote_objects, $limit_reached);
+		return array(api_get_setting('siteName'), api_get_path(WEB_PATH), $soap_objects, $object_count);
 	}
 }
 ?>

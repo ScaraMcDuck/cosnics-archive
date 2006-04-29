@@ -76,7 +76,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	// Inherited.
 	// TODO: Extract methods.
-	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $firstIndex = 0, $maxObjects = -1)
+	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		if (isset ($type))
 		{
@@ -126,7 +126,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			 */
 			$maxObjects = 9999999999;
 		}
-		$res = $this->connection->limitQuery($query, intval($firstIndex), intval($maxObjects), $params);
+		$res = $this->connection->limitQuery($query, intval($offset), intval($maxObjects), $params);
 		return new DatabaseLearningObjectResultSet($this, $res, isset($type));
 	}
 
@@ -222,7 +222,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// Inherited.
 	function delete_learning_object($object)
 	{
-		if( !$this->learning_object_can_be_deleted($object))
+		if( !$this->learning_object_deletion_allowed($object))
 		{
 			return false;
 		}
@@ -241,7 +241,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			// Delete all attachments (only the links, not the actual objects)
 			$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object').'=? OR '.$this->escape_column_name('attachment').'=?';
 			$sth = $this->connection->prepare($query);
-			$res = $this->connection->execute($sth, array($object->get_id()));
+			$res = $this->connection->execute($sth, array($object->get_id(), $object->get_id()));
 
 			// Delete object
 			$query = 'DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';

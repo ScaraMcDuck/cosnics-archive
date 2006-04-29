@@ -10,6 +10,7 @@ class LinkTool extends RepositoryTool
 {
 	function run()
 	{
+		$this->display_header();
 		if (isset($_GET['linktoolmode']))
 		{
 			$_SESSION['linktoolmode'] = $_GET['linktoolmode'];
@@ -45,6 +46,7 @@ class LinkTool extends RepositoryTool
 				$browser = new LinkBrowser($this);
 				echo $browser->as_html();
 		}
+		$this->display_footer();
 	}
 }
 ?>

@@ -57,16 +57,17 @@ class SearchPortal extends WebApplication
 END;
 		$supports_remote = WebServiceSearchSource :: is_supported();
 		$form = new FormValidator('search_simple', 'get', '', '', null, false);
-		$renderer = $form->defaultRenderer();
-		$renderer->setElementTemplate('<span>{label} {element}</span> ');
 		$form->addElement('text', self :: PARAM_QUERY, get_lang('Find'), 'size="'. ($supports_remote ? 20 : 60).'"');
 		if ($supports_remote)
 		{
 			$form->addElement('text', self :: PARAM_URL, get_lang('InRepository'), 'size="60"');
 		}
 		$form->addElement('submit', 'submit', get_lang('Search'));
-		echo '<div style="text-align:center;">';
-		$form->display();
+		echo '<div style="text-align: center; margin: 0 0 2em 0;">';
+		$renderer = clone $form->defaultRenderer();
+		$renderer->setElementTemplate('<span>{label} {element}</span> ');
+		$form->accept($renderer);
+		echo $renderer->toHTML();
 		echo '</div>';
 		if ($form->validate())
 		{
@@ -86,22 +87,35 @@ END;
 		}
 		else
 		{
-			$results = self :: perform_search($query, $search_source);
-			if ($results instanceof Exception)
+			$result = self :: perform_search($query, $search_source);
+			if ($result instanceof Exception)
 			{
-				self :: report_exception($results);
+				self :: report_exception($result);
 			}
 			else
 			{
+				$repository_title = $result->get_repository_title();
+				$repository_url = $result->get_repository_url();
+				$result_count = $result->get_actual_result_count();
+				$results = $result->get_returned_results();
 				$count = $results->size();
 				if ($count)
 				{
 					$pager = self :: create_pager($count, self :: LEARNING_OBJECTS_PER_PAGE);
 					$pager_links = self :: get_pager_links($pager);
-					$first = self :: get_pager_offset($pager);
+					$offset = $pager->getOffsetByPageId();
+					$first = $offset[0] - 1;
 					$results->skip($first);
-					$i = 0;
+					$str = htmlentities(str_ireplace(array('%first%', '%last%', '%total%'), array($offset[0], $offset[1], $count), get_lang('Results%first%Through%last%Of%total%From%repository%')));
+					$str = str_ireplace('%repository%', '<a href="'.htmlentities($repository_url).'">'.htmlentities($repository_title).'</a>', $str);
+					echo '<h3>'.$str.'</h3>';
+					if ($result_count > $count)
+					{
+						$str = str_ireplace(array('%returned%', '%actual%'), array($count, $result_count), get_lang('TheRepositoryReturnedOnly%returned%Of%actual%Results'));
+						echo '<p><strong>'.get_lang('Notice').':</strong> '.htmlentities($str).'</p>';
+					}
 					echo $pager_links;
+					$i = 0;
 					while ($i ++ < self :: LEARNING_OBJECTS_PER_PAGE && $object = $results->next_result())
 					{
 						self :: display_result($object);
@@ -120,12 +134,6 @@ END;
 	{
 		echo '<p><strong>'.get_lang('Error').':</strong> '
 			.htmlentities($exception->getMessage()).'</p>';
-	}
-	
-	private static function get_pager_offset ($pager)
-	{
-		$offset = $pager->getOffsetByPageId();
-		return $offset[0] - 1;
 	}
 	
 	private static function display_result ($object)

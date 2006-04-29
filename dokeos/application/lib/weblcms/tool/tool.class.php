@@ -55,6 +55,16 @@ abstract class Tool
 	{
 		return $this->parent->get_tool_id();
 	}
+	
+	function display_header()
+	{
+		$this->parent->display_header();
+	}
+	
+	function display_footer()
+	{
+		$this->parent->display_footer();
+	}
 
 	/**
 	 * @see Application :: get_parameters()

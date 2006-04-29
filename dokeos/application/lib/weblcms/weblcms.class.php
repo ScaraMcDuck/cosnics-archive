@@ -31,6 +31,8 @@ class Weblcms extends WebApplication
 	 * The parameters that should be passed with every request.
 	 */
 	private $parameters;
+	
+	private $tool_class;
 
 	/**
 	 * Constructor. Optionally takes a default tool; otherwise, it is taken
@@ -53,22 +55,14 @@ class Weblcms extends WebApplication
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		if (isset ($tool))
 		{
-			echo '<div style="float: right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
-			echo '<form method="get" action="'.$this->get_url().'" style="display: inline;">';
-			echo '<select name="' . self :: PARAM_TOOL . '" onchange="submit();">';
-			echo '<option selected="selected">Pick a Tool &hellip;</option>';
-			foreach ($this->get_registered_tools() as $t)
-			{
-				echo '<option value="'.$t.'">'.get_lang(self :: tool_to_class($t).'Title').'</option>';
-			}
-			echo '</select></form></div>';
 			$class = self :: tool_to_class($tool);
-			api_display_tool_title(get_lang($class.'Title'));
 			$toolObj = new $class ($this);
+			$this->tool_class = $class;
 			$toolObj->run();
 		}
 		else
 		{
+			$this->display_header();
 			echo '<ul>';
 			foreach ($this->get_registered_tools() as $tool)
 			{
@@ -76,9 +70,10 @@ class Weblcms extends WebApplication
 				echo '<li><a href="'.$this->get_url(array (self :: PARAM_TOOL => $tool), true).'">'.get_lang($class.'Title').'</a></li>';
 			}
 			echo '</ul>';
+			$this->display_footer();
 		}
 	}
-
+	
 	function get_tool_id()
 	{
 		return $this->get_parameter(self :: PARAM_TOOL);
@@ -156,6 +151,44 @@ class Weblcms extends WebApplication
 		return WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($id);
 	}
 
+	function display_header()
+	{
+		// TODO: Breadcrumbs.
+		Display :: display_header(api_get_setting('siteName'));
+		echo '<div style="float: right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
+		echo '<form method="get" action="'.$this->get_url().'" style="display: inline;">';
+		echo '<select name="' . self :: PARAM_TOOL . '" onchange="submit();">';
+		if (!isset($this->tool_class))
+		{
+			echo '<option selected="selected">Pick a Tool &hellip;</option>';
+		}
+		$tools = array();
+		foreach ($this->get_registered_tools() as $t)
+		{
+			$tools[$t] = get_lang(self :: tool_to_class($t).'Title');
+		}
+		asort($tools);
+		foreach ($tools as $tool => $title)
+		{ 
+			$class = self :: tool_to_class($tool); 
+			echo '<option value="'.$t.'"'.($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($title).'</option>';
+		}
+		echo '</select></form></div>';
+		if (isset($this->tool_class))
+		{
+			api_display_tool_title(get_lang($this->tool_class.'Title'));
+		}
+	}
+
+	function display_footer()
+	{
+		// TODO: Find out why we need to reconnect here.
+		global $dbHost, $dbLogin, $dbPass, $mainDbName;
+		mysql_connect($dbHost, $dbLogin, $dbPass);
+		mysql_select_db($mainDbName);
+		Display :: display_footer();
+	}
+	
 	/**
 	 * Gets the URL of the current page in the application. Optionally takes
 	 * an associative array of name/value pairs representing additional query

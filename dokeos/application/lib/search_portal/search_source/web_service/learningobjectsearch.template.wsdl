@@ -33,8 +33,10 @@ xmlns="http://schemas.xmlsoap.org/wsdl/">
 		<part name="Query" type="xsd:string"/>
 	</message>
 	<message name="getResults">
+		<part name="RepositoryTitle" type="xsd:string"/>
+		<part name="RepositoryURL" type="xsd:string"/>
 		<part name="Results" type="tns:LearningObjects"/>
-		<part name="LimitReached" type="xsd:boolean"/>
+		<part name="ActualResultCount" type="xsd:integer"/>
 	</message>
 	
 	<portType name="LearningObjectSearchPort">
