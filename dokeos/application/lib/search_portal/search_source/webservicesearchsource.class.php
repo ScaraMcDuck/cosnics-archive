@@ -9,11 +9,12 @@ class WebServiceSearchSource implements SearchSource
 {
 	const CACHE_TIME = 60; // minutes
 	const CACHE_FILE_EXTENSION = 'cache';
-	
+	const CACHE_CLEANUP_TAG_FILE = 'cleanup.tag';
+
 	private static $cache_dir;
 
 	private $client;
-	
+
 	private $url;
 
 	function WebServiceSearchSource($url)
@@ -97,11 +98,25 @@ class WebServiceSearchSource implements SearchSource
 	private function clean_cache_dir()
 	{
 		$cache_dir = self :: $cache_dir;
-		$handle = opendir($cache_dir);
+		$tag_file = $cache_dir.'/'.self :: CACHE_CLEANUP_TAG_FILE;
 		$min_time = time() - self :: CACHE_TIME * 60;
+		$exists = file_exists($tag_file);
+		if ($exists && filemtime($tag_file) > $min_time)
+		{
+			return;
+		}
+		if ($exists)
+		{
+			file_put_contents($tag_file, '');
+		}
+		else
+		{
+			touch($tag_file);
+		}
+		$handle = opendir($cache_dir);
 		while (($file = readdir($handle)) !== false)
 		{
-			if (strrpos($file, '.' . self :: CACHE_FILE_EXTENSION) !== false)
+			if (strrpos($file, '.'.self :: CACHE_FILE_EXTENSION) !== false)
 			{
 				$path = $cache_dir.'/'.$file;
 				if (is_file($path) && filemtime($path) < $min_time)
