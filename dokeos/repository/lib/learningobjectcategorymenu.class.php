@@ -86,6 +86,7 @@ class LearningObjectCategoryMenu extends HTML_Menu
 			$menu_item['url'] = $this->get_category_url($category->get_id());
 			$menu_item['id'] = $category->get_id();
 			$menu_item['sub'] = $this->get_sub_menu_items($categories, $category->get_id());
+			$menu_item['class'] = 'type_category';
 			$sub_tree[$category->get_id()] = $menu_item;
 		}
 		return $sub_tree;
