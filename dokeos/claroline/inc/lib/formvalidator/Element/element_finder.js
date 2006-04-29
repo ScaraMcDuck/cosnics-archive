@@ -168,6 +168,10 @@ function elementFinderSetLinkSelected (link, selected, destination) {
 			elementFinderSelectedElements[destination] = elementFinderRemoveFromArray(elementFinderSelectedElements[destination], link);
 		}
 	}
+	if (destination) {
+		var button = document.getElementById(destination.getAttribute('id')+'_button');
+		button.disabled = (elementFinderSelectedElements[destination].length <= 0);
+	}
 }
 
 function elementFinderActivate (inactive, active) {
@@ -186,6 +190,7 @@ function elementFinderActivate (inactive, active) {
 	}
 	hiddenElmt.setAttribute('value', elementFinderSerialize(cached));
 	toActivate.length = 0;
+	document.getElementById(inactive.getAttribute('id')+'_button').disabled = true;
 }
 
 function elementFinderDeactivate (active, inactive) {
@@ -206,6 +211,7 @@ function elementFinderDeactivate (active, inactive) {
 	}
 	hiddenElmt.setAttribute('value', elementFinderSerialize(cached));
 	toDeactivate.length = 0;
+	document.getElementById(active.getAttribute('id')+'_button').disabled = true;
 }
 
 function elementFinderActivateElement (element, label, activeList) {
