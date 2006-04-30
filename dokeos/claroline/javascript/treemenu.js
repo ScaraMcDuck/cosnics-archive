@@ -43,6 +43,7 @@ function tmInitAll ()
 
 function tmInit (tree, collapseLevel)
 {
+	tree.style.visibility = "hidden";
 	if (collapseLevel == null)
 	{
 		collapseLevel = tmCollapseLevel;
@@ -53,6 +54,7 @@ function tmInit (tree, collapseLevel)
 	{
 		tmExpandNode(activeNodes[i], true);
 	}
+	tree.style.visibility = "visible";
 }
 
 function tmWalkTree (tree, level, collapseLevel, activeNodes)

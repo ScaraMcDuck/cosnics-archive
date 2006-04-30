@@ -111,10 +111,9 @@ function dump_tree($tree, & $objects)
 		dump_tree($node['sub'], & $objects);
 		foreach ($objects[$id] as $lo)
 		{
-			// TODO: i18n
-			$date = date('r', $lo->get_modification_date());
-			$type = $lo->get_type();
-			echo '<leaf id="', $lo->get_id(), '" class="type type_', $type, '" title="', htmlentities($lo->get_title()), '" description="', htmlentities(get_lang($type.'TypeName')), ' (', $date, ')"/>', "\n";
+			$id = $lo->get_id();
+			$value = RepositoryUtilities :: learning_object_for_element_finder($lo);
+			echo '<leaf id="', $id, '" class="', $value['class'], '" title="', htmlentities($value['title']), '" description="', htmlentities($value['description']), ')"/>', "\n";
 		}
 		echo '</node>', "\n";
 	}

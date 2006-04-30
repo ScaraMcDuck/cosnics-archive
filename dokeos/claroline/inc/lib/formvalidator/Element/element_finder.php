@@ -95,25 +95,41 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 
 	function setValue($value)
 	{
-		$str = array ();
-		foreach ($value as $k => $v)
+		if (empty($value))
 		{
-			$str[] = $k.':'.$v;
+			$serialized = '';
 		}
-		$this->_elements[0]->setValue(implode("\t", $str));
+		else
+		{
+			$parts = array();
+			foreach ($value as $id => $array)
+			{
+				array_walk($array, array(get_class(), 'remove_tabs'));
+				$string = implode("\t", array($array['class'], $array['title'], $array['description']));
+				$parts[] = $id."\t".$string;
+			}
+			$serialized = implode("\t", $parts); 
+		}
+		$this->_elements[0]->setValue($serialized);
+	}
+	
+	private static function remove_tabs(& $string, $key)
+	{
+		$string = str_replace("\t", ' ', $string);
 	}
 
 	private function get_active_elements()
 	{
 		$temp = explode("\t", $this->_elements[0]->getValue());
 		$result = array ();
-		foreach ($temp as $part)
+		for ($i = 0; $i < count($temp) - 3; $i += 4)
 		{
-			$temp2 = explode(':', $part, 2);
-			if(strlen($temp2[1]) > 0)
-			{
-				$result[$temp2[0]] = $temp2[1];
-			}
+			$id = $temp[$i];
+			$value = array();
+			$value['class'] = $temp[$i + 1];
+			$value['title'] = $temp[$i + 2];
+			$value['description'] = $temp[$i + 3];
+			$result[$id] = $value;
 		}
 		return $result;
 	}
