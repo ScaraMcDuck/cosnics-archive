@@ -79,7 +79,7 @@ function tmWalkTree (tree, level, collapseLevel, activeNodes)
 			{
 				hasChildren = true;
 			}
-			if (tmHasClassName(child, "active"))
+			if (tmHasClassName(child, "current"))
 			{
 				activeNodes[activeNodes.length] = child;
 			}
