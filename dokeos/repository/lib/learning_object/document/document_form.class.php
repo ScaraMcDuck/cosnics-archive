@@ -15,8 +15,6 @@ class DocumentForm extends LearningObjectForm
 		$this->addElement('upload_or_create','upload_or_create');
 		$this->addFormRule(array($this,'check_document_form'));
 		//TODO: add Rule to check if a HTML-content was filled in when the 'create' option was selected
-		$this->add_footer();
-		$this->setDefaults();
 	}
 	protected function build_editing_form()
 	{
@@ -34,10 +32,8 @@ class DocumentForm extends LearningObjectForm
 			$this->addRule('file',get_lang('DiskQuotaExceeded'),'disk_quota');
 			//TODO: add Rule to check if diskquota doesn't exceed when uploading a document
 		}
-		$this->setDefaults();
-		$this->add_footer();
 	}
-	public function setDefaults($defaults = array ())
+	function setDefaults($defaults = array ())
 	{
 		$object = $this->get_learning_object();
 		if (isset ($object) && $this->is_html_document($object->get_path()))
@@ -133,7 +129,7 @@ class DocumentForm extends LearningObjectForm
 	/**
 	 *
 	 */
-	public function check_document_form($fields)
+	private function check_document_form($fields)
 	{
 		$errors = array();
 		if(!$fields['choice'])
