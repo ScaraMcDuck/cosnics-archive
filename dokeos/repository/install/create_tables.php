@@ -47,6 +47,13 @@ if (!file_exists($lo_file))
 }
 parse_sql_file('learning_object', $lo_file);
 
+$loa_file = dirname(__FILE__).'/learning_object_attachment.sql';
+if (!file_exists($loa_file))
+{
+	die('File not found: '.$loa_file);
+}
+parse_sql_file('learning_object', $loa_file);
+
 $dir = dirname(__FILE__).'/../lib/learning_object';
 if (!($handle = opendir($dir)))
 {

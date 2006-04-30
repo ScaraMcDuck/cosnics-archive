@@ -15,7 +15,7 @@ require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 
 $users = 1;
 
-$max_categories = array (5, 3, 2, 0);
+$max_categories = array (5, 3, 3, 0);
 
 $announcements = rand(2, 10);
 $calendar_events = rand(2, 10);
@@ -272,7 +272,8 @@ function create_category($owner, $parent = 0, $level = 0)
 	$cat->set_parent_id($parent);
 	$cat->set_title($parent == 0 ? 'My Repository' : random_string(2));
 	$cat->set_description(random_string(8));
-	$id = $cat->create();
+	$cat->create();
+	$id = $cat->get_id();
 	if (!$max_categories[$level])
 	{
 		return;
