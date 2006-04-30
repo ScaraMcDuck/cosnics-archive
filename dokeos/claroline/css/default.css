@@ -933,7 +933,7 @@ ul.tree-menu li.collapsed ul
 /*
  * TODO: Workaround for IE
  */
-ul.tree-menu li.current > div > a.current
+ul.tree-menu li.current > div > a
 {
 	text-decoration: underline;
 }
