@@ -111,7 +111,10 @@ function dump_tree($tree, & $objects)
 		dump_tree($node['sub'], & $objects);
 		foreach ($objects[$id] as $lo)
 		{
-			echo '<leaf id="', $lo->get_id(), '" class="type_', $lo->get_type(), '" title="', htmlentities($lo->get_title()), '" description="', htmlentities(get_lang($lo->get_type().'TypeName')), '"/>', "\n";
+			// TODO: i18n
+			$date = date('r', $lo->get_modification_date());
+			$type = $lo->get_type();
+			echo '<leaf id="', $lo->get_id(), '" class="type type_', $type, '" title="', htmlentities($lo->get_title()), '" description="', htmlentities(get_lang($type.'TypeName')), ' (', $date, ')"/>', "\n";
 		}
 		echo '</node>', "\n";
 	}

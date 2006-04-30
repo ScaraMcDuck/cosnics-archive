@@ -121,7 +121,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 
 	private function display_search_form()
 	{
-		echo '<fieldset class="repository_search" style="margin-bottom: 1em">';
+		echo '<fieldset class="repository_search" style="margin-bottom: 1em; padding: 0.5em;">';
 		echo '<legend>'.get_lang($this->search_is_advanced() ? 'AdvancedSearch' : 'SearchThisCategory');
 		echo ' [<a href="'.htmlentities($this->get_url(array (RepositoryManager :: PARAM_PARENT_LEARNING_OBJECT_ID => $this->category_id, RepositoryManager :: PARAM_ADVANCED_SEARCH => !$this->search_is_advanced()))).'">';
 		echo get_lang($this->search_is_advanced() ? 'ToSimpleSearch' : 'ToAdvancedSearch');
