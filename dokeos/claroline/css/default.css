@@ -941,6 +941,16 @@ ul.tree-menu li.collapsed ul
 ul.tree-menu li div a
 {
 	padding-top: 3px;
+	height: 15px;
+}
+
+/*
+ * IE doesn't like the tweak above very much
+ */
+* html ul.tree-menu li div a
+{
+	padding-top: 2px;
+	height: 16px;
 }
 
 ul.tree-menu li div
@@ -966,75 +976,121 @@ ul.tree-menu li div a.trash
 }
 
 /*
- * Types for element finder
+ * For element finder
  */
-ul.tree-menu li div a.type_category
+.active_elements ul {
+	list-style: none;
+}
+
+.active_elements ul, .active_elements ul li {
+	margin: 0;
+	padding: 0;
+}
+
+.active_elements a {
+	display: block;
+}
+
+.active_elements li.type {
+	height: 18px;
+}
+
+/* This should be like the tree menu padding */
+.active_elements li.type a {
+	padding: 3px 0 0 21px;
+	height: 15px;
+}
+
+/*
+ * IE doesn't like the tweak above very much
+ */
+* html .active_elements li.type a
+{
+	padding-top: 2px;
+	height: 16px;
+}
+
+ul.tree-menu li div a.selected, .active_elements a.selected {
+	background-color: #E6E6FF;
+}
+
+ul.tree-menu li div a.disabled, ul.tree-menu li div a.disabled:hover,
+ul.tree-menu li div a.disabled:active  {
+	color: #999;
+	font-weight: normal !important;
+	cursor: default;
+}
+
+ul.tree-menu li div a.type_category, ul.tree-menu li div a.type_category:hover,
+ul.tree-menu li div a.type_category:active
 {
 	background-image: url(../img/treemenu_types/category.gif);
 	background-repeat: no-repeat;
+	color: #666;
+	cursor: default;
 }
 
-ul.tree-menu li div a.type_announcement
+ul.tree-menu li div a.type_announcement, .active_elements li.type_announcement a
 {
 	background-image: url(../img/treemenu_types/announcement.gif);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_calendar_event
+ul.tree-menu li div a.type_calendar_event, .active_elements li.type_calendar_event a
 {
 	background-image: url(../img/treemenu_types/calendar_event.gif);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_description
+ul.tree-menu li div a.type_description, .active_elements li.type_description a
 {
 	background-image: url(../img/treemenu_types/description.gif);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_document
+ul.tree-menu li div a.type_document, .active_elements li.type_document a
 {
 	background-image: url(../img/treemenu_types/document.gif);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_forum
+ul.tree-menu li div a.type_forum, .active_elements li.type_forum a
 {
 	background-image: url(../img/treemenu_types/forum.gif);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_forum_post
+ul.tree-menu li div a.type_forum_post, .active_elements li.type_forum_post a
 {
 	background-image: url(../img/treemenu_types/forum_post.gif);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_forum_topic
+ul.tree-menu li div a.type_forum_topic, .active_elements li.type_forum_topic a
 {
 	background-image: url(../img/treemenu_types/forum_topic.gif);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_learning_path
+ul.tree-menu li div a.type_learning_path, .active_elements li.type_learning_path a
 {
 	background-image: url(../img/treemenu_types/learning_path.gif);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_learning_path_chapter
+ul.tree-menu li div a.type_learning_path_chapter, .active_elements li.type_learning_path_chapter a
 {
 	background-image: url(../img/treemenu_types/learning_path_chapter.gif);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_learning_path_item
+ul.tree-menu li div a.type_learning_path_item, .active_elements li.type_learning_path_item a
 {
 	background-image: url(../img/treemenu_types/learning_path_item.gif);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_link
+ul.tree-menu li div a.type_link, .active_elements li.type_link a
 {
 	background-image: url(../img/treemenu_types/link.gif);
 	background-repeat: no-repeat;

@@ -7,7 +7,7 @@
  *
  * Here's a trivial example:
  *
- * <ul class="treeMenu">
+ * <ul class="tree-menu">
  *   <li>
  *     <a href="category1.html">Category 1</a>
  *     <ul>
@@ -29,33 +29,35 @@
  *
  */
 
-var treeClassName = "tree-menu";
-var treeCollapseLevel = 1;
+var tmClassName = "tree-menu";
+var tmCollapseLevel = 1;
 
-function initTrees ()
+function tmInitAll ()
 {
-	var trees = getElementsByClassName("ul", treeClassName);
+	var trees = tmGetElementsByClassName("ul", tmClassName);
 	for (var i = 0; i < trees.length; i++)
 	{
-		initTree(trees[i]);
+		tmInit(trees[i]);
 	}
 }
 
-function initTree (tree)
+function tmInit (tree, collapseLevel)
 {
-	tree.style.visibility = "hidden";
+	if (collapseLevel == null)
+	{
+		collapseLevel = tmCollapseLevel;
+	}
 	var activeNodes = new Array();
-	walkTree(tree, 0, activeNodes);
+	tmWalkTree(tree, 0, collapseLevel, activeNodes);
 	for (var i = 0; i < activeNodes.length; i++)
 	{
-		expandNode(activeNodes[i], true);
+		tmExpandNode(activeNodes[i], true);
 	}
-	tree.style.visibility = "visible";
 }
 
-function walkTree (tree, level, activeNodes)
+function tmWalkTree (tree, level, collapseLevel, activeNodes)
 {
-	var children = filterTextNodes(tree.childNodes);
+	var children = tmFilterTextNodes(tree.childNodes);
 	var hasChildren = false;
 	for (var i = 0; i < children.length; i++)
 	{
@@ -64,33 +66,33 @@ function walkTree (tree, level, activeNodes)
 		{
 			if (i == children.length - 1)
 			{
-				addClassName(child, "last");
+				tmAddClassName(child, "last");
 			}
-			if (isRootNode(child))
+			if (tmIsRootNode(child))
 			{
-				addClassName(child, "root");
+				tmAddClassName(child, "root");
 			}
-			var validChild = parseNode(child, level + 1, activeNodes);
+			var validChild = tmParseNode(child, level + 1, collapseLevel, activeNodes);
 			if (validChild)
 			{
 				hasChildren = true;
 			}
-			if (hasClassName(child, "active"))
+			if (tmHasClassName(child, "active"))
 			{
 				activeNodes[activeNodes.length] = child;
 			}
-			else if (level >= treeCollapseLevel)
+			else if (collapseLevel >= 0 && level >= collapseLevel)
 			{
-				collapseNode(child);
+				tmCollapseNode(child);
 			}
 		}
 	}
 	return hasChildren;
 }
 
-function parseNode (node, level, activeNodes)
+function tmParseNode (node, level, collapseLevel, activeNodes)
 {
-	var children = filterTextNodes(node.childNodes);
+	var children = tmFilterTextNodes(node.childNodes);
 	// 0 = leaf, 1 = empty node, 2 = node with children
 	var type = 0;
 	var link;
@@ -103,7 +105,7 @@ function parseNode (node, level, activeNodes)
 				link = child;
 				break;
 			case "ul":
-				var hasChildren = walkTree(child, level, activeNodes);
+				var hasChildren = tmWalkTree(child, level, collapseLevel, activeNodes);
 				if (hasChildren)
 				{
 					type = 2;
@@ -113,9 +115,9 @@ function parseNode (node, level, activeNodes)
 					node.removeChild(child);
 					type = 1;
 				}
-				if (isLastNode(node))
+				if (tmIsLastNode(node))
 				{
-					addClassName(child, "last");
+					tmAddClassName(child, "last");
 				}
 				break;
 		}
@@ -123,62 +125,62 @@ function parseNode (node, level, activeNodes)
 	switch (type)
 	{
 		case 0:
-			addClassName(node, "leaf");
+			tmAddClassName(node, "leaf");
 			break;
 		case 1:
-			addClassName(node, "empty");
+			tmAddClassName(node, "empty");
 			break;
 	}
 	if (link)
 	{
-		wrapInDiv(link, hasChildren);
+		tmWrapInDiv(link, hasChildren);
 		return true;
 	}
 	return false;
 }
 
-function expandOrCollapse (node)
+function tmExpandOrCollapse (node)
 {
-	if (isCollapsed(node))
+	if (tmIsCollapsed(node))
 	{
-		expandNode(node);
+		tmExpandNode(node);
 	}
 	else
 	{
-		collapseNode(node);
+		tmCollapseNode(node);
 	}
 }
 
-function expandNode (node, climbUp)
+function tmExpandNode (node, climbUp)
 {
-	removeClassName(node, "collapsed");
-	if (climbUp && !isRootNode(node))
+	tmRemoveClassName(node, "collapsed");
+	if (climbUp && !tmIsRootNode(node))
 	{
-		expandNode(node.parentNode.parentNode, true);
+		tmExpandNode(node.parentNode.parentNode, true);
 	}
 }
 
-function collapseNode (node)
+function tmCollapseNode (node)
 {
-	addClassName(node, "collapsed");
+	tmAddClassName(node, "collapsed");
 }
 
-function isCollapsed (node)
+function tmIsCollapsed (node)
 {
-	return hasClassName(node, "collapsed");
+	return tmHasClassName(node, "collapsed");
 }
 
-function isRootNode (node)
+function tmIsRootNode (node)
 {
-	return hasClassName(node.parentNode, treeClassName);
+	return tmHasClassName(node.parentNode, tmClassName);
 }
 
-function isLastNode (node)
+function tmIsLastNode (node)
 {
-	return hasClassName(node, "last");
+	return tmHasClassName(node, "last");
 }
 
-function wrapInDiv (link, collapsible)
+function tmWrapInDiv (link, collapsible)
 {
 	var div = document.createElement("div");
 	var copy = link.cloneNode(true);
@@ -193,39 +195,38 @@ function wrapInDiv (link, collapsible)
 	div.appendChild(copy);
 	var parent = link.parentNode;
 	parent.replaceChild(div, link);
-	if (hasClassName(parent, "last"))
+	if (tmHasClassName(parent, "last"))
 	{
 		div.className = "last";
 	}
 	if (collapsible)
 	{
 		div.onclick = function () {
-			expandOrCollapse(parent);
+			tmExpandOrCollapse(parent);
 		};
 	}
 }
 
-function filterTextNodes (nodes)
-{
+function tmFilterTextNodes (nodes) {
 	var result = new Array();
-	for (var i = 0; i < nodes.length; i++)
-	{
-		if (nodes[i].tagName)
-		{
-			result[result.length] = nodes[i];
+	for (var i = 0; i < nodes.length; i++) {
+		var node = nodes[i];
+		if (node.nodeType != 3) {
+			result[result.length] = node;
 		}
 	}
 	return result;
 }
 
-function getElementsByClassName (tagName, className)
+
+function tmGetElementsByClassName (tagName, className)
 {
 	var el = document.getElementsByTagName(tagName);
 	var res = new Array();
 	for (var i = 0; i < el.length; i++)
 	{
 		var elmt = el[i];
-		if (hasClassName(elmt, className))
+		if (tmHasClassName(elmt, className))
 		{
 			res[res.length] = elmt;
 		}
@@ -233,23 +234,23 @@ function getElementsByClassName (tagName, className)
 	return res;
 }
 
-function addClassName (element, className)
+function tmAddClassName (element, className)
 {
-	if (!hasClassName(element, className))
+	if (!tmHasClassName(element, className))
 	{
-		var names = getClassNames(element);
+		var names = tmGetClassNames(element);
 		names[names.length] = className;
-		setClassNames(element, names);
+		tmSetClassNames(element, names);
 	}
-	if (requiresCssFix(className))
+	if (tmRequiresCssFix(className))
 	{
-		ieCssFix(element);
+		tmIECssFix(element);
 	}
 }
 
-function removeClassName (element, className)
+function tmRemoveClassName (element, className)
 {
-	var names = getClassNames(element);
+	var names = tmGetClassNames(element);
 	var newNames = new Array();
 	for (var i = 0; i < names.length; i++)
 	{
@@ -258,24 +259,24 @@ function removeClassName (element, className)
 			newNames[newNames.length] = names[i];
 		}
 	}
-	setClassNames(element, newNames);
-	if (requiresCssFix(className))
+	tmSetClassNames(element, newNames);
+	if (tmRequiresCssFix(className))
 	{
-		ieCssFix(element);
+		tmIECssFix(element);
 	}
 }
 
-function hasClassName (element, className)
+function tmHasClassName (element, className)
 {
-	return arrayContains(getClassNames(element), className);
+	return tmArrayContains(tmGetClassNames(element), className);
 }
 
-function getClassNames (element)
+function tmGetClassNames (element)
 {
 	return element.className.split(/ +/);
 }
 
-function setClassNames (element, classNames)
+function tmSetClassNames (element, classNames)
 {
 	var n = "";
 	for (var i = 0; i < classNames.length; i++)
@@ -285,35 +286,35 @@ function setClassNames (element, classNames)
 	element.className = n;
 }
 
-function ieCssFix (element)
+function tmIECssFix (element)
 {
-	removeClassName(element, "last-empty");
-	removeClassName(element, "last-leaf");
-	removeClassName(element, "last-collapsed");
-	var names = getClassNames(element);
-	if (arrayContains(names, "last"))
+	tmRemoveClassName(element, "last-empty");
+	tmRemoveClassName(element, "last-leaf");
+	tmRemoveClassName(element, "last-collapsed");
+	var names = tmGetClassNames(element);
+	if (tmArrayContains(names, "last"))
 	{
-		if (arrayContains(names, "empty"))
+		if (tmArrayContains(names, "empty"))
 		{
-			addClassName(element, "last-empty");
+			tmAddClassName(element, "last-empty");
 		}
-		else if (arrayContains(names, "leaf"))
+		else if (tmArrayContains(names, "leaf"))
 		{
-			addClassName(element, "last-leaf");
+			tmAddClassName(element, "last-leaf");
 		}
-		else if (arrayContains(names, "collapsed"))
+		else if (tmArrayContains(names, "collapsed"))
 		{
-			addClassName(element, "last-collapsed");
+			tmAddClassName(element, "last-collapsed");
 		}
 	}
 }
 
-function requiresCssFix (className)
+function tmRequiresCssFix (className)
 {
 	return (document.all && (className == "last" || className == "empty" || className == "leaf" || className == "collapsed"));
 }
 
-function arrayContains (haystack, needle)
+function tmArrayContains (haystack, needle)
 {
 	for (var i = 0; i < haystack.length; i++)
 	{
@@ -325,7 +326,7 @@ function arrayContains (haystack, needle)
 	return false;
 }
 
-function addOnloadFunction (f)
+function tmAddOnloadFunction (f)
 {
 	if (window.onload != null)
 	{
@@ -341,4 +342,4 @@ function addOnloadFunction (f)
 	}
 }
 
-addOnloadFunction(initTrees);
+tmAddOnloadFunction(tmInitAll);

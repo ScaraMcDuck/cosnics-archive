@@ -4,8 +4,8 @@ var elfLocale = new Array();
 elfLocale['Searching'] = 'Searching ...';
 elfLocale['NoResults'] = 'No results';
 elfLocale['Error'] = 'Error';
-elfLocale['SelectedColor'] = '#E6E6FF';
-elfLocale['DisabledColor'] = '#F6F6F6';
+
+var elfSerializationSeparator = "\t";
 
 var elfSearchDelay = 500;
 
@@ -77,8 +77,8 @@ ElementFinderSearch.prototype.returnResults = function () {
 		var ul = document.createElement('ul');
 		this.destination.appendChild(ul);
 		elfBuildResults(mainLeaf, ul, this.destination.getAttribute('id'));
-		ul.className = treeClassName;
-		initTree(ul);
+		ul.className = tmClassName;
+		tmInit(ul, -1);
 	}
 	else {
 		elfNotify('NoResults', this.destination);
@@ -101,22 +101,11 @@ function elfNotify (msgID, destination) {
 	destination.appendChild(document.createTextNode(elfLocale[msgID]));
 }
 
-function elfFilterTextNodes (nodes) {
-	var result = new Array();
-	for (var i = 0; i < nodes.length; i++) {
-		var node = nodes[i];
-		if (node.nodeType != 3) {
-			result[result.length] = node;
-		}
-	}
-	return result;
-}
-
 function elfLastChild (node) {
 	if (!node || !node.childNodes || node.childNodes.length == 0) {
 		return null;
 	}
-	var a = elfFilterTextNodes(node.childNodes);
+	var a = tmFilterTextNodes(node.childNodes);
 	return (a.length == 0 ? null : a[a.length - 1]);
 }
 
@@ -133,7 +122,7 @@ function elfBuildResults (node, ul, destinationID) {
 	li.appendChild(a);
 	var ulSub = document.createElement('ul');
 	li.appendChild(ulSub);
-	var childNodes = elfFilterTextNodes(node.childNodes);
+	var childNodes = tmFilterTextNodes(node.childNodes);
 	for (var i = 0; i < childNodes.length; i++) {
 		var child = childNodes[i];
 		switch (child.nodeName) {
@@ -150,6 +139,7 @@ function elfBuildResults (node, ul, destinationID) {
 				a.setAttribute('element', id);
 				if (className) {
 					a.className = className;
+					a.setAttribute('extraClasses', className);
 				}
 				if (description) {
 					a.setAttribute('title', description);
@@ -172,14 +162,14 @@ function elfToggleLinkSelectionState (link, destination) {
 function elfSetLinkSelected (link, selected, destination) {
 	if (selected) {
 		link.setAttribute('selected', 1);
-		link.style.backgroundColor = elfLocale['SelectedColor'];
+		tmAddClassName(link, 'selected');
 		if (destination) {
 			elfSelectedElements[destination.getAttribute('id')] = elfAddToArray(elfSelectedElements[destination.getAttribute('id')], link);
 		}
 	}
 	else {
 		link.removeAttribute('selected');
-		link.style.backgroundColor = 'transparent';
+		tmRemoveClassName(link, 'selected');
 		if (destination) {
 			elfSelectedElements[destination.getAttribute('id')] = elfRemoveFromArray(elfSelectedElements[destination.getAttribute('id')], link);
 		}
@@ -198,12 +188,13 @@ function elfActivate (inactive, active) {
 	for (var j = 0; j < toActivate.length; j++) {
 		var link = toActivate[j];
 		var id = link.getAttribute('element');
-		var description = link.getAttribute('title');
 		var label = link.firstChild.nodeValue;
-		elfActivateElement(id, label, active, description);
+		var description = link.getAttribute('title');
+		var className = link.getAttribute('extraClasses');
+		elfActivateElement(id, label, description, className, active);
 		elfSetLinkSelected(link, false);
 		elfSetLinkEnabled(link, false);
-		cached = elfAddToArray(cached, id + ":" + label);
+		cached = elfAddToArray(cached, new Array(id, (className ? className : ""), label, description));
 	}
 	hiddenElmt.setAttribute('value', elfSerialize(cached));
 	toActivate.length = 0;
@@ -218,40 +209,48 @@ function elfDeactivate (active, inactive) {
 	for (var j = 0; j < toDeactivate.length; j++) {
 		var link = toDeactivate[j];
 		var id = link.getAttribute('element');
-		var label = link.firstChild.nodeValue;
-		var otherLink = document.getElementById(link.getAttribute('id').replace('_active_', '_inactive_'));
 		elfDeactivateElement(id, active);
+		var otherLink = document.getElementById(link.getAttribute('id').replace('_active_', '_inactive_'));
 		if (otherLink) {
 			elfSetLinkEnabled(otherLink, true);
 		}
-		cached = elfRemoveFromArray(cached, id + ":" + label);
+		cached = elfRemoveFromCache(cached, id);
 	}
 	hiddenElmt.setAttribute('value', elfSerialize(cached));
 	toDeactivate.length = 0;
 	document.getElementById(active.getAttribute('id')+'_button').disabled = true;
 }
 
-function elfActivateElement (element, label, activeList, description) {
+function elfRemoveFromCache (cache, id) {
+	if (!cache.length) {
+		return cache;
+	}
+	var newCache = new Array();
+	for (var i = 0; i < cache.length; i++) {
+		if (cache[i][0] != id) {
+			newCache[newCache.length] = cache[i];
+		}
+	}
+	return newCache;
+}
+
+function elfActivateElement (element, label, description, extraClasses, activeList) {
 	var ul = activeList.firstChild;
 	if (!ul) {
 		ul = document.createElement('ul');
-		ul.style.listStyle = 'none';
-		ul.style.margin = 0;
-		ul.style.padding = 0;
 		activeList.appendChild(ul);
 	}
 	var li = document.createElement('li');
-	li.style.margin = 0;
-	li.style.padding = 0;
-	li.style.display = 'block';
 	var containerID = activeList.getAttribute('id');
 	var aID = containerID + '_' + element;
 	var a = document.createElement('a');
-	a.style.display = 'block';
 	a.setAttribute('id', aID);
 	a.setAttribute('href', 'javascript:elfToggleLinkSelectionState(document.getElementById("' + aID + '"),document.getElementById("' + containerID + '"));');
 	if (description) {
 		a.setAttribute('title', description);
+	}
+	if (extraClasses) {
+		li.className = extraClasses;
 	}
 	a.setAttribute('element', element);
 	a.appendChild(document.createTextNode(label));
@@ -277,26 +276,33 @@ function elfSetLinkEnabled (link, enabled) {
 		if (realHref) {
 			link.setAttribute('href', realHref);
 			link.removeAttribute('realHref');
-			link.style.backgroundColor = '';
+			tmRemoveClassName(link, 'disabled');
 		}
 	}
 	else if (href) {
 		link.setAttribute('realHref', href);
 		link.setAttribute('href', 'javascript:void(0);');
-		link.style.backgroundColor = elfLocale['DisabledColor'];
+		tmAddClassName(link, 'disabled');
 	}
 }
 
 function elfAddToArray (array, element) {
-	var newArray = (array ? elfCloneArray(array) : new Array());
-	if (elfArrayContains(array, element)) return newArray;
+	if (!array || !array.length) {
+		var newArray = new Array();
+		newArray[0] = element;
+		return newArray;
+	}
+	if (elfArrayContains(array, element)) {
+		return array;
+	}
+	var newArray = elfCloneArray(array);
 	newArray[newArray.length] = element;
 	return newArray;
 }
 
 function elfRemoveFromArray (array, element) {
 	var newArray = new Array();
-	if (!array) return newArray;
+	if (!array || !array.length) return newArray;
 	for (var i = 0; i < array.length; i++) {
 		if (array[i] != element) {
 			newArray[newArray.length] = array[i];
@@ -369,8 +375,7 @@ function elfExcludeString (destination) {
 	var chunks = elfUnserialize(elmt.getAttribute('value'));
 	var str = '';
 	for (var i = 0; i < chunks.length; i++) {
-		var separatorIndex = chunks[i].indexOf(':');
-		str += "&exclude[]=" + chunks[i].substring(0, separatorIndex);
+		str += "&exclude[]=" + chunks[i][0];
 	}
 	return str;
 }
@@ -378,8 +383,11 @@ function elfExcludeString (destination) {
 function elfRestoreFromCache (hiddenElmt, active) {
 	var cached = elfUnserialize(hiddenElmt.getAttribute('value'));
 	for (var j = 0; j < cached.length; j++) {
-		var separatorIndex = cached[j].indexOf(':');
-		elfActivateElement(cached[j].substring(0, separatorIndex), cached[j].substring(separatorIndex + 1), active);
+		var id = cached[j][0];
+		var className = cached[j][1];
+		var title = cached[j][2];
+		var description = cached[j][3];
+		elfActivateElement(id, title, description, className, active);
 	}
 }
 
@@ -387,19 +395,42 @@ function elfSerialize (elements) {
 	if (!elements.length) {
 		return "";
 	}
-	var string = elements[0];
+	var re = new RegExp(elfSerializationSeparator, "g");
+	var string = elfSubserialize(elements[0], re);
 	for (var i = 1; i < elements.length; i++) {
-		string += "\t" + elements[i];
+		string += elfSerializationSeparator + elfSubserialize(elements[i], re);
 	}
 	return string;
 }
 
-function elfUnserialize (elements) {
-	if (!elements.length)
-	{
+function elfSubserialize (element, re) {
+	var string = element[0];
+	for (var i = 1; i < element.length; i++) {
+		string += elfSerializationSeparator + element[i].replace(re, " ");
+	}
+	return string;
+}
+
+function elfUnserialize (string) {
+	if (!string.length) {
 		return new Array();
 	}
-	return elements.split("\t");
+	var start = 0;
+	var end = string.indexOf(elfSerializationSeparator);
+	var elements = new Array();
+	var element = new Array();
+	while (end >= 0) {
+		element[element.length] = string.substring(start, end);
+		if (element.length == 4) {
+			elements[elements.length] = element;
+			element = new Array();
+		}
+		start = end + 1;
+		end = string.indexOf(elfSerializationSeparator, start);
+	}
+	element[element.length] = string.substring(start);
+	elements[elements.length] = element;
+	return elements;
 }
 
 function elfGetAjaxObject () {
