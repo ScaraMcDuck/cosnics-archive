@@ -195,8 +195,9 @@ function elementFinderActivate (inactive, active) {
 	for (var j = 0; j < toActivate.length; j++) {
 		var link = toActivate[j];
 		var id = link.getAttribute('element');
+		var description = link.getAttribute('title');
 		var label = link.firstChild.nodeValue;
-		elementFinderActivateElement(id, label, active);
+		elementFinderActivateElement(id, label, active, description);
 		elementFinderSetLinkSelected(link, false);
 		elementFinderSetLinkEnabled(link, false);
 		cached = elementFinderAddToArray(cached, id + ":" + label);
@@ -227,7 +228,7 @@ function elementFinderDeactivate (active, inactive) {
 	document.getElementById(active.getAttribute('id')+'_button').disabled = true;
 }
 
-function elementFinderActivateElement (element, label, activeList) {
+function elementFinderActivateElement (element, label, activeList, description) {
 	var ul = activeList.firstChild;
 	if (!ul) {
 		ul = document.createElement('ul');
@@ -246,6 +247,9 @@ function elementFinderActivateElement (element, label, activeList) {
 	a.style.display = 'block';
 	a.setAttribute('id', aID);
 	a.setAttribute('href', 'javascript:elementFinderToggleLinkSelectionState(document.getElementById("' + aID + '"),document.getElementById("' + containerID + '"));');
+	if (description) {
+		a.setAttribute('title', description);
+	}
 	a.setAttribute('element', element);
 	a.appendChild(document.createTextNode(label));
 	li.appendChild(a);
