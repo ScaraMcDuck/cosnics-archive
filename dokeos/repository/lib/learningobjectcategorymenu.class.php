@@ -93,7 +93,8 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	}
 	private function get_category_url ($category)
 	{
-		return sprintf($this->urlFmt, $category);
+		// TODO: Put another class in charge of the htmlentities() invocation
+		return htmlentities(sprintf($this->urlFmt, $category));
 	}
 	/**
 	 * Get the breadcrumbs which lead to the current category.
