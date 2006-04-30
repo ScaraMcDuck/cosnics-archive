@@ -107,7 +107,7 @@ function dump_tree($tree, & $objects)
 			continue;
 		}
 		$id = $node['obj']->get_id();
-		echo '<node id="', $id, '" class="type_category" title="', htmlentities($node['obj']->get_title()), '">', "\n";
+		echo '<node id="', $id, '" class="type_category unlinked" title="', htmlentities($node['obj']->get_title()), '">', "\n";
 		dump_tree($node['sub'], & $objects);
 		foreach ($objects[$id] as $lo)
 		{

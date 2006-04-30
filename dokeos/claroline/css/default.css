@@ -1021,13 +1021,17 @@ ul.tree-menu li div a.disabled:active  {
 	cursor: default;
 }
 
+ul.tree-menu li div a.unlinked, ul.tree-menu li div a.unlinked:hover,
+ul.tree-menu li div a.unlinked:active {
+	color: #666;
+	cursor: default;
+}
+
 ul.tree-menu li div a.type_category, ul.tree-menu li div a.type_category:hover,
 ul.tree-menu li div a.type_category:active
 {
 	background-image: url(../img/treemenu_types/category.gif);
 	background-repeat: no-repeat;
-	color: #666;
-	cursor: default;
 }
 
 ul.tree-menu li div a.type_announcement, .active_elements li.type_announcement a

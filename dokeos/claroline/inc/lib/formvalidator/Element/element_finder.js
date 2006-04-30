@@ -1,3 +1,13 @@
+/*
+ *
+ * Element Finder QuickForm element JavaScript part
+ *
+ * Does all sorts of elite tomfoolery. Play with it and be amazed.
+ *
+ * @author Tim De Pauw <ct at xanoo dot com>
+ *
+ */
+
 // TODO: Provide an alternative if AJAX isn't supported.
 
 var elfLocale = new Array();
