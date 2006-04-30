@@ -73,10 +73,9 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		// TODO: Figure out why this doesn't happen automatically.
 		$this->_elements[0]->setValue($_REQUEST[$this->_elements[0]->getName()]);
 		$options = $this->get_active_elements();
-		$this->_elements[] = new HTML_QuickForm_text($this->getName().'_search', null, array ('style' => 'width: 100%', 'onkeyup' => 'elementFinderFind(this.value, \''.$this->search_url.'\', document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));', 'onkeypress' => 'var evt = (window.event || event); if (evt && evt.keyCode == 13) return false;'));
-		$this->_elements[1]->setValue('');
-		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_activate', '<<', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elementFinderActivate(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\'));', 'id' => $activate_button_id, 'disabled' => 'disabled'));
-		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '>>', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elementFinderDeactivate(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));',  'id' => $deactivate_button_id, 'disabled' => 'disabled'));
+		$this->_elements[] = new HTML_QuickForm_text($this->getName().'_search', null, array ('style' => 'width: 100%', 'onkeyup' => 'elfFind(this.value, \''.$this->search_url.'\', document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));', 'onkeypress' => 'var evt = (window.event || event); if (evt && evt.keyCode == 13) return false;'));
+		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_activate', '<<', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elfActivate(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\'));', 'id' => $activate_button_id, 'disabled' => 'disabled'));
+		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '>>', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elfDeactivate(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));',  'id' => $deactivate_button_id, 'disabled' => 'disabled'));
 	}
 
 	function getValue()
@@ -139,7 +138,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 			$html[] = '<script type="text/javascript">';
 			foreach ($this->locale as $name => $value)
 			{
-				$html[] = 'elementFinderLocale["'.addslashes($name).'"] = "'.addslashes($value).'";';
+				$html[] = 'elfLocale["'.addslashes($name).'"] = "'.addslashes($value).'";';
 			}
 			$html[] = '</script>';
 		}
@@ -156,6 +155,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$html[] = $this->_elements[3]->toHTML();
 		$html[] = '</td>';
 		$html[] = '<td width="50%" valign="top">';
+		$this->_elements[1]->setValue('');
 		$html[] = $this->_elements[1]->toHTML();
 		$html[] = '</td>';
 		$html[] = '</tr>';
@@ -171,7 +171,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 			$html[] = '<input type="button" value="'.htmlentities($this->locale['Display']).'" '.'onclick="document.getElementById(\''.$id.'\').style.display = \'\'; this.style.display = \'none\';" />';
 		}
 		$html[] = '<script type="text/javascript">';
-		$html[] = 'elementFinderRestoreFromCache(document.getElementById(\'elf_'.$this->getName().'_active_hidden\'), document.getElementById(\'elf_'.$this->getName().'_active\'));';
+		$html[] = 'elfRestoreFromCache(document.getElementById(\'elf_'.$this->getName().'_active_hidden\'), document.getElementById(\'elf_'.$this->getName().'_active\'));';
 		$html[] = '</script>';
 		return implode("\n", $html);
 	}
