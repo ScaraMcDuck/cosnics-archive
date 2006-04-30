@@ -179,11 +179,11 @@ abstract class LearningObjectForm extends FormValidator
 	 */
 	function setDefaults($defaults = array ())
 	{
-		parent :: setDefaults($defaults);
 		$lo = $this->learning_object;
 		$defaults[LearningObject :: PROPERTY_ID] = $lo->get_id();
 		$defaults[LearningObject :: PROPERTY_TITLE] = $lo->get_title();
 		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
+		parent :: setDefaults($defaults);
 	}
 
 	/**
