@@ -50,6 +50,8 @@ abstract class LearningObjectForm extends FormValidator
 			$this->form_type = self :: TYPE_CREATE;
 			$this->build_creation_form();
 		}
+		$this->add_footer();
+		$this->setDefaults();
 	}
 
 	/**
@@ -107,9 +109,7 @@ abstract class LearningObjectForm extends FormValidator
 	}
 
 	/**
-	 * Builds a form to create a new learning object. Traditionally, you will
-	 * extend this method so it adds fields for your learning object type's
-	 * additional properties, and then calls the add_footer() method.
+	 * Builds a form to create a new learning object.
 	 */
 	protected function build_creation_form()
 	{
@@ -117,10 +117,7 @@ abstract class LearningObjectForm extends FormValidator
 	}
 
 	/**
-	 * Builds a form to edit a learning object. Traditionally, you will extend
-	 * this method so it adds fields for your learning object type's
-	 * additional properties, and then calls the setDefaults() and
-	 * add_footer() methods.
+	 * Builds a form to edit a learning object.
 	 */
 	protected function build_editing_form()
 	{
@@ -150,7 +147,7 @@ abstract class LearningObjectForm extends FormValidator
 	/**
 	 * Adds a footer to the form, including a submit button.
 	 */
-	protected function add_footer()
+	private function add_footer()
 	{
 		if ($this->supports_attachments())
 		{
@@ -182,20 +179,11 @@ abstract class LearningObjectForm extends FormValidator
 	 */
 	function setDefaults($defaults = array ())
 	{
+		parent :: setDefaults($defaults);
 		$lo = $this->learning_object;
 		$defaults[LearningObject :: PROPERTY_ID] = $lo->get_id();
 		$defaults[LearningObject :: PROPERTY_TITLE] = $lo->get_title();
 		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
-		parent :: setDefaults($defaults);
-	}
-
-	/**
-	 * An alias of setDefaults, for good measure.
-	 * @see setDefaults()
-	 */
-	function set_defaults($defaults = array ())
-	{
-		$this->setDefaults($defaults);
 	}
 
 	/**
