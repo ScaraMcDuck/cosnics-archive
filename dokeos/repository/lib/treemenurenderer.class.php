@@ -4,22 +4,18 @@ require_once 'HTML/Menu/DirectTreeRenderer.php';
 /**
  * Renderer which can be used to include a tree menu on your page.
  * @package repository
+ * @author Bart Mollet
+ * @author Tim De Pauw
  */
 class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 {
 	private static $initialized;
-	/**
-	 * Constructor.
-	 */
-	public function TreeMenuRenderer()
+	function TreeMenuRenderer()
 	{
 		$entryTemplates = array (HTML_MENU_ENTRY_INACTIVE => '<a href="{url}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVE => '<!--A--><a href="{url}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVEPATH => '<!--P--><a href="{url}" class="{class}">{title}</a>');
 		$this->setEntryTemplate($entryTemplates);
 		$this->setItemTemplate('<li>', '</li>'."\n");
 	}
-	/**
-	 * @see HTML_Menu_DirectTreeRenderer::finishLevel()
-	 */
 	function finishLevel($level)
 	{
 		$root = ($level == 0);
@@ -33,9 +29,6 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 			$this->setLevelTemplate('<ul>'."\n", '</ul>'."\n");
 		}
 	}
-	/**
-	 * @see HTML_Menu_DirectTreeRenderer::renderEntry()
-	 */
 	function renderEntry($node, $level, $type)
 	{
 		/*
@@ -48,14 +41,11 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 		}
 		parent :: renderEntry($node, $level, $type);
 	}
-	/**
-	 * @see HTML_Menu_DirectTreeRenderer::toHtml()
-	 */
 	function toHtml()
 	{
 		$html = parent :: toHtml();
-		$class = array ('A' => 'active', 'P' => 'active-path');
-		$html = preg_replace('/<li><!--([AP])-->/e', '\'<li class="\'.$class[\1].\'">\'', $html);
+		$class = array ('A' => 'current', 'P' => 'current_path');
+		$html = preg_replace('/(?<=<li)><!--([AP])-->/e', '\' class="\'.$class[\1].\'">\'', $html);
 		if (self :: $initialized)
 		{
 			return $html;
