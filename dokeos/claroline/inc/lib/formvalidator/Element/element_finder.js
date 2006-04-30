@@ -346,7 +346,7 @@ function elementFinderStripWhitespace (str) {
 			break;
 		}
 	}
-	if (start == str.length - 1) return "";
+	if (start == str.length) return "";
 	var end;
 	for (end = str.length - 1; end >= 0; end--) {
 		var char = str.charAt(end);
