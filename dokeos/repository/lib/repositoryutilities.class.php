@@ -110,6 +110,41 @@ class RepositoryUtilities
 		usort($objects, array(get_class(), 'by_title'));
 	}
 	
+	/**
+	 * Prepares the given learning objects for use as a value for the
+	 * element_finder QuickForm element.
+	 * @param array $objects The learning objects.
+	 * @return array The value.
+	 */
+	static function learning_objects_for_element_finder(& $objects)
+	{
+		$return = array();
+		foreach ($objects as $object)
+		{
+			$id = $object->get_id();
+			$return[$id] = self :: learning_object_for_element_finder($object);
+		}
+		return $return;
+	}
+	
+	/**
+	 * Prepares the given learning object for use as a value for the
+	 * element_finder QuickForm element's value array.
+	 * @param LearningObject $object The learning object.
+	 * @return array The value.
+	 */
+	static function learning_object_for_element_finder($object)
+	{
+		$type = $object->get_type();
+		// TODO: i18n
+		$date = date('r', $object->get_modification_date());
+		$return = array();
+		$return['class'] = 'type type_'.$type;
+		$return['title'] = $object->get_title();
+		$return['description'] = get_lang($type.'TypeName') . ' (' . $date . ')';
+		return $return;
+	}
+	
 	private static function by_title ($a, $b)
 	{
 		return strcasecmp($a->get_title(), $b->get_title()); 

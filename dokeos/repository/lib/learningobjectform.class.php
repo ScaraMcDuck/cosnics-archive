@@ -10,6 +10,7 @@ require_once dirname(__FILE__).'/quotamanager.class.php';
 require_once dirname(__FILE__).'/learningobjectcategorymenu.class.php';
 require_once dirname(__FILE__).'/learningobject.class.php';
 require_once dirname(__FILE__).'/abstractlearningobject.class.php';
+require_once dirname(__FILE__).'/repositoryutilities.class.php';
 
 abstract class LearningObjectForm extends FormValidator
 {
@@ -153,11 +154,7 @@ abstract class LearningObjectForm extends FormValidator
 		{
 			$object = $this->learning_object;
 			$attached_objects = $object->get_attached_learning_objects();
-			$attachments = array ();
-			foreach ($attached_objects as $ao)
-			{
-				$attachments[$ao->get_id()] = $ao->get_title().' ['.htmlentities(get_lang($ao->get_type())).']';
-			}
+			$attachments = RepositoryUtilities :: learning_objects_for_element_finder(& $attached_objects);
 			$url = api_get_root_rel().'repository/xml_feed.php';
 			$locale = array ();
 			$locale['Display'] = get_lang('AddAttachments');
