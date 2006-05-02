@@ -21,13 +21,13 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			echo $display->get_full_html();
 			echo '<ul class="learning_object_management_buttons" style="list-style: none; margin: 1em 0; padding: 0;"">';
 			echo '<li style="display: inline; margin: 0; padding: 0 1ex 0 0;">';
-			echo '<a href="'.$this->get_learning_object_editing_url($object).'" title="'.get_lang('Edit').'"><img src="'.$this->get_web_code_path().'img/edit.gif" alt="'.get_lang('Edit').'" style="vertical-align: middle;"/>'.get_lang('Edit').'</a>';
+			echo '<a href="'.$this->get_learning_object_editing_url($object).'" title="'.get_lang('Edit').'"><img src="'.$this->get_web_code_path().'img/edit.gif" alt="'.get_lang('Edit').'" style="vertical-align: middle;"/></a>';
 			echo '</li>';
 			$delete_url = $this->get_learning_object_deletion_url($object);
 			if (isset($delete_url))
 			{
 				echo '<li style="display: inline; margin: 0; padding: 0 1ex 0 0;">';
-				echo '<a href="'.$delete_url.'" title="'.get_lang('Delete').'"><img src="'.$this->get_web_code_path().'img/delete.gif" alt="'.get_lang('Delete').'" style="vertical-align: middle;"/>'.get_lang('Delete').'</a>';
+				echo '<a href="'.$delete_url.'" title="'.get_lang('Delete').'"  onclick="return confirm(&quot;'.htmlentities(get_lang('ConfirmYourChoice')).'&quot;);"><img src="'.$this->get_web_code_path().'img/delete.gif" alt="'.get_lang('Delete').'" style="vertical-align: middle;"/></a>';
 				echo '</li>';
 			}
 			echo '</ul>';
