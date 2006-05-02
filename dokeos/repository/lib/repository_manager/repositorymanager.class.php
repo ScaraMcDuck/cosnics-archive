@@ -284,6 +284,10 @@ class RepositoryManager
 
 	function get_learning_object_viewing_url($learning_object)
 	{
+		if ($learning_object->get_type() == 'category')
+		{
+			return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => $learning_object->get_id()));
+		}
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 	}
 
