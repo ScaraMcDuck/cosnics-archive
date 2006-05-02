@@ -28,7 +28,7 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	 * @param string $url_format The format to use for the URL of a category.
 	 *                           Passed to sprintf(). Defaults to the string
 	 *                           "?category=%s".
-	 * @param boolean $include_trash Whether or not to include a Recycle Bin. 
+	 * @param boolean $include_trash Whether or not to include a Recycle Bin.
 	 */
 	public function LearningObjectCategoryMenu($owner, $current_category, $url_format = '?category=%s', $include_trash = false)
 	{
@@ -56,6 +56,14 @@ class LearningObjectCategoryMenu extends HTML_Menu
 			$categories[$category->get_parent_id()][] = $category;
 		}
 		$menu = & $this->get_sub_menu_items($categories, 0);
+		// TODO: Add option to parameter list to exclude quota from tree?
+		$quota = array();
+		$quota['title'] = get_lang('Quota');
+		// TODO: other way to build URL?
+		$quota['url'] = 'index_repository_manager.php?go=quota';
+		$quota['sub'] = array();
+		$quota['class'] = 'quota';
+		$menu[] = & $quota;
 		if ($include_trash)
 		{
 			// TODO: Implement recycle bin.
@@ -112,7 +120,7 @@ class LearningObjectCategoryMenu extends HTML_Menu
 		}
 		return $interbredcrump;
 	}
-	
+
 	function render_as_tree()
 	{
 		$renderer = new TreeMenuRenderer();
