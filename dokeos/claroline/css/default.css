@@ -1171,3 +1171,13 @@ table.calendar td.highlight
 	border: 2px solid black;
 	background-color: white;
 }
+
+/*
+ * Repository Search
+ */
+
+input.simple_search_query
+{
+	background: url(../img/search_icon.png) 2px 50% no-repeat;
+	padding: 0 0 0 21px;
+}

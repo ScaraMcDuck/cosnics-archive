@@ -69,7 +69,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 					}
 					$new_category = $destination;
 				}
-				$this->return_to_browser(get_lang($message), $new_category);
+				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, get_lang($message), $new_category);
 			}
 			else
 			{
@@ -89,7 +89,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 
 	private function get_categories_for_select($exclude = array())
 	{
-		$cm = new LearningObjectCategoryMenu($this->get_user_id(), $this->get_root_category_id());
+		$cm = new LearningObjectCategoryMenu($this->get_user_id());
 		$renderer = new OptionsMenuRenderer($exclude);
 		$cm->render($renderer, 'sitemap');
 		return $renderer->toArray('id');

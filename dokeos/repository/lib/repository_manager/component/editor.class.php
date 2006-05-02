@@ -21,7 +21,7 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 			{
 				$success = $form->update_learning_object();
 				$category_id = $object->get_parent_id();
-				$this->return_to_browser(get_lang($success ? 'ObjectUpdated' : 'ObjectUpdateFailed'), $category_id);
+				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, get_lang($success ? 'ObjectUpdated' : 'ObjectUpdateFailed'), $category_id);
 			}
 			else
 			{
