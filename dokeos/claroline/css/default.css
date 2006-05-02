@@ -979,6 +979,15 @@ ul.tree-menu li div a.trash
 }
 
 /*
+ * Tweak: Quota icon.
+ */
+ul.tree-menu li div a.quota
+{
+	background-image: url(../img/treemenu/quota.gif);
+	background-repeat: no-repeat;
+}
+
+/*
  * For element finder
  */
 .active_elements ul {
