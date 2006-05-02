@@ -13,7 +13,7 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 			{
 				$ids = array ($ids);
 			}
-			$current_parent = $this->get_parameter(RepositoryManager :: PARAM_PARENT_LEARNING_OBJECT_ID);
+			$current_parent = $this->get_parameter(RepositoryManager :: PARAM_CATEGORY_ID);
 			$failures = 0;
 			foreach ($ids as $object_id)
 			{
@@ -27,7 +27,7 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 						if ($current_parent && $current_parent == $object_id)
 						{
 							$current_parent = 0;
-							$this->set_parameter(self :: PARAM_PARENT_LEARNING_OBJECT_ID, 0);
+							$this->set_parameter(self :: PARAM_CATEGORY_ID, $this->get_root_category_id());
 						}
 					}
 					else
@@ -62,7 +62,7 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 					$message = 'AllSelectedObjectsDeleted';
 				}
 			}
-			$this->return_to_browser(get_lang($message));
+			$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, get_lang($message));
 		}
 		else
 		{

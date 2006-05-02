@@ -29,23 +29,26 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	 *                           Passed to sprintf(). Defaults to the string
 	 *                           "?category=%s".
 	 * @param boolean $include_trash Whether or not to include a Recycle Bin.
+	 * @param string $quota_url The URL to the quota page. If null, no quota
+	 *                          icon will be shown.
 	 */
-	public function LearningObjectCategoryMenu($owner, $current_category, $url_format = '?category=%s', $include_trash = false)
+	public function LearningObjectCategoryMenu($owner, $current_category, $url_format = '?category=%s', $include_trash = false, $quota_url = null)
 	{
 		$this->owner = $owner;
 		$this->urlFmt = $url_format;
-		$menu = $this->get_menu_items($include_trash);
+		$menu = $this->get_menu_items($include_trash, $quota_url);
 		parent :: HTML_Menu($menu);
 		$this->forceCurrentUrl($this->get_category_url($current_category));
 	}
 	/**
 	 * Returns the menu items.
 	 * @param boolean $include_trash Whether or not to include a Recycle Bin.
+	 * @param string $quota_url The URL to the quota page; null for none.
 	 * @return array An array with all menu items. The structure of this array
 	 *               is the structure needed by PEAR::HTML_Menu, on which this
 	 *               class is based.
 	 */
-	private function get_menu_items($include_trash)
+	private function get_menu_items($include_trash, $quota_url)
 	{
 		$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->owner);
 		$datamanager = RepositoryDataManager :: get_instance();
@@ -56,14 +59,15 @@ class LearningObjectCategoryMenu extends HTML_Menu
 			$categories[$category->get_parent_id()][] = $category;
 		}
 		$menu = & $this->get_sub_menu_items($categories, 0);
-		// TODO: Add option to parameter list to exclude quota from tree?
-		$quota = array();
-		$quota['title'] = get_lang('Quota');
-		// TODO: other way to build URL?
-		$quota['url'] = 'index_repository_manager.php?go=quota';
-		$quota['sub'] = array();
-		$quota['class'] = 'quota';
-		$menu[] = & $quota;
+		if (isset($quota_url))
+		{
+			$quota = array();
+			$quota['title'] = get_lang('Quota');
+			$quota['url'] = $quota_url;
+			$quota['sub'] = array();
+			$quota['class'] = 'quota';
+			$menu[] = & $quota;
+		}
 		if ($include_trash)
 		{
 			// TODO: Implement recycle bin.

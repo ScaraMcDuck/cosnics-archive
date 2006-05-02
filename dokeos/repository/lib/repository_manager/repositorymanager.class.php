@@ -1,33 +1,27 @@
 <?php
 require_once dirname(__FILE__).'/repositorymanagercomponent.class.php';
+require_once dirname(__FILE__).'/repositorysearchform.class.php';
 require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/../learningobjectcategorymenu.class.php';
+require_once dirname(__FILE__).'/../learningobject.class.php';
+require_once dirname(__FILE__).'/../condition/orcondition.class.php';
+require_once dirname(__FILE__).'/../condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../learning_object_table/learningobjecttable.class.php';
+require_once dirname(__FILE__).'/../../../claroline/inc/lib/formvalidator/FormValidator.class.php';
 
 class RepositoryManager
 {
 	// SortableTable hogs 'action' so we'll use something else.
 	const PARAM_ACTION = 'go';
-	
 	const PARAM_MESSAGE = 'message';
-	
-	const PARAM_PARENT_LEARNING_OBJECT_ID = 'parent';
+
+	const PARAM_CATEGORY_ID = 'category';
 	const PARAM_LEARNING_OBJECT_ID = 'object';
+	const PARAM_DESTINATION_LEARNING_OBJECT_ID = 'destination';
+	const PARAM_LEARNING_OBJECT_TYPE = 'type';
 
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 	const PARAM_MOVE_SELECTED = 'move_selected';
-	
-	const PARAM_DESTINATION_LEARNING_OBJECT_ID = 'destination';
-
-	const PARAM_ADVANCED_SEARCH = 'advanced_search';
-	const PARAM_SIMPLE_SEARCH_QUERY = 'query';
-	const PARAM_TITLE_SEARCH_QUERY = 'title_matches';
-	const PARAM_DESCRIPTION_SEARCH_QUERY = 'description_matches';
-	const PARAM_LEARNING_OBJECT_TYPE = 'type';
-	const PARAM_SEARCH_SCOPE = 'scope';
-	
-	const SEARCH_SCOPE_CATEGORY = 0;
-	const SEARCH_SCOPE_CATEGORY_AND_SUBCATEGORIES = 1;
-	const SEARCH_SCOPE_REPOSITORY = 2;
 
 	const ACTION_BROWSE_LEARNING_OBJECTS = 'browse';
 	const ACTION_VIEW_LEARNING_OBJECTS = 'view';
@@ -40,19 +34,28 @@ class RepositoryManager
 	const ACTION_VIEW_QUOTA = 'quota';
 
 	private $parameters;
+	
+	private $search_parameters;
 
 	private $user_id;
+
+	private $category_id;
+
+	private $search_form;
+
+	private $category_menu;
 
 	function RepositoryManager($user_id)
 	{
 		$this->user_id = $user_id;
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
+		$this->parse_input_from_table();
+		$this->determine_search_settings();
 	}
 
 	function run()
 	{
-		$this->parse_input_from_table();
 		$action = $this->get_action();
 		$component = null;
 		switch ($action)
@@ -94,13 +97,13 @@ class RepositoryManager
 		if (isset ($_POST['action']))
 		{
 			$selected_ids = $_POST[LearningObjectTable :: DEFAULT_NAME.LearningObjectTable :: CHECKBOX_NAME_SUFFIX];
-			if (empty($selected_ids))
+			if (empty ($selected_ids))
 			{
-				$selected_ids = array();
+				$selected_ids = array ();
 			}
 			elseif (!is_array($selected_ids))
 			{
-				$selected_ids = array($selected_ids);
+				$selected_ids = array ($selected_ids);
 			}
 			switch ($_POST['action'])
 			{
@@ -126,21 +129,40 @@ class RepositoryManager
 		return $this->set_parameter(self :: PARAM_ACTION, $action);
 	}
 
-	function display_header()
+	function display_header($breadcrumbs = array (), $display_search = false)
 	{
 		// TODO: Breadcrumbs.
 		Display :: display_header(api_get_setting('siteName'));
+		// TODO: Move this into the tree.
+		if (true)
+		{
+			$this->display_type_selector_for_creation();
+		}
+		echo '<div style="float: left; width: 20%;">';
+		$this->display_learning_object_categories();
+		echo '</div>';
+		echo '<div style="float: right; width: 80%;">';
+		if ($msg = $_GET[self :: PARAM_MESSAGE])
+		{
+			$this->display_message($msg);
+		}
+		if ($display_search)
+		{
+			$this->display_search_form();
+		}
 	}
 
 	function display_footer()
 	{
+		echo '</div>';
+		echo '<div style="clear: both;"></div>';
 		// TODO: Find out why we need to reconnect here.
 		global $dbHost, $dbLogin, $dbPass, $mainDbName;
 		mysql_connect($dbHost, $dbLogin, $dbPass);
 		mysql_select_db($mainDbName);
 		Display :: display_footer();
 	}
-	
+
 	function display_message($message)
 	{
 		Display :: display_normal_message($message);
@@ -150,7 +172,7 @@ class RepositoryManager
 	{
 		Display :: display_error_message($message);
 	}
-	
+
 	function display_error_page($message)
 	{
 		$this->display_header();
@@ -163,8 +185,12 @@ class RepositoryManager
 		Display :: display_normal_message($form_html);
 	}
 
-	function get_parameters()
+	function get_parameters($include_search = false)
 	{
+		if ($include_search && isset($this->search_parameters))
+		{
+			return array_merge($this->search_parameters, $this->parameters);
+		}
 		return $this->parameters;
 	}
 
@@ -172,35 +198,38 @@ class RepositoryManager
 	{
 		return $this->parameters[$name];
 	}
-
+	
 	function set_parameter($name, $value)
 	{
 		$this->parameters[$name] = $value;
 	}
-	
-	function return_to_browser($message = null, $new_category_id = 0)
+
+	function get_search_parameter($name)
 	{
-		$params = array();
-		$params[self :: PARAM_ACTION] = self :: ACTION_BROWSE_LEARNING_OBJECTS;
-		if (isset($message))
+		return $this->search_parameters[$name];
+	}
+	
+	function redirect($action = self :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0)
+	{
+		$params = array ();
+		$params[self :: PARAM_ACTION] = $action;
+		if (isset ($message))
 		{
 			$params[self :: PARAM_MESSAGE] = $message;
 		}
 		if ($new_category_id)
 		{
-			$params[self :: PARAM_PARENT_LEARNING_OBJECT_ID] = $new_category_id;
+			$params[self :: PARAM_CATEGORY_ID] = $new_category_id;
 		}
 		$url = $this->get_url($params);
-		header('Refresh: 0; url='.$url);
-		echo '<a href="'.htmlentities($url).'">'.get_lang('ClickHereIfNothingHappens').'</a>';
+		header('Location: '.$url);
 	}
 
-	function get_url($additional_parameters = array ())
+	function get_url($additional_parameters = array (), $include_search = false)
 	{
-		$eventual_parameters = array_merge($this->get_parameters(), $additional_parameters);
+		$eventual_parameters = array_merge($this->get_parameters($include_search), $additional_parameters);
 		$string = http_build_query($eventual_parameters);
-		$url = $_SERVER['PHP_SELF'].'?'.$string;
-		return $url;
+		return $_SERVER['PHP_SELF'].'?'.$string;
 	}
 
 	function get_user_id()
@@ -210,29 +239,37 @@ class RepositoryManager
 
 	function get_root_category_id()
 	{
-		$rdm = RepositoryDataManager :: get_instance();
-		$category = $rdm->retrieve_root_category($this->get_user_id());
-		return $category->get_id();
+		if (isset($this->category_menu))
+		{
+			$keys = array_keys($this->category_menu->_menu);
+			return $keys[0];
+		}
+		else
+		{
+			$dm = RepositoryDataManager :: get_instance();
+			$cat = $dm->retrieve_root_category($this->get_user_id());
+			return $cat->get_id();
+		}
 	}
-	
+
 	function retrieve_learning_object($id, $type = null)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->retrieve_learning_object($id, $type);
 	}
-	
+
 	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->retrieve_learning_objects($type, $condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
-	
+
 	function count_learning_objects($type = null, $condition = null)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->count_learning_objects($type, $condition);
 	}
-	
+
 	function learning_object_deletion_allowed($learning_object)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
@@ -244,7 +281,7 @@ class RepositoryManager
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->get_learning_object_publication_attributes($id);
 	}
-	
+
 	function get_learning_object_viewing_url($learning_object)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
@@ -284,20 +321,132 @@ class RepositoryManager
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->get_registered_types();
 	}
-	
+
 	function get_web_code_path()
 	{
 		return api_get_path(WEB_CODE_PATH);
 	}
-	
+
 	function not_allowed()
 	{
 		api_not_allowed();
 	}
-	
+
 	function get_user_info($id)
 	{
 		return api_get_user_info($id);
+	}
+
+	function get_type_filter_url($type)
+	{
+		$params = array ();
+		$params[self :: PARAM_ACTION] = self :: ACTION_BROWSE_LEARNING_OBJECTS;
+		$params[self :: PARAM_LEARNING_OBJECT_TYPE] = array ($type);
+		return $this->get_url($params);
+	}
+
+	function get_search_condition()
+	{
+		return $this->get_search_form()->get_condition();
+	}
+	
+	function get_category_condition($category_id)
+	{
+		$subcat = array();
+		$this->get_category_id_list($category_id, & $this->category_menu->_menu, &$subcat);
+		$conditions = array();
+		foreach ($subcat as $cat)
+		{
+			$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $cat);
+		}
+		return (count($conditions) > 1 ? new OrCondition($conditions) : $conditions[0]);
+	}
+	
+	private function get_category_id_list($category_id, & $node, & $subcat)
+	{
+		// XXX: Make sure we don't mess up things with trash here.
+		// TODO: Move this to LearningObjectCategoryMenu or something.
+		foreach ($node as $id => $subnode)
+		{
+			$new_id = ($id == $category_id ? null : $category_id);
+			if (is_null($new_id))
+			{
+				$subcat[] = $id;
+			}
+			$this->get_category_id_list($new_id, & $subnode['sub'], & $subcat);
+		}
+	}
+
+	private function determine_search_settings()
+	{
+		if (isset($_GET[self :: PARAM_CATEGORY_ID]))
+		{
+			$this->set_parameter(self :: PARAM_CATEGORY_ID, intval($_GET[self :: PARAM_CATEGORY_ID]));
+		}
+		$form = $this->get_search_form();
+		if ($form->is_full_repository_search())
+		{
+			$this->set_parameter(self :: PARAM_CATEGORY_ID, $this->get_root_category_id());
+		}
+		$this->search_parameters = $form->get_frozen_values();
+	}
+
+	private function get_category_menu()
+	{
+		if (!isset ($this->category_menu))
+		{
+			// We need this because the percent sign in '%s' gets escaped.
+			$temp_replacement = '__CATEGORY_ID__';
+			$url_format = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => $temp_replacement));
+			$url_format = str_replace($temp_replacement, '%s', $url_format);
+			$category = $this->get_parameter(self :: PARAM_CATEGORY_ID);
+			if (!isset($category))
+			{
+				$category = $this->get_root_category_id();
+			}
+			$quota_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA));
+			$this->category_menu = new LearningObjectCategoryMenu($this->get_user_id(), $category, $url_format, true, $quota_url);
+		}
+		return $this->category_menu;
+	}
+
+	private function get_search_form()
+	{
+		if (!isset ($this->search_form))
+		{
+			$this->search_form = new RepositorySearchForm($this, $this->get_url());
+		}
+		return $this->search_form;
+	}
+
+	private function display_learning_object_categories()
+	{
+		echo $this->get_category_menu()->render_as_tree();
+	}
+
+	private function display_search_form()
+	{
+		echo $this->get_search_form()->display();
+	}
+
+	private function display_type_selector_for_creation()
+	{
+		echo '<div class="select_type_create" style="margin: 0 0 1em 0;">';
+		$form = new FormValidator('select_type', 'post', $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_LEARNING_OBJECTS)));
+		$type_options = array ();
+		$type_options[''] = '';
+		foreach ($this->get_learning_object_types() as $type)
+		{
+			$type_options[$type] = get_lang($type.'TypeName');
+		}
+		asort($type_options);
+		$form->addElement('select', self :: PARAM_LEARNING_OBJECT_TYPE, get_lang('CreateANew'), $type_options);
+		$form->addElement('submit', 'submit', get_lang('Go'));
+		$renderer = clone $form->defaultRenderer();
+		$renderer->setElementTemplate('{label} {element} ');
+		$form->accept($renderer);
+		echo $renderer->toHTML();
+		echo '</div>';
 	}
 }
 ?>

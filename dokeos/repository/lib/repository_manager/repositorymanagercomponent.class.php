@@ -11,9 +11,9 @@ abstract class RepositoryManagerComponent {
 		$this->id =  ++self :: $component_count;
 	}
 	
-	function display_header()
+	function display_header($breadcrumbs = array (), $display_search = false)
 	{
-		$this->get_parent()->display_header();
+		$this->get_parent()->display_header($breadcrumbs, $display_search);
 	}
 	
 	function display_footer()
@@ -51,9 +51,9 @@ abstract class RepositoryManagerComponent {
 		return $this->id;
 	}
 	
-	function get_parameters()
+	function get_parameters($include_search = false)
 	{
-		return $this->get_parent()->get_parameters();
+		return $this->get_parent()->get_parameters($include_search);
 	}
 	
 	function get_parameter($name)
@@ -66,14 +66,19 @@ abstract class RepositoryManagerComponent {
 		$this->get_parent()->set_parameter($name, $value);
 	}
 	
-	function get_url($additional_parameters = array())
+	function get_search_parameter($name)
 	{
-		return $this->get_parent()->get_url($additional_parameters);
+		return $this->get_parent()->get_search_parameter($name);
 	}
 	
-	function return_to_browser($message = null, $new_category_id = 0)
+	function get_url($additional_parameters = array(), $include_search = false)
 	{
-		return $this->get_parent()->return_to_browser($message, $new_category_id);
+		return $this->get_parent()->get_url($additional_parameters, $include_search);
+	}
+	
+	function redirect($action = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0)
+	{
+		return $this->get_parent()->redirect($action, $message, $new_category_id);
 	}
 	
 	function get_user_id()
@@ -161,6 +166,21 @@ abstract class RepositoryManagerComponent {
 		return $this->get_parent()->get_user_info($id);
 	}
 	
+	function get_type_filter_url($type)
+	{
+		return $this->get_parent()->get_type_filter_url($type);
+	}
+	
+	function get_search_condition()
+	{
+		return $this->get_parent()->get_search_condition();
+	}
+	
+	function get_category_condition($category_id)
+	{
+		return $this->get_parent()->get_category_condition($category_id);
+	}
+
 	static function factory($type, $repository_manager)
 	{
 		$filename = dirname(__FILE__).'/component/'.strtolower($type).'.class.php';

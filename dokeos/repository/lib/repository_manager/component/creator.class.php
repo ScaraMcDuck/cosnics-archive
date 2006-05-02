@@ -11,12 +11,12 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		$type = $_REQUEST[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE];
 		if ($type)
 		{
-			$object = new AbstractLearningObject($type, $this->get_user_id(), $_REQUEST[RepositoryManager :: PARAM_PARENT_LEARNING_OBJECT_ID]);
+			$object = new AbstractLearningObject($type, $this->get_user_id(), $_REQUEST[RepositoryManager :: PARAM_CATEGORY_ID]);
 			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE => $type)));
 			if ($form->validate())
 			{
 				$object = $form->create_learning_object();
-				$this->return_to_browser(get_lang('ObjectCreated'), $object->get_parent_id());
+				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, get_lang('ObjectCreated'), $object->get_parent_id());
 			}
 			else
 			{
