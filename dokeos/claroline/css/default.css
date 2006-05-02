@@ -1033,14 +1033,14 @@ ul.tree-menu li div a.unlinked:active {
 ul.tree-menu li div a.type_category, ul.tree-menu li div a.type_category:hover,
 ul.tree-menu li div a.type_category:active
 {
-	background-image: url(../img/treemenu_types/category.gif);
+	background-image: url(../img/treemenu/tree-folder-open.gif);
 	background-repeat: no-repeat;
 }
 
 ul.tree-menu li.collapsed div a.type_category, ul.tree-menu li.collapsed div a.type_category:hover,
 ul.tree-menu li.collapsed div a.type_category:active
 {
-	background-image: url(../img/treemenu_types/category_collapsed.gif);
+	background-image: url(../img/treemenu/tree-folder.gif);
 	background-repeat: no-repeat;
 }
 
@@ -1050,7 +1050,7 @@ ul.tree-menu li.collapsed div a.type_category:active
 ul.tree-menu li.current > div > a.type_category, ul.tree-menu li.current > div > a.type_category:hover,
 ul.tree-menu li.current > div > a.type_category:active
 {
-	background-image: url(../img/treemenu_types/category_current.gif);
+	background-image: url(../img/treemenu/tree-folder-open.gif);
 	background-repeat: no-repeat;
 }
 
