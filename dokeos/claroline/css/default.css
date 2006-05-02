@@ -771,6 +771,26 @@ div.learning_object div.publication_actions
 	text-align: right;
 }
 
+/* List of attachments */
+div.attachments
+{
+}
+div.attachments_title
+{
+	font-weight: bold;
+	margin-left: 15px;
+}
+ul.attachments_list
+{
+	margin: 2px;
+	list-style: none;
+}
+ul.attachments_list img
+{
+	vertical-align: middle;
+}
+
+
 /* Semantic tabbed pane style */
 .tabbed-pane
 {
