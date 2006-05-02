@@ -38,7 +38,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		$html[] = '<a href="'.$this->browser->get_learning_object_editing_url($learning_object).'" title="'.get_lang('Edit').'"><img src="'.$this->browser->get_web_code_path().'img/edit.gif" alt="'.get_lang('Edit').'"/></a>';
 		if ($url = $this->browser->get_learning_object_deletion_url($learning_object))
 		{
-			$html[] = '<a href="'.$url.'" title="'.get_lang('Delete').'"  onclick="return confirm(&quot;'.htmlentities(get_lang('ConfirmYourChoice')).'&quot;));"><img src="'.$this->browser->get_web_code_path().'img/delete.gif" alt="'.get_lang('Delete').'"/></a>';
+			$html[] = '<a href="'.$url.'" title="'.get_lang('Delete').'"  onclick="return confirm(&quot;'.htmlentities(get_lang('ConfirmYourChoice')).'&quot;);"><img src="'.$this->browser->get_web_code_path().'img/delete.gif" alt="'.get_lang('Delete').'"/></a>';
 		}
 		else
 		{
