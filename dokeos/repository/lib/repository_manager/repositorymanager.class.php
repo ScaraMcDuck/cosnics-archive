@@ -135,11 +135,14 @@ class RepositoryManager
 		$this->display_learning_object_categories();
 		echo '</div>';
 		echo '<div style="float: right; width: 80%;">';
+		echo '<div>';
 		echo '<h3 style="float: left;">'.$this->get_current_category_title().'</h3>';
 		if ($display_search)
 		{
 			$this->display_search_form();
 		}
+		echo '</div>';
+		echo '<div style="clear: both;"></div>';
 		if ($msg = $_GET[self :: PARAM_MESSAGE])
 		{
 			$this->display_message($msg);
