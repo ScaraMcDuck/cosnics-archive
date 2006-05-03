@@ -22,6 +22,8 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 	private $default_collapsed;
 
 	private $height;
+	
+	private $exclude;
 
 	function HTML_QuickForm_element_finder($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default_values = array ())
 	{
@@ -30,6 +32,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$this->_persistantFreeze = true;
 		$this->_appendName = false;
 		$this->locale = $locale;
+		$this->exclude = array();
 		$this->height = self :: DEFAULT_HEIGHT;
 		$this->search_url = $search_url;
 		$this->build_elements();
@@ -49,6 +52,11 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 	function getHeight()
 	{
 		return $this->height;
+	}
+	
+	function excludeElements($excluded_ids)
+	{
+		$this->exclude = array_merge($this->exclude, $excluded_ids);
 	}
 
 	function setDefaultCollapsed($default_collapsed)
@@ -147,7 +155,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		{
 			// TODO: Include tree script only when needed; perhaps make proprietary.
 			$html[] = '<script type="text/javascript" src="'.api_get_path(WEB_CODE_PATH).'javascript/treemenu.js"</script>';
-			$html[] = '<script type="text/javascript" src="'.api_get_path(WEB_CODE_PATH).'inc/lib/formvalidator/Element/element_finder.js"></script>';
+			$html[] = '<script type="text/javascript" src="'.api_get_path(WEB_CODE_PATH).'javascript/element_finder.js"></script>';
 			self :: $initialized = true;
 		}
 		if (count($this->locale))
@@ -189,6 +197,15 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		}
 		$html[] = '<script type="text/javascript">';
 		$html[] = 'elfRestoreFromCache(document.getElementById(\'elf_'.$this->getName().'_active_hidden\'), document.getElementById(\'elf_'.$this->getName().'_active\'));';
+		if (count($this->exclude))
+		{
+			$ids = array();
+			foreach ($this->exclude as $id)
+			{
+				$ids[] = "'$id'";
+			}
+			$html[] = 'elfExcludedElements[\'elf_'.$this->getName().'_active\'] = new Array('.implode(',', $ids).')';
+		}
 		$html[] = '</script>';
 		return implode("\n", $html);
 	}

@@ -163,6 +163,10 @@ abstract class LearningObjectForm extends FormValidator
 			$locale['Error'] = get_lang('Error');
 			$hidden = true;
 			$elem = $this->addElement('element_finder', 'attachments', get_lang('Attachments'), $url, $locale, $attachments);
+			if ($id = $object->get_id())
+			{
+				$elem->excludeElements(array($object->get_id()));
+			}
 			$elem->setDefaultCollapsed(count($attachments) == 0);
 		}
 		$this->addElement('submit', 'submit', get_lang('Ok'));
