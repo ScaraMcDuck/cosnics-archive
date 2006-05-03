@@ -118,8 +118,10 @@ class SortableTable extends HTML_Table
 	 * sorted
 	 * @param int $default_items_per_page The default number of items to show
 	 * on one page
+	 * @param int $default_order_direction The default order direction; either
+	 * the constant SORT_ASC or SORT_DESC
 	 */
-	function SortableTable($table_name = 'table', $get_total_number_function = null, $get_data_function = null, $default_column = 1, $default_items_per_page = 20)
+	function SortableTable($table_name = 'table', $get_total_number_function = null, $get_data_function = null, $default_column = 1, $default_items_per_page = 20, $default_order_direction = SORT_ASC)
 	{
 		parent :: HTML_Table(array ('class' => 'data_table'));
 		$this->table_name = $table_name;
@@ -127,7 +129,7 @@ class SortableTable extends HTML_Table
 		$this->param_prefix = $table_name.'_';
 		$this->page_nr = isset ($_GET[$this->param_prefix.'page_nr']) ? $_GET[$this->param_prefix.'page_nr'] : 1;
 		$this->column = isset ($_GET[$this->param_prefix.'column']) ? $_GET[$this->param_prefix.'column'] : $default_column;
-		$this->direction = isset ($_GET[$this->param_prefix.'direction']) ? $_GET[$this->param_prefix.'direction'] : SORT_ASC;
+		$this->direction = isset ($_GET[$this->param_prefix.'direction']) ? $_GET[$this->param_prefix.'direction'] : $default_order_direction;
 		$this->per_page = isset ($_GET[$this->param_prefix.'per_page']) ? $_GET[$this->param_prefix.'per_page'] : $default_items_per_page;
 		$this->pager = null;
 		$this->default_items_per_page = $default_items_per_page;

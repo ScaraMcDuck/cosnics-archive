@@ -9,13 +9,44 @@ abstract class LearningObjectDisplay
 	/**
 	 * The learning object.
 	 */
-	protected $learning_object;
+	private $learning_object;
+	/**
+	 * The URL format.
+	 */
+	private $url_format;
 	/**
 	 * Constructor.
+	 * @param LearningObject $learning_object The learning object to display.
+	 * @param string $url_format A pattern to pass to sprintf(), representing
+	 *                           the format for URLs that link to other
+	 *                           learning objects. The first parameter will be
+	 *                           replaced with the ID of the other object. By
+	 *                           default, an attempt is made to extract the ID
+	 *                           of the current object from the query string,
+	 *                           and replace it.
 	 */
-	protected function LearningObjectDisplay($learning_object)
+	protected function LearningObjectDisplay($learning_object, $url_format = null)
 	{
 		$this->learning_object = $learning_object;
+		if (!isset($url_format))
+		{
+			$pairs = explode('&', $_SERVER['QUERY_STRING']);
+			$new_pairs = array();
+			foreach ($pairs as $pair)
+			{
+				list($name, $value) = explode('=', $pair, 2);
+				if ($value == $learning_object->get_id())
+				{
+					$new_pairs[] = $name.'=%d';
+				}
+				else
+				{
+					$new_pairs[] = $pair;
+				}
+			}
+			$url_format = $_SERVER['PHP_SELF'].'?'.implode('&', $new_pairs);
+		}
+		$this->url_format = $url_format;
 	}
 	/**
 	 * Returns the learning object associated with this object.
@@ -79,6 +110,24 @@ abstract class LearningObjectDisplay
 			}
 		}
 		return '';
+	}
+	/**
+	 * Returns the URL where the given learning object may be viewed.
+	 * @param LearningObject $learning_object The learning object.
+	 * @return string The URL.
+	 */
+	protected function get_learning_object_url($learning_object)
+	{
+		return sprintf($this->url_format, $learning_object->get_id());
+	}
+	/**
+	 * Returns the URL format for linked learning objects.
+	 * @return string The URL, ready to pass to sprintf() with the learning
+	 *                object ID.
+	 */
+	protected function get_learning_object_url_format()
+	{
+		return $this->url_format;
 	}
 	/**
 	 * Creates an object that can display the given learning object in a

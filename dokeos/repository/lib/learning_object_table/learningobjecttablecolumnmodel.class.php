@@ -5,10 +5,13 @@ class LearningObjectTableColumnModel
 	
 	private $order_column;
 	
-	function LearningObjectTableColumnModel($columns, $default_order_column = 0)
+	private $order_direction;
+	
+	function LearningObjectTableColumnModel($columns, $default_order_column = 0, $default_order_direction = SORT_ASC)
 	{
 		$this->columns = $columns;
 		$this->order_column = $default_order_column;
+		$this->order_direction = $default_order_direction;
 	}
 	
 	function get_column_count()
@@ -29,6 +32,11 @@ class LearningObjectTableColumnModel
 	function get_default_order_column()
 	{
 		return $this->order_column;
+	}
+	
+	function get_default_order_direction()
+	{
+		return $this->order_direction;
 	}
 }
 ?>

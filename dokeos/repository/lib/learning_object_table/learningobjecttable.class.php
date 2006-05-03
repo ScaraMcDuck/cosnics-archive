@@ -29,12 +29,27 @@ class LearningObjectTable
 		$this->set_column_model(isset ($column_model) ? $column_model : new DefaultLearningObjectTableColumnModel());
 		$this->set_cell_renderer(isset ($cell_renderer) ? $cell_renderer : new DefaultLearningObjectTableCellRenderer());
 		$this->set_default_row_count(10);
-		$this->set_additional_parameters(array());
+		$this->set_additional_parameters($this->determine_additional_parameters($table_name));
 	}
-
+	
+	private function determine_additional_parameters($table_name)
+	{
+		$prefix = $this->get_name().'_';
+		$out = array();
+		$param = array_merge($_GET, $_POST);
+		foreach ($param as $k => $v)
+		{
+			if (strpos($k, $prefix) === false)
+			{
+				$out[$k] = $v;
+			}
+		}
+		return $out;
+	}
+	
 	function as_html()
 	{
-		$table = new SortableTable($this->get_name(), array ($this, 'get_learning_object_count'), array ($this, 'get_learning_objects'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count());
+		$table = new SortableTable($this->get_name(), array ($this, 'get_learning_object_count'), array ($this, 'get_learning_objects'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction());
 		$table->set_additional_parameters($this->get_additional_parameters());
 		if ($this->has_form_actions())
 		{
