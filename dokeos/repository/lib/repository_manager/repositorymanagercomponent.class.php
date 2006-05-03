@@ -15,86 +15,124 @@ abstract class RepositoryManagerComponent {
 
 	private $id;
 
+	/**
+	 * Constructor
+	 * @param RepositoryManager $repository_manager The repository manager which
+	 * provides this component
+	 */
 	protected function RepositoryManagerComponent($repository_manager) {
 		$this->repository_manager = $repository_manager;
 		$this->id =  ++self :: $component_count;
 	}
-
+	/**
+	 * @see RepositoryManager::display_header()
+	 */
 	function display_header($breadcrumbs = array (), $display_search = false)
 	{
 		$this->get_parent()->display_header($breadcrumbs, $display_search);
 	}
-
+	/**
+	 * @see RepositoryManager::display_footer()
+	 */
 	function display_footer()
 	{
 		$this->get_parent()->display_footer();
 	}
-
+	/**
+	 * @see RepositoryManager::display_message()
+	 */
 	function display_message($message)
 	{
 		$this->get_parent()->display_message($message);
 	}
-
+	/**
+	 * @see RepositoryManager::display_error_message()
+	 */
 	function display_error_message($message)
 	{
 		$this->get_parent()->display_error_message($message);
 	}
-
+	/**
+	 * @see RepositoryManager::display_error_page()
+	 */
 	function display_error_page($message)
 	{
 		$this->get_parent()->display_error_page($message);
 	}
-
+	/**
+	 * @see RepositoryManager::display_popup_form()
+	 */
 	function display_popup_form($form_html)
 	{
 		$this->get_parent()->display_popup_form($form_html);
 	}
-
+	/**
+	 * Retrieve the repository manager in which this component is active
+	 * @return RepositoryManager
+	 */
 	function get_parent()
 	{
 		return $this->repository_manager;
 	}
-
+	/**
+	 * Retrieve the component id
+	 */
 	function get_component_id()
 	{
 		return $this->id;
 	}
-
+	/**
+	 * @see RepositoryManager::get_parameters()
+	 */
 	function get_parameters($include_search = false)
 	{
 		return $this->get_parent()->get_parameters($include_search);
 	}
-
+	/**
+	 * @see RepositoryManager::get_parameter()
+	 */
 	function get_parameter($name)
 	{
 		return $this->get_parent()->get_parameter($name);
 	}
-
+	/**
+	 * @see RepositoryManager::set_parameter()
+	 */
 	function set_parameter($name, $value)
 	{
 		$this->get_parent()->set_parameter($name, $value);
 	}
-
+	/**
+	 * @see RepositoryManager::get_search_parameter()
+	 */
 	function get_search_parameter($name)
 	{
 		return $this->get_parent()->get_search_parameter($name);
 	}
-
+	/**
+	 * @see RepositoryManager::get_url()
+	 */
 	function get_url($additional_parameters = array(), $include_search = false)
 	{
 		return $this->get_parent()->get_url($additional_parameters, $include_search);
 	}
-
+	/**
+	 * @see RepositoryManager::redirect()
+	 */
 	function redirect($action = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0)
 	{
 		return $this->get_parent()->redirect($action, $message, $new_category_id);
 	}
-
+	/**
+	 * @see RepositoryManager::get_user_id()
+	 */
 	function get_user_id()
 	{
 		return $this->get_parent()->get_user_id();
 	}
-
+	/**
+	 * @see RepositoryManager::get_root_category_id()
+	 */
 	function get_root_category_id()
 	{
 		return $this->get_parent()->get_root_category_id();
