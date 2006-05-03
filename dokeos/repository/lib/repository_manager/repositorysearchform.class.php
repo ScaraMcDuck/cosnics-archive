@@ -114,7 +114,7 @@ class RepositorySearchForm extends FormValidator
 		$html = array ();
 		if ($this->advanced)
 		{
-			$html[] = '<fieldset class="advanced_search" style="padding: 1em; margin-bottom: 1em;">';
+			$html[] = '<fieldset class="advanced_search" style="clear: both; padding: 1em; margin-bottom: 1em;">';
 			$html[] = '<legend>'.get_lang('AdvancedSearch').' [<a href="'.htmlentities($this->manager->get_url(array (self :: PARAM_ADVANCED_SEARCH => 0))).'">'.get_lang('ToSimpleSearch').'</a>]</legend>';
 		}
 		else
