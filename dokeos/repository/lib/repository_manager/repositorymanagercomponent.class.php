@@ -1,6 +1,12 @@
 <?php
 /**
+ * @version $Id$
  * @package repository.repositorymanager
+ */
+/**
+ * Base class for a repository manager component.
+ * A repository manager provides different tools to the end user. Each tool is
+ * represented by a repository manager component and should extend this class.
  */
 abstract class RepositoryManagerComponent {
 	private static $component_count = 0;
