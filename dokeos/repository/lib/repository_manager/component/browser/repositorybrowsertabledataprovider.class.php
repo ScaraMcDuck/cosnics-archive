@@ -18,7 +18,10 @@ class RepositoryBrowserTableDataProvider implements LearningObjectTableDataProvi
 
     function get_learning_objects($offset, $count, $order_property, $order_direction)
     {
-    	return $this->browser->retrieve_learning_objects(null, $this->get_condition(), array($order_property), array($order_direction), $offset, $count);
+    	// We always use title as second sorting parameter
+    	$order_by = array($order_property, LearningObject::PROPERTY_TITLE);
+    	$order_dir = array($order_direction, 'asc');
+    	return $this->browser->retrieve_learning_objects(null, $this->get_condition(), $order_by, $order_dir, $offset, $count);
     }
 
     function get_learning_object_count()
