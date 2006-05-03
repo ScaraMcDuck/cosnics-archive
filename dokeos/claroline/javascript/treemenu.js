@@ -189,13 +189,12 @@ function tmWrapInDiv (link, collapsible)
 	var oldOnclick = link.onclick;
 	link.removeAttribute('id');
 	var copy = link.cloneNode(true);
-	copy.setAttribute('id', 'linkID');
+	copy.setAttribute('id', linkID);
 	copy.onclick = function (e) {
-		var returnValue = (oldOnclick ? oldOnclick(e) : false);
 		if (!e) e = window.event;
 		e.cancelBubble = true;
 		this.blur();
-		return returnValue;
+		return (oldOnclick ? oldOnclick(e) : true);
 	};
 	div.appendChild(copy);
 	var parent = link.parentNode;
@@ -206,7 +205,7 @@ function tmWrapInDiv (link, collapsible)
 	}
 	if (collapsible)
 	{
-		div.onclick = function () {
+		div.onclick = function (e) {
 			tmExpandOrCollapse(parent);
 		};
 	}
