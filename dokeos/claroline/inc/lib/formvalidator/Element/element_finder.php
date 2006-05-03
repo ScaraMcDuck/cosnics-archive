@@ -108,11 +108,11 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 				$string = implode("\t", array($array['class'], $array['title'], $array['description']));
 				$parts[] = $id."\t".$string;
 			}
-			$serialized = implode("\t", $parts); 
+			$serialized = implode("\t", $parts);
 		}
 		$this->_elements[0]->setValue($serialized);
 	}
-	
+
 	private static function remove_tabs(& $string, $key)
 	{
 		$string = str_replace("\t", ' ', $string);
@@ -146,8 +146,8 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		if (!self :: $initialized)
 		{
 			// TODO: Include tree script only when needed; perhaps make proprietary.
-			$html[] = '<script type="text/javascript">'."\n".file_get_contents(dirname(__FILE__).'/../../../../javascript/treemenu.js')."\n".'</script>';
-			$html[] = '<script type="text/javascript">'."\n".file_get_contents(dirname(__FILE__).'/element_finder.js')."\n".'</script>';
+			$html[] = '<script type="text/javascript" src="'.api_get_path(WEB_CODE_PATH).'javascript/treemenu.js"</script>';
+			$html[] = '<script type="text/javascript" src="'.api_get_path(WEB_CODE_PATH).'inc/lib/formvalidator/Element/element_finder.js"></script>';
 			self :: $initialized = true;
 		}
 		if (count($this->locale))
