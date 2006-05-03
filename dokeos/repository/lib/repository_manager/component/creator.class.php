@@ -1,4 +1,8 @@
 <?php
+/**
+ * $Id$
+ * @package repository.repositorymanager
+ */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 require_once dirname(__FILE__).'/../../learningobjectform.class.php';
@@ -18,7 +22,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		asort($type_options);
 		$type_form->addElement('select', RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE, get_lang('CreateANew'), $type_options);
 		$type_form->addElement('submit', 'submit', get_lang('Go'));
-		$type = ($type_form->validate() ? $type_form->exportValue(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE) : $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE]); 
+		$type = ($type_form->validate() ? $type_form->exportValue(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE) : $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE]);
 		if ($type)
 		{
 			$object = new AbstractLearningObject($type, $this->get_user_id(), $_REQUEST[RepositoryManager :: PARAM_CATEGORY_ID]);
