@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/repositoryutilities.class.php';
+require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 /**
  * A class to display a LearningObject.
  * @package repository.learningobject
@@ -70,6 +71,14 @@ abstract class LearningObjectDisplay
 		$html[] = '<div class="description">'.$object->get_description().'</div>';
 		$html[] = '</div>';
 		$html[] = $this->get_attached_learning_objects_as_html();
+		if ($parent_id = $object->get_parent_id())
+		{
+			$parent_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($parent_id);
+			if ($parent_object->get_type() != 'category')
+			{
+				$html[] = '<div class="parent_link" style="margin: 1em 0;"><a href="'.htmlentities($this->get_learning_object_url($parent_object)).'">'.get_lang('ViewParent').'</a></div>';
+			}
+		}
 		return implode("\n",$html);
 	}
 	/**
