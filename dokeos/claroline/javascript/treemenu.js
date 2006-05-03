@@ -186,6 +186,7 @@ function tmWrapInDiv (link, collapsible)
 {
 	var div = document.createElement("div");
 	var copy = link.cloneNode(true);
+	var oldOnClick = copy.onclick;
 	copy.onclick = function (e) {
 		if (!e)
 		{
@@ -193,6 +194,10 @@ function tmWrapInDiv (link, collapsible)
 		}
 		e.cancelBubble = true;
 		this.blur();
+		if (oldOnClick)
+		{
+			return oldOnClick();
+		}
 	};
 	div.appendChild(copy);
 	var parent = link.parentNode;

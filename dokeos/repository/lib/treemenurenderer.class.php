@@ -12,7 +12,7 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 	private static $initialized;
 	function TreeMenuRenderer()
 	{
-		$entryTemplates = array (HTML_MENU_ENTRY_INACTIVE => '<a href="{url}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVE => '<!--A--><a href="{url}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVEPATH => '<!--P--><a href="{url}" class="{class}">{title}</a>');
+		$entryTemplates = array (HTML_MENU_ENTRY_INACTIVE => '<a href="{url}" onclick="{onclick}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVE => '<!--A--><a href="{url}" onclick="{onclick}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVEPATH => '<!--P--><a href="{url}" onclick="{onclick}" class="{class}">{title}</a>');
 		$this->setEntryTemplate($entryTemplates);
 		$this->setItemTemplate('<li>', '</li>'."\n");
 	}
@@ -31,13 +31,13 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 	}
 	function renderEntry($node, $level, $type)
 	{
-		/*
-		 * Make sure there's a 'class' key, so {class} is always replaced in
-		 * the entry template.
-		 */
-		if (!array_key_exists('class', $node))
+		// Add some extra keys, so they always get replaced in the template.
+		foreach (array('class','onclick') as $key)
 		{
-			$node['class'] = '';
+			if (!array_key_exists($key, $node))
+			{
+				$node[$key] = '';
+			}
 		}
 		parent :: renderEntry($node, $level, $type);
 	}
