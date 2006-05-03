@@ -1201,3 +1201,30 @@ input.simple_search_query
 	background: url(../img/search_icon.png) 2px 50% no-repeat;
 	padding: 0 0 0 21px;
 }
+
+/* Repository Quota */
+.usage_bar {
+	width: 401px;
+	height: 24px;
+	border: 1px solid #999;
+}
+.usage_bar div {
+	float: left;
+	margin: 1px 0 0 1px;
+	padding: 0;
+	background: #CCC;
+	height: 22px;
+	width: 3px;
+}
+.usage_bar .used {
+	background: #66B6D6;
+}
+.usage_bar .critical {
+	background: #E6C666;
+}
+.usage_bar .very_critical {
+	background: #E69666;
+}
+.usage_status {
+	margin: 0.5em 0 1.5em 0;
+}
