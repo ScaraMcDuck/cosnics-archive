@@ -156,7 +156,8 @@ function tmExpandOrCollapse (node)
 function tmExpandNode (node, climbUp)
 {
 	tmRemoveClassName(node, "collapsed");
-	if (climbUp && !tmIsRootNode(node))
+	if (climbUp && !tmIsRootNode(node)
+	&& node && node.parentNode && node.parentNode.parentNode)
 	{
 		tmExpandNode(node.parentNode.parentNode, true);
 	}
@@ -174,7 +175,7 @@ function tmIsCollapsed (node)
 
 function tmIsRootNode (node)
 {
-	return tmHasClassName(node.parentNode, tmClassName);
+	return (node && node.parentNode ? tmHasClassName(node.parentNode, tmClassName) : false);
 }
 
 function tmIsLastNode (node)
@@ -277,11 +278,12 @@ function tmHasClassName (element, className)
 
 function tmGetClassNames (element)
 {
-	return element.className.split(/ +/);
+	return (element && element.className ? element.className.split(/ +/) : new Array());
 }
 
 function tmSetClassNames (element, classNames)
 {
+	if (!element) return;
 	var n = "";
 	for (var i = 0; i < classNames.length; i++)
 	{
@@ -346,4 +348,15 @@ function tmAddOnloadFunction (f)
 	}
 }
 
-tmAddOnloadFunction(tmInitAll);
+/*
+ * Primitive check for tree menu initialization. Prevents tree menus from being
+ * initialized several times in case the script gets included several times.
+ * Note that this still redefines all the functions above every time, which is
+ * sort of bad.
+ * TODO: Use some sort of singleton pattern to make this obsolete.
+ */
+if (!('tmInitialized' in window))
+{
+	tmAddOnloadFunction(tmInitAll);
+	tmInitialized = true;
+}
