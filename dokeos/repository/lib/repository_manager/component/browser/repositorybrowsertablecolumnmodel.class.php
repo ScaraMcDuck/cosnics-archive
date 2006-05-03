@@ -1,6 +1,5 @@
 <?php
 /**
- * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../../../learning_object_table/defaultlearningobjecttablecolumnmodel.class.php';

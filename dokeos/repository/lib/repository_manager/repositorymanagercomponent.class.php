@@ -1,6 +1,5 @@
 <?php
 /**
- * $Id$
  * @package repository.repositorymanager
  */
 abstract class RepositoryManagerComponent {

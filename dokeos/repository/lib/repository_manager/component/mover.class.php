@@ -1,6 +1,5 @@
 <?php
 /**
- * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
@@ -8,7 +7,10 @@ require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 require_once dirname(__FILE__).'/../../learningobjectcategorymenu.class.php';
 require_once dirname(__FILE__).'/../../optionsmenurenderer.class.php';
 require_once dirname(__FILE__).'/../../../../claroline/inc/lib/formvalidator/FormValidator.class.php';
-
+/**
+ * Repository manager component to move learning objects between categories in
+ * the repository.
+ */
 class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 {
 	function run()
@@ -90,7 +92,14 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 			$this->display_error_page(get_lang('NoObjectSelected'));
 		}
 	}
-
+	/**
+	 * Get all categories from which a user can select a target category when
+	 * moving learning objects.
+	 * @param array $exclude An array of category-id's which should be excluded
+	 * from the resulting list.
+	 * @return array A list of possible categories from which a user can choose.
+	 * Can be used as input for a QuickForm select field.
+	 */
 	private function get_categories_for_select($exclude = array())
 	{
 		$cm = new LearningObjectCategoryMenu($this->get_user_id());

@@ -1,12 +1,13 @@
 <?php
 /**
- * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 require_once dirname(__FILE__).'/../../quotamanager.class.php';
 require_once api_get_library_path().'/fileDisplay.lib.php';
-
+/**
+ * Repository manager component which displays the quota to the user.
+ */
 class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 {
 	function run()
@@ -19,7 +20,13 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 		echo self :: get_bar($quotamanager->get_used_database_space_percent(), $quotamanager->get_used_database_space().' / '.$quotamanager->get_max_database_space());
 		$this->display_footer();
 	}
-
+	/**
+	 * Build a bar-view of the used quota.
+	 * @param float $percent The percentage of the bar that is in use
+	 * @param string $status A status message which will be displayed below the
+	 * bar.
+	 * @return string HTML representation of the requested bar.
+	 */
 	private static function get_bar($percent, $status)
 	{
 		$html = '<div class="usage_information">';
