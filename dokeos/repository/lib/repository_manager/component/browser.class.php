@@ -1,6 +1,5 @@
-<?php
+<?php // $Id$
 /**
- * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
