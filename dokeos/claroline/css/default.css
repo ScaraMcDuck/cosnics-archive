@@ -1008,6 +1008,15 @@ ul.tree-menu li div a.quota
 }
 
 /*
+ * Tweak: Create icon.
+ */
+ul.tree-menu li div a.create
+{
+	background-image: url(../img/treemenu/create.gif);
+	background-repeat: no-repeat;
+}
+
+/*
  * For element finder
  */
 .active_elements ul {
