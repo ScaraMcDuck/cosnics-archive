@@ -5,7 +5,9 @@
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 require_once dirname(__FILE__).'/../../learningobjectdisplay.class.php';
-
+/**
+ * Repository manager component which can be used to view a learning object.
+ */
 class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 {
 	function run()
