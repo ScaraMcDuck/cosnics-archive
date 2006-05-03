@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/../../../learningobject.class.php';
 class LearningPathTableColumnModel extends LearningObjectTableColumnModel {
 	function LearningPathTableColumnModel()
 	{
-		parent :: __construct(self :: get_columns(), 3, SORT_DESC);
+		parent :: __construct(self :: get_columns(), 5, SORT_ASC);
 	}
 	
 	private static function get_columns()
@@ -17,6 +17,7 @@ class LearningPathTableColumnModel extends LearningObjectTableColumnModel {
 		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true); 
 		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_CREATION_DATE, true); 
 		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_MODIFICATION_DATE, true); 
+		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX, true); 
 		return $columns;
 	}
 }

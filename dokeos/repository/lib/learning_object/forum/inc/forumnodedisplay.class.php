@@ -11,7 +11,11 @@ class ForumNodeDisplay extends LearningObjectDisplay
 	{
 		$object = $this->get_learning_object();
 		$table = new ForumTable($object, $this->get_learning_object_url_format());
-		return parent :: get_full_html().$table->as_html();
+		$html = array();
+		$html[] = parent :: get_full_html();
+		$html[] = '<div class="lo_intermediate_header" style="margin: 1em 0 0.5em 0; font-weight: bold; font-size: larger;">'.get_lang($object->get_type() == 'forum' ? 'TopicsOnForum' : 'PostsInTopic').'</div>';
+		$html[] = $table->as_html();
+		return implode("\n", $html);
 	}
 }
 ?>
