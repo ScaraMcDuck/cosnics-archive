@@ -39,6 +39,7 @@ var elfSearches = new Array();
 var elfLastSearches = new Array();
 var elfTimeouts = new Array();
 var elfSelectedElements = new Array();
+var elfExcludedElements = new Array();
 
 function ElementFinderSearch (url, origin, destination) {
 	if (elfSearches[destination.getAttribute('id')]) {
@@ -381,11 +382,17 @@ function elfStripWhitespace (str) {
 }
 
 function elfExcludeString (destination) {
-	var elmt = document.getElementById(destination.getAttribute('id')+'_hidden');
+	var destID = destination.getAttribute('id');
+	var elmt = document.getElementById(destID+'_hidden');
 	var chunks = elfUnserialize(elmt.getAttribute('value'));
 	var str = '';
 	for (var i = 0; i < chunks.length; i++) {
 		str += "&exclude[]=" + chunks[i][0];
+	}
+	if (elfExcludedElements[destID]) {
+		for (var i = 0; i < elfExcludedElements[destID].length; i++) {
+			str += "&exclude[]=" + elfExcludedElements[destID][i];
+		}
 	}
 	return str;
 }
