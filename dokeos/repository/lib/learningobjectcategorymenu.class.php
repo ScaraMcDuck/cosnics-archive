@@ -28,27 +28,26 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	 * @param string $url_format The format to use for the URL of a category.
 	 *                           Passed to sprintf(). Defaults to the string
 	 *                           "?category=%s".
-	 * @param boolean $include_trash Whether or not to include a Recycle Bin.
-	 * @param string $quota_url The URL to the quota page. If null, no quota
-	 *                          icon will be shown.
+	 * @param array $extra_items An array of extra tree items, added to the
+	 *                           root.
 	 */
-	public function LearningObjectCategoryMenu($owner, $current_category, $url_format = '?category=%s', $include_trash = false, $quota_url = null)
+	function LearningObjectCategoryMenu($owner, $current_category, $url_format = '?category=%s', & $extra_items = array())
 	{
 		$this->owner = $owner;
 		$this->urlFmt = $url_format;
-		$menu = $this->get_menu_items($include_trash, $quota_url);
+		$menu = $this->get_menu_items(& $extra_items);
 		parent :: HTML_Menu($menu);
 		$this->forceCurrentUrl($this->get_category_url($current_category));
 	}
 	/**
 	 * Returns the menu items.
-	 * @param boolean $include_trash Whether or not to include a Recycle Bin.
-	 * @param string $quota_url The URL to the quota page; null for none.
+	 * @param array $extra_items An array of extra tree items, added to the
+	 *                           root.
 	 * @return array An array with all menu items. The structure of this array
 	 *               is the structure needed by PEAR::HTML_Menu, on which this
 	 *               class is based.
 	 */
-	private function get_menu_items($include_trash, $quota_url)
+	private function get_menu_items(& $extra_items)
 	{
 		$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->owner);
 		$datamanager = RepositoryDataManager :: get_instance();
@@ -59,25 +58,10 @@ class LearningObjectCategoryMenu extends HTML_Menu
 			$categories[$category->get_parent_id()][] = $category;
 		}
 		$menu = & $this->get_sub_menu_items($categories, 0);
-		if (isset($quota_url))
+		if (count($extra_items))
 		{
-			$quota = array();
-			$quota['title'] = get_lang('Quota');
-			$quota['url'] = $quota_url;
-			$quota['sub'] = array();
-			$quota['class'] = 'quota';
-			$menu[] = & $quota;
-		}
-		if ($include_trash)
-		{
-			// TODO: Implement recycle bin.
-			$trash = array();
-			$trash['title'] = get_lang('RecycleBin');
-			$trash['url'] = 'javascript:alert(&quot;Sorry, not implemented.&quot;);';
-			$trash['sub'] = array();
-			$trash['class'] = 'trash';
-			$menu[] = & $trash;
-		}
+			$menu = array_merge($menu, $extra_items);
+		} 
 		return $menu;
 	}
 	/**

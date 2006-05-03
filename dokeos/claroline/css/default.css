@@ -750,7 +750,7 @@ div.learning_object div.title
 	font-size: larger;
 	padding: 3px;
 	float: left;
-	vertical-align: center;
+	vertical-align: middle;
 	border-bottom: 1px solid #CCCCCC;
 	width: 60%;
 	margin-bottom: 10px;

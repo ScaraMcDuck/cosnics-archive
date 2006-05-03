@@ -133,12 +133,8 @@ class RepositoryManager
 	{
 		// TODO: Breadcrumbs.
 		Display :: display_header(api_get_setting('siteName'));
-		// TODO: Move this into the tree.
-		if (true)
-		{
-			$this->display_type_selector_for_creation();
-		}
 		echo '<div style="float: left; width: 20%;">';
+		$this->display_type_selector_for_creation();
 		$this->display_learning_object_categories();
 		echo '</div>';
 		echo '<div style="float: right; width: 80%;">';
@@ -408,8 +404,26 @@ class RepositoryManager
 			{
 				$category = $this->get_root_category_id();
 			}
-			$quota_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA));
-			$this->category_menu = new LearningObjectCategoryMenu($this->get_user_id(), $category, $url_format, true, $quota_url);
+			$extra_items = array();
+			$create = array();
+			$create['title'] = get_lang('Create');
+			$create['url'] = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_LEARNING_OBJECTS));
+			$create['onclick'] = 'return toggleCreationForm();';
+			$create['class'] = 'create';
+			$extra_items[] = & $create;
+			$quota = array();
+			$quota['title'] = get_lang('Quota');
+			$quota['url'] = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA));
+			$quota['class'] = 'quota';
+			$extra_items[] = & $quota;
+			// TODO: Implement recycle bin.
+			$trash = array();
+			$trash['title'] = get_lang('RecycleBin');
+			$trash['url'] = 'javascript:void(0);';
+			$trash['onclick'] = 'alert(&quot;Sorry, not implemented.&quot;);';
+			$trash['class'] = 'trash';
+			$extra_items[] = & $trash;
+			$this->category_menu = new LearningObjectCategoryMenu($this->get_user_id(), $category, $url_format, & $extra_items);
 		}
 		return $this->category_menu;
 	}
@@ -435,8 +449,9 @@ class RepositoryManager
 
 	private function display_type_selector_for_creation()
 	{
-		echo '<div class="select_type_create" style="margin: 0 0 1em 0;">';
-		$form = new FormValidator('select_type', 'post', $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_LEARNING_OBJECTS)));
+		$form_id = 'lo_creation_form';
+		echo '<div id="'.$form_id.'" class="select_type_create" style="position: absolute; left: 5%; top: 20%; text-align: center; margin: 0; padding: 1em; background: #FC6; border: 2px dashed black; width: 90%; display: none;">';
+		$form = new FormValidator('create_type', 'post', $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_LEARNING_OBJECTS)));
 		$type_options = array ();
 		$type_options[''] = '';
 		foreach ($this->get_learning_object_types() as $type)
@@ -446,11 +461,22 @@ class RepositoryManager
 		asort($type_options);
 		$form->addElement('select', self :: PARAM_LEARNING_OBJECT_TYPE, get_lang('CreateANew'), $type_options);
 		$form->addElement('submit', 'submit', get_lang('Go'));
+		$form->addElement('static', null, null, '<a href="javascript:void(0);" onclick="toggleCreationForm();">'.get_lang('Hide').'</a>');
 		$renderer = clone $form->defaultRenderer();
 		$renderer->setElementTemplate('{label} {element} ');
 		$form->accept($renderer);
 		echo $renderer->toHTML();
 		echo '</div>';
+		echo <<<END
+<script type="text/javascript">
+function toggleCreationForm()
+{
+	var div = document.getElementById('$form_id');
+	div.style.display = (div.style.display == 'block' ? 'none' : 'block');
+	return false;
+}
+</script>
+END;
 	}
 }
 ?>
