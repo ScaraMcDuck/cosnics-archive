@@ -1,4 +1,8 @@
 <?php
+/**
+ * $Id$
+ * @package repository.repositorymanager
+ */
 require_once dirname(__FILE__).'/repositorymanagercomponent.class.php';
 require_once dirname(__FILE__).'/repositorysearchform.class.php';
 require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
@@ -8,7 +12,11 @@ require_once dirname(__FILE__).'/../condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../learning_object_table/learningobjecttable.class.php';
 require_once dirname(__FILE__).'/../../../claroline/inc/lib/formvalidator/FormValidator.class.php';
-
+/**
+ * A repository manager provides some functionalities to the end user to manage
+ * his learning objects in the repository. For each functionality a component is
+ * available.
+ */
 class RepositoryManager
 {
 	// SortableTable hogs 'action' so we'll use something else.
@@ -34,7 +42,7 @@ class RepositoryManager
 	const ACTION_VIEW_QUOTA = 'quota';
 
 	private $parameters;
-	
+
 	private $search_parameters;
 
 	private $user_id;
@@ -195,7 +203,7 @@ class RepositoryManager
 	{
 		return $this->parameters[$name];
 	}
-	
+
 	function set_parameter($name, $value)
 	{
 		$this->parameters[$name] = $value;
@@ -205,7 +213,7 @@ class RepositoryManager
 	{
 		return $this->search_parameters[$name];
 	}
-	
+
 	function redirect($action = self :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0)
 	{
 		$params = array ();
@@ -350,7 +358,7 @@ class RepositoryManager
 	{
 		return $this->get_search_form()->get_condition();
 	}
-	
+
 	function get_category_condition($category_id)
 	{
 		$subcat = array();
@@ -362,13 +370,13 @@ class RepositoryManager
 		}
 		return (count($conditions) > 1 ? new OrCondition($conditions) : $conditions[0]);
 	}
-	
+
 	private function get_current_category_title()
 	{
 		// TODO
 		return 'My Repository';
 	}
-	
+
 	private function get_category_id_list($category_id, & $node, & $subcat)
 	{
 		// XXX: Make sure we don't mess up things with trash here.

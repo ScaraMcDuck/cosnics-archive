@@ -1,4 +1,8 @@
 <?php
+/**
+ * $Id$
+ * @package repository.repositorymanager
+ */
 require_once dirname(__FILE__).'/../../../claroline/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositoryutilities.class.php';

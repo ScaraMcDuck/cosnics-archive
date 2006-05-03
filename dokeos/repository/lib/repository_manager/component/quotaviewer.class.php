@@ -1,4 +1,8 @@
 <?php
+/**
+ * $Id$
+ * @package repository.repositorymanager
+ */
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 require_once dirname(__FILE__).'/../../quotamanager.class.php';
 require_once api_get_library_path().'/fileDisplay.lib.php';

@@ -1,41 +1,45 @@
 <?php
+/**
+ * $Id$
+ * @package repository.repositorymanager
+ */
 abstract class RepositoryManagerComponent {
 	private static $component_count = 0;
-	
+
 	private $repository_manager;
-	
+
 	private $id;
-	
+
 	protected function RepositoryManagerComponent($repository_manager) {
 		$this->repository_manager = $repository_manager;
 		$this->id =  ++self :: $component_count;
 	}
-	
+
 	function display_header($breadcrumbs = array (), $display_search = false)
 	{
 		$this->get_parent()->display_header($breadcrumbs, $display_search);
 	}
-	
+
 	function display_footer()
 	{
 		$this->get_parent()->display_footer();
 	}
-	
+
 	function display_message($message)
 	{
 		$this->get_parent()->display_message($message);
 	}
-	
+
 	function display_error_message($message)
 	{
 		$this->get_parent()->display_error_message($message);
 	}
-	
+
 	function display_error_page($message)
 	{
 		$this->get_parent()->display_error_page($message);
 	}
-	
+
 	function display_popup_form($form_html)
 	{
 		$this->get_parent()->display_popup_form($form_html);
@@ -45,137 +49,137 @@ abstract class RepositoryManagerComponent {
 	{
 		return $this->repository_manager;
 	}
-	
+
 	function get_component_id()
 	{
 		return $this->id;
 	}
-	
+
 	function get_parameters($include_search = false)
 	{
 		return $this->get_parent()->get_parameters($include_search);
 	}
-	
+
 	function get_parameter($name)
 	{
 		return $this->get_parent()->get_parameter($name);
 	}
-	
+
 	function set_parameter($name, $value)
 	{
 		$this->get_parent()->set_parameter($name, $value);
 	}
-	
+
 	function get_search_parameter($name)
 	{
 		return $this->get_parent()->get_search_parameter($name);
 	}
-	
+
 	function get_url($additional_parameters = array(), $include_search = false)
 	{
 		return $this->get_parent()->get_url($additional_parameters, $include_search);
 	}
-	
+
 	function redirect($action = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0)
 	{
 		return $this->get_parent()->redirect($action, $message, $new_category_id);
 	}
-	
+
 	function get_user_id()
 	{
 		return $this->get_parent()->get_user_id();
 	}
-	
+
 	function get_root_category_id()
 	{
 		return $this->get_parent()->get_root_category_id();
 	}
-	
+
 	function retrieve_learning_object($id, $type = null)
 	{
 		return $this->get_parent()->retrieve_learning_object($id, $type);
 	}
-	
+
 	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		return $this->get_parent()->retrieve_learning_objects($type, $condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
-	
+
 	function count_learning_objects($type = null, $condition = null)
 	{
 		return $this->get_parent()->count_learning_objects($type, $condition);
 	}
-	
+
 	function learning_object_deletion_allowed($learning_object)
 	{
 		return $this->get_parent()->learning_object_deletion_allowed($learning_object);
 	}
-	
+
 	function get_learning_object_publication_attributes($id)
 	{
 		return $this->get_parent()->get_learning_object_publication_attributes($id);
 	}
-	
+
 	function get_learning_object_viewing_url($learning_object)
 	{
 		return $this->get_parent()->get_learning_object_viewing_url($learning_object);
 	}
-	
+
 	function get_learning_object_editing_url($learning_object)
 	{
 		return $this->get_parent()->get_learning_object_editing_url($learning_object);
 	}
-	
+
 	function get_learning_object_deletion_url($learning_object)
 	{
 		return $this->get_parent()->get_learning_object_deletion_url($learning_object);
 	}
-	
+
 	function get_learning_object_moving_url($learning_object)
 	{
 		return $this->get_parent()->get_learning_object_moving_url($learning_object);
 	}
-	
+
 	function get_learning_object_metadata_editing_url($learning_object)
 	{
 		return $this->get_parent()->get_learning_object_metadata_editing_url($learning_object);
 	}
-	
+
 	function get_learning_object_rights_editing_url($learning_object)
 	{
 		return $this->get_parent()->get_learning_object_rights_editing_url($learning_object);
 	}
-	
+
 	function get_learning_object_types()
 	{
 		return $this->get_parent()->get_learning_object_types();
 	}
-	
+
 	function get_web_code_path()
 	{
 		return $this->get_parent()->get_web_code_path();
 	}
-	
+
 	function not_allowed()
 	{
 		$this->get_parent()->not_allowed();
 	}
-	
+
 	function get_user_info($id)
 	{
 		return $this->get_parent()->get_user_info($id);
 	}
-	
+
 	function get_type_filter_url($type)
 	{
 		return $this->get_parent()->get_type_filter_url($type);
 	}
-	
+
 	function get_search_condition()
 	{
 		return $this->get_parent()->get_search_condition();
 	}
-	
+
 	function get_category_condition($category_id)
 	{
 		return $this->get_parent()->get_category_condition($category_id);
