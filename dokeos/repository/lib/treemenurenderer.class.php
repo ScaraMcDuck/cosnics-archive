@@ -46,6 +46,7 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 		$html = parent :: toHtml();
 		$class = array ('A' => 'current', 'P' => 'current_path');
 		$html = preg_replace('/(?<=<li)><!--([AP])-->/e', '\' class="\'.$class[\1].\'">\'', $html);
+		$html = preg_replace('/\s*\b(onclick|id)="\s*"\s*/', ' ', $html); 
 		if (self :: $initialized)
 		{
 			return $html;

@@ -1,67 +1,21 @@
 <?php
+require_once dirname(__FILE__).'/forumtabledataprovider.class.php';
+require_once dirname(__FILE__).'/forumtablecolumnmodel.class.php';
+require_once dirname(__FILE__).'/forumtablecellrenderer.class.php';
+require_once dirname(__FILE__).'/../../../learning_object_table/learningobjecttable.class.php';
 /**
  * @package repository.learningobject
  * @subpackage forum
  */
-class ForumTable extends SortableTable
+class ForumTable extends LearningObjectTable
 {
-	private $forum;
-	private $url_format;
-
-	function ForumTable($forum, $url_format = '?id=%s')
+	function ForumTable($forum, $url_format)
 	{
 		$name = 'forumtable'.$forum->get_id();
-		parent :: __construct($name, array($this,'get_children_count'), array($this,'get_children'),'2');
-		$this->set_additional_parameters(array('id' => $forum->get_id()));
-		$this->set_column_titles(get_lang('Title'), get_lang('Description'), get_lang('Created'), get_lang('LastModified'));
-		$this->forum = $forum;
-		$this->url_format = $url_format;
-	}
-	function set_column_titles()
-	{
-		$titles = func_get_args();
-		if (count($titles) == 1 && is_array($titles[0])) {
-			$titles = $titles[0];
-		}
-		for ($column = 0; $column < count($titles); $column++)
-		{
-			$this->set_header($column, $titles[$column]);
-		}
-	}
-	function get_children($from, $number_of_items, $column, $direction)
-	{
-		$table_columns = array('title','description','created','modified');
-		$dm = RepositoryDataManager :: get_instance();
-		$orderBy[] = $table_columns[$column];
-		$orderDir = $direction;
-		$condition = $this->get_condition();
-		$children = $dm->retrieve_learning_objects(null,$condition,$orderBy, $orderDir)->as_array();
-		$data = array ();
-		foreach ($children as $child)
-		{
-			$lo = $dm->retrieve_learning_object($child->get_id());
-			$row = array ();
-			$row[] = '<a href="'.$this->get_url($lo->get_id()).'">'.htmlentities($lo->get_title()).'</a>';
-			$row[] = $lo->get_description();
-			$row[] = date('Y-m-d, H:i',($lo->get_creation_date()));
-			$row[] = date('Y-m-d, H:i',($lo->get_modification_date()));
-			$data[] = $row;
-		}
-		return $data;
-	}
-	function get_children_count()
-	{
-		$dm = RepositoryDataManager :: get_instance();
-		$condition = $this->get_condition();
-		return $dm->count_learning_objects(null, $condition);
-	}
-	private function get_condition()
-	{
-		return new EqualityCondition('parent',$this->forum->get_id());
-	}
-	private function get_url($id)
-	{
-		return sprintf($this->url_format, $id);
+		$data_provider = new ForumTableDataProvider($forum);
+		$column_model = new ForumTableColumnModel();
+		$cell_renderer = new ForumTableCellRenderer($url_format);
+		parent :: __construct($data_provider, $name, $column_model, $cell_renderer);
 	}
 }
 ?>
