@@ -1,11 +1,14 @@
-<?php // $Id$
+<?php
 /**
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 require_once dirname(__FILE__).'/browser/repositorybrowsertable.class.php';
-
+/**
+ * Default repository manager component which allows the user to browse through
+ * the different categories and learning objects in the repository.
+ */
 class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 {
 	function run()
@@ -14,7 +17,10 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 		$this->display_learning_objects();
 		$this->display_footer();
 	}
-
+	/**
+	 * Displays the table which shows the learning objects in the currently
+	 * active category
+	 */
 	private function display_learning_objects()
 	{
 		$condition = $this->get_search_condition();

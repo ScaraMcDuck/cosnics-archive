@@ -1,13 +1,15 @@
 <?php
 /**
- * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/../../abstractlearningobject.class.php';
-
+/**
+ * Repository manager component which gives the user the possibility to create a
+ * new learning object in his repository.
+ */
 class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 {
 	function run()

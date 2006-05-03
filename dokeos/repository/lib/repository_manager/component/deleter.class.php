@@ -1,11 +1,13 @@
 <?php
 /**
- * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
-
+/**
+ * Repository manager component which provides functionality to delete a
+ * learning object from the users repository.
+ */
 class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 {
 	function run()
