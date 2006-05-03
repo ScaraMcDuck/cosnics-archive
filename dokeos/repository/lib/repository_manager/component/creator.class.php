@@ -8,26 +8,41 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 {
 	function run()
 	{
-		$type = $_REQUEST[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE];
+		$type_form = new FormValidator('create_type', 'post', $this->get_url());
+		$type_options = array ();
+		$type_options[''] = '';
+		foreach ($this->get_learning_object_types() as $type)
+		{
+			$type_options[$type] = get_lang($type.'TypeName');
+		}
+		asort($type_options);
+		$type_form->addElement('select', RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE, get_lang('CreateANew'), $type_options);
+		$type_form->addElement('submit', 'submit', get_lang('Go'));
+		$type = ($type_form->validate() ? $type_form->exportValue(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE) : $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE]); 
 		if ($type)
 		{
 			$object = new AbstractLearningObject($type, $this->get_user_id(), $_REQUEST[RepositoryManager :: PARAM_CATEGORY_ID]);
-			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE => $type)));
-			if ($form->validate())
+			$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE => $type)));
+			if ($lo_form->validate())
 			{
-				$object = $form->create_learning_object();
+				$object = $lo_form->create_learning_object();
 				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, get_lang('ObjectCreated'), $object->get_parent_id());
 			}
 			else
 			{
 				$this->display_header();
-				$form->display();
+				$lo_form->display();
 				$this->display_footer();
 			}
 		}
 		else
 		{
-			$this->display_error_page(get_lang('NoTypeSelected'));
+			$renderer = clone $type_form->defaultRenderer();
+			$renderer->setElementTemplate('{label} {element} ');
+			$type_form->accept($renderer);
+			$this->display_header();
+			echo $renderer->toHTML();
+			$this->display_footer();
 		}
 	}
 }
