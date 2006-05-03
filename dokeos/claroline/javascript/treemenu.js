@@ -185,19 +185,17 @@ function tmIsLastNode (node)
 function tmWrapInDiv (link, collapsible)
 {
 	var div = document.createElement("div");
+	var linkID = link.getAttribute('id');
+	var oldOnclick = link.onclick;
+	link.removeAttribute('id');
 	var copy = link.cloneNode(true);
-	var oldOnClick = copy.onclick;
+	copy.setAttribute('id', 'linkID');
 	copy.onclick = function (e) {
-		if (!e)
-		{
-			e = window.event;
-		}
+		var returnValue = (oldOnclick ? oldOnclick(e) : false);
+		if (!e) e = window.event;
 		e.cancelBubble = true;
 		this.blur();
-		if (oldOnClick)
-		{
-			return oldOnClick();
-		}
+		return returnValue;
 	};
 	div.appendChild(copy);
 	var parent = link.parentNode;
@@ -335,7 +333,7 @@ function tmArrayContains (haystack, needle)
 
 function tmAddOnloadFunction (f)
 {
-	if (window.onload != null)
+	if (window.onload)
 	{
 		var oldOnload = window.onload;
 		window.onload = function (e) {
