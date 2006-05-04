@@ -21,6 +21,7 @@ class RepositoryBrowserTable extends LearningObjectTable
 		$actions[RepositoryManager :: PARAM_DELETE_SELECTED] = get_lang('DeleteSelected');
 		$actions[RepositoryManager :: PARAM_MOVE_SELECTED] = get_lang('MoveSelected');
 		$this->set_form_actions($actions);
+		$this->set_default_row_count(20);
 	}
 }
 ?>
