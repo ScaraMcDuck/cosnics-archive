@@ -5,6 +5,7 @@
 require_once dirname(__FILE__).'/../../../claroline/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositoryutilities.class.php';
+require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../condition/equalitycondition.class.php';
@@ -99,7 +100,7 @@ class RepositorySearchForm extends FormValidator
 		$types = array ();
 		foreach ($this->manager->get_learning_object_types() as $type)
 		{
-			$types[$type] = get_lang($type.'TypeName');
+			$types[$type] = get_lang(RepositoryDataManager :: type_to_class($type).'TypeName');
 		}
 		asort($types);
 		$this->frozen_elements[] = $this->addElement('text', self :: PARAM_TITLE_SEARCH_QUERY, get_lang('Title'), 'size="60" style="width: 100%"');

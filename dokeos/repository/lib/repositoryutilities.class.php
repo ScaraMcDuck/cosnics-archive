@@ -2,6 +2,7 @@
 require_once dirname(__FILE__).'/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/condition/orcondition.class.php';
 require_once dirname(__FILE__).'/condition/patternmatchcondition.class.php';
+require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 
 /**
 ==============================================================================
@@ -141,7 +142,7 @@ class RepositoryUtilities
 		$return = array();
 		$return['class'] = 'type type_'.$type;
 		$return['title'] = $object->get_title();
-		$return['description'] = get_lang($type.'TypeName') . ' (' . $date . ')';
+		$return['description'] = get_lang(RepositoryDataManager :: type_to_class($type).'TypeName') . ' (' . $date . ')';
 		return $return;
 	}
 	
