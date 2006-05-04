@@ -424,7 +424,6 @@ class RepositoryManager
 			}
 			$extra_items = array();
 			$create = array();
-			$create['id'] = 'creation_form_display_link';
 			$create['title'] = get_lang('Create');
 			$create['url'] = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_LEARNING_OBJECTS));
 			$create['class'] = 'create';
