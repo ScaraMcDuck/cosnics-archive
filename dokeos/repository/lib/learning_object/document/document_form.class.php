@@ -13,8 +13,7 @@ class DocumentForm extends LearningObjectForm
 	{
 		parent :: build_creation_form();
 		$this->addElement('upload_or_create','upload_or_create');
-		//TODO: Why does this crash?
-		//$this->addFormRule(array($this,'check_document_form'));
+		$this->addFormRule(array($this,'check_document_form'));
 		//TODO: add Rule to check if a HTML-content was filled in when the 'create' option was selected
 	}
 	protected function build_editing_form()
@@ -47,7 +46,7 @@ class DocumentForm extends LearningObjectForm
 	}
 	function create_learning_object()
 	{
-		$owner = $this->get_owner_id();
+		$owner = api_get_user_id();
 		$values = $this->exportValues();
 		if($values['choice'])
 		{
@@ -132,7 +131,7 @@ class DocumentForm extends LearningObjectForm
 	/**
 	 *
 	 */
-	private function check_document_form($fields)
+	protected function check_document_form($fields)
 	{
 		$errors = array();
 		if(!$fields['choice'])
