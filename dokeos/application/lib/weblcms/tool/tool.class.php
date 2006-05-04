@@ -56,9 +56,9 @@ abstract class Tool
 		return $this->parent->get_tool_id();
 	}
 	
-	function display_header()
+	function display_header($breadcrumbs = array())
 	{
-		$this->parent->display_header();
+		$this->parent->display_header($breadcrumbs);
 	}
 	
 	function display_footer()

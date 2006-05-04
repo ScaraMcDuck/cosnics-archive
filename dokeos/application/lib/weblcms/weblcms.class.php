@@ -146,10 +146,14 @@ class Weblcms extends WebApplication
 		return WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($id);
 	}
 
-	function display_header()
+	function display_header($breadcrumbs = array())
 	{
-		// TODO: Breadcrumbs.
-		Display :: display_header(api_get_setting('siteName'));
+		global $interbredcrump;
+		array_unshift($breadcrumbs, array('url' => $this->get_url(), 'name' => get_lang(self :: tool_to_class($this->get_parameter(self :: PARAM_TOOL)).'Title')));
+		$current_crumb = array_pop($breadcrumbs);
+		$interbredcrump = $breadcrumbs;
+		$title = $current_crumb['name'];
+		Display :: display_header($title);
 		echo '<div style="float: right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
 		echo '<form method="get" action="'.$this->get_url().'" style="display: inline;">';
 		echo '<select name="' . self :: PARAM_TOOL . '" onchange="submit();">';
