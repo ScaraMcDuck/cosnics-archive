@@ -46,7 +46,7 @@ class DocumentForm extends LearningObjectForm
 	}
 	function create_learning_object()
 	{
-		$owner = api_get_user_id();
+		$owner = $this->get_owner_id();
 		$values = $this->exportValues();
 		if($values['choice'])
 		{
