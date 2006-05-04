@@ -8,79 +8,84 @@ require_once dirname(__FILE__).'/lib/condition/notcondition.class.php';
 require_once dirname(__FILE__).'/lib/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/lib/condition/orcondition.class.php';
 
-if (!api_get_user_id())
+if (api_get_user_id())
 {
-	api_not_allowed();
+	$conditions = array ();
+	
+	$query_condition = RepositoryUtilities :: query_to_condition($_GET['query'], LearningObject :: PROPERTY_TITLE);
+	if (isset ($query_condition))
+	{
+		$conditions[] = $query_condition;
+	}
+	
+	$owner_condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, api_get_user_id());
+	$conditions[] = $owner_condition;
+	
+	$category_type_condition = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'category');
+	$conditions[] = new NotCondition($category_type_condition);
+	
+	if (is_array($_GET['exclude']))
+	{
+		$c = array ();
+		foreach ($_GET['exclude'] as $id)
+		{
+			$c[] = new EqualityCondition(LearningObject :: PROPERTY_ID, $id);
+		}
+		$conditions[] = new NotCondition(new OrCondition($c));
+	}
+	
+	$condition = new AndCondition($conditions);
+	
+	$dm = RepositoryDataManager :: get_instance();
+	$objects = $dm->retrieve_learning_objects(null, $condition, array (LearningObject :: PROPERTY_TITLE), array (SORT_ASC));
+	
+	while ($lo = $objects->next_result())
+	{
+		$cat = $dm->retrieve_learning_object($lo->get_parent_id());
+		while ($cat->get_type() != 'category')
+		{
+			$cat = $dm->retrieve_learning_object($cat->get_parent_id());
+		}
+		$cid = $cat->get_id();
+		if (is_array($objects_by_cat[$cid]))
+		{
+			array_push($objects_by_cat[$cid], $lo);
+		}
+		else
+		{
+			$objects_by_cat[$cid] = array ($lo);
+		}
+	}
+	
+	$categories = array ();
+	$cats = $dm->retrieve_learning_objects('category', $owner_condition);
+	while ($cat = $cats->next_result())
+	{
+		$parent = $cat->get_parent_id();
+		if (is_array($categories[$parent]))
+		{
+			array_push($categories[$parent], $cat);
+		}
+		else
+		{
+			$categories[$parent] = array ($cat);
+		}
+	}
+	
+	$tree = get_tree(0, & $categories);
 }
-
-$conditions = array ();
-
-$query_condition = RepositoryUtilities :: query_to_condition($_GET['query'], LearningObject :: PROPERTY_TITLE);
-if (isset ($query_condition))
+else
 {
-	$conditions[] = $query_condition;
-}
-
-$owner_condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, api_get_user_id());
-$conditions[] = $owner_condition;
-
-$category_type_condition = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'category');
-$conditions[] = new NotCondition($category_type_condition);
-
-if (is_array($_GET['exclude']))
-{
-	$c = array ();
-	foreach ($_GET['exclude'] as $id)
-	{
-		$c[] = new EqualityCondition(LearningObject :: PROPERTY_ID, $id);
-	}
-	$conditions[] = new NotCondition(new OrCondition($c));
-}
-
-$condition = new AndCondition($conditions);
-
-$dm = RepositoryDataManager :: get_instance();
-$objects = $dm->retrieve_learning_objects(null, $condition, array (LearningObject :: PROPERTY_TITLE), array (SORT_ASC));
-
-while ($lo = $objects->next_result())
-{
-	$cat = $dm->retrieve_learning_object($lo->get_parent_id());
-	while ($cat->get_type() != 'category')
-	{
-		$cat = $dm->retrieve_learning_object($cat->get_parent_id());
-	}
-	$cid = $cat->get_id();
-	if (is_array($objects_by_cat[$cid]))
-	{
-		array_push($objects_by_cat[$cid], $lo);
-	}
-	else
-	{
-		$objects_by_cat[$cid] = array ($lo);
-	}
-}
-
-$categories = array ();
-$cats = $dm->retrieve_learning_objects('category', $owner_condition);
-while ($cat = $cats->next_result())
-{
-	$parent = $cat->get_parent_id();
-	if (is_array($categories[$parent]))
-	{
-		array_push($categories[$parent], $cat);
-	}
-	else
-	{
-		$categories[$parent] = array ($cat);
-	}
-}
-
-$tree = get_tree(0, & $categories);
+	$tree = null;
+}	
 
 header('Content-Type: text/xml');
 echo '<?xml version="1.0" encoding="iso-8859-1"?>', "\n", '<tree>', "\n";
 
-dump_tree($tree, & $objects_by_cat);
+if (isset($tree))
+{
+	dump_tree($tree, & $objects_by_cat);
+}
 
 echo '</tree>';
 
