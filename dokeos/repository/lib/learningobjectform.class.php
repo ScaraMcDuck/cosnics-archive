@@ -11,6 +11,7 @@ require_once dirname(__FILE__).'/learningobjectcategorymenu.class.php';
 require_once dirname(__FILE__).'/learningobject.class.php';
 require_once dirname(__FILE__).'/abstractlearningobject.class.php';
 require_once dirname(__FILE__).'/repositoryutilities.class.php';
+require_once dirname(__FILE__).'/optionsmenurenderer.class.php';
 
 abstract class LearningObjectForm extends FormValidator
 {
@@ -103,20 +104,9 @@ abstract class LearningObjectForm extends FormValidator
 	function get_categories()
 	{
 		$categorymenu = new LearningObjectCategoryMenu($this->get_owner_id());
-		$renderer = new HTML_Menu_ArrayRenderer();
+		$renderer = new OptionsMenuRenderer();
 		$categorymenu->render($renderer, 'sitemap');
-		$categories = $renderer->toArray();
-		$category_choices = array ();
-		foreach ($categories as $index => $category)
-		{
-			$prefix = '';
-			if ($category['level'] > 0)
-			{
-				$prefix = str_repeat('&nbsp;&nbsp;&nbsp;', $category['level'] - 1).'&mdash; ';
-			}
-			$category_choices[$category['id']] = $prefix.$category['title'];
-		}
-		return $category_choices;
+		return $renderer->toArray();
 	}
 
 	/**
