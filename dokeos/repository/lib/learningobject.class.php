@@ -102,9 +102,12 @@ class LearningObject implements AccessibleLearningObject
 	 *                                 object. Associative array.
 	 * @param array $additionalProperties The properties specific for this
 	 *                                    type of learning object.
-	 *                                    Associative array.
+	 *                                    Associative array. Null if they are
+	 *                                    unknown at construction of the
+	 *                                    object; in this case, they will be
+	 *                                    retrieved when needed.
 	 */
-	function LearningObject($id = 0, $defaultProperties = array (), $additionalProperties = array ())
+	function LearningObject($id = 0, $defaultProperties = array (), $additionalProperties = null)
 	{
 		$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
@@ -364,6 +367,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	function get_additional_property($name)
 	{
+		$this->check_for_additional_properties();
 		return $this->additionalProperties[$name];
 	}
 
@@ -375,6 +379,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	function set_additional_property($name, $value)
 	{
+		$this->check_for_additional_properties();
 		$this->additionalProperties[$name] = $value;
 	}
 
@@ -394,6 +399,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	function get_additional_properties()
 	{
+		$this->check_for_additional_properties();
 		return $this->additionalProperties;
 	}
 
@@ -517,6 +523,20 @@ class LearningObject implements AccessibleLearningObject
 	function supports_attachments()
 	{
 		return false;
+	}
+
+	/**
+	 * Checks if the learning object's additional properties have already been
+	 * loaded, and requests them from the data manager if they have not.
+	 */
+	private function check_for_additional_properties() 
+	{
+		if (isset($this->additionalProperties))
+		{
+			return;
+		}
+		$dm = RepositoryDataManager :: get_instance();
+		$this->additionalProperties = $dm->retrieve_additional_learning_object_properties($this);
 	}
 	
 	/**
