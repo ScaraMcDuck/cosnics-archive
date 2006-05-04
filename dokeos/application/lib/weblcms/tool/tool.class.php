@@ -67,7 +67,7 @@ abstract class Tool
 	}
 
 	/**
-	 * @see Application :: get_parameters()
+	 * @see WebApplication :: get_parameters()
 	 */
 	function get_parameters()
 	{
@@ -75,7 +75,7 @@ abstract class Tool
 	}
 
 	/**
-	 * @see Application :: get_parameter()
+	 * @see WebApplication :: get_parameter()
 	 */
 	function get_parameter($name)
 	{
@@ -83,7 +83,7 @@ abstract class Tool
 	}
 
 	/**
-	 * @see Application :: set_parameter()
+	 * @see WebApplication :: set_parameter()
 	 */
 	function set_parameter($name, $value)
 	{
@@ -91,7 +91,7 @@ abstract class Tool
 	}
 
 	/**
-	 * @see Application :: get_url()
+	 * @see WebApplication :: get_url()
 	 */
 	function get_url($parameters = array(), $encode = false)
 	{

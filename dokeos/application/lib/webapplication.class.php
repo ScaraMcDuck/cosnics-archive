@@ -2,6 +2,13 @@
 require_once dirname(__FILE__).'/application.class.php';
 
 abstract class WebApplication extends Application {
+	private $parameters;
+	
+	function WebApplication()
+	{
+		$this->parameters = array();
+	}
+	
 	/**
 	 * Gets the URL of the current page in the application. Optionally takes
 	 * an associative array of name/value pairs representing additional query
