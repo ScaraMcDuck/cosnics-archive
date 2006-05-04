@@ -373,7 +373,7 @@ class RepositoryManager
 	private function get_current_category_title()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->retrieve_learning_object($_GET[self :: PARAM_CATEGORY_ID])->get_title();
+		return $rdm->retrieve_learning_object(isset($_GET[self :: PARAM_CATEGORY_ID]) ? $_GET[self :: PARAM_CATEGORY_ID] : 1 )->get_title();
 	}
 
 	private function get_category_id_list($category_id, & $node, & $subcat)
