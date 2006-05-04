@@ -14,7 +14,6 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 {
 	function run()
 	{
-		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('Create')));
 		$type_form = new FormValidator('create_type', 'post', $this->get_url());
 		$type_options = array ();
 		$type_options[''] = '';
@@ -37,6 +36,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			}
 			else
 			{
+				$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('Create').': '.get_lang($type.'TypeName')));
 				$this->display_header($breadcrumbs);
 				$lo_form->display();
 				$this->display_footer();
@@ -47,6 +47,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			$renderer = clone $type_form->defaultRenderer();
 			$renderer->setElementTemplate('{label} {element} ');
 			$type_form->accept($renderer);
+			$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('Create')));
 			$this->display_header($breadcrumbs);
 			echo $renderer->toHTML();
 			$this->display_footer();
