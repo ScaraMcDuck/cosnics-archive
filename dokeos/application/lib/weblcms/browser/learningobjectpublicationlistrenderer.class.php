@@ -209,7 +209,7 @@ abstract class LearningObjectPublicationListRenderer
 	function render_delete_action($publication)
 	{
 		$delete_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_DELETE, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-		$delete_link = '<a href="'.$delete_url.'" onclick="javascript:if(!confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\')) return false;"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete.gif"  alt=""/></a>';
+		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete.gif"  alt=""/></a>';
 		return $delete_link;
 	}
 	
