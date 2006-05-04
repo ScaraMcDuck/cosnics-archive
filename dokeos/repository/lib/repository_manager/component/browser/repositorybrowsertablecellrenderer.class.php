@@ -22,15 +22,12 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		{
 			return $this->get_modification_links($learning_object);
 		}
-		else
+		switch ($column->get_learning_object_property())
 		{
-			switch ($column->get_learning_object_property())
-			{
-				case LearningObject :: PROPERTY_TYPE :
-					return '<a href="'.htmlentities($this->browser->get_type_filter_url($learning_object->get_type())).'">'.parent :: render_cell($column, $learning_object).'</a>';
-				case LearningObject :: PROPERTY_TITLE :
-					return '<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'">'.parent :: render_cell($column, $learning_object).'</a>';
-			}
+			case LearningObject :: PROPERTY_TYPE :
+				return '<a href="'.htmlentities($this->browser->get_type_filter_url($learning_object->get_type())).'">'.parent :: render_cell($column, $learning_object).'</a>';
+			case LearningObject :: PROPERTY_TITLE :
+				return '<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'">'.parent :: render_cell($column, $learning_object).'</a>';
 		}
 		return parent :: render_cell($column, $learning_object);
 	}
