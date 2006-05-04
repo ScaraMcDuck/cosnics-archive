@@ -431,7 +431,7 @@ class RepositoryManager
 			$extra_items[] = & $create;
 			$quota = array();
 			$quota['title'] = get_lang('Quota');
-			$quota['url'] = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA));
+			$quota['url'] = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA, self :: PARAM_CATEGORY_ID => null));
 			$quota['class'] = 'quota';
 			$extra_items[] = & $quota;
 			// TODO: Implement recycle bin.

@@ -27,7 +27,8 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		$type = ($type_form->validate() ? $type_form->exportValue(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE) : $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE]);
 		if ($type)
 		{
-			$object = new AbstractLearningObject($type, $this->get_user_id(), $_REQUEST[RepositoryManager :: PARAM_CATEGORY_ID]);
+			$category = $_GET[RepositoryManager :: PARAM_CATEGORY_ID];
+			$object = new AbstractLearningObject($type, $this->get_user_id(), $category);
 			$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE => $type)));
 			if ($lo_form->validate())
 			{
@@ -36,7 +37,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			}
 			else
 			{
-				$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('Create').': '.get_lang($type.'TypeName')));
+				$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang($type.'CreationFormTitle')));
 				$this->display_header($breadcrumbs);
 				$lo_form->display();
 				$this->display_footer();
