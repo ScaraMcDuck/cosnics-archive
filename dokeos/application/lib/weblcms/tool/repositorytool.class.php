@@ -26,30 +26,6 @@ abstract class RepositoryTool extends Tool
 	const ACTION_MOVE_DOWN = 'move_down';
 
 	/**
-	 * @see Application :: get_user_id()
-	 */
-	function get_user_id()
-	{
-		return $this->get_parent()->get_user_id();
-	}
-
-	/**
-	 * @see Application :: get_course_id()
-	 */
-	function get_course_id()
-	{
-		return $this->get_parent()->get_course_id();
-	}
-
-	/**
-	 * @see Application :: get_groups()
-	 */
-	function get_groups()
-	{
-		return $this->get_parent()->get_groups();
-	}
-
-	/**
 	 * @see Application :: get_categories()
 	 */
 	function get_categories($list = false)
@@ -73,6 +49,7 @@ abstract class RepositoryTool extends Tool
 	 * action.
 	 */
 	 // TODO: add some input validation to check if the requested action can be performed
+	 // XXX: should all this really be handled here?
 	function perform_requested_actions()
 	{
 		$action = $_GET[self :: PARAM_ACTION];
