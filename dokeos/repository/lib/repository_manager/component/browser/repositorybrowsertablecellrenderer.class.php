@@ -27,7 +27,13 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 			case LearningObject :: PROPERTY_TYPE :
 				return '<a href="'.htmlentities($this->browser->get_type_filter_url($learning_object->get_type())).'">'.parent :: render_cell($column, $learning_object).'</a>';
 			case LearningObject :: PROPERTY_TITLE :
-				return '<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'">'.parent :: render_cell($column, $learning_object).'</a>';
+				$title = parent :: render_cell($column, $learning_object);
+				$title_short = $title;
+				if(strlen($title_short) > 53)
+				{
+					$title_short = substr($title_short,0,50).'&hellip;';
+				}
+				return '<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.$title.'">'.$title_short.'</a>';
 		}
 		return parent :: render_cell($column, $learning_object);
 	}
