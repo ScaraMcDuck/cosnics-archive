@@ -7,7 +7,7 @@ class DefaultLearningObjectTableCellRenderer implements LearningObjectTableCellR
 	function DefaultLearningObjectTableCellRenderer()
 	{
 	}
-	
+
 	function render_cell($column, $learning_object)
 	{
 		if ($property = $column->get_learning_object_property())
@@ -22,7 +22,12 @@ class DefaultLearningObjectTableCellRenderer implements LearningObjectTableCellR
 				case LearningObject :: PROPERTY_TITLE :
 					return htmlentities($learning_object->get_title());
 				case LearningObject :: PROPERTY_DESCRIPTION :
-					return $learning_object->get_description();
+					$description = strip_tags($learning_object->get_description());
+					if(strlen($description) > 203)
+					{
+						$description = substr($description,0,200).'&hellip;';
+					}
+					return $description;
 				case LearningObject :: PROPERTY_CREATION_DATE :
 					// TODO: i18n
 					return date('Y-m-d, H:i', $learning_object->get_creation_date());
