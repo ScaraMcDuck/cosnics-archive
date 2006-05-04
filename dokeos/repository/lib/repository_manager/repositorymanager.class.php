@@ -140,13 +140,14 @@ class RepositoryManager
 		$breadcrumbs = array_merge($this->get_category_breadcrumbs(), $breadcrumbs);
 		$current_crumb = array_pop($breadcrumbs);
 		$interbredcrump = $breadcrumbs;
-		Display :: display_header($current_crumb['name']);
+		$title = $current_crumb['name'];
+		Display :: display_header($title);
 		echo '<div style="float: left; width: 20%;">';
 		$this->display_learning_object_categories();
 		echo '</div>';
 		echo '<div style="float: right; width: 80%;">';
 		echo '<div>';
-		echo '<h3 style="float: left;">'.$this->get_current_category_title().'</h3>';
+		echo '<h3 style="float: left;">'.$title.'</h3>';
 		if ($display_search)
 		{
 			$this->display_search_form();
@@ -371,12 +372,6 @@ class RepositoryManager
 			$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $cat);
 		}
 		return (count($conditions) > 1 ? new OrCondition($conditions) : $conditions[0]);
-	}
-
-	private function get_current_category_title()
-	{
-		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->retrieve_learning_object($this->get_parameter(self :: PARAM_CATEGORY_ID))->get_title();
 	}
 
 	private function get_category_id_list($category_id, & $node, & $subcat)
