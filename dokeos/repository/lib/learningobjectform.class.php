@@ -54,6 +54,16 @@ abstract class LearningObjectForm extends FormValidator
 		$this->add_footer();
 		$this->setDefaults();
 	}
+	
+	/**
+	 * Returns the ID of the owner of the learning object being created or
+	 * edited.
+	 * @return int The ID.
+	 */
+	protected function get_owner_id()
+	{
+		return $this->owner_id;
+	}
 
 	/**
 	 * Returns the learning object associated with this form.
@@ -92,7 +102,7 @@ abstract class LearningObjectForm extends FormValidator
 	 */
 	function get_categories()
 	{
-		$categorymenu = new LearningObjectCategoryMenu($this->owner_id);
+		$categorymenu = new LearningObjectCategoryMenu($this->get_owner_id());
 		$renderer = new HTML_Menu_ArrayRenderer();
 		$categorymenu->render($renderer, 'sitemap');
 		$categories = $renderer->toArray();
@@ -197,7 +207,7 @@ abstract class LearningObjectForm extends FormValidator
 	{
 		$values = $this->exportValues();
 		$object = $this->learning_object;
-		$object->set_owner_id($this->owner_id);
+		$object->set_owner_id($this->get_owner_id());
 		$object->set_title($values[LearningObject :: PROPERTY_TITLE]);
 		$object->set_description($values[LearningObject :: PROPERTY_DESCRIPTION]);
 		if ($this->allows_category_selection())
@@ -281,7 +291,7 @@ abstract class LearningObjectForm extends FormValidator
 
 	function display()
 	{
-		$quotamanager = new QuotaManager(api_get_user_id());
+		$quotamanager = new QuotaManager($this->get_owner_id());
 		if ($this->form_type == self :: TYPE_CREATE && $quotamanager->get_available_database_space() <= 0)
 		{
 			Display :: display_error_message(get_lang('DatabaseQuotaExceeded'));
