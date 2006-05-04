@@ -71,7 +71,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res = $this->connection->limitQuery($query, 0, 1, array ($id));
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		$res->free();
-		return self :: record_to_learning_object($record);
+		return self :: record_to_learning_object($record, true);
 	}
 
 	// Inherited.
@@ -128,6 +128,20 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		$res = $this->connection->limitQuery($query, intval($offset), intval($maxObjects), $params);
 		return new DatabaseLearningObjectResultSet($this, $res, isset($type));
+	}
+	
+	// Inherited.
+	function retrieve_additional_learning_object_properties($learning_object)
+	{
+		$type = $learning_object->get_type();
+		if (!$this->is_extended_type($type))
+		{
+			return array();
+		}
+		$id = $learning_object->get_id();
+		$query = 'SELECT '.implode(',', array_map(array(self, 'escape_column_name'), $this->get_additional_properties($type))).' FROM '.$this->escape_table_name($type).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+		$res = $this->connection->limitQuery($query, 0, 1, array($id));
+		return $res->fetchRow(DB_FETCHMODE_ASSOC);
 	}
 
 	// Inherited.
@@ -430,9 +444,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * Parses a database record fetched as an associative array into a
 	 * learning object.
 	 * @param array $record The associative array.
+	 * @param boolean $additional_properties_known True if the additional
+	 *                                             properties of the
+	 *                                             learning object were
+	 *                                             fetched.
 	 * @return LearningObject The learning object.
 	 */
-	function record_to_learning_object($record)
+	function record_to_learning_object($record, $additional_properties_known = false)
 	{
 		$defaultProp = array ();
 		foreach (LearningObject :: get_default_property_names() as $prop)
@@ -441,14 +459,21 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		$defaultProp[LearningObject :: PROPERTY_CREATION_DATE] = self :: from_db_date($defaultProp[LearningObject :: PROPERTY_CREATION_DATE]);
 		$defaultProp[LearningObject :: PROPERTY_MODIFICATION_DATE] = self :: from_db_date($defaultProp[LearningObject :: PROPERTY_MODIFICATION_DATE]);
-		$additionalProp = array ();
-		$properties = $this->get_additional_properties($record[LearningObject :: PROPERTY_TYPE]);
-		if (count($properties) > 0)
+		if ($additional_properties_known)
 		{
-			foreach ($properties as $prop)
+			$additionalProp = array ();
+			$properties = $this->get_additional_properties($record[LearningObject :: PROPERTY_TYPE]);
+			if (count($properties) > 0)
 			{
-				$additionalProp[$prop] = $record[$prop];
+				foreach ($properties as $prop)
+				{
+					$additionalProp[$prop] = $record[$prop];
+				}
 			}
+		}
+		else
+		{
+			$additionalProp = null;
 		}
 		return $this->factory($record[LearningObject :: PROPERTY_TYPE], $record[LearningObject :: PROPERTY_ID], $defaultProp, $additionalProp);
 	}

@@ -190,6 +190,8 @@ abstract class RepositoryDataManager
 	 * @param array $additionalProperties An associative array containing the
 	 *                                    additional (type-specific)
 	 *                                    properties of the learning object.
+	 *                                    Null if unknown; this implies JIT
+	 *                                    retrieval.
 	 * @return LearningObject The newly instantiated learning object.
 	 */
 	protected function factory($type, $id, $defaultProperties, $additionalProperties)
@@ -235,7 +237,10 @@ abstract class RepositoryDataManager
 	 *                     If you do not specify a type, or the type is not
 	 *                     known in advance, you will only be able to select
 	 *                     on default properties; also, there will be a
-	 *                     significant performance decrease.
+	 *                     significant performance decrease. In this case,
+	 *                     the values of the additional properties will not
+	 *                     yet be known; they will be retrieved JIT, i.e.
+	 *                     right before they are accessed.
 	 * @param Condition $condition The condition to use for learning object
 	 *                             selection, structured as a Condition
 	 *                             object. Please consult the appropriate
@@ -256,6 +261,14 @@ abstract class RepositoryDataManager
 	 * @return ResultSet A set of matching learning objects.
 	 */
 	abstract function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+	
+	/**
+	 * Retrieves the additional properties of the given learning object.
+	 * @param LearningObject $learning_object The learning object for which to
+	 *                                        fetch additional properties.
+	 * @return array The properties as an associative array.
+	 */
+	abstract function retrieve_additional_learning_object_properties($learning_object);
 
 	/**
 	 * Returns the number of learning objects that match the given criteria.

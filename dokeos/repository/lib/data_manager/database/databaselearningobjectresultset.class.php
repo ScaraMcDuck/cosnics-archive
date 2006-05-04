@@ -17,31 +17,9 @@ class DatabaseLearningObjectResultSet extends ResultSet {
     
     function next_result()
     {
-		if ($this->single_type)
+		if ($record = $this->handle->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			if ($record = $this->handle->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				return $this->data_manager->record_to_learning_object($record);
-			}
-		}
-		else
-		{
-			/*
-			 * TODO: Extend so additional properties can be fetched when
-			 * needed. This would probably involve reviewing LearningObject's
-			 * additional property accessor methods.
-			 */
-			if ($record = $this->handle->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				if ($this->data_manager->is_extended_type($record[LearningObject :: PROPERTY_TYPE]))
-				{
-					return $this->data_manager->retrieve_learning_object($record[LearningObject :: PROPERTY_ID], $record[LearningObject :: PROPERTY_TYPE]);
-				}
-				else
-				{
-					return $this->data_manager->record_to_learning_object($record);
-				}
-			}
+			return $this->data_manager->record_to_learning_object($record, $this->single_type);
 		}
     	return null;
     }
