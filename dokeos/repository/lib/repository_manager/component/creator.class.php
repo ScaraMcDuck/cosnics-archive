@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/../repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/../../abstractlearningobject.class.php';
+require_once dirname(__FILE__).'/../../repositorydatamanager.class.php';
 /**
  * Repository manager component which gives the user the possibility to create a
  * new learning object in his repository.
@@ -19,7 +20,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		$type_options[''] = '';
 		foreach ($this->get_learning_object_types() as $type)
 		{
-			$type_options[$type] = get_lang($type.'TypeName');
+			$type_options[$type] = get_lang(RepositoryDataManager :: type_to_class($type).'TypeName');
 		}
 		asort($type_options);
 		$type_form->addElement('select', RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE, get_lang('CreateANew'), $type_options);
@@ -37,7 +38,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			}
 			else
 			{
-				$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang($type.'CreationFormTitle')));
+				$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang(RepositoryDataManager :: type_to_class($type).'CreationFormTitle')));
 				$this->display_header($breadcrumbs);
 				$lo_form->display();
 				$this->display_footer();
