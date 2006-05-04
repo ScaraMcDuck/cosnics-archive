@@ -67,6 +67,30 @@ abstract class Tool
 	}
 
 	/**
+	 * @see WebApplication :: get_user_id()
+	 */
+	function get_user_id()
+	{
+		return $this->parent->get_user_id();
+	}
+
+	/**
+	 * @see WebApplication :: get_course_id()
+	 */
+	function get_course_id()
+	{
+		return $this->parent->get_course_id();
+	}
+
+	/**
+	 * @see WebApplication :: get_groups()
+	 */
+	function get_groups()
+	{
+		return $this->parent->get_groups();
+	}
+
+	/**
 	 * @see WebApplication :: get_parameters()
 	 */
 	function get_parameters()
@@ -121,8 +145,8 @@ abstract class Tool
 		$dokeos_tools['link'] = TOOL_LINK;
 		$dokeos_tools['document'] = TOOL_DOCUMENT;
 		// Roles and rights system
-		$user_id = api_get_user_id();
-		$course_id = api_get_course_id();
+		$user_id = $this->get_user_id();
+		$course_id = $this->get_course_id();
 		$role_id = RolesRights::get_local_user_role_id($user_id, $course_id);
 		$location_id = RolesRights::get_course_tool_location_id($course_id, $dokeos_tools[$tool_id]);
 		$this->rights = RolesRights::is_allowed_which_rights($role_id, $location_id);
