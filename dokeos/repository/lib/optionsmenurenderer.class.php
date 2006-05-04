@@ -7,6 +7,8 @@ require_once 'HTML/Menu/ArrayRenderer.php';
  */
 class OptionsMenuRenderer extends HTML_Menu_ArrayRenderer
 {
+	const KEY_ID = 'node_id';
+	
 	/**
 	 * Create a new OptionsMenuRenderer
 	 * @param array $exclude Which items should be excluded (based on the $key
@@ -24,7 +26,7 @@ class OptionsMenuRenderer extends HTML_Menu_ArrayRenderer
 	function renderEntry($node, $level, $type)
     {
     	// If this node is in the exclude list, add all its child-nodes to the exclude list
-    	if(in_array($node['id'],$this->exclude))
+    	if(in_array($node[self :: KEY_ID],$this->exclude))
     	{
     		foreach($node['sub'] as $child_id => $child)
     		{
@@ -44,12 +46,10 @@ class OptionsMenuRenderer extends HTML_Menu_ArrayRenderer
     	}
     }
 	/**
-	 * Returns an array wich can be used as a list of options in a select-list
+	 * Returns an array which can be used as a list of options in a select-list
 	 * of a form.
-	 * @param string $key Which element of the menu item should be used as key
-	 * value in the resulting options list. Defaults to 'id'
 	 */
-	public function toArray($key = 'id')
+	public function toArray()
 	{
 		$array = parent::toArray();
 		$choices = array();
@@ -60,7 +60,7 @@ class OptionsMenuRenderer extends HTML_Menu_ArrayRenderer
 			{
 				$prefix = str_repeat('&nbsp;&nbsp;&nbsp;',$item['level']-1).'&mdash; ';
 			}
-			$choices[$item[$key]] = $prefix.$item['title'];
+			$choices[$item[self :: KEY_ID]] = $prefix.$item['title'];
 		}
 		return $choices;
 	}
