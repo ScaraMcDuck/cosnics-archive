@@ -30,7 +30,8 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 			}
 			else
 			{
-				$this->display_header();
+				$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('Edit')));
+				$this->display_header($breadcrumbs);
 				$form->display();
 				$this->display_footer();
 			}

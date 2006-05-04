@@ -12,7 +12,8 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 {
 	function run()
 	{
-		$this->display_header();
+		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('ViewQuota')));
+		$this->display_header($breadcrumbs);
 		$quotamanager = new QuotaManager($this->get_user_id());
 		echo '<h3>'.get_lang('Disk').'</h3>';
 		echo self :: get_bar($quotamanager->get_used_disk_space_percent(), format_file_size($quotamanager->get_used_disk_space()).' / '.format_file_size($quotamanager->get_max_disk_space()));

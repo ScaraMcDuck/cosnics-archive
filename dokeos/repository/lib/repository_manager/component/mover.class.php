@@ -82,7 +82,8 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 				$renderer = clone $form->defaultRenderer();
 				$renderer->setElementTemplate('{label} {element} ');
 				$form->accept($renderer);
-				$this->display_header();
+				$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('Move')));
+				$this->display_header($breadcrumbs);
 				$this->display_popup_form($renderer->toHTML());
 				$this->display_footer();
 			}
