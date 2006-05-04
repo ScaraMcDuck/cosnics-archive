@@ -136,8 +136,11 @@ class RepositoryManager
 
 	function display_header($breadcrumbs = array (), $display_search = false)
 	{
-		// TODO: Breadcrumbs.
-		Display :: display_header(api_get_setting('siteName'));
+		global $interbredcrump;
+		$breadcrumbs = array_merge($this->get_category_breadcrumbs(), $breadcrumbs);
+		$current_crumb = array_pop($breadcrumbs);
+		$interbredcrump = $breadcrumbs;
+		Display :: display_header($current_crumb['name']);
 		echo '<div style="float: left; width: 20%;">';
 		$this->display_learning_object_categories();
 		echo '</div>';
@@ -403,6 +406,11 @@ class RepositoryManager
 			$this->set_parameter(self :: PARAM_CATEGORY_ID, $this->get_root_category_id());
 		}
 		$this->search_parameters = $form->get_frozen_values();
+	}
+	
+	private function get_category_breadcrumbs()
+	{
+		return $this->get_category_menu()->get_breadcrumbs();
 	}
 
 	private function get_category_menu()

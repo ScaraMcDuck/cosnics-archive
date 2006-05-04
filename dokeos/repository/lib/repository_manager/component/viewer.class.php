@@ -22,7 +22,8 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				$this->not_allowed();
 			}
 			$display = LearningObjectDisplay :: factory($object);
-			$this->display_header();
+			$breadcrumbs = array(array('url' => $this->get_url(), 'name' => $object->get_title()));
+			$this->display_header($breadcrumbs);
 			echo $display->get_full_html();
 			echo '<ul class="learning_object_management_buttons" style="list-style: none; margin: 1em 0; padding: 0;"">';
 			echo '<li style="display: inline; margin: 0; padding: 0 1ex 0 0;">';
