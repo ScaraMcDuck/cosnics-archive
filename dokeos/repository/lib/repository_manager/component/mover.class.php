@@ -106,7 +106,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 		$cm = new LearningObjectCategoryMenu($this->get_user_id());
 		$renderer = new OptionsMenuRenderer($exclude);
 		$cm->render($renderer, 'sitemap');
-		return $renderer->toArray('id');
+		return $renderer->toArray();
 	}
 }
 ?>
