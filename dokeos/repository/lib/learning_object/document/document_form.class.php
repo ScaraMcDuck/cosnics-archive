@@ -13,12 +13,14 @@ class DocumentForm extends LearningObjectForm
 	{
 		parent :: build_creation_form();
 		$this->addElement('upload_or_create','upload_or_create');
-		$this->addFormRule(array($this,'check_document_form'));
+		//TODO: Why does this crash?
+		//$this->addFormRule(array($this,'check_document_form'));
 		//TODO: add Rule to check if a HTML-content was filled in when the 'create' option was selected
 	}
 	protected function build_editing_form()
 	{
 		parent :: build_editing_form();
+		$object = $this->get_learning_object();
 		if($this->is_html_document($object->get_path()))
 		{
 			$this->addElement('html_editor', 'html_content', get_lang('HtmlDocument'));
@@ -98,9 +100,10 @@ class DocumentForm extends LearningObjectForm
 	/**
 	 * Checks if a file is an HTML document.
 	 */
+	// TODO: Move to RepositoryUtilities or some other relevant class.
 	private function is_html_document($path)
 	{
-		return 	(preg_match('/\.x?html?$/',$path) === 1);
+		return (preg_match('/\.x?html?$/',$path) === 1);
 	}
 	/**
 	 * Creates a valid filename.
