@@ -1,7 +1,7 @@
 <?php
 $AddAttachments='Bijlagen toevoegen';
 $AdvancedSearch='Geavanceerd zoeken';
-$AllSelectedObjectsMoved='Allge geselecteerde leerobjecten werden verplaatst.';
+$AllSelectedObjectsMoved='Alle geselecteerde leerobjecten werden verplaatst.';
 $AllSelectedObjectsMovedToRecycleBin='Alle geselecteerde leerobjecten werden naar de prullenbak verplaatst.';
 $AnnouncementCreationFormTitle='Nieuwe aankondiging aanmaken';
 $AnnouncementTypeName='Aankondiging';
