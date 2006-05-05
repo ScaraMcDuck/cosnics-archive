@@ -7,6 +7,7 @@ require_once dirname(__FILE__).'/weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/learningobjectpublicationcategory.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php';
 require_once dirname(__FILE__).'/../../../claroline/inc/lib/groupmanager.lib.php';
+require_once dirname(__FILE__).'/tool/tool.class.php';
 
 /**
 ==============================================================================
@@ -50,7 +51,7 @@ class Weblcms extends WebApplication
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		if (isset ($tool))
 		{
-			$class = self :: tool_to_class($tool);
+			$class = Tool :: type_to_class($tool);
 			$toolObj = new $class ($this);
 			$this->tool_class = $class;
 			$toolObj->run();
@@ -61,7 +62,7 @@ class Weblcms extends WebApplication
 			echo '<ul>';
 			foreach ($this->get_registered_tools() as $tool)
 			{
-				$class = self :: tool_to_class($tool);
+				$class = Tool :: type_to_class($tool);
 				echo '<li><a href="'.$this->get_url(array (self :: PARAM_TOOL => $tool), true).'">'.get_lang($class.'Title').'</a></li>';
 			}
 			echo '</ul>';
@@ -149,7 +150,7 @@ class Weblcms extends WebApplication
 	function display_header($breadcrumbs = array())
 	{
 		global $interbredcrump;
-		array_unshift($breadcrumbs, array('url' => $this->get_url(), 'name' => get_lang(self :: tool_to_class($this->get_parameter(self :: PARAM_TOOL)).'Title')));
+		array_unshift($breadcrumbs, array('url' => $this->get_url(), 'name' => get_lang(Tool :: type_to_class($this->get_parameter(self :: PARAM_TOOL)).'Title')));
 		$current_crumb = array_pop($breadcrumbs);
 		$interbredcrump = $breadcrumbs;
 		$title = $current_crumb['name'];
@@ -164,12 +165,12 @@ class Weblcms extends WebApplication
 		$tools = array();
 		foreach ($this->get_registered_tools() as $t)
 		{
-			$tools[$t] = get_lang(self :: tool_to_class($t).'Title');
+			$tools[$t] = get_lang(Tool :: type_to_class($t).'Title');
 		}
 		asort($tools);
 		foreach ($tools as $tool => $title)
 		{ 
-			$class = self :: tool_to_class($tool); 
+			$class = Tool :: type_to_class($tool); 
 			echo '<option value="'.$t.'"'.($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($title).'</option>';
 		}
 		echo '</select></form></div>';
@@ -238,26 +239,6 @@ class Weblcms extends WebApplication
 			die('Failed to load tools');
 		}
 
-	}
-
-	/**
-	 * Converts a tool name to the corresponding class name.
-	 * @param string $tool The tool name.
-	 * @return string The class name.
-	 */
-	static function tool_to_class($tool)
-	{
-		return ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $tool)).'Tool';
-	}
-
-	/**
-	 * Converts a tool class name to the corresponding tool name.
-	 * @param string $class The class name.
-	 * @return string The tool name.
-	 */
-	static function class_to_tool($class)
-	{
-		return preg_replace(array ('/Tool$/', '/^([A-Z])/e', '/([A-Z])/e'), array ('', 'strtolower(\1)', '"_".strtolower(\1)'), $class);
 	}
 
 	/**

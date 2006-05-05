@@ -16,6 +16,9 @@ require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 
 class RepositoryUtilities
 {
+	private static $us_camel_map = array();
+	private static $camel_us_map = array();
+
 	/**
 	 * Splits a Google-style search query. For example, the query
 	 * /"dokeos repository" utilities/ would be parsed into
@@ -146,6 +149,34 @@ class RepositoryUtilities
 		return $return;
 	}
 	
+	/**
+	 * Converts the given under_score string to CamelCase notation.
+	 * @param string $string The string in under_score notation.
+	 * @return string The string in CamelCase notation.
+	 */
+	static function underscores_to_camelcase($string)
+	{
+		if (!isset(self :: $us_camel_map[$string]))
+		{
+			self :: $us_camel_map[$string] = ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $string));
+		}
+		return self :: $us_camel_map[$string];
+	}
+	
+	/**
+	 * Converts the given CamelCase string to under_score notation.
+	 * @param string $string The string in CamelCase notation.
+	 * @return string The string in under_score notation.
+	 */
+	static function camelcase_to_underscores($string)
+	{
+		if (!isset(self :: $camel_us_map[$string]))
+		{
+			self :: $camel_us_map[$string] = preg_replace(array ('/^([A-Z])/e', '/([A-Z])/e'), array ('strtolower(\1)', '"_".strtolower(\1)'), $string);
+		}
+		return self :: $camel_us_map[$string];
+	}
+
 	private static function by_title ($a, $b)
 	{
 		return strcasecmp($a->get_title(), $b->get_title()); 

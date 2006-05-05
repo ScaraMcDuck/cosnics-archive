@@ -255,7 +255,11 @@ abstract class LearningObjectForm extends FormValidator
 		$result = $object->update();
 		if ($object->supports_attachments())
 		{
-			// XXX: Make this faster.
+			/*
+			 * XXX: Make this faster by providing a function that matches the
+			 *      existing IDs against the ones that need to be added, and
+			 *      attaches and detaches accordingly.
+			 */
 			foreach ($object->get_attached_learning_objects() as $o)
 			{
 				$object->detach_learning_object($o->get_id());
@@ -313,7 +317,7 @@ abstract class LearningObjectForm extends FormValidator
 	static function factory($form_type, $learning_object, $form_name, $method = 'post', $action = null)
 	{
 		$type = $learning_object->get_type();
-		$class = RepositoryDataManager :: type_to_class($type).'Form';
+		$class = LearningObject :: type_to_class($type).'Form';
 		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_form.class.php';
 		return new $class ($form_type, $learning_object, $form_name, $method, $action);
 	}
