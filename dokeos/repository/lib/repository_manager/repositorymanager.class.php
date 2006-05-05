@@ -141,13 +141,18 @@ class RepositoryManager
 		$current_crumb = array_pop($breadcrumbs);
 		$interbredcrump = $breadcrumbs;
 		$title = $current_crumb['name'];
-		Display :: display_header($title);
+		$title_short = $title;
+		if(strlen($title_short) > 53)
+		{
+			$title_short = substr($title_short,0,50).'&hellip;';
+		}
+		Display :: display_header($title_short);
 		echo '<div style="float: left; width: 20%;">';
 		$this->display_learning_object_categories();
 		echo '</div>';
 		echo '<div style="float: right; width: 80%;">';
 		echo '<div>';
-		echo '<h3 style="float: left;">'.$title.'</h3>';
+		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
 		if ($display_search)
 		{
 			$this->display_search_form();
@@ -402,7 +407,7 @@ class RepositoryManager
 		}
 		$this->search_parameters = $form->get_frozen_values();
 	}
-	
+
 	private function get_category_breadcrumbs()
 	{
 		return $this->get_category_menu()->get_breadcrumbs();
