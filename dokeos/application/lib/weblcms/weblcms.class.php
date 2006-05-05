@@ -69,7 +69,7 @@ class Weblcms extends WebApplication
 			$this->display_footer();
 		}
 	}
-	
+
 	function get_tool_id()
 	{
 		return $this->get_parameter(self :: PARAM_TOOL);
@@ -169,8 +169,8 @@ class Weblcms extends WebApplication
 		}
 		asort($tools);
 		foreach ($tools as $tool => $title)
-		{ 
-			$class = Tool :: type_to_class($tool); 
+		{
+			$class = Tool :: type_to_class($tool);
 			echo '<option value="'.$t.'"'.($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($title).'</option>';
 		}
 		echo '</select></form></div>';
@@ -188,7 +188,7 @@ class Weblcms extends WebApplication
 		mysql_select_db($mainDbName);
 		Display :: display_footer();
 	}
-	
+
 	/**
 	 * Returns the names of the tools known to this application.
 	 * @return array The tools.
@@ -256,6 +256,13 @@ class Weblcms extends WebApplication
 	function learning_object_is_published($object_id)
 	{
 		return WeblcmsDataManager :: get_instance()->learning_object_is_published($object_id);
+	}
+	/*
+	 * Inherited
+	 */
+	function any_learning_object_is_published($object_ids)
+	{
+		return WeblcmsDataManager::get_instance()->any_learning_object_is_published($object_ids);
 	}
 	/*
 	 * Inherited
