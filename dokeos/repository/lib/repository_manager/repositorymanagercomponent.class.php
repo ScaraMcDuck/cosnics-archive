@@ -178,9 +178,9 @@ abstract class RepositoryManagerComponent {
 		return $this->get_parent()->get_learning_object_deletion_url($learning_object);
 	}
 
-	function get_learning_object_restoration_url($learning_object)
+	function get_learning_object_restoring_url($learning_object)
 	{
-		return $this->get_parent()->get_learning_object_restoration_url($learning_object);
+		return $this->get_parent()->get_learning_object_restoring_url($learning_object);
 	}
 
 	function get_learning_object_moving_url($learning_object)

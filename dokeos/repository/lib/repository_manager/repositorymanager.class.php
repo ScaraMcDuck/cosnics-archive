@@ -29,6 +29,7 @@ class RepositoryManager
 
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 	const PARAM_MOVE_SELECTED = 'move_selected';
+	const PARAM_RESTORE_SELECTED = 'restore_selected';
 	
 	const ACTION_BROWSE_LEARNING_OBJECTS = 'browse';
 	const ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS = 'recycler';
@@ -84,6 +85,7 @@ class RepositoryManager
 				$component = RepositoryManagerComponent :: factory('Viewer', $this);
 				break;
 			case self :: ACTION_CREATE_LEARNING_OBJECTS :
+				$this->set_parameter(self :: PARAM_CATEGORY_ID, $this->get_root_category_id());
 				$this->get_category_menu()->forceCurrentUrl($this->create_url, true);
 				$component = RepositoryManagerComponent :: factory('Creator', $this);
 				break;
@@ -106,10 +108,12 @@ class RepositoryManager
 				$component = RepositoryManagerComponent :: factory('RightsEditor', $this);
 				break;
 			case self :: ACTION_VIEW_QUOTA :
+				$this->set_parameter(self :: PARAM_CATEGORY_ID, $this->get_root_category_id());
 				$this->get_category_menu()->forceCurrentUrl($this->quota_url, true);
 				$component = RepositoryManagerComponent :: factory('QuotaViewer', $this);
 				break;
 			case self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS :
+				$this->set_parameter(self :: PARAM_CATEGORY_ID, $this->get_root_category_id());
 				$this->get_category_menu()->forceCurrentUrl($this->recycle_bin_url, true);
 				$component = RepositoryManagerComponent :: factory('RecycleBinBrowser', $this);
 				break;
@@ -142,6 +146,10 @@ class RepositoryManager
 					break;
 				case self :: PARAM_MOVE_SELECTED :
 					$this->set_action(self :: ACTION_MOVE_LEARNING_OBJECTS);
+					$_GET[self :: PARAM_LEARNING_OBJECT_ID] = $selected_ids;
+					break;
+				case self :: PARAM_RESTORE_SELECTED :
+					$this->set_action(self :: ACTION_RESTORE_LEARNING_OBJECTS);
 					$_GET[self :: PARAM_LEARNING_OBJECT_ID] = $selected_ids;
 					break;
 			}
@@ -349,7 +357,7 @@ class RepositoryManager
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 	}
 
-	function get_learning_object_restoration_url($learning_object)
+	function get_learning_object_restoring_url($learning_object)
 	{
 		if ($learning_object->get_state() != LearningObject :: STATE_RECYCLED)
 		{
