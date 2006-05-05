@@ -59,7 +59,7 @@ class QuotaManager
 	{
 		$datamanager = RepositoryDatamanager::get_instance();
 		$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID,$this->owner);
-		return $datamanager->count_learning_objects(null,$condition);
+		return $datamanager->count_learning_objects(null,$condition,-1);
 	}
 	/**
 	 * Get the used database space
