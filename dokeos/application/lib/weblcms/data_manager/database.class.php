@@ -32,6 +32,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $res->numRows() == 1;
 	}
 
+	function any_learning_object_is_published($object_ids)
+	{
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID).' IN ('."'".implode("','",$object_ids)."'".')';
+		$res = $this->connection->limitQuery($query, 0, 1);
+		return $res->numRows() == 1;
+	}
+
 	function get_learning_object_publication_attributes($object_id)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID).'=?';
