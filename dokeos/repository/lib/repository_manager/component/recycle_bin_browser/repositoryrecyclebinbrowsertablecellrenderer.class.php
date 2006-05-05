@@ -48,7 +48,7 @@ class RepositoryRecycleBinBrowserTableCellRenderer extends DefaultLearningObject
 
 	private function get_restore_link($learning_object)
 	{
-		return '<a href="'.$this->browser->get_learning_object_restoration_url($learning_object).'" title="'.get_lang('Restore').'"><img src="'.$this->browser->get_web_code_path().'img/restore.gif" alt="'.get_lang('Restore').'"/></a>';
+		return '<a href="'.$this->browser->get_learning_object_restoring_url($learning_object).'" title="'.get_lang('Restore').'"><img src="'.$this->browser->get_web_code_path().'img/restore.gif" alt="'.get_lang('Restore').'"/></a>';
 	}
 }
 ?>
