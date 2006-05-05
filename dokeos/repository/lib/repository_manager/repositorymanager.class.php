@@ -85,7 +85,6 @@ class RepositoryManager
 				$component = RepositoryManagerComponent :: factory('Viewer', $this);
 				break;
 			case self :: ACTION_CREATE_LEARNING_OBJECTS :
-				$this->set_parameter(self :: PARAM_CATEGORY_ID, $this->get_root_category_id());
 				$this->get_category_menu()->forceCurrentUrl($this->create_url, true);
 				$component = RepositoryManagerComponent :: factory('Creator', $this);
 				break;
