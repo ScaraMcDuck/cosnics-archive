@@ -41,6 +41,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 	private function get_modification_links($learning_object)
 	{
 		$html = array ();
+		$html[] = '<span style="white-space:nowrap;">';
 		$html[] = '<a href="'.$this->browser->get_learning_object_editing_url($learning_object).'" title="'.get_lang('Edit').'"><img src="'.$this->browser->get_web_code_path().'img/edit.gif" alt="'.get_lang('Edit').'"/></a>';
 		if ($url = $this->browser->get_learning_object_deletion_url($learning_object))
 		{
@@ -53,6 +54,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		$html[] = '<a href="'.$this->browser->get_learning_object_moving_url($learning_object).'" title="'.get_lang('Move').'"><img src="'.$this->browser->get_web_code_path().'img/move.gif" alt="'.get_lang('Move').'"/></a>';
 		$html[] = '<a href="'.$this->browser->get_learning_object_metadata_editing_url($learning_object).'" title="'.get_lang('Metadata').'"><img src="'.$this->browser->get_web_code_path().'img/info_small.gif" alt="'.get_lang('Metadata').'"/></a>';
 		$html[] = '<a href="'.$this->browser->get_learning_object_rights_editing_url($learning_object).'" title="'.get_lang('Rights').'"><img src="'.$this->browser->get_web_code_path().'img/group_small.gif" alt="'.get_lang('Rights').'"/></a>';
+		$html[] = '</span>';
 		return implode('', $html);
 	}
 }
