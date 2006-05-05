@@ -30,7 +30,7 @@ class RepositoryManager
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 	const PARAM_MOVE_SELECTED = 'move_selected';
 	const PARAM_RESTORE_SELECTED = 'restore_selected';
-	
+
 	const ACTION_BROWSE_LEARNING_OBJECTS = 'browse';
 	const ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS = 'recycler';
 	const ACTION_VIEW_LEARNING_OBJECTS = 'view';
@@ -52,13 +52,13 @@ class RepositoryManager
 	private $search_form;
 
 	private $category_menu;
-	
+
 	private $quota_url;
-	
+
 	private $create_url;
-	
+
 	private $recycle_bin_url;
-	
+
 	private $breadcrumbs;
 
 	function RepositoryManager($user_id)
@@ -425,7 +425,7 @@ class RepositoryManager
 		}
 		return (count($conditions) > 1 ? new OrCondition($conditions) : $conditions[0]);
 	}
-	
+
 	function valid_category_id($id)
 	{
 		// XXX: Extend this to actually check the known IDs.
@@ -490,7 +490,14 @@ class RepositoryManager
 			$trash = array();
 			$trash['title'] = get_lang('RecycleBin');
 			$trash['url'] = $this->recycle_bin_url;
-			$trash['class'] = 'trash';
+			if($this->count_learning_objects(null,new EqualityCondition(LearningObject::PROPERTY_OWNER_ID,$this->get_user_id()),LearningObject::STATE_RECYCLED) > 0)
+			{
+				$trash['class'] = 'trash_full';
+			}
+			else
+			{
+				$trash['class'] = 'trash';
+			}
 			$extra_items[] = & $trash;
 			$extra_items[] = & $create;
 			$extra_items[] = & $quota;

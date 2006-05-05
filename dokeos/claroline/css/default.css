@@ -997,6 +997,11 @@ ul.tree-menu li div a.trash
 	background-image: url(../img/treemenu/trash.gif);
 	background-repeat: no-repeat;
 }
+ul.tree-menu li div a.trash_full
+{
+	background-image: url(../img/treemenu/trash-full.gif);
+	background-repeat: no-repeat;
+}
 
 /*
  * Tweak: Quota icon.
