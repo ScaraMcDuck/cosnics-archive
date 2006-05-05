@@ -36,6 +36,7 @@ $LearningPathCreationFormTitle='Nieuw leerpad aanmaken';
 $LearningPathTypeName='Leerpad';
 $LinkCreationFormTitle='Nieuwe link aanmaken';
 $LinkTypeName='Link';
+$MaxNumberOfLearningObjectsReached='U kan momenteel geen nieuwe leerobjecten aanmaken aangezien uw maximum aantal leerobjecten is bereikt. Kijk uw quota na en verwijder eventueel ongebruikte leerobjecten. Contacteer de platformbeheerder indien u uw quota wil aanpassen.';
 $Modified='Gewijzigd op';
 $MoveSelected='Geselecteerde items verplaatsen';
 $NewCategory='Nieuwe categorie';
