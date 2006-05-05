@@ -17,7 +17,7 @@ abstract class LearningObjectForm extends FormValidator
 {
 	const TYPE_CREATE = 1;
 	const TYPE_EDIT = 2;
-	
+
 	private $owner_id;
 
 	/**
@@ -55,7 +55,7 @@ abstract class LearningObjectForm extends FormValidator
 		$this->add_footer();
 		$this->setDefaults();
 	}
-	
+
 	/**
 	 * Returns the ID of the owner of the learning object being created or
 	 * edited.
@@ -87,7 +87,7 @@ abstract class LearningObjectForm extends FormValidator
 		}
 		return $this->learning_object;
 	}
-	
+
 	/**
 	 * Sets the learning object associated with this form.
 	 * @param LearningObject $learning_object The learning object.
@@ -138,7 +138,7 @@ abstract class LearningObjectForm extends FormValidator
 		$lo = $this->learning_object;
 		if ($this->allows_category_selection())
 		{
-			$select = $this->addElement('select', LearningObject :: PROPERTY_PARENT_ID, get_lang('Category'), $this->get_categories());
+			$select = $this->addElement('select', LearningObject :: PROPERTY_PARENT_ID, get_lang('CategoryTypeName'), $this->get_categories());
 			$select->setSelected($lo->get_parent_id());
 			$this->addRule(LearningObject :: PROPERTY_PARENT_ID, get_lang('ThisFieldIsRequired'), 'required');
 		}
