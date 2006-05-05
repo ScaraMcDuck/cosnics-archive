@@ -42,13 +42,11 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 					$failures++;
 				}
 			}
-			$dont_change_category = false;
 			if ($failures)
 			{
 				if (count($ids) == 1)
 				{
 					$message = 'SelectedObjectNotMovedToRecycleBin';
-					$dont_change_category = true;
 				}
 				else
 				{
@@ -66,7 +64,7 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 					$message = 'AllSelectedObjectsMovedToRecycleBin';
 				}
 			}
-			$this->redirect(($dont_change_category ? RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS : RepositoryManager :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS), get_lang($message));
+			$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, get_lang($message));
 		}
 		else
 		{
