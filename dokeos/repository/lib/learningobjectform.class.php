@@ -288,7 +288,7 @@ abstract class LearningObjectForm extends FormValidator
 		$quotamanager = new QuotaManager($this->get_owner_id());
 		if ($this->form_type == self :: TYPE_CREATE && $quotamanager->get_available_database_space() <= 0)
 		{
-			Display :: display_error_message(get_lang('DatabaseQuotaExceeded'));
+			Display :: display_error_message(get_lang('MaxNumberOfLearningObjectsReached'));
 		}
 		else
 		{
