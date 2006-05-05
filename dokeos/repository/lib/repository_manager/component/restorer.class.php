@@ -60,8 +60,7 @@ class RepositoryManagerRestorerComponent extends RepositoryManagerComponent
 					$message = 'AllSelectedObjectsRestored';
 				}
 			}
-			$this->set_parameter(RepositoryManager :: PARAM_CATEGORY_ID, RepositoryManager :: ID_RECYCLE_BIN);
-			$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, get_lang($message));
+			$this->redirect(RepositoryManager :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS, get_lang($message));
 		}
 		else
 		{
