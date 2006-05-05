@@ -30,9 +30,8 @@ class RepositoryManager
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 	const PARAM_MOVE_SELECTED = 'move_selected';
 	
-	const ID_RECYCLE_BIN = 'recycler';
-
 	const ACTION_BROWSE_LEARNING_OBJECTS = 'browse';
+	const ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS = 'recycler';
 	const ACTION_VIEW_LEARNING_OBJECTS = 'view';
 	const ACTION_CREATE_LEARNING_OBJECTS = 'create';
 	const ACTION_EDIT_LEARNING_OBJECTS = 'edit';
@@ -52,6 +51,14 @@ class RepositoryManager
 	private $search_form;
 
 	private $category_menu;
+	
+	private $quota_url;
+	
+	private $create_url;
+	
+	private $recycle_bin_url;
+	
+	private $breadcrumbs;
 
 	function RepositoryManager($user_id)
 	{
@@ -64,6 +71,11 @@ class RepositoryManager
 
 	function run()
 	{
+		/*
+		 * Only setting breadcrumbs here. Some stuff still calls
+		 * forceCurrentUrl(), but that should not affect the breadcrumbs.
+		 */
+		$this->breadcrumbs = $this->get_category_menu()->get_breadcrumbs();
 		$action = $this->get_action();
 		$component = null;
 		switch ($action)
@@ -72,6 +84,7 @@ class RepositoryManager
 				$component = RepositoryManagerComponent :: factory('Viewer', $this);
 				break;
 			case self :: ACTION_CREATE_LEARNING_OBJECTS :
+				$this->get_category_menu()->forceCurrentUrl($this->create_url, true);
 				$component = RepositoryManagerComponent :: factory('Creator', $this);
 				break;
 			case self :: ACTION_EDIT_LEARNING_OBJECTS :
@@ -93,18 +106,16 @@ class RepositoryManager
 				$component = RepositoryManagerComponent :: factory('RightsEditor', $this);
 				break;
 			case self :: ACTION_VIEW_QUOTA :
+				$this->get_category_menu()->forceCurrentUrl($this->quota_url, true);
 				$component = RepositoryManagerComponent :: factory('QuotaViewer', $this);
+				break;
+			case self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS :
+				$this->get_category_menu()->forceCurrentUrl($this->recycle_bin_url, true);
+				$component = RepositoryManagerComponent :: factory('RecycleBinBrowser', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_LEARNING_OBJECTS);
-				if ($this->get_parameter(self :: PARAM_CATEGORY_ID) == self :: ID_RECYCLE_BIN)
-				{
-					$component = RepositoryManagerComponent :: factory('RecycleBinBrowser', $this);
-				}
-				else
-				{
-					$component = RepositoryManagerComponent :: factory('Browser', $this);
-				}
+				$component = RepositoryManagerComponent :: factory('Browser', $this);
 		}
 		$component->run();
 	}
@@ -150,10 +161,9 @@ class RepositoryManager
 	function display_header($breadcrumbs = array (), $display_search = false)
 	{
 		global $interbredcrump;
-		$cat_bc = $this->get_category_breadcrumbs();
-		if (isset($cat_bc) && is_array($cat_bc))
+		if (isset($this->breadcrumbs) && is_array($this->breadcrumbs))
 		{
-			$breadcrumbs = array_merge($cat_bc, $breadcrumbs);
+			$breadcrumbs = array_merge($this->breadcrumbs, $breadcrumbs);
 		}
 		$current_crumb = array_pop($breadcrumbs);
 		$interbredcrump = $breadcrumbs;
@@ -314,11 +324,15 @@ class RepositoryManager
 
 	function get_learning_object_viewing_url($learning_object)
 	{
+		if ($learning_object->get_state() == LearningObject :: STATE_RECYCLED)
+		{
+			return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id(), self :: PARAM_CATEGORY_ID => null));
+		}
 		if ($learning_object->get_type() == 'category')
 		{
 			return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => $learning_object->get_id()));
 		}
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id(), self :: PARAM_CATEGORY_ID => ($learning_object->get_state() == LearningObject :: STATE_RECYCLED ? self :: ID_RECYCLE_BIN : $learning_object->get_parent_id())));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id(), self :: PARAM_CATEGORY_ID => $learning_object->get_parent_id()));
 	}
 
 	function get_learning_object_editing_url($learning_object)
@@ -408,7 +422,7 @@ class RepositoryManager
 	function valid_category_id($id)
 	{
 		// XXX: Extend this to actually check the known IDs.
-		return isset($id) && $id != self :: ID_RECYCLE_BIN;
+		return isset($id) && is_int($id) && $id > 0;
 	}
 
 	private function get_category_id_list($category_id, & $node, & $subcat)
@@ -440,15 +454,13 @@ class RepositoryManager
 		$this->search_parameters = $form->get_frozen_values();
 	}
 
-	private function get_category_breadcrumbs()
-	{
-		return $this->get_category_menu()->get_breadcrumbs();
-	}
-
 	private function get_category_menu()
 	{
 		if (!isset ($this->category_menu))
 		{
+			$this->quota_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA, self :: PARAM_CATEGORY_ID => null));
+			$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_LEARNING_OBJECTS));
+			$this->recycle_bin_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => null));
 			// We need this because the percent sign in '%s' gets escaped.
 			$temp_replacement = '__CATEGORY_ID__';
 			$url_format = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => $temp_replacement));
@@ -462,19 +474,19 @@ class RepositoryManager
 			$extra_items = array();
 			$create = array();
 			$create['title'] = get_lang('Create');
-			$create['url'] = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_LEARNING_OBJECTS));
+			$create['url'] = $this->create_url;
 			$create['class'] = 'create';
-			$extra_items[] = & $create;
 			$quota = array();
 			$quota['title'] = get_lang('Quota');
-			$quota['url'] = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA, self :: PARAM_CATEGORY_ID => null));
+			$quota['url'] = $this->quota_url;
 			$quota['class'] = 'quota';
-			$extra_items[] = & $quota;
 			$trash = array();
 			$trash['title'] = get_lang('RecycleBin');
-			$trash['url'] = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => self :: ID_RECYCLE_BIN));
+			$trash['url'] = $this->recycle_bin_url;
 			$trash['class'] = 'trash';
 			$extra_items[] = & $trash;
+			$extra_items[] = & $create;
+			$extra_items[] = & $quota;
 			$this->category_menu = new LearningObjectCategoryMenu($this->get_user_id(), $category, $url_format, & $extra_items);
 		}
 		return $this->category_menu;

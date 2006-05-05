@@ -21,6 +21,10 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	 */
 	private $urlFmt;
 	/**
+	 * The array renderer used to determine the breadcrumbs.
+	 */
+	private $array_renderer;
+	/**
 	 * Creates a new category navigation menu.
 	 * @param int $owner The ID of the owner of the categories to provide in
 	 * this menu.
@@ -36,7 +40,8 @@ class LearningObjectCategoryMenu extends HTML_Menu
 		$this->owner = $owner;
 		$this->urlFmt = $url_format;
 		$menu = $this->get_menu_items(& $extra_items);
-		parent :: HTML_Menu($menu);
+		parent :: __construct($menu);
+		$this->array_renderer = new HTML_Menu_ArrayRenderer();
 		$this->forceCurrentUrl($this->get_category_url($current_category));
 	}
 	/**
@@ -100,17 +105,16 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	 * Get the breadcrumbs which lead to the current category.
 	 * @return array The breadcrumbs.
 	 */
-	public function get_breadcrumbs()
+	function get_breadcrumbs()
 	{
-		$renderer =& new HTML_Menu_ArrayRenderer();
-		$this->render($renderer,'urhere');
-		$breadcrumbs = $renderer->toArray();
-		//$current_location = array_pop($breadcrumbs);
-		foreach($breadcrumbs as $index => $breadcrumb)
+		$this->render($this->array_renderer, 'urhere');
+		$breadcrumbs = $this->array_renderer->toArray();
+		foreach ($breadcrumbs as & $crumb)
 		{
-			$interbredcrump[] = array ("url" => $breadcrumb['url'], "name" => $breadcrumb['title']);
+			$crumb['name'] = $crumb['title'];
+			unset($crumb['title']);
 		}
-		return $interbredcrump;
+		return $breadcrumbs;
 	}
 
 	function render_as_tree()
