@@ -36,6 +36,7 @@ $LearningPathCreationFormTitle='Nieuw leerpad aanmaken';
 $LearningPathTypeName='Leerpad';
 $LinkCreationFormTitle='Nieuwe link aanmaken';
 $LinkTypeName='Link';
+$Modified='Gewijzigd op';
 $MoveSelected='Geselecteerde items verplaatsen';
 $NewCategory='Nieuwe categorie';
 $NoResults='Geen zoekresultaten';
