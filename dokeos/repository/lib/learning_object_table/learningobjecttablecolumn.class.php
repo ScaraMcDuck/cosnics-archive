@@ -38,5 +38,15 @@ class LearningObjectTableColumn
 	{
 		return $this->sortable;
 	}
+	
+	function set_title($title)
+	{
+		$this->title = $title;
+	}
+	
+	function set_sortable($sortable)
+	{
+		$this->sortable = $sortable;
+	}
 }
 ?>

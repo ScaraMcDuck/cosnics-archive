@@ -37,9 +37,14 @@ class RepositoryBrowserTableDataProvider implements LearningObjectTableDataProvi
     	return $this->browser->count_learning_objects(null, $this->get_condition());
     }
 
-    private function get_condition()
+    protected function get_condition()
     {
     	return $this->condition;
+    }
+    
+    protected function get_browser()
+    {
+    	return $this->browser;
     }
 }
 ?>

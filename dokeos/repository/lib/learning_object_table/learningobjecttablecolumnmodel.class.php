@@ -33,6 +33,7 @@ class LearningObjectTableColumnModel
 	{
 		return $this->order_column;
 	}
+	
 	function set_default_order_column($column)
 	{
 		$this->order_column = $column;

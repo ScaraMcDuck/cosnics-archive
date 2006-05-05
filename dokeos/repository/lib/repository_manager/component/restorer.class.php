@@ -4,11 +4,8 @@
  */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
-/**
- * Repository manager component which provides functionality to delete a
- * learning object from the users repository.
- */
-class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
+
+class RepositoryManagerRestorerComponent extends RepositoryManagerComponent
 {
 	function run()
 	{
@@ -26,10 +23,9 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 				// TODO: Roles & Rights.
 				if ($object->get_owner_id() == $this->get_user_id())
 				{
-					if ($this->get_parent()->learning_object_deletion_allowed($object))
+					if ($object->get_state() == LearningObject :: STATE_RECYCLED)
 					{
-						//$object->delete();
-						$object->set_state(LearningObject :: STATE_RECYCLED);
+						$object->set_state(LearningObject :: STATE_NORMAL);
 						$object->update();
 					}
 					else
@@ -42,34 +38,29 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 					$failures++;
 				}
 			}
-			$dont_change_category = false;
 			if ($failures)
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedObjectNotMovedToRecycleBin';
-					$dont_change_category = true;
+					$message = 'SelectedObjectNotRestored';
 				}
 				else
 				{
-					$message = 'NotAllSelectedObjectsMovedToRecycleBin';
+					$message = 'NotAllSelectedObjectsRestored';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedObjectMovedToRecycleBin';
+					$message = 'SelectedObjectRestored';
 				}
 				else
 				{
-					$message = 'AllSelectedObjectsMovedToRecycleBin';
+					$message = 'AllSelectedObjectsRestored';
 				}
 			}
-			if (!$dont_change_category)
-			{
-				$this->set_parameter(RepositoryManager :: PARAM_CATEGORY_ID, RepositoryManager :: ID_RECYCLE_BIN);
-			}
+			$this->set_parameter(RepositoryManager :: PARAM_CATEGORY_ID, RepositoryManager :: ID_RECYCLE_BIN);
 			$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, get_lang($message));
 		}
 		else

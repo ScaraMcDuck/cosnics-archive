@@ -191,7 +191,7 @@ class RepositorySearchForm extends FormValidator
 		else
 		{
 			$types = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE];
-			if (!is_array($types) || !count($types))
+			if ((!is_array($types) || !count($types)) && $this->manager->valid_category_id($category_id))
 			{
 				$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $category_id);
 			}
