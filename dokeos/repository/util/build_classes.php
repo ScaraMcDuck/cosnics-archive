@@ -37,7 +37,7 @@ if ($handle = opendir($path))
 				if ($fh = fopen($p.'/'.$file.'.class.php', 'w'))
 				{
 					fwrite($fh, HEADER);
-					$cls = RepositoryDataManager :: type_to_class($file);
+					$cls = LearningObject :: type_to_class($file);
 					fwrite($fh, 'class '.$cls.' extends LearningObject'."\n".'{'."\n");
 					foreach ($properties as $prop)
 					{

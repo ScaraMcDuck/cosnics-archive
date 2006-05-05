@@ -145,7 +145,7 @@ class RepositoryUtilities
 		$return = array();
 		$return['class'] = 'type type_'.$type;
 		$return['title'] = $object->get_title();
-		$return['description'] = get_lang(RepositoryDataManager :: type_to_class($type).'TypeName') . ' (' . $date . ')';
+		$return['description'] = get_lang(LearningObject :: type_to_class($type).'TypeName') . ' (' . $date . ')';
 		return $return;
 	}
 	

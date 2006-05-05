@@ -21,7 +21,9 @@ require_once dirname(__FILE__).'/repositoryutilities.class.php';
  *	- created: the date when the learning object was created, as returned by
  *	  PHP's time() function (UNIX time, seconds since the epoch);
  *	- modified: the date when the learning object was last modified, as
- *	  returned by PHP's time() function.
+ *	  returned by PHP's time() function;
+ *  - state: the state the learning object is in; currently only used to mark
+ *    learning objects as "recycled", i.e. moved to the Recycle Bin.
  *
  *	Actual learning objects must be instances of extensions of this class.
  *	They may define additional properties which are specific to that
@@ -75,12 +77,13 @@ class LearningObject implements AccessibleLearningObject
 	const PROPERTY_DISPLAY_ORDER_INDEX = 'display_order';
 	const PROPERTY_CREATION_DATE = 'created';
 	const PROPERTY_MODIFICATION_DATE = 'modified';
+	const PROPERTY_STATE = 'state';
 
 	/**
 	 * Numeric identifier of the learning object.
 	 */
 	private $id;
-
+	
 	/**
 	 * Default properties of the learning object, stored in an associative
 	 * array.
@@ -97,6 +100,13 @@ class LearningObject implements AccessibleLearningObject
 	 * Learning objects attached to this learning object.
 	 */
 	private $attachments;
+	
+	/**
+	 * The state that this learning object had when it was retrieved. Used to
+	 * determine if the state of its children should be updated upon updating
+	 * the learning object.
+	 */
+	private $oldState;
 
 	/**
 	 * Creates a new learning object.
@@ -116,6 +126,7 @@ class LearningObject implements AccessibleLearningObject
 		$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
 		$this->additionalProperties = $additionalProperties;
+		$this->oldState = $defaultProperties[self :: PROPERTY_STATE];
 	}
 
 	/**
@@ -134,6 +145,15 @@ class LearningObject implements AccessibleLearningObject
 	function get_type()
 	{
 		return self :: class_to_type(get_class($this));
+	}
+	
+	/**
+	 * Returns the state of this learning object.
+	 * @return int The state.
+	 */
+	function get_state()
+	{
+		return $this->get_default_property(self :: PROPERTY_STATE);
 	}
 
 	/**
@@ -233,6 +253,16 @@ class LearningObject implements AccessibleLearningObject
 	function set_id($id)
 	{
 		$this->id = $id;
+	}
+
+	/**
+	 * Sets this learning object's state to any of the STATE_* constants.
+	 * @param int $state The state.
+	 * @return boolean True upon success, false upon failure.
+	 */
+	function set_state($state)
+	{
+		return $this->set_default_property(self :: PROPERTY_STATE, $state);
 	}
 
 	/**
@@ -441,7 +471,28 @@ class LearningObject implements AccessibleLearningObject
 		{
 			$this->set_modification_date(time());
 		}
-		return RepositoryDataManager :: get_instance()->update_learning_object($this);
+		$dm = RepositoryDataManager :: get_instance();
+		$success = $dm->update_learning_object($this);
+		if (!$success)
+		{
+			return false;
+		}
+		$state = $this->get_state();
+		if ($state == $this->oldState)
+		{
+			return true;
+		}
+		$child_ids = array();
+		/*
+		 * TODO: Retrieve children recursively and store their IDs in
+		 * $child_ids.
+		 */
+		$dm->set_learning_object_states($child_ids, $state);
+		/*
+		 * We return true here regardless of the result of the child update,
+		 * since the object itself did get updated.
+		 */
+		return true;
 	}
 
 	/**
@@ -581,6 +632,27 @@ class LearningObject implements AccessibleLearningObject
 	static function class_to_type($class)
 	{
 		return RepositoryUtilities :: camelcase_to_underscores($class);
+	}
+	
+	/**
+	 * Invokes the constructor of the class that corresponds to the specified
+	 * type of learning object.
+	 * @param string $type The learning object type.
+	 * @param int $id The ID of the learning object.
+	 * @param array $defaultProperties An associative array containing the
+	 *                                 default properties of the learning
+	 *                                 object.
+	 * @param array $additionalProperties An associative array containing the
+	 *                                    additional (type-specific)
+	 *                                    properties of the learning object.
+	 *                                    Null if unknown; this implies JIT
+	 *                                    retrieval.
+	 * @return LearningObject The newly instantiated learning object.
+	 */
+	static function factory($type, $id, $defaultProperties, $additionalProperties)
+	{
+		$class = self :: type_to_class($type);
+		return new $class ($id, $defaultProperties, $additionalProperties);
 	}
 }
 ?>

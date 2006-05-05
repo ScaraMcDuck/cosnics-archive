@@ -180,31 +180,6 @@ abstract class RepositoryDataManager
 	}
 
 	/**
-	 * Invokes the constructor of the class that corresponds to the specified
-	 * type of learning object.
-	 * @param string $type The learning object type.
-	 * @param int $id The ID of the learning object.
-	 * @param array $defaultProperties An associative array containing the
-	 *                                 default properties of the learning
-	 *                                 object.
-	 * @param array $additionalProperties An associative array containing the
-	 *                                    additional (type-specific)
-	 *                                    properties of the learning object.
-	 *                                    Null if unknown; this implies JIT
-	 *                                    retrieval.
-	 * @return LearningObject The newly instantiated learning object.
-	 */
-	protected function factory($type, $id, $defaultProperties, $additionalProperties)
-	{
-		if (!$this->is_registered_type($type))
-		{
-			die('Learning object type \''.$type.'\' not registered');
-		}
-		$class = LearningObject :: type_to_class($type);
-		return new $class ($id, $defaultProperties, $additionalProperties);
-	}
-
-	/**
 	 * Initializes the data manager.
 	 */
 	abstract function initialize();
@@ -388,13 +363,14 @@ abstract class RepositoryDataManager
 	abstract function detach_learning_object ($object, $attachment_id);
 	
 	/**
-	 * Sets the given learning object's state to one of the STATE_* constants
-	 * defined in the LearningObject class.
-	 * @param LearningObject $object The learning object.
+	 * Sets the requested learning objects' state to one of the STATE_*
+	 * constants defined in the LearningObject class. This function's main use
+	 * is to make a learning object's children inherit its state.
+	 * @param array $object_ids The learning object IDs.
 	 * @param int $state The new state.
-	 * @return boolean True if the operation succeeded, false otherwise.
+	 * @return boolean True upon success, false upon failure.
 	 */
-	abstract function set_learning_object_state ($object, $state);
+	abstract function set_learning_object_states ($object_ids, $state);
 
 	/**
 	 * Automagically loads all the available types of learning objects
