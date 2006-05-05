@@ -46,6 +46,7 @@ $OriginalLocation='Oorspronkelijke locatie';
 $Quota='Quota';
 $RecycleBin='Prullenbak';
 $Restore='Herstel';
+$RestoreSelected='Geselecteerde items herstellen';
 $SearchIn='Zoeken in';
 $Searching='Bezig met zoeken...';
 $SelectedObjectMoved='Het geselecteerde leerobject is verplaatst.';
