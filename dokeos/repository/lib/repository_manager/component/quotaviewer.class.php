@@ -12,7 +12,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 {
 	function run()
 	{
-		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('ViewQuota')));
+		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('Quota')));
 		$this->display_header($breadcrumbs);
 		$quotamanager = new QuotaManager($this->get_user_id());
 		echo '<h3>'.get_lang('Disk').'</h3>';
