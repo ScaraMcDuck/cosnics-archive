@@ -23,8 +23,8 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			$type_options[$type] = get_lang(LearningObject :: type_to_class($type).'TypeName');
 		}
 		asort($type_options);
-		$type_form->addElement('select', RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE, get_lang('CreateANew'), $type_options);
-		$type_form->addElement('submit', 'submit', get_lang('Go'));
+		$type_form->addElement('select', RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE, get_lang('Type'), $type_options);
+		$type_form->addElement('submit', 'submit', get_lang('Ok'));
 		$type = ($type_form->validate() ? $type_form->exportValue(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE) : $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE]);
 		if ($type)
 		{
