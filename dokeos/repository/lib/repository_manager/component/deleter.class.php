@@ -66,7 +66,7 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 					$message = 'AllSelectedObjectsMovedToRecycleBin';
 				}
 			}
-			$this->redirect(($dont_change_category ? RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS : RepositoryManager :: BROWSE_RECYCLED_LEARNING_OBJECTS), get_lang($message));
+			$this->redirect(($dont_change_category ? RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS : RepositoryManager :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS), get_lang($message));
 		}
 		else
 		{
