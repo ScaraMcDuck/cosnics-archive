@@ -1,12 +1,33 @@
 <?php
 $AdvancedSearch='Geavanceerd zoeken';
+$AllSelectedObjectsMovedToRecycleBin='Alle geselecteerde leerobjecten werden naar de prullenbak verplaatst.';
+$AnnouncementTypeName='Aankondiging';
+$CalendarEventTypeName='Activiteit';
+$CategoryTypeName='Categorie';
 $Create='Aanmaken';
+$CurrentCategoryAndSubcategories='Huidige categorie én onderliggende categorieën';
+$CurrentCategoryOnly='Huidige categorie';
 $DeleteSelected='Geslecteerde items verwijderen';
+$DescriptionTypeName='Omschrijving';
+$DocumentTypeName='Document';
+$EntireRepository='Alle leerobjecten';
+$ForumPostTypeName='Forum bericht';
+$ForumTopicTypeName='Forum onderwerp';
+$ForumTypeName='Forum';
+$LearningPathChapterTypeName='Leerpad module';
+$LearningPathItemTypeName='Leerpad item';
+$LearningPathTypeName='Leerpad';
+$LinkTypeName='Link';
 $MoveSelected='Geselecteerde items verplaatsen';
+$NewCategory='Nieuwe categorie';
 $OriginalLocation='Oorspronkelijke locatie';
 $Quota='Quota';
 $RecycleBin='Prullenbak';
 $Restore='Herstel';
-$ToAdvancedSearch='Naar geavanceerd zoeken';
-$ToSimpleSearch='Naar eenvoudig zoeken';
+$SearchIn='Zoeken in';
+$SelectedObjectMoved='Het geselecteerde leerobject is verplaatst.';
+$SelectedObjectMovedToRecycleBin='Het geselecteerde leerobject is verplaatst naar de prullenbak.';
+$ToAdvancedSearch='Geavanceerd zoeken';
+$ToSimpleSearch='Eenvoudig zoeken';
+$Type='Type';
 ?>
