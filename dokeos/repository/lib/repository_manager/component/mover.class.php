@@ -61,7 +61,6 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 					{
 						$message = 'NotAllSelectedObjectsMoved';
 					}
-					$new_category = 0;
 				}
 				else
 				{
@@ -73,9 +72,8 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 					{
 						$message = 'AllSelectedObjectsMoved';
 					}
-					$new_category = $destination;
 				}
-				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, get_lang($message), $new_category);
+				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, get_lang($message));
 			}
 			else
 			{
