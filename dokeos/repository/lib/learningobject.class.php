@@ -2,6 +2,7 @@
 require_once dirname(__FILE__).'/accessiblelearningobject.class.php';
 require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/repositoryutilities.class.php';
+require_once dirname(__FILE__).'/condition/equalitycondition.class.php';
 
 /**
 ==============================================================================
@@ -482,17 +483,31 @@ class LearningObject implements AccessibleLearningObject
 		{
 			return true;
 		}
-		$child_ids = array();
-		/*
-		 * TODO: Retrieve children recursively and store their IDs in
-		 * $child_ids.
-		 */
+		$child_ids = self :: get_child_ids($this->get_id());
 		$dm->set_learning_object_states($child_ids, $state);
 		/*
 		 * We return true here regardless of the result of the child update,
 		 * since the object itself did get updated.
 		 */
 		return true;
+	}
+	
+	private static function get_child_ids($id)
+	{
+		$cond = new EqualityCondition(self :: PROPERTY_PARENT_ID, $id);
+		$children = RepositoryDataManager :: get_instance()->retrieve_learning_objects(null, $cond);
+		$ids = array();
+		while ($child = $children->next_result())
+		{
+			$child_id = $child->get_id();
+			$ids[] = $child_id;
+			$child_ids = self :: get_child_ids($child_id);
+			if (count($child_ids))
+			{
+				$ids = array_merge($ids, $child_ids);
+			}
+		}
+		return $ids;
 	}
 
 	/**
