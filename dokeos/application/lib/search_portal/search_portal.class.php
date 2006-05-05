@@ -129,13 +129,13 @@ END;
 			}
 		}
 	}
-	
+
 	private static function report_exception ($exception)
 	{
 		echo '<p><strong>'.get_lang('Error').':</strong> '
 			.htmlentities($exception->getMessage()).'</p>';
 	}
-	
+
 	private static function display_result ($object)
 	{
 		echo '<div class="portal_search_result">';
@@ -146,12 +146,12 @@ END;
 		echo '</div>';
 		echo '</div>';
 	}
-	
+
 	private static function get_pager_links($pager)
 	{
 		return '<div style="text-align: center; margin: 1em 0;">'.$pager_links .= $pager->links.'</div>';
 	}
-	
+
 	private static function create_pager($total, $per_page)
 	{
 		$params = array ();
@@ -198,6 +198,16 @@ END;
 	 * @return boolean Always false.
 	 */
 	function learning_object_is_published($object_id)
+	{
+		return false;
+	}
+
+	/**
+	 * Always returns false, as this application does not publish learning
+	 * objects.
+	 * @return boolean Always false.
+	 */
+	function any_learning_object_is_published($object_ids)
 	{
 		return false;
 	}
