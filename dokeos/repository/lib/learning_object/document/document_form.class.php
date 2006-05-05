@@ -14,7 +14,6 @@ class DocumentForm extends LearningObjectForm
 		parent :: build_creation_form();
 		$this->addElement('upload_or_create','upload_or_create');
 		$this->addFormRule(array($this,'check_document_form'));
-		//TODO: add Rule to check if a HTML-content was filled in when the 'create' option was selected
 	}
 	protected function build_editing_form()
 	{
@@ -23,16 +22,15 @@ class DocumentForm extends LearningObjectForm
 		if($this->is_html_document($object->get_path()))
 		{
 			$this->addElement('html_editor', 'html_content', get_lang('HtmlDocument'));
+			$this->addRule('html_content', get_lang('DiskQuotaExceeded'), 'disk_quota');
 			//TODO: add option to upload & overwrite a HTML-document
-			//TODO: add Rule to check if diskquota doesn't exceed when creating a HTML-document
 			//TODO: add Rule to check if diskquota doesn't exceed when uploading a document
 		}
 		else
 		{
 			$this->addElement('file', 'file', get_lang('FileName'));
 			$this->addRule('file',get_lang('DiskQuotaExceeded'),'disk_quota');
-			//TODO: add Rule to check if diskquota doesn't exceed when uploading a document
-		}
+		} 
 	}
 	function setDefaults($defaults = array ())
 	{
@@ -151,7 +149,7 @@ class DocumentForm extends LearningObjectForm
 		}
 		else
 		{
-			// Create an HTML-document
+			// Create an HTML-document		
 			$tmpfname = tempnam ('','');
 			$handle = fopen($tmpfname, "w");
 			fwrite($handle, "writing to tempfile");
@@ -160,6 +158,13 @@ class DocumentForm extends LearningObjectForm
 			if(!HTML_QuickForm_Rule_DiskQuota::validate($file))
 			{
 				$errors['upload_or_create'] = get_lang('DiskQuotaExceeded');
+			}
+			else
+			{	
+					if(!HTML_QuickForm_Rule_Required::validate($fields['html_content']))
+					{
+						$errors['upload_or_create'] = get_lang('NoFileCreated');
+					}
 			}
 			unlink($tmpfname);
 		}
