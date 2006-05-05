@@ -34,8 +34,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function any_learning_object_is_published($object_ids)
 	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID).' IN ('."'".implode("','",$object_ids)."'".')';
-		$res = $this->connection->limitQuery($query, 0, 1);
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID).' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
+		$res = $this->connection->limitQuery($query, 0, 1,$object_ids);
 		return $res->numRows() == 1;
 	}
 
