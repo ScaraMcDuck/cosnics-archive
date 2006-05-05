@@ -8,9 +8,11 @@ CREATE TABLE `%prefix%learning_object` (
   `display_order` int(10) unsigned NOT NULL default '0',
   `created` datetime default NULL,
   `modified` datetime default NULL,
+  `state` int(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `owner` (`owner`),
   KEY `type` (`type`),
   KEY `parent` (`parent`),
-  KEY `display_order` (`display_order`)
+  KEY `display_order` (`display_order`),
+  KEY `state` (`state`)
 );
