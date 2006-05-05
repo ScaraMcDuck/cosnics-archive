@@ -1,5 +1,6 @@
 <?php
 $cidReset = true;
+$langFile = 'repository';
 require_once dirname(__FILE__).'/claroline/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/repository/lib/repository_manager/repositorymanager.class.php';
 
