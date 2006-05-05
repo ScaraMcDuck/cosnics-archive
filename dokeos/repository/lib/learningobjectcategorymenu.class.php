@@ -61,7 +61,7 @@ class LearningObjectCategoryMenu extends HTML_Menu
 		if (count($extra_items))
 		{
 			$menu = array_merge($menu, $extra_items);
-		} 
+		}
 		return $menu;
 	}
 	/**
@@ -80,7 +80,11 @@ class LearningObjectCategoryMenu extends HTML_Menu
 			$menu_item = array();
 			$menu_item['title'] = $category->get_title();
 			$menu_item['url'] = $this->get_category_url($category->get_id());
-			$menu_item['sub'] = $this->get_sub_menu_items($categories, $category->get_id());
+			$sub_menu_items = $this->get_sub_menu_items($categories, $category->get_id());
+			if(count($sub_menu_items) > 0)
+			{
+				$menu_item['sub'] = $sub_menu_items;
+			}
 			$menu_item['class'] = 'type_category';
 			$menu_item[OptionsMenuRenderer :: KEY_ID] = $category->get_id();
 			$sub_tree[$category->get_id()] = $menu_item;
