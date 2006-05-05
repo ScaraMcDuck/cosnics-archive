@@ -76,7 +76,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	// Inherited.
 	// TODO: Extract methods.
-	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL)
 	{
 		if (isset ($type))
 		{
@@ -88,12 +88,17 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			{
 				$query = 'SELECT * FROM '.$this->escape_table_name('learning_object');
 				$match = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
-				$condition = isset ($condition) ? new AndCondition(array ($match, $condition)) : $match;
+				$condition = isset ($condition) ? new AndCondition($match, $condition) : $match;
 			}
 		}
 		else
 		{
 			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object');
+		}
+		if ($state >= 0)
+		{
+			$state_cond = new EqualityCondition(LearningObject :: PROPERTY_STATE, $state);
+			$condition = isset($condition) ? new AndCondition($state_cond, $condition) : $state_cond;
 		}
 		$params = array ();
 		if (isset ($condition))
@@ -146,7 +151,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	// Inherited.
 	// TODO: Extract methods; share stuff with retrieve_learning_objects.
-	function count_learning_objects($type = null, $condition = null)
+	function count_learning_objects($type = null, $condition = null, $state = LearningObject :: STATE_NORMAL)
 	{
 		if (isset ($type))
 		{
@@ -164,6 +169,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		else
 		{
 			$query = 'SELECT COUNT('.$this->escape_column_name(LearningObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object');
+		}
+		if ($state >= 0)
+		{
+			$state_cond = new EqualityCondition(LearningObject :: PROPERTY_STATE, $state);
+			$condition = isset($condition) ? new AndCondition($state_cond, $condition) : $state_cond;
 		}
 		$params = array ();
 		if (isset ($condition))

@@ -29,12 +29,15 @@ class RepositoryManager
 
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 	const PARAM_MOVE_SELECTED = 'move_selected';
+	
+	const ID_RECYCLE_BIN = 'recycler';
 
 	const ACTION_BROWSE_LEARNING_OBJECTS = 'browse';
 	const ACTION_VIEW_LEARNING_OBJECTS = 'view';
 	const ACTION_CREATE_LEARNING_OBJECTS = 'create';
 	const ACTION_EDIT_LEARNING_OBJECTS = 'edit';
 	const ACTION_DELETE_LEARNING_OBJECTS = 'delete';
+	const ACTION_RESTORE_LEARNING_OBJECTS = 'restore';
 	const ACTION_MOVE_LEARNING_OBJECTS = 'move';
 	const ACTION_EDIT_LEARNING_OBJECT_METADATA = 'metadata';
 	const ACTION_EDIT_LEARNING_OBJECT_RIGHTS = 'rights';
@@ -77,6 +80,9 @@ class RepositoryManager
 			case self :: ACTION_DELETE_LEARNING_OBJECTS :
 				$component = RepositoryManagerComponent :: factory('Deleter', $this);
 				break;
+			case self :: ACTION_RESTORE_LEARNING_OBJECTS :
+				$component = RepositoryManagerComponent :: factory('Restorer', $this);
+				break;
 			case self :: ACTION_MOVE_LEARNING_OBJECTS :
 				$component = RepositoryManagerComponent :: factory('Mover', $this);
 				break;
@@ -91,7 +97,14 @@ class RepositoryManager
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_LEARNING_OBJECTS);
-				$component = RepositoryManagerComponent :: factory('Browser', $this);
+				if ($this->get_parameter(self :: PARAM_CATEGORY_ID) == self :: ID_RECYCLE_BIN)
+				{
+					$component = RepositoryManagerComponent :: factory('RecycleBinBrowser', $this);
+				}
+				else
+				{
+					$component = RepositoryManagerComponent :: factory('Browser', $this);
+				}
 		}
 		$component->run();
 	}
@@ -137,7 +150,11 @@ class RepositoryManager
 	function display_header($breadcrumbs = array (), $display_search = false)
 	{
 		global $interbredcrump;
-		$breadcrumbs = array_merge($this->get_category_breadcrumbs(), $breadcrumbs);
+		$cat_bc = $this->get_category_breadcrumbs();
+		if (isset($cat_bc) && is_array($cat_bc))
+		{
+			$breadcrumbs = array_merge($cat_bc, $breadcrumbs);
+		}
 		$current_crumb = array_pop($breadcrumbs);
 		$interbredcrump = $breadcrumbs;
 		$title = $current_crumb['name'];
@@ -271,16 +288,16 @@ class RepositoryManager
 		return $rdm->retrieve_learning_object($id, $type);
 	}
 
-	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->retrieve_learning_objects($type, $condition, $orderBy, $orderDir, $offset, $maxObjects);
+		return $rdm->retrieve_learning_objects($type, $condition, $orderBy, $orderDir, $offset, $maxObjects, $state);
 	}
 
-	function count_learning_objects($type = null, $condition = null)
+	function count_learning_objects($type = null, $condition = null, $state = LearningObject :: STATE_NORMAL)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->count_learning_objects($type, $condition);
+		return $rdm->count_learning_objects($type, $condition, $state);
 	}
 
 	function learning_object_deletion_allowed($learning_object)
@@ -301,7 +318,7 @@ class RepositoryManager
 		{
 			return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => $learning_object->get_id()));
 		}
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id(), self :: PARAM_CATEGORY_ID => ($learning_object->get_state() == LearningObject :: STATE_RECYCLED ? self :: ID_RECYCLE_BIN : $learning_object->get_parent_id())));
 	}
 
 	function get_learning_object_editing_url($learning_object)
@@ -311,11 +328,20 @@ class RepositoryManager
 
 	function get_learning_object_deletion_url($learning_object)
 	{
-		if (!$this->learning_object_deletion_allowed($learning_object))
+		if (!$this->learning_object_deletion_allowed($learning_object) || $learning_object->get_state() == LearningObject :: STATE_RECYCLED)
 		{
 			return null;
 		}
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
+	}
+
+	function get_learning_object_restoration_url($learning_object)
+	{
+		if ($learning_object->get_state() != LearningObject :: STATE_RECYCLED)
+		{
+			return null;
+		}
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_RESTORE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 	}
 
 	function get_learning_object_moving_url($learning_object)
@@ -378,6 +404,12 @@ class RepositoryManager
 		}
 		return (count($conditions) > 1 ? new OrCondition($conditions) : $conditions[0]);
 	}
+	
+	function valid_category_id($id)
+	{
+		// XXX: Extend this to actually check the known IDs.
+		return isset($id) && $id != self :: ID_RECYCLE_BIN;
+	}
 
 	private function get_category_id_list($category_id, & $node, & $subcat)
 	{
@@ -438,11 +470,9 @@ class RepositoryManager
 			$quota['url'] = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA, self :: PARAM_CATEGORY_ID => null));
 			$quota['class'] = 'quota';
 			$extra_items[] = & $quota;
-			// TODO: Implement recycle bin.
 			$trash = array();
 			$trash['title'] = get_lang('RecycleBin');
-			$trash['url'] = 'javascript:void(0);';
-			$trash['onclick'] = 'alert(&quot;Sorry, not implemented.&quot;);';
+			$trash['url'] = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => self :: ID_RECYCLE_BIN));
 			$trash['class'] = 'trash';
 			$extra_items[] = & $trash;
 			$this->category_menu = new LearningObjectCategoryMenu($this->get_user_id(), $category, $url_format, & $extra_items);

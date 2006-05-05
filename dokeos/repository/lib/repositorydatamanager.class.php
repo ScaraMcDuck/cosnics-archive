@@ -270,10 +270,18 @@ abstract class RepositoryDataManager
 	 * @param int $maxObjects The maximum number of objects to return. If
 	 *                        omitted or non-positive, every object from the
 	 *                        first index will be returned.
+	 * @param int $state The state the learning objects should have. Any of
+	 *                   the LearningObject :: STATE_* constants. A negative
+	 *                   number means the state should be ignored. Defaults
+	 *                   to LearningObject :: STATE_NORMAL. You can just as
+	 *                   easily use your own condition for this; this
+	 *                   parameter is merely for convenience, and to ensure
+	 *                   that the function does not apply to recycled objects
+	 *                   by default.
 	 * @return ResultSet A set of matching learning objects.
 	 */
-	abstract function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
-
+	abstract function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL);
+	
 	/**
 	 * Retrieves the additional properties of the given learning object.
 	 * @param LearningObject $learning_object The learning object for which to
@@ -294,9 +302,17 @@ abstract class RepositoryDataManager
 	 *                             selection, structured as a Condition
 	 *                             object. Please consult the appropriate
 	 *                             documentation.
+	 * @param int $state The state the learning objects should have. Any of
+	 *                   the LearningObject :: STATE_* constants. A negative
+	 *                   number means the state should be ignored. Defaults
+	 *                   to LearningObject :: STATE_NORMAL. You can just as
+	 *                   easily use your own condition for this; this
+	 *                   parameter is merely for convenience, and to ensure
+	 *                   that the function does not apply to recycled objects
+	 *                   by default.
 	 * @return int The number of matching learning objects.
 	 */
-	abstract function count_learning_objects($type = null, $condition = null);
+	abstract function count_learning_objects($type = null, $condition = null, $state = LearningObject :: STATE_NORMAL);
 
 	/**
 	 * Returns the next available learning object publication ID.

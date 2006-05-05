@@ -14,7 +14,8 @@ class RepositoryBrowserTable extends LearningObjectTable
 	{
 		$model = new RepositoryBrowserTableColumnModel();
 		$renderer = new RepositoryBrowserTableCellRenderer($browser);
-		parent :: __construct(new RepositoryBrowserTableDataProvider($browser, $condition), $name, $model, $renderer);
+		$data_provider = new RepositoryBrowserTableDataProvider($browser, $condition);
+		parent :: __construct($data_provider, $name, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();
 		$actions[''] = '';

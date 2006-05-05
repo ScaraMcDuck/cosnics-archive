@@ -143,14 +143,14 @@ abstract class RepositoryManagerComponent {
 		return $this->get_parent()->retrieve_learning_object($id, $type);
 	}
 
-	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL)
 	{
-		return $this->get_parent()->retrieve_learning_objects($type, $condition, $orderBy, $orderDir, $offset, $maxObjects);
+		return $this->get_parent()->retrieve_learning_objects($type, $condition, $orderBy, $orderDir, $offset, $maxObjects, $state);
 	}
 
-	function count_learning_objects($type = null, $condition = null)
+	function count_learning_objects($type = null, $condition = null, $state = LearningObject :: STATE_NORMAL)
 	{
-		return $this->get_parent()->count_learning_objects($type, $condition);
+		return $this->get_parent()->count_learning_objects($type, $condition, $state);
 	}
 
 	function learning_object_deletion_allowed($learning_object)
@@ -176,6 +176,11 @@ abstract class RepositoryManagerComponent {
 	function get_learning_object_deletion_url($learning_object)
 	{
 		return $this->get_parent()->get_learning_object_deletion_url($learning_object);
+	}
+
+	function get_learning_object_restoration_url($learning_object)
+	{
+		return $this->get_parent()->get_learning_object_restoration_url($learning_object);
 	}
 
 	function get_learning_object_moving_url($learning_object)
