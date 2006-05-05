@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__).'/learningobject.class.php';
-require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 
 class AbstractLearningObject extends LearningObject
 {
@@ -24,7 +23,7 @@ class AbstractLearningObject extends LearningObject
 	
 	function supports_attachments()
 	{
-		$class = RepositoryDataManager :: type_to_class($this->get_type());
+		$class = LearningObject :: type_to_class($this->get_type());
 		$dummy_object = new $class();
 		return $dummy_object->supports_attachments();
 	}

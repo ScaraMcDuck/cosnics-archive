@@ -3,6 +3,9 @@
  * Tool
  * @package application.weblcms.tool
  */
+
+require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
+
 /**
 ==============================================================================
  *	This is the base class for all tools used in applications.
@@ -150,6 +153,26 @@ abstract class Tool
 		$role_id = RolesRights::get_local_user_role_id($user_id, $course_id);
 		$location_id = RolesRights::get_course_tool_location_id($course_id, $dokeos_tools[$tool_id]);
 		$this->rights = RolesRights::is_allowed_which_rights($role_id, $location_id);
+	}
+
+	/**
+	 * Converts a tool name to the corresponding class name.
+	 * @param string $tool The tool name.
+	 * @return string The class name.
+	 */
+	static function type_to_class($tool)
+	{
+		return RepositoryUtilities :: underscores_to_camelcase($tool).'Tool';
+	}
+
+	/**
+	 * Converts a tool class name to the corresponding tool name.
+	 * @param string $class The class name.
+	 * @return string The tool name.
+	 */
+	static function class_to_type($class)
+	{
+		return str_replace('/Tool$/', '', RepositoryUtilities :: camelcase_to_underscores($class));
 	}
 }
 ?>

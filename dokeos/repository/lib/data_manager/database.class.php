@@ -340,8 +340,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
 	// Inherited.
-	function retrieve_attached_learning_objects ($id)
+	function retrieve_attached_learning_objects ($object)
 	{
+		$id = $object->get_id();
 		$query = 'SELECT '.$this->escape_column_name('attachment').' FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object').'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $this->connection->execute($sth, array($id));
@@ -355,20 +356,27 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
 	// Inherited.
-	function attach_learning_object ($object_id, $attachment_id)
+	function attach_learning_object ($object, $attachment_id)
 	{
 		$props = array();
-		$props['learning_object'] = $object_id;
+		$props['learning_object'] = $object->get_id();
 		$props['attachment'] = $attachment_id;
 		$this->connection->autoExecute($this->get_table_name('learning_object_attachment'), $props, DB_AUTOQUERY_INSERT);
 	}
 
 	// Inherited.
-	function detach_learning_object ($object_id, $attachment_id)
+	function detach_learning_object ($object, $attachment_id)
 	{
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object').'=? AND '.$this->escape_column_name('attachment').'=?';
-		$this->connection->limitQuery($query, 0, 1, array ($object_id, $attachment_id));
+		$this->connection->limitQuery($query, 0, 1, array ($object->get_id(), $attachment_id));
 		return ($this->connection->affectedRows() > 0);
+	}
+	
+	// Inherited.
+	function set_learning_object_state ($object, $state)
+	{
+		// TODO
+		return true;
 	}
 
 	/**
@@ -672,7 +680,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$types = $this->get_registered_types();
 		foreach ($types as $index => $type)
 		{
-			$class = $this->type_to_class($type);
+			$class = LearningObject :: type_to_class($type);
 			$properties = call_user_func(array ($class, 'get_disk_space_properties'));
 			if (is_null($properties))
 			{

@@ -200,7 +200,7 @@ abstract class RepositoryDataManager
 		{
 			die('Learning object type \''.$type.'\' not registered');
 		}
-		$class = self :: type_to_class($type);
+		$class = LearningObject :: type_to_class($type);
 		return new $class ($id, $defaultProperties, $additionalProperties);
 	}
 
@@ -324,8 +324,8 @@ abstract class RepositoryDataManager
 
 	/**
 	 * Deletes all known learning objects from persistent storage.
-	 * @note: Only for testing purpuses. This function also deletes the root
-	 * category of a users repository.
+	 * @note Only for testing purpuses. This function also deletes the root
+	 *       category of a user's repository.
 	 */
 	abstract function delete_all_learning_objects();
 
@@ -363,29 +363,38 @@ abstract class RepositoryDataManager
 	/**
 	 * Returns the learning objects that are attached to the learning object
 	 * with the given ID.
-	 * @param int $id The ID of the learning object for which to retrieve
-	 *                attachments.
+	 * @param LearningObject $object The learning object for which to retrieve
+	 *                               attachments.
 	 * @return array The attached learning objects.
 	 */
-	abstract function retrieve_attached_learning_objects ($id);
+	abstract function retrieve_attached_learning_objects ($object);
 
 	/**
 	 * Adds a learning object to another's attachment list.
-	 * @param int $object_id The ID of the learning object to attach the other
-	 *                       learning object to.
+	 * @param LearningObject $object The learning object to attach the other
+	 *                               learning object to.
 	 * @param int $attachment_id The ID of the object to attach.
 	 */
-	abstract function attach_learning_object ($object_id, $attachment_id);
+	abstract function attach_learning_object ($object, $attachment_id);
 
 	/**
 	 * Removes a learning object from another's attachment list.
-	 * @param int $object_id The ID of the learning object to detach the other
-	 *                       learning object from.
+	 * @param LearningObject $object The learning object to detach the other
+	 *                               learning object from.
 	 * @param int $attachment_id The ID of the object to detach.
 	 * @return boolean True if the attachment was removed, false if it did not
 	 *                 exist.
 	 */
-	abstract function detach_learning_object ($object_id, $attachment_id);
+	abstract function detach_learning_object ($object, $attachment_id);
+	
+	/**
+	 * Sets the given learning object's state to one of the STATE_* constants
+	 * defined in the LearningObject class.
+	 * @param LearningObject $object The learning object.
+	 * @param int $state The new state.
+	 * @return boolean True if the operation succeeded, false otherwise.
+	 */
+	abstract function set_learning_object_state ($object, $state);
 
 	/**
 	 * Automagically loads all the available types of learning objects
@@ -460,29 +469,8 @@ abstract class RepositoryDataManager
 	}
 
 	/**
-	 * Converts a learning object type name to the corresponding class name.
-	 * @param string $type The type name.
-	 * @return string The class name.
-	 */
-	static function type_to_class($type)
-	{
-		return ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $type));
-	}
-
-	/**
-	 * Converts a class name to the corresponding learning object type name.
-	 * @param string $class The class name.
-	 * @return string The type name.
-	 */
-	static function class_to_type($class)
-	{
-		return preg_replace(array ('/^([A-Z])/e', '/([A-Z])/e'), array ('strtolower(\1)', '"_".strtolower(\1)'), $class);
-	}
-
-
-	/**
 	 * Returns the names of the applications known to this
-	 * repositorydatamanager.
+	 * repository datamanager.
 	 * @return array The applications.
 	 */
 	function get_registered_applications()
@@ -491,7 +479,7 @@ abstract class RepositoryDataManager
 	}
 
 	/**
-	 * Registers an application with this repositorydatamanager.
+	 * Registers an application with this repository datamanager.
 	 * @param string $application The application name.
 	 */
 	function register_application($application)

@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/accessiblelearningobject.class.php';
 require_once dirname(__FILE__).'/repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/repositoryutilities.class.php';
 
 /**
 ==============================================================================
@@ -62,6 +63,9 @@ require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 
 class LearningObject implements AccessibleLearningObject
 {
+	const STATE_NORMAL = 0;
+	const STATE_RECYCLED = 1;
+	
 	const PROPERTY_ID = 'id';
 	const PROPERTY_TYPE = 'type';
 	const PROPERTY_OWNER_ID = 'owner';
@@ -129,7 +133,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	function get_type()
 	{
-		return RepositoryDataManager :: class_to_type(get_class($this));
+		return self :: class_to_type(get_class($this));
 	}
 
 	/**
@@ -208,7 +212,7 @@ class LearningObject implements AccessibleLearningObject
 		if (!is_array($this->attachments))
 		{
 			$dm = RepositoryDataManager :: get_instance();
-			$this->attachments = $dm->retrieve_attached_learning_objects($this->get_id());
+			$this->attachments = $dm->retrieve_attached_learning_objects($this);
 		}
 		return $this->attachments;
 	}
@@ -324,7 +328,7 @@ class LearningObject implements AccessibleLearningObject
 	function attach_learning_object ($id)
 	{
 		$dm = RepositoryDataManager :: get_instance();
-		return $dm->attach_learning_object($this->get_id(), $id);
+		return $dm->attach_learning_object($this, $id);
 	}
 
 	/**
@@ -338,7 +342,7 @@ class LearningObject implements AccessibleLearningObject
 	function detach_learning_object ($id)
 	{
 		$dm = RepositoryDataManager :: get_instance();
-		return $dm->detach_learning_object($this->get_id(), $id);
+		return $dm->detach_learning_object($this, $id);
 	}
 
 	/**
@@ -557,6 +561,26 @@ class LearningObject implements AccessibleLearningObject
 	static function get_disk_space_properties()
 	{
 		return null;
+	}
+	
+	/**
+	 * Converts a learning object type name to the corresponding class name.
+	 * @param string $type The type name.
+	 * @return string The class name.
+	 */
+	static function type_to_class($type)
+	{
+		return RepositoryUtilities :: underscores_to_camelcase($type);
+	}
+
+	/**
+	 * Converts a class name to the corresponding learning object type name.
+	 * @param string $class The class name.
+	 * @return string The type name.
+	 */
+	static function class_to_type($class)
+	{
+		return RepositoryUtilities :: camelcase_to_underscores($class);
 	}
 }
 ?>

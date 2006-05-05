@@ -100,7 +100,7 @@ class RepositorySearchForm extends FormValidator
 		$types = array ();
 		foreach ($this->manager->get_learning_object_types() as $type)
 		{
-			$types[$type] = get_lang(RepositoryDataManager :: type_to_class($type).'TypeName');
+			$types[$type] = get_lang(LearningObject :: type_to_class($type).'TypeName');
 		}
 		asort($types);
 		$this->frozen_elements[] = $this->addElement('text', self :: PARAM_TITLE_SEARCH_QUERY, get_lang('Title'), 'size="60" style="width: 100%"');

@@ -20,7 +20,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		$type_options[''] = '';
 		foreach ($this->get_learning_object_types() as $type)
 		{
-			$type_options[$type] = get_lang(RepositoryDataManager :: type_to_class($type).'TypeName');
+			$type_options[$type] = get_lang(LearningObject :: type_to_class($type).'TypeName');
 		}
 		asort($type_options);
 		$type_form->addElement('select', RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE, get_lang('CreateANew'), $type_options);
@@ -38,7 +38,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			}
 			else
 			{
-				$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang(RepositoryDataManager :: type_to_class($type).'CreationFormTitle')));
+				$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang(LearningObject :: type_to_class($type).'CreationFormTitle')));
 				$this->display_header($breadcrumbs);
 				$lo_form->display();
 				$this->display_footer();
