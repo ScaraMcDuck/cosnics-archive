@@ -373,10 +373,17 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 	
 	// Inherited.
-	function set_learning_object_state ($object, $state)
+	function set_learning_object_states ($object_ids, $state)
 	{
-		// TODO
-		return true;
+		if (!count($object_ids))
+		{
+			return true;
+		}
+		$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_STATE).'=? WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
+		$params = $object_ids;
+		array_unshift($params, $state);
+		$this->connection->limitQuery($query, 0, count($object_ids), $params);
+		return ($this->connection->affectedRows() == count($object_ids));
 	}
 
 	/**
@@ -483,7 +490,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$additionalProp = null;
 		}
-		return $this->factory($record[LearningObject :: PROPERTY_TYPE], $record[LearningObject :: PROPERTY_ID], $defaultProp, $additionalProp);
+		return LearningObject :: factory($record[LearningObject :: PROPERTY_TYPE], $record[LearningObject :: PROPERTY_ID], $defaultProp, $additionalProp);
 	}
 
 	/**
