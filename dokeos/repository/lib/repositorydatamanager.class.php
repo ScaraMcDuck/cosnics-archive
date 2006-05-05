@@ -134,8 +134,30 @@ abstract class RepositoryDataManager
 	}
 
 	/**
-	 * Determines where the learning object with the given ID has been
-	 * published in the registered applications.
+	 * Determines whether a learning object with the given IDs has been
+	 * published in any of the registered applications.
+	 * @param int $id The IDs of the learning objects.
+	 * @return boolean True if one of the given learning objects has been
+	 * published anywhere, false otherwise.
+	 */
+	function any_learning_object_is_published($ids)
+	{
+		$applications = $this->get_registered_applications();
+		$result = false;
+		foreach($applications as $index => $application_name)
+		{
+			$application_class = self::application_to_class($application_name);
+			$application = new $application_class;
+			if ($application->any_learning_object_is_published($ids))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Get the attributes of the learning object publication
 	 * @param int $id The ID of the learning object.
 	 * @return array An array of LearningObjectPublicationAttributes objects;
 	 *               empty if the object has not been published anywhere.
@@ -167,16 +189,31 @@ abstract class RepositoryDataManager
 		{
 			return false;
 		}
-		$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $object->get_id());
-		$children = $this->retrieve_learning_objects(null, $condition)->as_array();
-		foreach ($children as $index => $child)
+		$children = $this->get_children($object,true);
+		if(count($children) == 0)
 		{
-			if (!$this->learning_object_deletion_allowed($child))
+			return true;
+		}
+		$children_ids = array();
+		foreach($children as $index => $child)
+		{
+			$children_ids[] = $child->get_id();
+		}
+		return !$this->any_learning_object_is_published($children_ids);
+	}
+	private function get_children($parent,$recursive = false)
+	{
+		$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $parent->get_id());
+		$children = $this->retrieve_learning_objects(null, $condition)->as_array();
+		$grand_children = array();
+		if($recursive)
+		{
+			foreach ($children as $index => $child)
 			{
-				return false;
+				$grand_children = array_merge($grand_children,$this->get_children($child,true));
 			}
 		}
-		return true;
+		return array_merge($children,$grand_children);
 	}
 
 	/**
@@ -236,7 +273,7 @@ abstract class RepositoryDataManager
 	 * @return ResultSet A set of matching learning objects.
 	 */
 	abstract function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
-	
+
 	/**
 	 * Retrieves the additional properties of the given learning object.
 	 * @param LearningObject $learning_object The learning object for which to
@@ -361,7 +398,7 @@ abstract class RepositoryDataManager
 	 *                 exist.
 	 */
 	abstract function detach_learning_object ($object, $attachment_id);
-	
+
 	/**
 	 * Sets the requested learning objects' state to one of the STATE_*
 	 * constants defined in the LearningObject class. This function's main use
