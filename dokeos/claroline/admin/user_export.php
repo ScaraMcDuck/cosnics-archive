@@ -73,13 +73,14 @@ if ($form->validate())
 	$sql = "SELECT  u.user_id 	AS UserId,
 					u.lastname 	AS LastName,
 					u.firstname 	AS FirstName,
-					u.email 		AS Email,
 					u.username	AS UserName,
 					u.password	AS Password,
 					u.auth_source	AS AuthSource,
-					u.status		AS Statut,
+					u.email 		AS Email,
 					u.official_code	AS OfficialCode,
-					u.phone		AS Phone";
+					u.phone		AS Phone,
+					u.status		AS Statut
+					";
 	if (strlen($course_code) > 0)
 	{
 		$sql .= " FROM $user_table u, $course_user_table cu WHERE u.user_id = cu.user_id ORDER BY lastname,firstname";
