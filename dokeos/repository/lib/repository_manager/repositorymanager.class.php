@@ -490,7 +490,7 @@ class RepositoryManager
 			$trash = array();
 			$trash['title'] = get_lang('RecycleBin');
 			$trash['url'] = $this->recycle_bin_url;
-			if($this->count_learning_objects(null,new EqualityCondition(LearningObject::PROPERTY_OWNER_ID,$this->get_user_id()),LearningObject::STATE_RECYCLED) > 0)
+			if($this->count_learning_objects(null,new EqualityCondition(LearningObject::PROPERTY_OWNER_ID,$this->get_user_id()),LearningObject::STATE_RECYCLED))
 			{
 				$trash['class'] = 'trash_full';
 			}
@@ -501,11 +501,28 @@ class RepositoryManager
 			$extra_items[] = & $trash;
 			$extra_items[] = & $create;
 			$extra_items[] = & $quota;
+			if ($this->get_search_form()->user_is_searching())
+			{
+				$search_url = $this->get_url();
+				$search = array();
+				$search['title'] = get_lang('SearchResults');
+				$search['url'] = $search_url;
+				$search['class'] = 'search_results';
+				$extra_items[] = & $search;
+			}
+			else
+			{
+				$search_url = null;
+			}
 			$this->category_menu = new LearningObjectCategoryMenu($this->get_user_id(), $category, $url_format, & $extra_items);
+			if (isset($search_url))
+			{
+				$this->category_menu->forceCurrentUrl($search_url, true);
+			}
 		}
 		return $this->category_menu;
 	}
-
+	
 	private function get_search_form()
 	{
 		if (!isset ($this->search_form))

@@ -190,8 +190,7 @@ class RepositorySearchForm extends FormValidator
 		}
 		else
 		{
-			$types = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE];
-			if ((!is_array($types) || !count($types)) && $this->manager->valid_category_id($category_id))
+			if (is_null($this->get_types()))
 			{
 				$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $category_id);
 			}
@@ -212,6 +211,18 @@ class RepositorySearchForm extends FormValidator
 			}
 		}
 		return (count($conditions) > 1 ? new AndCondition($conditions) : $conditions[0]);
+	}
+	
+	private function get_types()
+	{
+		$category_id = $this->manager->get_parameter(RepositoryManager :: PARAM_CATEGORY_ID);
+		$types = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE];
+		return (is_array($types) && count($types) && !$this->manager->valid_category_id($category_id) ? $types : null);
+	}
+	
+	function user_is_searching()
+	{
+		return $this->validate() || !is_null($this->get_types());
 	}
 }
 ?>

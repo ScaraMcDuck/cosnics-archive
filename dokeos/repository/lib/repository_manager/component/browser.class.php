@@ -24,7 +24,12 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 	private function display_learning_objects()
 	{
 		$condition = $this->get_search_condition();
-		$parameters = & $this->get_parameters(true);
+		$parameters = $this->get_parameters(true);
+		$types = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE];
+		if (is_array($types) && count($types))
+		{
+			$parameters[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE] = $types;
+		}
 		$table = new RepositoryBrowserTable($this, null, $parameters, $condition);
 		echo $table->as_html();
 	}
