@@ -84,16 +84,6 @@ class RepositorySearchForm extends FormValidator
 		return $values;
 	}
 
-	function is_full_repository_search()
-	{
-		if ($this->validate())
-		{
-			return (!$this->advanced || $this->frozen_elements[3]->getValue() == self :: SEARCH_SCOPE_REPOSITORY);
-		}
-		$types = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE];
-		return (is_array($types) && count($types));
-	}
-
 	private function autofreeze()
 	{
 		if ($this->validate())
