@@ -171,7 +171,7 @@ class Weblcms extends WebApplication
 		foreach ($tools as $tool => $title)
 		{
 			$class = Tool :: type_to_class($tool);
-			echo '<option value="'.$t.'"'.($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($title).'</option>';
+			echo '<option value="'.$tool.'"'.($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($title).'</option>';
 		}
 		echo '</select></form></div>';
 		if (isset($this->tool_class))
