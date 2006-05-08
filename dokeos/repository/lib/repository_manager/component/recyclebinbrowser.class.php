@@ -26,6 +26,10 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 		}
 		$this->display_footer();
 	}
+	/**
+	 * Display the learning objects in the recycle bin.
+	 * @return int The number of learning objects currently in the recycle bin.
+	 */
 	private function display_learning_objects()
 	{
 		$condition = $this->get_search_condition();
@@ -34,6 +38,11 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 		echo $table->as_html();
 		return $table->get_learning_object_count();
 	}
+	/**
+	 * Empty the recycle bin.
+	 * This function will permanently delete all objects from the recycle bin.
+	 * Only objects from current user will be deleted.
+	 */
 	private function empty_recycle_bin()
 	{
 		$trashed_objects = $this->retrieve_learning_objects(null, new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->get_user_id()), array(), array(), 0, -1, LearningObject :: STATE_RECYCLED);
