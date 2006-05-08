@@ -493,7 +493,7 @@ class RepositoryManager
 	function valid_category_id($id)
 	{
 		// XXX: Extend this to actually check the known IDs.
-		return isset($id) && is_int($id) && $id > 0;
+		return (isset($id) && intval($id) > 0);
 	}
 
 	/**
@@ -524,10 +524,6 @@ class RepositoryManager
 			$this->set_parameter(self :: PARAM_CATEGORY_ID, intval($_GET[self :: PARAM_CATEGORY_ID]));
 		}
 		$form = $this->get_search_form();
-		if ($form->is_full_repository_search())
-		{
-			$this->set_parameter(self :: PARAM_CATEGORY_ID, $this->get_root_category_id());
-		}
 		$this->search_parameters = $form->get_frozen_values();
 	}
 
