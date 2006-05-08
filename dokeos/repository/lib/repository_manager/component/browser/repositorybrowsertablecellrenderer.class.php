@@ -45,7 +45,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		$html[] = '<a href="'.$this->browser->get_learning_object_editing_url($learning_object).'" title="'.get_lang('Edit').'"><img src="'.$this->browser->get_web_code_path().'img/edit.gif" alt="'.get_lang('Edit').'"/></a>';
 		if ($url = $this->browser->get_learning_object_recycling_url($learning_object))
 		{
-			$html[] = '<a href="'.$url.'" title="'.get_lang('Recycle').'"  onclick="return confirm(&quot;'.htmlentities(get_lang('ConfirmYourChoice')).'&quot;);"><img src="'.$this->browser->get_web_code_path().'img/recycle_bin.gif" alt="'.get_lang('Recycle').'"/></a>';
+			$html[] = '<a href="'.$url.'" title="'.get_lang('Remove').'"  onclick="return confirm(&quot;'.htmlentities(get_lang('ConfirmYourChoice')).'&quot;);"><img src="'.$this->browser->get_web_code_path().'img/recycle_bin.gif" alt="'.get_lang('Remove').'"/></a>';
 		}
 		else
 		{
