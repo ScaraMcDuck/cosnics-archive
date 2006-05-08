@@ -110,6 +110,34 @@ abstract class RepositoryManagerComponent {
 		return $this->get_parent()->get_search_parameter($name);
 	}
 	/**
+	 * @see RepositoryManager::force_menu_url()
+	 */
+	function force_menu_url($url)
+	{
+		return $this->get_parent()->force_menu_url($url);
+	}
+	/**
+	 * @see RepositoryManager::get_quota_url()
+	 */
+	function get_quota_url()
+	{
+		return $this->get_parent()->get_quota_url();
+	}
+	/**
+	 * @see RepositoryManager::get_learning_object_creation_url()
+	 */
+	function get_learning_object_creation_url()
+	{
+		return $this->get_parent()->get_learning_object_creation_url();
+	}
+	/**
+	 * @see RepositoryManager::get_recycle_bin_url()
+	 */
+	function get_recycle_bin_url()
+	{
+		return $this->get_parent()->get_recycle_bin_url();
+	}
+	/**
 	 * @see RepositoryManager::get_url()
 	 */
 	function get_url($additional_parameters = array(), $include_search = false)
@@ -173,14 +201,19 @@ abstract class RepositoryManagerComponent {
 		return $this->get_parent()->get_learning_object_editing_url($learning_object);
 	}
 
-	function get_learning_object_deletion_url($learning_object)
+	function get_learning_object_recycling_url($learning_object)
 	{
-		return $this->get_parent()->get_learning_object_deletion_url($learning_object);
+		return $this->get_parent()->get_learning_object_recycling_url($learning_object);
 	}
 
 	function get_learning_object_restoring_url($learning_object)
 	{
 		return $this->get_parent()->get_learning_object_restoring_url($learning_object);
+	}
+
+	function get_learning_object_deletion_url($learning_object)
+	{
+		return $this->get_parent()->get_learning_object_deletion_url($learning_object);
 	}
 
 	function get_learning_object_moving_url($learning_object)

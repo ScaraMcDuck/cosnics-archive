@@ -43,13 +43,13 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		$html = array ();
 		$html[] = '<span style="white-space:nowrap;">';
 		$html[] = '<a href="'.$this->browser->get_learning_object_editing_url($learning_object).'" title="'.get_lang('Edit').'"><img src="'.$this->browser->get_web_code_path().'img/edit.gif" alt="'.get_lang('Edit').'"/></a>';
-		if ($url = $this->browser->get_learning_object_deletion_url($learning_object))
+		if ($url = $this->browser->get_learning_object_recycling_url($learning_object))
 		{
-			$html[] = '<a href="'.$url.'" title="'.get_lang('Delete').'"  onclick="return confirm(&quot;'.htmlentities(get_lang('ConfirmYourChoice')).'&quot;);"><img src="'.$this->browser->get_web_code_path().'img/delete.gif" alt="'.get_lang('Delete').'"/></a>';
+			$html[] = '<a href="'.$url.'" title="'.get_lang('Recycle').'"  onclick="return confirm(&quot;'.htmlentities(get_lang('ConfirmYourChoice')).'&quot;);"><img src="'.$this->browser->get_web_code_path().'img/recycle_bin.gif" alt="'.get_lang('Recycle').'"/></a>';
 		}
 		else
 		{
-			$html[] = '<img src="'.$this->browser->get_web_code_path().'img/delete_na.gif" alt="'.get_lang('Delete').'"/>';
+			$html[] = '<img src="'.$this->browser->get_web_code_path().'img/recycle_bin_na.gif" alt="'.get_lang('Recycle').'"/>';
 		}
 		$html[] = '<a href="'.$this->browser->get_learning_object_moving_url($learning_object).'" title="'.get_lang('Move').'"><img src="'.$this->browser->get_web_code_path().'img/move.gif" alt="'.get_lang('Move').'"/></a>';
 		$html[] = '<a href="'.$this->browser->get_learning_object_metadata_editing_url($learning_object).'" title="'.get_lang('Metadata').'"><img src="'.$this->browser->get_web_code_path().'img/info_small.gif" alt="'.get_lang('Metadata').'"/></a>';

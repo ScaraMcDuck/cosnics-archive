@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package repository.repositorymanager
  */
@@ -13,13 +14,14 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 	function run()
 	{
 		$ids = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
-		if (!empty($ids))
+		if (!empty ($ids))
 		{
 			if (!is_array($ids))
 			{
 				$ids = array ($ids);
 			}
 			$failures = 0;
+			$permanent = $_GET[RepositoryManager :: PARAM_DELETE_PERMANENTLY];
 			foreach ($ids as $object_id)
 			{
 				$object = $this->get_parent()->retrieve_learning_object($object_id);
@@ -28,43 +30,49 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 				{
 					if ($this->get_parent()->learning_object_deletion_allowed($object))
 					{
-						//$object->delete();
-						$object->set_state(LearningObject :: STATE_RECYCLED);
-						$object->update();
+						if ($permanent)
+						{
+							$object->delete();
+						}
+						else
+						{
+							$object->set_state(LearningObject :: STATE_RECYCLED);
+							$object->update();
+						}
 					}
 					else
 					{
-						$failures++;
+						$failures ++;
 					}
 				}
 				else
 				{
-					$failures++;
+					$failures ++;
 				}
 			}
 			if ($failures)
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedObjectNotMovedToRecycleBin';
+					$message = 'SelectedObjectNot'. ($permanent ? 'Deleted' : 'MovedToRecycleBin');
 				}
 				else
 				{
-					$message = 'NotAllSelectedObjectsMovedToRecycleBin';
+					$message = 'NotAllSelectedObjects'. ($permanent ? 'Deleted' : 'MovedToRecycleBin');
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedObjectMovedToRecycleBin';
+					$message = 'SelectedObject'. ($permanent ? 'Deleted' : 'MovedToRecycleBin');
 				}
 				else
 				{
-					$message = 'AllSelectedObjectsMovedToRecycleBin';
+					$message = 'AllSelectedObjects'. ($permanent ? 'Deleted' : 'MovedToRecycleBin');
 				}
 			}
-			$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, get_lang($message));
+			$this->redirect(($permanent ? RepositoryManager :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS : RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS), get_lang($message));
 		}
 		else
 		{

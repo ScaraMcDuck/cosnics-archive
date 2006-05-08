@@ -21,9 +21,9 @@ class RepositoryRecycleBinBrowserTableCellRenderer extends DefaultLearningObject
 
 	function render_cell($column, $learning_object)
 	{
-		if ($column === RepositoryRecycleBinBrowserTableColumnModel :: get_restore_column())
+		if ($column === RepositoryRecycleBinBrowserTableColumnModel :: get_action_column())
 		{
-			return $this->get_restore_link($learning_object);
+			return $this->get_action_links($learning_object);
 		}
 		switch ($column->get_learning_object_property())
 		{
@@ -46,9 +46,12 @@ class RepositoryRecycleBinBrowserTableCellRenderer extends DefaultLearningObject
 		return parent :: render_cell($column, $learning_object);
 	}
 
-	private function get_restore_link($learning_object)
+	private function get_action_links($learning_object)
 	{
-		return '<a href="'.$this->browser->get_learning_object_restoring_url($learning_object).'" title="'.get_lang('Restore').'"><img src="'.$this->browser->get_web_code_path().'img/restore.gif" alt="'.get_lang('Restore').'"/></a>';
+		$html = array();
+		$html[] = '<a href="'.$this->browser->get_learning_object_restoring_url($learning_object).'" title="'.get_lang('Restore').'"><img src="'.$this->browser->get_web_code_path().'img/restore.gif" alt="'.get_lang('Restore').'"/></a>';
+		$html[] = '<a href="'.$this->browser->get_learning_object_deletion_url($learning_object).'" title="'.get_lang('Delete').'"><img src="'.$this->browser->get_web_code_path().'img/delete.gif" alt="'.get_lang('Delete').'"/></a>';
+		return implode($html);
 	}
 }
 ?>

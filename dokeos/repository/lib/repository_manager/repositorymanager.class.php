@@ -26,10 +26,12 @@ class RepositoryManager
 	const PARAM_LEARNING_OBJECT_ID = 'object';
 	const PARAM_DESTINATION_LEARNING_OBJECT_ID = 'destination';
 	const PARAM_LEARNING_OBJECT_TYPE = 'type';
+	const PARAM_DELETE_PERMANENTLY = 'delete_permanently';
 
-	const PARAM_DELETE_SELECTED = 'delete_selected';
+	const PARAM_RECYCLE_SELECTED = 'recycle_selected';
 	const PARAM_MOVE_SELECTED = 'move_selected';
 	const PARAM_RESTORE_SELECTED = 'restore_selected';
+	const PARAM_DELETE_SELECTED = 'delete_selected';
 
 	const ACTION_BROWSE_LEARNING_OBJECTS = 'browse';
 	const ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS = 'recycler';
@@ -68,8 +70,11 @@ class RepositoryManager
 		$this->set_action($_GET[self :: PARAM_ACTION]);
 		$this->parse_input_from_table();
 		$this->determine_search_settings();
+		$this->quota_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA, self :: PARAM_CATEGORY_ID => null));
+		$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_LEARNING_OBJECTS));
+		$this->recycle_bin_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => null));
 	}
-
+	
 	function run()
 	{
 		/*
@@ -85,7 +90,7 @@ class RepositoryManager
 				$component = RepositoryManagerComponent :: factory('Viewer', $this);
 				break;
 			case self :: ACTION_CREATE_LEARNING_OBJECTS :
-				$this->get_category_menu()->forceCurrentUrl($this->create_url, true);
+				$this->force_menu_url($this->create_url, true);
 				$component = RepositoryManagerComponent :: factory('Creator', $this);
 				break;
 			case self :: ACTION_EDIT_LEARNING_OBJECTS :
@@ -108,12 +113,12 @@ class RepositoryManager
 				break;
 			case self :: ACTION_VIEW_QUOTA :
 				$this->set_parameter(self :: PARAM_CATEGORY_ID, $this->get_root_category_id());
-				$this->get_category_menu()->forceCurrentUrl($this->quota_url, true);
+				$this->force_menu_url($this->quota_url, true);
 				$component = RepositoryManagerComponent :: factory('QuotaViewer', $this);
 				break;
 			case self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS :
 				$this->set_parameter(self :: PARAM_CATEGORY_ID, $this->get_root_category_id());
-				$this->get_category_menu()->forceCurrentUrl($this->recycle_bin_url, true);
+				$this->force_menu_url($this->recycle_bin_url, true);
 				$component = RepositoryManagerComponent :: factory('RecycleBinBrowser', $this);
 				break;
 			default :
@@ -139,7 +144,7 @@ class RepositoryManager
 			}
 			switch ($_POST['action'])
 			{
-				case self :: PARAM_DELETE_SELECTED :
+				case self :: PARAM_RECYCLE_SELECTED :
 					$this->set_action(self :: ACTION_DELETE_LEARNING_OBJECTS);
 					$_GET[self :: PARAM_LEARNING_OBJECT_ID] = $selected_ids;
 					break;
@@ -151,10 +156,15 @@ class RepositoryManager
 					$this->set_action(self :: ACTION_RESTORE_LEARNING_OBJECTS);
 					$_GET[self :: PARAM_LEARNING_OBJECT_ID] = $selected_ids;
 					break;
+				case self :: PARAM_DELETE_SELECTED :
+					$this->set_action(self :: ACTION_DELETE_LEARNING_OBJECTS);
+					$_GET[self :: PARAM_LEARNING_OBJECT_ID] = $selected_ids;
+					$_GET[self :: PARAM_DELETE_PERMANENTLY] = 1;
+					break;
 			}
 		}
 	}
-
+	
 	function get_action()
 	{
 		return $this->get_parameter(self :: PARAM_ACTION);
@@ -271,6 +281,26 @@ class RepositoryManager
 		$url = $this->get_url($params);
 		header('Location: '.$url);
 	}
+	
+	function force_menu_url($url)
+	{
+		$this->get_category_menu()->forceCurrentUrl($url);
+	}
+
+	function get_quota_url()
+	{
+		return $this->quota_url;
+	}
+
+	function get_learning_object_creation_url()
+	{
+		return $this->create_url;
+	}
+
+	function get_recycle_bin_url()
+	{
+		return $this->recycle_bin_url;
+	}
 
 	function get_url($additional_parameters = array (), $include_search = false)
 	{
@@ -347,7 +377,7 @@ class RepositoryManager
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 	}
 
-	function get_learning_object_deletion_url($learning_object)
+	function get_learning_object_recycling_url($learning_object)
 	{
 		if (!$this->learning_object_deletion_allowed($learning_object) || $learning_object->get_state() == LearningObject :: STATE_RECYCLED)
 		{
@@ -363,6 +393,15 @@ class RepositoryManager
 			return null;
 		}
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_RESTORE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
+	}
+
+	function get_learning_object_deletion_url($learning_object)
+	{
+		if (!$this->learning_object_deletion_allowed($learning_object))
+		{
+			return null;
+		}
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id(), self :: PARAM_DELETE_PERMANENTLY => 1));
 	}
 
 	function get_learning_object_moving_url($learning_object)
@@ -465,9 +504,6 @@ class RepositoryManager
 	{
 		if (!isset ($this->category_menu))
 		{
-			$this->quota_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA, self :: PARAM_CATEGORY_ID => null));
-			$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_LEARNING_OBJECTS));
-			$this->recycle_bin_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => null));
 			// We need this because the percent sign in '%s' gets escaped.
 			$temp_replacement = '__CATEGORY_ID__';
 			$url_format = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => $temp_replacement));
@@ -481,15 +517,15 @@ class RepositoryManager
 			$extra_items = array();
 			$create = array();
 			$create['title'] = get_lang('Create');
-			$create['url'] = $this->create_url;
+			$create['url'] = $this->get_learning_object_creation_url();
 			$create['class'] = 'create';
 			$quota = array();
 			$quota['title'] = get_lang('Quota');
-			$quota['url'] = $this->quota_url;
+			$quota['url'] = $this->get_quota_url();
 			$quota['class'] = 'quota';
 			$trash = array();
 			$trash['title'] = get_lang('RecycleBin');
-			$trash['url'] = $this->recycle_bin_url;
+			$trash['url'] = $this->get_recycle_bin_url();
 			if($this->count_learning_objects(null,new EqualityCondition(LearningObject::PROPERTY_OWNER_ID,$this->get_user_id()),LearningObject::STATE_RECYCLED))
 			{
 				$trash['class'] = 'trash_full';

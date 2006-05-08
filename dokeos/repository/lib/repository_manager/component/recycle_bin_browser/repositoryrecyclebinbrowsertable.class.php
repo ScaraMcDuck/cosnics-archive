@@ -18,6 +18,7 @@ class RepositoryRecycleBinBrowserTable extends LearningObjectTable
 		$this->set_additional_parameters($parameters);
 		$actions = array();
 		$actions[RepositoryManager :: PARAM_RESTORE_SELECTED] = get_lang('RestoreSelected');
+		$actions[RepositoryManager :: PARAM_DELETE_SELECTED] = get_lang('DeleteSelected');
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}
