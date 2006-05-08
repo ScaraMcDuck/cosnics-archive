@@ -15,7 +15,7 @@ class DocumentPublicationListRenderer extends TableLearningObjectPublicationList
 		$this->set_header(2, get_lang('PublishedOn'), false);
 		$this->set_header(3, get_lang('PublishedBy'), false);
 		$this->set_header(4, get_lang('PublishedFor'), false);
-		$this->set_header(5, get_lang('Actions'), false);
+		$this->set_header(5, '', false);
     }
 }
 ?>
