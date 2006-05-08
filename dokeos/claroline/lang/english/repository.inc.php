@@ -39,7 +39,6 @@ $LearningPathCreationFormTitle='Create a Learning Path';
 $LearningPathTypeName='Learning path';
 $LinkCreationFormTitle='Create a Link';
 $LinkTypeName='Link';
-$MaxNumberOfLearningObjectsReached=
 $Metadata='Metadata';
 $Modified='Modified';
 $MoveSelected='Move selected items';
