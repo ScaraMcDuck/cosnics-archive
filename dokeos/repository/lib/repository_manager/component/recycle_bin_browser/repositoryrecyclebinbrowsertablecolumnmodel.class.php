@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../../learningobject.class.php';
 class RepositoryRecycleBinBrowserTableColumnModel extends DefaultLearningObjectTableColumnModel
 {
 	private static $action_column;
-	
+
 	function RepositoryRecycleBinBrowserTableColumnModel()
 	{
 		parent :: __construct();
@@ -24,7 +24,7 @@ class RepositoryRecycleBinBrowserTableColumnModel extends DefaultLearningObjectT
 	{
 		if (!isset(self :: $action_column))
 		{
-			self :: $action_column = new LearningObjectTableColumn(get_lang('Actions'));
+			self :: $action_column = new LearningObjectTableColumn('');
 		}
 		return self :: $action_column;
 	}
