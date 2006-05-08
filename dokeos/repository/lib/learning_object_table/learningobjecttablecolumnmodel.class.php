@@ -8,7 +8,7 @@
  * LearningObjectTableColumn instances to instances of this class. In addition,
  * the table model defines how to order the learning objects in the table by
  * default.
- * 
+ *
  * @see LearningObjectTable
  * @see LearningObjectTableColumn
  * @author Tim De Pauw
@@ -45,7 +45,7 @@ class LearningObjectTableColumnModel
 		$this->order_column = $default_order_column;
 		$this->order_direction = $default_order_direction;
 	}
-	
+
 	/**
 	 * Gets the number of columns in the model.
 	 * @return int The column count.
@@ -64,7 +64,7 @@ class LearningObjectTableColumnModel
 	{
 		return $this->columns[$index];
 	}
-	
+
 	/**
 	 * Adds the given column at the end of the table.
 	 * @param LearningObjectTableColumn The column.
@@ -73,7 +73,7 @@ class LearningObjectTableColumnModel
 	{
 		$this->columns[] = $column;
 	}
-	
+
 	/**
 	 * Gets the index of the column to order learning objects by by default.
 	 * @return int The column index.
@@ -82,7 +82,7 @@ class LearningObjectTableColumnModel
 	{
 		return $this->order_column;
 	}
-	
+
 	/**
 	 * Sets the index of the column to order learning objects by by default.
 	 * @param int $column The index.
@@ -91,7 +91,7 @@ class LearningObjectTableColumnModel
 	{
 		$this->order_column = $column_index;
 	}
-	
+
 	/**
 	 * Gets the default order direction.
 	 * @return string The direction. Either the PHP constant SORT_ASC or
@@ -101,13 +101,13 @@ class LearningObjectTableColumnModel
 	{
 		return $this->order_direction;
 	}
-	
+
 	/**
 	 * Sets the default order direction.
 	 * @param string $direction The direction. Either the PHP constant SORT_ASC
 	 *                          or SORT_DESC.
 	 */
-	function get_default_order_direction($direction)
+	function set_default_order_direction($direction)
 	{
 		return $this->order_direction;
 	}
