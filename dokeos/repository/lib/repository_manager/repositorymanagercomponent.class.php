@@ -171,14 +171,14 @@ abstract class RepositoryManagerComponent {
 		return $this->get_parent()->retrieve_learning_object($id, $type);
 	}
 
-	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL)
+	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
 	{
-		return $this->get_parent()->retrieve_learning_objects($type, $condition, $orderBy, $orderDir, $offset, $maxObjects, $state);
+		return $this->get_parent()->retrieve_learning_objects($type, $condition, $orderBy, $orderDir, $offset, $maxObjects, $state, $different_parent_state);
 	}
 
-	function count_learning_objects($type = null, $condition = null, $state = LearningObject :: STATE_NORMAL)
+	function count_learning_objects($type = null, $condition = null, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
 	{
-		return $this->get_parent()->count_learning_objects($type, $condition, $state);
+		return $this->get_parent()->count_learning_objects($type, $condition, $state, $different_parent_state);
 	}
 
 	function learning_object_deletion_allowed($learning_object)

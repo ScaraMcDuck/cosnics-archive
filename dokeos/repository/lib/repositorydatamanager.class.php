@@ -106,7 +106,7 @@ abstract class RepositoryDataManager
 		$condition1 = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $owner);
 		$condition2 = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, 0);
 		$condition = new AndCondition($condition1, $condition2);
-		$objects = $this->retrieve_learning_objects('category', $condition, null, null, 0, 1);
+		$objects = $this->retrieve_learning_objects('category', $condition, null, null, 0, 1, -1);
 		return $objects->next_result();
 	}
 
@@ -278,9 +278,14 @@ abstract class RepositoryDataManager
 	 *                   parameter is merely for convenience, and to ensure
 	 *                   that the function does not apply to recycled objects
 	 *                   by default.
+	 * @param boolean $different_parent_state True to enforce that the parent
+	 *                                        learning object's state be
+	 *                                        different from $state. This is
+	 *                                        useful when retrieving removed
+	 *                                        tree structures.
 	 * @return ResultSet A set of matching learning objects.
 	 */
-	abstract function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL);
+	abstract function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false);
 	
 	/**
 	 * Retrieves the additional properties of the given learning object.
@@ -310,9 +315,14 @@ abstract class RepositoryDataManager
 	 *                   parameter is merely for convenience, and to ensure
 	 *                   that the function does not apply to recycled objects
 	 *                   by default.
+	 * @param boolean $different_parent_state True to enforce that the parent
+	 *                                        learning object's state be
+	 *                                        different from $state. This is
+	 *                                        useful when retrieving removed
+	 *                                        tree structures.
 	 * @return int The number of matching learning objects.
 	 */
-	abstract function count_learning_objects($type = null, $condition = null, $state = LearningObject :: STATE_NORMAL);
+	abstract function count_learning_objects($type = null, $condition = null, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false);
 
 	/**
 	 * Returns the next available learning object publication ID.
