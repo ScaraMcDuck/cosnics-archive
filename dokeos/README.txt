@@ -1,4 +1,15 @@
 =====================================
+ Dokeos LCMS README
+=====================================
+This is a developer version of the Dokeos LCMS branch,
+which is currently in experimental / development stage.
+Don't expect a complete and perfectly working system.
+We invite people to follow our development efforts and give remarks.
+
+For instructions on how to install,
+see the INSTALL.txt.
+
+=====================================
  Dokeos community release 2.1 README
 =====================================
 
