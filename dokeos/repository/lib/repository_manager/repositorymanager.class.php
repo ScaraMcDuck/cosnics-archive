@@ -75,7 +75,7 @@ class RepositoryManager
 		$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_LEARNING_OBJECTS));
 		$this->recycle_bin_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => null));
 	}
-	
+
 	function run()
 	{
 		/*
@@ -165,7 +165,7 @@ class RepositoryManager
 			}
 		}
 	}
-	
+
 	function get_action()
 	{
 		return $this->get_parameter(self :: PARAM_ACTION);
@@ -282,7 +282,7 @@ class RepositoryManager
 		$url = $this->get_url($params);
 		header('Location: '.$url);
 	}
-	
+
 	function force_menu_url($url)
 	{
 		$this->get_category_menu()->forceCurrentUrl($url);
@@ -436,11 +436,22 @@ class RepositoryManager
 		api_not_allowed();
 	}
 
+	/**
+	 * Gets some user information
+	 * @param int $id The user id
+	 * @return array
+	 * @see api_get_user_info()
+	 */
 	function get_user_info($id)
 	{
 		return api_get_user_info($id);
 	}
 
+	/**
+	 * Gets the url for browsing objects of a given type
+	 * @param string $type The requested type
+	 * @return string The url
+	 */
 	function get_type_filter_url($type)
 	{
 		$params = array ();
@@ -449,11 +460,19 @@ class RepositoryManager
 		return $this->get_url($params);
 	}
 
+	/**
+	 * @see RepositorySearchForm::get_condition()
+	 */
 	function get_search_condition()
 	{
 		return $this->get_search_form()->get_condition();
 	}
-
+	/**
+	 * Get the condition to select only learning objects in the given category
+	 * of any subcategory
+	 * @param int $category_id The category
+	 * @return Condition
+	 */
 	function get_category_condition($category_id)
 	{
 		$subcat = array();
@@ -466,16 +485,23 @@ class RepositoryManager
 		return (count($conditions) > 1 ? new OrCondition($conditions) : $conditions[0]);
 	}
 
+	/**
+	 * Determine if the given category id is valid
+	 * @param int $id The category id to check
+	 * @return boolean True if the given category is valid
+	 */
 	function valid_category_id($id)
 	{
 		// XXX: Extend this to actually check the known IDs.
 		return isset($id) && is_int($id) && $id > 0;
 	}
 
+	/**
+	 * @todo Move this to LearningObjectCategoryMenu or something.
+	 */
 	private function get_category_id_list($category_id, & $node, & $subcat)
 	{
 		// XXX: Make sure we don't mess up things with trash here.
-		// TODO: Move this to LearningObjectCategoryMenu or something.
 		foreach ($node as $id => $subnode)
 		{
 			$new_id = ($id == $category_id ? null : $category_id);
@@ -487,6 +513,10 @@ class RepositoryManager
 		}
 	}
 
+	/**
+	 * Determine the current search settings
+	 * @return array The current search settings
+	 */
 	private function determine_search_settings()
 	{
 		if (isset($_GET[self :: PARAM_CATEGORY_ID]))
@@ -501,6 +531,17 @@ class RepositoryManager
 		$this->search_parameters = $form->get_frozen_values();
 	}
 
+	/**
+	 * Gets the category menu.
+	 *
+	 * This menu contains all categories in the
+	 * repository of the current user. Additionally some menu items are added
+	 * - Recycle Bin
+	 * - Create a new learning object
+	 * - Quota
+	 * - Search Results (ony if search is performed)
+	 * @return LearningObjectCategoryMenu The menu
+	 */
 	private function get_category_menu()
 	{
 		if (!isset ($this->category_menu))
@@ -559,7 +600,10 @@ class RepositoryManager
 		}
 		return $this->category_menu;
 	}
-	
+	/**
+	 * Gets the search form
+	 * @return RepositorySearchForm The search form
+	 */
 	private function get_search_form()
 	{
 		if (!isset ($this->search_form))
@@ -568,12 +612,16 @@ class RepositoryManager
 		}
 		return $this->search_form;
 	}
-
+	/**
+	 * Displays the tree menu.
+	 */
 	private function display_learning_object_categories()
 	{
 		echo $this->get_category_menu()->render_as_tree();
 	}
-
+	/**
+	 * Displays the search form
+	 */
 	private function display_search_form()
 	{
 		echo $this->get_search_form()->display();
