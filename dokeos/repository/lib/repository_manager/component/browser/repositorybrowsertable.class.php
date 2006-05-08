@@ -18,7 +18,7 @@ class RepositoryBrowserTable extends LearningObjectTable
 		parent :: __construct($data_provider, $name, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();
-		$actions[RepositoryManager :: PARAM_DELETE_SELECTED] = get_lang('DeleteSelected');
+		$actions[RepositoryManager :: PARAM_RECYCLE_SELECTED] = get_lang('RecycleSelected');
 		$actions[RepositoryManager :: PARAM_MOVE_SELECTED] = get_lang('MoveSelected');
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);

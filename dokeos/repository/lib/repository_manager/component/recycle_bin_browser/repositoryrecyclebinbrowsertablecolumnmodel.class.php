@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../../../learningobject.class.php';
 
 class RepositoryRecycleBinBrowserTableColumnModel extends DefaultLearningObjectTableColumnModel
 {
-	private static $restore_column;
+	private static $action_column;
 	
 	function RepositoryRecycleBinBrowserTableColumnModel()
 	{
@@ -17,16 +17,16 @@ class RepositoryRecycleBinBrowserTableColumnModel extends DefaultLearningObjectT
 		$col = new LearningObjectTableColumn(LearningObject :: PROPERTY_PARENT_ID, true);
 		$col->set_title(get_lang('OriginalLocation'));
 		$this->add_column($col);
-		$this->add_column(self :: get_restore_column());
+		$this->add_column(self :: get_action_column());
 	}
 
-	static function get_restore_column()
+	static function get_action_column()
 	{
-		if (!isset(self :: $restore_column))
+		if (!isset(self :: $action_column))
 		{
-			self :: $restore_column = new LearningObjectTableColumn(get_lang('Restore'));
+			self :: $action_column = new LearningObjectTableColumn(get_lang('Actions'));
 		}
-		return self :: $restore_column;
+		return self :: $action_column;
 	}
 }
 ?>
