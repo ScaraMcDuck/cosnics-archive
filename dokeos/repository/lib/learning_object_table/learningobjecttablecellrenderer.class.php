@@ -1,7 +1,7 @@
 <?php
 /**
  * A cell renderer which can be used for rendering a table of learning objects.
- * @package repository
+ * @package repository.learningobjecttable
  */
 interface LearningObjectTableCellRenderer
 {

@@ -1,7 +1,7 @@
 <?php
 /**
  * A column in a table of learning objects
- * @package repository
+ * @package repository.learningobjecttable
  */
 class LearningObjectTableColumn
 {

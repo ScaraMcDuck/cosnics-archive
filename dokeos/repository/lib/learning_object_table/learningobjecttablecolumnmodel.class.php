@@ -2,7 +2,7 @@
 /**
  * This table column model holds the different columns of a table of learning
  * objects.
- * @package repository
+ * @package repository.learningobjecttable
  */
 class LearningObjectTableColumnModel
 {
