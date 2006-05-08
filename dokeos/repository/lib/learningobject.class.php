@@ -68,7 +68,7 @@ class LearningObject implements AccessibleLearningObject
 {
 	const STATE_NORMAL = 0;
 	const STATE_RECYCLED = 1;
-	
+
 	const PROPERTY_ID = 'id';
 	const PROPERTY_TYPE = 'type';
 	const PROPERTY_OWNER_ID = 'owner';
@@ -84,7 +84,7 @@ class LearningObject implements AccessibleLearningObject
 	 * Numeric identifier of the learning object.
 	 */
 	private $id;
-	
+
 	/**
 	 * Default properties of the learning object, stored in an associative
 	 * array.
@@ -96,12 +96,12 @@ class LearningObject implements AccessibleLearningObject
 	 * in an associative array.
 	 */
 	private $additionalProperties;
-	
+
 	/**
 	 * Learning objects attached to this learning object.
 	 */
 	private $attachments;
-	
+
 	/**
 	 * The state that this learning object had when it was retrieved. Used to
 	 * determine if the state of its children should be updated upon updating
@@ -147,7 +147,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return self :: class_to_type(get_class($this));
 	}
-	
+
 	/**
 	 * Returns the state of this learning object.
 	 * @return int The state.
@@ -223,7 +223,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return $this->get_default_property(self :: PROPERTY_MODIFICATION_DATE);
 	}
-	
+
 	/**
 	 * Returns the learning objects attached to this learning object.
 	 * @return array The learning objects.
@@ -237,7 +237,7 @@ class LearningObject implements AccessibleLearningObject
 		}
 		return $this->attachments;
 	}
-	
+
 	/**
 	 * Returns the full URL where this learning object may be viewed.
 	 * @return string The URL.
@@ -351,7 +351,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return false;
 	}
-	
+
 	/**
 	 * Attaches the learning object with the given ID to this learning object.
 	 * @param int $id The ID of the learning object to attach.
@@ -491,7 +491,7 @@ class LearningObject implements AccessibleLearningObject
 		 */
 		return true;
 	}
-	
+
 	private static function get_child_ids($id)
 	{
 		$cond = new EqualityCondition(self :: PROPERTY_PARENT_ID, $id);
@@ -539,14 +539,15 @@ class LearningObject implements AccessibleLearningObject
 	/**
 	 * Checks if the given ID is the ID of one of this learning object's
 	 * ancestors.
+	 * @param int $ancestor_id
 	 * @return boolean True if the ID belongs to an ancestor, false otherwise.
 	 */
-	function has_ancestor($ancestor)
+	function has_ancestor($ancestor_id)
 	{
 		$aid = $this->get_parent_id();
 		while ($aid > 0)
 		{
-			if ($aid == $ancestor)
+			if ($aid == $ancestor_id)
 			{
 				return true;
 			}
@@ -599,7 +600,7 @@ class LearningObject implements AccessibleLearningObject
 	 * Checks if the learning object's additional properties have already been
 	 * loaded, and requests them from the data manager if they have not.
 	 */
-	private function check_for_additional_properties() 
+	private function check_for_additional_properties()
 	{
 		if (isset($this->additionalProperties))
 		{
@@ -608,7 +609,7 @@ class LearningObject implements AccessibleLearningObject
 		$dm = RepositoryDataManager :: get_instance();
 		$this->additionalProperties = $dm->retrieve_additional_learning_object_properties($this);
 	}
-	
+
 	/**
 	 * Get the default properties of all learning objects.
 	 * @return array The property names.
@@ -628,7 +629,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return null;
 	}
-	
+
 	/**
 	 * Converts a learning object type name to the corresponding class name.
 	 * @param string $type The type name.
@@ -648,7 +649,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return RepositoryUtilities :: camelcase_to_underscores($class);
 	}
-	
+
 	/**
 	 * Invokes the constructor of the class that corresponds to the specified
 	 * type of learning object.
