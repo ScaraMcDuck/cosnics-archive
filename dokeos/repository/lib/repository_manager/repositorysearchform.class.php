@@ -9,7 +9,19 @@ require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../condition/equalitycondition.class.php';
-
+/**
+ * A form to search in the repository.
+ * This form can have two representations
+ * - A simple search form.
+ *   This form only contains a text field and a submit
+ *   button. The form will also contain a link to the advanced view of the
+ *   search  form.
+ * - An advanced search form.
+ *   Using   the advanced search form, a user will be able to search on title,
+ *   description,    type and has the choice in which part of the repository the
+ *   system    should search (whole repository, current category, current
+ *   category  + subcategories)
+ */
 class RepositorySearchForm extends FormValidator
 {
 	const PARAM_ADVANCED_SEARCH = 'advanced_search';
@@ -32,6 +44,13 @@ class RepositorySearchForm extends FormValidator
 
 	private $advanced;
 
+	/**
+	 * Creates a new search form
+	 * @param RepositoryManager $manager The repository manager in which this
+	 * search form will be displayed
+	 * @param string $url The location to which the search request should be
+	 * posted.
+	 */
 	function RepositorySearchForm($manager, $url)
 	{
 		parent :: __construct('search', 'post', $url);
@@ -86,7 +105,9 @@ class RepositorySearchForm extends FormValidator
 			$element->setValue($_GET[$element->getName()]);
 		}
 	}
-
+	/**
+	 * Build the simple search form.
+	 */
 	private function build_simple_search_form()
 	{
 		$this->renderer->setElementTemplate('<span>{element}</span>');
@@ -94,7 +115,9 @@ class RepositorySearchForm extends FormValidator
 		$this->addElement('submit', 'search', get_lang('Ok'));
 		$this->addElement('static', '', '', '<div class="to_advanced_search" style="font-size:smaller;"><a href="'.htmlentities($this->manager->get_url(array (self :: PARAM_ADVANCED_SEARCH => 1))).'">'.get_lang('ToAdvancedSearch').'</a></div>');
 	}
-
+	/**
+	 * Build the advanced search form.
+	 */
 	private function build_advanced_search_form()
 	{
 		$types = array ();
@@ -113,7 +136,9 @@ class RepositorySearchForm extends FormValidator
 		$this->frozen_elements[] = $this->addGroup($scope_buttons, self :: PARAM_SEARCH_SCOPE, get_lang('SearchIn'));
 		$this->addElement('submit', 'search', get_lang('Search'));
 	}
-
+	/**
+	 * Display the form
+	 */
 	function display()
 	{
 		$html = array ();
@@ -137,7 +162,10 @@ class RepositorySearchForm extends FormValidator
 		}
 		return implode('', $html);
 	}
-
+	/**
+	 * Get the search condition
+	 * @return Condition The search condition
+	 */
 	function get_condition()
 	{
 		$conditions = array ();
@@ -213,13 +241,18 @@ class RepositorySearchForm extends FormValidator
 		}
 		return (count($conditions) > 1 ? new AndCondition($conditions) : $conditions[0]);
 	}
-	
+	/**
+	 *
+	 */
 	private function get_types()
 	{
 		$types = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE];
 		return (is_array($types) && count($types) ? $types : null);
 	}
-	
+	/**
+	 * Determines if the user is currently searching the repository
+	 * @return boolean True if the user is searching
+	 */
 	function user_is_searching()
 	{
 		return $this->validate() || !is_null($this->get_types());
