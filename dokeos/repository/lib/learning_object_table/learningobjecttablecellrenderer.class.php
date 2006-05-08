@@ -1,17 +1,24 @@
 <?php
 /**
- * A cell renderer which can be used for rendering a table of learning objects.
  * @package repository.learningobjecttable
+ */
+/**
+ * Implementations of this interface are used to render the content of
+ * individual cells in a learning object table.
+ * 
+ * @see LearningObjectTable
+ * @author Tim De Pauw
  */
 interface LearningObjectTableCellRenderer
 {
 	/**
-	 * Render a table cell
-	 * @param LearningObjectTableColumn $column The column in which this cell
-	 * will be displayed
-	 * @param LearningObject $learning_object The learning object which will be
-	 * displayed in this cell
-	 * @return string The rendered cell content
+	 * Renders a cell in a learning object table.
+	 * @param LearningObjectTableColumn $column The column to which the cell
+	 *                                          belongs.
+	 * @param LearningObject $learning_object The learning object to which the
+	 *                                        row that the cell is a part of
+	 *                                        belongs.
+	 * @return string The rendered cell contents. A valid HTML string.
 	 */
 	function render_cell($column, $learning_object);
 }

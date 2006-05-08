@@ -1,10 +1,38 @@
 <?php
-/** 
- * @package repository
+/**
+ * @package repository.learningobjecttable
  */
+
 require_once dirname(__FILE__).'/learningobjecttablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../learningobject.class.php';
-
+/**
+ * This is the default cell renderer, used when a LearningObjectTable does not
+ * provide its own renderer.
+ * 
+ * The default renderer provides a custom rendering method for the following
+ * columns:
+ * 
+ * - The ID of the learning object
+ *   Displays the ID.
+ * - The type of the learning object
+ *   Displays the icon that corresponds to the learning object type.
+ * - The title of the learning object
+ *   Displays the title.
+ * - The description of the learning object
+ *   Strips HTML tags from the description of the learning object and displays
+ *   the first 200 characters of the resulting string.
+ * - The date when the learning object was created
+ *   Displays a localized version of the date.
+ * - The date when the learning object was last modified
+ *   Displays a localized version of the date.
+ * 
+ * Any other column type will result in an empty cell.
+ * 
+ * @see LearningObjectTable
+ * @see LearningObjectTableCellRenderer
+ * @see DefaultLearningObjectTableColumnModel
+ * @author Tim De Pauw
+ */
 class DefaultLearningObjectTableCellRenderer implements LearningObjectTableCellRenderer
 {
 	function DefaultLearningObjectTableCellRenderer()
