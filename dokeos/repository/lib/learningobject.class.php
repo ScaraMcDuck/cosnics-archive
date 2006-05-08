@@ -618,6 +618,18 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return array (self :: PROPERTY_OWNER_ID, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_STATE);
 	}
+	
+	/**
+	 * Checks if the given identifier is the name of a default learning object
+	 * property.
+	 * @param string $name The identifier.
+	 * @return boolean True if the identifier is a property name, false
+	 *                 otherwise.
+	 */
+	static function is_default_property_name($name)
+	{
+		return in_array($name, self :: get_default_property_names());
+	}
 
 	/**
 	 * Get all properties of this type of learning object that should be taken

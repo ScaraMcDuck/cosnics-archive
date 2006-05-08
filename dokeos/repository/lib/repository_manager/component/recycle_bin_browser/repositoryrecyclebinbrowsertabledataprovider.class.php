@@ -21,12 +21,12 @@ class RepositoryRecycleBinBrowserTableDataProvider extends RepositoryBrowserTabl
     		$order_property = array($order_property);
     		$order_direction = array($order_direction);
     	}
-    	return $this->get_browser()->retrieve_learning_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count, LearningObject :: STATE_RECYCLED);
+    	return $this->get_browser()->retrieve_learning_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count, LearningObject :: STATE_RECYCLED, true);
     }
 
     function get_learning_object_count()
     {
-    	return $this->get_browser()->count_learning_objects(null, $this->get_condition(), LearningObject :: STATE_RECYCLED);
+    	return $this->get_browser()->count_learning_objects(null, $this->get_condition(), LearningObject :: STATE_RECYCLED, true);
     }
 }
 ?>

@@ -26,6 +26,10 @@ require_once 'DB.php';
 
 class DatabaseRepositoryDataManager extends RepositoryDataManager
 {
+	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
+	const ALIAS_TYPE_TABLE = 'tt';
+	const ALIAS_LEARNING_OBJECT_PARENT_TABLE = 'lop';
+	
 	/**
 	 * The database connection.
 	 */
@@ -62,11 +66,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		if ($this->is_extended_type($type))
 		{
-			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS t1'.' JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=t2.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' WHERE t1.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).'='.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' WHERE '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
 		}
 		else
 		{
-			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
 		}
 		$res = $this->connection->limitQuery($query, 0, 1, array ($id));
 		$record = $res->fetchRow(DB_FETCHMODE_ASSOC);
@@ -76,34 +80,54 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	// Inherited.
 	// TODO: Extract methods.
-	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL)
+	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
 	{
+		$query = 'SELECT * FROM ';
+		if ($different_parent_state)
+		{
+			/*
+			 * Making parent table come first makes sure the properties we
+			 * need come last, so they are actually in the associative array
+			 * representing the record.
+			 */ 
+			$query .= $this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.' JOIN ';
+		}
 		if (isset ($type))
 		{
 			if ($this->is_extended_type($type))
 			{
-				$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS t1 JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' = t2.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
+				$query .= $this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
 			}
 			else
 			{
-				$query = 'SELECT * FROM '.$this->escape_table_name('learning_object');
+				$query .= $this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
 				$match = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
 				$condition = isset ($condition) ? new AndCondition($match, $condition) : $match;
 			}
 		}
 		else
 		{
-			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object');
+			$query .= $this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
 		}
 		if ($state >= 0)
 		{
-			$state_cond = new EqualityCondition(LearningObject :: PROPERTY_STATE, $state);
-			$condition = isset($condition) ? new AndCondition($state_cond, $condition) : $state_cond;
+			$conds = array();
+			if ($different_parent_state)
+			{
+				$query .= ' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_PARENT_ID).' = '.self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
+				$conds[] = new NotCondition(new EqualityCondition(self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.'.'.LearningObject :: PROPERTY_STATE, $state));
+			}
+			$conds[] = new EqualityCondition(self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.LearningObject :: PROPERTY_STATE, $state);
+			if (isset($condition))
+			{
+				$conds[] = $condition;
+			}
+			$condition = new AndCondition($conds);
 		}
 		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params);
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
 		}
 		/*
 		 * Always respect display order as a last resort.
@@ -113,7 +137,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$order = array ();
 		for ($i = 0; $i < count($orderBy); $i ++)
 		{
-			$order[] = $this->escape_column_name($orderBy[$i]).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
 		}
 		if (count($order))
 		{
@@ -151,34 +175,44 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 	// Inherited.
 	// TODO: Extract methods; share stuff with retrieve_learning_objects.
-	function count_learning_objects($type = null, $condition = null, $state = LearningObject :: STATE_NORMAL)
+	function count_learning_objects($type = null, $condition = null, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
 	{
 		if (isset ($type))
 		{
 			if ($this->is_extended_type($type))
 			{
-				$query = 'SELECT COUNT(t1.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object').' AS t1 JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' = t2.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
+				$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
 			}
 			else
 			{
-				$query = 'SELECT COUNT('.$this->escape_column_name(LearningObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object');
+				$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
 				$match = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
 				$condition = isset ($condition) ? new AndCondition(array ($match, $condition)) : $match;
 			}
 		}
 		else
 		{
-			$query = 'SELECT COUNT('.$this->escape_column_name(LearningObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object');
+			$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
 		}
 		if ($state >= 0)
 		{
-			$state_cond = new EqualityCondition(LearningObject :: PROPERTY_STATE, $state);
-			$condition = isset($condition) ? new AndCondition($state_cond, $condition) : $state_cond;
+			$conds = array();
+			if ($different_parent_state)
+			{
+				$query .= ' JOIN '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_PARENT_ID).' = '.self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
+				$conds[] = new NotCondition(new EqualityCondition(self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.'.'.LearningObject :: PROPERTY_STATE, $state));
+			}
+			$conds[] = new EqualityCondition(self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.LearningObject :: PROPERTY_STATE, $state);
+			if (isset($condition))
+			{
+				$conds[] = $condition;
+			}
+			$condition = new AndCondition($conds);
 		}
 		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params);
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
 		}
 		$sth = $this->connection->prepare($query);
 		$res = $this->connection->execute($sth, $params);
@@ -477,6 +511,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	function record_to_learning_object($record, $additional_properties_known = false)
 	{
+		if (!is_array($record) || !count($record))
+		{
+			die('Invalid data retrieved from database');
+		}
 		$defaultProp = array ();
 		foreach (LearningObject :: get_default_property_names() as $prop)
 		{
@@ -530,13 +568,28 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	/**
 	 * Escapes a column name in accordance with the database type.
 	 * @param string $name The column name.
+	 * @param boolean $prefix_learning_object_properties Whether or not to
+	 *                                                   prefix learning
+	 *                                                   object properties
+	 *                                                   to avoid collisions.
 	 * @return string The escaped column name.
 	 */
-	function escape_column_name($name)
+	function escape_column_name($name, $prefix_learning_object_properties = false)
 	{
-		return $this->connection->quoteIdentifier($name);
+		list($table, $column) = explode('.', $name, 2);
+		$prefix = '';
+		if (isset($column))
+		{
+			$prefix = $table.'.';
+			$name = $column;
+		}
+		elseif ($prefix_learning_object_properties && self :: is_learning_object_column($name))
+		{
+			$prefix = self :: ALIAS_LEARNING_OBJECT_TABLE.'.';
+		}
+		return $prefix.$this->connection->quoteIdentifier($name);
 	}
-
+	
 	/**
 	 * Expands a table identifier to the real table name. Currently, this
 	 * method prefixes the given table name with the user-defined prefix, if
@@ -563,17 +616,21 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * Translates any type of condition to a SQL WHERE clause.
 	 * @param Condition $condition The Condition object.
 	 * @param array $params A reference to the query's parameter list.
+	 * @param boolean $prefix_learning_object_properties Whether or not to
+	 *                                                   prefix learning
+	 *                                                   object properties
+	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_condition($condition, & $params)
+	function translate_condition($condition, & $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof AggregateCondition)
 		{
-			return $this->translate_aggregate_condition($condition, & $params);
+			return $this->translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties);
 		}
 		elseif ($condition instanceof Condition)
 		{
-			return $this->translate_simple_condition($condition, & $params);
+			return $this->translate_simple_condition($condition, & $params, $prefix_learning_object_properties);
 		}
 		else
 		{
@@ -585,16 +642,20 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * Translates an aggregate condition to a SQL WHERE clause.
 	 * @param AggregateCondition $condition The AggregateCondition object.
 	 * @param array $params A reference to the query's parameter list.
+	 * @param boolean $prefix_learning_object_properties Whether or not to
+	 *                                                   prefix learning
+	 *                                                   object properties
+	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_aggregate_condition($condition, & $params)
+	function translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof AndCondition)
 		{
 			$cond = array ();
 			foreach ($condition->get_conditions() as $c)
 			{
-				$cond[] = $this->translate_condition($c, & $params);
+				$cond[] = $this->translate_condition($c, & $params, $prefix_learning_object_properties);
 			}
 			return '('.implode(' AND ', $cond).')';
 		}
@@ -603,13 +664,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$cond = array ();
 			foreach ($condition->get_conditions() as $c)
 			{
-				$cond[] = $this->translate_condition($c, & $params);
+				$cond[] = $this->translate_condition($c, & $params, $prefix_learning_object_properties);
 			}
 			return '('.implode(' OR ', $cond).')';
 		}
 		elseif ($condition instanceof NotCondition)
 		{
-			return 'NOT ('.$this->translate_condition($condition->get_condition(), & $params) . ')';
+			return 'NOT ('.$this->translate_condition($condition->get_condition(), & $params, $prefix_learning_object_properties) . ')';
 		}
 		else
 		{
@@ -621,9 +682,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * Translates a simple condition to a SQL WHERE clause.
 	 * @param Condition $condition The Condition object.
 	 * @param array $params A reference to the query's parameter list.
+	 * @param boolean $prefix_learning_object_properties Whether or not to
+	 *                                                   prefix learning
+	 *                                                   object properties
+	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_simple_condition($condition, & $params)
+	function translate_simple_condition($condition, & $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof EqualityCondition)
 		{
@@ -638,7 +703,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 				return $this->escape_column_name($name).' IS NULL';
 			}
 			$params[] = $value;
-			return $this->escape_column_name($name).' = ?';
+			return $this->escape_column_name($name, $prefix_learning_object_properties).' = ?';
 		}
 		elseif ($condition instanceof InequalityCondition)
 		{
@@ -666,12 +731,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 				default :
 					die('Unknown operator for inequality condition');
 			}
-			return $this->escape_column_name($name).' '.$operator.' ?';
+			return $this->escape_column_name($name, $prefix_learning_object_properties).' '.$operator.' ?';
 		}
 		elseif ($condition instanceof PatternMatchCondition)
 		{
 			$params[] = $this->translate_search_string($condition->get_pattern());
-			return $this->escape_column_name($condition->get_name()).' LIKE ?';
+			return $this->escape_column_name($condition->get_name(), $prefix_learning_object_properties).' LIKE ?';
 		}
 		else
 		{
@@ -714,7 +779,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			}
 			if ($this->is_extended_type($type))
 			{
-				$query = 'SELECT '.implode('+', $sum).' AS disk_space FROM '.$this->escape_table_name('learning_object').' AS t1 JOIN '.$this->escape_table_name($type).' AS t2 ON t1.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' = t2.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
+				$query = 'SELECT '.implode('+', $sum).' AS disk_space FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
 				$condition = $condition_owner;
 			}
 			else
@@ -724,7 +789,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 				$condition = new AndCondition(array ($match, $condition_owner));
 			}
 			$params = array ();
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params);
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
 			$sth = $this->connection->prepare($query);
 			$res = & $this->connection->execute($sth, $params);
 			$record = $res->fetchRow(DB_FETCHMODE_OBJECT);
@@ -732,6 +797,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$res->free();
 		}
 		return $disk_space;
+	}
+
+	private static function is_learning_object_column ($name)
+	{
+		return LearningObject :: is_default_property_name($name) || $name == LearningObject :: PROPERTY_TYPE || $name == LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX || $name == LearningObject :: PROPERTY_ID;
 	}
 }
 ?>
