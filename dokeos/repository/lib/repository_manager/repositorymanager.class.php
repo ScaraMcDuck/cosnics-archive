@@ -27,6 +27,7 @@ class RepositoryManager
 	const PARAM_DESTINATION_LEARNING_OBJECT_ID = 'destination';
 	const PARAM_LEARNING_OBJECT_TYPE = 'type';
 	const PARAM_DELETE_PERMANENTLY = 'delete_permanently';
+	const PARAM_EMPTY_RECYCLE_BIN = 'empty';
 
 	const PARAM_RECYCLE_SELECTED = 'recycle_selected';
 	const PARAM_MOVE_SELECTED = 'move_selected';
