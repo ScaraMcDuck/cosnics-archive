@@ -1,4 +1,7 @@
 <?php
+/** 
+ * @package repository
+ */
 require_once dirname(__FILE__).'/learningobjecttablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../learningobject.class.php';
 
