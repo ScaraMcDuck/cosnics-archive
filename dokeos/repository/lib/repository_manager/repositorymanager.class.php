@@ -7,6 +7,7 @@ require_once dirname(__FILE__).'/repositorysearchform.class.php';
 require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../learningobjectcategorymenu.class.php';
 require_once dirname(__FILE__).'/../learningobject.class.php';
+require_once dirname(__FILE__).'/../optionsmenurenderer.class.php';
 require_once dirname(__FILE__).'/../condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../learning_object_table/learningobjecttable.class.php';
@@ -319,8 +320,7 @@ class RepositoryManager
 	{
 		if (isset($this->category_menu))
 		{
-			$keys = array_keys($this->category_menu->_menu);
-			return $keys[0];
+			return $this->category_menu->_menu[0][OptionsMenuRenderer :: KEY_ID];
 		}
 		else
 		{
@@ -505,6 +505,7 @@ class RepositoryManager
 		foreach ($node as $id => $subnode)
 		{
 			$new_id = ($id == $category_id ? null : $category_id);
+			// Null means we've reached the category we want, so we add.
 			if (is_null($new_id))
 			{
 				$subcat[] = $id;
@@ -577,7 +578,8 @@ class RepositoryManager
 			$extra_items[] = & $quota;
 			if ($this->get_search_form()->user_is_searching())
 			{
-				$search_url = $this->get_url();
+				// $search_url = $this->get_url();
+				$search_url = '#';
 				$search = array();
 				$search['title'] = get_lang('SearchResults');
 				$search['url'] = $search_url;
