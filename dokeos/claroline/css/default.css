@@ -1022,6 +1022,15 @@ ul.tree-menu li div a.create
 }
 
 /*
+ * Tweak: Search results icon.
+ */
+ul.tree-menu li div a.search_results
+{
+	background-image: url(../img/search_icon.png);
+	background-repeat: no-repeat;
+}
+
+/*
  * For element finder
  */
 .active_elements ul {
