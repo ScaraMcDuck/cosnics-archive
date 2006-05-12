@@ -1,17 +1,31 @@
 <?php
+/**
+ * @package application.weblcms.tool
+ */
 require_once dirname(__FILE__).'/learningobjectbrowser.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/patternmatchcondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
 require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
-
+/**
+ * This class represents a learning object publisher component which can be used
+ * to search for a certain learning object.
+ */
 class LearningObjectFinder extends LearningObjectBrowser
 {
+	/**
+	 * The search form
+	 */
 	private $form;
-	
+	/**
+	 * The renderer for the search form
+	 */
 	private $renderer;
-
+	/**
+	 * Constructor.
+	 * @param LearningObjectPublisher $parent The creator of this object.
+	 */
 	function LearningObjectFinder($parent)
 	{
 		parent :: __construct($parent);
@@ -26,6 +40,9 @@ class LearningObjectFinder extends LearningObjectBrowser
 		$this->form->accept($this->renderer);
 	}
 
+	/*
+	 * Inherited
+	 */
 	function as_html()
 	{
 		$html = array();
@@ -38,7 +55,10 @@ class LearningObjectFinder extends LearningObjectBrowser
 		}
 		return implode("\n",$html);
 	}
-
+	/**
+	 * Gets the search query.
+	 * @return string|null The query (null if no query available).
+	 */
 	function get_query()
 	{
 		if ($this->form->validate())
@@ -52,7 +72,10 @@ class LearningObjectFinder extends LearningObjectBrowser
 		}
 		return null;
 	}
-
+	/**
+	 * Gets the search condition.
+	 * @return Condition The search condition.
+	 */
 	protected function get_condition()
 	{
 		$oc = parent :: get_condition();

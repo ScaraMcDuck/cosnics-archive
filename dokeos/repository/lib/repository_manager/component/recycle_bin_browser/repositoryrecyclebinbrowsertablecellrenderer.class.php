@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../../learningobject.class.php';
 class RepositoryRecycleBinBrowserTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 {
 	private $browser;
-	
+
 	private $parent_title_cache;
 
 	function RepositoryRecycleBinBrowserTableCellRenderer($browser)
@@ -39,7 +39,8 @@ class RepositoryRecycleBinBrowserTableCellRenderer extends DefaultLearningObject
 				$pid = $learning_object->get_parent_id();
 				if (!isset($this->parent_title_cache[$pid]))
 				{
-					$this->parent_title_cache[$pid] = '<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.get_lang('BrowseThisCategory').'">'.htmlentities($this->browser->retrieve_learning_object($pid)->get_title()).'</a>';
+					$parent = $this->browser->retrieve_learning_object($pid);
+					$this->parent_title_cache[$pid] = '<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($parent)).'" title="'.get_lang('BrowseThisCategory').'">'.htmlentities($parent->get_title()).'</a>';
 				}
 				return $this->parent_title_cache[$pid];
 		}

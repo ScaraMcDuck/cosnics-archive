@@ -10,6 +10,9 @@ require_once api_get_library_path().'/fileDisplay.lib.php';
  */
 class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 {
+	/*
+	 * Inherited
+	 */
 	function run()
 	{
 		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('Quota')));
@@ -30,8 +33,8 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 	 */
 	private static function get_bar($percent, $status)
 	{
-		$html = '<div class="usage_information">';
-		$html .= '<div class="usage_bar">';
+		$html[] = '<div class="usage_information">';
+		$html[] = '<div class="usage_bar">';
 		for ($i = 0; $i < 100; $i ++)
 		{
 			if ($percent > $i)
@@ -53,12 +56,12 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 			{
 				$class = '';
 			}
-			$html .= '<div class="'.$class.'"></div>';
+			$html[] = '<div class="'.$class.'"></div>';
 		}
-		$html .= '</div>';
-		$html .= '<div class="usage_status">'.$status.' &ndash; '.round($percent, 2).' %</div>';
-		$html .= '</div>';
-		return $html;
+		$html[] = '</div>';
+		$html[] = '<div class="usage_status">'.$status.' &ndash; '.round($percent, 2).' %</div>';
+		$html[] = '</div>';
+		return implode("\n",$html);
 	}
 }
 ?>
