@@ -1,10 +1,19 @@
 <?php
+/**
+ * @package application.weblcms.tool
+ */
 require_once dirname(__FILE__).'/../learningobjectpublishercomponent.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectdisplay.class.php';
-
+/**
+ * This class represents a learning object publisher component which can be used
+ * to preview a learning object in the learning object publisher.
+ */
 class LearningObjectViewer extends LearningObjectPublisherComponent
 {
+	/*
+	 * Inherited
+	 */
 	function as_html()
 	{
 		if ($_GET[LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID])

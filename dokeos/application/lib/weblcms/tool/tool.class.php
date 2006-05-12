@@ -58,12 +58,16 @@ abstract class Tool
 	{
 		return $this->parent->get_tool_id();
 	}
-	
+	/**
+	 * @see Application :: display_header()
+	 */
 	function display_header($breadcrumbs = array())
 	{
 		$this->parent->display_header($breadcrumbs);
 	}
-	
+	/**
+	 * @see Application :: display_footer()
+	 */
 	function display_footer()
 	{
 		$this->parent->display_footer();

@@ -31,7 +31,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			$breadcrumbs[] = array('url' => $this->get_url(), 'name' => $object->get_title());
 			$this->display_header($breadcrumbs);
 			echo $display->get_full_html();
-			echo '<ul class="learning_object_management_buttons" style="list-style: none; margin: 1em 0; padding: 0;"">';
+			echo '<ul class="learning_object_management_buttons" style="list-style: none; margin: 1em 0; padding: 0;">';
 			echo '<li style="display: inline; margin: 0; padding: 0;">';
 			echo '<a href="'.$this->get_learning_object_editing_url($object).'" title="'.get_lang('Edit').'"><img src="'.$this->get_web_code_path().'img/edit.gif" alt="'.get_lang('Edit').'" style="vertical-align: middle;"/></a>';
 			echo '</li>';
@@ -39,7 +39,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			if (isset($recycle_url))
 			{
 				echo '<li style="display: inline; margin: 0; padding: 0;">';
-				echo '<a href="'.$recycle_url.'" title="'.get_lang('Recycle').'"  onclick="return confirm(&quot;'.htmlentities(get_lang('ConfirmYourChoice')).'&quot;);"><img src="'.$this->get_web_code_path().'img/recycle_bin.gif" alt="'.get_lang('Recycle').'" style="vertical-align: middle;"/></a>';
+				echo '<a href="'.$recycle_url.'" title="'.get_lang('Remove').'"  onclick="return confirm(&quot;'.htmlentities(get_lang('ConfirmYourChoice')).'&quot;);"><img src="'.$this->get_web_code_path().'img/recycle_bin.gif" alt="'.get_lang('Recycle').'" style="vertical-align: middle;"/></a>';
 				echo '</li>';
 			}
 			else
@@ -49,6 +49,12 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				echo '<a href="'.$delete_url.'" title="'.get_lang('Delete').'"  onclick="return confirm(&quot;'.htmlentities(get_lang('ConfirmYourChoice')).'&quot;);"><img src="'.$this->get_web_code_path().'img/delete.gif" alt="'.get_lang('Delete').'" style="vertical-align: middle;"/></a>';
 				echo '</li>';
 			}
+			echo '<li style="display: inline; margin: 0; padding: 0;">';
+			echo '<a href="'.$this->get_learning_object_metadata_editing_url($object).'" title="'.get_lang('Metadata').'"><img src="'.$this->get_web_code_path().'img/info_small.gif" alt="'.get_lang('Metadata').'" style="vertical-align: middle;"/></a>';
+			echo '</li>';
+			echo '<li style="display: inline; margin: 0; padding: 0;">';
+			echo '<a href="'.$this->get_learning_object_rights_editing_url($object).'" title="'.get_lang('Rights').'"><img src="'.$this->get_web_code_path().'img/group_small.gif" alt="'.get_lang('Rights').'" style="vertical-align: middle;"/></a>';
+			echo '</li>';
 			echo '</ul>';
 			$publication_attr = $this->get_learning_object_publication_attributes($object->get_id());
 			if (count($publication_attr) > 0)

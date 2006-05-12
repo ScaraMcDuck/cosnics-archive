@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package application.weblcms.tool
+ */
 require_once dirname(__FILE__).'/../learningobjectpublisher.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublishercomponent.class.php';
 require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
@@ -10,9 +13,15 @@ require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/course.lib.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/groupmanager.lib.php';
-
+/**
+ * This class represents a learning object publisher component which can be used
+ * to create a new learning object before publishing it.
+ */
 class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 {
+	/*
+	 * Inherited
+	 */
 	function as_html()
 	{
 		$oid = $_GET[LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID];
@@ -37,13 +46,18 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 			}
 		}
 	}
-
+	/**
+	 * Gets the type of the learning object which will be created.
+	 */
 	function get_type()
 	{
 		$types = $this->get_types();
 		return (count($types) == 1 ? $types[0] : $_REQUEST['type']);
 	}
-
+	/**
+	 * Gets the form to select a learning object type.
+	 * @return string A HTML-representation of the form.
+	 */
 	private function get_type_selector()
 	{
 		$types = array ();
@@ -59,7 +73,10 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		$form->setDefaults(array ('tool' => $_GET['tool'], LearningObjectPublisher :: PARAM_ACTION => $_GET[LearningObjectPublisher :: PARAM_ACTION]));
 		return $form->asHtml();
 	}
-
+	/**
+	 * Gets the form to create the learning object.
+	 * @return string A HTML-representation of the form.
+	 */
 	private function get_creation_form($type)
 	{
 		$default_lo = $this->get_default_learning_object($type);
@@ -74,7 +91,10 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 			return $form->toHTML();
 		}
 	}
-
+	/**
+	 * Gets the form to edit an existing learning object before publishing it.
+	 * @return string A HTML-representation of the form.
+	 */
 	private function get_editing_form($objectID)
 	{
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
@@ -89,7 +109,10 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 			return $form->toHtml();
 		}
 	}
-
+	/**
+	 * Gets the form to publish the learning object.
+	 * @return string A HTML-representation of the form.
+	 */
 	private function get_publication_form($objectID, $new = false)
 	{
 		$out = ($new ? Display :: display_normal_message(get_lang('ObjectCreated'), true) : '');

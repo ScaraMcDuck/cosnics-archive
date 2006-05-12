@@ -38,7 +38,7 @@ abstract class RepositoryDataManager
 	/**
 	 * Constructor.
 	 */
-	protected function RepositoryDataManager()
+	function RepositoryDataManager()
 	{
 		$this->initialize();
 		$this->typeProperties = array ();
@@ -286,7 +286,7 @@ abstract class RepositoryDataManager
 	 * @return ResultSet A set of matching learning objects.
 	 */
 	abstract function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false);
-	
+
 	/**
 	 * Retrieves the additional properties of the given learning object.
 	 * @param LearningObject $learning_object The learning object for which to

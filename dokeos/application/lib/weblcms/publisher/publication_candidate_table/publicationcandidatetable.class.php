@@ -1,11 +1,28 @@
 <?php
+/**
+ * @package application.weblcms.tool
+ */
 require_once dirname(__FILE__).'/publicationcandidatetabledataprovider.class.php';
 require_once dirname(__FILE__).'/publicationcandidatetablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/publicationcandidatetablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object_table/learningobjecttable.class.php';
-
+/**
+ * This class represents a table with learning objects which are candidates for
+ * publication.
+ */
 class PublicationCandidateTable extends LearningObjectTable
 {
+	/**
+	 * Constructor.
+	 * @param int $owner The id of the current user.
+	 * @param array $types The types of objects that can be published in current
+	 * location.
+	 * @param string $publish_url_format URL for publishing the selected
+	 * learning object.
+	 * @param string $edit_and_publish_url_format URL for editing and publishing
+	 * the selected learning object.
+	 * @see PublicationCandidateTableCellRenderer::PublicationCandidateTableCellRenderer()
+	 */
 	function PublicationCandidateTable($owner, $types, $publish_url_format, $edit_and_publish_url_format)
 	{
 		$name = 'pubcand';
