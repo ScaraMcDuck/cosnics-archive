@@ -4,9 +4,17 @@
  */
 require_once dirname(__FILE__).'/learningobjectpublication.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';
-
+/**
+ * This class represents a form to allow a user to publish a learning object.
+ *
+ * The form allows the user to set some properties of the publication
+ * (publication dates, target users, visibility, ...)
+ */
 class LearningObjectPublicationForm extends FormValidator
 {
+   /**#@+
+    * Constant defining a form parameter
+ 	*/
 	// XXX: Some of these constants heavily depend on FormValidator.
 	const PARAM_CATEGORY_ID = 'category';
 	const PARAM_TARGETS = 'target_users_and_groups';
@@ -18,11 +26,20 @@ class LearningObjectPublicationForm extends FormValidator
 	const PARAM_FROM_DATE = 'from_date';
 	const PARAM_TO_DATE = 'from_date';
 	const PARAM_HIDDEN = 'hidden';
-
+	/**#@-*/
+	/**
+	 * The tool in which the publication will be made
+	 */
 	private $tool;
-
+	/**
+	 * The learning object that will be published
+	 */
 	private $learning_object;
-
+	/**
+	 * Creates a new learning object publication form.
+	 * @param LearningObject The learning object that will be published
+	 * @param string $tool The tool in which the object will be published
+	 */
     function LearningObjectPublicationForm($learning_object, $tool)
     {
     	$url = $tool->get_url(array (LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
@@ -32,7 +49,12 @@ class LearningObjectPublicationForm extends FormValidator
 		$this->build_form();
 		$this->setDefaults();
     }
-
+	/**
+	 * Sets the default values of the form.
+	 *
+	 * By default the publication is for everybody who has access to the tool
+	 * and the publication will be available forever.
+	 */
     function setDefaults()
     {
     	$defaults = array();
@@ -40,7 +62,9 @@ class LearningObjectPublicationForm extends FormValidator
 		$defaults[self :: PARAM_FOREVER] = 1;
 		parent :: setDefaults($defaults);
     }
-
+	/**
+	 * Builds the form by adding the necessary form elements.
+	 */
     function build_form()
     {
 		$categories = $this->tool->get_categories(true);
@@ -78,7 +102,10 @@ class LearningObjectPublicationForm extends FormValidator
 		$this->addElement('checkbox', self :: PARAM_HIDDEN, get_lang('Hidden'));
 		$this->addElement('submit', 'submit', get_lang('Ok'));
     }
-
+	/**
+	 * Creates a learning object publication using the values from the form.
+	 * @return LearningObjectPublication The new publication
+	 */
     function create_learning_object_publication()
     {
 		$values = $this->exportValues();

@@ -79,17 +79,26 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->listRenderer;
 	}
-
+	/**
+	 * Sets the renderer for the publication list.
+	 * @param LearningObjectPublicationRenderer $renderer The renderer.
+	 */
 	function set_publication_list_renderer($renderer)
 	{
 		$this->listRenderer = $renderer;
 	}
-
+	/**
+	 * Gets the publication category tree.
+	 * @return LearningObjectPublicationCategoryTree The category tree.
+	 */
 	function get_publication_category_tree()
 	{
 		return $this->categoryTree;
 	}
-
+	/**
+	 * Sets the publication category tree.
+	 * @param LearningObjectPublicationCategoryTree $tree The category tree.
+	 */
 	function set_publication_category_tree($tree)
 	{
 		$this->categoryTree = $tree;
