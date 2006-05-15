@@ -2,8 +2,17 @@
 /**
  * @package application.weblcms
  */
+/**
+ * This class represents a learning object publication.
+ *
+ * When publishing a learning object from the repository in the weblcms
+ * application, a new object of this type is created.
+ */
 class LearningObjectPublication
 {
+   /**#@+
+    * Constant defining a property of the publication
+ 	*/
 	const PROPERTY_ID = 'id';
 	const PROPERTY_LEARNING_OBJECT_ID = 'learning_object';
 	const PROPERTY_COURSE_ID = 'course';
@@ -15,33 +24,50 @@ class LearningObjectPublication
 	const PROPERTY_PUBLISHER_ID = 'publisher';
 	const PROPERTY_PUBLICATION_DATE = 'published';
 	const PROPERTY_DISPLAY_ORDER_INDEX = 'display_order';
-
+	/**#@-*/
+   /**#@+
+    * Property of this publication. See {@link LearningObjectPublication} for
+    * more information about this property.
+ 	*/
 	private $id;
-
 	private $learningObject;
-
 	private $course;
-
 	private $tool;
-
 	private $category;
-
 	private $targetUsers;
-
 	private $targetGroups;
-
 	private $fromDate;
-
 	private $toDate;
-
 	private $hidden;
-
 	private $publisher;
-
 	private $publicationDate;
-
 	private $displayOrder;
-
+	/**#@-*/
+	/**
+	 * Constructor
+	 * @param int $id The id of this learning object publiction
+	 * @param LearningObject $learningObject The learning object which is
+	 * published by this publication
+	 * @param string $course The course code of the course where this
+	 * publication is made
+	 * @param string $tool The tool where this publication is made
+	 * @param int $category The id of the learning object publication category
+	 * in which this publication is stored
+	 * @param array $targetUsers The users for which this publication is made.
+	 * If this array contains no elements, the publication is for everybody.
+	 * @param array $targetGroups The groups for which this publication is made.
+	 * If this array contains no elements, the publication is for everybody.
+	 * @param int $fromDate The date on which this publication should become
+	 * available. If value is 0, publication is available forever.
+	 * @param int $toDate The date on which this publication should become
+	 * unavailable. If value is 0, publication is available forever.
+	 * @param int $publisher The user id of the person who created this
+	 * publication.
+	 * @param int $publicationDate The date on which this publication was made.
+	 * @param boolean $hidden If true, this publication is invisible
+	 * @param int $displayOrder The display order of this publication in its
+	 * location (course - tool - category)
+	 */
 	function LearningObjectPublication($id, $learningObject, $course, $tool,$category, $targetUsers, $targetGroups, $fromDate, $toDate, $publisher, $publicationDate, $hidden, $displayOrder)
 	{
 		$this->id = $id;
@@ -58,67 +84,113 @@ class LearningObjectPublication
 		$this->hidden = $hidden;
 		$this->displayOrder = $displayOrder;
 	}
-
+   /**
+    * Gets the publication id.
+    * @return int
+ 	*/
 	function get_id()
 	{
 		return $this->id;
 	}
-
+	/**
+	 * Gets the learning object.
+	 * @return LearningObject
+	 */
 	function get_learning_object ()
 	{
 		return $this->learningObject;
 	}
-
+	/**
+	 * Gets the course code of the course in which this publication was made.
+	 * @return string The course code
+	 */
 	function get_course_id()
 	{
 		return $this->course;
 	}
-
+	/**
+	 * Gets the tool in which this publication was made.
+	 * @return string
+	 */
 	function get_tool()
 	{
 		return $this->tool;
 	}
-
+	/**
+	 * Gets the id of the learning object publication category in which this
+	 * publication was made
+	 * @return int
+	 */
 	function get_category_id()
 	{
 		return $this->category;
 	}
-
+	/**
+	 * Gets the list of target users of this publication
+	 * @return array An array of user ids.
+	 * @see is_for_everybody()
+	 */
 	function get_target_users()
 	{
 		return $this->targetUsers;
 	}
-
+	/**
+	 * Gets the list of target groups of this publication
+	 * @return array An array of group ids.
+	 * @see is_for_everybody()
+	 */
 	function get_target_groups()
 	{
 		return $this->targetGroups;
 	}
-
+	/**
+	 * Gets the date on which this publication becomes available
+	 * @return int
+	 * @see is_forever()
+	 */
 	function get_from_date()
 	{
 		return $this->fromDate;
 	}
-
+	/**
+	 * Gets the date on which this publication becomes unavailable
+	 * @return int
+	 * @see is_forever()
+	 */
 	function get_to_date()
 	{
 		return $this->toDate;
 	}
-
+	/**
+	 * Gets the user id of the user who made this publication
+	 * @return int
+	 */
 	function get_publisher_id()
 	{
 		return $this->publisher;
 	}
-
+	/**
+	 * Gets the date on which this publication was made
+	 * @return int
+	 */
 	function get_publication_date()
 	{
 		return $this->publicationDate;
 	}
-
+	/**
+	 * Determines whether this publication is hidden or not
+	 * @return boolean True if the publication is hidden.
+	 */
 	function is_hidden()
 	{
 		return $this->hidden;
 	}
-
+	/**
+	 * Determines whether this publication is available forever
+	 * @return boolean True if the publication is available forever
+	 * @see get_from_date()
+	 * @see get_to_date()
+	 */
 	function is_forever()
 	{
 		return $this->get_from_date() == 0 && $this->get_to_date() == 0;
@@ -139,6 +211,12 @@ class LearningObjectPublication
 		return $this->displayOrder;
 	}
 
+
+   /**#@+
+    * Sets a property of this learning object publication.
+    * See constructor for detailed information about the property.
+    * @see LearningObjectPublication()
+ 	*/
 	function set_id($id)
 	{
 		$this->id = $id;
@@ -198,12 +276,18 @@ class LearningObjectPublication
 	{
 		$this->displayOrder = $displayOrder;
 	}
-
+	/**#@-*/
+	/**
+	 * Toggles the visibility of this publication.
+	 */
 	function toggle_visibility()
 	{
 		$this->set_hidden(!$this->is_hidden());
 	}
-
+	/**
+	 * Creates this publication in persistent storage
+	 * @see WeblcmsDataManager::create_learning_object_publication()
+	 */
 	function create()
 	{
 		$dm = WeblcmsDataManager :: get_instance();
@@ -211,12 +295,18 @@ class LearningObjectPublication
 		$this->set_id($id);
 		return $dm->create_learning_object_publication($this);
 	}
-
+	/**
+	 * Updates this publication in persistent storage
+	 * @see WeblcmsDataManager::update_learning_object_publication()
+	 */
 	function update()
 	{
 		return WeblcmsDataManager :: get_instance()->update_learning_object_publication($this);
 	}
-
+	/**
+	 * Deletes this publication from persistent storage
+	 * @see WeblcmsDataManager::delete_learning_object_publication()
+	 */
 	function delete()
 	{
 		return WeblcmsDataManager :: get_instance()->delete_learning_object_publication($this);

@@ -11,11 +11,15 @@
  */
 
 class LearningObjectPublicationCategory {
+   /**#@+
+    * Constant defining a property of the category
+ 	*/
 	const PROPERTY_ID = 'id';
 	const PROPERTY_TITLE = 'title';
 	const PROPERTY_COURSE_ID = 'course';
 	const PROPERTY_TOOL = 'tool';
 	const PROPERTY_PARENT_CATEGORY_ID = 'parent';
+	/**#@-*/
 
 	/**
 	 * The numeric identifier of the category.
@@ -134,6 +138,10 @@ class LearningObjectPublicationCategory {
     	$this->parent = $parent;
     }
 
+	/**
+	 * Creates this category in persistent storage
+	 * @see WeblcmsDataManager::create_learning_object_publication_category()
+	 */
     function create()
 	{
 		$dm = WeblcmsDataManager :: get_instance();
@@ -141,12 +149,18 @@ class LearningObjectPublicationCategory {
 		$this->set_id($id);
 		return $dm->create_learning_object_publication_category($this);
 	}
-
+	/**
+	 * Updates this category in persistent storage
+	 * @see WeblcmsDataManager::update_learning_object_publication_category()
+	 */
 	function update()
 	{
 		return WeblcmsDataManager :: get_instance()->update_learning_object_publication_category($this);
 	}
-
+	/**
+	 * Deletes this category from persistent storage
+	 * @see WeblcmsDataManager::delete_learning_object_publication_category()
+	 */
 	function delete()
 	{
 		return WeblcmsDataManager :: get_instance()->delete_learning_object_publication_category($this);

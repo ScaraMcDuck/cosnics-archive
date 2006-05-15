@@ -1,18 +1,38 @@
 <?php
+/**
+ * @package application.weblcms
+ * @subpackage database
+ */
 require_once dirname(__FILE__).'/../../../../../repository/lib/resultset.class.php';
-
+/**
+ * This class represents a resultset which represents a set of learning object
+ * publications.
+ */
 class DatabaseLearningObjectPublicationResultSet extends ResultSet
 {
+	/**
+	 * The data manager.
+	 */
 	private $data_manager;
-	
+	/**
+	 * An instance of DB_result
+	 */
 	private $handle;
-	
+	/**
+	 * Constructor.
+	 * @param DatabaseWeblcmsDataManager $data_manager The datamanager used to
+	 * retrieve the learning object publications.
+	 * @param DB_result $handle The handle to retrieve records from a database
+	 * resultset
+	 */
 	function DatabaseLearningObjectPublicationResultSet ($data_manager, $handle)
 	{
 		$this->data_manager = $data_manager;
 		$this->handle = $handle;
 	}
-	
+ 	/*
+	 * Inherited
+	 */
 	function next_result()
 	{
 		if ($record = $this->handle->fetchRow(DB_FETCHMODE_ASSOC))
@@ -21,12 +41,16 @@ class DatabaseLearningObjectPublicationResultSet extends ResultSet
 		}
 		return null;
 	}
-	
+ 	/*
+	 * Inherited
+	 */
 	function size()
 	{
 		return $this->handle->numRows();
 	}
-	
+	/*
+	 * Inherited
+	 */
 	function skip ($count)
 	{
 		for ($i = 0; $i < $count; $i++)

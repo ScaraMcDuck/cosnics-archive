@@ -27,7 +27,9 @@ class Weblcms extends WebApplication
 	 * The tools that this application offers.
 	 */
 	private $tools;
-
+	/**
+	 * The class of the tool currently active in this application
+	 */
 	private $tool_class;
 
 	/**
@@ -69,7 +71,10 @@ class Weblcms extends WebApplication
 			$this->display_footer();
 		}
 	}
-
+	/**
+	 * Gets the identifier of the current tool
+	 * @return string The identifier of current tool
+	 */
 	function get_tool_id()
 	{
 		return $this->get_parameter(self :: PARAM_TOOL);
@@ -92,17 +97,29 @@ class Weblcms extends WebApplication
 	{
 		return api_get_course_id();
 	}
-
+	/**
+	 * Gets a list of all groups of the current active course in which the
+	 * current user is subscribed.
+	 */
 	function get_groups()
 	{
 		return GroupManager :: get_group_ids($this->get_course_id(), $this->get_user_id());
 	}
-
+	/**
+	 * Gets the defined categories in the current tool.
+	 * @param boolean $list When true the categories will be returned as a list.
+	 * If false (default value) a tree structure of the categories will be
+	 * returned
+	 * @return array The categories
+	 */
 	function get_categories($list = false)
 	{
 		return ($list ? $this->get_category_list() : $this->get_category_tree());
 	}
-
+	/**
+	 * Gets the defined categories in the current tool structured as a tree.
+	 * @return array
+	 */
 	private function get_category_tree()
 	{
 		/*
@@ -118,7 +135,9 @@ class Weblcms extends WebApplication
 		$tree[] = & $root;
 		return $tree;
 	}
-
+	/**
+	 * Gets a list of the defined categories in the current tool.
+	 */
 	private function get_category_list()
 	{
 		$categories = array ();
@@ -126,7 +145,15 @@ class Weblcms extends WebApplication
 		self :: translate_category_tree(& $tree, & $categories);
 		return $categories;
 	}
-
+	/**
+	 * Makes a category tree ready for displaying by adding a prefix to the
+	 * category title based on the level of that category in the tree structure.
+	 * @param array $tree The category tree
+	 * @param array $categories In this array the new category titles (with
+	 * prefix) will be stored. The keys in this array are the category ids, the
+	 * values are the new titles
+	 * @param int $level The current level in the tree structure
+	 */
 	private static function translate_category_tree(& $tree, & $categories, $level = 0)
 	{
 		foreach ($tree as $node)
@@ -141,12 +168,19 @@ class Weblcms extends WebApplication
 			}
 		}
 	}
-
+	/**
+	 * Gets a category
+	 * @param int $id The id of the requested category
+	 * @return LearningPublicationCategory The requested category
+	 */
 	function get_category($id)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($id);
 	}
-
+	/**
+	 * Displays the header of this application
+	 * @param array $breadcrumbs The breadcrumbs which should be displayed
+	 */
 	function display_header($breadcrumbs = array())
 	{
 		global $interbredcrump;
@@ -171,7 +205,7 @@ class Weblcms extends WebApplication
 		foreach ($tools as $tool => $title)
 		{
 			$class = Tool :: type_to_class($tool);
-			echo '<option value="'.$tool.'"'.($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($title).'</option>';
+			echo '<option value="'.$t.'"'.($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($title).'</option>';
 		}
 		echo '</select></form></div>';
 		if (isset($this->tool_class))
@@ -179,7 +213,9 @@ class Weblcms extends WebApplication
 			api_display_tool_title(get_lang($this->tool_class.'Title'));
 		}
 	}
-
+	/**
+	 * Displays the footer of this application
+	 */
 	function display_footer()
 	{
 		// TODO: Find out why we need to reconnect here.
