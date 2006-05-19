@@ -85,7 +85,7 @@ class CalendarTool extends RepositoryTool
 			'label' => get_lang('DayView'),
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
-		echo RepositoryUtilities :: build_toolbar($toolbar_data);
+		echo '<div style="margin-bottom: 1em;">'.RepositoryUtilities :: build_toolbar($toolbar_data).'</div>';
 		$show_calendar = true;
 		if(isset($_GET['pid']))
 		{
@@ -128,8 +128,8 @@ class CalendarTool extends RepositoryTool
 		$datamanager = WeblcmsDataManager :: get_instance();
 		$publication = $datamanager->retrieve_learning_object_publication($publication_id);
 		$html = array();
-		$html[] = '<a href="'.$this->get_url(array(), true).'">&laquo;&laquo; '.htmlentities(get_lang('Back')).'</a>';
 		$html[] = $renderer->render_publication($publication);
+		$html[] = '<div id="back_link" style="margin-top: 1em;"><a href="'.$this->get_url(array(), true).'">&larr; '.htmlentities(get_lang('Back')).'</a></div>';
 		echo implode("\n",$html);
 	}
 	/**
