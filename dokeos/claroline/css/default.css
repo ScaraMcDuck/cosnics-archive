@@ -1200,23 +1200,23 @@ ul.tree-menu li div a.type_link, .active_elements li.type_link a
 /* Calendar */
 table.calendar
 {
- width: 100%;
- border-collapse: collapse;
- font-size: 10px;
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 10px;
 }
 table.calendar tr
 {
- margin: 0px;
- padding: 0px;
+	margin: 0px;
+	padding: 0px;
 }
 table.calendar td
 {
-border: 1px solid #000000;
-margin: 0px;
-padding: 2px;
-height: 60px;
-vertical-align: top;
-width:13%;
+	border: 1px solid #000000;
+	margin: 0px;
+	padding: 2px;
+	height: 60px;
+	vertical-align: top;
+	width:13%;
 }
 table.calendar th
 {
@@ -1224,11 +1224,11 @@ table.calendar th
 }
 div.event
 {
- border: 1px solid #CCCCCC;
- background-color: #F3F4F6;
- margin: 1px;
- padding: 2px;
-/* height: 20px;*/
+ 	border: 1px solid #CCCCCC;
+ 	background-color: #F3F4F6;
+ 	margin: 1px;
+ 	padding: 2px;
+	/* height: 20px;*/
 }
 div.event:hover
 {
@@ -1236,10 +1236,17 @@ div.event:hover
 }
 table.calendar td.highlight
 {
-	border: 2px solid black;
+	border: 2px solid #FA8500;
 	background-color: white;
 }
-
+table.calendar td.weekend
+{
+	background-color: #F8F8F8;
+}
+table.calendar td.disabled_month
+{
+	background-color: #EAEAEA;
+}
 /*
  * Generic search field
  */
