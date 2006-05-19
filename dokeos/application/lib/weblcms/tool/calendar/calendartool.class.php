@@ -35,6 +35,7 @@ class CalendarTool extends RepositoryTool
 			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
 			$pub = new LearningObjectPublisher($this, 'calendar_event');
 			$event = new CalendarEvent();
+			$event->set_owner_id($this->get_user_id());
 			$event->set_start_date(intval($_GET['default_start_date']));
 			$event->set_end_date(intval($_GET['default_end_date']));
 			$pub->set_default_learning_object('calendar_event',$event);
