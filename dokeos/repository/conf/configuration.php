@@ -21,6 +21,6 @@ $configuration['general']['upload_path']
 	= dirname(__FILE__).'/../../claroline/upload';
 
 $configuration['general']['upload_url']
-	= '/~ct/Dokeos_LCMS_CVS/claroline/upload';
+	= api_get_path(WEB_PATH).'claroline/upload';
 
 ?>
