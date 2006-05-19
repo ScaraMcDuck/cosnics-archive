@@ -7,21 +7,24 @@ class LearningPathTableDataProvider implements LearningObjectTableDataProvider
 {
 	private $learningpath;
 	
-    function LearningPathTableDataProvider($learningpath)
+	private $type;
+	
+    function LearningPathTableDataProvider($learningpath, $chapters = false)
     {
     	$this->learningpath = $learningpath;
+    	$this->type = ($chapters ? 'learning_path_chapter' : 'learning_path_item');
     }
     
     function get_learning_objects($offset, $count, $order_property, $order_direction)
     {
     	$dm = RepositoryDataManager :: get_instance();
-    	return $dm->retrieve_learning_objects(null, $this->get_condition(), array($order_property), array($order_direction));
+    	return $dm->retrieve_learning_objects($this->type, $this->get_condition(), array($order_property), array($order_direction));
     }
     
     function get_learning_object_count()
     {
     	$dm = RepositoryDataManager :: get_instance();
-    	return $dm->count_learning_objects(null, $this->get_condition());
+    	return $dm->count_learning_objects($this->type, $this->get_condition());
     }
     
     private function get_condition()

@@ -1,10 +1,14 @@
 <?php
+/**
+ * @package application.searchportal
+ */
 require_once dirname(__FILE__).'/search_source/localrepositorysearchsource.class.php';
 require_once dirname(__FILE__).'/search_source/webservicesearchsource.class.php';
 require_once dirname(__FILE__).'/../webapplication.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/repositoryutilities.class.php';
+require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
 require_once 'Pager/Pager.php';
 
 /**
@@ -33,7 +37,6 @@ class SearchPortal extends WebApplication
 	function SearchPortal($tool = null)
 	{
 		$this->parameters = array ();
-		//$this->set_parameter(self :: PARAM_TOOL, $_GET[self :: PARAM_TOOL]);
 	}
 
 	/*
@@ -41,31 +44,31 @@ class SearchPortal extends WebApplication
 	 */
 	function run()
 	{
-		echo<<<END
-<style type="text/css"><!--
-.portal_search_result {
-	margin: 0 0 1em 0;
-}
-.portal_search_result_title {
-	font-size: 120%;
-	font-weight: bold;
-}
-.portal_search_result_byline {
-	font-size: 90%;
-}
---></style>
-END;
 		$supports_remote = WebServiceSearchSource :: is_supported();
+		echo <<<END
+<script type="text/javascript">
+/* <![CDATA[ */
+function expandRemoteSearch()
+{
+	document.getElementById('url_container').style.display='block';
+	document.getElementById('url_expander').style.display='none';
+}
+/* ]]> */
+</script>
+END;
 		$form = new FormValidator('search_simple', 'get', '', '', null, false);
-		$form->addElement('text', self :: PARAM_QUERY, get_lang('Find'), 'size="'. ($supports_remote ? 20 : 60).'"');
+		$form->addElement('text', self :: PARAM_QUERY, '', 'size="40" class="search_query"');
+		$form->addElement('submit', 'submit', get_lang('Search'));
 		if ($supports_remote)
 		{
-			$form->addElement('text', self :: PARAM_URL, get_lang('InRepository'), 'size="60"');
+			$form->addElement('static', null, null, '<span id="url_expander" style="font-size: 90%;">[<a href="javascript:void(0);" onclick="expandRemoteSearch();">'.get_lang('RemoteRepository').'</a>]</span>');
+			$form->addElement('static', null, null, '<div id="url_container" style="display: none; margin-top: 0.25em;">');
+			$form->addElement('text', self :: PARAM_URL, get_lang('RepositoryURL'), 'size="50"');
+			$form->addElement('static', null, null, '</div>');
 		}
-		$form->addElement('submit', 'submit', get_lang('Search'));
 		echo '<div style="text-align: center; margin: 0 0 2em 0;">';
 		$renderer = clone $form->defaultRenderer();
-		$renderer->setElementTemplate('<span>{label} {element}</span> ');
+		$renderer->setElementTemplate('{label} {element} ');
 		$form->accept($renderer);
 		echo $renderer->toHTML();
 		echo '</div>';
@@ -73,8 +76,21 @@ END;
 		{
 			$form_values = $form->exportValues();
 			$query = $form_values[self :: PARAM_QUERY];
-			$url = trim($form_values[self :: PARAM_URL]);
-			self :: search($query, $url);
+			if (!empty($query))
+			{
+				$url = trim($form_values[self :: PARAM_URL]);
+				if (!empty($url))
+				{
+					echo <<<END
+<script type="text/javascript">
+/* <![CDATA[ */
+expandRemoteSearch();
+/* ]]> */
+</script>
+END;
+				}
+				self :: search($query, $url);
+			}
 		}
 	}
 
@@ -106,25 +122,27 @@ END;
 					$offset = $pager->getOffsetByPageId();
 					$first = $offset[0] - 1;
 					$results->skip($first);
-					$str = htmlentities(str_ireplace(array('%first%', '%last%', '%total%'), array($offset[0], $offset[1], $count), get_lang('Results%first%Through%last%Of%total%From%repository%')));
+					$str = htmlentities(str_ireplace(array('%first%', '%last%', '%total%'), array($offset[0], $offset[1], $count), get_lang('Results_Through_Of_From_')));
 					$str = str_ireplace('%repository%', '<a href="'.htmlentities($repository_url).'">'.htmlentities($repository_title).'</a>', $str);
 					echo '<h3>'.$str.'</h3>';
 					if ($result_count > $count)
 					{
-						$str = str_ireplace(array('%returned%', '%actual%'), array($count, $result_count), get_lang('TheRepositoryReturnedOnly%returned%Of%actual%Results'));
-						echo '<p><strong>'.get_lang('Notice').':</strong> '.htmlentities($str).'</p>';
+						$str = str_ireplace(array('%returned%', '%actual%'), array($count, $result_count), get_lang('TheRepositoryReturnedOnly_Of_Results'));
+						echo '<p><strong>'.htmlentities(get_lang('Notice')).':</strong> '.htmlentities($str).'</p>';
 					}
 					echo $pager_links;
 					$i = 0;
+					echo '<ul class="portal_search_results">';
 					while ($i ++ < self :: LEARNING_OBJECTS_PER_PAGE && $object = $results->next_result())
 					{
 						self :: display_result($object);
 					}
+					echo '</ul>';
 					echo $pager_links;
 				}
 				else
 				{
-					echo '<p>'.get_lang('NoResultsFound').'</p>';
+					echo '<p>'.htmlentities(get_lang('NoResultsFound')).'</p>';
 				}
 			}
 		}
@@ -132,19 +150,26 @@ END;
 
 	private static function report_exception ($exception)
 	{
-		echo '<p><strong>'.get_lang('Error').':</strong> '
+		echo '<p><strong>'.htmlentities(get_lang('Error')).':</strong> '
 			.htmlentities($exception->getMessage()).'</p>';
 	}
 
 	private static function display_result ($object)
 	{
-		echo '<div class="portal_search_result">';
+		/*
+		 * This pretty much makes every GIF file accessible, which is evil.
+		 * Type GIFs should be in a separate directory.
+		 */
+		echo '<li class="portal_search_result" style="background-image: url(', api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif);">';
 		echo '<div class="portal_search_result_title"><a href="'.htmlentities($object->get_view_url()).'">'.htmlentities($object->get_title()).'</a></div>';
+		/*
+		 * We can't guarantee types from remote repositories will be registered
+		 * locally, so all the formatting we do is remove underscores.
+		 */
+		echo '<div class="portal_search_result_type">'.str_replace('_', ' ', $object->get_type()).'</div>';
 		echo '<div class="portal_search_result_description">'.$object->get_description().'</div>';
-		echo '<div class="portal_search_result_byline">';
-		echo $object->get_type().' | '.date('r', $object->get_modification_date());
-		echo '</div>';
-		echo '</div>';
+		echo '<div class="portal_search_result_date">'.date('r', $object->get_modification_date()).'</div>';
+		echo '</li>';
 	}
 
 	private static function get_pager_links($pager)

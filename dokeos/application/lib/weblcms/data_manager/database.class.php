@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package application.weblcms
+ * @subpackage datamanager
+ */
 require_once dirname(__FILE__).'/database/databaselearningobjectpublicationresultset.class.php';
 require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublication.class.php';

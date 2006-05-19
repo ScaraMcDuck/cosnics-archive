@@ -140,9 +140,9 @@ abstract class RepositoryManagerComponent {
 	/**
 	 * @see RepositoryManager::get_url()
 	 */
-	function get_url($additional_parameters = array(), $include_search = false)
+	function get_url($additional_parameters = array(), $include_search = false, $encode_entities = false)
 	{
-		return $this->get_parent()->get_url($additional_parameters, $include_search);
+		return $this->get_parent()->get_url($additional_parameters, $include_search, $encode_entities);
 	}
 	/**
 	 * @see RepositoryManager::redirect()

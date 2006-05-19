@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package application.searchportal
+ */
 class RepositorySearchResult
 {
 	private $repository_title;

@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package repository
+ * @subpackage datamanager
+ */
 require_once dirname(__FILE__).'/database/databaselearningobjectresultset.class.php';
 require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../configuration.class.php';
@@ -20,7 +24,6 @@ require_once 'DB.php';
  *
  *	@author Tim De Pauw
  *	@author Bart Mollet
- * @package repository
 ==============================================================================
  */
 
@@ -135,6 +138,14 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$orderBy[] = LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX;
 		$orderDir[] = SORT_ASC;
 		$order = array ();
+		/*
+		 * Categories always come first. Does not matter if we're dealing with
+		 * a single type.
+		 */
+		if (!isset($type))
+		{
+			$order[] = '('.$this->escape_column_name(LearningObject :: PROPERTY_TYPE, true).' = "category") DESC';
+		}
 		for ($i = 0; $i < count($orderBy); $i ++)
 		{
 			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');

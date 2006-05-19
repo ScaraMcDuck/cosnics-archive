@@ -1,6 +1,7 @@
 <?php
 /**
  * @package repository
+ * @subpackage datamanager
  */
 require_once dirname(__FILE__).'/../../resultset.class.php';
 /**

@@ -7,19 +7,14 @@ class LinkDisplay extends LearningObjectDisplay
 {
 	function get_full_html()
 	{
+		$html = parent :: get_full_html();
 		$object = $this->get_learning_object();
-		$html[] = '<div class="learning_object">';
-		$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/></div>';
-		$html[] = '<div class="title">'.htmlentities($object->get_title()).'</div>';
-		$html[] = '<div class="description">'.$object->get_description().'</div>';
-		$html[] = '<div class="link_url"><a href="'.htmlentities($object->get_url()).'">'.htmlentities($object->get_url()).'</a></div>';
-		$html[] = '</div>';
-		return implode("\n",$html);
+		return preg_replace('|</div>\s*$|s', '<div class="link_url" style="margin-top: 1em;"><a href="'.htmlentities($object->get_url()).'">'.htmlentities($object->get_url()).'</a></div></div>', $html);
 	}
 	function get_short_html()
 	{
 		$object = $this->get_learning_object();
-		return '<span class="learning_object"><a href="'.$object->get_url().'">'.htmlentities($object->get_title()).'</a></span>';
+		return '<span class="learning_object"><a href="'.htmlentities($object->get_url()).'">'.htmlentities($object->get_title()).'</a></span>';
 	}
 }
 ?>

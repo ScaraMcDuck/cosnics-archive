@@ -1,7 +1,7 @@
 <?php
 /**
  * @package application.weblcms
- * @subpackage database
+ * @subpackage datamanager.database
  */
 require_once dirname(__FILE__).'/../../../../../repository/lib/resultset.class.php';
 /**

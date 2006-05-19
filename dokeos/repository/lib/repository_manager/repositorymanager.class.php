@@ -7,6 +7,7 @@ require_once dirname(__FILE__).'/repositorysearchform.class.php';
 require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../learningobjectcategorymenu.class.php';
 require_once dirname(__FILE__).'/../learningobject.class.php';
+require_once dirname(__FILE__).'/../optionsmenurenderer.class.php';
 require_once dirname(__FILE__).'/../condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../learning_object_table/learningobjecttable.class.php';
@@ -113,12 +114,12 @@ class RepositoryManager
 				$component = RepositoryManagerComponent :: factory('RightsEditor', $this);
 				break;
 			case self :: ACTION_VIEW_QUOTA :
-				$this->set_parameter(self :: PARAM_CATEGORY_ID, $this->get_root_category_id());
+				$this->set_parameter(self :: PARAM_CATEGORY_ID, null);
 				$this->force_menu_url($this->quota_url, true);
 				$component = RepositoryManagerComponent :: factory('QuotaViewer', $this);
 				break;
 			case self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS :
-				$this->set_parameter(self :: PARAM_CATEGORY_ID, $this->get_root_category_id());
+				$this->set_parameter(self :: PARAM_CATEGORY_ID, null);
 				$this->force_menu_url($this->recycle_bin_url, true);
 				$component = RepositoryManagerComponent :: factory('RecycleBinBrowser', $this);
 				break;
@@ -203,7 +204,7 @@ class RepositoryManager
 			$this->display_search_form();
 		}
 		echo '</div>';
-		echo '<div style="clear: both;"></div>';
+		echo '<div class="clear">&nbsp;</div>';
 		if ($msg = $_GET[self :: PARAM_MESSAGE])
 		{
 			$this->display_message($msg);
@@ -213,7 +214,7 @@ class RepositoryManager
 	function display_footer()
 	{
 		echo '</div>';
-		echo '<div style="clear: both;"></div>';
+		echo '<div class="clear">&nbsp;</div>';
 		// TODO: Find out why we need to reconnect here.
 		global $dbHost, $dbLogin, $dbPass, $mainDbName;
 		mysql_connect($dbHost, $dbLogin, $dbPass);
@@ -303,11 +304,15 @@ class RepositoryManager
 		return $this->recycle_bin_url;
 	}
 
-	function get_url($additional_parameters = array (), $include_search = false)
+	function get_url($additional_parameters = array (), $include_search = false, $encode_entities = false)
 	{
 		$eventual_parameters = array_merge($this->get_parameters($include_search), $additional_parameters);
-		$string = http_build_query($eventual_parameters);
-		return $_SERVER['PHP_SELF'].'?'.$string;
+		$url = $_SERVER['PHP_SELF'].'?'.http_build_query($eventual_parameters);
+		if ($encode_entities)
+		{
+			$url = htmlentities($url);
+		}
+		return $url;
 	}
 
 	function get_user_id()
@@ -319,8 +324,7 @@ class RepositoryManager
 	{
 		if (isset($this->category_menu))
 		{
-			$keys = array_keys($this->category_menu->_menu);
-			return $keys[0];
+			return $this->category_menu->_menu[0][OptionsMenuRenderer :: KEY_ID];
 		}
 		else
 		{
@@ -505,6 +509,7 @@ class RepositoryManager
 		foreach ($node as $id => $subnode)
 		{
 			$new_id = ($id == $category_id ? null : $category_id);
+			// Null means we've reached the category we want, so we add.
 			if (is_null($new_id))
 			{
 				$subcat[] = $id;
@@ -577,7 +582,8 @@ class RepositoryManager
 			$extra_items[] = & $quota;
 			if ($this->get_search_form()->user_is_searching())
 			{
-				$search_url = $this->get_url();
+				// $search_url = $this->get_url();
+				$search_url = '#';
 				$search = array();
 				$search['title'] = get_lang('SearchResults');
 				$search['url'] = $search_url;
@@ -597,8 +603,8 @@ class RepositoryManager
 		return $this->category_menu;
 	}
 	/**
-	 * Gets the search form
-	 * @return RepositorySearchForm The search form
+	 * Gets the search form.
+	 * @return RepositorySearchForm The search form.
 	 */
 	private function get_search_form()
 	{
@@ -616,7 +622,7 @@ class RepositoryManager
 		echo $this->get_category_menu()->render_as_tree();
 	}
 	/**
-	 * Displays the search form
+	 * Displays the search form.
 	 */
 	private function display_search_form()
 	{
