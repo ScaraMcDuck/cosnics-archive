@@ -44,6 +44,7 @@ $LinkTypeName='Link';
 $Metadata='Metadata';
 $Modified='Modified';
 $MoveSelected='Move selected items';
+$MyRepository='My Repository';
 $NewCategory='New category';
 $NoObjectSelected='No objects were selected.';
 $NoResults='No results';

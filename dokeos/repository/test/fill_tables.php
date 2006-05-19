@@ -10,6 +10,7 @@
 ==============================================================================
  */
 
+$langFile = 'repository';
 require_once dirname(__FILE__).'/../../claroline/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 
@@ -270,7 +271,7 @@ function create_category($owner, $parent = 0, $level = 0)
 	$cat = new Category();
 	$cat->set_owner_id($owner);
 	$cat->set_parent_id($parent);
-	$cat->set_title($parent == 0 ? 'My Repository' : random_string(2));
+	$cat->set_title($parent == 0 ? get_lang('MyRepository') : random_string(2));
 	$cat->set_description(random_string(8));
 	$cat->create();
 	$id = $cat->get_id();
