@@ -1,8 +1,18 @@
 <?php
+/**
+ * Document tool - list renderer
+ * @package application.weblcms.tool
+ * @subpackage document
+ */
 require_once dirname(__FILE__).'/../repositorytool.class.php';
-
+/**
+ * This tool allows a user to publish documents in his or her course.
+ */
 class DocumentTool extends RepositoryTool
 {
+	/*
+	 * Inherited.
+	 */
 	function run()
 	{
 		$this->display_header();
@@ -42,6 +52,6 @@ class DocumentTool extends RepositoryTool
 				echo $browser->as_html();
 		}
 		$this->display_footer();
-	}	
+	}
 }
 ?>
