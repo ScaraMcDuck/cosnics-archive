@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package repository.repositorymanager
+ */
 require_once dirname(__FILE__).'/../browser/repositorybrowsertabledataprovider.class.php';
 
 class RepositoryRecycleBinBrowserTableDataProvider extends RepositoryBrowserTableDataProvider

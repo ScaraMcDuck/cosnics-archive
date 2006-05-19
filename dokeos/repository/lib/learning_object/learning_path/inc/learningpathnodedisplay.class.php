@@ -1,11 +1,12 @@
 <?php
-require_once dirname(__FILE__).'/../../../treemenurenderer.class.php';
-require_once dirname(__FILE__).'/learningpathtable.class.php';
-require_once dirname(__FILE__).'/learningpathtree.class.php';
 /**
  * @package repository.learningobject
  * @subpackage learning_path
  */
+require_once dirname(__FILE__).'/../../../treemenurenderer.class.php';
+require_once dirname(__FILE__).'/learningpathtable.class.php';
+require_once dirname(__FILE__).'/learningpathtree.class.php';
+
 class LearningPathNodeDisplay extends LearningObjectDisplay
 {
 	function get_full_html()
@@ -26,7 +27,7 @@ class LearningPathNodeDisplay extends LearningObjectDisplay
 		}
 		return implode("\n", $html);
 	}
-	
+
 	private static function intermediate_header ($title)
 	{
 		return '<div class="lo_intermediate_header" style="margin: 1em 0 0.5em 0; font-weight: bold; font-size: larger;">'.htmlentities($title).'</div>';

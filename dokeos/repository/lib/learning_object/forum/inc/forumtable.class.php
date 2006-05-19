@@ -1,12 +1,13 @@
 <?php
-require_once dirname(__FILE__).'/forumtabledataprovider.class.php';
-require_once dirname(__FILE__).'/forumtablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/forumtablecellrenderer.class.php';
-require_once dirname(__FILE__).'/../../../learning_object_table/learningobjecttable.class.php';
 /**
  * @package repository.learningobject
  * @subpackage forum
  */
+require_once dirname(__FILE__).'/forumtabledataprovider.class.php';
+require_once dirname(__FILE__).'/forumtablecolumnmodel.class.php';
+require_once dirname(__FILE__).'/forumtablecellrenderer.class.php';
+require_once dirname(__FILE__).'/../../../learning_object_table/learningobjecttable.class.php';
+
 class ForumTable extends LearningObjectTable
 {
 	function ForumTable($forum, $url_format)

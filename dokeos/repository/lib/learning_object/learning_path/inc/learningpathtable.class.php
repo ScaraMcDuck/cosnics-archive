@@ -1,12 +1,13 @@
 <?php
-require_once dirname(__FILE__).'/learningpathtabledataprovider.class.php';
-require_once dirname(__FILE__).'/learningpathtablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/learningpathtablecellrenderer.class.php';
-require_once dirname(__FILE__).'/../../../learning_object_table/learningobjecttable.class.php';
 /**
  * @package repository.learningobject
  * @subpackage learning_path
  */
+require_once dirname(__FILE__).'/learningpathtabledataprovider.class.php';
+require_once dirname(__FILE__).'/learningpathtablecolumnmodel.class.php';
+require_once dirname(__FILE__).'/learningpathtablecellrenderer.class.php';
+require_once dirname(__FILE__).'/../../../learning_object_table/learningobjecttable.class.php';
+
 class LearningPathTable extends LearningObjectTable
 {
 	function LearningPathTable($learning_path, $url_format, $chapters = false)
