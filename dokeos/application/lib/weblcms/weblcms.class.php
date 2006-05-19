@@ -184,7 +184,11 @@ class Weblcms extends WebApplication
 	function display_header($breadcrumbs = array())
 	{
 		global $interbredcrump;
-		array_unshift($breadcrumbs, array('url' => $this->get_url(), 'name' => get_lang(Tool :: type_to_class($this->get_parameter(self :: PARAM_TOOL)).'Title')));
+		$tool = $this->get_parameter(self :: PARAM_TOOL);
+		if ($tool)
+		{
+			array_unshift($breadcrumbs, array('url' => $this->get_url(), 'name' => get_lang(Tool :: type_to_class($tool).'Title')));
+		}
 		$current_crumb = array_pop($breadcrumbs);
 		$interbredcrump = $breadcrumbs;
 		$title = $current_crumb['name'];
