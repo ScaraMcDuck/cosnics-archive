@@ -1292,6 +1292,7 @@ ul.toolbar {
 	margin: 0;
 	padding: 0;
 	color: #999; /* For disabled items */
+	white-space: nowrap;
 }
 ul.toolbar li {
 	display: inline;
