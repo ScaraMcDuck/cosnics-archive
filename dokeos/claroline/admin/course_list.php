@@ -92,7 +92,7 @@ function get_course_data($from, $number_of_items, $column, $direction)
 		$keyword_unsubscribe = mysql_real_escape_string($_GET['keyword_unsubscribe']);
 		$sql .= " WHERE code LIKE '%".$keyword_code."%' AND title LIKE '%".$keyword_title."%' AND category_code LIKE '%".$keyword_category."%'  AND course_language LIKE '%".$keyword_language."%'   AND visibility LIKE '%".$keyword_visibility."%'    AND subscribe LIKE '".$keyword_subscribe."'AND unsubscribe LIKE '".$keyword_unsubscribe."'";
 	}
-	$sql .= " ORDER BY col$column $direction ";
+	$sql .= " ORDER BY col$column " . ($direction == SORT_DESC ? 'DESC' : 'ASC');
 	$sql .= " LIMIT $from,$number_of_items";
 	$res = api_sql_query($sql, __FILE__, __LINE__);
 	$courses = array ();
