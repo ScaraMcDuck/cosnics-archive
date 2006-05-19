@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package repository
+ */
 $langFile = 'repository';
 require_once dirname(__FILE__).'/../claroline/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/lib/repositorydatamanager.class.php';
@@ -12,19 +15,19 @@ require_once dirname(__FILE__).'/lib/condition/orcondition.class.php';
 if (api_get_user_id())
 {
 	$conditions = array ();
-	
+
 	$query_condition = RepositoryUtilities :: query_to_condition($_GET['query'], LearningObject :: PROPERTY_TITLE);
 	if (isset ($query_condition))
 	{
 		$conditions[] = $query_condition;
 	}
-	
+
 	$owner_condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, api_get_user_id());
 	$conditions[] = $owner_condition;
-	
+
 	$category_type_condition = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'category');
 	$conditions[] = new NotCondition($category_type_condition);
-	
+
 	if (is_array($_GET['exclude']))
 	{
 		$c = array ();
@@ -34,12 +37,12 @@ if (api_get_user_id())
 		}
 		$conditions[] = new NotCondition(new OrCondition($c));
 	}
-	
+
 	$condition = new AndCondition($conditions);
-	
+
 	$dm = RepositoryDataManager :: get_instance();
 	$objects = $dm->retrieve_learning_objects(null, $condition, array (LearningObject :: PROPERTY_TITLE), array (SORT_ASC));
-	
+
 	while ($lo = $objects->next_result())
 	{
 		$cat = $dm->retrieve_learning_object($lo->get_parent_id());
@@ -57,7 +60,7 @@ if (api_get_user_id())
 			$objects_by_cat[$cid] = array ($lo);
 		}
 	}
-	
+
 	$categories = array ();
 	$cats = $dm->retrieve_learning_objects('category', $owner_condition);
 	while ($cat = $cats->next_result())
@@ -72,13 +75,13 @@ if (api_get_user_id())
 			$categories[$parent] = array ($cat);
 		}
 	}
-	
+
 	$tree = get_tree(0, & $categories);
 }
 else
 {
 	$tree = null;
-}	
+}
 
 header('Content-Type: text/xml');
 echo '<?xml version="1.0" encoding="iso-8859-1"?>', "\n", '<tree>', "\n";

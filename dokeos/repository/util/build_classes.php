@@ -1,21 +1,21 @@
 <?php
-
-
 /**
 ==============================================================================
- *	This script checks the learning object library (found in
- *	/repository/lib/learning_object) for properties files that have not been
- *	translated into classes, and automatically generates those classes, with
- *	generic accessor methods for the defined properties. It may be convenient
- *	to you if you are creating a new type, as all you need to do is create a
- *	properties file and run this script; you can then work from the newly
- *	generated class file.
- * 
- *	@author Tim De Pauw
- *	@author Tom Brutin
+ * This script creates classes
+ *
+ * This script checks the learning object library (found in
+ * /repository/lib/learning_object) for properties files that have not been
+ * translated into classes, and automatically generates those classes, with
+ * generic accessor methods for the defined properties. It may be convenient to
+ * you if you are creating a new type, as all you need to do is create a
+ * properties file and run this script; you can then work from the newly
+ * generated class file.
+ *
+ * @author Tim De Pauw
+ * @author Tom Brutin
+ * @package repository
 ==============================================================================
  */
-
 require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 
 define(HEADER, "<?php\nrequire_once dirname(__FILE__) . '/../../learningobject.class.php';\n\n");

@@ -1,10 +1,11 @@
 <?php
-require_once dirname(__FILE__).'/../../../treemenurenderer.class.php';
-require_once dirname(__FILE__).'/forumtable.class.php';
 /**
  * @package repository.learningobject
  * @subpackage forum
  */
+require_once dirname(__FILE__).'/../../../treemenurenderer.class.php';
+require_once dirname(__FILE__).'/forumtable.class.php';
+
 class ForumNodeDisplay extends LearningObjectDisplay
 {
 	function get_full_html()
