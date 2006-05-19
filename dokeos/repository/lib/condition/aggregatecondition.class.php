@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package repository.condition
+ */
 require_once dirname(__FILE__).'/condition.class.php';
 
 /**
@@ -9,7 +12,6 @@ require_once dirname(__FILE__).'/condition.class.php';
  *	complex boolean structures.
  *
  *	@author Tim De Pauw
- * @package repository.condition
 ==============================================================================
  */
 

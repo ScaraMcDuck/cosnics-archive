@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package repository
+ */
 require_once dirname(__FILE__).'/accessiblelearningobject.class.php';
 require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/repositoryutilities.class.php';
@@ -60,7 +63,6 @@ require_once dirname(__FILE__).'/condition/equalitycondition.class.php';
  *	class and manipulate the objects at will.
  *
  *	@author Tim De Pauw
- * @package repository.learningobject
 ==============================================================================
  */
 
@@ -495,7 +497,7 @@ class LearningObject implements AccessibleLearningObject
 	private static function get_child_ids($id)
 	{
 		$cond = new EqualityCondition(self :: PROPERTY_PARENT_ID, $id);
-		$children = RepositoryDataManager :: get_instance()->retrieve_learning_objects(null, $cond);
+		$children = RepositoryDataManager :: get_instance()->retrieve_learning_objects(null, $cond, array(), array(), 0, -1, -1);
 		$ids = array();
 		while ($child = $children->next_result())
 		{

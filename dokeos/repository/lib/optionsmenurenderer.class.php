@@ -1,9 +1,11 @@
 <?php
+/**
+ * @package repository
+ */
 require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * Renderer which can be used to create an array of options to use in a select
  * list. The options are displayed in a hierarchical way in the select list.
- * @package repository
  */
 class OptionsMenuRenderer extends HTML_Menu_ArrayRenderer
 {

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package application.weblcms.tool
+ * @package application.weblcms
  */
 require_once dirname(__FILE__).'/browser/learningobjectpublicationlistrenderer.class.php';
 require_once dirname(__FILE__).'/browser/learningobjectpublicationcategorytree.class.php';
@@ -67,7 +67,8 @@ abstract class LearningObjectPublicationBrowser
 			. '</div>'
 			. '<div style="float: right; width: 80%">'
 			. $this->listRenderer->as_html()
-			. '</div>';
+			. '</div>'
+			. '<div class="clear">&nbsp;</div>';
 	}
 
 	/**

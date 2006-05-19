@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package repository.condition
+ */
 
 /**
 ==============================================================================
@@ -6,7 +9,6 @@
  *	implement this interface.
  *
  *	@author Tim De Pauw
- * @package repository.condition
 ==============================================================================
  */
 

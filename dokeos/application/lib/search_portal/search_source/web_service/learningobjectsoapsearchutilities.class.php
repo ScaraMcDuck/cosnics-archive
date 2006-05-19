@@ -1,4 +1,9 @@
 <?php
+/**
+ * @package application.searchportal
+ * @subpackage webservice
+ */
+
 ini_set('soap.wsdl_cache_enabled', '0');
 
 class LearningObjectSoapSearchUtilities

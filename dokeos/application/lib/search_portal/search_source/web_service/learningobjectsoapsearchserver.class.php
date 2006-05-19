@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package application.searchportal
+ * @subpackage webservice
+ */
 require_once dirname(__FILE__).'/soaplearningobject.class.php';
 require_once dirname(__FILE__).'/learningobjectsoapsearchutilities.class.php';
 require_once dirname(__FILE__).'/../../../../../repository/lib/repositorydatamanager.class.php';

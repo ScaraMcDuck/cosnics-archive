@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package application.weblcms
+ */
 require_once dirname(__FILE__).'/../../../../claroline/inc/lib/formvalidator/FormValidator.class.php';
 class LearningObjectPublicationCategoryForm extends FormValidator
 {

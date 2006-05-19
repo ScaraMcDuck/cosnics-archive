@@ -1,10 +1,15 @@
 <?php
+/**
+ * @package repository.condition
+ */
 require_once dirname(__FILE__).'/condition.class.php';
 
 /**
 ==============================================================================
+ *	This class represents a condition that requires an inequality. An example
+ *	would be requiring that a number be greater than 4.
+ *
  *	@author Tim De Pauw
- * @package repository.condition
 ==============================================================================
  */
 

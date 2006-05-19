@@ -31,37 +31,53 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			$breadcrumbs[] = array('url' => $this->get_url(), 'name' => $object->get_title());
 			$this->display_header($breadcrumbs);
 			echo $display->get_full_html();
-			echo '<ul class="learning_object_management_buttons" style="list-style: none; margin: 1em 0; padding: 0;">';
-			echo '<li style="display: inline; margin: 0; padding: 0;">';
-			echo '<a href="'.$this->get_learning_object_editing_url($object).'" title="'.get_lang('Edit').'"><img src="'.$this->get_web_code_path().'img/edit.gif" alt="'.get_lang('Edit').'" style="vertical-align: middle;"/></a>';
-			echo '</li>';
+			$toolbar_data = array();
+			$toolbar_data[] = array(
+				'href' => $this->get_learning_object_editing_url($object),
+				'img' => api_get_path(WEB_CODE_PATH).'img/edit.gif',
+				'label' => get_lang('Edit'),
+				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			);
 			$recycle_url = $this->get_learning_object_recycling_url($object);
 			if (isset($recycle_url))
 			{
-				echo '<li style="display: inline; margin: 0; padding: 0;">';
-				echo '<a href="'.$recycle_url.'" title="'.get_lang('Remove').'"  onclick="return confirm(&quot;'.htmlentities(get_lang('ConfirmYourChoice')).'&quot;);"><img src="'.$this->get_web_code_path().'img/recycle_bin.gif" alt="'.get_lang('Recycle').'" style="vertical-align: middle;"/></a>';
-				echo '</li>';
+				$toolbar_data[] = array(
+					'href' => $recycle_url,
+					'img' => api_get_path(WEB_CODE_PATH).'img/recycle_bin.gif',
+					'label' => get_lang('Remove'),
+					'confirm' => true,
+					'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+				);
 			}
 			else
 			{
 				$delete_url = $this->get_learning_object_deletion_url($object);
-				echo '<li style="display: inline; margin: 0; padding: 0;">';
-				echo '<a href="'.$delete_url.'" title="'.get_lang('Delete').'"  onclick="return confirm(&quot;'.htmlentities(get_lang('ConfirmYourChoice')).'&quot;);"><img src="'.$this->get_web_code_path().'img/delete.gif" alt="'.get_lang('Delete').'" style="vertical-align: middle;"/></a>';
-				echo '</li>';
+				if (isset($delete_url))
+				{
+					$toolbar_data[] = array(
+						'href' => $delete_url,
+						'img' => api_get_path(WEB_CODE_PATH).'img/delete.gif',
+						'label' => get_lang('Delete'),
+						'confirm' => true,
+						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+					);
+				}
+				else
+				{
+					$toolbar_data[] = array(
+						'img' => api_get_path(WEB_CODE_PATH).'img/recycle_bin_na.gif',
+						'label' => get_lang('Remove'),
+						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+					);
+				}
 			}
-			echo '<li style="display: inline; margin: 0; padding: 0;">';
-			echo '<a href="'.$this->get_learning_object_metadata_editing_url($object).'" title="'.get_lang('Metadata').'"><img src="'.$this->get_web_code_path().'img/info_small.gif" alt="'.get_lang('Metadata').'" style="vertical-align: middle;"/></a>';
-			echo '</li>';
-			echo '<li style="display: inline; margin: 0; padding: 0;">';
-			echo '<a href="'.$this->get_learning_object_rights_editing_url($object).'" title="'.get_lang('Rights').'"><img src="'.$this->get_web_code_path().'img/group_small.gif" alt="'.get_lang('Rights').'" style="vertical-align: middle;"/></a>';
-			echo '</li>';
-			echo '</ul>';
+			echo RepositoryUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
 			$publication_attr = $this->get_learning_object_publication_attributes($object->get_id());
 			if (count($publication_attr) > 0)
 			{
 				// TODO: Use a function for this or something.
 				echo '<div class="publication_attributes">';
-				echo '<div class="publication_attributes_title">'.get_lang('ObjectPublished').'</div>';
+				echo '<div class="publication_attributes_title">'.htmlentities(get_lang('ObjectPublished')).'</div>';
 				echo '<ul class="publication_attributes">';
 				foreach ($publication_attr as $info)
 				{
@@ -78,7 +94,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 		}
 		else
 		{
-			$this->display_error_page(get_lang('NoObjectSelected'));
+			$this->display_error_page(htmlentities(get_lang('NoObjectSelected')));
 		}
 	}
 }

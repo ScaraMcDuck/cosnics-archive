@@ -101,9 +101,9 @@ class RepositorySearchForm extends FormValidator
 	private function build_simple_search_form()
 	{
 		$this->renderer->setElementTemplate('<span>{element}</span>');
-		$this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, get_lang('Find'), 'size="20" class="simple_search_query"');
+		$this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, get_lang('Find'), 'size="20" class="search_query"');
 		$this->addElement('submit', 'search', get_lang('Ok'));
-		$this->addElement('static', '', '', '<div class="to_advanced_search" style="font-size:smaller;"><a href="'.htmlentities($this->manager->get_url(array (self :: PARAM_ADVANCED_SEARCH => 1))).'">'.get_lang('ToAdvancedSearch').'</a></div>');
+		$this->addElement('static', '', '', '<div class="to_advanced_search" style="font-size:smaller;"><a href="'.$this->manager->get_url(array (self :: PARAM_ADVANCED_SEARCH => 1), false, true).'">'.htmlentities(get_lang('ToAdvancedSearch')).'</a></div>');
 	}
 	/**
 	 * Build the advanced search form.
@@ -135,7 +135,7 @@ class RepositorySearchForm extends FormValidator
 		if ($this->advanced)
 		{
 			$html[] = '<fieldset class="advanced_search" style="clear: both; padding: 1em; margin-bottom: 1em;">';
-			$html[] = '<legend>'.get_lang('AdvancedSearch').' [<a href="'.htmlentities($this->manager->get_url(array (self :: PARAM_ADVANCED_SEARCH => 0))).'">'.get_lang('ToSimpleSearch').'</a>]</legend>';
+			$html[] = '<legend>'.htmlentities(get_lang('AdvancedSearch')).' [<a href="'.$this->manager->get_url(array (self :: PARAM_ADVANCED_SEARCH => 0), false, true).'">'.htmlentities(get_lang('ToSimpleSearch')).'</a>]</legend>';
 		}
 		else
 		{

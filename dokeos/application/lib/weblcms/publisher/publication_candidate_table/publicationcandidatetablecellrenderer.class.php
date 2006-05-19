@@ -1,9 +1,11 @@
 <?php
 /**
- * @package application.weblcms.tool
+ * @package application.weblcms
+ * @subpackage publisher
  */
 require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object_table/defaultlearningobjecttablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../../../../repository/lib/learningobject.class.php';
+require_once dirname(__FILE__).'/../../../../../repository/lib/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/publicationcandidatetablecolumnmodel.class.php';
 /**
  * This class is a cell renderer for a publication candidate table
@@ -51,7 +53,18 @@ class PublicationCandidateTableCellRenderer extends DefaultLearningObjectTableCe
 	{
 		$publish_url = sprintf($this->publish_link_format, $learning_object->get_id());
 		$edit_and_publish_url = sprintf($this->edit_and_publish_link_format, $learning_object->get_id());
-		return '<a href="'.htmlentities($publish_url).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/publish.gif" alt="'.get_lang('Publish').'"/></a><a href="'.htmlentities($edit_and_publish_url).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/editpublish.gif" alt="'.get_lang('EditAndPublish').'"/></a>';
+		$toolbar_data = array();
+		$toolbar_data[] = array(
+			'href' => $publish_url,
+			'img' => api_get_path(WEB_CODE_PATH).'img/publish.gif',
+			'label' => get_lang('Publish')
+		);
+		$toolbar_data[] = array(
+			'href' => $edit_and_publish_url,
+			'img' => api_get_path(WEB_CODE_PATH).'img/editpublish.gif',
+			'label' => get_lang('EditAndPublish')
+		);
+		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

@@ -1,6 +1,7 @@
 <?php
 /**
- * @package application.weblcms.tool
+ * @package application.weblcms
+ * @subpackage browser.listrenderer
  */
 require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
 
@@ -70,7 +71,7 @@ class WeekCalendarLearningObjectPublicationListRenderer extends LearningObjectPu
 		$next = strtotime('+1 Week',$this->display_time);
 		$html[] = '<div style="text-align: center;">';
 		$html[] =  '<a href="'.$this->get_url(array('time' => $prev), true).'">&lt;&lt;</a> ';
-		$html[] =  get_lang('Week').' '.$week_number.' : '.date('l d M Y',$first_day).' - '.date('l d M Y',strtotime('+6 Days',$first_day));
+		$html[] =  htmlentities(get_lang('Week')).' '.$week_number.' : '.date('l d M Y',$first_day).' - '.date('l d M Y',strtotime('+6 Days',$first_day));
 		$html[] =  ' <a href="'.$this->get_url(array('time' => $next), true).'">&gt;&gt;</a> ';
 		$html[] =  '</div>';
 		$html[] = $calendar_table->toHtml();

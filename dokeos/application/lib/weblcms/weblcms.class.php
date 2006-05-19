@@ -65,7 +65,7 @@ class Weblcms extends WebApplication
 			foreach ($this->get_registered_tools() as $tool)
 			{
 				$class = Tool :: type_to_class($tool);
-				echo '<li><a href="'.$this->get_url(array (self :: PARAM_TOOL => $tool), true).'">'.get_lang($class.'Title').'</a></li>';
+				echo '<li><a href="'.$this->get_url(array (self :: PARAM_TOOL => $tool), true).'">'.htmlentities(get_lang($class.'Title')).'</a></li>';
 			}
 			echo '</ul>';
 			$this->display_footer();
@@ -199,18 +199,18 @@ class Weblcms extends WebApplication
 		$tools = array();
 		foreach ($this->get_registered_tools() as $t)
 		{
-			$tools[$t] = get_lang(Tool :: type_to_class($t).'Title');
+			$tools[$t] = htmlentities(get_lang(Tool :: type_to_class($t).'Title'));
 		}
 		asort($tools);
 		foreach ($tools as $tool => $title)
 		{
 			$class = Tool :: type_to_class($tool);
-			echo '<option value="'.$t.'"'.($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($title).'</option>';
+			echo '<option value="'.$tool.'"'.($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($title).'</option>';
 		}
 		echo '</select></form></div>';
 		if (isset($this->tool_class))
 		{
-			api_display_tool_title(get_lang($this->tool_class.'Title'));
+			api_display_tool_title(htmlentities(get_lang($this->tool_class.'Title')));
 		}
 	}
 	/**

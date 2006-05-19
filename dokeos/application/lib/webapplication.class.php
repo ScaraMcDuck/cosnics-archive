@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package application
+ */
 require_once dirname(__FILE__).'/application.class.php';
 
 abstract class WebApplication extends Application {
@@ -30,12 +33,7 @@ abstract class WebApplication extends Application {
 		{
 			$parameters = & $this->parameters;
 		}
-		$pairs = array ();
-		foreach ($parameters as $name => $value)
-		{
-			$pairs[] = urlencode($name).'='.urlencode($value);
-		}
-		$url = $_SERVER['PHP_SELF'].'?'.join('&', $pairs);
+		$url = $_SERVER['PHP_SELF'].'?'.http_build_query($parameters);
 		if ($encode)
 		{
 			$url = htmlentities($url);
