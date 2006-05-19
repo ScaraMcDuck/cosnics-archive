@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package repository
+ */
 require_once dirname(__FILE__).'/configuration.class.php';
 require_once dirname(__FILE__).'/learningobjectpublicationattributes.class.php';
 
@@ -12,7 +15,6 @@ require_once dirname(__FILE__).'/learningobjectpublicationattributes.class.php';
  *	respected for all extensions of this class.
  *
  *	@author Tim De Pauw
- * @package repository
 ==============================================================================
  */
 
@@ -38,7 +40,7 @@ abstract class RepositoryDataManager
 	/**
 	 * Constructor.
 	 */
-	function RepositoryDataManager()
+	protected function RepositoryDataManager()
 	{
 		$this->initialize();
 		$this->typeProperties = array ();
@@ -240,7 +242,14 @@ abstract class RepositoryDataManager
 
 	/**
 	 * Retrieves the learning objects that match the given criteria from
-	 * persistent storage. There are some limitations:
+	 * persistent storage.
+	 * As far as ordering goes, there are two things to take into account:
+	 * - If, after applying the passed conditions, there is no order between
+	 *   two learning objects, the display order index should be taken into
+	 *   account.
+	 * - Regardless of what the order specification states, learning objects
+	 *   of the "category" types must always come before others.
+	 * Finally, there are some limitations to this method:
 	 * - For now, you can only use the standard learning object properties,
 	 *   not the type-specific ones IF you do not specify a single type of
 	 *   learning object to retrieve.
@@ -286,7 +295,7 @@ abstract class RepositoryDataManager
 	 * @return ResultSet A set of matching learning objects.
 	 */
 	abstract function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false);
-
+	
 	/**
 	 * Retrieves the additional properties of the given learning object.
 	 * @param LearningObject $learning_object The learning object for which to

@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package application.searchportal
+ */
 require_once dirname(__FILE__).'/../searchsource.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/../repositorysearchresult.class.php';

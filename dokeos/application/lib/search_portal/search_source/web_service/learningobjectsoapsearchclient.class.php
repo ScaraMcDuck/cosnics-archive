@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package application.searchportal
+ * @subpackage webservice
+ */
 class LearningObjectSoapSearchClient
 {
 	const KEY_REPOSITORY_TITLE = 'RepositoryTitle';

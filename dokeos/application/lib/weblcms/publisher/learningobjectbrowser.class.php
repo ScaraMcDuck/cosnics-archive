@@ -1,6 +1,7 @@
 <?php
 /**
- * @package application.weblcms.tool
+ * @package application.weblcms
+ * @subpackage publisher
  */
 require_once dirname(__FILE__).'/../learningobjectpublisher.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublishercomponent.class.php';

@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package repository
+ */
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
 require_once dirname(__FILE__).'/../../repository/lib/learningobject.class.php';

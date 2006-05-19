@@ -1,6 +1,7 @@
 <?php
 /**
- * @package application.weblcms.tool
+ * @package application.weblcms
+ * @subpackage publisher
  */
 require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object_table/learningobjecttablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object_table/learningobjecttablecolumn.class.php';
@@ -28,10 +29,10 @@ class PublicationCandidateTableColumnModel extends LearningObjectTableColumnMode
 	private static function get_columns()
 	{
 		$columns = array();
-		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_TYPE, true);
-		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
+		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_TYPE, true); 
+		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_TITLE, true); 
 		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true);
-		$columns[] = self :: get_action_column();
+		$columns[] = self :: get_action_column(); 
 		return $columns;
 	}
 	/**

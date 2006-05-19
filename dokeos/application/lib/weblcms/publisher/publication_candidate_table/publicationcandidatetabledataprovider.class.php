@@ -1,6 +1,7 @@
 <?php
 /**
- * @package application.weblcms.tool
+ * @package application.weblcms
+ * @subpackage publisher
  */
 require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object_table/learningobjecttabledataprovider.class.php';
 require_once dirname(__FILE__).'/../../../../../repository/lib/learningobject.class.php';
@@ -38,7 +39,7 @@ class PublicationCandidateTableDataProvider implements LearningObjectTableDataPr
     function get_learning_objects($offset, $count, $order_property, $order_direction)
     {
     	$dm = RepositoryDataManager :: get_instance();
-    	return $dm->retrieve_learning_objects(null, $this->get_condition(), array($order_property), array($order_direction));
+    	return $dm->retrieve_learning_objects(null, $this->get_condition(), array($order_property), array($order_direction), $offset, $count);
     }
 	/*
 	 * Inherited

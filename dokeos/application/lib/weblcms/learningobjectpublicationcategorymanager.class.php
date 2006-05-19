@@ -38,7 +38,7 @@ class LearningObjectPublicationCategoryManager
 		}
 		$categories = $this->parent->get_categories();
 		$html .= $this->category_tree_as_html($categories);
-		$html .= '<div><a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE), true).'">'.get_lang('CreateNewCategory').'</a></div>';
+		$html .= '<div><a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE), true).'">'.htmlentities(get_lang('CreateNewCategory')).'</a></div>';
 		return $html;
 	}
 
@@ -64,7 +64,7 @@ class LearningObjectPublicationCategoryManager
 			$parent = $form->get_category_parent();
 			$category = new LearningObjectPublicationCategory(0, $title, $course, $tool, $parent);
 			$category->create();
-			return Display :: display_normal_message(get_lang('CategoryCreated'), true);
+			return Display :: display_normal_message(htmlentities(get_lang('CategoryCreated')), true);
 		}
 		else
 		{
@@ -83,7 +83,7 @@ class LearningObjectPublicationCategoryManager
 			$category->set_title($form->get_category_title());
 			$category->set_parent_id($form->get_category_parent());
 			$category->update();
-			return Display :: display_normal_message(get_lang('CategoryUpdated'), true);
+			return Display :: display_normal_message(htmlentities(get_lang('CategoryUpdated')), true);
 		}
 		else
 		{
@@ -96,7 +96,7 @@ class LearningObjectPublicationCategoryManager
 		$id = $_GET[self :: PARAM_ID];
 		$category = $this->parent->get_category($id);
 		$category->delete();
-		return Display :: display_normal_message(get_lang('CategoryDeleted'), true);
+		return Display :: display_normal_message(htmlentities(get_lang('CategoryDeleted')), true);
 	}
 
 	private function category_tree_as_html($tree)
@@ -110,6 +110,7 @@ class LearningObjectPublicationCategoryManager
 			$options = array ();
 			if ($id != 0)
 			{
+				// TODO: Use RepositoryUtilities :: build_toolbar(). But this UI needs to change anyway.
 				$options[] = '<a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT, self :: PARAM_ID => $id), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif"  alt=""/></a>';
 				$options[] = '<a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE, self :: PARAM_ID => $id), true).'" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete.gif"  alt=""/></a>';
 			}

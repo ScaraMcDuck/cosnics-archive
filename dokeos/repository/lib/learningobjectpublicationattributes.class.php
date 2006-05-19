@@ -1,10 +1,12 @@
 <?php
 /**
+ * @package repository
+ */
+/**
 ==============================================================================
  * Instances of this class group generic information about a publication of
  * a learning object within an application.
  * 
- * @package repository
  * @author Bart Mollet
  * @author Tim De Pauw
 ==============================================================================

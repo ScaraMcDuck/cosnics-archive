@@ -41,10 +41,10 @@ class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 		$event = $publication->get_learning_object();
 		$html[] = '<em>';
 		//TODO: date formatting
-		$html[] = get_lang('From').': '.date('r',$event->get_start_date());
+		$html[] = htmlentities(get_lang('From')).': '.date('r',$event->get_start_date());
 		$html[] = '<br />';
 		//TODO: date formatting
-		$html[] = get_lang('To').': '.date('r',$event->get_end_date());
+		$html[] = htmlentities(get_lang('To')).': '.date('r',$event->get_end_date());
 		$html[] = '</em>';
 		$html[] = '<br />';
 		$html[] = $event->get_description();

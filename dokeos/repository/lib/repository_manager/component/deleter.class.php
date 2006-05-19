@@ -76,7 +76,7 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 		}
 		else
 		{
-			$this->display_error_page(get_lang('NoObjectSelected'));
+			$this->display_error_page(htmlentities(get_lang('NoObjectSelected')));
 		}
 	}
 }

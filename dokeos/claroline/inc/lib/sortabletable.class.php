@@ -231,23 +231,31 @@ class SortableTable extends HTML_Table
 			$html .= '</td>';
 			$html .= '</tr>';
 			$html .= '</table>';
-			if (count($this->form_actions) > 0)
+			if (count($this->form_actions))
 			{
 				$html .= '<script type="text/javascript">
 							/* <![CDATA[ */
-							function setCheckbox(value) {
-								d = document.form_'.$this->table_name.';
+							function setCheckbox(formName, value) {
+								var d = document[formName];
 								for (i = 0; i < d.elements.length; i++) {
 									if (d.elements[i].type == "checkbox") {
 									     d.elements[i].checked = value;
 									}
 								}
 							}
+							function anyCheckboxChecked(formName) {
+								var d = document[formName];
+								for (i = 0; i < d.elements.length; i++) {
+									if (d.elements[i].type == "checkbox" && d.elements[i].checked)
+										return true;
+								}
+								return false;
+							}
 							/* ]]> */
 							</script>';
 				$params = $this->get_sortable_table_param_string.'&amp;'.$this->get_additional_url_paramstring();
 
-				$html .= '<form method="post" action="'.$_SERVER['PHP_SELF'].'?'.$params.'" name="form_'.$this->table_name.'">';
+				$html .= '<form method="post" action="'.$_SERVER['PHP_SELF'].'?'.$params.'" name="form_'.$this->table_name.'"  onsubmit="return anyCheckboxChecked(\'form_'.$this->table_name.'\') && confirm(\''.addslashes(htmlentities(get_lang("ConfirmYourChoice"))).'\');">';
 			}
 		}
 		$html .= $this->get_table_html();
@@ -256,17 +264,17 @@ class SortableTable extends HTML_Table
 			$html .= '<table style="width:100%;">';
 			$html .= '<tr>';
 			$html .= '<td colspan="2">';
-			if (count($this->form_actions) > 0)
+			if (count($this->form_actions))
 			{
-				$html .= '<a href="?'.$params.'&amp;'.$this->param_prefix.'selectall=1" onclick="javascript:setCheckbox(true);return false;">'.get_lang('SelectAll').'</a> - ';
-				$html .= '<a href="?'.$params.'" onclick="javascript:setCheckbox(false);return false;">'.get_lang('UnSelectAll').'</a> ';
+				$html .= '<a href="?'.$params.'&amp;'.$this->param_prefix.'selectall=1" onclick="setCheckbox(\'form_'.$this->table_name.'\', true); return false;">'.get_lang('SelectAll').'</a> - ';
+				$html .= '<a href="?'.$params.'"  onclick="setCheckbox(\'form_'.$this->table_name.'\', false); return false;">'.get_lang('UnSelectAll').'</a> ';
 				$html .= '<select name="action">';
 				foreach ($this->form_actions as $action => $label)
 				{
 					$html .= '<option value="'.$action.'">'.$label.'</option>';
 				}
 				$html .= '</select>';
-				$html .= '<input type="submit" value="'.get_lang('Ok').'" onclick="javascript:if(!confirm('."'".addslashes(htmlentities(get_lang("ConfirmYourChoice")))."'".')) return false;"/>';
+				$html .= '<input type="submit" value="'.get_lang('Ok').'"/>';
 			}
 			else
 			{

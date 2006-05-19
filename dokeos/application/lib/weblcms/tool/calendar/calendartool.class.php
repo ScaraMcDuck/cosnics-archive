@@ -5,6 +5,7 @@
  * @subpackage calendar
  */
 require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object/calendar_event/calendar_event.class.php';
+require_once dirname(__FILE__).'/../../../../../repository/lib/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/../repositorytool.class.php';
 require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
 require_once dirname(__FILE__).'/calendarbrowser.class.php';
@@ -58,12 +59,32 @@ class CalendarTool extends RepositoryTool
 	{
 		$time = isset($_GET['time']) ? intval($_GET['time']) : time();
 		$this->set_parameter('time',$time);
-		echo '<ul class="calendar_view">';
-		echo '<li><a href="'.$this->get_url(array('view'=>'list'), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/calendar_down.gif"/></a></li>';
-		echo '<li><a href="'.$this->get_url(array('view'=>'month'), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/calendar_month.gif"/></a></li>';
-		echo '<li><a href="'.$this->get_url(array('view'=>'week'), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/calendar_week.gif"/></a></li>';
-		echo '<li><a href="'.$this->get_url(array('view'=>'day'), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/calendar_day.gif"/></a></li>';
-		echo '</ul>';
+		$toolbar_data = array();
+		$toolbar_data[] = array(
+			'href' => $this->get_url(array('view'=>'list')),
+			'img' => api_get_path(WEB_CODE_PATH).'/img/calendar_down.gif',
+			'label' => get_lang('ListView'),
+			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+		);
+		$toolbar_data[] = array(
+			'href' => $this->get_url(array('view'=>'month')),
+			'img' => api_get_path(WEB_CODE_PATH).'/img/calendar_month.gif',
+			'label' => get_lang('MonthView'),
+			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+		);
+		$toolbar_data[] = array(
+			'href' => $this->get_url(array('view'=>'week')),
+			'img' => api_get_path(WEB_CODE_PATH).'/img/calendar_week.gif',
+			'label' => get_lang('WeekView'),
+			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+		);
+		$toolbar_data[] = array(
+			'href' => $this->get_url(array('view'=>'day')),
+			'img' => api_get_path(WEB_CODE_PATH).'/img/calendar_day.gif',
+			'label' => get_lang('DayView'),
+			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+		);
+		echo RepositoryUtilities :: build_toolbar($toolbar_data);
 		$show_calendar = true;
 		if(isset($_GET['pid']))
 		{
@@ -106,7 +127,7 @@ class CalendarTool extends RepositoryTool
 		$datamanager = WeblcmsDataManager :: get_instance();
 		$publication = $datamanager->retrieve_learning_object_publication($publication_id);
 		$html = array();
-		$html[] = '<a href="'.$this->get_url(array(), true).'">&laquo;&laquo; '.get_lang('Back').'</a>';
+		$html[] = '<a href="'.$this->get_url(array(), true).'">&laquo;&laquo; '.htmlentities(get_lang('Back')).'</a>';
 		$html[] = $renderer->render_publication($publication);
 		echo implode("\n",$html);
 	}

@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package repository.condition
+ */
 require_once dirname(__FILE__).'/multipleaggregatecondition.class.php';
 
 /**
@@ -7,7 +10,6 @@ require_once dirname(__FILE__).'/multipleaggregatecondition.class.php';
  *	conditions be met.
  *
  *	@author Tim De Pauw
- * @package repository.condition
 ==============================================================================
  */
 

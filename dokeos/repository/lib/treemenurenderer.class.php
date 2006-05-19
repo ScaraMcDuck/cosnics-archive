@@ -1,9 +1,11 @@
 <?php
+/**
+ * @package repository
+ */
 require_once 'HTML/Menu/DirectTreeRenderer.php';
 
 /**
  * Renderer which can be used to include a tree menu on your page.
- * @package repository
  * @author Bart Mollet
  * @author Tim De Pauw
  */

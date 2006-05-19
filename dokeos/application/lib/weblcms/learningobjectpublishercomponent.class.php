@@ -1,6 +1,6 @@
 <?php
 /**
- * @package application.weblcms.tool
+ * @package application.weblcms
  */
 /**
 ==============================================================================

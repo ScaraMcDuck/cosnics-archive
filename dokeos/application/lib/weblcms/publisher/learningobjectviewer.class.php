@@ -1,10 +1,13 @@
 <?php
 /**
- * @package application.weblcms.tool
+ * @package application.weblcms
+ * @subpackage publisher
  */
 require_once dirname(__FILE__).'/../learningobjectpublishercomponent.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectdisplay.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
+
 /**
  * This class represents a learning object publisher component which can be used
  * to preview a learning object in the learning object publisher.
@@ -19,12 +22,21 @@ class LearningObjectViewer extends LearningObjectPublisherComponent
 		if ($_GET[LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID])
 		{
 			$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($_GET[LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID]);
-			return LearningObjectDisplay :: factory($object)->get_full_html()
-				.'<p>'
-				.'<a href="'.$this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator', LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id()), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/publish.gif" alt="'.get_lang('Publish').'" style="vertical-align: middle"/> '.get_lang('PublishThisObject').'</a>'
-				. ' '
-				.'<a href="'.$this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator', LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id(), LearningObjectPublisher :: PARAM_EDIT => 1), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/editpublish.gif" alt="'.get_lang('EditAndPublish').'" style="vertical-align: middle"/> '.get_lang('EditAndPublishThisObject').'</a>'
-				.'</p>';
+			$toolbar_data = array();
+			$toolbar_data[] = array(
+				'href' => $this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator', LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id())),
+				'img' => api_get_path(WEB_CODE_PATH).'img/publish.gif',
+				'label' => get_lang('Publish'),
+				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			);
+			$toolbar_data[] = array(
+				'href' => $this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator', LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id(), LearningObjectPublisher :: PARAM_EDIT => 1)),
+				'img' => api_get_path(WEB_CODE_PATH).'img/editpublish.gif',
+				'label' => get_lang('EditAndPublish'),
+				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			);
+			$toolbar = RepositoryUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
+			return LearningObjectDisplay :: factory($object)->get_full_html().$toolbar;
 		}
 	}
 }

@@ -64,7 +64,7 @@ abstract class RepositoryTool extends Tool
 						$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
 						if($publication->delete())
 						{
-							$message = get_lang('LearningObjectPublicationDeleted');
+							$message = htmlentities(get_lang('LearningObjectPublicationDeleted'));
 						}
 					}
 					break;
@@ -75,7 +75,7 @@ abstract class RepositoryTool extends Tool
 						$publication->toggle_visibility();
 						if($publication->update())
 						{
-							$message = get_lang('LearningObjectPublicationVisibilityChanged');
+							$message = htmlentities(get_lang('LearningObjectPublicationVisibilityChanged'));
 						}
 					}
 					break;
@@ -85,7 +85,7 @@ abstract class RepositoryTool extends Tool
 						$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
 						if($publication->move(-1))
 						{
-							$message = get_lang('LearningObjectPublicationMoved');
+							$message = htmlentities(get_lang('LearningObjectPublicationMoved'));
 						}
 					}
 					break;
@@ -95,7 +95,7 @@ abstract class RepositoryTool extends Tool
 						$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
 						if($publication->move(1))
 						{
-							$message = get_lang('LearningObjectPublicationMoved');
+							$message = htmlentities(get_lang('LearningObjectPublicationMoved'));
 						}
 					}
 					break;

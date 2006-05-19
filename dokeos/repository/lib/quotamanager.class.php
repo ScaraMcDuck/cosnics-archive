@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package repository
+ */
 require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 /**
 ==============================================================================
@@ -7,7 +10,6 @@ require_once dirname(__FILE__).'/repositorydatamanager.class.php';
  * the database space used by the user.
  *
  *	@author Bart Mollet
- * @package repository
 ==============================================================================
  */
 
@@ -18,37 +20,21 @@ class QuotaManager
 	 */
 	private $owner;
 	/**
-	 * The used disk space
-	 */
-	private $used_disk_space;
-	/**
-	 * The used database space
-	 */
-	private $used_database_space;
-	/**
 	 * Create a new QuotaManager
 	 * @param int $owner The user id of the owner
 	 */
 	public function QuotaManager($owner)
 	{
 		$this->owner = $owner;
-		$this->used_disk_space = null;
-		$this->used_database_space = null;
 	}
 	/**
 	 * Get the used disk space
-	 * @param boolean $refresh Force the quotamanager to recalculate the used
-	 * disk space.
 	 * @return int The number of bytes used
 	 */
-	public function get_used_disk_space($refresh = false)
+	public function get_used_disk_space()
 	{
-		if(is_null($this->used_disk_space) || $refresh)
-		{
-			$datamanager = RepositoryDatamanager::get_instance();
-			$this->used_disk_space = $datamanager->get_used_disk_space($this->owner);
-		}
-		return $this->used_disk_space;
+		$datamanager = RepositoryDatamanager::get_instance();
+		return $datamanager->get_used_disk_space($this->owner);
 	}
 	/**
 	 * Get the used disk space
@@ -68,20 +54,14 @@ class QuotaManager
 	}
 	/**
 	 * Get the used database space
-	 * @param boolean $refresh Force the quotamanager to recalculate the used
-	 * database space.
 	 * @return int The number of learning objects in the repository of the
 	 * owner
 	 */
-	public function get_used_database_space($refresh = false)
+	public function get_used_database_space()
 	{
-		if(is_null($this->used_database_space) || $refresh)
-		{
-			$datamanager = RepositoryDatamanager::get_instance();
-			$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID,$this->owner);
-			$this->used_database_space = $datamanager->count_learning_objects(null,$condition,-1);
-		}
-		return $this->used_database_space;
+		$datamanager = RepositoryDatamanager::get_instance();
+		$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID,$this->owner);
+		return $datamanager->count_learning_objects(null,$condition,-1);
 	}
 	/**
 	 * Get the used database space

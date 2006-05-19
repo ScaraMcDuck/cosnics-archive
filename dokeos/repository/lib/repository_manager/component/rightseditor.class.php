@@ -14,7 +14,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('EditRights')));
 		$this->display_header($breadcrumbs);
 		//TODO: Implementation (connect to existing Roles&Rights stuff)
-		echo '<p>'.get_lang('NotAvailable').'</p>';
+		echo '<p>'.htmlentities(get_lang('NotAvailable')).'</p>';
 		$this->display_footer();
 	}
 }

@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package repository
+ */
 interface AccessibleLearningObject
 {
 	function get_type();

@@ -736,35 +736,27 @@ div.system_announcement_content{
 div.learning_object
 {
 	border: 1px solid #F0F0F0;
-	margin: 3px;
-}
-div.learning_object div.icon
-{
-	width: 26px;
-	height: 26px;
-	float: left;
+	margin: 0 0 1em 0;
+	padding: 10px 10px 10px 44px;
+	background-position: 10px 10px;
+	background-repeat: no-repeat;
 }
 div.learning_object div.title
 {
 	font-weight: bold;
 	font-size: larger;
-	padding: 3px;
-	float: left;
-	vertical-align: middle;
 	border-bottom: 1px solid #CCCCCC;
 	width: 60%;
-	margin-bottom: 10px;
+	margin-bottom: 1em;
 }
 div.learning_object div.description
 {
-	margin-left: 10px;
-	clear: both;
 }
 div.learning_object div.publication_info
 {
 	font-style: italic;
 	text-align: right;
-	padding: 3px;
+	margin: 1em 0;
 }
 div.learning_object div.publication_actions
 {
@@ -774,22 +766,52 @@ div.learning_object div.publication_actions
 /* List of attachments */
 div.attachments
 {
+	border: 1px solid #F6F6F6;
+	margin: 0 0 1em 0;
+	padding: 10px 10px 10px 44px;
+	background: url(../img/attachment_large.gif) no-repeat 10px 10px;
 }
 div.attachments_title
 {
 	font-weight: bold;
-	margin-left: 15px;
+	border-bottom: 1px solid #D0D0D0;
+	width: 60%;
+	margin-bottom: 1em;
 }
 ul.attachments_list
 {
-	margin: 2px;
 	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+ul.attachments_list li
+{
+	margin: 0;
+	padding: 0;
 }
 ul.attachments_list img
 {
 	vertical-align: middle;
 }
-
+input#attachments_expand_button
+{
+	border: 0;
+	background: transparent;
+	background-image: url(../img/attachment.gif);
+	background-position: 0 50%;
+	background-repeat: no-repeat;
+	padding: 0 0 0 18px;
+	height: 15px;
+	font-weight: bold;
+	font-family: arial, verdana, helvetica, sans-serif;
+	font-size: 12px;
+	color: #4171b5;
+	cursor: pointer;
+}
+input#attachments_expand_button:hover
+{
+	color: red;
+}
 
 /* Semantic tabbed pane style */
 .tabbed-pane
@@ -843,6 +865,16 @@ ul.attachments_list img
 }
 
 /* treemenu */
+
+/*
+ * This turns off the unsightly unstyled tree before the page has
+ * been completely loaded. Since it is made visible through JavaScript,
+ * having CSS on but JavaScript off breaks the tree.
+ */
+ul.tree-menu
+{
+	visibility: hidden;
+}
 
 ul.tree-menu, ul.tree-menu ul
 {
@@ -923,7 +955,11 @@ ul.tree-menu li div a
 {
 	margin: 0;
 	padding: 0 0 0 18px;
-	background: url(../img/treemenu/tree-folder-open.gif) no-repeat;
+	background: url(../img/treemenu/tree-folder-open.gif) no-repeat 0 0;
+	/*
+	 * Stretches links over the entire width of the menu
+	 * Also required for minimum height
+	 */
 	display: block;
 	height: 18px;
 	white-space: nowrap;
@@ -950,10 +986,7 @@ ul.tree-menu li.collapsed ul
 	display: none;
 }
 
-/*
- * TODO: Workaround for IE
- */
-ul.tree-menu li.current > div > a
+ul.tree-menu li div.current a
 {
 	text-decoration: underline;
 }
@@ -995,12 +1028,10 @@ ul.tree-menu li div a
 ul.tree-menu li div a.trash
 {
 	background-image: url(../img/treemenu/trash.gif);
-	background-repeat: no-repeat;
 }
 ul.tree-menu li div a.trash_full
 {
 	background-image: url(../img/treemenu/trash-full.gif);
-	background-repeat: no-repeat;
 }
 
 /*
@@ -1009,7 +1040,6 @@ ul.tree-menu li div a.trash_full
 ul.tree-menu li div a.quota
 {
 	background-image: url(../img/treemenu/quota.gif);
-	background-repeat: no-repeat;
 }
 
 /*
@@ -1018,7 +1048,6 @@ ul.tree-menu li div a.quota
 ul.tree-menu li div a.create
 {
 	background-image: url(../img/treemenu/create.gif);
-	background-repeat: no-repeat;
 }
 
 /*
@@ -1026,8 +1055,7 @@ ul.tree-menu li div a.create
  */
 ul.tree-menu li div a.search_results
 {
-	background-image: url(../img/search_icon.png);
-	background-repeat: no-repeat;
+	background-image: url(../img/search_icon.gif);
 }
 
 /*
@@ -1066,7 +1094,7 @@ ul.tree-menu li div a.search_results
 }
 
 ul.tree-menu li div a.selected, .active_elements a.selected {
-	background-color: #E6E6FF;
+	background-color: #F0F0FF;
 }
 
 ul.tree-menu li div a.disabled, ul.tree-menu li div a.disabled:hover,
@@ -1096,11 +1124,8 @@ ul.tree-menu li.collapsed div a.type_category:active
 	background-repeat: no-repeat;
 }
 
-/*
- * TODO: Workaround for IE
- */
-ul.tree-menu li.current > div > a.type_category, ul.tree-menu li.current > div > a.type_category:hover,
-ul.tree-menu li.current > div > a.type_category:active
+ul.tree-menu li div.current a.type_category, ul.tree-menu li div.current a.type_category:hover,
+ul.tree-menu li div.current a.type_category:active
 {
 	background-image: url(../img/treemenu/tree-folder-open.gif);
 	background-repeat: no-repeat;
@@ -1216,12 +1241,12 @@ table.calendar td.highlight
 }
 
 /*
- * Repository Search
+ * Generic search field
  */
 
-input.simple_search_query
+input.search_query
 {
-	background: url(../img/search_icon.png) 2px 50% no-repeat;
+	background: url(../img/search_icon.gif) 1px 50% no-repeat;
 	padding: 0 0 0 21px;
 }
 
@@ -1250,4 +1275,71 @@ input.simple_search_query
 }
 .usage_status {
 	margin: 0.5em 0 1.5em 0;
+}
+
+/*
+ * Icon-based toolbars
+ */
+ul.toolbar {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	color: #999; /* For disabled items */
+}
+ul.toolbar li {
+	display: inline;
+	margin: 1px;
+	padding: 0;
+	white-space: nowrap;
+}
+ul.toolbar li img {
+	margin: 0;
+	padding: 0;
+	vertical-align: middle;
+}
+ul.toolbar li img.labeled {
+	margin-right: 0.5ex;
+}
+ul.toolbar li span {
+	margin: 0;
+	padding: 0 1ex 0 0;
+}
+ul.toolbar li.last span {
+	padding-right: 0;
+}
+
+/*
+ * Search portal
+ */
+
+.portal_search_results {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.portal_search_result {
+	background-repeat: no-repeat;
+	background-position: 10px 10px;
+	padding: 10px 10px 10px 44px;
+	margin: 0 0 10px 0;
+	border: 1px solid #F0F0F0;
+}
+.portal_search_result:hover {
+	border-color: #E0E0E0;
+	background-color: #F9F9F9;
+}
+.portal_search_result_title {
+	font-size: 120%;
+	font-weight: bold;
+	display: inline;
+}
+.portal_search_result_type {
+	font-size: 90%;
+	color: #999;
+	display: inline;
+	padding-left: 1ex;
+}
+.portal_search_result_date {
+	font-size: 90%;
+	color: #666;
 }

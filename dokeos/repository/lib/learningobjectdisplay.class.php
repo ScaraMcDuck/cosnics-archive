@@ -1,9 +1,11 @@
 <?php
+/**
+ * @package repository
+ */
 require_once dirname(__FILE__).'/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 /**
  * A class to display a LearningObject.
- * @package repository.learningobject
  */
 abstract class LearningObjectDisplay
 {
@@ -65,8 +67,7 @@ abstract class LearningObjectDisplay
 	{
 		$object = $this->get_learning_object();
 		$html = array();
-		$html[] = '<div class="learning_object">';
-		$html[] = '<div class="icon"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif" alt="'.$object->get_type().'"/></div>';
+		$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif);">';
 		$html[] = '<div class="title">'.htmlentities($object->get_title()).'</div>';
 		$html[] = '<div class="description">'.$object->get_description().'</div>';
 		$html[] = '</div>';
@@ -76,7 +77,7 @@ abstract class LearningObjectDisplay
 			$parent_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($parent_id);
 			if ($parent_object->get_type() != 'category')
 			{
-				$html[] = '<div class="parent_link" style="margin: 1em 0;"><a href="'.htmlentities($this->get_learning_object_url($parent_object)).'">'.get_lang('ViewParent').'</a></div>';
+				$html[] = '<div class="parent_link" style="margin: 1em 0;"><a href="'.htmlentities($this->get_learning_object_url($parent_object)).'">'.htmlentities(get_lang('ViewParent')).'</a></div>';
 			}
 		}
 		return implode("\n",$html);
@@ -104,14 +105,14 @@ abstract class LearningObjectDisplay
 			if (count($attachments))
 			{
 				$html = array();
-				$html[] = '<div class="attachments">';
+				$html[] = '<div class="attachments" style="margin-top: 1em;">';
 				$html[] = '<div class="attachments_title">'.htmlentities(get_lang('Attachments')).'</div>';
 				$html[] = '<ul class="attachments_list">';
 				RepositoryUtilities :: order_learning_objects_by_title(& $attachments);
 				foreach ($attachments as $attachment)
 				{
 					$disp = self :: factory(& $attachment);
-					$html[] = '<li><img src="'.api_get_path(WEB_CODE_PATH).'/img/treemenu_types/'.$attachment->get_type().'.gif" alt="'.$attachment->get_type().'"/> '.$disp->get_short_html().'</li>';
+					$html[] = '<li><img src="'.api_get_path(WEB_CODE_PATH).'/img/treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 				}
 				$html[] = '</ul>';
 				$html[] = '</div>';

@@ -1,6 +1,7 @@
 <?php
 /**
- * @package application.weblcms.tool
+ * @package application.weblcms
+ * @subpackage publisher
  */
 require_once dirname(__FILE__).'/learningobjectbrowser.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/andcondition.class.php';
@@ -32,8 +33,8 @@ class LearningObjectFinder extends LearningObjectBrowser
 		$this->form = new FormValidator('search', 'get','','',null,false);
 		$this->form->addElement('hidden', 'tool');
 		$this->form->addElement('hidden', LearningObjectPublisher :: PARAM_ACTION);
-		$this->form->addElement('text', 'query', get_lang('Find'), 'size="60" style="width: 60%;"');
-		$this->form->addElement('submit', 'submit', get_lang('Search'));
+		$this->form->addElement('text', 'query', get_lang('Find'), 'size="40" class="search_query"');
+		$this->form->addElement('submit', 'submit', get_lang('Ok'));
 		$this->set_parameter('query', $this->get_query());
 		$this->renderer = clone $this->form->defaultRenderer();
 		$this->renderer->setElementTemplate('<span>{element}</span> ');

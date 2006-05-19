@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package application.weblcms
+ */
 require_once dirname(__FILE__).'/../../../repository/lib/abstractlearningobject.class.php';
 
 /**
@@ -6,7 +9,6 @@ require_once dirname(__FILE__).'/../../../repository/lib/abstractlearningobject.
  *	This class provides the means to publish a learning object.
  *
  *	@author Tim De Pauw
- * @package application.weblcms.tool
 ==============================================================================
  */
 
@@ -56,7 +58,7 @@ class LearningObjectPublisher
 		{
 			$out .= '<li><a';
 			if ($this->get_action() == $action) $out .= ' class="current"';
-			$out .= ' href="'.$this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => $action), true).'">'.get_lang(ucfirst($action).'Title').'</a></li>';
+			$out .= ' href="'.$this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => $action), true).'">'.htmlentities(get_lang(ucfirst($action).'Title')).'</a></li>';
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
 		$action = $this->get_action();
