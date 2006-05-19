@@ -65,13 +65,14 @@ class DocumentForm extends LearningObjectForm
 		{
 			$filename = $this->create_unique_filename($owner, $_FILES['file']['name']);
 			$path = $owner.'/'.$filename;
-			$target = $this->get_upload_path().'/'.$path;
-			move_uploaded_file($_FILES['file']['tmp_name'], $target) or die('Failed to create "'.$target.'"');
+			$full_path = $this->get_upload_path().'/'.$path;
+			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
 		}
+		chmod($full_path, 0777);
 		$object = new Document();
 		$object->set_path($path);
 		$object->set_filename($filename);
-		$object->set_filesize(filesize($this->get_upload_path().'/'.$path));
+		$object->set_filesize(filesize($full_path));
 		$this->set_learning_object($object);
 		return parent :: create_learning_object();
 	}
@@ -94,16 +95,17 @@ class DocumentForm extends LearningObjectForm
 			$create_file = fopen($full_path, 'w') or die('Failed to create "'.$full_path.'"');
 			fwrite($create_file, $values['html_content']);
 			fclose($create_file);
+			chmod($full_path, 0777);
 		}
-		else
-			if (strlen($_FILES['file']['name']) > 0)
-			{
-				unlink($this->get_upload_path().'/'.$object->get_path());
-				$filename = $this->create_unique_filename($owner, $_FILES['file']['name']);
-				$path = $owner.'/'.$filename;
-				$target = $this->get_upload_path().'/'.$path;
-				move_uploaded_file($_FILES['file']['tmp_name'], $target) or die('Failed to create "'.$target.'"');
-			}
+		elseif (strlen($_FILES['file']['name']) > 0)
+		{
+			unlink($this->get_upload_path().'/'.$object->get_path());
+			$filename = $this->create_unique_filename($owner, $_FILES['file']['name']);
+			$path = $owner.'/'.$filename;
+			$full_path = $this->get_upload_path().'/'.$path;
+			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
+			chmod($full_path, 0777);
+		}
 		$object->set_path($path);
 		$object->set_filename($filename);
 		$object->set_filesize(filesize($this->get_upload_path().'/'.$object->get_path()));
