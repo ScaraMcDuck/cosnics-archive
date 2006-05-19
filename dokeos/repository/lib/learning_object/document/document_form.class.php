@@ -12,7 +12,7 @@ class DocumentForm extends LearningObjectForm
 	protected function build_creation_form()
 	{
 		parent :: build_creation_form();
-		$this->addElement('upload_or_create', 'upload_or_create');
+		$this->addElement('upload_or_create', 'upload_or_create', get_lang('FileName'));
 		$this->addFormRule(array ($this, 'check_document_form'));
 	}
 	protected function build_editing_form()
