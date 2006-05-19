@@ -87,12 +87,9 @@ class DocumentForm extends LearningObjectForm
 		{
 			mkdir($owner_path);
 		}
-		else
-		{
-			unlink($this->get_upload_path().'/'.$object->get_path());
-		}
 		if (isset ($values['html_content']))
 		{
+			unlink($this->get_upload_path().'/'.$object->get_path());
 			$full_path = $this->get_upload_path().'/'.$object->get_path();
 			$create_file = fopen($full_path, 'w') or die('Failed to create "'.$full_path.'"');
 			fwrite($create_file, $values['html_content']);
@@ -101,6 +98,7 @@ class DocumentForm extends LearningObjectForm
 		else
 			if (strlen($_FILES['file']['name']) > 0)
 			{
+				unlink($this->get_upload_path().'/'.$object->get_path());
 				$filename = $this->create_unique_filename($owner, $_FILES['file']['name']);
 				$path = $owner.'/'.$filename;
 				$target = $this->get_upload_path().'/'.$path;
