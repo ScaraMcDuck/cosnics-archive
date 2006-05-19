@@ -9,10 +9,10 @@ require_once dirname(__FILE__).'/../../../learning_object_table/learningobjectta
  */
 class LearningPathTable extends LearningObjectTable
 {
-	function LearningPathTable($learningpath, $url_format)
+	function LearningPathTable($learning_path, $url_format, $chapters = false)
 	{
-		$name = 'learningpathtable'.$learningpath->get_id();
-		$data_provider = new LearningPathTableDataProvider($learningpath);
+		$name = 'learningpathtable'.$learning_path->get_id();
+		$data_provider = new LearningPathTableDataProvider($learning_path, $chapters);
 		$column_model = new LearningPathTableColumnModel();
 		$cell_renderer = new LearningPathTableCellRenderer($url_format);
 		parent :: __construct($data_provider, $name, $column_model, $cell_renderer);

@@ -5,11 +5,12 @@
 require_once dirname(__FILE__).'/repositoryrecyclebinbrowsertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/../../../learning_object_table/defaultlearningobjecttablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../../learningobject.class.php';
+require_once dirname(__FILE__).'/../../../repositoryutilities.class.php';
 
 class RepositoryRecycleBinBrowserTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 {
 	private $browser;
-
+	
 	private $parent_title_cache;
 
 	function RepositoryRecycleBinBrowserTableCellRenderer($browser)
@@ -39,8 +40,7 @@ class RepositoryRecycleBinBrowserTableCellRenderer extends DefaultLearningObject
 				$pid = $learning_object->get_parent_id();
 				if (!isset($this->parent_title_cache[$pid]))
 				{
-					$parent = $this->browser->retrieve_learning_object($pid);
-					$this->parent_title_cache[$pid] = '<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($parent)).'" title="'.get_lang('BrowseThisCategory').'">'.htmlentities($parent->get_title()).'</a>';
+					$this->parent_title_cache[$pid] = '<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.htmlentities(get_lang('BrowseThisCategory')).'">'.htmlentities($this->browser->retrieve_learning_object($pid)->get_title()).'</a>';
 				}
 				return $this->parent_title_cache[$pid];
 		}
@@ -49,10 +49,19 @@ class RepositoryRecycleBinBrowserTableCellRenderer extends DefaultLearningObject
 
 	private function get_action_links($learning_object)
 	{
-		$html = array();
-		$html[] = '<a href="'.$this->browser->get_learning_object_restoring_url($learning_object).'" title="'.get_lang('Restore').'"><img src="'.$this->browser->get_web_code_path().'img/restore.gif" alt="'.get_lang('Restore').'"/></a>';
-		$html[] = '<a href="'.$this->browser->get_learning_object_deletion_url($learning_object).'" title="'.get_lang('Delete').'"><img src="'.$this->browser->get_web_code_path().'img/delete.gif" alt="'.get_lang('Delete').'"/></a>';
-		return implode($html);
+		$toolbar_data = array();
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_learning_object_restoring_url($learning_object),
+			'img' => api_get_path(WEB_CODE_PATH).'img/restore.gif',
+			'label' => get_lang('Restore')
+		);
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_learning_object_deletion_url($learning_object),
+			'img' => api_get_path(WEB_CODE_PATH).'img/delete.gif',
+			'label' => get_lang('Delete'),
+			'confirm' => true
+		);
+		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

@@ -1,11 +1,14 @@
 <?php
 /**
+ * @package application.weblcms
+ * @subpackage browser
+ */
+/**
  * This is a generic renderer for a set of learning object publications.
  * @package application.weblcms.tool
  * @author Bart Mollet
  * @author Tim De Pauw
  */
-
 abstract class LearningObjectPublicationListRenderer
 {
 	protected $browser;
@@ -74,7 +77,7 @@ abstract class LearningObjectPublicationListRenderer
 	{
 		if ($publication->is_for_everybody())
 		{
-			return get_lang('Everybody');
+			return htmlentities(get_lang('Everybody'));
 		}
 		else
 		{
@@ -108,9 +111,9 @@ abstract class LearningObjectPublicationListRenderer
 	{
 		if ($publication->is_forever())
 		{
-			return get_lang('Forever');
+			return htmlentities(get_lang('Forever'));
 		}
-		return get_lang('From').' '.$this->format_date($publication->get_from_date()).' '.get_lang('Until').' '.$this->format_date($publication->get_to_date());
+		return htmlentities(get_lang('From').' '.$this->format_date($publication->get_from_date()).' '.get_lang('Until').' '.$this->format_date($publication->get_to_date()));
 	}
 
 	/**
@@ -122,9 +125,9 @@ abstract class LearningObjectPublicationListRenderer
 	{
 		$publisher = api_get_user_info($publication->get_publisher_id());
 		$html = array ();
-		$html[] = get_lang('PublishedOn').' '.$this->render_publication_date($publication);
-		$html[] = get_lang('By').' '.$this->render_publisher($publication);
-		$html[] = get_lang('For').' '.$this->render_publication_targets($publication);
+		$html[] = htmlentities(get_lang('PublishedOn')).' '.$this->render_publication_date($publication);
+		$html[] = htmlentities(get_lang('By')).' '.$this->render_publisher($publication);
+		$html[] = htmlentities(get_lang('For')).' '.$this->render_publication_targets($publication);
 		if (!$publication->is_forever())
 		{
 			$html[] = '('.$this->render_publication_period($publication).')';

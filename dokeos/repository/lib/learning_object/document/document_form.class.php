@@ -131,6 +131,7 @@ class DocumentForm extends LearningObjectForm
 	 */
 	protected function check_document_form($fields)
 	{
+		// TODO: Do the errors need htmlentities()?
 		$errors = array();
 		if(!$fields['choice'])
 		{

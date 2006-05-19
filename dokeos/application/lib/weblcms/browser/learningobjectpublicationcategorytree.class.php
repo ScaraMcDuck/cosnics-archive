@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package application.weblcms
+ * @subpackage browser
+ */
 require_once dirname(__FILE__).'/../../../../repository/lib/treemenurenderer.class.php';
 require_once 'HTML/Menu.php';
 

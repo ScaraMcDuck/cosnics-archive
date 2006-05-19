@@ -135,7 +135,7 @@ function tmParseNode (node, level, collapseLevel, activeNodes)
 	}
 	if (link)
 	{
-		tmWrapInDiv(link, hasChildren);
+		tmWrapInDiv(link, hasChildren, tmHasClassName(node, "current"));
 		return true;
 	}
 	return false;
@@ -183,7 +183,7 @@ function tmIsLastNode (node)
 	return tmHasClassName(node, "last");
 }
 
-function tmWrapInDiv (link, collapsible)
+function tmWrapInDiv (link, collapsible, isCurrent)
 {
 	var div = document.createElement("div");
 	var linkID = link.getAttribute('id');
@@ -197,12 +197,16 @@ function tmWrapInDiv (link, collapsible)
 		this.blur();
 		return (oldOnclick ? oldOnclick(e) : true);
 	};
+	if (isCurrent)
+	{
+		div.className = "current";
+	}
 	div.appendChild(copy);
 	var parent = link.parentNode;
 	parent.replaceChild(div, link);
 	if (tmHasClassName(parent, "last"))
 	{
-		div.className = "last";
+		div.className = (div.className ? div.className + " last" : "last");
 	}
 	if (collapsible)
 	{

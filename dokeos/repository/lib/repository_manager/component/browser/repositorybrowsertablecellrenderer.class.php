@@ -40,22 +40,45 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 
 	private function get_modification_links($learning_object)
 	{
+		$toolbar_data = array();
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_learning_object_editing_url($learning_object),
+			'label' => get_lang('Edit'),
+			'img' => $this->browser->get_web_code_path().'img/edit.gif'
+		);
 		$html = array ();
-		$html[] = '<span style="white-space:nowrap;">';
-		$html[] = '<a href="'.$this->browser->get_learning_object_editing_url($learning_object).'" title="'.get_lang('Edit').'"><img src="'.$this->browser->get_web_code_path().'img/edit.gif" alt="'.get_lang('Edit').'"/></a>';
 		if ($url = $this->browser->get_learning_object_recycling_url($learning_object))
 		{
-			$html[] = '<a href="'.$url.'" title="'.get_lang('Remove').'"  onclick="return confirm(&quot;'.htmlentities(get_lang('ConfirmYourChoice')).'&quot;);"><img src="'.$this->browser->get_web_code_path().'img/recycle_bin.gif" alt="'.get_lang('Remove').'"/></a>';
+			$toolbar_data[] = array(
+				'href' => $url,
+				'label' => get_lang('Remove'),
+				'img' => $this->browser->get_web_code_path().'img/recycle_bin.gif',
+				'confirm' => true
+			);
 		}
 		else
 		{
-			$html[] = '<img src="'.$this->browser->get_web_code_path().'img/recycle_bin_na.gif" alt="'.get_lang('Recycle').'"/>';
+			$toolbar_data[] = array(
+				'label' => get_lang('Remove'),
+				'img' => $this->browser->get_web_code_path().'img/recycle_bin_na.gif'
+			);
 		}
-		$html[] = '<a href="'.$this->browser->get_learning_object_moving_url($learning_object).'" title="'.get_lang('Move').'"><img src="'.$this->browser->get_web_code_path().'img/move.gif" alt="'.get_lang('Move').'"/></a>';
-		$html[] = '<a href="'.$this->browser->get_learning_object_metadata_editing_url($learning_object).'" title="'.get_lang('Metadata').'"><img src="'.$this->browser->get_web_code_path().'img/info_small.gif" alt="'.get_lang('Metadata').'"/></a>';
-		$html[] = '<a href="'.$this->browser->get_learning_object_rights_editing_url($learning_object).'" title="'.get_lang('Rights').'"><img src="'.$this->browser->get_web_code_path().'img/group_small.gif" alt="'.get_lang('Rights').'"/></a>';
-		$html[] = '</span>';
-		return implode('', $html);
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_learning_object_moving_url($learning_object),
+			'label' => get_lang('Move'),
+			'img' => $this->browser->get_web_code_path().'img/move.gif'
+		);
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_learning_object_metadata_editing_url($learning_object),
+			'label' => get_lang('Metadata'),
+			'img' => $this->browser->get_web_code_path().'img/info_small.gif'
+		);
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_learning_object_rights_editing_url($learning_object),
+			'label' => get_lang('Rights'),
+			'img' => $this->browser->get_web_code_path().'img/group_small.gif'
+		);
+		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

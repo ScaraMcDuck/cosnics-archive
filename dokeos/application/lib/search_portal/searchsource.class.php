@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package application.searchportal
+ */
 interface SearchSource
 {
 	function search($query);

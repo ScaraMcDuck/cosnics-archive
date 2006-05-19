@@ -9,6 +9,7 @@
  */
 
 // TODO: Provide an alternative if AJAX isn't supported.
+// TODO: Find out what breaks stuff in IE.
 
 var elfLocale = new Array();
 elfLocale['Searching'] = 'Searching ...';
@@ -55,7 +56,7 @@ function ElementFinderSearch (url, origin, destination) {
 	var searchObject = this;
 	this.ajax.onreadystatechange = function() {
 		searchObject.readyStateChanged();
-	}
+	};
 	this.ajax.open("GET", url, true);
 	this.ajax.send("");
 }
@@ -69,7 +70,7 @@ ElementFinderSearch.prototype.readyStateChanged = function () {
 		elfNotify('Error', this.destination);
 	}
 	elfSearches[this.destination.getAttribute('id')] = null;
-}
+};
 
 ElementFinderSearch.prototype.returnResults = function () {
 	var xml = this.ajax.responseXML;
@@ -94,11 +95,11 @@ ElementFinderSearch.prototype.returnResults = function () {
 	else {
 		elfNotify('NoResults', this.destination);
 	}
-}
+};
 
 ElementFinderSearch.prototype.emptyDestination = function () {
 	elfEmptyNode(this.destination);
-}
+};
 
 function elfEmptyNode (node) {
 	var children = node.childNodes;
@@ -365,16 +366,16 @@ function elfStripWhitespace (str) {
 	if (str.length == 0) return str;
 	var start;
 	for (start = 0; start < str.length; start++) {
-		var char = str.charAt(start);
-		if (char != " " && char != "\t") {
+		var ch = str.charAt(start);
+		if (ch != " " && ch != "\t") {
 			break;
 		}
 	}
 	if (start == str.length) return "";
 	var end;
 	for (end = str.length - 1; end >= 0; end--) {
-		var char = str.charAt(end);
-		if (char != " " && char != "\t") {
+		var ch = str.charAt(end);
+		if (ch != " " && ch != "\t") {
 			break;
 		}
 	}
