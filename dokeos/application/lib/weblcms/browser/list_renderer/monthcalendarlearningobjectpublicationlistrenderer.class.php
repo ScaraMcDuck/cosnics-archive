@@ -29,7 +29,7 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 		$first_day = mktime(0, 0, 0, $m, 1, $y);
 		$first_day_nr = date('w', $first_day) == 0 ? 6 : date('w', $first_day) - 1;
 		$calendar_table->addRow(array ('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'));
-		$first_table_date = strtotime('Monday',strtotime('-1 Week',$first_day));
+		$first_table_date = strtotime('Next Monday',strtotime('-1 Week',$first_day));
 		$table_date = $first_table_date;
 		$cell = 0;
 		while(date('Ym',$table_date) <= date('Ym',$this->display_time))
@@ -45,9 +45,25 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 					$cell_contents .= $this->render_publication($publication);
 				}
 				$calendar_table->setCellContents(intval($cell / 7) + 1, $cell % 7, $cell_contents );
+				$class = array();
+				// Is current table date today?
 				if(date('Ymd',$table_date) == date('Ymd'))
 				{
-					$calendar_table->updateCellAttributes(intval($cell / 7) + 1, $cell % 7,'class="highlight"');
+					$class[] = 'highlight';
+				}
+				// If day of week number is 0 (Sunday) or 6 (Saturday) -> it's a weekend
+				if(date('w',$table_date)%6 == 0)
+				{
+					$class[] = 'weekend';
+				}
+				// Is current table date in this month or another one?
+				if( date('Ym',$table_date) != date('Ym',$this->display_time))
+				{
+					$class[] = 'disabled_month';
+				}
+				if(count($class) > 0)
+				{
+					$calendar_table->updateCellAttributes(intval($cell / 7) + 1, $cell % 7,'class="'.implode(' ',$class).'"');
 				}
 				$cell++;
 				$table_date = strtotime('+1 Day',$table_date);
