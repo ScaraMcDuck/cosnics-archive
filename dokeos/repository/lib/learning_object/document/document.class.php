@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../../learningobject.class.php';
+require_once dirname(__FILE__).'/../../configuration.class.php';
 /**
  * @package repository.learningobject
  * @subpackage document
@@ -40,6 +41,10 @@ class Document extends LearningObject
 		$path = $path.'/'.$this->get_path();
 		unlink($path);
 		parent :: delete();
+	}
+	function get_url()
+	{
+		return Configuration::get_instance()->get_parameter('general', 'upload_url').'/'.$this->get_path();
 	}
 	static function get_disk_space_properties()
 	{

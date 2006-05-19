@@ -18,6 +18,9 @@ $configuration['database']['table_name_prefix']
 	= 'dokeos_';
 	
 $configuration['general']['upload_path']
-	= '/your/upload/folder';
+	= dirname(__FILE__).'/../../claroline/upload';
+
+$configuration['general']['upload_url']
+	= '/~ct/Dokeos_LCMS_CVS/claroline/upload';
 
 ?>

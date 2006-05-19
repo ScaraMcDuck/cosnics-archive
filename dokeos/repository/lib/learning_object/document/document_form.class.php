@@ -12,14 +12,14 @@ class DocumentForm extends LearningObjectForm
 	protected function build_creation_form()
 	{
 		parent :: build_creation_form();
-		$this->addElement('upload_or_create','upload_or_create');
-		$this->addFormRule(array($this,'check_document_form'));
+		$this->addElement('upload_or_create', 'upload_or_create');
+		$this->addFormRule(array ($this, 'check_document_form'));
 	}
 	protected function build_editing_form()
 	{
 		parent :: build_editing_form();
 		$object = $this->get_learning_object();
-		if($this->is_html_document($object->get_path()))
+		if ($this->is_html_document($object->get_path()))
 		{
 			$this->addElement('html_editor', 'html_content', get_lang('HtmlDocument'));
 			$this->addRule('html_content', get_lang('DiskQuotaExceeded'), 'disk_quota');
@@ -29,8 +29,8 @@ class DocumentForm extends LearningObjectForm
 		else
 		{
 			$this->addElement('file', 'file', get_lang('FileName'));
-			$this->addRule('file',get_lang('DiskQuotaExceeded'),'disk_quota');
-		} 
+			$this->addRule('file', get_lang('DiskQuotaExceeded'), 'disk_quota');
+		}
 	}
 	function setDefaults($defaults = array ())
 	{
@@ -46,21 +46,27 @@ class DocumentForm extends LearningObjectForm
 	{
 		$owner = $this->get_owner_id();
 		$values = $this->exportValues();
-		if($values['choice'])
+		$owner_path = $this->get_upload_path().'/'.$owner;
+		if (!is_dir($owner_path))
+		{
+			mkdir($owner_path);
+		}
+		if ($values['choice'])
 		{
 			$filename = $values[Document :: PROPERTY_TITLE].'.html';
-			$filename = $this->create_unique_filename($owner,$filename);
+			$filename = $this->create_unique_filename($owner, $filename);
 			$path = $owner.'/'.$filename;
-			$create_file = fopen($this->get_upload_path().'/'.$path, 'w');
-			fwrite ($create_file, $values['html_content']);
+			$full_path = $this->get_upload_path().'/'.$path;
+			$create_file = fopen($full_path, 'w') or die('Failed to create "'.$full_path.'"');
+			fwrite($create_file, $values['html_content']);
 			fclose($create_file);
 		}
 		else
 		{
-			$filename = $this->create_unique_filename($owner,$_FILES['file']['name']);
+			$filename = $this->create_unique_filename($owner, $_FILES['file']['name']);
 			$path = $owner.'/'.$filename;
 			$target = $this->get_upload_path().'/'.$path;
-			move_uploaded_file($_FILES['file']['tmp_name'],$target);
+			move_uploaded_file($_FILES['file']['tmp_name'], $target) or die('Failed to create "'.$target.'"');
 		}
 		$object = new Document();
 		$object->set_path($path);
@@ -76,19 +82,30 @@ class DocumentForm extends LearningObjectForm
 		$path = $object->get_path();
 		$filename = $object->get_filename();
 		$owner = $object->get_owner_id();
-		if(isset($values['html_content']))
+		$owner_path = $this->get_upload_path().'/'.$owner;
+		if (!is_dir($owner_path))
 		{
-			$create_file = fopen($this->get_upload_path().'/'.$object->get_path(), 'w');
-			fwrite ($create_file, $values['html_content']);
-			fclose($create_file);
+			mkdir($owner_path);
 		}
-		else if(strlen($_FILES['file']['name']) > 0)
+		else
 		{
 			unlink($this->get_upload_path().'/'.$object->get_path());
-			$filename = $this->create_unique_filename($owner, $_FILES['file']['name']);
-			$path = $owner.'/'.$filename;
-			move_uploaded_file($_FILES['file']['tmp_name'], $this->get_upload_path().'/'.$path);
 		}
+		if (isset ($values['html_content']))
+		{
+			$full_path = $this->get_upload_path().'/'.$object->get_path();
+			$create_file = fopen($full_path, 'w') or die('Failed to create "'.$full_path.'"');
+			fwrite($create_file, $values['html_content']);
+			fclose($create_file);
+		}
+		else
+			if (strlen($_FILES['file']['name']) > 0)
+			{
+				$filename = $this->create_unique_filename($owner, $_FILES['file']['name']);
+				$path = $owner.'/'.$filename;
+				$target = $this->get_upload_path().'/'.$path;
+				move_uploaded_file($_FILES['file']['tmp_name'], $target) or die('Failed to create "'.$target.'"');
+			}
 		$object->set_path($path);
 		$object->set_filename($filename);
 		$object->set_filesize(filesize($this->get_upload_path().'/'.$object->get_path()));
@@ -100,7 +117,7 @@ class DocumentForm extends LearningObjectForm
 	// TODO: Move to RepositoryUtilities or some other relevant class.
 	private function is_html_document($path)
 	{
-		return (preg_match('/\.x?html?$/',$path) === 1);
+		return (preg_match('/\.x?html?$/', $path) === 1);
 	}
 	/**
 	 * Creates a valid filename.
@@ -109,20 +126,20 @@ class DocumentForm extends LearningObjectForm
 	 */
 	private function create_valid_filename($desired_filename)
 	{
-		return strtolower(ereg_replace('[^0-9a-zA-Z\.]','',$desired_filename));
+		return ereg_replace(array ('\s', '[^0-9a-zA-Z\-_\.]'), array ('_', ''), $desired_filename);
 	}
 	/**
 	 * Creates a unique path.
 	 */
-	private function create_unique_filename($path,$filename)
+	private function create_unique_filename($path, $filename)
 	{
 		$filename = $this->create_valid_filename($filename);
 		$new_filename = $filename;
 		$index = 0;
-		while(file_exists($this->get_upload_path().'/'.$path.'/'.$new_filename))
+		while (file_exists($this->get_upload_path().'/'.$path.'/'.$new_filename))
 		{
-			$file_parts = explode('.',$filename);
-			$new_filename = array_shift($file_parts).($index++).'.'.implode($file_parts);
+			$file_parts = explode('.', $filename);
+			$new_filename = array_shift($file_parts). ($index ++).'.'.implode($file_parts);
 		}
 		return $new_filename;
 	}
@@ -132,13 +149,13 @@ class DocumentForm extends LearningObjectForm
 	protected function check_document_form($fields)
 	{
 		// TODO: Do the errors need htmlentities()?
-		$errors = array();
-		if(!$fields['choice'])
+		$errors = array ();
+		if (!$fields['choice'])
 		{
 			// Upload document
-			if( isset($_FILES['file']) && strlen($_FILES['file']['name']) > 0)
+			if (isset ($_FILES['file']) && strlen($_FILES['file']['name']) > 0)
 			{
-				if(!HTML_QuickForm_Rule_DiskQuota::validate($_FILES['file']))
+				if (!HTML_QuickForm_Rule_DiskQuota :: validate($_FILES['file']))
 				{
 					$errors['upload_or_create'] = get_lang('DiskQuotaExceeded');
 				}
@@ -151,25 +168,25 @@ class DocumentForm extends LearningObjectForm
 		else
 		{
 			// Create an HTML-document		
-			$tmpfname = tempnam ('','');
+			$tmpfname = tempnam('', '');
 			$handle = fopen($tmpfname, "w");
 			fwrite($handle, "writing to tempfile");
 			fclose($handle);
 			$file['size'] = filesize($tmpfname);
-			if(!HTML_QuickForm_Rule_DiskQuota::validate($file))
+			if (!HTML_QuickForm_Rule_DiskQuota :: validate($file))
 			{
 				$errors['upload_or_create'] = get_lang('DiskQuotaExceeded');
 			}
 			else
-			{	
-					if(!HTML_QuickForm_Rule_Required::validate($fields['html_content']))
-					{
-						$errors['upload_or_create'] = get_lang('NoFileCreated');
-					}
+			{
+				if (!HTML_QuickForm_Rule_Required :: validate($fields['html_content']))
+				{
+					$errors['upload_or_create'] = get_lang('NoFileCreated');
+				}
 			}
 			unlink($tmpfname);
 		}
-		if(count($errors) == 0)
+		if (count($errors) == 0)
 		{
 			return true;
 		}
@@ -178,7 +195,7 @@ class DocumentForm extends LearningObjectForm
 
 	private static function get_upload_path()
 	{
-		return Configuration::get_instance()->get_parameter('general', 'upload_path');
+		return Configuration :: get_instance()->get_parameter('general', 'upload_path');
 	}
 }
 ?>
