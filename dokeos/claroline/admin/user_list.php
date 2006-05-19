@@ -199,7 +199,7 @@ function get_user_data($from, $number_of_items, $column, $direction)
 		$keyword_status = mysql_real_escape_string($_GET['keyword_status']);
 		$sql .= " WHERE firstname LIKE '%".$keyword_firstname."%' AND lastname LIKE '%".$keyword_lastname."%' AND username LIKE '%".$keyword_username."%'  AND email LIKE '%".$keyword_email."%'   AND official_code LIKE '%".$keyword_officialcode."%'    AND status LIKE '".$keyword_status."'";
 	}
-	$sql .= " ORDER BY col$column $direction ";
+	$sql .= " ORDER BY col$column " . ($direction == SORT_DESC ? 'DESC' : 'ASC');
 	$sql .= " LIMIT $from,$number_of_items";
 	$res = api_sql_query($sql, __FILE__, __LINE__);
 	$users = array ();
