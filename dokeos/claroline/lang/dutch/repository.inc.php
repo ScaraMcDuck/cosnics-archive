@@ -46,6 +46,7 @@ $MaxNumberOfLearningObjectsReached='U kan momenteel geen nieuwe leerobjecten aan
 $Metadata='Metadata';
 $Modified='Gewijzigd op';
 $MoveSelected='Geselecteerde items verplaatsen';
+$MyRepository='Mijn repository';
 $NewCategory='Nieuwe categorie';
 $NoObjectSelected='Er werden geen objecten geselecteerd.';
 $NoResults='Geen zoekresultaten';
