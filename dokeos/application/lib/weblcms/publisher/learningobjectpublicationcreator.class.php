@@ -112,7 +112,10 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 	}
 	/**
 	 * Gets the form to publish the learning object.
-	 * @return string A HTML-representation of the form.
+	 * @return string|null A HTML-representation of the form. When the
+	 * publication form was validated, this function will send header
+	 * information to redirect the end user to the location where the
+	 * publication was made.
 	 */
 	private function get_publication_form($objectID, $new = false)
 	{
@@ -123,7 +126,14 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		if ($form->validate())
 		{
 			$form->create_learning_object_publication();
-			$out .= Display :: display_normal_message(get_lang('ObjectPublished'), true);
+			$parameters['action'] = RepositoryTool::ACTION_SHOW_NORMAL_MESSAGE;
+			$parameters['message'] = get_lang('ObjectPublished');
+			$parameters['admin'] = 0;
+			$url = $this->get_url($parameters);
+			// Redirect to location where the publication was made
+			header('Location: '.$url);
+			// In case headers were allready sent, we simply show the confirmation message here
+			$out .= Display::display_normal_message(get_lang('ObjectPublished'),true);
 		}
 		else
 		{
