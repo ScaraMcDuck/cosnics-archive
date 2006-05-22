@@ -119,7 +119,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 	 */
 	private function get_publication_form($objectID, $new = false)
 	{
-		$out = ($new ? Display :: display_normal_message(htmlentities(get_lang('ObjectCreated'), true)) : '');
+		$out = ($new ? Display :: display_normal_message(htmlentities(get_lang('ObjectCreated')), true) : '');
 		$tool = $this->get_parent()->get_parent();
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
 		$form = new LearningObjectPublicationForm($object, $tool);
