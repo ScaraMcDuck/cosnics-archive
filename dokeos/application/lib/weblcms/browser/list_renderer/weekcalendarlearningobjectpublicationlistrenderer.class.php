@@ -36,7 +36,7 @@ class WeekCalendarLearningObjectPublicationListRenderer extends LearningObjectPu
 			{
 				$day = strtotime('+'.($column-1).' day',$first_day);
 				$default_start_date = mktime($hour,0,0,date('m',$day),date('d',$day),date('Y',$day));
-				$params = array('default_start_date' => $default_start_date,'default_end_date' => strtotime('+'.(date('H',$default_start_date)+4).' hours',$default_start_date),'publish_action' => 'publicationcreator','calendaradmin' => '1');
+				$params = array('default_start_date' => $default_start_date,'default_end_date' => strtotime('+'.(date('H',$default_start_date)+4).' hours',$default_start_date),'publish_action' => 'publicationcreator','admin' => '1');
 				$add_url = $this->get_url($params);
 				$calendar_table->setCellContents($hour/4+1,$column,'<div style="text-align:right;"><a href="'.$add_url.'">+</a></div>');
 			}
