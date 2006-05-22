@@ -100,7 +100,7 @@ class RepositorySearchForm extends FormValidator
 	 */
 	private function build_simple_search_form()
 	{
-		$this->renderer->setElementTemplate('<span>{element}</span>');
+		$this->renderer->setElementTemplate('{element}');
 		$this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, get_lang('Find'), 'size="20" class="search_query"');
 		$this->addElement('submit', 'search', get_lang('Ok'));
 		$this->addElement('static', '', '', '<div class="to_advanced_search" style="font-size:smaller;"><a href="'.$this->manager->get_url(array (self :: PARAM_ADVANCED_SEARCH => 1), false, true).'">'.htmlentities(get_lang('ToAdvancedSearch')).'</a></div>');
