@@ -46,7 +46,7 @@ class WeekCalendarLearningObjectPublicationListRenderer extends LearningObjectPu
 		for($day = 0; $day < 7; $day++)
 		{
 			$week_day = strtotime('+'.$day.' days',$first_day);
-			$calendar_table->setCellContents(0,$day+1,date('l',$week_day).'<br/>'.date('Y-m-d',$week_day));
+			$calendar_table->setCellContents(0,$day+1,get_lang(date('l',$week_day).'Long').'<br/>'.date('Y-m-d',$week_day));
 			if($today == date('Y-m-d',$week_day))
 			{
 				$calendar_table->updateColAttributes($day+1,'class="highlight"');
