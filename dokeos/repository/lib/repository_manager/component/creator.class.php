@@ -17,7 +17,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 	{
 		$type_form = new FormValidator('create_type', 'post', $this->get_url());
 		$type_options = array ();
-		$type_options[''] = '';
+		$type_options[''] = '&nbsp;';
 		foreach ($this->get_learning_object_types() as $type)
 		{
 			$type_options[$type] = get_lang(LearningObject :: type_to_class($type).'TypeName');
