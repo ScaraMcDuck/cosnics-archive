@@ -28,7 +28,7 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 		$y = date('Y',$this->display_time);
 		$first_day = mktime(0, 0, 0, $m, 1, $y);
 		$first_day_nr = date('w', $first_day) == 0 ? 6 : date('w', $first_day) - 1;
-		$calendar_table->addRow(array ('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'));
+		$calendar_table->addRow(array (get_lang('MondayLong'), get_lang('TuesdayLong'), get_lang('WednesdayLong'), get_lang('ThursdayLong'), get_lang('FridayLong'), get_lang('SaturdayLong'), get_lang('SundayLong')));
 		$first_table_date = strtotime('Next Monday',strtotime('-1 Week',$first_day));
 		$table_date = $first_table_date;
 		$cell = 0;
@@ -75,7 +75,7 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 		$next = strtotime('+1 Month',$this->display_time);
 		$html[] =  '<div style="text-align: center;">';
 		$html[] =  '<a href="'.$this->get_url(array('time' => $prev), true).'">&lt;&lt;</a> ';
-		$html[] =  date('F Y',$first_day);
+		$html[] =  get_lang(date('F',$first_day).'Long').' '.date('Y',$first_day);
 		$html[] =  ' <a href="'.$this->get_url(array('time' => $next), true).'">&gt;&gt;</a> ';
 		$html[] =  '</div>';
 		$html[] = $calendar_table->toHtml();

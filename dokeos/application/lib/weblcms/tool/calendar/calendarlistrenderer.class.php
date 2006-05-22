@@ -26,8 +26,7 @@ class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 			if(date('Ym',$start_time) != $current_month)
 			{
 				$current_month = date('Ym',$start_time);
-				//TODO: date i8n
-				$html[] = '<h3>'.date('F Y',$start_time).'</h3>';
+				$html[] = '<h3>'.get_lang(date('F',$start_time).'Long').' '.date('Y',$start_time).'</h3>';
 			}
 			$html[] = implode("\n",$rendered_publication_start_time);
 		}
