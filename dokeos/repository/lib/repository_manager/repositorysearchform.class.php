@@ -124,7 +124,7 @@ class RepositorySearchForm extends FormValidator
 		$scope_buttons[] = $this->createElement('radio', null, null, get_lang('CurrentCategoryOnly'), self :: SEARCH_SCOPE_CATEGORY);
 		$scope_buttons[] = $this->createElement('radio', null, null, get_lang('CurrentCategoryAndSubcategories'), self :: SEARCH_SCOPE_CATEGORY_AND_SUBCATEGORIES);
 		$this->frozen_elements[] = $this->addGroup($scope_buttons, self :: PARAM_SEARCH_SCOPE, get_lang('SearchIn'));
-		$this->addElement('submit', 'search', get_lang('Search'));
+		$this->addElement('submit', 'search', get_lang('Ok'));
 	}
 	/**
 	 * Display the form
