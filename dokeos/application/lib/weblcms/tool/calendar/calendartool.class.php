@@ -24,14 +24,13 @@ class CalendarTool extends RepositoryTool
 	 */
 	function run()
 	{
-		$this->display_header();
-		if (isset($_GET['calendaradmin']))
+		if (isset($_GET['admin']))
 		{
-			$_SESSION['calendaradmin'] = $_GET['calendaradmin'];
+			$_SESSION['calendaradmin'] = $_GET['admin'];
 		}
 		if ($_SESSION['calendaradmin'])
 		{
-			echo '<p>Go to <a href="' . $this->get_url(array('calendaradmin' => 0), true) . '">User Mode</a> &hellip;</p>';
+			$html[]= '<p>Go to <a href="' . $this->get_url(array('admin' => 0), true) . '">User Mode</a> &hellip;</p>';
 			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
 			$pub = new LearningObjectPublisher($this, 'calendar_event');
 			$event = new CalendarEvent();
@@ -39,19 +38,23 @@ class CalendarTool extends RepositoryTool
 			$event->set_start_date(intval($_GET['default_start_date']));
 			$event->set_end_date(intval($_GET['default_end_date']));
 			$pub->set_default_learning_object('calendar_event',$event);
-			echo $pub->as_html();
+			$html[]= $pub->as_html();
+			$this->display_header();
+			echo implode("\n",$html);
+			$this->display_footer();
 		}
 		else
 		{
-			echo '<p>Go to <a href="' . $this->get_url(array('calendaradmin' => 1), true) . '">Publisher Mode</a> &hellip;</p>';
+			$this->display_header();
+			echo '<p>Go to <a href="' . $this->get_url(array('admin' => 1), true) . '">Publisher Mode</a> &hellip;</p>';
 			$this->perform_requested_actions();
 			if($_GET[self :: PARAM_ACTION] == self :: ACTION_DELETE || $_GET['view'] == 'list')
 			{
 				unset($_GET[self :: PARAM_PUBLICATION_ID]);
 			}
 			$this->display();
+			$this->display_footer();
 		}
-		$this->display_footer();
 	}
 	/**
 	 * Display the calendar
