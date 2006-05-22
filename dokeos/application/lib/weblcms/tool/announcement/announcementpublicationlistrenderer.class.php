@@ -16,10 +16,17 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		 * display order in the database. The up action in the announcement-tool
 		 * should result in the down-action in the database.
 		 */
-		// TODO: Fix this. It's horribly broken.
-		//$up_link = parent :: render_up_action($publication, $first);
-		//return str_replace(RepositoryTool :: PARAM_ACTION.'='.RepositoryTool :: ACTION_MOVE_UP, RepositoryTool :: PARAM_ACTION.'='.RepositoryTool :: ACTION_MOVE_DOWN, $up_link);
-		return parent :: render_down_action($publication, $first);
+		if (!$first)
+		{
+			$up_img = 'up.gif';
+			$up_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_DOWN, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+			$up_link = '<a href="'.$up_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$up_img.'" alt=""/></a>';
+		}
+		else
+		{
+			$up_link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/up_na.gif"  alt=""/></a>';
+		}
+		return $up_link;
 	}
 	function render_down_action($publication, $last = false)
 	{
@@ -29,10 +36,17 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		 * display order in the database. The down action in the announcement-tool
 		 * should result in the up-action in the database.
 		 */
-		// TODO: Fix this. It's horribly broken.
-		//$down_link = parent :: render_down_action($publication, $last);
-		//return str_replace(RepositoryTool :: PARAM_ACTION.'='.RepositoryTool :: ACTION_MOVE_DOWN, RepositoryTool :: PARAM_ACTION.'='.RepositoryTool :: ACTION_MOVE_UP, $down_link);
-		return parent :: render_up_action($publication, $last);
+		if (!$last)
+		{
+			$down_img = 'down.gif';
+			$down_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_UP, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+			$down_link = '<a href="'.$down_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$down_img.'"  alt=""/></a>';
+		}
+		else
+		{
+			$down_link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/down_na.gif"  alt=""/></a>';
+		}
+		return $down_link;
 	}
 }
 ?>
