@@ -58,6 +58,7 @@ $OriginalLocation='Original Location';
 $PostsInTopic='Posts in this Topic';
 $Quota='Quota';
 $RecycleBin='Recycle Bin';
+$RecycleBinEmptied='Recycle bin is emptied.';
 $Remove='Remove';
 $RemoveSelected='Remove selected items';
 $Restore='Restore';

@@ -60,6 +60,7 @@ $OriginalLocation='Oorspronkelijke locatie';
 $PostsInTopic='Berichten in deze thread';
 $Quota='Quota';
 $RecycleBin='Prullenbak';
+$RecycleBinEmptied='De prullenbak is leeggemaakt.';
 $Remove='Verwijderen';
 $RemoveSelected='Geselecteerde items verwijderen';
 $Restore='Herstel';
