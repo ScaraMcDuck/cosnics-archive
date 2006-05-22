@@ -42,7 +42,7 @@ class DescriptionTool extends RepositoryTool
 			{
 				echo '<p>Go to <a href="' . $this->get_url(array('admin' => 1), true) . '">Publisher Mode</a> &hellip;</p>';
 			}
-			$this->perform_requested_actions();
+			echo $this->perform_requested_actions();
 			$browser = new DescriptionBrowser($this);
 			echo $browser->as_html();
 			$this->display_footer();
