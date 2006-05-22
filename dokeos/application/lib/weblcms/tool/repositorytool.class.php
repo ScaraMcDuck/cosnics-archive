@@ -48,6 +48,7 @@ abstract class RepositoryTool extends Tool
 	 * The action and the necessary parameters are retrieved from the query
 	 * string. This function also displays a message box with the result of the
 	 * action.
+	 * @return string|null HTML-output
 	 */
 	 // TODO: add some input validation to check if the requested action can be performed
 	 // XXX: should all this really be handled here?
@@ -107,7 +108,7 @@ abstract class RepositoryTool extends Tool
 		}
 		if(isset($message))
 		{
-			Display::display_normal_message($message);
+			return Display::display_normal_message($message,true);
 		}
 	}
 }
