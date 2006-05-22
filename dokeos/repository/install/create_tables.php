@@ -1,5 +1,4 @@
-<?php
-
+<?php //$Id$
 /**
 ==============================================================================
  *	This script creates the necessary tables in the database. It only works
@@ -9,6 +8,7 @@
  *	the learning object type and its properties.
  *
  *	@author Tim De Pauw
+ * @package repository
 ==============================================================================
  */
 
