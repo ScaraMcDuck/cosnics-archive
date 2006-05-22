@@ -27,7 +27,7 @@ class DayCalendarLearningObjectPublicationListRenderer extends LearningObjectPub
 		for($hour = 0; $hour < 24; $hour += 2)
 		{
 			$default_start_date = mktime($hour,0,0,date('m',$this->display_time),date('d',$this->display_time),date('Y',$this->display_time));
-			$params = array('default_start_date' => $default_start_date,'default_end_date' => strtotime('+'.(date('H',$default_start_date)+2).' hours',$default_start_date),'publish_action' => 'publicationcreator','calendaradmin' => '1');
+			$params = array('default_start_date' => $default_start_date,'default_end_date' => strtotime('+'.(date('H',$default_start_date)+2).' hours',$default_start_date),'publish_action' => 'publicationcreator','admin' => '1');
 			$add_url = $this->get_url($params);
 			$cell_contents = '<a href="'.$add_url.'">'.$hour.'u - '.($hour+2).'u'.'</a>';
 			$calendar_table->setCellContents($hour/2,0,$cell_contents);
