@@ -25,7 +25,7 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 			$toolbar_data = array();
 			$toolbar_data[] = array(
 				'href' => $this->get_url(array(RepositoryManager :: PARAM_EMPTY_RECYCLE_BIN => 1)),
-				'img' => api_get_path(WEB_CODE_PATH).'img/recycle.gif',
+				'img' => api_get_path(WEB_CODE_PATH).'img/treemenu/trash.gif',
 				'label' => get_lang('EmptyRecycleBin'),
 				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL,
 				'confirm' => true
