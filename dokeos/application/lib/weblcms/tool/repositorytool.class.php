@@ -24,6 +24,7 @@ abstract class RepositoryTool extends Tool
 	const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
 	const ACTION_MOVE_UP = 'move_up';
 	const ACTION_MOVE_DOWN = 'move_down';
+	const ACTION_SHOW_NORMAL_MESSAGE = 'show_normal_message';
 
 	/**
 	 * @see Application :: get_categories()
@@ -98,6 +99,9 @@ abstract class RepositoryTool extends Tool
 							$message = htmlentities(get_lang('LearningObjectPublicationMoved'));
 						}
 					}
+					break;
+				case self::ACTION_SHOW_NORMAL_MESSAGE:
+					$message = $_GET['message'];
 					break;
 			}
 		}
