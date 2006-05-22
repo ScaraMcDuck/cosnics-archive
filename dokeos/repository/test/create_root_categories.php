@@ -1,11 +1,11 @@
 <?php
-
 /**
 ==============================================================================
  *	This is a simple test script that creates a root category for each user's
  *	repository if it doesn't exist already.
  *
  *	@author Tim De Pauw
+ * @package repository
 ==============================================================================
  */
 
