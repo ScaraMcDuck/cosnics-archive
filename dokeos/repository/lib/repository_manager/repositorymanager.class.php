@@ -609,15 +609,17 @@ class RepositoryManager
 		return $this->get_search_form()->get_condition();
 	}
 	/**
-	 * Get the condition to select only learning objects in the given category
-	 * of any subcategory
+	 * Gets the condition to select only learning objects in the given category
+	 * of any subcategory. Note that this will also initialize the category
+	 * menu to one with the "Search Results" item, if this has not happened
+	 * already.
 	 * @param int $category_id The category
 	 * @return Condition
 	 */
 	function get_category_condition($category_id)
 	{
 		$subcat = array ();
-		$this->get_category_id_list($category_id, & $this->category_menu->_menu, & $subcat);
+		$this->get_category_id_list($category_id, & $this->get_category_menu(true)->_menu, & $subcat);
 		$conditions = array ();
 		foreach ($subcat as $cat)
 		{
@@ -678,9 +680,12 @@ class RepositoryManager
 	 * - Create a new learning object
 	 * - Quota
 	 * - Search Results (ony if search is performed)
+	 * @param boolean $force_search Whether the user is searching. If true,
+	 *                              overrides the default, which is to request
+	 *                              this information from the search form.
 	 * @return LearningObjectCategoryMenu The menu
 	 */
-	private function get_category_menu()
+	private function get_category_menu($force_search = false)
 	{
 		if (!isset ($this->category_menu))
 		{
@@ -717,7 +722,7 @@ class RepositoryManager
 			$extra_items[] = & $trash;
 			$extra_items[] = & $create;
 			$extra_items[] = & $quota;
-			if ($this->get_search_form()->validate())
+			if ($force_search || $this->get_search_form()->validate())
 			{
 				// $search_url = $this->get_url();
 				$search_url = '#';

@@ -30,6 +30,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 			{
 				$destination = $form->exportValue(RepositoryManager :: PARAM_DESTINATION_LEARNING_OBJECT_ID);
 				$failures = 0;
+				$new_category = null;
 				foreach ($ids as $id)
 				{
 					$object = $this->retrieve_learning_object($id);
@@ -67,13 +68,14 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 					if (count($ids) == 1)
 					{
 						$message = 'SelectedObjectMoved';
+						$new_category = $destination;
 					}
 					else
 					{
 						$message = 'AllSelectedObjectsMoved';
 					}
 				}
-				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, get_lang($message));
+				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, get_lang($message), $new_category);
 			}
 			else
 			{
