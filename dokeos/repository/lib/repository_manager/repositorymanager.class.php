@@ -64,7 +64,10 @@ class RepositoryManager
 	private $recycle_bin_url;
 
 	private $breadcrumbs;
-
+	/**
+	 * Constructor
+	 * @param int $user_id The user id of current user
+	 */
 	function RepositoryManager($user_id)
 	{
 		$this->user_id = $user_id;
@@ -76,7 +79,9 @@ class RepositoryManager
 		$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_LEARNING_OBJECTS));
 		$this->recycle_bin_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => null));
 	}
-
+	/**
+	 * Run this repository manager
+	 */
 	function run()
 	{
 		/*
@@ -166,21 +171,33 @@ class RepositoryManager
 			}
 		}
 	}
-
+	/**
+	 * Gets the current action.
+	 * @see get_parameter()
+	 * @return string The current action.
+	 */
 	function get_action()
 	{
 		return $this->get_parameter(self :: PARAM_ACTION);
 	}
-
+	/**
+	 * Sets the current action.
+	 * @param string $action The new action.
+	 */
 	function set_action($action)
 	{
 		return $this->set_parameter(self :: PARAM_ACTION, $action);
 	}
-
+	/**
+	 * Displays the header.
+	 * @param array $breadcrumbs Breadcrumbs to show in the header.
+	 * @param boolean $display_search Should the header include a search form or
+	 * not?
+	 */
 	function display_header($breadcrumbs = array (), $display_search = false)
 	{
 		global $interbredcrump;
-		if (isset($this->breadcrumbs) && is_array($this->breadcrumbs))
+		if (isset ($this->breadcrumbs) && is_array($this->breadcrumbs))
 		{
 			$breadcrumbs = array_merge($this->breadcrumbs, $breadcrumbs);
 		}
@@ -188,9 +205,9 @@ class RepositoryManager
 		$interbredcrump = $breadcrumbs;
 		$title = $current_crumb['name'];
 		$title_short = $title;
-		if(strlen($title_short) > 53)
+		if (strlen($title_short) > 53)
 		{
-			$title_short = substr($title_short,0,50).'&hellip;';
+			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
 		Display :: display_header($title_short);
 		echo '<div style="float: left; width: 20%;">';
@@ -210,7 +227,9 @@ class RepositoryManager
 			$this->display_message($msg);
 		}
 	}
-
+	/**
+	 * Displays the footer.
+	 */
 	function display_footer()
 	{
 		echo '</div>';
@@ -221,53 +240,89 @@ class RepositoryManager
 		mysql_select_db($mainDbName);
 		Display :: display_footer();
 	}
-
+	/**
+	 * Displays a normal message.
+	 * @param string $message The message.
+	 */
 	function display_message($message)
 	{
 		Display :: display_normal_message($message);
 	}
-
+	/**
+	 * Displays an error message.
+	 * @param string $message The message.
+	 */
 	function display_error_message($message)
 	{
 		Display :: display_error_message($message);
 	}
-
+	/**
+	 * Displays an error page.
+	 * @param string $message The message.
+	 */
 	function display_error_page($message)
 	{
 		$this->display_header();
 		$this->display_error_message($message);
 		$this->display_footer();
 	}
-
+	/**
+	 * Displays a popup form.
+	 * @param string $message The message.
+	 */
 	function display_popup_form($form_html)
 	{
 		Display :: display_normal_message($form_html);
 	}
-
+	/**
+	 * Gets the parameter list
+	 * @param boolean $include_search Include the search parameters in the
+	 * returned list?
+	 * @return array The list of parameters.
+	 */
 	function get_parameters($include_search = false)
 	{
-		if ($include_search && isset($this->search_parameters))
+		if ($include_search && isset ($this->search_parameters))
 		{
 			return array_merge($this->search_parameters, $this->parameters);
 		}
 		return $this->parameters;
 	}
-
+	/**
+	 * Gets the value of a parameter.
+	 * @param string $name The parameter name.
+	 * @return string The parameter value.
+	 */
 	function get_parameter($name)
 	{
 		return $this->parameters[$name];
 	}
-
+	/**
+	 * Sets the value of a parameter.
+	 * @param string $name The parameter name.
+	 * @param mixed $value The parameter value.
+	 */
 	function set_parameter($name, $value)
 	{
 		$this->parameters[$name] = $value;
 	}
-
+	/**
+	 * Gets the value of a search parameter.
+	 * @param string $name The search parameter name.
+	 * @return string The search parameter value.
+	 */
 	function get_search_parameter($name)
 	{
 		return $this->search_parameters[$name];
 	}
-
+	/**
+	 * Redirect the end user to another location.
+	 * @param string $action The action to take (default = browse learning
+	 * objects).
+	 * @param string $message The message to show (default = no message).
+	 * @param int $new_category_id The category to show (default = root
+	 * category).
+	 */
 	function redirect($action = self :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0)
 	{
 		$params = array ();
@@ -283,27 +338,48 @@ class RepositoryManager
 		$url = $this->get_url($params);
 		header('Location: '.$url);
 	}
-
+	/**
+	 * Sets the active URL in the navigation menu.
+	 * @param string $url The active URL.
+	 */
 	function force_menu_url($url)
 	{
 		$this->get_category_menu()->forceCurrentUrl($url);
 	}
-
+	/**
+	 * Gets the URL to the quota page.
+	 * @return string The URL.
+	 */
 	function get_quota_url()
 	{
 		return $this->quota_url;
 	}
-
+	/**
+	 * Gets the URL to the learning object creation page.
+	 * @return string The URL.
+	 */
 	function get_learning_object_creation_url()
 	{
 		return $this->create_url;
 	}
-
+	/**
+	 * Gets the URL to the recycle bin.
+	 * @return string The URL.
+	 */
 	function get_recycle_bin_url()
 	{
 		return $this->recycle_bin_url;
 	}
-
+	/**
+	 * Gets an URL.
+	 * @param array $additional_parameters Additional parameters to add in the
+	 * query string (default = no additional parameters).
+	 * @param boolean $include_search Include the search parameters in the
+	 * query string of the URL? (default = false).
+	 * @param boolean $encode_entities Apply php function htmlentities to the
+	 * resulting URL ? (default = false).
+	 * @return string The requested URL.
+	 */
 	function get_url($additional_parameters = array (), $include_search = false, $encode_entities = false)
 	{
 		$eventual_parameters = array_merge($this->get_parameters($include_search), $additional_parameters);
@@ -322,7 +398,7 @@ class RepositoryManager
 
 	function get_root_category_id()
 	{
-		if (isset($this->category_menu))
+		if (isset ($this->category_menu))
 		{
 			return $this->category_menu->_menu[0][OptionsMenuRenderer :: KEY_ID];
 		}
@@ -479,9 +555,9 @@ class RepositoryManager
 	 */
 	function get_category_condition($category_id)
 	{
-		$subcat = array();
-		$this->get_category_id_list($category_id, & $this->category_menu->_menu, &$subcat);
-		$conditions = array();
+		$subcat = array ();
+		$this->get_category_id_list($category_id, & $this->category_menu->_menu, & $subcat);
+		$conditions = array ();
 		foreach ($subcat as $cat)
 		{
 			$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $cat);
@@ -497,7 +573,7 @@ class RepositoryManager
 	function valid_category_id($id)
 	{
 		// XXX: Extend this to actually check the known IDs.
-		return (isset($id) && intval($id) > 0);
+		return (isset ($id) && intval($id) > 0);
 	}
 
 	/**
@@ -524,7 +600,7 @@ class RepositoryManager
 	 */
 	private function determine_search_settings()
 	{
-		if (isset($_GET[self :: PARAM_CATEGORY_ID]))
+		if (isset ($_GET[self :: PARAM_CATEGORY_ID]))
 		{
 			$this->set_parameter(self :: PARAM_CATEGORY_ID, intval($_GET[self :: PARAM_CATEGORY_ID]));
 		}
@@ -552,24 +628,24 @@ class RepositoryManager
 			$url_format = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => $temp_replacement));
 			$url_format = str_replace($temp_replacement, '%s', $url_format);
 			$category = $this->get_parameter(self :: PARAM_CATEGORY_ID);
-			if (!isset($category))
+			if (!isset ($category))
 			{
 				$category = $this->get_root_category_id();
 				$this->set_parameter(self :: PARAM_CATEGORY_ID, $category);
 			}
-			$extra_items = array();
-			$create = array();
+			$extra_items = array ();
+			$create = array ();
 			$create['title'] = get_lang('Create');
 			$create['url'] = $this->get_learning_object_creation_url();
 			$create['class'] = 'create';
-			$quota = array();
+			$quota = array ();
 			$quota['title'] = get_lang('Quota');
 			$quota['url'] = $this->get_quota_url();
 			$quota['class'] = 'quota';
-			$trash = array();
+			$trash = array ();
 			$trash['title'] = get_lang('RecycleBin');
 			$trash['url'] = $this->get_recycle_bin_url();
-			if($this->count_learning_objects(null,new EqualityCondition(LearningObject::PROPERTY_OWNER_ID,$this->get_user_id()),LearningObject::STATE_RECYCLED))
+			if ($this->count_learning_objects(null, new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->get_user_id()), LearningObject :: STATE_RECYCLED))
 			{
 				$trash['class'] = 'trash_full';
 			}
@@ -584,7 +660,7 @@ class RepositoryManager
 			{
 				// $search_url = $this->get_url();
 				$search_url = '#';
-				$search = array();
+				$search = array ();
 				$search['title'] = get_lang('SearchResults');
 				$search['url'] = $search_url;
 				$search['class'] = 'search_results';
@@ -595,7 +671,7 @@ class RepositoryManager
 				$search_url = null;
 			}
 			$this->category_menu = new LearningObjectCategoryMenu($this->get_user_id(), $category, $url_format, & $extra_items);
-			if (isset($search_url))
+			if (isset ($search_url))
 			{
 				$this->category_menu->forceCurrentUrl($search_url, true);
 			}
