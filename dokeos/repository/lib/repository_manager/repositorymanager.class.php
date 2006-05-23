@@ -717,7 +717,7 @@ class RepositoryManager
 			$extra_items[] = & $trash;
 			$extra_items[] = & $create;
 			$extra_items[] = & $quota;
-			if ($this->get_search_form()->user_is_searching())
+			if ($this->get_search_form()->validate())
 			{
 				// $search_url = $this->get_url();
 				$search_url = '#';
