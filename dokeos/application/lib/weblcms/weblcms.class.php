@@ -51,7 +51,7 @@ class Weblcms extends WebApplication
 	function run()
 	{
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
-		if (isset ($tool))
+		if ($tool)
 		{
 			$class = Tool :: type_to_class($tool);
 			$toolObj = new $class ($this);
@@ -61,11 +61,49 @@ class Weblcms extends WebApplication
 		else
 		{
 			$this->display_header();
-			echo '<ul>';
+			echo <<<END
+<style type="text/css"><!--
+#tool-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+#tool-list li {
+	display: block;
+	float: left;
+	width: 50%;
+	margin: 0;
+	padding: 0;
+}
+#tool-list a {
+	border: 1px solid #F0F0F0;
+	display: block;
+	margin: 0 10px 10px 0;
+	padding: 15px 10px 0px 44px;
+	background-repeat: no-repeat;
+	background-position: 10px 10px;
+	font-size: 14px;
+	height: 29px; /* 44 - 15 */
+	line-height: 1em;
+	overflow: hidden;
+}
+#tool-list a:hover {
+	border: 1px solid #CCC;
+	border-color: #E0E0E0;
+	background-color: #F9F9F9;
+}
+--></style>
+END;
+			echo '<ul id="tool-list">';
+			$tools = array();
 			foreach ($this->get_registered_tools() as $tool)
 			{
-				$class = Tool :: type_to_class($tool);
-				echo '<li><a href="'.$this->get_url(array (self :: PARAM_TOOL => $tool), true).'">'.htmlentities(get_lang($class.'Title')).'</a></li>';
+				$tools[$tool] = htmlentities(get_lang(Tool :: type_to_class($tool).'Title'));
+			}
+			asort($tools);
+			foreach ($tools as $tool => $title)
+			{
+				echo '<li><a href="'.$this->get_url(array (self :: PARAM_TOOL => $tool), true).'" style="background-image: url(', api_get_path(WEB_CODE_PATH).'img/'.$tool.'.gif);">'.$title.'</a></li>';
 			}
 			echo '</ul>';
 			$this->display_footer();
@@ -193,28 +231,29 @@ class Weblcms extends WebApplication
 		$interbredcrump = $breadcrumbs;
 		$title = $current_crumb['name'];
 		Display :: display_header($title);
-		echo '<div style="float: right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
-		echo '<form method="get" action="'.$this->get_url().'" style="display: inline;">';
-		echo '<select name="' . self :: PARAM_TOOL . '" onchange="submit();">';
-		if (!isset($this->tool_class))
-		{
-			echo '<option selected="selected">Pick a Tool &hellip;</option>';
-		}
-		$tools = array();
-		foreach ($this->get_registered_tools() as $t)
-		{
-			$tools[$t] = htmlentities(get_lang(Tool :: type_to_class($t).'Title'));
-		}
-		asort($tools);
-		foreach ($tools as $tool => $title)
-		{
-			$class = Tool :: type_to_class($tool);
-			echo '<option value="'.$tool.'"'.($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($title).'</option>';
-		}
-		echo '</select></form></div>';
 		if (isset($this->tool_class))
 		{
+			echo '<div style="float: right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
+			echo '<form method="get" action="'.$this->get_url().'" style="display: inline;">';
+			echo '<select name="' . self :: PARAM_TOOL . '" onchange="submit();">';
+			$tools = array();
+			foreach ($this->get_registered_tools() as $t)
+			{
+				$tools[$t] = htmlentities(get_lang(Tool :: type_to_class($t).'Title'));
+			}
+			asort($tools);
+			foreach ($tools as $tool => $title)
+			{
+				$class = Tool :: type_to_class($tool);
+				echo '<option value="'.$tool.'"'.($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($title).'</option>';
+			}
+			echo '</select></form></div>';
 			api_display_tool_title(htmlentities(get_lang($this->tool_class.'Title')));
+		}
+		else
+		{
+			global $_course;
+			echo '<h3>'.htmlentities($_course['name']).'</h3>'; 
 		}
 	}
 	/**
