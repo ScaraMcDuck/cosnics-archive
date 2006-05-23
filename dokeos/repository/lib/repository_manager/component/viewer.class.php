@@ -111,7 +111,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			{
 				// TODO: Use a function for this or something.
 				echo '<div class="publication_attributes">';
-				echo '<div class="publication_attributes_title">'.htmlentities(get_lang('ObjectPublished')).'</div>';
+				echo '<div class="publication_attributes_title">'.htmlentities(get_lang('ThisObjectIsPublished')).'</div>';
 				echo '<ul class="publication_attributes">';
 				foreach ($publication_attr as $info)
 				{
