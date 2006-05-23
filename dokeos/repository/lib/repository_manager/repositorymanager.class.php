@@ -1,5 +1,6 @@
 <?php
 /**
+ * @version $Revision$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/repositorymanagercomponent.class.php';
