@@ -2,6 +2,7 @@
 $Actions='Acties';
 $AddAttachments='Bijlagen toevoegen';
 $AdvancedSearch='Geavanceerd zoeken';
+$AllSelectedObjectsDeleted='Alle geselecteerde leerobjecten werden verwijderd.';
 $AllSelectedObjectsMoved='Alle geselecteerde leerobjecten werden verplaatst.';
 $AllSelectedObjectsMovedToRecycleBin='Alle geselecteerde leerobjecten werden naar de prullenbak verplaatst.';
 $AnnouncementCreationFormTitle='Aankondiging aanmaken';
@@ -75,6 +76,7 @@ $SelectedObjectMovedToRecycleBin='Het geselecteerde leerobject werd naar de prul
 $SelectedObjectNotMoved='Het geselecteerde leerobject werd niet verplaatst.';
 $SelectedObjectNotMovedToRecycleBin='Het geselecteerde leerobject werd niet naar de prullenbak verplaatst.';
 $SelectedObjectRestored='Het geselecteerde leerobject werd hersteld.';
+$ThisObjectIsPublished='Dit object is gepubliceerd';
 $ToAdvancedSearch='Geavanceerd zoeken';
 $TopicsOnForum='Threads in dit forum';
 $ToSimpleSearch='Eenvoudig zoeken';
