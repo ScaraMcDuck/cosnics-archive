@@ -35,6 +35,8 @@ class RepositorySearchForm extends FormValidator
 	const SEARCH_SCOPE_CATEGORY_AND_SUBCATEGORIES = 2;
 
 	const SESSION_KEY_ADVANCED_SEARCH = 'repository_advanced_search';
+	
+	const FORM_NAME = 'search';
 
 	private $manager;
 
@@ -53,7 +55,7 @@ class RepositorySearchForm extends FormValidator
 	 */
 	function RepositorySearchForm($manager, $url)
 	{
-		parent :: __construct('search', 'post', $url);
+		parent :: __construct(self :: FORM_NAME, 'get', $url);
 		$this->renderer = clone $this->defaultRenderer();
 		$this->manager = $manager;
 		$this->frozen_elements = array ();
@@ -158,62 +160,28 @@ class RepositorySearchForm extends FormValidator
 	 */
 	function get_condition()
 	{
-		$conditions = array ();
+		$conditions = $this->get_search_conditions();
+		if (!count($conditions))
+		{
+			$cid = $this->get_category_id();
+			if ($this->manager->valid_category_id($cid))
+			{
+				$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $cid);
+			}
+		}
 		$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->manager->get_user_id());
-		$category_id = $this->manager->get_parameter(RepositoryManager :: PARAM_CATEGORY_ID);
-		if ($this->validate())
-		{
-			if ($this->advanced)
-			{
-				$title_query = $this->frozen_elements[0]->getValue();
-				$description_query = $this->frozen_elements[1]->getValue();
-				if (!empty ($title_query))
-				{
-					$conditions[] = RepositoryUtilities :: query_to_condition($title_query, LearningObject :: PROPERTY_TITLE);
-				}
-				if (!empty ($description_query))
-				{
-					$conditions[] = RepositoryUtilities :: query_to_condition($description_query, LearningObject :: PROPERTY_DESCRIPTION);
-				}
-				$scope = $this->frozen_elements[3]->getValue();
-				if (isset ($scope))
-				{
-					switch ($scope)
-					{
-						case self :: SEARCH_SCOPE_CATEGORY_AND_SUBCATEGORIES :
-							if ($category_id != $this->manager->get_root_category_id())
-							{
-								$conditions[] = $this->manager->get_category_condition($category_id);
-							}
-							break;
-						case self :: SEARCH_SCOPE_CATEGORY :
-							$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $category_id);
-							break;
-					}
-				}
-				$types = $this->frozen_elements[2]->getValue();
-			}
-			else
-			{
-				$query = $this->frozen_elements[0]->getValue();
-				if (!empty ($query))
-				{
-					$conditions[] = RepositoryUtilities :: query_to_condition($query);
-				}
-				else
-				{
-					$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $category_id);
-				}
-			}
-		}
-		else
-		{
-			$types = $this->get_types();
-			if (is_null($types) && $this->manager->valid_category_id($category_id))
-			{
-				$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $category_id);
-			}
-		}
+		return (count($conditions) > 1 ? new AndCondition($conditions) : $conditions[0]);
+	}
+	/**
+	 * Gets the conditions that this form introduces.
+	 * @return array The conditions.
+	 */
+	private function get_search_conditions()
+	{
+		$category_id = $this->get_category_id();
+		$conditions = array ();
+		// Types may be selected in either simple or advanced mode.
+		$types = $this->get_types();
 		if (isset ($types) && count($types))
 		{
 			$c = array ();
@@ -229,10 +197,62 @@ class RepositorySearchForm extends FormValidator
 				$conditions[] = new OrCondition($c);
 			}
 		}
-		return (count($conditions) > 1 ? new AndCondition($conditions) : $conditions[0]);
+		// If advanced mode, check each element except type selector.
+		if ($this->advanced)
+		{
+			$title_query = $this->frozen_elements[0]->getValue();
+			$description_query = $this->frozen_elements[1]->getValue();
+			if (!empty ($title_query))
+			{
+				$conditions[] = RepositoryUtilities :: query_to_condition($title_query, LearningObject :: PROPERTY_TITLE);
+			}
+			if (!empty ($description_query))
+			{
+				$conditions[] = RepositoryUtilities :: query_to_condition($description_query, LearningObject :: PROPERTY_DESCRIPTION);
+			}
+			$scope = $this->frozen_elements[3]->getValue();
+			if (isset ($scope))
+			{
+				switch ($scope)
+				{
+					case self :: SEARCH_SCOPE_CATEGORY_AND_SUBCATEGORIES :
+						if ($category_id != $this->manager->get_root_category_id())
+						{
+							$conditions[] = $this->manager->get_category_condition($category_id);
+						}
+						break;
+					case self :: SEARCH_SCOPE_CATEGORY :
+						$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $category_id);
+						break;
+				}
+			}
+		}
+		// If simple mode, add query condition if query entered.
+		else
+		{
+			$query = $this->frozen_elements[0]->getValue();
+			if (!empty ($query))
+			{
+				$c = RepositoryUtilities :: query_to_condition($query);
+				if (isset($c))
+				{
+					$conditions[] = $c;
+				}
+			}
+		}
+		return $conditions;
 	}
 	/**
-	 *
+	 * Gets the ID of the current category.
+	 * @return int The category ID.
+	 */
+	private function get_category_id ()
+	{
+		return $this->manager->get_parameter(RepositoryManager :: PARAM_CATEGORY_ID);
+	}
+	/**
+	 * Gets the learning object types to search for.
+	 * @return array The type names, or null if none.
 	 */
 	private function get_types()
 	{
@@ -240,12 +260,12 @@ class RepositorySearchForm extends FormValidator
 		return (is_array($types) && count($types) ? $types : null);
 	}
 	/**
-	 * Determines if the user is currently searching the repository
-	 * @return boolean True if the user is searching
+	 * Determines if the user is currently searching the repository.
+	 * @return boolean True if the user is searching.
 	 */
-	function user_is_searching()
+	function validate()
 	{
-		return $this->validate() || !is_null($this->get_types());
+		return (count($this->get_search_conditions()) > 0);
 	}
 }
 ?>
