@@ -5,6 +5,7 @@ $AdvancedSearch='Geavanceerd zoeken';
 $AllSelectedObjectsDeleted='Alle geselecteerde leerobjecten werden verwijderd.';
 $AllSelectedObjectsMoved='Alle geselecteerde leerobjecten werden verplaatst.';
 $AllSelectedObjectsMovedToRecycleBin='Alle geselecteerde leerobjecten werden naar de prullenbak verplaatst.';
+$AllSelectedObjectsRestored='Alle geselecteerde leerobjecten werden hersteld.';
 $AnnouncementCreationFormTitle='Aankondiging aanmaken';
 $AnnouncementTypeName='Aankondiging';
 $Attachments='Bijlagen';
