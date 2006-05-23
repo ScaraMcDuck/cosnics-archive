@@ -390,12 +390,18 @@ class RepositoryManager
 		}
 		return $url;
 	}
-
+	/**
+	 * Gets the user id.
+	 * @return int The requested user id.
+	 */
 	function get_user_id()
 	{
 		return $this->user_id;
 	}
-
+	/**
+	 * Gets the id of the root category.
+	 * @return integer The requested id.
+	 */
 	function get_root_category_id()
 	{
 		if (isset ($this->category_menu))
@@ -409,37 +415,55 @@ class RepositoryManager
 			return $cat->get_id();
 		}
 	}
-
+	/**
+	 * Retrieves a learning object.
+	 * @param int $id The id of the learning object.
+	 * @param string $type The type of the learning object. Default is null. If
+	 * you know the type of the requested object, you should give it as a
+	 * parameter as this will make object retrieval faster.
+	 */
 	function retrieve_learning_object($id, $type = null)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->retrieve_learning_object($id, $type);
 	}
-
+	/**
+	 * @see RepositoryDataManager::retrieve_learning_objects()
+	 */
 	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->retrieve_learning_objects($type, $condition, $orderBy, $orderDir, $offset, $maxObjects, $state, $different_parent_state);
 	}
-
+	/**
+	 * @see RepositoryDataManager::count_learning_objects()
+	 */
 	function count_learning_objects($type = null, $condition = null, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->count_learning_objects($type, $condition, $state, $different_parent_state);
 	}
-
+	/**
+	 * @see RepositoryDataManager::learning_object_deletion_allowed()
+	 */
 	function learning_object_deletion_allowed($learning_object)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->learning_object_deletion_allowed($learning_object);
 	}
-
+	/**
+	 * @see RepositoryDataManager::get_learning_object_publication_attributes()
+	 */
 	function get_learning_object_publication_attributes($id)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->get_learning_object_publication_attributes($id);
 	}
-
+	/**
+	 * Gets the url to view a learning object.
+	 * @param LearningObject $learning_object The learning object.
+	 * @return string The requested URL.
+	 */
 	function get_learning_object_viewing_url($learning_object)
 	{
 		if ($learning_object->get_state() == LearningObject :: STATE_RECYCLED)
@@ -452,12 +476,21 @@ class RepositoryManager
 		}
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id(), self :: PARAM_CATEGORY_ID => $learning_object->get_parent_id()));
 	}
-
+	/**
+	 * Gets the url to view a learning object.
+	 * @param LearningObject $learning_object The learning object.
+	 * @return string The requested URL.
+	 */
 	function get_learning_object_editing_url($learning_object)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 	}
-
+	/**
+	 * Gets the url to recycle a learning object (move the object to the
+	 * recycle bin).
+	 * @param LearningObject $learning_object The learning object.
+	 * @return string The requested URL.
+	 */
 	function get_learning_object_recycling_url($learning_object)
 	{
 		if (!$this->learning_object_deletion_allowed($learning_object) || $learning_object->get_state() == LearningObject :: STATE_RECYCLED)
@@ -466,7 +499,11 @@ class RepositoryManager
 		}
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 	}
-
+	/**
+	 * Gets the url to restore a learning object from the recycle bin.
+	 * @param LearningObject $learning_object The learning object.
+	 * @return string The requested URL.
+	 */
 	function get_learning_object_restoring_url($learning_object)
 	{
 		if ($learning_object->get_state() != LearningObject :: STATE_RECYCLED)
@@ -475,7 +512,11 @@ class RepositoryManager
 		}
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_RESTORE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 	}
-
+	/**
+	 * Gets the url to delete a learning object from recycle bin.
+	 * @param LearningObject $learning_object The learning object.
+	 * @return string The requested URL.
+	 */
 	function get_learning_object_deletion_url($learning_object)
 	{
 		if (!$this->learning_object_deletion_allowed($learning_object))
@@ -484,33 +525,52 @@ class RepositoryManager
 		}
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id(), self :: PARAM_DELETE_PERMANENTLY => 1));
 	}
-
+	/**
+	 * Gets the url to move a learning object to another category.
+	 * @param LearningObject $learning_object The learning object.
+	 * @return string The requested URL.
+	 */
 	function get_learning_object_moving_url($learning_object)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MOVE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 	}
-
+	/**
+	 * Gets the url to edit the metadata of a learning object.
+	 * @param LearningObject $learning_object The learning object.
+	 * @return string The requested URL.
+	 */
 	function get_learning_object_metadata_editing_url($learning_object)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_LEARNING_OBJECT_METADATA, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 	}
-
+	/**
+	 * Gets the url to edit the rights on a learning object.
+	 * @param LearningObject $learning_object The learning object.
+	 * @return string The requested URL.
+	 */
 	function get_learning_object_rights_editing_url($learning_object)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_LEARNING_OBJECT_RIGHTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 	}
-
+	/**
+	 * Gets the defined learning object types.
+	 * @see RepositoryDataManager::get_registered_types()
+	 */
 	function get_learning_object_types()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->get_registered_types();
 	}
-
+	/**
+	 * Gets the URL to the Dokeos claroline folder.
+	 */
 	function get_web_code_path()
 	{
 		return api_get_path(WEB_CODE_PATH);
 	}
-
+	/**
+	 * Wrapper for api_not_allowed().
+	 */
 	function not_allowed()
 	{
 		api_not_allowed();
