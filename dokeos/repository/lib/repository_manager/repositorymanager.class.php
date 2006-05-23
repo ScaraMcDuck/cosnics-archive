@@ -19,22 +19,26 @@ require_once dirname(__FILE__).'/../../../claroline/inc/lib/formvalidator/FormVa
  */
 class RepositoryManager
 {
+   /**#@+
+    * Constant defining a parameter of the repository manager.
+ 	*/
 	// SortableTable hogs 'action' so we'll use something else.
 	const PARAM_ACTION = 'go';
 	const PARAM_MESSAGE = 'message';
-
 	const PARAM_CATEGORY_ID = 'category';
 	const PARAM_LEARNING_OBJECT_ID = 'object';
 	const PARAM_DESTINATION_LEARNING_OBJECT_ID = 'destination';
 	const PARAM_LEARNING_OBJECT_TYPE = 'type';
 	const PARAM_DELETE_PERMANENTLY = 'delete_permanently';
 	const PARAM_EMPTY_RECYCLE_BIN = 'empty';
-
 	const PARAM_RECYCLE_SELECTED = 'recycle_selected';
 	const PARAM_MOVE_SELECTED = 'move_selected';
 	const PARAM_RESTORE_SELECTED = 'restore_selected';
 	const PARAM_DELETE_SELECTED = 'delete_selected';
-
+	/**#@-*/
+   /**#@+
+    * Constant defining an action of the repository manager.
+ 	*/
 	const ACTION_BROWSE_LEARNING_OBJECTS = 'browse';
 	const ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS = 'recycler';
 	const ACTION_VIEW_LEARNING_OBJECTS = 'view';
@@ -46,24 +50,20 @@ class RepositoryManager
 	const ACTION_EDIT_LEARNING_OBJECT_METADATA = 'metadata';
 	const ACTION_EDIT_LEARNING_OBJECT_RIGHTS = 'rights';
 	const ACTION_VIEW_QUOTA = 'quota';
-
+	/**#@-*/
+   /**#@+
+    * Property of this repository manager.
+ 	*/
 	private $parameters;
-
 	private $search_parameters;
-
 	private $user_id;
-
 	private $search_form;
-
 	private $category_menu;
-
 	private $quota_url;
-
 	private $create_url;
-
 	private $recycle_bin_url;
-
 	private $breadcrumbs;
+	/**#@-*/
 	/**
 	 * Constructor
 	 * @param int $user_id The user id of current user
