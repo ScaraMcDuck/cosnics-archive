@@ -55,7 +55,7 @@ class RepositorySearchForm extends FormValidator
 	 */
 	function RepositorySearchForm($manager, $url)
 	{
-		parent :: __construct(self :: FORM_NAME, 'get', $url);
+		parent :: __construct(self :: FORM_NAME, 'post', $url);
 		$this->renderer = clone $this->defaultRenderer();
 		$this->manager = $manager;
 		$this->frozen_elements = array ();
