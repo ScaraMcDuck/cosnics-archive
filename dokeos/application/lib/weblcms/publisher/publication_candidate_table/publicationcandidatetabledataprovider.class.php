@@ -23,15 +23,21 @@ class PublicationCandidateTableDataProvider implements LearningObjectTableDataPr
 	 */
 	private $types;
 	/**
+	 * The search query, or null if none.
+	 */
+	private $query;
+	/**
 	 * Constructor.
 	 * @param int $owner The user id of the current active user.
 	 * @param array $types The possible types of learning objects which can be
 	 * selected.
+	 * @param string $query The search query.
 	 */
-    function PublicationCandidateTableDataProvider($owner, $types)
+    function PublicationCandidateTableDataProvider($owner, $types, $query = null)
     {
     	$this->types = $types;
     	$this->owner = $owner;
+    	$this->query = $query;
     }
 	/*
 	 * Inherited
@@ -55,15 +61,20 @@ class PublicationCandidateTableDataProvider implements LearningObjectTableDataPr
 	 */
     private function get_condition()
     {
-    	$owner_cond = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->owner);
+    	$conds = array();
+    	$conds[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->owner);
     	$type_cond = array();
     	foreach ($this->types as $type)
     	{
     		$type_cond[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
     	}
-    	$type_cond = new OrCondition($type_cond);
-    	$cond = new AndCondition($owner_cond, $type_cond);
-    	return $cond;
+    	$conds[] = new OrCondition($type_cond);
+		$c = RepositoryUtilities :: query_to_condition($this->query);
+		if (!is_null($c))
+		{
+			$conds[] = $c;
+		}
+    	return new AndCondition($conds);
     }
 }
 ?>
