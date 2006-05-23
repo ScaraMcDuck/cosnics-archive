@@ -1,4 +1,8 @@
 <?php
+/*
+ * XXX: Maybe move to global language file, since some stuff is used by
+ * LearningObjectForm and other shared classes, etc.
+ */
 $Actions='Actions';
 $AddAttachments='Add Attachments';
 $AdvancedSearch='Advanced Search';
@@ -58,7 +62,7 @@ $OriginalLocation='Original Location';
 $PostsInTopic='Posts in this Topic';
 $Quota='Quota';
 $RecycleBin='Recycle Bin';
-$RecycleBinEmptied='Recycle bin is emptied.';
+$RecycleBinEmptied='The recycle bin was emptied.';
 $Remove='Remove';
 $RemoveSelected='Remove selected items';
 $Restore='Restore';
