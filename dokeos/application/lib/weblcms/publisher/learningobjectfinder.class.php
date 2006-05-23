@@ -7,7 +7,6 @@ require_once dirname(__FILE__).'/learningobjectbrowser.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/patternmatchcondition.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
 require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
 /**
  * This class represents a learning object publisher component which can be used
@@ -56,37 +55,20 @@ class LearningObjectFinder extends LearningObjectBrowser
 		}
 		return implode("\n",$html);
 	}
-	/**
-	 * Gets the search query.
-	 * @return string|null The query (null if no query available).
+	/*
+	 * Overriding
 	 */
-	function get_query()
+	protected function get_query()
 	{
 		if ($this->form->validate())
 		{
-			$values = $this->form->exportValues();
-			return $values['query'];
+			return $this->form->exportValue('query');
 		}
 		if ($_GET['query'])
 		{
 			return $_GET['query'];
 		}
 		return null;
-	}
-	/**
-	 * Gets the search condition.
-	 * @return Condition The search condition.
-	 */
-	protected function get_condition()
-	{
-		$oc = parent :: get_condition();
-		$query = $this->get_query();
-		if (!isset ($query))
-		{
-			return $oc;
-		}
-		$c = RepositoryUtilities :: query_to_condition($query);
-		return (!is_null($c) ? new AndCondition($oc, $c) : $oc);
 	}
 }
 ?>
