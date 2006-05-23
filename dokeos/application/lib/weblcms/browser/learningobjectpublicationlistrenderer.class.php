@@ -227,6 +227,8 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_publication_actions($publication,$first,$last)
 	{
+		$html = array();
+		$html[] = '<span style="white-space: nowrap;">';
 		if ($this->is_allowed(DELETE_RIGHT))
 		{
 			$html[] = $this->render_delete_action($publication);
@@ -238,7 +240,8 @@ abstract class LearningObjectPublicationListRenderer
 			$html[] = $this->render_up_action($publication,$first);
 			$html[] = $this->render_down_action($publication,$last);
 		}
-		return implode("\n",$html);
+		$html[] = '</span>';
+		return implode($html);
 	}
 
 	/**
