@@ -17,5 +17,9 @@ class DocumentPublicationListRenderer extends TableLearningObjectPublicationList
 		$this->set_header(4, get_lang('PublishedFor'), false);
 		$this->set_header(5, '', false);
     }
+    
+    function render_title($publication) {
+    	return '<a href="'.htmlentities($publication->get_learning_object()->get_url()).'">'.parent::render_title($publication).'</a>';
+    }
 }
 ?>

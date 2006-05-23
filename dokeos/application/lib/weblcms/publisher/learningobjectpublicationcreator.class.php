@@ -119,15 +119,17 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 	 */
 	private function get_publication_form($objectID, $new = false)
 	{
-		$out = ($new ? Display :: display_normal_message(htmlentities(get_lang('ObjectCreated')), true) : '');
+		$out = ($new ? Display :: display_normal_message(htmlentities(get_lang('ObjectCreated'), true)) : '');
 		$tool = $this->get_parent()->get_parent();
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
 		$form = new LearningObjectPublicationForm($object, $tool);
 		if ($form->validate())
 		{
-			$form->create_learning_object_publication();
+			$publication = $form->create_learning_object_publication();
+			// TODO: Use a function for this.
 			$parameters['action'] = RepositoryTool::ACTION_SHOW_NORMAL_MESSAGE;
 			$parameters['message'] = get_lang('ObjectPublished');
+			$parameters['pcattree'] = $publication->get_category_id();
 			$parameters['admin'] = 0;
 			$url = $this->get_url($parameters);
 			// Redirect to location where the publication was made
