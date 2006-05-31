@@ -187,36 +187,20 @@ abstract class RepositoryDataManager
 	 */
 	function learning_object_deletion_allowed($object)
 	{
-		if( $this->learning_object_is_published($object->get_id()))
-		{
-			return false;
-		}
-		$children = $this->get_children($object,true);
-		if(count($children) == 0)
-		{
-			return true;
-		}
-		$children_ids = array();
-		foreach($children as $index => $child)
-		{
-			$children_ids[] = $child->get_id();
-		}
-		return !$this->any_learning_object_is_published($children_ids);
+		$children = array();
+		$children = $this->get_children_ids($object);
+		$children[] = $object->get_id();
+		return !$this->any_learning_object_is_published($children);
+
 	}
-	private function get_children($parent,$recursive = false)
-	{
-		$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $parent->get_id());
-		$children = $this->retrieve_learning_objects(null, $condition)->as_array();
-		$grand_children = array();
-		if($recursive)
-		{
-			foreach ($children as $index => $child)
-			{
-				$grand_children = array_merge($grand_children,$this->get_children($child,true));
-			}
-		}
-		return array_merge($children,$grand_children);
-	}
+
+	/**
+	 * Gets all ids of all children/grandchildren/... of a given learning
+	 * object.
+	 * @param LearningObject $object The learning object
+	 * @return array The requested id's
+	 */
+	abstract function get_children_ids($object);
 
 	/**
 	 * Initializes the data manager.
@@ -295,7 +279,7 @@ abstract class RepositoryDataManager
 	 * @return ResultSet A set of matching learning objects.
 	 */
 	abstract function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false);
-	
+
 	/**
 	 * Retrieves the additional properties of the given learning object.
 	 * @param LearningObject $learning_object The learning object for which to

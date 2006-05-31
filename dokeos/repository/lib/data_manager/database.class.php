@@ -32,7 +32,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
 	const ALIAS_TYPE_TABLE = 'tt';
 	const ALIAS_LEARNING_OBJECT_PARENT_TABLE = 'lop';
-	
+
 	/**
 	 * The database connection.
 	 */
@@ -92,7 +92,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			 * Making parent table come first makes sure the properties we
 			 * need come last, so they are actually in the associative array
 			 * representing the record.
-			 */ 
+			 */
 			$query .= $this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_PARENT_TABLE.' JOIN ';
 		}
 		if (isset ($type))
@@ -169,7 +169,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res = $this->connection->limitQuery($query, intval($offset), intval($maxObjects), $params);
 		return new DatabaseLearningObjectResultSet($this, $res, isset($type));
 	}
-	
+
 	// Inherited.
 	function retrieve_additional_learning_object_properties($learning_object)
 	{
@@ -426,7 +426,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->limitQuery($query, 0, 1, array ($object->get_id(), $attachment_id));
 		return ($this->connection->affectedRows() > 0);
 	}
-	
+
 	// Inherited.
 	function set_learning_object_states ($object_ids, $state)
 	{
@@ -439,6 +439,33 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		array_unshift($params, $state);
 		$this->connection->limitQuery($query, 0, count($object_ids), $params);
 		return ($this->connection->affectedRows() == count($object_ids));
+	}
+
+	// Inherited.
+	function get_children_ids($object)
+	{
+		$children_ids = array();
+		$parent_ids = array($object->get_id());
+		do
+		{
+			$query = 'SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_PARENT_ID).' IN (?'.str_repeat(',?',count($parent_ids)-1).')';
+			$statement = $this->connection->prepare($query);
+			$res = $this->connection->execute($statement, $parent_ids);
+			if($res->numRows() == 0)
+			{
+				return $children_ids;
+			}
+			else
+			{
+				$parent_ids = array();
+				while($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$parent_ids[] = $record[LearningObject :: PROPERTY_ID];
+				}
+			}
+			$res->free();
+		}
+		while(true);
 	}
 
 	/**
@@ -600,7 +627,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		return $prefix.$this->connection->quoteIdentifier($name);
 	}
-	
+
 	/**
 	 * Expands a table identifier to the real table name. Currently, this
 	 * method prefixes the given table name with the user-defined prefix, if
