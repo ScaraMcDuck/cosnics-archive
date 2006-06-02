@@ -22,7 +22,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 	private $default_collapsed;
 
 	private $height;
-	
+
 	private $exclude;
 
 	function HTML_QuickForm_element_finder($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default_values = array ())
@@ -53,7 +53,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 	{
 		return $this->height;
 	}
-	
+
 	function excludeElements($excluded_ids)
 	{
 		$this->exclude = array_merge($this->exclude, $excluded_ids);
@@ -83,8 +83,8 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$options = $this->get_active_elements();
 		$find = 'elfFind(this.value, \''.$this->search_url.'\', document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));';
 		$this->_elements[] = new HTML_QuickForm_text($this->getName().'_search', null, array ('style' => 'width: 100%', 'onkeyup' => $find, 'onchange' => $find, 'onkeypress' => 'var evt = (window.event || event); if (evt && evt.keyCode == 13) return false;', 'class' => 'element_query', 'id' => $this->getName().'_search_field'));
-		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_activate', '<<', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elfActivate(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\'));', 'id' => $activate_button_id, 'disabled' => 'disabled', 'class' => 'activate_elements'));
-		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '>>', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elfDeactivate(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));',  'id' => $deactivate_button_id, 'disabled' => 'disabled', 'class' => 'deactivate_elements'));
+		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_activate', '>>', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elfActivate(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\'));', 'id' => $activate_button_id, 'disabled' => 'disabled', 'class' => 'activate_elements'));
+		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '<<', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elfDeactivate(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));',  'id' => $deactivate_button_id, 'disabled' => 'disabled', 'class' => 'deactivate_elements'));
 	}
 
 	function getValue()
@@ -171,24 +171,31 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$id = 'tbl_'.$this->getName();
 		$html[] = '<table border="0" width="100%" height="'.$this->getHeight().'" cellpadding="0" cellspacing="0" id="'.$id.'"'. ($this->isCollapsed() ? ' style="display: none;"' : '').'>';
 		$html[] = '<tr>';
-		$html[] = '<td width="50%" rowspan="2" valign="top">';
-		// TODO: Make height: 100% work
-		$html[] = '<div id="elf_'.$this->getName().'_active" class="active_elements" style="width: 100%; height: '.$this->getHeight().'px; overflow: auto; border: 1px solid black; padding: 1px;"></div>';
-		$html[] = '</td>';
-		$html[] = '<td rowspan="2" valign="middle">';
-		$html[] = $this->_elements[2]->toHTML();
-		$html[] = $this->_elements[3]->toHTML();
-		$html[] = '</td>';
 		$html[] = '<td width="50%" valign="top">';
 		$this->_elements[1]->setValue('');
 		$html[] = $this->_elements[1]->toHTML();
 		$html[] = '</td>';
+
+		$html[] = '<td rowspan="2" valign="middle">';
+		$html[] = $this->_elements[2]->toHTML();
+		$html[] = $this->_elements[3]->toHTML();
+		$html[] = '</td>';
+
+		$html[] = '<td valign="top" rowspan="2" width="50%">';
+		// TODO: Make height: 100% work
+		$html[] = '<div id="elf_'.$this->getName().'_active" class="active_elements" style="width: 100%; height: '.$this->getHeight().'px; overflow: auto; border: 1px solid black; padding: 1px;"></div>';
+
+		$html[] = '</td>';
+
 		$html[] = '</tr>';
 		$html[] = '<tr>';
-		$html[] = '<td valign="top">';
+
+		$html[] = '<td width="50%" valign="top">';
 		// TODO: Make height: 100% work
 		$html[] = '<div id="elf_'.$this->getName().'_inactive" class="inactive_elements" style="width: 100%; height: '.($this->getHeight()-20).'px; overflow: auto; border: 1px solid black; padding: 1px;"></div>';
+
 		$html[] = '</td>';
+
 		$html[] = '</tr>';
 		$html[] = '</table>';
 		if ($this->isCollapsed())
