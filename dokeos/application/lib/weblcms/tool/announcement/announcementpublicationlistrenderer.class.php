@@ -24,7 +24,7 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		}
 		else
 		{
-			$up_link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/up_na.gif"  alt=""/></a>';
+			$up_link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/up_na.gif"  alt=""/>';
 		}
 		return $up_link;
 	}
@@ -44,7 +44,7 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		}
 		else
 		{
-			$down_link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/down_na.gif"  alt=""/></a>';
+			$down_link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/down_na.gif"  alt=""/>';
 		}
 		return $down_link;
 	}
