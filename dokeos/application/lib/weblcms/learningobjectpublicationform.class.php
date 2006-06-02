@@ -124,7 +124,7 @@ class LearningObjectPublicationForm extends FormValidator
 		$groups = array ();
 		if($values[self :: PARAM_TARGETS][self :: PARAM_RECEIVERS] == 1)
 		{
-			foreach($values[PARAM_TARGETS][self :: PARAM_TARGETS_TO] as $index => $target)
+			foreach($values[self::PARAM_TARGETS][self :: PARAM_TARGETS_TO] as $index => $target)
 			{
 				list($type,$id) = explode('-',$target);
 				if($type == self :: PARAM_TARGET_GROUP_PREFIX)
