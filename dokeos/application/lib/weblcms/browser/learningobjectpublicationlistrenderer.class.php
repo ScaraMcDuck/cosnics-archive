@@ -83,21 +83,35 @@ abstract class LearningObjectPublicationListRenderer
 		{
 			$users = $publication->get_target_users();
 			$groups = $publication->get_target_groups();
+			if(count($users) + count($groups) == 1)
+			{
+				if(count($users) == 1)
+				{
+					$user = api_get_user_info($users[0]);
+					return $user['firstName'].' '.$user['lastName'];
+				}
+				else
+				{
+					//TODO: replace group id by group name (gives SQL-error now)
+					//$group = GroupManager::get_group_properties($group[0]);
+					return 'GROUP: '.$group[0];
+				}
+			}
 			$target_list = array ();
-			$target_list[] = '<ul>';
+			$target_list[] = '<select>';
 			foreach ($users as $index => $user_id)
 			{
 				$user = api_get_user_info($user_id);
-				$target_list[] = '<li>'.$user['firstName'].' '.$user['lastName'].'</li>';
+				$target_list[] = '<option>'.$user['firstName'].' '.$user['lastName'].'</option>';
 			}
 			foreach ($groups as $index => $group_id)
 			{
 				//TODO: replace group id by group name (gives SQL-error now)
 				//$group = GroupManager::get_group_properties($group_id);
 				//$target_list[] = '<li>'.$group['name'].'</li>';
-				$target_list[] = '<li>'.'GROUP: '.$group_id.'</li>';
+				$target_list[] = '<option>'.'GROUP: '.$group_id.'</option>';
 			}
-			$target_list[] = '</ul>';
+			$target_list[] = '</select>';
 			return implode("\n", $target_list);
 		}
 	}
@@ -152,7 +166,7 @@ abstract class LearningObjectPublicationListRenderer
 		}
 		else
 		{
-			$up_link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/up_na.gif"  alt=""/></a>';
+			$up_link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/up_na.gif"  alt=""/>';
 		}
 		return $up_link;
 	}
@@ -174,7 +188,7 @@ abstract class LearningObjectPublicationListRenderer
 		}
 		else
 		{
-			$down_link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/down_na.gif"  alt=""/></a>';
+			$down_link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/down_na.gif"  alt=""/>';
 		}
 		return $down_link;
 	}
@@ -215,7 +229,7 @@ abstract class LearningObjectPublicationListRenderer
 		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete.gif"  alt=""/></a>';
 		return $delete_link;
 	}
-	
+
 	/**
 	 * Renders publication actions for the given publication.
 	 * @param LearningObjectPublication $publication The publication.
