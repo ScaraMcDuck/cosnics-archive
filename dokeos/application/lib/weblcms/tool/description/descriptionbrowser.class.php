@@ -29,7 +29,17 @@ class DescriptionBrowser extends LearningObjectPublicationBrowser
 		$datamanager = WeblcmsDataManager :: get_instance();
 		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'description');
 		$condition = $tool_condition;
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $this->get_user_id(), $this->get_groups(), $condition, false, array (Description :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC));
+		if($this->is_allowed(EDIT_RIGHT))
+		{
+			$user_id = null;
+			$groups = null;
+		}
+		else
+		{
+			$user_id = $this->get_user_id();
+			$groups = $this->get_groups();
+		}
+		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups, $condition, false, array (Description :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC));
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
 		{
