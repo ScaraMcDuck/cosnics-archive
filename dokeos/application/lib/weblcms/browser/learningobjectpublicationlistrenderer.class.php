@@ -92,9 +92,9 @@ abstract class LearningObjectPublicationListRenderer
 				}
 				else
 				{
-					//TODO: replace group id by group name (gives SQL-error now)
-					//$group = GroupManager::get_group_properties($group[0]);
-					return 'GROUP: '.$group[0];
+					//TODO: Next function call causes SQL error in single database mode
+					$group = GroupManager::get_group_properties($group[0]);
+					$group['name'];
 				}
 			}
 			$target_list = array ();
@@ -106,10 +106,9 @@ abstract class LearningObjectPublicationListRenderer
 			}
 			foreach ($groups as $index => $group_id)
 			{
-				//TODO: replace group id by group name (gives SQL-error now)
-				//$group = GroupManager::get_group_properties($group_id);
-				//$target_list[] = '<li>'.$group['name'].'</li>';
-				$target_list[] = '<option>'.'GROUP: '.$group_id.'</option>';
+				//TODO: Next function call causes SQL error in single database mode
+				$group = GroupManager::get_group_properties($group_id);
+				$target_list[] = '<option>'.$group['name'].'</option>';
 			}
 			$target_list[] = '</select>';
 			return implode("\n", $target_list);
