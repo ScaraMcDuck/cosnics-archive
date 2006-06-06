@@ -42,7 +42,7 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 				$publications = $this->browser->get_calendar_events($table_date,strtotime('+1 Day',$table_date));
 				foreach($publications as $index => $publication)
 				{
-					$cell_contents .= $this->render_publication($publication);
+					$cell_contents .= $this->render_publication($publication,$table_date);
 				}
 				$calendar_table->setCellContents(intval($cell / 7) + 1, $cell % 7, $cell_contents );
 				$class = array();
@@ -81,11 +81,32 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 		$html[] = $calendar_table->toHtml();
 		return implode("\n",$html);
 	}
-	function render_publication($publication)
+	function render_publication($publication,$table_date)
 	{
 		$event = $publication->get_learning_object();
 		$event_url = $this->get_url(array('pid'=>$publication->get_id()), true);
-		return '<div class="event"><a href="'.$event_url.'">'.date('H:i',$event->get_start_date()).' '.htmlentities($event->get_title()).'</a></div>';
+		$html[] = '<div class="event">';
+		$start_date = $event->get_start_date();
+		$end_date = $event->get_end_date();
+		if($start_date > $table_date && $start_date < strtotime('+1 Day',$table_date))
+		{
+			$html[] = date('H:i',$start_date);
+		}
+		else
+		{
+			$html[] = '00:00';
+		}
+		$html[] = '<a href="'.$event_url.'">'.htmlentities($event->get_title()).'</a>';
+		if($end_date > $table_date && $end_date < strtotime('+1 Day',$table_date))
+		{
+			//$html[] = date('H:i',$end_date);
+		}
+		else
+		{
+			//$html[] = '&hellip;';
+		}
+		$html[] = '</div>';
+		return implode("\n",$html);
 	}
 }
 ?>
