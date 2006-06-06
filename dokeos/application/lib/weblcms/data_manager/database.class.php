@@ -134,13 +134,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$accessConditions = array ();
 		if (!is_null($users))
 		{
-			if (is_array($users))
+			if (!is_array($users))
 			{
-				$users[] = null;
-			}
-			else
-			{
-				$users = array ($users, null);
+				$users = array ($users);
 			}
 			foreach ($users as $u)
 			{
@@ -149,19 +145,21 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 		if (!is_null($groups))
 		{
-			if (is_array($groups))
+			if (!is_array($groups))
 			{
-				$groups[] = null;
-			}
-			else
-			{
-				$groups = array ($groups, null);
+				$groups = array ($groups);
 			}
 			foreach ($groups as $g)
 			{
 				$accessConditions[] = new EqualityCondition('group', $g);
 			}
 		}
+		if(!is_null($groups) || !is_null($users))
+		{
+			// Add condition to retrieve publications for everybody (user=null and group=null)
+			$accessConditions[] = new AndCondition(new EqualityCondition('user',null),new EqualityCondition('group',null));
+		}
+
 		/*
 		 * Add user/group conditions to global condition.
 		 */
