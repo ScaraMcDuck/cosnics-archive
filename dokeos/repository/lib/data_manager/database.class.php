@@ -461,6 +461,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 				while($record = $res->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					$parent_ids[] = $record[LearningObject :: PROPERTY_ID];
+					$children_ids[] = $record[LearningObject :: PROPERTY_ID];
 				}
 			}
 			$res->free();
