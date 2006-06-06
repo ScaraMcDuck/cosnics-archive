@@ -37,6 +37,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		$html[] = '</div>';
 		$html[] = '<div class="description'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_description($publication);
+		$html[] = $this->render_attachments($publication);
 		$html[] = '</div>';
 		$html[] = '<div class="publication_info'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_publication_information($publication);

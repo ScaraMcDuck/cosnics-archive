@@ -3,6 +3,7 @@
  * @package application.weblcms
  * @subpackage browser
  */
+require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectdisplay.class.php';
 /**
  * This is a generic renderer for a set of learning object publications.
  * @package application.weblcms.tool
@@ -227,6 +228,33 @@ abstract class LearningObjectPublicationListRenderer
 		$delete_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_DELETE, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete.gif"  alt=""/></a>';
 		return $delete_link;
+	}
+
+	/**
+	 * Renders the attachements of a publication.
+	 * @param LearningObjectPublication $publication The publication.
+	 * @return string The rendered HTML.
+	 */
+	function render_attachments($publication)
+	{
+		$object = $publication->get_learning_object();
+		if ($object->supports_attachments())
+		{
+			$attachments = $object->get_attached_learning_objects();
+			if(count($attachments)>0)
+			{
+				$html[] = '<ul class="attachments_list">';
+				RepositoryUtilities :: order_learning_objects_by_title(& $attachments);
+				foreach ($attachments as $attachment)
+				{
+					$disp = LearningObjectDisplay :: factory(& $attachment);
+					$html[] = '<li><img src="'.api_get_path(WEB_CODE_PATH).'/img/treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+				}
+				$html[] = '</ul>';
+				return implode("\n",$html);
+			}
+		}
+		return '';
 	}
 
 	/**

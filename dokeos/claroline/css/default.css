@@ -752,6 +752,10 @@ div.learning_object div.title
 div.learning_object div.description
 {
 }
+div.learning_object div.description ul.attachments_list
+{
+	margin-top: 10px;
+}
 div.learning_object div.publication_info
 {
 	font-style: italic;
