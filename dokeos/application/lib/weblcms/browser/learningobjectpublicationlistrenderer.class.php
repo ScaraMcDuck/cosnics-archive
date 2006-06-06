@@ -94,8 +94,8 @@ abstract class LearningObjectPublicationListRenderer
 				else
 				{
 					//TODO: Next function call causes SQL error in single database mode
-					$group = GroupManager::get_group_properties($group[0]);
-					$group['name'];
+					$group = GroupManager::get_group_properties($groups[0]);
+					return $group['name'];
 				}
 			}
 			$target_list = array ();
