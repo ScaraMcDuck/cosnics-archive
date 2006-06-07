@@ -21,10 +21,12 @@ abstract class RepositoryTool extends Tool
 
 	const ACTION_EDIT = 'edit';
 	const ACTION_DELETE = 'delete';
+	const ACTION_DELETE_SELECTED = 'delete';
 	const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
 	const ACTION_MOVE_UP = 'move_up';
 	const ACTION_MOVE_DOWN = 'move_down';
 	const ACTION_MOVE_TO_CATEGORY = 'move_to_category';
+	const ACTION_MOVE_SELECTED_TO_CATEGORY = 'move_selected_to_category';
 	const ACTION_SHOW_NORMAL_MESSAGE = 'show_normal_message';
 
 	/**
@@ -55,7 +57,7 @@ abstract class RepositoryTool extends Tool
 	 // XXX: should all this really be handled here?
 	function perform_requested_actions()
 	{
-		$action = $_GET[self :: PARAM_ACTION];
+		$action = isset($_GET[self :: PARAM_ACTION]) ? $_GET[self :: PARAM_ACTION] : $_POST[self :: PARAM_ACTION];
 		if(isset($action))
 		{
 			$datamanager = WeblcmsDataManager :: get_instance();
@@ -105,24 +107,46 @@ abstract class RepositoryTool extends Tool
 				case self::ACTION_MOVE_TO_CATEGORY:
 					if($this->is_allowed(EDIT_RIGHT))
 					{
-						$categories = $this->get_categories(true);
-						$parameters = $this->get_parameters();
-						$parameters['pid'] = $_GET['pid'];
-						$parameters['pcattree'] = $_GET['pcattree'];
-						$parameters[self :: PARAM_ACTION] = self::ACTION_MOVE_TO_CATEGORY;
-						$form = new FormValidator(self::ACTION_MOVE_TO_CATEGORY,'get',$this->get_url());
-						foreach($parameters as $key => $value)
-						{
-							$form->addElement('hidden',$key,$value);
-						}
-						$form->addElement('select', LearningObjectPublication :: PROPERTY_CATEGORY_ID, get_lang('Category'), $categories);
-						$form->addElement('submit', 'submit', get_lang('Ok'));
+						$form = $this->build_move_to_category_form(self::ACTION_MOVE_TO_CATEGORY);
+						$form->addElement('hidden','pid',$_GET['pid']);
 						if($form->validate())
 						{
 							$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
 							$publication->set_category_id($_GET[LearningObjectPublication :: PROPERTY_CATEGORY_ID]);
 							$publication->update();
 							$message = get_lang('LearningObjectPublicationMoved');
+						}
+						else
+						{
+							$message = $form->toHtml();
+						}
+					}
+					break;
+				case self::ACTION_MOVE_SELECTED_TO_CATEGORY:
+					if($this->is_allowed(EDIT_RIGHT))
+					{
+						$form = $this->build_move_to_category_form(self::ACTION_MOVE_SELECTED_TO_CATEGORY);
+						$publication_ids = $_POST['id'];
+						$form->addElement('hidden','pids',implode('-',$publication_ids));
+						if($form->validate())
+						{
+							$values = $form->exportValues();
+							$publication_ids = explode('-',$values['pids']);
+							//TODO: update all publications in a single action/query
+							foreach($publication_ids as $index => $publication_id)
+							{
+								$publication = $datamanager->retrieve_learning_object_publication($publication_id);
+								$publication->set_category_id($_GET[LearningObjectPublication :: PROPERTY_CATEGORY_ID]);
+								$publication->update();
+							}
+							if(count($publication_ids) == 1)
+							{
+								$message = get_lang('LearningObjectPublicationMoved');
+							}
+							else
+							{
+								$message = get_lang('LearningObjectPublicationsMoved');
+							}
 						}
 						else
 						{
@@ -139,6 +163,26 @@ abstract class RepositoryTool extends Tool
 		{
 			return Display::display_normal_message($message,true);
 		}
+	}
+	/**
+	 * Builds a form to move a learning object publication to another category.
+	 * @param string $action The action which needs this form
+	 * @return FormValidator The form
+	 */
+	private function build_move_to_category_form($action)
+	{
+		$form = new FormValidator($action,'get',$this->get_url());
+		$categories = $this->get_categories(true);
+		$form->addElement('select', LearningObjectPublication :: PROPERTY_CATEGORY_ID, get_lang('Category'), $categories);
+		$form->addElement('submit', 'submit', get_lang('Ok'));
+		$parameters = $this->get_parameters();
+		$parameters['pcattree'] = $_GET['pcattree'];
+		$parameters[self :: PARAM_ACTION] = $action;
+		foreach($parameters as $key => $value)
+		{
+			$form->addElement('hidden',$key,$value);
+		}
+		return $form;
 	}
 }
 ?>
