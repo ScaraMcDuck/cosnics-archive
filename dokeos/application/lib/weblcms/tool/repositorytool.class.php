@@ -102,6 +102,34 @@ abstract class RepositoryTool extends Tool
 						}
 					}
 					break;
+				case self::ACTION_MOVE_TO_CATEGORY:
+					if($this->is_allowed(EDIT_RIGHT))
+					{
+						$categories = $this->get_categories(true);
+						$parameters = $this->get_parameters();
+						$parameters['pid'] = $_GET['pid'];
+						$parameters['pcattree'] = $_GET['pcattree'];
+						$parameters[self :: PARAM_ACTION] = self::ACTION_MOVE_TO_CATEGORY;
+						$form = new FormValidator(self::ACTION_MOVE_TO_CATEGORY,'get',$this->get_url());
+						foreach($parameters as $key => $value)
+						{
+							$form->addElement('hidden',$key,$value);
+						}
+						$form->addElement('select', LearningObjectPublication :: PROPERTY_CATEGORY_ID, get_lang('Category'), $categories);
+						$form->addElement('submit', 'submit', get_lang('Ok'));
+						if($form->validate())
+						{
+							$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
+							$publication->set_category_id($_GET[LearningObjectPublication :: PROPERTY_CATEGORY_ID]);
+							$publication->update();
+							$message = get_lang('LearningObjectPublicationMoved');
+						}
+						else
+						{
+							$message = $form->toHtml();
+						}
+					}
+					break;
 				case self::ACTION_SHOW_NORMAL_MESSAGE:
 					$message = $_GET['message'];
 					break;
