@@ -24,6 +24,7 @@ abstract class RepositoryTool extends Tool
 	const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
 	const ACTION_MOVE_UP = 'move_up';
 	const ACTION_MOVE_DOWN = 'move_down';
+	const ACTION_MOVE_TO_CATEGORY = 'move_to_category';
 	const ACTION_SHOW_NORMAL_MESSAGE = 'show_normal_message';
 
 	/**

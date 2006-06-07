@@ -231,6 +231,18 @@ abstract class LearningObjectPublicationListRenderer
 	}
 
 	/**
+	 * Renders the means to move the given publication to another category.
+	 * @param LearningObjectPublication $publication The publication.
+	 * @return string The HTML rendering.
+	 */
+	function render_move_to_category_action($publication)
+	{
+		$url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_TO_CATEGORY, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+		$link = '<a href="'.$url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/move.gif"  alt=""/></a>';
+		return $link;
+	}
+
+	/**
 	 * Renders the attachements of a publication.
 	 * @param LearningObjectPublication $publication The publication.
 	 * @return string The rendered HTML.
@@ -280,6 +292,7 @@ abstract class LearningObjectPublicationListRenderer
 			$html[] = $this->render_visibility_action($publication);
 			$html[] = $this->render_up_action($publication,$first);
 			$html[] = $this->render_down_action($publication,$last);
+			$html[] = $this->render_move_to_category_action($publication,$last);
 		}
 		$html[] = '</span>';
 		return implode($html);

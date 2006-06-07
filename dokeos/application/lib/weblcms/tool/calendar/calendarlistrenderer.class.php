@@ -67,5 +67,14 @@ class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 	{
 		return '';
 	}
+	/**
+	 * No categories available in the calendar tool at this moment, so the
+	 * option to move calendar events between categories is not available.
+	 * @return empty string
+	 */
+	function render_move_to_category_action($publication)
+	{
+		return '';
+	}
 }
 ?>
