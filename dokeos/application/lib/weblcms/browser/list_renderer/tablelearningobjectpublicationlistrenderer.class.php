@@ -20,11 +20,11 @@ class TableLearningObjectPublicationListRenderer extends LearningObjectPublicati
 		{
 			if($browser->is_allowed(EDIT_RIGHT))
 			{
-				$actions['move'] = get_lang('Move');
+				$actions[RepositoryTool::ACTION_MOVE_SELECTED_TO_CATEGORY] = get_lang('Move');
 			}
 			if($browser->is_allowed(DELETE_RIGHT))
 			{
-				$actions['delete'] = get_lang('Delete');
+				$actions[RepositoryTool::ACTION_DELETE_SELECTED] = get_lang('Delete');
 			}
 			$this->table->set_form_actions($actions);
 		}
