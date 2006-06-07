@@ -21,7 +21,7 @@ abstract class RepositoryTool extends Tool
 
 	const ACTION_EDIT = 'edit';
 	const ACTION_DELETE = 'delete';
-	const ACTION_DELETE_SELECTED = 'delete';
+	const ACTION_DELETE_SELECTED = 'delete_selected';
 	const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
 	const ACTION_MOVE_UP = 'move_up';
 	const ACTION_MOVE_DOWN = 'move_down';
@@ -68,6 +68,26 @@ abstract class RepositoryTool extends Tool
 					{
 						$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
 						if($publication->delete())
+						{
+							$message = htmlentities(get_lang('LearningObjectPublicationDeleted'));
+						}
+					}
+					break;
+				case self :: ACTION_DELETE_SELECTED:
+					if($this->is_allowed(DELETE_RIGHT))
+					{
+						$publication_ids = $_POST['id'];
+						//TODO: delete all selected publications in a single action/query
+						foreach($publication_ids as $index => $pid)
+						{
+							$publication = $datamanager->retrieve_learning_object_publication($pid);
+							$publication->delete();
+						}
+						if(count($publication_ids) > 1)
+						{
+							$message = htmlentities(get_lang('LearningObjectPublicationsDeleted'));
+						}
+						else
 						{
 							$message = htmlentities(get_lang('LearningObjectPublicationDeleted'));
 						}
