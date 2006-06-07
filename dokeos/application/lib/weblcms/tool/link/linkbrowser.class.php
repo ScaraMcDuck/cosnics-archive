@@ -25,7 +25,17 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 	function get_publications($from, $count, $column, $direction)
 	{
 		$dm = WeblcmsDataManager :: get_instance();
-		return $dm->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $this->get_user_id(), $this->get_groups(), $this->get_condition())->as_array();
+		if($this->is_allowed(EDIT_RIGHT))
+		{
+			$user_id = null;
+			$groups = null;
+		}
+		else
+		{
+			$user_id = $this->get_user_id();
+			$groups = $this->get_groups();
+		}
+		return $dm->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $user_id, $groups, $this->get_condition())->as_array();
 	}
 
 	function get_publication_count()
