@@ -16,6 +16,18 @@ class TableLearningObjectPublicationListRenderer extends LearningObjectPublicati
 		$name = 'pubtbl';
 		$this->table = new SortableTable($name, array($browser, 'get_publication_count'), array($browser, 'get_publications'));
 		$this->table->set_additional_parameters($browser->get_parameters());
+		if($browser->is_allowed(EDIT_RIGHT) || $browser->is_allowed(DELETE_RIGHT))
+		{
+			if($browser->is_allowed(EDIT_RIGHT))
+			{
+				$actions['move'] = get_lang('Move');
+			}
+			if($browser->is_allowed(DELETE_RIGHT))
+			{
+				$actions['delete'] = get_lang('Delete');
+			}
+			$this->table->set_form_actions($actions);
+		}
 	}
 
 	function set_header($column, $label, $sortable = true)

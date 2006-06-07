@@ -41,14 +41,21 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 		while ($publication = $pubs->next_result())
 		{
 			$first = ($index == 0);
-			$last = ($index == count($pubs) - 1);
+			$last = ($index == $pubs->size() - 1);
 			$row = array ();
+			if($this->is_allowed(EDIT_RIGHT) || $this->is_allowed(DELETE_RIGHT))
+			{
+				$row[] = $publication->get_id();
+			}
 			$row[] = $renderer->render_title($publication);
 			$row[] = $renderer->render_description($publication);
 			$row[] = $renderer->render_publication_date($publication);
 			$row[] = $renderer->render_publisher($publication);
 			$row[] = $renderer->render_publication_targets($publication);
-			$row[] = $renderer->render_publication_actions($publication, $first, $last);
+			if($this->is_allowed(EDIT_RIGHT) || $this->is_allowed(DELETE_RIGHT))
+			{
+				$row[] = $renderer->render_publication_actions($publication, $first, $last);
+			}
 			$data[] = $row;
 			$index++;
 		}
