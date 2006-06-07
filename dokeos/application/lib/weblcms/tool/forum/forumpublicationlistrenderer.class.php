@@ -11,12 +11,20 @@ class ForumPublicationListRenderer extends TableLearningObjectPublicationListRen
     function ForumPublicationListRenderer($browser)
     {
     	parent :: __construct($browser);
-    	$this->set_header(0, '' , false);
-    	$this->set_header(1, get_lang('Forum'), false);
-		$this->set_header(2, get_lang('Topics'), false);
-		$this->set_header(3, get_lang('Posts'), false);
-		$this->set_header(4, get_lang('LastPost'), false);
-		$this->set_header(5, '', false);
+    	$column = 0;
+    	if($browser->is_allowed(EDIT_RIGHT) || $browser->is_allowed(DELETE_RIGHT))
+    	{
+    		$this->set_header($column++,'',false);
+    	}
+    	$this->set_header($column++, '' , false);
+    	$this->set_header($column++, get_lang('Forum'), false);
+		$this->set_header($column++, get_lang('Topics'), false);
+		$this->set_header($column++, get_lang('Posts'), false);
+		$this->set_header($column++, get_lang('LastPost'), false);
+    	if($browser->is_allowed(EDIT_RIGHT) || $browser->is_allowed(DELETE_RIGHT))
+    	{
+    		$this->set_header($column++,'',false);
+    	}
     }
 }
 ?>
