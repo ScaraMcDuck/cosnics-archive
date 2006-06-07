@@ -48,5 +48,9 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		}
 		return $down_link;
 	}
+	function render_move_to_category_action($publication)
+	{
+		return '';
+	}
 }
 ?>
