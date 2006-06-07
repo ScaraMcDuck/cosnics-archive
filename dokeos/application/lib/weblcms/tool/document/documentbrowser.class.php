@@ -18,13 +18,23 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 		$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
 		$renderer = new DocumentPublicationListRenderer($this);
 		$this->set_publication_list_renderer($renderer);
-		$this->set_publication_category_tree($tree);		
+		$this->set_publication_category_tree($tree);
 	}
-	
+
 	function get_publications($from, $count, $column, $direction)
 	{
 		$dm = WeblcmsDataManager :: get_instance();
-		$pubs = $dm->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $this->get_user_id(), $this->get_groups(), $this->get_condition());
+		if($this->is_allowed(EDIT_RIGHT))
+		{
+			$user_id = null;
+			$groups = null;
+		}
+		else
+		{
+			$user_id = $this->get_user_id();
+			$groups = $this->get_groups();
+		}
+		$pubs = $dm->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $user_id, $groups, $this->get_condition());
 		$data = array ();
 		$renderer = $this->get_publication_list_renderer();
 		$index = 0;
@@ -50,13 +60,13 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 		$dm = WeblcmsDataManager :: get_instance();
 		return $dm->count_learning_object_publications($this->get_course_id(), $this->get_category(), $this->get_user_id(), $this->get_groups(), $this->get_condition());
 	}
-	
+
 	function get_condition()
 	{
 		$tool_cond= new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'document');
 		$shown_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_HIDDEN, 0);
 		$category_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $this->get_publication_category_tree()->get_current_category_id());
-		return new AndCondition($tool_cond, $shown_cond, $category_cond);	
+		return new AndCondition($tool_cond, $shown_cond, $category_cond);
 	}
 }
 ?>
