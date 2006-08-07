@@ -3,21 +3,34 @@
  * @package application.weblcms
  */
 require_once dirname(__FILE__).'/../../../../claroline/inc/lib/formvalidator/FormValidator.class.php';
+/**
+ * Form for creating and updating a learning object publication category
+ */
 class LearningObjectPublicationCategoryForm extends FormValidator
 {
 	const PARAM_TITLE = 'title';
 	const PARAM_CATEGORY = 'parent';
-	
+
 	private $parent;
-	
+
 	private $category;
-	
+	/**
+	 * Constructor
+	 * @param LearningObjectPublicationCategoryManager $parent The category
+	 * manager in which this form is created.
+	 * @param string $formName
+	 * @param string $method
+	 * @param string $action
+	 */
 	function LearningObjectPublicationCategoryForm($parent, $formName, $method = 'post', $action = null)
 	{
 		parent :: __construct($formName, $method, $action);
 		$this->parent = $parent;
 	}
-	
+	/**
+	 * Add the necessary elements to this form so it can be used to create a new
+	 * learning object publication category
+	 */
 	function build_creation_form()
 	{
 		$this->addElement('text', self :: PARAM_TITLE, get_lang('Title'));
@@ -26,14 +39,20 @@ class LearningObjectPublicationCategoryForm extends FormValidator
 		$this->addElement('select', self :: PARAM_CATEGORY, get_lang('Category'), $categories);
 		$this->addElement('submit', 'submit', get_lang('Ok'));
 	}
-	
+	/**
+	 * Add the necessary elements to this form so it can be used to edit an
+	 * existing learning object publication category
+	 */
 	function build_editing_form($category)
 	{
-		$this->category = $category;				
+		$this->category = $category;
 		$this->build_creation_form();
 		$this->setDefaults();
 	}
-	
+	/**
+	 * Sets the default values of the form
+	 * @param array $defaults
+	 */
 	function setDefaults($defaults = array ())
 	{
 		if (isset($this->category))
@@ -43,12 +62,18 @@ class LearningObjectPublicationCategoryForm extends FormValidator
 		}
 		parent :: setDefaults($defaults);
 	}
-	
+	/**
+	 * Gets the title given in the form
+	 * @return string The title.
+	 */
 	function get_category_title()
 	{
 		return $this->exportValue(self :: PARAM_TITLE);
 	}
-
+	/**
+	 * Gets the id of the parent category
+	 * @return int The id.
+	 */
 	function get_category_parent()
 	{
 		return $this->exportValue(self :: PARAM_CATEGORY);
