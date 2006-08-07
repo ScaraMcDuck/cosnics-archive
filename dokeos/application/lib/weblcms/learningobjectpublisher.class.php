@@ -54,7 +54,7 @@ class LearningObjectPublisher
 	function as_html()
 	{
 		$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-		foreach (array ('browser', 'finder', 'publicationcreator') as $action)
+		foreach (array ('publicationcreator','browser', 'finder') as $action)
 		{
 			$out .= '<li><a';
 			if ($this->get_action() == $action) $out .= ' class="current"';
@@ -104,12 +104,12 @@ class LearningObjectPublisher
 	}
 
 	/**
-	 * Returns the action that the user selected, or "browser" if none.
+	 * Returns the action that the user selected, or "publicationcreator" if none.
 	 * @return string The action.
 	 */
 	function get_action()
 	{
-		return ($_GET[LearningObjectPublisher :: PARAM_ACTION] ? $_GET[LearningObjectPublisher :: PARAM_ACTION] : 'browser');
+		return ($_GET[LearningObjectPublisher :: PARAM_ACTION] ? $_GET[LearningObjectPublisher :: PARAM_ACTION] : 'publicationcreator');
 	}
 
 	/**
