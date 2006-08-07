@@ -3,6 +3,10 @@
  * @package application.weblcms.tool
  */
 require_once dirname(__FILE__).'/category_manager/learningobjectpublicationcategoryform.class.php';
+/**
+ * This class provides the means to manage the learning object publication
+ * categories in a tool.
+ */
 class LearningObjectPublicationCategoryManager
 {
 	const PARAM_ID = 'category_id';
@@ -14,13 +18,20 @@ class LearningObjectPublicationCategoryManager
 	private $parent;
 
 	private $types;
-
+	/**
+	 * Constructor
+	 * @param Tool $parent The tool which created this category manager
+	 * @param array $types
+	 */
 	function LearningObjectPublicationCategoryManager($parent, $types)
 	{
 		$this->parent = $parent;
 		$this->types = (is_array($types) ? $types : array ($types));
 	}
-
+	/**
+	 * Gets this category manager as HTML
+	 * @return string The HTML representation of this category manager
+	 */
 	function as_html()
 	{
 		$html = '';
@@ -41,17 +52,24 @@ class LearningObjectPublicationCategoryManager
 		$html .= '<div><a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE), true).'">'.htmlentities(get_lang('CreateNewCategory')).'</a></div>';
 		return $html;
 	}
-
+	/**
+	 * @see Tool :: get_url()
+	 */
 	function get_url($parameters = array (), $encode = false)
 	{
 		return $this->parent->get_url($parameters, $encode);
 	}
-
+	/**
+	 * @see RepositoryTool :: get_categories()
+	 */
 	function get_categories($list = false)
 	{
 		return $this->parent->get_categories($list);
 	}
-
+	/**
+	 * Gets the interface for creating a new category
+	 * @return string The HTML representation of the requested interface
+	 */
 	private function get_category_creation_interface()
 	{
 		$form = new LearningObjectPublicationCategoryForm($this, 'create_category', 'post', $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE)));
@@ -71,7 +89,10 @@ class LearningObjectPublicationCategoryManager
 			return $form->toHTML();
 		}
 	}
-
+	/**
+	 * Gets the interface for editing an existing category
+	 * @return string The HTML representation of the requested interface
+	 */
 	private function get_category_editing_interface()
 	{
 		$id = $_GET[self :: PARAM_ID];
@@ -81,7 +102,7 @@ class LearningObjectPublicationCategoryManager
 		if ($form->validate())
 		{
 			$category->set_title($form->get_category_title());
-			$category->set_parent_id($form->get_category_parent());
+			$category->set_parent_category_id($form->get_category_parent());
 			$category->update();
 			return Display :: display_normal_message(htmlentities(get_lang('CategoryUpdated')), true);
 		}
@@ -90,7 +111,10 @@ class LearningObjectPublicationCategoryManager
 			return $form->toHTML();
 		}
 	}
-
+	/**
+	 * Gets the interface for deleting an existing category
+	 * @return string The HTML representation of the requested interface
+	 */
 	private function get_category_deletion_interface()
 	{
 		$id = $_GET[self :: PARAM_ID];
@@ -98,7 +122,11 @@ class LearningObjectPublicationCategoryManager
 		$category->delete();
 		return Display :: display_normal_message(htmlentities(get_lang('CategoryDeleted')), true);
 	}
-
+	/**
+	 * Gets the category tree structure as HTML
+	 * @param array $tree
+	 * @return string The HTML representation of the tree structure.
+	 */
 	private function category_tree_as_html($tree)
 	{
 		$html = '<ul>';
