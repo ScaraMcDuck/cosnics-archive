@@ -3,20 +3,20 @@
 /*
 ==============================================================================
 	Dokeos - elearning and course management software
-	
+
 	Copyright (c) 2004-2005 Dokeos S.A.
 	Copyright (c) Bart Mollet, Hogeschool Gent
-	
+
 	For a full list of contributors, see "credits.txt".
 	The full license can be read in "license.txt".
-	
+
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
 	as published by the Free Software Foundation; either version 2
 	of the License, or (at your option) any later version.
-	
+
 	See the GNU General Public License for more details.
-	
+
 	Contact address: Dokeos, 44 rue des palais, B-1030 Brussels, Belgium
 	Mail: info@dokeos.com
 ==============================================================================
@@ -76,13 +76,13 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 		}
 		else
 		{
-			if(api_get_setting('server_type') == 'production')
+			if(api_get_setting('server_type') != 'production')
 			{
 				return $this->build_HTMLArea();
 			}
 			else
 			{
-				return $this->build_FCKeditor();	
+				return $this->build_FCKeditor();
 			}
 		}
 	}
@@ -180,7 +180,7 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 		global $language_interface;
 		if(! FCKeditor :: IsCompatible())
 		{
-			return parent::toHTML();	
+			return parent::toHTML();
 		}
 		@ $editor_lang = Database :: get_language_isocode($language_interface);
 		$language_file = api_get_path(SYS_PATH).'plugin/fckeditor/editor/lang/'.$editor_lang.'.js';
