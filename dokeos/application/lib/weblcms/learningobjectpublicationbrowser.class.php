@@ -28,7 +28,7 @@ abstract class LearningObjectPublicationBrowser
 	/**
 	 * The list renderer used to display objects.
 	 */
-	private $listRenderer;
+	protected $listRenderer;
 
 	/**
 	 * The tree view used to display categories.
@@ -170,6 +170,14 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->parent->get_parameters();
 	}
+
+	/**
+	 * @see RepositoryTool :: get_parameter()
+	 */
+	 function get_parameter($name)
+	 {
+	 	return $this->parent->get_parameter($name);
+	 }
 
 	/**
 	 * @see Tool :: is_allowed()
