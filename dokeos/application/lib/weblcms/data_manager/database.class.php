@@ -326,7 +326,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$where = $this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'='.$category->get_id();
 		$props = array();
 		$props[LearningObjectPublicationCategory :: PROPERTY_TITLE] = $category->get_title();
-		$props[LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID] = $category->get_parent();
+		$props[LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID] = $category->get_parent_category_id();
 		/*
 		 * XXX: Will course and tool ever change?
 		 */
