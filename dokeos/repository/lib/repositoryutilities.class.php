@@ -35,6 +35,7 @@ class RepositoryUtilities
 	 */
 	static function split_query($pattern)
 	{
+		$matches = array();
 		preg_match_all('/(?:"([^"]+)"|""|(\S+))/', $pattern, $matches);
 		$parts = array ();
 		for ($i = 1; $i <= 2; $i ++)
