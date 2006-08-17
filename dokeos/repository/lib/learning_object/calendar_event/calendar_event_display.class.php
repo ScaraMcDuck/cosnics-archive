@@ -3,8 +3,12 @@
  * @package repository.learningobject
  * @subpackage calendar_event
  */
+/**
+ * This class can be used to display calendar events
+ */
 class CalendarEventDisplay extends LearningObjectDisplay
 {
+	// Inherited
 	function get_full_html()
 	{
 		$html = parent :: get_full_html();

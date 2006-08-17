@@ -1,8 +1,11 @@
 <?php
-require_once dirname(__FILE__) . '/../../learningobject.class.php';
 /**
  * @package repository.learningobject
  * @subpackage calendar_event
+ */
+require_once dirname(__FILE__) . '/../../learningobject.class.php';
+/**
+ * This class represents a calendar event
  */
 class CalendarEvent extends LearningObject
 {
@@ -47,6 +50,7 @@ class CalendarEvent extends LearningObject
 		return $this->set_additional_property(self :: PROPERTY_END_DATE, $end_date);
 	}
 	/**
+	 * Attachments are supported by calendar events
 	 * @return boolean Always true
 	 */
 	function supports_attachments()

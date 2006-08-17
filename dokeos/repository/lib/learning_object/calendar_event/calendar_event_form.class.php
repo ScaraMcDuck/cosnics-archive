@@ -1,23 +1,29 @@
 <?php
-require_once dirname(__FILE__) . '/../../learningobjectform.class.php';
-require_once dirname(__FILE__) . '/../../repositoryutilities.class.php';
-require_once dirname(__FILE__) . '/calendar_event.class.php';
 /**
  * @package repository.learningobject
  * @subpackage calendar_event
  */
+require_once dirname(__FILE__) . '/../../learningobjectform.class.php';
+require_once dirname(__FILE__) . '/../../repositoryutilities.class.php';
+require_once dirname(__FILE__) . '/calendar_event.class.php';
+/**
+ * This class represents a form to create or update calendar events
+ */
 class CalendarEventForm extends LearningObjectForm
 {
+	// Inherited
     protected function build_creation_form()
     {
     	parent :: build_creation_form();
     	$this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
     }
+    // Inherited
     protected function build_editing_form()
     {
 		parent :: build_editing_form();
     	$this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
 	}
+	// Inherited
 	function setDefaults($defaults = array ())
 	{
 		$lo = $this->get_learning_object();
@@ -28,7 +34,7 @@ class CalendarEventForm extends LearningObjectForm
 		}
 		parent :: setDefaults($defaults);
 	}
-
+	// Inherited
 	function create_learning_object()
 	{
 		$object = new CalendarEvent();
@@ -38,6 +44,7 @@ class CalendarEventForm extends LearningObjectForm
 		$this->set_learning_object($object);
 		return parent :: create_learning_object();
 	}
+	// Inherited
 	function update_learning_object()
 	{
 		$object = $this->get_learning_object();
