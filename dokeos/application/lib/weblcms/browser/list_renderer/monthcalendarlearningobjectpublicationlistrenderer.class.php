@@ -85,25 +85,26 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 	{
 		$event = $publication->get_learning_object();
 		$event_url = $this->get_url(array('pid'=>$publication->get_id()), true);
-		$html[] = '<div class="event">';
 		$start_date = $event->get_start_date();
 		$end_date = $event->get_end_date();
-		if($start_date > $table_date && $start_date < strtotime('+1 Day',$table_date))
+		if($start_date > $table_date && $start_date <= strtotime('+1 Day',$table_date))
 		{
+			$html[] = '<div class="event">';
 			$html[] = date('H:i',$start_date);
 		}
 		else
 		{
-			$html[] = '00:00';
+			$html[] = '<div class="event">';
+			$html[] = '&rarr;';
 		}
 		$html[] = '<a href="'.$event_url.'">'.htmlentities($event->get_title()).'</a>';
-		if($end_date > $table_date && $end_date < strtotime('+1 Day',$table_date))
+		if($end_date >= $table_date && $end_date < strtotime('+1 Day',$table_date))
 		{
-			//$html[] = date('H:i',$end_date);
+			$html[] = date('H:i',$end_date);
 		}
 		else
 		{
-			//$html[] = '&hellip;';
+			$html[] = '&rarr;';
 		}
 		$html[] = '</div>';
 		return implode("\n",$html);
