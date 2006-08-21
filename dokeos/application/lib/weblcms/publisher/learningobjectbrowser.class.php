@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package application.weblcms
  * @subpackage publisher
  */
@@ -24,7 +25,7 @@ class LearningObjectBrowser extends LearningObjectPublisherComponent
 		$table = new PublicationCandidateTable($this->get_user_id(), $this->get_types(), $this->get_query(), $publish_url_format, $edit_and_publish_url_format);
 		return $table->as_html();
 	}
-	
+
 	/**
 	 * Returns the search query.
 	 * @return string|null The query, or null if none.

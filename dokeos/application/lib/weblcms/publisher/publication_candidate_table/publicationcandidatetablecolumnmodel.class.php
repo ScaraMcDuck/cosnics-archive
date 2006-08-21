@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package application.weblcms
  * @subpackage publisher
  */
@@ -29,10 +30,10 @@ class PublicationCandidateTableColumnModel extends LearningObjectTableColumnMode
 	private static function get_columns()
 	{
 		$columns = array();
-		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_TYPE, true); 
-		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_TITLE, true); 
+		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_TYPE, true);
+		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
 		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true);
-		$columns[] = self :: get_action_column(); 
+		$columns[] = self :: get_action_column();
 		return $columns;
 	}
 	/**
