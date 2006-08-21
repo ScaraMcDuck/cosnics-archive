@@ -56,7 +56,16 @@ class ForumBrowser extends LearningObjectPublicationBrowser
 			$forum_table_row[] = '<a href="'.$forum_url.'">'.$forum->get_title().'</a><br /><small>'.$forum->get_description().'</small>';
 			$forum_table_row[] = $forum->get_topic_count();
 			$forum_table_row[] = $forum->get_post_count();
-			$forum_table_row[] = 'TODO';
+			$last_post = $forum->get_last_post();
+			if(!is_null($last_post))
+			{
+				$last_post_author = api_get_user_info($last_post->get_owner_id());
+				$forum_table_row[] = date('r',$last_post->get_creation_date()).' '.get_lang('By').' '.$last_post_author['firstName'].' '.$last_post_author['lastName'];
+			}
+			else
+			{
+				$forum_table_row[] = '-';
+			}
 			if($this->is_allowed(EDIT_RIGHT) || $this->is_allowed(DELETE_RIGHT))
 			{
 				$forum_table_row[] = $renderer->render_publication_actions($publication, $first, $last);
@@ -66,7 +75,6 @@ class ForumBrowser extends LearningObjectPublicationBrowser
 		}
 		return $visible_publications;
 	}
-
 	function get_publication_count()
 	{
 		return count($this->get_publications());
