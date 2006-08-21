@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package application.weblcms
  */
 require_once dirname(__FILE__).'/../../../../claroline/inc/lib/formvalidator/FormValidator.class.php';
@@ -10,9 +11,13 @@ class LearningObjectPublicationCategoryForm extends FormValidator
 {
 	const PARAM_TITLE = 'title';
 	const PARAM_CATEGORY = 'parent';
-
+	/**
+	 * The category manager in which this form is created.
+	 */
 	private $parent;
-
+	/**
+	 * The category edited or created by this form
+	 */
 	private $category;
 	/**
 	 * Constructor
