@@ -1,12 +1,19 @@
 <?php
 /**
+ * $Id$
  * @package application.weblcms
  * @subpackage browser.listrenderer
  */
 require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
-
+/**
+ * Renderer to display a list of learning object publications
+ */
 class ListLearningObjectPublicationListRenderer extends LearningObjectPublicationListRenderer
 {
+	/**
+	 * Returns the HTML output of this renderer.
+	 * @return string The HTML output
+	 */
 	function as_html()
 	{
 		$publications = $this->get_publications();
