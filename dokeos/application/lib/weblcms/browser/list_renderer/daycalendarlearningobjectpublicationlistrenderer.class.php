@@ -1,25 +1,30 @@
 <?php
 /**
+ * $Id$
  * @package application.weblcms
  * @subpackage browser.listrenderer
  */
 require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
-
+/**
+ * Renderer to display a list of events.
+ */
 class DayCalendarLearningObjectPublicationListRenderer extends LearningObjectPublicationListRenderer
 {
 	/**
-	 *
+	 * The current time displayed in the calendar
 	 */
 	private $display_time;
 	/**
-	 *
+	 * Sets the current display time.
+	 * @param int $time The current display time.
 	 */
 	function set_display_time($time)
 	{
 		$this->display_time = $time;
 	}
 	/**
-	 *
+	 * Returns the HTML output of this renderer.
+	 * @return string The HTML output
 	 */
 	function as_html()
 	{

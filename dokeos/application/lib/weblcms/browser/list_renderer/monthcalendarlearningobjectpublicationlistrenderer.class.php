@@ -24,6 +24,7 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 	}
 	/**
 	 * Returns the HTML output of this renderer.
+	 * @return string The HTML output
 	 */
 	function as_html()
 	{
