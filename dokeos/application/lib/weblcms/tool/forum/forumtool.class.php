@@ -6,6 +6,8 @@
  */
 require_once dirname(__FILE__).'/../repositorytool.class.php';
 require_once dirname(__FILE__).'/forumbrowser.class.php';
+require_once dirname(__FILE__).'/forumtopicbrowser.class.php';
+require_once dirname(__FILE__).'/forumpostbrowser.class.php';
 /**
  * This tool allows a user to publish forums in his or her course.
  */
@@ -44,8 +46,22 @@ class ForumTool extends RepositoryTool
 			{
 				echo '<p>Go to <a href="' . $this->get_url(array('admin' => 1), true) . '">Publisher Mode</a> &hellip;</p>';
 			}
-			echo $this->perform_requested_actions();
-			$browser = new ForumBrowser($this);
+			if(isset($_GET['topic']))
+			{
+				$this->set_parameter('forum',$_GET['forum']);
+				$this->set_parameter('topic',$_GET['topic']);
+				$browser = new ForumPostBrowser($this);
+			}
+			elseif(isset($_GET['forum']))
+			{
+				$this->set_parameter('forum',$_GET['forum']);
+				$browser = new ForumTopicBrowser($this);
+			}
+			else
+			{
+				echo $this->perform_requested_actions();
+				$browser = new ForumBrowser($this);
+			}
 			echo $browser->as_html();
 			$this->display_footer();
 		}

@@ -1,56 +1,68 @@
 <?php
-require_once dirname(__FILE__) . '/../../learningobject.class.php';
 /**
  * @package repository.learningobject
  * @subpackage forum
  */
+require_once dirname(__FILE__) . '/../../learningobject.class.php';
+/**
+ * This class represents a topic in a discussion forum.
+ */
 class ForumTopic extends LearningObject
 {
-	const PROPERTY_VIEWS = 'views';
-	const PROPERTY_REPLY_COUNT = 'replies';
-	const PROPERTY_LAST_POST_ID = 'last_post_id';
-	const PROPERTY_STATUS = 'status';
-	const PROPERTY_NOTIFY = 'notify';
-
-	function get_view_count ()
-	{
-		return $this->get_additional_property(self :: PROPERTY_VIEW_COUNT);
-	}
-	function set_view_count ($views)
-	{
-		return $this->set_additional_property(self :: PROPERTY_VIEW_COUNT, $views);
-	}
+	/**
+	 * Gets the number of replies in this topic.
+	 * This is the number of posts minus one.
+	 * @return int The number of replies.
+	 */
 	function get_reply_count ()
 	{
-		return $this->get_additional_property(self :: PROPERTY_REPLY_COUNT);
+		$reply_count = ($this->get_post_count())-1;
+		return $reply_count >= 0 ? $reply_count : 0;
 	}
-	function set_reply_count ($replies)
+	/**
+	 * Gets the most recent post in this topic.
+	 * @return ForumPost The most recent post in this topic.
+	 */
+	function get_last_post()
 	{
-		return $this->set_additional_property(self :: PROPERTY_REPLY_COUNT, $replies);
+		$datamanager = RepositoryDataManager::get_instance();
+		$posts = $datamanager->retrieve_learning_objects('forum_post',new EqualityCondition(self::PROPERTY_PARENT_ID, $this->get_id()), array('created'),array(SORT_ASC),0,1);
+		return $posts->next_result();
 	}
-	function get_last_post_id ()
+	/**
+	 * Gets the posts in this topic
+	 * @return ResultSet A result set with all posts in this topic
+	 */
+	function get_forum_posts()
 	{
-		return $this->get_additional_property(self :: PROPERTY_LAST_POST_ID);
+		$datamanager = RepositoryDataManager::get_instance();
+		$posts = $datamanager->retrieve_learning_objects('forum_post',new EqualityCondition(self::PROPERTY_PARENT_ID, $this->get_id()), array('created'), array(SORT_ASC));
+		return $posts;
 	}
-	function set_last_post_id ($last_post_id)
+	/**
+	 * Gets the number of posts in this topic
+	 * @return int The number of posts in this topic
+	 */
+	function get_post_count()
 	{
-		return $this->set_additional_property(self :: PROPERTY_LAST_POST_ID, $last_post_id);
+		$datamanager = RepositoryDataManager::get_instance();
+		$post_count = $datamanager->count_learning_objects('forum_post',new EqualityCondition(self::PROPERTY_PARENT_ID, $this->get_id()));
+		return $post_count;
 	}
-	function get_status ()
+	/**
+	 * When creating a new forum topic, a first forum post in that topic will
+	 * also be created. This post has the exact same properties as the topic
+	 * (title, description, owner,...)
+	 */
+	function create()
 	{
-		return $this->get_additional_property(self :: PROPERTY_STATUS);
-	}
-	function set_status ($status)
-	{
-		return $this->set_additional_property(self :: PROPERTY_STATUS, $status);
-	}
-	function get_notify ()
-	{
-		return $this->get_additional_property(self :: PROPERTY_NOTIFY);
-	}
-	function set_notify ($notify)
-	{
-		return $this->set_additional_property(self :: PROPERTY_NOTIFY, $notify);
+		parent::create();
+		$post = new ForumPost();
+		$post->set_title($this->get_title());
+		$post->set_description($this->get_description());
+		$post->set_parent_id($this->get_id());
+		$post->set_owner_id($this->get_owner_id());
+		$post->create();
 	}
 }
 ?>
