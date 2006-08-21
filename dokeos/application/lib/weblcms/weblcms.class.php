@@ -221,7 +221,7 @@ END;
 	 */
 	function display_header($breadcrumbs = array())
 	{
-		global $interbredcrump;
+		global $interbredcrump,$htmlHeadXtra;
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		if ($tool)
 		{
@@ -229,6 +229,15 @@ END;
 		}
 		$current_crumb = array_pop($breadcrumbs);
 		$interbredcrump = $breadcrumbs;
+		if(isset($this->tool_class))
+		{
+			$tool =str_replace('_tool','',Tool::class_to_type($this->tool_class));
+			$js_file = dirname(__FILE__).'/tool/'.$tool.'/'.$tool.'.js';
+			if(file_exists($js_file))
+			{
+				$htmlHeadXtra[] = '<script type="text/javascript" src="application/lib/weblcms/tool/'.$tool.'/'.$tool.'.js"></script>';
+			}
+		}
 		$title = $current_crumb['name'];
 		Display :: display_header($title);
 		if (isset($this->tool_class))
@@ -253,7 +262,7 @@ END;
 		else
 		{
 			global $_course;
-			echo '<h3>'.htmlentities($_course['name']).'</h3>'; 
+			echo '<h3>'.htmlentities($_course['name']).'</h3>';
 		}
 	}
 	/**
