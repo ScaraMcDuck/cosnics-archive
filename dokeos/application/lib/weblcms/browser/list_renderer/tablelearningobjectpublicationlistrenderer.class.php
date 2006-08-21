@@ -16,7 +16,7 @@ class TableLearningObjectPublicationListRenderer extends LearningObjectPublicati
 	private $table;
 	/**
 	 * Create a new table renderer
-	 * @param PublicationBrowser $browser The browser to associate this list
+	 * @param PublicationBrowser $browser The browser to associate this table
 	 * renderer with.
 	 */
 	function TableLearningObjectPublicationListRenderer($browser)
