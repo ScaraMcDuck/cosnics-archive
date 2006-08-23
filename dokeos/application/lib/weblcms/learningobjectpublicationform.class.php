@@ -24,7 +24,7 @@ class LearningObjectPublicationForm extends FormValidator
 	const PARAM_TARGET_GROUP_PREFIX = 'group';
 	const PARAM_FOREVER = 'forever';
 	const PARAM_FROM_DATE = 'from_date';
-	const PARAM_TO_DATE = 'from_date';
+	const PARAM_TO_DATE = 'to_date';
 	const PARAM_HIDDEN = 'hidden';
 	/**#@-*/
 	/**
@@ -109,7 +109,7 @@ class LearningObjectPublicationForm extends FormValidator
     function create_learning_object_publication()
     {
 		$values = $this->exportValues();
-		if ($values[self :: PARAM_FOREVER])
+		if ($values[self :: PARAM_FOREVER] != 0)
 		{
 			$from = $to = 0;
 		}
