@@ -40,10 +40,18 @@ class WeekCalendarLearningObjectPublicationListRenderer extends LearningObjectPu
 			for($column = 1; $column <= 7; $column++)
 			{
 				$day = strtotime('+'.($column-1).' day',$first_day);
-				$default_start_date = mktime($hour,0,0,date('m',$day),date('d',$day),date('Y',$day));
-				$params = array('default_start_date' => $default_start_date,'default_end_date' => strtotime('+'.(date('H',$default_start_date)+4).' hours',$default_start_date),'publish_action' => 'publicationcreator','admin' => '1');
+				$table_start_date = mktime($hour,0,0,date('m',$day),date('d',$day),date('Y',$day));
+				$table_end_date = strtotime('+4 hours',$table_start_date);
+				$params = array('default_start_date' => $table_start_date,'default_end_date' => $table_end_date,'publish_action' => 'publicationcreator','admin' => '1');
 				$add_url = $this->get_url($params);
-				$calendar_table->setCellContents($hour/4+1,$column,'<div style="text-align:right;"><a href="'.$add_url.'">+</a></div>');
+				$cell_contents = '<div style="text-align:right;"><a href="'.$add_url.'">+</a></div>';
+				$publications = $this->browser->get_calendar_events($table_start_date,$table_end_date);
+				foreach($publications as $index => $publication)
+				{
+					$cell_contents .= $this->render_publication($publication,$table_start_date);
+				}
+
+				$calendar_table->setCellContents($hour/4+1,$column,$cell_contents);
 			}
 		}
 		$dates[] = '';
@@ -56,19 +64,6 @@ class WeekCalendarLearningObjectPublicationListRenderer extends LearningObjectPu
 			{
 				$calendar_table->updateColAttributes($day+1,'class="highlight"');
 			}
-		}
-		$from_time = mktime(0,0,0,date('m',$first_day),date('d',$first_day),date('Y',$first_day));
-		$to_time = mktime(23,59,59,date('m',$last_day),date('d',$last_day),date('Y',$last_day));
-		$publications = $this->browser->get_calendar_events($from_time,$to_time);
-		foreach($publications as $index => $publication)
-		{
-			$event = $publication->get_learning_object();
-			$row = date('H',$event->get_start_date())/4+1;
-			$col = date('w',$event->get_start_date());
-			$col = ($col == 0 ? 7 : $col);
-			$cell_contents = $calendar_table->getCellContents($row,$col);
-			$cell_contents .= $this->render_publication($publication);
-			$calendar_table->setCellContents($row,$col,$cell_contents);
 		}
 		$calendar_table->setRowType(0,'th');
 		$calendar_table->setColType(0,'th');
@@ -85,12 +80,45 @@ class WeekCalendarLearningObjectPublicationListRenderer extends LearningObjectPu
 	/**
 	 * Renders a publication
 	 * @param LearningObjectPublication $publication The publication to render
+	 * @param int $table_start_date The current date displayed in the table.
 	 */
-	function render_publication($publication)
+	function render_publication($publication,$table_start_date)
 	{
+		static $color_cache;
+		$table_end_date = strtotime('+4 hours',$table_start_date);
 		$event = $publication->get_learning_object();
 		$event_url = $this->get_url(array('pid'=>$publication->get_id()), true);
-		return '<div class="event"><a href="'.$event_url.'">'.date('H:i',$event->get_start_date()).' '.htmlentities($event->get_title()).'</a></div>';
+		$start_date = $event->get_start_date();
+		$end_date = $event->get_end_date();
+		if($start_date >= $table_end_date || $end_date <= $table_start_date)
+		{
+			return;
+		}
+		if(!isset($color_cache[$event->get_id()]))
+		{
+			$color_cache[$event->get_id()] = 'rgb('.rand(0,255).','.rand(0,255).','.rand(0,255).')';
+		}
+		$html[] = '';
+		$html[] = '<div class="event" style="border-right: 4px solid '.$color_cache[$event->get_id()].';">';
+		if($start_date >= $table_start_date && $start_date < $table_end_date)
+		{
+			$html[] = date('H:i',$start_date);
+		}
+		else
+		{
+			$html[] = '&darr;';
+		}
+		$html[] = '<a href="'.$event_url.'">'.htmlentities($event->get_title()).'</a>';
+		if($end_date > $table_start_date && $end_date <= $table_end_date)
+		{
+			$html[] = date('H:i',$end_date);
+		}
+		else
+		{
+			$html[] = '&darr;';
+		}
+		$html[] = '</div>';
+		return implode("\n",$html);
 	}
 }
 ?>
