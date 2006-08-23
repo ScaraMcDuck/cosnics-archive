@@ -133,29 +133,35 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			}
 		}
 		$accessConditions = array ();
+		// Add condition to retrieve publications for given users (user=id and group=null)
 		if (!is_null($users))
 		{
 			if (!is_array($users))
 			{
 				$users = array ($users);
 			}
+			$userConditions = array();
 			foreach ($users as $u)
 			{
-				$accessConditions[] = new EqualityCondition('user', $u);
+				$userConditions[] = new EqualityCondition('user', $u);
 			}
+			$accessConditions[] = new AndCondition(new EqualityCondition('group',null),new OrCondition($userConditions));
 		}
+		// Add condition to retrieve publications for given groups (user=null and group=id)
 		if (!is_null($groups))
 		{
 			if (!is_array($groups))
 			{
 				$groups = array ($groups);
 			}
+			$groupConditions = array();
 			foreach ($groups as $g)
 			{
-				$accessConditions[] = new EqualityCondition('group', $g);
+				$groupConditions[] = new EqualityCondition('group', $g);
 			}
+			$accessConditions[] = new AndCondition(new EqualityCondition('user',null),new OrCondition($groupConditions));
 		}
-		if(is_null($groups) && is_null($users))
+		if(!is_null($groups) || !is_null($users))
 		{
 			// Add condition to retrieve publications for everybody (user=null and group=null)
 			$accessConditions[] = new AndCondition(new EqualityCondition('user',null),new EqualityCondition('group',null));
