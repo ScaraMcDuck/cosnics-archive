@@ -5,6 +5,7 @@
  * @subpackage browser.listrenderer
  */
 require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
+define('HOUR_STEP',3);
 /**
  * Renderer to display a list of events.
  */
@@ -29,26 +30,19 @@ class DayCalendarLearningObjectPublicationListRenderer extends LearningObjectPub
 	function as_html()
 	{
 		$calendar_table = new HTML_Table(array ('class' => 'calendar'));
-		for($hour = 0; $hour < 24; $hour += 2)
+		for($hour = 0; $hour < 24; $hour += HOUR_STEP)
 		{
-			$default_start_date = mktime($hour,0,0,date('m',$this->display_time),date('d',$this->display_time),date('Y',$this->display_time));
-			$params = array('default_start_date' => $default_start_date,'default_end_date' => strtotime('+'.(date('H',$default_start_date)+2).' hours',$default_start_date),'publish_action' => 'publicationcreator','admin' => '1');
+			$table_start_date = mktime($hour,0,0,date('m',$this->display_time),date('d',$this->display_time),date('Y',$this->display_time));
+			$table_end_date = strtotime('+'.HOUR_STEP.' hours',$table_start_date);
+			$params = array('default_start_date' => $table_start_date,'default_end_date' => $table_end_date,'publish_action' => 'publicationcreator','admin' => '1');
 			$add_url = $this->get_url($params);
-			$cell_contents = '<a href="'.$add_url.'">'.$hour.'u - '.($hour+2).'u'.'</a>';
-			$calendar_table->setCellContents($hour/2,0,$cell_contents);
-
-		}
-		$from_time = mktime(0,0,0,date('m',$this->display_time),date('d',$this->display_time),date('Y',$this->display_time));
-		$to_time = mktime(23,59,59,date('m',$this->display_time),date('d',$this->display_time),date('Y',$this->display_time));
-		$publications = $this->browser->get_calendar_events($from_time,$to_time);
-		foreach($publications as $index => $publication)
-		{
-			$event = $publication->get_learning_object();
-			$event_url = $this->get_url(array('pid'=>$publication->get_id()), true);
-			$row = 	date('H',$event->get_start_date())/2;
-			$cell_contents = $calendar_table->getCellContents($row,0);
-			$cell_contents .= '<div class="event"><a href="'.$event_url.'">'.date('H:i',$event->get_start_date()).' '.htmlentities($event->get_title()).'</a><br/>'.$event->get_description().'</div>';
-			$calendar_table->setCellContents($row,0,$cell_contents);
+			$cell_contents = '<a href="'.$add_url.'">'.$hour.'u - '.($hour+HOUR_STEP).'u'.'</a>';
+			$publications = $this->browser->get_calendar_events($table_start_date,$table_end_date);
+			foreach($publications as $index => $publication)
+			{
+				$cell_contents .= $this->render_publication($publication,$table_start_date);
+			}
+			$calendar_table->setCellContents($hour/HOUR_STEP,0,$cell_contents);
 		}
 		$prev = strtotime('-1 Day',$this->display_time);
 		$next = strtotime('+1 Day',$this->display_time);
@@ -58,6 +52,49 @@ class DayCalendarLearningObjectPublicationListRenderer extends LearningObjectPub
 		$html[] =  ' <a href="'.$this->get_url(array('time' => $next), true).'">&gt;&gt;</a> ';
 		$html[] =  '</div>';
 		$html[] = $calendar_table->toHtml();
+		return implode("\n",$html);
+	}
+	/**
+	 * Renders a publication
+	 * @param LearningObjectPublication $publication The publication to render
+	 * @param int $table_start_date The current date displayed in the table.
+	 */
+	function render_publication($publication,$table_start_date)
+	{
+		static $color_cache;
+		$table_end_date = strtotime('+'.HOUR_STEP.' hours',$table_start_date);
+		$event = $publication->get_learning_object();
+		$event_url = $this->get_url(array('pid'=>$publication->get_id()), true);
+		$start_date = $event->get_start_date();
+		$end_date = $event->get_end_date();
+		if($start_date >= $table_end_date || $end_date <= $table_start_date)
+		{
+			return;
+		}
+		if(!isset($color_cache[$event->get_id()]))
+		{
+			$color_cache[$event->get_id()] = 'rgb('.rand(0,255).','.rand(0,255).','.rand(0,255).')';
+		}
+		$html[] = '';
+		$html[] = '<div class="event" style="border-right: 4px solid '.$color_cache[$event->get_id()].';">';
+		if($start_date >= $table_start_date && $start_date < $table_end_date)
+		{
+			$html[] = date('H:i',$start_date);
+		}
+		else
+		{
+			$html[] = '&darr;';
+		}
+		$html[] = '<a href="'.$event_url.'">'.htmlentities($event->get_title()).'</a>';
+		if($end_date > $table_start_date && $end_date <= $table_end_date)
+		{
+			$html[] = date('H:i',$end_date);
+		}
+		else
+		{
+			$html[] = '&darr;';
+		}
+		$html[] = '</div>';
 		return implode("\n",$html);
 	}
 }
