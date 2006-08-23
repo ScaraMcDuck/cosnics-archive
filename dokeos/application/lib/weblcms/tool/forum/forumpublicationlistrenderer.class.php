@@ -14,7 +14,7 @@ class ForumPublicationListRenderer extends TableLearningObjectPublicationListRen
     	$column = 0;
     	if($browser->is_allowed(EDIT_RIGHT) || $browser->is_allowed(DELETE_RIGHT))
     	{
-    		$this->set_header($column++,'',false);
+    		//$this->set_header($column++,'',false);
     	}
     	$this->set_header($column++, '' , false);
     	$this->set_header($column++, get_lang('Forum'), false);
@@ -25,10 +25,7 @@ class ForumPublicationListRenderer extends TableLearningObjectPublicationListRen
     	{
     		$this->set_header($column++,'',false);
     	}
-    }
-    private function get_topic_count()
-    {
-
+    	$this->table->set_form_actions(null);
     }
 }
 ?>

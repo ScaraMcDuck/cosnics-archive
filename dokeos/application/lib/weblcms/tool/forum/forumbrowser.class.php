@@ -10,11 +10,31 @@ require_once dirname(__FILE__).'/forumpublicationlistrenderer.class.php';
 
 class ForumBrowser extends LearningObjectPublicationBrowser
 {
+	private $current_category;
 	function ForumBrowser($parent, $types)
 	{
 		parent :: __construct($parent, 'forum');
 		$renderer = new ForumPublicationListRenderer($this);
 		$this->set_publication_list_renderer($renderer);
+		$this->current_category = 0;
+	}
+
+	function as_html()
+	{
+		$datamanager = WeblcmsDataManager :: get_instance();
+		$categories = $datamanager->retrieve_learning_object_publication_categories($this->get_course_id(),'forum');
+		$html = array();
+		$html[] =  parent::as_html();
+		foreach($categories as $index => $category_info)
+		{
+			$category = $category_info['obj'];
+			$this->current_category = $category->get_id();
+			$html[] = '<h2>'.$category->get_title().'</h2>';
+			$renderer = new ForumPublicationListRenderer($this);
+			$this->set_publication_list_renderer($renderer);
+			$html[] =  parent::as_html();
+		}
+		return implode("\n",$html);
 	}
 
 	function get_publications($from, $count, $column, $direction)
@@ -32,7 +52,7 @@ class ForumBrowser extends LearningObjectPublicationBrowser
 			$user_id = $this->get_user_id();
 			$groups = $this->get_groups();
 		}
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups, $condition, false, array (Forum :: PROPERTY_DISPLAY_ORDER_INDEX));
+		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $this->current_category, $user_id, $groups, $condition, false, array (Forum :: PROPERTY_DISPLAY_ORDER_INDEX));
 		$visible_publications = array ();
 		$renderer = $this->get_publication_list_renderer();
 		$index = 0;
@@ -49,7 +69,7 @@ class ForumBrowser extends LearningObjectPublicationBrowser
 			$forum = $publication->get_learning_object();
 			if($this->is_allowed(EDIT_RIGHT) || $this->is_allowed(DELETE_RIGHT))
 			{
-				$forum_table_row[] = $publication->get_id();
+				//$forum_table_row[] = $publication->get_id();
 			}
 			$forum_table_row[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/forum.gif">';
 			$forum_url = $this->get_url(array('forum'=>$publication->get_id()));

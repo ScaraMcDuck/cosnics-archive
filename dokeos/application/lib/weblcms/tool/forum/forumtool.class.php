@@ -8,6 +8,8 @@ require_once dirname(__FILE__).'/../repositorytool.class.php';
 require_once dirname(__FILE__).'/forumbrowser.class.php';
 require_once dirname(__FILE__).'/forumtopicbrowser.class.php';
 require_once dirname(__FILE__).'/forumpostbrowser.class.php';
+require_once dirname(__FILE__).'/../../learningobjectpublicationcategorymanager.class.php';
+
 /**
  * This tool allows a user to publish forums in his or her course.
  */
@@ -42,11 +44,15 @@ class ForumTool extends RepositoryTool
 		else
 		{
 			$this->display_header();
-			if($this->is_allowed(ADD_RIGHT))
+			if(isset($_GET['category_manager_action']))
 			{
-				echo '<p>Go to <a href="' . $this->get_url(array('admin' => 1), true) . '">Publisher Mode</a> &hellip;</p>';
+				echo '<a href="'.$this->get_url().'">Back</a>';
+				$catman = new LearningObjectPublicationCategoryManager($this, 'forum');
+				echo $catman->as_html();
+				$this->display_footer();
+				return;
 			}
-			if(isset($_GET['topic']))
+			elseif(isset($_GET['topic']))
 			{
 				$this->set_parameter('forum',$_GET['forum']);
 				$this->set_parameter('topic',$_GET['topic']);
@@ -59,6 +65,11 @@ class ForumTool extends RepositoryTool
 			}
 			else
 			{
+				if($this->is_allowed(ADD_RIGHT))
+				{
+					echo '<p>Go to <a href="' . $this->get_url(array('admin' => 1), true) . '">Publisher Mode</a> &hellip;</p>';
+					echo '<p>Go to <a href="' . $this->get_url(array('category_manager_action' => 1), true) . '">Category Manager Mode</a> &hellip;</p>';
+				}
 				echo $this->perform_requested_actions();
 				$browser = new ForumBrowser($this);
 			}
