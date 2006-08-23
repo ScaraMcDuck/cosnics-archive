@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * Announcement tool
  * @package application.weblcms.tool
  * @subpackage announcement
