@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * Link tool - browser
  * @package application.weblcms.tool
  * @subpackage link
@@ -25,6 +26,7 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 	function get_publications($from, $count, $column, $direction)
 	{
 		$dm = WeblcmsDataManager :: get_instance();
+		$tool_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'link');
 		if($this->is_allowed(EDIT_RIGHT))
 		{
 			$user_id = null;
@@ -35,30 +37,25 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 			$user_id = $this->get_user_id();
 			$groups = $this->get_groups();
 		}
-		return $dm->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $user_id, $groups, $this->get_condition())->as_array();
+		$publications = $dm->retrieve_learning_object_publications($this->get_course_id(), $this->get_publication_category_tree()->get_current_category_id(), $user_id, $groups,$tool_cond)->as_array();
+		return $publications;
 	}
 
 	function get_publication_count()
 	{
 		$dm = WeblcmsDataManager :: get_instance();
-		return $dm->count_learning_object_publications($this->get_course_id(), $this->get_category(), $this->get_user_id(), $this->get_groups(), $this->get_condition());
-	}
-
-	private function get_condition()
-	{
-		// TODO: Share sensible default condition with other tools.
-		$time = time();
 		$tool_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'link');
-		$shown_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_HIDDEN, 0);
-		$date_from_zero = new EqualityCondition(LearningObjectPublication :: PROPERTY_FROM_DATE, 0);
-		$date_to_zero = new EqualityCondition(LearningObjectPublication :: PROPERTY_TO_DATE, 0);
-		$date_from_passed = new InequalityCondition(LearningObjectPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN, $time);
-		$date_to_coming = new InequalityCondition(LearningObjectPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN, $time);
-		$date1 = new OrCondition($date_from_zero, $date_from_passed);
-		$date2 = new OrCondition($date_to_zero, $date_to_coming);
-		$date_cond = new AndCondition($date1, $date2);
-		$category_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $this->get_publication_category_tree()->get_current_category_id());
-		return new AndCondition($shown_cond, $date_cond, $tool_cond, $category_cond);
+		if($this->is_allowed(EDIT_RIGHT))
+		{
+			$user_id = null;
+			$groups = null;
+		}
+		else
+		{
+			$user_id = $this->get_user_id();
+			$groups = $this->get_groups();
+		}
+		return $dm->count_learning_object_publications($this->get_course_id(),$this->get_publication_category_tree()->get_current_category_id(), $user_id, $groups, $tool_cond);
 	}
 }
 ?>
