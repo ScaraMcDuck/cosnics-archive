@@ -13,7 +13,7 @@ class TableLearningObjectPublicationListRenderer extends LearningObjectPublicati
 	/**
 	 * The table with all learning object publications to be displayed
 	 */
-	private $table;
+	protected $table;
 	/**
 	 * Create a new table renderer
 	 * @param PublicationBrowser $browser The browser to associate this table
