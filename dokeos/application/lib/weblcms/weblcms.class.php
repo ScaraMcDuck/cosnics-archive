@@ -71,7 +71,7 @@ class Weblcms extends WebApplication
 #tool-list li {
 	display: block;
 	float: left;
-	width: 50%;
+	width: 49%;
 	margin: 0;
 	padding: 0;
 }
