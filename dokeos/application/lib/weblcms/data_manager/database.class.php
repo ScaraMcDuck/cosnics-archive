@@ -173,13 +173,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (count($accessConditions))
 		{
 			$cond[] = new OrCondition($accessConditions);
-			if (!is_null($condition))
-			{
-				$cond[] = $condition;
-			}
-			$condition = new AndCondition($cond);
 		}
-		return (is_null($condition) ? '' : 'WHERE '.$this->translate_condition($condition, & $params));
+		if (!is_null($condition))
+		{
+			$cond[] = $condition;
+		}
+		$condition = new AndCondition($cond);
+		$where_clause = (is_null($condition) ? '' : 'WHERE '.$this->translate_condition($condition, & $params));
+		return $where_clause;
 	}
 
 	function get_next_learning_object_publication_id()
