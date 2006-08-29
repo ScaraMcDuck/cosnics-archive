@@ -46,6 +46,11 @@ class Document extends LearningObject
 	{
 		return Configuration::get_instance()->get_parameter('general', 'upload_url').'/'.$this->get_path();
 	}
+	function get_full_path()
+	{
+		return realpath(Configuration::get_instance()->get_parameter('general', 'upload_path').'/'.$this->get_path());
+	}
+
 	static function get_disk_space_properties()
 	{
 		return 'filesize';
