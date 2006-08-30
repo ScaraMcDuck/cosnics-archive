@@ -34,6 +34,7 @@ class IeeeLomGenerator
 	static function generate_document($learning_object,$lom)
 	{
 		$lom->set_size($learning_object->get_filesize());
+		//TODO: FileInfo is an experimental extension of PHP.
 		$finfo = finfo_open(FILEINFO_MIME,'C:/wamp/php/extras/magic');
 		$lom->add_format(finfo_file($finfo, $learning_object->get_full_path()));
 		finfo_close($finfo);
