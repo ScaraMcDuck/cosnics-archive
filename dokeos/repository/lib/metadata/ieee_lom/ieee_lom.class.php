@@ -625,6 +625,6 @@ class IeeeLom
 	{
 		$this->add_langstring_nodes('/lom/rights', 'description', $langstring);
 	}
-	// End of implmentation IEEE LOM standard
+	// End of implementation IEEE LOM standard
 	/**#@-*/
 }
