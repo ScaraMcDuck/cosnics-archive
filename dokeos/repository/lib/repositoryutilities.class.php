@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package repository
  */
 
@@ -9,14 +10,11 @@ require_once dirname(__FILE__).'/condition/patternmatchcondition.class.php';
 require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 
 /**
-==============================================================================
- *	This class provides some common methods that are used throughout the
- *	repository and sometimes outside it.
+ * This class provides some common methods that are used throughout the
+ * repository and sometimes outside it.
  *
- *	@author Tim De Pauw
-==============================================================================
+ * @author Tim De Pauw
  */
-
 class RepositoryUtilities
 {
 	const TOOLBAR_DISPLAY_ICON = 1;
@@ -188,7 +186,7 @@ class RepositoryUtilities
 	/**
 	 * Builds a HTML representation of a toolbar, i.e. a list of clickable
 	 * icons. The icon data is passed as an array with the following structure:
-	 * 
+	 *
 	 *   array(
 	 *     array(
 	 *       'img'     => '/path/to/icon.gif', # preferably absolute
@@ -198,9 +196,9 @@ class RepositoryUtilities
 	 *                      # ... or another constant
 	 *       'confirm' => true  # requests confirmation upon clicking
 	 *     ),
-	 *     # ... more arrays, one per icon 
+	 *     # ... more arrays, one per icon
 	 *   )
-	 * 
+	 *
 	 * For the purpose of semantics, the toolbar will be an unordered
 	 * list (ul) element. You can pass extra element class names, which allows
 	 * you to poke at that element a little, but not at individual icons. If
@@ -252,8 +250,8 @@ class RepositoryUtilities
 			{
 				$classes[] = 'first';
 			}
-			
-			if ($index == count($toolbar_data) - 1) 
+
+			if ($index == count($toolbar_data) - 1)
 			{
 				$classes[] = 'last';
 			}
@@ -263,10 +261,15 @@ class RepositoryUtilities
 		// Don't separate by linefeeds. It creates additional whitespace.
 		return implode($html);
 	}
-
-	private static function by_title($a, $b)
+	/**
+	 * Compares learning objects by title.
+	 * @param LearningObject $learning_object_1
+	 * @param LearningObject $learning_object_2
+	 * @return int
+	 */
+	private static function by_title($learning_object_1, $learning_object_2)
 	{
-		return strcasecmp($a->get_title(), $b->get_title());
+		return strcasecmp($learning_object_1->get_title(), $learning_object_2->get_title());
 	}
 }
 ?>

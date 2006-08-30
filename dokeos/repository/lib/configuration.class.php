@@ -1,14 +1,13 @@
 <?php
 /**
+ * $Id$
  * @package repository
  */
 
 /**
-==============================================================================
  *	This class represents the current configuration.
  *
  *	@author Tim De Pauw
-==============================================================================
  */
 
 class Configuration

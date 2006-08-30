@@ -1,6 +1,6 @@
 <?php
 /**
- * A form to create and edit a LearningObject.
+ * $Id$
  * @package repository
  */
 
@@ -12,7 +12,9 @@ require_once dirname(__FILE__).'/learningobject.class.php';
 require_once dirname(__FILE__).'/abstractlearningobject.class.php';
 require_once dirname(__FILE__).'/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/optionsmenurenderer.class.php';
-
+/**
+ * A form to create and edit a LearningObject.
+ */
 abstract class LearningObjectForm extends FormValidator
 {
 	const TYPE_CREATE = 1;
@@ -282,7 +284,9 @@ abstract class LearningObjectForm extends FormValidator
 		$lo = $this->learning_object;
 		return $lo->supports_attachments();
 	}
-
+	/**
+	 * Displays the form
+	 */
 	function display()
 	{
 		$quotamanager = new QuotaManager($this->get_owner_id());

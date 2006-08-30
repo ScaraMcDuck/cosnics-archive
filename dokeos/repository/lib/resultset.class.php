@@ -1,12 +1,13 @@
 <?php
 /**
+ * $Id$
  * @package repository
  */
 /**
  * This class represents a result set. It allows you to create an abstract
  * representation of a remote set of data, e.g. a database record set.
  * Typically, a result set is accessed the following way:
- * 
+ *
  *     // Create an instance of a ResultSet implementation
  *     $set = new MyResultSet();
  *     // Iterate over the set
@@ -15,7 +16,7 @@
  *         // Do something with the item
  *         echo $item->get_something(), "\n";
  *     }
- * 
+ *
  * @author Tim De Pauw
  */
 abstract class ResultSet
