@@ -11,6 +11,12 @@ require_once(dirname(__FILE__).'/ieee_lom.class.php');
  */
 class IeeeLomGenerator
 {
+	/**
+	 * This function will generate some default metadata from a given learning
+	 * object.
+	 * @param LearningObject $learning_object
+	 * @return IeeeLom the generated metadata
+	 */
 	static function generate($learning_object)
 	{
 		$lom = new IeeeLom();
@@ -31,6 +37,11 @@ class IeeeLomGenerator
 		}
 		return $lom;
 	}
+	/**
+	 * This function will add some document specific metadata.
+	 * @param LearningObject $learning_object
+	 * @param IeeeLom $lom The metadata to extend
+	 */
 	static function generate_document($learning_object,$lom)
 	{
 		$lom->set_size($learning_object->get_filesize());
