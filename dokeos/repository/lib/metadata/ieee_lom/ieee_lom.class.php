@@ -206,13 +206,14 @@ class IeeeLom
 	 */
 	function display()
 	{
-		//$xsl = new DOMDocument;
-		//$xsl->load('lom_output.xsl');
-		//$proc = new XSLTProcessor;
-		//$proc->importStyleSheet($xsl); // attach the xsl rules
-		//$output = $proc->transformToDoc($this->dom);
-		//echo $output->saveXML();
-		echo '<pre>';
+		$xsl = new DOMDocument;
+		$xsl->load(dirname(__FILE__).'/lom_output.xsl');
+		$proc = new XSLTProcessor;
+		$proc->registerPHPFunctions();
+		$proc->importStyleSheet($xsl); // attach the xsl rules
+		$output = $proc->transformToDoc($this->dom);
+		echo $output->saveXML();
+		echo '<hr/><pre>';
 		echo htmlspecialchars($this->dom->saveXML());
 		echo '</pre>';
 	}
