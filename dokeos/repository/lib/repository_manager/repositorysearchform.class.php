@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../../../claroline/inc/lib/formvalidator/FormValidator.class.php';
@@ -35,7 +36,7 @@ class RepositorySearchForm extends FormValidator
 	const SEARCH_SCOPE_CATEGORY_AND_SUBCATEGORIES = 2;
 
 	const SESSION_KEY_ADVANCED_SEARCH = 'repository_advanced_search';
-	
+
 	const FORM_NAME = 'search';
 
 	private $manager;
