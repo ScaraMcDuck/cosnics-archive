@@ -1,15 +1,14 @@
 <?php
 /**
+ * $Id$
  * @package repository
  */
 /**
-==============================================================================
  * Instances of this class group generic information about a publication of
  * a learning object within an application.
- * 
+ *
  * @author Bart Mollet
  * @author Tim De Pauw
-==============================================================================
  */
 
 class LearningObjectPublicationAttributes
@@ -18,34 +17,34 @@ class LearningObjectPublicationAttributes
 	 * The name of the application in which the learning object was published.
 	 */
 	private $application;
-	
+
 	/**
 	 * The location in the application where the learning object was published.
 	 */
 	private $location;
-	
+
 	/**
 	 * A URL pointing to the location where the learning object was published.
 	 */
 	private $url;
-	
+
 	/**
 	 * The ID of the user who published the learning object.
 	 */
 	private $publisher_user_id;
-	
+
 	/**
 	 * The date on which the learning object was published.
 	 */
 	private $publication_date;
-	
+
 	/**
 	 * Constructor.
 	 */
 	function LearningObjectPublicationAttributes()
 	{
 	}
-	
+
 	/**
 	 * Gets the name of the application where the learning object was
 	 * published.
@@ -55,7 +54,7 @@ class LearningObjectPublicationAttributes
 	{
 		return $this->application;
 	}
-	
+
 	/**
 	 * Sets the name of the application where the learning object was
 	 * published.
@@ -65,7 +64,7 @@ class LearningObjectPublicationAttributes
 	{
 		$this->application = $application;
 	}
-	
+
 	/**
 	 * Gets the location within the application where the learning object was
 	 * published.
@@ -75,17 +74,17 @@ class LearningObjectPublicationAttributes
 	{
 		return $this->location;
 	}
-	
+
 	/**
 	 * Sets the location within the application where the learning object was
 	 * published.
 	 * @param string $location The location.
-	 */ 
+	 */
 	function set_location($location)
 	{
 		$this->location = $location;
 	}
-	
+
 	/**
 	 * Gets the URL where the publication can be found.
 	 * @return string The URL.
@@ -94,7 +93,7 @@ class LearningObjectPublicationAttributes
 	{
 		return $this->url;
 	}
-	
+
 	/**
 	 * Sets the URL where the publication can be found.
 	 * @param string $url The URL.
@@ -103,7 +102,7 @@ class LearningObjectPublicationAttributes
 	{
 		$this->url = $url;
 	}
-	
+
 	/**
 	 * Sets the ID of the user who published the learning object.
 	 * @return int The ID.
@@ -112,7 +111,7 @@ class LearningObjectPublicationAttributes
 	{
 		return $this->publisher_user_id;
 	}
-	
+
 	/**
 	 * Sets the ID of the user who published the learning object.
 	 * @param int $user_id The user ID.
@@ -121,7 +120,7 @@ class LearningObjectPublicationAttributes
 	{
 		$this->publisher_user_id = $user_id;
 	}
-	
+
 	/**
 	 * Gets the date when the learning object was published.
 	 * @return int The date as a UNIX timestamp.
@@ -130,7 +129,7 @@ class LearningObjectPublicationAttributes
 	{
 		return $this->publication_date;
 	}
-	
+
 	/**
 	 * Sets the date when the learning object was published.
 	 * @param int $date The date as a UNIX timestamp.

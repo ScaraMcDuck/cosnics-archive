@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package repository
  */
 require_once dirname(__FILE__).'/accessiblelearningobject.class.php';
@@ -8,7 +9,6 @@ require_once dirname(__FILE__).'/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/condition/equalitycondition.class.php';
 
 /**
-==============================================================================
  *	This class represents a learning object in the repository. Every object
  *	that can be associated with a module is in fact a learning object.
  *
@@ -63,14 +63,22 @@ require_once dirname(__FILE__).'/condition/equalitycondition.class.php';
  *	class and manipulate the objects at will.
  *
  *	@author Tim De Pauw
-==============================================================================
  */
 
 class LearningObject implements AccessibleLearningObject
 {
+	/**
+	 * Constant to define the normal state of a learning object
+	 */
 	const STATE_NORMAL = 0;
+	/**
+	 * Constant to define the recycled state of a learning object (= learning
+	 * object is moved to recycle bin)
+	 */
 	const STATE_RECYCLED = 1;
-
+	/**#@+
+	 * Property name of this learning object
+	 */
 	const PROPERTY_ID = 'id';
 	const PROPERTY_TYPE = 'type';
 	const PROPERTY_OWNER_ID = 'owner';
@@ -81,6 +89,7 @@ class LearningObject implements AccessibleLearningObject
 	const PROPERTY_CREATION_DATE = 'created';
 	const PROPERTY_MODIFICATION_DATE = 'modified';
 	const PROPERTY_STATE = 'state';
+	/**#@-*/
 
 	/**
 	 * Numeric identifier of the learning object.
@@ -620,7 +629,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return array (self :: PROPERTY_OWNER_ID, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_STATE);
 	}
-	
+
 	/**
 	 * Checks if the given identifier is the name of a default learning object
 	 * property.

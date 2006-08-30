@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package repository
  */
 require_once 'HTML/Menu.php';
@@ -99,6 +100,11 @@ class LearningObjectCategoryMenu extends HTML_Menu
 		}
 		return $sub_tree;
 	}
+	/**
+	 * Gets the URL of a given category
+	 * @param int $category The id of the category
+	 * @return string The requested URL
+	 */
 	private function get_category_url ($category)
 	{
 		// TODO: Put another class in charge of the htmlentities() invocation
@@ -119,7 +125,10 @@ class LearningObjectCategoryMenu extends HTML_Menu
 		}
 		return $breadcrumbs;
 	}
-
+	/**
+	 * Renders the menu as a tree
+	 * @return string The HTML formatted tree
+	 */
 	function render_as_tree()
 	{
 		$renderer = new TreeMenuRenderer();

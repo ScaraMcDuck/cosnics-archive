@@ -1,12 +1,11 @@
 <?php
 /**
+ * $Id$
  * @package repository
  */
 require_once dirname(__FILE__).'/configuration.class.php';
 require_once dirname(__FILE__).'/learningobjectpublicationattributes.class.php';
-
 /**
-==============================================================================
  *	This is a skeleton for a data manager for the learning object repository.
  *	Data managers must extend this class and implement its abstract methods.
  *	If the user configuration dictates that the "database" data manager is to
@@ -15,9 +14,7 @@ require_once dirname(__FILE__).'/learningobjectpublicationattributes.class.php';
  *	respected for all extensions of this class.
  *
  *	@author Tim De Pauw
-==============================================================================
  */
-
 abstract class RepositoryDataManager
 {
 	/**
@@ -483,7 +480,11 @@ abstract class RepositoryDataManager
 		}
 		$this->typeProperties[$type] = $additionalProperties;
 	}
-
+	/**
+	 * Checks if a learning object type is allready registered with this
+	 * datamanager
+	 * @return boolean
+	 */
 	private function is_registered_type($type)
 	{
 		return array_key_exists($type, $this->typeProperties);

@@ -1,18 +1,16 @@
 <?php
 /**
+ * $Id$
  * @package repository
  */
 require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 /**
-==============================================================================
  * This class provides some functionality to manage user quotas. There are two
  * different quota types. One is the disk space used by the user. The other is
  * the database space used by the user.
  *
  *	@author Bart Mollet
-==============================================================================
  */
-
 class QuotaManager
 {
 	/**

@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package repository
  */
 require_once dirname(__FILE__).'/resultset.class.php';
@@ -12,7 +13,7 @@ require_once dirname(__FILE__).'/resultset.class.php';
 class ArrayResultSet extends ResultSet
 {
 	private $data;
-	
+
 	private $pointer;
 
 	function ArrayResultSet(& $array)
@@ -20,7 +21,7 @@ class ArrayResultSet extends ResultSet
 		$this->data = & $array;
 		$this->pointer = 0;
 	}
-	
+
 	function next_result()
 	{
 		if ($this->pointer < count($this->data))
@@ -29,17 +30,17 @@ class ArrayResultSet extends ResultSet
 		}
 		return null;
 	}
-	
+
 	function as_array()
 	{
 		return $this->data;
 	}
-	
+
 	function size()
 	{
 		return count($this->data);
 	}
-	
+
 	function skip ($count)
 	{
 		$this->pointer += $count;

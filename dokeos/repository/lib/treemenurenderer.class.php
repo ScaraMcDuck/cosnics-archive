@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package repository
  */
 require_once 'HTML/Menu/DirectTreeRenderer.php';
@@ -11,13 +12,23 @@ require_once 'HTML/Menu/DirectTreeRenderer.php';
  */
 class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 {
+	/**
+	 * Boolean to check if this tree menu is allready initialized
+	 */
 	private static $initialized;
+	/**
+	 * Constructor.
+	 */
 	function TreeMenuRenderer()
 	{
 		$entryTemplates = array (HTML_MENU_ENTRY_INACTIVE => '<a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVE => '<!--A--><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVEPATH => '<!--P--><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a>');
 		$this->setEntryTemplate($entryTemplates);
 		$this->setItemTemplate('<li>', '</li>'."\n");
 	}
+	/**
+	 * Finishes rendering a level in the tree menu
+	 * @see HTML_Menu_DirectTreeRenderer::finishLevel
+	 */
 	function finishLevel($level)
 	{
 		$root = ($level == 0);
@@ -31,6 +42,10 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 			$this->setLevelTemplate('<ul>'."\n", '</ul>'."\n");
 		}
 	}
+	/**
+	 * Renders an entry in the tree menu
+	 * @see HTML_Menu_DirectTreeRenderer::renderEntry
+	 */
 	function renderEntry($node, $level, $type)
 	{
 		// Add some extra keys, so they always get replaced in the template.
@@ -43,12 +58,16 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 		}
 		parent :: renderEntry($node, $level, $type);
 	}
+	/**
+	 * Gets a HTML representation of the tree menu
+	 * @return string
+	 */
 	function toHtml()
 	{
 		$html = parent :: toHtml();
 		$class = array ('A' => 'current', 'P' => 'current_path');
 		$html = preg_replace('/(?<=<li)><!--([AP])-->/e', '\' class="\'.$class[\1].\'">\'', $html);
-		$html = preg_replace('/\s*\b(onclick|id)="\s*"\s*/', ' ', $html); 
+		$html = preg_replace('/\s*\b(onclick|id)="\s*"\s*/', ' ', $html);
 		if (self :: $initialized)
 		{
 			return $html;

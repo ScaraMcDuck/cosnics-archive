@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package repository
  */
 require_once 'HTML/Menu/ArrayRenderer.php';
@@ -10,7 +11,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class OptionsMenuRenderer extends HTML_Menu_ArrayRenderer
 {
 	const KEY_ID = 'node_id';
-	
+
 	/**
 	 * Create a new OptionsMenuRenderer
 	 * @param array $exclude Which items should be excluded (based on the $key
