@@ -297,7 +297,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		// Delete children
 		$condition = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $object->get_id());
-		$children = $this->retrieve_learning_objects(null, $condition)->as_array();
+		$children = $this->retrieve_learning_objects(null, $condition, array (), array (), 0, -1, LearningObject :: STATE_RECYCLED)->as_array();
 		$children_deleted = true;
 		foreach ($children as $index => $child)
 		{
