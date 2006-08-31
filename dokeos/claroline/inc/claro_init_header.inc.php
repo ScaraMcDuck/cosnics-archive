@@ -21,7 +21,7 @@ if(empty($charset))
 {
 	$charset = 'ISO-8859-15';
 }
-
+$charset = 'UTF-8';
 //header('Content-Type: text/html; charset='. $charset)
 //	or die ("WARNING : it remains some characters before &lt;?php bracket or after ?&gt end");
 
@@ -35,7 +35,7 @@ if ( isset($httpHeadXtra) && $httpHeadXtra )
 }
 
 // Get language iso-code for this page - ignore errors
-// The error ignorance is due to the non compatibility of function_exists() 
+// The error ignorance is due to the non compatibility of function_exists()
 // with the object syntax of Database::get_language_isocode()
 @$document_language = Database::get_language_isocode($language_interface);
 if(empty($document_language))
@@ -49,7 +49,7 @@ if(empty($document_language))
  */
 
 ?>
-<!DOCTYPE html 
+<!DOCTYPE html
      PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $document_language; ?>" lang="<?php echo $document_language; ?>">
