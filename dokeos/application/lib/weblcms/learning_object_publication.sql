@@ -17,19 +17,19 @@ CREATE TABLE `%prefix%learning_object_publication` (
   KEY `category` (`category`),
   KEY `tool` (`tool`),
   KEY `publisher` (`publisher`)
-);
+)CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 CREATE TABLE `%prefix%learning_object_publication_group` (
   `publication` int(10) unsigned NOT NULL default '0',
   `group` int(10) unsigned NOT NULL default '0',
   KEY `publication` (`publication`)
-);
+)CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 CREATE TABLE `%prefix%learning_object_publication_user` (
   `publication` int(10) unsigned NOT NULL default '0',
   `user` int(10) unsigned NOT NULL default '0',
   KEY `publication` (`publication`)
-);
+)CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 CREATE TABLE `%prefix%learning_object_publication_category` (
   `id` int(10) unsigned NOT NULL default '0',
@@ -40,4 +40,4 @@ CREATE TABLE `%prefix%learning_object_publication_category` (
   PRIMARY KEY  (`id`),
   KEY `course` (`course`),
   KEY `tool` (`tool`)
-);
+)CHARACTER SET utf8 COLLATE utf8_unicode_ci;

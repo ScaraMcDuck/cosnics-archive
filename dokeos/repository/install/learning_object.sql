@@ -15,4 +15,4 @@ CREATE TABLE `%prefix%learning_object` (
   KEY `parent` (`parent`),
   KEY `display_order` (`display_order`),
   KEY `state` (`state`)
-);
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
