@@ -152,8 +152,30 @@ class DocumentForm extends LearningObjectForm
 		$errors = array ();
 		if (!$fields['choice'])
 		{
-			// Upload document
-			if (isset ($_FILES['file']) && strlen($_FILES['file']['name']) > 0)
+			if (isset ($_FILES['file']) && isset($_FILES['file']['error']))
+			{
+			  	switch($_FILES['file']['error']){
+			   		case 0: //no error; possible file attack!
+			     		$errors['upload_or_create'] = get_lang('UploadProblem');
+			     		break;
+			   		case 1: //uploaded file exceeds the upload_max_filesize directive in php.ini
+			     		$errors['upload_or_create'] = get_lang('FileTooBig');
+			    		break;
+			   		case 2: //uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the html form
+			     		$errors['upload_or_create'] = get_lang('FileTooBig');
+			     		break;
+			   		case 3: //uploaded file was only partially uploaded
+			     		$errors['upload_or_create'] = get_lang('UploadIncomplete');
+			     		break;
+			   		case 4: //no file was uploaded
+			     		$errors['upload_or_create'] = get_lang('NoFileSelected');
+			     		break;
+			   		default: //a default error, just in case!  :)
+			     		$errors['upload_or_create'] = get_lang('UploadProblem');
+			     		break;
+			  	}
+			}
+			elseif (isset ($_FILES['file']) && strlen($_FILES['file']['name']) > 0)
 			{
 				if (!HTML_QuickForm_Rule_DiskQuota :: validate($_FILES['file']))
 				{
@@ -167,7 +189,7 @@ class DocumentForm extends LearningObjectForm
 		}
 		else
 		{
-			// Create an HTML-document		
+			// Create an HTML-document
 			$tmpfname = tempnam('', '');
 			$handle = fopen($tmpfname, "w");
 			fwrite($handle, "writing to tempfile");
@@ -195,7 +217,7 @@ class DocumentForm extends LearningObjectForm
 
 	private static function get_upload_path()
 	{
-		return Configuration :: get_instance()->get_parameter('general', 'upload_path');
+		return realpath(Configuration :: get_instance()->get_parameter('general', 'upload_path'));
 	}
 }
 ?>
