@@ -36,7 +36,7 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_title($publication)
 	{
-		return htmlentities($publication->get_learning_object()->get_title());
+		return htmlspecialchars($publication->get_learning_object()->get_title());
 	}
 
 	/**

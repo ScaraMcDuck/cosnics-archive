@@ -8,10 +8,10 @@ require_once dirname(__FILE__).'/../learningobject.class.php';
 /**
  * This is the default cell renderer, used when a LearningObjectTable does not
  * provide its own renderer.
- * 
+ *
  * The default renderer provides a custom rendering method for the following
  * columns:
- * 
+ *
  * - The ID of the learning object
  *   Displays the ID.
  * - The type of the learning object
@@ -25,9 +25,9 @@ require_once dirname(__FILE__).'/../learningobject.class.php';
  *   Displays a localized version of the date.
  * - The date when the learning object was last modified
  *   Displays a localized version of the date.
- * 
+ *
  * Any other column type will result in an empty cell.
- * 
+ *
  * @see LearningObjectTable
  * @see LearningObjectTableCellRenderer
  * @see DefaultLearningObjectTableColumnModel
@@ -51,12 +51,13 @@ class DefaultLearningObjectTableCellRenderer implements LearningObjectTableCellR
 					$type = $learning_object->get_type();
 					return '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$type.'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($type).'TypeName')).'"/>';
 				case LearningObject :: PROPERTY_TITLE :
-					return htmlentities($learning_object->get_title());
+					return htmlspecialchars($learning_object->get_title());
 				case LearningObject :: PROPERTY_DESCRIPTION :
 					$description = strip_tags($learning_object->get_description());
 					if(strlen($description) > 203)
 					{
-						$description = substr($description,0,200).'&hellip;';
+						mb_internal_encoding("UTF-8");
+						$description = mb_substr(strip_tags($learning_object->get_description()),0,200).'&hellip;';
 					}
 					return $description;
 				case LearningObject :: PROPERTY_CREATION_DATE :

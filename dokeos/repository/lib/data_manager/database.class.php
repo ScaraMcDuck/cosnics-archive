@@ -50,6 +50,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$conf = Configuration :: get_instance();
 		$this->connection = DB :: connect($conf->get_parameter('database', 'connection_string'));
 		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
+		$this->connection->query("SET NAMES utf8");
 	}
 
 	// Inherited.
