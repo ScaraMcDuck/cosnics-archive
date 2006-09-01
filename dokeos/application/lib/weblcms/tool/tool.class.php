@@ -182,5 +182,12 @@ abstract class Tool
 	{
 		return str_replace('/Tool$/', '', RepositoryUtilities :: camelcase_to_underscores($class));
 	}
+	/**
+	 * @see WebLcms::get_last_visit_date()
+	 */
+	function get_last_visit_date()
+	{
+		return $this->parent->get_last_visit_date();
+	}
 }
 ?>

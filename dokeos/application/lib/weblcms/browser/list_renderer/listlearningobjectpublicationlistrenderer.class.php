@@ -38,7 +38,13 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 	function render_publication($publication, $first = false, $last = false)
 	{
 		$html = array ();
-		$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$publication->get_learning_object()->get_type().'.gif);">';
+		$last_visit_date = $this->browser->get_last_visit_date();
+		$new = '';
+		if( $publication->get_publication_date() >= $last_visit_date)
+		{
+			$new = '_new';
+		}
+		$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$publication->get_learning_object()->get_type().$new.'.gif);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);
 		$html[] = '</div>';
