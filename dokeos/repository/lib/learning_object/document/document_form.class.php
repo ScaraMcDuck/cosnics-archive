@@ -1,12 +1,19 @@
 <?php
-require_once dirname(__FILE__).'/../../learningobjectform.class.php';
-require_once dirname(__FILE__).'/document.class.php';
-require_once dirname(__FILE__).'/../../../../claroline/inc/lib/formvalidator/Rule/DiskQuota.php';
-
 /**
+ * $Id$
  * @package repository.learningobject
  * @subpackage document
  */
+require_once dirname(__FILE__).'/../../learningobjectform.class.php';
+require_once dirname(__FILE__).'/document.class.php';
+require_once dirname(__FILE__).'/../../../../claroline/inc/lib/formvalidator/Rule/DiskQuota.php';
+/**
+ * A form to create/update a document.
+ *
+ * A destinction is made between HTML documents and other documents. For HTML
+ * documents an online HTML editor is used to edit the contents of the document.
+ */
+
 class DocumentForm extends LearningObjectForm
 {
 	protected function build_creation_form()

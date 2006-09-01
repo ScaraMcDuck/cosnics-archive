@@ -1,9 +1,13 @@
 <?php
+/**
+ * $Id$
+ * @package repository.learningobject
+ * @subpackage document
+ */
 require_once dirname(__FILE__).'/../../learningobject.class.php';
 require_once dirname(__FILE__).'/../../configuration.class.php';
 /**
- * @package repository.learningobject
- * @subpackage document
+ * A Document.
  */
 class Document extends LearningObject
 {
