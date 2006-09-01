@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
@@ -11,6 +12,9 @@ require_once dirname(__FILE__).'/browser/repositorybrowsertable.class.php';
  */
 class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 {
+	/**
+	 * Runs this component and displays its output.
+	 */
 	function run()
 	{
 		$this->display_header(array(), true);

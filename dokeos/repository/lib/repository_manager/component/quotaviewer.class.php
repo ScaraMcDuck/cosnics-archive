@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
@@ -7,9 +8,16 @@ require_once dirname(__FILE__).'/../../quotamanager.class.php';
 require_once api_get_library_path().'/fileDisplay.lib.php';
 /**
  * Repository manager component which displays the quota to the user.
+ *
+ * This component displays two progress-bars. The first one displays the used
+ * disk space and the second one the number of learning objects in the users
+ * repository.
  */
 class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 {
+	/**
+	 * Runs this component and displays its output.
+	 */
 	function run()
 	{
 		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('Quota')));

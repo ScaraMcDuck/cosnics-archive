@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
@@ -10,6 +11,9 @@ require_once dirname(__FILE__).'/../../metadata/ieee_lom/ieee_lom_generator.clas
  */
 class RepositoryManagerMetadataEditorComponent extends RepositoryManagerComponent
 {
+	/**
+	 * Runs this component and displays its output.
+	 */
 	function run()
 	{
 		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('EditMetadata')));
