@@ -85,7 +85,7 @@ class DayCalendarLearningObjectPublicationListRenderer extends LearningObjectPub
 		{
 			$html[] = '&darr;';
 		}
-		$html[] = '<a href="'.$event_url.'">'.htmlentities($event->get_title()).'</a>';
+		$html[] = '<a href="'.$event_url.'">'.htmlspecialchars($event->get_title()).'</a>';
 		if($end_date > $table_start_date && $end_date <= $table_end_date)
 		{
 			$html[] = date('H:i',$end_date);

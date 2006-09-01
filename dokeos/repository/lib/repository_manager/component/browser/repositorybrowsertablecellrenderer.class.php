@@ -31,7 +31,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 				$title_short = $title;
 				if(strlen($title_short) > 53)
 				{
-					$title_short = substr($title_short,0,50).'&hellip;';
+					$title_short = mb_substr($title_short,0,50).'&hellip;';
 				}
 				return '<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.$title.'">'.$title_short.'</a>';
 		}

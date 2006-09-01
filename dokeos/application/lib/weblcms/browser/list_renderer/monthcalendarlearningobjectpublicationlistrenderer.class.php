@@ -112,7 +112,7 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 		{
 			$html[] = '&rarr;';
 		}
-		$html[] = '<a href="'.$event_url.'">'.htmlentities($event->get_title()).'</a>';
+		$html[] = '<a href="'.$event_url.'">'.htmlspecialchars($event->get_title()).'</a>';
 		if($end_date >= $table_date && $end_date < strtotime('+1 Day',$table_date))
 		{
 			$html[] = date('H:i',$end_date);
