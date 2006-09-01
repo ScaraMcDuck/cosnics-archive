@@ -1,21 +1,30 @@
 <?php
 /**
+ * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/repositorybrowsertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/../../../learning_object_table/defaultlearningobjecttablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../../learningobject.class.php';
-
+/**
+ * Cell rendere for the learning object browser table
+ */
 class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 {
+	/**
+	 * The repository browser component
+	 */
 	private $browser;
-
+	/**
+	 * Constructor
+	 * @param RepositoryManagerBrowserComponent $browser
+	 */
 	function RepositoryBrowserTableCellRenderer($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;
 	}
-
+	// Inherited
 	function render_cell($column, $learning_object)
 	{
 		if ($column === RepositoryBrowserTableColumnModel :: get_modification_column())
@@ -37,7 +46,12 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		}
 		return parent :: render_cell($column, $learning_object);
 	}
-
+	/**
+	 * Gets the action links to display
+	 * @param LearningObject $learning_object The learning object for which the
+	 * action links should be returned
+	 * @return string A HTML representation of the action links
+	 */
 	private function get_modification_links($learning_object)
 	{
 		$toolbar_data = array();

@@ -1,14 +1,22 @@
 <?php
 /**
+ * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../../../learning_object_table/learningobjecttable.class.php';
 require_once dirname(__FILE__).'/repositoryrecyclebinbrowsertabledataprovider.class.php';
 require_once dirname(__FILE__).'/repositoryrecyclebinbrowsertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/repositoryrecyclebinbrowsertablecellrenderer.class.php';
-
+/**
+ * This class provides the table to display all learning objects in the recycle
+ * bin.
+ */
 class RepositoryRecycleBinBrowserTable extends LearningObjectTable
 {
+	/**
+	 * Constructor
+	 * @see LearningObjectTable::LearningObjectTable()
+	 */
 	function RepositoryRecycleBinBrowserTable($browser, $name, $parameters, $condition)
 	{
 		$model = new RepositoryRecycleBinBrowserTableColumnModel();

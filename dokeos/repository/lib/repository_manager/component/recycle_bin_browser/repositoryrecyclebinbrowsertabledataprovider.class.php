@@ -1,16 +1,24 @@
 <?php
 /**
+ * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../browser/repositorybrowsertabledataprovider.class.php';
-
+/**
+ * Data provider for the recycle bin browser table
+ */
 class RepositoryRecycleBinBrowserTableDataProvider extends RepositoryBrowserTableDataProvider
 {
+	/**
+	 * Constructor
+	 * @param RepositoryManagerRecycleBinBrowserComponent $browser
+	 * @param Condition $condition
+	 */
 	function RepositoryRecycleBinBrowserTableDataProvider($browser, $condition)
 	{
 		parent :: __construct($browser, $condition);
 	}
-
+	// Inherited
     function get_learning_objects($offset, $count, $order_property, $order_direction)
     {
     	// We always use title as second sorting parameter
@@ -26,7 +34,7 @@ class RepositoryRecycleBinBrowserTableDataProvider extends RepositoryBrowserTabl
     	}
     	return $this->get_browser()->retrieve_learning_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count, LearningObject :: STATE_RECYCLED, true);
     }
-
+	// Inherited
     function get_learning_object_count()
     {
     	return $this->get_browser()->count_learning_objects(null, $this->get_condition(), LearningObject :: STATE_RECYCLED, true);

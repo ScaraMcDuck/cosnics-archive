@@ -1,25 +1,37 @@
 <?php
 /**
+ * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/repositoryrecyclebinbrowsertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/../../../learning_object_table/defaultlearningobjecttablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../../learningobject.class.php';
 require_once dirname(__FILE__).'/../../../repositoryutilities.class.php';
-
+/**
+ * Cell renderer for the recycle bin browser table
+ */
 class RepositoryRecycleBinBrowserTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 {
+	/**
+	 * The recycle bin browser component in which the learning objects will be
+	 * displayed.
+	 */
 	private $browser;
-	
+	/**
+	 * Array acting as a cache for learning object titles
+	 */
 	private $parent_title_cache;
-
+	/**
+	 * Constructor
+	 * @param RepositoryManagerRecycleBinBrowserComponent $browser
+	 */
 	function RepositoryRecycleBinBrowserTableCellRenderer($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;
 		$this->parent_title_cache = array();
 	}
-
+	// Inherited
 	function render_cell($column, $learning_object)
 	{
 		if ($column === RepositoryRecycleBinBrowserTableColumnModel :: get_action_column())
@@ -46,7 +58,12 @@ class RepositoryRecycleBinBrowserTableCellRenderer extends DefaultLearningObject
 		}
 		return parent :: render_cell($column, $learning_object);
 	}
-
+	/**
+	 * Gets the action links to display
+	 * @param LearningObject $learning_object The learning object for which the
+	 * action links should be returned
+	 * @return string A HTML representation of the action links
+	 */
 	private function get_action_links($learning_object)
 	{
 		$toolbar_data = array();
