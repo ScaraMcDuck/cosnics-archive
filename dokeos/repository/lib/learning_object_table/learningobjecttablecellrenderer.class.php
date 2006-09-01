@@ -1,11 +1,12 @@
 <?php
 /**
+ * $Id$
  * @package repository.learningobjecttable
  */
 /**
  * Implementations of this interface are used to render the content of
  * individual cells in a learning object table.
- * 
+ *
  * @see LearningObjectTable
  * @author Tim De Pauw
  */
