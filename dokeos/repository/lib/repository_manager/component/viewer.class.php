@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
@@ -10,6 +11,9 @@ require_once dirname(__FILE__).'/../../learningobjectdisplay.class.php';
  */
 class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 {
+	/**
+	 * Runs this component and displays its output.
+	 */
 	function run()
 	{
 		$id = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
@@ -106,6 +110,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				$toolbar_data[] = $recycle_bin_button;
 			}
 			echo RepositoryUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
+			// If this learning object is published somewhere in an application, these locations are listed here.
 			$publication_attr = $this->get_learning_object_publication_attributes($object->get_id());
 			if (count($publication_attr) > 0)
 			{

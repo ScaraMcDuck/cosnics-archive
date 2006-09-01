@@ -1,6 +1,6 @@
 <?php
-
 /**
+ * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
@@ -11,6 +11,9 @@ require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
  */
 class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 {
+	/**
+	 * Runs this component and displays its output.
+	 */
 	function run()
 	{
 		$ids = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];

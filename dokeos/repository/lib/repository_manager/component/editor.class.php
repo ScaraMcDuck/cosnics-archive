@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
@@ -10,6 +11,9 @@ require_once dirname(__FILE__).'/../../learningobjectform.class.php';
  */
 class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 {
+	/**
+	 * Runs this component and displays its output.
+	 */
 	function run()
 	{
 		$id = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];

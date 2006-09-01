@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
@@ -9,10 +10,16 @@ require_once dirname(__FILE__).'/../../abstractlearningobject.class.php';
 require_once dirname(__FILE__).'/../../repositorydatamanager.class.php';
 /**
  * Repository manager component which gives the user the possibility to create a
- * new learning object in his repository.
+ * new learning object in his repository. When no type is passed to this
+ * component, the user will see a dropdown list in which a learning object type
+ * can be selected. Afterwards, the form to create the actual learning object
+ * will be displayed.
  */
 class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 {
+	/**
+	 * Runs this component and displays its output.
+	 */
 	function run()
 	{
 		$type_form = new FormValidator('create_type', 'post', $this->get_url());

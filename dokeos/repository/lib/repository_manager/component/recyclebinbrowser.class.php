@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
@@ -11,6 +12,9 @@ require_once dirname(__FILE__).'/recycle_bin_browser/repositoryrecyclebinbrowser
  */
 class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerComponent
 {
+	/**
+	 * Runs this component and displays its output.
+	 */
 	function run()
 	{
 		$this->display_header(array(array('url' => $this->get_url(), 'name' => get_lang('RecycleBin'))));

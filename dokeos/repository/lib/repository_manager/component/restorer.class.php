@@ -1,12 +1,19 @@
 <?php
 /**
+ * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
-
+/**
+ * Repository manager component to restore learning objects. This means movig
+ * learning objects from the recycle bin to there original location.
+ */
 class RepositoryManagerRestorerComponent extends RepositoryManagerComponent
 {
+	/**
+	 * Runs this component and displays its output.
+	 */
 	function run()
 	{
 		$ids = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
