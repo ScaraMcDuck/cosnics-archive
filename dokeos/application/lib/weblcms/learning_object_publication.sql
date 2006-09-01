@@ -8,7 +8,7 @@ CREATE TABLE `%prefix%learning_object_publication` (
   `to_date` int(10) unsigned NOT NULL default '0',
   `hidden` int(1) unsigned NOT NULL default '0',
   `publisher` int(10) unsigned NOT NULL default '0',
-  `published` datetime NOT NULL default '0000-00-00 00:00:00',
+  `published` int(10) unsigned NOT NULL default '0',
   `display_order` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `from_date` (`from_date`,`to_date`),
