@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package application.weblcms
  */
@@ -61,49 +62,54 @@ class Weblcms extends WebApplication
 		else
 		{
 			$this->display_header();
-			echo <<<END
+			echo<<<END
 <style type="text/css"><!--
 #tool-list {
-	list-style: none;
-	margin: 0;
-	padding: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 #tool-list li {
-	display: block;
-	float: left;
-	width: 49%;
-	margin: 0;
-	padding: 0;
+  display: block;
+  float: left;
+  width: 49%;
+  margin: 0;
+  padding: 0;
 }
 #tool-list a {
-	border: 1px solid #F0F0F0;
-	display: block;
-	margin: 0 10px 10px 0;
-	padding: 15px 10px 0px 44px;
-	background-repeat: no-repeat;
-	background-position: 10px 10px;
-	font-size: 14px;
-	height: 29px; /* 44 - 15 */
-	line-height: 1em;
-	overflow: hidden;
+  border: 1px solid #F0F0F0;
+  display: block;
+  margin: 0 10px 10px 0;
+  padding: 15px 10px 0px 44px;
+  background-repeat: no-repeat;
+  background-position: 10px 10px;
+  font-size: 14px;
+  height: 29px; /* 44 - 15 */
+  line-height: 1em;
+  overflow: hidden;
 }
 #tool-list a:hover {
-	border: 1px solid #CCC;
-	border-color: #E0E0E0;
-	background-color: #F9F9F9;
+  border: 1px solid #CCC;
+  border-color: #E0E0E0;
+  background-color: #F9F9F9;
 }
 --></style>
 END;
 			echo '<ul id="tool-list">';
-			$tools = array();
+			$tools = array ();
 			foreach ($this->get_registered_tools() as $tool)
 			{
-				$tools[$tool] = htmlentities(get_lang(Tool :: type_to_class($tool).'Title'));
+				$tools[$tool] = htmlspecialchars(get_lang(Tool :: type_to_class($tool).'Title'));
 			}
 			asort($tools);
 			foreach ($tools as $tool => $title)
 			{
-				echo '<li><a href="'.$this->get_url(array (self :: PARAM_TOOL => $tool), true).'" style="background-image: url(', api_get_path(WEB_CODE_PATH).'img/'.$tool.'.gif);">'.$title.'</a></li>';
+				$new = '';
+				if($this->tool_has_new_publications($tool))
+				{
+					$new = '_new';
+				}
+				echo '<li><a href="'.$this->get_url(array (self :: PARAM_TOOL => $tool), true).'" style="background-image: url(', api_get_path(WEB_CODE_PATH).'img/'.$tool.$new.'.gif);">'.$title.'</a></li>';
 			}
 			echo '</ul>';
 			$this->display_footer();
@@ -166,10 +172,10 @@ END;
 		$course = $this->get_course_id();
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		$cats = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($course, $tool);
-		$root = array();
+		$root = array ();
 		$root['obj'] = & new LearningObjectPublicationCategory(0, get_lang('RootCategory'), $course, $tool, 0);
 		$root['sub'] = & $cats;
-		$tree = array();
+		$tree = array ();
 		$tree[] = & $root;
 		return $tree;
 	}
@@ -219,33 +225,33 @@ END;
 	 * Displays the header of this application
 	 * @param array $breadcrumbs The breadcrumbs which should be displayed
 	 */
-	function display_header($breadcrumbs = array())
+	function display_header($breadcrumbs = array ())
 	{
-		global $interbredcrump,$htmlHeadXtra;
+		global $interbredcrump, $htmlHeadXtra;
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		if ($tool)
 		{
-			array_unshift($breadcrumbs, array('url' => $this->get_url(), 'name' => get_lang(Tool :: type_to_class($tool).'Title')));
+			array_unshift($breadcrumbs, array ('url' => $this->get_url(), 'name' => get_lang(Tool :: type_to_class($tool).'Title')));
 		}
 		$current_crumb = array_pop($breadcrumbs);
 		$interbredcrump = $breadcrumbs;
-		if(isset($this->tool_class))
+		if (isset ($this->tool_class))
 		{
-			$tool =str_replace('_tool','',Tool::class_to_type($this->tool_class));
+			$tool = str_replace('_tool', '', Tool :: class_to_type($this->tool_class));
 			$js_file = dirname(__FILE__).'/tool/'.$tool.'/'.$tool.'.js';
-			if(file_exists($js_file))
+			if (file_exists($js_file))
 			{
 				$htmlHeadXtra[] = '<script type="text/javascript" src="application/lib/weblcms/tool/'.$tool.'/'.$tool.'.js"></script>';
 			}
 		}
 		$title = $current_crumb['name'];
 		Display :: display_header($title);
-		if (isset($this->tool_class))
+		if (isset ($this->tool_class))
 		{
 			echo '<div style="float: right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
 			echo '<form method="get" action="'.$this->get_url().'" style="display: inline;">';
-			echo '<select name="' . self :: PARAM_TOOL . '" onchange="submit();">';
-			$tools = array();
+			echo '<select name="'.self :: PARAM_TOOL.'" onchange="submit();">';
+			$tools = array ();
 			foreach ($this->get_registered_tools() as $t)
 			{
 				$tools[$t] = htmlentities(get_lang(Tool :: type_to_class($t).'Title'));
@@ -254,7 +260,7 @@ END;
 			foreach ($tools as $tool => $title)
 			{
 				$class = Tool :: type_to_class($tool);
-				echo '<option value="'.$tool.'"'.($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($title).'</option>';
+				echo '<option value="'.$tool.'"'. ($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($title).'</option>';
 			}
 			echo '</select></form></div>';
 			api_display_tool_title(htmlentities(get_lang($this->tool_class.'Title')));
@@ -264,6 +270,7 @@ END;
 			global $_course;
 			echo '<h3>'.htmlentities($_course['name']).'</h3>';
 		}
+		//echo 'Last visit: '.date('r',$this->get_last_visit_date());
 	}
 	/**
 	 * Displays the footer of this application
@@ -350,7 +357,7 @@ END;
 	 */
 	function any_learning_object_is_published($object_ids)
 	{
-		return WeblcmsDataManager::get_instance()->any_learning_object_is_published($object_ids);
+		return WeblcmsDataManager :: get_instance()->any_learning_object_is_published($object_ids);
 	}
 	/*
 	 * Inherited
@@ -358,6 +365,38 @@ END;
 	function get_learning_object_publication_attributes($object_id)
 	{
 		return WeblcmsDataManager :: get_instance()->get_learning_object_publication_attributes($object_id);
+	}
+	/**
+	 * Gets the date of the last visit of current user to the current location
+	 * @todo This function now returns [current time minus some minutes] for
+	 * testing purpuses. It should be implemented correctly.
+	 * @param string $tool If $tool equals zero, current active tool will be taken
+	 * into account. If no tool is given or no tool is active the date of last
+	 * visit to the course homepage will be returned.
+	 * @return int
+	 */
+	function get_last_visit_date($tool = null)
+	{
+		return strtotime('-1 Minute');
+	}
+	/**
+	 * Determines if a tool has new publications  since the last time the
+	 * current user visited the tool.
+	 * @todo This function now uses the count_learning_object_publications
+	 * function and for each tool a query is executed. All information can be
+	 * retrieved using a single query. WeblcmsDataManager should implement this
+	 * functionality.
+	 * @param string $tool
+	 */
+	function tool_has_new_publications($tool)
+	{
+		$last_visit_date = $this->get_last_visit_date($tool);
+		$wdm = WeblcmsDataManager :: get_instance();
+		$condition_tool = new EqualityCondition('tool',$tool);
+		$condition_date = new InequalityCondition('published',InequalityCondition::GREATER_THAN,$last_visit_date);
+		$condition = new AndCondition($condition_tool,$condition_date);
+		$new_items = $wdm->count_learning_object_publications($this->get_course_id(),null,null,null,$condition);
+		return $new_items > 0;
 	}
 }
 ?>

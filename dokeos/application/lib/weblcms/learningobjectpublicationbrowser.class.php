@@ -188,6 +188,14 @@ abstract class LearningObjectPublicationBrowser
 	}
 
 	/**
+	 * @see WebLcms::get_last_visit_date()
+	 */
+	function get_last_visit_date()
+	{
+		return $this->parent->get_last_visit_date();
+	}
+
+	/**
 	 * Returns the learning object publications to display.
 	 * @param int $from The index of the first publication to return.
 	 * @param int $count The maximum number of publications to return.
