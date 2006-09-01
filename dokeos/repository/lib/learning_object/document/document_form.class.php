@@ -126,7 +126,15 @@ class DocumentForm extends LearningObjectForm
 	 */
 	private function create_valid_filename($desired_filename)
 	{
-		return ereg_replace(array ('\s', '[^0-9a-zA-Z\-_\.]'), array ('_', ''), $desired_filename);
+		//Change encoding
+		$valid_filename = mb_convert_encoding($desired_filename,"ISO-8859-1","UTF-8");
+		//Replace accented characters
+		$valid_filename = strtr($valid_filename, "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÜİàáâãäåçèéêëìíîïğñòóôõöøùúûüıÿ", "aaaaaaceeeeiiiidnoooooouuuuyyaaaaaaceeeeiiiidnoooooouuuuyy");
+		//Replace all except letters, numbers, - and . to underscores
+	    $valid_filename =  ereg_replace('[^0-9a-zA-Z\-\.]', '_',$valid_filename);
+	    //Replace set of underscores by a single underscore
+		$valid_filename = ereg_replace('[_]+','_',$valid_filename);
+		return $valid_filename;
 	}
 	/**
 	 * Creates a unique path.
