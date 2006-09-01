@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package repository.learningobjecttable
  */
 
@@ -35,10 +36,19 @@ require_once dirname(__FILE__).'/../learningobject.class.php';
  */
 class DefaultLearningObjectTableCellRenderer implements LearningObjectTableCellRenderer
 {
+	/**
+	 * Constructor
+	 */
 	function DefaultLearningObjectTableCellRenderer()
 	{
 	}
-
+	/**
+	 * Renders a table cell
+	 * @param LearningObjectTableColumnModel $column The column which should be
+	 * rendered
+	 * @param Learning Object $learning_object The learning object to render
+	 * @return string A HTML representation of the rendered table cell
+	 */
 	function render_cell($column, $learning_object)
 	{
 		if ($property = $column->get_learning_object_property())

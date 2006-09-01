@@ -1,10 +1,11 @@
 <?php
 /**
+ * $Id$
  * @package repository.learningobjecttable
  */
 /**
  * This class represents a single column in a table of learning objects.
- * 
+ *
  * @see LearningObjectTable
  * @see LearningObjectTableColumnModel
  * @author Tim De Pauw
@@ -26,7 +27,7 @@ class LearningObjectTableColumn
 	private $sortable;
 	/**
 	 * Constructor. Either defines a column that displays a default property
-	 * of learning objects, or arbitrary content. 
+	 * of learning objects, or arbitrary content.
 	 * @param string $property_name_or_column_title If the column contains
 	 *                                              arbitrary content, the
 	 *                                              title of the column. If
@@ -34,7 +35,7 @@ class LearningObjectTableColumn
 	 *                                              object property, that
 	 *                                              particular property, a
 	 *                                              LearningObject::PROPERTY_*
-	 *                                              constant. 
+	 *                                              constant.
 	 * @param boolean $contains_learning_object_property True if the column
 	 *                                                   displays a learning
 	 *                                                   object property, false
