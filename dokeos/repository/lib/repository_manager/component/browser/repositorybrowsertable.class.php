@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../../../learning_object_table/learningobjecttable.class.php';
@@ -7,9 +8,15 @@ require_once dirname(__FILE__).'/repositorybrowsertabledataprovider.class.php';
 require_once dirname(__FILE__).'/repositorybrowsertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/repositorybrowsertablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../repositorymanager.class.php';
-
+/**
+ * Table to display a set of learning objects.
+ */
 class RepositoryBrowserTable extends LearningObjectTable
 {
+	/**
+	 * Constructor
+	 * @see LearningObjectTable::LearningObjectTable()
+	 */
 	function RepositoryBrowserTable($browser, $name, $parameters, $condition)
 	{
 		$model = new RepositoryBrowserTableColumnModel();
