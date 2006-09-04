@@ -33,7 +33,7 @@ class ForumTool extends RepositoryTool
 		}
 		if ($_SESSION['forumadmin'] && $this->is_allowed(ADD_RIGHT))
 		{
-			$html[] = '<p>Go to <a href="' . $this->get_url(array('admin' => 0), true) . '">User Mode</a> &hellip;</p>';
+			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), true) . '"><img src="'.api_get_path(WEB_CODE_PATH).'/img/browser.gif" alt="'.get_lang('BrowserTitle').'" style="vertical-align:middle;"/> '.get_lang('BrowserTitle').'</a></p>';
 			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
 			$pub = new LearningObjectPublisher($this, 'forum');
 			$html[] =  $pub->as_html();
@@ -67,8 +67,8 @@ class ForumTool extends RepositoryTool
 			{
 				if($this->is_allowed(ADD_RIGHT))
 				{
-					echo '<p>Go to <a href="' . $this->get_url(array('admin' => 1), true) . '">Publisher Mode</a> &hellip;</p>';
-					echo '<p>Go to <a href="' . $this->get_url(array('category_manager_action' => 1), true) . '">Category Manager Mode</a> &hellip;</p>';
+					echo '<a href="' . $this->get_url(array('admin' => 1), true) . '"><img src="'.api_get_path(WEB_CODE_PATH).'/img/publish.gif" alt="'.get_lang('Publish').'" style="vertical-align:middle;"/> '.get_lang('Publish').'</a> ';
+					echo '<a href="' . $this->get_url(array('category_manager_action' => 1), true) . '"><img src="'.api_get_path(WEB_CODE_PATH).'/img/category.gif" alt="'.get_lang('ManageCategories').'" style="vertical-align:middle;"/> '.get_lang('ManageCategories').'</a></p>';
 				}
 				echo $this->perform_requested_actions();
 				$browser = new ForumBrowser($this);

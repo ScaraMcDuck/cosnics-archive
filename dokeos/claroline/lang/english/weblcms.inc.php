@@ -33,6 +33,7 @@ $LearningPathToolTitle='Learning Path Tool';
 $LimitedPeriod='Limited Period';
 $LinkToolTitle='Link Tool';
 $ListView='List View';
+$ManageCategories='Manage categories';
 $MonthView='Month View';
 $NoSearchResults='No Search Results';
 $ObjectCreated='The learning object was created.';
