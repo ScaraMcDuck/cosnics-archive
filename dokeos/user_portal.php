@@ -188,7 +188,7 @@ Display :: display_header($nameTools, 'Mycourses');
 */
 function get_personal_course_list($user_id)
 {
-	$personal_course_list = array();	
+	$personal_course_list = array();
 	$main_user_table = Database :: get_main_table(MAIN_USER_TABLE);
 	$main_course_table = Database :: get_main_table(MAIN_COURSE_TABLE);
 	$main_course_user_table = Database :: get_main_table(MAIN_COURSE_USER_TABLE);
@@ -392,7 +392,9 @@ function get_logged_user_course_html($mycours)
 	//show a hyperlink to the course, unless the course is closed and user is not course admin
 	if ($course_visibility != COURSE_VISIBILITY_CLOSED || $user_in_course_status == COURSEMANAGER)
 	{
-		$result .= '<a href="'.api_get_path(WEB_COURSE_PATH).$course_directory.'/">'.$course_display_title.'</a>';
+		$result .= $course_display_title.' ';
+		$result .= ' [<a href="'.api_get_path(WEB_COURSE_PATH).$course_directory.'/">OLD</a>] ';
+		$result .= ' [<a href="index_lcms.php?cidReq='.$course_system_code.'">NEW</a>]';
 	}
 	else
 	{
@@ -793,7 +795,7 @@ api_session_register('status');
 */
 echo "<div class=\"menu\">";
 
-// api_display_language_form(); // moved to the profile page. 
+// api_display_language_form(); // moved to the profile page.
 echo "<div class=\"menusection\">";
 echo "<span class=\"menusectioncaption\">".get_lang("MenuUser")."</span>";
 echo "<ul class=\"menulist\">";
@@ -806,7 +808,7 @@ display_digest($toolsList, $digest, $orderKey, $courses);
 
 echo "</ul>";
 echo "</div>";
-/*** hide right menu "general" and "platform admin" parts *** 
+/*** hide right menu "general" and "platform admin" parts ***
 	echo "<div class=\"menusection\">";
 	echo "<span class=\"menusectioncaption\">".get_lang("MenuGeneral")."</span><ul class=\"menulist\">";
 
@@ -834,7 +836,7 @@ echo "</div>";
 		echo "</div>";
 	}
 **** end of hide right menu parts ***/
- 
+
 	// Load appropriate plugins for this menu bar
 if (is_array($plugins['main_menu_logged']))
 {
