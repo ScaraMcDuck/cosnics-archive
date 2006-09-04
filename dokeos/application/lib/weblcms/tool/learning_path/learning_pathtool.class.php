@@ -29,7 +29,7 @@ class LearningPathTool extends RepositoryTool
 		{
 			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
 			$pub = new LearningObjectPublisher($this, 'learning_path');
-			$html[] = '<p>Go to <a href="' . $this->get_url(array('admin' => 0), true) . '">User Mode</a> &hellip;</p>';
+			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), true) . '"><img src="'.api_get_path(WEB_CODE_PATH).'/img/browser.gif" alt="'.get_lang('BrowserTitle').'" style="vertical-align:middle;"/> '.get_lang('BrowserTitle').'</a></p>';
 			$html[] =  $pub->as_html();
 			$this->display_header();
 			echo implode("\n",$html);
@@ -40,7 +40,7 @@ class LearningPathTool extends RepositoryTool
 			$this->display_header();
 			if($this->is_allowed(ADD_RIGHT))
 			{
-				echo '<p>Go to <a href="' . $this->get_url(array('admin' => 1), true) . '">Publisher Mode</a> &hellip;</p>';
+				echo '<p><a href="' . $this->get_url(array('admin' => 1), true) . '"><img src="'.api_get_path(WEB_CODE_PATH).'/img/publish.gif" alt="'.get_lang('Publish').'" style="vertical-align:middle;"/> '.get_lang('Publish').'</a></p>';
 			}
 			echo $this->perform_requested_actions();
 			$browser = new LearningPathBrowser($this);
