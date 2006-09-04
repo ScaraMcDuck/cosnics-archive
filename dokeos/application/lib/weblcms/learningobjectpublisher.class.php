@@ -33,17 +33,23 @@ class LearningObjectPublisher
 	 * The default learning objects, which are used for form defaults.
 	 */
 	private $default_learning_objects;
-
+	/**
+	 * Is a 'send by email' option available?
+	 */
+	private $mail_option;
 	/**
 	 * Constructor.
 	 * @param RepositoryTool $parent The tool that is creating this object.
 	 * @param array $types The learning object types that may be published.
+	 * @param  boolean $email_option If true the publisher has the option to
+	 * send the published learning object by email to the selecter target users.
 	 */
-	function LearningObjectPublisher($parent, $types)
+	function LearningObjectPublisher($parent, $types, $mail_option = false)
 	{
 		$this->parent = $parent;
 		$this->default_learning_objects = array();
 		$this->types = (is_array($types) ? $types : array ($types));
+		$this->mail_option = $mail_option;
 		$parent->set_parameter(LearningObjectPublisher :: PARAM_ACTION, $this->get_action());
 	}
 
@@ -170,6 +176,16 @@ class LearningObjectPublisher
 			return $this->default_learning_objects[$type];
 		}
 		return new AbstractLearningObject($type, $this->get_user_id());
+	}
+
+	/**
+	 * Determines if this learning object publisher supports the option to send
+	 * published learning objects by email.
+	 * @return boolean
+	 */
+	function with_mail_option()
+	{
+		return $this->mail_option;
 	}
 }
 ?>

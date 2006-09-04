@@ -31,7 +31,7 @@ class AnnouncementTool extends RepositoryTool
 		if ($_SESSION['announcementadmin'] && $this->is_allowed(ADD_RIGHT))
 		{
 			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
-			$pub = new LearningObjectPublisher($this, 'announcement');
+			$pub = new LearningObjectPublisher($this, 'announcement', true);
 			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), true) . '"><img src="'.api_get_path(WEB_CODE_PATH).'/img/browser.gif" alt="'.get_lang('BrowserTitle').'" style="vertical-align:middle;"/> '.get_lang('BrowserTitle').'</a></p>';
 			$html[] =  $pub->as_html();
 			$this->display_header();
