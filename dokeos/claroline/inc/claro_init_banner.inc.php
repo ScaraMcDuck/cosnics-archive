@@ -108,31 +108,31 @@ if ((api_get_setting('showonline','world') == "true" AND !$_uid) OR (api_get_set
 	$online_in_course = who_is_online_in_this_course(api_get_user_id(), 30, $_course['id']);
 	$number_online_in_course= count( $online_in_course );
 	echo "<li>".get_lang('UsersOnline').": ";
-	
+
 	// Display the who's online of the platform
 	if ((api_get_setting('showonline','world') == "true" AND !$_uid) OR (api_get_setting('showonline','users') == "true" AND $_uid))
 	{
 		echo "<a href='".api_get_path(WEB_PATH)."whoisonline.php' target='_top'>".$number."</a>";
 	}
-	
+
 	// Display brackets if who's online of the campus AND who's online in the course are active
 	if (api_get_setting('showonline','users') == "true" AND api_get_setting('showonline','course') == "true" AND $_course)
 	{
 		echo '(';
 	}
-	
+
 	// Display the who's online for the course
 	if ($_course AND api_get_setting('showonline','course') == "true")
-	{ 
+	{
 		echo "<a href='".api_get_path(REL_CLARO_PATH)."online/whoisonlinecourse.php' target='_top'>$number_online_in_course ".get_lang('InThisCourse')."</a>";
 	}
-	
+
 	// Display brackets if who's online of the campus AND who's online in the course are active
 	if (api_get_setting('showonline','users') == "true" AND api_get_setting('showonline','course') == "true" AND $_course)
 	{
 		echo ')';
 	}
-	
+
 	echo '</li>';
 }
 if ($_uid)
@@ -158,7 +158,7 @@ if ( api_is_allowed_to_edit() )
 	}
 }
 ?>
-		</ul> 
+		</ul>
 	</div>
 <!-- link to campus home (not logged in)
 	<a href="<?php echo api_get_path(WEB_PATH); ?>index.php" target="_top"><?php echo api_get_setting('siteName'); ?></a>
@@ -191,40 +191,53 @@ if ($_uid)
 	</form>
 
 <?php
-if($GLOBALS["this_section"] == "mycourses") 
+if($GLOBALS["this_section"] == "mycourses")
 	{
 	$link_class='class="here"';
-	}	
-	else 
+	}
+	else
 	{
 	$link_class='';
-	}			
+	}
 ?>
 	<a <?php echo $link_class ?> href="<?php echo api_get_path(WEB_PATH); ?>user_portal.php" target="_top">
 	<?php echo get_lang("MyCourses"); ?></a>
 
 <?php
-if($GLOBALS["this_section"] == "myprofile") 
+if($GLOBALS["this_section"] == "myrepository")
 	{
 	$link_class='class="here"';
-	}	
-	else 
+	}
+	else
 	{
 	$link_class='';
-	}			
+	}
+?>
+	<a <?php echo $link_class ?> href="<?php echo api_get_path(WEB_PATH); ?>index_repository_manager.php" target="_top">
+	<?php echo get_lang("MyRepository"); ?></a>
+
+<?php
+if($GLOBALS["this_section"] == "myprofile")
+	{
+	$link_class='class="here"';
+	}
+	else
+	{
+	$link_class='';
+	}
 ?>
 	<a <?php echo $link_class ?> href="<?php echo $clarolineRepositoryWeb ?>auth/profile.php<?php if(!empty($_course['path'])) echo '?coursePath='.$_course['path'].'&amp;courseCode='.$_course['official_code']; ?>" target="_top">
 	<?php echo get_lang("ModifyProfile"); ?></a>
 
 <?php
-if($GLOBALS["this_section"] == "myagenda") 
+if($GLOBALS["this_section"] == "myagenda")
 	{
 	$link_class='class="here"';
-	}	
-	else 
+	}
+	else
 	{
 	$link_class='';
-	}			
+	}
 ?>
 	<a <?php echo $link_class ?> href="<?php echo $clarolineRepositoryWeb ?>calendar/myagenda.php<?php if(!empty($_course['path'])) echo '?coursePath='.$_course['path'].'&amp;courseCode='.$_course['official_code']; ?>" target="_top">
 	<?php echo get_lang("MyAgenda"); ?></a>
@@ -232,28 +245,28 @@ if($GLOBALS["this_section"] == "myagenda")
 <?php
 	if (api_is_platform_admin())
 	{
- 	if($GLOBALS["this_section"] == "platform_admin") 
+ 	if($GLOBALS["this_section"] == "platform_admin")
 		{
 		$link_class='class="here"';
-		}	
-		else 
+		}
+		else
 		{
 		$link_class='';
-		}			
+		}
 		echo "<a id=\"platform_admin\" ".$link_class." href=\"".$rootAdminWeb."\" target=\"_top\">".get_lang("PlatformAdmin")."</a>";
 	}
 
 ?>
 	</div> <!-- end of header3 (user) section -->
-	
+
 <?php
 }
 ?>
 
 	<div id="header4">
-	<div id="toolshortcuts"><?php 
-  if(api_get_setting('show_toolshortcuts')=="true") { 
-  	require_once('tool_navigation_menu.inc.php'); 
+	<div id="toolshortcuts"><?php
+  if(api_get_setting('show_toolshortcuts')=="true") {
+  	require_once('tool_navigation_menu.inc.php');
   	show_navigation_tool_shortcuts();
   	}  ?></div>
 <?php
@@ -358,11 +371,11 @@ if (!$chat)
 	Navigation menu section
 -----------------------------------------------------------------------------
 */
-if(api_get_setting("show_navigation_menu") == "true") 
+if(api_get_setting("show_navigation_menu") == "true")
 {
-	
+
  api_show_course_navigation_menu($_GET['isHidden']);
- if (isset($_cid) ) 
+ if (isset($_cid) )
 	{
 	echo '<div id="menuButton">';
  	echo $output_string_menu;
@@ -372,8 +385,8 @@ if(api_get_setting("show_navigation_menu") == "true")
 		{
 		if($_SESSION['hideMenu'] =="shown")
 		{
- 			if (isset($_cid) ) 
-                	{   
+ 			if (isset($_cid) )
+                	{
 			echo '<div id="centerwrap"> <!-- start of #centerwrap -->';
 			echo '<div id="center"> <!-- start of #center -->';
 			}
@@ -381,11 +394,11 @@ if(api_get_setting("show_navigation_menu") == "true")
  	}
  	else
  	{
-		if (isset($_cid) ) 
-		{   
+		if (isset($_cid) )
+		{
 		echo '<div id="centerwrap"> <!-- start of #centerwrap -->';
 		echo '<div id="center"> <!-- start of #center -->';
-		}   
+		}
  	}
  }
 }
