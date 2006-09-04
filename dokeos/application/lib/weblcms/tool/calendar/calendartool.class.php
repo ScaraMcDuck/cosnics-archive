@@ -46,7 +46,10 @@ class CalendarTool extends RepositoryTool
 		else
 		{
 			$this->display_header();
-			echo '<p><a href="' . $this->get_url(array('admin' => 1), true) . '"><img src="'.api_get_path(WEB_CODE_PATH).'/img/publish.gif" alt="'.get_lang('Publish').'" style="vertical-align:middle;"/> '.get_lang('Publish').'</a></p>';
+			if($this->is_allowed(ADD_RIGHT))
+			{
+				echo '<p><a href="' . $this->get_url(array('admin' => 1), true) . '"><img src="'.api_get_path(WEB_CODE_PATH).'/img/publish.gif" alt="'.get_lang('Publish').'" style="vertical-align:middle;"/> '.get_lang('Publish').'</a></p>';
+			}
 			echo $this->perform_requested_actions();
 			if($_GET[self :: PARAM_ACTION] == self :: ACTION_DELETE || $_GET['view'] == 'list')
 			{
