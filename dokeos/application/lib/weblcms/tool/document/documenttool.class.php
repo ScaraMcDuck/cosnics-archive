@@ -23,29 +23,32 @@ class DocumentTool extends RepositoryTool
 		{
 			$_SESSION['documenttoolmode'] = 0;
 		}
-		$html[] = '<ul style="list-style: none; padding: 0; margin: 0 0 1em 0">';
-		$i = 0;
-		$options['browser'] = 'BrowserTitle';
-		$options['publish'] = 'Publish';
-		$options['category'] = 'ManageCategories';
-		foreach ($options as $key => $title)
+		if($this->is_allowed(ADD_RIGHT))
 		{
-			$current = ($_SESSION['documenttoolmode'] == $i);
-			$html[] =  '<li style="display: inline; margin: 0 1ex 0 0; padding: 0">';
-			if (!$current)
+			$html[] = '<ul style="list-style: none; padding: 0; margin: 0 0 1em 0">';
+			$i = 0;
+			$options['browser'] = 'BrowserTitle';
+			$options['publish'] = 'Publish';
+			$options['category'] = 'ManageCategories';
+			foreach ($options as $key => $title)
 			{
-				$html[] =   '<a href="' . $this->get_url(array('documenttoolmode' => $i), true) . '">';
+				$current = ($_SESSION['documenttoolmode'] == $i);
+				$html[] =  '<li style="display: inline; margin: 0 1ex 0 0; padding: 0">';
+				if (!$current)
+				{
+					$html[] =   '<a href="' . $this->get_url(array('documenttoolmode' => $i), true) . '">';
+				}
+				$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$key.'.gif" alt="'.get_lang($title).'" style="vertical-align:middle;"/> ';
+				$html[] =   get_lang($title);
+				if (!$current)
+				{
+					$html[] =  '</a>';
+				}
+				$html[] =  '</li>';
+				$i++;
 			}
-			$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$key.'.gif" alt="'.get_lang($title).'" style="vertical-align:middle;"/> ';
-			$html[] =   get_lang($title);
-			if (!$current)
-			{
-				$html[] =  '</a>';
-			}
-			$html[] =  '</li>';
-			$i++;
+			$html[] =  '</ul>';
 		}
-		$html[] =  '</ul>';
 		$html[] = $this->perform_requested_actions();
 		switch ($_SESSION['documenttoolmode'])
 		{
