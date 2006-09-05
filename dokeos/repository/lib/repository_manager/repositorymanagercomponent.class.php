@@ -181,6 +181,18 @@ abstract class RepositoryManagerComponent {
 		return $this->get_parent()->count_learning_objects($type, $condition, $state, $different_parent_state);
 	}
 
+	function get_number_of_categories()
+	{
+		if(!isset($this->number_of_categories))
+		{
+			$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->browser->get_user_id);
+			$datamanager = RepositoryDataManager :: get_instance();
+			$this->number_of_categories = $datamanager->count_learning_objects('category', $condition);
+		}
+		return $this->number_of_categories;
+
+	}
+
 	function learning_object_deletion_allowed($learning_object)
 	{
 		return $this->get_parent()->learning_object_deletion_allowed($learning_object);
