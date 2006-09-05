@@ -185,7 +185,7 @@ abstract class RepositoryManagerComponent {
 	{
 		if(!isset($this->number_of_categories))
 		{
-			$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->browser->get_user_id);
+			$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->get_user_id());
 			$datamanager = RepositoryDataManager :: get_instance();
 			$this->number_of_categories = $datamanager->count_learning_objects('category', $condition);
 		}
