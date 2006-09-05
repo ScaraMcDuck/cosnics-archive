@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * Document tool - list renderer
  * @package application.weblcms.tool
  * @subpackage document

@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * Dropbox tool - browser
  * @package application.weblcms.tool
  * @subpackage dropbox

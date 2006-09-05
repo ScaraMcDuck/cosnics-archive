@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * Forum tool - topic browser
  * @package application.weblcms.tool
  * @subpackage forum

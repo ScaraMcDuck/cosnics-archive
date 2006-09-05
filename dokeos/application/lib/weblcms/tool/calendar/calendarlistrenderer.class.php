@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * Calendar tool - list renderer
  * @package application.weblcms.tool
  * @subpackage calendar

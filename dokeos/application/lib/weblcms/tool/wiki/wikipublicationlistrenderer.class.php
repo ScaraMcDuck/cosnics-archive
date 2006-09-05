@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * Wiki tool - list renderer
  * @package application.weblcms.tool
  * @subpackage wiki

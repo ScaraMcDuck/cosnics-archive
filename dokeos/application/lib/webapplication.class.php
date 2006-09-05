@@ -1,17 +1,18 @@
 <?php
 /**
+ * $Id$
  * @package application
  */
 require_once dirname(__FILE__).'/application.class.php';
 
 abstract class WebApplication extends Application {
 	private $parameters;
-	
+
 	function WebApplication()
 	{
 		$this->parameters = array();
 	}
-	
+
 	/**
 	 * Gets the URL of the current page in the application. Optionally takes
 	 * an associative array of name/value pairs representing additional query
@@ -40,7 +41,7 @@ abstract class WebApplication extends Application {
 		}
 		return $url;
 	}
-	
+
 	/**
 	 * Returns the current URL parameters.
 	 * @return array The parameters.
@@ -49,7 +50,7 @@ abstract class WebApplication extends Application {
 	{
 		return $this->parameters;
 	}
-	
+
 	/**
 	 * Returns the value of the given URL parameter.
 	 * @param string $name The parameter name.
@@ -59,7 +60,7 @@ abstract class WebApplication extends Application {
 	{
 		return $this->parameters[$name];
 	}
-	
+
 	/**
 	 * Sets the value of a URL parameter.
 	 * @param string $name The parameter name.

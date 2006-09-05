@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * Document tool - browser
  * @package application.weblcms.tool
  * @subpackage document

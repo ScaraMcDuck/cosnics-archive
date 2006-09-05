@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * Tool
  * @package application.weblcms.tool
  */
