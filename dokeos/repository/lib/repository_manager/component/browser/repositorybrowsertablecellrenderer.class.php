@@ -77,11 +77,14 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 				'img' => $this->browser->get_web_code_path().'img/recycle_bin_na.gif'
 			);
 		}
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_learning_object_moving_url($learning_object),
-			'label' => get_lang('Move'),
-			'img' => $this->browser->get_web_code_path().'img/move.gif'
-		);
+		if($this->browser->get_number_of_categories() > 1)
+		{
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_learning_object_moving_url($learning_object),
+				'label' => get_lang('Move'),
+				'img' => $this->browser->get_web_code_path().'img/move.gif'
+			);
+		}
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_metadata_editing_url($learning_object),
 			'label' => get_lang('Metadata'),
