@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package application.weblcms
  */
 require_once dirname(__FILE__).'/browser/learningobjectpublicationlistrenderer.class.php';

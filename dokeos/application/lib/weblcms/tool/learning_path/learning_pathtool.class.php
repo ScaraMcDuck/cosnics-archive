@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * Learning path tool
  * @package application.weblcms.tool
  * @subpackage learning_path

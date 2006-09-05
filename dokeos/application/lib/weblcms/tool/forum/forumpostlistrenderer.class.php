@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * Forum tool - post list renderer
  * @package application.weblcms.tool
  * @subpackage forum

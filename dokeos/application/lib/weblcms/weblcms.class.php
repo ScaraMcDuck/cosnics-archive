@@ -1,6 +1,6 @@
 <?php
-
 /**
+ * $Id$
  * @package application.weblcms
  */
 require_once dirname(__FILE__).'/../webapplication.class.php';
