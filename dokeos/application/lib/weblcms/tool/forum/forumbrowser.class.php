@@ -56,6 +56,7 @@ class ForumBrowser extends LearningObjectPublicationBrowser
 		$visible_publications = array ();
 		$renderer = $this->get_publication_list_renderer();
 		$index = 0;
+		$last_visit_date = $this->get_last_visit_date();
 		while ($publication = $publications->next_result())
 		{
 			// If the publication is hidden and the user is not allowed to DELETE or EDIT, don't show this publication
@@ -71,7 +72,12 @@ class ForumBrowser extends LearningObjectPublicationBrowser
 			{
 				//$forum_table_row[] = $publication->get_id();
 			}
-			$forum_table_row[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/forum.gif">';
+			$new = '';
+			if( $publication->get_publication_date() >= $last_visit_date)
+			{
+				$new = '_new';
+			}
+			$forum_table_row[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/forum'.$new.'.gif">';
 			$forum_url = $this->get_url(array('forum'=>$publication->get_id()));
 			$forum_table_row[] = '<a href="'.$forum_url.'">'.$forum->get_title().'</a><br /><small>'.$forum->get_description().'</small>';
 			$forum_table_row[] = $forum->get_topic_count();
