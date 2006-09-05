@@ -25,28 +25,51 @@ require_once dirname(__FILE__).'/../condition/equalitycondition.class.php';
  */
 class RepositorySearchForm extends FormValidator
 {
+	/**#@+
+	 * Search parameter
+	 */
 	const PARAM_ADVANCED_SEARCH = 'advanced_search';
 	const PARAM_SIMPLE_SEARCH_QUERY = 'query';
 	const PARAM_TITLE_SEARCH_QUERY = 'title_matches';
 	const PARAM_DESCRIPTION_SEARCH_QUERY = 'description_matches';
 	const PARAM_SEARCH_SCOPE = 'scope';
-
+	/**#@-*/
+	/**
+	 * Search in whole repository
+	 */
 	const SEARCH_SCOPE_REPOSITORY = 0; //default
+	/**
+	 * Search in current category
+	 */
 	const SEARCH_SCOPE_CATEGORY = 1;
+	/**
+	 * Search in current category and subcategories
+	 */
 	const SEARCH_SCOPE_CATEGORY_AND_SUBCATEGORIES = 2;
-
+	/**
+	 * Constant defining advanced search
+	 */
 	const SESSION_KEY_ADVANCED_SEARCH = 'repository_advanced_search';
-
+	/**
+	 * Name of the search form
+	 */
 	const FORM_NAME = 'search';
-
+	/**
+	 * The repository manager in which this search form is used
+	 */
 	private $manager;
-
+	/**
+	 * Array holding the frozen elements in this search form
+	 */
 	private $frozen_elements;
-
+	/**
+	 * The renderer used to display the form
+	 */
 	private $renderer;
-
+	/**
+	 * Advanced or simple search form
+	 */
 	private $advanced;
-
 	/**
 	 * Creates a new search form
 	 * @param RepositoryManager $manager The repository manager in which this
@@ -76,7 +99,10 @@ class RepositorySearchForm extends FormValidator
 		$this->autofreeze();
 		$this->accept($this->renderer);
 	}
-
+	/**
+	 * Gets the frozen element values
+	 * @return array
+	 */
 	function get_frozen_values()
 	{
 		$values = array ();
@@ -86,7 +112,9 @@ class RepositorySearchForm extends FormValidator
 		}
 		return $values;
 	}
-
+	/**
+	 * Freezes the elements defined in $frozen_elements
+	 */
 	private function autofreeze()
 	{
 		if ($this->validate())

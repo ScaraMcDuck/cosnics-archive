@@ -9,12 +9,18 @@
  * represented by a repository manager component and should extend this class.
  */
 abstract class RepositoryManagerComponent {
+	/**
+	 * The number of components allready instantiated
+	 */
 	private static $component_count = 0;
-
+	/**
+	 * The repository manager in which this componet is used
+	 */
 	private $repository_manager;
-
+	/**
+	 * The id of this component
+	 */
 	private $id;
-
 	/**
 	 * Constructor
 	 * @param RepositoryManager $repository_manager The repository manager which
@@ -165,22 +171,32 @@ abstract class RepositoryManagerComponent {
 	{
 		return $this->get_parent()->get_root_category_id();
 	}
-
+	/**
+	 * @see RepositoryManager::retrieve_learning_object()
+	 */
 	function retrieve_learning_object($id, $type = null)
 	{
 		return $this->get_parent()->retrieve_learning_object($id, $type);
 	}
-
+	/**
+	 * @see RepositoryManager::retrieve_learning_objects()
+	 */
 	function retrieve_learning_objects($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
 	{
 		return $this->get_parent()->retrieve_learning_objects($type, $condition, $orderBy, $orderDir, $offset, $maxObjects, $state, $different_parent_state);
 	}
-
+	/**
+	 * @see RepositoryManager::count_learning_objects()
+	 */
 	function count_learning_objects($type = null, $condition = null, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false)
 	{
 		return $this->get_parent()->count_learning_objects($type, $condition, $state, $different_parent_state);
 	}
-
+	/**
+	 * Gets the number of categories the user has defined in his repository
+	 * @todo This function should probably move to repositorymanager
+	 * @return int
+	 */
 	function get_number_of_categories()
 	{
 		if(!isset($this->number_of_categories))
@@ -192,92 +208,131 @@ abstract class RepositoryManagerComponent {
 		return $this->number_of_categories;
 
 	}
-
+	/**
+	 * @see RepositoryManager::learning_object_deletion_allowed()
+	 */
 	function learning_object_deletion_allowed($learning_object)
 	{
 		return $this->get_parent()->learning_object_deletion_allowed($learning_object);
 	}
-
+	/**
+	 * @see RepositoryManager::get_learning_object_publication_attributes()
+	 */
 	function get_learning_object_publication_attributes($id)
 	{
 		return $this->get_parent()->get_learning_object_publication_attributes($id);
 	}
-
+	/**
+	 * @see RepositoryManager::get_learning_object_viewing_url()
+	 */
 	function get_learning_object_viewing_url($learning_object)
 	{
 		return $this->get_parent()->get_learning_object_viewing_url($learning_object);
 	}
-
+	/**
+	 * @see RepositoryManager::get_learning_object_editing_url()
+	 */
 	function get_learning_object_editing_url($learning_object)
 	{
 		return $this->get_parent()->get_learning_object_editing_url($learning_object);
 	}
-
+	/**
+	 * @see RepositoryManager::get_learning_object_recycling_url()
+	 */
 	function get_learning_object_recycling_url($learning_object)
 	{
 		return $this->get_parent()->get_learning_object_recycling_url($learning_object);
 	}
-
+	/**
+	 * @see RepositoryManager::get_learning_object_restoring_url()
+	 */
 	function get_learning_object_restoring_url($learning_object)
 	{
 		return $this->get_parent()->get_learning_object_restoring_url($learning_object);
 	}
-
+	/**
+	 * @see RepositoryManager::get_learning_object_deletion_url()
+	 */
 	function get_learning_object_deletion_url($learning_object)
 	{
 		return $this->get_parent()->get_learning_object_deletion_url($learning_object);
 	}
-
+	/**
+	 * @see RepositoryManager::get_learning_object_moving_url()
+	 */
 	function get_learning_object_moving_url($learning_object)
 	{
 		return $this->get_parent()->get_learning_object_moving_url($learning_object);
 	}
-
+	/**
+	 * @see RepositoryManager::get_learning_object_metadata_editing_url()
+	 */
 	function get_learning_object_metadata_editing_url($learning_object)
 	{
 		return $this->get_parent()->get_learning_object_metadata_editing_url($learning_object);
 	}
-
+	/**
+	 * @see RepositoryManager::get_learning_object_rights_editing_url()
+	 */
 	function get_learning_object_rights_editing_url($learning_object)
 	{
 		return $this->get_parent()->get_learning_object_rights_editing_url($learning_object);
 	}
-
+	/**
+	 * @see RepositoryManager::get_learning_object_types()
+	 */
 	function get_learning_object_types()
 	{
 		return $this->get_parent()->get_learning_object_types();
 	}
-
+	/**
+	 * @see RepositoryManager::get_web_code_path()
+	 */
 	function get_web_code_path()
 	{
 		return $this->get_parent()->get_web_code_path();
 	}
-
+	/**
+	 * @see RepositoryManager::not_allowed()
+	 */
 	function not_allowed()
 	{
 		$this->get_parent()->not_allowed();
 	}
-
+	/**
+	 * @see RepositoryManager::get_user_info()
+	 */
 	function get_user_info($id)
 	{
 		return $this->get_parent()->get_user_info($id);
 	}
-
+	/**
+	 * @see RepositoryManager::get_type_filter_url()
+	 */
 	function get_type_filter_url($type)
 	{
 		return $this->get_parent()->get_type_filter_url($type);
 	}
-
+	/**
+	 * @see RepositoryManager::get_search_condition()
+	 */
 	function get_search_condition()
 	{
 		return $this->get_parent()->get_search_condition();
 	}
-
+	/**
+	 * @see RepositoryManager::get_category_condition()
+	 */
 	function get_category_condition($category_id)
 	{
 		return $this->get_parent()->get_category_condition($category_id);
 	}
-
+	/**
+	 * Create a new repository manager component
+	 * @param string $type The type of the component to create.
+	 * @param RepositoryManager $repository_manager The repository manager in
+	 * which the created component will be used
+	 */
 	static function factory($type, $repository_manager)
 	{
 		$filename = dirname(__FILE__).'/component/'.strtolower($type).'.class.php';

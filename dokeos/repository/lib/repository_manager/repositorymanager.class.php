@@ -136,7 +136,9 @@ class RepositoryManager
 		$component->run();
 	}
 
-	// TODO: Clean this up. It's all SortableTable's fault. :-(
+	/**
+	 * @todo Clean this up. It's all SortableTable's fault. :-(
+	 */
 	private function parse_input_from_table()
 	{
 		if (isset ($_POST['action']))
