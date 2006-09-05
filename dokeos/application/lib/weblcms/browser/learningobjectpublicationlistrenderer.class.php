@@ -238,8 +238,16 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_move_to_category_action($publication)
 	{
-		$url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_TO_CATEGORY, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-		$link = '<a href="'.$url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/move.gif"  alt=""/></a>';
+		$categories = $this->browser->get_categories(true);
+		if(count($categories) > 1)
+		{
+			$url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_TO_CATEGORY, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+			$link = '<a href="'.$url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/move.gif"  alt=""/></a>';
+		}
+		else
+		{
+			$link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/move_na.gif"  alt=""/>';
+		}
 		return $link;
 	}
 
