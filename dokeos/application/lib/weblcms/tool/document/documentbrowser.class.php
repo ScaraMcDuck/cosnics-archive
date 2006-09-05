@@ -40,18 +40,28 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 		$index = 0;
 		while ($publication = $pubs->next_result())
 		{
+			// If the publication is hidden and the user is not allowed to DELETE or EDIT, don't show this publication
+			if (!$publication->is_visible_for_target_users() && !($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
+			{
+				continue;
+			}
 			$first = ($index == 0);
 			$last = ($index == $pubs->size() - 1);
 			$row = array ();
+			$wrapper = '%s';
+			if(!$publication->is_visible_for_target_users())
+			{
+				$wrapper = '<span class="invisible">%s</span>';
+			}
 			if($this->is_allowed(EDIT_RIGHT) || $this->is_allowed(DELETE_RIGHT))
 			{
 				$row[] = $publication->get_id();
 			}
-			$row[] = $renderer->render_title($publication);
-			$row[] = $renderer->render_description($publication);
-			$row[] = $renderer->render_publication_date($publication);
-			$row[] = $renderer->render_publisher($publication);
-			$row[] = $renderer->render_publication_targets($publication);
+			$row[] = sprintf($wrapper,$renderer->render_title($publication));
+			$row[] = sprintf($wrapper,$renderer->render_description($publication));
+			$row[] = sprintf($wrapper,$renderer->render_publication_date($publication));
+			$row[] = sprintf($wrapper,$renderer->render_publisher($publication));
+			$row[] = sprintf($wrapper,$renderer->render_publication_targets($publication));
 			if($this->is_allowed(EDIT_RIGHT) || $this->is_allowed(DELETE_RIGHT))
 			{
 				$row[] = $renderer->render_publication_actions($publication, $first, $last);
@@ -71,9 +81,8 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 	function get_condition()
 	{
 		$tool_cond= new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'document');
-		$shown_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_HIDDEN, 0);
 		$category_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $this->get_publication_category_tree()->get_current_category_id());
-		return new AndCondition($tool_cond, $shown_cond, $category_cond);
+		return new AndCondition($tool_cond, $category_cond);
 	}
 }
 ?>
