@@ -18,12 +18,32 @@ class QuotaManager
 	 */
 	private $owner;
 	/**
+	 * The used disk space
+	 */
+	private $used_disk_space;
+	/**
+	 * The used database space
+	 */
+	private $used_database_space;
+	/**
+	 * The max disk space
+	 */
+	private $max_disk_space;
+	/**
+	 * The max database space
+	 */
+	private $max_database_space;
+	/**
 	 * Create a new QuotaManager
 	 * @param int $owner The user id of the owner
 	 */
 	public function QuotaManager($owner)
 	{
 		$this->owner = $owner;
+		$this->used_disk_space = null;
+		$this->used_database_space = null;
+		$this->max_disk_space = null;
+		$this->max_database_space = null;
 	}
 	/**
 	 * Get the used disk space
@@ -31,8 +51,12 @@ class QuotaManager
 	 */
 	public function get_used_disk_space()
 	{
-		$datamanager = RepositoryDatamanager::get_instance();
-		return $datamanager->get_used_disk_space($this->owner);
+		if(is_null($this->used_disk_space))
+		{
+			$datamanager = RepositoryDatamanager::get_instance();
+			$this->used_disk_space = $datamanager->get_used_disk_space($this->owner);
+		}
+		return $this->used_disk_space;
 	}
 	/**
 	 * Get the used disk space
@@ -57,9 +81,13 @@ class QuotaManager
 	 */
 	public function get_used_database_space()
 	{
-		$datamanager = RepositoryDatamanager::get_instance();
-		$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID,$this->owner);
-		return $datamanager->count_learning_objects(null,$condition,-1);
+		if(is_null($this->used_database_space))
+		{
+			$datamanager = RepositoryDatamanager::get_instance();
+			$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID,$this->owner);
+			$this->used_database_space = $datamanager->count_learning_objects(null,$condition,-1);
+		}
+		return $this->used_database_space;
 	}
 	/**
 	 * Get the used database space
@@ -83,12 +111,16 @@ class QuotaManager
 	 */
 	public function get_max_disk_space()
 	{
-		// TODO : This code is here temporarily for testing pupuses. This should be moved to the main_api function api_get_user_info
-		$user_table = Database::get_main_table(MAIN_USER_TABLE);
-		$sql = "SELECT disk_quota FROM ".$user_table." WHERE user_id = '".$this->owner."'";
-		$res = api_sql_query($sql,__FILE__,__LINE__);
-		$quota = mysql_fetch_object($res);
-		return $quota->disk_quota;
+		if( is_null($this->max_disk_space))
+		{
+			// TODO : This code is here temporarily for testing pupuses. This should be moved to the main_api function api_get_user_info
+			$user_table = Database::get_main_table(MAIN_USER_TABLE);
+			$sql = "SELECT disk_quota FROM ".$user_table." WHERE user_id = '".$this->owner."'";
+			$res = api_sql_query($sql,__FILE__,__LINE__);
+			$quota = mysql_fetch_object($res);
+			$this->max_disk_space = $quota->disk_quota;
+		}
+		return $this->max_disk_space;
 	}
 	/**
 	 * Get the maximum allowed database space
@@ -96,12 +128,16 @@ class QuotaManager
 	 */
 	public function get_max_database_space()
 	{
-		// TODO : This code is here temporarily for testing pupuses. This should be moved to the main_api function api_get_user_info
-		$user_table = Database::get_main_table(MAIN_USER_TABLE);
-		$sql = "SELECT database_quota FROM ".$user_table." WHERE user_id = '".$this->owner."'";
-		$res = api_sql_query($sql,__FILE__,__LINE__);
-		$quota = mysql_fetch_object($res);
-		return $quota->database_quota;
+		if( is_null($this->max_database_space))
+		{
+			// TODO : This code is here temporarily for testing pupuses. This should be moved to the main_api function api_get_user_info
+			$user_table = Database::get_main_table(MAIN_USER_TABLE);
+			$sql = "SELECT database_quota FROM ".$user_table." WHERE user_id = '".$this->owner."'";
+			$res = api_sql_query($sql,__FILE__,__LINE__);
+			$quota = mysql_fetch_object($res);
+			$this->max_database_space = $quota->database_quota;
+		}
+		return $this->max_database_space;
 	}
 }
 ?>
