@@ -170,9 +170,6 @@ class DocumentForm extends LearningObjectForm
 			if (isset ($_FILES['file']) && isset($_FILES['file']['error']))
 			{
 			  	switch($_FILES['file']['error']){
-			   		case 0: //no error; possible file attack!
-			     		$errors['upload_or_create'] = get_lang('UploadProblem');
-			     		break;
 			   		case 1: //uploaded file exceeds the upload_max_filesize directive in php.ini
 			     		$errors['upload_or_create'] = get_lang('FileTooBig');
 			    		break;
@@ -184,9 +181,6 @@ class DocumentForm extends LearningObjectForm
 			     		break;
 			   		case 4: //no file was uploaded
 			     		$errors['upload_or_create'] = get_lang('NoFileSelected');
-			     		break;
-			   		default: //a default error, just in case!  :)
-			     		$errors['upload_or_create'] = get_lang('UploadProblem');
 			     		break;
 			  	}
 			}
