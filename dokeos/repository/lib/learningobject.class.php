@@ -606,7 +606,13 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return false;
 	}
-
+	/**
+	 * Gets the name of the icon corresponding to this learning object.
+	 */
+	function get_icon_name()
+	{
+		return $this->get_type();
+	}
 	/**
 	 * Checks if the learning object's additional properties have already been
 	 * loaded, and requests them from the data manager if they have not.
