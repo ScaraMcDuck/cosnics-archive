@@ -123,7 +123,7 @@ END;
 					$first = $offset[0] - 1;
 					$results->skip($first);
 					$str = htmlentities(str_ireplace(array('%first%', '%last%', '%total%'), array($offset[0], $offset[1], $count), get_lang('Results_Through_Of_From_')));
-					$str = str_ireplace('%repository%', '<a href="'.htmlentities($repository_url).'">'.htmlentities($repository_title).'</a>', $str);
+					$str = str_ireplace('%repository%', '<a href="'.htmlentities($repository_url).'">'.htmlspecialchars($repository_title).'</a>', $str);
 					echo '<h3>'.$str.'</h3>';
 					if ($result_count > $count)
 					{
@@ -161,7 +161,7 @@ END;
 		 * Type GIFs should be in a separate directory.
 		 */
 		echo '<li class="portal_search_result" style="background-image: url(', api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif);">';
-		echo '<div class="portal_search_result_title"><a href="'.htmlentities($object->get_view_url()).'">'.htmlentities($object->get_title()).'</a></div>';
+		echo '<div class="portal_search_result_title"><a href="'.htmlentities($object->get_view_url()).'">'.htmlspecialchars($object->get_title()).'</a></div>';
 		/*
 		 * We can't guarantee types from remote repositories will be registered
 		 * locally, so all the formatting we do is remove underscores.
