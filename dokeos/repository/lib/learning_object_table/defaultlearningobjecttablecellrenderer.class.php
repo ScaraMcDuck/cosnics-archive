@@ -59,7 +59,8 @@ class DefaultLearningObjectTableCellRenderer implements LearningObjectTableCellR
 					return $learning_object->get_id();
 				case LearningObject :: PROPERTY_TYPE :
 					$type = $learning_object->get_type();
-					return '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$type.'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($type).'TypeName')).'"/>';
+					$icon = $learning_object->get_icon_name();
+					return '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$icon.'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($type).'TypeName')).'"/>';
 				case LearningObject :: PROPERTY_TITLE :
 					return htmlspecialchars($learning_object->get_title());
 				case LearningObject :: PROPERTY_DESCRIPTION :
