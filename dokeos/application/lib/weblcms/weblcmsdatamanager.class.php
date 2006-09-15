@@ -238,6 +238,22 @@ abstract class WeblcmsDataManager
 	 * @return boolean True if deletion succceeded, false otherwise.
 	 */
 	abstract function delete_learning_object_publication_category($category);
+
+	/**
+	 * Gets the course modules in a given course
+	 * @param string $course_code The course code
+	 * @return array The list of available course modules
+	 */
+	abstract function get_course_modules($course_code);
+
+	/**
+	 * Sets the visibility of a course module.
+	 * @param string $course_code
+	 * @param string $module
+	 * @param boolean $visible
+	 */
+	abstract function set_module_visible($course_code,$module,$visible);
+
 }
 
 ?>
