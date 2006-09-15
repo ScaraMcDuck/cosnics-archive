@@ -136,7 +136,9 @@ class DocumentForm extends LearningObjectForm
 		//Change encoding
 		$valid_filename = mb_convert_encoding($desired_filename,"ISO-8859-1","UTF-8");
 		//Replace .php by .phps
-		$valid_filename = str_replace('.php','.phps',$valid_filename);
+		$valid_filename = eregi_replace("\.(php.?|phtml)$", ".phps", $valid_filename);
+		//If first letter is . add something before
+		$valid_filename = eregi_replace("^\.","0.",$valid_filename);
 		//Replace accented characters
 		$valid_filename = strtr($valid_filename, "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÜİàáâãäåçèéêëìíîïğñòóôõöøùúûüıÿ", "aaaaaaceeeeiiiidnoooooouuuuyyaaaaaaceeeeiiiidnoooooouuuuyy");
 		//Replace all except letters, numbers, - and . to underscores
