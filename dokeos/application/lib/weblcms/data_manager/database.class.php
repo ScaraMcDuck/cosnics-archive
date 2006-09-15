@@ -378,6 +378,25 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 	}
 
+
+	function get_course_modules($course_code)
+	{
+		$query = 'SELECT * FROM '.$this->escape_table_name('course_module').' WHERE course_code = ?';
+		$res = $this->connection->query($query,$course_code);
+		$modules = array();
+		$module = null;
+		while ($res->fetchInto($module, DB_FETCHMODE_OBJECT)) {
+		    $modules[] = $module;
+		}
+		return $modules;
+	}
+
+	function set_module_visible($course_code,$module,$visible)
+	{
+		$query = 'UPDATE '.$this->escape_table_name('course_module').' SET visible = ? WHERE course_code = ? AND name = ?';
+		$this->connection->query($query,array($visible,$course_code,$module));
+	}
+
 	private function move_learning_object_publication_up($publication, $places)
 	{
 		$oldIndex = $publication->get_display_order_index();
