@@ -9,6 +9,7 @@ require_once dirname(__FILE__).'/learningobjectpublicationcategory.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php';
 require_once dirname(__FILE__).'/../../../claroline/inc/lib/groupmanager.lib.php';
 require_once dirname(__FILE__).'/tool/tool.class.php';
+require_once dirname(__FILE__).'/toollistrenderer.class.php';
 
 /**
 ==============================================================================
@@ -23,6 +24,7 @@ require_once dirname(__FILE__).'/tool/tool.class.php';
 class Weblcms extends WebApplication
 {
 	const PARAM_TOOL = 'tool';
+	const PARAM_ACTION = 'weblcms_action';
 
 	/**
 	 * The tools that this application offers.
@@ -42,6 +44,7 @@ class Weblcms extends WebApplication
 	{
 		parent :: __construct();
 		$this->set_parameter(self :: PARAM_TOOL, $_GET[self :: PARAM_TOOL]);
+		$this->set_parameter(self :: PARAM_ACTION, $_GET[self :: PARAM_ACTION]);
 		$this->tools = array ();
 		$this->load_tools();
 	}
@@ -52,7 +55,24 @@ class Weblcms extends WebApplication
 	function run()
 	{
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
-		if ($tool)
+		$action = $this->get_parameter(self::PARAM_ACTION);
+		if($action)
+		{
+			$wdm = WeblcmsDataManager :: get_instance();
+			switch($action)
+			{
+				case 'make_visible':
+					$wdm->set_module_visible($this->get_course_id(),$tool,true);
+					$this->load_tools();
+					break;
+				case 'make_invisible':
+					$wdm->set_module_visible($this->get_course_id(),$tool,false);
+					$this->load_tools();
+					break;
+			}
+			$this->set_parameter(self :: PARAM_TOOL, null);
+		}
+		if ($tool && !$action)
 		{
 			$class = Tool :: type_to_class($tool);
 			$toolObj = new $class ($this);
@@ -62,56 +82,9 @@ class Weblcms extends WebApplication
 		else
 		{
 			$this->display_header();
-			echo<<<END
-<style type="text/css"><!--
-#tool-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-#tool-list li {
-  display: block;
-  float: left;
-  width: 49%;
-  margin: 0;
-  padding: 0;
-}
-#tool-list a {
-  border: 1px solid #F0F0F0;
-  display: block;
-  margin: 0 10px 10px 0;
-  padding: 15px 10px 0px 44px;
-  background-repeat: no-repeat;
-  background-position: 10px 10px;
-  font-size: 14px;
-  height: 29px; /* 44 - 15 */
-  line-height: 1em;
-  overflow: hidden;
-}
-#tool-list a:hover {
-  border: 1px solid #CCC;
-  border-color: #E0E0E0;
-  background-color: #F9F9F9;
-}
---></style>
-END;
-			echo '<ul id="tool-list">';
-			$tools = array ();
-			foreach ($this->get_registered_tools() as $tool)
-			{
-				$tools[$tool] = htmlspecialchars(get_lang(Tool :: type_to_class($tool).'Title'));
-			}
-			asort($tools);
-			foreach ($tools as $tool => $title)
-			{
-				$new = '';
-				if($this->tool_has_new_publications($tool))
-				{
-					$new = '_new';
-				}
-				echo '<li><a href="'.$this->get_url(array (self :: PARAM_TOOL => $tool), true).'" style="background-image: url(', api_get_path(WEB_CODE_PATH).'img/'.$tool.$new.'.gif);">'.$title.'</a></li>';
-			}
-			echo '</ul>';
+			//$renderer = ToolListRenderer::factory('FixedLocationToolListRenderer',$this);
+			$renderer = ToolListRenderer::factory('DisabledSectionToolListRenderer',$this);
+			$renderer->display();
 			$this->display_footer();
 		}
 	}
@@ -254,7 +227,7 @@ END;
 			$tools = array ();
 			foreach ($this->get_registered_tools() as $t)
 			{
-				$tools[$t] = htmlentities(get_lang(Tool :: type_to_class($t).'Title'));
+				$tools[$t->name] = htmlentities(get_lang(Tool :: type_to_class($t->name).'Title'));
 			}
 			asort($tools);
 			foreach ($tools as $tool => $title)
@@ -294,46 +267,16 @@ END;
 	}
 
 	/**
-	 * Registers a tool with this application.
-	 * @param string $tool The tool name.
-	 */
-	function register_tool($tool)
-	{
-		if (in_array($tool, $this->tools))
-		{
-			die('Tool already registered: '.$tool);
-		}
-		$this->tools[] = $tool;
-	}
-
-	/**
-	 * Loads the tools installed on the system. Tools are classes in the
-	 * tool/ subdirectory. Each tool is a directory, which in its turn
-	 * contains a class file named after the tool. For instance, the link
-	 * tool is the class LinkTool, defined in tool/link/linktool.class.php.
-	 * Tools must extend the Tool class.
+	 * Loads the tools installed on the system.
 	 */
 	private function load_tools()
 	{
-		$path = dirname(__FILE__).'/tool';
-		if ($handle = opendir($path))
+		$wdm = WeblcmsDataManager :: get_instance();
+		$this->tools = $wdm->get_course_modules($this->get_course_id());
+		foreach($this->tools as $index => $tool)
 		{
-			while (false !== ($file = readdir($handle)))
-			{
-				$toolPath = $path.'/'.$file;
-				if (is_dir($toolPath) && self :: is_tool_name($file))
-				{
-					require_once $toolPath.'/'.$file.'tool.class.php';
-					$this->register_tool($file);
-				}
-			}
-			closedir($handle);
+			require_once dirname(__FILE__).'/tool/'.$tool->name.'/'.$tool->name.'tool.class.php';
 		}
-		else
-		{
-			die('Failed to load tools');
-		}
-
 	}
 
 	/**
@@ -390,13 +333,19 @@ END;
 	 */
 	function tool_has_new_publications($tool)
 	{
-		$last_visit_date = $this->get_last_visit_date($tool);
-		$wdm = WeblcmsDataManager :: get_instance();
-		$condition_tool = new EqualityCondition('tool',$tool);
-		$condition_date = new InequalityCondition('published',InequalityCondition::GREATER_THAN,$last_visit_date);
-		$condition = new AndCondition($condition_tool,$condition_date);
-		$new_items = $wdm->count_learning_object_publications($this->get_course_id(),null,null,null,$condition);
-		return $new_items > 0;
+		$class = Tool :: type_to_class($tool);
+		$tool_object = new $class ($this);
+		if(is_subclass_of($tool_object,'RepositoryTool'))
+		{
+			$last_visit_date = $this->get_last_visit_date($tool);
+			$wdm = WeblcmsDataManager :: get_instance();
+			$condition_tool = new EqualityCondition('tool',$tool);
+			$condition_date = new InequalityCondition('published',InequalityCondition::GREATER_THAN,$last_visit_date);
+			$condition = new AndCondition($condition_tool,$condition_date);
+			$new_items = $wdm->count_learning_object_publications($this->get_course_id(),null,null,null,$condition);
+			return $new_items > 0;
+		}
+		return false;
 	}
 }
 ?>
