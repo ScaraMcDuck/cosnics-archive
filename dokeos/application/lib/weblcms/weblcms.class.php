@@ -82,8 +82,7 @@ class Weblcms extends WebApplication
 		else
 		{
 			$this->display_header();
-			//$renderer = ToolListRenderer::factory('FixedLocationToolListRenderer',$this);
-			$renderer = ToolListRenderer::factory('DisabledSectionToolListRenderer',$this);
+			$renderer = ToolListRenderer::factory('FixedLocationToolListRenderer',$this);
 			$renderer->display();
 			$this->display_footer();
 		}
@@ -271,11 +270,14 @@ class Weblcms extends WebApplication
 	 */
 	private function load_tools()
 	{
-		$wdm = WeblcmsDataManager :: get_instance();
-		$this->tools = $wdm->get_course_modules($this->get_course_id());
-		foreach($this->tools as $index => $tool)
+		if(!is_null($this->get_course_id()))
 		{
-			require_once dirname(__FILE__).'/tool/'.$tool->name.'/'.$tool->name.'tool.class.php';
+			$wdm = WeblcmsDataManager :: get_instance();
+			$this->tools = $wdm->get_course_modules($this->get_course_id());
+			foreach($this->tools as $index => $tool)
+			{
+				require_once dirname(__FILE__).'/tool/'.$tool->name.'/'.$tool->name.'tool.class.php';
+			}
 		}
 	}
 
