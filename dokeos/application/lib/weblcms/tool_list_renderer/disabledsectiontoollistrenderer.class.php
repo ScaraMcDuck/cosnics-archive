@@ -69,14 +69,14 @@ class DisabledSectionToolListRenderer extends ToolListRenderer
 				{
 					$new = '_new';
 				}
-				$tool_image = $tool->name.$new.'.gif';
+				$tool_image = $tool->name.'_tool'.$new.'.gif';
 				$link_class='';
 			}
 			else
 			{
 				$action = 'make_visible';
 				$visible_image = 'invisible.gif';
-				$tool_image = $tool->name.'_na.gif';
+				$tool_image = $tool->name.'_tool_na.gif';
 				$link_class=' class="invisible"';
 			}
 			$title = htmlspecialchars(get_lang(Tool :: type_to_class($tool->name).'Title'));
