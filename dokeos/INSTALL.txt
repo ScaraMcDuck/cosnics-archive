@@ -2,7 +2,7 @@
  Dokeos LCMS INSTALLATION
 *******************************************
 This development has just started.
-There's no simple install script and we don't garantuee it to work. 
+There's no simple install script and we don't guarantee it to work. 
 We invite people to follow our development efforts and give remarks.
 
 - Install Dokeos just like you would normally do
