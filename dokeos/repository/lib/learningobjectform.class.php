@@ -4,7 +4,7 @@
  * @package repository
  */
 
-require_once dirname(__FILE__).'/../../claroline/inc/lib/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/quotamanager.class.php';
 require_once dirname(__FILE__).'/learningobjectcategorymenu.class.php';

@@ -3,7 +3,7 @@
  * $Id$
  * @package repository.learningobjecttable
  */
-require_once dirname(__FILE__).'/../../../claroline/inc/lib/sortabletable.class.php';
+require_once dirname(__FILE__).'/../../../main/inc/lib/sortabletable.class.php';
 require_once dirname(__FILE__).'/defaultlearningobjecttablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/defaultlearningobjecttablecellrenderer.class.php';
 

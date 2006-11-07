@@ -350,13 +350,13 @@ function showlinksofcategory($catid)
 		$myrow[3] = api_parse_tex($myrow[3]);
 		if ($myrow['visibility'] == '1')
 		{
-			echo "<tr>", "<td align=\"right\" valign=\"top\" width=\"40\">", "<img src=\"../../claroline/img/pixel.gif\" border=\"0\" width=\"10\"/>", "<a href=\"link_goto.php?link_id=", $myrow[0], "&amp;link_url=", urlencode($myrow[1]), "\" target=\"_blank\">", "<img src=\"../../claroline/img/links.gif\" border=\"0\" alt=\"".get_lang('Links')."\"/>", "</a></td>", "<td width=\"580\" valign=\"top\">", "<a href=\"link_goto.php?link_id=", $myrow[0], "&amp;link_url=", urlencode($myrow[1]), "\" target=\"_blank\">", htmlentities($myrow[2]), "</a>\n", "<br/>", $myrow[3], "";
+			echo "<tr>", "<td align=\"right\" valign=\"top\" width=\"40\">", "<img src=\"../../main/img/pixel.gif\" border=\"0\" width=\"10\"/>", "<a href=\"link_goto.php?link_id=", $myrow[0], "&amp;link_url=", urlencode($myrow[1]), "\" target=\"_blank\">", "<img src=\"../../main/img/links.gif\" border=\"0\" alt=\"".get_lang('Links')."\"/>", "</a></td>", "<td width=\"580\" valign=\"top\">", "<a href=\"link_goto.php?link_id=", $myrow[0], "&amp;link_url=", urlencode($myrow[1]), "\" target=\"_blank\">", htmlentities($myrow[2]), "</a>\n", "<br/>", $myrow[3], "";
 		}
 		else
 		{
 			if ($is_allowed[EDIT_RIGHT])
 			{
-				echo "<tr>", "<td align=\"right\" valign=\"top\" width=\"40\">", "<img src=\"../../claroline/img/pixel.gif\" border=\"0\" width=\"10\"/>", "<a href=\"link_goto.php?link_id=", $myrow[0], "&amp;link_url=", urlencode($myrow[1]), "\" target=\"_blank\" class=\"invisible\">", "<img src=\"../../claroline/img/links.gif\" border=\"0\" alt=\"".get_lang('Links')."\"/>", "</a></td>", "<td width=\"580\" valign=\"top\">", "<a href=\"link_goto.php?link_id=", $myrow[0], "&amp;link_url=", urlencode($myrow[1]), "\" target=\"_blank\"  class=\"invisible\">", htmlentities($myrow[2]), "</a>\n", "<br/>", $myrow[3], "";
+				echo "<tr>", "<td align=\"right\" valign=\"top\" width=\"40\">", "<img src=\"../../main/img/pixel.gif\" border=\"0\" width=\"10\"/>", "<a href=\"link_goto.php?link_id=", $myrow[0], "&amp;link_url=", urlencode($myrow[1]), "\" target=\"_blank\" class=\"invisible\">", "<img src=\"../../main/img/links.gif\" border=\"0\" alt=\"".get_lang('Links')."\"/>", "</a></td>", "<td width=\"580\" valign=\"top\">", "<a href=\"link_goto.php?link_id=", $myrow[0], "&amp;link_url=", urlencode($myrow[1]), "\" target=\"_blank\"  class=\"invisible\">", htmlentities($myrow[2]), "</a>\n", "<br/>", $myrow[3], "";
 			}
 		}
 		if ($is_allowed[EDIT_RIGHT] || $is_allowed[DELETE_RIGHT])
