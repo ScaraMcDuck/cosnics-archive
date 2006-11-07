@@ -340,7 +340,7 @@ elseif ($smo == get_lang('Import'))
         else
         {
             $drs = "$rootSys"; $scormid = "$scid";
-            require($drs. "claroline/metadata/playscormmdset.inc.php");
+            require($drs. "main/metadata/playscormmdset.inc.php");
         }
 '           )) . '?' . '>';
     }

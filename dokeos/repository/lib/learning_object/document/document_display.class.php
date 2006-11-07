@@ -4,7 +4,7 @@
  * @package repository.learningobject
  * @subpackage document
  */
-require_once dirname(__FILE__).'/../../../../claroline/inc/lib/fileDisplay.lib.php';
+require_once dirname(__FILE__).'/../../../../main/inc/lib/fileDisplay.lib.php';
 /**
  * This class can be used to display documents
  */

@@ -44,7 +44,7 @@ function debugIO($file="")
  * @desc print out  content of session's variable
  *
  * @return
- * @authot Christophe Gesché gesché@ipm.ucl.ac.be
+ * @authot Christophe Geschï¿½geschï¿½ipm.ucl.ac.be
  * @deprecated Function not in use
  *
  */
@@ -61,7 +61,7 @@ function echoSessionValue()
 
 	$infoResult .= "
 			<HR>
-			<a href=\"../claroline/admin/phpInfo.php\">phpInfo Dokeos</a>
+			<a href=\"../main/admin/phpInfo.php\">phpInfo Dokeos</a>
 			<PRE>";
 	$infoResult .= "<strong>PHP Version</strong> : ".phpversion()."
 			<strong>nivo d'err</strong> : ".error_reporting(2039);
@@ -120,7 +120,7 @@ function echoSessionValue()
 	$infoResult .= "
 			<strong>Magic quote gpc</strong> : ".get_magic_quotes_gpc()."
 			<strong>Magig quote runtime</strong> : ".get_magic_quotes_runtime()."
-			<strong>date de dernière modification de la page</strong> : ".date("j-m-Y", getlastmod());
+			<strong>date de derniï¿½e modification de la page</strong> : ".date("j-m-Y", getlastmod());
 	/*
 	get_cfg_var -- Retourne la valeur d'une option de PHP
 	getenv -- Retourne la valeur de la variable d'environnement.
@@ -130,17 +130,17 @@ function echoSessionValue()
 	ini_restore -- Restaure la valeur de l'option de configuration
 	ini_set -- Change la valeur d'une option de configuration
 	putenv -- Fixe la valeur d'une variable d'environnement.
-	set_magic_quotes_runtime --  Active/désactive l'option magic_quotes_runtime.
-	set_time_limit -- Fixe le temps maximum d'exécution d'un script.
+	set_magic_quotes_runtime --  Active/dï¿½active l'option magic_quotes_runtime.
+	set_time_limit -- Fixe le temps maximum d'exï¿½ution d'un script.
 	*/
 	$infoResult .= "
-			<strong>Type d'interface utilisé entre le serveur web et PHP</strong> : ".php_sapi_name()."
+			<strong>Type d'interface utilisï¿½entre le serveur web et PHP</strong> : ".php_sapi_name()."
 			<strong>informations OS</strong> : ".php_uname()."
 			<strong>Version courante du moteur Zend</strong> : ".zend_version()."
-			<strong>GID du propriétaire du script</strong> : ".getmygid()."
+			<strong>GID du propriï¿½aire du script</strong> : ".getmygid()."
 			<strong>inode du script</strong> : ".getmyinode()."
-			<strong>numéro de processus courant</strong> : ".getmypid()."
-			<strong>UID du propriétaire du script actuel</strong> : ".getmyuid()."
+			<strong>numï¿½o de processus courant</strong> : ".getmypid()."
+			<strong>UID du propriï¿½aire du script actuel</strong> : ".getmyuid()."
 			<strong>niveau d'utilisation des ressources</strong> : ";
 	print_r(@ getrusage());
 
@@ -158,7 +158,7 @@ function echoSessionValue()
  *
  * @desc io file
  * @return
- * @author Christophe Gesché gesché@ipm.ucl.ac.be
+ * @author Christophe Geschï¿½geschï¿½ipm.ucl.ac.be
  * @deprecated Function not in use
  */
 

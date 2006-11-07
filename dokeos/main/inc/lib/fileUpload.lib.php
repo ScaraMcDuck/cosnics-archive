@@ -77,7 +77,7 @@ function api_replace_parameter($upload_path, $buffer, $param_name="src")
  * replaces "forbidden" characters in a filename string
  *
  * @author - Hugues Peeters <peeters@ipm.ucl.ac.be>
- * @author - René Haentjens, UGent (RH)
+ * @author - Renï¿½Haentjens, UGent (RH)
  * @param  - string $filename
  * @param  - string $strict (optional) remove all non-ASCII
  * @return - the cleaned filename
@@ -1169,7 +1169,7 @@ function item_property_update_on_folder($_course,$path,$user_id)
  * Returns the directory depth of the file.
  *
  * @author	Olivier Cauberghe <olivier.cauberghe@ugent.be>
- * @param	path+filename eg: /claroline/document/document.php
+ * @param	path+filename eg: /main/document/document.php
  * @return	The directory depth
  */
 function get_levels($filename)
