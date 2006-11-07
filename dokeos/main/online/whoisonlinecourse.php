@@ -183,7 +183,7 @@ if ((get_setting('showonline','course') == "true" AND $_course))
 					$row2=mysql_fetch_array($result);
 					if ($row2['status']==1) { $status='teacher'; } else { $status='student'; }
 					if ($row2['picture_uri']<>'') {
-						$fullurl="claroline/upload/users/".$row2['picture_uri'];
+						$fullurl="main/upload/users/".$row2['picture_uri'];
 						list($width, $height, $type, $attr) = getimagesize($fullurl);
 						$height+=30;
 						$width+=30;
@@ -234,7 +234,7 @@ while ($inrow=mysql_fetch_array($inresult)) { //we take the today logins one by 
 		$result=api_sql_query($sql,__FILE__,__LINE__);
 		$row=mysql_fetch_array($result);
 		if ($row['status']==1) { $status='teacher'; } else { $status='student'; }
-		if ($row['picture_uri']<>'') { $img="<img src='claroline/upload/users/".$row['picture_uri']."'>"; } else { $img=''; }
+		if ($row['picture_uri']<>'') { $img="<img src='main/upload/users/".$row['picture_uri']."'>"; } else { $img=''; }
 		echo "<tr><td>$online.</td><td align=right>{$row['lastname']}</td><td>{$row['firstname']}</td><td align=center><a href=mailto:{$row['email']}>{$row['email']}</a></td><td>$status</td><td>$img</td></tr>";
 
 	}
