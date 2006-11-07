@@ -45,7 +45,7 @@ function get_user_account_list($user, $reset = false)
 	{
 		$secretword = get_secret_word($thisUser["email"]);
 		if ($reset)
-			$reset_link = "\tReset link : $rootWeb"."claroline/auth/lostPassword.php?reset=$secretword&id=$thisUser[uid]";
+			$reset_link = "\tReset link : $rootWeb"."main/auth/lostPassword.php?reset=$secretword&id=$thisUser[uid]";
 		else
 			$reset_link = "\t".get_lang('Pass')." : $thisUser[password]";
 		$userAccountList[] = $thisUser["firstName"]." ".$thisUser["lastName"]."\n\n"."\t".get_lang('Username')." : ".$thisUser["loginName"]."\n"."$reset_link\n\n";
