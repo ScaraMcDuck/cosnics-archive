@@ -57,7 +57,7 @@ if (isset ($_GET["reset"]) && isset ($_GET["id"]))
 {
 	$msg = reset_password($_GET["reset"], $_GET["id"]);
 	$msg .= '. <br/>'.get_lang('_your_password_has_been_emailed_to_you');
-	$msg .= '<br/><br/><a href="'.api_get_path(WEB_PATH).'claroline/auth/lostPassword.php">&lt;&lt; '.get_lang('Back').'</a>';
+	$msg .= '<br/><br/><a href="'.api_get_path(WEB_PATH).'main/auth/lostPassword.php">&lt;&lt; '.get_lang('Back').'</a>';
 	echo $msg;
 }
 else
@@ -89,7 +89,7 @@ else
 		{
 			$msg = get_lang('_no_user_account_with_this_email_address');
 		}
-		$msg .= '<br/><br/><a href="'.api_get_path(WEB_PATH).'claroline/auth/lostPassword.php">&lt;&lt; '.get_lang('Back').'</a>';
+		$msg .= '<br/><br/><a href="'.api_get_path(WEB_PATH).'main/auth/lostPassword.php">&lt;&lt; '.get_lang('Back').'</a>';
 		echo '<p>'.$msg.'</p>';
 	}
 	else
