@@ -134,7 +134,7 @@ function display_language_select($element_name)
 	global $platformLanguage;
 	
 	//get language list
-	$dirname = api_get_path(SYS_PATH)."claroline/lang/";
+	$dirname = api_get_path(SYS_PATH)."main/lang/";
 	$language_list = get_language_folder_list($dirname);
 	sort($language_list);
 	

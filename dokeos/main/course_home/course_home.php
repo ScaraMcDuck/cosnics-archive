@@ -80,7 +80,7 @@ if (!isset ($cidReq))
 $section = "course";
 $langFile = "course_home";
 
-include ('../../claroline/inc/claro_init_global.inc.php');
+include ('../../main/inc/claro_init_global.inc.php');
 $this_section = SECTION_COURSES;
 
 /*
@@ -322,7 +322,7 @@ function show_tools($course_tool_category, $tool_list, $is_allowed)
 
 		// Allow editing of invisible homepage links (modified external_module)
 		if ($toolsRow["added_tool"] == 1 && $is_allowed[EDIT_RIGHT] && !$toolsRow["visibility"])
-			echo "<a class=\"nobold\" href=\"".api_get_path(WEB_PATH).'claroline/external_module/external_module.php'."?".api_get_cidreq()."&amp;id=".$toolsRow["id"]."\">".get_lang("Edit")."</a>";
+			echo "<a class=\"nobold\" href=\"".api_get_path(WEB_PATH).'main/external_module/external_module.php'."?".api_get_cidreq()."&amp;id=".$toolsRow["id"]."\">".get_lang("Edit")."</a>";
 
 		echo "</td>\n";
 
