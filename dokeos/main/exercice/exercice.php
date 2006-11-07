@@ -61,7 +61,7 @@ require_once('question.class.php');
 require_once('answer.class.php');
 require_once(api_get_library_path().'/fileManage.lib.php');
 require_once(api_get_library_path().'/fileUpload.lib.php');
-require_once($rootSys.'claroline/exercice/hotpotatoes.lib.php');
+require_once($rootSys.'main/exercice/hotpotatoes.lib.php');
 
 /*
 -----------------------------------------------------------

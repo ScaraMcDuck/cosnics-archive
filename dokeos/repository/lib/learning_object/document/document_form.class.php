@@ -6,7 +6,7 @@
  */
 require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/document.class.php';
-require_once dirname(__FILE__).'/../../../../claroline/inc/lib/formvalidator/Rule/DiskQuota.php';
+require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/Rule/DiskQuota.php';
 /**
  * A form to create/update a document.
  *
@@ -140,7 +140,7 @@ class DocumentForm extends LearningObjectForm
 		//If first letter is . add something before
 		$valid_filename = eregi_replace("^\.","0.",$valid_filename);
 		//Replace accented characters
-		$valid_filename = strtr($valid_filename, "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÜİàáâãäåçèéêëìíîïğñòóôõöøùúûüıÿ", "aaaaaaceeeeiiiidnoooooouuuuyyaaaaaaceeeeiiiidnoooooouuuuyy");
+		$valid_filename = strtr($valid_filename, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "aaaaaaceeeeiiiidnoooooouuuuyyaaaaaaceeeeiiiidnoooooouuuuyy");
 		//Replace all except letters, numbers, - and . to underscores
 	    $valid_filename =  ereg_replace('[^0-9a-zA-Z\-\.]', '_',$valid_filename);
 	    //Replace set of underscores by a single underscore
