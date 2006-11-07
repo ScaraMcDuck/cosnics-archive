@@ -28,7 +28,7 @@
 
 $langFile = "index";
 
-include_once("./claroline/inc/claro_init_global.inc.php");
+include_once("./main/inc/claro_init_global.inc.php");
 
 $track_user_table = Database::get_main_table(MAIN_USER_TABLE);
 

@@ -125,13 +125,13 @@ function get_config_param($param)
 
 	if(empty($updateFromConfigFile))
 	{
-		if(file_exists($_POST['updatePath'].'claroline/include/config.inc.php'))
+		if(file_exists($_POST['updatePath'].'main/include/config.inc.php'))
 		{
-			$updateFromConfigFile='claroline/include/config.inc.php';
+			$updateFromConfigFile='main/include/config.inc.php';
 		}
-		elseif(file_exists($_POST['updatePath'].'claroline/inc/conf/claro_main.conf.php'))
+		elseif(file_exists($_POST['updatePath'].'main/inc/conf/claro_main.conf.php'))
 		{
-			$updateFromConfigFile='claroline/inc/conf/claro_main.conf.php';
+			$updateFromConfigFile='main/inc/conf/claro_main.conf.php';
 		}
 		else
 		{
@@ -665,7 +665,7 @@ function display_configuration_settings_form($installType, $urlForm, $languageFo
 	}
 	
 	echo "<h2>" . get_lang("Step4").' &ndash; '.get_lang("CfgSetting") . "</h2>";
-	echo "The following values will be written into your configuration file <b>claroline/inc/conf/claro_main.conf.php</b>:\n";
+	echo "The following values will be written into your configuration file <b>main/inc/conf/claro_main.conf.php</b>:\n";
 	
 	echo "</td></tr>\n<tr><td>";
 	echo "<table width=\"100%\">";
@@ -798,7 +798,7 @@ function display_after_install_message($installType, $nbr_courses)
 	<?php endif; ?>
 	
 	<br><br>
-	<b>Security advice :</b> To protect your site, make read-only (CHMOD 444) 'claroline/inc/conf/claro_main.conf.php' and 'claroline/install/index.php'.
+	<b>Security advice :</b> To protect your site, make read-only (CHMOD 444) 'main/inc/conf/claro_main.conf.php' and 'main/install/index.php'.
 	<br><br><br><br>
 	
 	</form>
@@ -881,7 +881,7 @@ if(!isset($_GET['running']))
 	$dbUserForm='dokeos_user';
 
 	// extract the path to append to the url if Dokeos is not installed on the web root directory
-	$urlAppendPath=str_replace('/claroline/install/index.php','',$_SERVER['PHP_SELF']);
+	$urlAppendPath=str_replace('/main/install/index.php','',$_SERVER['PHP_SELF']);
   	$urlForm='http://'.$_SERVER['HTTP_HOST'].$urlAppendPath.'/';
 	$pathForm=str_replace('\\','/',realpath('../..')).'/';
 
