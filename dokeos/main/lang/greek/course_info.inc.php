@@ -1,0 +1,63 @@
+<?php /*
+for more information: see languages.txt in the lang folder. 
+*/
+$langModifInfo = "Αλλαγή πληροφορίας για το μάθημα";
+$langModifDone = "Η πληροφορία έχει αλλάξει";
+$langHome = "Επιστροφή στην αρχική σελίδα";
+$langCode = "Κωδικος Μαθήματος";
+$langDelCourse = "Διαγραφή ολόκληρου του μαθήματος";
+$langProfessors = "Καθηγητές";
+$langFaculty = "Τμήμα";
+$langConfidentiality = "Τύπος Πρόσβασης";
+$langPublic = "Ελεύθερη Πρόσβαση από τη αρχική σελίδα χωρίς συνθηματικό";
+$langPrivOpen = "Ελεγχόμενη Πρόσβαση με ανοιχτή εγγραφή";
+$langPrivate = "Ελεγχόμενη Πρόσβαση (στο μάθημα έχουν πρόσβαση μόνο οι χρήστες που βρίσκοναι στη <a href=../user/user.php>Λίστα Χρηστών</a>)";
+$langForbidden = "Μη επιτρεπτή";
+$langLanguage = "Γλώσσα";
+$langConfTip = "Εξ\' ορισμού, το μάθημα είναι προσπελάσιμο μόνο από εσάς. Αν θέλετε ελεγχόμενη πρόσβαση, μπορείτε να επιλέξετε \'Ελεγχόμενη Προσβαση με ανοιχτή 
+εγγραφή\' και να ζητήσετε από τους χρήστες να γραφτούν. Μόλις τελειώσει η εγγραφή μπορείτε να επιλέξετε \'Ελεγχομενη προσβαση\'.";
+$langTipLang  = "Αυτή η γλώσσα θα ισχύει για κάθε επισκέπτη του μαθήματος.";
+$langAgenda = "Ατζέντα";
+$langLink = "Σύνδεσμοι";
+$langDocument = "Εγγραφα";
+$langVid = "Βίντεο";
+$langWork = "Εργασίες Φοιτητών";
+$langProgramMenu = "Πρόγραμμα Μαθήματος";
+$langAnnouncement = "Ανακοινώσεις";
+$langForum = "Περιοχή Συζητήσεων";
+$langExercise = "Ασκήσεις";
+$langStats = "Στατιστικά";
+$langUplPage = "Ανέβασμα σελίδας και δημιουργία συνδέσμου στην Αρχική Σελίδα";
+$langLinkSite = "Προσθήκη συνδέσμου σελίδας στην αρχική σελίδα";
+$langCourse = "το μάθημα";
+$langHasDel = "έχει διαγραφτεί";
+$langBackHome = "Επιστροφή στην αρχική σελίδα του";
+$langByDel = "Διαγράφοντας αυτό το μάθημα θα διαγραφτούν μόνιμα όλα τα περιεχόμενα του και όλοι οι φοιτητές που είναι γραμμένοι σε αυτό (δεν θα διαγραφτούν από τα άλλα μαθήματα).<p>Θέλετε πράγματι να το διαγράψετε";
+$langY = "ΝΑΙ";
+$langN = "ΟΧΙ";
+$langDepartmentUrl  = "Ιστοσελίδα Πανεπιστημίου";
+$langDepartmentUrlName  = "Πανεπιστήμιο";
+$langBackupCourse = "Αντίγραφο Ασφαλείας του Μαθήματος";
+$langModifGroups = "Ομάδες Εργασίας";
+$langProfessor = "Καθηγητής";
+$langGroups  = "Ομάδες Χρηστών";
+$langChat  = "Κουβέντα";
+$langArchive = "αποθήκευση";
+$langArchiveCourse  = "Αντίγραφο Ασφαλείας";
+$langRestore = "Επαναφορά";
+$langCreatedIn  = "δημιουργήθηκε την";
+$langCreateMissingDirectories  = "Δημιουργία των καταλόγων που λείπουν";
+$langCopyDirectoryCourse  = "Αντιγραφή των αρχείων του μαθήματος";
+$langDisk_free_space  = "Ελεύθερος χώρος";
+$langBuildTheCompressedFile  = "2ο - Δημιουργία του αρχείου αντίγραφου ασφαλείας";
+$langFileCopied  = "αρχεία αντιγράφτηκαν";
+$langArchiveLocation = "Τοποθεσία";
+$langSizeOf  = "Μέγεθος του";
+$langArchiveName  = "Όνομα";
+$langBackupSuccesfull  = "Δημιουργήθηκε με επιτυχία το αντίγραφο ασφαλείας!";
+$langBUCourseDataOfMainBase  = "Αντίγραφο ασφαλείας των δεδομένων του μαθήματος";
+$langBUUsersInMainBase  = "Αντίγραφο ασφαλείας των χρηστών του μαθήματος";
+$langBUAnnounceInMainBase = "Αντίγραφο ασφαλείας των ανακοινώσεων του μαθήματος";
+$langBackupOfDataBase = "Αντίγραφο ασφαλείας της βάσης δεδομένων του μαθήματος";
+$langCreateSite = "Δημιουργία ενός μαθήματος";
+?>
