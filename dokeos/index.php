@@ -63,7 +63,7 @@ $cidReset = true; /* Flag forcing the 'current course' reset,
 -----------------------------------------------------------
 */
 //this includes main_api too:
-include_once ("./claroline/inc/claro_init_global.inc.php");
+include_once ("./main/inc/claro_init_global.inc.php");
 //$this_section = SECTION_COURSES;
 
 include_once (api_get_library_path()."/course.lib.php");
@@ -264,7 +264,7 @@ function display_anonymous_right_menu()
 			echo '<div class="menusection"><span class="menusectioncaption">'.get_lang('MenuUser').'</span><ul class="menulist">';
 			if (get_setting('allow_registration') == 'true')
 			{
-				echo '<li><a href="claroline/auth/inscription.php">'.get_lang('Reg').'</a></li>';
+				echo '<li><a href="main/auth/inscription.php">'.get_lang('Reg').'</a></li>';
 			}
 			if (get_setting('allow_lostpassword') == 'true')
 			{
@@ -351,7 +351,7 @@ function display_login_form()
  */
 function display_lost_password_info()
 {
-	echo "<li><a href=\"claroline/auth/lostPassword.php\">".get_lang("LostPassword")."</a></li>";
+	echo "<li><a href=\"main/auth/lostPassword.php\">".get_lang("LostPassword")."</a></li>";
 }
 
 /**
