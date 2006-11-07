@@ -49,7 +49,7 @@ $error_message = <<<EOM
 	</head>
 	<body>
 		<div style="text-align: center;"><br /><br />
-			<form action="claroline/install/index.php" method="get"><input type="submit" value="&nbsp;&nbsp; Click to INSTALL DOKEOS &nbsp;&nbsp;" /></form><br />
+			<form action="main/install/index.php" method="get"><input type="submit" value="&nbsp;&nbsp; Click to INSTALL DOKEOS &nbsp;&nbsp;" /></form><br />
 			or <a href="installation_guide.html" target="_blank">read the installation guide</a>
 		</div>
 	</body>

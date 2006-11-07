@@ -232,7 +232,7 @@ function showtools2($cat, $role_id, $is_allowed)
 			// RH: Allow editing of invisible homepage links (modified external_module)
 			if ($toolsRow["added_tool"] == 1 && $is_allowed[EDIT_RIGHT] && !$toolsRow["visibility"])
 			{
-				$cell_content .= "<a class=\"nobold\" href=\"".api_get_path(WEB_PATH).'claroline/external_module/external_module.php'."?id=".$toolsRow["id"]."\">".get_lang("Edit")."</a>";
+				$cell_content .= "<a class=\"nobold\" href=\"".api_get_path(WEB_PATH).'main/external_module/external_module.php'."?id=".$toolsRow["id"]."\">".get_lang("Edit")."</a>";
 			}
 		}
 		$table->setCellContents($cell_number / $numcols, ($cell_number) % $numcols, $cell_content);

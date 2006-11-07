@@ -80,7 +80,7 @@ $rootSys                     = '{ROOT_SYS}';
 // Path from your WWW-root to the root of your Dokeos installation
 $urlAppend                   = '{URL_APPEND_PATH}';
 // Directory of the Dokeos code
-$clarolineRepositoryAppend   = "claroline/";
+$clarolineRepositoryAppend   = "main/";
 // Directory to store all course-related files
 $coursesRepositoryAppend     = "courses/";
 // Directory of the admin-area
@@ -142,6 +142,6 @@ $plugins["main_menu_logged"] = array();
 $plugins["banner"]           = array();
 // To load a new plugin, add a line like this
 //     $plugins["main_menu"][] = "my_plugin";
-// where "my_plugin" is the directory where your plugin is in claroline/plugin
+// where "my_plugin" is the directory where your plugin is in folder "plugin"
 // main_menu_logged is the same as main_menu for when a user is logged in
 ?>
