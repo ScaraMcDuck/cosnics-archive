@@ -66,7 +66,7 @@ $cidReset = true; /* Flag forcing the 'current course' reset,
 -----------------------------------------------------------
 */
 //this includes main_api too:
-include_once ('./claroline/inc/claro_init_global.inc.php');
+include_once ('./main/inc/claro_init_global.inc.php');
 $this_section = SECTION_COURSES;
 
 api_block_anonymous_users(); // only users who are logged in can proceed
@@ -222,11 +222,11 @@ function display_admin_links()
 }
 function display_create_course_link()
 {
-	echo "<li><a href=\"claroline/create_course/add_course.php\">".get_lang("CourseCreate")."</a></li>";
+	echo "<li><a href=\"main/create_course/add_course.php\">".get_lang("CourseCreate")."</a></li>";
 }
 function display_edit_course_list_links()
 {
-	echo "<li><a href=\"claroline/auth/courses.php\">".get_lang("CourseManagement")."</a></li>";
+	echo "<li><a href=\"main/auth/courses.php\">".get_lang("CourseManagement")."</a></li>";
 }
 
 /**
@@ -655,7 +655,7 @@ else
 		if(! file_exists($thisCoursePath))
 		{
 		echo	"<li>".$mycours['i']."<br/>";
-		echo "".get_lang("CourseDoesntExist")." (<a href=\"claroline/install/update_courses.php\">";
+		echo "".get_lang("CourseDoesntExist")." (<a href=\"main/install/update_courses.php\">";
 		echo	"".get_lang("GetCourseFromOldPortal")."</a>)</li>";
 
 			continue;

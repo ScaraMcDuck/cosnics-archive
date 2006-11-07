@@ -28,7 +28,7 @@ If you modify code and redistribute, you may ADD your copyright to this notice.
 */
 
 $langFile = "md_mix";
-include('../../../claroline/inc/claro_init_global.inc.php');
+include('../../../main/inc/claro_init_global.inc.php');
 if (! $is_allowed_in_course) api_not_allowed();
 	
 // start of part copied (with some changes) from standard PhpDig search.php
@@ -85,8 +85,8 @@ $keywordscache = $kcdt ?
 // Dokeos header
 
 $nameTools = get_lang('Search');
-$htmlHeadXtra[] = '<link rel="stylesheet" type="text/css" href="../../../claroline/metadata/md_styles.css">';
-$htmlHeadXtra[] = '<script type="text/javascript" src="../../../claroline/metadata/md_script.js"></script>';
+$htmlHeadXtra[] = '<link rel="stylesheet" type="text/css" href="../../../main/metadata/md_styles.css">';
+$htmlHeadXtra[] = '<script type="text/javascript" src="../../../main/metadata/md_script.js"></script>';
 $htmlHeadXtra[] = '
     <script type="text/javascript">
     /* <![CDATA[ */
