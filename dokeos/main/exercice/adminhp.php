@@ -98,7 +98,7 @@ $nameTools = get_lang('adminHP');
 
 Display::display_header($nameTools,"Exercise");
 
-require_once(api_get_path(SYS_PATH).'claroline/exercice/hotpotatoes.lib.php');
+require_once(api_get_path(SYS_PATH).'main/exercice/hotpotatoes.lib.php');
 
 ?>
 

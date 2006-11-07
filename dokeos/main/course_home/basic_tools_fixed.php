@@ -37,7 +37,7 @@
 *	@package dokeos.course_home
 ============================================================================== 
 */
-include('../../claroline/course_home/btf_functions.php');  // RH: extra ../
+include('../../main/course_home/btf_functions.php');  // RH: extra ../
 
 /*==========================
      TOOLS  FOR  EVERYBODY
