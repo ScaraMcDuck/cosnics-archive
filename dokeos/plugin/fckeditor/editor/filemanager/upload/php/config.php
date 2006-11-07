@@ -25,7 +25,7 @@ global $Config ;
 $Config['Enabled'] = true ;
 
 //Dokeos config
-require_once('../../../../../../claroline/inc/claro_init_global.inc.php');
+require_once('../../../../../../main/inc/claro_init_global.inc.php');
 
 // Path to uploaded files relative to the document root.
 // Dokeos config
