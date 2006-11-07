@@ -293,7 +293,7 @@ function api_get_root_rel()
 }
 /**
 *	Alias for api_get_path(SYS_CODE_PATH).
-*	@return the filesystem code path e.g. /xxx/dokeos/claroline/
+*	@return the filesystem code path e.g. /xxx/dokeos/main/
 */
 function api_get_code_sys_path()
 {
@@ -301,7 +301,7 @@ function api_get_code_sys_path()
 }
 /**
 *	Alias for api_get_path(WEB_CODE_PATH).
-*	@return the url code path e.g. http://xxx/dokeos/claroline/
+*	@return the url code path e.g. http://xxx/dokeos/main/
 */
 function api_get_code_web_path()
 {
@@ -1273,7 +1273,7 @@ function api_item_property_update($_course, $tool, $item_id, $lastedit_type, $us
 function api_display_language_form()
 {
 	$platformLanguage = api_get_setting('platformLanguage');
-	$dirname = api_get_path(SYS_PATH)."claroline/lang/"; // this line is probably no longer needed
+	$dirname = api_get_path(SYS_PATH)."main/lang/"; // this line is probably no longer needed
 	// retrieve a complete list of all the languages.
 	$language_list = api_get_languages();
 	// the the current language of the user so that his/her language occurs as selected in the dropdown menu
@@ -1550,7 +1550,7 @@ function api_show_course_navigation_menu($isHidden = false)
 		$sourceurl = str_replace("&isHidden=true", "", $sourceurl);
 		$sourceurl = str_replace("&isHidden=false", "", $sourceurl);
 
-		$output_string_menu .= " <a href='".$sourceurl."&isHidden=false'>"."<img src=../../claroline/img/expand.gif alt='Show menu1' padding:'2px'/>"."</a>";
+		$output_string_menu .= " <a href='".$sourceurl."&isHidden=false'>"."<img src=../../main/img/expand.gif alt='Show menu1' padding:'2px'/>"."</a>";
 	}
 	elseif ($isHidden == "false" and $_SESSION["hideMenu"])
 	{
@@ -1558,18 +1558,18 @@ function api_show_course_navigation_menu($isHidden = false)
 		$sourceurl = str_replace("&isHidden=false", "", $sourceurl);
 
 		$_SESSION["hideMenu"] = "shown";
-		$output_string_menu .= "<div id='leftimg'><a href='".$sourceurl."&isHidden=true'>"."<img src=../../claroline/img/collapse.gif alt='Hide menu2' padding:'2px'/>"."</a></div>";
+		$output_string_menu .= "<div id='leftimg'><a href='".$sourceurl."&isHidden=true'>"."<img src=../../main/img/collapse.gif alt='Hide menu2' padding:'2px'/>"."</a></div>";
 	}
 	elseif ($_SESSION["hideMenu"])
 	{
 		if ($_SESSION["hideMenu"] == "shown")
 		{
-			$output_string_menu .= "<div id='leftimg'><a href='".$sourceurl."&isHidden=true'>"."<img src='../../claroline/img/collapse.gif' alt='Hide menu3' padding:'2px'/>"."</a></div>";
+			$output_string_menu .= "<div id='leftimg'><a href='".$sourceurl."&isHidden=true'>"."<img src='../../main/img/collapse.gif' alt='Hide menu3' padding:'2px'/>"."</a></div>";
 		}
 		if ($_SESSION["hideMenu"] == "hidden")
 		{
 			$sourceurl = str_replace("&isHidden=true", "", $sourceurl);
-			$output_string_menu .= "<a href='".$sourceurl."&isHidden=false'>"."<img src='../../claroline/img/expand.gif' alt='Hide menu4' padding:'2px'/>"."</a>";
+			$output_string_menu .= "<a href='".$sourceurl."&isHidden=false'>"."<img src='../../main/img/expand.gif' alt='Hide menu4' padding:'2px'/>"."</a>";
 
 		}
 	}
@@ -1578,7 +1578,7 @@ function api_show_course_navigation_menu($isHidden = false)
 		$_SESSION["hideMenu"] = "shown";
 		if (isset ($_cid))
 		{
-			$output_string_menu .= "<div id='leftimg'><a href='".$sourceurl."&isHidden=true'>"."<img src='claroline/img/collapse.gif' alt='Hide menu5' padding:'2px'/>"."</a></div>";
+			$output_string_menu .= "<div id='leftimg'><a href='".$sourceurl."&isHidden=true'>"."<img src='main/img/collapse.gif' alt='Hide menu5' padding:'2px'/>"."</a></div>";
 		}
 	}
 }
