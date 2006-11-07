@@ -371,11 +371,11 @@ function handle_stylesheets()
 
 	echo '<form name="stylesheets" method="post" action="'.$_SERVER['PHP_SELF'].'?category='.$_GET['category'].'">';
 	echo "<input type=\"radio\" name=\"style\" value=\"default\" ".$selected." />".get_lang('DefaultDokeosStyle')."<br />\n";
-	if ($handle = opendir(api_get_path(SYS_PATH).'claroline/css/'))
+	if ($handle = opendir(api_get_path(SYS_PATH).'main/css/'))
 	{
 		while (false !== ($file = readdir($handle)))
 		{
-			$dirpath = api_get_path(SYS_PATH).'claroline/css/'.$file;
+			$dirpath = api_get_path(SYS_PATH).'main/css/'.$file;
 			if (is_dir($dirpath))
 			{
 				if ($file != '.' && $file != '..')

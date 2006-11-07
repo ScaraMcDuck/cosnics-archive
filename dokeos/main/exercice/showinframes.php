@@ -38,7 +38,7 @@
 include('../inc/claro_init_global.inc.php');
 include_once(api_get_library_path().'/fileManage.lib.php');
 $time=time();
-require_once(api_get_path(SYS_PATH).'claroline/exercice/hotpotatoes.lib.php');
+require_once(api_get_path(SYS_PATH).'main/exercice/hotpotatoes.lib.php');
 
 // init 
 $doc_url=urldecode($_GET['file']); 
@@ -69,12 +69,12 @@ if ($content=="")
 				"			SaveScoreVariable = 1;\n".
 				"			if (C.ie)\n".
 				"			{\n". 
-				"				document.location.href = \"".api_get_path(WEB_PATH)."claroline/exercice/"."savescores.php?origin=$origin&learnpath_id=$learnpath_id&learnpath_item_id=$learnpath_item_id&time=$time&test=".$doc_url."&uid=".$_uid."&cid=".$cid."&score=\"+Score;\n".
+				"				document.location.href = \"".api_get_path(WEB_PATH)."main/exercice/"."savescores.php?origin=$origin&learnpath_id=$learnpath_id&learnpath_item_id=$learnpath_item_id&time=$time&test=".$doc_url."&uid=".$_uid."&cid=".$cid."&score=\"+Score;\n".
 				"				//window.alert(Score);\n".
 				"			}\n".
 				"			else\n".
 				"			{\n".
-				"				window.location.href = \"".api_get_path(WEB_PATH)."claroline/exercice/"."savescores.php?origin=$origin&learnpath_id=$learnpath_id&learnpath_item_id=$learnpath_item_id&time=$time&test=".$doc_url."&uid=".$_uid."&cid=".$cid."&score=\"+Score;\n".
+				"				window.location.href = \"".api_get_path(WEB_PATH)."main/exercice/"."savescores.php?origin=$origin&learnpath_id=$learnpath_id&learnpath_item_id=$learnpath_item_id&time=$time&test=".$doc_url."&uid=".$_uid."&cid=".$cid."&score=\"+Score;\n".
 				"			}\n".
 				"		}\n".
 				"}\n".
@@ -101,7 +101,7 @@ else
 WriteFileCont($full_file_path.$_uid.".t.html",$newcontent);
 
 /*	$prehref="javascript:void(0);";
-	$posthref=$rootWeb."claroline/exercice/Hpdownload.php?doc_url=".$doc_url."&cid=".$cid."&uid=".$uid;
+	$posthref=$rootWeb."main/exercice/Hpdownload.php?doc_url=".$doc_url."&cid=".$cid."&uid=".$uid;
 	$newcontent = str_replace($prehref,$posthref,$newcontent);	
 		
 	$prehref="class=\"GridNum\" onclick=";

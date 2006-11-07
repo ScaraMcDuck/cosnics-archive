@@ -45,7 +45,7 @@ if (isset($_cid))
 		$link=$row['link'];
 		$link=$rootWeb.substr_replace($link,"", 0,3);
 	
-		// NOTICE : table tool no longer contains "../claroline/img/" but only the image file name
+		// NOTICE : table tool no longer contains "../main/img/" but only the image file name
 	
 		if(!stristr($row['link'],'http://'))
 		{

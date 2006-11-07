@@ -32,7 +32,7 @@
 	$langFile='exercice';
 	include('../inc/claro_init_global.inc.php');
 	
-	require_once($rootSys.'claroline/exercice/hotpotatoes.lib.php'); 
+	require_once($rootSys.'main/exercice/hotpotatoes.lib.php'); 
 	$documentPath= api_get_path(SYS_COURSE_PATH).$_course['path']."/document";
 	$title = GetQuizName($_GET['file'],$documentPath);		
 	if ($title =='')
