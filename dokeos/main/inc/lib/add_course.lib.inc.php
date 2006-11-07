@@ -281,7 +281,7 @@ function prepare_course_repository($courseRepository, $courseId)
 	\$cidReq = \"$courseId\";
 	\$dbname = \"$courseId\";
 	
-	include(\"../../claroline/course_home/course_home.php\");
+	include(\"../../main/course_home/course_home.php\");
 	?>");
 	fwrite($fd, "$string");
 	$fd = fopen($coursesRepositorySys.$courseRepository."/group/index.php", "w");
@@ -1236,7 +1236,7 @@ function fill_Db_course($courseDbName, $courseRepository, $language)
 	         )");
 	api_sql_query("INSERT INTO `".$TABLEPHPBBFORUMS."` VALUES (1,'".lang2db(get_lang('TestForum'))."','".lang2db(get_lang('DelAdmin'))."',2,1,1,1,1,2,0)");
 	api_sql_query("INSERT INTO `".$TABLEPHPBBHEADFOOT."` VALUES (
-	         '<center><a href=\"../".$courseRepository."\"><img border=0 src=../claroline/img/logo.gif></a></center>',
+	         '<center><a href=\"../".$courseRepository."\"><img border=0 src=../main/img/logo.gif></a></center>',
 	         '',
 	         ''
 	         )");
