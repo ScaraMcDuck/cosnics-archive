@@ -18,9 +18,9 @@ $configuration['database']['table_name_prefix']
 	= 'dokeos_';
 
 $configuration['general']['upload_path']
-	= dirname(__FILE__).'/../../claroline/upload';
+	= dirname(__FILE__).'/../../main/upload';
 
 $configuration['general']['upload_url']
-	= api_get_path(WEB_PATH).'claroline/upload';
+	= api_get_path(WEB_PATH).'main/upload';
 
 ?>

@@ -187,7 +187,7 @@ if ($action=='closelesson')
 					$result = api_sql_query("SELECT * FROM ".$TBL_DOCUMENT." WHERE id=$id",__FILE__,__LINE__);
 					$myrow= mysql_fetch_array($result);
 					$path=$myrow["path"];
-					$fullpath=$rootWeb."claroline/exercice/showinframes.php?file=$path&origin=$origin&cid=".$_course['official_code']."&uid=$_uid&learnpath_id=$learnpath_id&learnpath_item_id=$id_in_path";
+					$fullpath=$rootWeb."main/exercice/showinframes.php?file=$path&origin=$origin&cid=".$_course['official_code']."&uid=$_uid&learnpath_id=$learnpath_id&learnpath_item_id=$id_in_path";
 					
 					echo "<script type='text/javascript'>\n/* <![CDATA[ */\n",
 					"zwindow=open('$fullpath','content',$properties);",
