@@ -9,6 +9,9 @@ We invite people to follow our development efforts and give remarks.
 For instructions on how to install,
 see the INSTALL.txt.
 
+Dokeos LCMS developers will benefit from some specific documentation:
+http://www.dokeos.com/wiki/index.php/LCMS_Developer_Cookbook
+
 =====================================
  Dokeos community release 2.1 README
 =====================================
