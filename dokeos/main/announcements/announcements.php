@@ -278,7 +278,7 @@ else
 	$display_announcement_list = false;
 	$display_specific_announcement = true;
 	$announcement_id = $_REQUEST['ann_id'];
-	?> <link rel="stylesheet" type="text/css" href="<?php echo $clarolineRepositoryWeb ?>css/default.css">
+	?> <link rel="stylesheet" type="text/css" href="<?php echo api_get_path(WEB_CODE_PATH); ?>css/default.css">
 	<!-- css file for announcements -->
 	<link href="../css/announcements.css" rel="stylesheet" type="text/css">
 	<?php
