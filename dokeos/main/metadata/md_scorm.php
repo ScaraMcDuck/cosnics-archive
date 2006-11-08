@@ -65,7 +65,7 @@ function mdo_add_breadcrump_nav()
 	global $interbredcrump;
 	$regs = array(); // for use with ereg()
 
-	$docurl = $_SERVER['PHP_SELF'];  // should be .../claroline/xxx/yyy.php
+	$docurl = $_SERVER['PHP_SELF'];  // should be .../main/xxx/yyy.php
 	if (ereg('^(.+[^/\.]+)/[^/\.]+/[^/\.]+.[^/\.]+$', $docurl, $regs))
 		$docurl = $regs[1] . '/scorm/scormdocument.php';
 

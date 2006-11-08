@@ -66,7 +66,7 @@ function mdobject($_course, $eid)
             }
             else
             {
-                $this->mdo_url =  api_get_path(WEB_PATH) . 'claroline/document/' . 
+                $this->mdo_url =  api_get_path(WEB_PATH) . 'main/document/' . 
                     (($this->mdo_filetype == 'file') ? 'download' : 'document').'.php?'. 
                     (($this->mdo_filetype == 'file') ? 'doc_url=' : 'curdirpath=') . 
                     urlencode($this->mdo_path);

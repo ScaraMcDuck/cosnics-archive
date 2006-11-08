@@ -73,7 +73,7 @@ function mdo_generate_default_xml_metadata()
         '.Document.' . $this->mdo_id;  // 2005-05-30: path->sysCode
     
     $xhtDoc->xht_param['location'] = api_get_path(WEB_PATH) . 
-        'claroline/metadata/openobject.php?cidReq=' . 
+        'main/metadata/openobject.php?cidReq=' . 
         urlencode($this->mdo_course['sysCode']) . '&eid=' . 
         urlencode($this->mdo_eid);
     
@@ -117,7 +117,7 @@ function mdo_add_breadcrump_nav()
     global $interbredcrump, $langFormats;
     $regs = array(); // for use with ereg()
     
-    $docurl = $_SERVER['PHP_SELF'];  // should be .../claroline/xxx/yyy.php
+    $docurl = $_SERVER['PHP_SELF'];  // should be .../main/xxx/yyy.php
     if (ereg('^(.+[^/\.]+)/[^/\.]+/[^/\.]+.[^/\.]+$', $docurl, $regs))
         $docurl = $regs[1] . '/document/document.php';
     
