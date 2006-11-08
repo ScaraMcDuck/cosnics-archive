@@ -1137,7 +1137,7 @@ function lang2db($string)
 */
 function fill_Db_course($courseDbName, $courseRepository, $language)
 {
-	global $singleDbEnabled, $courseTablePrefix, $dbGlu, $clarolineRepositoryWeb, $clarolineRepositorySys, $_user;
+	global $singleDbEnabled, $courseTablePrefix, $dbGlu, $_user;
 
 	$courseDbName = $courseTablePrefix.$courseDbName.$dbGlu;
 
@@ -1191,8 +1191,8 @@ function fill_Db_course($courseDbName, $courseRepository, $language)
 	$nom = $_user['lastName'];
 	$prenom = $_user['firstName'];
 
-	include ($clarolineRepositorySys."lang/english/create_course.inc.php");
-	include ($clarolineRepositorySys."lang/".$language."/create_course.inc.php");
+	include (api_get_path(SYS_LANG_PATH)."english/create_course.inc.php");
+	include (api_get_path(SYS_LANG_PATH).$language."/create_course.inc.php");
 
 	mysql_select_db("$courseDbName");
 
