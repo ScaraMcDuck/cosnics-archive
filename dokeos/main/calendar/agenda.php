@@ -175,7 +175,7 @@ if ($_GET['origin'] != 'learnpath')
 }
 else 
 {
-	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$clarolineRepositoryWeb."css/default.css\"/>";
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".api_get_path(WEB_CODE_PATH)."css/default.css\"/>";
 }
 
 // notice for unauthorized people
