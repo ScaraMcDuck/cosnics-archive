@@ -22,7 +22,7 @@
 if (!isset($scormid)) exit(); if (!isset($drs)) exit();
 if (strpos($drs, '//') !== FALSE) exit();
 
-require($drs . 'claroline/metadata/md_funcs.php');
+require($drs . 'main/metadata/md_funcs.php');
 
 define('EID_TYPE', 'Scorm');
 define('BID', EID_TYPE . '.' . $scormid);
@@ -50,7 +50,7 @@ if (WHF != '0')                             $urlp .= '&whf=' . urlencode(WHF);
 if (RNG != '*')                             $urlp .= '&rng=' . urlencode(RNG);
 
 $langFile = LFN;
-require($drs . 'claroline/inc/claro_init_global.inc.php');
+require($drs . 'main/inc/claro_init_global.inc.php');
 $nameTools = get_lang('Tool');
 
 ($nameTools && get_lang('Sorry'))
@@ -61,7 +61,7 @@ $_course = api_get_course_info(); isset($_course) or give_up(get_lang('Sorry'));
 require(api_get_library_path() . '/xmd.lib.php');
 require(api_get_library_path() . '/xht.lib.php');
 
-require($drs . 'claroline/metadata/md_' . strtolower(EID_TYPE) . '.php');
+require($drs . 'main/metadata/md_' . strtolower(EID_TYPE) . '.php');
 $mdObj = new mdobject($_course, EID_ID);
 
 define('DR', $_SERVER['DOCUMENT_ROOT']);

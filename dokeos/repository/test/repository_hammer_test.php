@@ -2,7 +2,7 @@
 /**
  * @package repository
  */
-require_once dirname(__FILE__).'/../../claroline/inc/claro_init_global.inc.php';
+require_once dirname(__FILE__).'/../../main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/../lib/learningobject.class.php';
 require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 

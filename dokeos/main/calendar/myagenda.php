@@ -389,7 +389,7 @@ function get_agendaitems($rootWeb, $courses_dbs, $month, $year)
 		{
 			$agendaday = date("j",strtotime($item['start_date']));
 			$time= date("H:i",strtotime($item['start_date']));
-			$URL = $rootWeb."claroline/calendar/agenda.php?cidReq=".urlencode($array_course_info["code"])."&amp;day=$agendaday&amp;month=$month&amp;year=$year#$agendaday"; // RH  //Patrick Cool: to highlight the relevant agenda item
+			$URL = $rootWeb."main/calendar/agenda.php?cidReq=".urlencode($array_course_info["code"])."&amp;day=$agendaday&amp;month=$month&amp;year=$year#$agendaday"; // RH  //Patrick Cool: to highlight the relevant agenda item
 			$items[$agendaday][$item['start_time']] .= "<i>$time</i> <a href=\"$URL\" title=\"".$array_course_info["name"]."\">".$array_course_info["visual_code"]."</a>  ".$item['title']."<br />";
 		}
 	}
@@ -785,7 +785,7 @@ function get_day_agendaitems($rootWeb, $courses_dbs, $month, $year, $day)
 				$halfhour = $halfhour +1;
 			}
 			//$URL = $rootWeb.$mycours["dir"]."/";
-			$URL = $rootWeb."claroline/calendar/agenda.php?cidReq=".urlencode($array_course_info["code"])."&amp;day=$day&amp;month=$month&amp;year=$year#$day"; // RH  //Patrick Cool: to highlight the relevant agenda item
+			$URL = $rootWeb."main/calendar/agenda.php?cidReq=".urlencode($array_course_info["code"])."&amp;day=$day&amp;month=$month&amp;year=$year#$day"; // RH  //Patrick Cool: to highlight the relevant agenda item
 			$items[$halfhour][] .= "<i>".$hours.":".$minutes."</i> <a href=\"$URL\" title=\"".$array_course_info['name']."\">".$array_course_info['visual_code']."</a>  ".$item['title']."<br />";
 		}
 	}
@@ -923,7 +923,7 @@ function get_week_agendaitems($rootWeb, $courses_dbs, $month, $year, $week = '')
 		{
 			$agendaday = date("j",strtotime($item['start_date']));
 			$time= date("H:i",strtotime($item['start_date']));
-			$URL = $rootWeb."claroline/calendar/agenda.php?cidReq=".urlencode($array_course_info["code"])."&amp;day=$agendaday&amp;month=$month&amp;year=$year#$agendaday"; // RH  //Patrick Cool: to highlight the relevant agenda item
+			$URL = $rootWeb."main/calendar/agenda.php?cidReq=".urlencode($array_course_info["code"])."&amp;day=$agendaday&amp;month=$month&amp;year=$year#$agendaday"; // RH  //Patrick Cool: to highlight the relevant agenda item
 			$items[$agendaday][$item['start_time']] .= "<i>$time</i> <a href=\"$URL\" title=\"".$array_course_info["name"]."\">".$array_course_info["visual_code"]."</a>  ".$item['title']."<br />";
 		}
 	}
@@ -1219,7 +1219,7 @@ function get_personal_agendaitems($rootWeb, $agendaitems, $day = "", $month = ""
 		// if the student has specified a course we a add a link to that course
 		if ($item['course'] <> "")
 		{
-			$url = $rootWeb."claroline/calendar/agenda.php?cidReq=".urlencode($item['course'])."&amp;day=$day&amp;month=$month&amp;year=$year#$day"; // RH  //Patrick Cool: to highlight the relevant agenda item
+			$url = $rootWeb."main/calendar/agenda.php?cidReq=".urlencode($item['course'])."&amp;day=$day&amp;month=$month&amp;year=$year#$day"; // RH  //Patrick Cool: to highlight the relevant agenda item
 			$course_link = "<a href=\"$url\" title=\"".$item['course']."\">".$item['course']."</a>";
 		}
 		else

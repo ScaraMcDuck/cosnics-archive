@@ -57,7 +57,7 @@ $cidReset = true; /* Flag forcing the 'current course' reset,
 -----------------------------------------------------------
 */
 //this includes main_api too:
-include_once ('./claroline/inc/claro_init_global.inc.php');
+include_once ('./main/inc/claro_init_global.inc.php');
 //$this_section = SECTION_COURSES;
 
 include_once (api_get_path(LIBRARY_PATH).'course.lib.php');

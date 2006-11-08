@@ -40,7 +40,7 @@
 ==================================================
 */
 
-include_once("./claroline/auth/ldap/authldap.php");
+include_once("./main/auth/ldap/authldap.php");
 
 $loginLdapSucces = loginWithLdap($login, $password);	
 
