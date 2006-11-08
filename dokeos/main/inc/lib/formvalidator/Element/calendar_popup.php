@@ -23,7 +23,7 @@
 */
 // including the relevant language file
 $langFile = "agenda";
-// including the claroline global
+// including the global init script
 require ('../../../claro_init_global.inc.php');
 
 // the variables for the days and the months
