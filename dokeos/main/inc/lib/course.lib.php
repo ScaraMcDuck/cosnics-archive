@@ -735,6 +735,21 @@ class CourseManager
 
 		return $result_array;
 	}
+	
+	/**
+	* @return boolean true if the user is course admin, false otherwise
+	*/
+	function is_course_admin_in_real_or_linked_courses($user_id, $real_course_code)
+	{
+		if ( CourseManager::get_user_in_course_status($user_id, $real_course_code) == COURSEMANAGER ) return true;
+		
+		$user_subscribed_virtual_course_list = CourseManager::get_list_of_virtual_courses_for_specific_user_and_real_course($user_id, $real_course_code);
+		foreach ($user_subscribed_virtual_course_list as $this_course)
+		{
+			if ( $this_course['status'] == COURSEMANAGER) return true;
+		}
+		return false;
+	}
 
 	/**
 	 * @deprecated	 use	  determine_course_title_from_course_info($user_id,
