@@ -200,7 +200,12 @@ class Page_Language extends HTML_QuickForm_Page
 	}
 }
 
-// Class for requirements page
+/**
+ * Class for requirements page
+ * This checks and informs about some requirements for installing Dokeos:
+ * - necessary and optional extensions
+ * - folders which have to be writable
+ */
 class Page_Requirements extends HTML_QuickForm_Page
 {
 	/**
@@ -323,7 +328,11 @@ class Page_LocationOldVersion extends HTML_QuickForm_Page
 		$this->setDefaultAction('next');
 	}
 }
-// Class for license page
+
+/**
+ * Class for license page
+ * Displays the GNU GPL license that has to be accepted to install Dokeos.
+ */
 class Page_License extends HTML_QuickForm_Page
 {
 	function get_title()
@@ -346,9 +355,12 @@ class Page_License extends HTML_QuickForm_Page
 	}
 }
 
-/*
-* Class for database settings page
-*/
+/**
+ * Class for database settings page
+ * Displays a form where the user can enter the installation settings
+ * regarding the databases - login and password, names, prefixes, single 
+ * or multiple databases, tracking or not...
+ */
 class Page_DatabaseSettings extends HTML_QuickForm_Page
 {
 	function get_title()
