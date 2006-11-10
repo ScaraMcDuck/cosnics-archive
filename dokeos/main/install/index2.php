@@ -345,7 +345,10 @@ class Page_License extends HTML_QuickForm_Page
 		$this->setDefaultAction('next');
 	}
 }
-// Class for database settings page
+
+/*
+* Class for database settings page
+*/
 class Page_DatabaseSettings extends HTML_QuickForm_Page
 {
 	function get_title()
@@ -372,6 +375,8 @@ class Page_DatabaseSettings extends HTML_QuickForm_Page
 		$this->addRule('database_scorm', 'ThisFieldIsRequired', 'required');
 		$this->addElement('text', 'database_user', get_lang("UserDB"), array ('size' => '40'));
 		$this->addRule('database_user', 'ThisFieldIsRequired', 'required');
+		$this->addElement('text', 'database_repository', get_lang("RepositoryDatabase"), array ('size' => '40'));
+		$this->addRule('database_repository', 'ThisFieldIsRequired', 'required');
 		$enable_tracking[] = & $this->createElement('radio', 'enable_tracking', null, get_lang("Yes"), 1);
 		$enable_tracking[] = & $this->createElement('radio', 'enable_tracking', null, get_lang("No"), 0);
 		$this->addGroup($enable_tracking, 'tracking', get_lang("EnableTracking"), '&nbsp;', false);
@@ -544,6 +549,7 @@ $defaults['database_main_db'] = 'dokeos_main';
 $defaults['database_tracking'] = 'dokeos_stats';
 $defaults['database_scorm'] = 'dokeos_scorm';
 $defaults['database_user'] = 'dokeos_user';
+$defaults['database_repository'] = 'dokeos_repository';
 $defaults['database_single'] = 0;
 $defaults['enable_tracking'] = 1;
 $defaults['admin_lastname'] = 'Doe';
