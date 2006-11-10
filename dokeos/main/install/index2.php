@@ -13,6 +13,7 @@ require ('../lang/english/trad4all.inc.php');
 require ('../lang/english/install.inc.php');
 require ('../inc/lib/auth.lib.inc.php');
 require_once ('install_upgrade.lib.php');
+require_once ('install_db.inc.php');
 
 define('DOKEOS_INSTALL', 1);
 define('MAX_COURSE_TRANSFER', 100);
@@ -502,6 +503,7 @@ class ActionProcess extends HTML_QuickForm_Action
 
 		echo '<pre>';
 		var_dump($values);
+		full_install($values);
 		echo '</pre>';
 		$page->controller->container(true);
 	}
