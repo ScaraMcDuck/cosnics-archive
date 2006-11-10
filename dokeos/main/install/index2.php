@@ -488,7 +488,12 @@ class Page_ConfirmSettings extends HTML_QuickForm_Page
 		$this->setDefaultAction('next');
 	}
 }
-// Class for form processing
+
+/**
+* Class for form processing
+* Here happens the actual installation action after collecting
+* all the required data.
+*/
 class ActionProcess extends HTML_QuickForm_Action
 {
 	function perform(& $page, $actionName)
@@ -553,7 +558,7 @@ $defaults = array ();
 $defaults['installation_type'] = 'new';
 $defaults['install_language'] = 'english';
 $defaults['platform_language'] = 'english';
-$urlAppendPath = str_replace('/claroline/install/'.basename(__FILE__), '', $_SERVER['PHP_SELF']);
+$urlAppendPath = str_replace('/main/install/'.basename(__FILE__), '', $_SERVER['PHP_SELF']);
 $defaults['platform_url'] = 'http://'.$_SERVER['HTTP_HOST'].$urlAppendPath.'/';
 $defaults['license'] = implode("\n", file('../license/gpl.txt'));
 $defaults['database_host'] = 'localhost';
