@@ -6,6 +6,7 @@
 	Copyright (c) 2004-2005 Dokeos S.A.
 	Copyright (c) 2003 Ghent University (UGent)
 	Copyright (c) 2001 Universite catholique de Louvain (UCL)
+	Copyright (c) Evie, Free University of Brussels (Belgium)
 	Copyright (c) various contributors
 
 	For a full list of contributors, see "credits.txt".
@@ -49,7 +50,7 @@ function full_install($values)
 	$platform_url = $values['platform_url'];
 	
 	set_file_folder_permissions();
-	connect_to_database_server($database_host,$database_username,$database_password);
+	connect_to_database_server($database_host, $database_username, $database_password);
 	
 	if($platform_url[strlen($platform_url)-1] != '/')
 	{
@@ -57,21 +58,22 @@ function full_install($values)
 		$values['platform_url'] = $platform_url;
 	}
 	
-	if($encryptPassForm)
+	if($values['encrypt_password'])
 	{
-		$passToStore=md5($passForm);
+		$password = md5($values['admin_password']);
+		$values['admin_password'] = $password;
 	}
 	else
 	{
-		$passToStore=($passForm);
+		$password = ($values['admin_password']);
 	}
 	
-	$dbPrefixForm=eregi_replace('[^a-z0-9_-]','',$dbPrefixForm);
+	$dbPrefixForm = eregi_replace('[^a-z0-9_-]','',$dbPrefixForm);
 	
-	$dbNameForm=eregi_replace('[^a-z0-9_-]','',$dbNameForm);
-	$dbStatsForm=eregi_replace('[^a-z0-9_-]','',$dbStatsForm);
-	$dbScormForm=eregi_replace('[^a-z0-9_-]','',$dbScormForm);
-	$dbUserForm=eregi_replace('[^a-z0-9_-]','',$dbUserForm);
+	$dbNameForm = eregi_replace('[^a-z0-9_-]','',$dbNameForm);
+	$dbStatsForm = eregi_replace('[^a-z0-9_-]','',$dbStatsForm);
+	$dbScormForm = eregi_replace('[^a-z0-9_-]','',$dbScormForm);
+	$dbUserForm = eregi_replace('[^a-z0-9_-]','',$dbUserForm);
 	
 	if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbNameForm))
 	{
@@ -93,29 +95,29 @@ function full_install($values)
 		$dbUserForm=$dbPrefixForm.$dbUserForm;
 	}
 	
-	$mysqlMainDb=$dbNameForm;
-	$mysqlStatsDb=$dbStatsForm;
-	$mysqlScormDb=$dbScormForm;
-	$mysqlUserDb=$dbUserForm;
+	$main_database = $dbNameForm;
+	$statistics_database = $dbStatsForm;
+	$scorm_database = $dbScormForm;
+	$user_database = $dbUserForm;
 	
-	if(empty($mysqlMainDb) || $mysqlMainDb == 'mysql' || $mysqlMainDb == $dbPrefixForm)
+	if(empty($main_database) || $main_database == 'mysql' || $main_database == $dbPrefixForm)
 	{
-		$mysqlMainDb=$dbPrefixForm.'main';
+		$main_database = $dbPrefixForm.'main';
 	}
 	
-	if(empty($mysqlStatsDb) || $mysqlStatsDb == 'mysql' || $mysqlStatsDb == $dbPrefixForm)
+	if(empty($statistics_database) || $statistics_database == 'mysql' || $statistics_database == $dbPrefixForm)
 	{
-		$mysqlStatsDb=$dbPrefixForm.'stats';
+		$statistics_database = $dbPrefixForm.'stats';
 	}
 	
-	if(empty($mysqlScormDb) || $mysqlScormDb == 'mysql' || $mysqlScormDb == $dbPrefixForm)
+	if(empty($scorm_database) || $scorm_database == 'mysql' || $scorm_database == $dbPrefixForm)
 	{
-		$mysqlScormDb=$dbPrefixForm.'scorm';
+		$scorm_database = $dbPrefixForm.'scorm';
 	}
 	
-	if(empty($mysqlUserDb) || $mysqlUserDb == 'mysql' || $mysqlUserDb == $dbPrefixForm)
+	if(empty($user_database) || $user_database == 'mysql' || $user_database == $dbPrefixForm)
 	{
-		$mysqlUserDb=$dbPrefixForm.'user';
+		$user_database = $dbPrefixForm.'user';
 	}
 	
 	$result=mysql_query("SHOW VARIABLES LIKE 'datadir'") or die(mysql_error());
@@ -131,7 +133,7 @@ function full_install($values)
 	}
 
 	create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database);
-	create_main_database_tables($main_database);
+	create_main_database_tables($main_database, $values);
 	create_tracking_database_tables($statistics_database);
 	create_scorm_database_tables($scorm_database);
 	create_user_database_tables($user_database);
@@ -232,7 +234,7 @@ function create_databases($is_single_database, $main_database, $statistics_datab
 /**
 * creating the tables of the main database
 */
-function create_main_database_tables($main_database)
+function create_main_database_tables($main_database, $values)
 {
 	mysql_select_db($main_database) or die(mysql_error());
 	
