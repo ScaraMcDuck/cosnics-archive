@@ -553,8 +553,13 @@ $defaults['database_repository'] = 'dokeos_repository';
 $defaults['database_single'] = 0;
 $defaults['enable_tracking'] = 1;
 $defaults['admin_lastname'] = 'Doe';
-$defaults['admin_firstname'] = 'John';
+$defaults['admin_firstname'] = mt_rand(0,1)?'John':'Jane';
 $defaults['admin_email'] = $_SERVER['SERVER_ADMIN'];
+$email_parts = explode('@',$defaults['admin_email']);
+if($email_parts[1] == 'localhost')
+{
+	$defaults['admin_email'] .= '.localdomain';	
+}
 $defaults['admin_username'] = 'admin';
 $defaults['admin_password'] = api_generate_password();
 $defaults['encrypt_password'] = 1;
