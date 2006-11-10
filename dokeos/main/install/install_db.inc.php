@@ -47,6 +47,7 @@ function full_install($values)
 	$database_host = $values['database_username'];
 	$database_username = $values['database_username'];
 	$database_password = $values['database_password'];
+	$database_prefix = $values['database_prefix'];
 	$platform_url = $values['platform_url'];
 	
 	set_file_folder_permissions();
@@ -68,31 +69,31 @@ function full_install($values)
 		$password = ($values['admin_password']);
 	}
 	
-	$dbPrefixForm = eregi_replace('[^a-z0-9_-]','',$dbPrefixForm);
+	$database_prefix = eregi_replace('[^a-z0-9_-]','',$database_prefix);
 	
 	$dbNameForm = eregi_replace('[^a-z0-9_-]','',$dbNameForm);
 	$dbStatsForm = eregi_replace('[^a-z0-9_-]','',$dbStatsForm);
 	$dbScormForm = eregi_replace('[^a-z0-9_-]','',$dbScormForm);
 	$dbUserForm = eregi_replace('[^a-z0-9_-]','',$dbUserForm);
 	
-	if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbNameForm))
+	if(!empty($database_prefix) && !ereg('^'.$database_prefix,$dbNameForm))
 	{
-		$dbNameForm=$dbPrefixForm.$dbNameForm;
+		$dbNameForm=$database_prefix.$dbNameForm;
 	}
 	
-	if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbStatsForm))
+	if(!empty($database_prefix) && !ereg('^'.$database_prefix,$dbStatsForm))
 	{
-		$dbStatsForm=$dbPrefixForm.$dbStatsForm;
+		$dbStatsForm=$database_prefix.$dbStatsForm;
 	}
 	
-	if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbScormForm))
+	if(!empty($database_prefix) && !ereg('^'.$database_prefix,$dbScormForm))
 	{
-		$dbScormForm=$dbPrefixForm.$dbScormForm;
+		$dbScormForm=$database_prefix.$dbScormForm;
 	}
 	
-	if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbUserForm))
+	if(!empty($database_prefix) && !ereg('^'.$database_prefix,$dbUserForm))
 	{
-		$dbUserForm=$dbPrefixForm.$dbUserForm;
+		$dbUserForm=$database_prefix.$dbUserForm;
 	}
 	
 	$main_database = $dbNameForm;
@@ -100,24 +101,21 @@ function full_install($values)
 	$scorm_database = $dbScormForm;
 	$user_database = $dbUserForm;
 	
-	if(empty($main_database) || $main_database == 'mysql' || $main_database == $dbPrefixForm)
+	if(empty($main_database) || $main_database == 'mysql' || $main_database == $database_prefix)
 	{
-		$main_database = $dbPrefixForm.'main';
+		$main_database = $database_prefix.'main';
 	}
-	
-	if(empty($statistics_database) || $statistics_database == 'mysql' || $statistics_database == $dbPrefixForm)
+	if(empty($statistics_database) || $statistics_database == 'mysql' || $statistics_database == $database_prefix)
 	{
-		$statistics_database = $dbPrefixForm.'stats';
+		$statistics_database = $database_prefix.'stats';
 	}
-	
-	if(empty($scorm_database) || $scorm_database == 'mysql' || $scorm_database == $dbPrefixForm)
+	if(empty($scorm_database) || $scorm_database == 'mysql' || $scorm_database == $database_prefix)
 	{
-		$scorm_database = $dbPrefixForm.'scorm';
+		$scorm_database = $database_prefix.'scorm';
 	}
-	
-	if(empty($user_database) || $user_database == 'mysql' || $user_database == $dbPrefixForm)
+	if(empty($user_database) || $user_database == 'mysql' || $user_database == $database_prefix)
 	{
-		$user_database = $dbPrefixForm.'user';
+		$user_database = $database_prefix.'user';
 	}
 	
 	$result=mysql_query("SHOW VARIABLES LIKE 'datadir'") or die(mysql_error());
