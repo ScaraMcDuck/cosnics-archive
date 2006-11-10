@@ -41,7 +41,7 @@
 /**
 * Create all default databases and their tables.
 */
-function full_install($values)
+function full_database_install($values)
 {
 	$is_single_database = $values['database_single'];
 	$database_host = $values['database_username'];
@@ -50,7 +50,7 @@ function full_install($values)
 	$database_prefix = $values['database_prefix'];
 	$platform_url = $values['platform_url'];
 	
-	set_file_folder_permissions();
+	set_file_folder_permissions(); //what's this doing here?
 	connect_to_database_server($database_host, $database_username, $database_password);
 	
 	if($platform_url[strlen($platform_url)-1] != '/')
