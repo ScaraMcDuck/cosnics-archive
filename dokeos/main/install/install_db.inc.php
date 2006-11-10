@@ -38,6 +38,133 @@
 */
 
 /**
+* Create all default databases and their tables.
+*/
+function full_install($values)
+{
+	$is_single_database = $values['database_single'];
+	$database_host = $values['database_username'];
+	$database_username = $values['database_username'];
+	$database_password = $values['database_password'];
+	$platform_url = $values['platform_url'];
+	
+	set_file_folder_permissions();
+	connect_to_database_server($database_host,$database_username,$database_password);
+	
+	if($platform_url[strlen($platform_url)-1] != '/')
+	{
+		$platform_url=$platform_url.'/';
+		$values['platform_url'] = $platform_url;
+	}
+	
+	if($encryptPassForm)
+	{
+		$passToStore=md5($passForm);
+	}
+	else
+	{
+		$passToStore=($passForm);
+	}
+	
+	$dbPrefixForm=eregi_replace('[^a-z0-9_-]','',$dbPrefixForm);
+	
+	$dbNameForm=eregi_replace('[^a-z0-9_-]','',$dbNameForm);
+	$dbStatsForm=eregi_replace('[^a-z0-9_-]','',$dbStatsForm);
+	$dbScormForm=eregi_replace('[^a-z0-9_-]','',$dbScormForm);
+	$dbUserForm=eregi_replace('[^a-z0-9_-]','',$dbUserForm);
+	
+	if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbNameForm))
+	{
+		$dbNameForm=$dbPrefixForm.$dbNameForm;
+	}
+	
+	if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbStatsForm))
+	{
+		$dbStatsForm=$dbPrefixForm.$dbStatsForm;
+	}
+	
+	if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbScormForm))
+	{
+		$dbScormForm=$dbPrefixForm.$dbScormForm;
+	}
+	
+	if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbUserForm))
+	{
+		$dbUserForm=$dbPrefixForm.$dbUserForm;
+	}
+	
+	$mysqlMainDb=$dbNameForm;
+	$mysqlStatsDb=$dbStatsForm;
+	$mysqlScormDb=$dbScormForm;
+	$mysqlUserDb=$dbUserForm;
+	
+	if(empty($mysqlMainDb) || $mysqlMainDb == 'mysql' || $mysqlMainDb == $dbPrefixForm)
+	{
+		$mysqlMainDb=$dbPrefixForm.'main';
+	}
+	
+	if(empty($mysqlStatsDb) || $mysqlStatsDb == 'mysql' || $mysqlStatsDb == $dbPrefixForm)
+	{
+		$mysqlStatsDb=$dbPrefixForm.'stats';
+	}
+	
+	if(empty($mysqlScormDb) || $mysqlScormDb == 'mysql' || $mysqlScormDb == $dbPrefixForm)
+	{
+		$mysqlScormDb=$dbPrefixForm.'scorm';
+	}
+	
+	if(empty($mysqlUserDb) || $mysqlUserDb == 'mysql' || $mysqlUserDb == $dbPrefixForm)
+	{
+		$mysqlUserDb=$dbPrefixForm.'user';
+	}
+	
+	$result=mysql_query("SHOW VARIABLES LIKE 'datadir'") or die(mysql_error());
+	
+	$mysqlRepositorySys=mysql_fetch_array($result);
+	$mysqlRepositorySys=$mysqlRepositorySys['Value'];
+	
+	include("../lang/english/create_course.inc.php");
+	
+	if($languageForm != 'english')
+	{
+		include("../lang/$languageForm/create_course.inc.php");
+	}
+
+	create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database);
+	create_main_database_tables($main_database);
+	create_tracking_database_tables($statistics_database);
+	create_scorm_database_tables($scorm_database);
+	create_user_database_tables($user_database);
+}
+
+/**
+* Connects to the database server. Currently this is always MySQL.
+* @todo convert to Pear MDB2.
+*/
+function connect_to_database_server($database_host,$database_username,$database_password)
+{
+	@mysql_connect($database_host,$database_username,$database_password);
+
+	if(mysql_errno() > 0)
+	{
+		$no=mysql_errno();
+		$msg=mysql_error();
+	
+		echo '<hr />['.$no.'] &ndash; '.$msg.'<hr>
+		The MySQL server doesn\'t work or login / pass is bad.<br /><br />
+		Please check these values:<br /><br />
+		<b>host</b> : '.$database_host.'<br />
+		<b>user</b> : '.$database_username.'<br />
+		<b>password</b> : '.$database_password.'<br /><br />
+		Please go back to step 3.
+		<p><input type="submit" name="step3" value="&lt; Back" /></p>
+		</td></tr></table></form></body></html>';
+	
+		exit();
+	}
+}
+
+/**
 * Creates the default databases.
 */
 function create_databases($is_single_database, $main_database, $statistics_database, $scorm_database, $user_database)
@@ -337,121 +464,6 @@ function create_user_database_tables($user_database)
 				`title` text NOT NULL,
 				PRIMARY KEY  (`id`)
 				) TYPE=MyISAM") or die(mysql_error());
-}
-
-/**
-* Create all default databases and their tables.
-*/
-function full_install($values)
-{
-	$is_single_database = $values['database_single'];
-	
-	set_file_folder_permissions();
-	
-	@mysql_connect($dbHostForm,$dbUsernameForm,$dbPassForm);
-
-	if(mysql_errno() > 0)
-	{
-		$no=mysql_errno();
-		$msg=mysql_error();
-	
-		echo '<hr />['.$no.'] &ndash; '.$msg.'<hr>
-		The MySQL server doesn\'t work or login / pass is bad.<br /><br />
-		Please check these values:<br /><br />
-		<b>host</b> : '.$dbHostForm.'<br />
-		<b>user</b> : '.$dbUsernameForm.'<br />
-		<b>password</b> : '.$dbPassForm.'<br /><br />
-		Please go back to step 3.
-		<p><input type="submit" name="step3" value="&lt; Back" /></p>
-		</td></tr></table></form></body></html>';
-	
-		exit();
-	}
-	
-	if($urlForm[strlen($urlForm)-1] != '/')
-	{
-		$urlForm=$urlForm.'/';
-	}
-	
-	if($encryptPassForm)
-	{
-		$passToStore=md5($passForm);
-	}
-	else
-	{
-		$passToStore=($passForm);
-	}
-	
-	$dbPrefixForm=eregi_replace('[^a-z0-9_-]','',$dbPrefixForm);
-	
-	$dbNameForm=eregi_replace('[^a-z0-9_-]','',$dbNameForm);
-	$dbStatsForm=eregi_replace('[^a-z0-9_-]','',$dbStatsForm);
-	$dbScormForm=eregi_replace('[^a-z0-9_-]','',$dbScormForm);
-	$dbUserForm=eregi_replace('[^a-z0-9_-]','',$dbUserForm);
-	
-	if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbNameForm))
-	{
-		$dbNameForm=$dbPrefixForm.$dbNameForm;
-	}
-	
-	if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbStatsForm))
-	{
-		$dbStatsForm=$dbPrefixForm.$dbStatsForm;
-	}
-	
-	if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbScormForm))
-	{
-		$dbScormForm=$dbPrefixForm.$dbScormForm;
-	}
-	
-	if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbUserForm))
-	{
-		$dbUserForm=$dbPrefixForm.$dbUserForm;
-	}
-	
-	$mysqlMainDb=$dbNameForm;
-	$mysqlStatsDb=$dbStatsForm;
-	$mysqlScormDb=$dbScormForm;
-	$mysqlUserDb=$dbUserForm;
-	
-	if(empty($mysqlMainDb) || $mysqlMainDb == 'mysql' || $mysqlMainDb == $dbPrefixForm)
-	{
-		$mysqlMainDb=$dbPrefixForm.'main';
-	}
-	
-	if(empty($mysqlStatsDb) || $mysqlStatsDb == 'mysql' || $mysqlStatsDb == $dbPrefixForm)
-	{
-		$mysqlStatsDb=$dbPrefixForm.'stats';
-	}
-	
-	if(empty($mysqlScormDb) || $mysqlScormDb == 'mysql' || $mysqlScormDb == $dbPrefixForm)
-	{
-		$mysqlScormDb=$dbPrefixForm.'scorm';
-	}
-	
-	if(empty($mysqlUserDb) || $mysqlUserDb == 'mysql' || $mysqlUserDb == $dbPrefixForm)
-	{
-		$mysqlUserDb=$dbPrefixForm.'user';
-	}
-	
-	$result=mysql_query("SHOW VARIABLES LIKE 'datadir'") or die(mysql_error());
-	
-	$mysqlRepositorySys=mysql_fetch_array($result);
-	$mysqlRepositorySys=$mysqlRepositorySys['Value'];
-	
-	include("../lang/english/create_course.inc.php");
-	
-	if($languageForm != 'english')
-	{
-		include("../lang/$languageForm/create_course.inc.php");
-	}
-
-	
-	create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database);
-	create_main_database_tables($main_database);
-	create_tracking_database_tables($statistics_database);
-	create_scorm_database_tables($scorm_database);
-	create_user_database_tables($user_database);
 }
 
 /*
