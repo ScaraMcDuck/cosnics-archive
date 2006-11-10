@@ -31,14 +31,76 @@
 ==============================================================================
 */
 
-require_once("install_upgrade.lib.php");
-
 /*
 ==============================================================================
 		FUNCTIONS
 ==============================================================================
 */
 
+/**
+* Creates the default databases.
+*/
+function create_databases($is_single_database, $main_database, $statistics_database, $scorm_database, $user_database)
+{
+	if(!$is_single_database)
+	{
+		mysql_query("DROP DATABASE IF EXISTS `$main_database`") or die(mysql_error());
+	}
+	mysql_query("CREATE DATABASE IF NOT EXISTS `$main_database`") or die(mysql_error());
+	
+	if($statistics_database == $main_database && $scorm_database == $main_database && $user_database == $main_database)
+	{
+		$is_single_database=true;
+	}
+	
+	//Creating the statistics database
+	if($statistics_database != $main_database)
+	{
+		if(!$is_single_database)
+		{
+			// multi DB mode AND tracking has its own DB so create it
+			mysql_query("DROP DATABASE IF EXISTS `$statistics_database`") or die(mysql_error());
+			mysql_query("CREATE DATABASE `$statistics_database`") or die(mysql_error());
+		}
+		else
+		{
+			// single DB mode so $mysqlStatsDb MUST BE the SAME than $mysqlMainDb
+			$statistics_database = $main_database;
+		}
+	}
+	
+	//Creating the SCORM database
+	if($scorm_database != $main_database)
+	{
+		if(!$is_single_database)
+		{
+			// multi DB mode AND scorm has its own DB so create it
+			mysql_query("DROP DATABASE IF EXISTS `$scorm_database`") or die(mysql_error());
+			mysql_query("CREATE DATABASE `$scorm_database`") or die(mysql_error());
+		}
+		else
+		{
+			// single DB mode so $mysqlScormDb MUST BE the SAME than $mysqlMainDb
+			$scorm_database = $main_database;
+		}
+	}
+	
+	//Creating the user database
+	if($user_database != $main_database)
+	{
+		if(!$is_single_database)
+		{
+			// multi DB mode AND user data has its own DB so create it
+			mysql_query("DROP DATABASE IF EXISTS `$user_database`") or die(mysql_error());
+			mysql_query("CREATE DATABASE `$user_database`") or die(mysql_error());
+		}
+		else
+		{
+			// single DB mode so $mysqlUserDb MUST BE the SAME than $mysqlMainDb
+			$user_database = $main_database;
+		}
+	}
+}
 
 /**
 * creating the tables of the main database
@@ -278,10 +340,114 @@ function create_user_database_tables($user_database)
 }
 
 /**
-* Create all tables of the default databases.
+* Create all default databases and their tables.
 */
-function full_install($main_database, $statistics_database, $scorm_database, $user_database)
+function full_install($values)
 {
+	$is_single_database = $values['database_single'];
+	
+	set_file_folder_permissions();
+	
+	@mysql_connect($dbHostForm,$dbUsernameForm,$dbPassForm);
+
+	if(mysql_errno() > 0)
+	{
+		$no=mysql_errno();
+		$msg=mysql_error();
+	
+		echo '<hr />['.$no.'] &ndash; '.$msg.'<hr>
+		The MySQL server doesn\'t work or login / pass is bad.<br /><br />
+		Please check these values:<br /><br />
+		<b>host</b> : '.$dbHostForm.'<br />
+		<b>user</b> : '.$dbUsernameForm.'<br />
+		<b>password</b> : '.$dbPassForm.'<br /><br />
+		Please go back to step 3.
+		<p><input type="submit" name="step3" value="&lt; Back" /></p>
+		</td></tr></table></form></body></html>';
+	
+		exit();
+	}
+	
+	if($urlForm[strlen($urlForm)-1] != '/')
+	{
+		$urlForm=$urlForm.'/';
+	}
+	
+	if($encryptPassForm)
+	{
+		$passToStore=md5($passForm);
+	}
+	else
+	{
+		$passToStore=($passForm);
+	}
+	
+	$dbPrefixForm=eregi_replace('[^a-z0-9_-]','',$dbPrefixForm);
+	
+	$dbNameForm=eregi_replace('[^a-z0-9_-]','',$dbNameForm);
+	$dbStatsForm=eregi_replace('[^a-z0-9_-]','',$dbStatsForm);
+	$dbScormForm=eregi_replace('[^a-z0-9_-]','',$dbScormForm);
+	$dbUserForm=eregi_replace('[^a-z0-9_-]','',$dbUserForm);
+	
+	if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbNameForm))
+	{
+		$dbNameForm=$dbPrefixForm.$dbNameForm;
+	}
+	
+	if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbStatsForm))
+	{
+		$dbStatsForm=$dbPrefixForm.$dbStatsForm;
+	}
+	
+	if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbScormForm))
+	{
+		$dbScormForm=$dbPrefixForm.$dbScormForm;
+	}
+	
+	if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbUserForm))
+	{
+		$dbUserForm=$dbPrefixForm.$dbUserForm;
+	}
+	
+	$mysqlMainDb=$dbNameForm;
+	$mysqlStatsDb=$dbStatsForm;
+	$mysqlScormDb=$dbScormForm;
+	$mysqlUserDb=$dbUserForm;
+	
+	if(empty($mysqlMainDb) || $mysqlMainDb == 'mysql' || $mysqlMainDb == $dbPrefixForm)
+	{
+		$mysqlMainDb=$dbPrefixForm.'main';
+	}
+	
+	if(empty($mysqlStatsDb) || $mysqlStatsDb == 'mysql' || $mysqlStatsDb == $dbPrefixForm)
+	{
+		$mysqlStatsDb=$dbPrefixForm.'stats';
+	}
+	
+	if(empty($mysqlScormDb) || $mysqlScormDb == 'mysql' || $mysqlScormDb == $dbPrefixForm)
+	{
+		$mysqlScormDb=$dbPrefixForm.'scorm';
+	}
+	
+	if(empty($mysqlUserDb) || $mysqlUserDb == 'mysql' || $mysqlUserDb == $dbPrefixForm)
+	{
+		$mysqlUserDb=$dbPrefixForm.'user';
+	}
+	
+	$result=mysql_query("SHOW VARIABLES LIKE 'datadir'") or die(mysql_error());
+	
+	$mysqlRepositorySys=mysql_fetch_array($result);
+	$mysqlRepositorySys=$mysqlRepositorySys['Value'];
+	
+	include("../lang/english/create_course.inc.php");
+	
+	if($languageForm != 'english')
+	{
+		include("../lang/$languageForm/create_course.inc.php");
+	}
+
+	
+	create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database);
 	create_main_database_tables($main_database);
 	create_tracking_database_tables($statistics_database);
 	create_scorm_database_tables($scorm_database);
@@ -302,170 +468,4 @@ if( ! defined('DOKEOS_INSTALL'))
 	exit;
 }
 
-set_file_folder_permissions();
-
-@mysql_connect($dbHostForm,$dbUsernameForm,$dbPassForm);
-
-if(mysql_errno() > 0)
-{
-	$no=mysql_errno();
-	$msg=mysql_error();
-
-	echo '<hr />['.$no.'] &ndash; '.$msg.'<hr>
-	The MySQL server doesn\'t work or login / pass is bad.<br /><br />
-	Please check these values:<br /><br />
-	<b>host</b> : '.$dbHostForm.'<br />
-	<b>user</b> : '.$dbUsernameForm.'<br />
-	<b>password</b> : '.$dbPassForm.'<br /><br />
-	Please go back to step 3.
-	<p><input type="submit" name="step3" value="&lt; Back" /></p>
-	</td></tr></table></form></body></html>';
-
-	exit();
-}
-
-if($urlForm[strlen($urlForm)-1] != '/')
-{
-	$urlForm=$urlForm.'/';
-}
-
-if($encryptPassForm)
-{
-	$passToStore=md5($passForm);
-}
-else
-{
-	$passToStore=($passForm);
-}
-
-$dbPrefixForm=eregi_replace('[^a-z0-9_-]','',$dbPrefixForm);
-
-$dbNameForm=eregi_replace('[^a-z0-9_-]','',$dbNameForm);
-$dbStatsForm=eregi_replace('[^a-z0-9_-]','',$dbStatsForm);
-$dbScormForm=eregi_replace('[^a-z0-9_-]','',$dbScormForm);
-$dbUserForm=eregi_replace('[^a-z0-9_-]','',$dbUserForm);
-
-if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbNameForm))
-{
-	$dbNameForm=$dbPrefixForm.$dbNameForm;
-}
-
-if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbStatsForm))
-{
-	$dbStatsForm=$dbPrefixForm.$dbStatsForm;
-}
-
-if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbScormForm))
-{
-	$dbScormForm=$dbPrefixForm.$dbScormForm;
-}
-
-if(!empty($dbPrefixForm) && !ereg('^'.$dbPrefixForm,$dbUserForm))
-{
-	$dbUserForm=$dbPrefixForm.$dbUserForm;
-}
-
-$mysqlMainDb=$dbNameForm;
-$mysqlStatsDb=$dbStatsForm;
-$mysqlScormDb=$dbScormForm;
-$mysqlUserDb=$dbUserForm;
-
-if(empty($mysqlMainDb) || $mysqlMainDb == 'mysql' || $mysqlMainDb == $dbPrefixForm)
-{
-	$mysqlMainDb=$dbPrefixForm.'main';
-}
-
-if(empty($mysqlStatsDb) || $mysqlStatsDb == 'mysql' || $mysqlStatsDb == $dbPrefixForm)
-{
-	$mysqlStatsDb=$dbPrefixForm.'stats';
-}
-
-if(empty($mysqlScormDb) || $mysqlScormDb == 'mysql' || $mysqlScormDb == $dbPrefixForm)
-{
-	$mysqlScormDb=$dbPrefixForm.'scorm';
-}
-
-if(empty($mysqlUserDb) || $mysqlUserDb == 'mysql' || $mysqlUserDb == $dbPrefixForm)
-{
-	$mysqlUserDb=$dbPrefixForm.'user';
-}
-
-$result=mysql_query("SHOW VARIABLES LIKE 'datadir'") or die(mysql_error());
-
-$mysqlRepositorySys=mysql_fetch_array($result);
-$mysqlRepositorySys=$mysqlRepositorySys['Value'];
-
-if(!$singleDbForm)
-{
-	mysql_query("DROP DATABASE IF EXISTS `$mysqlMainDb`") or die(mysql_error());
-}
-mysql_query("CREATE DATABASE IF NOT EXISTS `$mysqlMainDb`") or die(mysql_error());
-
-if($mysqlStatsDb == $mysqlMainDb && $mysqlScormDb == $mysqlMainDb && $mysqlUserDb == $mysqlMainDb)
-{
-	$singleDbForm=true;
-}
-
-/**
-* CREATING THE STATISTICS DATABASE
-*/
-if($mysqlStatsDb != $mysqlMainDb)
-{
-	if(!$singleDbForm)
-	{
-		// multi DB mode AND tracking has its own DB so create it
-		mysql_query("DROP DATABASE IF EXISTS `$mysqlStatsDb`") or die(mysql_error());
-		mysql_query("CREATE DATABASE `$mysqlStatsDb`") or die(mysql_error());
-	}
-	else
-	{
-		// single DB mode so $mysqlStatsDb MUST BE the SAME than $mysqlMainDb
-		$mysqlStatsDb=$mysqlMainDb;
-	}
-}
-
-/**
-* CREATING THE SCORM DATABASE
-*/
-if($mysqlScormDb != $mysqlMainDb)
-{
-	if(!$singleDbForm)
-	{
-		// multi DB mode AND scorm has its own DB so create it
-		mysql_query("DROP DATABASE IF EXISTS `$mysqlScormDb`") or die(mysql_error());
-		mysql_query("CREATE DATABASE `$mysqlScormDb`") or die(mysql_error());
-	}
-	else
-	{
-		// single DB mode so $mysqlScormDb MUST BE the SAME than $mysqlMainDb
-		$mysqlScormDb=$mysqlMainDb;
-	}
-}
-
-/**
-* CREATING THE USER DATABASE
-*/
-if($mysqlUserDb != $mysqlMainDb)
-{
-	if(!$singleDbForm)
-	{
-		// multi DB mode AND user data has its own DB so create it
-		mysql_query("DROP DATABASE IF EXISTS `$mysqlUserDb`") or die(mysql_error());
-		mysql_query("CREATE DATABASE `$mysqlUserDb`") or die(mysql_error());
-	}
-	else
-	{
-		// single DB mode so $mysqlUserDb MUST BE the SAME than $mysqlMainDb
-		$mysqlUserDb=$mysqlMainDb;
-	}
-}
-
-include("../lang/english/create_course.inc.php");
-
-if($languageForm != 'english')
-{
-	include("../lang/$languageForm/create_course.inc.php");
-}
-
-full_install($mysqlMainDb, $mysqlStatsDb, $mysqlScormDb, $mysqlUserDb);
 ?>
