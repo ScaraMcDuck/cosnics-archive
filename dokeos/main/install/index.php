@@ -641,6 +641,7 @@ if($email_parts[1] == 'localhost')
 }
 $defaults['admin_username'] = 'admin';
 $defaults['admin_password'] = api_generate_password();
+$defaults['platform_name'] = "My Dokeos";
 $defaults['encrypt_password'] = 1;
 $defaults['organization_name'] = 'Dokeos';
 $defaults['organization_url'] = 'http://www.dokeos.com';
@@ -665,13 +666,14 @@ if (isset ($current_values['installation_type']) && $current_values['installatio
 		$defaults['database_tracking'] = get_config_param('statsDbName');
 		$defaults['database_scorm'] = get_config_param('scormDbName');
 		$defaults['database_user'] = 'dokeos_user';
+		$defaults['database_repository'] = 'dokeos_repository';
 		$defaults['database_username'] = get_config_param('dbLogin');
 		$defaults['database_password'] = get_config_param('dbPass');
 		$defaults['database_prefix'] = get_config_param('dbNamePrefix');
 		$defaults['enable_tracking'] = get_config_param('is_trackingEnabled');
 		$defaults['database_single'] = get_config_param('singleDbEnabled');
 		$defaults['admin_lastname'] = 'Doe';
-		$defaults['admin_firstname'] = 'John';
+		$defaults['admin_firstname'] = mt_rand(0,1)?'John':'Jane';
 		$defaults['admin_email'] = get_config_param('emailAdministrator');
 		$defaults['admin_username'] = 'admin';
 		$defaults['admin_password'] = api_generate_password();
