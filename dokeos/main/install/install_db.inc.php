@@ -101,6 +101,7 @@ function full_database_install($values)
 	$statistics_database = $values["database_tracking"];
 	$scorm_database = $values["database_scorm"];
 	$user_database = $values["database_user"];
+	$repository_database = $values["database_repository"];
 	
 	if(empty($main_database) || $main_database == 'mysql' || $main_database == $database_prefix)
 	{
@@ -118,11 +119,16 @@ function full_database_install($values)
 	{
 		$user_database = $database_prefix.'user';
 	}
+	if(empty($repository_database) || $repository_database == 'mysql' || $repository_database == $database_prefix)
+	{
+		$repository_database = $database_prefix.'user';
+	}
 	
 	$values["database_main_db"] = $main_database;
 	$values["database_tracking"] = $statistics_database;
 	$values["database_scorm"] = $scorm_database;
 	$values["database_user"] = $user_database;
+	$values["database_repository"] = $repository_database;
 	
 	$result=mysql_query("SHOW VARIABLES LIKE 'datadir'") or die(mysql_error());
 	
@@ -136,11 +142,12 @@ function full_database_install($values)
 		include("../lang/$languageForm/create_course.inc.php");
 	}
 
-	create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database);
+	create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database, $repository_database);
 	create_main_database_tables($main_database, $values);
 	create_tracking_database_tables($statistics_database);
 	create_scorm_database_tables($scorm_database);
 	create_user_database_tables($user_database);
+	//create_repository_database_tables($repository_database);
 	
 	echo "Database creation is complete!";
 }
@@ -175,7 +182,7 @@ function connect_to_database_server($database_host,$database_username,$database_
 /**
 * Creates the default databases.
 */
-function create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database)
+function create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database, $repository_database)
 {
 	if(!$is_single_database)
 	{
@@ -183,7 +190,7 @@ function create_databases($values, $is_single_database, $main_database, $statist
 	}
 	mysql_query("CREATE DATABASE IF NOT EXISTS `$main_database`") or die(mysql_error());
 	
-	if($statistics_database == $main_database && $scorm_database == $main_database && $user_database == $main_database)
+	if($statistics_database == $main_database && $scorm_database == $main_database && $user_database == $main_database && $repository_database == $main_database)
 	{
 		$is_single_database=true;
 	}
@@ -200,7 +207,7 @@ function create_databases($values, $is_single_database, $main_database, $statist
 		}
 		else
 		{
-			// single DB mode so $mysqlStatsDb MUST BE the SAME than $mysqlMainDb
+			// single database mode so $statistics_database must be the same as $main_database
 			$statistics_database = $main_database;
 		}
 	}
@@ -216,7 +223,7 @@ function create_databases($values, $is_single_database, $main_database, $statist
 		}
 		else
 		{
-			// single DB mode so $mysqlScormDb MUST BE the SAME than $mysqlMainDb
+			// single database mode so $scorm_database must be the same as $main_database
 			$scorm_database = $main_database;
 		}
 	}
@@ -232,8 +239,24 @@ function create_databases($values, $is_single_database, $main_database, $statist
 		}
 		else
 		{
-			// single DB mode so $mysqlUserDb MUST BE the SAME than $mysqlMainDb
+			// single database mode so $user_database must be the same as $main_database
 			$user_database = $main_database;
+		}
+	}
+	
+	//Creating the repository database
+	if($repository_database != $main_database)
+	{
+		if(!$is_single_database)
+		{
+			// multi DB mode AND user data has its own DB so create it
+			mysql_query("DROP DATABASE IF EXISTS `$repository_database`") or die(mysql_error());
+			mysql_query("CREATE DATABASE `$repository_database`") or die(mysql_error());
+		}
+		else
+		{
+			// single database mode so $repository_database must be the same as $main_database
+			$repository_database = $main_database;
 		}
 	}
 }
