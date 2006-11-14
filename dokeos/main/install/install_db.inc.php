@@ -119,6 +119,11 @@ function full_database_install($values)
 		$user_database = $database_prefix.'user';
 	}
 	
+	$values["database_main_db"] = $main_database;
+	$values["database_tracking"] = $statistics_database;
+	$values["database_scorm"] = $scorm_database;
+	$values["database_user"] = $user_database;
+	
 	$result=mysql_query("SHOW VARIABLES LIKE 'datadir'") or die(mysql_error());
 	
 	$mysqlRepositorySys=mysql_fetch_array($result);
@@ -136,6 +141,8 @@ function full_database_install($values)
 	create_tracking_database_tables($statistics_database);
 	create_scorm_database_tables($scorm_database);
 	create_user_database_tables($user_database);
+	
+	echo "Database creation is complete!";
 }
 
 /**
@@ -168,7 +175,7 @@ function connect_to_database_server($database_host,$database_username,$database_
 /**
 * Creates the default databases.
 */
-function create_databases($is_single_database, $main_database, $statistics_database, $scorm_database, $user_database)
+function create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database)
 {
 	if(!$is_single_database)
 	{
@@ -187,7 +194,8 @@ function create_databases($is_single_database, $main_database, $statistics_datab
 		if(!$is_single_database)
 		{
 			// multi DB mode AND tracking has its own DB so create it
-			mysql_query("DROP DATABASE IF EXISTS `$statistics_database`") or die(mysql_error());
+			$drop_tracking_database_sql = "DROP DATABASE IF EXISTS `$statistics_database`";
+			mysql_query($drop_tracking_database_sql) or die(mysql_error());
 			mysql_query("CREATE DATABASE `$statistics_database`") or die(mysql_error());
 		}
 		else
