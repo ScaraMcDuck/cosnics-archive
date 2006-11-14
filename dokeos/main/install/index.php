@@ -556,6 +556,7 @@ class ActionProcess extends HTML_QuickForm_Action
 		echo '<pre>';
 		var_dump($values);
 		full_database_install($values);
+		//full_file_install($values);
 		echo '</pre>';
 		$page->controller->container(true);
 	}
