@@ -44,7 +44,7 @@
 function full_database_install($values)
 {
 	$is_single_database = $values['database_single'];
-	$database_host = $values['database_username'];
+	$database_host = $values['database_host'];
 	$database_username = $values['database_username'];
 	$database_password = $values['database_password'];
 	$database_prefix = $values['database_prefix'];
@@ -71,35 +71,36 @@ function full_database_install($values)
 	
 	$database_prefix = eregi_replace('[^a-z0-9_-]','',$database_prefix);
 	
-	$dbNameForm = eregi_replace('[^a-z0-9_-]','',$dbNameForm);
-	$dbStatsForm = eregi_replace('[^a-z0-9_-]','',$dbStatsForm);
-	$dbScormForm = eregi_replace('[^a-z0-9_-]','',$dbScormForm);
-	$dbUserForm = eregi_replace('[^a-z0-9_-]','',$dbUserForm);
+	$values["database_main_db"] = eregi_replace('[^a-z0-9_-]', '', $values["database_main_db"]);
+	$values["database_tracking"] = eregi_replace('[^a-z0-9_-]', '', $values["database_tracking"]);
+	$values["database_scorm"] = eregi_replace('[^a-z0-9_-]', '', $values["database_scorm"]);
+	$values["database_user"] = eregi_replace('[^a-z0-9_-]', '', $values["database_user"]);
+	$values["database_repository"] = eregi_replace('[^a-z0-9_-]', '', $values["database_repository"]);
 	
-	if(!empty($database_prefix) && !ereg('^'.$database_prefix,$dbNameForm))
+	if(!empty($database_prefix) && !ereg('^'.$database_prefix,$values["database_main_db"]))
 	{
-		$dbNameForm=$database_prefix.$dbNameForm;
+		$values["database_main_db"]=$database_prefix.$values["database_main_db"];
 	}
 	
-	if(!empty($database_prefix) && !ereg('^'.$database_prefix,$dbStatsForm))
+	if(!empty($database_prefix) && !ereg('^'.$database_prefix,$values["database_tracking"]))
 	{
-		$dbStatsForm=$database_prefix.$dbStatsForm;
+		$values["database_tracking"]=$database_prefix.$values["database_tracking"];
 	}
 	
-	if(!empty($database_prefix) && !ereg('^'.$database_prefix,$dbScormForm))
+	if(!empty($database_prefix) && !ereg('^'.$database_prefix,$values["database_scorm"]))
 	{
-		$dbScormForm=$database_prefix.$dbScormForm;
+		$values["database_scorm"]=$database_prefix.$values["database_scorm"];
 	}
 	
-	if(!empty($database_prefix) && !ereg('^'.$database_prefix,$dbUserForm))
+	if(!empty($database_prefix) && !ereg('^'.$database_prefix,$values["database_user"]))
 	{
-		$dbUserForm=$database_prefix.$dbUserForm;
+		$values["database_user"]=$database_prefix.$values["database_user"];
 	}
 	
-	$main_database = $dbNameForm;
-	$statistics_database = $dbStatsForm;
-	$scorm_database = $dbScormForm;
-	$user_database = $dbUserForm;
+	$main_database = $values["database_main_db"];
+	$statistics_database = $values["database_tracking"];
+	$scorm_database = $values["database_scorm"];
+	$user_database = $values["database_user"];
 	
 	if(empty($main_database) || $main_database == 'mysql' || $main_database == $database_prefix)
 	{
@@ -240,8 +241,8 @@ function create_main_database_tables($main_database, $values)
 	$installation_settings['{ORGANISATIONURL}'] = $institutionUrlForm;
 	$installation_settings['{CAMPUSNAME}'] = $campusForm;
 	$installation_settings['{PLATFORMLANGUAGE}'] = $languageForm;
-	$installation_settings['{ALLOWSELFREGISTRATION}'] = trueFalse($allowSelfReg);
-	$installation_settings['{ALLOWTEACHERSELFREGISTRATION}'] = trueFalse($allowSelfRegProf);
+	$installation_settings['{ALLOWSELFREGISTRATION}'] = boolean_to_string($allowSelfReg);
+	$installation_settings['{ALLOWTEACHERSELFREGISTRATION}'] = boolean_to_string($allowSelfRegProf);
 	$installation_settings['{ADMINLASTNAME}'] = $adminLastName;
 	$installation_settings['{ADMINFIRSTNAME}'] = $adminFirstName;
 	$installation_settings['{ADMINLOGIN}'] = $loginForm;
