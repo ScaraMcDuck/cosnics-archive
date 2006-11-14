@@ -630,6 +630,7 @@ $defaults['database_tracking'] = 'dokeos_stats';
 $defaults['database_scorm'] = 'dokeos_scorm';
 $defaults['database_user'] = 'dokeos_user';
 $defaults['database_repository'] = 'dokeos_repository';
+$defaults['database_prefix'] = 'dokeos_';
 $defaults['database_single'] = 0;
 $defaults['enable_tracking'] = 1;
 $defaults['admin_lastname'] = 'Doe';
