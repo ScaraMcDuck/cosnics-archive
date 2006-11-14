@@ -686,6 +686,8 @@ CREATE TABLE `user` (
   `chatcall_date` datetime NOT NULL default '0000-00-00 00:00:00',
   `chatcall_text` varchar(50) NOT NULL default '',
   `language` varchar(40) default NULL,
+  `disk_quota` int(10) unsigned NOT NULL default '200000000',
+  `database_quota` int(10) unsigned NOT NULL default '300',
   PRIMARY KEY  (`user_id`),
   UNIQUE KEY `username` (`username`)
 );
