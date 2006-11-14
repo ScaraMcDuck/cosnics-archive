@@ -23,8 +23,24 @@
 	Mail: info@dokeos.com
 ==============================================================================
 */
+/**
+==============================================================================
+*	This is the main script for the installation of Dokeos.
+*
+*	@package dokeos.install
+==============================================================================
+*/
 
+/*
+==============================================================================
+		INIT SECTION
+==============================================================================
+*/
 session_start();
+
+define('DOKEOS_INSTALL', 1);
+define('MAX_COURSE_TRANSFER', 100);
+define("INSTALL_TYPE_UPDATE", "update");
 
 ini_set('include_path',ini_get('include_path').PATH_SEPARATOR.'../inc/lib/pear');
 //echo ini_get('include_path'); //DEBUG
@@ -40,15 +56,18 @@ require ('../inc/lib/auth.lib.inc.php');
 require_once ('install_upgrade.lib.php');
 require_once ('install_db.inc.php');
 
-define('DOKEOS_INSTALL', 1);
-define('MAX_COURSE_TRANSFER', 100);
-define("INSTALL_TYPE_UPDATE", "update");
-
 error_reporting(E_COMPILE_ERROR | E_ERROR | E_CORE_ERROR);
 
 @ set_time_limit(0);
 
 $updateFromVersion = array ('1.5', '1.5.4', '1.5.5', '1.6.2');
+
+
+/*
+==============================================================================
+		FUNCTIONS
+==============================================================================
+*/
 
 /**
 *	Return a list of language directories.
@@ -205,6 +224,14 @@ function get_config_param($param,$path)
 		return $val;
 	}
 }
+
+
+/*
+==============================================================================
+		CLASSES
+==============================================================================
+*/
+
 // Class for language page
 class Page_Language extends HTML_QuickForm_Page
 {
@@ -577,6 +604,14 @@ class ActionDisplay extends HTML_QuickForm_Action_Display
 
 	}
 }
+
+
+/*
+==============================================================================
+		MAIN CODE
+==============================================================================
+*/
+
 // Create a new wizard
 $wizard = & new HTML_QuickForm_Controller('regWizard', true);
 
