@@ -61,6 +61,18 @@ define("DOKEOS_CONFIG_FILENAME", "configuration.dist.php");
 */
 
 /**
+ * Returns a string 'true' or 'false' according to the parameter variable.
+ *
+ * @param boolean $var the variable to convert
+ * @return string 'true' when parameter is true, 'false' otherwise
+ * @author Christophe Gesche
+ */
+function boolean_to_string($var)
+{
+	return $var?'true':'false';
+}
+
+/**
 * We assume this function is called from install scripts that reside inside
 * the install folder.
 */
