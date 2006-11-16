@@ -48,7 +48,7 @@ function full_file_install($values)
 	// Write a .htaccess file in the course repository
 	write_courses_htaccess_file($urlAppendPath);
 	
-	echo "File creation is complete!";
+	echo "<p>File creation is complete!</p>";
 }
 
 ?>

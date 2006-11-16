@@ -228,7 +228,7 @@ function write_dokeos_config_file($path, $values)
 	$config['{DATABASE_HOST}'] = $values['database_host'];
 	$config['{DATABASE_USER}'] = $values['database_username'];
 	$config['{DATABASE_PASSWORD}'] = $values['database_password'];
-	$config['{TRACKING_ENABLED}'] = boolean_to_string($defaults['enable_tracking']);
+	$config['{TRACKING_ENABLED}'] = boolean_to_string($values['enable_tracking']);
 	$config['{SINGLE_DATABASE}'] = boolean_to_string($is_single_database);
 	$config['{COURSE_TABLE_PREFIX}'] = ($is_single_database ? 'crs_' : '');
 	$config['{DATABASE_GLUE}'] = ($is_single_database ? '_' : '`.`');
@@ -242,9 +242,9 @@ function write_dokeos_config_file($path, $values)
 	$config['{ROOT_SYS}'] = str_replace('\\', '/', realpath($values['platform_url']).'/');
 	$config['{URL_APPEND_PATH}'] = $urlAppendPath;
 	$config['{GARBAGE_DIR}'] = str_replace("\\", "/", realpath("../garbage/")."/");
-	$config['{PLATFORM_LANGUAGE}'] = $defaults['platform_language'];
+	$config['{PLATFORM_LANGUAGE}'] = $values['platform_language'];
 	$config['{SECURITY_KEY}'] = md5(uniqid(rand().time()));
-	$config['{ENCRYPT_PASSWORD}'] = boolean_to_string($defaults['encrypt_password']);
+	$config['{ENCRYPT_PASSWORD}'] = boolean_to_string($values['encrypt_password']);
 	foreach ($config as $key => $value)
 	{
 		$content = str_replace($key, $value, $content);

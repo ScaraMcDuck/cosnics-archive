@@ -149,7 +149,7 @@ function full_database_install($values)
 	create_user_database_tables($user_database);
 	//create_repository_database_tables($repository_database);
 	
-	echo "Database creation is complete!";
+	echo "<p>Database creation is complete!</p>";
 }
 
 /**
