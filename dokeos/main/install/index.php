@@ -46,15 +46,14 @@ ini_set('include_path',ini_get('include_path').PATH_SEPARATOR.'../inc/lib/pear')
 //echo ini_get('include_path'); //DEBUG
 require_once 'HTML/QuickForm/Controller.php';
 require_once 'HTML/QuickForm/Action/Display.php';
-
-require ('../inc/installedVersion.inc.php');
-require ('../inc/lib/main_api.lib.php');
-
-require ('../lang/english/trad4all.inc.php');
-require ('../lang/english/install.inc.php');
-require ('../inc/lib/auth.lib.inc.php');
+require_once ('../inc/installedVersion.inc.php');
+require_once ('../inc/lib/main_api.lib.php');
+require_once ('../lang/english/trad4all.inc.php');
+require_once ('../lang/english/install.inc.php');
+require_once ('../inc/lib/auth.lib.inc.php');
 require_once ('install_upgrade.lib.php');
 require_once ('install_db.inc.php');
+require_once ('install_files.inc.php');
 
 error_reporting(E_COMPILE_ERROR | E_ERROR | E_CORE_ERROR);
 
@@ -556,7 +555,7 @@ class ActionProcess extends HTML_QuickForm_Action
 		echo '<pre>';
 		var_dump($values);
 		full_database_install($values);
-		//full_file_install($values);
+		full_file_install($values);
 		echo '</pre>';
 		$page->controller->container(true);
 	}

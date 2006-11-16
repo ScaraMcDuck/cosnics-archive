@@ -49,26 +49,28 @@ $dbPass         = '{DATABASE_PASSWORD}';
 //============================================================================
 //   Database settings
 //============================================================================
-// Is tracking enabled?
+// is tracking enabled?
 $is_trackingEnabled = {TRACKING_ENABLED};
-// Is single database enabled (DO NOT MODIFY THIS)
-$singleDbEnabled    = {SINGLE_DATABASE}; 		
-// Prefix for course tables (IF NOT EMPTY, can be replaced by another prefix, 
+// is single database enabled (DO NOT MODIFY THIS)
+$singleDbEnabled    = {SINGLE_DATABASE};
+// prefix for course tables (IF NOT EMPTY, can be replaced by another prefix, 
 // else leave empty)
-$courseTablePrefix  = '{COURSE_TABLE_PREFIX}'; 	
-// Separator between database and table name (DO NOT MODIFY THIS)
-$dbGlu              = '{DATABASE_GLUE}'; 
-// prefix all created bases (for courses) with this string		
-$dbNamePrefix       = '{DATABASE_PREFIX}'; 		
+$courseTablePrefix      = '{COURSE_TABLE_PREFIX}';
+// separator between database and table name (DO NOT MODIFY THIS)
+$dbGlu                  = '{DATABASE_GLUE}';
+// prefix all created bases (for courses) with this string
+$dbNamePrefix           = '{DATABASE_PREFIX}';
 // main Dokeos database
-$mainDbName         = '{DATABASE_MAIN}'; 
+$mainDbName             = '{DATABASE_MAIN}';
 // stats Dokeos database
-$statsDbName        ='{DATABASE_STATS}'; 
-// Scorm Dokeos database
-$scormDbName        ='{DATABASE_SCORM}'; 
-// User Personal Database (where all the personal stuff of the user is stored 
+$statsDbName            = '{DATABASE_STATS}';
+// scorm Dokeos database
+$scormDbName            = '{DATABASE_SCORM}';
+// user Personal Database (where all the personal stuff of the user is stored 
 // (personal agenda items, course sorting)
-$user_personal_database   ='{DATABASE_PERSONAL}'; 
+$user_personal_database = '{DATABASE_PERSONAL}';
+// object repository database
+$repository_database    = '{DATABASE_REPOSITORY}';
 
 //============================================================================
 //   Directory settings
