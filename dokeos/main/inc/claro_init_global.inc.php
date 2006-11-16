@@ -20,7 +20,7 @@
 $includePath = dirname(__FILE__);
 
 // include the main Dokeos platform configuration file
-$main_configuration_file_path = $includePath."/conf/claro_main.conf.php";
+$main_configuration_file_path = $includePath."/conf/config.inc.php";
 $already_installed = false;
 if (file_exists($main_configuration_file_path)) {
 	require_once($main_configuration_file_path);
