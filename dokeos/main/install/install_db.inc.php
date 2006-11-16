@@ -268,18 +268,18 @@ function create_main_database_tables($main_database, $values)
 {
 	mysql_select_db($main_database) or die(mysql_error());
 	
-	$installation_settings['{ORGANISATIONNAME}'] = $institutionForm;
-	$installation_settings['{ORGANISATIONURL}'] = $institutionUrlForm;
-	$installation_settings['{CAMPUSNAME}'] = $campusForm;
-	$installation_settings['{PLATFORMLANGUAGE}'] = $languageForm;
-	$installation_settings['{ALLOWSELFREGISTRATION}'] = boolean_to_string($allowSelfReg);
-	$installation_settings['{ALLOWTEACHERSELFREGISTRATION}'] = boolean_to_string($allowSelfRegProf);
-	$installation_settings['{ADMINLASTNAME}'] = $adminLastName;
-	$installation_settings['{ADMINFIRSTNAME}'] = $adminFirstName;
-	$installation_settings['{ADMINLOGIN}'] = $loginForm;
-	$installation_settings['{ADMINPASSWORD}'] = $passToStore;
-	$installation_settings['{ADMINEMAIL}'] = $emailForm;
-	$installation_settings['{ADMINPHONE}'] = $adminPhoneForm;
+	$installation_settings['{ORGANISATIONNAME}'] = $values['organization_name'];
+	$installation_settings['{ORGANISATIONURL}'] = $values['organization_url'];
+	$installation_settings['{CAMPUSNAME}'] = $values['platform_name'];
+	$installation_settings['{PLATFORMLANGUAGE}'] = $values['platform_language'];
+	$installation_settings['{ALLOWSELFREGISTRATION}'] = boolean_to_string($values['self_reg']);
+	$installation_settings['{ALLOWTEACHERSELFREGISTRATION}'] = boolean_to_string($values['self_reg_teacher']);
+	$installation_settings['{ADMINLASTNAME}'] = $values['admin_lastname'];
+	$installation_settings['{ADMINFIRSTNAME}'] = $values['admin_firstname'];
+	$installation_settings['{ADMINLOGIN}'] = $values['admin_username'];
+	$installation_settings['{ADMINPASSWORD}'] = $values['admin_password'];
+	$installation_settings['{ADMINEMAIL}'] = $values['admin_email'];
+	$installation_settings['{ADMINPHONE}'] = $values['admin_phone'];
 	$installation_settings['{PLATFORM_AUTH_SOURCE}'] = PLATFORM_AUTH_SOURCE;
 	
 	load_main_database($installation_settings);
