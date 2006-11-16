@@ -36,17 +36,19 @@
 ==============================================================================
 */
 
-if(defined('DOKEOS_INSTALL'))
+function full_file_install($values)
 {
+	global $urlAppendPath;
 	// Write the Dokeos config file
-	write_dokeos_config_file('../inc/conf/claro_main.conf.php');
+	//OLD: write_dokeos_config_file('../inc/conf/claro_main.conf.php');
+	write_dokeos_config_file('../inc/conf/config.inc.php', $values);
 	// Write a distribution file with the config as a backup for the admin
-	write_dokeos_config_file('../inc/conf/claro_main.conf.dist.php');
+	//OLD: write_dokeos_config_file('../inc/conf/claro_main.conf.dist.php');
+	write_dokeos_config_file('../inc/conf/config.inc.dist.php', $values);
 	// Write a .htaccess file in the course repository
 	write_courses_htaccess_file($urlAppendPath);
+	
+	echo "File creation is complete!";
 }
-else
-{
-	echo 'You are not allowed here !';
-}
+
 ?>

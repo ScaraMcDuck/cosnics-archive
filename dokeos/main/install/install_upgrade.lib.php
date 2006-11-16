@@ -135,6 +135,7 @@ function fill_role_right_location_table($role_right_location_table)
 	$add_data_sql = "LOAD DATA INFILE '".mysql_real_escape_string($file_path)."' INTO TABLE $role_right_location_table FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\'';";
 	@ mysql_query($add_data_sql);
 }
+
 /**
 * Fills the current settings table with the Dokeos default settings.
 * After using the LOAD DATA INFILE instruction, the database stores some
@@ -190,8 +191,9 @@ function fill_track_countries_table($track_countries_table)
 	$add_country_sql = "LOAD DATA INFILE '".mysql_real_escape_string($file_path)."' INTO TABLE $track_countries_table FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\'';";
 	@ mysql_query($add_country_sql);
 }
+
 /**
- * Add's a .htaccess file to the courses directory
+ * Adds a .htaccess file to the courses directory
  * @param string $url_append The path from your webroot to your dokeos root
  */
 function write_courses_htaccess_file($url_append)
@@ -207,51 +209,42 @@ function write_courses_htaccess_file($url_append)
 	}
 	return false;
 }
+
 /**
- * Write the main Dokeos config file
+ * Writes the main Dokeos config file.
  * @param string $path Path to the config file
  */
-function write_dokeos_config_file($path)
+function write_dokeos_config_file($path, $values)
 {
 	global $dokeos_version;
-	global $dbHostForm;
-	global $dbUsernameForm;
-	global $dbPassForm;
-	global $enableTrackingForm;
-	global $singleDbForm;
-	global $dbPrefixForm;
-	global $dbNameForm;
-	global $dbStatsForm;
-	global $dbScormForm;
-	global $dbUserForm;
-	global $urlForm;
-	global $pathForm;
 	global $urlAppendPath;
-	global $languageForm;
-	global $encryptPassForm;
+	
+	$is_single_database = $values['database_single'];
+	
 	$file_path = dirname(__FILE__).'/'.DOKEOS_CONFIG_FILENAME;
 	$content = file_get_contents($file_path);
 	$config['{DOKEOS_VERSION}'] = $dokeos_version;
 	$config['{DATE_GENERATED}'] = date('r');
-	$config['{DATABASE_HOST}'] = $dbHostForm;
-	$config['{DATABASE_USER}'] = $dbUsernameForm;
-	$config['{DATABASE_PASSWORD}'] = $dbPassForm;
-	$config['{TRACKING_ENABLED}'] = trueFalse($enableTrackingForm);
-	$config['{SINGLE_DATABASE}'] = trueFalse($singleDbForm);
-	$config['{COURSE_TABLE_PREFIX}'] = ($singleDbForm ? 'crs_' : '');
-	$config['{DATABASE_GLUE}'] = ($singleDbForm ? '_' : '`.`');
-	$config['{DATABASE_PREFIX}'] = $dbPrefixForm;
-	$config['{DATABASE_MAIN}'] = $dbNameForm;
-	$config['{DATABASE_STATS}'] = ($singleDbForm ? $dbNameForm : $dbStatsForm);
-	$config['{DATABASE_SCORM}'] = ($singleDbForm ? $dbNameForm : $dbScormForm);
-	$config['{DATABASE_PERSONAL}'] =($singleDbForm ?  $dbNameForm : $dbUserForm);
-	$config['{ROOT_WEB}'] = $urlForm;
-	$config['{ROOT_SYS}'] = str_replace('\\', '/', realpath($pathForm).'/');
+	$config['{DATABASE_HOST}'] = $values['database_host'];
+	$config['{DATABASE_USER}'] = $values['database_username'];
+	$config['{DATABASE_PASSWORD}'] = $values['database_password'];
+	$config['{TRACKING_ENABLED}'] = boolean_to_string($defaults['enable_tracking']);
+	$config['{SINGLE_DATABASE}'] = boolean_to_string($is_single_database);
+	$config['{COURSE_TABLE_PREFIX}'] = ($is_single_database ? 'crs_' : '');
+	$config['{DATABASE_GLUE}'] = ($is_single_database ? '_' : '`.`');
+	$config['{DATABASE_PREFIX}'] = $values['database_prefix'];
+	$config['{DATABASE_MAIN}'] = $values["database_main_db"];
+	$config['{DATABASE_STATS}'] = ($is_single_database ? $values["database_main_db"] : $values["database_tracking"]);
+	$config['{DATABASE_SCORM}'] = ($is_single_database ? $values["database_main_db"] : $values["database_scorm"]);
+	$config['{DATABASE_PERSONAL}'] = ($is_single_database ? $values["database_main_db"] : $values["database_user"]);
+	$config['{DATABASE_REPOSITORY}'] = ($is_single_database ? $values["database_main_db"] : $values["database_repository"]);
+	$config['{ROOT_WEB}'] = $values['platform_url'];
+	$config['{ROOT_SYS}'] = str_replace('\\', '/', realpath($values['platform_url']).'/');
 	$config['{URL_APPEND_PATH}'] = $urlAppendPath;
 	$config['{GARBAGE_DIR}'] = str_replace("\\", "/", realpath("../garbage/")."/");
-	$config['{PLATFORM_LANGUAGE}'] = $languageForm;
+	$config['{PLATFORM_LANGUAGE}'] = $defaults['platform_language'];
 	$config['{SECURITY_KEY}'] = md5(uniqid(rand().time()));
-	$config['{ENCRYPT_PASSWORD}'] = trueFalse($encryptPassForm);
+	$config['{ENCRYPT_PASSWORD}'] = boolean_to_string($defaults['encrypt_password']);
 	foreach ($config as $key => $value)
 	{
 		$content = str_replace($key, $value, $content);
