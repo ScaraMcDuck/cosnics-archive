@@ -97,6 +97,15 @@ function full_database_install($values)
 		$values["database_user"]=$database_prefix.$values["database_user"];
 	}
 	
+	if ($is_single_database)
+	{
+		//all databases must be the same
+		$values["database_tracking"] = $values["database_main_db"];
+		$values["database_scorm"] = $values["database_main_db"];
+		$values["database_user"] = $values["database_main_db"];
+		$values["database_repository"] = $values["database_main_db"];
+	}
+	
 	$main_database = $values["database_main_db"];
 	$statistics_database = $values["database_tracking"];
 	$scorm_database = $values["database_scorm"];
@@ -205,11 +214,6 @@ function create_databases($values, $is_single_database, $main_database, $statist
 			mysql_query($drop_tracking_database_sql) or die(mysql_error());
 			mysql_query("CREATE DATABASE `$statistics_database`") or die(mysql_error());
 		}
-		else
-		{
-			// single database mode so $statistics_database must be the same as $main_database
-			$statistics_database = $main_database;
-		}
 	}
 	
 	//Creating the SCORM database
@@ -220,11 +224,6 @@ function create_databases($values, $is_single_database, $main_database, $statist
 			// multi DB mode AND scorm has its own DB so create it
 			mysql_query("DROP DATABASE IF EXISTS `$scorm_database`") or die(mysql_error());
 			mysql_query("CREATE DATABASE `$scorm_database`") or die(mysql_error());
-		}
-		else
-		{
-			// single database mode so $scorm_database must be the same as $main_database
-			$scorm_database = $main_database;
 		}
 	}
 	
@@ -237,11 +236,6 @@ function create_databases($values, $is_single_database, $main_database, $statist
 			mysql_query("DROP DATABASE IF EXISTS `$user_database`") or die(mysql_error());
 			mysql_query("CREATE DATABASE `$user_database`") or die(mysql_error());
 		}
-		else
-		{
-			// single database mode so $user_database must be the same as $main_database
-			$user_database = $main_database;
-		}
 	}
 	
 	//Creating the repository database
@@ -252,11 +246,6 @@ function create_databases($values, $is_single_database, $main_database, $statist
 			// multi DB mode AND user data has its own DB so create it
 			mysql_query("DROP DATABASE IF EXISTS `$repository_database`") or die(mysql_error());
 			mysql_query("CREATE DATABASE `$repository_database`") or die(mysql_error());
-		}
-		else
-		{
-			// single database mode so $repository_database must be the same as $main_database
-			$repository_database = $main_database;
 		}
 	}
 }
