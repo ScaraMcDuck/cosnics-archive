@@ -41,3 +41,11 @@ CREATE TABLE `%prefix%learning_object_publication_category` (
   KEY `course` (`course`),
   KEY `tool` (`tool`)
 )CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+CREATE TABLE `%prefix%course_module` (
+  `course_code` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `visible` tinyint(4) NOT NULL default '0',
+  `section` varchar(50) NOT NULL default 'basic',
+  PRIMARY KEY  (`course_code`,`name`)
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
