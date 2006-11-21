@@ -81,7 +81,7 @@ function get_language_folder_list()
 	$handle = opendir($dirname);
 	while ($entries = readdir($handle))
 	{
-		if ($entries == '.' || $entries == '..' || $entries == 'CVS')
+		if ($entries == '.' || $entries == '..' || $entries == '.svn')
 			continue;
 		if (is_dir($dirname.$entries))
 		{
@@ -126,7 +126,7 @@ function check_update_path($path)
 
 /**
  * this function returns a the value of a parameter from the configuration file
- * 
+ *
  * WARNING - this function relies heavily on global variables $updateFromConfigFile
  * and $configFile, and also changes these globals. This can be rewritten.
  *
@@ -410,7 +410,7 @@ class Page_License extends HTML_QuickForm_Page
 /**
  * Class for database settings page
  * Displays a form where the user can enter the installation settings
- * regarding the databases - login and password, names, prefixes, single 
+ * regarding the databases - login and password, names, prefixes, single
  * or multiple databases, tracking or not...
  */
 class Page_DatabaseSettings extends HTML_QuickForm_Page
@@ -638,7 +638,7 @@ $defaults['admin_email'] = $_SERVER['SERVER_ADMIN'];
 $email_parts = explode('@',$defaults['admin_email']);
 if($email_parts[1] == 'localhost')
 {
-	$defaults['admin_email'] .= '.localdomain';	
+	$defaults['admin_email'] .= '.localdomain';
 }
 $defaults['admin_username'] = 'admin';
 $defaults['admin_password'] = api_generate_password();
