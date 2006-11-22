@@ -77,9 +77,13 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_publication_targets($publication)
 	{
+		if($publication->is_email_sent())
+		{
+			$email_suffix = ' - <img src="'.api_get_path(WEB_CODE_PATH).'img/email.png" alt="" style="vertical-align: middle;"/>';
+		}
 		if ($publication->is_for_everybody())
 		{
-			return htmlentities(get_lang('Everybody'));
+			return htmlentities(get_lang('Everybody')).$email_suffix;
 		}
 		else
 		{
@@ -90,13 +94,13 @@ abstract class LearningObjectPublicationListRenderer
 				if(count($users) == 1)
 				{
 					$user = api_get_user_info($users[0]);
-					return $user['firstName'].' '.$user['lastName'];
+					return $user['firstName'].' '.$user['lastName'].$email_suffix;
 				}
 				else
 				{
 					//TODO: Next function call causes SQL error in single database mode
 					$group = GroupManager::get_group_properties($groups[0]);
-					return $group['name'];
+					return $group['name'].$email_suffix;
 				}
 			}
 			$target_list = array ();
@@ -113,7 +117,7 @@ abstract class LearningObjectPublicationListRenderer
 				$target_list[] = '<option>'.$group['name'].'</option>';
 			}
 			$target_list[] = '</select>';
-			return implode("\n", $target_list);
+			return implode("\n", $target_list).$email_suffix;
 		}
 	}
 

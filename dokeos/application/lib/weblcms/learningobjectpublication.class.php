@@ -25,6 +25,7 @@ class LearningObjectPublication
 	const PROPERTY_PUBLISHER_ID = 'publisher';
 	const PROPERTY_PUBLICATION_DATE = 'published';
 	const PROPERTY_DISPLAY_ORDER_INDEX = 'display_order';
+	const PROPERTY_EMAIL_SENT = 'email_sent';
 	/**#@-*/
    /**#@+
     * Property of this publication. See {@link LearningObjectPublication} for
@@ -43,6 +44,7 @@ class LearningObjectPublication
 	private $publisher;
 	private $publicationDate;
 	private $displayOrder;
+	private $emailSent;
 	/**#@-*/
 	/**
 	 * Constructor
@@ -69,7 +71,7 @@ class LearningObjectPublication
 	 * @param int $displayOrder The display order of this publication in its
 	 * location (course - tool - category)
 	 */
-	function LearningObjectPublication($id, $learningObject, $course, $tool,$category, $targetUsers, $targetGroups, $fromDate, $toDate, $publisher, $publicationDate, $hidden, $displayOrder)
+	function LearningObjectPublication($id, $learningObject, $course, $tool,$category, $targetUsers, $targetGroups, $fromDate, $toDate, $publisher, $publicationDate, $hidden, $displayOrder, $emailSent)
 	{
 		$this->id = $id;
 		$this->learningObject = $learningObject;
@@ -84,6 +86,7 @@ class LearningObjectPublication
 		$this->publicationDate = $publicationDate;
 		$this->hidden = $hidden;
 		$this->displayOrder = $displayOrder;
+		$this->emailSent = $emailSent;
 	}
    /**
     * Gets the publication id.
@@ -177,6 +180,15 @@ class LearningObjectPublication
 	function get_publication_date()
 	{
 		return $this->publicationDate;
+	}
+	/**
+	 * Determines whether this publication was sent by email to the users and
+	 * groups for which this publication was made
+	 * @return boolean True if an email was sent
+	 */
+	function is_email_sent()
+	{
+		return $this->emailSent;
 	}
 	/**
 	 * Determines whether this publication is hidden or not
@@ -276,6 +288,10 @@ class LearningObjectPublication
 	function set_display_order_index($displayOrder)
 	{
 		$this->displayOrder = $displayOrder;
+	}
+	function set_email_sent($emailSent)
+	{
+		$this->emailSent = $emailSent;
 	}
 	/**#@-*/
 	/**
