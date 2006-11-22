@@ -156,7 +156,7 @@ class LearningObjectPublicationForm extends FormValidator
 		$displayOrder = $dm->get_next_learning_object_publication_display_order_index($course,$tool,$category);
 		$publisher = $this->tool->get_user_id();
 		$publicationDate = time();
-		$pub = new LearningObjectPublication(null, $this->learning_object, $course, $tool, $category, $users, $groups, $from, $to, $publisher, $publicationDate, $hidden, $displayOrder);
+		$pub = new LearningObjectPublication(null, $this->learning_object, $course, $tool, $category, $users, $groups, $from, $to, $publisher, $publicationDate, $hidden, $displayOrder, false);
 		$pub->create();
 		if($this->email_option && $values[self::PARAM_EMAIL])
 		{
@@ -166,6 +166,9 @@ class LearningObjectPublicationForm extends FormValidator
 			$body = $display->get_full_html();
 			//@todo: body: HTML -> TEXT
 			//@todo: send email to correct users/groups
+			//@todo: only set emailSent property to true if the email was succesfully sent
+			$pub->set_email_sent(true);
+			$pub->update();
 		}
 		return $pub;
     }

@@ -10,6 +10,7 @@ CREATE TABLE `%prefix%learning_object_publication` (
   `publisher` int(10) unsigned NOT NULL default '0',
   `published` int(10) unsigned NOT NULL default '0',
   `display_order` int(10) unsigned NOT NULL default '0',
+  `email_sent` int(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `from_date` (`from_date`,`to_date`),
   KEY `hidden` (`hidden`),
