@@ -6,6 +6,10 @@
  */
 require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
 /**
+ * Interval between sections in the week view of the calendar.
+ */
+define('HOUR_STEP',2);
+/**
  * Renderer to display events in a week calendar
  */
 class WeekCalendarLearningObjectPublicationListRenderer extends LearningObjectPublicationListRenderer
@@ -33,10 +37,10 @@ class WeekCalendarLearningObjectPublicationListRenderer extends LearningObjectPu
 		$first_day = strtotime('Monday',strtotime('-1 Week',$this->display_time));
 		$last_day = strtotime('Sunday',$first_day);
 		$calendar_table = new HTML_Table(array ('class' => 'calendar'));
-		for($hour = 0; $hour < 24; $hour += 4)
+		for($hour = 0; $hour < 24; $hour += HOUR_STEP)
 		{
-			$cell_content = $hour.'u - '.($hour+4).'u';
-			$calendar_table->setCellContents($hour/4+1,0,$cell_content);
+			$cell_content = $hour.'u - '.($hour+HOUR_STEP).'u';
+			$calendar_table->setCellContents($hour/HOUR_STEP+1,0,$cell_content);
 			for($column = 1; $column <= 7; $column++)
 			{
 				$day = strtotime('+'.($column-1).' day',$first_day);
@@ -51,7 +55,7 @@ class WeekCalendarLearningObjectPublicationListRenderer extends LearningObjectPu
 					$cell_contents .= $this->render_publication($publication,$table_start_date);
 				}
 
-				$calendar_table->setCellContents($hour/4+1,$column,$cell_contents);
+				$calendar_table->setCellContents($hour/HOUR_STEP+1,$column,$cell_contents);
 			}
 		}
 		$dates[] = '';

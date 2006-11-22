@@ -5,6 +5,9 @@
  * @subpackage browser.listrenderer
  */
 require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
+/**
+ * Interval between sections in the day view of the calendar.
+ */
 define('HOUR_STEP',3);
 /**
  * Renderer to display a list of events.
