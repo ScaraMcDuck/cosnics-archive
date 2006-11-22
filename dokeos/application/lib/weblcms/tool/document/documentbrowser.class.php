@@ -58,6 +58,7 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 			{
 				$row[] = $publication->get_id();
 			}
+			$row[] = $renderer->render_icon($publication);
 			$row[] = sprintf($wrapper,$renderer->render_title($publication));
 			$row[] = sprintf($wrapper,$renderer->render_description($publication));
 			$row[] = sprintf($wrapper,$renderer->render_publication_date($publication));
