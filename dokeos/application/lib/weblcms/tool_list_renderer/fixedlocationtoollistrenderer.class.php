@@ -73,11 +73,11 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			$row = $count/FixedLocationToolListRenderer::NUMBER_OF_COLUMNS;
 			$col = $count%FixedLocationToolListRenderer::NUMBER_OF_COLUMNS;
 			$html = array();
-			$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$tool_image.'" style="vertical-align: middle;"/>';
+			$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
 			$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>'.$title.'</a>';
 			if($section!= 'course_admin')
 			{
-				$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_ACTION=>$action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$visible_image.'"/></a>';
+				$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_ACTION=>$action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$visible_image.'" alt=""/></a>';
 			}
 			$table->setCellContents($row,$col,implode("\n",$html));
 			$table->updateColAttributes($col,'style="width: '.floor(100/FixedLocationToolListRenderer::NUMBER_OF_COLUMNS).'%;"');
