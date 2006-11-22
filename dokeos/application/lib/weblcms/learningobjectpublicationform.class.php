@@ -158,7 +158,7 @@ class LearningObjectPublicationForm extends FormValidator
 		$publicationDate = time();
 		$pub = new LearningObjectPublication(null, $this->learning_object, $course, $tool, $category, $users, $groups, $from, $to, $publisher, $publicationDate, $hidden, $displayOrder);
 		$pub->create();
-		if($this->email_option)
+		if($this->email_option && $values[self::PARAM_EMAIL])
 		{
 			$learning_object = $this->learning_object;
 			$display = LearningObjectDisplay::factory($learning_object);
