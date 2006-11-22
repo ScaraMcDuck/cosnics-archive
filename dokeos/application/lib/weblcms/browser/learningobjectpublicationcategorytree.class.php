@@ -73,9 +73,15 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 		{
 			$node = array ();
 			$obj = $oldNode['obj'];
-			$node['title'] = $obj->get_title();
 			$node['url'] = $this->get_category_url($obj->get_id());
 			$node['sub'] = $this->convert_tree(& $oldNode['sub']);
+			$node['count'] = 0;
+			$node['count'] = $this->browser->get_publication_count($obj->get_id());
+			foreach($node['sub'] as $index => $subnode)
+			{
+				$node['count'] += $subnode['count'];
+			}
+			$node['title'] = $obj->get_title().' ('.$node['count'].')';
 			$new_tree[$i ++] = $node;
 		}
 		return $new_tree;

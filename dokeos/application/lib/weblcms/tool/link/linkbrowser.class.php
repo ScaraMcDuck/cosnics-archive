@@ -41,8 +41,12 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 		return $publications;
 	}
 
-	function get_publication_count()
+	function get_publication_count($category = null)
 	{
+		if(is_null($category))
+		{
+			$category = $this->get_publication_category_tree()->get_current_category_id();
+		}
 		$dm = WeblcmsDataManager :: get_instance();
 		$tool_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'link');
 		if($this->is_allowed(EDIT_RIGHT))
@@ -55,7 +59,7 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 			$user_id = $this->get_user_id();
 			$groups = $this->get_groups();
 		}
-		return $dm->count_learning_object_publications($this->get_course_id(),$this->get_publication_category_tree()->get_current_category_id(), $user_id, $groups, $tool_cond);
+		return $dm->count_learning_object_publications($this->get_course_id(), $category, $user_id, $groups, $tool_cond);
 	}
 }
 ?>

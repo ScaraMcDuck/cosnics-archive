@@ -74,16 +74,24 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 		return $data;
 	}
 
-	function get_publication_count()
+	function get_publication_count($category = null)
 	{
+		if(is_null($category))
+		{
+			$category = $this->get_category();
+		}
 		$dm = WeblcmsDataManager :: get_instance();
-		return $dm->count_learning_object_publications($this->get_course_id(), $this->get_category(), $this->get_user_id(), $this->get_groups(), $this->get_condition());
+		return $dm->count_learning_object_publications($this->get_course_id(), $category, $this->get_user_id(), $this->get_groups(), $this->get_condition($category));
 	}
 
-	function get_condition()
+	function get_condition($category = null)
 	{
+		if(is_null($category))
+		{
+			$category = $this->get_publication_category_tree()->get_current_category_id();
+		}
 		$tool_cond= new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'document');
-		$category_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $this->get_publication_category_tree()->get_current_category_id());
+		$category_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID,$category );
 		return new AndCondition($tool_cond, $category_cond);
 	}
 }
