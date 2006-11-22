@@ -64,6 +64,9 @@ abstract class RepositoryTool extends Tool
 			$datamanager = WeblcmsDataManager :: get_instance();
 			switch($action)
 			{
+				case self :: ACTION_EDIT:
+					//TODO: implement action to edit publication
+					break;
 				case self :: ACTION_DELETE:
 					if($this->is_allowed(DELETE_RIGHT))
 					{
