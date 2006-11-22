@@ -312,6 +312,16 @@ abstract class LearningObjectPublicationListRenderer
 	}
 
 	/**
+	 * Renders the icon for the given publication
+	 * @param LearningObjectPublication $publication The publication.
+	 * @return string The rendered HTML.
+	 */
+	function render_icon($publication)
+	{
+		$object = $publication->get_learning_object();
+		return '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_icon_name().'.gif" alt=""/>';
+	}
+	/**
 	 * Formats the given date in a human-readable format.
 	 * @param int $date A UNIX timestamp.
 	 * @return string The formatted date.

@@ -16,6 +16,7 @@ class DocumentPublicationListRenderer extends TableLearningObjectPublicationList
     	{
     		$this->set_header($column++, '', false);
     	}
+    	$this->set_header($column++, get_lang('Type'), false);
     	$this->set_header($column++, get_lang('Title'), false);
 		$this->set_header($column++, get_lang('Description'), false);
 		$this->set_header($column++, get_lang('PublishedOn'), false);
