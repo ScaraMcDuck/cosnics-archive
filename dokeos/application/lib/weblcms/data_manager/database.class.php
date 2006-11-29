@@ -54,7 +54,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			$info = new LearningObjectPublicationAttributes();
 			$info->set_publisher_user_id($record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID]);
-			$info->set_publication_date(self::from_db_date($record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE]));
+			$info->set_publication_date($record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE]);
 			$info->set_application('weblcms');
 			//TODO: i8n location string
 			$info->set_location($record[LearningObjectPublication :: PROPERTY_COURSE_ID].' &gt; '.$record[LearningObjectPublication :: PROPERTY_TOOL]);
