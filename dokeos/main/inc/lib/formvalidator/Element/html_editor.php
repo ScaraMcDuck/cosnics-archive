@@ -22,7 +22,7 @@
 ==============================================================================
 */
 require_once ('HTML/QuickForm/textarea.php');
-require_once (api_get_path(SYS_CODE_PATH).'../plugin/fckeditor/fckeditor.php');
+require_once (dirname(__FILE__).'/../../../../../plugin/fckeditor/fckeditor.php');
 /**
 * A html editor field to use with QuickForm
 */
