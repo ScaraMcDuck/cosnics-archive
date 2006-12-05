@@ -591,5 +591,14 @@ abstract class RepositoryDataManager
 	 * @return int The number of bytes used.
 	 */
 	abstract function get_used_disk_space($user);
+
+	/**
+	 * Creates a storage unit
+	 * @param string $name Name of the storage unit
+	 * @param array $properties Properties of the storage unit
+	 * @param array $indexes The indexes which should be defined in the created
+	 * storage unit
+	 */
+	abstract function create_storage_unit($name,$properties,$indexes);
 }
 ?>
