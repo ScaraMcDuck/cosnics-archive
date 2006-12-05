@@ -26,6 +26,8 @@ class RepositoryInstaller
 	 */
 	function install()
 	{
+		$this->parse_xml_file('learning_object.xml');
+		$this->parse_xml_file('learning_object_attachment.xml');
 		$dir = dirname(__FILE__).'/../lib/learning_object';
 		$handle = opendir($dir);
 		while (false !== ($type = readdir($handle)))
@@ -75,4 +77,6 @@ class RepositoryInstaller
 		$dm->create_storage_unit($name,$properties,$indexes);
 	}
 }
+$installer = new RepositoryInstaller();
+$installer->install();
 ?>
