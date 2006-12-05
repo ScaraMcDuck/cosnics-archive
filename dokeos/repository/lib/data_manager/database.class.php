@@ -4,6 +4,7 @@
  * @subpackage datamanager
  */
 require_once dirname(__FILE__).'/database/databaselearningobjectresultset.class.php';
+require_once dirname(__FILE__).'/database/databasetable.class.php';
 require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../configuration.class.php';
 require_once dirname(__FILE__).'/../learningobject.class.php';
@@ -837,6 +838,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$res->free();
 		}
 		return $disk_space;
+	}
+
+	// Inherited
+	function create_storage_unit($name,$properties,$indexes)
+	{
+		$table_name = 'a'.$this->get_table_name($name);
+		$table = new DatabaseTable($this,$table_name,$properties,$indexes);
 	}
 
 	private static function is_learning_object_column ($name)
