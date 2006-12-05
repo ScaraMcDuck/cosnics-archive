@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="calendar_event">
+ <properties>
+  <property name="id" type="integer"/>
+  <property name="start_date" type="integer"/>
+  <property name="end_date" type="integer"/>
+ </properties>
+ <index name="i" type="unique">
+  <indexproperty name="id"/>
+ </index>
+</object>
