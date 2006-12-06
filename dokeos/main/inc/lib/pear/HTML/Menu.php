@@ -86,6 +86,13 @@ class HTML_Menu
     var $_forcedUrl = '';
 
    /**
+    * Index of the menu item that should be made "current"
+    * @var mixed 
+    * @see forceCurrentIndex()
+    */
+    var $_forcedIndex = null;
+
+   /**
     * URL of the current page.
     * @see  getCurrentURL(), getPath()
     */
@@ -279,7 +286,7 @@ class HTML_Menu
     */
     function _findNodeType($nodeId, &$nodeUrl, $level)
     {
-        $nodeUrl = $this->_urlPrefix . ((empty($this->_urlPrefix) || '/' != $nodeUrl{0})? $nodeUrl: substr($nodeUrl, 1));
+        $nodeUrl = $this->_prefixUrl($nodeUrl);
         if ($this->_currentUrl == $nodeUrl) {
             // menu item that fits to this url - 'active' menu item
             return HTML_MENU_ENTRY_ACTIVE;
@@ -308,8 +315,11 @@ class HTML_Menu
             $this->_renderer->renderEntry($node, $level, $type);
             $this->_renderer->finishRow($level);
 
-            // follow the subtree if the active menu item is in it or if we want the full menu
-            if (('sitemap' == $this->_menuType || HTML_MENU_ENTRY_INACTIVE != $type) && isset($node['sub'])) {
+            // follow the subtree if the active menu item is in it or if we 
+            // want the full menu or if node expansion is forced (request #4391)
+            if (isset($node['sub']) && ('sitemap' == $this->_menuType || 
+                HTML_MENU_ENTRY_INACTIVE != $type || !empty($node['forceExpand']))) {
+
                 $this->_renderTree($node['sub'], $level + 1);
             }
         }
@@ -397,6 +407,7 @@ class HTML_Menu
             if (0 != $flagStop) {
                 // add this item to the menu and stop recursion - (next >>) node
                 if ($flagStop == 1) {
+                    $node['url'] = $this->_prefixUrl($node['url']);
                     $this->_renderer->renderEntry($node, $level, HTML_MENU_ENTRY_NEXT);
                     $flagStop = 2;
                 }
@@ -411,6 +422,7 @@ class HTML_Menu
                     if (0 == count($last_node)) {
                         reset($this->_menu);
                         list($node_id, $last_node) = each($this->_menu);
+                        $last_node['url'] = $this->_prefixUrl($last_node['url']);
                     }
                     $this->_renderer->renderEntry($last_node, $level, HTML_MENU_ENTRY_PREVIOUS);
 
@@ -418,6 +430,7 @@ class HTML_Menu
                     if (0 == count($up_node)) {
                         reset($this->_menu);
                         list($node_id, $up_node) = each($this->_menu);
+                        $up_node['url'] = $this->_prefixUrl($up_node['url']);
                     }
                     $this->_renderer->renderEntry($up_node, $level, HTML_MENU_ENTRY_UPPER);
                 }
@@ -475,7 +488,7 @@ class HTML_Menu
     function _buildUrlMap($menu, $path) 
     {
         foreach ($menu as $nodeId => $node) {
-            $url = $this->_urlPrefix . ((empty($this->_urlPrefix) || '/' != $node['url']{0})? $node['url']: substr($node['url'], 1));
+            $url = $this->_prefixUrl($node['url']); 
             $this->_urlMap[$url] = $path;
 
             if ($url == $this->_currentUrl) {
@@ -504,6 +517,8 @@ class HTML_Menu
     {
         if (!empty($this->_forcedUrl)) {
             return $this->_forcedUrl;
+        } elseif (!empty($this->_forcedIndex)) {
+            return $this->_findUrlByIndex($this->_menu, $this->_forcedIndex);
         } elseif (isset($_SERVER[$this->_urlEnvVar])) {
             return $_SERVER[$this->_urlEnvVar];
         } elseif (isset($GLOBALS[$this->_urlEnvVar])) {
@@ -522,7 +537,8 @@ class HTML_Menu
     */
     function forceCurrentUrl($url)
     {
-        $this->_forcedUrl = $url;
+        $this->_forcedUrl   = $url;
+        $this->_forcedIndex = null;
     }
 
 
@@ -538,6 +554,56 @@ class HTML_Menu
             $prefix .= '/';
         }
         $this->_urlPrefix = $prefix;
+    }
+
+
+   /**
+    * Adds the prefix to the URL (see request #2935)
+    *
+    * @access   private
+    * @param    string  URL
+    * @return   string  URL with prefix
+    * @see      setUrlPrefix()
+    */
+    function _prefixUrl($url)
+    {
+        return $this->_urlPrefix . ((empty($this->_urlPrefix) || '/' != $url{0})? $url: substr($url, 1));
+    }
+
+
+   /**
+    * Forces the menu item with the given index to become "current"
+    *
+    * Per request #3237
+    *
+    * @param    mixed   Menu item index
+    * @access   public
+    */
+    function forceCurrentIndex($index)
+    {
+        $this->_forcedIndex = $index;
+        $this->_forcedUrl   = ''; 
+    }
+
+
+   /**
+    * Returns the 'url' field of the menu item with the given index
+    *
+    * @param    array   Menu structure to search
+    * @param    mixed   Index
+    * @return   string  URL
+    * @access   private
+    */
+    function _findUrlByIndex(&$menu, $index)
+    {
+        foreach (array_keys($menu) as $key) {
+            if ($key == $index) {
+                return $menu[$key]['url'];
+            } elseif (!empty($menu[$key]['sub']) && '' != ($url = $this->_findUrlByIndex($menu[$key]['sub'], $index))) {
+                return $url;
+            }
+        }
+        return '';
     }
 }
 ?>
