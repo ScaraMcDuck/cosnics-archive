@@ -36,7 +36,7 @@ class DatabaseLearningObjectPublicationResultSet extends ResultSet
 	 */
 	function next_result()
 	{
-		if ($record = $this->handle->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($record = $this->handle->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			return $this->data_manager->record_to_publication($record);
 		}
