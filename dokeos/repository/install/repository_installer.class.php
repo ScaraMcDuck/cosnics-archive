@@ -3,8 +3,7 @@
  * $Id: repositorydatamanager.class.php 9176 2006-08-30 09:08:17Z bmol $
  * @package repository
  */
-require_once dirname(__FILE__).'/../../main/inc/claro_init_global.inc.php';
-require_once dirname(__FILE__).'/../../repository/lib/repository_manager/repositorymanager.class.php';
+require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 /**
  *	This	 installer can be used to create the storage structure for the
  *repository.
@@ -26,8 +25,8 @@ class RepositoryInstaller
 	 */
 	function install()
 	{
-		$this->parse_xml_file('learning_object.xml');
-		$this->parse_xml_file('learning_object_attachment.xml');
+		$this->parse_xml_file(dirname(__FILE__).'/learning_object.xml');
+		$this->parse_xml_file(dirname(__FILE__).'/learning_object_attachment.xml');
 		$dir = dirname(__FILE__).'/../lib/learning_object';
 		$handle = opendir($dir);
 		while (false !== ($type = readdir($handle)))
@@ -80,7 +79,4 @@ class RepositoryInstaller
 		$dm->create_storage_unit($name,$properties,$indexes);
 	}
 }
-// @todo remove next 2 lines once everything is up and running
-$installer = new RepositoryInstaller();
-$installer->install();
 ?>
