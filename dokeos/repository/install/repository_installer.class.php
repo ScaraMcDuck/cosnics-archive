@@ -46,7 +46,7 @@ class RepositoryInstaller
 	 * @param string $path The path to the XML-file to parse
 	 * @todo This function should be moved to an upper class
 	 */
-	private function parse_xml_file($path)
+	function parse_xml_file($path)
 	{
 		$doc = new DOMDocument();
 		$doc->load($path);

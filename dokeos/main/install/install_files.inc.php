@@ -67,6 +67,13 @@ function full_file_install($values)
 	$installer = new RepositoryInstaller();
 	$installer->install();
 
+	//-----------------------------------------------------------
+	// Weblcms Install.
+	//-----------------------------------------------------------
+	require_once('../../application/lib/weblcms/install/weblcms_installer.class.php');
+	$installer = new WeblcmsInstaller();
+	$installer->install();
+
 	echo "<p>File creation is complete!</p>";
 }
 
