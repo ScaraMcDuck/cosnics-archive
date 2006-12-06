@@ -4,7 +4,6 @@
  * @package repository
  */
 require_once dirname(__FILE__).'/../../main/inc/claro_init_global.inc.php';
-error_reporting(E_ALL);
 require_once dirname(__FILE__).'/../../repository/lib/repository_manager/repositorymanager.class.php';
 /**
  *	This	 installer can be used to create the storage structure for the
@@ -77,6 +76,7 @@ class RepositoryInstaller
 			 $indexes[$index->getAttribute('name')] = $index_info;
 		}
 		$dm = RepositoryDataManager :: get_instance();
+		echo '<pre>Creating Storage Unit: '.$name.'</pre>';flush();
 		$dm->create_storage_unit($name,$properties,$indexes);
 	}
 }
