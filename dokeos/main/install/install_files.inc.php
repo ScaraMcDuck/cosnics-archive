@@ -47,7 +47,26 @@ function full_file_install($values)
 	write_dokeos_config_file('../inc/conf/config.inc.dist.php', $values);
 	// Write a .htaccess file in the course repository
 	write_courses_htaccess_file($urlAppendPath);
-	
+
+	//-----------------------------------------------------------
+	// Repository Install.
+	//-----------------------------------------------------------
+	$content = file_get_contents('../../repository/conf/configuration.dist.php');
+	$config['{DATABASE_HOST}'] = $values['database_host'];
+	$config['{DATABASE_USER}'] = $values['database_username'];
+	$config['{DATABASE_PASSWORD}'] = $values['database_password'];
+	$config['{DATABASE_REPOSITORY}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_repository"]);
+	foreach ($config as $key => $value)
+	{
+		$content = str_replace($key, $value, $content);
+	}
+	$fp = @ fopen('../../repository/conf/configuration.php', 'w');
+	fwrite($fp, $content);
+	fclose($fp);
+	require_once('../../repository/install/repository_installer.class.php');
+	$installer = new RepositoryInstaller();
+	$installer->install();
+
 	echo "<p>File creation is complete!</p>";
 }
 
