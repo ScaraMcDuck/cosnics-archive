@@ -254,6 +254,13 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function set_module_visible($course_code,$module,$visible);
 
+	/**
+	 * Adds a course module to a course
+	 * @param string $course_code
+	 * @param string $module
+	 * @param string $section
+	 */
+	 abstract function add_course_module($course_code,$module,$section = 'basic');
 }
 
 ?>

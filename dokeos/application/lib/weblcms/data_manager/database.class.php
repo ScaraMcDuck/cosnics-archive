@@ -397,6 +397,19 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$query = 'SELECT * FROM '.$this->escape_table_name('course_module').' WHERE course_code = ?';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($course_code);
+		// If no modules are defined for this course -> insert them in database
+		// @todo This is not the right place to do this, should happen upon course creation
+		if($res->numRows() == 0)
+		{
+			$this->add_course_module($course_code,'announcement');
+			$this->add_course_module($course_code,'description');
+			$this->add_course_module($course_code,'calendar');
+			$this->add_course_module($course_code,'document');
+			$this->add_course_module($course_code,'forum');
+			$this->add_course_module($course_code,'link');
+			$this->add_course_module($course_code,'wiki');
+			return $this->get_course_modules($course_code);
+		}
 		$modules = array();
 		$module = null;
 		while ($module = $res->fetchRow(MDB2_FETCHMODE_OBJECT)) {
@@ -410,6 +423,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$query = 'UPDATE '.$this->escape_table_name('course_module').' SET visible = ? WHERE course_code = ? AND name = ?';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute(array($visible,$course_code,$module));
+	}
+
+	function add_course_module($course_code,$module,$section = 'basic')
+	{
+		$props = array ();
+		$props[$this->escape_column_name('course_code')] = $course_code;
+		$props[$this->escape_column_name('name')] = $module;
+		$props[$this->escape_column_name('section')] = $section;
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('course_module'), $props, MDB2_AUTOQUERY_INSERT);
 	}
 
 	private function move_learning_object_publication_up($publication, $places)
