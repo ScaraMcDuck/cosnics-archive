@@ -58,7 +58,12 @@ class Document extends LearningObject
 	{
 		$filename = $this->get_filename();
 		$parts = explode('.',$filename);
-		return $parts[count($parts)-1];
+		$icon_name = $parts[count($parts)-1];
+		if( !file_exists(api_get_path(WEB_CODE_PATH).'/img/'.$icon_name.'.gif'))
+		{
+			return 'document';
+		}
+		return $icon_name;
 	}
 	static function get_disk_space_properties()
 	{
