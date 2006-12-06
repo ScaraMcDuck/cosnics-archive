@@ -472,7 +472,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$obj = $this->repoDM->retrieve_learning_object($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_group').' WHERE publication = ?';
 		$sth = $this->connection->prepare($query);
-		$res = $sth->execute($sth, $record[LearningObjectPublication :: PROPERTY_ID]);
+		$res = $sth->execute($record[LearningObjectPublication :: PROPERTY_ID]);
 		$target_groups = array();
 		while($target_group = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
@@ -480,7 +480,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_user').' WHERE publication = ?';
 		$sth = $this->connection->prepare($query);
-		$res = $sth->execute($sth, $record[LearningObjectPublication :: PROPERTY_ID]);
+		$res = $sth->execute($record[LearningObjectPublication :: PROPERTY_ID]);
 		$target_users = array();
 		while($target_user = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
