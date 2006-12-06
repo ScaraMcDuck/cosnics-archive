@@ -4,6 +4,7 @@
  * @package repository
  */
 require_once dirname(__FILE__).'/../../main/inc/claro_init_global.inc.php';
+error_reporting(E_ALL);
 require_once dirname(__FILE__).'/../../repository/lib/repository_manager/repositorymanager.class.php';
 /**
  *	This	 installer can be used to create the storage structure for the
@@ -27,6 +28,7 @@ class RepositoryInstaller
 	function install()
 	{
 		$this->parse_xml_file('learning_object.xml');
+		/*
 		$this->parse_xml_file('learning_object_attachment.xml');
 		$dir = dirname(__FILE__).'/../lib/learning_object';
 		$handle = opendir($dir);
@@ -38,6 +40,7 @@ class RepositoryInstaller
 				$this->parse_xml_file($path);
 			}
 		}
+		*/
 	}
 	/**
 	 * Parses an XML-file in which a storage unit is described. After parsing,
@@ -58,7 +61,7 @@ class RepositoryInstaller
 		{
 			 $property_info = array();
 			 $property_info['type'] = $property->getAttribute('type');
-			 $property_info['size'] = $property->getAttribute('size');
+			 $property_info['length'] = $property->getAttribute('length');
 			 $properties[$property->getAttribute('name')] = $property_info;
 		}
 		$xml_indexes = $doc->getElementsByTagname('index');
