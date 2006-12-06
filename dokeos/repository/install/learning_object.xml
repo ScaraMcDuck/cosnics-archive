@@ -1,18 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="learning_object">
  <properties>
-  <property name="id" type="integer"/>
-  <property name="owner" type="integer"/>
-  <property name="type" type="varchar" size="255"/>
-  <property name="title" type="varchar" size="255"/>
-  <property name="description" type="clob"/>
-  <property name="parent" type="integer"/>
-  <property name="display_order" type="integer"/>
+  <property name="id" type="integer" unsigned="1" notnull="1"/>
+  <property name="owner" type="integer"  unsigned="1" notnull="1"/>
+  <property name="type" type="text" length="255" notnull="1"/>
+  <property name="title" type="text" notnull="1"/>
+  <property name="description" type="text" notnull="1"/>
+  <property name="parent" type="integer"  unsigned="1" notnull="1"/>
+  <property name="display_order" type="integer" unsigned="1"  notnull="1"/>
   <property name="created" type="timestamp"/>
   <property name="modified" type="timestamp"/>
-  <property name="status" type="integer"/>
+  <property name="state" type="integer" length="1" unsigned="1"  notnull="1"/>
  </properties>
- <index name="i" type="unique">
+ <index name="id" type="primary">
   <indexproperty name="id"/>
+ </index>
+ <index name="owner">
+  <indexproperty name="owner"/>
+ </index>
+ <index name="type">
+  <indexproperty name="type"/>
+ </index>
+ <index name="parent">
+  <indexproperty name="parent"/>
+ </index>
+ <index name="display_order">
+  <indexproperty name="display_order"/>
+ </index>
+ <index name="state">
+  <indexproperty name="state"/>
  </index>
 </object>

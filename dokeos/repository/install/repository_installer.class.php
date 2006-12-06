@@ -28,7 +28,6 @@ class RepositoryInstaller
 	function install()
 	{
 		$this->parse_xml_file('learning_object.xml');
-		/*
 		$this->parse_xml_file('learning_object_attachment.xml');
 		$dir = dirname(__FILE__).'/../lib/learning_object';
 		$handle = opendir($dir);
@@ -40,7 +39,6 @@ class RepositoryInstaller
 				$this->parse_xml_file($path);
 			}
 		}
-		*/
 	}
 	/**
 	 * Parses an XML-file in which a storage unit is described. After parsing,
@@ -62,6 +60,8 @@ class RepositoryInstaller
 			 $property_info = array();
 			 $property_info['type'] = $property->getAttribute('type');
 			 $property_info['length'] = $property->getAttribute('length');
+			 $property_info['unsigned'] = $property->getAttribute('unsigned');
+			 $property_info['notnull'] = $property->getAttribute('notnull');
 			 $properties[$property->getAttribute('name')] = $property_info;
 		}
 		$xml_indexes = $doc->getElementsByTagname('index');
@@ -72,7 +72,7 @@ class RepositoryInstaller
 			 $index_properties = $index->getElementsByTagname('indexproperty');
 			 foreach($index_properties as $subkey => $index_property)
 			 {
-			 	$index_info['cols'][] = $index_property->getAttribute('name');
+			 	$index_info['fields'][$index_property->getAttribute('name')] = array();
 			 }
 			 $indexes[$index->getAttribute('name')] = $index_info;
 		}
@@ -80,6 +80,7 @@ class RepositoryInstaller
 		$dm->create_storage_unit($name,$properties,$indexes);
 	}
 }
+// @todo remove next 2 lines once everything is up and running
 $installer = new RepositoryInstaller();
 $installer->install();
 ?>

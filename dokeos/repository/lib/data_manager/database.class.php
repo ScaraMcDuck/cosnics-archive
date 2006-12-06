@@ -874,8 +874,32 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// Inherited
 	function create_storage_unit($name,$properties,$indexes)
 	{
-		$table_name = 'a'.$this->get_table_name($name);
-		$table = new DatabaseTable($this,$table_name,$properties,$indexes);
+		// @todo Remove 'test'-prefix once everything is up and running
+		$name = 'test'.$name;
+		$table_name = $this->get_table_name($name);
+		$this->connection->loadModule('Manager');
+		$manager = $this->connection->manager;
+		// If table allready exists -> drop it
+		// @todo This should change: no automatic table drop but warning to user
+		$tables = $manager->listTables();
+		if( in_array($name,$tables))
+		{
+			$manager->dropTable($name);
+		}
+		$manager->createTable($name,$properties);
+		foreach($indexes as $index_name => $index_info)
+		{
+			if($index_info['type'] == 'primary')
+			{
+				$index_info['primary'] = 1;
+				$manager->createConstraint($name,$index_name,$index_info);
+			}
+			else
+			{
+				$manager->createIndex($name,$index_name,$index_info);
+			}
+		}
+
 	}
 
 	private static function is_learning_object_column ($name)
