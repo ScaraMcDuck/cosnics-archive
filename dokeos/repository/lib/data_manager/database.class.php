@@ -874,9 +874,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// Inherited
 	function create_storage_unit($name,$properties,$indexes)
 	{
-		// @todo Remove 'test'-prefix once everything is up and running
-		$name = 'test'.$name;
-		$table_name = $this->get_table_name($name);
+		$name = $this->get_table_name($name);
 		$this->connection->loadModule('Manager');
 		$manager = $this->connection->manager;
 		// If table allready exists -> drop it
