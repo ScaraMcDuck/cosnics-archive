@@ -106,6 +106,15 @@ abstract class RepositoryDataManager
 		$condition2 = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, 0);
 		$condition = new AndCondition($condition1, $condition2);
 		$objects = $this->retrieve_learning_objects('category', $condition, null, null, 0, 1, -1);
+		if($objects->size() == 0)
+		{
+			$object = new Category();
+			$object->set_owner_id($owner);
+			$object->set_title(get_lang('MyRepository'));
+			$object->set_description('...');
+			$object->create();
+			return $object;
+		}
 		return $objects->next_result();
 	}
 
