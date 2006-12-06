@@ -40,11 +40,11 @@ install time.
 //   MYSQL connection settings
 //============================================================================
 // Your MySQL server
-$dbHost         = '{DATABASE_HOST}'; 		
+$dbHost         = '{DATABASE_HOST}';
 // Your MySQL username
-$dbLogin        = '{DATABASE_USER}'; 		
+$dbLogin        = '{DATABASE_USER}';
 // Your MySQL password
-$dbPass         = '{DATABASE_PASSWORD}'; 	
+$dbPass         = '{DATABASE_PASSWORD}';
 
 //============================================================================
 //   Database settings
@@ -53,7 +53,7 @@ $dbPass         = '{DATABASE_PASSWORD}';
 $is_trackingEnabled = {TRACKING_ENABLED};
 // is single database enabled (DO NOT MODIFY THIS)
 $singleDbEnabled    = {SINGLE_DATABASE};
-// prefix for course tables (IF NOT EMPTY, can be replaced by another prefix, 
+// prefix for course tables (IF NOT EMPTY, can be replaced by another prefix,
 // else leave empty)
 $courseTablePrefix      = '{COURSE_TABLE_PREFIX}';
 // separator between database and table name (DO NOT MODIFY THIS)
@@ -66,7 +66,7 @@ $mainDbName             = '{DATABASE_MAIN}';
 $statsDbName            = '{DATABASE_STATS}';
 // scorm Dokeos database
 $scormDbName            = '{DATABASE_SCORM}';
-// user Personal Database (where all the personal stuff of the user is stored 
+// user Personal Database (where all the personal stuff of the user is stored
 // (personal agenda items, course sorting)
 $user_personal_database = '{DATABASE_PERSONAL}';
 // object repository database
@@ -78,7 +78,7 @@ $repository_database    = '{DATABASE_REPOSITORY}';
 // URL to the root of your Dokeos installation
 $rootWeb                     = '{ROOT_WEB}';
 // Path to the root of your Dokeos installation
-$rootSys                     = '{ROOT_SYS}';
+$rootSys                     = dirname(__FILE__).'/../../../';
 // Path from your WWW-root to the root of your Dokeos installation
 $urlAppend                   = '{URL_APPEND_PATH}';
 // Directory of the Dokeos code
@@ -97,8 +97,8 @@ $rootAdminWeb                = $clarolineRepositoryWeb.$rootAdminAppend;
 // directory to store archived courses
 $archiveDirName              = "archive";
 // change this to a place out of web if you can
-$garbageRepositorySys        = '{GARBAGE_DIR}'; 
-// URL to your phpMyAdmin installation. 
+$garbageRepositorySys        = '{GARBAGE_DIR}';
+// URL to your phpMyAdmin installation.
 // If not empty, a link will be available in the Platform Administration
 $phpMyAdminPath              = '';
 
@@ -127,13 +127,13 @@ $verboseBackup      = false;
 // security word for password recovery
 $security_key       = '{SECURITY_KEY}';
 // light grey
-$color1 = "#F5F5F5"; 
+$color1 = "#F5F5F5";
 // less light grey for bicolored tables, also used in forums, groups etc.
-$color2 = "#E6E6E6"; 
+$color2 = "#E6E6E6";
 // Settings for new and future features
 $userPasswordCrypted          = {ENCRYPT_PASSWORD};
 // You may have to restart your web server if you change this
-$storeSessionInDb             = false; 
+$storeSessionInDb             = false;
 
 //============================================================================
 //   Plugin settings
