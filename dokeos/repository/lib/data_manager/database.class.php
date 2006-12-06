@@ -668,7 +668,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	function get_table_name($name)
 	{
-		return $this->prefix.$name;
+		global $repository_database;
+		return $repository_database.'.'.$this->prefix.$name;
 	}
 
 	/**
@@ -678,7 +679,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	function escape_table_name($name)
 	{
-		return $this->connection->quoteIdentifier($this->get_table_name($name));
+		global $repository_database;
+		$database_name = $this->connection->quoteIdentifier($repository_database);
+		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
 	}
 
 	/**
