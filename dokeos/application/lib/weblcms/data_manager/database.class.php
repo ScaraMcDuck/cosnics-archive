@@ -152,7 +152,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			{
 				$userConditions[] = new EqualityCondition('user', $u);
 			}
-			$accessConditions[] = new AndCondition(new EqualityCondition('group',null),new OrCondition($userConditions));
+			$accessConditions[] = new AndCondition(new EqualityCondition('group_id',null),new OrCondition($userConditions));
 		}
 		// Add condition to retrieve publications for given groups (user=null and group=id)
 		if (!is_null($groups))
@@ -164,14 +164,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$groupConditions = array();
 			foreach ($groups as $g)
 			{
-				$groupConditions[] = new EqualityCondition('group', $g);
+				$groupConditions[] = new EqualityCondition('group_id', $g);
 			}
 			$accessConditions[] = new AndCondition(new EqualityCondition('user',null),new OrCondition($groupConditions));
 		}
 		if(!is_null($groups) || !is_null($users))
 		{
 			// Add condition to retrieve publications for everybody (user=null and group=null)
-			$accessConditions[] = new AndCondition(new EqualityCondition('user',null),new EqualityCondition('group',null));
+			$accessConditions[] = new AndCondition(new EqualityCondition('user',null),new EqualityCondition('group_id',null));
 		}
 
 		/*
@@ -225,7 +225,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			$props = array();
 			$props[$this->escape_column_name('publication')] = $publication->get_id();
-			$props[$this->escape_column_name('group')] = $group_id;
+			$props[$this->escape_column_name('group_id')] = $group_id;
 			$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_group'), $props, MDB2_AUTOQUERY_INSERT);
 		}
 		return true;
@@ -256,7 +256,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			$props = array();
 			$props[$this->escape_column_name('publication')] = $publication->get_id();
-			$props[$this->escape_column_name('group')] = $group_id;
+			$props[$this->escape_column_name('group_id')] = $group_id;
 			$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_group'), $props, MDB2_AUTOQUERY_INSERT);
 		}
 		// Update publication properties
@@ -476,7 +476,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$target_groups = array();
 		while($target_group = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$target_groups[] = $target_group['group'];
+			$target_groups[] = $target_group['group_id'];
 		}
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_user').' WHERE publication = ?';
 		$sth = $this->connection->prepare($query);
