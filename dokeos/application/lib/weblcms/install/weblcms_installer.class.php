@@ -25,6 +25,8 @@ class WeblcmsInstaller {
 		$repository_installer->parse_xml_file(dirname(__FILE__).'/learning_object_publication_category.xml');
 		$repository_installer->parse_xml_file(dirname(__FILE__).'/learning_object_publication_group.xml');
 		$repository_installer->parse_xml_file(dirname(__FILE__).'/learning_object_publication_user.xml');
+		$repository_installer->parse_xml_file(dirname(__FILE__).'/course_module.xml');
+
 	}
 }
 ?>
