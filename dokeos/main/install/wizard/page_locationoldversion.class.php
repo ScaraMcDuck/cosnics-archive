@@ -3,7 +3,9 @@
  * @package main
  * @subpackage install
  */
-// Class for location old Dokeos installation
+/**
+ * Class  for location old Dokeos installation
+ */
 class Page_LocationOldVersion extends HTML_QuickForm_Page
 {
 	function get_title()

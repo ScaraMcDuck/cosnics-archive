@@ -3,6 +3,10 @@
  * @package main
  * @subpackage install
  */
+/**
+ * Page in the install wizard to select the language which will be used during
+ * the installation process.
+ */
 class Page_Language extends HTML_QuickForm_Page
 {
 	function get_title()

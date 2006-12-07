@@ -3,9 +3,15 @@
  * @package main
  * @subpackage install
  */
-// Class for form rendering
+/**
+ * Class to render a page in the install wizard.
+ */
 class ActionDisplay extends HTML_QuickForm_Action_Display
 {
+	/**
+	 * Displays the HTML-code of a page in the wizard
+	 * @param HTML_Quickform_Page $page The page to display.
+	 */
 	function _renderForm(& $page)
 	{
 		global $dokeos_version, $installType, $updateFromVersion;
@@ -37,13 +43,11 @@ class ActionDisplay extends HTML_QuickForm_Action_Display
 		echo $page->get_info();
 		echo '</p>';
 		echo $renderer->toHtml();
-?>
+		?>
         </div>
 		</body>
 		</html>
 		<?php
-
-
 	}
 }
 ?>
