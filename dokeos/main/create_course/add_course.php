@@ -87,6 +87,7 @@ $form->addRule('wanted_code',get_lang('Max'),'maxlength',20);
 $form->add_textfield('tutor_name', get_lang('Professors'),true,array('size'=>'60'));
 $form->addElement('select_language', 'course_language', get_lang('Ln'));
 $form->addElement('submit', null, get_lang('Ok'));
+$form->add_progress_bar();
 
 // Set default values
 $values['course_language'] = get_setting('platformLanguage');
