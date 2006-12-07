@@ -54,6 +54,7 @@ abstract class LearningObjectForm extends FormValidator
 			$this->form_type = self :: TYPE_CREATE;
 			$this->build_creation_form();
 		}
+		$this->add_progress_bar(2);
 		$this->add_footer();
 		$this->setDefaults();
 	}
