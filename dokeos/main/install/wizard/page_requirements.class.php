@@ -72,7 +72,7 @@ class Page_Requirements extends HTML_QuickForm_Page
 		$info .= '<b>'.get_lang("ReadThoroughly").'</b>';
 		$info .= get_lang("DokeosNeedFollowingOnServer");
 		$info .= "<ul>";
-		$info .= "<li>Webserver with PHP 4.x";
+		$info .= "<li>Webserver with PHP 5.x";
 		$info .= '<ul>';
 		$info .= $this->check_extension('standard');
 		$info .= $this->check_extension('session');
@@ -90,10 +90,9 @@ class Page_Requirements extends HTML_QuickForm_Page
 	{
 		global $updateFromVersion;
 		$this->_formBuilt = true;
-		$this->addElement('header', null, $info);
 		$this->addElement('radio', 'installation_type', get_lang('InstallType'), get_lang('NewInstall'), 'new');
 		$update_group[0] = & HTML_QuickForm :: createElement('radio', 'installation_type', null, 'Update from Dokeos '.implode('|', $updateFromVersion).'', 'update');
-		$this->addGroup($update_group, 'update_group', '', '&nbsp', false);
+		//$this->addGroup($update_group, 'update_group', '', '&nbsp', false);
 		$prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
 		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
 		$not_writable = $this->get_not_writable_folders();
