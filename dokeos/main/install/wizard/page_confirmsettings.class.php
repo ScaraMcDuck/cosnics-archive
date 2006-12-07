@@ -3,7 +3,10 @@
  * @package main
  * @subpackage install
  */
-// Class for final overview page
+/**
+ * Page in the install wizard in which a final overview of all settings is
+ * showed.
+ */
 class Page_ConfirmSettings extends HTML_QuickForm_Page
 {
 	function get_title()

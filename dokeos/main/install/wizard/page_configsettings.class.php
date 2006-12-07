@@ -3,6 +3,10 @@
  * @package main
  * @subpackage install
  */
+/**
+ * Page in the install wizard in which some config settings are asked to the
+ * user.
+ */
 class Page_ConfigSettings extends HTML_QuickForm_Page
 {
 	function get_title()
