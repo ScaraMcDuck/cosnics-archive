@@ -38,6 +38,11 @@ class LearningObjectPublicationForm extends FormValidator
 	 */
 	private $learning_object;
 	/**
+	 * The publication that will be changed (when using this form to edit a
+	 * publication)
+	 */
+	private $publication;
+	/**
 	 * Is a 'send by email' option available?
 	 */
 	private $email_option;
@@ -57,6 +62,19 @@ class LearningObjectPublicationForm extends FormValidator
 		$this->email_option = $email_option;
 		$this->build_form();
 		$this->setDefaults();
+    }
+    /**
+     * Sets the publication. Use this function if you're using this form to
+     * change the settings of a learning object publication.
+     * @param LearningObjectPublication $publication
+     */
+    function set_publication($publication)
+    {
+    	$this->publication = $publication;
+		$element =& $this->addElement('hidden','pid');
+		$element->setValue($publication->get_id());
+		$element =& $this->addElement('hidden','action');
+		$element->setValue('edit');
     }
 	/**
 	 * Sets the default values of the form.
@@ -114,6 +132,53 @@ class LearningObjectPublicationForm extends FormValidator
 			$this->addElement('checkbox', self::PARAM_EMAIL, get_lang('SendByEmail'));
 		}
 		$this->addElement('submit', 'submit', get_lang('Ok'));
+    }
+    /**
+     * Updates a learning object publication using the values from the form.
+     * @return LearningObjectPublication The updated publication
+     * @todo This function shares some code with function
+     * create_learning_object_publication. This code duplication should be
+     * resolved.
+     */
+    function update_learning_object_publication()
+    {
+		$values = $this->exportValues();
+		if ($values[self :: PARAM_FOREVER] != 0)
+		{
+			$from = $to = 0;
+		}
+		else
+		{
+			$from = RepositoryUtilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]);
+			$to = RepositoryUtilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
+		}
+		$hidden = ($values[self :: PARAM_HIDDEN] ? 1 : 0);
+		$category = $values[self :: PARAM_CATEGORY_ID];
+		$users = array ();
+		$groups = array ();
+		if($values[self :: PARAM_TARGETS][self :: PARAM_RECEIVERS] == 1)
+		{
+			foreach($values[self::PARAM_TARGETS][self :: PARAM_TARGETS_TO] as $index => $target)
+			{
+				list($type,$id) = explode('-',$target);
+				if($type == self :: PARAM_TARGET_GROUP_PREFIX)
+				{
+					$groups[] = $id;
+				}
+				elseif($type == self :: PARAM_TARGET_USER_PREFIX)
+				{
+					$users[] = $id;
+				}
+			}
+		}
+		$pub = $this->publication;
+		$pub->set_from_date($from);
+		$pub->set_to_date($to);
+		$pub->set_hidden($hidden);
+		$pub->set_target_users($users);
+		$pub->set_target_groups($groups);
+		$pub->update();
+		return $pub;
     }
 	/**
 	 * Creates a learning object publication using the values from the form.
