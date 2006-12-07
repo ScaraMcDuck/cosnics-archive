@@ -40,9 +40,9 @@ class ActionDisplay extends HTML_QuickForm_Action_Display
 
 
 		echo '<h2>'.$page->get_title().'</h2>';
-		echo '<p>';
+		echo '<div>';
 		echo $page->get_info();
-		echo '</p>';
+		echo '</div>';
 		echo $renderer->toHtml();
 		?>
         </div>

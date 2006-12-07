@@ -16,8 +16,8 @@ class Page_ConfirmSettings extends HTML_QuickForm_Page
 	function get_info()
 	{
 		return 'Here are the values you entered
-											<br>
-											<b>Print this page to remember your password and other settings</b>';
+				<br />
+				<strong>Print this page to remember your password and other settings</strong>';
 
 	}
 	function buildForm()

@@ -52,39 +52,40 @@ class Page_Requirements extends HTML_QuickForm_Page
 
 		if (count($not_writable) > 0)
 		{
-			$info .= '<div style="margin:20px;padding:10px;width: 50%;color:#FF6600;border:2px solid #FF6600;">';
-			$info .= 'Some files or folders don\'t have writing permission. To be able to install Dokeos you should first change their permissions (using CHMOD). Please read the <a href="../../installation_guide.html" target="blank">installation guide</a>.';
-			$info .= '<ul>';
+			$info[] = '<div style="margin:20px;padding:10px;width: 50%;color:#FF6600;border:2px solid #FF6600;">';
+			$info[] = 'Some files or folders don\'t have writing permission. To be able to install Dokeos you should first change their permissions (using CHMOD). Please read the <a href="../../installation_guide.html" target="blank">installation guide</a>.';
+			$info[] = '<ul>';
 			foreach ($not_writable as $index => $folder)
 			{
-				$info .= '<li>'.$folder.'</li>';
+				$info[] = '<li>'.$folder.'</li>';
 			}
-			$info .= '</ul>';
-			$info .= '</div>';
+			$info[] = '</ul>';
+			$info[] = '</div>';
 			$this->disableNext = true;
 		}
 		elseif (file_exists('../inc/conf/claro_main.conf.php'))
 		{
-			$info .= '<div style="margin:20px;padding:10px;width: 50%;color:#FF6600;border:2px solid #FF6600;text-align:center;">';
-			$info .= get_lang("WarningExistingDokeosInstallationDetected");
-			$info .= '</div>';
+			$info[] = '<div style="margin:20px;padding:10px;width: 50%;color:#FF6600;border:2px solid #FF6600;text-align:center;">';
+			$info[] = get_lang("WarningExistingDokeosInstallationDetected");
+			$info[] = '</div>';
 		}
-		$info .= '<b>'.get_lang("ReadThoroughly").'</b>';
-		$info .= get_lang("DokeosNeedFollowingOnServer");
-		$info .= "<ul>";
-		$info .= "<li>Webserver with PHP 5.x";
-		$info .= '<ul>';
-		$info .= $this->check_extension('standard');
-		$info .= $this->check_extension('session');
-		$info .= $this->check_extension('mysql');
-		$info .= $this->check_extension('zlib');
-		$info .= $this->check_extension('pcre');
-		$info .= '</ul></li>';
-		$info .= "<li>MySQL + login/password allowing to access and create at least one database</li>";
-		$info .= "<li>Write access to web directory where Dokeos files have been put</li>";
-		$info .= "</ul>";
-		$info .= "For more details, <a href=\"../../installation_guide.html\" target=\"blank\">read the installation guide</a>.<br>";
-		return $info;
+		$info[] = '<b>'.get_lang("ReadThoroughly").'</b>';
+		$info[] = '<br />';
+		$info[] = get_lang("DokeosNeedFollowingOnServer");
+		$info[] = "<ul>";
+		$info[] = "<li>Webserver with PHP 5.x";
+		$info[] = '<ul>';
+		$info[] = $this->check_extension('standard');
+		$info[] = $this->check_extension('session');
+		$info[] = $this->check_extension('mysql');
+		$info[] = $this->check_extension('zlib');
+		$info[] = $this->check_extension('pcre');
+		$info[] = '</ul></li>';
+		$info[] = "<li>MySQL + login/password allowing to access and create at least one database</li>";
+		$info[] = "<li>Write access to web directory where Dokeos files have been put</li>";
+		$info[] = "</ul>";
+		$info[] = "For more details, <a href=\"../../installation_guide.html\" target=\"blank\">read the installation guide</a>.";
+		return implode("\n",$info);
 	}
 	function buildForm()
 	{
