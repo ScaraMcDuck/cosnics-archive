@@ -680,8 +680,14 @@ class LearningObject implements AccessibleLearningObject
 	}
 
 	/**
-	 * Determines whether this learning object is a master type. This means it
-	 * can exist on its own.
+	 * Determines whether this learning object is a master type.
+	 *
+	 * This means it can exist on its own. This function can be called staticly.
+	 * By default this function returns true. If a certain learning object type
+	 * isn't a master type, this function should be overwritte in the
+	 * corresponding subclass of this class and the function should return
+	 * false.
+	 * @return boolean true if this is a master type.
 	 */
 	function is_master_type()
 	{
