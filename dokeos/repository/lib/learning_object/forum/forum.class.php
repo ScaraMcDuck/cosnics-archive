@@ -72,7 +72,7 @@ class Forum extends LearningObject
 	function get_forum_topic($topic_id)
 	{
 		$datamanager = RepositoryDataManager::get_instance();
-		$topic = $datamanager->retrieve_learning_object($topic_id);
+		$topic = $datamanager->retrieve_learning_object($topic_id,'forum_topic');
 		return $topic;
 	}
 }
