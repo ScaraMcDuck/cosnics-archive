@@ -15,12 +15,13 @@ class ActionProcess extends HTML_QuickForm_Action
 		global $dokeos_version, $installType, $updateFromVersion;
 		$values = $page->controller->exportValues();
 		?>
-		<html>
+		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+		<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 		<head>
 		<title>-- Dokeos installation -- version <?php echo $dokeos_version; ?></title>
-		<link rel="stylesheet" href="../css/default.css" type="text/css">
+		<link rel="stylesheet" href="../css/default.css" type="text/css"/>
 		</head>
-		<body>
+		<body dir="<?php echo get_lang('text_dir'); ?>">
 		<div style="background-color:#4171B5;color:white;font-size:x-large;">
 			Dokeos installation - version <?php echo $dokeos_version; ?><?php if($installType == 'new') echo ' - New installation'; else if($installType == 'update') echo ' - Update from Dokeos '.implode('|',$updateFromVersion); ?>
 		</div>
