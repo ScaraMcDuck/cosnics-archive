@@ -237,10 +237,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$parameters['id'] = $publication->get_id();
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_user').' WHERE publication = ?';
 		$statement = $this->connection->prepare($query);
-		$statement->execute($parameters);
+		$statement->execute($parameters['id']);
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_group').' WHERE publication = ?';
 		$statement = $this->connection->prepare($query);
-		$statement->execute($parameters);
+		$statement->execute($parameters['id']);
 		// Add updated target users and groups
 		$users = $publication->get_target_users();
 		$this->connection->loadModule('Extended');

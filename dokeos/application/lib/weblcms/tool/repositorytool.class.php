@@ -5,6 +5,7 @@
  * @package application.weblcms.tool
  */
 require_once dirname(__FILE__) . '/tool.class.php';
+require_once dirname(__FILE__) . '/../learningobjectpublicationform.class.php';
 
 /**
 ==============================================================================
@@ -65,7 +66,24 @@ abstract class RepositoryTool extends Tool
 			switch($action)
 			{
 				case self :: ACTION_EDIT:
-					//TODO: implement action to edit publication
+					if($this->is_allowed(EDIT_RIGHT))
+					{
+						$pid = isset($_GET['pid']) ? $_GET['pid'] : $_POST['pid'];
+						$publication = $datamanager->retrieve_learning_object_publication($pid);
+						$form = new LearningObjectPublicationForm($publication->get_learning_object(),$this);
+						$form->set_publication($publication);
+						if( $form->validate())
+						{
+							$form->update_learning_object_publication();
+							$message = htmlentities(get_lang('LearningObjectPublicationUpdated'));
+						}
+						else
+						{
+							$form->display();
+							$this->display_footer();
+							exit;
+						}
+					}
 					break;
 				case self :: ACTION_DELETE:
 					if($this->is_allowed(DELETE_RIGHT))
