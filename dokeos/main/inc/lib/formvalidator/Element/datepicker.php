@@ -62,6 +62,7 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
 		$this->_options['minYear'] = date('Y')-1;
 		$this->_options['maxYear'] = date('Y')+5;
 		$this->_options['language'] = $editor_lang;
+		$this->setValue(date('Y-m-d H:i:s'));
 	}
 	/**
 	 * HTML code to display this datepicker
