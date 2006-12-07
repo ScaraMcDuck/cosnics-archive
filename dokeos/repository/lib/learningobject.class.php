@@ -680,6 +680,15 @@ class LearningObject implements AccessibleLearningObject
 	}
 
 	/**
+	 * Determines whether this learning object is a master type. This means it
+	 * can exist on its own.
+	 */
+	function is_master_type()
+	{
+		return true;
+	}
+
+	/**
 	 * Invokes the constructor of the class that corresponds to the specified
 	 * type of learning object.
 	 * @param string $type The learning object type.

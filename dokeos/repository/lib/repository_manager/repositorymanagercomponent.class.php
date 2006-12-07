@@ -281,9 +281,9 @@ abstract class RepositoryManagerComponent {
 	/**
 	 * @see RepositoryManager::get_learning_object_types()
 	 */
-	function get_learning_object_types()
+	function get_learning_object_types($only_master_types = false)
 	{
-		return $this->get_parent()->get_learning_object_types();
+		return $this->get_parent()->get_learning_object_types($only_master_types);
 	}
 	/**
 	 * @see RepositoryManager::get_web_code_path()
