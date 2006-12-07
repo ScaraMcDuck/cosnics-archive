@@ -77,11 +77,28 @@ abstract class RepositoryDataManager
 
 	/**
 	 * Returns the learning object types registered with the data manager.
+	 * @param boolean $only_master_types Only return the master type learning
+	 * objects (which can exist on their own). Returns all learning object types
+	 * by default.
 	 * @return array The types.
 	 */
-	function get_registered_types()
+	function get_registered_types($only_master_types = false)
 	{
-		return array_keys($this->typeProperties);
+		$types = array_keys($this->typeProperties);
+		if(!$only_master_types)
+		{
+			return $types;
+		}
+		$master_types = array();
+		foreach($types as $index => $type)
+		{
+			$class_type = LearningObject::type_to_class($type);
+			if(call_user_func(array($class_type,'is_master_type')))
+			{
+				$master_types[] = $type;
+			}
+		}
+		return $master_types;
 	}
 
 	/**

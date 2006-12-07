@@ -10,5 +10,10 @@ class LearningPathChapter extends LearningObject
 	{
 		return true;
 	}
+	// Inherited
+	function is_master_type()
+	{
+		return false;
+	}
 }
 ?>

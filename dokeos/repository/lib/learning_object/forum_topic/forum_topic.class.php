@@ -80,5 +80,10 @@ class ForumTopic extends LearningObject
 		$post->set_owner_id($this->get_owner_id());
 		$post->create();
 	}
+	// Inherited
+	function is_master_type()
+	{
+		return false;
+	}
 }
 ?>

@@ -556,13 +556,16 @@ class RepositoryManager
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_LEARNING_OBJECT_RIGHTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 	}
 	/**
-	 * Gets the defined learning object types.
+	 * Gets the defined learning object types
 	 * @see RepositoryDataManager::get_registered_types()
+	 * @param boolean $only_master_types Only return the master type learning
+	 * objects (which can exist on their own). Returns all learning object types
+	 * by default.
 	 */
-	function get_learning_object_types()
+	function get_learning_object_types($only_master_types = false)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->get_registered_types();
+		return $rdm->get_registered_types($only_master_types);
 	}
 	/**
 	 * Gets the URL to the Dokeos claroline folder.

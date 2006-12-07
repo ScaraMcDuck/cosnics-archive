@@ -27,5 +27,10 @@ class ForumPost extends LearningObject
 	{
 		return $this->set_additional_property(self :: PROPERTY_PARENT_POST, $parent_post_id);
 	}
+	// Inherited
+	function is_master_type()
+	{
+		return false;
+	}
 }
 ?>
