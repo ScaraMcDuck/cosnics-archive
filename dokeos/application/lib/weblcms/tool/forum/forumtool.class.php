@@ -63,6 +63,7 @@ class ForumTool extends RepositoryTool
 			{
 				$this->set_parameter('forum',$_GET['forum']);
 				$browser = new ForumTopicBrowser($this);
+				$browser->perform_requested_actions();
 			}
 			else
 			{

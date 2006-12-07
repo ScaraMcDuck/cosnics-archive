@@ -44,7 +44,7 @@ class ForumTopicListRenderer extends TableLearningObjectPublicationListRenderer
 			$action = 'lock';
 			$img = 'unlock.gif';
 		}
-		$url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => 'lock', 'topic' => $topic->get_id()), true);
+		$url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => $action, 'topic_id' => $topic->get_id()), true);
 		$link = '<a href="'.$url.'" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$img.'"  alt=""/></a>';
 		return $link;
 	}
