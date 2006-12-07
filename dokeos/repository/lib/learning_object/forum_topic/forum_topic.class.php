@@ -59,10 +59,11 @@ class ForumTopic extends LearningObject
 	}
 	/**
 	 * Locks this forum topic
+	 * @param boolean $locked
 	 */
-	function lock()
+	function set_locked($locked)
 	{
-		return $this->set_additional_property(self :: PROPERTY_PARENT_POST, true);
+		return $this->set_additional_property(self :: PROPERTY_LOCKED, $locked);
 	}
 	/**
 	 * When creating a new forum topic, a first forum post in that topic will
