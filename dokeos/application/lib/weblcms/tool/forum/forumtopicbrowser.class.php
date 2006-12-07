@@ -88,5 +88,30 @@ class ForumTopicBrowser extends LearningObjectPublicationBrowser
 		$html .= $this->listRenderer->as_html();
 		return $html;
 	}
+	function perform_requested_actions()
+	{
+		if(isset($_GET['action']))
+		{
+			switch($_GET['action'])
+			{
+				case 'lock':
+				{
+					$forum = $this->forum_publication->get_learning_object();
+					$topic = $forum->get_forum_topic($_GET['topic_id']);
+					$topic->set_locked(true);
+					$topic->update();
+					break;
+				}
+				case 'unlock':
+				{
+					$forum = $this->forum_publication->get_learning_object();
+					$topic = $forum->get_forum_topic($_GET['topic_id']);
+					$topic->set_locked(false);
+					$topic->update();
+					break;
+				}
+			}
+		}
+	}
 }
 ?>
