@@ -224,11 +224,33 @@ EOT;
 		$this->addGroup($group);
 	}
 	/**
+	 * Adds a progress bar to the form.
+ 	 * Once the user submits the form, a progress bar (animated gif) is
+ 	 * displayed. The progress bar will disappear once the page has been
+ 	 * reloaded.
+ 	 * @param int $delay The number of seconds between the moment the user
+ 	 * submits the form and the start of the progress bar.
+     */
+	function add_progress_bar($delay = 2)
+	{
+		$this->with_progress_bar = true;
+		$this->updateAttributes("onsubmit=\"myUpload.start('dynamic_div','".api_get_path(WEB_CODE_PATH)."img/progress_bar.gif','".get_lang('PleaseStandBy')."','".$this->getAttribute('id')."')\"");
+		$this->addElement('html','<script language="javascript" src="'.api_get_path(WEB_CODE_PATH).'inc/lib/javascript/upload.js" type="text/javascript"></script>');
+		$this->addElement('html','<script type="text/javascript">var myUpload = new upload('.(abs(intval($delay))*1000).');</script>');
+    }
+	/**
 	 * Display the form.
 	 * If an element in the form didn't validate, an error message is showed
 	 * asking the user to complete the form.
 	 */
 	function display()
+	{
+		echo $this->toHtml();
+	}
+	/**
+	 * Returns the HTML representation of this form.
+	 */
+	function toHtml()
 	{
 		$error = false;
 		foreach($this->_elements as $index => $element)
@@ -243,7 +265,13 @@ EOT;
 		{
 			Display::display_error_message(get_lang('FormHasErrorsPleaseComplete'));
 		}
-		parent::display();
+		$return_value = parent::toHtml();
+		// Add the div which will hold the progress bar
+		if($this->with_progress_bar)
+		{
+			$return_value .= '<div id="dynamic_div" style="display:block;margin-left:40%;margin-top:10px;height:50px;"></div>';
+		}
+		return $return_value;
 	}
 }
 
