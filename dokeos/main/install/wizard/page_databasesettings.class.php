@@ -26,6 +26,7 @@ class Page_DatabaseSettings extends HTML_QuickForm_Page
 		$this->addRule('database_host', 'ThisFieldIsRequired', 'required');
 		$this->addElement('text', 'database_username', get_lang("DBLogin"), array ('size' => '40'));
 		$this->addElement('password', 'database_password', get_lang("DBPassword"), array ('size' => '40'));
+		$this->addRule(array('database_host','database_username','database_password'),get_lang('CouldNotConnectToDatabase'),new ValidateDatabaseConnection());
 		$this->addElement('text', 'database_prefix', get_lang("DbPrefixForm"), array ('size' => '40'));
 		$this->addElement('text', 'database_main_db', get_lang("MainDB"), array ('size' => '40'));
 		$this->addRule('database_main_db', 'ThisFieldIsRequired', 'required');
@@ -47,6 +48,20 @@ class Page_DatabaseSettings extends HTML_QuickForm_Page
 		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
+	}
+}
+class ValidateDatabaseConnection extends HTML_QuickForm_Rule
+{
+	public function validate($parameters)
+	{
+		$db_host = $parameters[0];
+		$db_user = $parameters[1];
+		$db_password = $parameters[2];
+		if(mysql_connect($db_host,$db_user,$db_password))
+		{
+			return true;
+		}
+		return false;
 	}
 }
 ?>
