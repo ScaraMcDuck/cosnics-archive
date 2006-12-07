@@ -29,6 +29,7 @@ class ForumTopicBrowser extends LearningObjectPublicationBrowser
 		$forum = $this->forum_publication->get_learning_object();
 		$topics = $forum->get_forum_topics();
 		$index = 0;
+		$renderer = new ForumTopicListRenderer($this);
 		while ($topic = $topics->next_result())
 		{
 			$first = ($index == 0);
@@ -46,6 +47,10 @@ class ForumTopicBrowser extends LearningObjectPublicationBrowser
 			$last_post = $topic->get_last_post();
 			$last_post_author = api_get_user_info($last_post->get_owner_id());
 			$forum_table_row[] = date('r',$last_post->get_creation_date()).' '.get_lang('By').' '.$last_post_author['firstName'].' '.$last_post_author['lastName'];
+			if($this->is_allowed(EDIT_RIGHT) || $this->is_allowed(DELETE_RIGHT))
+			{
+				$forum_table_row[] = $renderer->render_publication_actions($topic, $first, $last);
+			}
 			$visible_publications[] = $forum_table_row;
 			$index++;
 		}

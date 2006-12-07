@@ -9,6 +9,7 @@ require_once dirname(__FILE__) . '/../../learningobject.class.php';
  */
 class ForumTopic extends LearningObject
 {
+	const PROPERTY_LOCKED = 'locked';
 	/**
 	 * Gets the number of replies in this topic.
 	 * This is the number of posts minus one.
@@ -48,6 +49,20 @@ class ForumTopic extends LearningObject
 		$datamanager = RepositoryDataManager::get_instance();
 		$post_count = $datamanager->count_learning_objects('forum_post',new EqualityCondition(self::PROPERTY_PARENT_ID, $this->get_id()));
 		return $post_count;
+	}
+	/**
+	 * Determines if this forum topic is locked
+	 */
+	function is_locked()
+	{
+		return $this->get_additional_property(self :: PROPERTY_LOCKED);
+	}
+	/**
+	 * Locks this forum topic
+	 */
+	function lock()
+	{
+		return $this->set_additional_property(self :: PROPERTY_PARENT_POST, true);
 	}
 	/**
 	 * When creating a new forum topic, a first forum post in that topic will
