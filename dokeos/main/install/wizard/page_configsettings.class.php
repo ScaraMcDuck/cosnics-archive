@@ -15,7 +15,7 @@ class Page_ConfigSettings extends HTML_QuickForm_Page
 	}
 	function get_info()
 	{
-		return 'The following values will be written into your configuration file <b>main/inc/conf/claro_main.conf.php</b>';
+		return get_lang('ConfigSettingsInfo');
 	}
 	function buildForm()
 	{
