@@ -17,9 +17,9 @@ class ActionDisplay extends HTML_QuickForm_Action_Display
 		global $dokeos_version, $installType, $updateFromVersion;
 		$renderer = & $current_page->defaultRenderer();
 		$current_page->setRequiredNote('<font color="#FF0000">*</font> '.get_lang('ThisFieldIsRequired'));
-		$element_template = "\n\t<tr>\n\t\t<td align=\"right\" valign=\"top\"><!-- BEGIN required --><span style=\"color: #ff0000\">*</span> <!-- END required -->{label}</td>\n\t\t<td valign=\"top\" align=\"left\"><!-- BEGIN error --><span style=\"color: #ff0000;font-size:x-small;margin:2px;\">{error}</span><br /><!-- END error -->\t{element}</td>\n\t</tr>";
+		$element_template = "\n\t<tr>\n\t\t<td valign=\"top\"><!-- BEGIN required --><span style=\"color: #ff0000\">*</span> <!-- END required -->{label}</td>\n\t\t<td valign=\"top\" align=\"left\"><!-- BEGIN error --><span style=\"color: #ff0000;font-size:x-small;margin:2px;\">{error}</span><br /><!-- END error -->\t{element}</td>\n\t</tr>";
 		$renderer->setElementTemplate($element_template);
-		$header_template = "\n\t<tr>\n\t\t<td align=\"left\" valign=\"top\" colspan=\"2\">{header}</td>\n\t</tr>";
+		$header_template = "\n\t<tr>\n\t\t<td valign=\"top\" colspan=\"2\">{header}</td>\n\t</tr>";
 		$renderer->setHeaderTemplate($header_template);
 		HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>'.get_lang('ThisFieldIsRequired').'</small>');
 		$current_page->accept($renderer);
@@ -31,7 +31,7 @@ class ActionDisplay extends HTML_QuickForm_Action_Display
 		<link rel="stylesheet" href="../css/default.css" type="text/css"/>
 		</head>
 		<body dir="<?php echo get_lang('text_dir'); ?>">
-		<div style="background-color:#4171B5;color:white;font-size:x-large;">
+		<div id="header1">
 			Dokeos installation - version <?php echo $dokeos_version; ?><?php if($installType == 'new') echo ' - New installation'; else if($installType == 'update') echo ' - Update from Dokeos '.implode('|',$updateFromVersion); ?>
 		</div>
 		<div style="float: left; background-color:#EFEFEF;margin-right: 20px;padding: 10px;">
@@ -65,6 +65,9 @@ class ActionDisplay extends HTML_QuickForm_Action_Display
 		echo '</div>';
 		echo $renderer->toHtml();
 		?>
+        </div>
+        <div id="footer">
+        &copy; <?php echo $dokeos_version; ?>
         </div>
 		</body>
 		</html>
