@@ -27,7 +27,15 @@ $langScormNoItems = "Konten ini tidak ada isinya.";
 $langScormNoStatus = "Tidak ada status pada konten ini.";
 $langScormLoggedout = "keluar dari area Scorm";
 $langScormCloseWindow = "Tutup jendela";
+$ScormBrowsed = "Di-browse";
 $langScormExitFullScreen = "Kembali ke layar normal";
 $langScormFullScreen = "Full screen";
 $langScormNotAttempted = "Belum diupayakan";
+$langCharset = "Character set";
+$langLocal = "Lokal";
+$langRemote = "Remote/jauh";
+$langAutodetect = "Auto-detect";
+$langAccomplishedStepsTotal = "Jumlah total langkah yang telah dilakukan";
+$langUnknown = "Tidak diketahui";
+$h = "h";
 ?>

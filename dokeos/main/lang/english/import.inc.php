@@ -4,7 +4,6 @@ for more information: see languages.txt in the lang folder.
 $langPgTitle = "Title of the page";
 $langExplanation = "The page must be in HTML format (e.g. \"my_page.htm\"). It will be linked from Homepage. If you want to send non HTML documents (PDF, Word, Power Point, Video, etc.) use <a href=../document/document.php>Documents tool</a>";
 $langTooBig = "You didn\'t choose any file to upload, or it is too big.";
-$langOkSent = "Your page has been uploaded.<p>It is now linked from <a href=../../$dbname/index.php>Homepage</a>";
 $langCouldNot = "File could not be uploaded.";
 $langExercices = "Tests";
 $langNotAllowed = "Not allowed";

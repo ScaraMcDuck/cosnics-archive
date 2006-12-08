@@ -9,4 +9,5 @@ $langDelLk = "Anda pasti untuk padam pautan ini?";
 $langEnter  = "Masuk";
 $langCourseCreate  = "Bina Laman Subjek";
 $langNameOfTheLink  = "Nama Pautan";
+$lang_main_categories_list                  = "Senarai Kategori Utama";
 ?>

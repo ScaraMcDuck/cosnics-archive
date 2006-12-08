@@ -1,7 +1,6 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langHelp = "Helpo ";
 $langLinks = "Ligiloj ";
 $langLinkName = "Ligila nomo ";
 $langLinkAdd = "Aldoni ligilon ";
@@ -12,7 +11,6 @@ $langLinkDel = "Forigi ligilon ";
 $langLinkDeleted = "Ligilo estas forigita ";
 $langLinkDelconfirm = "&#264;u vi deziras forigi &#265;i-ligilon? ";
 $langAllLinksDel = "Forigi &#265;iujn ligilojn en &#265;i-kategorio ";
-$langCategory = "Kategorio ";
 $langCategoryName = "Kategoria nomo ";
 $langCategoryAdd = "Aldoni kategorion ";
 $langCategoryAdded = "Kategorio estas aldonita ";
@@ -22,7 +20,6 @@ $langCategoryDel = "Forigi kategorion ";
 $langCategoryDeleted = "Kategorio kaj akompanantaj ligiloj estas forigitaj ";
 $langCategoryDelconfirm = "Se vi forigas kategorion, &#265;iu &#285;iaj ligiloj anka&#365; estos forigataj. \\n&#264;u vi deziras forigi la kategorion kaj akompanantajn ligilojn?  ";
 $langAllCategoryDel = "Forigi &#265;iujn kategoriojn kaj ligilojn ";
-$langAllCategoryDeleted = "&#264;iuj kategorioj kaj akompanantaj ligiloj estas forigitaj ";
 $langGiveURL = "Bonvolu enigi URLn ";
 $langGiveCategoryName = "Bonvolu enigi kategorian nomon ";
 $langNoCategory = "Neniu kategorio ";

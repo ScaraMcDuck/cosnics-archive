@@ -4,7 +4,6 @@ for more information: see languages.txt in the lang folder.
 $langPgTitle = "Seitentitel";
 $langExplanation = "Die Seite muss im HTML-Format vorliegen (z.B. \"my_page.htm\"). Es wird von der Homepage verknüpft. Wenn Sie Dokumente verknüpfen möchten, die nicht im HTML Format vorliegen (PDF, Word, Power Point, Video, etc.) benutzen Sie bitte <a href=../document/document.php>das Werkzeug Dokumente</a>";
 $langTooBig = "Sie haben keine Datei ausgewählt, oder Sie ist zu groß.";
-$langOkSent = "Ihre Seite wurde gesendet.<p>Sie ist nun mit der <a href=../..//index.php>Seminarhomepage</a> verknüpft";
 $langCouldNot = "Datei konnte nicht hochgeladen werden";
 $langExercices = "Übungen";
 $langNotAllowed = "Nicht erlaubt";

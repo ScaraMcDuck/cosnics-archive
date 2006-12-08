@@ -2,15 +2,14 @@
 for more information: see languages.txt in the lang folder. 
 */
 $langGroupManagement = "Skupine";
-$langHelp = "Pomoè";
 $langNewGroupCreate = "Tvorba novih skupin";
 $langGroupCreation = "Tvorba novih skupin";
 $langCreate = "tvori";
 $langNewGroups = "nove skupine";
 $langMax = "najveè";
-$langGroupPlacesThis = "mest (opcija";
+$langGroupPlacesThis = "mest (opcija)";
 $langGroupsAdded = "skupine so bile dodane";
-$langGroupDel = "Skupina osdtranjena";
+$langGroupDel = "Skupina odstranjena";
 $langForums = "Forum";
 $langDocuments = "Dokumenti";
 $langExistingGroups = "Skupine";
@@ -89,4 +88,11 @@ $CategoryOrderChanged = "Vrstni red kategorij je bil spremenjen";
 $Tools = "Orodja";
 $Wiki = "Wiki skupine";
 $CategoryCreated = "Kategorija ustvarjena";
+$GroupTutors = "Tutorji";
+$GroupWork = "Izdelki";
+$GroupCalendar = "Agenda";
+$GroupAnnouncements = "Obvestila";
+$NoCategoriesDefined = "Nobena kategorija ni definirana";
+$GroupsFromClasses = "Skupine iz razredov";
+$GroupsFromClassesInfo = "Z uporabo te možnosti lahko ustvarite skupine iz razredov, vpisanih v vaš teèaj.";
 ?>

@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $langGroupManagement = "Grup";
-$langHelp = "Yardým";
 $langNewGroupCreate = "Yeni grup(lar) yarat";
 $langGroupCreation = "Yeni grup yaratma";
 $langCreate = "yarat";
@@ -89,4 +88,6 @@ $CategoryOrderChanged = "Kategori s&#305;ras&#305; de&#287;i&#351;tirildi";
 $Tools = "Araçlar";
 $Wiki = "Grup Wiki";
 $CategoryCreated = "Kategori olu&#351;turuldu";
+$GroupCalendar = "Takvim";
+$GroupAnnouncements = "Duyurular";
 ?>

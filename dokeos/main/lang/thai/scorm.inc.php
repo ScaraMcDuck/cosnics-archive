@@ -27,7 +27,15 @@ $langScormNoItems = "ยังไม่มีเนื้อหา ";
 $langScormNoStatus = "ยังไม่กำหนดสถานะของเนื้อหา";
 $langScormLoggedout = "ออกจากขอบข่ายของscorm";
 $langScormCloseWindow = "ปิดวินโดวส์นี้";
+$ScormBrowsed = "ที่ค้นเลือกมาแล้ว";
 $langScormExitFullScreen = "กลับไปหน้าจอปกติ:Back to normal screen";
 $langScormFullScreen = "เต็มจอ:Full screen";
 $langScormNotAttempted = "ยังไม่ต้องการ";
+$langCharset = "ชุดรหัสอักษร";
+$langLocal = "ที่อยู่ปัจจุบัน";
+$langRemote = "ควบคุมระยะไกล";
+$langAutodetect = "ตรวจหาอัตโนมัติ";
+$langAccomplishedStepsTotal = "รวมขั้นตอนทั้งหมด";
+$langUnknown = "ไม่รู้จัก";
+$h = "ช.ม.";
 ?>

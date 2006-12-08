@@ -79,7 +79,7 @@ $MaximumAllowedQuota = "Lo spazio massimo disponibile";
 $PercentageQuotaInUse = "% di spazio utilizzato";
 $PercentageQuotaFree = "% di spazio ancora disponibile";
 $CurrentDirectory = "Cartella attuale";
-$UplUploadDocument = "Caricai un documento";
+$UplUploadDocument = "Carica un documento";
 $UplNoFileUploaded = "Non è stato caricato alcun file.";
 $UplSelectFileFirst = "Per favore, scegli un file prima di premere il pulsante di per caricarlo.";
 $UplPartialUpload = "Il file caricato è stato ricevuto solo in parte.";
@@ -113,4 +113,5 @@ $DocumentsOverview = "Elenco dei documenti";
 $ViewSlideshow = "Vedi le immagini come presentazione";
 $Options = "Opzioni";
 $Type = "Tipo";
+$Content = "Contenuto";
 ?>

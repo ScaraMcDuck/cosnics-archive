@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "Ja està matriculat";
-$lang_main_categories_list                  = "Llista de categories principal";
 $lang_my_personnal_course_list              = "La meva llista de curs peronal";
 $lang_course_enrollment                     = "Usuaris dels cursos";
 $lang_course_not_available                  = "Aquest curs no està disponible o no existeix";

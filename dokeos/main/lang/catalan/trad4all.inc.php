@@ -2,7 +2,7 @@
 for more information: see languages.txt in the lang folder. 
 */
 $UsersOnline = "Usuaris connectats";
-$langDescription = "Descripció";
+$Description = "Descripció";
 $langComment = "Comenta";
 $langVisible = "Visible/invisible";
 $langGroup = "Grup";
@@ -10,6 +10,7 @@ $langEdit = "Edita";
 $langUp = "Amunt";
 $Down = "Avall";
 $Up = "amunt";
+$TheListIsEmpty = "La llista és complerta";
 $langCourseCreate = "Crea el lloc d\'un curs";
 $langTodo = "Activitats a fer";
 $iso639_2_code = "ct";

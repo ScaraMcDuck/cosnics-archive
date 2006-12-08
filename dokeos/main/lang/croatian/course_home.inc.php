@@ -9,6 +9,7 @@ $langDelLk = "Želite li izbrisati poveznicu?";
 $langEnter  = "Unesi";
 $langCourseCreate  = "Izradi web stranice kolegija";
 $langNameOfTheLink  = "Naziv poveznice";
+$lang_main_categories_list                  = "Popis glavnih kategorija";
 $langHelp = "Pomo&#263;";
 $langCourseAdminOnly = "Samo predava&#269;i";
 $PlatformAdminOnly = "Samo nadzornici platforme";

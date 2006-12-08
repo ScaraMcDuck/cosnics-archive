@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "telah sedia mengikuti";
-$lang_main_categories_list                  = "Senarai Kategori Utama";
 $lang_my_personnal_course_list              = "Senarai Subjek Individu";
 $lang_course_enrollment                     = "Subjek Pelajar";
 $lang_course_not_available                  = "Subjek tidak ditawarkan...";

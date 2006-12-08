@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "Ve&#263; prijavljen";
-$lang_main_categories_list                  = "Lista glavne kategorije";
 $lang_my_personnal_course_list              = "Moja lista kurseva";
 $lang_course_enrollment                     = "Korisnikovi kursevi";
 $lang_course_not_available                  = "Ovaj kurs nije dostupan ili ne postoji. ";
@@ -63,4 +62,5 @@ $SubscribingNotAllowed = "Prijava nije dozvoljena";
 $CourseSortingDone = "Sortiranje kursa završeno";
 $ExistingCourseCategories = "Postoje&#263;e kategorija kurseva";
 $YouAreNowUnsubscribed = "Sada ste odjavljeni sa kursa";
+$AddRight = "Dodavanje";
 ?>

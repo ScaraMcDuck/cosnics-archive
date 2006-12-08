@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "jam enskribitaj ";
-$lang_main_categories_list                  = "&#284;enerala kategorilisto ";
 $lang_my_personnal_course_list              = "Mia kurslisto ";
 $lang_course_enrollment                     = "Ali&#285;i/ malali&#285;i por kursoj ";
 $lang_course_not_available                  = "&#264;i-kurso estas ne (plu) disponebla a&#365; ne (plu) ekzistas. ";
@@ -63,4 +62,6 @@ $SubscribingNotAllowed = "Ali&#285;o ne permesita ";
 $CourseSortingDone = "La kurso estas reara&#285;ita ";
 $ExistingCourseCategories = "Jam ekzistantaj kurskategorioj ";
 $YouAreNowUnsubscribed = "Vi nun malali&#285;is al la kurso ";
+$AddRight = "Aldoni";
+$ViewOpenCourses = "Pririgardi malfermajn kursojn";
 ?>

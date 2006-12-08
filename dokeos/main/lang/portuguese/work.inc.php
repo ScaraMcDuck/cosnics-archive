@@ -1,6 +1,7 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
+$Tools  = "Ferramentas";
 $langDownloadFile = "Enviar documento";
 $langTooBig = "Não escolheu o ficheiro que pretende enviar, ou então é demasiado grande";
 $langListDeleted = "A lista foi apagada";
@@ -29,5 +30,5 @@ $langFileExists = "Não é possível realizar esta operação.<br>Já existe um elemen
 $langDirCr = "Directório criado";
 $langCurrentDir = "Directório actual";
 $UploadADocument = "Transferir documento";
-$EditToolOptions = "Editar opções das ferramentas";
+$EditToolOptions = "Editar opções desta ferramenta";
 ?>

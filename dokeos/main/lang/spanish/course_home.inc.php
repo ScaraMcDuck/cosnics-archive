@@ -9,6 +9,7 @@ $langDelLk = "¿ Está seguro de querer desactivar esta herramienta ?";
 $langEnter  = "Entrar";
 $langCourseCreate  = "Crear un curso";
 $langNameOfTheLink  = "Nombre del enlace";
+$lang_main_categories_list                  = "Lista de categorías principales";
 $langHelp = "
 Ayuda";
 $langCourseAdminOnly = "Sólo profesores";
@@ -17,4 +18,13 @@ $langCombinedCourse = "Curso combinado";
 $ToolIsNowVisible = "La herramienta ahora es visible";
 $ToolIsNowHidden = "La herramienta ahora es invisible";
 $EditLink = "Editar enlace";
+$blog_management = "Gestion de blogs";
+$forum = "Foros";
+$course_maintenance = "Mantenimiento del curso";
+$TOOL_SURVEY = "Encuestas";
+$visio = "Dokeos Live Conferencing";
+$GreyIcons = "Caja de herramientas";
+$Interaction = "Interacción";
+$Authoring = "Creación de contenidos";
+$Administration = "Administración";
 ?>

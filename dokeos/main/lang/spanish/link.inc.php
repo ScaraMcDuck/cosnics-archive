@@ -1,7 +1,6 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langHelp = "Ayuda";
 $langLinks = "Enlaces";
 $langLinkName = "Nombre del enlace";
 $langLinkAdd = "Añadir un enlace";
@@ -12,7 +11,6 @@ $langLinkDel = "Borrar enlace";
 $langLinkDeleted = "El enlace ha sido borrado";
 $langLinkDelconfirm = "¿ Está seguro de querer borrar este enlace ?";
 $langAllLinksDel = " Borrar todos los enlaces de esta categoría";
-$langCategory = "Categoría";
 $langCategoryName = "Nombre de la categoría";
 $langCategoryAdd = "Añadir una categoría";
 $langCategoryAdded = "La categoría ha sido añadida.";
@@ -23,7 +21,6 @@ $langCategoryDeleted = "Se ha eliminado la categoría y todos sus enlaces.";
 $langCategoryDelconfirm = "Cuando borre una categoría, también se borrarán todos
 los enlaces dentro de la misma.\\ ¿Seguro que quiere eliminar esta categoría y todos sus enlaces?";
 $langAllCategoryDel = "Borrar todas las categorías y sus enlaces";
-$langAllCategoryDeleted = "Se han borrado todas las categorías y enlaces.";
 $langGiveURL = "Por favor, ponga la URL";
 $langGiveCategoryName = "Por favor, ponga un nombre para la categoría";
 $langNoCategory = "Sin categorizar";
@@ -42,7 +39,7 @@ $langCsvLinesFailed = "línea(s) erróneas al importar un enlace (falta la URL o e
 $langCsvLinesOld = "enlace/s existente/s actualizados (igual URL y categoría)";
 $langCsvLinesNew = "nuevo enlace(s) creado.";
 $langCsvExplain = "El fichero se debe presentar así: <blockquote><pre>
-<b>URL</b>;categoría;<b>título</b>;descripción;
+<b>URL</b>;category;<b>title</b>;description;
 <b>http://www.aaa.org/...</b>;Enlaces importantes;<b>Nombre 1</b>;Descripción 1;
 <b>http://www.bbb.net/...</b>;;<b>Nombre 2</b>;\"Description 2\";</pre></blockquote>
 Si la \'URL\' y la \'categoría\' pertenecen a un enlace ya existente, éste será actualizado. En el resto de los casos un nuevo enlace será creado.<br><br>

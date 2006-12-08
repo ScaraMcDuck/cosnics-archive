@@ -4,7 +4,6 @@ for more information: see languages.txt in the lang folder.
 $langPgTitle = "Titre de la page";
 $langExplanation = "Cette page doit être au format HTML (p. ex. \"ma_page.htm\"). Elle sera accrochée par un lien sur la page d\'accueil du site. Si vous désirez envoyer un document non HTML (PDF, Power Point, Word...) utilisez l\'outil <a href=../document/document.php> Documents</a>";
 $langTooBig = "Vous n\'avez pas choisi de fichier à envoyer ou bien le fichier est trop gros";
-$langOkSent = "Votre page a été envoyée.<p>Elle est accessible depuis la <a href=../..//index.php>page d\'accueil</a> de votre cours";
 $langCouldNot = "Le fichier n\'a pu être envoyé";
 $langExercices = "Tests";
 $langNotAllowed = "Vous n\'êtes pas identifié en tant que responsable de ce cours";

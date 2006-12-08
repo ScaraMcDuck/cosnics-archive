@@ -1,18 +1,18 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langModifInfo = "Modifica-las Características do curso";
+$ModifInfo = "Modifica-las Características do curso";
 $langModifDone = "As características foron modificadas";
 $langHome = "Volver á páxina principal";
 $langCode = "Código do curso";
 $langDelCourse = "Suprimir a web deste curso";
-$langProfessors = "Titulares";
-$langFaculty = "Facultade";
+$langProfessors = "Profesores";
+$langFaculty = "Categoría";
 $langConfidentiality = "Confidencialidade";
 $langPublic = "Acceso público (a partir da páxina principal do LMS) sen identificación";
 $langUnsubscription = "Desinscribir";
-$langPrivOpen = "Acceso privado, inscripción aberta";
-$langPrivate = "Acceso privado, inscripción pechada (web reservada ás persoas que aparecen na lista <a href=../user/user.php>usuarios</a>)";
+$langPrivOpen = "Acceso privado, inscrición aberta";
+$langPrivate = "Acceso privado, inscrición fechada (web reservada ás persoas que aparecen na lista <a href=../user/user.php>usuarios</a>)";
 $langForbidden = "Non estás rexistrado como responsable neste curso";
 $langLanguage = "Idioma";
 $langConfTip = "Por defecto, o seu curso soamente é accesible
@@ -21,18 +21,18 @@ a inscripción durante unha semana, pedir ós estudiantes que se inscriban eles me
 despois pechar a inscripción e verificar na lista dos usuarios os eventuais intrusos.";
 $langOpenToTheWorld = "Aberto - acceso permitido para todo o mundo";
 $OpenToThePlatform = "Aberto - acceso permitido para os usuarios rexistrados na plataforma";
-$langOpenToThePlatform = "Aberto -acceso ermitido para usuarios rexistrados na plataforma";
-$langTipLang  = "Esta linguaxe será válida para todos os visitantes da web do seu curso.";
-$langAgenda = "Axenda";
+$langOpenToThePlatform = "Aberto - acceso permitido para usuarios rexistrados na plataforma";
+$langTipLang  = "Esta lingua será válida para todos os visitantes da web do seu curso.";
+$Agenda = "Axenda";
 $langLink = "Ligazóns";
 $langDocument = "Documentos";
 $langVid = "Vídeo";
 $langWork = "Traballos";
-$langProgramMenu = "Caderno de actividades";
+$langProgramMenu = "Programa do Curso";
 $langAnnouncement = "Anuncios";
 $langForum = "Foros";
 $langExercise = "Exercicios";
-$langStats = "Estadísticas";
+$langStats = "Estatísticas";
 $langUplPage = "Introducir unha páxina e enlazala á principal";
 $langLinkSite = "Engadir unha ligazón externa ou interna á desde a páxina principal";
 $langCourse = "O curso ";
@@ -48,17 +48,16 @@ $langModifGroups = "Grupos";
 $langProfessor = "Profesor";
 $langGroups  = "Grupos";
 $langChat  = "Debate";
-$langDescriptionCours   = "Descripción do Curso";
-$langArchive = "Arquivo";
+$langDescriptionCours   = "Descrición do Curso";
 $langArchiveCourse  = "Backup do Curso";
 $langRestoreCourse  = "Restaurar un curso";
 $langRestore = "Restaurar";
 $langCreatedIn  = "creado en";
-$langCreateMissingDirectories  = "Creación das carpetas que faltan";
+$langCreateMissingDirectories  = "Creación dos directorios que faltan";
 $langCopyDirectoryCourse  = "Copia-los arquivos do curso";
-$langDisk_free_space  = "espacio libre";
+$langDisk_free_space  = "espazo libre";
 $langBuildTheCompressedFile  = "Creación de backups dos arquivos";
-$langFileCopied  = "arquivo copiado";
+$langFileCopied  = "ficheiro copiado";
 $langArchiveLocation = "Localización do arquivo";
 $langSizeOf  = "tamaño de";
 $langArchiveName  = "Nome do Arquivo";
@@ -72,7 +71,7 @@ $langExpirationDate   = "Finalizado";
 $langPostPone  = "Aprazado";
 $langLastEdit  = "Última edición";
 $langLastVisit  = "Última Visita";
-$langSubscription = "Subscripción";
+$langSubscription = "Subscrición";
 $langCourseAccess = "Acceso ó curso";
 $langDownload = "Descargar";
 $langConfirmBackup = "Realmente queres facer un backup do curso?";
@@ -92,6 +91,5 @@ $langNotAllowedToUnsubscribe = "Non se permite ós usuarios que se desubscriban d
 $langDescription = "Descrición";
 $langCourseVisibilityClosed = "Totalmente pechado; o curso só é accesible para o administrador do curso.";
 $CourseVisibilityClosed = "Pechado -non hai acceso a este curso";
-$NotAllowedToModifyOwnRole = "Non lle está permitido modificar o seu propio rol.";
 $CourseVisibilityModified = "Modificado (axustes máis detallados especificados a través de roles-permisos do sistema)";
 ?>

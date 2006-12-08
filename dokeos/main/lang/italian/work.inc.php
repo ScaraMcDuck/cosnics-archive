@@ -1,10 +1,11 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
+$Tools  = "Strumenti";
 $langDownloadFile = "Carica il documento";
 $langTooBig = "Non è stato selezionato nessun documento o la dimensione è eccessiva.";
 $langListDeleted = "L\'intero elenco è stato eliminato.";
-$langDocModif = "Il titolo del contributo è stato modificato";
+$langDocModif = "Il titolo del documento è stato modificato";
 $langDocAdd = "Il documento è stato aggiunto";
 $langDocDel = "Il documento è stato eliminato";
 $langTitleWork = "Titolo del documento";

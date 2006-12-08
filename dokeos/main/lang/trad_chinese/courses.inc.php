@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "&#24050;&#36984;&#20462;";
-$lang_main_categories_list                  = "&#20027;&#20998;&#39006;&#21015;&#34920;";
 $lang_my_personnal_course_list              = "&#25105;&#30340;&#20491;&#20154;&#35506;&#31243;&#21015;&#34920;";
 $lang_course_enrollment                     = "&#20351;&#29992;&#32773;&#35506;&#31243;";
 $lang_course_not_available                  = "&#36889;&#38272;&#35506;&#31243;&#19981;&#21487;&#29992;&#25110;&#19981;&#23384;&#22312;";

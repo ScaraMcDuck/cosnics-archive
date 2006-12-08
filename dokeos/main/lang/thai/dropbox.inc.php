@@ -29,7 +29,6 @@ $dropbox_lang["anonymous"]  = "ไม่รู้จัก";
 $dropbox_lang["ok"]  = "ตกลง";
 $dropbox_lang["lastUpdated"]  = "ปรับปรุงครั้งสุดท้ายเมื่อ";
 $dropbox_lang["lastResent"]  = "ส่งไปให้อีก ครั้งล่าสุดเมื่อ";
-$dropbox_lang["tableEmpty"]  = "ไม่มีรายการ";
 $dropbox_lang["overwriteFile"]  = "บันทึกทับไฟล์ที่ส่งไปให้ก่อนหน้านี้";
 $dropbox_lang["orderBy"]  = "ดูจากรายการ";
 $dropbox_lang["lastDate"]  = "วันที่ส่งครั้งสุดท้าย";

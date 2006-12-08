@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "reeds ingeschreven";
-$lang_main_categories_list                  = "Lijst \"Algemene categorieën\"";
 $lang_my_personnal_course_list              = "Mijn cursuslijst";
 $lang_course_enrollment                     = "Inschrijven/uitschrijven voor cursussen";
 $lang_course_not_available                  = "Deze cursus is niet (meer) beschikbaar of bestaat niet (meer).";
@@ -54,7 +53,7 @@ $CourseCategoryAbout2bedeleted = "Bent u zeker dat u deze cursuscategorie wilt v
 $CourseCategories = "Cursuscategorieën";
 $CoursesInCategory = "Cursussen in deze categorie";
 $SearchCourse = "Cursussen zoeken";
-$UpOneCategory = "&larr; een categorie hoger";
+$UpOneCategory = "een categorie hoger";
 $SearchResultsFor = "Zoekresultaten voor:";
 $ConfirmUnsubscribeFromCourse = "Bent u zeker dat u uit deze cursus wilt uitschrijven?";
 $NoCourseCategory = "Geen cursuscategorie";
@@ -63,4 +62,6 @@ $SubscribingNotAllowed = "Inschrijven niet toegelaten";
 $CourseSortingDone = "De cursus werd herschikt";
 $ExistingCourseCategories = "Reeds bestaande cursuscategorieën";
 $YouAreNowUnsubscribed = "U bent nu uitgeschreven voor de cursus";
+$AddRight = "Toevoegen";
+$ViewOpenCourses = "Bekijk open cursussen";
 ?>

@@ -1,8 +1,9 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
+$Tools  = "Ferramentas";
 $langDownloadFile = "Enviar o documento";
-$langTooBig = "Non elexiu o arquivo a enviar ou o arquivo é demasiado grande.";
+$langTooBig = "Non elexiu o ficheiro a enviar ou o ficheiro é demasiado grande.";
 $langListDeleted = "Borrouse completamente a lista";
 $langDocModif = "Modificouse o documento";
 $langDocAdd = "Engadíuse o documento";
@@ -14,11 +15,11 @@ $langDocument = "Documento";
 $langWorkDelete = "Borrar";
 $langWorkModify = "Modificar";
 $langWorkConfirmDelete = "Realmente queres borrar este documento";
-$langAllFiles = "Todos os arquivos";
+$langAllFiles = "Todos os ficheiros";
 $lang_default_upload = "Configuración de visibilidade establecida por defecto para os novos documentos";
 $lang_new_visible = "Os novos documentos están visibles  para todos os usuarios";
 $lang_new_unvisible = "Os novos documentos están só visibles para o profesor(es)";
-$lang_doc_unvisible = "Este documento é só visible para o profesor (es).";
+$lang_doc_unvisible = "Este ficheiro só é visíbel para o/s profesor/es deste curso e, polo tanto, non será visíbel para ti.";
 $langDelLk = "Borrar ligazón";
 $langMustBeRegisteredUser = "Só os usuarios rexistrados no curso poden publicar documentos.";
 $langListDel = "Borrar lista";

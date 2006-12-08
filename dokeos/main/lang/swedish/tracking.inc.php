@@ -3,7 +3,7 @@ for more information: see languages.txt in the lang folder.
 */
 $langShowAll = "Visa alla";
 $langToolName = "Statistik";
-$langTrackingDisabled = "Spårning har avaktiverats av systemadministratören.";
+$TrackingDisabled = "Spårning har avaktiverats av systemadministratören.";
 $langShowNone = "Visa ingen";
 $langCourseStats = "Kursstatistik";
 $langToolsAccess = "Tillgång till verktyg";
@@ -49,9 +49,6 @@ $langWorkAuthors = "Författare";
 $langWorkDescription = "Beskrivning";
 $informationsAbout = "Spårning av";
 $langUserName = "Användarnamn";
-$langFirstName = "Förnamn";
-$langLastName = "Efternamn";
-$langEmail = "Emejl";
 $langNoEmail = "Ingen emejladress angiven";
 $langNoResult = "Inga resultat";
 $langCourse = "Kurs";
@@ -113,7 +110,6 @@ $langCountUsersByCourse = "Antal användare efter kurs";
 $langCountUsersByFaculte = "Antal användare efter fakultet";
 $langCountUsersByStatus = "Antal användare efter statuss";
 $langCourses = "Kurser";
-$langUsers = "Användare";
 $langAccess = "Åtkomst";
 $langCountries = "Länder";
 $langProviders = "Internetleverantörer";

@@ -2,7 +2,7 @@
 for more information: see languages.txt in the lang folder. 
 */
 $UsersOnline = "Käyttäjiä kirjautuneena";
-$langDescription = "Kuvaus";
+$Description = "Kuvaus";
 $langComment = "Kommentti";
 $langVisible = "Näkyvä/Näkymätön";
 $langGroup = "Ryhmä";
@@ -10,6 +10,7 @@ $langEdit = "Muokkaa";
 $langUp = "Ylös";
 $Down = "alas";
 $Up = "ylös";
+$TheListIsEmpty = "Lista on tyhjä";
 $langCourseCreate = "Luo kurssin sivusto";
 $langTodo = "To do";
 $iso639_2_code = "fi";

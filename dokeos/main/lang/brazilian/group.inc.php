@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $langGroupManagement = "Grupos";
-$langHelp = "Ajuda";
 $langNewGroupCreate = "Criar novo(s) grupo(s)";
 $langGroupCreation = "Criação de novos grupos";
 $langCreate = "criar";
@@ -89,4 +88,11 @@ $CategoryOrderChanged = "A ordem da categoria foi alterada";
 $Tools = "Ferramentas";
 $Wiki = "Wiki do Grupo";
 $CategoryCreated = "Categoria criada";
+$GroupTutors = "Tutores";
+$GroupWork = "Trabalhos";
+$GroupCalendar = "Agenda";
+$GroupAnnouncements = "Anúncios";
+$NoCategoriesDefined = "Sem categorias definidas";
+$GroupsFromClasses = "Grupos de turmas";
+$GroupsFromClassesInfo = "Usando esta opção, pode criar grupos baseados nas turmas inscritas no curso.";
 ?>

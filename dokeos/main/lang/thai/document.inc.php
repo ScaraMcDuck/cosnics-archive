@@ -113,4 +113,5 @@ $DocumentsOverview = "เอกสารแนะนำ";
 $ViewSlideshow = "ดูภาพสไลด์";
 $Options = "เลือกกำหนดตั้งค่า";
 $Type = "รูปแบบ";
+$Content = "เนื้อหา";
 ?>

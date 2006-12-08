@@ -3,7 +3,7 @@ for more information: see languages.txt in the lang folder.
 */
 $langShowAll = "Prikaži sve";
 $langToolName = "Pra&#263;enje";
-$langTrackingDisabled = "Pra&#263;enje je onemogu&#263;io sistem adminitrator.";
+$TrackingDisabled = "Pra&#263;enje je onemogu&#263;io sistem adminitrator.";
 $langShowNone = "Ne prikazuj nijedan";
 $langCourseStats = "Statistike kursa";
 $langToolsAccess = "Pristup alatima";
@@ -49,9 +49,6 @@ $langWorkAuthors = "Autori";
 $langWorkDescription = "Opis";
 $informationsAbout = "Pra&#263;enje";
 $langUserName = "Korisni&#269;ko ime";
-$langFirstName = "Ime";
-$langLastName = "Prezime";
-$langEmail = "E-mail";
 $langNoEmail = "E-mail adresa nije odre&#273;ena";
 $langNoResult = "Nema rezultata";
 $langCourse = "Kurs";
@@ -113,7 +110,6 @@ $langCountUsersByCourse = "Broj polaznika po kursu";
 $langCountUsersByFaculte = "Broj korisnika po kategoriji";
 $langCountUsersByStatus = "Broj korisnika po statusu";
 $langCourses = "Kursevi";
-$langUsers = "Korisnici";
 $langAccess = "Pristup";
 $langCountries = "Zemlje";
 $langProviders = "Provajderi";

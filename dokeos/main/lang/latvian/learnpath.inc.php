@@ -2,12 +2,12 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_learning_path = "M&#257;c&#299;bu pl&#257;ns";
+$lang_learning_path_builder = "M&#257;c&#299;bu programmas veidot&#257;js";
 $lang_description = "apraksts";
 $lang_title = "virsraksts";
 $lang_prerequisites = "Priekšnoteikumi";
 $lang_move_up = "Augšup";
 $lang_move_down = "Lejup";
-$langAreYouSureToDelete = "Vai esat p&#257;rliecin&#257;ti, ka v&#275;laties dz&#275;st";
 $langThisItem = "šo ierakstu";
 $lang_title_and_desc = "Virsraksts un apraksts";
 $lang_add_item = "Pievienojiet posmu";
@@ -21,6 +21,7 @@ $langLearnpathMystatus = "Mans statuss";
 $langLearnpathCompstatus = "pabeigts";
 $langLearnpathIncomplete = "nepabeigts";
 $langLearnpathPassed = "nok&#257;rtots";
+$langLearnpathFailed = "neizdev&#257;s";
 $langLearnpathPrevious = "Iepriekš&#275;jais";
 $langLearnpathNext = "N&#257;košais";
 $langLearnpathRestart = "S&#257;kt no jauna";

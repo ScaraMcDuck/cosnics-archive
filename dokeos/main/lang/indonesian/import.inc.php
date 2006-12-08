@@ -4,7 +4,6 @@ for more information: see languages.txt in the lang folder.
 $langPgTitle = "Judul halaman";
 $langExplanation = "Halaman musti dalam format HTML(misal \"my_page.htm\"). Halaman tsb akan di-link-kan ke  Homepage. Jika anda ingin mengirim dokumen non HTML (PDF, Word, Power Point, Video, dll.) gunakan <a href=../document/document.php>Tool Dokumen</a>";
 $langTooBig = "Anda belum memilih file untuk di-upload, atau file terlalu besar";
-$langOkSent = "Halaman anda telah di-upload.<p>Kini telah di-link-kan ke a href=../../$dbname/index.php>Homepage</a>";
 $langCouldNot = "File tidak dapat di-upload.";
 $langExercices = "Latihan/Quiz";
 $langNotAllowed = "Tidak diijinkan";

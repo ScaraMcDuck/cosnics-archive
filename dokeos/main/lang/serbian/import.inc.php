@@ -4,7 +4,6 @@ for more information: see languages.txt in the lang folder.
 $langPgTitle = "Naslov stranice";
 $langExplanation = "Stranica mora da bude u HTML formatu (npr. „moja_stranica.htm\"). Ako želite da pošaljete dokumente koji nisu HTML (PDF, Word, Power Point, Video, itd.) koristite <a href=../document/document.php>Alatku za dokumente</a>";
 $langTooBig = "Niste odabrali nijedan fajl za u&#269;itavanje na server ili je fajl preveliki.";
-$langOkSent = "Vaša stranica je u&#269;itana na server.<p>Sada za nju postoji link sa <a href=../../$dbname/index.php>Po&#269;etne stranice</a>";
 $langCouldNot = "U&#269;itavanje fajla nije uspelo.";
 $langExercices = "Testovi";
 $langNotAllowed = "Nije dozvoljeno";

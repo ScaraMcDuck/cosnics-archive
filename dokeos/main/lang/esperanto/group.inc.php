@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $langGroupManagement = "Grupoj";
-$langHelp = "Helpo";
 $langNewGroupCreate = "Krei nova(j)n grupo(j)n";
 $langGroupCreation = "Kreo de novaj grupoj";
 $langCreate = "krei";
@@ -88,4 +87,9 @@ $CategoryOrderChanged = "La kategoriordo estas &#349;an&#285;ita";
 $Tools = "Iloj";
 $Wiki = "Vikipedio";
 $CategoryCreated = "Kategorio kreita";
+$GroupTutors = "Mentoro";
+$GroupWork = "Laboroj";
+$GroupCalendar = "Agendo";
+$GroupAnnouncements = "Anoncoj";
+$GroupsFromClasses = "Grupoj sur bazo de klasoj";
 ?>

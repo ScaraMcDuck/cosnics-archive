@@ -3,7 +3,7 @@ for more information: see languages.txt in the lang folder.
 */
 $langShowAll = "Mostrar tot";
 $langToolName = "Seguiment";
-$langTrackingDisabled = "Seguir ha estat impossibilitat per administrador de sistema";
+$TrackingDisabled = "Seguir ha estat impossibilitat per administrador de sistema";
 $langShowNone = "No mostrar";
 $langCourseStats = "Estadístiques del curs";
 $langToolsAccess = "Accés a les eines";
@@ -49,9 +49,6 @@ $langWorkAuthors = "Autors";
 $langWorkDescription = "Descripció";
 $informationsAbout = "Seguiment de";
 $langUserName = "Nom de l\'usuari";
-$langFirstName = "Primer nom";
-$langLastName = "Darrer nom";
-$langEmail = "Correu";
 $langNoEmail = "Adreça de correu no especificada";
 $langNoResult = "No resultat";
 $langCourse = "Curs";
@@ -113,7 +110,6 @@ $langCountUsersByCourse = "Nombre d\'usuaris per curs";
 $langCountUsersByFaculte = "Nombre d\'usuaris per categoria";
 $langCountUsersByStatus = "Nombre d\'usuaris per estat";
 $langCourses = "Cursos";
-$langUsers = "Usuaris";
 $langAccess = "Accés";
 $langCountries = "Països";
 $langProviders = "Proveïdors";

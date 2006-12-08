@@ -7,7 +7,6 @@ $langActivate = "Aktivigi ";
 $langDeactivate = "Mal&#349;alti ";
 $langNoEx = "&#264;i-momente ne estas ekzerco ";
 $langNewEx = "Nova ekzerco ";
-$langNewQu = "Nova demando ";
 $langQuestion = "Demando ";
 $langQuestions = "Demandoj";
 $langAnswers = "Respondoj";
@@ -162,4 +161,7 @@ $langUseExistantQuestion = "Uzi ekzistantan demandon ";
 $freeAnswer = "Malferma respondo ";
 $notCorrectedYet = "&#264;i-respondo ankora&#365; ne estas korektita. Provizore viaj poentoj por &#285;i kalkuli&#285;as nul.";
 $adminHP = "Administranto de \"Hot Potatoes\"";
+$NoImage = "Bonvolu elekti bildon.";
+$langCorrectAnswer = "&#284;usta respondo";
+$langAllQuestions = "&#264;iuj demandoj";
 ?>

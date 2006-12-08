@@ -2,24 +2,22 @@
 for more information: see languages.txt in the lang folder. 
 */
 $nameTools = "variable de lingua obsoleta";
-$langMdCallingTool = "Itinerario de aprendizaxe -Scorm";
+$langMdCallingTool = "Itinerario de aprendizaxe - Scorm";
 $langTool = "Operacións MD Scorm";
 $langSorry = "Seleccione antes un curso";
 $langDenied = "Esta función só a teñen dispoñible os administradores do curso";
-$langWorkOn = "en";
 $langNotInDB = "ningunha entrada na base de datos de Dokeos";
-$langManifestSyntax = "(erro de sintaxe no arquivo manifesto...)";
-$langEmptyManifest = "(arquivo manifesto vacío...)";
-$langNoManifest = "(arquivo manifesto inexistente...)";
+$langManifestSyntax = "(erro de sintaxe no ficheiro de manifesto...)";
+$langEmptyManifest = "(ficheiro de manifesto vacío...)";
+$langNoManifest = "(ficheiro de manifesto inexistente...)";
 $langNotFolder = "non son posibles, non é un directorio...";
-$langContinue = "Continuar co SD-id";
 $langUploadHtt = "Subir arquivo HTT";
 $langHttFileNotFound = "Non se puido abrir o arquivo HTT (por estar vacío, ou moi grande...)";
 $langHttOk = "Subíuse un novo arquivo HTT ";
 $langHttNotOk = "Fallou o envío do arquivo HTT";
 $langRemoveHtt = "Eliminar arquivo HTT";
-$langHttRmvOk = "O arquivo HTT foi eliminado";
-$langHttRmvNotOk = "O arquivo HTT non puido ser eliminado";
+$langHttRmvOk = "Eliminouse o ficheiro HTT";
+$langHttRmvNotOk = "O ficheiro HTT non puido ser eliminado";
 $langImport = "Crear MDEs do manifesto";
 $langRemove = "Eliminar MDEs";
 $langAllRemovedFor = "Todas as entradas eliminadas para";
@@ -36,14 +34,7 @@ $langSDI = "...Directorio Scorm cun id de SD (e divida o manifesto ou deixelo va
 $langRoot = "raíz";
 $langSplitData = "Dividir os manifestos, e #MDe, se hai:";
 $langMffNotOk = "Fallou o reemplazo do arquivo de manifesto";
-$langMffOk = "O arquivo de manifesto foi reemplazado";
+$langMffOk = "O ficheiro de manifesto foi substituído";
 $langMffFileNotFound = "Non se puido abrir o arquivo de manifesto (por estar vacío, ou moi grande)";
-$langUploadMff = "Reemplazar o arquivo de manifesto";
-$langMfMissing = "O arquivo de manifesto non se atopou";
-$langMfFile = "Arquivo de Manifesto";
-$langMfSyntaxError = "Erro de sintaxe no arquivo de manifesto";
-$langManifest = "Manifesto";
-$langImported = "importado";
-$langImpossible = "Imposible";
-$langTo = "para";
+$langUploadMff = "substituir o ficheiro de manifesto";
 ?>

@@ -35,14 +35,13 @@ annulle avec termes plus larges.<br/>
 Si vous changez la langue de la description, n\'ajoutez pas de nouveaux mots clé en même temps.<br/>
 <br/>
 ";
-$langRights = "Conditions&#xa0;d\'utilisation";
+$langRights = "Conditions d\'utilisation";
 $langRightsTip = "description";
 $langVersion = "Version";
 $langVersionTip = "nombre ou description";
-$langStatus = "Statut";
 $langStatusTip = "choisissez dans la liste";
-$langCreatedSize = "Créé&#xa0;le, taille";
-$langCreatedSizeTip = "créé&#xa0;le AAAA-MM-JJ, taille en octets (bytes)";
+$langCreatedSize = "Créé le, taille";
+$langCreatedSizeTip = "créé le AAAA-MM-JJ, taille en octets (bytes)";
 $langAuthor = "Auteur";
 $langAuthorTip = "format VCARD";
 $langFormat = "Format";
@@ -55,7 +54,6 @@ $langConfirmDelete = "Enlever *vraiment* toutes les métadonnées?";
 $langCourseKwds = "Ce document contient les mots clé du cours";
 $langSearch = "Cherchez";
 $langSearchCrit = "Un mot par ligne!";
-$langLangs = ":";
 $langDescription = "Description";
 $langTitle = "Titre";
 $langStatuses = ":draft:brouillon,, 
@@ -79,7 +77,6 @@ application/vnd.ms-powerpoint:MsPowerpoint,,
 application/xml;iso-8859-1:XML;iso-8859-1,, 
 application/xml;utf-8:XML;utf-8,, 
 application/zip:ZIP";
-$langExtensions = ":";
 $langLngResTypes = ":exercise:exercice,, 
      simulation:simulation,, 
      questionnaire:enquête,, 

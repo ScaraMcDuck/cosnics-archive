@@ -9,6 +9,7 @@ $langDelLk = "Vill du verkligen radera denna länk?";
 $langEnter  = "Stig in";
 $langCourseCreate  = "Skapa en webbkurs";
 $langNameOfTheLink  = "Namn på länken";
+$lang_main_categories_list                  = "Huvudkategorilista";
 $langHelp = "Hjälp";
 $langCourseAdminOnly = "Enbart lärare";
 $PlatformAdminOnly = "Enbart plattforms administratör";

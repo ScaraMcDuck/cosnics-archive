@@ -1,25 +1,25 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$ResourceAdded = "Unterlagen hinzugef&#252;gt. Sie k&#246;nnen jetzt zum Pfad zur&#252;ck kehren oder weiter Unterlagen hinzuf&#252;gen.";
+$ResourceAdded = "Unterlagen hinzugefügt. Sie können jetzt zum Pfad zurück kehren oder weiter Unterlagen hinzufügen.";
 $LearningPath = "Lernpfad";
 $LevelUp = "Stufe nach oben";
-$AddIt = "hinzuf&#252;gen";
+$AddIt = "hinzufügen";
 $MainCategory = "Haupt Kategorie";
-$lang_delete_added_resources = "L&#246;sche die angef&#252;gten Unterlagen";
-$AddToLinks = "Den Links des Kurses hinzuf&#252;gen";
-$DontAdd = "nicht hinzuf&#252;gen";
-$lang_show_all_added_resources = "Zeige alle angef&#252;gten Unterlagen";
-$ResourcesAdded = "Neue Unterlagen angef&#252;gt";
-$BackTo = "Zur&#252;ck nach";
+$lang_delete_added_resources = "Lösche die angefügten Unterlagen";
+$AddToLinks = "Den Links des Kurses hinzufügen";
+$DontAdd = "nicht hinzufügen";
+$lang_show_all_added_resources = "Zeige alle angefügten Unterlagen";
+$ResourcesAdded = "Neue Unterlagen angefügt";
+$BackTo = "Zurück nach";
 $ExternalResources = "Externe Unterlagen";
 $CourseResources = "Kursunterlagen";
 $ExternalLink = "Externer Link";
-$DropboxAdd = "Die Dropbox-Seite diesem Kapitel hinzuf&#252;gen.";
-$AddAssignmentPage = "Die Anwenderunterlagen diesem Kapitel hinzuf&#252;gen.";
+$DropboxAdd = "Die Dropbox-Seite diesem Kapitel hinzufügen.";
+$AddAssignmentPage = "Die Anwenderunterlagen diesem Kapitel hinzufügen.";
 $Dropbox = "Dropbox";
 $Assignments = "Unterlagen der Teilnehmer/innen";
-$Exercise = "&#220;bungen";
+$Exercise = "Übungen";
 $Link = "Links";
 $Forum = "Foren";
 $AdValvas = "Anzeigen";

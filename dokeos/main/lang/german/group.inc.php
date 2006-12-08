@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $langGroupManagement = "Gruppen";
-$langHelp = "Hilfe";
 $langNewGroupCreate = "Neue Gruppe(n) erstellen";
 $langGroupCreation = "Neue Gruppen erstellen";
 $langCreate = "erstellen";
@@ -44,7 +43,7 @@ $langPublic = "öffentlich";
 $langPropModify = "Einstellungen verändern";
 $langState = "Status";
 $langGroupFilledGroups = "Gruppen wurden von den Teilnehmer/innen belegt.";
-$langSubscribed  = "registrierte Teilnehmer/innen in diesem Seminar";
+$langSubscribed  = "Teilnehmer/innen, die diesen Kurs belegt haben";
 $langStudentsNotInThisGroups  = "Teilnehmer ist nicht in dieser Gruppe";
 $langQtyOfUserCanSubscribe_PartBeforeNumber  = "Ein/e Teilnehmer/in kann höchstens in ";
 $langQtyOfUserCanSubscribe_PartAfterNumber  = " Gruppen Mitglied sein";
@@ -88,4 +87,11 @@ $CategoryOrderChanged = "Die Reihenfolge der Kategorien wurde verändert";
 $Tools = "Werkzeuge";
 $Wiki = "Gruppen Wiki";
 $CategoryCreated = "Kategorie erstellt";
+$GroupTutors = "Betreuer";
+$GroupWork = "Arbeiten";
+$GroupCalendar = "Agenda";
+$GroupAnnouncements = "Ankündigungen";
+$NoCategoriesDefined = "Es wurden keine Kategorien definiert";
+$GroupsFromClasses = "Gruppen aus Klassen";
+$GroupsFromClassesInfo = "Mit dieser Option können Sie Gruppen auf der Grundlage von Klassen erstellen, die für den Kurs angemeldet sind";
 ?>

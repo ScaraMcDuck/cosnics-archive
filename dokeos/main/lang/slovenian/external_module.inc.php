@@ -24,4 +24,8 @@ $langNoLinkName = "Vpišite naziv povezave";
 $langEditLink = "Uredi povezavo teèajeve domaèe strani";
 $langChangePress = "Spremeni in pritisni OK";
 $langLinkChanged = "Povezava te&#269;ajeve doma&#269;e strani se je spremenila. Uporabite zgornji menu za vrnitev na doma&#269;o stran.";
+$NoLinkName = "Naziv povezave ni podan";
+$NoLinkURL = "URL povezave ni podan";
+$LinkChanged = "Povezava je bila spremenjena";
+$OkSentLink = "Povezava je bila poslana";
 ?>

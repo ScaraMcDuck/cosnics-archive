@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "Šai kurs&#257; jau esat piere&#291;ist&#275;jies";
-$lang_main_categories_list                  = "Galvenais noda&#316;u saraksts";
 $lang_my_personnal_course_list              = "Manu kursu saraksts";
 $lang_course_enrollment                     = "Lietot&#257;ju kursu saraksts";
 $lang_course_not_available                  = "Šis kurss nav pieejams vai ar&#299; v&#275;l nav izveidots";
@@ -63,4 +62,5 @@ $SubscribingNotAllowed = "Pieteikšan&#257;s nav at&#316;auta";
 $CourseSortingDone = "Kursu k&#257;rtošana pabeigta";
 $ExistingCourseCategories = "iziet no kursu noda&#316;&#257;m";
 $YouAreNowUnsubscribed = "J&#363;s tagad esat atteikusies/-cies  no kursa";
+$AddRight = "Pievienot";
 ?>

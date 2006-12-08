@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $langGroupManagement = "Group";
-$langHelp = "Pertolongan";
 $langNewGroupCreate = "Buat group baru";
 $langGroupCreation = "Pembuatan group baru";
 $langCreate = "buat";
@@ -89,4 +88,10 @@ $CategoryOrderChanged = "Urutan kategori diubah";
 $Tools = "Tools";
 $Wiki = "Group wiki";
 $CategoryCreated = "Kategori dibuat";
+$GroupTutors = "Tutor";
+$GroupWork = "Kerja";
+$GroupCalendar = "Agenda";
+$GroupAnnouncements = "Pengumuman";
+$GroupsFromClasses = "Kelompok dari klas";
+$GroupsFromClassesInfo = "Menggunakan opsi ini, anda dapat membuat kelompok berdasarkan kelas-kelas yang terdaftar di mata kuliah anda.";
 ?>

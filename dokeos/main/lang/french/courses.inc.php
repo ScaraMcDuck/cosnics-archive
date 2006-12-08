@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "Déjà inscrit";
-$lang_main_categories_list                  = "Liste des catégories";
 $lang_my_personnal_course_list              = "Ma liste de cours personnelle";
 $lang_course_enrollment                     = "Cours du membre";
 $lang_course_not_available                  = "Cours non disponible ou n\'existe pas.";
@@ -29,6 +28,7 @@ $langCourseList  = "Cours";
 $Subscribe = "S\'inscrire";
 $AlreadySubscribed = "Déjà inscrit";
 $CourseCategoryStored = "Catégorie créée";
+$langWithoutTimeLimits = "Sans limites de temps";
 $lang_back_to_main_category_list = "Retour à la liste des catégories";
 $langAdded = "Ajoutés";
 $langDeleted = "Supprimés";
@@ -63,4 +63,6 @@ $SubscribingNotAllowed = "L\'inscription n\'est pas autorisée";
 $CourseSortingDone = "Réorganisation des cours effectuée";
 $ExistingCourseCategories = "Catégories de cours existantes";
 $YouAreNowUnsubscribed = "Vous êtes maintenant désinscrit du cours";
+$AddRight = "Ajouter";
+$ViewOpenCourses = "Voir les cours ouverts";
 ?>

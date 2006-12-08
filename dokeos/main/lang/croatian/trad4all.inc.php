@@ -2,7 +2,7 @@
 for more information: see languages.txt in the lang folder. 
 */
 $UsersOnline = "Aktivnih korisnika";
-$langDescription = "Opis";
+$Description = "Opis";
 $langComment = "Opaska";
 $langVisible = "Vidljivo/nevidljivo";
 $langGroup = "Skupina";
@@ -10,6 +10,7 @@ $langEdit = "Uredi";
 $langUp = "Gore";
 $Down = "dolje";
 $Up = "gore";
+$TheListIsEmpty = "Popis prazan.";
 $langCourseCreate = "Izradi okruženje kolegija";
 $langTodo = "U&#269;initi";
 $iso639_2_code = "HR";

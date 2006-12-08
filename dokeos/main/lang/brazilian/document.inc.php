@@ -113,4 +113,5 @@ $DocumentsOverview = "visão geral dos documentos";
 $ViewSlideshow = "Visualizar imagens em slideshow";
 $Options = "Opções";
 $Type = "Tipo";
+$Content = "Conteúdo";
 ?>

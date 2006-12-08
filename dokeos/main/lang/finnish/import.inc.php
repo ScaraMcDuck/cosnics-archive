@@ -4,7 +4,6 @@ for more information: see languages.txt in the lang folder.
 $langPgTitle = "Sivun otsikko";
 $langExplanation = "Sivun t‰ytyy olla HTML-muodossa. Jos haluat l‰hett‰‰ sivun ei-HTML-muodossa (PDF, DOC, SWD, jne.), niin k‰yt‰<a href=../document/document.php>Dokumentti-sivua</a>";
 $langTooBig = "Et valinnut mit‰‰n tiedostoa l‰hetett‰v‰ksi, tai se oli liian suuri";
-$langOkSent = "Sivu on l‰hetetty.<p>Se on linkitetty kurssin <a href=../..//index.php>kotisivulta</a>";
 $langCouldNot = "Tiedostoa ei voitu l‰hett‰‰";
 $langExercices = "Harjoitukset";
 $langNotAllowed = "Ei sallittu";

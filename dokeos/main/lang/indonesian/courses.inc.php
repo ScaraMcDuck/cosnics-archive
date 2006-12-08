@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "telah terdaftar";
-$lang_main_categories_list                  = "Daftar kategori utama";
 $lang_my_personnal_course_list              = "Daftar mata kuliah-ku";
 $lang_course_enrollment                     = "Mata Kuliah milik User";
 $lang_course_not_available                  = "Mata Kuliah tidak ada...";
@@ -64,4 +63,6 @@ $SubscribingNotAllowed = "Pendaftaran tidak diijinkan";
 $CourseSortingDone = "Pengurutan Mata Kuliah selesai";
 $ExistingCourseCategories = "Kategori Mata Kuliah yang ada";
 $YouAreNowUnsubscribed = "Anda kini tidak terdaftar di mata kuliah tsb";
+$AddRight = "Tambah";
+$ViewOpenCourses = "Tampilkan mata kuliah yang terbuka untuk umum";
 ?>

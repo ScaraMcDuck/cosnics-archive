@@ -91,7 +91,7 @@ $langDocContent = "<p>Dokumentværktøjet svarer til filhåndtering på din alm. pc.
 	</h4>
 	<ul>
 		<li>
-			klik på omdøb <img src=../img/renommer.gif width=20 height=20 align=baseline> 
+			klik på omdøb <img src=../img/rename.gif width=20 height=20 align=baseline> 
 			i omdøb kolonnen
 		</li>
 		<li>

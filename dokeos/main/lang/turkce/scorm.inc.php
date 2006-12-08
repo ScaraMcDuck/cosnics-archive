@@ -30,4 +30,5 @@ $langScormCloseWindow = "Pencereleri kapat";
 $langScormExitFullScreen = "Normal ekrana dön";
 $langScormFullScreen = "Tam Ekran";
 $langScormNotAttempted = "Çal&#305;&#351;mad&#305;";
+$langUnknown = "Bilinmiyor";
 ?>

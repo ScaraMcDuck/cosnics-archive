@@ -1,8 +1,7 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langInvalidId = "Cet identifiant n\'est pas valide. Si vous n\'êtes pas encore inscrit,
-remplissez le <a href=\'claroline/auth/inscription.php\'>formulaire d\'inscription</a></font color>";
+$langInvalidId = "Cet identifiant n\'est pas valide.";
 $langWelcome = "cours sont en libre accès ci-dessous. Les autres cours existants
 nécessitent un identifiant et un mot de passe que l\'on peut
 obtenir en cliquant sur la mention \'inscription\'. Il est possible aux
@@ -34,7 +33,6 @@ $langHelptwo = "Aide";
 $langRegAll = "S\'inscrire";
 $EussMenu = "menu";
 $Opinio = "Opinion";
-$menuauth = "Zone d\'identification";
 $email = "courriel";
 $Intranet = "Intranet";
 $Englin = "Anglais";
@@ -53,6 +51,7 @@ $langSystemAnnouncements = "Nouvelles du système";
 $langHelpMaj = "Aide";
 $langNotRegistered = "Non enregistré";
 $langAdmin = "Administrateur de la plateforme";
+$Login = "Identifiant";
 $langRegisterForCourse = "S\'inscrire à un nouveau cours";
 $langUnregisterForCourse = "Se désinscrire d\'un cours";
 $langCombinedCourse = "Cours combiné";
@@ -62,6 +61,7 @@ $UsersOnLine = "Utilisateurs en ligne";
 $TotalOnLine = "Nombre total d\'utilisateurs connectés";
 $langCourseCreate = "Créer un cours";
 $langCourseClosed = "(le cours est présentement fermé)";
+$ViewOpenCourses = "Visualiser les cours en accès libre";
 $langCompetences = "Compétences";
 $langDiplomas = "Diplômes";
 $langTeach = "Ce qu\'il/elle peut enseigner";
@@ -69,4 +69,7 @@ $langOpenarea = "Zone publique personnelle";
 $langProductions = "Productions";
 $langSendChatRequest = "Envoyer une demande de \"chat\" à cette personne";
 $langRequestDenied = "Cet appel a été refusé.";
+$UsageDatacreated = "Données d\'utilisation créées";
+$SessionView = "Voir les cours par sessions";
+$CourseView = "Voir la liste complète des cours";
 ?>

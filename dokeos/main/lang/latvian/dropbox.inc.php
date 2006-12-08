@@ -29,7 +29,6 @@ $dropbox_lang["anonymous"]  = "nezin&#257;ms";
 $dropbox_lang["ok"]  = "Dar&#299;ts!";
 $dropbox_lang["lastUpdated"]  = "P&#275;d&#275;joreiz papildin&#257;ts";
 $dropbox_lang["lastResent"]  = "P&#275;d&#275;joreiz p&#257;rs&#363;t&#299;ts";
-$dropbox_lang["tableEmpty"]  = "Saraksts ir tukšs.";
 $dropbox_lang["overwriteFile"]  = "Vai p&#257;rrakst&#299;t iepriekš s&#363;t&#299;to failu?";
 $dropbox_lang["orderBy"]  = "Sak&#257;rtot p&#275;c";
 $dropbox_lang["lastDate"]  = "p&#275;d&#275;j&#257;s nos&#363;t&#299;šanas datums";
@@ -70,6 +69,8 @@ $dropbox_lang["mailingJustUploadNoOther"]  = "Vienk&#257;rša augšupiel&#257;de n
 $dropbox_lang["giveFeedback"] = "Rakst&#299;t / Labot atsauksmi";
 $dropbox_lang["showFeedback"] = "Par&#257;d&#299;t atsauksmi";
 $dropbox_lang["backList"] = "Atgriezties pie J&#363;su Apmai&#326;as kastes";
+$dropbox_lang["filingFolders"] = "Skat&#299;t tikai map&#299;ti";
 $dropbox_lang["filingSelected"] = "izv&#275;l&#275;ts";
+$dropbox_lang["filingOtherAs"] = "(jauns map&#299;tes nosaukums) ==>";
 $dropbox_lang["filingName"] = "Nosaukums";
 ?>

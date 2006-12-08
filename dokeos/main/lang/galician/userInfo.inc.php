@@ -1,8 +1,7 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langUsers = "Usuarios";
-$langLineNumber = "N&uacutemero de liñas";
+$langLineNumber = "Número de liñas";
 $langLine = "liña";
 $langLines = "liñas";
 $langLineOrLines = "liña(s)";
@@ -29,7 +28,7 @@ $langUserNo = "Usuario Nº";
 $langTaken = "xa está en uso. Por favor, seleccione un diferente";
 $langUserName = "Nome";
 $langTutor = "Titor";
-$langUnreg = "Anular inscripción";
+$langUnreg = "Anular inscrición";
 $langGroupUserManagement = "Xestión de grupos";
 $langUserInfo = "Información do usuario";
 $langUnregister = "Sen rexistrar";

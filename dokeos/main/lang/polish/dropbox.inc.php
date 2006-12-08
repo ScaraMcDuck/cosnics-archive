@@ -29,7 +29,6 @@ $dropbox_lang["anonymous"]  = "nieznany";
 $dropbox_lang["ok"]  = "OK";
 $dropbox_lang["lastUpdated"]  = "Ostatnia modyfikacja";
 $dropbox_lang["lastResent"]  = "Ostatnio przesy&#322;ane w";
-$dropbox_lang["tableEmpty"]  = "Ta lista jest pusta";
 $dropbox_lang["overwriteFile"]  = "Zast&#261;pi&#263; wcze&#347;niej wys&#322;any plik?";
 $dropbox_lang["orderBy"]  = "Sortuj wed&#322;ug";
 $dropbox_lang["lastDate"]  = "ostatnio wys&#322;ane";

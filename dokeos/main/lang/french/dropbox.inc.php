@@ -29,7 +29,6 @@ $dropbox_lang["anonymous"]  = "anonyme";
 $dropbox_lang["ok"]  = "Valider";
 $dropbox_lang["lastUpdated"]  = "Dernière mise à jour";
 $dropbox_lang["lastResent"]  = "Dernier ré-envoi";
-$dropbox_lang["tableEmpty"]  = "La liste est vide.";
 $dropbox_lang["overwriteFile"]  = "Ecraser la version précédente du même fichier ?";
 $dropbox_lang["orderBy"]  = "Classer par : ";
 $dropbox_lang["lastDate"]  = "date du dernier envoi";

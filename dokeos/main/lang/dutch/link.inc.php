@@ -1,7 +1,6 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langHelp = "Hulp";
 $langLinks = "Links";
 $langLinkName = "Naam link";
 $langLinkAdd = "Link toevoegen";
@@ -12,7 +11,6 @@ $langLinkDel = "Link verwijderen";
 $langLinkDeleted = "Link is verwijderd.";
 $langLinkDelconfirm = "Wenst u deze link te verwijderen?";
 $langAllLinksDel = "Alle links in deze categorie verwijderen";
-$langCategory = "Categorie";
 $langCategoryName = "Naam categorie";
 $langCategoryAdd = "Categorie toevoegen";
 $langCategoryAdded = "Categorie is toegevoegd.";
@@ -22,7 +20,6 @@ $langCategoryDel = "Categorie verwijderen";
 $langCategoryDeleted = "Categorie en bijhorende links zijn verwijderd.";
 $langCategoryDelconfirm = "Als u een categorie verwijdert, worden alle links van deze categorie ook verwijderd. Wenst u de categorie en bijhorende links te verwijderen?";
 $langAllCategoryDel = "Alle categorieën en links verwijderen";
-$langAllCategoryDeleted = "Alle categorieën en bijhorende links zijn verwijderd.";
 $langGiveURL = "Gelieve een URL op te geven.";
 $langGiveCategoryName = "Gelieve een categorienaam op te geven.";
 $langNoCategory = "Geen categorie";

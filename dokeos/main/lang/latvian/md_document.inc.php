@@ -27,7 +27,6 @@ $langRights = "Lietošanas noteikumi";
 $langRightsTip = "aprakstiet ar v&#257;rdiem";
 $langVersion = "Versija";
 $langVersionTip = "numurs vai apraksts";
-$langStatus = "Statuss";
 $langStatusTip = "izv&#275;lieties no saraksta";
 $langCreatedSize = "Izveidots, izm&#275;rs";
 $langCreatedSizeTip = "GGGG-MM-DD, kad tika izveidots, izm&#275;rs oktetos (baitos)";
@@ -45,4 +44,9 @@ $langSearch = "Mekl&#275;t";
 $langSearchCrit = "Vienu v&#257;rdu katr&#257; rind&#257;!";
 $langDescription = "Apraksts";
 $langTitle = "Virsraksts";
+$langStatuses = ":draft:uzmetums,, final:p&#275;d&#275;jais,, revised:p&#257;rskat&#299;ts,, unavailable:nepieejams";
+$langCosts = ":no:free, no cost,, yes:not free, cost";
+$langCopyrights = ":yes:copyright,, no:no copyright";
+$langFormats = ":text/plain;iso-8859-1:text/plain;iso-8859-1,, text/plain;utf-8:text/plain;utf-8,, text/html;iso-8859-1:text/html;iso-8859-1,, text/html;utf-8:text/html;utf-8,, inode/directory:Folder,, application/msword:MsWord,, application/octet-stream:Octet stream,, application/pdf:PDF,, application/postscript:PostScript,, application/rtf:RTF,, application/vnd.ms-excel:MsExcel,, application/vnd.ms-powerpoint:MsPowerpoint,, application/xml;iso-8859-1:XML;iso-8859-1,, application/xml;utf-8:XML;utf-8,, application/zip:ZIP";
+$langLngResTypes = ":exercise:exercise,, simulation:simulation,, questionnaire:questionnaire,, diagram:diagram,, figure:figure,, graph:graf,, index:index,, slide:slide,, table:table,, narrative text:narrative text,, exam:exam,, experiment:experiment,, problem statement:problem statement,, self assessment:self assessment,, lecture:lecture";
 ?>

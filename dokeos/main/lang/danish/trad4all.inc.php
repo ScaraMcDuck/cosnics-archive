@@ -2,7 +2,7 @@
 for more information: see languages.txt in the lang folder. 
 */
 $UsersOnline = "Brugere online";
-$langDescription = "Beskrivelse";
+$Description = "Beskrivelse";
 $langComment = "Kommentar";
 $langVisible = "Synlig/usynlig";
 $langGroup = "Gruppe";
@@ -10,6 +10,7 @@ $langEdit = "Rediger";
 $langUp = "op";
 $Down = "ned";
 $Up = "op";
+$TheListIsEmpty = "Listen er tom.";
 $langCourseCreate = "Opret kursushjemmeside";
 $langTodo = "Gør E-learning bedre";
 $iso639_2_code = "en";

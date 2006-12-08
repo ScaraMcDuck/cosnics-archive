@@ -1,9 +1,9 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langViewCourseMaterialImport  = "Bekijk het cursus materiaal zoals het ge&#239;mporteerd zal worden";
-$langViewExternalLinksImport  = "Bekijk de externe links zoals ze ge&#239;mporteerd worden";
-$langViewForumImport  = "Bekijk de forums zoals ze ge&#239;mporteerd worden";
+$langViewCourseMaterialImport  = "Ver o material do curso tal e como será importado";
+$langViewExternalLinksImport  = "Ver as ligazóns externas tal e como serán importadas";
+$langViewForumImport  = "Ver o foro tal e como será importado";
 $langImportCourseMaterial  = "Importar material do curso (Módulo de Blackboard \"Material do curso\")";
 $langImportExternalLinks  = "Importar ligazóns (Módulo Blackboard \"Ligazóns externas\")";
 $langImportForum  = "Importar foros (Módulo Blackboard \"Foros\")";

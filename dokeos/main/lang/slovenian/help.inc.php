@@ -47,9 +47,9 @@ $langHomeContent = "<p>Domaèa stran teèaja prikazuje množico orodij : uvodno bes
 <li>Kliknite na ikono v obliki oèesa poleg poti, ki ste jo skreirali : kreirana uèna pot se bo pojavila na vaši domaèi strani,</li>
 <li>Priprava podroèja vašega teèaja je konèana. Vaša domaèa stran kaže uvodno besedilo, temu sledi ena sama povezava, ki vodi teèajnike skozi teèaj. Kliknite na Uporabniški pogled (zgoraj desno) za predogled strani, kot jo vidijo vaši teèajniki.<I></I></li></ol>";
 $langHOnline = "Pomoè: Konference";
-$langOnlineContent = "<br><span style=\"font-weight: bold;\">Uvod </span><br>
+$langOnlineContent = "<br><span style=\\\"font-weight: bold;\\\">Uvod </span><br>
       <br>
-      <div style=\"margin-left: 40px;\">Dokeos online konferenèni sistem
+      <div style=\\\"margin-left: 40px;\\\">Dokeos online konferenèni sistem
 vam dovoljuje pouèevanje, informiranje ali zbiranje 
 skupaj do 500 udeležencev na enostaven in hiter naèin.<br>
       </div>
@@ -68,114 +68,114 @@ PDF predstavitvi,<br>
 preko mehanizma klepetalnice.</li>
         </ul>
       </ul>
-      <span style=\"font-weight: bold;\"></span><span
- style=\"font-weight: bold;\"><br>
+      <span style=\\\"font-weight: bold;\\\"></span><span
+ style=\\\"font-weight: bold;\\\"><br>
 Teèajnik / udeleženec</span><br>
       <br>
-      <div style=\"margin-left: 40px;\">Za sodelovanje v konferenci potrebuje:<br>
+      <div style=\\\"margin-left: 40px;\\\">Za sodelovanje v konferenci potrebuje:<br>
       </div>
       <br>
-      <div style=\"margin-left: 40px;\">1. Zvoènike (ali slušalke)
+      <div style=\\\"margin-left: 40px;\\\">1. Zvoènike (ali slušalke)
 povezanimi z osebnim raèunalnikom<br>
       <br>
-      <a href=\"http://www.logitech.com\"><img
- style=\"border: 0px solid ; width: 87px; height: 58px;\" alt=\"zvoèniki\"
- src=\"../img/speaker.gif\"></a><br>
+      <a href=\\\"http://www.logitech.com\\\"><img
+ style=\\\"border: 0px solid ; width: 87px; height: 58px;\\\" alt=\\\"zvoèniki\\\"
+ src=\\\"../img/speaker.gif\\\"></a><br>
       <br>
 2. Programsko opremo Winamp Media player<br>
       <br>
-      <a href=\"http://www.winamp.com\"><img
- style=\"border: 0px solid ; width: 87px; height: 27px;\" alt=\"Winamp\"
- src=\"../img/winamp.gif\"></a><br>
+      <a href=\\\"http://www.winamp.com\\\"><img
+ style=\\\"border: 0px solid ; width: 87px; height: 27px;\\\" alt=\\\"Winamp\\\"
+ src=\\\"../img/winamp.gif\\\"></a><br>
       <br>
-Mac : uporabi <a href=\"http://www.quicktime.com\">Quicktime</a><br>
-Linux : uporabi <a href=\"http://www.xmms.org/\">XMMS</a> <br>
+Mac : uporabi <a href=\\\"http://www.quicktime.com\\\">Quicktime</a><br>
+Linux : uporabi <a href=\\\"http://www.xmms.org/\\\">XMMS</a> <br>
       <br>
   3. Acrobat PDF Reader ali Word ali PowerPoint, odvisno od 
 porabljenega formata
 uèiteljevih diapozitivov<br>
       <br>
-      <a href=\"http://www.acrobat.com\"><img
- style=\"border: 0px solid ; width: 87px; height: 31px;\"
- alt=\"Acrobat Reader\" src=\"../img/acroread.gif\"></a><br>
+      <a href=\\\"http://www.acrobat.com\\\"><img
+ style=\\\"border: 0px solid ; width: 87px; height: 31px;\\\"
+ alt=\\\"Acrobat Reader\\\" src=\\\"../img/acroread.gif\\\"></a><br>
       </div>
       <br>
-      <span style=\"font-weight: bold;\"><br>
+      <span style=\\\"font-weight: bold;\\\"><br>
 Uèitelj / predavatelj / vodja</span><br>
       <br>
-      <div style=\"margin-left: 40px;\">Za podajanje vsebine/lekcije, potrebujete :<br>
+      <div style=\\\"margin-left: 40px;\\\">Za podajanje vsebine/lekcije, potrebujete :<br>
       </div>
       <br>
-      <div style=\"margin-left: 40px;\">1. Set slušalk z mikrofonom<br>
+      <div style=\\\"margin-left: 40px;\\\">1. Set slušalk z mikrofonom<br>
       <br>
-      <a href=\"http://www.logitech.com\"><img
- style=\"border: 0px solid ; width: 87px; height: 87px;\" alt=\"Set\"
- src=\"../img/headset.gif\"></a><br>
-Priporoèamo, da uporabite <a href=\"http://www.logitech.com/\">Logitech</a>
+      <a href=\\\"http://www.logitech.com\\\"><img
+ style=\\\"border: 0px solid ; width: 87px; height: 87px;\\\" alt=\\\"Set\\\"
+ src=\\\"../img/headset.gif\\\"></a><br>
+Priporoèamo, da uporabite <a href=\\\"http://www.logitech.com/\\\">Logitech</a>
 USB s katerim dosežete boljšo kvaliteto oddajanja zvoka.<br>
       <br>
 2. Programsko opremo Winamp<br>
       <br>
-      <a href=\"http://www.winamp.com\"><img
- style=\"border: 0px solid ; width: 87px; height: 27px;\" alt=\"Winamp\"
- src=\"../img/winamp.gif\"></a><br>
+      <a href=\\\"http://www.winamp.com\\\"><img
+ style=\\\"border: 0px solid ; width: 87px; height: 27px;\\\" alt=\\\"Winamp\\\"
+ src=\\\"../img/winamp.gif\\\"></a><br>
       <br>
 3. SHOUTcast DSP Plug-In za uporabljeno verzijo Winamp  <br>
       <br>
-      <a href=\"http://www.shoutcast.com\"><img
- style=\"border: 0px solid ; width: 87px; height: 24px;\" alt=\"Shoutcast\"
- src=\"../img/shoutcast.gif\"></a><br>
+      <a href=\\\"http://www.shoutcast.com\\\"><img
+ style=\\\"border: 0px solid ; width: 87px; height: 24px;\\\" alt=\\\"Shoutcast\\\"
+ src=\\\"../img/shoutcast.gif\\\"></a><br>
       <br>
-Sledite navodilom <a href=\"http://www.shoutcast.com\">www.shoutcast.com</a>
+Sledite navodilom <a href=\\\"http://www.shoutcast.com\\\">www.shoutcast.com</a>
 za namestitev (inštalacijo in konfiguracijo) 
 Shoutcast Winamp DSP Plug-In. <br>
       </div>
       <br>
-      <span style=\"font-weight: bold;\"><br>
+      <span style=\\\"font-weight: bold;\\\"><br>
 Kako izvesti konferenco?<br>
       <br>
       </span>
-      <div style=\"margin-left: 40px;\">Kreirajte Dokeos teèaj > Vstopite vanj > 
+      <div style=\\\"margin-left: 40px;\\\">Kreirajte Dokeos teèaj > Vstopite vanj > 
 Omogoèite in uporabite orodje Konference > 
 Uredite (ikona pisala zgoraj levo) nastavitve konference > prenesite vaše diapozitive
  (PDF, PowerPoint ali karkoliže) > vnesite uvodno besedilo
 > vnesite URL vašega živega podatkovnega toka glede na informacije,
-ki jih dobite od vašega tehniènega administratorja.<span style=\"font-weight: bold;\"></span><br>
-      <span style=\"font-weight: bold;\"></span></div>
-      <div style=\"margin-left: 40px;\"><img
- style=\"width: 256px; height: 182px;\" alt=\"nastavitev konference\"
- src=\"../img/conf_screen_conf.gif\"><br>
+ki jih dobite od vašega tehniènega administratorja.<span style=\\\"font-weight: bold;\\\"></span><br>
+      <span style=\\\"font-weight: bold;\\\"></span></div>
+      <div style=\\\"margin-left: 40px;\\\"><img
+ style=\\\"width: 256px; height: 182px;\\\" alt=\\\"nastavitev konference\\\"
+ src=\\\"../img/conf_screen_conf.gif\\\"><br>
 Ne pozabite predhodno objaviti toènega datuma, ure sreèanja in drugih navodil,
 ki jih potrebujejo udeleženci konference. <br>
       <br>
-      <span style=\"font-weight: bold;\">Nasvet</span> : 10 minut pred prièetkom
+      <span style=\\\"font-weight: bold;\\\">Nasvet</span> : 10 minut pred prièetkom
 objavljenega konferenènega zaèetka, natipkajte kratko sporoèilo v klepetalnièno okno, da informirate udeležence o 
 svoji prisotnosti in v pomoè udeležencem, ki imajo morebitne težave
 s sprejemenjem ali predstavitvijo zvoka. <br>
       </div>
       <br>
       <br>
-      <span style=\"font-weight: bold;\">Strežnik podatkovnega toka (Stream server)</span><br>
+      <span style=\\\"font-weight: bold;\\\">Strežnik podatkovnega toka (Stream server)</span><br>
       <br>
-      <div style=\"margin-left: 40px;\">Za zagotovitev podatkovnega toka za konferenco
+      <div style=\\\"margin-left: 40px;\\\">Za zagotovitev podatkovnega toka za konferenco
 v živo, potrebujete strežnik podatkovnega toka
 in po vsej verjetnosti administrativno pomoè za njegovo uporabo. Obrnite se na administratorja, ki
 vam bo doloèil URL, ki ga potrebujete
 pri vpisu v polje forme nastavitev konference.<br>
       <br>
-      <small><a href=\"http://www.dokeos.com/hosting.php#streaming\"><img
- style=\"border: 0px solid ; width: 258px; height: 103px;\"
- alt=\"dokeos streaming\" src=\"../img/streaming.jpg\"><br>
+      <small><a href=\\\"http://www.dokeos.com/hosting.php#streaming\\\"><img
+ style=\\\"border: 0px solid ; width: 258px; height: 103px;\\\"
+ alt=\\\"dokeos streaming\\\" src=\\\"../img/streaming.jpg\\\"><br>
 dokeos podatkovni tok</a></small><br>
       <br>
 Naredi sam : namesti, nastavi in adminstriraj <a
- href=\"http://www.shoutcast.com\">Shoutcast</a> ali <a
- href=\"http://developer.apple.com/darwin/projects/streaming/\">Apple
+ href=\\\"http://www.shoutcast.com\\\">Shoutcast</a> ali <a
+ href=\\\"http://developer.apple.com/darwin/projects/streaming/\\\">Apple
 Darwin</a>. <br>
       <br>
 Hm, \'Dokeos\' zbira sredstva : ali vzpostavite kontakt z Dokeos. Pomagali vam bodo vzpostaviti vašo konferenco, pomagali predavateljem
  in na željo celo za dokaj nizko ceno rentali podatkovni tokovni strežnik : <a
- href=\"http://www.dokeos.com/hosting.php#streaming\">http://www.dokeos.com/hosting.php</a><br>
+ href=\\\"http://www.dokeos.com/hosting.php#streaming\\\">http://www.dokeos.com/hosting.php</a><br>
       <br>
       <br>";
 $langHClar = "Pomoè: Dokeos portal";
@@ -233,6 +233,7 @@ Pomnite, da naknadno spreminjanje dimenzij tabel ni mogoèe (vgrajen urejevalnik 
 		<li>
 			Sproži prepis (upload) z gumbom Prepis (Upload) <input type=submit value=Prepiši name=submit2>.
 		</li>
+<li> Preveri stanje checkbox-a pod gumbom Prenesi v primeru, da je dokument komprimiran (npr.: .zip) ali je njegova vsebine <b>Scorm vsebina</b>. Scorm vsebine so posebna oblika teèajev katerih vsebina je oblikovana v posebni \'standardizirani\' obliki : <b>Scorm</b>. This is a special format for learning contents which enables the free exchange of these materials between different Learning Management Systems. Z drugimi besedami, <b>Scorm</b> vsebine so neodvisne od platforme, njih uvoz in izvoz sta enostavna. </li>
 	</ul>
 	<h4>
 		Preimenuj dokument (mapo)
@@ -614,8 +615,4 @@ $langClarContent2 = "Poèisti vsebino";
 $langHGroups = "Skupine";
 $langGroupsContent = "Vsebina skupin";
 $langGuide = "Priroènik";
-$langHCourseRolesRights = "Pomoè za Vloge in pravice";
-$langCourseRolesRightsContent = "<p>Na strani Pregled vlog in pravic lahko za svoj teèaj natanèno doloèite <em>komu je kaj dovoljeno narediti in na katerem mestu (orodju) to lahko stori</em>.</p> <p>Osnovna ideja je, da za vsako orodje teèaja lahko natanèno opredelimo, kdo lahko vrši vpogled v vsebine, kdo lahko dodaja vsebine, kreira mape, spreminja obstojeèo vsebino, ali briše doloèen del vsebin teèaja. Da pa tega ne bi bilo potrebno definirati za vsakega uporabnika posebej, so znotraj plaforme definirane vloge uporabnikov. Vsak uporabnik, ki obišèe platformo, igra znotraj portala eno izmed prednastavljenih vlog, kot so npr. anonimen gost, obièajen teèajnik, uèni asistent,  upravitelj teèaja. Za vsako od teh vlog lahko doloèimo pravice za delo z vsakim posameznim orodjem teèaja. Lahko npr. doloèite, da vsi uporabniki lahko dostopajo do foruma, a anonimni obiskovalci ne morejo objavljati - to lahko le registrirani uporabniki. Ali pa: asistent lahko dodaja dokumente v orodju dokumenti teèaja, ne more pa jih odstraniti. </p> <p> V orodju uporabniki teèaja lahko dostopate do obstojeèih vlog uporabnikov, lahko pa jih tudi spremenite (uporabite gumb uredi v seznamu uporabnikov). </p> <h3>Pregled vseh lokalnih vlog</h3> <p> Znotraj Dokeos je definiranih 5 lokalnih vlog. Te vloge lahko dodeljujete uporabnikom znotraj teèaja. <ul> <li><b>Anonimen obiskovalec teèaja</b>: je lahko poljubna oseba, ki zgolj odpre spletni brskalnik in skuša obiskati poljuben teèaj. Prednastavljeno ti uporabniki nimajo nobenih pravic, niti nimajo pravice vpogleda v vsebine teèaja.</li> <li><b>Registriran obiskovalec teèaja</b>: to vlogo igra uporabnik, ki je sicer registriran v Dokeos platformo in obišèe teèaj, v katerega pa ni vpisan.</li> <li><b>Obièajen teèajnik</b>: je osnovna vloga za uporabnike, ki so vpisani v ta teèaj. Tipièno v teèaju igra to vlogo veèina v teèaj vpisanih uporabnikov, razen tistih, ki jim upravitelj teèaja dodeli vlogo uènega asistenta, da mu pomaga pri razvoju/izvedbi teèaja.</li> <li><b>U&#269;ni asistent</b>: ta vloga vkljuèuje mnoge izmed prednastavljenih pravic. V veèini orodij ima asistent pravico vpogleda, dodajanja in urejanja vsebine, ne pa tudi odstranjevanja vsebine. Uènemu asistentu je tudi onemogoèeno upravljanje z nastavitvami teèaja in upravljanje z vlogami in pravicami.</li> <li><b>Upravitelj teèaja</b>: upravitelj teèaja ima vse možne pravice v teèaju in lahko poène s svojim teèajem karkoli. Kreatorju teèaja se avtomatièno dodeli ta vloga.</li> </ul> </p> <h3>Pregled vseh pravic</h3> <p> Dokeos definira štiri osnovne vrste pravic: <ul> <li><b>Pregledovanje</b>: the right to see a tool and its contents</li> <li><b>Dodajanje</b>: the right to add new content in a tool, e.g. add hyperlinks, categories, documents, folders, student publications, forum messages...</li> <li><b>Urejanje</b>: the right to edit existing content in a tool, e.g. edit the url of a hyperlinks, the name of a folder, the title and keywords of a document...</li> <li><b>Brisanje</b>: pravica brisanja obstojeèe vsebine v doloèenem orodju, npr. brisanje hiperpovezav, objav teèajnikov, sporo&#269;il foruma, dokumentov...</li> </ul> </p> <h3>Pregled lokacij</h3> <p> Vsak teèaj in vsako orodje teèaja v vsakem teèaju predstavljajo loèene lokacije v Dokeos. Nekaj primerov lokacij je podanih spodaj <ul> <li>teèaj TEST_COURSE</li> <li>orodje Dokumenti teèaja TEST_COURSE</li> <li>orodje Agenda teèaja Psihologija101</li> </ul></p> <h3>Nastavitev pravic</h3> <p>Kot upravitelj teèaja, lahko doloèite, kdo lahko kaj poène in na kateri lokacijo lahko to stori. Za vsako kombinacijo vloga-lokacija lahko nastavite štiri vrste pravic. can be set. Tako lahko nastavite pravico vpogleda za uènega asistenta v orodju dokumenti, pravico dodajanja za registrirane uporabnike teèaja v orodju povezav, .... </p>
-
- ";
 ?>

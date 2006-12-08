@@ -1,7 +1,6 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langUsers = "Utilizadores";
 $langLineNumber = "Número da linha";
 $langLine = "linha";
 $langLines = "linhas";
@@ -14,7 +13,7 @@ $langCourseAdministratorOnly = "Reservado ao administrador do curso";
 $langDefineHeadings = "Definir cabeçalhos";
 $langBackToUsersList = "Voltar à lista de utilizadores";
 $langTracking = "Estatísticas";
-$langCourseManager = "Formador";
+$langCourseManager = "Professor";
 $langModRight = "Modificar os direitos de administração de";
 $langNone = "nenhum";
 $langAll = "todos";
@@ -31,7 +30,7 @@ $langUserName = "Nome de utilizador";
 $langTutor = "Tutor";
 $langUnreg = "Cancelar a Inscrição";
 $langGroupUserManagement = "Gestão do Grupo";
-$langUserInfo = "Informação do Usuário";
+$langUserInfo = "Informação do Utilizador";
 $langUnregister = "Anular inscrição";
 $langAddAUser = "Acrescentar um utilizador";
 $langGroupManagement = "Gestão do grupo";

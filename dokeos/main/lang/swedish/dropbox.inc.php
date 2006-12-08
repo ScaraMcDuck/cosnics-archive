@@ -29,7 +29,6 @@ $dropbox_lang["anonymous"]  = "okänd";
 $dropbox_lang["ok"]  = "OK";
 $dropbox_lang["lastUpdated"]  = "Senast uppdaterad";
 $dropbox_lang["lastResent"]  = "Senast ansluten";
-$dropbox_lang["tableEmpty"]  = "Listan är tom.";
 $dropbox_lang["overwriteFile"]  = "Skriva över senast skickade fil?";
 $dropbox_lang["orderBy"]  = "Sortera efter";
 $dropbox_lang["lastDate"]  = "datum senaste skickat";

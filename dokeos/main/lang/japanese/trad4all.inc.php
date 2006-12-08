@@ -1,7 +1,7 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langDescription = "文書解説";
+$Description = "&#35500;&#26126;";
 $langComment = "コメント";
 $langVisible = "見えるようにする/見えないようにする";
 $langUp = "Up";
@@ -9,7 +9,7 @@ $langCourseCreate = "コースのウエブサイトを作る";
 $langTodo = "「要望」";
 $iso639_2_code = "ja";
 $iso639_1_code = "jpn";
-$charset = "EUC-JP";
+$charset = "UTF-8";
 $text_dir = "ltr";
 $left_font_family = "sans-serif";
 $right_font_family = "sans-serif";

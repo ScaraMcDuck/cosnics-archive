@@ -1,6 +1,7 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
+$Tools  = "Orodja";
 $langDownloadFile = "Prenesi dokument (upload)";
 $langTooBig = "Nisi izbral nobene datoteke ali pa je ta prevelika.";
 $langListDeleted = "Celoten seznam je bil odstranjen.";
@@ -8,7 +9,7 @@ $langDocModif = "Naziv dokumenta je bil spremenjen";
 $langDocAdd = "Dokument je dodan";
 $langDocDel = "Dokument je odstranjen";
 $langTitleWork = "Naziv dokumenta";
-$langAuthors = "Avtorj(i)";
+$langAuthors = "Avtor(ji)";
 $langDelList = "Briši celoten seznam";
 $langDocument = "Dokument";
 $langWorkDelete = "Odstrani";

@@ -2,11 +2,10 @@
 for more information: see languages.txt in the lang folder. 
 */
 $langGroupManagement = "Csoportok";
-$langHelp = "Súgó";
 $langNewGroupCreate = "Új csoport(ok) létrehozása";
 $langGroupCreation = "Új csoport(ok) létrehozása";
 $langCreate = "Létre kívánok hozni";
-$langNewGroups = "új csoportot.";
+$langNewGroups = "új csoporto(ka)t.";
 $langMax = "Maximum";
 $langGroupPlacesThis = "fér&#337;hely (opcionális)";
 $langGroupsAdded = "csoport létrehozva";
@@ -41,10 +40,10 @@ $langGroupSelfRegInf = "regisztrál";
 $langRegIntoGroup = "Adjon hozzá ehhez a csoporthoz";
 $langGroupNowMember = "Most már ennek a csopotnak tagja";
 $langPrivate = "privát";
-$langPublic = "publikus";
+$langPublic = "nyilvános";
 $langPropModify = "Beállítások megváltoztatása";
 $langState = "Státusz";
-$langGroupFilledGroups = "A csoportok fel lettek töltve a \'Felhasználók\' listán szereplõkkel.";
+$langGroupFilledGroups = "A csoportok fel lettek töltve a \'Felhasználók\' listán szerepl&#337;kkel.";
 $langSubscribed  = "ebbe a kurzusba regisztrált felhasználók";
 $langStudentsNotInThisGroups  = "Csoporton kívüli felhasználók";
 $langQtyOfUserCanSubscribe_PartBeforeNumber  = "Egy felhasználó maximum ";
@@ -89,4 +88,11 @@ $CategoryOrderChanged = "A kategória sorrendje megváltoztatva";
 $Tools = "Eszközök";
 $Wiki = "Csoport wiki";
 $CategoryCreated = "Kategória létrehozva";
+$GroupTutors = "Konzulensek";
+$GroupWork = "Munka";
+$GroupCalendar = "Naptár";
+$GroupAnnouncements = "Hirdetmények";
+$NoCategoriesDefined = "Nincs létehozott kategória.";
+$GroupsFromClasses = "Csoportok osztályokból";
+$GroupsFromClassesInfo = "Az opció használatával csoportokat hozhat létre a kurzusára feliratkozott osztályok felhasználásával.";
 ?>

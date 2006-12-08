@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "olet jo ilmoittautunut";
-$lang_main_categories_list                  = "Aihealueet";
 $lang_my_personnal_course_list              = "Oma kurssilistani";
 $lang_course_enrollment                     = "K‰ytt‰j‰n kurssit";
 $lang_course_not_available                  = "T‰lle kurssille ei ole p‰‰sy tai sit‰ ei ole";

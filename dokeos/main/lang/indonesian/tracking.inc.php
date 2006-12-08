@@ -3,7 +3,7 @@ for more information: see languages.txt in the lang folder.
 */
 $langShowAll = "Tampilkan semua";
 $langToolName = "Statistik";
-$langTrackingDisabled = "Tracking dinon-aktifkan oleh system administrator.";
+$TrackingDisabled = "Tracking dinon-aktifkan oleh system administrator.";
 $langShowNone = "Sembunyikan semua";
 $langCourseStats = "Statistik Mata Kuliah";
 $langToolsAccess = "Akses ke tool-tool";
@@ -49,9 +49,6 @@ $langWorkAuthors = "Pengarang";
 $langWorkDescription = "Deskripsi";
 $informationsAbout = "Tracking ";
 $langUserName = "Nama User";
-$langFirstName = "Nama Depan";
-$langLastName = "Nama Belakang";
-$langEmail = "Email";
 $langNoEmail = "Alamat email belum diisi";
 $langNoResult = "Tidak Ada";
 $langCourse = "Mata Kuliah";
@@ -113,7 +110,6 @@ $langCountUsersByCourse = "Jumlah user per Mata Kuliah";
 $langCountUsersByFaculte = "Jumlah user per Kelompok";
 $langCountUsersByStatus = "Jumlah user per status";
 $langCourses = "Mata Kuliah ";
-$langUsers = "User";
 $langAccess = "Akses";
 $langCountries = "Negara";
 $langProviders = "Provider";

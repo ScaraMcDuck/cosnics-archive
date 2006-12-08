@@ -3,7 +3,7 @@ for more information: see languages.txt in the lang folder.
 */
 $langShowAll = "Papar semua";
 $langToolName = "Statistik";
-$langTrackingDisabled = "Fungsi pengesanan telah dimatikan oleh Pentadbir Sistem.";
+$TrackingDisabled = "Fungsi pengesanan telah dimatikan oleh Pentadbir Sistem.";
 $langShowNone = "Tiada Paparan";
 $langCourseStats = "Statistik Subjek";
 $langToolsAccess = "Capaian untuk Alat Bantu";
@@ -41,9 +41,6 @@ $langWorkAuthors = "Disediakan Oleh";
 $langWorkDescription = "Penerangan";
 $informationsAbout = "Pengesanan";
 $langUserName = "ID Pengguna";
-$langFirstName = "Nama Pertama";
-$langLastName = "Nama Terakhir";
-$langEmail = "Email";
 $langNoEmail = "Alamat email tidak dinyatakan";
 $langNoResult = "Tiada Keputusan";
 $langCourse = "Subjek";
@@ -105,7 +102,6 @@ $langCountUsersByCourse = "Bilangan Pengguna mengikut Subjek";
 $langCountUsersByFaculte = "Bilangan Pengguna mengikut Pusat Pengajian";
 $langCountUsersByStatus = "Bilangan Pengguna mengikut Status";
 $langCourses = "Subjek";
-$langUsers = "Pengguna";
 $langAccess = "Capaian";
 $langCountries = "Negara";
 $langProviders = "Penyedia Perkhidmatan";

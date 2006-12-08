@@ -1,44 +1,51 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langModifInfo = "Kursa iestat&#299;jumi";
+$ModifInfo = "Kursa iestat&#299;jumi";
 $langModifDone = "Inform&#257;cija tika labota";
 $langHome = "Atpaka&#316; uz s&#257;kumlapu";
 $langCode = "Kursa kods";
 $langDelCourse = "Izdz&#275;st visu kursa aprakstu";
 $langProfessors = "Doc&#275;t&#257;ji";
 $langFaculty = "Kategorija";
+$langConfidentiality = "Konfidencialit&#257;te";
 $langPublic = "Publiska pieeja no port&#257;la s&#257;kumlapas bez autoriz&#257;cijas piepras&#299;juma";
 $langUnsubscription = "Atteikties";
+$langPrivOpen = "Ierobežota pieeja, re&#291;istr&#275;šan&#257;s at&#316;auta";
 $langPrivate = "Limit&#275;ta pieeja (lapa pieejama tikai <a href=../user/user.php>lietot&#257;ju sarakst&#257;</a> esošajiem)";
-$langForbidden = "Niet toegelaten";
+$langForbidden = "Nav at&#316;auts";
 $langLanguage = "Valoda";
 $langConfTip = "P&#275;c noklus&#275;juma J&#363;su kurss ir publisks. Ta&#269;u J&#363;s varat nor&#257;d&#299;t pieejas noteikumus augst&#257;k.";
 $langOpenToTheWorld = "Atkl&#257;t&#257; pieeja - iesp&#275;jama no jebkuras vietas pasaul&#275;!";
+$OpenToThePlatform = "Atv&#275;rts - pieeja at&#316;auta visiem sist&#275;m&#257; re&#291;istr&#275;tajiem lietot&#257;jiem";
 $langOpenToThePlatform = "Atkl&#257;t&#257; pieeja - iesp&#275;jama lietot&#257;jiem, kas re&#291;istr&#275;jušies port&#257;l&#257;";
 $langTipLang  = "Nor&#257;d&#299;t&#257; valoda str&#257;d&#257;s visiem J&#363;su kursa apmekl&#275;t&#257;jiem.";
-$langAgenda = "Pl&#257;not&#257;js";
+$Agenda = "Pl&#257;not&#257;js";
 $langLink = "Hipersaites";
 $langDocument = "Dokumenti";
+$langVid = "Video";
 $langWork = "Raksti";
 $langProgramMenu = "Kursa programma";
 $langAnnouncement = "Pazi&#326;ojumi";
 $langForum = "Diskusijas";
 $langExercise = "Kontroldarbi";
 $langStats = "Statistika";
+$langUplPage = "Augšupiel&#257;d&#275;t lapu un saist&#299;t to ar kursa s&#257;kumlapu";
 $langLinkSite = "Pievienot hipersaiti s&#257;kumlap&#257;";
 $langCourse = "Apraksts";
 $langHasDel = "tika izdz&#275;sts";
 $langBackHome = "Uz s&#257;kumlapu";
+$langByDel = "Izdz&#275;šot šo sada&#316;u, tiks neatgriezeniski dz&#275;sts viss saturs (dokumenti, saites, ...), un tiks atteikta re&#291;istr&#257;cija visiem dal&#299;bniekiem (nedz&#275;šot tos no cit&#257;m sada&#316;&#257;m). T&#257;pat tiks dz&#275;sti ar&#299; visi virtu&#257;lie kursi, kas ir saist&#299;ti ar šo kursu.<p>Vai J&#363;s tieš&#257;m v&#275;laties dz&#275;st šo kursu un t&#257; saturu?";
 $langY = "J&#257;!";
 $langN = "N&#275;!";
 $langDepartmentUrl  = "Noda&#316;as URL";
+$langDepartmentUrlName  = "Noda&#316;a";
 $langBackupCourse = "Veikt š&#299;s kursa da&#316;as arhiv&#275;šanu";
+$langModifGroups = "Grupas";
 $langProfessor = "Doc&#275;t&#257;js";
 $langGroups  = "Grupas";
 $langChat  = "Diskusijas";
 $langDescriptionCours   = "Kursa apraksts";
-$langArchive = "Arh&#299;vs";
 $langArchiveCourse  = "Kursa rezerves kopija";
 $langRestoreCourse  = "Atjaunot kursu";
 $langRestore = "Atjaunot";
@@ -80,4 +87,5 @@ $langNotAllowedToUnsubscribe = "Lietot&#257;jiem ir liegta iesp&#275;ja atteikti
 $langDescription = "Apraksts";
 $langCourseVisibilityClosed = "Piln&#299;b&#257; nosl&#275;gts; šis kurss b&#363;s pieejams tikai kursa administratoram.";
 $CourseVisibilityClosed = "Pieeja šim kursam ir nosl&#275;gta";
+$CourseVisibilityModified = "Tika labots (s&#299;k&#257;ki iestat&#299;jumu parametri redzami pieejas ties&#299;bu sist&#275;m&#257;)";
 ?>

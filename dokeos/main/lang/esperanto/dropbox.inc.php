@@ -29,7 +29,6 @@ $dropbox_lang["anonymous"]  = "nesciata";
 $dropbox_lang["ok"]  = "En ordo ";
 $dropbox_lang["lastUpdated"]  = "Plej fre&#349;data resta&#365;rkopio ";
 $dropbox_lang["lastResent"]  = "Laste sendita je ";
-$dropbox_lang["tableEmpty"]  = "La listo estas malplena.";
 $dropbox_lang["overwriteFile"]  = "&#264;u anstata&#365;igi anta&#365;an version? ";
 $dropbox_lang["orderBy"]  = "Ordigi la&#365; ";
 $dropbox_lang["lastDate"]  = "dato de lasta sendo ";

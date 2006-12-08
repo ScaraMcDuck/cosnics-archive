@@ -113,4 +113,5 @@ $DocumentsOverview = "documentenoverzicht";
 $ViewSlideshow = "Bekijk afbeeldingen als diavoorstelling";
 $Options = "Opties";
 $Type = "Type";
+$Content = "Inhoud";
 ?>

@@ -4,7 +4,6 @@ for more information: see languages.txt in the lang folder.
 $langPgTitle = "Títol de la pàgina";
 $langExplanation = "La pàgina ha d\'estar en format HTML (ex: \"my_page.htm\"). Serà enllasada des de la Pàgina d\'Inici. Si vols enviar documents no-HTML (PDF, Word, Power Point, Video, etc.) utilitza <a href=../document/document.php>l\'eina de Documents</a>";
 $langTooBig = "No has escollit cap fitxer a enviar, o és massa gran";
-$langOkSent = "La teva pàgina ha estat enviada.<p>Es troba enllasada des del curs <a href=../..//index.php>Pàgina principal</a>";
 $langCouldNot = "No s\'ha pogut enviar el fitxer";
 $langExercices = "Exercicis";
 $langNotAllowed = "No perm&ecute;s";

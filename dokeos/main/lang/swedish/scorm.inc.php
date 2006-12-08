@@ -27,7 +27,15 @@ $langScormNoItems = "Detta innehåll innehåller inga objekt.";
 $langScormNoStatus = "Ingen status för detta innehåll";
 $langScormLoggedout = "utloggad från Scorm arean";
 $langScormCloseWindow = "Stäng fönster";
+$ScormBrowsed = "Läst";
 $langScormExitFullScreen = "Tillbaka till normal skärm";
 $langScormFullScreen = "Helskärm";
 $langScormNotAttempted = "ej försökt";
+$langCharset = "Tecken snitt";
+$langLocal = "Lokal";
+$langRemote = "Fjärr";
+$langAutodetect = "Automatisk";
+$langAccomplishedStepsTotal = "Totalt antal slutförda steg";
+$langUnknown = "Okänd";
+$h = "t";
 ?>

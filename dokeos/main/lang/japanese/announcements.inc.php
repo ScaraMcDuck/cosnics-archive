@@ -1,7 +1,7 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$Announcement = "Announcements";
+$Announcement = "????";
 $langAnnEmpty = "お知らせをすべて、削除する";
 $AnnouncementModified = "お知らせ修正";
 $AnnouncementAdded = "お知らせ追加";

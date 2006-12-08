@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "že vpisan";
-$lang_main_categories_list                  = "Seznam glavnih kategorij";
 $lang_my_personnal_course_list              = "Osebni seznam teèajev";
 $lang_course_enrollment                     = "Uporabnikov teèaj";
 $lang_course_not_available                  = "Teèaj ni na voljo...";
@@ -46,7 +45,7 @@ $langIn = "v";
 $langSubCat = "podkategorije";
 $langUnsubscribeNotAllowed = "Izpis za ta teèaj ni dovoljen.";
 $langCourseAdminUnsubscribeNotAllowed  = "Si upravitelj tega teèaja.";
-$CourseManagement = "Upravljanje teèaja";
+$CourseManagement = "Upravljanje teèajev";
 $SortMyCourses = "Razvrsti moje teèaje";
 $SubscribeToCourse = "Vpiši se v teèaj";
 $UnsubscribeFromCourse = "Izpiši se iz teèaja";
@@ -55,7 +54,7 @@ $CourseCategoryAbout2bedeleted = "Si preprièan, da želiš odstraniti to kategorij
 $CourseCategories = "Kategorije teèajev";
 $CoursesInCategory = "Teèaji v kategoriji";
 $SearchCourse = "Išèi teèaj";
-$UpOneCategory = "<- Kategorijo navzgor";
+$UpOneCategory = "Kategorijo navzgor";
 $SearchResultsFor = "Rezultati iskanja za:";
 $ConfirmUnsubscribeFromCourse = "Si preprièan, da se želiš izpisati iz tega teèaja?";
 $NoCourseCategory = "Ni kategorije teèaja";
@@ -64,4 +63,6 @@ $SubscribingNotAllowed = "Vpis ni dovoljen";
 $CourseSortingDone = "Razvršèanje teèajev konèano";
 $ExistingCourseCategories = "Obstojeèe kategorije teèajev";
 $YouAreNowUnsubscribed = "Sedaj si izpisan iz teèaja";
+$AddRight = "Dodaj";
+$ViewOpenCourses = "Poglej odprte teèaje";
 ?>

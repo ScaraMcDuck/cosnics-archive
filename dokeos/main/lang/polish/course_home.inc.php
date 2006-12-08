@@ -9,6 +9,7 @@ $langDelLk = "Czy rzeczywi&#347;cie chcesz usun&#261;&#263; ten odno&#347;nik?";
 $langEnter  = "Wejd&#378;";
 $langCourseCreate  = "Utwórz nowy kurs";
 $langNameOfTheLink  = "Nazwa odno&#347;nika";
+$lang_main_categories_list                  = "Lista Wydzia³ów/kategorii";
 $langHelp = "Pomoc";
 $langCourseAdminOnly = "Tylko dla prowadz&#261;cych";
 $PlatformAdminOnly = "Tylko dla Administratorów platformy";

@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "ve&#263; upisan";
-$lang_main_categories_list                  = "Popis glavnih kategorija";
 $lang_my_personnal_course_list              = "Moj osbni popis kolegija";
 $lang_course_enrollment                     = "Korisnikovi kolegiji";
 $lang_course_not_available                  = "Kolegij nedostupan ili ne postoji";

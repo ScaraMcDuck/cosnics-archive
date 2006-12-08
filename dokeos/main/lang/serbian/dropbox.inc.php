@@ -29,7 +29,6 @@ $dropbox_lang["anonymous"]  = "nepoznato";
 $dropbox_lang["ok"]  = "OK";
 $dropbox_lang["lastUpdated"]  = "Poslednji put ažurirano";
 $dropbox_lang["lastResent"]  = "Poslednji put ponovo poslato";
-$dropbox_lang["tableEmpty"]  = "Lista je prazna.";
 $dropbox_lang["overwriteFile"]  = "Da pišem preko prethodno poslatog fajla?";
 $dropbox_lang["orderBy"]  = "Naru&#269;ilac";
 $dropbox_lang["lastDate"]  = "datum poslednjeg slanja";

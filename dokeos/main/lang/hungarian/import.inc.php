@@ -4,7 +4,6 @@ for more information: see languages.txt in the lang folder.
 $langPgTitle = "Az oldal címe";
 $langExplanation = "Az oldal HTML formátumú kell, hogy legyen (pl. \"oldalam.htm\"). A Honlapról elérhetõ lesz. Ha nem HTML dokumentumokat akar küldeni (PDF, Word, Power Point, Video, stb.) használja a <a href=../document/document.php>Dokumentumok eszközt</a>";
 $langTooBig = "Nem választott ki feltölteni egy file-t sem vagy túl nagy.";
-$langOkSent = "Az oldal feltöltõdött.<p>Most már a <a href=../../DOKEOSDEV/index.php>Homepage</a>-rõl elérhetõ";
 $langCouldNot = "A file-t nem lehet feltölteni.";
 $langExercices = "Tesztek";
 $langNotAllowed = "Nem engedélyezett";
