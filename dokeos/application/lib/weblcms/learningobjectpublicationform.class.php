@@ -71,10 +71,28 @@ class LearningObjectPublicationForm extends FormValidator
     function set_publication($publication)
     {
     	$this->publication = $publication;
-		$element =& $this->addElement('hidden','pid');
-		$element->setValue($publication->get_id());
-		$element =& $this->addElement('hidden','action');
-		$element->setValue('edit');
+		$this->addElement('hidden','pid');
+		$this->addElement('hidden','action');
+		$defaults['action'] = 'edit';
+		$defaults['pid'] = $publication->get_id();
+		$defaults['from_date'] = $publication->get_from_date();
+		$defaults['to_date'] = $publication->get_to_date();
+		if($defaults['from_date'] != 0)
+		{
+			$defaults['forever'] = 0;
+		}
+		$defaults['hidden'] = $publication->is_hidden();
+		$users = $publication->get_target_users();
+		foreach($users as $index => $user_id)
+		{
+			$defaults['target_users_and_groups']['to'][] = 'user-'.$user_id;
+		}
+		$groups = $publication->get_target_groups();
+		foreach($groups as $index => $group_id)
+		{
+			$defaults['target_users_and_groups']['to'][] = 'group-'.$group_id;
+		}
+		parent::setDefaults($defaults);
     }
 	/**
 	 * Sets the default values of the form.
