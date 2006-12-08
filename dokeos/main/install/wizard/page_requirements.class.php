@@ -84,7 +84,7 @@ class Page_Requirements extends HTML_QuickForm_Page
 		$info[] = "<li>MySQL + login/password allowing to access and create at least one database</li>";
 		$info[] = "<li>Write access to web directory where Dokeos files have been put</li>";
 		$info[] = "</ul>";
-		$info[] = "For more details, <a href=\"../../installation_guide.html\" target=\"blank\">read the installation guide</a>.";
+		$info[] = get_lang('MoreDetails').", <a href=\"../../installation_guide.html\" target=\"blank\">read the installation guide</a>.";
 		return implode("\n",$info);
 	}
 	function buildForm()

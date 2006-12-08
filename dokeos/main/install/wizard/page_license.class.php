@@ -15,8 +15,7 @@ class Page_License extends HTML_QuickForm_Page
 	}
 	function get_info()
 	{
-		return "Dokeos is free software distributed under the GNU General Public licence (GPL).
-																						Please read the license and click 'I accept'.<br /><a href=\"../license/gpl_print.txt\">".get_lang("PrintVers")."</a>";
+		return get_lang('DokeosLicenseInfo');
 	}
 	function buildForm()
 	{
