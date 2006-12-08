@@ -29,7 +29,6 @@ $dropbox_lang["anonymous"]  = "ανώνυμος";
 $dropbox_lang["ok"]  = "Αποστολή";
 $dropbox_lang["lastUpdated"]  = "Τελευταία ενημέρωση την";
 $dropbox_lang["lastResent"]  = "Last resent on";
-$dropbox_lang["tableEmpty"]  = "Ο κατάλογος είναι κενός";
 $dropbox_lang["overwriteFile"]  = "Θέλετε να αντικαταστήσετε το προηγούμενο αρχείο που στείλατε;";
 $dropbox_lang["orderBy"]  = "Ταξινόμηση με βάση";
 $dropbox_lang["lastDate"]  = "την τελευταία ημερομηνία αποστολής";

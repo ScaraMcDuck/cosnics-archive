@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "สมัครเรียนแล้ว";
-$lang_main_categories_list                  = "รายการประเภทวิชาหลัก";
 $lang_my_personnal_course_list              = "รายชื่อวิชาที่เป็นของเรา";
 $lang_course_enrollment                     = "ผู้เรียนในรายวิชา";
 $lang_course_not_available                  = "วิชานี้ยังไม่มี";
@@ -63,4 +62,6 @@ $SubscribingNotAllowed = "ไม่อนุญาตให้สมัคร";
 $CourseSortingDone = "แยกประเภทวิชาให้แล้ว ";
 $ExistingCourseCategories = "ประเภทวิชาที่มี";
 $YouAreNowUnsubscribed = "ได้ถอนวิชาให้คุณเรียบร้อยแล้ว";
+$AddRight = "เพิ่ม";
+$ViewOpenCourses = "ดูวิชาที่เปิดเรียน";
 ?>

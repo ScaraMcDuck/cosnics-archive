@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "zaten kay&#305;tl&#305;.";
-$lang_main_categories_list                  = "Ana kategori listesi";
 $lang_my_personnal_course_list              = "Ders listem";
 $lang_course_enrollment                     = "Kullan&#305;c&#305;n&#305;n dersleri";
 $lang_course_not_available                  = "Bu ders kullan&#305;mda de&#287;il veya mevcut de&#287;il.";
@@ -63,4 +62,6 @@ $SubscribingNotAllowed = "Kay&#305;t silme i&#351;lemine izin verilmiyor.";
 $CourseSortingDone = "Ders s&#305;ralamas&#305; tamamland&#305;";
 $ExistingCourseCategories = "Mevcut ders kategorileri";
 $YouAreNowUnsubscribed = "Ders kayd&#305;n&#305;z silindi.";
+$AddRight = "Ekle";
+$ViewOpenCourses = "Kullan&#305;labilen dersleri göster";
 ?>

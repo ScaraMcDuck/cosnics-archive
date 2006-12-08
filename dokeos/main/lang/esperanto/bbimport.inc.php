@@ -3,7 +3,7 @@ for more information: see languages.txt in the lang folder.
 */
 $langViewCourseMaterialImport  = "Rigardu al la kursa&#309;o, kia &#285;i estos importata ";
 $langViewExternalLinksImport  = "Rigardu al la eksternaj ligiloj, kiaj ili estas importataj ";
-$langViewForumImport  = "Rigardu al la forumoj, kiaj ili estas importataj ";
+$langViewForumImport  = "Rigardu al la forumoj, kiaj ili estos importataj ";
 $langImportCourseMaterial  = "Importu kursmaterialon (Nigratabula modulo \"Course Material\") XX";
 $langImportExternalLinks  = "Importu ligilojn (Nigratabula modulo \"Eksternal Links\") XX";
 $langImportForum  = "Importu forumojn (Nigratabula modulo \"Discussion Board\") XX";

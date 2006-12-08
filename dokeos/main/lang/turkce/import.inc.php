@@ -4,7 +4,6 @@ for more information: see languages.txt in the lang folder.
 $langPgTitle = "Sayfanýn baþlýðý";
 $langExplanation = "Sayfa HTML formatýnda olmalýdýr (örnek: \"felsefe_odevi.htm\"). Eðer HTML olmayan bir dosya göndermek istiyorsanýz (PDF, Word, Power Point, Video, etc.) use <a href=../document/document.php>Belge Araçlarýný kullanýnýz</a>";
 $langTooBig = "Bir dosya seçmediniz veya çok büyük";
-$langOkSent = "Sayfanýz gönderildi.<p>Ve bu dersin <a href=../..//index.php>Ana Sayfasýna</a> baðlantýsý kuruldu";
 $langCouldNot = "Dosya gönderilemedi";
 $langExercices = "Alýþtýrmalar";
 $langNotAllowed = "Ýzin verilmiyor";

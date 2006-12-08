@@ -34,7 +34,6 @@ $langPleaseSelectUsers  = "Trebuie sa alegi niste utilizatori";
 $Teachersubject = "Mesaj trimis catre studentii tai";
 $langMessages  = "Mesaje";
 $langMessageToSelectedUsers  = "Mesaje catre utilizatorii alesi";
-$langUsers  = "utilizatori";
 $langIntroText  = "Pentru a trimite un mesaj, alege grupuri de utilizatori (marcat cu G in fata) sau un singur utilizator din partea stanga a listei.";
 $langDown = "jos";
 $langMsgSent = "Mesajul a fost trimis catre studenti alesi";
@@ -49,4 +48,5 @@ $MsgText = "Mesaj";
 $AnnouncementDeletedAll = "Toate anunturile au fost sterse";
 $AnnouncementMoved = "Anunturile au fost mutate";
 $NoAnnouncements = "Nu este nici un anunt";
+$SelectEverybody = "Selecteaza tot";
 ?>

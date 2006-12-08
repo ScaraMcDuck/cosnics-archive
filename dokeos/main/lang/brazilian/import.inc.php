@@ -4,7 +4,6 @@ for more information: see languages.txt in the lang folder.
 $langPgTitle = "Título da página";
 $langExplanation = "A página precisa estar em formato HTML (ex. \"minha_pagina.html\"). Ela será referenciada pela Homepage. Se você precisa enviar documentos em outros formatos (PDF, Word, Power Point, Vídeo, etc.) use a <a href=../document/document.php>ferramenta Documentos</a>";
 $langTooBig = "Você não escolheu nenhum arquivo para enviar, ou ele é muito grande.";
-$langOkSent = "Sua página foi enviada.<p>Ela agora está relacionada na <a href=../../$dbname/index.php>Homepage</a>";
 $langCouldNot = "O arquivo não pode ser enviado.";
 $langExercices = "Exercícios";
 $langNotAllowed = "Não permitido";

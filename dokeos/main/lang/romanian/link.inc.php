@@ -1,7 +1,6 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langHelp = "Ajutor";
 $langLinks = "Linkuri";
 $langLinkName = "Numele linkului";
 $langLinkAdd = "Adauga un link";
@@ -12,7 +11,6 @@ $langLinkDel = "Sterge linkul";
 $langLinkDeleted = "linkul a fost sters.";
 $langLinkDelconfirm = "Doresti sa stergi acest link?";
 $langAllLinksDel = "Sterge toate linkurile din aceasta categorie";
-$langCategory = "Categorie";
 $langCategoryName = "Numele categoriei";
 $langCategoryAdd = "Adauga o categorie";
 $langCategoryAdded = "Categoria a fost adaugata";
@@ -27,6 +25,10 @@ $langGiveCategoryName = "Te rog indica numele categoriei";
 $langNoCategory = "Fara categorie";
 $showall = "Deschide toate categoriile";
 $shownone = "Inchide toate categoriile";
+$langListDeleted = "Lista a fost stearsa";
+$langAddLink = "Adauga o legatura";
+$langDelList = "Sterge lista";
+$langModifyLink = "Modifica Legatura";
 $langCsvImport = "Importa un fisier CSV";
 $langCsvFileNotFound = "Fiserul CSV important nu poate fi deschis (e.g. gool, prea mare)";
 $langCsvFileNoSeps = "Fiserul CSV importat trebuiesa foloseasca , sau ; ca separator de lista";
@@ -35,6 +37,7 @@ $langCsvFileLine1 = "... - linia1 =";
 $langCsvLinesFailed = "a esuat  importarea unui link (fara URL sau fara titlu).";
 $langCsvLinesOld = "legatura existenta actualizata ( acelasi URL si categorie)";
 $langCsvLinesNew = "link nou creat.";
+$langCsvExplain = "Fisierul trebuie sa arate asa: <blockquote><pre> <b>URL</b>;categorie;<b>titlu</b>;descriere; <b>http://www.aaa.org/...</b>;Legaturi importante;<b>Nume 1</b>;Descriere 1; <b>http://www.bbb.net/...</b>;;<b>Nume 2</b>;\"Descriere 2\"; </pre></blockquote>";
 $langLinkUpdated = "Linkul a fost actualizat";
 $langAll_Link_Deleted = "Linkul a fost sters";
 $langOnHomepage = "Arata linkul pe pagina principala";

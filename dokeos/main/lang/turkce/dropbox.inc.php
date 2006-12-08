@@ -29,7 +29,6 @@ $dropbox_lang["anonymous"]  = "bilinmiyor";
 $dropbox_lang["ok"]  = "TAMAM";
 $dropbox_lang["lastUpdated"]  = "Son güncelleme";
 $dropbox_lang["lastResent"]  = "Son gönderim";
-$dropbox_lang["tableEmpty"]  = "Liste bo&#351;.";
 $dropbox_lang["overwriteFile"]  = "Daha önce gönderilmi&#351; dosyan&#305; üzerine kaydet?";
 $dropbox_lang["orderBy"]  = "S&#305;ralama &#351;ekli";
 $dropbox_lang["lastDate"]  = "son gönderim tarihi";

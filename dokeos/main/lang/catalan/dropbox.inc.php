@@ -31,7 +31,6 @@ $dropbox_lang["anonymous"]  = "Desconegut";
 $dropbox_lang["ok"]  = "OK";
 $dropbox_lang["lastUpdated"]  = "Darrera actualització en";
 $dropbox_lang["lastResent"]  = "Darrer reenviament en";
-$dropbox_lang["tableEmpty"]  = "La llista és complerta";
 $dropbox_lang["overwriteFile"]  = "Sobreescriure els arxius previament enviats?";
 $dropbox_lang["orderBy"]  = "Ordenar per";
 $dropbox_lang["lastDate"]  = "Darrera data d\'enviament";

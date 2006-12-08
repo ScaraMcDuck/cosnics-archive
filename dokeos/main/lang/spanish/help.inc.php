@@ -88,7 +88,7 @@ $langHomeContent = "<p>La página principal del curso muestra una serie de herram
   <li>Muestre todas las herramientas haciendo clic en el enlace gris o el ojo cerrado situados en la zona inferior de la página . </li>
   <li>Utilice las herramientas que necesite para \'llenar\' su sitio con contenidos, eventos, directrices, ejercicios, etc</li> 
   <li>Oculte todas las herramientas : su página principal estará vacía en la \'Vista de estudiante\' </li>
-  <li>Use la herramienta \'Itinerarios formativos\' para estructurar el camino que los estudiantes seguirán para visitar las herramientas y aprender con ellas. De esta forma, usted utiliza el resto de las herramientas, pero no las muestra a primera vista. </li> 
+  <li>Use la herramienta \'Itinerarios de aprendizaje\' para estructurar el camino que los estudiantes seguirán para visitar las herramientas y aprender con ellas. De esta forma, usted utiliza el resto de las herramientas, pero no las muestra a primera vista. </li> 
   <li>Haga clic sobre el icono en forma de ojo para que el itinerario de aprendizaje que ha creado se muestre en la página principal del curso.</li> 
   <li>La preparación del sitio para su curso está completa. Su página principal muestra solamente un texto de introducción seguido de un enlace, el cual conduce a los estudiantes a través del curso. Haga clic en \'Vista de estudiante\' (arriba a la derecha) para previsualizar lo que los estudiantes verán.</li>
 </ol>";
@@ -132,7 +132,7 @@ Mac : use <a href=\"http://www.quicktime.com\">Quicktime</a><br>
 ";
 $langHClar = "Ayuda: Dokeos";
 $langClarContent = "<p><b>Profesorado</b></p><p>
-Dokeos es un Sistema de Gestión del Aprendizaje y del Conocimiento. Permite a los profesores organizar materiales de aprendizaje, itinerarios formativos y administrar la interacción con sus estudiantes. Todo mediante un simple navegador web.</p><p>
+Dokeos es un Sistema de Gestión del Aprendizaje y del Conocimiento. Permite a los profesores organizar materiales de aprendizaje, itinerarios de aprendizaje y administrar la interacción con sus estudiantes. Todo mediante un simple navegador web.</p><p>
 Para utilizar Dokeos como profesor, necesita un nombre de usuario y una contraseña. Dependiendo de la configuración del portal, Vd. puede registrarse por si mismo (menú de la derecha) o bien, lo hará de forma centralizada el administrador de la plataforma.</p><p> 
 En el caso de que esté habilitada la opción de que los propios usuarios puedan registrarse, tenga en cuenta que el nombre de usuario y la contraseña no podrán contener espacios o acentos y que no es lo mismo escribir en mayúscula o en minúscula. Escriba su nombre de usuario y contraseña, cree el curso (arriba a la derecha) o use un curso ya creado por el administrador de la plataforma.</p><p>
 Para añadir una persona que pueda administrar junto con Vd. el curso:
@@ -160,9 +160,9 @@ ficheros de su ordenador. </p>
 	    que se envíe al servidor.</p>
  <p>Los documentos se presentan en la pantalla por orden alfabético. Si desea que los documentos se ordenen de manera diferente,
  puede renombrarlos haciendo que vayan precedidos de un número (01, 02, 03, ...). También puede usar el Itinerario
-  formativo para presentar una sofisticada tabla de contenidos. Tenga en cuenta que cuando transfiere documentos al servidor, puede decidir
+  de aprendizaje para presentar una sofisticada tabla de contenidos. Tenga en cuenta que cuando transfiere documentos al servidor, puede decidir
    no mostrar la sección \'Documentos\' y sólo mostrar una página de inicio
-    (añadir un enlace a la página web principal de la actividad) y/o un Itinerario formativo que contenga sólo alguno de los
+    (añadir un enlace a la página web principal de la actividad) y/o un Itinerario de aprendizaje que contenga sólo alguno de los
 	 archivos de la sección Documentos.</p>
  <hr>	
 <h4>Transferencia de documentos</h4>
@@ -180,13 +180,13 @@ ficheros de su ordenador. </p>
  tendrán la extensión zip. Los contenidos SCORM son tutoriales especiales que han sido diseñados de acuerdo
   con una norma internacional: SCORM. Es un formato especial para que los contenidos educativos puedan ejecutarse e intercambiarse
    libremente entre distintos Sistemas de Gestión del Conocimiento (LMS= Learning Management Systems). En otras palabras, los
-    materiales SCORM son independientes de la plataforma, siendo su importación y exportación muy simple. La gestión de estos archivos se realiza a través de la herramienta Itinerarios formativos. </p>
+    materiales SCORM son independientes de la plataforma, siendo su importación y exportación muy simple. La gestión de estos archivos se realiza a través de la herramienta Itinerarios de aprendizaje. </p>
  <p>&#149;  Tenga en cuenta que el administrador de la plataforma ha definido un tamaño máximo para cualquier archivo que transfiera. Si desea enviar archivos mayores (por ej., vídeos...) póngase en contacto con él.</p>
   
  <p>&#149;  <b>Observaciones especiales para el envío de páginas web</b>.</p>
 <p>El envío de páginas web simples no plantea ningún problema, aunque si su complejidad es mayor puede ser que
  no tengan el funcionamiento esperado. En estos casos se recomienda empaquetar sus páginas web como archivos
-  SCORM comprimidos y usar la herramienta Itinerarios formativos (ver más arriba).
+  SCORM comprimidos y usar la herramienta Itinerarios de aprendizaje (ver más arriba).
 <hr>
 <h4>Gestión de directorios y archivos </h4>
 <h3>&#149;  Crear una carpeta.</h3>
@@ -258,9 +258,9 @@ de la columna \'Modificar\', y se presentará un editor web además de las posibil
     es posible cortar y pegar. Se trata de un editor elemental, pero que no precisa de ningún otro programa adicional a su navegador.</p>
 	
 <hr>
-<h4>Crear un Itinerario formativo </h4>
+<h4>Crear un Itinerario de aprendizaje</h4>
 <p>Esta utilidad le permite construir itinerarios de aprendizaje con el contenido de las actividades. El resultado formará una
- tabla de materias, pero con más posibilidades. Para más información, ir al módulo Itinerarios formativos y ver su ayuda contextual. </p>
+ tabla de materias, pero con más posibilidades. Para más información, ir al módulo Itinerarios de aprendizaje y ver su ayuda contextual. </p>
 
 ";
 $langHUser = "Ayuda: Usuarios";
@@ -427,37 +427,37 @@ Las preguntas huérfanas son preguntas que no pertenecen a ningún ejercicio.</p>
 <b>Direcciones útiles</b><br> 
 <ul> <li>Página principal de Hot Potatoes: <a href=\"http://web.uvic.ca/hrd/halfbaked/\">http://web.uvic.ca/hrd/halfbaked/</a></li> 
   </li> </ul>";
-$langHPath = "Ayuda: Itinerarios formativos";
-$langPathContent = "La herramienta de \'Itinerarios formativos\' tiene dos funciones:
+$langHPath = "Ayuda: Itinerarios de aprendizaje";
+$langPathContent = "La herramienta \'Itinerarios de aprendizaje\' tiene dos funciones:
 
-<ul><li>Crear un itinerario formativo con recursos del propio curso</li>
+<ul><li>Crear un itinerario de aprendizaje con recursos del propio curso</li>
 <li>Importar un contenido externo con formato SCORM o IMS</li>
 </ul>
 <img src=\"../img/path_help.gif\">
 <p><b>
-¿Qué es un itinerario de formativo?</b>
+¿Qué es un itinerario de aprendizaje?</b>
 </p>
-<p>Un itinerario formativo es una secuencia de etapas de aprendizaje que se estructuran en módulos.
+<p>Un itinerario de aprendizaje es una secuencia de etapas de aprendizaje que se estructuran en módulos.
 La secuencia se puede organizar en función de conceptos, resultando un \'Indice o tabla de materias\', o bien estar basada en actividades, en cuyo caso resultará  una \'Agenda de actividades\'. De ambas formas se pueden adquirir conceptos y habilidades. Los sucesivos módulos del itinerario se podrán llamar \'capítulos\', \'semanas\', \'módulos\', \'secuencias\', \'pasos\', o de cualquier otra forma que responda a la naturaleza de su escenario pedagógico.</p>
-<p>Además de la estructura modular, un Itinerario formativo puede estar secuenciado. Esto significa que determinados conceptos o actividades constituyen prerrequisitos para otros (\'No se puede pasar a la segunda etapa antes de haber acabado la primera\'), esta es secuencia no es una sugerencia sino que obliga a la persona que realiza la actividad a seguir las etapas en un orden determinado</p>
-<p><b>¿Cómo crear su  propio itinerario formativo?</b></p>
-<p>En la sección \'Itinerarios formativos\' puede crear tantos como considere necesarios. Para crear uno debe seguir los siguientes pasos:</p>
+<p>Además de la estructura modular, un Itinerario de aprendizaje puede estar secuenciado. Esto significa que determinados conceptos o actividades constituyen prerrequisitos para otros (\'No se puede pasar a la segunda etapa antes de haber acabado la primera\'), esta es secuencia no es una sugerencia sino que obliga a la persona que realiza la actividad a seguir las etapas en un orden determinado</p>
+<p><b>¿Cómo crear su  propio itinerario de aprendizaje?</b></p>
+<p>En la sección \'Itinerarios de aprendizaje\' puede crear tantos como considere necesarios. Para crear uno debe seguir los siguientes pasos:</p>
 <ol>
-  <li>Haga clic sobre \'Crear un Itinerario formativo\'.
+  <li>Haga clic sobre \'Crear un Itinerario de aprendizaje\'.
 Déle un título y opcionalmente una descripción.
   <li>Pulse sobre nombre del itinerario que ha creado y añádale el módulo que contendrá las distintas etapas. Déle un título y opcionalmente una descripción. 
   <li>Pulse sobre el signo más situado dentro del cuadrado en la columna \'Añadir paso\', para incorporar los recursos que constituirán los pasos dentro de este módulo. Estos recursos, podrán ser internos: material con que cuenta el sitio web de la actividad (documentos, actividades, foros trabajos, etc.), o externos (una dirección de Internet).          
-  <li> Cuando acabe, haga clic en \'Ok\' para volver al constructor de itinerarios formativos, allí podrá completar si lo desea otros módulos y ver el resultado haciendo clic en \'Vista de usuario\'.
+  <li> Cuando acabe, haga clic en \'Ok\' para volver al constructor de itinerarios de aprendizaje, allí podrá completar si lo desea otros módulos y ver el resultado haciendo clic en \'Vista de usuario\'.
 </ol>
-<p>Después parametrice más su Itinerario formativo: </p>
+<p>Después parametrice más su Itinerario de aprendizaje: </p>
 <ul>
   <li>Si es necesario, renombre cada uno de los recursos añadidos e incorpórele una descripción, con el fin de constituir un auténtico \'Indice de contenidos\'. El título del documento original no cambiará realmente, aunque será presentado con el nuevo. Por ej., se puede renombrar el documento \'examen1.doc\' con el nombre \'Examen de la Primera Evaluación.\'
   <li>Cambie el orden de presentación de los módulos y de los recursos en función del escenario pedagógico de la actividad, mediante los iconos en forma de triángulo normal e invertido.
   <li>Establezca prerrequisitos: con la ayuda del icono de la columna \'Añadir prerrequisitos\', defina los módulos o recursos que deben consultarse previamente (cada módulo o recurso mostrará los que le antecedan en la secuencia para seleccionarlos o no, como pasos previos obligatorios). Por ej., las personas que realizan la actividad no pueden realizar el test 2 hasta que no hayan leído el Documento 1. Todas los pasos (items), sean módulos o recursos, tienen un estatus: completo o incompleto, de forma que la progresión de los usuarios es fácilmente apreciable.</li>
                 <li>Cuando termine, no olvide comprobar todos los pasos en la \'Vista de estudiante\', donde aparece la tabla de contenidos a la izquierda y los pasos del itinerario a la derecha.</li>
-                <li>Si hace visible un Itinerario formativo, aparecerá como una nueva herramienta en la página inicial del curso.</li>
+                <li>Si hace visible un Itinerario de aprendizaje, aparecerá como una nueva herramienta en la página inicial del curso.</li>
 </ul>
-<p>Es importante comprender que un Itinerario formativo es algo más que el desarrollo de una materia: es una secuencia a través del conocimiento que potencialmente incluye pruebas, tiempos de discusión, evaluación, experimentación, publicación, ... Es por ello, por lo que la herramienta de Itinerarios formativos constituye una especie de metaherramienta que permite utilizar el resto de las herramientas para secuenciarlas: </p>
+<p>Es importante comprender que un Itinerario de aprendizaje es algo más que el desarrollo de una materia: es una secuencia a través del conocimiento que potencialmente incluye pruebas, tiempos de discusión, evaluación, experimentación, publicación, ... Es por ello, por lo que la herramienta de Itinerarios de aprendizaje constituye una especie de metaherramienta que permite utilizar el resto de las herramientas para secuenciarlas: </p>
 <ul>
   <li>Eventos de la agenda
   <li>Documentos de toda naturaleza (html, imágenes, Word, PowerPoint,...).
@@ -477,7 +477,7 @@ Déle un título y opcionalmente una descripción.
 ¿ Qué es un itinerario de aprendizaje SCORM o IMS y cómo se importa ?
 </b>
 </p>
-<p>La herramienta Itinerarios formativos también permite importar contenidos
+<p>La herramienta Itinerarios de aprendizaje también permite importar contenidos
 de cursos en formato SCORM e IMS.</p>
 <p>SCORM  (<i>Sharable Content Object Reference Model</i>)   es un estándar público
 que siguen los principales creadores de contenidos de e-Learning: NETg, Macromedia,
@@ -492,7 +492,7 @@ o <i>secuenciación</i> (<i>p.ej. </i>\'No puedes ir al capítulo
 2 antes de pasar el test 1\'),</li>
 <li><b>Tecnológico</b> : SCORM genera una tabla de materias independiente tanto del contenido como del LMS. Esto permite comunicar contenidos y LMS para salvaguardar entre otros: la <em>progresión </em> del aprendizaje (\'¿ A qué capítulo del curso ha llegado María ?\'), la <em>puntuación</em> (\'¿ Cuál es el resultado de Juan en el Test 1 ?\') y el <em>tiempo </em> (\'¿Cuánto tiempo ha pasado Juan en el Capítulo 4 ?\').</li>
 </ul>
-<p><strong>¿ </strong><b>Cómo puedo crear un itinerario formativo compatible con SCORM ?</b><br>
+<p><strong>¿ </strong><b>Cómo puedo crear un itinerario de aprendizaje compatible con SCORM ?</b><br>
   <br>
   La forma más natural es utilizar el constructor de itinerarios de Dokeos.
 Ahora bien, si quiere crear webs totalmente compatibles con SCORM en su propio
@@ -516,8 +516,8 @@ href=\"http://www.trivantis.com/\">http://www.trivantis.com</a><br>
 <p><b>
 Nota :</b></p>
 <p>
-La sección Itinerarios formativos muestra, por un lado todos los <i>itinerarios creados en Dokeos</i>
-y por otro, todos los <i>Itinerarios formativos en formato SCORM</i> que hayan sido importados.
+La sección Itinerarios de aprendizaje muestra, por un lado todos los <i>itinerarios creados en Dokeos</i>
+y por otro, todos los <i>Itinerarios de aprendizaje en formato SCORM</i> que hayan sido importados.
 Es más que recomendable que coloque cada itinerario en una carpeta distinta.
 </p>
 ";
@@ -595,9 +595,9 @@ Además, el sistema informará a los usuarios de todas las novedades que se hayan 
 <p>
 Si quiere ir más lejos en la lógica de la estructura de las actividades de aprendizaje, le 
 
-sugerimos que utilice la herramienta \'Itinerarios formativos\' que ofrece los mismos principios 
+sugerimos que utilice la herramienta \'Itinerarios de aprendizaje\' que ofrece los mismos principios 
 
-pero con características más avanzadas. Un itinerario formativo se puede considerar como una 
+pero con características más avanzadas. Un itinerario de aprendizaje se puede considerar como una 
 
 síntesis entre una tabla de contenidos, una agenda, una secuenciación (orden impuesto) y un
 seguimiento.
@@ -669,10 +669,4 @@ $langGroupsContent = "<p>Esta herramienta le permite crear áreas para grupos de 
   como alumnos y asignándoles un área de documentos privada a cada
   grupo.) </p>";
 $langGuide = "Manual";
-$langHCourseRolesRights = "Ayuda sobre Roles y permisos";
-$langCourseRolesRightsContent = "<p>En la página Descripción de roles y permisos de su curso puede definir exactamente <em>quién tiene permiso para realizar determinadas acciones en cada lugar</em>.</p><p>El concepto básico es que para cada herramienta del curso, Vd. pueda especificar quién puede ver el contenido de esa herramienta, añadir nuevos elementos y carpetas, editar una información, o borrar contenidos. Sin embargo, no es necesario que haga esto para cada uno de los usuarios. Los usuarios tienen roles dentro de su curso, como el de visitante invitado, miembro ordinario del curso, profesor ayudante y administrador del curso. En cada uno de estos roles se pueden especificar los permisos de cada herramienta. Vd. puede decidir que todos los usuarios tengan acceso al foro, pero que los invitados no puedan escribir en él - sólo los usuarios registrados. Vd. puede decidir que el profesor ayudante pueda añadir documentos a su curso, pero no borrarlos, etc.</p> <p>En la herramienta Usuarios de su curso, puede ver los roles de los usuarios y modificarlos (usando el botón modificar de la lista de usuarios).</p><h3>Descripción de todos los roles del sitio</h3><p>En Dokeos hay cinco roles. Son los roles que se pueden asignar a cada usuario en un curso. <ul> <li><b>Visitante anónimo del curso</b>: éste papel corresponde a cualquier persona situada en cualquier parte del mundo, cualquiera que cuente con un navegador e intente visitar su curso. Por defecto, estos usuarios no tienen derechos y no pueden visualizar el curso.
-</li> <li><b>Visitante registrado del curso</b>:  éste papel corresponde a quienes están registrados en la plataforma Dokeos, y visitan su curso sin haberse inscrito en él..</li> <li><b>Miembro normal del curso</b>:  éste es el rol que tienen por defecto los usuarios que están inscritos en su curso. Lo habitual es que la mayoría de los usuarios tengan este rol y los administradores del curso asignen el rol de profesor ayudante a alguno de estos usuarios para que les ayuden en el desarrollo del curso..</li> <li><b>Profesor ayudante</b>: éste papel de ayudante tiene muchos permisos. En la mayoría de las herramientas, el ayudante puede ver, añadir y modificar el contenido, pero no borrarlo. El profesor ayudante tampoco puede editar la configuración del curso o los derechos por defecto del curso..</li> <li><b>Administrador del curso</b>: el administrador del curso tiene todos los derechos en el curso y puede realizar todas las posibilidades que éste le ofrece. El creador de un curso tiene automáticamente este papel por defecto..</li> </ul></p><h3>Descripción de todos los permisos</h3><p>En Dokeos hay cuatro permisos básicos:<ul> <li><b>Ver</b>: el permiso de ver una herramienta y sus contenidos</li> <li><b>Añadir</b>: el permiso de añadir nuevos contenidos a una herramienta, por ej., añadir enlaces, categorías, documentos, directorios, publicaciones de los estudiantes, mensajes en los foros…</li> <li><b>
-Editar</b>: el permiso de editar un contenido en una herramienta, por ej., modificar una url de un enlace, el nombre de un directorio, el título y las palabras clave de un documento…</li> <li><b>
-Borrar</b>: el permiso de borrar un contenido en una herramienta, por ej., borrar enlaces, publicaciones de los estudiantes, mensajes de los foros, documentos...</li> </ul> </p> <h3>Descripción de sitios</h3><p>Cada curso y cada herramienta para cada curso tienen una localización independiente en Dokeos. Algunos ejemplos de localizaciones son:<ul><li>El curso CURSO_PRUEBA</li> <li>La herramienta documentos del curso CURSO_PRUEBA</li> <li>La herramienta agenda del curso Psicología101</li> </ul></p> <h3>Configuración de los permisos</h3> <p>Un administrador de un curso, puede especificar quien puede hacer qué en cada lugar. En cada combinación de un rol y una localización, los cuatro permisos pueden ser fijados. Puede fijar los derechos para el profesor ayudante en la herramienta documentos, los derechos de adición para los usuarios normales del curso en la herramienta enlaces, etc.</p>
-";
 ?>

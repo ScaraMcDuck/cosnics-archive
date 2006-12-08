@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "ju&#380; zapisany";
-$lang_main_categories_list                  = "Lista Wydzia³ów/kategorii";
 $lang_my_personnal_course_list              = "Lista moich kursów";
 $lang_course_enrollment                     = "Kursy u&#380;ykownika";
 $lang_course_not_available                  = "Kurs niedost&#281;pny...";

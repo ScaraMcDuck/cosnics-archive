@@ -1,7 +1,6 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langHelp = "Súgó";
 $langLinks = "Hivatkozások";
 $langLinkName = "Hivatkozás neve";
 $langLinkAdd = "Hivatkozás hozzáadása";
@@ -12,7 +11,6 @@ $langLinkDel = "Hivatkozás törlése";
 $langLinkDeleted = "A hivatkozás törölve lett";
 $langLinkDelconfirm = "El akarja távolítani ezt a hivatkozást ?";
 $langAllLinksDel = "Az összes hivatkozás törlése ebben a kategóriában ";
-$langCategory = "Kategória";
 $langCategoryName = "Kategória neve";
 $langCategoryAdd = "Kategória hozzáadása";
 $langCategoryAdded = "A kategória hozzá lett adva";
@@ -22,7 +20,6 @@ $langCategoryDel = "Kategória törlése";
 $langCategoryDeleted = "A kategória törölve lett";
 $langCategoryDelconfirm = "Kategória törlése esetén annak összes hivatkozása törlõdik.\\nValóban ki akarja törölni ezt a kategóriát és a hivatkozásait ?";
 $langAllCategoryDel = "Összes kategória és hivatkozás törlése";
-$langAllCategoryDeleted = "Az összes kategória és link törlölve lett";
 $langGiveURL = "Kérjük, adja meg a hivatkozás URL-jét";
 $langGiveCategoryName = "Kérjük, adja meg a kategória nevét";
 $langNoCategory = "Nincs kategória";

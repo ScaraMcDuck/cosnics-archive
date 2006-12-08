@@ -1,6 +1,7 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
+$Tools  = "Araçlar";
 $langDownloadFile = "Belge yükle";
 $langTooBig = "Bir dosya seçmediniz veya çok büyük.";
 $langListDeleted = "Tüm liste silindi.";

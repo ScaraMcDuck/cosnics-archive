@@ -1,7 +1,7 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langModifInfo = "Modyfikuj informacje o kursie";
+$ModifInfo = "Modyfikuj informacje o kursie";
 $langModifDone = "Informacje zosta&#322;y zmodyfikowane";
 $langHome = "Powrót do strony domowej";
 $langCode = "Kod kursu";
@@ -17,9 +17,10 @@ $langForbidden = "Niedostêpny";
 $langLanguage = "J&#281;zyk";
 $langConfTip = "Domy&#347;lnie kurs powinien by&#263; dost&#281;pny tylko dla zarejestrowanych u&#380;ytkowników. &#379;eby upro&#347;ci&#263; rejestracj&#281; nowych u&#380;ytkowników, mo&#380;esz otworzy&#380; kurs tak, &#380;eby studenci rejestrowali si&#281; sami, a nast&#281;pnie zamkn&#261;&#263; kurs, &#380;eby unikn&#261;&#263; wpisywania si&#281; intruzów na list&#281; studentów.";
 $langOpenToTheWorld = "Dost&#281;p dla ootwarty dla ca&#322;ego &#347;wiata";
+$OpenToThePlatform = "Otwarty - dost&#281;pny dla zarejestrowanych u&#380;ytkowników platformy";
 $langOpenToThePlatform = "Dost&#281;p otwarty dla u&#380;ytkowników zarejestrowanych w platformie";
 $langTipLang  = "Ten j&#281;zyk b&#281;dzie obowi&#261;zywa&#322; wszystkich u&#380;ytkowników tego kursu.";
-$langAgenda = "Agenda(Terminarz)";
+$Agenda = "Agenda(Terminarz)";
 $langLink = "Odno&#347;niki";
 $langDocument = "Dokumenty";
 $langVid = "Wideo";
@@ -45,7 +46,6 @@ $langProfessor = "Nauczyciel (Prowadz&#261;cy)";
 $langGroups  = "Grupy";
 $langChat  = "Chat";
 $langDescriptionCours   = "Opis kursu";
-$langArchive = "Archiwum";
 $langArchiveCourse  = "Archiwizowanie kursu ";
 $langRestoreCourse  = "Przywracanie kursu";
 $langRestore = "Przywró&#263;";

@@ -2,7 +2,7 @@
 for more information: see languages.txt in the lang folder. 
 */
 $UsersOnline = "Потребители online";
-$langDescription = "Описание";
+$Description = "Описание";
 $langComment = "Коментари";
 $langVisible = "Видим/Невидим";
 $langGroup = "Група";
@@ -10,6 +10,7 @@ $langEdit = "Редактирай";
 $langUp = "Нагоре";
 $Down = "надолу";
 $Up = "нагоре";
+$TheListIsEmpty = "Списъкът е празен.";
 $langCourseCreate = "Създай сайт на курса";
 $langTodo = "Предложения";
 $iso639_2_code = "bg";

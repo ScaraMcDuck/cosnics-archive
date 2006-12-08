@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "đã tham gia rồi";
-$lang_main_categories_list                  = "Danh mục chính";
 $lang_my_personnal_course_list              = "Danh mục khoá học cá nhân";
 $lang_course_enrollment                     = "Các khoá học";
 $lang_course_not_available                  = "không có khoá này...";

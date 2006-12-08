@@ -1,7 +1,7 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langModifInfo = "Ændre kursusinformation";
+$ModifInfo = "Ændre kursusinformation";
 $langModifDone = "Informationen er blevet ændret";
 $langHome = "Tilbage til kursushjemmesiden";
 $langCode = "Kursuskode";
@@ -23,7 +23,7 @@ $langOpenToTheWorld = "Åben - adgang for hele verden";
 $OpenToThePlatform = "Åben - adgang tilladt for registrerede brugere af platformen";
 $langOpenToThePlatform = "Åben - adgang tilladt for brugere registreret på platformen";
 $langTipLang  = "Kursushjemmesidens sprog";
-$langAgenda = "Kalenderen";
+$Agenda = "Kalenderen";
 $langLink = "Links";
 $langDocument = "Dokumenter";
 $langVid = "Multimedia";
@@ -49,7 +49,6 @@ $langProfessor = "Underviser";
 $langGroups  = "Grupper";
 $langChat  = "Chat";
 $langDescriptionCours   = "kursusbeskrivelse";
-$langArchive = "Arkiv";
 $langArchiveCourse  = "Sikkerhedskopi af kurset";
 $langRestoreCourse  = "Geopret et kursus";
 $langRestore = "Genopret";

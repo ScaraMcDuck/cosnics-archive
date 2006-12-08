@@ -1,7 +1,7 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langModifInfo = "Configuración del curso";
+$ModifInfo = "Configuración del curso";
 $langModifDone = "Las características han sido modificadas";
 $langHome = "Volver a la página principal";
 $langCode = "Código del curso";
@@ -21,7 +21,7 @@ $langOpenToTheWorld = "Público - acceso permitido a todo el mundo";
 $OpenToThePlatform = "Público - acceso permitido sólo a los usuarios registrados en la plataforma";
 $langOpenToThePlatform = "Público - acceso permitido sólo a los usuarios registrados en la plataforma";
 $langTipLang  = "Este será el idioma que verán todos los visitantes del curso.";
-$langAgenda = "Agenda";
+$Agenda = "Agenda";
 $langLink = "Enlaces";
 $langDocument = "Documentos";
 $langVid = "Video";
@@ -47,7 +47,6 @@ $langProfessor = "Profesor";
 $langGroups  = "Grupos";
 $langChat  = "Debate";
 $langDescriptionCours   = "Descripción del curso";
-$langArchive = "Archivo";
 $langArchiveCourse  = "Copia de seguridad del curso";
 $langRestoreCourse  = "Restaurar un curso";
 $langRestore = "Restaurar";
@@ -90,6 +89,22 @@ $langNotAllowedToUnsubscribe = "Los usuarios no pueden anular su inscripción en 
 $langDescription = "Descripción";
 $langCourseVisibilityClosed = "Cerrado. Este curso sólo es accesible al administrador del curso";
 $CourseVisibilityClosed = "Cerrado - no hay acceso a este curso";
-$NotAllowedToModifyOwnRole = "No está permitido que modifique su propio rol.";
 $CourseVisibilityModified = "Modificado (ajustes más detallados especificados a través de roles-permisos del sistema)";
+$WorkEmailAlert = "Avisar por correo electrónico cuando se envía un trabajo";
+$WorkEmailAlertActivate = "Activar el aviso por correo electrónico del envío de un nuevo trabajo";
+$WorkEmailAlertDeactivate = "Desactivar el aviso por correo electrónico del envío de un nuevo trabajo";
+$DropboxEmailAlert = "Avisar por correo electrónico cuando hay un envío en el baúl de tareas";
+$DropboxEmailAlertActivate = "Activar el aviso por correo electrónico de un nuevo envío al baúl de tareas";
+$DropboxEmailAlertDeactivat = "Desactivar el aviso por correo electrónico de un nuevo envío al baúl de tareas";
+$AllowUserEditAgenda = "Permitir a los usuarios editar la agenda del curso";
+$AllowUserEditAgendaActivate = "Activar la edición por los usuarios de la agenda del curso";
+$AllowUserEditAgendaDeactivate = "Desactivar la edición por los usuarios de la agenda del curso";
+$AllowUserEditAnnouncement = "Permitir a los usuarios editar los anuncios del curso";
+$AllowUserEditAnnouncementActivate = "Permitir la edición por los usuarios";
+$AllowUserEditAnnouncementDeactivate = "Desactivar la edición por los usuarios";
+$OrInTime = "o dentro";
+$CourseRegistrationPassword = "Contraseña de registro en el curso";
+$langDescriptionDeleteCourse = "Haga clic en este enlace para eliminar cualquier rastro del curso en el servidor...<br><br>¡ Esta funcionalidad debe ser usada con extrema precaución !";
+$langDescriptionCopyCourse = "Dokeos introduce la posibilidad de copiar, en parte o completamente, un curso en otro que inicialmente debe estar vacío.<br><br>¡ La única condición es tener un curso que contenga algunos documentos, anuncios, foros... y un segundo curso que no contenga los elementos del primero !";
+$DescriptionRecycleCourse = "Esta herramienta vacía el curso de los elementos seleccionados, o todo el conjunto de los elementos que contiene. Quita los documentos, los foros, enlaces… Este procedimiento se realizarse al final de una formación, o de un año académico. ¡ Por supuesto, antes de “reciclar”, tendrá la precaución de realizar una copia de seguridad completa de su curso!";
 ?>

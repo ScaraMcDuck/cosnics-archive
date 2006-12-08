@@ -2,10 +2,9 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "már bejelentkezett";
-$lang_main_categories_list                  = "Fõ kategória lista";
 $lang_my_personnal_course_list              = "Személyes kurzuslista";
 $lang_course_enrollment                     = "Felhasználó kurzusai";
-$lang_course_not_available                  = "Ez a kurzus nem elérhetõ vagy nem létezik.";
+$lang_course_not_available                  = "Ez a kurzus nem elérhet&#337; vagy nem létezik.";
 $lang_enroll                                = "Feliratkozás";
 $lang_enroll_to_a_new_course                = "Feliratkozás egy új kurzusra";
 $lang_my_present_course_list                = "Jelenlegi kurzusaim listája";
@@ -16,20 +15,20 @@ $lang_select_course_among_categories        = "Kurzus keresése a kategóriák közö
 $lang_select_course_in                      = "Kurzus kiválasztása itt : ";
 $lang_select_course_in_search_results       = "Kurzus kiválasztása a keresési eredményekben";
 $lang_unsubscribe                           = "Leiratkozás";
-$lang_back_to_my_home_page                  = "Vissza a fõoldalra";
+$lang_back_to_my_home_page                  = "Vissza a f&#337;oldalra";
 $lang_back_to_my_personnal_course_list      = "Vissza a személyes kurzuslistához";
 $langTitular  = "Vezetõ";
 $langBackToListOfThisUser  = "Vissza a kurzuslistához";
 $langAdministrationTools  = "Adminisztratív Eszközök";
-$lang_back_to_parent_category               = "Vissza a szülõ kategóriához";
+$lang_back_to_parent_category               = "Vissza a szül&#337; kategóriához";
 $lang_back_to_course_selection              = "Vissza a kurzusválasztáshoz";
-$lang_up  = "Vissza a szülõ kategóriához";
+$lang_up  = "Vissza a szül&#337; kategóriához";
 $langCatList  = "Kategóriák";
 $langCourseList  = "Kurzusok";
 $Subscribe = "Feliratkozás";
 $AlreadySubscribed = "Már feliratkozott!";
 $CourseCategoryStored = "Kurzus kategória létrehozva.";
-$lang_back_to_main_category_list = "Vissza a fõ kategórialistához";
+$lang_back_to_main_category_list = "Vissza a f&#337; kategórialistához";
 $langAdded = "Hozzáadva";
 $langDeleted = "Törölve";
 $langKeeped = "Megtartva";
@@ -63,4 +62,6 @@ $SubscribingNotAllowed = "A feliratkozás nem engedélyezett";
 $CourseSortingDone = "Kurzusok sorbarendezve";
 $ExistingCourseCategories = "A jelenlegi kurzus kategóriák";
 $YouAreNowUnsubscribed = "Ön sikeresen leiratkozott a kurzusról";
+$AddRight = "Hozzáad";
+$ViewOpenCourses = "Nyitott kurzusok megtekintése";
 ?>

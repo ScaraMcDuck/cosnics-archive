@@ -51,4 +51,5 @@ $ReadThoroughly = "Lasiet uzman&#299;gi";
 $DokeosNeedFollowingOnServer = "Lai DOKEOS darbotos, uz J&#363;su servera j&#257;b&#363;t sekojošajam";
 $WarningExistingDokeosInstallationDetected = "Uzman&#299;bu!<br>Instal&#275;t&#257;js atrada eksist&#275;jošu DOKEOS platformu J&#363;su server&#299;.";
 $NewInstallation = "Jauna instal&#257;cija";
+$CheckDatabaseConnection = "P&#257;rbaud&#299;t datub&#257;zes savienojuma esam&#299;bu";
 ?>

@@ -9,6 +9,7 @@ $langDelLk = "Haluatko varmasti poistaa t‰m‰n linkin?";
 $langEnter  = "Sis‰‰n";
 $langCourseCreate  = "Luo kurssille nettisivu";
 $langNameOfTheLink  = "Linkin nimi";
+$lang_main_categories_list                  = "Aihealueet";
 $langHelp = "Apua";
 $langCourseAdminOnly = "Ainoastaan opettajille";
 $PlatformAdminOnly = "Ainoastaan yll‰pit‰jille";

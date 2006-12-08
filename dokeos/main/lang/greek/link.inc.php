@@ -1,7 +1,6 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langHelp = "Βοήθεια";
 $langLinks = "Σύνδεσμοι";
 $langLinkName = "Όνομα συνδέσμου";
 $langLinkAdd = "Προσθήκη συνδέσμου ";
@@ -12,7 +11,6 @@ $langLinkDel = "Διαγραφή συνδέσμου";
 $langLinkDeleted = "Ο σύνδεσμος διαγράφτηκε";
 $langLinkDelconfirm = "Θέλετε να διαγράψετε το σύνδεσμο;";
 $langAllLinksDel = "Διαγραφή όλων συνδέσμων αυτής της κατηγορίας";
-$langCategory = "Κατηγορία";
 $langCategoryName = "Όνομα κατηγορίας";
 $langCategoryAdd = "Προσθήκη κατηγορίας";
 $langCategoryAdded = "Η κατηγορία προστέθηκε";
@@ -22,7 +20,6 @@ $langCategoryDel = "Διαγραφή κατηγορίας";
 $langCategoryDeleted = "Η κατηγορία και όλοι οι σύνδεσμοι της διαγράφτηκαν";
 $langCategoryDelconfirm = "Θέλετε να διαγράψετε τη κατηγορία; Θα διαγράψετε και όλους τους συνδέσμους της";
 $langAllCategoryDel = "Διαγραφή όλων των καταλόγων και όλων των συνδέσμων";
-$langAllCategoryDeleted = "Όλες οι κατηγορίες και όλοι οι σύνδεσμοι έχουν διαγραφεί";
 $langGiveURL = "Δώστε το URL του συνδέσμου";
 $langGiveCategoryName = "Δώστε το όνομα της κατηγορίας";
 $langNoCategory = "Καμιά κατηγορία";

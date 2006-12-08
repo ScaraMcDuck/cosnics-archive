@@ -28,7 +28,6 @@ $dropbox_lang["anonymous"]  = "tuntematon";
 $dropbox_lang["ok"]  = "OK";
 $dropbox_lang["lastUpdated"]  = "Viimeksi päivitetty";
 $dropbox_lang["lastResent"]  = "Viimeisin";
-$dropbox_lang["tableEmpty"]  = "Lista on tyhjä";
 $dropbox_lang["overwriteFile"]  = "Korvaa aiemmin lähetetty tiedosto?";
 $dropbox_lang["orderBy"]  = "Järjestä";
 $dropbox_lang["lastDate"]  = "uusin";

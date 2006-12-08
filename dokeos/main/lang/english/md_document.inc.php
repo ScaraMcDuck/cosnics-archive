@@ -39,7 +39,6 @@ $langRights = "Usage Rights";
 $langRightsTip = "describe in words";
 $langVersion = "Version";
 $langVersionTip = "number or description";
-$langStatus = "Status";
 $langStatusTip = "select from list";
 $langCreatedSize = "Created, size";
 $langCreatedSizeTip = "YYYY-MM-DD when created, size in octets (bytes)";
@@ -55,7 +54,6 @@ $langConfirmDelete = "Do you *really* want to delete all metadata?";
 $langCourseKwds = "This document contains the course keywords";
 $langSearch = "Search";
 $langSearchCrit = "One word per line!";
-$langLangs = ":";
 $langDescription = "Description";
 $langTitle = "Title";
 $langStatuses = ":draft:draft,, 
@@ -79,7 +77,6 @@ application/vnd.ms-powerpoint:MsPowerpoint,,
 application/xml;iso-8859-1:XML;iso-8859-1,, 
 application/xml;utf-8:XML;utf-8,, 
 application/zip:ZIP";
-$langExtensions = ":";
 $langLngResTypes = ":exercise:exercise,, 
      simulation:simulation,, 
      questionnaire:questionnaire,, 

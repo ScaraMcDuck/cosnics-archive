@@ -2,7 +2,7 @@
 for more information: see languages.txt in the lang folder. 
 */
 $ResourceAdded = "Er&#337;forrás hozzáadva. Most visszatérhet az ösvényhez vagy újabb er&#337;forrásokat adhat hozzá a meglév&#337;khöz.";
-$LearningPath = "Tanösvény";
+$LearningPath = "Tanulási program";
 $LevelUp = "egy szintet fel";
 $AddIt = "Hozzáad";
 $MainCategory = "fõ kategória";

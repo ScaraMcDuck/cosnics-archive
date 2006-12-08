@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $langGroupManagement = "การบริหารจัดการหมู่เรียน";
-$langHelp = "คำแนะนำ";
 $langNewGroupCreate = "สร้างหมู่เรียนใหม่";
 $langGroupCreation = "เปิดหมู่เรียนใหม่";
 $langCreate = "สร้าง";
@@ -90,4 +89,8 @@ $CategoryOrderChanged = "เปลี่ยนประเภทให้แล้ว";
 $Tools = "เครื่องมือ";
 $Wiki = "กลุ่ม wiki";
 $CategoryCreated = "สร้างประเภทวิชา";
+$GroupTutors = "ผู้ช่วยสอน";
+$GroupWork = "งาน";
+$GroupCalendar = "กำหนดการ";
+$GroupAnnouncements = "ประกาศ";
 ?>

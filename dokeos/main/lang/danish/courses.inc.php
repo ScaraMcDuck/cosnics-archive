@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "allerede tilmeldt";
-$lang_main_categories_list                  = "Hovedkategoriliste";
 $lang_my_personnal_course_list              = "Min personlige kursusliste";
 $lang_course_enrollment                     = "Tilmeldte kurser";
 $lang_course_not_available                  = "Kurset er ikke tilgængeligt...";

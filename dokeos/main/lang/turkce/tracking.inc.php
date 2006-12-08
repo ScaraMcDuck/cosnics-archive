@@ -3,7 +3,7 @@ for more information: see languages.txt in the lang folder.
 */
 $langShowAll = "Hepsini Göster";
 $langToolName = "&#304;zleme Arac&#305;";
-$langTrackingDisabled = "&#304;zleme arac&#305; sistem yöneticisi taraf&#305;ndan devre d&#305;&#351;&#305; b&#305;rak&#305;lm&#305;&#351;t&#305;r.";
+$TrackingDisabled = "&#304;zleme arac&#305; sistem yöneticisi taraf&#305;ndan devre d&#305;&#351;&#305; b&#305;rak&#305;lm&#305;&#351;t&#305;r.";
 $langShowNone = "Hiçbirini gösterme";
 $langCourseStats = "Ders &#304;statistikleri";
 $langToolsAccess = "Araçlara Eri&#351;im";
@@ -49,9 +49,6 @@ $langWorkAuthors = "Yazan";
 $langWorkDescription = "Aç&#305;klama";
 $informationsAbout = "&#304;zleme sonuçlar&#305; görüntülenen=>";
 $langUserName = "Kullan&#305;c&#305; ismi";
-$langFirstName = "&#304;sim";
-$langLastName = "Soyisim";
-$langEmail = "E-Posta";
 $langNoEmail = "Herhangi bir E-Posta adresi belirtilmemi&#351;.";
 $langNoResult = "Herhangi bir sonuç bulunmuyor.";
 $langCourse = "Ders";
@@ -113,7 +110,6 @@ $langCountUsersByCourse = "Derse göre kullan&#305;c&#305; say&#305;s&#305;";
 $langCountUsersByFaculte = "Kategoriya göre kullan&#305;c&#305; say&#305;s&#305;";
 $langCountUsersByStatus = "Statüye göre kullan&#305;c&#305; say&#305;s&#305;";
 $langCourses = "Ders";
-$langUsers = "Kullan&#305;c&#305;lar";
 $langAccess = "Eri&#351;imler";
 $langCountries = "Ülkeler";
 $langProviders = "Servis Sa&#287;lay&#305;c&#305;lar";

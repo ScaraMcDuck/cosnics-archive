@@ -1,7 +1,7 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langModifInfo = "Cursuseigenschappen";
+$ModifInfo = "Cursuseigenschappen";
 $langModifDone = "De eigenschappen werden gewijzigd.";
 $langHome = "Terug naar startpagina";
 $langCode = "Cursuscode";
@@ -20,7 +20,7 @@ $langOpenToTheWorld = "Open &ndash; toegang toegelaten voor de hele wereld";
 $OpenToThePlatform = "Open &ndash; toegang toegelaten voor geregistreerde gebruikers";
 $langOpenToThePlatform = "Open &ndash; toegang toegelaten voor geregistreerde gebruikers";
 $langTipLang  = "Deze taal zal gelden voor alle bezoekers van uw cursussite.";
-$langAgenda = "Agenda";
+$Agenda = "Agenda";
 $langLink = "Links";
 $langDocument = "Documenten";
 $langVid = "Video";
@@ -46,7 +46,6 @@ $langProfessor = "Lesgever";
 $langGroups  = "Groepen";
 $langChat  = "Discussie";
 $langDescriptionCours   = "Cursusbeschrijving";
-$langArchive = "Archief";
 $langArchiveCourse  = "Cursusback-up";
 $langRestoreCourse  = "Herstel een cursussite";
 $langRestore = "Herstellen";
@@ -89,6 +88,22 @@ $langNotAllowedToUnsubscribe = "Niet toegelaten";
 $langDescription = "Beschrijving";
 $langCourseVisibilityClosed = "Niet bereikbaar; de cursus is enkel bereikbaar voor de cursusbeheerder.";
 $CourseVisibilityClosed = "Gesloten &ndash; geen toegang tot deze cursus";
-$NotAllowedToModifyOwnRole = "Het is niet toegelaten uw eigen rol te wijzigen";
 $CourseVisibilityModified = "Gewijzigd (de instellingen werden gewijzigd via het rollen-rechten systeem)";
+$WorkEmailAlert = "Waarschuw via email bij een nieuwe publicatie";
+$WorkEmailAlertActivate = "Activeer waarschuwing via email bij een nieuwe studentenpublicatie.";
+$WorkEmailAlertDeactivate = "Desactiveer waarschuwing via email bij nieuwe studentenpublicatie";
+$DropboxEmailAlert = "Waarschuwing via email bij nieuw bestand in de Dropbox";
+$DropboxEmailAlertActivate = "Activeer waarschuwing via email bij nieuw bestand in de Dropbox";
+$DropboxEmailAlertDeactivat = "Desactiveer waarschuwing via email bij nieuw bestand in de Dropbox";
+$AllowUserEditAgenda = "Gebruikers kunnen de cursusagenda wijzigen";
+$AllowUserEditAgendaActivate = "Wijzgen agenda door gebruikers inschakelen";
+$AllowUserEditAgendaDeactivate = "Wijzigen agenda door gebruikers uitschakelen";
+$AllowUserEditAnnouncement = "Gebruikers toelaten aankondigingen te wijzigen";
+$AllowUserEditAnnouncementActivate = "Wijzigen door gebruikers inschakelen";
+$AllowUserEditAnnouncementDeactivate = "Wijzigen door gebruikers uitschakelen";
+$OrInTime = "Of binnen";
+$CourseRegistrationPassword = "Registratie-wachtwoord voor cursus";
+$langDescriptionDeleteCourse = "Klik op deze link om alle sporen van de cursus op de server te verwijderen. <br><br> Wees zeer voorzichtig met het gebruik van deze functionaliteit! ";
+$langDescriptionCopyCourse = "Dokeos biedt nu ook de mogelijkheid om een bestaande cursus geheel of gedeeltelijk te kopiëren naar een andere cursus, die aanvankelijk leeg mag zijn.<br><br>De enige voorwaarde voor deze functie is dat u beschikt over een cursus met een aantal documenten, aankondigingen, forums… en een tweede cursus die niet dezelfde elementen als de eerste bevat !";
+$DescriptionRecycleCourse = "Deze functie verwijdert uit de cursus de geselecteerde onderdelen, of alle onderdelen. Documenten, forums, links... worden verwijderd. Deze procedure kan uitgevoerd worden aan het einde van de opleiding, of na afloop van het academiejaar. Opgelet: alvorens deze \"recycling\" uit te voeren, kunt u best een volledige backup nemen van uw cursus ! ";
 ?>

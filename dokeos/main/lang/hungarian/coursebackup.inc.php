@@ -1,7 +1,7 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langSelectOptionForBackup = "Válassza ki a biztonsági-mentés módját.";
+$langSelectOptionForBackup = "Válassza ki a biztonsági mentés módját.";
 $langLetMeSelectItems = "Engedje a rendszer, hogy én válasszam ki a kurzus összetev&#337;it.";
 $langCreateFullBackup = "Teljes mentés az egész kurzusról";
 $langCreateBackup = "Mentés létrehozása";
@@ -16,16 +16,16 @@ $langLinks = "Hivatkozások";
 $langDocuments  = "Dokumentumok";
 $langForums = "Fórumok";
 $langTests = "Tesztek";
-$langLearnpaths = "Tanösvények";
+$langLearnpaths = "Tanulási programok";
 $langCopyCourse = "Kurzus másolása";
 $langSelectItemsToCopy = "Elem kiválasztása másoláshoz";
 $langCopyFinished = "A másolás befejez&#337;dött";
-$langFullRecycle = "Teljes újrahasznosítás";
-$langRecycleCourse = "Kurzus újrahasznosítása";
-$langRecycleFinished = "Újrahasznosítás befejez&#337;dött";
+$langFullRecycle = "Teljes kiürítés";
+$langRecycleCourse = "Kurzus kiürítése";
+$langRecycleFinished = "Kiürítés befejez&#337;dött";
 $langAll = "Mind";
 $langNone = "semmi";
-$langRecycleWarning = "Figyelem: az eszköz használatakor a kurzus néhány eleme törl&#337;dni fog. A m&#369;velet NEM visszavonható. Ezért javasoljuk, hogy az újrahasznosítás el&#337;tt használja a <a href=\"create_backup.php\">mentés</a> eszközt. ";
+$langRecycleWarning = "Figyelem: az eszköz használatakor a kurzus néhány eleme törl&#337;dni fog. A m&#369;velet NEM visszavonható. Ezért javasoljuk, hogy a kiürítés el&#337;tt használja a <a href=\"create_backup.php\">mentés</a> eszközt. ";
 $langSameFilename = "Mi legyen azokkal a másolandó fájlokkal, amelyekkel azonos elnevezés&#369; már létezik a célkurzuson belül?";
 $langSameFilenameSkip = "Megegyez&#337; nev&#369; fájl kihagyása";
 $langSameFilenameRename = "Fájl átnevezése (pl. fajl.pdf -> fajl_1.pdf)";
@@ -34,7 +34,7 @@ $langSelectDestinationCourse = "Célkurzus kiválasztása";
 $langFullCopy  = "Teljes másolat";
 $langCourseDescription = "Kurzus leírás";
 $langNoResourcesToBackup = "Nincsenek visszaállítható er&#337;források";
-$langNoResourcesInBackupFile = "Nincsenek er&#337;források visszaállító fájlban";
+$langNoResourcesInBackupFile = "Nincsenek er&#337;források mentett fájlban";
 $langSelectResources = "Er&#337;források kiválasztása";
 $langNoResourcesToRecycles = "Nincsenek újra hasznosítható er&#337;források";
 $langIncludeQuestionPool = "Kérdésbank csatolása";
@@ -45,5 +45,5 @@ $langNoDestinationCoursesAvailable = "Nincs használható célkurzus";
 $langBackup = "Visszaállítás";
 $langImportBackupInfo = "Biztonsági mentés importálása. Lehet&#337;sége van feltölteni egy mentés fájlt a gépér&#337;l, vagy egy a szerveren lev&#337; mentést használni.";
 $langCreateBackupInfo = "Biztonsági mentés készítése kurzusáról. Megadhatja, hogy milyen kurzuselemek kerüljenek bele a mentés állományba.";
-$ToolIntro = "Eszköz ismertet&#337;";
+$ToolIntro = "Eszközismertet&#337;";
 ?>

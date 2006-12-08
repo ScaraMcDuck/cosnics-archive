@@ -24,4 +24,8 @@ $langNoLinkName = "Please enter the link name";
 $langEditLink = "Edit Course Homepage Link";
 $langChangePress = "Change and press OK";
 $langLinkChanged = "Course Homepage Link changed. Use breadcrumb menu above to return to the homepage.";
+$NoLinkName = "No link name";
+$NoLinkURL = "No link URL";
+$LinkChanged = "Link modified";
+$OkSentLink = "The link has been sent";
 ?>

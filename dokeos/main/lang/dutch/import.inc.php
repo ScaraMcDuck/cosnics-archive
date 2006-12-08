@@ -4,8 +4,6 @@ for more information: see languages.txt in the lang folder.
 $langPgTitle = "Paginatitel";
 $langExplanation = "Deze pagina moet in HTML-formaat zijn (bv. \"mijn_pagina.html\"). Die zal door een link verbonden worden met de cursusstartpagina. Om een niet-HTML-document (PDF, OpenDocument, video...) op te sturen, gebruik de <a href=\"../document/document.php\">documentenmodule</a>.";
 $langTooBig = "U hebt geen bestand geselecteerd om op te sturen of uw bestand is te groot.";
-$langOkSent = "Uw pagina werd opgestuurd.<br /><br />
-Die is toegankelijk vanaf uw <a href=\"../../index.php\">cursusstartpagina</a>.";
 $langCouldNot = "Bestand kon niet opgestuurd worden.";
 $langExercices = "Oefeningen";
 $langNotAllowed = "U bent geen cursusbeheerder. U kunt deze actie niet uitvoeren.";

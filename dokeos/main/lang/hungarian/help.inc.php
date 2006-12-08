@@ -20,7 +20,7 @@ $langForContent = "A fórum egy írott, szinkronizálatlan vita-eszköz.
  a fórumokkal és ne felejtse el, hogy a fórum nélküli kategóriák nem
  jelennek meg a hallgatók számára.</p><p>A fórum leírása lehet a tagjainak
  a listája, egy cél kitûzése, egy feladat, bármi...";
-$langHDropbox = "File Posta";
+$langHDropbox = "Fájlposta";
 $langDropboxContent = "A File Posta azokat a file-okat mutatja, amiket kapott
 és azokat melyeket a kurzus többi tagjainak küldött el (kimenõ könyvtár).
 Ha egy file-t kétszer ugyanazzal a névvel küld el, az elõzõleg elküldöttet
@@ -67,7 +67,7 @@ azok újra elküldõdnek.
 <br><br>
 Ne használjon helyközt a levelezõ zip-file nevében.
 <br>";
-$langHHome = "Súgó fõoldal";
+$langHHome = "Súgó f&#337;oldal";
 $langHomeContent = "A kurzusok létrehozásakor szinte minden eszköz tartalmaz egy kis példát, ami röviden
  bemutatja, hogy hogyan is m&#369;ködik az adott eszköz. Ön dönt, hogy törli-e a példát
  vagy módosítja azt.</p><p>Például a kurzus fõoldalán van egy rövid bemutatkozó
@@ -388,9 +388,9 @@ Ha a teszt sok kérdést tartalmaz, megadhatja, hogy csak X számú kérdés jelenjen 
 A kérdések raktár segítségével ugyanaz a kérdés több tesztben is felhasználható.<br><br>
 Alapértelmezés szerint, a kurzus összes kérdése rejtett. Megmutathatja a teszthez tartozó összes kérdést, a \"Szûrõ\" opció használatával a legördülõ menüben.<br><br>
 Azok a kérdések, melyek nem tartoznak egy teszthez sem, árva kérdések.</p>";
-$langHPath = "Tanösvény Súgó";
-$langPathContent = "<p>A Tanösvény segítségével betölthet SCORM formátumú tartalmakat a kurzusába.</p>
-<p>A SCORM (<i>Sharable Content Object Reference Model</i>) egy nyilvános sztenderd, melyet olyan vezetõ e-Learning fejlesztõk használnak, mint például NETg, Macromedia, Microsoft, Skillsoft, stb. Három nagy elõnye van:
+$langHPath = "Tanulási programok súgó";
+$langPathContent = "<p>A Tanulási programok segítségével használhat fel SCORM formátumú tartalmakat a kurzusában. Lehet&#337;sége van a kurzusban létrehozott tesztekb&#337;l, feltöltött dokumentumokból új tanulási programot létrehozni, amit aztán elmenthet SCORM csomagként. </p>
+<p>A SCORM (<i>Sharable Content Object Reference Model</i>) egy nyilvános szabvány, melyet olyan vezetõ e-Learning fejlesztõk használnak, mint például NETg, Macromedia, Microsoft, Skillsoft, stb. Három nagy elõnye van:
 </p>
 <ul>
 <li><b>Gazdasági</b> : A Scorm segítségével az egész kurzus
@@ -411,11 +411,11 @@ A kommunikáció abból áll például, hogy megjelöljük, hogy a felhasználó
 használták az adott részt (\"Mennyi idõt töltött el János az elsõ
 fejezettel?\").</li>
 </ul>
-<b>Hogyan hozzunk létre SCORM kompatibilis tanösvényt?</b><br>
+<b>Hogyan hozzunk létre SCORM kompatibilis tanulási programot?</b><br>
 <br>
 Használjuk a Dreamweaver-t, a Lectora-t vagy a Reload-ot, csomagoljuk
-be az elkészített tartalmunkat zip file-ként és töltsük be a Dokeos
-Tanösvény részlegébe.<br>
+be az elkészített tartalmunkat zip állományként, és töltsük be a Dokeos
+Tanulási programok részlegébe.<br>
 <br>
 <b>Hasznos linkek</b><br>
 <ul>
@@ -428,7 +428,7 @@ href=\"http://www.trivantis.com/\">http://www.trivantis.com</a><br>
 </li>
 </ul>
 <br>";
-$langHDescription = "Kurzus leírás súgó";
+$langHDescription = "Kurzusleírás súgója";
 $langDescriptionContent = "<p>Ezzel az eszközzel meghatározhatja a kurzusát a kivülálló számára. A jöv&#337;beli hallgatóinak tiszta képet adhat arról, hogy mit is vár el t&#337;lük a kurzus teljesítéséhez. Ezen  kívül itt újra végiggondolhatja a kurzusa felépítését, oktatásának menetét. </p>A felsorolt elemek javaslatok, ha saját kurzusleírást szeretne létrehozni más elemekkel, Csak az  \'Egyéb\' elemet használja, és nevezze el.</p> <p> A kurzus leírásának kitöltéséhez válassza a &#368;rlapokkal létrehoz  > menyíló menüt és onnan válassza ki a kívánt elemet > töltse ki az &#369;rlapot &gt és érvényesítse. Ezeket az elemeket a kés&#337;bbiekben is módosíthatja vagy törölheti, ha a ceruza ikonra kattint az elemek mellett.</p>";
 $langHLinks = "Hivatkozások súgó";
 $langLinksContent = "<p>A hivatkozások eszköz lehet&#337;vé teszi, hogy küls&#337; er&#337;forrásokat csatoljon kurzusához hallgatói számára, f&#337;leg olyanokat, amiket nem Ön készített.  </p> <p>Ahogy a lista b&#337;vül, fontossá válhat csoportosítani a hivatkozásokat kategóriákba, ezzel megkönnyítve az átláthatóságot. Minden hivatkozás kategóriáját módosíthatja, azokat áthelyezheti új kategóriákba (ha el&#337;z&#337;leg létrehozta azt).</p> <p>A leírás mez&#337;ben adhat tájékoztató információt a céloldalakról, és arról, hogy mi a feladatok ezeken az oldalakon a hallgatóinak. Ha például a céloldal Arisztotelésszel foglalkozik, akkor kérje meg hallgatóit, hogy viszgálják meg, mi a különbség a szintézis és az analízis között.</p>";
@@ -454,58 +454,9 @@ $langClarContent4 = "rendelkezésére áll, hogy segítsen a tanítási folyamat
  fejlõdésének különbözõ lépéseiben: eszközfejlesztésbõl egy tiszta és koherens
  stratégia integrálásáig és a diák tanulási folyamatára való ráhatásnak
  az objektív értékeléséig.</p>";
-$langClarContent1 = "Clear content";
-$langClarContent2 = "Clear content";
+$langClarContent1 = "Tartalom törlése";
+$langClarContent2 = "Tartalom törlése";
 $langHGroups = "Csoportok";
 $langGroupsContent = "Csoportok tartalma";
 $langGuide = "Kézikönyv";
-$langHCourseRolesRights = "Szerepek és jogok súgó";
-$langCourseRolesRightsContent = "<p>A Szerepek és jogok áttekintése oldalon a kurzusa számára megadhatja, hogy <em>ki és mire jogosult milyen területeken. </em></p>
-<p>Az eszköz alapvet&#337; koncepciója, hogy minden kurzus eszköznek megadhatja, hogy 
-ki tekintheti meg a tartalmát, adhat hozzá új elemeket és mappákat, szerkesztheti 
-a meglév&#337; információkat, vagy törölheti annak tartalmát. </p>
-<p>Mindazonáltal nem kell minden egyes felhasználónak ezt külön-külön megadnia. 
-A felhasználók a kurzusában szerepekkel rendelkeznek, például vendégek, normál 
-kurzus-tagok, tanársegédek, vagy kurzusgazdák. A szerepek mindegyikének megadhat 
-hozzáférési jogokat valamennyi eszközhöz. Megadhatja, hogy minden felhasználó 
-használhatja a fórumot, de a vendégek ne üzenhessenek benne, csak a regisztrált 
-felhasználók. Azt is beállíthatja, hogy a tanársegédek feltehessenek dokumentumokat 
-a kurzusba, de ne törölhessék azokat, és így tovább.</p>
-<p>A kurzusa \'Felhasználók\' eszközében láthatja és szerkesztheti a felhasználói 
-jogokat (a módosítás gomb használatával a felhasználói listában). </p>
-<h3>A lehetséges szerepek áttekintése</h3>
-<p>Öt helyi szerep látezik a Dokeos rendszeren belül.Ezeket a szerepeket tudja hozzárendelni 
-felhasználóihoz a kurzuson belül. </p>
-<ul>
-<li><strong>Névtelen kurzus látogató (vendég): </strong>ez bárki lehet, aki a nagyvilágból rátalált az Ön oktatási oldalára. Ezek a látogatók 
-alapértelmezésként nem rendelkeznek jogokkal, és még a kurzusát sem láthatják. 
-</li>
-<li><strong>Regisztrált kurzus látogató: </strong>mindenki, aki regisztrálva van aDokeos rendszeren, és anélkül látogat meg egy 
-kurzust, hogy feliratkozott volna rá.</li>
-<li><b>Normál kurzus tag: </b>ez az alapértelmezett szerepe azoknak a felhasználóknak, akik feliratkoztak egy 
-kurzusra. A felhasználók többsége ebben a szerepben tevékenykedik, de a kurzus 
-gazda adhat nekik tanársegédi jogot a kurzus  fejlesztése érdekében. </li>
-<li><b>Tanársedég</b>: A segédnek sok mindenhez van hozzáférése. A legtöbb eszköz tartalmát megtekintheti, 
-módosíthatja, de nem törölheti le. A tanársegéd ezenkívül nem jogosult a kurzus 
-beállításainak és a kurzusban betöltött szerepeknek a módosítására. </li>
-<li><b>Kurzus gazda</b>: a kurzus gazda minden lehetséges joggal rendelkezik, és megtehet bármit. Egy 
-kurzus létrehozója automatikusan megkapja ezt a szerepet a kurzusához. </li></ul>
-<p> </p>
-<h3>Jogok áttekintése</h3>
-<p>Négy alapvet&#337; joga van a Dokeos felhasználóinak: </p>
-<ul>
-<li><b>Megtekintés</b>: jog arra, hogy megtekintsük az eszközt és annak tartamát</li>
-<li><b>Hozzáadás</b>: új tartalom hozzáadásának joga az eszközökhöz, pl. hivatkozások, hallgatói 
-publikációk, fórum üzenetek, dokumentumok, stb... </li>
-<li><b>Módosítás</b>: a meglev&#337; tartalmak módosításának joga, pl. a hivatkozások szerkesztése, mappa 
-átnevezése, dokumetum címének módosítása... </li>
-<li><b>Törlés</b>: meglev&#337; tartalmak törlésének joga az eszközökben, pl. hivatkozások, hallgatói 
-publikációk, fórum üzenetek ... </li></ul>
-<p> </p><p><h3>Területek ismertetése</h3></p>
-<p>Minden kurzus, és minden kurzuseszköz egy különálló terület a Dokeos-on belül.</p>
-<h3>Hozzáférési jogok beállítása</h3>
-<p>Kurzusgazdaként megadhatja, ki és mit csinálhat a kurzusnak mely területén. Minden 
-szerep és terület számára beállítható a 4 alapjog. Így megadható a tanársegéd 
-részére a megtekintés joga a dokumentumok eszközben, normál hallgatónak a hivatkozások 
-módosítása, stb.</p>";
 ?>

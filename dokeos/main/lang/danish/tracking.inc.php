@@ -3,7 +3,7 @@ for more information: see languages.txt in the lang folder.
 */
 $langShowAll = "Vis alle";
 $langToolName = "Statistikker";
-$langTrackingDisabled = "Udtrækning af statistik er slået fra af systemadministrator.";
+$TrackingDisabled = "Udtrækning af statistik er slået fra af systemadministrator.";
 $langShowNone = "Vis ingen";
 $langCourseStats = "Kursusstatitsik";
 $langToolsAccess = "Adgang til værktøjer";
@@ -49,9 +49,6 @@ $langWorkAuthors = "Forfattere";
 $langWorkDescription = "Beskrivelse";
 $informationsAbout = "Udtræk af";
 $langUserName = "Brugernavn";
-$langFirstName = "Fornavn";
-$langLastName = "Efternavn";
-$langEmail = "Email";
 $langNoEmail = "Ingen angivelse af konkret email adresse";
 $langNoResult = "Intet resultat";
 $langCourse = "Kursus";
@@ -113,7 +110,6 @@ $langCountUsersByCourse = "Antal deltagere efter kursus";
 $langCountUsersByFaculte = "Antal deltagere efter fakultet";
 $langCountUsersByStatus = "Antal deltagere efter stilling";
 $langCourses = "Kurser";
-$langUsers = "Deltager";
 $langAccess = "Adgang";
 $langCountries = "Lande";
 $langProviders = "Leverandørere";

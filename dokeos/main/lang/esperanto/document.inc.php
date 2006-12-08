@@ -43,7 +43,7 @@ $langNoFileName = "Bonvolu doni dosiernomon ";
 $langNoText = "Tajpu la tekstan/ HTMLan enhavon &#265;i tien ";
 $langAreYouSureToDelete  = "&#264;u vi volas forigi &#265;i-dokumenton: ";
 $langScormcontent = "Tio &#265;i estas SCORM-paketo.<br><input type=button name=scormbutton value=\'Ludi\' onclick=\'openscorm()\'>  XX";
-$langScormcontentstudent = "Tio &#265;i estas Scorm-formata kursos. Por ludi &#285;in, klaku &#265;i tien: <input type=button name=scormbutton value=\'Launch it !\' onclick=\'openscorm()\'>";
+$langScormcontentstudent = "Tio &#265;i estas Scorm-formata kursos. Por ludi &#285;in, klaku &#265;i tien: <input type=button name=scormbutton value=Lan&#265;u! onclick=\'openscorm()\'>";
 $langPublish  = "Publikigi ";
 $langMissingImagesDetected  = "Mankantaj bildoj detektitaj ";
 $langCreateDocument = "Nova dokumento ";
@@ -113,4 +113,5 @@ $DocumentsOverview = "Dokumenta supervido ";
 $ViewSlideshow = "Rigardi al bildoprojekcio ";
 $Options = "Opcioj ";
 $Type = "Formato   XX";
+$Content = "Enhavo";
 ?>

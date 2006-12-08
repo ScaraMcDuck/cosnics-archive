@@ -1,18 +1,18 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$lang_new_item = "&#28155;&#21152;&#26032;&#39033;&#30446;";
-$lang_title_notification = "&#26469;&#33258;&#20320;&#30340;&#26368;&#21518;&#35775;&#38382;";
-$lang_update_agenda = "&#29616;&#23384;&#26085;&#31243;&#39033;&#30446;&#21319;&#32423;";
-$lang_new_agenda = "&#28155;&#21152;&#26032;&#30340;&#26085;&#31243;";
-$lang_update_announcements = "&#29616;&#23384;&#20844;&#21578;&#21319;&#32423;";
-$lang_new_announcements = "&#28155;&#21152;&#26032;&#20844;&#21578;";
-$lang_new_document = "&#28155;&#21152;&#26032;&#25991;&#20214;";
-$lang_new_exercise = "&#21487;&#20351;&#29992;&#30340;&#26032;&#32451;&#20064;";
-$lang_update_link = "&#23384;&#22312;&#30340;&#38142;&#25509;&#20449;&#24687;&#20197;&#26356;&#26032;";
-$lang_new_link = "&#28155;&#21152;&#26032;&#38142;&#25509;";
-$lang_new_forum_topic = "&#28155;&#21152;&#26032;&#20027;&#39064;";
-$lang_new_groupforum_topic = "&#23558;&#26032;&#20027;&#39064;&#28155;&#21152;&#21040;&#32452;&#35770;&#22363;";
-$lang_new_dropbox_file = "&#26032;&#25991;&#20214;&#24050;&#32463;&#25509;&#21463;";
-$lang_update_dropbox_file = "&#25991;&#20214;&#22841;&#20013;&#30340;&#25991;&#20214;&#24212;&#32463;&#21035;&#21319;&#32423;";
+$lang_new_item = "添加新项目";
+$lang_title_notification = "自上次访问以来";
+$lang_update_agenda = "现有日程项目更新";
+$lang_new_agenda = "新的日程项目已添加";
+$lang_update_announcements = "现有公告已更新";
+$lang_new_announcements = "新公告已添加";
+$lang_new_document = "新文档已添加";
+$lang_new_exercise = "新练习已可使用";
+$lang_update_link = "现有链接信息已更新";
+$lang_new_link = "新链接已添加";
+$lang_new_forum_topic = "新主题已添加";
+$lang_new_groupforum_topic = "已添加新话题到组论坛";
+$lang_new_dropbox_file = "新文档已收到";
+$lang_update_dropbox_file = "投递箱中的文件已更新";
 ?>

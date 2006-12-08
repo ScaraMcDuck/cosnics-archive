@@ -1,15 +1,15 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langModifInfo = "Kurzusbeállítások";
+$ModifInfo = "Kurzusbeállítások";
 $langModifDone = "Az információ megváltoztatva";
-$langHome = "Vissza a fõoldalra";
+$langHome = "Vissza a honlapra";
 $langCode = "Kurzus kód";
 $langDelCourse = "Az teljes kurzus törlése";
-$langProfessors = "Vezetõk";
+$langProfessors = "Oktatók";
 $langFaculty = "Kategória";
 $langConfidentiality = "Engedélyek";
-$langPublic = "Publikus elérhetõség a portál fõoldaláról login nélkül";
+$langPublic = "Nyilvános elérhet&#337;ség a portál f&#337;oldaláról bejelentkezés nélkül";
 $langUnsubscription = "Leiratkozás";
 $langPrivOpen = "Csak privát belépés, de szabad regisztráció";
 $langPrivate = "Csak privát belépés (az oldalt csak a <a href=../user/user.php>Felhasználó listá</a>-n található személyek érhetik el)";
@@ -20,7 +20,7 @@ $langOpenToTheWorld = "Nyitva - elérhet&#337; az egész világ számára.";
 $OpenToThePlatform = "Nyitva - csak regisztrált tagok számára elérhet&#337;.";
 $langOpenToThePlatform = "Nyitva - csak regisztrált tagok számára elérhet&#337;.";
 $langTipLang  = "A kurzus website-ot látogató minden felhasználó ezt a nyelvet fogja látni.";
-$langAgenda = "Naptár";
+$Agenda = "Naptár";
 $langLink = "Linkek";
 $langDocument = "Dokumentumok";
 $langVid = "Video";
@@ -46,7 +46,6 @@ $langProfessor = "Vezetõ";
 $langGroups  = "Csoportok";
 $langChat  = "Vita";
 $langDescriptionCours   = "Kurzus leírás";
-$langArchive = "Archív";
 $langArchiveCourse  = "Biztonsági másolat készítése";
 $langRestoreCourse  = "Kurzus visszaállítása";
 $langRestore = "Visszaállít";
@@ -77,7 +76,7 @@ $langCreateSite = "Kurzus létrehozása";
 $langRestoreDescription = "A kurzus egy acrhív file-ban található, lenn tudja kiválasztani.<br><br>
 Ha a \"Visszaállít\"-ra kattint, az archív kicsomagolódik és a kurzus vissza lesz állítva.";
 $langRestoreNotice = "A szkript jelenleg nem támogatja a felhasználók visszaállítását, de a\"users.csv\"-ben elmentett adatok elegendõek ahhoz, hogy az adminisztrátor kézzel visszaállítsa õket.";
-$langAvailableArchives = "Elérhetõ archívok listája";
+$langAvailableArchives = "Elérhet&#337; archívumok listája";
 $langNoArchive = "Nincs archív kiválasztva";
 $langArchiveNotFound = "Az archív nem található";
 $langArchiveUncompressed = "Az archív kicsomagolva és installálva.";
@@ -89,6 +88,21 @@ $langNotAllowedToUnsubscribe = "A hallgatók nem tehetik meg, hogy leiratkozzanak
 $langDescription = "Meghatározás";
 $langCourseVisibilityClosed = "Teljesen zárt; a kurzus csak a kurzusgazda számára elérhet&#337;";
 $CourseVisibilityClosed = "Zárt - nem lehet hozzáférni ehhez a kurzushoz.";
-$NotAllowedToModifyOwnRole = "Saját szerepének módosítása nem lehetséges.";
 $CourseVisibilityModified = "Módosított (további beállítások megadása a szerepek/jogosultságok részben lehetséges)";
+$WorkEmailAlert = "Értesítés emilben ha elektronikus beadás történt";
+$WorkEmailAlertActivate = "Email értesítés kérése ha új elektronikus beadás történt";
+$WorkEmailAlertDeactivate = "Email értesítés letiltása új beadás esetén";
+$DropboxEmailAlert = "Email értesítés új hallgatói leadás éesetén";
+$DropboxEmailAlertActivate = "Email értesítés aktiválása új hallgatói leadás esetén";
+$DropboxEmailAlertDeactivat = "Email értesítés küldésének letiltása új hallgatói beadáskor";
+$AllowUserEditAgenda = "Kurzusnaptár szerkesztésének engedélyezése felhasználók számára";
+$AllowUserEditAgendaActivate = "Kurzusnaptár szerkesztésének aktiválása felhasználók számára";
+$AllowUserEditAgendaDeactivate = "Kurzusnaptár szerkesztésének letiltása felhasználók számára";
+$AllowUserEditAnnouncement = "Kurzus hirdetmények szerkesztésének engedélyezése felhasználók számára";
+$AllowUserEditAnnouncementActivate = "Felhasználói módosítások engedélyezése";
+$AllowUserEditAnnouncementDeactivate = "Felhasználói módosítások letiltása";
+$CourseRegistrationPassword = "Kurzus regisztráció jelszava";
+$langDescriptionDeleteCourse = "Kattintson erre a hivatkozásra ha a szerverr&#337;l a kurzust (tárgyat) nyomtalanul törölni kívánja.<br><br> Figyelem! Ezt a funkciót csak rendkívüli körültekintéssel használja!";
+$langDescriptionCopyCourse = "A Dokoes lehet&#337;vé teszi, hogy a teljes kuzust (tárgyat), illetve annak egyes kiválsztott részeit egy másik, adott esetben akár üres kurzusba (tárgyba) átmásolja.br><br>A funkció használatának el&#337;feltétele, hogy rendelkezzen egy dokumentumokat, hirdetményeket, fórumokat, stb. tartalmazó kurzussal, illetve egy másikkal, amely az el&#337;bbi felsorolt elemeit nem tartalmazza!";
+$DescriptionRecycleCourse = "Ez az eszköz a kurzus kiválasztott elemeinek vagy teljes tartalmának törlését teszi lehet&#337;vé. Eltávolítja a dokumentumokat, fórumokat, likeket, stb... A törlésre egy félév vagy a képzés végén kerülhet sor. Természetesen az újrahasznosítás eszköz használata el&#337;tt gondoskodni kell a teljes kurzus biztonsági mentésér&#337;l.";
 ?>

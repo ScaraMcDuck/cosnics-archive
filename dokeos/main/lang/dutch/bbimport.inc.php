@@ -17,7 +17,7 @@ $langSelectPackage = "Selecteer een pakket";
 $langOpenPackageForImporting = "Open dit cursuspakket om het te importeren";
 $langInformation = "Informatie over het importeren";
 $langChooseImportOptions = "Opties kiezen";
-$langCheckWhatIsImported = "U kunt eventueel kijken wat er ge&#239;mporteerd zal worden voor het importeren echt te starten.";
+$langCheckWhatIsImported = "U kunt eventueel kijken wat er geïmporteerd zal worden voor het importeren echt te starten.";
 $langStartImporting = "Start het importeren";
 $langImport = "Importeer";
 ?>

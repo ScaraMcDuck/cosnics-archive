@@ -3,16 +3,16 @@ for more information: see languages.txt in the lang folder.
 */
 $lang_new_item = "yeni parça eklendi";
 $lang_title_notification = "Son ziyaretinizden beri";
-$lang_update_agenda = "existing agenda item updated";
-$lang_new_agenda = "new agenda item added";
-$lang_update_announcements = "existing announcement updated";
-$lang_new_announcements = "new announcement added";
-$lang_new_document = "new document(s) added";
-$lang_new_exercise = "new exercise enabled";
-$lang_update_link = "existing link information updated";
-$lang_new_link = "new link added";
-$lang_new_forum_topic = "new topic added";
-$lang_new_groupforum_topic = "new topic added to group forum";
-$lang_new_dropbox_file = "new file received";
-$lang_update_dropbox_file = "file in your dropbox was updated";
+$lang_update_agenda = "varolan etkinlik güncellendi";
+$lang_new_agenda = "yeni etkinlik eklendi";
+$lang_update_announcements = "varolan duyuru güncellendi";
+$lang_new_announcements = "yeni duyuru eklendi";
+$lang_new_document = "yeni belge(ler) eklendi";
+$lang_new_exercise = "yeni al&#305;&#351;t&#305;rma aktif";
+$lang_update_link = "varolan ba&#287;lant&#305; güncellendi";
+$lang_new_link = "yeni ba&#287;lant&#305; eklendi";
+$lang_new_forum_topic = "yeni ba&#351;l&#305;k eklendi";
+$lang_new_groupforum_topic = "grup forumuna yeni ba&#351;l&#305;k eklendi";
+$lang_new_dropbox_file = "yeni dosya al&#305;nd&#305;";
+$lang_update_dropbox_file = "gelen kutusundaki dosyan&#305;z güncellendi";
 ?>

@@ -1,7 +1,6 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langHelp = "Hjælp";
 $langLinks = "Links";
 $langLinkName = "Linknavn";
 $langLinkAdd = "Linket er tilføjet";
@@ -12,7 +11,6 @@ $langLinkDel = "Link er slettet";
 $langLinkDeleted = "Linket er ændret";
 $langLinkDelconfirm = "Vil du slette dette link?";
 $langAllLinksDel = "Slet alle links i denne kategori?";
-$langCategory = "Kategori";
 $langCategoryName = "Kategorinavn";
 $langCategoryAdd = "Tilføj en kategori";
 $langCategoryAdded = "Kategorien er tilføjet";
@@ -22,7 +20,6 @@ $langCategoryDel = "Slet kategori";
 $langCategoryDeleted = "Kategorien og tilhørende links er nu slettet";
 $langCategoryDelconfirm = "Når kategorien slettes, slettes ligeså kategoriens links.\\nVil du virkeligt slette denne kategori og kategoriens links?";
 $langAllCategoryDel = "Slet alle kategorier og links";
-$langAllCategoryDeleted = "Alle kategorier og links er nu slettet";
 $langGiveURL = "Venligst angiv linkets URL";
 $langGiveCategoryName = "Skriv et kategorinavn";
 $langNoCategory = "Ingen kategori";

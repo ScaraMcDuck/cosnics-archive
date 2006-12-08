@@ -4,7 +4,7 @@ for more information: see languages.txt in the lang folder.
 $langCourseProgram  = "คำอธิบายรายวิชา";
 $langThisCourseDescriptionIsEmpty  = "วิชานี้ยังไม่มีคำอธิบายรายวิชา";
 $langEditCourseProgram  = "สร้างและแก้ไขคำอธิบายรายวิชา";
-$langQuestionPlan  = "ฝากคำถามถึงหัวหน้า";
+$QuestionPlan  = "ฝากคำถามถึงหัวหน้า";
 $langInfo2Say  = "ส่งข้อมูลและสาระถึงผู้เรียน";
 $langOuAutreTitre  = "เรื่อง";
 $langNewBloc  = "อื่นๆ";
@@ -12,4 +12,5 @@ $langAddCat  = "เพิ่มประเภท";
 $langAdd  = "เพิ่ม";
 $langValid  = "ถูกต้อง";
 $langBackAndForget  = "ย้อนกลับ";
+$langOkSent = "ส่งข้อมูลเสร็จสิ้น<p> ทำการเพิ่ม link ที่รายวิชา <a href=../..//index.php>หน้าแรก</a> เรียบร้อย";
 ?>

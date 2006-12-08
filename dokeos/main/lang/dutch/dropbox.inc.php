@@ -29,7 +29,6 @@ $dropbox_lang["anonymous"]  = "onbekend";
 $dropbox_lang["ok"]  = "OK";
 $dropbox_lang["lastUpdated"]  = "Recentste update";
 $dropbox_lang["lastResent"]  = "Laatst verzonden op";
-$dropbox_lang["tableEmpty"]  = "De lijst is leeg.";
 $dropbox_lang["overwriteFile"]  = "Vorige versie vervangen?";
 $dropbox_lang["orderBy"]  = "Rangschikken volgens ";
 $dropbox_lang["lastDate"]  = "datum laatste verzending";

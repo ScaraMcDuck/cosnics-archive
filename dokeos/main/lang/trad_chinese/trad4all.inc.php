@@ -2,7 +2,7 @@
 for more information: see languages.txt in the lang folder. 
 */
 $UsersOnline = "&#32218;&#19978;&#20351;&#29992;&#32773;";
-$langDescription = "&#31777;&#20171;";
+$Description = "&#31777;&#20171;";
 $langComment = "&#25688;&#35201;";
 $langVisible = "&#39023;&#31034;/&#38577;&#34255;";
 $langGroup = "&#32676;&#32068;";
@@ -10,6 +10,7 @@ $langEdit = "&#32232;&#36655;";
 $langUp = "&#21521;&#19978;";
 $Down = "&#21521;&#19979;";
 $Up = "&#21521;&#19978;";
+$TheListIsEmpty = "&#21015;&#34920;&#26159;&#31354;&#30340;";
 $langCourseCreate = "&#26032;&#24314;&#35506;&#31243;";
 $langTodo = "&#24744;&#30340;&#24314;&#35696;";
 $iso639_2_code = "zho";

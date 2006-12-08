@@ -1,7 +1,6 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langHelp = "Apua";
 $langLinks = "Linkit";
 $langLinkName = "Linkin nimi";
 $langLinkAdd = "Lisää linkki";
@@ -12,7 +11,6 @@ $langLinkDel = "Linkki on poistettu";
 $langLinkDeleted = "Linkki on poistettu";
 $langLinkDelconfirm = "Haluatko poistaa tämän linkin?";
 $langAllLinksDel = "Poista kaikki linkit tästä aihealueesta";
-$langCategory = "Aihealue";
 $langCategoryName = "Aihealueen nimi";
 $langCategoryAdd = "Lisää aihealue";
 $langCategoryAdded = "Aihealue on lisätty";
@@ -22,7 +20,6 @@ $langCategoryDel = "Poista aihealue";
 $langCategoryDeleted = "Aihealue ja kaikki siellä olleet linkit on poistettu";
 $langCategoryDelconfirm = "Poistaessasi aihealuuen kaikki siellä olevat linkit poistuvat.\\nHaluatko varmasti poistaa tämän aihealueen?";
 $langAllCategoryDel = "Poista kaikki aihealueet ja linkit";
-$langAllCategoryDeleted = "Kaikki aihealueet ja likit on poistettu";
 $langGiveURL = "Kirjoita linkit URL-osoite";
 $langGiveCategoryName = "Kirjoita aihealueen nimi";
 $langNoCategory = "Ei aihealuetta";

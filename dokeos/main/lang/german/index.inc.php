@@ -2,8 +2,8 @@
 for more information: see languages.txt in the lang folder. 
 */
 $langInvalidId = "Login ist ungültig; Benutzername / Passwort sind inkorrekt.";
-$langWelcome = "Die unten aufgeführten Seminare sind frei zugänglich. Andere Kurse setzen ein Login und Passwort voraus.
-Diese können Sie durch anklicken von \'Registrierung\' erhalten. Die Trainer/innen können neue Seminare anlegen, wenn sie auf \'Einschreiben\' klicken. Sie müssen nur anschliessend den Punkt \'Kurswebsite anlegen (Trainer/in)\' auswählen.";
+$langWelcome = "Die unten aufgeführten Kurse sind frei zugänglich. Andere Kurse setzen ein Login und Passwort voraus.
+Diese können Sie durch anklicken von \'Registrierung\' erhalten. Die Trainer/innen können neue Kurse anlegen, wenn sie auf \'Einschreiben\' klicken. Sie müssen nur anschliessend den Punkt \'Kurswebsite anlegen (Trainer/in)\' auswählen.";
 $langUserName = "Benutzername";
 $langPass = "Passwort";
 $langEnter = "Eingabe";
@@ -30,7 +30,6 @@ $langHelptwo = "Hilfe 2";
 $langRegAll = "alle anmelden";
 $EussMenu = "Menu ??? ";
 $Opinio = "...";
-$menuauth = "...";
 $email = "E-Mail";
 $Intranet = "Intranet";
 $Englin = "...";
@@ -49,6 +48,7 @@ $langSystemAnnouncements = "Campus Ankündigungen ";
 $langHelpMaj = "Haupt Hilfe";
 $langNotRegistered = "nicht angemeldet";
 $langAdmin = "Administrator";
+$Login = "Login";
 $langRegisterForCourse = "Kurs belegen";
 $langUnregisterForCourse = "Kurs abwählen";
 $langCombinedCourse = "Kombinierter Kurs - ";
@@ -58,6 +58,7 @@ $UsersOnLine = "Nutzer online";
 $TotalOnLine = "Nutzer gesamt online";
 $langCourseCreate = "Kurs erstellen";
 $langCourseClosed = "(der Kurs ist zur Zeit geschlossen)";
+$ViewOpenCourses = "Offene Kurse ansehen";
 $langCompetences = "Kompetenzen";
 $langDiplomas = "Abschlüsse";
 $langTeach = "Was Sie  unterrichten können";
@@ -65,4 +66,7 @@ $langOpenarea = "Persönliche offene Inhalte";
 $langProductions = "Produktionen";
 $langSendChatRequest = "Eine Chat Anfrage an diese Person schicken";
 $langRequestDenied = "Die Anfrage wurde abgewiesen";
+$UsageDatacreated = "Daten für Usage wurden erstellt";
+$SessionView = "Kurse anzeigen nach Sessions";
+$CourseView = "Die Gesamtliste aller Kurse anzeigen";
 ?>

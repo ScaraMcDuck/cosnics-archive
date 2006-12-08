@@ -1,7 +1,6 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langHelp = "Pomoc";
 $langLinks = "Odno&#347;niki";
 $langLinkName = "Nazwa odno&#347;nika";
 $langLinkAdd = "Dodaj odno&#347;nik";
@@ -12,7 +11,6 @@ $langLinkDel = "Usuwanie odno&#347;nika";
 $langLinkDeleted = "Odno&#347;nik zosta&#322; usuni&#281;ty";
 $langLinkDelconfirm = "Czy chcesz usun&#261;&#263; odno&#347;nik?";
 $langAllLinksDel = "Usuni&#281;cie ca&#322;ej listy odno&#347;ników w kategorii";
-$langCategory = "Kategoria";
 $langCategoryName = "Nazwa kategorii";
 $langCategoryAdd = "Dodaj kategori&#281;";
 $langCategoryAdded = "Kategoria zosta&#322;a dodana";
@@ -22,7 +20,6 @@ $langCategoryDel = "Usuwanie kategorii";
 $langCategoryDeleted = "Kategoria i wszystkie odno&#347;niki zosta&#322;y usuni&#281;te";
 $langCategoryDelconfirm = "Po usuni&#281;ciu kategorii wszystkie odno&#347;niki zostana tak&#380;e usuni&#281;te.\\nCzy na pewno chcesz usun&#261;&#263; kategori&#281; i list&#281; odno&#347;ników?";
 $langAllCategoryDel = "Usuniêcie wszystkich kategorii i odno¶ników";
-$langAllCategoryDeleted = "Wszystkie kategorie i odno¶niki zosta³y usuniête";
 $langGiveURL = "Podaj adres URL";
 $langGiveCategoryName = "Podaj nazw&#281; kategorii";
 $langNoCategory = "Nie okre&#347;lono kategorii";

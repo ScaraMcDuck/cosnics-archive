@@ -29,7 +29,6 @@ $dropbox_lang["anonymous"]  = "anonym";
 $dropbox_lang["ok"]  = "OK";
 $dropbox_lang["lastUpdated"]  = "Sidst opdateret";
 $dropbox_lang["lastResent"]  = "Senest afsendt";
-$dropbox_lang["tableEmpty"]  = "Listen er tom.";
 $dropbox_lang["overwriteFile"]  = "Overskriv eksisterende fil?";
 $dropbox_lang["orderBy"]  = "Sorter efter";
 $dropbox_lang["lastDate"]  = "dato for sidste afsending";

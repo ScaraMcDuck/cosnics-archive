@@ -58,5 +58,5 @@ $AddAnn = "Aldoni anoncon ";
 $ForumAddNewTopic = "Forumo: aldoni novan mesa&#285;on ";
 $ForumEditTopic = "Forumo: modifi mesa&#285;on ";
 $ExerciseAnswers = "Ekzercoj: respondoj ";
-$ForumReply = "Forumo: respondi  XX";
+$ForumReply = "Forumo: respondi";
 ?>

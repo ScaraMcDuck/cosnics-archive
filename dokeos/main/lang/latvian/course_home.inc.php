@@ -9,6 +9,7 @@ $langDelLk = "Vai tieš&#257;m v&#275;lies dz&#275;st šo vietni?";
 $langEnter  = "Ieiet";
 $langCourseCreate  = "Izveidot kursa m&#257;jas lapu";
 $langNameOfTheLink  = "Vientnes (saites) nosaukums";
+$lang_main_categories_list                  = "Galvenais noda&#316;u saraksts";
 $langHelp = "Pal&#299;dz&#299;ba";
 $langCourseAdminOnly = "Tikai doc&#275;t&#257;jiem";
 $PlatformAdminOnly = "Tikai Platformas administratoriem ";

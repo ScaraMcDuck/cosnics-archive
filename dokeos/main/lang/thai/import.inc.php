@@ -4,7 +4,6 @@ for more information: see languages.txt in the lang folder.
 $langPgTitle = "ชื่อเรื่อง";
 $langExplanation = "เอกสารต้องอยุ่ในรูปแบบ HTML format (เช่น \"my_page.htm\")  จึงจะสามารถ link จากหน้าแรกได้  หากท่านต้องการส่งเอกสารที่ไม่เป็น HTML  (เช่น PDF, Word, Power Point, Video, etc.) เลือกใช้ <a href=../document/document.php>เครื่องมือจัดการเอกสาร</a>";
 $langTooBig = "ท่านไม่ได้เลือกไฟล์ใดๆเพื่อส่ง หรือไฟล์มีขนาดใหญ่เกินไป";
-$langOkSent = "ส่งข้อมูลเสร็จสิ้น<p> ทำการเพิ่ม link ที่รายวิชา <a href=../..//index.php>หน้าแรก</a> เรียบร้อย";
 $langCouldNot = "ไม่สามารถส่งข้อมูลได้";
 $langExercices = "แบบฝึกหัด";
 $langNotAllowed = "ไม่อนุญาต";

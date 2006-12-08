@@ -62,7 +62,7 @@ $langDocContent = "<p>The Documents tool is similar to the FileManager of
 	</h4>
 	<ul>
 		<li>
-			click on the <img src=../img/renommer.gif width=20 height=20 align=baseline> 
+			click on the <img src=../img/rename.gif width=20 height=20 align=baseline> 
 			button in the Rename column
 		</li>
 		<li>

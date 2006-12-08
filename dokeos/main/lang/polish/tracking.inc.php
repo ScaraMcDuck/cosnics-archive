@@ -3,7 +3,7 @@ for more information: see languages.txt in the lang folder.
 */
 $langShowAll = "Poka&#380; wszystkie";
 $langToolName = "&#346;ledzenie";
-$langTrackingDisabled = "&#346;ledzenie zosta&#322;o wy&#322;&#261;czone przez administratora systemu.";
+$TrackingDisabled = "&#346;ledzenie zosta&#322;o wy&#322;&#261;czone przez administratora systemu.";
 $langShowNone = "Ukryj";
 $langCourseStats = "Statystyka kursu";
 $langToolsAccess = "Dost&#281;p do narz&#281;dzi";
@@ -49,9 +49,6 @@ $langWorkAuthors = "Autor";
 $langWorkDescription = "Opis";
 $informationsAbout = "&#346;ledzenie";
 $langUserName = "Nazwa u&#380;ytkownika";
-$langFirstName = "Imi&#281;";
-$langLastName = "Nazwisko";
-$langEmail = "Email";
 $langNoEmail = "&#379;aden adres email nie zosta&#322; podany";
 $langNoResult = "Brak rezultatów";
 $langCourse = "Kurs";
@@ -113,7 +110,6 @@ $langCountUsersByCourse = "Number of users by course";
 $langCountUsersByFaculte = "Number of users by faculte";
 $langCountUsersByStatus = "Number of users by status";
 $langCourses = "Courses";
-$langUsers = "Users";
 $langAccess = "Access";
 $langCountries = "Countries";
 $langProviders = "Providers";

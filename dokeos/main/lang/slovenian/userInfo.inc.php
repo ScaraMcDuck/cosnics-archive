@@ -1,7 +1,6 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langUsers = "Uporabniki";
 $langLineNumber = "Število vrstic";
 $langLine = "vrstica";
 $langLines = "vrstic";
@@ -21,7 +20,7 @@ $langAll = "vsi";
 $langNoAdmin = "od sedaj nima <b>nobenih</b> pravic na strani";
 $langAllAdmin = "ima od sedaj  <b>vse</b> pravice na tej strani";
 $langModRole = "Spremeni vlogo";
-$langRole = "vloga/status";
+$langRole = "vloga";
 $langIsNow = "je od sedaj";
 $langInC = "v tem teèaju";
 $langFilled = "Vsa potrebna polja niso izpolnjena";
@@ -34,5 +33,5 @@ $langGroupUserManagement = "Upravljanje skupine";
 $langUserInfo = "informacije o uporabniku";
 $langUnregister = "Izpiši";
 $langAddAUser = "Dodaj uporabnike";
-$langGroupManagement = "Upravljanje skupine";
+$langGroupManagement = "Upravljanje skupin";
 ?>

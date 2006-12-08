@@ -8,7 +8,6 @@ $lang_title = "titolo";
 $lang_prerequisites = "Prerequisiti";
 $lang_move_up = "Sposta sopra";
 $lang_move_down = "Sposta sotto";
-$langAreYouSureToDelete = "Confermi l\'eliminazione?";
 $langThisItem = "questa voce";
 $lang_title_and_desc = "Titolo e descrizione";
 $lang_add_item = "Aggiungi elemento";
@@ -88,4 +87,5 @@ $langItemMissing1 = "C\'era una";
 $langItemMissing2 = "pagina (elemento) in questa posizione nel percorso originale Dokeos";
 $langDone = "Fatto!";
 $langNoItemSelected = "Per visualizzare qualcosa in questa posizione, seleziona una voce dal menù laterale";
+$langUploadScorm = "Importa SCORM, AICC o Powerpoint";
 ?>

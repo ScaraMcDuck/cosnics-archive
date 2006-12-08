@@ -4,7 +4,6 @@ for more information: see languages.txt in the lang folder.
 $langPgTitle = "Tekstens titel";
 $langExplanation = "Teksten skal være i HTML format (f.eks. \"min_tekst.htm\"). Den vil blive linket til fra hjemmesiden. Ønsker du at lægge ikke-HTML tekster ud (PDF, Word, Power Point, Video, etc.) brug <a href=../document/document.php>Værktøjet til håndtering af dokumenter</a>";
 $langTooBig = "Du valgte ikke en fil, eller filen er for stor (filen må højst fylde 10 MB)";
-$langOkSent = "Din tekst er lagt ud.<p>Den er nu linket til fra kurset <a href=../..//index.php>Homepage</a>";
 $langCouldNot = "Filen kunne ikke lægges ud";
 $langExercices = "Øvelser";
 $langNotAllowed = "Ikke tilladt";

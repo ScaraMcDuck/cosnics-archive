@@ -3,7 +3,7 @@ for more information: see languages.txt in the lang folder.
 */
 $langShowAll = "Покажи всички";
 $langToolName = "Проследяване";
-$langTrackingDisabled = "Проследяването е изключено от администратора на системата.";
+$TrackingDisabled = "Проследяването е изключено от администратора на системата.";
 $langShowNone = "Нищо не показва";
 $langCourseStats = "Статус на курса";
 $langToolsAccess = "Достъп до инструментите";
@@ -48,9 +48,6 @@ $langWorkTitle = "Заглавие";
 $langWorkAuthors = "Автор";
 $informationsAbout = "Проследяване на";
 $langUserName = "Потребителско име";
-$langFirstName = "Собствено име";
-$langLastName = "Фамилия";
-$langEmail = "Е-поща";
 $langNoEmail = "Не е указан адрес на е-поща";
 $langNoResult = "Няма резултат";
 $langCourse = "Курс";
@@ -108,7 +105,6 @@ $langCountUsersByCourse = "Брой на потребителите по курсове";
 $langCountUsersByFaculte = "Брой на потребителите по категории";
 $langCountUsersByStatus = "Брой на потребителите по статус";
 $langCourses = "Курсове";
-$langUsers = "Потребители";
 $langAccess = "Достъп";
 $langCountries = "Държави";
 $langProviders = "Доставчици";

@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "já está inscrito";
-$lang_main_categories_list                  = "Lista de categorias principais";
 $lang_my_personnal_course_list              = "A minha lista pessoal de cursos";
 $lang_course_enrollment                     = "Inscrição no curso";
 $lang_course_not_available                  = "Curso não disponível";
@@ -64,4 +63,6 @@ $SubscribingNotAllowed = "Inscrição não autorizada!";
 $CourseSortingDone = "Ordenação dos cursos terminada";
 $ExistingCourseCategories = "Categorias de cursos que existem";
 $YouAreNowUnsubscribed = "A sua inscrição neste curso foi cancelada";
+$AddRight = "Acrescentar";
+$ViewOpenCourses = "Cer cursos abertos";
 ?>

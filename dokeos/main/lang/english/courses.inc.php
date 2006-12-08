@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "already enrolled";
-$lang_main_categories_list                  = "Main category list";
 $lang_my_personnal_course_list              = "My personal course list";
 $lang_course_enrollment                     = "User\'s courses";
 $lang_course_not_available                  = "This course is not available or doesn\'t exist.";
@@ -29,6 +28,7 @@ $langCourseList  = "Courses";
 $Subscribe = "Subscribe";
 $AlreadySubscribed = "Already subscribed";
 $CourseCategoryStored = "Course category is created";
+$langWithoutTimeLimits = "Without time limits";
 $lang_back_to_main_category_list = "Back to the main category list";
 $langAdded = "Added";
 $langDeleted = "Deleted";
@@ -54,7 +54,7 @@ $CourseCategoryAbout2bedeleted = "Are you sure you want to delete this course ca
 $CourseCategories = "Course Categories";
 $CoursesInCategory = "Courses in this category";
 $SearchCourse = "Search courses";
-$UpOneCategory = "<- One category up";
+$UpOneCategory = "One category up";
 $SearchResultsFor = "Search results for:";
 $ConfirmUnsubscribeFromCourse = "Are you sure you want to unsubscribe from this course?";
 $NoCourseCategory = "No course category";
@@ -63,4 +63,6 @@ $SubscribingNotAllowed = "Subscribing not allowed";
 $CourseSortingDone = "Course sorting done";
 $ExistingCourseCategories = "Existing Course Categories";
 $YouAreNowUnsubscribed = "You are now unsubscribed from the course";
+$AddRight = "Add";
+$ViewOpenCourses = "View open courses";
 ?>

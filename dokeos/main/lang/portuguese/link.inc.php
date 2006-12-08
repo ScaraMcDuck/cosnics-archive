@@ -1,7 +1,6 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langHelp = "ajuda";
 $langLinks = "Ligações";
 $langLinkName = "Nome da ligação";
 $langLinkAdd = "Acrescentar ligação";
@@ -12,7 +11,6 @@ $langLinkDel = "Apagar ligação";
 $langLinkDeleted = "A ligação foi apagada";
 $langLinkDelconfirm = "Quer mesmo apagar esta ligação?";
 $langAllLinksDel = "Apagar todas as ligações desta categoria";
-$langCategory = "Categoria";
 $langCategoryName = "Nome da categoria";
 $langCategoryAdd = "Acrescentar categoria";
 $langCategoryAdded = "A categoria foi acrescentada";
@@ -22,7 +20,6 @@ $langCategoryDel = "Apagar categoria";
 $langCategoryDeleted = "A categoria e respectivas ligações foram apagadas";
 $langCategoryDelconfirm = "Quando apaga uma categoria, todas as ligações dentro da categoria são igualmente apagadas. Quer realmente apagar esta categoria e respectivas ligações?";
 $langAllCategoryDel = "Apagar todas as categorias e ligações";
-$langAllCategoryDeleted = "Todas as categorias e todas as ligações foram apagadas";
 $langGiveURL = "Escreva a URL da ligação";
 $langGiveCategoryName = "Escreva, por favor, o nome da categoria";
 $langNoCategory = "Não há categoria";

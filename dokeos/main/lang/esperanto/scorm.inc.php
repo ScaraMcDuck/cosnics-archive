@@ -27,7 +27,15 @@ $langScormNoItems = "&#264;i-enhavo enhavas neniun elementon. ";
 $langScormNoStatus = "Ne statuso por &#265;i-enhavo ";
 $langScormLoggedout = "adia&#365;inta el Scorm-tuta&#309;o ";
 $langScormCloseWindow = "Fermi fenestron ";
+$ScormBrowsed = "Vizitita";
 $langScormExitFullScreen = "Reiri al normala ekrano ";
 $langScormFullScreen = "Plena ekrano ";
 $langScormNotAttempted = "Ne provita ";
+$langCharset = "Tiparo";
+$langLocal = "Loka";
+$langRemote = "Fora";
+$langAutodetect = "A&#365;tomate trovi";
+$langAccomplishedStepsTotal = "Nombro da finitaj pa&#349;oj";
+$langUnknown = "Nekonata";
+$h = "h";
 ?>

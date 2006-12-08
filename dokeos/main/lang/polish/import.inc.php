@@ -4,7 +4,6 @@ for more information: see languages.txt in the lang folder.
 $langPgTitle = "Tytu&#322; strony";
 $langExplanation = "Strona musi by&#263; w formacie HTML (np. \"my_page.htm\"). Odno&#347;nik do strony umieszczone zostanie na Stronie g&#322;ównej. Je&#347;li chcesz wys&#322;a&#263; dokument inny ni&#380; HTML (PDF, Word, Power Point, Video, etc.) u&#380;yj <a href=../document/document.php>narz&#281;dzia Dokumenty</a>";
 $langTooBig = "Nie wybrano &#380;adnego pliku do wys&#322;ania lub jest on za du&#380;y";
-$langOkSent = "Twoja strona zosta&#322;a wys&#322;ana.<p>Jest ona dost&#281;pna ze <a href=../..//index.php>Strony g&#322;ównej</a> kursu";
 $langCouldNot = "Plik nie mo&#380;e by&#263; wys&#322;any";
 $langExercices = "Testy";
 $langNotAllowed = "Niedost&#281;pny";

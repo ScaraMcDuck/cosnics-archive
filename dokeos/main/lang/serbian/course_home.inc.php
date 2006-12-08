@@ -9,6 +9,7 @@ $langDelLk = "Da li zaista želite da obrišete ovaj link?";
 $langEnter  = "U&#273;i";
 $langCourseCreate  = "Kreiranje Web sajta kursa";
 $langNameOfTheLink  = "Ime linka";
+$lang_main_categories_list                  = "Lista glavne kategorije";
 $langHelp = "Pomo&#263;";
 $langCourseAdminOnly = "Samo predava&#269;i";
 $PlatformAdminOnly = "Samo za administratore platforme";

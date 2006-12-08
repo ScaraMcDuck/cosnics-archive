@@ -2,7 +2,6 @@
 for more information: see languages.txt in the lang folder. 
 */
 $lang_already_enrolled                      = "deltar redan";
-$lang_main_categories_list                  = "Huvudkategorilista";
 $lang_my_personnal_course_list              = "Min personliga kurslista";
 $lang_course_enrollment                     = "Användarnas kurser";
 $lang_course_not_available                  = "Denna kurs är inte tillgänglig eller finns inte.";
@@ -63,4 +62,6 @@ $SubscribingNotAllowed = "Prenumeration ej tillåten";
 $CourseSortingDone = "Kurssortering avslutad";
 $ExistingCourseCategories = "Existerande kurskategorier";
 $YouAreNowUnsubscribed = "Du har nu avslutat din prenumeration på kursen";
+$AddRight = "Lägg till";
+$ViewOpenCourses = "Visa öppna kurser";
 ?>

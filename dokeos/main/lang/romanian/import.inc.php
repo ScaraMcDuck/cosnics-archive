@@ -4,7 +4,6 @@ for more information: see languages.txt in the lang folder.
 $langPgTitle = "Titlul paginii";
 $langExplanation = "Pagina trebuie sa fie in format html (ex. \"paginea_mea.htm\"). Va fi linkata de pe pagina principa \'Home\'. Daca doriti trimiterea de documente non-html (pdf,word,powerpoint,video) a se folosi <a href=../document/document.php>unealta Documente</a>";
 $langTooBig = "Nu ati ales nici un fisier spre upload, sau este de dimensiuni prea mari.";
-$langOkSent = "Pagina dumneavoastra a fost transferata. Este legata acum la <a href=../../$dbname/index.php>Pagina principala</a>";
 $langCouldNot = "Fisierul nu a putut fi transferat.";
 $langExercices = "Teste";
 $langNotAllowed = "Nepermis";
