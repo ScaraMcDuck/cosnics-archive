@@ -66,6 +66,7 @@ class ActionDisplay extends HTML_QuickForm_Action_Display
 		echo $renderer->toHtml();
 		?>
         </div>
+        <div style="clear:both;"></div>
         <div id="footer">
         &copy; <?php echo $dokeos_version; ?>
         </div>
