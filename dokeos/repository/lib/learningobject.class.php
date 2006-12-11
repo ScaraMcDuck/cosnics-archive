@@ -633,7 +633,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_OWNER_ID,self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_STATE);
+		return array (self :: PROPERTY_OWNER_ID,self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_STATE, self :: PROPERTY_DISPLAY_ORDER_INDEX);
 	}
 
 	/**
