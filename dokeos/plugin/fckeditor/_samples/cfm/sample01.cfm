@@ -1,10 +1,23 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
-<!--- @Packager.Header
-<FileDescription>
-	Sample page for ColdFusion.
-</FileDescription>
-<Author name="Hendrik Kramer" email="hk@lwd.de" />
-<Author name="Mark Woods" email="mark@thickpaddy.com" />
+<!---
+ * FCKeditor - The text editor for internet
+ * Copyright (C) 2003-2006 Frederico Caldeira Knabben
+ * 
+ * Licensed under the terms of the GNU Lesser General Public License:
+ * 		http://www.opensource.org/licenses/lgpl-license.php
+ * 
+ * For further information visit:
+ * 		http://www.fckeditor.net/
+ * 
+ * "Support Open Source software. What about a donation today?"
+ * 
+ * File Name: sample01.cfm
+ * 	Sample page for ColdFusion.
+ * 
+ * File Authors:
+ * 		Hendrik Kramer (hk@lwd.de)
+ * 		Mark Woods (mark@thickpaddy.com)
+ * 		Wim Lemmens (didgiman@gmail.com)
 --->
 
 <cfoutput>
@@ -21,15 +34,14 @@
 
 <h1>FCKeditor - ColdFusion - Sample 1</h1>
 	
-This sample displays a normal HTML form with a FCKeditor with full features enabled; invoked by a ColdFusion Custom Tag / Module.<br>
-ColdFusion is a registered trademark and product of <a href="http://www.macromedia.com/software/coldfusion/" target="_blank">Macromedia, Inc</a>.
+This sample displays a normal HTML form with a FCKeditor with full features enabled; invoked by a ColdFusion Custom Tag / Module.
 <hr>
 <form method="POST" action="#cgi.script_name#">
 </cfoutput>
 
 <cfmodule 
 	template="../../fckeditor.cfm"
-	basePath="/fckeditor/"
+	basePath="#Left(cgi.script_name, FindNoCase('_samples', cgi.script_name)-1)#"
 	instanceName="myEditor"
 	value='This is some sample text. You are using <a href="http://fckeditor.net/" target="_blank">FCKeditor</a>.'
 	width="100%"

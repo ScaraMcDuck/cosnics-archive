@@ -12,7 +12,7 @@ $configuration['general']['data_manager']
 	= 'Database';
 
 $configuration['database']['connection_string']
-	= 'mysql://root@localhost/lcms_dokeos_repository';
+	= 'mysql://root:@localhost/dokeos_repository';
 
 $configuration['database']['table_name_prefix']
 	= 'dokeos_';

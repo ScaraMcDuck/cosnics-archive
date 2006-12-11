@@ -1,6 +1,6 @@
 ﻿/*
  * FCKeditor - The text editor for internet
- * Copyright (C) 2003-2005 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2006 Frederico Caldeira Knabben
  * 
  * Licensed under the terms of the GNU Lesser General Public License:
  * 		http://www.opensource.org/licenses/lgpl-license.php
@@ -23,22 +23,8 @@ FCKXHtml._GetMainXmlString = function()
 	// Create the XMLSerializer.
 	var oSerializer = new XMLSerializer() ;
 
-	if ( FCKConfig.ProcessHTMLEntities )
-	{
-		// Return the serialized XML as a string.
-		// Due to a BUG on Gecko, the special chars sequence "#?-:" must be replaced with "&"
-		// for the XHTML entities.
-		return oSerializer.serializeToString( this.MainNode ).replace( FCKXHtmlEntities.GeckoEntitiesMarkerRegex, '&' ) ;
-	}
-	else
-		return oSerializer.serializeToString( this.MainNode ) ;
-}
-
-// There is a BUG on Gecko... createEntityReference returns null.
-// So we use a trick to append entities on it.
-FCKXHtml._AppendEntity = function( xmlNode, entity )
-{
-	xmlNode.appendChild( this.XML.createTextNode( '#?-:' + entity + ';' ) ) ;
+	// Return the serialized XML as a string.
+	return oSerializer.serializeToString( this.MainNode ) ;
 }
 
 FCKXHtml._AppendAttributes = function( xmlNode, htmlNode, node )
@@ -54,8 +40,8 @@ FCKXHtml._AppendAttributes = function( xmlNode, htmlNode, node )
 			var sAttName = oAttribute.nodeName.toLowerCase() ;
 			var sAttValue ;
 
-			// The "_fckxhtmljob" attribute is used to mark the already processed elements.
-			if ( sAttName == '_fckxhtmljob' )
+			// Ignore any attribute starting with "_fck".
+			if ( sAttName.startsWith( '_fck' ) )
 				continue ;
 			// There is a bug in Mozilla that returns '_moz_xxx' attributes as specified.
 			else if ( sAttName.indexOf( '_moz' ) == 0 )
@@ -70,9 +56,6 @@ FCKXHtml._AppendAttributes = function( xmlNode, htmlNode, node )
 			else
 				sAttValue = htmlNode.getAttribute( sAttName, 2 ) ;	// We must use getAttribute to get it exactly as it is defined.
 
-			if ( FCKConfig.ForceSimpleAmpersand && sAttValue.replace )
-				sAttValue = sAttValue.replace( /&/g, '___FCKAmp___' ) ;
-			
 			this._AppendAttribute( node, sAttName, sAttValue ) ;
 		}
 	}
