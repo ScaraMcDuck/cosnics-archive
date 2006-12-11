@@ -338,7 +338,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 			// Delete object
 			$query = 'DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
-			$this->connection->limitQuery($query, 0, 1, array ($object->get_id()));
+			$this->connection->setLimit(0,1);
+			$statement = $this->connection->prepare($query);
+			$statement->execute($object->get_id());
+
 			if ($object->is_extended())
 			{
 				$query = 'DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
