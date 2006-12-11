@@ -1,8 +1,7 @@
 [//lasso
 /*
- 
  * FCKeditor - The text editor for internet
- * Copyright (C) 2003-2005 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2006 Frederico Caldeira Knabben
  * 
  * Licensed under the terms of the GNU Lesser General Public License:
  * 		http://www.opensource.org/licenses/lgpl-license.php
@@ -10,17 +9,15 @@
  * For further information visit:
  * 		http://www.fckeditor.net/
  * 
+ * "Support Open Source software. What about a donation today?"
+ * 
  * File Name: sampleposteddata.lasso
- * 		Sample page.
+ * 	Sample page.
  * 
  * File Authors:
- *		Frederico Caldeira Knabben (fredck@fckeditor.net)
- *		Jason Huck (jason.huck@corefive.com)
-
+ * 		Jason Huck (jason.huck@corefive.com)
  * 		Jim Michaels (jmichae3@yahoo.com)
- 
  */
-
 ]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>

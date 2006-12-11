@@ -76,14 +76,7 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 		}
 		else
 		{
-			if(api_get_setting('server_type') != 'production')
-			{
-				return $this->build_HTMLArea();
-			}
-			else
-			{
-				return $this->build_FCKeditor();
-			}
+			return $this->build_FCKeditor();
 		}
 	}
 	/**
@@ -95,89 +88,11 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 		return $this->getValue();
 	}
 	/**
-	 * Build this element using HTMLArea
-	 */
-	function build_HTMLArea()
-	{
-		global $_course;
-		$navigator = api_get_navigator();
-		if (($navigator['name'] == 'Internet Explorer' && $navigator['version'] >= 6.0) || ($navigator['name'] == 'Mozilla' && $navigator['version'] >= 1.4))
-		{
-			$display_htmlarea = true;
-		}
-		else
-		{
-			$display_htmlarea = false;
-		}
-		if ($display_htmlarea)
-		{
-			$htmlarea_path = api_get_code_web_path()."plugin/htmlarea/";
-			// We set the language and use the platform language if there is no course language (for using htmlarea in the admin section)
-			if (!$_course)
-			{
-				$user_selected_language = $_SESSION["user_language_choice"] ? $_SESSION["user_language_choice"] : get_setting('platformLanguage');
-				$lang = $user_selected_language;
-			}
-			else
-			{
-				$lang = $_course['language'];
-			}
-		}
-		$name = $this->getAttribute('name');
-		$this->_attributes['id'] = $name;
-		$value = $this->getValue();
-		$result[] = parent :: toHTML();
-		if ($display_htmlarea)
-		{
-			$result[] = '<script type="text/javascript">';
-			$result[] = '/* <![CDATA[ */';
-			$result[] = "_editor_url='$htmlarea_path';";
-			$result[] = "_image_url='".api_get_code_web_path()."img/htmlarea/';";
-			$result[] = "_css_url='".api_get_code_web_path()."css/';";
-			$result[] = "if(typeof _document_path != 'string')";
-			$result[] = "{";
-			$result[] = "_document_path='". (empty ($_course['path']) ? api_get_path(SYS_CODE_PATH).'upload/' : api_get_path(SYS_COURSE_PATH).$_course['path'].'/document/')."';";
-			$result[] = "}";
-			$result[] = "_document_url=_document_path.replace(/".str_replace('/', '\/', api_get_path(SYS_PATH))."/,'".addslashes(api_get_path(WEB_PATH))."');";
-			$result[] = '/* ]]> */';
-			$result[] = '</script>';
-			$result[] = '<script type="text/javascript" src="'.$htmlarea_path.'htmlarea.js"></script>';
-			$result[] = '<script type="text/javascript" src="'.api_get_code_web_path().'lang/'.$lang.'/htmlarea.js.php"></script>';
-			$result[] = '<script type="text/javascript" src="'.$htmlarea_path.'dialog.js"></script>';
-			if ($this->fullPage)
-			{
-				$result[] = '<script type="text/javascript" src="'.$htmlarea_path.'plugins/FullPage/full-page.js"></script>';
-				$result[] = '<script type="text/javascript" src="'.$htmlarea_path.'plugins/FullPage/lang/en.js"></script>';
-			}
-			$result[] = '<script type="text/javascript">';
-			$result[] = '/* <![CDATA[ */';
-			$result[] = 'var	editor=null';
-			$result[] = 'function initEditor()';
-			$result[] = '{';
-			$result[] = '	var config = new HTMLArea.Config();';
-			$result[] = '	config.hideSomeButtons(" showhelp undo redo popupeditor ");';
-			$result[] = '	editor=new HTMLArea("'.$name.'",config);';
-			$result[] = '	config.width=650;';
-			$result[] = '	config.height=350;';
-			if ($this->fullPage)
-			{
-				$result[] = 'editor.registerPlugin(FullPage);';
-			}
-			$result[] = '	editor.generate();';
-			$result[] = '	return false;';
-			$result[] = '}';
-			$result[] = 'initEditor();';
-			$result[] = '/* ]]> */';
-			$result[] = '</script>';
-		}
-		return implode("\n", $result);
-	}
-	/**
 	 * Build this element using FCKeditor
 	 */
 	function build_FCKeditor()
 	{
-		global $language_interface;
+		global $language_interface, $_uid;
 		if(! FCKeditor :: IsCompatible())
 		{
 			return parent::toHTML();
@@ -190,22 +105,24 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 			$editor_lang = 'en';
 		}
 		$name = $this->getAttribute('name');
-		$result .= '<script type="text/javascript" src="'.api_get_path(WEB_PATH).'plugin/fckeditor/fckeditor.js"></script>';
-		$result .= '<script type="text/javascript">';
-		$result .= "\n/* <![CDATA[ */\n";
-		$result .= 'var oFCKeditor = new FCKeditor( \''.$name.'\' ) ;';
-		$result .= 'oFCKeditor.BasePath = "'.api_get_path(WEB_PATH).'plugin/fckeditor/";';
-		$result .= 'oFCKeditor.Width = 650;';
-		$result .= 'oFCKeditor.Height = '. ($this->fullPage ? '500' : '300').';';
-		$result .= 'oFCKeditor.Config[ "FullPage" ] = '. ($this->fullPage ? 'true' : 'false').';';
-		$result .= 'oFCKeditor.Config[ "DefaultLanguage" ] = "'.$editor_lang.'" ;';
-		$result .= 'oFCKeditor.Value = "'.str_replace('"', '\"', str_replace(array ("\r\n", "\n", "\r", "/"), array (' ', ' ', ' ', '\/'), $this->getValue())).'" ;';
-		$result .= 'oFCKeditor.Create();';
-		$result .= "\n/* ]]> */\n";
-		$result .= '</script>';
-		$result .= '<noscript>'.parent :: toHTML().'</noscript>';
-		$result .= '<small><a href="#" onclick="MyWindow=window.open('."'".api_get_path(WEB_CODE_PATH)."help/allowed_html_tags.php?fullpage=". ($this->fullPage ? '1' : '0')."','MyWindow','toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=500,height=600,left=200,top=20'".'); return false;">'.get_lang('AllowedHTMLTags').'</a></small>';
-		return $result;
+		$result []= '<script type="text/javascript" src="'.api_get_path(WEB_PATH).'plugin/fckeditor/fckeditor.js"></script>';
+		$result []= '<script type="text/javascript">';
+		$result []= "\n/* <![CDATA[ */\n";
+		$result []= 'var oFCKeditor = new FCKeditor( \''.$name.'\' ) ;';
+		$result []= 'oFCKeditor.BasePath = "'.api_get_path(WEB_PATH).'plugin/fckeditor/";';
+		$result []= 'oFCKeditor.Width = 650;';
+		$result []= 'oFCKeditor.Height = '. ($this->fullPage ? '500' : '300').';';
+		$result []= 'oFCKeditor.Config[ "FullPage" ] = '. ($this->fullPage ? 'true' : 'false').';';
+		$result []= 'oFCKeditor.Config[ "DefaultLanguage" ] = "'.$editor_lang.'" ;';
+		$result []= 'oFCKeditor.Value = "'.str_replace('"', '\"', str_replace(array ("\r\n", "\n", "\r", "/"), array (' ', ' ', ' ', '\/'), $this->getValue())).'" ;';
+		$result []= 'oFCKeditor.ToolbarSet = \'FullHTML\';';
+		$result []= 'oFCKeditor.Create();';
+		$result []= "\n/* ]]> */\n";
+		$result []= '</script>';
+		$result []= '<noscript>'.parent :: toHTML().'</noscript>';
+		$result []= '<small><a href="#" onclick="MyWindow=window.open('."'".api_get_path(WEB_CODE_PATH)."help/allowed_html_tags.php?fullpage=". ($this->fullPage ? '1' : '0')."','MyWindow','toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=500,height=600,left=200,top=20'".'); return false;">'.get_lang('AllowedHTMLTags').'</a></small>';
+		@mkdir(api_get_path(SYS_PATH).'main/upload/fckeditor/'.$_uid.'/');
+		return implode("\n",$result);
 	}
 }
 ?>

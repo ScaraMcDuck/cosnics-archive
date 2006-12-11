@@ -1,6 +1,6 @@
 #####
 #  FCKeditor - The text editor for internet
-#  Copyright (C) 2003-2005 Frederico Caldeira Knabben
+#  Copyright (C) 2003-2006 Frederico Caldeira Knabben
 #  
 #  Licensed under the terms of the GNU Lesser General Public License:
 #  		http://www.opensource.org/licenses/lgpl-license.php
@@ -30,7 +30,7 @@ sub FCKeditor
 
 	local($instanceName) = @_;
 	$InstanceName	= $instanceName;
-	$BasePath		= '/FCKeditor/';
+	$BasePath		= '/fckeditor/';
 	$Width			= '100%';
 	$Height			= '200';
 	$ToolbarSet		= 'Default';
@@ -66,16 +66,16 @@ sub CreateHtml
 			$Link .= "&amp;Toolbar=$ToolbarSet";
 		}
 		#// Render the linked hidden field.
-		$Html .= "<input type=\"hidden\" id=\"$InstanceName\" name=\"$InstanceName\" value=\"$HtmlValue\" />" ;
+		$Html .= "<input type=\"hidden\" id=\"$InstanceName\" name=\"$InstanceName\" value=\"$HtmlValue\" style=\"display:none\" />" ;
 
 		#// Render the configurations hidden field.
 		$cfgstr = &GetConfigFieldString();
 		$wk = $InstanceName."___Config";
-		$Html .= "<input type=\"hidden\" id=\"$wk\" value=\"$cfgstr\" />" ;
+		$Html .= "<input type=\"hidden\" id=\"$wk\" value=\"$cfgstr\" style=\"display:none\" />" ;
 
 		#// Render the editor IFRAME.
 		$wk = $InstanceName."___Frame";
-		$Html .= "<iframe id=\"$wk\" src=\"$Link\" width=\"$Width\" height=\"$Height\" frameborder=\"no\" scrolling=\"no\"></iframe>";
+		$Html .= "<iframe id=\"$wk\" src=\"$Link\" width=\"$Width\" height=\"$Height\" frameborder=\"0\" scrolling=\"no\"></iframe>";
 	} else {
 		if($Width =~ /\%/g){
 			$WidthCSS = $Width;
@@ -87,7 +87,7 @@ sub CreateHtml
 		} else {
 			$HeightCSS = $Height . 'px';
 		}
-		$Html .= "<textarea name=\"$InstanceName\" rows=\"4\" cols=\"40\" style=\"width: $WidthCSS; height: $HeightCSS\" wrap=\"virtual\">$HtmlValue</textarea>";
+		$Html .= "<textarea name=\"$InstanceName\" rows=\"4\" cols=\"40\" style=\"width: $WidthCSS; height: $HeightCSS\">$HtmlValue</textarea>";
 	}
 	$Html .= '</div>';
 	return($Html);
