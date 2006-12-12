@@ -1,13 +1,11 @@
 <?php
+set_time_limit(0);
 /**
-==============================================================================
- *	This is a simple test script that removes all learning objects from the
- *	LCMS data source and fills it with garbage data. For testing purposes
- *	only.
+ * This is a simple test script that removes all learning objects from the LCMS
+ * data source and fills it with garbage data. For testing purposes only.
  *
- *	@author Tim De Pauw
+ * @author Tim De Pauw
  * @package repository
-==============================================================================
  */
 
 $langFile = 'repository';
@@ -16,17 +14,15 @@ require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 
 $users = 1;
 
-$max_categories = array (5, 3, 3, 0);
+$max_categories = array (3,2,1);
 
 $announcements = rand(2, 10);
 $calendar_events = rand(2, 10);
 $documents = rand(2, 10);
-$links = rand(50, 100);
-//$student_publications = rand(2, 10);
-
+$links = rand(50, 10);
 $forums = rand(10,50);
-$forum_topics = rand(100,500);
-$forum_posts = rand(1000,5000);
+$forum_topics = rand(10,50);
+$forum_posts = rand(60,120);
 
 // TODO
 //$learning_paths = rand(100,500);
@@ -59,12 +55,12 @@ $words = preg_split('/\W+/', preg_replace(array ('/^\W+/', '/\W+$/'), array ('',
 $dataManager = RepositoryDataManager :: get_instance();
 
 $dataManager->delete_all_learning_objects();
-
+title('Categories');
 for ($u = 1; $u <= $users; $u ++)
 {
 	create_category($u);
 }
-
+title('Announcements');
 for ($i = 0; $i < $announcements; $i ++)
 {
 	$user = random_user();
@@ -74,8 +70,9 @@ for ($i = 0; $i < $announcements; $i ++)
 	$announcement->set_description(random_string(8));
 	$announcement->set_parent_id(random_category($user));
 	$announcement->create();
+	progress();
 }
-
+title('Calendar Events');
 for ($i = 0; $i < $calendar_events; $i ++)
 {
 	$user = random_user();
@@ -89,8 +86,9 @@ for ($i = 0; $i < $calendar_events; $i ++)
 	$event->set_start_date($start_date);
 	$event->set_end_date($end_date);
 	$event->create();
+	progress();
 }
-
+title('Documents');
 for ($i = 0; $i < $documents; $i ++)
 {
 	$user = random_user();
@@ -103,8 +101,9 @@ for ($i = 0; $i < $documents; $i ++)
 	$document->set_filesize(rand(1000, 10000));
 	$document->set_parent_id(random_category($user));
 	$document->create();
+	progress();
 }
-
+title('Links');
 for ($i = 0; $i < $links; $i ++)
 {
 	$user = random_user();
@@ -115,23 +114,9 @@ for ($i = 0; $i < $links; $i ++)
 	$link->set_url(random_url());
 	$link->set_parent_id(random_category($user));
 	$link->create();
+	progress();
 }
-
-//for ($i = 0; $i < $student_publications; $i ++)
-//{
-//	$user = random_user();
-//	$student_publication = new StudentPublication();
-//	$student_publication->set_owner_id($user);
-//	$student_publication->set_title(random_string(2));
-//	$student_publication->set_description(random_string(8));
-//	$student_publication->set_author(random_user());
-//	$student_publication->set_url(random_url());
-//	$student_publication->set_active(true);
-//	$student_publication->set_accepted(true);
-//	$student_publication->set_parent_id(random_category($user));
-//	$student_publication->create();
-//}
-
+title('Forums');
 $created_forums = array();
 for ($i = 0; $i < $forums; $i++)
 {
@@ -143,8 +128,9 @@ for ($i = 0; $i < $forums; $i++)
 	$forum->set_parent_id(random_category($user));
 	$forum->create();
 	$created_forums[] = $forum;
+	progress();
 }
-
+title('Forum Topics');
 $created_forum_topics = array();
 $topic_to_forum = array();
 for ($i = 0; $i < $forum_topics; $i++)
@@ -167,14 +153,9 @@ for ($i = 0; $i < $forum_topics; $i++)
 	$post->set_description(random_string(8));
 	$post->set_parent_id($topic->get_id());
 	$post->create();
-	// Update the topic.
-	$topic->set_last_post_id($post->get_id());
-	// Update the forum.
-	$forum->set_topic_count($forum->get_topic_count() + 1);
-	$forum->set_post_count($forum->get_post_count() + 1);
-	$forum->set_last_post_id($post->get_id());
+	progress();
 }
-
+title('Forum Posts');
 for ($i = 0; $i < $forum_posts - $forum_topics; $i++)
 {
 	$user = random_user();
@@ -185,14 +166,7 @@ for ($i = 0; $i < $forum_posts - $forum_topics; $i++)
 	$post->set_description(random_string(8));
 	$post->set_parent_id($topic->get_id());
 	$post->create();
-	// Update the topic.
-	$topic->set_reply_count($topic->get_reply_count() + 1);
-	$topic->set_last_post_id($post->get_id());
-	// Update the forum.
-	$forum = $topic_to_forum[$topic->get_id()];
-	$forum->set_topic_count($forum->get_topic_count() + 1);
-	$forum->set_post_count($forum->get_post_count() + 1);
-	$forum->set_last_post_id($post->get_id());
+	progress();
 }
 
 foreach ($created_forum_topics as $topic)
@@ -207,7 +181,7 @@ foreach ($created_forums as $forum)
 
 function random_url()
 {
-	return 'http://webs.hogent.be/~'.totally_random_word(8).'/'.str_replace(' ', '%20', random_string(2)).'.'.totally_random_word(3);
+	return 'http://www.example.com/~'.totally_random_word(8).'/'.str_replace(' ', '%20', random_string(2)).'.'.totally_random_word(3);
 }
 
 function random_user()
@@ -283,12 +257,17 @@ function create_category($owner, $parent = 0, $level = 0)
 	for ($i = 0; $i < $count; $i ++)
 	{
 		create_category($owner, $id, $level +1);
+		progress();
 	}
 	$created_categories[$owner][] = $id;
 }
+function title($title)
+{
+	echo '<br /><strong>'.$title.'</strong>';
+}
+function progress()
+{
+	echo ' =';
+	flush();
+}
 ?>
-<html>
-<body>
-<p>Tables filled.</p>
-</body>
-</html>
