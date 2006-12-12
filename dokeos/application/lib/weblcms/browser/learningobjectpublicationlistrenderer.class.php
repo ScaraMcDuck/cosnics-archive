@@ -205,7 +205,6 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_visibility_action($publication)
 	{
-		echo $publication->get_from_date();
 		if(!$publication->is_forever() && ($publication->get_from_date() > time() || $publication->get_to_date() < time()))
 		{
 				$visibility_link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/invisible_clock.gif"  alt=""/>';
