@@ -439,10 +439,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$oldIndex = $publication->get_display_order_index();
 		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'+1 WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_CATEGORY_ID).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'<? ORDER BY '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).' DESC';
-		$this->limitQuery($query, 0, $places, array($publication->get_course_id(), $publication->get_tool(), $publication->get_category_id(), $oldIndex));
-		$rowsMoved = $this->connection->affectedRows();
+		$this->connection->setLimit(0,$places);
+		$statement = $this->connection->prepare($query);
+		$rowsMoved = $statement->execute(array($publication->get_course_id(), $publication->get_tool(), $publication->get_category_id(), $oldIndex));
 		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'=? WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=?';
-		$this->limitQuery($query, 0, 1, array($oldIndex - $places, $publication->get_id()));
+		$this->connection->setLimit(0,1);
+		$statement = $this->connection->prepare($query);
+		$statement->execute(array($oldIndex - $places, $publication->get_id()));
 		return $rowsMoved;
 	}
 
@@ -450,10 +453,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$oldIndex = $publication->get_display_order_index();
 		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'-1 WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_CATEGORY_ID).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'>? ORDER BY '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).' ASC';
-		$this->limitQuery($query, 0, $places, array($publication->get_course_id(), $publication->get_tool(), $publication->get_category_id(), $oldIndex));
-		$rowsMoved = $this->connection->affectedRows();
+		$this->connection->setLimit(0,$places);
+		$statement = $this->connection->prepare($query);
+		$rowsMoved = $statement->execute(array($publication->get_course_id(), $publication->get_tool(), $publication->get_category_id(), $oldIndex));
 		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'=? WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=?';
-		$this->limitQuery($query, 0, 1, array($oldIndex + $places, $publication->get_id()));
+		$this->connection->setLimit(0,$places);
+		$statement = $this->connection->prepare($query);
+		$statement->execute(array($oldIndex + $places, $publication->get_id()));
 		return $rowsMoved;
 	}
 
