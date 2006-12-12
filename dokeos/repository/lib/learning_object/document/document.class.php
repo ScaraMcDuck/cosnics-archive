@@ -59,7 +59,7 @@ class Document extends LearningObject
 		$filename = $this->get_filename();
 		$parts = explode('.',$filename);
 		$icon_name = $parts[count($parts)-1];
-		if( !file_exists(api_get_path(WEB_CODE_PATH).'/img/'.$icon_name.'.gif'))
+		if( !file_exists(api_get_path(SYS_CODE_PATH).'/img/'.$icon_name.'.gif'))
 		{
 			return 'document';
 		}
