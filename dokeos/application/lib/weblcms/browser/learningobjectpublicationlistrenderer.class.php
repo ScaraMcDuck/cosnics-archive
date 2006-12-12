@@ -328,7 +328,8 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function format_date($date)
 	{
-		return date('r', $date);
+		$date_format = get_lang('dateTimeFormatLong');
+		return format_locale_date($date_format,$date);
 	}
 
 	/**
