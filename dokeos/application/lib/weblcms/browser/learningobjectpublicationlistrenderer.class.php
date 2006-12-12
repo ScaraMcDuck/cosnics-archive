@@ -205,13 +205,19 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_visibility_action($publication)
 	{
-		if(!$publication->is_forever() && ($publication->get_from_date() > time() || $publication->get_to_date() < time()))
-		{
-				$visibility_link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/invisible_clock.gif"  alt=""/>';
-				return $visibility_link;
-		}
 		$visibility_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_TOGGLE_VISIBILITY, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-		$visibility_img = ($publication->is_hidden() ? 'invisible.gif' : 'visible.gif');
+		if($publication->is_hidden())
+		{
+			$visibility_img = 'invisible.gif';
+		}
+		elseif($publication->is_forever())
+		{
+			$visibility_img = 'visible.gif';
+		}
+		else
+		{
+			$visibility_img = 'visible_clock.gif';
+		}
 		$visibility_link = '<a href="'.$visibility_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$visibility_img.'"  alt=""/></a>';
 		return $visibility_link;
 	}
