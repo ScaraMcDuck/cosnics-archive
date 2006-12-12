@@ -59,7 +59,7 @@ abstract class LearningObjectPublicationBrowser
 	 */
 	function as_html()
 	{
-		if (!isset($this->categoryTree))
+		if (!isset($this->categoryTree) || count($this->get_categories())== 1)
 		{
 			return $this->listRenderer->as_html();
 		}
