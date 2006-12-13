@@ -76,7 +76,8 @@ class DayCalendarLearningObjectPublicationListRenderer extends LearningObjectPub
 		}
 		if(!isset($color_cache[$event->get_id()]))
 		{
-			$color_cache[$event->get_id()] = 'rgb('.rand(0,255).','.rand(0,255).','.rand(0,255).')';
+			$rgb = $this->object2color($event);
+			$color_cache[$event->get_id()] = 'rgb('.$rgb['r'].','.$rgb['g'].','.$rgb['b'].')';
 		}
 		$html[] = '';
 		$html[] = '<div class="event" style="border-right: 4px solid '.$color_cache[$event->get_id()].';">';

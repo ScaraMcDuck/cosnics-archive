@@ -400,5 +400,17 @@ abstract class LearningObjectPublicationListRenderer
 	{
 		return $this->browser->is_allowed($right);
 	}
+	/**
+	 *
+	 */
+	protected function object2color($object)
+	{
+		$color_number = substr(ereg_replace('[0a-zA-Z]','',md5(serialize($object))),0,9);
+		$rgb = array();
+		$rgb['r'] = substr($color_number,0,3)%255;
+		$rgb['g'] = substr($color_number,2,3)%255;
+		$rgb['b'] = substr($color_number,4,3)%255;
+		return $rgb;
+	}
 }
 ?>
