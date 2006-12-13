@@ -281,15 +281,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$parameters['id'] = $publication->get_id();
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_user').' WHERE publication = ?';
 		$statement = $this->connection->prepare($query);
-		$statement->execute($parameters);
+		$statement->execute($publication->get_id());
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_group').' WHERE publication = ?';
 		$statement = $this->connection->prepare($query);
-		$statement->execute($parameters);
+		$statement->execute($publication->get_id());
 		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'-1 WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'>?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute(array($publication->get_display_order_index()));
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=?';
-		$this->limitQuery($query, 0, 1, $parameters);
+		$this->connection->setLimit(0,1);
+		$statement = $this->connection->prepare($query);
+		$statement->execute($publication->get_id());
 		return true;
 	}
 
@@ -318,7 +320,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function retrieve_learning_object_publication_category($id)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'=?';
-		$res = $this->limitQuery($query, 0, 1, array($id));
+		$this->connection->setLimit(0,1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($id);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		return $this->record_to_publication_category($record);
 	}
@@ -375,7 +379,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 		// Finally, delete the category itself
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'=?';
-		$this->limitQuery($query, 0, 1, array($category->get_id()));
+		$this->connection->setLimit(0,1);
+		$statement = $this->connection->prepare($query);
+		$statement->execute($category->get_id());
 		return true;
 	}
 
