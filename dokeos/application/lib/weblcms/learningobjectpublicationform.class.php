@@ -5,6 +5,7 @@
  */
 require_once dirname(__FILE__).'/learningobjectpublication.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';
+require_once api_get_path(SYS_CODE_PATH).'/inc/lib/html2text.class.php';
 /**
  * This class represents a form to allow a user to publish a learning object.
  *
@@ -246,11 +247,13 @@ class LearningObjectPublicationForm extends FormValidator
 			$learning_object = $this->learning_object;
 			$display = LearningObjectDisplay::factory($learning_object);
 			$subject = '['.api_get_setting('siteName').'] '.$learning_object->get_title();
-			$body = $display->get_full_html();
-			//@todo: body: HTML -> TEXT
-			//@todo: send email to correct users/groups
-			//@todo: only set emailSent property to true if the email was succesfully sent
-			$pub->set_email_sent(true);
+			$body = new html2text($display->get_full_html());
+			//@todo: send email to correct users/groups. For testing, the email is sent now to the publisher.
+			$user = api_get_user_info();
+			if(api_send_mail($user['mail'],$learning_object->get_title(),$body->get_text()))
+			{
+				$pub->set_email_sent(true);
+			}
 			$pub->update();
 		}
 		return $pub;
