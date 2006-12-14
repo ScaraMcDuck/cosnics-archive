@@ -155,6 +155,7 @@ abstract class Tool
 		$dokeos_tools['forum'] = TOOL_BB_FORUM;
 		$dokeos_tools['dropbox'] = TOOL_DROPBOX;
 		$dokeos_tools['wiki'] = TOOL_DROPBOX;
+		$dokeos_tools['chat'] = TOOL_DROPBOX;
 		$dokeos_tools['learning_path'] = TOOL_LEARNPATH;
 		// Roles and rights system
 		$user_id = $this->get_user_id();
