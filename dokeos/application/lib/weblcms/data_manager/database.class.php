@@ -96,7 +96,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		// XXX: Is this necessary?
 		if ($maxObjects < 0)
 		{
-			$maxObjects = 999999999;
+			$maxObjects = null;
 		}
 		/*
 		 * Get publications.
