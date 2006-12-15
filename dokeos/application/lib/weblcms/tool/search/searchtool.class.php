@@ -17,6 +17,10 @@ require_once 'Pager/Pager.php';
  */
 class SearchTool extends Tool
 {
+	/**
+	 * Number of results per page
+	 */
+	const RESULTS_PER_PAGE = 10;
 	// Inherited
 	function run()
 	{
@@ -46,15 +50,15 @@ class SearchTool extends Tool
 			$search_condition = $form->get_condition();
 			$condition = new AndCondition($id_condition,$search_condition);
 			$total = $repositorymanager->count_learning_objects(null,$condition);
-			$pager = SearchTool::create_pager($total,2);
+			$pager = SearchTool::create_pager($total,SearchTool::RESULTS_PER_PAGE);
 			echo SearchTool::get_pager_links($pager);
-			$from = 1;
+			$from = 0;
 			$offset = $pager->getOffsetByPageId();
 			if(isset($offset[0]))
 			{
 				$from = $offset[0]-1;
 			}
-			$objects = $repositorymanager->retrieve_learning_objects(null,$condition,array(),array(),$from,2)->as_array();
+			$objects = $repositorymanager->retrieve_learning_objects(null,$condition,array(),array(),$from,SearchTool::RESULTS_PER_PAGE)->as_array();
 			foreach($objects as $index => $object)
 			{
 				echo '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$object->get_icon_name().'.gif);">';
