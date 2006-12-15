@@ -74,7 +74,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// Inherited.
 	function determine_learning_object_type($id)
 	{
-		$this->connection->setLimit(0,1);
+		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare('SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_TYPE).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?');
 		$res = $statement->execute($id);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -96,7 +96,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
 		}
-		$this->connection->setLimit(0,1);
+		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -181,7 +181,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$maxObjects = null;
 		}
-		$this->connection->setLimit(intval($offset), intval($maxObjects));
+		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseLearningObjectResultSet($this, $res, isset($type));
@@ -197,7 +197,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		$id = $learning_object->get_id();
 		$query = 'SELECT '.implode(',', array_map(array(self, 'escape_column_name'), $this->get_additional_properties($type))).' FROM '.$this->escape_table_name($type).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
-		$this->connection->setLimit(0,1);
+		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);
 		return $res->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -336,14 +336,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 			// Delete object
 			$query = 'DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
-			$this->connection->setLimit(0,1);
 			$statement = $this->connection->prepare($query);
 			$statement->execute($object->get_id());
 
 			if ($object->is_extended())
 			{
 				$query = 'DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
-				$this->connection->setLimit(0,1);
 				$statement = $this->connection->prepare($query);
 				$statement->execute($object->get_id());
 			}
@@ -387,12 +385,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		$oldIndex = $object->get_display_order_index();
 		$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'+1 WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_PARENT_ID).'=? AND '.$this->escape_column_name(LearningObject :: PROPERTY_TYPE).'=? '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'<? ORDER BY '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).' DESC';
-		$this->connection->setLimit(0,$places);
+		$this->connection->setLimit($places);
 		$statement = $this->connection->prepare($query);
 		$statement->execute(array($object->get_parent_id(), $object->get_type(), $oldIndex));
 		$rowsMoved = $this->connection->affectedRows();
 		$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'=? WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
-		$this->connection->setLimit(0,1);
+		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$statement->execute(array($oldIndex - $places, $object->get_id()));
 		return $rowsMoved;
@@ -402,12 +400,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		$oldIndex = $object->get_display_order_index();
 		$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'-1 WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_PARENT_ID).'=? AND '.$this->escape_column_name(LearningObject :: PROPERTY_TYPE).'=? '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'>? ORDER BY '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).' ASC';
-		$this->connection->setLimit(0,$places);
+		$this->connection->setLimit($places);
 		$statement = $this->connection->prepare($query);
 		$statement->execute(array($object->get_parent_id(), $publication->get_type(), $oldIndex));
 		$rowsMoved = $this->connection->affectedRows();
 		$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX).'=? WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
-		$this->connection->setLimit(0,1);
+		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$statement->execute(array($oldIndex + $places, $publication->get_id()));
 		return $rowsMoved;
@@ -459,7 +457,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function detach_learning_object ($object, $attachment_id)
 	{
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object').'=? AND '.$this->escape_column_name('attachment').'=?';
-		$this->connection->setLimit(0,1);
+		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$affectedRows = $statement->execute(array ($object->get_id(), $attachment_id));
 		return ($affectedRows > 0);
@@ -475,7 +473,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$query = 'UPDATE '.$this->escape_table_name('learning_object').' SET '.$this->escape_column_name(LearningObject :: PROPERTY_STATE).'=? WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
 		$params = $object_ids;
 		array_unshift($params, $state);
-		$this->connection->setLimit(0,count($object_ids));
+		$this->connection->setLimit(count($object_ids));
 		$statement = $this->connection->prepare($query);
 		$affectedRows = $statement->execute($params);
 		return ($affectedRows == count($object_ids));

@@ -7,6 +7,7 @@
  */
 require_once dirname(__FILE__).'/../tool.class.php';
 require_once dirname(__FILE__).'/searchform.class.php';
+require_once 'Pager/Pager.php';
 /**
  * Tool to search in the course.
  * @todo: Paging of search results
@@ -44,7 +45,16 @@ class SearchTool extends Tool
 			$id_condition = new OrCondition($id_conditions);
 			$search_condition = $form->get_condition();
 			$condition = new AndCondition($id_condition,$search_condition);
-			$objects = $repositorymanager->retrieve_learning_objects(null,$condition)->as_array();
+			$total = $repositorymanager->count_learning_objects(null,$condition);
+			$pager = SearchTool::create_pager($total,2);
+			echo SearchTool::get_pager_links($pager);
+			$from = 1;
+			$offset = $pager->getOffsetByPageId();
+			if(isset($offset[0]))
+			{
+				$from = $offset[0]-1;
+			}
+			$objects = $repositorymanager->retrieve_learning_objects(null,$condition,array(),array(),$from,2)->as_array();
 			foreach($objects as $index => $object)
 			{
 				echo '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$object->get_icon_name().'.gif);">';
@@ -54,6 +64,18 @@ class SearchTool extends Tool
 			}
 		}
 		$this->display_footer();
+	}
+	private static function create_pager($total, $per_page)
+	{
+		$params = array ();
+		$params['mode'] = 'Sliding';
+		$params['perPage'] = $per_page;
+		$params['totalItems'] = $total;
+		return Pager :: factory($params);
+	}
+	private static function get_pager_links($pager)
+	{
+		return '<div style="text-align: center; margin: 1em 0;">'.$pager_links .= $pager->links.'</div>';
 	}
 }
 ?>
