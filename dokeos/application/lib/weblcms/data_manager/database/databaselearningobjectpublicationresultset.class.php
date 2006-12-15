@@ -59,5 +59,17 @@ class DatabaseLearningObjectPublicationResultSet extends ResultSet
 			$this->handle->fetchRow();
 		}
 	}
+	/**
+	 * Returns the id of the next learning object
+	 * @return int|null
+	 */
+	function next_learning_object_id()
+	{
+		if ($record = $this->handle->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			return $record[LearningObjectPublication::PROPERTY_LEARNING_OBJECT_ID];
+		}
+		return null;
+	}
 }
 ?>
