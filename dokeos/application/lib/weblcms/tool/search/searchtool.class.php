@@ -10,7 +10,6 @@ require_once dirname(__FILE__).'/searchform.class.php';
 require_once 'Pager/Pager.php';
 /**
  * Tool to search in the course.
- * @todo: Paging of search results
  * @todo: Link from search results to location in course
  * @todo: Advanced search (only in recent publications, only certain types of
  * publications, only in a given tool,...)
