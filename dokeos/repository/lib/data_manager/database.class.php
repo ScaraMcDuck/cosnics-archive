@@ -15,6 +15,7 @@ require_once dirname(__FILE__).'/../condition/aggregatecondition.class.php';
 require_once dirname(__FILE__).'/../condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../condition/notcondition.class.php';
+require_once dirname(__FILE__).'/../condition/incondition.class.php';
 require_once 'MDB2.php';
 
 /**
@@ -708,6 +709,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			return $this->translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties);
 		}
+		elseif ($condition instanceof InCondition)
+		{
+			return $this->translate_in_condition($condition, & $params, $prefix_learning_object_properties);
+		}
 		elseif ($condition instanceof Condition)
 		{
 			return $this->translate_simple_condition($condition, & $params, $prefix_learning_object_properties);
@@ -755,6 +760,38 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		else
 		{
 			die('Cannot translate aggregate condition');
+		}
+	}
+
+	/**
+	 * Translates an in condition to a SQL WHERE clause.
+	 * @param InCondition $condition The InCondition object.
+	 * @param array $params A reference to the query's parameter list.
+	 * @param boolean $prefix_learning_object_properties Whether or not to
+	 *                                                   prefix learning
+	 *                                                   object properties
+	 *                                                   to avoid collisions.
+	 * @return string The WHERE clause.
+	 */
+	function translate_in_condition($condition, & $params, $prefix_learning_object_properties = false)
+	{
+		if ($condition instanceof InCondition)
+		{
+			$name = $condition->get_name();
+			$where_clause = $this->escape_column_name($name).' IN (';
+			$values = $condition->get_values();
+			$placeholders = array();
+			foreach($values as $index => $value)
+			{
+				$placeholders[] = '?';
+				$params[] = $value;
+			}
+			$where_clause .= implode(',',$placeholders).')';
+			return $where_clause;
+		}
+		else
+		{
+			die('Cannot translate in condition');
 		}
 	}
 

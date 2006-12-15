@@ -36,16 +36,15 @@ class SearchTool extends Tool
 			$user_id = $this->get_user_id();
 			$groups = $this->get_groups();
 			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups);
-			$id_conditions = array();
+			$ids = array();
 			$id = $publications->next_learning_object_id();
 			while($id != null)
 			{
-				$id_conditions[] = new EqualityCondition(LearningObject::PROPERTY_ID,$id);
+				$ids[] = $id;
 				$id = $publications->next_learning_object_id();
 			}
 			$repositorymanager = RepositoryDataManager :: get_instance();
-			//@todo Maybe this can be implemented better by implemeting an 'InCondition' which matches the MySQL IN(x,x,x,x) condition
-			$id_condition = new OrCondition($id_conditions);
+			$id_condition = new InCondition(LearningObject::PROPERTY_ID,$ids);
 			$search_condition = $form->get_condition();
 			$condition = new AndCondition($id_condition,$search_condition);
 			$total = $repositorymanager->count_learning_objects(null,$condition);
