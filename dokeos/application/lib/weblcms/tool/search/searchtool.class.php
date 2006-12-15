@@ -9,7 +9,10 @@ require_once dirname(__FILE__).'/../tool.class.php';
 require_once dirname(__FILE__).'/searchform.class.php';
 /**
  * Tool to search in the course.
- * @todo: Implementation
+ * @todo: Paging of search results
+ * @todo: Link from search results to location in course
+ * @todo: Advanced search (only in recent publications, only certain types of
+ * publications, only in a given tool,...)
  */
 class SearchTool extends Tool
 {
