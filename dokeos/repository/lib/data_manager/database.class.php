@@ -63,6 +63,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		$args = func_get_args();
 		// Do something with the arguments
+		if($args[1] == 'query')
+		{
+			//echo '<pre>';
+		 	//echo($args[2]);
+		 	//echo '</pre>';
+		}
 	}
 
 	// Inherited.
@@ -171,17 +177,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$query .= ' ORDER BY '.implode(', ', $order);
 		}
-		// XXX: Is this necessary?
 		if ($maxObjects < 0)
 		{
-			/*
-			 * Note: too big a number here can cause PHP to use scientific
-			 * notation, which breaks the query. For example, the rando
-			 * number 18446744073709551615, like in the MySQL documentation,
-			 * evaluates to 1.8E+19, which in its turn evaluates to 1,
-			 * apparently.
-			 */
-			$maxObjects = 9999999999;
+			$maxObjects = null;
 		}
 		$this->connection->setLimit(intval($offset), intval($maxObjects));
 		$statement = $this->connection->prepare($query);
