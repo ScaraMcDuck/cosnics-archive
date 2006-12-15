@@ -439,6 +439,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$props[$this->escape_column_name('course_code')] = $course_code;
 		$props[$this->escape_column_name('name')] = $module;
 		$props[$this->escape_column_name('section')] = $section;
+		$props[$this->escape_column_name('visible')] = true;
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('course_module'), $props, MDB2_AUTOQUERY_INSERT);
 	}
