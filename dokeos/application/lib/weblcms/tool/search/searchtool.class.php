@@ -43,26 +43,40 @@ class SearchTool extends Tool
 				$ids[] = $id;
 				$id = $publications->next_learning_object_id();
 			}
-			$repositorymanager = RepositoryDataManager :: get_instance();
-			$id_condition = new InCondition(LearningObject::PROPERTY_ID,$ids);
-			$search_condition = $form->get_condition();
-			$condition = new AndCondition($id_condition,$search_condition);
-			$total = $repositorymanager->count_learning_objects(null,$condition);
-			$pager = SearchTool::create_pager($total,SearchTool::RESULTS_PER_PAGE);
-			echo SearchTool::get_pager_links($pager);
-			$from = 0;
-			$offset = $pager->getOffsetByPageId();
-			if(isset($offset[0]))
+			if(count($ids) > 0)
 			{
-				$from = $offset[0]-1;
+				$repositorymanager = RepositoryDataManager :: get_instance();
+				$id_condition = new InCondition(LearningObject::PROPERTY_ID,$ids);
+				$search_condition = $form->get_condition();
+				$condition = new AndCondition($id_condition,$search_condition);
+				$total = $repositorymanager->count_learning_objects(null,$condition);
+				$pager = SearchTool::create_pager($total,SearchTool::RESULTS_PER_PAGE);
+				echo SearchTool::get_pager_links($pager);
+				$from = 0;
+				$offset = $pager->getOffsetByPageId();
+				if(isset($offset[0]))
+				{
+					$from = $offset[0]-1;
+				}
+				$objects = $repositorymanager->retrieve_learning_objects(null,$condition,array(),array(),$from,SearchTool::RESULTS_PER_PAGE)->as_array();
+				if(count($objects) > 0)
+				{
+					foreach($objects as $index => $object)
+					{
+						echo '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$object->get_icon_name().'.gif);">';
+						echo '<div class="title"">'.$object->get_title().'</div>';
+						echo '<div class="description">'.$object->get_description().'</div>';
+						echo '</div>';
+					}
+				}
+				else
+				{
+					echo get_lang('NoSearchResults');
+				}
 			}
-			$objects = $repositorymanager->retrieve_learning_objects(null,$condition,array(),array(),$from,SearchTool::RESULTS_PER_PAGE)->as_array();
-			foreach($objects as $index => $object)
+			else
 			{
-				echo '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$object->get_icon_name().'.gif);">';
-				echo '<div class="title"">'.$object->get_title().'</div>';
-				echo '<div class="description">'.$object->get_description().'</div>';
-				echo '</div>';
+				echo get_lang('NoSearchResults');
 			}
 		}
 		$this->display_footer();
