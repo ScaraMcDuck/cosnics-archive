@@ -1,5 +1,15 @@
 <?php
+$langFile = 'repository';
+require_once dirname(__FILE__).'/../../main/inc/claro_init_global.inc.php';
+require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
+
 set_time_limit(0);
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<?php
 /**
  * This is a simple test script that removes all learning objects from the LCMS
  * data source and fills it with garbage data. For testing purposes only.
@@ -8,9 +18,6 @@ set_time_limit(0);
  * @package repository
  */
 
-$langFile = 'repository';
-require_once dirname(__FILE__).'/../../main/inc/claro_init_global.inc.php';
-require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 
 $users = 1;
 
@@ -19,39 +26,26 @@ $max_categories = array (3,2,1);
 $announcements = rand(2, 10);
 $calendar_events = rand(2, 10);
 $documents = rand(2, 10);
-$links = rand(50, 10);
-$forums = rand(10,50);
-$forum_topics = rand(10,50);
-$forum_posts = rand(60,120);
+$links = rand(5, 1);
+$forums = rand(1,5);
+$forum_topics = rand(1,5);
+$forum_posts = rand(6,12);
 
 // TODO
 //$learning_paths = rand(100,500);
 
-$randomText =<<<END
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cras vel erat.
-Phasellus est. Curabitur nunc leo, laoreet eu, varius sit amet, faucibus
-faucibus, magna. Quisque venenatis, ante quis dictum sodales, orci velit
-molestie nisl, mollis adipiscing ante erat eget tellus. Etiam nec tellus
-ut lacus sollicitudin commodo. Duis sed massa in ipsum pharetra scelerisque.
-Cum sociis natoque penatibus et magnis dis parturient montes, nascetur
-ridiculus mus. Donec quis elit. Maecenas suscipit pretium tortor. Mauris augue
-ligula, molestie id, laoreet quis, sollicitudin eget, orci. Fusce luctus
-auctor sem. Integer turpis. Curabitur id lectus. Aenean eget lectus. Donec
-vitae nisl. Duis et tellus sed nunc congue sollicitudin. Vivamus sed ipsum a
-magna accumsan convallis. Donec egestas tincidunt dolor. Donec ornare nonummy
-lacus. Maecenas posuere. Vestibulum urna. Curabitur bibendum gravida pede.
-Duis volutpat, sapien eu sagittis interdum, lectus risus tempus lacus, eu
-consequat massa tortor et ligula. Nullam gravida fermentum elit. Nam venenatis
-quam vel pede. Praesent sed metus. Proin at pede in odio fringilla euismod.
-Quisque mattis, ante suscipit bibendum porttitor, risus pede hendrerit erat,
-quis pellentesque turpis lacus et pede. Proin condimentum est at nulla. Nam
-gravida. Suspendisse dapibus, enim non congue euismod, nulla ipsum mattis
-felis, pulvinar commodo metus neque nec tortor. Donec luctus. Vestibulum
-rhoncus. Pellentesque iaculis suscipit arcu.
-END;
-
-$words = preg_split('/\W+/', preg_replace(array ('/^\W+/', '/\W+$/'), array ('', ''), strtolower($randomText)));
-
+$randomTexts[] = 'Lorem ipsum dolor sit amet consectetuer adipiscing elit Cras vel erat Phasellus est Curabitur nunc leo laoreet eu varius sit amet faucibus faucibus magna Quisque venenatis ante quis dictum sodales orci velit molestie';
+$randomTexts[] = 'На берегу пустынных волн Стоял он дум великих полн И вдаль глядел Пред ним широко Река неслася; бедный чёлн По ней стремился одиноко По мшистым топким берегам Чернели избы здесь и там Приют убогого чухонца И лес неведомый лучам В тумане спрятанного солнца Кругом шумел';
+$randomTexts[] = 'Σὲ γνωρίζω ἀπὸ τὴν κόψη τοῦ σπαθιοῦ τὴν τρομερή σὲ γνωρίζω ἀπὸ τὴν ὄψη ποὺ μὲ βία μετράει τὴ γῆ ᾿Απ᾿ τὰ κόκκαλα βγαλμένη τῶν ῾Ελλήνων τὰ ἱερά  καὶ σὰν πρῶτα ἀνδρειωμένη χαῖρε ὦ χαῖρε ᾿Ελευθεριά!';
+$randomTexts[] = 'สิบสองกษัตริย์ก่อนหน้าแลถัดไป สององค์ไซร้โง่เขลาเบาปัญญา ทรงนับถือขันทีเป็นที่พึ่ง บ้านเมืองจึงวิปริตเป็นนักหนา  โฮจิ๋นเรียกทัพทั่วหัวเมืองมา หมายจะฆ่ามดชั่วตัวสำคัญ เหมือนขับไสไล่เสือจากเคหา รับหมาป่าเข้ามาเลยอาสัญ ฝ่ายอ้องอุ้นยุแยกให้แตกกัน ใช้สาวนั้นเป็นชนวนชื่นชวนใจ พลันลิฉุยกุยกีกลับก่อเหตุ ช่างอาเพศจริงหนาฟ้าร้องไห้ ต้องรบราฆ่าฟันจนบรรลัย ฤๅหาใครค้ำชูกู้บรรลังก์ ฯ';
+$randomTexts[] = 'Jeg kan spise glas det gør ikke ondt på mig';
+$randomTexts[] = 'मैं काँच खा सकता हूँ मुझे उस से कोई पीडा नहीं होती';
+$randomTexts[] = '私はガラス を食べられます れは 私を傷つけ ません';
+$words = array();
+foreach($randomTexts as $index => $randomText)
+{
+	$words = array_merge($words,explode(' ', $randomText));
+}
 $dataManager = RepositoryDataManager :: get_instance();
 
 $dataManager->delete_all_learning_objects();
