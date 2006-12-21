@@ -41,9 +41,14 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 		{
 			do
 			{
-				$params = array('default_start_date' => $table_date,'default_end_date' => $table_date, LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator','admin' => '1');
-				$add_url = $this->get_url($params);
-				$cell_contents = '<a href="'.$add_url.'">'.date('d',$table_date).'</a>';
+				$cell_contents = date('d',$table_date);
+				// If allowed to add, turn day number into a link
+				if($this->is_allowed(ADD_RIGHT))
+				{
+					$params = array('default_start_date' => $table_date,'default_end_date' => $table_date, LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator','admin' => '1');
+					$add_url = $this->get_url($params);
+					$cell_contents = '<a href="'.$add_url.'">'.$cell_contents.'</a>';
+				}
 				$publications = $this->browser->get_calendar_events($table_date,strtotime('+1 Day',$table_date));
 				foreach($publications as $index => $publication)
 				{

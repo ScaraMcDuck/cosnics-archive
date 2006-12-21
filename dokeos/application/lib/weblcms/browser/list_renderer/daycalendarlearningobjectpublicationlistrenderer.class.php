@@ -37,9 +37,14 @@ class DayCalendarLearningObjectPublicationListRenderer extends LearningObjectPub
 		{
 			$table_start_date = mktime($hour,0,0,date('m',$this->display_time),date('d',$this->display_time),date('Y',$this->display_time));
 			$table_end_date = strtotime('+'.HOUR_STEP.' hours',$table_start_date);
-			$params = array('default_start_date' => $table_start_date,'default_end_date' => $table_end_date,'publish_action' => 'publicationcreator','admin' => '1');
-			$add_url = $this->get_url($params);
-			$cell_contents = '<a href="'.$add_url.'">'.$hour.'u - '.($hour+HOUR_STEP).'u'.'</a>';
+			$cell_contents = $hour.'u - '.($hour+HOUR_STEP).'u';
+			// If allowed to add, turn hour into a link
+			if($this->is_allowed(ADD_RIGHT))
+			{
+				$params = array('default_start_date' => $table_start_date,'default_end_date' => $table_end_date,'publish_action' => 'publicationcreator','admin' => '1');
+				$add_url = $this->get_url($params);
+				$cell_contents = '<a href="'.$add_url.'">'.$cell_contents.'</a>';
+			}
 			$publications = $this->browser->get_calendar_events($table_start_date,$table_end_date);
 			foreach($publications as $index => $publication)
 			{
