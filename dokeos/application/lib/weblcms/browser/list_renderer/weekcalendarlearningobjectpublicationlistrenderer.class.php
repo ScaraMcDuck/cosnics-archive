@@ -46,9 +46,14 @@ class WeekCalendarLearningObjectPublicationListRenderer extends LearningObjectPu
 				$day = strtotime('+'.($column-1).' day',$first_day);
 				$table_start_date = mktime($hour,0,0,date('m',$day),date('d',$day),date('Y',$day));
 				$table_end_date = strtotime('+4 hours',$table_start_date);
-				$params = array('default_start_date' => $table_start_date,'default_end_date' => $table_end_date,'publish_action' => 'publicationcreator','admin' => '1');
-				$add_url = $this->get_url($params);
-				$cell_contents = '<div style="text-align:right;"><a href="'.$add_url.'">+</a></div>';
+				$cell_contents = '';
+				// If allowed to add, add a link to the calendar cell
+				if($this->is_allowed(ADD_RIGHT))
+				{
+					$params = array('default_start_date' => $table_start_date,'default_end_date' => $table_end_date,'publish_action' => 'publicationcreator','admin' => '1');
+					$add_url = $this->get_url($params);
+					$cell_contents = '<div style="text-align:right;"><a href="'.$add_url.'">+</a></div>';
+				}
 				$publications = $this->browser->get_calendar_events($table_start_date,$table_end_date);
 				foreach($publications as $index => $publication)
 				{
