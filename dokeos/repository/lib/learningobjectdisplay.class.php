@@ -70,7 +70,7 @@ abstract class LearningObjectDisplay
 		$html = array();
 		$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$object->get_icon_name().'.gif);">';
 		$html[] = '<div class="title">'.htmlspecialchars($object->get_title()).'</div>';
-		$html[] = '<div class="description">'.$object->get_description().'</div>';
+		$html[] = $this->get_description();
 		$html[] = '</div>';
 		$html[] = $this->get_attached_learning_objects_as_html();
 		if ($parent_id = $object->get_parent_id())
@@ -91,6 +91,15 @@ abstract class LearningObjectDisplay
 	{
 		$object = $this->get_learning_object();
 		return '<span class="learning_object">'.htmlentities($object->get_title()).'</span>';
+	}
+	/**
+	 * Returns a HTML view of the description
+	 * @return string The HTML.
+	 */
+	function get_description()
+	{
+		$object = $this->get_learning_object();
+		return '<div class="description">'.$object->get_description().'</div>';
 	}
 	/**
 	 * Returns a HTML view of the learning objects attached to the learning
