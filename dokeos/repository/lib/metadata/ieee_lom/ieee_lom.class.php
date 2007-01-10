@@ -6,7 +6,7 @@
  * @subpackage ieee_lom
  */
 require_once (dirname(__FILE__).'/langstring.class.php');
-require_once (dirname(__FILE__).'/datetime.class.php');
+require_once (dirname(__FILE__).'/ieee_lom_datetime.class.php');
 require_once (dirname(__FILE__).'/vocabulary.class.php');
 require_once (dirname(__FILE__).'/orcomposite.class.php');
 require_once (dirname(__FILE__).'/duration.class.php');
@@ -336,7 +336,7 @@ class IeeeLom
 	 * @param Vocabulary $role
 	 * @param array|string $entity An array of strings in VCARD format or a
 	 * single string in VCARD format
-	 * @param DateTime $date
+	 * @param IeeeLomDateTime $date
 	 */
 	function add_contribute($role = null, $entity = null, $date = null)
 	{
@@ -392,7 +392,7 @@ class IeeeLom
 	 * @param Vocabulary $role
 	 * @param array|string $entity An array of strings in VCARD format or a
 	 * single string in VCARD format
-	 * @param DateTime $date
+	 * @param IeeeLomDateTime $date
 	 */
 	function add_metadata_contribute($role = null, $entity = null, $date = null)
 	{
