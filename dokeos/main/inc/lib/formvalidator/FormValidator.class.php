@@ -261,11 +261,12 @@ EOT;
 				break;
 			}
 		}
+		$return_value = '';
 		if($error)
 		{
-			Display::display_error_message(get_lang('FormHasErrorsPleaseComplete'));
+			$return_value .= Display::display_error_message(get_lang('FormHasErrorsPleaseComplete'),true);
 		}
-		$return_value = parent::toHtml();
+		$return_value .= parent::toHtml();
 		// Add the div which will hold the progress bar
 		if($this->with_progress_bar)
 		{
