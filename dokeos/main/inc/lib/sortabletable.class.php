@@ -665,7 +665,7 @@ class SortableTableFromArray extends SortableTable
 	 */
 	function get_table_data($from = 1)
 	{
-		$content = TableSort :: sort_table($this->table_data, $this->column, $this->direction == 'ASC' ? SORT_ASC : SORT_DESC);
+		$content = TableSort :: sort_table($this->table_data, $this->column, $this->direction );
 		return array_slice($content, $from, $this->per_page);
 	}
 	/**
