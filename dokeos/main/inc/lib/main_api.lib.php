@@ -132,10 +132,10 @@ define('PLATFORM_AUTH_SOURCE', 'platform');
 /**
 * Function used to protect a course script.
 * The function blocks access when there is no $_SESSION["_course"] defined.
-* In all course scripts, this function is combined with 
+* In all course scripts, this function is combined with
 * RolesRights::protect_location($role_id, $location_id);
 * to form a complete protection.
-* 
+*
 * @author Roan Embrechts
 */
 function api_protect_course_script()
@@ -357,21 +357,25 @@ function api_get_user_info($user_id = '')
 	}
 	else
 	{
-		$sql = "SELECT * FROM ".Database :: get_main_table(MAIN_USER_TABLE)." WHERE user_id=$user_id";
+		$sql = "SELECT * FROM ".Database :: get_main_table(MAIN_USER_TABLE)." WHERE user_id='".mysql_real_escape_string($user_id)."'";
 		$result = api_sql_query($sql, __FILE__, __LINE__);
-		$result_array = mysql_fetch_array($result);
-		// this is done so that it returns the same array-index-names
-		// ideally the names of the fields of the user table are renamed so that they match $_user (or vice versa)
-		// $_user should also contain every field of the user table (except password maybe). This would make the
-		// following lines obsolete (and the code cleaner and slimmer !!!
-		$user_info['firstName'] = $result_array['firstname'];
-		$user_info['lastName'] = $result_array['lastname'];
-		$user_info['mail'] = $result_array['email'];
-		$user_info['picture_uri'] = $result_array['picture_uri'];
-		$user_info['user_id'] = $result_array['user_id'];
-		$user_info['official_code'] = $result_array['official_code'];
-		$user_info['status'] = $result_array['status'];
-		return $user_info;
+		if(mysql_num_rows($result) > 0)
+		{
+			$result_array = mysql_fetch_array($result);
+			// this is done so that it returns the same array-index-names
+			// ideally the names of the fields of the user table are renamed so that they match $_user (or vice versa)
+			// $_user should also contain every field of the user table (except password maybe). This would make the
+			// following lines obsolete (and the code cleaner and slimmer !!!
+			$user_info['firstName'] = $result_array['firstname'];
+			$user_info['lastName'] = $result_array['lastname'];
+			$user_info['mail'] = $result_array['email'];
+			$user_info['picture_uri'] = $result_array['picture_uri'];
+			$user_info['user_id'] = $result_array['user_id'];
+			$user_info['official_code'] = $result_array['official_code'];
+			$user_info['status'] = $result_array['status'];
+			return $user_info;
+		}
+		return false;
 	}
 }
 /**
@@ -842,12 +846,12 @@ function get_setting($variable, $key = NULL)
 
 /**
 * Returns the value of a setting from the web-adjustable admin config settings.
-* 
+*
 * WARNING true/false are stored as string, so when comparing you need to check e.g.
 * if(api_get_setting("show_navigation_menu") == "true") //CORRECT
 * instead of
 * if(api_get_setting("show_navigation_menu") == true) //INCORRECT
-* 
+*
 * @author Rene Haentjens
 * @author Bart Mollet
 */
@@ -1006,7 +1010,7 @@ function api_display_tool_title($titleElement)
 /**
 * Display the different ways (roles) to view a course tool.
 * Course admins can see the course through the eyes of other roles
-* so they can experience how the course looks like for e.g. a student, 
+* so they can experience how the course looks like for e.g. a student,
 * a teaching assistant, a guest...
 * @todo move javascript to a decent location
 */
@@ -1024,7 +1028,7 @@ function api_display_tool_view_option()
 		$role_id = $view_as_role;
 
 	//some extra work needed:
-	//url must keep the existing GET parameters 
+	//url must keep the existing GET parameters
 	if (strpos($_SERVER['REQUEST_URI'], '?') === false)
 	{
 		$url = $_SERVER['PHP_SELF'].'?';
