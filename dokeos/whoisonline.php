@@ -114,13 +114,13 @@ $number=$loginnumber-$logoutnumber;*/
 // Who is logged in?
 $MINUTE = 30;
 
-// This if statement prevents users accessing the who's online feature when it has been disabled. 
+// This if statement prevents users accessing the who's online feature when it has been disabled.
 if ((get_setting('showonline','world') == "true" AND !$_uid) OR (get_setting('showonline','users') == "true" AND $_uid))
 {
 	$userlist = WhoIsOnline($_uid,$statsDbName,$MINUTE);
-	
+
 	$total=count($userlist);
-	
+
 	if (!IsValidUser($_GET["id"]))
 	{
 		api_display_tool_title(get_lang('UsersOnLineList'));
@@ -140,7 +140,7 @@ if ((get_setting('showonline','world') == "true" AND !$_uid) OR (get_setting('sh
 		}
 		echo "&nbsp;</td></tr></table><br />";
 	}
-	
+
 	if ($userlist!=false)
 	{
 		//$imgurl = ClearURL(getURL(api_get_path(WEB_PATH)).$REQUEST_URI);
@@ -152,17 +152,17 @@ if ((get_setting('showonline','world') == "true" AND !$_uid) OR (get_setting('sh
 				foreach($userlist as $row)
 					//$row[0] - the user_id ; $row[1] - last login date
 				{
-	
+
 					$uid=$row[0];
 					$name=GetFullUserName($row[0]).($_uid==$row[0]?("&nbsp;<b>(".get_lang('Me').")</b>"):(""));
-	
+
 					//$row[1] is the last click timestamp
 					$sql="select * from $track_user_table where ( user_id = ".mysql_real_escape_string($uid)." )";
 					$result=api_sql_query($sql,__FILE__,__LINE__);
 					$row2=mysql_fetch_array($result);
 					if ($row2['status']==1) { $status=get_lang('Teacher'); }
 					else { $status=get_lang('Student'); }
-	
+
 					$fullurl=api_get_path(WEB_CODE_PATH)."upload/users/".$row2['picture_uri'];
 					$system_image_path=api_get_path(SYS_CODE_PATH)."upload/users/".$row2['picture_uri'];
 					list($width, $height, $type, $attr) = @getimagesize($system_image_path);
@@ -171,9 +171,9 @@ if ((get_setting('showonline','world') == "true" AND !$_uid) OR (get_setting('sh
 					$windowname="window".$height;
 					$window="$windowname=window.open(\"$fullurl\",\"$windowname\",\"alwaysRaised=yes, alwaysLowered=no,alwaysOnTop=yes,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,width=$width,height=$height,left=200,top=20\"); return false;";
 					$name="<a href=\"".$_SERVER['PHP_SELF']."?id=$row[0]\">".$name."</a>";
-	
+
 					echo "<tr><td>".$online."</td><td>".$name."</td><td>". Display::encrypted_mailto_link($row2['email'],$row2['email']) ."</td><td>".$status."</td></tr>";
-	
+
 					$online++;
 				}
 		}
@@ -183,7 +183,7 @@ if ((get_setting('showonline','world') == "true" AND !$_uid) OR (get_setting('sh
 			$user_table=Database::get_main_table(MAIN_USER_TABLE);
 			$result=mysql_query("SELECT * FROM $user_table WHERE user_id='".mysql_real_escape_string($_GET['id'])."'");
 			if (mysql_num_rows($result)==1)
-			{			
+			{
 					$name=GetFullUserName($_GET["id"]).($_uid==$_GET["id"]?("&nbsp;<b>(".get_lang('Me').")</b>"):(""));
 					$alt=GetFullUserName($_GET["id"]).($_uid==$_GET["id"]?("&nbsp;(".get_lang('Me').")"):(""));
 					//$row[1] is the last click timestamp
@@ -196,7 +196,7 @@ if ((get_setting('showonline','world') == "true" AND !$_uid) OR (get_setting('sh
 					{
 						$fullurl=api_get_path(WEB_CODE_PATH)."upload/users/".$row2['picture_uri'];
 						$system_image_path=api_get_path(SYS_CODE_PATH)."upload/users/".$row2['picture_uri'];
-	
+
 						list($width, $height, $type, $attr) = getimagesize($system_image_path);
 						$resizing = (($height > 200) ? 'height="200"' : '');
 						$height+=30;
@@ -216,19 +216,19 @@ if ((get_setting('showonline','world') == "true" AND !$_uid) OR (get_setting('sh
 					$p=get_lang('Openarea');
 					$p=str_replace(' ','&nbsp;',$p);
 					if ($row2['openarea']) { echo "<tr><td align=right>".$p.' : </td><td colspan=2>'.$row2['openarea']."</td></tr>"; }
-	
+
 					$online++;
 			}
-	
+
 		}
 		echo "</TABLE><BR>";
 	}
 } // if ((get_setting('showonline','world') == "true" AND !$_uid) OR (get_setting('showonline','users') == "true" AND $_uid))
-else 
+else
 {
 	Display::display_error_message(get_lang('AccessNotAllowed'));
 }
-$referer=empty($_GET['referer'])?'index.php':$_GET['referer'];
+$referer=empty($_GET['referer'])?'index.php':urlencode($_GET['referer']);
 
 echo "<table width=100%>";
 echo "<tr><td align=left>&nbsp;<a href=\"".($_GET['id']?"javascript:window.history.back();":$referer)."\">< ".get_lang('Back')."</a></td>";
