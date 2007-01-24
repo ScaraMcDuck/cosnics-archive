@@ -8,8 +8,6 @@
 
 	include('../inc/claro_init_global.inc.php');
 
-	$nameTools = $_GET['file'];
-
 	$noPHP_SELF=true;
 
 	$path_array=explode('/',str_replace('\\','/',$_GET['file']));
@@ -23,6 +21,8 @@
 		$req_gid = '&amp;gidReq='.$_SESSION['_gid'];
 		$interbredcrump[]= array ("url"=>"../group/group_space.php?gidReq=".$_SESSION['_gid'], "name"=> get_lang('GroupSpace'));
 	}
+
+	$nameTools = $_GET['file'];
 
 	$interbredcrump[]= array ("url"=>"./document.php?curdirpath=".dirname($_GET['file']).$req_gid, "name"=> $langDocuments);
 
