@@ -31,31 +31,31 @@
 	-> version 2.2 : Patrick Cool, patrick.cool@ugent.be, november 2004
 	Personal Agenda added. The user can add personal agenda items. The items
 	are stored in a dokeos_user database because it is not course or platform
-	based. A personal agenda view was also added. This lists all the personal 
-	agenda items of that user. 
-	
+	based. A personal agenda view was also added. This lists all the personal
+	agenda items of that user.
+
 	-> version 2.1 : Patrick Cool, patrick.cool@ugent.be, , oktober 2004
-	This is the version that works with the Group based Agenda tool. 
-	
+	This is the version that works with the Group based Agenda tool.
+
 	-> version 2.0 (alpha): Patrick Cool, patrick.cool@ugent.be, , oktober 2004
 	The 2.0 version introduces besides the month view also a week- and day view.
-	In the 2.5 (final) version it will be possible for the student to add his/her 
+	In the 2.5 (final) version it will be possible for the student to add his/her
 	own agenda items. The platform administrator can however decide if the students
 	are allowed to do this or not.
 	The alpha version only contains the three views. The personal agenda feature is
 	not yet completely finished. There are however already some parts of the code
-	for adding a personal agenda item present.  
+	for adding a personal agenda item present.
 	this code was not released in an official dokeos but was only used in the offical
 	server of the Ghent University where it underwent serious testing
-	
+
 	-> version 1.5: Toon Van Hoecke, toon.vanhoecke@ugent.be, december 2003
-	
+
 	-> version 1.0: Eric Remy, eremy@rmwc.edu, 6 Oct 2003
 	The tool was initially called master-calendar as it collects all the calendar
 	items of all the courses one is subscribed to. It was very soon integrated in
-	Dokeos as this was a really basic and very usefull tool. 
+	Dokeos as this was a really basic and very usefull tool.
 
-/* ============================================================================== 
+/* ==============================================================================
 				  			HEADER
 ============================================================================== */
 
@@ -76,15 +76,17 @@ $nameTools = get_lang('MyAgenda');
 
 // if we come from inside a course and click on the 'My Agenda' link we show a link back to the course
 // in the breadcrumbs
+
 if (!empty ($_GET['coursePath']))
 {
-	$interbredcrump[] = array ('url' => api_get_path(WEB_COURSE_PATH).$_GET['coursePath'].'/index.php', 'name' => $_GET['courseCode']);
+	$course_path = urlencode($_GET['coursePath']);
+	$interbredcrump[] = array ('url' => api_get_path(WEB_COURSE_PATH).$course_path.'/index.php', 'name' => $_GET['courseCode']);
 }
 // this loads the javascript that is needed for the date popup selection
 $htmlHeadXtra[] = "<script src=\"tbl_change.js\" type=\"text/javascript\"></script>";
 // showing the header
 Display::display_header($nameTools);
-/* ============================================================================== 
+/* ==============================================================================
   						SETTING SOME VARIABLES
 ============================================================================== */
 // setting the database variables
@@ -102,23 +104,23 @@ $DaysLong = array (get_lang("SundayLong"), get_lang("MondayLong"), get_lang("Tue
 // Defining the months of the year to allow translation of the months
 $MonthsLong = array (get_lang("JanuaryLong"), get_lang("FebruaryLong"), get_lang("MarchLong"), get_lang("AprilLong"), get_lang("MayLong"), get_lang("JuneLong"), get_lang("JulyLong"), get_lang("AugustLong"), get_lang("SeptemberLong"), get_lang("OctoberLong"), get_lang("NovemberLong"), get_lang("DecemberLong"));
 
-/* ============================================================================== 
+/* ==============================================================================
   						SANITY CHECK
 ============================================================================== */
 // You can delete this if you have manually added the new database and tables
-// this piece of code was added to avoid having to explain to non sys-admin 
+// this piece of code was added to avoid having to explain to non sys-admin
 // what has to be done in order to get this tool working
 if (get_setting("allow_personal_agenda") == "true")
 {
 	// I use a separate database for storing all the information of user driven tools
-	// as the Personal Agenda tool has the potential to create a large database. 
-	// If you do not want a separate database for the personal agenda tool you can add the table to 
+	// as the Personal Agenda tool has the potential to create a large database.
+	// If you do not want a separate database for the personal agenda tool you can add the table to
 	// the main dokeos database by changing $DATABASE_USER_TOOLS above to $mainDbName
 	$sql_create_database = "CREATE DATABASE IF NOT EXISTS $DATABASE_USER_TOOLS";
 	$result = api_sql_query($sql_create_database);
 	$sql_create_table = "CREATE TABLE IF NOT EXISTS $TABLE_PERSONAL_AGENDA (
 					id int(11) NOT NULL auto_increment,
-					user int(11), 
+					user int(11),
 					title text,
 					text text,
 					date datetime default NULL,
@@ -127,8 +129,8 @@ if (get_setting("allow_personal_agenda") == "true")
 					TYPE=MyISAM AUTO_INCREMENT=1";
 	$result = api_sql_query($sql_create_table);
 }
-/*============================================================================== 
-  			TREATING THE URL PARAMETERS 
+/*==============================================================================
+  			TREATING THE URL PARAMETERS
 			1. The default values
 			2. storing it in the session
 			3. possible view
@@ -196,10 +198,10 @@ if ($_GET['action'] == "delete" AND $_GET['id'])
 {
 	$proces = "delete_personal_agenda_item";
 }
-/* ============================================================================== 
+/* ==============================================================================
   						OUTPUT
 ============================================================================== */
-// Displaying the title of the tool 
+// Displaying the title of the tool
 api_display_tool_title($nameTools);
 
 if (isset ($_uid))
@@ -339,10 +341,10 @@ function get_agendaitems($rootWeb, $courses_dbs, $month, $year)
 		if ($array_course_info['status'] == '1')
 		{
 			//echo "course admin";
-			$sqlquery = "SELECT 
+			$sqlquery = "SELECT
 										DISTINCT agenda.*, item_property.*
 										FROM ".$TABLEAGENDA." agenda,
-											 ".$TABLE_ITEMPROPERTY." item_property 
+											 ".$TABLE_ITEMPROPERTY." item_property
 										WHERE agenda.id = item_property.ref   ".$show_all_current."
 										AND MONTH(agenda.start_date)='".$month."'
 										AND YEAR(agenda.start_date)='".$year."'
@@ -356,10 +358,10 @@ function get_agendaitems($rootWeb, $courses_dbs, $month, $year)
 			//echo "GEEN course admin";
 			if (is_array($group_memberships))
 			{
-				$sqlquery = "SELECT 
-													agenda.*, item_property.* 
+				$sqlquery = "SELECT
+													agenda.*, item_property.*
 													FROM ".$TABLEAGENDA." agenda,
-														".$TABLE_ITEMPROPERTY." item_property 
+														".$TABLE_ITEMPROPERTY." item_property
 													WHERE agenda.id = item_property.ref   ".$show_all_current."
 													AND MONTH(agenda.start_date)='".$month."'
 													AND YEAR(agenda.start_date)='".$year."'
@@ -370,10 +372,10 @@ function get_agendaitems($rootWeb, $courses_dbs, $month, $year)
 			}
 			else
 			{
-				$sqlquery = "SELECT 
-													agenda.*, item_property.* 
+				$sqlquery = "SELECT
+													agenda.*, item_property.*
 													FROM ".$TABLEAGENDA." agenda,
-														".$TABLE_ITEMPROPERTY." item_property 
+														".$TABLE_ITEMPROPERTY." item_property
 													WHERE agenda.id = item_property.ref   ".$show_all_current."
 													AND MONTH(agenda.start_date)='".$month."'
 													AND YEAR(agenda.start_date)='".$year."'
@@ -421,8 +423,8 @@ function display_monthcalendar($agendaitems, $month, $year, $weekdaynames, $mont
 	$dayone = getdate(mktime(0, 0, 0, $month, 1, $year));
 	//Start the week on monday
 	$startdayofweek = $dayone['wday'] <> 0 ? ($dayone['wday'] - 1) : 6;
-	$backwardsURL = $_SERVER['PHP_SELF']."?coursePath=".htmlentities($_GET['coursePath'])."&amp;courseCode=".htmlentities($_GET['courseCode'])."&amp;action=view&amp;view=month&amp;month=". ($month == 1 ? 12 : $month -1)."&amp;year=". ($month == 1 ? $year -1 : $year);
-	$forewardsURL = $_SERVER['PHP_SELF']."?coursePath=".htmlentities($_GET['coursePath'])."&amp;courseCode=".htmlentities($_GET['courseCode'])."&amp;action=view&amp;view=month&amp;month=". ($month == 12 ? 1 : $month +1)."&amp;year=". ($month == 12 ? $year +1 : $year);
+	$backwardsURL = $_SERVER['PHP_SELF']."?coursePath=".urlencode($_GET['coursePath'])."&amp;courseCode=".htmlentities($_GET['courseCode'])."&amp;action=view&amp;view=month&amp;month=". ($month == 1 ? 12 : $month -1)."&amp;year=". ($month == 1 ? $year -1 : $year);
+	$forewardsURL = $_SERVER['PHP_SELF']."?coursePath=".urlencode($_GET['coursePath'])."&amp;courseCode=".htmlentities($_GET['courseCode'])."&amp;action=view&amp;view=month&amp;month=". ($month == 12 ? 1 : $month +1)."&amp;year=". ($month == 12 ? $year +1 : $year);
 
 	echo "<table id=\"agenda_list\">\n", "<tr class=\"title\">\n", "<td width=\"10%\"><a href=\"", $backwardsURL, "\"></a></td>\n", "<td width=\"80%\" colspan=\"5\">", $monthName, " ", $year, "</td>\n", "<td width=\"10%\"><a href=\"", $forewardsURL, "\"></a></td>\n", "</tr>\n";
 
@@ -484,8 +486,8 @@ function display_minimonthcalendar($agendaitems, $month, $year, $monthName)
 	$dayone = getdate(mktime(0, 0, 0, $month, 1, $year));
 	//Start the week on monday
 	$startdayofweek = $dayone['wday'] <> 0 ? ($dayone['wday'] - 1) : 6;
-	$backwardsURL = $_SERVER['PHP_SELF']."?coursePath=".$_GET['coursePath']."&amp;courseCode=".$_GET['courseCode']."&amp;month=". ($month == 1 ? 12 : $month -1)."&amp;year=". ($month == 1 ? $year -1 : $year);
-	$forewardsURL = $_SERVER['PHP_SELF']."?coursePath=".$_GET['coursePath']."&amp;courseCode=".$_GET['courseCode']."&amp;month=". ($month == 12 ? 1 : $month +1)."&amp;year=". ($month == 12 ? $year +1 : $year);
+	$backwardsURL = $_SERVER['PHP_SELF']."?coursePath=".urlencode($_GET['coursePath'])."&amp;courseCode=".$_GET['courseCode']."&amp;month=". ($month == 1 ? 12 : $month -1)."&amp;year=". ($month == 1 ? $year -1 : $year);
+	$forewardsURL = $_SERVER['PHP_SELF']."?coursePath=".urlencode($_GET['coursePath'])."&amp;courseCode=".$_GET['courseCode']."&amp;month=". ($month == 12 ? 1 : $month +1)."&amp;year=". ($month == 12 ? $year +1 : $year);
 
 	echo "<table id=\"smallcalendar\">\n", "<tr class=\"title\">\n", "<td width=\"10%\"><a href=\"", $backwardsURL, "\"></a></td>\n", "<td width=\"80%\" colspan=\"5\">", $monthName, " ", $year, "</td>\n", "<td width=\"10%\"><a href=\"", $forewardsURL, "\"></a></td>\n", "</tr>\n";
 
@@ -544,7 +546,7 @@ function display_weekcalendar($agendaitems, $month, $year, $weekdaynames, $month
 {
 	global $DaysShort;
 	global $MonthsLong;
-	// timestamp of today 
+	// timestamp of today
 	$today = mktime();
 	$day_of_the_week = date("w", $today);
 	$thisday_of_the_week = date("w", $today);
@@ -565,8 +567,8 @@ function display_weekcalendar($agendaitems, $month, $year, $weekdaynames, $month
 	$day_of_the_week = date("w", $today); // Numeric representation of the day of the week	0 (for Sunday) through 6 (for Saturday) of today
 	$timestamp_first_date_of_week = $today - (($day_of_the_week -1) * 24 * 60 * 60); // timestamp of the monday of this week
 	$timestamp_last_date_of_week = $today + ((7 - $day_of_the_week) * 24 * 60 * 60); // timestamp of the sunday of this week
-	$backwardsURL = $_SERVER['PHP_SELF']."?coursePath=".$_GET['coursePath']."&amp;courseCode=".$_GET['courseCode']."&amp;action=view&amp;view=week&amp;week=". ($week_number -1);
-	$forewardsURL = $_SERVER['PHP_SELF']."?coursePath=".$_GET['coursePath']."&amp;courseCode=".$_GET['courseCode']."&amp;action=view&amp;view=week&amp;week=". ($week_number +1);
+	$backwardsURL = $_SERVER['PHP_SELF']."?coursePath=".urlencode($_GET['coursePath'])."&amp;courseCode=".$_GET['courseCode']."&amp;action=view&amp;view=week&amp;week=". ($week_number -1);
+	$forewardsURL = $_SERVER['PHP_SELF']."?coursePath=".urlencode($_GET['coursePath'])."&amp;courseCode=".$_GET['courseCode']."&amp;action=view&amp;view=week&amp;week=". ($week_number +1);
 	echo "<table id=\"agenda_list\">\n";
 	// The title row containing the the week information (week of the year (startdate of week - enddate of week)
 	echo "<tr class=\"title\">\n";
@@ -597,7 +599,7 @@ function display_weekcalendar($agendaitems, $month, $year, $weekdaynames, $month
 		$tmp_timestamp = $tmp_timestamp + (24 * 60 * 60);
 	}
 	echo "</tr>\n";
-	// the table cells containing all the entries for that day 
+	// the table cells containing all the entries for that day
 	echo "<tr>\n";
 	$counter = 0;
 	foreach ($array_tmp_timestamp as $key => $value)
@@ -661,8 +663,8 @@ function display_daycalendar($agendaitems, $day, $month, $year, $weekdaynames, $
 	// we are loading all the calendar items of all the courses for today
 	echo "<table id=\"agenda_list\">\n";
 	// the forward and backwards url
-	$backwardsURL = $_SERVER['PHP_SELF']."?coursePath=".$_GET['coursePath']."&amp;courseCode=".$_GET['courseCode']."&amp;action=view&amp;view=day&amp;day=".date("j", $previousday)."&amp;month=".date("n", $previousday)."&amp;year=".date("Y", $previousday);
-	$forewardsURL = $_SERVER['PHP_SELF']."?coursePath=".$_GET['coursePath']."&amp;courseCode=".$_GET['courseCode']."&amp;action=view&amp;view=day&amp;day=".date("j", $nextday)."&amp;month=".date("n", $nextday)."&amp;year=".date("Y", $nextday);
+	$backwardsURL = $_SERVER['PHP_SELF']."?coursePath=".urlencode($_GET['coursePath'])."&amp;courseCode=".$_GET['courseCode']."&amp;action=view&amp;view=day&amp;day=".date("j", $previousday)."&amp;month=".date("n", $previousday)."&amp;year=".date("Y", $previousday);
+	$forewardsURL = $_SERVER['PHP_SELF']."?coursePath=".urlencode($_GET['coursePath'])."&amp;courseCode=".$_GET['courseCode']."&amp;action=view&amp;view=day&amp;day=".date("j", $nextday)."&amp;month=".date("n", $nextday)."&amp;year=".date("Y", $nextday);
 	// The title row containing the day
 	echo "<tr class=\"title\">\n", "<td width=\"10%\"><a href=\"", $backwardsURL, "\"></a></td>\n", "<td>";
 	echo $DaysLong[$day_of_the_week]." ".date("j", $today)." ".$MonthsLong[date("n", $today) - 1]." ".date("Y", $today);
@@ -719,16 +721,16 @@ function get_day_agendaitems($rootWeb, $courses_dbs, $month, $year, $day)
 		$TABLEAGENDA = Database :: get_course_table(AGENDA_TABLE, $array_course_info["db"]);
 		$TABLE_ITEMPROPERTY = Database :: get_course_table(LAST_TOOL_EDIT_TABLE, $array_course_info["db"]);
 
-		// getting all the groups of the user for the current course	
+		// getting all the groups of the user for the current course
 		$group_memberships = GroupManager :: get_group_ids($array_course_info["db"], $_uid);
 		// if the user is administrator of that course we show all the agenda items
 		if ($array_course_info['status'] == '1')
 		{
 			//echo "course admin";
-			$sqlquery = "SELECT 
+			$sqlquery = "SELECT
 										DISTINCT agenda.*, item_property.*
 										FROM ".$TABLEAGENDA." agenda,
-											".$TABLE_ITEMPROPERTY." item_property 
+											".$TABLE_ITEMPROPERTY." item_property
 										WHERE agenda.id = item_property.ref   ".$show_all_current."
 										AND DAYOFMONTH(start_date)='".$day."' AND MONTH(start_date)='".$month."' AND YEAR(start_date)='".$year."'
 										AND item_property.tool='".TOOL_CALENDAR_EVENT."'
@@ -741,10 +743,10 @@ function get_day_agendaitems($rootWeb, $courses_dbs, $month, $year, $day)
 			//echo "GEEN course admin";
 			if (is_array($group_memberships))
 			{
-				$sqlquery = "SELECT 
-													agenda.*, item_property.* 
+				$sqlquery = "SELECT
+													agenda.*, item_property.*
 													FROM ".$TABLEAGENDA." agenda,
-														".$TABLE_ITEMPROPERTY." item_property 
+														".$TABLE_ITEMPROPERTY." item_property
 													WHERE agenda.id = item_property.ref   ".$show_all_current."
 													AND DAYOFMONTH(start_date)='".$day."' AND MONTH(start_date)='".$month."' AND YEAR(start_date)='".$year."'
 													AND item_property.tool='".TOOL_CALENDAR_EVENT."'
@@ -754,10 +756,10 @@ function get_day_agendaitems($rootWeb, $courses_dbs, $month, $year, $day)
 			}
 			else
 			{
-				$sqlquery = "SELECT 
-													agenda.*, item_property.* 
+				$sqlquery = "SELECT
+													agenda.*, item_property.*
 													FROM ".$TABLEAGENDA." agenda,
-														".$TABLE_ITEMPROPERTY." item_property 
+														".$TABLE_ITEMPROPERTY." item_property
 													WHERE agenda.id = item_property.ref   ".$show_all_current."
 													AND DAYOFMONTH(start_date)='".$day."' AND MONTH(start_date)='".$month."' AND YEAR(start_date)='".$year."'
 													AND item_property.tool='".TOOL_CALENDAR_EVENT."'
@@ -841,11 +843,11 @@ function get_week_agendaitems($rootWeb, $courses_dbs, $month, $year, $week = '')
 	$end_day=date("j",$end_timestamp);
 	$end_month=date("n",$end_timestamp);
 	$end_year=date("Y",$end_timestamp);
-	
+
 	// in sql statements you have to use year-month-day for date calculations
 	$start_filter=$start_year."-".$start_month."-".$start_day;
 	$end_filter=$end_year."-".$end_month."-".$end_day;
-	
+
 	*/
 	//$start_end_week=calculate_start_end_of_week($week_number, $year);
 	// a little bit of debug information
@@ -866,17 +868,17 @@ function get_week_agendaitems($rootWeb, $courses_dbs, $month, $year, $week = '')
 		$TABLEAGENDA = Database :: get_course_table(AGENDA_TABLE, $array_course_info["db"]);
 		$TABLE_ITEMPROPERTY = Database :: get_course_table(LAST_TOOL_EDIT_TABLE, $array_course_info["db"]);
 
-		// getting all the groups of the user for the current course	
+		// getting all the groups of the user for the current course
 		$group_memberships = GroupManager :: get_group_ids($array_course_info["db"], $_uid);
 
 		// if the user is administrator of that course we show all the agenda items
 		if ($array_course_info['status'] == '1')
 		{
 			//echo "course admin";
-			$sqlquery = "SELECT 
+			$sqlquery = "SELECT
 										DISTINCT agenda.*, item_property.*
 										FROM ".$TABLEAGENDA." agenda,
-											".$TABLE_ITEMPROPERTY." item_property 
+											".$TABLE_ITEMPROPERTY." item_property
 										WHERE agenda.id = item_property.ref   ".$show_all_current."
 										AND start_date>='".$start_filter."' AND start_date<='".$end_filter."'
 										AND item_property.tool='".TOOL_CALENDAR_EVENT."'
@@ -889,10 +891,10 @@ function get_week_agendaitems($rootWeb, $courses_dbs, $month, $year, $week = '')
 			//echo "GEEN course admin";
 			if (is_array($group_memberships))
 			{
-				$sqlquery = "SELECT 
-													agenda.*, item_property.* 
+				$sqlquery = "SELECT
+													agenda.*, item_property.*
 													FROM ".$TABLEAGENDA." agenda,
-														 ".$TABLE_ITEMPROPERTY." item_property 
+														 ".$TABLE_ITEMPROPERTY." item_property
 													WHERE agenda.id = item_property.ref   ".$show_all_current."
 													AND start_date>='".$start_filter."' AND start_date<='".$end_filter."'
 													AND item_property.tool='".TOOL_CALENDAR_EVENT."'
@@ -902,10 +904,10 @@ function get_week_agendaitems($rootWeb, $courses_dbs, $month, $year, $week = '')
 			}
 			else
 			{
-				$sqlquery = "SELECT 
-													agenda.*, item_property.* 
+				$sqlquery = "SELECT
+													agenda.*, item_property.*
 													FROM ".$TABLEAGENDA." agenda,
-														 ".$TABLE_ITEMPROPERTY." item_property 
+														 ".$TABLE_ITEMPROPERTY." item_property
 													WHERE agenda.id = item_property.ref   ".$show_all_current."
 													AND start_date>='".$start_filter."' AND start_date<='".$end_filter."'
 													AND item_property.tool='".TOOL_CALENDAR_EVENT."'
@@ -946,7 +948,7 @@ function get_week_agendaitems($rootWeb, $courses_dbs, $month, $year, $week = '')
 // This function shows all the forms that are needed form adding /editing a new personal agenda item
 // when there is no $id passed in the function we are adding a new agenda item, if there is a $id
 // we are editing
-// attention: we have to check that the student is editing an item that belongs to him/her 
+// attention: we have to check that the student is editing an item that belongs to him/her
 function show_new_item_form($id = "")
 {
 	global $year, $MonthsLong;
@@ -960,7 +962,7 @@ function show_new_item_form($id = "")
 	$hours = $today['hours'];
 	$minutes = $today['minutes'];
 	// if an $id is passed to this function this means we are editing an item
-	// we are loading the information here (we do this after everything else 
+	// we are loading the information here (we do this after everything else
 	// to overwrite the default information)
 	if ($id <> "")
 	{
@@ -993,7 +995,7 @@ function show_new_item_form($id = "")
 	echo "\t\t".get_lang("Date").": \n";
 	// ********** The form containing the days (0->31) ********** \\
 	echo "<select name=\"frm_day\">\n";
-	// small loop for filling all the dates 
+	// small loop for filling all the dates
 	// 2do: the available dates should be those of the selected month => february is from 1 to 28 (or 29) and not to 31
 	for ($i = 1; $i <= 31; $i ++)
 	{
@@ -1017,7 +1019,7 @@ function show_new_item_form($id = "")
 		}
 	}
 	echo "</select>\n\n";
-	// ********** The form containing the months (jan->dec) ********** \\				
+	// ********** The form containing the months (jan->dec) ********** \\
 	echo "<!-- month: january -> december -->\n";
 	echo "<select name=\"frm_month\">\n";
 	for ($i = 1; $i <= 12; $i ++)
@@ -1042,7 +1044,7 @@ function show_new_item_form($id = "")
 		}
 	}
 	echo "</select>\n\n";
-	// ********** The form containing the years ********** \\				
+	// ********** The form containing the years ********** \\
 	echo "<!-- year -->\n";
 	echo "<select name=\"frm_year\">";
 	echo "<option value=\"". ($year -1)."\">". ($year -1)."</option>\n";
@@ -1055,7 +1057,7 @@ function show_new_item_form($id = "")
 	echo "</select>";
 	echo "<a title=\"Kalender\" href=\"javascript:openCalendar('newedit_form', 'frm_')\"><img src=\"../img/calendar_select.gif\" border=\"0\" valign=\"absmiddle\"/></a>";
 	echo "</td><td width=\"50%\">";
-	// ********** The form containing the hours  (00->23) ********** \\				
+	// ********** The form containing the hours  (00->23) ********** \\
 	echo "<!-- time: hour -->\n";
 	echo get_lang("Time").": \n";
 	echo "<select name=\"frm_hour\">\n";
@@ -1081,7 +1083,7 @@ function show_new_item_form($id = "")
 		}
 	}
 	echo "</select>";
-	// ********** The form containing the minutes ********** \\				
+	// ********** The form containing the minutes ********** \\
 	echo "<select name=\"frm_minute\">";
 	echo "<option value=\"".$minutes."\">".$minutes."</option>";
 	echo "<option value=\"00\">00</option>";
@@ -1098,15 +1100,15 @@ function show_new_item_form($id = "")
 	echo "<option value=\"55\">55</option>";
 	echo "</select>";
 	echo "</td></tr>";
-	// ********** The title field ********** \\				
+	// ********** The title field ********** \\
 	echo "<tr class=\"subtitle\"><td colspan=\"2\">";
 	echo get_lang('Title').': <input type="text" name="frm_title" size="50" value="'.$title.'" />';
 	echo "</td></tr>";
-	// ********** The text field ********** \\				
+	// ********** The text field ********** \\
 	echo "<tr><td colspan=\"2\">";
 	api_disp_html_area('frm_content', $text, '300px');
 	echo "</td></tr>";
-	// ********** The Submit button********** \\				
+	// ********** The Submit button********** \\
 	echo "<tr><td colspan=\"2\">";
 	echo '<input type="submit" name="Submit" value="'.get_lang('Ok').'" />';
 	echo "</td></tr>";
@@ -1136,7 +1138,7 @@ function store_personal_item($day, $month, $year, $hour, $minute, $title, $conte
 	 get_courses_of_user()
   ============================================================================*/
 // This function finds all the courses of the user and returns an array containing the
-// database name of the courses. 
+// database name of the courses.
 function get_courses_of_user()
 {
 	global $TABLECOURS;
@@ -1159,7 +1161,7 @@ function get_courses_of_user()
 /*============================================================================
 	 get_personal_agendaitems($rootWeb, $agendaitems, $month, $year, $day, $week, $type);
   ============================================================================*/
-// This function retrieves all the personal agenda items and add them to the agenda items found by the other functions. 
+// This function retrieves all the personal agenda items and add them to the agenda items found by the other functions.
 function get_personal_agendaitems($rootWeb, $agendaitems, $day = "", $month = "", $year = "", $week = "", $type)
 {
 	global $TABLE_PERSONAL_AGENDA;
@@ -1182,7 +1184,7 @@ function get_personal_agendaitems($rootWeb, $agendaitems, $day = "", $month = ""
 		// in sql statements you have to use year-month-day for date calculations
 		$start_filter = $start_year."-".$start_month."-".$start_day;
 		$end_filter = $end_year."-".$end_month."-".$end_day;
-		$sql = " SELECT * FROM ".$TABLE_PERSONAL_AGENDA." WHERE user='".$_uid."' 
+		$sql = " SELECT * FROM ".$TABLE_PERSONAL_AGENDA." WHERE user='".$_uid."'
 								AND date>='".$start_filter."' AND date<='".$end_filter."'";
 	}
 	// 3. creating the SQL statement for getting the personal agenda items in DAY view
@@ -1197,8 +1199,8 @@ function get_personal_agendaitems($rootWeb, $agendaitems, $day = "", $month = ""
 	//echo "month:".$month."/";
 	//echo "year:".$year."/";
 	//echo "week:".$week."/";
-	//echo $type."<p>"; 
-	//echo "<pre>".$sql."</pre>"; 
+	//echo $type."<p>";
+	//echo "<pre>".$sql."</pre>";
 	$result = api_sql_query($sql, __FILE__, __LINE__);
 	while ($item = mysql_fetch_array($result))
 	{
@@ -1248,7 +1250,7 @@ function get_personal_agendaitems($rootWeb, $agendaitems, $day = "", $month = ""
 /*============================================================================
 	 show_personal_agenda()
   ============================================================================*/
-// This function retrieves all the personal agenda items of the user and shows 
+// This function retrieves all the personal agenda items of the user and shows
 // these items in one list (ordered by date and grouped by month (the month_bar)
 function show_personal_agenda()
 {
@@ -1339,7 +1341,7 @@ function show_personal_agenda()
 	 delete_personal_agenda($id)
   ============================================================================*/
 // This function deletes a personal agenda item
-// There is an additional check to make sure that one cannot delete an item that 
+// There is an additional check to make sure that one cannot delete an item that
 // does not belong to him/her
 function delete_personal_agenda($id)
 {
@@ -1361,7 +1363,7 @@ function delete_personal_agenda($id)
 	 calculate_start_end_of_week($week_number, $year)
   ============================================================================*/
 // This function calculates the startdate of the week (monday)
-// and the enddate of the week (sunday) 
+// and the enddate of the week (sunday)
 // and returns it as an array
 function calculate_start_end_of_week($week_number, $year)
 {
@@ -1389,4 +1391,4 @@ function calculate_start_end_of_week($week_number, $year)
 	$start_end_array['end']['year'] = $end_year;
 	return $start_end_array;
 }
-?> 
+?>
