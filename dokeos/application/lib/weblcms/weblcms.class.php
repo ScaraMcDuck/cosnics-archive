@@ -317,15 +317,17 @@ class Weblcms extends WebApplication
 	}
 	/**
 	 * Gets the date of the last visit of current user to the current location
-	 * @todo This function now returns [current time minus some minutes] for
-	 * testing purpuses. It should be implemented correctly.
-	 * @param string $tool If $tool equals zero, current active tool will be taken
-	 * into account. If no tool is given or no tool is active the date of last
-	 * visit to the course homepage will be returned.
+	 * @param string $tool If $tool equals null, current active tool will be
+	 * taken into account. If no tool is given or no tool is active the date of
+	 * last visit to the course homepage will be returned.
 	 * @return int
 	 */
 	function get_last_visit_date($tool = null)
 	{
+		if(is_null($tool))
+		{
+			$tool = $this->get_parameter(self :: PARAM_TOOL);
+		}
 		$wdm = WeblcmsDataManager :: get_instance();
 		$date = $wdm->get_last_visit_date($this->get_course_id(),$this->get_user_id(),$tool);
 		return $date;
