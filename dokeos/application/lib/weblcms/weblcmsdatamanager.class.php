@@ -268,6 +268,13 @@ abstract class WeblcmsDataManager
 	  * @param int $user_id
 	  */
 	 abstract function log_course_module_access($course_code, $module_name, $user_id);
+	 /**
+	  * Gets the last visit date
+	  * @param string $course_code
+	  * @param string $module_name
+	  * @param int $user_id
+	  */
+	 abstract function get_last_visit_date($course_code,$user_id,$module_name = null);
 }
 
 ?>

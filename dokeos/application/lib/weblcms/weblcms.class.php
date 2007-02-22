@@ -75,7 +75,7 @@ class Weblcms extends WebApplication
 		if ($tool && !$action)
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
-			$wdm->log_course_module_access($this->get_course_id(),$tool,$this->get_user_id());
+			$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),$tool);
 			$class = Tool :: type_to_class($tool);
 			$toolObj = new $class ($this);
 			$this->tool_class = $class;
@@ -83,6 +83,8 @@ class Weblcms extends WebApplication
 		}
 		else
 		{
+			$wdm = WeblcmsDataManager :: get_instance();
+			$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),null);
 			$this->display_header();
 			$renderer = ToolListRenderer::factory('FixedLocationToolListRenderer',$this);
 			$renderer->display();
@@ -324,7 +326,9 @@ class Weblcms extends WebApplication
 	 */
 	function get_last_visit_date($tool = null)
 	{
-		return strtotime('-1 Minute');
+		$wdm = WeblcmsDataManager :: get_instance();
+		$date = $wdm->get_last_visit_date($this->get_course_id(),$this->get_user_id(),$tool);
+		return $date;
 	}
 	/**
 	 * Determines if a tool has new publications  since the last time the
