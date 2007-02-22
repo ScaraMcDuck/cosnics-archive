@@ -397,6 +397,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 	}
 
+	function log_course_module_access($course_code, $module_name, $user_id)
+	{
+		$props = array ();
+		$props[$this->escape_column_name('course_code')] = $course_code;
+		$props[$this->escape_column_name('module_name')] = $module_name;
+		$props[$this->escape_column_name('user_id')] = $user_id;
+		$props[$this->escape_column_name('access_date')] = time();
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('course_module_access'), $props, MDB2_AUTOQUERY_INSERT);
+
+	}
 
 	function get_course_modules($course_code)
 	{

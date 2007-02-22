@@ -74,6 +74,8 @@ class Weblcms extends WebApplication
 		}
 		if ($tool && !$action)
 		{
+			$wdm = WeblcmsDataManager :: get_instance();
+			$wdm->log_course_module_access($this->get_course_id(),$tool,$this->get_user_id());
 			$class = Tool :: type_to_class($tool);
 			$toolObj = new $class ($this);
 			$this->tool_class = $class;
