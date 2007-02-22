@@ -261,6 +261,13 @@ abstract class WeblcmsDataManager
 	 * @param string $section
 	 */
 	 abstract function add_course_module($course_code,$module,$section = 'basic');
+	 /**
+	  * Adds a record to the access log of a course module
+	  * @param string $course_code
+	  * @param string $module_name
+	  * @param int $user_id
+	  */
+	 abstract function log_course_module_access($course_code, $module_name, $user_id);
 }
 
 ?>
