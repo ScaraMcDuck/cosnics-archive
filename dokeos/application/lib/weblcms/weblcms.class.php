@@ -75,20 +75,20 @@ class Weblcms extends WebApplication
 		if ($tool && !$action)
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
-			$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),$tool);
 			$class = Tool :: type_to_class($tool);
 			$toolObj = new $class ($this);
 			$this->tool_class = $class;
 			$toolObj->run();
+			$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),$tool);
 		}
 		else
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
-			$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),null);
 			$this->display_header();
 			$renderer = ToolListRenderer::factory('FixedLocationToolListRenderer',$this);
 			$renderer->display();
 			$this->display_footer();
+			$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),null);
 		}
 	}
 	/**
