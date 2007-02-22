@@ -2,14 +2,8 @@
  Dokeos LCMS INSTALLATION
 *******************************************
 This development has just started.
-There's no simple install script and we don't guarantee it to work. 
+There's a first implementation of an install script available.
 We invite people to follow our development efforts and give remarks.
-
-- Install Dokeos just like you would normally do
-- Change repository/conf/configuration.php
-- Run repository/install/create_tables.php
-- To fill database with some testdata, run repository/test/fill_tables.php
-- You should also create some other tables of which you find the SQL-files under application/lib
 
 *******************************************
  Dokeos 2.0 community release INSTALLATION
@@ -41,7 +35,7 @@ Contents
 
 Dokeos is a web application which requires some other software to function:
 a web server, PHP, and the MySQL database server. These software packages
-have to be installed on the computer where you will install Dokeos. 
+have to be installed on the computer where you will install Dokeos.
 
 You can install all these software packages separately, which often gives
 the best results. However, beginning users who want to test Dokeos can use
@@ -70,7 +64,7 @@ You need PHP version 4.3.2 or later (4.x versions), configured with the
 following modules : mysql, zlib, preg, xml. PHP versions 5 or later are not
 supported by Dokes yet. You need the ldap module too if you want to use ldap
 with Dokeos. Most of the PHP4 compiled distributions are provided with these
-modules. Their presence is also checked by the Dokeos install script. 
+modules. Their presence is also checked by the Dokeos install script.
 
 Download PHP:
 http://www.php.net/downloads.php
@@ -100,7 +94,7 @@ And a login/password allowing to administrate and create at least one
 database. By default, Dokeos will create a new database for each course
 created. It means your host should allow you to create and administrate
 several databases. If you want to use Dokeos on a 'single database host'
-you have to select this option during the installation. 
+you have to select this option during the installation.
 
 Download MySQL server:
 http://dev.mysql.com/downloads/
@@ -109,7 +103,7 @@ Note:
 It seems the backticks characters (`) inserted inside most of the Dokeos SQL
 queries since version 1.3 don't work with MySQL versions before 3.23.6.
 
-1.4. Permissions 
+1.4. Permissions
 Furthermore, you need web Write access to web directory where Dokeos has
 been moved or unzipped to. On a Windows machine locally, this is not a
 problem. Remotely, you need to be allowed to CHMOD through FTP, telnet or
@@ -165,7 +159,7 @@ On Linux, Mac OS X and BSD operating systems you can use the CHMOD 777
 command for this. In Windows, you may need to check the properties of
 the folders.
 
-2.6. Open a web browser and go to 
+2.6. Open a web browser and go to
 http://www.yourserver.org/yoursite/dokeos/index.php
 
 For Windows users locally, with e.g easyphp or another combination package,
@@ -248,15 +242,15 @@ Since after version 1.5.5, the following tables in the dokeos_main database can 
 `pma_relation`
 `pma_table_coords`
 `pma_table_info`
-These tables can be removed by connecting to the database as the Dokeos user and executing this query: DROP TABLE dokeos_main.my_table; where dokeos_main is the main dokeos database name and my_table is each of the preceding tables (repeat query for each) 
+These tables can be removed by connecting to the database as the Dokeos user and executing this query: DROP TABLE dokeos_main.my_table; where dokeos_main is the main dokeos database name and my_table is each of the preceding tables (repeat query for each)
 
-A clean-up of the useless fields has also influenced some code: The main_db.cours.cours_id has been removed, as all references to that field throughout the official Dokeos code. The course code (literal) is used instead. Please update your custom code if any. 
+A clean-up of the useless fields has also influenced some code: The main_db.cours.cours_id has been removed, as all references to that field throughout the official Dokeos code. The course code (literal) is used instead. Please update your custom code if any.
 
 Under the same circumstances as tables removal, the following fields can be removed if not used by your code, using a query similar to: ALTER TABLE database.table drop column abc where database is the database name (dokeos_main? or code of a course) table is the table name (cours?) abc is the name of the field to drop You can thus drop the following fields:
 `_dokeos_main_`.`cours`.`versionDb`
 `_dokeos_main_`.`cours`.`versionClaro`
 `_dokeos_main_`.`cours`.`cahier_charges`
-`_dokeos_main_`.`faculte`.`bc` 
+`_dokeos_main_`.`faculte`.`bc`
 # the table `faculte` has been renamed to `course_category` since 1.6
 `_cours_`.`announcement`.`code_cours`
 `_cours_`.`course_description`.`upDate`
