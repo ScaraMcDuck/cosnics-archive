@@ -21,6 +21,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->connection = $this->repoDM->get_connection();
 	}
 
+	/**
+	 * Executes a query
+	 * @param string $query The query (which will be used in a prepare-
+	 * statement)
+	 * @param int $limit The number of rows
+	 * @param int $offset The offset
+	 * @param array $params The parameters to replace the placeholders in the
+	 * query
+	 * @param boolean $is_manip Is the query a manipulation query
+	 */
 	private function limitQuery($query,$limit,$offset,$params,$is_manip = false)
 	{
 		$this->connection->setLimit($limit,$offset);
@@ -493,6 +503,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->connection->extended->autoExecute($this->get_table_name('course_module'), $props, MDB2_AUTOQUERY_INSERT);
 	}
 
+	/**
+	 * Moves learning object publication up
+	 * @param LearningObjectPublication $publication The publication to move
+	 * @param int $places The number of places to move the publication up
+	 */
  	private function move_learning_object_publication_up($publication, $places)
 	{
 		$oldIndex = $publication->get_display_order_index();
@@ -505,6 +520,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $rowsMoved;
 	}
 
+	/**
+	 * Moves learning object publication down
+	 * @param LearningObjectPublication $publication The publication to move
+	 * @param int $places The number of places to move the publication down
+	 */
 	private function move_learning_object_publication_down($publication, $places)
 	{
 		$oldIndex = $publication->get_display_order_index();
