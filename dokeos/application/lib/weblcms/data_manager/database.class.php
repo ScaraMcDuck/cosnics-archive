@@ -21,10 +21,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->connection = $this->repoDM->get_connection();
 	}
 
-	private function limitQuery($query,$limit,$offset,$params)
+	private function limitQuery($query,$limit,$offset,$params,$is_manip = false)
 	{
 		$this->connection->setLimit($limit,$offset);
-		$statement = $this->connection->prepare($query);
+		$statement = $this->connection->prepare($query,null,($is_manip ? MDB2_PREPARE_MANIP : null));
 		$res = $statement->execute($params);
 		return $res;
 	}
@@ -492,34 +492,28 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('course_module'), $props, MDB2_AUTOQUERY_INSERT);
 	}
-	// TODO: Something is wrong here. Sometimes publications end up with the same display_order
-	// Probably something to to with wrong use of function setLimit()
-	private function move_learning_object_publication_up($publication, $places)
+
+ 	private function move_learning_object_publication_up($publication, $places)
 	{
 		$oldIndex = $publication->get_display_order_index();
 		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'+1 WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_CATEGORY_ID).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'<? ORDER BY '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).' DESC';
-		$this->connection->setLimit($places);
-		$statement = $this->connection->prepare($query);
-		$rowsMoved = $statement->execute(array($publication->get_course_id(), $publication->get_tool(), $publication->get_category_id(), $oldIndex));
+		$params = array($publication->get_course_id(), $publication->get_tool(), $publication->get_category_id(), $oldIndex);
+		$rowsMoved = $this->limitQuery($query,$places,null,$params,true);
 		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'=? WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=?';
-		$this->connection->setLimit(1,0);
-		$statement = $this->connection->prepare($query);
-		$statement->execute(array($oldIndex - $places, $publication->get_id()));
+		$params = array($oldIndex - $places, $publication->get_id());
+		$this->limitQuery($query,1,null,$params,true);
 		return $rowsMoved;
 	}
-	// TODO: Something is wrong here. Sometimes publications end up with the same display_order
-	// Probably something to to with wrong use of function setLimit()
+
 	private function move_learning_object_publication_down($publication, $places)
 	{
 		$oldIndex = $publication->get_display_order_index();
 		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'-1 WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_CATEGORY_ID).'=? AND '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'>? ORDER BY '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).' ASC';
-		$this->connection->setLimit(0,$places);
-		$statement = $this->connection->prepare($query);
-		$rowsMoved = $statement->execute(array($publication->get_course_id(), $publication->get_tool(), $publication->get_category_id(), $oldIndex));
+		$params = array($publication->get_course_id(), $publication->get_tool(), $publication->get_category_id(), $oldIndex);
+		$rowsMoved = $this->limitQuery($query,$places,null,$params,true);
 		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'=? WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=?';
-		$this->connection->setLimit(0,$places);
-		$statement = $this->connection->prepare($query);
-		$statement->execute(array($oldIndex + $places, $publication->get_id()));
+		$params = array($oldIndex + $places, $publication->get_id());
+		$this->limitQuery($query,1,null,$params,true);
 		return $rowsMoved;
 	}
 
