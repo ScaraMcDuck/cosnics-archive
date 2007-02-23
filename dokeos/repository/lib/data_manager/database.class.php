@@ -243,8 +243,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
+			// TODO: SCARA - Exclude category from learning object count
 			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
 		}
+		
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -458,7 +460,6 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function detach_learning_object ($object, $attachment_id)
 	{
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object').'=? AND '.$this->escape_column_name('attachment').'=?';
-		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$affectedRows = $statement->execute(array ($object->get_id(), $attachment_id));
 		return ($affectedRows > 0);

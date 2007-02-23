@@ -26,7 +26,7 @@ class DocumentForm extends LearningObjectForm
 	{
 		parent :: build_editing_form();
 		$object = $this->get_learning_object();
-		if ($this->is_html_document($object->get_path()))
+		if (RepositoryUtilities :: is_html_document($object->get_path()))
 		{
 			$this->addElement('html_editor', 'html_content', get_lang('HtmlDocument'));
 			$this->addRule('html_content', get_lang('DiskQuotaExceeded'), 'disk_quota');
@@ -42,7 +42,7 @@ class DocumentForm extends LearningObjectForm
 	function setDefaults($defaults = array ())
 	{
 		$object = $this->get_learning_object();
-		if (isset ($object) && $this->is_html_document($object->get_path()))
+		if (isset ($object) && RepositoryUtilities :: is_html_document($object->get_path()))
 		{
 			$defaults['html_content'] = file_get_contents($this->get_upload_path().'/'.$object->get_path());
 		}
@@ -118,14 +118,7 @@ class DocumentForm extends LearningObjectForm
 		$object->set_filesize(filesize($this->get_upload_path().'/'.$object->get_path()));
 		return parent :: update_learning_object();
 	}
-	/**
-	 * Checks if a file is an HTML document.
-	 */
-	// TODO: Move to RepositoryUtilities or some other relevant class.
-	private function is_html_document($path)
-	{
-		return (preg_match('/\.x?html?$/', $path) === 1);
-	}
+
 	/**
 	 * Creates a valid filename.
 	 * @param string $desired_filename The desired filename.
