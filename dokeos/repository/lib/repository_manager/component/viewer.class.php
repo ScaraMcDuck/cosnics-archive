@@ -114,20 +114,8 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			$publication_attr = $this->get_learning_object_publication_attributes($object->get_id());
 			if (count($publication_attr) > 0)
 			{
-				// TODO: Use a function for this or something.
-				echo '<div class="publication_attributes">';
-				echo '<div class="publication_attributes_title">'.htmlentities(get_lang('ThisObjectIsPublished')).'</div>';
-				echo '<ul class="publication_attributes">';
-				foreach ($publication_attr as $info)
-				{
-					$publisher = $this->get_user_info($info->get_publisher_user_id());
-					echo '<li>';
-					// TODO: i18n
-					echo $info->get_application().': '.$info->get_location().' ('.$publisher['firstName'].' '.$publisher['lastName'].', '.date('r', $info->get_publication_date()).')';
-					echo '</li>';
-				}
-				echo '</ul>';
-				echo '</div>';
+				// TODO: SCARA - MOVED / TO: repositoryutilities - Use a function for this or something.				
+				echo RepositoryUtilities :: build_uses($publication_attr);
 			}
 			$this->display_footer();
 		}

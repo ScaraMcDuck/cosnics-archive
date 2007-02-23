@@ -271,5 +271,34 @@ class RepositoryUtilities
 	{
 		return strcasecmp($learning_object_1->get_title(), $learning_object_2->get_title());
 	}
+	
+	/**
+	 * Checks if a file is an HTML document.
+	 */
+	// TODO: SCARA - MOVED / FROM: document_form_class / TO: RepositoryUtilities or some other relevant class.
+	function is_html_document($path)
+	{
+		return (preg_match('/\.x?html?$/', $path) === 1);
+	}
+	
+	function build_uses($publication_attr)
+	{
+		$html 	= array ();
+		$html[] = '<div class="publication_attributes">';
+		$html[] = '<div class="publication_attributes_title">'.htmlentities(get_lang('ThisObjectIsPublished')).'</div>';
+		$html[] = '<ul class="publication_attributes">';
+		foreach ($publication_attr as $info)
+		{
+			$publisher = $this->get_user_info($info->get_publisher_user_id());
+			$html[] = '<li>';
+			// TODO: i18n
+			$html[] = $info->get_application().': '.$info->get_location().' ('.$publisher['firstName'].' '.$publisher['lastName'].', '.date('r', $info->get_publication_date()).')';
+			$html[] = '</li>';
+		}
+		$html[] = '</ul>';
+		$html[] = '</div>';
+		
+		return implode($html);
+	}
 }
 ?>
