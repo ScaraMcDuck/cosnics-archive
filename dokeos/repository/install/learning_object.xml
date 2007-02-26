@@ -10,6 +10,7 @@
   <property name="display_order" type="integer" unsigned="1"  notnull="1"/>
   <property name="created" type="timestamp"/>
   <property name="modified" type="timestamp"/>
+  <property name="version_number" type="integer" length="6" notnull="1" default="1"/>
   <property name="state" type="integer" length="1" unsigned="1"  notnull="1"/>
  </properties>
  <index name="id" type="primary">
@@ -29,5 +30,8 @@
  </index>
  <index name="state">
   <indexproperty name="state"/>
+ </index>
+ <index name="version_number">
+  <indexproperty name="version_number"/>
  </index>
 </object>

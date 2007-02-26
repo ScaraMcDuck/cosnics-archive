@@ -85,4 +85,5 @@ $ToSimpleSearch='Eenvoudig zoeken';
 $Type='Type';
 $Upload='Bestand opladen';
 $URL='URL';
+$Version_number='Versie';
 ?>

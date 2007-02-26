@@ -19,6 +19,8 @@ abstract class LearningObjectForm extends FormValidator
 {
 	const TYPE_CREATE = 1;
 	const TYPE_EDIT = 2;
+	const RESULT_SUCCESS = 'ObjectUpdated';
+	const RESULT_ERROR = 'ObjectUpdateFailed';
 
 	private $owner_id;
 
@@ -253,11 +255,13 @@ abstract class LearningObjectForm extends FormValidator
 					 * constants instead of booleans, like
 					 * LearningObjectForm :: SUCCESS (not implemented).
 					 */
-					return false;
+					return self :: RESULT_ERROR;
 				}
 			}
 		}
 		$result = $object->update();
+		echo $result;
+		die();
 		if ($object->supports_attachments())
 		{
 			/*
