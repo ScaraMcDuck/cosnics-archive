@@ -56,9 +56,10 @@ class MatchingQuestionForm extends LearningObjectForm
 		$values = $this->exportValues();
 		$options = array();
 		$matches = array();
+		$matches_indexes = array_flip(array_keys($values['match']));
 		foreach($values['option'] as $option_id => $value)
 		{
-			$options[] = new MatchingQuestionOption($value,$values['matches_to'][$option_id]);
+			$options[] = new MatchingQuestionOption($value,$matches_indexes[$values['matches_to'][$option_id]]);
 		}
 		foreach($values['match'] as $match_id => $match)
 		{
@@ -74,9 +75,10 @@ class MatchingQuestionForm extends LearningObjectForm
 		$values = $this->exportValues();
 		$options = array();
 		$matches = array();
+		$matches_indexes = array_flip(array_keys($values['match']));
 		foreach($values['option'] as $option_id => $value)
 		{
-			$options[] = new MatchingQuestionOption($value,$values['matches_to'][$option_id]);
+			$options[] = new MatchingQuestionOption($value,$matches_indexes[$values['matches_to'][$option_id]]);
 		}
 		foreach($values['match'] as $match_id => $match)
 		{
@@ -105,6 +107,8 @@ class MatchingQuestionForm extends LearningObjectForm
 		{
 			unset($_SESSION['mq_number_of_options']);
 			unset($_SESSION['mq_skip_options']);
+			unset($_SESSION['mq_number_of_matches']);
+			unset($_SESSION['mq_skip_matches']);
 		}
 		if(!isset($_SESSION['mq_number_of_options']))
 		{
@@ -123,16 +127,6 @@ class MatchingQuestionForm extends LearningObjectForm
 			$indexes = array_keys($_POST['remove_option']);
 			$_SESSION['mq_skip_options'][] = $indexes[0];
 		}
-		$object = $this->get_learning_object();
-		if(!$this->isSubmitted() && !is_null($object))
-		{
-			$_SESSION['mq_number_of_options'] = $object->get_number_of_options();
-		}
-		if(!$this->isSubmitted())
-		{
-			unset($_SESSION['mq_number_of_matches']);
-			unset($_SESSION['mq_skip_matches']);
-		}
 		if(!isset($_SESSION['mq_number_of_matches']))
 		{
 			$_SESSION['mq_number_of_matches'] = 2;
@@ -150,9 +144,11 @@ class MatchingQuestionForm extends LearningObjectForm
 			$indexes = array_keys($_POST['remove_match']);
 			$_SESSION['mq_skip_matches'][] = $indexes[0];
 		}
+		$object = $this->get_learning_object();
 		if(!$this->isSubmitted() && !is_null($object))
 		{
-			$_SESSION['mq_number_of_matches'] = $object->get_number_of_options();
+			$_SESSION['mq_number_of_options'] = $object->get_number_of_options();
+			$_SESSION['mq_number_of_matches'] = $object->get_number_of_matches();
 		}
 	}
 	/**
