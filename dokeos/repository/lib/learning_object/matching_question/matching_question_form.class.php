@@ -11,8 +11,11 @@ class MatchingQuestionForm extends LearningObjectForm
 	{
 		parent :: build_creation_form();
 		$this->update_number_of_options_and_matches();
+		$this->addElement('html','<div class="row"><div class="label"></div><div class="formw"><table style="width: 100%"><tr><td style="text-align:left; width: 50%; vertical-align: top;">');
 		$this->add_options();
+		$this->addElement('html','</td><td style="text-align:left; width: 50%; vertical-align: top;">');
 		$this->add_matches();
+		$this->addElement('html','</td></tr></table></div></div>');
 	}
 	protected function build_editing_form()
 	{
