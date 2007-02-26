@@ -15,9 +15,22 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 	protected function build_editing_form()
 	{
 		parent :: build_editing_form();
+		$this->add_options();
 	}
 	function setDefaults($defaults = array ())
 	{
+		if(!$this->isSubmitted())
+		{
+			$object = $this->get_learning_object();
+			if(!is_null($object))
+			{
+				$options = $object->get_options();
+				foreach($options as $index => $option)
+				{
+					$defaults['option'][$index] = $option->get_value();
+				}
+			}
+		}
 		parent :: setDefaults($defaults);
 	}
 	function create_learning_object()
@@ -80,6 +93,11 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 		{
 			$indexes = array_keys($_POST['remove']);
 			$_SESSION['mc_skip_options'][] = $indexes[0];
+		}
+		$object = $this->get_learning_object();
+		if(!$this->isSubmitted() && !is_null($object))
+		{
+			$_SESSION['mc_number_of_options'] = $object->get_number_of_options();
 		}
 		$number_of_options = intval($_SESSION['mc_number_of_options']);
 		for($option_number = 0; $option_number <$number_of_options ; $option_number++)
