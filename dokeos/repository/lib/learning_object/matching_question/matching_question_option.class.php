@@ -16,11 +16,11 @@ class MatchingQuestionOption {
 	 */
 	private $match;
 	/**
-	 * Creates a new option for a multiple choice question
+	 * Creates a new option for a matching question
 	 * @param string $value The value of the option
 	 * @param int $match The index of the match corresponding to this option
 	 */
-    function MultipleChoiceQuestionOption($value,$match) {
+    function MatchingQuestionOption($value,$match) {
     	$this->value = $value;
     	$this->match = $match;
     }
@@ -36,7 +36,7 @@ class MatchingQuestionOption {
      * Gets the index of the match corresponding to this option
      * @return int
      */
-    function is_match()
+    function get_match()
     {
     	return $this->match;
     }
