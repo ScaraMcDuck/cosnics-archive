@@ -42,7 +42,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 		$options = array();
 		foreach($values['option'] as $option_id => $value)
 		{
-			$options[] = new MultipleChoiceQuestionOption($value);
+			$options[] = new MultipleChoiceQuestionOption($value,$values['correct'][$option_id]);
 		}
 		$object->set_options($options);
 		return parent :: create_learning_object();
