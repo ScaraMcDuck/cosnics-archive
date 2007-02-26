@@ -24,13 +24,25 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 	{
 		$object = new MultipleChoiceQuestion();
 		$this->set_learning_object($object);
-		unset($_SESSION['mc_number_of_options']);
+		$values = $this->exportValues();
+		$options = array();
+		foreach($values['option'] as $option_id => $value)
+		{
+			$options[] = new MultipleChoiceQuestionOption($value);
+		}
+		$object->set_options($options);
 		return parent :: create_learning_object();
 	}
 	function update_learning_object()
 	{
 		$object = $this->get_learning_object();
-		unset($_SESSION['mc_number_of_options']);
+		$values = $this->exportValues();
+		$options = array();
+		foreach($values['option'] as $option_id => $value)
+		{
+			$options[] = new MultipleChoiceQuestionOption($value);
+		}
+		$object->set_options($options);
 		return parent :: update_learning_object();
 	}
 	function validate()
