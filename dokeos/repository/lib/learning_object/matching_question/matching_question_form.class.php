@@ -40,6 +40,11 @@ class MatchingQuestionForm extends LearningObjectForm
 					$defaults['option'][$index] = $option->get_value();
 					$defaults['matches_to'][$index] = $option->get_match();
 				}
+				$matches = $object->get_matches();
+				foreach($matches as $index => $match)
+				{
+					$defaults['match'][$index] = $match;
+				}
 			}
 		}
 		parent :: setDefaults($defaults);
@@ -50,11 +55,17 @@ class MatchingQuestionForm extends LearningObjectForm
 		$this->set_learning_object($object);
 		$values = $this->exportValues();
 		$options = array();
+		$matches = array();
 		foreach($values['option'] as $option_id => $value)
 		{
 			$options[] = new MatchingQuestionOption($value,$values['matches_to'][$option_id]);
 		}
+		foreach($values['match'] as $match_id => $match)
+		{
+			$matches[] = $match;
+		}
 		$object->set_options($options);
+		$object->set_matches($matches);
 		return parent :: create_learning_object();
 	}
 	function update_learning_object()
@@ -62,11 +73,17 @@ class MatchingQuestionForm extends LearningObjectForm
 		$object = $this->get_learning_object();
 		$values = $this->exportValues();
 		$options = array();
+		$matches = array();
 		foreach($values['option'] as $option_id => $value)
 		{
 			$options[] = new MatchingQuestionOption($value,$values['matches_to'][$option_id]);
 		}
+		foreach($values['match'] as $match_id => $match)
+		{
+			$matches[] = $match;
+		}
 		$object->set_options($options);
+		$object->set_matches($matches);
 		return parent :: update_learning_object();
 	}
 	function validate()
