@@ -116,6 +116,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 				//$this->addRule('option['.$option_number.']',get_lang('ThisFieldIsRequired'),'required');
 			}
 		}
+		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
 		$this->addElement('image','add[]',api_get_path(WEB_CODE_PATH).'img/list-add.png');
 	}
 }
