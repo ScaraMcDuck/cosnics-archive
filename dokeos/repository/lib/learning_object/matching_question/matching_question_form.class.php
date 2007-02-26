@@ -21,8 +21,11 @@ class MatchingQuestionForm extends LearningObjectForm
 	{
 		parent :: build_editing_form();
 		$this->update_number_of_options_and_matches();
+		$this->addElement('html','<div class="row"><div class="label"></div><div class="formw"><table style="width: 100%"><tr><td style="text-align:left; width: 50%; vertical-align: top;">');
 		$this->add_options();
+		$this->addElement('html','</td><td style="text-align:left; width: 50%; vertical-align: top;">');
 		$this->add_matches();
+		$this->addElement('html','</td></tr></table></div></div>');
 	}
 	function setDefaults($defaults = array ())
 	{
@@ -35,7 +38,7 @@ class MatchingQuestionForm extends LearningObjectForm
 				foreach($options as $index => $option)
 				{
 					$defaults['option'][$index] = $option->get_value();
-					$defaults['correct'][$index] = $option->is_correct();
+					$defaults['matches_to'][$index] = $option->get_match();
 				}
 			}
 		}
@@ -43,13 +46,13 @@ class MatchingQuestionForm extends LearningObjectForm
 	}
 	function create_learning_object()
 	{
-		$object = new MultipleChoiceQuestion();
+		$object = new MatchingQuestion();
 		$this->set_learning_object($object);
 		$values = $this->exportValues();
 		$options = array();
 		foreach($values['option'] as $option_id => $value)
 		{
-			$options[] = new MultipleChoiceQuestionOption($value);
+			$options[] = new MatchingQuestionOption($value,$values['matches_to'][$option_id]);
 		}
 		$object->set_options($options);
 		return parent :: create_learning_object();
@@ -61,7 +64,7 @@ class MatchingQuestionForm extends LearningObjectForm
 		$options = array();
 		foreach($values['option'] as $option_id => $value)
 		{
-			$options[] = new MultipleChoiceQuestionOption($value,$values['correct'][$option_id]);
+			$options[] = new MatchingQuestionOption($value,$values['matches_to'][$option_id]);
 		}
 		$object->set_options($options);
 		return parent :: update_learning_object();
@@ -158,7 +161,7 @@ class MatchingQuestionForm extends LearningObjectForm
 			{
 				$group = array();
 				$group[] = $this->createElement('text','option['.$option_number.']', '', true,'size="40"');
-				$group[] = $this->createElement('select','correct['.$option_number.']','',$matches);
+				$group[] = $this->createElement('select','matches_to['.$option_number.']','',$matches);
 				if($number_of_options - count($_SESSION['mq_skip_options']) > 2)
 				{
 					$group[] = $this->createElement('image','remove_option['.$option_number.']',api_get_path(WEB_CODE_PATH).'img/list-remove.png');
