@@ -161,13 +161,13 @@ class MatchingQuestionForm extends LearningObjectForm
 				$group[] = $this->createElement('select','correct['.$option_number.']','',$matches);
 				if($number_of_options - count($_SESSION['mq_skip_options']) > 2)
 				{
-					$group[] = $this->createElement('image','remove_option['.$option_number.']','/dokeos-lcms/main/img/delete.gif');
+					$group[] = $this->createElement('image','remove_option['.$option_number.']',api_get_path(WEB_CODE_PATH).'img/list-remove.png');
 				}
 				$this->addGroup($group,null,$label++);
 				//$this->addRule('option['.$option_number.']',get_lang('ThisFieldIsRequired'),'required');
 			}
 		}
-		$this->addElement('submit','add_option','+');
+		$this->addElement('image','add_option[]',api_get_path(WEB_CODE_PATH).'img/list-add.png');
 	}
 	/**
 	 * Adds the form-fields to the form to provide the possible matches for this
@@ -186,13 +186,13 @@ class MatchingQuestionForm extends LearningObjectForm
 				$group[] = $this->createElement('text','match['.$match_number.']', '', true,'size="40"');
 				if($number_of_matches - count($_SESSION['mq_skip_matches']) > 2)
 				{
-					$group[] = $this->createElement('image','remove_match['.$match_number.']','/dokeos-lcms/main/img/delete.gif');
+					$group[] = $this->createElement('image','remove_match['.$match_number.']',api_get_path(WEB_CODE_PATH).'img/list-remove.png');
 				}
 				$this->addGroup($group,null,$label++);
 				//$this->addRule('option['.$option_number.']',get_lang('ThisFieldIsRequired'),'required');
 			}
 		}
-		$this->addElement('submit','add_match','+');
+		$this->addElement('image','add_match[]',api_get_path(WEB_CODE_PATH).'img/list-add.png');
 	}
 }
 ?>

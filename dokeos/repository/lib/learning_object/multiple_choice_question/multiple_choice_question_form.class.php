@@ -110,13 +110,13 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 				$group[] = $this->createElement('text','option['.$option_number.']', '', true,'size="40"');
 				if($number_of_options - count($_SESSION['mc_skip_options']) > 2)
 				{
-					$group[] = $this->createElement('image','remove['.$option_number.']','/dokeos-lcms/main/img/delete.gif');
+					$group[] = $this->createElement('image','remove['.$option_number.']',api_get_path(WEB_CODE_PATH).'img/list-remove.png');
 				}
 				$this->addGroup($group,null,'');
 				//$this->addRule('option['.$option_number.']',get_lang('ThisFieldIsRequired'),'required');
 			}
 		}
-		$this->addElement('submit','add','+');
+		$this->addElement('image','add[]',api_get_path(WEB_CODE_PATH).'img/list-add.png');
 	}
 }
 ?>
