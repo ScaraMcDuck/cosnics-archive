@@ -260,8 +260,6 @@ abstract class LearningObjectForm extends FormValidator
 			}
 		}
 		$result = $object->update();
-		echo $result;
-		die();
 		if ($object->supports_attachments())
 		{
 			/*

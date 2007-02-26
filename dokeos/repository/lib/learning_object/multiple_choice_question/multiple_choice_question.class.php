@@ -26,5 +26,9 @@ class MultipleChoiceQuestion extends LearningObject
 		}
 		return array();
 	}
+	public function get_number_of_options()
+	{
+		return count($this->get_options());
+	}
 }
 ?>
