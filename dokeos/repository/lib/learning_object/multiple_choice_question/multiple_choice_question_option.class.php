@@ -10,5 +10,9 @@ class MultipleChoiceQuestionOption {
     {
     	return $this->value;
     }
+    function is_correct()
+    {
+    	return $this->correct;
+    }
 }
 ?>

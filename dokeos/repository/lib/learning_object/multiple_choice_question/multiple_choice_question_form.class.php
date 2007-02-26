@@ -28,6 +28,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 				foreach($options as $index => $option)
 				{
 					$defaults['option'][$index] = $option->get_value();
+					$defaults['correct'][$index] = $option->is_correct();
 				}
 			}
 		}
@@ -53,7 +54,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 		$options = array();
 		foreach($values['option'] as $option_id => $value)
 		{
-			$options[] = new MultipleChoiceQuestionOption($value);
+			$options[] = new MultipleChoiceQuestionOption($value,$values['correct'][$option_id]);
 		}
 		$object->set_options($options);
 		return parent :: update_learning_object();
