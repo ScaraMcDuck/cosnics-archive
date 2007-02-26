@@ -10,16 +10,18 @@ class MatchingQuestionForm extends LearningObjectForm
 	protected function build_creation_form()
 	{
 		parent :: build_creation_form();
-		$this->update_number_of_options_and_matches();
-		$this->addElement('html','<div class="row"><div class="label"></div><div class="formw"><table style="width: 100%"><tr><td style="text-align:left; width: 50%; vertical-align: top;">');
-		$this->add_options();
-		$this->addElement('html','</td><td style="text-align:left; width: 50%; vertical-align: top;">');
-		$this->add_matches();
-		$this->addElement('html','</td></tr></table></div></div>');
+		$this->build_options_and_matches();
 	}
 	protected function build_editing_form()
 	{
 		parent :: build_editing_form();
+		$this->build_options_and_matches();
+	}
+	/**
+	 * Adds the options and matches to the form
+	 */
+	private function build_options_and_matches()
+	{
 		$this->update_number_of_options_and_matches();
 		$this->addElement('html','<div class="row"><div class="label"></div><div class="formw"><table style="width: 100%"><tr><td style="text-align:left; width: 50%; vertical-align: top;">');
 		$this->add_options();
@@ -53,31 +55,30 @@ class MatchingQuestionForm extends LearningObjectForm
 	{
 		$object = new MatchingQuestion();
 		$this->set_learning_object($object);
-		$values = $this->exportValues();
-		$options = array();
-		$matches = array();
-		$matches_indexes = array_flip(array_keys($values['match']));
-		foreach($values['option'] as $option_id => $value)
-		{
-			$options[] = new MatchingQuestionOption($value,$matches_indexes[$values['matches_to'][$option_id]]);
-		}
-		foreach($values['match'] as $match_id => $match)
-		{
-			$matches[] = $match;
-		}
-		$object->set_options($options);
-		$object->set_matches($matches);
+		$this->add_answer();
 		return parent :: create_learning_object();
 	}
 	function update_learning_object()
+	{
+		$this->add_answer();
+		return parent :: update_learning_object();
+	}
+	/**
+	 * Adds the answer to the current learning object.
+	 * This function adds the list of possible options and matches and the
+	 * relation between the options and the matches to the question.
+	 */
+	private function add_answer()
 	{
 		$object = $this->get_learning_object();
 		$values = $this->exportValues();
 		$options = array();
 		$matches = array();
+		//Get an array with a mapping from the match-id to its index in the $values['match'] array
 		$matches_indexes = array_flip(array_keys($values['match']));
 		foreach($values['option'] as $option_id => $value)
 		{
+			//Create the option with it corresponding match
 			$options[] = new MatchingQuestionOption($value,$matches_indexes[$values['matches_to'][$option_id]]);
 		}
 		foreach($values['match'] as $match_id => $match)
@@ -86,10 +87,10 @@ class MatchingQuestionForm extends LearningObjectForm
 		}
 		$object->set_options($options);
 		$object->set_matches($matches);
-		return parent :: update_learning_object();
 	}
 	function validate()
 	{
+		//Don't validate the form if the user just wants to change the number of options or matches
 		if(isset($_POST['add_match']) || isset($_POST['remove_match']) || isset($_POST['remove_option']) || isset($_POST['add_option']))
 		{
 			return false;
@@ -154,6 +155,7 @@ class MatchingQuestionForm extends LearningObjectForm
 	/**
 	 * Adds the form-fields to the form to provide the possible options for this
 	 * multiple choice question
+	 * @todo Add rules to require options and matches
 	 */
 	private function add_options()
 	{
@@ -183,6 +185,7 @@ class MatchingQuestionForm extends LearningObjectForm
 				//$this->addRule('option['.$option_number.']',get_lang('ThisFieldIsRequired'),'required');
 			}
 		}
+		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
 		$this->addElement('image','add_option[]',api_get_path(WEB_CODE_PATH).'img/list-add.png');
 	}
 	/**
@@ -208,6 +211,7 @@ class MatchingQuestionForm extends LearningObjectForm
 				//$this->addRule('option['.$option_number.']',get_lang('ThisFieldIsRequired'),'required');
 			}
 		}
+		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
 		$this->addElement('image','add_match[]',api_get_path(WEB_CODE_PATH).'img/list-add.png');
 	}
 }
