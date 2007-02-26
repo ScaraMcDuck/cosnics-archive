@@ -77,6 +77,8 @@ class DefaultLearningObjectTableCellRenderer implements LearningObjectTableCellR
 				case LearningObject :: PROPERTY_MODIFICATION_DATE :
 					// TODO: i18n
 					return date('Y-m-d, H:i', $learning_object->get_creation_date());
+				case LearningObject :: PROPERTY_VERSION_NUMBER :
+					return $learning_object->get_version_number();
 			}
 		}
 		return '&nbsp;';

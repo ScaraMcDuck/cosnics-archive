@@ -88,6 +88,7 @@ class LearningObject implements AccessibleLearningObject
 	const PROPERTY_DISPLAY_ORDER_INDEX = 'display_order';
 	const PROPERTY_CREATION_DATE = 'created';
 	const PROPERTY_MODIFICATION_DATE = 'modified';
+	const PROPERTY_VERSION_NUMBER = 'version_number';
 	const PROPERTY_STATE = 'state';
 	/**#@-*/
 
@@ -234,6 +235,15 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return $this->get_default_property(self :: PROPERTY_MODIFICATION_DATE);
 	}
+	
+	/**
+	 * Returns the version number.
+	 * @return int The version number.
+	 */
+	function get_version_number()
+	{
+		return $this->get_default_property(self :: PROPERTY_VERSION_NUMBER);
+	}
 
 	/**
 	 * Returns the learning objects attached to this learning object.
@@ -338,6 +348,15 @@ class LearningObject implements AccessibleLearningObject
 	function set_modification_date($modified)
 	{
 		$this->set_default_property(self :: PROPERTY_MODIFICATION_DATE, $modified);
+	}
+	
+	/**
+	 * Sets the version number.
+	 * @param int $modified The version number.
+	 */
+	function set_version_number($modified)
+	{
+		$this->set_default_property(self :: PROPERTY_VERSION_NUMBER, $modified);
 	}
 
 	/**
@@ -633,7 +652,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_OWNER_ID,self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_STATE, self :: PROPERTY_DISPLAY_ORDER_INDEX);
+		return array (self :: PROPERTY_OWNER_ID,self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_VERSION_NUMBER, self :: PROPERTY_STATE, self :: PROPERTY_DISPLAY_ORDER_INDEX);
 	}
 
 	/**
