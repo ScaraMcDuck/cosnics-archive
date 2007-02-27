@@ -46,25 +46,15 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 	{
 		$object = new MultipleChoiceQuestion();
 		$this->set_learning_object($object);
-		$values = $this->exportValues();
-		$options = array();
-		foreach($values['option'] as $option_id => $value)
-		{
-			if($_SESSION['mc_answer_type'] == 'radio')
-			{
-				$correct = $values['correct'] == $option_id;
-			}
-			else
-			{
-				$correct = in_array($option_id,$values['correct']);
-			}
-			$options[] = new MultipleChoiceQuestionOption($value,$correct);
-		}
-		$object->set_answer_type($_SESSION['mc_answer_type']);
-		$object->set_options($options);
+		$this->add_options_to_object();
 		return parent :: create_learning_object();
 	}
 	function update_learning_object()
+	{
+		$this->add_options_to_object();
+		return parent :: update_learning_object();
+	}
+	private function add_options_to_object()
 	{
 		$object = $this->get_learning_object();
 		$values = $this->exportValues();
@@ -83,7 +73,6 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 		}
 		$object->set_answer_type($_SESSION['mc_answer_type']);
 		$object->set_options($options);
-		return parent :: update_learning_object();
 	}
 	function validate()
 	{
@@ -160,17 +149,28 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 				$this->addGroup($group,'options_group_'.$option_number,'','',false);
 				$this->addGroupRule('options_group_'.$option_number,
 					array(
-					'option['.$option_number.']' => array(
+						'option['.$option_number.']' =>
 							array(
-								get_lang('ThisFieldIsRequired'),'required'
-							)
-						)
+								array(
+									get_lang('ThisFieldIsRequired'),'required'
+								)
+							),
 					)
 				);
 			}
 		}
+		$this->addFormRule(array('MultipleChoiceQuestionForm','validate_selected_answers'));
 		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
 		$this->addElement('image','add[]',api_get_path(WEB_CODE_PATH).'img/list-add.png');
+	}
+	function validate_selected_answers($fields)
+	{
+		if(!isset($fields['correct']))
+		{
+			$message = $_SESSION['mc_answer_type'] == 'checkbox' ? get_lang('SelectAtLeastOneCorrectAnswer') : get_lang('SelectACorrectAnswer');
+			 return array('change_answer_type' => $message);
+		}
+		return true;
 	}
 }
 ?>
