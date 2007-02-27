@@ -28,7 +28,7 @@ class DocumentForm extends LearningObjectForm
 		$object = $this->get_learning_object();
 		if (RepositoryUtilities :: is_html_document($object->get_path()))
 		{
-			$this->addElement('html_editor', 'html_content', get_lang('HtmlDocument'));
+			$this->add_html_editor('html_content', get_lang('HtmlDocument'));
 			$this->addRule('html_content', get_lang('DiskQuotaExceeded'), 'disk_quota');
 			//TODO: add option to upload & overwrite a HTML-document
 			//TODO: add Rule to check if diskquota doesn't exceed when uploading a document
