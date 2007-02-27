@@ -10,12 +10,17 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 	protected function build_creation_form()
 	{
 		parent :: build_creation_form();
-		$this->addElement('textarea',FillInBlanksQuestion :: PROPERTY_ANSWER, get_lang('Answer'),'rows="5" cols="60"');
+		$this->build_fill_in_blanks_form();
 	}
 	protected function build_editing_form()
 	{
 		parent :: build_editing_form();
+		$this->build_fill_in_blanks_form();
+	}
+	private function build_fill_in_blanks_form()
+	{
 		$this->addElement('textarea',FillInBlanksQuestion :: PROPERTY_ANSWER, get_lang('Answer'),'rows="5" cols="60"');
+		$this->addRule(FillInBlanksQuestion :: PROPERTY_ANSWER,get_lang('ThisFieldIsRequired'),'required');
 	}
 	function setDefaults($defaults = array ())
 	{
