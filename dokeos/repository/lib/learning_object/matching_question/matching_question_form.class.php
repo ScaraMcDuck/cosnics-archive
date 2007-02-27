@@ -181,8 +181,17 @@ class MatchingQuestionForm extends LearningObjectForm
 				{
 					$group[] = $this->createElement('image','remove_option['.$option_number.']',api_get_path(WEB_CODE_PATH).'img/list-remove.png');
 				}
-				$this->addGroup($group,null,$label++);
-				//$this->addRule('option['.$option_number.']',get_lang('ThisFieldIsRequired'),'required');
+				$this->addGroup($group,'options_group_'.$option_number,$label++,'',false);
+				$this->addGroupRule('options_group_'.$option_number,
+					array(
+						'option['.$option_number.']' =>
+							array(
+								array(
+									get_lang('ThisFieldIsRequired'),'required'
+								)
+							),
+					)
+				);
 			}
 		}
 		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
@@ -201,14 +210,22 @@ class MatchingQuestionForm extends LearningObjectForm
 			if(!in_array($match_number,$_SESSION['mq_skip_matches']))
 			{
 				$group = array();
-				//$group[] = $this->createElement('checkbox','correct['.$option_number.']');
 				$group[] = $this->createElement('text','match['.$match_number.']', '', true,'size="40"');
 				if($number_of_matches - count($_SESSION['mq_skip_matches']) > 2)
 				{
 					$group[] = $this->createElement('image','remove_match['.$match_number.']',api_get_path(WEB_CODE_PATH).'img/list-remove.png');
 				}
-				$this->addGroup($group,null,$label++);
-				//$this->addRule('option['.$option_number.']',get_lang('ThisFieldIsRequired'),'required');
+				$this->addGroup($group,'matches_group_'.$match_number,$label++,'',false);
+				$this->addGroupRule('matches_group_'.$match_number,
+					array(
+						'match['.$match_number.']' =>
+							array(
+								array(
+									get_lang('ThisFieldIsRequired'),'required'
+								)
+							),
+					)
+				);
 			}
 		}
 		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
