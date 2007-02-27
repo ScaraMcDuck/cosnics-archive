@@ -111,11 +111,11 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 		$result []= 'var oFCKeditor = new FCKeditor( \''.$name.'\' ) ;';
 		$result []= 'oFCKeditor.BasePath = "'.api_get_path(WEB_PATH).'plugin/fckeditor/";';
 		$result []= 'oFCKeditor.Width = 650;';
-		$result []= 'oFCKeditor.Height = '. ($this->fullPage ? '500' : '300').';';
+		$result []= 'oFCKeditor.Height = '. ($this->fullPage ? '500' : '150').';';
 		$result []= 'oFCKeditor.Config[ "FullPage" ] = '. ($this->fullPage ? 'true' : 'false').';';
 		$result []= 'oFCKeditor.Config[ "DefaultLanguage" ] = "'.$editor_lang.'" ;';
 		$result []= 'oFCKeditor.Value = "'.str_replace('"', '\"', str_replace(array ("\r\n", "\n", "\r", "/"), array (' ', ' ', ' ', '\/'), $this->getValue())).'" ;';
-		$result []= 'oFCKeditor.ToolbarSet = \'FullHTML\';';
+		$result []= 'oFCKeditor.ToolbarSet = \''. ($this->fullPage ? 'FullHTML' : 'Basic' ).'\';';
 		$result []= 'oFCKeditor.Create();';
 		$result []= "\n/* ]]> */\n";
 		$result []= '</script>';

@@ -121,7 +121,7 @@ FCKConfig.ToolbarSets["FullHTML"] = [
     ] ;
 
 FCKConfig.ToolbarSets["Basic"] = [
-	['Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink','-','About']
+	['Bold','Italic','Underline','-','OrderedList','UnorderedList','-','Link','Unlink','-','TextColor','BGColor','-','Rule','Link','-','Image','Flash']
 ] ;
 
 FCKConfig.EnterMode = 'p' ;			// p | div | br
