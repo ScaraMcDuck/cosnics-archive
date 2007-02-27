@@ -157,8 +157,16 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 				{
 					$group[] = $this->createElement('image','remove['.$option_number.']',api_get_path(WEB_CODE_PATH).'img/list-remove.png');
 				}
-				$this->addGroup($group,null,'');
-				//$this->addRule('option['.$option_number.']',get_lang('ThisFieldIsRequired'),'required');
+				$this->addGroup($group,'options_group_'.$option_number,'','',false);
+				$this->addGroupRule('options_group_'.$option_number,
+					array(
+					'option['.$option_number.']' => array(
+							array(
+								get_lang('ThisFieldIsRequired'),'required'
+							)
+						)
+					)
+				);
 			}
 		}
 		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
