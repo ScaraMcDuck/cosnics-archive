@@ -475,6 +475,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$this->add_course_module($course_code,'chat');
 			$this->add_course_module($course_code,'search');
 			$this->add_course_module($course_code,'statistics');
+			$this->add_course_module($course_code,'exercise');
 			return $this->get_course_modules($course_code);
 		}
 		$modules = array();
