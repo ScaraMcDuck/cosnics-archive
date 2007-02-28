@@ -153,9 +153,9 @@ abstract class RepositoryManagerComponent {
 	/**
 	 * @see RepositoryManager::redirect()
 	 */
-	function redirect($action = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0)
+	function redirect($action = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0, $error_message = false)
 	{
-		return $this->get_parent()->redirect($action, $message, $new_category_id);
+		return $this->get_parent()->redirect($action, $message, $new_category_id, $error_message);
 	}
 	/**
 	 * @see RepositoryManager::get_user_id()
@@ -185,7 +185,7 @@ abstract class RepositoryManagerComponent {
 	{
 		return $this->get_parent()->retrieve_learning_objects($type, $condition, $orderBy, $orderDir, $offset, $maxObjects, $state, $different_parent_state);
 	}
-	
+
 	/**
 	 * @see RepositoryManager::get_version_ids()
 	 */
@@ -193,7 +193,7 @@ abstract class RepositoryManagerComponent {
 	{
 		return $this->get_parent()->get_version_ids($object);
 	}
-	
+
 	/**
 	 * @see RepositoryManager::count_learning_objects()
 	 */
