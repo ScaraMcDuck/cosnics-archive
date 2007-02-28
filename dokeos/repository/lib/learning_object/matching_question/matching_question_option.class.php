@@ -16,13 +16,19 @@ class MatchingQuestionOption {
 	 */
 	private $match;
 	/**
+	 *
+	 */
+	private $weight;
+	/**
 	 * Creates a new option for a matching question
 	 * @param string $value The value of the option
 	 * @param int $match The index of the match corresponding to this option
+	 * @param int $weight The weight of this answer in the question
 	 */
-    function MatchingQuestionOption($value,$match) {
+    function MatchingQuestionOption($value,$match, $weight) {
     	$this->value = $value;
     	$this->match = $match;
+    	$this->weight = $weight;
     }
     /**
      * Gets the value of this option
@@ -39,6 +45,13 @@ class MatchingQuestionOption {
     function get_match()
     {
     	return $this->match;
+    }
+    /**
+     * Gets the weight of this answer
+     */
+    function get_weight()
+    {
+    	return $this->weight;
     }
 }
 ?>

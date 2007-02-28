@@ -40,6 +40,7 @@ class MatchingQuestionForm extends LearningObjectForm
 				foreach($options as $index => $option)
 				{
 					$defaults['option'][$index] = $option->get_value();
+					$defaults['weight'][$index] = $option->get_weight();
 					$defaults['matches_to'][$index] = $option->get_match();
 				}
 				$matches = $object->get_matches();
@@ -79,7 +80,7 @@ class MatchingQuestionForm extends LearningObjectForm
 		foreach($values['option'] as $option_id => $value)
 		{
 			//Create the option with it corresponding match
-			$options[] = new MatchingQuestionOption($value,$matches_indexes[$values['matches_to'][$option_id]]);
+			$options[] = new MatchingQuestionOption($value,$matches_indexes[$values['matches_to'][$option_id]],$values['weight'][$option_id]);
 		}
 		foreach($values['match'] as $match_id => $match)
 		{
@@ -176,6 +177,7 @@ class MatchingQuestionForm extends LearningObjectForm
 			{
 				$group = array();
 				$group[] = $this->createElement('text','option['.$option_number.']', '', true,'size="40"');
+				$group[] = $this->createElement('text','weight['.$option_number.']','','size="5"');
 				$group[] = $this->createElement('select','matches_to['.$option_number.']','',$matches);
 				if($number_of_options - count($_SESSION['mq_skip_options']) > 2)
 				{
@@ -190,6 +192,15 @@ class MatchingQuestionForm extends LearningObjectForm
 									get_lang('ThisFieldIsRequired'),'required'
 								)
 							),
+						'weight['.$option_number.']' =>
+							array(
+								array(
+									get_lang('ThisFieldIsRequired'), 'required'
+								),
+								array(
+									get_lang('ValueShouldBeNumeric'),'numeric'
+								)
+							)
 					)
 				);
 			}
