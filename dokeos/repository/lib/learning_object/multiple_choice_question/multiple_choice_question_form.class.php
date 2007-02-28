@@ -128,6 +128,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 		$number_of_options = intval($_SESSION['mc_number_of_options']);
 		//Todo: Style this element
 		$this->addElement('submit','change_answer_type','radio <-> checkbox');
+		$show_label = true;
 		for($option_number = 0; $option_number <$number_of_options ; $option_number++)
 		{
 			if(!in_array($option_number,$_SESSION['mc_skip_options']))
@@ -146,7 +147,9 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 				{
 					$group[] = $this->createElement('image','remove['.$option_number.']',api_get_path(WEB_CODE_PATH).'img/list-remove.png');
 				}
-				$this->addGroup($group,'options_group_'.$option_number,'','',false);
+				$label = $show_label ? get_lang('Answers') : '';
+				$show_label = false;
+				$this->addGroup($group,'options_group_'.$option_number,$label,'',false);
 				$this->addGroupRule('options_group_'.$option_number,
 					array(
 						'option['.$option_number.']' =>
