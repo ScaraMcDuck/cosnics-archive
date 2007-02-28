@@ -34,7 +34,10 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			}
 			$breadcrumbs[] = array('url' => $this->get_url(), 'name' => $object->get_title());
 			$this->display_header($breadcrumbs);
+			
 			echo $display->get_full_html();
+			echo $display->get_versions_as_html();
+			
 			$toolbar_data = array();
 			$recycle_url = $this->get_learning_object_recycling_url($object);
 			$in_recycle_bin = false;
@@ -109,7 +112,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				);
 				$toolbar_data[] = $recycle_bin_button;
 			}
-			echo RepositoryUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
+						
 			// If this learning object is published somewhere in an application, these locations are listed here.
 			$publication_attr = $this->get_learning_object_publication_attributes($object->get_id());
 			if (count($publication_attr) > 0)
@@ -117,6 +120,8 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				// TODO: SCARA - MOVED / TO: repositoryutilities - Use a function for this or something.				
 				echo RepositoryUtilities :: build_uses($publication_attr);
 			}
+			
+			echo RepositoryUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
 			$this->display_footer();
 		}
 		else

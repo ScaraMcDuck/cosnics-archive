@@ -185,6 +185,15 @@ abstract class RepositoryManagerComponent {
 	{
 		return $this->get_parent()->retrieve_learning_objects($type, $condition, $orderBy, $orderDir, $offset, $maxObjects, $state, $different_parent_state);
 	}
+	
+	/**
+	 * @see RepositoryManager::get_version_ids()
+	 */
+	function get_version_ids($object)
+	{
+		return $this->get_parent()->get_version_ids($object);
+	}
+	
 	/**
 	 * @see RepositoryManager::count_learning_objects()
 	 */

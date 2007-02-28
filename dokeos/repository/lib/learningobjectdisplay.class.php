@@ -69,10 +69,11 @@ abstract class LearningObjectDisplay
 		$object = $this->get_learning_object();
 		$html = array();
 		$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$object->get_icon_name().'.gif);">';
-		$html[] = '<div class="title">'.htmlspecialchars($object->get_title()).'</div>';
+		$html[] = '<div class="title">'. get_lang('DescriptionTypeName') .'</div>';
 		$html[] = $this->get_description();
 		$html[] = '</div>';
 		$html[] = $this->get_attached_learning_objects_as_html();
+		
 		if ($parent_id = $object->get_parent_id())
 		{
 			$parent_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($parent_id);
@@ -131,6 +132,35 @@ abstract class LearningObjectDisplay
 		}
 		return '';
 	}
+	
+	/**
+	 * Returns a HTML view of the versions of the learning object.
+	 * @return string The HTML.
+	 */
+	function get_versions_as_html()
+	{
+		$object = $this->get_learning_object();
+			$versions = $object->get_learning_object_versions();
+			if (count($versions))
+			{
+				$html = array();
+				$html[] = '<div class="versions" style="margin-top: 1em;">';
+				$html[] = '<div class="versions_title">'.htmlentities(get_lang('Versions')).'</div>';
+				$html[] = '<ul class="versions_list">';
+				RepositoryUtilities :: order_learning_objects_by_id_desc(& $versions);
+				foreach ($versions as $version)
+				{
+					$disp = self :: factory(& $version);
+					$html[] = '<li><img src="'.api_get_path(WEB_CODE_PATH).'/img/treemenu_types/'.$version->get_type().'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($version->get_type()).'TypeName')).'"/> '. date('(d M Y, H:i:s O)', $version->get_creation_date()) .'&nbsp;&nbsp;&nbsp;<a href="'.htmlentities($this->get_learning_object_url($version)).'" title="'.$version->get_title().'">'.$disp->get_short_html().'</a></li>';
+				}
+				$html[] = '</ul>';
+				$html[] = '</div>';
+				return implode("\n", $html);
+			}
+		return '';
+	}
+	
+	
 	/**
 	 * Returns the URL where the given learning object may be viewed.
 	 * @param LearningObject $learning_object The learning object.

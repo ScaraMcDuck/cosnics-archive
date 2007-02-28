@@ -46,7 +46,6 @@ class DefaultLearningObjectTableColumnModel extends LearningObjectTableColumnMod
 		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
 		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true);
 		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_MODIFICATION_DATE, true);
-		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_VERSION_NUMBER, true);
 		return $columns;
 	}
 }
