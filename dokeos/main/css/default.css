@@ -564,6 +564,10 @@ input[type=radio],
 input[type=button],
 input[type=submit] {cursor:	pointer; font-size: 12px;}
 input[text] {font-size: 12px; }
+.input_numeric
+{
+	text-align: right;
+}
 
 /************************************************************
   styles below here are not necessarily used in the current
