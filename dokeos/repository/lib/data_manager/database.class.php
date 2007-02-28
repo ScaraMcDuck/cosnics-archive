@@ -267,13 +267,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 	
 	function get_next_learning_object_number()
-	{
-		$query = 'SELECT MAX('. LearningObject :: PROPERTY_OBJECT_NUMBER .') + 1 FROM '.$this->escape_table_name('learning_object');
-		$sth = $this->connection->prepare($query);
-		$res = $sth->execute();
-		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-		$res->free();
-		return $record[0];
+	{		
+		$id = $this->connection->nextID($this->get_table_name('learning_object') .'_number');
+		return $id;
 	}
 	
 	// Inherited.
