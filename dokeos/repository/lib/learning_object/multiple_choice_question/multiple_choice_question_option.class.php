@@ -16,14 +16,19 @@ class MultipleChoiceQuestionOption {
 	 */
 	private $correct;
 	/**
+	 * The weight of this answer in the question
+	 */
+	private $weight;
+	/**
 	 * Creates a new option for a multiple choice question
 	 * @param string $value The value of the option
 	 * @param boolean $correct True if the value of this option is a correct
 	 * answer to the question
 	 */
-    function MultipleChoiceQuestionOption($value,$correct) {
+    function MultipleChoiceQuestionOption($value,$correct,$weight) {
     	$this->value = $value;
     	$this->correct = $correct;
+    	$this->weight = $weight;
     }
     /**
      * Gets the value of this option
@@ -40,6 +45,13 @@ class MultipleChoiceQuestionOption {
     function is_correct()
     {
     	return $this->correct;
+    }
+    /**
+     * Gets the weight of this answer
+     */
+    function get_weight()
+    {
+    	return $this->weight;
     }
 }
 ?>
