@@ -29,6 +29,7 @@ $DiskSpace='Disk Space';
 $DocumentCreationFormTitle='Create a Document';
 $DocumentTypeName='Document';
 $EditMetadata='Edit Metadata';
+$EditNotAllowed='Editing this version is not allowed.';
 $EditRights='Edit Rights';
 $EntireRepository='All learning objects';
 $FileName='File';
