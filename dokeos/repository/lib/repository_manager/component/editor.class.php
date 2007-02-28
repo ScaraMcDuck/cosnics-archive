@@ -25,6 +25,10 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 			{
 				$this->not_allowed();
 			}
+			elseif (!$this->learning_object_edit_allowed($object))
+			{
+				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, get_lang('EditNotAllowed'), $object->get_parent_id());
+			}
 			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $object, 'edit', 'post', $this->get_url(array (RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $id)));
 			if ($form->validate())
 			{

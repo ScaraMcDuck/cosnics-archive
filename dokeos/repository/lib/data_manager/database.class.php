@@ -273,7 +273,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
 	// Inherited.
-	function create_learning_object($object)
+	function create_learning_object($object, $type)
 	{
 		$props = array();
 		foreach ($object->get_default_properties() as $key => $value)
@@ -298,10 +298,21 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 
 		$props = array();
-		$props[$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER)] = $object->get_object_number();
 		$props[$this->escape_column_name(LearningObject :: PROPERTY_ID)] = $object->get_id();
-		$this->connection->extended->autoExecute($this->get_table_name('learning_object_version'), $props, MDB2_AUTOQUERY_INSERT);
-
+		if ($type == 'new')
+		{
+			$props[$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER)] = $object->get_object_number();
+		  	$this->connection->extended->autoExecute($this->get_table_name('learning_object_version'), $props, MDB2_AUTOQUERY_INSERT);
+		}		
+		elseif($type == 'version')
+		{
+		  	$this->connection->extended->autoExecute($this->get_table_name('learning_object_version'), $props, MDB2_AUTOQUERY_UPDATE, $this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER) . '=' .$object->get_object_number());
+		}
+		else
+		{
+			return false;
+		}
+		
 		return true;
 	}
 
@@ -386,6 +397,24 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		$sth = $this->connection->prepare('DELETE FROM '.$this->escape_table_name('learning_object'));
 		$sth->execute();
+	}
+	
+	function learning_object_edit_allowed($object)
+	{
+		$query = 'SELECT '. LearningObject :: PROPERTY_ID .' FROM ' . $this->escape_table_name('learning_object_version') . ' WHERE ' . LearningObject :: PROPERTY_OBJECT_NUMBER . '=?';
+		$this->connection->setLimit(1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($object->get_object_number());
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		
+		if ($record['id'] == $object->get_id())
+		{ 
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	// Inherited.
@@ -976,9 +1005,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$manager->dropTable($name);
 		}
-		$options['charset'] = 'utf8';
-		$options['collate'] = 'utf8_unicode_ci';
-		$manager->createTable($name,$properties,$options);
+		$manager->createTable($name,$properties);
 		foreach($indexes as $index_name => $index_info)
 		{
 			if($index_info['type'] == 'primary')

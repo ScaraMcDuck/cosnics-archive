@@ -464,6 +464,16 @@ class RepositoryManager
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->learning_object_deletion_allowed($learning_object);
 	}
+	
+	/**
+	 * @see RepositoryDataManager::learning_object_edit_allowed()
+	 */
+	function learning_object_edit_allowed($learning_object)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return $rdm->learning_object_edit_allowed($learning_object);
+	}
+	
 	/**
 	 * @see RepositoryDataManager::get_learning_object_publication_attributes()
 	 */
@@ -496,6 +506,10 @@ class RepositoryManager
 	 */
 	function get_learning_object_editing_url($learning_object)
 	{
+		if (!$this->learning_object_edit_allowed($learning_object))
+		{
+			return null;
+		}
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 	}
 	/**
