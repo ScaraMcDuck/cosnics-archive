@@ -19,6 +19,7 @@ $ChaptersInLearningPath='Chapters in this Learning Path';
 $ChaptersInChapter='Chapters in this Chapter';
 $Create='Create';
 $CreateANew='Create a New';
+$CreateAsNewVersion='New version';
 $CurrentCategoryAndSubcategories='Current category and subcategories';
 $CurrentCategoryOnly='Current category';
 $DeleteSelected='Delete selected items';
@@ -84,4 +85,5 @@ $ToSimpleSearch='Simple Search';
 $Type='Type';
 $Upload='Upload file';
 $URL='URL';
+$Versions = 'Versions';
 ?>
