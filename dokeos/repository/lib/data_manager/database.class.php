@@ -55,7 +55,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
    		 die($this->connection->getMessage());
 		}
 		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
-		$this->connection->query("SET NAMES utf8");
+		$this->connection->query('SET NAMES utf8');
 	}
 
 	/**
@@ -153,7 +153,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$condition = new AndCondition($conds);
 		}
 		$query .= ' JOIN ' . $this->escape_table_name('learning_object_version') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . LearningObject :: PROPERTY_ID . ' = ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . '.' . LearningObject :: PROPERTY_ID;
-		
+
 		$params = array ();
 		if (isset ($condition))
 		{
@@ -244,14 +244,14 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$condition = new AndCondition($conds);
 		}
 		$query .= ' JOIN ' . $this->escape_table_name('learning_object_version') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . LearningObject :: PROPERTY_ID . ' = ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . '.' . LearningObject :: PROPERTY_ID;
-		
+
 		$params = array ();
 		if (isset ($condition))
 		{
 			// TODO: SCARA - Exclude category from learning object count
 			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
 		}
-		
+
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -265,13 +265,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$id = $this->connection->nextID($this->get_table_name('learning_object'));
 		return $id;
 	}
-	
+
 	function get_next_learning_object_number()
-	{		
+	{
 		$id = $this->connection->nextID($this->get_table_name('learning_object') .'_number');
 		return $id;
 	}
-	
+
 	// Inherited.
 	function create_learning_object($object)
 	{
@@ -296,12 +296,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$props[$this->escape_column_name(LearningObject :: PROPERTY_ID)] = $object->get_id();
 			$this->connection->extended->autoExecute($this->get_table_name($object->get_type()), $props, MDB2_AUTOQUERY_INSERT);
 		}
-		
+
 		$props = array();
 		$props[$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER)] = $object->get_object_number();
 		$props[$this->escape_column_name(LearningObject :: PROPERTY_ID)] = $object->get_id();
-		$this->connection->extended->autoExecute($this->get_table_name('learning_object_version'), $props, MDB2_AUTOQUERY_INSERT);		
-		
+		$this->connection->extended->autoExecute($this->get_table_name('learning_object_version'), $props, MDB2_AUTOQUERY_INSERT);
+
 		return true;
 	}
 
@@ -462,7 +462,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res->free();
 		return $attachments;
 	}
-	
+
 	function retrieve_learning_object_versions ($object)
 	{
 		$object_number = $object->get_object_number();
@@ -540,14 +540,14 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		while(true);
 	}
-	
+
 	function get_version_ids($object)
 	{
 		$version_ids = array();
 		$query = 'SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).' =?';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($object->get_object_number());
-		
+
 		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$version_ids[] = $record[LearningObject :: PROPERTY_ID];
