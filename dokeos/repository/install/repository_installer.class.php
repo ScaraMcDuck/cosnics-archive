@@ -27,6 +27,7 @@ class RepositoryInstaller
 	{
 		$this->parse_xml_file(dirname(__FILE__).'/learning_object.xml');
 		$this->parse_xml_file(dirname(__FILE__).'/learning_object_attachment.xml');
+		$this->parse_xml_file(dirname(__FILE__).'/learning_object_version.xml');
 		$dir = dirname(__FILE__).'/../lib/learning_object';
 		$handle = opendir($dir);
 		while (false !== ($type = readdir($handle)))
