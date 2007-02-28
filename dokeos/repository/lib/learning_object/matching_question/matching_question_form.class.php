@@ -177,7 +177,7 @@ class MatchingQuestionForm extends LearningObjectForm
 			{
 				$group = array();
 				$group[] = $this->createElement('text','option['.$option_number.']', '', true,'size="40"');
-				$group[] = $this->createElement('text','weight['.$option_number.']','','size="5"');
+				$group[] = $this->createElement('text','weight['.$option_number.']','','size="2" class="input_numeric"');
 				$group[] = $this->createElement('select','matches_to['.$option_number.']','',$matches);
 				if($number_of_options - count($_SESSION['mq_skip_options']) > 2)
 				{

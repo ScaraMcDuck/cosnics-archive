@@ -145,7 +145,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 					$group[] = $this->createElement('radio','correct','','',$option_number);
 				}
 				$group[] = $this->createElement('text','option['.$option_number.']', '','size="40"');
-				$group[] = $this->createElement('text','weight['.$option_number.']','','size="5"');
+				$group[] = $this->createElement('text','weight['.$option_number.']','','size="2"  class="input_numeric"');
 				if($number_of_options - count($_SESSION['mc_skip_options']) > 2)
 				{
 					$group[] = $this->createElement('image','remove['.$option_number.']',api_get_path(WEB_CODE_PATH).'img/list-remove.png');
