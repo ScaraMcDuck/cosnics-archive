@@ -218,6 +218,13 @@ abstract class RepositoryDataManager
 		return !$this->any_learning_object_is_published($forbidden);
 
 	}
+	
+	/**
+	 * Determines whether a learning object can be edited.
+	 * @param LearningObject $object
+	 * @return boolean True if the given learning object can be edited
+	 */
+	abstract function learning_object_edit_allowed($object);
 
 	/**
 	 * Gets all ids of all children/grandchildren/... of a given learning
@@ -366,7 +373,7 @@ abstract class RepositoryDataManager
 	 * @param LearningObject $object The learning object.
 	 * @return boolean True if creation succceeded, false otherwise.
 	 */
-	abstract function create_learning_object($object);
+	abstract function create_learning_object($object, $type);
 
 	/**
 	 * Updates the given learning object in persistent storage.

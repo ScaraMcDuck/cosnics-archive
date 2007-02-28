@@ -128,6 +128,7 @@ abstract class LearningObjectForm extends FormValidator
 	protected function build_editing_form()
 	{
 		$this->build_basic_form();
+		$this->addElement('checkbox','version', get_lang('CreateAsNewVersion'));
 		$this->addElement('hidden', LearningObject :: PROPERTY_ID);
 	}
 
@@ -237,6 +238,7 @@ abstract class LearningObjectForm extends FormValidator
 	{
 		$object = $this->learning_object;
 		$values = $this->exportValues();
+		
 		$object->set_title($values[LearningObject :: PROPERTY_TITLE]);
 		$object->set_description($values[LearningObject :: PROPERTY_DESCRIPTION]);
 		if ($this->allows_category_selection())
@@ -259,7 +261,8 @@ abstract class LearningObjectForm extends FormValidator
 				}
 			}
 		}
-		$result = $object->update();
+		
+		$values['version'] == 1 ? $result = $object->version() : $result = $object->update();
 		if ($object->supports_attachments())
 		{
 			/*

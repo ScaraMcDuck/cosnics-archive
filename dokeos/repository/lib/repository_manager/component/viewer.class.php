@@ -76,12 +76,26 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			}
 			if(!$in_recycle_bin)
 			{
-				$toolbar_data[] = array(
-					'href' => $this->get_learning_object_editing_url($object),
+				
+				$edit_url = $this->get_learning_object_editing_url($object);
+				if (isset($edit_url))
+				{
+					$toolbar_data[] = array(
+					'href' => $edit_url,
 					'img' => api_get_path(WEB_CODE_PATH).'img/edit.gif',
 					'label' => get_lang('Edit'),
 					'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-				);
+					);
+				}
+				else
+				{
+					$toolbar_data[] = array(
+					'img' => api_get_path(WEB_CODE_PATH).'img/edit_na.gif',
+					'label' => get_lang('Edit'),
+					'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+					);
+				}
+				
 				$toolbar_data[] = $recycle_bin_button;
 				$toolbar_data[] = array(
 						'href' =>  $this->get_learning_object_moving_url($object),

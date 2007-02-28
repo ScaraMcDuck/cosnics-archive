@@ -496,7 +496,7 @@ class LearningObject implements AccessibleLearningObject
 		$this->set_id($id);
 		$object_number = $dm->get_next_learning_object_number();
 		$this->set_object_number($object_number);
-		return $dm->create_learning_object($this);
+		return $dm->create_learning_object($this, 'new');
 	}
 
 	/**
@@ -518,6 +518,35 @@ class LearningObject implements AccessibleLearningObject
 		}
 		$dm = RepositoryDataManager :: get_instance();
 		$success = $dm->update_learning_object($this);
+		if (!$success)
+		{
+			return false;
+		}
+		$state = $this->get_state();
+		if ($state == $this->oldState)
+		{
+			return true;
+		}
+		$child_ids = self :: get_child_ids($this->get_id());
+		$dm->set_learning_object_states($child_ids, $state);
+		/*
+		 * We return true here regardless of the result of the child update,
+		 * since the object itself did get updated.
+		 */
+		return true;
+	}
+	
+	function version($trueUpdate = true)
+	{
+		$now = time();
+		$dm = RepositoryDataManager :: get_instance();
+		
+		$this->set_creation_date($now);
+		$this->set_modification_date($now);
+		$id = $dm->get_next_learning_object_id();
+		$this->set_id($id);
+		
+		$success = $dm->create_learning_object($this, 'version');
 		if (!$success)
 		{
 			return false;
