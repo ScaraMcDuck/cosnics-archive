@@ -2,22 +2,25 @@
 <object name="learning_object">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="owner" type="integer"  unsigned="1" notnull="1"/>
+  <property name="owner" type="integer" unsigned="1" notnull="1"/>
+  <property name="object_number" type="integer" unsigned="1" notnull="1"/>
   <property name="type" type="text" length="255" notnull="1"/>
   <property name="title" type="text" notnull="1"/>
   <property name="description" type="text" notnull="1"/>
-  <property name="parent" type="integer"  unsigned="1" notnull="1"/>
+  <property name="parent" type="integer" unsigned="1" notnull="1"/>
   <property name="display_order" type="integer" unsigned="1"  notnull="1"/>
   <property name="created" type="timestamp"/>
   <property name="modified" type="timestamp"/>
-  <property name="version_number" type="integer" length="6" notnull="1" default="1"/>
-  <property name="state" type="integer" length="1" unsigned="1"  notnull="1"/>
+  <property name="state" type="integer" length="1" unsigned="1" notnull="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
  </index>
  <index name="owner">
   <indexproperty name="owner"/>
+ </index>
+ <index name="object_number">
+  <indexproperty name="object_number"/>
  </index>
  <index name="type">
   <indexproperty name="type"/>
@@ -30,8 +33,5 @@
  </index>
  <index name="state">
   <indexproperty name="state"/>
- </index>
- <index name="version_number">
-  <indexproperty name="version_number"/>
  </index>
 </object>
