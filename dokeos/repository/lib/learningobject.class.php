@@ -88,7 +88,7 @@ class LearningObject implements AccessibleLearningObject
 	const PROPERTY_DISPLAY_ORDER_INDEX = 'display_order';
 	const PROPERTY_CREATION_DATE = 'created';
 	const PROPERTY_MODIFICATION_DATE = 'modified';
-	const PROPERTY_VERSION_NUMBER = 'version_number';
+	const PROPERTY_OBJECT_NUMBER = 'object_number';
 	const PROPERTY_STATE = 'state';
 	/**#@-*/
 
@@ -113,6 +113,8 @@ class LearningObject implements AccessibleLearningObject
 	 * Learning objects attached to this learning object.
 	 */
 	private $attachments;
+	
+	private $versions;
 
 	/**
 	 * The state that this learning object had when it was retrieved. Used to
@@ -240,9 +242,9 @@ class LearningObject implements AccessibleLearningObject
 	 * Returns the version number.
 	 * @return int The version number.
 	 */
-	function get_version_number()
+	function get_object_number()
 	{
-		return $this->get_default_property(self :: PROPERTY_VERSION_NUMBER);
+		return $this->get_default_property(self :: PROPERTY_OBJECT_NUMBER);
 	}
 
 	/**
@@ -259,6 +261,16 @@ class LearningObject implements AccessibleLearningObject
 		return $this->attachments;
 	}
 
+	function get_learning_object_versions()
+	{
+		if (!is_array($this->versions))
+		{
+			$dm = RepositoryDataManager :: get_instance();
+			$this->versions = $dm->retrieve_learning_object_versions($this);
+		}
+		return $this->versions;
+	}	
+	
 	/**
 	 * Returns the full URL where this learning object may be viewed.
 	 * @return string The URL.
@@ -294,6 +306,15 @@ class LearningObject implements AccessibleLearningObject
 	function set_owner_id($owner)
 	{
 		$this->set_default_property(self :: PROPERTY_OWNER_ID, $owner);
+	}
+	
+	/**
+	 * Sets the object number of this learning object.
+	 * @param int $object_number The Object Number.
+	 */
+	function set_object_number($object_number)
+	{
+		$this->set_default_property(self :: PROPERTY_OBJECT_NUMBER, $object_number);
 	}
 
 	/**
@@ -350,15 +371,6 @@ class LearningObject implements AccessibleLearningObject
 		$this->set_default_property(self :: PROPERTY_MODIFICATION_DATE, $modified);
 	}
 	
-	/**
-	 * Sets the version number.
-	 * @param int $modified The version number.
-	 */
-	function set_version_number($modified)
-	{
-		$this->set_default_property(self :: PROPERTY_VERSION_NUMBER, $modified);
-	}
-
 	/**
 	 * Returns whether or not this learning object is extended, i.e. whether
 	 * its type defines additional properties.
@@ -482,6 +494,8 @@ class LearningObject implements AccessibleLearningObject
 		$dm = RepositoryDataManager :: get_instance();
 		$id = $dm->get_next_learning_object_id();
 		$this->set_id($id);
+		$object_number = $dm->get_next_learning_object_number();
+		$this->set_object_number($object_number);
 		return $dm->create_learning_object($this);
 	}
 
@@ -652,7 +666,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_OWNER_ID,self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_VERSION_NUMBER, self :: PROPERTY_STATE, self :: PROPERTY_DISPLAY_ORDER_INDEX);
+		return array (self :: PROPERTY_OWNER_ID,self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE, self :: PROPERTY_DISPLAY_ORDER_INDEX);
 	}
 
 	/**

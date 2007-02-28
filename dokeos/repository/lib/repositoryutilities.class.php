@@ -119,6 +119,14 @@ class RepositoryUtilities
 	{
 		usort($objects, array (get_class(), 'by_title'));
 	}
+	
+	static function order_learning_objects_by_id_desc(& $objects)
+	{
+		//print_r($objects);
+		
+		usort($objects, array (get_class(), 'by_id_desc'));
+		//print_r(array (get_class(), 'by_id'));
+	}
 
 	/**
 	 * Prepares the given learning objects for use as a value for the
@@ -223,6 +231,7 @@ class RepositoryUtilities
 		}
 		$class_names[] = 'toolbar';
 		$html = array ();
+				$html[] = '<div class="publication_attributes">';
 		$html[] = '<ul class="'.implode(' ', $class_names).'"'. (isset ($css) ? ' style="'.$css.'"' : '').'>';
 		foreach ($toolbar_data as $index => $elmt)
 		{
@@ -258,6 +267,7 @@ class RepositoryUtilities
 			$html[] = '<li'.(count($classes) ? ' class="'.implode(' ', $classes).'"' : '').'>'.$button.'</li>';
 		}
 		$html[] = '</ul>';
+		$html[] = '</div>';
 		// Don't separate by linefeeds. It creates additional whitespace.
 		return implode($html);
 	}
@@ -272,6 +282,11 @@ class RepositoryUtilities
 		return strcasecmp($learning_object_1->get_title(), $learning_object_2->get_title());
 	}
 	
+	private static function by_id_desc($learning_object_1, $learning_object_2)
+	{
+		return ($learning_object_1->get_id() < $learning_object_2->get_id() ? 1 : -1); 
+	}
+	
 	/**
 	 * Checks if a file is an HTML document.
 	 */
@@ -284,13 +299,13 @@ class RepositoryUtilities
 	function build_uses($publication_attr)
 	{
 		$html 	= array ();
-		$html[] = '<div class="publication_attributes">';
-		$html[] = '<div class="publication_attributes_title">'.htmlentities(get_lang('ThisObjectIsPublished')).'</div>';
-		$html[] = '<ul class="publication_attributes">';
+		$html[] = '<div class="publications">';
+		$html[] = '<div class="publications_title">'.htmlentities(get_lang('ThisObjectIsPublished')).'</div>';
+		$html[] = '<ul class="publications_list">';
 		foreach ($publication_attr as $info)
 		{
 			$publisher = $this->get_user_info($info->get_publisher_user_id());
-			$html[] = '<li>';
+			$html[] = '<li><img src="'.api_get_path(WEB_CODE_PATH).'/img/next.png" alt="option"/>';
 			// TODO: i18n
 			$html[] = $info->get_application().': '.$info->get_location().' ('.$publisher['firstName'].' '.$publisher['lastName'].', '.date('r', $info->get_publication_date()).')';
 			$html[] = '</li>';

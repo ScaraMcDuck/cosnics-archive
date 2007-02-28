@@ -37,24 +37,32 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 				foreach ($ids as $id)
 				{
 					$object = $this->retrieve_learning_object($id);
-					// TODO: Roles & Rights.
-					if ($object->get_owner_id() != $this->get_user_id())
+					$versions = $this->get_version_ids($object);
+					
+					foreach ($versions as $version)
 					{
-						$failures++;
-					}
-					elseif ($object->get_parent_id() != $destination)
-					{
-						if (!$object->move_allowed($destination))
+						$object = $this->retrieve_learning_object($version);
+						// TODO: Roles & Rights.
+						if ($object->get_owner_id() != $this->get_user_id())
 						{
 							$failures++;
 						}
-						else
+						elseif ($object->get_parent_id() != $destination)
 						{
-							$object->set_parent_id($destination);
-							$object->update(false);
+							if (!$object->move_allowed($destination))
+							{
+								$failures++;
+							}
+							else
+							{
+								$object->set_parent_id($destination);
+								$object->update(false);
+							}
 						}
 					}
 				}
+				
+				// TODO: SCARA - Correctto reflect possible version errors
 				if ($failures)
 				{
 					if (count($ids) == 1)

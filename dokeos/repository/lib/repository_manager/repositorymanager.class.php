@@ -438,6 +438,16 @@ class RepositoryManager
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->retrieve_learning_objects($type, $condition, $orderBy, $orderDir, $offset, $maxObjects, $state, $different_parent_state);
 	}
+	
+	/**
+	 * @see RepositoryDataManager::get_version_ids()
+	 */
+	function get_version_ids($object)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return $rdm->get_version_ids($object);
+	}
+	
 	/**
 	 * @see RepositoryDataManager::count_learning_objects()
 	 */

@@ -212,8 +212,10 @@ abstract class RepositoryDataManager
 	{
 		$children = array();
 		$children = $this->get_children_ids($object);
-		$children[] = $object->get_id();
-		return !$this->any_learning_object_is_published($children);
+		$versions = array();
+		$versions = $this->get_version_ids($object);
+		$forbidden = array_merge($children, $versions);
+		return !$this->any_learning_object_is_published($forbidden);
 
 	}
 
@@ -224,6 +226,13 @@ abstract class RepositoryDataManager
 	 * @return array The requested id's
 	 */
 	abstract function get_children_ids($object);
+	
+	/**
+	 * Gets all ids of all versions of a given learning object.
+	 * @param LearningObject $object The learning object
+	 * @return array The requested id's
+	 */
+	abstract function get_version_ids($object);
 
 	/**
 	 * Initializes the data manager.
@@ -345,6 +354,12 @@ abstract class RepositoryDataManager
 	 * @return int The ID.
 	 */
 	abstract function get_next_learning_object_id();
+	
+	/**
+	 * Returns the next available learning object number.
+	 * @return int The ID.
+	 */
+	abstract function get_next_learning_object_number();
 
 	/**
 	 * Makes the given learning object persistent.
@@ -422,7 +437,8 @@ abstract class RepositoryDataManager
 	 * @return array The attached learning objects.
 	 */
 	abstract function retrieve_attached_learning_objects ($object);
-
+	abstract function retrieve_learning_object_versions ($object);
+	
 	/**
 	 * Adds a learning object to another's attachment list.
 	 * @param LearningObject $object The learning object to attach the other

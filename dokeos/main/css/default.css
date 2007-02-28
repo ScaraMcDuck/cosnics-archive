@@ -744,7 +744,7 @@ div.learning_object
 div.learning_object div.title
 {
 	font-weight: bold;
-	font-size: larger;
+	//font-size: larger;
 	border-bottom: 1px solid #CCCCCC;
 	width: 60%;
 	margin-bottom: 1em;
@@ -797,6 +797,65 @@ ul.attachments_list img
 {
 	vertical-align: middle;
 }
+
+/* List of versions */
+div.versions
+{
+	border: 1px solid #F6F6F6;
+	margin: 0 0 1em 0;
+	padding: 10px 10px 10px 44px;
+	background: url(../img/versions_large.gif) no-repeat 10px 10px;
+}
+div.versions_title
+{
+	font-weight: bold;
+	border-bottom: 1px solid #D0D0D0;
+	width: 60%;
+	margin-bottom: 1em;
+}
+ul.versions_list
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+ul.versions_list li
+{
+	margin: 0;
+	padding: 0;
+}
+ul.versions_list img
+{
+	vertical-align: middle;
+}
+
+/* List of publications_attributes */
+div.publications
+{
+	border: 1px solid #F6F6F6;
+	margin: 0 0 1em 0;
+	padding: 10px 10px 10px 44px;
+	background: url(../img/publish.gif) no-repeat 10px 10px;
+}
+div.publications_title
+{
+	font-weight: bold;
+	border-bottom: 1px solid #D0D0D0;
+	width: 60%;
+	margin-bottom: 1em;
+}
+ul.publications_list
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+ul.publications_list li
+{
+	margin: 0;
+	padding: 0;
+}
+
 input#attachments_expand_button
 {
 	border: 0;

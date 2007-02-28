@@ -31,6 +31,7 @@ require_once 'MDB2.php';
 class DatabaseRepositoryDataManager extends RepositoryDataManager
 {
 	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
+	const ALIAS_LEARNING_OBJECT_VERSION_TABLE = 'lov';
 	const ALIAS_TYPE_TABLE = 'tt';
 	const ALIAS_LEARNING_OBJECT_PARENT_TABLE = 'lop';
 
@@ -151,6 +152,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			}
 			$condition = new AndCondition($conds);
 		}
+		$query .= ' JOIN ' . $this->escape_table_name('learning_object_version') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . LearningObject :: PROPERTY_ID . ' = ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . '.' . LearningObject :: PROPERTY_ID;
+		
 		$params = array ();
 		if (isset ($condition))
 		{
@@ -212,18 +215,18 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			if ($this->is_extended_type($type))
 			{
-				$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
+				$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).') FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID);
 			}
 			else
 			{
-				$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
+				$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).') FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
 				$match = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
 				$condition = isset ($condition) ? new AndCondition(array ($match, $condition)) : $match;
 			}
 		}
 		else
 		{
-			$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
+			$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).') FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE;
 		}
 		if ($state >= 0)
 		{
@@ -240,6 +243,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			}
 			$condition = new AndCondition($conds);
 		}
+		$query .= ' JOIN ' . $this->escape_table_name('learning_object_version') . ' AS ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . ' ON ' . self :: ALIAS_LEARNING_OBJECT_TABLE . '.' . LearningObject :: PROPERTY_ID . ' = ' . self :: ALIAS_LEARNING_OBJECT_VERSION_TABLE . '.' . LearningObject :: PROPERTY_ID;
+		
 		$params = array ();
 		if (isset ($condition))
 		{
@@ -260,7 +265,17 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$id = $this->connection->nextID($this->get_table_name('learning_object'));
 		return $id;
 	}
-
+	
+	function get_next_learning_object_number()
+	{
+		$query = 'SELECT MAX('. LearningObject :: PROPERTY_OBJECT_NUMBER .') + 1 FROM '.$this->escape_table_name('learning_object');
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute();
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+		return $record[0];
+	}
+	
 	// Inherited.
 	function create_learning_object($object)
 	{
@@ -285,6 +300,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$props[$this->escape_column_name(LearningObject :: PROPERTY_ID)] = $object->get_id();
 			$this->connection->extended->autoExecute($this->get_table_name($object->get_type()), $props, MDB2_AUTOQUERY_INSERT);
 		}
+		
+		$props = array();
+		$props[$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER)] = $object->get_object_number();
+		$props[$this->escape_column_name(LearningObject :: PROPERTY_ID)] = $object->get_id();
+		$this->connection->extended->autoExecute($this->get_table_name('learning_object_version'), $props, MDB2_AUTOQUERY_INSERT);		
+		
 		return true;
 	}
 
@@ -445,6 +466,21 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res->free();
 		return $attachments;
 	}
+	
+	function retrieve_learning_object_versions ($object)
+	{
+		$object_number = $object->get_object_number();
+		$query = 'SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name('object_number').'=?';
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($object_number);
+		$attachments = array();
+		while ($record = $res->fetchRow(MDB2_FETCHMODE_ORDERED))
+		{
+			$versions[] = $this->retrieve_learning_object($record[0]);
+		}
+		$res->free();
+		return $versions;
+	}
 
 	// Inherited.
 	function attach_learning_object ($object, $attachment_id)
@@ -507,6 +543,20 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$res->free();
 		}
 		while(true);
+	}
+	
+	function get_version_ids($object)
+	{
+		$version_ids = array();
+		$query = 'SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).' =?';
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($object->get_object_number());
+		
+		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$version_ids[] = $record[LearningObject :: PROPERTY_ID];
+		}
+		return $version_ids;
 	}
 
 	/**
