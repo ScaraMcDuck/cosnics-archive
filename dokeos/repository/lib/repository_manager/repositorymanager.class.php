@@ -26,6 +26,7 @@ class RepositoryManager
 	// SortableTable hogs 'action' so we'll use something else.
 	const PARAM_ACTION = 'go';
 	const PARAM_MESSAGE = 'message';
+	const PARAM_ERROR_MESSAGE = 'error_message';
 	const PARAM_CATEGORY_ID = 'category';
 	const PARAM_LEARNING_OBJECT_ID = 'object';
 	const PARAM_DESTINATION_LEARNING_OBJECT_ID = 'destination';
@@ -229,6 +230,10 @@ class RepositoryManager
 		{
 			$this->display_message($msg);
 		}
+		if($msg = $_GET[self::PARAM_ERROR_MESSAGE])
+		{
+			$this->display_error_message($msg);
+		}
 	}
 	/**
 	 * Displays the footer.
@@ -325,14 +330,15 @@ class RepositoryManager
 	 * @param string $message The message to show (default = no message).
 	 * @param int $new_category_id The category to show (default = root
 	 * category).
+	 * @param boolean $error_message Is the passed message an error message?
 	 */
-	function redirect($action = self :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0)
+	function redirect($action = self :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0, $error_message = false)
 	{
 		$params = array ();
 		$params[self :: PARAM_ACTION] = $action;
 		if (isset ($message))
 		{
-			$params[self :: PARAM_MESSAGE] = $message;
+			$params[$error_message ? self :: PARAM_ERROR_MESSAGE :  self :: PARAM_MESSAGE] = $message;
 		}
 		if ($new_category_id)
 		{
@@ -438,7 +444,7 @@ class RepositoryManager
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->retrieve_learning_objects($type, $condition, $orderBy, $orderDir, $offset, $maxObjects, $state, $different_parent_state);
 	}
-	
+
 	/**
 	 * @see RepositoryDataManager::get_version_ids()
 	 */
@@ -447,7 +453,7 @@ class RepositoryManager
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->get_version_ids($object);
 	}
-	
+
 	/**
 	 * @see RepositoryDataManager::count_learning_objects()
 	 */
@@ -464,7 +470,7 @@ class RepositoryManager
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->learning_object_deletion_allowed($learning_object);
 	}
-	
+
 	/**
 	 * @see RepositoryDataManager::learning_object_edit_allowed()
 	 */
@@ -473,7 +479,7 @@ class RepositoryManager
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->learning_object_edit_allowed($learning_object);
 	}
-	
+
 	/**
 	 * @see RepositoryDataManager::get_learning_object_publication_attributes()
 	 */
