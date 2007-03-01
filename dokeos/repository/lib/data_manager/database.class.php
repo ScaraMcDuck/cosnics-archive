@@ -32,6 +32,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 {
 	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
 	const ALIAS_LEARNING_OBJECT_VERSION_TABLE = 'lov';
+	const ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE = 'loa';
 	const ALIAS_TYPE_TABLE = 'tt';
 	const ALIAS_LEARNING_OBJECT_PARENT_TABLE = 'lop';
 
@@ -1024,6 +1025,23 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	private static function is_learning_object_column ($name)
 	{
 		return LearningObject :: is_default_property_name($name) || $name == LearningObject :: PROPERTY_TYPE || $name == LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX || $name == LearningObject :: PROPERTY_ID;
+	}
+	
+	function is_attached ($object)
+	{
+		$query = 'SELECT COUNT('.$this->escape_column_name("learning_object").') FROM '.$this->escape_table_name('learning_object_attachment').' AS '.self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE .' WHERE '. self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE . '.attachment IN (?'.str_repeat(',?', count($this->get_version_ids($object)) - 1).')';
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($this->get_version_ids($object));
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+		if ($record[0] > 0)
+		{
+		  return true;
+		}
+		else
+		{
+		  return false;
+		}
 	}
 }
 ?>

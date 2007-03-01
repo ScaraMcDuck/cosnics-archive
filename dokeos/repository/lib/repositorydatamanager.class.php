@@ -102,6 +102,13 @@ abstract class RepositoryDataManager
 	}
 
 	/**
+	 * Is the learning object attached to another one ?
+	 * @param LearningObject The learning object.
+	 * @return boolean Is Attached.
+	 */
+	abstract function is_attached($object);
+
+	/**
 	 * Checks if a type name corresponds to an extended learning object type.
 	 * @param string $type The type name.
 	 * @return boolean True if the corresponding type is extended, false
@@ -210,6 +217,7 @@ abstract class RepositoryDataManager
 	 */
 	function learning_object_deletion_allowed($object)
 	{
+		if ($this->is_attached($object)) return false;
 		$children = array();
 		$children = $this->get_children_ids($object);
 		$versions = array();
