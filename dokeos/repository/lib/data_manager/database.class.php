@@ -370,6 +370,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$query = 'DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
 			$statement = $this->connection->prepare($query);
 			$statement->execute($object->get_id());
+			
+			// Delete entry in version table
+			$query = 'DELETE FROM '.$this->escape_table_name('learning_object_version').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).'=?';
+			$statement = $this->connection->prepare($query);
+			$statement->execute($object->get_object_number());			
 
 			if ($object->is_extended())
 			{
@@ -493,12 +498,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		return $attachments;
 	}
 
-	function retrieve_learning_object_versions ($object)
+	function retrieve_learning_object_versions ($object, $state = LearningObject :: STATE_NORMAL)
 	{
 		$object_number = $object->get_object_number();
-		$query = 'SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).'=? AND '.$this->escape_column_name(LearningObject :: PROPERTY_STATE).'=0';
+		$query = 'SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).'=? AND '.$this->escape_column_name(LearningObject :: PROPERTY_STATE).'=?';
 		$sth = $this->connection->prepare($query);
-		$res = $sth->execute($object_number);
+		$res = $sth->execute(array($object_number, $state));
 		$attachments = array();
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ORDERED))
 		{

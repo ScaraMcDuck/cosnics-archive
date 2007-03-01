@@ -35,12 +35,20 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 					{
 						if ($permanent)
 						{
-							$object->delete();
+							$versions = $object->get_learning_object_versions(LearningObject :: STATE_RECYCLED);
+							foreach ($versions as $version)
+							{
+								$version->delete();
+							}
 						}
 						else
 						{
-							$object->set_state(LearningObject :: STATE_RECYCLED);
-							$object->update();
+							$versions = $object->get_learning_object_versions();
+							foreach ($versions as $version)
+							{
+								$version->set_state(LearningObject :: STATE_RECYCLED);
+								$version->update();
+							}
 						}
 					}
 					else

@@ -261,12 +261,12 @@ class LearningObject implements AccessibleLearningObject
 		return $this->attachments;
 	}
 
-	function get_learning_object_versions()
+	function get_learning_object_versions($state = LearningObject :: STATE_NORMAL)
 	{
 		if (!is_array($this->versions))
 		{
 			$dm = RepositoryDataManager :: get_instance();
-			$this->versions = $dm->retrieve_learning_object_versions($this);
+			$this->versions = $dm->retrieve_learning_object_versions($this, $state);
 		}
 		return $this->versions;
 	}	

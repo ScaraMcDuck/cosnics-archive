@@ -32,8 +32,12 @@ class RepositoryManagerRestorerComponent extends RepositoryManagerComponent
 				{
 					if ($object->get_state() == LearningObject :: STATE_RECYCLED)
 					{
-						$object->set_state(LearningObject :: STATE_NORMAL);
-						$object->update();
+						$versions = $object->get_learning_object_versions(LearningObject :: STATE_RECYCLED);
+						foreach ($versions as $version)
+						{
+							$version->set_state(LearningObject :: STATE_NORMAL);
+							$version->update();
+						}
 					}
 					else
 					{

@@ -140,30 +140,46 @@ abstract class LearningObjectDisplay
 	function get_versions_as_html()
 	{
 		$object = $this->get_learning_object();
-			$versions = $object->get_learning_object_versions();
-			if (count($versions))
+		$versions = $object->get_learning_object_versions();
+		if (count($versions))
+		{
+			$html = array();
+			$html[] = '<div class="versions" style="margin-top: 1em;">';
+			$html[] = '<div class="versions_title">'.htmlentities(get_lang('Versions')).'</div>';
+			$html[] = '<ul class="versions_list">';
+			RepositoryUtilities :: order_learning_objects_by_id_desc(& $versions);
+			foreach ($versions as $version)
 			{
-				$html = array();
-				$html[] = '<div class="versions" style="margin-top: 1em;">';
-				$html[] = '<div class="versions_title">'.htmlentities(get_lang('Versions')).'</div>';
-				$html[] = '<ul class="versions_list">';
-				RepositoryUtilities :: order_learning_objects_by_id_desc(& $versions);
-				foreach ($versions as $version)
+				$disp = self :: factory(& $version);
+				if ($object->get_id() == $version->get_id())
 				{
-					$disp = self :: factory(& $version);
-					if ($object->get_id() == $version->get_id())
-					{
-						$html[] = '<li class="current"><img src="'.api_get_path(WEB_CODE_PATH).'/img/treemenu_types/'.$version->get_type().'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($version->get_type()).'TypeName')).'"/> '. date('(d M Y, H:i:s O)', $version->get_creation_date()) .'&nbsp;&nbsp;&nbsp;<a href="'.htmlentities($this->get_learning_object_url($version)).'" title="'.$version->get_title().'">'.$version->get_title().'</a></li>';
-					}
-					else
-					{
-						$html[] = '<li><img src="'.api_get_path(WEB_CODE_PATH).'/img/treemenu_types/'.$version->get_type().'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($version->get_type()).'TypeName')).'"/> '. date('(d M Y, H:i:s O)', $version->get_creation_date()) .'&nbsp;&nbsp;&nbsp;<a href="'.htmlentities($this->get_learning_object_url($version)).'" title="'.$version->get_title().'">'.$version->get_title().'</a></li>';
-					}
+					$html[] = '<li class="current">';
 				}
-				$html[] = '</ul>';
-				$html[] = '</div>';
-				return implode("\n", $html);
+				else
+				{
+					$html[] = '<li>';
+				}
+				$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/next.png" alt="option"/> ';
+				$html[] = date('(d M Y, H:i:s O)', $version->get_creation_date()) .'&nbsp;';
+				
+				if (RepositoryDataManager :: get_instance()->learning_object_deletion_allowed($version))
+				{
+					$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version.gif" alt="'.htmlentities(get_lang('Delete')).'"/>';
+				}
+				else
+				{
+					$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version_na.gif" alt="'.htmlentities(get_lang('Delete')).'"/>';
+				}
+				
+				
+				
+				$html[] = '&nbsp;<img src="'.api_get_path(WEB_CODE_PATH).'/img/revert.gif" alt="'.htmlentities(get_lang('Revert')).'"/>&nbsp;<a href="'.htmlentities($this->get_learning_object_url($version)).'" title="'.$version->get_title().'">'.$version->get_title().'</a>';
+				$html[] = '</li>';
 			}
+			$html[] = '</ul>';
+			$html[] = '</div>';
+			return implode("\n", $html);
+		}
 		return '';
 	}
 	
