@@ -151,7 +151,7 @@ abstract class LearningObjectDisplay
 				foreach ($versions as $version)
 				{
 					$disp = self :: factory(& $version);
-					$html[] = '<li><img src="'.api_get_path(WEB_CODE_PATH).'/img/treemenu_types/'.$version->get_type().'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($version->get_type()).'TypeName')).'"/> '. date('(d M Y, H:i:s O)', $version->get_creation_date()) .'&nbsp;&nbsp;&nbsp;<a href="'.htmlentities($this->get_learning_object_url($version)).'" title="'.$version->get_title().'">'.$disp->get_short_html().'</a></li>';
+					$html[] = '<li><img src="'.api_get_path(WEB_CODE_PATH).'/img/treemenu_types/'.$version->get_type().'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($version->get_type()).'TypeName')).'"/> '. date('(d M Y, H:i:s O)', $version->get_creation_date()) .'&nbsp;&nbsp;&nbsp;<a href="'.htmlentities($this->get_learning_object_url($version)).'" title="'.$version->get_title().'">'.$version->get_title().'</a></li>';
 				}
 				$html[] = '</ul>';
 				$html[] = '</div>';
