@@ -11,5 +11,9 @@ require_once dirname(__FILE__) . '/../../repositorydatamanager.class.php';
  */
 class Category extends LearningObject
 {
+	function is_versionable()
+	{
+		return false;
+	}
 }
 ?>

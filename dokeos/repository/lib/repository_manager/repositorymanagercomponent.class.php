@@ -229,7 +229,7 @@ abstract class RepositoryManagerComponent {
 	 */
 	function learning_object_edit_allowed($learning_object)
 	{
-		return $this->get_parent()->learning_object_edit_allowed($learning_object);
+		return $this->get_parent()->is_latest_version($learning_object);
 	}
 	/**
 	 * @see RepositoryManager::get_learning_object_publication_attributes()

@@ -474,10 +474,10 @@ class RepositoryManager
 	/**
 	 * @see RepositoryDataManager::learning_object_edit_allowed()
 	 */
-	function learning_object_edit_allowed($learning_object)
+	function is_latest_version($learning_object)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->learning_object_edit_allowed($learning_object);
+		return $rdm->is_latest_version($learning_object);
 	}
 
 	/**
@@ -512,7 +512,7 @@ class RepositoryManager
 	 */
 	function get_learning_object_editing_url($learning_object)
 	{
-		if (!$this->learning_object_edit_allowed($learning_object))
+		if (!$this->is_latest_version($learning_object))
 		{
 			return null;
 		}

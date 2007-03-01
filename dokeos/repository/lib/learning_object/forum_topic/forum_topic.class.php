@@ -85,5 +85,10 @@ class ForumTopic extends LearningObject
 	{
 		return false;
 	}
+	
+	function is_versionable()
+	{
+		return false;
+	}
 }
 ?>
