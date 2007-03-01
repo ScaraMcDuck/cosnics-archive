@@ -393,6 +393,15 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return false;
 	}
+	
+	/**
+	 * Determines whether this learning object can have versions.
+	 * @return boolean True if the object is versionable, false otherwise.
+	 */
+	function is_versionable()
+	{
+		return true;
+	}
 
 	/**
 	 * Attaches the learning object with the given ID to this learning object.

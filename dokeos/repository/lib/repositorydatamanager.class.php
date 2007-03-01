@@ -232,7 +232,7 @@ abstract class RepositoryDataManager
 	 * @param LearningObject $object
 	 * @return boolean True if the given learning object can be edited
 	 */
-	abstract function learning_object_edit_allowed($object);
+	abstract function is_latest_version($object);
 
 	/**
 	 * Gets all ids of all children/grandchildren/... of a given learning

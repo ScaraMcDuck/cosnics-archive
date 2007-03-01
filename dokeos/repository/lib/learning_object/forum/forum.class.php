@@ -75,5 +75,10 @@ class Forum extends LearningObject
 		$topic = $datamanager->retrieve_learning_object($topic_id,'forum_topic');
 		return $topic;
 	}
+	
+	function is_versionable()
+	{
+		return false;
+	}
 }
 ?>

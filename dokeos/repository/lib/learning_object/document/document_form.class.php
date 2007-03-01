@@ -106,7 +106,10 @@ class DocumentForm extends LearningObjectForm
 		}
 		elseif (strlen($_FILES['file']['name']) > 0)
 		{
-			if ($values['version'] == 0) unlink($this->get_upload_path().'/'.$object->get_path());
+			if ((isset($values['version']) && $values['version'] == 0) || !isset($values['version']))
+			{
+				unlink($this->get_upload_path().'/'.$object->get_path());
+			}
 			$filename = $this->create_unique_filename($owner, $_FILES['file']['name']);
 			$path = $owner.'/'.$filename;
 			$full_path = $this->get_upload_path().'/'.$path;

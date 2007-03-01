@@ -832,6 +832,19 @@ ul.versions_list li
 	margin: 0;
 	padding: 0;
 }
+
+ul.versions_list li.current
+{
+	margin: 0;
+	padding: 0;
+	color: #FF0000;
+}
+
+ul.versions_list li.current a
+{
+	color: #FF0000;
+}
+
 ul.versions_list img
 {
 	vertical-align: middle;

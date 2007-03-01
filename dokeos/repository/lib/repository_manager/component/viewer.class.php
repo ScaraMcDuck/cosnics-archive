@@ -38,104 +38,114 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			echo $display->get_full_html();
 			echo $display->get_versions_as_html();
 			
-			$toolbar_data = array();
-			$recycle_url = $this->get_learning_object_recycling_url($object);
-			$in_recycle_bin = false;
-			if (isset($recycle_url))
+			$publication_attr = array();
+			
+			foreach ($object->get_learning_object_versions() as $version)
 			{
-				$recycle_bin_button = array(
-					'href' => $recycle_url,
-					'img' => api_get_path(WEB_CODE_PATH).'img/recycle_bin.gif',
-					'label' => get_lang('Remove'),
-					'confirm' => true,
-					'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-				);
+				// If this learning object is published somewhere in an application, these locations are listed here.
+				$publications = $this->get_learning_object_publication_attributes($version->get_id());
+				$publication_attr = array_merge($publication_attr, $publications);
 			}
-			else
+			
+			if (count($publication_attr) > 0)
+			{				
+				echo RepositoryUtilities :: build_uses($publication_attr);
+			}
+			
+			$edit_url = $this->get_learning_object_editing_url($object);
+			if (isset($edit_url))
 			{
-				$delete_url = $this->get_learning_object_deletion_url($object);
-				if (isset($delete_url))
+				$toolbar_data = array();
+				$recycle_url = $this->get_learning_object_recycling_url($object);
+				$in_recycle_bin = false;
+				if (isset($recycle_url))
 				{
 					$recycle_bin_button = array(
-						'href' => $delete_url,
-						'img' => api_get_path(WEB_CODE_PATH).'img/delete.gif',
-						'label' => get_lang('Delete'),
+						'href' => $recycle_url,
+						'img' => api_get_path(WEB_CODE_PATH).'img/recycle_bin.gif',
+						'label' => get_lang('Remove'),
 						'confirm' => true,
 						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
-					$in_recycle_bin = true;
 				}
 				else
 				{
-					$recycle_bin_button = array(
-						'img' => api_get_path(WEB_CODE_PATH).'img/recycle_bin_na.gif',
-						'label' => get_lang('Remove'),
-						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-					);
+					$delete_url = $this->get_learning_object_deletion_url($object);
+					if (isset($delete_url))
+					{
+						$recycle_bin_button = array(
+							'href' => $delete_url,
+							'img' => api_get_path(WEB_CODE_PATH).'img/delete.gif',
+							'label' => get_lang('Delete'),
+							'confirm' => true,
+							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+						);
+						$in_recycle_bin = true;
+					}
+					else
+					{
+						$recycle_bin_button = array(
+							'img' => api_get_path(WEB_CODE_PATH).'img/recycle_bin_na.gif',
+							'label' => get_lang('Remove'),
+							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+						);
+					}
 				}
-			}
-			if(!$in_recycle_bin)
-			{
-				
-				$edit_url = $this->get_learning_object_editing_url($object);
-				if (isset($edit_url))
+				if(!$in_recycle_bin)
 				{
-					$toolbar_data[] = array(
-					'href' => $edit_url,
-					'img' => api_get_path(WEB_CODE_PATH).'img/edit.gif',
-					'label' => get_lang('Edit'),
-					'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-					);
-				}
-				else
-				{
-					$toolbar_data[] = array(
-					'img' => api_get_path(WEB_CODE_PATH).'img/edit_na.gif',
-					'label' => get_lang('Edit'),
-					'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-					);
-				}
+					
+					$edit_url = $this->get_learning_object_editing_url($object);
+					if (isset($edit_url))
+					{
+						$toolbar_data[] = array(
+							'href' => $edit_url,
+							'img' => api_get_path(WEB_CODE_PATH).'img/edit.gif',
+							'label' => get_lang('Edit'),
+							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+						);
+					}
+					else
+					{
+						$toolbar_data[] = array(
+							'img' => api_get_path(WEB_CODE_PATH).'img/edit_na.gif',
+							'label' => get_lang('Edit'),
+							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+						);
+					}
 				
-				$toolbar_data[] = $recycle_bin_button;
-				$toolbar_data[] = array(
+					$toolbar_data[] = $recycle_bin_button;
+					$toolbar_data[] = array(
 						'href' =>  $this->get_learning_object_moving_url($object),
 						'img' => api_get_path(WEB_CODE_PATH).'img/move.gif',
 						'label' => get_lang('Move'),
 						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-				);
-				$toolbar_data[] = array(
-					'href' => $this->get_learning_object_metadata_editing_url($object),
-					'label' => get_lang('Metadata'),
-					'img' => api_get_path(WEB_CODE_PATH).'img/info_small.gif',
-					'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-				);
-				$toolbar_data[] = array(
-					'href' => $this->get_learning_object_rights_editing_url($object),
-					'label' => get_lang('Rights'),
-					'img' => api_get_path(WEB_CODE_PATH).'img/group_small.gif',
-					'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-				);
-			}
-			else
-			{
-				$toolbar_data[] = array(
-					'href' => $this->get_learning_object_restoring_url($object),
-					'label' => get_lang('Restore'),
-					'img' => api_get_path(WEB_CODE_PATH).'img/restore.gif',
-					'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-				);
-				$toolbar_data[] = $recycle_bin_button;
-			}
-						
-			// If this learning object is published somewhere in an application, these locations are listed here.
-			$publication_attr = $this->get_learning_object_publication_attributes($object->get_id());
-			if (count($publication_attr) > 0)
-			{
-				// TODO: SCARA - MOVED / TO: repositoryutilities - Use a function for this or something.				
-				echo RepositoryUtilities :: build_uses($publication_attr);
-			}
+					);
+					$toolbar_data[] = array(
+						'href' => $this->get_learning_object_metadata_editing_url($object),
+						'label' => get_lang('Metadata'),
+						'img' => api_get_path(WEB_CODE_PATH).'img/info_small.gif',
+						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+					);
+					$toolbar_data[] = array(
+						'href' => $this->get_learning_object_rights_editing_url($object),
+						'label' => get_lang('Rights'),
+						'img' => api_get_path(WEB_CODE_PATH).'img/group_small.gif',
+						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+					);
+				}
+				else
+				{
+					$toolbar_data[] = array(
+						'href' => $this->get_learning_object_restoring_url($object),
+						'label' => get_lang('Restore'),
+						'img' => api_get_path(WEB_CODE_PATH).'img/restore.gif',
+						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+					);
+					$toolbar_data[] = $recycle_bin_button;
+				}
 			
-			echo RepositoryUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
+				echo RepositoryUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
+			}
 			$this->display_footer();
 		}
 		else

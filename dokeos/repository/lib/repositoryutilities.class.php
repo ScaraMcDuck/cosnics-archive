@@ -307,7 +307,7 @@ class RepositoryUtilities
 			$publisher = $this->get_user_info($info->get_publisher_user_id());
 			$html[] = '<li><img src="'.api_get_path(WEB_CODE_PATH).'/img/next.png" alt="option"/>';
 			// TODO: i18n
-			$html[] = $info->get_application().': '.$info->get_location().' ('.$publisher['firstName'].' '.$publisher['lastName'].', '.date('r', $info->get_publication_date()).')';
+			$html[] = '<a href="'.$info->get_url(). '">' . $info->get_application().': '.$info->get_location().'</a> ('.$publisher['firstName'].' '.$publisher['lastName'].', '.date('r', $info->get_publication_date()).')';
 			$html[] = '</li>';
 		}
 		$html[] = '</ul>';

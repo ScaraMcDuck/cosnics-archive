@@ -400,7 +400,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$sth->execute();
 	}
 	
-	function learning_object_edit_allowed($object)
+	function is_latest_version($object)
 	{
 		$query = 'SELECT '. LearningObject :: PROPERTY_ID .' FROM ' . $this->escape_table_name('learning_object_version') . ' WHERE ' . LearningObject :: PROPERTY_OBJECT_NUMBER . '=?';
 		$this->connection->setLimit(1);
@@ -496,7 +496,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function retrieve_learning_object_versions ($object)
 	{
 		$object_number = $object->get_object_number();
-		$query = 'SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name('object_number').'=?';
+		$query = 'SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).'=? AND '.$this->escape_column_name(LearningObject :: PROPERTY_STATE).'=0';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($object_number);
 		$attachments = array();
