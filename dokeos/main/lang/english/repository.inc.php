@@ -6,6 +6,7 @@
 $Actions='Actions';
 $AddAttachments='Add Attachments';
 $AdvancedSearch='Advanced Search';
+$AllSelectedObjectsDeleted = 'All selected objects were deleted.';
 $AllSelectedObjectsMoved='All selected objects were moved.';
 $AllSelectedObjectsMovedToRecycleBin='All selected objects were moved to the recycle bin.';
 $AnnouncementCreationFormTitle='Create an Announcement';
