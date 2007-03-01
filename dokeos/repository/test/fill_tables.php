@@ -21,7 +21,7 @@ set_time_limit(0);
 
 $users = 1;
 
-$max_categories = array (3,2,1);
+$max_categories = array (3,2);
 
 $announcements = rand(2, 10);
 $calendar_events = rand(2, 10);
@@ -67,6 +67,14 @@ for ($i = 0; $i < $announcements; $i ++)
 	$announcement->set_description(random_string(8));
 	$announcement->set_parent_id(random_category($user));
 	$announcement->create();
+	for ($j = 0; $j < rand(1,5); $j++)
+	{
+		$announcementobjectnumber = $announcement->get_object_number();
+		$announcement->set_object_number($announcementobjectnumber);
+		$announcement->set_title(random_string(2));
+		$announcement->set_description(random_string(8));
+		$announcement->version();
+	}
 	progress();
 }
 title('Calendar Events');
@@ -83,6 +91,14 @@ for ($i = 0; $i < $calendar_events; $i ++)
 	$event->set_start_date($start_date);
 	$event->set_end_date($end_date);
 	$event->create();
+	for ($j = 0; $j < rand(2,5); $j++)
+	{
+		$eventobjectnumber = $event->get_object_number();
+		$event->set_object_number($eventobjectnumber);
+		$event->set_title(random_string(2));
+		$event->set_description(random_string(8));
+		$event->version();
+	}
 	progress();
 }
 title('Documents');
@@ -98,6 +114,17 @@ for ($i = 0; $i < $documents; $i ++)
 	$document->set_filesize(rand(1000, 10000));
 	$document->set_parent_id(random_category($user));
 	$document->create();
+	for ($j = 0; $j < rand(2,5); $j++)
+	{
+		$docobjectnumber = $document->get_object_number();
+		$document->set_object_number($docobjectnumber);
+		$document->set_title(random_string(2));
+		$document->set_description(random_string(8));
+		$document->set_path('/'.random_word().'/'.random_word());
+		$document->set_filename(random_word());
+		$document->set_filesize(rand(1000, 10000));
+		$document->version();
+	}
 	progress();
 }
 title('Links');
@@ -111,6 +138,15 @@ for ($i = 0; $i < $links; $i ++)
 	$link->set_url(random_url());
 	$link->set_parent_id(random_category($user));
 	$link->create();
+	for ($j = 0; $j < rand(2,5); $j++)
+	{
+		$linkobjectnumber = $link->get_object_number();
+		$link->set_object_number($linkobjectnumber);
+		$link->set_title(random_string(2));
+		$link->set_description(random_string(8));
+		$link->set_url(random_url());
+		$link->version();
+	}
 	progress();
 }
 title('Forums');
