@@ -24,36 +24,52 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 				$ids = array ($ids);
 			}
 			$failures = 0;
+			$delete_version = $_GET[RepositoryManager :: PARAM_DELETE_VERSION];
 			$permanent = $_GET[RepositoryManager :: PARAM_DELETE_PERMANENTLY];
+			$recycled = $_GET[RepositoryManager :: PARAM_DELETE_RECYCLED];
 			foreach ($ids as $object_id)
 			{
 				$object = $this->get_parent()->retrieve_learning_object($object_id);
 				// TODO: Roles & Rights.
 				if ($object->get_owner_id() == $this->get_user_id())
 				{
-					if ($this->get_parent()->learning_object_deletion_allowed($object))
+					if ($delete_version)
 					{
-						if ($permanent)
+						if ($this->get_parent()->learning_object_deletion_allowed($object, 'version'))
 						{
-							$versions = $object->get_learning_object_versions(LearningObject :: STATE_RECYCLED);
-							foreach ($versions as $version)
-							{
-								$version->delete();
-							}
+							$object->delete_version();
 						}
 						else
 						{
-							$versions = $object->get_learning_object_versions();
-							foreach ($versions as $version)
-							{
-								$version->set_state(LearningObject :: STATE_RECYCLED);
-								$version->update();
-							}
+							$failures ++;
 						}
 					}
 					else
 					{
-						$failures ++;
+						if ($this->get_parent()->learning_object_deletion_allowed($object))
+						{
+							if ($permanent)
+							{
+								$versions = $object->get_learning_object_versions(LearningObject :: STATE_RECYCLED);
+								foreach ($versions as $version)
+								{
+									$version->delete();
+								}
+							}
+							elseif ($recycled)
+							{
+								$versions = $object->get_learning_object_versions();
+								foreach ($versions as $version)
+								{
+									$version->set_state(LearningObject :: STATE_RECYCLED);
+									$version->update();
+								}
+							}
+						}
+						else
+						{
+							$failures ++;
+						}
 					}
 				}
 				else
@@ -61,26 +77,41 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 					$failures ++;
 				}
 			}
-			if ($failures)
+			
+			if ($delete_version)
 			{
-				if (count($ids) == 1)
+				if ($failures)
 				{
-					$message = 'SelectedObjectNot'. ($permanent ? 'Deleted' : 'MovedToRecycleBin');
+					$message = 'SelectedVersionNotDeleted';
 				}
 				else
 				{
-					$message = 'NotAllSelectedObjects'. ($permanent ? 'Deleted' : 'MovedToRecycleBin');
+					$message = 'SelectedVersionDeleted';
 				}
 			}
 			else
 			{
-				if (count($ids) == 1)
+				if ($failures)
 				{
-					$message = 'SelectedObject'. ($permanent ? 'Deleted' : 'MovedToRecycleBin');
+					if (count($ids) == 1)
+					{
+						$message = 'SelectedObjectNot'. ($permanent ? 'Deleted' : 'MovedToRecycleBin');
+					}
+					else
+					{
+						$message = 'NotAllSelectedObjects'. ($permanent ? 'Deleted' : 'MovedToRecycleBin');
+					}
 				}
 				else
 				{
-					$message = 'AllSelectedObjects'. ($permanent ? 'Deleted' : 'MovedToRecycleBin');
+					if (count($ids) == 1)
+					{
+						$message = 'SelectedObject'. ($permanent ? 'Deleted' : 'MovedToRecycleBin');
+					}
+					else
+					{
+						$message = 'AllSelectedObjects'. ($permanent ? 'Deleted' : 'MovedToRecycleBin');
+					}
 				}
 			}
 			$this->redirect(($permanent ? RepositoryManager :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS : RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS), get_lang($message));

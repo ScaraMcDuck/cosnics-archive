@@ -220,7 +220,14 @@ abstract class RepositoryManagerComponent {
 	/**
 	 * @see RepositoryManager::learning_object_deletion_allowed()
 	 */
-	function learning_object_deletion_allowed($learning_object)
+	function learning_object_deletion_allowed($learning_object, $type = null)
+	{
+		return $this->get_parent()->learning_object_deletion_allowed($learning_object, $type);
+	}
+	/**
+	 * @see RepositoryManager::learning_object_revert_allowed()
+	 */
+	function learning_object_revert_allowed($learning_object)
 	{
 		return $this->get_parent()->learning_object_deletion_allowed($learning_object);
 	}
@@ -269,9 +276,16 @@ abstract class RepositoryManagerComponent {
 	/**
 	 * @see RepositoryManager::get_learning_object_deletion_url()
 	 */
-	function get_learning_object_deletion_url($learning_object)
+	function get_learning_object_deletion_url($learning_object, $type = null)
 	{
-		return $this->get_parent()->get_learning_object_deletion_url($learning_object);
+		return $this->get_parent()->get_learning_object_deletion_url($learning_object, $type);
+	}
+	/**
+	 * @see RepositoryManager::get_learning_object_revert_url()
+	 */
+	function get_learning_object_revert_url($learning_object)
+	{
+		return $this->get_parent()->get_learning_object_revert_url($learning_object);
 	}
 	/**
 	 * @see RepositoryManager::get_learning_object_moving_url()

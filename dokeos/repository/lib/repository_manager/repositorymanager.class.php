@@ -32,6 +32,8 @@ class RepositoryManager
 	const PARAM_DESTINATION_LEARNING_OBJECT_ID = 'destination';
 	const PARAM_LEARNING_OBJECT_TYPE = 'type';
 	const PARAM_DELETE_PERMANENTLY = 'delete_permanently';
+	const PARAM_DELETE_VERSION = 'delete_version';
+	const PARAM_DELETE_RECYCLED = 'delete_recycle';
 	const PARAM_EMPTY_RECYCLE_BIN = 'empty';
 	const PARAM_RECYCLE_SELECTED = 'recycle_selected';
 	const PARAM_MOVE_SELECTED = 'move_selected';
@@ -47,6 +49,7 @@ class RepositoryManager
 	const ACTION_CREATE_LEARNING_OBJECTS = 'create';
 	const ACTION_EDIT_LEARNING_OBJECTS = 'edit';
 	const ACTION_DELETE_LEARNING_OBJECTS = 'delete';
+	const ACTION_REVERT_LEARNING_OBJECTS = 'revert';
 	const ACTION_RESTORE_LEARNING_OBJECTS = 'restore';
 	const ACTION_MOVE_LEARNING_OBJECTS = 'move';
 	const ACTION_EDIT_LEARNING_OBJECT_METADATA = 'metadata';
@@ -465,10 +468,19 @@ class RepositoryManager
 	/**
 	 * @see RepositoryDataManager::learning_object_deletion_allowed()
 	 */
-	function learning_object_deletion_allowed($learning_object)
+	function learning_object_deletion_allowed($learning_object, $type = null)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->learning_object_deletion_allowed($learning_object);
+		return $rdm->learning_object_deletion_allowed($learning_object, $type);
+	}
+	
+	/**
+	 * @see RepositoryDataManager::learning_object_revert_allowed()
+	 */
+	function learning_object_revert_allowed($learning_object)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return $rdm->learning_object_revert_allowed($learning_object);
 	}
 
 	/**
@@ -550,14 +562,46 @@ class RepositoryManager
 	 * @param LearningObject $learning_object The learning object.
 	 * @return string The requested URL.
 	 */
-	function get_learning_object_deletion_url($learning_object)
+	function get_learning_object_deletion_url($learning_object, $type = null)
 	{
-		if (!$this->learning_object_deletion_allowed($learning_object))
+		if (!$this->learning_object_deletion_allowed($learning_object, $type))
 		{
 			return null;
 		}
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id(), self :: PARAM_DELETE_PERMANENTLY => 1));
+		
+		if (isset($type))
+		{
+			$param = self :: PARAM_DELETE_VERSION;
+		}
+		else
+		{
+			if ($learning_object->get_state() == LearningObject :: STATE_RECYCLED)
+			{
+				$param = self :: PARAM_DELETE_PERMANENTLY;
+			}
+			elseif  ($learning_object->get_state() == LearningObject :: STATE_NORMAL)
+			{
+				$param = self :: PARAM_DELETE_RECYCLED;
+			}
+		}
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id(), $param => 1));
 	}
+	
+	/**
+	 * Gets the url to revert to a learning object version.
+	 * @param LearningObject $learning_object The learning object.
+	 * @return string The requested URL.
+	 */
+	function get_learning_object_revert_url($learning_object)
+	{
+		if (!$this->learning_object_revert_allowed($learning_object))
+		{
+			return null;
+		}
+		
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_REVERT_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
+	}
+	
 	/**
 	 * Gets the url to move a learning object to another category.
 	 * @param LearningObject $learning_object The learning object.

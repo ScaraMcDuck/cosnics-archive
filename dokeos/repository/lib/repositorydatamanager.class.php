@@ -106,7 +106,7 @@ abstract class RepositoryDataManager
 	 * @param LearningObject The learning object.
 	 * @return boolean Is Attached.
 	 */
-	abstract function is_attached($object);
+	abstract function is_attached($object, $type = null);
 
 	/**
 	 * Checks if a type name corresponds to an extended learning object type.
@@ -215,16 +215,40 @@ abstract class RepositoryDataManager
 	 * @param LearningObject $object
 	 * @return boolean True if the given learning object can be deleted
 	 */
-	function learning_object_deletion_allowed($object)
+	function learning_object_deletion_allowed($object, $type = null)
 	{
-		if ($this->is_attached($object)) return false;
-		$children = array();
-		$children = $this->get_children_ids($object);
-		$versions = array();
-		$versions = $this->get_version_ids($object);
-		$forbidden = array_merge($children, $versions);
+		if (isset($type))
+		{
+			if ($this->is_attached($object, 'version'))
+			{
+				return false;
+			}
+			$forbidden = array();
+			$forbidden = $object->get_id();			
+		}
+		else
+		{
+			if ($this->is_attached($object))
+			{
+				return false;
+			}
+			$children = array();
+			$children = $this->get_children_ids($object);
+			$versions = array();
+			$versions = $this->get_version_ids($object);
+			$forbidden = array_merge($children, $versions);
+		}
 		return !$this->any_learning_object_is_published($forbidden);
-
+	}
+	
+	/**
+	 * Determines whether a version is revertable.
+	 * @param LearningObject $object
+	 * @return boolean True if the given learning object version can be reverted
+	 */
+	function learning_object_revert_allowed($object)
+	{
+		return !$this->is_latest_version($object);
 	}
 	
 	/**
@@ -405,6 +429,20 @@ abstract class RepositoryDataManager
 	 *                 is in use.
 	 */
 	abstract function delete_learning_object($object);
+	
+	/**
+	 * Deletes the given learning object version from persistent storage.
+	 * This function deletes
+	 * - the selected version
+	 * This function updates
+	 * - the latest version entry if necessary
+	 * @param LearningObject $object The learning object.
+	 * @return boolean True if the given version was succesfully deleted, false
+	 *                 otherwise. Deletion fails when the version is used
+	 *                 somewhere in an application or if one of its children
+	 *                 is in use.
+	 */
+	abstract function delete_learning_object_version($object);
 
 	/**
 	 * Deletes all known learning objects from persistent storage.

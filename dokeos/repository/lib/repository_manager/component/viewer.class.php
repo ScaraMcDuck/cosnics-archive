@@ -36,8 +36,38 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			$this->display_header($breadcrumbs);
 			
 			echo $display->get_full_html();
-			echo $display->get_versions_as_html();
 			
+			$version_data = array();
+			$versions = $object->get_learning_object_versions();
+			if (count($versions) >= 2)
+			{
+				RepositoryUtilities :: order_learning_objects_by_id_desc(& $versions);
+				foreach ($versions as $version)
+				{
+					$version_entry = array();
+					$version_entry['id'] = $version->get_id();
+					$version_entry['title'] = $version->get_title();
+					$version_entry['date'] = date('(d M Y, H:i:s O)', $version->get_creation_date());
+					$version_entry['viewing_link'] = $this->get_learning_object_viewing_url($version);
+					
+					$delete_url = $this->get_learning_object_deletion_url($version, 'version');
+					if (isset($delete_url))
+					{
+						$version_entry['delete_link'] = $delete_url;
+					}
+					
+					$revert_url = $this->get_learning_object_revert_url($version, 'version');
+					if (isset($revert_url))
+					{
+						$version_entry['revert_link'] = $revert_url;
+					}
+					
+					$version_data[] = $version_entry;	
+				}
+				
+				echo $display->get_versions_as_html($version_data);
+			}
+
 			$publication_attr = array();
 			
 			foreach ($object->get_learning_object_versions() as $version)

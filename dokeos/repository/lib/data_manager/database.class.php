@@ -389,6 +389,45 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		return false;
 	}
+	
+	// Inherited.	
+	function delete_learning_object_version($object)
+	{
+		if( !$this->learning_object_deletion_allowed($object, 'version'))
+		{
+			return false;
+		}
+		
+		// Delete object
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+		$statement = $this->connection->prepare($query);
+		$statement->execute($object->get_id());
+		
+		if ($object->is_extended())
+		{
+			$query = 'DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+			$statement = $this->connection->prepare($query);
+			$statement->execute($object->get_id());
+		}
+		
+		if ($this->is_latest_version($object))
+		{
+			$object_number = $object->get_object_number();
+			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).'=? ORDER BY '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'. $this->escape_column_name(LearningObject :: PROPERTY_ID) .' DESC';
+			$this->connection->setLimit(1);
+			$statement = $this->connection->prepare($query);
+			$res = $statement->execute($object_number);
+			$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$res->free();
+			
+			$props = array();
+			$props[$this->escape_column_name(LearningObject :: PROPERTY_ID)] = $record['id'];
+			$this->connection->loadModule('Extended');
+			$this->connection->extended->autoExecute($this->get_table_name('learning_object_version'), $props, MDB2_AUTOQUERY_UPDATE, $this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER) . '=' .$object_number);
+		}
+		
+		return true;
+	}
 
 	// Inherited.
 	function delete_all_learning_objects()
@@ -1032,11 +1071,21 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		return LearningObject :: is_default_property_name($name) || $name == LearningObject :: PROPERTY_TYPE || $name == LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX || $name == LearningObject :: PROPERTY_ID;
 	}
 	
-	function is_attached ($object)
+	function is_attached ($object, $type = null)
 	{
-		$query = 'SELECT COUNT('.$this->escape_column_name("learning_object").') FROM '.$this->escape_table_name('learning_object_attachment').' AS '.self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE .' WHERE '. self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE . '.attachment IN (?'.str_repeat(',?', count($this->get_version_ids($object)) - 1).')';
+		$query = 'SELECT COUNT('.$this->escape_column_name("learning_object").') FROM '.$this->escape_table_name('learning_object_attachment').' AS '.self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE .' WHERE '. self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE . '.attachment';
+		if (isset($type))
+		{
+			$query.= '=?';
+			$params = $object->get_id();
+		}
+		else
+		{
+			$query.= ' IN (?'.str_repeat(',?', count($this->get_version_ids($object)) - 1).')';
+			$params = $this->get_version_ids($object);
+		}
 		$sth = $this->connection->prepare($query);
-		$res = $sth->execute($this->get_version_ids($object));
+		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();
 		if ($record[0] > 0)
