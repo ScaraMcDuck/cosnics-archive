@@ -78,6 +78,12 @@ class RepositoryInstaller
 		$dm = RepositoryDataManager :: get_instance();
 		echo '<pre>Creating Storage Unit: '.$name.'</pre>';flush();
 		$dm->create_storage_unit($name,$properties,$indexes);
+		$xml_multiproperties = $doc->getElementsByTagname('multiproperty');
+		foreach($xml_multiproperties as $index => $property)
+		{
+			$multiproperty_name = $property->getAttribute('name');
+			$this->parse_xml_file(dirname($path).'/'.$multiproperty_name.'.xml');
+		}
 	}
 }
 ?>
