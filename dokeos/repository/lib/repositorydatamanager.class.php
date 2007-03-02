@@ -240,7 +240,7 @@ abstract class RepositoryDataManager
 		}
 		return !$this->any_learning_object_is_published($forbidden);
 	}
-	
+
 	/**
 	 * Determines whether a version is revertable.
 	 * @param LearningObject $object
@@ -265,7 +265,7 @@ abstract class RepositoryDataManager
 	 * @return array The requested id's
 	 */
 	abstract function get_children_ids($object);
-	
+
 	/**
 	 * Gets all ids of all versions of a given learning object.
 	 * @param LearningObject $object The learning object
@@ -393,7 +393,7 @@ abstract class RepositoryDataManager
 	 * @return int The ID.
 	 */
 	abstract function get_next_learning_object_id();
-	
+
 	/**
 	 * Returns the next available learning object number.
 	 * @return int The ID.
@@ -491,7 +491,7 @@ abstract class RepositoryDataManager
 	 */
 	abstract function retrieve_attached_learning_objects ($object);
 	abstract function retrieve_learning_object_versions ($object);
-	
+
 	/**
 	 * Adds a learning object to another's attachment list.
 	 * @param LearningObject $object The learning object to attach the other
@@ -535,6 +535,7 @@ abstract class RepositoryDataManager
 				if (is_dir($p) && self :: is_learning_object_type_name($file))
 				{
 					require_once $p.'/'.$file.'.class.php';
+					//TODO: use the XML-files so we can delete the .properties files
 					$f = $p.'/'.$file.'.properties';
 					// XXX: Always require a file, even if empty?
 					if (is_file($f))
