@@ -83,6 +83,7 @@ $SelectedObjectNotMovedToRecycleBin='The selected objects were not moved to the 
 $SelectedObjectRestored='The selected object was restored.';
 $SelectedVersionDeleted='The selected version was deleted.';
 $SelectedVersionNotDeleted='The selected version was not deleted.';
+$ThisObjectIsPublished='This object is published';
 $ToAdvancedSearch='Advanced Search';
 $TopicsOnForum='Topics on this Forum';
 $ToSimpleSearch='Simple Search';
