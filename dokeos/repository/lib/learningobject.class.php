@@ -110,10 +110,16 @@ class LearningObject implements AccessibleLearningObject
 	private $additionalProperties;
 
 	/**
+	 * Additional array properties specific to this type of learning object,
+	 * stored in an associative array.
+	 */
+	private $multiProperties;
+
+	/**
 	 * Learning objects attached to this learning object.
 	 */
 	private $attachments;
-	
+
 	private $versions;
 
 	/**
@@ -135,12 +141,16 @@ class LearningObject implements AccessibleLearningObject
 	 *                                    unknown at construction of the
 	 *                                    object; in this case, they will be
 	 *                                    retrieved when needed.
+	 * @param array $multipProperties The array properties specific for this
+	 * type of learning object. Associative array. Null if they are unknown at
+	 * construction; in this case, they will be retrieved when needed.
 	 */
-	function LearningObject($id = 0, $defaultProperties = array (), $additionalProperties = null)
+	function LearningObject($id = 0, $defaultProperties = array (), $additionalProperties = null, $multiProperties = null)
 	{
 		$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
 		$this->additionalProperties = $additionalProperties;
+		$this->multiProperties = $multiProperties;
 		$this->oldState = $defaultProperties[self :: PROPERTY_STATE];
 	}
 
@@ -237,7 +247,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return $this->get_default_property(self :: PROPERTY_MODIFICATION_DATE);
 	}
-	
+
 	/**
 	 * Returns the version number.
 	 * @return int The version number.
@@ -261,7 +271,7 @@ class LearningObject implements AccessibleLearningObject
 		return $this->attachments;
 	}
 
-	function get_learning_object_versions($state = LearningObject :: STATE_NORMAL)
+	function get_learning_object_versions()
 	{
 		if (!is_array($this->versions))
 		{
@@ -269,8 +279,8 @@ class LearningObject implements AccessibleLearningObject
 			$this->versions = $dm->retrieve_learning_object_versions($this, $state);
 		}
 		return $this->versions;
-	}	
-	
+	}
+
 	/**
 	 * Returns the full URL where this learning object may be viewed.
 	 * @return string The URL.
@@ -307,7 +317,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		$this->set_default_property(self :: PROPERTY_OWNER_ID, $owner);
 	}
-	
+
 	/**
 	 * Sets the object number of this learning object.
 	 * @param int $object_number The Object Number.
@@ -370,7 +380,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		$this->set_default_property(self :: PROPERTY_MODIFICATION_DATE, $modified);
 	}
-	
+
 	/**
 	 * Returns whether or not this learning object is extended, i.e. whether
 	 * its type defines additional properties.
@@ -393,7 +403,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return false;
 	}
-	
+
 	/**
 	 * Determines whether this learning object can have versions.
 	 * @return boolean True if the object is versionable, false otherwise.
@@ -470,6 +480,29 @@ class LearningObject implements AccessibleLearningObject
 	}
 
 	/**
+	 * Gets an additional (type-specific) multi property of this learning object
+	 * by name.
+	 * @parm string $name The name of the property
+	 */
+	function get_multi_property($name)
+	{
+		$this->check_for_multi_properties();
+		return $this->multiProperties[$name];
+	}
+
+	/**
+	 * Sets an additional (type-specific) multi property of this learning object
+	 * by name.
+	 * @param string $name The name of the property.
+	 * @param mixed $value The new value for the property.
+	 */
+	function set_multi_property($name, $value)
+	{
+		$this->check_for_multi_properties();
+		$this->multiProperties[$name] = $value;
+	}
+
+	/**
 	 * Gets the default properties of this learning object.
 	 * @return array An associative array containing the properties.
 	 */
@@ -487,6 +520,17 @@ class LearningObject implements AccessibleLearningObject
 	{
 		$this->check_for_additional_properties();
 		return $this->additionalProperties;
+	}
+
+	/**
+	 * Gets the additional (type-specific) multi properties of this learning
+	 * object.
+	 * @return array An associative array containing the properties.
+	 */
+	function get_multi_properties()
+	{
+		$this->check_for_multi_properties();
+		return $this->multiProperties;
 	}
 
 	/**
@@ -544,17 +588,17 @@ class LearningObject implements AccessibleLearningObject
 		 */
 		return true;
 	}
-	
+
 	function version($trueUpdate = true)
 	{
 		$now = time();
 		$dm = RepositoryDataManager :: get_instance();
-		
+
 		$this->set_creation_date($now);
 		$this->set_modification_date($now);
 		$id = $dm->get_next_learning_object_id();
 		$this->set_id($id);
-		
+
 		$success = $dm->create_learning_object($this, 'version');
 		if (!$success)
 		{
