@@ -25,7 +25,7 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 			{
 				$this->not_allowed();
 			}
-			elseif (!$this->learning_object_edit_allowed($object))
+			elseif (!$object->is_latest_version())
 			{
 				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, get_lang('EditNotAllowed'), $object->get_parent_id(), true);
 			}

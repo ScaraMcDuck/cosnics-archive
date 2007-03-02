@@ -410,7 +410,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$statement->execute($object->get_id());
 		}
 		
-		if ($this->is_latest_version($object))
+		if ($object->is_latest_version())
 		{
 			$object_number = $object->get_object_number();
 			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).'=? ORDER BY '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'. $this->escape_column_name(LearningObject :: PROPERTY_ID) .' DESC';
@@ -537,12 +537,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		return $attachments;
 	}
 
-	function retrieve_learning_object_versions ($object, $state = LearningObject :: STATE_NORMAL)
+	function retrieve_learning_object_versions ($object)
 	{
 		$object_number = $object->get_object_number();
 		$query = 'SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).'=? AND '.$this->escape_column_name(LearningObject :: PROPERTY_STATE).'=?';
 		$sth = $this->connection->prepare($query);
-		$res = $sth->execute(array($object_number, $state));
+		$res = $sth->execute(array($object_number, $object->get_state()));
 		$attachments = array();
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ORDERED))
 		{
