@@ -276,7 +276,7 @@ class LearningObject implements AccessibleLearningObject
 		if (!is_array($this->versions))
 		{
 			$dm = RepositoryDataManager :: get_instance();
-			$this->versions = $dm->retrieve_learning_object_versions($this, $state);
+			$this->versions = $dm->retrieve_learning_object_versions($this);
 		}
 		return $this->versions;
 	}
@@ -411,6 +411,15 @@ class LearningObject implements AccessibleLearningObject
 	function is_versionable()
 	{
 		return true;
+	}
+	
+	/**
+	 * Checks whether the current version of the object is the latest version
+	 */
+	function is_latest_version()
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return $rdm->is_latest_version($this);
 	}
 
 	/**

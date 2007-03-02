@@ -490,6 +490,7 @@ abstract class RepositoryDataManager
 	 * @return array The attached learning objects.
 	 */
 	abstract function retrieve_attached_learning_objects ($object);
+
 	abstract function retrieve_learning_object_versions ($object);
 
 	/**
