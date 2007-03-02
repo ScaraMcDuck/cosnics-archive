@@ -600,6 +600,11 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return RepositoryDataManager :: get_instance()->delete_learning_object($this);
 	}
+	
+	function delete_version()
+	{
+		return RepositoryDataManager :: get_instance()->delete_learning_object_version($this);
+	}
 
 	/**
 	 * Retrieves this learning object's ancestors.

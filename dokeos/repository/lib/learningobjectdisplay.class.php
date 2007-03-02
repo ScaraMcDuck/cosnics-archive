@@ -137,50 +137,49 @@ abstract class LearningObjectDisplay
 	 * Returns a HTML view of the versions of the learning object.
 	 * @return string The HTML.
 	 */
-	function get_versions_as_html()
+	function get_versions_as_html($version_data)
 	{
 		$object = $this->get_learning_object();
-		$versions = $object->get_learning_object_versions();
-		if (count($versions))
+		$html = array();
+		$html[] = '<div class="versions" style="margin-top: 1em;">';
+		$html[] = '<div class="versions_title">'.htmlentities(get_lang('Versions')).'</div>';
+		$html[] = '<ul class="versions_list">';
+		foreach ($version_data as $version)
 		{
-			$html = array();
-			$html[] = '<div class="versions" style="margin-top: 1em;">';
-			$html[] = '<div class="versions_title">'.htmlentities(get_lang('Versions')).'</div>';
-			$html[] = '<ul class="versions_list">';
-			RepositoryUtilities :: order_learning_objects_by_id_desc(& $versions);
-			foreach ($versions as $version)
+			if ($object->get_id() == $version['id'])
 			{
-				$disp = self :: factory(& $version);
-				if ($object->get_id() == $version->get_id())
-				{
-					$html[] = '<li class="current">';
-				}
-				else
-				{
-					$html[] = '<li>';
-				}
-				$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/next.png" alt="option"/> ';
-				$html[] = date('(d M Y, H:i:s O)', $version->get_creation_date()) .'&nbsp;';
-				
-				if (RepositoryDataManager :: get_instance()->learning_object_deletion_allowed($version))
-				{
-					$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version.gif" alt="'.htmlentities(get_lang('Delete')).'"/>';
-				}
-				else
-				{
-					$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version_na.gif" alt="'.htmlentities(get_lang('Delete')).'"/>';
-				}
-				
-				
-				
-				$html[] = '&nbsp;<img src="'.api_get_path(WEB_CODE_PATH).'/img/revert.gif" alt="'.htmlentities(get_lang('Revert')).'"/>&nbsp;<a href="'.htmlentities($this->get_learning_object_url($version)).'" title="'.$version->get_title().'">'.$version->get_title().'</a>';
-				$html[] = '</li>';
+				$html[] = '<li class="current">';
 			}
-			$html[] = '</ul>';
-			$html[] = '</div>';
-			return implode("\n", $html);
+			else
+			{
+				$html[] = '<li>';
+			}
+			$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/next.png" alt="option"/> '. $version['date'] .'&nbsp;';
+			
+			if (isset($version['delete_link']))
+			{
+				$html[] = '<a href="'. $version['delete_link'] .'" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version.gif" alt="'.htmlentities(get_lang('Delete')).'"/></a>';
+			}
+			else
+			{
+				$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version_na.gif" alt="'.htmlentities(get_lang('Delete')).'"/>';
+			}
+				
+			if (isset($version['revert_link']))
+			{
+				$html[] = '&nbsp;<img src="'.api_get_path(WEB_CODE_PATH).'/img/revert.gif" alt="'.htmlentities(get_lang('Revert')).'"/>';
+			}
+			else
+			{
+				$html[] = '&nbsp;<img src="'.api_get_path(WEB_CODE_PATH).'/img/revert_na.gif" alt="'.htmlentities(get_lang('Revert')).'"/>';
+			}				
+			
+			$html[] = '&nbsp;<a href="'.htmlentities($version['viewing_link']).'" title="'.$version['title'].'">'.$version['title'].'</a>';
+			$html[] = '</li>';
 		}
-		return '';
+		$html[] = '</ul>';
+		$html[] = '</div>';
+		return implode("\n", $html);
 	}
 	
 	
