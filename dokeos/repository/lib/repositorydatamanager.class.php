@@ -224,7 +224,7 @@ abstract class RepositoryDataManager
 				return false;
 			}
 			$forbidden = array();
-			$forbidden = $object->get_id();			
+			$forbidden = $object->get_id();
 		}
 		else
 		{
@@ -250,7 +250,7 @@ abstract class RepositoryDataManager
 	{
 		return !$this->is_latest_version($object);
 	}
-	
+
 	/**
 	 * Determines whether a learning object can be edited.
 	 * @param LearningObject $object
@@ -429,7 +429,7 @@ abstract class RepositoryDataManager
 	 *                 is in use.
 	 */
 	abstract function delete_learning_object($object);
-	
+
 	/**
 	 * Deletes the given learning object version from persistent storage.
 	 * This function deletes
@@ -524,6 +524,10 @@ abstract class RepositoryDataManager
 	/**
 	 * Automagically loads all the available types of learning objects
 	 * and registers them with this data manager.
+	 * @todo This function now parses the XML-files of every learning object
+	 * type. There's probably a faster way to retrieve this information by
+	 * saving the types and their properties in the database when the learning
+	 * object type is installed on the system.
 	 */
 	private function load_types()
 	{
@@ -536,15 +540,17 @@ abstract class RepositoryDataManager
 				if (is_dir($p) && self :: is_learning_object_type_name($file))
 				{
 					require_once $p.'/'.$file.'.class.php';
-					//TODO: use the XML-files so we can delete the .properties files
-					$f = $p.'/'.$file.'.properties';
+					$f = $p.'/'.$file.'.xml';
 					// XXX: Always require a file, even if empty?
 					if (is_file($f))
 					{
 						$properties = array ();
-						foreach (file($f) as $p)
+						$doc = new DOMDocument();
+						$doc->load($f);
+						$xml_properties = $doc->getElementsByTagname('property');
+						foreach($xml_properties as $index => $property)
 						{
-							$properties[] = rtrim($p);
+							$properties[] = trim($property->getAttribute('name'));
 						}
 						$this->register_type($file, $properties);
 					}
