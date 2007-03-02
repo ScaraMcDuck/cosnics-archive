@@ -48,8 +48,8 @@ class RepositoryManager
 	const ACTION_VIEW_LEARNING_OBJECTS = 'view';
 	const ACTION_CREATE_LEARNING_OBJECTS = 'create';
 	const ACTION_EDIT_LEARNING_OBJECTS = 'edit';
-	const ACTION_DELETE_LEARNING_OBJECTS = 'delete';
 	const ACTION_REVERT_LEARNING_OBJECTS = 'revert';
+	const ACTION_DELETE_LEARNING_OBJECTS = 'delete';
 	const ACTION_RESTORE_LEARNING_OBJECTS = 'restore';
 	const ACTION_MOVE_LEARNING_OBJECTS = 'move';
 	const ACTION_EDIT_LEARNING_OBJECT_METADATA = 'metadata';
@@ -107,6 +107,9 @@ class RepositoryManager
 				break;
 			case self :: ACTION_EDIT_LEARNING_OBJECTS :
 				$component = RepositoryManagerComponent :: factory('Editor', $this);
+				break;
+			case self :: ACTION_REVERT_LEARNING_OBJECTS :
+				$component = RepositoryManagerComponent :: factory('Reverter', $this);
 				break;
 			case self :: ACTION_DELETE_LEARNING_OBJECTS :
 				$component = RepositoryManagerComponent :: factory('Deleter', $this);
@@ -484,15 +487,6 @@ class RepositoryManager
 	}
 
 	/**
-	 * @see RepositoryDataManager::learning_object_edit_allowed()
-	 */
-	function is_latest_version($learning_object)
-	{
-		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->is_latest_version($learning_object);
-	}
-
-	/**
 	 * @see RepositoryDataManager::get_learning_object_publication_attributes()
 	 */
 	function get_learning_object_publication_attributes($id)
@@ -524,7 +518,7 @@ class RepositoryManager
 	 */
 	function get_learning_object_editing_url($learning_object)
 	{
-		if (!$this->is_latest_version($learning_object))
+		if (!$learning_object->is_latest_version())
 		{
 			return null;
 		}
@@ -542,7 +536,7 @@ class RepositoryManager
 		{
 			return null;
 		}
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id(), self :: PARAM_DELETE_RECYCLED => 1));
 	}
 	/**
 	 * Gets the url to restore a learning object from the recycle bin.
@@ -579,7 +573,7 @@ class RepositoryManager
 			{
 				$param = self :: PARAM_DELETE_PERMANENTLY;
 			}
-			elseif  ($learning_object->get_state() == LearningObject :: STATE_NORMAL)
+			else
 			{
 				$param = self :: PARAM_DELETE_RECYCLED;
 			}

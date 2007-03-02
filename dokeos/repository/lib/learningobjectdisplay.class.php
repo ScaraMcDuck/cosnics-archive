@@ -167,7 +167,7 @@ abstract class LearningObjectDisplay
 				
 			if (isset($version['revert_link']))
 			{
-				$html[] = '&nbsp;<img src="'.api_get_path(WEB_CODE_PATH).'/img/revert.gif" alt="'.htmlentities(get_lang('Revert')).'"/>';
+				$html[] = '&nbsp;<a href="'. $version['revert_link'] .'" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'/img/revert.gif" alt="'.htmlentities(get_lang('Revert')).'"/></a>';
 			}
 			else
 			{
