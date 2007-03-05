@@ -265,6 +265,13 @@ abstract class RepositoryDataManager
 	 * @return array The requested id's
 	 */
 	abstract function get_children_ids($object);
+	
+	/**
+	 * Get number of times a physical document is used by a learning object's versions.
+	 * @param String $path The document path
+	 * @return boolean True if the physical document occurs only once, else False.
+	 */
+	abstract function is_only_document_occurence($path);
 
 	/**
 	 * Gets all ids of all versions of a given learning object.
