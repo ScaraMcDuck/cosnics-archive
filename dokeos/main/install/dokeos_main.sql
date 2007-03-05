@@ -294,7 +294,7 @@ CREATE TABLE `location` (
 
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
 LOCK TABLES `location` WRITE;
-INSERT INTO `location` VALUES 
+INSERT INTO `location` VALUES
 (1,'platform|courses|course,DEFAULT'),
 (2,'platform|courses|course,DEFAULT|tool,announcement'),
 (3,'platform|courses|course,DEFAULT|tool,backup'),
@@ -343,7 +343,7 @@ CREATE TABLE `role` (
 
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
 LOCK TABLES `role` WRITE;
-INSERT INTO `role` VALUES 
+INSERT INTO `role` VALUES
 (1,'AnonymousVisitorRole','global',1,'AnonymousVisitorRoleDescription'),
 (2,'StudentRole','global',1,'StudentRoleDescription'),
 (3,'TeacherRole','global',1,'TeacherRoleDescription'),
@@ -376,7 +376,7 @@ CREATE TABLE `role_right_location` (
 
 /*!40000 ALTER TABLE `role_right_location` DISABLE KEYS */;
 LOCK TABLES `role_right_location` WRITE;
-INSERT INTO `role_right_location` VALUES 
+INSERT INTO `role_right_location` VALUES
 (6, 1, 1, '1'),
 (6, 1, 7, '1'),
 (6, 1, 11, '1'),
@@ -700,7 +700,7 @@ CREATE TABLE `user` (
 
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 LOCK TABLES `user` WRITE;
-INSERT INTO `user` VALUES (1,'{ADMINLASTNAME}','{ADMINFIRSTNAME}','{ADMINLOGIN}','{ADMINPASSWORD}','{PLATFORM_AUTH_SOURCE}','{ADMINEMAIL}',1,'ADMIN',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,'0000-00-00 00:00:00','',NULL,'200000000','300');
+INSERT INTO `user` VALUES (1,'{ADMINLASTNAME}','{ADMINFIRSTNAME}','{ADMINLOGIN}','{ADMINPASSWORD}','{PLATFORM_AUTH_SOURCE}','{ADMINEMAIL}',1,'ADMIN',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,'0000-00-00 00:00:00','',NULL,'200000000','300','20');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
