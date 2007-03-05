@@ -688,6 +688,7 @@ CREATE TABLE `user` (
   `language` varchar(40) default NULL,
   `disk_quota` int(10) unsigned NOT NULL default '200000000',
   `database_quota` int(10) unsigned NOT NULL default '300',
+  `version_quota` int(10) unsigned NOT NULL default '20',
   PRIMARY KEY  (`user_id`),
   UNIQUE KEY `username` (`username`)
 );
