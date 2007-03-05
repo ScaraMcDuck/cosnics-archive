@@ -472,6 +472,24 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			return false;
 		}
 	}
+	
+	function is_only_document_occurence($path)
+	{
+		$query = 'SELECT COUNT('. LearningObject :: PROPERTY_ID .') AS ids FROM ' . $this->escape_table_name('document') . ' WHERE path=?';
+		//$this->connection->setLimit(1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($path);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		
+		if ($record['ids'] == 1)
+		{ 
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 	// Inherited.
 	function move_learning_object($object, $places)

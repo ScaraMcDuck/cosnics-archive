@@ -307,6 +307,7 @@ class RepositoryUtilities
 			$object = $rdm->retrieve_learning_object($info->get_publication_object_id());
 			$html[] = '<li><img src="'.api_get_path(WEB_CODE_PATH).'/img/next.png" alt="option"/>';
 			// TODO: i18n
+			// TODO: SCARA - Find cleaner solution to display Learning Object title + url
 			$html[] = '<a href="'.$info->get_url(). '">' . $info->get_application().': '.$info->get_location().'</a> > <a href="'. $object->get_view_url() .'">'. $object->get_title() .'</a> ('.$publisher['firstName'].' '.$publisher['lastName'].', '.date('r', $info->get_publication_date()).')';
 			$html[] = '</li>';
 		}

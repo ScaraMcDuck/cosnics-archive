@@ -46,6 +46,18 @@ class Document extends LearningObject
 		unlink($path);
 		parent :: delete();
 	}
+	
+	function delete_version()
+	{
+		$path = Configuration :: get_instance()->get_parameter('general', 'upload_path');
+		$path = $path.'/'.$this->get_path();
+		if(RepositoryDataManager :: get_instance()->is_only_document_occurence($this->get_path()))
+		{
+			unlink($path);
+		}
+		parent :: delete_version();
+	}
+	
 	function get_url()
 	{
 		return Configuration::get_instance()->get_parameter('general', 'upload_url').'/'.$this->get_path();
