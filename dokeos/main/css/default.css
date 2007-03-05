@@ -420,7 +420,7 @@ a.personal_agenda:link, a.personal_agenda:visited {color: #008000; }
 a.personal_agenda:hover, a.personal_agenda:hover {color: #666666; }
 
 /* normal and erro message-box */
-.normal-message, .error-message {
+.normal-message, .error-message, .warning-message {
 	position: relative;
 	margin: 10px auto;
 	margin-left: -250px;
@@ -444,6 +444,12 @@ a.personal_agenda:hover, a.personal_agenda:hover {color: #666666; }
 	background-image: url('../img/message_error.png');
 	background-color: #FFD1D1;
 	border-color: red;
+}
+
+.warning-message {
+	background-image: url('../img/message_warning.png');
+	background-color: #ffedd1;
+	border-color: #ff9900;
 }
 
 #message {margin: 0 auto; text-align: center;}
@@ -546,8 +552,8 @@ div.row div.forme {
 	border-width: 1px;
 	border-style: solid;
 	padding: 10px;
-	background-color: #FFD1D1;
-	border-color: red;
+	background-color: #ffedd1;
+	border-color: #ff9900;
 }
 [dir=ltr] div.row div.label, [dir=rtl] div.row div.formw {
 	float: left;
@@ -817,13 +823,23 @@ ul.attachments_list img
 }
 
 /* List of versions */
-div.versions
+div.versions, div.versions_na
 {
 	border: 1px solid #F6F6F6;
 	margin: 0 0 1em 0;
 	padding: 10px 10px 10px 44px;
+}
+
+div.versions
+{
 	background: url(../img/versions_large.gif) no-repeat 10px 10px;
 }
+
+div.versions_na
+{
+	background: url(../img/versions_large_na.gif) no-repeat 10px 10px;
+}
+
 div.versions_title
 {
 	font-weight: bold;
@@ -1374,8 +1390,13 @@ input.search_query
 .usage_bar .very_critical {
 	background: #E69666;
 }
+
+.usage_information {
+	margin: 0.1em 0 0 0;
+}
+
 .usage_status {
-	margin: 0.5em 0 1.5em 0;
+	margin: 0.1em 0 0.1em 0;
 }
 
 /*

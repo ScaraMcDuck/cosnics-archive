@@ -122,10 +122,7 @@ class RepositoryUtilities
 	
 	static function order_learning_objects_by_id_desc(& $objects)
 	{
-		//print_r($objects);
-		
 		usort($objects, array (get_class(), 'by_id_desc'));
-		//print_r(array (get_class(), 'by_id'));
 	}
 
 	/**
@@ -298,6 +295,8 @@ class RepositoryUtilities
 	
 	function build_uses($publication_attr)
 	{
+		$rdm = RepositoryDataManager :: get_instance();
+		
 		$html 	= array ();
 		$html[] = '<div class="publications">';
 		$html[] = '<div class="publications_title">'.htmlentities(get_lang('ThisObjectIsPublished')).'</div>';
@@ -305,9 +304,10 @@ class RepositoryUtilities
 		foreach ($publication_attr as $info)
 		{
 			$publisher = $this->get_user_info($info->get_publisher_user_id());
+			$object = $rdm->retrieve_learning_object($info->get_publication_object_id());
 			$html[] = '<li><img src="'.api_get_path(WEB_CODE_PATH).'/img/next.png" alt="option"/>';
 			// TODO: i18n
-			$html[] = '<a href="'.$info->get_url(). '">' . $info->get_application().': '.$info->get_location().'</a> ('.$publisher['firstName'].' '.$publisher['lastName'].', '.date('r', $info->get_publication_date()).')';
+			$html[] = '<a href="'.$info->get_url(). '">' . $info->get_application().': '.$info->get_location().'</a> > <a href="'. $object->get_view_url() .'">'. $object->get_title() .'</a> ('.$publisher['firstName'].' '.$publisher['lastName'].', '.date('r', $info->get_publication_date()).')';
 			$html[] = '</li>';
 		}
 		$html[] = '</ul>';

@@ -32,7 +32,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				$breadcrumbs[] = array('url' => $this->get_recycle_bin_url(), 'name' => get_lang('RecycleBin'));
 				$this->force_menu_url($this->get_recycle_bin_url());
 			}
-			$breadcrumbs[] = array('url' => $this->get_url(), 'name' => $object->get_title());
+			$breadcrumbs[] = array('url' => $this->get_url(), 'name' => $object->get_title() . ($object->is_latest_version() ? '' : ' ('.get_lang('OldVersion').')'));
 			$this->display_header($breadcrumbs);
 			
 			echo $display->get_full_html();

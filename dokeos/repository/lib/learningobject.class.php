@@ -275,7 +275,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	function get_view_url ()
 	{
-		return api_get_path(WEB_PATH).'learning_object.php?id='.$this->get_id();
+		return api_get_path(WEB_PATH).'index_repository_manager.php?go=view&category='.$this->get_parent_id().'&object='.$this->get_id();
 	}
 
 	/**
@@ -417,6 +417,16 @@ class LearningObject implements AccessibleLearningObject
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return count($rdm->get_version_ids($this));
+		
+	}
+	
+	/**
+	 * Returns the remaining number of possible versions
+	 */
+	function get_available_version_count()
+	{
+		$qm = new QuotaManager($this->get_owner_id());
+		return $qm->get_max_versions()-$this->get_version_count();
 		
 	}
 

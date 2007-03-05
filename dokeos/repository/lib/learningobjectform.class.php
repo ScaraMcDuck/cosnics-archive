@@ -138,7 +138,7 @@ abstract class LearningObjectForm extends FormValidator
 			}
 			else
 			{
-				$this->add_error_message(get_lang('CreateAsNewVersion'), get_lang('VersionQuotaExceeded'));
+				$this->add_warning_message(null, get_lang('VersionQuotaExceeded'));
 			}
 		}
 		$this->addElement('hidden', LearningObject :: PROPERTY_ID);
@@ -319,7 +319,7 @@ abstract class LearningObjectForm extends FormValidator
 		$quotamanager = new QuotaManager($this->get_owner_id());
 		if ($this->form_type == self :: TYPE_CREATE && $quotamanager->get_available_database_space() <= 0)
 		{
-			Display :: display_error_message(htmlentities(get_lang('MaxNumberOfLearningObjectsReached')));
+			Display :: display_warning_message(htmlentities(get_lang('MaxNumberOfLearningObjectsReached')));
 		}
 		else
 		{

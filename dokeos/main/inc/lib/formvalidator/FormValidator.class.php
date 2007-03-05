@@ -243,10 +243,15 @@ EOT;
 	 * @param string $label The label for the error message
 	 * @param string $message The actual error message
      */
-	function add_error_message($label, $message)
+	function add_warning_message($label, $message)
 	{
-		$message = '<div class="row"><div class="forme"><b>'. $label .'</b><br />'.$message.'</div></div>';
-		$this->addElement('html', $message);
+		$html = '<div class="row"><div class="forme">';
+		if ($label)
+		{
+			$html .= '<b>'. $label .'</b><br />';
+		}
+		$html .= $message.'</div></div>';
+		$this->addElement('html', $html);
     }
 	/**
 	 * Display the form.

@@ -66,6 +66,7 @@ $NotAvailable='Niet beschikbaar';
 $NumberOfLearningObjects='Aantal leerobjecten';
 $ObjectCreated='Het leerobject werd aangemaakt.';
 $ObjectUpdated='Het leerobject werd gewijzigd.';
+$OldVersion='Oude versie';
 $OpenQuestionTypeName='Open vraag';
 $OriginalLocation='Oorspronkelijke locatie';
 $PostsInTopic='Berichten in dit onderwerp';

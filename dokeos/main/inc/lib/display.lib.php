@@ -316,6 +316,37 @@ class Display
 		}
 		echo $out;
 	}
+	
+	/**
+	* Displays a message. It is recommended to use this function
+	* to display any warning messages.
+	*
+	* @author Hugues Peeters
+	* @author Roan Embrechts
+	* @author Tim De Pauw
+	* @author Hans De Bisschop
+	* @param string $message - include any additional html
+	*                          tags if you need them
+	* @param boolean $return
+	* @return mixed
+	*/
+	function display_warning_message($message, $return = false)
+	{
+		$out = '';
+		if (!headers_sent())
+		{
+			$out .= '<style type="text/css" media="screen, projection">
+/*<![CDATA[*/
+@import "' . api_get_path(WEB_CODE_PATH) . 'css/default.css";
+/*]]>*/
+</style>';
+		}
+		$out .= '<div class="warning-message">'.$message.'</div>';
+		if ($return) {
+			return $out;
+		}
+		echo $out;
+	}
 	/**
 	 * Return an encrypted mailto hyperlink
 	 *

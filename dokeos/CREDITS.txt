@@ -8,7 +8,7 @@ Bart Mollet (bart.mollet@hogent.be)
 Tom Brutin
 Tim De Pauw
 Dieter De Neef
-Hans Bisschops
+Hans De Bisschop
 
 ========================================
  Dokeos 2.1 community release - CREDITS
