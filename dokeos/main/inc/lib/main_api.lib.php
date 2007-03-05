@@ -373,6 +373,9 @@ function api_get_user_info($user_id = '')
 			$user_info['user_id'] = $result_array['user_id'];
 			$user_info['official_code'] = $result_array['official_code'];
 			$user_info['status'] = $result_array['status'];
+			$user_info['disk_quota'] = $result_array['disk_quota'];
+			$user_info['database_quota'] = $result_array['database_quota'];
+			$user_info['version_quota'] = $result_array['version_quota'];
 			return $user_info;
 		}
 		return false;

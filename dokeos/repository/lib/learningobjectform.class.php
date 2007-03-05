@@ -128,10 +128,18 @@ abstract class LearningObjectForm extends FormValidator
 	protected function build_editing_form()
 	{
 		$object = $this->learning_object;
+		$quotamanager = new QuotaManager($this->get_owner_id());
 		$this->build_basic_form();
 		if($object->is_versionable())
 		{
-			$this->addElement('checkbox','version', get_lang('CreateAsNewVersion'));
+			if ($object->get_version_count() < $quotamanager->get_max_versions())
+			{
+				$this->addElement('checkbox','version', get_lang('CreateAsNewVersion'));
+			}
+			else
+			{
+				$this->add_error_message(get_lang('CreateAsNewVersion'), get_lang('VersionQuotaExceeded'));
+			}
 		}
 		$this->addElement('hidden', LearningObject :: PROPERTY_ID);
 	}
