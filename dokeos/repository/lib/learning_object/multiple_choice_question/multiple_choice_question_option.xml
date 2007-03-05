@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<object name="multiple_choice_question_option">
- <properties>
-  <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="value" type="text" notnull="1"/>
-  <property name="weight" type="integer" notnull="1"/>
- </properties>
-</object>
