@@ -110,12 +110,6 @@ class LearningObject implements AccessibleLearningObject
 	private $additionalProperties;
 
 	/**
-	 * Additional array properties specific to this type of learning object,
-	 * stored in an associative array.
-	 */
-	private $multiProperties;
-
-	/**
 	 * Learning objects attached to this learning object.
 	 */
 	private $attachments;
@@ -141,16 +135,12 @@ class LearningObject implements AccessibleLearningObject
 	 *                                    unknown at construction of the
 	 *                                    object; in this case, they will be
 	 *                                    retrieved when needed.
-	 * @param array $multipProperties The array properties specific for this
-	 * type of learning object. Associative array. Null if they are unknown at
-	 * construction; in this case, they will be retrieved when needed.
 	 */
-	function LearningObject($id = 0, $defaultProperties = array (), $additionalProperties = null, $multiProperties = null)
+	function LearningObject($id = 0, $defaultProperties = array (), $additionalProperties = null)
 	{
 		$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
 		$this->additionalProperties = $additionalProperties;
-		$this->multiProperties = $multiProperties;
 		$this->oldState = $defaultProperties[self :: PROPERTY_STATE];
 	}
 
@@ -412,7 +402,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Checks whether the current version of the object is the latest version
 	 */
@@ -489,29 +479,6 @@ class LearningObject implements AccessibleLearningObject
 	}
 
 	/**
-	 * Gets an additional (type-specific) multi property of this learning object
-	 * by name.
-	 * @parm string $name The name of the property
-	 */
-	function get_multi_property($name)
-	{
-		$this->check_for_multi_properties();
-		return $this->multiProperties[$name];
-	}
-
-	/**
-	 * Sets an additional (type-specific) multi property of this learning object
-	 * by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
-	 */
-	function set_multi_property($name, $value)
-	{
-		$this->check_for_multi_properties();
-		$this->multiProperties[$name] = $value;
-	}
-
-	/**
 	 * Gets the default properties of this learning object.
 	 * @return array An associative array containing the properties.
 	 */
@@ -529,17 +496,6 @@ class LearningObject implements AccessibleLearningObject
 	{
 		$this->check_for_additional_properties();
 		return $this->additionalProperties;
-	}
-
-	/**
-	 * Gets the additional (type-specific) multi properties of this learning
-	 * object.
-	 * @return array An associative array containing the properties.
-	 */
-	function get_multi_properties()
-	{
-		$this->check_for_multi_properties();
-		return $this->multiProperties;
 	}
 
 	/**
@@ -653,7 +609,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return RepositoryDataManager :: get_instance()->delete_learning_object($this);
 	}
-	
+
 	function delete_version()
 	{
 		return RepositoryDataManager :: get_instance()->delete_learning_object_version($this);
