@@ -68,7 +68,7 @@ abstract class LearningObjectDisplay
 	{
 		$object = $this->get_learning_object();
 		$html = array();
-		$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$object->get_icon_name().'.gif);">';
+		$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.gif);">';
 		$html[] = '<div class="title">'. get_lang('DescriptionTypeName') .'</div>';
 		$html[] = $this->get_description();
 		$html[] = '</div>';

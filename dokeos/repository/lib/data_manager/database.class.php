@@ -259,6 +259,17 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res->free();
 		return $record[0];
 	}
+	
+	// Inherited
+	function count_learning_object_versions($object)
+	{
+		$query = 'SELECT COUNT('.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).'=?';
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($object->get_object_number());
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+		return $record[0];
+	}
 
 	// Inherited.
 	function get_next_learning_object_id()

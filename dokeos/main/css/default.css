@@ -539,6 +539,16 @@ div.row div.label {
 div.row div.formw {
 	width: 80%;
 }
+
+div.row div.forme {
+	width: 78%;
+	margin-left: 20%;
+	border-width: 1px;
+	border-style: solid;
+	padding: 10px;
+	background-color: #FFD1D1;
+	border-color: red;
+}
 [dir=ltr] div.row div.label, [dir=rtl] div.row div.formw {
 	float: left;
 	text-align: right;

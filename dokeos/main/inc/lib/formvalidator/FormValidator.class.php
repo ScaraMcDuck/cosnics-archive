@@ -239,6 +239,16 @@ EOT;
 		$this->addElement('html','<script type="text/javascript">var myUpload = new upload('.(abs(intval($delay))*1000).');</script>');
     }
 	/**
+	 * Adds an error message to the form.
+	 * @param string $label The label for the error message
+	 * @param string $message The actual error message
+     */
+	function add_error_message($label, $message)
+	{
+		$message = '<div class="row"><div class="forme"><b>'. $label .'</b><br />'.$message.'</div></div>';
+		$this->addElement('html', $message);
+    }
+	/**
 	 * Display the form.
 	 * If an element in the form didn't validate, an error message is showed
 	 * asking the user to complete the form.

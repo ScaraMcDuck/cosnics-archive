@@ -114,8 +114,6 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	private $attachments;
 
-	private $versions;
-
 	/**
 	 * The state that this learning object had when it was retrieved. Used to
 	 * determine if the state of its children should be updated upon updating
@@ -410,6 +408,16 @@ class LearningObject implements AccessibleLearningObject
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->is_latest_version($this);
+	}
+	
+	/**
+	 * Returns the number of versions of the learning object
+	 */
+	function get_version_count()
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return count($rdm->get_version_ids($this));
+		
 	}
 
 	/**

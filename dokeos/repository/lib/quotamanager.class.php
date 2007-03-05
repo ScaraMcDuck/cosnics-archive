@@ -34,6 +34,10 @@ class QuotaManager
 	 */
 	private $max_database_space;
 	/**
+	 * The max versions
+	 */
+	private $max_versions;
+	/**
 	 * Create a new QuotaManager
 	 * @param int $owner The user id of the owner
 	 */
@@ -113,12 +117,9 @@ class QuotaManager
 	{
 		if( is_null($this->max_disk_space))
 		{
-			// TODO : This code is here temporarily for testing pupuses. This should be moved to the main_api function api_get_user_info
-			$user_table = Database::get_main_table(MAIN_USER_TABLE);
-			$sql = "SELECT disk_quota FROM ".$user_table." WHERE user_id = '".$this->owner."'";
-			$res = api_sql_query($sql,__FILE__,__LINE__);
-			$quota = mysql_fetch_object($res);
-			$this->max_disk_space = $quota->disk_quota;
+			$user_info = api_get_user_info($this->owner);
+			$this->max_disk_space = $user_info['disk_quota'];
+			// TODO: SCARA - DONE:This code is here temporarily for testing pupuses. This should be moved to the main_api function api_get_user_info
 		}
 		return $this->max_disk_space;
 	}
@@ -130,14 +131,25 @@ class QuotaManager
 	{
 		if( is_null($this->max_database_space))
 		{
-			// TODO : This code is here temporarily for testing pupuses. This should be moved to the main_api function api_get_user_info
-			$user_table = Database::get_main_table(MAIN_USER_TABLE);
-			$sql = "SELECT database_quota FROM ".$user_table." WHERE user_id = '".$this->owner."'";
-			$res = api_sql_query($sql,__FILE__,__LINE__);
-			$quota = mysql_fetch_object($res);
-			$this->max_database_space = $quota->database_quota;
+			$user_info = api_get_user_info($this->owner);
+			$this->max_database_space = $user_info['database_quota'];
+			// TODO: SCARA - DONE:This code is here temporarily for testing pupuses. This should be moved to the main_api function api_get_user_info
 		}
 		return $this->max_database_space;
+	}
+	/**
+	 * Get the maximum allowed versions of an object (per object)
+	 * @return int The number of learning object versions the user is allowed to have
+	 */
+	public function get_max_versions()
+	{
+		if( is_null($this->max_versions))
+		{
+			$user_info = api_get_user_info($this->owner);
+			$this->max_versions = $user_info['version_quota'];
+			// TODO: SCARA - DONE:This code is here temporarily for testing pupuses. This should be moved to the main_api function api_get_user_info
+		}
+		return $this->max_versions;
 	}
 }
 ?>
