@@ -37,6 +37,11 @@ class LearningObjectPublicationAttributes
 	 * The date on which the learning object was published.
 	 */
 	private $publication_date;
+	
+	/**
+	 * The id of the published learning object.
+	 */
+	private $publication_object_id;
 
 	/**
 	 * Constructor.
@@ -137,6 +142,24 @@ class LearningObjectPublicationAttributes
 	function set_publication_date($date)
 	{
 		$this->publication_date = $date;
+	}
+	
+	/**
+	 * Gets the id of the learning object being published.
+	 * @return int The id of the learning object.
+	 */
+	function get_publication_object_id()
+	{
+		return $this->publication_object_id;
+	}
+
+	/**
+	 * Sets the id of the learning object being published.
+	 * @param int $id The id of the learning object.
+	 */
+	function set_publication_object_id($id)
+	{
+		$this->publication_object_id = $id;
 	}
 }
 ?>

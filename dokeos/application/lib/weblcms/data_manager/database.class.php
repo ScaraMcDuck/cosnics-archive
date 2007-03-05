@@ -78,6 +78,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$info->set_location($record[LearningObjectPublication :: PROPERTY_COURSE_ID].' &gt; '.$record[LearningObjectPublication :: PROPERTY_TOOL]);
 			//TODO: set correct URL
 			$info->set_url('index_lcms.php?tool='.$record[LearningObjectPublication :: PROPERTY_TOOL].'&amp;cidReq='.$record[LearningObjectPublication :: PROPERTY_COURSE_ID]);
+			$info->set_publication_object_id($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
 			$publication_attr[] = $info;
 		}
 		return $publication_attr;

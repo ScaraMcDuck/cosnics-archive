@@ -5,6 +5,7 @@
  */
 require_once dirname(__FILE__).'/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/quotamanager.class.php';
 /**
  * A class to display a LearningObject.
  */
@@ -140,10 +141,19 @@ abstract class LearningObjectDisplay
 	function get_versions_as_html($version_data)
 	{
 		$object = $this->get_learning_object();
+		
 		$html = array();
-		$html[] = '<div class="versions" style="margin-top: 1em;">';
+		if ($object->is_latest_version())
+		{
+			$html[] = '<div class="versions" style="margin-top: 1em;">';
+		}
+		else
+		{
+			$html[] = '<div class="versions_na" style="margin-top: 1em;">';
+		}
 		$html[] = '<div class="versions_title">'.htmlentities(get_lang('Versions')).'</div>';
 		$html[] = '<ul class="versions_list">';
+		
 		foreach ($version_data as $version)
 		{
 			if ($object->get_id() == $version['id'])
@@ -178,10 +188,56 @@ abstract class LearningObjectDisplay
 			$html[] = '</li>';
 		}
 		$html[] = '</ul>';
+		
+		$percent = $object->get_version_count() / ($object->get_version_count() + $object->get_available_version_count())* 100 ;
+		$status = $object->get_version_count() . ' / ' . ($object->get_version_count() + $object->get_available_version_count());
+		
+		$html[] = self :: get_bar($percent, $status);
+		$html[] = '</div>';
+		return implode("\n", $html);
+	}	
+	
+	/**
+	 * Build a bar-view of the used quota.
+	 * @param float $percent The percentage of the bar that is in use
+	 * @param string $status A status message which will be displayed below the
+	 * bar.
+	 * @return string HTML representation of the requested bar.
+	 */
+	private function get_bar($percent, $status)
+	{
+		$html = array();
+		$html[] = '<div class="usage_information">';
+		$html[] = '<h4>'.htmlentities(get_lang('NumberOfVersions')).'</h4>';
+		$html[] = '<div class="usage_bar">';
+		for ($i = 0; $i < 100; $i ++)
+		{
+			if ($percent > $i)
+			{
+				if ($i >= 90)
+				{
+					$class = 'very_critical';
+				}
+				elseif ($i >= 80)
+				{
+					$class = 'critical';
+				}
+				else
+				{
+					$class = 'used';
+				}
+			}
+			else
+			{
+				$class = '';
+			}
+			$html[] = '<div class="'.$class.'"></div>';
+		}
+		$html[] = '</div>';
+		$html[] = '<div class="usage_status"">'.$status.' &ndash; '.round($percent, 2).' %</div>';
 		$html[] = '</div>';
 		return implode("\n", $html);
 	}
-	
 	
 	/**
 	 * Returns the URL where the given learning object may be viewed.
