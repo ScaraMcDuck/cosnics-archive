@@ -45,6 +45,7 @@ $ForumTopicTypeName='Forum Topic';
 $ForumCreationFormTitle='Create a Forum';
 $ForumTypeName='Forum';
 $HtmlContent='HTML Content';
+$InvalidDataRetrievedFromDatabase='Invalid data retrieved from database.';
 $ItemsInChapter='Items in this Chapter';
 $LearningPathChapterCreationFormTitle='Create a Learning Path Module';
 $LearningPathChapterTypeName='Learning Path Module';

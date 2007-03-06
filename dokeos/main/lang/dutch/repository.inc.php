@@ -43,6 +43,7 @@ $ForumTopicTypeName='Forumonderwerp';
 $ForumCreationFormTitle='Nieuw forum aanmaken';
 $ForumTypeName='Forum';
 $HtmlContent='HTML-inhoud';
+$InvalidDataRetrievedFromDatabase='Ongeldige gegevens verkregen uit de databank.';
 $ItemsInChapter='Items in dit hoofdstuk';
 $LearningPathChapterCreationFormTitle='Nieuwe leerpadmodule aanmaken';
 $LearningPathChapterTypeName='Leerpadmodule';
