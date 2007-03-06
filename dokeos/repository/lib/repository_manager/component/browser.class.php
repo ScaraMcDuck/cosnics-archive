@@ -17,7 +17,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$output = $this->get_learning_objects_htm();
+		$output = $this->get_learning_objects_html();
 		$this->display_header(array(), true);
 		echo $output;
 		$this->display_footer();
@@ -26,7 +26,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 	 * Gets the  table which shows the learning objects in the currently active
 	 * category
 	 */
-	private function get_learning_objects_htm()
+	private function get_learning_objects_html()
 	{
 		$condition = $this->get_search_condition();
 		$parameters = $this->get_parameters(true);
