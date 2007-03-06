@@ -167,7 +167,7 @@ class DocumentForm extends LearningObjectForm
 		$errors = array ();
 		if (!$fields['choice'])
 		{
-			if (isset ($_FILES['file']) && isset($_FILES['file']['error']))
+			if (isset ($_FILES['file']) && isset($_FILES['file']['error']) && $_FILES['file']['error'] != 0)
 			{
 			  	switch($_FILES['file']['error']){
 			   		case 1: //uploaded file exceeds the upload_max_filesize directive in php.ini
