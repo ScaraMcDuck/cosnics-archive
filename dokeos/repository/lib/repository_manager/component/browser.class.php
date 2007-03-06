@@ -17,15 +17,16 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
+		$output = $this->get_learning_objects_htm();
 		$this->display_header(array(), true);
-		$this->display_learning_objects();
+		echo $output;
 		$this->display_footer();
 	}
 	/**
-	 * Displays the table which shows the learning objects in the currently
-	 * active category
+	 * Gets the  table which shows the learning objects in the currently active
+	 * category
 	 */
-	private function display_learning_objects()
+	private function get_learning_objects_htm()
 	{
 		$condition = $this->get_search_condition();
 		$parameters = $this->get_parameters(true);
@@ -35,7 +36,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 			$parameters[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE] = $types;
 		}
 		$table = new RepositoryBrowserTable($this, null, $parameters, $condition);
-		echo $table->as_html();
+		return $table->as_html();
 	}
 }
 ?>

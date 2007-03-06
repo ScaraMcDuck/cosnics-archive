@@ -476,7 +476,7 @@ class RepositoryManager
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->learning_object_deletion_allowed($learning_object, $type);
 	}
-	
+
 	/**
 	 * @see RepositoryDataManager::learning_object_revert_allowed()
 	 */
@@ -562,7 +562,7 @@ class RepositoryManager
 		{
 			return null;
 		}
-		
+
 		if (isset($type))
 		{
 			$param = self :: PARAM_DELETE_VERSION;
@@ -580,7 +580,7 @@ class RepositoryManager
 		}
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id(), $param => 1));
 	}
-	
+
 	/**
 	 * Gets the url to revert to a learning object version.
 	 * @param LearningObject $learning_object The learning object.
@@ -592,10 +592,10 @@ class RepositoryManager
 		{
 			return null;
 		}
-		
+
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_REVERT_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 	}
-	
+
 	/**
 	 * Gets the url to move a learning object to another category.
 	 * @param LearningObject $learning_object The learning object.
@@ -708,8 +708,15 @@ class RepositoryManager
 	 */
 	function valid_category_id($id)
 	{
-		// XXX: Extend this to actually check the known IDs.
-		return (isset ($id) && intval($id) > 0);
+		if (isset ($id) && intval($id) > 0)
+		{
+			if($this->retrieve_learning_object($id, 'category'))
+			{
+				return true;
+			}
+			return false;
+		}
+		return false;
 	}
 
 	/**
