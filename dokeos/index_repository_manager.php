@@ -10,7 +10,15 @@ if (!api_get_user_id())
 {
 	api_not_allowed();
 }
-
 $repmgr = new RepositoryManager(api_get_user_id());
-$repmgr->run();
+try
+{
+	$repmgr->run();
+}
+catch(Exception $exception)
+{
+	$repmgr->display_header();
+	Display::display_error_message($exception->getMessage());
+	$repmgr->display_footer();
+}
 ?>
