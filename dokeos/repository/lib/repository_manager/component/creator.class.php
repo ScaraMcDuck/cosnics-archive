@@ -53,12 +53,20 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		}
 		else
 		{
-			$renderer = clone $type_form->defaultRenderer();
-			$renderer->setElementTemplate('{label} {element} ');
-			$type_form->accept($renderer);
 			$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('Create')));
 			$this->display_header($breadcrumbs);
-			echo $renderer->toHTML();
+			$quotamanager = new QuotaManager($this->get_user_id());
+			if ( $quotamanager->get_available_database_space() <= 0)
+			{
+				Display :: display_warning_message(htmlentities(get_lang('MaxNumberOfLearningObjectsReached')));
+			}
+			else
+			{
+				$renderer = clone $type_form->defaultRenderer();
+				$renderer->setElementTemplate('{label} {element} ');
+				$type_form->accept($renderer);
+				echo $renderer->toHTML();
+			}
 			$this->display_footer();
 		}
 	}
