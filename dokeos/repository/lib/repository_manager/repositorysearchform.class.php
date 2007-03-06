@@ -197,10 +197,6 @@ class RepositorySearchForm extends FormValidator
 			{
 				$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $cid);
 			}
-			else
-			{
-				throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
-			}
 		}
 		$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->manager->get_user_id());
 		return (count($conditions) > 1 ? new AndCondition($conditions) : $conditions[0]);
