@@ -70,11 +70,11 @@ abstract class LearningObjectDisplay
 		$object = $this->get_learning_object();
 		$html = array();
 		$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.gif);">';
-		$html[] = '<div class="title">'. get_lang('DescriptionTypeName') .'</div>';
+		$html[] = '<div class="title">'. get_lang('Description') .'</div>';
 		$html[] = $this->get_description();
 		$html[] = '</div>';
 		$html[] = $this->get_attached_learning_objects_as_html();
-		
+
 		if ($parent_id = $object->get_parent_id())
 		{
 			$parent_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($parent_id);
@@ -133,7 +133,7 @@ abstract class LearningObjectDisplay
 		}
 		return '';
 	}
-	
+
 	/**
 	 * Returns a HTML view of the versions of the learning object.
 	 * @return string The HTML.
@@ -141,7 +141,7 @@ abstract class LearningObjectDisplay
 	function get_versions_as_html($version_data)
 	{
 		$object = $this->get_learning_object();
-		
+
 		$html = array();
 		if ($object->is_latest_version())
 		{
@@ -153,7 +153,7 @@ abstract class LearningObjectDisplay
 		}
 		$html[] = '<div class="versions_title">'.htmlentities(get_lang('Versions')).'</div>';
 		$html[] = '<ul class="versions_list">';
-		
+
 		foreach ($version_data as $version)
 		{
 			if ($object->get_id() == $version['id'])
@@ -165,7 +165,7 @@ abstract class LearningObjectDisplay
 				$html[] = '<li>';
 			}
 			$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/next.png" alt="option"/> '. $version['date'] .'&nbsp;';
-			
+
 			if (isset($version['delete_link']))
 			{
 				$html[] = '<a href="'. $version['delete_link'] .'" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version.gif" alt="'.htmlentities(get_lang('Delete')).'"/></a>';
@@ -174,7 +174,7 @@ abstract class LearningObjectDisplay
 			{
 				$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version_na.gif" alt="'.htmlentities(get_lang('Delete')).'"/>';
 			}
-				
+
 			if (isset($version['revert_link']))
 			{
 				$html[] = '&nbsp;<a href="'. $version['revert_link'] .'" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'/img/revert.gif" alt="'.htmlentities(get_lang('Revert')).'"/></a>';
@@ -182,21 +182,21 @@ abstract class LearningObjectDisplay
 			else
 			{
 				$html[] = '&nbsp;<img src="'.api_get_path(WEB_CODE_PATH).'/img/revert_na.gif" alt="'.htmlentities(get_lang('Revert')).'"/>';
-			}				
-			
+			}
+
 			$html[] = '&nbsp;<a href="'.htmlentities($version['viewing_link']).'" title="'.$version['title'].'">'.$version['title'].'</a>';
 			$html[] = '</li>';
 		}
 		$html[] = '</ul>';
-		
+
 		$percent = $object->get_version_count() / ($object->get_version_count() + $object->get_available_version_count())* 100 ;
 		$status = $object->get_version_count() . ' / ' . ($object->get_version_count() + $object->get_available_version_count());
-		
+
 		$html[] = self :: get_bar($percent, $status);
 		$html[] = '</div>';
 		return implode("\n", $html);
-	}	
-	
+	}
+
 	/**
 	 * Build a bar-view of the used quota.
 	 * @param float $percent The percentage of the bar that is in use
@@ -238,7 +238,7 @@ abstract class LearningObjectDisplay
 		$html[] = '</div>';
 		return implode("\n", $html);
 	}
-	
+
 	/**
 	 * Returns the URL where the given learning object may be viewed.
 	 * @param LearningObject $learning_object The learning object.
