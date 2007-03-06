@@ -259,7 +259,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res->free();
 		return $record[0];
 	}
-	
+
 	// Inherited
 	function count_learning_object_versions($object)
 	{
@@ -315,7 +315,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$props[$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER)] = $object->get_object_number();
 		  	$this->connection->extended->autoExecute($this->get_table_name('learning_object_version'), $props, MDB2_AUTOQUERY_INSERT);
-		}		
+		}
 		elseif($type == 'version')
 		{
 		  	$this->connection->extended->autoExecute($this->get_table_name('learning_object_version'), $props, MDB2_AUTOQUERY_UPDATE, $this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER) . '=' .$object->get_object_number());
@@ -324,7 +324,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -381,11 +381,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$query = 'DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
 			$statement = $this->connection->prepare($query);
 			$statement->execute($object->get_id());
-			
+
 			// Delete entry in version table
 			$query = 'DELETE FROM '.$this->escape_table_name('learning_object_version').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).'=?';
 			$statement = $this->connection->prepare($query);
-			$statement->execute($object->get_object_number());			
+			$statement->execute($object->get_object_number());
 
 			if ($object->is_extended())
 			{
@@ -400,27 +400,27 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		return false;
 	}
-	
-	// Inherited.	
+
+	// Inherited.
 	function delete_learning_object_version($object)
 	{
 		if( !$this->learning_object_deletion_allowed($object, 'version'))
 		{
 			return false;
 		}
-		
+
 		// Delete object
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute($object->get_id());
-		
+
 		if ($object->is_extended())
 		{
 			$query = 'DELETE FROM '.$this->escape_table_name($object->get_type()).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
 			$statement = $this->connection->prepare($query);
 			$statement->execute($object->get_id());
 		}
-		
+
 		if ($object->is_latest_version())
 		{
 			$object_number = $object->get_object_number();
@@ -430,13 +430,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$res = $statement->execute($object_number);
 			$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$res->free();
-			
+
 			$props = array();
 			$props[$this->escape_column_name(LearningObject :: PROPERTY_ID)] = $record['id'];
 			$this->connection->loadModule('Extended');
 			$this->connection->extended->autoExecute($this->get_table_name('learning_object_version'), $props, MDB2_AUTOQUERY_UPDATE, $this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER) . '=' .$object_number);
 		}
-		
+
 		return true;
 	}
 
@@ -454,7 +454,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$sth = $this->connection->prepare('DELETE FROM '.$this->escape_table_name('learning_object'));
 		$sth->execute();
 	}
-	
+
 	function is_latest_version($object)
 	{
 		$query = 'SELECT '. LearningObject :: PROPERTY_ID .' FROM ' . $this->escape_table_name('learning_object_version') . ' WHERE ' . LearningObject :: PROPERTY_OBJECT_NUMBER . '=?';
@@ -462,9 +462,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($object->get_object_number());
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-		
+
 		if ($record['id'] == $object->get_id())
-		{ 
+		{
 			return true;
 		}
 		else
@@ -472,7 +472,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			return false;
 		}
 	}
-	
+
 	function is_only_document_occurence($path)
 	{
 		$query = 'SELECT COUNT('. LearningObject :: PROPERTY_ID .') AS ids FROM ' . $this->escape_table_name('document') . ' WHERE path=?';
@@ -480,9 +480,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($path);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-		
+
 		if ($record['ids'] == 1)
-		{ 
+		{
 			return true;
 		}
 		else
@@ -741,7 +741,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		if (!is_array($record) || !count($record))
 		{
-			die('Invalid data retrieved from database');
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (LearningObject :: get_default_property_names() as $prop)
@@ -1099,7 +1099,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		return LearningObject :: is_default_property_name($name) || $name == LearningObject :: PROPERTY_TYPE || $name == LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX || $name == LearningObject :: PROPERTY_ID;
 	}
-	
+
 	function is_attached ($object, $type = null)
 	{
 		$query = 'SELECT COUNT('.$this->escape_column_name("learning_object").') FROM '.$this->escape_table_name('learning_object_attachment').' AS '.self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE .' WHERE '. self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE . '.attachment';
