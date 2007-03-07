@@ -179,7 +179,7 @@ abstract class LearningObjectForm extends FormValidator
 			$object = $this->learning_object;
 			$attached_objects = $object->get_attached_learning_objects();
 			$attachments = RepositoryUtilities :: learning_objects_for_element_finder(& $attached_objects);
-			$url = api_get_root_rel().'repository/xml_feed.php';
+			$url = api_get_path(WEB_PATH).'repository/xml_feed.php';
 			$locale = array ();
 			$locale['Display'] = get_lang('AddAttachments');
 			$locale['Searching'] = get_lang('Searching');
@@ -254,7 +254,7 @@ abstract class LearningObjectForm extends FormValidator
 	{
 		$object = $this->learning_object;
 		$values = $this->exportValues();
-		
+
 		$object->set_title($values[LearningObject :: PROPERTY_TITLE]);
 		$object->set_description($values[LearningObject :: PROPERTY_DESCRIPTION]);
 		if ($this->allows_category_selection())
@@ -277,7 +277,7 @@ abstract class LearningObjectForm extends FormValidator
 				}
 			}
 		}
-		
+
 		if (isset($values['version']) && $values['version'] == 1)
 		{
 			$object->set_comment($values[LearningObject :: PROPERTY_COMMENT]);
