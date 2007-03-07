@@ -134,7 +134,11 @@ abstract class LearningObjectForm extends FormValidator
 		{
 			if ($object->get_version_count() < $quotamanager->get_max_versions())
 			{
-				$this->addElement('checkbox','version', get_lang('CreateAsNewVersion'));
+				$this->add_element_hider('script');
+				$this->addElement('checkbox','version', get_lang('CreateAsNewVersion'), null, 'onclick="javascript:showElement(\''. LearningObject :: PROPERTY_COMMENT .'\')"');
+				$this->add_element_hider('begin', LearningObject :: PROPERTY_COMMENT);
+				$this->addElement('textarea', LearningObject :: PROPERTY_COMMENT, get_lang('VersionComment'));
+				$this->add_element_hider('end', LearningObject :: PROPERTY_COMMENT);
 			}
 			else
 			{
@@ -276,6 +280,7 @@ abstract class LearningObjectForm extends FormValidator
 		
 		if (isset($values['version']) && $values['version'] == 1)
 		{
+			$object->set_comment($values[LearningObject :: PROPERTY_COMMENT]);
 			$result = $object->version();
 		}
 		else
