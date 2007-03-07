@@ -90,6 +90,7 @@ class LearningObject implements AccessibleLearningObject
 	const PROPERTY_MODIFICATION_DATE = 'modified';
 	const PROPERTY_OBJECT_NUMBER = 'object_number';
 	const PROPERTY_STATE = 'state';
+	const PROPERTY_COMMENT = 'comment';
 	/**#@-*/
 
 	/**
@@ -194,6 +195,15 @@ class LearningObject implements AccessibleLearningObject
 	function get_description()
 	{
 		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
+	}
+	
+	/**
+	 * Returns the comment of this learning object version.
+	 * @return string The version.
+	 */
+	function get_comment()
+	{
+		return $this->get_default_property(self :: PROPERTY_COMMENT);
 	}
 
 	/**
@@ -331,6 +341,15 @@ class LearningObject implements AccessibleLearningObject
 	function set_description($description)
 	{
 		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
+	}
+	
+	/**
+	 * Sets the comment of this learning object version.
+	 * @param string $comment The comment.
+	 */
+	function set_comment($comment)
+	{
+		$this->set_default_property(self :: PROPERTY_COMMENT, $comment);
 	}
 
 	/**

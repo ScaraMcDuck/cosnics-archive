@@ -97,8 +97,15 @@ class DocumentForm extends LearningObjectForm
 		}
 		if (isset ($values['html_content']))
 		{
-			unlink($this->get_upload_path().'/'.$object->get_path());
-			$full_path = $this->get_upload_path().'/'.$object->get_path();
+			if ((isset($values['version']) && $values['version'] == 0) || !isset($values['version']))
+			{
+				unlink($this->get_upload_path().'/'.$object->get_path());
+			}
+			
+			$filename = $this->create_unique_filename($owner, $object->get_title() . '.html');
+			$path = $owner.'/'.$filename;
+			$full_path = $this->get_upload_path().'/'.$path;
+			
 			$create_file = fopen($full_path, 'w') or die('Failed to create "'.$full_path.'"');
 			fwrite($create_file, $values['html_content']);
 			fclose($create_file);
@@ -111,8 +118,12 @@ class DocumentForm extends LearningObjectForm
 				unlink($this->get_upload_path().'/'.$object->get_path());
 			}
 			$filename = $this->create_unique_filename($owner, $_FILES['file']['name']);
+			echo $filename . '<br />';
 			$path = $owner.'/'.$filename;
 			$full_path = $this->get_upload_path().'/'.$path;
+			echo $full_path . '<br />';
+			echo $path . '<br />';
+			die();
 			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
 			chmod($full_path, 0777);
 		}

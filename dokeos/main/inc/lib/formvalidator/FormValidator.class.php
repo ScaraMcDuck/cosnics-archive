@@ -253,6 +253,44 @@ EOT;
 		$html .= $message.'</div></div>';
 		$this->addElement('html', $html);
     }
+    
+	/**
+	 * Adds javascript code to hide a certain element.
+     */
+	function add_element_hider($type, $id = null)
+	{
+		if ($type == 'script')
+		{
+			$html  = '<script language="JavaScript">' .
+					 'function showElement(item)' .
+					 '{' .
+					 '	if (document.getElementById(item).style.display == \'block\')' .
+					 '  {' .
+					 '		document.getElementById(item).style.display = \'none\';' .
+					 '  }' .
+					 '	else' .
+					 '  {' .
+					 '		document.getElementById(item).style.display = \'block\';' .
+					 '		document.getElementById(item).value = \'Version comments here ...\';' .
+					 '	}' .
+					 '}' .
+					 '</script>';
+		}
+		elseif($type == 'begin')
+		{
+			$html = '<div id="'. $id .'" style="display: none;">';
+		}
+		elseif($type == 'end')
+		{
+			$html = '</div>';
+		}
+		
+		if (isset($html))
+		{
+			$this->addElement('html', $html);
+		}
+    }
+    
 	/**
 	 * Display the form.
 	 * If an element in the form didn't validate, an error message is showed
