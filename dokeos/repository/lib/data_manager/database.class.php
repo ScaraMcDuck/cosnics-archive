@@ -1079,7 +1079,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$manager->dropTable($name);
 		}
-		$manager->createTable($name,$properties);
+		$options['charset'] = 'utf8';
+		$options['collate'] = 'utf8_unicode_ci';
+		$manager->createTable($name,$properties,$options);
 		foreach($indexes as $index_name => $index_info)
 		{
 			if($index_info['type'] == 'primary')
