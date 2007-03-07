@@ -41,7 +41,7 @@ class DisabledSectionToolListRenderer extends ToolListRenderer
 			}
 		}
 		$this->show_tools('basic',$tools);
-		echo '<h4>'.get_lang('CourseAdmin').'</h4>';
+		echo '<h4>'.get_lang('CourseAdministration').'</h4>';
 		$this->show_tools('course_admin',$tools);
 		echo '<h4>'.get_lang('DisabledTools').'</h4>';
 		$this->show_tools('disabled',$tools);

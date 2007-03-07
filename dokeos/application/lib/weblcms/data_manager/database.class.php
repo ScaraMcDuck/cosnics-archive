@@ -14,7 +14,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	private $connection;
 
 	private $repoDM;
-	
+
 
 	function initialize()
 	{
@@ -476,7 +476,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$this->add_course_module($course_code,'wiki');
 			$this->add_course_module($course_code,'chat');
 			$this->add_course_module($course_code,'search');
-			$this->add_course_module($course_code,'statistics');
+			$this->add_course_module($course_code,'user');
+			$this->add_course_module($course_code,'dropbox');
+			$this->add_course_module($course_code,'exercise');
+			$this->add_course_module($course_code,'group');
+			$this->add_course_module($course_code,'learning_path');
+			$this->add_course_module($course_code,'statistics','course_admin');
+			$this->add_course_module($course_code,'course_settings','course_admin');
+			$this->add_course_module($course_code,'maintenance','course_admin');
 			return $this->get_course_modules($course_code);
 		}
 		$modules = array();

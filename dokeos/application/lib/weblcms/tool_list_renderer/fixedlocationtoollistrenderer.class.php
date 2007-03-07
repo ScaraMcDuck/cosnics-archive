@@ -33,7 +33,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			$tools[$tool->section][] = $tool;
 		}
 		$this->show_tools('basic',$tools);
-		echo '<h4>'.get_lang('CourseAdmin').'</h4>';
+		echo '<h4>'.get_lang('CourseAdministration').'</h4>';
 		$this->show_tools('course_admin',$tools);
 	}
 	/**
