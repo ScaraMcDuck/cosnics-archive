@@ -316,5 +316,47 @@ class RepositoryUtilities
 		
 		return implode($html);
 	}
+	
+	function build_block_hider($type, $id = null, $message = null)
+	{
+		$html = array();
+		
+		if ($type == 'script')
+		{
+			$html[]   = '<script language="JavaScript">';
+			$html[]  .= 'function showElement(item)';
+			$html[]  .= '{';
+			$html[]  .= '	if (document.getElementById(item).style.display == \'block\')';
+			$html[]  .= '  {';
+			$html[]  .= '		document.getElementById(item).style.display = \'none\';';
+			$html[]  .= '		document.getElementById(\'plus\').style.display = \'inline\';';
+			$html[]  .= '		document.getElementById(\'minus\').style.display = \'none\';';
+			$html[]  .= '  }';
+			$html[]  .= '	else';
+			$html[]  .= '  {';
+			$html[]  .= '		document.getElementById(item).style.display = \'block\';';
+			$html[]  .= '		document.getElementById(\'plus\').style.display = \'none\';';
+			$html[]  .= '		document.getElementById(\'minus\').style.display = \'inline\';';
+			$html[]  .= '		document.getElementById(item).value = \'Version comments here ...\';';
+			$html[]  .= '	}';
+			$html[]  .= '}';
+			$html[]  .= '</script>';
+		}
+		elseif($type == 'begin')
+		{
+			$show_message = 'Show' . $message;
+			$hide_message = 'Hide' . $message;
+			
+			$html[]    = '<div id="plus"><a href="javascript:showElement(\''. $id .'\')"><img src="'.api_get_path(WEB_CODE_PATH).'img/plus.gif">&nbsp;'. get_lang('Show' . $message) .'</a></div>';
+			$html[]    = '<div id="minus" style="display: none;"><a href="javascript:showElement(\''. $id .'\')"><img src="'.api_get_path(WEB_CODE_PATH).'img/minus.gif">&nbsp;'. get_lang('Hide' . $message) .'</a></div>';
+			$html[]   .= '<div id="'. $id .'" style="display: none;">';
+		}
+		elseif($type == 'end')
+		{
+			$html[]   = '</div>';
+		}
+		
+		return implode($html);
+	}
 }
 ?>

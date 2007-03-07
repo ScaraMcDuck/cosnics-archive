@@ -39,6 +39,22 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			
 			$version_data = array();
 			$versions = $object->get_learning_object_versions();
+			
+			$publication_attr = array();
+			
+			foreach ($object->get_learning_object_versions() as $version)
+			{
+				// If this learning object is published somewhere in an application, these locations are listed here.
+				$publications = $this->get_learning_object_publication_attributes($version->get_id());
+				$publication_attr = array_merge($publication_attr, $publications);
+			}
+			
+			if (count($versions) >= 2 || count($publication_attr) > 0)
+			{
+				echo RepositoryUtilities :: build_block_hider('script');
+				echo RepositoryUtilities :: build_block_hider('begin', 'lox', 'LearningObjectExtras');
+			}			
+			
 			if (count($versions) >= 2)
 			{
 				RepositoryUtilities :: order_learning_objects_by_id_desc(& $versions);
@@ -67,19 +83,15 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				
 				echo $display->get_versions_as_html($version_data);
 			}
-
-			$publication_attr = array();
-			
-			foreach ($object->get_learning_object_versions() as $version)
-			{
-				// If this learning object is published somewhere in an application, these locations are listed here.
-				$publications = $this->get_learning_object_publication_attributes($version->get_id());
-				$publication_attr = array_merge($publication_attr, $publications);
-			}
 			
 			if (count($publication_attr) > 0)
 			{				
 				echo RepositoryUtilities :: build_uses($publication_attr);
+			}
+			
+			if (count($versions) >= 2 || count($publication_attr) > 0)
+			{
+				echo RepositoryUtilities :: build_block_hider('end', 'lox');
 			}
 			
 			$edit_url = $this->get_learning_object_editing_url($object);
