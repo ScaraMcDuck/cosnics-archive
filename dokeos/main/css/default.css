@@ -1153,6 +1153,14 @@ ul.tree-menu li div a.quota
 }
 
 /*
+ * Tweak: Publication icon.
+ */
+ul.tree-menu li div a.publication
+{
+	background-image: url(../img/treemenu/publication.gif);
+}
+
+/*
  * Tweak: Create icon.
  */
 ul.tree-menu li div a.create

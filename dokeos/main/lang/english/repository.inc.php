@@ -62,6 +62,7 @@ $Metadata='Metadata';
 $Modified='Modified';
 $MoveSelected='Move selected items';
 $MultipleChoiceQuestionTypeName='Multiple choice question';
+$MyPublications='My publications';
 $MyRepository='My Repository';
 $NewCategory='New category';
 $NoObjectSelected='No objects were selected.';
