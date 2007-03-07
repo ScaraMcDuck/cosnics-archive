@@ -54,6 +54,7 @@ class RepositoryManager
 	const ACTION_MOVE_LEARNING_OBJECTS = 'move';
 	const ACTION_EDIT_LEARNING_OBJECT_METADATA = 'metadata';
 	const ACTION_EDIT_LEARNING_OBJECT_RIGHTS = 'rights';
+	const ACTION_VIEW_MY_PUBLICATIONS = 'publications';
 	const ACTION_VIEW_QUOTA = 'quota';
 	/**#@-*/
    /**#@+
@@ -65,6 +66,7 @@ class RepositoryManager
 	private $search_form;
 	private $category_menu;
 	private $quota_url;
+	private $publication_url;
 	private $create_url;
 	private $recycle_bin_url;
 	private $breadcrumbs;
@@ -80,6 +82,7 @@ class RepositoryManager
 		$this->set_action($_GET[self :: PARAM_ACTION]);
 		$this->parse_input_from_table();
 		$this->determine_search_settings();
+		$this->publication_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_MY_PUBLICATIONS));
 		$this->quota_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA, self :: PARAM_CATEGORY_ID => null));
 		$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_LEARNING_OBJECTS));
 		$this->recycle_bin_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => null));
@@ -130,6 +133,11 @@ class RepositoryManager
 				$this->set_parameter(self :: PARAM_CATEGORY_ID, null);
 				$this->force_menu_url($this->quota_url, true);
 				$component = RepositoryManagerComponent :: factory('QuotaViewer', $this);
+				break;
+			case self :: ACTION_VIEW_MY_PUBLICATIONS :
+				$this->set_parameter(self :: PARAM_CATEGORY_ID, null);
+				$this->force_menu_url($this->publication_url, true);
+				$component = RepositoryManagerComponent :: factory('Publications', $this);
 				break;
 			case self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS :
 				$this->set_parameter(self :: PARAM_CATEGORY_ID, null);
@@ -368,6 +376,14 @@ class RepositoryManager
 	function get_quota_url()
 	{
 		return $this->quota_url;
+	}
+	/**
+	 * Gets the URL to the publication page.
+	 * @return string The URL.
+	 */
+	function get_publication_url()
+	{
+		return $this->publication_url;
 	}
 	/**
 	 * Gets the URL to the learning object creation page.
@@ -788,6 +804,12 @@ class RepositoryManager
 			$quota['title'] = get_lang('Quota');
 			$quota['url'] = $this->get_quota_url();
 			$quota['class'] = 'quota';
+			
+			$pub = array ();
+			$pub['title'] = get_lang('MyPublications');
+			$pub['url'] = $this->get_publication_url();
+			$pub['class'] = 'publication';
+			
 			$trash = array ();
 			$trash['title'] = get_lang('RecycleBin');
 			$trash['url'] = $this->get_recycle_bin_url();
@@ -799,6 +821,8 @@ class RepositoryManager
 			{
 				$trash['class'] = 'trash';
 			}
+			// TODO: SCARA - COMMENT FOR DEMO !!!!!
+			$extra_items[] = & $pub;
 			$extra_items[] = & $trash;
 			$extra_items[] = & $create;
 			$extra_items[] = & $quota;

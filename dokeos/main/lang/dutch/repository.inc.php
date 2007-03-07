@@ -60,6 +60,7 @@ $Metadata='Metadata';
 $Modified='Laatste wijziging';
 $MoveSelected='Geselecteerde items verplaatsen';
 $MultipleChoiceQuestionTypeName='Meerkeuzevraag';
+$MyPublications='Mijn publicaties';
 $MyRepository='Mijn repository';
 $NewCategory='Nieuwe categorie';
 $NoObjectSelected='Er werden geen objecten geselecteerd.';
