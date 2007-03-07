@@ -80,6 +80,7 @@ $Remove='Verwijderen';
 $RemoveSelected='Geselecteerde items verwijderen';
 $Restore='Herstel';
 $RestoreSelected='Geselecteerde items herstellen';
+$Revert='Herstellen';
 $Rights='Rechten';
 $SearchIn='Zoeken in';
 $Searching='Bezig met zoeken...';

@@ -168,7 +168,7 @@ abstract class LearningObjectDisplay
 
 			if (isset($version['delete_link']))
 			{
-				$html[] = '<a href="'. $version['delete_link'] .'" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version.gif" alt="'.htmlentities(get_lang('Delete')).'"/></a>';
+				$html[] = '<a href="'. $version['delete_link'] .'" title="' .get_lang('Delete'). '" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version.gif" alt="'.htmlentities(get_lang('Delete')).'"/></a>';
 			}
 			else
 			{
@@ -177,7 +177,7 @@ abstract class LearningObjectDisplay
 
 			if (isset($version['revert_link']))
 			{
-				$html[] = '&nbsp;<a href="'. $version['revert_link'] .'" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'/img/revert.gif" alt="'.htmlentities(get_lang('Revert')).'"/></a>';
+				$html[] = '&nbsp;<a href="'. $version['revert_link'] .'" title="' .get_lang('Revert'). '" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'/img/revert.gif" alt="'.htmlentities(get_lang('Revert')).'"/></a>';
 			}
 			else
 			{

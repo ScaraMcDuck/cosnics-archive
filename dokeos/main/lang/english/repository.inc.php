@@ -83,6 +83,7 @@ $Remove='Remove';
 $RemoveSelected='Remove selected items';
 $Restore='Restore';
 $RestoreSelected='Restore selected items';
+$Revert='Revert';
 $Rights='Rights';
 $SearchIn='Search in';
 $Searching='Searching';
