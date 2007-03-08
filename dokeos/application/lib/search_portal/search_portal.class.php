@@ -242,7 +242,7 @@ END;
 	 * learning objects.
 	 * @return array An empty array.
 	 */
-	function get_learning_object_publication_attributes($object_id)
+	function get_learning_object_publication_attributes($object_id, $type = null)
 	{
 		return array ();
 	}

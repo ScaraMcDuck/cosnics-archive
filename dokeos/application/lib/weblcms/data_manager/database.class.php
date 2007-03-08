@@ -62,11 +62,23 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $res->numRows() == 1;
 	}
 
-	function get_learning_object_publication_attributes($object_id)
+	function get_learning_object_publication_attributes($object_id, $type = null)
 	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID).'=?';
-		$statement = $this->connection->prepare($query);
-		$res = $statement->execute($object_id);
+		if (isset($type))
+		{
+			if ($type == 'user')
+			{
+				$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLISHER_ID).'=?';
+				$statement = $this->connection->prepare($query);
+				$res = $statement->execute(api_get_user_id());
+			}			
+		}
+		else
+		{
+			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID).'=?';
+			$statement = $this->connection->prepare($query);
+			$res = $statement->execute($object_id);
+		}
 		$publication_attr = array();
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{

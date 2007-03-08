@@ -347,8 +347,8 @@ class RepositoryUtilities
 			$show_message = 'Show' . $message;
 			$hide_message = 'Hide' . $message;
 			
-			$html[]    = '<div id="plus"><a href="javascript:showElement(\''. $id .'\')"><img src="'.api_get_path(WEB_CODE_PATH).'img/plus.gif">&nbsp;'. get_lang('Show' . $message) .'</a></div>';
-			$html[]    = '<div id="minus" style="display: none;"><a href="javascript:showElement(\''. $id .'\')"><img src="'.api_get_path(WEB_CODE_PATH).'img/minus.gif">&nbsp;'. get_lang('Hide' . $message) .'</a></div>';
+			$html[]    = '<div id="plus"><a href="javascript:showElement(\''. $id .'\')">'. get_lang('Show' . $message) .'</a></div>';
+			$html[]    = '<div id="minus" style="display: none;"><a href="javascript:showElement(\''. $id .'\')">'. get_lang('Hide' . $message) .'</a></div>';
 			$html[]   .= '<div id="'. $id .'" style="display: none;">';
 		}
 		elseif($type == 'end')

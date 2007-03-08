@@ -505,10 +505,10 @@ class RepositoryManager
 	/**
 	 * @see RepositoryDataManager::get_learning_object_publication_attributes()
 	 */
-	function get_learning_object_publication_attributes($id)
+	function get_learning_object_publication_attributes($id, $type = null)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->get_learning_object_publication_attributes($id);
+		return $rdm->get_learning_object_publication_attributes($id, $type);
 	}
 	/**
 	 * Gets the url to view a learning object.
@@ -821,7 +821,6 @@ class RepositoryManager
 			{
 				$trash['class'] = 'trash';
 			}
-			// TODO: SCARA - COMMENT FOR DEMO !!!!!
 			$extra_items[] = & $pub;
 			$extra_items[] = & $trash;
 			$extra_items[] = & $create;

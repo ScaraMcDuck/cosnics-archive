@@ -4,8 +4,8 @@
  */
 
 require_once dirname(__FILE__).'/publicationtablecellrenderer.class.php';
-require_once dirname(__FILE__).'/../learningobjectpublication.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/learningobject.class.php';
+require_once dirname(__FILE__).'/../learningobject.class.php';
+require_once dirname(__FILE__).'/../learningobjectpublicationattributes.class.php';
 /**
  * TODO: Add comment
  */
@@ -30,15 +30,15 @@ class DefaultPublicationTableCellRenderer implements PublicationTableCellRendere
 		{
 			switch ($property)
 			{
-				case LearningObjectPublication :: PROPERTY_ID :
-					return $learning_object_publication->get_id();
-				case LearningObjectPublication :: PROPERTY_COURSE_ID :
-					return $learning_object_publication->get_course_id();
-				case LearningObjectPublication :: PROPERTY_TOOL :
-					return $learning_object_publication->get_tool();
+				case LearningObjectPublicationAttributes :: PROPERTY_PUBLICATION_OBJECT :
+					return $learning_object_publication->get_publication_object_id();
+				case LearningObjectPublicationAttributes :: PROPERTY_APPLICATION :
+					return $learning_object_publication->get_application();
+				case LearningObjectPublicationAttributes :: PROPERTY_LOCATION :
+					return $learning_object_publication->get_location();
 				case LearningObject :: PROPERTY_TITLE :
-					return $learning_object_publication->get_learning_object()->get_title();
-				case LearningObjectPublication :: PROPERTY_PUBLICATION_DATE :
+					return $learning_object_publication->get_publication_object()->get_title();
+				case LearningObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE :
 					return $learning_object_publication->get_publication_date();
 			}
 		}

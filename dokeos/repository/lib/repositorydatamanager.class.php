@@ -194,7 +194,7 @@ abstract class RepositoryDataManager
 	 * @return array An array of LearningObjectPublicationAttributes objects;
 	 *               empty if the object has not been published anywhere.
 	 */
-	function get_learning_object_publication_attributes($id)
+	function get_learning_object_publication_attributes($id, $type = null)
 	{
 		$applications = $this->get_registered_applications();
 		$info = array();
@@ -202,7 +202,7 @@ abstract class RepositoryDataManager
 		{
 			$application_class = self::application_to_class($application_name);
 			$application = new $application_class;
-			$info = array_merge($info, $application->get_learning_object_publication_attributes($id));
+			$info = array_merge($info, $application->get_learning_object_publication_attributes($id, $type));
 		}
 		return $info;
 	}

@@ -234,9 +234,9 @@ abstract class RepositoryManagerComponent {
 	/**
 	 * @see RepositoryManager::get_learning_object_publication_attributes()
 	 */
-	function get_learning_object_publication_attributes($id)
+	function get_learning_object_publication_attributes($id, $type = null)
 	{
-		return $this->get_parent()->get_learning_object_publication_attributes($id);
+		return $this->get_parent()->get_learning_object_publication_attributes($id, $type);
 	}
 	/**
 	 * @see RepositoryManager::get_learning_object_viewing_url()

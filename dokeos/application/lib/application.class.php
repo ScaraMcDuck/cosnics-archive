@@ -42,6 +42,6 @@ abstract class Application
 	 * @return array An array of LearningObjectPublicationAttributes objects;
 	 *               empty if the object has not been published anywhere.
 	 */
-	abstract function get_learning_object_publication_attributes($object_id);
+	abstract function get_learning_object_publication_attributes($object_id, $type = null);
 }
 ?>

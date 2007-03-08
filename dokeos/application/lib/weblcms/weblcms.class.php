@@ -311,9 +311,9 @@ class Weblcms extends WebApplication
 	/*
 	 * Inherited
 	 */
-	function get_learning_object_publication_attributes($object_id)
+	function get_learning_object_publication_attributes($object_id, $type = null)
 	{
-		return WeblcmsDataManager :: get_instance()->get_learning_object_publication_attributes($object_id);
+		return WeblcmsDataManager :: get_instance()->get_learning_object_publication_attributes($object_id, $type);
 	}
 	/**
 	 * Gets the date of the last visit of current user to the current location

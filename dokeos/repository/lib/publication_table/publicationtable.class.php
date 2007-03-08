@@ -16,7 +16,7 @@ class PublicationTable
 	/**
 	 * Default table name
 	 */
-	const DEFAULT_NAME = 'learning_objects';
+	const DEFAULT_NAME = 'learning_object_publication';
 	/**
 	 * Suffix for checkbox name when using actions on selected learning objects.
 	 */
@@ -100,7 +100,7 @@ class PublicationTable
 	 */
 	function as_html()
 	{
-		$table = new SortableTable($this->get_name(), array ($this, 'get_learning_object_count'), array ($this, 'get_learning_objects'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction());
+		$table = new SortableTable($this->get_name(), array ($this, 'get_learning_object_count'), array ($this, 'get_learning_object_publication_attributes'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction());
 		$table->set_additional_parameters($this->get_additional_parameters());
 		if ($this->has_form_actions())
 		{
@@ -267,17 +267,17 @@ class PublicationTable
 	 * You should not be concerned with this method. It is only public because
 	 * of technical limitations.
 	 */
-	function get_learning_objects($offset, $count, $order_column, $order_direction)
+	function get_learning_object_publication_attributes($offset, $count, $order_column, $order_direction)
 	{
-		$objects = $this->get_data_provider()->get_learning_objects($offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_learning_object_property(), $order_direction);
+		$objects = $this->get_data_provider()->get_learning_object_publication_attributes($offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_learning_object_property(), $order_direction);
 		$table_data = array ();
 		$column_count = $this->get_column_model()->get_column_count();
-		while ($object = $objects->next_result())
+		foreach ($objects as $object)
 		{
 			$row = array ();
 			if ($this->has_form_actions())
 			{
-				$row[] = $object->get_id();
+				$row[] = $object->get_publication_object_id();
 			}
 			for ($i = 0; $i < $column_count; $i ++)
 			{
