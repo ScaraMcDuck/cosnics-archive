@@ -19,7 +19,7 @@ set_time_limit(0);
  */
 
 
-$users = 1;
+$users = 2;
 
 $max_categories = array (3,2);
 
