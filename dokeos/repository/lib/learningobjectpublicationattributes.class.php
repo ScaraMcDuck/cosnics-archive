@@ -3,6 +3,7 @@
  * $Id$
  * @package repository
  */
+require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 /**
  * Instances of this class group generic information about a publication of
  * a learning object within an application.
@@ -13,6 +14,12 @@
 
 class LearningObjectPublicationAttributes
 {
+	const PROPERTY_APPLICATION = 'application';
+	const PROPERTY_LOCATION = 'location';
+	const PROPERTY_PUBLICATION_DATE = 'publication_date';
+	const PROPERTY_PUBLICATION_OBJECT = 'publication_object';
+	const PROPERTY_PUBLICATION_USER = 'publication_user';
+	const PROPERTY_URL = 'url';
 	/**
 	 * The name of the application in which the learning object was published.
 	 */
@@ -151,6 +158,17 @@ class LearningObjectPublicationAttributes
 	function get_publication_object_id()
 	{
 		return $this->publication_object_id;
+	}
+	
+	/**
+	 * Gets the id of the learning object being published.
+	 * @return int The id of the learning object.
+	 */
+	function get_publication_object()
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+
+		return $rdm->retrieve_learning_object($this->publication_object_id);
 	}
 
 	/**

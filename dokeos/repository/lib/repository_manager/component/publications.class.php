@@ -3,7 +3,7 @@
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
-require_once dirname(__FILE__).'/browser/repositorybrowsertable.class.php';
+require_once dirname(__FILE__).'/publicationbrowser/publicationbrowsertable.class.php';
 /**
  * Repository manager component which displays the quota to the user.
  *
@@ -39,10 +39,19 @@ class RepositoryManagerPublicationsComponent extends RepositoryManagerComponent
 		{
 			$application_class = $rdm->application_to_class($application_name);
 			$application = new $application_class;
-			$info = array_merge($info, $application->get_learning_object_publication_attributes('5'));
+			$info = array_merge($info, $application->get_learning_object_publication_attributes(null, 'user'));
 		}
 		
-		//print_r($info);
+		$condition = $this->get_search_condition();
+		$parameters = $this->get_parameters(true);
+		$types = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE];
+		if (is_array($types) && count($types))
+		{
+			$parameters[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE] = $types;
+		}
+		
+		$table = new PublicationBrowserTable($this, null, $parameters, $condition);
+		return $table->as_html();
 	}
 	
 	
