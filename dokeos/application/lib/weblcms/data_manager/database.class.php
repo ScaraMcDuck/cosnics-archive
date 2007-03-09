@@ -62,7 +62,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $res->numRows() == 1;
 	}
 
-	function get_learning_object_publication_attributes($object_id, $type = null)
+	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		if (isset($type))
 		{
@@ -70,15 +70,23 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			{
 				$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLISHER_ID).'=?';
 				$statement = $this->connection->prepare($query);
-				$res = $statement->execute(api_get_user_id());
+				$param = api_get_user_id();
 			}			
 		}
 		else
 		{
 			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID).'=?';
 			$statement = $this->connection->prepare($query);
-			$res = $statement->execute($object_id);
+			$param = $object_id;
 		}
+		
+		// TODO: SCARA - Add ordering of results
+		print_r($order_property);
+		echo '<br />';
+		print_r($order_direction);
+		
+		$res = $statement->execute($param);		
+		
 		$publication_attr = array();
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
@@ -94,6 +102,22 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$publication_attr[] = $info;
 		}
 		return $publication_attr;
+	}
+	
+	function count_publication_attributes($type = null, $condition = null)
+	{
+		$params = array ();
+		$query = 'SELECT COUNT('.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLISHER_ID).'=?';;
+		
+//		if (isset ($condition))
+//		{
+//			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+//		}
+		
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute(api_get_user_id());
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $record[0];
 	}
 
 	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)

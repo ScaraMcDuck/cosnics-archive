@@ -311,10 +311,19 @@ class Weblcms extends WebApplication
 	/*
 	 * Inherited
 	 */
-	function get_learning_object_publication_attributes($object_id, $type = null)
+	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return WeblcmsDataManager :: get_instance()->get_learning_object_publication_attributes($object_id, $type);
+		return WeblcmsDataManager :: get_instance()->get_learning_object_publication_attributes($object_id, $type, $offset, $count, $order_property, $order_direction);
 	}
+	
+	/*
+	 * Inherited
+	 */
+	function count_publication_attributes($type = null, $condition = null)
+	{
+		return WeblcmsDataManager :: get_instance()->count_publication_attributes($type, $condition);
+	}
+	
 	/**
 	 * Gets the date of the last visit of current user to the current location
 	 * @param string $tool If $tool equals null, current active tool will be

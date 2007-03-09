@@ -54,7 +54,7 @@ class RepositoryManager
 	const ACTION_MOVE_LEARNING_OBJECTS = 'move';
 	const ACTION_EDIT_LEARNING_OBJECT_METADATA = 'metadata';
 	const ACTION_EDIT_LEARNING_OBJECT_RIGHTS = 'rights';
-	const ACTION_VIEW_MY_PUBLICATIONS = 'publications';
+	const ACTION_VIEW_MY_PUBLICATIONS = 'publicationbrowser';
 	const ACTION_VIEW_QUOTA = 'quota';
 	/**#@-*/
    /**#@+
@@ -82,7 +82,7 @@ class RepositoryManager
 		$this->set_action($_GET[self :: PARAM_ACTION]);
 		$this->parse_input_from_table();
 		$this->determine_search_settings();
-		$this->publication_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_MY_PUBLICATIONS));
+		$this->publication_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_MY_PUBLICATIONS), false, false, 'dddd');
 		$this->quota_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA, self :: PARAM_CATEGORY_ID => null));
 		$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_LEARNING_OBJECTS));
 		$this->recycle_bin_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => null));
@@ -137,7 +137,7 @@ class RepositoryManager
 			case self :: ACTION_VIEW_MY_PUBLICATIONS :
 				$this->set_parameter(self :: PARAM_CATEGORY_ID, null);
 				$this->force_menu_url($this->publication_url, true);
-				$component = RepositoryManagerComponent :: factory('Publications', $this);
+				$component = RepositoryManagerComponent :: factory('PublicationBrowser', $this);
 				break;
 			case self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS :
 				$this->set_parameter(self :: PARAM_CATEGORY_ID, null);
@@ -308,6 +308,7 @@ class RepositoryManager
 		{
 			return array_merge($this->search_parameters, $this->parameters);
 		}
+		
 		return $this->parameters;
 	}
 	/**
@@ -411,7 +412,7 @@ class RepositoryManager
 	 * resulting URL ? (default = false).
 	 * @return string The requested URL.
 	 */
-	function get_url($additional_parameters = array (), $include_search = false, $encode_entities = false)
+	function get_url($additional_parameters = array (), $include_search = false, $encode_entities = false, $x = null)
 	{
 		$eventual_parameters = array_merge($this->get_parameters($include_search), $additional_parameters);
 		$url = $_SERVER['PHP_SELF'].'?'.http_build_query($eventual_parameters);
@@ -419,6 +420,7 @@ class RepositoryManager
 		{
 			$url = htmlentities($url);
 		}
+	
 		return $url;
 	}
 	/**
@@ -484,6 +486,13 @@ class RepositoryManager
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->count_learning_objects($type, $condition, $state, $different_parent_state);
 	}
+	
+	function count_publication_attributes($type = null, $condition = null)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return $rdm->count_publication_attributes($type, $condition);
+	}
+	
 	/**
 	 * @see RepositoryDataManager::learning_object_deletion_allowed()
 	 */
@@ -505,10 +514,10 @@ class RepositoryManager
 	/**
 	 * @see RepositoryDataManager::get_learning_object_publication_attributes()
 	 */
-	function get_learning_object_publication_attributes($id, $type = null)
+	function get_learning_object_publication_attributes($id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->get_learning_object_publication_attributes($id, $type);
+		return $rdm->get_learning_object_publication_attributes($id, $type, $offset, $count, $order_property, $order_direction);
 	}
 	/**
 	 * Gets the url to view a learning object.

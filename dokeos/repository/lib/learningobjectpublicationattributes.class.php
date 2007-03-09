@@ -16,7 +16,7 @@ class LearningObjectPublicationAttributes
 {
 	const PROPERTY_APPLICATION = 'application';
 	const PROPERTY_LOCATION = 'location';
-	const PROPERTY_PUBLICATION_DATE = 'publication_date';
+	const PROPERTY_PUBLICATION_DATE = 'published';
 	const PROPERTY_PUBLICATION_OBJECT = 'publication_object';
 	const PROPERTY_PUBLICATION_USER = 'publication_user';
 	const PROPERTY_URL = 'url';

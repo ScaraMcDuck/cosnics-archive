@@ -269,6 +269,7 @@ class RepositorySearchForm extends FormValidator
 				}
 			}
 		}
+		
 		return $conditions;
 	}
 	/**

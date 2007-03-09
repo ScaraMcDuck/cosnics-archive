@@ -194,7 +194,7 @@ abstract class RepositoryDataManager
 	 * @return array An array of LearningObjectPublicationAttributes objects;
 	 *               empty if the object has not been published anywhere.
 	 */
-	function get_learning_object_publication_attributes($id, $type = null)
+	function get_learning_object_publication_attributes($id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		$applications = $this->get_registered_applications();
 		$info = array();
@@ -202,8 +202,9 @@ abstract class RepositoryDataManager
 		{
 			$application_class = self::application_to_class($application_name);
 			$application = new $application_class;
-			$info = array_merge($info, $application->get_learning_object_publication_attributes($id, $type));
+			$info = array_merge($info, $application->get_learning_object_publication_attributes($id, $type, $offset, $count, $order_property, $order_direction));
 		}
+		
 		return $info;
 	}
 
@@ -394,6 +395,46 @@ abstract class RepositoryDataManager
 	 * @return int The number of matching learning objects.
 	 */
 	abstract function count_learning_objects($type = null, $condition = null, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false);
+	
+	/**
+	 * Returns the number of learning objects that match the given criteria.
+	 * This method has the same limitations as retrieve_learning_objects.
+	 * @param string $type The type of learning objects to search for, if any.
+	 *                     If you do not specify a type, or the type is not
+	 *                     known in advance, you will only be able to select
+	 *                     on default properties; also, there will be a
+	 *                     significant performance decrease.
+	 * @param Condition $condition The condition to use for learning object
+	 *                             selection, structured as a Condition
+	 *                             object. Please consult the appropriate
+	 *                             documentation.
+	 * @param int $state The state the learning objects should have. Any of
+	 *                   the LearningObject :: STATE_* constants. A negative
+	 *                   number means the state should be ignored. Defaults
+	 *                   to LearningObject :: STATE_NORMAL. You can just as
+	 *                   easily use your own condition for this; this
+	 *                   parameter is merely for convenience, and to ensure
+	 *                   that the function does not apply to recycled objects
+	 *                   by default.
+	 * @param boolean $different_parent_state True to enforce that the parent
+	 *                                        learning object's state be
+	 *                                        different from $state. This is
+	 *                                        useful when retrieving removed
+	 *                                        tree structures.
+	 * @return int The number of matching learning objects.
+	 */
+	function count_publication_attributes($type = null, $condition = null)
+	{
+		$applications = $this->get_registered_applications();
+		$info = 0;
+		foreach($applications as $index => $application_name)
+		{
+			$application_class = self::application_to_class($application_name);
+			$application = new $application_class;
+			$info += $application->count_publication_attributes($type, $condition);
+		}
+		return $info;
+	}	
 
 	/**
 	 * Returns the next available learning object publication ID.

@@ -17,7 +17,7 @@ class DefaultPublicationTableColumnModel extends PublicationTableColumnModel
 	 */
 	function DefaultPublicationTableColumnModel()
 	{
-		parent :: __construct(self :: get_default_columns(), 1);
+		parent :: __construct(self :: get_default_columns(), 3);
 	}
 	/**
 	 * Gets the default columns for this model

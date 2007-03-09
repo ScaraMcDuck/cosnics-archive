@@ -70,8 +70,8 @@ class PublicationTable
 	{
 		$this->set_data_provider($data_provider);
 		$this->set_name(isset($table_name) ? $table_name : self :: DEFAULT_NAME);
-		$this->set_column_model(isset ($column_model) ? $column_model : new DefaultLearningObjectTableColumnModel());
-		$this->set_cell_renderer(isset ($cell_renderer) ? $cell_renderer : new DefaultLearningObjectTableCellRenderer());
+		$this->set_column_model(isset ($column_model) ? $column_model : new DefaultPublicationTableColumnModel());
+		$this->set_cell_renderer(isset ($cell_renderer) ? $cell_renderer : new DefaultPublicationTableCellRenderer());
 		$this->set_default_row_count(10);
 		$this->set_additional_parameters($this->determine_additional_parameters());
 	}
@@ -100,7 +100,7 @@ class PublicationTable
 	 */
 	function as_html()
 	{
-		$table = new SortableTable($this->get_name(), array ($this, 'get_learning_object_count'), array ($this, 'get_learning_object_publication_attributes'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction());
+		$table = new SortableTable($this->get_name(), array ($this, 'get_learning_object_publication_count'), array ($this, 'get_learning_object_publication_attributes'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction());
 		$table->set_additional_parameters($this->get_additional_parameters());
 		if ($this->has_form_actions())
 		{
@@ -292,9 +292,9 @@ class PublicationTable
 	 * You should not be concerned with this method. It is only public because
 	 * of technical limitations.
 	 */
-	function get_learning_object_count()
+	function get_learning_object_publication_count()
 	{
-		return $this->get_data_provider()->get_learning_object_count();
+		return $this->get_data_provider()->get_learning_object_publication_count();
 	}
 }
 ?>

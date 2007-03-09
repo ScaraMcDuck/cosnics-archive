@@ -30,20 +30,10 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 		{
 			return $this->get_modification_links($learning_object);
 		}
+		
+		// Add special features here
 		switch ($column->get_learning_object_property())
 		{
-//			case LearningObject :: PROPERTY_TYPE :
-//				return '<a href="'.htmlentities($this->browser->get_type_filter_url($learning_object->get_type())).'">'.parent :: render_cell($column, $learning_object).'</a>';
-//			case LearningObject :: PROPERTY_TITLE :
-//				$title = parent :: render_cell($column, $learning_object);
-//				$title_short = $title;
-//				if(strlen($title_short) > 53)
-//				{
-//					$title_short = mb_substr($title_short,0,50).'&hellip;';
-//				}
-//				return '<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.$title.'">'.$title_short.'</a>';
-//			case LearningObject :: PROPERTY_MODIFICATION_DATE:
-//				return format_locale_date(get_lang('dateFormatShort').', '.get_lang('timeNoSecFormat'),$learning_object->get_modification_date());
 		}
 		return parent :: render_cell($column, $learning_object);
 	}
