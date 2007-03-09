@@ -143,7 +143,7 @@ class DocumentForm extends LearningObjectForm
 		//If first letter is . add something before
 		$valid_filename = eregi_replace("^\.","0.",$valid_filename);
 		//Replace accented characters
-		$valid_filename = strtr($valid_filename, "��������������������������", "aaaaaaceeeeiiiidnoooooouuuuyyaaaaaaceeeeiiiidnoooooouuuuyy");
+		$valid_filename = strtr($valid_filename, 'àáâãäåçèéêëìíîïðñòóôõöøùúûüýÿÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞ', 'aaaaaaceeeeiiiidnoooooouuuuyyaaaaaaceeeeiiiidnoooooouuuuyy');
 		//Replace all except letters, numbers, - and . to underscores
 	    $valid_filename =  ereg_replace('[^0-9a-zA-Z\-\.]', '_',$valid_filename);
 	    //Replace set of underscores by a single underscore
