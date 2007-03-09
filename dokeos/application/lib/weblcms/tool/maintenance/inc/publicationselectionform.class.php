@@ -1,4 +1,13 @@
 <?php
+/**
+ * $Id: course_settingstool.class.php 9222 2006-09-15 09:19:38Z bmol $
+ * Course maintenance tool: Publication selection form
+ * @package application.weblcms.tool
+ * @subpackage maintenance
+ */
+/**
+ * This form can be used to let the user select publications in the course.
+ */
 class PublicationSelectionForm extends FormValidator
 {
 	public function PublicationSelectionForm($parent)

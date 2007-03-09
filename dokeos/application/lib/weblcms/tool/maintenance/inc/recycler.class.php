@@ -1,5 +1,16 @@
 <?php
+/**
+ * $Id: course_settingstool.class.php 9222 2006-09-15 09:19:38Z bmol $
+ * Course maintenance tool
+ * @package application.weblcms.tool
+ * @subpackage maintenance
+ */
 require_once dirname(__FILE__).'/publicationselectionform.class.php';
+/**
+ * This tool provides the functionality to remove a set of publications from a
+ * course. This will not remove the learning objects from the repository, only
+ * the publications are removed.
+ */
 class Recycler
 {
 	private $parent;
