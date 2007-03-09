@@ -201,6 +201,15 @@ abstract class RepositoryManagerComponent {
 	{
 		return $this->get_parent()->count_learning_objects($type, $condition, $state, $different_parent_state);
 	}
+	
+	/**
+	 * @see RepositoryManager::count_learning_objects()
+	 */
+	function count_publication_attributes($type = null, $condition = null)
+	{
+		return $this->get_parent()->count_publication_attributes($type, $condition);
+	}
+	
 	/**
 	 * Gets the number of categories the user has defined in his repository
 	 * @todo This function should probably move to repositorymanager
@@ -234,9 +243,9 @@ abstract class RepositoryManagerComponent {
 	/**
 	 * @see RepositoryManager::get_learning_object_publication_attributes()
 	 */
-	function get_learning_object_publication_attributes($id, $type = null)
+	function get_learning_object_publication_attributes($id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->get_parent()->get_learning_object_publication_attributes($id, $type);
+		return $this->get_parent()->get_learning_object_publication_attributes($id, $type, $offset, $count, $order_property, $order_direction);
 	}
 	/**
 	 * @see RepositoryManager::get_learning_object_viewing_url()

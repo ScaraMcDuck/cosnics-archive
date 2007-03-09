@@ -8,6 +8,8 @@ interface PublicationTableDataProvider
 {
     function get_learning_object_publication_attributes($offset, $count, $order_property, $order_direction);
 
-    function get_learning_object_count();
+    function get_learning_object_publication_count();
+    
+    function organize_publication_attributes($publication_attributes, $offset, $count, $order_property, $order_direction);
 }
 ?>
