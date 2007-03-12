@@ -12,24 +12,15 @@ require_once dirname(__FILE__).'/maintenancewizardpage.class.php';
  */
 class ConfirmationMaintenanceWizardPage extends MaintenanceWizardPage
 {
+	private $message;
+	public function ConfirmationMaintenanceWizardPage($name,$parent,$message)
+	{
+		parent::MaintenanceWizardPage($name,$parent);
+		$this->message = $message;
+	}
 	function buildForm()
 	{
-		switch($values['action'])
-		{
-			case ActionSelectionMaintenanceWizardPage::ACTION_EMPTY:
-				$info = 'EMPTY';
-				break;
-			case ActionSelectionMaintenanceWizardPage::ACTION_COPY:
-				$info = 'COPY';
-				break;
-			case ActionSelectionMaintenanceWizardPage::ACTION_BACKUP:
-				$info = 'BACKUP';
-				break;
-			case ActionSelectionMaintenanceWizardPage::ACTION_DELETE:
-				$info = 'DELETE';
-				break;
-		}
-		$this->addElement('static','',$info);
+		$this->addElement('static','','',$this->message);
 		$this->addElement('checkbox', 'confirm',' ', get_lang('Confirm'));
 		$this->addRule('confirm',get_lang('ThisFieldIsRequired'),'required');
 		$prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));

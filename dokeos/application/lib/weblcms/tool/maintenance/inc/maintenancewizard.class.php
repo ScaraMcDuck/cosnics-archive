@@ -18,11 +18,28 @@ class MaintenanceWizard extends HTML_QuickForm_Controller
 		$this->addAction('process', new MaintenanceWizardProcess($this->parent));
 		$this->addAction('display', new MaintenanceWizardDisplay($this->parent));
 		$values = $this->exportValues();
-		if( $values['action'] == ActionSelectionMaintenanceWizardPage::ACTION_EMPTY || (isset($_POST['action']) && $_POST['action'] == ActionSelectionMaintenanceWizardPage::ACTION_EMPTY))
+		$action = null;
+		$action = isset($values['action']) ? $values['action'] : null;
+		$action = is_null($action) ? $_POST['action']  : $action;
+		//echo $action;
+		switch($action)
 		{
-			$this->addPage(new PublicationSelectionMaintenanceWizardPage('publication_selection',$this->parent));
+			case  ActionSelectionMaintenanceWizardPage::ACTION_EMPTY:
+				$this->addPage(new PublicationSelectionMaintenanceWizardPage('publication_selection',$this->parent));
+				$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation',$this->parent,get_lang('EmptyConfirmationQuestion')));
+				break;
+			case  ActionSelectionMaintenanceWizardPage::ACTION_COPY:
+				$this->addPage(new PublicationSelectionMaintenanceWizardPage('publication_selection',$this->parent));
+				$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation',$this->parent,get_lang('CopyConfirmationQuestion')));
+				break;
+			case  ActionSelectionMaintenanceWizardPage::ACTION_BACKUP:
+				$this->addPage(new PublicationSelectionMaintenanceWizardPage('publication_selection',$this->parent));
+				$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation',$this->parent,get_lang('BackupConfirmationQuestion')));
+				break;
+			case  ActionSelectionMaintenanceWizardPage::ACTION_DELETE:
+				$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation',$this->parent,get_lang('DeleteConfirmationQuestion')));
+				break;
 		}
-		$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation',$this->parent));
 	}
 	function run()
 	{
