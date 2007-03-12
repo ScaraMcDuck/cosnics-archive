@@ -56,6 +56,7 @@ class RepositoryManager
 	const ACTION_EDIT_LEARNING_OBJECT_RIGHTS = 'rights';
 	const ACTION_VIEW_MY_PUBLICATIONS = 'publicationbrowser';
 	const ACTION_VIEW_QUOTA = 'quota';
+	const ACTION_COMPARE_LEARNING_OBJECTS = 'compare';
 	/**#@-*/
    /**#@+
     * Property of this repository manager.
@@ -103,6 +104,9 @@ class RepositoryManager
 		{
 			case self :: ACTION_VIEW_LEARNING_OBJECTS :
 				$component = RepositoryManagerComponent :: factory('Viewer', $this);
+				break;
+			case self :: ACTION_COMPARE_LEARNING_OBJECTS :
+				$component = RepositoryManagerComponent :: factory('Comparer', $this);
 				break;
 			case self :: ACTION_CREATE_LEARNING_OBJECTS :
 				$this->force_menu_url($this->create_url, true);

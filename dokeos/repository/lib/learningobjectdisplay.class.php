@@ -153,7 +153,8 @@ abstract class LearningObjectDisplay
 		}
 		$html[] = '<div class="versions_title">'.htmlentities(get_lang('Versions')).'</div>';
 		$html[] = '<ul class="versions_list">';
-
+		//TODO: XIS: change action
+		$html[] = '<form method="post" action="index_repository_manager.php?go=compare">';
 		foreach ($version_data as $version)
 		{
 			if ($object->get_id() == $version['id'])
@@ -164,8 +165,9 @@ abstract class LearningObjectDisplay
 			{
 				$html[] = '<li>';
 			}
-			$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/next.png" alt="option"/> '. $version['date'] .'&nbsp;';
-
+			$html[] = '<input type="radio" name="vgl1" value="'.$version['id'].'" />';
+			$html[] = '<input type="radio" name="vgl2" value="'.$version['id'].'" />';
+			$html[] = $version['date'] .'&nbsp;';
 			if (isset($version['delete_link']))
 			{
 				$html[] = '<a href="'. $version['delete_link'] .'" title="' .get_lang('Delete'). '" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version.gif" alt="'.htmlentities(get_lang('Delete')).'"/></a>';
@@ -187,7 +189,7 @@ abstract class LearningObjectDisplay
 			$html[] = '&nbsp;<a href="'.htmlentities($version['viewing_link']).'" title="'.$version['title'].'">'.$version['title'].'</a>';
 			$html[] = '</li>';
 		}
-		$html[] = '</ul>';
+		$html[] = '</ul><input type="submit" value="'.get_lang('CompareVersions').'" /></form>';
 
 		$percent = $object->get_version_count() / ($object->get_version_count() + $object->get_available_version_count())* 100 ;
 		$status = $object->get_version_count() . ' / ' . ($object->get_version_count() + $object->get_available_version_count());
