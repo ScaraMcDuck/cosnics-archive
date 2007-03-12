@@ -6,16 +6,14 @@
  * @subpackage maintenance
  */
 require_once dirname(__FILE__).'/../repositorytool.class.php';
-require_once dirname(__FILE__).'/inc/recycler.class.php';
+require_once dirname(__FILE__).'/inc/maintenancewizard.class.php';
+
 class MaintenanceTool extends RepositoryTool
 {
 	function run()
 	{
-		$this->display_header();
-		echo '<strong>Only sample recycle tool implemented at this moment.</strong>';
-		$recycler = new Recycler($this);
-		$recycler->run();
-		$this->display_footer();
+		$wizard = new MaintenanceWizard($this);
+		$wizard->run();
 	}
 }
 ?>
