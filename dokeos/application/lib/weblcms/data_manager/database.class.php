@@ -11,8 +11,11 @@ require_once dirname(__FILE__).'/../learningobjectpublicationcategory.class.php'
 
 class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 {
+	
+	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
+	const ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE = 'lop';
+	
 	private $connection;
-
 	private $repoDM;
 
 
@@ -68,10 +71,38 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			if ($type == 'user')
 			{
-				$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLISHER_ID).'=?';
+				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->escape_column_name('title') .' FROM '.$this->escape_table_name('learning_object_publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.$this->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`learning_object` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
+				$query .= ' WHERE '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLISHER_ID).'=?';
+				
+				$order = array ();
+				for ($i = 0; $i < count($order_property); $i ++)
+				{
+					if ($order_property[$i] == 'application')
+					{
+					}
+					elseif($order_property[$i] == 'location')
+					{
+						$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.' .$this->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID).' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+						$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.' .$this->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL).' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+					}
+					elseif($order_property[$i] == 'title')
+					{
+						$order[] = self :: ALIAS_LEARNING_OBJECT_TABLE. '.' .$this->escape_column_name('title').' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+					}
+					else
+					{
+						$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.' .$this->escape_column_name($order_property[$i], true).' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+						$order[] = self :: ALIAS_LEARNING_OBJECT_TABLE. '.' .$this->escape_column_name('title').' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+					}
+				}
+				if (count($order))
+				{
+					$query .= ' ORDER BY '.implode(', ', $order);
+				}
+				
 				$statement = $this->connection->prepare($query);
 				$param = api_get_user_id();
-			}			
+			}
 		}
 		else
 		{
@@ -80,17 +111,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$param = $object_id;
 		}
 		
-		// TODO: SCARA - Add ordering of results
-		print_r($order_property);
-		echo '<br />';
-		print_r($order_direction);
-		
 		$res = $statement->execute($param);		
 		
 		$publication_attr = array();
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$info = new LearningObjectPublicationAttributes();
+			$info->set_id($record[LearningObjectPublication :: PROPERTY_ID]);
 			$info->set_publisher_user_id($record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID]);
 			$info->set_publication_date($record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE]);
 			$info->set_application('weblcms');
@@ -99,6 +126,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			//TODO: set correct URL
 			$info->set_url('index_lcms.php?tool='.$record[LearningObjectPublication :: PROPERTY_TOOL].'&amp;cidReq='.$record[LearningObjectPublication :: PROPERTY_COURSE_ID]);
 			$info->set_publication_object_id($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
+			
 			$publication_attr[] = $info;
 		}
 		return $publication_attr;
@@ -108,11 +136,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$params = array ();
 		$query = 'SELECT COUNT('.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLISHER_ID).'=?';;
-		
-//		if (isset ($condition))
-//		{
-//			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
-//		}
 		
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute(api_get_user_id());
