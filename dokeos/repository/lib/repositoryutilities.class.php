@@ -358,5 +358,113 @@ class RepositoryUtilities
 		
 		return implode($html);
 	}
+
+	function arr_diff(&$a1,&$a2)
+	{
+		$max=70;
+		$c1=count($a1);
+		$c2=count($a2);
+		$v[1]=0;
+		for ($D=0; $D<=$max; $D++)
+		{
+			for ($k=-$D; $k<=$D; $k=$k+2)
+			{
+				if (($k==-$D) || ($k!=$D && $v[$k-1]<$v[$k+1]))
+					$x=$v[$k+1];
+				else
+					$x=$v[$k-1]+1;
+					$y=$x-$k;
+				while (($x<$c1)&&($y<$c2)&&($a1[$x]==$a2[$y]))
+				{
+					$x++;
+					$y++;
+				}
+				$v[$k]=$x;
+				if (($x>=$c1)&&($y>=$c2))
+				{
+					$vbck[$D]=$v;
+					return self :: diff_rek($a1,$a2,$D,$c1-$c2,$vbck);
+				};
+			}
+			$vbck[$D]=$v;
+		};
+		return -1;
+	}
+
+	function diff_to_html($oldString, $newString)
+	{
+		//$a1 = explode("\r\n", $oldString);
+		$a1 = explode("\r\n", $oldString);
+		$a2 = explode("\r\n", $newString);
+		$result = self :: arr_diff($a1, $a2);
+		print_r();
+		foreach ($result[0] as $num => $foo)
+		{
+			$source = $result[1][$num];
+			$element = $result[0][$num];
+
+			switch ($source)
+			{
+				case "1":
+					$pre = "<font color=red>";
+					$post = "</font>";
+					break;
+				case "2":
+					$pre = "<font color=green>";
+					$post = "</font>";
+					break;
+				case "b":
+					$pre = "";
+					$post = "";
+					break;
+			}
+
+			//READABLE OUTPUT:
+			$return .= $pre . $element . $post . " ";
+		}
+		return $return;
+	} 	
+
+	function diff_rek(&$a1,&$a2,$D,$k,&$vbck)
+	{
+		$x=$vbck[$D][$k]; $y=$x-$k;
+		if ($D==0)
+		{
+			if ($x==0)
+				return array(array(),array());
+			else
+				return array(array_slice($a1,0,$x),array_fill(0,$x,"b"));
+		}
+		$x2=$vbck[$D-1][$k+1];
+		$y2=$vbck[$D-1][$k-1]-($k-1);
+		$xdif=$x-$x2; $ydif=$y-$y2;
+		$l=min($x-$x2,$y-$y2);
+		$x=$x-$l;
+		$y=$y-$l;
+		if ($x==$x2)
+		{
+			$res= self :: diff_rek($a1,$a2,$D-1,$k+1,$vbck);
+			array_push($res[0],$a2[$y-1]);
+			array_push($res[1],"2");
+			if ($l>0)
+			{
+				$res[0]=array_merge($res[0],array_slice($a2,$y,$l));
+				$res[1]=array_merge($res[1],array_fill(0,$l,"b"));
+			}
+		}
+		else
+		{
+			$res= self :: diff_rek($a1,$a2,$D-1,$k-1,$vbck);
+			array_push($res[0],$a1[$x-1]);
+			array_push($res[1],"1");
+			if ($l>0)
+			{
+				$res[0]=array_merge($res[0],array_slice($a1,$x,$l));
+				$res[1]=array_merge($res[1],array_fill(0,$l,"b"));
+			}
+		}
+		return $res;
+	}
+
 }
 ?>
