@@ -21,7 +21,6 @@ class MaintenanceWizard extends HTML_QuickForm_Controller
 		$action = null;
 		$action = isset($values['action']) ? $values['action'] : null;
 		$action = is_null($action) ? $_POST['action']  : $action;
-		//echo $action;
 		switch($action)
 		{
 			case  ActionSelectionMaintenanceWizardPage::ACTION_EMPTY:
