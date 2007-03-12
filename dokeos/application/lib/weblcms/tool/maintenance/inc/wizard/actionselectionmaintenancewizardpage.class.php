@@ -22,6 +22,7 @@ class ActionSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 		$this->addElement('radio', 'action', get_lang('CopyThisCourse'), get_lang('CopyThisCourseInformation'),self::ACTION_COPY);
 		$this->addElement('radio', 'action', get_lang('BackupThisCourse'), get_lang('BackupThisCourseInformation'),self::ACTION_BACKUP);
 		$this->addElement('radio', 'action', get_lang('DeleteThisCourse'), get_lang('DeleteThisCourseInformation'),self::ACTION_DELETE);
+		$this->addRule('action',get_lang('ThisFieldIsRequired'),'required');
 		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');

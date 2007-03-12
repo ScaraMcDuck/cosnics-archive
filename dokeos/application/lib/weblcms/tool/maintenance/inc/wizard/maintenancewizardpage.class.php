@@ -8,7 +8,7 @@ class MaintenanceWizardPage extends HTML_QuickForm_Page
 		parent::HTML_QuickForm_Page($name,'post');
 		$this->updateAttributes(array('action'=>$parent->get_url()));
 	}
-	protected function get_parent()
+	function get_parent()
 	{
 		return $this->parent;
 	}
