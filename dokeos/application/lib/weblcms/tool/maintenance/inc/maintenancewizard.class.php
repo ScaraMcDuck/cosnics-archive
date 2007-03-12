@@ -4,6 +4,7 @@ require_once 'HTML/QuickForm/Rule.php';
 require_once 'HTML/QuickForm/Action/Display.php';
 require_once dirname(__FILE__).'/wizard/publicationselectionmaintenancewizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/actionselectionmaintenancewizardpage.class.php';
+require_once dirname(__FILE__).'/wizard/courseselectionmaintenancewizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/confirmationmaintenancewizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/maintenancewizardprocess.class.php';
 require_once dirname(__FILE__).'/wizard/maintenancewizarddisplay.class.php';
@@ -29,6 +30,7 @@ class MaintenanceWizard extends HTML_QuickForm_Controller
 				break;
 			case  ActionSelectionMaintenanceWizardPage::ACTION_COPY:
 				$this->addPage(new PublicationSelectionMaintenanceWizardPage('publication_selection',$this->parent));
+				$this->addPage(new CourseSelectionMaintenanceWizardPage('course_selection',$this->parent));
 				$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation',$this->parent,get_lang('CopyConfirmationQuestion')));
 				break;
 			case  ActionSelectionMaintenanceWizardPage::ACTION_BACKUP:
