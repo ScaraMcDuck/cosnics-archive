@@ -16,7 +16,21 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 	{
 		$this->parent->display_header();
 		$values = $page->controller->exportValues();
-		print_r($values);
+		switch($values['action'])
+		{
+			case ActionSelectionMaintenanceWizardPage::ACTION_EMPTY:
+				echo 'EMPTY';
+				break;
+			case ActionSelectionMaintenanceWizardPage::ACTION_COPY:
+				echo 'COPY';
+				break;
+			case ActionSelectionMaintenanceWizardPage::ACTION_BACKUP:
+				echo 'BACKUP';
+				break;
+			case ActionSelectionMaintenanceWizardPage::ACTION_DELETE:
+				echo 'DELETE';
+				break;
+		}
 		$page->controller->container(true);
 		$this->parent->display_footer();
 	}
