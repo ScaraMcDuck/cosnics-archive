@@ -17,8 +17,8 @@ class MaintenanceWizard extends HTML_QuickForm_Controller
 		$this->addPage(new ActionSelectionMaintenanceWizardPage('action_selection', $this->parent));
 		$this->addAction('process', new MaintenanceWizardProcess($this->parent));
 		$this->addAction('display', new MaintenanceWizardDisplay($this->parent));
-		//Todo: something goes wrong here. It does use the same structure as the install-wizard.
-		if(isset($_POST['action']) && $_POST['action'] == ActionSelectionMaintenanceWizardPage::ACTION_EMPTY)
+		$values = $this->exportValues();
+		if( $values['action'] == ActionSelectionMaintenanceWizardPage::ACTION_EMPTY || (isset($_POST['action']) && $_POST['action'] == ActionSelectionMaintenanceWizardPage::ACTION_EMPTY))
 		{
 			$this->addPage(new PublicationSelectionMaintenanceWizardPage('publication_selection',$this->parent));
 		}
