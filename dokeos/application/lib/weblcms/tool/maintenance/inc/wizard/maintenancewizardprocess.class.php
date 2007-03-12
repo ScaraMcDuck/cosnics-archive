@@ -16,6 +16,7 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 	{
 		$this->parent->display_header();
 		$values = $page->controller->exportValues();
+		echo '<strong>TODO</strong>';
 		switch($values['action'])
 		{
 			case ActionSelectionMaintenanceWizardPage::ACTION_EMPTY:
@@ -31,6 +32,7 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 				echo 'DELETE';
 				break;
 		}
+		print_r($values);
 		$page->controller->container(true);
 		$this->parent->display_footer();
 	}
