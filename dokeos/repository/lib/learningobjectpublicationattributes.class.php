@@ -14,12 +14,19 @@ require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 
 class LearningObjectPublicationAttributes
 {
+	const PROPERTY_ID = 'id';
 	const PROPERTY_APPLICATION = 'application';
 	const PROPERTY_LOCATION = 'location';
 	const PROPERTY_PUBLICATION_DATE = 'published';
 	const PROPERTY_PUBLICATION_OBJECT = 'publication_object';
 	const PROPERTY_PUBLICATION_USER = 'publication_user';
 	const PROPERTY_URL = 'url';
+	
+	/**
+	 * The name of the application in which the learning object was published.
+	 */
+	private $id;
+	 
 	/**
 	 * The name of the application in which the learning object was published.
 	 */
@@ -113,6 +120,25 @@ class LearningObjectPublicationAttributes
 	function set_url($url)
 	{
 		$this->url = $url;
+	}
+	
+	/**
+	 * Gets the id of the publication.
+	 * @return string The id.
+	 */
+	function get_id()
+	{
+		return $this->id;
+	}
+	
+	
+	/**
+	 * Sets the id of the publication.
+	 * @return string The id.
+	 */
+	function set_id($publication_id)
+	{
+		$this->id = $publication_id;
 	}
 
 	/**

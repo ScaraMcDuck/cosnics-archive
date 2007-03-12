@@ -39,7 +39,7 @@ class DefaultPublicationTableCellRenderer implements PublicationTableCellRendere
 				case LearningObject :: PROPERTY_TITLE :
 					return $learning_object_publication->get_publication_object()->get_title();
 				case LearningObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE :
-					return $learning_object_publication->get_publication_date();
+					return date('Y-m-d, H:i', $learning_object_publication->get_publication_date());
 			}
 		}
 		return '&nbsp;';

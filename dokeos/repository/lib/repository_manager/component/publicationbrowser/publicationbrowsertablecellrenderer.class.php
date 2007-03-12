@@ -34,6 +34,8 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 		// Add special features here
 		switch ($column->get_learning_object_property())
 		{
+			case LearningObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE:
+				return format_locale_date(get_lang('dateFormatShort').', '.get_lang('timeNoSecFormat'),$learning_object->get_publication_date());
 		}
 		return parent :: render_cell($column, $learning_object);
 	}
@@ -45,48 +47,17 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 	 */
 	private function get_modification_links($learning_object)
 	{
-				return null;
 		$toolbar_data = array();
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_learning_object_editing_url($learning_object),
-			'label' => get_lang('Edit'),
-			'img' => $this->browser->get_web_code_path().'img/edit.gif'
-		);
-		$html = array ();
-		if ($url = $this->browser->get_learning_object_recycling_url($learning_object))
+		
+		if (!$learning_object->get_publication_object()->is_latest_version())
 		{
 			$toolbar_data[] = array(
-				'href' => $url,
-				'label' => get_lang('Remove'),
-				'img' => $this->browser->get_web_code_path().'img/recycle_bin.gif',
-				'confirm' => true
+				'href' => 'update',
+				'label' => get_lang('Update'),
+				'img' => $this->browser->get_web_code_path().'img/revert.gif'
 			);
 		}
-		else
-		{
-			$toolbar_data[] = array(
-				'label' => get_lang('Remove'),
-				'img' => $this->browser->get_web_code_path().'img/recycle_bin_na.gif'
-			);
-		}
-		if($this->browser->get_number_of_categories() > 1)
-		{
-			$toolbar_data[] = array(
-				'href' => $this->browser->get_learning_object_moving_url($learning_object),
-				'label' => get_lang('Move'),
-				'img' => $this->browser->get_web_code_path().'img/move.gif'
-			);
-		}
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_learning_object_metadata_editing_url($learning_object),
-			'label' => get_lang('Metadata'),
-			'img' => $this->browser->get_web_code_path().'img/info_small.gif'
-		);
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_learning_object_rights_editing_url($learning_object),
-			'label' => get_lang('Rights'),
-			'img' => $this->browser->get_web_code_path().'img/group_small.gif'
-		);
+		
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
 }
