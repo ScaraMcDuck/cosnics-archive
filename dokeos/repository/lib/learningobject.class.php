@@ -76,6 +76,10 @@ class LearningObject implements AccessibleLearningObject
 	 * object is moved to recycle bin)
 	 */
 	const STATE_RECYCLED = 1;
+	/**
+	 * Constant to define the backup state of a learning object
+	 */
+	const STATE_BACKUP = 2;
 	/**#@+
 	 * Property name of this learning object
 	 */
