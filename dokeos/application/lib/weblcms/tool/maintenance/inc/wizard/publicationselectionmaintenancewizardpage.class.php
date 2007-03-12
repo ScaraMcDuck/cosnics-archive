@@ -33,6 +33,7 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
+		$this->_formBuilt = true;
 	}
 }
 ?>

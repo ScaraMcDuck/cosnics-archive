@@ -12,10 +12,10 @@ require_once dirname(__FILE__).'/maintenancewizardpage.class.php';
  */
 class ActionSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 {
-	const ACTION_EMPTY = 0;
-	const ACTION_COPY = 1;
-	const ACTION_BACKUP = 2;
-	const ACTION_DELETE = 3;
+	const ACTION_EMPTY = 1;
+	const ACTION_COPY = 2;
+	const ACTION_BACKUP = 3;
+	const ACTION_DELETE = 4;
 	function buildForm()
 	{
 		$this->addElement('radio', 'action', get_lang('EmptyThisCourse'), get_lang('EmptyThisCourseInformation'),self::ACTION_EMPTY);
@@ -26,6 +26,7 @@ class ActionSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
+		$this->_formBuilt = true;
 	}
 }
 ?>
