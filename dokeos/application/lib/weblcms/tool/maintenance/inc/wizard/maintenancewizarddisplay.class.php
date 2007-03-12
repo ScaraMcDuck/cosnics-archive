@@ -1,6 +1,7 @@
 <?php
 class MaintenanceWizardDisplay extends HTML_QuickForm_Action_Display
 {
+	private $parent;
 	public function MaintenanceWizardDisplay($parent)
 	{
 		$this->parent = $parent;
