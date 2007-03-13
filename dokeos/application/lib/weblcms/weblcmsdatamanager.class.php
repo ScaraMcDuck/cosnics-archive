@@ -72,7 +72,7 @@ abstract class WeblcmsDataManager
 	 *               empty if the object has not been published anywhere.
 	 */
 	abstract function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
 	abstract function count_publication_attributes();
 
 	/**
@@ -247,6 +247,12 @@ abstract class WeblcmsDataManager
 	 * @return array The list of available course modules
 	 */
 	abstract function get_course_modules($course_code);
+
+	/**
+	 * Deletes all records from the database related to this given course.
+	 * @param string $course_code The course code
+	 */
+	abstract function delete_course($course_code);
 
 	/**
 	 * Sets the visibility of a course module.

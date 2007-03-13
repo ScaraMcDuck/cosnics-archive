@@ -11,10 +11,10 @@ require_once dirname(__FILE__).'/../learningobjectpublicationcategory.class.php'
 
 class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 {
-	
+
 	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
 	const ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE = 'lop';
-	
+
 	private $connection;
 	private $repoDM;
 
@@ -73,7 +73,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			{
 				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->escape_column_name('title') .' FROM '.$this->escape_table_name('learning_object_publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.$this->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`learning_object` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
 				$query .= ' WHERE '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLISHER_ID).'=?';
-				
+
 				$order = array ();
 				for ($i = 0; $i < count($order_property); $i ++)
 				{
@@ -99,7 +99,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 				{
 					$query .= ' ORDER BY '.implode(', ', $order);
 				}
-				
+
 				$statement = $this->connection->prepare($query);
 				$param = api_get_user_id();
 			}
@@ -110,9 +110,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$statement = $this->connection->prepare($query);
 			$param = $object_id;
 		}
-		
-		$res = $statement->execute($param);		
-		
+
+		$res = $statement->execute($param);
+
 		$publication_attr = array();
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
@@ -126,17 +126,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			//TODO: set correct URL
 			$info->set_url('index_lcms.php?tool='.$record[LearningObjectPublication :: PROPERTY_TOOL].'&amp;cidReq='.$record[LearningObjectPublication :: PROPERTY_COURSE_ID]);
 			$info->set_publication_object_id($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
-			
+
 			$publication_attr[] = $info;
 		}
 		return $publication_attr;
 	}
-	
+
 	function count_publication_attributes($type = null, $condition = null)
 	{
 		$params = array ();
 		$query = 'SELECT COUNT('.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLISHER_ID).'=?';;
-		
+
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute(api_get_user_id());
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -551,6 +551,48 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		    $modules[] = $module;
 		}
 		return $modules;
+	}
+
+	function delete_course($course_code)
+	{
+		// Delete target users
+		$sql = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_user').'
+				WHERE publication IN (
+					SELECT id FROM '.$this->escape_table_name('learning_object_publication').'
+					WHERE course = ?
+				)';
+		$statement = $this->connection->prepare($sql);
+		$statement->execute($course_code);
+		// Delete target groups
+		$sql = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_group').'
+				WHERE publication IN (
+					SELECT id FROM '.$this->escape_table_name('learning_object_publication').'
+					WHERE course = ?
+				)';
+		$statement = $this->connection->prepare($sql);
+		$statement->execute($course_code);
+		// Delete categories
+		$sql = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE course = ?';
+		$statement = $this->connection->prepare($sql);
+		$statement->execute($course_code);
+		// Delete publications
+		$sql = 'DELETE FROM '.$this->escape_table_name('learning_object_publication').' WHERE course = ?';
+		$statement = $this->connection->prepare($sql);
+		$statement->execute($course_code);
+		// Delete modules
+		$sql = 'DELETE FROM '.$this->escape_table_name('course_module').' WHERE course_code = ?';
+		$statement = $this->connection->prepare($sql);
+		$statement->execute($course_code);
+		// Delete module last access
+		$sql = 'DELETE FROM '.$this->escape_table_name('course_module_last_access').' WHERE course_code = ?';
+		$statement = $this->connection->prepare($sql);
+		$statement->execute($course_code);
+		// Call Dokeos function to delete course
+		CourseManager :: delete_course($course_code);
+		unset($_SESSION['_course']);
+		global $_course,$_cid;
+		unset ($_course);
+		unset ($_cid);
 	}
 
 	function set_module_visible($course_code,$module,$visible)
