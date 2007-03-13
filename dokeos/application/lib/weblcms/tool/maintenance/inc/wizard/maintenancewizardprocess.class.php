@@ -77,7 +77,10 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 				$_SESSION['maintenance_error_message'] = 'BACKUP: TODO';
 				break;
 			case ActionSelectionMaintenanceWizardPage :: ACTION_DELETE :
-				$_SESSION['maintenance_error_message'] = 'DELETE: TODO';
+				$dm = WeblcmsDatamanager::get_instance();
+				$dm->delete_course($this->parent->get_course_id());
+				header('Location: '.api_get_path(WEB_PATH).'/user_portal.php');
+				exit;
 				break;
 		}
 		$page->controller->container(true);
