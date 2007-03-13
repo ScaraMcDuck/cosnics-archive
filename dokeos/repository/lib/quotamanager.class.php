@@ -141,13 +141,20 @@ class QuotaManager
 	 * Get the maximum allowed versions of an object (per object)
 	 * @return int The number of learning object versions the user is allowed to have
 	 */
-	public function get_max_versions()
+	public function get_max_versions($type)
 	{
 		if( is_null($this->max_versions))
 		{
 			$user_info = api_get_user_info($this->owner);
-			$this->max_versions = $user_info['version_quota'];
-			// TODO: SCARA - DONE:This code is here temporarily for testing pupuses. This should be moved to the main_api function api_get_user_info
+			
+			if (isset($user_info['version_quota'][$type]))
+			{
+				$this->max_versions = $user_info['version_quota'][$type];
+			}
+			else
+			{
+				$this->max_versions = $user_info['version_quota']['general'];
+			}
 		}
 		return $this->max_versions;
 	}

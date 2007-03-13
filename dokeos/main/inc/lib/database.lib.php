@@ -59,6 +59,7 @@ define("MAIN_RIGHT_TABLE", "basic_right");
 define("MAIN_LOCATION_TABLE", "location");
 define("MAIN_ROLE_RIGHT_LOCATION_TABLE", "role_right_location");
 define("MAIN_USER_ROLE_TABLE", "user_role");
+define("MAIN_USER_QUOTA_TABLE", "user_quota");
 
 //statistic database tables
 define("STATISTIC_TRACK_E_LASTACCESS_TABLE", "track_e_lastaccess");
