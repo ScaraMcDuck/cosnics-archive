@@ -29,11 +29,20 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 				$this->addElement('checkbox', 'publications['.$publication->get_id().']', $label, $learning_object->get_title());
 			}
 		}
+		$this->addFormRule(array('PublicationSelectionMaintenanceWizardPage','count_selected_publications'));
 		$prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
 		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 		$this->_formBuilt = true;
+	}
+	function count_selected_publications($values)
+	{
+		if(isset($values['publications']))
+		{
+			return true;
+		}
+		return array('buttons' => get_lang('SelectPublications'));
 	}
 }
 ?>
