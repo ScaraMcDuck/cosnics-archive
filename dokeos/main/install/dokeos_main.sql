@@ -734,3 +734,15 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+--
+-- Table structure for table `user_quota`
+--
+
+DROP TABLE IF EXISTS `user_quota`;
+CREATE TABLE IF NOT EXISTS `user_quota` (
+  `user_id` int(10) NOT NULL,
+  `learning_object_type` varchar(255) NOT NULL,
+  `user_quota` int(10) NOT NULL,
+  PRIMARY KEY  (`user_id`,`learning_object_type`,`user_quota`)
+);
+

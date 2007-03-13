@@ -132,7 +132,7 @@ abstract class LearningObjectForm extends FormValidator
 		$this->build_basic_form();
 		if($object->is_versionable())
 		{
-			if ($object->get_version_count() < $quotamanager->get_max_versions())
+			if ($object->get_version_count() < $quotamanager->get_max_versions($object->get_type()))
 			{
 				$this->add_element_hider('script');
 				$this->addElement('checkbox','version', get_lang('CreateAsNewVersion'), null, 'onclick="javascript:showElement(\''. LearningObject :: PROPERTY_COMMENT .'\')"');

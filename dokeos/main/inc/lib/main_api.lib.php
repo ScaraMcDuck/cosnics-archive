@@ -375,7 +375,19 @@ function api_get_user_info($user_id = '')
 			$user_info['status'] = $result_array['status'];
 			$user_info['disk_quota'] = $result_array['disk_quota'];
 			$user_info['database_quota'] = $result_array['database_quota'];
-			$user_info['version_quota'] = $result_array['version_quota'];
+			$user_info['version_quota'] = array();
+			$user_info['version_quota']['general'] = $result_array['version_quota'];
+			
+			$lot_sql = "SELECT * FROM ".Database :: get_main_table(MAIN_USER_QUOTA_TABLE)." WHERE user_id='".mysql_real_escape_string($user_id)."'";
+			$lot_result = api_sql_query($lot_sql, __FILE__, __LINE__);
+			if(mysql_num_rows($lot_result) > 0)
+			{
+				while($lot_result_array = mysql_fetch_array($lot_result))
+				{
+					$user_info['version_quota'][$lot_result_array['learning_object_type']] = $lot_result_array['user_quota']; 
+				}
+			}
+			
 			return $user_info;
 		}
 		return false;

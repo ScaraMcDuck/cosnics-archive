@@ -449,7 +449,7 @@ class LearningObject implements AccessibleLearningObject
 	function get_available_version_count()
 	{
 		$qm = new QuotaManager($this->get_owner_id());
-		return $qm->get_max_versions()-$this->get_version_count();
+		return $qm->get_max_versions($this->get_type())-$this->get_version_count();
 		
 	}
 
