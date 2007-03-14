@@ -26,6 +26,7 @@ $CurrentCategoryOnly='Huidige categorie';
 $DeleteSelected='Geselecteerde items verwijderen';
 $DescriptionCreationFormTitle='Omschrijving aanmaken';
 $DescriptionTypeName='Omschrijving';
+$DifferenceBetweenTwoVersions='Verschil tussen 2 versies';
 $DiskSpace='Schijfruimte';
 $DiskQuotaExceeded='Dit bestand is te groot. U hebt uw maximum toegelaten schijfruimte bereikt.';
 $DocumentCreationFormTitle='Nieuw document aanmaken';

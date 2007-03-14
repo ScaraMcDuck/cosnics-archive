@@ -43,19 +43,38 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 				$breadcrumbs[] = array('url' => $this->get_recycle_bin_url(), 'name' => get_lang('RecycleBin'));
 				$this->force_menu_url($this->get_recycle_bin_url());
 			}
-			$breadcrumbs[] = array('url' => $this->get_url(), 'name' => $object1->get_title() . ($object1->is_latest_version() ? '' : ' ('.get_lang('Compared').')'));
+			$breadcrumbs[] = array('url' => $this->get_url(), 'name' => get_lang('DifferenceBetweenTwoVersions'));
 			$this->display_header($breadcrumbs);
-			
+
 			$de = new Text_Diff($string1, $string2);
 			
 			$diff = $de->getDiff();
 			
+			$html = array();
+			$html[] = '<div class="difference" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$object1->get_icon_name().'.gif);">';			
+			$html[] = '<div class="titleleft">';
+			$html[] = $object2->get_title();
+			$html[] = date(" (d M Y, H:i:s O)",$object2->get_modification_date());
+			$html[] = '</div>';
+			$html[] = '<div class="titleright">';
+			$html[] = $object1->get_title();
+			$html[] = date(" (d M Y, H:i:s O)",$object1->get_modification_date());
+			$html[] = '</div>';
+			foreach($diff as $d)
+ 			{
+
+				$html[] = '<div class="left">';
+				$html[] = print_r($d->parse('final'), true) . '';
+				$html[] = '</div>';
+				$html[] = '<div class="right">';
+				$html[] = print_r($d->parse('orig'), true) . '';
+				$html[] = '</div>';
+				$html[] = '<br style="clear:both;" />';
+				
+			}
+			$html[] = '</div>';
+			echo implode($html);
 			
-			echo '<table>';
-			echo $this->parse($diff);
-			echo '</table>';
-			
-						
 			$this->display_footer();
 		}
 		else
@@ -64,22 +83,6 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 		}
 	}
 	
-function parse($diff)
-{
-	$html = array();
-	foreach($diff as $d)
- 	{
-		$html[] = '<tr>';
-		$html[] = '<td width="200px">';
-		$html[] = print_r($d->parse('final'), true) . '';
-		$html[] = '</td>';
-		$html[] = '<td width="50px"></td>';
-		$html[] = '<td width="200px">';
-		$html[] = print_r($d->parse('orig'), true) . '';
-		$html[] = '</td>';
-		$html[] = '</tr>';
-	}
-	return implode($html);
-}
+
 }
 ?>
