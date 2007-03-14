@@ -114,6 +114,7 @@ $Upload='Upload file';
 $URL='URL';
 $VersionQuotaExceeded='You\'ve reached the maximum number of possible versions for this object. Check your quota and, if necessary, remove several unused versions of this object. Contact the platform manager if you want to change your quota.';
 $VersionComment='Version Comment';
+$VersionQuota='Version Quota';
 $Versions = 'Versions';
 $WikiTypeName = 'Wiki';
 ?>

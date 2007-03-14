@@ -6,6 +6,7 @@
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 require_once dirname(__FILE__).'/../../learningobjectdisplay.class.php';
+require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 /**
  * Repository manager component which can be used to view a learning object.
  */
@@ -78,10 +79,19 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 						$version_entry['revert_link'] = $revert_url;
 					}
 					
-					$version_data[] = $version_entry;	
+					$version_data[] = $display->get_version_as_html($version_entry);	
 				}
 				
-				echo $display->get_versions_as_html($version_data);
+				$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_COMPARE, $object, 'compare', 'post', null, array('version_data' => $version_data));
+				if ($form->validate())
+				{
+					echo 'You might want to implement this first ...';
+				}
+				else
+				{
+					$form->display();
+				}
+				echo $display->get_version_quota_as_html($version_data);
 			}
 			
 			if (count($publication_attr) > 0)

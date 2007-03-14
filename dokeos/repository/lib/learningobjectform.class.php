@@ -19,6 +19,7 @@ abstract class LearningObjectForm extends FormValidator
 {
 	const TYPE_CREATE = 1;
 	const TYPE_EDIT = 2;
+	const TYPE_COMPARE = 3;
 	const RESULT_SUCCESS = 'ObjectUpdated';
 	const RESULT_ERROR = 'ObjectUpdateFailed';
 
@@ -28,6 +29,11 @@ abstract class LearningObjectForm extends FormValidator
 	 * The learning object.
 	 */
 	private $learning_object;
+	
+	/**
+	 * Any extra information passed to the form.
+	 */
+	private $extra;
 
 	/**
 	 * Constructor.
@@ -41,23 +47,30 @@ abstract class LearningObjectForm extends FormValidator
 	 * @param string $method The method to use ('post' or 'get').
 	 * @param string $action The URL to which the form should be submitted.
 	 */
-	function LearningObjectForm($form_type, $learning_object, $form_name, $method = 'post', $action = null)
+	function LearningObjectForm($form_type, $learning_object, $form_name, $method = 'post', $action = null, $extra = null)
 	{
 		parent :: __construct($form_name, $method, $action);
 		$this->form_type = $form_type;
 		$this->learning_object = $learning_object;
-		$this->owner_id = $learning_object->get_owner_id();
+		$this->owner_id = $learning_object->get_owner_id();		
+		$this->extra = $extra;
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
 			$this->build_editing_form();
 		}
-		else
+		elseif ($this->form_type == self :: TYPE_CREATE)
 		{
-			$this->form_type = self :: TYPE_CREATE;
 			$this->build_creation_form();
 		}
-		$this->add_progress_bar(2);
-		$this->add_footer();
+		elseif ($this->form_type == self :: TYPE_COMPARE)
+		{
+			$this->build_version_compare_form();
+		}
+		if ($this->form_type != self :: TYPE_COMPARE)
+		{
+			$this->add_progress_bar(2);
+			$this->add_footer();
+		}
 		$this->setDefaults();
 	}
 
@@ -146,6 +159,61 @@ abstract class LearningObjectForm extends FormValidator
 			}
 		}
 		$this->addElement('hidden', LearningObject :: PROPERTY_ID);
+	}
+	
+	/**
+	 * Builds a form to compare learning object versions.
+	 */
+	private function build_version_compare_form()
+	{
+		$renderer = & $this->defaultRenderer();
+		$form_template = <<<EOT
+
+<form {attributes}>
+{content}
+	<div class="clear">
+		&nbsp;
+	</div>
+</form>
+
+EOT;
+		$renderer->setFormTemplate($form_template);
+		$element_template = <<<EOT
+	<div>
+			<!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}
+	</div>
+
+EOT;
+		$renderer->setElementTemplate($element_template);
+		
+		if (isset($this->extra['version_data']))
+		{
+			$object = $this->learning_object;
+	
+			if ($object->is_latest_version())
+			{
+				$html[] = '<div class="versions" style="margin-top: 1em;">';
+			}
+			else
+			{
+				$html[] = '<div class="versions_na" style="margin-top: 1em;">';
+			}
+			$html[] = '<div class="versions_title">'.htmlentities(get_lang('Versions')).'</div>';
+			
+			$this->addElement('html', implode("\n", $html));
+	
+			foreach ($this->extra['version_data'] as $version)
+			{
+				$versions = array();
+				$versions[] =& $this->createElement('radio','comp1',null,null, $version['id']);
+				$versions[] =& $this->createElement('radio','comp2',null,null, $version['id']);
+				$versions[] =& $this->createElement('static', null, null, $version);
+				
+				$this->addGroup($versions);
+			}
+			$this->addElement('submit', 'submit', get_lang('CompareVersions'));
+			$this->addElement('html', '</div>');
+		}
 	}
 
 	/**
@@ -350,12 +418,12 @@ abstract class LearningObjectForm extends FormValidator
 	 * @param string $method The method to use ('post' or 'get').
 	 * @param string $action The URL to which the form should be submitted.
 	 */
-	static function factory($form_type, $learning_object, $form_name, $method = 'post', $action = null)
+	static function factory($form_type, $learning_object, $form_name, $method = 'post', $action = null, $extra = null)
 	{
 		$type = $learning_object->get_type();
 		$class = LearningObject :: type_to_class($type).'Form';
 		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_form.class.php';
-		return new $class ($form_type, $learning_object, $form_name, $method, $action);
+		return new $class ($form_type, $learning_object, $form_name, $method, $action, $extra);
 	}
 }
 ?>

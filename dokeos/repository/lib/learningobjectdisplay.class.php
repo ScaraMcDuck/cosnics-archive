@@ -138,58 +138,61 @@ abstract class LearningObjectDisplay
 	 * Returns a HTML view of the versions of the learning object.
 	 * @return string The HTML.
 	 */
-	function get_versions_as_html($version_data)
+	function get_version_as_html($version_entry)
 	{
 		$object = $this->get_learning_object();
 
-		$html = array();
-		if ($object->is_latest_version())
-		{
-			$html[] = '<div class="versions" style="margin-top: 1em;">';
-		}
-		else
-		{
-			$html[] = '<div class="versions_na" style="margin-top: 1em;">';
-		}
-		$html[] = '<div class="versions_title">'.htmlentities(get_lang('Versions')).'</div>';
-		$html[] = '<ul class="versions_list">';
-		//TODO: XIS: change action
-		$html[] = '<form method="post" action="index_repository_manager.php?go=compare">';
-		foreach ($version_data as $version)
-		{
-			if ($object->get_id() == $version['id'])
+			if ($object->get_id() == $version_entry['id'])
 			{
-				$html[] = '<li class="current">';
+				$html[] = '<span class="current">';
 			}
 			else
 			{
-				$html[] = '<li>';
+				$html[] = '<span>';
 			}
-			$html[] = '<input type="radio" name="vgl1" value="'.$version['id'].'" />';
-			$html[] = '<input type="radio" name="vgl2" value="'.$version['id'].'" />';
-			$html[] = $version['date'] .'&nbsp;';
-			if (isset($version['delete_link']))
+			$html[] = $version_entry['date'] .'&nbsp;';
+			if (isset($version_entry['delete_link']))
 			{
-				$html[] = '<a href="'. $version['delete_link'] .'" title="' .get_lang('Delete'). '" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version.gif" alt="'.htmlentities(get_lang('Delete')).'"/></a>';
+				$html[] = '<a href="'. $version_entry['delete_link'] .'" title="' .get_lang('Delete'). '" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version.gif" alt="'.htmlentities(get_lang('Delete')).'"/></a>';
 			}
 			else
 			{
 				$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version_na.gif" alt="'.htmlentities(get_lang('Delete')).'"/>';
 			}
 
-			if (isset($version['revert_link']))
+			if (isset($version_entry['revert_link']))
 			{
-				$html[] = '&nbsp;<a href="'. $version['revert_link'] .'" title="' .get_lang('Revert'). '" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'/img/revert.gif" alt="'.htmlentities(get_lang('Revert')).'"/></a>';
+				$html[] = '&nbsp;<a href="'. $version_entry['revert_link'] .'" title="' .get_lang('Revert'). '" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'/img/revert.gif" alt="'.htmlentities(get_lang('Revert')).'"/></a>';
 			}
 			else
 			{
 				$html[] = '&nbsp;<img src="'.api_get_path(WEB_CODE_PATH).'/img/revert_na.gif" alt="'.htmlentities(get_lang('Revert')).'"/>';
 			}
 
-			$html[] = '&nbsp;<a href="'.htmlentities($version['viewing_link']).'" title="'.$version['title'].'">'.$version['title'].'</a>';
-			$html[] = '</li>';
+			$html[] = '&nbsp;<a href="'.htmlentities($version_entry['viewing_link']).'" title="'.$version_entry['title'].'">'.$version_entry['title'].'</a>';
+			$html[] = '</span>';
+			
+		return implode("\n", $html);
+	}
+	
+	/**
+	 * Returns a HTML view of the versions of the learning object.
+	 * @return string The HTML.
+	 */
+	function get_version_quota_as_html($version_data)
+	{
+		$object = $this->get_learning_object();
+
+		$html = array();
+		if ($object->is_latest_version())
+		{
+			$html[] = '<div class="version_stats" style="margin-top: 1em;">';
 		}
-		$html[] = '</ul><input type="submit" value="'.get_lang('CompareVersions').'" /></form>';
+		else
+		{
+			$html[] = '<div class="version_stats_na" style="margin-top: 1em;">';
+		}
+		$html[] = '<div class="version_stats_title">'.htmlentities(get_lang('VersionQuota')).'</div>';
 
 		$percent = $object->get_version_count() / ($object->get_version_count() + $object->get_available_version_count())* 100 ;
 		$status = $object->get_version_count() . ' / ' . ($object->get_version_count() + $object->get_available_version_count());
@@ -210,7 +213,6 @@ abstract class LearningObjectDisplay
 	{
 		$html = array();
 		$html[] = '<div class="usage_information">';
-		$html[] = '<h4>'.htmlentities(get_lang('NumberOfVersions')).'</h4>';
 		$html[] = '<div class="usage_bar">';
 		for ($i = 0; $i < 100; $i ++)
 		{

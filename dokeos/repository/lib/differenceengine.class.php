@@ -414,10 +414,6 @@ class Text_Diff_Engine_native {
             }
 
             if ($delete && $add) {
-            	print_r($delete);
-            	echo '<br /><br />';
-            	print_r($add);
-				echo '<br /><br />';
                 $edits[] = &new Text_Diff_Op_change($delete, $add);
             } elseif ($delete) {
                 $edits[] = &new Text_Diff_Op_delete($delete);
