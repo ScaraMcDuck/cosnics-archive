@@ -503,7 +503,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$params[] = $course_code;
 		$params[] = $user_id;
 		$params[] = $category_id;
-		$query = 'SELECT * FROM '.$this->escape_table_name('course_module_last_access').' WHERE course_code = ? AND user_id = ? AND category_id = ?';
+		$query = 'SELECT * FROM '.$this->escape_table_name('course_module_last_access').' WHERE course_code = ? AND user_id = ? AND category_id = ? ';
 		if(!is_null($module_name))
 		{
 			$params[] = $module_name;
