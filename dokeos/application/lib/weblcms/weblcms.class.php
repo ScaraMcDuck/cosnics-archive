@@ -25,6 +25,7 @@ class Weblcms extends WebApplication
 {
 	const PARAM_TOOL = 'tool';
 	const PARAM_ACTION = 'weblcms_action';
+	const PARAM_CATEGORY = 'pcattree';
 
 	/**
 	 * The tools that this application offers.
@@ -45,6 +46,7 @@ class Weblcms extends WebApplication
 		parent :: __construct();
 		$this->set_parameter(self :: PARAM_TOOL, $_GET[self :: PARAM_TOOL]);
 		$this->set_parameter(self :: PARAM_ACTION, $_GET[self :: PARAM_ACTION]);
+		$this->set_parameter(self :: PARAM_CATEGORY, $_GET[self :: PARAM_CATEGORY]);
 		$this->tools = array ();
 		$this->load_tools();
 	}
@@ -56,6 +58,11 @@ class Weblcms extends WebApplication
 	{
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		$action = $this->get_parameter(self::PARAM_ACTION);
+		$category = $this->get_parameter(self::PARAM_CATEGORY);
+		if(is_null($category))
+		{
+			$category = 0;
+		}
 		if($action)
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
@@ -79,7 +86,7 @@ class Weblcms extends WebApplication
 			$toolObj = new $class ($this);
 			$this->tool_class = $class;
 			$toolObj->run();
-			$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),$tool);
+			$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),$tool,$category);
 		}
 		else
 		{
@@ -315,7 +322,7 @@ class Weblcms extends WebApplication
 	{
 		return WeblcmsDataManager :: get_instance()->get_learning_object_publication_attributes($object_id, $type, $offset, $count, $order_property, $order_direction);
 	}
-	
+
 	/*
 	 * Inherited
 	 */
@@ -323,22 +330,33 @@ class Weblcms extends WebApplication
 	{
 		return WeblcmsDataManager :: get_instance()->count_publication_attributes($type, $condition);
 	}
-	
+
 	/**
 	 * Gets the date of the last visit of current user to the current location
 	 * @param string $tool If $tool equals null, current active tool will be
 	 * taken into account. If no tool is given or no tool is active the date of
 	 * last visit to the course homepage will be returned.
+	 * @param int $category_id The category in the given tool of which the last
+	 * visit date is requested. If $category_id equals null, the current active
+	 * category will be used.
 	 * @return int
 	 */
-	function get_last_visit_date($tool = null)
+	function get_last_visit_date($tool = null,$category_id = null)
 	{
 		if(is_null($tool))
 		{
 			$tool = $this->get_parameter(self :: PARAM_TOOL);
 		}
+		if(is_null($category_id))
+		{
+			$category_id = $this->get_parameter(self :: PARAM_CATEGORY);
+			if(is_null($category_id))
+			{
+				$category_id = 0;
+			}
+		}
 		$wdm = WeblcmsDataManager :: get_instance();
-		$date = $wdm->get_last_visit_date($this->get_course_id(),$this->get_user_id(),$tool);
+		$date = $wdm->get_last_visit_date($this->get_course_id(),$this->get_user_id(),$tool,$category_id);
 		return $date;
 	}
 	/**

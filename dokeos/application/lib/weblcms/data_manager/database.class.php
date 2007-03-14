@@ -468,12 +468,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 	}
 
-	function log_course_module_access($course_code, $user_id,$module_name)
+	function log_course_module_access($course_code, $user_id,$module_name = null,$category_id = 0)
 	{
 		$params[] = time();
 		$params[] = $course_code;
 		$params[] = $user_id;
-		$query = 'UPDATE '.$this->escape_table_name('course_module_last_access').' SET access_date = ? WHERE course_code = ? AND user_id = ? ';
+		$params[] = $category_id;
+ 		$query = 'UPDATE '.$this->escape_table_name('course_module_last_access').' SET access_date = ? WHERE course_code = ? AND user_id = ? AND category_id = ? ';
 		if(!is_null($module_name))
 		{
 			$params[] = $module_name;
@@ -481,7 +482,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 		else
 		{
-			$query .= ' AND module_name IS NULL';
+			$query .= ' AND module_name IS NULL ';
 		}
 		$statement = $this->connection->prepare($query,null,MDB2_PREPARE_MANIP);
 		$affectedRows = $statement->execute($params);
@@ -492,15 +493,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$props[$this->escape_column_name('module_name')] = $module_name;
 			$props[$this->escape_column_name('user_id')] = $user_id;
 			$props[$this->escape_column_name('access_date')] = time();
+			$props[$this->escape_column_name('category_id')] = $category_id;
 			$this->connection->loadModule('Extended');
 			$this->connection->extended->autoExecute($this->get_table_name('course_module_last_access'), $props, MDB2_AUTOQUERY_INSERT);
 		}
 	}
-	function get_last_visit_date($course_code,$user_id,$module_name = null)
+	function get_last_visit_date($course_code,$user_id,$module_name = null,$category_id = 0)
 	{
 		$params[] = $course_code;
 		$params[] = $user_id;
-		$query = 'SELECT * FROM '.$this->escape_table_name('course_module_last_access').' WHERE course_code = ? AND user_id = ? ';
+		$params[] = $category_id;
+		$query = 'SELECT * FROM '.$this->escape_table_name('course_module_last_access').' WHERE course_code = ? AND user_id = ? AND category_id = ?';
 		if(!is_null($module_name))
 		{
 			$params[] = $module_name;
