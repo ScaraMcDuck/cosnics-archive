@@ -142,37 +142,40 @@ abstract class LearningObjectDisplay
 	{
 		$object = $this->get_learning_object();
 
-			if ($object->get_id() == $version_entry['id'])
-			{
-				$html[] = '<span class="current">';
-			}
-			else
-			{
-				$html[] = '<span>';
-			}
-			$html[] = $version_entry['date'] .'&nbsp;';
-			if (isset($version_entry['delete_link']))
-			{
-				$html[] = '<a href="'. $version_entry['delete_link'] .'" title="' .get_lang('Delete'). '" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version.gif" alt="'.htmlentities(get_lang('Delete')).'"/></a>';
-			}
-			else
-			{
-				$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version_na.gif" alt="'.htmlentities(get_lang('Delete')).'"/>';
-			}
+		if ($object->get_id() == $version_entry['id'])
+		{
+			$html[] = '<span class="current">';
+		}
+		else
+		{
+			$html[] = '<span>';
+		}
+		$html[] = $version_entry['date'] .'&nbsp;';
+		if (isset($version_entry['delete_link']))
+		{
+			$html[] = '<a href="'. $version_entry['delete_link'] .'" title="' .get_lang('Delete'). '" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version.gif" alt="'.htmlentities(get_lang('Delete')).'"/></a>';
+		}
+		else
+		{
+			$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version_na.gif" alt="'.htmlentities(get_lang('Delete')).'"/>';
+		}
 
-			if (isset($version_entry['revert_link']))
-			{
-				$html[] = '&nbsp;<a href="'. $version_entry['revert_link'] .'" title="' .get_lang('Revert'). '" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'/img/revert.gif" alt="'.htmlentities(get_lang('Revert')).'"/></a>';
-			}
-			else
-			{
-				$html[] = '&nbsp;<img src="'.api_get_path(WEB_CODE_PATH).'/img/revert_na.gif" alt="'.htmlentities(get_lang('Revert')).'"/>';
-			}
+		if (isset($version_entry['revert_link']))
+		{
+			$html[] = '&nbsp;<a href="'. $version_entry['revert_link'] .'" title="' .get_lang('Revert'). '" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'/img/revert.gif" alt="'.htmlentities(get_lang('Revert')).'"/></a>';
+		}
+		else
+		{
+			$html[] = '&nbsp;<img src="'.api_get_path(WEB_CODE_PATH).'/img/revert_na.gif" alt="'.htmlentities(get_lang('Revert')).'"/>';
+		}
 
-			$html[] = '&nbsp;<a href="'.htmlentities($version_entry['viewing_link']).'" title="'.$version_entry['title'].'">'.$version_entry['title'].'</a>';
-			$html[] = '</span>';
+		$html[] = '&nbsp;<a href="'.htmlentities($version_entry['viewing_link']).'" title="'.$version_entry['title'].'">'.$version_entry['title'].'</a>';
+		$html[] = '</span>';
 			
-		return implode("\n", $html);
+		$result['id'] = $version_entry['id'];
+		$result['html'] = implode("\n", $html);
+			
+		return $result;
 	}
 	
 	/**

@@ -26,6 +26,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			{
 				$this->not_allowed();
 			}
+			
 			$display = LearningObjectDisplay :: factory($object);
 			$breadcrumbs = array();
 			if ($object->get_state() == LearningObject :: STATE_RECYCLED)
@@ -34,9 +35,6 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				$this->force_menu_url($this->get_recycle_bin_url());
 			}
 			$breadcrumbs[] = array('url' => $this->get_url(), 'name' => $object->get_title() . ($object->is_latest_version() ? '' : ' ('.get_lang('OldVersion').')'));
-			$this->display_header($breadcrumbs);
-			
-			echo $display->get_full_html();
 			
 			$version_data = array();
 			$versions = $object->get_learning_object_versions();
@@ -49,12 +47,6 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				$publications = $this->get_learning_object_publication_attributes($version->get_id());
 				$publication_attr = array_merge($publication_attr, $publications);
 			}
-			
-			if (count($versions) >= 2 || count($publication_attr) > 0)
-			{
-				echo RepositoryUtilities :: build_block_hider('script');
-				echo RepositoryUtilities :: build_block_hider('begin', 'lox', 'LearningObjectExtras');
-			}			
 			
 			if (count($versions) >= 2)
 			{
@@ -82,16 +74,33 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					$version_data[] = $display->get_version_as_html($version_entry);	
 				}
 				
-				$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_COMPARE, $object, 'compare', 'post', null, array('version_data' => $version_data));
+				$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_COMPARE, $object, 'compare', 'post', $this->get_url(array(RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $object->get_id())), array('version_data' => $version_data));
 				if ($form->validate())
 				{
-					echo 'You might want to implement this first ...';
+					$params = $form->compare_learning_object();
+					$this->redirect(RepositoryManager :: ACTION_COMPARE_LEARNING_OBJECTS, null, null, false, $params);
 				}
 				else
 				{
+					$this->display_header($breadcrumbs);
+					echo $display->get_full_html();
+					echo RepositoryUtilities :: build_block_hider('script');
+					echo RepositoryUtilities :: build_block_hider('begin', 'lox', 'LearningObjectExtras');
 					$form->display();
 				}
 				echo $display->get_version_quota_as_html($version_data);
+			}
+			elseif (count($publication_attr) > 0)
+			{
+				$this->display_header($breadcrumbs);
+				echo $display->get_full_html();
+				echo RepositoryUtilities :: build_block_hider('script');
+				echo RepositoryUtilities :: build_block_hider('begin', 'lox', 'LearningObjectExtras');	
+			}
+			else
+			{
+				$this->display_header($breadcrumbs);
+				echo $display->get_full_html();
 			}
 			
 			if (count($publication_attr) > 0)

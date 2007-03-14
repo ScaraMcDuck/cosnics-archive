@@ -205,9 +205,9 @@ EOT;
 			foreach ($this->extra['version_data'] as $version)
 			{
 				$versions = array();
-				$versions[] =& $this->createElement('radio','comp1',null,null, $version['id']);
-				$versions[] =& $this->createElement('radio','comp2',null,null, $version['id']);
-				$versions[] =& $this->createElement('static', null, null, $version);
+				$versions[] =& $this->createElement('radio','compare',null,null, $version['id']);
+				$versions[] =& $this->createElement('radio','object',null,null, $version['id']);
+				$versions[] =& $this->createElement('static', null, null, $version['html']);
 				
 				$this->addGroup($versions);
 			}
@@ -310,6 +310,15 @@ EOT;
 			}
 		}
 		return $object;
+	}
+	
+	function compare_learning_object()
+	{
+		$values = $this->exportValues();
+		$ids = array();
+		$ids['object'] = $values['object'];
+		$ids['compare'] = $values['compare'];
+		return $ids;
 	}
 
 	/**

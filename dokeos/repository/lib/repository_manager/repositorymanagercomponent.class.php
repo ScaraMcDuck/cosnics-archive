@@ -153,9 +153,9 @@ abstract class RepositoryManagerComponent {
 	/**
 	 * @see RepositoryManager::redirect()
 	 */
-	function redirect($action = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0, $error_message = false)
+	function redirect($action = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0, $error_message = false, $extra_params = null)
 	{
-		return $this->get_parent()->redirect($action, $message, $new_category_id, $error_message);
+		return $this->get_parent()->redirect($action, $message, $new_category_id, $error_message, $extra_params);
 	}
 	/**
 	 * @see RepositoryManager::get_user_id()

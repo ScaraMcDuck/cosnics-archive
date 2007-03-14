@@ -16,8 +16,8 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$id1 = $_POST['vgl2'];
-		$id2 = $_POST['vgl1'];
+		$id1 = $_GET['object'];
+		$id2 = $_GET['compare'];
 		if ($id1 && $id2)
 		{
 			$object1 = $this->retrieve_learning_object($id1);
@@ -26,13 +26,11 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 			$string1 = $object1->get_description();
         	$string1 = str_replace('<p>', '', $string1);
         	$string1 = str_replace('</p>', "<br />\n", $string1);
-        	$string1 = strip_tags($string1, '<br />');
         	$string1 = explode("\n", $string1);
         	
         	$string2 = $object2->get_description();
         	$string2 = str_replace('<p>', '', $string2);
         	$string2 = str_replace('</p>', "<br />\n", $string2);
-        	$string2 = strip_tags($string2, '<br />');
 			$string2 = explode("\n", $string2);
 
 			$display = LearningObjectDisplay :: factory($object1);
