@@ -29,6 +29,7 @@ $CurrentCategoryOnly='Current category';
 $DeleteSelected='Delete selected items';
 $DescriptionCreationFormTitle='Create a Description';
 $DescriptionTypeName='Description';
+$DifferenceBetweenTwoVersions='Difference between 2 versions';
 $DiskSpace='Disk Space';
 $DiskQuotaExceeded='This file is too big. You\'ve reached your maximum allowed disk space.';
 $DocumentCreationFormTitle='Create a Document';
