@@ -919,7 +919,7 @@ div.version_stats
 	background: url(../img/statistics.gif) no-repeat 10px 10px;
 }
 
-div.versions_stats_na
+div.version_stats_na
 {
 	background: url(../img/statistics_na.gif) no-repeat 10px 10px;
 }
@@ -930,6 +930,46 @@ div.version_stats_title
 	border-bottom: 1px solid #D0D0D0;
 	width: 60%;
 	margin-bottom: 1em;
+}
+
+span.compare_delete
+{
+	color: red;
+}
+
+span.compare_delete a
+{
+	color: red;
+}
+
+span.compare_add
+{
+	color: green;
+}
+
+span.compare_add a
+{
+	color: green;
+}
+
+span.compare_change
+{
+	color: blue;
+}
+
+span.compare_change a
+{
+	color: blue;
+}
+
+span.compare_copy
+{
+	color: black;
+}
+
+span.compare_copy a
+{
+	color: black;
 }
 
 /* List of publications_attributes */
