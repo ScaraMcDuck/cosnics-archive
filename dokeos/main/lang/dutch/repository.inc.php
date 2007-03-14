@@ -109,6 +109,7 @@ $Upload='Bestand opladen';
 $URL='URL';
 $VersionQuotaExceeded='U kan momenteel geen nieuwe versie van dit leerobject aanmaken, aangezien uw maximum aantal versies bereikt is. Kijk uw quota na en verwijder eventueel ongebruikte versies van dit leerobject. Contacteer de platformbeheerder indien u uw quota wil aanpassen.';
 $VersionComment='Commentaar bij deze versie';
+$VersionQuota='Versie Quota';
 $Versions = 'Versies';
 $WikiTypeName = 'Wiki';
 ?>

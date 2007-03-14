@@ -893,33 +893,43 @@ div.versions_title
 	width: 60%;
 	margin-bottom: 1em;
 }
-ul.versions_list
-{
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-ul.versions_list li
-{
-	margin: 0;
-	padding: 0;
-}
 
-ul.versions_list li.current
+div.versions span.current
 {
 	margin: 0;
 	padding: 0;
 	color: #FF0000;
 }
 
-ul.versions_list li.current a
+div.versions span.current a
 {
 	color: #FF0000;
 }
 
-ul.versions_list img
+/* Version quota statistics */
+div.version_stats, div.version_stats_na
 {
-	vertical-align: middle;
+	border: 1px solid #F6F6F6;
+	margin: 0 0 1em 0;
+	padding: 10px 10px 10px 44px;
+}
+
+div.version_stats
+{
+	background: url(../img/statistics.gif) no-repeat 10px 10px;
+}
+
+div.versions_stats_na
+{
+	background: url(../img/statistics_na.gif) no-repeat 10px 10px;
+}
+
+div.version_stats_title
+{
+	font-weight: bold;
+	border-bottom: 1px solid #D0D0D0;
+	width: 60%;
+	margin-bottom: 1em;
 }
 
 /* List of publications_attributes */
