@@ -764,7 +764,7 @@ class Text_Diff_Op {
     			{
     				$empty[] = null;
     			}
-    			return implode('<br /><br />', $empty);
+    			return implode('<br />', $empty);
     		}
     		else
     		{
@@ -778,7 +778,7 @@ class Text_Diff_Op {
 //    				return implode('<br /><br />', array_merge($this->$type, $empty));
 //    			}
     		}
-    		return implode('<br /><br />', $this->$type);
+    		return implode('<br />', $this->$type);
     }
 
 }
@@ -803,6 +803,11 @@ class Text_Diff_Op_copy extends Text_Diff_Op {
     {
         return $reverse = &new Text_Diff_Op_copy($this->final, $this->orig);
     }
+    
+    function parse($type)
+    {
+    		return '<span class="compare_copy">'.parent :: parse($type).'</span>';
+    }
 
 }
 
@@ -826,7 +831,7 @@ class Text_Diff_Op_delete extends Text_Diff_Op {
     
     function parse($type)
     {
-    		return '<font color="red">'.parent :: parse($type).'</font>';
+    		return '<span class="compare_delete">'.parent :: parse($type).'</span>';
     }
 
 }
@@ -851,7 +856,7 @@ class Text_Diff_Op_add extends Text_Diff_Op {
     
     function parse($type)
     {
-    		return '<font color="green">'.parent :: parse($type).'</font>';
+    		return '<span class="compare_add">'.parent :: parse($type).'</span>';
     }
 
 }
@@ -876,7 +881,7 @@ class Text_Diff_Op_change extends Text_Diff_Op {
     
     function parse($type)
     {
-    		return '<font color="blue">'.parent :: parse($type).'</font>';
+    		return '<span class="compare_change">'.parent :: parse($type).'</span>';
     }
 
 }

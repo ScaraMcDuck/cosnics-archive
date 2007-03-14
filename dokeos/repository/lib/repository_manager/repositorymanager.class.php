@@ -351,7 +351,7 @@ class RepositoryManager
 	 * category).
 	 * @param boolean $error_message Is the passed message an error message?
 	 */
-	function redirect($action = self :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0, $error_message = false)
+	function redirect($action = self :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0, $error_message = false, $extra_params = null)
 	{
 		$params = array ();
 		$params[self :: PARAM_ACTION] = $action;
@@ -362,6 +362,13 @@ class RepositoryManager
 		if ($new_category_id)
 		{
 			$params[self :: PARAM_CATEGORY_ID] = $new_category_id;
+		}
+		if (isset($extra_params))
+		{
+			foreach($extra_params as $key => $extra)
+			{
+				$params[$key] = $extra;
+			}
 		}
 		$url = $this->get_url($params);
 		header('Location: '.$url);
