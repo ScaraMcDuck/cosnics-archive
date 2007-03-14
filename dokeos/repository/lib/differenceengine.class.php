@@ -157,6 +157,7 @@ class Text_Diff {
     function _trimNewlines(&$line, $key)
     {
 		$line = str_replace(array("\n", "\r", "\r\n"), '', $line);
+		$line = trim($line);
     }
 
     /**
@@ -396,18 +397,27 @@ class Text_Diff_Engine_native {
                 $edits[] = &new Text_Diff_Op_copy($copy);
             }
 
-            // Find deletes & adds.
+            // Find deletes.
+            // Change "if" to "while" to merge edits+deletes
+            // to one big edit.  
             $delete = array();
-            while ($xi < $n_from && $this->xchanged[$xi]) {
+            if ($xi < $n_from && $this->xchanged[$xi]) {
                 $delete[] = $from_lines[$xi++];
             }
 
+			// Find adds.
+            // Change "if" to "while" to merge edits+adds
+            // to one big edit.  
             $add = array();
-            while ($yi < $n_to && $this->ychanged[$yi]) {
+            if ($yi < $n_to && $this->ychanged[$yi]) {
                 $add[] = $to_lines[$yi++];
             }
 
             if ($delete && $add) {
+            	print_r($delete);
+            	echo '<br /><br />';
+            	print_r($add);
+				echo '<br /><br />';
                 $edits[] = &new Text_Diff_Op_change($delete, $add);
             } elseif ($delete) {
                 $edits[] = &new Text_Diff_Op_delete($delete);
@@ -759,6 +769,18 @@ class Text_Diff_Op {
     				$empty[] = null;
     			}
     			return implode('<br /><br />', $empty);
+    		}
+    		else
+    		{
+//    			if (count($type) != count(($type == 'orig' ? $this->final : $this->orig)))
+//    			{
+//    				$empty = array();
+//    				for ($i=count($type); $i < count(($type == 'orig' ? $this->final : $this->orig)); $i++)
+//    				{
+//    					$empty[] = null;
+//    				}
+//    				return implode('<br /><br />', array_merge($this->$type, $empty));
+//    			}
     		}
     		return implode('<br /><br />', $this->$type);
     }
