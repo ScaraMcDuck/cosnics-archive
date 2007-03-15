@@ -223,7 +223,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			{
 				$userConditions[] = new EqualityCondition('user', $u);
 			}
-			$accessConditions[] = new AndCondition(new EqualityCondition('group_id',null),new OrCondition($userConditions));
+			$accessConditions[] = new OrCondition($userConditions);
+
 		}
 		// Add condition to retrieve publications for given groups (user=null and group=id)
 		if (!is_null($groups))

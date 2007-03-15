@@ -130,7 +130,7 @@ class Weblcms extends WebApplication
 	 */
 	function get_groups()
 	{
-		return GroupManager :: get_group_ids($this->get_course_id(), $this->get_user_id());
+		return GroupManager :: get_group_ids('', $this->get_user_id());
 	}
 	/**
 	 * Gets the defined categories in the current tool.
