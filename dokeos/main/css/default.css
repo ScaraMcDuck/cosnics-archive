@@ -935,11 +935,13 @@ div.version_stats_title
 span.compare_delete
 {
 	color: red;
+	text-decoration: line-through;
 }
 
 span.compare_delete a
 {
 	color: red;
+	text-decoration: line-through;
 }
 
 span.compare_add

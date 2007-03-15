@@ -24,17 +24,24 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 
 			$breadcrumbs = array();
 
+			$breadcrumbs = array();
 			if ($object->get_state() == LearningObject :: STATE_RECYCLED)
 			{
 				$breadcrumbs[] = array('url' => $this->get_recycle_bin_url(), 'name' => get_lang('RecycleBin'));
 				$this->force_menu_url($this->get_recycle_bin_url());
 			}
+			$breadcrumbs[] = array('name' => $object->get_title() . ($object->is_latest_version() ? '' : ' ('.get_lang('OldVersion').')'));
 			$breadcrumbs[] = array('url' => $this->get_url(), 'name' => get_lang('DifferenceBetweenTwoVersions'));
 			$this->display_header($breadcrumbs);
 			
 			$diff = $object->get_difference($version_id);
 			
 			$display = LearningObjectDifferenceDisplay :: factory($diff);
+			
+			echo RepositoryUtilities :: build_block_hider('script');
+			echo RepositoryUtilities :: build_block_hider('begin', 'cole', 'CompareLegend');
+			echo $display->get_legend();
+			echo RepositoryUtilities :: build_block_hider('end', 'cole');
 			echo $display->get_diff_as_html();
 			
 			$this->display_footer();
