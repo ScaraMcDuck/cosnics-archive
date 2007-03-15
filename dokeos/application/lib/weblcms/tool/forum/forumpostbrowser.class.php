@@ -60,7 +60,7 @@ class ForumPostBrowser extends LearningObjectPublicationBrowser
 			if(isset($_GET['parent_post']))
 			{
 				$parent_post = $forum->get_forum_post($_GET['parent_post']);
-				$new_post->set_description('<blockquote style="border-left:1px solid gray;padding: 5px;">'.$parent_post->get_description().'</blockquote>');
+				$new_post->set_description('<blockquote style="border-left:1px solid gray;padding: 5px;">'.$parent_post->get_description().'</blockquote><br />');
 			}
 			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE,$new_post, 'create', 'post', $this->get_url(array('action'=>'newpost',ForumPost :: PROPERTY_PARENT_POST => $_GET[ForumPost :: PROPERTY_PARENT_POST])));
 			if (!$form->validate())
