@@ -16,47 +16,35 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$id1 = $_GET['object'];
-		$id2 = $_GET['compare'];
-		if ($id1 && $id2)
+		$object_id = $_GET[RepositoryManager :: PARAM_COMPARE_OBJECT];
+		$version_id = $_GET[RepositoryManager :: PARAM_COMPARE_VERSION];
+		if ($object_id && $version_id)
 		{
-			$object1 = $this->retrieve_learning_object($id1);
-			$object2 = $this->retrieve_learning_object($id2);
-			
-			$string1 = $object1->get_description();
-        	$string1 = str_replace('<p>', '', $string1);
-        	$string1 = str_replace('</p>', "<br />\n", $string1);
-        	$string1 = explode("\n", $string1);
-        	
-        	$string2 = $object2->get_description();
-        	$string2 = str_replace('<p>', '', $string2);
-        	$string2 = str_replace('</p>', "<br />\n", $string2);
-			$string2 = explode("\n", $string2);
+			$object = $this->retrieve_learning_object($object_id);
+			$version = $this->retrieve_learning_object($version_id);
 
-			$display = LearningObjectDisplay :: factory($object1);
+			$display = LearningObjectDisplay :: factory($object);
 			$breadcrumbs = array();
 
-			if ($object1->get_state() == LearningObject :: STATE_RECYCLED)
+			if ($object->get_state() == LearningObject :: STATE_RECYCLED)
 			{
 				$breadcrumbs[] = array('url' => $this->get_recycle_bin_url(), 'name' => get_lang('RecycleBin'));
 				$this->force_menu_url($this->get_recycle_bin_url());
 			}
 			$breadcrumbs[] = array('url' => $this->get_url(), 'name' => get_lang('DifferenceBetweenTwoVersions'));
 			$this->display_header($breadcrumbs);
-
-			$de = new Text_Diff($string1, $string2);
 			
-			$diff = $de->getDiff();
+			$diff = $object->get_difference($version_id);
 			
 			$html = array();
-			$html[] = '<div class="difference" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$object1->get_icon_name().'.gif);">';			
+			$html[] = '<div class="difference" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$object->get_icon_name().'.gif);">';			
 			$html[] = '<div class="titleleft">';
-			$html[] = $object2->get_title();
-			$html[] = date(" (d M Y, H:i:s O)",$object2->get_modification_date());
+			$html[] = $version->get_title();
+			$html[] = date(" (d M Y, H:i:s O)",$version->get_modification_date());
 			$html[] = '</div>';
 			$html[] = '<div class="titleright">';
-			$html[] = $object1->get_title();
-			$html[] = date(" (d M Y, H:i:s O)",$object1->get_modification_date());
+			$html[] = $object->get_title();
+			$html[] = date(" (d M Y, H:i:s O)",$object->get_modification_date());
 			$html[] = '</div>';
 			foreach($diff as $d)
  			{

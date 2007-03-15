@@ -39,6 +39,8 @@ class RepositoryManager
 	const PARAM_MOVE_SELECTED = 'move_selected';
 	const PARAM_RESTORE_SELECTED = 'restore_selected';
 	const PARAM_DELETE_SELECTED = 'delete_selected';
+	const PARAM_COMPARE_OBJECT = 'object';
+	const PARAM_COMPARE_VERSION = 'compare';
 	/**#@-*/
    /**#@+
     * Constant defining an action of the repository manager.
