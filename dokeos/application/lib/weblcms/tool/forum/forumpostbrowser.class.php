@@ -56,7 +56,13 @@ class ForumPostBrowser extends LearningObjectPublicationBrowser
 		$html = '<b><a href="'.$this->get_url(array('topic'=>null)).'">'.$forum->get_title().'</a> : '.$this->topic->get_title().'</b>';
 		if($_GET['action'] == 'newpost')
 		{
-			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, new AbstractLearningObject('forum_post', $this->get_user_id()), 'create', 'post', $this->get_url(array('action'=>'newpost',ForumPost :: PROPERTY_PARENT_POST => $_GET[ForumPost :: PROPERTY_PARENT_POST])));
+			$new_post =  new AbstractLearningObject('forum_post', $this->get_user_id());
+			if(isset($_GET['parent_post']))
+			{
+				$parent_post = $forum->get_forum_post($_GET['parent_post']);
+				$new_post->set_description('<blockquote style="border-left:1px solid gray;padding: 5px;">'.$parent_post->get_description().'</blockquote>');
+			}
+			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE,$new_post, 'create', 'post', $this->get_url(array('action'=>'newpost',ForumPost :: PROPERTY_PARENT_POST => $_GET[ForumPost :: PROPERTY_PARENT_POST])));
 			if (!$form->validate())
 			{
 				$html .=  $form->toHTML();
