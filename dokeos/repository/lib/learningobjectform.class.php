@@ -205,8 +205,8 @@ EOT;
 			foreach ($this->extra['version_data'] as $version)
 			{
 				$versions = array();
-				$versions[] =& $this->createElement('radio','compare',null,null, $version['id']);
 				$versions[] =& $this->createElement('radio','object',null,null, $version['id']);
+				$versions[] =& $this->createElement('radio','compare',null,null, $version['id']);
 				$versions[] =& $this->createElement('static', null, null, $version['html']);
 				
 				$this->addGroup($versions);

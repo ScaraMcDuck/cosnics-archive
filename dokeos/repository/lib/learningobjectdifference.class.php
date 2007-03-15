@@ -32,7 +32,7 @@ abstract class LearningObjectDifference
 	 * Returns the learning object associated with this object.
 	 * @return LearningObject The object.
 	 */
-	protected function get_object()
+	function get_object()
 	{
 		return $this->object;
 	}
@@ -41,39 +41,24 @@ abstract class LearningObjectDifference
 	 * Returns the learning object associated with this object.
 	 * @return LearningObject The object version.
 	 */
-	protected function get_version()
+	function get_version()
 	{
 		return $this->version;
 	}
 	
-	function get_object_title()
+	function get_legend()
 	{
-		return $this->object->get_title();
-	}
-	
-	function get_version_title()
-	{
-		return $this->version->get_title();
-	}
-	
-	function get_object_description()
-	{
-		return $this->object->get_description();
-	}
-	
-	function get_version_description()
-	{
-		return $this->version->get_description();
+		return null;
 	}
 	
 	function get_difference()
 	{
-		$object_string = $this->get_object_description();
+		$object_string = $this->object->get_description();
         $object_string = str_replace('<p>', '', $object_string);
         $object_string = str_replace('</p>', "<br />\n", $object_string);
         $object_string = explode("\n", strip_tags($object_string));
            	
-        $version_string = $this->get_version_description();
+        $version_string = $this->version->get_description();
         $version_string = str_replace('<p>', '', $version_string);
         $version_string = str_replace('</p>', "<br />\n", $version_string);
 		$version_string = explode("\n", strip_tags($version_string));
