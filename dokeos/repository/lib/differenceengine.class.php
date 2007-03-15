@@ -766,18 +766,6 @@ class Text_Diff_Op {
     			}
     			return implode('<br />', $empty);
     		}
-    		else
-    		{
-//    			if (count($type) != count(($type == 'orig' ? $this->final : $this->orig)))
-//    			{
-//    				$empty = array();
-//    				for ($i=count($type); $i < count(($type == 'orig' ? $this->final : $this->orig)); $i++)
-//    				{
-//    					$empty[] = null;
-//    				}
-//    				return implode('<br /><br />', array_merge($this->$type, $empty));
-//    			}
-    		}
     		return implode('<br />', $this->$type);
     }
 

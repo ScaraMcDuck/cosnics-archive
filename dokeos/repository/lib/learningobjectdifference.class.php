@@ -46,11 +46,6 @@ abstract class LearningObjectDifference
 		return $this->version;
 	}
 	
-	function get_legend()
-	{
-		return null;
-	}
-	
 	function get_difference()
 	{
 		$object_string = $this->object->get_description();
