@@ -55,7 +55,7 @@ $is_trackingEnabled = {TRACKING_ENABLED};
 $singleDbEnabled    = {SINGLE_DATABASE};
 // prefix for course tables (IF NOT EMPTY, can be replaced by another prefix,
 // else leave empty)
-$courseTablePrefix      = '{DATABASE_PREFIX}';
+$courseTablePrefix      = '{COURSE_TABLE_PREFIX}';
 // separator between database and table name (DO NOT MODIFY THIS)
 $dbGlu                  = '{DATABASE_GLUE}';
 // prefix all created bases (for courses) with this string
