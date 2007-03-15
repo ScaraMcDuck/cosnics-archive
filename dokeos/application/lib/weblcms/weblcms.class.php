@@ -366,6 +366,9 @@ class Weblcms extends WebApplication
 	 * function and for each tool a query is executed. All information can be
 	 * retrieved using a single query. WeblcmsDataManager should implement this
 	 * functionality.
+	 * @todo This function currently doesn't take the user and group information
+	 * into account. So it's possible this function returns true even if
+	 * there's no new publication for the current user
 	 * @param string $tool
 	 */
 	function tool_has_new_publications($tool)
