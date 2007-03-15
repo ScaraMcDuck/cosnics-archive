@@ -1,0 +1,100 @@
+<?php
+/**
+ * @package repository
+ */
+require_once dirname(__FILE__).'/repositoryutilities.class.php';
+require_once dirname(__FILE__).'/repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/differenceengine.class.php';
+/**
+ * A class to display a LearningObject.
+ */
+abstract class LearningObjectDifference
+{
+	/**
+	 * The learning object.
+	 */
+	private $object;
+	/**
+	 * The learning object version.
+	 */
+	private $version;
+	/**
+	 * Constructor.
+	 * @param LearningObject $object The learning object to compare.
+	 * @param LearningObject $version The learning object to compare with.
+	 */
+	protected function LearningObjectDifference($object, $version)
+	{
+		$this->object = $object;
+		$this->version = $version;
+	}
+	/**
+	 * Returns the learning object associated with this object.
+	 * @return LearningObject The object.
+	 */
+	protected function get_object()
+	{
+		return $this->object;
+	}
+	
+	/**
+	 * Returns the learning object associated with this object.
+	 * @return LearningObject The object version.
+	 */
+	protected function get_version()
+	{
+		return $this->version;
+	}
+	
+	function get_object_title()
+	{
+		return $this->object->get_title();
+	}
+	
+	function get_version_title()
+	{
+		return $this->version->get_title();
+	}
+	
+	function get_object_description()
+	{
+		return $this->object->get_description();
+	}
+	
+	function get_version_description()
+	{
+		return $this->version->get_description();
+	}
+	
+	function get_difference()
+	{
+		$object_string = $this->get_object_description();
+        $object_string = str_replace('<p>', '', $object_string);
+        $object_string = str_replace('</p>', "<br />\n", $object_string);
+        $object_string = explode("\n", strip_tags($object_string));
+           	
+        $version_string = $this->get_version_description();
+        $version_string = str_replace('<p>', '', $version_string);
+        $version_string = str_replace('</p>', "<br />\n", $version_string);
+		$version_string = explode("\n", strip_tags($version_string));
+		
+		$td = new Text_Diff($object_string, $version_string);
+		
+		return $td->getDiff();
+	}
+
+	/**
+	 * Creates an object that can display the given learning object in a
+	 * standardized fashion.
+	 * @param LearningObject $object The object to display.
+	 * @return LearningObject
+	 */
+	static function factory(&$object, &$version)
+	{
+		$type = $object->get_type();
+		$class = LearningObject :: type_to_class($type).'Difference';
+		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_difference.class.php';
+		return new $class($object, $version);
+	}
+}
+?>

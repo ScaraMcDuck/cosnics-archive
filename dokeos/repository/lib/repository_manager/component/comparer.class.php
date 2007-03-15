@@ -23,7 +23,6 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 			$object = $this->retrieve_learning_object($object_id);
 			$version = $this->retrieve_learning_object($version_id);
 
-			$display = LearningObjectDisplay :: factory($object);
 			$breadcrumbs = array();
 
 			if ($object->get_state() == LearningObject :: STATE_RECYCLED)
@@ -39,14 +38,14 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 			$html = array();
 			$html[] = '<div class="difference" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$object->get_icon_name().'.gif);">';			
 			$html[] = '<div class="titleleft">';
-			$html[] = $version->get_title();
+			$html[] = $diff->get_object_title();
 			$html[] = date(" (d M Y, H:i:s O)",$version->get_modification_date());
 			$html[] = '</div>';
 			$html[] = '<div class="titleright">';
-			$html[] = $object->get_title();
+			$html[] = $diff->get_version_title();
 			$html[] = date(" (d M Y, H:i:s O)",$object->get_modification_date());
 			$html[] = '</div>';
-			foreach($diff as $d)
+			foreach($diff->get_difference() as $d)
  			{
 
 				$html[] = '<div class="left">';

@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/accessiblelearningobject.class.php';
 require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/condition/equalitycondition.class.php';
-require_once dirname(__FILE__).'/differenceengine.class.php';
+require_once dirname(__FILE__).'/learningobjectdifference.class.php';
 
 /**
  *	This class represents a learning object in the repository. Every object
@@ -213,19 +213,9 @@ class LearningObject implements AccessibleLearningObject
 		$dm = RepositoryDataManager :: get_instance();
 		$version = $dm->retrieve_learning_object($id);
 		
-		$object_string = $this->get_description();
-        $object_string = str_replace('<p>', '', $object_string);
-        $object_string = str_replace('</p>', "<br />\n", $object_string);
-        $object_string = explode("\n", strip_tags($object_string));
-        	
-        $version_string = $version->get_description();
-        $version_string = str_replace('<p>', '', $version_string);
-        $version_string = str_replace('</p>', "<br />\n", $version_string);
-		$version_string = explode("\n", strip_tags($version_string));
+		$lod = LearningObjectDifference :: factory($this, $version);
 		
-		$td = new Text_Diff($object_string, $version_string);
-		
-		return $td->getDiff();
+		return $lod;
 	}
 	
 	/**
