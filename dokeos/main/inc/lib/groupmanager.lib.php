@@ -344,7 +344,7 @@ class GroupManager
 		$category = GroupManager :: get_category($category_id);
 		if( strlen($places) == 0)
 		{
-			$places = $category['max_student'];	
+			$places = $category['max_student'];
 		}
 		$sql = "INSERT INTO ".$table_group." SET category_id='".$category_id."', max_student = '".$places."', forum_state = '".$category['forum_state']."', doc_state = '".$category['doc_state']."',  self_registration_allowed = '".$category['self_reg_allowed']."',  self_unregistration_allowed = '".$category['self_unreg_allowed']."'";
 		api_sql_query($sql,__FILE__,__LINE__);
@@ -448,8 +448,8 @@ class GroupManager
 			$user_ids = array();
 			foreach($users as $index_user => $user)
 			{
-				$user_ids[] = $user['user_id'];	
-			}	
+				$user_ids[] = $user['user_id'];
+			}
 			GroupManager::subscribe_users($user_ids,$group_id);
 			$group_ids[] = $group_id;
 		}
@@ -966,7 +966,7 @@ class GroupManager
 	 * @param integer $user_id: the ID of the user you want to know all its
 	 * group memberships
 	 */
-	function get_group_ids($course_db,$user_id)
+	function get_group_ids($course_db = '',$user_id)
 	{
 	$tbl_group = Database::get_course_table(GROUP_USER_TABLE,$course_db);
 
