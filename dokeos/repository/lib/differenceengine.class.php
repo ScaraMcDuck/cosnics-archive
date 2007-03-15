@@ -806,7 +806,12 @@ class Text_Diff_Op_copy extends Text_Diff_Op {
     
     function parse($type)
     {
-    		return '<span class="compare_copy">'.parent :: parse($type).'</span>';
+    	$parse = parent :: parse($type);
+    	if (strlen($parse) > 100)
+    	{
+    		$parse = substr($parse, 0, 100). '...';
+    	}
+    	return '<span class="compare_copy">'.$parse.'</span>';
     }
 
 }
