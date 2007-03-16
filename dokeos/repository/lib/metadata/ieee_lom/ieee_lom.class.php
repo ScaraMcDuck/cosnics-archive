@@ -131,10 +131,10 @@ class IeeeLom
 			$strings = $langstring->get_strings();
 			foreach ($strings as $index => $string)
 			{
-				$string_node = $this->dom->createElement('langstring', $string['string']);
+				$string_node = $this->dom->createElement('string', $string['string']);
 				if (!is_null($string['language']))
 				{
-					$string_node->setAttribute('xml:lang', $string['language']);
+					$string_node->setAttribute('language', $string['language']);
 				}
 				$parent_node->appendChild($string_node);
 			}
@@ -623,7 +623,10 @@ class IeeeLom
 		$this->create_nodes_from_path('/lom/rights');
 		$this->append_vocabulary_node($this->get_node('/lom/rights'), 'copyrightAndOtherRestrictions', $copyright_and_other_restrictions);
 	}
-	// 6.3 Description
+	/**
+	 * 6.3  Description
+	 * @param Langstring $langstring
+	 */
 	function add_rights_description($langstring)
 	{
 		$this->add_langstring_nodes('/lom/rights', 'description', $langstring);
