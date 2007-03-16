@@ -150,7 +150,7 @@ abstract class LearningObjectForm extends FormValidator
 				$this->add_element_hider('script_block');
 				$this->addElement('checkbox','version', get_lang('CreateAsNewVersion'), null, 'onclick="javascript:showElement(\''. LearningObject :: PROPERTY_COMMENT .'\')"');
 				$this->add_element_hider('begin', LearningObject :: PROPERTY_COMMENT);
-				$this->addElement('textarea', LearningObject :: PROPERTY_COMMENT, get_lang('VersionComment'));
+				$this->addElement('text', LearningObject :: PROPERTY_COMMENT, get_lang('VersionComment'));
 				$this->add_element_hider('end', LearningObject :: PROPERTY_COMMENT);
 			}
 			else
@@ -224,7 +224,7 @@ EOT;
 			}
 			
 			$this->addElement('submit', 'submit', get_lang('CompareVersions'));
-			$this->addElement('html', '<script language="JavaScript" type="text/javascript" src="main/javascript/wz_tooltip.js"></script>');
+			//$this->addElement('html', '<script language="JavaScript" type="text/javascript" src="main/javascript/wz_tooltip.js"></script>');
 			$this->addElement('html', '</div>');
 		}
 	}
