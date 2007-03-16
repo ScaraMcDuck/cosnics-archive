@@ -4,7 +4,7 @@
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="owner" type="integer" unsigned="1" notnull="1"/>
   <property name="object_number" type="integer" unsigned="1" notnull="1"/>
-  <property name="comment" type="text"/>
+  <property name="comment" type="text" length="60"/>
   <property name="type" type="text" length="255" notnull="1"/>
   <property name="title" type="text" notnull="1"/>
   <property name="description" type="text" notnull="1"/>

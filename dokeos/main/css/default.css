@@ -932,6 +932,11 @@ div.version_stats_title
 	margin-bottom: 1em;
 }
 
+span.version_comment
+{
+	font-style: italic;
+}
+
 span.compare_delete
 {
 	color: red;

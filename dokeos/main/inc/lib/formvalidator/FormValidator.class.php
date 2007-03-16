@@ -259,84 +259,83 @@ EOT;
      */
 	function add_element_hider($type, $extra = null)
 	{
+		$html = array();
 		if ($type == 'script_block')
 		{
-			$html  = '<script language="JavaScript">' .
-					 'function showElement(item)' .
-					 '{' .
-					 '	if (document.getElementById(item).style.display == \'block\')' .
-					 '  {' .
-					 '		document.getElementById(item).style.display = \'none\';' .
-					 '  }' .
-					 '	else' .
-					 '  {' .
-					 '		document.getElementById(item).style.display = \'block\';' .
-					 '		document.getElementById(item).value = \'Version comments here ...\';' .
-					 '	}' .
-					 '}' .
-					 '</script>';
+			$html[]  = '<script language="JavaScript">';
+			$html[]  = 'function showElement(item)';
+			$html[]  = '{';
+			$html[]  = '	if (document.getElementById(item).style.display == \'block\')';
+			$html[]  = '  {';
+			$html[]  = '		document.getElementById(item).style.display = \'none\';';
+			$html[]  = '  }';
+			$html[]  = '	else';
+			$html[]  = '  {';
+			$html[]  = '		document.getElementById(item).style.display = \'block\';';
+			$html[]  = '		document.getElementById(item).value = \'Version comments here ...\';';
+			$html[]  = '	}';
+			$html[]  = '}';
+			$html[]  = '</script>';
 		}
 		elseif($type == 'script_radio')
 		{
-			$html = '<script language="JavaScript">' .
-					'function showRadio(type, item)' .
-					'{' .
-					'	if (type == \'A\')' .
-					'	{' .
-					'		for (var j = item; j >= 0; j--)' .
-					'		{' .
-					'			var it = type + j;' .
-					'			if (document.getElementById(it).style.visibility == \'hidden\')' .
-					'			{' .
-					'				document.getElementById(it).style.visibility = \'visible\';' .
-					'			};' .
-					'		}' .
-					'		' .
-					'		for (var j = item; j < '. $extra->get_version_count() .'; j++)' .
-					'		{' .
-					'			var it = type + j;' .
-					'			if (document.getElementById(it).style.visibility == \'visible\')' .
-					'			{' .
-					'				document.getElementById(it).style.visibility = \'hidden\';' .
-					'			};' .
-					'		}' .
-					'	}' .
-					'	else if (type == \'B\')' .
-					'	{' .
-					'		item++;' .
-					'		for (var j = item; j >= 0; j--)' .
-					'		{' .
-					'			var it = type + j;' .
-					'			if (document.getElementById(it).style.visibility == \'visible\')' .
-					'			{' .
-					'				document.getElementById(it).style.visibility = \'hidden\';' .
-					'			};' .
-					'		}' .
-					'		' .
-					'		for (var j = item; j <= '. $extra->get_version_count() .'; j++)' .
-					'		{' .
-					'			var it = type + j;' .
-					'			if (document.getElementById(it).style.visibility == \'hidden\')' .
-					'			{' .
-					'				document.getElementById(it).style.visibility = \'visible\';' .
-					'			};' .
-					'		}' .
-					'	}' .
-					'}' .
-					'</script>';
+			$html[]  = '<script language="JavaScript">';
+			$html[]  = 'function showRadio(type, item)';
+			$html[]  = '{';
+			$html[]  = '	if (type == \'A\')';
+			$html[]  = '	{';
+			$html[]  = '		for (var j = item; j >= 0; j--)';
+			$html[]  = '		{';
+			$html[]  = '			var it = type + j;';
+			$html[]  = '			if (document.getElementById(it).style.visibility == \'hidden\')';
+			$html[]  = '			{';
+			$html[]  = '				document.getElementById(it).style.visibility = \'visible\';';
+			$html[]  = '			};';
+			$html[]  = '		}';
+			$html[]  = '		for (var j = item; j < '. $extra->get_version_count() .'; j++)';
+			$html[]  = '		{';
+			$html[]  = '			var it = type + j;';
+			$html[]  = '			if (document.getElementById(it).style.visibility == \'visible\')';
+			$html[]  = '			{';
+			$html[]  = '				document.getElementById(it).style.visibility = \'hidden\';';
+			$html[]  = '			};';
+			$html[]  = '		}';
+			$html[]  = '	}';
+			$html[]  = '	else if (type == \'B\')';
+			$html[]  = '	{';
+			$html[]  = '		item++;';
+			$html[]  = '		for (var j = item; j >= 0; j--)';
+			$html[]  = '		{';
+			$html[]  = '			var it = type + j;';
+			$html[]  = '			if (document.getElementById(it).style.visibility == \'visible\')';
+			$html[]  = '			{';
+			$html[]  = '				document.getElementById(it).style.visibility = \'hidden\';';
+			$html[]  = '			};';
+			$html[]  = '		}';
+			$html[]  = '		for (var j = item; j <= '. $extra->get_version_count() .'; j++)';
+			$html[]  = '		{';
+			$html[]  = '			var it = type + j;';
+			$html[]  = '			if (document.getElementById(it).style.visibility == \'hidden\')';
+			$html[]  = '			{';
+			$html[]  = '				document.getElementById(it).style.visibility = \'visible\';';
+			$html[]  = '			};';
+			$html[]  = '		}';
+			$html[]  = '	}';
+			$html[]  = '}';
+			$html[]  = '</script>';
 		}
 		elseif($type == 'begin')
 		{
-			$html = '<div id="'. $extra .'" style="display: none;">';
+			$html[]  = '<div id="'. $extra .'" style="display: none;">';
 		}
 		elseif($type == 'end')
 		{
-			$html = '</div>';
+			$html[]  = '</div>';
 		}
 		
 		if (isset($html))
 		{
-			$this->addElement('html', $html);
+			$this->addElement('html', implode("\n", $html));
 		}
     }
     
