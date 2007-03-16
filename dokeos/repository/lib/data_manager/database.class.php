@@ -647,7 +647,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function get_version_ids($object)
 	{
 		$version_ids = array();
-		$query = 'SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).' =?';
+		$query = 'SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).' =? ORDER BY '.$this->escape_column_name(LearningObject :: PROPERTY_ID).' ASC';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($object->get_object_number());
 
