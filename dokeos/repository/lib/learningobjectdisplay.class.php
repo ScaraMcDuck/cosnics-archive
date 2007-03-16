@@ -141,7 +141,7 @@ abstract class LearningObjectDisplay
 	function get_version_as_html($version_entry)
 	{
 		$object = $this->get_learning_object();
-
+		
 		if ($object->get_id() == $version_entry['id'])
 		{
 			$html[] = '<span class="current">';
@@ -169,7 +169,16 @@ abstract class LearningObjectDisplay
 			$html[] = '&nbsp;<img src="'.api_get_path(WEB_CODE_PATH).'/img/revert_na.gif" alt="'.htmlentities(get_lang('Revert')).'"/>';
 		}
 
-		$html[] = '&nbsp;<a href="'.htmlentities($version_entry['viewing_link']).'" title="'.$version_entry['title'].'">'.$version_entry['title'].'</a>';
+		if (isset($version_entry['comment']) && $version_entry['comment'] != '')
+		{
+			$html[] = '&nbsp;<img src="'.api_get_path(WEB_CODE_PATH).'/img/comment_small.gif"  onmouseover="return escape(\''. str_replace(array("\n", "\r", "\r\n"), '', htmlentities($version_entry['comment'])) .'\')" />';
+		}
+		else
+		{
+			$html[] = '&nbsp;<img src="'.api_get_path(WEB_CODE_PATH).'/img/empty.gif" alt="'. get_lang('NoComment') .'"/>';
+		}
+
+		$html[] = '&nbsp;<a href="'.htmlentities($version_entry['viewing_link']).'">'.$version_entry['title'].'</a>';
 		$html[] = '</span>';
 			
 		$result['id'] = $version_entry['id'];
