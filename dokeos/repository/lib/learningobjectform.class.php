@@ -219,7 +219,7 @@ EOT;
 				$versions[] =& $this->createElement('static', null, null, '</span>');
 				$versions[] =& $this->createElement('static', null, null, $version['html']);
 				
-				$this->addGroup($versions);
+				$this->addGroup($versions, null, null, "\n");
 				$i++;
 			}
 			

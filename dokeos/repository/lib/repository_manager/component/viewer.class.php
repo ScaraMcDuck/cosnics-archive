@@ -55,7 +55,14 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				{
 					$version_entry = array();
 					$version_entry['id'] = $version->get_id();
-					$version_entry['title'] = substr($version->get_title(), 0, 20);
+					if (strlen($version->get_title()) > 20)
+					{
+						$version_entry['title'] = substr($version->get_title(), 0, 20) .'...';
+					}
+					else
+					{
+						$version_entry['title'] = $version->get_title();
+					}
 					$version_entry['date'] = date('d M y, H:i', $version->get_creation_date());
 					$version_entry['comment'] = $version->get_comment();
 					$version_entry['viewing_link'] = $this->get_learning_object_viewing_url($version);

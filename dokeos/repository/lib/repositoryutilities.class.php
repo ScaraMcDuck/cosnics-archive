@@ -323,7 +323,7 @@ class RepositoryUtilities
 		
 		if ($type == 'script')
 		{
-			$html[]   = '<script language="JavaScript">';
+			$html[]   = '<script language="JavaScript" type="">';
 			$html[]  .= 'function showElement(item)';
 			$html[]  .= '{';
 			$html[]  .= '	if (document.getElementById(item).style.display == \'block\')';
@@ -356,7 +356,7 @@ class RepositoryUtilities
 			$html[]   = '</div>';
 		}
 		
-		return implode($html);
+		return implode("\n", $html);
 	}
 
 	// 2 simple functions to display an array, a bit prettier as print_r
