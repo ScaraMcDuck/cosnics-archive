@@ -25,6 +25,7 @@ class IeeeLomGenerator
 		$lom->add_description(new LangString($learning_object->get_description(),'x-none'));
 		$owner = api_get_user_info($learning_object->get_owner_id());
 		$lom->set_version(new Langstring($learning_object->get_learning_object_edition(),'x-none'));
+		$lom->set_status(new Vocabulary('LOMV1.0',($learning_object->is_latest_version() == TRUE ? 'final' : 'draft')));
 		$vcard = new Contact_Vcard_Build();
 		$vcard->addEmail($owner['mail']);
 		$vcard->setFormattedName($owner['firstName'].' '.$owner['lastName']);
