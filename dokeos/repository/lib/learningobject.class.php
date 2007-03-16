@@ -299,6 +299,14 @@ class LearningObject implements AccessibleLearningObject
 		}
 		return $this->versions;
 	}
+	
+	function get_learning_object_edition()
+	{
+		//$versionid = $this->id;
+		$dm = RepositoryDataManager :: get_instance();
+		//$ids = $dm->get_version_ids($this);
+		return array_search($this->id, $dm->get_version_ids($this)) + 1;
+	}
 
 	/**
 	 * Returns the full URL where this learning object may be viewed.

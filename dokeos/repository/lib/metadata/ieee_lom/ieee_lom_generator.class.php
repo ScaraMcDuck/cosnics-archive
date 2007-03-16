@@ -21,13 +21,14 @@ class IeeeLomGenerator
 	{
 		$lom = new IeeeLom();
 		$lom->add_identifier(api_get_setting('InstitutionUrl'),$learning_object->get_id());
-		$lom->add_title(new LangString($learning_object->get_title()));
-		$lom->add_description(new LangString($learning_object->get_description()));
+		$lom->add_title(new LangString($learning_object->get_title(),'x-none'));
+		$lom->add_description(new LangString($learning_object->get_description(),'x-none'));
 		$owner = api_get_user_info($learning_object->get_owner_id());
+		$lom->set_version(new Langstring($learning_object->get_learning_object_edition(),'x-none'));
 		$vcard = new Contact_Vcard_Build();
 		$vcard->addEmail($owner['mail']);
 		$vcard->setFormattedName($owner['firstName'].' '.$owner['lastName']);
-		$vcard->setName($owner['firstName'].' '.$owner['lastName']);
+		$vcard->setName($owner['lastName'].' '.$owner['firstName']);
 		$lom->add_contribute(new Vocabulary('LOMV1.0','author'),$vcard->fetch(),new IeeeLomDateTime(date('Y-m-d\TH:i:sO',$learning_object->get_creation_date())));
 		$vcard = new Contact_Vcard_Build();
 		$vcard->setFormattedName(api_get_setting('Institution'));
