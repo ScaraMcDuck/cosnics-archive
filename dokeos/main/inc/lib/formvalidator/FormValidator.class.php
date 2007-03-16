@@ -257,9 +257,9 @@ EOT;
 	/**
 	 * Adds javascript code to hide a certain element.
      */
-	function add_element_hider($type, $id = null)
+	function add_element_hider($type, $extra = null)
 	{
-		if ($type == 'script')
+		if ($type == 'script_block')
 		{
 			$html  = '<script language="JavaScript">' .
 					 'function showElement(item)' .
@@ -276,9 +276,58 @@ EOT;
 					 '}' .
 					 '</script>';
 		}
+		elseif($type == 'script_radio')
+		{
+			$html = '<script language="JavaScript">' .
+					'function showRadio(type, item)' .
+					'{' .
+					'	if (type == \'A\')' .
+					'	{' .
+					'		for (var j = item; j >= 0; j--)' .
+					'		{' .
+					'			var it = type + j;' .
+					'			if (document.getElementById(it).style.visibility == \'hidden\')' .
+					'			{' .
+					'				document.getElementById(it).style.visibility = \'visible\';' .
+					'			};' .
+					'		}' .
+					'		' .
+					'		for (var j = item; j < '. $extra->get_version_count() .'; j++)' .
+					'		{' .
+					'			var it = type + j;' .
+					'			if (document.getElementById(it).style.visibility == \'visible\')' .
+					'			{' .
+					'				document.getElementById(it).style.visibility = \'hidden\';' .
+					'			};' .
+					'		}' .
+					'	}' .
+					'	else if (type == \'B\')' .
+					'	{' .
+					'		item++;' .
+					'		for (var j = item; j >= 0; j--)' .
+					'		{' .
+					'			var it = type + j;' .
+					'			if (document.getElementById(it).style.visibility == \'visible\')' .
+					'			{' .
+					'				document.getElementById(it).style.visibility = \'hidden\';' .
+					'			};' .
+					'		}' .
+					'		' .
+					'		for (var j = item; j <= '. $extra->get_version_count() .'; j++)' .
+					'		{' .
+					'			var it = type + j;' .
+					'			if (document.getElementById(it).style.visibility == \'hidden\')' .
+					'			{' .
+					'				document.getElementById(it).style.visibility = \'visible\';' .
+					'			};' .
+					'		}' .
+					'	}' .
+					'}' .
+					'</script>';
+		}
 		elseif($type == 'begin')
 		{
-			$html = '<div id="'. $id .'" style="display: none;">';
+			$html = '<div id="'. $extra .'" style="display: none;">';
 		}
 		elseif($type == 'end')
 		{

@@ -10,10 +10,13 @@ class LinkDifference extends LearningObjectDifference
 {
 	function get_difference()
 	{
-		$object_string = $this->get_object()->get_url();
+		$object = $this->get_object();
+		$version = $this->get_version();
+		
+		$object_string = $object->get_url();
         $object_string = explode("\n", strip_tags($object_string));
            	
-        $version_string = $this->get_version()->get_url();
+        $version_string = $version->get_url();
 		$version_string = explode("\n", strip_tags($version_string));
 		
 		$td = new Text_Diff($object_string, $version_string);

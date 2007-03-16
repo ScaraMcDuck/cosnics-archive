@@ -147,7 +147,7 @@ abstract class LearningObjectForm extends FormValidator
 		{
 			if ($object->get_version_count() < $quotamanager->get_max_versions($object->get_type()))
 			{
-				$this->add_element_hider('script');
+				$this->add_element_hider('script_block');
 				$this->addElement('checkbox','version', get_lang('CreateAsNewVersion'), null, 'onclick="javascript:showElement(\''. LearningObject :: PROPERTY_COMMENT .'\')"');
 				$this->add_element_hider('begin', LearningObject :: PROPERTY_COMMENT);
 				$this->addElement('textarea', LearningObject :: PROPERTY_COMMENT, get_lang('VersionComment'));
@@ -198,20 +198,33 @@ EOT;
 			{
 				$html[] = '<div class="versions_na" style="margin-top: 1em;">';
 			}
+			
 			$html[] = '<div class="versions_title">'.htmlentities(get_lang('Versions')).'</div>';
 			
 			$this->addElement('html', implode("\n", $html));
+			$this->add_element_hider('script_radio', $object);
+			
+			$i = 0;
+			
+			$radios = array();
 	
 			foreach ($this->extra['version_data'] as $version)
 			{
 				$versions = array();
-				$versions[] =& $this->createElement('radio','object',null,null, $version['id']);
-				$versions[] =& $this->createElement('radio','compare',null,null, $version['id']);
+				$versions[] =& $this->createElement('static', null, null, '<span '. ($i == ($object->get_version_count() - 1) ? 'style="visibility: hidden;"' : 'style="visibility: visible;"') .' id="A'. $i .'">');
+				$versions[] =& $this->createElement('radio','object',null,null, $version['id'], 'onclick="javascript:showRadio(\'B\',\''. $i .'\')"');
+				$versions[] =& $this->createElement('static', null, null, '</span>');
+				$versions[] =& $this->createElement('static', null, null, '<span '. ($i == 0 ? 'style="visibility: hidden;"' : 'style="visibility: visible;"') .' id="B'. $i .'">');
+				$versions[] =& $this->createElement('radio','compare',null,null, $version['id'], 'onclick="javascript:showRadio(\'A\',\''. $i .'\')"');
+				$versions[] =& $this->createElement('static', null, null, '</span>');
 				$versions[] =& $this->createElement('static', null, null, $version['html']);
 				
 				$this->addGroup($versions);
+				$i++;
 			}
+			
 			$this->addElement('submit', 'submit', get_lang('CompareVersions'));
+			$this->addElement('html', '<script language="JavaScript" type="text/javascript" src="main/javascript/wz_tooltip.js"></script>');
 			$this->addElement('html', '</div>');
 		}
 	}
@@ -357,7 +370,7 @@ EOT;
 
 		if (isset($values['version']) && $values['version'] == 1)
 		{
-			$object->set_comment($values[LearningObject :: PROPERTY_COMMENT]);
+			$object->set_comment(nl2br($values[LearningObject :: PROPERTY_COMMENT]));
 			$result = $object->version();
 		}
 		else
