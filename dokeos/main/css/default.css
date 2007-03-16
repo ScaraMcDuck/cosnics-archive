@@ -756,6 +756,25 @@ div.system_announcement_content{
 	display: inline;
 }
 
+/* Metadata object display styles */
+div.metadata
+{
+	border: 1px solid #F0F0F0;
+	margin: 0 0 1em 0;
+	padding: 10px 10px 10px 44px;
+	background-position: 10px 10px;
+	background-repeat: no-repeat;
+}
+
+div.metadata div.title
+{
+	font-weight: bold;
+	//font-size: larger;
+	border-bottom: 1px solid #CCCCCC;
+	width: 60%;
+	margin-bottom: 1em;
+}
+
 /* Learning object display styles */
 div.learning_object
 {

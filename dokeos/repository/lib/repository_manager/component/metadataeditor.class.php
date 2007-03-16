@@ -16,14 +16,19 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerComponen
 	 */
 	function run()
 	{
-		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('EditMetadata')));
+		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('Metadata')));
 		$id = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
 		if ($id)
 		{
 			$object = $this->retrieve_learning_object($id);
 			$lom = IeeeLomGenerator::generate($object);
 			$this->display_header($breadcrumbs);
+			echo '<div class="metadata" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/info_small.gif);">';
+			echo '<div class="title">'. $object->get_title(). '</div>';
+			echo '<pre>';
 			$lom->display();
+			echo '</pre>';
+			echo '</div>';
 			$this->display_footer();
 		}
 		else
