@@ -131,10 +131,10 @@ class IeeeLom
 			$strings = $langstring->get_strings();
 			foreach ($strings as $index => $string)
 			{
-				$string_node = $this->dom->createElement('string', $string['string']);
+				$string_node = $this->dom->createElement('langstring', $string['string']);
 				if (!is_null($string['language']))
 				{
-					$string_node->setAttribute('language', $string['language']);
+					$string_node->setAttribute('xml:lang', $string['language']);
 				}
 				$parent_node->appendChild($string_node);
 			}
