@@ -262,7 +262,7 @@ EOT;
 		$html = array();
 		if ($type == 'script_block')
 		{
-			$html[]  = '<script language="JavaScript">';
+			$html[]  = '<script language="JavaScript" type="text/javascript">';
 			$html[]  = 'function showElement(item)';
 			$html[]  = '{';
 			$html[]  = '	if (document.getElementById(item).style.display == \'block\')';
@@ -279,7 +279,7 @@ EOT;
 		}
 		elseif($type == 'script_radio')
 		{
-			$html[]  = '<script language="JavaScript">';
+			$html[]  = '<script language="JavaScript" type="text/javascript">';
 			$html[]  = 'function showRadio(type, item)';
 			$html[]  = '{';
 			$html[]  = '	if (type == \'A\')';

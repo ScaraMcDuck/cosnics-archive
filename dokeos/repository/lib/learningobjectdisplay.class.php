@@ -178,7 +178,12 @@ abstract class LearningObjectDisplay
 //			$html[] = '&nbsp;<img src="'.api_get_path(WEB_CODE_PATH).'/img/empty.gif" alt="'. get_lang('NoComment') .'"/>';
 //		}
 
-		$html[] = '&nbsp;<a href="'.htmlentities($version_entry['viewing_link']).'">'.$version_entry['title'].'</a> <span class="version_comment">'.$version_entry['comment'].'</span>';
+		$html[] = '&nbsp;<a href="'.htmlentities($version_entry['viewing_link']).'">'.$version_entry['title'].'</a>';
+		
+		if (isset($version_entry['comment']) && $version_entry['comment'] != '')
+		{
+			$html[] = '&nbsp;<span class="version_comment">'.$version_entry['comment'].'</span>';
+		}
 		$html[] = '</span>';
 			
 		$result['id'] = $version_entry['id'];
@@ -250,7 +255,7 @@ abstract class LearningObjectDisplay
 			$html[] = '<div class="'.$class.'"></div>';
 		}
 		$html[] = '</div>';
-		$html[] = '<div class="usage_status"">'.$status.' &ndash; '.round($percent, 2).' %</div>';
+		$html[] = '<div class="usage_status">'.$status.' &ndash; '.round($percent, 2).' %</div>';
 		$html[] = '</div>';
 		return implode("\n", $html);
 	}
