@@ -1,6 +1,6 @@
 <?php
 /**
- * Text_Diff
+ * Difference_Engine
  *
  * General API for generating and formatting diffs - the differences between
  * two sequences of strings.
@@ -9,10 +9,10 @@
  * T. Dairiki and is used with his permission.
  *
  *
- * @package Text_Diff
+ * @package Difference_Engine
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  */
-class Text_Diff {
+class Difference_Engine {
 
     /**
      * Array of changes.
@@ -28,15 +28,15 @@ class Text_Diff {
      *                           lines from a file.
      * @param array $to_lines    An array of strings.
      */
-    function Text_Diff($from_lines, $to_lines)
+    function Difference_Engine($from_lines, $to_lines)
     {
         array_walk($from_lines, array($this, '_trimNewlines'));
         array_walk($to_lines, array($this, '_trimNewlines'));
 
         if (extension_loaded('xdiff')) {
-            $engine = &new Text_Diff_Engine_xdiff();
+            $engine = &new Difference_Engine_Engine_xdiff();
         } else {
-            $engine = &new Text_Diff_Engine_native();
+            $engine = &new Difference_Engine_Engine_native();
         }
 
         $this->_edits = $engine->diff($from_lines, $to_lines);
@@ -55,11 +55,11 @@ class Text_Diff {
      *
      * Example:
      * <code>
-     * $diff = &new Text_Diff($lines1, $lines2);
+     * $diff = &new Difference_Engine($lines1, $lines2);
      * $rev = $diff->reverse();
      * </code>
      *
-     * @return Text_Diff  A Diff object representing the inverse of the
+     * @return Difference_Engine  A Diff object representing the inverse of the
      *                    original diff.  Note that we purposely don't return a
      *                    reference here, since this essentially is a clone()
      *                    method.
@@ -86,7 +86,7 @@ class Text_Diff {
     function isEmpty()
     {
         foreach ($this->_edits as $edit) {
-            if (!is_a($edit, 'Text_Diff_Op_copy')) {
+            if (!is_a($edit, 'Difference_Engine_Op_copy')) {
                 return false;
             }
         }
@@ -104,7 +104,7 @@ class Text_Diff {
     {
         $lcs = 0;
         foreach ($this->_edits as $edit) {
-            if (is_a($edit, 'Text_Diff_Op_copy')) {
+            if (is_a($edit, 'Difference_Engine_Op_copy')) {
                 $lcs += count($edit->orig);
             }
         }
@@ -196,12 +196,12 @@ class Text_Diff {
 }
 
 /**
- * $Horde: framework/Text_Diff/Diff.php,v 1.8 2004/10/13 09:30:20 jan Exp $
+ * $Horde: framework/Difference_Engine/Diff.php,v 1.8 2004/10/13 09:30:20 jan Exp $
  *
- * @package Text_Diff
+ * @package Difference_Engine
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  */
-class Text_MappedDiff extends Text_Diff {
+class Text_MappedDiff extends Difference_Engine {
 
     /**
      * Computes a diff between sequences of strings.
@@ -225,7 +225,7 @@ class Text_MappedDiff extends Text_Diff {
         assert(count($from_lines) == count($mapped_from_lines));
         assert(count($to_lines) == count($mapped_to_lines));
 
-        parent::Text_Diff($mapped_from_lines, $mapped_to_lines);
+        parent::Difference_Engine($mapped_from_lines, $mapped_to_lines);
 
         $xi = $yi = 0;
         for ($i = 0; $i < count($this->edits); $i++) {
@@ -251,10 +251,10 @@ class Text_MappedDiff extends Text_Diff {
  * the differences between the two input arrays.
  *
  * @author  Jon Parise <jon@horde.org>
- * @package Text_Diff
+ * @package Difference_Engine
  * @access  private
  */
-class Text_Diff_Engine_xdiff {
+class Difference_Engine_Engine_xdiff {
 
     function diff($from_lines, $to_lines)
     {
@@ -271,22 +271,22 @@ class Text_Diff_Engine_xdiff {
          * xdiff output (which is in the "unified diff" format).
          *
          * Note that we don't have enough information to detect "changed"
-         * lines using this approach, so we can't add Text_Diff_Op_changed
+         * lines using this approach, so we can't add Difference_Engine_Op_changed
          * instances to the $edits array.  The result is still perfectly
          * valid, albeit a little less descriptive and efficient. */
         $edits = array();
         foreach ($diff as $line) {
             switch ($line[0]) {
             case ' ':
-                $edits[] = &new Text_Diff_Op_copy(array(substr($line, 1)));
+                $edits[] = &new Difference_Engine_Op_copy(array(substr($line, 1)));
                 break;
 
             case '+':
-                $edits[] = &new Text_Diff_Op_add(array(substr($line, 1)));
+                $edits[] = &new Difference_Engine_Op_add(array(substr($line, 1)));
                 break;
 
             case '-':
-                $edits[] = &new Text_Diff_Op_delete(array(substr($line, 1)));
+                $edits[] = &new Difference_Engine_Op_delete(array(substr($line, 1)));
                 break;
             }
         }
@@ -316,10 +316,10 @@ class Text_Diff_Engine_xdiff {
  * code was writting by him, and is used/adapted with his permission.
  *
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
- * @package Text_Diff
+ * @package Difference_Engine
  * @access  private
  */
-class Text_Diff_Engine_native {
+class Difference_Engine_Engine_native {
 
     function diff($from_lines, $to_lines)
     {
@@ -394,7 +394,7 @@ class Text_Diff_Engine_native {
                 ++$yi;
             }
             if ($copy) {
-                $edits[] = &new Text_Diff_Op_copy($copy);
+                $edits[] = &new Difference_Engine_Op_copy($copy);
             }
 
             // Find deletes.
@@ -414,11 +414,11 @@ class Text_Diff_Engine_native {
             }
 
             if ($delete && $add) {
-                $edits[] = &new Text_Diff_Op_change($delete, $add);
+                $edits[] = &new Difference_Engine_Op_change($delete, $add);
             } elseif ($delete) {
-                $edits[] = &new Text_Diff_Op_delete($delete);
+                $edits[] = &new Difference_Engine_Op_delete($delete);
             } elseif ($add) {
-                $edits[] = &new Text_Diff_Op_add($add);
+                $edits[] = &new Difference_Engine_Op_add($add);
             }
         }
 
@@ -731,11 +731,11 @@ class Text_Diff_Engine_native {
 }
 
 /**
- * @package Text_Diff
+ * @package Difference_Engine
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  * @access  private
  */
-class Text_Diff_Op {
+class Difference_Engine_Op {
 
     var $orig;
     var $final;
@@ -772,13 +772,13 @@ class Text_Diff_Op {
 }
 
 /**
- * @package Text_Diff
+ * @package Difference_Engine
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  * @access  private
  */
-class Text_Diff_Op_copy extends Text_Diff_Op {
+class Difference_Engine_Op_copy extends Difference_Engine_Op {
 
-    function Text_Diff_Op_copy($orig, $final = false)
+    function Difference_Engine_Op_copy($orig, $final = false)
     {
         if (!is_array($final)) {
             $final = $orig;
@@ -789,7 +789,7 @@ class Text_Diff_Op_copy extends Text_Diff_Op {
 
     function &reverse()
     {
-        return $reverse = &new Text_Diff_Op_copy($this->final, $this->orig);
+        return $reverse = &new Difference_Engine_Op_copy($this->final, $this->orig);
     }
     
     function parse($type)
@@ -805,13 +805,13 @@ class Text_Diff_Op_copy extends Text_Diff_Op {
 }
 
 /**
- * @package Text_Diff
+ * @package Difference_Engine
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  * @access  private
  */
-class Text_Diff_Op_delete extends Text_Diff_Op {
+class Difference_Engine_Op_delete extends Difference_Engine_Op {
 
-    function Text_Diff_Op_delete($lines)
+    function Difference_Engine_Op_delete($lines)
     {
         $this->orig = $lines;
         $this->final = false;
@@ -819,7 +819,7 @@ class Text_Diff_Op_delete extends Text_Diff_Op {
 
     function &reverse()
     {
-        return $reverse = &new Text_Diff_Op_add($this->orig);
+        return $reverse = &new Difference_Engine_Op_add($this->orig);
     }
     
     function parse($type)
@@ -830,13 +830,13 @@ class Text_Diff_Op_delete extends Text_Diff_Op {
 }
 
 /**
- * @package Text_Diff
+ * @package Difference_Engine
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  * @access  private
  */
-class Text_Diff_Op_add extends Text_Diff_Op {
+class Difference_Engine_Op_add extends Difference_Engine_Op {
 
-    function Text_Diff_Op_add($lines)
+    function Difference_Engine_Op_add($lines)
     {
         $this->final = $lines;
         $this->orig = false;
@@ -844,7 +844,7 @@ class Text_Diff_Op_add extends Text_Diff_Op {
 
     function &reverse()
     {
-        return $reverse = &new Text_Diff_Op_delete($this->final);
+        return $reverse = &new Difference_Engine_Op_delete($this->final);
     }
     
     function parse($type)
@@ -855,13 +855,13 @@ class Text_Diff_Op_add extends Text_Diff_Op {
 }
 
 /**
- * @package Text_Diff
+ * @package Difference_Engine
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  * @access  private
  */
-class Text_Diff_Op_change extends Text_Diff_Op {
+class Difference_Engine_Op_change extends Difference_Engine_Op {
 
-    function Text_Diff_Op_change($orig, $final)
+    function Difference_Engine_Op_change($orig, $final)
     {
         $this->orig = $orig;
         $this->final = $final;
@@ -869,7 +869,7 @@ class Text_Diff_Op_change extends Text_Diff_Op {
 
     function &reverse()
     {
-        return $reverse = &new Text_Diff_Op_change($this->final, $this->orig);
+        return $reverse = &new Difference_Engine_Op_change($this->final, $this->orig);
     }
     
     function parse($type)

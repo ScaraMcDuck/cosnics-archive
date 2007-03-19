@@ -285,6 +285,14 @@ class RepositoryManager
 		Display :: display_error_message($message);
 	}
 	/**
+	 * Displays a warning message.
+	 * @param string $message The message.
+	 */
+	function display_warning_message($message)
+	{
+		Display :: display_warning_message($message);
+	}
+	/**
 	 * Displays an error page.
 	 * @param string $message The message.
 	 */
@@ -294,6 +302,18 @@ class RepositoryManager
 		$this->display_error_message($message);
 		$this->display_footer();
 	}
+	
+	/**
+	 * Displays a warning page.
+	 * @param string $message The message.
+	 */
+	function display_warning_page($message)
+	{
+		$this->display_header();
+		$this->display_warning_message($message);
+		$this->display_footer();
+	}
+	
 	/**
 	 * Displays a popup form.
 	 * @param string $message The message.

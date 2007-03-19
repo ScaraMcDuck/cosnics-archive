@@ -851,6 +851,14 @@ div.difference
 	background-repeat: no-repeat;
 }
 
+div.difference div.title
+{
+	font-weight: bold;
+	border-bottom: 1px solid #D0D0D0;
+	width: 60%;
+	margin-bottom: 1em;
+}
+
 div.difference div.titleleft
 {
 	float:left;

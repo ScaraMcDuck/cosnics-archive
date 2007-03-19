@@ -34,10 +34,10 @@ class LearningObjectDifferenceDisplay {
 		foreach($diff->get_difference() as $d)
  		{
 			$html[] = '<div class="left">';
-			$html[] = print_r($d->parse('orig'), true) . '';
+			$html[] = print_r($d->parse('final'), true) . '';
 			$html[] = '</div>';
 			$html[] = '<div class="right">';
-			$html[] = print_r($d->parse('final'), true) . '';
+			$html[] = print_r($d->parse('orig'), true) . '';
 			$html[] = '</div>';
 			$html[] = '<br style="clear:both;" />';
 		}

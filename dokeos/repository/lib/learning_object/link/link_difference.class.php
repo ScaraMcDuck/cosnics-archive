@@ -19,7 +19,7 @@ class LinkDifference extends LearningObjectDifference
         $version_string = $version->get_url();
 		$version_string = explode("\n", strip_tags($version_string));
 		
-		$td = new Text_Diff($object_string, $version_string);
+		$td = new Difference_Engine($version_string, $object_string);
 		
 		return array_merge(parent :: get_difference(), $td->getDiff());
 	}

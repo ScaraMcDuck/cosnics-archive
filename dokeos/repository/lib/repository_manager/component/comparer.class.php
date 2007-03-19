@@ -48,7 +48,7 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(get_lang('NoObjectSelected')));
+			$this->display_warning_page(htmlentities(get_lang('NoObjectSelected')));
 		}
 	}
 	
