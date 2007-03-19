@@ -66,6 +66,13 @@ abstract class RepositoryManagerComponent {
 		$this->get_parent()->display_error_page($message);
 	}
 	/**
+	 * @see RepositoryManager::display_warning_page()
+	 */
+	function display_warning_page($message)
+	{
+		$this->get_parent()->display_warning_page($message);
+	}
+	/**
 	 * @see RepositoryManager::display_popup_form()
 	 */
 	function display_popup_form($form_html)

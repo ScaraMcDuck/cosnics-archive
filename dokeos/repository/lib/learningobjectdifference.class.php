@@ -58,7 +58,7 @@ abstract class LearningObjectDifference
         $version_string = str_replace('</p>', "<br />\n", $version_string);
 		$version_string = explode("\n", strip_tags($version_string));
 		
-		$td = new Text_Diff($object_string, $version_string);
+		$td = new Difference_Engine($version_string, $object_string);
 		
 		return $td->getDiff();
 	}
