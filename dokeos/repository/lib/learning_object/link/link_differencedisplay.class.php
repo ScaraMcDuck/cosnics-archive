@@ -22,7 +22,7 @@ class LinkDifferenceDisplay extends LearningObjectDifferenceDisplay
 		
 		foreach($diff->get_difference() as $d)
  		{
-			$html[] = print_r($d->parse('orig'), true) . '';
+			$html[] = print_r($d->parse('final'), true) . '';
 			$html[] = '<br style="clear:both;" />';
 		}
 		$html[] = '</div>';
@@ -35,7 +35,7 @@ class LinkDifferenceDisplay extends LearningObjectDifferenceDisplay
 		
 		foreach($diff->get_difference() as $d)
  		{
-			$html[] = print_r($d->parse('final'), true) . '';
+			$html[] = print_r($d->parse('orig'), true) . '';
 			$html[] = '<br style="clear:both;" />';
 		}
 		$html[] = '</div>';
