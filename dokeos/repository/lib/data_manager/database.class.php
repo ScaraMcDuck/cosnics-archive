@@ -439,6 +439,30 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 		return true;
 	}
+	
+	// Inherited.
+	function delete_learning_object_attachments($object)
+	{
+		// TODO: SCARA - Add notification for users who are using this object as an attachment
+//		$subject = '['.api_get_setting('siteName').'] '.$publication->get_learning_object()->get_title();
+//		// TODO: SCARA - Add meaningfull attachment removal message
+//		$body = 'message';
+//		$user = api_get_user_info($publication->get_publisher_id());
+//		api_send_mail($user['mail'], $subject, $body);
+		
+		// Delete all attachments (only the links, not the actual objects)
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('attachment').'=?';
+		$sth = $this->connection->prepare($query);		
+		
+		if ($sth->execute($object->get_id()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 	// Inherited.
 	function delete_all_learning_objects()

@@ -160,8 +160,22 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 						);
 					}
 				}
+				
 				if(!$in_recycle_bin)
 				{
+					
+					$delete_link_url = $this->get_learning_object_delete_publications_url($object);
+					
+					if ((!isset($delete_url) || !isset($recycle_url)) && isset($delete_link_url))
+					{
+						$force_delete_button = array(
+							'href' => $delete_link_url,
+							'img' => api_get_path(WEB_CODE_PATH).'img/unlink.gif',
+							'label' => get_lang('Unlink'),
+							'confirm' => true,
+							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+						);
+					}
 					
 					$edit_url = $this->get_learning_object_editing_url($object);
 					if (isset($edit_url))
@@ -183,6 +197,12 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					}
 				
 					$toolbar_data[] = $recycle_bin_button;
+					
+					
+					if (isset($force_delete_button))
+					{
+						$toolbar_data[] = $force_delete_button;
+					}
 					$toolbar_data[] = array(
 						'href' =>  $this->get_learning_object_moving_url($object),
 						'img' => api_get_path(WEB_CODE_PATH).'img/move.gif',

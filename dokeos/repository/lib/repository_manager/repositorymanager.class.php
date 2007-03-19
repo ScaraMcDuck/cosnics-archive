@@ -52,6 +52,7 @@ class RepositoryManager
 	const ACTION_EDIT_LEARNING_OBJECTS = 'edit';
 	const ACTION_REVERT_LEARNING_OBJECTS = 'revert';
 	const ACTION_DELETE_LEARNING_OBJECTS = 'delete';
+	const ACTION_DELETE_LEARNING_OBJECT_PUBLICATIONS = 'deletepublications';
 	const ACTION_RESTORE_LEARNING_OBJECTS = 'restore';
 	const ACTION_MOVE_LEARNING_OBJECTS = 'move';
 	const ACTION_EDIT_LEARNING_OBJECT_METADATA = 'metadata';
@@ -122,6 +123,9 @@ class RepositoryManager
 				break;
 			case self :: ACTION_DELETE_LEARNING_OBJECTS :
 				$component = RepositoryManagerComponent :: factory('Deleter', $this);
+				break;
+			case self :: ACTION_DELETE_LEARNING_OBJECT_PUBLICATIONS :
+				$component = RepositoryManagerComponent :: factory('PublicationDeleter', $this);
 				break;
 			case self :: ACTION_RESTORE_LEARNING_OBJECTS :
 				$component = RepositoryManagerComponent :: factory('Restorer', $this);
@@ -583,12 +587,21 @@ class RepositoryManager
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_LEARNING_OBJECTS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 	}
 	/**
+	 * Gets the url to delete a learning object's publications.
+	 * @param LearningObject $learning_object The learning object.
+	 * @return string The requested URL.
+	 */
+	function get_learning_object_delete_publications_url($learning_object)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_LEARNING_OBJECT_PUBLICATIONS, self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
+	}
+	/**
 	 * Gets the url to recycle a learning object (move the object to the
 	 * recycle bin).
 	 * @param LearningObject $learning_object The learning object.
 	 * @return string The requested URL.
 	 */
-	function get_learning_object_recycling_url($learning_object)
+	function get_learning_object_recycling_url($learning_object, $force = false)
 	{
 		if (!$this->learning_object_deletion_allowed($learning_object) || $learning_object->get_state() == LearningObject :: STATE_RECYCLED)
 		{
