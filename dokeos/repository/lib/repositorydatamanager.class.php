@@ -491,6 +491,20 @@ abstract class RepositoryDataManager
 	 *                 is in use.
 	 */
 	abstract function delete_learning_object_version($object);
+	
+	function delete_learning_object_publications($object)
+	{
+		$applications = $this->get_registered_applications();
+		foreach($applications as $index => $application_name)
+		{
+			$application_class = self::application_to_class($application_name);
+			$application = new $application_class;
+			$application->delete_learning_object_publications($object->get_id());
+		}
+		return true;
+	}
+	
+	abstract function delete_learning_object_attachments($object);
 
 	/**
 	 * Deletes all known learning objects from persistent storage.

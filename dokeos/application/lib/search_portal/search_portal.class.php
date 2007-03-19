@@ -251,5 +251,10 @@ END;
 	{
 		return null;
 	}
+	
+	function delete_learning_object_publications($object_id)
+	{
+		return true;
+	}
 }
 ?>

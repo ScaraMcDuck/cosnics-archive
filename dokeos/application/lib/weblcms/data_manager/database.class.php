@@ -143,14 +143,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $record[0];
 	}
 
-	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $learning_object = null)
 	{
 		$params = array ();
 		$query = 'SELECT '.($allowDuplicates ? '' : 'DISTINCT ').'p.* FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
 		/*
 		 * Add WHERE clause (also extends $params).
 		 */
-		$query .= ' ' . $this->get_publication_retrieval_where_clause($course, $categories, $users, $groups, $condition, & $params);
+		$query .= ' ' . $this->get_publication_retrieval_where_clause($learning_object, $course, $categories, $users, $groups, $condition, & $params);
 		/*
 		 * Always respect display order as a last resort.
 		 */
@@ -176,20 +176,24 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return new DatabaseLearningObjectPublicationResultSet($this, $res);
 	}
 
-	function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false)
+	function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $learning_object = null)
 	{
 		$params = array ();
 		$query = 'SELECT COUNT('.($allowDuplicates ? '*' : 'DISTINCT p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID)).') FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
-		$query .= ' ' . $this->get_publication_retrieval_where_clause($course, $categories, $users, $groups, $condition, & $params);
+		$query .= ' ' . $this->get_publication_retrieval_where_clause($learning_object, $course, $categories, $users, $groups, $condition, & $params);
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
 
-	private function get_publication_retrieval_where_clause ($course, $categories, $users, $groups, $condition, & $params)
+	private function get_publication_retrieval_where_clause ($learning_object, $course, $categories, $users, $groups, $condition, & $params)
 	{
 		$cond = array ();
+		if (!is_null($learning_object))
+		{
+			$cond[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID, $learning_object);
+		}
 		if (!is_null($course))
 		{
 			$cond[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_COURSE_ID, $course);
@@ -364,6 +368,21 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->connection->setLimit(0,1);
 		$statement = $this->connection->prepare($query);
 		$statement->execute($publication->get_id());
+		return true;
+	}
+	
+	function delete_learning_object_publications($object_id)
+	{
+		$publications = $this->retrieve_learning_object_publications(null, null, null, null, null, true, array (), array (), 0, -1, $object_id);
+		while ($publication = $publications->next_result())
+		{
+			$subject = '['.api_get_setting('siteName').'] '.$publication->get_learning_object()->get_title();
+			// TODO: SCARA - Add meaningfull publication removal message
+			$body = 'message';
+			$user = api_get_user_info($publication->get_publisher_id());
+			api_send_mail($user['mail'], $subject, $body);
+			$this->delete_learning_object_publication($publication);
+		}
 		return true;
 	}
 

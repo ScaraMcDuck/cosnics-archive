@@ -262,6 +262,13 @@ abstract class RepositoryManagerComponent {
 		return $this->get_parent()->get_learning_object_viewing_url($learning_object);
 	}
 	/**
+	 * @see RepositoryManager::get_learning_object_delete_publications_url()
+	 */
+	function get_learning_object_delete_publications_url($learning_object)
+	{
+		return $this->get_parent()->get_learning_object_delete_publications_url($learning_object);
+	}
+	/**
 	 * @see RepositoryManager::get_learning_object_editing_url()
 	 */
 	function get_learning_object_editing_url($learning_object)

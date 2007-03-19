@@ -45,5 +45,7 @@ abstract class Application
 	abstract function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
 	abstract function count_publication_attributes($type = null, $condition = null);
+	
+	abstract function delete_learning_object_publications($object_id);
 }
 ?>
