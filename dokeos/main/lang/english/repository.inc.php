@@ -123,6 +123,7 @@ $ToSimpleSearch='Simple Search';
 $Type='Type';
 $Unlink='Unlink';
 $Until='until';
+$Update='Update';
 $Upload='Upload file';
 $URL='URL';
 $VersionQuotaExceeded='You\'ve reached the maximum number of possible versions for this object. Check your quota and, if necessary, remove several unused versions of this object. Contact the platform manager if you want to change your quota.';
