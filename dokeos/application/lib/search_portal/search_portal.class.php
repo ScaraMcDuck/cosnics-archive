@@ -247,12 +247,26 @@ END;
 		return array ();
 	}
 	
+	/**
+	 * Always returns null, as this application does not publish learning objects.
+	 * @return null.
+	 */
+	function get_learning_object_publication_attribute($object_id)
+	{
+		return null;
+	}	
+	
 	function count_publication_attributes($type = null, $condition = null)
 	{
 		return null;
 	}
 	
 	function delete_learning_object_publications($object_id)
+	{
+		return true;
+	}
+	
+	function update_learning_object_publication_id($publication_attr)
 	{
 		return true;
 	}

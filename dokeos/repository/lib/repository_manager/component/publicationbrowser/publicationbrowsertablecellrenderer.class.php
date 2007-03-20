@@ -52,7 +52,7 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 		
 		if (!$learning_object->get_publication_object()->is_latest_version())
 		{
-			$update_url = '';
+			$update_url = $this->browser->get_publication_update_url($learning_object);
 			$toolbar_data[] = array(
 				'href' => $update_url,
 				'label' => get_lang('Update'),

@@ -8,6 +8,7 @@ require_once dirname(__FILE__).'/repositorysearchform.class.php';
 require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../learningobjectcategorymenu.class.php';
 require_once dirname(__FILE__).'/../learningobject.class.php';
+require_once dirname(__FILE__).'/../learningobjectpublicationattributes.class.php';
 require_once dirname(__FILE__).'/../optionsmenurenderer.class.php';
 require_once dirname(__FILE__).'/../condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../condition/equalitycondition.class.php';
@@ -41,6 +42,9 @@ class RepositoryManager
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 	const PARAM_COMPARE_OBJECT = 'object';
 	const PARAM_COMPARE_VERSION = 'compare';
+	const PARAM_PUBLICATION_APPLICATION = 'application';
+	const PARAM_PUBLICATION_ID = 'publication';
+	
 	/**#@-*/
    /**#@+
     * Constant defining an action of the repository manager.
@@ -60,6 +64,7 @@ class RepositoryManager
 	const ACTION_VIEW_MY_PUBLICATIONS = 'publicationbrowser';
 	const ACTION_VIEW_QUOTA = 'quota';
 	const ACTION_COMPARE_LEARNING_OBJECTS = 'compare';
+	const ACTION_UPDATE_LEARNING_OBJECT_PUBLICATION = 'publicationupdater';
 	/**#@-*/
    /**#@+
     * Property of this repository manager.
@@ -138,6 +143,9 @@ class RepositoryManager
 				break;
 			case self :: ACTION_EDIT_LEARNING_OBJECT_RIGHTS :
 				$component = RepositoryManagerComponent :: factory('RightsEditor', $this);
+				break;
+			case self :: ACTION_UPDATE_LEARNING_OBJECT_PUBLICATION :
+				$component = RepositoryManagerComponent :: factory('PublicationUpdater', $this);
 				break;
 			case self :: ACTION_VIEW_QUOTA :
 				$this->set_parameter(self :: PARAM_CATEGORY_ID, null);
@@ -556,6 +564,21 @@ class RepositoryManager
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->get_learning_object_publication_attributes($id, $type, $offset, $count, $order_property, $order_direction);
 	}
+	
+	/**
+	 * @see RepositoryDataManager::get_learning_object_publication_attribute()
+	 */
+	function get_learning_object_publication_attribute($id, $application)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return $rdm->get_learning_object_publication_attribute($id, $application);
+	}
+	
+	function get_publication_update_url($publication_attribute)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_LEARNING_OBJECT_PUBLICATION, self:: PARAM_PUBLICATION_APPLICATION => $publication_attribute->get_application(), self :: PARAM_PUBLICATION_ID => $publication_attribute->get_id()));
+	}	
+	
 	/**
 	 * Gets the url to view a learning object.
 	 * @param LearningObject $learning_object The learning object.

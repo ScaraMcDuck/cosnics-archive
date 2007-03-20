@@ -323,9 +323,22 @@ class Weblcms extends WebApplication
 		return WeblcmsDataManager :: get_instance()->get_learning_object_publication_attributes($object_id, $type, $offset, $count, $order_property, $order_direction);
 	}
 	
+	/*
+	 * Inherited
+	 */
+	function get_learning_object_publication_attribute($publication_id)
+	{
+		return WeblcmsDataManager :: get_instance()->get_learning_object_publication_attribute($publication_id, $type);
+	}
+	
 	function delete_learning_object_publications($object_id)
 	{
 		return WeblcmsDataManager :: get_instance()->delete_learning_object_publications($object_id);
+	}
+	
+	function update_learning_object_publication_id($publication_attr)
+	{
+		return WeblcmsDataManager :: get_instance()->update_learning_object_publication_id($publication_attr);
 	}
 
 	/*
