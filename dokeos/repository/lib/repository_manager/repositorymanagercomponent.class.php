@@ -208,7 +208,7 @@ abstract class RepositoryManagerComponent {
 	{
 		return $this->get_parent()->count_learning_objects($type, $condition, $state, $different_parent_state);
 	}
-	
+
 	/**
 	 * @see RepositoryManager::count_learning_objects()
 	 */
@@ -216,7 +216,7 @@ abstract class RepositoryManagerComponent {
 	{
 		return $this->get_parent()->count_publication_attributes($type, $condition);
 	}
-	
+
 	/**
 	 * Gets the number of categories the user has defined in his repository
 	 * @todo This function should probably move to repositorymanager
@@ -226,9 +226,8 @@ abstract class RepositoryManagerComponent {
 	{
 		if(!isset($this->number_of_categories))
 		{
-			$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->get_user_id());
 			$datamanager = RepositoryDataManager :: get_instance();
-			$this->number_of_categories = $datamanager->count_learning_objects('category', $condition);
+			$this->number_of_categories = $datamanager->get_number_of_categories($this->get_user_id());
 		}
 		return $this->number_of_categories;
 
@@ -267,7 +266,7 @@ abstract class RepositoryManagerComponent {
 	function get_publication_update_url($learning_object)
 	{
 		return $this->get_parent()->get_publication_update_url($learning_object);
-	}	
+	}
 	/**
 	 * @see RepositoryManager::get_learning_object_viewing_url()
 	 */
