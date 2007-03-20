@@ -1,8 +1,9 @@
 <?php
 /**
  * @package repository.publicationtable
- * 
- * TODO: Add comment
+ */
+/**
+ * todo: add comment
  */
 interface PublicationTableDataProvider
 {
