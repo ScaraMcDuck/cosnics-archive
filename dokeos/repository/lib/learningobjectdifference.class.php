@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id$
  * @package repository
  */
 require_once dirname(__FILE__).'/repositoryutilities.class.php';
@@ -36,7 +37,7 @@ abstract class LearningObjectDifference
 	{
 		return $this->object;
 	}
-	
+
 	/**
 	 * Returns the learning object associated with this object.
 	 * @return LearningObject The object version.
@@ -45,21 +46,21 @@ abstract class LearningObjectDifference
 	{
 		return $this->version;
 	}
-	
+
 	function get_difference()
 	{
 		$object_string = $this->object->get_description();
         $object_string = str_replace('<p>', '', $object_string);
         $object_string = str_replace('</p>', "<br />\n", $object_string);
         $object_string = explode("\n", strip_tags($object_string));
-           	
+
         $version_string = $this->version->get_description();
         $version_string = str_replace('<p>', '', $version_string);
         $version_string = str_replace('</p>', "<br />\n", $version_string);
 		$version_string = explode("\n", strip_tags($version_string));
-		
+
 		$td = new Difference_Engine($version_string, $object_string);
-		
+
 		return $td->getDiff();
 	}
 
