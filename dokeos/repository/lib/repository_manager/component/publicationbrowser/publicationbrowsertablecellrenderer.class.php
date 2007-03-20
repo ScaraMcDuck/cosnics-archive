@@ -5,6 +5,7 @@
 require_once dirname(__FILE__).'/publicationbrowsertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/../../../publication_table/defaultpublicationtablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../../learningobject.class.php';
+require_once dirname(__FILE__).'/../../repositorymanager.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
@@ -51,9 +52,11 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 		
 		if (!$learning_object->get_publication_object()->is_latest_version())
 		{
+			$update_url = '';
 			$toolbar_data[] = array(
-				'href' => 'update',
+				'href' => $update_url,
 				'label' => get_lang('Update'),
+				'confirm' => true,
 				'img' => $this->browser->get_web_code_path().'img/revert.gif'
 			);
 		}
