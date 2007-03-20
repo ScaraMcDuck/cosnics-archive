@@ -204,10 +204,10 @@ abstract class RepositoryDataManager
 			$application = new $application_class;
 			$info = array_merge($info, $application->get_learning_object_publication_attributes($id, $type, $offset, $count, $order_property, $order_direction));
 		}
-		
+
 		return $info;
 	}
-	
+
 	/**
 	 * Get the attribute of the learning object publication
 	 * @param int $id The ID of the learning object.
@@ -280,7 +280,7 @@ abstract class RepositoryDataManager
 	 * @return array The requested id's
 	 */
 	abstract function get_children_ids($object);
-	
+
 	/**
 	 * Get number of times a physical document is used by a learning object's versions.
 	 * @param String $path The document path
@@ -409,7 +409,7 @@ abstract class RepositoryDataManager
 	 * @return int The number of matching learning objects.
 	 */
 	abstract function count_learning_objects($type = null, $condition = null, $state = LearningObject :: STATE_NORMAL, $different_parent_state = false);
-	
+
 	/**
 	 * Returns the number of learning objects that match the given criteria.
 	 * This method has the same limitations as retrieve_learning_objects.
@@ -448,7 +448,7 @@ abstract class RepositoryDataManager
 			$info += $application->count_publication_attributes($type, $condition);
 		}
 		return $info;
-	}	
+	}
 
 	/**
 	 * Returns the next available learning object publication ID.
@@ -475,7 +475,7 @@ abstract class RepositoryDataManager
 	 * @return boolean True if the update succceeded, false otherwise.
 	 */
 	abstract function update_learning_object($object);
-	
+
 	/**
 	 * Updates the given learning object publications learning object id.
 	 * @param LearningObjectPublicationAttribute $object The learning object publication attribute.
@@ -518,7 +518,7 @@ abstract class RepositoryDataManager
 	 *                 is in use.
 	 */
 	abstract function delete_learning_object_version($object);
-	
+
 	function delete_learning_object_publications($object)
 	{
 		$applications = $this->get_registered_applications();
@@ -530,7 +530,7 @@ abstract class RepositoryDataManager
 		}
 		return true;
 	}
-	
+
 	abstract function delete_learning_object_attachments($object);
 
 	/**
@@ -581,7 +581,7 @@ abstract class RepositoryDataManager
 	abstract function retrieve_attached_learning_objects ($object);
 
 	abstract function retrieve_learning_object_versions ($object);
-	
+
 	abstract function get_latest_version_id ($object);
 
 	/**
@@ -794,5 +794,21 @@ abstract class RepositoryDataManager
 	 * storage unit
 	 */
 	abstract function create_storage_unit($name,$properties,$indexes);
+
+	/**
+	 * Gets the number of categories the user has defined in his repository
+	 * @param int $user_id
+	 * @return int
+	 */
+	function get_number_of_categories($user_id)
+	{
+		if(!isset($this->number_of_categories{$user_id}))
+		{
+			$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $user_id);
+			$this->number_of_categories{$user_id} = $this->count_learning_objects('category', $condition);
+		}
+		return $this->number_of_categories{$user_id};
+
+	}
 }
 ?>
