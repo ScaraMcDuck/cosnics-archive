@@ -1,4 +1,10 @@
 <?php
+/**
+ * $Id: course_settingstool.class.php 9222 2006-09-15 09:19:38Z bmol $
+ * Course maintenance tool
+ * @package application.weblcms.tool
+ * @subpackage maintenance
+ */
 require_once 'HTML/QuickForm/Controller.php';
 require_once 'HTML/QuickForm/Rule.php';
 require_once 'HTML/QuickForm/Action/Display.php';
@@ -8,9 +14,21 @@ require_once dirname(__FILE__).'/wizard/courseselectionmaintenancewizardpage.cla
 require_once dirname(__FILE__).'/wizard/confirmationmaintenancewizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/maintenancewizardprocess.class.php';
 require_once dirname(__FILE__).'/wizard/maintenancewizarddisplay.class.php';
+/**
+ * A wizard which guides the user to several steps to complete a maintenance
+ * action on a course.
+ */
 class MaintenanceWizard extends HTML_QuickForm_Controller
 {
+	/**
+	 * The repository tool in which this wizard runs.
+	 */
 	private $parent;
+	/**
+	 * Creates a new MaintenanceWizard
+	 * @param RepositoryTool $parent The repository tool in which this wizard
+	 * runs.
+	 */
 	function MaintenanceWizard($parent)
 	{
 		$this->parent = $parent;
@@ -41,10 +59,6 @@ class MaintenanceWizard extends HTML_QuickForm_Controller
 				$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation',$this->parent,get_lang('DeleteConfirmationQuestion')));
 				break;
 		}
-	}
-	function run()
-	{
-		parent::run();
 	}
 }
 ?>

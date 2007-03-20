@@ -1,7 +1,25 @@
 <?php
+/**
+ * $Id: course_settingstool.class.php 9222 2006-09-15 09:19:38Z bmol $
+ * Course maintenance tool
+ * @package application.weblcms.tool
+ * @subpackage maintenance
+ */
+/**
+ * This class provides the needed functionality to show a page in a maintenance
+ * wizard.
+ */
 class MaintenanceWizardDisplay extends HTML_QuickForm_Action_Display
 {
+	/**
+	 * The repository tool in which the wizard runs
+	 */
 	private $parent;
+	/**
+	 * Constructor
+	 * @param RepositoryTool $parent The repository tool in which the wizard
+	 * runs
+	 */
 	public function MaintenanceWizardDisplay($parent)
 	{
 		$this->parent = $parent;

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * $Id: course_settingstool.class.php 9222 2006-09-15 09:19:38Z bmol $
  * Course maintenance tool: Publication selection form
@@ -12,9 +11,22 @@ require_once dirname(__FILE__).'/maintenancewizardpage.class.php';
  */
 class ActionSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 {
+	/**
+	 * Constant defining the action to remove all publications from a course
+	 */
 	const ACTION_EMPTY = 1;
+	/**
+	 * Constant defining the action to copy publications form a course to one or
+	 * more other courses
+	 */
 	const ACTION_COPY = 2;
+	/**
+	 * Constant defining the action to create a backup of a course
+	 */
 	const ACTION_BACKUP = 3;
+	/**
+	 * Constant defining the action to completely remove a course
+	 */
 	const ACTION_DELETE = 4;
 	function buildForm()
 	{
@@ -31,6 +43,12 @@ class ActionSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 		$this->setDefaultAction('next');
 		$this->_formBuilt = true;
 	}
+	/**
+	 * Determines if an action is available
+	 * @param const $action On of the actions defined in this class
+	 * @return boolean True of the given action is available in the current
+	 * course.
+	 */
 	private function is_available($action)
 	{
 		$dm = WeblcmsDatamanager::get_instance();
