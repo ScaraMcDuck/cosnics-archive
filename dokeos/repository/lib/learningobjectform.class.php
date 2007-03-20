@@ -29,7 +29,7 @@ abstract class LearningObjectForm extends FormValidator
 	 * The learning object.
 	 */
 	private $learning_object;
-	
+
 	/**
 	 * Any extra information passed to the form.
 	 */
@@ -52,7 +52,7 @@ abstract class LearningObjectForm extends FormValidator
 		parent :: __construct($form_name, $method, $action);
 		$this->form_type = $form_type;
 		$this->learning_object = $learning_object;
-		$this->owner_id = $learning_object->get_owner_id();		
+		$this->owner_id = $learning_object->get_owner_id();
 		$this->extra = $extra;
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
@@ -160,7 +160,7 @@ abstract class LearningObjectForm extends FormValidator
 		}
 		$this->addElement('hidden', LearningObject :: PROPERTY_ID);
 	}
-	
+
 	/**
 	 * Builds a form to compare learning object versions.
 	 */
@@ -185,11 +185,11 @@ EOT;
 
 EOT;
 		$renderer->setElementTemplate($element_template);
-		
+
 		if (isset($this->extra['version_data']))
 		{
 			$object = $this->learning_object;
-	
+
 			if ($object->is_latest_version())
 			{
 				$html[] = '<div class="versions" style="margin-top: 1em;">';
@@ -198,16 +198,16 @@ EOT;
 			{
 				$html[] = '<div class="versions_na" style="margin-top: 1em;">';
 			}
-			
+
 			$html[] = '<div class="versions_title">'.htmlentities(get_lang('Versions')).'</div>';
-			
+
 			$this->addElement('html', implode("\n", $html));
 			$this->add_element_hider('script_radio', $object);
-			
+
 			$i = 0;
-			
+
 			$radios = array();
-	
+
 			foreach ($this->extra['version_data'] as $version)
 			{
 				$versions = array();
@@ -218,13 +218,11 @@ EOT;
 				$versions[] =& $this->createElement('radio','compare',null,null, $version['id'], 'onclick="javascript:showRadio(\'A\',\''. $i .'\')"');
 				$versions[] =& $this->createElement('static', null, null, '</span>');
 				$versions[] =& $this->createElement('static', null, null, $version['html']);
-				
+
 				$this->addGroup($versions, null, null, "\n");
 				$i++;
 			}
-			
 			$this->addElement('submit', 'submit', get_lang('CompareVersions'));
-			//$this->addElement('html', '<script language="JavaScript" type="text/javascript" src="main/javascript/wz_tooltip.js"></script>');
 			$this->addElement('html', '</div>');
 		}
 	}
@@ -324,7 +322,7 @@ EOT;
 		}
 		return $object;
 	}
-	
+
 	function compare_learning_object()
 	{
 		$values = $this->exportValues();
@@ -446,6 +444,22 @@ EOT;
 		$class = LearningObject :: type_to_class($type).'Form';
 		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_form.class.php';
 		return new $class ($form_type, $learning_object, $form_name, $method, $action, $extra);
+	}
+	/**
+	 * Validates this form
+	 * @see FormValidator::validate
+	 */
+	public function validate()
+	{
+		if($this->isSubmitted() && $this->form_type == self :: TYPE_COMPARE)
+		{
+			$values = $this->exportValues();
+			if(!isset($values['object']) || !isset($values['compare']))
+			{
+				return false;
+			}
+		}
+		return parent::validate();
 	}
 }
 ?>
