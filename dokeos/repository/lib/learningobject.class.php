@@ -300,6 +300,12 @@ class LearningObject implements AccessibleLearningObject
 		return $this->versions;
 	}
 	
+	function get_latest_version_id()
+	{
+		$dm = RepositoryDataManager :: get_instance();
+		return $dm->get_latest_version_id($this);
+	}
+	
 	/**
 	 * Returns the edition of this learning object
 	 * @return an int; the number of the version.

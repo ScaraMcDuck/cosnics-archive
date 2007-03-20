@@ -131,6 +131,31 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 		return $publication_attr;
 	}
+	
+	function get_learning_object_publication_attribute($publication_id)
+	{
+
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=?';
+		$statement = $this->connection->prepare($query);
+		$this->connection->setLimit(0,1);
+		$res = $statement->execute($publication_id);
+
+		$publication_attr = array();
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		
+		$publication_attr = new LearningObjectPublicationAttributes();
+		$publication_attr->set_id($record[LearningObjectPublication :: PROPERTY_ID]);
+		$publication_attr->set_publisher_user_id($record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID]);
+		$publication_attr->set_publication_date($record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE]);
+		$publication_attr->set_application('weblcms');
+		//TODO: i8n location string
+		$publication_attr->set_location($record[LearningObjectPublication :: PROPERTY_COURSE_ID].' &gt; '.$record[LearningObjectPublication :: PROPERTY_TOOL]);
+		//TODO: set correct URL
+		$publication_attr->set_url('index_lcms.php?tool='.$record[LearningObjectPublication :: PROPERTY_TOOL].'&amp;cidReq='.$record[LearningObjectPublication :: PROPERTY_COURSE_ID]);
+		$publication_attr->set_publication_object_id($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
+
+		return $publication_attr;
+	}
 
 	function count_publication_attributes($type = null, $condition = null)
 	{
@@ -350,6 +375,22 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_EMAIL_SENT)] = $publication->is_email_sent();
 		$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 		return true;
+	}
+	
+	function update_learning_object_publication_id($publication_attr)
+	{
+		$where = $this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'='.$publication_attr->get_id();
+		$props = array();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID)] = $publication_attr->get_publication_object_id();
+		$this->connection->loadModule('Extended');
+		if ($this->connection->extended->autoExecute($this->get_table_name('learning_object_publication'), $props, MDB2_AUTOQUERY_UPDATE, $where))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	function delete_learning_object_publication($publication)

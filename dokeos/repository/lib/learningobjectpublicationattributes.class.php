@@ -19,6 +19,7 @@ class LearningObjectPublicationAttributes
 	const PROPERTY_LOCATION = 'location';
 	const PROPERTY_PUBLICATION_DATE = 'published';
 	const PROPERTY_PUBLICATION_OBJECT = 'publication_object';
+	const PROPERTY_PUBLICATION_OBJECT_ID = 'publication_object_id';
 	const PROPERTY_PUBLICATION_USER = 'publication_user';
 	const PROPERTY_URL = 'url';
 	
@@ -204,6 +205,17 @@ class LearningObjectPublicationAttributes
 	function set_publication_object_id($id)
 	{
 		$this->publication_object_id = $id;
+	}
+	
+	function update()
+	{
+		$dm = RepositoryDataManager :: get_instance();
+		$success = $dm->update_learning_object_publication_id($this);
+		if (!$success)
+		{
+			return false;
+		}
+		return true;
 	}
 }
 ?>

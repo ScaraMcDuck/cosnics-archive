@@ -207,6 +207,20 @@ abstract class RepositoryDataManager
 		
 		return $info;
 	}
+	
+	/**
+	 * Get the attribute of the learning object publication
+	 * @param int $id The ID of the learning object.
+	 * @return array An array of LearningObjectPublicationAttributes objects;
+	 *               empty if the object has not been published anywhere.
+	 */
+	function get_learning_object_publication_attribute($id, $application)
+	{
+		$applications = $this->get_registered_applications();
+		$application_class = self::application_to_class($application);
+		$application = new $application_class;
+		return $application->get_learning_object_publication_attribute($id);
+	}
 
 	/**
 	 * Determines whether a learning object can be deleted.
@@ -461,6 +475,19 @@ abstract class RepositoryDataManager
 	 * @return boolean True if the update succceeded, false otherwise.
 	 */
 	abstract function update_learning_object($object);
+	
+	/**
+	 * Updates the given learning object publications learning object id.
+	 * @param LearningObjectPublicationAttribute $object The learning object publication attribute.
+	 * @return boolean True if the update succceeded, false otherwise.
+	 */
+	function update_learning_object_publication_id($publication_attr)
+	{
+		$applications = $this->get_registered_applications();
+		$application_class = self::application_to_class($publication_attr->get_application());
+		$application = new $application_class;
+		return $application->update_learning_object_publication_id($publication_attr);
+	}
 
 	/**
 	 * Deletes the given learning object from persistent storage.
@@ -554,6 +581,8 @@ abstract class RepositoryDataManager
 	abstract function retrieve_attached_learning_objects ($object);
 
 	abstract function retrieve_learning_object_versions ($object);
+	
+	abstract function get_latest_version_id ($object);
 
 	/**
 	 * Adds a learning object to another's attachment list.

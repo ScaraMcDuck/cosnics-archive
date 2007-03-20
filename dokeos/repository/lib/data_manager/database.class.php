@@ -604,6 +604,19 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res->free();
 		return $versions;
 	}
+	
+	function get_latest_version_id ($object)
+	{
+		$object_number = $object->get_object_number();
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_version').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OBJECT_NUMBER).'=?';
+		$this->connection->setLimit(1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($object_number);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$res->free();
+		
+		return $record['id'];
+	}
 
 	// Inherited.
 	function attach_learning_object ($object, $attachment_id)

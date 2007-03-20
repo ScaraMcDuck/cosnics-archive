@@ -255,6 +255,20 @@ abstract class RepositoryManagerComponent {
 		return $this->get_parent()->get_learning_object_publication_attributes($id, $type, $offset, $count, $order_property, $order_direction);
 	}
 	/**
+	 * @see RepositoryManager::get_learning_object_publication_attribute()
+	 */
+	function get_learning_object_publication_attribute($id, $type = null, $application)
+	{
+		return $this->get_parent()->get_learning_object_publication_attribute($id, $application);
+	}
+	/**
+	 * @see RepositoryManager::get_publication_update_url()
+	 */
+	function get_publication_update_url($learning_object)
+	{
+		return $this->get_parent()->get_publication_update_url($learning_object);
+	}	
+	/**
 	 * @see RepositoryManager::get_learning_object_viewing_url()
 	 */
 	function get_learning_object_viewing_url($learning_object)
