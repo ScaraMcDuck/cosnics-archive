@@ -1,5 +1,4 @@
 <?php
-
 /**
  * $Id: course_settingstool.class.php 9222 2006-09-15 09:19:38Z bmol $
  * Course maintenance tool: Publication selection form
@@ -36,6 +35,10 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 		$this->setDefaultAction('next');
 		$this->_formBuilt = true;
 	}
+	/**
+	 * Returns the number of selected publications
+	 * @param array $values
+	 */
 	function count_selected_publications($values)
 	{
 		if(isset($values['publications']))

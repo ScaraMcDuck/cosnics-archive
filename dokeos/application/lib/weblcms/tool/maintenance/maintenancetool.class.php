@@ -7,7 +7,11 @@
  */
 require_once dirname(__FILE__).'/../repositorytool.class.php';
 require_once dirname(__FILE__).'/inc/maintenancewizard.class.php';
-
+/**
+ * This tool implements some maintenance tools for a course.
+ * It gives a course administrator the possibilities to copy course content,
+ * remove publications from the course, create & restore backups,...
+ */
 class MaintenanceTool extends RepositoryTool
 {
 	function run()
