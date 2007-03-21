@@ -10,6 +10,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php
 require_once dirname(__FILE__).'/../../../main/inc/lib/groupmanager.lib.php';
 require_once dirname(__FILE__).'/tool/tool.class.php';
 require_once dirname(__FILE__).'/toollistrenderer.class.php';
+require_once dirname(__FILE__).'/course.class.php';
 
 /**
 ==============================================================================
@@ -23,6 +24,7 @@ require_once dirname(__FILE__).'/toollistrenderer.class.php';
 
 class Weblcms extends WebApplication
 {
+	const PARAM_COURSE = 'course';
 	const PARAM_TOOL = 'tool';
 	const PARAM_ACTION = 'weblcms_action';
 	const PARAM_CATEGORY = 'pcattree';
@@ -35,6 +37,11 @@ class Weblcms extends WebApplication
 	 * The class of the tool currently active in this application
 	 */
 	private $tool_class;
+	
+	/**
+	 * The course object of the course currently active in this application
+	 */
+	private $course;
 
 	/**
 	 * Constructor. Optionally takes a default tool; otherwise, it is taken
@@ -44,9 +51,12 @@ class Weblcms extends WebApplication
 	function Weblcms($tool = null)
 	{
 		parent :: __construct();
+		$this->set_parameter(self :: PARAM_COURSE, $_GET[self :: PARAM_COURSE]);
 		$this->set_parameter(self :: PARAM_TOOL, $_GET[self :: PARAM_TOOL]);
 		$this->set_parameter(self :: PARAM_ACTION, $_GET[self :: PARAM_ACTION]);
 		$this->set_parameter(self :: PARAM_CATEGORY, $_GET[self :: PARAM_CATEGORY]);
+		$this->course = new Course();
+		$this->load_course();
 		$this->tools = array ();
 		$this->load_tools();
 	}
@@ -122,7 +132,7 @@ class Weblcms extends WebApplication
 	 */
 	function get_course_id()
 	{
-		return api_get_course_id();
+		return $this->course->get_id();
 	}
 	/**
 	 * Gets a list of all groups of the current active course in which the
@@ -250,8 +260,7 @@ class Weblcms extends WebApplication
 		}
 		else
 		{
-			global $_course;
-			echo '<h3>'.htmlentities($_course['name']).'</h3>';
+			echo '<h3>'.htmlentities($this->course->get_name()).'</h3>';
 		}
 		//echo 'Last visit: '.date('r',$this->get_last_visit_date());
 	}
@@ -291,6 +300,15 @@ class Weblcms extends WebApplication
 			}
 		}
 	}
+	
+	private function load_course()
+	{
+		if(!is_null($this->get_parameter(self :: PARAM_COURSE)))
+		{
+			$wdm = WeblcmsDataManager :: get_instance();
+			$this->course = $wdm->retrieve_course($this->get_parameter(self :: PARAM_COURSE));
+		}
+	}
 
 	/**
 	 * Determines whether or not the given name is a valid tool name.
@@ -328,7 +346,7 @@ class Weblcms extends WebApplication
 	 */
 	function get_learning_object_publication_attribute($publication_id)
 	{
-		return WeblcmsDataManager :: get_instance()->get_learning_object_publication_attribute($publication_id, $type);
+		return WeblcmsDataManager :: get_instance()->get_learning_object_publication_attribute($publication_id);
 	}
 	
 	function delete_learning_object_publications($object_id)

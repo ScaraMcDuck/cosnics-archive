@@ -8,6 +8,7 @@ require_once dirname(__FILE__).'/database/databaselearningobjectpublicationresul
 require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublication.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublicationcategory.class.php';
+require_once dirname(__FILE__).'/../course.class.php';
 
 class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 {
@@ -615,6 +616,33 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		    $modules[] = $module;
 		}
 		return $modules;
+	}
+	
+	function retrieve_course($course_code)
+	{
+		$query = 'SELECT * FROM dokeos_main.course WHERE '.$this->escape_column_name(Course :: PROPERTY_ID).'=?';
+		$res = $this->limitQuery($query, 1, null, array ($course_code));
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		return $this->record_to_course($record);
+	}
+	
+	function record_to_course($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Course :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new Course($record[Course :: PROPERTY_ID], $defaultProp);		
+	}
+	
+	function update_course($course)
+	{
+		return null;
 	}
 
 	function delete_course($course_code)
