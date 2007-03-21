@@ -21,7 +21,7 @@ class CalendarEventDifference extends LearningObjectDifference
         $version_string = htmlentities(get_lang('From').' '.format_locale_date($date_format,$version->get_start_date()).' '.get_lang('Until').' '.format_locale_date($date_format,$version->get_end_date()));
 		$version_string = explode("\n", strip_tags($version_string));
 		
-		$td = new Text_Diff($object_string, $version_string);
+		$td = new Difference_Engine($object_string, $version_string);
 		
 		return array_merge($td->getDiff(), parent :: get_difference());
 	}
