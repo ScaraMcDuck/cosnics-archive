@@ -253,6 +253,21 @@ abstract class WeblcmsDataManager
 	 * @return array The list of available course modules
 	 */
 	abstract function get_course_modules($course_code);
+	
+	/**
+	 * Retrieves a single course from persistent storage.
+	 * @param string $course_code The alphanumerical identifier of the course.
+	 * @return Course The course.
+	 */
+	abstract function retrieve_course($course_code);
+
+	/**
+	 * Updates the specified course in persistent storage,
+	 * making any changes permanent.
+	 * @param Course $course The course object
+	 * @return boolean True if the update succceeded, false otherwise.
+	 */
+	abstract function update_course($course);
 
 	/**
 	 * Deletes all records from the database related to this given course.

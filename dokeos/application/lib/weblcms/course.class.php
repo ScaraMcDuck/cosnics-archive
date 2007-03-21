@@ -60,24 +60,24 @@
 
 class course {
 	
-	const PROPERTY_ID = 'id';
-	const PROPERTY_NAME = 'name';
-	const PROPERTY_PATH = 'path';
-	const PROPERTY_TITULAR = 'titular';
-	const PROPERTY_LANGUAGE = 'language';
-	const PROPERTY_EXTLINK_URL = 'extlink_url';
-	const PROPERTY_EXTLINK_NAME = 'extlink_name';
+	const PROPERTY_ID = 'code';
+	const PROPERTY_NAME = 'title';
+	const PROPERTY_PATH = 'directory';
+	const PROPERTY_TITULAR = 'tutor_name';
+	const PROPERTY_LANGUAGE = 'course_language';
+	const PROPERTY_EXTLINK_URL = 'department_url';
+	const PROPERTY_EXTLINK_NAME = 'department_name';
 	const PROPERTY_CATEGORY_CODE = 'category_code';
 	const PROPERTY_CATEGORY_NAME = 'category_name';
 	const PROPERTY_VISIBILITY = 'visibility';
-	const PROPERTY_SUBSCRIBE_ALLOWED = 'subscribe_allowed';
-	const PROPERTY_UNSUBSCRIBE_ALLOWED = 'unsubscribe_allowed';
+	const PROPERTY_SUBSCRIBE_ALLOWED = 'subscribe';
+	const PROPERTY_UNSUBSCRIBE_ALLOWED = 'unsubscribe';
 	
 	
 	private $id;
 	private $defaultProperties;
 
-    function course($id = 0, $defaultProperties = array ())
+    function course($id = null, $defaultProperties = array ())
     {
     	$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
@@ -97,10 +97,19 @@ class course {
 	{
 		$this->defaultProperties[$name] = $value;
 	}
+	
+	/**
+	 * Get the default properties of all courses.
+	 * @return array The property names.
+	 */
+	static function get_default_property_names()
+	{
+		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_CATEGORY_CODE, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
+	}
     
     function get_id()
     {
-    	return $this->id();
+    	return $this->id;
     }
     
     function get_name()
@@ -216,11 +225,6 @@ class course {
 	function set_unsubscribe_allowed($subscribe)
 	{
 		$this->set_default_property(self :: PROPERTY_UNSUBSCRIBE_ALLOWED, $subscribe);
-	}
-	
-	static function get_default_property_names()
-	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_CATEGORY_CODE, self :: PROPERTY_CATEGORY_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
 	}
 	
 	function delete()
