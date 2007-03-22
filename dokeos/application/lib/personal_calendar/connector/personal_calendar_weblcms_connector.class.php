@@ -2,11 +2,11 @@
 require_once(dirname(__FILE__).'/../personal_calendar_connector.class.php');
 require_once(dirname(__FILE__).'/../../weblcms/weblcmsdatamanager.class.php');
 class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector{
-	public function get_events($from_date,$to_date)
+	public function get_events($user_id,$from_date,$to_date)
 	{
 		$dm = WeblcmsDatamanager::get_instance();
 		$condition = new EqualityCondition('tool','calendar');
-		$publications = $dm->retrieve_learning_object_publications(null,null,null,null,$condition);
+		$publications = $dm->retrieve_learning_object_publications(null,null,$user_id,null,$condition);
 		$result = array();
 		while($publication = $publications->next_result())
 		{
