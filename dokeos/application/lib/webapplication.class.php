@@ -25,14 +25,13 @@ abstract class WebApplication extends Application {
 	 */
 	function get_url($parameters = array (), $encode = false)
 	{
-		$string = '';
 		if (count($parameters))
 		{
 			$parameters = array_merge($this->parameters, $parameters);
 		}
 		else
 		{
-			$parameters = & $this->parameters;
+			$parameters = $this->parameters;
 		}
 		$url = $_SERVER['PHP_SELF'].'?'.http_build_query($parameters);
 		if ($encode)
