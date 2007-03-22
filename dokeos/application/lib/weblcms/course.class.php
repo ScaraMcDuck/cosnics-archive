@@ -61,6 +61,7 @@
 class course {
 	
 	const PROPERTY_ID = 'code';
+	const PROPERTY_VISUAL = 'visual_code';
 	const PROPERTY_NAME = 'title';
 	const PROPERTY_PATH = 'directory';
 	const PROPERTY_TITULAR = 'tutor_name';
@@ -104,12 +105,17 @@ class course {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_CATEGORY_CODE, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_CATEGORY_CODE, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
 	}
     
     function get_id()
     {
     	return $this->id;
+    }
+
+    function get_visual()
+    {
+    	return $this->get_default_property(self :: PROPERTY_VISUAL);
     }
     
     function get_name()
@@ -171,6 +177,11 @@ class course {
 	{
 		$this->id = $id;
 	}		
+	
+	function set_visual($visual)
+	{
+		$this->set_default_property(self :: PROPERTY_VISUAL, $visual);
+	}
 	
 	function set_name($name)
 	{
