@@ -1,14 +1,23 @@
 <?php
-require_once(dirname(__FILE__).'/../personal_calendar_connector.class.php');
-require_once(dirname(__FILE__).'/../../weblcms/weblcmsdatamanager.class.php');
-class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector{
-	public function get_events($user_id,$from_date,$to_date)
+/**
+ * $Id$
+ * @package application.personal_calendar
+ */
+require_once (dirname(__FILE__).'/../personal_calendar_connector.class.php');
+require_once (dirname(__FILE__).'/../../weblcms/weblcmsdatamanager.class.php');
+/**
+ * This personal calendar connector allows the personal calendar to retrieve the
+ * published calendar events in the WebLcms application.
+ */
+class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
+{
+	public function get_events($user_id, $from_date, $to_date)
 	{
-		$dm = WeblcmsDatamanager::get_instance();
-		$condition = new EqualityCondition('tool','calendar');
-		$publications = $dm->retrieve_learning_object_publications(null,null,$user_id,null,$condition);
-		$result = array();
-		while($publication = $publications->next_result())
+		$dm = WeblcmsDatamanager :: get_instance();
+		$condition = new EqualityCondition('tool', 'calendar');
+		$publications = $dm->retrieve_learning_object_publications(null, null, $user_id, null, $condition);
+		$result = array ();
+		while ($publication = $publications->next_result())
 		{
 			$info = new LearningObjectPublicationAttributes();
 			$info->set_id($publication->get_id());

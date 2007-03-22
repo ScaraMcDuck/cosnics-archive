@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: weblcms.class.php 11636 2007-03-21 14:17:01Z Scara84 $
+ * $Id$
  * @package application.personal_calendar
  */
 /**
