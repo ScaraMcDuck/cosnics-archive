@@ -74,6 +74,13 @@ function full_file_install($values)
 	$installer = new WeblcmsInstaller();
 	$installer->install();
 
+	//-----------------------------------------------------------
+	// Personal calendar Install.
+	//-----------------------------------------------------------
+	require_once('../../application/lib/personal_calendar/install/personal_calendar_installer.class.php');
+	$installer = new PersonalCalendarInstaller();
+	$installer->install();
+
 	echo "<p>File creation is complete!</p>";
 }
 
