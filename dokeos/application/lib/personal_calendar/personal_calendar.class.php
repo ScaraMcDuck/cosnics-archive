@@ -23,6 +23,7 @@ class PersonalCalendar extends WebApplication
 	 */
 	public function PersonalCalendar($user_id)
 	{
+		parent :: __construct();
 		$this->user_id = $user_id;
 	}
 	/**
@@ -32,6 +33,19 @@ class PersonalCalendar extends WebApplication
 	{
 		$renderer = new PersonalCalendarListRenderer($this);
 		Display :: display_header();
+		$_SESSION['personal_calendar_publish'] = false;
+		if(isset($_GET['publish']) && $_GET['publish'] == 1)
+		{
+			$_SESSION['personal_calendar_publish'] = true;
+		}
+		if($_SESSION['personal_calendar_publish'])
+		{
+			echo '<p><a href="' . $this->get_url(array('publish' => 0), true) . '"><img src="'.api_get_path(WEB_CODE_PATH).'/img/browser.gif" alt="'.get_lang('BrowserTitle').'" style="vertical-align:middle;"/> '.get_lang('BrowserTitle').'</a></p>';
+		}
+		else
+		{
+			echo '<p><a href="' . $this->get_url(array('publish' => 1), true) . '"><img src="'.api_get_path(WEB_CODE_PATH).'/img/publish.gif" alt="'.get_lang('Publish').'" style="vertical-align:middle;"/> '.get_lang('Publish').'</a></p>';
+		}
 		echo $renderer->render();
 		Display :: display_footer();
 	}
