@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: weblcms.class.php 11621 2007-03-20 09:39:55Z Scara84 $
+ * $Id$
  * @package application.personal_calendar
  */
 require_once dirname(__FILE__).'/../webapplication.class.php';
@@ -13,18 +13,33 @@ require_once dirname(__FILE__).'/connector/personal_calendar_weblcms_connector.c
  */
 class PersonalCalendar extends WebApplication
 {
+	/**
+	 * The owner of this personal calendar
+	 */
 	private $user_id;
+	/**
+	 * Constructor
+	 * @param int $user_id
+	 */
 	public function PersonalCalendar($user_id)
 	{
 		$this->user_id = $user_id;
 	}
+	/**
+	 * Runs the personal calendar application
+	 */
 	public function run()
 	{
 		$renderer = new PersonalCalendarListRenderer($this);
 		Display :: display_header();
-		$renderer->render();
+		echo $renderer->render();
 		Display :: display_footer();
 	}
+	/**
+	 * Gets the events
+	 * @param int $from_date
+	 * @param int $to_date
+	 */
 	public function get_events($from_date,$to_date)
 	{
 		$connector = new PersonalCalendarWeblcmsConnector();
