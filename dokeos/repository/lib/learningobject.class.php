@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/learningobjectdifference.class.php';
-
+require_once dirname(__FILE__).'/learningobjectdisplay.class.php';
 /**
  *	This class represents a learning object in the repository. Every object
  *	that can be associated with a module is in fact a learning object.
@@ -201,7 +201,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
 	}
-	
+
 	/**
 	 * Returns the difference of this learning object
 	 * with a given object based on it's id.
@@ -212,12 +212,12 @@ class LearningObject implements AccessibleLearningObject
 	{
 		$dm = RepositoryDataManager :: get_instance();
 		$version = $dm->retrieve_learning_object($id);
-		
+
 		$lod = LearningObjectDifference :: factory($this, $version);
-		
+
 		return $lod;
 	}
-	
+
 	/**
 	 * Returns the comment of this learning object version.
 	 * @return string The version.
@@ -299,13 +299,13 @@ class LearningObject implements AccessibleLearningObject
 		}
 		return $this->versions;
 	}
-	
+
 	function get_latest_version_id()
 	{
 		$dm = RepositoryDataManager :: get_instance();
 		return $dm->get_latest_version_id($this);
 	}
-	
+
 	/**
 	 * Returns the edition of this learning object
 	 * @return an int; the number of the version.
@@ -379,7 +379,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
 	}
-	
+
 	/**
 	 * Sets the comment of this learning object version.
 	 * @param string $comment The comment.
@@ -465,7 +465,7 @@ class LearningObject implements AccessibleLearningObject
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->is_latest_version($this);
 	}
-	
+
 	/**
 	 * Returns the number of versions of the learning object
 	 */
@@ -473,9 +473,9 @@ class LearningObject implements AccessibleLearningObject
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return count($rdm->get_version_ids($this));
-		
+
 	}
-	
+
 	/**
 	 * Returns the remaining number of possible versions
 	 */
@@ -483,7 +483,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		$qm = new QuotaManager($this->get_owner_id());
 		return $qm->get_max_versions($this->get_type())-$this->get_version_count();
-		
+
 	}
 
 	/**
@@ -688,13 +688,13 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return RepositoryDataManager :: get_instance()->delete_learning_object_version($this);
 	}
-	
+
 	function delete_links()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		
+
 		if ($rdm->delete_learning_object_publications($this) && $rdm->delete_learning_object_attachments($this))
-		{		
+		{
 			return true;
 		}
 		else

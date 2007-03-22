@@ -4,7 +4,7 @@
  * @package application.weblcms
  */
 require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php';
-
+require_once dirname(__FILE__).'/../../../repository/lib/repositorydatamanager.class.php';
 /**
 ==============================================================================
  *	This is a skeleton for a data manager for the Weblcms application. Data
@@ -72,11 +72,11 @@ abstract class WeblcmsDataManager
 	 *               empty if the object has not been published anywhere.
 	 */
 	abstract function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
 	abstract function get_learning_object_publication_attribute($publication_id);
 
 	abstract function count_publication_attributes();
-	
+
 	abstract function delete_learning_object_publications($object_id);
 
 	/**
@@ -173,7 +173,7 @@ abstract class WeblcmsDataManager
 	 * @return boolean True if deletion succceeded, false otherwise.
 	 */
 	abstract function delete_learning_object_publication($publication);
-	
+
 	abstract function update_learning_object_publication_id($publication_attr);
 
 	/**
@@ -253,7 +253,7 @@ abstract class WeblcmsDataManager
 	 * @return array The list of available course modules
 	 */
 	abstract function get_course_modules($course_code);
-	
+
 	/**
 	 * Retrieves a single course from persistent storage.
 	 * @param string $course_code The alphanumerical identifier of the course.
