@@ -13,6 +13,11 @@ require_once dirname(__FILE__).'/connector/personal_calendar_weblcms_connector.c
  */
 class PersonalCalendar extends WebApplication
 {
+	private $user_id;
+	public function PersonalCalendar($user_id)
+	{
+		$this->user_id = $user_id;
+	}
 	public function run()
 	{
 		$renderer = new PersonalCalendarListRenderer($this);
@@ -23,7 +28,7 @@ class PersonalCalendar extends WebApplication
 	public function get_events($from_date,$to_date)
 	{
 		$connector = new PersonalCalendarWeblcmsConnector();
-		return $connector->get_events($from_date,$to_date);
+		return $connector->get_events($this->user_id,$from_date,$to_date);
 	}
 	public function learning_object_is_published($object_id)
 	{
