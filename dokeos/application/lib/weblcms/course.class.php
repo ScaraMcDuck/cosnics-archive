@@ -163,12 +163,12 @@ class course {
     	return $this->get_default_property(self :: PROPERTY_VISIBILITY);
     }
     
-    function get_subscription_allowed()
+    function get_subscribe_allowed()
     {
     	return $this->get_default_property(self :: PROPERTY_SUBSCRIBE_ALLOWED);
     }
     
-    function get_unsubscription_allowed()
+    function get_unsubscribe_allowed()
     {
     	return $this->get_default_property(self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
     }

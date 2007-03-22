@@ -394,7 +394,7 @@ function get_logged_user_course_html($mycours)
 	{
 		$result .= $course_display_title.' ';
 		$result .= ' [<a href="'.api_get_path(WEB_COURSE_PATH).$course_directory.'/">OLD</a>] ';
-		$result .= ' [<a href="index_lcms.php?cidReq='.$course_system_code.'&amp;course='.$course_system_code.'">NEW</a>]';
+		$result .= ' [<a href="index_lcms.php?course='.$course_system_code.'">NEW</a>]';
 	}
 	else
 	{

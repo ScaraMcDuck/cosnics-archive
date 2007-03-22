@@ -125,6 +125,15 @@ class Weblcms extends WebApplication
 	{
 		return api_get_user_id();
 	}
+	
+	/**
+	 * Returns the identifier of the course that is being used.
+	 * @return string The course identifier.
+	 */
+	function get_course()
+	{
+		return $this->course;
+	}
 
 	/**
 	 * Returns the identifier of the course that is being used.
@@ -243,6 +252,7 @@ class Weblcms extends WebApplication
 		{
 			echo '<div style="float: right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
 			echo '<form method="get" action="'.$this->get_url().'" style="display: inline;">';
+			echo '<input type="hidden" name="'.self :: PARAM_COURSE.'" value="'. $this->get_course_id() .'" />';
 			echo '<select name="'.self :: PARAM_TOOL.'" onchange="submit();">';
 			$tools = array ();
 			foreach ($this->get_registered_tools() as $t)

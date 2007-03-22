@@ -81,6 +81,14 @@ abstract class Tool
 	{
 		return $this->parent->get_user_id();
 	}
+	
+	/**
+	 * @see WebApplication :: get_course_id()
+	 */
+	function get_course()
+	{
+		return $this->parent->get_course();
+	}
 
 	/**
 	 * @see WebApplication :: get_course_id()
