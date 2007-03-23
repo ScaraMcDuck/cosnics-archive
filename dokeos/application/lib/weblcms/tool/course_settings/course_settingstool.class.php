@@ -18,7 +18,7 @@ class CourseSettingsTool extends Tool
 		if($form->validate())
 		{
 			$success = $form->update_course();
-			$this->redirect(Weblcms :: ACTION_VIEW_COURSE_HOME, get_lang('CourseSettingsUpdated'));
+			$this->redirect(Weblcms :: ACTION_VIEW_COURSE_HOME, get_lang($success ? 'CourseSettingsUpdated' : 'CourseSettingsUpdateFailed'), ($success ? false : true));
 		}
 		else
 		{

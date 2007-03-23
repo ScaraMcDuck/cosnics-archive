@@ -9,8 +9,8 @@ require_once dirname(__FILE__).'/database/databaselearningobjectpublicationresul
 require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublication.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublicationcategory.class.php';
-require_once dirname(__FILE__).'/../course.class.php';
-require_once dirname(__FILE__).'/../coursecategory.class.php';
+require_once dirname(__FILE__).'/../course/course.class.php';
+require_once dirname(__FILE__).'/../course/coursecategory.class.php';
 
 class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 {

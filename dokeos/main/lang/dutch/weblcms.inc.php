@@ -21,6 +21,7 @@ $CourseAccessPrivate='Beperkte toegang, gesloten registratie (site voorbehouden 
 $CourseAdministration='Cursusbeheer';
 $CourseSettingsToolTitle='Instellingen van deze cursus';
 $CourseSettingsUpdated='De cursuseigenschappen werden aangepast.';
+$CourseSettingsUpdateFailed='De cursuseigenschappen werden niet aangepast.';
 $CreateNewCategory='Categorie aanmaken';
 $DayView='Dagoverzicht';
 $Department='Departement';
