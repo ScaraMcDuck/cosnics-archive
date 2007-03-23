@@ -43,6 +43,14 @@ abstract class LearningObjectPublisherComponent
 	{
 		return $this->parent->get_user_id();
 	}
+	
+	/**
+	 * @see LearningObjectPublisher::get_course()
+	 */
+	protected function get_course()
+	{
+		return $this->parent->get_course();
+	}
 
 	/**
 	 * @see LearningObjectPublisher::get_course_id()

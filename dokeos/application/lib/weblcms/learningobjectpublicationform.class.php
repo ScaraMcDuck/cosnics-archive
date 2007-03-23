@@ -48,19 +48,24 @@ class LearningObjectPublicationForm extends FormValidator
 	 */
 	private $email_option;
 	/**
+	 * The course we're publishing in
+	 */
+	private $course;
+	/**
 	 * Creates a new learning object publication form.
 	 * @param LearningObject The learning object that will be published
 	 * @param string $tool The tool in which the object will be published
 	 * @param boolean $email_option Add option in form to send the learning
 	 * object by email to the receivers
 	 */
-    function LearningObjectPublicationForm($learning_object, $tool, $email_option = false)
+    function LearningObjectPublicationForm($learning_object, $tool, $email_option = false, $course)
     {
     	$url = $tool->get_url(array (LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 		parent :: __construct('publish', 'post', $url);
 		$this->tool = $tool;
 		$this->learning_object = $learning_object;
 		$this->email_option = $email_option;
+		$this->course = $course;
 		$this->build_form();
 		$this->setDefaults();
     }
@@ -124,7 +129,7 @@ class LearningObjectPublicationForm extends FormValidator
 			// Only root category -> store object in root category
 			$this->addElement('hidden',LearningObjectPublication :: PROPERTY_CATEGORY_ID,0);
 		}
-		$users = CourseManager::get_user_list_from_course_code(api_get_course_id());
+		$users = CourseManager::get_user_list_from_course_code($this->course->get_id());
 		$receiver_choices = array();
 		foreach($users as $index => $user)
 		{
@@ -137,7 +142,7 @@ class LearningObjectPublicationForm extends FormValidator
 		mysql_connect($dbHost,$dbLogin,$dbPass);
 		mysql_select_db($mainDbName);
 		// --
-		$groups = GroupManager::get_group_list();
+		$groups = GroupManager::get_group_list(null, $this->course->get_id());
 		foreach($groups as $index => $group)
 		{
 			$receiver_choices[self :: PARAM_TARGET_GROUP_PREFIX.'-'.$group['id']] = $group['name'];

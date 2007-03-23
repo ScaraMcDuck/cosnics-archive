@@ -149,7 +149,7 @@ class Weblcms extends WebApplication
 	 */
 	function get_groups()
 	{
-		return GroupManager :: get_group_ids('', $this->get_user_id());
+		return GroupManager :: get_group_ids($this->get_course()->get_db(), $this->get_user_id());
 	}
 	/**
 	 * Gets the defined categories in the current tool.
@@ -375,6 +375,11 @@ class Weblcms extends WebApplication
 	function count_publication_attributes($type = null, $condition = null)
 	{
 		return WeblcmsDataManager :: get_instance()->count_publication_attributes($type, $condition);
+	}
+	
+	function retrieve_course_categories($parent = null)
+	{
+		return WeblcmsDataManager :: get_instance()->retrieve_course_categories($parent);
 	}
 
 	/**

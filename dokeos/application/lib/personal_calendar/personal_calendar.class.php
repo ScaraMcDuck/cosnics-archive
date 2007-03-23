@@ -69,7 +69,7 @@ class PersonalCalendar extends WebApplication
 	}
 	public function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return null;
+		return array();
 	}
 	public function get_learning_object_publication_attribute($object_id)
 	{

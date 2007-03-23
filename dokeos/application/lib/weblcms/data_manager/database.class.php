@@ -4,11 +4,13 @@
  * @package application.weblcms
  * @subpackage datamanager
  */
+require_once dirname(__FILE__).'/database/databasecoursecategoryresultset.class.php';
 require_once dirname(__FILE__).'/database/databaselearningobjectpublicationresultset.class.php';
 require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublication.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublicationcategory.class.php';
 require_once dirname(__FILE__).'/../course.class.php';
+require_once dirname(__FILE__).'/../coursecategory.class.php';
 
 class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 {
@@ -125,9 +127,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			//TODO: i8n location string
 			$info->set_location($record[LearningObjectPublication :: PROPERTY_COURSE_ID].' &gt; '.$record[LearningObjectPublication :: PROPERTY_TOOL]);
 			//TODO: set correct URL
-			$info->set_url('index_lcms.php?tool='.$record[LearningObjectPublication :: PROPERTY_TOOL].'&amp;cidReq='.$record[LearningObjectPublication :: PROPERTY_COURSE_ID]);
+			$info->set_url('index_lcms.php?course='. $record[LearningObjectPublication :: PROPERTY_COURSE_ID] .'&amp;tool='.$record[LearningObjectPublication :: PROPERTY_TOOL]);
 			$info->set_publication_object_id($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
-
+			
 			$publication_attr[] = $info;
 		}
 		return $publication_attr;
@@ -637,6 +639,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			$defaultProp[$prop] = $record[$prop];
 		}
+		
+		$course_category = $this->retrieve_course_category($record[Course :: PROPERTY_CATEGORY_CODE]);
+		$defaultProp[Course :: PROPERTY_CATEGORY] = $course_category;
+		
 		return new Course($record[Course :: PROPERTY_ID], $defaultProp);		
 	}
 	
@@ -685,6 +691,40 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		global $_course,$_cid;
 		unset ($_course);
 		unset ($_cid);
+	}
+	
+	function retrieve_course_category($category_code)
+	{
+		$query = 'SELECT * FROM dokeos_main.course_category WHERE '.$this->escape_column_name(CourseCategory :: PROPERTY_CODE).'=?';
+		$res = $this->limitQuery($query, 1, null, array ($category_code));
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		return $this->record_to_course_category($record);
+	}
+	
+	function retrieve_course_categories($parent = null)
+	{
+		$query = 'SELECT * FROM dokeos_main.course_category';
+		if (isset($parent))
+		{
+			$query .= ' WHERE dokeos_main.course_category.'. CourseCategory :: PROPERTY_PARENT .'=?';
+		}
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($parent);
+		return new DatabaseCourseCategoryResultSet($this, $res);
+	}
+	
+	function record_to_course_category($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (CourseCategory :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new CourseCategory($record[CourseCategory :: PROPERTY_ID], $defaultProp);		
 	}
 
 	function set_module_visible($course_code,$module,$visible)

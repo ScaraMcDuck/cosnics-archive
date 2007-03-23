@@ -92,6 +92,14 @@ class LearningObjectPublisher
 	{
 		return $this->parent->get_user_id();
 	}
+	
+	/**
+	 * @see RepositoryTool::get_course()
+	 */
+	function get_course()
+	{
+		return $this->parent->get_course();
+	}
 
 	/**
 	 * @see RepositoryTool::get_course_id()
