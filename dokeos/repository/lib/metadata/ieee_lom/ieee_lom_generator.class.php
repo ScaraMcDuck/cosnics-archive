@@ -36,8 +36,6 @@ class IeeeLomGenerator
 			$vcard->setName($versionowner['lastName'].' '.$versionowner['firstName']);
 			$lom->add_contribute(new Vocabulary('LOMV1.0',$versionowner == $owner ? 'author' : 'editor'),$vcard->fetch(),new IeeeLomDateTime(date('Y-m-d\TH:i:sO',$version->get_creation_date())));
 		}
-		//$lom->add_contribute(new Vocabulary('LOMV1.0','author'),$vcard->fetch(),new IeeeLomDateTime(date('Y-m-d\TH:i:sO',$learning_object->get_creation_date())));
-		//$lom->add_contribute(new Vocabulary('LOMV1.0','author'),$vcard->fetch(),new IeeeLomDateTime(date('Y-m-d\TH:i:sO',$learning_object->get_creation_date())));
 		$vcard = new Contact_Vcard_Build();
 		$vcard->setFormattedName(api_get_setting('Institution'));
 		$vcard->setName(api_get_setting('siteName'));
