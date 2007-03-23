@@ -6,7 +6,11 @@
 require_once dirname(__FILE__).'/application.class.php';
 
 abstract class WebApplication extends Application {
+	
 	private $parameters;
+	
+	const PARAM_MESSAGE = 'message';
+	const PARAM_ERROR_MESSAGE = 'error_message';
 
 	function WebApplication()
 	{
@@ -39,6 +43,35 @@ abstract class WebApplication extends Application {
 			$url = htmlentities($url);
 		}
 		return $url;
+	}
+	
+	/**
+	 * Redirect the end user to another location.
+	 * @param string $action The action to take (default = browse learning
+	 * objects).
+	 * @param string $message The message to show (default = no message).
+	 * @param int $new_category_id The category to show (default = root
+	 * category).
+	 * @param boolean $error_message Is the passed message an error message?
+	 */
+	function redirect($action = null, $message = null, $error_message = false, $extra_params = null)
+	{
+		$params = array ();
+
+		if (isset($extra_params))
+		{
+			foreach($extra_params as $key => $extra)
+			{
+				$params[$key] = $extra;
+			}
+		}
+		
+		if (isset ($message))
+		{
+			$params[$error_message ? self :: PARAM_ERROR_MESSAGE :  self :: PARAM_MESSAGE] = $message;
+		}
+		$url = $this->get_url($params);
+		header('Location: '.$url);
 	}
 
 	/**

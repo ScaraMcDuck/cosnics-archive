@@ -2,11 +2,22 @@
 require_once dirname(__FILE__).'/../../course.class.php';
 
 class CourseSettingsForm extends FormValidator {
+	
+	private $parent;
+	private $course;
 
     function CourseSettingsForm($parent) {
     	parent :: __construct('course_settings', 'post', $parent->get_url());
     	
-    	$course = $parent->get_course();
+    	$this->course = $parent->get_course();
+    	$this->parent = $parent;
+    	$this->build_editing_form();
+    }
+    
+    function build_editing_form()
+    {
+    	$course = $this->course;
+    	$parent = $this->parent;
     	
 		$this->addElement('text', Course :: PROPERTY_VISUAL, get_lang('VisualCode'));
 		$this->addRule(Course :: PROPERTY_VISUAL, get_lang('ThisFieldIsRequired'), 'required');
@@ -41,21 +52,21 @@ class CourseSettingsForm extends FormValidator {
 		$this->addElement('select', Course :: PROPERTY_LANGUAGE, get_lang('Language'), $lang_options);
 		 
 		$course_access = array();
-		$course_access[] =& $this->createElement('radio', Course :: PROPERTY_VISIBILITY, null, get_lang('CourseAccessOpenWorld'), COURSE_VISIBILITY_OPEN_WORLD);
-		$course_access[] =& $this->createElement('radio', Course :: PROPERTY_VISIBILITY, null, get_lang('CourseAccessOpenRegistered'), COURSE_VISIBILITY_OPEN_PLATFORM);
-		$course_access[] =& $this->createElement('radio', Course :: PROPERTY_VISIBILITY, null, get_lang('CourseAccessPrivate'), COURSE_VISIBILITY_REGISTERED);
-		$course_access[] =& $this->createElement('radio', Course :: PROPERTY_VISIBILITY, null, get_lang('CourseAccessClosed'), COURSE_VISIBILITY_CLOSED);
-		$course_access[] =& $this->createElement('radio', Course :: PROPERTY_VISIBILITY, null, get_lang('CourseAccessModified'), COURSE_VISIBILITY_MODIFIED);
+		$course_access[] =& $this->createElement('radio', null, null, get_lang('CourseAccessOpenWorld'), COURSE_VISIBILITY_OPEN_WORLD);
+		$course_access[] =& $this->createElement('radio', null, null, get_lang('CourseAccessOpenRegistered'), COURSE_VISIBILITY_OPEN_PLATFORM);
+		$course_access[] =& $this->createElement('radio', null, null, get_lang('CourseAccessPrivate'), COURSE_VISIBILITY_REGISTERED);
+		$course_access[] =& $this->createElement('radio', null, null, get_lang('CourseAccessClosed'), COURSE_VISIBILITY_CLOSED);
+		$course_access[] =& $this->createElement('radio', null, null, get_lang('CourseAccessModified'), COURSE_VISIBILITY_MODIFIED);
 		$this->addGroup($course_access, Course :: PROPERTY_VISIBILITY, get_lang('CourseAccess'), '<br />');
 		
 		$subscribe_allowed = array();
-		$subscribe_allowed[] =& $this->createElement('radio', Course :: PROPERTY_SUBSCRIBE_ALLOWED, null, get_lang('SubscribeAllowed'), 1);
-		$subscribe_allowed[] =& $this->createElement('radio', Course :: PROPERTY_SUBSCRIBE_ALLOWED, null, get_lang('SubscribeNotAllowed'), 0);
+		$subscribe_allowed[] =& $this->createElement('radio', null, null, get_lang('SubscribeAllowed'), 1);
+		$subscribe_allowed[] =& $this->createElement('radio', null, null, get_lang('SubscribeNotAllowed'), 0);
 		$this->addGroup($subscribe_allowed, Course :: PROPERTY_SUBSCRIBE_ALLOWED, get_lang('Subscribe'), '<br />');
 		
 		$unsubscribe_allowed = array();
-		$unsubscribe_allowed[] =& $this->createElement('radio', Course :: PROPERTY_UNSUBSCRIBE_ALLOWED, null, get_lang('UnsubscribeAllowed'), 1);
-		$unsubscribe_allowed[] =& $this->createElement('radio', Course :: PROPERTY_UNSUBSCRIBE_ALLOWED, null, get_lang('UnsubscribeNotAllowed'), 0);
+		$unsubscribe_allowed[] =& $this->createElement('radio', null, null, get_lang('UnsubscribeAllowed'), 1);
+		$unsubscribe_allowed[] =& $this->createElement('radio', null, null, get_lang('UnsubscribeNotAllowed'), 0);
 		$this->addGroup($unsubscribe_allowed, Course :: PROPERTY_UNSUBSCRIBE_ALLOWED, get_lang('Unsubscribe'), '<br />');		
 		
 		$this->addElement('submit', 'course_settings', get_lang('Ok'));
@@ -71,6 +82,25 @@ class CourseSettingsForm extends FormValidator {
 		$defaults[Course :: PROPERTY_SUBSCRIBE_ALLOWED] = $course->get_subscribe_allowed();
 		$defaults[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED] = $course->get_unsubscribe_allowed();
     	$this->setDefaults($defaults);
+    }
+    
+    function update_course()
+    {
+    	$course = $this->course;
+    	$values = $this->exportValues();
+    	
+    	$course->set_visual($values[Course :: PROPERTY_VISUAL]);
+    	$course->set_name($values[Course :: PROPERTY_NAME]);
+    	$course->set_category($values[Course :: PROPERTY_CATEGORY]);
+    	$course->set_titular($values[Course :: PROPERTY_TITULAR]);
+    	$course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
+    	$course->set_extlink_url($values[Course :: PROPERTY_EXTLINK_URL]);
+    	$course->set_language($values[Course :: PROPERTY_LANGUAGE]);
+    	$course->set_visibility($values[Course :: PROPERTY_VISIBILITY]);
+    	$course->set_subscribe_allowed($values[Course :: PROPERTY_SUBSCRIBE_ALLOWED]);
+    	$course->set_unsubscribe_allowed($values[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED]);
+    	
+    	return $course->update();
     }
 }
 ?>

@@ -19,6 +19,7 @@ $CourseAccessOpenRegistered='Open - access allowed for users registered on the p
 $CourseAccessPrivate='Private access (site accessible only to people on the user list)';
 $CourseAdministration='Course administration';
 $CourseSettingsToolTitle='Course settings';
+$CourseSettingsUpdated='The course settings were updated.';
 $ChatToolTitle='Chat';
 $CreateNewCategory='Create a Category';
 $DayView='Day View';

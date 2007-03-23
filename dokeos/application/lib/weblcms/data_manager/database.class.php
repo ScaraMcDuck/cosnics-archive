@@ -648,7 +648,19 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	
 	function update_course($course)
 	{
-		return null;
+		$where = $this->escape_column_name(Course :: PROPERTY_ID).'="'. $course->get_id().'"';
+		$props = array();
+		foreach ($course->get_default_properties() as $key => $value)
+		{
+			if ($key !== Course :: PROPERTY_CATEGORY)
+			{
+				$props[$this->escape_column_name($key)] = $value;
+			}
+		}
+		$props[Course :: PROPERTY_CATEGORY_CODE] = $course->get_category()->get_code();
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute('dokeos_main.course', $props, MDB2_AUTOQUERY_UPDATE, $where);
+		return true;
 	}
 
 	function delete_course($course_code)

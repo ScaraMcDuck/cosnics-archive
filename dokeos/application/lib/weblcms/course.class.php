@@ -1,5 +1,5 @@
 <?php
-//require_once dirname(__FILE__).'/accessiblelearningobject.class.php';
+require_once dirname(__FILE__).'/weblcmsdatamanager.class.php';
 
 /**
  *	This class represents a course in the weblcms.
@@ -42,6 +42,7 @@ class Course {
 	const PROPERTY_EXTLINK_URL = 'department_url';
 	const PROPERTY_EXTLINK_NAME = 'department_name';
 	const PROPERTY_CATEGORY = 'category';
+	const PROPERTY_CATEGORY_CODE = 'category_code';
 	const PROPERTY_VISIBILITY = 'visibility';
 	const PROPERTY_SUBSCRIBE_ALLOWED = 'subscribe';
 	const PROPERTY_UNSUBSCRIBE_ALLOWED = 'unsubscribe';
@@ -277,7 +278,7 @@ class Course {
 	 */
 	function set_extlink_name($name)
 	{
-		$this->set_default_property(self :: PROPERTY_EXTLINK_URL, $name);
+		$this->set_default_property(self :: PROPERTY_EXTLINK_NAME, $name);
 	}
 	
 
@@ -285,14 +286,16 @@ class Course {
 	 * Sets the Category Code of this course object
 	 * @param String $code The Category Code
 	 */
-	function set_category($category)
+	function set_category($category_code)
 	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		$category =  $wdm->retrieve_course_category($category_code);
 		$this->set_default_property(self :: PROPERTY_CATEGORY, $category);
 	}
 	
 	/**
-	 * Sets the visibility code of this course object
-	 * @param String $visibility The visibility
+	 * Sets the visibility of this course object
+	 * @param String $visual The visual code
 	 */
 	function set_visibility($visibility)
 	{
@@ -335,25 +338,14 @@ class Course {
 		return $dm->create_learning_object($this, 'new');
 	}
 	
-	function update($trueUpdate = true)
+	function update()
 	{
-		if ($trueUpdate)
-		{
-			$this->set_modification_date(time());
-		}
-		$dm = RepositoryDataManager :: get_instance();
-		$success = $dm->update_learning_object($this);
+		$wdm = WeblcmsDataManager :: get_instance();
+		$success = $wdm->update_course($this);
 		if (!$success)
 		{
 			return false;
 		}
-		$state = $this->get_state();
-		if ($state == $this->oldState)
-		{
-			return true;
-		}
-		$child_ids = self :: get_child_ids($this->get_id());
-		$dm->set_learning_object_states($child_ids, $state);
 
 		return true;
 	}

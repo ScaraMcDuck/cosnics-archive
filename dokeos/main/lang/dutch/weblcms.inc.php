@@ -20,6 +20,7 @@ $CourseAccessOpenRegistered='Open - toegang toegelaten voor geregistreerde gebru
 $CourseAccessPrivate='Beperkte toegang, gesloten registratie (site voorbehouden voor personen vermeld in de gebruikerslijst).';
 $CourseAdministration='Cursusbeheer';
 $CourseSettingsToolTitle='Instellingen van deze cursus';
+$CourseSettingsUpdated='De cursuseigenschappen werden aangepast.';
 $CreateNewCategory='Categorie aanmaken';
 $DayView='Dagoverzicht';
 $Department='Departement';
