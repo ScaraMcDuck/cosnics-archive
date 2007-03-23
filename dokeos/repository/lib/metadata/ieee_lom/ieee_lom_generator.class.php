@@ -26,11 +26,18 @@ class IeeeLomGenerator
 		$owner = api_get_user_info($learning_object->get_owner_id());
 		$lom->set_version(new Langstring($learning_object->get_learning_object_edition(),'x-none'));
 		$lom->set_status(new Vocabulary('LOMV1.0',($learning_object->is_latest_version() == TRUE ? 'final' : 'draft')));
-		$vcard = new Contact_Vcard_Build();
-		$vcard->addEmail($owner['mail']);
-		$vcard->setFormattedName($owner['firstName'].' '.$owner['lastName']);
-		$vcard->setName($owner['lastName'].' '.$owner['firstName']);
-		$lom->add_contribute(new Vocabulary('LOMV1.0','author'),$vcard->fetch(),new IeeeLomDateTime(date('Y-m-d\TH:i:sO',$learning_object->get_creation_date())));
+		$all_versions = $learning_object->get_learning_object_versions();
+		foreach($all_versions as $version)
+		{
+			$versionowner = api_get_user_info($version->get_owner_id());
+			$vcard = new Contact_Vcard_Build();
+			$vcard->addEmail($versionowner['mail']);
+			$vcard->setFormattedName($versionowner['firstName'].' '.$versionowner['lastName']);
+			$vcard->setName($versionowner['lastName'].' '.$versionowner['firstName']);
+			$lom->add_contribute(new Vocabulary('LOMV1.0',$versionowner == $owner ? 'author' : 'editor'),$vcard->fetch(),new IeeeLomDateTime(date('Y-m-d\TH:i:sO',$version->get_creation_date())));
+		}
+		//$lom->add_contribute(new Vocabulary('LOMV1.0','author'),$vcard->fetch(),new IeeeLomDateTime(date('Y-m-d\TH:i:sO',$learning_object->get_creation_date())));
+		//$lom->add_contribute(new Vocabulary('LOMV1.0','author'),$vcard->fetch(),new IeeeLomDateTime(date('Y-m-d\TH:i:sO',$learning_object->get_creation_date())));
 		$vcard = new Contact_Vcard_Build();
 		$vcard->setFormattedName(api_get_setting('Institution'));
 		$vcard->setName(api_get_setting('siteName'));
