@@ -20,6 +20,7 @@ $CourseAccessPrivate='Private access (site accessible only to people on the user
 $CourseAdministration='Course administration';
 $CourseSettingsToolTitle='Course settings';
 $CourseSettingsUpdated='The course settings were updated.';
+$CourseSettingsUpdateFailed='The course settings were not updated.';
 $ChatToolTitle='Chat';
 $CreateNewCategory='Create a Category';
 $DayView='Day View';

@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../../course.class.php';
+require_once dirname(__FILE__).'/../../course/course.class.php';
 
 class CourseSettingsForm extends FormValidator {
 	
