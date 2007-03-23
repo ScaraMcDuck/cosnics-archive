@@ -58,18 +58,19 @@
  *	@author Dieter De Neef
  */
 
-class course {
+class Course {
 	
 	const PROPERTY_ID = 'code';
 	const PROPERTY_VISUAL = 'visual_code';
+	const PROPERTY_DB = 'db_name';
 	const PROPERTY_NAME = 'title';
 	const PROPERTY_PATH = 'directory';
 	const PROPERTY_TITULAR = 'tutor_name';
 	const PROPERTY_LANGUAGE = 'course_language';
 	const PROPERTY_EXTLINK_URL = 'department_url';
 	const PROPERTY_EXTLINK_NAME = 'department_name';
+	const PROPERTY_CATEGORY = 'category';
 	const PROPERTY_CATEGORY_CODE = 'category_code';
-	const PROPERTY_CATEGORY_NAME = 'category_name';
 	const PROPERTY_VISIBILITY = 'visibility';
 	const PROPERTY_SUBSCRIBE_ALLOWED = 'subscribe';
 	const PROPERTY_UNSUBSCRIBE_ALLOWED = 'unsubscribe';
@@ -78,7 +79,7 @@ class course {
 	private $id;
 	private $defaultProperties;
 
-    function course($id = null, $defaultProperties = array ())
+    function Course($id = null, $defaultProperties = array ())
     {
     	$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
@@ -105,7 +106,7 @@ class course {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_CATEGORY_CODE, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_NAME, self :: PROPERTY_DB, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
 	}
     
     function get_id()
@@ -121,6 +122,11 @@ class course {
     function get_name()
     {
     	return $this->get_default_property(self :: PROPERTY_NAME);
+    }
+    
+    function get_db()
+    {
+    	return $this->get_default_property(self :: PROPERTY_DB);
     }
     
     function get_path()
@@ -148,14 +154,9 @@ class course {
     	return $this->get_default_property(self :: PROPERTY_EXTLINK_NAME);
     }
     
-    function get_category_code()
+    function get_category()
     {
-    	return $this->get_default_property(self :: PROPERTY_CATEGORY_CODE);
-    }
-    
-    function get_category_name()
-    {
-    	return $this->get_default_property(self :: PROPERTY_CATEGORY_NAME);
+    	return $this->get_default_property(self :: PROPERTY_CATEGORY);
     }
     
     function get_visibility()
@@ -188,6 +189,11 @@ class course {
 		$this->set_default_property(self :: PROPERTY_NAME, $name);
 	}
 	
+	function set_db($db)
+	{
+		$this->set_default_property(self :: PROPERTY_DB, $db);
+	}
+	
 	function set_path($path)
 	{
 		$this->set_default_property(self :: PROPERTY_PATH, $path);
@@ -213,14 +219,9 @@ class course {
 		$this->set_default_property(self :: PROPERTY_EXTLINK_URL, $name);
 	}
 	
-	function set_category_code($code)
+	function set_category($category)
 	{
-		$this->set_default_property(self :: PROPERTY_CATEGORY_CODE, $code);
-	}
-	
-	function set_category_name($name)
-	{
-		$this->set_default_property(self :: PROPERTY_CATEGORY_NAME, $name);
+		$this->set_default_property(self :: PROPERTY_CATEGORY, $category);
 	}
 	
 	function set_visibility($visibility)

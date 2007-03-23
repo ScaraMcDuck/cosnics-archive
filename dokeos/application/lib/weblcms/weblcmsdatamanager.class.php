@@ -282,6 +282,20 @@ abstract class WeblcmsDataManager
 	 * @param boolean $visible
 	 */
 	abstract function set_module_visible($course_code,$module,$visible);
+	
+	/**
+	 * Retrieves a single course category from persistent storage.
+	 * @param string $category_code The alphanumerical identifier of the course category.
+	 * @return CourseCategory The course category.
+	 */
+	abstract function retrieve_course_category($category_code);
+	
+	/**
+	 * Retrieves the course categories that match the criteria from persistent storage.
+	 * @param string $parent The parent of the course category.
+	 * @return CourseCategory The course category.
+	 */
+	abstract function retrieve_course_categories($parent = null);
 
 	/**
 	 * Adds a course module to a course
