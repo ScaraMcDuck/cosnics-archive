@@ -372,8 +372,7 @@ class RepositoryUtilities
 			{
 				if (is_array($array[$i]))
 				{
-					$depth++;
-					DisplayInlineArray($array[$i], $depth, $i);
+					DisplayInlineArray($array[$i], $depth +1, $i);
 				}
 				else
 				{
@@ -404,8 +403,7 @@ class RepositoryUtilities
 			$key = key($inlinearray);
 			if (is_array($inlinearray[$i]))
 			{
-				$depth++;
-				DisplayInlineArray($inlinearray[$i], $depth, $i);
+				DisplayInlineArray($inlinearray[$i], $depth +1, $i);
 			}
 			else
 			{
