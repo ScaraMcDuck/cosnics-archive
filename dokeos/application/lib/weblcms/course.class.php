@@ -5,21 +5,17 @@
  *	This class represents a course in the weblcms.
  *
  *	courses have a number of default properties:
- *	- id: the numeric ID of the learning object;
- *	- owner: the ID of the user who owns the learning object;
- *	- title: the title of the learning object;
- *	- description: a brief description of the learning object; may also be
- *	  used to store its content in select cases;
- *	- parent: the numeric ID of the parent object of this learning object;
- *    this is a learning object by itself, usually a category;
- *  - display_order: a number giving the learning object a position among its
- *    siblings; only applies if the learning object is ordered;
- *	- created: the date when the learning object was created, as returned by
- *	  PHP's time() function (UNIX time, seconds since the epoch);
- *	- modified: the date when the learning object was last modified, as
- *	  returned by PHP's time() function;
- *  - state: the state the learning object is in; currently only used to mark
- *    learning objects as "recycled", i.e. moved to the Recycle Bin.
+ *	- id: the numeric ID of the course object;
+ *	- visual: the visual code of the course;
+ *	- name: the name of the course object;
+ *	- path: the course's path;
+ *	- titular: the titular of this course object;
+ *  - language: the language of the course object;
+ *	- extlink url: the URL department;
+ *	- extlink name: the name of the department;
+ *	- category code: the category code of the object;
+ *	- category name: the name of the category;
+ *
  *
  *	Actual learning objects must be instances of extensions of this class.
  *	They may define additional properties which are specific to that
@@ -30,29 +26,6 @@
  * should provide accessor methods. The names of the properties should be
  * defined as class constants, for standardization purposes. It is recommended
  * that the names of these constants start with the string "PROPERTY_".
- *
- *	To create your own type of learning object, you should follow these steps:
- *	- Decide on a name for the type, e.g. "MyType".
- *	- Create a new subdirectory in /repository/lib/learning_object. For
- *	  "MyType", it would be called "my_type".
- *	- Create two files in that subdirectory:
- *	  - The properties file (e.g. "my_type.properties") is a plain text list
- *	    of the names of all the properties of your type, one name per line.
- *	    This file may be omitted if your type does not require additional
- *	    properties.
- *	  - The class file (e.g. "my_type.class.php") is a PHP class that may
- *	    provide specific methods for the type. Even if the type does not
- *	    require additional methods, you must still define the class. Take
- *	    a look at the types that are already defined for examples.
- *	- The data manager will now automagically be aware of the type. All that's
- *	  left for you to do is create the physical storage for the type. This
- *	  will heavily depend on the type of data manager you are using. As MySQL
- *	  is the default, you will probably have to create a table named after the
- *	  type you are defining. This table should contain a numeric "id" column,
- *	  as well as columns for all the properties in the properties file. You do
- *	  not need columns for the default properties! These are stored elsewhere.
- *	When you've completed these steps, you should be able to instantiate the
- *	class and manipulate the objects at will.
  *
  *	@author Hans De Bisschop
  *	@author Dieter De Neef
@@ -79,22 +52,43 @@ class Course {
 	private $id;
 	private $defaultProperties;
 
+
+	/**
+	 * Creates a new course object.
+	 * @param int $id The numeric ID of the course object. May be omitted
+	 *                if creating a new object.
+	 * @param array $defaultProperties The default properties of the course 
+	 *                object. Associative array.
+	 */
     function Course($id = null, $defaultProperties = array ())
     {
     	$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
     }
     
+    /**
+	 * Gets a default property of this course object by name.
+	 * @param string $name The name of the property.
+	 */
 	function get_default_property($name)
 	{
 		return $this->defaultProperties[$name];
 	}
 	
+	/**
+	 * Gets the default properties of this course object.
+	 * @return array An associative array containing the properties.
+	 */
 	function get_default_properties()
 	{
 		return $this->defaultProperties;
 	}
 
+	/**
+	 * Sets a default property of this course object by name.
+	 * @param string $name The name of the property.
+	 * @param mixed $value The new value for the property.
+	 */
 	function set_default_property($name, $value)
 	{
 		$this->defaultProperties[$name] = $value;
@@ -106,134 +100,219 @@ class Course {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_NAME, self :: PROPERTY_DB, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
 	}
     
-    function get_id()
+	/**
+	 * Returns the ID of this course object.
+	 * @return int The ID.
+	 */
+	function get_id()
     {
     	return $this->id;
     }
 
+	/**
+	 * Returns the visual code of this course object
+	 * @return string the visual code
+	 */ 
     function get_visual()
     {
     	return $this->get_default_property(self :: PROPERTY_VISUAL);
     }
-    
+
+    /**
+     * Returns the name (Title) of this course object
+     * @return string The Name
+     */
     function get_name()
     {
     	return $this->get_default_property(self :: PROPERTY_NAME);
     }
     
-    function get_db()
-    {
-    	return $this->get_default_property(self :: PROPERTY_DB);
-    }
-    
+    /**
+     * Returns the path (Directory) of this course object
+     * @return string The Path
+     */
     function get_path()
     {
     	return $this->get_default_property(self :: PROPERTY_PATH);	
     }
     
+    /**
+     * Returns the titular of this course object
+     * @return String The Titular
+     */
     function get_titular()
     {
     	return $this->get_default_property(self :: PROPERTY_TITULAR);
     }
-    
+    /**
+     * Returns the language of this course object
+     * @return String The Language
+     */
     function get_language()
     {
     	return $this->get_default_property(self :: PROPERTY_LANGUAGE);
     }
     
+    /**
+     * Returns the ext url of this course object
+     * @return String The URL
+     */
     function get_extlink_url()
     {
     	return $this->get_default_property(self :: PROPERTY_EXTLINK_URL);
     }
     
+    /**
+     * Returns the ext link name of this course object
+     * @return String The Name
+     */
     function get_extlink_name()
     {
     	return $this->get_default_property(self :: PROPERTY_EXTLINK_NAME);
     }
     
+    /**
+     * Returns the category code of this course object
+     * @return String The Code
+     */
     function get_category()
     {
     	return $this->get_default_property(self :: PROPERTY_CATEGORY);
     }
     
+    /**
+     * Returns the visibility code of this course object
+     * @return String The Visibility Code
+     */
     function get_visibility()
     {
     	return $this->get_default_property(self :: PROPERTY_VISIBILITY);
     }
     
+    /**
+     * Returns if you can subscribe to this course object
+     * @return Int
+     */
     function get_subscribe_allowed()
     {
     	return $this->get_default_property(self :: PROPERTY_SUBSCRIBE_ALLOWED);
     }
     
+    /**
+     * Returns if you can unsubscribe to this course object
+     * @return Int
+     */
     function get_unsubscribe_allowed()
     {
     	return $this->get_default_property(self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
     }
     
+    /**
+     * Sets the ID of this course object
+     * @param int $id The ID
+     */
     function set_id($id)
 	{
 		$this->id = $id;
 	}		
 	
+	/**
+	 * Sets the visual code of this course object
+	 * @param String $visual The visual code
+	 */
 	function set_visual($visual)
 	{
 		$this->set_default_property(self :: PROPERTY_VISUAL, $visual);
 	}
 	
+	/**
+	 * Sets the course name of this course object
+	 * @param String $name The name of this course object
+	 */
 	function set_name($name)
 	{
 		$this->set_default_property(self :: PROPERTY_NAME, $name);
 	}
 	
-	function set_db($db)
-	{
-		$this->set_default_property(self :: PROPERTY_DB, $db);
-	}
-	
+	/**
+	 * Sets the course path (directory) of this course object
+	 * @param String $path The path of this course object
+	 */
 	function set_path($path)
 	{
 		$this->set_default_property(self :: PROPERTY_PATH, $path);
 	}
 	
+	/**
+	 * Sets the titular of this course object
+	 * @param String $titular The titular of this course object
+	 */
 	function set_titular($titular)
 	{
 		$this->set_default_property(self :: PROPERTY_TITULAR, $titular);
 	}
 	
+	/**
+	 * Sets the language of this course object
+	 * @param String $language The language of this course object
+	 */
 	function set_language($language)
 	{
 		$this->set_default_property(self :: PROPERTY_LANGUAGE, $language);
 	}
 	
+	/**
+	 * Sets the extlink URL of this course object
+	 * @param String $url The URL if the extlink
+	 */
 	function set_extlink_url($url)
 	{
 		$this->set_default_property(self :: PROPERTY_EXTLINK_URL, $url);
 	}
 	
+	/**
+	 * Sets the extlink Name of this course object
+	 * @param String $name The name of the exlink
+	 */
 	function set_extlink_name($name)
 	{
 		$this->set_default_property(self :: PROPERTY_EXTLINK_URL, $name);
 	}
 	
+
+	/**
+	 * Sets the Category Code of this course object
+	 * @param String $code The Category Code
+	 */
 	function set_category($category)
 	{
 		$this->set_default_property(self :: PROPERTY_CATEGORY, $category);
 	}
 	
+	/**
+	 * Sets the visibility code of this course object
+	 * @param String $visibility The visibility
 	function set_visibility($visibility)
 	{
 		$this->set_default_property(self :: PROPERTY_VISIBILIT, $visibility);
 	}
 	
+	/**
+	 * Sets if a user is allowed to subscribe on this course object
+	 * @param Int $subscribe
+	 */
 	function set_subscribe_allowed($subscribe)
 	{
 		$this->set_default_property(self :: PROPERTY_SUBSCRIBE_ALLOWED, $subscribe);
 	}
 	
+	/**
+	 * Sets if a user is allowed to unsubscribe on this course object
+	 * @param Int $subscribe
+	 */
 	function set_unsubscribe_allowed($subscribe)
 	{
 		$this->set_default_property(self :: PROPERTY_UNSUBSCRIBE_ALLOWED, $subscribe);
