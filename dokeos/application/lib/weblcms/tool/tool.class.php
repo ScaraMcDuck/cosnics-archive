@@ -137,6 +137,14 @@ abstract class Tool
 	{
 		return $this->parent->get_url($parameters, $encode);
 	}
+	
+	/**
+	 * @see WebApplication :: get_url()
+	 */
+	function redirect($action = null, $message = null, $error_message = false, $extra_params = null)
+	{
+		return $this->parent->redirect($action, $message, $error_message, $extra_params);
+	}
 
 	/**
 	 * Check if the current user has a given right in this tool

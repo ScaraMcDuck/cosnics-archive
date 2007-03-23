@@ -28,6 +28,10 @@ class Weblcms extends WebApplication
 	const PARAM_TOOL = 'tool';
 	const PARAM_ACTION = 'weblcms_action';
 	const PARAM_CATEGORY = 'pcattree';
+	const PARAM_MESSAGE = 'message';
+	const PARAM_ERROR_MESSAGE = 'error_message';
+	
+	const ACTION_VIEW_COURSE_HOME = 'home';
 
 	/**
 	 * The tools that this application offers.
@@ -108,6 +112,17 @@ class Weblcms extends WebApplication
 			$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),null);
 		}
 	}
+	
+	function redirect($action = null, $message = null, $error_message = false, $extra_params = null)
+	{
+		if ($action == self :: ACTION_VIEW_COURSE_HOME)
+		{
+			$this->set_parameter('tool', null);
+			$action = null;
+		}
+		return parent :: redirect($action, $message, $error_message, $extra_params);
+	}
+	
 	/**
 	 * Gets the identifier of the current tool
 	 * @return string The identifier of current tool
@@ -271,9 +286,44 @@ class Weblcms extends WebApplication
 		else
 		{
 			echo '<h3>'.htmlentities($this->course->get_name()).'</h3>';
+			
+			if ($msg = $_GET[self :: PARAM_MESSAGE])
+			{
+				$this->display_message($msg);
+			}
+			if($msg = $_GET[self::PARAM_ERROR_MESSAGE])
+			{
+				$this->display_error_message($msg);
+			}
 		}
 		//echo 'Last visit: '.date('r',$this->get_last_visit_date());
 	}
+	
+	/**
+	 * Displays a normal message.
+	 * @param string $message The message.
+	 */
+	function display_message($message)
+	{
+		Display :: display_normal_message($message);
+	}
+	/**
+	 * Displays an error message.
+	 * @param string $message The message.
+	 */
+	function display_error_message($message)
+	{
+		Display :: display_error_message($message);
+	}
+	/**
+	 * Displays a warning message.
+	 * @param string $message The message.
+	 */
+	function display_warning_message($message)
+	{
+		Display :: display_warning_message($message);
+	}
+	
 	/**
 	 * Displays the footer of this application
 	 */
