@@ -35,7 +35,6 @@ class Course {
 	
 	const PROPERTY_ID = 'code';
 	const PROPERTY_VISUAL = 'visual_code';
-	const PROPERTY_DB = 'db_name';
 	const PROPERTY_NAME = 'title';
 	const PROPERTY_PATH = 'directory';
 	const PROPERTY_TITULAR = 'tutor_name';
@@ -43,7 +42,6 @@ class Course {
 	const PROPERTY_EXTLINK_URL = 'department_url';
 	const PROPERTY_EXTLINK_NAME = 'department_name';
 	const PROPERTY_CATEGORY = 'category';
-	const PROPERTY_CATEGORY_CODE = 'category_code';
 	const PROPERTY_VISIBILITY = 'visibility';
 	const PROPERTY_SUBSCRIBE_ALLOWED = 'subscribe';
 	const PROPERTY_UNSUBSCRIBE_ALLOWED = 'unsubscribe';
@@ -295,9 +293,10 @@ class Course {
 	/**
 	 * Sets the visibility code of this course object
 	 * @param String $visibility The visibility
+	 */
 	function set_visibility($visibility)
 	{
-		$this->set_default_property(self :: PROPERTY_VISIBILIT, $visibility);
+		$this->set_default_property(self :: PROPERTY_VISIBILITY, $visibility);
 	}
 	
 	/**
