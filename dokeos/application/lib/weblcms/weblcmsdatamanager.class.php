@@ -260,6 +260,14 @@ abstract class WeblcmsDataManager
 	 * @return Course The course.
 	 */
 	abstract function retrieve_course($course_code);
+	
+	/**
+	 * Retrieves a course resultset with the given  from persistent storage.
+	 * @param int $user The id of the user.
+	 * @param String $category The code of the category.
+	 * @return DatabaseCourseResultSet The resultset of courses.
+	 */
+	abstract function retrieve_courses($user = null, $category = null);
 
 	/**
 	 * Updates the specified course in persistent storage,
@@ -293,7 +301,7 @@ abstract class WeblcmsDataManager
 	/**
 	 * Retrieves the course categories that match the criteria from persistent storage.
 	 * @param string $parent The parent of the course category.
-	 * @return CourseCategory The course category.
+	 * @return DatabaseCourseCategoryResultSet The resultset of course category.
 	 */
 	abstract function retrieve_course_categories($parent = null);
 
@@ -303,7 +311,7 @@ abstract class WeblcmsDataManager
 	 * @param string $module
 	 * @param string $section
 	 */
-	 abstract function add_course_module($course_code,$module,$section = 'basic');
+	abstract function add_course_module($course_code,$module,$section = 'basic');
 	 /**
 	  * Adds a record to the access log of a course module
 	  * @param string $course_code
@@ -311,7 +319,7 @@ abstract class WeblcmsDataManager
 	  * @param string $module_name
 	  * @param int $category_id
 	  */
-	 abstract function log_course_module_access($course_code, $user_id, $module_name = null, $category_id = 0);
+	abstract function log_course_module_access($course_code, $user_id, $module_name = null, $category_id = 0);
 	 /**
 	  * Gets the last visit date
 	  * @param string $course_code
@@ -319,7 +327,7 @@ abstract class WeblcmsDataManager
 	  * @param int $category_id
 	  * @param int $user_id
 	  */
-	 abstract function get_last_visit_date($course_code,$user_id,$module_name = null,$category_id = 0);
+	abstract function get_last_visit_date($course_code,$user_id,$module_name = null,$category_id = 0);
 }
 
 ?>

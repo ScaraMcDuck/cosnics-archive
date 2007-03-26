@@ -35,6 +35,7 @@ class Course {
 	
 	const PROPERTY_ID = 'code';
 	const PROPERTY_VISUAL = 'visual_code';
+	const PROPERTY_DB = 'db_name';
 	const PROPERTY_NAME = 'title';
 	const PROPERTY_PATH = 'directory';
 	const PROPERTY_TITULAR = 'tutor_name';
@@ -99,7 +100,7 @@ class Course {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_DB, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
 	}
     
 	/**
@@ -118,6 +119,16 @@ class Course {
     function get_visual()
     {
     	return $this->get_default_property(self :: PROPERTY_VISUAL);
+    }
+    
+	/**
+	 * Returns the dbname of this course object
+	 * Deprecated but still used by the groups manager
+	 * @return string the visual code
+	 */ 
+    function get_db()
+    {
+    	return $this->get_default_property(self :: PROPERTY_DB);
     }
 
     /**
@@ -225,6 +236,15 @@ class Course {
 	function set_visual($visual)
 	{
 		$this->set_default_property(self :: PROPERTY_VISUAL, $visual);
+	}
+	
+	/**
+	 * Sets the db name of this course object
+	 * @param String $db The db name
+	 */
+	function set_db($db)
+	{
+		$this->set_default_property(self :: PROPERTY_DB, $db);
 	}
 	
 	/**

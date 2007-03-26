@@ -419,50 +419,7 @@ function get_logged_user_course_html($mycours)
 	}
 	// display the what's new icons
 	$result .= show_notification($mycours);
-	/*
-	// get the user's last access dates to all tools of this course
-	$sqlLastTrackInCourse = "SELECT * FROM $statistic_database.track_e_lastaccess"
-							." WHERE access_user_id = ".$user_id
-							." AND access_cours_code = '".$mycours['k']."'";
-	$resLastTrackInCourse = api_sql_query($sqlLastTrackInCourse,__FILE__,__LINE__);
-	while($lastTrackInCourse = mysql_fetch_array($resLastTrackInCourse))
-	{
-		$lastTrackInCourseDate[$lastTrackInCourse["access_tool"]] = $lastTrackInCourse["access_date"];
-	}
 
-	// get the last edits of all tools of this course
-	$sql = "SELECT tooledit.lastedit_date last_date, tooledit.tool tool, tooledit.ref ref,
-				tooledit.lastedit_type type, tooledit.to_group_id group_id,
-				accueil.image image, accueil.link link
-			FROM $tool_edit_table tooledit, $course_tool_table accueil
-			WHERE accueil.name = tooledit.tool
-			AND accueil.visibility = '1'
-			AND tooledit.insert_user_id != $user_id
-			AND (tooledit.to_user_id = '$user_id' OR tooledit.to_user_id = 0)";
-	$res = api_sql_query($sql,__FILE__,__LINE__);
-
-	$sql = "SELECT group_id FROM $course_group_user_table WHERE user_id = '$user_id'";
-	$groupres = api_sql_query($sql,__FILE__,__LINE__);
-	$groups = mysql_fetch_array($groupres);
-	$groups[] = 0;
-
-	//show icons of tools where there is something new
-
-	while($lastToolEdit = mysql_fetch_array($res))
-	{
-		if ($lastTrackInCourseDate[$lastToolEdit["tool"]]<$lastToolEdit["last_date"] && in_array($lastToolEdit["group_id"], $groups))
-		{
-			$lastDate = date("d/m/Y H:i", convert_mysql_date($lastToolEdit["last_date"]));
-			$type = ($lastToolEdit["type"]=="" || $lastToolEdit["type"]==NULL) ? get_lang('_new_item') : $lastToolEdit["type"];
-
-			$result.= '<a href="'.api_get_path(WEB_CODE_PATH).$lastToolEdit['link'].'?cidReq='.$mycours['k'].'">'.
-				'<img title="&mdash; '.$lastToolEdit['tool'].' &mdash; '.get_lang('_title_notification').": $type ($lastDate).\""
-						.' src="'.api_get_path(WEB_IMG_PATH).$lastToolEdit['image'].'" border="0" align="middle" alt="'.$lastToolEdit['image'].'" /></a>';
-
-		}
-	}
-	unset($lastTrackInCourseDate);
-	unset($groups);*/
 	if ((CONFVAL_showExtractInfo == SCRIPTVAL_InCourseList || CONFVAL_showExtractInfo == SCRIPTVAL_Both) && $nbDigestEntries > 0)
 	{
 		reset($digest);
@@ -606,23 +563,6 @@ function get_user_course_categories()
 		PERSONAL COURSE LIST
 ==============================================================================
 */
-if (!isset ($maxValvas))
-	$maxValvas = CONFVAL_maxValvasByCourse; // Maximum number of entries
-if (!isset ($maxAgenda))
-	$maxAgenda = CONFVAL_maxAgendaByCourse; //  collected from each course
-if (!isset ($maxCourse))
-	$maxCourse = CONFVAL_maxTotalByCourse; //  and displayed in summary.
-$maxValvas = (int) $maxValvas;
-$maxAgenda = (int) $maxAgenda;
-$maxCourse = (int) $maxCourse; // 0 if invalid
-if ($maxCourse > 0)
-{
-	unset ($allentries); // we shall collect all summary$key1 entries in here:
-	$toolsList['agenda']['name'] = get_lang('Agenda');
-	$toolsList['agenda']['path'] = api_get_path(WEB_CODE_PATH)."calendar/agenda.php?cidReq=";
-	$toolsList['valvas']['name'] = get_lang('Valvas');
-	$toolsList['valvas']['path'] = api_get_path(WEB_CODE_PATH)."announcements/announcements.php?cidReq=";
-}
 echo "<div class=\"maincontent\">"; // start of content for logged in users
 // Display System announcements
 $announcement = $_GET['announcement'] ? $_GET['announcement'] : -1;
@@ -649,17 +589,7 @@ else
 		$thisCoursePublicCode = $mycours['c'];
 		$thisCoursePath = $mycours['d'];
 		$sys_course_path = api_get_path(SYS_COURSE_PATH);
-		/*
-		currently disabled functionality, should return
-		$thisCoursePath = $sys_course_path . $thisCoursePath;
-		if(! file_exists($thisCoursePath))
-		{
-		echo	"<li>".$mycours['i']."<br/>";
-		echo "".get_lang("CourseDoesntExist")." (<a href=\"main/install/update_courses.php\">";
-		echo	"".get_lang("GetCourseFromOldPortal")."</a>)</li>";
-
-			continue;
-		}*/
+		
 		$dbname = $mycours['k'];
 		$status[$dbname] = $mycours['s'];
 		$nbDigestEntries = 0; // number of entries already collected
@@ -669,83 +599,6 @@ else
 		{
 			$courses[$thisCourseSysCode]['coursePath'] = $thisCoursePath;
 			$courses[$thisCourseSysCode]['courseCode'] = $thisCoursePublicCode;
-		}
-		/*
-		-----------------------------------------------------------
-			Announcements
-		-----------------------------------------------------------
-		*/
-		$course_database = $mycours['db'];
-		$course_tool_table = Database :: get_course_tool_list_table($course_database);
-		$query = "SELECT visibility FROM $course_tool_table WHERE link = 'announcements/announcements.php' AND visibility = 1";
-		$result = api_sql_query($query);
-		// collect from announcements, but only if tool is visible for the course
-		if ($result && $maxValvas > 0 && mysql_num_rows($result) > 0)
-		{
-			//Search announcements table
-			//Take the entries listed at the top of advalvas/announcements tool
-			$course_announcement_table = Database :: get_course_announcement_table($thisCourseDbName);
-			$sqlGetLastAnnouncements = "SELECT end_date publicationDate, content
-									                            FROM ".$course_announcement_table;
-			switch (CONFVAL_limitPreviewTo)
-			{
-				case SCRIPTVAL_NewEntriesOfTheDay :
-					$sqlGetLastAnnouncements .= "WHERE DATE_FORMAT(end_date,'%Y %m %d') >= '".date("Y m d")."'";
-					break;
-				case SCRIPTVAL_NoTimeLimit :
-					break;
-				case SCRIPTVAL_NewEntriesOfTheDayOfLastLogin :
-					// take care mysql -> DATE_FORMAT(time,format) php -> date(format,date)
-					$sqlGetLastAnnouncements .= "WHERE DATE_FORMAT(end_date,'%Y %m %d') >= '".date("Y m d", $_user["lastLogin"])."'";
-			}
-			$sqlGetLastAnnouncements .= "ORDER BY end_date DESC
-									                             LIMIT ".$maxValvas;
-			$resGetLastAnnouncements = api_sql_query($sqlGetLastAnnouncements, __FILE__, __LINE__);
-			if ($resGetLastAnnouncements)
-			{
-				while ($annoncement = mysql_fetch_array($resGetLastAnnouncements))
-				{
-					$keyTools = "valvas";
-					$keyTime = $annoncement['publicationDate'];
-					$keyCourse = $thisCourseSysCode;
-					$digest[$$orderKey[0]][$$orderKey[1]][$$orderKey[2]][] = htmlspecialchars(substr(strip_tags($annoncement["content"]), 0, CONFVAL_NB_CHAR_FROM_CONTENT));
-					$nbDigestEntries ++; // summary has same order as advalvas
-				}
-			}
-		}
-		/*
-		-----------------------------------------------------------
-			Agenda
-		-----------------------------------------------------------
-		*/
-		$course_database = $mycours['db'];
-		$course_tool_table = Database :: get_course_tool_list_table($course_database);
-		$query = "SELECT visibility FROM $course_tool_table WHERE link = 'calendar/agenda.php' AND visibility = 1";
-		$result = api_sql_query($query);
-		$thisAgenda = $maxCourse - $nbDigestEntries; // new max entries for agenda
-		if ($maxAgenda < $thisAgenda)
-			$thisAgenda = $maxAgenda;
-		// collect from agenda, but only if tool is visible for the course
-		if ($result && $thisAgenda > 0 && mysql_num_rows($result) > 0)
-		{
-			$tableCal = $courseTablePrefix.$thisCourseDbName.$dbGlu."calendar_event";
-			$sqlGetNextAgendaEvent = "SELECT  start_date , title content, start_time
-									                          FROM $tableCal
-									                          WHERE start_date >= CURDATE()
-									                          ORDER BY start_date, start_time
-									                          LIMIT $maxAgenda";
-			$resGetNextAgendaEvent = api_sql_query($sqlGetNextAgendaEvent, __FILE__, __LINE__);
-			if ($resGetNextAgendaEvent)
-			{
-				while ($agendaEvent = mysql_fetch_array($resGetNextAgendaEvent))
-				{
-					$keyTools = 'agenda';
-					$keyTime = $agendaEvent['start_date'];
-					$keyCourse = $thisCourseSysCode;
-					$digest[$$orderKey[0]][$$orderKey[1]][$$orderKey[2]][] = htmlspecialchars(substr(strip_tags($agendaEvent["content"]), 0, CONFVAL_NB_CHAR_FROM_CONTENT));
-					$nbDigestEntries ++; // summary has same order as advalvas
-				}
-			}
 		}
 		/*
 		-----------------------------------------------------------

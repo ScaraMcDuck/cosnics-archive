@@ -1,16 +1,17 @@
 <?php
 /**
- * $Id$
+ * $Id: weblcms.class.php 11676 2007-03-23 14:54:03Z Scara84 $
  * @package application.weblcms
  */
-require_once dirname(__FILE__).'/../webapplication.class.php';
-require_once dirname(__FILE__).'/weblcmsdatamanager.class.php';
-require_once dirname(__FILE__).'/learningobjectpublicationcategory.class.php';
-require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php';
-require_once dirname(__FILE__).'/../../../main/inc/lib/groupmanager.lib.php';
-require_once dirname(__FILE__).'/tool/tool.class.php';
-require_once dirname(__FILE__).'/toollistrenderer.class.php';
-require_once dirname(__FILE__).'/course/course.class.php';
+require_once dirname(__FILE__).'/weblcmscomponent.class.php';
+require_once dirname(__FILE__).'/../../webapplication.class.php';
+require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
+require_once dirname(__FILE__).'/../learningobjectpublicationcategory.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/configuration.class.php';
+require_once dirname(__FILE__).'/../../../../main/inc/lib/groupmanager.lib.php';
+require_once dirname(__FILE__).'/../tool/tool.class.php';
+require_once dirname(__FILE__).'/../toollistrenderer.class.php';
+require_once dirname(__FILE__).'/../course/course.class.php';
 
 /**
 ==============================================================================
@@ -26,12 +27,13 @@ class Weblcms extends WebApplication
 {
 	const PARAM_COURSE = 'course';
 	const PARAM_TOOL = 'tool';
-	const PARAM_ACTION = 'weblcms_action';
+	const PARAM_ACTION = 'go';
 	const PARAM_CATEGORY = 'pcattree';
 	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
 	
-	const ACTION_VIEW_COURSE_HOME = 'home';
+	const ACTION_VIEW_WEBLCMS_HOME = 'home';
+	const ACTION_VIEW_COURSE = 'course';
 
 	/**
 	 * The tools that this application offers.
@@ -59,6 +61,7 @@ class Weblcms extends WebApplication
 		$this->set_parameter(self :: PARAM_TOOL, $_GET[self :: PARAM_TOOL]);
 		$this->set_parameter(self :: PARAM_ACTION, $_GET[self :: PARAM_ACTION]);
 		$this->set_parameter(self :: PARAM_CATEGORY, $_GET[self :: PARAM_CATEGORY]);
+
 		$this->course = new Course();
 		$this->load_course();
 		$this->tools = array ();
@@ -70,52 +73,96 @@ class Weblcms extends WebApplication
 	 */
 	function run()
 	{
+		$course = $this->get_parameter(self :: PARAM_COURSE);
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		$action = $this->get_parameter(self::PARAM_ACTION);
 		$category = $this->get_parameter(self::PARAM_CATEGORY);
-		if(is_null($category))
+		
+		$action = $this->get_action();
+		$component = null;
+		
+		switch ($action)
 		{
-			$category = 0;
+			case self :: ACTION_VIEW_COURSE :
+				$component = WeblcmsComponent :: factory('Course', $this);
+				break;
+			default :
+				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
+				$component = WeblcmsComponent :: factory('Home', $this);
 		}
-		if($action)
-		{
-			$wdm = WeblcmsDataManager :: get_instance();
-			switch($action)
-			{
-				case 'make_visible':
-					$wdm->set_module_visible($this->get_course_id(),$tool,true);
-					$this->load_tools();
-					break;
-				case 'make_invisible':
-					$wdm->set_module_visible($this->get_course_id(),$tool,false);
-					$this->load_tools();
-					break;
-			}
-			$this->set_parameter(self :: PARAM_TOOL, null);
-		}
-		if ($tool && !$action)
-		{
-			$wdm = WeblcmsDataManager :: get_instance();
-			$class = Tool :: type_to_class($tool);
-			$toolObj = new $class ($this);
-			$this->tool_class = $class;
-			$toolObj->run();
-			$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),$tool,$category);
-		}
-		else
-		{
-			$wdm = WeblcmsDataManager :: get_instance();
-			$this->display_header();
-			$renderer = ToolListRenderer::factory('FixedLocationToolListRenderer',$this);
-			$renderer->display();
-			$this->display_footer();
-			$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),null);
-		}
+		$component->run();
+		
+//		if(is_null($category))
+//		{
+//			$category = 0;
+//		}
+//		
+//		if ($course)
+//		{		
+//			if($action)
+//			{
+//				$wdm = WeblcmsDataManager :: get_instance();
+//				switch($action)
+//				{
+//					case 'make_visible':
+//						$wdm->set_module_visible($this->get_course_id(),$tool,true);
+//						$this->load_tools();
+//						break;
+//					case 'make_invisible':
+//						$wdm->set_module_visible($this->get_course_id(),$tool,false);
+//						$this->load_tools();
+//						break;
+//				}
+//				$this->set_parameter(self :: PARAM_TOOL, null);
+//			}
+//			if ($tool && !$action)
+//			{
+//				$wdm = WeblcmsDataManager :: get_instance();
+//				$class = Tool :: type_to_class($tool);
+//				$toolObj = new $class ($this);
+//				$this->tool_class = $class;
+//				$toolObj->run();
+//				$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),$tool,$category);
+//			}
+//			else
+//			{
+//				$wdm = WeblcmsDataManager :: get_instance();
+//				$this->display_header();
+//				$renderer = ToolListRenderer::factory('FixedLocationToolListRenderer',$this);
+//				$renderer->display();
+//				$this->display_footer();
+//				$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),null);
+//			}
+//		}
+//		else
+//		{
+//			Display :: display_header(get_lang('MyCourses'), 'Mycourses');
+//			$this->display_footer();
+//		}
+	}
+	
+	/**
+	 * Gets the current action.
+	 * @see get_parameter()
+	 * @return string The current action.
+	 */
+	function get_action()
+	{
+		return $this->get_parameter(self :: PARAM_ACTION);
+	}
+	
+	/**
+	 * Sets the current action.
+	 * @param string $action The new action.
+	 */
+	function set_action($action)
+	{
+		return $this->set_parameter(self :: PARAM_ACTION, $action);
 	}
 	
 	function redirect($action = null, $message = null, $error_message = false, $extra_params = null)
 	{
-		if ($action == self :: ACTION_VIEW_COURSE_HOME)
+		if ($action == self :: ACTION_VIEW_WEBLCMS_HOME)
 		{
 			$this->set_parameter('tool', null);
 			$action = null;
@@ -356,7 +403,7 @@ class Weblcms extends WebApplication
 			$this->tools = $wdm->get_course_modules($this->get_course_id());
 			foreach($this->tools as $index => $tool)
 			{
-				require_once dirname(__FILE__).'/tool/'.$tool->name.'/'.$tool->name.'tool.class.php';
+				require_once dirname(__FILE__).'/../tool/'.$tool->name.'/'.$tool->name.'tool.class.php';
 			}
 		}
 	}
