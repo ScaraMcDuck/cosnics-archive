@@ -76,6 +76,7 @@ function full_database_install($values)
 	$values["database_scorm"] = eregi_replace('[^a-z0-9_-]', '', $values["database_scorm"]);
 	$values["database_user"] = eregi_replace('[^a-z0-9_-]', '', $values["database_user"]);
 	$values["database_repository"] = eregi_replace('[^a-z0-9_-]', '', $values["database_repository"]);
+	$values["database_weblcms"] = eregi_replace('[^a-z0-9_-]', '', $values["database_weblcms"]);
 	
 	if(!empty($database_prefix) && !ereg('^'.$database_prefix,$values["database_main_db"]))
 	{
@@ -111,6 +112,7 @@ function full_database_install($values)
 	$scorm_database = $values["database_scorm"];
 	$user_database = $values["database_user"];
 	$repository_database = $values["database_repository"];
+	$weblcms_database = $values["database_weblcms"];
 	
 	if(empty($main_database) || $main_database == 'mysql' || $main_database == $database_prefix)
 	{
@@ -138,6 +140,7 @@ function full_database_install($values)
 	$values["database_scorm"] = $scorm_database;
 	$values["database_user"] = $user_database;
 	$values["database_repository"] = $repository_database;
+	$values["database_weblcms"] = $weblcms_database;
 	
 	$result=mysql_query("SHOW VARIABLES LIKE 'datadir'") or die(mysql_error());
 	
@@ -151,7 +154,7 @@ function full_database_install($values)
 		include("../lang/$languageForm/create_course.inc.php");
 	}
 
-	create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database, $repository_database);
+	create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database, $repository_database, $weblcms_database);
 	create_main_database_tables($main_database, $values);
 	create_tracking_database_tables($statistics_database);
 	create_scorm_database_tables($scorm_database);
@@ -191,7 +194,7 @@ function connect_to_database_server($database_host,$database_username,$database_
 /**
 * Creates the default databases.
 */
-function create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database, $repository_database)
+function create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database, $repository_database, $weblcms_database)
 {
 	if(!$is_single_database)
 	{
@@ -246,6 +249,17 @@ function create_databases($values, $is_single_database, $main_database, $statist
 			// multi DB mode AND user data has its own DB so create it
 			mysql_query("DROP DATABASE IF EXISTS `$repository_database`") or die(mysql_error());
 			mysql_query("CREATE DATABASE `$repository_database`") or die(mysql_error());
+		}
+	}
+	
+	//Creating the weblcms database
+	if($weblcms_database != $main_database)
+	{
+		if(!$is_single_database)
+		{
+			// multi DB mode AND user data has its own DB so create it
+			mysql_query("DROP DATABASE IF EXISTS `$weblcms_database`") or die(mysql_error());
+			mysql_query("CREATE DATABASE `$weblcms_database`") or die(mysql_error());
 		}
 	}
 }

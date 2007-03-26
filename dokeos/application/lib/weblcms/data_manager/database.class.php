@@ -1029,6 +1029,35 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 	}
 
+	function create_storage_unit($name,$properties,$indexes)
+	{
+		$name = $this->get_table_name($name);
+		$this->connection->loadModule('Manager');
+		$manager = $this->connection->manager;
+		// If table allready exists -> drop it
+		// @todo This should change: no automatic table drop but warning to user
+		$tables = $manager->listTables();
+		if( in_array($name,$tables))
+		{
+			$manager->dropTable($name);
+		}
+		$options['charset'] = 'utf8';
+		$options['collate'] = 'utf8_unicode_ci';
+		$manager->createTable($name,$properties,$options);
+		foreach($indexes as $index_name => $index_info)
+		{
+			if($index_info['type'] == 'primary')
+			{
+				$index_info['primary'] = 1;
+				$manager->createConstraint($name,$index_name,$index_info);
+			}
+			else
+			{
+				$manager->createIndex($name,$index_name,$index_info);
+			}
+		}
+	}
+
 	private function get_table_name($name)
 	{
 		global $weblcms_database;
