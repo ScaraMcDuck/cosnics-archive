@@ -11,8 +11,11 @@ $configuration = array();
 $configuration['general']['data_manager']
 	= 'Database';
 
-$configuration['database']['connection_string']
+$configuration['database']['connection_string_repository']
 	= 'mysql://root:@localhost/dokeos_repository';
+
+$configuration['database']['connection_string_weblcms']
+	= 'mysql://root:@localhost/dokeos_weblcms';
 
 $configuration['database']['table_name_prefix']
 	= 'dokeos_';

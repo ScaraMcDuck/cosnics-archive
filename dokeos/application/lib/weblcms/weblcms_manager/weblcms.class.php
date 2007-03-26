@@ -27,6 +27,7 @@ class Weblcms extends WebApplication
 {
 	const PARAM_COURSE = 'course';
 	const PARAM_TOOL = 'tool';
+	const PARAM_LCMS_ACTION = 'lcms';
 	const PARAM_ACTION = 'go';
 	const PARAM_CATEGORY = 'pcattree';
 	const PARAM_MESSAGE = 'message';
@@ -60,6 +61,7 @@ class Weblcms extends WebApplication
 		$this->set_parameter(self :: PARAM_COURSE, $_GET[self :: PARAM_COURSE]);
 		$this->set_parameter(self :: PARAM_TOOL, $_GET[self :: PARAM_TOOL]);
 		$this->set_parameter(self :: PARAM_ACTION, $_GET[self :: PARAM_ACTION]);
+		$this->set_parameter(self :: PARAM_LCMS_ACTION, $_GET[self :: PARAM_LCMS_ACTION]);
 		$this->set_parameter(self :: PARAM_CATEGORY, $_GET[self :: PARAM_CATEGORY]);
 
 		$this->course = new Course();
@@ -72,12 +74,7 @@ class Weblcms extends WebApplication
 	 * Inherited.
 	 */
 	function run()
-	{
-		$course = $this->get_parameter(self :: PARAM_COURSE);
-		$tool = $this->get_parameter(self :: PARAM_TOOL);
-		$action = $this->get_parameter(self::PARAM_ACTION);
-		$category = $this->get_parameter(self::PARAM_CATEGORY);
-		
+	{		
 		$action = $this->get_action();
 		$component = null;
 		
@@ -91,54 +88,6 @@ class Weblcms extends WebApplication
 				$component = WeblcmsComponent :: factory('Home', $this);
 		}
 		$component->run();
-		
-//		if(is_null($category))
-//		{
-//			$category = 0;
-//		}
-//		
-//		if ($course)
-//		{		
-//			if($action)
-//			{
-//				$wdm = WeblcmsDataManager :: get_instance();
-//				switch($action)
-//				{
-//					case 'make_visible':
-//						$wdm->set_module_visible($this->get_course_id(),$tool,true);
-//						$this->load_tools();
-//						break;
-//					case 'make_invisible':
-//						$wdm->set_module_visible($this->get_course_id(),$tool,false);
-//						$this->load_tools();
-//						break;
-//				}
-//				$this->set_parameter(self :: PARAM_TOOL, null);
-//			}
-//			if ($tool && !$action)
-//			{
-//				$wdm = WeblcmsDataManager :: get_instance();
-//				$class = Tool :: type_to_class($tool);
-//				$toolObj = new $class ($this);
-//				$this->tool_class = $class;
-//				$toolObj->run();
-//				$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),$tool,$category);
-//			}
-//			else
-//			{
-//				$wdm = WeblcmsDataManager :: get_instance();
-//				$this->display_header();
-//				$renderer = ToolListRenderer::factory('FixedLocationToolListRenderer',$this);
-//				$renderer->display();
-//				$this->display_footer();
-//				$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),null);
-//			}
-//		}
-//		else
-//		{
-//			Display :: display_header(get_lang('MyCourses'), 'Mycourses');
-//			$this->display_footer();
-//		}
 	}
 	
 	/**
@@ -395,7 +344,7 @@ class Weblcms extends WebApplication
 	/**
 	 * Loads the tools installed on the system.
 	 */
-	private function load_tools()
+	function load_tools()
 	{
 		if(!is_null($this->get_course_id()))
 		{

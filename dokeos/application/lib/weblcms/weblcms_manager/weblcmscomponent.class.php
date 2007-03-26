@@ -63,6 +63,26 @@ abstract class WeblcmsComponent {
 	{
 		return $this->get_parent()->get_category($id);
 	}
+
+	function get_parameter($name)
+	{
+		return $this->get_parent()->get_parameter($name);
+	}
+	
+	function get_parameters()
+	{
+		return $this->get_parent()->get_parameters();
+	}
+	
+	function set_parameter($name, $value)
+	{
+		$this->get_parent()->set_parameter($name, $value);
+	}
+	
+	function get_url($parameters = array (), $encode = false)
+	{
+		return $this->get_parent()->get_url($parameters, $encode);
+	}
 	
 	function display_header($breadcrumbs = array ())
 	{
@@ -77,7 +97,6 @@ abstract class WeblcmsComponent {
 	function display_error_message($message)
 	{
 		return $this->get_parent()->display_error_message($message);
-		
 	}
 	
 	function display_warning_message($message)
@@ -93,6 +112,11 @@ abstract class WeblcmsComponent {
 	function get_registered_tools()
 	{
 		return $this->get_parent()->get_registered_tools();
+	}
+	
+	function load_tools()
+	{
+		return $this->get_parent()->load_tools();
 	}
 
 	static function is_tool_name($name)
