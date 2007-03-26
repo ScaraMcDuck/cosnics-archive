@@ -56,6 +56,7 @@ function full_file_install($values)
 	$config['{DATABASE_USER}'] = $values['database_username'];
 	$config['{DATABASE_PASSWORD}'] = $values['database_password'];
 	$config['{DATABASE_REPOSITORY}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_repository"]);
+	$config['{DATABASE_WEBLCMS}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_weblcms"]);
 	foreach ($config as $key => $value)
 	{
 		$content = str_replace($key, $value, $content);
