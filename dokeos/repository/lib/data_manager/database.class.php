@@ -51,7 +51,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
 		$conf = Configuration :: get_instance();
-		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseRepositoryDataManager','debug')));
+		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_repository'),array('debug'=>3,'debug_handler'=>array('DatabaseRepositoryDataManager','debug')));
 		if (PEAR::isError($this)) {
    		 die($this->connection->getMessage());
 		}

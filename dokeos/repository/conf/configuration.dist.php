@@ -11,8 +11,11 @@ $configuration = array();
 $configuration['general']['data_manager']
 	= 'Database';
 
-$configuration['database']['connection_string']
+$configuration['database']['connection_string_repository']
 	= 'mysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_REPOSITORY}';
+
+$configuration['database']['connection_string_weblcms']
+	= 'mysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_WEBLCMS}';
 
 $configuration['database']['table_name_prefix']
 	= 'dokeos_';
