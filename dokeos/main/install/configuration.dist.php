@@ -71,6 +71,8 @@ $scormDbName            = '{DATABASE_SCORM}';
 $user_personal_database = '{DATABASE_PERSONAL}';
 // object repository database
 $repository_database    = '{DATABASE_REPOSITORY}';
+// weblcms database
+$weblcms_database    = '{DATABASE_WEBLCMS}';
 
 //============================================================================
 //   Directory settings
