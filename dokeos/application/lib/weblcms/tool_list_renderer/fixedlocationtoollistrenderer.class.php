@@ -52,7 +52,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		{
 			if($tool->visible || $section == 'course_admin')
 			{
-				$action = 'make_invisible';
+				$lcms_action = 'make_invisible';
 				$visible_image = 'visible.gif';
 				$new = '';
 				if($parent->tool_has_new_publications($tool->name))
@@ -64,7 +64,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			}
 			else
 			{
-				$action = 'make_visible';
+				$lcms_action = 'make_visible';
 				$visible_image = 'invisible.gif';
 				$tool_image = $tool->name.'_tool_na.gif';
 				$link_class=' class="invisible"';
@@ -74,10 +74,10 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			$col = $count%FixedLocationToolListRenderer::NUMBER_OF_COLUMNS;
 			$html = array();
 			$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
-			$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>'.$title.'</a>';
+			$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_LCMS_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>'.$title.'</a>';
 			if($section!= 'course_admin')
 			{
-				$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_ACTION=>$action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$visible_image.'" alt=""/></a>';
+				$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_LCMS_ACTION=>$lcms_action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$visible_image.'" alt=""/></a>';
 			}
 			$table->setCellContents($row,$col,implode("\n",$html));
 			$table->updateColAttributes($col,'style="width: '.floor(100/FixedLocationToolListRenderer::NUMBER_OF_COLUMNS).'%;"');
