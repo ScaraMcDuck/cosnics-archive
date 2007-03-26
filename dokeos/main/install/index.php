@@ -258,6 +258,7 @@ $defaults['database_tracking'] = 'dokeos_stats';
 $defaults['database_scorm'] = 'dokeos_scorm';
 $defaults['database_user'] = 'dokeos_user';
 $defaults['database_repository'] = 'dokeos_repository';
+$defaults['database_weblcms'] = 'dokeos_weblcms';
 $defaults['database_prefix'] = 'dokeos_';
 $defaults['database_single'] = 0;
 $defaults['enable_tracking'] = 1;
@@ -297,6 +298,7 @@ if (isset ($current_values['installation_type']) && $current_values['installatio
 		$defaults['database_scorm'] = get_config_param('scormDbName');
 		$defaults['database_user'] = 'dokeos_user';
 		$defaults['database_repository'] = 'dokeos_repository';
+		$defaults['database_weblcms'] = 'dokeos_weblcms';
 		$defaults['database_username'] = get_config_param('dbLogin');
 		$defaults['database_password'] = get_config_param('dbPass');
 		$defaults['database_prefix'] = get_config_param('dbNamePrefix');

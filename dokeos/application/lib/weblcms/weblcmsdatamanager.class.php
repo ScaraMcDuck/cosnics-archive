@@ -299,6 +299,15 @@ abstract class WeblcmsDataManager
 	abstract function retrieve_course_category($category_code);
 	
 	/**
+	 * Creates a storage unit
+	 * @param string $name Name of the storage unit
+	 * @param array $properties Properties of the storage unit
+	 * @param array $indexes The indexes which should be defined in the created
+	 * storage unit
+	 */
+	abstract function create_storage_unit($name,$properties,$indexes);
+	
+	/**
 	 * Retrieves the course categories that match the criteria from persistent storage.
 	 * @param string $parent The parent of the course category.
 	 * @return DatabaseCourseCategoryResultSet The resultset of course category.

@@ -76,7 +76,7 @@ class RepositoryInstaller
 			 $indexes[$index->getAttribute('name')] = $index_info;
 		}
 		$dm = RepositoryDataManager :: get_instance();
-		echo '<pre>Creating Storage Unit: '.$name.'</pre>';flush();
+		echo '<pre>Creating Repository Storage Unit: '.$name.'</pre>';flush();
 		$dm->create_storage_unit($name,$properties,$indexes);
 	}
 }

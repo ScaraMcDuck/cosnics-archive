@@ -38,6 +38,8 @@ class Page_DatabaseSettings extends HTML_QuickForm_Page
 		$this->addRule('database_user', 'ThisFieldIsRequired', 'required');
 		$this->addElement('text', 'database_repository', get_lang("RepositoryDatabase"), array ('size' => '40'));
 		$this->addRule('database_repository', 'ThisFieldIsRequired', 'required');
+		$this->addElement('text', 'database_weblcms', get_lang("WeblcmsDatabase"), array ('size' => '40'));
+		$this->addRule('database_weblcms', 'ThisFieldIsRequired', 'required');
 		$enable_tracking[] = & $this->createElement('radio', 'enable_tracking', null, get_lang("Yes"), 1);
 		$enable_tracking[] = & $this->createElement('radio', 'enable_tracking', null, get_lang("No"), 0);
 		$this->addGroup($enable_tracking, 'tracking', get_lang("EnableTracking"), '&nbsp;', false);

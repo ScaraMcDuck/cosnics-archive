@@ -200,7 +200,7 @@ if($GLOBALS["this_section"] == "mycourses")
 	$link_class='';
 	}
 ?>
-	<a <?php echo $link_class ?> href="<?php echo api_get_path(WEB_PATH); ?>user_portal.php" target="_top">
+	<a <?php echo $link_class ?> href="<?php echo api_get_path(WEB_PATH); ?>index_lcms.php" target="_top">
 	<?php echo get_lang("MyCourses"); ?></a>
 
 <?php
@@ -270,6 +270,7 @@ if($GLOBALS["this_section"] == "myagenda")
   	show_navigation_tool_shortcuts();
   	}  ?></div>
 <?php
+
 if (isset ($_cid))
 {
 	?>
@@ -371,6 +372,7 @@ if (!$chat)
 	Navigation menu section
 -----------------------------------------------------------------------------
 */
+
 if(api_get_setting("show_navigation_menu") == "true")
 {
 
