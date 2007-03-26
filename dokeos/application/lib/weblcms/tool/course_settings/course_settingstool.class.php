@@ -7,7 +7,6 @@
  */
 require_once dirname(__FILE__).'/../tool.class.php';
 require_once dirname(__FILE__).'/course_settingsform.class.php';
-require_once dirname(__FILE__).'/../../weblcms.class.php';
 
 class CourseSettingsTool extends Tool
 {
@@ -18,7 +17,7 @@ class CourseSettingsTool extends Tool
 		if($form->validate())
 		{
 			$success = $form->update_course();
-			$this->redirect(Weblcms :: ACTION_VIEW_COURSE_HOME, get_lang($success ? 'CourseSettingsUpdated' : 'CourseSettingsUpdateFailed'), ($success ? false : true));
+			$this->redirect(Weblcms :: ACTION_VIEW_WEBLCMS_HOME, get_lang($success ? 'CourseSettingsUpdated' : 'CourseSettingsUpdateFailed'), ($success ? false : true));
 		}
 		else
 		{

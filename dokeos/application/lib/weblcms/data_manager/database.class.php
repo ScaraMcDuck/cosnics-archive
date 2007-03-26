@@ -20,12 +20,19 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	private $connection;
 	private $repoDM;
+	/**
+	 * The table name prefix, if any.
+	 */
+	private $prefix;
 
 
 	function initialize()
 	{
 		$this->repoDM = & RepositoryDataManager :: get_instance();
-		$this->connection = $this->repoDM->get_connection();
+		$conf = Configuration :: get_instance();
+		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('WeblcmsDataManager','debug')));
+		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
+		$this->connection->query('SET NAMES utf8');
 	}
 
 	/**
@@ -74,7 +81,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			if ($type == 'user')
 			{
-				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->escape_column_name('title') .' FROM '.$this->escape_table_name('learning_object_publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.$this->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`learning_object` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
+				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->escape_column_name('title') .' FROM '.$this->escape_table_name('learning_object_publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.$this->repoDM->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`learning_object` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
 				$query .= ' WHERE '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLISHER_ID).'=?';
 
 				$order = array ();
@@ -622,10 +629,18 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	
 	function retrieve_course($course_code)
 	{
-		$query = 'SELECT * FROM dokeos_main.course WHERE '.$this->escape_column_name(Course :: PROPERTY_ID).'=?';
+		$query = 'SELECT * FROM '. $this->escape_table_name('course') .' WHERE '.$this->escape_column_name(Course :: PROPERTY_ID).'=?';
 		$res = $this->limitQuery($query, 1, null, array ($course_code));
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		return $this->record_to_course($record);
+	}
+	
+	function retrieve_courses($user = null, $category = null)
+	{
+		$query = 'SELECT * FROM '. $this->escape_table_name('course') .' WHERE '.$this->escape_column_name(Course :: PROPERTY_ID).'=?';
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute();
+		return new DatabaseCourseResultSet($this, $res);
 	}
 	
 	function record_to_course($record)
@@ -659,7 +674,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 		$props[Course :: PROPERTY_CATEGORY_CODE] = $course->get_category()->get_code();
 		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute('dokeos_main.course', $props, MDB2_AUTOQUERY_UPDATE, $where);
+		$this->connection->extended->autoExecute($this->escape_table_name('course'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 		return true;
 	}
 
@@ -707,7 +722,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	
 	function retrieve_course_category($category_code)
 	{
-		$query = 'SELECT * FROM dokeos_main.course_category WHERE '.$this->escape_column_name(CourseCategory :: PROPERTY_CODE).'=?';
+		$query = 'SELECT * FROM '. $this->escape_table_name('course_category') .' WHERE '.$this->escape_column_name(CourseCategory :: PROPERTY_CODE).'=?';
 		$res = $this->limitQuery($query, 1, null, array ($category_code));
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		return $this->record_to_course_category($record);
@@ -715,10 +730,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	
 	function retrieve_course_categories($parent = null)
 	{
-		$query = 'SELECT * FROM dokeos_main.course_category';
+		$query = 'SELECT * FROM '. $this->escape_table_name('course_category');
 		if (isset($parent))
 		{
-			$query .= ' WHERE dokeos_main.course_category.'. CourseCategory :: PROPERTY_PARENT .'=?';
+			$query .= ' WHERE '.$this->escape_column_name(CourseCategory :: PROPERTY_PARENT).'=?';
 		}
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($parent);
@@ -846,24 +861,203 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return new LearningObjectPublication($record[LearningObjectPublication :: PROPERTY_ID], $obj, $record[LearningObjectPublication :: PROPERTY_COURSE_ID], $record[LearningObjectPublication :: PROPERTY_TOOL], $record[LearningObjectPublication :: PROPERTY_CATEGORY_ID], $target_users, $target_groups, $record[LearningObjectPublication :: PROPERTY_FROM_DATE], $record[LearningObjectPublication :: PROPERTY_TO_DATE], $record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID], $record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE], $record[LearningObjectPublication :: PROPERTY_HIDDEN] != 0, $record[LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX],$record[LearningObjectPublication :: PROPERTY_EMAIL_SENT]);
 	}
 
-	private function translate_condition($condition, & $params)
+	/**
+	 * Translates any type of condition to a SQL WHERE clause.
+	 * @param Condition $condition The Condition object.
+	 * @param array $params A reference to the query's parameter list.
+	 * @param boolean $prefix_learning_object_properties Whether or not to
+	 *                                                   prefix learning
+	 *                                                   object properties
+	 *                                                   to avoid collisions.
+	 * @return string The WHERE clause.
+	 */
+	function translate_condition($condition, & $params, $prefix_learning_object_properties = false)
 	{
-		return $this->repoDM->translate_condition($condition, & $params);
+		if ($condition instanceof AggregateCondition)
+		{
+			return $this->translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties);
+		}
+		elseif ($condition instanceof InCondition)
+		{
+			return $this->translate_in_condition($condition, & $params, $prefix_learning_object_properties);
+		}
+		elseif ($condition instanceof Condition)
+		{
+			return $this->translate_simple_condition($condition, & $params, $prefix_learning_object_properties);
+		}
+		else
+		{
+			die('Need a Condition instance');
+		}
+	}
+
+	/**
+	 * Translates an aggregate condition to a SQL WHERE clause.
+	 * @param AggregateCondition $condition The AggregateCondition object.
+	 * @param array $params A reference to the query's parameter list.
+	 * @param boolean $prefix_learning_object_properties Whether or not to
+	 *                                                   prefix learning
+	 *                                                   object properties
+	 *                                                   to avoid collisions.
+	 * @return string The WHERE clause.
+	 */
+	function translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties = false)
+	{
+		if ($condition instanceof AndCondition)
+		{
+			$cond = array ();
+			foreach ($condition->get_conditions() as $c)
+			{
+				$cond[] = $this->translate_condition($c, & $params, $prefix_learning_object_properties);
+			}
+			return '('.implode(' AND ', $cond).')';
+		}
+		elseif ($condition instanceof OrCondition)
+		{
+			$cond = array ();
+			foreach ($condition->get_conditions() as $c)
+			{
+				$cond[] = $this->translate_condition($c, & $params, $prefix_learning_object_properties);
+			}
+			return '('.implode(' OR ', $cond).')';
+		}
+		elseif ($condition instanceof NotCondition)
+		{
+			return 'NOT ('.$this->translate_condition($condition->get_condition(), & $params, $prefix_learning_object_properties) . ')';
+		}
+		else
+		{
+			die('Cannot translate aggregate condition');
+		}
+	}
+
+	/**
+	 * Translates an in condition to a SQL WHERE clause.
+	 * @param InCondition $condition The InCondition object.
+	 * @param array $params A reference to the query's parameter list.
+	 * @param boolean $prefix_learning_object_properties Whether or not to
+	 *                                                   prefix learning
+	 *                                                   object properties
+	 *                                                   to avoid collisions.
+	 * @return string The WHERE clause.
+	 */
+	function translate_in_condition($condition, & $params, $prefix_learning_object_properties = false)
+	{
+		if ($condition instanceof InCondition)
+		{
+			$name = $condition->get_name();
+			$where_clause = $this->escape_column_name($name).' IN (';
+			$values = $condition->get_values();
+			$placeholders = array();
+			foreach($values as $index => $value)
+			{
+				$placeholders[] = '?';
+				$params[] = $value;
+			}
+			$where_clause .= implode(',',$placeholders).')';
+			return $where_clause;
+		}
+		else
+		{
+			die('Cannot translate in condition');
+		}
+	}
+
+	/**
+	 * Translates a simple condition to a SQL WHERE clause.
+	 * @param Condition $condition The Condition object.
+	 * @param array $params A reference to the query's parameter list.
+	 * @param boolean $prefix_learning_object_properties Whether or not to
+	 *                                                   prefix learning
+	 *                                                   object properties
+	 *                                                   to avoid collisions.
+	 * @return string The WHERE clause.
+	 */
+	function translate_simple_condition($condition, & $params, $prefix_learning_object_properties = false)
+	{
+		if ($condition instanceof EqualityCondition)
+		{
+			$name = $condition->get_name();
+			$value = $condition->get_value();
+			if (self :: is_date_column($name))
+			{
+				$value = self :: to_db_date($value);
+			}
+			if (is_null($value))
+			{
+				return $this->escape_column_name($name).' IS NULL';
+			}
+			$params[] = $value;
+			return $this->escape_column_name($name, $prefix_learning_object_properties).' = ?';
+		}
+		elseif ($condition instanceof InequalityCondition)
+		{
+			$name = $condition->get_name();
+			$value = $condition->get_value();
+			if (self :: is_date_column($name))
+			{
+				$value = self :: to_db_date($value);
+			}
+			$params[] = $value;
+			switch ($condition->get_operator())
+			{
+				case InequalityCondition :: GREATER_THAN :
+					$operator = '>';
+					break;
+				case InequalityCondition :: GREATER_THAN_OR_EQUAL :
+					$operator = '>=';
+					break;
+				case InequalityCondition :: LESS_THAN :
+					$operator = '<';
+					break;
+				case InequalityCondition :: LESS_THAN_OR_EQUAL :
+					$operator = '<=';
+					break;
+				default :
+					die('Unknown operator for inequality condition');
+			}
+			return $this->escape_column_name($name, $prefix_learning_object_properties).' '.$operator.' ?';
+		}
+		elseif ($condition instanceof PatternMatchCondition)
+		{
+			$params[] = $this->translate_search_string($condition->get_pattern());
+			return $this->escape_column_name($condition->get_name(), $prefix_learning_object_properties).' LIKE ?';
+		}
+		else
+		{
+			die('Cannot translate condition');
+		}
 	}
 
 	private function get_table_name($name)
 	{
-		return $this->repoDM->get_table_name($name);
+		global $weblcms_database;
+		return $weblcms_database.'.'.$this->prefix.$name;
 	}
 
-	private function escape_table_name($name)
+	/**
+	 * Escapes a table name in accordance with the database type.
+	 * @param string $name The table identifier.
+	 * @return string The escaped table name.
+	 */
+	function escape_table_name($name)
 	{
-		return $this->repoDM->escape_table_name($name);
+		global $weblcms_database;
+		$database_name = $this->connection->quoteIdentifier($weblcms_database);
+		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
 	}
 
-	private function escape_column_name($name)
+	function escape_column_name($name, $prefix_learning_object_properties = false)
 	{
-		return $this->repoDM->escape_column_name($name);
+		list($table, $column) = explode('.', $name, 2);
+		$prefix = '';
+		
+		if (isset($column))
+		{
+			$prefix = $table.'.';
+			$name = $column;
+		}
+		return $prefix.$this->connection->quoteIdentifier($name);
 	}
 
 	private static function from_db_date($date)
@@ -874,6 +1068,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	private static function to_db_date($date)
 	{
 		return DatabaseRepositoryDataManager :: to_db_date($date);
+	}
+	
+	/**
+	 * Checks whether the given column name is the name of a column that
+	 * contains a date value, and hence should be formatted as such.
+	 * @param string $name The column name.
+	 * @return boolean True if the column is a date column, false otherwise.
+	 */
+	static function is_date_column($name)
+	{
+		return ($name == LearningObject :: PROPERTY_CREATION_DATE || $name == LearningObject :: PROPERTY_MODIFICATION_DATE);
 	}
 }
 ?>
