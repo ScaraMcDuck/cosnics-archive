@@ -34,7 +34,8 @@ class Weblcms extends WebApplication
 	const PARAM_ERROR_MESSAGE = 'error_message';
 	
 	const ACTION_VIEW_WEBLCMS_HOME = 'home';
-	const ACTION_VIEW_COURSE = 'course';
+	const ACTION_VIEW_COURSE = 'courseviewer';
+	const ACTION_CREATE_COURSE = 'coursecreator';
 
 	/**
 	 * The tools that this application offers.
@@ -81,7 +82,10 @@ class Weblcms extends WebApplication
 		switch ($action)
 		{
 			case self :: ACTION_VIEW_COURSE :
-				$component = WeblcmsComponent :: factory('Course', $this);
+				$component = WeblcmsComponent :: factory('CourseViewer', $this);
+				break;
+			case self :: ACTION_CREATE_COURSE :
+				$component = WeblcmsComponent :: factory('CourseCreator', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
@@ -440,6 +444,11 @@ class Weblcms extends WebApplication
 	function retrieve_course_categories($parent = null)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_categories($parent);
+	}
+	
+	function retrieve_course_user_categories($user_id)
+	{
+		return WeblcmsDataManager :: get_instance()->retrieve_course_user_categories($user_id);
 	}
 	
 	function retrieve_courses($user = null, $category = null)
