@@ -2,10 +2,10 @@
 /**
  * @package application.personal_calendar
  */
-require_once dirname(__FILE__).'/../webapplication.class.php';
-require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php';
-require_once dirname(__FILE__).'/renderer/personal_calendar_list_renderer.class.php';
-require_once dirname(__FILE__).'/connector/personal_calendar_weblcms_connector.class.php';
+require_once dirname(__FILE__).'/../../webapplication.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/configuration.class.php';
+require_once dirname(__FILE__).'/../renderer/personal_calendar_list_renderer.class.php';
+require_once dirname(__FILE__).'/../connector/personal_calendar_weblcms_connector.class.php';
 /**
  * This application gives each user the possibility to maintain a personal
  * calendar.

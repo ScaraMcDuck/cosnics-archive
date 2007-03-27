@@ -44,7 +44,7 @@ class DatabaseCourseResultSet extends ResultSet {
     {
 		if ($record = $this->handle->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			return $this->data_manager->record_to_course_category($record);
+			return $this->data_manager->record_to_course($record);
 		}
     	return null;
     }

@@ -14,6 +14,14 @@ class WeblcmsCourseComponent extends WeblcmsComponent
 	 */
 	function run()
 	{
+		if(!$this->is_allowed(VIEW_RIGHT))
+		{
+			$this->display_header();
+			api_not_allowed();
+			$this->display_footer();
+			return;
+		}
+		
 		$course = $this->get_parameter(Weblcms :: PARAM_COURSE);
 		$tool = $this->get_parameter(Weblcms :: PARAM_TOOL);
 		$action = $this->get_parameter(Weblcms::PARAM_ACTION);
@@ -48,7 +56,7 @@ class WeblcmsCourseComponent extends WeblcmsComponent
 				$wdm = WeblcmsDataManager :: get_instance();
 				$class = Tool :: type_to_class($tool);
 				$toolObj = new $class ($this);
-				$this->tool_class = $class;
+				$this->set_tool_class($class);
 				$toolObj->run();
 				$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),$tool,$category);
 			}
@@ -67,6 +75,17 @@ class WeblcmsCourseComponent extends WeblcmsComponent
 			Display :: display_header(get_lang('MyCourses'), 'Mycourses');
 			$this->display_footer();
 		}
+	}
+	
+	function is_allowed($right)
+	{
+		$user_id = $this->get_user_id();
+		$course_id = $this->get_course_id();
+		$role_id = RolesRights::get_local_user_role_id($user_id, $course_id);
+		$location_id = RolesRights::get_course_location_id($course_id, TOOL_COURSE_HOMEPAGE);
+		
+		$result = RolesRights::is_allowed_which_rights($role_id, $location_id);
+		return $result[$right];
 	}
 }
 ?>

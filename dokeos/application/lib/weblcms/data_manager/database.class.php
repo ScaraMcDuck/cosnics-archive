@@ -4,6 +4,7 @@
  * @package application.weblcms
  * @subpackage datamanager
  */
+require_once dirname(__FILE__).'/database/databasecourseresultset.class.php';
 require_once dirname(__FILE__).'/database/databasecoursecategoryresultset.class.php';
 require_once dirname(__FILE__).'/database/databaselearningobjectpublicationresultset.class.php';
 require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
@@ -637,9 +638,21 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	
 	function retrieve_courses($user = null, $category = null)
 	{
-		$query = 'SELECT * FROM '. $this->escape_table_name('course') .' WHERE '.$this->escape_column_name(Course :: PROPERTY_ID).'=?';
+		$query = 'SELECT * FROM '. $this->escape_table_name('course');
+		if (isset($user))
+		{
+			$query .= ' JOIN '. $this->escape_table_name('course_rel_user') .' ON '.$this->escape_table_name('course').'.'.$this->escape_column_name(Course :: PROPERTY_ID).'='.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('course_code');
+			$query .= ' WHERE '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('user_id').'=?';
+			$param = $user;
+		}
+		elseif (isset($category))
+		{
+			$query .= ' WHERE '.$this->escape_column_name(Course :: PROPERTY_CATEGORY_CODE).'=?';
+			$param = $category;
+		}
+		
 		$statement = $this->connection->prepare($query);
-		$res = $statement->execute();
+		$res = $statement->execute($param);
 		return new DatabaseCourseResultSet($this, $res);
 	}
 	

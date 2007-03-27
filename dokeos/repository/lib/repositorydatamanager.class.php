@@ -733,7 +733,7 @@ abstract class RepositoryDataManager
 		{
 			while (false !== ($file = readdir($handle)))
 			{
-				$toolPath = $path.'/'. $file .'_manager/'.$file;
+				$toolPath = $path.'/'. $file .'/'.$file.'_manager';
 				if (is_dir($toolPath) && self :: is_application_name($file))
 				{
 					require_once $toolPath.'/'.$file.'.class.php';

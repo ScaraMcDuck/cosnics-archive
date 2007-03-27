@@ -90,7 +90,7 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 			case ActionSelectionMaintenanceWizardPage :: ACTION_DELETE :
 				$dm = WeblcmsDatamanager::get_instance();
 				$dm->delete_course($this->parent->get_course_id());
-				header('Location: '.api_get_path(WEB_PATH).'/user_portal.php');
+				header('Location: '.api_get_path(WEB_PATH).'/index_lcms.php');
 				exit;
 				break;
 		}
