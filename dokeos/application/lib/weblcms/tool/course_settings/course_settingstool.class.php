@@ -6,13 +6,13 @@
  * @subpackage course_settings
  */
 require_once dirname(__FILE__).'/../tool.class.php';
-require_once dirname(__FILE__).'/course_settingsform.class.php';
+require_once dirname(__FILE__).'/../../course/courseform.class.php';
 
 class CourseSettingsTool extends Tool
 {
 	function run()
 	{
-		$form = new CourseSettingsForm($this);
+		$form = new CourseForm($this);
 		
 		if($form->validate())
 		{
