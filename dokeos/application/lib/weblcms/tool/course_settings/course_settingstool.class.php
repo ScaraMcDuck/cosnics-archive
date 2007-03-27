@@ -12,7 +12,7 @@ class CourseSettingsTool extends Tool
 {
 	function run()
 	{
-		$form = new CourseForm($this);
+		$form = new CourseForm(CourseForm :: TYPE_EDIT, $this->get_parent()->get_course(), $this->get_url());
 		
 		if($form->validate())
 		{
