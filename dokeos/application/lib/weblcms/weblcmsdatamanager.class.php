@@ -313,6 +313,12 @@ abstract class WeblcmsDataManager
 	 * @return DatabaseCourseCategoryResultSet The resultset of course category.
 	 */
 	abstract function retrieve_course_categories($parent = null);
+	
+	/**
+	 * Retrieves the personal course categories for a given user.
+	 * @return DatabaseUserCourseCategoryResultSet The resultset of course categories.
+	 */
+	abstract function retrieve_course_user_categories($user_id);
 
 	/**
 	 * Adds a course module to a course

@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../weblcmscomponent.class.php';
 /**
  * Weblcms component which provides the course page
  */
-class WeblcmsCourseComponent extends WeblcmsComponent
+class WeblcmsCourseViewerComponent extends WeblcmsComponent
 {
 	/**
 	 * Runs this component and displays its output.
