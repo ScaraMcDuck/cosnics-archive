@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/course.class.php';
 
 class CourseForm extends FormValidator {
@@ -11,11 +12,10 @@ class CourseForm extends FormValidator {
 	private $parent;
 	private $course;
 
-    function CourseForm($form_type, $parent) {
-    	parent :: __construct('course_settings', 'post', $parent->get_url());
+    function CourseForm($form_type, $course, $action) {
+    	parent :: __construct('course_settings', 'post', $action);
     	
-    	$this->course = $parent->get_course();
-    	$this->parent = $parent;
+    	$this->course = $course;
     	
 		$this->form_type = $form_type;
 		if ($this->form_type == self :: TYPE_EDIT)
@@ -28,11 +28,8 @@ class CourseForm extends FormValidator {
 		}
     }
     
-    function build_editing_form()
+    function build_basic_form()
     {
-    	$course = $this->course;
-    	$parent = $this->parent;
-    	
 		$this->addElement('text', Course :: PROPERTY_VISUAL, get_lang('VisualCode'));
 		$this->addRule(Course :: PROPERTY_VISUAL, get_lang('ThisFieldIsRequired'), 'required');
 		$this->addElement('text', Course :: PROPERTY_TITULAR, get_lang('Teacher'));
@@ -41,7 +38,11 @@ class CourseForm extends FormValidator {
 		$this->addRule(Course :: PROPERTY_NAME, get_lang('ThisFieldIsRequired'), 'required');
 		
 		$cat_options = array();
-		$categories =  $parent->get_parent()->retrieve_course_categories();
+		$parent = $this->parent;
+		
+		$wdm = WeblcmsDataManager :: get_instance();
+		$categories = $wdm->retrieve_course_categories();
+		
 		while ($category = $categories->next_result())
 		{
 			$cat_options[$category->get_code()] = $category->get_name();
@@ -84,22 +85,23 @@ class CourseForm extends FormValidator {
 		$this->addGroup($unsubscribe_allowed, Course :: PROPERTY_UNSUBSCRIBE_ALLOWED, get_lang('Unsubscribe'), '<br />');		
 		
 		$this->addElement('submit', 'course_settings', get_lang('Ok'));
-    	$defaults = array();
-		$defaults[Course :: PROPERTY_VISUAL] = $course->get_visual();
-		$defaults[Course :: PROPERTY_TITULAR] = $course->get_titular();
-		$defaults[Course :: PROPERTY_NAME] = $course->get_name();
-		$defaults[Course :: PROPERTY_CATEGORY] = $course->get_category()->get_code();
-		$defaults[Course :: PROPERTY_EXTLINK_NAME] = $course->get_extlink_name();
-		$defaults[Course :: PROPERTY_EXTLINK_URL] = $course->get_extlink_url();
-		$defaults[Course :: PROPERTY_LANGUAGE] = $course->get_language();
-		$defaults[Course :: PROPERTY_VISIBILITY] = $course->get_visibility();
-		$defaults[Course :: PROPERTY_SUBSCRIBE_ALLOWED] = $course->get_subscribe_allowed();
-		$defaults[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED] = $course->get_unsubscribe_allowed();
-    	$this->setDefaults($defaults);
+    }
+    
+    function build_editing_form()
+    {
+    	$course = $this->course;
+    	$parent = $this->parent;
+    	
+    	$this->build_basic_form();
+    	
+    	$this->addElement('hidden', Course :: PROPERTY_ID);
+    	
+		$this->setDefaults();
     }
     
     function build_creation_form()
     {
+    	$this->build_basic_form();
     }
     
     function update_course()
@@ -120,5 +122,27 @@ class CourseForm extends FormValidator {
     	
     	return $course->update();
     }
+    
+	/**
+	 * Sets default values. Traditionally, you will want to extend this method
+	 * so it sets default for your learning object type's additional
+	 * properties.
+	 * @param array $defaults Default values for this form's parameters.
+	 */
+	function setDefaults($defaults = array ())
+	{
+		$course = $this->course;
+		$defaults[Course :: PROPERTY_VISUAL] = $course->get_visual();
+		$defaults[Course :: PROPERTY_TITULAR] = $course->get_titular();
+		$defaults[Course :: PROPERTY_NAME] = $course->get_name();
+		$defaults[Course :: PROPERTY_CATEGORY] = $course->get_category()->get_code();
+		$defaults[Course :: PROPERTY_EXTLINK_NAME] = $course->get_extlink_name();
+		$defaults[Course :: PROPERTY_EXTLINK_URL] = $course->get_extlink_url();
+		$defaults[Course :: PROPERTY_LANGUAGE] = $course->get_language();
+		$defaults[Course :: PROPERTY_VISIBILITY] = $course->get_visibility();
+		$defaults[Course :: PROPERTY_SUBSCRIBE_ALLOWED] = $course->get_subscribe_allowed();
+		$defaults[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED] = $course->get_unsubscribe_allowed();
+		parent :: setDefaults($defaults);
+	}
 }
 ?>
