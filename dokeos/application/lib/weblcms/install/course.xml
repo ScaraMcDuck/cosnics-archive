@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="course">
+ <properties>
+  <property name="code" type="text" length="40" notnull="1"/>
+  <property name="directory" type="text" length="40"/>
+  <property name="db_name" type="text" length="40"/>
+  <property name="course_language" type="text" length="20"/>
+  <property name="title" type="text" length="250"/>
+  <property name="description" type="text"/>
+  <property name="category_code" type="text" length="40"/>
+  <property name="visibility" type="integer" length="1" default="0"/>
+  <property name="show_score" type="integer" notnull="1" default="1"/>
+  <property name="tutor_name" type="text" length="200"/>
+  <property name="visual_code" type="text" length="40"/>
+  <property name="department_name" type="text" length="30"/>
+  <property name="department_url" type="text" length="180"/>
+  <property name="disk_quota" type="integer" unsigned="1"/>
+  <property name="last_visit" type="timestamp"/>
+  <property name="last_edit" type="timestamp"/>
+  <property name="creation_date" type="timestamp"/>
+  <property name="expiration_date" type="timestamp"/>
+  <property name="target_course_code" type="text" length="40"/>
+  <property name="subscribe" type="integer" length="1" default="1"/>
+  <property name="unsubscribe" type="integer" length="1" default="1"/>
+ </properties>
+ <index name="code" type="primary">
+  <indexproperty name="code"/>
+ </index>
+</object>
