@@ -1064,6 +1064,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 				$index_info['primary'] = 1;
 				$manager->createConstraint($name,$index_name,$index_info);
 			}
+			else if($index_info['type'] == 'unique')
+			{
+				$index_info['unique'] = 1;
+				$manager->createConstraint($name,$index_name,$index_info);
+			}
 			else
 			{
 				$manager->createIndex($name,$index_name,$index_info);

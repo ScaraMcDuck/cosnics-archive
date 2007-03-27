@@ -120,12 +120,12 @@ class MDB2_Driver_Datatype_mysql extends MDB2_Driver_Datatype_Common
         if (PEAR::isError($db)) {
             return $db;
         }
-
         switch ($field['type']) {
         case 'text':
-            if (empty($field['length']) && array_key_exists('default', $field)) {
-                $field['length'] = $db->varchar_max_length;
-            }
+        	
+//            if (empty($field['length']) && array_key_exists('default', $field)) {
+//                $field['length'] = $db->varchar_max_length;
+//            }
             $length = !empty($field['length']) ? $field['length'] : false;
             $fixed = !empty($field['fixed']) ? $field['fixed'] : false;
             return $fixed ? ($length ? 'CHAR('.$length.')' : 'CHAR(255)')

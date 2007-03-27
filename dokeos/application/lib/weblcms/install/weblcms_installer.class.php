@@ -20,7 +20,10 @@ class WeblcmsInstaller {
 	 */
 	function install()
 	{
-		//$repository_installer = new RepositoryInstaller();
+		$this->parse_xml_file(dirname(__FILE__).'/course.xml');
+		$this->parse_xml_file(dirname(__FILE__).'/course_rel_class.xml');
+		$this->parse_xml_file(dirname(__FILE__).'/course_rel_user.xml');
+		$this->parse_xml_file(dirname(__FILE__).'/course_category.xml');
 		$this->parse_xml_file(dirname(__FILE__).'/learning_object_publication.xml');
 		$this->parse_xml_file(dirname(__FILE__).'/learning_object_publication_category.xml');
 		$this->parse_xml_file(dirname(__FILE__).'/learning_object_publication_group.xml');
@@ -44,6 +47,9 @@ class WeblcmsInstaller {
 			 $property_info['length'] = $property->getAttribute('length');
 			 $property_info['unsigned'] = $property->getAttribute('unsigned');
 			 $property_info['notnull'] = $property->getAttribute('notnull');
+			 $property_info['default'] = $property->getAttribute('default');
+			 $property_info['autoincrement'] = $property->getAttribute('autoincrement');
+			 $property_info['fixed'] = $property->getAttribute('fixed');
 			 $properties[$property->getAttribute('name')] = $property_info;
 		}
 		$xml_indexes = $doc->getElementsByTagname('index');
