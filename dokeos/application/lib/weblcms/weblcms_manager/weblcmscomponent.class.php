@@ -76,7 +76,12 @@ abstract class WeblcmsComponent {
 	
 	function set_parameter($name, $value)
 	{
-		$this->get_parent()->set_parameter($name, $value);
+		return $this->get_parent()->set_parameter($name, $value);
+	}
+	
+	function set_tool_class($class)
+	{
+		return $this->get_parent()->set_tool_class($class);
 	}
 	
 	function get_url($parameters = array (), $encode = false)
@@ -86,7 +91,7 @@ abstract class WeblcmsComponent {
 	
 	function display_header($breadcrumbs = array ())
 	{
-		return $this->get_parent()->display_header($breadcrumbs = array ());
+		return $this->get_parent()->display_header($breadcrumbs);
 	}
 	
 	function display_message($message)
@@ -163,6 +168,11 @@ abstract class WeblcmsComponent {
 	{
 		return $this->get_parent()->retrieve_course_categories($parent);
 	}
+	
+	function retrieve_courses($user = null, $category = null)
+	{
+		return $this->get_parent()->retrieve_courses($user, $category);
+	}
 
 	function get_last_visit_date($tool = null,$category_id = null)
 	{
@@ -174,13 +184,14 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->tool_has_new_publications($tool);
 	}
 	
-	/**
-	 * Retrieve the repository manager in which this component is active
-	 * @return RepositoryManager
-	 */
 	function get_parent()
 	{
 		return $this->weblcms;
+	}
+	
+	function get_course_viewing_url($course)
+	{
+		return $this->get_parent()->get_course_viewing_url($course);
 	}
 	
 	/**

@@ -58,11 +58,11 @@ class Weblcms extends WebApplication
 	function Weblcms($tool = null)
 	{
 		parent :: __construct();
-		$this->set_parameter(self :: PARAM_COURSE, $_GET[self :: PARAM_COURSE]);
-		$this->set_parameter(self :: PARAM_TOOL, $_GET[self :: PARAM_TOOL]);
 		$this->set_parameter(self :: PARAM_ACTION, $_GET[self :: PARAM_ACTION]);
 		$this->set_parameter(self :: PARAM_LCMS_ACTION, $_GET[self :: PARAM_LCMS_ACTION]);
 		$this->set_parameter(self :: PARAM_CATEGORY, $_GET[self :: PARAM_CATEGORY]);
+		$this->set_parameter(self :: PARAM_COURSE, $_GET[self :: PARAM_COURSE]);
+		$this->set_parameter(self :: PARAM_TOOL, $_GET[self :: PARAM_TOOL]);
 
 		$this->course = new Course();
 		$this->load_course();
@@ -107,6 +107,11 @@ class Weblcms extends WebApplication
 	function set_action($action)
 	{
 		return $this->set_parameter(self :: PARAM_ACTION, $action);
+	}
+	
+	function set_tool_class($class)
+	{
+		return $this->tool_class = $class;
 	}
 	
 	function redirect($action = null, $message = null, $error_message = false, $extra_params = null)
@@ -242,10 +247,12 @@ class Weblcms extends WebApplication
 	{
 		global $interbredcrump, $htmlHeadXtra;
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
+		$course = $this->get_parameter(self :: PARAM_COURSE);
 		if ($tool)
 		{
 			array_unshift($breadcrumbs, array ('url' => $this->get_url(), 'name' => get_lang(Tool :: type_to_class($tool).'Title')));
 		}
+		
 		$current_crumb = array_pop($breadcrumbs);
 		$interbredcrump = $breadcrumbs;
 		if (isset ($this->tool_class))
@@ -281,7 +288,14 @@ class Weblcms extends WebApplication
 		}
 		else
 		{
-			echo '<h3>'.htmlentities($this->course->get_name()).'</h3>';
+			if ($course)
+			{
+				echo '<h3>'.htmlentities($this->course->get_name()).'</h3>';
+			}
+			else
+			{
+				echo '<h3>'.htmlentities($title).'</h3>';
+			}
 			
 			if ($msg = $_GET[self :: PARAM_MESSAGE])
 			{
@@ -427,6 +441,11 @@ class Weblcms extends WebApplication
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_categories($parent);
 	}
+	
+	function retrieve_courses($user = null, $category = null)
+	{
+		return WeblcmsDataManager :: get_instance()->retrieve_courses($user, $category);
+	}
 
 	/**
 	 * Gets the date of the last visit of current user to the current location
@@ -483,6 +502,15 @@ class Weblcms extends WebApplication
 			return $new_items > 0;
 		}
 		return false;
+	}
+	
+    /**
+     * Returns the url to the course's page
+     * @return String
+     */
+	function get_course_viewing_url($course)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id()));
 	}
 }
 ?>

@@ -128,7 +128,7 @@ function login_user($user_id)
 			api_session_register('is_platformAdmin');
 			api_session_register('is_allowedCreateCourse');
 
-			$target_url = api_get_path(WEB_PATH)."user_portal.php";
+			$target_url = api_get_path(WEB_PATH)."index.php";
 			$message .= "<br/>Login successful. Go to <a href=\"$target_url\">$target_url</a>";
 			Display :: display_header(get_lang('UserList'));
 			Display :: display_normal_message($message);

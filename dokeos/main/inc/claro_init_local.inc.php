@@ -273,7 +273,7 @@ else
     	    }
     	    else
     	    {
-    	    	header('location: '.api_get_path(WEB_PATH).'user_portal.php');
+    	    	header('location: '.api_get_path(WEB_PATH).'index.php');
     	    }
         }
         else // login failed, mysql_num_rows($result) <= 0

@@ -2,13 +2,13 @@
 /**
  * @package application.searchportal
  */
-require_once dirname(__FILE__).'/search_source/localrepositorysearchsource.class.php';
-require_once dirname(__FILE__).'/search_source/webservicesearchsource.class.php';
-require_once dirname(__FILE__).'/../webapplication.class.php';
-require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php';
-require_once dirname(__FILE__).'/../../../repository/lib/repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../../../repository/lib/repositoryutilities.class.php';
-require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../search_source/localrepositorysearchsource.class.php';
+require_once dirname(__FILE__).'/../search_source/webservicesearchsource.class.php';
+require_once dirname(__FILE__).'/../../webapplication.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/configuration.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
+require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once 'Pager/Pager.php';
 
 /**

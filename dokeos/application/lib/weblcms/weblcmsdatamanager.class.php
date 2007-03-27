@@ -262,7 +262,7 @@ abstract class WeblcmsDataManager
 	abstract function retrieve_course($course_code);
 	
 	/**
-	 * Retrieves a course resultset with the given  from persistent storage.
+	 * Retrieves a course resultset with the given user or category from persistent storage.
 	 * @param int $user The id of the user.
 	 * @param String $category The code of the category.
 	 * @return DatabaseCourseResultSet The resultset of courses.
