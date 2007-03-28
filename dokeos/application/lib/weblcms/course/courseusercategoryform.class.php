@@ -61,12 +61,12 @@ class CourseUserCategoryForm extends FormValidator {
     	return $courseusercategory->update();
     }
     
-    function create_course_course_user_category()
+    function create_course_user_category()
     {
     	$courseusercategory = $this->courseusercategory;
     	$values = $this->exportValues();
     	
-    	$courseusercategory->set_id($values[Course :: PROPERTY_ID]);
+    	$courseusercategory->set_id($values[CourseUserCategory :: PROPERTY_ID]);
     	$courseusercategory->set_title($values[CourseUserCategory :: PROPERTY_TITLE]);
     	$courseusercategory->set_user(api_get_user_id());
     	

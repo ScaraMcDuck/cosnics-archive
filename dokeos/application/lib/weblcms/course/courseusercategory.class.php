@@ -80,5 +80,17 @@ class CourseUserCategory {
 
 		return true;
 	}
+	
+	function create($this)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		$success = $wdm->create_course_user_category($this);
+		if (!$success)
+		{
+			return false;
+		}
+
+		return true;
+	}
 }
 ?>
