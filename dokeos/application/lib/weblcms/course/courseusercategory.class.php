@@ -68,5 +68,17 @@ class CourseUserCategory {
 	{
 		$this->set_default_property(self :: PROPERTY_TITLE, $title);
 	}
+	
+	function update($this)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		$success = $wdm->update_course_user_category($this);
+		if (!$success)
+		{
+			return false;
+		}
+
+		return true;
+	}
 }
 ?>

@@ -54,10 +54,10 @@ abstract class WebApplication extends Application {
 	 * category).
 	 * @param boolean $error_message Is the passed message an error message?
 	 */
-	function redirect($action = null, $message = null, $error_message = false, $extra_params = null)
+	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
 	{
 		$params = array ();
-
+		
 		if (isset($extra_params))
 		{
 			foreach($extra_params as $key => $extra)
@@ -70,6 +70,7 @@ abstract class WebApplication extends Application {
 		{
 			$params[$error_message ? self :: PARAM_ERROR_MESSAGE :  self :: PARAM_MESSAGE] = $message;
 		}
+		
 		$url = $this->get_url($params);
 		header('Location: '.$url);
 	}

@@ -373,6 +373,7 @@ function api_get_user_info($user_id = '')
 			$user_info['user_id'] = $result_array['user_id'];
 			$user_info['official_code'] = $result_array['official_code'];
 			$user_info['status'] = $result_array['status'];
+			$user_info['language'] = $result_array['language'];
 			$user_info['disk_quota'] = $result_array['disk_quota'];
 			$user_info['database_quota'] = $result_array['database_quota'];
 			$user_info['version_quota'] = array();
@@ -1147,7 +1148,7 @@ function api_not_allowed()
 	$home_url = api_get_path(WEB_PATH);
 	Display :: display_error_message("<p>Either you are not allowed here or your session has expired.<br><br>You may try <a href=\"$home_url\" target=\"_top\">reconnecting on the home page</a>.</p>");
 	$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-	die();
+	exit;
 }
 /**
 * Returns true if student view option is enabled, false otherwise. If it is

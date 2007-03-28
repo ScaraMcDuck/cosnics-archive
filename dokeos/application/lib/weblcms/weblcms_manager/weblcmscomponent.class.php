@@ -24,7 +24,7 @@ abstract class WeblcmsComponent {
 		$this->id =  ++self :: $component_count;
 	}
 	
-	function redirect($action = null, $message = null, $error_message = false, $extra_params = null)
+	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
 	{
 		return $this->get_parent()->redirect($action, $message, $error_message, $extra_params);
 	}
@@ -119,6 +119,11 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->get_registered_tools();
 	}
 	
+	function load_course()
+	{
+		return $this->get_parent()->load_course();
+	}
+	
 	function load_tools()
 	{
 		return $this->get_parent()->load_tools();
@@ -172,6 +177,11 @@ abstract class WeblcmsComponent {
 	function retrieve_course_user_categories ($user_id)
 	{
 		return $this->get_parent()->retrieve_course_user_categories($user_id);
+	}
+	
+	function retrieve_course_user_category ($course_user_category_id)
+	{
+		return $this->get_parent()->retrieve_course_user_category($course_user_category_id);
 	}
 	
 	function retrieve_courses($user = null, $category = null)

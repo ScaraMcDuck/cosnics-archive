@@ -10,22 +10,45 @@ require_once dirname(__FILE__).'/../weblcmscomponent.class.php';
 class WeblcmsCourseViewerComponent extends WeblcmsComponent
 {
 	/**
+	 * The tools that this application offers.
+	 */
+	private $tools;
+	/**
+	 * The class of the tool currently active in this application
+	 */
+	private $tool_class;
+	
+	/**
+	 * The course object of the course currently active in this application
+	 */
+	private $course;
+	
+	
+	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
+		if(!$this->is_course())
+		{
+			$this->display_header();
+			Display :: display_error_message(get_lang("NotACourse"));
+			$this->display_footer();
+			exit;
+		}
+		
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
 			$this->display_header();
 			api_not_allowed();
 			$this->display_footer();
-			return;
+			exit;
 		}
 		
 		$course = $this->get_parameter(Weblcms :: PARAM_COURSE);
 		$tool = $this->get_parameter(Weblcms :: PARAM_TOOL);
 		$action = $this->get_parameter(Weblcms::PARAM_ACTION);
-		$lcms_action = $this->get_parameter(Weblcms::PARAM_LCMS_ACTION);
+		$component_action = $this->get_parameter(Weblcms::PARAM_COMPONENT_ACTION);
 		$category = $this->get_parameter(Weblcms::PARAM_CATEGORY);
 		
 		if(is_null($category))
@@ -35,10 +58,10 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 		
 		if ($course)
 		{		
-			if($lcms_action)
+			if($component_action)
 			{
 				$wdm = WeblcmsDataManager :: get_instance();
-				switch($lcms_action)
+				switch($component_action)
 				{
 					case 'make_visible':
 						$wdm->set_module_visible($this->get_course_id(),$tool,true);
@@ -51,7 +74,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 				}
 				$this->set_parameter(Weblcms :: PARAM_TOOL, null);
 			}
-			if ($tool && !$lcms_action)
+			if ($tool && !$component_action)
 			{
 				$wdm = WeblcmsDataManager :: get_instance();
 				$class = Tool :: type_to_class($tool);
@@ -86,6 +109,11 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 		
 		$result = RolesRights::is_allowed_which_rights($role_id, $location_id);
 		return $result[$right];
+	}
+	
+	function is_course()
+	{
+		return ($this->get_course()->get_id() != null ? true : false);
 	}
 }
 ?>

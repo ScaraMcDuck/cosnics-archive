@@ -19,59 +19,50 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('MyCourses'));
 		$this->display_header($breadcrumbs);
 		$course_categories = $this->retrieve_course_user_categories($this->get_user_id());
-		$courses = $this->retrieve_courses($this->get_user_id(), 0);
 		
 		echo '<div class="maincontent">';
 		$courses = $this->retrieve_courses($this->get_user_id(), 0);
-		echo '<ul>';
-		while ($course = $courses->next_result())
-		{
-			echo '<li><a href="'. $this->get_course_viewing_url($course) .'">'.$course->get_name().'</a><br />'. $course->get_id() .' - '. $course->get_titular() .'</li>';
-		}
-		echo '</ul>';
+		echo $this->display_course_digest($courses);
 		
-		while ($course_categorie = $course_categories->next_result())
+		while ($course_category = $course_categories->next_result())
 		{
-			echo '<ul class="user_course_category"><li>'.$course_categorie->get_title().'</li></ul>';
-			echo '<ul>';
-			$courses = $this->retrieve_courses($this->get_user_id(), $course_categorie->get_id());
-			while ($course = $courses->next_result())
-			{
-				echo '<li><a href="'. $this->get_course_viewing_url($course) .'">'.$course->get_name().'</a><br />'. $course->get_id() .' - '. $course->get_titular() .'</li>';
-			}
-			echo '</ul>';
+			$courses = $this->retrieve_courses($this->get_user_id(), $course_category->get_id());
+			echo $this->display_course_digest($courses, $course_category);
 		}
 		
 		echo '</div>';
 		
-		$this->display_menu();
+		echo $this->display_menu();
 		
 		$this->display_footer();
 	}
 	
 	function display_menu()
 	{
-		/*
-		 ==============================================================================
-		 RIGHT MENU
-		 ==============================================================================
-		 */
-		echo '<div class="menu">';
+		$html = array();
+		$html[] = '<div class="menu">';
 		
-		//api_display_language_form(); // moved to the profile page.
-		echo '<div class="menusection">';
-		echo '<span class="menusectioncaption">'.get_lang('MenuUser').'</span>';
-		echo '<ul class="menulist">';
+		$html[] = '<div class="menusection">';
+		$html[] = '<span class="menusectioncaption">'.get_lang('MenuUser').'</span>';
+		$html[] = '<ul class="menulist">';
 		
 		$display_add_course_link = api_is_allowed_to_create_course() && ($_SESSION["studentview"] != "studentenview");
 		if ($display_add_course_link)
 		{
-			$this->display_create_course_link();
+			$html[] = $this->display_create_course_link();
 		}
-		$this->display_edit_course_list_links();
 		
-		echo '</ul>';
-		echo '</div>';
+		$html[] = '</ul>';
+		$html[] = '</div>';
+		
+		$html[] = '<div class="menusection">';
+		$html[] = '<span class="menusectioncaption">'.get_lang('CourseManagement').'</span>';
+		$html[] = '<ul class="menulist">';
+		
+		$html[] = $this->display_edit_course_list_links();
+		
+		$html[] = '</ul>';
+		$html[] = '</div>';
 		
 		//Load appropriate plugins for this menu bar
 		
@@ -85,16 +76,43 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		//	}
 		//}
 		
-		echo '</div>';
+		$html[] = '</div>';
+		
+		return implode($html, "\n");
 	}
 	
 	function display_create_course_link()
 	{
-		echo "<li><a href=\"main/create_course/add_course.php\">".get_lang("CourseCreate")."</a></li>";
+		return '<li><a href="'. $this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.get_lang('CourseCreate').'</a></li>';
 	}
 	function display_edit_course_list_links()
 	{
-		echo "<li><a href=\"main/auth/courses.php\">".get_lang("CourseManagement")."</a></li>";
+		$html = array();
+		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_SORT)).'">'.get_lang('SortMyCourses').'</a></li>';
+		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_CATEGORY)).'">'.get_lang('CreateCourseUserCategory').'</a></li>';
+		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_SUBSCRIBE)).'">'.get_lang('SubscribeToCourse').'</a></li>';
+		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_UNSUBSCRIBE)).'">'.get_lang('UnsubscribeFromCourse').'</a></li>';
+		
+		return implode($html, "\n");
+	}
+	
+	function display_course_digest($courses, $course_category = null)
+	{
+		$html = array();
+		if($courses->size() > 0)
+		{
+			if (isset($course_category))
+			{
+				$html[] = '<ul class="user_course_category"><li>'.htmlentities($course_category->get_title()).'</li></ul>';
+			}
+			$html[] = '<ul>';
+			while ($course = $courses->next_result())
+			{
+				$html[] = '<li><a href="'. $this->get_course_viewing_url($course) .'">'.$course->get_name().'</a><br />'. $course->get_id() .' - '. $course->get_titular() .'</li>';
+			}
+			$html[] = '</ul>';
+		}
+		return implode($html, "\n");
 	}
 }
 ?>

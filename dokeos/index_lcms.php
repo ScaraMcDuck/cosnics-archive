@@ -7,6 +7,11 @@ require_once dirname(__FILE__).'/application/lib/weblcms/weblcms_manager/weblcms
 // TODO: Move this somewhere where it makes sense.
 //api_protect_course_script();
 
+if (!api_get_user_id())
+{
+	api_not_allowed();
+}
+
 $app = new Weblcms();
 $app->run();
 ?>
