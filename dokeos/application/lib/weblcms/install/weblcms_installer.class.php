@@ -20,17 +20,40 @@ class WeblcmsInstaller {
 	 */
 	function install()
 	{
-		$this->parse_xml_file(dirname(__FILE__).'/course.xml');
-		$this->parse_xml_file(dirname(__FILE__).'/course_rel_class.xml');
-		$this->parse_xml_file(dirname(__FILE__).'/course_rel_user.xml');
-		$this->parse_xml_file(dirname(__FILE__).'/course_category.xml');
-		$this->parse_xml_file(dirname(__FILE__).'/learning_object_publication.xml');
-		$this->parse_xml_file(dirname(__FILE__).'/learning_object_publication_category.xml');
-		$this->parse_xml_file(dirname(__FILE__).'/learning_object_publication_group.xml');
-		$this->parse_xml_file(dirname(__FILE__).'/learning_object_publication_user.xml');
-		$this->parse_xml_file(dirname(__FILE__).'/course_module.xml');
-		$this->parse_xml_file(dirname(__FILE__).'/course_module_last_access.xml');
-
+		$sqlfiles = array();
+		$dir = dirname(__FILE__);
+		$handle = opendir($dir);		
+		while (false !== ($type = readdir($handle)))
+		{
+			$path = $dir.'/'.$type;
+			if (file_exists($path) && (substr($path, -3) == 'xml'))
+			{
+				$this->parse_xml_file($path);
+			}
+			elseif (file_exists($path) && (substr($path, -3) == 'sql'))
+			{
+				$sqlfiles[] = $type;
+			}
+		}
+		for ($i = 0; $i < count($sqlfiles); $i++)
+		{
+			$this->parse_sql_file($dir , $sqlfiles[$i]);
+		}
+		closedir($handle);
+	}
+	
+	function parse_sql_file($directory, $sqlfilename)
+	{
+		$dm = WeblcmsDataManager :: get_instance();
+		$path = $directory.'/'.$sqlfilename;
+		$filecontent = fread(fopen($path, 'r'), filesize($path));
+		$sqlstring = explode("\n", $filecontent);
+		echo '<pre>Executing additional WebLCMS SQL statement(s)</pre>';flush();
+		foreach($sqlstring as $sqlstatement)
+		{
+			$dm->ExecuteQuery($sqlstatement);
+		}
+		
 	}
 	
 	function parse_xml_file($path)
