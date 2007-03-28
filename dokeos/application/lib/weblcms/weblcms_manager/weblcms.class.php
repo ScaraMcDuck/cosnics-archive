@@ -27,15 +27,21 @@ class Weblcms extends WebApplication
 {
 	const PARAM_COURSE = 'course';
 	const PARAM_TOOL = 'tool';
-	const PARAM_LCMS_ACTION = 'lcms';
+	const PARAM_COMPONENT_ACTION = 'action';
 	const PARAM_ACTION = 'go';
 	const PARAM_CATEGORY = 'pcattree';
 	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
+	const PARAM_COURSE_USER_CATEGORY_ID = 'category';
 	
 	const ACTION_VIEW_WEBLCMS_HOME = 'home';
 	const ACTION_VIEW_COURSE = 'courseviewer';
 	const ACTION_CREATE_COURSE = 'coursecreator';
+	
+	const ACTION_MANAGER_SORT = 'sort';
+	const ACTION_MANAGER_CATEGORY = 'category';
+	const ACTION_MANAGER_SUBSCRIBE = 'subscribe';
+	const ACTION_MANAGER_UNSUBSCRIBE = 'unsubscribe';
 
 	/**
 	 * The tools that this application offers.
@@ -60,7 +66,7 @@ class Weblcms extends WebApplication
 	{
 		parent :: __construct();
 		$this->set_parameter(self :: PARAM_ACTION, $_GET[self :: PARAM_ACTION]);
-		$this->set_parameter(self :: PARAM_LCMS_ACTION, $_GET[self :: PARAM_LCMS_ACTION]);
+		$this->set_parameter(self :: PARAM_COMPONENT_ACTION, $_GET[self :: PARAM_COMPONENT_ACTION]);
 		$this->set_parameter(self :: PARAM_CATEGORY, $_GET[self :: PARAM_CATEGORY]);
 		$this->set_parameter(self :: PARAM_COURSE, $_GET[self :: PARAM_COURSE]);
 		$this->set_parameter(self :: PARAM_TOOL, $_GET[self :: PARAM_TOOL]);
@@ -86,6 +92,9 @@ class Weblcms extends WebApplication
 				break;
 			case self :: ACTION_CREATE_COURSE :
 				$component = WeblcmsComponent :: factory('CourseCreator', $this);
+				break;
+			case self :: ACTION_MANAGER_CATEGORY :
+				$component = WeblcmsComponent :: factory('UserCategory', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
@@ -118,7 +127,7 @@ class Weblcms extends WebApplication
 		return $this->tool_class = $class;
 	}
 	
-	function redirect($action = null, $message = null, $error_message = false, $extra_params = null)
+	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
 	{
 		if ($action == self :: ACTION_VIEW_WEBLCMS_HOME)
 		{
@@ -449,6 +458,11 @@ class Weblcms extends WebApplication
 	function retrieve_course_user_categories($user_id)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_user_categories($user_id);
+	}
+	
+	function retrieve_course_user_category($course_user_category_id)
+	{
+		return WeblcmsDataManager :: get_instance()->retrieve_course_user_category($course_user_category_id);
 	}
 	
 	function retrieve_courses($user = null, $category = null)

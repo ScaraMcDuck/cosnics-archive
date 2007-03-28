@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/course.class.php';
+require_once dirname(__FILE__).'/coursecategory.class.php';
 
 class CourseForm extends FormValidator {
 	
@@ -26,6 +27,8 @@ class CourseForm extends FormValidator {
 		{
 			$this->build_creation_form();
 		}
+		
+		$this->setDefaults();
     }
     
     function build_basic_form()
@@ -95,12 +98,12 @@ class CourseForm extends FormValidator {
     	$this->build_basic_form();
     	
     	$this->addElement('hidden', Course :: PROPERTY_ID);
-    	
-		$this->setDefaults();
     }
     
     function build_creation_form()
-    {
+    {		
+    	$this->addElement('text', Course :: PROPERTY_ID, get_lang('CourseCode'));
+    	$this->addRule(Course :: PROPERTY_ID, get_lang('ThisFieldIsRequired'), 'required');
     	$this->build_basic_form();
     }
     
@@ -121,6 +124,26 @@ class CourseForm extends FormValidator {
     	$course->set_unsubscribe_allowed($values[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED]);
     	
     	return $course->update();
+    }
+    
+    function create_course()
+    {
+    	$course = $this->course;
+    	$values = $this->exportValues();
+    	
+    	$course->set_id($values[Course :: PROPERTY_ID]);
+    	$course->set_visual($values[Course :: PROPERTY_VISUAL]);
+    	$course->set_name($values[Course :: PROPERTY_NAME]);
+    	$course->set_category($values[Course :: PROPERTY_CATEGORY]);
+    	$course->set_titular($values[Course :: PROPERTY_TITULAR]);
+    	$course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
+    	$course->set_extlink_url($values[Course :: PROPERTY_EXTLINK_URL]);
+    	$course->set_language($values[Course :: PROPERTY_LANGUAGE]);
+    	$course->set_visibility($values[Course :: PROPERTY_VISIBILITY]);
+    	$course->set_subscribe_allowed($values[Course :: PROPERTY_SUBSCRIBE_ALLOWED]);
+    	$course->set_unsubscribe_allowed($values[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED]);
+    	
+    	return $course->create();
     }
     
 	/**

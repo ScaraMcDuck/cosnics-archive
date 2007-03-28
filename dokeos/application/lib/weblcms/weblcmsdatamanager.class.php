@@ -276,6 +276,14 @@ abstract class WeblcmsDataManager
 	 * @return boolean True if the update succceeded, false otherwise.
 	 */
 	abstract function update_course($course);
+	
+	/**
+	 * Updates the specified course user category in persistent storage,
+	 * making any changes permanent.
+	 * @param CourseUserCategory $course The course user category object
+	 * @return boolean True if the update succceeded, false otherwise.
+	 */
+	abstract function update_course_user_category($courseusercategory);
 
 	/**
 	 * Deletes all records from the database related to this given course.
@@ -296,7 +304,7 @@ abstract class WeblcmsDataManager
 	 * @param string $category_code The alphanumerical identifier of the course category.
 	 * @return CourseCategory The course category.
 	 */
-	abstract function retrieve_course_category($category_code);
+	abstract function retrieve_course_category($category_code = null);
 	
 	/**
 	 * Creates a storage unit
@@ -319,6 +327,12 @@ abstract class WeblcmsDataManager
 	 * @return DatabaseUserCourseCategoryResultSet The resultset of course categories.
 	 */
 	abstract function retrieve_course_user_categories($user_id);
+	
+	/**
+	 * Retrieves a personal course categories for the user.
+	 * @return CourseUserCategory The course user category.
+	 */
+	abstract function retrieve_course_user_category($course_user_category_id);
 
 	/**
 	 * Adds a course module to a course

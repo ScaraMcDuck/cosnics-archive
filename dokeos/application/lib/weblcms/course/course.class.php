@@ -48,6 +48,12 @@ class Course {
 	const PROPERTY_SUBSCRIBE_ALLOWED = 'subscribe';
 	const PROPERTY_UNSUBSCRIBE_ALLOWED = 'unsubscribe';
 	
+	// Remnants from th old Dokeos system
+	const PROPERTY_LAST_VISIT = 'last_visit';
+	const PROPERTY_LAST_EDIT = 'last_edit';
+	const PROPERTY_CREATION_DATE = 'creation_date';
+	const PROPERTY_EXPIRATION_DATE = 'expiration_date';
+	
 	
 	private $id;
 	private $defaultProperties;
@@ -306,7 +312,7 @@ class Course {
 	 * Sets the Category Code of this course object
 	 * @param String $code The Category Code
 	 */
-	function set_category($category_code)
+	function set_category($category_code = null)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		$category =  $wdm->retrieve_course_category($category_code);
@@ -342,20 +348,13 @@ class Course {
 	
 	function delete()
 	{
-		return RepositoryDataManager :: get_instance()->delete_learning_object($this);
+		return true;
 	}
 	
 	function create()
 	{
-		$now = time();
-		$this->set_creation_date($now);
-		$this->set_modification_date($now);
-		$dm = RepositoryDataManager :: get_instance();
-		$id = $dm->get_next_learning_object_id();
-		$this->set_id($id);
-		$object_number = $dm->get_next_learning_object_number();
-		$this->set_object_number($object_number);
-		return $dm->create_learning_object($this, 'new');
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->create_course($this);
 	}
 	
 	function update()
