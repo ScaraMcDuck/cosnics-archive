@@ -151,6 +151,20 @@ abstract class WeblcmsDataManager
 	abstract function get_next_learning_object_publication_id();
 
 	/**
+	 * Creates a course object in persistent storage.
+	 * @param Course $course The course to make persistent.
+	 * @return boolean True if creation succceeded, false otherwise.
+	 */
+	abstract function create_course($course);
+	
+	/**
+	 * Creates a course user category object in persistent storage.
+	 * @param CourseUserCategory $courseusercategory The course user category to make persistent.
+	 * @return boolean True if creation succceeded, false otherwise.
+	 */
+	abstract function create_course_user_category($courseusercategory);
+
+	/**
 	 * Creates a learning object publication in persistent storage.
 	 * @param LearningObjectPublication $publication The publication to make
 	 *                                               persistent.

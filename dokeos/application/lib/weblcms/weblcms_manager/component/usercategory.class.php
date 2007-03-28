@@ -37,7 +37,6 @@ class WeblcmsUserCategoryComponent extends WeblcmsComponent
 		if($form->validate())
 		{
 			$success = $form->create_course_user_category();
-			$success = true;
 			$this->redirect(null, get_lang($success ? 'CourseUserCategoryAdded' : 'CourseUserCategoryNotAdded'), ($success ? false : true));
 		}
 		else
