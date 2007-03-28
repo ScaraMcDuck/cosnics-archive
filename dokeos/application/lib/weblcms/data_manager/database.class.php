@@ -1062,6 +1062,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 	}
 
+	function ExecuteQuery($sql)
+	{
+		$this->connection->query($sql);
+	}
+	
 	function create_storage_unit($name,$properties,$indexes)
 	{
 		$name = $this->get_table_name($name);

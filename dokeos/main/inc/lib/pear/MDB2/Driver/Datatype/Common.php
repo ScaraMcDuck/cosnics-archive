@@ -422,16 +422,20 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
 
         $default = '';
         if (array_key_exists('default', $field)) {
-            if ($field['default'] === '') {
-                $field['default'] = empty($field['notnull'])
-                    ? null : $this->valid_default_values[$field['type']];
-                if ($field['default'] === ''
-                    && ($db->options['portability'] & MDB2_PORTABILITY_EMPTY_TO_NULL)
-                ) {
+            if ($field['default'] === '')
+            {
+                $field['default'] = empty($field['notnull']) ? null : $this->valid_default_values[$field['type']];
+                if ($field['default'] === '' && ($db->options['portability'] & MDB2_PORTABILITY_EMPTY_TO_NULL))
+                {
                     $field['default'] = ' ';
                 }
             }
+            
             $default = ' DEFAULT '.$this->quote($field['default'], $field['type']);
+            if ($field['type'] == 'text')
+            {
+            	$default = null;
+            }
         } elseif (empty($field['notnull'])) {
             $default = ' DEFAULT NULL';
         }
