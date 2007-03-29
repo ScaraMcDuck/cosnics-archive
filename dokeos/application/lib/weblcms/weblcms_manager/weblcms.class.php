@@ -474,6 +474,11 @@ class Weblcms extends WebApplication
 		return WeblcmsDataManager :: get_instance()->retrieve_course_user_category($course_user_category_id);
 	}
 	
+	function retrieve_course($course_code)
+	{
+		return WeblcmsDataManager :: get_instance()->retrieve_course($course_code);
+	}
+	
 	function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_courses($user, $category, $condition, $offset, $count, $order_property, $order_direction);
@@ -552,7 +557,7 @@ class Weblcms extends WebApplication
 			return null;
 		}
 
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SUBSCRIBE, self :: PARAM_COURSE => $course->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SUBSCRIBE ,self :: PARAM_COURSE => $course->get_id()));
 	}
 	
 	function course_subscription_allowed($course)
@@ -565,6 +570,12 @@ class Weblcms extends WebApplication
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->is_subscribed($course);		
+	}
+	
+	function subscribe_user_to_course($course)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->subscribe_user_to_course($course);
 	}
 	
 	/**

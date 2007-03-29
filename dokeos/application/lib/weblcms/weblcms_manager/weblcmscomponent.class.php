@@ -189,6 +189,11 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->retrieve_course_user_category($course_user_category_id);
 	}
 	
+	function retrieve_course($course_code)
+	{
+		return $this->get_parent()->retrieve_course($course_code);
+	}
+	
 	function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return $this->get_parent()->retrieve_courses($user, $category, $condition, $offset, $count, $order_property, $order_direction);
@@ -227,6 +232,11 @@ abstract class WeblcmsComponent {
 	function get_web_code_path()
 	{
 		return $this->get_parent()->get_web_code_path();
+	}
+	
+	function subscribe_user_to_course($course)
+	{
+		return $this->get_parent()->subscribe_user_to_course($course);
 	}
 	
 	/**

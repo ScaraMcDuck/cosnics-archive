@@ -42,18 +42,16 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		$html = array();
 		$html[] = '<div class="menu">';
 		
-		$html[] = '<div class="menusection">';
-		$html[] = '<span class="menusectioncaption">'.get_lang('MenuUser').'</span>';
-		$html[] = '<ul class="menulist">';
-		
 		$display_add_course_link = api_is_allowed_to_create_course() && ($_SESSION["studentview"] != "studentenview");
 		if ($display_add_course_link)
 		{
+			$html[] = '<div class="menusection">';
+			$html[] = '<span class="menusectioncaption">'.get_lang('MenuUser').'</span>';
+			$html[] = '<ul class="menulist">';
 			$html[] = $this->display_create_course_link();
+			$html[] = '</ul>';
+			$html[] = '</div>';
 		}
-		
-		$html[] = '</ul>';
-		$html[] = '</div>';
 		
 		$html[] = '<div class="menusection">';
 		$html[] = '<span class="menusectioncaption">'.get_lang('CourseManagement').'</span>';
