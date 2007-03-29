@@ -25,9 +25,6 @@ class RepositoryInstaller
 	 */
 	function install()
 	{
-		$this->parse_xml_file(dirname(__FILE__).'/learning_object.xml');
-		$this->parse_xml_file(dirname(__FILE__).'/learning_object_attachment.xml');
-		$this->parse_xml_file(dirname(__FILE__).'/learning_object_version.xml');
 		$dir = dirname(__FILE__).'/../lib/learning_object';
 		$handle = opendir($dir);
 		while (false !== ($type = readdir($handle)))
@@ -38,7 +35,48 @@ class RepositoryInstaller
 				$this->parse_xml_file($path);
 			}
 		}
+		closedir($handle);
+		
+		$dir = dirname(__FILE__);
+		$handle = opendir($dir);		
+		while (false !== ($type = readdir($handle)))
+		{
+			$path = $dir.'/'.$type;
+			if (file_exists($path) && (substr($path, -3) == 'xml'))
+			{
+				$this->parse_xml_file($path);
+			}
+			elseif (file_exists($path) && (substr($path, -3) == 'sql'))
+			{
+				$sqlfiles[] = $type;
+			}
+		}
+		for ($i = 0; $i < count($sqlfiles); $i++)
+		{
+			$this->parse_sql_file($dir , $sqlfiles[$i]);
+		}
+		closedir($handle);
 	}
+	
+	/**
+	 * Parses an sql file and sends the request to the database manager
+	 * @param String $directory
+	 * @param String $filename
+	 */
+	function parse_sql_file($directory, $sqlfilename)
+	{
+		$dm = WeblcmsDataManager :: get_instance();
+		$path = $directory.'/'.$sqlfilename;
+		$filecontent = fread(fopen($path, 'r'), filesize($path));
+		$sqlstring = explode("\n", $filecontent);
+		echo '<pre>Executing additional WebLCMS SQL statement(s)</pre>';flush();
+		foreach($sqlstring as $sqlstatement)
+		{
+			$dm->ExecuteQuery($sqlstatement);
+		}
+		
+	}
+	
 	/**
 	 * Parses an XML-file in which a storage unit is described. After parsing,
 	 * the create_storage_unit function of the RepositoryDataManager is used to
