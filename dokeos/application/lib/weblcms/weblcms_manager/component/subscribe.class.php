@@ -19,6 +19,19 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 	function run()
 	{
 		$this->category = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
+		$course_code = $_GET[Weblcms :: PARAM_COURSE];
+		
+		if (isset($course_code))
+		{
+			$course = $this->retrieve_course($course_code);
+			
+			if ($this->get_course_subscription_url($course))
+			{
+				$wdm = WeblcmsDataManager :: get_instance();
+				$success = $this->subscribe_user_to_course($course);
+				$this->redirect(null, get_lang($success ? 'UserSubscribedToCourse' : 'UserNotSubscribedToCourse'), ($success ? false : true));
+			}
+		}
 		
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseSubscribe'));

@@ -787,6 +787,31 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 	}
 	
+	function subscribe_user_to_course($course)
+	{
+		$this->connection->loadModule('Extended');
+		
+		$sort = api_max_sort_value('0', api_get_user_id());
+			
+		$rel_props = array();
+		$rel_props['course_code'] = $course->get_id();
+		$rel_props['user_id'] = api_get_user_id();
+		$rel_props['status'] = 5;
+		$rel_props['role'] = null;
+		$rel_props['tutor_id'] = 0;
+		$rel_props['sort'] = $sort + 1;
+		$rel_props['user_course_cat'] = 0;
+		
+		if ($this->connection->extended->autoExecute($this->get_table_name('course_rel_user'), $rel_props, MDB2_AUTOQUERY_INSERT))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	function create_course_user_category($courseusercategory)
 	{
 		$props = array();

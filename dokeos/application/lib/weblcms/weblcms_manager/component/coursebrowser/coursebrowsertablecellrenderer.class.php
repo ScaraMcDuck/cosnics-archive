@@ -49,10 +49,12 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 	{
 		$toolbar_data = array();
 		
-		if ($url = $this->browser->get_course_subscription_url($course))
+		$course_subscription_url = $this->browser->get_course_subscription_url($course);
+		
+		if ($course_subscription_url)
 		{	
 			$toolbar_data[] = array(
-				'href' => 'add course to users course list ....',
+				'href' => $course_subscription_url,
 				'label' => get_lang('Update'),
 				'confirm' => true,
 				'img' => $this->browser->get_web_code_path().'img/enroll.gif'
