@@ -42,6 +42,11 @@ class WeblcmsInstaller {
 		closedir($handle);
 	}
 	
+	/**
+	 * Parses an sql file and sends the request to the database manager
+	 * @param String $directory
+	 * @param String $filename
+	 */
 	function parse_sql_file($directory, $sqlfilename)
 	{
 		$dm = WeblcmsDataManager :: get_instance();

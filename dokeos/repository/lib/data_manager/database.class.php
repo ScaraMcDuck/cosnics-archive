@@ -1138,7 +1138,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		return LearningObject :: is_default_property_name($name) || $name == LearningObject :: PROPERTY_TYPE || $name == LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX || $name == LearningObject :: PROPERTY_ID;
 	}
-
+	
+	function ExecuteQuery($sql)
+	{
+		$this->connection->query($sql);
+	}
+	
 	function is_attached ($object, $type = null)
 	{
 		$query = 'SELECT COUNT('.$this->escape_column_name("learning_object").') FROM '.$this->escape_table_name('learning_object_attachment').' AS '.self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE .' WHERE '. self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE . '.attachment';
