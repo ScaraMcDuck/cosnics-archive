@@ -81,7 +81,7 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	 *               is the structure needed by PEAR::HTML_Menu, on which this
 	 *               class is based.
 	 */
-	private function get_sub_menu_items(& $categories, $parent)
+	private function get_sub_menu_items($categories, $parent)
 	{
 		$sub_tree = array ();
 		foreach ($categories[$parent] as $index => $category)

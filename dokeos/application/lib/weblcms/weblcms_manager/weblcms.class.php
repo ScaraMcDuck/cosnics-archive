@@ -33,6 +33,7 @@ class Weblcms extends WebApplication
 	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
 	const PARAM_COURSE_USER_CATEGORY_ID = 'category';
+	const PARAM_COURSE_CATEGORY_ID = 'category';
 	
 	const ACTION_VIEW_WEBLCMS_HOME = 'home';
 	const ACTION_VIEW_COURSE = 'courseviewer';
@@ -96,6 +97,9 @@ class Weblcms extends WebApplication
 			case self :: ACTION_MANAGER_CATEGORY :
 				$component = WeblcmsComponent :: factory('UserCategory', $this);
 				break;
+			case self :: ACTION_MANAGER_SUBSCRIBE :
+				$component = WeblcmsComponent :: factory('Subscribe', $this);
+				break;				
 			default :
 				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
 				$component = WeblcmsComponent :: factory('Home', $this);
@@ -450,6 +454,11 @@ class Weblcms extends WebApplication
 		return WeblcmsDataManager :: get_instance()->count_publication_attributes($type, $condition);
 	}
 	
+	function count_courses($condition = null)
+	{
+		return WeblcmsDataManager :: get_instance()->count_courses($condition);
+	}
+	
 	function retrieve_course_categories($parent = null)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_categories($parent);
@@ -465,9 +474,9 @@ class Weblcms extends WebApplication
 		return WeblcmsDataManager :: get_instance()->retrieve_course_user_category($course_user_category_id);
 	}
 	
-	function retrieve_courses($user = null, $category = null)
+	function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return WeblcmsDataManager :: get_instance()->retrieve_courses($user, $category);
+		return WeblcmsDataManager :: get_instance()->retrieve_courses($user, $category, $condition, $offset, $count, $order_property, $order_direction);
 	}
 
 	/**
@@ -534,6 +543,36 @@ class Weblcms extends WebApplication
 	function get_course_viewing_url($course)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id()));
+	}
+	
+	function get_course_subscription_url($course)
+	{
+		if (!$this->course_subscription_allowed($course))
+		{
+			return null;
+		}
+
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SUBSCRIBE, self :: PARAM_COURSE => $course->get_id()));
+	}
+	
+	function course_subscription_allowed($course)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->course_subscription_allowed($course);
+	}
+	
+	function is_subscribed($course)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->is_subscribed($course);		
+	}
+	
+	/**
+	 * Gets the URL to the Dokeos claroline folder.
+	 */
+	function get_web_code_path()
+	{
+		return api_get_path(WEB_CODE_PATH);
 	}
 }
 ?>

@@ -224,6 +224,20 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
+	
+	function count_courses($condition = null)
+	{
+		$params = array ();
+		$query = 'SELECT COUNT('.$this->escape_column_name(Course :: PROPERTY_ID).') FROM '.$this->escape_table_name('course');
+		if (isset ($condition))
+		{
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+		}
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $record[0];
+	}
 
 	private function get_publication_retrieval_where_clause ($learning_object, $course, $categories, $users, $groups, $condition, & $params)
 	{
@@ -645,7 +659,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 	}
 	
-	function retrieve_courses($user = null, $category = null)
+	// TODO: Change $category from user's personal course list to condition object thus eliminating the need for another parameter
+	function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('course');
 		if (isset($user) && isset($category))
@@ -654,10 +669,38 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$query .= ' WHERE '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('user_id').'=?';
 			$query .= ' AND '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('user_course_cat').'=?';
 			$query .= ' ORDER BY '. $this->escape_table_name('course') .'.'.$this->escape_column_name(Course :: PROPERTY_NAME);
+			$params = array($user, $category);
 		}
-		
+		elseif(!isset($user) && !isset($category))
+		{
+			$params = array ();
+			if (isset ($condition))
+			{
+				$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			}
+			/*
+			 * Always respect display order as a last resort.
+			 */
+			$orderBy[] = Course :: PROPERTY_NAME;
+			$orderDir[] = SORT_ASC;
+			$order = array ();
+			
+			for ($i = 0; $i < count($orderBy); $i ++)
+			{
+				$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+			}
+			if (count($order))
+			{
+				$query .= ' ORDER BY '.implode(', ', $order);
+			}
+			if ($maxObjects < 0)
+			{
+				$maxObjects = null;
+			}
+			$this->connection->setLimit(intval($maxObjects),intval($offset));
+		}
 		$statement = $this->connection->prepare($query);
-		$res = $statement->execute(array($user, $category));
+		$res = $statement->execute($params);
 		return new DatabaseCourseResultSet($this, $res);
 	}
 	
@@ -723,6 +766,24 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		else
 		{
 			return false;
+		}
+	}
+	
+	function is_subscribed($course)
+	{
+		$query = 'SELECT COUNT('.$this->escape_column_name('course_code').') FROM '.$this->escape_table_name('course_rel_user').' WHERE '.$this->escape_column_name('user_id').'=? AND '.$this->escape_column_name('course_code').'=?';
+		$params = array(api_get_user_id(), $course->get_id());
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+		if ($record[0] > 0)
+		{
+		  return true;
+		}
+		else
+		{
+		  return false;
 		}
 	}
 	

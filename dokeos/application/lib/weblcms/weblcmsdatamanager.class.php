@@ -143,6 +143,8 @@ abstract class WeblcmsDataManager
 	 * @return int The number of matching learning object publications.
 	 */
 	abstract function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false);
+	
+	abstract function count_courses($conditions = null);
 
 	/**
 	 * Returns the next available learning object publication ID.
@@ -156,6 +158,30 @@ abstract class WeblcmsDataManager
 	 * @return boolean True if creation succceeded, false otherwise.
 	 */
 	abstract function create_course($course);
+	
+	function course_subscription_allowed($course)
+	{
+		$already_subscribed = $this->is_subscribed($course);
+		if ($course->get_visibility() == COURSE_VISIBILITY_CLOSED || $course->get_visibility() == COURSE_VISIBILITY_REGISTERED)
+		{
+			$visibility = false;
+		}
+		else
+		{
+			$visibility = true;
+		}
+		
+		if ($visibility && !$already_subscribed)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	abstract function is_subscribed($course);
 	
 	/**
 	 * Creates a course user category object in persistent storage.
@@ -281,7 +307,7 @@ abstract class WeblcmsDataManager
 	 * @param String $category The code of the category.
 	 * @return DatabaseCourseResultSet The resultset of courses.
 	 */
-	abstract function retrieve_courses($user = null, $category = null);
+	abstract function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
 	/**
 	 * Updates the specified course in persistent storage,
