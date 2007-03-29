@@ -29,6 +29,11 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->redirect($action, $message, $error_message, $extra_params);
 	}
 	
+	function count_courses($conditions = null)
+	{
+		return $this->get_parent()->count_courses($conditions);
+	}
+	
 	function get_tool_id()
 	{
 		return $this->get_parent()->get_tool_id();
@@ -184,9 +189,9 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->retrieve_course_user_category($course_user_category_id);
 	}
 	
-	function retrieve_courses($user = null, $category = null)
+	function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->get_parent()->retrieve_courses($user, $category);
+		return $this->get_parent()->retrieve_courses($user, $category, $condition, $offset, $count, $order_property, $order_direction);
 	}
 
 	function get_last_visit_date($tool = null,$category_id = null)
@@ -207,6 +212,21 @@ abstract class WeblcmsComponent {
 	function get_course_viewing_url($course)
 	{
 		return $this->get_parent()->get_course_viewing_url($course);
+	}
+	
+	function get_course_subscription_url($course)
+	{
+		return $this->get_parent()->get_course_subscription_url($course);
+	}
+
+	function is_subscribed($course)
+	{
+		return $this->get_parent()->is_subscribed($course);
+	}
+	
+	function get_web_code_path()
+	{
+		return $this->get_parent()->get_web_code_path();
 	}
 	
 	/**
