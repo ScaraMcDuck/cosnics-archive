@@ -81,4 +81,8 @@ $ConfigSettingsInfo = "The following values will be written into your configurat
 $InstallDokeos = "Install Dokeos";
 $GoToYourNewlyCreatedPortal = "Go to your newly created portal.";
 $FirstUseTip = "When you enter your campus for the first time, the best way to understand it is to register with the option \'Create course area\' and then follow the way.";
+$InstallType = "Install Type: ";
+$NewInstall = "New install";
+$RepositoryDatabase = "Repository DB";
+$WeblcmsDatabase = "WebLCMS DB";
 ?>
