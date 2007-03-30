@@ -209,9 +209,9 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->retrieve_courses($user, $category, $condition, $offset, $count, $order_property, $order_direction);
 	}
 	
-	function retrieve_user_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_user_courses($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->get_parent()->retrieve_courses($user, $category, $condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_user_courses($condition, $offset, $count, $order_property, $order_direction);
 	}
 
 	function get_last_visit_date($tool = null,$category_id = null)
@@ -239,6 +239,11 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->get_course_subscription_url($course);
 	}
 	
+	function get_course_unsubscription_url($course)
+	{
+		return $this->get_parent()->get_course_unsubscription_url($course);
+	}
+	
 	function get_course_user_category_edit_url($course_user_category)
 	{
 		return $this->get_parent()->get_course_user_category_edit_url($course_user_category);
@@ -262,6 +267,11 @@ abstract class WeblcmsComponent {
 	function subscribe_user_to_course($course, $status, $tutor_id)
 	{
 		return $this->get_parent()->subscribe_user_to_course($course, $status, $tutor_id);
+	}
+	
+	function unsubscribe_user_from_course($course)
+	{
+		return $this->get_parent()->unsubscribe_user_from_course($course);
 	}
 	
 	/**

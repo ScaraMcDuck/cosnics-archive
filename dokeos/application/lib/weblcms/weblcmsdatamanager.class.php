@@ -146,6 +146,8 @@ abstract class WeblcmsDataManager
 	
 	abstract function count_courses($conditions = null);
 	
+	abstract function count_user_courses($conditions = null);
+	
 	abstract function count_course_user_categories($conditions = null);
 
 	/**
@@ -173,7 +175,9 @@ abstract class WeblcmsDataManager
 			$visibility = true;
 		}
 		
-		if ($visibility && !$already_subscribed)
+		$subscription_allowed = ($course->get_subscribe_allowed() == 1 ? true : false);
+		
+		if ($visibility && !$already_subscribed && $subscription_allowed)
 		{
 			return true;
 		}
@@ -182,6 +186,31 @@ abstract class WeblcmsDataManager
 			return false;
 		}
 	}
+	
+	function course_unsubscription_allowed($course)
+	{
+		$location_id = RolesRights::get_course_location_id($course->get_id());
+		$role_id = RolesRights:: get_local_user_role_id_from_location_id(api_get_user_id(), $location_id);
+		if ($role_id == COURSE_ADMIN)
+		{
+			return false;
+		}
+		
+		$already_subscribed = $this->is_subscribed($course);
+		$unsubscription_allowed = ($course->get_unsubscribe_allowed() == 1 ? true : false);
+		if ($already_subscribed && $unsubscription_allowed)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	abstract function subscribe_user_to_course($course, $status, $tutor_id);
+	
+	abstract function unsubscribe_user_from_course($course);
 	
 	abstract function is_subscribed($course);
 	
@@ -312,6 +341,8 @@ abstract class WeblcmsDataManager
 	 * @return DatabaseCourseResultSet The resultset of courses.
 	 */
 	abstract function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	
+	abstract function retrieve_user_courses($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
 	/**
 	 * Updates the specified course in persistent storage,
