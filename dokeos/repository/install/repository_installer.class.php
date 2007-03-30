@@ -67,7 +67,7 @@ class RepositoryInstaller
 	{
 		$dm = WeblcmsDataManager :: get_instance();
 		$path = $directory.'/'.$sqlfilename;
-		$filecontent = fread(fopen($path, 'r'), filesize($path));
+		$filecontent = file_get_contents($path);
 		$sqlstring = explode("\n", $filecontent);
 		echo '<pre>Executing additional WebLCMS SQL statement(s)</pre>';flush();
 		foreach($sqlstring as $sqlstatement)
