@@ -78,22 +78,8 @@ class WeblcmsUserCategoryComponent extends WeblcmsComponent
 		$course_user_category_id = $_GET[Weblcms :: PARAM_COURSE_USER_CATEGORY_ID];
 		$courseusercategory = $this->retrieve_course_user_category($course_user_category_id);
 		
-//		$form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_EDIT, $courseusercategory, $this->get_url(array(Weblcms :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id)));
-//		
-//		if($form->validate())
-//		{
-//			$success = $form->update_course_user_category();
-			$success = true;
-			$success = $courseusercategory->delete();
-			$this->redirect(null, get_lang($success ? 'CourseUserCategoryDeleted' : 'CourseUserCategoryNotDeleted'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'add'));
-//		}
-//		else
-//		{
-//			$this->display_header_user_categories();
-//			echo '<h3>'. get_lang('EditCourseUserCategory') .'</h3>';
-//			$form->display();
-//			$this->display_footer();
-//		}
+		$success = $courseusercategory->delete();
+		$this->redirect(null, get_lang($success ? 'CourseUserCategoryDeleted' : 'CourseUserCategoryNotDeleted'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'add'));
 	}
 	
 	function display_header_user_categories()

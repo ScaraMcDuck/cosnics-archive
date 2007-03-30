@@ -985,6 +985,22 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return true;
 	}
 
+	function update_course_rel_user_category($params)
+	{
+		$this->connection->loadModule('Extended');
+		$where = $this->escape_column_name('course_code').'="'.$params[0] . '" AND ' . $this->escape_column_name('user_id').'='.api_get_user_id();
+		$props = array();
+		$props[$this->escape_column_name('user_course_cat')] = $params[1];
+		if ($this->connection->extended->autoExecute($this->get_table_name('course_rel_user'), $props, MDB2_AUTOQUERY_UPDATE, $where))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	function delete_course($course_code)
 	{
 		// Delete target users

@@ -249,6 +249,16 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->get_course_user_category_edit_url($course_user_category);
 	}
 	
+	function get_course_user_edit_url($course_user)
+	{
+		return $this->get_parent()->get_course_user_edit_url($course_user);
+	}
+	
+	function get_course_user_move_url($course_user, $direction)
+	{
+		return $this->get_parent()->get_course_user_move_url($course_user, $direction);
+	}
+	
 	function get_course_user_category_delete_url($course_user_category)
 	{
 		return $this->get_parent()->get_course_user_category_delete_url($course_user_category);

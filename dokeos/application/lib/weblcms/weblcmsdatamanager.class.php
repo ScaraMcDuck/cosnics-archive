@@ -359,6 +359,8 @@ abstract class WeblcmsDataManager
 	 * @return boolean True if the update succceeded, false otherwise.
 	 */
 	abstract function update_course_user_category($courseusercategory);
+	
+	abstract function update_course_rel_user_category($params);
 
 	/**
 	 * Deletes all records from the database related to this given course.
