@@ -34,6 +34,8 @@ class Weblcms extends WebApplication
 	const PARAM_ERROR_MESSAGE = 'error_message';
 	const PARAM_COURSE_USER_CATEGORY_ID = 'category';
 	const PARAM_COURSE_CATEGORY_ID = 'category';
+	const PARAM_COURSE_USER = 'course';
+	const PARAM_DIRECTION = 'direction';
 	
 	const ACTION_VIEW_WEBLCMS_HOME = 'home';
 	const ACTION_VIEW_COURSE = 'courseviewer';
@@ -311,7 +313,7 @@ class Weblcms extends WebApplication
 		}
 		else
 		{
-			if ($course)
+			if ($course && is_object($course))
 			{
 				echo '<h3>'.htmlentities($this->course->get_name()).'</h3>';
 			}
@@ -599,6 +601,16 @@ class Weblcms extends WebApplication
 	function get_course_user_category_delete_url($course_user_category)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_CATEGORY , self :: PARAM_COMPONENT_ACTION => 'delete', self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id()));
+	}
+	
+	function get_course_user_edit_url($course_user)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT , self :: PARAM_COMPONENT_ACTION => 'edit', self :: PARAM_COURSE_USER => $course_user->get_id()));
+	}
+	
+	function get_course_user_move_url($course_user, $direction)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT , self :: PARAM_COMPONENT_ACTION => 'move', self :: PARAM_DIRECTION => $direction, self :: PARAM_COURSE_USER => $course_user->get_id()));
 	}
 	
 	function course_subscription_allowed($course)
