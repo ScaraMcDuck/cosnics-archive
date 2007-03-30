@@ -239,6 +239,27 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $record[0];
 	}
 	
+	function count_user_courses($condition = null)
+	{
+		$params = array ();
+		$query = 'SELECT COUNT('.$this->escape_table_name('course').'.'.$this->escape_column_name(Course :: PROPERTY_ID).') FROM '.$this->escape_table_name('course');
+		$query .= 'JOIN '.$this->escape_table_name('course_rel_user').' ON '.$this->escape_table_name('course').'.'.$this->escape_column_name(Course :: PROPERTY_ID).'='.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('course_code'); 
+		if (isset ($condition))
+		{
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' AND '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('user_id').'='.api_get_user_id();
+		}
+		else
+		{
+			$query .= ' WHERE '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('user_id').'='.api_get_user_id();
+		}
+		
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $record[0];
+	}
+	
 	function count_course_user_categories($conditions = null)
 	{
 		$params = array ();
@@ -718,6 +739,44 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return new DatabaseCourseResultSet($this, $res);
 	}
 	
+	function retrieve_user_courses($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	{
+		$query = 'SELECT * FROM '. $this->escape_table_name('course');
+		$query .= ' JOIN '. $this->escape_table_name('course_rel_user') .' ON '.$this->escape_table_name('course').'.'.$this->escape_column_name(Course :: PROPERTY_ID).'='.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('course_code');
+		$query .= ' WHERE '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('user_id').'=?';
+		
+		$params = array ();
+		$params[] = api_get_user_id();
+		if (isset ($condition))
+		{
+			$query .= ' AND '.$this->translate_condition($condition, & $params, true);
+		}
+		
+		/*
+		 * Always respect display order as a last resort.
+		 */
+		$orderBy[] = Course :: PROPERTY_NAME;
+		$orderDir[] = SORT_ASC;
+		$order = array ();
+		
+		for ($i = 0; $i < count($orderBy); $i ++)
+		{
+			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+		}
+		if (count($order))
+		{
+			$query .= ' ORDER BY '.implode(', ', $order);
+		}
+		if ($maxObjects < 0)
+		{
+			$maxObjects = null;
+		}
+		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		return new DatabaseCourseResultSet($this, $res);
+	}
+	
 	function record_to_course($record)
 	{
 		if (!is_array($record) || !count($record))
@@ -816,6 +875,31 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$user_rel_props['location_id'] = $location_id;
 			
 			if ($this->connection->extended->autoExecute(Database :: get_main_table(MAIN_USER_ROLE_TABLE), $user_rel_props, MDB2_AUTOQUERY_INSERT))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	function unsubscribe_user_from_course($course)
+	{
+		$sql = 'DELETE FROM '.$this->escape_table_name('course_rel_user').' WHERE '. $this->escape_column_name('course_code') .'=? AND'. $this->escape_column_name('user_id') .'=?';
+		$statement = $this->connection->prepare($sql);
+		if ($statement->execute(array($course->get_id(), api_get_user_id())))
+		{
+			$location_id = RolesRights::get_course_location_id($course->get_id());
+			
+			$sql = 'DELETE FROM '.Database :: get_main_table(MAIN_USER_ROLE_TABLE).' WHERE '. $this->escape_column_name('user_id') .'=? AND'. $this->escape_column_name('location_id') .'=?';
+			$statement = $this->connection->prepare($sql);
+			if ($statement->execute(array(api_get_user_id(), $location_id)))
 			{
 				return true;
 			}

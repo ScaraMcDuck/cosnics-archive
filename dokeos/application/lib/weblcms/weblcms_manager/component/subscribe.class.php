@@ -27,7 +27,6 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 			
 			if ($this->get_course_subscription_url($course))
 			{
-				$wdm = WeblcmsDataManager :: get_instance();
 				$success = $this->subscribe_user_to_course($course, '1', '0');
 				$this->redirect(null, get_lang($success ? 'UserSubscribedToCourse' : 'UserNotSubscribedToCourse'), ($success ? false : true));
 			}

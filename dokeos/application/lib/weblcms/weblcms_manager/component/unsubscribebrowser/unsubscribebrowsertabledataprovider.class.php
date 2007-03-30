@@ -43,7 +43,7 @@ class UnsubscribeBrowserTableDataProvider implements CourseTableDataProvider
       $order_property = array($order_property);
       $order_direction = array($order_direction);
        
-      return $this->browser->retrieve_user_courses(null, null, $this->get_condition(), $offset, $count, $order_property, $order_direction);
+      return $this->browser->retrieve_user_courses($this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
   /**
    * Gets the number of learning objects in the table

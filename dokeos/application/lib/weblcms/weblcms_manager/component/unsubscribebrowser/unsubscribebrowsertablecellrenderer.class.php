@@ -49,26 +49,31 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 	{
 		$toolbar_data = array();
 		
-		$course_subscription_url = $this->browser->get_course_subscription_url($course);
+		$course_unsubscription_url = $this->browser->get_course_unsubscription_url($course);
 		
-		if ($course_subscription_url)
+		if ($course_unsubscription_url)
 		{	
 			$toolbar_data[] = array(
-				'href' => $course_subscription_url,
-				'label' => get_lang('Update'),
+				'href' => $course_unsubscription_url,
+				'label' => get_lang('Delete'),
 				'confirm' => true,
-				'img' => $this->browser->get_web_code_path().'img/enroll.gif'
+				'img' => $this->browser->get_web_code_path().'img/delete.gif'
 			);
 			
 			return RepositoryUtilities :: build_toolbar($toolbar_data);
 		}
-		elseif ($this->browser->is_subscribed($course))
-		{
-			return get_lang('AlreadySubscribed');
-		}
 		else
 		{
-			return get_lang('SubscriptionNotAllowed');
+			$location_id = RolesRights::get_course_location_id($course->get_id());
+			$role_id = RolesRights:: get_local_user_role_id_from_location_id(api_get_user_id(), $location_id);
+			if ($role_id == COURSE_ADMIN)
+			{
+				return '<span class="info_message">'.get_lang('UnsubscriptionAdmin').'</span>';
+			}
+			else
+			{
+				return get_lang('UnsubscriptionNotAllowed');
+			}
 		}
 		
 	}

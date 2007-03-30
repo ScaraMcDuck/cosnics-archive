@@ -11,11 +11,28 @@ require_once dirname(__FILE__).'/unsubscribebrowser/unsubscribebrowsertable.clas
  */
 class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 {
+	private $category;
+	
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
+		$this->category = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
+		$course_code = $_GET[Weblcms :: PARAM_COURSE];
+		
+		if (isset($course_code))
+		{
+			$course = $this->retrieve_course($course_code);
+			
+			if ($this->get_course_unsubscription_url($course))
+			{
+				$wdm = WeblcmsDataManager :: get_instance();
+				$success = $this->unsubscribe_user_from_course($course);
+				$this->redirect(null, get_lang($success ? 'UserSubscribedToCourse' : 'UserNotSubscribedToCourse'), ($success ? false : true));
+			}
+		}
+		
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseUnsubscribe'));
 		$menu = $this->get_menu_html();
@@ -48,7 +65,7 @@ class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 	function get_menu_html()
 	{
 		$temp_replacement = '__CATEGORY_ID__';
-		$url_format = $this->get_url(array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_SUBSCRIBE, Weblcms :: PARAM_COURSE_CATEGORY_ID => $temp_replacement));
+		$url_format = $this->get_url(array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_UNSUBSCRIBE, Weblcms :: PARAM_COURSE_CATEGORY_ID => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$category_menu = new CourseCategoryMenu($this->category, $url_format);
 		
