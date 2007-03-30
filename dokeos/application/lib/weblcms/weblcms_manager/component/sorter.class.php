@@ -34,6 +34,12 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	
 	function move_course_list()
 	{
+		$direction = $_GET[Weblcms :: PARAM_DIRECTION];
+		$course = $_GET[Weblcms :: PARAM_COURSE_USER];
+		
+		$this->display_header_courses();
+		echo 'Move ' . $course . ' ' . $direction;
+		$this->display_footer();
 	}
 	
 	function edit_course_category()
