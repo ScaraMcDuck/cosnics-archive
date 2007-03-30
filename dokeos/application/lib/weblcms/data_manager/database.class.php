@@ -14,6 +14,7 @@ require_once dirname(__FILE__).'/../learningobjectpublicationcategory.class.php'
 require_once dirname(__FILE__).'/../course/course.class.php';
 require_once dirname(__FILE__).'/../course/coursecategory.class.php';
 require_once dirname(__FILE__).'/../course/courseusercategory.class.php';
+require_once dirname(__FILE__).'/../course/courseuserrelation.class.php';
 
 class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 {
@@ -709,7 +710,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$query .= ' JOIN '. $this->escape_table_name('course_rel_user') .' ON '.$this->escape_table_name('course').'.'.$this->escape_column_name(Course :: PROPERTY_ID).'='.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('course_code');
 			$query .= ' WHERE '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('user_id').'=?';
 			$query .= ' AND '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('user_course_cat').'=?';
-			$query .= ' ORDER BY '. $this->escape_table_name('course') .'.'.$this->escape_column_name(Course :: PROPERTY_NAME);
+			$query .= ' ORDER BY '. $this->escape_table_name('course_rel_user') .'.'.$this->escape_column_name(CourseUserRelation :: PROPERTY_SORT);
 			$params = array($user, $category);
 		}
 		elseif(!isset($user) && !isset($category))
