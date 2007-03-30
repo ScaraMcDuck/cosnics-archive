@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../weblcms.class.php';
 require_once dirname(__FILE__).'/../weblcmscomponent.class.php';
-require_once dirname(__FILE__).'/../../course/courseuserform.class.php';
+require_once dirname(__FILE__).'/../../course/courseuserrelationform.class.php';
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
@@ -38,11 +38,13 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	
 	function edit_course_category()
 	{
-		$form = new CourseUserForm(CourseUserForm :: TYPE_EDIT, $_GET['course'], $this->get_url(array()));
+		$course_id = $_GET[Weblcms :: PARAM_COURSE_USER];
+		$courseuserrelation = $this->retrieve_course_user_relation($course_id, api_get_user_id());
+		$form = new CourseUserRelationForm(CourseUserRelationForm :: TYPE_EDIT, $courseuserrelation, $this->get_url(array()));
 		
 		if($form->validate())
 		{
-			$success = $form->update_course_user_category();
+			$success = $form->update_course_user_relation();
 			$this->redirect(null, get_lang($success ? 'CourseUserCategoryUpdated' : 'CourseUserCategoryNotUpdated'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => Weblcms :: ACTION_MANAGER_SORT));
 		}
 		else

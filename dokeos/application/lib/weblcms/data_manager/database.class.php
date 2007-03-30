@@ -739,6 +739,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return new DatabaseCourseResultSet($this, $res);
 	}
 	
+	function retrieve_course_user_relation($course_code, $user_id)
+	{
+		$query = 'SELECT * FROM '. $this->escape_table_name('course_rel_user') .' WHERE '.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).'=? AND '.$this->escape_column_name(CourseUserRelation :: PROPERTY_USER).'=?';
+		$res = $this->limitQuery($query, 1, null, array ($course_code, $user_id));
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		return $this->record_to_course_user_relation($record);
+	}
+	
 	function retrieve_user_courses($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('course');
@@ -793,6 +801,21 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$defaultProp[Course :: PROPERTY_CATEGORY] = $course_category;
 		
 		return new Course($record[Course :: PROPERTY_ID], $defaultProp);		
+	}
+	
+	function record_to_course_user_relation($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (CourseUserRelation :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		
+		return new CourseUserRelation($record[CourseUserRelation :: PROPERTY_COURSE], $record[CourseUserRelation :: PROPERTY_USER], $defaultProp);		
 	}
 	
 	function create_course($course)
@@ -984,21 +1007,18 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->connection->extended->autoExecute($this->escape_table_name('course_user_category'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 		return true;
 	}
-
-	function update_course_rel_user_category($params)
+	
+	function update_course_user_relation($courseuserrelation)
 	{
-		$this->connection->loadModule('Extended');
-		$where = $this->escape_column_name('course_code').'="'.$params[0] . '" AND ' . $this->escape_column_name('user_id').'='.api_get_user_id();
+		$where = $this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).'="'. $courseuserrelation->get_course().'" AND '.$this->escape_column_name(CourseUserRelation :: PROPERTY_USER).'='. $courseuserrelation->get_user();
 		$props = array();
-		$props[$this->escape_column_name('user_course_cat')] = $params[1];
-		if ($this->connection->extended->autoExecute($this->get_table_name('course_rel_user'), $props, MDB2_AUTOQUERY_UPDATE, $where))
+		foreach ($courseuserrelation->get_default_properties() as $key => $value)
 		{
-			return true;
+			$props[$this->escape_column_name($key)] = $value;
 		}
-		else
-		{
-			return false;
-		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->escape_table_name('course_rel_user'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+		return true;
 	}
 
 	function delete_course($course_code)
