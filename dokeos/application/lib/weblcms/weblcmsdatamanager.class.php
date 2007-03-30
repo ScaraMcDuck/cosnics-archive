@@ -360,7 +360,7 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function update_course_user_category($courseusercategory);
 	
-	abstract function update_course_rel_user_category($params);
+	abstract function update_course_user_relation($courseuserrelation);
 
 	/**
 	 * Deletes all records from the database related to this given course.
@@ -382,6 +382,8 @@ abstract class WeblcmsDataManager
 	 * @return CourseCategory The course category.
 	 */
 	abstract function retrieve_course_category($category_code = null);
+	
+	abstract function retrieve_course_user_relation($course_code, $user_id);
 	
 	/**
 	 * Creates a storage unit

@@ -1,18 +1,17 @@
 <?php
 require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/course.class.php';
-require_once dirname(__FILE__).'/courseusercategory.class.php';
+require_once dirname(__FILE__).'/courseuserrelation.class.php';
 
-class CourseUserForm extends FormValidator {
+class CourseUserRelationForm extends FormValidator {
 	
 	const TYPE_EDIT = 2;
 	
-	private $course_code;
+	private $courseuserrelation;
 	
-    function CourseUserForm($form_type, $course_code, $action) {
+    function CourseUserRelationForm($form_type, $courseuserrelation, $action) {
     	parent :: __construct('course_user', 'post', $action);
     	
-    	$this->course_code = $course_code;
+    	$this->courseuserrelation = $courseuserrelation;
 		$this->form_type = $form_type;
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
@@ -24,7 +23,7 @@ class CourseUserForm extends FormValidator {
     
     function build_basic_form()
     {
-    	$this->addElement('static', 'course', get_lang('CourseCode'));
+    	$this->addElement('static', Course :: PROPERTY_ID, get_lang('CourseCode'));
     	
 		$wdm = WeblcmsDataManager :: get_instance();
 		$categories = $wdm->retrieve_course_user_categories();
@@ -35,7 +34,7 @@ class CourseUserForm extends FormValidator {
 			$cat_options[$category->get_id()] = $category->get_title();
 		}
 		
-		$this->addElement('select', 'user_course_cat', get_lang('Category'), $cat_options);
+		$this->addElement('select', CourseUserRelation :: PROPERTY_CATEGORY, get_lang('Category'), $cat_options);
 		
 		$this->addElement('submit', 'course_user_category', get_lang('Ok'));
     }
@@ -46,15 +45,17 @@ class CourseUserForm extends FormValidator {
     	
     	$this->build_basic_form();
     	
-    	$this->addElement('hidden', 'course_code');
+    	$this->addElement('hidden', CourseUserRelation :: PROPERTY_COURSE);
     }
     
-    function update_course_user_category()
+    function update_course_user_relation()
     {
+    	$courseuserrelation = $this->courseuserrelation;
     	$values = $this->exportValues();
     	
-		$wdm = WeblcmsDataManager :: get_instance();
-    	return $wdm->update_course_rel_user_category(array($values['course_code'], $values['user_course_cat']));
+    	$courseuserrelation->set_category($values[CourseUserRelation :: PROPERTY_CATEGORY]);
+    	
+    	return $courseuserrelation->update();
     }
     
 	/**
@@ -65,9 +66,10 @@ class CourseUserForm extends FormValidator {
 	 */
 	function setDefaults($defaults = array ())
 	{
-		$courseusercategory = $this->courseusercategory;
-		$defaults['course'] = $this->course_code;
-		$defaults['course_code'] = $this->course_code;
+		$courseuserrelation = $this->courseuserrelation;
+		$defaults[Course :: PROPERTY_ID] = $courseuserrelation->get_course();
+		$defaults[CourseUserRelation :: PROPERTY_COURSE] = $courseuserrelation->get_course();
+		$defaults[CourseUserRelation :: PROPERTY_CATEGORY] = $courseuserrelation->get_category();
 		parent :: setDefaults($defaults);
 	}
 }

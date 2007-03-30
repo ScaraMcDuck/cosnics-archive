@@ -204,6 +204,11 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->retrieve_course($course_code);
 	}
 	
+	function retrieve_course_user_relation($course_code, $user_id)
+	{
+		return $this->get_parent()->retrieve_course_user_relation($course_code, $user_id);
+	}
+	
 	function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return $this->get_parent()->retrieve_courses($user, $category, $condition, $offset, $count, $order_property, $order_direction);
