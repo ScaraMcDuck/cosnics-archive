@@ -5,37 +5,19 @@
 require_once dirname(__FILE__).'/../weblcms.class.php';
 require_once dirname(__FILE__).'/../weblcmscomponent.class.php';
 require_once dirname(__FILE__).'/../../course/coursecategorymenu.class.php';
-require_once dirname(__FILE__).'/coursebrowser/coursebrowsertable.class.php';
+require_once dirname(__FILE__).'/unsubscribebrowser/unsubscribebrowsertable.class.php';
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
-class WeblcmsSubscribeComponent extends WeblcmsComponent
+class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 {
-	private $category;
-	
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$this->category = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
-		$course_code = $_GET[Weblcms :: PARAM_COURSE];
-		
-		if (isset($course_code))
-		{
-			$course = $this->retrieve_course($course_code);
-			
-			if ($this->get_course_subscription_url($course))
-			{
-				$wdm = WeblcmsDataManager :: get_instance();
-				$success = $this->subscribe_user_to_course($course, '1', '0');
-				$this->redirect(null, get_lang($success ? 'UserSubscribedToCourse' : 'UserNotSubscribedToCourse'), ($success ? false : true));
-			}
-		}
-		
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseSubscribe'));
-		
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseUnsubscribe'));
 		$menu = $this->get_menu_html();
 		$output = $this->get_course_html();
 		
@@ -53,7 +35,7 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 			$condition = new EqualityCondition(Course :: PROPERTY_CATEGORY_CODE, $this->category);
 		}
 		
-		$table = new CourseBrowserTable($this, null, null, $condition);
+		$table = new UnsubscribeBrowserTable($this, null, null, $condition);
 		
 		$html = array();
 		$html[] = '<div style="float: right; width: 80%;">';

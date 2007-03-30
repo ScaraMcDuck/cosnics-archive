@@ -78,6 +78,7 @@ $langDate = "Date";
 $langAmong = "among";
 $langShow = "Show";
 $langMyCourses = "My courses";
+$langMyRepository = "My repository";
 $langModifyProfile = "My profile";
 $langMyStats = "View my statistics";
 $langLogout = "Logout";

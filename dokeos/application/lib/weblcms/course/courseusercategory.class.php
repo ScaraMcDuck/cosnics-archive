@@ -92,5 +92,17 @@ class CourseUserCategory {
 
 		return true;
 	}
+	
+	function delete($this)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		$success = $wdm->delete_course_user_category($this);
+		if (!$success)
+		{
+			return false;
+		}
+
+		return true;
+	}
 }
 ?>

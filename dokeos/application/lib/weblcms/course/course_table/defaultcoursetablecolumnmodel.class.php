@@ -16,7 +16,7 @@ class DefaultCourseTableColumnModel extends CourseTableColumnModel
 	 */
 	function DefaultCourseTableColumnModel()
 	{
-		parent :: __construct(self :: get_default_columns(), 3);
+		parent :: __construct(self :: get_default_columns(), 0);
 	}
 	/**
 	 * Gets the default columns for this model

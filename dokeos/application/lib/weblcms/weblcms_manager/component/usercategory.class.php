@@ -5,6 +5,7 @@
 require_once dirname(__FILE__).'/../weblcms.class.php';
 require_once dirname(__FILE__).'/../weblcmscomponent.class.php';
 require_once dirname(__FILE__).'/../../course/courseusercategoryform.class.php';
+require_once dirname(__FILE__).'/courseusercategorybrowser/courseusercategorybrowsertable.class.php';
 
 /**
  * Weblcms component allows the user to add personal categories to his or her course list.
@@ -22,6 +23,9 @@ class WeblcmsUserCategoryComponent extends WeblcmsComponent
 		{
 			case 'edit':
 				$this->edit_course_user_category();
+				break;
+			case 'delete':
+				$this->delete_course_user_category();
 				break;
 			default :
 				$this->add_course_user_category();
@@ -69,18 +73,37 @@ class WeblcmsUserCategoryComponent extends WeblcmsComponent
 		}
 	}
 	
+	function delete_course_user_category()
+	{
+		$course_user_category_id = $_GET[Weblcms :: PARAM_COURSE_USER_CATEGORY_ID];
+		$courseusercategory = $this->retrieve_course_user_category($course_user_category_id);
+		
+//		$form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_EDIT, $courseusercategory, $this->get_url(array(Weblcms :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id)));
+//		
+//		if($form->validate())
+//		{
+//			$success = $form->update_course_user_category();
+			$success = true;
+			$success = $courseusercategory->delete();
+			$this->redirect(null, get_lang($success ? 'CourseUserCategoryDeleted' : 'CourseUserCategoryNotDeleted'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'add'));
+//		}
+//		else
+//		{
+//			$this->display_header_user_categories();
+//			echo '<h3>'. get_lang('EditCourseUserCategory') .'</h3>';
+//			$form->display();
+//			$this->display_footer();
+//		}
+	}
+	
 	function display_header_user_categories()
 	{
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseManagement'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseCategoryManagement'));
 		$this->display_header($breadcrumbs);
 		
-		$course_categories = $this->retrieve_course_user_categories($this->get_user_id());
-		
-		while ($course_category = $course_categories->next_result())
-		{
-			echo $course_category->get_title() . '<br />';
-		}
+		$table = new CourseUserCategoryBrowserTable($this, null, null, null);
+		echo $table->as_html();
 	}
 }
 ?>

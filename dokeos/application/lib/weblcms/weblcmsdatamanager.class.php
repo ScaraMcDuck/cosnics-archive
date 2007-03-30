@@ -145,6 +145,8 @@ abstract class WeblcmsDataManager
 	abstract function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false);
 	
 	abstract function count_courses($conditions = null);
+	
+	abstract function count_course_user_categories($conditions = null);
 
 	/**
 	 * Returns the next available learning object publication ID.
@@ -189,6 +191,8 @@ abstract class WeblcmsDataManager
 	 * @return boolean True if creation succceeded, false otherwise.
 	 */
 	abstract function create_course_user_category($courseusercategory);
+	
+	abstract function delete_course_user_category($courseusercategory);
 
 	/**
 	 * Creates a learning object publication in persistent storage.
@@ -366,7 +370,7 @@ abstract class WeblcmsDataManager
 	 * Retrieves the personal course categories for a given user.
 	 * @return DatabaseUserCourseCategoryResultSet The resultset of course categories.
 	 */
-	abstract function retrieve_course_user_categories($user_id);
+	abstract function retrieve_course_user_categories($offset = null, $count = null, $order_property = null, $order_direction = null);
 	
 	/**
 	 * Retrieves a personal course categories for the user.

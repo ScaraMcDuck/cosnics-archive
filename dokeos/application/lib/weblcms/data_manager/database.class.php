@@ -238,6 +238,20 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
+	
+	function count_course_user_categories($conditions = null)
+	{
+		$params = array ();
+		$query = 'SELECT COUNT('.$this->escape_column_name(CourseUserCategory :: PROPERTY_ID).') FROM '.$this->escape_table_name('course_user_category');
+		if (isset ($condition))
+		{
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+		}
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $record[0];
+	}
 
 	private function get_publication_retrieval_where_clause ($learning_object, $course, $categories, $users, $groups, $condition, & $params)
 	{
@@ -742,18 +756,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('course'), $props, MDB2_AUTOQUERY_INSERT))
 		{
-			$sort = api_max_sort_value('0', api_get_user_id());
-			
-			$rel_props = array();
-			$rel_props['course_code'] = $course->get_id();
-			$rel_props['user_id'] = api_get_user_id();
-			$rel_props['status'] = 1;
-			$rel_props['role'] = lang2db('Professor');
-			$rel_props['tutor_id'] = 1;
-			$rel_props['sort'] = $sort + 1;
-			$rel_props['user_course_cat'] = 0;
-			
-			if ($this->connection->extended->autoExecute($this->get_table_name('course_rel_user'), $rel_props, MDB2_AUTOQUERY_INSERT))
+			if ($this->subscribe_user_to_course($course, '5', '1'))
 			{
 				add_course_role_right_location_values($course->get_id());
 				return true;
@@ -787,7 +790,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 	}
 	
-	function subscribe_user_to_course($course)
+	function subscribe_user_to_course($course, $status, $tutor_id)
 	{
 		$this->connection->loadModule('Extended');
 		
@@ -796,15 +799,30 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$rel_props = array();
 		$rel_props['course_code'] = $course->get_id();
 		$rel_props['user_id'] = api_get_user_id();
-		$rel_props['status'] = 5;
+		$rel_props['status'] = $status;
 		$rel_props['role'] = null;
-		$rel_props['tutor_id'] = 0;
+		$rel_props['tutor_id'] = $tutor_id;
 		$rel_props['sort'] = $sort + 1;
 		$rel_props['user_course_cat'] = 0;
 		
 		if ($this->connection->extended->autoExecute($this->get_table_name('course_rel_user'), $rel_props, MDB2_AUTOQUERY_INSERT))
 		{
-			return true;
+			$role_id = ($status == COURSEMANAGER) ? COURSE_ADMIN : NORMAL_COURSE_MEMBER;
+			$location_id = RolesRights::get_course_location_id($course->get_id());
+			
+			$user_rel_props = array();
+			$user_rel_props['user_id'] = api_get_user_id();
+			$user_rel_props['role_id'] = $role_id;
+			$user_rel_props['location_id'] = $location_id;
+			
+			if ($this->connection->extended->autoExecute(Database :: get_main_table(MAIN_USER_ROLE_TABLE), $user_rel_props, MDB2_AUTOQUERY_INSERT))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
 		{
@@ -824,6 +842,29 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if ($this->connection->extended->autoExecute($this->get_table_name('course_user_category'), $props, MDB2_AUTOQUERY_INSERT))
 		{
 			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	function delete_course_user_category($courseusercategory)
+	{
+		$query = 'DELETE FROM '.$this->escape_table_name('course_user_category').' WHERE '.$this->escape_column_name(CourseUserCategory :: PROPERTY_ID).'=?';
+		$statement = $this->connection->prepare($query);
+		if ($statement->execute($courseusercategory->get_id()))
+		{
+			$query = 'UPDATE '.$this->escape_table_name('course_rel_user').' SET '.$this->escape_column_name('user_course_cat').'=0 WHERE '.$this->escape_column_name('user_course_cat').'=? AND '.$this->escape_column_name('user_id').'=?';
+			$statement = $this->connection->prepare($query);
+			if ($statement->execute(array($courseusercategory->get_id(), api_get_user_id())))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
 		{
@@ -930,11 +971,47 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return new DatabaseCourseCategoryResultSet($this, $res);
 	}
 	
-	function retrieve_course_user_categories ($user_id)
+	function retrieve_course_user_categories ($offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
-		$query = 'SELECT * FROM '. $this->escape_table_name('course_user_category') .' WHERE '. $this->escape_column_name(CourseUserCategory :: PROPERTY_USER) . '=? ORDER BY '. $this->escape_column_name(CourseUserCategory :: PROPERTY_TITLE);
+		$query = 'SELECT * FROM '. $this->escape_table_name('course_user_category');;
+		
+		$params = array ();
+		if (isset ($condition))
+		{
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' AND '. $this->escape_column_name(CourseUserCategory :: PROPERTY_USER) . '=?';
+		}
+		else
+		{
+			$query .= ' WHERE '. $this->escape_column_name(CourseUserCategory :: PROPERTY_USER) . '=?';
+		}
+		$params[] = api_get_user_id();
+		
+		/*
+		 * Always respect alphabetical order as a last resort.
+		 */
+		if (!count($orderBy))
+		{
+			$orderBy[] = CourseUserCategory :: PROPERTY_TITLE;
+			$orderDir[] = SORT_ASC;
+		}
+		$order = array ();
+		
+		for ($i = 0; $i < count($orderBy); $i ++)
+		{
+			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+		}
+		if (count($order))
+		{
+			$query .= ' ORDER BY '.implode(', ', $order);
+		}
+		if ($maxObjects < 0)
+		{
+			$maxObjects = null;
+		}
+		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
-		$res = $statement->execute(api_get_user_id());
+		$res = $statement->execute($params);
 		return new DatabaseCourseUserCategoryResultSet($this, $res);
 	}
 	
