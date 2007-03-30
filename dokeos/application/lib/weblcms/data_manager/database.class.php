@@ -267,7 +267,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (isset ($condition))
 		{
 			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' AND '. $this->escape_column_name(CourseUserCategory :: PROPERTY_USER) . '=?';
 		}
+		else
+		{
+			$query .= ' WHERE '. $this->escape_column_name(CourseUserCategory :: PROPERTY_USER) . '=?';
+		}
+		$params[] = api_get_user_id();
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
