@@ -34,6 +34,16 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->count_courses($conditions);
 	}
 	
+	function count_user_courses($conditions = null)
+	{
+		return $this->get_parent()->count_user_courses($conditions);
+	}
+	
+	function count_course_user_categories($conditions = null)
+	{
+		return $this->get_parent()->count_course_user_categories($conditions);
+	}
+	
 	function get_tool_id()
 	{
 		return $this->get_parent()->get_tool_id();
@@ -179,9 +189,9 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->retrieve_course_categories($parent);
 	}
 	
-	function retrieve_course_user_categories ($user_id)
+	function retrieve_course_user_categories ($offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->get_parent()->retrieve_course_user_categories($user_id);
+		return $this->get_parent()->retrieve_course_user_categories($offset, $count, $order_property, $order_direction);
 	}
 	
 	function retrieve_course_user_category ($course_user_category_id)
@@ -195,6 +205,11 @@ abstract class WeblcmsComponent {
 	}
 	
 	function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->get_parent()->retrieve_courses($user, $category, $condition, $offset, $count, $order_property, $order_direction);
+	}
+	
+	function retrieve_user_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return $this->get_parent()->retrieve_courses($user, $category, $condition, $offset, $count, $order_property, $order_direction);
 	}
@@ -223,6 +238,16 @@ abstract class WeblcmsComponent {
 	{
 		return $this->get_parent()->get_course_subscription_url($course);
 	}
+	
+	function get_course_user_category_edit_url($course_user_category)
+	{
+		return $this->get_parent()->get_course_user_category_edit_url($course_user_category);
+	}
+	
+	function get_course_user_category_delete_url($course_user_category)
+	{
+		return $this->get_parent()->get_course_user_category_delete_url($course_user_category);
+	}
 
 	function is_subscribed($course)
 	{
@@ -234,9 +259,9 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->get_web_code_path();
 	}
 	
-	function subscribe_user_to_course($course)
+	function subscribe_user_to_course($course, $status, $tutor_id)
 	{
-		return $this->get_parent()->subscribe_user_to_course($course);
+		return $this->get_parent()->subscribe_user_to_course($course, $status, $tutor_id);
 	}
 	
 	/**
