@@ -51,7 +51,7 @@ class CourseForm extends FormValidator {
 			$cat_options[$category->get_code()] = $category->get_name();
 		}
 		
-		$this->addElement('select', Course :: PROPERTY_CATEGORY, get_lang('Category'), $cat_options);
+		$this->addElement('select', Course :: PROPERTY_CATEGORY_CODE, get_lang('Category'), $cat_options);
 		 
 		$this->addElement('text', Course :: PROPERTY_EXTLINK_NAME, get_lang('Department'));
 		$this->addElement('text', Course :: PROPERTY_EXTLINK_URL, get_lang('DepartmentUrl'));
@@ -114,7 +114,7 @@ class CourseForm extends FormValidator {
     	
     	$course->set_visual($values[Course :: PROPERTY_VISUAL]);
     	$course->set_name($values[Course :: PROPERTY_NAME]);
-    	$course->set_category($values[Course :: PROPERTY_CATEGORY]);
+    	$course->set_category_code($values[Course :: PROPERTY_CATEGORY_CODE]);
     	$course->set_titular($values[Course :: PROPERTY_TITULAR]);
     	$course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
     	$course->set_extlink_url($values[Course :: PROPERTY_EXTLINK_URL]);
@@ -134,7 +134,7 @@ class CourseForm extends FormValidator {
     	$course->set_id($values[Course :: PROPERTY_ID]);
     	$course->set_visual($values[Course :: PROPERTY_VISUAL]);
     	$course->set_name($values[Course :: PROPERTY_NAME]);
-    	$course->set_category($values[Course :: PROPERTY_CATEGORY]);
+    	$course->set_category_code($values[Course :: PROPERTY_CATEGORY_CODE]);
     	$course->set_titular($values[Course :: PROPERTY_TITULAR]);
     	$course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
     	$course->set_extlink_url($values[Course :: PROPERTY_EXTLINK_URL]);
@@ -158,7 +158,7 @@ class CourseForm extends FormValidator {
 		$defaults[Course :: PROPERTY_VISUAL] = $course->get_visual();
 		$defaults[Course :: PROPERTY_TITULAR] = $course->get_titular();
 		$defaults[Course :: PROPERTY_NAME] = $course->get_name();
-		$defaults[Course :: PROPERTY_CATEGORY] = $course->get_category()->get_code();
+		$defaults[Course :: PROPERTY_CATEGORY_CODE] = $course->get_category_code();
 		$defaults[Course :: PROPERTY_EXTLINK_NAME] = $course->get_extlink_name();
 		$defaults[Course :: PROPERTY_EXTLINK_URL] = $course->get_extlink_url();
 		$defaults[Course :: PROPERTY_LANGUAGE] = $course->get_language();

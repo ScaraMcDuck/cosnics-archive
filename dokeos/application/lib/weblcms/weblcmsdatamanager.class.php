@@ -45,6 +45,8 @@ abstract class WeblcmsDataManager
 		}
 		return self :: $instance;
 	}
+	
+	abstract function retrieve_max_sort_value($table, $column, $condition = null);
 
 	/**
 	 * Determines whether the given learning object has been published in this
@@ -384,6 +386,10 @@ abstract class WeblcmsDataManager
 	abstract function retrieve_course_category($category_code = null);
 	
 	abstract function retrieve_course_user_relation($course_code, $user_id);
+	
+	abstract function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort);
+	
+	abstract function retrieve_course_user_relations($user_id, $course_user_category);
 	
 	/**
 	 * Creates a storage unit

@@ -58,12 +58,22 @@ class CourseUserRelation {
 	
     function get_user()
     {
-    	return $this->get_default_property(self :: PROPERTY_USER);
+    	return $this->user;
     }
 	
 	function set_user($user)
 	{
-		$this->set_default_property(self :: PROPERTY_USER, $user);
+		$this->user = $user;
+	}
+	
+    function get_status()
+    {
+    	return $this->get_default_property(self :: PROPERTY_STATUS);
+    }
+	
+	function set_status($status)
+	{
+		$this->set_default_property(self :: PROPERTY_STATUS, $status);
 	}
 	
     function get_group()
@@ -73,7 +83,7 @@ class CourseUserRelation {
 	
 	function set_group($group)
 	{
-		$this->set_default_property(self :: PROPERTYGROUP, $group);
+		$this->set_default_property(self :: PROPERTY_GROUP, $group);
 	}
 	
     function get_role()
