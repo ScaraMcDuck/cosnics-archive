@@ -22,8 +22,8 @@
  *	- phone: the phone number of the user;
  *	- official_code; the official code of this user;
  *	- picture_uri: the URI location of the picture of this user;
- *	- creator_id: the user_id of the user who created this user.
- *	- competences: the competences of this user.
+ *	- creator_id: the user_id of the user who created this user;
+ *	- competences: the competences of this user;
  *	- diplomas:
  *	- openarea:
  *	- teach:
@@ -117,7 +117,7 @@ class User
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_DB, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
+		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self ::PICTURE_URI, CREATOR_ID, self :: PROPERTY_COMPETENCES, self :: PROPERTY_DIPLOMAS, self :: PROPERTY_OPENAREA, self :: PROPERTY_TEACH, self :: PROPERTY_PRODUCTIONS, self :: PROPERTY_CHATCALL_USER_ID, self :: PROPERTY_CHATCALL_DATE, self :: PROPERTY_CHATCALL_TEXT, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA);
 	}
 		
 	/**
@@ -569,7 +569,7 @@ class User
 	 */
 	function delete()
 	{
-		return UserDataManager :: get_instance()->delete_user_object($this);
+		return UserDataManager :: get_instance()->delete_user($this);
 	}
 }
 ?>
