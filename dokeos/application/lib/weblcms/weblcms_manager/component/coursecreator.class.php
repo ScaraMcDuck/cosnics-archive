@@ -27,7 +27,6 @@ class WeblcmsCourseCreatorComponent extends WeblcmsComponent
 		}
 		
 		$course = new Course();
-		$course->set_category();
 		$course->set_visibility(COURSE_VISIBILITY_OPEN_WORLD);
 		$course->set_subscribe_allowed(1);
 		$course->set_unsubscribe_allowed(0);
