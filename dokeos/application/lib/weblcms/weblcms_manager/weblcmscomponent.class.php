@@ -214,9 +214,9 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->retrieve_course_user_relation($course_code, $user_id);
 	}
 	
-	function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort)
+	function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort, $direction)
 	{
-		return $this->get_parent()->retrieve_course_user_relation_at_sort($user_id, $category_id, $sort);
+		return $this->get_parent()->retrieve_course_user_relation_at_sort($user_id, $category_id, $sort, $direction);
 	}
 	
 	function retrieve_course_user_relations($user_id, $course_user_category)
@@ -277,6 +277,11 @@ abstract class WeblcmsComponent {
 	function get_course_user_move_url($course_user, $direction)
 	{
 		return $this->get_parent()->get_course_user_move_url($course_user, $direction);
+	}
+	
+	function get_course_user_category_add_url()
+	{
+		return $this->get_parent()->get_course_user_category_add_url();
 	}
 	
 	function get_course_user_category_delete_url($course_user_category)

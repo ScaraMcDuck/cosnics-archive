@@ -789,9 +789,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return new DatabaseCourseUserRelationResultSet($this, $res);
 	}
 	
-	function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort)
+	function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort, $direction)
 	{
-		$query = 'SELECT * FROM '. $this->escape_table_name('course_rel_user') .' WHERE '.$this->escape_column_name(CourseUserRelation :: PROPERTY_USER).'=? AND '.$this->escape_column_name(CourseUserRelation :: PROPERTY_CATEGORY).'=? AND '.$this->escape_column_name(CourseUserRelation :: PROPERTY_SORT).'=?';
+		$query = 'SELECT * FROM '. $this->escape_table_name('course_rel_user') .' WHERE '.$this->escape_column_name(CourseUserRelation :: PROPERTY_USER).'=? AND '.$this->escape_column_name(CourseUserRelation :: PROPERTY_CATEGORY).'=?';
+		if ($direction == 'up')
+		{
+			$query .= ' AND '.$this->escape_column_name(CourseUserRelation :: PROPERTY_SORT).'<? ORDER BY '.$this->escape_column_name(CourseUserRelation :: PROPERTY_SORT) . 'DESC';
+		}
+		elseif ($direction == 'down')
+		{
+			$query .= ' AND '.$this->escape_column_name(CourseUserRelation :: PROPERTY_SORT).'>? ORDER BY '.$this->escape_column_name(CourseUserRelation :: PROPERTY_SORT) . 'ASC';
+		}
 		$res = $this->limitQuery($query, 1, null, array ($user_id, $category_id, $sort));
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		return $this->record_to_course_user_relation($record);

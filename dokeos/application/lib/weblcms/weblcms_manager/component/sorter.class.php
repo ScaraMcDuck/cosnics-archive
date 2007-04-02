@@ -22,11 +22,14 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		
 		switch($component_action)
 		{
+			case 'add':
+				$this->add_course_user_category();
+				break;
 			case 'move':
 				$this->move_course_list();
 				break;
 			case 'assign':
-				$this->edit_course_category();
+				$this->assign_course_category();
 				break;
 			case 'edit':
 				$this->edit_course_user_category();
@@ -55,7 +58,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		}
 	}
 	
-	function edit_course_category()
+	function assign_course_category()
 	{
 		$course_id = $_GET[Weblcms :: PARAM_COURSE_USER];
 		$courseuserrelation = $this->retrieve_course_user_relation($course_id, api_get_user_id());
@@ -79,16 +82,15 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	{
 		$move_courseuserrelation = $this->retrieve_course_user_relation($course, api_get_user_id());
 		$sort = $move_courseuserrelation->get_sort();
+		$next_courseuserrelation = $this->retrieve_course_user_relation_at_sort(api_get_user_id(), $move_courseuserrelation->get_category(), $sort, $direction);
 		
 		if ($direction == 'up')
 		{
-			$next_courseuserrelation = $this->retrieve_course_user_relation_at_sort(api_get_user_id(), $move_courseuserrelation->get_category(), $sort-1);
 			$move_courseuserrelation->set_sort($sort-1);
 			$next_courseuserrelation->set_sort($sort);
 		}
 		elseif($direction == 'down')
 		{
-			$next_courseuserrelation = $this->retrieve_course_user_relation_at_sort(api_get_user_id(), $move_courseuserrelation->get_category(), $sort+1);
 			$move_courseuserrelation->set_sort($sort+1);
 			$next_courseuserrelation->set_sort($sort);
 		}
@@ -149,19 +151,22 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		$course_user_category_id = $_GET[Weblcms :: PARAM_COURSE_USER_CATEGORY_ID];
 		$courseusercategory = $this->retrieve_course_user_category($course_user_category_id);
 		
-		$relations = $this->retrieve_course_user_relations(api_get_user_id(), $courseusercategory->get_id());
+		$relations = $this->retrieve_course_user_relations(api_get_user_id(), $course_user_category_id);
+		
+		$conditions = array();
+		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, api_get_user_id());
+		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);		
+		$condition = new AndCondition($conditions);
+			
+		$sort = $this->retrieve_max_sort_value('course_rel_user', CourseUserRelation :: PROPERTY_SORT, $condition);
+			
 		while ($relation = $relations->next_result())
 		{
-			$conditions = array();
-			$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, api_get_user_id());
-			$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);		
-			$condition = new AndCondition($conditions);
-			
-			$sort = $this->retrieve_max_sort_value('course_rel_user', CourseUserRelation :: PROPERTY_SORT, $condition);
-			
 			$relation->set_sort($sort+1);
 			$relation->update();
+			$sort++;
 		}
+		
 		$success = $courseusercategory->delete();
 		$this->redirect(null, get_lang($success ? 'CourseUserCategoryDeleted' : 'CourseUserCategoryNotDeleted'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'add'));
 	}
@@ -177,6 +182,8 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseSorter'));
 		$this->display_header($breadcrumbs);
+		
+		echo $this->get_sort_modification_links();
 		
 		$course_categories = $this->retrieve_course_user_categories($this->get_user_id());
 		$courses = $this->retrieve_courses($this->get_user_id(), 0);
@@ -285,6 +292,20 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			'label' => get_lang('Delete'),
 			'confirm' => true,
 			'img' => $this->get_web_code_path().'img/delete.gif'
+		);
+		
+		return RepositoryUtilities :: build_toolbar($toolbar_data);
+	}
+	
+	function get_sort_modification_links()
+	{
+		$toolbar_data = array();
+			
+		$toolbar_data[] = array(
+			'href' => $this->get_course_user_category_add_url(),
+			'label' => get_lang('CreateCourseUserCategory'),
+			'img' => $this->get_web_code_path().'img/folder.gif',
+			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
