@@ -70,7 +70,25 @@ abstract class UsersDataManager
 		return self :: $instance;
 	}
 
-	abstract function delete_user_object($user);
+	/**
+	 * Deletes the given user from the persistant storage
+	 * @param User $user The user.
+	 */
+	abstract function delete_user($user);
+	
+	/**
+	 * Updates the given user in persistent storage.
+	 * @param User $user The user.
+	 * @return boolean True if the update succceeded, false otherwise.
+	 */
+	abstract function update_user($user);
+	
+	/**
+	 * Makes the given User persistent.
+	 * @param User $user The user.
+	 * @return boolean True if creation succceeded, false otherwise.
+	 */
+	abstract function create_user($user);
 	
 	function user_deletion_allowed($user)
 	{

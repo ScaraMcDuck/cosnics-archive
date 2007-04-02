@@ -30,7 +30,7 @@ require_once 'MDB2.php';
 
 class DatabaseUsersDataManager extends UsersDataManager
 {
-	const ALIAS_USERS_OBJECT_TABLE = 'u';
+	const ALIAS_USER_TABLE = 'u';
 //	const ALIAS_LEARNING_OBJECT_VERSION_TABLE = 'lov';
 //	const ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE = 'loa';
 //	const ALIAS_TYPE_TABLE = 'tt';
@@ -77,9 +77,9 @@ class DatabaseUsersDataManager extends UsersDataManager
 			$prefix = $table.'.';
 			$name = $column;
 		}
-		elseif ($prefix_user_object_properties && self :: is_users_object_column($name))
+		elseif ($prefix_user_object_properties && self :: is_user_column($name))
 		{
-			$prefix = self :: ALIAS_USERS_OBJECT_TABLE.'.';
+			$prefix = self :: ALIAS_USER_TABLE.'.';
 		}
 		return $prefix.$this->connection->quoteIdentifier($name);
 	}
@@ -96,14 +96,15 @@ class DatabaseUsersDataManager extends UsersDataManager
 		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
 	}
 	
-	private static function is_users_object_column ($name)
+	private static function is_user_column($name)
 	{
-		return UserObject :: is_default_property_name($name) || $name == UserObject :: PROPERTY_TYPE || $name == USerObject :: PROPERTY_DISPLAY_ORDER_INDEX || $name == LearningObject :: PROPERTY_ID;
+		return User :: is_default_property_name($name) || $name == User :: PROPERTY_TYPE || $name == USerObject :: PROPERTY_DISPLAY_ORDER_INDEX || $name == LearningObject :: PROPERTY_ID;
 	}
 	
+	// Inherited.
 	function update_user($user)
 	{
-		$where = $this->escape_column_name(UserObject :: PROPERTY_ID).'='.$user->get_user_id();
+		$where = $this->escape_column_name(User :: PROPERTY_ID).'='.$user->get_user_id();
 		$props = array();
 		foreach ($user->get_default_properties() as $key => $value)
 		{
@@ -115,9 +116,10 @@ class DatabaseUsersDataManager extends UsersDataManager
 		return true;
 	}
 	
-	function delete_user_object($user)
+	// Inherited.
+	function delete_user($user)
 	{
-		if( !$this->user_object_deletion_allowed($user))
+		if( !$this->user_deletion_allowed($user))
 		{
 			return false;
 		}
@@ -125,12 +127,25 @@ class DatabaseUsersDataManager extends UsersDataManager
 		// Delete the user from the database
 		$query = 'DELETE FROM '.$this->escape_table_name('user').' WHERE '.$this->escape_column_name('user_id').'=?';
 		$sth = $this->connection->prepare($query);
-		$res = $sth->execute(array($object->get_id(), $object->get_id()));
+		$res = $sth->execute(array($user->get_id(), $user->get_id()));
 
 		// TODO: remove the user his objects from the repository DB
 		
 		return true;
 	}
 	
+	// Inherited.
+	function create_user($object)
+	{
+		$props = array();
+		foreach ($user->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$props[$this->escape_column_name(User :: PROPERTY_USER_ID)] = $user->get_id();
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('user'), $props, MDB2_AUTOQUERY_INSERT);
+		return true;
+	}
 }
 ?>
