@@ -13,7 +13,8 @@ require_once dirname(__FILE__).'/configuration.class.php';
  *	"DatabaseRepositoryDataManager"; hence, this naming convention must be
  *	respected for all extensions of this class.
  *
- *	@author Tim De Pauw
+ *	@author Hans De Bisschop
+ *	@author Dieter De Neef
  */
 abstract class UsersDataManager
 {
@@ -45,6 +46,11 @@ abstract class UsersDataManager
 		$this->applications = array();
 		$this->load_applications();
 	}
+	
+	/**
+	 * Initializes the data manager.
+	 */
+	abstract function initialize();
 
 	/**
 	 * Uses a singleton pattern and a factory pattern to return the data

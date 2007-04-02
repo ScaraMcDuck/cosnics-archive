@@ -1,21 +1,21 @@
 <?php
 /**
- * @package repository
+ * @package users
  * @subpackage datamanager
  */
-require_once dirname(__FILE__).'/database/databaselearningobjectresultset.class.php';
-require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../configuration.class.php';
-require_once dirname(__FILE__).'/../learningobject.class.php';
-require_once dirname(__FILE__).'/../condition/condition.class.php';
-require_once dirname(__FILE__).'/../condition/equalitycondition.class.php';
-require_once dirname(__FILE__).'/../condition/inequalitycondition.class.php';
-require_once dirname(__FILE__).'/../condition/patternmatchcondition.class.php';
-require_once dirname(__FILE__).'/../condition/aggregatecondition.class.php';
-require_once dirname(__FILE__).'/../condition/andcondition.class.php';
-require_once dirname(__FILE__).'/../condition/orcondition.class.php';
-require_once dirname(__FILE__).'/../condition/notcondition.class.php';
-require_once dirname(__FILE__).'/../condition/incondition.class.php';
+//require_once dirname(__FILE__).'/database/databaselearningobjectresultset.class.php';
+require_once dirname(__FILE__).'/../usersdatamanager.class.php';
+//require_once dirname(__FILE__).'/../configuration.class.php';
+//require_once dirname(__FILE__).'/../learningobject.class.php';
+//require_once dirname(__FILE__).'/../condition/condition.class.php';
+//require_once dirname(__FILE__).'/../condition/equalitycondition.class.php';
+//require_once dirname(__FILE__).'/../condition/inequalitycondition.class.php';
+//require_once dirname(__FILE__).'/../condition/patternmatchcondition.class.php';
+//require_once dirname(__FILE__).'/../condition/aggregatecondition.class.php';
+//require_once dirname(__FILE__).'/../condition/andcondition.class.php';
+//require_once dirname(__FILE__).'/../condition/orcondition.class.php';
+//require_once dirname(__FILE__).'/../condition/notcondition.class.php';
+//require_once dirname(__FILE__).'/../condition/incondition.class.php';
 require_once 'MDB2.php';
 
 /**
@@ -28,9 +28,9 @@ require_once 'MDB2.php';
 ==============================================================================
  */
 
-class DatabaseRepositoryDataManager extends UsersDataManager
+class DatabaseUsersDataManager extends UsersDataManager
 {
-//	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
+	const ALIAS_USERS_OBJECT_TABLE = 'u';
 //	const ALIAS_LEARNING_OBJECT_VERSION_TABLE = 'lov';
 //	const ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE = 'loa';
 //	const ALIAS_TYPE_TABLE = 'tt';
@@ -47,16 +47,58 @@ class DatabaseRepositoryDataManager extends UsersDataManager
 	private $prefix;
 
 	// Inherited.
-	function initialize()
+//	function initialize()
+//	{
+//		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
+//		$conf = Configuration :: get_instance();
+//		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_repository'),array('debug'=>3,'debug_handler'=>array('DatabaseRepositoryDataManager','debug')));
+//		if (PEAR::isError($this)) {
+//   		 die($this->connection->getMessage());
+//		}
+//		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
+//		$this->connection->query('SET NAMES utf8');
+//	}
+	
+	/**
+	 * Escapes a column name in accordance with the database type.
+	 * @param string $name The column name.
+	 * @param boolean $prefix_learning_object_properties Whether or not to
+	 *                                                   prefix learning
+	 *                                                   object properties
+	 *                                                   to avoid collisions.
+	 * @return string The escaped column name.
+	 */
+	function escape_column_name($name, $prefix_user_object_properties = false)
 	{
-		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
-		$conf = Configuration :: get_instance();
-		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_repository'),array('debug'=>3,'debug_handler'=>array('DatabaseRepositoryDataManager','debug')));
-		if (PEAR::isError($this)) {
-   		 die($this->connection->getMessage());
+		list($table, $column) = explode('.', $name, 2);
+		$prefix = '';
+		if (isset($column))
+		{
+			$prefix = $table.'.';
+			$name = $column;
 		}
-		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
-		$this->connection->query('SET NAMES utf8');
+		elseif ($prefix_user_object_properties && self :: is_users_object_column($name))
+		{
+			$prefix = self :: ALIAS_USERS_OBJECT_TABLE.'.';
+		}
+		return $prefix.$this->connection->quoteIdentifier($name);
+	}
+	
+	/**
+	 * Escapes a table name in accordance with the database type.
+	 * @param string $name The table identifier.
+	 * @return string The escaped table name.
+	 */
+	function escape_table_name($name)
+	{
+		global $user_database;
+		$database_name = $this->connection->quoteIdentifier($user_database);
+		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
+	}
+	
+	private static function is_users_object_column ($name)
+	{
+		return UserObject :: is_default_property_name($name) || $name == UserObject :: PROPERTY_TYPE || $name == USerObject :: PROPERTY_DISPLAY_ORDER_INDEX || $name == LearningObject :: PROPERTY_ID;
 	}
 	
 	function update_user($user)
@@ -67,7 +109,10 @@ class DatabaseRepositoryDataManager extends UsersDataManager
 		{
 			$props[$this->escape_column_name($key)] = $value;
 		}
-		// ...
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('user'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+
+		return true;
 	}
 	
 	function delete_user_object($user)
@@ -78,7 +123,7 @@ class DatabaseRepositoryDataManager extends UsersDataManager
 		}
 
 		// Delete the user from the database
-		$query = 'DELETE FROM '.$this->escape_table_name('user').' WHERE '.$this->escape_column_name('learning_object').'=? OR '.$this->escape_column_name('user_id').'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('user').' WHERE '.$this->escape_column_name('user_id').'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute(array($object->get_id(), $object->get_id()));
 
