@@ -47,7 +47,7 @@ class Course {
 	const PROPERTY_SUBSCRIBE_ALLOWED = 'subscribe';
 	const PROPERTY_UNSUBSCRIBE_ALLOWED = 'unsubscribe';
 	
-	// Remnants from th old Dokeos system
+	// Remnants from the old Dokeos system
 	const PROPERTY_LAST_VISIT = 'last_visit';
 	const PROPERTY_LAST_EDIT = 'last_edit';
 	const PROPERTY_CREATION_DATE = 'creation_date';
