@@ -1,7 +1,6 @@
 <?php
 /**
- * $Id: learningobject.class.php 11654 2007-03-22 09:06:13Z bmol $
- * @package repository
+ * @package users
  */
 //require_once dirname(__FILE__).'/accessiblelearningobject.class.php';
 //require_once dirname(__FILE__).'/repositorydatamanager.class.php';
@@ -10,16 +9,38 @@
 //require_once dirname(__FILE__).'/learningobjectdifference.class.php';
 //require_once dirname(__FILE__).'/learningobjectdisplay.class.php';
 /**
- *	This class represents a user object. 
+ *	This class represents a user. 
  *
  *	User objects have a number of default properties:
- *	- user_id: the numeric ID of the learning object;
+ *	- user_id: the numeric ID of the user;
+ *	- lastname: the lastname of the user;
+ *	- firstname: the firstname of the user;
+ *	- password: the password for this user;
+ *	- auth_source:
+ *	- email: the email address of this user;
+ *	- status: the status of this user: 1 is teacher, 5 is a student;
+ *	- phone: the phone number of the user;
+ *	- official_code; the official code of this user;
+ *	- picture_uri: the URI location of the picture of this user;
+ *	- creator_id: the user_id of the user who created this user.
+ *	- competences: the competences of this user.
+ *	- diplomas:
+ *	- openarea:
+ *	- teach:
+ *	- productions:
+ *	- chatcall_user_id:
+ *	- chatcall_date:
+ *	- chatcall_text:
+ *	- language: the language setting of this user;
+ *	- disk quota: the disk quota for this user;
+ *	- database_quota: the database quota for this user;
+ *	- version_quota: the default quota for this user of no quota for a specific learning object type is set.
  *
  *	@author Hans de Bisschop
  *	@author Dieter De Neef
  */
 
-class UserObject
+class User
 {
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_LASTNAME = 'lastname';
@@ -66,7 +87,7 @@ class UserObject
 	 * @param array $defaultProperties The default properties of the user
 	 *                                 object. Associative array.
 	 */
-	function UserObject($user_id = 0, $defaultProperties = array ())
+	function User($user_id = 0, $defaultProperties = array ())
 	{
 		$this->user_id = $user_id;
 		$this->defaultProperties = $defaultProperties;
@@ -82,7 +103,7 @@ class UserObject
 	}
 	
 	/**
-	 * Gets the default properties of this user object.
+	 * Gets the default properties of this user.
 	 * @return array An associative array containing the properties.
 	 */
 	function get_default_properties()
@@ -91,7 +112,7 @@ class UserObject
 	}
 	
 	/**
-	 * Get the default properties of all user objects.
+	 * Get the default properties of all users.
 	 * @return array The property names.
 	 */
 	static function get_default_property_names()
@@ -100,7 +121,7 @@ class UserObject
 	}
 		
 	/**
-	 * Sets a default property of this user object by name.
+	 * Sets a default property of this user by name.
 	 * @param string $name The name of the property.
 	 * @param mixed $value The new value for the property.
 	 */
@@ -110,7 +131,7 @@ class UserObject
 	}
 	
 	/**
-	 * Checks if the given identifier is the name of a default user object
+	 * Checks if the given identifier is the name of a default user
 	 * property.
 	 * @param string $name The identifier.
 	 * @return boolean True if the identifier is a property name, false
@@ -122,7 +143,7 @@ class UserObject
 	}
 
 	/**
-	 * Returns the user_id of this user object.
+	 * Returns the user_id of this user.
 	 * @return int The user_id.
 	 */
 	function get_user_id()
@@ -131,7 +152,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the lastname of this user object
+	 * Returns the lastname of this user.
 	 * @return String The lastname
 	 */
 	function get_lastname()
@@ -140,7 +161,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the firstname of this userobject
+	 * Returns the firstname of this user.
 	 * @return String The firstname
 	 */
 	function get_firstname()
@@ -149,7 +170,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the username of this userobject
+	 * Returns the username of this user.
 	 * @return String The username
 	 */
 	function get_username()
@@ -158,7 +179,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the password of this userobject
+	 * Returns the password of this user.
 	 * @return String The password
 	 */
 	function get_password()
@@ -167,7 +188,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the auth_source for this user object
+	 * Returns the auth_source for this user.
 	 * @return String The auth_source
 	 */
 	function get_auth_source()
@@ -176,7 +197,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the email for this user object
+	 * Returns the email for this user.
 	 * @return String The email address
 	 */
 	function get_email()
@@ -185,7 +206,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the status for this user object
+	 * Returns the status for this user.
 	 * @return Int The status
 	 */
 	function get_status()
@@ -194,7 +215,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the official code for this user object
+	 * Returns the official code for this user.
 	 * @return String The official code
 	 */
 	function get_official_code()
@@ -203,7 +224,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the phone number for this user object
+	 * Returns the phone number for this user.
 	 * @return String The phone number
 	 */
 	function get_phone()
@@ -212,7 +233,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the Picture URI for this user object
+	 * Returns the Picture URI for this user.
 	 * @return String The URI
 	 */
 	function get_picture_uri()
@@ -221,7 +242,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the creator ID for this user object
+	 * Returns the creator ID for this user.
 	 * @return Int The ID
 	 */
 	function get_creator_id()
@@ -230,7 +251,7 @@ class UserObject
 	}
 	
 	/** 
-	 * Returns the competences for this user object
+	 * Returns the competences for this user.
 	 * @return String The Competences
 	 */
 	function get_competences()
@@ -239,7 +260,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the diplomas for this user object
+	 * Returns the diplomas for this user.
 	 * @return String The diplomas
 	 */
 	function get_diplomas()
@@ -248,7 +269,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the openarea for this user object
+	 * Returns the openarea for this user.
 	 * @return String The openarea
 	 */
 	function get_openarea()
@@ -268,7 +289,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the chatcall user id for this user object
+	 * Returns the chatcall user id for this user.
 	 * @return Int the ID
 	 */
 	function get_chatcall_user_id()
@@ -277,7 +298,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the chatcall date for this user object
+	 * Returns the chatcall date for this user.
 	 * @return timestamp the date
 	 */
 	function get_chatcall_date()
@@ -286,7 +307,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the chatcall text for this user object
+	 * Returns the chatcall text for this user.
 	 * @return String the text
 	 */
 	function get_chatcall_text()
@@ -295,7 +316,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the language for this user object
+	 * Returns the language for this user.
 	 * @return String the Language
 	 */
 	function get_language()
@@ -304,7 +325,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the disk quota for this user object
+	 * Returns the disk quota for this user.
 	 * @return Int the disk quota
 	 */
 	function get_disk_quota()
@@ -313,7 +334,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the database quota for this user object
+	 * Returns the database quota for this user.
 	 * @return Int the database quota
 	 */
 	function get_database_quota()
@@ -322,7 +343,7 @@ class UserObject
 	}
 	
 	/**
-	 * Returns the default version quota for this user object
+	 * Returns the default version quota for this user.
 	 * @return Int the version quota
 	 */
 	function get_version_quota()
@@ -331,7 +352,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the user_id of this user object.
+	 * Sets the user_id of this user.
 	 * @param int $user_id The user_id.
 	 */
 	function set_user_id($user_id)
@@ -340,7 +361,7 @@ class UserObject
 	}		
 	
 	/**
-	 * Sets the lastname of this user object.
+	 * Sets the lastname of this user.
 	 * @param String $lastname the lastname.
 	 */
 	function set_lastname($lastname)
@@ -349,7 +370,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the firstname of this user object.
+	 * Sets the firstname of this user.
 	 * @param String $firstname the firstname.
 	 */
 	function set_firstname($firstname)
@@ -358,7 +379,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the username of this user object.
+	 * Sets the username of this user.
 	 * @param String $username the username.
 	 */
 	function set_username($username)
@@ -367,7 +388,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the password of this user object.
+	 * Sets the password of this user.
 	 * @param String $password the password.
 	 */
 	function set_password($password)
@@ -376,7 +397,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the Auth_source for this user object.
+	 * Sets the Auth_source for this user.
 	 * @param String $auth_source the auth source.
 	 */
 	function set_auth_source($auth_source)
@@ -385,7 +406,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the email for this user object.
+	 * Sets the email for this user.
 	 * @param String $email the email.
 	 */
 	function set_email($email)
@@ -394,7 +415,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the status for this user object.
+	 * Sets the status for this user.
 	 * @param Int $status the status.
 	 */
 	function set_status($status)
@@ -403,7 +424,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the official code for this user object.
+	 * Sets the official code for this user.
 	 * @param String $official_code the official code.
 	 */
 	function set_official_code($official_code)
@@ -412,7 +433,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the phone number for this user object.
+	 * Sets the phone number for this user.
 	 * @param String $phone the phone number
 	 */
 	function set_phone($phone)
@@ -430,7 +451,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the creator ID for this user object.
+	 * Sets the creator ID for this user.
 	 * @param String $creator_id the creator ID.
 	 */
 	function set_creator_id($creator_id)
@@ -439,7 +460,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the competences for this user object.
+	 * Sets the competences for this user.
 	 * @param String $competences the competences.
 	 */
 	function set_competences($competences)
@@ -448,7 +469,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the diplomas for this user object. 
+	 * Sets the diplomas for this user. 
 	 * @param String $diplomas the diplomas.
 	 */
 	function set_diplomas($diplomas)
@@ -457,7 +478,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the openarea for this user object.
+	 * Sets the openarea for this user.
 	 * @param String $openarea the openarea.
 	 */
 	function set_openarea($openarea)
@@ -471,7 +492,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the productions for this user object.
+	 * Sets the productions for this user.
 	 * @param String $productions the productions.
 	 */
 	function set_productions($productions)
@@ -480,7 +501,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the chatcall user id for this user object.
+	 * Sets the chatcall user id for this user.
 	 * @param Int $user_id the user_id.
 	 */
 	function set_chatcall_user_id($user_id)
@@ -489,7 +510,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the chatcall date for this user object.
+	 * Sets the chatcall date for this user.
 	 * @param timestamp $date the date.
 	 */
 	function set_chatcall_date($date)
@@ -498,7 +519,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the chatcall text for this user object.
+	 * Sets the chatcall text for this user.
 	 * @param String $text $text The text.
 	 */
 	function set_chatcall_text($text)
@@ -507,7 +528,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the language for this user object.
+	 * Sets the language for this user.
 	 * @param String $language The language.
 	 */
 	function set_language($language)
@@ -516,7 +537,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the disk quota for this user object.
+	 * Sets the disk quota for this user.
 	 * @param Int $disk_quota The disk quota.
 	 */
 	function set_disk_quota($disk_quota)
@@ -525,7 +546,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the database_quota for this user object.
+	 * Sets the database_quota for this user.
 	 * @param Int $database_quota The database quota.
 	 */
 	function set_database_quota($database_quota)
@@ -534,7 +555,7 @@ class UserObject
 	}
 	
 	/**
-	 * Sets the default version quota for this user object.
+	 * Sets the default version quota for this user.
 	 * @param Int $version_quota The version quota.
 	 */
 	function set_version_quota($version_quota)
@@ -543,7 +564,7 @@ class UserObject
 	}
 	
 	/**
-	 * Instructs the Datamanager to delete this user object.
+	 * Instructs the Datamanager to delete this user.
 	 * @return boolean True if success, false otherwise.
 	 */
 	function delete()

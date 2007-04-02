@@ -72,7 +72,7 @@ abstract class UsersDataManager
 
 	abstract function delete_user_object($user);
 	
-	function user_object_deletion_allowed($user, $type = null)
+	function user_deletion_allowed($user)
 	{
 		// TODO: Check if the user can be deleted (fe: can an admin delete another admin etc)
 		return true;
