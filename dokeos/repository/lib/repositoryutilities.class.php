@@ -228,7 +228,7 @@ class RepositoryUtilities
 		}
 		$class_names[] = 'toolbar';
 		$html = array ();
-				$html[] = '<div class="publication_attributes">';
+		$html[] = '<div class="publication_attributes">';
 		$html[] = '<ul class="'.implode(' ', $class_names).'"'. (isset ($css) ? ' style="'.$css.'"' : '').'>';
 		foreach ($toolbar_data as $index => $elmt)
 		{

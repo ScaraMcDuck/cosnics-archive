@@ -7,6 +7,7 @@
 require_once dirname(__FILE__).'/database/databasecourseresultset.class.php';
 require_once dirname(__FILE__).'/database/databasecoursecategoryresultset.class.php';
 require_once dirname(__FILE__).'/database/databasecourseusercategoryresultset.class.php';
+require_once dirname(__FILE__).'/database/databasecourseuserrelationresultset.class.php';
 require_once dirname(__FILE__).'/database/databaselearningobjectpublicationresultset.class.php';
 require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublication.class.php';
@@ -21,6 +22,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
 	const ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE = 'lop';
+	const ALIAS_MAX_SORT = 'max_sort';
 
 	private $connection;
 	private $repoDM;
@@ -55,6 +57,31 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$statement = $this->connection->prepare($query,null,($is_manip ? MDB2_PREPARE_MANIP : null));
 		$res = $statement->execute($params);
 		return $res;
+	}
+	
+	function retrieve_max_sort_value($table, $column, $condition = null)
+	{
+		$params = array ();
+		$query .= 'SELECT MAX('. $this->escape_column_name($column) .') as '. self :: ALIAS_MAX_SORT .' FROM'. $this->escape_table_name($table);
+		
+		if (isset ($condition))
+		{
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+		}
+		
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		if ($res->numRows() >= 1)
+		{
+			$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+			$max = $record[0];
+		}
+		else
+		{
+			$max = 0;
+		}
+		
+		return $max;
 	}
 
 	function retrieve_learning_object_publication($pid)
@@ -754,6 +781,22 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->record_to_course_user_relation($record);
 	}
 	
+	function retrieve_course_user_relations($user_id, $course_user_category)
+	{
+		$query = 'SELECT * FROM '. $this->escape_table_name('course_rel_user') .' WHERE '.$this->escape_column_name(CourseUserRelation :: PROPERTY_USER).'=? AND '.$this->escape_column_name(CourseUserRelation :: PROPERTY_CATEGORY).'=? ORDER BY '.$this->escape_column_name(CourseUserRelation :: PROPERTY_SORT);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute(array($user_id, $course_user_category));
+		return new DatabaseCourseUserRelationResultSet($this, $res);
+	}
+	
+	function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort)
+	{
+		$query = 'SELECT * FROM '. $this->escape_table_name('course_rel_user') .' WHERE '.$this->escape_column_name(CourseUserRelation :: PROPERTY_USER).'=? AND '.$this->escape_column_name(CourseUserRelation :: PROPERTY_CATEGORY).'=? AND '.$this->escape_column_name(CourseUserRelation :: PROPERTY_SORT).'=?';
+		$res = $this->limitQuery($query, 1, null, array ($user_id, $category_id, $sort));
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		return $this->record_to_course_user_relation($record);
+	}
+	
 	function retrieve_user_courses($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('course');
@@ -804,9 +847,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$defaultProp[$prop] = $record[$prop];
 		}
 		
-		$course_category = $this->retrieve_course_category($record[Course :: PROPERTY_CATEGORY_CODE]);
-		$defaultProp[Course :: PROPERTY_CATEGORY] = $course_category;
-		
 		return new Course($record[Course :: PROPERTY_ID], $defaultProp);		
 	}
 	
@@ -831,13 +871,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$props = array();
 		foreach ($course->get_default_properties() as $key => $value)
 		{
-			if ($key !== Course :: PROPERTY_CATEGORY)
-			{
-				$props[$this->escape_column_name($key)] = $value;
-			}
+			$props[$this->escape_column_name($key)] = $value;
 		}
 		$props[Course :: PROPERTY_ID] = $course->get_id();
-		$props[Course :: PROPERTY_CATEGORY_CODE] = $course->get_category()->get_code();
 		$props[Course :: PROPERTY_LAST_VISIT] = self :: to_db_date($now);
 		$props[Course :: PROPERTY_LAST_EDIT] = self :: to_db_date($now);
 		$props[Course :: PROPERTY_CREATION_DATE] = self :: to_db_date($now);
@@ -883,18 +919,21 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$this->connection->loadModule('Extended');
 		
-		$sort = api_max_sort_value('0', api_get_user_id());
-			
-		$rel_props = array();
-		$rel_props['course_code'] = $course->get_id();
-		$rel_props['user_id'] = api_get_user_id();
-		$rel_props['status'] = $status;
-		$rel_props['role'] = null;
-		$rel_props['tutor_id'] = $tutor_id;
-		$rel_props['sort'] = $sort + 1;
-		$rel_props['user_course_cat'] = 0;
+		$conditions = array();
+		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, api_get_user_id());
+		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);		
+		$condition = new AndCondition($conditions);
 		
-		if ($this->connection->extended->autoExecute($this->get_table_name('course_rel_user'), $rel_props, MDB2_AUTOQUERY_INSERT))
+		$sort = $this->retrieve_max_sort_value('course_rel_user', CourseUserRelation :: PROPERTY_SORT, $condition);
+		
+		$courseuserrelation = new CourseUserRelation($course->get_id(), api_get_user_id());
+		$courseuserrelation->set_status($status);
+		$courseuserrelation->set_role(null);
+		$courseuserrelation->set_tutor($tutor_id);
+		$courseuserrelation->set_sort($sort+1);
+		$courseuserrelation->set_category(0);
+		
+		if ($this->create_course_user_relation($courseuserrelation))
 		{
 			$role_id = ($status == COURSEMANAGER) ? COURSE_ADMIN : NORMAL_COURSE_MEMBER;
 			$location_id = RolesRights::get_course_location_id($course->get_id());
@@ -912,6 +951,27 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			{
 				return false;
 			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	function create_course_user_relation($courseuserrelation)
+	{
+		$props = array();
+		foreach ($courseuserrelation->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		
+		$props[CourseUserRelation :: PROPERTY_COURSE] = $courseuserrelation->get_course();
+		$props[CourseUserRelation :: PROPERTY_USER] = $courseuserrelation->get_user();
+		$this->connection->loadModule('Extended');
+		if ($this->connection->extended->autoExecute($this->get_table_name('course_rel_user'), $props, MDB2_AUTOQUERY_INSERT))
+		{
+			return true;
 		}
 		else
 		{
@@ -992,12 +1052,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$props = array();
 		foreach ($course->get_default_properties() as $key => $value)
 		{
-			if ($key !== Course :: PROPERTY_CATEGORY)
-			{
-				$props[$this->escape_column_name($key)] = $value;
-			}
+			$props[$this->escape_column_name($key)] = $value;
 		}
-		$props[Course :: PROPERTY_CATEGORY_CODE] = $course->get_category()->get_code();
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->escape_table_name('course'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 		return true;

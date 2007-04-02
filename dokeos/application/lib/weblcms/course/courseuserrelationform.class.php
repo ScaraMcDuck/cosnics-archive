@@ -53,7 +53,16 @@ class CourseUserRelationForm extends FormValidator {
     	$courseuserrelation = $this->courseuserrelation;
     	$values = $this->exportValues();
     	
+		$conditions = array();
+		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, api_get_user_id());
+		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $values[CourseUserRelation :: PROPERTY_CATEGORY]);		
+		$condition = new AndCondition($conditions);
+		
+		$wdm = WeblcmsDataManager :: get_instance();
+		$sort = $wdm->retrieve_max_sort_value('course_rel_user', CourseUserRelation :: PROPERTY_SORT, $condition);
+    	
     	$courseuserrelation->set_category($values[CourseUserRelation :: PROPERTY_CATEGORY]);
+    	$courseuserrelation->set_sort($sort+1);
     	
     	return $courseuserrelation->update();
     }

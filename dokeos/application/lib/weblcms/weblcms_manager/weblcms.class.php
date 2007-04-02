@@ -42,7 +42,6 @@ class Weblcms extends WebApplication
 	const ACTION_CREATE_COURSE = 'coursecreator';
 	
 	const ACTION_MANAGER_SORT = 'sort';
-	const ACTION_MANAGER_CATEGORY = 'category';
 	const ACTION_MANAGER_SUBSCRIBE = 'subscribe';
 	const ACTION_MANAGER_UNSUBSCRIBE = 'unsubscribe';
 
@@ -95,9 +94,6 @@ class Weblcms extends WebApplication
 				break;
 			case self :: ACTION_CREATE_COURSE :
 				$component = WeblcmsComponent :: factory('CourseCreator', $this);
-				break;
-			case self :: ACTION_MANAGER_CATEGORY :
-				$component = WeblcmsComponent :: factory('UserCategory', $this);
 				break;
 			case self :: ACTION_MANAGER_SUBSCRIBE :
 				$component = WeblcmsComponent :: factory('Subscribe', $this);
@@ -417,6 +413,14 @@ class Weblcms extends WebApplication
 	/*
 	 * Inherited
 	 */
+	function retrieve_max_sort_value($table, $column, $condition = null)
+	{
+		return WeblcmsDataManager :: get_instance()->retrieve_max_sort_value($table, $column, $condition);
+	}
+	
+	/*
+	 * Inherited
+	 */
 	function learning_object_is_published($object_id)
 	{
 		return WeblcmsDataManager :: get_instance()->learning_object_is_published($object_id);
@@ -500,6 +504,16 @@ class Weblcms extends WebApplication
 	function retrieve_course_user_relation($course_code, $user_id)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_user_relation($course_code, $user_id);
+	}
+	
+	function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort)
+	{
+		return WeblcmsDataManager :: get_instance()->retrieve_course_user_relation_at_sort($user_id, $category_id, $sort);
+	}
+	
+	function retrieve_course_user_relations($user_id, $course_user_category)
+	{
+		return WeblcmsDataManager :: get_instance()->retrieve_course_user_relations($user_id, $course_user_category);		
 	}
 	
 	function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
@@ -600,17 +614,17 @@ class Weblcms extends WebApplication
 	
 	function get_course_user_category_edit_url($course_user_category)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_CATEGORY , self :: PARAM_COMPONENT_ACTION => 'edit', self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT , self :: PARAM_COMPONENT_ACTION => 'edit', self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id()));
 	}
 	
 	function get_course_user_category_delete_url($course_user_category)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_CATEGORY , self :: PARAM_COMPONENT_ACTION => 'delete', self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT , self :: PARAM_COMPONENT_ACTION => 'delete', self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id()));
 	}
 	
 	function get_course_user_edit_url($course_user)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT , self :: PARAM_COMPONENT_ACTION => 'edit', self :: PARAM_COURSE_USER => $course_user->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT , self :: PARAM_COMPONENT_ACTION => 'assign', self :: PARAM_COURSE_USER => $course_user->get_id()));
 	}
 	
 	function get_course_user_move_url($course_user, $direction)

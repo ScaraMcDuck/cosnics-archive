@@ -149,6 +149,11 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->is_tool_name($name);
 	}
 	
+	function retrieve_max_sort_value($table, $column, $condition = null)
+	{
+		return $this->get_parent()->retrieve_max_sort_value($table, $column, $condition);
+	}
+	
 	function learning_object_is_published($object_id)
 	{
 		return $this->get_parent()->learning_object_is_published($object_id);
@@ -207,6 +212,16 @@ abstract class WeblcmsComponent {
 	function retrieve_course_user_relation($course_code, $user_id)
 	{
 		return $this->get_parent()->retrieve_course_user_relation($course_code, $user_id);
+	}
+	
+	function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort)
+	{
+		return $this->get_parent()->retrieve_course_user_relation_at_sort($user_id, $category_id, $sort);
+	}
+	
+	function retrieve_course_user_relations($user_id, $course_user_category)
+	{
+		return $this->get_parent()->retrieve_course_user_relations($user_id, $course_user_category);
 	}
 	
 	function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)

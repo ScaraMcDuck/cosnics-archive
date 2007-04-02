@@ -1048,6 +1048,15 @@ div.user_course_category {
 	padding: 5px;
 }
 
+div.user_course_category div.title {
+	float: left;
+}
+
+div.user_course_category div.options {
+	float: left;
+	margin-left: 5px;
+}
+
 div.user_course_element {
 	clear: both;
 	margin: 0px 0px 10px 0px;

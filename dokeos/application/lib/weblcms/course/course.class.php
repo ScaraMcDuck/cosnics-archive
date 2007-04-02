@@ -42,7 +42,6 @@ class Course {
 	const PROPERTY_LANGUAGE = 'course_language';
 	const PROPERTY_EXTLINK_URL = 'department_url';
 	const PROPERTY_EXTLINK_NAME = 'department_name';
-	const PROPERTY_CATEGORY = 'category';
 	const PROPERTY_CATEGORY_CODE = 'category_code';
 	const PROPERTY_VISIBILITY = 'visibility';
 	const PROPERTY_SUBSCRIBE_ALLOWED = 'subscribe';
@@ -106,7 +105,7 @@ class Course {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_DB, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_CATEGORY_CODE, self :: PROPERTY_DB, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
 	}
     
 	/**
@@ -125,6 +124,15 @@ class Course {
     function get_visual()
     {
     	return $this->get_default_property(self :: PROPERTY_VISUAL);
+    }
+    
+	/**
+	 * Returns the category code of this course object
+	 * @return string the category code
+	 */ 
+    function get_category_code()
+    {
+    	return $this->get_default_property(self :: PROPERTY_CATEGORY_CODE);
     }
     
 	/**
@@ -191,15 +199,6 @@ class Course {
     }
     
     /**
-     * Returns the category code of this course object
-     * @return String The Code
-     */
-    function get_category()
-    {
-    	return $this->get_default_property(self :: PROPERTY_CATEGORY);
-    }
-    
-    /**
      * Returns the visibility code of this course object
      * @return String The Visibility Code
      */
@@ -242,6 +241,15 @@ class Course {
 	function set_visual($visual)
 	{
 		$this->set_default_property(self :: PROPERTY_VISUAL, $visual);
+	}
+	
+	/**
+	 * Sets the category code of this course object
+	 * @param String $visual The category code
+	 */
+	function set_category_code($category)
+	{
+		$this->set_default_property(self :: PROPERTY_CATEGORY_CODE, $category);
 	}
 	
 	/**
@@ -308,17 +316,6 @@ class Course {
 	}
 	
 
-	/**
-	 * Sets the Category Code of this course object
-	 * @param String $code The Category Code
-	 */
-	function set_category($category_code = null)
-	{
-		$wdm = WeblcmsDataManager :: get_instance();
-		$category =  $wdm->retrieve_course_category($category_code);
-		$this->set_default_property(self :: PROPERTY_CATEGORY, $category);
-	}
-	
 	/**
 	 * Sets the visibility of this course object
 	 * @param String $visual The visual code
