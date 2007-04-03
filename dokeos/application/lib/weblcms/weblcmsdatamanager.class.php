@@ -418,6 +418,8 @@ abstract class WeblcmsDataManager
 	 * @return CourseUserCategory The course user category.
 	 */
 	abstract function retrieve_course_user_category($course_user_category_id);
+	
+	abstract function retrieve_course_user_category_at_sort($user_id, $sort, $direction);
 
 	/**
 	 * Adds a course module to a course

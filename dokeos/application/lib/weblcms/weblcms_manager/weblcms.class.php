@@ -496,6 +496,11 @@ class Weblcms extends WebApplication
 		return WeblcmsDataManager :: get_instance()->retrieve_course_user_category($course_user_category_id);
 	}
 	
+	function retrieve_course_user_category_at_sort($user_id, $sort, $direction)
+	{
+		return WeblcmsDataManager :: get_instance()->retrieve_course_user_category_at_sort($user_id, $sort, $direction);
+	}
+	
 	function retrieve_course($course_code)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course($course_code);
@@ -620,6 +625,11 @@ class Weblcms extends WebApplication
 	function get_course_user_category_add_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT , self :: PARAM_COMPONENT_ACTION => 'add'));
+	}
+	
+	function get_course_user_category_move_url($course_user_category, $direction)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT , self :: PARAM_COMPONENT_ACTION => 'movecat', self :: PARAM_DIRECTION => $direction, self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id()));
 	}
 	
 	function get_course_user_category_delete_url($course_user_category)

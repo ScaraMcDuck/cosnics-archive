@@ -4,6 +4,7 @@ class CourseUserCategory {
 
 	const PROPERTY_ID = 'id';
 	const PROPERTY_USER = 'user_id';
+	const PROPERTY_SORT = 'sort';
 	const PROPERTY_TITLE = 'title';
 	
 	private $id;
@@ -36,7 +37,7 @@ class CourseUserCategory {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_USER, self :: PROPERTY_TITLE);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_USER, self :: PROPERTY_SORT, self :: PROPERTY_TITLE);
 	}
     
     function get_id()
@@ -57,6 +58,16 @@ class CourseUserCategory {
 	function set_user($user)
 	{
 		$this->set_default_property(self :: PROPERTY_USER, $user);
+	}
+	
+    function get_sort()
+    {
+    	return $this->get_default_property(self :: PROPERTY_SORT);
+    }
+	
+	function set_sort($sort)
+	{
+		$this->set_default_property(self :: PROPERTY_SORT, $sort);
 	}
 	
     function get_title()

@@ -805,6 +805,22 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->record_to_course_user_relation($record);
 	}
 	
+	function retrieve_course_user_category_at_sort($user_id, $sort, $direction)
+	{
+		$query = 'SELECT * FROM '. $this->escape_table_name('course_user_category') .' WHERE '.$this->escape_column_name(CourseUserCategory :: PROPERTY_USER).'=?';
+		if ($direction == 'up')
+		{
+			$query .= ' AND '.$this->escape_column_name(CourseUserCategory :: PROPERTY_SORT).'<? ORDER BY '.$this->escape_column_name(CourseUserCategory :: PROPERTY_SORT) . 'DESC';
+		}
+		elseif ($direction == 'down')
+		{
+			$query .= ' AND '.$this->escape_column_name(CourseUserCategory :: PROPERTY_SORT).'>? ORDER BY '.$this->escape_column_name(CourseUserCategory :: PROPERTY_SORT) . 'ASC';
+		}
+		$res = $this->limitQuery($query, 1, null, array ($user_id, $sort));
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		return $this->record_to_course_user_category($record);
+	}
+	
 	function retrieve_user_courses($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('course');
@@ -1206,7 +1222,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return new DatabaseCourseUserCategoryResultSet($this, $res);
 	}
 	
-	function retrieve_course_user_category ($course_user_category_id)
+	function retrieve_course_user_category ($course_user_category_id, $user_id = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('course_user_category') .' WHERE '. $this->escape_column_name(CourseUserCategory :: PROPERTY_USER) . '=? AND '. $this->escape_column_name(CourseUserCategory :: PROPERTY_ID) . '=?';
 		$statement = $this->connection->prepare($query);
