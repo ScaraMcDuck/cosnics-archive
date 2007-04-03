@@ -98,7 +98,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 	
 	private static function is_user_column($name)
 	{
-		return User :: is_default_property_name($name) || $name == User :: PROPERTY_TYPE || $name == USerObject :: PROPERTY_DISPLAY_ORDER_INDEX || $name == LearningObject :: PROPERTY_ID;
+		return User :: is_default_property_name($name); //|| $name == User :: PROPERTY_TYPE || $name == User :: PROPERTY_DISPLAY_ORDER_INDEX || $name == User :: PROPERTY_USER_ID;
 	}
 	
 	// Inherited.
@@ -119,23 +119,23 @@ class DatabaseUsersDataManager extends UsersDataManager
 	// Inherited.
 	function delete_user($user)
 	{
-		if( !$this->user_deletion_allowed($user))
+		if(!$this->user_deletion_allowed($user))
 		{
 			return false;
 		}
 
+		// TODO: call delete_learning_object_by_user($user_id) in repdatamngr
+		
 		// Delete the user from the database
 		$query = 'DELETE FROM '.$this->escape_table_name('user').' WHERE '.$this->escape_column_name('user_id').'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute(array($user->get_id(), $user->get_id()));
-
-		// TODO: remove the user his objects from the repository DB
 		
 		return true;
 	}
 	
 	// Inherited.
-	function create_user($object)
+	function create_user($user)
 	{
 		$props = array();
 		foreach ($user->get_default_properties() as $key => $value)

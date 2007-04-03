@@ -5,6 +5,8 @@
  */
 require_once dirname(__FILE__).'/configuration.class.php';
 require_once dirname(__FILE__).'/learningobjectpublicationattributes.class.php';
+require_once dirname(__FILE__).'/data_manager/database/databaselearningobjectresultset.class.php';
+
 /**
  *	This is a skeleton for a data manager for the learning object repository.
  *	Data managers must extend this class and implement its abstract methods.
@@ -100,7 +102,7 @@ abstract class RepositoryDataManager
 		}
 		return $master_types;
 	}
-
+	
 	/**
 	 * Is the learning object attached to another one ?
 	 * @param LearningObject The learning object.
@@ -518,6 +520,37 @@ abstract class RepositoryDataManager
 	 *                 is in use.
 	 */
 	abstract function delete_learning_object_version($object);
+
+
+	/**
+	 * Gets all learning objects from this user id, and removes them
+	 */
+	abstract function retrieve_learning_object_by_user($user_id);
+
+	/**
+	 * Deletes all learning objects a user_id has:
+	 * Retrieves the learning object(s) a user has made, 
+	 * deletes the publications made with these object(s),
+	 * and finally, deletes the object itself.
+	 */
+	function delete_learning_object_by_user($user_id)
+	{
+		$learning_object = $this->retrieve_learning_object_by_user($user_id);
+		while ($object = $learning_object->next_result())
+		{
+			if (!$this->delete_learning_object_publications($object))
+			{
+				return false;
+			}
+			if (!$object->delete())
+			{
+				return false;
+			}
+			$this->delete_learning_object_publications($object);
+			$object->delete();
+		}
+		return true;
+	}
 
 	function delete_learning_object_publications($object)
 	{

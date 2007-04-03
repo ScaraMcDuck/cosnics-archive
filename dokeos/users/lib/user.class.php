@@ -50,6 +50,7 @@ class User
 	const PROPERTY_AUTH_SOURCE = 'auth_source';
 	const PROPERTY_EMAIL = 'email';
 	const PROPERTY_STATUS = 'status';
+	const PROPERTY_PLATFORMADMIN = 'admin';
 	const PROPERTY_PHONE = 'phone';
 	const PROPERTY_OFFICIAL_CODE = 'official_code';
 	const PROPERTY_PICTURE_URI = 'picture_uri';
@@ -79,6 +80,18 @@ class User
 	 * array.
 	 */
 	private $defaultProperties;
+
+	function update() 
+	{
+//		$wdm = WeblcmsDataManager :: get_instance();
+//		$success = $wdm->update_course($this);
+//		if (!$success)
+//		{
+//			return false;
+//		}
+//
+//		return true;	
+	}
 
 	/**
 	 * Creates a new user object.
@@ -212,6 +225,11 @@ class User
 	function get_status()
 	{
 		return $this->get_default_property(self :: PROPERTY_STATUS);
+	}
+	
+	function get_platformadmin()
+	{
+		return $this->get_default_property(self :: PROPERTY_PLATFORMADMIN);
 	}
 	
 	/**
@@ -421,6 +439,11 @@ class User
 	function set_status($status)
 	{
 		$this->set_default_property(self :: PROPERTY_STATUS, $status);
+	}
+	
+	function set_platformadmin($admin)
+	{
+		$this->set_default_property(self :: PROPERTY_PLATFORMADMIN, $admin);
 	}
 	
 	/**
