@@ -26,7 +26,10 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 				$this->add_course_user_category();
 				break;
 			case 'move':
-				$this->move_course_list();
+				$this->move_course_list('');
+				break;
+			case 'movecat':
+				$this->move_category_list();
 				break;
 			case 'assign':
 				$this->assign_course_category();
@@ -51,6 +54,22 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		{
 			$success = $this->move_course($course, $direction);
 			$this->redirect(null, get_lang($success ? 'CourseUserMoved' : 'CourseUserNotMoved'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => Weblcms :: ACTION_MANAGER_SORT));
+		}
+		else
+		{
+			$this->show_course_list();
+		}
+	}
+	
+	function move_category_list()
+	{
+		$direction = $_GET[Weblcms :: PARAM_DIRECTION];
+		$category = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
+		
+		if (isset($direction) && isset($category))
+		{
+			$success = $this->move_category($category, $direction);
+			$this->redirect(null, get_lang($success ? 'CourseUserCategoryMoved' : 'CourseUserCategoryNotMoved'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => Weblcms :: ACTION_MANAGER_SORT));
 		}
 		else
 		{
@@ -96,6 +115,33 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		}
 		
 		if ($move_courseuserrelation->update() && $next_courseuserrelation->update())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	function move_category($courseusercategory, $direction)
+	{
+		$move_category = $this->retrieve_course_user_category($courseusercategory, api_get_user_id());
+		$sort = $move_category->get_sort();
+		$next_category = $this->retrieve_course_user_category_at_sort(api_get_user_id(), $sort, $direction);
+		
+		if ($direction == 'up')
+		{
+			$move_category->set_sort($sort-1);
+			$next_category->set_sort($sort);
+		}
+		elseif($direction == 'down')
+		{
+			$move_category->set_sort($sort+1);
+			$next_category->set_sort($sort);
+		}
+		
+		if ($move_category->update() && $next_category->update())
 		{
 			return true;
 		}
@@ -185,19 +231,21 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		
 		echo $this->get_sort_modification_links();
 		
-		$course_categories = $this->retrieve_course_user_categories($this->get_user_id());
+		$course_categories = $this->retrieve_course_user_categories(null, null, array(CourseUserCategory :: PROPERTY_SORT), array(SORT_ASC));
 		$courses = $this->retrieve_courses($this->get_user_id(), 0);
 		echo $this->display_course_digest($courses);
 		
+		$cat_key = 0;
 		while ($course_category = $course_categories->next_result())
 		{
 			$courses = $this->retrieve_courses($this->get_user_id(), $course_category->get_id());
-			echo $this->display_course_digest($courses, $course_category);
+			echo $this->display_course_digest($courses, $course_category, $cat_key, $course_categories->size());
+			$cat_key++;
 		}
 		
 	}
 	
-	function display_course_digest($courses, $course_category = null)
+	function display_course_digest($courses, $course_category = null, $cat_key = null, $cat_count = null)
 	{
 		$html = array();
 		
@@ -205,10 +253,10 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		{
 			$html[] = '<div class="user_course_category">';
 			$html[] = '<div class="title">';
-			$html[] = htmlentities($course_category->get_title());
+			$html[] = htmlentities($course_category->get_title()) . $course_category->get_sort();
 			$html[] = '</div>';
 			$html[] = '<div class="options">';
-			$html[] = $this->get_category_modification_links($course_category);
+			$html[] = $this->get_category_modification_links($course_category, $cat_key, $cat_count);
 			$html[] = '</div>';
 			$html[] = '<div style="clear:both;"></div>';
 			$html[] = '</div>';
@@ -277,9 +325,41 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
 	
-	function get_category_modification_links($courseusercategory)
+	function get_category_modification_links($courseusercategory, $key, $total)
 	{
 		$toolbar_data = array();
+		
+		if ($key > 0 && $total > 1)
+		{
+			$toolbar_data[] = array(
+				'href' => $this->get_course_user_category_move_url($courseusercategory, 'up'),
+				'label' => get_lang('Up'),
+				'img' => $this->get_web_code_path().'img/up.gif'
+			);
+		}
+		else
+		{
+			$toolbar_data[] = array(
+				'label' => get_lang('Up'),
+				'img' => $this->get_web_code_path().'img/up_na.gif'
+			);
+		}
+		
+		if ($key < ($total - 1) && $total > 1)
+		{
+			$toolbar_data[] = array(
+				'href' => $this->get_course_user_category_move_url($courseusercategory, 'down'),
+				'label' => get_lang('Down'),
+				'img' => $this->get_web_code_path().'img/down.gif'
+			);
+		}
+		else
+		{
+			$toolbar_data[] = array(
+				'label' => get_lang('Up'),
+				'img' => $this->get_web_code_path().'img/down_na.gif'
+			);
+		}
 		
 		$toolbar_data[] = array(
 			'href' => $this->get_course_user_category_edit_url($courseusercategory),
