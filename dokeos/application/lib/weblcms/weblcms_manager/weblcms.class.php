@@ -40,7 +40,7 @@ class Weblcms extends WebApplication
 	const ACTION_VIEW_WEBLCMS_HOME = 'home';
 	const ACTION_VIEW_COURSE = 'courseviewer';
 	const ACTION_CREATE_COURSE = 'coursecreator';
-	
+	const ACTION_IMPORT_COURSES = 'courseimporter';
 	const ACTION_MANAGER_SORT = 'sort';
 	const ACTION_MANAGER_SUBSCRIBE = 'subscribe';
 	const ACTION_MANAGER_UNSUBSCRIBE = 'unsubscribe';
@@ -94,6 +94,9 @@ class Weblcms extends WebApplication
 				break;
 			case self :: ACTION_CREATE_COURSE :
 				$component = WeblcmsComponent :: factory('CourseCreator', $this);
+				break;
+			case self :: ACTION_IMPORT_COURSES :
+				$component = WeblcmsComponent :: factory('CourseImporter', $this);
 				break;
 			case self :: ACTION_MANAGER_SUBSCRIBE :
 				$component = WeblcmsComponent :: factory('Subscribe', $this);

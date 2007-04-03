@@ -42,6 +42,16 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		$html = array();
 		$html[] = '<div class="menu">';
 		
+		if (api_is_platform_admin())
+		{
+			$html[] = '<div class="menusection">';
+			$html[] = '<span class="menusectioncaption">'.get_lang('MenuAdmin').'</span>';
+			$html[] = '<ul class="menulist">';
+			$html[] = $this->display_platform_admin_course_list_links();
+			$html[] = '</ul>';
+			$html[] = '</div>';
+		}
+		
 		$display_add_course_link = api_is_allowed_to_create_course() && ($_SESSION["studentview"] != "studentenview");
 		if ($display_add_course_link)
 		{
@@ -81,7 +91,7 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 	
 	function display_create_course_link()
 	{
-		return '<li><a href="'. $this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.get_lang('CourseCreate').'</a></li>';
+		return '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.get_lang('CourseCreate').'</a></li>';
 	}
 	function display_edit_course_list_links()
 	{
@@ -89,6 +99,19 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_SORT)).'">'.get_lang('SortMyCourses').'</a></li>';
 		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_SUBSCRIBE)).'">'.get_lang('SubscribeToCourse').'</a></li>';
 		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_UNSUBSCRIBE)).'">'.get_lang('UnsubscribeFromCourse').'</a></li>';
+		
+		return implode($html, "\n");
+	}
+	
+	function display_platform_admin_course_list_links()
+	{
+		$html = array();
+		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.get_lang('CourseCreate').'</a></li>';
+		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSES)) .'">'.get_lang('CourseCreateCsv').'</a></li>';
+		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.get_lang('CourseCategoryManage').'</a></li>';
+		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.get_lang('AddUserToCourse').'</a></li>';
+		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.get_lang('AddUserToCourseCsv').'</a></li>';
+		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.get_lang('CourseList').'</a></li>';
 		
 		return implode($html, "\n");
 	}
