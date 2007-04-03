@@ -1036,6 +1036,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$props[CourseUserCategory :: PROPERTY_ID] = $courseusercategory->get_id();
+		
+		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, api_get_user_id());
+		$sort = $this->retrieve_max_sort_value('course_user_category', CourseUserCategory :: PROPERTY_SORT, $condition);
+		
+		$props[CourseUserCategory :: PROPERTY_SORT] = $sort+1;
+		
 		$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('course_user_category'), $props, MDB2_AUTOQUERY_INSERT))
 		{
