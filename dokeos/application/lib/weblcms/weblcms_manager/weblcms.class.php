@@ -309,7 +309,7 @@ class Weblcms extends WebApplication
 		}
 		else
 		{
-			if ($course && is_object($course))
+			if ($course && is_object($this->course))
 			{
 				echo '<h3>'.htmlentities($this->course->get_name()).'</h3>';
 			}
