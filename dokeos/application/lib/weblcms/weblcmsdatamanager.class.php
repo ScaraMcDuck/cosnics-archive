@@ -210,11 +210,15 @@ abstract class WeblcmsDataManager
 		}
 	}
 	
-	abstract function subscribe_user_to_course($course, $status, $tutor_id);
+	abstract function subscribe_user_to_course($course, $status, $tutor_id, $user_id);
 	
 	abstract function unsubscribe_user_from_course($course);
 	
 	abstract function is_subscribed($course);
+	
+	abstract function is_course_category($category_code);
+	
+	abstract function is_course($course_code);
 	
 	/**
 	 * Creates a course user category object in persistent storage.

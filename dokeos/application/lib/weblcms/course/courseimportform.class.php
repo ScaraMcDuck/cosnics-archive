@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../../main/inc/lib/import.lib.php';
+require_once dirname(__FILE__).'/../../../../main/inc/lib/usermanager.lib.php';
 require_once dirname(__FILE__).'/course.class.php';
 require_once dirname(__FILE__).'/coursecategory.class.php';
 
@@ -8,12 +9,13 @@ class CourseImportForm extends FormValidator {
 	
 	const TYPE_IMPORT = 1;
 	
-	private $parent;
+	private $failedcsv;
 
     function CourseImportForm($form_type, $action) {
     	parent :: __construct('course_import', 'post', $action);
     	
 		$this->form_type = $form_type;
+		$this->failedcsv = array();
 		if ($this->form_type == self :: TYPE_IMPORT)
 		{
 			$this->build_importing_form();
@@ -36,17 +38,42 @@ class CourseImportForm extends FormValidator {
     	
     	foreach ($csvcourses as $csvcourse)
     	{
-    		$course = new Course();
-    		
-    		$course->set_id($csvcourse[Course :: PROPERTY_ID]);
-    		$course->set_visual($csvcourse[Course :: PROPERTY_ID]);
-    		$course->set_name($csvcourse[Course :: PROPERTY_NAME]);
-    		$course->set_category_code($csvcourse[Course :: PROPERTY_CATEGORY_CODE]);
-    		$course->set_titular($csvcourse[Course :: PROPERTY_TITULAR]);
-    		
-    		if (!$course->create())
+    		if ($this->validate_data($csvcourse))
+    		{
+    			$teacher_info = $this->get_teacher_info($csvcourse[Course :: PROPERTY_TITULAR]);
+    			
+    			$course = new Course();
+    			
+    			$course->set_id($csvcourse[Course :: PROPERTY_ID]);
+    			$course->set_visual($csvcourse[Course :: PROPERTY_ID]);
+    			$course->set_name($csvcourse[Course :: PROPERTY_NAME]);
+    			$course->set_category_code($csvcourse[Course :: PROPERTY_CATEGORY_CODE]);
+    			$course->set_titular($teacher_info['lastname'] . ' ' . $teacher_info['firstname']);
+    			
+    			if ($course->create())
+    			{
+    				add_course_role_right_location_values($course->get_id());
+    				$wdm = WeblcmsDataManager :: get_instance();
+    				if ($wdm->subscribe_user_to_course($course, '1', '1', $teacher_info['user_id']))
+    				{
+    					
+    				}
+    				else
+    				{
+    					$failures++;
+    					$this->failedcsv[] = implode($csvcourse, ';');
+    				}
+    			}
+    			else
+    			{
+    				$failures++;
+    				$this->failedcsv[] = implode($csvcourse, ';');
+    			}
+    		}
+    		else
     		{
     			$failures++;
+    			$this->failedcsv[] = implode($csvcourse, ';');
     		}
     	}
     	
@@ -58,6 +85,60 @@ class CourseImportForm extends FormValidator {
     	{
     		return true;
     	}
+    }
+    
+    // TODO: Temporary solution pending implementation of user object
+    function get_teacher_info($user_name)
+    {
+    	if (!UserManager :: is_username_available($user_name))
+    	{
+    		return UserManager :: get_user_info($user_name);
+    	}
+    	else
+    	{
+    		return null;
+    	}
+    }
+    
+    function get_failed_csv()
+    {
+    	return implode($this->failedcsv, '<br />');
+    }
+    
+    function validate_data($csvcourse)
+    {
+    	$failures = 0;
+    	$wdm = WeblcmsDataManager :: get_instance();
+    	
+		//1. check if mandatory fields are set
+		
+		//2. check if code isn't in use
+		if (!$wdm->is_course($csvcourse[Course :: PROPERTY_ID]))
+		{
+			$failures++;
+		}
+		
+		//3. check if teacher exists
+		$teacher_info = $this->get_teacher_info($csvcourse[Course :: PROPERTY_TITULAR]);
+		if (!isset($teacher_info))
+		{
+			$failures++;
+		}
+		
+		//4. check if category exists
+		if (!$wdm->is_course_category($csvcourse[Course :: PROPERTY_CATEGORY_CODE]))
+		{
+			$failures++;
+		}
+		
+		if ($failures > 0)
+		{
+			return false;
+		}
+		else
+		{
+    		return true;
+		}
     }
 }
 ?>

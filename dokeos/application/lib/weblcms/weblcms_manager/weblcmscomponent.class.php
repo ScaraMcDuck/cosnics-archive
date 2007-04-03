@@ -309,9 +309,9 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->get_web_code_path();
 	}
 	
-	function subscribe_user_to_course($course, $status, $tutor_id)
+	function subscribe_user_to_course($course, $status, $tutor_id, $user_id)
 	{
-		return $this->get_parent()->subscribe_user_to_course($course, $status, $tutor_id);
+		return $this->get_parent()->subscribe_user_to_course($course, $status, $tutor_id, $user_id);
 	}
 	
 	function unsubscribe_user_from_course($course)
