@@ -905,15 +905,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('course'), $props, MDB2_AUTOQUERY_INSERT))
 		{
-			if ($this->subscribe_user_to_course($course, '5', '1'))
-			{
-				add_course_role_right_location_values($course->get_id());
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			return true;
 		}
 		else
 		{
@@ -923,7 +915,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	
 	function is_subscribed($course)
 	{
-		$query = 'SELECT COUNT('.$this->escape_column_name('course_code').') FROM '.$this->escape_table_name('course_rel_user').' WHERE '.$this->escape_column_name('user_id').'=? AND '.$this->escape_column_name('course_code').'=?';
+		$query = 'SELECT COUNT('.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).') FROM '.$this->escape_table_name('course_rel_user').' WHERE '.$this->escape_column_name(CourseUserRelation :: PROPERTY_USER).'=? AND '.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).'=?';
 		$params = array(api_get_user_id(), $course->get_id());
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
@@ -939,18 +931,52 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 	}
 	
-	function subscribe_user_to_course($course, $status, $tutor_id)
+	function is_course_category($category_code)
+	{
+		$query = 'SELECT COUNT('.$this->escape_column_name(CourseCategory :: PROPERTY_CODE).') FROM '.$this->escape_table_name('course_category').' WHERE '.$this->escape_column_name(CourseCategory :: PROPERTY_CODE).'=?';
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($category_code);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+		if ($record[0] = 1)
+		{
+		  return true;
+		}
+		else
+		{
+		  return false;
+		}
+	}
+	
+	function is_course($course_code)
+	{
+		$query = 'SELECT COUNT('.$this->escape_column_name(Course :: PROPERTY_ID).') FROM '.$this->escape_table_name('course').' WHERE '.$this->escape_column_name(Course :: PROPERTY_ID).'=?';
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($course_code);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+		if ($record[0] = 1)
+		{
+		  return true;
+		}
+		else
+		{
+		  return false;
+		}
+	}
+	
+	function subscribe_user_to_course($course, $status, $tutor_id, $user_id)
 	{
 		$this->connection->loadModule('Extended');
 		
 		$conditions = array();
-		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, api_get_user_id());
+		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
 		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);		
 		$condition = new AndCondition($conditions);
 		
 		$sort = $this->retrieve_max_sort_value('course_rel_user', CourseUserRelation :: PROPERTY_SORT, $condition);
 		
-		$courseuserrelation = new CourseUserRelation($course->get_id(), api_get_user_id());
+		$courseuserrelation = new CourseUserRelation($course->get_id(), $user_id);
 		$courseuserrelation->set_status($status);
 		$courseuserrelation->set_role(null);
 		$courseuserrelation->set_tutor($tutor_id);
@@ -963,7 +989,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$location_id = RolesRights::get_course_location_id($course->get_id());
 			
 			$user_rel_props = array();
-			$user_rel_props['user_id'] = api_get_user_id();
+			$user_rel_props['user_id'] = $user_id;
 			$user_rel_props['role_id'] = $role_id;
 			$user_rel_props['location_id'] = $location_id;
 			

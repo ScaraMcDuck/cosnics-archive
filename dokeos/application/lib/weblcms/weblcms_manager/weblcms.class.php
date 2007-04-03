@@ -142,7 +142,7 @@ class Weblcms extends WebApplication
 	{
 		if ($action == self :: ACTION_VIEW_WEBLCMS_HOME)
 		{
-			$this->set_parameter('tool', null);
+			$this->set_parameter(self :: PARAM_TOOL, null);
 			$action = null;
 		}
 		return parent :: redirect($action, $message, $error_message, $extra_params);
@@ -668,10 +668,10 @@ class Weblcms extends WebApplication
 		return $wdm->is_subscribed($course);		
 	}
 	
-	function subscribe_user_to_course($course, $status, $tutor_id)
+	function subscribe_user_to_course($course, $status, $tutor_id, $user_id)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		return $wdm->subscribe_user_to_course($course, $status, $tutor_id);
+		return $wdm->subscribe_user_to_course($course, $status, $tutor_id, $user_id);
 	}
 	
 	function unsubscribe_user_from_course($course)

@@ -34,7 +34,7 @@ class WeblcmsCourseImporterComponent extends WeblcmsComponent
 		if($form->validate())
 		{
 			$success = $form->import_courses();
-			$this->redirect(Weblcms :: ACTION_VIEW_WEBLCMS_HOME, get_lang($success ? 'CourseCreatedCsv' : 'CourseNotCreatedCsv'), ($success ? false : true));
+			$this->redirect(null, get_lang($success ? 'CourseCreatedCsv' : 'CourseNotCreatedCsv'). '<br />' .$form->get_failed_csv(), ($success ? false : true));
 		}
 		else
 		{

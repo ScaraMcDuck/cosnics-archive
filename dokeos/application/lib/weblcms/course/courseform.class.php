@@ -143,7 +143,25 @@ class CourseForm extends FormValidator {
     	$course->set_subscribe_allowed($values[Course :: PROPERTY_SUBSCRIBE_ALLOWED]);
     	$course->set_unsubscribe_allowed($values[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED]);
     	
-    	return $course->create();
+    	if ($course->create())
+    	{
+    		// TODO: Temporary function pending revamped roles&rights system
+    		add_course_role_right_location_values($course->get_id());
+    		
+    		$wdm = WeblcmsDataManager :: get_instance();
+    		if ($wdm->subscribe_user_to_course($course, '1', '1', api_get_user_id()))
+   			{
+   				return true;
+   			}
+   			else
+   			{
+    			return false;
+    		}
+    	}
+    	else
+    	{
+    		return false;
+    	}
     }
     
 	/**
