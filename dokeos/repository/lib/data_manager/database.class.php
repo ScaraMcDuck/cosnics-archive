@@ -352,6 +352,15 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		return true;
 	}
+	
+	//Inherited.
+	function retrieve_learning_object_by_user($user_id)
+	{
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_OWNER_ID).'=?';
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($user_id);
+		return new DatabaseLearningObjectResultSet($this, $res, isset($type));
+	}
 
 	// Inherited.
 	function delete_learning_object($object)

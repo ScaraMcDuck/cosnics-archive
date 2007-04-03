@@ -9,6 +9,7 @@
   <property name="auth_source" type="text" length="50" default="platform"/>
   <property name="email" type="text" length="100"/>
   <property name="status" type="integer" length="1" notnull="1" default="5"/>
+  <property name="admin" type="integer" length="1"/>
   <property name="official_code" type="text" length="40"/>
   <property name="phone" type="text" length="30"/>
   <property name="picture_uri" type="text" length="250"/>
