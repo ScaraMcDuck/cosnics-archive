@@ -148,6 +148,8 @@ abstract class WeblcmsDataManager
 	
 	abstract function count_courses($conditions = null);
 	
+	abstract function count_course_categories($condition = null);
+	
 	abstract function count_user_courses($conditions = null);
 	
 	abstract function count_course_user_categories($conditions = null);
@@ -219,6 +221,8 @@ abstract class WeblcmsDataManager
 	abstract function is_course_category($category_code);
 	
 	abstract function is_course($course_code);
+	
+	abstract function is_course_admin($course, $user_id);
 	
 	/**
 	 * Creates a course user category object in persistent storage.
@@ -409,7 +413,7 @@ abstract class WeblcmsDataManager
 	 * @param string $parent The parent of the course category.
 	 * @return DatabaseCourseCategoryResultSet The resultset of course category.
 	 */
-	abstract function retrieve_course_categories($parent = null);
+	abstract function retrieve_course_categories($conditions = null, $offset = null, $count = null, $orderBy = null, $orderDir = null);
 	
 	/**
 	 * Retrieves the personal course categories for a given user.

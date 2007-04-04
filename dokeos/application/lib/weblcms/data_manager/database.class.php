@@ -267,6 +267,20 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $record[0];
 	}
 	
+	function count_course_categories($condition = null)
+	{
+		$params = array ();
+		$query = 'SELECT COUNT('.$this->escape_column_name(CourseCategory :: PROPERTY_ID).') FROM '.$this->escape_table_name('course_category');
+		if (isset ($condition))
+		{
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+		}
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $record[0];
+	}
+	
 	function count_user_courses($condition = null)
 	{
 		$params = array ();
@@ -965,6 +979,25 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 	}
 	
+	function is_course_admin($course, $user_id)
+	{
+		$query = 'SELECT '.$this->escape_column_name(CourseUserRelation :: PROPERTY_STATUS).' FROM '.$this->escape_table_name('course_rel_user').' WHERE '.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).'=? AND '.$this->escape_column_name(CourseUserRelation :: PROPERTY_USER).'=?';
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute(array($course->get_id(), $user_id));
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+		if ($record[0] == 1)
+		{
+		  return true;
+		  echo '1';
+		}
+		else
+		{
+		  return false;
+		  echo '0';
+		}
+	}
+	
 	function subscribe_user_to_course($course, $status, $tutor_id, $user_id)
 	{
 		$this->connection->loadModule('Extended');
@@ -1198,15 +1231,36 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->record_to_course_category($record);
 	}
 	
-	function retrieve_course_categories($parent = null)
+	function retrieve_course_categories($conditions = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('course_category');
-		if (isset($parent))
+		$params = array ();
+		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->escape_column_name(CourseCategory :: PROPERTY_PARENT).'=?';
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
 		}
+		/*
+		 * Always respect display order as a last resort.
+		 */
+		$orderBy[] = CourseCategory :: PROPERTY_NAME;
+		$orderDir[] = SORT_ASC;
+		$order = array ();
+		
+		for ($i = 0; $i < count($orderBy); $i ++)
+		{
+			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+		}
+		if (count($order))
+		{
+			$query .= ' ORDER BY '.implode(', ', $order);
+		}
+		if ($maxObjects < 0)
+		{
+			$maxObjects = null;
+		}
+		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
-		$res = $statement->execute($parent);
+		$res = $statement->execute($params);
 		return new DatabaseCourseCategoryResultSet($this, $res);
 	}
 	

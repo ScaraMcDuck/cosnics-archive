@@ -34,6 +34,11 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->count_courses($conditions);
 	}
 	
+	function count_course_categories($conditions = null)
+	{
+		return $this->get_parent()->count_course_categories($conditions);
+	}
+	
 	function count_user_courses($conditions = null)
 	{
 		return $this->get_parent()->count_user_courses($conditions);
@@ -189,9 +194,9 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->count_publication_attributes($type, $condition);
 	}
 	
-	function retrieve_course_categories($parent = null)
+	function retrieve_course_categories($conditions = null, $offset = null, $count = null, $orderBy = null, $orderDir = null)
 	{
-		return $this->get_parent()->retrieve_course_categories($parent);
+		return $this->get_parent()->retrieve_course_categories($conditions, $offset, $count, $orderBy, $orderDir);
 	}
 	
 	function retrieve_course_user_categories ($offset = null, $count = null, $order_property = null, $order_direction = null)

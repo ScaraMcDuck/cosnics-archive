@@ -12,6 +12,14 @@ class CourseSettingsTool extends Tool
 {
 	function run()
 	{
+		if (!$this->get_course()->is_course_admin())
+		{
+			$this->display_header();
+			Display :: display_error_message(get_lang("NotAllowed"));
+			$this->display_footer();
+			exit;
+		}
+		
 		$form = new CourseForm(CourseForm :: TYPE_EDIT, $this->get_parent()->get_course(), $this->get_url());
 		
 		if($form->validate())
