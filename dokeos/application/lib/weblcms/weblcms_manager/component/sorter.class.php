@@ -26,7 +26,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 				$this->add_course_user_category();
 				break;
 			case 'move':
-				$this->move_course_list('');
+				$this->move_course_list();
 				break;
 			case 'movecat':
 				$this->move_category_list();

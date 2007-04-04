@@ -51,14 +51,14 @@ class CourseCategoryBrowserTableCellRenderer extends DefaultCourseCategoryTableC
 		
 		$toolbar_data[] = array(
 			'href' => 'echo',
-			'label' => get_lang('Update'),
+			'label' => get_lang('Edit'),
 			'confirm' => true,
 			'img' => $this->browser->get_web_code_path().'img/edit.gif'
 		);
 		
 		$toolbar_data[] = array(
 			'href' => 'echo',
-			'label' => get_lang('Update'),
+			'label' => get_lang('Delete'),
 			'confirm' => true,
 			'img' => $this->browser->get_web_code_path().'img/delete.gif'
 		);

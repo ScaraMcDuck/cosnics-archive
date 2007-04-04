@@ -12,6 +12,8 @@ require_once dirname(__FILE__).'/../../../../main/inc/lib/groupmanager.lib.php';
 require_once dirname(__FILE__).'/../tool/tool.class.php';
 require_once dirname(__FILE__).'/../toollistrenderer.class.php';
 require_once dirname(__FILE__).'/../course/course.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/condition/orcondition.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/condition/equalitycondition.class.php';
 
 /**
 ==============================================================================
