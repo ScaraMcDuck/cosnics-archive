@@ -143,5 +143,48 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$this->connection->extended->autoExecute($this->get_table_name('user'), $props, MDB2_AUTOQUERY_INSERT);
 		return true;
 	}
+	
+	function create_storage_unit($name,$properties,$indexes)
+	{
+		$name = $this->get_table_name($name);
+		$this->connection->loadModule('Manager');
+		$manager = $this->connection->manager;
+		// If table allready exists -> drop it
+		// @todo This should change: no automatic table drop but warning to user
+		$tables = $manager->listTables();
+		if( in_array($name,$tables))
+		{
+			$manager->dropTable($name);
+		}
+		$options['charset'] = 'utf8';
+		$options['collate'] = 'utf8_unicode_ci';
+		$manager->createTable($name,$properties,$options);
+		foreach($indexes as $index_name => $index_info)
+		{
+			if($index_info['type'] == 'primary')
+			{
+				$index_info['primary'] = 1;
+				$manager->createConstraint($name,$index_name,$index_info);
+			}
+			else
+			{
+				$manager->createIndex($name,$index_name,$index_info);
+			}
+		}
+
+	}
+	
+	/**
+	 * Expands a table identifier to the real table name. Currently, this
+	 * method prefixes the given table name with the user-defined prefix, if
+	 * any.
+	 * @param string $name The table identifier.
+	 * @return string The actual table name.
+	 */
+	function get_table_name($name)
+	{
+		global $user_database;
+		return $user_database.'.'.$this->prefix.$name;
+	}
 }
 ?>

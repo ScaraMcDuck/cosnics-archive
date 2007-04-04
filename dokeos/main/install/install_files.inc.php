@@ -68,6 +68,13 @@ function full_file_install($values)
 	require_once('../../repository/install/repository_installer.class.php');
 	$installer = new RepositoryInstaller();
 	$installer->install();
+	
+	//-----------------------------------------------------------
+	// Personal calendar Install.
+	//-----------------------------------------------------------
+	require_once('../../application/lib/personal_calendar/install/personal_calendar_installer.class.php');
+	$installer = new PersonalCalendarInstaller();
+	$installer->install();
 
 	//-----------------------------------------------------------
 	// Weblcms Install.
@@ -75,12 +82,12 @@ function full_file_install($values)
 	require_once('../../application/lib/weblcms/install/weblcms_installer.class.php');
 	$installer = new WeblcmsInstaller();
 	$installer->install();
-
+	
 	//-----------------------------------------------------------
-	// Personal calendar Install.
+	// Users extra tables install.
 	//-----------------------------------------------------------
-	require_once('../../application/lib/personal_calendar/install/personal_calendar_installer.class.php');
-	$installer = new PersonalCalendarInstaller();
+	require_once('../../users/install/users_installer.class.php');
+	$installer = new UsersInstaller();
 	$installer->install();
 
 	echo "<p>File creation is complete!</p>";
