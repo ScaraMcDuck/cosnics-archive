@@ -3,15 +3,11 @@
  * $Id: repositorydatamanager.class.php 11718 2007-03-27 09:52:32Z Scara84 $
  * @package repository
  */
-require_once dirname(__FILE__).'/configuration.class.php';
-//require_once dirname(__FILE__).'/learningobjectpublicationattributes.class.php';
+require_once dirname(__FILE__).'/../repository/lib/configuration.class.php';
+require_once dirname(__FILE__).'/../repository/repositorymanager.class.php';
 /**
- *	This is a skeleton for a data manager for the learning object repository.
+ *	This is a skeleton for a data manager for the Users table.
  *	Data managers must extend this class and implement its abstract methods.
- *	If the user configuration dictates that the "database" data manager is to
- *	be used, this class will automatically attempt to instantiate
- *	"DatabaseRepositoryDataManager"; hence, this naming convention must be
- *	respected for all extensions of this class.
  *
  *	@author Hans De Bisschop
  *	@author Dieter De Neef
