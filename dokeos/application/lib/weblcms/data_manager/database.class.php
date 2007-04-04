@@ -1231,7 +1231,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->record_to_course_category($record);
 	}
 	
-	function retrieve_course_categories($conditions = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_course_categories($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('course_category');
 		$params = array ();
@@ -1239,6 +1239,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
 		}
+		
 		/*
 		 * Always respect display order as a last resort.
 		 */

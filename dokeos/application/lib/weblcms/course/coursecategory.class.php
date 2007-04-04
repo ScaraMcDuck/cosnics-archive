@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
 
 class CourseCategory {
 
@@ -10,7 +11,6 @@ class CourseCategory {
 	const PROPERTY_CHILDREN_COUNT = 'children_count';
 	const PROPERTY_AUTH_COURSE_CHILD = 'auth_course_child';
 	const PROPERTY_AUTH_CAT_CHILD = 'auth_cat_child';
-	
 	
 	private $id;
 	private $defaultProperties;
