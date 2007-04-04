@@ -54,6 +54,7 @@ function full_file_install($values)
 	$content = file_get_contents('../../repository/conf/configuration.dist.php');
 	$config['{DATABASE_HOST}'] = $values['database_host'];
 	$config['{DATABASE_USER}'] = $values['database_username'];
+	$config['{DATABASE_USERDB}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_user"]);
 	$config['{DATABASE_PASSWORD}'] = $values['database_password'];
 	$config['{DATABASE_REPOSITORY}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_repository"]);
 	$config['{DATABASE_WEBLCMS}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_weblcms"]);

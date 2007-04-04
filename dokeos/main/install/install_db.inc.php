@@ -147,11 +147,15 @@ function full_database_install($values)
 	$mysqlRepositorySys=mysql_fetch_array($result);
 	$mysqlRepositorySys=$mysqlRepositorySys['Value'];
 	
-	include("../lang/english/create_course.inc.php");
+	//include("../lang/english/create_course.inc.php");
 	
-	if($languageForm != 'english')
+	if($languageForm != 'english' && file_exists("../lang/$languageForm/create_course.inc.php"))
 	{
 		include("../lang/$languageForm/create_course.inc.php");
+	}
+	else 
+	{
+		include("../lang/english/create_course.inc.php");
 	}
 
 	create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database, $repository_database, $weblcms_database);
@@ -159,7 +163,6 @@ function full_database_install($values)
 	create_tracking_database_tables($statistics_database);
 	create_scorm_database_tables($scorm_database);
 	create_user_database_tables($user_database);
-	//create_repository_database_tables($repository_database);
 	
 	echo "<p>Database creation is complete!</p>";
 }

@@ -72,7 +72,9 @@ $user_personal_database = '{DATABASE_PERSONAL}';
 // object repository database
 $repository_database    = '{DATABASE_REPOSITORY}';
 // weblcms database
-$weblcms_database    = '{DATABASE_WEBLCMS}';
+$weblcms_database    	= '{DATABASE_WEBLCMS}';
+// users database
+$user_database			= '{DATABASE_USERDB}';
 
 //============================================================================
 //   Directory settings
