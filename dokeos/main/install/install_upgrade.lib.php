@@ -236,7 +236,7 @@ function write_dokeos_config_file($path, $values)
 	$config['{DATABASE_MAIN}'] = $values["database_main_db"];
 	$config['{DATABASE_STATS}'] = ($is_single_database ? $values["database_main_db"] : $values["database_tracking"]);
 	$config['{DATABASE_SCORM}'] = ($is_single_database ? $values["database_main_db"] : $values["database_scorm"]);
-	$config['{DATABASE_PERSONAL}'] = ($is_single_database ? $values["database_main_db"] : $values["database_user"]);
+	$config['{DATABASE_USERDB}'] = ($is_single_database ? $values["database_main_db"] : $values["database_user"]);
 	$config['{DATABASE_REPOSITORY}'] = ($is_single_database ? $values["database_main_db"] : $values["database_repository"]);
 	$config['{DATABASE_WEBLCMS}'] = ($is_single_database ? $values["database_main_db"] : $values["database_weblcms"]);
 	$config['{ROOT_WEB}'] = $values['platform_url'];
