@@ -3,8 +3,8 @@
  * $Id: repositorydatamanager.class.php 11718 2007-03-27 09:52:32Z Scara84 $
  * @package repository
  */
-require_once dirname(__FILE__).'/../repository/lib/configuration.class.php';
-require_once dirname(__FILE__).'/../repository/repositorymanager.class.php';
+require_once dirname(__FILE__).'/../../repository/lib/configuration.class.php';
+require_once dirname(__FILE__).'/../../repository/lib/repositorydatamanager.class.php';
 /**
  *	This is a skeleton for a data manager for the Users table.
  *	Data managers must extend this class and implement its abstract methods.
@@ -37,10 +37,6 @@ abstract class UsersDataManager
 	protected function UsersDataManager()
 	{
 		$this->initialize();
-		$this->typeProperties = array ();
-		$this->load_types();
-		$this->applications = array();
-		$this->load_applications();
 	}
 	
 	/**
@@ -85,6 +81,15 @@ abstract class UsersDataManager
 	 * @return boolean True if creation succceeded, false otherwise.
 	 */
 	abstract function create_user($user);
+	
+	/**
+	 * Creates a storage unit
+	 * @param string $name Name of the storage unit
+	 * @param array $properties Properties of the storage unit
+	 * @param array $indexes The indexes which should be defined in the created
+	 * storage unit
+	 */
+	abstract function create_storage_unit($name,$properties,$indexes);
 	
 	function user_deletion_allowed($user)
 	{
