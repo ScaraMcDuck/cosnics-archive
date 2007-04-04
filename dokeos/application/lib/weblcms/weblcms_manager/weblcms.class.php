@@ -520,6 +520,11 @@ class Weblcms extends WebApplication
 		return WeblcmsDataManager :: get_instance()->retrieve_course($course_code);
 	}
 	
+	function retrieve_course_category($course_category_code)
+	{
+		return WeblcmsDataManager :: get_instance()->retrieve_course_category($course_category_code);
+	}
+	
 	function retrieve_course_user_relation($course_code, $user_id)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_user_relation($course_code, $user_id);
@@ -649,6 +654,21 @@ class Weblcms extends WebApplication
 	function get_course_user_category_delete_url($course_user_category)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT , self :: PARAM_COMPONENT_ACTION => 'delete', self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id()));
+	}
+	
+	function get_course_category_edit_url($coursecategory)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_COURSE_CATEGORY_MANAGER , self :: PARAM_COMPONENT_ACTION => 'edit', self :: PARAM_COURSE_CATEGORY_ID => $coursecategory->get_code()));
+	}
+	
+	function get_course_category_add_url()
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_COURSE_CATEGORY_MANAGER , self :: PARAM_COMPONENT_ACTION => 'add'));
+	}
+	
+	function get_course_category_delete_url($coursecategory)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_COURSE_CATEGORY_MANAGER , self :: PARAM_COMPONENT_ACTION => 'delete', self :: PARAM_COURSE_CATEGORY_ID => $coursecategory->get_code()));
 	}
 	
 	function get_course_user_edit_url($course_user)

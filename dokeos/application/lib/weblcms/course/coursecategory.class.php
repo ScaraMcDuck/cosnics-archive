@@ -124,5 +124,23 @@ class CourseCategory {
 	{
 		$this->set_default_property(self :: PROPERTY_AUTH_CAT_CHILD, $auth_cat_child);
 	}
+	
+	function create()
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->create_course_category($this);
+	}
+	
+	function update()
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->update_course_category($this);
+	}
+	
+	function delete()
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->delete_course_category($this);
+	}
 }
 ?>

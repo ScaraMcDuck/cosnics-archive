@@ -167,6 +167,8 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function create_course($course);
 	
+	abstract function create_course_category($coursecategory);
+	
 	function course_subscription_allowed($course)
 	{
 		$already_subscribed = $this->is_subscribed($course);
@@ -362,6 +364,8 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function update_course($course);
 	
+	abstract function update_course_category($coursecategory);
+	
 	/**
 	 * Updates the specified course user category in persistent storage,
 	 * making any changes permanent.
@@ -377,6 +381,8 @@ abstract class WeblcmsDataManager
 	 * @param string $course_code The course code
 	 */
 	abstract function delete_course($course_code);
+	
+	abstract function delete_course_category($course_category);
 
 	/**
 	 * Sets the visibility of a course module.

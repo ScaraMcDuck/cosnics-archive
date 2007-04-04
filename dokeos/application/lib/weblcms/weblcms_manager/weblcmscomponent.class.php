@@ -219,6 +219,11 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->retrieve_course($course_code);
 	}
 	
+	function retrieve_course_category($course_category_code)
+	{
+		return $this->get_parent()->retrieve_course_category($course_category_code);
+	}
+	
 	function retrieve_course_user_relation($course_code, $user_id)
 	{
 		return $this->get_parent()->retrieve_course_user_relation($course_code, $user_id);
@@ -302,6 +307,21 @@ abstract class WeblcmsComponent {
 	function get_course_user_category_delete_url($course_user_category)
 	{
 		return $this->get_parent()->get_course_user_category_delete_url($course_user_category);
+	}
+
+	function get_course_category_edit_url($coursecategory)
+	{
+		return $this->get_parent()->get_course_category_edit_url($coursecategory);
+	}
+	
+	function get_course_category_add_url()
+	{
+		return $this->get_parent()->get_course_category_add_url();
+	}
+	
+	function get_course_category_delete_url($coursecategory)
+	{
+		return $this->get_parent()->get_course_category_delete_url($coursecategory);
 	}
 
 	function is_subscribed($course)

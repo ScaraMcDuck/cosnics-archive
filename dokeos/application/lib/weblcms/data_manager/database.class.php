@@ -1087,6 +1087,25 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 	}
 	
+	function create_course_category($coursecategory)
+	{
+		$props = array();
+		foreach ($coursecategory->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+				
+		$this->connection->loadModule('Extended');
+		if ($this->connection->extended->autoExecute($this->get_table_name('course_category'), $props, MDB2_AUTOQUERY_INSERT))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	function create_course_user_category($courseusercategory)
 	{
 		$props = array();
@@ -1135,6 +1154,38 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 	}
 	
+	function delete_course_category($coursecategory)
+	{
+		$query = 'DELETE FROM '.$this->escape_table_name('course_category').' WHERE '.$this->escape_column_name(CourseCategory :: PROPERTY_ID).'=?';
+		$statement = $this->connection->prepare($query);
+		if ($statement->execute($coursecategory->get_id()))
+		{
+			$query = 'UPDATE '.$this->escape_table_name('course_category').' SET '.$this->escape_column_name(CourseCategory :: PROPERTY_PARENT).'="'. $coursecategory->get_parent() .'" WHERE '.$this->escape_column_name(CourseCategory :: PROPERTY_PARENT).'=?';
+			$statement = $this->connection->prepare($query);
+			if ($statement->execute(array($coursecategory->get_id())))
+			{
+				$query = 'UPDATE '.$this->escape_table_name('course').' SET '.$this->escape_column_name(Course :: PROPERTY_CATEGORY_CODE).'="" WHERE '.$this->escape_column_name(Course :: PROPERTY_CATEGORY_CODE).'=?';
+				$statement = $this->connection->prepare($query);
+				if ($statement->execute(array($coursecategory->get_code())))
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	function update_course($course)
 	{
 		$where = $this->escape_column_name(Course :: PROPERTY_ID).'="'. $course->get_id().'"';
@@ -1147,6 +1198,21 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->connection->extended->autoExecute($this->escape_table_name('course'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 		return true;
 	}
+	
+	function update_course_category($coursecategory)
+	{
+		$where = $this->escape_column_name(CourseCategory :: PROPERTY_ID).'='. $coursecategory->get_id();
+		$props = array();
+		
+		foreach ($coursecategory->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->escape_table_name('course_category'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+		return true;
+	}
+	
 	function update_course_user_category($courseusercategory)
 	{
 		$where = $this->escape_column_name(CourseUserCategory :: PROPERTY_ID).'="'. $courseusercategory->get_id().'"';
