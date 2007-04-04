@@ -15,7 +15,6 @@ class CourseCategoryForm extends FormValidator {
     	parent :: __construct('course_category', 'post', $action);
     	
     	$this->coursecategory = $coursecategory;
-    	
 		$this->form_type = $form_type;
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
@@ -36,25 +35,31 @@ class CourseCategoryForm extends FormValidator {
 		
 		$cat_options = array();
 		
-		$condition = new EqualityCondition(CourseCategory :: PROPERTY_AUTH_CAT_CHILD, true);
+		$coursecategory = $this->coursecategory;
+		$conditions = array();
+		$conditions[] = new EqualityCondition(CourseCategory :: PROPERTY_AUTH_CAT_CHILD, true);
+		$conditions[] = new NotCondition(new EqualityCondition(CourseCategory :: PROPERTY_CODE, $coursecategory->get_code()));
+		$condition = new AndCondition($conditions);
+		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$categories = $wdm->retrieve_course_categories($condition);
 		
+		$cat_options['0'] = get_lang('NoCategory');
 		while ($category = $categories->next_result())
 		{
-			$cat_options[$category->get_code()] = $category->get_name();
+			$cat_options[$category->get_id()] = $category->get_name();
 		}
 		
 		$this->addElement('select', CourseCategory :: PROPERTY_PARENT, get_lang('Parent'), $cat_options);
 		
 		$child_allowed = array();
-		$child_allowed[] =& $this->createElement('radio', null, null, get_lang('Yes'), true);
-		$child_allowed[] =& $this->createElement('radio', null, null, get_lang('No'), false);
+		$child_allowed[] =& $this->createElement('radio', null, null, get_lang('Yes'), 1);
+		$child_allowed[] =& $this->createElement('radio', null, null, get_lang('No'), 0);
 		$this->addGroup($child_allowed, CourseCategory :: PROPERTY_AUTH_COURSE_CHILD, get_lang('CourseCategoryChildAllowed'), '<br />');
 		
 		$cat_allowed = array();
-		$cat_allowed[] =& $this->createElement('radio', null, null, get_lang('Yes'), true);
-		$cat_allowed[] =& $this->createElement('radio', null, null, get_lang('No'), false);
+		$cat_allowed[] =& $this->createElement('radio', null, null, get_lang('Yes'), 1);
+		$cat_allowed[] =& $this->createElement('radio', null, null, get_lang('No'), 0);
 		$this->addGroup($cat_allowed, CourseCategory :: PROPERTY_AUTH_CAT_CHILD, get_lang('CourseCategoryCatAllowed'), '<br />');
 				
 		$this->addElement('submit', 'course_settings', get_lang('Ok'));
@@ -62,12 +67,8 @@ class CourseCategoryForm extends FormValidator {
     
     function build_editing_form()
     {
-    	$course = $this->course;
-    	$parent = $this->parent;
-    	
-    	$this->build_basic_form();
-    	
-    	$this->addElement('hidden', CourseCategory :: PROPERTY_ID);
+	   	$this->build_basic_form();
+    	$this->addElement('hidden', CourseCategory :: PROPERTY_ID );
     }
     
     function build_creation_form()
@@ -82,16 +83,10 @@ class CourseCategoryForm extends FormValidator {
     	$coursecategory = $this->coursecategory;
     	$values = $this->exportValues();
     	
-    	$coursecategory->set_visual($values[CourseCategory :: PROPERTY_VISUAL]);
     	$coursecategory->set_name($values[CourseCategory :: PROPERTY_NAME]);
-    	$coursecategory->set_category_code($values[CourseCategory :: PROPERTY_CATEGORY_CODE]);
-    	$coursecategory->set_titular($values[CourseCategory :: PROPERTY_TITULAR]);
-    	$coursecategory->set_extlink_name($values[CourseCategory :: PROPERTY_EXTLINK_NAME]);
-    	$coursecategory->set_extlink_url($values[CourseCategory :: PROPERTY_EXTLINK_URL]);
-    	$coursecategory->set_language($values[CourseCategory :: PROPERTY_LANGUAGE]);
-    	$coursecategory->set_visibility($values[CourseCategory :: PROPERTY_VISIBILITY]);
-    	$coursecategory->set_subscribe_allowed($values[CourseCategory :: PROPERTY_SUBSCRIBE_ALLOWED]);
-    	$coursecategory->set_unsubscribe_allowed($values[CourseCategory :: PROPERTY_UNSUBSCRIBE_ALLOWED]);
+    	$coursecategory->set_parent($values[CourseCategory :: PROPERTY_PARENT]);
+    	$coursecategory->set_auth_course_child($values[CourseCategory :: PROPERTY_AUTH_COURSE_CHILD]);
+    	$coursecategory->set_auth_cat_child($values[CourseCategory :: PROPERTY_AUTH_CAT_CHILD]);
     	
     	return $coursecategory->update();
     }
@@ -101,17 +96,11 @@ class CourseCategoryForm extends FormValidator {
     	$coursecategory = $this->coursecategory;
     	$values = $this->exportValues();
     	
-    	$coursecategory->set_id($values[CourseCategory :: PROPERTY_ID]);
-    	$coursecategory->set_visual($values[CourseCategory :: PROPERTY_VISUAL]);
     	$coursecategory->set_name($values[CourseCategory :: PROPERTY_NAME]);
-    	$coursecategory->set_category_code($values[CourseCategory :: PROPERTY_CATEGORY_CODE]);
-    	$coursecategory->set_titular($values[CourseCategory :: PROPERTY_TITULAR]);
-    	$coursecategory->set_extlink_name($values[CourseCategory :: PROPERTY_EXTLINK_NAME]);
-    	$coursecategory->set_extlink_url($values[CourseCategory :: PROPERTY_EXTLINK_URL]);
-    	$coursecategory->set_language($values[CourseCategory :: PROPERTY_LANGUAGE]);
-    	$coursecategory->set_visibility($values[CourseCategory :: PROPERTY_VISIBILITY]);
-    	$coursecategory->set_subscribe_allowed($values[CourseCategory :: PROPERTY_SUBSCRIBE_ALLOWED]);
-    	$coursecategory->set_unsubscribe_allowed($values[CourseCategory :: PROPERTY_UNSUBSCRIBE_ALLOWED]);
+    	$coursecategory->set_code($values[CourseCategory :: PROPERTY_CODE]);
+    	$coursecategory->set_parent($values[CourseCategory :: PROPERTY_PARENT]);
+    	$coursecategory->set_auth_course_child($values[CourseCategory :: PROPERTY_AUTH_COURSE_CHILD]);
+    	$coursecategory->set_auth_cat_child($values[CourseCategory :: PROPERTY_AUTH_CAT_CHILD]);
     	
     	return $coursecategory->create();
     }
@@ -125,7 +114,6 @@ class CourseCategoryForm extends FormValidator {
 	function setDefaults($defaults = array ())
 	{
 		$coursecategory = $this->coursecategory;
-		$defaults[CourseCategory :: PROPERTY_ID] = $coursecategory->get_id();
 		$defaults[CourseCategory :: PROPERTY_NAME] = $coursecategory->get_name();
 		$defaults[CourseCategory :: PROPERTY_CODE] = $coursecategory->get_code();
 		$defaults[CourseCategory :: PROPERTY_AUTH_COURSE_CHILD] = $coursecategory->get_auth_course_child();

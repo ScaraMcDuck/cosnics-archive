@@ -35,10 +35,13 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 				$this->edit_course_category();
 				break;
 			case 'delete':
-				$this->edit_course_category();
+				$this->delete_course_category();
 				break;
 			case 'add':
 				$this->add_course_category();
+				break;
+			case 'view':
+				$this->show_course_category_list();
 				break;
 			default :
 				$this->show_course_category_list();
@@ -57,6 +60,8 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseCategoryManager'));
 		$this->display_header($breadcrumbs);
 		
+		echo $this->get_course_category_manager_modification_links();
+		
 		$table = new CourseCategoryBrowserTable($this, null, null, null);
 		echo $table->as_html();
 	}
@@ -64,6 +69,9 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 	function add_course_category()
 	{
 		$coursecategory = new CourseCategory();
+		
+		$coursecategory->set_auth_cat_child(1);
+		$coursecategory->set_auth_course_child(1);
 		
 		$form = new CourseCategoryForm(CourseCategoryForm :: TYPE_CREATE, $coursecategory, $this->get_url());
 		
@@ -79,6 +87,50 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 			$form->display();
 			$this->display_footer();
 		}
+	}
+	
+	function edit_course_category()
+	{
+		$course_category_code = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
+		$course_category = $this->retrieve_course_category($course_category_code);
+		
+		$form = new CourseCategoryForm(CourseCategoryForm :: TYPE_EDIT, $course_category, $this->get_url(array(Weblcms :: PARAM_COURSE_CATEGORY_ID => $course_category_code)));
+		
+		if($form->validate())
+		{
+			$success = $form->update_course_category();
+			$this->redirect(null, get_lang($success ? 'CourseCategoryUpdated' : 'CourseCategoryNotUpdated'), ($success ? false : true), array(Weblcms :: PARAM_COURSE_CATEGORY_ID => $course_category_code));
+		}
+		else
+		{
+			$this->display_header_course_categories();
+			echo '<h3>'. get_lang('UpdateCourseCategory') .'</h3>';
+			$form->display();
+			$this->display_footer();
+		}
+	}
+	
+	function delete_course_category()
+	{
+		$course_category_id = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
+		$coursecategory = $this->retrieve_course_category($course_category_id);
+		
+		$success = $coursecategory->delete();
+		$this->redirect(null, get_lang($success ? 'CourseCategoryDeleted' : 'CourseCategoryNotDeleted'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'view'));
+	}
+	
+	function get_course_category_manager_modification_links()
+	{
+		$toolbar_data = array();
+			
+		$toolbar_data[] = array(
+			'href' => $this->get_course_category_add_url(),
+			'label' => get_lang('CreateCourseCategory'),
+			'img' => $this->get_web_code_path().'img/folder.gif',
+			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+		);
+		
+		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

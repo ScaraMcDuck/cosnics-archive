@@ -43,8 +43,9 @@ class CourseForm extends FormValidator {
 		$cat_options = array();
 		$parent = $this->parent;
 		
+		$condition = new EqualityCondition(CourseCategory :: PROPERTY_AUTH_COURSE_CHILD, true);
 		$wdm = WeblcmsDataManager :: get_instance();
-		$categories = $wdm->retrieve_course_categories();
+		$categories = $wdm->retrieve_course_categories($condition);
 		
 		while ($category = $categories->next_result())
 		{
