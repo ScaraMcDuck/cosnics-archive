@@ -130,8 +130,12 @@ class UserForm extends FormValidator {
     	$user->set_status(intval($values[User :: PROPERTY_STATUS]));
     	$user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
     	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
-    	$user->set_platformadmin($values[User :: PROPERTY_PLATFORMADMIN]);
-    	$this->send_email();    	
+    	$user->set_platformadmin($values[User :: PROPERTY_PLATFORMADMIN]);   	
+    	$send_mail = intval($user['mail']['send_mail']);
+    	if ($send_mail)
+    	{
+    		$this->send_email(); 
+    	}
     	return $user->update();
     }
     
@@ -166,15 +170,17 @@ class UserForm extends FormValidator {
     	$user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
     	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
     	$user->set_platformadmin($values[User :: PROPERTY_PLATFORMADMIN]);
-    	$this->send_email();
-    	
+    	$send_mail = intval($user['mail']['send_mail']);
+    	if ($send_mail)
+    	{
+    		$this->send_email($user); 
+    	}
+
     	return $user->create();
     }
     
 	/**
-	 * Sets default values. Traditionally, you will want to extend this method
-	 * so it sets default for your learning object type's additional
-	 * properties.
+	 * Sets default values. 
 	 * @param array $defaults Default values for this form's parameters.
 	 */
 	function setDefaults($defaults = array ())
@@ -196,9 +202,17 @@ class UserForm extends FormValidator {
 		parent :: setDefaults($defaults);
 	}
 	
-	function send_email()
+	function send_email($user)
 	{
-		
+		$firstname = $user->get_firstname();
+		$lastname = $user->get_lastname();
+		$emailto = '"'.$firstname.' '.$lastname.'" <'.$user->get_email().'>';
+		$emailsubject = '['.get_setting('siteName').'] '.get_lang('YourReg').' '.get_setting('siteName');
+		$emailheaders = 'From: '.get_setting('administratorName').' '.get_setting('administratorSurname').' <'.get_setting('emailAdministrator').">\n";
+		$emailheaders .= 'Reply-To: '.get_setting('emailAdministrator');
+		$emailbody=get_lang('langDear')." ".stripslashes("$firstname $lastname").",\n\n".get_lang('langYouAreReg')." ". get_setting('siteName') ." ".get_lang('langSettings')." ". $username ."\n". get_lang('langPass')." : ".stripslashes($password)."\n\n" .get_lang('langAddress') ." ". get_setting('siteName') ." ". get_lang('langIs') ." : ". $rootWeb ."\n\n". get_lang('langProblem'). "\n\n". get_lang('langFormula').",\n\n".get_setting('administratorName')." ".get_setting('administratorSurname')."\n". get_lang('langManager'). " ".get_setting('siteName')."\nT. ".get_setting('administratorTelephone')."\n" .get_lang('langEmail') ." : ".get_setting('emailAdministrator');
+		@api_send_mail($emailto, $emailsubject, $emailbody, $emailheaders);
+
 	}
 }
 ?>
