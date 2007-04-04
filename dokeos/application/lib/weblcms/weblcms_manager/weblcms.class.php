@@ -44,6 +44,7 @@ class Weblcms extends WebApplication
 	const ACTION_MANAGER_SORT = 'sort';
 	const ACTION_MANAGER_SUBSCRIBE = 'subscribe';
 	const ACTION_MANAGER_UNSUBSCRIBE = 'unsubscribe';
+	const ACTION_COURSE_CATEGORY_MANAGER = 'catmanager';
 
 	/**
 	 * The tools that this application offers.
@@ -106,7 +107,10 @@ class Weblcms extends WebApplication
 				break;
 			case self :: ACTION_MANAGER_SORT :
 				$component = WeblcmsComponent :: factory('Sorter', $this);
-				break;	
+				break;
+			case self :: ACTION_COURSE_CATEGORY_MANAGER :
+				$component = WeblcmsComponent :: factory('CourseCategoryManager', $this);
+				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
 				$component = WeblcmsComponent :: factory('Home', $this);
@@ -474,6 +478,11 @@ class Weblcms extends WebApplication
 		return WeblcmsDataManager :: get_instance()->count_courses($condition);
 	}
 	
+	function count_course_categories($condition = null)
+	{
+		return WeblcmsDataManager :: get_instance()->count_course_categories($condition);
+	}
+	
 	function count_user_courses($condition = null)
 	{
 		return WeblcmsDataManager :: get_instance()->count_user_courses($condition);
@@ -484,9 +493,9 @@ class Weblcms extends WebApplication
 		return WeblcmsDataManager :: get_instance()->count_course_user_categories($condition);
 	}
 	
-	function retrieve_course_categories($parent = null)
+	function retrieve_course_categories($conditions = null, $offset = null, $count = null, $orderBy = null, $orderDir = null)
 	{
-		return WeblcmsDataManager :: get_instance()->retrieve_course_categories($parent);
+		return WeblcmsDataManager :: get_instance()->retrieve_course_categories($conditions, $offset, $count, $orderBy, $orderDir);
 	}
 	
 	function retrieve_course_user_categories($offset = null, $count = null, $order_property = null, $order_direction = null)
