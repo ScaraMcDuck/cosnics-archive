@@ -310,9 +310,7 @@ if (is_array($interbredcrump))
 {
 	foreach($interbredcrump as $breadcrumb_step)
 	{
-		$sep = (strrchr($breadcrumb_step['url'], '?') ? '&amp;' : '?');
-
-		echo " &gt; <a href=\"", $breadcrumb_step['url'].$sep.api_get_cidreq(), "\" target=\"_top\">", $breadcrumb_step['name'], "</a>\n";
+		echo " &gt; <a href=\"", $breadcrumb_step['url'], "\" target=\"_top\">", $breadcrumb_step['name'], "</a>\n";
 	}
 }
 

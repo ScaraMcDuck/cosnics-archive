@@ -142,13 +142,15 @@ class LearningObjectPublicationForm extends FormValidator
 		mysql_connect($dbHost,$dbLogin,$dbPass);
 		mysql_select_db($mainDbName);
 		// --
-		$groups = GroupManager::get_group_list(null, $this->course->get_id());
-		foreach($groups as $index => $group)
-		{
-			$receiver_choices[self :: PARAM_TARGET_GROUP_PREFIX.'-'.$group['id']] = $group['name'];
-		}
-		$attributes = array(self :: PARAM_RECEIVERS => $receiver_choices);
-		$this->addElement('receivers', self :: PARAM_TARGETS, get_lang('PublishFor'),$attributes);
+		
+		// TODO: Commented until groups structure has been reorganized using possible user / groups classes
+//		$groups = GroupManager::get_group_list(null, $this->course->get_id());
+//		foreach($groups as $index => $group)
+//		{
+//			$receiver_choices[self :: PARAM_TARGET_GROUP_PREFIX.'-'.$group['id']] = $group['name'];
+//		}
+//		$attributes = array(self :: PARAM_RECEIVERS => $receiver_choices);
+//		$this->addElement('receivers', self :: PARAM_TARGETS, get_lang('PublishFor'),$attributes);
 		$this->add_forever_or_timewindow();
 		$this->addElement('checkbox', self :: PARAM_HIDDEN, get_lang('Hidden'));
 		if($this->email_option)

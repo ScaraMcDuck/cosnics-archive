@@ -64,6 +64,8 @@ abstract class Tool
 	 */
 	function display_header($breadcrumbs = array())
 	{
+		$breadcrumbs[] = array ('url' => $this->get_url(null, false, true, array('tool')), 'name' => $_GET[Weblcms :: PARAM_COURSE]);
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang(Tool :: type_to_class($this->get_tool_id()).'Title'));
 		$this->parent->display_header($breadcrumbs);
 	}
 	/**
@@ -133,9 +135,9 @@ abstract class Tool
 	/**
 	 * @see WebApplication :: get_url()
 	 */
-	function get_url($parameters = array(), $encode = false)
+	function get_url($parameters = array(), $encode = false, $filter = false, $filterOn = array())
 	{
-		return $this->parent->get_url($parameters, $encode);
+		return $this->parent->get_url($parameters, $encode, $filter, $filterOn);
 	}
 	
 	/**

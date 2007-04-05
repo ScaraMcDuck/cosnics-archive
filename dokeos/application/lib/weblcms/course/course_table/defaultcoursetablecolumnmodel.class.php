@@ -27,7 +27,6 @@ class DefaultCourseTableColumnModel extends CourseTableColumnModel
 		$columns = array();
 		$columns[] = new CourseTableColumn(Course :: PROPERTY_VISUAL, true);
 		$columns[] = new CourseTableColumn(Course :: PROPERTY_NAME, true);
-		$columns[] = new CourseTableColumn(Course :: PROPERTY_TITULAR, true);
 		return $columns;
 	}
 }

@@ -74,7 +74,7 @@ class CourseCategoryMenu extends HTML_Menu
 	 */
 	private function get_sub_menu_items($categories, $parent)
 	{
-		$sub_tree = array ();
+		$sub_tree = array ();		
 		foreach ($categories[$parent] as $index => $category)
 		{
 			$menu_item = array();
@@ -123,7 +123,7 @@ class CourseCategoryMenu extends HTML_Menu
 	function render_as_tree()
 	{
 		$renderer = new TreeMenuRenderer();
-		$this->render($renderer, 'sitemap');
+		$this->render($renderer, 'tree');
 		return $renderer->toHTML();
 	}
 }

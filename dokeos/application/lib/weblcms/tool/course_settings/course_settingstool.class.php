@@ -28,7 +28,7 @@ class CourseSettingsTool extends Tool
 			$this->redirect(Weblcms :: ACTION_VIEW_WEBLCMS_HOME, get_lang($success ? 'CourseSettingsUpdated' : 'CourseSettingsUpdateFailed'), ($success ? false : true));
 		}
 		else
-		{
+		{			
 			$this->display_header();
 			$form->display();
 			$this->display_footer();

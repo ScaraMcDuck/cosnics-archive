@@ -18,7 +18,7 @@ require_once dirname(__FILE__) . '/../learningobjectpublicationform.class.php';
 
 abstract class RepositoryTool extends Tool
 {
-	const PARAM_ACTION = 'action';
+	const PARAM_ACTION = 'tool_action';
 	const PARAM_PUBLICATION_ID = 'pid';
 
 	const ACTION_EDIT = 'edit';

@@ -37,6 +37,14 @@ class DefaultCourseTableCellRenderer implements CourseTableCellRenderer
 					return $course->get_name();
 				case Course :: PROPERTY_TITULAR :
 					return $course->get_titular();
+				case Course :: PROPERTY_LANGUAGE :
+					return $course->get_language();
+				case Course :: PROPERTY_SUBSCRIBE_ALLOWED :
+					return $course->get_subscribe_allowed();
+				case Course :: PROPERTY_UNSUBSCRIBE_ALLOWED :
+					return $course->get_unsubscribe_allowed();
+				case Course :: PROPERTY_CATEGORY_CODE :
+					return $course->get_category_code();
 			}
 		}
 		return '&nbsp;';

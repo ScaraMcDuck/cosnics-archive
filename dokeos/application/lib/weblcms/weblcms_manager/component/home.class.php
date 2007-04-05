@@ -108,10 +108,10 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		$html = array();
 		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.get_lang('CourseCreate').'</a></li>';
 		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSES)) .'">'.get_lang('CourseCreateCsv').'</a></li>';
-		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_COURSE_CATEGORY_MANAGER)) .'">'.get_lang('CourseCategoryManage').'</a></li>';
-		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.get_lang('AddUserToCourse').'</a></li>';
-		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.get_lang('AddUserToCourseCsv').'</a></li>';
-		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.get_lang('CourseList').'</a></li>';
+		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_COURSE_CATEGORY_MANAGER)) .'">'.get_lang('CourseCategoryManagement').'</a></li>';
+		//$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.get_lang('AddUserToCourse').'</a></li>';
+		//$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.get_lang('AddUserToCourseCsv').'</a></li>';
+		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)) .'">'.get_lang('CourseList').'</a></li>';
 		
 		return implode($html, "\n");
 	}

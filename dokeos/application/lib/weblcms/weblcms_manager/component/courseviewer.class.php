@@ -37,7 +37,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 			exit;
 		}
 		
-		if(!$this->is_allowed(VIEW_RIGHT))
+		if(!$this->is_allowed(VIEW_RIGHT) && !api_is_platform_admin())
 		{
 			$this->display_header();
 			api_not_allowed();

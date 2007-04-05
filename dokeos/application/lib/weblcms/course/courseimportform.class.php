@@ -47,6 +47,7 @@ class CourseImportForm extends FormValidator {
     			$course->set_id($csvcourse[Course :: PROPERTY_ID]);
     			$course->set_visual($csvcourse[Course :: PROPERTY_ID]);
     			$course->set_name($csvcourse[Course :: PROPERTY_NAME]);
+    			$course->set_language('english');
     			$course->set_category_code($csvcourse[Course :: PROPERTY_CATEGORY_CODE]);
     			$course->set_titular($teacher_info['lastname'] . ' ' . $teacher_info['firstname']);
     			
