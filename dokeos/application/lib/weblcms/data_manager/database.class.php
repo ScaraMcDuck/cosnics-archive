@@ -1279,6 +1279,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		global $_course,$_cid;
 		unset ($_course);
 		unset ($_cid);
+		return true;
 	}
 	
 	function retrieve_course_category($category_code = null)

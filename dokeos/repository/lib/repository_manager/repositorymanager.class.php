@@ -190,6 +190,7 @@ class RepositoryManager
 				case self :: PARAM_RECYCLE_SELECTED :
 					$this->set_action(self :: ACTION_DELETE_LEARNING_OBJECTS);
 					$_GET[self :: PARAM_LEARNING_OBJECT_ID] = $selected_ids;
+					$_GET[self :: PARAM_DELETE_RECYCLED] = 1;
 					break;
 				case self :: PARAM_MOVE_SELECTED :
 					$this->set_action(self :: ACTION_MOVE_LEARNING_OBJECTS);

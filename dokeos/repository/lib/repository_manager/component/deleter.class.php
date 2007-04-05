@@ -23,6 +23,7 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 			{
 				$ids = array ($ids);
 			}
+			
 			$failures = 0;
 			$delete_version = $_GET[RepositoryManager :: PARAM_DELETE_VERSION];
 			$permanent = $_GET[RepositoryManager :: PARAM_DELETE_PERMANENTLY];

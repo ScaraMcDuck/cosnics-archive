@@ -14,6 +14,7 @@ require_once dirname(__FILE__).'/../toollistrenderer.class.php';
 require_once dirname(__FILE__).'/../course/course.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/equalitycondition.class.php';
+require_once dirname(__FILE__).'/../course/course_table/coursetable.class.php';
 
 /**
 ==============================================================================
@@ -38,6 +39,7 @@ class Weblcms extends WebApplication
 	const PARAM_COURSE_CATEGORY_ID = 'category';
 	const PARAM_COURSE_USER = 'course';
 	const PARAM_DIRECTION = 'direction';
+	const PARAM_REMOVE_SELECTED = 'remove_selected';
 	
 	const ACTION_VIEW_WEBLCMS_HOME = 'home';
 	const ACTION_VIEW_COURSE = 'courseviewer';
@@ -48,6 +50,7 @@ class Weblcms extends WebApplication
 	const ACTION_MANAGER_UNSUBSCRIBE = 'unsubscribe';
 	const ACTION_COURSE_CATEGORY_MANAGER = 'catmanager';
 	const ACTION_ADMIN_COURSE_BROWSER = 'adminbrowser';
+	const ACTION_DELETE_COURSE = 'coursedeleter';
 
 	/**
 	 * The tools that this application offers.
@@ -76,6 +79,8 @@ class Weblcms extends WebApplication
 		$this->set_parameter(self :: PARAM_CATEGORY, $_GET[self :: PARAM_CATEGORY]);
 		$this->set_parameter(self :: PARAM_COURSE, $_GET[self :: PARAM_COURSE]);
 		$this->set_parameter(self :: PARAM_TOOL, $_GET[self :: PARAM_TOOL]);
+		
+		$this->parse_input_from_table();
 
 		$this->course = new Course();
 		$this->load_course();
@@ -116,6 +121,9 @@ class Weblcms extends WebApplication
 				break;
 			case self :: ACTION_ADMIN_COURSE_BROWSER :
 				$component = WeblcmsComponent :: factory('AdminCourseBrowser', $this);
+				break;
+			case self :: ACTION_DELETE_COURSE :
+				$component = WeblcmsComponent :: factory('CourseDeleter', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
@@ -728,6 +736,32 @@ class Weblcms extends WebApplication
 	function get_web_code_path()
 	{
 		return api_get_path(WEB_CODE_PATH);
+	}
+	
+	/**
+	 * @todo Clean this up. It's all SortableTable's fault. :-(
+	 */
+	private function parse_input_from_table()
+	{
+		if (isset ($_POST['action']))
+		{
+			$selected_ids = $_POST[CourseTable :: DEFAULT_NAME.CourseTable :: CHECKBOX_NAME_SUFFIX];
+			if (empty ($selected_ids))
+			{
+				$selected_ids = array ();
+			}
+			elseif (!is_array($selected_ids))
+			{
+				$selected_ids = array ($selected_ids);
+			}
+			switch ($_POST['action'])
+			{
+				case self :: PARAM_REMOVE_SELECTED :
+					$this->set_action(self :: ACTION_DELETE_COURSE);
+					$_GET[self :: PARAM_COURSE] = $selected_ids;
+					break;
+			}
+		}
 	}
 }
 ?>

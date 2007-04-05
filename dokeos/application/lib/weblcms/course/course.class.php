@@ -345,7 +345,8 @@ class Course {
 	
 	function delete()
 	{
-		return true;
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->delete_course($this->get_id());
 	}
 	
 	function create()
