@@ -91,6 +91,8 @@ abstract class UsersDataManager
 	 */
 	abstract function create_storage_unit($name,$properties,$indexes);
 	
+	abstract function retrieve_user($id);
+	
 	function user_deletion_allowed($user)
 	{
 		// TODO: Check if the user can be deleted (fe: can an admin delete another admin etc)

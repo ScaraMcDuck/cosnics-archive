@@ -24,8 +24,6 @@
  *	- picture_uri: the URI location of the picture of this user;
  *	- creator_id: the user_id of the user who created this user;
  *	- competences: the competences of this user;
- *	- diplomas:
- *	- openarea:
  *	- teach:
  *	- productions:
  *	- chatcall_user_id:
@@ -56,8 +54,6 @@ class User
 	const PROPERTY_PICTURE_URI = 'picture_uri';
 	const PROPERTY_CREATOR_ID = 'creator_id';
 	const PROPERTY_COMPETENCES = 'competences';
-	const PROPERTY_DIPLOMAS = 'diplomas';
-	const PROPERTY_OPENAREA = 'openarea';
 	const PROPERTY_TEACH = 'teach';
 	const PROPERTY_PRODUCTIONS = 'productions';
 	const PROPERTY_CHATCALL_USER_ID = 'chatcall_user_id';
@@ -491,24 +487,6 @@ class User
 		$this->set_default_property(self :: PROPERTY_COMPETENCES, $competences);
 	}
 	
-	/**
-	 * Sets the diplomas for this user. 
-	 * @param String $diplomas the diplomas.
-	 */
-	function set_diplomas($diplomas)
-	{
-		$this->set_default_property(self :: PROPERTY_DIPLOMAS, $diplomas);
-	}
-	
-	/**
-	 * Sets the openarea for this user.
-	 * @param String $openarea the openarea.
-	 */
-	function set_openarea($openarea)
-	{
-		$this->set_default_property(self :: PROPERTY_OPENAREA, $openarea);
-	}
-	
 	function set_teach($teach)
 	{
 		$this->set_default_property(self :: PROPERTY_TEACH, $teach);
@@ -593,6 +571,12 @@ class User
 	function delete()
 	{
 		return UserDataManager :: get_instance()->delete_user($this);
+	}
+	
+	function create()
+	{
+		$udm = UsersDataManager :: get_instance();
+		return $udm->create_user($this);
 	}
 }
 ?>
