@@ -47,6 +47,7 @@ class Weblcms extends WebApplication
 	const ACTION_MANAGER_SUBSCRIBE = 'subscribe';
 	const ACTION_MANAGER_UNSUBSCRIBE = 'unsubscribe';
 	const ACTION_COURSE_CATEGORY_MANAGER = 'catmanager';
+	const ACTION_ADMIN_COURSE_BROWSER = 'adminbrowser';
 
 	/**
 	 * The tools that this application offers.
@@ -112,6 +113,9 @@ class Weblcms extends WebApplication
 				break;
 			case self :: ACTION_COURSE_CATEGORY_MANAGER :
 				$component = WeblcmsComponent :: factory('CourseCategoryManager', $this);
+				break;
+			case self :: ACTION_ADMIN_COURSE_BROWSER :
+				$component = WeblcmsComponent :: factory('AdminCourseBrowser', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
@@ -195,7 +199,8 @@ class Weblcms extends WebApplication
 	 */
 	function get_groups()
 	{
-		return GroupManager :: get_group_ids($this->get_course()->get_db(), $this->get_user_id());
+		return null;
+		//return GroupManager :: get_group_ids($this->get_course()->get_db(), $this->get_user_id());
 	}
 	/**
 	 * Gets the defined categories in the current tool.
@@ -278,10 +283,6 @@ class Weblcms extends WebApplication
 		global $interbredcrump, $htmlHeadXtra;
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		$course = $this->get_parameter(self :: PARAM_COURSE);
-		if ($tool)
-		{
-			array_unshift($breadcrumbs, array ('url' => $this->get_url(), 'name' => get_lang(Tool :: type_to_class($tool).'Title')));
-		}
 		
 		$current_crumb = array_pop($breadcrumbs);
 		$interbredcrump = $breadcrumbs;
@@ -614,6 +615,16 @@ class Weblcms extends WebApplication
 	function get_course_viewing_url($course)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id()));
+	}
+	
+	function get_course_editing_url($course)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id(), self :: PARAM_TOOL => 'course_settings'));
+	}
+	
+	function get_course_maintenance_url($course)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id(), self :: PARAM_TOOL => 'maintenance'));
 	}
 	
 	function get_course_subscription_url($course)

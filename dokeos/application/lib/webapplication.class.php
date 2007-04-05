@@ -27,7 +27,7 @@ abstract class WebApplication extends Application {
 	 *                        to false.
 	 * @return string The URL.
 	 */
-	function get_url($parameters = array (), $encode = false)
+	function get_url($parameters = array (), $encode = false, $filter = false, $filterOn = array())
 	{
 		if (count($parameters))
 		{
@@ -37,7 +37,20 @@ abstract class WebApplication extends Application {
 		{
 			$parameters = $this->parameters;
 		}
-		$url = $_SERVER['PHP_SELF'].'?'.http_build_query($parameters);
+		
+		if ($filter)
+		{
+			foreach ($parameters as $key => $value)
+			{
+				if (!in_array($key, $filterOn))
+				{
+					$url_parameters[$key] = $value;
+				}
+			}
+		}
+		
+		
+		$url = $_SERVER['PHP_SELF'].'?'.http_build_query(($filter ? $url_parameters : $parameters));
 		if ($encode)
 		{
 			$url = htmlentities($url);

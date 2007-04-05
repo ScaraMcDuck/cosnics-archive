@@ -104,9 +104,9 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->set_tool_class($class);
 	}
 	
-	function get_url($parameters = array (), $encode = false)
+	function get_url($parameters = array (), $encode = false, $filter = false, $filterOn = array())
 	{
-		return $this->get_parent()->get_url($parameters, $encode);
+		return $this->get_parent()->get_url($parameters, $encode, $filter, $filterOn);
 	}
 	
 	function display_header($breadcrumbs = array ())
@@ -267,6 +267,16 @@ abstract class WeblcmsComponent {
 	function get_course_viewing_url($course)
 	{
 		return $this->get_parent()->get_course_viewing_url($course);
+	}
+	
+	function get_course_editing_url($course)
+	{
+		return $this->get_parent()->get_course_editing_url($course);
+	}
+	
+	function get_course_maintenance_url($course)
+	{
+		return $this->get_parent()->get_course_maintenance_url($course);
 	}
 	
 	function get_course_subscription_url($course)
