@@ -1,0 +1,332 @@
+<?php
+/**
+ * @package user.usermanager
+ */
+require_once dirname(__FILE__).'/usermanagercomponent.class.php';
+require_once dirname(__FILE__).'/../usersdatamanager.class.php';
+require_once dirname(__FILE__).'/../user.class.php';
+//require_once dirname(__FILE__).'/../optionsmenurenderer.class.php';
+require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
+
+/**
+ * A user manager provides some functionalities to the admin to manage
+ * his users. For each functionality a component is available.
+ */
+ class usermanager {
+ 	const PARAM_ACTION = 'go';
+	const PARAM_MESSAGE = 'message';
+	const PARAM_ERROR_MESSAGE = 'error_message';
+	
+	const ACTION_CREATE_USER = 'create';
+	
+	private $parameters;
+	private $search_parameters;
+	private $user_id;
+	private $search_form;
+	private $category_menu;
+	private $quota_url;
+	private $publication_url;
+	private $create_url;
+	private $recycle_bin_url;
+	private $breadcrumbs;
+	
+	
+    function UserManager($user_id) {
+    	$this->user_id = $user_id;
+		$this->parameters = array ();
+		$this->set_action($_GET[self :: PARAM_ACTION]);
+		$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_USER));   	
+    }
+    
+    /**
+	 * Run this user manager
+	 */
+	function run()
+	{
+		/*
+		 * Only setting breadcrumbs here. Some stuff still calls
+		 * forceCurrentUrl(), but that should not affect the breadcrumbs.
+		 */
+		//$this->breadcrumbs = $this->get_category_menu()->get_breadcrumbs();
+		$action = $this->get_action();
+		$component = null;
+		switch ($action)
+		{
+			case self :: ACTION_CREATE_USER :
+				$this->force_menu_url($this->create_url, true);
+				$component = UserManagerComponent :: factory('Creator', $this);
+				break;
+			default :
+				$this->set_action(self :: ACTION_CREATE_USER);
+				$component = UserManagerComponent :: factory('Creator', $this);
+		}
+		$component->run();
+	}
+	/**
+	 * Gets the current action.
+	 * @see get_parameter()
+	 * @return string The current action.
+	 */
+	function get_action()
+	{
+		return $this->get_parameter(self :: PARAM_ACTION);
+	}
+	/**
+	 * Sets the current action.
+	 * @param string $action The new action.
+	 */
+	function set_action($action)
+	{
+		return $this->set_parameter(self :: PARAM_ACTION, $action);
+	}
+	/**
+	 * Displays the header.
+	 * @param array $breadcrumbs Breadcrumbs to show in the header.
+	 * @param boolean $display_search Should the header include a search form or
+	 * not?
+	 */
+	function display_header($breadcrumbs = array (), $display_search = false)
+	{
+		global $interbredcrump;
+		if (isset ($this->breadcrumbs) && is_array($this->breadcrumbs))
+		{
+			$breadcrumbs = array_merge($this->breadcrumbs, $breadcrumbs);
+		}
+		$current_crumb = array_pop($breadcrumbs);
+		$interbredcrump = $breadcrumbs;
+		$title = $current_crumb['name'];
+		$title_short = $title;
+		if (strlen($title_short) > 53)
+		{
+			$title_short = substr($title_short, 0, 50).'&hellip;';
+		}
+		Display :: display_header($title_short);
+		echo '<div style="float: left; width: 20%;">';
+		//$this->display_learning_object_categories();
+		echo '</div>';
+		echo '<div style="float: right; width: 80%;">';
+		echo '<div>';
+		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
+//		if ($display_search)
+//		{
+//			$this->display_search_form();
+//		}
+		echo '</div>';
+		echo '<div class="clear">&nbsp;</div>';
+		if ($msg = $_GET[self :: PARAM_MESSAGE])
+		{
+			$this->display_message($msg);
+		}
+		if($msg = $_GET[self::PARAM_ERROR_MESSAGE])
+		{
+			$this->display_error_message($msg);
+		}
+	}
+	/**
+	 * Displays the footer.
+	 */
+	function display_footer()
+	{
+		echo '</div>';
+		echo '<div class="clear">&nbsp;</div>';
+		// TODO: Find out why we need to reconnect here.
+		global $dbHost, $dbLogin, $dbPass, $mainDbName;
+		mysql_connect($dbHost, $dbLogin, $dbPass);
+		mysql_select_db($mainDbName);
+		Display :: display_footer();
+	}
+	
+	/**
+	 * Displays a normal message.
+	 * @param string $message The message.
+	 */
+	function display_message($message)
+	{
+		Display :: display_normal_message($message);
+	}
+	/**
+	 * Displays an error message.
+	 * @param string $message The message.
+	 */
+	function display_error_message($message)
+	{
+		Display :: display_error_message($message);
+	}
+	/**
+	 * Displays a warning message.
+	 * @param string $message The message.
+	 */
+	function display_warning_message($message)
+	{
+		Display :: display_warning_message($message);
+	}
+	/**
+	 * Displays an error page.
+	 * @param string $message The message.
+	 */
+	function display_error_page($message)
+	{
+		$this->display_header();
+		$this->display_error_message($message);
+		$this->display_footer();
+	}
+	
+	/**
+	 * Displays a warning page.
+	 * @param string $message The message.
+	 */
+	function display_warning_page($message)
+	{
+		$this->display_header();
+		$this->display_warning_message($message);
+		$this->display_footer();
+	}
+	
+	/**
+	 * Displays a popup form.
+	 * @param string $message The message.
+	 */
+	function display_popup_form($form_html)
+	{
+		Display :: display_normal_message($form_html);
+	}
+
+	/**
+	 * Gets the parameter list
+	 * @param boolean $include_search Include the search parameters in the
+	 * returned list?
+	 * @return array The list of parameters.
+	 */
+	function get_parameters($include_search = false)
+	{
+		if ($include_search && isset ($this->search_parameters))
+		{
+			return array_merge($this->search_parameters, $this->parameters);
+		}
+		
+		return $this->parameters;
+	}
+	/**
+	 * Gets the value of a parameter.
+	 * @param string $name The parameter name.
+	 * @return string The parameter value.
+	 */
+	function get_parameter($name)
+	{
+		return $this->parameters[$name];
+	}
+	/**
+	 * Sets the value of a parameter.
+	 * @param string $name The parameter name.
+	 * @param mixed $value The parameter value.
+	 */
+	function set_parameter($name, $value)
+	{
+		$this->parameters[$name] = $value;
+	}
+	
+	/**
+	 * Redirect the end user to another location.
+	 * @param string $action The action to take (default = browse learning
+	 * objects).
+	 * @param string $message The message to show (default = no message).
+	 * @param int $new_category_id The category to show (default = root
+	 * category).
+	 * @param boolean $error_message Is the passed message an error message?
+	 */
+//	function redirect($action = self :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0, $error_message = false, $extra_params = null)
+//	{
+//		$params = array ();
+//		$params[self :: PARAM_ACTION] = $action;
+//		if (isset ($message))
+//		{
+//			$params[$error_message ? self :: PARAM_ERROR_MESSAGE :  self :: PARAM_MESSAGE] = $message;
+//		}
+//		if ($new_category_id)
+//		{
+//			$params[self :: PARAM_CATEGORY_ID] = $new_category_id;
+//		}
+//		if (isset($extra_params))
+//		{
+//			foreach($extra_params as $key => $extra)
+//			{
+//				$params[$key] = $extra;
+//			}
+//		}
+//		$url = $this->get_url($params);
+//		header('Location: '.$url);
+//	}
+
+	/**
+	 * Sets the active URL in the navigation menu.
+	 * @param string $url The active URL.
+	 */
+	function force_menu_url($url)
+	{
+		//$this->get_category_menu()->forceCurrentUrl($url);
+	}
+	/**
+	 * Gets an URL.
+	 * @param array $additional_parameters Additional parameters to add in the
+	 * query string (default = no additional parameters).
+	 * @param boolean $include_search Include the search parameters in the
+	 * query string of the URL? (default = false).
+	 * @param boolean $encode_entities Apply php function htmlentities to the
+	 * resulting URL ? (default = false).
+	 * @return string The requested URL.
+	 */
+	function get_url($additional_parameters = array (), $include_search = false, $encode_entities = false, $x = null)
+	{
+		$eventual_parameters = array_merge($this->get_parameters($include_search), $additional_parameters);
+		$url = $_SERVER['PHP_SELF'].'?'.http_build_query($eventual_parameters);
+		if ($encode_entities)
+		{
+			$url = htmlentities($url);
+		}
+	
+		return $url;
+	}
+	/**
+	 * Gets the user id.
+	 * @return int The requested user id.
+	 */
+	function get_user_id()
+	{
+		return $this->user_id;
+	}
+	
+	/**
+	 * Retrieves a user.
+	 * @param int $id The id of the user.
+	 */
+	function retrieve_user($id)
+	{
+		$udm = UserDataManager :: get_instance();
+		return $udm->retrieve_user($id);
+	}
+	
+	/**
+	 * @see RepositoryDataManager::learning_object_deletion_allowed()
+	 */
+	function user_deletion_allowed($user)
+	{
+		$udm = UserDataManager :: get_instance();
+		return $udm->user_deletion_allowed($user);
+	}
+	
+	/**
+	 * Gets the URL to the Dokeos claroline folder.
+	 */
+	function get_web_code_path()
+	{
+		return api_get_path(WEB_CODE_PATH);
+	}
+	/**
+	 * Wrapper for api_not_allowed().
+	 */
+	function not_allowed()
+	{
+		api_not_allowed();
+	}
+}
+?>

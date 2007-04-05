@@ -14,8 +14,6 @@
   <property name="phone" type="text" length="30"/>
   <property name="picture_uri" type="text" length="250"/>
   <property name="creator_id" type="integer" unsigned="1"/>
-  <property name="competences" type="text"/>
-  <property name="diplomas" type="text"/>
   <property name="openarea" type="text"/>
   <property name="teach" type="text"/>
   <property name="productions" type="text" length="250"/>

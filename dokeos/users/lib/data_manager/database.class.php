@@ -138,7 +138,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		{
 			$props[$this->escape_column_name($key)] = $value;
 		}
-		$props[$this->escape_column_name(User :: PROPERTY_USER_ID)] = $user->get_id();
+		$props[$this->escape_column_name(User :: PROPERTY_USER_ID)] = $user->get_user_id();
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('user'), $props, MDB2_AUTOQUERY_INSERT);
 		return true;
@@ -185,6 +185,28 @@ class DatabaseUsersDataManager extends UsersDataManager
 	{
 		global $user_database;
 		return $user_database.'.'.$this->prefix.$name;
+	}
+	
+	function retrieve_user($id, $type = null)
+	{
+//		if (is_null($type))
+//		{
+//			$type = $this->determine_learning_object_type($id);
+//		}
+//		if ($this->is_extended_type($type))
+//		{
+//			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).'='.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' WHERE '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+//		}
+//		else
+//		{
+//			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+//		}
+//		$this->connection->setLimit(1);
+//		$statement = $this->connection->prepare($query);
+//		$res = $statement->execute($id);
+//		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+//		$res->free();
+//		return self :: record_to_learning_object($record, true);
 	}
 }
 ?>
