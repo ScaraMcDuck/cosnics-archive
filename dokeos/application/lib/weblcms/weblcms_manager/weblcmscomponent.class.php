@@ -109,9 +109,9 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->get_url($parameters, $encode, $filter, $filterOn);
 	}
 	
-	function display_header($breadcrumbs = array ())
+	function display_header($breadcrumbs = array (), $display_search = false)
 	{
-		return $this->get_parent()->display_header($breadcrumbs);
+		return $this->get_parent()->display_header($breadcrumbs, $display_search);
 	}
 	
 	function display_message($message)
@@ -352,6 +352,22 @@ abstract class WeblcmsComponent {
 	function unsubscribe_user_from_course($course)
 	{
 		return $this->get_parent()->unsubscribe_user_from_course($course);
+	}
+	
+	/**
+	 * @see Weblcms::get_search_condition()
+	 */
+	function get_search_condition()
+	{
+		return $this->get_parent()->get_search_condition();
+	}
+	
+	/**
+	 * @see Weblcms::get_search_parameter()
+	 */
+	function get_search_parameter($name)
+	{
+		return $this->get_parent()->get_search_parameter($name);
 	}
 	
 	/**

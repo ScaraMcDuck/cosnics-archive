@@ -165,7 +165,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			//TODO: i8n location string
 			$info->set_location($record[LearningObjectPublication :: PROPERTY_COURSE_ID].' &gt; '.$record[LearningObjectPublication :: PROPERTY_TOOL]);
 			//TODO: set correct URL
-			$info->set_url('index_lcms.php?course='. $record[LearningObjectPublication :: PROPERTY_COURSE_ID] .'&amp;tool='.$record[LearningObjectPublication :: PROPERTY_TOOL]);
+			$info->set_url('index_weblcms.php?course='. $record[LearningObjectPublication :: PROPERTY_COURSE_ID] .'&amp;tool='.$record[LearningObjectPublication :: PROPERTY_TOOL]);
 			$info->set_publication_object_id($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
 			
 			$publication_attr[] = $info;
@@ -192,7 +192,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		//TODO: i8n location string
 		$publication_attr->set_location($record[LearningObjectPublication :: PROPERTY_COURSE_ID].' &gt; '.$record[LearningObjectPublication :: PROPERTY_TOOL]);
 		//TODO: set correct URL
-		$publication_attr->set_url('index_lcms.php?tool='.$record[LearningObjectPublication :: PROPERTY_TOOL].'&amp;cidReq='.$record[LearningObjectPublication :: PROPERTY_COURSE_ID]);
+		$publication_attr->set_url('index_weblcms.php?tool='.$record[LearningObjectPublication :: PROPERTY_TOOL].'&amp;cidReq='.$record[LearningObjectPublication :: PROPERTY_COURSE_ID]);
 		$publication_attr->set_publication_object_id($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
 
 		return $publication_attr;
@@ -969,7 +969,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$res = $sth->execute($course_code);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();
-		if ($record[0] = 1)
+		if ($record[0] == 1)
 		{
 		  return true;
 		}
@@ -989,12 +989,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if ($record[0] == 1)
 		{
 		  return true;
-		  echo '1';
 		}
 		else
 		{
 		  return false;
-		  echo '0';
 		}
 	}
 	

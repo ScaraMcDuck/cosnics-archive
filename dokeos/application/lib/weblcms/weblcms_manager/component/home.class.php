@@ -51,16 +51,18 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 			$html[] = '</ul>';
 			$html[] = '</div>';
 		}
-		
-		$display_add_course_link = api_is_allowed_to_create_course() && ($_SESSION["studentview"] != "studentenview");
-		if ($display_add_course_link)
+		else
 		{
-			$html[] = '<div class="menusection">';
-			$html[] = '<span class="menusectioncaption">'.get_lang('MenuUser').'</span>';
-			$html[] = '<ul class="menulist">';
-			$html[] = $this->display_create_course_link();
-			$html[] = '</ul>';
-			$html[] = '</div>';
+			$display_add_course_link = api_is_allowed_to_create_course() && ($_SESSION["studentview"] != "studentenview");
+			if ($display_add_course_link)
+			{
+				$html[] = '<div class="menusection">';
+				$html[] = '<span class="menusectioncaption">'.get_lang('MenuUser').'</span>';
+				$html[] = '<ul class="menulist">';
+				$html[] = $this->display_create_course_link();
+				$html[] = '</ul>';
+				$html[] = '</div>';
+			}
 		}
 		
 		$html[] = '<div class="menusection">';
@@ -110,7 +112,7 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSES)) .'">'.get_lang('CourseCreateCsv').'</a></li>';
 		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_COURSE_CATEGORY_MANAGER)) .'">'.get_lang('CourseCategoryManagement').'</a></li>';
 		//$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.get_lang('AddUserToCourse').'</a></li>';
-		//$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.get_lang('AddUserToCourseCsv').'</a></li>';
+		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSE_USERS)) .'">'.get_lang('AddUserToCourseCsv').'</a></li>';
 		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)) .'">'.get_lang('CourseList').'</a></li>';
 		
 		return implode($html, "\n");
