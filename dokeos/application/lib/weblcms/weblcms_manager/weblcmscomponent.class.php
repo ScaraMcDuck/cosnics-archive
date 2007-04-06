@@ -363,6 +363,14 @@ abstract class WeblcmsComponent {
 	}
 	
 	/**
+	 * @see Weblcms::get_search_validate()
+	 */
+	function get_search_validate()
+	{
+		return $this->get_parent()->get_search_validate();
+	}
+	
+	/**
 	 * @see Weblcms::get_search_parameter()
 	 */
 	function get_search_parameter($name)
