@@ -5,10 +5,7 @@
  * @subpackage browser.listrenderer
  */
 require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
-/**
- * Interval between sections in the day view of the calendar.
- */
-define('HOUR_STEP',3);
+require_once dirname(__FILE__).'/../../../../common/daycalendar.class.php';
 /**
  * Renderer to display a list of events.
  */
@@ -32,33 +29,23 @@ class DayCalendarLearningObjectPublicationListRenderer extends LearningObjectPub
 	 */
 	function as_html()
 	{
-		$calendar_table = new HTML_Table(array ('class' => 'calendar'));
-		for($hour = 0; $hour < 24; $hour += HOUR_STEP)
+		$calendar_table = new DayCalendar($this->display_time);
+		$start_time = $calendar_table->get_start_time();
+		$end_time = $calendar_table->get_end_time();
+		$table_date = $start_time;
+		while($table_date <= $end_time)
 		{
-			$table_start_date = mktime($hour,0,0,date('m',$this->display_time),date('d',$this->display_time),date('Y',$this->display_time));
-			$table_end_date = strtotime('+'.HOUR_STEP.' hours',$table_start_date);
-			$cell_contents = $hour.'u - '.($hour+HOUR_STEP).'u';
-			// If allowed to add, turn hour into a link
-			if($this->is_allowed(ADD_RIGHT))
-			{
-				$params = array('default_start_date' => $table_start_date,'default_end_date' => $table_end_date,'publish_action' => 'publicationcreator','admin' => '1');
-				$add_url = $this->get_url($params);
-				$cell_contents = '<a href="'.$add_url.'">'.$cell_contents.'</a>';
-			}
-			$publications = $this->browser->get_calendar_events($table_start_date,$table_end_date);
+			$next_table_date = strtotime('+'.$calendar_table->get_hour_step().' Hours',$table_date);
+			$publications = $this->browser->get_calendar_events($table_date,$next_table_date);
 			foreach($publications as $index => $publication)
 			{
-				$cell_contents .= $this->render_publication($publication,$table_start_date);
+				$cell_contents = $this->render_publication($publication,$table_date);
+				$calendar_table->add_event($table_date,$cell_contents );
 			}
-			$calendar_table->setCellContents($hour/HOUR_STEP,0,$cell_contents);
+			$table_date = $next_table_date;
 		}
-		$prev = strtotime('-1 Day',$this->display_time);
-		$next = strtotime('+1 Day',$this->display_time);
-		$html[] = '<div style="text-align: center;">';
-		$html[] =  '<a href="'.$this->get_url(array('time' => $prev), true).'">&lt;&lt;</a> ';
-		$html[] =  date('l d F Y',$this->display_time);
-		$html[] =  ' <a href="'.$this->get_url(array('time' => $next), true).'">&gt;&gt;</a> ';
-		$html[] =  '</div>';
+		$url_format = $this->get_url(array('time' => '-TIME-'));
+		$calendar_table->add_calendar_navigation($url_format);
 		$html[] = $calendar_table->toHtml();
 		return implode("\n",$html);
 	}
