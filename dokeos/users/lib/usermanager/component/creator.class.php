@@ -27,6 +27,14 @@ class UserManagerCreatorComponent extends UserManagerComponent
 		if($form->validate())
 		{
 			$success = $form->create_user();
+			if ($success)
+			{
+				echo 'SUCCESS';
+			}
+			else
+			{
+				echo 'FAILED';
+			}
 			//$this->redirect(Weblcms :: ACTION_VIEW_WEBLCMS_HOME, get_lang($success ? 'CourseCreated' : 'CourseNotCreated'), ($success ? false : true));
 		}
 		else

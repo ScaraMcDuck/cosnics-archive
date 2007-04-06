@@ -1,6 +1,8 @@
 <?php
+require_once dirname(__FILE__).'/../../../main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
+require_once dirname(__FILE__).'/../usersdatamanager.class.php';
 
 class UserForm extends FormValidator {
 	
@@ -141,6 +143,8 @@ class UserForm extends FormValidator {
     	return $user->update();
     }
     
+    
+    
     function create_user()
     {
     	$user = $this->user;
@@ -158,27 +162,36 @@ class UserForm extends FormValidator {
 //			move_uploaded_file($picture['tmp_name'], $picture_location);
 //		}
 //		$picture = $_FILES['picture']['tmp_name'];
-    	
-    	$user->set_user_id($values[User :: PROPERTY_USER_ID]);
-    	$user->set_lastname($values[User :: PROPERTY_LASTNAME]);
-    	$user->set_firstname($values[User :: PROPERTY_FIRSTNAME]);
-    	$user->set_email($values[User :: PROPERTY_EMAIL]);
-    	$user->set_username($values[User :: PROPERTY_USERNAME]);
-    	$user->set_password(md5($password));
-    	$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
-    	$user->set_picture_uri('');
-    	$user->set_phone($values[User :: PROPERTY_PHONE]);
-    	$user->set_status(intval($values[User :: PROPERTY_STATUS]));
-    	$user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
-    	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
-    	$user->set_platformadmin($values[User :: PROPERTY_PLATFORMADMIN]);
-    	//$send_mail = intval($user['mail']['send_mail']);
-    	if ($send_mail)
-    	{
-    		$this->send_email($user); 
-    	}
 
-    	return $user->create();
+		$udm = UsersDataManager :: get_instance();
+    	if ($udm->is_username_available($values[User :: PROPERTY_USERNAME]))
+    	{
+    		$user->set_user_id($values[User :: PROPERTY_USER_ID]);
+    		$user->set_lastname($values[User :: PROPERTY_LASTNAME]);
+    		$user->set_firstname($values[User :: PROPERTY_FIRSTNAME]);
+    		$user->set_email($values[User :: PROPERTY_EMAIL]);
+	    	$user->set_username($values[User :: PROPERTY_USERNAME]);
+	 	   	$user->set_password(md5($password));
+    		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
+			$user->set_picture_uri('');
+  		  	$user->set_phone($values[User :: PROPERTY_PHONE]);
+  		  	$user->set_status(intval($values[User :: PROPERTY_STATUS]));
+ 		   	$user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
+ 		   	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
+ 		   	$user->set_platformadmin($values[User :: PROPERTY_PLATFORMADMIN]);
+    		//$send_mail = intval($user['mail']['send_mail']);
+    		if ($send_mail)
+    		{
+    			$this->send_email($user); 
+    		}
+
+    		return $user->create();
+    	}
+    	else 
+    	{
+    		return false;
+    	}
+    
     }
     
 	/**
