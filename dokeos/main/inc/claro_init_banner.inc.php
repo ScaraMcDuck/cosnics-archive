@@ -239,7 +239,7 @@ if($GLOBALS["this_section"] == "myagenda")
 	$link_class='';
 	}
 ?>
-	<a <?php echo $link_class ?> href="<?php echo $clarolineRepositoryWeb ?>calendar/myagenda.php<?php if(!empty($_course['path'])) echo '?coursePath='.$_course['path'].'&amp;courseCode='.$_course['official_code']; ?>" target="_top">
+	<a <?php echo $link_class ?> href="<?php echo api_get_path(WEB_PATH); ?>index_personal_calendar.php" target="_top">
 	<?php echo get_lang("MyAgenda"); ?></a>
 
 <?php
