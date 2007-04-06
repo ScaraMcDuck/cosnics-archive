@@ -13,12 +13,18 @@ abstract class PersonalCalendarRenderer
 	 */
 	private $personal_calendar;
 	/**
+	 * The time of the moment to render
+	 */
+	private $display_time;
+	/**
 	 * Constructor
 	 * @param PersonalCalendar $personal_calendar
+	 * @param int $display_time
 	 */
-	function PersonalCalendarRenderer($personal_calendar)
+	function PersonalCalendarRenderer($personal_calendar,$display_time)
 	{
 		$this->personal_calendar = $personal_calendar;
+		$this->display_time = $display_time;
 	}
 	/**
 	 * Gets the evenst to display
@@ -29,6 +35,14 @@ abstract class PersonalCalendarRenderer
 	public function get_events($from_date,$to_date)
 	{
 		return $this->personal_calendar->get_events($from_date,$to_date);
+	}
+	/**
+	 * Gets the time
+	 * @return int
+	 */
+	public function get_time()
+	{
+		return $this->display_time;
 	}
 	/**
 	 * Renders the calendar
