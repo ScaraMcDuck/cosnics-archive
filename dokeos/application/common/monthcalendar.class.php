@@ -33,7 +33,7 @@ class MonthCalendar extends HTML_Table
 			$display_time = time();
 		}
 		$this->display_time = $display_time;
-		parent::HTML_Table(array('class'=>'calendar','border'=>'1'));
+		parent::HTML_Table(array('class'=>'calendar'));
 		$cell_mapping = array();
 		$this->build_table();
 	}
