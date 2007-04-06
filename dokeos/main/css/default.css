@@ -1500,7 +1500,7 @@ table.calendar tr
 }
 table.calendar td
 {
-	border: 1px solid #000000;
+	border: 1px solid #CCCCCC;
 	margin: 0px;
 	padding: 2px;
 	height: 60px;
