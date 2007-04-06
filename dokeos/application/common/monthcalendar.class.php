@@ -127,7 +127,7 @@ class MonthCalendar extends HTML_Table
 	}
 	/**
 	 * Adds a navigation bar to the calendar
-	 * @param string $url_format The %s in this string will be replaced by a
+	 * @param string $url_format The *TIME* in this string will be replaced by a
 	 * timestamp
 	 */
 	public function add_calendar_navigation($url_format)
@@ -135,9 +135,9 @@ class MonthCalendar extends HTML_Table
 		$prev = strtotime('-1 Month',$this->display_time);
 		$next = strtotime('+1 Month',$this->display_time);
 		$html[] =  '<div style="text-align: center;">';
-		$html[] =  '<a href="'.sprintf($url_format,$prev).'">&lt;&lt;</a> ';
+		$html[] =  '<a href="'.str_replace('-TIME-',$prev,$url_format).'">&lt;&lt;</a> ';
 		$html[] =  get_lang(date('F',$this->display_time).'Long').' '.date('Y',$this->display_time);
-		$html[] =  ' <a href="'.sprintf($url_format,$next).'">&gt;&gt;</a> ';
+		$html[] =  ' <a href="'.str_replace('-TIME-',$next,$url_format).'">&gt;&gt;</a> ';
 		$html[] =  '</div>';
 		$this->navigation_html = implode("\n",$html);
 	}
