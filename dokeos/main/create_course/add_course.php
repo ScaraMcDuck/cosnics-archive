@@ -120,7 +120,7 @@ if($form->validate())
 	$message = get_lang('JustCreated');
 	$message .= " <strong>".$course_values['wanted_code']."</strong>";
 	$message .= "<br/><br/>";
-	$message .= '<a href="'.api_get_path(WEB_PATH).'index_lcms.php">'.get_lang('Enter').'</a>';
+	$message .= '<a href="'.api_get_path(WEB_PATH).'index_weblcms.php">'.get_lang('Enter').'</a>';
 	Display :: display_normal_message($message);
 }
 else

@@ -4,6 +4,7 @@
  * @package application.weblcms
  */
 require_once dirname(__FILE__).'/weblcmscomponent.class.php';
+require_once dirname(__FILE__).'/weblcmssearchform.class.php';
 require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublicationcategory.class.php';
@@ -13,6 +14,7 @@ require_once dirname(__FILE__).'/../tool/tool.class.php';
 require_once dirname(__FILE__).'/../toollistrenderer.class.php';
 require_once dirname(__FILE__).'/../course/course.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/orcondition.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../course/course_table/coursetable.class.php';
 
@@ -45,6 +47,7 @@ class Weblcms extends WebApplication
 	const ACTION_VIEW_COURSE = 'courseviewer';
 	const ACTION_CREATE_COURSE = 'coursecreator';
 	const ACTION_IMPORT_COURSES = 'courseimporter';
+	const ACTION_IMPORT_COURSE_USERS = 'courseuserimporter';
 	const ACTION_MANAGER_SORT = 'sort';
 	const ACTION_MANAGER_SUBSCRIBE = 'subscribe';
 	const ACTION_MANAGER_UNSUBSCRIBE = 'unsubscribe';
@@ -65,6 +68,8 @@ class Weblcms extends WebApplication
 	 * The course object of the course currently active in this application
 	 */
 	private $course;
+	
+	private $search_form;
 
 	/**
 	 * Constructor. Optionally takes a default tool; otherwise, it is taken
@@ -106,6 +111,9 @@ class Weblcms extends WebApplication
 				break;
 			case self :: ACTION_IMPORT_COURSES :
 				$component = WeblcmsComponent :: factory('CourseImporter', $this);
+				break;
+			case self :: ACTION_IMPORT_COURSE_USERS :
+				$component = WeblcmsComponent :: factory('CourseUserImporter', $this);
 				break;
 			case self :: ACTION_MANAGER_SUBSCRIBE :
 				$component = WeblcmsComponent :: factory('Subscribe', $this);
@@ -286,7 +294,7 @@ class Weblcms extends WebApplication
 	 * Displays the header of this application
 	 * @param array $breadcrumbs The breadcrumbs which should be displayed
 	 */
-	function display_header($breadcrumbs = array ())
+	function display_header($breadcrumbs = array (), $display_search = false)
 	{
 		global $interbredcrump, $htmlHeadXtra;
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
@@ -329,12 +337,18 @@ class Weblcms extends WebApplication
 		{
 			if ($course && is_object($this->course))
 			{
-				echo '<h3>'.htmlentities($this->course->get_name()).'</h3>';
+				echo '<h3 style="float: left;">'.htmlentities($this->course->get_name()).'</h3>';
 			}
 			else
 			{
-				echo '<h3>'.htmlentities($title).'</h3>';
+				echo '<h3 style="float: left;">'.htmlentities($title).'</h3>';
+				if ($display_search)
+				{
+					$this->display_search_form();
+				}
 			}
+			
+			echo '<div class="clear">&nbsp;</div>';
 			
 			if ($msg = $_GET[self :: PARAM_MESSAGE])
 			{
@@ -762,6 +776,34 @@ class Weblcms extends WebApplication
 					break;
 			}
 		}
+	}
+	
+	/**
+	 * Gets the search form.
+	 * @return RepositorySearchForm The search form.
+	 */
+	private function get_search_form()
+	{
+		if (!isset ($this->search_form))
+		{
+			$this->search_form = new WeblcmsSearchForm($this, $this->get_url());
+		}
+		return $this->search_form;
+	}
+
+	function get_search_condition()
+	{
+		return $this->get_search_form()->get_condition();
+	}
+	
+	function get_search_parameter($name)
+	{
+		return $this->search_parameters[$name];
+	}
+	
+	private function display_search_form()
+	{
+		echo $this->get_search_form()->display();
 	}
 }
 ?>

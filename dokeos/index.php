@@ -363,124 +363,37 @@ function display_lost_password_info()
 */
 function display_anonymous_course_list()
 {
-	//init
-	global $coursesRepositoryWeb;
-	$web_course_path = api_get_path(WEB_COURSE_PATH);
-	$category = $_GET["category"];
-	$main_course_table = Database :: get_main_table(MAIN_COURSE_TABLE);
-	$main_category_table = Database :: get_main_table(MAIN_CATEGORY_TABLE);
-	$platformLanguage = api_get_setting('platformLanguage');
-
-	//get list of courses in category $category
-	$sql_get_course_list = "SELECT * FROM $main_course_table cours
-								WHERE category_code = '".$category."'
-								ORDER BY UPPER(visual_code)";
-	//removed: AND cours.visibility='".COURSE_VISIBILITY_OPEN_WORLD."'
-	$sql_result_courses = api_sql_query($sql_get_course_list, __FILE__, __LINE__);
-
-	while ($course_result = mysql_fetch_array($sql_result_courses))
+	$_uid = api_get_user_id();
+	$applications = load_applications();
+	if (count($applications))
 	{
-		$course_list[] = $course_result;
-	}
-
-	$sqlGetSubCatList = "
-				SELECT t1.name,t1.code,t1.parent_id,t1.children_count,COUNT(DISTINCT t3.code) AS nbCourse
-				FROM $main_category_table t1
-				LEFT JOIN $main_category_table t2 ON t1.code=t2.parent_id
-				LEFT JOIN $main_course_table t3 ON (t3.category_code=t1.code AND t3.visibility='".COURSE_VISIBILITY_OPEN_WORLD."')
-				WHERE t1.parent_id ". (empty ($category) ? "IS NULL" : "='$category'")."
-				GROUP BY t1.name,t1.code,t1.parent_id,t1.children_count ORDER BY t1.tree_pos";
-
-	$resCats = api_sql_query($sqlGetSubCatList, __FILE__, __LINE__);
-	$thereIsSubCat = FALSE;
-	if (mysql_num_rows($resCats) > 0)
-	{
-		$htmlListCat = "<h4 style=\"margin-top: 0px;\">".get_lang("CatList")."</h4>"."<ul>";
-		while ($catLine = mysql_fetch_array($resCats))
+		$html = array();
+		$html[] = '<h4 style="margin-top: 0px;">'.get_lang('ApplicationList').'</h4>';
+		$html[] = '<ul>';
+		foreach ($applications as $application)
 		{
-			if ($catLine['code'] != $category)
+			if (isset($_uid))
 			{
-				$htmlListCat .= "<li>";
-
-				$category_has_open_courses = category_has_open_courses($catLine['code']);
-				if ($category_has_open_courses)
-				{
-					//the category contains courses accessible to anonymous visitors
-					$htmlListCat .= "<a href=\"".$_SERVER['PHP_SELF']."?category=".$catLine['code']."\">".$catLine['name']."</a>";
-					if (CONFVAL_showNumberOfChild)
-					{
-						$htmlListCat .= " (".$catLine[nbCourse]." ".get_lang("Courses").")";
-					}
-				}
-				elseif ($catLine['children_count'] > 0)
-				{
-					//the category has children, subcategories
-					$htmlListCat .= "<a href=\"".$_SERVER['PHP_SELF']."?category=".$catLine['code']."\">".$catLine['name']."</a>";
-				}
-				elseif (CONFVAL_showNodeEmpty)
-				{
-					$htmlListCat .= $catLine['name'];
-				}
-				$htmlListCat .= "</li>\n";
-				$thereIsSubCat = true;
+				$html[]= '<li><a href="index_'. $application .'.php">'. get_lang(application_to_class($application)) .'</a></li>';
 			}
 			else
 			{
-				$htmlTitre = "<p>";
-				if (CONFVAL_ShowLinkBackToTopOfTree)
-				{
-					$htmlTitre .= "<a href=\"".$_SERVER['PHP_SELF']."\">"."&lt;&lt; ".get_lang("BackToHomePage")."</a>";
-				}
-				if (!is_null($catLine['parent_id']) || (!CONFVAL_ShowLinkBackToTopOfTree && !is_null($catLine['code'])))
-				{
-					$htmlTitre .= "<a href=\"".$_SERVER['PHP_SELF']."?category=".$catLine['parent_id']."\">"."&lt;&lt; ".get_lang("Up")."</a>";
-				}
-				$htmlTitre .= "</p>\n";
-				if ($category != "" && !is_null($catLine['code']))
-				{
-					$htmlTitre .= "<h3>".$catLine['name']."</h3>\n";
-				}
-				else
-				{
-					$htmlTitre .= "<h3>".get_lang("Categories")."</h3>\n";
-				}
+				$html[]= '<li>'. get_lang(application_to_class($application)) .'</li>';
 			}
 		}
-		$htmlListCat .= "</ul>\n";
-	}
-	echo $htmlTitre;
-	if ($thereIsSubCat)
-		echo $htmlListCat;
-	while ($categoryName = mysql_fetch_array($resCats))
-	{
-		echo "<h3>", $categoryName['name'], "</h3>\n";
-	}
-
-	if (count($course_list) > 0)
-	{
-		if ($thereIsSubCat)
-			echo "<hr size=\"1\" noshade=\"noshade\">\n";
-		echo "<h4 style=\"margin-top: 0px;\">", get_lang("CourseList"), "</h4>\n", "<ul>\n";
-
-		foreach ($course_list as $course)
+		
+		if (isset($_uid))
 		{
-			$course_location_id = RolesRights::get_course_location_id($course['code']);
-			$is_allowed_anonymous_access = RolesRights::is_allowed(ANONYMOUS_GUEST_COURSE_VISITOR, VIEW_RIGHT, $course_location_id);
-			if ($is_allowed_anonymous_access)
-			{
-				echo "<li>\n", '<a href="'.$web_course_path.$course['directory'], '/">', $course['title'], '</a>', '<br/>', $course['visual_code'], ' &ndash; ', $course['tutor_name'], ((CONFVAL_showCourseLangIfNotSameThatPlatform && $course['course_language'] != $platformLanguage) ? ' &ndahs; '.$course['course_language'] : ''), "\n", "</li>\n";
-			}
+			$html[]= '<li><a href="index_repository_manager.php">'. get_lang('RepositoryManager') .'</a></li>';
 		}
-
-		echo "</ul>\n";
-	}
-	else
-	{
-		// echo "<blockquote>",get_lang('_No_course_publicly_available'),"</blockquote>\n";
-	}
-	if ($category != "")
-	{
-		echo "<p>", "<a href=\"".$_SERVER['PHP_SELF']."\"><b>&lt;&lt;</b> ", get_lang("BackToHomePage"), "</a>", "</p>\n";
+		else
+		{
+			$html[]= '<li>'. get_lang('RepositoryManager') .'</li>';
+		}
+		
+		$html[] = '</ul>';
+		
+		echo implode($html, "\n");
 	}
 }
 
@@ -497,6 +410,47 @@ function category_has_open_courses($category)
 	}
 
 	return false;
+}
+
+/**
+ * Loads the applications installed on the system. Applications are classes
+ * in the /application/lib subdirectory. Each application is a directory,
+ * which in its turn contains a class file named after the application. For
+ * instance, the weblcms application is the class Weblcms, defined in
+ * /application/lib/weblcms/weblcms.class.php. Applications must extend the
+ * Application class.
+ */
+function load_applications()
+{
+	$applications = array();
+	$path = dirname(__FILE__).'/application/lib';
+	if ($handle = opendir($path))
+	{
+		while (false !== ($file = readdir($handle)))
+		{
+			$toolPath = $path.'/'. $file .'/'.$file.'_manager';
+			if (is_dir($toolPath) && is_application_name($file))
+			{
+				require_once $toolPath.'/'.$file.'.class.php';
+				if (!in_array($file, applications))
+				{
+					$applications[] = $file;
+				}
+			}
+		}
+		closedir($handle);
+	}
+	return $applications;
+}
+
+function is_application_name($name)
+{
+	return (preg_match('/^[a-z][a-z_]+$/', $name) > 0);
+}
+
+function application_to_class($application)
+{
+	return ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $application));
 }
 
 /*

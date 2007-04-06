@@ -4,37 +4,35 @@
  */
 require_once dirname(__FILE__).'/../weblcms.class.php';
 require_once dirname(__FILE__).'/../weblcmscomponent.class.php';
-require_once dirname(__FILE__).'/../../course/courseimportform.class.php';
+require_once dirname(__FILE__).'/../../course/courseuserimportform.class.php';
 
 /**
  * Weblcms component allows the use to create a course
  */
-class WeblcmsCourseImporterComponent extends WeblcmsComponent
+class WeblcmsCourseUserImporterComponent extends WeblcmsComponent
 {
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
+		$breadcrumbs = array();
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseUserCreateCsv'));
+		
 		if (!api_is_platform_admin())
 		{
-			$breadcrumbs = array();
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseCreateCsv'));
 			$this->display_header($breadcrumbs);
 			Display :: display_error_message(get_lang("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}
 		
-		$form = new CourseImportForm(CourseImportForm :: TYPE_IMPORT, $this->get_url());
-		
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseCreateCsv'));
+		$form = new CourseUserImportForm(CourseUserImportForm :: TYPE_IMPORT, $this->get_url());
 		
 		if($form->validate())
 		{
-			$success = $form->import_courses();
-			$this->redirect(null, get_lang($success ? 'CourseCreatedCsv' : 'CourseNotCreatedCsv'). '<br />' .$form->get_failed_csv(), ($success ? false : true));
+			$success = $form->import_course_users();
+			$this->redirect(null, get_lang($success ? 'CourseUserCreatedCsv' : 'CourseUserNotCreatedCsv'). '<br />' .$form->get_failed_csv(), ($success ? false : true));
 		}
 		else
 		{
@@ -51,9 +49,12 @@ class WeblcmsCourseImporterComponent extends WeblcmsComponent
 		$html[] = '<p>'. get_lang('CSVMustLookLike') .' ('. get_lang('MandatoryFields') .')</p>';
 		$html[] = '<blockquote>';
 		$html[] = '<pre>';
-		$html[] = '<b>Code</b>;<b>Title</b>;<b>CourseCategory</b>;<b>Teacher</b>';
-		$html[] = 'BIO0015;Biology;BIO;username';
+		$html[] = '<b>UserName</b>;<b>CourseCode</b>;<b>Status</b>';
+		$html[] = 'jdoe;course01;'. COURSEMANAGER;
+		$html[] = 'a.dam;course01;'. STUDENT;
 		$html[] = '</pre>';
+		$html[] = COURSEMANAGER .': '. get_lang('Teacher');
+		$html[] = STUDENT .': '. get_lang('Student');
 		$html[] = '</blockquote>';
 		
 		echo implode($html, "\n");		

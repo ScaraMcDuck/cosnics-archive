@@ -35,8 +35,28 @@ class CourseForm extends FormValidator {
     {
 		$this->addElement('text', Course :: PROPERTY_VISUAL, get_lang('VisualCode'));
 		$this->addRule(Course :: PROPERTY_VISUAL, get_lang('ThisFieldIsRequired'), 'required');
-		$this->addElement('text', Course :: PROPERTY_TITULAR, get_lang('Teacher'));
+		
+		if (!api_is_platform_admin())
+		{
+			$this->addElement('text', Course :: PROPERTY_TITULAR, get_lang('Teacher'));
+		}
+		else
+		{
+			// TODO: Code to be replaced by OO-alternative, pending implementation of user-classes
+			$table_user = Database :: get_main_table(MAIN_USER_TABLE);
+			$sql = "SELECT user_id,lastname,firstname FROM $table_user WHERE status=1 ORDER BY lastname,firstname";
+			$res = api_sql_query($sql,__FILE__,__LINE__);
+			
+			$user_options = array();
+			while ($user = mysql_fetch_array($res))
+			{
+				$user_options[$user['user_id']] = $user['lastname'] . '&nbsp;' . $user['firstname'];
+			}
+			
+			$this->addElement('select', Course :: PROPERTY_TITULAR, get_lang('Teacher'), $user_options);
+		}
 		$this->addRule(Course :: PROPERTY_TITULAR, get_lang('ThisFieldIsRequired'), 'required');
+		
 		$this->addElement('text', Course :: PROPERTY_NAME, get_lang('Title'));
 		$this->addRule(Course :: PROPERTY_NAME, get_lang('ThisFieldIsRequired'), 'required');
 		
@@ -136,7 +156,18 @@ class CourseForm extends FormValidator {
     	$course->set_visual($values[Course :: PROPERTY_VISUAL]);
     	$course->set_name($values[Course :: PROPERTY_NAME]);
     	$course->set_category_code($values[Course :: PROPERTY_CATEGORY_CODE]);
-    	$course->set_titular($values[Course :: PROPERTY_TITULAR]);
+    	
+		if (!api_is_platform_admin())
+		{
+			$titular = $values[Course :: PROPERTY_TITULAR];
+		}
+		else
+		{
+			$user = api_get_user_info($values[Course :: PROPERTY_TITULAR]);
+			$titular = $user['lastName']. ' ' .$user['firstName'];
+		}
+		
+		$course->set_titular($titular);
     	$course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
     	$course->set_extlink_url($values[Course :: PROPERTY_EXTLINK_URL]);
     	$course->set_language($values[Course :: PROPERTY_LANGUAGE]);
@@ -150,7 +181,16 @@ class CourseForm extends FormValidator {
     		add_course_role_right_location_values($course->get_id());
     		
     		$wdm = WeblcmsDataManager :: get_instance();
-    		if ($wdm->subscribe_user_to_course($course, '1', '1', api_get_user_id()))
+			if (!api_is_platform_admin())
+			{
+				$user_id = api_get_user_id();
+			}
+			else
+			{
+				$user_id = $values[Course :: PROPERTY_TITULAR];
+			}
+    		
+    		if ($wdm->subscribe_user_to_course($course, '1', '1', $user_id))
    			{
    				return true;
    			}

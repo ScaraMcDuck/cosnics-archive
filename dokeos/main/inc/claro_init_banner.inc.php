@@ -200,7 +200,7 @@ if($GLOBALS["this_section"] == "mycourses")
 	$link_class='';
 	}
 ?>
-	<a <?php echo $link_class ?> href="<?php echo api_get_path(WEB_PATH); ?>index_lcms.php" target="_top">
+	<a <?php echo $link_class ?> href="<?php echo api_get_path(WEB_PATH); ?>index_weblcms.php" target="_top">
 	<?php echo get_lang("MyCourses"); ?></a>
 
 <?php

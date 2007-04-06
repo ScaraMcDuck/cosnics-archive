@@ -3,16 +3,16 @@ require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/FormVali
 require_once dirname(__FILE__).'/../../../../main/inc/lib/import.lib.php';
 require_once dirname(__FILE__).'/../../../../main/inc/lib/usermanager.lib.php';
 require_once dirname(__FILE__).'/course.class.php';
-require_once dirname(__FILE__).'/coursecategory.class.php';
+require_once dirname(__FILE__).'/courseuserrelation.class.php';
 
-class CourseImportForm extends FormValidator {
+class CourseUserImportForm extends FormValidator {
 	
 	const TYPE_IMPORT = 1;
 	
 	private $failedcsv;
 
-    function CourseImportForm($form_type, $action) {
-    	parent :: __construct('course_import', 'post', $action);
+    function CourseUserImportForm($form_type, $action) {
+    	parent :: __construct('course_user_import', 'post', $action);
     	
 		$this->form_type = $form_type;
 		$this->failedcsv = array();
@@ -25,10 +25,10 @@ class CourseImportForm extends FormValidator {
     function build_importing_form()
     {
     	$this->addElement('file', 'file', get_lang('FileName'));
-		$this->addElement('submit', 'course_import', get_lang('Ok'));
+		$this->addElement('submit', 'course_user_import', get_lang('Ok'));
     }
     
-    function import_courses()
+    function import_course_users()
     {
     	$course = $this->course;
     	$values = $this->exportValues();
@@ -40,32 +40,13 @@ class CourseImportForm extends FormValidator {
     	{
     		if ($this->validate_data($csvcourse))
     		{
-    			$teacher_info = $this->get_teacher_info($csvcourse[Course :: PROPERTY_TITULAR]);
+    			$user_info = $this->get_user_info($csvcourse['username']);
     			
     			$course = new Course();
+    			$course->set_id($csvcourse[CourseUserRelation :: PROPERTY_COURSE]);
     			
-    			$course->set_id($csvcourse[Course :: PROPERTY_ID]);
-    			$course->set_visual($csvcourse[Course :: PROPERTY_ID]);
-    			$course->set_name($csvcourse[Course :: PROPERTY_NAME]);
-    			$course->set_language('english');
-    			$course->set_category_code($csvcourse[Course :: PROPERTY_CATEGORY_CODE]);
-    			$course->set_titular($teacher_info['lastname'] . ' ' . $teacher_info['firstname']);
-    			
-    			if ($course->create())
-    			{
-    				add_course_role_right_location_values($course->get_id());
-    				$wdm = WeblcmsDataManager :: get_instance();
-    				if ($wdm->subscribe_user_to_course($course, '1', '1', $teacher_info['user_id']))
-    				{
-    					
-    				}
-    				else
-    				{
-    					$failures++;
-    					$this->failedcsv[] = implode($csvcourse, ';');
-    				}
-    			}
-    			else
+    			$wdm = WeblcmsDataManager :: get_instance();
+    			if (!$wdm->subscribe_user_to_course($course, $csvcourse[CourseUserRelation :: PROPERTY_STATUS], ($csvcourse[CourseUserRelation :: PROPERTY_STATUS] == 1 ? 1 : 5), $user_info['user_id']))
     			{
     				$failures++;
     				$this->failedcsv[] = implode($csvcourse, ';');
@@ -89,7 +70,7 @@ class CourseImportForm extends FormValidator {
     }
     
     // TODO: Temporary solution pending implementation of user object
-    function get_teacher_info($user_name)
+    function get_user_info($user_name)
     {
     	if (!UserManager :: is_username_available($user_name))
     	{
@@ -110,24 +91,23 @@ class CourseImportForm extends FormValidator {
     {
     	$failures = 0;
     	$wdm = WeblcmsDataManager :: get_instance();
-    	
-		//1. check if mandatory fields are set
 		
-		//2. check if code isn't in use
-		if ($wdm->is_course($csvcourse[Course :: PROPERTY_ID]))
+		//1. check if user exists
+		// TODO: Change to appropriate property once the user-class is operational
+		$user_info = $this->get_user_info($csvcourse['username']);
+		if (!isset($user_info))
 		{
 			$failures++;
 		}
 		
-		//3. check if teacher exists
-		$teacher_info = $this->get_teacher_info($csvcourse[Course :: PROPERTY_TITULAR]);
-		if (!isset($teacher_info))
+		//2. check if course code exists
+		if (!$wdm->is_course($csvcourse[CourseUserRelation :: PROPERTY_COURSE]))
 		{
 			$failures++;
 		}
 		
-		//4. check if category exists
-		if (!$wdm->is_course_category($csvcourse[Course :: PROPERTY_CATEGORY_CODE]))
+		//3. Status valid ?
+		if ($csvcourse[CourseUserRelation :: PROPERTY_STATUS] != 1 && $csvcourse[CourseUserRelation :: PROPERTY_STATUS] != 5)
 		{
 			$failures++;
 		}

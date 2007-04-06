@@ -38,7 +38,7 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 		$menu = $this->get_menu_html();
 		$output = $this->get_course_html();
 		
-		$this->display_header($breadcrumbs);
+		$this->display_header($breadcrumbs, true);
 		echo $menu;
 		echo $output;
 		$this->display_footer();
@@ -46,13 +46,7 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 	
 	function get_course_html()
 	{
-		$condition = null;
-		if (isset($this->category))
-		{
-			$condition = new EqualityCondition(Course :: PROPERTY_CATEGORY_CODE, $this->category);
-		}
-		
-		$table = new CourseBrowserTable($this, null, null, $condition);
+		$table = new CourseBrowserTable($this, null, null, $this->get_condition());
 		
 		$html = array();
 		$html[] = '<div style="float: right; width: 80%;">';
@@ -75,6 +69,31 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 		$html[] = '</div>';
 		
 		return implode($html, "\n");
+	}
+	
+	function get_condition()
+	{
+		$search_conditions = $this->get_search_condition();
+		
+		$condition = null;
+		if (isset($this->category))
+		{
+			$condition = new EqualityCondition(Course :: PROPERTY_CATEGORY_CODE, $this->category);
+			
+			if (count($search_conditions))
+			{
+				$condition = new AndCondition($condition, $search_conditions);
+			}
+		}
+		else
+		{
+			if (count($search_conditions))
+			{
+				$condition = $search_conditions;
+			}
+		}
+		
+		return $condition;
 	}
 }
 ?>
