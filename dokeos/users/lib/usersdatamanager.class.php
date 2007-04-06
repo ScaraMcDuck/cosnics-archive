@@ -98,5 +98,7 @@ abstract class UsersDataManager
 		// TODO: Check if the user can be deleted (fe: can an admin delete another admin etc)
 		return true;
 	}
+	
+	abstract function is_username_available($username);
 }
 ?>

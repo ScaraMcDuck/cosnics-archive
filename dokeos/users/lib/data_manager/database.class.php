@@ -208,5 +208,20 @@ class DatabaseUsersDataManager extends UsersDataManager
 //		$res->free();
 //		return self :: record_to_learning_object($record, true);
 	}
+	
+	function is_username_available($username)
+	{
+		$query = 'SELECT username FROM '.$this->escape_table_name('user').' WHERE '.$this->escape_column_name(User :: PROPERTY_USERNAME).'=?';
+		$statement = $this->connection->prepare($query);
+		$result = $statement->execute($username);
+		if ($result->numRows() == 1)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 }
 ?>
