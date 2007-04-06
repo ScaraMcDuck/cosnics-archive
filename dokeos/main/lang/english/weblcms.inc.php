@@ -1,6 +1,7 @@
 <?php
 $Actions='Actions';
 $AddAttachments='Add Attachments';
+$AddUserToCourseCsv='Add users to course from CSV';
 $AlreadySubscribed='Already subscribed';
 $AnnouncementToolTitle='Announcements';
 $Attachments='Attachments';
@@ -59,6 +60,7 @@ $ForumToolTitle='Forum';
 $From='From';
 $GroupToolTitle='Groups';
 $Hidden='Hidden';
+$Home='Home';
 $HourMinuteDivider=':';
 $Language='Language';
 $LastPost='Last Post';
@@ -90,6 +92,7 @@ $PublishedOn='Published on';
 $PublishFor='Publish for';
 $RootCategory='Root Category';
 $Search='Search';
+$SearchResults='Search Results';
 $SearchToolTitle='Search';
 $SetCourseUserCategory='Set the course category';
 $SortMyCourses='Sort my courses';

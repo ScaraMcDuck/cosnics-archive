@@ -1347,6 +1347,11 @@ ul.tree-menu li div a.search_results
 	background-image: url(../img/search_icon.gif);
 }
 
+ul.tree-menu li div a.home
+{
+	background-image: url(../img/home_small.gif);
+}
+
 /*
  * For element finder
  */

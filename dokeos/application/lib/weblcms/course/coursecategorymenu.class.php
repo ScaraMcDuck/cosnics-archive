@@ -62,6 +62,13 @@ class CourseCategoryMenu extends HTML_Menu
 		{
 			$menu = array_merge($menu, $extra_items);
 		}
+		
+		$home = array ();
+		$home['title'] = get_lang('Home');
+		$home['url'] = $this->get_home_url();
+		$home['class'] = 'home';
+		$home_item[] = $home;
+		$menu = array_merge($home_item, $menu);
 		return $menu;
 	}
 	/**
@@ -100,6 +107,12 @@ class CourseCategoryMenu extends HTML_Menu
 	{
 		// TODO: Put another class in charge of the htmlentities() invocation
 		return htmlentities(sprintf($this->urlFmt, $category));
+	}
+	
+	private function get_home_url ($category)
+	{
+		// TODO: Put another class in charge of the htmlentities() invocation
+		return htmlentities(str_replace('&category=%s', '', $this->urlFmt));
 	}
 	/**
 	 * Get the breadcrumbs which lead to the current category.

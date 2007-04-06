@@ -796,6 +796,11 @@ class Weblcms extends WebApplication
 		return $this->get_search_form()->get_condition();
 	}
 	
+	function get_search_validate()
+	{
+		return $this->get_search_form()->validate();
+	}
+	
 	function get_search_parameter($name)
 	{
 		return $this->search_parameters[$name];

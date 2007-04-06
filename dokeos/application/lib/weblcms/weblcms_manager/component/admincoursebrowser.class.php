@@ -53,10 +53,31 @@ class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 	
 	function get_menu_html()
 	{
+		$extra_items = array ();
+		if ($this->get_search_validate())
+		{
+			// $search_url = $this->get_url();
+			$search_url = '#';
+			$search = array ();
+			$search['title'] = get_lang('SearchResults');
+			$search['url'] = $search_url;
+			$search['class'] = 'search_results';
+			$extra_items[] = & $search;
+		}
+		else
+		{
+			$search_url = null;
+		}
+		
 		$temp_replacement = '__CATEGORY_ID__';
 		$url_format = $this->get_url(array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER, Weblcms :: PARAM_COURSE_CATEGORY_ID => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
-		$category_menu = new CourseCategoryMenu($this->category, $url_format);
+		$category_menu = new CourseCategoryMenu($this->category, $url_format, & $extra_items);
+		
+		if (isset ($search_url))
+		{
+			$category_menu->forceCurrentUrl($search_url, true);
+		}
 		
 		$html = array();
 		$html[] = '<div style="float: left; width: 20%;">';
