@@ -14,6 +14,16 @@ class UserManagerCreatorComponent extends UserManagerComponent
 	 */
 	function run()
 	{		
+		$user_id = api_get_user_id();
+		$breadcrumbs = array();
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('UserCreate'));
+		if (isset($user_id) && !api_is_platform_admin()) 
+		{
+			$this->display_header($breadcrumbs);
+			Display :: display_warning_message(get_lang('AlreadyRegistered'));
+			$this->display_footer();
+			exit;
+		}
 		$user = new User();
 		
 		$user_info = api_get_user_info();
@@ -21,21 +31,12 @@ class UserManagerCreatorComponent extends UserManagerComponent
 		
 		$form = new UserForm(UserForm :: TYPE_CREATE, $user, $this->get_url());
 		
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('UserCreate'));
+
 		
 		if($form->validate())
 		{
 			$success = $form->create_user();
-			if ($success)
-			{
-				echo 'SUCCESS';
-			}
-			else
-			{
-				echo 'FAILED';
-			}
-			//$this->redirect(Weblcms :: ACTION_VIEW_WEBLCMS_HOME, get_lang($success ? 'CourseCreated' : 'CourseNotCreated'), ($success ? false : true));
+			$this->redirect(User :: ACTION_CREATE_USER, get_lang($success ? 'UserCreated' : 'UserNotCreated'), ($success ? false : true));
 		}
 		else
 		{

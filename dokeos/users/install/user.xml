@@ -14,12 +14,6 @@
   <property name="phone" type="text" length="30"/>
   <property name="picture_uri" type="text" length="250"/>
   <property name="creator_id" type="integer" unsigned="1"/>
-  <property name="openarea" type="text"/>
-  <property name="teach" type="text"/>
-  <property name="productions" type="text" length="250"/>
-  <property name="chatcall_user_id" type="integer" unsigned="1" notnull="1" default="0"/>
-  <property name="chatcall_date" type="timestamp" notnull="1" default="0000-00-00 00:00:00"/>
-  <property name="chatcall_text" type="text" length="50" notnull="1"/>
   <property name="language" type="text" length="40"/>
   <property name="disk_quota" type="integer" unsigned="1" notnull="1" default="200000000"/>
   <property name="database_quota" type="integer" unsigned="1" notnull="1" default="300"/>

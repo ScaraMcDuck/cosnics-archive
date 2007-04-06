@@ -64,6 +64,8 @@ class User
 	const PROPERTY_DATABASE_QUOTA = 'database_quota';
 	const PROPERTY_VERSION_QUOTA = 'version_quota';
 	
+	const ACTION_CREATE_USER = 'create';
+	
 	/**#@-*/
 
 	/**
