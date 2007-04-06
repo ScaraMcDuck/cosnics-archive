@@ -5,6 +5,7 @@
  * @subpackage browser.listrenderer
  */
 require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/../../../../common/weekcalendar.class.php';
 /**
  * Interval between sections in the week view of the calendar.
  */
@@ -32,57 +33,23 @@ class WeekCalendarLearningObjectPublicationListRenderer extends LearningObjectPu
 	 */
 	function as_html()
 	{
-		$week_number = date('W',$this->display_time);
-		// Go 1 week back end them jump to the next monday to reach the first day of this week
-		$first_day = strtotime('Monday',strtotime('-1 Week',$this->display_time));
-		$last_day = strtotime('Sunday',$first_day);
-		$calendar_table = new HTML_Table(array ('class' => 'calendar'));
-		for($hour = 0; $hour < 24; $hour += HOUR_STEP)
+		$calendar_table = new WeekCalendar($this->display_time);
+		$start_time = $calendar_table->get_start_time();
+		$end_time = $calendar_table->get_end_time();
+		$table_date = $start_time;
+		while($table_date <= $end_time)
 		{
-			$cell_content = $hour.'u - '.($hour+HOUR_STEP).'u';
-			$calendar_table->setCellContents($hour/HOUR_STEP+1,0,$cell_content);
-			for($column = 1; $column <= 7; $column++)
+			$next_table_date = strtotime('+'.$calendar_table->get_hour_step().' Hours',$table_date);
+			$publications = $this->browser->get_calendar_events($table_date,$next_table_date);
+			foreach($publications as $index => $publication)
 			{
-				$day = strtotime('+'.($column-1).' day',$first_day);
-				$table_start_date = mktime($hour,0,0,date('m',$day),date('d',$day),date('Y',$day));
-				$table_end_date = strtotime('+4 hours',$table_start_date);
-				$cell_contents = '';
-				// If allowed to add, add a link to the calendar cell
-				if($this->is_allowed(ADD_RIGHT))
-				{
-					$params = array('default_start_date' => $table_start_date,'default_end_date' => $table_end_date,'publish_action' => 'publicationcreator','admin' => '1');
-					$add_url = $this->get_url($params);
-					$cell_contents = '<div style="text-align:right;"><a href="'.$add_url.'">+</a></div>';
-				}
-				$publications = $this->browser->get_calendar_events($table_start_date,$table_end_date);
-				foreach($publications as $index => $publication)
-				{
-					$cell_contents .= $this->render_publication($publication,$table_start_date);
-				}
-
-				$calendar_table->setCellContents($hour/HOUR_STEP+1,$column,$cell_contents);
+				$cell_contents = $this->render_publication($publication,$table_date);
+				$calendar_table->add_event($table_date,$cell_contents );
 			}
+			$table_date = $next_table_date;
 		}
-		$dates[] = '';
-		$today = date('Y-m-d');
-		for($day = 0; $day < 7; $day++)
-		{
-			$week_day = strtotime('+'.$day.' days',$first_day);
-			$calendar_table->setCellContents(0,$day+1,get_lang(date('l',$week_day).'Long').'<br/>'.date('Y-m-d',$week_day));
-			if($today == date('Y-m-d',$week_day))
-			{
-				$calendar_table->updateColAttributes($day+1,'class="highlight"');
-			}
-		}
-		$calendar_table->setRowType(0,'th');
-		$calendar_table->setColType(0,'th');
-		$prev = strtotime('-1 Week',$this->display_time);
-		$next = strtotime('+1 Week',$this->display_time);
-		$html[] = '<div style="text-align: center;">';
-		$html[] =  '<a href="'.$this->get_url(array('time' => $prev), true).'">&lt;&lt;</a> ';
-		$html[] =  htmlentities(get_lang('Week')).' '.$week_number.' : '.date('l d M Y',$first_day).' - '.date('l d M Y',strtotime('+6 Days',$first_day));
-		$html[] =  ' <a href="'.$this->get_url(array('time' => $next), true).'">&gt;&gt;</a> ';
-		$html[] =  '</div>';
+		$url_format = $this->get_url(array('time' => '-TIME-'));
+		$calendar_table->add_calendar_navigation($url_format);
 		$html[] = $calendar_table->toHtml();
 		return implode("\n",$html);
 	}
