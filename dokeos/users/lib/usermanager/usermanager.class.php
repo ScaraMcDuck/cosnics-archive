@@ -101,17 +101,7 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
 		Display :: display_header($title_short);
-		echo '<div style="float: left; width: 20%;">';
-		//$this->display_learning_object_categories();
-		echo '</div>';
-		echo '<div style="float: right; width: 80%;">';
-		echo '<div>';
 		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
-//		if ($display_search)
-//		{
-//			$this->display_search_form();
-//		}
-		echo '</div>';
 		echo '<div class="clear">&nbsp;</div>';
 		if ($msg = $_GET[self :: PARAM_MESSAGE])
 		{
@@ -234,28 +224,24 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 	 * category).
 	 * @param boolean $error_message Is the passed message an error message?
 	 */
-//	function redirect($action = self :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0, $error_message = false, $extra_params = null)
-//	{
-//		$params = array ();
-//		$params[self :: PARAM_ACTION] = $action;
-//		if (isset ($message))
-//		{
-//			$params[$error_message ? self :: PARAM_ERROR_MESSAGE :  self :: PARAM_MESSAGE] = $message;
-//		}
-//		if ($new_category_id)
-//		{
-//			$params[self :: PARAM_CATEGORY_ID] = $new_category_id;
-//		}
-//		if (isset($extra_params))
-//		{
-//			foreach($extra_params as $key => $extra)
-//			{
-//				$params[$key] = $extra;
-//			}
-//		}
-//		$url = $this->get_url($params);
-//		header('Location: '.$url);
-//	}
+	function redirect($action = self :: ACTION_CREATE_USER, $message = null, $error_message = false, $extra_params = null)
+	{
+		$params = array ();
+		$params[self :: PARAM_ACTION] = $action;
+		if (isset ($message))
+		{
+			$params[$error_message ? self :: PARAM_ERROR_MESSAGE :  self :: PARAM_MESSAGE] = $message;
+		}
+		if (isset($extra_params))
+		{
+			foreach($extra_params as $key => $extra)
+			{
+				$params[$key] = $extra;
+			}
+		}
+		$url = $this->get_url($params);
+		header('Location: '.$url);
+	}
 
 	/**
 	 * Sets the active URL in the navigation menu.

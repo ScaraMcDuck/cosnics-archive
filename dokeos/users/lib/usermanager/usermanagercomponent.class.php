@@ -164,9 +164,9 @@ abstract class UserManagerComponent {
 	/**
 	 * @see UserManager::redirect()
 	 */
-	function redirect($action = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0, $error_message = false, $extra_params = null)
+	function redirect($action = UserManager :: ACTION_CREATE_USER, $message = null, $error_message = false, $extra_params = null)
 	{
-		return $this->get_parent()->redirect($action, $message, $new_category_id, $error_message, $extra_params);
+		return $this->get_parent()->redirect($action, $message, $error_message, $extra_params);
 	}
 	/**
 	 * @see UserManager::User_deletion_allowed()

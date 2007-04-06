@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../../../main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../../../main/inc/lib/fileUpload.lib.php';
 require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../usersdatamanager.class.php';
 
@@ -57,7 +58,7 @@ class UserForm extends FormValidator {
 		// Picture URI
 		$this->addElement('file', User :: PROPERTY_PICTURE_URI, get_lang('AddPicture'));
 		$allowed_picture_types = array ('jpg', 'jpeg', 'png', 'gif');
-		$this->addRule('picture', get_lang('OnlyImagesAllowed').' ('.implode(',', $allowed_picture_types).')', 'filetype', $allowed_picture_types);
+		$this->addRule(User :: PROPERTY_PICTURE_URI, get_lang('OnlyImagesAllowed').' ('.implode(',', $allowed_picture_types).')', 'filetype', $allowed_picture_types);
 		// Phone Number
 		$this->addElement('text', User :: PROPERTY_PHONE, get_lang('PhoneNumber'));
 		// Language
@@ -112,35 +113,38 @@ class UserForm extends FormValidator {
     	
     	$password = $values['password']['password_auto'] == '1' ? api_generate_password() : $values['password']['password'];
     	
-    	$picture_element = & $this->getElement('picture');
-		$picture = $picture_element->getValue();
-		$picture_uri = '';
-		if (strlen($picture['name']) > 0)
-		{
-			$picture_uri = uniqid('').'_'.replace_dangerous_char($picture['name']);
-			$picture_location = api_get_path(SYS_CODE_PATH).'upload/users/'.$picture_uri;
-			move_uploaded_file($picture['tmp_name'], $picture_location);
-		}
-		$picture = $_FILES['picture'];
-    	
-    	$user->set_lastname($values[User :: PROPERTY_LASTNAME]);
-    	$user->set_firstname($values[User :: PROPERTY_FISRTNAME]);
-    	$user->set_email($values[User :: PROPERTY_EMAIL]);
-    	$user->set_username($values[User :: PROPERTY_USERNAME]);
-    	$user->set_password($password);
-    	$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
-    	$user->set_picture_uri($picture_uri);
-    	$user->set_phone($values[User :: PROPERTY_PHONE]);
-    	$user->set_status(intval($values[User :: PROPERTY_STATUS]));
-    	$user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
-    	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
-    	$user->set_platformadmin($values[User :: PROPERTY_PLATFORMADMIN]);   	
-    	$send_mail = intval($user['mail']['send_mail']);
-    	if ($send_mail)
+		$temp_picture_location = $_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name'];
+		$picture_name = $_FILES[User :: PROPERTY_PICTURE_URI]['name'];
+		$picture_uri = uniqid('').'_'.replace_dangerous_char($picture_name);
+		$picture_location = api_get_path(SYS_CODE_PATH).'upload/users/'.$picture_uri;
+		move_uploaded_file($temp_picture_location, $picture_location);
+		$udm = UsersDataManager :: get_instance();
+    	if ($udm->is_username_available($values[User :: PROPERTY_USERNAME]))
     	{
-    		$this->send_email(); 
+    		$user->set_lastname($values[User :: PROPERTY_LASTNAME]);
+    		$user->set_firstname($values[User :: PROPERTY_FIRSTNAME]);
+    		$user->set_email($values[User :: PROPERTY_EMAIL]);
+	    	$user->set_username($values[User :: PROPERTY_USERNAME]);
+	 	   	$user->set_password(md5($password));
+    		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
+			$user->set_picture_uri($picture_uri);
+  		  	$user->set_phone($values[User :: PROPERTY_PHONE]);
+  		  	$user->set_status(intval($values[User :: PROPERTY_STATUS]));
+ 		   	$user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
+ 		   	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
+ 		   	$user->set_platformadmin($values[User :: PROPERTY_PLATFORMADMIN]);
+    		//$send_mail = intval($user['mail']['send_mail']);
+    		if ($send_mail)
+    		{
+    			$this->send_email($user); 
+    		}
+
+    		return $user->create();
     	}
-    	return $user->update();
+    	else 
+    	{
+    		return false;
+    	}
     }
     
     
@@ -152,17 +156,11 @@ class UserForm extends FormValidator {
     	
     	$password = $values['password']['password_auto'] == '1' ? api_generate_password() : $values['password']['password'];
     	
-//    	$picture_element = & $this->getElement('picture');
-//		$picture = $picture_element->getValue();
-//		$picture_uri = '';
-//		if (strlen($picture['name']) > 0)
-//		{
-//			$picture_uri = uniqid('').'_'.replace_dangerous_char($picture['name']);
-//			$picture_location = api_get_path(SYS_CODE_PATH).'upload/users/'.$picture_uri;
-//			move_uploaded_file($picture['tmp_name'], $picture_location);
-//		}
-//		$picture = $_FILES['picture']['tmp_name'];
-
+		$temp_picture_location = $_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name'];
+		$picture_name = $_FILES[User :: PROPERTY_PICTURE_URI]['name'];
+		$picture_uri = uniqid('').'_'.replace_dangerous_char($picture_name);
+		$picture_location = api_get_path(SYS_CODE_PATH).'upload/users/'.$picture_uri;
+		move_uploaded_file($temp_picture_location, $picture_location);
 		$udm = UsersDataManager :: get_instance();
     	if ($udm->is_username_available($values[User :: PROPERTY_USERNAME]))
     	{
@@ -173,7 +171,7 @@ class UserForm extends FormValidator {
 	    	$user->set_username($values[User :: PROPERTY_USERNAME]);
 	 	   	$user->set_password(md5($password));
     		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
-			$user->set_picture_uri('');
+			$user->set_picture_uri($picture_uri);
   		  	$user->set_phone($values[User :: PROPERTY_PHONE]);
   		  	$user->set_status(intval($values[User :: PROPERTY_STATUS]));
  		   	$user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
