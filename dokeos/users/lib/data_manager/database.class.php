@@ -187,26 +187,35 @@ class DatabaseUsersDataManager extends UsersDataManager
 		return $user_database.'.'.$this->prefix.$name;
 	}
 	
-	function retrieve_user($id, $type = null)
+	function retrieve_user($id)
 	{
-//		if (is_null($type))
-//		{
-//			$type = $this->determine_learning_object_type($id);
-//		}
-//		if ($this->is_extended_type($type))
-//		{
-//			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).'='.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' WHERE '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
-//		}
-//		else
-//		{
-//			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
-//		}
-//		$this->connection->setLimit(1);
-//		$statement = $this->connection->prepare($query);
-//		$res = $statement->execute($id);
-//		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-//		$res->free();
-//		return self :: record_to_learning_object($record, true);
+
+		$query = 'SELECT * FROM '.$this->escape_table_name('user').' AS '.self :: ALIAS_USER_TABLE.' WHERE '.$this->escape_column_name(User :: PROPERTY_USER_ID).'=?';
+		$this->connection->setLimit(1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($id);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$res->free();
+		return self :: record_to_user($record);
+	}
+	
+	/**
+	 * Parses a database record fetched as an associative array into an user.
+	 * @param array $record The associative array.
+	 * @return LearningObject The learning object.
+	 */
+	function record_to_user($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (User :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new User($record[User :: PROPERTY_USER_ID], $defaultProp);
 	}
 	
 	function is_username_available($username)

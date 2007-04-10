@@ -12,12 +12,14 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
  * A user manager provides some functionalities to the admin to manage
  * his users. For each functionality a component is available.
  */
- class usermanager {
+ class UserManager {
  	const PARAM_ACTION = 'go';
 	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
+	const PARAM_USER_USER_ID = 'user_id';
 	
 	const ACTION_CREATE_USER = 'create';
+	const ACTION_UPDATE_USER = 'update';
 	
 	private $parameters;
 	private $search_parameters;
@@ -55,6 +57,10 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 			case self :: ACTION_CREATE_USER :
 				$this->force_menu_url($this->create_url, true);
 				$component = UserManagerComponent :: factory('Creator', $this);
+				break;
+			case self :: ACTION_UPDATE_USER :
+				$this->force_menu_url($this->create_url, true);
+				$component = UserManagerComponent :: factory('Updater', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_CREATE_USER);
@@ -287,7 +293,7 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 	 */
 	function retrieve_user($id)
 	{
-		$udm = UserDataManager :: get_instance();
+		$udm = UsersDataManager :: get_instance();
 		return $udm->retrieve_user($id);
 	}
 	
@@ -296,7 +302,7 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 	 */
 	function user_deletion_allowed($user)
 	{
-		$udm = UserDataManager :: get_instance();
+		$udm = UsersDataManager :: get_instance();
 		return $udm->user_deletion_allowed($user);
 	}
 	

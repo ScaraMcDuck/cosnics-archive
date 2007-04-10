@@ -50,9 +50,13 @@ class UserForm extends FormValidator {
 		$this->addRule(User :: PROPERTY_USERNAME, get_lang('ThisFieldIsRequired'), 'required');
 		//pw
 		$group = array();
+		if ($this->form_type == self :: TYPE_EDIT)
+		{
+			$group[] =& $this->createElement('radio', 'pass', null,get_lang('KeepPassword').'<br />',2);
+		}
 		$group[] =& $this->createElement('radio', 'pass', null,get_lang('AutoGeneratePassword').'<br />',1);
 		$group[] =& $this->createElement('radio', 'pass', null,null,0);
-		$group[] =& $this->createElement('text', User :: PROPERTY_PASSWORD,null,null);
+		$group[] =& $this->createElement('password', User :: PROPERTY_PASSWORD,null,null);
 		$this->addGroup($group, 'pw', get_lang('Password'), '');
 		// Official Code
 		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, get_lang('OfficialCode'));
@@ -207,14 +211,21 @@ class UserForm extends FormValidator {
 	function setDefaults($defaults = array ())
 	{
 		$user = $this->user;
-		$defaults['pw']['pass'] = $user->get_password();
+		if ($this->form_type == self :: TYPE_EDIT)
+		{
+			$defaults['pw']['pass'] = 2;
+			//$defaults['pw'][User :: PROPERTY_PASSWORD] = $user->get_password();
+		}
+		else
+		{
+			$defaults['pw']['pass'] = $user->get_password();
+		}
 		$defaults['admin'][User :: PROPERTY_PLATFORMADMIN] = $user->get_platformadmin();
 		$defaults['mail']['send_mail'] = 1;
 		$defaults[User :: PROPERTY_LASTNAME] = $user->get_lastname();
 		$defaults[User :: PROPERTY_FIRSTNAME] = $user->get_firstname();
 		$defaults[User :: PROPERTY_EMAIL] = $user->get_email();
 		$defaults[User :: PROPERTY_USERNAME] = $user->get_username();
-		//$defaults['pw'][User :: PROPERTY_PASSWORD] = $user->get_password();
 		$defaults[User :: PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
 		$defaults[User :: PROPERTY_PICTURE_URI] = $user->get_picture_uri();
 		$defaults[User :: PROPERTY_PHONE] = $user->get_phone();
