@@ -25,6 +25,8 @@ class UserManagerCreatorComponent extends UserManagerComponent
 			exit;
 		}
 		$user = new User();
+		$user->set_platformadmin(0);
+		$user->set_password(1);
 		
 		$user_info = api_get_user_info();
 		$user->set_creator_id($user_info['user_id']);

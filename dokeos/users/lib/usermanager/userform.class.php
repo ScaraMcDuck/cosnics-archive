@@ -50,10 +50,10 @@ class UserForm extends FormValidator {
 		$this->addRule(User :: PROPERTY_USERNAME, get_lang('ThisFieldIsRequired'), 'required');
 		//pw
 		$group = array();
-		$group[] =& $this->createElement('radio','password_auto',get_lang('Passsssword'),get_lang('AutoGeneratePassword').'<br />',1);
-		$group[] =& $this->createElement('radio', 'password_auto',null,null,0);
-		$group[] =& $this->createElement('password', 'password',null,null);
-		$this->addGroup($group, 'password', get_lang('Password'), ''); 
+		$group[] =& $this->createElement('radio', 'pass', null,get_lang('AutoGeneratePassword').'<br />',1);
+		$group[] =& $this->createElement('radio', 'pass', null,null,0);
+		$group[] =& $this->createElement('text', User :: PROPERTY_PASSWORD,null,null);
+		$this->addGroup($group, 'pw', get_lang('Password'), '');
 		// Official Code
 		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, get_lang('OfficialCode'));
 		// Picture URI
@@ -78,11 +78,11 @@ class UserForm extends FormValidator {
 		$status = array();  
 		$status[COURSEMANAGER]  = get_lang('CourseAdmin');
 		$status[STUDENT] = get_lang('Student');  
-		$this->addElement('select','status',get_lang('Status'),$status);
+		$this->addElement('select',User :: PROPERTY_STATUS,get_lang('Status'),$status);
 		// Platform admin
 		$group = array();
-		$group[] =& $this->createElement('radio', 'platform_admin',null,get_lang('Yes'),1);
-		$group[] =& $this->createElement('radio', 'platform_admin',null,get_lang('No'),0);
+		$group[] =& $this->createElement('radio', User :: PROPERTY_PLATFORMADMIN,null,get_lang('Yes'),1);
+		$group[] =& $this->createElement('radio', User :: PROPERTY_PLATFORMADMIN,null,get_lang('No'),0);
 		$this->addGroup($group, 'admin', get_lang('PlatformAdmin'), '&nbsp;');
 		//  Send email 
 		$group = array();
@@ -113,13 +113,16 @@ class UserForm extends FormValidator {
     	$user = $this->user;
     	$values = $this->exportValues();
     	
-    	$password = $values['password']['password_auto'] == '1' ? api_generate_password() : $values['password']['password'];
+    	$password = $values['pw']['pass'] == '1' ? api_generate_password() : $values['pw'][User :: PROPERTY_PASSWORD];
     	
-		$temp_picture_location = $_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name'];
-		$picture_name = $_FILES[User :: PROPERTY_PICTURE_URI]['name'];
-		$picture_uri = uniqid('').'_'.replace_dangerous_char($picture_name);
-		$picture_location = api_get_path(SYS_CODE_PATH).'upload/users/'.$picture_uri;
-		move_uploaded_file($temp_picture_location, $picture_location);
+    	if ($values[User :: PROPERTY_PICTURE_URI])
+    	{
+			$temp_picture_location = $_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name'];
+			$picture_name = $_FILES[User :: PROPERTY_PICTURE_URI]['name'];
+			$picture_uri = uniqid('').'_'.replace_dangerous_char($picture_name);
+			$picture_location = api_get_path(SYS_CODE_PATH).'upload/users/'.$picture_uri;
+			move_uploaded_file($temp_picture_location, $picture_location);
+    	}
 		$udm = UsersDataManager :: get_instance();
     	if ($udm->is_username_available($values[User :: PROPERTY_USERNAME]))
     	{
@@ -134,7 +137,7 @@ class UserForm extends FormValidator {
   		  	$user->set_status(intval($values[User :: PROPERTY_STATUS]));
  		   	$user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
  		   	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
- 		   	$user->set_platformadmin($values[User :: PROPERTY_PLATFORMADMIN]);
+			$user->set_platformadmin(intval($values['admin'][User :: PROPERTY_PLATFORMADMIN]));
     		//$send_mail = intval($user['mail']['send_mail']);
     		if ($send_mail)
     		{
@@ -156,13 +159,16 @@ class UserForm extends FormValidator {
     	$user = $this->user;
     	$values = $this->exportValues();
     	
-    	$password = $values['password']['password_auto'] == '1' ? api_generate_password() : $values['password']['password'];
+    	$password = $values['pw']['pass'] == '1' ? api_generate_password() : $values['pw'][User :: PROPERTY_PASSWORD];
     	
-		$temp_picture_location = $_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name'];
-		$picture_name = $_FILES[User :: PROPERTY_PICTURE_URI]['name'];
-		$picture_uri = uniqid('').'_'.replace_dangerous_char($picture_name);
-		$picture_location = api_get_path(SYS_CODE_PATH).'upload/users/'.$picture_uri;
-		move_uploaded_file($temp_picture_location, $picture_location);
+    	if ($values[User :: PROPERTY_PICTURE_URI])
+    	{
+			$temp_picture_location = $_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name'];
+			$picture_name = $_FILES[User :: PROPERTY_PICTURE_URI]['name'];
+			$picture_uri = uniqid('').'_'.replace_dangerous_char($picture_name);
+			$picture_location = api_get_path(SYS_CODE_PATH).'upload/users/'.$picture_uri;
+			move_uploaded_file($temp_picture_location, $picture_location);
+    	}
 		$udm = UsersDataManager :: get_instance();
     	if ($udm->is_username_available($values[User :: PROPERTY_USERNAME]))
     	{
@@ -178,7 +184,7 @@ class UserForm extends FormValidator {
   		  	$user->set_status(intval($values[User :: PROPERTY_STATUS]));
  		   	$user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
  		   	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
- 		   	$user->set_platformadmin($values[User :: PROPERTY_PLATFORMADMIN]);
+ 		   	$user->set_platformadmin(intval($values['admin'][User :: PROPERTY_PLATFORMADMIN]));
     		//$send_mail = intval($user['mail']['send_mail']);
     		if ($send_mail)
     		{
@@ -201,14 +207,14 @@ class UserForm extends FormValidator {
 	function setDefaults($defaults = array ())
 	{
 		$user = $this->user;
-		$defaults['password']['password_auto'] = 1;
-		$defaults['admin']['platform_admin'] = 0;
+		$defaults['pw']['pass'] = $user->get_password();
+		$defaults['admin'][User :: PROPERTY_PLATFORMADMIN] = $user->get_platformadmin();
 		$defaults['mail']['send_mail'] = 1;
 		$defaults[User :: PROPERTY_LASTNAME] = $user->get_lastname();
 		$defaults[User :: PROPERTY_FIRSTNAME] = $user->get_firstname();
 		$defaults[User :: PROPERTY_EMAIL] = $user->get_email();
 		$defaults[User :: PROPERTY_USERNAME] = $user->get_username();
-		$defaults[User :: PROPERTY_PASSWORD] = $user->get_password();
+		//$defaults['pw'][User :: PROPERTY_PASSWORD] = $user->get_password();
 		$defaults[User :: PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
 		$defaults[User :: PROPERTY_PICTURE_URI] = $user->get_picture_uri();
 		$defaults[User :: PROPERTY_PHONE] = $user->get_phone();
@@ -221,6 +227,7 @@ class UserForm extends FormValidator {
 	{
 		$firstname = $user->get_firstname();
 		$lastname = $user->get_lastname();
+		$username = $user->get_username();
 		$emailto = '"'.$firstname.' '.$lastname.'" <'.$user->get_email().'>';
 		$emailsubject = '['.get_setting('siteName').'] '.get_lang('YourReg').' '.get_setting('siteName');
 		$emailheaders = 'From: '.get_setting('administratorName').' '.get_setting('administratorSurname').' <'.get_setting('emailAdministrator').">\n";
