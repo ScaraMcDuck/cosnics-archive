@@ -12,6 +12,7 @@ class CourseForm extends FormValidator {
 	
 	private $parent;
 	private $course;
+	private $form_type;
 
     function CourseForm($form_type, $course, $action) {
     	parent :: __construct('course_settings', 'post', $action);

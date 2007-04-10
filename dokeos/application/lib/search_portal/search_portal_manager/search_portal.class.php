@@ -19,6 +19,8 @@ require_once 'Pager/Pager.php';
  */
 class SearchPortal extends WebApplication
 {
+	const APPLICATION_NAME = 'search_portal';
+	
 	const PARAM_QUERY = 'query';
 	const PARAM_URL = 'url';
 
@@ -273,7 +275,23 @@ END;
 	
 	public function get_application_platform_admin_links()
 	{
-		return array();
+		$links = array();
+		$links[] = array('name' => get_lang('NoOptionsAvailable'), 'url' => $this->get_link());
+		return $links;
+	}
+	
+	public function get_link($parameters = array (), $encode = false)
+	{
+		$link = 'index_'. self :: APPLICATION_NAME .'.php';
+		if (count($parameters))
+		{
+			$link .= '?'.http_build_query($parameters);	
+		}
+		if ($encode)
+		{
+			$link = htmlentities($link);
+		}
+		return $link;
 	}
 }
 ?>

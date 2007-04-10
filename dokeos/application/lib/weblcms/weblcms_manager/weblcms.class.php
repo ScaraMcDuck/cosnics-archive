@@ -30,6 +30,8 @@ require_once dirname(__FILE__).'/../course/course_table/coursetable.class.php';
 
 class Weblcms extends WebApplication
 {
+	const APPLICATION_NAME = 'weblcms';
+	
 	const PARAM_COURSE = 'course';
 	const PARAM_TOOL = 'tool';
 	const PARAM_COMPONENT_ACTION = 'action';
@@ -813,7 +815,27 @@ class Weblcms extends WebApplication
 	
 	public function get_application_platform_admin_links()
 	{
-		return array();
+		$links = array();
+		$links[] = array('name' => get_lang('CourseCreate'), 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)));
+		$links[] = array('name' => get_lang('CourseCreateCsv'), 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSES)));
+		$links[] = array('name' => get_lang('CourseCategoryManagement'), 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_COURSE_CATEGORY_MANAGER)));
+		$links[] = array('name' => get_lang('AddUserToCourseCsv'), 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSE_USERS)));
+		$links[] = array('name' => get_lang('CourseList'), 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)));
+		return $links;
+	}
+	
+	public function get_link($parameters = array (), $encode = false)
+	{
+		$link = 'index_'. self :: APPLICATION_NAME .'.php';
+		if (count($parameters))
+		{
+			$link .= '?'.http_build_query($parameters);	
+		}
+		if ($encode)
+		{
+			$link = htmlentities($link);
+		}
+		return $link;
 	}
 }
 ?>

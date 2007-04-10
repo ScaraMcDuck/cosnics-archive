@@ -27,11 +27,33 @@ class AdminBrowserComponent extends AdminComponent
 		}
 		
 		$this->display_header($breadcrumbs);
+		echo $this->get_application_platform_admin_sections();
+		$this->display_footer();
+	}
+	
+	function get_application_platform_admin_sections()
+	{
+		$html = array();
+		
 		foreach ($this->get_application_platform_admin_links() as $application_links)
 		{
-			echo $application_links['application'] . '<br />';
+			$html[] = '<div class="admin_section">';
+			$html[] = '<div class="main"><img src="'. $this->get_web_code_path() .'/img/admin_'. $application_links['application']['class'] .'.gif" border="0" style="vertical-align: middle;" alt="' . get_lang($application_links['application']['name']) . '" title="' . get_lang($application_links['application']['name']) . '"/></div>';
+			$html[] = '<div class="actions">';
+			if (count($application_links['links']))
+			{
+				$html[] = '<ul>';
+				foreach ($application_links['links'] as $link)
+				{
+					$html[] = '<li><a href="'.$link['url'] .'">'.$link['name'].'</a></li>';
+				}
+				$html[] = '</ul>';
+			}
+			$html[] = '</div>';
+			$html[] = '</div>';
 		}
-		$this->display_footer();
+		
+		return implode("\n", $html);
 	}
 }
 ?>
