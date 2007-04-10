@@ -31,7 +31,8 @@
 *	@package dokeos.install
 ==============================================================================
 */
-
+require_once dirname(__FILE__).'/../../users/lib/user.class.php';
+require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
 /*
 ==============================================================================
 		FUNCTIONS
@@ -289,6 +290,31 @@ function create_main_database_tables($main_database, $values)
 	$installation_settings['{PLATFORM_AUTH_SOURCE}'] = PLATFORM_AUTH_SOURCE;
 	
 	load_main_database($installation_settings);
+}
+
+
+function create_admin_in_user_table($values)
+{
+	
+	$udm = UsersDataManager :: get_instance();
+	$user = new User;
+	
+	$user->set_lastname($values['admin_lastname']);
+	$user->set_firstname($values['admin_firstname']);
+	$user->set_username($values['admin_username']);
+	$user->set_password(md5($values['admin_password']));
+	$user->set_auth_source(PLATFORM_AUTH_SOURCE);
+	$user->set_email($values['admin_email']);
+	$user->set_status('1');
+	$user->set_platformadmin('1');
+	$user->set_official_code('ADMIN');
+	$user->set_phone($values['admin_phone']);
+	$user->set_language($values['install_language']);
+	$user->set_disk_quota('200000000');
+	$user->set_database_quota('300');
+	$user->set_version_quota($values['version_quota']);
+	
+	$user->create();
 }
 
 /**
