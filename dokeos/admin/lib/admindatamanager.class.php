@@ -3,6 +3,7 @@
  * @package admin
  */
 require_once dirname(__FILE__).'/../../repository/lib/configuration.class.php';
+require_once dirname(__FILE__).'/../../users/lib/usermanager/usermanager.class.php';
 
 abstract class AdminDataManager
 {
@@ -119,13 +120,30 @@ abstract class AdminDataManager
 	
 	function get_application_platform_admin_links()
 	{
-		$applications = $this->get_registered_applications();
 		$info = array();
+		
+		// First we get the links for the essential Dokeos components
+		
+		// 1. UserManager
+		$user_manager = new UserManager(api_get_user_id());
+		$info[] = array('application' => array('name' => 'Users', 'class' => 'users'), 'links' => $user_manager->get_application_platform_admin_links());
+		
+		// 2. UserRolesRights
+		$info[] = array('application' => array('name' => 'UserRolesRights', 'class' => 'user_roles_rights'), 'links' => array(array('name' => 'ManageRoles', 'url' => '/main/admin/manage_roles.php'), array('name' => 'RolesRightsOverview', 'url' => '/main/admin/roles_rights_overview.php')));
+		
+		// 3. Classes of Users
+		$info[] = array('application' => array('name' => 'ClassesOfUsers', 'class' => 'user_classes'), 'links' => array(array('name' => 'ClassList', 'url' => '/main/admin/class_list.php'), array('name' => 'AddClasses', 'url' => '/main/admin/class_add.php'), array('name' => 'ImportClasses', 'url' => '/main/admin/class_import.php')));
+		
+		// 4. Platform
+		$info[] = array('application' => array('name' => 'Platform', 'class' => 'platform'), 'links' => array(array('name' => 'DokeosConfiguration', 'url' => '/main/admin/settings.php'), array('name' => 'SystemAnnouncements', 'url' => '/main/admin/system_announcements.php'), array('name' => 'Languages', 'url' => '/main/admin/languages.php'), array('name' => 'ConfigureHomepage', 'url' => '/main/admin/configure_homepage.php')	));		
+		
+		// Secondly the links for the plugin applications running on top of the essential Dokeos components
+		$applications = $this->get_registered_applications();
 		foreach($applications as $index => $application_name)
 		{
 			$application_class = self::application_to_class($application_name);
 			$application = new $application_class;
-			$info[] = array('application' => $application_name, 'links' => $application->get_application_platform_admin_links());
+			$info[] = array('application' => array('name' => $application_class, 'class' => $application_name), 'links' => $application->get_application_platform_admin_links());
 		}
 
 		return $info;

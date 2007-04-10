@@ -19,6 +19,8 @@ require_once dirname(__FILE__).'/../connector/personal_calendar_weblcms_connecto
  */
 class PersonalCalendar extends WebApplication
 {
+	const APPLICATION_NAME = 'personal_calendar';
+	
 	/**
 	 * The owner of this personal calendar
 	 */
@@ -126,7 +128,23 @@ class PersonalCalendar extends WebApplication
 	
 	public function get_application_platform_admin_links()
 	{
-		return array();
+		$links = array();
+		$links[] = array('name' => get_lang('NoOptionsAvailable'), 'url' => $this->get_link());
+		return $links;
+	}
+	
+	public function get_link($parameters = array (), $encode = false)
+	{
+		$link = 'index_'. self :: APPLICATION_NAME .'.php';
+		if (count($parameters))
+		{
+			$link .= '?'.http_build_query($parameters);	
+		}
+		if ($encode)
+		{
+			$link = htmlentities($link);
+		}
+		return $link;
 	}
 }
 ?>

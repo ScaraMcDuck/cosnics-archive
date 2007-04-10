@@ -109,5 +109,10 @@ abstract class AdminComponent {
 		require_once $filename;
 		return new $class($admin);
 	}
+	
+	function get_web_code_path()
+	{
+		return $this->get_parent()->get_web_code_path();
+	}
 }
 ?>

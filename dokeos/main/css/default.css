@@ -673,15 +673,38 @@ form br { clear: both; }
 
 /* Admin section */
 div.admin_section {
-	width: 40%;
+	width: 90%;
 	float: left;
 	padding: 5px;
 	margin: 10px 20px;
+	border: 1px solid black;
 }
+
+div.admin_section div.main
+{
+	float: left;
+	width: 200px;
+	
+}
+
+div.admin_section div.actions
+{
+	float: left;
+	padding: 5px;
+}
+
+div.admin_section div.actions ul
+{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
 div.admin_section h4 {
-  margin: 0;
-	border-bottom: 1px solid gray;
+    margin: 0;
+    padding-bottom: 5px;
 	width: 100%;
+	border-bottom: 1px solid #c0c0c0;
 }
 .user_course_category {
 	background-color: #efefef;
