@@ -53,12 +53,6 @@ class User
 	const PROPERTY_OFFICIAL_CODE = 'official_code';
 	const PROPERTY_PICTURE_URI = 'picture_uri';
 	const PROPERTY_CREATOR_ID = 'creator_id';
-	const PROPERTY_COMPETENCES = 'competences';
-	const PROPERTY_TEACH = 'teach';
-	const PROPERTY_PRODUCTIONS = 'productions';
-	const PROPERTY_CHATCALL_USER_ID = 'chatcall_user_id';
-	const PROPERTY_CHATCALL_DATE = 'chatcall_date';
-	const PROPERTY_CHATCALL_TEXT = 'chatcall_text';
 	const PROPERTY_LANGUAGE = 'language';
 	const PROPERTY_DISK_QUOTA = 'disk_quota';
 	const PROPERTY_DATABASE_QUOTA = 'database_quota';
@@ -128,7 +122,7 @@ class User
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self ::PICTURE_URI, CREATOR_ID, self :: PROPERTY_COMPETENCES, self :: PROPERTY_DIPLOMAS, self :: PROPERTY_OPENAREA, self :: PROPERTY_TEACH, self :: PROPERTY_PRODUCTIONS, self :: PROPERTY_CHATCALL_USER_ID, self :: PROPERTY_CHATCALL_DATE, self :: PROPERTY_CHATCALL_TEXT, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA);
+		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self ::PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA);
 	}
 		
 	/**
@@ -265,72 +259,7 @@ class User
 	{
 		return $this->get_default_property(self :: PROPERTY_CREATOR_ID);
 	}
-	
-	/** 
-	 * Returns the competences for this user.
-	 * @return String The Competences
-	 */
-	function get_competences()
-	{
-		return $this->get_default_property(self :: PROPERTY_COMPETENCES);
-	}
-	
-	/**
-	 * Returns the diplomas for this user.
-	 * @return String The diplomas
-	 */
-	function get_diplomas()
-	{
-		return $this->get_default_property(self :: PROPERTY_DIPLOMAS);
-	}
-	
-	/**
-	 * Returns the openarea for this user.
-	 * @return String The openarea
-	 */
-	function get_openarea()
-	{
-		return $this->get_default_property(self :: PROPERTY_OPENAREA);
-	}
-	
-	
-	function get_teach()
-	{
-		return $this->get_default_property(self :: PROPERTY_TEACH);
-	}
-	
-	function get_productions()
-	{
-		return $this->get_default_property(self :: PROPERTY_PRODUCTIONS);
-	}
-	
-	/**
-	 * Returns the chatcall user id for this user.
-	 * @return Int the ID
-	 */
-	function get_chatcall_user_id()
-	{
-		return $this->get_default_property(self :: PROPERTY_CHATCALL_USER_ID);
-	}
-	
-	/**
-	 * Returns the chatcall date for this user.
-	 * @return timestamp the date
-	 */
-	function get_chatcall_date()
-	{
-		return $this->get_default_property(self :: PROPERTY_CHATCALL_DATE);
-	}
-	
-	/**
-	 * Returns the chatcall text for this user.
-	 * @return String the text
-	 */
-	function get_chatcall_text()
-	{
-		return $this->get_default_property(self :: PROPERTY_CHATCALL_TEXT);
-	}
-	
+
 	/**
 	 * Returns the language for this user.
 	 * @return String the Language
@@ -478,56 +407,6 @@ class User
 	function set_creator_id($creator_id)
 	{
 		$this->set_default_property(self :: PROPERTY_CREATOR_ID, $creator_id);
-	}
-	
-	/**
-	 * Sets the competences for this user.
-	 * @param String $competences the competences.
-	 */
-	function set_competences($competences)
-	{
-		$this->set_default_property(self :: PROPERTY_COMPETENCES, $competences);
-	}
-	
-	function set_teach($teach)
-	{
-		$this->set_default_property(self :: PROPERTY_TEACH, $teach);
-	}
-	
-	/**
-	 * Sets the productions for this user.
-	 * @param String $productions the productions.
-	 */
-	function set_productions($productions)
-	{
-		$this->set_default_property(self :: PROPERTY_PRODUCTIONS, $productions);
-	}
-	
-	/**
-	 * Sets the chatcall user id for this user.
-	 * @param Int $user_id the user_id.
-	 */
-	function set_chatcall_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_CHATCALL_USER_ID, $user_id);
-	}
-	
-	/**
-	 * Sets the chatcall date for this user.
-	 * @param timestamp $date the date.
-	 */
-	function set_chatcall_date($date)
-	{
-		$this->set_default_property(self :: PROPERTY_CHATCALL_DATE, $date);
-	}
-	
-	/**
-	 * Sets the chatcall text for this user.
-	 * @param String $text $text The text.
-	 */
-	function set_chatcall_text($text)
-	{
-		$this->set_default_property(self :: PROPERT_CHATCALL_TEXT, $text);
 	}
 	
 	/**
