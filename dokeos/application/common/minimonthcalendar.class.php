@@ -31,11 +31,11 @@ class MiniMonthCalendar extends MonthCalendar
 		{
 			for ($col = 0; $col < 7; $col ++)
 			{
-				$day = strtotime('Next Day', $day);
 				$url = str_replace('-TIME-', $day, $url_format);
 				$content = $this->getCellContents($row, $col);
 				$content = '<a href="'.$url.'">'.$content.'</a>';
 				$this->setCellContents($row, $col, $content);
+				$day = strtotime('+24 Hours', $day);
 			}
 			$row ++;
 		}
@@ -58,13 +58,9 @@ class MiniMonthCalendar extends MonthCalendar
 				$this->updateRowAttributes($row, 'style="border: 2px solid black;"', true);
 				break;
 			case self :: PERIOD_DAY :
-				$monday = $this->get_start_time();
-				$cell = 7;
-				while ($this->get_display_time() > strtotime('+24 Hours', $monday))
-				{
-					$monday = strtotime('+24 Hours', $monday);
-					$cell ++;
-				}
+				$day = strtotime(date('Y-m-d 00:00:00',$this->get_start_time()));
+				$date_diff = (strtotime(date('Y-m-d 00:00:00',$this->get_display_time())) - $day) / (60*60*24);
+				$cell = 7 + $date_diff;
 				$this->updateCellAttributes($cell / 7, $cell % 7, 'style="border: 2px solid black;"', true);
 				break;
 		}
