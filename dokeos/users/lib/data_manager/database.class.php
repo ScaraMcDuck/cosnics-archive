@@ -100,7 +100,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 	// Inherited.
 	function update_user($user)
 	{
-		$where = $this->escape_column_name(User :: PROPERTY_ID).'='.$user->get_user_id();
+		$where = $this->escape_column_name(User :: PROPERTY_USER_ID).'='.$user->get_user_id();
 		$props = array();
 		foreach ($user->get_default_properties() as $key => $value)
 		{

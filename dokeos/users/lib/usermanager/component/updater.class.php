@@ -29,7 +29,7 @@ class UserManagerUpdaterComponent extends UserManagerComponent
 
 		if($form->validate())
 		{
-			$success = $form->create_user();
+			$success = $form->update_user();
 			$this->redirect(User :: ACTION_CREATE_USER, get_lang($success ? 'UserUpdated' : 'UserNotUpdated'), ($success ? false : true));
 		}
 		else
