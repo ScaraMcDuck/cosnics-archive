@@ -245,15 +245,15 @@ if($GLOBALS["this_section"] == "myagenda")
 <?php
 	if (api_is_platform_admin())
 	{
- 	if($GLOBALS["this_section"] == "platform_admin")
+ 		if($GLOBALS["this_section"] == "platform_admin")
 		{
-		$link_class='class="here"';
+			$link_class='class="here"';
 		}
 		else
 		{
-		$link_class='';
+			$link_class='';
 		}
-		echo "<a id=\"platform_admin\" ".$link_class." href=\"".$rootAdminWeb."\" target=\"_top\">".get_lang("PlatformAdmin")."</a>";
+		echo '<a id="platform_admin" '.$link_class.' href="'.api_get_path(WEB_PATH).'index_admin.php" target="_top">'.get_lang('PlatformAdmin').'</a>';
 	}
 
 ?>

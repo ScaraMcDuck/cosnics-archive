@@ -270,5 +270,10 @@ END;
 	{
 		return true;
 	}
+	
+	public function get_application_platform_admin_links()
+	{
+		return array();
+	}
 }
 ?>

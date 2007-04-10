@@ -755,7 +755,7 @@ class Difference_Engine_Op {
         return $this->final ? count($this->final) : 0;
     }
     
-    function parse($type)
+    function parse($type, $is_sub = false)
     {
     		if (!is_array($this->$type))
     		{
@@ -766,7 +766,15 @@ class Difference_Engine_Op {
     			}
     			return implode('<br />', $empty);
     		}
-    		return implode('<br />', $this->$type);
+    		
+    		if ($is_sub)
+    		{
+    			return implode(' ', $this->$type);
+    		}
+    		else
+    		{
+    			return implode('<br />', $this->$type);
+    		}
     }
 
 }
@@ -792,12 +800,15 @@ class Difference_Engine_Op_copy extends Difference_Engine_Op {
         return $reverse = &new Difference_Engine_Op_copy($this->final, $this->orig);
     }
     
-    function parse($type)
+    function parse($type, $is_sub = false)
     {
-    	$parse = parent :: parse($type);
-    	if (strlen($parse) > 100)
+    	$parse = parent :: parse($type, $is_sub);
+    	if (!$is_sub)
     	{
-    		$parse = substr($parse, 0, 100). '...';
+    		if (strlen($parse) > 100)
+    		{
+    			$parse = substr($parse, 0, 100). '...';
+    		}
     	}
     	return '<span class="compare_copy">'.$parse.'</span>';
     }
@@ -822,9 +833,9 @@ class Difference_Engine_Op_delete extends Difference_Engine_Op {
         return $reverse = &new Difference_Engine_Op_add($this->orig);
     }
     
-    function parse($type)
+    function parse($type, $is_sub = false)
     {
-    		return '<span class="compare_delete">'.parent :: parse($type).'</span>';
+    		return '<span class="compare_delete">'.parent :: parse($type, $is_sub).'</span>';
     }
 
 }
@@ -847,9 +858,9 @@ class Difference_Engine_Op_add extends Difference_Engine_Op {
         return $reverse = &new Difference_Engine_Op_delete($this->final);
     }
     
-    function parse($type)
+    function parse($type, $is_sub = false)
     {
-    		return '<span class="compare_add">'.parent :: parse($type).'</span>';
+    		return '<span class="compare_add">'.parent :: parse($type, $is_sub).'</span>';
     }
 
 }
@@ -872,9 +883,19 @@ class Difference_Engine_Op_change extends Difference_Engine_Op {
         return $reverse = &new Difference_Engine_Op_change($this->final, $this->orig);
     }
     
-    function parse($type)
+    function parse($type, $is_sub = false)
     {
-    		return '<span class="compare_change">'.parent :: parse($type).'</span>';
+    	return '<span class="compare_change">'.parent :: parse($type, $is_sub).'</span>';
+    }
+    
+    function get_orig()
+    {
+    	return implode($this->orig);
+    }
+    
+    function get_final()
+    {
+    	return implode($this->final);
     }
 
 }
