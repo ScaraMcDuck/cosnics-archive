@@ -105,15 +105,16 @@ class DayCalendar extends HTML_Table
 	 */
 	public function add_calendar_navigation($url_format)
 	{
-		$week_number = date('W',$this->display_time);
 		$prev = strtotime('-1 Day',$this->display_time);
 		$next = strtotime('+1 Day',$this->display_time);
-		$html[] =  '<div style="text-align: center;">';
-		$html[] =  '<a href="'.str_replace('-TIME-',$prev,$url_format).'">&lt;&lt;</a> ';
-		$html[] =  date('l d F Y',$this->display_time);
-		$html[] =  ' <a href="'.str_replace('-TIME-',$next,$url_format).'">&gt;&gt;</a> ';
-		$html[] =  '</div>';
-		$this->navigation_html = implode("\n",$html);
+		$navigation = new HTML_Table('class="calendar_navigation"');
+		$navigation->updateCellAttributes(0,0,'style="text-align: left;"');
+		$navigation->updateCellAttributes(0,1,'style="text-align: center;"');
+		$navigation->updateCellAttributes(0,2,'style="text-align: right;"');
+		$navigation->setCellContents(0,0,'<a href="'.str_replace('-TIME-',$prev,$url_format).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/prev.png" style="vertical-align: middle;" alt="&lt;&lt;"/></a> ');
+		$navigation->setCellContents(0,1,date('l d F Y',$this->display_time));
+		$navigation->setCellContents(0,2,' <a href="'.str_replace('-TIME-',$next,$url_format).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/next.png" style="vertical-align: middle;" alt="&gt;&gt;"/></a> ');
+		$this->navigation_html = $navigation->toHtml();
 	}
 	/**
 	 * Sets the daynames.
