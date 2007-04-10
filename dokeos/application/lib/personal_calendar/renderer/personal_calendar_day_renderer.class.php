@@ -13,8 +13,10 @@ class PersonalCalendarDayRenderer extends PersonalCalendarRenderer
 {
 	public function render()
 	{
-		$calendar = new DayCalendar($this->get_time());
-		$events = $this->get_events($this->get_time(),$this->get_time());
+		$calendar = new DayCalendar($this->get_time(),2);
+		$from_date = strtotime(date('Y-m-d 00:00:00',$this->get_time()));
+		$to_date = strtotime(date('Y-m-d 23:59:59',$this->get_time()));
+		$events = $this->get_events($from_date,$to_date);
 		$dm = RepositoryDataManager::get_instance();
 		$html = array();
 		foreach($events as $index => $event)

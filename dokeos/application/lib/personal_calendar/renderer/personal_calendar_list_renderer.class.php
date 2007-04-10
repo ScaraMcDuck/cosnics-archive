@@ -12,7 +12,8 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 {
 	public function render()
 	{
-		$events = $this->get_events(time(),time());
+		// Range from start (0) to 10 years in the future...
+		$events = $this->get_events(0,strtotime('+10 Years',time()));
 		$dm = RepositoryDataManager::get_instance();
 		$html = array();
 		foreach($events as $index => $event)
