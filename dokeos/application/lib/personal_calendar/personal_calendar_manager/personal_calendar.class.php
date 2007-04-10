@@ -115,5 +115,10 @@ class PersonalCalendar extends WebApplication
 	{
 		return 0;
 	}
+	
+	public function get_application_platform_admin_links()
+	{
+		return array();
+	}
 }
 ?>

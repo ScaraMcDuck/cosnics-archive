@@ -73,6 +73,7 @@ $LinkToolTitle='Link Tool';
 $ListView='List View';
 $MaintenanceToolTitle='Maintenance';
 $ManageCategories='Manage categories';
+$MenuAdmin='Admin';
 $MenuUser='User';
 $MonthView='Month View';
 $NoCategory='--No category--';

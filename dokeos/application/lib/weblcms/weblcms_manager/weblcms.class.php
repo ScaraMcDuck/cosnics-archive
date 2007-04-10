@@ -810,5 +810,10 @@ class Weblcms extends WebApplication
 	{
 		echo $this->get_search_form()->display();
 	}
+	
+	public function get_application_platform_admin_links()
+	{
+		return array();
+	}
 }
 ?>

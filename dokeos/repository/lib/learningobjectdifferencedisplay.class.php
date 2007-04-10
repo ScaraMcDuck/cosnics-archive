@@ -3,6 +3,7 @@
  * $Id$
  * @package repository
  */
+ require_once dirname(__FILE__).'/differenceengine.class.php';
 /**
  * This class can be used to display the differences between two versions of a
  * learning object.
@@ -44,13 +45,40 @@ class LearningObjectDifferenceDisplay {
 
 		foreach($diff->get_difference() as $d)
  		{
-			$html[] = '<div class="left">';
-			$html[] = print_r($d->parse('final'), true) . '';
-			$html[] = '</div>';
-			$html[] = '<div class="right">';
-			$html[] = print_r($d->parse('orig'), true) . '';
-			$html[] = '</div>';
-			$html[] = '<br style="clear:both;" />';
+ 			if (get_class($d) == 'Difference_Engine_Op_change')
+			{
+				$td = new Difference_Engine(explode(" ", $d->get_orig()), explode(" ", $d->get_final()));
+				
+				$html[] = '<div class="left">';
+				$html_change = array();
+				foreach($td->getDiff() as $t)
+				{
+					$html_change[] = $t->parse('final', true);
+				}
+				$html[] = implode(' ', $html_change);
+				$html[] = '</div>';
+				
+				$html[] = '<div class="right">';
+				$html_change = array();
+				foreach($td->getDiff() as $t)
+				{
+					$html_change[] = $t->parse('orig', true);
+				}
+				$html[] = implode(' ', $html_change);
+				$html[] = '</div>';
+				
+				$html[] = '<br style="clear:both;" />';
+			}
+			else
+			{
+				$html[] = '<div class="left">';
+				$html[] = print_r($d->parse('final'), true) . '';
+				$html[] = '</div>';
+				$html[] = '<div class="right">';
+				$html[] = print_r($d->parse('orig'), true) . '';
+				$html[] = '</div>';
+				$html[] = '<br style="clear:both;" />';
+			}
 		}
 		$html[] = '</div>';
 
