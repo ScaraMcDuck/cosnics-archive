@@ -93,19 +93,25 @@ class WeekCalendar extends HTML_Table
 		{
 			$week_day = strtotime('+'.$day.' days',$first_day);
 			$this->setCellContents(0,$day+1,get_lang(date('l',$week_day).'Long').'<br/>'.date('Y-m-d',$week_day));
-			$class = array();
-			if($today == date('Y-m-d',$week_day))
+			for($hour = 0; $hour < 24; $hour += $this->hour_step)
 			{
-				$class[] = 'highlight';
-			}
-			// If day of week number is 0 (Sunday) or 6 (Saturday) -> it's a weekend
-			if(date('w',$week_day)%6 == 0)
-			{
-				$class[] = 'weekend';
-			}
-			if(count($class) > 0)
-			{
-				$this->updateColAttributes($day+1,'class="'.implode(' ',$class).'"');
+				$class = array();
+				if($today == date('Y-m-d',$week_day))
+				{
+					if(date('H') >= $hour && date('H') < $hour+$this->hour_step)
+					{
+						$class[] = 'highlight';
+					}
+				}
+				// If day of week number is 0 (Sunday) or 6 (Saturday) -> it's a weekend
+				if(date('w',$week_day)%6 == 0)
+				{
+					$class[] = 'weekend';
+				}
+				if(count($class) > 0)
+				{
+					$this->updateCellAttributes($hour/$this->hour_step+1,$day+1,'class="'.implode(' ',$class).'"');
+				}
 			}
 		}
 		$this->setRowType(0,'th');

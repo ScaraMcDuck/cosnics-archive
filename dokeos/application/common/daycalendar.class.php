@@ -76,6 +76,10 @@ class DayCalendar extends HTML_Table
 			$cell_contents = $hour.'u - '.($hour+$this->get_hour_step()).'u';
 			$this->setCellContents($hour/$this->get_hour_step(),0,$cell_contents);
 			// Is current table date in this month or another one?
+			if(date('H') >= $hour && date('H') < $hour + $this->get_hour_step())
+			{
+				$this->updateCellAttributes($hour/$this->get_hour_step(),0,'class="highlight"');
+			}
 			if($hour < 8 || $hour > 18)
 			{
 				$this->updateCellAttributes($hour/$this->get_hour_step(),0,'class="disabled_month"');
