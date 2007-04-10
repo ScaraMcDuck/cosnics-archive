@@ -75,14 +75,14 @@ class User
 
 	function update() 
 	{
-//		$wdm = WeblcmsDataManager :: get_instance();
-//		$success = $wdm->update_course($this);
-//		if (!$success)
-//		{
-//			return false;
-//		}
-//
-//		return true;	
+		$udm = UsersDataManager :: get_instance();
+		$success = $udm->update_user($this);
+		if (!$success)
+		{
+			return false;
+		}
+
+		return true;	
 	}
 
 	/**

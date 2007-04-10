@@ -148,7 +148,7 @@ class UserForm extends FormValidator {
     			$this->send_email($user); 
     		}
 
-    		return $user->create();
+    		return $user->update();
     	}
     	else 
     	{
@@ -214,7 +214,6 @@ class UserForm extends FormValidator {
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
 			$defaults['pw']['pass'] = 2;
-			//$defaults['pw'][User :: PROPERTY_PASSWORD] = $user->get_password();
 		}
 		else
 		{
