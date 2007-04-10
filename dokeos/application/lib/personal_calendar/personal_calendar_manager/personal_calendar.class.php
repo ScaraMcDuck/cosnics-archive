@@ -39,7 +39,8 @@ class PersonalCalendar extends WebApplication
 	 */
 	public function run()
 	{
-		Display :: display_header();
+		Display :: display_header(get_lang('MyAgenda'));
+		api_display_tool_title(get_lang('MyAgenda'));
 		$_SESSION['personal_calendar_publish'] = false;
 		if (isset ($_GET['publish']) && $_GET['publish'] == 1)
 		{
@@ -125,7 +126,7 @@ class PersonalCalendar extends WebApplication
 	{
 		return 0;
 	}
-	
+
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
