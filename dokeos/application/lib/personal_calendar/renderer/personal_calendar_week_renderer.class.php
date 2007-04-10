@@ -23,6 +23,8 @@ class PersonalCalendarWeekRenderer extends PersonalCalendarRenderer
 			$content = $this->render_event($learning_object);
 			$calendar->add_event($learning_object->get_start_date(),$content);
 		}
+		$parameters['time'] = '-TIME-';
+		$calendar->add_calendar_navigation($this->get_parent()->get_url($parameters));
 		return $calendar->toHtml();
 	}
 	private function render_event($event)

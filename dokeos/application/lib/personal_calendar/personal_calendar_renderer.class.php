@@ -45,6 +45,14 @@ abstract class PersonalCalendarRenderer
 		return $this->display_time;
 	}
 	/**
+	 * Gets the personal calendar object in which this renderer is used
+	 * @return PersonalCalendar
+	 */
+	public function get_parent()
+	{
+		return $this->personal_calendar;
+	}
+	/**
 	 * Renders the calendar
 	 * @return string A html representation of the events in this calendar.
 	 */
