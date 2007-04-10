@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * $Id: monthcalendarlearningobjectpublicationlistrenderer.class.php 10541 2006-12-21 10:08:16Z bmol $
  * @package application.common
@@ -40,33 +41,39 @@ class MiniMonthCalendar extends MonthCalendar
 		}
 
 	}
-public function mark_period($period)
-{
-	switch ($period)
+	public function mark_period($period)
 	{
-		case self :: PERIOD_MONTH :
-			break;
-		case self :: PERIOD_WEEK :
-			$monday = $this->get_start_time();
-			$row = 1;
-			while ($this->get_display_time() > strtotime('Next Monday', $monday))
-			{
-				$monday = strtotime('Next Monday', $monday);
-				$row ++;
-			}
-			$this->updateRowAttributes($row, 'style="border: 2px solid black;"', true);
-			break;
-		case self :: PERIOD_DAY :
-			$monday = $this->get_start_time();
-			$cell = 7;
-			while ($this->get_display_time() > strtotime('+24 Hours', $monday))
-			{
-				$monday = strtotime('+24 Hours', $monday);
-				$cell ++;
-			}
-			$this->updateCellAttributes($cell / 7, $cell % 7, 'style="border: 2px solid black;"', true);
-			break;
+		switch ($period)
+		{
+			case self :: PERIOD_MONTH :
+				break;
+			case self :: PERIOD_WEEK :
+				$monday = $this->get_start_time();
+				$row = 1;
+				while ($this->get_display_time() > strtotime('Next Monday', $monday))
+				{
+					$monday = strtotime('Next Monday', $monday);
+					$row ++;
+				}
+				$this->updateRowAttributes($row, 'style="border: 2px solid black;"', true);
+				break;
+			case self :: PERIOD_DAY :
+				$monday = $this->get_start_time();
+				$cell = 7;
+				while ($this->get_display_time() > strtotime('+24 Hours', $monday))
+				{
+					$monday = strtotime('+24 Hours', $monday);
+					$cell ++;
+				}
+				$this->updateCellAttributes($cell / 7, $cell % 7, 'style="border: 2px solid black;"', true);
+				break;
+		}
 	}
-}
+	public function toHtml()
+	{
+		$html = parent :: toHtml();
+		$html = str_replace('class="calendar_navigation"', 'class="calendar_navigation mini"', $html);
+		return $html;
+	}
 }
 ?>

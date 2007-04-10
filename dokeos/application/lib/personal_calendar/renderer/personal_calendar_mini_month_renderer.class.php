@@ -38,7 +38,6 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
 		}
 		$calendar->add_navigation_links($this->get_parent()->get_url($parameters));
 		$html = $calendar->toHtml();
-		$html = str_replace('class="calendar_navigation"','class="calendar_navigation mini"',$html);
 		return $html;
 	}
 	private function render_event($event)
