@@ -79,14 +79,8 @@ class WeekCalendar extends HTML_Table
 		{
 			$cell_content = $hour.'u - '.($hour+$this->hour_step).'u';
 			$this->setCellContents($hour/$this->hour_step+1,0,$cell_content);
-			for($column = 1; $column <= 7; $column++)
-			{
-				$day = strtotime('+'.($column-1).' day',$first_day);
-				$table_start_date = mktime($hour,0,0,date('m',$day),date('d',$day),date('Y',$day));
-				$table_end_date = strtotime('+4 hours',$table_start_date);
-				$cell_contents = '';
-			}
 		}
+		$this->updateColAttributes(0,'style="width: 50px;border:0px solid red;"');
 		$dates[] = '';
 		$today = date('Y-m-d');
 		for($day = 0; $day < 7; $day++)
