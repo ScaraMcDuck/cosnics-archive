@@ -38,6 +38,13 @@ class MonthCalendar extends HTML_Table
 		$this->build_table();
 	}
 	/**
+	 *
+	 */
+	public function get_display_time()
+	{
+		return $this->display_time;
+	}
+	/**
 	 * Gets the first date which will be displayed by this calendar. This is
 	 * always a monday. If the current month doesn't start on a monday, the last
 	 * monday of previous month is returned.

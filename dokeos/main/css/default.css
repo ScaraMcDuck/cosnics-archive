@@ -1512,6 +1512,7 @@ table.calendar td
 	vertical-align: top;
 	width:13%;
 }
+
 table.calendar th
 {
 	width: 13%;
@@ -1541,6 +1542,10 @@ table.calendar td.disabled_month
 {
 	background-color: #EAEAEA;
 }
+table.mini td
+{
+	height: 30px;
+}
 table.calendar_navigation
 {
 	width: 100%;
@@ -1549,6 +1554,16 @@ table.calendar_navigation
 	font-weight: bold;
 	margin-bottom: 5px;
 }
+table.calendar_navigation td
+{
+	height: 10px;
+}
+table.mini
+{
+	float: left;
+	width: 90%;
+}
+
 /*
  * Generic search field
  */
