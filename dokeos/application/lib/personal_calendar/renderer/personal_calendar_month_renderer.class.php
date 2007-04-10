@@ -17,24 +17,29 @@ class PersonalCalendarMonthRenderer extends PersonalCalendarRenderer
 		$from_date = strtotime(date('Y-m-1',$this->get_time()));
 		$to_date = strtotime('-1 Second',strtotime('Next Month',$from_date));
 		$events = $this->get_events($from_date,$to_date);
-		$dm = RepositoryDataManager::get_instance();
+
 		$html = array();
 		foreach($events as $index => $event)
 		{
-			$learning_object = $dm->retrieve_learning_object($event->get_publication_object_id());
-			$content = $this->render_event($learning_object);
-			$calendar->add_event($learning_object->get_start_date(),$content);
+			$dm = RepositoryDataManager::get_instance();
+			$lo = $dm->retrieve_learning_object($event->get_publication_object_id());
+			$content = $this->render_event($event);
+			$calendar->add_event($lo->get_start_date(),$content);
 		}
 		$parameters['time'] = '-TIME-';
 		$calendar->add_calendar_navigation($this->get_parent()->get_url($parameters));
 		return $calendar->toHtml();
 	}
-	private function render_event($event)
+	private function render_event($publication)
 	{
+		$dm = RepositoryDataManager::get_instance();
+		$event = $dm->retrieve_learning_object($publication->get_publication_object_id());
 		$start_date = $event->get_start_date();
 		$end_date = $event->get_end_date();
 		$html[] = '<div class="event">';
+		$html[] = '<a href="'.$publication->get_url().'">';
 		$html[] = date('H:i',$start_date).' '.htmlspecialchars($event->get_title());
+		$html[] = '</a>';
 		$html[] = '</div>';
 		return implode("\n",$html);
 	}
