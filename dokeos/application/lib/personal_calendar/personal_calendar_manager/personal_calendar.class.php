@@ -6,11 +6,13 @@
 require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/configuration.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
+require_once dirname(__FILE__).'/../renderer/personal_calendar_mini_month_renderer.class.php';
 require_once dirname(__FILE__).'/../renderer/personal_calendar_list_renderer.class.php';
 require_once dirname(__FILE__).'/../renderer/personal_calendar_month_renderer.class.php';
 require_once dirname(__FILE__).'/../renderer/personal_calendar_week_renderer.class.php';
 require_once dirname(__FILE__).'/../renderer/personal_calendar_day_renderer.class.php';
 require_once dirname(__FILE__).'/../connector/personal_calendar_weblcms_connector.class.php';
+
 /**
  * This application gives each user the possibility to maintain a personal
  * calendar.
@@ -74,7 +76,13 @@ class PersonalCalendar extends WebApplication
 				$renderer = new PersonalCalendarMonthRenderer($this, $time);
 				break;
 		}
+		$minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $time);
+		echo '<div style="float: left; width: 20%;">';
+		echo $minimonthcalendar->render();
+		echo '</div>';
+		echo '<div style="float: left; width: 80%;">';
 		echo $renderer->render();
+		echo '</div>';
 		Display :: display_footer();
 	}
 	/**
