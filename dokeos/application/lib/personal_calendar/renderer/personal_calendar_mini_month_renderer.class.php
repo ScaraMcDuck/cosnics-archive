@@ -29,6 +29,9 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
 		$calendar->add_calendar_navigation($this->get_parent()->get_url($parameters));
 		switch($this->get_parent()->get_parameter('view'))
 		{
+			case 'month':
+				$calendar->mark_period(MiniMonthCalendar::PERIOD_MONTH);
+				break;
 			case 'week':
 				$calendar->mark_period(MiniMonthCalendar::PERIOD_WEEK);
 				break;

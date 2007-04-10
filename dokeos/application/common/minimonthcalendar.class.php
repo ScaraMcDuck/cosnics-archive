@@ -53,6 +53,26 @@ class MiniMonthCalendar extends MonthCalendar
 		switch ($period)
 		{
 			case self :: PERIOD_MONTH :
+				$rows = $this->getRowCount();
+				$top_row = 'style="border-left: 2px solid black;border-right: 2px solid black;border-top: 2px solid black;"';
+				$middle_row = 'style="border-left: 2px solid black;border-right: 2px solid black;"';
+				$bottom_row = 'style="border-left: 2px solid black;border-right: 2px solid black;border-bottom: 2px solid black;"';
+				for($row = 1; $row < $rows; $row++)
+				{
+					switch($row)
+					{
+						case 1:
+							$style = $top_row;
+							break;
+						case $rows-1:
+							$style = $bottom_row;
+							break;
+						default:
+							$style = $middle_row;
+							break;
+					}
+					$this->updateRowAttributes($row,$style,true);
+				}
 				break;
 			case self :: PERIOD_WEEK :
 				$monday = $day = strtotime(date('Y-m-d 00:00:00', $this->get_start_time()));
