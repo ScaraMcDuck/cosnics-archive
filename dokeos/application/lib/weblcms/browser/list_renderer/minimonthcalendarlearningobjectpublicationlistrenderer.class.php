@@ -48,6 +48,9 @@ class MiniMonthCalendarLearningObjectPublicationListRenderer extends LearningObj
 		$calendar_table->add_calendar_navigation($url_format);
 		switch($this->browser->get_parameter('view'))
 		{
+			case 'month':
+				$calendar_table->mark_period(MiniMonthCalendar::PERIOD_MONTH);
+				break;
 			case 'week':
 				$calendar_table->mark_period(MiniMonthCalendar::PERIOD_WEEK);
 				break;
