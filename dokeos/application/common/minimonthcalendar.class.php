@@ -48,18 +48,16 @@ class MiniMonthCalendar extends MonthCalendar
 			case self :: PERIOD_MONTH :
 				break;
 			case self :: PERIOD_WEEK :
-				$monday = $this->get_start_time();
-				$row = 1;
-				while ($this->get_display_time() > strtotime('Next Monday', $monday))
-				{
-					$monday = strtotime('Next Monday', $monday);
-					$row ++;
-				}
+				$monday = $day = strtotime(date('Y-m-d 00:00:00',$this->get_start_time()));
+				$this_week = strtotime(date('Y-m-d 00:00:00',$this->get_display_time()));
+				$week_diff = floor(($this_week - $monday) / (60*60*24*7));
+				$row = 1+$week_diff;
 				$this->updateRowAttributes($row, 'style="border: 2px solid black;"', true);
 				break;
 			case self :: PERIOD_DAY :
 				$day = strtotime(date('Y-m-d 00:00:00',$this->get_start_time()));
-				$date_diff = (strtotime(date('Y-m-d 00:00:00',$this->get_display_time())) - $day) / (60*60*24);
+				$today = $this->get_display_time();
+				$date_diff = floor(( $today - $day) / (60*60*24));
 				$cell = 7 + $date_diff;
 				$this->updateCellAttributes($cell / 7, $cell % 7, 'style="border: 2px solid black;"', true);
 				break;
