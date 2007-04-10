@@ -31,14 +31,12 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
 		{
 			case 'week':
 				$calendar->mark_period(MiniMonthCalendar::PERIOD_WEEK);
-				$calendar->add_navigation_links(MiniMonthCalendar::PERIOD_WEEK,$this->get_parent()->get_url($parameters));
 				break;
 			case 'day':
 				$calendar->mark_period(MiniMonthCalendar::PERIOD_DAY);
-				$calendar->add_navigation_links(MiniMonthCalendar::PERIOD_DAY,$this->get_parent()->get_url($parameters));
 				break;
 		}
-
+		$calendar->add_navigation_links($this->get_parent()->get_url($parameters));
 		$html = $calendar->toHtml();
 		$html = str_replace('class="calendar_navigation"','class="calendar_navigation mini"',$html);
 		return $html;
@@ -48,9 +46,6 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
 		$start_date = $event->get_start_date();
 		$end_date = $event->get_end_date();
 		$html[] = '<br /><img src="'.api_get_path(WEB_CODE_PATH).'/img/posticon.gif"/>';
-//		$html[] = '<div class="event">';
-//		$html[] = date('H:i',$start_date).' '.htmlspecialchars($event->get_title());
-//		$html[] = '</div>';
 		return implode("\n",$html);
 	}
 }
