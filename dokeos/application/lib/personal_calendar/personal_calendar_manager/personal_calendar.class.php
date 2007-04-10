@@ -52,6 +52,7 @@ class PersonalCalendar extends WebApplication
 		$time = isset ($_GET['time']) ? intval($_GET['time']) : time();
 		$view = isset ($_GET['view']) ? $_GET['view'] : 'month';
 		$this->set_parameter('time', $time);
+		$this->set_parameter('view', $view);
 		$toolbar_data = array ();
 		$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'list')), 'img' => api_get_path(WEB_CODE_PATH).'/img/calendar_down.gif', 'label' => get_lang('ListView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 		$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'month')), 'img' => api_get_path(WEB_CODE_PATH).'/img/calendar_month.gif', 'label' => get_lang('MonthView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);

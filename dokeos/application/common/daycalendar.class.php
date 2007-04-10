@@ -100,7 +100,7 @@ class DayCalendar extends HTML_Table
 	}
 	/**
 	 * Adds a navigation bar to the calendar
-	 * @param string $url_format The *TIME* in this string will be replaced by a
+	 * @param string $url_format The -TIME- in this string will be replaced by a
 	 * timestamp
 	 */
 	public function add_calendar_navigation($url_format)
