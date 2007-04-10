@@ -1531,7 +1531,7 @@ div.event:hover
 table.calendar td.highlight
 {
 	border: 2px solid #FA8500;
-	background-color: white;
+	background-color: #FFCA8D;
 }
 table.calendar td.weekend
 {
