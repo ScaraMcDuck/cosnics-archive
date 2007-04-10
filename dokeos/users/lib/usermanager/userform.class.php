@@ -44,6 +44,7 @@ class UserForm extends FormValidator {
 		// Email
 		$this->addElement('text', User :: PROPERTY_EMAIL, get_lang('Email'));
 		$this->addRule(User :: PROPERTY_EMAIL, get_lang('ThisFieldIsRequired'), 'required');
+		$this->addRule(User :: PROPERTY_EMAIL, get_lang('WrongEmail'), 'email');
 		// Username
 		$this->addElement('text', User :: PROPERTY_USERNAME, get_lang('Username'));
 		$this->addRule(User :: PROPERTY_USERNAME, get_lang('ThisFieldIsRequired'), 'required');
@@ -72,6 +73,7 @@ class UserForm extends FormValidator {
 		// Version quota
 		$this->addElement('text', User :: PROPERTY_VERSION_QUOTA, get_lang('VersionQuota'));
 		$this->addRule(User :: PROPERTY_VERSION_QUOTA, get_lang('FieldMustBeNumeric'), 'numeric', null, 'client');
+		$this->addRule(User :: PROPERTY_VERSION_QUOTA, get_lang('ThisFieldIsRequired'), 'required');
 		// Status
 		$status = array();  
 		$status[COURSEMANAGER]  = get_lang('CourseAdmin');
