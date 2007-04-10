@@ -1,5 +1,5 @@
 <?php
-//$langFile = 'weblcms';
+$langFile = 'user';
 $this_section='SECTION_PLATFORM_ADMIN';
 require_once dirname(__FILE__).'/main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/main/inc/lib/text.lib.php';
