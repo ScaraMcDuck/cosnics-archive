@@ -8,6 +8,7 @@
 require_once dirname(__FILE__).'/../../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../../learningobjectpublicationbrowser.class.php';
 require_once dirname(__FILE__).'/calendarlistrenderer.class.php';
+require_once dirname(__FILE__).'/../../browser/list_renderer/minimonthcalendarlearningobjectpublicationlistrenderer.class.php';
 require_once dirname(__FILE__).'/../../browser/list_renderer/monthcalendarlearningobjectpublicationlistrenderer.class.php';
 require_once dirname(__FILE__).'/../../browser/list_renderer/weekcalendarlearningobjectpublicationlistrenderer.class.php';
 require_once dirname(__FILE__).'/../../browser/list_renderer/daycalendarlearningobjectpublicationlistrenderer.class.php';
@@ -32,6 +33,7 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 		{
 			$time = time();
 		}
+		$this->time = $time;
 		switch($view)
 		{
 			case CalendarBrowser::CALENDAR_DAY_VIEW:
@@ -110,6 +112,18 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 			}
 		}
 		return $events;
+	}
+	public function as_html()
+	{
+		$minimonthcalendar = new MiniMonthCalendarLearningObjectPublicationListRenderer($this);
+		$minimonthcalendar->set_display_time($this->time);
+		$html[] = '<div style="float: left; width: 20%;">';
+		$html[] =  $minimonthcalendar->as_html();
+		$html[] =  '</div>';
+		$html[] =  '<div style="float: left; width: 80%;">';
+		$html[] = parent::as_html();
+		$html[] = '</div>';
+		return implode("\n",$html);
 	}
 }
 ?>
