@@ -18,7 +18,14 @@ class MiniMonthCalendar extends MonthCalendar
 	public function MiniMonthCalendar($display_time)
 	{
 		parent :: MonthCalendar($display_time);
-		$this->set_daynames(array ('M', 'D', 'W', 'D', 'V', 'Z', 'Z'));
+		$daynames[] = get_lang('MondayShort');
+		$daynames[] = get_lang('TuesdayShort');
+		$daynames[] = get_lang('WednesdayShort');
+		$daynames[] = get_lang('ThursdayShort');
+		$daynames[] = get_lang('FridayShort');
+		$daynames[] = get_lang('SaturdayShort');
+		$daynames[] = get_lang('SundayShort');
+		$this->set_daynames($daynames);
 		$this->updateAttributes('class="calendar mini"');
 		$this->setRowType(0, 'th');
 	}
@@ -48,16 +55,16 @@ class MiniMonthCalendar extends MonthCalendar
 			case self :: PERIOD_MONTH :
 				break;
 			case self :: PERIOD_WEEK :
-				$monday = $day = strtotime(date('Y-m-d 00:00:00',$this->get_start_time()));
-				$this_week = strtotime(date('Y-m-d 00:00:00',$this->get_display_time()));
-				$week_diff = floor(($this_week - $monday) / (60*60*24*7));
-				$row = 1+$week_diff;
+				$monday = $day = strtotime(date('Y-m-d 00:00:00', $this->get_start_time()));
+				$this_week = strtotime(date('Y-m-d 00:00:00', $this->get_display_time()));
+				$week_diff = floor(($this_week - $monday) / (60 * 60 * 24 * 7));
+				$row = 1 + $week_diff;
 				$this->updateRowAttributes($row, 'style="border: 2px solid black;"', true);
 				break;
 			case self :: PERIOD_DAY :
-				$day = strtotime(date('Y-m-d 00:00:00',$this->get_start_time()));
+				$day = strtotime(date('Y-m-d 00:00:00', $this->get_start_time()));
 				$today = $this->get_display_time();
-				$date_diff = floor(( $today - $day) / (60*60*24));
+				$date_diff = floor(($today - $day) / (60 * 60 * 24));
 				$cell = 7 + $date_diff;
 				$this->updateCellAttributes($cell / 7, $cell % 7, 'style="border: 2px solid black;"', true);
 				break;
