@@ -1541,6 +1541,14 @@ table.calendar td.disabled_month
 {
 	background-color: #EAEAEA;
 }
+table.calendar_navigation
+{
+	width: 100%;
+	background-color: #E5EDF9;
+	border: 1px solid #CCCCCC;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
 /*
  * Generic search field
  */
