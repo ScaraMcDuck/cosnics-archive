@@ -30,7 +30,7 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
 				//TODO: i8n location string
 				$info->set_location($publication->get_course_id().' &gt; '.$publication->get_tool());
 				//TODO: set correct URL
-				$info->set_url('index_weblcms.php?tool='.$publication->get_tool().'&amp;course='.$publication->get_course_id());
+				$info->set_url('index_weblcms.php?go=courseviewer&amp;course='.$publication->get_course_id().'&amp;tool='.$publication->get_tool().'&amp;pid='.$publication->get_id());
 				$info->set_publication_object_id($publication->get_learning_object()->get_id());
 				$result[] = $info;
 			}

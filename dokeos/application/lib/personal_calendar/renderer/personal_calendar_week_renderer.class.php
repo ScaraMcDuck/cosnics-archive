@@ -22,7 +22,7 @@ class PersonalCalendarWeekRenderer extends PersonalCalendarRenderer
 		foreach($events as $index => $event)
 		{
 			$learning_object = $dm->retrieve_learning_object($event->get_publication_object_id());
-			$content = $this->render_event($learning_object);
+			$content = $this->render_event($event);
 			$calendar->add_event($learning_object->get_start_date(),$content);
 		}
 		$parameters['time'] = '-TIME-';
@@ -31,10 +31,14 @@ class PersonalCalendarWeekRenderer extends PersonalCalendarRenderer
 	}
 	private function render_event($event)
 	{
-		$start_date = $event->get_start_date();
-		$end_date = $event->get_end_date();
+		$dm = RepositoryDataManager::get_instance();
+		$learning_object = $dm->retrieve_learning_object($event->get_publication_object_id());
+		$start_date = $learning_object->get_start_date();
+		$end_date = $learning_object->get_end_date();
 		$html[] = '<div class="event">';
-		$html[] = date('H:i',$start_date).' '.htmlspecialchars($event->get_title());
+		$html[] = '<a href="'.$event->get_url().'">';
+		$html[] = date('H:i',$start_date).' '.htmlspecialchars($learning_object->get_title());
+		$html[] = '</a>';
 		$html[] = '</div>';
 		return implode("\n",$html);
 	}
