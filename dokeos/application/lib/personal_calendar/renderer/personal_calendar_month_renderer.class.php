@@ -14,7 +14,9 @@ class PersonalCalendarMonthRenderer extends PersonalCalendarRenderer
 	public function render()
 	{
 		$calendar = new MonthCalendar($this->get_time());
-		$events = $this->get_events($this->get_time(),$this->get_time());
+		$from_date = strtotime(date('Y-m-1',$this->get_time()));
+		$to_date = strtotime('-1 Second',strtotime('Next Month',$from_date));
+		$events = $this->get_events($from_date,$to_date);
 		$dm = RepositoryDataManager::get_instance();
 		$html = array();
 		foreach($events as $index => $event)
