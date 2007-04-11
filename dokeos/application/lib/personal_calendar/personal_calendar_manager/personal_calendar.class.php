@@ -40,8 +40,6 @@ class PersonalCalendar extends WebApplication
 	 */
 	public function run()
 	{
-		Display :: display_header(get_lang('MyAgenda'));
-		api_display_tool_title(get_lang('MyAgenda'));
 		if (isset ($_GET['publish']) && $_GET['publish'] == 1)
 		{
 			$_SESSION['personal_calendar_publish'] = true;
@@ -52,13 +50,13 @@ class PersonalCalendar extends WebApplication
 		}
 		if ($_SESSION['personal_calendar_publish'])
 		{
-			echo '<p><a href="'.$this->get_url(array ('publish' => 0), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/browser.gif" alt="'.get_lang('BrowserTitle').'" style="vertical-align:middle;"/> '.get_lang('BrowserTitle').'</a></p>';
+			$out = '<p><a href="'.$this->get_url(array ('publish' => 0), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/browser.gif" alt="'.get_lang('BrowserTitle').'" style="vertical-align:middle;"/> '.get_lang('BrowserTitle').'</a></p>';
 			$publisher = new PersonalCalendarPublisher($this);
-			echo $publisher->as_html();
+			$out .=  $publisher->as_html();
 		}
 		else
 		{
-			echo '<p><a href="'.$this->get_url(array ('publish' => 1), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/publish.gif" alt="'.get_lang('Publish').'" style="vertical-align:middle;"/> '.get_lang('Publish').'</a></p>';
+			$out =  '<p><a href="'.$this->get_url(array ('publish' => 1), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/publish.gif" alt="'.get_lang('Publish').'" style="vertical-align:middle;"/> '.get_lang('Publish').'</a></p>';
 			$time = isset ($_GET['time']) ? intval($_GET['time']) : time();
 			$view = isset ($_GET['view']) ? $_GET['view'] : 'month';
 			$this->set_parameter('time', $time);
@@ -68,7 +66,7 @@ class PersonalCalendar extends WebApplication
 			$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'month')), 'img' => api_get_path(WEB_CODE_PATH).'/img/calendar_month.gif', 'label' => get_lang('MonthView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 			$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'week')), 'img' => api_get_path(WEB_CODE_PATH).'/img/calendar_week.gif', 'label' => get_lang('WeekView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 			$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'day')), 'img' => api_get_path(WEB_CODE_PATH).'/img/calendar_day.gif', 'label' => get_lang('DayView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-			echo '<div style="margin-bottom: 1em;">'.RepositoryUtilities :: build_toolbar($toolbar_data).'</div>';
+			$out .=  '<div style="margin-bottom: 1em;">'.RepositoryUtilities :: build_toolbar($toolbar_data).'</div>';
 			switch ($view)
 			{
 				case 'list' :
@@ -85,13 +83,16 @@ class PersonalCalendar extends WebApplication
 					break;
 			}
 			$minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $time);
-			echo '<div style="float: left; width: 20%;">';
-			echo $minimonthcalendar->render();
-			echo '</div>';
-			echo '<div style="float: left; width: 80%;">';
-			echo $renderer->render();
-			echo '</div>';
+			$out .=   '<div style="float: left; width: 20%;">';
+			$out .=   $minimonthcalendar->render();
+			$out .=   '</div>';
+			$out .=   '<div style="float: left; width: 80%;">';
+			$out .=   $renderer->render();
+			$out .=   '</div>';
 		}
+		Display :: display_header(get_lang('MyAgenda'));
+		api_display_tool_title(get_lang('MyAgenda'));
+		echo $out;
 		Display :: display_footer();
 	}
 	/**

@@ -18,7 +18,9 @@ class PersonalCalendarPublicationcreator extends PersonalCalendarPublisherCompon
 			$dm = PersonalCalendarDatamanager::get_instance();
 			$event = new PersonalCalendarEvent(0,$this->get_user_id(),$object);
 			$event->create();
-			header('Location: '.$this->get_url());
+			$url = $this->get_url(array('publish'=>'0'));
+			header('Location: '.$url);
+			exit;
 		}
 		else
 		{
