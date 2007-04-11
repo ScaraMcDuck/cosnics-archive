@@ -1,12 +1,26 @@
 <?php
+/**
+ * @package application.personal_calendar
+ */
 class PersonalCalendarPublisher
 {
 	const PARAM_ACTION = 'publish_action';
+	/**
+	 * The personal calendar in which this publisher runs
+	 */
 	private $personal_calendar;
+	/**
+	 * Creates a new personal calendar publisher
+	 * @param PersonalCalendar $personal_calendar
+	 */
 	function PersonalCalendarPublisher($personal_calendar)
 	{
 		$this->personal_calendar = $personal_calendar;
 	}
+	/**
+	 * Gets the HTML-representation of this publisher
+	 * @return string
+	 */
 	public function as_html()
 	{
 		$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
