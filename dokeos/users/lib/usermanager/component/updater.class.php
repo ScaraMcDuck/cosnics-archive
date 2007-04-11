@@ -13,30 +13,37 @@ class UserManagerUpdaterComponent extends UserManagerComponent
 	function run()
 	{	
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('UserCreate'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('UserUpdate'));
 		$id = $_GET[UserManager :: PARAM_USER_USER_ID];
-		$user = $this->retrieve_user($id);
-		
-		if (!api_is_platform_admin())
+		if ($id)
 		{
-			$this->display_header();
-			Display :: display_error_message(get_lang("NotAllowed"));
-			$this->display_footer();
-			exit;
-		}
+			$user = $this->retrieve_user($id);
 		
-		$form = new Userform(UserForm :: TYPE_EDIT, $user, $this->get_url());
+			if (!api_is_platform_admin())
+			{
+				$this->display_header();
+				Display :: display_error_message(get_lang("NotAllowed"));
+				$this->display_footer();
+				exit;
+			}
+			
+			$form = new Userform(UserForm :: TYPE_EDIT, $user, $this->get_url(array(UserManager :: PARAM_USER_USER_ID => $id)));
 
-		if($form->validate())
-		{
-			$success = $form->update_user();
-			$this->redirect(User :: ACTION_CREATE_USER, get_lang($success ? 'UserUpdated' : 'UserNotUpdated'), ($success ? false : true));
+			if($form->validate())
+			{
+				$success = $form->update_user();
+				$this->redirect(UserManager :: ACTION_UPDATE_USER, get_lang($success ? 'UserUpdated' : 'UserNotUpdated'), ($success ? false : true));
+			}
+			else
+			{
+				$this->display_header($breadcrumbs);
+				$form->display();
+				$this->display_footer();
+			}
 		}
 		else
 		{
-			$this->display_header($breadcrumbs);
-			$form->display();
-			$this->display_footer();
+			$this->display_error_page(htmlentities(get_lang('NoObjectSelected')));
 		}
 	}
 }
