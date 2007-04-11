@@ -126,7 +126,7 @@ abstract class AdminDataManager
 		
 		// 1. UserManager
 		$user_manager = new UserManager(api_get_user_id());
-		$info[] = array('application' => array('name' => get_lang('Users'), 'class' => 'users'), 'links' => $user_manager->get_application_platform_admin_links());
+		$info[] = $user_manager->get_application_platform_admin_links();
 		
 		// 2. UserRolesRights
 		$info[] = array('application' => array('name' => get_lang('UserRolesRights'), 'class' => 'user_roles_rights'), 'links' => array(array('name' => get_lang('ManageRoles'), 'action' => 'manage', 'url' => '/LCMS/main/admin/manage_roles.php'), array('name' => get_lang('RolesRightsOverview'), 'action' => 'list', 'url' => '/LCMS/main/admin/roles_rights_overview.php')));

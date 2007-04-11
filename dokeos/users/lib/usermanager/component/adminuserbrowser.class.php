@@ -29,11 +29,11 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 			exit;
 		}
 		
-		//$menu = $this->get_menu_html();
+		$menu = $this->get_menu_html();
 		$output = $this->get_user_html();
 		
 		$this->display_header($breadcrumbs, true);
-		//echo $menu;
+		echo $menu;
 		echo $output;
 		$this->display_footer();
 	}
@@ -43,34 +43,50 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 		$table = new AdminUserBrowserTable($this, null, null, $this->get_condition());
 		
 		$html = array();
+		$html[] = '<div style="float: right; width: 80%;">';
 		$html[] = $table->as_html();
+		$html[] = '</div>';
+		
+		return implode($html, "\n");
+	}
+	
+	function get_menu_html()
+	{
+		$extra_items = array ();
+		if ($this->get_search_validate())
+		{
+			// $search_url = $this->get_url();
+			$search_url = '#';
+			$search = array ();
+			$search['title'] = get_lang('SearchResults');
+			$search['url'] = $search_url;
+			$search['class'] = 'search_results';
+			$extra_items[] = & $search;
+		}
+		else
+		{
+			$search_url = null;
+		}
+		
+		$url_format = $this->get_url(array (UserManager :: PARAM_ACTION => UserManager :: ACTION_ADMIN_COURSE_BROWSER));
+		$user_menu = new UserMenu(null, $url_format, & $extra_items);
+		
+		if (isset ($search_url))
+		{
+			$user_menu->forceCurrentUrl($search_url, true);
+		}
+		
+		$html = array();
+		$html[] = '<div style="float: left; width: 20%;">';
+		$html[] = $user_menu->render_as_tree();
+		$html[] = '</div>';
 		
 		return implode($html, "\n");
 	}
 
 	function get_condition()
 	{
-		//$search_conditions = $this->get_search_condition();
-		
-		$condition = null;
-//		if (isset($this->category))
-//		{
-//			$condition = new EqualityCondition(User :: PROPERTY_CATEGORY_CODE, $this->category);
-//			
-//			if (count($search_conditions))
-//			{
-//				$condition = new AndCondition($condition, $search_conditions);
-//			}
-//		}
-//		else
-//		{
-//			if (count($search_conditions))
-//			{
-//				$condition = $search_conditions;
-//			}
-//		}
-		
-		return $condition;
+		return $this->get_search_condition();
 	}
 }
 ?>
