@@ -234,6 +234,11 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/equalitycondi
 		}
 		return $this->search_form;
 	}
+	
+	function get_search_validate()
+	{
+		return $this->get_search_form()->validate();
+	}
 
 	/**
 	 * Gets the parameter list

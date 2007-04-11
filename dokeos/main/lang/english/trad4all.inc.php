@@ -79,6 +79,7 @@ $langAmong = "among";
 $langShow = "Show";
 $langMyCourses = "My courses";
 $langMyRepository = "My repository";
+$langSearchPortal = "Search Portal";
 $langModifyProfile = "My profile";
 $langMyStats = "View my statistics";
 $langLogout = "Logout";

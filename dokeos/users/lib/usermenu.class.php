@@ -4,7 +4,7 @@
  */
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
-require_once dirname(__FILE__).'/../../../repository/lib/treemenurenderer.class.php';
+require_once dirname(__FILE__).'/../../repository/lib/treemenurenderer.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
  * categories of courses.
@@ -49,6 +49,7 @@ class UserMenu extends HTML_Menu
 	 */
 	private function get_menu_items($extra_items)
 	{
+		$menu = array();
 		if (count($extra_items))
 		{
 			$menu = array_merge($menu, $extra_items);
