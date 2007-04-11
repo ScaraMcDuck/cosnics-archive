@@ -30,7 +30,6 @@ class CourseImportForm extends FormValidator {
     
     function import_courses()
     {
-    	$course = $this->course;
     	$values = $this->exportValues();
     	
     	$csvcourses = Import :: csv_to_array($_FILES['file']['tmp_name']);
