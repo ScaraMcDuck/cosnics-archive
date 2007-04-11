@@ -26,7 +26,7 @@ abstract class PersonalCalendarPublisherComponent
 	 */
 	function get_url($parameters = array(), $encode = false)
 	{
-		return $this->parent->get_url($parameters = array(), $encode = false);
+		return $this->parent->get_url($parameters, $encode);
 	}
 	/**
 	 * @see PersonalCalendarPublisher::get_user_id()
