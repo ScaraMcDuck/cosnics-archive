@@ -6,6 +6,7 @@ $Email='Email address';
 $FirstName='First Name';
 $Language='Language';
 $LastName='Last Name';
+$LockOutWarningMessage='You are an admin:<br />Do not remove all admins from the system, or every admin is locked out.';
 $No='No';
 $OfficialCode='Official Code';
 $OnlyImagesAllowed ='Only images of type PNG, JPG or GIF allowed';

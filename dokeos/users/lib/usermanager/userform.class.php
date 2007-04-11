@@ -84,6 +84,10 @@ class UserForm extends FormValidator {
 		$status[STUDENT] = get_lang('Student');  
 		$this->addElement('select',User :: PROPERTY_STATUS,get_lang('Status'),$status);
 		// Platform admin
+		if (api_is_platform_admin() && $this->form_type == self :: TYPE_EDIT)
+		{
+		$this->add_warning_message(null, get_lang('LockOutWarningMessage'));
+		}
 		$group = array();
 		$group[] =& $this->createElement('radio', User :: PROPERTY_PLATFORMADMIN,null,get_lang('Yes'),1);
 		$group[] =& $this->createElement('radio', User :: PROPERTY_PLATFORMADMIN,null,get_lang('No'),0);
