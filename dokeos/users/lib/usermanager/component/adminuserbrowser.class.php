@@ -5,6 +5,7 @@
 require_once dirname(__FILE__).'/../usermanager.class.php';
 require_once dirname(__FILE__).'/../usermanagercomponent.class.php';
 require_once dirname(__FILE__).'/adminuserbrowser/adminuserbrowsertable.class.php';
+require_once dirname(__FILE__).'/../../usermenu.class.php';
 /**
  * Weblcms component which allows the user to manage his or her user subscriptions
  */
@@ -68,7 +69,7 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 			$search_url = null;
 		}
 		
-		$url_format = $this->get_url(array (UserManager :: PARAM_ACTION => UserManager :: ACTION_ADMIN_COURSE_BROWSER));
+		$url_format = $this->get_url(array (UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
 		$user_menu = new UserMenu(null, $url_format, & $extra_items);
 		
 		if (isset ($search_url))

@@ -48,7 +48,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 			case User :: PROPERTY_PLATFORMADMIN :
 				if ($user->get_platformadmin() == '1')
 				{
-					return get_lang('Platformadmin');
+					return get_lang('PlatformAdmin');
 				}
 				else
 				{

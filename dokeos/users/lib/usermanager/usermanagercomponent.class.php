@@ -162,6 +162,11 @@ abstract class UserManagerComponent {
 		return $this->get_parent()->get_search_parameter($name);
 	}
 	
+	function get_search_validate()
+	{
+		return $this->get_parent()->get_search_validate();
+	}
+	
 	/**
 	 * @see UserManager::force_menu_url()
 	 */
