@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id:$
  * @package application.personal_calendar
  */
 class PersonalCalendarPublisher

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * $Id: personal_calendar_list_renderer.class.php 11660 2007-03-22 14:17:03Z bmol $
+ * $Id$
  * @package application.personal_calendar
  */
 require_once (dirname(__FILE__).'/../personal_calendar_renderer.class.php');

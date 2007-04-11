@@ -1,10 +1,27 @@
 <?php
+/**
+ * $Id:$
+ * @package application.personal_calendar
+ */
 require_once dirname(__FILE__).'/../personalcalendardatamanager.class.php';
 require_once 'MDB2.php';
+/**
+ * This is an implementation of a personal calendar datamanager using the PEAR::
+ * MDB2 package as a database abstraction layer.
+ */
 class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 {
+	/**
+	 * A prefix
+	 */
 	private $prefix;
+	/**
+	 * An instance of a RepositoryDatamanager
+	 */
 	private $repoDM;
+	/**
+	 * Initializes this datamanager
+	 */
 	function initialize()
 	{
 		$this->repoDM = & RepositoryDataManager :: get_instance();
@@ -13,10 +30,16 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
 		$this->connection->query('SET NAMES utf8');
 	}
+	/**
+	 * @see PersonalCalendarDatamanager
+	 */
 	function get_next_personal_calendar_event_id()
 	{
 		return $this->connection->nextID($this->get_table_name('personal_calendar_event'));
 	}
+	/**
+	 * @see PersonalCalendarDatamanager
+	 */
 	function create_personal_calendar_event($personal_event)
 	{
 		$props = array ();
@@ -27,6 +50,9 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		$this->connection->extended->autoExecute($this->get_table_name('personal_calendar'), $props, MDB2_AUTOQUERY_INSERT);
 		return true;
 	}
+	/**
+	 * @see PersonalCalendarDatamanager
+	 */
 	function retrieve_personal_calendar_events($user_id)
 	{
 		$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('publisher').'=?';
@@ -40,6 +66,9 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		}
 		return $events;
 	}
+	/**
+	 * @see PersonalCalendarDatamanager
+	 */
 	function load_personal_calendar_event($id)
 	{
 		$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('id').'=?';
@@ -49,12 +78,21 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		$event = $this->repoDM->retrieve_learning_object($record['learning_object'],'calendar_event');
 		return new PersonalCalendarEvent($record['id'],$record['publisher'],$event);
 	}
+	/**
+	 * Gets the full name of a given table (by adding the database name and a
+	 * prefix if required)
+	 * @param string $name
+	 */
 	private function get_table_name($name)
 	{
 		global $personal_calendar_database;
 		return $personal_calendar_database.'.'.$this->prefix.$name;
 	}
-	private function escape_column_name($name, $prefix_learning_object_properties = false)
+	/**
+	 * Escapes a column name
+	 * @param string $name
+	 */
+	private function escape_column_name($name)
 	{
 		list($table, $column) = explode('.', $name, 2);
 		$prefix = '';
@@ -66,6 +104,9 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		}
 		return $prefix.$this->connection->quoteIdentifier($name);
 	}
+	/**
+	 * @see PersonalCalendarDatamanager
+	 */
 	function create_storage_unit($name,$properties,$indexes)
 	{
 		$name = $this->get_table_name($name);
