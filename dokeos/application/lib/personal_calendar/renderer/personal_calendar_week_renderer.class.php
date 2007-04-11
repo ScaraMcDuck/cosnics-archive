@@ -1,7 +1,6 @@
 <?php
-
 /**
- * $Id: personal_calendar_list_renderer.class.php 11660 2007-03-22 14:17:03Z bmol $
+ * $Id$
  * @package application.personal_calendar
  */
 require_once (dirname(__FILE__).'/../personal_calendar_renderer.class.php');
@@ -12,6 +11,9 @@ require_once (dirname(__FILE__).'/../../../common/weekcalendar.class.php');
  */
 class PersonalCalendarWeekRenderer extends PersonalCalendarRenderer
 {
+	/**
+	 * @see PersonalCalendarRenderer::render()
+	 */
 	public function render()
 	{
 		$calendar = new WeekCalendar($this->get_time());
@@ -38,6 +40,11 @@ class PersonalCalendarWeekRenderer extends PersonalCalendarRenderer
 		$calendar->add_calendar_navigation($this->get_parent()->get_url($parameters));
 		return $calendar->toHtml();
 	}
+	/**
+	 * Gets a html representation of a personal calendar event
+	 * @param PersonalCalendarEvent $personal_event
+	 * @return string
+	 */
 	private function render_personal_event($personal_event)
 	{
 		$learning_object = $personal_event->get_event();
@@ -50,6 +57,11 @@ class PersonalCalendarWeekRenderer extends PersonalCalendarRenderer
 		$html[] = '</div>';
 		return implode("\n", $html);
 	}
+	/**
+	 * Gets a html representation of a published calendar event
+	 * @param LearningObjectPublicationAttributes $event
+	 * @return string
+	 */
 	private function render_event($event)
 	{
 		$dm = RepositoryDataManager :: get_instance();

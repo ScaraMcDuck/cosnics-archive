@@ -11,6 +11,9 @@ require_once (dirname(__FILE__).'/../../weblcms/weblcmsdatamanager.class.php');
  */
 class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
 {
+	/**
+	 * @see PersonalCalendarConnector
+	 */
 	public function get_events($user_id, $from_date, $to_date)
 	{
 		$dm = WeblcmsDatamanager :: get_instance();

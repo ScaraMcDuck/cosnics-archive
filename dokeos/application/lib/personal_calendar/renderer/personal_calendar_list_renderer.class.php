@@ -1,5 +1,4 @@
 <?php
-
 /**
  * $Id$
  * @package application.personal_calendar
@@ -11,6 +10,9 @@ require_once (dirname(__FILE__).'/../personal_calendar_renderer.class.php');
  */
 class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 {
+	/**
+	 * @see PersonalCalendarRenderer::render()
+	 */
 	public function render()
 	{
 		// Range from start (0) to 10 years in the future...

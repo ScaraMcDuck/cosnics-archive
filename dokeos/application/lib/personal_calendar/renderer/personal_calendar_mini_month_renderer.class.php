@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: personal_calendar_list_renderer.class.php 11660 2007-03-22 14:17:03Z bmol $
+ * $Id$
  * @package application.personal_calendar
  */
 require_once (dirname(__FILE__).'/../personal_calendar_renderer.class.php');
@@ -11,6 +11,9 @@ require_once (dirname(__FILE__).'/../../../common/minimonthcalendar.class.php');
  */
 class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
 {
+	/**
+	 * @see PersonalCalendarRenderer::render()
+	 */
 	public function render()
 	{
 		$calendar = new MiniMonthCalendar($this->get_time());
@@ -51,13 +54,20 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
 		$html = $calendar->toHtml();
 		return $html;
 	}
+	/**
+	 * Gets a html representation of a personal calendar event
+	 * @param PersonalCalendarEvent $personal_event
+	 * @return string
+	 */
 	private function render_personal_event($personal_event)
 	{
 		$html[] = '<br /><img src="'.api_get_path(WEB_CODE_PATH).'/img/posticon.gif"/>';
 		return implode("\n",$html);
 	}
 	/**
-	 *
+	 * Gets a html representation of a published calendar event
+	 * @param CalendarEvent $event
+	 * @return string
 	 */
 	private function render_event($event)
 	{

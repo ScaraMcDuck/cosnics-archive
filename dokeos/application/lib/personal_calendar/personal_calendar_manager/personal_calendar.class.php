@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id:$
  * @package application.personal_calendar
  */
 require_once dirname(__FILE__).'/../../webapplication.class.php';
