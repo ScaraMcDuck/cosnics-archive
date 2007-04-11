@@ -26,16 +26,22 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 				case 'PersonalCalendarEvent' :
 					$learning_object = $event->get_event();
 					$display = LearningObjectDisplay :: factory($learning_object);
-					$html[] = $display->get_full_html();
+					$html[$learning_object->get_start_date()][] = $display->get_full_html();
 					break;
 				case 'LearningObjectPublicationAttributes' :
 					$learning_object = $dm->retrieve_learning_object($event->get_publication_object_id());
 					$display = LearningObjectDisplay :: factory($learning_object);
-					$html[] = $display->get_full_html();
+					$html[$learning_object->get_start_date()][] = $display->get_full_html();
 					break;
 			}
 		}
-		return implode("\n", $html);
+		ksort($html);
+		$out = '';
+		foreach($html as $time => $content)
+		{
+			$out .= implode("\n", $content);
+		}
+		return $out;
 	}
 }
 ?>
