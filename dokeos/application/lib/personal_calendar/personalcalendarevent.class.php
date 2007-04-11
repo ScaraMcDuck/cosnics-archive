@@ -23,6 +23,11 @@ class PersonalCalendarEvent
 		$this->set_id($id);
 		return $dm->create_personal_calendar_event($this);
 	}
+	public function load($id)
+	{
+		$dm = PersonalCalendarDataManager :: get_instance();
+		return $dm->load_personal_calendar_event($id);
+	}
 	public function get_id()
 	{
 		return $this->id;

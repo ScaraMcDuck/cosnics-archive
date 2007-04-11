@@ -67,27 +67,39 @@ class PersonalCalendar extends WebApplication
 			$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'week')), 'img' => api_get_path(WEB_CODE_PATH).'/img/calendar_week.gif', 'label' => get_lang('WeekView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 			$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'day')), 'img' => api_get_path(WEB_CODE_PATH).'/img/calendar_day.gif', 'label' => get_lang('DayView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 			$out .=  '<div style="margin-bottom: 1em;">'.RepositoryUtilities :: build_toolbar($toolbar_data).'</div>';
-			switch ($view)
-			{
-				case 'list' :
-					$renderer = new PersonalCalendarListRenderer($this, $time);
-					break;
-				case 'day' :
-					$renderer = new PersonalCalendarDayRenderer($this, $time);
-					break;
-				case 'week' :
-					$renderer = new PersonalCalendarWeekRenderer($this, $time);
-					break;
-				default :
-					$renderer = new PersonalCalendarMonthRenderer($this, $time);
-					break;
-			}
 			$minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $time);
 			$out .=   '<div style="float: left; width: 20%;">';
 			$out .=   $minimonthcalendar->render();
 			$out .=   '</div>';
 			$out .=   '<div style="float: left; width: 80%;">';
-			$out .=   $renderer->render();
+			if(!isset($_GET['pid']))
+			{
+				switch ($view)
+				{
+					case 'list' :
+						$renderer = new PersonalCalendarListRenderer($this, $time);
+						break;
+					case 'day' :
+						$renderer = new PersonalCalendarDayRenderer($this, $time);
+						break;
+					case 'week' :
+						$renderer = new PersonalCalendarWeekRenderer($this, $time);
+						break;
+					default :
+						$renderer = new PersonalCalendarMonthRenderer($this, $time);
+						break;
+				}
+				$out .=   $renderer->render();
+			}
+			else
+			{
+				$pid = $_GET['pid'];
+				$event = PersonalCalendarEvent::load($pid);
+				$learning_object = $event->get_event();
+				$display = LearningObjectDisplay :: factory($learning_object);
+				$out  .= $display->get_full_html();
+				$out .= '<a href="'.$this->get_url(array('pid'=>null)).'">'.get_lang('Back').'</a>';
+			}
 			$out .=   '</div>';
 		}
 		Display :: display_header(get_lang('MyAgenda'));
@@ -102,8 +114,11 @@ class PersonalCalendar extends WebApplication
 	 */
 	public function get_events($from_date, $to_date)
 	{
+		$dm = PersonalCalendarDatamanager::get_instance();
+		$events = $dm->retrieve_personal_calendar_events($this->user_id);
 		$connector = new PersonalCalendarWeblcmsConnector();
-		return $connector->get_events($this->user_id, $from_date, $to_date);
+		$events = array_merge($events,$connector->get_events($this->user_id, $from_date, $to_date));
+		return $events;
 	}
 	public function learning_object_is_published($object_id)
 	{

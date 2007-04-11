@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $Id$
  * @package application.personal_calendar
@@ -13,16 +14,26 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 	public function render()
 	{
 		// Range from start (0) to 10 years in the future...
-		$events = $this->get_events(0,strtotime('+10 Years',time()));
-		$dm = RepositoryDataManager::get_instance();
-		$html = array();
-		foreach($events as $index => $event)
+		$events = $this->get_events(0, strtotime('+10 Years', time()));
+		$dm = RepositoryDataManager :: get_instance();
+		$html = array ();
+		foreach ($events as $index => $event)
 		{
-			$learning_object = $dm->retrieve_learning_object($event->get_publication_object_id());
-			$display = LearningObjectDisplay :: factory($learning_object);
-			$html[] = $display->get_full_html();
+			switch (get_class($event))
+			{
+				case 'PersonalCalendarEvent' :
+					$learning_object = $event->get_event();
+					$display = LearningObjectDisplay :: factory($learning_object);
+					$html[] = $display->get_full_html();
+					break;
+				case 'LearningObjectPublicationAttributes' :
+					$learning_object = $dm->retrieve_learning_object($event->get_publication_object_id());
+					$display = LearningObjectDisplay :: factory($learning_object);
+					$html[] = $display->get_full_html();
+					break;
+			}
 		}
-		return implode("\n",$html);
+		return implode("\n", $html);
 	}
 }
 ?>

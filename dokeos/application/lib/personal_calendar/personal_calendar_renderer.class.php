@@ -53,6 +53,13 @@ abstract class PersonalCalendarRenderer
 		return $this->personal_calendar;
 	}
 	/**
+	 *
+	 */
+	public function get_url($parameters = array (), $encode = false, $filter = false, $filterOn = array())
+	{
+		return $this->personal_calendar->get_url($parameters, $encode, $filter, $filterOn);
+	}
+	/**
 	 * Renders the calendar
 	 * @return string A html representation of the events in this calendar.
 	 */

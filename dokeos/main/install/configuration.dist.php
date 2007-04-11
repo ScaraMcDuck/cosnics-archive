@@ -75,6 +75,8 @@ $repository_database    = '{DATABASE_REPOSITORY}';
 $weblcms_database    	= '{DATABASE_WEBLCMS}';
 // users database
 $user_database			= '{DATABASE_USERDB}';
+// personal calendar database
+$personal_calendar_database = '{DATABASE_PERSONALCALENDAR}';
 
 //============================================================================
 //   Directory settings
