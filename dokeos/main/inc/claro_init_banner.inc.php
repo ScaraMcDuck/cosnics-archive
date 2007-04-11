@@ -257,6 +257,19 @@ if($GLOBALS["this_section"] == "myagenda")
 	}
 
 ?>
+
+<?php
+if($GLOBALS["this_section"] == "searchportal")
+	{
+	$link_class='class="here"';
+	}
+	else
+	{
+	$link_class='';
+	}
+?>
+	<a <?php echo $link_class ?> href="<?php echo api_get_path(WEB_PATH); ?>index_search_portal.php" target="_top">
+	<?php echo get_lang("SearchPortal"); ?></a>
 	</div> <!-- end of header3 (user) section -->
 
 <?php

@@ -499,11 +499,21 @@ $YourVersionNotUpToDate = "Your version is not up-to-date";
 
 $AddUserToCourseCsv='Add users to course from CSV';
 $CourseCategoryManagement='Manage course categories';
+$ClassesOfUsers='User Classes';
+$ConfigureHomepage='Configure Homepage';
 $CourseCreateCsv='Import courses from CSV';
 $CourseList='Course list';
-$NoOptionsAvailable='No platform admin options available';
+$DokeosConfiguration='Dokeos Configuration';
+$ImportClasses='Import Classes';
+$ManageRoles='Manage Roles';
+$NoOptionsAvailable='No options available';
 $PersonalCalendar='Personal Calendar';
+$RolesRightsOverview='Roles\'n\'Rights Overview';
+$UserRolesRights='Roles\'n\'Rights';
 $SearchPortal='Search Portal';
+$UserCreate='Create User';
+$UserExport='Export Users';
+$UserImport='Import Users';
 $Weblcms='Weblcms';
 
 ?>

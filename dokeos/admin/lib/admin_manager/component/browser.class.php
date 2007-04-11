@@ -5,6 +5,7 @@
  */
 require_once dirname(__FILE__).'/../admin.class.php';
 require_once dirname(__FILE__).'/../admincomponent.class.php';
+require_once dirname(__FILE__).'/../adminsearchform.class.php';
 /**
  * Admin component
  */
@@ -38,18 +39,21 @@ class AdminBrowserComponent extends AdminComponent
 		foreach ($this->get_application_platform_admin_links() as $application_links)
 		{
 			$html[] = '<div class="admin_section">';
-			$html[] = '<div class="main"><img src="'. $this->get_web_code_path() .'/img/admin_'. $application_links['application']['class'] .'.gif" border="0" style="vertical-align: middle;" alt="' . get_lang($application_links['application']['name']) . '" title="' . get_lang($application_links['application']['name']) . '"/></div>';
+			$html[] = '<div class="main"><img src="'. $this->get_web_code_path() .'img/admin_'. $application_links['application']['class'] .'.gif" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />'. $application_links['application']['name'] .'</div>';
 			$html[] = '<div class="actions">';
 			if (count($application_links['links']))
 			{
-				$html[] = '<ul>';
 				foreach ($application_links['links'] as $link)
 				{
-					$html[] = '<li><a href="'.$link['url'] .'">'.$link['name'].'</a></li>';
+					$html[] = '<div class="action"><a href="'.$link['url'] .'"><img src="'. $this->get_web_code_path() .'img/admin_action_'. $link['action'] .'.gif" /><br />'.$link['name'].'</a></div>';
 				}
-				$html[] = '</ul>';
 			}
 			$html[] = '</div>';
+			if (isset($application_links['search']))
+			{
+				$search_form = new AdminSearchForm($this, $application_links['search']);
+				$html[] = $search_form->display();
+			}
 			$html[] = '</div>';
 		}
 		
