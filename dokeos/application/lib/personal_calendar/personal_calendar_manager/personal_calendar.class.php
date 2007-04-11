@@ -13,7 +13,7 @@ require_once dirname(__FILE__).'/../renderer/personal_calendar_month_renderer.cl
 require_once dirname(__FILE__).'/../renderer/personal_calendar_week_renderer.class.php';
 require_once dirname(__FILE__).'/../renderer/personal_calendar_day_renderer.class.php';
 require_once dirname(__FILE__).'/../connector/personal_calendar_weblcms_connector.class.php';
-
+require_once dirname(__FILE__).'/../publisher/personal_calendar_publisher.class.php';
 /**
  * This application gives each user the possibility to maintain a personal
  * calendar.
@@ -42,14 +42,19 @@ class PersonalCalendar extends WebApplication
 	{
 		Display :: display_header(get_lang('MyAgenda'));
 		api_display_tool_title(get_lang('MyAgenda'));
-		$_SESSION['personal_calendar_publish'] = false;
 		if (isset ($_GET['publish']) && $_GET['publish'] == 1)
 		{
 			$_SESSION['personal_calendar_publish'] = true;
 		}
+		elseif (isset ($_GET['publish']) && $_GET['publish'] == 0)
+		{
+			$_SESSION['personal_calendar_publish'] = false;
+		}
 		if ($_SESSION['personal_calendar_publish'])
 		{
 			echo '<p><a href="'.$this->get_url(array ('publish' => 0), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/browser.gif" alt="'.get_lang('BrowserTitle').'" style="vertical-align:middle;"/> '.get_lang('BrowserTitle').'</a></p>';
+			$publisher = new PersonalCalendarPublisher($this);
+			echo $publisher->as_html();
 		}
 		else
 		{
