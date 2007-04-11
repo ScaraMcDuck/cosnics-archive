@@ -6,6 +6,7 @@ $Email='E-mail adres';
 $FirstName='Voornaam';
 $language='Taal';
 $LastName='Achternaam';
+$LockOutWarningMessage='Je bent een platformbeheerder:<br />Verwijder niet alle platformadmins, of elke platformadmin is buitengesloten.';
 $No='Nee';
 $OfficialCode='Officiële code';
 $OnlyImagesAllowed = 'Enkel afbeeldingen van het type PNG, JPG of GIF zijn toegestaan.';
