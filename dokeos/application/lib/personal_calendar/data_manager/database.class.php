@@ -4,8 +4,10 @@ require_once 'MDB2.php';
 class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 {
 	private $prefix;
+	private $repoDM;
 	function initialize()
 	{
+		$this->repoDM = & RepositoryDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_personal_calendar'),array('debug'=>3,'debug_handler'=>array('PersonalCalendarDatamanager','debug')));
 		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
@@ -24,6 +26,28 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('personal_calendar'), $props, MDB2_AUTOQUERY_INSERT);
 		return true;
+	}
+	function retrieve_personal_calendar_events($user_id)
+	{
+		$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('publisher').'=?';
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($user_id);
+		$events = array();
+		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$event = $this->repoDM->retrieve_learning_object($record['learning_object'],'calendar_event');
+			$events[] = new PersonalCalendarEvent($record['id'],$record['publisher'],$event);
+		}
+		return $events;
+	}
+	function load_personal_calendar_event($id)
+	{
+		$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('id').'=?';
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($id);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$event = $this->repoDM->retrieve_learning_object($record['learning_object'],'calendar_event');
+		return new PersonalCalendarEvent($record['id'],$record['publisher'],$event);
 	}
 	private function get_table_name($name)
 	{

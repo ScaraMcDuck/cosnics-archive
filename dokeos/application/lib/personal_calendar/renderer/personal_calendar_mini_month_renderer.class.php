@@ -21,9 +21,17 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
 		$html = array();
 		foreach($events as $index => $event)
 		{
-			$learning_object = $dm->retrieve_learning_object($event->get_publication_object_id());
-			$content = $this->render_event($learning_object);
-			$calendar->add_event($learning_object->get_start_date(),$content);
+			switch(get_class($event))
+			{
+				case 'PersonalCalendarEvent':
+					$content = $this->render_personal_event($event);
+					$calendar->add_event($event->get_event()->get_start_date(), $content);
+					break;
+				case 'LearningObjectPublicationAttributes':
+					$learning_object = $dm->retrieve_learning_object($event->get_publication_object_id());
+					$content = $this->render_event($learning_object);
+					$calendar->add_event($learning_object->get_start_date(),$content);
+			}
 		}
 		$parameters['time'] = '-TIME-';
 		$calendar->add_calendar_navigation($this->get_parent()->get_url($parameters));
@@ -43,10 +51,16 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
 		$html = $calendar->toHtml();
 		return $html;
 	}
+	private function render_personal_event($personal_event)
+	{
+		$html[] = '<br /><img src="'.api_get_path(WEB_CODE_PATH).'/img/posticon.gif"/>';
+		return implode("\n",$html);
+	}
+	/**
+	 *
+	 */
 	private function render_event($event)
 	{
-		$start_date = $event->get_start_date();
-		$end_date = $event->get_end_date();
 		$html[] = '<br /><img src="'.api_get_path(WEB_CODE_PATH).'/img/posticon.gif"/>';
 		return implode("\n",$html);
 	}

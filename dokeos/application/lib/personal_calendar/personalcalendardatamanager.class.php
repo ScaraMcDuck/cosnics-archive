@@ -49,6 +49,14 @@ abstract class PersonalCalendarDataManager
 	/**
 	 *
 	 */
+	abstract function retrieve_personal_calendar_events($user_id);
+	/**
+	 *
+	 */
+	abstract function load_personal_calendar_event($id);
+	/**
+	 * Creates a storage unit in the personal calendar storage system
+	 */
 	abstract function create_storage_unit($name,$properties,$indexes);
 }
 ?>
