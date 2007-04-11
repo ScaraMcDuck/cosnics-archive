@@ -10,9 +10,6 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_personal_calendar'),array('debug'=>3,'debug_handler'=>array('PersonalCalendarDatamanager','debug')));
 		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
 		$this->connection->query('SET NAMES utf8');
-		echo '<pre>';
-		var_dump($this);
-		exit;
 	}
 	function get_next_personal_calendar_event_id()
 	{
@@ -30,8 +27,8 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	}
 	private function get_table_name($name)
 	{
-		global $weblcms_database;
-		return $weblcms_database.'.'.$this->prefix.$name;
+		global $personal_calendar_database;
+		return $personal_calendar_database.'.'.$this->prefix.$name;
 	}
 	private function escape_column_name($name, $prefix_learning_object_properties = false)
 	{
