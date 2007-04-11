@@ -23,12 +23,6 @@
  *	- official_code; the official code of this user;
  *	- picture_uri: the URI location of the picture of this user;
  *	- creator_id: the user_id of the user who created this user;
- *	- competences: the competences of this user;
- *	- teach:
- *	- productions:
- *	- chatcall_user_id:
- *	- chatcall_date:
- *	- chatcall_text:
  *	- language: the language setting of this user;
  *	- disk quota: the disk quota for this user;
  *	- database_quota: the database quota for this user;

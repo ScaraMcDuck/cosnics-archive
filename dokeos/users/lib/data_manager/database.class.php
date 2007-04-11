@@ -3,19 +3,8 @@
  * @package users
  * @subpackage datamanager
  */
-//require_once dirname(__FILE__).'/database/databaselearningobjectresultset.class.php';
+require_once dirname(__FILE__).'/database/databaseuserresultset.class.php';
 require_once dirname(__FILE__).'/../usersdatamanager.class.php';
-//require_once dirname(__FILE__).'/../configuration.class.php';
-//require_once dirname(__FILE__).'/../learningobject.class.php';
-//require_once dirname(__FILE__).'/../condition/condition.class.php';
-//require_once dirname(__FILE__).'/../condition/equalitycondition.class.php';
-//require_once dirname(__FILE__).'/../condition/inequalitycondition.class.php';
-//require_once dirname(__FILE__).'/../condition/patternmatchcondition.class.php';
-//require_once dirname(__FILE__).'/../condition/aggregatecondition.class.php';
-//require_once dirname(__FILE__).'/../condition/andcondition.class.php';
-//require_once dirname(__FILE__).'/../condition/orcondition.class.php';
-//require_once dirname(__FILE__).'/../condition/notcondition.class.php';
-//require_once dirname(__FILE__).'/../condition/incondition.class.php';
 require_once 'MDB2.php';
 
 /**
@@ -231,6 +220,55 @@ class DatabaseUsersDataManager extends UsersDataManager
 		{
 			return true;
 		}
+	}
+	
+	function count_users($condition = null)
+	{
+		$params = array ();
+		$query = 'SELECT COUNT('.$this->escape_column_name(User :: PROPERTY_USER_ID).') FROM '.$this->escape_table_name('user');
+		if (isset ($condition))
+		{
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+		}
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $record[0];
+	}
+	
+	function retrieve_users($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	{
+		$query = 'SELECT * FROM '. $this->escape_table_name('user'). ' AS U';
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+		}
+		/*
+		 * Always respect display order as a last resort.
+		 */
+		$orderBy[] = User :: PROPERTY_LASTNAME;
+		$orderDir[] = SORT_ASC;
+		$order = array ();
+		
+		for ($i = 0; $i < count($orderBy); $i ++)
+		{
+			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+		}
+		if (count($order))
+		{
+			$query .= ' ORDER BY '.implode(', ', $order);
+		}
+		if ($maxObjects < 0)
+		{
+			$maxObjects = null;
+		}
+		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		return new DatabaseUserResultSet($this, $res);
 	}
 }
 ?>
