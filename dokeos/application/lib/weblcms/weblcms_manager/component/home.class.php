@@ -4,6 +4,7 @@
  */
 require_once dirname(__FILE__).'/../weblcms.class.php';
 require_once dirname(__FILE__).'/../weblcmscomponent.class.php';
+require_once dirname(__FILE__).'/../../course/courseusercategory.class.php';
 /**
  * Weblcms component which provides the user with a list
  * of all courses he or she has subscribed to.
@@ -18,7 +19,7 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('MyCourses'));
 		$this->display_header($breadcrumbs);
-		$course_categories = $this->retrieve_course_user_categories($this->get_user_id());
+		$course_categories = $this->retrieve_course_user_categories(null, null, array(CourseUserCategory :: PROPERTY_SORT), array(SORT_ASC));
 		
 		echo '<div class="maincontent">';
 		$courses = $this->retrieve_courses($this->get_user_id(), 0);
