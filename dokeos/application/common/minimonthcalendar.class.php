@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * $Id: monthcalendarlearningobjectpublicationlistrenderer.class.php 10541 2006-12-21 10:08:16Z bmol $
  * @package application.common

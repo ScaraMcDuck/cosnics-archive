@@ -3,16 +3,12 @@
  * $Id: monthcalendarlearningobjectpublicationlistrenderer.class.php 10541 2006-12-21 10:08:16Z bmol $
  * @package application.common
  */
-require_once ('HTML/Table.php');
+require_once ('calendartable.class.php');
 /**
  * A tabular representation of a week calendar
  */
-class WeekCalendar extends HTML_Table
+class WeekCalendar extends CalendarTable
 {
-	/**
-	 * A time in the week represented by this calendar
-	 */
-	private $display_time;
 	/**
 	 * The navigation links
 	 */
@@ -112,21 +108,27 @@ class WeekCalendar extends HTML_Table
 		$this->setColType(0,'th');
 	}
 	/**
-	 * Add an event to the calendar
-	 * @param int $time A time in the day on which the event should be displayed
-	 * @param string $content The html content to insert in the month calendar
+	 * Adds the events to the calendar
 	 */
-	public function add_event($time,$content)
+	private function add_events()
 	{
-		$row = date('H',$time)/$this->hour_step+1;
-		$column = date('w',$time);
-		if($column == 0)
+		$events = $this->get_events_to_show();
+		foreach ($events as $time => $items)
+		{
+			$row = date('H',$time)/$this->hour_step+1;
+			$column = date('w',$time);
+					if($column == 0)
 		{
 			$column = 7;
 		}
-		$cell_content = $this->getCellContents($row,$column);
-		$cell_content .= $content;
-		$this->setCellContents($row,$column, $cell_content );
+			foreach ($items as $index => $item)
+			{
+				$cell_content = $this->getCellContents($row, $column);
+				$cell_content .= $item;
+				$this->setCellContents($row, $column, $cell_content);
+			}
+		}
+
 	}
 	/**
 	 * Adds a navigation bar to the calendar
@@ -166,6 +168,7 @@ class WeekCalendar extends HTML_Table
 	 */
 	public function toHtml()
 	{
+		$this->add_events();
 		$html = parent::toHtml();
 		return $this->navigation_html.$html;
 	}
