@@ -3,10 +3,14 @@
  * @package user.usermanager
  */
 require_once dirname(__FILE__).'/usermanagercomponent.class.php';
+require_once dirname(__FILE__).'/usersearchform.class.php';
 require_once dirname(__FILE__).'/../usersdatamanager.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 //require_once dirname(__FILE__).'/../optionsmenurenderer.class.php';
 require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/condition/orcondition.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/condition/andcondition.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/condition/equalitycondition.class.php';
 
 /**
  * A user manager provides some functionalities to the admin to manage
@@ -14,7 +18,7 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
  */
  class UserManager {
  	
- 	const APPLICATION_NAME = 'users';
+ 	const APPLICATION_NAME = 'user';
  	
  	const PARAM_ACTION = 'go';
 	const PARAM_MESSAGE = 'message';
@@ -120,6 +124,10 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 		}
 		Display :: display_header($title_short);
 		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
+		if ($display_search)
+		{
+			$this->display_search_form();
+		}
 		echo '<div class="clear">&nbsp;</div>';
 		if ($msg = $_GET[self :: PARAM_MESSAGE])
 		{
@@ -129,6 +137,11 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 		{
 			$this->display_error_message($msg);
 		}
+	}
+	
+	private function display_search_form()
+	{
+		echo $this->get_search_form()->display();
 	}
 	
 	function count_users($condition = null)
@@ -211,6 +224,15 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 	function get_search_condition()
 	{
 		return $this->get_search_form()->get_condition();
+	}
+	
+	private function get_search_form()
+	{
+		if (!isset ($this->search_form))
+		{
+			$this->search_form = new UserSearchForm($this, $this->get_url());
+		}
+		return $this->search_form;
 	}
 
 	/**
@@ -359,7 +381,7 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 		$links[] = array('name' => get_lang('UserCreate'), 'action' => 'add', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
 		$links[] = array('name' => get_lang('UserExport'), 'action' => 'export', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
 		$links[] = array('name' => get_lang('UserImport'), 'action' => 'import', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
-		return $links;
+		return array('application' => array('name' => get_lang('Users'), 'class' => 'users'), 'links' => $links, 'search' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
 	}
 	
 	public function get_link($parameters = array (), $encode = false)
