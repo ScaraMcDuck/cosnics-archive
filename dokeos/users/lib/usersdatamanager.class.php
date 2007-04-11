@@ -93,6 +93,10 @@ abstract class UsersDataManager
 	
 	abstract function retrieve_user($id);
 	
+	abstract function retrieve_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	
+	abstract function count_users($conditions = null);
+	
 	function user_deletion_allowed($user)
 	{
 		// TODO: Check if the user can be deleted (fe: can an admin delete another admin etc)
