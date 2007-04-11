@@ -24,7 +24,7 @@ class AdminCourseBrowserTable extends CourseTable
 		parent :: __construct($data_provider, $name, $model, $renderer);
 		$actions = array();
 		$actions[Weblcms :: PARAM_REMOVE_SELECTED] = get_lang('RemoveSelected');
-		$this->set_form_actions($actions);
+		//$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}
 }

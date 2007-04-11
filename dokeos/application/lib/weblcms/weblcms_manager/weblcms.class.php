@@ -816,12 +816,12 @@ class Weblcms extends WebApplication
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => get_lang('CourseCreate'), 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)));
-		$links[] = array('name' => get_lang('CourseCreateCsv'), 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSES)));
-		$links[] = array('name' => get_lang('CourseCategoryManagement'), 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_COURSE_CATEGORY_MANAGER)));
-		$links[] = array('name' => get_lang('AddUserToCourseCsv'), 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSE_USERS)));
-		$links[] = array('name' => get_lang('CourseList'), 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)));
-		return $links;
+		$links[] = array('name' => get_lang('CourseCreate'), 'action' => 'add', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)));
+		$links[] = array('name' => get_lang('CourseCreateCsv'), 'action' => 'import', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSES)));
+		$links[] = array('name' => get_lang('CourseCategoryManagement'), 'action' => 'category', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_COURSE_CATEGORY_MANAGER)));
+		$links[] = array('name' => get_lang('AddUserToCourseCsv'), 'action' => 'import', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSE_USERS)));
+		$links[] = array('name' => get_lang('CourseList'), 'action' => 'list', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)));
+		return array('application' => array('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)));
 	}
 	
 	public function get_link($parameters = array (), $encode = false)

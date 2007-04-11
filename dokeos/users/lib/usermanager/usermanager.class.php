@@ -13,12 +13,18 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
  * his users. For each functionality a component is available.
  */
  class UserManager {
+ 	
+ 	const APPLICATION_NAME = 'users';
+ 	
  	const PARAM_ACTION = 'go';
 	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
 	const PARAM_USER_USER_ID = 'user_id';
 	
 	const ACTION_CREATE_USER = 'create';
+	const ACTION_BROWSE_USERS = 'browse';
+	const ACTION_EXPORT_USERS = 'export';
+	const ACTION_IMPORT_USERS = 'import';
 	const ACTION_UPDATE_USER = 'update';
 	
 	private $parameters;
@@ -319,6 +325,30 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 	function not_allowed()
 	{
 		api_not_allowed();
+	}
+	
+	public function get_application_platform_admin_links()
+	{
+		$links = array();
+		$links[] = array('name' => get_lang('UserList'), 'action' => 'list', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
+		$links[] = array('name' => get_lang('UserCreate'), 'action' => 'add', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
+		$links[] = array('name' => get_lang('UserExport'), 'action' => 'export', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
+		$links[] = array('name' => get_lang('UserImport'), 'action' => 'import', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
+		return $links;
+	}
+	
+	public function get_link($parameters = array (), $encode = false)
+	{
+		$link = 'index_'. self :: APPLICATION_NAME .'.php';
+		if (count($parameters))
+		{
+			$link .= '?'.http_build_query($parameters);	
+		}
+		if ($encode)
+		{
+			$link = htmlentities($link);
+		}
+		return $link;
 	}
 }
 ?>
