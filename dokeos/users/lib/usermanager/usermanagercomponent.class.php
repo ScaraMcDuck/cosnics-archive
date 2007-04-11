@@ -80,12 +80,29 @@ abstract class UserManagerComponent {
 		$this->get_parent()->display_warning_page($message);
 	}
 	
+	function retrieve_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->get_parent()->retrieve_users($condition, $offset, $count, $order_property, $order_direction);
+	}
+	
+	function count_users($conditions = null)
+	{
+		return $this->get_parent()->count_users($conditions);
+	}
 	/**
 	 * @see UserManager::display_popup_form()
 	 */
 	function display_popup_form($form_html)
 	{
 		$this->get_parent()->display_popup_form($form_html);
+	}
+
+	/**
+	 * @see UserManager::get_search_condition()
+	 */
+	function get_search_condition()
+	{
+		return $this->get_parent()->get_search_condition();
 	}
 	
 	/**

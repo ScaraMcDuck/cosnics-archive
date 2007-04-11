@@ -20,9 +20,10 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
 	const PARAM_USER_USER_ID = 'user_id';
+	const PARAM_REMOVE_SELECTED = 'delete';
 	
 	const ACTION_CREATE_USER = 'create';
-	const ACTION_BROWSE_USERS = 'browse';
+	const ACTION_BROWSE_USERS = 'adminbrowse';
 	const ACTION_EXPORT_USERS = 'export';
 	const ACTION_IMPORT_USERS = 'import';
 	const ACTION_UPDATE_USER = 'update';
@@ -61,16 +62,17 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 		switch ($action)
 		{
 			case self :: ACTION_CREATE_USER :
-				$this->force_menu_url($this->create_url, true);
 				$component = UserManagerComponent :: factory('Creator', $this);
 				break;
 			case self :: ACTION_UPDATE_USER :
-				$this->force_menu_url($this->create_url, true);
 				$component = UserManagerComponent :: factory('Updater', $this);
 				break;
+			case self :: ACTION_BROWSE_USERS :
+				$component = UserManagerComponent :: factory('AdminUserBrowser', $this);
+				break;
 			default :
-				$this->set_action(self :: ACTION_CREATE_USER);
-				$component = UserManagerComponent :: factory('Creator', $this);
+				$this->set_action(self :: ACTION_BROWSE_USERS);
+				$component = UserManagerComponent :: factory('AdminUserBrowser', $this);
 		}
 		$component->run();
 	}
@@ -124,6 +126,12 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 			$this->display_error_message($msg);
 		}
 	}
+	
+	function count_users($condition = null)
+	{
+		return UsersDataManager :: get_instance()->count_users($condition);
+	}
+	
 	/**
 	 * Displays the footer.
 	 */
@@ -194,6 +202,14 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 	}
 
 	/**
+	 * @see UserSearchForm::get_condition()
+	 */
+	function get_search_condition()
+	{
+		return $this->get_search_form()->get_condition();
+	}
+
+	/**
 	 * Gets the parameter list
 	 * @param boolean $include_search Include the search parameters in the
 	 * returned list?
@@ -225,6 +241,11 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 	function set_parameter($name, $value)
 	{
 		$this->parameters[$name] = $value;
+	}
+	
+	function retrieve_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return UsersDataManager :: get_instance()->retrieve_users($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
 	/**
@@ -349,6 +370,11 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 			$link = htmlentities($link);
 		}
 		return $link;
+	}
+	
+	function get_user_editing_url($user)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UPDATE_USER, self :: PARAM_USER_USER_ID => $user->get_user_id()));
 	}
 }
 ?>
