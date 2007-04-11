@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id:$
+ * $Id$
  * @package application.personal_calendar
  */
 require_once dirname(__FILE__).'/../../webapplication.class.php';
@@ -117,6 +117,14 @@ class PersonalCalendar extends WebApplication
 	{
 		$dm = PersonalCalendarDatamanager::get_instance();
 		$events = $dm->retrieve_personal_calendar_events($this->user_id);
+		foreach($events as $index => $event)
+		{
+			$lo = $event->get_event();
+			if(! ($lo->get_start_date() >= $from_date && $lo->get_start_date() <= $to_date))
+			{
+				unset($events[$index]);
+			}
+		}
 		$connector = new PersonalCalendarWeblcmsConnector();
 		$events = array_merge($events,$connector->get_events($this->user_id, $from_date, $to_date));
 		return $events;
