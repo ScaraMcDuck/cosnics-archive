@@ -67,6 +67,10 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 			case self :: ACTION_UPDATE_USER :
 				$component = UserManagerComponent :: factory('Updater', $this);
 				break;
+			case self :: ACTION_IMPORT_USERS :
+				$this->force_menu_url($this->create_url, true);
+				$component = UserManagerComponent :: factory('Importer', $this);
+				break;
 			case self :: ACTION_BROWSE_USERS :
 				$component = UserManagerComponent :: factory('AdminUserBrowser', $this);
 				break;
