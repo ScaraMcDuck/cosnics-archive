@@ -58,6 +58,7 @@ function full_file_install($values)
 	$config['{DATABASE_PASSWORD}'] = $values['database_password'];
 	$config['{DATABASE_REPOSITORY}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_repository"]);
 	$config['{DATABASE_WEBLCMS}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_weblcms"]);
+	$config['{DATABASE_PERSONALCALENDAR}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_personal_calendar"]);
 	foreach ($config as $key => $value)
 	{
 		$content = str_replace($key, $value, $content);
@@ -68,7 +69,7 @@ function full_file_install($values)
 	require_once('../../repository/install/repository_installer.class.php');
 	$installer = new RepositoryInstaller();
 	$installer->install();
-	
+
 	//-----------------------------------------------------------
 	// Personal calendar Install.
 	//-----------------------------------------------------------
@@ -82,7 +83,7 @@ function full_file_install($values)
 	require_once('../../application/lib/weblcms/install/weblcms_installer.class.php');
 	$installer = new WeblcmsInstaller();
 	$installer->install();
-	
+
 	//-----------------------------------------------------------
 	// Users extra tables install.
 	//-----------------------------------------------------------

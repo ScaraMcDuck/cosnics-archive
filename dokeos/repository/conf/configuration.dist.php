@@ -13,12 +13,16 @@ $configuration['general']['data_manager']
 
 $configuration['database']['connection_string_repository']
 	= 'mysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_REPOSITORY}';
-	
+
 $configuration['database']['connection_string_weblcms']
 	= 'mysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_WEBLCMS}';
-	
+
 $configuration['database']['connection_string_user']
 	= 'mysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_USERDB}';
+
+$configuration['database']['connection_string_personal_calendar']
+	= 'mysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_PERSONALCALENDAR}';
+
 
 $configuration['database']['table_name_prefix']
 	= 'dokeos_';

@@ -259,6 +259,7 @@ $defaults['database_scorm'] = 'dokeos_scorm';
 $defaults['database_user'] = 'dokeos_user';
 $defaults['database_repository'] = 'dokeos_repository';
 $defaults['database_weblcms'] = 'dokeos_weblcms';
+$defaults['database_personal_calendar'] = 'dokeos_personal_calendar';
 $defaults['database_prefix'] = 'dokeos_';
 $defaults['database_single'] = 0;
 $defaults['enable_tracking'] = 1;

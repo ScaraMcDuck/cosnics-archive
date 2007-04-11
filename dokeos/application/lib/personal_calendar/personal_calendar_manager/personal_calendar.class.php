@@ -11,7 +11,9 @@ require_once dirname(__FILE__).'/../renderer/personal_calendar_month_renderer.cl
 require_once dirname(__FILE__).'/../renderer/personal_calendar_week_renderer.class.php';
 require_once dirname(__FILE__).'/../renderer/personal_calendar_day_renderer.class.php';
 require_once dirname(__FILE__).'/../connector/personal_calendar_weblcms_connector.class.php';
-require_once dirname(__FILE__).'/../publisher/personal_calendar_publisher.class.php';
+require_once dirname(__FILE__).'/../publisher/personalcalendarpublisher.class.php';
+require_once dirname(__FILE__).'/../personalcalendarevent.class.php';
+require_once dirname(__FILE__).'/../personalcalendardatamanager.class.php';
 /**
  * This application gives each user the possibility to maintain a personal
  * calendar.
@@ -150,6 +152,10 @@ class PersonalCalendar extends WebApplication
 			$link = htmlentities($link);
 		}
 		return $link;
+	}
+	function get_user_id()
+	{
+		return $this->user_id;
 	}
 }
 ?>
