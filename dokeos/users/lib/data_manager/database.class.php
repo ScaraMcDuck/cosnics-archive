@@ -280,7 +280,6 @@ class DatabaseUsersDataManager extends UsersDataManager
 			$maxObjects = null;
 		}
 		$this->connection->setLimit(intval($maxObjects),intval($offset));
-		
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseUserResultSet($this, $res);
@@ -414,6 +413,17 @@ class DatabaseUsersDataManager extends UsersDataManager
 			}
 			$params[] = $value;
 			return $this->escape_column_name($name, $prefix_learning_object_properties).' = ?';
+		}
+		elseif ($condition instanceof LikeCondition)
+		{
+			$name = $condition->get_name();
+			$value = $condition->get_value();
+			if (is_null($value))
+			{
+				return $this->escape_column_name($name).' IS NULL';
+			}
+			$params[] = $value;
+			return $this->escape_column_name($name, $prefix_learning_object_properties).' LIKE ?';
 		}
 		elseif ($condition instanceof InequalityCondition)
 		{

@@ -135,8 +135,8 @@ class UserSearchForm extends FormValidator
 		if (isset($query) && $query != '')
 		{
 			$conditions = array ();
-			$conditions[] = new EqualityCondition(User :: PROPERTY_USERNAME, $values[self :: PARAM_SIMPLE_SEARCH_QUERY]);
-			$conditions[] = new EqualityCondition(User :: PROPERTY_LASTNAME, $values[self :: PARAM_SIMPLE_SEARCH_QUERY]);
+			$conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, '%'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'%');
+			$conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, '%'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'%');
 		
 			return new OrCondition($conditions);
 		}

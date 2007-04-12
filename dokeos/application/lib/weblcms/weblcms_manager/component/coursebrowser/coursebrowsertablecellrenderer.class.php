@@ -55,7 +55,7 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 		{	
 			$toolbar_data[] = array(
 				'href' => $course_subscription_url,
-				'label' => get_lang('Update'),
+				'label' => get_lang('Subscribe'),
 				'confirm' => true,
 				'img' => $this->browser->get_web_code_path().'img/enroll.gif'
 			);
