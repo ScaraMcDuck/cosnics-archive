@@ -32,7 +32,7 @@ class PersonalCalendarBrowser extends PersonalCalendarPublisherComponent
 		$table = new PublisherTable($this->get_user_id(), 'calendar_event', $this->get_query(), $publish_url_format, '');
 		return $table->as_html();
 	}
-	private function get_query()
+	protected function get_query()
 	{
 		return null;
 	}

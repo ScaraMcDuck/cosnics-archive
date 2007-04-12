@@ -65,6 +65,11 @@ class PublisherTableDataProvider implements LearningObjectTableDataProvider
     	$conds = array();
     	$conds[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->owner);
     	$conds[] =  new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'calendar_event');
+    	$c = RepositoryUtilities :: query_to_condition($this->query);
+		if (!is_null($c))
+		{
+			$conds[] = $c;
+		}
     	$condition = new AndCondition($conds);
     	return $condition;
     }
