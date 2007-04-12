@@ -510,6 +510,7 @@ $NoOptionsAvailable='No options available';
 $PersonalCalendar='Personal Calendar';
 $RolesRightsOverview='Roles\'n\'Rights Overview';
 $UserRolesRights='Roles\'n\'Rights';
+$Repository='Repository';
 $SearchPortal='Search Portal';
 $UserCreate='Create User';
 $UserExport='Export Users';

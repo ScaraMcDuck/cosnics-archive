@@ -15,6 +15,7 @@ require_once dirname(__FILE__).'/../toollistrenderer.class.php';
 require_once dirname(__FILE__).'/../course/course.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/andcondition.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/condition/notcondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/likecondition.class.php';
 require_once dirname(__FILE__).'/../course/course_table/coursetable.class.php';
@@ -302,6 +303,7 @@ class Weblcms extends WebApplication
 		global $interbredcrump, $htmlHeadXtra;
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		$course = $this->get_parameter(self :: PARAM_COURSE);
+		$action = $this->get_parameter(self :: PARAM_ACTION);
 		
 		$current_crumb = array_pop($breadcrumbs);
 		$interbredcrump = $breadcrumbs;
@@ -338,7 +340,7 @@ class Weblcms extends WebApplication
 		}
 		else
 		{
-			if ($course && is_object($this->course))
+			if ($course && is_object($this->course) && $action == self :: ACTION_VIEW_COURSE)
 			{
 				echo '<h3 style="float: left;">'.htmlentities($this->course->get_name()).'</h3>';
 			}

@@ -220,13 +220,16 @@ class DatabaseUsersDataManager extends UsersDataManager
 	
 	function is_username_available($username, $user_id = null)
 	{
+		$params = array();
 		$query = 'SELECT username FROM '.$this->escape_table_name('user').' WHERE '.$this->escape_column_name(User :: PROPERTY_USERNAME).'=?';
+		$params[] = $username;
 		if ($user_id)
 		{
 			$query .=  ' AND '.$this->escape_column_name(User :: PROPERTY_USER_ID).' !=?';
+			$params[] = $user_id;
 		}
 		$statement = $this->connection->prepare($query);
-		$result = $statement->execute(array($username, $user_id));
+		$result = $statement->execute($params);
 		if ($result->numRows() == 1)
 		{
 			return false;
