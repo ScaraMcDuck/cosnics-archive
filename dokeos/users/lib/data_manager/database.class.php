@@ -218,11 +218,11 @@ class DatabaseUsersDataManager extends UsersDataManager
 		return new User($record[User :: PROPERTY_USER_ID], $defaultProp);
 	}
 	
-	function is_username_available($username)
+	function is_username_available($username, $user_id)
 	{
-		$query = 'SELECT username FROM '.$this->escape_table_name('user').' WHERE '.$this->escape_column_name(User :: PROPERTY_USERNAME).'=?';
+		$query = 'SELECT username FROM '.$this->escape_table_name('user').' WHERE '.$this->escape_column_name(User :: PROPERTY_USERNAME).'=? AND '.$this->escape_column_name(User :: PROPERTY_USER_ID).' !=?';
 		$statement = $this->connection->prepare($query);
-		$result = $statement->execute($username);
+		$result = $statement->execute(array($username, $user_id));
 		if ($result->numRows() == 1)
 		{
 			return false;

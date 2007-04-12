@@ -132,7 +132,7 @@ class UserForm extends FormValidator {
 			move_uploaded_file($temp_picture_location, $picture_location);
     	}
 		$udm = UsersDataManager :: get_instance();
-    	if ($udm->is_username_available($values[User :: PROPERTY_USERNAME]))
+    	if ($udm->is_username_available($values[User :: PROPERTY_USERNAME], $values[User :: PROPERTY_USER_ID]))
     	{
     		$user->set_lastname($values[User :: PROPERTY_LASTNAME]);
     		$user->set_firstname($values[User :: PROPERTY_FIRSTNAME]);
@@ -178,7 +178,7 @@ class UserForm extends FormValidator {
 			move_uploaded_file($temp_picture_location, $picture_location);
     	}
 		$udm = UsersDataManager :: get_instance();
-    	if ($udm->is_username_available($values[User :: PROPERTY_USERNAME]))
+    	if ($udm->is_username_available($values[User :: PROPERTY_USERNAME], $values[User :: PROPERTY_USER_ID]))
     	{
     		$user->set_user_id($values[User :: PROPERTY_USER_ID]);
     		$user->set_lastname($values[User :: PROPERTY_LASTNAME]);
