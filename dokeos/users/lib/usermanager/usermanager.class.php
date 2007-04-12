@@ -11,6 +11,7 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 require_once dirname(__FILE__).'/../../../repository/lib/condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/condition/equalitycondition.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition.class.php';
 
 /**
  * A user manager provides some functionalities to the admin to manage

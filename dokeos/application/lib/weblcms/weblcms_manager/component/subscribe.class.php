@@ -27,7 +27,7 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 			
 			if ($this->get_course_subscription_url($course))
 			{
-				$success = $this->subscribe_user_to_course($course, '1', '0', api_get_user_id());
+				$success = $this->subscribe_user_to_course($course, '5', '0', api_get_user_id());
 				$this->redirect(null, get_lang($success ? 'UserSubscribedToCourse' : 'UserNotSubscribedToCourse'), ($success ? false : true));
 			}
 		}

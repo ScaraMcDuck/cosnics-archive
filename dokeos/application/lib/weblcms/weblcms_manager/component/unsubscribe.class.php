@@ -29,7 +29,7 @@ class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 			{
 				$wdm = WeblcmsDataManager :: get_instance();
 				$success = $this->unsubscribe_user_from_course($course);
-				$this->redirect(null, get_lang($success ? 'UserSubscribedToCourse' : 'UserNotSubscribedToCourse'), ($success ? false : true));
+				$this->redirect(null, get_lang($success ? 'UserUnsubscribedFromCourse' : 'UserNotUnsubscribedFromCourse'), ($success ? false : true));
 			}
 		}
 		
