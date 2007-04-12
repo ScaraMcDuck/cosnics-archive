@@ -103,6 +103,6 @@ abstract class UsersDataManager
 		return true;
 	}
 	
-	abstract function is_username_available($username, $user_id);
+	abstract function is_username_available($username, $user_id = null);
 }
 ?>
