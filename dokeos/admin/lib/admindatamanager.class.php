@@ -4,6 +4,7 @@
  */
 require_once dirname(__FILE__).'/../../repository/lib/configuration.class.php';
 require_once dirname(__FILE__).'/../../users/lib/usermanager/usermanager.class.php';
+require_once dirname(__FILE__).'/../../repository/lib/repository_manager/repositorymanager.class.php';
 
 abstract class AdminDataManager
 {
@@ -135,7 +136,11 @@ abstract class AdminDataManager
 		$info[] = array('application' => array('name' => get_lang('ClassesOfUsers'), 'class' => 'user_classes'), 'links' => array(array('name' => get_lang('ClassList'), 'action' => 'list', 'url' => '/LCMS/main/admin/class_list.php'), array('name' => get_lang('AddClasses'), 'action' => 'add', 'url' => '/LCMS/main/admin/class_add.php'), array('name' => get_lang('ImportClasses'), 'action' => 'import', 'url' => '/LCMS/main/admin/class_import.php')));
 		
 		// 4. Platform
-		$info[] = array('application' => array('name' => get_lang('Platform'), 'class' => 'platform'), 'links' => array(array('name' => get_lang('DokeosConfiguration'), 'action' => 'manage', 'url' => '/LCMS/main/admin/settings.php'), array('name' => get_lang('SystemAnnouncements'), 'action' => 'system', 'url' => '/LCMS/main/admin/system_announcements.php'), array('name' => get_lang('Languages'), 'action' => 'language', 'url' => '/LCMS/main/admin/languages.php'), array('name' => get_lang('ConfigureHomepage'), 'action' => 'home', 'url' => '/LCMS/main/admin/configure_homepage.php')	));		
+		$info[] = array('application' => array('name' => get_lang('Platform'), 'class' => 'platform'), 'links' => array(array('name' => get_lang('DokeosConfiguration'), 'action' => 'manage', 'url' => '/LCMS/main/admin/settings.php'), array('name' => get_lang('SystemAnnouncements'), 'action' => 'system', 'url' => '/LCMS/main/admin/system_announcements.php'), array('name' => get_lang('Languages'), 'action' => 'language', 'url' => '/LCMS/main/admin/languages.php'), array('name' => get_lang('ConfigureHomepage'), 'action' => 'home', 'url' => '/LCMS/main/admin/configure_homepage.php')	));
+		
+		// 5. Repository
+		$repository_manager = new RepositoryManager(api_get_user_id());
+		$info[] = $repository_manager->get_application_platform_admin_links();
 		
 		// Secondly the links for the plugin applications running on top of the essential Dokeos components
 		$applications = $this->get_registered_applications();
@@ -144,7 +149,7 @@ abstract class AdminDataManager
 			$application_class = self::application_to_class($application_name);
 			$application = new $application_class;
 			$links = $application->get_application_platform_admin_links();
-			$links['application']['name'] = $this->application_to_class($links['application']['name']);
+			$links['application']['name'] = get_lang($this->application_to_class($links['application']['name']));
 			$info[] = $links; 
 		}
 

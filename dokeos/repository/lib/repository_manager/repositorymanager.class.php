@@ -21,6 +21,8 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
  */
 class RepositoryManager
 {
+	const APPLICATION_NAME = 'repository';
+	
    /**#@+
     * Constant defining a parameter of the repository manager.
  	*/
@@ -951,6 +953,27 @@ class RepositoryManager
 	private function display_search_form()
 	{
 		echo $this->get_search_form()->display();
+	}
+	
+	public function get_application_platform_admin_links()
+	{
+		$links = array();
+		$links[] = array('name' => get_lang('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
+		return array('application' => array('name' => get_lang('Repository'), 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)));
+	}
+	
+	public function get_link($parameters = array (), $encode = false)
+	{
+		$link = 'index_'. self :: APPLICATION_NAME .'_manager.php';
+		if (count($parameters))
+		{
+			$link .= '?'.http_build_query($parameters);	
+		}
+		if ($encode)
+		{
+			$link = htmlentities($link);
+		}
+		return $link;
 	}
 }
 ?>

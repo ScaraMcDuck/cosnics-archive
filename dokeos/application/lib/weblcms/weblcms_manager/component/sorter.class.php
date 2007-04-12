@@ -90,9 +90,10 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		}
 		else
 		{
-			$this->display_header_courses();
-			echo '<h3>'. get_lang('SetCourseUserCategory') .'</h3>';
+			$this->display_page_header(get_lang('SetCourseUserCategory'));
 			$form->display();
+			echo '<h3>'. get_lang('UserCourseList') .'</h3>';
+			$this->display_courses();
 			$this->display_footer();
 		}
 	}
@@ -164,9 +165,10 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		}
 		else
 		{
-			$this->display_header_courses();
-			echo '<h3>'. get_lang('CreateCourseUserCategory') .'</h3>';
+			$this->display_page_header(get_lang('CreateCourseUserCategory'));
 			$form->display();
+			echo '<h3>'. get_lang('UserCourseList') .'</h3>';
+			$this->display_courses();
 			$this->display_footer();
 		}
 	}
@@ -185,9 +187,10 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		}
 		else
 		{
-			$this->display_header_courses();
-			echo '<h3>'. get_lang('EditCourseUserCategory') .'</h3>';
+			$this->display_page_header(get_lang('EditCourseUserCategory'));
 			$form->display();
+			echo '<h3>'. get_lang('UserCourseList') .'</h3>';
+			$this->display_courses();
 			$this->display_footer();
 		}
 	}
@@ -219,15 +222,20 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	
 	function show_course_list()
 	{
-		$this->display_header_courses();
+		$this->display_page_header(get_lang('UserCourseList'));
+		$this->display_courses();
 		$this->display_footer();
 	}
 	
-	function display_header_courses()
+	function display_page_header($title)
 	{
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseSorter'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => $title);
 		$this->display_header($breadcrumbs);
+	}
+	
+	function display_courses()
+	{
 		
 		echo $this->get_sort_modification_links();
 		
