@@ -3,21 +3,21 @@
 /*
 ==============================================================================
 	Dokeos - elearning and course management software
-	
+
 	Copyright (c) 2004-2005 Dokeos S.A.
 	Copyright (c) Roan Embrechts, Vrije Universiteit Brussel
 	Copyright (c) Bart Mollet, Hogeschool Gent
-	
+
 	For a full list of contributors, see "credits.txt".
 	The full license can be read in "license.txt".
-	
+
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
 	as published by the Free Software Foundation; either version 2
 	of the License, or (at your option) any later version.
-	
+
 	See the GNU General Public License for more details.
-	
+
 	Contact address: Dokeos, 44 rue des palais, B-1030 Brussels, Belgium
 	Mail: info@dokeos.com
 ==============================================================================
@@ -30,7 +30,7 @@
 * - write a .htaccess file in the courses folder for extra security;
 * - write the Dokeos config file containing important settings like database names
 * and paswords and other options.
-* 
+*
 * Ideas for future additions:
 * - a function get_old_version_settings to retrieve the config file settings
 *   of older versions before upgrading.
@@ -218,9 +218,9 @@ function write_dokeos_config_file($path, $values)
 {
 	global $dokeos_version;
 	global $urlAppendPath;
-	
+
 	$is_single_database = $values['database_single'];
-	
+
 	$file_path = dirname(__FILE__).'/'.DOKEOS_CONFIG_FILENAME;
 	$content = file_get_contents($file_path);
 	$config['{DOKEOS_VERSION}'] = $dokeos_version;
@@ -239,6 +239,7 @@ function write_dokeos_config_file($path, $values)
 	$config['{DATABASE_USERDB}'] = ($is_single_database ? $values["database_main_db"] : $values["database_user"]);
 	$config['{DATABASE_REPOSITORY}'] = ($is_single_database ? $values["database_main_db"] : $values["database_repository"]);
 	$config['{DATABASE_WEBLCMS}'] = ($is_single_database ? $values["database_main_db"] : $values["database_weblcms"]);
+	$config['{DATABASE_PERSONALCALENDAR}'] = ($is_single_database ? $values["database_main_db"] : $values["database_personal_calendar"]);
 	$config['{ROOT_WEB}'] = $values['platform_url'];
 	$config['{ROOT_SYS}'] = str_replace('\\', '/', realpath($values['platform_url']).'/');
 	$config['{URL_APPEND_PATH}'] = $urlAppendPath;
@@ -284,17 +285,17 @@ function write_dokeos_config_file($path, $values)
 function load_main_database($installation_settings)
 {
 	$dokeos_main_sql_file_string = file_get_contents(DOKEOS_MAIN_DATABASE_FILE);
-	
+
 	//replace symbolic parameters with user-specified values
 	foreach ($installation_settings as $key => $value)
 	{
 		$dokeos_main_sql_file_string = str_replace($key, mysql_real_escape_string($value), $dokeos_main_sql_file_string);
 	}
-	
+
 	//split in array of sql strings
 	$sql_instructions = array();
 	$success = split_sql_file($sql_instructions, $dokeos_main_sql_file_string);
-	
+
 	//execute the sql instructions
 	$count = count($sql_instructions);
 	for ($i = 0; $i < $count; $i++)
@@ -306,7 +307,7 @@ function load_main_database($installation_settings)
 
 /**
  * Function copied and adapted from phpMyAdmin 2.6.0 PMA_splitSqlFile (also GNU GPL)
- * 
+ *
  * Removes comment lines and splits up large sql files into individual queries
  *
  * Last revision: September 23, 2001 - gandon
@@ -376,7 +377,7 @@ function split_sql_file(&$ret, $sql)
                 } // end if...elseif...else
             } // end for
         } // end if (in string)
-       
+
         // lets skip comments (/*, -- and #)
         else if (($char == '-' && $sql_len > $i + 2 && $sql[$i + 1] == '-' && $sql[$i + 2] <= ' ') || $char == '#' || ($char == '/' && $sql_len > $i + 1 && $sql[$i + 1] == '*')) {
             $i = strpos($sql, $char == '/' ? '*/' : "\n", $i);
