@@ -17,6 +17,10 @@ abstract class PersonalCalendarRenderer
 	 */
 	private $display_time;
 	/**
+	 *
+	 */
+	private $legend;
+	/**
 	 * Constructor
 	 * @param PersonalCalendar $personal_calendar
 	 * @param int $display_time
@@ -25,6 +29,7 @@ abstract class PersonalCalendarRenderer
 	{
 		$this->personal_calendar = $personal_calendar;
 		$this->display_time = $display_time;
+		$this->legend = array();
 	}
 	/**
 	 * Gets the evenst to display
@@ -64,5 +69,34 @@ abstract class PersonalCalendarRenderer
 	 * @return string A html representation of the events in this calendar.
 	 */
 	abstract function render();
+	/**
+	 *
+	 */
+	public function get_color($key = null)
+	{
+		if(is_null($key))
+		{
+			$this->legend[get_lang('MyAgenda')] = 'red';
+			return 'red';
+		}
+		if(!isset($this->legend[$key]))
+		{
+			$this->legend[$key] = 'rgb('.rand(0,255).','.rand(0,255).','.rand(0,255).')';
+		}
+		return $this->legend[$key];
+	}
+	/**
+	 *
+	 */
+	public function build_legend()
+	{
+		$result = '<div style="margin-top: 10px;">';
+		foreach($this->legend as $key => $color)
+		{
+			$result .= '<span style="display:block; float: left; margin-right: 2px; width: 10px; height: 10px; border: 1px solid black; background-color: '.$color.'">&nbsp;</span><span style="float:left; margin-right: 15px;">'.$key.'</span>';
+		}
+		$result .= '</div>';
+		return $result;
+	}
 }
 ?>
