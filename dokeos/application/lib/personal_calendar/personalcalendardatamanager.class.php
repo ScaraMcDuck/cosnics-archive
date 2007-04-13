@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id:$
+ * $Id$
  * @package application.personal_calendar
  */
 /**
@@ -44,6 +44,10 @@ abstract class PersonalCalendarDataManager
 	 * Adds a calendar event to the personal calendar of a user
 	 */
 	abstract function create_personal_calendar_event($personal_event);
+	/**
+	 * Deletes a publication of an event from the personal calendar
+	 */
+	abstract function delete_personal_calendar_event($personal_event);
 	/**
 	 * Returns the next available ID for an event in the personal calendar.
 	 * @return int The ID.

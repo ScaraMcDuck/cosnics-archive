@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id:$
+ * $Id$
  * @package application.personal_calendar
  */
 require_once dirname(__FILE__).'/../personalcalendardatamanager.class.php';
@@ -49,6 +49,15 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('personal_calendar'), $props, MDB2_AUTOQUERY_INSERT);
 		return true;
+	}
+	/**
+	 * @see PersonalCalendarDatamanager
+	 */
+	function delete_personal_calendar_event($personal_event)
+	{
+		$query = 'DELETE FROM '.$this->get_table_name('personal_calendar').' WHERE id = ?';
+		$statement = $this->connection->prepare($query);
+		$statement->execute($personal_event->get_id());
 	}
 	/**
 	 * @see PersonalCalendarDatamanager

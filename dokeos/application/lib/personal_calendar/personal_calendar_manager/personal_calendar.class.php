@@ -73,7 +73,41 @@ class PersonalCalendar extends WebApplication
 			$out .=   $minimonthcalendar->render();
 			$out .=   '</div>';
 			$out .=   '<div style="float: left; width: 80%;">';
-			if(!isset($_GET['pid']))
+			$show_calendar = true;
+			if(isset($_GET['pid']))
+			{
+				$pid = $_GET['pid'];
+				$event = PersonalCalendarEvent::load($pid);
+				if(isset($_GET['action']) && $_GET['action'] == 'delete')
+				{
+					$event->delete();
+					$out .= Display::display_normal_message(get_lang('LearningObjectPublicationDeleted'),true);
+				}
+				else
+				{
+					$show_calendar = false;
+					$learning_object = $event->get_event();
+					$display = LearningObjectDisplay :: factory($learning_object);
+					$out .= '<h3>'.$learning_object->get_title().'</h3>';
+					$out  .= $display->get_full_html();
+					$toolbar_data = array();
+					$toolbar_data[] = array(
+						'href' => $this->get_url(),
+						'label' => get_lang('Back'),
+						'img' => api_get_path(WEB_CODE_PATH).'img/prev.png',
+						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+					);
+					$toolbar_data[] = array(
+						'href' => $this->get_url(array('action'=>'delete','pid'=>$pid)),
+						'label' => get_lang('Delete'),
+						'img' => api_get_path(WEB_CODE_PATH).'img/delete.gif',
+						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+					);
+					$out .= RepositoryUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
+					$out .= '<br /><a href="'.$this->get_url(array('pid'=>null)).'">'.get_lang('Back').'</a>';
+				}
+			}
+			if($show_calendar)
 			{
 				switch ($view)
 				{
@@ -91,15 +125,6 @@ class PersonalCalendar extends WebApplication
 						break;
 				}
 				$out .=   $renderer->render();
-			}
-			else
-			{
-				$pid = $_GET['pid'];
-				$event = PersonalCalendarEvent::load($pid);
-				$learning_object = $event->get_event();
-				$display = LearningObjectDisplay :: factory($learning_object);
-				$out  .= $display->get_full_html();
-				$out .= '<a href="'.$this->get_url(array('pid'=>null)).'">'.get_lang('Back').'</a>';
 			}
 			$out .=   '</div>';
 		}
