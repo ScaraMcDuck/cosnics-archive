@@ -11,14 +11,14 @@ require_once dirname(__FILE__).'/../../usermenu.class.php';
  */
 class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 {
-//	private $category;
+	private $firstletter;
 	
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		//$this->category = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
+		$this->firstletter = $_GET[UserManager :: PARAM_FIRSTLETTER];
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('UserList'));
 		
@@ -89,7 +89,28 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 
 	function get_condition()
 	{
-		return $this->get_search_condition();
+		$search_conditions = $this->get_search_condition();
+		$condition = null;
+		if (isset($this->firstletter))
+		{
+			$conditions = array();
+			$conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, $this->firstletter. '%');
+			$conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, chr(ord($this->firstletter)+1). '%');
+			$conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, chr(ord($this->firstletter)+2). '%');
+			$condition = new OrCondition($conditions);
+			if (count($search_conditions))
+			{
+				$condition = new AndCondition($condition, $search_conditions);
+			}
+		}
+		else
+		{
+			if (count($search_conditions))
+			{
+				$condition = $search_conditions;
+			}
+		}
+		return $condition;
 	}
 }
 ?>

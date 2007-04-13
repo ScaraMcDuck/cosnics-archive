@@ -89,7 +89,7 @@ class UserMenu extends HTML_Menu
 	private function get_home_url ($category)
 	{
 		// TODO: Put another class in charge of the htmlentities() invocation
-		return htmlentities(str_replace('&category=%s', '', $this->urlFmt));
+		return htmlentities(str_replace('&firstletter=%s', '', $this->urlFmt));
 	}
 	/**
 	 * Get the breadcrumbs which lead to the current category.
