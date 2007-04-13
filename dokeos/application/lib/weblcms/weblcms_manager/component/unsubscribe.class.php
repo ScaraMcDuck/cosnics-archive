@@ -28,7 +28,7 @@ class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 			if ($this->get_course_unsubscription_url($course))
 			{
 				$wdm = WeblcmsDataManager :: get_instance();
-				$success = $this->unsubscribe_user_from_course($course);
+				$success = $this->unsubscribe_user_from_course($course, $this->get_user_id());
 				$this->redirect(null, get_lang($success ? 'UserUnsubscribedFromCourse' : 'UserNotUnsubscribedFromCourse'), ($success ? false : true));
 			}
 		}
@@ -46,11 +46,14 @@ class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 	
 	function get_course_html()
 	{
-		$condition = null;
+		$conditions = array();
 		if (isset($this->category))
 		{
-			$condition = new EqualityCondition(Course :: PROPERTY_CATEGORY_CODE, $this->category);
+			$conditions[] = new EqualityCondition(Course :: PROPERTY_CATEGORY_CODE, $this->category);
 		}
+		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
+		
+		$condition = new AndCondition($conditions);
 		
 		$table = new UnsubscribeBrowserTable($this, null, null, $condition);
 		

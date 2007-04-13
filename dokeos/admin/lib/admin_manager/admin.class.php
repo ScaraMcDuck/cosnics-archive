@@ -11,6 +11,8 @@ class Admin {
 	const ACTION_ADMIN_BROWSER = 'browse';
 	
 	private $parameters;
+	
+	private $user;
 
     function Admin() {
 		$this->parameters = array ();
@@ -165,6 +167,11 @@ class Admin {
 	function get_parameter($name)
 	{
 		return $this->parameters[$name];
+	}
+	
+	function get_user()
+	{
+		return $this->user;
 	}
 	
 	/**

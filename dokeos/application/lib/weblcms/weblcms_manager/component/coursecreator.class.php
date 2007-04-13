@@ -34,7 +34,7 @@ class WeblcmsCourseCreatorComponent extends WeblcmsComponent
 		$user_info = api_get_user_info();
 		$course->set_language($user_info['language']);
 		
-		$form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_url());
+		$form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_user(), $this->get_url());
 		
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseCreate'));

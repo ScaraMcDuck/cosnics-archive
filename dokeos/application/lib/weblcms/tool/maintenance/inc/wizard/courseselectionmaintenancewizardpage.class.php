@@ -13,7 +13,7 @@ class CourseSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 {
 	function buildForm()
 	{
-		$courses = CourseManager::get_course_list_of_user_as_course_admin(api_get_user_id());
+		$courses = CourseManager::get_course_list_of_user_as_course_admin($this->get_parent()->get_user_id());
 		$current_code = $this->get_parent()->get_course_id();
 		foreach($courses as $index => $course)
 		{

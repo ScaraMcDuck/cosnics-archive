@@ -62,7 +62,7 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 			
 			return RepositoryUtilities :: build_toolbar($toolbar_data);
 		}
-		elseif ($this->browser->is_subscribed($course))
+		elseif ($this->browser->is_subscribed($course, $this->browser->get_user_id()))
 		{
 			return get_lang('AlreadySubscribed');
 		}

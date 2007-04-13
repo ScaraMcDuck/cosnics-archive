@@ -30,15 +30,18 @@ class SearchPortal extends WebApplication
 	 * The parameters that should be passed with every request.
 	 */
 	private $parameters;
+	
+	private $user;
 
 	/**
 	 * Constructor. Optionally takes a default tool; otherwise, it is taken
 	 * from the query string.
 	 * @param Tool $tool The default tool, or null if none.
 	 */
-	function SearchPortal($tool = null)
+	function SearchPortal($user)
 	{
 		$this->parameters = array ();
+		$this->user = $user;
 	}
 
 	/*

@@ -66,7 +66,7 @@ class ActionSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 				{
 					return false;
 				}
-				if(count(CourseManager::get_course_list_of_user_as_course_admin(api_get_user_id())) <= 1)
+				if(count(CourseManager::get_course_list_of_user_as_course_admin($this->get_parent()->get_user_id())) <= 1)
 				{
 					return false;
 				}

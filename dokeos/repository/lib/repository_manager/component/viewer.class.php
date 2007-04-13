@@ -44,7 +44,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			foreach ($object->get_learning_object_versions() as $version)
 			{
 				// If this learning object is published somewhere in an application, these locations are listed here.
-				$publications = $this->get_learning_object_publication_attributes($version->get_id());
+				$publications = $this->get_learning_object_publication_attributes($this->get_user(), $version->get_id());
 				$publication_attr = array_merge($publication_attr, $publications);
 			}
 

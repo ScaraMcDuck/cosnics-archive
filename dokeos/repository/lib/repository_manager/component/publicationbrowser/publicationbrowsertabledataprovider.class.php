@@ -43,7 +43,7 @@ class PublicationBrowserTableDataProvider implements PublicationTableDataProvide
       $order_property = array($order_property);
       $order_direction = array($order_direction);
       
-      $publication_attributes = $this->browser->get_learning_object_publication_attributes(null, 'user', $offset, $count, $order_property, $order_direction);
+      $publication_attributes = $this->browser->get_learning_object_publication_attributes($this->browser->get_user(), null, 'user', $offset, $count, $order_property, $order_direction);
       return $publication_attributes = array_splice($publication_attributes, $offset, $count);
     }
   /**
@@ -52,7 +52,7 @@ class PublicationBrowserTableDataProvider implements PublicationTableDataProvide
    */
     function get_learning_object_publication_count()
     {
-      return $this->browser->count_publication_attributes(null, $this->get_condition());
+      return $this->browser->count_publication_attributes($this->browser->get_user(), null, $this->get_condition());
     }
   /**
    * Gets the condition

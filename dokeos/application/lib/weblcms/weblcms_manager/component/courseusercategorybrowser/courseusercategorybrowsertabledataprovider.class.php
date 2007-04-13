@@ -43,7 +43,7 @@ class CourseUserCategoryBrowserTableDataProvider implements CourseUserCategoryTa
       $order_property = array($order_property);
       $order_direction = array($order_direction);
        
-      return $this->browser->retrieve_course_user_categories($offset, $count, $order_property, $order_direction);
+      return $this->browser->retrieve_course_user_categories($this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
   /**
    * Gets the number of learning objects in the table

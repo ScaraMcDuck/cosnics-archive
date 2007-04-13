@@ -8,6 +8,7 @@ require_once dirname(__FILE__).'/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/condition/orcondition.class.php';
 require_once dirname(__FILE__).'/condition/patternmatchcondition.class.php';
 require_once dirname(__FILE__).'/repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
 
 /**
  * This class provides some common methods that are used throughout the
@@ -296,19 +297,19 @@ class RepositoryUtilities
 	function build_uses($publication_attr)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-
+		$udm = UsersDataManager :: get_instance();
 		$html 	= array ();
 		$html[] = '<div class="publications">';
 		$html[] = '<div class="publications_title">'.htmlentities(get_lang('ThisObjectIsPublished')).'</div>';
 		$html[] = '<ul class="publications_list">';
 		foreach ($publication_attr as $info)
 		{
-			$publisher = $this->get_user_info($info->get_publisher_user_id());
+			$publisher = $udm->retrieve_user($info->get_publisher_user_id());
 			$object = $rdm->retrieve_learning_object($info->get_publication_object_id());
 			$html[] = '<li>';
 			// TODO: i18n
 			// TODO: SCARA - Find cleaner solution to display Learning Object title + url
-			$html[] = '<a href="'.$info->get_url(). '">' . $info->get_application().': '.$info->get_location().'</a> > <a href="'. $object->get_view_url() .'">'. $object->get_title() .'</a> ('.$publisher['firstName'].' '.$publisher['lastName'].', '.date('r', $info->get_publication_date()).')';
+			$html[] = '<a href="'.$info->get_url(). '">' . $info->get_application().': '.$info->get_location().'</a> > <a href="'. $object->get_view_url() .'">'. $object->get_title() .'</a> ('.$publisher->get_firstname().' '.$publisher->get_lastname().', '.date('r', $info->get_publication_date()).')';
 			$html[] = '</li>';
 		}
 		$html[] = '</ul>';

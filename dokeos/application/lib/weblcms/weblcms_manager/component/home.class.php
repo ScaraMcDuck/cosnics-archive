@@ -19,7 +19,7 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('MyCourses'));
 		$this->display_header($breadcrumbs);
-		$course_categories = $this->retrieve_course_user_categories(null, null, array(CourseUserCategory :: PROPERTY_SORT), array(SORT_ASC));
+		$course_categories = $this->retrieve_course_user_categories(null, null, null, array(CourseUserCategory :: PROPERTY_SORT), array(SORT_ASC));
 		
 		echo '<div class="maincontent">';
 		$courses = $this->retrieve_courses($this->get_user_id(), 0);

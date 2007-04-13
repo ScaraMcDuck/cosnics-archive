@@ -172,6 +172,13 @@ abstract class RepositoryManagerComponent {
 		return $this->get_parent()->get_user_id();
 	}
 	/**
+	 * @see RepositoryManager::get_user()
+	 */
+	function get_user()
+	{
+		return $this->get_parent()->get_user();
+	}
+	/**
 	 * @see RepositoryManager::get_root_category_id()
 	 */
 	function get_root_category_id()
@@ -212,9 +219,9 @@ abstract class RepositoryManagerComponent {
 	/**
 	 * @see RepositoryManager::count_learning_objects()
 	 */
-	function count_publication_attributes($type = null, $condition = null)
+	function count_publication_attributes($user, $type = null, $condition = null)
 	{
-		return $this->get_parent()->count_publication_attributes($type, $condition);
+		return $this->get_parent()->count_publication_attributes($user, $type, $condition);
 	}
 
 	/**
@@ -249,9 +256,9 @@ abstract class RepositoryManagerComponent {
 	/**
 	 * @see RepositoryManager::get_learning_object_publication_attributes()
 	 */
-	function get_learning_object_publication_attributes($id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_learning_object_publication_attributes($user, $id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->get_parent()->get_learning_object_publication_attributes($id, $type, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->get_learning_object_publication_attributes($user, $id, $type, $offset, $count, $order_property, $order_direction);
 	}
 	/**
 	 * @see RepositoryManager::get_learning_object_publication_attribute()

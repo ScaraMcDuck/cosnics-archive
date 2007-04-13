@@ -367,10 +367,10 @@ class Course {
 		return true;
 	}
 	
-	function is_course_admin()
+	function is_course_admin($user_id)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		return $wdm->is_course_admin($this, api_get_user_id());
+		return $wdm->is_course_admin($this, $user_id);
 	}
 }
 ?>
