@@ -28,12 +28,7 @@ class DayCalendar extends CalendarTable
 	{
 		$this->navigation_html = '';
 		$this->hour_step = $hour_step;
-		if (is_null($display_time))
-		{
-			$display_time = time();
-		}
-		$this->display_time = $display_time;
-		parent :: HTML_Table(array ('class' => 'calendar'));
+		parent::CalendarTable($display_time);
 		$cell_mapping = array ();
 		$this->build_table();
 	}
@@ -51,7 +46,7 @@ class DayCalendar extends CalendarTable
 	 */
 	public function get_start_time()
 	{
-		return strtotime(date('Y-m-d 00:00:00', $this->display_time));
+		return strtotime(date('Y-m-d 00:00:00', $this->get_display_time()));
 	}
 	/**
 	 * Gets the end date which will be displayed by this calendar.
@@ -68,12 +63,12 @@ class DayCalendar extends CalendarTable
 	{
 		for ($hour = 0; $hour < 24; $hour += $this->get_hour_step())
 		{
-			$table_start_date = mktime($hour, 0, 0, date('m', $this->display_time), date('d', $this->display_time), date('Y', $this->display_time));
+			$table_start_date = mktime($hour, 0, 0, date('m', $this->get_display_time()), date('d', $this->get_display_time()), date('Y', $this->get_display_time()));
 			$table_end_date = strtotime('+'.$this->get_hour_step().' hours', $table_start_date);
 			$cell_contents = $hour.'u - '. ($hour + $this->get_hour_step()).'u';
 			$this->setCellContents($hour / $this->get_hour_step(), 0, $cell_contents);
 			// Highlight current hour
-			if (date('Y-m-d') == date('Y-m-d', $this->display_time))
+			if (date('Y-m-d') == date('Y-m-d', $this->get_display_time()))
 			{
 				if (date('H') >= $hour && date('H') < $hour + $this->get_hour_step())
 				{
@@ -116,14 +111,14 @@ class DayCalendar extends CalendarTable
 	 */
 	public function add_calendar_navigation($url_format)
 	{
-		$prev = strtotime('-1 Day', $this->display_time);
-		$next = strtotime('+1 Day', $this->display_time);
+		$prev = strtotime('-1 Day', $this->get_display_time());
+		$next = strtotime('+1 Day', $this->get_display_time());
 		$navigation = new HTML_Table('class="calendar_navigation"');
 		$navigation->updateCellAttributes(0, 0, 'style="text-align: left;"');
 		$navigation->updateCellAttributes(0, 1, 'style="text-align: center;"');
 		$navigation->updateCellAttributes(0, 2, 'style="text-align: right;"');
 		$navigation->setCellContents(0, 0, '<a href="'.str_replace('-TIME-', $prev, $url_format).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/prev.png" style="vertical-align: middle;" alt="&lt;&lt;"/></a> ');
-		$navigation->setCellContents(0, 1, date('l d F Y', $this->display_time));
+		$navigation->setCellContents(0, 1, date('l d F Y', $this->get_display_time()));
 		$navigation->setCellContents(0, 2, ' <a href="'.str_replace('-TIME-', $next, $url_format).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/next.png" style="vertical-align: middle;" alt="&gt;&gt;"/></a> ');
 		$this->navigation_html = $navigation->toHtml();
 	}

@@ -27,12 +27,7 @@ class WeekCalendar extends CalendarTable
 	{
 		$this->navigation_html = '';
 		$this->hour_step = $hour_step;
-		if (is_null($display_time))
-		{
-			$display_time = time();
-		}
-		$this->display_time = $display_time;
-		parent::HTML_Table(array('class'=>'calendar'));
+		parent::CalendarTable($display_time);
 		$cell_mapping = array();
 		$this->build_table();
 	}
@@ -51,7 +46,7 @@ class WeekCalendar extends CalendarTable
 	 */
 	public function get_start_time()
 	{
-		return strtotime('Next Monday',strtotime('-1 Week',$this->display_time));
+		return strtotime('Next Monday',strtotime('-1 Week',$this->get_display_time()));
 	}
 	/**
 	 * Gets the end date which will be displayed by this calendar. This is
@@ -67,7 +62,7 @@ class WeekCalendar extends CalendarTable
 	 */
 	private function build_table()
 	{
-		$week_number = date('W',$this->display_time);
+		$week_number = date('W',$this->get_display_time());
 		// Go 1 week back end them jump to the next monday to reach the first day of this week
 		$first_day = $this->get_start_time();
 		$last_day = $this->get_end_time;
@@ -137,9 +132,9 @@ class WeekCalendar extends CalendarTable
 	 */
 	public function add_calendar_navigation($url_format)
 	{
-		$week_number = date('W',$this->display_time);
-		$prev = strtotime('-1 Week',$this->display_time);
-		$next = strtotime('+1 Week',$this->display_time);
+		$week_number = date('W',$this->get_display_time());
+		$prev = strtotime('-1 Week',$this->get_display_time());
+		$next = strtotime('+1 Week',$this->get_display_time());
 		$navigation = new HTML_Table('class="calendar_navigation"');
 		$navigation->updateCellAttributes(0,0,'style="text-align: left;"');
 		$navigation->updateCellAttributes(0,1,'style="text-align: center;"');

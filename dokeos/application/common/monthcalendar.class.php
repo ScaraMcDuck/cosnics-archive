@@ -25,12 +25,7 @@ class MonthCalendar extends CalendarTable
 	function MonthCalendar($display_time)
 	{
 		$this->navigation_html = '';
-		if (is_null($display_time))
-		{
-			$display_time = time();
-		}
-		$this->display_time = $display_time;
-		parent :: HTML_Table(array ('class' => 'calendar'));
+		parent::CalendarTable($display_time);
 		$cell_mapping = array ();
 		$this->build_table();
 		$this->events_to_show = array ();
@@ -43,7 +38,7 @@ class MonthCalendar extends CalendarTable
 	 */
 	public function get_start_time()
 	{
-		$first_day = mktime(0, 0, 0, date('m', $this->display_time), 1, date('Y', $this->display_time));
+		$first_day = mktime(0, 0, 0, date('m', $this->get_display_time()), 1, date('Y',  $this->get_display_time()));
 		return strtotime('Next Monday', strtotime('-1 Week', $first_day));
 	}
 	/**
@@ -55,7 +50,7 @@ class MonthCalendar extends CalendarTable
 	public function get_end_time()
 	{
 		$end_time = $this->get_start_time();
-		while (date('Ym', $end_time) <= date('Ym', $this->display_time))
+		while (date('Ym', $end_time) <= date('Ym',  $this->get_display_time()))
 		{
 			$end_time = strtotime('+1 Week', $end_time);
 		}
@@ -66,14 +61,14 @@ class MonthCalendar extends CalendarTable
 	 */
 	private function build_table()
 	{
-		$first_day = mktime(0, 0, 0, date('m', $this->display_time), 1, date('Y', $this->display_time));
+		$first_day = mktime(0, 0, 0, date('m',  $this->get_display_time()), 1, date('Y',  $this->get_display_time()));
 		$first_day_nr = date('w', $first_day) == 0 ? 6 : date('w', $first_day) - 1;
 		$this->addRow(array (get_lang('MondayLong'), get_lang('TuesdayLong'), get_lang('WednesdayLong'), get_lang('ThursdayLong'), get_lang('FridayLong'), get_lang('SaturdayLong'), get_lang('SundayLong')));
 		$this->setRowType(0, 'th');
 		$first_table_date = strtotime('Next Monday', strtotime('-1 Week', $first_day));
 		$table_date = $first_table_date;
 		$cell = 0;
-		while (date('Ym', $table_date) <= date('Ym', $this->display_time))
+		while (date('Ym', $table_date) <= date('Ym',  $this->get_display_time()))
 		{
 			do
 			{
@@ -94,7 +89,7 @@ class MonthCalendar extends CalendarTable
 					$class[] = 'weekend';
 				}
 				// Is current table date in this month or another one?
-				if (date('Ym', $table_date) != date('Ym', $this->display_time))
+				if (date('Ym', $table_date) != date('Ym',  $this->get_display_time()))
 				{
 					$class[] = 'disabled_month';
 				}
@@ -136,14 +131,14 @@ class MonthCalendar extends CalendarTable
 	 */
 	public function add_calendar_navigation($url_format)
 	{
-		$prev = strtotime('-1 Month', $this->display_time);
-		$next = strtotime('+1 Month', $this->display_time);
+		$prev = strtotime('-1 Month',  $this->get_display_time());
+		$next = strtotime('+1 Month',  $this->get_display_time());
 		$navigation = new HTML_Table('class="calendar_navigation"');
 		$navigation->updateCellAttributes(0, 0, 'style="text-align: left;"');
 		$navigation->updateCellAttributes(0, 1, 'style="text-align: center;"');
 		$navigation->updateCellAttributes(0, 2, 'style="text-align: right;"');
 		$navigation->setCellContents(0, 0, '<a href="'.str_replace('-TIME-', $prev, $url_format).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/prev.png" style="vertical-align: middle;" alt="&lt;&lt;"/></a> ');
-		$navigation->setCellContents(0, 1, get_lang(date('F', $this->display_time).'Long').' '.date('Y', $this->display_time));
+		$navigation->setCellContents(0, 1, get_lang(date('F',  $this->get_display_time()).'Long').' '.date('Y',  $this->get_display_time()));
 		$navigation->setCellContents(0, 2, ' <a href="'.str_replace('-TIME-', $next, $url_format).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/next.png" style="vertical-align: middle;" alt="&gt;&gt;"/></a> ');
 		$this->navigation_html = $navigation->toHtml();
 	}

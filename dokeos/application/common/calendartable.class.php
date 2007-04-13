@@ -20,9 +20,28 @@ abstract class CalendarTable extends HTML_Table
 	/**
 	 *
 	 */
+	public function CalendarTable($display_time)
+	{
+		if (is_null($display_time))
+		{
+			$display_time = time();
+		}
+		$this->display_time = $display_time;
+		parent::HTML_Table(array('class'=>'calendar'));
+	}
+	/**
+	 *
+	 */
 	public function get_display_time()
 	{
 		return $this->display_time;
+	}
+	/**
+	 *
+	 */
+	public function set_display_time($time)
+	{
+		$this->display_time = $time;
 	}
 	/**
 	 * Add an event to the calendar
