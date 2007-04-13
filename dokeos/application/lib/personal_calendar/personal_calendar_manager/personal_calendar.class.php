@@ -104,7 +104,6 @@ class PersonalCalendar extends WebApplication
 						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
 					$out .= RepositoryUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
-					$out .= '<br /><a href="'.$this->get_url(array('pid'=>null)).'">'.get_lang('Back').'</a>';
 				}
 			}
 			if($show_calendar)
