@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id:$
+ * $Id$
  * @package application.personal_calendar
  */
 /**
@@ -43,6 +43,14 @@ class PersonalCalendarEvent
 		$id = $dm->get_next_personal_calendar_event_id();
 		$this->set_id($id);
 		return $dm->create_personal_calendar_event($this);
+	}
+	/**
+	 * Deletes the publication of this event in the personal calendar.
+	 */
+	public function delete()
+	{
+		$dm = PersonalCalendarDataManager :: get_instance();
+		return $dm->delete_personal_calendar_event($this);
 	}
 	/**
 	 * Loads a personal calendar event
