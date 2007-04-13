@@ -22,16 +22,22 @@ class PersonalCalendarEvent
 	 */
 	private $event;
 	/**
+	 * The date on which the personal calendar event was published
+	 */
+	private $publication_date;
+	/**
 	 * Creates a new personal calendar event
 	 * @param int $id
 	 * @param int $user_id
 	 * @param CalendarEvent $event
+	 * @param int $publication_date;
 	 */
-	function PersonalCalendarEvent($id, $user_id, $event)
+	function PersonalCalendarEvent($id, $user_id, $event, $publication_date)
 	{
 		$this->id = $id;
 		$this->user_id = $user_id;
 		$this->event = $event;
+		$this->publication_date = $publication_date;
 	}
 	/**
 	 * Creates a new PersonalCalendarEvent and stores it in the persistent
@@ -42,6 +48,7 @@ class PersonalCalendarEvent
 		$dm = PersonalCalendarDataManager :: get_instance();
 		$id = $dm->get_next_personal_calendar_event_id();
 		$this->set_id($id);
+		$this->set_publication_date(time());
 		return $dm->create_personal_calendar_event($this);
 	}
 	/**
@@ -79,6 +86,14 @@ class PersonalCalendarEvent
 		$this->id = $id;
 	}
 	/**
+	 * Sets the publication date
+	 * @param int
+	 */
+	public function set_publication_date($publication_date)
+	{
+		$this->publication_date = $publication_date;
+	}
+	/**
 	 * Gets the event related to this personal calendar event
 	 * @return CalendarEvent
 	 */
@@ -94,6 +109,14 @@ class PersonalCalendarEvent
 	public function get_user_id()
 	{
 		return $this->user_id;
+	}
+	/**
+	 * Gets the publication date
+	 * @return int
+	 */
+	public function get_publication_date()
+	{
+		return $this->publication_date;
 	}
 }
 ?>

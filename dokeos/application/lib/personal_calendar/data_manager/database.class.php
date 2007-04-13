@@ -46,6 +46,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		$props[$this->escape_column_name('id')] = $personal_event->get_id();
 		$props[$this->escape_column_name('learning_object')] = $personal_event->get_event()->get_id();
 		$props[$this->escape_column_name('publisher')] = $personal_event->get_user_id();
+		$props[$this->escape_column_name('publication_date')] = $personal_event->get_publication_date();
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('personal_calendar'), $props, MDB2_AUTOQUERY_INSERT);
 		return true;
@@ -71,7 +72,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$event = $this->repoDM->retrieve_learning_object($record['learning_object'],'calendar_event');
-			$events[] = new PersonalCalendarEvent($record['id'],$record['publisher'],$event);
+			$events[] = new PersonalCalendarEvent($record['id'],$record['publisher'],$event,$record['publication_date']);
 		}
 		return $events;
 	}
@@ -85,7 +86,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		$res = $statement->execute($id);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$event = $this->repoDM->retrieve_learning_object($record['learning_object'],'calendar_event');
-		return new PersonalCalendarEvent($record['id'],$record['publisher'],$event);
+		return new PersonalCalendarEvent($record['id'],$record['publisher'],$event,$record['publication_date']);
 	}
 	/**
 	 * Gets the full name of a given table (by adding the database name and a
@@ -182,7 +183,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 			$info = new LearningObjectPublicationAttributes();
 			$info->set_id($record['id']);
 			$info->set_publisher_user_id($record['publisher']);
-			$info->set_publication_date(null);
+			$info->set_publication_date($record['publication_date']);
 			$info->set_application('personal_calendar');
 			//TODO: i8n location string
 			$info->set_location('');
@@ -209,7 +210,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		$info = new LearningObjectPublicationAttributes();
 		$info->set_id($record['id']);
 		$info->set_publisher_user_id($record['publisher']);
-		$info->set_publication_date(null);
+		$info->set_publication_date($record['publication_date']);
 		$info->set_application('personal_calendar');
 		//TODO: i8n location string
 		$info->set_location('');
