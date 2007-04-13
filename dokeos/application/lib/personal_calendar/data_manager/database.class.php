@@ -149,5 +149,112 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 			}
 		}
 	}
+	/**
+	 * @see Application::learning_object_is_published()
+	 */
+	public function learning_object_is_published($object_id)
+	{
+		$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('id').'=?';
+		$res = $this->limitQuery($query, 1,null, array ($object_id));
+		return $res->numRows() == 1;
+	}
+	/**
+	 * @see Application::any_learning_object_is_published()
+	 */
+	public function any_learning_object_is_published($object_ids)
+	{
+		$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('id').' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
+		$res = $this->limitQuery($query, 1, null,$object_ids);
+		return $res->numRows() == 1;
+	}
+	/**
+	 * @see Application::get_learning_object_publication_attributes()
+	 */
+	public function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+
+		$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('learning_object').'=?';
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($object_id);
+		$publication_attr = array();
+		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$info = new LearningObjectPublicationAttributes();
+			$info->set_id($record['id']);
+			$info->set_publisher_user_id($record['publisher']);
+			$info->set_publication_date(null);
+			$info->set_application('personal_calendar');
+			//TODO: i8n location string
+			$info->set_location('');
+			//TODO: set correct URL
+			$info->set_url('index_personal_calendar.php?pid='. $record['id']);
+			$info->set_publication_object_id($record['learning_object']);
+			$publication_attr[] = $info;
+		}
+		return $publication_attr;
+	}
+	/**
+	 * @see Application::get_learning_object_publication_attribute()
+	 */
+	public function get_learning_object_publication_attribute($publication_id)
+	{
+		$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('id').'=?';
+		$statement = $this->connection->prepare($query);
+		$this->connection->setLimit(0,1);
+		$res = $statement->execute($publication_id);
+
+		$publication_attr = array();
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+
+		$info = new LearningObjectPublicationAttributes();
+		$info->set_id($record['id']);
+		$info->set_publisher_user_id($record['publisher']);
+		$info->set_publication_date(null);
+		$info->set_application('personal_calendar');
+		//TODO: i8n location string
+		$info->set_location('');
+		//TODO: set correct URL
+		$info->set_url('index_personal_calendar.php?pid='. $record['id']);
+		$info->set_publication_object_id($record['learning_object']);
+		return $info;
+	}
+	/**
+	 * @see Application::count_publication_attributes()
+	 */
+	public function count_publication_attributes($type = null, $condition = null)
+	{
+		$params = array ();
+		$query = 'SELECT COUNT('.$this->escape_column_name('id').') FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('publisher').'=?';
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute(api_get_user_id());
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $record[0];
+	}
+	/**
+	 * @see Application::delete_learning_object_publications()
+	 */
+	public function delete_learning_object_publications($object_id)
+	{
+		$query = 'DELETE FROM '.$this->get_table_name('personal_calendar').' WHERE learning_object = ?';
+		$statement = $this->connection->prepare($query);
+		$statement->execute($object_id);
+	}
+	/**
+	 * Executes a query
+	 * @param string $query The query (which will be used in a prepare-
+	 * statement)
+	 * @param int $limit The number of rows
+	 * @param int $offset The offset
+	 * @param array $params The parameters to replace the placeholders in the
+	 * query
+	 * @param boolean $is_manip Is the query a manipulation query
+	 */
+	private function limitQuery($query,$limit,$offset,$params,$is_manip = false)
+	{
+		$this->connection->setLimit($limit,$offset);
+		$statement = $this->connection->prepare($query,null,($is_manip ? MDB2_PREPARE_MANIP : null));
+		$res = $statement->execute($params);
+		return $res;
+	}
 }
 ?>
