@@ -164,7 +164,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	 */
 	public function any_learning_object_is_published($object_ids)
 	{
-		$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('id').' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
+		$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('learning_object').' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
 		$res = $this->limitQuery($query, 1, null,$object_ids);
 		return $res->numRows() == 1;
 	}
