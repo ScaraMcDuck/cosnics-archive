@@ -74,10 +74,16 @@ class UserForm extends FormValidator {
 			$lang_options[$languages['folder'][$index]] = $name;
 		}
 		$this->addElement('select', User :: PROPERTY_LANGUAGE, get_lang('Language'), $lang_options);
+		// Disk Quota
+		$this->addElement('text', User :: PROPERTY_DISK_QUOTA, get_lang('DiskQuota'));
+		$this->addRule(User :: PROPERTY_DISK_QUOTA, get_lang('FieldMustBeNumeric'), 'numeric', null, 'server');
+		// Database Quota
+		$this->addElement('text', User :: PROPERTY_DATABASE_QUOTA, get_lang('DatabaseQuota'));
+		$this->addRule(User :: PROPERTY_DATABASE_QUOTA, get_lang('FieldMustBeNumeric'), 'numeric', null, 'server');
 		// Version quota
 		$this->addElement('text', User :: PROPERTY_VERSION_QUOTA, get_lang('VersionQuota'));
-		$this->addRule(User :: PROPERTY_VERSION_QUOTA, get_lang('FieldMustBeNumeric'), 'numeric', null, 'client');
-		$this->addRule(User :: PROPERTY_VERSION_QUOTA, get_lang('ThisFieldIsRequired'), 'required');
+		$this->addRule(User :: PROPERTY_VERSION_QUOTA, get_lang('FieldMustBeNumeric'), 'numeric', null, 'server');
+		
 		// Status
 		$status = array();  
 		$status[COURSEMANAGER]  = get_lang('CourseAdmin');
@@ -123,12 +129,13 @@ class UserForm extends FormValidator {
     	
     	$password = $values['pw']['pass'] == '1' ? api_generate_password() : $values['pw'][User :: PROPERTY_PASSWORD];
     	
-    	if ($values[User :: PROPERTY_PICTURE_URI])
+    	if ($_FILES[User :: PROPERTY_PICTURE_URI])
     	{
 			$temp_picture_location = $_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name'];
 			$picture_name = $_FILES[User :: PROPERTY_PICTURE_URI]['name'];
 			$picture_uri = uniqid('').'_'.replace_dangerous_char($picture_name);
 			$picture_location = api_get_path(SYS_CODE_PATH).'upload/users/'.$picture_uri;
+			$user->set_picture_uri($picture_location);
 			move_uploaded_file($temp_picture_location, $picture_location);
     	}
 		$udm = UsersDataManager :: get_instance();
@@ -169,13 +176,14 @@ class UserForm extends FormValidator {
     	
     	$password = $values['pw']['pass'] == '1' ? api_generate_password() : $values['pw'][User :: PROPERTY_PASSWORD];
     	
-    	if ($values[User :: PROPERTY_PICTURE_URI])
+    	if ($_FILES[User :: PROPERTY_PICTURE_URI])
     	{
 			$temp_picture_location = $_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name'];
 			$picture_name = $_FILES[User :: PROPERTY_PICTURE_URI]['name'];
 			$picture_uri = uniqid('').'_'.replace_dangerous_char($picture_name);
 			$picture_location = api_get_path(SYS_CODE_PATH).'upload/users/'.$picture_uri;
-			move_uploaded_file($temp_picture_location, $picture_location);
+			$user->set_picture_uri($picture_location);
+			move_uploaded_file($temp_picture_location, $picture_location);			
     	}
 		$udm = UsersDataManager :: get_instance();
     	if ($udm->is_username_available($values[User :: PROPERTY_USERNAME], $values[User :: PROPERTY_USER_ID]))
@@ -190,7 +198,12 @@ class UserForm extends FormValidator {
 			$user->set_picture_uri($picture_uri);
   		  	$user->set_phone($values[User :: PROPERTY_PHONE]);
   		  	$user->set_status(intval($values[User :: PROPERTY_STATUS]));
+  		  	if ($values[User :: PROPERTY_VERSION_QUOTA] != '')
  		   	$user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
+ 		   	if ($values[User :: PROPERTY_DATABASE_QUOTA] != '')
+ 		   	$user->set_database_quota(intval($values[User :: PROPERTY_DATABASE_QUOTA]));
+ 		   	if ($values[User :: PROPERTY_DISK_QUOTA] != '')
+ 		   	$user->set_disk_quota(intval($values[User :: PROPERTY_DISK_QUOTA]));
  		   	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
  		   	$user->set_platformadmin(intval($values['admin'][User :: PROPERTY_PLATFORMADMIN]));
     		//$send_mail = intval($user['mail']['send_mail']);
@@ -218,10 +231,16 @@ class UserForm extends FormValidator {
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
 			$defaults['pw']['pass'] = 2;
+			$defaults[User :: PROPERTY_DATABASE_QUOTA] = $user->get_database_quota();
+			$defaults[User :: PROPERTY_DISK_QUOTA] = $user->get_disk_quota();
+			$defaults[User :: PROPERTY_VERSION_QUOTA] = $user->get_version_quota();
 		}
 		else
 		{
 			$defaults['pw']['pass'] = $user->get_password();
+//			$defaults[User :: PROPERTY_DATABASE_QUOTA] = $user->get_database_quota();
+//			$defaults[User :: PROPERTY_DISK_QUOTA] = $user->get_disk_quota();
+//			$defaults[User :: PROPERTY_VERSION_QUOTA] = $user->get_version_quota();
 		}
 		$defaults['admin'][User :: PROPERTY_PLATFORMADMIN] = $user->get_platformadmin();
 		$defaults['mail']['send_mail'] = 1;
@@ -234,7 +253,6 @@ class UserForm extends FormValidator {
 		$defaults[User :: PROPERTY_PICTURE_URI] = $user->get_picture_uri();
 		$defaults[User :: PROPERTY_PHONE] = $user->get_phone();
 		$defaults[User :: PROPERTY_LANGUAGE] = $user->get_language();
-		$defaults[User :: PROPERTY_VERSION_QUOTA] = $user->get_version_quota();
 		parent :: setDefaults($defaults);
 	}
 	

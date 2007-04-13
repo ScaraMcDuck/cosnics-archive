@@ -20,6 +20,7 @@ class AdminUserBrowserTableColumnModel extends DefaultUserTableColumnModel
 	{
 		parent :: __construct();
 		$this->add_column(new UserTableColumn(User :: PROPERTY_LANGUAGE, true));
+		$this->add_column(new UserTableColumn(User :: PROPERTY_USERNAME, true));
 		$this->add_column(new UserTableColumn(User :: PROPERTY_EMAIL, true));
 		$this->add_column(new UserTableColumn(User :: PROPERTY_STATUS, true));
 		$this->add_column(new UserTableColumn(User :: PROPERTY_PLATFORMADMIN, true));
