@@ -54,7 +54,7 @@ class ForumPostListRenderer extends ListLearningObjectPublicationListRenderer
 	// Inherited
 	function render_publication_information($publication)
 	{
-		$publisher = api_get_user_info($publication->get_learning_object()->get_owner_id());
+		$publisher = $this->browser->get_user_info($publication->get_learning_object()->get_owner_id());
 		$html = array ();
 		$html[] = htmlentities(get_lang('PublishedOn')).' '.$this->render_publication_date($publication);
 		$html[] = htmlentities(get_lang('By')).' '.$this->render_publisher($publication);

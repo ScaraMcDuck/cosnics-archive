@@ -92,6 +92,11 @@ abstract class Tool
 		return $this->parent->get_user_id();
 	}
 	
+	function get_user_info($user_id)
+	{
+		return $this->parent->get_user_info($user_id);
+	}
+	
 	/**
 	 * @see WebApplication :: get_course_id()
 	 */

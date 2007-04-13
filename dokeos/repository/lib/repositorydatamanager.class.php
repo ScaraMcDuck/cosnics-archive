@@ -447,7 +447,7 @@ abstract class RepositoryDataManager
 		{
 			$application_class = self::application_to_class($application_name);
 			$application = new $application_class($user);
-			$info += $appslication->count_publication_attributes($type, $condition);
+			$info += $application->count_publication_attributes($type, $condition);
 		}
 		return $info;
 	}

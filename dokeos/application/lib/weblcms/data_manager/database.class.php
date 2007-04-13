@@ -26,6 +26,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	private $connection;
 	private $repoDM;
+	private $userDM;
 	/**
 	 * The table name prefix, if any.
 	 */
@@ -35,6 +36,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function initialize()
 	{
 		$this->repoDM = & RepositoryDataManager :: get_instance();
+		$this->userDM = & UsersDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_weblcms'),array('debug'=>3,'debug_handler'=>array('WeblcmsDataManager','debug')));
 		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
@@ -519,8 +521,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$subject = '['.api_get_setting('siteName').'] '.$publication->get_learning_object()->get_title();
 			// TODO: SCARA - Add meaningfull publication removal message
 			$body = 'message';
-			$user = api_get_user_info($publication->get_publisher_id());
-			api_send_mail($user['mail'], $subject, $body);
+			$user = $this->userDM->retrieve_user($publication->get_publisher_id());
+			api_send_mail($user->get_email(), $subject, $body);
 			$this->delete_learning_object_publication($publication);
 		}
 		return true;

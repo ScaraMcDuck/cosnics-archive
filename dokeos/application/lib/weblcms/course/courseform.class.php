@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
 require_once dirname(__FILE__).'/course.class.php';
 require_once dirname(__FILE__).'/coursecategory.class.php';
 
@@ -166,8 +167,9 @@ class CourseForm extends FormValidator {
 		}
 		else
 		{
-			$user = api_get_user_info($values[Course :: PROPERTY_TITULAR]);
-			$titular = $user['lastName']. ' ' .$user['firstName'];
+			$udm = UsersDataManager :: get_instance();
+			$user = $udm->retrieve_user($values[Course :: PROPERTY_TITULAR]);
+			$titular = $user->get_lastname(). ' ' .$user->get_firstname();
 		}
 		
 		$course->set_titular($titular);
