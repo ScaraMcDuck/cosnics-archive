@@ -173,9 +173,43 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	 */
 	public function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('learning_object').'=?';
-		$statement = $this->connection->prepare($query);
-		$res = $statement->execute($object_id);
+		if (isset($type))
+		{
+			if ($type == 'user')
+			{
+				$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('publisher').'=?';
+
+				$order = array ();
+				for ($i = 0; $i < count($order_property); $i ++)
+				{
+					if ($order_property[$i] == 'application')
+					{
+					}
+					elseif($order_property[$i] == 'location')
+					{
+					}
+					elseif($order_property[$i] == 'title')
+					{
+					}
+					else
+					{
+					}
+				}
+				if (count($order))
+				{
+					$query .= ' ORDER BY '.implode(', ', $order);
+				}
+
+				$statement = $this->connection->prepare($query);
+				$res = $statement->execute(api_get_user_id());
+			}
+		}
+		else
+		{
+			$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('learning_object').'=?';
+			$statement = $this->connection->prepare($query);
+			$res = $statement->execute($object_id);
+		}
 		$publication_attr = array();
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
