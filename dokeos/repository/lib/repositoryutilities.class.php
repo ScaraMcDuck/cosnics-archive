@@ -119,7 +119,7 @@ class RepositoryUtilities
 	{
 		usort($objects, array (get_class(), 'by_title'));
 	}
-	
+
 	static function order_learning_objects_by_id_desc(& $objects)
 	{
 		usort($objects, array (get_class(), 'by_id_desc'));
@@ -278,12 +278,12 @@ class RepositoryUtilities
 	{
 		return strcasecmp($learning_object_1->get_title(), $learning_object_2->get_title());
 	}
-	
+
 	private static function by_id_desc($learning_object_1, $learning_object_2)
 	{
-		return ($learning_object_1->get_id() < $learning_object_2->get_id() ? 1 : -1); 
+		return ($learning_object_1->get_id() < $learning_object_2->get_id() ? 1 : -1);
 	}
-	
+
 	/**
 	 * Checks if a file is an HTML document.
 	 */
@@ -292,11 +292,11 @@ class RepositoryUtilities
 	{
 		return (preg_match('/\.x?html?$/', $path) === 1);
 	}
-	
+
 	function build_uses($publication_attr)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		
+
 		$html 	= array ();
 		$html[] = '<div class="publications">';
 		$html[] = '<div class="publications_title">'.htmlentities(get_lang('ThisObjectIsPublished')).'</div>';
@@ -305,7 +305,7 @@ class RepositoryUtilities
 		{
 			$publisher = $this->get_user_info($info->get_publisher_user_id());
 			$object = $rdm->retrieve_learning_object($info->get_publication_object_id());
-			$html[] = '<li><img src="'.api_get_path(WEB_CODE_PATH).'/img/next.png" alt="option"/>';
+			$html[] = '<li>';
 			// TODO: i18n
 			// TODO: SCARA - Find cleaner solution to display Learning Object title + url
 			$html[] = '<a href="'.$info->get_url(). '">' . $info->get_application().': '.$info->get_location().'</a> > <a href="'. $object->get_view_url() .'">'. $object->get_title() .'</a> ('.$publisher['firstName'].' '.$publisher['lastName'].', '.date('r', $info->get_publication_date()).')';
@@ -313,14 +313,14 @@ class RepositoryUtilities
 		}
 		$html[] = '</ul>';
 		$html[] = '</div>';
-		
+
 		return implode($html);
 	}
-	
+
 	function build_block_hider($type, $id = null, $message = null)
 	{
 		$html = array();
-		
+
 		if ($type == 'script')
 		{
 			$html[]   = '<script language="JavaScript" type="">';
@@ -346,7 +346,7 @@ class RepositoryUtilities
 		{
 			$show_message = 'Show' . $message;
 			$hide_message = 'Hide' . $message;
-			
+
 			$html[]    = '<div id="plus"><a href="javascript:showElement(\''. $id .'\')">'. get_lang('Show' . $message) .'</a></div>';
 			$html[]    = '<div id="minus" style="display: none;"><a href="javascript:showElement(\''. $id .'\')">'. get_lang('Hide' . $message) .'</a></div>';
 			$html[]   .= '<div id="'. $id .'" style="display: none;">';
@@ -355,7 +355,7 @@ class RepositoryUtilities
 		{
 			$html[]   = '</div>';
 		}
-		
+
 		return implode("\n", $html);
 	}
 
@@ -387,7 +387,7 @@ class RepositoryUtilities
 		{
 			echo "Variabele is geen array";
 		}
-	}	
+	}
 
 	function DisplayInlineArray($inlinearray, $depth, $element)
 	{
