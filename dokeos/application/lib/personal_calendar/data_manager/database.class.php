@@ -173,7 +173,6 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	 */
 	public function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-
 		$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('learning_object').'=?';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($object_id);
@@ -239,6 +238,24 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		$query = 'DELETE FROM '.$this->get_table_name('personal_calendar').' WHERE learning_object = ?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute($object_id);
+	}
+	/**
+	 * @see Application::update_learning_object_publication_id()
+	 */
+	function update_learning_object_publication_id($publication_attr)
+	{
+		$where = $this->escape_column_name('id').'='.$publication_attr->get_id();
+		$props = array();
+		$props[$this->escape_column_name('learning_object')] = $publication_attr->get_publication_object_id();
+		$this->connection->loadModule('Extended');
+		if ($this->connection->extended->autoExecute($this->get_table_name('personal_calendar'), $props, MDB2_AUTOQUERY_UPDATE, $where))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	/**
 	 * Executes a query
