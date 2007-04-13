@@ -73,7 +73,7 @@ class RepositoryManager
  	*/
 	private $parameters;
 	private $search_parameters;
-	private $user_id;
+	private $user;
 	private $search_form;
 	private $category_menu;
 	private $quota_url;
@@ -86,9 +86,9 @@ class RepositoryManager
 	 * Constructor
 	 * @param int $user_id The user id of current user
 	 */
-	function RepositoryManager($user_id)
+	function RepositoryManager($user)
 	{
-		$this->user_id = $user_id;
+		$this->user = $user;
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
 		$this->parse_input_from_table();
@@ -473,12 +473,22 @@ class RepositoryManager
 	}
 	/**
 	 * Gets the user id.
-	 * @return int The requested user id.
+	 * @return int The user id.
 	 */
 	function get_user_id()
 	{
-		return $this->user_id;
+		return $this->user->get_user_id();
 	}
+	
+	/**
+	 * Gets the user.
+	 * @return int The user.
+	 */
+	function get_user()
+	{
+		return $this->user;
+	}
+	
 	/**
 	 * Gets the id of the root category.
 	 * @return integer The requested id.
@@ -535,10 +545,10 @@ class RepositoryManager
 		return $rdm->count_learning_objects($type, $condition, $state, $different_parent_state);
 	}
 	
-	function count_publication_attributes($type = null, $condition = null)
+	function count_publication_attributes($user, $type = null, $condition = null)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->count_publication_attributes($type, $condition);
+		return $rdm->count_publication_attributes($user, $type, $condition);
 	}
 	
 	/**
@@ -562,10 +572,10 @@ class RepositoryManager
 	/**
 	 * @see RepositoryDataManager::get_learning_object_publication_attributes()
 	 */
-	function get_learning_object_publication_attributes($id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_learning_object_publication_attributes($user, $id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->get_learning_object_publication_attributes($id, $type, $offset, $count, $order_property, $order_direction);
+		return $rdm->get_learning_object_publication_attributes($user, $id, $type, $offset, $count, $order_property, $order_direction);
 	}
 	
 	/**

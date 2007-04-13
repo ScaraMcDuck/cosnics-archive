@@ -80,8 +80,8 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	function assign_course_category()
 	{
 		$course_id = $_GET[Weblcms :: PARAM_COURSE_USER];
-		$courseuserrelation = $this->retrieve_course_user_relation($course_id, api_get_user_id());
-		$form = new CourseUserRelationForm(CourseUserRelationForm :: TYPE_EDIT, $courseuserrelation, $this->get_url(array()));
+		$courseuserrelation = $this->retrieve_course_user_relation($course_id, $this->get_user_id());
+		$form = new CourseUserRelationForm(CourseUserRelationForm :: TYPE_EDIT, $courseuserrelation, $this->get_user(), $this->get_url(array()));
 		
 		if($form->validate())
 		{
@@ -100,9 +100,9 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	
 	function move_course($course, $direction)
 	{
-		$move_courseuserrelation = $this->retrieve_course_user_relation($course, api_get_user_id());
+		$move_courseuserrelation = $this->retrieve_course_user_relation($course, $this->get_user_id());
 		$sort = $move_courseuserrelation->get_sort();
-		$next_courseuserrelation = $this->retrieve_course_user_relation_at_sort(api_get_user_id(), $move_courseuserrelation->get_category(), $sort, $direction);
+		$next_courseuserrelation = $this->retrieve_course_user_relation_at_sort($this->get_user_id(), $move_courseuserrelation->get_category(), $sort, $direction);
 		
 		if ($direction == 'up')
 		{
@@ -127,9 +127,9 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	
 	function move_category($courseusercategory, $direction)
 	{
-		$move_category = $this->retrieve_course_user_category($courseusercategory, api_get_user_id());
+		$move_category = $this->retrieve_course_user_category($courseusercategory, $this->get_user_id());
 		$sort = $move_category->get_sort();
-		$next_category = $this->retrieve_course_user_category_at_sort(api_get_user_id(), $sort, $direction);
+		$next_category = $this->retrieve_course_user_category_at_sort($this->get_user_id(), $sort, $direction);
 		
 		if ($direction == 'up')
 		{
@@ -156,7 +156,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	{
 		$courseusercategory = new CourseUserCategory();
 		
-		$form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_CREATE, $courseusercategory, $this->get_url());
+		$form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_CREATE, $courseusercategory, $this->get_user(), $this->get_url());
 		
 		if($form->validate())
 		{
@@ -178,7 +178,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		$course_user_category_id = $_GET[Weblcms :: PARAM_COURSE_USER_CATEGORY_ID];
 		$courseusercategory = $this->retrieve_course_user_category($course_user_category_id);
 		
-		$form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_EDIT, $courseusercategory, $this->get_url(array(Weblcms :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id)));
+		$form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_EDIT, $courseusercategory, $this->get_user(), $this->get_url(array(Weblcms :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id)));
 		
 		if($form->validate())
 		{
@@ -200,10 +200,10 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		$course_user_category_id = $_GET[Weblcms :: PARAM_COURSE_USER_CATEGORY_ID];
 		$courseusercategory = $this->retrieve_course_user_category($course_user_category_id);
 		
-		$relations = $this->retrieve_course_user_relations(api_get_user_id(), $course_user_category_id);
+		$relations = $this->retrieve_course_user_relations($this->get_user_id(), $course_user_category_id);
 		
 		$conditions = array();
-		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, api_get_user_id());
+		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
 		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);		
 		$condition = new AndCondition($conditions);
 			
@@ -239,7 +239,9 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		
 		echo $this->get_sort_modification_links();
 		
-		$course_categories = $this->retrieve_course_user_categories(null, null, array(CourseUserCategory :: PROPERTY_SORT), array(SORT_ASC));
+		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
+		
+		$course_categories = $this->retrieve_course_user_categories($condition, null, null, array(CourseUserCategory :: PROPERTY_SORT), array(SORT_ASC));
 		$courses = $this->retrieve_courses($this->get_user_id(), 0);
 		echo $this->display_course_digest($courses);
 		

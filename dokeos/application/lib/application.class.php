@@ -51,5 +51,7 @@ abstract class Application
 	abstract function delete_learning_object_publications($object_id);
 	
 	abstract function update_learning_object_publication_id($publication_attr);
+	
+	abstract function get_application_platform_admin_links();
 }
 ?>

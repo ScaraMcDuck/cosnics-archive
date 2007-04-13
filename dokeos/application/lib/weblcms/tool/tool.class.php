@@ -75,6 +75,14 @@ abstract class Tool
 	{
 		$this->parent->display_footer();
 	}
+	
+	/**
+	 * @see WebApplication :: get_user()
+	 */
+	function get_user()
+	{
+		return $this->parent->get_user();
+	}
 
 	/**
 	 * @see WebApplication :: get_user_id()

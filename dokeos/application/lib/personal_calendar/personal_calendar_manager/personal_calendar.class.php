@@ -26,15 +26,15 @@ class PersonalCalendar extends WebApplication
 	/**
 	 * The owner of this personal calendar
 	 */
-	private $user_id;
+	private $user;
 	/**
 	 * Constructor
 	 * @param int $user_id
 	 */
-	public function PersonalCalendar($user_id)
+	public function PersonalCalendar($user)
 	{
 		parent :: __construct();
-		$this->user_id = $user_id;
+		$this->user = $user;
 	}
 	/**
 	 * Runs the personal calendar application
@@ -241,7 +241,7 @@ class PersonalCalendar extends WebApplication
 	 */
 	function get_user_id()
 	{
-		return $this->user_id;
+		return $this->user->get_user_id;
 	}
 }
 ?>

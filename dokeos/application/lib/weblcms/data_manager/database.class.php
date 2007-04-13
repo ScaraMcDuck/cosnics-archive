@@ -106,7 +106,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $res->numRows() == 1;
 	}
 
-	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_learning_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		if (isset($type))
 		{
@@ -142,7 +142,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 				}
 
 				$statement = $this->connection->prepare($query);
-				$param = api_get_user_id();
+				$param = $user->get_user_id();
 			}
 		}
 		else
@@ -198,13 +198,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $publication_attr;
 	}
 
-	function count_publication_attributes($type = null, $condition = null)
+	function count_publication_attributes($user, $type = null, $condition = null)
 	{
 		$params = array ();
 		$query = 'SELECT COUNT('.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLISHER_ID).'=?';;
 
 		$sth = $this->connection->prepare($query);
-		$res = $sth->execute(api_get_user_id());
+		$res = $sth->execute($user->get_user_id());
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
@@ -289,11 +289,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (isset ($condition))
 		{
 			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
-			$query .= ' AND '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('user_id').'='.api_get_user_id();
-		}
-		else
-		{
-			$query .= ' WHERE '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('user_id').'='.api_get_user_id();
 		}
 		
 		$sth = $this->connection->prepare($query);
@@ -309,13 +304,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (isset ($condition))
 		{
 			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
-			$query .= ' AND '. $this->escape_column_name(CourseUserCategory :: PROPERTY_USER) . '=?';
 		}
-		else
-		{
-			$query .= ' WHERE '. $this->escape_column_name(CourseUserCategory :: PROPERTY_USER) . '=?';
-		}
-		$params[] = api_get_user_id();
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -839,13 +828,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('course');
 		$query .= ' JOIN '. $this->escape_table_name('course_rel_user') .' ON '.$this->escape_table_name('course').'.'.$this->escape_column_name(Course :: PROPERTY_ID).'='.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('course_code');
-		$query .= ' WHERE '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('user_id').'=?';
 		
 		$params = array ();
-		$params[] = api_get_user_id();
 		if (isset ($condition))
 		{
-			$query .= ' AND '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
 		}
 		
 		/*
@@ -927,10 +914,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 	}
 	
-	function is_subscribed($course)
+	function is_subscribed($course, $user_id)
 	{
 		$query = 'SELECT COUNT('.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).') FROM '.$this->escape_table_name('course_rel_user').' WHERE '.$this->escape_column_name(CourseUserRelation :: PROPERTY_USER).'=? AND '.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).'=?';
-		$params = array(api_get_user_id(), $course->get_id());
+		$params = array($user_id, $course->get_id());
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -1060,17 +1047,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 	}
 	
-	function unsubscribe_user_from_course($course)
+	function unsubscribe_user_from_course($course, $user_id)
 	{
 		$sql = 'DELETE FROM '.$this->escape_table_name('course_rel_user').' WHERE '. $this->escape_column_name('course_code') .'=? AND'. $this->escape_column_name('user_id') .'=?';
 		$statement = $this->connection->prepare($sql);
-		if ($statement->execute(array($course->get_id(), api_get_user_id())))
+		if ($statement->execute(array($course->get_id(), $user_id)))
 		{
 			$location_id = RolesRights::get_course_location_id($course->get_id());
 			
 			$sql = 'DELETE FROM '.Database :: get_main_table(MAIN_USER_ROLE_TABLE).' WHERE '. $this->escape_column_name('user_id') .'=? AND'. $this->escape_column_name('location_id') .'=?';
 			$statement = $this->connection->prepare($sql);
-			if ($statement->execute(array(api_get_user_id(), $location_id)))
+			if ($statement->execute(array($user_id, $location_id)))
 			{
 				return true;
 			}
@@ -1113,7 +1100,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 		$props[CourseUserCategory :: PROPERTY_ID] = $courseusercategory->get_id();
 		
-		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, api_get_user_id());
+		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $courseusercategory->get_user());
 		$sort = $this->retrieve_max_sort_value('course_user_category', CourseUserCategory :: PROPERTY_SORT, $condition);
 		
 		$props[CourseUserCategory :: PROPERTY_SORT] = $sort+1;
@@ -1137,7 +1124,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			$query = 'UPDATE '.$this->escape_table_name('course_rel_user').' SET '.$this->escape_column_name('user_course_cat').'=0 WHERE '.$this->escape_column_name('user_course_cat').'=? AND '.$this->escape_column_name('user_id').'=?';
 			$statement = $this->connection->prepare($query);
-			if ($statement->execute(array($courseusercategory->get_id(), api_get_user_id())))
+			if ($statement->execute(array($courseusercategory->get_id(), $courseusercategory->get_user())))
 			{
 				return true;
 			}
@@ -1330,21 +1317,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return new DatabaseCourseCategoryResultSet($this, $res);
 	}
 	
-	function retrieve_course_user_categories ($offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_course_user_categories ($conditions = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
-		$query = 'SELECT * FROM '. $this->escape_table_name('course_user_category');;
+		$query = 'SELECT * FROM '. $this->escape_table_name('course_user_category');
 		
 		$params = array ();
-		if (isset ($condition))
+		
+		if (isset ($conditions))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
-			$query .= ' AND '. $this->escape_column_name(CourseUserCategory :: PROPERTY_USER) . '=?';
+			$query .= ' WHERE '.$this->translate_condition($conditions, & $params, true);
 		}
-		else
-		{
-			$query .= ' WHERE '. $this->escape_column_name(CourseUserCategory :: PROPERTY_USER) . '=?';
-		}
-		$params[] = api_get_user_id();
 		
 		/*
 		 * Always respect alphabetical order as a last resort.
@@ -1376,9 +1358,18 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	
 	function retrieve_course_user_category ($course_user_category_id, $user_id = null)
 	{
+		$params = array();
 		$query = 'SELECT * FROM '. $this->escape_table_name('course_user_category') .' WHERE '. $this->escape_column_name(CourseUserCategory :: PROPERTY_USER) . '=? AND '. $this->escape_column_name(CourseUserCategory :: PROPERTY_ID) . '=?';
+		$params[] = $course_user_category_id;
+		
+		if ($user_id)
+		{
+			$query .= '';
+			$params[] = $user_id;
+		}
+		
 		$statement = $this->connection->prepare($query);
-		$res = $this->limitQuery($query, 1, null, array(api_get_user_id(),$course_user_category_id));
+		$res = $this->limitQuery($query, 1, null, $params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);	
 		return $this->record_to_course_user_category($record);
 	}

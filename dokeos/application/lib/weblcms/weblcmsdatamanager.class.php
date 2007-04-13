@@ -73,11 +73,11 @@ abstract class WeblcmsDataManager
 	 * @return array An array of LearningObjectPublicationAttributes objects;
 	 *               empty if the object has not been published anywhere.
 	 */
-	abstract function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function get_learning_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
 	abstract function get_learning_object_publication_attribute($publication_id);
 
-	abstract function count_publication_attributes();
+	abstract function count_publication_attributes($user, $type = null, $condition = null);
 
 	abstract function delete_learning_object_publications($object_id);
 
@@ -169,9 +169,9 @@ abstract class WeblcmsDataManager
 	
 	abstract function create_course_category($coursecategory);
 	
-	function course_subscription_allowed($course)
+	function course_subscription_allowed($course, $user_id)
 	{
-		$already_subscribed = $this->is_subscribed($course);
+		$already_subscribed = $this->is_subscribed($course, $user_id);
 		if ($course->get_visibility() == COURSE_VISIBILITY_CLOSED || $course->get_visibility() == COURSE_VISIBILITY_REGISTERED)
 		{
 			$visibility = false;
@@ -193,16 +193,14 @@ abstract class WeblcmsDataManager
 		}
 	}
 	
-	function course_unsubscription_allowed($course)
+	function course_unsubscription_allowed($course, $user_id)
 	{
-		$location_id = RolesRights::get_course_location_id($course->get_id());
-		$role_id = RolesRights:: get_local_user_role_id_from_location_id(api_get_user_id(), $location_id);
-		if ($role_id == COURSE_ADMIN)
+		if ($course->is_course_admin($user_id))
 		{
 			return false;
 		}
 		
-		$already_subscribed = $this->is_subscribed($course);
+		$already_subscribed = $this->is_subscribed($course, $user_id);
 		$unsubscription_allowed = ($course->get_unsubscribe_allowed() == 1 ? true : false);
 		if ($already_subscribed && $unsubscription_allowed)
 		{
@@ -216,9 +214,9 @@ abstract class WeblcmsDataManager
 	
 	abstract function subscribe_user_to_course($course, $status, $tutor_id, $user_id);
 	
-	abstract function unsubscribe_user_from_course($course);
+	abstract function unsubscribe_user_from_course($course, $user_id);
 	
-	abstract function is_subscribed($course);
+	abstract function is_subscribed($course, $user_id);
 	
 	abstract function is_course_category($category_code);
 	
@@ -425,13 +423,13 @@ abstract class WeblcmsDataManager
 	 * Retrieves the personal course categories for a given user.
 	 * @return DatabaseUserCourseCategoryResultSet The resultset of course categories.
 	 */
-	abstract function retrieve_course_user_categories($offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_course_user_categories($conditions = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
 	/**
 	 * Retrieves a personal course categories for the user.
 	 * @return CourseUserCategory The course user category.
 	 */
-	abstract function retrieve_course_user_category($course_user_category_id);
+	abstract function retrieve_course_user_category($course_user_category_id, $user_id = null);
 	
 	abstract function retrieve_course_user_category_at_sort($user_id, $sort, $direction);
 

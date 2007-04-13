@@ -64,9 +64,7 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 		}
 		else
 		{
-			$location_id = RolesRights::get_course_location_id($course->get_id());
-			$role_id = RolesRights:: get_local_user_role_id_from_location_id(api_get_user_id(), $location_id);
-			if ($role_id == COURSE_ADMIN)
+			if ($course->is_course_admin($this->browser->get_user_id()))
 			{
 				return '<span class="info_message">'.get_lang('UnsubscriptionAdmin').'</span>';
 			}

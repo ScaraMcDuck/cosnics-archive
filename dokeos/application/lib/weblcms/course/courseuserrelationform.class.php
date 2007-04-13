@@ -7,11 +7,14 @@ class CourseUserRelationForm extends FormValidator {
 	const TYPE_EDIT = 2;
 	
 	private $courseuserrelation;
+	private $user;
 	
-    function CourseUserRelationForm($form_type, $courseuserrelation, $action) {
+    function CourseUserRelationForm($form_type, $courseuserrelation, $user, $action) {
     	parent :: __construct('course_user', 'post', $action);
     	
     	$this->courseuserrelation = $courseuserrelation;
+    	$this->user = $user;
+    	
 		$this->form_type = $form_type;
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
@@ -54,7 +57,7 @@ class CourseUserRelationForm extends FormValidator {
     	$values = $this->exportValues();
     	
 		$conditions = array();
-		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, api_get_user_id());
+		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->user->get_user_id());
 		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $values[CourseUserRelation :: PROPERTY_CATEGORY]);		
 		$condition = new AndCondition($conditions);
 		

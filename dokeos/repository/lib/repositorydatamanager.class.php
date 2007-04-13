@@ -196,14 +196,14 @@ abstract class RepositoryDataManager
 	 * @return array An array of LearningObjectPublicationAttributes objects;
 	 *               empty if the object has not been published anywhere.
 	 */
-	function get_learning_object_publication_attributes($id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function get_learning_object_publication_attributes($user, $id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		$applications = $this->get_registered_applications();
 		$info = array();
 		foreach($applications as $index => $application_name)
 		{
 			$application_class = self::application_to_class($application_name);
-			$application = new $application_class;
+			$application = new $application_class($user);
 			$info = array_merge($info, $application->get_learning_object_publication_attributes($id, $type, $offset, $count, $order_property, $order_direction));
 		}
 
@@ -216,7 +216,7 @@ abstract class RepositoryDataManager
 	 * @return array An array of LearningObjectPublicationAttributes objects;
 	 *               empty if the object has not been published anywhere.
 	 */
-	function get_learning_object_publication_attribute($id, $application)
+	function get_learning_object_publication_attribute($id, $application, $user)
 	{
 		$applications = $this->get_registered_applications();
 		$application_class = self::application_to_class($application);
@@ -232,7 +232,7 @@ abstract class RepositoryDataManager
 	 * @param LearningObject $object
 	 * @return boolean True if the given learning object can be deleted
 	 */
-	function learning_object_deletion_allowed($object, $type = null)
+	function learning_object_deletion_allowed($object, $type = null, $user)
 	{
 		if (isset($type))
 		{
@@ -255,7 +255,7 @@ abstract class RepositoryDataManager
 			$versions = $this->get_version_ids($object);
 			$forbidden = array_merge($children, $versions);
 		}
-		return !$this->any_learning_object_is_published($forbidden);
+		return !$this->any_learning_object_is_published($forbidden, $user);
 	}
 
 	/**
@@ -439,15 +439,15 @@ abstract class RepositoryDataManager
 	 *                                        tree structures.
 	 * @return int The number of matching learning objects.
 	 */
-	function count_publication_attributes($type = null, $condition = null)
+	function count_publication_attributes($user, $type = null, $condition = null, $user)
 	{
 		$applications = $this->get_registered_applications();
 		$info = 0;
 		foreach($applications as $index => $application_name)
 		{
 			$application_class = self::application_to_class($application_name);
-			$application = new $application_class;
-			$info += $application->count_publication_attributes($type, $condition);
+			$application = new $application_class($user);
+			$info += $appslication->count_publication_attributes($type, $condition);
 		}
 		return $info;
 	}

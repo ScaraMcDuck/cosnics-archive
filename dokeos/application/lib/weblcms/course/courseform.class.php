@@ -12,12 +12,14 @@ class CourseForm extends FormValidator {
 	
 	private $parent;
 	private $course;
+	private $user;
 	private $form_type;
 
-    function CourseForm($form_type, $course, $action) {
+    function CourseForm($form_type, $course, $user, $action) {
     	parent :: __construct('course_settings', 'post', $action);
     	
     	$this->course = $course;
+    	$this->user = $user;
     	
 		$this->form_type = $form_type;
 		if ($this->form_type == self :: TYPE_EDIT)
@@ -184,7 +186,7 @@ class CourseForm extends FormValidator {
     		$wdm = WeblcmsDataManager :: get_instance();
 			if (!api_is_platform_admin())
 			{
-				$user_id = api_get_user_id();
+				$user_id = $this->user->get_user_id();
 			}
 			else
 			{

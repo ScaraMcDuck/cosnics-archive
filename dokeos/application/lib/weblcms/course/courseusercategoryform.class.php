@@ -9,11 +9,13 @@ class CourseUserCategoryForm extends FormValidator {
 	const TYPE_EDIT = 2;
 	
 	private $courseusercategory;
+	private $user;
 
-    function CourseUserCategoryForm($form_type, $courseusercategory, $action) {
+    function CourseUserCategoryForm($form_type, $courseusercategory, $user, $action) {
     	parent :: __construct('course_settings', 'post', $action);
     	
     	$this->courseusercategory = $courseusercategory;
+    	$this->user = $user;
     	
 		$this->form_type = $form_type;
 		if ($this->form_type == self :: TYPE_EDIT)
@@ -68,7 +70,7 @@ class CourseUserCategoryForm extends FormValidator {
     	
     	$courseusercategory->set_id($values[CourseUserCategory :: PROPERTY_ID]);
     	$courseusercategory->set_title($values[CourseUserCategory :: PROPERTY_TITLE]);
-    	$courseusercategory->set_user(api_get_user_id());
+    	$courseusercategory->set_user($this->user->get_user_id());
     	
     	return $courseusercategory->create();
     }

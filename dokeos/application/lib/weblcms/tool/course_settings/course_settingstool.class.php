@@ -12,7 +12,7 @@ class CourseSettingsTool extends Tool
 {
 	function run()
 	{
-		if (!$this->get_course()->is_course_admin())
+		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
 		{
 			$this->display_header();
 			Display :: display_error_message(get_lang("NotAllowed"));
@@ -20,7 +20,7 @@ class CourseSettingsTool extends Tool
 			exit;
 		}
 		
-		$form = new CourseForm(CourseForm :: TYPE_EDIT, $this->get_parent()->get_course(), $this->get_url());
+		$form = new CourseForm(CourseForm :: TYPE_EDIT, $this->get_course(), $this->get_user(), $this->get_url());
 		
 		if($form->validate())
 		{

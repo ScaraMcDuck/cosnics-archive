@@ -59,6 +59,11 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->get_user_id();
 	}
 	
+	function get_user()
+	{
+		return $this->get_parent()->get_user();
+	}
+	
 	function get_course()
 	{
 		return $this->get_parent()->get_course();
@@ -199,14 +204,14 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->retrieve_course_categories($conditions, $offset, $count, $orderBy, $orderDir);
 	}
 	
-	function retrieve_course_user_categories ($offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_course_user_categories ($conditions = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->get_parent()->retrieve_course_user_categories($offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_course_user_categories($conditions, $offset, $count, $order_property, $order_direction);
 	}
 	
-	function retrieve_course_user_category ($course_user_category_id)
+	function retrieve_course_user_category ($course_user_category_id, $user_id = null)
 	{
-		return $this->get_parent()->retrieve_course_user_category($course_user_category_id);
+		return $this->get_parent()->retrieve_course_user_category($course_user_category_id, $user_id);
 	}
 	
 	function retrieve_course_user_category_at_sort($user_id, $sort, $direction)
@@ -334,9 +339,9 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->get_course_category_delete_url($coursecategory);
 	}
 
-	function is_subscribed($course)
+	function is_subscribed($course, $user_id)
 	{
-		return $this->get_parent()->is_subscribed($course);
+		return $this->get_parent()->is_subscribed($course, $user_id);
 	}
 	
 	function get_web_code_path()
@@ -349,9 +354,9 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->subscribe_user_to_course($course, $status, $tutor_id, $user_id);
 	}
 	
-	function unsubscribe_user_from_course($course)
+	function unsubscribe_user_from_course($course, $user_id)
 	{
-		return $this->get_parent()->unsubscribe_user_from_course($course);
+		return $this->get_parent()->unsubscribe_user_from_course($course, $user_id);
 	}
 	
 	/**
