@@ -34,6 +34,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 	 * The table name prefix, if any.
 	 */
 	private $prefix;
+	private $repoDM;
 
 	function initialize()
 	{
@@ -120,12 +121,11 @@ class DatabaseUsersDataManager extends UsersDataManager
 			return false;
 		}
 
-		// TODO: call delete_learning_object_by_user($user_id) in repdatamngr
-		
+		$this->repoDM->delete_learning_object_by_user($user->get_user_id());
 		// Delete the user from the database
 		$query = 'DELETE FROM '.$this->escape_table_name('user').' WHERE '.$this->escape_column_name('user_id').'=?';
 		$sth = $this->connection->prepare($query);
-		$res = $sth->execute(array($user->get_id(), $user->get_id()));
+		$res = $sth->execute($user->get_user_id());
 		
 		return true;
 	}
