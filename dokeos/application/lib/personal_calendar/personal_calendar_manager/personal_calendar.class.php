@@ -154,42 +154,75 @@ class PersonalCalendar extends WebApplication
 		$events = array_merge($events,$connector->get_events($this->user_id, $from_date, $to_date));
 		return $events;
 	}
+	/**
+	 * @see Application::learning_object_is_published()
+	 */
 	public function learning_object_is_published($object_id)
 	{
-		return false;
+		$dm = PersonalCalendarDatamanager::get_instance();
+		return $dm->learning_object_is_published($object_id);
 	}
+	/**
+	 * @see Application::any_learning_object_is_published()
+	 */
 	public function any_learning_object_is_published($object_ids)
 	{
-		return false;
+		$dm = PersonalCalendarDatamanager::get_instance();
+		return $dm->any_learning_object_is_published($object_ids);
 	}
+	/**
+	 * @see Application::get_learning_object_publication_attributes()
+	 */
 	public function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return array ();
+		$dm = PersonalCalendarDatamanager::get_instance();
+		return $dm->get_learning_object_publication_attributes($object_id, $type , $offset , $count , $order_property , $order_direction );
 	}
-	public function get_learning_object_publication_attribute($object_id)
+	/**
+	 * @see Application::get_learning_object_publication_attribute()
+	 */
+	public function get_learning_object_publication_attribute($publication_id)
 	{
-		return null;
+		$dm = PersonalCalendarDatamanager::get_instance();
+		return $dm->get_learning_object_publication_attribute($publication_id);
 	}
+	/**
+	 * @see Application::count_publication_attributes()
+	 */
 	public function count_publication_attributes($type = null, $condition = null)
 	{
-		return 0;
+		$dm = PersonalCalendarDatamanager::get_instance();
+		return $dm->count_publication_attributes($type, $condition );
 	}
+	/**
+	 * @see Application::delete_learning_object_publications()
+	 */
 	public function delete_learning_object_publications($object_id)
 	{
-		return 0;
+		$dm = PersonalCalendarDatamanager::get_instance();
+		return $dm->delete_learning_object_publications($object_id);
 	}
+	/**
+	 * @see Application::update_learning_object_publication_id()
+	 */
 	public function update_learning_object_publication_id($publication_attr)
 	{
 		return 0;
 	}
-
+	/**
+	 * @see
+	 */
 	public function get_application_platform_admin_links()
 	{
 		$links = array ();
 		$links[] = array ('name' => get_lang('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
 		return array ('application' => array ('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links);
 	}
-
+	/**
+	 * Gets a link to the personal calendar application
+	 * @param array $parameters
+	 * @param boolean $encode
+	 */
 	public function get_link($parameters = array (), $encode = false)
 	{
 		$link = 'index_'.self :: APPLICATION_NAME.'.php';
@@ -203,6 +236,10 @@ class PersonalCalendar extends WebApplication
 		}
 		return $link;
 	}
+	/**
+	 * Gets the user id of this personal calendars owner
+	 * @return int
+	 */
 	function get_user_id()
 	{
 		return $this->user_id;

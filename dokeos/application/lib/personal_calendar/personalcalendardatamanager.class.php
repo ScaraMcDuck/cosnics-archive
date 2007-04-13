@@ -72,5 +72,29 @@ abstract class PersonalCalendarDataManager
 	 * @param array $indexes
 	 */
 	abstract function create_storage_unit($name,$properties,$indexes);
+	/**
+	 * @see Application::learning_object_is_published()
+	 */
+	abstract function learning_object_is_published($object_id);
+	/**
+	 * @see Application::any_learning_object_is_published()
+	 */
+	abstract function any_learning_object_is_published($object_ids);
+	/**
+	 * @see Application::get_learning_object_publication_attributes()
+	 */
+	abstract function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	/**
+	 * @see Application::get_learning_object_publication_attribute()
+	 */
+	abstract function get_learning_object_publication_attribute($publication_id);
+	/**
+	 * @see Application::count_publication_attributes()
+	 */
+	abstract function count_publication_attributes($type = null, $condition = null);
+	/**
+	 * @see Application::delete_learning_object_publications()
+	 */
+	abstract function delete_learning_object_publications($object_id);
 }
 ?>
