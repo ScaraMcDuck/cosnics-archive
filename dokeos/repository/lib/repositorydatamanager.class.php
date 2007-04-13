@@ -102,7 +102,7 @@ abstract class RepositoryDataManager
 		}
 		return $master_types;
 	}
-	
+
 	/**
 	 * Is the learning object attached to another one ?
 	 * @param LearningObject The learning object.
@@ -170,7 +170,7 @@ abstract class RepositoryDataManager
 	/**
 	 * Determines whether a learning object with the given IDs has been
 	 * published in any of the registered applications.
-	 * @param int $id The IDs of the learning objects.
+	 * @param array $ids The IDs of the learning objects.
 	 * @return boolean True if one of the given learning objects has been
 	 * published anywhere, false otherwise.
 	 */
@@ -241,7 +241,7 @@ abstract class RepositoryDataManager
 				return false;
 			}
 			$forbidden = array();
-			$forbidden = $object->get_id();
+			$forbidden[] = $object->get_id();
 		}
 		else
 		{
@@ -529,7 +529,7 @@ abstract class RepositoryDataManager
 
 	/**
 	 * Deletes all learning objects a user_id has:
-	 * Retrieves the learning object(s) a user has made, 
+	 * Retrieves the learning object(s) a user has made,
 	 * deletes the publications made with these object(s),
 	 * and finally, deletes the object itself.
 	 */
