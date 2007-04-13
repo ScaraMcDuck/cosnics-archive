@@ -5,6 +5,7 @@
  */
 require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/../../../users/lib/usersdatamanager.class.php';
 /**
 ==============================================================================
  *	This is a skeleton for a data manager for the Weblcms application. Data

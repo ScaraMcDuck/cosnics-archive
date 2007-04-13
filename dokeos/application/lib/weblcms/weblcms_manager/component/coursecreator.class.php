@@ -31,8 +31,8 @@ class WeblcmsCourseCreatorComponent extends WeblcmsComponent
 		$course->set_subscribe_allowed(1);
 		$course->set_unsubscribe_allowed(0);
 		
-		$user_info = api_get_user_info();
-		$course->set_language($user_info['language']);
+		$user_info = $this->get_user();
+		$course->set_language($user_info->get_language());
 		
 		$form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_user(), $this->get_url());
 		

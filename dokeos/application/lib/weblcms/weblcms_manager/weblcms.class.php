@@ -19,6 +19,7 @@ require_once dirname(__FILE__).'/../../../../repository/lib/condition/notconditi
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/likecondition.class.php';
 require_once dirname(__FILE__).'/../course/course_table/coursetable.class.php';
+require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
 
 /**
 ==============================================================================
@@ -209,6 +210,11 @@ class Weblcms extends WebApplication
 	function get_user()
 	{
 		return $this->user;
+	}
+	
+	function get_user_info($user_id)
+	{
+		return UsersDataManager :: get_instance()->retrieve_user($user_id);
 	}
 	
 	/**

@@ -132,6 +132,11 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->parent->get_user_id();
 	}
+	
+	function get_user_info($user_id)
+	{
+		return $this->parent->get_user_info($user_id);
+	}
 
 	/**
 	 * @see RepositoryTool :: get_groups()

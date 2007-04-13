@@ -51,6 +51,8 @@ class LearningObjectPublicationForm extends FormValidator
 	 * The course we're publishing in
 	 */
 	private $course;
+	
+	private $user;
 	/**
 	 * Creates a new learning object publication form.
 	 * @param LearningObject The learning object that will be published
@@ -58,7 +60,7 @@ class LearningObjectPublicationForm extends FormValidator
 	 * @param boolean $email_option Add option in form to send the learning
 	 * object by email to the receivers
 	 */
-    function LearningObjectPublicationForm($learning_object, $tool, $email_option = false, $course)
+    function LearningObjectPublicationForm($user, $learning_object, $tool, $email_option = false, $course)
     {
     	$url = $tool->get_url(array (LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 		parent :: __construct('publish', 'post', $url);
@@ -66,6 +68,7 @@ class LearningObjectPublicationForm extends FormValidator
 		$this->learning_object = $learning_object;
 		$this->email_option = $email_option;
 		$this->course = $course;
+		$this->user = $user;
 		$this->build_form();
 		$this->setDefaults();
     }
@@ -256,8 +259,8 @@ class LearningObjectPublicationForm extends FormValidator
 			$subject = '['.api_get_setting('siteName').'] '.$learning_object->get_title();
 			$body = new html2text($display->get_full_html());
 			//@todo: send email to correct users/groups. For testing, the email is sent now to the publisher.
-			$user = api_get_user_info();
-			if(api_send_mail($user['mail'],$learning_object->get_title(),$body->get_text()))
+			$user = $this->user;
+			if(api_send_mail($user->get_email(),$learning_object->get_title(),$body->get_text()))
 			{
 				$pub->set_email_sent(true);
 			}

@@ -59,6 +59,11 @@ abstract class WeblcmsComponent {
 		return $this->get_parent()->get_user_id();
 	}
 	
+	function get_user_info($user_id)
+	{
+		return $this->get_parent()->get_user_info($user_id);
+	}
+	
 	function get_user()
 	{
 		return $this->get_parent()->get_user();

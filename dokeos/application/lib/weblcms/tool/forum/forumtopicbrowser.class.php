@@ -42,11 +42,11 @@ class ForumTopicBrowser extends LearningObjectPublicationBrowser
 			$forum_url = $this->get_url(array('topic'=>$topic->get_id()));
 			$forum_table_row[] = '<a href="'.$forum_url.'">'.$topic->get_title().'</a>';
 			$forum_table_row[] = ''.$topic->get_reply_count();
-			$author = api_get_user_info($topic->get_owner_id());
-			$forum_table_row[] = $author['firstName'].' '.$author['lastName'];
+			$author = $this->get_user_info($topic->get_owner_id());
+			$forum_table_row[] = $author->get_firstname().' '.$author->get_lastname();
 			$last_post = $topic->get_last_post();
-			$last_post_author = api_get_user_info($last_post->get_owner_id());
-			$forum_table_row[] = date('r',$last_post->get_creation_date()).' '.get_lang('By').' '.$last_post_author['firstName'].' '.$last_post_author['lastName'];
+			$last_post_author = $this->get_user_info($last_post->get_owner_id());
+			$forum_table_row[] = date('r',$last_post->get_creation_date()).' '.get_lang('By').' '.$last_post_author->get_firstname().' '.$last_post_author->get_lastname();
 			if($this->is_allowed(EDIT_RIGHT) || $this->is_allowed(DELETE_RIGHT))
 			{
 				$forum_table_row[] = $renderer->render_publication_actions($topic, $first, $last);

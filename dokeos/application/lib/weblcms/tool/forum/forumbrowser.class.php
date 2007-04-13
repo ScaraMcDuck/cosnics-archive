@@ -86,8 +86,8 @@ class ForumBrowser extends LearningObjectPublicationBrowser
 			$last_post = $forum->get_last_post();
 			if(!is_null($last_post))
 			{
-				$last_post_author = api_get_user_info($last_post->get_owner_id());
-				$forum_table_row[] = date('r',$last_post->get_creation_date()).' '.get_lang('By').' '.$last_post_author['firstName'].' '.$last_post_author['lastName'];
+				$last_post_author = $this->get_user_info($last_post->get_owner_id());
+				$forum_table_row[] = date('r',$last_post->get_creation_date()).' '.get_lang('By').' '.$last_post_author->get_firstname().' '.$last_post_author->get_lastname();
 			}
 			else
 			{

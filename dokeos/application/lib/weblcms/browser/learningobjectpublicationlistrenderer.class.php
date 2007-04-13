@@ -56,8 +56,8 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_publisher($publication)
 	{
-		$user = api_get_user_info($publication->get_publisher_id());
-		return $user['firstName'].' '.$user['lastName'];
+		$user = $this->browser->get_user_info($publication->get_publisher_id());
+		return $user->get_firstname().' '.$user->get_lastname();
 	}
 
 	/**
@@ -93,8 +93,8 @@ abstract class LearningObjectPublicationListRenderer
 			{
 				if(count($users) == 1)
 				{
-					$user = api_get_user_info($users[0]);
-					return $user['firstName'].' '.$user['lastName'].$email_suffix;
+					$user = $this->browser->get_user_info($users[0]);
+					return $user->get_firstname().' '.$user->get_lastname().$email_suffix;
 				}
 				else
 				{
@@ -107,8 +107,8 @@ abstract class LearningObjectPublicationListRenderer
 			$target_list[] = '<select>';
 			foreach ($users as $index => $user_id)
 			{
-				$user = api_get_user_info($user_id);
-				$target_list[] = '<option>'.$user['firstName'].' '.$user['lastName'].'</option>';
+				$user = $this->browser->get_user_info($user_id);
+				$target_list[] = '<option>'.$user->get_firstname().' '.$user->get_lastname().'</option>';
 			}
 			foreach ($groups as $index => $group_id)
 			{
@@ -142,7 +142,7 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_publication_information($publication)
 	{
-		$publisher = api_get_user_info($publication->get_publisher_id());
+		$publisher = $this->browser->get_user_info($publication->get_publisher_id());
 		$html = array ();
 		$html[] = htmlentities(get_lang('PublishedOn')).' '.$this->render_publication_date($publication);
 		$html[] = htmlentities(get_lang('By')).' '.$this->render_publisher($publication);
