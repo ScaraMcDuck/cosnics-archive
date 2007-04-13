@@ -31,7 +31,7 @@ class UserMenu extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function UserMenu($current_category, $url_format = '?category=%s', $extra_items = array())
+	function UserMenu($current_category, $url_format = '?firstletter=%s' , $extra_items = array())
 	{
 		$this->urlFmt = $url_format;
 		$menu = $this->get_menu_items($extra_items);
@@ -60,6 +60,18 @@ class UserMenu extends HTML_Menu
 		$home['url'] = $this->get_home_url();
 		$home['class'] = 'home';
 		$home_item[] = $home;
+		for ($i = 0; $i <= 7; $i++)
+		{
+			$menu_item['title'] = get_lang(chr(65 + (3*$i)).chr(67 + (3*$i)));
+			$menu_item['url'] = $this->get_category_url(chr(65 + (3*$i)));
+			$menu_item['class'] = 'type_category';
+			$home_item[] = $menu_item;
+		}
+		$menu_item = array ();
+		$menu_item['title'] = get_lang('YZ');
+		$menu_item['url'] = $this->get_category_url(chr(89));
+		$menu_item['class'] = 'type_category';
+		$home_item[] = $menu_item;
 		$menu = array_merge($home_item, $menu);
 		return $menu;
 	}

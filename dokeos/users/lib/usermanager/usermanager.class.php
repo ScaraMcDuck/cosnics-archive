@@ -26,12 +26,14 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	const PARAM_ERROR_MESSAGE = 'error_message';
 	const PARAM_USER_USER_ID = 'user_id';
 	const PARAM_REMOVE_SELECTED = 'delete';
+	const PARAM_FIRSTLETTER = 'firstletter';
 	
 	const ACTION_CREATE_USER = 'create';
 	const ACTION_BROWSE_USERS = 'adminbrowse';
 	const ACTION_EXPORT_USERS = 'export';
 	const ACTION_IMPORT_USERS = 'import';
 	const ACTION_UPDATE_USER = 'update';
+	
 	
 	private $parameters;
 	private $search_parameters;
