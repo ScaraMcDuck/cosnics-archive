@@ -96,5 +96,9 @@ abstract class PersonalCalendarDataManager
 	 * @see Application::delete_learning_object_publications()
 	 */
 	abstract function delete_learning_object_publications($object_id);
+	/**
+	 * @see Application::update_learning_object_publication_id()
+	 */
+	abstract function update_learning_object_publication_id($publication_attr);
 }
 ?>

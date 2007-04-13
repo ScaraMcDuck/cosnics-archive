@@ -206,7 +206,7 @@ class PersonalCalendar extends WebApplication
 	 */
 	public function update_learning_object_publication_id($publication_attr)
 	{
-		return 0;
+		return PersonalCalendarDatamanager :: get_instance()->update_learning_object_publication_id($publication_attr);
 	}
 	/**
 	 * @see
