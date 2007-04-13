@@ -41,7 +41,9 @@ class PersonalCalendarMonthRenderer extends PersonalCalendarRenderer
 		}
 		$parameters['time'] = '-TIME-';
 		$calendar->add_calendar_navigation($this->get_parent()->get_url($parameters));
-		return $calendar->toHtml();
+		$html = $calendar->toHtml();
+		$html .= $this->build_legend();
+		return $html;
 	}
 	/**
 	 * Gets a html representation of a personal calendar event
@@ -53,7 +55,7 @@ class PersonalCalendarMonthRenderer extends PersonalCalendarRenderer
 		$learning_object = $personal_event->get_event();
 		$start_date = $learning_object->get_start_date();
 		$end_date = $learning_object->get_end_date();
-		$html[] = '<div class="event">';
+		$html[] = '<div class="event" style="border-left: 5px solid '.$this->get_color().';">';
 		$html[] = '<a href="'.$this->get_url(array('pid'=>$personal_event->get_id())).'">';
 		$html[] = date('H:i', $start_date).' '.htmlspecialchars($learning_object->get_title());
 		$html[] = '</a>';
@@ -71,7 +73,7 @@ class PersonalCalendarMonthRenderer extends PersonalCalendarRenderer
 		$event = $dm->retrieve_learning_object($publication->get_publication_object_id());
 		$start_date = $event->get_start_date();
 		$end_date = $event->get_end_date();
-		$html[] = '<div class="event">';
+		$html[] = '<div class="event" style="border-left: 5px solid '.$this->get_color($publication->get_location()).';">';
 		$html[] = '<a href="'.$publication->get_url().'">';
 		$html[] = date('H:i', $start_date).' '.htmlspecialchars($event->get_title());
 		$html[] = '</a>';
