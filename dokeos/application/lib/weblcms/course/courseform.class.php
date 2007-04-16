@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
+require_once dirname(__FILE__).'/../../../../users/lib/user.class.php';
 require_once dirname(__FILE__).'/course.class.php';
 require_once dirname(__FILE__).'/coursecategory.class.php';
 
@@ -40,21 +41,21 @@ class CourseForm extends FormValidator {
 		$this->addElement('text', Course :: PROPERTY_VISUAL, get_lang('VisualCode'));
 		$this->addRule(Course :: PROPERTY_VISUAL, get_lang('ThisFieldIsRequired'), 'required');
 		
-		if (!api_is_platform_admin())
+		if (!$this->user->is_platform_admin())
 		{
 			$this->addElement('text', Course :: PROPERTY_TITULAR, get_lang('Teacher'));
 		}
 		else
 		{
-			// TODO: Code to be replaced by OO-alternative, pending implementation of user-classes
-			$table_user = Database :: get_main_table(MAIN_USER_TABLE);
-			$sql = "SELECT user_id,lastname,firstname FROM $table_user WHERE status=1 ORDER BY lastname,firstname";
-			$res = api_sql_query($sql,__FILE__,__LINE__);
+			$udm = UsersDataManager :: get_instance();
+			$condition = new EqualityCondition(User :: PROPERTY_STATUS, 1);
 			
 			$user_options = array();
-			while ($user = mysql_fetch_array($res))
+			$users = $udm->retrieve_users($condition);
+			
+			while ($user = $users->next_result())
 			{
-				$user_options[$user['user_id']] = $user['lastname'] . '&nbsp;' . $user['firstname'];
+				$user_options[$user->get_user_id()] = $user->get_lastname() . '&nbsp;' . $user->get_firstname();
 			}
 			
 			$this->addElement('select', Course :: PROPERTY_TITULAR, get_lang('Teacher'), $user_options);
@@ -161,7 +162,7 @@ class CourseForm extends FormValidator {
     	$course->set_name($values[Course :: PROPERTY_NAME]);
     	$course->set_category_code($values[Course :: PROPERTY_CATEGORY_CODE]);
     	
-		if (!api_is_platform_admin())
+		if (!$this->user->is_platform_admin())
 		{
 			$titular = $values[Course :: PROPERTY_TITULAR];
 		}
@@ -186,7 +187,7 @@ class CourseForm extends FormValidator {
     		add_course_role_right_location_values($course->get_id());
     		
     		$wdm = WeblcmsDataManager :: get_instance();
-			if (!api_is_platform_admin())
+			if (!$this->user->is_platform_admin())
 			{
 				$user_id = $this->user->get_user_id();
 			}

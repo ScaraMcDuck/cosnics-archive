@@ -43,7 +43,7 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		$html = array();
 		$html[] = '<div class="menu">';
 		
-		if (api_is_platform_admin())
+		if ($this->get_user()->is_platform_admin())
 		{
 			$html[] = '<div class="menusection">';
 			$html[] = '<span class="menusectioncaption">'.get_lang('MenuAdmin').'</span>';
@@ -54,7 +54,7 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		}
 		else
 		{
-			$display_add_course_link = api_is_allowed_to_create_course() && ($_SESSION["studentview"] != "studentenview");
+			$display_add_course_link = $this->get_user()->is_teacher() && ($_SESSION["studentview"] != "studentenview");
 			if ($display_add_course_link)
 			{
 				$html[] = '<div class="menusection">';

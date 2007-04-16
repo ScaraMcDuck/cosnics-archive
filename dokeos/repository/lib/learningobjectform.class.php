@@ -5,6 +5,7 @@
  */
 
 require_once dirname(__FILE__).'/../../main/inc/lib/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
 require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/quotamanager.class.php';
 require_once dirname(__FILE__).'/learningobjectcategorymenu.class.php';
@@ -141,7 +142,8 @@ abstract class LearningObjectForm extends FormValidator
 	protected function build_editing_form()
 	{
 		$object = $this->learning_object;
-		$quotamanager = new QuotaManager($this->get_owner_id());
+		$owner = UsersDataManager :: get_instance()->retrieve_user($this->get_owner_id());
+		$quotamanager = new QuotaManager($owner);
 		$this->build_basic_form();
 		if($object->is_versionable())
 		{
@@ -409,7 +411,8 @@ EOT;
 	 */
 	function display()
 	{
-		$quotamanager = new QuotaManager($this->get_owner_id());
+		$owner = UsersDataManager :: get_instance()->retrieve_user($this->get_owner_id());
+		$quotamanager = new QuotaManager($owner);
 		if ($this->form_type == self :: TYPE_CREATE && $quotamanager->get_available_database_space() <= 0)
 		{
 			Display :: display_warning_message(htmlentities(get_lang('MaxNumberOfLearningObjectsReached')));

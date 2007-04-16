@@ -14,6 +14,7 @@ require_once dirname(__FILE__).'/../condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../learning_object_table/learningobjecttable.class.php';
 require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../../../users/lib/usersdatamanager.class.php';
 /**
  * A repository manager provides some functionalities to the end user to manage
  * his learning objects in the repository. For each functionality a component is
@@ -760,12 +761,11 @@ class RepositoryManager
 	/**
 	 * Gets some user information
 	 * @param int $id The user id
-	 * @return array
-	 * @see api_get_user_info()
+	 * @return The user
 	 */
-	function get_user_info($id)
+	function get_user_info($user_id)
 	{
-		return api_get_user_info($id);
+		return UsersDataManager :: get_instance()->retrieve_user($user_id);
 	}
 
 	/**

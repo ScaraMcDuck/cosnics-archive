@@ -14,10 +14,10 @@ class UserManagerCreatorComponent extends UserManagerComponent
 	 */
 	function run()
 	{		
-		$user_id = api_get_user_id();
+		$user_id = $this->get_user_id();
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('UserCreate'));
-		if (isset($user_id) && !api_is_platform_admin()) 
+		if (isset($user_id) && !$this->get_user()->is_platform_admin()) 
 		{
 			$this->display_header($breadcrumbs);
 			Display :: display_warning_message(get_lang('AlreadyRegistered'));
@@ -28,10 +28,10 @@ class UserManagerCreatorComponent extends UserManagerComponent
 		$user->set_platformadmin(0);
 		$user->set_password(1);
 		
-		$user_info = api_get_user_info();
-		$user->set_creator_id($user_info['user_id']);
+		$user_info = $this->get_user();
+		$user->set_creator_id($user_info->get_user_id());
 		
-		$form = new UserForm(UserForm :: TYPE_CREATE, $user, $this->get_url());
+		$form = new UserForm(UserForm :: TYPE_CREATE, $user, $this->get_user(), $this->get_url());
 		
 
 		

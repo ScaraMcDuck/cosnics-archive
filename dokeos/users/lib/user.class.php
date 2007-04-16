@@ -439,6 +439,22 @@ class User
 		$this->set_default_property(self :: PROPERTY_VERSION_QUOTA, $version_quota);
 	}
 	
+	function get_version_type_quota($type)
+	{
+		$udm = UsersDataManager :: get_instance();
+		return $udm->retrieve_version_type_quota($this, $type);
+	}
+	
+	function is_platform_admin()
+	{
+		return ($this->get_platformadmin() == 1 ? true : false);
+	}
+	
+	function is_teacher()
+	{
+		return ($this->get_status() == 1 ? true : false);
+	}
+	
 	/**
 	 * Instructs the Datamanager to delete this user.
 	 * @return boolean True if success, false otherwise.

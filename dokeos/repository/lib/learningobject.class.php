@@ -9,6 +9,7 @@ require_once dirname(__FILE__).'/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/learningobjectdifference.class.php';
 require_once dirname(__FILE__).'/learningobjectdisplay.class.php';
+require_once dirname(__FILE__).'/../../users/lib//usersdatamanager.class.php';
 /**
  *	This class represents a learning object in the repository. Every object
  *	that can be associated with a module is in fact a learning object.
@@ -481,7 +482,8 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	function get_available_version_count()
 	{
-		$qm = new QuotaManager($this->get_owner_id());
+		$owner = UsersDataManager :: get_instance()->retrieve_user($this->get_owner_id());
+		$qm = new QuotaManager($owner);
 		return $qm->get_max_versions($this->get_type())-$this->get_version_count();
 
 	}

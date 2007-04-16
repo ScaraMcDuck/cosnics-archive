@@ -13,6 +13,9 @@ if (!api_is_platform_admin())
 	api_not_allowed();
 }
 
-$app = new Admin();
+$usermgr = new UserManager(api_get_user_id());
+$user = $usermgr->retrieve_user(api_get_user_id());
+
+$app = new Admin($user);
 $app->run();
 ?>

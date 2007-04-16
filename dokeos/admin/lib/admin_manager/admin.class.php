@@ -14,7 +14,8 @@ class Admin {
 	
 	private $user;
 
-    function Admin() {
+    function Admin($user = null) {
+    	$this->user = $user;
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
     }
@@ -187,7 +188,7 @@ class Admin {
 	function get_application_platform_admin_links()
 	{
 		$adm = AdminDataManager :: get_instance();
-		return $adm->get_application_platform_admin_links();
+		return $adm->get_application_platform_admin_links($this->user);
 	}
 	
 	/**

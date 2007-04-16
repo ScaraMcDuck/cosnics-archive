@@ -22,7 +22,7 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('UserList'));
 		
-		if (!api_is_platform_admin())
+		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($breadcrumbs);
 			Display :: display_error_message(get_lang("NotAllowed"));

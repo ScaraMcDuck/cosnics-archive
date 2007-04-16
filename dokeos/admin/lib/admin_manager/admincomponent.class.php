@@ -83,6 +83,11 @@ abstract class AdminComponent {
 		return $this->get_parent()->get_application_platform_admin_links();
 	}
 	
+	function get_user()
+	{
+		return $this->get_parent()->get_user();
+	}
+	
 	/**
 	 * Retrieve the admin in which this component is active
 	 * @return Admin

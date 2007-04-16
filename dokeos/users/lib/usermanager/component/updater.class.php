@@ -19,7 +19,7 @@ class UserManagerUpdaterComponent extends UserManagerComponent
 		{
 			$user = $this->retrieve_user($id);
 		
-			if (!api_is_platform_admin())
+			if (!$this->get_user()->is_platform_admin())
 			{
 				$this->display_header();
 				Display :: display_error_message(get_lang("NotAllowed"));
@@ -27,7 +27,7 @@ class UserManagerUpdaterComponent extends UserManagerComponent
 				exit;
 			}
 			
-			$form = new Userform(UserForm :: TYPE_EDIT, $user, $this->get_url(array(UserManager :: PARAM_USER_USER_ID => $id)));
+			$form = new Userform(UserForm :: TYPE_EDIT, $user, $this->get_user(), $this->get_url(array(UserManager :: PARAM_USER_USER_ID => $id)));
 
 			if($form->validate())
 			{
