@@ -29,8 +29,20 @@ class ActionProcess extends HTML_QuickForm_Action
 			<img src="../img/bluelogo.gif" alt="logo" align="right"/>
 		<?php
 		echo '<pre>';
+		
+		global $repository_database;
+		global $weblcms_database;
+		global $personal_calendar_database;
+		global $user_database;
+		
+		$repository_database = $values['database_repository'];
+		$weblcms_database = $values['database_weblcms'];
+		$personal_calendar_database = $values['database_personal_calendar'];
+		$user_database = $values['database_user'];
+		
 		full_database_install($values);
 		full_file_install($values);
+		create_admin_in_user_table($values);
 		echo '</pre>';
 		$page->controller->container(true);
 		?>
