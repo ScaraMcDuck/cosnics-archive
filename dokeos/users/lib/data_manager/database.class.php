@@ -189,7 +189,6 @@ class DatabaseUsersDataManager extends UsersDataManager
 	
 	function retrieve_user($id)
 	{
-
 		$query = 'SELECT * FROM '.$this->escape_table_name('user').' AS '.self :: ALIAS_USER_TABLE.' WHERE '.$this->escape_column_name(User :: PROPERTY_USER_ID).'=?';
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
@@ -286,6 +285,25 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseUserResultSet($this, $res);
+	}
+	
+	function retrieve_version_type_quota($user, $type)
+	{
+		$query = 'SELECT * FROM '.$this->escape_table_name('user_quota').' WHERE '.$this->escape_column_name(User :: PROPERTY_USER_ID).'=? AND '.$this->escape_column_name('learning_object_type').'=?';
+		$this->connection->setLimit(1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute(array($user->get_user_id(), $type));
+		
+		if ($res->numRows() >= 1)
+		{
+			$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$res->free();
+			return $record['user_quota'];
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
 	/**

@@ -16,7 +16,7 @@ class WeblcmsCourseCreatorComponent extends WeblcmsComponent
 	 */
 	function run()
 	{
-		if (!api_is_allowed_to_create_course())
+		if (!$this->get_user()->is_teacher())
 		{
 			$breadcrumbs = array();
 			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseCreate'));

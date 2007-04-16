@@ -82,11 +82,11 @@ $personal_calendar_database = 'dokeos_personal_calendar';
 //   Directory settings
 //============================================================================
 // URL to the root of your Dokeos installation
-$rootWeb                     = 'http://localhost/dokeos-lcms/';
+$rootWeb                     = 'http://localhost/LCMS/';
 // Path to the root of your Dokeos installation
 $rootSys                     = dirname(__FILE__).'/../../../';
 // Path from your WWW-root to the root of your Dokeos installation
-$urlAppend                   = '/dokeos-lcms';
+$urlAppend                   = '/LCMS';
 // Directory of the Dokeos code
 $clarolineRepositoryAppend   = "main/";
 // Directory to store all course-related files

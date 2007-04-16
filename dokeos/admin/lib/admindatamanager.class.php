@@ -119,14 +119,14 @@ abstract class AdminDataManager
 		return (preg_match('/^[a-z][a-z_]+$/', $name) > 0);
 	}
 	
-	function get_application_platform_admin_links()
+	function get_application_platform_admin_links($user)
 	{
 		$info = array();
 		
 		// First we get the links for the essential Dokeos components
 		
 		// 1. UserManager
-		$user_manager = new UserManager(api_get_user_id());
+		$user_manager = new UserManager($user->get_user_id());
 		$info[] = $user_manager->get_application_platform_admin_links();
 		
 		// 2. UserRolesRights
@@ -139,7 +139,7 @@ abstract class AdminDataManager
 		$info[] = array('application' => array('name' => get_lang('Platform'), 'class' => 'platform'), 'links' => array(array('name' => get_lang('DokeosConfiguration'), 'action' => 'manage', 'url' => '/LCMS/main/admin/settings.php'), array('name' => get_lang('SystemAnnouncements'), 'action' => 'system', 'url' => '/LCMS/main/admin/system_announcements.php'), array('name' => get_lang('Languages'), 'action' => 'language', 'url' => '/LCMS/main/admin/languages.php'), array('name' => get_lang('ConfigureHomepage'), 'action' => 'home', 'url' => '/LCMS/main/admin/configure_homepage.php')	));
 		
 		// 5. Repository
-		$repository_manager = new RepositoryManager(api_get_user_id());
+		$repository_manager = new RepositoryManager($user);
 		$info[] = $repository_manager->get_application_platform_admin_links();
 		
 		// Secondly the links for the plugin applications running on top of the essential Dokeos components

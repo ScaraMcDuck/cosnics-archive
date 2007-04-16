@@ -55,7 +55,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		{
 			$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('Create')));
 			$this->display_header($breadcrumbs);
-			$quotamanager = new QuotaManager($this->get_user_id());
+			$quotamanager = new QuotaManager($this->get_user());
 			if ( $quotamanager->get_available_database_space() <= 0)
 			{
 				Display :: display_warning_message(htmlentities(get_lang('MaxNumberOfLearningObjectsReached')));

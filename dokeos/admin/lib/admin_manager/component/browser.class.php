@@ -19,7 +19,7 @@ class AdminBrowserComponent extends AdminComponent
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => '', 'name' => get_lang('PlatformAdmin'));
 		
-		if (!api_is_platform_admin())
+		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($breadcrumbs);
 			Display :: display_error_message(get_lang("NotAllowed"));

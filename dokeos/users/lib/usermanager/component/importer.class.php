@@ -16,7 +16,7 @@ class UserManagerImporterComponent extends UserManagerComponent
 	 */
 	function run()
 	{
-		if (!api_is_platform_admin())
+		if (!$this->get_user()->is_platform_admin())
 		{
 			$breadcrumbs = array();
 			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('UserCreateCsv'));

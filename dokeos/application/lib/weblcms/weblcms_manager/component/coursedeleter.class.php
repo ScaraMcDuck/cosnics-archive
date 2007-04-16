@@ -18,6 +18,16 @@ class WeblcmsCourseDeleterComponent extends WeblcmsComponent
 		$course_codes = $_GET[Weblcms :: PARAM_COURSE];
 		$failures = 0;
 		
+		if (!$this->get_user()->is_platform_admin())
+		{
+			$breadcrumbs = array();
+			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('DeleteCourse'));
+			$this->display_header($breadcrumbs);
+			Display :: display_error_message(get_lang("NotAllowed"));
+			$this->display_footer();
+			exit;
+		}
+		
 		if (!empty ($course_codes))
 		{
 			if (!is_array($course_codes))

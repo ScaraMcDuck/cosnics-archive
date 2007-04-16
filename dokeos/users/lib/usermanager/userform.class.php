@@ -14,12 +14,14 @@ class UserForm extends FormValidator {
 	
 	private $parent;
 	private $user;
+	private $form_user;
 	private $unencryptedpass;
 
-    function UserForm($form_type, $user, $action) {
+    function UserForm($form_type, $user, $form_user, $action) {
     	parent :: __construct('user_settings', 'post', $action);
     	
     	$this->user = $user;
+    	$this->form_user = $form_user;
     	
 		$this->form_type = $form_type;
 		if ($this->form_type == self :: TYPE_EDIT)
@@ -91,7 +93,7 @@ class UserForm extends FormValidator {
 		$status[STUDENT] = get_lang('Student');  
 		$this->addElement('select',User :: PROPERTY_STATUS,get_lang('Status'),$status);
 		// Platform admin
-		if (api_is_platform_admin() && $this->form_type == self :: TYPE_EDIT)
+		if ($this->user->is_platform_admin() && $this->user->get_user_id() == $this->form_user->get_user_id() && $this->form_type == self :: TYPE_EDIT)
 		{
 		$this->add_warning_message(null, get_lang('LockOutWarningMessage'));
 		}

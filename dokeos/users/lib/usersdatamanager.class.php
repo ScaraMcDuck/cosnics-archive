@@ -97,6 +97,8 @@ abstract class UsersDataManager
 	
 	abstract function count_users($conditions = null);
 	
+	abstract function retrieve_version_type_quota($user, $type);
+	
 	function user_deletion_allowed($user)
 	{
 		// TODO: Check if the user can be deleted (fe: can an admin delete another admin etc)

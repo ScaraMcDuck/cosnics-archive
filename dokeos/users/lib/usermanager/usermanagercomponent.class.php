@@ -122,6 +122,16 @@ abstract class UserManagerComponent {
 		return $this->id;
 	}
 	
+	function get_user()
+	{
+		return $this->get_parent()->get_user();
+	}
+	
+	function get_user_id()
+	{
+		return $this->get_parent()->get_user_id();
+	}
+	
 	/**
 	 * @see UserManager::retrieve_user()
 	 */
