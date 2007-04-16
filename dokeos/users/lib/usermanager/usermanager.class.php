@@ -33,6 +33,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	const ACTION_EXPORT_USERS = 'export';
 	const ACTION_IMPORT_USERS = 'import';
 	const ACTION_UPDATE_USER = 'update';
+	const ACTION_REGISTER_USER = 'register';
 	
 	
 	private $parameters;
@@ -72,6 +73,9 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		{
 			case self :: ACTION_CREATE_USER :
 				$component = UserManagerComponent :: factory('Creator', $this);
+				break;
+			case self :: ACTION_REGISTER_USER :
+				$component = UserManagerComponent :: factory('Register', $this);
 				break;
 			case self :: ACTION_UPDATE_USER :
 				$component = UserManagerComponent :: factory('Updater', $this);

@@ -467,6 +467,7 @@ class User
 	function create()
 	{
 		$udm = UsersDataManager :: get_instance();
+		$this->set_user_id($udm->get_next_user_id());
 		return $udm->create_user($this);
 	}
 }

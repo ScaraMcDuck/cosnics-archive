@@ -20,10 +20,6 @@ require_once 'MDB2.php';
 class DatabaseUsersDataManager extends UsersDataManager
 {
 	const ALIAS_USER_TABLE = 'u';
-//	const ALIAS_LEARNING_OBJECT_VERSION_TABLE = 'lov';
-//	const ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE = 'loa';
-//	const ALIAS_TYPE_TABLE = 'tt';
-//	const ALIAS_LEARNING_OBJECT_PARENT_TABLE = 'lop';
 
 	/**
 	 * The database connection.
@@ -111,6 +107,13 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$this->connection->extended->autoExecute($this->get_table_name('user'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 
 		return true;
+	}
+	
+	// Inherited.
+	function get_next_user_id()
+	{
+		$id = $this->connection->nextID($this->get_table_name('user'));
+		return $id;
 	}
 	
 	// Inherited.

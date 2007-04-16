@@ -43,6 +43,8 @@ abstract class UsersDataManager
 	 * Initializes the data manager.
 	 */
 	abstract function initialize();
+	
+	abstract function get_next_user_id();
 
 	/**
 	 * Uses a singleton pattern and a factory pattern to return the data
