@@ -14,6 +14,7 @@ class UserForm extends FormValidator {
 	
 	private $parent;
 	private $user;
+	private $unencryptedpass;
 
     function UserForm($form_type, $user, $action) {
     	parent :: __construct('user_settings', 'post', $action);
@@ -146,6 +147,7 @@ class UserForm extends FormValidator {
     		$user->set_email($values[User :: PROPERTY_EMAIL]);
 	    	$user->set_username($values[User :: PROPERTY_USERNAME]);
 	 	   	$user->set_password(md5($password));
+	 	   	$this->unencryptedpass = $password;
     		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
 			$user->set_picture_uri($picture_uri);
   		  	$user->set_phone($values[User :: PROPERTY_PHONE]);
@@ -153,7 +155,7 @@ class UserForm extends FormValidator {
  		   	$user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
  		   	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
 			$user->set_platformadmin(intval($values['admin'][User :: PROPERTY_PLATFORMADMIN]));
-    		//$send_mail = intval($user['mail']['send_mail']);
+    		$send_mail = intval($values['mail']['send_mail']);
     		if ($send_mail)
     		{
     			$this->send_email($user); 
@@ -194,6 +196,7 @@ class UserForm extends FormValidator {
     		$user->set_email($values[User :: PROPERTY_EMAIL]);
 	    	$user->set_username($values[User :: PROPERTY_USERNAME]);
 	 	   	$user->set_password(md5($password));
+	 	   	$this->unencryptedpass = $password;
     		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
 			$user->set_picture_uri($picture_uri);
   		  	$user->set_phone($values[User :: PROPERTY_PHONE]);
@@ -206,7 +209,7 @@ class UserForm extends FormValidator {
  		   	$user->set_disk_quota(intval($values[User :: PROPERTY_DISK_QUOTA]));
  		   	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
  		   	$user->set_platformadmin(intval($values['admin'][User :: PROPERTY_PLATFORMADMIN]));
-    		//$send_mail = intval($user['mail']['send_mail']);
+    		$send_mail = intval($values['mail']['send_mail']);
     		if ($send_mail)
     		{
     			$this->send_email($user); 
@@ -238,9 +241,6 @@ class UserForm extends FormValidator {
 		else
 		{
 			$defaults['pw']['pass'] = $user->get_password();
-//			$defaults[User :: PROPERTY_DATABASE_QUOTA] = $user->get_database_quota();
-//			$defaults[User :: PROPERTY_DISK_QUOTA] = $user->get_disk_quota();
-//			$defaults[User :: PROPERTY_VERSION_QUOTA] = $user->get_version_quota();
 		}
 		$defaults['admin'][User :: PROPERTY_PLATFORMADMIN] = $user->get_platformadmin();
 		$defaults['mail']['send_mail'] = 1;
@@ -258,16 +258,17 @@ class UserForm extends FormValidator {
 	
 	function send_email($user)
 	{
+		global $rootWeb;
 		$firstname = $user->get_firstname();
 		$lastname = $user->get_lastname();
 		$username = $user->get_username();
+		$password = $this->unencryptedpass;
 		$emailto = '"'.$firstname.' '.$lastname.'" <'.$user->get_email().'>';
 		$emailsubject = '['.get_setting('siteName').'] '.get_lang('YourReg').' '.get_setting('siteName');
 		$emailheaders = 'From: '.get_setting('administratorName').' '.get_setting('administratorSurname').' <'.get_setting('emailAdministrator').">\n";
 		$emailheaders .= 'Reply-To: '.get_setting('emailAdministrator');
-		$emailbody=get_lang('langDear')." ".stripslashes("$firstname $lastname").",\n\n".get_lang('langYouAreReg')." ". get_setting('siteName') ." ".get_lang('langSettings')." ". $username ."\n". get_lang('langPass')." : ".stripslashes($password)."\n\n" .get_lang('langAddress') ." ". get_setting('siteName') ." ". get_lang('langIs') ." : ". $rootWeb ."\n\n". get_lang('langProblem'). "\n\n". get_lang('langFormula').",\n\n".get_setting('administratorName')." ".get_setting('administratorSurname')."\n". get_lang('langManager'). " ".get_setting('siteName')."\nT. ".get_setting('administratorTelephone')."\n" .get_lang('langEmail') ." : ".get_setting('emailAdministrator');
+		$emailbody=get_lang('Dear')." ".stripslashes("$firstname $lastname").",\n\n".get_lang('YouAreReg')." ". get_setting('siteName') ." ".get_lang('Settings')." ". $username ."\n". get_lang('Password')." : ".stripslashes($password)."\n\n" .get_lang('Address') ." ". get_setting('siteName') ." ". get_lang('Is') ." : ". $rootWeb ."\n\n". get_lang('Problem'). "\n\n". get_lang('Formula').",\n\n".get_setting('administratorName')." ".get_setting('administratorSurname')."\n". get_lang('Manager'). " ".get_setting('siteName')."\nT. ".get_setting('administratorTelephone')."\n" .get_lang('Email') ." : ".get_setting('emailAdministrator');
 		@api_send_mail($emailto, $emailsubject, $emailbody, $emailheaders);
-
 	}
 }
 ?>
