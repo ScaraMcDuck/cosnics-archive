@@ -24,6 +24,7 @@ class DocumentTool extends RepositoryTool
 		{
 			$_SESSION['documenttoolmode'] = 0;
 		}
+		$this->display_header();
 		if($this->is_allowed(ADD_RIGHT))
 		{
 			$html[] = '<ul style="list-style: none; padding: 0; margin: 0 0 1em 0">';
@@ -68,7 +69,6 @@ class DocumentTool extends RepositoryTool
 				$browser = new DocumentBrowser($this);
 				$html[] =  $browser->as_html();
 		}
-		$this->display_header();
 		echo implode("\n",$html);
 		$this->display_footer();
 	}
