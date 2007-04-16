@@ -66,30 +66,35 @@ function full_file_install($values)
 	$fp = @ fopen('../../repository/conf/configuration.php', 'w');
 	fwrite($fp, $content);
 	fclose($fp);
+	
+	require_once('../../users/install/users_installer.class.php');
+	require_once('../../application/lib/weblcms/install/weblcms_installer.class.php');
+	require_once('../../application/lib/personal_calendar/install/personal_calendar_installer.class.php');
 	require_once('../../repository/install/repository_installer.class.php');
 	$installer = new RepositoryInstaller();
 	$installer->install();
+	unset($installer);
 
 	//-----------------------------------------------------------
 	// Personal calendar Install.
 	//-----------------------------------------------------------
-	require_once('../../application/lib/personal_calendar/install/personal_calendar_installer.class.php');
 	$installer = new PersonalCalendarInstaller();
 	$installer->install();
-
+	unset($installer);
+	
 	//-----------------------------------------------------------
 	// Weblcms Install.
 	//-----------------------------------------------------------
-	require_once('../../application/lib/weblcms/install/weblcms_installer.class.php');
 	$installer = new WeblcmsInstaller();
 	$installer->install();
-
+	unset($installer);
+	
 	//-----------------------------------------------------------
-	// Users extra tables install.
+	// Users tables install.
 	//-----------------------------------------------------------
-	require_once('../../users/install/users_installer.class.php');
 	$installer = new UsersInstaller();
 	$installer->install();
+	unset($installer);
 
 	echo "<p>File creation is complete!</p>";
 }
