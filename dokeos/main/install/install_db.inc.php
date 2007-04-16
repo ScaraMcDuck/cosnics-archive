@@ -309,7 +309,7 @@ function create_admin_in_user_table($values)
 {
 
 	$udm = UsersDataManager :: get_instance();
-	$user = new User;
+	$user = new User();
 
 	$user->set_lastname($values['admin_lastname']);
 	$user->set_firstname($values['admin_firstname']);
@@ -324,7 +324,7 @@ function create_admin_in_user_table($values)
 	$user->set_language($values['install_language']);
 	$user->set_disk_quota('200000000');
 	$user->set_database_quota('300');
-	$user->set_version_quota($values['version_quota']);
+	$user->set_version_quota('20');
 
 	$user->create();
 }
