@@ -95,6 +95,8 @@ abstract class UsersDataManager
 	
 	abstract function retrieve_user($id);
 	
+	abstract function retrieve_user_by_username($username);
+	
 	abstract function retrieve_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
 	abstract function count_users($conditions = null);

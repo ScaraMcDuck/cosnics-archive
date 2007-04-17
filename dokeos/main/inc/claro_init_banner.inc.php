@@ -7,60 +7,17 @@
 *	@package dokeos.include
 ==============================================================================
 */
-?>
-<div id="header">  <!-- header section start -->
-<div id="header1"> <!-- top of banner with institution name/hompage link -->
+echo '<div id="header">  <!-- header section start -->'."\n";
+echo '<div id="header1"> <!-- top of banner with institution name/hompage link -->'."\n";
 
-<div id="institution">
-<a href="<?php echo api_get_path(WEB_PATH);?>index.php" target="_top"><?php echo api_get_setting('siteName') ?></a>
--
-<a href="<?php echo api_get_setting('InstitutionUrl') ?>" target="_top"><?php echo api_get_setting('Institution') ?></a>
-</div>
+echo '<div id="institution">'."\n";
+echo '<a href="'. api_get_path(WEB_PATH).'index.php" target="_top">'. api_get_setting('siteName'). '</a>';
+echo '-';
+echo '<a href="'. api_get_setting('InstitutionUrl').'" target="_top">'.api_get_setting('Institution').'</a>';
+echo '</div>'."\n";
 
-<?php
-/*
------------------------------------------------------------------------------
-	Course title section
------------------------------------------------------------------------------
-*/
-if (isset ($_cid))
-{
-	//Put the name of the course in the header
-	?>
-	<div id="my_courses"><a href="<?php echo api_get_path(WEB_COURSE_PATH).$_course['path']; ?>/index.php" target="_top">
-	<?php
-
-	echo $_course['name']." ";
-	if (api_get_setting("display_coursecode_in_courselist") == "true")
-	{
-		echo $_course['official_code'];
-	}
-	if (api_get_setting("display_coursecode_in_courselist") == "true" AND api_get_setting("display_teacher_in_courselist") == "true")
-	{
-		echo " - ";
-	}
-	if (api_get_setting("display_teacher_in_courselist") == "true")
-	{
-		echo $_course['titular'];
-	}
-	echo "</a></div>";
-}
-elseif (isset ($nameTools) && $langFile != 'course_home')
-{
-	//Put the name of the user-tools in the header
-	if (!isset ($_uid))
-		echo " ";
-	elseif(!$noPHP_SELF)
-	{
-		echo "<div id=\"my_courses\"><a href=\"".$_SERVER['PHP_SELF']."?".api_get_cidreq(), "\" target=\"_top\">", $nameTools, "</a></div>", "\n";
-	}
-	else
-	{
-		echo "<div id=\"my_courses\">$nameTools</div>\n";
-	}
-}
 //not to let the header disappear if there's nothing on the left
- echo '<div class="clear">&nbsp;</div>';
+echo '<div class="clear">&nbsp;</div>'."\n";
 
 /*
 -----------------------------------------------------------------------------
@@ -76,30 +33,11 @@ if (is_array($plugins['banner']))
 }
 
 $web_course_path = api_get_path(WEB_COURSE_PATH);
+echo '</div> <!-- end of #header1 -->'."\n";
 
-/*
------------------------------------------------------------------------------
-	External link section
------------------------------------------------------------------------------
-*/
-if ($_course['extLink']['name'] != "") /* ---  --- */
-{
-	echo " / ";
-	if ($_course['extLink']['url'] != "")
-	{
-		echo "<a href=\"".$_course['extLink']['url']."\" target=\"_top\">";
-		echo $_course['extLink']['name'];
-		echo "</a>";
-	}
-	else
-		echo $_course['extLink']['name'];
-}
-echo "</div> <!-- end of #header1 -->";
-
-
-echo '<div id="header2">';
-echo '<div id="Header2Right">';
-echo '<ul>';
+echo '<div id="header2">'."\n";
+echo '<div id="Header2Right">'."\n";
+echo '<ul>'."\n";
 
 if ((api_get_setting('showonline','world') == "true" AND !$_uid) OR (api_get_setting('showonline','users') == "true" AND $_uid) OR (api_get_setting('showonline','course') == "true" AND $_uid AND $_cid))
 {
@@ -135,41 +73,17 @@ if ((api_get_setting('showonline','world') == "true" AND !$_uid) OR (api_get_set
 
 	echo '</li>';
 }
-if ($_uid)
-{
-	if (api_is_course_admin() && is_student_view_enabled())
-	{
-		echo '<li>|';
-		api_display_tool_view_option($_GET['isStudentView']);
-		echo '</li>';
-	}
-}
-if ( api_is_allowed_to_edit() )
-{
-	if( $help != null)
-	{
-	// Show help
-	?>
-	<li>|
-	<a href="#" onclick="MyWindow=window.open('<?php echo api_get_path(WEB_CODE_PATH)."help/help.php"; ?>?open=<?php echo $help; ?>','MyWindow','toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=500,height=600,left=200,top=20'); return false;">
-	<img src="<?php echo api_get_path(WEB_CODE_PATH); ?>img/buoy.gif" style="vertical-align: middle;" alt="<?php echo get_lang("Help") ?>"/>&nbsp;<?php echo get_lang("Help") ?></a>
-	</li>
-	<?php
-	}
-}
-?>
-		</ul>
-	</div>
-<!-- link to campus home (not logged in)
-	<a href="<?php echo api_get_path(WEB_PATH); ?>index.php" target="_top"><?php echo api_get_setting('siteName'); ?></a>
- -->
-<?php
-//not to let the empty header disappear and ensure help pic is inside the header
-echo "<div class=\"clear\">&nbsp;</div>";
-?>
-</div> <!-- End of header 2-->
 
-<?php
+echo '</ul>'."\n";
+echo '</div>'."\n";
+echo '<!-- link to campus home (not logged in)'."\n";
+echo '<a href="'. api_get_path(WEB_PATH) .'index.php" target="_top">'. api_get_setting('siteName') .'</a>'."\n";
+echo '-->'."\n";
+//not to let the empty header disappear and ensure help pic is inside the header
+echo '<div class="clear">&nbsp;</div>'."\n";
+
+echo '</div><!-- End of header 2-->'."\n";
+
 /*
 -----------------------------------------------------------------------------
 	User section
@@ -177,75 +91,72 @@ echo "<div class=\"clear\">&nbsp;</div>";
 */
 if ($_uid)
 {
-	?>
-	<div id="header3"> <!-- start user section line with name, my course, my profile, scorm info, etc -->
 
-	<form method="get" action="<?php echo api_get_path(WEB_PATH); ?>index.php" class="banner_links" target="_top">
-	<input type="hidden" name="logout" value="true"/>
-	<input type="hidden" name="uid" value="<?php echo $_uid; ?>"/>
-	<div id="logout">
-	<input type="submit" name="submit" value="<?php echo get_lang("Logout"); ?>"
-	onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'"
-	class="logout"/>
-	</div>
-	</form>
+	echo '<div id="header3"> <!-- start user section line with name, my course, my profile, scorm info, etc -->'."\n";
 
-<?php
-if($GLOBALS["this_section"] == "mycourses")
+	echo '<form method="get" action="'. api_get_path(WEB_PATH). 'index.php" class="banner_links" target="_top">'."\n";
+	echo '<input type="hidden" name="logout" value="true"/>'."\n";
+	echo '<input type="hidden" name="uid" value="'.$_uid.'"/>'."\n";
+	echo '<div id="logout">'."\n";
+	echo '<input type="submit" name="submit" value="'. get_lang("Logout"). '" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'" class="logout"/>'."\n";
+	echo '</div>'."\n";
+	echo '</form>'."\n";
+
+	if($GLOBALS['this_section'] == "mycourses")
 	{
-	$link_class='class="here"';
+		$link_class='class="here"';
 	}
 	else
 	{
-	$link_class='';
+		$link_class='';
 	}
-?>
-	<a <?php echo $link_class ?> href="<?php echo api_get_path(WEB_PATH); ?>index_weblcms.php" target="_top">
-	<?php echo get_lang("MyCourses"); ?></a>
+	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_weblcms.php" target="_top">';
+	echo get_lang('MyCourses');
+	echo '</a>&nbsp;'."\n";
 
-<?php
-if($GLOBALS["this_section"] == "myrepository")
+	if($GLOBALS['this_section'] == "myrepository")
 	{
-	$link_class='class="here"';
+		$link_class='class="here"';
 	}
 	else
 	{
-	$link_class='';
+		$link_class='';
 	}
-?>
-	<a <?php echo $link_class ?> href="<?php echo api_get_path(WEB_PATH); ?>index_repository_manager.php" target="_top">
-	<?php echo get_lang("MyRepository"); ?></a>
-
-<?php
-if($GLOBALS["this_section"] == "myprofile")
+	
+	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_repository_manager.php" target="_top">';
+	echo get_lang('MyRepository');
+	echo '</a>&nbsp;'."\n";
+	
+	if($GLOBALS['this_section'] == "myprofile")
 	{
-	$link_class='class="here"';
-	}
-	else
-	{
-	$link_class='';
-	}
-?>
-	<a <?php echo $link_class ?> href="<?php echo $clarolineRepositoryWeb ?>auth/profile.php<?php if(!empty($_course['path'])) echo '?coursePath='.$_course['path'].'&amp;courseCode='.$_course['official_code']; ?>" target="_top">
-	<?php echo get_lang("ModifyProfile"); ?></a>
-
-<?php
-if($GLOBALS["this_section"] == "myagenda")
-	{
-	$link_class='class="here"';
+		$link_class='class="here"';
 	}
 	else
 	{
-	$link_class='';
+		$link_class='';
 	}
-?>
-	<a <?php echo $link_class ?> href="<?php echo api_get_path(WEB_PATH); ?>index_personal_calendar.php" target="_top">
-	<?php echo get_lang("MyAgenda"); ?></a>
-
-<?php
-	if (api_is_platform_admin())
+	
+	echo '<a '. $link_class .' href="'. $clarolineRepositoryWeb .'auth/profile.php" target="_top">';
+	echo get_lang('ModifyProfile');
+	echo '</a>&nbsp;'."\n";
+	
+	if($GLOBALS['this_section'] == "myagenda")
 	{
- 		if($GLOBALS["this_section"] == "platform_admin")
+		$link_class='class="here"';
+	}
+	else
+	{
+		$link_class='';
+	}
+	
+	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_personal_calendar.php" target="_top">';
+	echo get_lang('MyAgenda');
+	echo '</a>&nbsp;'."\n";
+	
+	global $user;
+	if (is_object($user) && $user->is_platform_admin())
+	{
+ 		if($GLOBALS['this_section'] == "platform_admin")
 		{
 			$link_class='class="here"';
 		}
@@ -253,97 +164,73 @@ if($GLOBALS["this_section"] == "myagenda")
 		{
 			$link_class='';
 		}
-		echo '<a id="platform_admin" '.$link_class.' href="'.api_get_path(WEB_PATH).'index_admin.php" target="_top">'.get_lang('PlatformAdmin').'</a>';
+		echo '<a id="platform_admin" '.$link_class.' href="'.api_get_path(WEB_PATH).'index_admin.php" target="_top">';
+		echo get_lang('PlatformAdmin');
+		echo '</a>&nbsp;'."\n";
 	}
-
-?>
-
-<?php
-if($GLOBALS["this_section"] == "searchportal")
+	
+	if($GLOBALS['this_section'] == "searchportal")
 	{
-	$link_class='class="here"';
+		$link_class='class="here"';
 	}
 	else
 	{
-	$link_class='';
+		$link_class='';
 	}
-?>
-	<a <?php echo $link_class ?> href="<?php echo api_get_path(WEB_PATH); ?>index_search_portal.php" target="_top">
-	<?php echo get_lang("SearchPortal"); ?></a>
-	</div> <!-- end of header3 (user) section -->
-
-<?php
-}
-?>
-
-	<div id="header4">
-	<div id="toolshortcuts"><?php
-  if(api_get_setting('show_toolshortcuts')=="true") {
-  	require_once('tool_navigation_menu.inc.php');
-  	show_navigation_tool_shortcuts();
-  	}  ?></div>
-<?php
-
-if (isset ($_cid))
-{
-	?>
-	<a href="<?php echo api_get_path(WEB_PATH) ?>index.php" target="_top">
-	<?php echo api_get_setting('siteName'); ?></a> &gt;
-	<?php
-		if (isset ($_uid))
-		{
-			echo "<a href=\"".api_get_path(WEB_PATH)."user_portal.php\" target=\"_top\">";
-			echo get_lang('MyCourses');
-			echo "</a> &gt;";
-		}
-	?>
-	<a href="<?php echo $web_course_path . $_course['path']; ?>/index.php" target="_top">
-	<?php
-	echo get_lang('CourseHomepageLink');
-	echo '</a>';
+	
+	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_search_portal.php" target="_top">';
+	echo get_lang('SearchPortal');
+	echo '</a>&nbsp;'."\n";
+	
+	echo '</div> <!-- end of header3 (user) section -->'."\n";
 }
 
-// if name tools or interbredcrump defined, we don't set the site name bold
-
-elseif (isset ($nameTools) || is_array($interbredcrump))
+if (isset ($nameTools) || is_array($interbredcrump))
 {
-	if (!isset ($_uid)):
+	if (!isset ($_uid))
+	{
 		echo " ";
-	else: ?>
-		<a href="<?php echo api_get_path(WEB_PATH); ?>index.php" target="_top"><?php echo api_get_setting('siteName');?></a>
-		<?php if (isset ($_GET['coursePath'])): ?>
-			&gt; <a href="<?php echo api_get_path(WEB_PATH); ?>user_portal.php" target="_top"><?php echo get_lang('MyCourses');?></a>
-		<?php endif; ?>
-	<?php endif;
+	}
+	else
+	{
+		echo '<a href="'. api_get_path(WEB_PATH) .'index.php" target="_top">'. api_get_setting('siteName') .'</a>';
+		if (isset ($_GET['coursePath']))
+		{
+			echo '&gt; <a href="'. api_get_path(WEB_PATH) .'"user_portal.php" target="_top">'. get_lang('MyCourses') .'</a>';
+		}
+	}
 }
 
 // else we set the site name bold
-
 if (is_array($interbredcrump))
 {
 	foreach($interbredcrump as $breadcrumb_step)
 	{
-		echo " &gt; <a href=\"", $breadcrumb_step['url'], "\" target=\"_top\">", $breadcrumb_step['name'], "</a>\n";
+		echo '&nbsp;&gt; <a href="'. $breadcrumb_step['url'] .'" target="_top">'. $breadcrumb_step['name'] .'</a>'."\n";
 	}
 }
 
 if (isset ($nameTools) && $langFile != 'course_home')
 {
 	if (!isset ($_uid))
-		echo " ";
+	{
+		echo '&nbsp;';
+	}
 	elseif (!defined('DOKEOS_HOMEPAGE') || !DOKEOS_HOMEPAGE)
 	{
 		if ($noPHP_SELF)
-			echo " &gt; $nameTools\n";
+		{
+			echo '&nbsp;&gt;&nbsp;'.$nameTools."\n";
+		}
 		else
-			echo ' &gt; <a href="' . htmlspecialchars($_SERVER['REQUEST_URI']) . "\" target=\"_top\">$nameTools</a>\n";
+		{
+			echo ' &gt; <a href="'. htmlspecialchars($_SERVER['REQUEST_URI']) .'" target="_top">'. $nameTools .'</a>'."\n";
+		}
 	}
 }
-?>
-		<div class="clear">&nbsp;</div>
-	</div><!-- end of header4 -->
 
-<?php
+echo '<div class="clear">&nbsp;</div>'."\n";
+
 if (isset ($dokeos_database_connection))
 {
 	// connect to the main database.
@@ -354,67 +241,7 @@ if (isset ($dokeos_database_connection))
 	// (ex. SELECT * FROM `table_from_main_db`  -  SELECT * FROM `courseDB`.`table_from_course_db`)
 	mysql_select_db($mainDbName, $dokeos_database_connection);
 }
-?>
 
-</div> <!-- end of the whole #header section -->
-
-<div id="main"> <!-- start of #main wrapper for #content and #menu divs -->
-
-<?php
-/*
------------------------------------------------------------------------------
-	"call for chat" module section
------------------------------------------------------------------------------
-*/
-$chat = strpos($_SERVER['PHP_SELF'], 'chat_banner.php');
-if (!$chat)
-{
-	include_once (api_get_library_path()."/online.inc.php");
-	echo $accept;
-	$chatcall = chatcall();
-	if ($chatcall)
-	{
-		Display :: display_normal_message($chatcall);
-	}
-}
-
-/*
------------------------------------------------------------------------------
-	Navigation menu section
------------------------------------------------------------------------------
-*/
-
-if(api_get_setting("show_navigation_menu") == "true")
-{
-
- api_show_course_navigation_menu($_GET['isHidden']);
- if (isset($_cid) )
-	{
-	echo '<div id="menuButton">';
- 	echo $output_string_menu;
- 	echo '</div>';
-
-		if(isset($_SESSION['hideMenu']))
-		{
-		if($_SESSION['hideMenu'] =="shown")
-		{
- 			if (isset($_cid) )
-                	{
-			echo '<div id="centerwrap"> <!-- start of #centerwrap -->';
-			echo '<div id="center"> <!-- start of #center -->';
-			}
-		}
- 	}
- 	else
- 	{
-		if (isset($_cid) )
-		{
-		echo '<div id="centerwrap"> <!-- start of #centerwrap -->';
-		echo '<div id="center"> <!-- start of #center -->';
-		}
- 	}
- }
-}
-
-?>
-<!--   Begin Of script Output   -->
+echo '</div> <!-- end of the whole #header section -->'."\n";
+echo '<div id="main"> <!-- start of #main wrapper for #content and #menu divs -->'."\n";
+echo '<!--   Begin Of script Output   -->'."\n";

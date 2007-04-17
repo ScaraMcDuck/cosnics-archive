@@ -365,6 +365,7 @@ class Weblcms extends WebApplication
 			if ($course && is_object($this->course) && $action == self :: ACTION_VIEW_COURSE)
 			{
 				echo '<h3 style="float: left;">'.htmlentities($this->course->get_name()).'</h3>';
+				// TODO: Add department name and url here somewhere ?
 			}
 			else
 			{
@@ -750,7 +751,6 @@ class Weblcms extends WebApplication
 	function course_unsubscription_allowed($course)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		echo $this->get_user_id();
 		return $wdm->course_unsubscription_allowed($course, $this->get_user_id());
 	}
 

@@ -78,7 +78,6 @@ class Admin {
 	 */
 	function display_footer()
 	{
-		echo '</div>';
 		echo '<div class="clear">&nbsp;</div>';
 		// TODO: Find out why we need to reconnect here.
 		global $dbHost, $dbLogin, $dbPass, $mainDbName;

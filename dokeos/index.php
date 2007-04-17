@@ -224,7 +224,7 @@ Display :: display_header($nameTools, $help);
 		FUNCTIONS
 
 		display_anonymous_right_menu()
-		display_anonymous_course_list()
+		display_applications_list()
 
 		display_login_form()
 		handle_login_failed()
@@ -361,7 +361,7 @@ function display_lost_password_info()
 * Warning: this function defines globals.
 * @version 1.0
 */
-function display_anonymous_course_list()
+function display_applications_list()
 {
 	$_uid = api_get_user_id();
 	$applications = load_applications();
@@ -488,7 +488,7 @@ if (!$pageIncluded)
 	echo '<div class="home_cats">';
 	if (DISPLAY_COURSES_TO_ANONYMOUS_USERS)
 	{
-		display_anonymous_course_list();
+		display_applications_list();
 	}
 	echo '</div>';
 

@@ -140,7 +140,7 @@ class PersonalCalendar extends WebApplication
 	public function get_events($from_date, $to_date)
 	{
 		$dm = PersonalCalendarDatamanager::get_instance();
-		$events = $dm->retrieve_personal_calendar_events($this->user_id);
+		$events = $dm->retrieve_personal_calendar_events($this->get_user_id());
 		foreach($events as $index => $event)
 		{
 			$lo = $event->get_event();
@@ -241,7 +241,7 @@ class PersonalCalendar extends WebApplication
 	 */
 	function get_user_id()
 	{
-		return $this->user->get_user_id;
+		return $this->user->get_user_id();
 	}
 }
 ?>

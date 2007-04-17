@@ -52,15 +52,6 @@ The course id is stored in $_cid session variable.
  * string  $password
  * boolean $logout
  *
- * string  $cidReq   : course id requested
- * boolean $cidReset : ask for a course Reset, if no $cidReq is provided in the
- *                     same time, all course informations is removed from the
- *                     current session
- *
- * int     $gidReq   : group Id requested
- * boolean $gidReset : ask for a group Reset, if no $gidReq is provided in the
- *                     same time, all group informations is removed from the
- *                     current session
  *
  *
  *                   VARIABLES SET AND RETURNED BY THE SCRIPT
@@ -71,43 +62,6 @@ The course id is stored in $_cid session variable.
  *
  * int $_uid (the user id)
  *
- * string	$_user ['firstName'   ]
- * string	$_user ['lastName'    ]
- * string	$_user ['mail'        ]
- * string	$_user ['lastLogin'   ]
- * 			$_user ['official_code']
- * 			$_user ['picture_uri'  ]
- *
- * boolean $is_platformAdmin
- * boolean $is_allowedCreateCourse
- *
- * COURSE VARIABLES
- *
- * string  $_cid (the course id)
- *
- * int     $_course['id'          ] - auto-assigned integer
- * string  $_course['name'        ] - the title of the course
- * string  $_course['official_code']	- the visual / fake / official code
- * string  $_course['sysCode'     ]
- * string  $_course['path'        ]
- * string  $_course['dbName'      ]
- * string  $_course['dbNameGlu'   ]
- * string  $_course['titular'     ]
- * string  $_course['language'    ]
- * string  $_course['extLink'     ]['url' ]
- * string  $_course['extLink'     ]['name']
- * string  $_course['categoryCode']
- * string  $_course['categoryName']
-
- * string  $_courseUser['role']
- * boolean $is_courseMember
- * boolean $is_courseTutor
- * boolean $is_courseAdmin
- *
- *
- * GROUP VARIABLES
- *
- * int     $_gid (the group id)
  *
  *
  *                       IMPORTANT ADVICE FOR DEVELOPERS
@@ -160,28 +114,9 @@ The course id is stored in $_cid session variable.
 
 // parameters passed via GET
 $logout = isset($_GET["logout"]) ? $_GET["logout"] : '';
-$gidReq = isset($_GET["gidReq"]) ? $_GET["gidReq"] : '';
-
-//this fixes some problems with generic functionalities like
-//My Agenda & What's New icons linking to courses
-// $cidReq can be set in the index.php file of a course-area
-$cidReq = isset($cidReq) ? $cidReq : '';
-// $cidReq can be set in URL-parameter
-$cidReq = isset($_GET["cidReq"]) ? $_GET["cidReq"] : $cidReq;
-
-$cidReset = isset($cidReset) ? $cidReset : '';
-// $cidReset can be set in URL-parameter
-$cidReset = isset($_GET["cidReq"]) ? $_GET["cidReq"] : $cidReset;
-
-$gidReset = isset($gidReset) ? $gidReset : '';
-// $gidReset can be set in URL-parameter
-$gidReset = isset($_GET["cidReq"]) ? $_GET["cidReq"] : $gidReset;
 
 // parameters passed via POST
 $login = isset($_POST["login"]) ? $_POST["login"] : '';
-
-// passed through other means
-//$cidReq -- passed from course folder index.php
 
 /*
 ==============================================================================
@@ -203,20 +138,17 @@ else
     {
 		$login = $_POST['login'];
 		$password = $_POST['password'];
+        $parsed_login = trim(addslashes($login));
+		
+		// TODO: Scara - Use UsersManager here !
+		require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
+		$udm = UsersDataManager :: get_instance();
 
-        //lookup the user in the main database
-		$user_table = Database::get_main_table(MAIN_USER_TABLE);
-        $sql = "SELECT user_id, username, password, auth_source
-                FROM $user_table
-                WHERE username = '".trim(addslashes($login))."'";
-
-        $result = api_sql_query($sql,__FILE__,__LINE__);
-
-        if (mysql_num_rows($result) > 0)
+        if (!$udm->is_username_available($parsed_login))
         {
-            $uData = mysql_fetch_array($result);
+        	$user = $udm->retrieve_user_by_username($parsed_login);
 
-            if ($uData['auth_source'] == PLATFORM_AUTH_SOURCE)
+            if ($user->get_auth_source() == PLATFORM_AUTH_SOURCE)
             {
                 //the authentification of this user is managed by Dokeos itself
 
@@ -229,9 +161,9 @@ else
 
                 // check the user's password
 
-                if ($password == $uData['password'] && (trim($login) == $uData['username']))
+                if ($password == $user->get_password() && (trim($login) == $user->get_username()))
                 {
-                    $_uid = $uData['user_id'];
+                    $_uid = $user->get_user_id();
 
                     api_session_register('_uid');
                 }
@@ -243,7 +175,7 @@ else
                     exit;
                 }
 
-                if (isset($uData['creator_id']) && $_uid != $uData['creator_id'])
+                if ($_uid != $user->get_creator_id())
                 {
                     //first login for a not self registred
                     //e.g. registered by a teacher
@@ -258,7 +190,7 @@ else
                   */
                  $loginFailed = true;  // Default initialisation. It could
                                        // change after the external authentication
-                 $key = $uData['auth_source'];
+                 $key = $user->get_auth_source();
 
                 /* >>>>>>>>>>>>>>>> External authentication modules <<<<<<<<<<<<<<<< */
 				// see claro_main.conf.php to define these
@@ -308,296 +240,5 @@ else
 
         } //end else login failed
     }
-
-    //    else {} => continue as anonymous user
-    $uidReset = true;
-
-//    $cidReset = true;
-//    $gidReset = true;
-}
-
-// if the requested course is different from the course in session
-
-if ($cidReq && $cidReq != $_SESSION['_cid'])
-{
-    $cidReset = true;
-    $gidReset = true;    // As groups depend from courses, group id is reset
-}
-
-// if the requested group is different from the group in session
-
-if ($gidReq && $gidReq != $_SESSION['_gid'])
-{
-    $gidReset = true;
-}
-
-
-//////////////////////////////////////////////////////////////////////////////
-// USER INIT
-//////////////////////////////////////////////////////////////////////////////
-
-if (isset($uidReset) && $uidReset) // session data refresh requested
-{
-    $is_platformAdmin = false; $is_allowedCreateCourse = false;
-
-    if (isset($_uid) && $_uid) // a uid is given (log in succeeded)
-    {
-$user_table = Database::get_main_table(MAIN_USER_TABLE);
-$admin_table = Database::get_main_table(MAIN_ADMIN_TABLE);
-        if ($is_trackingEnabled)
-        {
-            $sql = "SELECT `user`.*, `a`.`user_id` `is_admin`,
-                            UNIX_TIMESTAMP(`login`.`login_date`) `login_date`
-                     FROM $user_table
-                     LEFT JOIN $admin_table `a`
-                     ON `user`.`user_id` = `a`.`user_id`
-                     LEFT JOIN `".$statsDbName."`.`track_e_login` `login`
-                     ON `user`.`user_id`  = `login`.`login_user_id`
-                     WHERE `user`.`user_id` = '".$_uid."'
-                     ORDER BY `login`.`login_date` DESC LIMIT 1";
-        }
-        else
-        {
-            $sql = "SELECT `user`.*, `a`.`user_id` `is_admin`
-                    FROM $user_table
-                    LEFT JOIN $admin_table `a`
-                    ON `user`.`user_id` = `a`.`user_id`
-                    WHERE `user`.`user_id` = '".$_uid."'";
-        }
-
-        $result = api_sql_query($sql,__FILE__,__LINE__);
-
-        if (mysql_num_rows($result) > 0)
-        {
-			// Extracting the user data
-
-            $uData = mysql_fetch_array($result);
-
-            $_user ['firstName'] = $uData ['firstname' ];
-            $_user ['lastName' ] = $uData ['lastname'  ];
-            $_user ['mail'     ] = $uData ['email'     ];
-            $_user ['lastLogin'] = $uData ['login_date'];
-            $_user ['official_code'] = $uData ['official_code'];
-            $_user ['picture_uri'] = $uData ['picture_uri'];
-			$_user ['user_id'] = $uData ['user_id'];
-			$_user ['language'] = $uData ['language'];
-			
-            $is_platformAdmin        = (bool) (! is_null( $uData['is_admin']));
-            $is_allowedCreateCourse  = (bool) ($uData ['status'] == 1);
-
-            api_session_register('_user');
-        }
-        else
-        {
-            exit("WARNING UNDEFINED UID !! ");
-        }
-    }
-    else // no uid => logout or Anonymous
-    {
-        api_session_unregister('_user');
-        api_session_unregister('_uid');
-    }
-
-	api_session_register('is_platformAdmin');
-	api_session_register('is_allowedCreateCourse');
-}
-else // continue with the previous values
-{
-    $_user = $_SESSION['_user'];
-    $is_platformAdmin = $_SESSION['is_platformAdmin'];
-    $is_allowedCreateCourse = $_SESSION['is_allowedCreateCourse'];
-}
-
-//////////////////////////////////////////////////////////////////////////////
-// COURSE INIT
-//////////////////////////////////////////////////////////////////////////////
-
-if (isset($cidReset) && $cidReset) // course session data refresh requested
-{
-    if ($cidReq)
-    {
-    	$course_table = Database::get_main_table(MAIN_COURSE_TABLE);
-    	$course_cat_table = Database::get_main_table(MAIN_CATEGORY_TABLE);
-        $sql =    "SELECT `course`.*, `course_category`.`code` `faCode`, `course_category`.`name` `faName`
-                 FROM $course_table 
-                 LEFT JOIN $course_cat_table
-                 ON `course`.`category_code` =  `course_category`.`code`
-                 WHERE `course`.`code` = '$cidReq'";
-
-        $result = api_sql_query($sql,__FILE__,__LINE__);
-
-        if (mysql_num_rows($result)>0)
-        {
-            $cData = mysql_fetch_array($result);
-
-            $_cid                            = $cData['code'             ];
-
-	    $_course['id'          ]         = $cData['code'             ]; //auto-assigned integer
-	    $_course['name'        ]         = $cData['title'         ];
-            $_course['official_code']         = $cData['visual_code'        ]; // use in echo
-            $_course['sysCode'     ]         = $cData['code'             ]; // use as key in db
-            $_course['path'        ]         = $cData['directory'        ]; // use as key in path
-            $_course['dbName'      ]         = $cData['db_name'           ]; // use as key in db list
-            $_course['dbNameGlu'   ]         = $courseTablePrefix . $cData['db_name'] . $dbGlu; // use in all queries
-            $_course['titular'     ]         = $cData['tutor_name'       ];
-            $_course['language'    ]         = $cData['course_language'   ];
-            $_course['extLink'     ]['url' ] = $cData['department_url'    ];
-            $_course['extLink'     ]['name'] = $cData['department_name'];
-            $_course['categoryCode']         = $cData['faCode'           ];
-            $_course['categoryName']         = $cData['faName'           ];
-
-            $_course['visibility'  ]         = $cData['visibility'];
-            $_course['subscribe_allowed']    = $cData['subscribe'];
-			$_course['unubscribe_allowed']   = $cData['unsubscribe'];
-
-            api_session_register('_cid');
-            api_session_register('_course');
-
-        }
-        else
-        {
-            exit("WARNING UNDEFINED CID !! ");
-        }
-    }
-    else
-    {
-        api_session_unregister('_cid');
-        api_session_unregister('_course');
-
-    }
-}
-else // continue with the previous values
-{
-    $_cid             = $_SESSION['_cid'   ];
-    $_course          = $_SESSION['_course'];
-}
-
-//////////////////////////////////////////////////////////////////////////////
-// COURSE / USER REL. INIT
-//////////////////////////////////////////////////////////////////////////////
-
-if ((isset($uidReset) && $uidReset) || (isset($cidReset) && $cidReset)) // session data refresh requested
-{
-    if (isset($_uid) && $_uid && isset($_cid) && $_cid) // have keys to search data
-    {
-    	$course_user_table = Database::get_main_table(MAIN_COURSE_USER_TABLE);
-        $sql = "SELECT * FROM $course_user_table
-               WHERE `user_id`  = '$_uid'
-               AND `course_code` = '$cidReq'";
-
-        $result = api_sql_query($sql,__FILE__,__LINE__);
-
-        if (mysql_num_rows($result) > 0) // this  user have a recorded state for this course
-        {
-            $cuData = mysql_fetch_array($result);
-
-            $_courseUser['role'] = $cuData['role'  ];
-            $is_courseMember     = true;
-            $is_courseTutor      = (bool) ($cuData['tutor_id' ] == 1 );
-            $is_courseAdmin      = (bool) ($cuData['status'] == 1 );
-
-            api_session_register('_courseUser');
-        }
-        else // this user has no status related to this course
-        {
-            $is_courseMember = false;
-            $is_courseAdmin  = false;
-            $is_courseTutor  = false;
-        }
-
-        $is_courseAdmin = (bool) ($is_courseAdmin || $is_platformAdmin);
-    }
-    else // keys missing => not anymore in the course - user relation
-    {
-        //// course
-        $is_courseMember = false;
-        $is_courseAdmin  = false;
-        $is_courseTutor  = false;
-
-        api_session_unregister('_courseUser');
-    }
-
-	//DEPRECATED
-    //$is_courseAllowed=($_cid && ($_course['visibility'] || $is_courseMember || $is_platformAdmin))?true:false;
-
-	//NEW
-	if (isset($_course))
-	{
-    	if ($_course['visibility'] == COURSE_VISIBILITY_OPEN_WORLD)
-    		$is_allowed_in_course = true;
-    	elseif ($_course['visibility'] == COURSE_VISIBILITY_OPEN_PLATFORM && isset($_uid) )
-    		$is_allowed_in_course = true;
-    	elseif ($_course['visibility'] == COURSE_VISIBILITY_REGISTERED && ($is_platformAdmin || $is_courseMember))
-    		$is_allowed_in_course = true;
-    	elseif ($_course['visibility'] == COURSE_VISIBILITY_CLOSED && ($is_platformAdmin || $is_courseAdmin))
-    		$is_allowed_in_course = true;
-    	else $is_allowed_in_course = false;
-	}
-
-    // save the states
-
-	api_session_register('is_courseMember');
-	api_session_register('is_courseAdmin');
-	//api_session_register('is_courseAllowed'); //deprecated old permission var
-	api_session_register('is_courseTutor');
-	api_session_register('is_allowed_in_course'); //new permission var
-}
-else // continue with the previous values
-{
-    $_courseUser          = $_SESSION ['_courseUser'     ];
-    $is_courseMember      = $_SESSION ['is_courseMember' ];
-    $is_courseAdmin       = $_SESSION ['is_courseAdmin'  ];
-    //$is_courseAllowed     = $_SESSION ['is_courseAllowed']; //deprecated
-	$is_allowed_in_course = $_SESSION ['is_allowed_in_course'];
-    $is_courseTutor       = $_SESSION ['is_courseTutor'  ];
-}
-
-
-//////////////////////////////////////////////////////////////////////////////
-// GROUP INIT
-//////////////////////////////////////////////////////////////////////////////
-
-
-if ((isset($gidReset) && $gidReset) || (isset($cidReset) && $cidReset)) // session data refresh requested
-{
-    if ($gidReq && $_cid ) // have keys to search data
-    {
-    	$group_table = Database::get_course_table(GROUP_TABLE);
-        $sql = "SELECT * FROM $group_table WHERE `id` = '$gidReq'";
-        $result = api_sql_query($sql,__FILE__,__LINE__);
-        if (mysql_num_rows($result) > 0) // This group has recorded status related to this course
-        {
-            $gpData = mysql_fetch_array($result);
-            $_gid                   = $gpData ['id'             ];
-            api_session_register('_gid');
-        }
-        else
-        {
-            exit("WARNING UNDEFINED GID !! ");
-        }
-    }
-    else  // Keys missing => not anymore in the group - course relation
-    {
-        api_session_unregister('_gid');
-    }
-}
-else // continue with the previous values
-{
-    $_gid             = $_SESSION ['_gid'            ];
-}
-
-if(isset($_cid))
-{
-	$tbl_course = Database::get_main_table(MAIN_COURSE_TABLE);
-
-	api_sql_query("UPDATE $tbl_course SET last_visit=NOW() WHERE code='$_cid'",__FILE__,__LINE__);
-	if(isset($_REQUEST['view_as_role']))
-	{
-		$view_as_role = $_REQUEST['view_as_role'];
-		if ( isset($view_as_role) && $view_as_role)
-		{
-			$_SESSION['view_as_role'] = $view_as_role;
-		}
-	}
 }
 ?>

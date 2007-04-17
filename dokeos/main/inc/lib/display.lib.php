@@ -63,6 +63,10 @@ define("HTML_WHITE", "white");
 require_once 'sortabletable.class.php';
 class Display
 {
+	function Display($user)
+	{
+		$this->user = $user;
+	}
 	/**
 	* Displays the tool introduction of a tool.
 	*

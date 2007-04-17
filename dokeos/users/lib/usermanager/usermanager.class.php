@@ -49,9 +49,12 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	private $breadcrumbs;
 	
 	
-    function UserManager($user_id) {
-    	$this->user_id = $user_id;
-    	$this->user = $this->retrieve_user($this->user_id);
+    function UserManager($user_id = null) {
+    	if (isset($user_id))
+    	{
+   			$this->user_id = $user_id;
+	    	$this->user = $this->retrieve_user($this->user_id);
+    	}
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
 		$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_USER));   	
@@ -367,6 +370,12 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	{
 		$udm = UsersDataManager :: get_instance();
 		return $udm->retrieve_user($id);
+	}
+	
+	function retrieve_user_by_username($username)
+	{
+		$udm = UsersDataManager :: get_instance();
+		return $udm->retrieve_user_by_username($username);
 	}
 	
 	/**
