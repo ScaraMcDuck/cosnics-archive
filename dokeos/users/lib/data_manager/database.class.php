@@ -5,6 +5,7 @@
  */
 require_once dirname(__FILE__).'/database/databaseuserresultset.class.php';
 require_once dirname(__FILE__).'/../usersdatamanager.class.php';
+require_once dirname(__FILE__).'/../user.class.php';
 require_once 'MDB2.php';
 
 /**
@@ -39,6 +40,18 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_user'),array('debug'=>3,'debug_handler'=>array('UsersDatamanager','debug')));
 		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
 		$this->connection->query('SET NAMES utf8');
+	}
+	
+	function debug()
+	{
+		$args = func_get_args();
+		// Do something with the arguments
+		if($args[1] == 'query')
+		{
+			//echo '<pre>';
+		 	//echo($args[2]);
+		 	//echo '</pre>';
+		}
 	}
 	
 	/**
@@ -199,6 +212,17 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$res->free();
+		return self :: record_to_user($record);
+	}
+	
+	function retrieve_user_by_username($username)
+	{
+		$query = 'SELECT * FROM '.$this->escape_table_name('user').' AS '.self :: ALIAS_USER_TABLE.' WHERE '.$this->escape_column_name(User :: PROPERTY_USERNAME).'=?';
+		$this->connection->setLimit(1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($username);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$res->free();
 		return self :: record_to_user($record);

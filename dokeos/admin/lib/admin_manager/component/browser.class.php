@@ -45,7 +45,7 @@ class AdminBrowserComponent extends AdminComponent
 			{
 				foreach ($application_links['links'] as $link)
 				{
-					$html[] = '<div class="action"><a href="'.$link['url'] .'"><img src="'. $this->get_web_code_path() .'img/admin_action_'. $link['action'] .'.gif" /><br />'.$link['name'].'</a></div>';
+					$html[] = '<div class="action"><a href="'.$link['url'] .'"><img src="'. $this->get_web_code_path() .'img/admin_action_'. $link['action'] .'.gif" alt="'. $link['name'] .'" title="'. $link['name'] .'"/><br />'.$link['name'].'</a></div>';
 				}
 			}
 			$html[] = '</div>';

@@ -77,25 +77,12 @@ or die ( "<center>"
 		."WARNING ! SYSTEM UNABLE TO SELECT THE MAIN DOKEOS DATABASE"
 		."</center>");
 
-
-// include the local (contextual) parameters of this course or section
-
-require($includePath."/claro_init_local.inc.php");
-
-// ===== "who is logged in?" module section =====
-
-include_once($includePath."/lib/online.inc.php");
-// check and modify the date of user in the track.e.online table
-if (!$x=strpos($_SERVER['PHP_SELF'],'whoisonline.php')) { LoginCheck(isset($_uid) ? $_uid : '',$statsDbName); }
-
-// ===== end "who is logged in?" module section =====
-
 /*
 --------------------------------------------
   RETRIEVING ALL THE DOKEOS CONFIG SETTINGS
 --------------------------------------------
 */
-$sql="SELECT * FROM settings_current";
+$sql="SELECT * FROM dokeos_main.settings_current";
 $result=mysql_query($sql) or die(mysql_error());
 while ($row=mysql_fetch_array($result))
 {
@@ -105,7 +92,7 @@ while ($row=mysql_fetch_array($result))
 		{ $_setting[$row['variable']][$row['subkey']]=$row['selected_value']; }
 }
 // we have to store the settings for the plugins differently because it expects an array
-$sql="SELECT * FROM settings_current WHERE category='plugins'";
+$sql="SELECT * FROM dokeos_main.settings_current WHERE category='plugins'";
 $result=mysql_query($sql) or die(mysql_error()); 
 while ($row=mysql_fetch_array($result))
 { 
@@ -345,4 +332,15 @@ foreach($language_files as $index => $language_file)
 	include($includePath.'/../lang/english/'.$language_file.'.inc.php');
 	include($includePath.'/../lang/'.$language_interface.'/'.$language_file.'.inc.php');
 }
+
+// include the local (contextual) parameters of this course or section
+require($includePath."/claro_init_local.inc.php");
+
+// ===== "who is logged in?" module section =====
+
+include_once($includePath."/lib/online.inc.php");
+// check and modify the date of user in the track.e.online table
+if (!$x=strpos($_SERVER['PHP_SELF'],'whoisonline.php')) { LoginCheck(isset($_uid) ? $_uid : '',$statsDbName); }
+
+// ===== end "who is logged in?" module section =====
 ?>

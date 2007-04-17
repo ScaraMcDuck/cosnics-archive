@@ -38,7 +38,7 @@ class SearchPortal extends WebApplication
 	 * from the query string.
 	 * @param Tool $tool The default tool, or null if none.
 	 */
-	function SearchPortal($user)
+	function SearchPortal($user = null)
 	{
 		$this->parameters = array ();
 		$this->user = $user;

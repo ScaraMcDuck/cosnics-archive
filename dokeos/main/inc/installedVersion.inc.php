@@ -9,6 +9,6 @@
 */
 
 $stable = false;
-$dokeos_version = 'Dokeos LCMS 0.0.2';
+$dokeos_version = 'Dokeos LCMS 0.3';
 
 ?>
