@@ -5,10 +5,11 @@ require_once dirname(__FILE__).'/main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/main/inc/lib/text.lib.php';
 require_once dirname(__FILE__).'/users/lib/usermanager/usermanager.class.php';
 
-if (!api_get_user_id())
+if (!api_get_user_id() && !($_GET['go'] == 'register'))
 {
 	api_not_allowed();
 }
+
 $umgr = new UserManager(api_get_user_id());
 try
 {
