@@ -51,7 +51,7 @@ class LearningObjectPublicationForm extends FormValidator
 	 * The course we're publishing in
 	 */
 	private $course;
-	
+
 	private $user;
 	/**
 	 * Creates a new learning object publication form.
@@ -60,7 +60,7 @@ class LearningObjectPublicationForm extends FormValidator
 	 * @param boolean $email_option Add option in form to send the learning
 	 * object by email to the receivers
 	 */
-    function LearningObjectPublicationForm($user, $learning_object, $tool, $email_option = false, $course)
+    function LearningObjectPublicationForm($learning_object, $tool, $email_option = false, $course)
     {
     	$url = $tool->get_url(array (LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 		parent :: __construct('publish', 'post', $url);
@@ -68,7 +68,7 @@ class LearningObjectPublicationForm extends FormValidator
 		$this->learning_object = $learning_object;
 		$this->email_option = $email_option;
 		$this->course = $course;
-		$this->user = $user;
+		$this->user = $tool->get_user();
 		$this->build_form();
 		$this->setDefaults();
     }
@@ -145,7 +145,7 @@ class LearningObjectPublicationForm extends FormValidator
 		mysql_connect($dbHost,$dbLogin,$dbPass);
 		mysql_select_db($mainDbName);
 		// --
-		
+
 		// TODO: Commented until groups structure has been reorganized using possible user / groups classes
 //		$groups = GroupManager::get_group_list(null, $this->course->get_id());
 //		foreach($groups as $index => $group)
