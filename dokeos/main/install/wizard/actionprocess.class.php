@@ -43,6 +43,7 @@ class ActionProcess extends HTML_QuickForm_Action
 		full_database_install($values);
 		full_file_install($values);
 		create_admin_in_user_table($values);
+		create_default_categories_in_weblcms();
 		echo '</pre>';
 		$page->controller->container(true);
 		?>

@@ -33,6 +33,8 @@
 */
 require_once dirname(__FILE__).'/../../users/lib/user.class.php';
 require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
+require_once dirname(__FILE__).'/../../application/lib/weblcms/weblcmsdatamanager.class.php';
+require_once dirname(__FILE__).'/../../application/lib/weblcms/course/coursecategory.class.php';
 /*
 ==============================================================================
 		FUNCTIONS
@@ -304,6 +306,44 @@ function create_main_database_tables($main_database, $values)
 	load_main_database($installation_settings);
 }
 
+function create_default_categories_in_weblcms()
+{
+	$wdm = WeblcmsDataManager :: get_instance();
+	
+	//Creating language skills
+	$cat = new CourseCategory();
+	$cat->set_name('Language skills');
+	$cat->set_code('LANG');
+	$cat->set_parent('0');
+	$cat->set_tree_pos('1');
+	$cat->set_children_count('0');
+	$cat->set_auth_course_child('1');
+	$cat->set_auth_cat_child('1');
+	$cat->create();
+	
+	//creating pc skills
+	$cat = new CourseCategory();
+	$cat->set_name('PC skills');
+	$cat->set_code('PC');
+	$cat->set_parent('0');
+	$cat->set_tree_pos('2');
+	$cat->set_children_count('0');
+	$cat->set_auth_course_child('1');
+	$cat->set_auth_cat_child('1');
+	$cat->create();
+	
+	//creating Projects
+	$cat = new CourseCategory();
+	$cat->set_name('Projects');
+	$cat->set_code('PROJ');
+	$cat->set_parent('0');
+	$cat->set_tree_pos('3');
+	$cat->set_children_count('0');
+	$cat->set_auth_course_child('1');
+	$cat->set_auth_cat_child('1');
+	$cat->create();
+	
+}
 
 function create_admin_in_user_table($values)
 {
