@@ -50,7 +50,7 @@ class RegisterForm extends FormValidator {
 		// Picture URI
 		$this->addElement('file', User :: PROPERTY_PICTURE_URI, get_lang('AddPicture'));
 		$allowed_picture_types = array ('jpg', 'jpeg', 'png', 'gif');
-		$this->addRule(User :: PROPERTY_PICTURE_URI, get_lang('OnlyImagesAllowed').' ('.implode(',', $allowed_picture_types).')', 'filetype', $allowed_picture_types);
+		$this->addRule(User :: PROPERTY_PICTURE_URI, get_lang('OnlyImagesAllowed'), 'filetype', $allowed_picture_types);
 		// Phone Number
 		$this->addElement('text', User :: PROPERTY_PHONE, get_lang('PhoneNumber'));
 		// Language
@@ -89,8 +89,7 @@ class RegisterForm extends FormValidator {
     	$values = $this->exportValues();
     	
     	$password = $values['pw']['pass'] == '1' ? api_generate_password() : $values['pw'][User :: PROPERTY_PASSWORD];
-    	
-    	if ($_FILES[User :: PROPERTY_PICTURE_URI])
+    	if ($_FILES[User :: PROPERTY_PICTURE_URI] && file_exists($_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name']))
     	{
 			$temp_picture_location = $_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name'];
 			$picture_name = $_FILES[User :: PROPERTY_PICTURE_URI]['name'];
@@ -110,7 +109,6 @@ class RegisterForm extends FormValidator {
 	 	   	$user->set_password(md5($password));
 	 	   	$this->unencryptedpass = $password;
     		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
-			$user->set_picture_uri($picture_uri);
   		  	$user->set_phone($values[User :: PROPERTY_PHONE]);
   		  	if (get_setting('allow_registration_as_teacher') == 'false')
 			{
@@ -125,14 +123,14 @@ class RegisterForm extends FormValidator {
     		}
 			if ($user->create())
 			{
-				$_uid = intval($user->get_user_id());
-				api_session_register('_uid');
-				echo $_uid;
+				//$_uid = intval($user->get_user_id());
+				//api_session_register('_uid');
+				//echo $_uid;
 				//stats
-				include (api_get_library_path()."/events.lib.inc.php");
-				event_login($_uid);
+				//include (api_get_library_path()."/events.lib.inc.php");
+				//event_login($_uid);
 				// last user login date is now
-				$user_last_login_datetime = 0; // used as a unix timestamp it will correspond to : 1 1 1970
+				//$user_last_login_datetime = 0; // used as a unix timestamp it will correspond to : 1 1 1970
 				return true;
 			}
 			else

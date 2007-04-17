@@ -66,7 +66,7 @@ class UserForm extends FormValidator {
 		// Picture URI
 		$this->addElement('file', User :: PROPERTY_PICTURE_URI, get_lang('AddPicture'));
 		$allowed_picture_types = array ('jpg', 'jpeg', 'png', 'gif');
-		$this->addRule(User :: PROPERTY_PICTURE_URI, get_lang('OnlyImagesAllowed').' ('.implode(',', $allowed_picture_types).')', 'filetype', $allowed_picture_types);
+		$this->addRule(User :: PROPERTY_PICTURE_URI, get_lang('OnlyImagesAllowed'), 'filetype', $allowed_picture_types);
 		// Phone Number
 		$this->addElement('text', User :: PROPERTY_PHONE, get_lang('PhoneNumber'));
 		// Language
@@ -132,7 +132,7 @@ class UserForm extends FormValidator {
     	
     	$password = $values['pw']['pass'] == '1' ? api_generate_password() : $values['pw'][User :: PROPERTY_PASSWORD];
     	
-    	if ($_FILES[User :: PROPERTY_PICTURE_URI])
+    	if ($_FILES[User :: PROPERTY_PICTURE_URI] && file_exists($_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name']))
     	{
 			$temp_picture_location = $_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name'];
 			$picture_name = $_FILES[User :: PROPERTY_PICTURE_URI]['name'];
@@ -180,7 +180,7 @@ class UserForm extends FormValidator {
     	
     	$password = $values['pw']['pass'] == '1' ? api_generate_password() : $values['pw'][User :: PROPERTY_PASSWORD];
     	
-    	if ($_FILES[User :: PROPERTY_PICTURE_URI])
+    	if ($_FILES[User :: PROPERTY_PICTURE_URI] && file_exists($_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name']))
     	{
 			$temp_picture_location = $_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name'];
 			$picture_name = $_FILES[User :: PROPERTY_PICTURE_URI]['name'];
