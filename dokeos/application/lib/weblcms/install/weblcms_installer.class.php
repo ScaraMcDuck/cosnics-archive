@@ -8,10 +8,13 @@ require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
  * weblcms application.
  */
 class WeblcmsInstaller {
+	
+	private $dm;
 	/**
 	 * Constructor
 	 */
     function WeblcmsInstaller() {
+    	$this->dm = WeblcmsDataManager :: get_instance();
     }
 	/**
 	 * Runs the install-script.
@@ -49,7 +52,7 @@ class WeblcmsInstaller {
 	 */
 	function parse_sql_file($directory, $sqlfilename)
 	{
-		$dm = WeblcmsDataManager :: get_instance();
+		$dm = $this->dm;
 		$path = $directory.'/'.$sqlfilename;
 		$filecontent = file_get_contents($path);
 		$sqlstring = explode("\n", $filecontent);
@@ -93,7 +96,8 @@ class WeblcmsInstaller {
 			 }
 			 $indexes[$index->getAttribute('name')] = $index_info;
 		}
-		$dm = WeblcmsDataManager :: get_instance();
+		$dm = $this->dm;
+
 		echo '<pre>Creating WebLCMS Storage Unit: '.$name.'</pre>';flush();
 		$dm->create_storage_unit($name,$properties,$indexes);
 	}
