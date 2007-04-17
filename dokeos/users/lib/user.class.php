@@ -224,7 +224,7 @@ class User
 	 */
 	function get_official_code()
 	{
-		return $this->get_default_property(self :: PROPERTY_PHONE);
+		return $this->get_default_property(self :: PROPERTY_OFFICIAL_CODE);
 	}
 	
 	/**
@@ -233,7 +233,7 @@ class User
 	 */
 	function get_phone()
 	{
-		return $this->get_default_property(self :: PROPERTY_OFFICIAL_CODE);
+		return $this->get_default_property(self :: PROPERTY_PHONE);
 	}
 	
 	/**

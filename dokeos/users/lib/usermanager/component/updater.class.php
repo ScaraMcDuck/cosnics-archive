@@ -32,7 +32,7 @@ class UserManagerUpdaterComponent extends UserManagerComponent
 			if($form->validate())
 			{
 				$success = $form->update_user();
-				$this->redirect(UserManager :: ACTION_UPDATE_USER, get_lang($success ? 'UserUpdated' : 'UserNotUpdated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
+				$this->redirect('url', get_lang($success ? 'UserUpdated' : 'UserNotUpdated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
 			}
 			else
 			{

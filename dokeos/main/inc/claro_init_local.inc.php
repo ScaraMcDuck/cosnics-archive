@@ -127,8 +127,6 @@ if (isset($_SESSION['_uid']) && $_SESSION['_uid'] && ! ($login || $logout))
 {
     // uid is in session => login already done, continue with this value
     $_uid = $_SESSION['_uid'];
-
-
 }
 else
 {
@@ -165,7 +163,7 @@ else
                 {
                     $_uid = $user->get_user_id();
 
-                    api_session_register('_uid');
+                    api_session_register('_uid');                    
                 }
                 else // abnormal login -> login failed
                 {
@@ -197,16 +195,16 @@ else
                 include_once($extAuthSource[$key]['login']);
                 /* >>>>>>>>>>>>>>>> External authentication modules <<<<<<<<<<<<<<<<<< */
             }
-    	    if(!empty($_SESSION['request_uri']))
-    	    {
-      	        $req = $_SESSION['request_uri'];
-      	        unset($_SESSION['request_uri']);
-      	        header('location: '.$req);
-    	    }
-    	    else
-    	    {
-    	    	header('location: '.api_get_path(WEB_PATH).'index.php');
-    	    }
+//    	    if(!empty($_SESSION['request_uri']))
+//    	    {
+//      	        $req = $_SESSION['request_uri'];
+//      	        unset($_SESSION['request_uri']);
+//      	        header('location: '.$req);
+//    	    }
+//    	    else
+//    	    {
+//    	    	header('location: '.api_get_path(WEB_PATH).'index.php');
+//    	    }
         }
         else // login failed, mysql_num_rows($result) <= 0
         {

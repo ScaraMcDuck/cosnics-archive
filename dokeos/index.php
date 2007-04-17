@@ -163,6 +163,7 @@ if (CONFVAL_showExtractInfo != SCRIPTVAL_UnderCourseList and $orderKey[0] != "ke
 		LOGIN
 ==============================================================================
 */
+
 if ($_GET["submitAuth"] == 1)
 {
 	echo "Attempted breakin - sysadmins notified.";
@@ -173,16 +174,12 @@ if ($_POST["submitAuth"])
 {
 	// To ensure legacy compatibility, we set the following variables.
 	// But they should be removed at last.
-	$uid = $_uid;
-	$lastname		 = $_user['lastName'];
-	$firstname	 = $_user['firstName'];
-	$email			 = $_user['mail'];
-	$status			 = $uData['status'];
-	if (isset ($_uid))
+	$uid = $_SESSION['_uid'];
+	if (isset ($uid))
 	{
 		$sqlLastLogin = "SELECT UNIX_TIMESTAMP(login_date)
 								FROM $track_login_table
-								WHERE login_user_id = '$_uid'
+								WHERE login_user_id = '$uid'
 								ORDER BY login_date DESC LIMIT 1";
 		$resLastLogin = api_sql_query($sqlLastLogin, __FILE__, __LINE__);
 		if (!$resLastLogin)
@@ -264,7 +261,7 @@ function display_anonymous_right_menu()
 			echo '<div class="menusection"><span class="menusectioncaption">'.get_lang('MenuUser').'</span><ul class="menulist">';
 			if (get_setting('allow_registration') == 'true')
 			{
-				echo '<li><a href="main/auth/inscription.php">'.get_lang('Reg').'</a></li>';
+				echo '<li><a href="index_user.php?go=register">'.get_lang('Reg').'</a></li>';
 			}
 			if (get_setting('allow_lostpassword') == 'true')
 			{

@@ -99,7 +99,7 @@ if ($_GET['category'] and $_GET['category'] <> "Plugins" and $_GET['category'] <
 				$default_values[$row['variable']] = $row['selected_value'];
 				break;
 			case 'checkbox';
-				$sql = "SELECT * FROM settings_current WHERE variable='".$row['variable']."'";
+				$sql = "SELECT * FROM $table_settings_current WHERE variable='".$row['variable']."'";
 				$result = api_sql_query($sql, __FILE__, __LINE__);
 				$group = array ();
 				while ($rowkeys = mysql_fetch_array($result))
