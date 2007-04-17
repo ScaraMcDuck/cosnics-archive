@@ -34,6 +34,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	const ACTION_IMPORT_USERS = 'import';
 	const ACTION_UPDATE_USER = 'update';
 	const ACTION_REGISTER_USER = 'register';
+	const ACTION_VIEW_PROFILE = 'profile';
 	
 	
 	private $parameters;
@@ -89,6 +90,9 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 				break;
 			case self :: ACTION_BROWSE_USERS :
 				$component = UserManagerComponent :: factory('AdminUserBrowser', $this);
+				break;
+			case self :: ACTION_VIEW_PROFILE :
+				$component = UserManagerComponent :: factory('Profile', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_USERS);
@@ -300,10 +304,9 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	 * category).
 	 * @param boolean $error_message Is the passed message an error message?
 	 */
-	function redirect($action = self :: ACTION_CREATE_USER, $message = null, $error_message = false, $extra_params = null)
+	function redirect($type = 'url', $message = null, $error_message = false, $extra_params = null)
 	{
 		$params = array ();
-		$params[self :: PARAM_ACTION] = $action;
 		if (isset ($message))
 		{
 			$params[$error_message ? self :: PARAM_ERROR_MESSAGE :  self :: PARAM_MESSAGE] = $message;
@@ -315,7 +318,14 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 				$params[$key] = $extra;
 			}
 		}
-		$url = $this->get_url($params);
+		if ($type == 'url')
+		{
+			$url = $this->get_url($params);
+		}
+		elseif ($type == 'link')
+		{
+			$url = 'index.php';
+		}
 		header('Location: '.$url);
 	}
 

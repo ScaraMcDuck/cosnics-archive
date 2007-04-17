@@ -253,7 +253,16 @@ else
 	}
 }
 
+// include the local (contextual) parameters of this course or section
+require($includePath."/claro_init_local.inc.php");
 
+// ===== "who is logged in?" module section =====
+
+include_once($includePath."/lib/online.inc.php");
+// check and modify the date of user in the track.e.online table
+if (!$x=strpos($_SERVER['PHP_SELF'],'whoisonline.php')) { LoginCheck(isset($_uid) ? $_uid : '',$statsDbName); }
+
+// ===== end "who is logged in?" module section =====
 
 /*
 -----------------------------------------------------------
@@ -285,9 +294,11 @@ if (in_array($user_language,$valid_languages['folder']) and (isset($_GET['langua
 	$platformLanguage = $user_selected_language;
 }
 
-if (isset($_SESSION["user_language_choice"]))
+if (isset($_SESSION['_uid']))
 {
-	$language_interface = $_SESSION["user_language_choice"];
+	require_once dirname(__FILE__).'/../../users/lib/usermanager/usermanager.class.php';
+	$usermgr = new UserManager($_SESSION['_uid']);
+	$language_interface = $usermgr->get_user()->get_language();
 }
 else
 {
@@ -299,10 +310,10 @@ if (isset($_user['language']))
 	$language_interface = $_user['language'];
 }
 
-if ($_course['language'])
-{
-	$language_interface = $_course['language'];
-}
+//if ($_course['language'])
+//{
+//	$language_interface = $_course['language'];
+//}
 
 
 
@@ -332,15 +343,4 @@ foreach($language_files as $index => $language_file)
 	include($includePath.'/../lang/english/'.$language_file.'.inc.php');
 	include($includePath.'/../lang/'.$language_interface.'/'.$language_file.'.inc.php');
 }
-
-// include the local (contextual) parameters of this course or section
-require($includePath."/claro_init_local.inc.php");
-
-// ===== "who is logged in?" module section =====
-
-include_once($includePath."/lib/online.inc.php");
-// check and modify the date of user in the track.e.online table
-if (!$x=strpos($_SERVER['PHP_SELF'],'whoisonline.php')) { LoginCheck(isset($_uid) ? $_uid : '',$statsDbName); }
-
-// ===== end "who is logged in?" module section =====
 ?>

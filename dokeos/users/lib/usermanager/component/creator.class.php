@@ -38,7 +38,7 @@ class UserManagerCreatorComponent extends UserManagerComponent
 		if($form->validate())
 		{
 			$success = $form->create_user();
-			$this->redirect(User :: ACTION_CREATE_USER, get_lang($success ? 'UserCreated' : 'UserNotCreated'), ($success ? false : true));
+			$this->redirect('url', get_lang($success ? 'UserCreated' : 'UserNotCreated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER));
 		}
 		else
 		{

@@ -123,12 +123,15 @@ class RegisterForm extends FormValidator {
     		}
 			if ($user->create())
 			{
-				//$_uid = intval($user->get_user_id());
-				//api_session_register('_uid');
-				//echo $_uid;
+				global $_uid;
+				$_uid = intval($user->get_user_id());
+				api_session_register('_uid');
+				
+				// TODO: Make tracking object-oriented
+				
 				//stats
 				//include (api_get_library_path()."/events.lib.inc.php");
-				//event_login($_uid);
+				//event_login();
 				// last user login date is now
 				//$user_last_login_datetime = 0; // used as a unix timestamp it will correspond to : 1 1 1970
 				return true;

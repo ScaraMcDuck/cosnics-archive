@@ -156,7 +156,17 @@ function api_protect_course_script()
 */
 function api_protect_admin_script()
 {
-	if (!api_is_platform_admin())
+	if (isset($_SESSION['_uid']))
+	{
+		require_once dirname(__FILE__).'/../../../users/lib/usermanager/usermanager.class.php';
+		$usermgr = new UserManager($_SESSION['_uid']);
+		if (!$usermgr->get_user()->is_platform_admin())
+		{
+			include (api_get_include_path()."/claro_init_header.inc.php");
+			api_not_allowed();
+		}
+	}
+	else
 	{
 		include (api_get_include_path()."/claro_init_header.inc.php");
 		api_not_allowed();

@@ -136,7 +136,7 @@ if ($_uid)
 		$link_class='';
 	}
 	
-	echo '<a '. $link_class .' href="'. $clarolineRepositoryWeb .'auth/profile.php" target="_top">';
+	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_user.php?go=profile" target="_top">';
 	echo get_lang('ModifyProfile');
 	echo '</a>&nbsp;'."\n";
 	
@@ -154,7 +154,8 @@ if ($_uid)
 	echo '</a>&nbsp;'."\n";
 	
 	global $user;
-	if (is_object($user) && $user->is_platform_admin())
+	$usermgr = new UserManager($_SESSION['_uid']);
+	if ($usermgr->get_user()->is_platform_admin())
 	{
  		if($GLOBALS['this_section'] == "platform_admin")
 		{
@@ -193,7 +194,7 @@ if (isset ($nameTools) || is_array($interbredcrump))
 	}
 	else
 	{
-		echo '<a href="'. api_get_path(WEB_PATH) .'index.php" target="_top">'. api_get_setting('siteName') .'</a>';
+		echo '&nbsp;&nbsp;<a href="'. api_get_path(WEB_PATH) .'index.php" target="_top">'. api_get_setting('siteName') .'</a>';
 		if (isset ($_GET['coursePath']))
 		{
 			echo '&gt; <a href="'. api_get_path(WEB_PATH) .'"user_portal.php" target="_top">'. get_lang('MyCourses') .'</a>';

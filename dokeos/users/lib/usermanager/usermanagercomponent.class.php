@@ -194,11 +194,19 @@ abstract class UserManagerComponent {
 	}
 	
 	/**
+	 * @see UserManager::get_link()
+	 */
+	function get_link($parameters = array (), $encode = false)
+	{
+		return $this->get_parent()->get_link($parameters, $encode);
+	}
+	
+	/**
 	 * @see UserManager::redirect()
 	 */
-	function redirect($action = UserManager :: ACTION_CREATE_USER, $message = null, $error_message = false, $extra_params = null)
+	function redirect($type = 'url', $message = null, $error_message = false, $extra_params = null)
 	{
-		return $this->get_parent()->redirect($action, $message, $error_message, $extra_params);
+		return $this->get_parent()->redirect($type, $message, $error_message, $extra_params);
 	}
 	/**
 	 * @see UserManager::User_deletion_allowed()

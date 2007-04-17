@@ -17,7 +17,10 @@ class UserManagerRegisterComponent extends UserManagerComponent
 		if (get_setting('allow_registration') == 'false')
 		{
 			api_not_allowed();
-		}	
+		}
+		
+		$user_id = $this->get_user_id();
+			
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('UserRegister'));
 		if (isset($user_id)) 
@@ -39,8 +42,7 @@ class UserManagerRegisterComponent extends UserManagerComponent
 		if($form->validate())
 		{
 			$success = $form->create_user();
-			echo 'redirect';
-			//$this->redirect(User :: ACTION_CREATE_USER, get_lang($success ? 'UserCreated' : 'UserNotCreated'), ($success ? false : true));
+			$this->redirect('link', get_lang($success ? 'UserRegistered' : 'UserNotRegistered'), ($success ? false : true));
 		}
 		else
 		{
