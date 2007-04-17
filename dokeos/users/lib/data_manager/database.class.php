@@ -144,6 +144,9 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$props[$this->escape_column_name(User :: PROPERTY_USER_ID)] = $user->get_user_id();
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('user'), $props, MDB2_AUTOQUERY_INSERT);
+		
+		// Create the user's root category for the repository
+		$this->repoDM->create_root_category($user->get_user_id());
 		return true;
 	}
 	
