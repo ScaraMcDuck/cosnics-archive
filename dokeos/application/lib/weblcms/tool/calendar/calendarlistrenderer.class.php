@@ -14,6 +14,10 @@ class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 	function as_html()
 	{
 		$publications = $this->get_publications();
+		if(count($publications) == 0)
+		{
+			$html[] = Display::display_normal_message('NoPublicationsAvailable',true);
+		}
 		foreach ($publications as $index => $publication)
 		{
 			$first = $index == 0;
