@@ -12,6 +12,9 @@ class UserManagerProfileComponent extends UserManagerComponent
 	 */
 	function run()
 	{	
+		global $this_section;
+		$this_section='myprofile';
+		
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('UserProfile'));
 

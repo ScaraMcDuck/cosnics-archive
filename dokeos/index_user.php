@@ -1,6 +1,6 @@
 <?php
 $langFile = 'user';
-$this_section='SECTION_PLATFORM_ADMIN';
+$this_section='platform_admin';
 require_once dirname(__FILE__).'/main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/main/inc/lib/text.lib.php';
 require_once dirname(__FILE__).'/users/lib/usermanager/usermanager.class.php';

@@ -4,6 +4,7 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../userquota.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/abstractlearningobject.class.php';
 
 
 class UserQuotaForm extends FormValidator {
@@ -21,8 +22,7 @@ class UserQuotaForm extends FormValidator {
     	parent :: __construct('quota_settings', 'post', $action);
     	
     	$this->user = $user;
-    	$rdm = RepositoryDataManager :: get_instance();
-    	$this->learning_object_types = $rdm->get_registered_types();
+    	$this->learning_object_types = $this->filter_learning_object_types();
     
 		$this->build_editing_form();
 		$this->setDefaults();
@@ -93,6 +93,25 @@ class UserQuotaForm extends FormValidator {
 			$defaults[$type] = $this->user->get_version_type_quota($type);
 		}
 		parent :: setDefaults($defaults);
+	}
+	
+	function filter_learning_object_types()
+	{
+		$user = $this->user;
+		$rdm = RepositoryDataManager :: get_instance();
+    	$learning_object_types = $rdm->get_registered_types();
+    	$filtered_object_types = array();
+    	
+		foreach ($learning_object_types as $type)
+		{
+			$object = new AbstractLearningObject($type, $user->get_user_id());
+			if ($object->is_versionable())
+			{
+				$filtered_object_types[] = $type;
+			}
+		}
+    	
+    	return $filtered_object_types;
 	}
 }
 ?>

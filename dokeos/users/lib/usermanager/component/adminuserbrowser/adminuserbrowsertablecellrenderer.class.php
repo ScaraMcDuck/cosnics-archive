@@ -81,7 +81,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_user_quota_url($user),
-			'label' => get_lang('Maintenance'),
+			'label' => get_lang('VersionQuota'),
 			'img' => $this->browser->get_web_code_path().'img/versions.gif'
 		);
 		

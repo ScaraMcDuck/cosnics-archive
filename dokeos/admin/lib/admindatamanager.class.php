@@ -130,10 +130,10 @@ abstract class AdminDataManager
 		$info[] = $user_manager->get_application_platform_admin_links();
 		
 		// 2. UserRolesRights
-		$info[] = array('application' => array('name' => get_lang('UserRolesRights'), 'class' => 'user_roles_rights'), 'links' => array(array('name' => get_lang('ManageRoles'), 'action' => 'manage', 'url' => '/LCMS/main/admin/manage_roles.php'), array('name' => get_lang('RolesRightsOverview'), 'action' => 'list', 'url' => '/LCMS/main/admin/roles_rights_overview.php')));
+		//$info[] = array('application' => array('name' => get_lang('UserRolesRights'), 'class' => 'user_roles_rights'), 'links' => array(array('name' => get_lang('ManageRoles'), 'action' => 'manage', 'url' => '/LCMS/main/admin/manage_roles.php'), array('name' => get_lang('RolesRightsOverview'), 'action' => 'list', 'url' => '/LCMS/main/admin/roles_rights_overview.php')));
 		
 		// 3. Classes of Users
-		$info[] = array('application' => array('name' => get_lang('ClassesOfUsers'), 'class' => 'user_classes'), 'links' => array(array('name' => get_lang('ClassList'), 'action' => 'list', 'url' => '/LCMS/main/admin/class_list.php'), array('name' => get_lang('AddClasses'), 'action' => 'add', 'url' => '/LCMS/main/admin/class_add.php'), array('name' => get_lang('ImportClasses'), 'action' => 'import', 'url' => '/LCMS/main/admin/class_import.php')));
+		//$info[] = array('application' => array('name' => get_lang('ClassesOfUsers'), 'class' => 'user_classes'), 'links' => array(array('name' => get_lang('ClassList'), 'action' => 'list', 'url' => '/LCMS/main/admin/class_list.php'), array('name' => get_lang('AddClasses'), 'action' => 'add', 'url' => '/LCMS/main/admin/class_add.php'), array('name' => get_lang('ImportClasses'), 'action' => 'import', 'url' => '/LCMS/main/admin/class_import.php')));
 		
 		// 4. Platform
 		$info[] = array('application' => array('name' => get_lang('Platform'), 'class' => 'platform'), 'links' => array(array('name' => get_lang('DokeosConfiguration'), 'action' => 'manage', 'url' => '/LCMS/main/admin/settings.php'), array('name' => get_lang('SystemAnnouncements'), 'action' => 'system', 'url' => '/LCMS/main/admin/system_announcements.php'), array('name' => get_lang('Languages'), 'action' => 'language', 'url' => '/LCMS/main/admin/languages.php'), array('name' => get_lang('ConfigureHomepage'), 'action' => 'home', 'url' => '/LCMS/main/admin/configure_homepage.php')	));

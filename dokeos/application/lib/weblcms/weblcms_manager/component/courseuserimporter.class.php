@@ -16,6 +16,9 @@ class WeblcmsCourseUserImporterComponent extends WeblcmsComponent
 	 */
 	function run()
 	{
+		global $this_section;
+		$this_section='platform_admin';
+		
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseUserCreateCsv'));
 		
