@@ -5,6 +5,7 @@
  */
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 require_once dirname(__FILE__).'/../../quotamanager.class.php';
+require_once dirname(__FILE__).'/../../abstractlearningobject.class.php';
 require_once api_get_library_path().'/fileDisplay.lib.php';
 /**
  * Repository manager component which displays the quota to the user.
@@ -25,8 +26,11 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 		$quotamanager = new QuotaManager($this->get_user());
 		echo '<h3>'.htmlentities(get_lang('DiskSpace')).'</h3>';
 		echo self :: get_bar($quotamanager->get_used_disk_space_percent(), format_file_size($quotamanager->get_used_disk_space()).' / '.format_file_size($quotamanager->get_max_disk_space()));
+		echo '<div style="clear: both;">&nbsp;</div>';
 		echo '<h3>'.htmlentities(get_lang('NumberOfLearningObjects')).'</h3>';
 		echo self :: get_bar($quotamanager->get_used_database_space_percent(), $quotamanager->get_used_database_space().' / '.$quotamanager->get_max_database_space());
+		echo '<div style="clear: both;">&nbsp;</div>';
+		echo $this->get_version_quota();
 		$this->display_footer();
 	}
 	/**
@@ -67,6 +71,68 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 		$html .= '<div class="usage_status">'.$status.' &ndash; '.round($percent, 2).' %</div>';
 		$html .= '</div>';
 		return $html;
+	}
+	
+	static function type_to_class($type)
+	{
+		return ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $type));
+	}
+	
+	function get_version_quota()
+	{
+		$user = $this->get_user();
+		$user_version_quota = $user->get_version_quota();
+		$html = array();
+		
+		$html[] = '<h3>'.htmlentities(get_lang('VersionQuota')).'</h3>';
+		
+		$table = new SortableTable('version_quota', array ($this, 'get_registered_types_count'), array ($this, 'get_registered_types_data'), 1, 30, SORT_ASC);
+		$table->set_header(0, null, false);
+		$table->set_header(1, get_lang('Type'), false);
+		$table->set_header(2, get_lang('Quota'), false);
+		$html[] = $table->as_html();
+		
+		return implode("\n", $html);
+	}
+	
+	function get_registered_types_count()
+	{
+		return count($this->get_registered_types()) + 1;
+	}
+	
+	function get_registered_types_data()
+	{
+		$user = $this->get_user();
+		$user_version_quota = $user->get_version_quota();
+		$types = $this->get_registered_types();
+		$quota_data = array();
+		
+		$quota_data_row = array();
+		$quota_data_row[] = '<img src="'. $this->get_web_code_path().'img/versions_large.gif" />';
+		$quota_data_row[] = get_lang('Default');
+		$quota_data_row[] = $user->get_version_quota();
+		
+		$quota_data[] = $quota_data_row;
+		
+		foreach ($types as $type)
+		{
+			$quota_data_row = array();
+
+			$quota_data_row[] = '<img src="'. $this->get_web_code_path().'img/'. $type .'.gif" />';
+			$quota_data_row[] = get_lang(self :: type_to_class($type). 'TypeName');
+			$object = new AbstractLearningObject($type, $this->get_user_id());
+			if ($object->is_versionable())
+			{
+				$quota_data_row[] = $user->get_version_type_quota($type);
+			}
+			else
+			{
+				$quota_data_row[] = get_lang('NotVersionable');
+			}
+			
+			$quota_data[] = $quota_data_row;
+		}
+		return $quota_data;
 	}
 }
 ?>

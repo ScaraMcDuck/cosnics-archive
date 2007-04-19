@@ -368,10 +368,16 @@ abstract class RepositoryManagerComponent {
 	/**
 	 * @see RepositoryManager::get_user_info()
 	 */
-	function get_user_info($id)
+	function get_user_info($user_id)
 	{
-		return $this->get_parent()->get_user_info($id);
+		return $this->get_parent()->get_user_info($user_id);
 	}
+
+	function get_registered_types($only_master_types = false)
+	{
+		return $this->get_parent()->get_registered_types($only_master_types);
+	}
+	
 	/**
 	 * @see RepositoryManager::get_type_filter_url()
 	 */

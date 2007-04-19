@@ -49,5 +49,12 @@ class AbstractLearningObject extends LearningObject
 		$dummy_object = new $class();
 		return $dummy_object->supports_attachments();
 	}
+	
+	function is_versionable()
+	{
+		$class = LearningObject :: type_to_class($this->get_type());
+		$dummy_object = new $class();
+		return $dummy_object->is_versionable();
+	}
 }
 ?>

@@ -569,6 +569,15 @@ class RepositoryManager
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->learning_object_revert_allowed($learning_object);
 	}
+	
+	/**
+	 * @see RepositoryDataManager::get_learning_object_publication_attributes()
+	 */
+	function get_registered_types($only_master_types = false)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return $rdm->get_registered_types($only_master_types);
+	}
 
 	/**
 	 * @see RepositoryDataManager::get_learning_object_publication_attributes()
