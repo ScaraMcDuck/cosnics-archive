@@ -197,25 +197,11 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 	
 	function get_condition()
 	{
-		//$search_conditions = $this->get_search_condition();
-		
 		$condition = null;
 		if (isset($this->category))
 		{
 			$condition = new EqualityCondition(CourseCategory :: PROPERTY_PARENT, $this->category);
-			
-//			if (count($search_conditions))
-//			{
-//				$condition = new AndCondition($condition, $search_conditions);
-//			}
 		}
-//		else
-//		{
-//			if (count($search_conditions))
-//			{
-//				$condition = $search_conditions;
-//			}
-//		}
 		
 		return $condition;
 	}

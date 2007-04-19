@@ -22,10 +22,11 @@ class WeblcmsCourseCreatorComponent extends WeblcmsComponent
 			$this_section='platform_admin';
 		}
 		
+		$breadcrumbs = array();
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseCreate'));
+		
 		if (!$this->get_user()->is_teacher() && !$this->get_user()->is_platform_admin())
 		{
-			$breadcrumbs = array();
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseCreate'));
 			$this->display_header($breadcrumbs);
 			Display :: display_error_message(get_lang("NotAllowed"));
 			$this->display_footer();
@@ -41,9 +42,6 @@ class WeblcmsCourseCreatorComponent extends WeblcmsComponent
 		$course->set_language($user_info->get_language());
 		
 		$form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_user(), $this->get_url());
-		
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseCreate'));
 		
 		if($form->validate())
 		{
