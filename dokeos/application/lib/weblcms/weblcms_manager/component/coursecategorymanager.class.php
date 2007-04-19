@@ -20,6 +20,9 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 	 */
 	function run()
 	{
+		global $this_section;
+		$this_section='platform_admin';
+		
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$breadcrumbs = array();

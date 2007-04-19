@@ -16,7 +16,13 @@ class WeblcmsCourseCreatorComponent extends WeblcmsComponent
 	 */
 	function run()
 	{
-		if (!$this->get_user()->is_teacher())
+		if ($this->get_user()->is_platform_admin())
+		{
+			global $this_section;
+			$this_section='platform_admin';
+		}
+		
+		if (!$this->get_user()->is_teacher() && !$this->get_user()->is_platform_admin())
 		{
 			$breadcrumbs = array();
 			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseCreate'));

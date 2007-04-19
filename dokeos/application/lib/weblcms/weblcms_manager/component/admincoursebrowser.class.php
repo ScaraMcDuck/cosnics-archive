@@ -18,6 +18,9 @@ class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 	 */
 	function run()
 	{
+		global $this_section;
+		$this_section='platform_admin';
+		
 		$this->category = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseList'));

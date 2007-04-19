@@ -72,7 +72,7 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 		$temp_replacement = '__FIRSTLETTER__';
 		$url_format = $this->get_url(array (UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS, UserManager :: PARAM_FIRSTLETTER => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
-		$user_menu = new UserMenu(null, $url_format, & $extra_items);
+		$user_menu = new UserMenu($this->firstletter, $url_format, & $extra_items);
 		
 		if (isset ($search_url))
 		{
