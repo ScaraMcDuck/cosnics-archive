@@ -77,6 +77,8 @@ abstract class UsersDataManager
 	 */
 	abstract function update_user($user);
 	
+	abstract function update_user_quota($user_quota);
+	
 	/**
 	 * Makes the given User persistent.
 	 * @param User $user The user.
