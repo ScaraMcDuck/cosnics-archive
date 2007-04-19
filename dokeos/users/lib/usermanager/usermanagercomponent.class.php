@@ -223,6 +223,13 @@ abstract class UserManagerComponent {
 		return $this->get_parent()->get_user_editing_url($user);
 	}
 	/**
+	 * @see UserManager::get_user_quota_url()
+	 */
+	function get_user_quota_url($user)
+	{
+		return $this->get_parent()->get_user_quota_url($user);
+	}
+	/**
 	 * @see UserManager::get_web_code_path()
 	 */
 	function get_web_code_path()

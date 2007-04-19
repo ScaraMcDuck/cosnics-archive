@@ -78,12 +78,12 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 			'label' => get_lang('Edit'),
 			'img' => $this->browser->get_web_code_path().'img/edit.gif'
 		);
-//		
-//		$toolbar_data[] = array(
-//			'href' => $this->browser->get_user_maintenance_url($user),
-//			'label' => get_lang('Maintenance'),
-//			'img' => $this->browser->get_web_code_path().'img/maintenance_tool_small.gif'
-//		);
+		
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_user_quota_url($user),
+			'label' => get_lang('Maintenance'),
+			'img' => $this->browser->get_web_code_path().'img/versions.gif'
+		);
 		
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}

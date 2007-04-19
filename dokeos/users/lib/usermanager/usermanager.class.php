@@ -35,6 +35,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	const ACTION_UPDATE_USER = 'update';
 	const ACTION_REGISTER_USER = 'register';
 	const ACTION_VIEW_PROFILE = 'profile';
+	const ACTION_USER_QUOTA = 'quota';
 	
 	
 	private $parameters;
@@ -439,6 +440,11 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	function get_user_editing_url($user)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UPDATE_USER, self :: PARAM_USER_USER_ID => $user->get_user_id()));
+	}
+	
+	function get_user_quota_url($user)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_USER_QUOTA, self :: PARAM_USER_USER_ID => $user->get_user_id()));
 	}
 }
 ?>
