@@ -19,10 +19,11 @@ class WeblcmsCourseImporterComponent extends WeblcmsComponent
 		global $this_section;
 		$this_section='platform_admin';
 		
-		if (!$this->get_user()->is_platform_admin())
-		{
 			$breadcrumbs = array();
 			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseCreateCsv'));
+		
+		if (!$this->get_user()->is_platform_admin())
+		{
 			$this->display_header($breadcrumbs);
 			Display :: display_error_message(get_lang("NotAllowed"));
 			$this->display_footer();
@@ -30,9 +31,6 @@ class WeblcmsCourseImporterComponent extends WeblcmsComponent
 		}
 		
 		$form = new CourseImportForm(CourseImportForm :: TYPE_IMPORT, $this->get_url());
-		
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseCreateCsv'));
 		
 		if($form->validate())
 		{
