@@ -6,6 +6,7 @@
 require_once dirname(__FILE__).'/database/databaseuserresultset.class.php';
 require_once dirname(__FILE__).'/../usersdatamanager.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
+require_once dirname(__FILE__).'/../userquota.class.php';
 require_once 'MDB2.php';
 
 /**
@@ -120,6 +121,30 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$this->connection->extended->autoExecute($this->get_table_name('user'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 
 		return true;
+	}
+	
+	//Inherited.
+	function update_user_quota($user_quota)
+	{
+		$where = $this->escape_column_name(Userquota :: PROPERTY_USER_ID).'='.$user_quota->get_user_id(). ' AND '. $this->escape_column_name(Userquota :: PROPERTY_LEARNING_OBJECT_TYPE).'="'.$user_quota->get_learning_object_type(). '"';
+		$props = array();
+		foreach ($user_quota->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$props[Userquota :: PROPERTY_USER_ID] = $user_quota->get_user_id();
+		$this->connection->loadModule('Extended');
+		$quota_type = $this->retrieve_version_type_quota($this->retrieve_user($user_quota->get_user_id()), $user_quota->get_learning_object_type());
+		if ($quota_type)
+		{
+			$this->connection->extended->autoExecute($this->get_table_name('user_quota'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+		}
+		else
+		{
+			$this->connection->extended->autoExecute($this->get_table_name('user_quota'), $props, MDB2_AUTOQUERY_INSERT);
+		}
+		
+	return true;
 	}
 	
 	// Inherited.
