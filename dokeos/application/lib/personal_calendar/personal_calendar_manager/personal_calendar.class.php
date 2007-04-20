@@ -150,7 +150,7 @@ class PersonalCalendar extends WebApplication
 			}
 		}
 		$connector = new PersonalCalendarWeblcmsConnector();
-		$events = array_merge($events,$connector->get_events($this->user_id, $from_date, $to_date));
+		$events = array_merge($events,$connector->get_events($this->user->get_user_id(), $from_date, $to_date));
 		return $events;
 	}
 	/**
