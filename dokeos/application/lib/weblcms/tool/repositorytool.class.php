@@ -70,7 +70,7 @@ abstract class RepositoryTool extends Tool
 					{
 						$pid = isset($_GET['pid']) ? $_GET['pid'] : $_POST['pid'];
 						$publication = $datamanager->retrieve_learning_object_publication($pid);
-						$form = new LearningObjectPublicationForm($this->get_user(), $publication->get_learning_object(),$this, false, $this->get_parent()->get_course());
+						$form = new LearningObjectPublicationForm($publication->get_learning_object(),$this, false, $this->get_parent()->get_course());
 						$form->set_publication($publication);
 						if( $form->validate())
 						{
