@@ -34,7 +34,19 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 		// Add special features here
 		switch ($column->get_personal_message_property())
 		{
-			// Exceptions or post-processing go here ...
+			case PersonalMessagePublication :: PROPERTY_PUBLISHED:
+				return format_locale_date(get_lang('dateFormatShort').', '.get_lang('timeNoSecFormat'),$personal_message->get_published());
+				break;
+			case PersonalMessagePublication :: PROPERTY_STATUS:
+				if ($personal_message->get_status() == 1)
+				{
+					return '<img src="'.$this->browser->get_web_code_path().'img/personal_message_new.gif" />';
+				}
+				else
+				{
+					return '<img src="'.$this->browser->get_web_code_path().'img/personal_message.gif" />';
+				}
+				break;
 		}
 		return parent :: render_cell($column, $personal_message);
 	}

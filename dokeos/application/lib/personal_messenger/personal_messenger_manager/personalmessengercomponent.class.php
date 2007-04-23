@@ -84,29 +84,26 @@ abstract class PersonalMessengerComponent {
 		return $this->get_parent()->get_web_code_path();
 	}
 	
-//	/**
-//	 * @see Weblcms::get_search_condition()
-//	 */
-//	function get_search_condition()
-//	{
-//		return $this->get_parent()->get_search_condition();
-//	}
-//	
-//	/**
-//	 * @see Weblcms::get_search_validate()
-//	 */
-//	function get_search_validate()
-//	{
-//		return $this->get_parent()->get_search_validate();
-//	}
-//	
-//	/**
-//	 * @see Weblcms::get_search_parameter()
-//	 */
-//	function get_search_parameter($name)
-//	{
-//		return $this->get_parent()->get_search_parameter($name);
-//	}
+	/**
+	 * @see Weblcms::get_search_condition()
+	 */
+	function get_search_condition()
+	{
+		return $this->get_parent()->get_search_condition();
+	}
+	
+	/**
+	 * @see Weblcms::get_search_validate()
+	 */
+	function get_search_validate()
+	{
+		return $this->get_parent()->get_search_validate();
+	}
+	
+	function get_search_parameter($name)
+	{
+		return $this->get_parent()->get_search_parameter($name);
+	}
 
 	function count_personal_message_publications($condition = null)
 	{
@@ -116,6 +113,16 @@ abstract class PersonalMessengerComponent {
 	function retrieve_personal_message_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		return $this->get_parent()->retrieve_personal_message_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
+	}
+	
+	function get_user()
+	{
+		return $this->get_parent()->get_user();
+	}
+	
+	function get_user_id()
+	{
+		return $this->get_parent()->get_user_id();
 	}
 	
 	/**

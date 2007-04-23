@@ -1,4 +1,7 @@
 <?php
+require_once dirname(__FILE__).'/../../../repository/lib//repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/../../../users/lib//usersdatamanager.class.php';
+
 /**
  *	This class represents a personal message. 
  *
@@ -63,7 +66,7 @@ class PersonalMessagePublication
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_PERSONAL_MESSAGE_ID, self :: PROPERTY_LEARNING_OBJECT_ID, self :: PROPERTY_STATUS, self :: PROPERTY_RECIPIENT, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_PERSONAL_MESSAGE, self :: PROPERTY_STATUS, self :: PROPERTY_USER, self :: PROPERTY_SENDER, self :: PROPERTY_RECIPIENT, self :: PROPERTY_PUBLISHED);
 	}
 	
 	/**
@@ -212,6 +215,28 @@ class PersonalMessagePublication
 	function set_published($published)
 	{
 		$this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
+	}
+	
+	function get_publication_object()
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return $rdm->retrieve_learning_object($this->get_personal_message());
+	}
+	
+	function get_publication_sender()
+	{
+		return $this->get_publication_user($this->get_sender());
+	}
+	
+	function get_publication_recipient()
+	{
+		return $this->get_publication_user($this->get_recipient());
+	}	
+	
+	function get_publication_user($user_id)
+	{
+		$udm = UsersDataManager :: get_instance();
+		return $udm->retrieve_user($user_id);
 	}
 	
 	/**

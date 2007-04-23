@@ -1,5 +1,5 @@
 <?php
-$langFile = 'weblcms';
+$langFile = array('weblcms');
 $cidReset = true;
 $this_section = 'myagenda';
 require_once dirname(__FILE__).'/main/inc/claro_init_global.inc.php';

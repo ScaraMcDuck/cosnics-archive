@@ -18,11 +18,15 @@ class PublicationBrowserTable extends PublicationTable
 	 */
 	function PublicationBrowserTable($browser, $name, $parameters, $condition)
 	{
-		$model = new PublicationBrowserTableColumnModel();
+		$model = new PublicationBrowserTableColumnModel($browser->get_folder());
 		$renderer = new PublicationBrowserTableCellRenderer($browser);
 		$data_provider = new PublicationBrowserTableDataProvider($browser, $condition);
 		parent :: __construct($data_provider, $name, $model, $renderer);
 		$this->set_additional_parameters($parameters);
+		$actions = array();
+		$actions[PersonalMessenger :: PARAM_RECYCLE_SELECTED] = get_lang('RemoveSelected');
+		$actions[PersonalMessenger :: PARAM_MOVE_SELECTED] = get_lang('MoveSelected');
+		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}
 }

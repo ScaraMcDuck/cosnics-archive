@@ -15,20 +15,32 @@ class DefaultPublicationTableColumnModel extends PublicationTableColumnModel
 	/**
 	 * Constructor
 	 */
-	function DefaultPublicationTableColumnModel()
+	function DefaultPublicationTableColumnModel($folder)
 	{
-		parent :: __construct(self :: get_default_columns(), 3);
+		parent :: __construct(self :: get_default_columns($folder), 1);
 	}
 	/**
 	 * Gets the default columns for this model
 	 * @return LearningObjectTableColumn[]
 	 */
-	private static function get_default_columns()
+	private static function get_default_columns($folder)
 	{
 		$columns = array();
+		$columns[] = new PublicationTableColumn(PersonalMessagePublication :: PROPERTY_STATUS, true);
 		$columns[] = new PublicationTableColumn(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, true);
-		$columns[] = new PublicationTableColumn(PersonalMessagePublication :: PROPERTY_SENDER, true);
-		$columns[] = new PublicationTableColumn(PersonalMessagePublication :: PROPERTY_RECIPIENT, true);
+		
+		switch ($folder)
+		{
+			case PersonalMessenger :: ACTION_FOLDER_INBOX :
+				$columns[] = new PublicationTableColumn(PersonalMessagePublication :: PROPERTY_SENDER, true);
+				break;
+			case PersonalMessenger :: ACTION_FOLDER_OUTBOX :
+				$columns[] = new PublicationTableColumn(PersonalMessagePublication :: PROPERTY_RECIPIENT, true);
+				break;
+			default :
+				$columns[] = new PublicationTableColumn(PersonalMessagePublication :: PROPERTY_SENDER, true);
+		}
+		
 		$columns[] = new PublicationTableColumn(PersonalMessagePublication :: PROPERTY_PUBLISHED, true);
 		return $columns;
 	}
