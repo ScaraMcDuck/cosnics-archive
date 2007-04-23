@@ -166,7 +166,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 
 					$delete_link_url = $this->get_learning_object_delete_publications_url($object);
 
-					if ((!isset($delete_url) || !isset($recycle_url)) && isset($delete_link_url))
+					if (!isset($recycle_url))
 					{
 						$force_delete_button = array(
 							'href' => $delete_link_url,

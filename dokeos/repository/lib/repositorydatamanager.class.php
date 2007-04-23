@@ -255,7 +255,7 @@ abstract class RepositoryDataManager
 			$versions = $this->get_version_ids($object);
 			$forbidden = array_merge($children, $versions);
 		}
-		return !$this->any_learning_object_is_published($forbidden, $user);
+		return !$this->any_learning_object_is_published($forbidden);
 	}
 
 	/**
