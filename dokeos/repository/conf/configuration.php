@@ -22,6 +22,9 @@ $configuration['database']['connection_string_user']
 
 $configuration['database']['connection_string_personal_calendar']
 	= 'mysql://root:@localhost/dokeos_personal_calendar';
+	
+$configuration['database']['connection_string_personal_messenger']
+	= 'mysql://root:@localhost/dokeos_personal_messenger';
 
 
 $configuration['database']['table_name_prefix']

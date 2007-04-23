@@ -14,15 +14,16 @@
  */
 class PersonalMessagePublication
 {
-	const PROPERTY_PERSONAL_MESSAGE_ID = '';
-	const PROPERTY_LEARNING_OBJECT_ID = '';
-	const PROPERTY_STATUS = '';
-	const PROPERTY_RECIPIENT = '';
-	const PROPERTY_PUBLISHER = '';
-	const PROPERTY_PUBLISHED = '';
+	const PROPERTY_ID = 'id';
+	const PROPERTY_PERSONAL_MESSAGE = 'personal_message';
+	const PROPERTY_STATUS = 'status';
+	const PROPERTY_USER = 'user';
+	const PROPERTY_SENDER = 'sender';
+	const PROPERTY_RECIPIENT = 'recipient';
+	const PROPERTY_PUBLISHED = 'published';
 	
 	
-	private $pm_id;
+	private $id;
 	private $defaultProperties;
 	
 	/**
@@ -32,9 +33,9 @@ class PersonalMessagePublication
 	 * @param array $defaultProperties The default properties of the PM
 	 *                                 object. Associative array.
 	 */
-	function PersonalMessagePublication($pm_id = 0, $defaultProperties = array ())
+	function PersonalMessagePublication($id = 0, $defaultProperties = array ())
 	{
-		$this->pm_id = $pm_id;
+		$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
 	}
 	
@@ -88,35 +89,53 @@ class PersonalMessagePublication
 	}
 	
 	/**
-	 * Returns the id of this PM.
+	 * Returns the id of this PMP.
 	 * @return int The PM id.
 	 */
-	function get_personal_message_id()
+	function get_id()
 	{
-		return $this->pm_id;
+		return $this->id;
 	}
 	
 	/**
-	 * Returns the learning object id from this PM object
-	 * @return int The learning object ID
+	 * Returns the learning object id from this PMP object
+	 * @return int The personal message ID
 	 */
-	function get_learning_object_id()
+	function get_personal_message()
 	{
-		return $this->get_default_property(self :: PROPERTY_PERSONAL_MESSAGE_ID);
+		return $this->get_default_property(self :: PROPERTY_PERSONAL_MESSAGE);
 	}
 	 
 	/**
-	 * Returns the status of this PM object
+	 * Returns the status of this PMP object
 	 * @return int the status
 	 */
 	function get_status()
 	{
 	 	return $this->get_default_property(self :: PROPERTY_STATUS);
 	}
+	
+	 /**
+	  * Returns the user of this PMP object
+	  * @return int the user
+	  */
+	function get_user()
+	{
+		return $this->get_default_property(self :: PROPERTY_USER);
+	}
+	
+	 /**
+	  * Returns the sender of this PMP object
+	  * @return int the sender
+	  */
+	function get_sender()
+	{
+		return $this->get_default_property(self :: PROPERTY_SENDER);
+	}
 	 
 	 /**
-	  * Returns the recipient of this PM object
-	  * @return string the recipient
+	  * Returns the recipient of this PMP object
+	  * @return int the recipient
 	  */
 	function get_recipient()
 	{
@@ -124,16 +143,7 @@ class PersonalMessagePublication
 	}
 	
 	/**
-	 * Returns the publisher of this PM object
-	 * @return String the publisher
-	 */
-	function get_publisher()
-	{
-		return $this->get_default_property(self :: PROPERTY_PUBLISHER);
-	}
-	
-	/**
-	 * Returns the published timestamp of this PM object
+	 * Returns the published timestamp of this PMP object
 	 * @return Timestamp the published date
 	 */
 	function get_published()
@@ -142,25 +152,25 @@ class PersonalMessagePublication
 	} 
 	  
 	/**
-	 * Sets the id of this PM.
+	 * Sets the id of this PMP.
 	 * @param int $pm_id The PM id.
 	 */
-	function set_personal_message_id($pm_id)
+	function set_id($id)
 	{
-		$this->pm_id = $pm_id;
+		$this->id = $id;
 	}	
 	
 	/**
-	 * Sets the learning object id of this PM.
-	 * @param Int $id the learning object ID.
+	 * Sets the learning object id of this PMP.
+	 * @param Int $id the personal message ID.
 	 */
-	function set_learning_object_message_id($id)
+	function set_personal_message($id)
 	{
-		$this->set_default_property(self :: PROPERTY_PERSONAL_MESSAGE_ID, $id);
+		$this->set_default_property(self :: PROPERTY_PERSONAL_MESSAGE, $id);
 	}
 	
 	/**
-	 * Sets the status of this PM.
+	 * Sets the status of this PMP.
 	 * @param int $status the Status.
 	 */
 	function set_status($status)
@@ -169,21 +179,30 @@ class PersonalMessagePublication
 	}
 	
 	/**
-	 * Sets the recipient of this PM.
+	 * Sets the user of this PMP.
+	 * @param int $user the User.
+	 */
+	function set_user($user)
+	{
+		$this->set_default_property(self :: PROPERTY_USER, $user);
+	}
+	
+	/**
+	 * Sets the sender of this PMP.
+	 * @param int $sender the Sender.
+	 */
+	function set_sender($sender)
+	{
+		$this->set_default_property(self :: PROPERTY_SENDER, $sender);
+	}
+	
+	/**
+	 * Sets the recipient of this PMP.
 	 * @param int $recipient the user_id of the recipient.
 	 */
 	function set_recipient($recipient)
 	{
 		$this->set_default_property(self :: PROPERTY_RECIPIENT, $recipient);
-	}
-
-	/**
-	 * Sets the publisher of this PM.
-	 * @param int $publisher the user_id of the publisher.
-	 */
-	function set_publisher($publisher)
-	{
-		$this->set_default_property(self :: PROPERTY_PUBLISHER, $publisher);
 	}
 	
 	/**
@@ -193,6 +212,40 @@ class PersonalMessagePublication
 	function set_published($published)
 	{
 		$this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
+	}
+	
+	/**
+	 * Instructs the data manager to create the personal message publication, making it
+	 * persistent. Also assigns a unique ID to the publication and sets
+	 * the publication's creation date to the current time.
+	 * @return boolean True if creation succeeded, false otherwise.
+	 */
+	function create()
+	{
+		$now = time();
+		$this->set_published($now);
+		$pmdm = PersonalMessengerDataManager :: get_instance();
+		$id = $pmdm->get_next_personal_message_publication_id();
+		$this->set_id($id);
+		return $pmdm->create_personal_message_publication($this);
+	}
+	
+	/**
+	 * Deletes this publication from persistent storage
+	 * @see PersonalMessengerDataManager::delete_personal_message_publication()
+	 */
+	function delete()
+	{
+		return PersonalMessengerDataManager :: get_instance()->delete_personal_message_publication($this);
+	}
+	
+	/**
+	 * Updates this publication in persistent storage
+	 * @see PersonalMessengerDataManager::update_personal_message_publication()
+	 */
+	function update()
+	{
+		return WeblcmsDataManager :: get_instance()->update_personal_message_publication($this);
 	}
 }
 ?>

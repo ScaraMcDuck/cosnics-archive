@@ -1,22 +1,22 @@
 <?php
 /**
- * @package repository.usertable
+ * @package repository.publicationtable
  */
-require_once dirname(__FILE__).'/../../../main/inc/lib/sortabletable.class.php';
-require_once dirname(__FILE__).'/defaultusertablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/defaultusertablecellrenderer.class.php';
+require_once dirname(__FILE__).'/../../../../main/inc/lib/sortabletable.class.php';
+require_once dirname(__FILE__).'/defaultpublicationtablecolumnmodel.class.php';
+require_once dirname(__FILE__).'/defaultpublicationtablecellrenderer.class.php';
 
 /**
  * 
  * TODO: Add comment
  * 
  */
-class UserTable
+class PublicationTable
 {
 	/**
 	 * Default table name
 	 */
-	const DEFAULT_NAME = 'user';
+	const DEFAULT_NAME = 'personal_message_publication';
 	/**
 	 * Suffix for checkbox name when using actions on selected learning objects.
 	 */
@@ -66,12 +66,12 @@ class UserTable
 	 *                                                       Omit to use the
 	 *                                                       default renderer.
 	 */
-	function UserTable($data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
+	function PublicationTable($data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
 	{
 		$this->set_data_provider($data_provider);
 		$this->set_name(isset($table_name) ? $table_name : self :: DEFAULT_NAME);
-		$this->set_column_model(isset ($column_model) ? $column_model : new DefaultUserTableColumnModel());
-		$this->set_cell_renderer(isset ($cell_renderer) ? $cell_renderer : new DefaultUserTableCellRenderer());
+		$this->set_column_model(isset ($column_model) ? $column_model : new DefaultPublicationTableColumnModel());
+		$this->set_cell_renderer(isset ($cell_renderer) ? $cell_renderer : new DefaultPublicationTableCellRenderer());
 		$this->set_default_row_count(10);
 		$this->set_additional_parameters($this->determine_additional_parameters());
 	}
@@ -100,7 +100,7 @@ class UserTable
 	 */
 	function as_html()
 	{
-		$table = new SortableTable($this->get_name(), array ($this, 'get_user_count'), array ($this, 'get_users'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction());
+		$table = new SortableTable($this->get_name(), array ($this, 'get_personal_message_publication_count'), array ($this, 'get_personal_message_publications'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction());
 		$table->set_additional_parameters($this->get_additional_parameters());
 		if ($this->has_form_actions())
 		{
@@ -267,21 +267,21 @@ class UserTable
 	 * You should not be concerned with this method. It is only public because
 	 * of technical limitations.
 	 */
-	function get_users($offset, $count, $order_column, $order_direction)
+	function get_personal_message_publications($offset, $count, $order_column, $order_direction)
 	{
-		$users = $this->get_data_provider()->get_users(null, null, $offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_user_property(), $order_direction);
+		$objects = $this->get_data_provider()->get_personal_message_publications($offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_learning_object_property(), $order_direction);
 		$table_data = array ();
 		$column_count = $this->get_column_model()->get_column_count();
-		while ($user = $users->next_result())
+		foreach ($objects as $object)
 		{
 			$row = array ();
 			if ($this->has_form_actions())
 			{
-				$row[] = $user->get_user_id();
+				$row[] = $object->get_id();
 			}
 			for ($i = 0; $i < $column_count; $i ++)
 			{
-				$row[] = $this->get_cell_renderer()->render_cell($this->get_column_model()->get_column($i), $user);
+				$row[] = $this->get_cell_renderer()->render_cell($this->get_column_model()->get_column($i), $object);
 			}
 			$table_data[] = $row;
 		}
@@ -292,9 +292,9 @@ class UserTable
 	 * You should not be concerned with this method. It is only public because
 	 * of technical limitations.
 	 */
-	function get_user_count()
+	function get_personal_message_publication_count()
 	{
-		return $this->get_data_provider()->get_user_count();
+		return $this->get_data_provider()->get_personal_message_publication_count();
 	}
 }
 ?>

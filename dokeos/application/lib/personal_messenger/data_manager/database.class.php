@@ -11,7 +11,7 @@ class DatabasePersonalMessageDataManager extends PersonalMessageDataManager {
 	{
 		$this->repoDM = & RepositoryDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
-		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_personal_message'),array('debug'=>3,'debug_handler'=>array('PersonalMessageDatamanager','debug')));
+		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_personal_messenger'),array('debug'=>3,'debug_handler'=>array('PersonalMessengerDatamanager','debug')));
 		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
 		$this->connection->query('SET NAMES utf8');
 	}
@@ -40,8 +40,13 @@ class DatabasePersonalMessageDataManager extends PersonalMessageDataManager {
 	 */
 	private function get_table_name($name)
 	{
-		global $personal_calendar_database;
-		return $personal_calendar_database.'.'.$this->prefix.$name;
+		global $personal_messenger_database;
+		return $personal_messenger_database.'.'.$this->prefix.$name;
+	}
+	
+	function get_next_personal_message_publication_id()
+	{
+		return $this->connection->nextID($this->get_table_name('personal_messenger_publication'));
 	}
 }
 ?>
