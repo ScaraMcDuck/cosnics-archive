@@ -21,6 +21,8 @@ abstract class PersonalMessengerDataManager {
 		return self :: $instance;
     }
     
+    abstract function get_next_learning_object_publication_id();
+    
     abstract function initialize();
 }
 ?>

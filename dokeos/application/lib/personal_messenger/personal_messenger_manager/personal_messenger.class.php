@@ -347,7 +347,7 @@ require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.ph
 //		$links[] = array('name' => get_lang('UserCreate'), 'action' => 'add', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
 //		$links[] = array('name' => get_lang('UserExport'), 'action' => 'export', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
 //		$links[] = array('name' => get_lang('UserImport'), 'action' => 'import', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
-		return array('application' => array('name' => get_lang('PersonalMessenger'), 'class' => 'users'), 'links' => $links, 'search' => $this->get_link(array(PersonalMessage :: PARAM_ACTION => PersonalMessage :: ACTION_BROWSE_MESSAGES)));
+		return array('application' => array('name' => get_lang('PersonalMessenger'), 'class' => 'pms'), 'links' => $links, 'search' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_MESSAGES)));
 	}
 	
 	public function get_link($parameters = array (), $encode = false)
@@ -416,6 +416,12 @@ require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.ph
 	function update_learning_object_publication_id($publication_attr)
 	{
 		return true;
+	}
+	
+	function count_personal_message_publications($condition = null)
+	{
+		$rdm = PersonalMessengerDataManager :: get_instance();
+		return $rdm->count_personal_message_publications($condition);
 	}
 }
 ?>

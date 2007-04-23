@@ -107,6 +107,16 @@ abstract class PersonalMessengerComponent {
 //	{
 //		return $this->get_parent()->get_search_parameter($name);
 //	}
+
+	function count_personal_message_publications($condition = null)
+	{
+		return $this->get_parent()->count_personal_message_publications($condition);
+	}
+	
+	function retrieve_personal_message_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+		return $this->get_parent()->retrieve_personal_message_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
+	}
 	
 	/**
 	 * Create a new pm component
