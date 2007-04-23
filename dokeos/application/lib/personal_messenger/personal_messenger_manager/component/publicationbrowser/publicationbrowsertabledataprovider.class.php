@@ -39,17 +39,8 @@ class PublicationBrowserTableDataProvider implements PublicationTableDataProvide
    */
     function get_personal_message_publications($offset, $count, $order_property, $order_direction)
     {
-      // We always use title as second sorting parameter
-      if ($order_property != LearningObject :: PROPERTY_TITLE)
-      {
-        $order_property = array($order_property, LearningObject :: PROPERTY_TITLE);
-        $order_direction = array($order_direction, SORT_ASC);
-      }
-      else
-      {
-        $order_property = array($order_property);
-        $order_direction = array($order_direction);
-      }
+      $order_property = array($order_property);
+      $order_direction = array($order_direction);
       return $this->browser->retrieve_personal_message_publications($this->get_condition(), $order_property, $order_direction, $offset, $count);
     }
   /**

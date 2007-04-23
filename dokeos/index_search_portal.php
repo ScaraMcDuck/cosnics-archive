@@ -1,7 +1,7 @@
 <?php
 unset($_SESSION['_uid']);
 $cidReset = true;
-$langFile = 'searchportal';
+$langFile = array('searchportal');
 $this_section = 'searchportal';
 require_once dirname(__FILE__).'/main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/application/lib/search_portal/search_portal_manager/search_portal.class.php';

@@ -269,10 +269,10 @@ class PublicationTable
 	 */
 	function get_personal_message_publications($offset, $count, $order_column, $order_direction)
 	{
-		$objects = $this->get_data_provider()->get_personal_message_publications($offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_learning_object_property(), $order_direction);
+		$objects = $this->get_data_provider()->get_personal_message_publications($offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_personal_message_property(), $order_direction);
 		$table_data = array ();
 		$column_count = $this->get_column_model()->get_column_count();
-		foreach ($objects as $object)
+		while ($object = $objects->next_result())
 		{
 			$row = array ();
 			if ($this->has_form_actions())

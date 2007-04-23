@@ -31,13 +31,17 @@ class DefaultPublicationTableCellRenderer implements PublicationTableCellRendere
 			switch ($property)
 			{
 				case PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE :
-					return $personal_message_publication->get_personal_message();
+					return $personal_message_publication->get_publication_object()->get_title();
 				case PersonalMessagePublication :: PROPERTY_SENDER :
-					return $personal_message_publication->get_sender();
+					$user = $personal_message_publication->get_publication_sender();
+					return $user->get_firstname() . '&nbsp;' . $user->get_lastname();
 				case PersonalMessagePublication :: PROPERTY_RECIPIENT :
-					return $personal_message_publication->get_recipient();
+					$user = $personal_message_publication->get_publication_recipient();
+					return $user->get_firstname() . '&nbsp;' . $user->get_lastname();
 				case PersonalMessagePublication :: PROPERTY_PUBLISHED :
 					return $personal_message_publication->get_published();
+				case PersonalMessagePublication :: PROPERTY_STATUS :
+					return $personal_message_publication->get_status();
 			}
 		}
 		return '&nbsp;';

@@ -25,7 +25,7 @@ class AdminUserBrowserTableColumnModel extends DefaultUserTableColumnModel
 		$this->add_column(new UserTableColumn(User :: PROPERTY_STATUS, true));
 		$this->add_column(new UserTableColumn(User :: PROPERTY_PLATFORMADMIN, true));
 		$this->add_column(new UserTableColumn(User :: PROPERTY_VERSION_QUOTA, true));
-		$this->set_default_order_column(0);
+		$this->set_default_order_column(1);
 		$this->add_column(self :: get_modification_column());
 	}
 	/**

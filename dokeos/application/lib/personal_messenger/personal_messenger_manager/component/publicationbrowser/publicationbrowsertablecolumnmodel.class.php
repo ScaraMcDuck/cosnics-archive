@@ -15,10 +15,10 @@ class PublicationBrowserTableColumnModel extends DefaultPublicationTableColumnMo
 	/**
 	 * Constructor
 	 */
-	function PublicationBrowserTableColumnModel()
+	function PublicationBrowserTableColumnModel($folder)
 	{
-		parent :: __construct();
-		$this->set_default_order_column(0);
+		parent :: __construct($folder);
+		$this->set_default_order_column(1);
 		$this->add_column(self :: get_modification_column());
 	}
 	/**

@@ -4,6 +4,7 @@
  */
 require_once dirname(__FILE__).'/personalmessengercomponent.class.php';
 //require_once dirname(__FILE__).'/personalmessagesearchform.class.php';
+require_once dirname(__FILE__).'/../personalmessengerdatamanager.class.php';
 require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/configuration.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/orcondition.class.php';
@@ -23,12 +24,17 @@ require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.ph
  	const APPLICATION_NAME = 'personal_messenger';
  	
  	const PARAM_ACTION = 'go';
+	const PARAM_RECYCLE_SELECTED = 'recycle_selected';
+	const PARAM_MOVE_SELECTED = 'move_selected';
+	const PARAM_FOLDER = 'folder';
 	
-	const ACTION_BROWSE_MESSAGES = 'create';
+	const ACTION_FOLDER_INBOX = 'inbox';
+	const ACTION_FOLDER_OUTBOX = 'outbox';
+	
+	const ACTION_BROWSE_MESSAGES = 'browse';
 	
 	private $parameters;
 	private $search_parameters;
-	private $user_id;
 	private $user;
 	private $search_form;
 	private $breadcrumbs;
@@ -191,28 +197,25 @@ require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.ph
 	{
 		Display :: display_normal_message($form_html);
 	}
-
-//	/**
-//	 * @see UserSearchForm::get_condition()
-//	 */
-//	function get_search_condition()
-//	{
-//		return $this->get_search_form()->get_condition();
-//	}
-//	
-//	private function get_search_form()
-//	{
-//		if (!isset ($this->search_form))
-//		{
-//			$this->search_form = new UserSearchForm($this, $this->get_url());
-//		}
-//		return $this->search_form;
-//	}
-//	
-//	function get_search_validate()
-//	{
-//		return $this->get_search_form()->validate();
-//	}
+	
+	function get_search_condition()
+	{
+		return $this->get_search_form()->get_condition();
+	}
+	
+	private function get_search_form()
+	{
+		if (!isset ($this->search_form))
+		{
+			$this->search_form = new UserSearchForm($this, $this->get_url());
+		}
+		return $this->search_form;
+	}
+	
+	function get_search_validate()
+	{
+		return $this->get_search_form()->validate();
+	}
 
 	/**
 	 * Gets the parameter list
@@ -420,8 +423,14 @@ require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.ph
 	
 	function count_personal_message_publications($condition = null)
 	{
-		$rdm = PersonalMessengerDataManager :: get_instance();
-		return $rdm->count_personal_message_publications($condition);
+		$pmdm = PersonalMessengerDataManager :: get_instance();
+		return $pmdm->count_personal_message_publications($condition);
+	}
+	
+	function retrieve_personal_message_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+		$pmdm = PersonalMessengerDataManager :: get_instance();
+		return $pmdm->retrieve_personal_message_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
 }
 ?>
