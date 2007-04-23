@@ -153,6 +153,19 @@ if ($_uid)
 	echo get_lang('MyAgenda');
 	echo '</a>&nbsp;'."\n";
 	
+	if($GLOBALS['this_section'] == "mypms")
+	{
+		$link_class='class="here"';
+	}
+	else
+	{
+		$link_class='';
+	}
+	
+	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_personal_messenger.php" target="_top">';
+	echo get_lang('MyPMs');
+	echo '</a>&nbsp;'."\n";
+	
 	global $user;
 	$usermgr = new UserManager($_SESSION['_uid']);
 	if ($usermgr->get_user()->is_platform_admin())
