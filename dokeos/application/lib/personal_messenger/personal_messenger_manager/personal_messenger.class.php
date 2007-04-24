@@ -428,6 +428,12 @@ require_once dirname(__FILE__).'/../publication_table/publicationtable.class.php
 		return $pmdm->count_personal_message_publications($condition);
 	}
 	
+	function count_unread_personal_message_publications()
+	{
+		$pmdm = PersonalMessengerDataManager :: get_instance();
+		return $pmdm->count_unread_personal_message_publications($this->user);
+	}
+	
 	function retrieve_personal_message_publication($id)
 	{
 		$pmdm = PersonalMessengerDataManager :: get_instance();

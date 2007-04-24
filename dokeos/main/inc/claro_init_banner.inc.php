@@ -162,13 +162,19 @@ if ($_uid)
 		$link_class='';
 	}
 	
+	$usermgr = new UserManager($_SESSION['_uid']);
+	$user = $usermgr->get_user();
+	
+	$pmmgr = new PersonalMessenger($user);
+	$count = $pmmgr->count_unread_personal_message_publications();
+	
 	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_personal_messenger.php" target="_top">';
 	echo get_lang('MyPMs');
+	echo ($count > 0 ? '&nbsp;('.$count.')' : null); 
 	echo '</a>&nbsp;'."\n";
 	
 	global $user;
-	$usermgr = new UserManager($_SESSION['_uid']);
-	if ($usermgr->get_user()->is_platform_admin())
+	if ($user->is_platform_admin())
 	{
  		if($GLOBALS['this_section'] == "platform_admin")
 		{

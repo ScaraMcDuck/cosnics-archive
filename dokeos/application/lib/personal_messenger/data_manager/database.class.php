@@ -267,6 +267,18 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		return $record[0];
     }
     
+    function count_unread_personal_message_publications($user)
+    {
+		$query = 'SELECT COUNT('.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('personal_messenger_publication');
+		$query .= ' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_USER) . '=? AND '. $this->escape_column_name(PersonalMessagePublication :: PROPERTY_STATUS) . '=?';
+
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute(array($user->get_user_id(), 1));
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+		return $record[0];
+    }
+    
     function retrieve_personal_message_publication($id)
 	{
 		
