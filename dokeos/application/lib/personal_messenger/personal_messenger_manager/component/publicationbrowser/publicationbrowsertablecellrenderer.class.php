@@ -47,6 +47,15 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 					return '<img src="'.$this->browser->get_web_code_path().'img/personal_message.gif" />';
 				}
 				break;
+			case PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE:
+				$title = parent :: render_cell($column, $personal_message);
+				$title_short = $title;
+				if(strlen($title_short) > 53)
+				{
+					$title_short = mb_substr($title_short,0,50).'&hellip;';
+				}
+				return '<a href="'.htmlentities($this->browser->get_publication_viewing_url($personal_message)).'" title="'.$title.'">'.$title_short.'</a>';
+				break;	
 		}
 		return parent :: render_cell($column, $personal_message);
 	}
@@ -56,23 +65,19 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 	 * action links should be returned
 	 * @return string A HTML representation of the action links
 	 */
-	private function get_modification_links($learning_object)
+	private function get_modification_links($personal_message)
 	{
 		$toolbar_data = array();
 		
-//		if (!$learning_object->get_publication_object()->is_latest_version())
-//		{
-//			$update_url = $this->browser->get_publication_update_url($learning_object);
-//			$toolbar_data[] = array(
-//				'href' => $update_url,
-//				'label' => get_lang('Update'),
-//				'confirm' => true,
-//				'img' => $this->browser->get_web_code_path().'img/revert.gif'
-//			);
-//		}
-//		
-//		return RepositoryUtilities :: build_toolbar($toolbar_data);
-		return null;
+		$delete_url = $this->browser->get_publication_deleting_url($personal_message);
+		$toolbar_data[] = array(
+			'href' => $delete_url,
+			'label' => get_lang('View'),
+			'confirm' => true,
+			'img' => $this->browser->get_web_code_path().'img/delete.gif'
+		);
+	
+		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

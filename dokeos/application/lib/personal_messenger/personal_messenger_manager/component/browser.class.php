@@ -6,10 +6,7 @@ require_once dirname(__FILE__).'/../personal_messenger.class.php';
 require_once dirname(__FILE__).'/../personalmessengercomponent.class.php';
 require_once dirname(__FILE__).'/publicationbrowser/publicationbrowsertable.class.php';
 require_once dirname(__FILE__).'/../../personalmessengermenu.class.php';
-/**
- * pm component which provides the user with a list
- * of all courses he or she has subscribed to.
- */
+
 class PersonalMessengerBrowserComponent extends PersonalMessengerComponent
 {	
 	private $folder;

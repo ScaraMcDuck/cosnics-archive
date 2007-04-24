@@ -1,6 +1,8 @@
 <?php
 $Home='Home';
 $Inbox='Inbox';
+$MarkSelectedRead='Mark Selected Read';
+$MarkSelectedUnread='Mark Selected Unread';
 $MoveSelected='Move Selected';
 $MyPersonalMessenger='My Personal Messenger';
 $Outbox='Outbox';

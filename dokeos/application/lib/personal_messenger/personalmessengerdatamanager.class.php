@@ -26,6 +26,8 @@ abstract class PersonalMessengerDataManager {
     abstract function initialize();
     
     abstract function count_personal_message_publications($condition = null);
+
+	abstract function retrieve_personal_message_publication($id);
     
     abstract function retrieve_personal_message_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
 

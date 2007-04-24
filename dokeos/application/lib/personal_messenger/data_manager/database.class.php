@@ -10,9 +10,13 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 	
 	function initialize()
 	{
+		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
 		$this->repoDM = & RepositoryDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_personal_messenger'),array('debug'=>3,'debug_handler'=>array('PersonalMessengerDatamanager','debug')));
+		if (PEAR::isError($this)) {
+   		 die($this->connection->getMessage());
+		}
 		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
 		$this->connection->query('SET NAMES utf8');
 	}
@@ -32,6 +36,25 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 			$name = $column;
 		}
 		return $prefix.$this->connection->quoteIdentifier($name);
+	}
+	
+	static function handle_error($error)
+	{
+		die(__FILE__.':'.__LINE__.': '.$error->getMessage()
+		// For debugging only. May create a security hazard.
+		.' ('.$error->getDebugInfo().')');
+	}
+	
+	function debug()
+	{
+		$args = func_get_args();
+		// Do something with the arguments
+		if($args[1] == 'query')
+		{
+			//echo '<pre>';
+		 	//echo($args[2]);
+		 	//echo '</pre>';
+		}
 	}
 	
 	function escape_table_name($name)
@@ -242,6 +265,19 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$res->free();
 		return $record[0];
     }
+    
+    function retrieve_personal_message_publication($id)
+	{
+		
+		$query = 'SELECT * FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'=?';
+		
+		$this->connection->setLimit(1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($id);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$res->free();
+		return self :: record_to_personal_message_publication($record);
+	}
     
     function retrieve_personal_message_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
