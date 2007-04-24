@@ -14,5 +14,15 @@ $usermgr = new UserManager(api_get_user_id());
 $user = $usermgr->retrieve_user(api_get_user_id());
 
 $app = new PersonalMessenger($user);
-$app->run();
+
+try
+{
+	$app->run();
+}
+catch(Exception $exception)
+{
+	$app->display_header();
+	Display::display_error_message($exception->getMessage());
+	$app->display_footer();
+}
 ?>

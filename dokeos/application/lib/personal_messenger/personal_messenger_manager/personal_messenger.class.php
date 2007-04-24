@@ -24,12 +24,16 @@ require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.ph
  	const APPLICATION_NAME = 'personal_messenger';
  	
  	const PARAM_ACTION = 'go';
-	const PARAM_RECYCLE_SELECTED = 'recycle_selected';
-	const PARAM_MOVE_SELECTED = 'move_selected';
+	const PARAM_DELETE_SELECTED = 'delete_selected';
+	const PARAM_MARK_SELECTED_READ = 'mark_selected_read';
+	const PARAM_MARK_SELECTED_UNREAD = 'mark_selected_unread';
 	const PARAM_FOLDER = 'folder';
+	const PARAM_PERSONAL_MESSAGE_ID = 'pm';
 	
 	const ACTION_FOLDER_INBOX = 'inbox';
 	const ACTION_FOLDER_OUTBOX = 'outbox';
+	const ACTION_DELETE_PUBLICATION = 'delete';
+	const ACTION_VIEW_PUBLICATION = 'view';
 	
 	const ACTION_BROWSE_MESSAGES = 'browse';
 	
@@ -62,6 +66,9 @@ require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.ph
 		{
 			case self :: ACTION_BROWSE_MESSAGES :
 				$component = PersonalMessengerComponent :: factory('Browser', $this);
+				break;
+			case self :: ACTION_VIEW_PUBLICATION :
+				$component = PersonalMessengerComponent :: factory('Viewer', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_MESSAGES);
@@ -427,10 +434,26 @@ require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.ph
 		return $pmdm->count_personal_message_publications($condition);
 	}
 	
+	function retrieve_personal_message_publication($id)
+	{
+		$pmdm = PersonalMessengerDataManager :: get_instance();
+		return $pmdm->retrieve_personal_message_publication($id);
+	}
+	
 	function retrieve_personal_message_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		$pmdm = PersonalMessengerDataManager :: get_instance();
 		return $pmdm->retrieve_personal_message_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
+	}
+	
+	function get_publication_deleting_url($personal_message)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id()));
+	}
+	
+	function get_publication_viewing_url($personal_message)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id()));
 	}
 }
 ?>
