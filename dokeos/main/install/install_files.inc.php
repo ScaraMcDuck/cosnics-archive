@@ -59,6 +59,7 @@ function full_file_install($values)
 	$config['{DATABASE_REPOSITORY}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_repository"]);
 	$config['{DATABASE_WEBLCMS}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_weblcms"]);
 	$config['{DATABASE_PERSONALCALENDAR}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_personal_calendar"]);
+	$config['{DATABASE_PERSONAL_MESSENGER}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_personal_messenger"]);
 	foreach ($config as $key => $value)
 	{
 		$content = str_replace($key, $value, $content);
@@ -71,6 +72,7 @@ function full_file_install($values)
 	require_once('../../application/lib/weblcms/install/weblcms_installer.class.php');
 	require_once('../../application/lib/personal_calendar/install/personal_calendar_installer.class.php');
 	require_once('../../repository/install/repository_installer.class.php');
+	require_once('../../application/lib/personal_messenger/install/personal_messenger_installer.class.php');
 	$installer = new RepositoryInstaller();
 	$installer->install();
 	unset($installer);
@@ -93,6 +95,13 @@ function full_file_install($values)
 	// Users tables install.
 	//-----------------------------------------------------------
 	$installer = new UsersInstaller();
+	$installer->install();
+	unset($installer);
+	
+	//-----------------------------------------------------------
+	// personal messenger tables install.
+	//-----------------------------------------------------------
+	$installer = new PersonalMessengerInstaller();
 	$installer->install();
 	unset($installer);
 
