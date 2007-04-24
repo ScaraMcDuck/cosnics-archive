@@ -73,17 +73,14 @@ class PersonalMessagePublicationForm extends FormValidator
     function create_learning_object_publication()
     {
 		$values = $this->exportValues();
-
 		$pmdm = PersonalMessengerDataManager :: get_instance();
-		
 		$udm = UsersDataManager :: get_instance();
 		$recipient_id = retrieve_user_by_username($values[PersonalMessagePublication :: PROPERTY_RECIPIENT]);
-		
 		$pub = new PersonalMessagePublication();
 		$pub->set_personal_message($this->learning_object->get_id());
-		$pub->set_recipient($values[PersonalMessagePublication :: PROPERTY_RECIPIENT]);
+		$pub->set_recipient($recipient_id);
 		$pub->set_published(time());
-		$pub->set_publisher($this->form_user);
+		$pub->set_user($this->form_user);
 		$pub->set_sender($this->form_user);
 		$pub->set_status('0');
 		$pub->create();
