@@ -28,5 +28,14 @@ abstract class PersonalMessengerDataManager {
     abstract function count_personal_message_publications($condition = null);
     
     abstract function retrieve_personal_message_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+
+	/**
+	 * Creates a storage unit
+	 * @param string $name Name of the storage unit
+	 * @param array $properties Properties of the storage unit
+	 * @param array $indexes The indexes which should be defined in the created
+	 * storage unit
+	 */
+	abstract function create_storage_unit($name,$properties,$indexes);
 }
 ?>
