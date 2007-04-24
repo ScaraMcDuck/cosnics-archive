@@ -24,8 +24,7 @@ $configuration['database']['connection_string_personal_calendar']
 	= 'mysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_PERSONALCALENDAR}';
 	
 $configuration['database']['connection_string_personal_messenger']
-	= 'mysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_PERSONALMESSENGER}';
-
+	= 'mysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_PERSONAL_MESSENGER}';
 
 $configuration['database']['table_name_prefix']
 	= 'dokeos_';
