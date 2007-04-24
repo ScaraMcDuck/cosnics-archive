@@ -42,6 +42,9 @@ class Page_DatabaseSettings extends HTML_QuickForm_Page
 		$this->addRule('database_weblcms', 'ThisFieldIsRequired', 'required');
 		$this->addElement('text', 'database_personal_calendar', get_lang("PersonalCalendarDatabase"), array ('size' => '40'));
 		$this->addRule('database_personal_calendar', 'ThisFieldIsRequired', 'required');
+		$this->addElement('text', 'database_personal_messenger', get_lang("PersonalMessageDatabase"), array ('size' => '40'));
+		$this->addRule('database_personal_messenger', 'ThisFieldIsRequired', 'required');
+		
 		$enable_tracking[] = & $this->createElement('radio', 'enable_tracking', null, get_lang("Yes"), 1);
 		$enable_tracking[] = & $this->createElement('radio', 'enable_tracking', null, get_lang("No"), 0);
 		$this->addGroup($enable_tracking, 'tracking', get_lang("EnableTracking"), '&nbsp;', false);
