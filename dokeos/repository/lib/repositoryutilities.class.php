@@ -318,7 +318,7 @@ class RepositoryUtilities
 		return implode($html);
 	}
 
-	function build_block_hider($type, $id = null, $message = null)
+	function build_block_hider($type, $id = null, $message = null, $extra = null)
 	{
 		$html = array();
 
@@ -330,14 +330,14 @@ class RepositoryUtilities
 			$html[]  .= '	if (document.getElementById(item).style.display == \'block\')';
 			$html[]  .= '  {';
 			$html[]  .= '		document.getElementById(item).style.display = \'none\';';
-			$html[]  .= '		document.getElementById(\'plus\').style.display = \'inline\';';
-			$html[]  .= '		document.getElementById(\'minus\').style.display = \'none\';';
+			$html[]  .= '		document.getElementById(\'plus-\'+item).style.display = \'inline\';';
+			$html[]  .= '		document.getElementById(\'minus-\'+item).style.display = \'none\';';
 			$html[]  .= '  }';
 			$html[]  .= '	else';
 			$html[]  .= '  {';
 			$html[]  .= '		document.getElementById(item).style.display = \'block\';';
-			$html[]  .= '		document.getElementById(\'plus\').style.display = \'none\';';
-			$html[]  .= '		document.getElementById(\'minus\').style.display = \'inline\';';
+			$html[]  .= '		document.getElementById(\'plus-\'+item).style.display = \'none\';';
+			$html[]  .= '		document.getElementById(\'minus-\'+item).style.display = \'inline\';';
 			$html[]  .= '		document.getElementById(item).value = \'Version comments here ...\';';
 			$html[]  .= '	}';
 			$html[]  .= '}';
@@ -347,10 +347,10 @@ class RepositoryUtilities
 		{
 			$show_message = 'Show' . $message;
 			$hide_message = 'Hide' . $message;
-
-			$html[]    = '<div id="plus"><a href="javascript:showElement(\''. $id .'\')">'. get_lang('Show' . $message) .'</a></div>';
-			$html[]    = '<div id="minus" style="display: none;"><a href="javascript:showElement(\''. $id .'\')">'. get_lang('Hide' . $message) .'</a></div>';
-			$html[]   .= '<div id="'. $id .'" style="display: none;">';
+			
+			$html[]    = '<div id="plus-'.$id.'"><a href="javascript:showElement(\''. $id .'\')">'. get_lang('Show' . $message) .'</a></div>';
+			$html[]    = '<div id="minus-'.$id.'" style="display: none;"><a href="javascript:showElement(\''. $id .'\')">'. get_lang('Hide' . $message) .'</a></div>';
+			$html[]   .= '<div id="'. $id .'" style="display: none; clear: both;">';
 		}
 		elseif($type == 'end')
 		{

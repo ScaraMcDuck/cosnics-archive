@@ -30,6 +30,10 @@ abstract class PersonalMessengerDataManager {
 	abstract function retrieve_personal_message_publication($id);
     
     abstract function retrieve_personal_message_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+    
+    abstract function update_personal_message_publication($personal_message_publication);
+    
+    abstract function delete_personal_message_publication($personal_message_publication);
 
 	/**
 	 * Creates a storage unit

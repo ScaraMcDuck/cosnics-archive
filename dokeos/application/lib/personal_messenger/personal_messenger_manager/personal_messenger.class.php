@@ -13,6 +13,7 @@ require_once dirname(__FILE__).'/../../../../repository/lib/condition/notconditi
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/likecondition.class.php';
 require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
+require_once dirname(__FILE__).'/../publication_table/publicationtable.class.php';
 
 /**
  * A user manager provides some functionalities to the admin to manage
@@ -29,11 +30,14 @@ require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.ph
 	const PARAM_MARK_SELECTED_UNREAD = 'mark_selected_unread';
 	const PARAM_FOLDER = 'folder';
 	const PARAM_PERSONAL_MESSAGE_ID = 'pm';
+	const PARAM_MARK_TYPE = 'type';
 	
 	const ACTION_FOLDER_INBOX = 'inbox';
 	const ACTION_FOLDER_OUTBOX = 'outbox';
 	const ACTION_DELETE_PUBLICATION = 'delete';
 	const ACTION_VIEW_PUBLICATION = 'view';
+	const ACTION_VIEW_ATTACHMENTS = 'viewattachments';
+	const ACTION_MARK_PUBLICATION = 'mark';
 	
 	const ACTION_BROWSE_MESSAGES = 'browse';
 	
@@ -47,7 +51,8 @@ require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.ph
     {
     	$this->user = $user;
 		$this->parameters = array ();
-		$this->set_action($_GET[self :: PARAM_ACTION]);   	
+		$this->set_action($_GET[self :: PARAM_ACTION]);
+		$this->parse_input_from_table();   	
     }
     
     /**
@@ -69,6 +74,15 @@ require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.ph
 				break;
 			case self :: ACTION_VIEW_PUBLICATION :
 				$component = PersonalMessengerComponent :: factory('Viewer', $this);
+				break;
+			case self :: ACTION_VIEW_ATTACHMENTS :
+				$component = PersonalMessengerComponent :: factory('AttachmentViewer', $this);
+				break;
+			case self :: ACTION_DELETE_PUBLICATION :
+				$component = PersonalMessengerComponent :: factory('Deleter', $this);
+				break;
+			case self :: ACTION_MARK_PUBLICATION :
+				$component = PersonalMessengerComponent :: factory('Marker', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_MESSAGES);
@@ -267,29 +281,9 @@ require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.ph
 	 * category).
 	 * @param boolean $error_message Is the passed message an error message?
 	 */
-	function redirect($type = 'url', $message = null, $error_message = false, $extra_params = null)
+	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
 	{
-		$params = array ();
-		if (isset ($message))
-		{
-			$params[$error_message ? self :: PARAM_ERROR_MESSAGE :  self :: PARAM_MESSAGE] = $message;
-		}
-		if (isset($extra_params))
-		{
-			foreach($extra_params as $key => $extra)
-			{
-				$params[$key] = $extra;
-			}
-		}
-		if ($type == 'url')
-		{
-			$url = $this->get_url($params);
-		}
-		elseif ($type == 'link')
-		{
-			$url = 'index.php';
-		}
-		header('Location: '.$url);
+		return parent :: redirect($action, $message, $error_message, $extra_params);
 	}
 
 	/**
@@ -454,6 +448,39 @@ require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.ph
 	function get_publication_viewing_url($personal_message)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id()));
+	}
+	
+	private function parse_input_from_table()
+	{
+		if (isset ($_POST['action']))
+		{
+			$selected_ids = $_POST[PublicationTable :: DEFAULT_NAME.PublicationTable :: CHECKBOX_NAME_SUFFIX];
+			if (empty ($selected_ids))
+			{
+				$selected_ids = array ();
+			}
+			elseif (!is_array($selected_ids))
+			{
+				$selected_ids = array ($selected_ids);
+			}
+			switch ($_POST['action'])
+			{
+				case self :: PARAM_MARK_SELECTED_READ :
+					$this->set_action(self :: ACTION_MARK_PUBLICATION);
+					$_GET[self :: PARAM_PERSONAL_MESSAGE_ID] = $selected_ids;
+					$_GET[self :: PARAM_MARK_TYPE] = self :: PARAM_MARK_SELECTED_READ;
+					break;
+				case self :: PARAM_MARK_SELECTED_UNREAD :
+					$this->set_action(self :: ACTION_MARK_PUBLICATION);
+					$_GET[self :: PARAM_PERSONAL_MESSAGE_ID] = $selected_ids;
+					$_GET[self :: PARAM_MARK_TYPE] = self :: PARAM_MARK_SELECTED_UNREAD;
+					break;
+				case self :: PARAM_DELETE_SELECTED :
+					$this->set_action(self :: ACTION_DELETE_PUBLICATION);
+					$_GET[self :: PARAM_PERSONAL_MESSAGE_ID] = $selected_ids;
+					break;
+			}
+		}
 	}
 }
 ?>

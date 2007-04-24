@@ -270,7 +270,7 @@ class PersonalMessagePublication
 	 */
 	function update()
 	{
-		return WeblcmsDataManager :: get_instance()->update_personal_message_publication($this);
+		return PersonalMessengerDataManager :: get_instance()->update_personal_message_publication($this);
 	}
 }
 ?>

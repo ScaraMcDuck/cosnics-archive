@@ -4,12 +4,12 @@
  */
 require_once dirname(__FILE__).'/../personal_messenger.class.php';
 require_once dirname(__FILE__).'/../personalmessengercomponent.class.php';
-require_once dirname(__FILE__).'/publicationbrowser/publicationbrowsertable.class.php';
-require_once dirname(__FILE__).'/../../personalmessengermenu.class.php';
+require_once dirname(__FILE__).'/../../../../../repository/lib/repositoryutilities.class.php';
 
 class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 {	
 	private $folder;
+	private $publication;
 	
 	/**
 	 * Runs this component and displays its output.
@@ -23,7 +23,8 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 		
 		if ($id)
 		{
-			$publication = $this->retrieve_personal_message_publication($id);
+			$this->publication = $this->retrieve_personal_message_publication($id);
+			$publication = $this->publication;
 			if ($this->get_user_id() != $publication->get_user())
 			{
 				$this->display_header($breadcrumbs);
@@ -32,12 +33,16 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 				exit;
 			}
 			
-			$menu = $this->get_menu_html();
-			$output = $this->get_publication_html($publication);
+			if ($publication->get_status() == 1)
+			{
+				$publication->set_status(0);
+				$publication->update();
+			}
+			
 			
 			$this->display_header($breadcrumbs);
-			echo $menu;
-			echo $output;
+			echo $this->get_publication_as_html();
+			
 			$this->display_footer();
 		}
 		else
@@ -46,50 +51,61 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 		}
 	}
 	
-	private function get_publication_html($publication)
+	function get_publication_as_html()
 	{
+		$publication = $this->publication;
+		$message = $publication->get_publication_object(); 
 		$html = array();
-		$html[] = '<div style="float: right; width: 80%;">';
-		$html[] = print_r($publication);
+		
+		$sender = $publication->get_publication_sender();
+		$recipient = $publication->get_publication_recipient();
+
+		$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/description.gif);">';
+		$html[] = '<div class="title">'. get_lang('Data') .'</div>';		
+		$html[] = '<div class="description">';
+		$html[] = '<b>'.get_lang('MessageFrom'). '</b>:&nbsp;'. $sender->get_firstname(). '&nbsp;' .$sender->get_lastname() . '<br />';
+		$html[] = '<b>'.get_lang('MessageTo'). '</b>:&nbsp;'. $recipient->get_firstname(). '&nbsp;' .$recipient->get_lastname() . '<br />';
+		$html[] = '<b>'.get_lang('MessageDate'). '</b>:&nbsp;'. format_locale_date(get_lang('dateFormatShort').', '.get_lang('timeNoSecFormat'),$publication->get_published()) . '<br />';
+		$html[] = '<b>'.get_lang('MessageSubject'). '</b>:&nbsp;'. $message->get_title();
+		$html[] = '</div>';
 		$html[] = '</div>';
 		
-		return implode($html, "\n");
-	}
-	
-	function get_menu_html()
-	{
-		$extra_items = array ();
-//		if ($this->get_search_validate())
-//		{
-//			// $search_url = $this->get_url();
-//			$search_url = '#';
-//			$search = array ();
-//			$search['title'] = get_lang('SearchResults');
-//			$search['url'] = $search_url;
-//			$search['class'] = 'search_results';
-//			$extra_items[] = & $search;
-//		}
-//		else
-//		{
-//			$search_url = null;
-//		}
+		$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/personal_message.gif);">';
+		$html[] = '<div class="title">'. get_lang('Message') .'</div>';
+		$html[] = '<div class="description">'.$message->get_description().'</div>';
+		$html[] = '</div>';
 		
-		$temp_replacement = '__FOLDER__';
-		$url_format = $this->get_url(array (PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES, PersonalMessenger :: PARAM_FOLDER => $temp_replacement));
-		$url_format = str_replace($temp_replacement, '%s', $url_format);
-		$user_menu = new PersonalMessengerMenu($this->folder, $url_format, & $extra_items);
 		
-		if (isset ($search_url))
+		if ($message->supports_attachments())
 		{
-			$user_menu->forceCurrentUrl($search_url, true);
+			$attachments = $message->get_attached_learning_objects();
+			if (count($attachments))
+			{
+				$html[] = RepositoryUtilities :: build_block_hider('script');
+				$html[] = '<div class="attachments" style="margin-top: 1em;">';
+				$html[] = '<div class="attachments_title">'.htmlentities(get_lang('Attachments')).'</div>';
+				$html[] = '<ul class="attachments_list">';
+				RepositoryUtilities :: order_learning_objects_by_title(& $attachments);
+				foreach ($attachments as $attachment)
+				{
+					$html[] = '<li class="personal_message_attachment"><div style="float: left;"><img src="'.api_get_path(WEB_CODE_PATH).'/img/treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/></div><div style="float: left;">&nbsp;'.$attachment->get_title().'&nbsp;</div>';
+					$html[] = RepositoryUtilities :: build_block_hider('begin', $attachment->get_id(), 'Attachment');
+					
+					$display = LearningObjectDisplay :: factory($attachment);
+					$html[] = $display->get_full_html();
+										
+					$html[] = RepositoryUtilities :: build_block_hider('end', $attachment->get_id());
+					//$html[] = '<div style="clear: both;">&nbsp;</div>';
+					$html[] = '</li>';
+				}
+				$html[] = '</ul>';
+				$html[] = '</div>';
+			}
 		}
 		
-		$html = array();
-		$html[] = '<div style="float: left; width: 20%;">';
-		$html[] = $user_menu->render_as_tree();
-		$html[] = '</div>';
 		
-		return implode($html, "\n");
+		
+		return implode("\n",$html);
 	}
 }
 ?>

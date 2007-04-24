@@ -862,6 +862,13 @@ div.attachments_title
 	width: 60%;
 	margin-bottom: 1em;
 }
+
+ul.attachments_list li.personal_message_attachment
+{
+	clear: both;
+	padding-bottom: 7px;
+}
+
 ul.attachments_list
 {
 	list-style: none;

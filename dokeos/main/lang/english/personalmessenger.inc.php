@@ -1,15 +1,30 @@
 <?php
+$Attachments='Attachments';
+$Data='Data';
+$HideAttachment='Hide';
 $Home='Home';
 $Inbox='Inbox';
 $MarkSelectedRead='Mark Selected Read';
 $MarkSelectedUnread='Mark Selected Unread';
+$Message='Message';
+$MessageDate='Date';
+$MessageFrom='From';
+$MessageSubject='Subject';
+$MessageTo='To';
 $MoveSelected='Move Selected';
 $MyPersonalMessenger='My Personal Messenger';
+$NoPublicationSelected='No publication selected';
 $Outbox='Outbox';
 $Personal_message=' Message';
 $Published='Sent';
 $Recipient='Recipient';
 $RemoveSelected='Remove Selected';
 $SearchResults='Search Results';
+$SelectedPublicationDeleted='Selected publication deleted';
+$SelectedPublicationsDeleted='Selected publications deleted';
+$SelectedPublicationNotDeleted='Selected publication not deleted';
+$SelectedPublicationsNotDeleted='Selected publications not deleted';
 $Sender='Sender';
+$ShowAttachment='Show';
+$ViewPersonalMessage='View Personal Message';
 ?>

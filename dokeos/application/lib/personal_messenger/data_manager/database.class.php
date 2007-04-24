@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../personalmessengerdatamanager.class.php';
+require_once dirname(__FILE__).'/../personalmessagepublication.class.php';
 require_once dirname(__FILE__).'/database/databasepersonalmessagepublicationresultset.class.php';
 require_once 'MDB2.php';
 
@@ -330,6 +331,33 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 			$defaultProp[$prop] = $record[$prop];
 		}
 		return new PersonalMessagePublication($record[PersonalMessagePublication :: PROPERTY_ID], $defaultProp);		
+	}
+	
+	function update_personal_message_publication($personal_message_publication)
+	{
+		$where = $this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'='.$personal_message_publication->get_id();
+		$props = array();
+		foreach ($personal_message_publication->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('personal_messenger_publication'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+		return true;
+	}
+	
+	function delete_personal_message_publication($personal_message_publication)
+	{
+		$query = 'DELETE FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'=?';
+		$statement = $this->connection->prepare($query);
+		if ($statement->execute($personal_message_publication->get_id()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	static function is_date_column($name)
