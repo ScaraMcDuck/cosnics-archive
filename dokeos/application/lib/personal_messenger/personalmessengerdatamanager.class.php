@@ -29,6 +29,14 @@ abstract class PersonalMessengerDataManager {
 	 * this application, false otherwise
 	 */
 	abstract function any_learning_object_is_published($object_ids);
+	
+	abstract function learning_object_is_published($object_id);
+	
+	abstract function get_learning_object_publication_attribute($object_id);
+	
+	abstract function get_learning_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	
+	abstract function count_publication_attributes($user, $type = null, $condition = null);
     
     abstract function get_next_personal_message_publication_id();
     
@@ -45,6 +53,10 @@ abstract class PersonalMessengerDataManager {
     abstract function update_personal_message_publication($personal_message_publication);
     
     abstract function delete_personal_message_publication($personal_message_publication);
+    
+    abstract function delete_personal_message_publications($object_id);
+    
+    abstract function update_personal_message_publication_id($publication_attr);
 
 	/**
 	 * Creates a storage unit

@@ -1,5 +1,6 @@
 <?php
 $Attachments='Attachments';
+$Create='Create';
 $Data='Data';
 $HideAttachment='Hide';
 $Home='Home';

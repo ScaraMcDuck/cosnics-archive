@@ -277,6 +277,7 @@ $OctoberShort = "Oct";
 $OnlyLettersAndNumbersAllowed = "Only letters and numbers allowed";
 $Or = "or";
 $Other = "Other";
+$Outbox = "Outbox";
 $OverviewCourseRights = "Roles & rights overview";
 $PleaseTryAgain = "Please Try Again!";
 $PR='P-R';

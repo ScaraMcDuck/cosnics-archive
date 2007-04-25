@@ -149,6 +149,11 @@ abstract class PersonalMessengerComponent {
 		return $this->get_parent()->get_publication_viewing_url($personal_message);
 	}
 	
+	function get_personal_message_creation_url()
+	{
+		return $this->get_parent()->get_personal_message_creation_url();
+	}
+	
 	/**
 	 * Create a new pm component
 	 * @param string $type The type of the component to create.

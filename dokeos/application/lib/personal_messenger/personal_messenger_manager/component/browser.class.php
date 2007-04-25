@@ -54,6 +54,12 @@ class PersonalMessengerBrowserComponent extends PersonalMessengerComponent
 	function get_menu_html()
 	{
 		$extra_items = array ();
+		$create = array ();
+		$create['title'] = get_lang('Create');
+		$create['url'] = $this->get_personal_message_creation_url();
+		$create['class'] = 'create';
+		$extra_items[] = & $create;
+		
 //		if ($this->get_search_validate())
 //		{
 //			// $search_url = $this->get_url();

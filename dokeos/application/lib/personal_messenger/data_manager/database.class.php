@@ -9,6 +9,9 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 	private $prefix;
 	private $repoDM;
 	
+	const ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE = 'pmb';
+	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
+	
 	function initialize()
 	{
 		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
@@ -372,6 +375,38 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		}
 	}
 	
+	function delete_personal_message_publications($object_id)
+	{
+		$condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
+		$publications = $this->retrieve_personal_message_publications($condition, null, null, null, null, true, array (), array (), 0, -1, $object_id);
+		while ($publication = $publications->next_result())
+		{
+//			$subject = '['.api_get_setting('siteName').'] '.$publication->get_learning_object()->get_title();
+//			// TODO: SCARA - Add meaningfull publication removal message
+//			$body = 'message';
+//			$user = $this->userDM->retrieve_user($publication->get_publisher_id());
+//			api_send_mail($user->get_email(), $subject, $body);
+			$this->delete_personal_message_publication($publication);
+		}
+		return true;
+	}
+	
+	function update_personal_message_publication_id($publication_attr)
+	{
+		$where = $this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'='.$publication_attr->get_id();
+		$props = array();
+		$props[$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE)] = $publication_attr->get_publication_object_id();
+		$this->connection->loadModule('Extended');
+		if ($this->connection->extended->autoExecute($this->get_table_name('personal_messenger_publication'), $props, MDB2_AUTOQUERY_UPDATE, $where))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	static function is_date_column($name)
 	{
 		return ($name == PersonalMessagePublication :: PROPERTY_PUBLISHED);
@@ -381,6 +416,13 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE).' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
 		$res = $this->limitQuery($query, 1, null,$object_ids);
+		return $res->numRows() == 1;
+	}
+	
+	function learning_object_is_published($object_id)
+	{
+		$query = 'SELECT * FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE).'=?';
+		$res = $this->limitQuery($query, 1,null, array ($object_id));
 		return $res->numRows() == 1;
 	}
 	
@@ -419,7 +461,139 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 				$manager->createIndex($name,$index_name,$index_info);
 			}
 		}
+	}
+	
+	function get_learning_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		if (isset($type))
+		{
+			if ($type == 'user')
+			{
+				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->escape_column_name('title') .' FROM '.$this->escape_table_name('personal_messenger_publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.$this->repoDM->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`personal_message` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
+				$query .= ' WHERE '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.'.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_USER).'=?';
 
+				$order = array ();
+				for ($i = 0; $i < count($order_property); $i ++)
+				{
+					if ($order_property[$i] == 'application' || $order_property[$i] == 'location')
+					{
+					}
+					elseif($order_property[$i] == 'title')
+					{
+						$order[] = self :: ALIAS_LEARNING_OBJECT_TABLE. '.' .$this->escape_column_name('title').' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+					}
+					else
+					{
+						$order[] = self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.' .$this->escape_column_name($order_property[$i], true).' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+						$order[] = self :: ALIAS_LEARNING_OBJECT_TABLE. '.' .$this->escape_column_name('title').' '. ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+					}
+				}
+				if (count($order))
+				{
+					$query .= ' ORDER BY '.implode(', ', $order);
+				}
+
+				$statement = $this->connection->prepare($query);
+				$param = $user->get_user_id();
+			}
+		}
+		else
+		{
+			$query = 'SELECT * FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE).'=?';
+			$statement = $this->connection->prepare($query);
+			$param = $object_id;
+		}
+
+		$res = $statement->execute($param);
+
+		$publication_attr = array();
+		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$publication = $this->record_to_personal_message_publication($record);
+			
+			$info = new LearningObjectPublicationAttributes();
+			$info->set_id($publication->get_id());
+			$info->set_publisher_user_id($publication->get_sender());
+			$info->set_publication_date($publication->get_published());
+			$info->set_application('Personal Messenger');
+			//TODO: i8n location string
+			if ($publication->get_user() == $publication->get_recipient())
+			{ 
+				$recipient = $publication->get_publication_recipient();
+				$info->set_location($recipient->get_firstname().'&nbsp;'. $recipient->get_lastname() .'&nbsp;/&nbsp;' . get_lang('Inbox'));
+			}
+			elseif($publication->get_user() == $publication->get_sender())
+			{
+				$sender = $publication->get_publication_sender();
+				$info->set_location($sender->get_firstname().'&nbsp;'. $sender->get_lastname() .'&nbsp;/&nbsp;' . get_lang('Outbox'));
+			}
+			else
+			{
+				$info->set_location(get_lang('UnknownLocation'));
+			}
+			
+			if ($publication->get_user() == $user->get_user_id())
+			{
+				$info->set_url('index_personal_messenger.php?go=view&pm='.$record[PersonalMessagePublication :: PROPERTY_ID]);
+			}
+			$info->set_publication_object_id($record[PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE]);
+			
+			$publication_attr[] = $info;
+		}
+		return $publication_attr;
+	}
+	
+	function get_learning_object_publication_attribute($publication_id)
+	{
+
+		$query = 'SELECT * FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'=?';
+		$statement = $this->connection->prepare($query);
+		$this->connection->setLimit(0,1);
+		$res = $statement->execute($publication_id);
+		
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		
+		$publication = $this->record_to_personal_message_publication($record);
+			
+		$info = new LearningObjectPublicationAttributes();
+		$info->set_id($publication->get_id());
+		$info->set_publisher_user_id($publication->get_sender());
+		$info->set_publication_date($publication->get_published());
+		$info->set_application('Personal Messenger');
+		//TODO: i8n location string
+		if ($publication->get_user() == $publication->get_recipient())
+		{ 
+			$recipient = $publication->get_publication_recipient();
+			$info->set_location($recipient->get_firstname().'&nbsp;'. $recipient->get_lastname() .'&nbsp;/&nbsp;' . get_lang('Inbox'));
+		}
+		elseif($publication->get_user() == $publication->get_sender())
+		{
+			$sender = $publication->get_publication_sender();
+			$info->set_location($sender->get_firstname().'&nbsp;'. $sender->get_lastname() .'&nbsp;/&nbsp;' . get_lang('Outbox'));
+		}
+		else
+		{
+			$info->set_location(get_lang('UnknownLocation'));
+		}
+		
+		if ($publication->get_user() == $user->get_user_id())
+		{
+			$info->set_url('index_personal_messenger.php?go=view&pm='.$record[PersonalMessagePublication :: PROPERTY_ID]);
+		}
+		$info->set_publication_object_id($record[PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE]);
+
+		return $info;
+	}
+	
+	function count_publication_attributes($user, $type = null, $condition = null)
+	{
+		$params = array ();
+		$query = 'SELECT COUNT('.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_USER).'=?';;
+
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($user->get_user_id());
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $record[0];
 	}
 }
 ?>
