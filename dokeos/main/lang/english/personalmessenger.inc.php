@@ -1,7 +1,11 @@
 <?php
+$AddAttachments='Add Attachments';
 $Attachments='Attachments';
+$BrowserTitle='Browse';
+$CategoryTypeName='Category';
 $Create='Create';
 $Data='Data';
+$FinderTitle='Find';
 $HideAttachment='Hide';
 $Home='Home';
 $Inbox='Inbox';
@@ -17,10 +21,14 @@ $MyPersonalMessenger='My Personal Messenger';
 $NoPublicationSelected='No publication selected';
 $Outbox='Outbox';
 $Personal_message=' Message';
+$PublicationcreatorTitle='Create';
 $Published='Sent';
 $Recipient='Recipient';
 $RemoveSelected='Remove Selected';
+$Reply='Reply';
+$ReplyShort='Re:';
 $SearchResults='Search Results';
+$Searching='Searching';
 $SelectedPublicationDeleted='Selected publication deleted';
 $SelectedPublicationsDeleted='Selected publications deleted';
 $SelectedPublicationNotDeleted='Selected publication not deleted';
@@ -29,7 +37,9 @@ $SelectedPublicationNotUpdated='Selected publication not updated';
 $SelectedPublicationsNotUpdated='Selected publications not updated';
 $SelectedPublicationsUpdated='Selected publications updated';
 $SelectedPublicationUpdated='Selected publication updated';
+$Send='Send';
 $Sender='Sender';
+$SendPersonalMessage='Send a personal message';
 $ShowAttachment='Show';
 $ViewPersonalMessage='View Personal Message';
 ?>

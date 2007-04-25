@@ -3,7 +3,7 @@
  * @package application.personal_messenger
  */
 require_once dirname(__FILE__).'/personalmessagepublication.class.php';
-require_once dirname(__FILE__).'../../../users/lib/usersdatamanager.class.php';
+require_once dirname(__FILE__).'/../../../users/lib/usersdatamanager.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/html2text.class.php';
 /**
@@ -75,17 +75,37 @@ class PersonalMessagePublicationForm extends FormValidator
 		$values = $this->exportValues();
 		$pmdm = PersonalMessengerDataManager :: get_instance();
 		$udm = UsersDataManager :: get_instance();
-		$recipient_id = retrieve_user_by_username($values[PersonalMessagePublication :: PROPERTY_RECIPIENT]);
-		$pub = new PersonalMessagePublication();
-		$pub->set_personal_message($this->learning_object->get_id());
-		$pub->set_recipient($recipient_id);
-		$pub->set_published(time());
-		$pub->set_user($this->form_user);
-		$pub->set_sender($this->form_user);
-		$pub->set_status('0');
-		$pub->create();
+		$recipient_id = $udm->retrieve_user_by_username($values[PersonalMessagePublication :: PROPERTY_RECIPIENT])->get_user_id();
+		$sender_pub = new PersonalMessagePublication();
+		$sender_pub->set_personal_message($this->learning_object->get_id());
+		$sender_pub->set_recipient($recipient_id);
+		$sender_pub->set_published(time());
+		$sender_pub->set_user($this->form_user->get_user_id());
+		$sender_pub->set_sender($this->form_user->get_user_id());
+		$sender_pub->set_status('0');
 		
-		return $pub;
+		if ($sender_pub->create())
+		{
+			$recipient_pub = new PersonalMessagePublication();
+			$recipient_pub->set_personal_message($this->learning_object->get_id());
+			$recipient_pub->set_recipient($recipient_id);
+			$recipient_pub->set_published(time());
+			$recipient_pub->set_user($recipient_id);
+			$recipient_pub->set_sender($this->form_user->get_user_id());
+			$recipient_pub->set_status('1');
+			if ($recipient_pub->create())
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
     }
 }
 ?>

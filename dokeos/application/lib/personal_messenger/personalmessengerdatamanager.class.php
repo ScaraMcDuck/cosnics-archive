@@ -57,6 +57,8 @@ abstract class PersonalMessengerDataManager {
     abstract function delete_personal_message_publications($object_id);
     
     abstract function update_personal_message_publication_id($publication_attr);
+    
+    abstract function create_personal_message_publication($publication);
 
 	/**
 	 * Creates a storage unit

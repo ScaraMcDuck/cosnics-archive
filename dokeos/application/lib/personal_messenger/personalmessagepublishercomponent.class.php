@@ -40,6 +40,11 @@ abstract class PersonalMessagePublisherComponent
 	{
 		return $this->parent->get_user_id();
 	}
+	
+	function get_user()
+	{
+		return $this->parent->get_user();
+	}
 
 	/**
 	 * @see LearningObjectPublisher::get_types()
@@ -94,6 +99,11 @@ abstract class PersonalMessagePublisherComponent
 	function get_default_learning_object($type)
 	{
 		return $this->parent->get_default_learning_object($type);
+	}
+	
+	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
+	{
+		return $this->parent->redirect($action, $message, $error_message, $extra_params);
 	}
 }
 ?>

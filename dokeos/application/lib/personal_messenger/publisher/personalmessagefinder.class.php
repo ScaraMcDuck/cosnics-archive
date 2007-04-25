@@ -13,7 +13,7 @@ require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
  * This class represents a learning object publisher component which can be used
  * to search for a certain learning object.
  */
-class PersonalMessageFinder extends PesonalMessageBrowser
+class PersonalMessageFinder extends PersonalMessageBrowser
 {
 	/**
 	 * The search form
@@ -31,8 +31,8 @@ class PersonalMessageFinder extends PesonalMessageBrowser
 	{
 		parent :: __construct($parent);
 		$this->form = new FormValidator('search', 'get','','',null,false);
-		$this->form->addElement('hidden', 'tool');
 		$this->form->addElement('hidden', PersonalMessagePublisher :: PARAM_ACTION);
+		$this->form->addElement('hidden', PersonalMessenger :: PARAM_ACTION);
 		$this->form->addElement('text', 'query', get_lang('Find'), 'size="40" class="search_query"');
 		$this->form->addElement('submit', 'submit', get_lang('Ok'));
 		$this->renderer = clone $this->form->defaultRenderer();

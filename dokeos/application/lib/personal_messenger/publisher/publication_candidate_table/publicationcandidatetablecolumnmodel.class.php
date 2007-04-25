@@ -44,7 +44,7 @@ class PublicationCandidateTableColumnModel extends LearningObjectTableColumnMode
 	{
 		if (!isset(self :: $action_column))
 		{
-			self :: $action_column = new LearningObjectTableColumn(get_lang('Publish'));
+			self :: $action_column = new LearningObjectTableColumn(get_lang('Send'));
 		}
 		return self :: $action_column;
 	}

@@ -21,6 +21,7 @@ abstract class LearningObjectForm extends FormValidator
 	const TYPE_CREATE = 1;
 	const TYPE_EDIT = 2;
 	const TYPE_COMPARE = 3;
+	const TYPE_REPLY = 4;
 	const RESULT_SUCCESS = 'ObjectUpdated';
 	const RESULT_ERROR = 'ObjectUpdateFailed';
 
@@ -55,7 +56,7 @@ abstract class LearningObjectForm extends FormValidator
 		$this->learning_object = $learning_object;
 		$this->owner_id = $learning_object->get_owner_id();
 		$this->extra = $extra;
-		if ($this->form_type == self :: TYPE_EDIT)
+		if ($this->form_type == self :: TYPE_EDIT || $this->form_type == self :: TYPE_REPLY)
 		{
 			$this->build_editing_form();
 		}
@@ -255,7 +256,7 @@ EOT;
 	 */
 	private function add_footer()
 	{
-		if ($this->supports_attachments())
+		if ($this->supports_attachments() && $this->form_type != self :: TYPE_REPLY)
 		{
 			$object = $this->learning_object;
 			$attached_objects = $object->get_attached_learning_objects();
@@ -287,8 +288,15 @@ EOT;
 	{
 		$lo = $this->learning_object;
 		$defaults[LearningObject :: PROPERTY_ID] = $lo->get_id();
-		$defaults[LearningObject :: PROPERTY_TITLE] = $lo->get_title();
-		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
+		if ($this->form_type == self :: TYPE_REPLY)
+		{
+			$defaults[LearningObject :: PROPERTY_TITLE] = get_lang('ReplyShort'). ' ' . $lo->get_title();
+		}
+		else
+		{
+			$defaults[LearningObject :: PROPERTY_TITLE] = $lo->get_title();
+			$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
+		}
 		parent :: setDefaults($defaults);
 	}
 
@@ -426,7 +434,7 @@ EOT;
 	private function allows_category_selection()
 	{
 		$lo = $this->learning_object;
-		return ($this->form_type == self :: TYPE_CREATE || $lo->get_parent_id());
+		return ($this->form_type == self :: TYPE_CREATE || $this->form_type == self :: TYPE_REPLY || $lo->get_parent_id());
 	}
 
 	/**

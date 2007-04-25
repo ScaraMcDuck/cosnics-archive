@@ -6,7 +6,7 @@
  */
 require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
 require_once dirname(__FILE__).'/../personalmessagepublishercomponent.class.php';
-require_once dirname(__FILE__).'/../personalmessagedatamanager.class.php';
+require_once dirname(__FILE__).'/../personalmessengerdatamanager.class.php';
 require_once dirname(__FILE__).'/../personalmessagepublicationform.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectdisplay.class.php';
@@ -19,7 +19,7 @@ require_once api_get_path(SYS_CODE_PATH).'/inc/lib/groupmanager.lib.php';
  * This class represents a learning object publisher component which can be used
  * to create a new learning object before publishing it.
  */
-class PersonalMessagePublicationcreator extends PersonalMessagePublisherComponent
+class PersonalMessagePublicationCreator extends PersonalMessagePublisherComponent
 {
 	/*
 	 * Inherited
@@ -82,7 +82,7 @@ class PersonalMessagePublicationcreator extends PersonalMessagePublisherComponen
 	private function get_creation_form($type)
 	{
 		$default_lo = $this->get_default_learning_object($type);
-		$form = PersonalMessageForm :: factory(PersonalMessageForm :: TYPE_CREATE, $default_lo, 'create', 'post', $this->get_url(array ('type' => $type)));
+		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $default_lo, 'create', 'post', $this->get_url(array ('type' => $type)));
 		if ($form->validate())
 		{
 			$object = $form->create_learning_object();
@@ -91,6 +91,21 @@ class PersonalMessagePublicationcreator extends PersonalMessagePublisherComponen
 		else
 		{
 			return $form->toHTML();
+		}
+	}
+	
+	private function get_editing_form($objectID)
+	{
+		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
+		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_REPLY, $object, 'edit', 'post', $this->get_url(array (PersonalMessagePublisher :: PARAM_LEARNING_OBJECT_ID => $objectID, PersonalMessagePublisher :: PARAM_EDIT => 1)));
+		if ($form->validate())
+		{
+			$object = $form->create_learning_object();
+			return $this->get_publication_form($object->get_id(), true);
+		}
+		else
+		{
+			return $form->toHtml();
 		}
 	}
 
@@ -106,20 +121,22 @@ class PersonalMessagePublicationcreator extends PersonalMessagePublisherComponen
 		$out = ($new ? Display :: display_normal_message(htmlentities(get_lang('ObjectCreated')), true) : '');
 		$tool = $this->get_parent()->get_parent();
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
-		$form = new LearningObjectPublicationForm($object, $tool, $this->get_parent()->with_mail_option(), $this->get_parent()->get_course());
+		$form = new PersonalMessagePublicationForm($object, $this->get_user(),$this->get_url(array (PersonalMessagePublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id())));
 		if ($form->validate())
 		{
-			$publication = $form->create_learning_object_publication();
+			$failures = 0;
+			if ($form->create_learning_object_publication())
+			{
+				$message = 'PersonalMessageSent';
+			}
+			else
+			{
+				$failures++;
+				$message = 'PersonalMessageNotSent';
+			}
 			// TODO: Use a function for this.
-			$parameters['action'] = RepositoryTool::ACTION_SHOW_NORMAL_MESSAGE;
-			$parameters['message'] = get_lang('ObjectPublished');
-			$parameters['pcattree'] = $publication->get_category_id();
-			$parameters['admin'] = 0;
-			$url = $this->get_url($parameters);
-			// Redirect to location where the publication was made
-			header('Location: '.$url);
-			// In case headers were allready sent, we simply show the confirmation message here
-			$out .= Display::display_normal_message(get_lang('ObjectPublished'),true);
+			
+			$this->redirect(null, get_lang($message), ($failures ? true : false), array(PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES, PersonalMessenger :: PARAM_FOLDER => PersonalMessenger :: ACTION_FOLDER_OUTBOX));
 		}
 		else
 		{

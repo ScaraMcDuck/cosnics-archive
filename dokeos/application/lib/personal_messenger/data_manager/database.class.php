@@ -595,5 +595,25 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
+	
+	function create_personal_message_publication($publication)
+	{
+		$props = array();
+		foreach ($publication->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$props[$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID)] = $publication->get_id();
+		
+		$this->connection->loadModule('Extended');
+		if ($this->connection->extended->autoExecute($this->get_table_name('personal_messenger_publication'), $props, MDB2_AUTOQUERY_INSERT))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
 ?>
