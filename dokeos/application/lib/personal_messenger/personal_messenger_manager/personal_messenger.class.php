@@ -385,7 +385,8 @@ require_once dirname(__FILE__).'/../publication_table/publicationtable.class.php
 	 */
 	function any_learning_object_is_published($object_ids)
 	{
-		return false;
+		return PersonalMessengerDataManager :: get_instance()->any_learning_object_is_published($object_ids);
+		//return null;
 	}
 
 	/**

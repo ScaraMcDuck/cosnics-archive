@@ -3,18 +3,18 @@
  * @package repository.publicationtable
  */
 
-require_once dirname(__FILE__).'/publicationtablecellrenderer.class.php';
+require_once dirname(__FILE__).'/pmpublicationtablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/learningobject.class.php';
 require_once dirname(__FILE__).'/../personalmessagepublication.class.php';
 /**
  * TODO: Add comment
  */
-class DefaultPublicationTableCellRenderer implements PublicationTableCellRenderer
+class DefaultPmPublicationTableCellRenderer implements PmPublicationTableCellRenderer
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultPublicationTableCellRenderer()
+	function DefaultPmPublicationTableCellRenderer()
 	{
 	}
 	/**

@@ -7,7 +7,7 @@
  * TODO: Add comment
  * 
  */
-class PublicationTableColumnModel
+class PmPublicationTableColumnModel
 {
 	/**
 	 * The columns in the table.
@@ -33,7 +33,7 @@ class PublicationTableColumnModel
 	 *                                        Either the PHP constant SORT_ASC
 	 *                                        or SORT_DESC.
 	 */
-	function PublicationTableColumnModel($columns, $default_order_column = 0, $default_order_direction = SORT_ASC)
+	function PmPublicationTableColumnModel($columns, $default_order_column = 0, $default_order_direction = SORT_ASC)
 	{
 		$this->columns = $columns;
 		$this->order_column = $default_order_column;

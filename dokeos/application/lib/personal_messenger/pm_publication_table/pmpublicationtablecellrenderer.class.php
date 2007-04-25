@@ -7,7 +7,7 @@
  * TODO: Add comment
  * 
  */
-interface PublicationTableCellRenderer
+interface PmPublicationTableCellRenderer
 {
 	/**
 	 * TODO: Add comment

@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../personal_messenger.class.php';
 require_once dirname(__FILE__).'/../personalmessengercomponent.class.php';
-require_once dirname(__FILE__).'/publicationbrowser/publicationbrowsertable.class.php';
+require_once dirname(__FILE__).'/pmpublicationbrowser/pmpublicationbrowsertable.class.php';
 require_once dirname(__FILE__).'/../../personalmessengermenu.class.php';
 
 class PersonalMessengerBrowserComponent extends PersonalMessengerComponent
@@ -41,7 +41,7 @@ class PersonalMessengerBrowserComponent extends PersonalMessengerComponent
 	{
 		$parameters = $this->get_parameters(true);
 		
-		$table = new PublicationBrowserTable($this, null, $parameters, $this->get_condition());
+		$table = new PmPublicationBrowserTable($this, null, $parameters, $this->get_condition());
 		
 		$html = array();
 		$html[] = '<div style="float: right; width: 80%;">';

@@ -2,11 +2,11 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../../../publication_table/defaultpublicationtablecolumnmodel.class.php';
+require_once dirname(__FILE__).'/../../../pm_publication_table/defaultpmpublicationtablecolumnmodel.class.php';
 /**
  * Table column model for the publication browser table
  */
-class PublicationBrowserTableColumnModel extends DefaultPublicationTableColumnModel
+class PmPublicationBrowserTableColumnModel extends DefaultPmPublicationTableColumnModel
 {
 	/**
 	 * The tables modification column
@@ -15,7 +15,7 @@ class PublicationBrowserTableColumnModel extends DefaultPublicationTableColumnMo
 	/**
 	 * Constructor
 	 */
-	function PublicationBrowserTableColumnModel($folder)
+	function PmPublicationBrowserTableColumnModel($folder)
 	{
 		parent :: __construct($folder);
 		$this->set_default_order_column(1);
@@ -29,7 +29,7 @@ class PublicationBrowserTableColumnModel extends DefaultPublicationTableColumnMo
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new PublicationTableColumn('');
+			self :: $modification_column = new PmPublicationTableColumn('');
 		}
 		return self :: $modification_column;
 	}

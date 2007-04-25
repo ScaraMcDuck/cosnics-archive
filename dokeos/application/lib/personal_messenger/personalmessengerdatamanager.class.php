@@ -21,6 +21,15 @@ abstract class PersonalMessengerDataManager {
 		return self :: $instance;
     }
     
+    /**
+	 * Determines whether any of the given learning objects has been published
+	 * in this application.
+	 * @param array $object_ids The Id's of the learning objects
+	 * @return boolean True if at least one of the given objects is published in
+	 * this application, false otherwise
+	 */
+	abstract function any_learning_object_is_published($object_ids);
+    
     abstract function get_next_personal_message_publication_id();
     
     abstract function initialize();

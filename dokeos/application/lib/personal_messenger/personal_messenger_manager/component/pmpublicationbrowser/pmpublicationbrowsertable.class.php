@@ -2,25 +2,25 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../../../publication_table/publicationtable.class.php';
-require_once dirname(__FILE__).'/publicationbrowsertabledataprovider.class.php';
-require_once dirname(__FILE__).'/publicationbrowsertablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/publicationbrowsertablecellrenderer.class.php';
+require_once dirname(__FILE__).'/../../../pm_publication_table/pmpublicationtable.class.php';
+require_once dirname(__FILE__).'/pmpublicationbrowsertabledataprovider.class.php';
+require_once dirname(__FILE__).'/pmpublicationbrowsertablecolumnmodel.class.php';
+require_once dirname(__FILE__).'/pmpublicationbrowsertablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../personal_messenger.class.php';
 /**
  * Table to display a set of learning objects.
  */
-class PublicationBrowserTable extends PublicationTable
+class PmPublicationBrowserTable extends PmPublicationTable
 {
 	/**
 	 * Constructor
 	 * @see LearningObjectTable::LearningObjectTable()
 	 */
-	function PublicationBrowserTable($browser, $name, $parameters, $condition)
+	function PmPublicationBrowserTable($browser, $name, $parameters, $condition)
 	{
-		$model = new PublicationBrowserTableColumnModel($browser->get_folder());
-		$renderer = new PublicationBrowserTableCellRenderer($browser);
-		$data_provider = new PublicationBrowserTableDataProvider($browser, $condition);
+		$model = new PmPublicationBrowserTableColumnModel($browser->get_folder());
+		$renderer = new PmPublicationBrowserTableCellRenderer($browser);
+		$data_provider = new PmPublicationBrowserTableDataProvider($browser, $condition);
 		parent :: __construct($data_provider, $name, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();
