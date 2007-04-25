@@ -7,7 +7,7 @@
  * TODO: Add comment
  * 
  */
-class PublicationTableColumn
+class PmPublicationTableColumn
 {
 	/**
 	 * The property of the learning object which will be displayed in this
@@ -38,7 +38,7 @@ class PublicationTableColumn
 	 *                                                   object property, false
 	 *                                                   otherwise.
 	 */
-	function PublicationTableColumn($property_name_or_column_title, $contains_personal_message_property = false)
+	function PmPublicationTableColumn($property_name_or_column_title, $contains_personal_message_property = false)
 	{
 		if ($contains_personal_message_property)
 		{

@@ -2,13 +2,13 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/publicationbrowsertablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/../../../publication_table/defaultpublicationtablecellrenderer.class.php';
+require_once dirname(__FILE__).'/pmpublicationbrowsertablecolumnmodel.class.php';
+require_once dirname(__FILE__).'/../../../pm_publication_table/defaultpmpublicationtablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../personal_messenger.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
-class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRenderer
+class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCellRenderer
 {
 	/**
 	 * The repository browser component
@@ -18,7 +18,7 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 	 * Constructor
 	 * @param RepositoryManagerBrowserComponent $browser
 	 */
-	function PublicationBrowserTableCellRenderer($browser)
+	function PmPublicationBrowserTableCellRenderer($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;
@@ -26,7 +26,7 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 	// Inherited
 	function render_cell($column, $personal_message)
 	{
-		if ($column === PublicationBrowserTableColumnModel :: get_modification_column())
+		if ($column === PmPublicationBrowserTableColumnModel :: get_modification_column())
 		{
 			return $this->get_modification_links($personal_message);
 		}

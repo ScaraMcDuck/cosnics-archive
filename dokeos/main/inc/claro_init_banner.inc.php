@@ -162,6 +162,8 @@ if ($_uid)
 		$link_class='';
 	}
 	
+	global $user;
+	
 	$usermgr = new UserManager($_SESSION['_uid']);
 	$user = $usermgr->get_user();
 	
@@ -173,7 +175,6 @@ if ($_uid)
 	echo ($count > 0 ? '&nbsp;('.$count.')' : null); 
 	echo '</a>&nbsp;'."\n";
 	
-	global $user;
 	if ($user->is_platform_admin())
 	{
  		if($GLOBALS['this_section'] == "platform_admin")

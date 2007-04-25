@@ -5,7 +5,7 @@
 /**
  * todo: add comment
  */
-interface PublicationTableDataProvider
+interface PmPublicationTableDataProvider
 {
     function get_personal_message_publications($offset, $count, $order_property, $order_direction);
 

@@ -377,6 +377,21 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		return ($name == PersonalMessagePublication :: PROPERTY_PUBLISHED);
 	}
 	
+	function any_learning_object_is_published($object_ids)
+	{
+		$query = 'SELECT * FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE).' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
+		$res = $this->limitQuery($query, 1, null,$object_ids);
+		return $res->numRows() == 1;
+	}
+	
+	private function limitQuery($query,$limit,$offset,$params,$is_manip = false)
+	{
+		$this->connection->setLimit($limit,$offset);
+		$statement = $this->connection->prepare($query,null,($is_manip ? MDB2_PREPARE_MANIP : null));
+		$res = $statement->execute($params);
+		return $res;
+	}
+	
 	function create_storage_unit($name,$properties,$indexes)
 	{
 		$name = $this->get_table_name($name);

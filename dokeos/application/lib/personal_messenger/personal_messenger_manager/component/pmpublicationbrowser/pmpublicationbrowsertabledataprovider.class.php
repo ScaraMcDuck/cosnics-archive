@@ -2,14 +2,14 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../../../publication_table/publicationtabledataprovider.class.php';
+require_once dirname(__FILE__).'/../../../pm_publication_table/pmpublicationtabledataprovider.class.php';
 /**
  * Data provider for a repository browser table.
  *
  * This class implements some functions to allow repository browser tables to
  * retrieve information about the learning objects to display.
  */
-class PublicationBrowserTableDataProvider implements PublicationTableDataProvider
+class PmPublicationBrowserTableDataProvider implements PmPublicationTableDataProvider
 {
   /**
    * The repository manager component in which the table will be displayed
@@ -24,7 +24,7 @@ class PublicationBrowserTableDataProvider implements PublicationTableDataProvide
    * @param RepositoryManagerComponent $browser
    * @param Condition $condition
    */
-  function PublicationBrowserTableDataProvider($browser, $condition)
+  function PmPublicationBrowserTableDataProvider($browser, $condition)
   {
     $this->browser = $browser;
     $this->condition = $condition;
