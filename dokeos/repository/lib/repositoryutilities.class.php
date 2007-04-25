@@ -309,7 +309,15 @@ class RepositoryUtilities
 			$html[] = '<li>';
 			// TODO: i18n
 			// TODO: SCARA - Find cleaner solution to display Learning Object title + url
-			$html[] = '<a href="'.$info->get_url(). '">' . $info->get_application().': '.$info->get_location().'</a> > <a href="'. $object->get_view_url() .'">'. $object->get_title() .'</a> ('.$publisher->get_firstname().' '.$publisher->get_lastname().', '.date('r', $info->get_publication_date()).')';
+			if ($info->get_url())
+			{
+				$html[] = '<a href="'.$info->get_url(). '">' . $info->get_application().': '.$info->get_location().'</a>';
+			}
+			else
+			{
+				$html[] = $info->get_application().': '.$info->get_location();
+			}
+			$html[] = ' > <a href="'. $object->get_view_url() .'">'. $object->get_title() .'</a> ('.$publisher->get_firstname().' '.$publisher->get_lastname().', '.date('r', $info->get_publication_date()).')';
 			$html[] = '</li>';
 		}
 		$html[] = '</ul>';

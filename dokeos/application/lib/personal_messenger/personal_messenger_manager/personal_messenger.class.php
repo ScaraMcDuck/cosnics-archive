@@ -13,7 +13,7 @@ require_once dirname(__FILE__).'/../../../../repository/lib/condition/notconditi
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/likecondition.class.php';
 require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
-require_once dirname(__FILE__).'/../publication_table/publicationtable.class.php';
+require_once dirname(__FILE__).'/../pm_publication_table/pmpublicationtable.class.php';
 
 /**
  * A user manager provides some functionalities to the admin to manage
@@ -38,6 +38,7 @@ require_once dirname(__FILE__).'/../publication_table/publicationtable.class.php
 	const ACTION_VIEW_PUBLICATION = 'view';
 	const ACTION_VIEW_ATTACHMENTS = 'viewattachments';
 	const ACTION_MARK_PUBLICATION = 'mark';
+	const ACTION_CREATE_PUBLICATION = 'create';
 	
 	const ACTION_BROWSE_MESSAGES = 'browse';
 	
@@ -368,59 +369,39 @@ require_once dirname(__FILE__).'/../publication_table/publicationtable.class.php
 		return $link;
 	}
 	
-	/**
-	 * Always returns false, as this application does not publish learning
-	 * objects.
-	 * @return boolean Always false.
-	 */
 	function learning_object_is_published($object_id)
 	{
-		return false;
+		return PersonalMessengerDataManager :: get_instance()->learning_object_is_published($object_id);
 	}
 
-	/**
-	 * Always returns false, as this application does not publish learning
-	 * objects.
-	 * @return boolean Always false.
-	 */
 	function any_learning_object_is_published($object_ids)
 	{
 		return PersonalMessengerDataManager :: get_instance()->any_learning_object_is_published($object_ids);
-		//return null;
 	}
 
-	/**
-	 * Always returns an empty array, as this application does not publish
-	 * learning objects.
-	 * @return array An empty array.
-	 */
 	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return array ();
+		return PersonalMessengerDataManager :: get_instance()->get_learning_object_publication_attributes($this->get_user(), $object_id, $type, $offset, $count, $order_property, $order_direction);
 	}
 	
-	/**
-	 * Always returns null, as this application does not publish learning objects.
-	 * @return null.
-	 */
 	function get_learning_object_publication_attribute($object_id)
 	{
-		return null;
+		return PersonalMessengerDataManager :: get_instance()->get_learning_object_publication_attribute($object_id);
 	}	
 	
 	function count_publication_attributes($type = null, $condition = null)
 	{
-		return null;
+		return PersonalMessengerDataManager :: get_instance()->count_publication_attributes($this->get_user(), $type, $condition);
 	}
 	
 	function delete_learning_object_publications($object_id)
 	{
-		return true;
+		return PersonalMessengerDataManager :: get_instance()->delete_personal_message_publications($object_id);
 	}
 	
 	function update_learning_object_publication_id($publication_attr)
 	{
-		return true;
+		return PersonalMessengerDataManager :: get_instance()->update_personal_message_publication_id($publication_attr);
 	}
 	
 	function count_personal_message_publications($condition = null)
@@ -457,11 +438,16 @@ require_once dirname(__FILE__).'/../publication_table/publicationtable.class.php
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id()));
 	}
 	
+	function get_personal_message_creation_url()
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_PUBLICATION));
+	}
+	
 	private function parse_input_from_table()
 	{
 		if (isset ($_POST['action']))
 		{
-			$selected_ids = $_POST[PublicationTable :: DEFAULT_NAME.PublicationTable :: CHECKBOX_NAME_SUFFIX];
+			$selected_ids = $_POST[PmPublicationTable :: DEFAULT_NAME.PmPublicationTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty ($selected_ids))
 			{
 				$selected_ids = array ();
