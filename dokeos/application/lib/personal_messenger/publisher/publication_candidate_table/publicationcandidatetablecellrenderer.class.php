@@ -57,8 +57,8 @@ class PublicationCandidateTableCellRenderer extends DefaultLearningObjectTableCe
 		$toolbar_data = array();
 		$toolbar_data[] = array(
 			'href' => $publish_url,
-			'img' => api_get_path(WEB_CODE_PATH).'img/publish.gif',
-			'label' => get_lang('Publish')
+			'img' => api_get_path(WEB_CODE_PATH).'img/personal_message.gif',
+			'label' => get_lang('Send')
 		);
 //		$toolbar_data[] = array(
 //			'href' => $edit_and_publish_url,

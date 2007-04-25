@@ -41,6 +41,7 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 			
 			
 			$this->display_header($breadcrumbs);
+			echo $this->get_publication_modification_links();
 			echo $this->get_publication_as_html();
 			
 			$this->display_footer();
@@ -106,6 +107,21 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 		
 		
 		return implode("\n",$html);
+	}
+	
+	function get_publication_modification_links()
+	{
+		$publication = $this->publication;
+		
+		$toolbar_data = array();
+		$toolbar_data[] = array(
+			'href' => $this->get_publication_reply_url($publication),
+			'label' => get_lang('Reply'),
+			'img' => $this->get_web_code_path().'img/reply.gif',
+			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+		);
+		
+		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

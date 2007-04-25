@@ -14,6 +14,7 @@ require_once dirname(__FILE__).'/../../../../repository/lib/condition/equalityco
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/likecondition.class.php';
 require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
 require_once dirname(__FILE__).'/../pm_publication_table/pmpublicationtable.class.php';
+require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
 
 /**
  * A user manager provides some functionalities to the admin to manage
@@ -84,6 +85,9 @@ require_once dirname(__FILE__).'/../pm_publication_table/pmpublicationtable.clas
 				break;
 			case self :: ACTION_MARK_PUBLICATION :
 				$component = PersonalMessengerComponent :: factory('Marker', $this);
+				break;
+			case self :: ACTION_CREATE_PUBLICATION :
+				$component = PersonalMessengerComponent :: factory('Publisher', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_MESSAGES);
@@ -436,6 +440,11 @@ require_once dirname(__FILE__).'/../pm_publication_table/pmpublicationtable.clas
 	function get_publication_viewing_url($personal_message)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id()));
+	}
+	
+	function get_publication_reply_url($personal_message)
+	{
+		return $this->get_url(array (PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_CREATE_PUBLICATION, PersonalMessagePublisher :: PARAM_ACTION => 'publicationcreator', PersonalMessagePublisher :: PARAM_LEARNING_OBJECT_ID => $personal_message->get_personal_message(), PersonalMessagePublisher :: PARAM_EDIT => 1));
 	}
 	
 	function get_personal_message_creation_url()

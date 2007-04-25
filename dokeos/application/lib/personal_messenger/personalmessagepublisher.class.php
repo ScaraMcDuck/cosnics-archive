@@ -15,7 +15,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/abstractlearningobject.
 class PersonalMessagePublisher
 {
 	const PARAM_ACTION = 'publish_action';
-	//const PARAM_EDIT = 'edit';
+	const PARAM_EDIT = 'edit';
 	const PARAM_LEARNING_OBJECT_ID = 'object';
 
 	/**
@@ -28,18 +28,22 @@ class PersonalMessagePublisher
 	 * The default learning objects, which are used for form defaults.
 	 */
 	private $default_learning_objects;
+	
+	private $parent;
+	
 	/**
 	 * Constructor.
 	 * @param array $types The learning object types that may be published.
 	 * @param  boolean $email_option If true the publisher has the option to
 	 * send the published learning object by email to the selecter target users.
 	 */
-	function PersonalMessagePublisher($types, $mail_option = false)
+	function PersonalMessagePublisher($parent, $types, $mail_option = false)
 	{
+		$this->parent = $parent;
 		$this->default_learning_objects = array();
 		$this->types = (is_array($types) ? $types : array ($types));
 		$this->mail_option = $mail_option;
-		$parent->set_parameter(PErsonalMessagePublisher :: PARAM_ACTION, $this->get_action());
+		$parent->set_parameter(PersonalMessagePublisher :: PARAM_ACTION, $this->get_action());
 	}
 
 	/**
@@ -80,6 +84,11 @@ class PersonalMessagePublisher
 	{
 		return $this->parent->get_user_id();
 	}
+	
+	function get_user()
+	{
+		return $this->parent->get_user();
+	}
 
 	/**
 	 * Returns the types of learning object that this object may publish.
@@ -96,7 +105,7 @@ class PersonalMessagePublisher
 	 */
 	function get_action()
 	{
-		return ($_GET[LearningObjectPublisher :: PARAM_ACTION] ? $_GET[LearningObjectPublisher :: PARAM_ACTION] : 'publicationcreator');
+		return ($_GET[PersonalMessagePublisher :: PARAM_ACTION] ? $_GET[PersonalMessagePublisher :: PARAM_ACTION] : 'publicationcreator');
 	}
 
 	/**
@@ -121,6 +130,20 @@ class PersonalMessagePublisher
 	function set_parameter($name, $value)
 	{
 		$this->parent->set_parameter($name, $value);
+	}
+	
+	function get_default_learning_object($type)
+	{
+		if(isset($this->default_learning_objects[$type]))
+		{
+			return $this->default_learning_objects[$type];
+		}
+		return new AbstractLearningObject($type, $this->get_user_id());
+	}
+	
+	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
+	{
+		return $this->parent->redirect($action, $message, $error_message, $extra_params);
 	}
 }
 ?>
