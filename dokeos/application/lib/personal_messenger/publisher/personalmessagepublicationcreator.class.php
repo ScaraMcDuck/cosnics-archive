@@ -21,12 +21,15 @@ require_once api_get_path(SYS_CODE_PATH).'/inc/lib/groupmanager.lib.php';
  */
 class PersonalMessagePublicationCreator extends PersonalMessagePublisherComponent
 {
+	private $pid;
+	
 	/*
 	 * Inherited
 	 */
 	function as_html()
 	{
 		$oid = $_GET[PersonalMessagePublisher :: PARAM_LEARNING_OBJECT_ID];
+		$this->pid = $_GET[PersonalMessenger :: PARAM_PERSONAL_MESSAGE_ID];
 		if ($oid)
 		{
 			if ($_GET[PersonalMessagePublisher :: PARAM_EDIT])
@@ -97,11 +100,11 @@ class PersonalMessagePublicationCreator extends PersonalMessagePublisherComponen
 	private function get_editing_form($objectID)
 	{
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
-		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_REPLY, $object, 'edit', 'post', $this->get_url(array (PersonalMessagePublisher :: PARAM_LEARNING_OBJECT_ID => $objectID, PersonalMessagePublisher :: PARAM_EDIT => 1)));
+		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_REPLY, $object, 'edit', 'post', $this->get_url(array (PersonalMessagePublisher :: PARAM_LEARNING_OBJECT_ID => $objectID, PersonalMessenger :: PARAM_PERSONAL_MESSAGE_ID => $this->pid, PersonalMessagePublisher :: PARAM_EDIT => 1)));
 		if ($form->validate())
 		{
 			$object = $form->create_learning_object();
-			return $this->get_publication_form($object->get_id(), true);
+			return $this->get_publication_form($object->get_id(), $this->pid, true);
 		}
 		else
 		{
@@ -121,7 +124,15 @@ class PersonalMessagePublicationCreator extends PersonalMessagePublisherComponen
 		$out = ($new ? Display :: display_normal_message(htmlentities(get_lang('ObjectCreated')), true) : '');
 		$tool = $this->get_parent()->get_parent();
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
-		$form = new PersonalMessagePublicationForm($object, $this->get_user(),$this->get_url(array (PersonalMessagePublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id())));
+		
+		$pid = $this->pid;
+		$publication = null;
+		if (isset($pid))
+		{
+			$publication = PersonalMessengerDataManager :: get_instance()->retrieve_personal_message_publication($pid);
+		}
+		
+		$form = new PersonalMessagePublicationForm($object, $publication, $this->get_user(),$this->get_url(array (PersonalMessagePublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id())));
 		if ($form->validate())
 		{
 			$failures = 0;

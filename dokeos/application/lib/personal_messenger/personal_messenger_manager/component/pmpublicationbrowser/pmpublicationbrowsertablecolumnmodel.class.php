@@ -18,7 +18,8 @@ class PmPublicationBrowserTableColumnModel extends DefaultPmPublicationTableColu
 	function PmPublicationBrowserTableColumnModel($folder)
 	{
 		parent :: __construct($folder);
-		$this->set_default_order_column(1);
+		$this->set_default_order_column(3);
+		$this->set_default_order_direction(SORT_DESC);
 		$this->add_column(self :: get_modification_column());
 	}
 	/**
