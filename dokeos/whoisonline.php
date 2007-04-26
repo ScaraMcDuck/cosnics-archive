@@ -47,7 +47,7 @@ if ($_GET["chatid"] != '') {
 	exit();
 }
 
-include (api_get_library_path().'/fileManage.lib.php');
+//include (api_get_library_path().'/fileManage.lib.php');
 
 /*
 -----------------------------------------------------------
