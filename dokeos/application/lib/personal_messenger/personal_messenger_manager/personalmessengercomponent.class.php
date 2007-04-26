@@ -49,9 +49,9 @@ abstract class PersonalMessengerComponent {
 		return $this->get_parent()->get_url($parameters, $encode, $filter, $filterOn);
 	}
 	
-	function display_header($breadcrumbs = array (), $display_search = false)
+	function display_header($breadcrumbs = array ())
 	{
-		return $this->get_parent()->display_header($breadcrumbs, $display_search);
+		return $this->get_parent()->display_header($breadcrumbs);
 	}
 	
 	function display_message($message)
@@ -99,21 +99,6 @@ abstract class PersonalMessengerComponent {
 		return $this->get_parent()->get_web_code_path();
 	}
 	
-	function get_search_condition()
-	{
-		return $this->get_parent()->get_search_condition();
-	}
-	
-	function get_search_validate()
-	{
-		return $this->get_parent()->get_search_validate();
-	}
-	
-	function get_search_parameter($name)
-	{
-		return $this->get_parent()->get_search_parameter($name);
-	}
-
 	function count_personal_message_publications($condition = null)
 	{
 		return $this->get_parent()->count_personal_message_publications($condition);

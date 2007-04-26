@@ -3,7 +3,6 @@
  * @package application.personalmessenger
  */
 require_once dirname(__FILE__).'/personalmessengercomponent.class.php';
-//require_once dirname(__FILE__).'/personalmessagesearchform.class.php';
 require_once dirname(__FILE__).'/../personalmessengerdatamanager.class.php';
 require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/configuration.class.php';
@@ -15,6 +14,7 @@ require_once dirname(__FILE__).'/../../../../repository/lib/condition/likecondit
 require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
 require_once dirname(__FILE__).'/../pm_publication_table/pmpublicationtable.class.php';
 require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
+require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 
 /**
  * A user manager provides some functionalities to the admin to manage
@@ -48,13 +48,23 @@ require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
 	private $user;
 	private $search_form;
 	private $breadcrumbs;
+	private $folder;
 	
     function PersonalMessenger($user = null)
     {
     	$this->user = $user;
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
-		$this->parse_input_from_table();   	
+		$this->parse_input_from_table();
+		
+		if (isset($_GET[PersonalMessenger :: PARAM_FOLDER]))
+		{
+			$this->folder = $_GET[PersonalMessenger :: PARAM_FOLDER];
+		}
+		else
+		{
+			$this->folder = PersonalMessenger :: ACTION_FOLDER_INBOX;
+		}
     }
     
     /**
@@ -118,7 +128,7 @@ require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
 	 * @param boolean $display_search Should the header include a search form or
 	 * not?
 	 */
-	function display_header($breadcrumbs = array (), $display_search = false)
+	function display_header($breadcrumbs = array ())
 	{
 		global $interbredcrump;
 		if (isset ($this->breadcrumbs) && is_array($this->breadcrumbs))
@@ -127,6 +137,7 @@ require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
 		}
 		$current_crumb = array_pop($breadcrumbs);
 		$interbredcrump = $breadcrumbs;
+		
 		$title = $current_crumb['name'];
 		$title_short = $title;
 		if (strlen($title_short) > 53)
@@ -134,12 +145,12 @@ require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
 		Display :: display_header($title_short);
+		
+		echo $this->get_menu_html();
+		echo '<div style="float: right; width: 80%;">';
 		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
-		if ($display_search)
-		{
-			$this->display_search_form();
-		}
 		echo '<div class="clear">&nbsp;</div>';
+		
 		if ($msg = $_GET[self :: PARAM_MESSAGE])
 		{
 			$this->display_message($msg);
@@ -148,6 +159,33 @@ require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
 		{
 			$this->display_error_message($msg);
 		}
+	}
+	
+	function get_menu_html()
+	{
+		$extra_items = array ();
+		$create = array ();
+		$create['title'] = get_lang('Send');
+		$create['url'] = $this->get_personal_message_creation_url();
+		$create['class'] = 'create';
+		$extra_items[] = & $create;
+		
+		$temp_replacement = '__FOLDER__';
+		$url_format = $this->get_url(array (PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES, PersonalMessenger :: PARAM_FOLDER => $temp_replacement));
+		$url_format = str_replace($temp_replacement, '%s', $url_format);
+		$user_menu = new PersonalMessengerMenu($this->folder, $url_format, & $extra_items);
+		
+		if ($this->get_action() == self :: ACTION_CREATE_PUBLICATION)
+		{
+			$user_menu->forceCurrentUrl($create['url'], true);
+		}
+		
+		$html = array();
+		$html[] = '<div style="float: left; width: 20%;">';
+		$html[] = $user_menu->render_as_tree();
+		$html[] = '</div>';
+		
+		return implode($html, "\n");
 	}
 	
 	private function display_search_form()
@@ -160,6 +198,8 @@ require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
 	 */
 	function display_footer()
 	{
+		echo '</div>';
+		echo '<div class="clear">&nbsp;</div>';
 		echo '</div>';
 		echo '<div class="clear">&nbsp;</div>';
 		// TODO: Find out why we need to reconnect here.
@@ -222,25 +262,6 @@ require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
 	function display_popup_form($form_html)
 	{
 		Display :: display_normal_message($form_html);
-	}
-	
-	function get_search_condition()
-	{
-		return $this->get_search_form()->get_condition();
-	}
-	
-	private function get_search_form()
-	{
-		if (!isset ($this->search_form))
-		{
-			$this->search_form = new UserSearchForm($this, $this->get_url());
-		}
-		return $this->search_form;
-	}
-	
-	function get_search_validate()
-	{
-		return $this->get_search_form()->validate();
 	}
 
 	/**
@@ -352,11 +373,8 @@ require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-//		$links[] = array('name' => get_lang('UserList'), 'action' => 'list', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
-//		$links[] = array('name' => get_lang('UserCreate'), 'action' => 'add', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
-//		$links[] = array('name' => get_lang('UserExport'), 'action' => 'export', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
-//		$links[] = array('name' => get_lang('UserImport'), 'action' => 'import', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
-		return array('application' => array('name' => get_lang('PersonalMessenger'), 'class' => 'pms'), 'links' => $links, 'search' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_MESSAGES)));
+		$links[] = array ('name' => get_lang('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
+		return array ('application' => array ('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links);
 	}
 	
 	public function get_link($parameters = array (), $encode = false)
@@ -444,12 +462,17 @@ require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
 	
 	function get_publication_reply_url($personal_message)
 	{
-		return $this->get_url(array (PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_CREATE_PUBLICATION, PersonalMessagePublisher :: PARAM_ACTION => 'publicationcreator', PersonalMessagePublisher :: PARAM_LEARNING_OBJECT_ID => $personal_message->get_personal_message(), PersonalMessagePublisher :: PARAM_EDIT => 1));
+		return $this->get_url(array (PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_CREATE_PUBLICATION, PersonalMessagePublisher :: PARAM_ACTION => 'publicationcreator', PersonalMessagePublisher :: PARAM_LEARNING_OBJECT_ID => $personal_message->get_personal_message(), self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id(), PersonalMessagePublisher :: PARAM_EDIT => 1));
 	}
 	
 	function get_personal_message_creation_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_PUBLICATION));
+	}
+	
+	function get_folder()
+	{
+		return $this->folder;
 	}
 	
 	private function parse_input_from_table()

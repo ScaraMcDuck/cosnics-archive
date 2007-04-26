@@ -29,6 +29,8 @@ class PersonalMessagePublicationForm extends FormValidator
 	 */
 	private $form_user;
 	
+	private $publication;
+	
 	/**
 	 * Creates a new learning object publication form.
 	 * @param LearningObject The learning object that will be published
@@ -36,10 +38,11 @@ class PersonalMessagePublicationForm extends FormValidator
 	 * @param boolean $email_option Add option in form to send the learning
 	 * object by email to the receivers
 	 */
-    function PersonalMessagePublicationForm($learning_object, $form_user, $action)
+    function PersonalMessagePublicationForm($learning_object, $publication = null, $form_user, $action)
     {
 		parent :: __construct('publish', 'post', $action);
 		$this->learning_object = $learning_object;
+		$this->publication = $publication;
 		$this->form_user = $form_user;
 		$this->build_form();
 		$this->setDefaults();
@@ -54,6 +57,11 @@ class PersonalMessagePublicationForm extends FormValidator
     function setDefaults()
     {
     	$defaults = array();
+    	$publication = $this->publication;
+    	if ($publication)
+    	{
+    		$defaults[PersonalMessagepublication :: PROPERTY_RECIPIENT] = $publication->get_publication_sender()->get_username();
+    	}
 		parent :: setDefaults($defaults);
     }
 	/**
@@ -76,6 +84,7 @@ class PersonalMessagePublicationForm extends FormValidator
 		$pmdm = PersonalMessengerDataManager :: get_instance();
 		$udm = UsersDataManager :: get_instance();
 		$recipient_id = $udm->retrieve_user_by_username($values[PersonalMessagePublication :: PROPERTY_RECIPIENT])->get_user_id();
+		
 		$sender_pub = new PersonalMessagePublication();
 		$sender_pub->set_personal_message($this->learning_object->get_id());
 		$sender_pub->set_recipient($recipient_id);

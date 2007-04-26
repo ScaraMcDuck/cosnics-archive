@@ -508,6 +508,7 @@ $ImportClasses='Import Classes';
 $ManageRoles='Manage Roles';
 $NoOptionsAvailable='No options available';
 $PersonalCalendar='Personal Calendar';
+$PersonalMessenger='Personal Messenger';
 $RolesRightsOverview='Roles\'n\'Rights Overview';
 $UserRolesRights='Roles\'n\'Rights';
 $Repository='Repository';
