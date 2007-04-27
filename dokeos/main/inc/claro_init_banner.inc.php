@@ -203,6 +203,19 @@ if ($_uid)
 	echo get_lang('SearchPortal');
 	echo '</a>&nbsp;'."\n";
 	
+	if($GLOBALS['this_section'] == "profiles")
+	{
+		$link_class='class="here"';
+	}
+	else
+	{
+		$link_class='';
+	}
+	
+	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_profiler.php" target="_top">';
+	echo get_lang('UserProfiles');
+	echo '</a>&nbsp;'."\n";
+	
 	echo '</div> <!-- end of header3 (user) section -->'."\n";
 }
 
