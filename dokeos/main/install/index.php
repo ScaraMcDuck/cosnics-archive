@@ -261,6 +261,7 @@ $defaults['database_repository'] = 'dokeos_repository';
 $defaults['database_weblcms'] = 'dokeos_weblcms';
 $defaults['database_personal_calendar'] = 'dokeos_personal_calendar';
 $defaults['database_personal_messenger'] = 'dokeos_personal_messenger';
+$defaults['database_profiler'] = 'dokeos_profiler';
 $defaults['database_prefix'] = 'dokeos_';
 $defaults['database_single'] = 0;
 $defaults['enable_tracking'] = 1;

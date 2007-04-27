@@ -35,12 +35,14 @@ class ActionProcess extends HTML_QuickForm_Action
 		global $personal_calendar_database;
 		global $user_database;
 		global $personal_messenger_database;
+		global $profiler_database;
 		
 		$repository_database = $values['database_repository'];
 		$weblcms_database = $values['database_weblcms'];
 		$personal_calendar_database = $values['database_personal_calendar'];
 		$user_database = $values['database_user'];
 		$personal_messenger_database = $values['database_personal_messenger'];
+		$profiler_database = $values['database_profiler'];
 		
 		full_database_install($values);
 		full_file_install($values);
