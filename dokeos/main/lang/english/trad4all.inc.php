@@ -342,6 +342,7 @@ $Uploading = "Uploading...";
 $UplUploadSucceeded = "File upload succeeded!";
 $User = "User";
 $UserOnlineListSession = "User online list - Session";
+$UserProfiles = "User Profiles";
 $UserRole = "Role";
 $UsersOnline = "Users online";
 $VideoConf = "Video conference";
