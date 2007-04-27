@@ -8,6 +8,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 
 	private $prefix;
 	private $repoDM;
+	private $userDM;
 	
 	const ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE = 'pmb';
 	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
@@ -16,6 +17,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 	{
 		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
 		$this->repoDM = & RepositoryDataManager :: get_instance();
+		$this->userDM = & UsersDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_profiler'),array('debug'=>3,'debug_handler'=>array('ProfilerDatamanager','debug')));
 		if (PEAR::isError($this)) {
@@ -208,6 +210,17 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 			$params[] = $value;
 			return $this->escape_column_name($name, $prefix_learning_object_properties).' = ?';
 		}
+		elseif ($condition instanceof LikeCondition)
+		{
+			$name = $condition->get_name();
+			$value = $condition->get_value();
+			if (is_null($value))
+			{
+				return $this->escape_column_name($name).' IS NULL';
+			}
+			$params[] = $value;
+			return $this->escape_column_name($name, $prefix_learning_object_properties).' LIKE ?';
+		}
 		elseif ($condition instanceof InequalityCondition)
 		{
 			$name = $condition->get_name();
@@ -255,6 +268,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
     function count_profile_publications($condition = null)
     {
 		$query = 'SELECT COUNT('.$this->escape_column_name(ProfilePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('profiler_publication');
+		$query .= 'JOIN '.$this->userDM->escape_table_name('user') . 'ON' . $this->escape_table_name('profiler_publication'). '.' . $this->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
 
 		$params = array ();
 		if (isset ($condition))
@@ -270,22 +284,12 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		return $record[0];
     }
     
-    function count_unread_profile_publications($user)
-    {
-		$query = 'SELECT COUNT('.$this->escape_column_name(ProfilePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('profiler_publication');
-		$query .= ' WHERE '.$this->escape_column_name(ProfilePublication :: PROPERTY_USER) . '=? AND '. $this->escape_column_name(ProfilePublication :: PROPERTY_STATUS) . '=?';
-
-		$sth = $this->connection->prepare($query);
-		$res = $sth->execute(array($user->get_user_id(), 1));
-		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-		$res->free();
-		return $record[0];
-    }
-    
     function retrieve_profile_publication($id)
 	{
 		
-		$query = 'SELECT * FROM '.$this->escape_table_name('profiler_publication').' WHERE '.$this->escape_column_name(ProfilePublication :: PROPERTY_ID).'=?';
+		$query = 'SELECT * FROM '.$this->escape_table_name('profiler_publication');
+		$query .= ' JOIN '.$this->userDM->escape_table_name('user') . 'ON' . $this->escape_table_name('profiler_publication'). '.' . $this->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
+		$query .= ' WHERE '.$this->escape_column_name(ProfilePublication :: PROPERTY_ID).'=?';
 		
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
@@ -298,24 +302,16 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
     function retrieve_profile_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		
-		$query = 'SELECT * FROM ';
-		$query .= $this->escape_table_name('profiler_publication');
+		$query = 'SELECT * FROM '.$this->escape_table_name('profiler_publication');
+		$query .= 'JOIN '.$this->userDM->escape_table_name('user') . 'ON' . $this->escape_table_name('profiler_publication'). '.' . $this->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
 
 		$params = array ();
 		if (isset ($condition))
 		{
 			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
 		}
-		/*
-		 * Always respect display order as a last resort.
-		 */
-//		$orderBy[] = LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX;
-//		$orderDir[] = SORT_ASC;
 		$order = array ();
-		/*
-		 * Categories always come first. Does not matter if we're dealing with
-		 * a single type.
-		 */
+
 		for ($i = 0; $i < count($orderBy); $i ++)
 		{
 			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
@@ -328,6 +324,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		{
 			$maxObjects = null;
 		}
+		
 		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
@@ -470,7 +467,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 			if ($type == 'user')
 			{
 				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->escape_column_name('title') .' FROM '.$this->escape_table_name('profiler_publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.$this->repoDM->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`profile` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
-				$query .= ' WHERE '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.'.$this->escape_column_name(ProfilePublication :: PROPERTY_USER).'=?';
+				$query .= ' WHERE '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.'.$this->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER).'=?';
 
 				$order = array ();
 				for ($i = 0; $i < count($order_property); $i ++)
@@ -513,30 +510,13 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 			
 			$info = new LearningObjectPublicationAttributes();
 			$info->set_id($publication->get_id());
-			$info->set_publisher_user_id($publication->get_sender());
+			$info->set_publisher_user_id($publication->get_publisher());
 			$info->set_publication_date($publication->get_published());
-			$info->set_application('Personal Messenger');
+			$info->set_application('Profiler');
 			//TODO: i8n location string
-			if ($publication->get_user() == $publication->get_recipient())
-			{ 
-				$recipient = $publication->get_publication_recipient();
-				$info->set_location($recipient->get_firstname().'&nbsp;'. $recipient->get_lastname() .'&nbsp;/&nbsp;' . get_lang('Inbox'));
-			}
-			elseif($publication->get_user() == $publication->get_sender())
-			{
-				$sender = $publication->get_publication_sender();
-				$info->set_location($sender->get_firstname().'&nbsp;'. $sender->get_lastname() .'&nbsp;/&nbsp;' . get_lang('Outbox'));
-			}
-			else
-			{
-				$info->set_location(get_lang('UnknownLocation'));
-			}
-			
-			if ($publication->get_user() == $user->get_user_id())
-			{
-				$info->set_url('index_profiler.php?go=view&pm='.$record[ProfilePublication :: PROPERTY_ID]);
-			}
-			$info->set_publication_object_id($record[ProfilePublication :: PROPERTY_PROFILE]);
+			$info->set_location(get_lang('List'));
+			$info->set_url('index_profiler.php?go=view&profile='.$publication->get_id());
+			$info->set_publication_object_id($publication->get_profile());
 			
 			$publication_attr[] = $info;
 		}
@@ -557,30 +537,13 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 			
 		$info = new LearningObjectPublicationAttributes();
 		$info->set_id($publication->get_id());
-		$info->set_publisher_user_id($publication->get_sender());
+		$info->set_publisher_user_id($publication->get_publisher());
 		$info->set_publication_date($publication->get_published());
-		$info->set_application('Personal Messenger');
+		$info->set_application('Profiler');
 		//TODO: i8n location string
-		if ($publication->get_user() == $publication->get_recipient())
-		{ 
-			$recipient = $publication->get_publication_recipient();
-			$info->set_location($recipient->get_firstname().'&nbsp;'. $recipient->get_lastname() .'&nbsp;/&nbsp;' . get_lang('Inbox'));
-		}
-		elseif($publication->get_user() == $publication->get_sender())
-		{
-			$sender = $publication->get_publication_sender();
-			$info->set_location($sender->get_firstname().'&nbsp;'. $sender->get_lastname() .'&nbsp;/&nbsp;' . get_lang('Outbox'));
-		}
-		else
-		{
-			$info->set_location(get_lang('UnknownLocation'));
-		}
-		
-		if ($publication->get_user() == $user->get_user_id())
-		{
-			$info->set_url('index_profiler.php?go=view&pm='.$record[ProfilePublication :: PROPERTY_ID]);
-		}
-		$info->set_publication_object_id($record[ProfilePublication :: PROPERTY_PROFILE]);
+		$info->set_location(get_lang('List'));
+		$info->set_url('index_profiler.php?go=view&profile='.$publication->get_id());
+		$info->set_publication_object_id($publication->get_profile());
 
 		return $info;
 	}
@@ -588,7 +551,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 	function count_publication_attributes($user, $type = null, $condition = null)
 	{
 		$params = array ();
-		$query = 'SELECT COUNT('.$this->escape_column_name(ProfilePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('profiler_publication').' WHERE '.$this->escape_column_name(ProfilePublication :: PROPERTY_USER).'=?';;
+		$query = 'SELECT COUNT('.$this->escape_column_name(ProfilePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('profiler_publication').' WHERE '.$this->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER).'=?';;
 
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($user->get_user_id());

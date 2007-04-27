@@ -37,16 +37,6 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
 			case ProfilePublication :: PROPERTY_PUBLISHED:
 				return format_locale_date(get_lang('dateFormatShort').', '.get_lang('timeNoSecFormat'),$profile->get_published());
 				break;
-			case ProfilePublication :: PROPERTY_STATUS:
-				if ($profile->get_status() == 1)
-				{
-					return '<img src="'.$this->browser->get_web_code_path().'img/profile_new.gif" />';
-				}
-				else
-				{
-					return '<img src="'.$this->browser->get_web_code_path().'img/profile.gif" />';
-				}
-				break;
 			case ProfilePublication :: PROPERTY_PROFILE:
 				$title = parent :: render_cell($column, $profile);
 				$title_short = $title;
@@ -69,21 +59,14 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
 	{
 		$toolbar_data = array();
 		
-		$delete_url = $this->browser->get_publication_deleting_url($profile);
-		$toolbar_data[] = array(
-			'href' => $delete_url,
-			'label' => get_lang('View'),
-			'confirm' => true,
-			'img' => $this->browser->get_web_code_path().'img/delete.gif'
-		);
-		
-		if ($this->browser->get_folder() == Profiler :: ACTION_FOLDER_INBOX)
+		if ($this->browser->get_user()->is_platform_admin() || $profile->get_publisher() == $this->browser->get_user()->get_user_id())
 		{
-			$reply_url = $this->browser->get_publication_reply_url($profile);
+			$delete_url = $this->browser->get_publication_deleting_url($profile);
 			$toolbar_data[] = array(
-				'href' => $reply_url,
-				'label' => get_lang('Reply'),
-				'img' => $this->browser->get_web_code_path().'img/reply.gif'
+				'href' => $delete_url,
+				'label' => get_lang('Delete'),
+				'confirm' => true,
+				'img' => $this->browser->get_web_code_path().'img/delete.gif'
 			);
 		}
 	

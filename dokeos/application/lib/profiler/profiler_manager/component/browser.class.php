@@ -8,21 +8,14 @@ require_once dirname(__FILE__).'/profilepublicationbrowser/profilepublicationbro
 
 class ProfilerBrowserComponent extends ProfilerComponent
 {	
-	private $folder;
+	private $firstletter;
 	
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		if (isset($_GET[Profiler :: PARAM_FOLDER]))
-		{
-			$this->folder = $_GET[Profiler :: PARAM_FOLDER];
-		}
-		else
-		{
-			$this->folder = Profiler :: ACTION_FOLDER_INBOX;
-		}
+		$this->firstletter = $_GET[Profiler :: PARAM_FIRSTLETTER];
 		
 		$output = $this->get_publications_html();
 		
@@ -48,39 +41,29 @@ class ProfilerBrowserComponent extends ProfilerComponent
 	
 	function get_condition()
 	{
-		$conditions = array();
-//		$folder = $this->folder;
-//		if (isset($folder))
-//		{
-//			$folder_condition = null;
-//			
-//			switch ($folder)
-//			{
-//				case Profiler :: ACTION_FOLDER_INBOX :
-//					$folder_condition = new EqualityCondition(ProfilePublication :: PROPERTY_RECIPIENT, $this->get_user_id());
-//					break;
-//				case Profiler :: ACTION_FOLDER_OUTBOX :
-//					$folder_condition = new EqualityCondition(ProfilePublication :: PROPERTY_SENDER, $this->get_user_id());
-//					break;
-//				default :
-//					$folder_condition = new EqualityCondition(ProfilePublication :: PROPERTY_RECIPIENT, $this->get_user_id());
-//			}
-//		}
-//		else
-//		{
-//			$folder_condition = new EqualityCondition(ProfilePublication :: PROPERTY_RECIPIENT, $this->get_user_id());
-//		}
-//		
-//		$condition = $folder_condition;
-//		
-//		$user_condition = new EqualityCondition(ProfilePublication :: PROPERTY_USER, $this->get_user_id());
-//		return new AndCondition($condition, $user_condition);
-		return null;
-	}
-	
-	function get_folder()
-	{
-		return $this->folder;
+		//$search_conditions = $this->get_search_condition();
+		$search_conditions = null;
+		$condition = null;
+		if (isset($this->firstletter))
+		{
+			$conditions = array();
+			$conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, $this->firstletter. '%');
+			$conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, chr(ord($this->firstletter)+1). '%');
+			$conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, chr(ord($this->firstletter)+2). '%');
+			$condition = new OrCondition($conditions);
+			if (count($search_conditions))
+			{
+				$condition = new AndCondition($condition, $search_conditions);
+			}
+		}
+		else
+		{
+			if (count($search_conditions))
+			{
+				$condition = $search_conditions;
+			}
+		}
+		return $condition;
 	}
 }
 ?>

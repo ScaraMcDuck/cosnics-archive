@@ -5,6 +5,7 @@
 require_once dirname(__FILE__).'/profilepublicationtablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/profilepublicationtablecolumn.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/learningobject.class.php';
+require_once dirname(__FILE__).'/../../../../users/lib/user.class.php';
 require_once dirname(__FILE__).'/../profilepublication.class.php';
 
 /**
@@ -26,9 +27,10 @@ class DefaultProfilePublicationTableColumnModel extends ProfilePublicationTableC
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ProfilePublicationTableColumn(ProfilePublication :: PROPERTY_STATUS, true);
+		$columns[] = new ProfilePublicationTableColumn(User :: PROPERTY_USERNAME, true);
+		$columns[] = new ProfilePublicationTableColumn(User :: PROPERTY_LASTNAME, true);
+		$columns[] = new ProfilePublicationTableColumn(User :: PROPERTY_FIRSTNAME, true);
 		$columns[] = new ProfilePublicationTableColumn(ProfilePublication :: PROPERTY_PROFILE, true);
-		$columns[] = new ProfilePublicationTableColumn(ProfilePublication :: PROPERTY_PUBLISHED, true);
 		return $columns;
 	}
 }

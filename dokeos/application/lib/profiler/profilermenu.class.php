@@ -31,7 +31,7 @@ class ProfilerMenu extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function ProfilerMenu($current_category, $url_format = '?folder=%s' , $extra_items = array())
+	function ProfilerMenu($current_category, $url_format = '?firstletter=%s' , $extra_items = array())
 	{
 		$this->urlFmt = $url_format;
 		$menu = $this->get_menu_items($extra_items);
@@ -55,17 +55,24 @@ class ProfilerMenu extends HTML_Menu
 			$menu = array_merge($menu, $extra_items);
 		}
 		
+		$home = array ();
+		$home['title'] = get_lang('Home');
+		$home['url'] = $this->get_home_url();
+		$home['class'] = 'home';
+		$home_item[] = $home;
+		for ($i = 0; $i <= 7; $i++)
+		{
+			$menu_item['title'] = get_lang(chr(65 + (3*$i)).chr(67 + (3*$i)));
+			$menu_item['url'] = $this->get_category_url(chr(65 + (3*$i)));
+			$menu_item['class'] = 'type_category';
+			$home_item[] = $menu_item;
+		}
 		$menu_item = array ();
-		$menu_item['title'] = get_lang('Inbox');
-		$menu_item['url'] = $this->get_category_url('inbox');
+		$menu_item['title'] = get_lang('YZ');
+		$menu_item['url'] = $this->get_category_url(chr(89));
 		$menu_item['class'] = 'type_category';
 		$home_item[] = $menu_item;
 		
-		$menu_item = array ();
-		$menu_item['title'] = get_lang('Outbox');
-		$menu_item['url'] = $this->get_category_url('outbox');
-		$menu_item['class'] = 'type_category';
-		$home_item[] = $menu_item;
 		$menu = array_merge($home_item, $menu);
 		return $menu;
 	}
@@ -83,7 +90,7 @@ class ProfilerMenu extends HTML_Menu
 	private function get_home_url ($category)
 	{
 		// TODO: Put another class in charge of the htmlentities() invocation
-		return htmlentities(str_replace('&folder=%s', '', $this->urlFmt));
+		return htmlentities(str_replace('&firstletter=%s', '', $this->urlFmt));
 	}
 	/**
 	 * Get the breadcrumbs which lead to the current category.
