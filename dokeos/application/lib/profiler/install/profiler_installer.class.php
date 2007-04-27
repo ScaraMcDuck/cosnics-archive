@@ -1,7 +1,6 @@
 <?php
 /**
  * @package application.weblcms
- * $Id:
  */
 require_once dirname(__FILE__).'/../profilerdatamanager.class.php';
 /**
@@ -57,7 +56,7 @@ class ProfilerInstaller {
 		$path = $directory.'/'.$sqlfilename;
 		$filecontent = file_get_contents($path);
 		$sqlstring = explode("\n", $filecontent);
-		echo '<pre>Executing additional Personal Messenger SQL statement(s)</pre>';flush();
+		echo '<pre>Executing additional Profiler SQL statement(s)</pre>';flush();
 		foreach($sqlstring as $sqlstatement)
 		{
 			echo $sqlstatement. '<br />';
@@ -99,7 +98,7 @@ class ProfilerInstaller {
 		}
 		$pdm = $this->pdm;
 
-		echo '<pre>Creating Personal Messenger Storage Unit: '.$name.'</pre>';flush();
+		echo '<pre>Creating Profiler Storage Unit: '.$name.'</pre>';flush();
 		$pdm->create_storage_unit($name,$properties,$indexes);
 	}
 }
