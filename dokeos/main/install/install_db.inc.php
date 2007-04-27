@@ -82,6 +82,7 @@ function full_database_install($values)
 	$values["database_weblcms"] = eregi_replace('[^a-z0-9_-]', '', $values["database_weblcms"]);
 	$values["database_personal_calendar"] = eregi_replace('[^a-z0-9_-]', '', $values["database_personal_calendar"]);
 	$values["database_personal_messenger"] = eregi_replace('[^a-z0-9_-]', '', $values["database_personal_messenger"]);
+	$values["database_profiler"] = eregi_replace('[^a-z0-9_-]', '', $values["database_profiler"]);
 
 	if(!empty($database_prefix) && !ereg('^'.$database_prefix,$values["database_main_db"]))
 	{
@@ -112,6 +113,7 @@ function full_database_install($values)
 		$values["database_repository"] = $values["database_main_db"];
 		$values["database_personal_calendar"] = $values["database_personal_calendar"];
 		$values["database_personal_messenger"] = $values["database_main_db"];
+		$values["database_profiler"] = $values["database_profiler"];
 	}
 
 	$main_database = $values["database_main_db"];
@@ -122,6 +124,7 @@ function full_database_install($values)
 	$weblcms_database = $values["database_weblcms"];
 	$database_personal_calendar = $values['database_personal_calendar'];
 	$database_personal_messenger = $values['database_personal_messenger'];
+	$database_profiler = $values['database_profiler'];
 	if(empty($main_database) || $main_database == 'mysql' || $main_database == $database_prefix)
 	{
 		$main_database = $database_prefix.'main';
@@ -151,6 +154,7 @@ function full_database_install($values)
 	$values["database_weblcms"] = $weblcms_database;
 	$values['database_personal_calendar'] = $database_personal_calendar;
 	$values['database_personal_messenger'] = $database_personal_messenger;
+	$values['database_profiler'] = $database_profiler;
 
 	$result=mysql_query("SHOW VARIABLES LIKE 'datadir'") or die(mysql_error());
 
@@ -168,7 +172,7 @@ function full_database_install($values)
 		include("../lang/english/create_course.inc.php");
 	}
 
-	create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database, $repository_database, $weblcms_database, $database_personal_calendar, $database_personal_messenger);
+	create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database, $repository_database, $weblcms_database, $database_personal_calendar, $database_personal_messenger, $database_profiler);
 	create_main_database_tables($main_database, $values);
 	create_tracking_database_tables($statistics_database);
 	create_scorm_database_tables($scorm_database);
@@ -207,7 +211,7 @@ function connect_to_database_server($database_host,$database_username,$database_
 /**
 * Creates the default databases.
 */
-function create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database, $repository_database, $weblcms_database, $database_personal_calendar, $database_personal_messenger)
+function create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database, $repository_database, $weblcms_database, $database_personal_calendar, $database_personal_messenger, $database_profiler)
 {
 	if(!$is_single_database)
 	{
@@ -295,6 +299,17 @@ function create_databases($values, $is_single_database, $main_database, $statist
 			// multi DB mode AND user data has its own DB so create it
 			mysql_query("DROP DATABASE IF EXISTS `$database_personal_messenger`") or die(mysql_error());
 			mysql_query("CREATE DATABASE `$database_personal_messenger`") or die(mysql_error());
+		}
+	}
+	
+	//Creating the personal messenger database
+	if($database_profiler != $main_database)
+	{
+		if(!$is_single_database)
+		{
+			// multi DB mode AND user data has its own DB so create it
+			mysql_query("DROP DATABASE IF EXISTS `$database_profiler`") or die(mysql_error());
+			mysql_query("CREATE DATABASE `$database_profiler`") or die(mysql_error());
 		}
 	}
 }

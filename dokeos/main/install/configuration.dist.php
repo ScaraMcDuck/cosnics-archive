@@ -79,6 +79,8 @@ $user_database			= '{DATABASE_USERDB}';
 $personal_calendar_database = '{DATABASE_PERSONALCALENDAR}';
 // personal message database
 $personal_messenger_database = '{DATABASE_PERSONAL_MESSENGER}';
+// profiler database
+$profiler_database = '{DATABASE_PROFILER}';
 
 //============================================================================
 //   Directory settings

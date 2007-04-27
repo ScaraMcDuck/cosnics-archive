@@ -241,6 +241,7 @@ function write_dokeos_config_file($path, $values)
 	$config['{DATABASE_WEBLCMS}'] = ($is_single_database ? $values["database_main_db"] : $values["database_weblcms"]);
 	$config['{DATABASE_PERSONALCALENDAR}'] = ($is_single_database ? $values["database_main_db"] : $values["database_personal_calendar"]);
 	$config['{DATABASE_PERSONAL_MESSENGER}'] = ($is_single_database ? $values["database_main_db"] : $values["database_personal_messenger"]);
+	$config['{DATABASE_PROFILER}'] = ($is_single_database ? $values["database_main_db"] : $values["database_profiler"]);
 	$config['{ROOT_WEB}'] = $values['platform_url'];
 	$config['{ROOT_SYS}'] = str_replace('\\', '/', realpath($values['platform_url']).'/');
 	$config['{URL_APPEND_PATH}'] = $urlAppendPath;
