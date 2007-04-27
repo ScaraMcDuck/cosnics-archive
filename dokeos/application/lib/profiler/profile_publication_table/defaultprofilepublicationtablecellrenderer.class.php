@@ -6,6 +6,7 @@
 require_once dirname(__FILE__).'/profilepublicationtablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/learningobject.class.php';
 require_once dirname(__FILE__).'/../profilepublication.class.php';
+require_once dirname(__FILE__).'/../../../../users/lib/user.class.php';
 /**
  * TODO: Add comment
  */
@@ -28,20 +29,17 @@ class DefaultProfilePublicationTableCellRenderer implements ProfilePublicationTa
 	{
 		if ($property = $column->get_profile_property())
 		{
+			$user = $profile_publication->get_publication_publisher();
 			switch ($property)
 			{
 				case ProfilePublication :: PROPERTY_PROFILE :
 					return $profile_publication->get_publication_object()->get_title();
-				case ProfilePublication :: PROPERTY_SENDER :
-					$user = $profile_publication->get_publication_sender();
-					return $user->get_firstname() . '&nbsp;' . $user->get_lastname();
-				case ProfilePublication :: PROPERTY_RECIPIENT :
-					$user = $profile_publication->get_publication_recipient();
-					return $user->get_firstname() . '&nbsp;' . $user->get_lastname();
-				case ProfilePublication :: PROPERTY_PUBLISHED :
-					return $profile_publication->get_published();
-				case ProfilePublication :: PROPERTY_STATUS :
-					return $profile_publication->get_status();
+				case User :: PROPERTY_USERNAME :
+					return $user->get_username();
+				case User :: PROPERTY_LASTNAME :
+					return $user->get_lastname();
+				case User :: PROPERTY_FIRSTNAME :
+					return $user->get_firstname();
 			}
 		}
 		return '&nbsp;';

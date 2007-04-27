@@ -534,9 +534,9 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 			
 			if ($publication->get_user() == $user->get_user_id())
 			{
-				$info->set_url('index_personal_messenger.php?go=view&pm='.$record[PersonalMessagePublication :: PROPERTY_ID]);
+				$info->set_url('index_personal_messenger.php?go=view&pm='.$publication->get_id());
 			}
-			$info->set_publication_object_id($record[PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE]);
+			$info->set_publication_object_id($publication->get_personal_message());
 			
 			$publication_attr[] = $info;
 		}
@@ -578,9 +578,9 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		
 		if ($publication->get_user() == $user->get_user_id())
 		{
-			$info->set_url('index_personal_messenger.php?go=view&pm='.$record[PersonalMessagePublication :: PROPERTY_ID]);
+			$info->set_url('index_personal_messenger.php?go=view&pm='.$publication->get_id());
 		}
-		$info->set_publication_object_id($record[PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE]);
+		$info->set_publication_object_id($publication->get_personal_message());
 
 		return $info;
 	}

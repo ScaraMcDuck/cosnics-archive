@@ -72,7 +72,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 		$delete_url = $this->browser->get_publication_deleting_url($personal_message);
 		$toolbar_data[] = array(
 			'href' => $delete_url,
-			'label' => get_lang('View'),
+			'label' => get_lang('Delete'),
 			'confirm' => true,
 			'img' => $this->browser->get_web_code_path().'img/delete.gif'
 		);

@@ -43,8 +43,6 @@ abstract class ProfilerDataManager {
     abstract function initialize();
     
     abstract function count_profile_publications($condition = null);
-    
-	abstract function count_unread_profile_publications($user);
 
 	abstract function retrieve_profile_publication($id);
     

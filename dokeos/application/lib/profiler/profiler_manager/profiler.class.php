@@ -29,26 +29,20 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 	const PARAM_MARK_SELECTED_READ = 'mark_selected_read';
 	const PARAM_MARK_SELECTED_UNREAD = 'mark_selected_unread';
-	const PARAM_FOLDER = 'folder';
-	const PARAM_PROFILE_ID = 'pm';
-	const PARAM_MARK_TYPE = 'type';
+	const PARAM_FIRSTLETTER = 'firstletter';
+	const PARAM_PROFILE_ID = 'profile';
 	
-	const ACTION_FOLDER_INBOX = 'inbox';
-	const ACTION_FOLDER_OUTBOX = 'outbox';
 	const ACTION_DELETE_PUBLICATION = 'delete';
 	const ACTION_VIEW_PUBLICATION = 'view';
-	const ACTION_VIEW_ATTACHMENTS = 'viewattachments';
-	const ACTION_MARK_PUBLICATION = 'mark';
 	const ACTION_CREATE_PUBLICATION = 'create';
-	
-	const ACTION_BROWSE_MESSAGES = 'browse';
+	const ACTION_BROWSE_PROFILES = 'browse';
 	
 	private $parameters;
 	private $search_parameters;
 	private $user;
 	private $search_form;
 	private $breadcrumbs;
-	private $folder;
+	private $firstletter;
 	
     function Profiler($user = null)
     {
@@ -57,13 +51,9 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		$this->set_action($_GET[self :: PARAM_ACTION]);
 		$this->parse_input_from_table();
 		
-		if (isset($_GET[Profiler :: PARAM_FOLDER]))
+		if (isset($_GET[Profiler :: PARAM_FIRSTLETTER]))
 		{
-			$this->folder = $_GET[Profiler :: PARAM_FOLDER];
-		}
-		else
-		{
-			$this->folder = Profiler :: ACTION_FOLDER_INBOX;
+			$this->firstletter = $_GET[Profiler :: PARAM_FIRSTLETTER];
 		}
     }
     
@@ -81,26 +71,20 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		$component = null;
 		switch ($action)
 		{
-			case self :: ACTION_BROWSE_MESSAGES :
+			case self :: ACTION_BROWSE_PROFILES :
 				$component = ProfilerComponent :: factory('Browser', $this);
 				break;
 			case self :: ACTION_VIEW_PUBLICATION :
 				$component = ProfilerComponent :: factory('Viewer', $this);
 				break;
-			case self :: ACTION_VIEW_ATTACHMENTS :
-				$component = ProfilerComponent :: factory('AttachmentViewer', $this);
-				break;
 			case self :: ACTION_DELETE_PUBLICATION :
 				$component = ProfilerComponent :: factory('Deleter', $this);
-				break;
-			case self :: ACTION_MARK_PUBLICATION :
-				$component = ProfilerComponent :: factory('Marker', $this);
 				break;
 			case self :: ACTION_CREATE_PUBLICATION :
 				$component = ProfilerComponent :: factory('Publisher', $this);
 				break;
 			default :
-				$this->set_action(self :: ACTION_BROWSE_MESSAGES);
+				$this->set_action(self :: ACTION_BROWSE_PROFILES);
 				$component = ProfilerComponent :: factory('Browser', $this);
 		}
 		$component->run();
@@ -165,19 +149,23 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		$extra_items = array ();
 		$create = array ();
-		$create['title'] = get_lang('Send');
+		$create['title'] = get_lang('Publish');
 		$create['url'] = $this->get_profile_creation_url();
 		$create['class'] = 'create';
 		$extra_items[] = & $create;
 		
-		$temp_replacement = '__FOLDER__';
-		$url_format = $this->get_url(array (Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_MESSAGES, Profiler :: PARAM_FOLDER => $temp_replacement));
+		$temp_replacement = '__FIRSTLETTER__';
+		$url_format = $this->get_url(array (Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES, Profiler :: PARAM_FIRSTLETTER => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
-		$user_menu = new ProfilerMenu($this->folder, $url_format, & $extra_items);
+		$user_menu = new ProfilerMenu($this->firstletter, $url_format, & $extra_items);
 		
 		if ($this->get_action() == self :: ACTION_CREATE_PUBLICATION)
 		{
 			$user_menu->forceCurrentUrl($create['url'], true);
+		}
+		elseif(!isset($this->firstletter))
+		{
+			$user_menu->forceCurrentUrl($this->get_profile_home_url(), true);
 		}
 		
 		$html = array();
@@ -470,9 +458,9 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_PUBLICATION));
 	}
 	
-	function get_folder()
+	function get_profile_home_url()
 	{
-		return $this->folder;
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_PROFILES));
 	}
 	
 	private function parse_input_from_table()

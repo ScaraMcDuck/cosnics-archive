@@ -52,7 +52,7 @@ class ProfilerDeleterComponent extends ProfilerComponent
 				}
 			}
 			
-			$this->redirect(null, get_lang($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_MESSAGES));
+			$this->redirect(null, get_lang($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES));
 		}
 		else
 		{
