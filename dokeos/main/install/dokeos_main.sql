@@ -493,6 +493,28 @@ LOCK TABLES `sys_announcement` WRITE;
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `sys_announcement` ENABLE KEYS */;
 
+--
+-- Table structure for table `user_role`
+--
+
+DROP TABLE IF EXISTS `user_role`;
+CREATE TABLE `user_role` (
+  `user_id` int(10) unsigned NOT NULL default '0',
+  `role_id` mediumint(8) unsigned NOT NULL default '0',
+  `location_id` mediumint(8) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`user_id`,`role_id`,`location_id`)
+);
+
+--
+-- Dumping data for table `user_role`
+--
+
+
+/*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
+LOCK TABLES `user_role` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
