@@ -34,7 +34,6 @@ if (is_array($plugins['banner']))
 
 $web_course_path = api_get_path(WEB_COURSE_PATH);
 echo '</div> <!-- end of #header1 -->'."\n";
-
 echo '<div id="header2">'."\n";
 echo '<div id="Header2Right">'."\n";
 echo '<ul>'."\n";
@@ -84,6 +83,7 @@ echo '<div class="clear">&nbsp;</div>'."\n";
 
 echo '</div><!-- End of header 2-->'."\n";
 
+
 /*
 -----------------------------------------------------------------------------
 	User section
@@ -101,18 +101,24 @@ if ($_uid)
 	echo '<input type="submit" name="submit" value="'. get_lang("Logout"). '" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'" class="logout"/>'."\n";
 	echo '</div>'."\n";
 	echo '</form>'."\n";
-
-	if($GLOBALS['this_section'] == "mycourses")
+	
+	$applications = load_applications();
+	
+	foreach($applications as $application)
 	{
-		$link_class='class="here"';
+		echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_'.$application.'.php" target="_top">';
+		echo get_lang(application_to_class($application));
+		echo '</a>&nbsp;'."\n";
+	
+		if($GLOBALS['this_section'] == $application)
+		{
+			$link_class='class="here"';
+		}
+		else
+		{
+			$link_class='';
+		}
 	}
-	else
-	{
-		$link_class='';
-	}
-	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_weblcms.php" target="_top">';
-	echo get_lang('MyCourses');
-	echo '</a>&nbsp;'."\n";
 
 	if($GLOBALS['this_section'] == "myrepository")
 	{
@@ -139,28 +145,6 @@ if ($_uid)
 	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_user.php?go=profile" target="_top">';
 	echo get_lang('ModifyProfile');
 	echo '</a>&nbsp;'."\n";
-	
-	if($GLOBALS['this_section'] == "myagenda")
-	{
-		$link_class='class="here"';
-	}
-	else
-	{
-		$link_class='';
-	}
-	
-	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_personal_calendar.php" target="_top">';
-	echo get_lang('MyAgenda');
-	echo '</a>&nbsp;'."\n";
-	
-	if($GLOBALS['this_section'] == "mypms")
-	{
-		$link_class='class="here"';
-	}
-	else
-	{
-		$link_class='';
-	}
 	
 	global $user;
 	
@@ -189,32 +173,6 @@ if ($_uid)
 		echo get_lang('PlatformAdmin');
 		echo '</a>&nbsp;'."\n";
 	}
-	
-	if($GLOBALS['this_section'] == "searchportal")
-	{
-		$link_class='class="here"';
-	}
-	else
-	{
-		$link_class='';
-	}
-	
-	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_search_portal.php" target="_top">';
-	echo get_lang('SearchPortal');
-	echo '</a>&nbsp;'."\n";
-	
-	if($GLOBALS['this_section'] == "profiles")
-	{
-		$link_class='class="here"';
-	}
-	else
-	{
-		$link_class='';
-	}
-	
-	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_profiler.php" target="_top">';
-	echo get_lang('UserProfiles');
-	echo '</a>&nbsp;'."\n";
 	
 	echo '</div> <!-- end of header3 (user) section -->'."\n";
 }
