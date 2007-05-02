@@ -106,10 +106,6 @@ if ($_uid)
 	
 	foreach($applications as $application)
 	{
-		echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_'.$application.'.php" target="_top">';
-		echo get_lang(application_to_class($application));
-		echo '</a>&nbsp;'."\n";
-	
 		if($GLOBALS['this_section'] == $application)
 		{
 			$link_class='class="here"';
@@ -118,6 +114,10 @@ if ($_uid)
 		{
 			$link_class='';
 		}
+		
+		echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_'.$application.'.php" target="_top">';
+		echo get_lang(application_to_class($application));
+		echo '</a>&nbsp;'."\n";
 	}
 
 	if($GLOBALS['this_section'] == "myrepository")
@@ -151,13 +151,13 @@ if ($_uid)
 	$usermgr = new UserManager($_SESSION['_uid']);
 	$user = $usermgr->get_user();
 	
-	$pmmgr = new PersonalMessenger($user);
-	$count = $pmmgr->count_unread_personal_message_publications();
-	
-	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_personal_messenger.php" target="_top">';
-	echo get_lang('MyPMs');
-	echo ($count > 0 ? '&nbsp;('.$count.')' : null); 
-	echo '</a>&nbsp;'."\n";
+//	$pmmgr = new PersonalMessenger($user);
+//	$count = $pmmgr->count_unread_personal_message_publications();
+//	
+//	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_personal_messenger.php" target="_top">';
+//	echo get_lang('MyPMs');
+//	echo ($count > 0 ? '&nbsp;('.$count.')' : null); 
+//	echo '</a>&nbsp;'."\n";
 	
 	if ($user->is_platform_admin())
 	{

@@ -1,6 +1,6 @@
 <?php
 $langFile = array('personalmessenger');
-$this_section = 'mypms';
+$this_section = 'personal_messenger';
 require_once dirname(__FILE__).'/main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/main/inc/lib/text.lib.php';
 require_once dirname(__FILE__).'/users/lib/usermanager/usermanager.class.php';
