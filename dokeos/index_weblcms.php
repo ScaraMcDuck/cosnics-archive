@@ -1,6 +1,6 @@
 <?php
 $langFile = array('weblcms');
-$this_section = 'mycourses';
+$this_section = 'weblcms';
 require_once dirname(__FILE__).'/main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/main/inc/lib/text.lib.php';
 require_once dirname(__FILE__).'/application/lib/weblcms/weblcms_manager/weblcms.class.php';
