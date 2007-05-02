@@ -457,7 +457,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	
 	function get_publication_viewing_url($personal_message)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id(), self :: PARAM_FOLDER => $this->get_folder()));
 	}
 	
 	function get_publication_reply_url($personal_message)

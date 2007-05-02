@@ -24,6 +24,7 @@ $PublicationcreatorTitle='Create a Profile';
 $Publish='Publish';
 $PublishProfile='Publish Profile';
 $RemoveSelected='Remove selected';
+$SearchResults='Search Results';
 $Skype='Skype';
 $Teaching='Teaching';
 $TelShort='Tel.';
