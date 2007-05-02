@@ -57,11 +57,6 @@ class PersonalMessagePublicationForm extends FormValidator
     function setDefaults()
     {
     	$defaults = array();
-    	$publication = $this->publication;
-    	if ($publication)
-    	{
-    		$defaults[PersonalMessagepublication :: PROPERTY_RECIPIENT] = $publication->get_publication_sender()->get_username();
-    	}
 		parent :: setDefaults($defaults);
     }
 	/**
@@ -69,8 +64,34 @@ class PersonalMessagePublicationForm extends FormValidator
 	 */
     function build_form()
     {
+    	$publication = $this->publication;
+    	$recipients = array ();
+    	if ($publication)
+    	{
+			$publication = $this->publication;
+			$recip = $publication->get_publication_sender();
+			$recipient = array ();
+			$recipient['id'] = $recip->get_user_id();
+			$recipient['class'] = 'type type_profile';
+			$recipient['title'] = $recip->get_username();
+			$recipient['description'] = $recip->get_lastname() . ' ' . $recip->get_firstname();
+			$recipients[] = $recipient;
+    	}
     	
-		$this->addElement('text', PersonalMessagepublication :: PROPERTY_RECIPIENT, get_lang('Recipient'));
+		$url = api_get_path(WEB_PATH).'application/lib/personal_messenger/xml_feed.php';
+		$locale = array ();
+		$locale['Display'] = get_lang('SelectRecipients');
+		$locale['Searching'] = get_lang('Searching');
+		$locale['NoResults'] = get_lang('NoResults');
+		$locale['Error'] = get_lang('Error');
+		$hidden = true;
+		$elem = $this->addElement('element_finder', 'recipients', get_lang('Recipients'), $url, $locale, $recipients);
+		if ($id = $this->form_user->get_user_id())
+		{
+			$elem->excludeElements(array($id));
+		}
+		$elem->setDefaultCollapsed(false);
+		
 		$this->addElement('submit', 'submit', get_lang('Ok'));
     }
 
@@ -82,38 +103,49 @@ class PersonalMessagePublicationForm extends FormValidator
     {
 		$values = $this->exportValues();
 		$pmdm = PersonalMessengerDataManager :: get_instance();
-		$udm = UsersDataManager :: get_instance();
-		$recipient_id = $udm->retrieve_user_by_username($values[PersonalMessagePublication :: PROPERTY_RECIPIENT])->get_user_id();
 		
-		$sender_pub = new PersonalMessagePublication();
-		$sender_pub->set_personal_message($this->learning_object->get_id());
-		$sender_pub->set_recipient($recipient_id);
-		$sender_pub->set_published(time());
-		$sender_pub->set_user($this->form_user->get_user_id());
-		$sender_pub->set_sender($this->form_user->get_user_id());
-		$sender_pub->set_status('0');
+		$failures = 0;
 		
-		if ($sender_pub->create())
+		foreach ($values['recipients'] as $recip)
 		{
-			$recipient_pub = new PersonalMessagePublication();
-			$recipient_pub->set_personal_message($this->learning_object->get_id());
-			$recipient_pub->set_recipient($recipient_id);
-			$recipient_pub->set_published(time());
-			$recipient_pub->set_user($recipient_id);
-			$recipient_pub->set_sender($this->form_user->get_user_id());
-			$recipient_pub->set_status('1');
-			if ($recipient_pub->create())
+			$sender_pub = new PersonalMessagePublication();
+			$sender_pub->set_personal_message($this->learning_object->get_id());
+			$sender_pub->set_recipient($recip);
+			$sender_pub->set_published(time());
+			$sender_pub->set_user($this->form_user->get_user_id());
+			$sender_pub->set_sender($this->form_user->get_user_id());
+			$sender_pub->set_status('0');
+			
+			if ($sender_pub->create())
 			{
-				return true;
+				$recipient_pub = new PersonalMessagePublication();
+				$recipient_pub->set_personal_message($this->learning_object->get_id());
+				$recipient_pub->set_recipient($recip);
+				$recipient_pub->set_published(time());
+				$recipient_pub->set_user($recip);
+				$recipient_pub->set_sender($this->form_user->get_user_id());
+				$recipient_pub->set_status('1');
+				if ($recipient_pub->create())
+				{
+				}
+				else
+				{
+					$failures++;
+				}
 			}
 			else
 			{
-				return false;
+				$failures++;
 			}
+		}
+
+		if ($failures > 0)
+		{
+			return false;
 		}
 		else
 		{
-			return false;
+			return true;
 		}
     }
 }

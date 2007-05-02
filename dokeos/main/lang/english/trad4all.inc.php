@@ -282,6 +282,7 @@ $OverviewCourseRights = "Roles & rights overview";
 $PleaseTryAgain = "Please Try Again!";
 $PR='P-R';
 $PersonalMessenger='Personal Messenger';
+$Profiler = "Profiler";
 $Progress = "Progress";
 $Progression = "Progress";
 $RdvAgenda = "Agenda appointment";

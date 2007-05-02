@@ -256,11 +256,18 @@ EOT;
 	 */
 	private function add_footer()
 	{
-		if ($this->supports_attachments() && $this->form_type != self :: TYPE_REPLY)
+		if ($this->supports_attachments())
 		{
 			$object = $this->learning_object;
-			$attached_objects = $object->get_attached_learning_objects();
-			$attachments = RepositoryUtilities :: learning_objects_for_element_finder(& $attached_objects);
+			if ($this->form_type != self :: TYPE_REPLY)
+			{
+				$attached_objects = $object->get_attached_learning_objects();
+				$attachments = RepositoryUtilities :: learning_objects_for_element_finder(& $attached_objects);
+			}
+			else
+			{
+				$attachments = array();
+			}
 			$url = api_get_path(WEB_PATH).'repository/xml_feed.php';
 			$locale = array ();
 			$locale['Display'] = get_lang('AddAttachments');
