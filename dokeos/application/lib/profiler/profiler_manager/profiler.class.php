@@ -3,6 +3,7 @@
  * @package application.Profiler
  */
 require_once dirname(__FILE__).'/profilercomponent.class.php';
+require_once dirname(__FILE__).'/profilersearchform.class.php';
 require_once dirname(__FILE__).'/../profilerdatamanager.class.php';
 require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/configuration.class.php';
@@ -112,7 +113,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	 * @param boolean $display_search Should the header include a search form or
 	 * not?
 	 */
-	function display_header($breadcrumbs = array ())
+	function display_header($breadcrumbs = array (), $display_search = false)
 	{
 		global $interbredcrump;
 		if (isset ($this->breadcrumbs) && is_array($this->breadcrumbs))
@@ -133,6 +134,10 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		echo $this->get_menu_html();
 		echo '<div style="float: right; width: 80%;">';
 		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
+		if ($display_search)
+		{
+			$this->display_search_form();
+		}
 		echo '<div class="clear">&nbsp;</div>';
 		
 		if ($msg = $_GET[self :: PARAM_MESSAGE])
@@ -154,6 +159,21 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		$create['class'] = 'create';
 		$extra_items[] = & $create;
 		
+		if ($this->get_search_validate())
+		{
+			// $search_url = $this->get_url();
+			$search_url = '#';
+			$search = array ();
+			$search['title'] = get_lang('SearchResults');
+			$search['url'] = $search_url;
+			$search['class'] = 'search_results';
+			$extra_items[] = & $search;
+		}
+		else
+		{
+			$search_url = null;
+		}
+		
 		$temp_replacement = '__FIRSTLETTER__';
 		$url_format = $this->get_url(array (Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES, Profiler :: PARAM_FIRSTLETTER => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
@@ -166,6 +186,11 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		elseif(!isset($this->firstletter))
 		{
 			$user_menu->forceCurrentUrl($this->get_profile_home_url(), true);
+		}
+		
+		if (isset ($search_url))
+		{
+			$user_menu->forceCurrentUrl($search_url, true);
 		}
 		
 		$html = array();
@@ -461,6 +486,25 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	function get_profile_home_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_PROFILES));
+	}
+	
+	function get_search_condition()
+	{
+		return $this->get_search_form()->get_condition();
+	}
+	
+	private function get_search_form()
+	{
+		if (!isset ($this->search_form))
+		{
+			$this->search_form = new ProfilerSearchForm($this, $this->get_url());
+		}
+		return $this->search_form;
+	}
+	
+	function get_search_validate()
+	{
+		return $this->get_search_form()->validate();
 	}
 	
 	private function parse_input_from_table()

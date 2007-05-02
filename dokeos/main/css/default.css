@@ -1474,6 +1474,12 @@ ul.tree-menu li div a.type_announcement, .active_elements li.type_announcement a
 	background-repeat: no-repeat;
 }
 
+ul.tree-menu li div a.type_user, .active_elements li.type_user a
+{
+	background-image: url(../img/treemenu_types/user.gif);
+	background-repeat: no-repeat;
+}
+
 ul.tree-menu li div a.type_calendar_event, .active_elements li.type_calendar_event a
 {
 	background-image: url(../img/treemenu_types/calendar_event.gif);

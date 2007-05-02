@@ -22,7 +22,7 @@ class ProfilerBrowserComponent extends ProfilerComponent
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('MyProfiler'));
 		
-		$this->display_header($breadcrumbs);
+		$this->display_header($breadcrumbs, true);
 		echo $output;
 		$this->display_footer();
 	}
@@ -41,8 +41,8 @@ class ProfilerBrowserComponent extends ProfilerComponent
 	
 	function get_condition()
 	{
-		//$search_conditions = $this->get_search_condition();
-		$search_conditions = null;
+		$search_conditions = $this->get_search_condition();
+		//$search_conditions = null;
 		$condition = null;
 		if (isset($this->firstletter))
 		{
@@ -63,6 +63,7 @@ class ProfilerBrowserComponent extends ProfilerComponent
 				$condition = $search_conditions;
 			}
 		}
+		
 		return $condition;
 	}
 }

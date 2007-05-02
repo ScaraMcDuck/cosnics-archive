@@ -114,12 +114,16 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 		$publication = $this->publication;
 		
 		$toolbar_data = array();
-		$toolbar_data[] = array(
-			'href' => $this->get_publication_reply_url($publication),
-			'label' => get_lang('Reply'),
-			'img' => $this->get_web_code_path().'img/reply.gif',
-			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-		);
+		
+		if ($publication->get_recipient() == $this->get_user_id())
+		{
+			$toolbar_data[] = array(
+				'href' => $this->get_publication_reply_url($publication),
+				'label' => get_lang('Reply'),
+				'img' => $this->get_web_code_path().'img/reply.gif',
+				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			);
+		}
 		
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}

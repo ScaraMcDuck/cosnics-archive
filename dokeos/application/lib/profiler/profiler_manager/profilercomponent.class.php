@@ -49,9 +49,9 @@ abstract class ProfilerComponent {
 		return $this->get_parent()->get_url($parameters, $encode, $filter, $filterOn);
 	}
 	
-	function display_header($breadcrumbs = array ())
+	function display_header($breadcrumbs = array (), $display_search = false)
 	{
-		return $this->get_parent()->display_header($breadcrumbs);
+		return $this->get_parent()->display_header($breadcrumbs, $display_search);
 	}
 	
 	function display_message($message)
@@ -122,6 +122,11 @@ abstract class ProfilerComponent {
 	function get_user_id()
 	{
 		return $this->get_parent()->get_user_id();
+	}
+
+	function get_search_condition()
+	{
+		return $this->get_parent()->get_search_condition();
 	}
 	
 	function get_publication_deleting_url($profile)

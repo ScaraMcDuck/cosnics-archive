@@ -86,10 +86,7 @@ class PersonalMessagePublicationForm extends FormValidator
 		$locale['Error'] = get_lang('Error');
 		$hidden = true;
 		$elem = $this->addElement('element_finder', 'recipients', get_lang('Recipients'), $url, $locale, $recipients);
-		if ($id = $this->form_user->get_user_id())
-		{
-			$elem->excludeElements(array($id));
-		}
+		$elem->excludeElements(array($this->form_user->get_user_id()));
 		$elem->setDefaultCollapsed(false);
 		
 		$this->addElement('submit', 'submit', get_lang('Ok'));
