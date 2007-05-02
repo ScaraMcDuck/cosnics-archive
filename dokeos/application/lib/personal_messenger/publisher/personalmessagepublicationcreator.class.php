@@ -100,6 +100,7 @@ class PersonalMessagePublicationCreator extends PersonalMessagePublisherComponen
 	private function get_editing_form($objectID)
 	{
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
+		$object->set_owner_id($this->get_user_id());
 		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_REPLY, $object, 'edit', 'post', $this->get_url(array (PersonalMessagePublisher :: PARAM_LEARNING_OBJECT_ID => $objectID, PersonalMessenger :: PARAM_PERSONAL_MESSAGE_ID => $this->pid, PersonalMessagePublisher :: PARAM_EDIT => 1)));
 		if ($form->validate())
 		{
