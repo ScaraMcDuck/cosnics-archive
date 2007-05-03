@@ -2,19 +2,19 @@
 <object name="profile">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="competences" type="text" notnull="1"/>
-  <property name="diplomas" type="text" notnull="1"/>
-  <property name="teaching" type="text" notnull="1"/>
-  <property name="open" type="text" notnull="1"/>
-  <property name="phone" type="text" notnull="1"/>
-  <property name="fax" type="text" notnull="1"/>
-  <property name="address" type="text" notnull="1"/>
-  <property name="mail" type="text" notnull="1"/>
-  <property name="skype" type="text" notnull="1"/>
-  <property name="msn" type="text" notnull="1"/>
-  <property name="yim" type="text" notnull="1"/>
-  <property name="aim" type="text" notnull="1"/>
-  <property name="icq" type="text" notnull="1"/>
+  <property name="competences" type="text" notnull="0"/>
+  <property name="diplomas" type="text" notnull="0"/>
+  <property name="teaching" type="text" notnull="0"/>
+  <property name="open" type="text" notnull="0"/>
+  <property name="phone" type="text" notnull="0"/>
+  <property name="fax" type="text" notnull="0"/>
+  <property name="address" type="text" notnull="0"/>
+  <property name="mail" type="text" notnull="0"/>
+  <property name="skype" type="text" notnull="0"/>
+  <property name="msn" type="text" notnull="0"/>
+  <property name="yim" type="text" notnull="0"/>
+  <property name="aim" type="text" notnull="0"/>
+  <property name="icq" type="text" notnull="0"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
