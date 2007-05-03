@@ -143,7 +143,7 @@ class DocumentForm extends LearningObjectForm
 		//If first letter is . add something before
 		$valid_filename = eregi_replace("^\.","0.",$valid_filename);
 		//Replace accented characters
-		$valid_filename = strtr($valid_filename, 'àáâãäåçèéêëìíîïðñòóôõöøùúûüýÿÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞ', 'aaaaaaceeeeiiiidnoooooouuuuyyaaaaaaceeeeiiiidnoooooouuuuyy');
+		$valid_filename = strtr($valid_filename, 'Ã Ã¡Ã¢Ã£Ã¤Ã¥Ã§Ã¨Ã©ÃªÃ«Ã¬Ã­Ã®Ã¯Ã°Ã±Ã²Ã³Ã´ÃµÃ¶Ã¸Ã¹ÃºÃ»Ã¼Ã½Ã¿Ã€Ã�Ã‚ÃƒÃ„Ã…Ã†Ã‡ÃˆÃ‰ÃŠÃ‹ÃŒÃ�ÃŽÃ�Ã�Ã‘Ã’Ã“Ã”Ã•Ã–Ã˜Ã™ÃšÃ›ÃœÃ�Ãž', 'aaaaaaceeeeiiiidnoooooouuuuyyaaaaaaceeeeiiiidnoooooouuuuyy');
 		//Replace all except letters, numbers, - and . to underscores
 	    $valid_filename =  ereg_replace('[^0-9a-zA-Z\-\.]', '_',$valid_filename);
 	    //Replace set of underscores by a single underscore
@@ -172,6 +172,14 @@ class DocumentForm extends LearningObjectForm
 	{
 		// TODO: Do the errors need htmlentities()?
 		$errors = array ();
+		
+		$owner_id = $this->get_owner_id();
+		$udm = & UsersDataManager :: get_instance();
+		
+		$owner = $udm->retrieve_user($owner_id);
+		
+		$quotamanager = new QuotaManager($owner);
+		
 		if (!$fields['choice'])
 		{
 			if (isset ($_FILES['file']) && isset($_FILES['file']['error']) && $_FILES['file']['error'] != 0)
@@ -193,7 +201,10 @@ class DocumentForm extends LearningObjectForm
 			}
 			elseif (isset ($_FILES['file']) && strlen($_FILES['file']['name']) > 0)
 			{
-				if (!HTML_QuickForm_Rule_DiskQuota :: validate($_FILES['file']))
+				$size = $_FILES['file']['size'];
+				$available_disk_space = $quotamanager->get_available_disk_space();
+				
+				if ($size > $available_disk_space)
 				{
 					$errors['upload_or_create'] = get_lang('DiskQuotaExceeded');
 				}
@@ -211,7 +222,10 @@ class DocumentForm extends LearningObjectForm
 			fwrite($handle, "writing to tempfile");
 			fclose($handle);
 			$file['size'] = filesize($tmpfname);
-			if (!HTML_QuickForm_Rule_DiskQuota :: validate($file))
+			
+			$available_disk_space = $quotamanager->get_available_disk_space();
+			
+			if ($file['size'] > $available_disk_space)
 			{
 				$errors['upload_or_create'] = get_lang('DiskQuotaExceeded');
 			}
