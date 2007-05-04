@@ -978,7 +978,7 @@ class RepositoryManager
 	{
 		$links = array();
 		$links[] = array('name' => get_lang('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
-		return array('application' => array('name' => get_lang('Repository'), 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)));
+		return array('application' => array('name' => get_lang('Repository'), 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS)));
 	}
 	
 	public function get_link($parameters = array (), $encode = false)
