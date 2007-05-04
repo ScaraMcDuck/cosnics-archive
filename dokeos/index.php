@@ -371,21 +371,21 @@ function display_applications_list()
 		{
 			if (isset($_uid))
 			{
-				$html[]= '<li><a href="index_'. $application .'.php">'. get_lang(application_to_class($application)) .'</a></li>';
+				$html[]= '<li><a href="index_'. $application .'.php">'. get_lang('App'.application_to_class($application)) .'</a></li>';
 			}
 			else
 			{
-				$html[]= '<li>'. get_lang(application_to_class($application)) .'</li>';
+				$html[]= '<li>'. get_lang('App'.application_to_class($application)) .'</li>';
 			}
 		}
 		
 		if (isset($_uid))
 		{
-			$html[]= '<li><a href="index_repository_manager.php">'. get_lang('RepositoryManager') .'</a></li>';
+			$html[]= '<li><a href="index_repository_manager.php">'. get_lang('AppRepositoryManager') .'</a></li>';
 		}
 		else
 		{
-			$html[]= '<li>'. get_lang('RepositoryManager') .'</li>';
+			$html[]= '<li>'. get_lang('AppRepositoryManager') .'</li>';
 		}
 		
 		$html[] = '</ul>';

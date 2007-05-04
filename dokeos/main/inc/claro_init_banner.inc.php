@@ -102,6 +102,11 @@ if ($_uid)
 	echo '</div>'."\n";
 	echo '</form>'."\n";
 	
+	global $user;
+	
+	$usermgr = new UserManager($_SESSION['_uid']);
+	$user = $usermgr->get_user();
+	
 	$applications = load_applications();
 	
 	foreach($applications as $application)
@@ -115,8 +120,20 @@ if ($_uid)
 			$link_class='';
 		}
 		
+		if ($application == 'personal_messenger')
+		{
+			$pmmgr = new PersonalMessenger($user);
+			$count = $pmmgr->count_unread_personal_message_publications();
+		}
+		else
+		{
+			$count = 0;
+		}
+		
+		
 		echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_'.$application.'.php" target="_top">';
 		echo get_lang(application_to_class($application));
+		echo ($count > 0 ? '&nbsp;('.$count.')' : null); 
 		echo '</a>&nbsp;'."\n";
 	}
 
@@ -145,11 +162,6 @@ if ($_uid)
 	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_user.php?go=profile" target="_top">';
 	echo get_lang('ModifyProfile');
 	echo '</a>&nbsp;'."\n";
-	
-	global $user;
-	
-	$usermgr = new UserManager($_SESSION['_uid']);
-	$user = $usermgr->get_user();
 	
 //	$pmmgr = new PersonalMessenger($user);
 //	$count = $pmmgr->count_unread_personal_message_publications();

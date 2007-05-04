@@ -31,7 +31,7 @@ $langConfirmation = "Confirmation";
 $langConfirmUnsubscribe = "Confirm user unsubscription";	
 $langCourseAdministratorOnly = "teacher only";	
 $langCourseManager = "Teacher";	
-$langCourseName = "Name�of�course";
+$langCourseName = "Name�of�course";	
 $langCourses = "courses.";	
 $langCourses4User = "Courses of this user";	
 $langCoursesByUser = "Courses by users";	
@@ -43,8 +43,8 @@ $langDelImage = "Remove picture";
 $langDownloadUserList = "Upload list";	
 $langEdit = "edit";	
 $langEmailWrong = "The email address is not complete or contains some invalid characters";	
+$langEmptyFields = "You left some fields empty. Use your browser\'s back button and try again.";	
 $langEnter2passToChange = "Enter your password twice to change it. Otherwise, leave the fields empty.";	
-$langEmptyFields = "You left some fields empty. Use your browser\'s back button and try again.";
 $langFields = "You left some fields empty";	
 $langFileDeleted = "File has been deleted.";	
 $langFilled = "You have left some fields empty.";	
@@ -56,8 +56,7 @@ $langGroup = "group";
 $langGroupUserManagement = "Group management";	
 $langHaveNoCourse = "no course";	
 $langHome = "Back to Home Page";	
-$langIfYouWantToAddManyUsers = "If you want to add a list of users in
-			your course, please contact your web administrator.";
+$langIfYouWantToAddManyUsers = "If you want to add a list of users in your course, please contact your web administrator.";	
 $langImageWrong = "The file size should be smaller than";	
 $langImportUserList = "Import a list of users";	
 $langInC = "in this course";	
@@ -91,7 +90,7 @@ $langOneResp = "One of the course administrators";
 $langOptionalTextFields = "Optional fields";	
 $langParamInTheCourse = "Status in course";	
 $langPass = "Password";	
-$langPassTooEasy = "this password  is too simple. Use a pass like this ";
+$langPassTooEasy = "this password  is too simple. Use a pass like this ";	
 $langPassTwice = "You typed two different passwords. Use your browser\'s back button and try again.";	
 $langPassTwo = "You have typed two different passwords";	
 $langPersonalSettings = "Your personal settings have been registered";	
@@ -107,12 +106,9 @@ $langRegistration = "Registration";
 $langRegStudent = "Follow courses";	
 $langRegYou = "has registered you on this course";	
 $langRemoveRight = "Remove this right";	
-$langSee = "Go�to";
 $langRole = "Description";	
-$langSend = "Send";
-$langSettings = "with the following settings :
-
-Username :";
+$langSee = "Go�to";	
+$langSend = "Send";	
 $langSex = "Sex";	
 $langShouldBeCSVFormat = "File should be CSV format. Do not add spaces. Structure should be exactly :";	
 $langSimpleUserOfCourse = "User of course";	
@@ -127,13 +123,8 @@ $langTracking = "Tracking";
 $langTutor = "Tutor";	
 $langUnlock = "unlocked";	
 $langUpdateImage = "Change picture";	
-$langUserAddExplanation = "every line of file to send will necessarily an only
-		include 5 fields: <b>First name���Last name���
-		Login���Password�
-		��Email</b> separated by tabs and in this order.
-		Users will receive email confirmation with login/password.";
 $langUserAlreadyRegistered = "A user with same name is already registered	in this course.";
-$langUserFree = "This username is already taken. Use your browser\'s back button and choose another.";
+$langUserFree = "This username is already taken. Use your browser\'s back button and choose another.";	
 $langUserMany = "Import a user list through a CSV / XML file";	
 $langUsername = "User name";	
 $langUserNo = "The username you choose ";	
@@ -149,10 +140,6 @@ $langYourReg = "Your registration on";
 $Name = "Name";	
 $OnlyImagesAllowed = "Only images of type PNG, JPG or GIF allowed";	
 $PasswordRequestFrom = "This is a password request for the e-mail address";	
-$password_request = "You have asked to reset your password.
-If you did not ask, then ignore this mail.
-
-To reset your password click on the reset link.";
 $RequestSentToPlatformAdmin = "Dokeos can\'t handle the request automatically for this type of account. Your request has been sent to the platform administrator, who will take appropriate measures and notify you of the result.";	
 $required = "required";	
 $SearchButton = "Search";	
