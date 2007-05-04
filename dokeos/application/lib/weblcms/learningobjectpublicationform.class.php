@@ -132,12 +132,12 @@ class LearningObjectPublicationForm extends FormValidator
 			// Only root category -> store object in root category
 			$this->addElement('hidden',LearningObjectPublication :: PROPERTY_CATEGORY_ID,0);
 		}
-		$users = CourseManager::get_user_list_from_course_code($this->course->get_id());
-		$receiver_choices = array();
-		foreach($users as $index => $user)
-		{
-			$receiver_choices[self :: PARAM_TARGET_USER_PREFIX.'-'.$user['user_id']] = $user['firstName'].' '.$user['lastName'];
-		}
+//		$users = CourseManager::get_user_list_from_course_code($this->course->get_id());
+//		$receiver_choices = array();
+//		foreach($users as $index => $user)
+//		{
+//			$receiver_choices[self :: PARAM_TARGET_USER_PREFIX.'-'.$user['user_id']] = $user['firstName'].' '.$user['lastName'];
+//		}
 		// TODO: Next lines reconnect to dokeos-database due
 		// to conflict with DB-connection in repository. This problem
 		// should be fixed.
