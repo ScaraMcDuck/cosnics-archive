@@ -1,42 +1,18 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langLinks = "Links";
-$langLinkName = "Link name";
-$langLinkAdd = "Add a link";
-$langLinkAdded = "The link has been added.";
-$langLinkMod = "Modify link";
-$langLinkModded = "The link has been modified.";
-$langLinkDel = "Delete link";
-$langLinkDeleted = "The link has been deleted";
-$langLinkDelconfirm = "Do you want to delete this link?";
+$langAddLink = "Add a link";
+$langAll_Link_Deleted = "Link has been deleted";
+$langAllCategoryDel = "Delete all categories and all links";
 $langAllLinksDel = "Delete all links in this category ";
-$langCategoryName = "Category name";
 $langCategoryAdd = "Add a category";
 $langCategoryAdded = "The category has been added.";
+$langCategoryDel = "Delete category";
+$langCategoryDelconfirm = "When deleting a category, all links of this category are also deleted.\\nDo you really want to delete this category and its links ?";
+$langCategoryDeleted = "The category and all its links have been deleted.";
 $langCategoryMod = "Modify Category";
 $langCategoryModded = "The category has been modified.";
-$langCategoryDel = "Delete category";
-$langCategoryDeleted = "The category and all its links have been deleted.";
-$langCategoryDelconfirm = "When deleting a category, all links of this category are also deleted.\\nDo you really want to delete this category and its links ?";
-$langAllCategoryDel = "Delete all categories and all links";
-$langGiveURL = "Please give the link URL";
-$langGiveCategoryName = "Please give the category name";
-$langNoCategory = "No category";
-$showall = "Open all categories";
-$shownone = "Close all categories";
-$langListDeleted = "List has been deleted";
-$langAddLink = "Add a link";
-$langDelList = "Delete list";
-$langModifyLink = "Modify Link";
-$langCsvImport = "Import a CSV file";
-$langCsvFileNotFound = "CSV import file could not be opened (e.g. empty, too big)";
-$langCsvFileNoSeps = "CSV import file must use , or ; as listseparator";
-$langCsvFileNoURL = "CSV import file must at least have columns URL and title";
-$langCsvFileLine1 = "... - line 1 = ";
-$langCsvLinesFailed = "line(s) failed to import a link (no URL or no title). ";
-$langCsvLinesOld = "existing link(s) updated (same URL and category). ";
-$langCsvLinesNew = "new link(s) created.";
+$langCategoryName = "Category name";
 $langCsvExplain = "
 The file should look like:
 <blockquote><pre>
@@ -52,9 +28,33 @@ Additional fields are added to description.
 Separator: comma or semicolon. Values may be quoted, but not the field names. 
 Some [b]HTML tags[/b] can be imported in the description field.
 ";
+$langCsvFileLine1 = "... - line 1 = ";
+$langCsvFileNoSeps = "CSV import file must use , or ; as listseparator";
+$langCsvFileNotFound = "CSV import file could not be opened (e.g. empty, too big)";
+$langCsvFileNoURL = "CSV import file must at least have columns URL and title";
+$langCsvImport = "CSV import";
+$langCsvImport = "Import a CSV file";
+$langCsvLinesFailed = "line(s) failed to import a link (no URL or no title). ";
+$langCsvLinesNew = "new link(s) created.";
+$langCsvLinesOld = "existing link(s) updated (same URL and category). ";
+$langDelList = "Delete list";
+$langGiveCategoryName = "Please give the category name";
+$langGiveURL = "Please give the link URL";
+$langLinkAdd = "Add a link";
+$langLinkAdded = "The link has been added.";
+$langLinkDel = "Delete link";
+$langLinkDelconfirm = "Do you want to delete this link?";
+$langLinkDeleted = "The link has been deleted";
+$langLinkMod = "Modify link";
+$langLinkModded = "The link has been modified.";
+$langLinkName = "Link name";
+$langLinks = "Links";
 $langLinkUpdated = "Link has been updated";
-$langAll_Link_Deleted = "Link has been deleted";
+$langListDeleted = "List has been deleted";
+$langModifyLink = "Modify Link";
+$langNoCategory = "No category";
 $langOnHomepage = "Show link on homepage";
 $langShowLinkOnHomepage = "Show this link as an icon on the course homepage";
-$langCsvImport = "CSV import";
+$showall = "Open all categories";
+$shownone = "Close all categories";
 ?>

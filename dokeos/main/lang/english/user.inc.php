@@ -30,9 +30,7 @@ $PhoneNumber='Phone Number';
 $Problem = 'In case of problems, contact us.';	
 $SearchResults='Search Results';
 $SendMailToNewUser='Send new email to new user';
-$Settings = "with the following settings :
-
-Username :";
+$Settings = 'With the following settings :';
 $Student='Student';
 $UserCreate='Add user';
 $UserCreateCsv='Add users from CSV';

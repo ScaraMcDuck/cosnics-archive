@@ -1,29 +1,30 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langActivate = "Show";
-$langDeactivate = "Hide";
-$langRemove = "Remove";
-$langInLnk  = "Hidden tools and links";
-$langDelLk = "Do you really want to delete this link?";
-$langEnter  = "Enter";
-$langCourseCreate  = "Create a course website";
-$langNameOfTheLink  = "Name of the link";
-$lang_main_categories_list                  = "Main category list";
-$langHelp = "Help";
-$langCourseAdminOnly = "Teachers only";
-$PlatformAdminOnly = "Platform Administrators only";
-$langCombinedCourse = "Combined course";
-$ToolIsNowVisible = "The tool is now visible.";
-$ToolIsNowHidden = "The tool is now invisible.";
-$EditLink = "Edit link";
+$Administration = "Administration";
+$Authoring = "Authoring";
 $blog_management = "Blogs management";
-$forum = "Forums";
 $course_maintenance = "Course Maintenance";
-$TOOL_SURVEY = "Surveys";
-$visio = "Dokeos Live Conferencing";
+$EditLink = "Edit link";
+$forum = "Forums";
 $GreyIcons = "Toolbox";
 $Interaction = "Interaction";
-$Authoring = "Authoring";
-$Administration = "Administration";
+$lang_main_categories_list                  = "Main category list";
+$langActivate = "Show";
+$langCombinedCourse = "Combined course";
+$langCourseAdminOnly = "Teachers only";
+$langCourseCreate  = "Create a course website";
+$langDeactivate = "Hide";
+$langDelLk = "Do you really want to delete this link?";
+$langEnter  = "Enter";
+$langHelp = "Help";
+$langInLnk  = "Hidden tools and links";
+$langNameOfTheLink  = "Name of the link";
+$langRemove = "Remove";
+$PlatformAdminOnly = "Platform Administrators only";
+$TOOL_SURVEY = "Surveys";
+$ToolIsNowHidden = "The tool is now invisible.";
+$ToolIsNowVisible = "The tool is now visible.";
+$visio = "Dokeos Live Conferencing";
+
 ?>
