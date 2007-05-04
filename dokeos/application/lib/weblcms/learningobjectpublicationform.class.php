@@ -146,7 +146,7 @@ class LearningObjectPublicationForm extends FormValidator
 		mysql_select_db($mainDbName);
 		// --
 
-		// TODO: Commented until groups structure has been reorganized using possible user / groups classes
+//		TODO: Commented until groups structure has been reorganized using possible user / groups classes
 //		$groups = GroupManager::get_group_list(null, $this->course->get_id());
 //		foreach($groups as $index => $group)
 //		{
