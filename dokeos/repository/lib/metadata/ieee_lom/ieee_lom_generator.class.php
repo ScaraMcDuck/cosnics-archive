@@ -5,6 +5,7 @@
  * @subpackage ieee_lom
  */
 require_once(dirname(__FILE__).'/ieee_lom.class.php');
+require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
 /**
  * This class automatically generates IEEE LOM compatible metadata for learning
  * objects.
@@ -19,21 +20,23 @@ class IeeeLomGenerator
 	 */
 	static function generate($learning_object)
 	{
+		$udm = UsersDataManager :: get_instance();
+		
 		$lom = new IeeeLom();
 		$lom->add_identifier(api_get_setting('InstitutionUrl'),$learning_object->get_id());
 		$lom->add_title(new LangString($learning_object->get_title(),'x-none'));
 		$lom->add_description(new LangString($learning_object->get_description(),'x-none'));
-		$owner = api_get_user_info($learning_object->get_owner_id());
+		$owner = $udm->retrieve_user($learning_object->get_owner_id());
 		$lom->set_version(new Langstring($learning_object->get_learning_object_edition(),'x-none'));
 		$lom->set_status(new Vocabulary('LOMV1.0',($learning_object->is_latest_version() == TRUE ? 'final' : 'draft')));
 		$all_versions = $learning_object->get_learning_object_versions();
 		foreach($all_versions as $version)
 		{
-			$versionowner = api_get_user_info($version->get_owner_id());
+			$versionowner = $udm->retrieve_user($version->get_owner_id());
 			$vcard = new Contact_Vcard_Build();
-			$vcard->addEmail($versionowner['mail']);
-			$vcard->setFormattedName($versionowner['firstName'].' '.$versionowner['lastName']);
-			$vcard->setName($versionowner['lastName'].' '.$versionowner['firstName']);
+			$vcard->addEmail($versionowner->get_email());
+			$vcard->setFormattedName($versionowner->get_firstname().' '.$versionowner->get_lastname());
+			$vcard->setName($versionowner->get_lastname().' '.$versionowner->get_firstname());
 			$lom->add_contribute(new Vocabulary('LOMV1.0',$versionowner == $owner ? 'author' : 'editor'),$vcard->fetch(),new IeeeLomDateTime(date('Y-m-d\TH:i:sO',$version->get_creation_date())));
 		}
 		$vcard = new Contact_Vcard_Build();
