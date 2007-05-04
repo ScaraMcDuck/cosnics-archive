@@ -105,25 +105,32 @@ class PersonalMessagePublicationForm extends FormValidator
 		
 		foreach ($values['recipients'] as $recip)
 		{
-			$sender_pub = new PersonalMessagePublication();
-			$sender_pub->set_personal_message($this->learning_object->get_id());
-			$sender_pub->set_recipient($recip);
-			$sender_pub->set_published(time());
-			$sender_pub->set_user($this->form_user->get_user_id());
-			$sender_pub->set_sender($this->form_user->get_user_id());
-			$sender_pub->set_status('0');
-			
-			if ($sender_pub->create())
+			if ($recip != $this->form_user->get_user_id())
 			{
-				$recipient_pub = new PersonalMessagePublication();
-				$recipient_pub->set_personal_message($this->learning_object->get_id());
-				$recipient_pub->set_recipient($recip);
-				$recipient_pub->set_published(time());
-				$recipient_pub->set_user($recip);
-				$recipient_pub->set_sender($this->form_user->get_user_id());
-				$recipient_pub->set_status('1');
-				if ($recipient_pub->create())
+				$sender_pub = new PersonalMessagePublication();
+				$sender_pub->set_personal_message($this->learning_object->get_id());
+				$sender_pub->set_recipient($recip);
+				$sender_pub->set_published(time());
+				$sender_pub->set_user($this->form_user->get_user_id());
+				$sender_pub->set_sender($this->form_user->get_user_id());
+				$sender_pub->set_status('0');
+				
+				if ($sender_pub->create())
 				{
+					$recipient_pub = new PersonalMessagePublication();
+					$recipient_pub->set_personal_message($this->learning_object->get_id());
+					$recipient_pub->set_recipient($recip);
+					$recipient_pub->set_published(time());
+					$recipient_pub->set_user($recip);
+					$recipient_pub->set_sender($this->form_user->get_user_id());
+					$recipient_pub->set_status('1');
+					if ($recipient_pub->create())
+					{
+					}
+					else
+					{
+						$failures++;
+					}
 				}
 				else
 				{

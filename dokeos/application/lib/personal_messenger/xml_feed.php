@@ -32,7 +32,7 @@ if (api_get_user_id())
 		$c = array ();
 		foreach ($_GET['exclude'] as $id)
 		{
-			$c[] = new EqualityCondition(User :: PROPERTY_USERNAME, $id);
+			$c[] = new EqualityCondition(User :: PROPERTY_USER_ID, $id);
 		}
 		$conditions[] = new NotCondition(new OrCondition($c));
 	}
