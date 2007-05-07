@@ -70,7 +70,7 @@ abstract class LearningObjectDisplay
 		$object = $this->get_learning_object();
 		$html = array();
 		$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.gif);">';
-		$html[] = '<div class="title">'. get_lang('Description') .'</div>';
+		$html[] = '<div class="title">'. htmlentities($object->get_title()) .'</div>';
 		$html[] = $this->get_description();
 		$html[] = '</div>';
 		$html[] = $this->get_attached_learning_objects_as_html();
@@ -141,7 +141,7 @@ abstract class LearningObjectDisplay
 	function get_version_as_html($version_entry)
 	{
 		$object = $this->get_learning_object();
-		
+
 		if ($object->get_id() == $version_entry['id'])
 		{
 			$html[] = '<span class="current">';
@@ -179,19 +179,19 @@ abstract class LearningObjectDisplay
 //		}
 
 		$html[] = '&nbsp;<a href="'.htmlentities($version_entry['viewing_link']).'">'.$version_entry['title'].'</a>';
-		
+
 		if (isset($version_entry['comment']) && $version_entry['comment'] != '')
 		{
 			$html[] = '&nbsp;<span class="version_comment">'.$version_entry['comment'].'</span>';
 		}
 		$html[] = '</span>';
-			
+
 		$result['id'] = $version_entry['id'];
 		$result['html'] = implode("\n", $html);
-			
+
 		return $result;
 	}
-	
+
 	/**
 	 * Returns a HTML view of the versions of the learning object.
 	 * @return string The HTML.
