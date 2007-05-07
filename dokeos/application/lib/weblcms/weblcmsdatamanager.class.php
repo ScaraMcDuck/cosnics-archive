@@ -261,6 +261,8 @@ abstract class WeblcmsDataManager
 	abstract function delete_learning_object_publication($publication);
 
 	abstract function update_learning_object_publication_id($publication_attr);
+	
+	abstract function retrieve_course_list_of_user_as_course_admin($user_id);
 
 	/**
 	 * Moves a learning object publication among its siblings.
