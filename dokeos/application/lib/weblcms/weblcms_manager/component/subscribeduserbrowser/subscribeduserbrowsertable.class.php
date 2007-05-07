@@ -24,7 +24,14 @@ class SubscribedUserBrowserTable extends UserTable
 		parent :: __construct($data_provider, $name, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();
-		$actions[Weblcms :: PARAM_UNSUBSCRIBE_SELECTED] = get_lang('UnregisterSelected');
+		if ($_GET[Weblcms :: PARAM_USER_ACTION] != Weblcms :: ACTION_SUBSCRIBE)
+		{
+			$actions[Weblcms :: PARAM_UNSUBSCRIBE_SELECTED] = get_lang('UnsubscribeSelected');
+		}
+		else
+		{
+			$actions[Weblcms :: PARAM_SUBSCRIBE_SELECTED] = get_lang('SubscribeSelected');
+		}
 		
 		if ($browser->get_course()->is_course_admin($browser->get_user_id()))
 		{

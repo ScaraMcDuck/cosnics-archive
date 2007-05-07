@@ -20,15 +20,67 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 	{
 		$this->category = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
 		$course_code = $_GET[Weblcms :: PARAM_COURSE];
+		$users = $_GET[Weblcms :: PARAM_USERS];
 		
 		if (isset($course_code))
 		{
 			$course = $this->retrieve_course($course_code);
-			
-			if ($this->get_course_subscription_url($course))
+			if (isset($users) && $this->get_course()->is_course_admin($this->get_user_id()))
 			{
-				$success = $this->subscribe_user_to_course($course, '5', '0', $this->get_user_id());
-				$this->redirect(null, get_lang($success ? 'UserSubscribedToCourse' : 'UserNotSubscribedToCourse'), ($success ? false : true));
+				$failures = 0;
+				
+				foreach ($users as $user_id)
+				{
+					if ($user_id != $this->get_user_id())
+					{
+						if (!$this->subscribe_user_to_course($course, '5', '0', $user_id))
+						{
+							$failures++;
+						}
+					}
+				}
+				
+				if ($failures == 0)
+				{
+					$success = true;
+					
+					if (count($users) == 1)
+					{
+						$message = 'UserSubscribedToCourse';
+					}
+					else
+					{
+						$message = 'UsersSubscribedToCourse';
+					}
+				}
+				elseif ($failures == count ($users))
+				{
+					$success = false;
+					
+					if (count($users) == 1)
+					{
+						$message = 'UserNotSubscribedToCourse';
+					}
+					else
+					{
+						$message = 'UsersNotSubscribedToCourse';
+					}
+				}
+				else
+				{
+					$success = false;
+					$message = 'PartialUsersNotSubscribedToCourse';
+				}
+				
+				$this->redirect(null, get_lang($message), ($success ? false : true), array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $course_code, Weblcms :: PARAM_TOOL => 'user'));
+			}
+			else
+			{			
+				if ($this->get_course_subscription_url($course))
+				{
+					$success = $this->subscribe_user_to_course($course, '5', '0', $this->get_user_id());
+					$this->redirect(null, get_lang($success ? 'UserSubscribedToCourse' : 'UserNotSubscribedToCourse'), ($success ? false : true));
+				}
 			}
 		}
 		

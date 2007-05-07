@@ -13,15 +13,19 @@ class CourseSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 {
 	function buildForm()
 	{
-		$courses = CourseManager::get_course_list_of_user_as_course_admin($this->get_parent()->get_user_id());
+		$dm = WeblcmsDatamanager::get_instance();
+		$course_user_relations = $dm->retrieve_course_list_of_user_as_course_admin($this->get_parent()->get_user_id());
+		
 		$current_code = $this->get_parent()->get_course_id();
-		foreach($courses as $index => $course)
+		
+		while ($course_user_relation = $course_user_relations->next_result())
 		{
-			if($course['code'] != $current_code)
+			if ($course_user_relation->get_course() != $current_code)
 			{
-				$options[$course['code']] = $course['title'];
+				$options[$course_user_relation->get_course()] = $dm->retrieve_course($course_user_relation->get_course())->get_name();
 			}
 		}
+		
 		$this->addElement('select','course',get_lang('Course'),$options,array('multiple'=>'multiple','size'=>'5'));
 		$this->addRule('course',get_lang('ThisFieldIsRequired'),'required');
 		$prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
