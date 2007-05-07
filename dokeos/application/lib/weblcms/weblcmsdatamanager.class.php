@@ -153,6 +153,8 @@ abstract class WeblcmsDataManager
 	
 	abstract function count_user_courses($conditions = null);
 	
+	abstract function count_course_user_relations($conditions = null);
+	
 	abstract function count_course_user_categories($conditions = null);
 
 	/**

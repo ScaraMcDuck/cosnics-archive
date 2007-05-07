@@ -72,10 +72,12 @@ class PersonalMessagePublicationForm extends FormValidator
 			$recip = $publication->get_publication_sender();
 			$recipient = array ();
 			$recipient['id'] = $recip->get_user_id();
-			$recipient['class'] = 'type type_profile';
+			$recipient['class'] = 'type type_user';
 			$recipient['title'] = $recip->get_username();
 			$recipient['description'] = $recip->get_lastname() . ' ' . $recip->get_firstname();
-			$recipients[] = $recipient;
+			$recipients[$recipient['id']] = $recipient;
+			
+			//print_r($recipients);
     	}
     	
 		$url = api_get_path(WEB_PATH).'application/lib/personal_messenger/xml_feed.php';
@@ -84,7 +86,7 @@ class PersonalMessagePublicationForm extends FormValidator
 		$locale['Searching'] = get_lang('Searching');
 		$locale['NoResults'] = get_lang('NoResults');
 		$locale['Error'] = get_lang('Error');
-		$hidden = true;
+		$hidden = false;
 		$elem = $this->addElement('element_finder', 'recipients', get_lang('Recipients'), $url, $locale, $recipients);
 		$elem->excludeElements(array($this->form_user->get_user_id()));
 		$elem->setDefaultCollapsed(false);

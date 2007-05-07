@@ -312,6 +312,20 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
+	
+	function count_course_user_relations($conditions = null)
+	{
+		$params = array ();
+		$query = 'SELECT COUNT('.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).') FROM '.$this->escape_table_name('course_rel_user');
+		if (isset ($condition))
+		{
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+		}
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $record[0];
+	}
 
 	private function get_publication_retrieval_where_clause ($learning_object, $course, $categories, $users, $groups, $condition, & $params)
 	{
