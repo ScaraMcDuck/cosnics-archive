@@ -19,6 +19,7 @@ require_once dirname(__FILE__).'/../../../../repository/lib/condition/notconditi
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/likecondition.class.php';
 require_once dirname(__FILE__).'/../course/course_table/coursetable.class.php';
+require_once dirname(__FILE__).'/../../../../users/lib/user_table/usertable.class.php';
 require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
 
 /**
@@ -36,6 +37,7 @@ class Weblcms extends WebApplication
 	const APPLICATION_NAME = 'weblcms';
 
 	const PARAM_COURSE = 'course';
+	const PARAM_USERS = 'users';
 	const PARAM_TOOL = 'tool';
 	const PARAM_COMPONENT_ACTION = 'action';
 	const PARAM_ACTION = 'go';
@@ -47,6 +49,7 @@ class Weblcms extends WebApplication
 	const PARAM_COURSE_USER = 'course';
 	const PARAM_DIRECTION = 'direction';
 	const PARAM_REMOVE_SELECTED = 'remove_selected';
+	const PARAM_UNSUBSCRIBE_SELECTED = 'unsubscribe_selected';
 
 	const ACTION_VIEW_WEBLCMS_HOME = 'home';
 	const ACTION_VIEW_COURSE = 'courseviewer';
@@ -377,15 +380,15 @@ class Weblcms extends WebApplication
 			}
 
 			echo '<div class="clear">&nbsp;</div>';
-
-			if ($msg = $_GET[self :: PARAM_MESSAGE])
-			{
-				$this->display_message($msg);
-			}
-			if($msg = $_GET[self::PARAM_ERROR_MESSAGE])
-			{
-				$this->display_error_message($msg);
-			}
+		}
+		
+		if ($msg = $_GET[self :: PARAM_MESSAGE])
+		{
+			$this->display_message($msg);
+		}
+		if($msg = $_GET[self::PARAM_ERROR_MESSAGE])
+		{
+			$this->display_error_message($msg);
 		}
 		//echo 'Last visit: '.date('r',$this->get_last_visit_date());
 	}
@@ -590,6 +593,11 @@ class Weblcms extends WebApplication
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_user_relations($user_id, $course_user_category);
 	}
+	
+	function retrieve_course_users($course)
+	{
+		return WeblcmsDataManager :: get_instance()->retrieve_course_users($course);
+	}
 
 	function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
@@ -787,20 +795,36 @@ class Weblcms extends WebApplication
 	{
 		if (isset ($_POST['action']))
 		{
-			$selected_ids = $_POST[CourseTable :: DEFAULT_NAME.CourseTable :: CHECKBOX_NAME_SUFFIX];
-			if (empty ($selected_ids))
+			$selected_course_ids = $_POST[CourseTable :: DEFAULT_NAME.CourseTable :: CHECKBOX_NAME_SUFFIX];
+			if (empty ($selected_course_ids))
 			{
-				$selected_ids = array ();
+				$selected_course_ids = array ();
 			}
-			elseif (!is_array($selected_ids))
+			elseif (!is_array($selected_course_ids))
 			{
-				$selected_ids = array ($selected_ids);
+				$selected_course_ids = array ($selected_course_ids);
 			}
+			
+			$selected_user_ids = $_POST[UserTable :: DEFAULT_NAME.UserTable :: CHECKBOX_NAME_SUFFIX];
+			if (empty ($selected_user_ids))
+			{
+				$selected_user_ids = array ();
+			}
+			elseif (!is_array($selected_user_ids))
+			{
+				$selected_user_ids = array ($selected_user_ids);
+			}
+			
 			switch ($_POST['action'])
 			{
 				case self :: PARAM_REMOVE_SELECTED :
 					$this->set_action(self :: ACTION_DELETE_COURSE);
-					$_GET[self :: PARAM_COURSE] = $selected_ids;
+					$_GET[self :: PARAM_COURSE] = $selected_course_ids;
+					break;
+					
+				case self :: PARAM_UNSUBSCRIBE_SELECTED :
+					$this->set_action(self :: ACTION_MANAGER_UNSUBSCRIBE);
+					$_GET[self :: PARAM_USERS] = $selected_user_ids;
 					break;
 			}
 		}

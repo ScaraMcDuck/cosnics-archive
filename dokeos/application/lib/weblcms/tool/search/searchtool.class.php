@@ -45,11 +45,11 @@ class SearchTool extends Tool
 			}
 			if(count($ids) > 0)
 			{
-				$repositorymanager = RepositoryDataManager :: get_instance();
-				$id_condition = new InCondition(LearningObject::PROPERTY_ID,$ids);
+				$repomanager = RepositoryDataManager :: get_instance();
+				$id_condition = new InCondition(DatabaseRepositoryDataManager :: ALIAS_LEARNING_OBJECT_TABLE.'.'.LearningObject::PROPERTY_ID,$ids);
 				$search_condition = $form->get_condition();
 				$condition = new AndCondition($id_condition,$search_condition);
-				$total = $repositorymanager->count_learning_objects(null,$condition);
+				$total = $repomanager->count_learning_objects(null,$condition);
 				$pager = SearchTool::create_pager($total,SearchTool::RESULTS_PER_PAGE);
 				echo SearchTool::get_pager_links($pager);
 				$from = 0;
@@ -58,7 +58,7 @@ class SearchTool extends Tool
 				{
 					$from = $offset[0]-1;
 				}
-				$objects = $repositorymanager->retrieve_learning_objects(null,$condition,array(),array(),$from,SearchTool::RESULTS_PER_PAGE)->as_array();
+				$objects = $repomanager->retrieve_learning_objects(null,$condition,array(),array(),$from,SearchTool::RESULTS_PER_PAGE)->as_array();
 				if(count($objects) > 0)
 				{
 					foreach($objects as $index => $object)
@@ -80,6 +80,7 @@ class SearchTool extends Tool
 			}
 		}
 		$this->display_footer();
+		
 	}
 	private static function create_pager($total, $per_page)
 	{

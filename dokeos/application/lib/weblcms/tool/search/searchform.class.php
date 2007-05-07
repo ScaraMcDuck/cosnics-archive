@@ -24,7 +24,8 @@ class SearchForm extends FormValidator
 		$this->addElement('submit', 'search', get_lang('Ok'));
     	$this->parent = $parent;
     	$defaults = array();
-    	$parameters = $parent->get_parameters();
+    	$parameters = array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $parent->get_course_id(), Weblcms :: PARAM_TOOL => 'search');
+    	//$parameters = $parent->get_parameters();
     	foreach($parameters as $key => $value)
     	{
 			$this->addElement('hidden',$key);

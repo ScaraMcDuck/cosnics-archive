@@ -400,6 +400,8 @@ abstract class WeblcmsDataManager
 	
 	abstract function retrieve_course_user_relation($course_code, $user_id);
 	
+	abstract function retrieve_course_users($course);
+	
 	abstract function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort, $direction);
 	
 	abstract function retrieve_course_user_relations($user_id, $course_user_category);

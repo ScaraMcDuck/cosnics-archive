@@ -88,6 +88,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 			case self :: ACTION_IMPORT_USERS :
 				$this->force_menu_url($this->create_url, true);
 				$component = UserManagerComponent :: factory('Importer', $this);
+				break;
 			case self :: ACTION_USER_QUOTA :
 				$component = UserManagerComponent :: factory('quota', $this);
 				break;

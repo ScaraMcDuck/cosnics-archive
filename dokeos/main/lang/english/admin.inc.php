@@ -507,9 +507,6 @@ $DokeosConfiguration='Dokeos Configuration';
 $ImportClasses='Import Classes';
 $ManageRoles='Manage Roles';
 $NoOptionsAvailable='No options available';
-$PersonalCalendar='Personal Calendar';
-$PersonalMessenger='Personal Messenger';
-$Profiler='Profiler';
 $ProfileList='Profile List';
 $RolesRightsOverview='Roles\'n\'Rights Overview';
 $UserRolesRights='Roles\'n\'Rights';
@@ -518,6 +515,12 @@ $SearchPortal='Search Portal';
 $UserCreate='Create User';
 $UserExport='Export Users';
 $UserImport='Import Users';
-$Weblcms='Weblcms';
+
+$AppPersonalCalendar  = 'Personal Calendar';
+$AppPersonalMessenger= 'Personal Messenger';
+$AppProfiler= 'Profiler';
+$AppRepositoryManager  = 'Repository Manager';
+$AppSearchPortal  = 'Search Portal';
+$AppWeblcms  = 'Weblcms';
 
 ?>
