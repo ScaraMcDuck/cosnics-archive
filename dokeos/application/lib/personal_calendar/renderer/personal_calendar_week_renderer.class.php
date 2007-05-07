@@ -17,7 +17,7 @@ class PersonalCalendarWeekRenderer extends PersonalCalendarRenderer
 	public function render()
 	{
 		$calendar = new WeekCalendar($this->get_time());
-		$from_date = strtotime('Last Monday', strtotime(date('Y-m-d', $this->get_time())));
+		$from_date = strtotime('Last Monday', strtotime('+1 Day',strtotime(date('Y-m-d', $this->get_time()))));
 		$to_date = strtotime('-1 Second', strtotime('Next Week', $from_date));
 		$events = $this->get_events($from_date, $to_date);
 		$dm = RepositoryDataManager :: get_instance();
