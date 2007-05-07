@@ -122,8 +122,8 @@ if ($_uid)
 		
 		if ($application == 'personal_messenger')
 		{
-			$pmmgr = new PersonalMessenger($user);
-			$count = $pmmgr->count_unread_personal_message_publications();
+			$pmmgr = PersonalMessengerDataManager :: get_instance();
+			$count = $pmmgr->count_unread_personal_message_publications($user);
 		}
 		else
 		{

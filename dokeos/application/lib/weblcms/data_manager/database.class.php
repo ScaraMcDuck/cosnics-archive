@@ -794,6 +794,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return new DatabaseCourseUserRelationResultSet($this, $res);
 	}
 	
+	function retrieve_course_users($course)
+	{
+		$query = 'SELECT * FROM '. $this->escape_table_name('course_rel_user') .' WHERE '.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).'=?';
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute(array($course->get_id()));
+		return new DatabaseCourseUserRelationResultSet($this, $res);
+	}
+	
 	function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort, $direction)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('course_rel_user') .' WHERE '.$this->escape_column_name(CourseUserRelation :: PROPERTY_USER).'=? AND '.$this->escape_column_name(CourseUserRelation :: PROPERTY_CATEGORY).'=?';

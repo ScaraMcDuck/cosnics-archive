@@ -1,7 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../../main/inc/lib/import.lib.php';
-require_once dirname(__FILE__).'/../../../../main/inc/lib/usermanager.lib.php';
 require_once dirname(__FILE__).'/course.class.php';
 require_once dirname(__FILE__).'/coursecategory.class.php';
 

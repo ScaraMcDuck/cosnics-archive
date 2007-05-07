@@ -33,8 +33,12 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			$tools[$tool->section][] = $tool;
 		}
 		$this->show_tools('basic',$tools);
-		echo '<h4>'.get_lang('CourseAdministration').'</h4>';
-		$this->show_tools('course_admin',$tools);
+		
+		if ($this->get_parent()->get_course()->is_course_admin($this->get_parent()->get_user_id()))
+		{
+			echo '<h4>'.get_lang('CourseAdministration').'</h4>';
+			$this->show_tools('course_admin',$tools);
+		}
 	}
 	/**
 	 * Show the tools of a given section
