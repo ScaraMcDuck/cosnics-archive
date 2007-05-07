@@ -394,7 +394,7 @@ function create_admin_in_user_table($values)
 	$user->set_official_code('ADMIN');
 	$user->set_phone($values['admin_phone']);
 	$user->set_language($values['install_language']);
-	$user->set_disk_quota('200000000');
+	$user->set_disk_quota('209715200');
 	$user->set_database_quota('300');
 	$user->set_version_quota('20');
 
