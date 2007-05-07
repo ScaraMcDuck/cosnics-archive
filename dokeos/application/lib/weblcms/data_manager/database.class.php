@@ -313,6 +313,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $record[0];
 	}
 	
+	function retrieve_course_list_of_user_as_course_admin($user_id)
+	{
+		$query = 'SELECT * FROM '. $this->escape_table_name('course_rel_user');
+		$query .= ' WHERE '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('user_id').'='.$user_id.' AND '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('status').'=1';
+		
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute();
+		return new DatabaseCourseUserRelationResultSet($this, $res);
+	}
+
+	
 	function count_course_user_relations($conditions = null)
 	{
 		$params = array ();
