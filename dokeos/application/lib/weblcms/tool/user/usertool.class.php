@@ -56,7 +56,7 @@ class UserTool extends Tool
 	
 	function get_user_unsubscribe_html()
 	{
-		$table = new SubscribedUserBrowserTable($this, null, array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id()), $this->get_unsubscribe_condition());
+		$table = new SubscribedUserBrowserTable($this, null, array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id()), $this->get_unsubscribe_condition());
 		
 		$html = array();
 		$html[] = $table->as_html();
