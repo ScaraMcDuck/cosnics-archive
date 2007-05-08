@@ -16,6 +16,14 @@ class MaintenanceTool extends RepositoryTool
 {
 	function run()
 	{
+		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
+		{
+			$this->display_header();
+			Display :: display_error_message(get_lang("NotAllowed"));
+			$this->display_footer();
+			exit;
+		}
+		
 		$wizard = new MaintenanceWizard($this);
 		$wizard->run();
 	}

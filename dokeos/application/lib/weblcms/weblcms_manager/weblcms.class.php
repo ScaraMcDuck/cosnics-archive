@@ -664,9 +664,14 @@ class Weblcms extends WebApplication
 		{
 			$last_visit_date = $this->get_last_visit_date($tool);
 			$wdm = WeblcmsDataManager :: get_instance();
-			$condition_tool = new EqualityCondition('tool',$tool);
-			$condition_date = new InequalityCondition('published',InequalityCondition::GREATER_THAN,$last_visit_date);
-			$condition = new AndCondition($condition_tool,$condition_date);
+			$conditions = array();
+			$conditions[] = new EqualityCondition('tool',$tool);
+			$conditions[] = new InequalityCondition('published',InequalityCondition::GREATER_THAN,$last_visit_date);
+			if (!$this->get_course()->is_course_admin($this->get_user_id()) && !$this->user->is_platform_admin())
+			{
+				$conditions[] = new EqualityCondition('hidden',0);
+			}
+			$condition = new AndCondition($conditions);
 			$new_items = $wdm->count_learning_object_publications($this->get_course_id(),null,null,null,$condition);
 			return $new_items > 0;
 		}

@@ -15,13 +15,13 @@ class UserTool extends Tool
 {
 	function run()
 	{
-		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
-		{
-			$this->display_header();
-			Display :: display_error_message(get_lang("NotAllowed"));
-			$this->display_footer();
-			exit;
-		}
+//		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
+//		{
+//			$this->display_header();
+//			Display :: display_error_message(get_lang("NotAllowed"));
+//			$this->display_footer();
+//			exit;
+//		}
 		
 		$user_action = $_GET[Weblcms :: PARAM_USER_ACTION];
 		
@@ -30,15 +30,24 @@ class UserTool extends Tool
 		switch($user_action)
 		{
 			case Weblcms :: ACTION_SUBSCRIBE :
-				echo $this->get_usertool_subscribe_modification_links();
-				echo $this->get_user_subscribe_html();
+				if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
+				{
+					echo $this->get_usertool_subscribe_modification_links();
+					echo $this->get_user_subscribe_html();
+				}
 				break;
 			case Weblcms :: ACTION_UNSUBSCRIBE :
-				echo $this->get_usertool_unsubscribe_modification_links();
+				if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
+				{
+					echo $this->get_usertool_unsubscribe_modification_links();
+				}
 				echo $this->get_user_unsubscribe_html();
 				break;
 			default :
-				echo $this->get_usertool_unsubscribe_modification_links();
+				if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
+				{
+					echo $this->get_usertool_unsubscribe_modification_links();
+				}
 				echo $this->get_user_unsubscribe_html();
 		}
 		

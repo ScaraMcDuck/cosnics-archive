@@ -37,8 +37,17 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 			$user_id = $this->get_user_id();
 			$groups = $this->get_groups();
 		}
-		$publications = $dm->retrieve_learning_object_publications($this->get_course_id(), $this->get_publication_category_tree()->get_current_category_id(), $user_id, $groups,$tool_cond)->as_array();
-		return $publications;
+		$publications = $dm->retrieve_learning_object_publications($this->get_course_id(), $this->get_publication_category_tree()->get_current_category_id(), $user_id, $groups,$tool_cond);
+		while ($publication = $publications->next_result())
+		{
+			// If the publication is hidden and the user is not allowed to DELETE or EDIT, don't show this publication
+			if (!$publication->is_visible_for_target_users() && !($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
+			{
+				continue;
+			}
+			$visible_publications[] = $publication;
+		}
+		return $visible_publications;
 	}
 
 	function get_publication_count($category = null)
