@@ -30,7 +30,8 @@ class SubscribedUserBrowserTable extends UserTable
 		}
 		else
 		{
-			$actions[Weblcms :: PARAM_SUBSCRIBE_SELECTED] = get_lang('SubscribeSelected');
+			$actions[Weblcms :: PARAM_SUBSCRIBE_SELECTED_AS_STUDENT] = get_lang('SubscribeSelectedAsStudent');
+			$actions[Weblcms :: PARAM_SUBSCRIBE_SELECTED_AS_ADMIN] = get_lang('SubscribeSelectedAsAdmin');
 		}
 		
 		if ($browser->get_course()->is_course_admin($browser->get_user_id()))

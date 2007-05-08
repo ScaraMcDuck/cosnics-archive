@@ -1394,12 +1394,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function retrieve_course_user_category ($course_user_category_id, $user_id = null)
 	{
 		$params = array();
-		$query = 'SELECT * FROM '. $this->escape_table_name('course_user_category') .' WHERE '. $this->escape_column_name(CourseUserCategory :: PROPERTY_USER) . '=? AND '. $this->escape_column_name(CourseUserCategory :: PROPERTY_ID) . '=?';
+		$query = 'SELECT * FROM '. $this->escape_table_name('course_user_category') .' WHERE '. $this->escape_column_name(CourseUserCategory :: PROPERTY_ID) . '=?';
 		$params[] = $course_user_category_id;
 		
 		if ($user_id)
 		{
-			$query .= '';
+			$query .= ' AND' . $this->escape_column_name(CourseUserCategory :: PROPERTY_USER) . '=?';
 			$params[] = $user_id;
 		}
 		

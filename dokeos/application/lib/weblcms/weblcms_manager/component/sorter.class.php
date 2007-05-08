@@ -40,6 +40,9 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			case 'delete':
 				$this->delete_course_user_category();
 				break;
+			case 'view':
+				$this->show_course_list();
+				break;
 			default :
 				$this->show_course_list();
 		}
@@ -183,7 +186,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		if($form->validate())
 		{
 			$success = $form->update_course_user_category();
-			$this->redirect(null, get_lang($success ? 'CourseUserCategoryUpdated' : 'CourseUserCategoryNotUpdated'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'add', Weblcms :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id));
+			$this->redirect(null, get_lang($success ? 'CourseUserCategoryUpdated' : 'CourseUserCategoryNotUpdated'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'view', Weblcms :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id));
 		}
 		else
 		{

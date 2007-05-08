@@ -29,7 +29,10 @@ class CourseUserRelationForm extends FormValidator {
     	$this->addElement('static', Course :: PROPERTY_ID, get_lang('CourseCode'));
     	
 		$wdm = WeblcmsDataManager :: get_instance();
-		$categories = $wdm->retrieve_course_user_categories();
+		
+		$condition = new EqualityCondition(CourseUserCategory :: PROPERTY_USER, $this->user->get_user_id());
+		
+		$categories = $wdm->retrieve_course_user_categories($condition);
 		$cat_options['0'] = get_lang('NoCategory');
 		
 		while ($category = $categories->next_result())
