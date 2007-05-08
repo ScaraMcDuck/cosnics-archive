@@ -33,7 +33,8 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 				{
 					if ($user_id != $this->get_user_id())
 					{
-						if (!$this->subscribe_user_to_course($course, '5', '0', $user_id))
+						$status = $_GET[Weblcms :: PARAM_STATUS];
+						if (!$this->subscribe_user_to_course($course, $status, '0', $user_id))
 						{
 							$failures++;
 						}

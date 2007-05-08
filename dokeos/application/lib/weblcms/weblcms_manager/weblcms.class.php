@@ -51,7 +51,10 @@ class Weblcms extends WebApplication
 	const PARAM_REMOVE_SELECTED = 'remove_selected';
 	const PARAM_UNSUBSCRIBE_SELECTED = 'unsubscribe_selected';
 	const PARAM_SUBSCRIBE_SELECTED = 'subscribe_selected';
+	const PARAM_SUBSCRIBE_SELECTED_AS_STUDENT = 'subscribe_selected_as_student';
+	const PARAM_SUBSCRIBE_SELECTED_AS_ADMIN = 'subscribe_selected_as_admin';
 	const PARAM_USER_ACTION = 'user_action';
+	const PARAM_STATUS = 'user_status';
 	
 	const ACTION_SUBSCRIBE = 'subscribe';
 	const ACTION_UNSUBSCRIBE = 'unsubscribe';
@@ -831,9 +834,16 @@ class Weblcms extends WebApplication
 					$_GET[self :: PARAM_USERS] = $selected_user_ids;
 					break;
 					
-				case self :: PARAM_SUBSCRIBE_SELECTED :
+				case self :: PARAM_SUBSCRIBE_SELECTED_AS_STUDENT :
 					$this->set_action(self :: ACTION_MANAGER_SUBSCRIBE);
 					$_GET[self :: PARAM_USERS] = $selected_user_ids;
+					$_GET[self :: PARAM_STATUS] = 5;
+					break;
+					
+				case self :: PARAM_SUBSCRIBE_SELECTED_AS_ADMIN :
+					$this->set_action(self :: ACTION_MANAGER_SUBSCRIBE);
+					$_GET[self :: PARAM_USERS] = $selected_user_ids;
+					$_GET[self :: PARAM_STATUS] = 1;
 					break;
 			}
 		}
