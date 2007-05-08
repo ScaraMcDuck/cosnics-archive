@@ -33,7 +33,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			$tools[$tool->section][] = $tool;
 		}
 		$this->show_tools('basic',$tools);
-		
+
 		if ($this->get_parent()->get_course()->is_course_admin($this->get_parent()->get_user_id()))
 		{
 			echo '<h4>'.get_lang('CourseAdministration').'</h4>';
@@ -77,8 +77,10 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			$row = $count/FixedLocationToolListRenderer::NUMBER_OF_COLUMNS;
 			$col = $count%FixedLocationToolListRenderer::NUMBER_OF_COLUMNS;
 			$html = array();
+			$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_COMPONENT_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
 			$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
-			$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_COMPONENT_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>'.$title.'</a>';
+			$html[] = $title;
+			$html[] = '</a>';
 			if($section!= 'course_admin')
 			{
 				$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_COMPONENT_ACTION=>$lcms_action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$visible_image.'" alt=""/></a>';
