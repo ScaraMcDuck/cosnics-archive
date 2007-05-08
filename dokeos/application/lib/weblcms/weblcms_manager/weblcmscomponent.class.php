@@ -86,7 +86,7 @@ abstract class WeblcmsComponent {
 	
 	function get_categories($list = false)
 	{
-		return $this->get_parent()->get_categories($list = false);
+		return $this->get_parent()->get_categories($list);
 	}
 	
 	function get_category($id)

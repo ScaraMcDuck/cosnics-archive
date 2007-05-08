@@ -277,7 +277,7 @@ class Weblcms extends WebApplication
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		$cats = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($course, $tool);
 		$root = array ();
-		$root['obj'] = & new LearningObjectPublicationCategory(0, get_lang('RootCategory'), $course, $tool, 0);
+		$root['obj'] = & new LearningObjectPublicationCategory(0, get_lang('RootCategory'), $course->get_code, $tool, 0);
 		$root['sub'] = & $cats;
 		$tree = array ();
 		$tree[] = & $root;
