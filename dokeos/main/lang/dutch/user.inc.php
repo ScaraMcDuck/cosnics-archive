@@ -17,6 +17,7 @@ $LockOutWarningMessage='Je bent een platformbeheerder:<br />Verwijder niet alle 
 $No='Nee';
 $OfficialCode='Officiële code';
 $OnlyImagesAllowed = 'Enkel afbeeldingen van het type PNG, JPG of GIF zijn toegestaan.';
+$OnlyXMLCSVAllowed ='Enkel bestandsnamen met extensie XML of CSV zijn toegestaan';
 $Password='Paswoord';
 $PlatformAdmin='Platform Administrator';
 $PhoneNumber = 'Telefoon nummer';
