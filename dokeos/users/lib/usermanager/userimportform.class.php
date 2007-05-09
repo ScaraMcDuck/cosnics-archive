@@ -2,6 +2,7 @@
 require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../main/inc/lib/import.lib.php';
 require_once dirname(__FILE__).'/../user.class.php';
+require_once dirname(__FILE__).'/../usersdatamanager.class.php';
 
 class UserImportForm extends FormValidator {
 	
@@ -12,6 +13,7 @@ class UserImportForm extends FormValidator {
 	private $current_value;
 	private $user;
 	private $users;
+	private $udm;
 
     function UserImportForm($form_type, $action) {
     	parent :: __construct('user_import', 'post', $action);
@@ -27,6 +29,9 @@ class UserImportForm extends FormValidator {
     function build_importing_form()
     {
     	$this->addElement('file', 'file', get_lang('FileName'));
+    	$allowed_upload_types = array ('xml', 'csv');
+		$this->addRule('file', get_lang('OnlyXMLCSVAllowed'), 'filetype', $allowed_upload_types);
+    	
 		$this->addElement('submit', 'user_import', get_lang('Ok'));
     }
     
@@ -85,6 +90,7 @@ class UserImportForm extends FormValidator {
     function validate_data($csvuser)
     {
     	$failures = 0;
+    	$udm = $this->udm;
     	$udm = UsersDataManager :: get_instance();
 		
 		//1. Check if username exists
@@ -98,7 +104,6 @@ class UserImportForm extends FormValidator {
 		{
 			$failures++;
 		}
-		
 		if ($failures > 0)
 		{
 			return false;
@@ -112,8 +117,7 @@ class UserImportForm extends FormValidator {
     function parse_file($file_name, $file_type)
     {
 		$this->users = array ();
-		
-		if ($file_type == 'text/x-csv')
+		if ($file_type == 'text/x-csv' || $file_type == 'application/vnd.ms-excel')
 		{
 			$this->users = Import :: csv_to_array($file_name);
 		}
