@@ -71,7 +71,7 @@ class ForumBrowser extends LearningObjectPublicationBrowser
 			$forum = $publication->get_learning_object();
 			if($this->is_allowed(EDIT_RIGHT) || $this->is_allowed(DELETE_RIGHT))
 			{
-				//$forum_table_row[] = $publication->get_id();
+				$forum_table_row[] = $publication->get_id();
 			}
 			$new = '';
 			if( $publication->get_publication_date() >= $last_visit_date)

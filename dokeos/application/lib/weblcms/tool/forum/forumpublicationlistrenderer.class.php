@@ -15,7 +15,7 @@ class ForumPublicationListRenderer extends TableLearningObjectPublicationListRen
     	$column = 0;
     	if($browser->is_allowed(EDIT_RIGHT) || $browser->is_allowed(DELETE_RIGHT))
     	{
-    		//$this->set_header($column++,'',false);
+    		$this->set_header($column++,'',false);
     	}
     	$this->set_header($column++, '' , false);
     	$this->set_header($column++, get_lang('Forum'), false);
@@ -26,7 +26,8 @@ class ForumPublicationListRenderer extends TableLearningObjectPublicationListRen
     	{
     		$this->set_header($column++,'',false);
     	}
-    	$this->table->set_form_actions(null);
+    	$actions[RepositoryTool::ACTION_DELETE_SELECTED] = get_lang('Delete');
+    	$this->table->set_form_actions($actions);
     }
 }
 ?>
