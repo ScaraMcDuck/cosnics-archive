@@ -166,7 +166,8 @@ END;
 		 * Type GIFs should be in a separate directory.
 		 */
 		echo '<li class="portal_search_result" style="background-image: url(', api_get_path(WEB_CODE_PATH).'img/'.$object->get_type().'.gif);">';
-		echo '<div class="portal_search_result_title"><a href="'.htmlentities($object->get_view_url()).'">'.htmlspecialchars($object->get_title()).'</a></div>';
+		//echo '<div class="portal_search_result_title"><a href="'.htmlentities($object->get_view_url()).'">'.htmlspecialchars($object->get_title()).'</a></div>';
+		echo '<div class="portal_search_result_title">'.htmlspecialchars($object->get_title()).'</div>';
 		/*
 		 * We can't guarantee types from remote repositories will be registered
 		 * locally, so all the formatting we do is remove underscores.
