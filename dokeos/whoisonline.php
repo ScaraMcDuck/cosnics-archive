@@ -121,7 +121,7 @@ if ((get_setting('showonline','world') == "true" AND !$_uid) OR (get_setting('sh
 
 	$total=count($userlist);
 
-	if (!IsValidUser($_GET["id"]))
+	if (isset($_GET["id"]) && !IsValidUser($_GET["id"]))
 	{
 		api_display_tool_title(get_lang('UsersOnLineList'));
 		echo "<table width=100%>";
@@ -157,14 +157,15 @@ if ((get_setting('showonline','world') == "true" AND !$_uid) OR (get_setting('sh
 					$name=GetFullUserName($row[0]).($_uid==$row[0]?("&nbsp;<b>(".get_lang('Me').")</b>"):(""));
 
 					//$row[1] is the last click timestamp
-					$sql="select * from $track_user_table where ( user_id = ".mysql_real_escape_string($uid)." )";
-					$result=api_sql_query($sql,__FILE__,__LINE__);
-					$row2=mysql_fetch_array($result);
-					if ($row2['status']==1) { $status=get_lang('Teacher'); }
+					
+					$udm = UsersDataManager :: get_instance();
+					$user = $udm->retrieve_user($uid);
+					
+					if ($user->get_status()==1) { $status=get_lang('Teacher'); }
 					else { $status=get_lang('Student'); }
 
-					$fullurl=api_get_path(WEB_CODE_PATH)."upload/users/".$row2['picture_uri'];
-					$system_image_path=api_get_path(SYS_CODE_PATH)."upload/users/".$row2['picture_uri'];
+					$fullurl=api_get_path(WEB_CODE_PATH)."upload/users/".$user->get_picture_uri();
+					$system_image_path=api_get_path(SYS_CODE_PATH)."upload/users/".$user->get_picture_uri();
 					list($width, $height, $type, $attr) = @getimagesize($system_image_path);
 					$height+=30;
 					$width+=30;
@@ -172,30 +173,27 @@ if ((get_setting('showonline','world') == "true" AND !$_uid) OR (get_setting('sh
 					$window="$windowname=window.open(\"$fullurl\",\"$windowname\",\"alwaysRaised=yes, alwaysLowered=no,alwaysOnTop=yes,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,width=$width,height=$height,left=200,top=20\"); return false;";
 					$name="<a href=\"".$_SERVER['PHP_SELF']."?id=$row[0]\">".$name."</a>";
 
-					echo "<tr><td>".$online."</td><td>".$name."</td><td>". Display::encrypted_mailto_link($row2['email'],$row2['email']) ."</td><td>".$status."</td></tr>";
+					echo "<tr><td>".$online."</td><td>".$name."</td><td>". Display::encrypted_mailto_link($user->get_email(),$user->get_email()) ."</td><td>".$status."</td></tr>";
 
 					$online++;
 				}
 		}
 		else   //individual list
 		{
-			// to prevent a hacking attempt: http://www.dokeos.com/forum/viewtopic.php?t=5363
-			$user_table=Database::get_main_table(MAIN_USER_TABLE);
-			$result=mysql_query("SELECT * FROM $user_table WHERE user_id='".mysql_real_escape_string($_GET['id'])."'");
-			if (mysql_num_rows($result)==1)
-			{
+
 					$name=GetFullUserName($_GET["id"]).($_uid==$_GET["id"]?("&nbsp;<b>(".get_lang('Me').")</b>"):(""));
 					$alt=GetFullUserName($_GET["id"]).($_uid==$_GET["id"]?("&nbsp;(".get_lang('Me').")"):(""));
 					//$row[1] is the last click timestamp
-					$sql="select * from $track_user_table where ( user_id = '".mysql_real_escape_string($_GET["id"])."' )";
-					$result=api_sql_query($sql,__FILE__,__LINE__);
-					$row2=mysql_fetch_array($result);
-					if ($row2['status']==1) { $status=get_lang('Teacher'); }
+					
+					$udm = UsersDataManager :: get_instance();
+					$user = $udm->retrieve_user($_GET["id"]);
+					
+					if ($user->get_status()==1) { $status=get_lang('Teacher'); }
 					else { $status=get_lang('Student'); }
-					if ($row2['picture_uri']<>'')
+					if ($user->get_picture_uri()<>'')
 					{
-						$fullurl=api_get_path(WEB_CODE_PATH)."upload/users/".$row2['picture_uri'];
-						$system_image_path=api_get_path(SYS_CODE_PATH)."upload/users/".$row2['picture_uri'];
+						$fullurl=api_get_path(WEB_CODE_PATH)."upload/users/".$user->get_picture_uri();
+						$system_image_path=api_get_path(SYS_CODE_PATH)."upload/users/".$user->get_picture_uri();
 
 						list($width, $height, $type, $attr) = getimagesize($system_image_path);
 						$resizing = (($height > 200) ? 'height="200"' : '');
@@ -206,19 +204,9 @@ if ((get_setting('showonline','world') == "true" AND !$_uid) OR (get_setting('sh
 						//$name="<a href='#' onClick='".$window."'>".$name."</a>";
 						echo "<tr><td colspan=3 align=center><img src=$fullurl $resizing alt=\"".$alt."\"></td></tr><tr><td>&nbsp;</td></tr>";
 					}
-					echo "<tr><td>".$name."</td><td align=center>". Display::encrypted_mailto_link($row2['email'],$row2['email']) ."</td><td align=right>".$status."</td></tr>";
-					if ($row2['competences']) { echo "<tr><td>&nbsp;</td></tr><tr><td align=right>".get_lang('Competences').' : </td><td colspan=2>'.$row2['competences']."</td></tr>"; }
-					if ($row2['diplomas']) { echo "<tr><td align=right>".get_lang('Diplomas').' : </td><td colspan=2>'.$row2['diplomas']."</td></tr>"; }
-					$t=get_lang('Teach');
-					$t=str_replace(' ','&nbsp;',$t);
-					if ($row2['teach']) { echo "<tr><td align=right>".$t.'&nbsp;:</td><td colspan=2>'.$row2['teach']."</td></tr>"; }
-					display_productions($row2['user_id']);
-					$p=get_lang('Openarea');
-					$p=str_replace(' ','&nbsp;',$p);
-					if ($row2['openarea']) { echo "<tr><td align=right>".$p.' : </td><td colspan=2>'.$row2['openarea']."</td></tr>"; }
+					echo "<tr><td>".$name."</td><td align=center>". Display::encrypted_mailto_link($user->get_email(),$user->get_email()) ."</td><td align=right>".$status."</td></tr>";
 
 					$online++;
-			}
 
 		}
 		echo "</TABLE><BR>";

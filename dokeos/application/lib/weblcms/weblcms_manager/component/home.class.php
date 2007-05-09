@@ -100,8 +100,8 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 	{
 		$html = array();
 		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_SORT)).'">'.get_lang('SortMyCourses').'</a></li>';
-		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_SUBSCRIBE)).'">'.get_lang('SubscribeToCourse').'</a></li>';
-		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_UNSUBSCRIBE)).'">'.get_lang('UnsubscribeFromCourse').'</a></li>';
+		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_SUBSCRIBE)).'">'.get_lang('CourseSubscribe').'</a></li>';
+		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_UNSUBSCRIBE)).'">'.get_lang('CourseUnsubscribe').'</a></li>';
 		
 		return implode($html, "\n");
 	}

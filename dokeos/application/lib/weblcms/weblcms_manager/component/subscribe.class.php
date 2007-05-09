@@ -86,6 +86,7 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 		}
 		
 		$breadcrumbs = array();
+		$breadcrumbs[] = array ('url' => $this->get_url(null, false, true, array(Weblcms :: PARAM_ACTION)), 'name' => get_lang('MyCourses'));
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseSubscribe'));
 		
 		$menu = $this->get_menu_html();
