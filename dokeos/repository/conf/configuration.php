@@ -29,7 +29,6 @@ $configuration['database']['connection_string_personal_messenger']
 $configuration['database']['connection_string_profiler']
 	= 'mysql://root:@localhost/dokeos_profiler';
 
-
 $configuration['database']['table_name_prefix']
 	= 'dokeos_';
 

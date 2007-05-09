@@ -715,11 +715,6 @@ div.admin_section div.admin_search
 	padding: 5px;
 }
 
-div.admin_section div.admin_search input
-{
-	border: 1px solid #c0c0c0;
-}
-
 .user_course_category {
 	background-color: #efefef;
 	border: 1px solid #666;
@@ -1096,7 +1091,7 @@ div.user_course_category div.title {
 }
 
 div.user_course_category div.options {
-	float: left;
+	float: right;
 	margin-left: 5px;
 }
 
@@ -1112,7 +1107,7 @@ div.user_course {
 }
 
 div.user_course_options {
-	float: left;
+	float: right;
 	margin: 0px;
 	padding: 5px;
 }

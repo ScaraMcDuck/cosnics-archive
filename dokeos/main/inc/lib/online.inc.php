@@ -92,19 +92,10 @@ function WhoIsOnline($uid,$statsDbName,$valid)
 
 function GetFullUserName($uid)
 {
-	$user_table = Database::get_main_table(MAIN_USER_TABLE);
-	$query = "SELECT `firstname`,`lastname` FROM ".$user_table." WHERE `user_id`='$uid'";
-	$result = @api_sql_query($query,__FILE__,__LINE__);
-	if (count($result)>0)
-	{
-		$str = "";
-		while(list($firstname,$lastname)= mysql_fetch_array($result))
-		{
-			$str = $lastname."&nbsp;".$firstname;
-			return $str;
-		}
-		
-	}
+	$udm = UsersDataManager :: get_instance();
+	$user = $udm->retrieve_user($uid);
+	
+	return $user->get_lastname()."&nbsp;".$user->get_firstname();
 }
 		
 function GetURL($path)
@@ -124,26 +115,13 @@ function GetURL($path)
 }		
 
 // picture? 
-function IsValidUser($uid)
+function IsValidUser($uid = -1)
 {
-	$user_table = Database::get_main_table(MAIN_USER_TABLE);
+	$udm = UsersDataManager :: get_instance();
 	
-	$query = "SELECT `picture_uri`  FROM ".$user_table." WHERE `user_id`='$uid'";	
-	$result = @api_sql_query($query,__FILE__,__LINE__);
-	
-	if (count($result)>0)
+	if ($udm->retrieve_user($uid))
 	{
-		while(list($picture_uri)= mysql_fetch_array($result))
-		{
-			if (count($picture_uri)>0)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
+		return true;
 	}
 	else
 	{

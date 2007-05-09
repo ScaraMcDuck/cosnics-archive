@@ -85,6 +85,7 @@ class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 		}
 		
 		$breadcrumbs = array();
+		$breadcrumbs[] = array ('url' => $this->get_url(null, false, true, array(Weblcms :: PARAM_ACTION)), 'name' => get_lang('MyCourses'));
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseUnsubscribe'));
 		$menu = $this->get_menu_html();
 		$output = $this->get_course_html();

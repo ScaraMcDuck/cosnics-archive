@@ -49,7 +49,6 @@ abstract class WebApplication extends Application {
 			}
 		}
 		
-		
 		$url = $_SERVER['PHP_SELF'].'?'.http_build_query(($filter ? $url_parameters : $parameters));
 		if ($encode)
 		{

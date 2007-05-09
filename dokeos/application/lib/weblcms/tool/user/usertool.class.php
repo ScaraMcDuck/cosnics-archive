@@ -25,7 +25,10 @@ class UserTool extends Tool
 		
 		$user_action = $_GET[Weblcms :: PARAM_USER_ACTION];
 		
-		$this->display_header();
+		$breadcrumbs = array();
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang($user_action == Weblcms :: ACTION_SUBSCRIBE ? 'SubscribeUsers' : 'UnsubscribeUsers'));
+		
+		$this->display_header(null, $breadcrumbs);
 		
 		switch($user_action)
 		{
