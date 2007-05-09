@@ -35,6 +35,7 @@ $UserProfile='Mijn Profiel';
 $UserQuota='Gebruikers Quota';
 $UserQuotaUpdated='Het gebruikers quota werd aangepast';
 $UserQuotaNotUpdated='Het gebruikers quota werd niet aangepast';
+$UserUpdate='Update Gebruiker';
 $VersionQuota='Versie Quota (standaard: 20)';
 $Yes='Ja';
 $YouAreReg = 'U bent geregistreerd voor';

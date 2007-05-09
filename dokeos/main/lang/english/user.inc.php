@@ -45,6 +45,7 @@ $SearchResults='Search Results';
 $SendMailToNewUser='Send new email to new user';
 $Settings = 'With the following settings :';
 $Student='Student';
+$UserUpdate='Update User';
 $UserCreate='Add user';
 $UserCreated='User Created';
 $UserCreateCsv='Add users from CSV';
