@@ -1,7 +1,7 @@
 <?php
 $Address='Adres';
 $Aim='AIM';
-$BrowserTitle='Bekijk';
+$BrowserTitle='Bladeren';
 $CategoryTypeName='Categorie';
 $Competences='Bekwaamheden';
 $Contact='Contact';

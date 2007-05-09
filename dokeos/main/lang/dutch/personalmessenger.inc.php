@@ -1,7 +1,7 @@
 <?php
 $AddAttachments='Bijlagen toevoegen';
 $Attachments='Bijlagen';
-$BrowserTitle='Bekijk';
+$BrowserTitle='Bladeren';
 $CategoryTypeName='Categorie';
 $Create='Creër';
 $Data='Data';
