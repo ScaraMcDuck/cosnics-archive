@@ -79,6 +79,7 @@ $URL='URL';
 $Unsubscribe='Uitschrijven';
 $UnsubscribeAllowed='Toegelaten';
 $UnsubscribeNotAllowed='Niet toegelaten';
+$Until='tot';
 $UserToolTitle='Gebruikers';
 $ViewParent='Bekijk ouder';
 $VisualCode='Cursuscode';
