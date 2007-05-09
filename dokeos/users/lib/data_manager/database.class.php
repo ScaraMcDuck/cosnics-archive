@@ -336,6 +336,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		{
 			$maxObjects = null;
 		}
+		
 		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
