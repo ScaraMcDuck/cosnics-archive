@@ -6,6 +6,7 @@
  * @subpackage user
  */
 require_once dirname(__FILE__).'/../tool.class.php';
+require_once dirname(__FILE__).'/usertoolsearchform.class.php';
 require_once dirname(__FILE__).'/../../weblcms_manager/component/subscribeduserbrowser/subscribeduserbrowsertable.class.php';
 /**
  * Tool to manage users in the course.
@@ -13,6 +14,8 @@ require_once dirname(__FILE__).'/../../weblcms_manager/component/subscribeduserb
  */
 class UserTool extends Tool
 {
+	private $search_form;
+	
 	function run()
 	{
 //		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
@@ -29,6 +32,9 @@ class UserTool extends Tool
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang($user_action == Weblcms :: ACTION_SUBSCRIBE ? 'SubscribeUsers' : 'UnsubscribeUsers'));
 		
 		$this->display_header(null, $breadcrumbs);
+		$this->search_form = new UserToolSearchForm($this, $this->get_url());
+		echo '<div style="clear: both;">&nbsp;</div>';
+		echo $this->search_form->display();
 		
 		switch($user_action)
 		{
@@ -90,6 +96,11 @@ class UserTool extends Tool
 		}
 		
 		$condition = new OrCondition($conditions);
+		
+		if ($this->search_form->get_condition())
+		{
+			$condition = new AndCondition($condition, $this->search_form->get_condition());
+		}
 		return $condition;
 	}
 	
@@ -106,6 +117,11 @@ class UserTool extends Tool
 		}
 		
 		$condition = new AndCondition($conditions);
+		
+		if ($this->search_form->get_condition())
+		{
+			$condition = new AndCondition($condition, $this->search_form->get_condition());
+		}
 		return $condition;
 	}
 	
