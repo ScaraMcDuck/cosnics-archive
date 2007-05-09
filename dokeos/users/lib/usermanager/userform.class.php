@@ -129,7 +129,6 @@ class UserForm extends FormValidator {
     {
     	$user = $this->user;
     	$values = $this->exportValues();
-    	//$password = $values['pw']['pass'] == '1' ? api_generate_password() : $values['pw'][User :: PROPERTY_PASSWORD];
     	$password = $values['pw']['pass'] == '1' ? md5(api_generate_password()) : ($values['pw']['pass'] == '2' ? $user->get_password() : md5($values['pw'][User :: PROPERTY_PASSWORD]));
     	
     	if ($_FILES[User :: PROPERTY_PICTURE_URI] && file_exists($_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name']))

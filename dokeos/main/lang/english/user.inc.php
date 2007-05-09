@@ -24,6 +24,7 @@ $MandatoryFields='Fields in <strong>bold</strong> are mandatory.';
 $No='No';
 $OfficialCode='Official Code';
 $OnlyImagesAllowed ='Only images of type PNG, JPG or GIF allowed';
+$OnlyXMLCSVAllowed ='Only file types with extenstion XML or CSV are allowed';
 $Password='Password';
 $PlatformAdmin='Platform Administrator';
 $PhoneNumber='Phone Number';

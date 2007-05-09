@@ -3,12 +3,14 @@ require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/FormVali
 require_once dirname(__FILE__).'/../../../../main/inc/lib/import.lib.php';
 require_once dirname(__FILE__).'/course.class.php';
 require_once dirname(__FILE__).'/coursecategory.class.php';
+require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
 
 class CourseImportForm extends FormValidator {
 	
 	const TYPE_IMPORT = 1;
 	
 	private $failedcsv;
+	private $udm;
 
     function CourseImportForm($form_type, $action) {
     	parent :: __construct('course_import', 'post', $action);
@@ -89,9 +91,11 @@ class CourseImportForm extends FormValidator {
     // TODO: Temporary solution pending implementation of user object
     function get_teacher_info($user_name)
     {
-    	if (!UserManager :: is_username_available($user_name))
+    	$udm = $this->udm;
+    	$udm = UsersDataManager :: get_instance();
+    	if (!$udm->is_username_available($user_name))
     	{
-    		return UserManager :: get_user_info($user_name);
+    		return $udm->get_user_info($user_name);
     	}
     	else
     	{
