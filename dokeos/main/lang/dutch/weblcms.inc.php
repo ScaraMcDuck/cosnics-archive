@@ -1,6 +1,7 @@
 <?php
 $Actions='Bewerkingen';
 $AddAttachments='Bijlagen toevoegen';
+$Amount='Aantal';
 $AnnouncementToolTitle='Aankondigingen';
 $Attachments='Bijlagen';
 $BrowserTitle='Bladeren';
@@ -54,6 +55,7 @@ $NoSearchResults='Geen zoekresultaten';
 $ObjectCreated='Het leerobject werd aangemaakt.';
 $ObjectPublished='Het leerobject werd gepubliceerd.';
 $Ok='OK';
+$Percentage='Percentage';
 $Posts='Berichten';
 $PostsInTopic='Berichten in dit onderwerp';
 $PublicationcreatorTitle='Nieuw';
