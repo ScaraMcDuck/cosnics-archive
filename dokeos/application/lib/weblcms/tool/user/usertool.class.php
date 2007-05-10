@@ -7,6 +7,7 @@
  */
 require_once dirname(__FILE__).'/../tool.class.php';
 require_once dirname(__FILE__).'/usertoolsearchform.class.php';
+require_once dirname(__FILE__).'/userdetails.class.php';
 require_once dirname(__FILE__).'/../../weblcms_manager/component/subscribeduserbrowser/subscribeduserbrowsertable.class.php';
 /**
  * Tool to manage users in the course.
@@ -14,6 +15,7 @@ require_once dirname(__FILE__).'/../../weblcms_manager/component/subscribeduserb
  */
 class UserTool extends Tool
 {
+	const USER_DETAILS = 'user_details';
 	private $search_form;
 
 	function run()
@@ -38,6 +40,12 @@ class UserTool extends Tool
 
 		switch($user_action)
 		{
+			case UserTool::USER_DETAILS:
+				$udm = UsersDataManager::get_instance();
+				$user = $udm->retrieve_user($_GET[Weblcms::PARAM_USERS]);
+				$details = new UserDetails($user);
+				echo $details->toHtml();
+				break;
 			case Weblcms :: ACTION_SUBSCRIBE :
 				if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
 				{
