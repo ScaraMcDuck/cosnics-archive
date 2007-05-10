@@ -45,7 +45,7 @@ abstract class AdminDataManager
 		}
 		return self :: $instance;
 	}
-	
+
 	/**
 	 * Loads the applications installed on the system. Applications are classes
 	 * in the /application/lib subdirectory. Each application is a directory,
@@ -75,7 +75,7 @@ abstract class AdminDataManager
 			die('Failed to load applications');
 		}
 	}
-	
+
 	/**
 	 * Registers an application with this repository datamanager.
 	 * @param string $application The application name.
@@ -88,7 +88,7 @@ abstract class AdminDataManager
 		}
 		$this->applications[] = $application;
 	}
-	
+
 	/**
 	 * Converts an application name to the corresponding class name.
 	 * @param string $application The application name.
@@ -118,31 +118,32 @@ abstract class AdminDataManager
 	{
 		return (preg_match('/^[a-z][a-z_]+$/', $name) > 0);
 	}
-	
+
 	function get_application_platform_admin_links($user)
 	{
 		$info = array();
-		
+
 		// First we get the links for the essential Dokeos components
-		
+
 		// 1. UserManager
 		$user_manager = new UserManager($user->get_user_id());
 		$info[] = $user_manager->get_application_platform_admin_links();
-		
+
 		// 2. UserRolesRights
 		//$info[] = array('application' => array('name' => get_lang('UserRolesRights'), 'class' => 'user_roles_rights'), 'links' => array(array('name' => get_lang('ManageRoles'), 'action' => 'manage', 'url' => '/LCMS/main/admin/manage_roles.php'), array('name' => get_lang('RolesRightsOverview'), 'action' => 'list', 'url' => '/LCMS/main/admin/roles_rights_overview.php')));
-		
+
 		// 3. Classes of Users
 		//$info[] = array('application' => array('name' => get_lang('ClassesOfUsers'), 'class' => 'user_classes'), 'links' => array(array('name' => get_lang('ClassList'), 'action' => 'list', 'url' => '/LCMS/main/admin/class_list.php'), array('name' => get_lang('AddClasses'), 'action' => 'add', 'url' => '/LCMS/main/admin/class_add.php'), array('name' => get_lang('ImportClasses'), 'action' => 'import', 'url' => '/LCMS/main/admin/class_import.php')));
-		
+
 		// 4. Platform
 		// Deleted from actions: , array('name' => get_lang('ConfigureHomepage'), 'action' => 'home', 'url' => '/LCMS/main/admin/configure_homepage.php')
-		$info[] = array('application' => array('name' => get_lang('Platform'), 'class' => 'platform'), 'links' => array(array('name' => get_lang('DokeosConfiguration'), 'action' => 'manage', 'url' => '/LCMS/main/admin/settings.php'), array('name' => get_lang('SystemAnnouncements'), 'action' => 'system', 'url' => '/LCMS/main/admin/system_announcements.php'), array('name' => get_lang('Languages'), 'action' => 'language', 'url' => '/LCMS/main/admin/languages.php')));
-		
+		$old_admin_url = api_get_path(WEB_CODE_PATH);
+		$info[] = array('application' => array('name' => get_lang('Platform'), 'class' => 'platform'), 'links' => array(array('name' => get_lang('DokeosConfiguration'), 'action' => 'manage', 'url' => $old_admin_url.'admin/settings.php'), array('name' => get_lang('SystemAnnouncements'), 'action' => 'system', 'url' => $old_admin_url.'admin/system_announcements.php'), array('name' => get_lang('Languages'), 'action' => 'language', 'url' => $old_admin_url.'admin/languages.php')));
+
 		// 5. Repository
 		$repository_manager = new RepositoryManager($user);
 		$info[] = $repository_manager->get_application_platform_admin_links();
-		
+
 		// Secondly the links for the plugin applications running on top of the essential Dokeos components
 		$applications = $this->get_registered_applications();
 		foreach($applications as $index => $application_name)
@@ -151,12 +152,12 @@ abstract class AdminDataManager
 			$application = new $application_class;
 			$links = $application->get_application_platform_admin_links();
 			$links['application']['name'] = get_lang('App'.$this->application_to_class($links['application']['name']));
-			$info[] = $links; 
+			$info[] = $links;
 		}
 
 		return $info;
 	}
-	
+
 	/**
 	 * Returns the names of the applications known to this
 	 * admin.
