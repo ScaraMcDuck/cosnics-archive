@@ -1,14 +1,16 @@
 <?php
 /**
- * @package application.weblcms.course
+ * @package users.lib
  */
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
 require_once dirname(__FILE__).'/../../repository/lib/treemenurenderer.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
- * categories of courses.
+ * users.
  * @author Bart Mollet
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 class UserMenu extends HTML_Menu
 {
@@ -21,13 +23,11 @@ class UserMenu extends HTML_Menu
 	 */
 	private $array_renderer;
 	/**
-	 * Creates a new category navigation menu.
-	 * @param int $owner The ID of the owner of the categories to provide in
-	 * this menu.
+	 * Creates a new user navigation menu.
 	 * @param int $current_category The ID of the current category in the menu.
 	 * @param string $url_format The format to use for the URL of a category.
 	 *                           Passed to sprintf(). Defaults to the string
-	 *                           "?category=%s".
+	 *                           "?firstletter=%s".
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
@@ -86,6 +86,11 @@ class UserMenu extends HTML_Menu
 		return htmlentities(sprintf($this->urlFmt, $category));
 	}
 	
+	/**
+	 * Gets the HOME URL
+	 * @param int $category The id of the category
+	 * @return string The requested URL
+	 */
 	private function get_home_url ($category)
 	{
 		// TODO: Put another class in charge of the htmlentities() invocation

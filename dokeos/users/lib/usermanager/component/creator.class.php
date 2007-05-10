@@ -1,6 +1,6 @@
 <?php
 /**
- * @package user.usermanager
+ * @package users.lib.usermanager.component
  */
 require_once dirname(__FILE__).'/../usermanager.class.php';
 require_once dirname(__FILE__).'/../usermanagercomponent.class.php';

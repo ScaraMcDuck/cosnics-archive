@@ -1,6 +1,6 @@
 <?php
 /**
- * @package users.usermanager
+ * @package users.lib.usermanager
  */
 require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/usermanager.class.php';

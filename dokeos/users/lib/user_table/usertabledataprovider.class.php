@@ -1,9 +1,6 @@
 <?php
 /**
- * @package repository.usertable
- */
-/**
- * todo: add comment
+ * @package users.lib.user_table
  */
 interface UserTableDataProvider
 {

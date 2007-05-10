@@ -1,16 +1,11 @@
 <?php
 /**
- * @package repository.usertable
+ * @package users.lib.user_table
  */
 require_once dirname(__FILE__).'/../../../main/inc/lib/sortabletable.class.php';
 require_once dirname(__FILE__).'/defaultusertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/defaultusertablecellrenderer.class.php';
 
-/**
- * 
- * TODO: Add comment
- * 
- */
 class UserTable
 {
 	/**
@@ -18,7 +13,7 @@ class UserTable
 	 */
 	const DEFAULT_NAME = 'user';
 	/**
-	 * Suffix for checkbox name when using actions on selected learning objects.
+	 * Suffix for checkbox name when using actions on selected users.
 	 */
 	const CHECKBOX_NAME_SUFFIX = '_id';
 	/**
@@ -51,20 +46,11 @@ class UserTable
 	private $form_actions;
 
 	/**
-	 * Constructor. Creates a learning object table.
-	 * @param LearningObjectTableDataProvider $data_provider The data provider,
-	 *                                                       which supplies the
-	 *                                                       learning objects
-	 *                                                       to display.
+	 * Constructor. Creates a user table.
+	 * @param UserTableDataProvider $data_provider The data provider, which supplies the users to display.
 	 * @param string $table_name The name for the HTML table element.
-	 * @param LearningObjectTableColumnModel $column_model The column model of
-	 *                                                     the table. Omit to
-	 *                                                     use the default
-	 *                                                     model.
-	 * @param LearningObjectTableCellRenderer $cell_renderer The cell renderer
-	 *                                                       for the table.
-	 *                                                       Omit to use the
-	 *                                                       default renderer.
+	 * @param UserTableColumnModel $column_model The column model of the table. Omit to use the default model.
+	 * @param UserTableCellRenderer $cell_renderer The cell renderer for the table. Omit to use the default renderer.
 	 */
 	function UserTable($data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
 	{
@@ -154,7 +140,7 @@ class UserTable
 
 	/**
 	 * Gets the table's data provider.
-	 * @return LearningObjectTableDataProvider The data provider.
+	 * @return UserTableDataProvider The data provider.
 	 */
 	function get_data_provider()
 	{
@@ -163,7 +149,7 @@ class UserTable
 
 	/**
 	 * Sets the table's data provider.
-	 * @param LearningObjectTableDataProvider $data_provider The data provider.
+	 * @param UserTableDataProvider $data_provider The data provider.
 	 */
 	function set_data_provider($data_provider)
 	{
@@ -172,7 +158,7 @@ class UserTable
 
 	/**
 	 * Gets the table's column model.
-	 * @return LearningObjectTableColumnModel The column model.
+	 * @return UserTableColumnModel The column model.
 	 */
 	function get_column_model()
 	{
@@ -181,7 +167,7 @@ class UserTable
 
 	/**
 	 * Sets the table's column model.
-	 * @param LearningObjectTableColumnModel $model The column model.
+	 * @param UserTableColumnModel $model The column model.
 	 */
 	function set_column_model($model)
 	{
@@ -190,7 +176,7 @@ class UserTable
 
 	/**
 	 * Gets the table's cell renderer.
-	 * @return LearningObjectTableCellRenderer The cell renderer.
+	 * @return UserTableCellRenderer The cell renderer.
 	 */
 	function get_cell_renderer()
 	{
@@ -199,7 +185,7 @@ class UserTable
 
 	/**
 	 * Sets the table's cell renderer.
-	 * @param LearningObjectTableCellRenderer $renderer The cell renderer.
+	 * @param UserTableCellRenderer $renderer The cell renderer.
 	 */
 	function set_cell_renderer($renderer)
 	{

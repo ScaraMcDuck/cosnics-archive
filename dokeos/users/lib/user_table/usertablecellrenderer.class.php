@@ -1,17 +1,9 @@
 <?php
 /**
- * @package repository.usertable
- */
-/**
- * 
- * TODO: Add comment
- * 
+ * @package users.lib.user_table
  */
 interface UserTableCellRenderer
 {
-	/**
-	 * TODO: Add comment
-	 */
 	function render_cell($column, $learning_object);
 }
 ?>

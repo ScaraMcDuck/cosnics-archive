@@ -1,17 +1,12 @@
 <?php
 /**
- * @package users
+ * @package users.lib
  */
-//require_once dirname(__FILE__).'/accessiblelearningobject.class.php';
-//require_once dirname(__FILE__).'/repositorydatamanager.class.php';
-//require_once dirname(__FILE__).'/repositoryutilities.class.php';
-//require_once dirname(__FILE__).'/condition/equalitycondition.class.php';
-//require_once dirname(__FILE__).'/learningobjectdifference.class.php';
-//require_once dirname(__FILE__).'/learningobjectdisplay.class.php';
+
 /**
  *	This class represents the different quota values for a user. (for each learning object type)
  *
- *	User objects have a number of default properties:
+ *	User quota objects have a number of default properties:
  *	- user_id: the user_id;
  *	- learning object type: the learning object type;
  *	- user_quota: the user quota:
@@ -33,15 +28,14 @@ class Userquota
 	private $user_id;
 
 	/**
-	 * Default properties of the user object, stored in an associative
+	 * Default properties of the userquota object, stored in an associative
 	 * array.
 	 */
 	private $defaultProperties;
 
 	/**
-	 * Creates a new user object.
-	 * @param int $id The numeric ID of the user object. May be omitted
-	 *                if creating a new object.
+	 * Creates a new user quota object.
+	 * @param int $user_id The numeric ID of the passed user.
 	 * @param array $defaultProperties The default properties of the user
 	 *                                 object. Associative array.
 	 */
@@ -52,7 +46,7 @@ class Userquota
 	}
 	
 	/**
-	 * Gets a default property of this user object by name.
+	 * Gets a default property of this user quota object by name.
 	 * @param string $name The name of the property.
 	 */
 	function get_default_property($name)
@@ -61,7 +55,7 @@ class Userquota
 	}
 	
 	/**
-	 * Gets the default properties of this user.
+	 * Gets the default properties of this user quota object.
 	 * @return array An associative array containing the properties.
 	 */
 	function get_default_properties()
@@ -70,7 +64,7 @@ class Userquota
 	}
 	
 	/**
-	 * Get the default properties of all users.
+	 * Get the default properties of all users quota objects.
 	 * @return array The property names.
 	 */
 	static function get_default_property_names()
@@ -79,7 +73,7 @@ class Userquota
 	}
 		
 	/**
-	 * Sets a default property of this user by name.
+	 * Sets a default property of this user quota by name.
 	 * @param string $name The name of the property.
 	 * @param mixed $value The new value for the property.
 	 */
@@ -120,7 +114,7 @@ class Userquota
 	
 	/**
 	 * Returns the user quota.
-	 * @return String The firstname
+	 * @return String The user quota.
 	 */
 	function get_user_quota()
 	{
@@ -154,6 +148,9 @@ class Userquota
 		$this->set_default_property(self :: PROPERTY_USER_QUOTA, $quota);
 	}
 	
+	/**
+	 * Updates this user quota object.
+	 */
 	function update()
 	{
 		$udm = UsersDataManager :: get_instance();

@@ -1,11 +1,6 @@
 <?php
 /**
- * @package repository.usertable
- */
-/**
- * 
- * TODO: Add comment
- * 
+ * @package users.lib.user_table
  */
 class UserTableColumnModel
 {
@@ -23,9 +18,9 @@ class UserTableColumnModel
 	private $order_direction;
 
 	/**
-	 * Constructor. Creates a new learning object table model.
+	 * Constructor. Creates a new user table model.
 	 * @param array $columns The columns to use in the table. An array of
-	 *                       LearningObjectTableColumn instances.
+	 *                       UserTableColumn instances.
 	 * @param int $default_order_column The column to order objects by by
 	 *                                  default, passed as the index of the
 	 *                                  column in $columns.
@@ -52,7 +47,7 @@ class UserTableColumnModel
 	/**
 	 * Gets the column at the given index in the model.
 	 * @param int $index The index.
-	 * @return LearningObjectTableColumn The column.
+	 * @return UserTableColumn The column.
 	 */
 	function get_column($index)
 	{
@@ -61,7 +56,7 @@ class UserTableColumnModel
 
 	/**
 	 * Adds the given column at the end of the table.
-	 * @param LearningObjectTableColumn The column.
+	 * @param UserTableColumn The column.
 	 */
 	function add_column($column)
 	{
@@ -69,7 +64,7 @@ class UserTableColumnModel
 	}
 
 	/**
-	 * Gets the index of the column to order learning objects by by default.
+	 * Gets the index of the column to order users by default.
 	 * @return int The column index.
 	 */
 	function get_default_order_column()
@@ -78,7 +73,7 @@ class UserTableColumnModel
 	}
 
 	/**
-	 * Sets the index of the column to order learning objects by by default.
+	 * Sets the index of the column to order users by default.
 	 * @param int $column The index.
 	 */
 	function set_default_order_column($column_index)

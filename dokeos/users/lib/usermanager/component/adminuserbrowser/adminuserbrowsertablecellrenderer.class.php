@@ -1,18 +1,18 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package users.lib.usermanager.component.adminuserbrowser
  */
 require_once dirname(__FILE__).'/adminuserbrowsertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/../../../user_table/defaultusertablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../../user.class.php';
 require_once dirname(__FILE__).'/../../usermanager.class.php';
 /**
- * Cell rendere for the learning object browser table
+ * Cell renderer for the user object browser table
  */
 class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 {
 	/**
-	 * The repository browser component
+	 * The user browser component
 	 */
 	private $browser;
 	/**
@@ -59,7 +59,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 	}
 	/**
 	 * Gets the action links to display
-	 * @param LearningObject $learning_object The learning object for which the
+	 * @param $user The user for which the
 	 * action links should be returned
 	 * @return string A HTML representation of the action links
 	 */
@@ -67,12 +67,6 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 	{
 		$toolbar_data = array();
 		
-//		$toolbar_data[] = array(
-//			'href' => $this->browser->get_user_viewing_url($user),
-//			'label' => get_lang('View'),
-//			'img' => $this->browser->get_web_code_path().'img/home_small.gif'
-//		);
-//		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_user_editing_url($user),
 			'label' => get_lang('Edit'),

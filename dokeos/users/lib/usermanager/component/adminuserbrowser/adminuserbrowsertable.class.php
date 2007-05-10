@@ -1,6 +1,6 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package users.lib.usermanager.component.adminuserbrowser
  */
 require_once dirname(__FILE__).'/../../../user_table/usertable.class.php';
 require_once dirname(__FILE__).'/adminuserbrowsertabledataprovider.class.php';
@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/adminuserbrowsertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/adminuserbrowsertablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../usermanager.class.php';
 /**
- * Table to display a set of learning objects.
+ * Table to display a set of users.
  */
 class AdminUserBrowserTable extends UserTable
 {

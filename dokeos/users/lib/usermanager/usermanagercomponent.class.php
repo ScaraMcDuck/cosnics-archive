@@ -1,6 +1,6 @@
 <?php
 /**
- * @package user.usermanager
+ * @package users.lib.usermanager
  */
 /**
  * Base class for a user manager component.
@@ -80,11 +80,17 @@ abstract class UserManagerComponent {
 		$this->get_parent()->display_warning_page($message);
 	}
 	
+	/**
+	 * @see UserManager::retrieve_users()
+	 */
 	function retrieve_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return $this->get_parent()->retrieve_users($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
+	/**
+	 * @see UserManager::count_users()
+	 */
 	function count_users($conditions = null)
 	{
 		return $this->get_parent()->count_users($conditions);
@@ -122,11 +128,17 @@ abstract class UserManagerComponent {
 		return $this->id;
 	}
 	
+	/**
+	 * @see UserManager::get_user
+	 */
 	function get_user()
 	{
 		return $this->get_parent()->get_user();
 	}
 	
+	/**
+	 * @see UserManager::get_user_id()
+	 */
 	function get_user_id()
 	{
 		return $this->get_parent()->get_user_id();
@@ -172,6 +184,9 @@ abstract class UserManagerComponent {
 		return $this->get_parent()->get_search_parameter($name);
 	}
 	
+	/**
+	 * @see UserManager::get_search_validate()
+	 */
 	function get_search_validate()
 	{
 		return $this->get_parent()->get_search_validate();

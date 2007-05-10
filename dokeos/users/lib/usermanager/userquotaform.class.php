@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package users.lib.usermanager
+ */
 require_once dirname(__FILE__).'/../../../main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
@@ -17,7 +20,10 @@ class UserQuotaForm extends FormValidator {
 	private $rdm;
 	private $learning_object_types;
 	
-
+	/**
+	 * Creates a new UserQuotaForm
+	 * Used to set the different quota limits for each learning object
+	 */
     function UserQuotaForm($user, $action) {
     	parent :: __construct('quota_settings', 'post', $action);
     	
@@ -28,6 +34,9 @@ class UserQuotaForm extends FormValidator {
 		$this->setDefaults();
     }
     
+    /**
+     * Builds a basic form
+     */
     function build_basic_form()
     {
     	foreach($this->learning_object_types as $type)
@@ -40,6 +49,9 @@ class UserQuotaForm extends FormValidator {
 		$this->addElement('submit', 'quota_settings', 'OK');
     }
     
+    /**
+     * Builds an editing form
+     */
     function build_editing_form()
     {
     	$user = $this->user;
@@ -50,6 +62,9 @@ class UserQuotaForm extends FormValidator {
     	$this->addElement('hidden', User :: PROPERTY_USER_ID);
     }
     
+    /**
+     * Updates the quota
+     */
     function update_quota()
     {
     	$user = $this->user;
@@ -95,6 +110,9 @@ class UserQuotaForm extends FormValidator {
 		parent :: setDefaults($defaults);
 	}
 	
+	/**
+	 * Filters learning object types
+	 */
 	function filter_learning_object_types()
 	{
 		$user = $this->user;

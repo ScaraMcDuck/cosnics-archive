@@ -1,14 +1,12 @@
 <?php
 /**
- * @package application.weblcms.weblcms_manager.component
+ * @package users.lib.usermanager.component
  */
 require_once dirname(__FILE__).'/../usermanager.class.php';
 require_once dirname(__FILE__).'/../usermanagercomponent.class.php';
 require_once dirname(__FILE__).'/adminuserbrowser/adminuserbrowsertable.class.php';
 require_once dirname(__FILE__).'/../../usermenu.class.php';
-/**
- * Weblcms component which allows the user to manage his or her user subscriptions
- */
+
 class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 {
 	private $firstletter;

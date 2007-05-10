@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package users.lib.usermanager
+ */
 require_once dirname(__FILE__).'/../../../main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../main/inc/lib/fileUpload.lib.php';
@@ -15,6 +18,9 @@ class ProfileForm extends FormValidator {
 	private $user;
 	private $unencryptedpass;
 
+	/**
+	 * Creates a new ProfileForm
+	 */
     function ProfileForm($form_type, $user, $action) {
     	parent :: __construct('user_profile', 'post', $action);
     	
@@ -29,6 +35,9 @@ class ProfileForm extends FormValidator {
 		$this->setDefaults();
     }
     
+    /**
+     * Creates a new basic form
+     */
     function build_basic_form()
     {
     	// Lastname
@@ -49,6 +58,9 @@ class ProfileForm extends FormValidator {
 		$this->addElement('submit', 'user_settings', 'OK');
     }
     
+    /**
+     * Builds an editing form
+     */
     function build_editing_form()
     {
     	$this->build_basic_form();
@@ -56,6 +68,9 @@ class ProfileForm extends FormValidator {
     	$this->addElement('hidden', User :: PROPERTY_USER_ID);
     }
     
+    /**
+     * Builds an update form
+     */
     function update_profile()
     {
     	$user = $this->user;
