@@ -1,27 +1,29 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.personal_messenger.personal_messenger_manager.component.pmpublicationbrowser
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../../../pm_publication_table/pmpublicationtabledataprovider.class.php';
 /**
- * Data provider for a repository browser table.
+ * Data provider for a personal messenger browser table.
  *
- * This class implements some functions to allow repository browser tables to
- * retrieve information about the learning objects to display.
+ * This class implements some functions to allow personal messenger browser tables to
+ * retrieve information about the personal messages to display.
  */
 class PmPublicationBrowserTableDataProvider implements PmPublicationTableDataProvider
 {
   /**
-   * The repository manager component in which the table will be displayed
+   * The personal messenger manager component in which the table will be displayed
    */
   private $browser;
   /**
-   * The condition used to select the learning objects
+   * The condition used to select the personal messages
    */
   private $condition;
   /**
    * Constructor
-   * @param RepositoryManagerComponent $browser
+   * @param PersonalMessengerManagerComponent $browser
    * @param Condition $condition
    */
   function PmPublicationBrowserTableDataProvider($browser, $condition)
@@ -30,12 +32,12 @@ class PmPublicationBrowserTableDataProvider implements PmPublicationTableDataPro
     $this->condition = $condition;
   }
   /**
-   * Gets the learning objects
+   * Gets the personal message publications
    * @param int $offset
    * @param int $count
    * @param string $order_property
    * @param int $order_direction (SORT_ASC or SORT_DESC)
-   * @return ResultSet A set of matching learning objects.
+   * @return ResultSet A set of matching personal message publications.
    */
     function get_personal_message_publications($offset, $count, $order_property, $order_direction)
     {
@@ -44,7 +46,7 @@ class PmPublicationBrowserTableDataProvider implements PmPublicationTableDataPro
       return $this->browser->retrieve_personal_message_publications($this->get_condition(), $order_property, $order_direction, $offset, $count);
     }
   /**
-   * Gets the number of learning objects in the table
+   * Gets the number of personal message publications in the table
    * @return int
    */
     function get_personal_message_publication_count()
@@ -61,7 +63,7 @@ class PmPublicationBrowserTableDataProvider implements PmPublicationTableDataPro
     }
 	/**
 	 * Gets the browser
-	 * @return RepositoryManagerComponent
+	 * @return PersonalMessengerManagerComponent
 	 */
     protected function get_browser()
     {

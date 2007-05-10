@@ -1,9 +1,13 @@
 <?php
-
+/**
+ * @package admin.lib.admin_manager
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
+ */
 abstract class AdminComponent {
 
 	/**
-	 * The weblcms in which this componet is used
+	 * The admin in which this componet is used
 	 */
 	private $admin;
 	/**
@@ -98,9 +102,9 @@ abstract class AdminComponent {
 	}
 	
 	/**
-	 * Create a new weblcms component
+	 * Create a new admin component
 	 * @param string $type The type of the component to create.
-	 * @param Weblcms $weblcms The weblcms in
+	 * @param Admin $admin The admin in
 	 * which the created component will be used
 	 */
 	static function factory($type, $admin)

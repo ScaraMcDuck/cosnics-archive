@@ -1,8 +1,8 @@
 <?php
 /**
- * $Id: learningobjectviewer.class.php 9141 2006-08-21 12:55:22Z bmol $
- * @package application.weblcms
- * @subpackage publisher
+ * @package application.lib.personal_messenger.publisher
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../personalmessagepublishercomponent.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repositorydatamanager.class.php';
@@ -10,8 +10,8 @@ require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectdispla
 require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
 
 /**
- * This class represents a learning object publisher component which can be used
- * to preview a learning object in the learning object publisher.
+ * This class represents a personal message publisher component which can be used
+ * to preview a personal message in the personal message publisher.
  */
 class PersonalMessageViewer extends PesonalMessagePublisherComponent
 {

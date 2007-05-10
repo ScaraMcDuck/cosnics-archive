@@ -1,22 +1,24 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.personal_messenger.personal_messenger_manager.component.pmpublicationbrowser
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/pmpublicationbrowsertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/../../../pm_publication_table/defaultpmpublicationtablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../personal_messenger.class.php';
 /**
- * Cell rendere for the learning object browser table
+ * Cell render for the personal message publication browser table
  */
 class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCellRenderer
 {
 	/**
-	 * The repository browser component
+	 * The personal messenger browser component
 	 */
 	private $browser;
 	/**
 	 * Constructor
-	 * @param RepositoryManagerBrowserComponent $browser
+	 * @param PersonalMessengerManagerBrowserComponent $browser
 	 */
 	function PmPublicationBrowserTableCellRenderer($browser)
 	{
@@ -61,7 +63,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 	}
 	/**
 	 * Gets the action links to display
-	 * @param LearningObject $learning_object The learning object for which the
+	 * @param PersonalMessage $personal_message The personal message for which the
 	 * action links should be returned
 	 * @return string A HTML representation of the action links
 	 */

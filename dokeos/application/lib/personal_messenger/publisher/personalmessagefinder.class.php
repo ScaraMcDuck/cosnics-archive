@@ -1,8 +1,8 @@
 <?php
 /**
- * $Id: learningobjectfinder.class.php 9197 2006-09-04 12:02:29Z bmol $
- * @package application.weblcms
- * @subpackage publisher
+ * @package application.lib.personal_messenger.publisher
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/personalmessagebrowser.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/andcondition.class.php';
@@ -10,8 +10,8 @@ require_once dirname(__FILE__).'/../../../../repository/lib/condition/orconditio
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/patternmatchcondition.class.php';
 require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
 /**
- * This class represents a learning object publisher component which can be used
- * to search for a certain learning object.
+ * This class represents a personal message publisher component which can be used
+ * to search for a certain personal message.
  */
 class PersonalMessageFinder extends PersonalMessageBrowser
 {
@@ -25,7 +25,7 @@ class PersonalMessageFinder extends PersonalMessageBrowser
 	private $renderer;
 	/**
 	 * Constructor.
-	 * @param LearningObjectPublisher $parent The creator of this object.
+	 * @param PersonalMessagePublisher $parent The creator of this object.
 	 */
 	function PersonalMessageFinder($parent)
 	{

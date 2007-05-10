@@ -1,6 +1,8 @@
 <?php
 /**
- * @package admin
+ * @package admin.lib
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../../repository/lib/configuration.class.php';
 require_once dirname(__FILE__).'/../../users/lib/usermanager/usermanager.class.php';
@@ -32,7 +34,7 @@ abstract class AdminDataManager
 	 * Uses a singleton pattern and a factory pattern to return the data
 	 * manager. The configuration determines which data manager class is to
 	 * be instantiated.
-	 * @return RepositoryDataManager The data manager.
+	 * @return AdminDataManager The data manager.
 	 */
 	static function get_instance()
 	{
@@ -77,7 +79,7 @@ abstract class AdminDataManager
 	}
 
 	/**
-	 * Registers an application with this repository datamanager.
+	 * Registers an application with this admin datamanager.
 	 * @param string $application The application name.
 	 */
 	function register_application($application)
@@ -119,6 +121,11 @@ abstract class AdminDataManager
 		return (preg_match('/^[a-z][a-z_]+$/', $name) > 0);
 	}
 
+	/**
+	 * Returns a list of actions available to the admin.
+	 * @param User $user The current user.
+	 * @return Array $info Contains all possible actions.
+	 */
 	function get_application_platform_admin_links($user)
 	{
 		$info = array();

@@ -1,11 +1,13 @@
 <?php
 /**
- * @package application.weblcms
+ * @package application.lib.persnal_messenger.installer
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../personalmessengerdatamanager.class.php';
 /**
  *	This installer can be used to create the storage structure for the
- * weblcms application.
+ * personal messenger application.
  */
 class PersonalMessengerInstaller {
 	

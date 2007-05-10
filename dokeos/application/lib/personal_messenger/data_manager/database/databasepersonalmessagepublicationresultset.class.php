@@ -1,15 +1,16 @@
 <?php
 /**
- * @package repository
- * @subpackage datamanager
+ * @package application.lib.personal_messenger.data_manager.database
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../../../../../repository/lib/resultset.class.php';
 /**
- * Resultset to hold a set of learning objects
+ * Resultset to hold a set of personal message publications
  */
 class DatabasePersonalMessagePublicationResultSet extends ResultSet {
 	/**
-	 * The datamanager used to retrieve objects from the repository
+	 * The datamanager used to retrieve publication from the database
 	 */
 	private $data_manager;
 	/**
@@ -17,13 +18,13 @@ class DatabasePersonalMessagePublicationResultSet extends ResultSet {
 	 */
 	private $handle;
 	/**
-	 * Create a new resultset for handling a set of learning objects
+	 * Create a new resultset for handling a set of personal message publications
 	 * @param RepositoryDataManager $data_manager The datamanager used to
 	 * retrieve objects from the repository
 	 * @param DB_result $handle The handle to retrieve records from a database
 	 * resultset
 	 * @param boolean $single_type True if the handle holds all properties of
-	 * the learning objects (so when retrieving the learning objects, the
+	 * the learning objects (so when retrieving the personal message publications, the
 	 * datamanager shouldn't perform additional queries)
 	 */
     function DatabasePersonalMessagePublicationResultSet($data_manager, $handle)
@@ -31,7 +32,7 @@ class DatabasePersonalMessagePublicationResultSet extends ResultSet {
     	$this->data_manager = $data_manager;
     	$this->handle = $handle;
     }
- 	/*
+ 	/**
 	 * Inherited
 	 */
     function next_result()
@@ -42,14 +43,14 @@ class DatabasePersonalMessagePublicationResultSet extends ResultSet {
 		}
     	return null;
     }
-	/*
+	/**
 	 * Inherited
 	 */
 	function size()
 	{
 		return $this->handle->numRows();
 	}
-	/*
+	/**
 	 * Inherited
 	 */
 	function skip ($count)

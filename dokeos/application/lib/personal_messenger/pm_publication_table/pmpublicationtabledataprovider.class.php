@@ -1,9 +1,8 @@
 <?php
 /**
- * @package repository.publicationtable
- */
-/**
- * todo: add comment
+ * @package application.lib.personal_messenger.pm_publication_table
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 interface PmPublicationTableDataProvider
 {

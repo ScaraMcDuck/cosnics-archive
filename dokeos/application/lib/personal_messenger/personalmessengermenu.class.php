@@ -1,13 +1,15 @@
 <?php
 /**
- * @package application.weblcms.course
+ * @package application.lib.personal_messenger
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
 require_once dirname(__FILE__).'/../../../repository/lib/treemenurenderer.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
- * categories of courses.
+ * personal messages.
  * @author Bart Mollet
  */
 class PersonalMessengerMenu extends HTML_Menu
@@ -21,9 +23,8 @@ class PersonalMessengerMenu extends HTML_Menu
 	 */
 	private $array_renderer;
 	/**
-	 * Creates a new category navigation menu.
-	 * @param int $owner The ID of the owner of the categories to provide in
-	 * this menu.
+	 * Creates a new navigation menu.
+	 * @param int $owner The ID of the owner.
 	 * @param int $current_category The ID of the current category in the menu.
 	 * @param string $url_format The format to use for the URL of a category.
 	 *                           Passed to sprintf(). Defaults to the string

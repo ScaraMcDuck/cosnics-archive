@@ -1,8 +1,8 @@
 <?php
 /**
- * $Id: publicationcandidatetablecellrenderer.class.php 9141 2006-08-21 12:55:22Z bmol $
- * @package application.weblcms
- * @subpackage publisher
+ * @package application.lib.personal_messenger.publisher.publication_candidate_table
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object_table/defaultlearningobjecttablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../../../../repository/lib/learningobject.class.php';

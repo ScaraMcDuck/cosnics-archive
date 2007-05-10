@@ -1,6 +1,8 @@
 <?php
 /**
- * @package application.personal_messenger
+ * @package application.lib.personal_messenger
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/personalmessagepublication.class.php';
 require_once dirname(__FILE__).'/../../../users/lib/usersdatamanager.class.php';

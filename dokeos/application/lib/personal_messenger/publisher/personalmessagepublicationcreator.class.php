@@ -1,8 +1,8 @@
 <?php
 /**
- * $Id: learningobjectpublicationcreator.class.php 11668 2007-03-23 12:20:07Z Scara84 $
- * @package application.weblcms
- * @subpackage publisher
+ * @package application.lib.personal_messenger.publisher
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
 require_once dirname(__FILE__).'/../personalmessagepublishercomponent.class.php';
@@ -16,8 +16,8 @@ require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.c
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/course.lib.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/groupmanager.lib.php';
 /**
- * This class represents a learning object publisher component which can be used
- * to create a new learning object before publishing it.
+ * This class represents a personal message publisher component which can be used
+ * to create a new personal message before publishing it.
  */
 class PersonalMessagePublicationCreator extends PersonalMessagePublisherComponent
 {
@@ -114,7 +114,7 @@ class PersonalMessagePublicationCreator extends PersonalMessagePublisherComponen
 	}
 
 	/**
-	 * Gets the form to publish the learning object.
+	 * Gets the form to publish the personal message.
 	 * @return string|null A HTML-representation of the form. When the
 	 * publication form was validated, this function will send header
 	 * information to redirect the end user to the location where the

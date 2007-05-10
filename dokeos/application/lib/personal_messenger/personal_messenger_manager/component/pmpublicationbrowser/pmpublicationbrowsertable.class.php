@@ -1,6 +1,8 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.personal_messenger.personal_messenger_manager.component.pmpublicationbrowser
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../../../pm_publication_table/pmpublicationtable.class.php';
 require_once dirname(__FILE__).'/pmpublicationbrowsertabledataprovider.class.php';
@@ -8,13 +10,12 @@ require_once dirname(__FILE__).'/pmpublicationbrowsertablecolumnmodel.class.php'
 require_once dirname(__FILE__).'/pmpublicationbrowsertablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../personal_messenger.class.php';
 /**
- * Table to display a set of learning objects.
+ * Table to display a set of pm publications.
  */
 class PmPublicationBrowserTable extends PmPublicationTable
 {
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
 	 */
 	function PmPublicationBrowserTable($browser, $name, $parameters, $condition)
 	{
