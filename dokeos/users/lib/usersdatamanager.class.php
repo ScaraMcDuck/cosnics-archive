@@ -44,6 +44,9 @@ abstract class UsersDataManager
 	 */
 	abstract function initialize();
 	
+	/**
+	 * retrieves the next user id.
+	 */
 	abstract function get_next_user_id();
 
 	/**
@@ -87,7 +90,7 @@ abstract class UsersDataManager
 	abstract function create_user($user);
 	
 	/**
-	 * Creates a storage unit
+	 * Creates a storage unit.
 	 * @param string $name Name of the storage unit
 	 * @param array $properties Properties of the storage unit
 	 * @param array $indexes The indexes which should be defined in the created
@@ -95,22 +98,49 @@ abstract class UsersDataManager
 	 */
 	abstract function create_storage_unit($name,$properties,$indexes);
 	
+	/**
+	 * Retrieves a user.
+	 * @param $id the user ID to retrieve the info from
+	 */
 	abstract function retrieve_user($id);
 	
+	/**
+	 * Retrieves a user by his or her username.
+	 * @param $username the username to retrieve the info from
+	 */
 	abstract function retrieve_user_by_username($username);
 	
+	/**
+	 * Retrieves users.
+	 */
 	abstract function retrieve_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
+	/**
+	 * Counts the amount of users currently in the database
+	 * @param $conditions optional conditions
+	 */
 	abstract function count_users($conditions = null);
 	
+	/**
+	 * Retrieves the version type quota
+	 * @param $user The user
+	 * @param $type quota type
+	 */
 	abstract function retrieve_version_type_quota($user, $type);
 	
+	/**
+	 * Checks whether the user is allowed to be deleted
+	 * Unfinished.
+	 */
 	function user_deletion_allowed($user)
 	{
 		// TODO: Check if the user can be deleted (fe: can an admin delete another admin etc)
 		return true;
 	}
 	
+	/**
+	 * Checks whether this username is available in the database
+	 */
 	abstract function is_username_available($username, $user_id = null);
 }
 ?>

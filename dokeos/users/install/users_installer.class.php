@@ -4,8 +4,8 @@
  */
 require_once dirname(__FILE__).'/../lib/usersdatamanager.class.php';
 /**
- *	This installer can be used to create the storage structure for the
- * weblcms application.
+ * This installer can be used to create the storage structure for the
+ * users application.
  */
 class UsersInstaller {
 	/**
@@ -61,6 +61,10 @@ class UsersInstaller {
 		
 	}
 	
+	/**
+	 * Parses an XML file and sends the request to the database manager
+	 * @param String $path
+	 */
 	function parse_xml_file($path)
 	{
 		$doc = new DOMDocument();
