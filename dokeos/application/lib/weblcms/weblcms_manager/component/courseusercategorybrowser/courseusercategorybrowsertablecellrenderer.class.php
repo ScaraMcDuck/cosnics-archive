@@ -1,6 +1,6 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__).'/courseusercategorybrowsertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/../../../course/courseusercategory_table/defaultcourseusercategorytablecellrenderer.class.php';
@@ -17,7 +17,7 @@ class CourseUserCategoryBrowserTableCellRenderer extends DefaultCourseUserCatego
 	private $browser;
 	/**
 	 * Constructor
-	 * @param RepositoryManagerBrowserComponent $browser
+* @param WeblcmsBrowserComponent $browser
 	 */
 	function CourseUserCategoryBrowserTableCellRenderer($browser)
 	{
@@ -41,7 +41,7 @@ class CourseUserCategoryBrowserTableCellRenderer extends DefaultCourseUserCatego
 	}
 	/**
 	 * Gets the action links to display
-	 * @param LearningObject $learning_object The learning object for which the
+	 * @param CourseUserCategory $courseusercategory The course user category for which the
 	 * action links should be returned
 	 * @return string A HTML representation of the action links
 	 */

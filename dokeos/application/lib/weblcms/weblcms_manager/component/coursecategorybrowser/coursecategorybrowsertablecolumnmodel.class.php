@@ -1,6 +1,6 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__).'/../../../course/coursecategory_table/defaultcoursecategorytablecolumnmodel.class.php';
 /**
@@ -23,7 +23,7 @@ class CourseCategoryBrowserTableColumnModel extends DefaultCourseCategoryTableCo
 	}
 	/**
 	 * Gets the modification column
-	 * @return LearningObjectTableColumn
+	 * @return CourseCategoryTableColumn
 	 */
 	static function get_modification_column()
 	{

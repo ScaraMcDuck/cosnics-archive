@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../course/coursecategoryform.class.php';
 require_once dirname(__FILE__).'/../../course/coursecategorymenu.class.php';
 
 /**
- * Weblcms component allows the use to create a course
+ * Weblcms component allows the user to manage course categories
  */
 class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 {

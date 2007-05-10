@@ -222,6 +222,11 @@ class Weblcms extends WebApplication
 		return $this->user;
 	}
 
+	/**
+	 * Gets the user object for a given user
+	 * @param int $user_id
+	 * @return User
+	 */
 	function get_user_info($user_id)
 	{
 		return UsersDataManager :: get_instance()->retrieve_user($user_id);
@@ -462,6 +467,9 @@ class Weblcms extends WebApplication
 		}
 	}
 
+	/**
+	 * Loads the current course into the system.
+	 */
 	private function load_course()
 	{
 		if(!is_null($this->get_parameter(self :: PARAM_COURSE)))
@@ -518,11 +526,17 @@ class Weblcms extends WebApplication
 		return WeblcmsDataManager :: get_instance()->get_learning_object_publication_attribute($publication_id);
 	}
 
+	/*
+	 * Inherited
+	 */
 	function delete_learning_object_publications($object_id)
 	{
 		return WeblcmsDataManager :: get_instance()->delete_learning_object_publications($object_id);
 	}
 
+	/*
+	 * Inherited
+	 */
 	function update_learning_object_publication_id($publication_attr)
 	{
 		return WeblcmsDataManager :: get_instance()->update_learning_object_publication_id($publication_attr);
@@ -535,82 +549,176 @@ class Weblcms extends WebApplication
 	{
 		return WeblcmsDataManager :: get_instance()->count_publication_attributes($this->get_user(), $type, $condition);
 	}
-
+	
+	/**
+	 * Count the number of courses
+	 * @param Condition $condition
+	 * @return int
+	 */
 	function count_courses($condition = null)
 	{
 		return WeblcmsDataManager :: get_instance()->count_courses($condition);
 	}
 
+	/**
+	 * Count the number of course categories
+	 * @param Condition $condition
+	 * @return int
+	 */	
 	function count_course_categories($condition = null)
 	{
 		return WeblcmsDataManager :: get_instance()->count_course_categories($condition);
 	}
 
+	/**
+	 * Count the number of courses th user is subscribed to
+	 * @param Condition $condition
+	 * @return int
+	 */	
 	function count_user_courses($condition = null)
 	{
 		return WeblcmsDataManager :: get_instance()->count_user_courses($condition);
 	}
 
+	/**
+	 * Count the number of course user categories
+	 * @param Condition $condition
+	 * @return int
+	 */	
 	function count_course_user_categories($condition = null)
 	{
 		return WeblcmsDataManager :: get_instance()->count_course_user_categories($condition);
 	}
 
+	/**
+	 * Retrieves the course categories that match the criteria from persistent storage.
+	 * @param string $parent The parent of the course category.
+	 * @return DatabaseCourseCategoryResultSet The resultset of course category.
+	 */
 	function retrieve_course_categories($conditions = null, $offset = null, $count = null, $orderBy = null, $orderDir = null)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_categories($conditions, $offset, $count, $orderBy, $orderDir);
 	}
 
+	/**
+	 * Retrieves the personal course categories for a given user.
+	 * @return DatabaseUserCourseCategoryResultSet The resultset of course categories.
+	 */
 	function retrieve_course_user_categories($conditions = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_user_categories($conditions, $offset, $count, $order_property, $order_direction);
 	}
 
+	/**
+	 * Retrieves a personal course category for the user.
+	 * @return CourseUserCategory The course user category.
+	 */
 	function retrieve_course_user_category($course_user_category_id, $user_id = null)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_user_category($course_user_category_id, $user_id);
 	}
 
+	/**
+	 * Retrieves a personal course category for the user according to
+	 * @param int $user_id
+	 * @param int $sort
+	 * @param string $direction
+	 * @return CourseUserCategory The course user category.
+	 */
 	function retrieve_course_user_category_at_sort($user_id, $sort, $direction)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_user_category_at_sort($user_id, $sort, $direction);
 	}
 
+	/**
+	 * Retrieves a single course from persistent storage.
+	 * @param string $course_code The alphanumerical identifier of the course.
+	 * @return Course The course.
+	 */
 	function retrieve_course($course_code)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course($course_code);
 	}
 
+	/**
+	 * Retrieves a single course category from persistent storage.
+	 * @param string $category_code The alphanumerical identifier of the course category.
+	 * @return CourseCategory The course category.
+	 */
 	function retrieve_course_category($course_category_code)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_category($course_category_code);
 	}
 
+	/**
+	 * Retrieves a single course user relation from persistent storage.
+	 * @param string $course_code
+	 * @param int $user_id
+	 * @return CourseCategory The course category.
+	 */
 	function retrieve_course_user_relation($course_code, $user_id)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_user_relation($course_code, $user_id);
 	}
 
+	/**
+	 * Retrieves the next course user relation according to.
+	 * @param int $user_id
+	 * @param int $category_id
+	 * @param int $sort
+	 * @param string $direction
+	 * @return CourseUserRelationResultSet
+	 */
 	function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort, $direction)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_user_relation_at_sort($user_id, $category_id, $sort, $direction);
 	}
 
+	/**
+	 * Retrieves a set of course user relations
+	 * @param int $user_id
+	 * @param string $course_user_category
+	 */
 	function retrieve_course_user_relations($user_id, $course_user_category)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_user_relations($user_id, $course_user_category);
 	}
 	
+	/**
+	 * Retrieves the relations for the users subscribed to a certain course.
+	 * @param Course $course
+	 * @return CourseUserRelationResultSet
+	 */
 	function retrieve_course_users($course)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_users($course);
 	}
 
+	/**
+	 * Retrieve a series of courses 
+	 * @param User $user
+	 * @param string $category
+	 * @param Condition $condition
+	 * @param array $orderBy
+	 * @param array $orderDir
+	 * @param int $offset
+	 * @param int $maxObjects
+	 * @return CourseResultSet
+	 */	
 	function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_courses($user, $category, $condition, $offset, $count, $order_property, $order_direction);
 	}
 
+	/**
+	 * Retrieve a series of courses for a specific user + the relation 
+	 * @param Condition $condition
+	 * @param array $orderBy
+	 * @param array $orderDir
+	 * @param int $offset
+	 * @param int $maxObjects
+	 * @return CourseResultSet
+	 */	
 	function retrieve_user_courses($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_user_courses($condition, $offset, $count, $order_property, $order_direction);
@@ -680,6 +788,7 @@ class Weblcms extends WebApplication
 
     /**
      * Returns the url to the course's page
+     * @param Course $course
      * @return String
      */
 	function get_course_viewing_url($course)
@@ -687,16 +796,31 @@ class Weblcms extends WebApplication
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id()));
 	}
 
+    /**
+     * Returns the editing url for the course
+     * @param Course $course
+     * @return String
+     */
 	function get_course_editing_url($course)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id(), self :: PARAM_TOOL => 'course_settings'));
 	}
 
+    /**
+     * Returns the maintenance url for the course
+     * @param Course $course
+     * @return String
+     */
 	function get_course_maintenance_url($course)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id(), self :: PARAM_TOOL => 'maintenance'));
 	}
 
+    /**
+     * Returns the subscription url for the course
+     * @param Course $course
+     * @return String
+     */
 	function get_course_subscription_url($course)
 	{
 		if (!$this->course_subscription_allowed($course))
@@ -707,6 +831,11 @@ class Weblcms extends WebApplication
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SUBSCRIBE ,self :: PARAM_COURSE => $course->get_id()));
 	}
 
+    /**
+     * Returns the unsubscription url for the course
+     * @param Course $course
+     * @return String
+     */
 	function get_course_unsubscription_url($course)
 	{
 		if (!$this->course_unsubscription_allowed($course))
@@ -717,75 +846,150 @@ class Weblcms extends WebApplication
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_UNSUBSCRIBE ,self :: PARAM_COURSE => $course->get_id()));
 	}
 
+    /**
+     * Returns the editing url for the course user category
+     * @param CourseUsercategory $course_user_category
+     * @return String
+     */
 	function get_course_user_category_edit_url($course_user_category)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT , self :: PARAM_COMPONENT_ACTION => 'edit', self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id()));
 	}
 
+    /**
+     * Returns the creating url for a course user category
+     * @return String
+     */
 	function get_course_user_category_add_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT , self :: PARAM_COMPONENT_ACTION => 'add'));
 	}
 
+    /**
+     * Returns the moving url for the course user category
+     * @param CourseUserCategory $course_user_category
+     * @param string $direction
+     * @return String
+     */
 	function get_course_user_category_move_url($course_user_category, $direction)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT , self :: PARAM_COMPONENT_ACTION => 'movecat', self :: PARAM_DIRECTION => $direction, self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id()));
 	}
-
+	
+    /**
+     * Returns the deleting url for the course user category
+     * @param CourseUserCategory $course_user_category
+     * @return String
+     */
 	function get_course_user_category_delete_url($course_user_category)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT , self :: PARAM_COMPONENT_ACTION => 'delete', self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id()));
 	}
 
+    /**
+     * Returns the editing url for the course category
+     * @param CourseCategory $course_category
+     * @return String
+     */
 	function get_course_category_edit_url($coursecategory)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_COURSE_CATEGORY_MANAGER , self :: PARAM_COMPONENT_ACTION => 'edit', self :: PARAM_COURSE_CATEGORY_ID => $coursecategory->get_code()));
 	}
 
+    /**
+     * Returns the creating url for a course category
+     * @return String
+     */
 	function get_course_category_add_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_COURSE_CATEGORY_MANAGER , self :: PARAM_COMPONENT_ACTION => 'add'));
 	}
 
+    /**
+     * Returns the deleting url for the course category
+     * @param CourseCategory $course_category
+     * @return String
+     */
 	function get_course_category_delete_url($coursecategory)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_COURSE_CATEGORY_MANAGER , self :: PARAM_COMPONENT_ACTION => 'delete', self :: PARAM_COURSE_CATEGORY_ID => $coursecategory->get_code()));
 	}
 
+    /**
+     * Returns the editing url for the course category
+     * @param CourseCategory $course_category
+     * @return String
+     */
 	function get_course_user_edit_url($course_user)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT , self :: PARAM_COMPONENT_ACTION => 'assign', self :: PARAM_COURSE_USER => $course_user->get_id()));
 	}
 
+    /**
+     * Returns the moving url for the course user relation
+     * @param CourseUserRelation $course_user
+     * @param string $direction
+     * @return String
+     */
 	function get_course_user_move_url($course_user, $direction)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT , self :: PARAM_COMPONENT_ACTION => 'move', self :: PARAM_DIRECTION => $direction, self :: PARAM_COURSE_USER => $course_user->get_id()));
 	}
 
+    /**
+     * Checks whether subscription to the course is allowed for the current user
+     * @param Course $course
+     * @return boolean
+     */
 	function course_subscription_allowed($course)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->course_subscription_allowed($course, $this->get_user_id());
 	}
 
+    /**
+     * Checks whether unsubscription from the course is allowed for the current user
+     * @param Course $course
+     * @return boolean
+     */
 	function course_unsubscription_allowed($course)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->course_unsubscription_allowed($course, $this->get_user_id());
 	}
 
+    /**
+     * Checks whether the user is subscribed to the given course
+     * @param Course $course
+     * @param int $user_id
+     * @return boolean
+     */
 	function is_subscribed($course, $user_id)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->is_subscribed($course, $user_id);
 	}
 
+	/**
+	 * Subscribe a user to a course.
+	 * @param Course $course
+	 * @param int $status
+	 * @param int $tutor_id
+	 * @param int $user_id
+	 * @return boolean
+	 */	
 	function subscribe_user_to_course($course, $status, $tutor_id, $user_id)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->subscribe_user_to_course($course, $status, $tutor_id, $user_id);
 	}
 
+	/**
+	 * Unsubscribe a user from a course.
+	 * @param Course $course
+	 * @param int $user_id
+	 * @return boolean
+	 */		
 	function unsubscribe_user_from_course($course, $user_id)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
@@ -867,26 +1071,47 @@ class Weblcms extends WebApplication
 		return $this->search_form;
 	}
 
+	/**
+	 * Gets the search condition
+	 * @return Condition
+	 */
 	function get_search_condition()
 	{
 		return $this->get_search_form()->get_condition();
 	}
 
+	/**
+	 * Returns whether the search form has validated
+	 * @return boolean
+	 */
 	function get_search_validate()
 	{
 		return $this->get_search_form()->validate();
 	}
 
+	/**
+	 * Gets the search parameter
+	 * @param string $name
+	 * @return string
+	 */
 	function get_search_parameter($name)
 	{
 		return $this->search_parameters[$name];
 	}
 
+	/**
+	 * Displays the search form
+	 */
 	private function display_search_form()
 	{
 		echo $this->get_search_form()->display();
 	}
 
+	/**
+	 * Returns a list of actions available to the admin.
+	 * @param User $user The current user.
+	 * @return Array $info Contains all possible actions.
+	 */
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
@@ -898,6 +1123,11 @@ class Weblcms extends WebApplication
 		return array('application' => array('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)));
 	}
 
+	/**
+	 * Return a link to a certain action of this application
+	 * @param array $paramaters The parameters to be added to the url
+	 * @param boolean $encode Should the url be encoded ?
+	 */
 	public function get_link($parameters = array (), $encode = false)
 	{
 		$link = 'index_'. self :: APPLICATION_NAME .'.php';

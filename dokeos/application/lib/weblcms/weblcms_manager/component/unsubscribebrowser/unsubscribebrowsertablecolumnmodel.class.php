@@ -1,10 +1,10 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__).'/../../../course/course_table/defaultcoursetablecolumnmodel.class.php';
 /**
- * Table column model for the course browser table
+ * Table column model for the unsubscribe browser table
  */
 class UnsubscribeBrowserTableColumnModel extends DefaultCourseTableColumnModel
 {
@@ -23,7 +23,7 @@ class UnsubscribeBrowserTableColumnModel extends DefaultCourseTableColumnModel
 	}
 	/**
 	 * Gets the modification column
-	 * @return LearningObjectTableColumn
+	 * @return CourseTableColumn
 	 */
 	static function get_modification_column()
 	{

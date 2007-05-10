@@ -1,6 +1,6 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__).'/../../../course/courseusercategory_table/courseusercategorytabledataprovider.class.php';
 /**
@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/../../../course/courseusercategory_table/course
 class CourseUserCategoryBrowserTableDataProvider implements CourseUserCategoryTableDataProvider
 {
   /**
-   * The repository manager component in which the table will be displayed
+   * The weblcms component in which the table will be displayed
    */
   private $browser;
   /**
@@ -21,7 +21,7 @@ class CourseUserCategoryBrowserTableDataProvider implements CourseUserCategoryTa
   private $condition;
   /**
    * Constructor
-   * @param RepositoryManagerComponent $browser
+   * @param WeblcmsComponent $browser
    * @param Condition $condition
    */
   function CourseUserCategoryBrowserTableDataProvider($browser, $condition)
@@ -30,12 +30,12 @@ class CourseUserCategoryBrowserTableDataProvider implements CourseUserCategoryTa
     $this->condition = $condition;
   }
   /**
-   * Gets the learning objects
+   * Gets the course user categories
    * @param int $offset
    * @param int $count
    * @param string $order_property
    * @param int $order_direction (SORT_ASC or SORT_DESC)
-   * @return ResultSet A set of matching learning objects.
+   * @return ResultSet A set of matching course user categories.
    */
     function get_course_user_categories($offset, $count, $order_property, $order_direction)
     {
@@ -46,7 +46,7 @@ class CourseUserCategoryBrowserTableDataProvider implements CourseUserCategoryTa
       return $this->browser->retrieve_course_user_categories($this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
   /**
-   * Gets the number of learning objects in the table
+   * Gets the number of course user categories in the table
    * @return int
    */
     function get_course_user_category_count()
@@ -63,7 +63,7 @@ class CourseUserCategoryBrowserTableDataProvider implements CourseUserCategoryTa
     }
 	/**
 	 * Gets the browser
-	 * @return RepositoryManagerComponent
+	 * @return WeblcmsComponent
 	 */
     protected function get_browser()
     {

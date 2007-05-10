@@ -402,7 +402,6 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	 * @param array $paramaters The parameters to be added to the url
 	 * @param boolean $encode Should the url be encoded ?
 	 */
-	
 	public function get_link($parameters = array (), $encode = false)
 	{
 		$link = 'index_'. self :: APPLICATION_NAME .'.php';

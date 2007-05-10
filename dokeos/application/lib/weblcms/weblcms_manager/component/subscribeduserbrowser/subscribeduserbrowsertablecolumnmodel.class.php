@@ -1,6 +1,6 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__).'/../../../../../../users/lib/user_table/defaultusertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/../../../../../../users/lib/user.class.php';

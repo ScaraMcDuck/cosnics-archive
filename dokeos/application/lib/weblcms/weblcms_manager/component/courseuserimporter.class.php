@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../weblcmscomponent.class.php';
 require_once dirname(__FILE__).'/../../course/courseuserimportform.class.php';
 
 /**
- * Weblcms component allows the use to create a course
+ * Weblcms component allows the use to import course user relations
  */
 class WeblcmsCourseUserImporterComponent extends WeblcmsComponent
 {

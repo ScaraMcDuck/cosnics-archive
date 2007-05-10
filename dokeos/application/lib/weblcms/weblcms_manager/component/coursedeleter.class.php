@@ -1,12 +1,11 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__).'/../weblcms.class.php';
 require_once dirname(__FILE__).'/../weblcmscomponent.class.php';
 /**
- * Repository manager component which provides functionality to delete a
- * learning object from the users repository.
+ * Repository manager component which provides functionality to delete a course
  */
 class WeblcmsCourseDeleterComponent extends WeblcmsComponent
 {
