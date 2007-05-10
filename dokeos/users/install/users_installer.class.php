@@ -1,6 +1,6 @@
 <?php
 /**
- * @package application.weblcms
+ * @package users.install
  */
 require_once dirname(__FILE__).'/../lib/usersdatamanager.class.php';
 /**
