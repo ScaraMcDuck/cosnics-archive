@@ -31,7 +31,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 		{
 			return $this->get_modification_links($user);
 		}
-		
+
 		// Add special features here
 		switch ($column->get_user_property())
 		{
@@ -67,25 +67,22 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 	private function get_modification_links($user)
 	{
 		$toolbar_data = array();
-		
-//		$toolbar_data[] = array(
-//			'href' => $this->browser->get_user_viewing_url($user),
-//			'label' => get_lang('View'),
-//			'img' => $this->browser->get_web_code_path().'img/home_small.gif'
-//		);
-//		
-//		$toolbar_data[] = array(
-//			'href' => $this->browser->get_user_editing_url($user),
-//			'label' => get_lang('Edit'),
-//			'img' => $this->browser->get_web_code_path().'img/edit.gif'
-//		);
-//		
-//		$toolbar_data[] = array(
-//			'href' => $this->browser->get_user_quota_url($user),
-//			'label' => get_lang('VersionQuota'),
-//			'img' => $this->browser->get_web_code_path().'img/versions.gif'
-//		);
-		
+		if($this->browser->get_parameter(Weblcms::PARAM_USER_ACTION) == Weblcms :: ACTION_SUBSCRIBE)
+		{
+			$toolbar_data[] = array(
+				'href' => '#',
+				'label' => get_lang('Subscribe'),
+				'img' => api_get_path(WEB_CODE_PATH).'/img/user-subscribe.gif'
+			);
+		}
+		else
+		{
+			$toolbar_data[] = array(
+				'href' => '#',
+				'label' => get_lang('Unsubscribe'),
+				'img' => api_get_path(WEB_CODE_PATH).'/img/user-unsubscribe.gif'
+			);
+		}
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
 }
