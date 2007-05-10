@@ -55,6 +55,8 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 				{
 					return '';
 				}
+			case User :: PROPERTY_EMAIL:
+				return '<a href="mailto:'.$user->get_email().'">'.$user->get_email().'</a>';
 		}
 		return parent :: render_cell($column, $user);
 	}
