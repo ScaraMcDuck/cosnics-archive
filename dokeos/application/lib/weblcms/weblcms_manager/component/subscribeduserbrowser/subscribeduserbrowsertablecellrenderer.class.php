@@ -79,7 +79,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 				'img' => api_get_path(WEB_CODE_PATH).'/img/user-subscribe.gif'
 			);
 		}
-		else
+		elseif($user->get_user_id() != $this->browser->get_user()->get_user_id())
 		{
 			$parameters = array();
 			$parameters[Weblcms::PARAM_ACTION] = Weblcms::ACTION_UNSUBSCRIBE;

@@ -41,6 +41,10 @@ class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 							$failures++;
 						}
 					}
+					else
+					{
+						$failures++;
+					}
 				}
 
 				if ($failures == 0)
