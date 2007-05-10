@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package application.lib.profiler
+ */
 require_once dirname(__FILE__).'/../../../repository/lib//repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../../users/lib//usersdatamanager.class.php';
 
@@ -25,7 +28,7 @@ class ProfilePublication
 	private $defaultProperties;
 	
 	/**
-	 * Creates a new PM object.
+	 * Creates a new profile object.
 	 * @param int $id The numeric ID of the ProfilePublication object. May be omitted
 	 *                if creating a new object.
 	 * @param array $defaultProperties The default properties of the ProfilePublication
@@ -75,7 +78,7 @@ class ProfilePublication
 	}
 	
 	/**
-	 * Checks if the given identifier is the name of a default user
+	 * Checks if the given identifier is the name of a default profiler
 	 * property.
 	 * @param string $name The identifier.
 	 * @return boolean True if the identifier is a property name, false

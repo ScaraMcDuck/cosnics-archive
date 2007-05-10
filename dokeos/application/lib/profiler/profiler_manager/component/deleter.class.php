@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package application.lib.profiler.profiler_manager
+ */
 require_once dirname(__FILE__).'/../profiler.class.php';
 require_once dirname(__FILE__).'/../profilercomponent.class.php';
 

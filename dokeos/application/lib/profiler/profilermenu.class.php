@@ -1,14 +1,16 @@
 <?php
 /**
- * @package application.weblcms.course
+ * @package application.lib.profiler
  */
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
 require_once dirname(__FILE__).'/../../../repository/lib/treemenurenderer.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
- * categories of courses.
+ * categories of profiles.
  * @author Bart Mollet
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 class ProfilerMenu extends HTML_Menu
 {
@@ -87,6 +89,11 @@ class ProfilerMenu extends HTML_Menu
 		return htmlentities(sprintf($this->urlFmt, $category));
 	}
 	
+	/**
+	 * Gets the Home URL
+	 * @param int $category The id of the category
+	 * @return string The requested URL
+	 */
 	private function get_home_url ($category)
 	{
 		// TODO: Put another class in charge of the htmlentities() invocation

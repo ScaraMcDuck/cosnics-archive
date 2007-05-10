@@ -1,11 +1,6 @@
 <?php
 /**
- * @package repository.publicationtable
- */
-/**
- * 
- * TODO: Add comment
- * 
+ * @package application.lib.profiler.profile_publication_table
  */
 class ProfilePublicationTableColumnModel
 {
@@ -23,7 +18,7 @@ class ProfilePublicationTableColumnModel
 	private $order_direction;
 
 	/**
-	 * Constructor. Creates a new learning object table model.
+	 * Constructor. Creates a new profile object table model.
 	 * @param array $columns The columns to use in the table. An array of
 	 *                       LearningObjectTableColumn instances.
 	 * @param int $default_order_column The column to order objects by by
@@ -52,7 +47,7 @@ class ProfilePublicationTableColumnModel
 	/**
 	 * Gets the column at the given index in the model.
 	 * @param int $index The index.
-	 * @return LearningObjectTableColumn The column.
+	 * @return ProfileTableColumn The column.
 	 */
 	function get_column($index)
 	{
@@ -61,7 +56,7 @@ class ProfilePublicationTableColumnModel
 
 	/**
 	 * Adds the given column at the end of the table.
-	 * @param LearningObjectTableColumn The column.
+	 * @param ProfileTableColumn The column.
 	 */
 	function add_column($column)
 	{
@@ -69,7 +64,7 @@ class ProfilePublicationTableColumnModel
 	}
 
 	/**
-	 * Gets the index of the column to order learning objects by by default.
+	 * Gets the index of the column to order profile objects by by default.
 	 * @return int The column index.
 	 */
 	function get_default_order_column()
@@ -78,7 +73,7 @@ class ProfilePublicationTableColumnModel
 	}
 
 	/**
-	 * Sets the index of the column to order learning objects by by default.
+	 * Sets the index of the column to order profile objects by by default.
 	 * @param int $column The index.
 	 */
 	function set_default_order_column($column_index)

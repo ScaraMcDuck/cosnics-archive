@@ -1,6 +1,6 @@
 <?php
 /**
- * @package application.Profiler
+ * @package application.lib.profiler.profiler_manager
  */
 require_once dirname(__FILE__).'/profilercomponent.class.php';
 require_once dirname(__FILE__).'/profilersearchform.class.php';
@@ -18,7 +18,7 @@ require_once dirname(__FILE__).'/../profilepublisher.class.php';
 require_once dirname(__FILE__).'/../profilermenu.class.php';
 
 /**
- * A user manager provides some functionalities to the admin to manage
+ * A profiler manager provides some functionalities to the admin to manage
  * his users. For each functionality a component is available.
  */
  class Profiler extends WebApplication
@@ -45,6 +45,10 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	private $breadcrumbs;
 	private $firstletter;
 	
+	/**
+	 * Constructor
+	 * @param User $user The current user
+	 */
     function Profiler($user = null)
     {
     	$this->user = $user;
@@ -59,7 +63,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
     }
     
     /**
-	 * Run this user manager
+	 * Run this profiler manager
 	 */
 	function run()
 	{
@@ -150,6 +154,9 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		}
 	}
 	
+	/**
+	 * Displays the menu html
+	 */
 	function get_menu_html()
 	{
 		$extra_items = array ();
@@ -201,6 +208,9 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		return implode($html, "\n");
 	}
 	
+	/**
+	 * Displays the search form
+	 */
 	private function display_search_form()
 	{
 		echo $this->get_search_form()->display();
@@ -363,6 +373,10 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		return $this->user->get_user_id();
 	}
 	
+	/**
+	 * Gets the user.
+	 * @return int The requested user.
+	 */
 	function get_user()
 	{
 		return $this->user;
@@ -382,7 +396,11 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		api_not_allowed();
 	}
-	
+
+	/**
+	 * Returns a list of actions available to the admin.
+	 * @return Array $info Contains all possible actions.
+	 */
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
@@ -390,6 +408,11 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		return array ('application' => array ('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PROFILES)));
 	}
 	
+	/**
+	 * Return a link to a certain action of this application
+	 * @param array $paramaters The parameters to be added to the url
+	 * @param boolean $encode Should the url be encoded ?
+	 */
 	public function get_link($parameters = array (), $encode = false)
 	{
 		$link = 'index_'. self :: APPLICATION_NAME .'.php';
@@ -404,95 +427,196 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		return $link;
 	}
 	
+	/**
+	 * Returns whether a given object id is published in this application 
+	 * @param int $object_id
+	 * @return boolean Is the object is published
+	 */
 	function learning_object_is_published($object_id)
 	{
 		return ProfilerDataManager :: get_instance()->learning_object_is_published($object_id);
 	}
 
+	/**
+	 * Returns whether a given array of objects has been published
+	 * @param array $object_ids An array of object id's
+	 * @return boolean Was any learning object published
+	 */
 	function any_learning_object_is_published($object_ids)
 	{
 		return ProfilerDataManager :: get_instance()->any_learning_object_is_published($object_ids);
 	}
 
+	/**
+	 * Gets the publication attributes of a given array of learning object id's
+	 * @param array $object_id The array of object ids
+	 * @param string $type Type of retrieval
+	 * @param int $offset
+	 * @param int $count
+	 * @param int $order_property
+	 * @param int $order_direction
+	 * @return array An array of Learing Object Publication Attributes
+	 */
 	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return ProfilerDataManager :: get_instance()->get_learning_object_publication_attributes($this->get_user(), $object_id, $type, $offset, $count, $order_property, $order_direction);
 	}
 	
+	/**
+	 * Gets the publication attributes of a given learning object id
+	 * @param int $object_id The object id
+	 * @param string $type Type of retrieval
+	 * @param int $offset
+	 * @param int $count
+	 * @param int $order_property
+	 * @param int $order_direction
+	 * @return LearningObjectPublicationAttribute
+	 */
 	function get_learning_object_publication_attribute($object_id)
 	{
 		return ProfilerDataManager :: get_instance()->get_learning_object_publication_attribute($object_id);
 	}	
 	
+	/**
+	 * Counts the publication attributes
+	 * @param string $type Type of retrieval
+	 * @param Condition $conditions
+	 * @return int
+	 */
 	function count_publication_attributes($type = null, $condition = null)
 	{
 		return ProfilerDataManager :: get_instance()->count_publication_attributes($this->get_user(), $type, $condition);
 	}
 	
+	/**
+	 * Counts the publication attributes
+	 * @param string $type Type of retrieval
+	 * @param Condition $conditions
+	 * @return boolean
+	 */
 	function delete_learning_object_publications($object_id)
 	{
 		return ProfilerDataManager :: get_instance()->delete_profile_publications($object_id);
 	}
 	
+	/**
+	 * Update the publication id
+	 * @param LearningObjectPublicationAttribure $publication_attr
+	 * @return boolean
+	 */	
 	function update_learning_object_publication_id($publication_attr)
 	{
 		return ProfilerDataManager :: get_instance()->update_profile_publication_id($publication_attr);
 	}
 	
+	/**
+	 * Count the publications
+	 * @param Condition $condition
+	 * @return int
+	 */	
 	function count_profile_publications($condition = null)
 	{
 		$pmdm = ProfilerDataManager :: get_instance();
 		return $pmdm->count_profile_publications($condition);
 	}
 	
+	/**
+	 * Count the unread publications
+	 * @return int
+	 */	
 	function count_unread_profile_publications()
 	{
 		$pmdm = ProfilerDataManager :: get_instance();
 		return $pmdm->count_unread_profile_publications($this->user);
 	}
 	
+	/**
+	 * Retrieve a profile publication
+	 * @param int $id
+	 * @return PersonalMessagePublication
+	 */	
 	function retrieve_profile_publication($id)
 	{
 		$pmdm = ProfilerDataManager :: get_instance();
 		return $pmdm->retrieve_profile_publication($id);
 	}
 	
+	/**
+	 * Retrieve a series of profile publications 
+	 * @param Condition $condition
+	 * @param array $orderBy
+	 * @param array $orderDir
+	 * @param int $offset
+	 * @param int $maxObjects
+	 * @return PersonalMessagePublicationResultSet
+	 */	
 	function retrieve_profile_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		$pmdm = ProfilerDataManager :: get_instance();
 		return $pmdm->retrieve_profile_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
 	
+	/**
+	 * Gets the url for deleting a profile publication
+	 * @param PersonalMessagePublication
+	 * @return string The url
+	 */
 	function get_publication_deleting_url($profile)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_PROFILE_ID => $profile->get_id()));
 	}
 	
+	/**
+	 * Gets the url for viewing a profile publication
+	 * @param ProfilePublication
+	 * @return string The url
+	 */
 	function get_publication_viewing_url($profile)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PROFILE_ID => $profile->get_id()));
 	}
 	
+	/**
+	 * Gets the url for replying to a profile publication
+	 * @param ProfilePublication
+	 * @return string The url
+	 */
 	function get_publication_reply_url($profile)
 	{
 		return $this->get_url(array (Profiler :: PARAM_ACTION => Profiler :: ACTION_CREATE_PUBLICATION, ProfilePublisher :: PARAM_ACTION => 'publicationcreator', ProfilePublisher :: PARAM_LEARNING_OBJECT_ID => $profile->get_profile(), self :: PARAM_PROFILE_ID => $profile->get_id(), ProfilePublisher :: PARAM_EDIT => 1));
 	}
 	
+	/**
+	 * Gets the url for creating a profile publication
+	 * @param ProfilePublication
+	 * @return string The url
+	 */
 	function get_profile_creation_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_PUBLICATION));
 	}
 	
+	/**
+	 * Gets the HOME URL for a profile publication
+	 * @param ProfilePublication
+	 * @return string The url
+	 */
 	function get_profile_home_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_PROFILES));
 	}
 	
+	/**
+	 * Gets the search condition for a profile publication
+	 */
 	function get_search_condition()
 	{
 		return $this->get_search_form()->get_condition();
 	}
 	
+	/**
+	 * Gets the search form for a profile publication
+	 */
 	private function get_search_form()
 	{
 		if (!isset ($this->search_form))
@@ -502,11 +626,17 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		return $this->search_form;
 	}
 	
+	/**
+	 * Gets the search form's validate
+	 */
 	function get_search_validate()
 	{
 		return $this->get_search_form()->validate();
 	}
 	
+	/**
+	 * Parse the input from the sortable tables and process input accordingly
+	 */
 	private function parse_input_from_table()
 	{
 		if (isset ($_POST['action']))

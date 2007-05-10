@@ -1,6 +1,6 @@
 <?php
 /**
- * @package application.weblcms
+ * @package application.lib.profiler
  */
 require_once dirname(__FILE__).'/../../../repository/lib/abstractlearningobject.class.php';
 

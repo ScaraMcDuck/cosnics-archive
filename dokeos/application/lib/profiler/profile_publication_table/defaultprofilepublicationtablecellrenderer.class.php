@@ -1,15 +1,13 @@
 <?php
 /**
- * @package repository.publicationtable
+ * @package application.lib.profiler.profile_publication_table
  */
 
 require_once dirname(__FILE__).'/profilepublicationtablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/learningobject.class.php';
 require_once dirname(__FILE__).'/../profilepublication.class.php';
 require_once dirname(__FILE__).'/../../../../users/lib/user.class.php';
-/**
- * TODO: Add comment
- */
+
 class DefaultProfilePublicationTableCellRenderer implements ProfilePublicationTableCellRenderer
 {
 	/**
@@ -20,9 +18,9 @@ class DefaultProfilePublicationTableCellRenderer implements ProfilePublicationTa
 	}
 	/**
 	 * Renders a table cell
-	 * @param LearningObjectTableColumnModel $column The column which should be
+	 * @param ProfileTableColumnModel $column The column which should be
 	 * rendered
-	 * @param Learning Object $learning_object The learning object to render
+	 * @param Learning Object $profile_publication The learning object to render
 	 * @return string A HTML representation of the rendered table cell
 	 */
 	function render_cell($column, $profile_publication)

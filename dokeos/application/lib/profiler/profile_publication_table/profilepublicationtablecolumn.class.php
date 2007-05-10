@@ -1,16 +1,11 @@
 <?php
 /**
- * @package repository.publicationtable
- */
-/**
- * 
- * TODO: Add comment
- * 
+ * @package application.lib.profiler.profile_publication_table
  */
 class ProfilePublicationTableColumn
 {
 	/**
-	 * The property of the learning object which will be displayed in this
+	 * The property of the profile object which will be displayed in this
 	 * column.
 	 */
 	private $profile_property;
@@ -33,7 +28,7 @@ class ProfilePublicationTableColumn
 	 *                                              particular property, a
 	 *                                              LearningObject::PROPERTY_*
 	 *                                              constant.
-	 * @param boolean $contains_learning_object_property True if the column
+	 * @param boolean $contains_profile_property True if the column
 	 *                                                   displays a learning
 	 *                                                   object property, false
 	 *                                                   otherwise.
@@ -53,7 +48,7 @@ class ProfilePublicationTableColumn
 		}
 	}
 	/**
-	 * Gets the learning object property that this column displays.
+	 * Gets the profile object property that this column displays.
 	 * @return string The property name, or null if the column contains
 	 *                arbitrary content.
 	 */

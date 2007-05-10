@@ -1,6 +1,6 @@
 <?php
 /**
- * @package repository.publicationtable
+ * @package application.lib.profiler.profile_publication_table
  */
 require_once dirname(__FILE__).'/profilepublicationtablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/profilepublicationtablecolumn.class.php';
@@ -8,9 +8,6 @@ require_once dirname(__FILE__).'/../../../../repository/lib/learningobject.class
 require_once dirname(__FILE__).'/../../../../users/lib/user.class.php';
 require_once dirname(__FILE__).'/../profilepublication.class.php';
 
-/**
- * TODO: Add comment
- */
 class DefaultProfilePublicationTableColumnModel extends ProfilePublicationTableColumnModel
 {
 	/**
@@ -22,7 +19,7 @@ class DefaultProfilePublicationTableColumnModel extends ProfilePublicationTableC
 	}
 	/**
 	 * Gets the default columns for this model
-	 * @return LearningObjectTableColumn[]
+	 * @return ProfileTableColumn[]
 	 */
 	private static function get_default_columns()
 	{

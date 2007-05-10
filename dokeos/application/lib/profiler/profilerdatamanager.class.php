@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @package application.lib.profiler
+ */
 abstract class ProfilerDataManager {
 
 	private static $instance;
@@ -30,32 +32,111 @@ abstract class ProfilerDataManager {
 	 */
 	abstract function any_learning_object_is_published($object_ids);
 	
+	/**
+	 * Returns whether a given object id is published in this application 
+	 * @param int $object_id
+	 * @return boolean Is the object is published
+	 */
 	abstract function learning_object_is_published($object_id);
 	
+	/**
+	 * Gets the publication attributes of a given learning object id
+	 * @param int $object_id The object id
+	 * @param string $type Type of retrieval
+	 * @param int $offset
+	 * @param int $count
+	 * @param int $order_property
+	 * @param int $order_direction
+	 * @return LearningObjectPublicationAttribute
+	 */
 	abstract function get_learning_object_publication_attribute($object_id);
 	
+	/**
+	 * Gets the publication attributes of a given array of learning object id's
+	 * @param array $object_id The array of object ids
+	 * @param string $type Type of retrieval
+	 * @param int $offset
+	 * @param int $count
+	 * @param int $order_property
+	 * @param int $order_direction
+	 * @return array An array of Learing Object Publication Attributes
+	 */
 	abstract function get_learning_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
+	/**
+	 * Counts the publication attributes
+	 * @param string $type Type of retrieval
+	 * @param Condition $conditions
+	 * @return int
+	 */
 	abstract function count_publication_attributes($user, $type = null, $condition = null);
     
+    /**
+     * Get the next available profile publication ID
+     * @return int
+     */
     abstract function get_next_profile_publication_id();
     
     abstract function initialize();
     
+    /**
+	 * Count the publications
+	 * @param Condition $condition
+	 * @return int
+	 */	
     abstract function count_profile_publications($condition = null);
-
+    
+	/**
+	 * Retrieve a profile publication
+	 * @param int $id
+	 * @return ProfilePublication
+	 */	
 	abstract function retrieve_profile_publication($id);
     
+    /**
+	 * Retrieve a series of profile publications 
+	 * @param Condition $condition
+	 * @param array $orderBy
+	 * @param array $orderDir
+	 * @param int $offset
+	 * @param int $maxObjects
+	 * @return ProfilePublicationResultSet
+	 */	
     abstract function retrieve_profile_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
     
+    /**
+	 * Update the publication
+	 * @param ProfilePublication $profile_publication
+	 * @return boolean
+	 */	
     abstract function update_profile_publication($profile_publication);
     
+    /**
+	 * Delete the publication
+	 * @param ProfilePublication $profile_publication
+	 * @return boolean
+	 */	
     abstract function delete_profile_publication($profile_publication);
     
+    /**
+	 * Delete the publications
+	 * @param Array $object_id An array of publication ids
+	 * @return boolean
+	 */	
     abstract function delete_profile_publications($object_id);
     
+    /**
+	 * Update the publication id
+	 * @param LearningObjectPublicationAttribure $publication_attr
+	 * @return boolean
+	 */	
     abstract function update_profile_publication_id($publication_attr);
     
+    /**
+	 * Create a publication
+	 * @param PersonalMessagePublication $publication
+	 * @return boolean
+	 */
     abstract function create_profile_publication($publication);
 
 	/**

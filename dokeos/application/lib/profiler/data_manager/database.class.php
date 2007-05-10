@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package application.lib.profiler.data_manager.database
+ */
 require_once dirname(__FILE__).'/../profilerdatamanager.class.php';
 require_once dirname(__FILE__).'/../profilepublication.class.php';
 require_once dirname(__FILE__).'/database/databaseprofilepublicationresultset.class.php';
@@ -260,11 +263,13 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		}
 	}
 	
+	//Inherited.
 	function get_next_profile_publication_id()
 	{
 		return $this->connection->nextID($this->get_table_name('profiler_publication'));
 	}
 	
+	//Inherited.
     function count_profile_publications($condition = null)
     {
 		$query = 'SELECT COUNT('.$this->escape_column_name(ProfilePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('profiler_publication');
@@ -284,6 +289,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		return $record[0];
     }
     
+    //Inherited
     function retrieve_profile_publication($id)
 	{
 		
@@ -299,6 +305,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		return self :: record_to_profile_publication($record);
 	}
     
+    //Inherited.
     function retrieve_profile_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		
@@ -331,6 +338,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		return new DatabaseProfilePublicationResultSet($this, $res);
 	}
 	
+	//Inherited.
 	function record_to_profile_publication($record)
 	{
 		if (!is_array($record) || !count($record))
@@ -345,6 +353,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		return new ProfilePublication($record[ProfilePublication :: PROPERTY_ID], $defaultProp);		
 	}
 	
+	//Inherited.
 	function update_profile_publication($profile_publication)
 	{
 		$where = $this->escape_column_name(ProfilePublication :: PROPERTY_ID).'='.$profile_publication->get_id();
@@ -358,6 +367,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		return true;
 	}
 	
+	//Inherited
 	function delete_profile_publication($profile_publication)
 	{
 		$query = 'DELETE FROM '.$this->escape_table_name('profiler_publication').' WHERE '.$this->escape_column_name(ProfilePublication :: PROPERTY_ID).'=?';
@@ -372,6 +382,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		}
 	}
 	
+	//Inherited.
 	function delete_profile_publications($object_id)
 	{
 		$condition = new EqualityCondition(ProfilePublication :: PROPERTY_PROFILE, $object_id);
@@ -388,6 +399,8 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		return true;
 	}
 	
+	
+	//Inherited.
 	function update_profile_publication_id($publication_attr)
 	{
 		$where = $this->escape_column_name(ProfilePublication :: PROPERTY_ID).'='.$publication_attr->get_id();
@@ -404,11 +417,13 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		}
 	}
 	
+	//Inherited.
 	static function is_date_column($name)
 	{
 		return ($name == ProfilePublication :: PROPERTY_PUBLISHED);
 	}
 	
+	//Inherited.
 	function any_learning_object_is_published($object_ids)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('profiler_publication').' WHERE '.$this->escape_column_name(ProfilePublication :: PROPERTY_PROFILE).' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
@@ -416,6 +431,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		return $res->numRows() == 1;
 	}
 	
+	//Inherited.
 	function learning_object_is_published($object_id)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('profiler_publication').' WHERE '.$this->escape_column_name(ProfilePublication :: PROPERTY_PROFILE).'=?';
@@ -423,6 +439,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		return $res->numRows() == 1;
 	}
 	
+	//Inherited
 	private function limitQuery($query,$limit,$offset,$params,$is_manip = false)
 	{
 		$this->connection->setLimit($limit,$offset);
@@ -431,6 +448,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		return $res;
 	}
 	
+	//Inherited
 	function create_storage_unit($name,$properties,$indexes)
 	{
 		$name = $this->get_table_name($name);
@@ -460,6 +478,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		}
 	}
 	
+	//Inherited
 	function get_learning_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		if (isset($type))
@@ -523,6 +542,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		return $publication_attr;
 	}
 	
+	//Indered.
 	function get_learning_object_publication_attribute($publication_id)
 	{
 
@@ -548,6 +568,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		return $info;
 	}
 	
+	//Inherited.
 	function count_publication_attributes($user, $type = null, $condition = null)
 	{
 		$params = array ();
@@ -559,6 +580,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		return $record[0];
 	}
 	
+	//Inherited.
 	function create_profile_publication($publication)
 	{
 		$props = array();

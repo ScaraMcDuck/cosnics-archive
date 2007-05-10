@@ -1,6 +1,6 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.lib.profiler.profiler_manager.component.profilepublicationbrowser
  */
 require_once dirname(__FILE__).'/../../../profile_publication_table/profilepublicationtable.class.php';
 require_once dirname(__FILE__).'/profilepublicationbrowsertabledataprovider.class.php';
@@ -14,7 +14,6 @@ class ProfilePublicationBrowserTable extends ProfilePublicationTable
 {
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
 	 */
 	function ProfilePublicationBrowserTable($browser, $name, $parameters, $condition)
 	{

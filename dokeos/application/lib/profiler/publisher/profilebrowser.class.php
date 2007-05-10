@@ -1,14 +1,12 @@
 <?php
 /**
- * $Id: learningobjectbrowser.class.php 9141 2006-08-21 12:55:22Z bmol $
- * @package application.weblcms
- * @subpackage publisher
+ * @package application.lib.profiler.publisher
  */
 require_once dirname(__FILE__).'/../profilepublisher.class.php';
 require_once dirname(__FILE__).'/../profilepublishercomponent.class.php';
 require_once dirname(__FILE__).'/publication_candidate_table/publicationcandidatetable.class.php';
 /**
- * This class represents a learning object publisher component which can be used
+ * This class represents a profile publisher component which can be used
  * to browse through the possible learning objects to publish.
  */
 class ProfileBrowser extends ProfilePublisherComponent
