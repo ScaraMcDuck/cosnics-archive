@@ -1,6 +1,6 @@
 <?php
 /**
- * @package users
+ * @package users.lib
  */
 //require_once dirname(__FILE__).'/accessiblelearningobject.class.php';
 //require_once dirname(__FILE__).'/repositorydatamanager.class.php';
@@ -9,7 +9,7 @@
 //require_once dirname(__FILE__).'/learningobjectdifference.class.php';
 //require_once dirname(__FILE__).'/learningobjectdisplay.class.php';
 /**
- *	This class represents a user.
+ *	This class represents a user. 
  *
  *	User objects have a number of default properties:
  *	- user_id: the numeric ID of the user;
@@ -51,9 +51,9 @@ class User
 	const PROPERTY_DISK_QUOTA = 'disk_quota';
 	const PROPERTY_DATABASE_QUOTA = 'database_quota';
 	const PROPERTY_VERSION_QUOTA = 'version_quota';
-
+	
 	const ACTION_CREATE_USER = 'create';
-
+	
 	/**#@-*/
 
 	/**
@@ -67,7 +67,10 @@ class User
 	 */
 	private $defaultProperties;
 
-	function update()
+	/**
+	 * Updates the user object
+	 */
+	function update() 
 	{
 		$udm = UsersDataManager :: get_instance();
 		$success = $udm->update_user($this);
@@ -76,7 +79,7 @@ class User
 			return false;
 		}
 
-		return true;
+		return true;	
 	}
 
 	/**
@@ -91,7 +94,7 @@ class User
 		$this->user_id = $user_id;
 		$this->defaultProperties = $defaultProperties;
 	}
-
+	
 	/**
 	 * Gets a default property of this user object by name.
 	 * @param string $name The name of the property.
@@ -100,7 +103,7 @@ class User
 	{
 		return $this->defaultProperties[$name];
 	}
-
+	
 	/**
 	 * Gets the default properties of this user.
 	 * @return array An associative array containing the properties.
@@ -109,7 +112,7 @@ class User
 	{
 		return $this->defaultProperties;
 	}
-
+	
 	/**
 	 * Get the default properties of all users.
 	 * @return array The property names.
@@ -118,7 +121,7 @@ class User
 	{
 		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self ::PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA);
 	}
-
+		
 	/**
 	 * Sets a default property of this user by name.
 	 * @param string $name The name of the property.
@@ -128,7 +131,7 @@ class User
 	{
 		$this->defaultProperties[$name] = $value;
 	}
-
+	
 	/**
 	 * Checks if the given identifier is the name of a default user
 	 * property.
@@ -149,7 +152,7 @@ class User
 	{
 		return $this->user_id;
 	}
-
+	
 	/**
 	 * Returns the lastname of this user.
 	 * @return String The lastname
@@ -158,7 +161,7 @@ class User
 	{
 		return $this->get_default_property(self :: PROPERTY_LASTNAME);
 	}
-
+	
 	/**
 	 * Returns the firstname of this user.
 	 * @return String The firstname
@@ -167,6 +170,7 @@ class User
 	{
 		return $this->get_default_property(self :: PROPERTY_FIRSTNAME);
 	}
+	
 	/**
 	 * Returns the fullname of this user
 	 * @return string The fullname
@@ -185,7 +189,7 @@ class User
 	{
 		return $this->get_default_property(self :: PROPERTY_USERNAME);
 	}
-
+	
 	/**
 	 * Returns the password of this user.
 	 * @return String The password
@@ -194,7 +198,7 @@ class User
 	{
 		return $this->get_default_property(self :: PROPERTY_PASSWORD);
 	}
-
+	
 	/**
 	 * Returns the auth_source for this user.
 	 * @return String The auth_source
@@ -203,7 +207,7 @@ class User
 	{
 		return $this->get_default_property(self :: PROPERTY_AUTH_SOURCE);
 	}
-
+	
 	/**
 	 * Returns the email for this user.
 	 * @return String The email address
@@ -212,7 +216,7 @@ class User
 	{
 		return $this->get_default_property(self :: PROPERTY_EMAIL);
 	}
-
+	
 	/**
 	 * Returns the status for this user.
 	 * @return Int The status
@@ -221,12 +225,16 @@ class User
 	{
 		return $this->get_default_property(self :: PROPERTY_STATUS);
 	}
-
+	
+	/**
+	 * Returns if the user is platformadmin or not.
+	 * @return Int platformadmin
+	 */
 	function get_platformadmin()
 	{
 		return $this->get_default_property(self :: PROPERTY_PLATFORMADMIN);
 	}
-
+	
 	/**
 	 * Returns the official code for this user.
 	 * @return String The official code
@@ -235,7 +243,7 @@ class User
 	{
 		return $this->get_default_property(self :: PROPERTY_OFFICIAL_CODE);
 	}
-
+	
 	/**
 	 * Returns the phone number for this user.
 	 * @return String The phone number
@@ -244,7 +252,7 @@ class User
 	{
 		return $this->get_default_property(self :: PROPERTY_PHONE);
 	}
-
+	
 	/**
 	 * Returns the Picture URI for this user.
 	 * @return String The URI
@@ -253,7 +261,7 @@ class User
 	{
 		return $this->get_default_property(self :: PROPERTY_PICTURE_URI);
 	}
-
+	
 	/**
 	 * Returns the creator ID for this user.
 	 * @return Int The ID
@@ -271,7 +279,7 @@ class User
 	{
 		return $this->get_default_property(self :: PROPERTY_LANGUAGE);
 	}
-
+	
 	/**
 	 * Returns the disk quota for this user.
 	 * @return Int the disk quota
@@ -280,7 +288,7 @@ class User
 	{
 		return $this->get_default_property(self :: PROPERTY_DISK_QUOTA);
 	}
-
+	
 	/**
 	 * Returns the database quota for this user.
 	 * @return Int the database quota
@@ -289,7 +297,7 @@ class User
 	{
 		return $this->get_default_property(self :: PROPERTY_DATABASE_QUOTA);
 	}
-
+	
 	/**
 	 * Returns the default version quota for this user.
 	 * @return Int the version quota
@@ -298,7 +306,7 @@ class User
 	{
 		return $this->get_default_property(self :: PROPERTY_VERSION_QUOTA);
 	}
-
+	
 	/**
 	 * Sets the user_id of this user.
 	 * @param int $user_id The user_id.
@@ -306,8 +314,8 @@ class User
 	function set_user_id($user_id)
 	{
 		$this->user_id = $user_id;
-	}
-
+	}		
+	
 	/**
 	 * Sets the lastname of this user.
 	 * @param String $lastname the lastname.
@@ -316,7 +324,7 @@ class User
 	{
 		$this->set_default_property(self :: PROPERTY_LASTNAME, $lastname);
 	}
-
+	
 	/**
 	 * Sets the firstname of this user.
 	 * @param String $firstname the firstname.
@@ -325,7 +333,7 @@ class User
 	{
 		$this->set_default_property(self :: PROPERTY_FIRSTNAME, $firstname);
 	}
-
+	
 	/**
 	 * Sets the username of this user.
 	 * @param String $username the username.
@@ -334,7 +342,7 @@ class User
 	{
 		$this->set_default_property(self :: PROPERTY_USERNAME, $username);
 	}
-
+	
 	/**
 	 * Sets the password of this user.
 	 * @param String $password the password.
@@ -343,7 +351,7 @@ class User
 	{
 		$this->set_default_property(self :: PROPERTY_PASSWORD, $password);
 	}
-
+	
 	/**
 	 * Sets the Auth_source for this user.
 	 * @param String $auth_source the auth source.
@@ -352,7 +360,7 @@ class User
 	{
 		$this->set_default_property(self :: PROPERTY_AUTH_SOURCE, $auth_source);
 	}
-
+	
 	/**
 	 * Sets the email for this user.
 	 * @param String $email the email.
@@ -361,7 +369,7 @@ class User
 	{
 		$this->set_default_property(self :: PROPERTY_EMAIL, $email);
 	}
-
+	
 	/**
 	 * Sets the status for this user.
 	 * @param Int $status the status.
@@ -370,12 +378,16 @@ class User
 	{
 		$this->set_default_property(self :: PROPERTY_STATUS, $status);
 	}
-
+	
+	/**
+	 * Sets the platformadmin property for this user.
+	 * @param Int $admin the platformadmin status.
+	 */
 	function set_platformadmin($admin)
 	{
 		$this->set_default_property(self :: PROPERTY_PLATFORMADMIN, $admin);
 	}
-
+	
 	/**
 	 * Sets the official code for this user.
 	 * @param String $official_code the official code.
@@ -384,7 +396,7 @@ class User
 	{
 		$this->set_default_property(self :: PROPERTY_OFFICIAL_CODE, $official_code);
 	}
-
+	
 	/**
 	 * Sets the phone number for this user.
 	 * @param String $phone the phone number
@@ -393,7 +405,7 @@ class User
 	{
 		$this->set_default_property(self :: PROPERTY_PHONE, $phone);
 	}
-
+	
 	/**
 	 * Sets the picture uri for this user object
 	 * @param String $picture_uri the picture URI
@@ -402,7 +414,7 @@ class User
 	{
 		$this->set_default_property(self :: PROPERTY_PICTURE_URI, $picture_uri);
 	}
-
+	
 	/**
 	 * Sets the creator ID for this user.
 	 * @param String $creator_id the creator ID.
@@ -411,7 +423,7 @@ class User
 	{
 		$this->set_default_property(self :: PROPERTY_CREATOR_ID, $creator_id);
 	}
-
+	
 	/**
 	 * Sets the language for this user.
 	 * @param String $language The language.
@@ -420,7 +432,7 @@ class User
 	{
 		$this->set_default_property(self :: PROPERTY_LANGUAGE, $language);
 	}
-
+	
 	/**
 	 * Sets the disk quota for this user.
 	 * @param Int $disk_quota The disk quota.
@@ -429,7 +441,7 @@ class User
 	{
 		$this->set_default_property(self :: PROPERTY_DISK_QUOTA, $disk_quota);
 	}
-
+	
 	/**
 	 * Sets the database_quota for this user.
 	 * @param Int $database_quota The database quota.
@@ -438,7 +450,7 @@ class User
 	{
 		$this->set_default_property(self :: PROPERTY_DATABASE_QUOTA, $database_quota);
 	}
-
+	
 	/**
 	 * Sets the default version quota for this user.
 	 * @param Int $version_quota The version quota.
@@ -447,23 +459,35 @@ class User
 	{
 		$this->set_default_property(self :: PROPERTY_VERSION_QUOTA, $version_quota);
 	}
-
+	
+	/**
+	 * Gets the version type quota of a certain learning object type
+	 * @param String $type The learning object type
+	 */
 	function get_version_type_quota($type)
 	{
 		$udm = UsersDataManager :: get_instance();
 		return $udm->retrieve_version_type_quota($this, $type);
 	}
-
+	
+	/**
+	 * Checks if this user is a platform admin or not
+	 * @return boolean true if the user is a platforma admin, false otherwise
+	 */
 	function is_platform_admin()
 	{
 		return ($this->get_platformadmin() == 1 ? true : false);
 	}
-
+	
+	/**
+	 * Checks if this user is a teacher or not
+	 * @return boolean true if the user is a teacher, false otherwise
+	 */
 	function is_teacher()
 	{
 		return ($this->get_status() == 1 ? true : false);
 	}
-
+	
 	/**
 	 * Instructs the Datamanager to delete this user.
 	 * @return boolean True if success, false otherwise.
@@ -472,7 +496,11 @@ class User
 	{
 		return UserDataManager :: get_instance()->delete_user($this);
 	}
-
+	
+	/**
+	 * Instructs the Datamanager to create this user.
+	 * @return boolean True if success, false otherwise
+	 */
 	function create()
 	{
 		$udm = UsersDataManager :: get_instance();
