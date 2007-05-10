@@ -34,6 +34,9 @@ class DatabaseUsersDataManager extends UsersDataManager
 	private $prefix;
 	private $repoDM;
 
+	/**
+	 * Initializes the connection
+	 */
 	function initialize()
 	{
 		$this->repoDM = & RepositoryDataManager :: get_instance();
@@ -92,6 +95,10 @@ class DatabaseUsersDataManager extends UsersDataManager
 		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
 	}
 	
+	/**
+	 * Checks whether the given name is a user column
+	 * @param String $name The column name
+	 */
 	private static function is_user_column($name)
 	{
 		return User :: is_default_property_name($name); //|| $name == User :: PROPERTY_TYPE || $name == User :: PROPERTY_DISPLAY_ORDER_INDEX || $name == User :: PROPERTY_USER_ID;
@@ -188,6 +195,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		return true;
 	}
 	
+	// Inherited.
 	function create_storage_unit($name,$properties,$indexes)
 	{
 		$name = $this->get_table_name($name);
@@ -231,6 +239,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		return $user_database.'.'.$this->prefix.$name;
 	}
 	
+	//Inherited.
 	function retrieve_user($id)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('user').' AS '.self :: ALIAS_USER_TABLE.' WHERE '.$this->escape_column_name(User :: PROPERTY_USER_ID).'=?';
@@ -242,6 +251,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		return self :: record_to_user($record);
 	}
 	
+	//Inherited.
 	function retrieve_user_by_username($username)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('user').' AS '.self :: ALIAS_USER_TABLE.' WHERE '.$this->escape_column_name(User :: PROPERTY_USERNAME).'=?';
@@ -272,6 +282,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		return new User($record[User :: PROPERTY_USER_ID], $defaultProp);
 	}
 	
+	//Inherited.
 	function is_username_available($username, $user_id = null)
 	{
 		$params = array();
@@ -294,6 +305,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		}
 	}
 	
+	//Inherited
 	function count_users($condition = null)
 	{
 		$params = array ();
@@ -308,6 +320,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		return $record[0];
 	}
 	
+	//Inherited.
 	function retrieve_users($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('user'). ' AS '. self :: ALIAS_USER_TABLE;
@@ -343,6 +356,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		return new DatabaseUserResultSet($this, $res);
 	}
 	
+	//Inherited.
 	function retrieve_version_type_quota($user, $type)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('user_quota').' WHERE '.$this->escape_column_name(User :: PROPERTY_USER_ID).'=? AND '.$this->escape_column_name('learning_object_type').'=?';
