@@ -15,7 +15,7 @@ require_once dirname(__FILE__).'/../../weblcms_manager/component/subscribeduserb
 class UserTool extends Tool
 {
 	private $search_form;
-	
+
 	function run()
 	{
 //		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
@@ -25,17 +25,17 @@ class UserTool extends Tool
 //			$this->display_footer();
 //			exit;
 //		}
-		
+
 		$user_action = $_GET[Weblcms :: PARAM_USER_ACTION];
-		
+
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang($user_action == Weblcms :: ACTION_SUBSCRIBE ? 'SubscribeUsers' : 'UnsubscribeUsers'));
-		
+		$this->set_parameter(Weblcms :: PARAM_USER_ACTION,$user_action);
 		$this->display_header(null, $breadcrumbs);
 		$this->search_form = new UserToolSearchForm($this, $this->get_url());
 		echo '<div style="clear: both;">&nbsp;</div>';
 		echo $this->search_form->display();
-		
+
 		switch($user_action)
 		{
 			case Weblcms :: ACTION_SUBSCRIBE :
@@ -59,97 +59,97 @@ class UserTool extends Tool
 				}
 				echo $this->get_user_unsubscribe_html();
 		}
-		
+
 		$this->display_footer();
 	}
-	
+
 	function get_user_unsubscribe_html()
 	{
 		$table = new SubscribedUserBrowserTable($this, null, array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id()), $this->get_unsubscribe_condition());
-		
+
 		$html = array();
 		$html[] = $table->as_html();
-		
+
 		return implode($html, "\n");
 	}
-	
+
 	function get_user_subscribe_html()
 	{
 		$table = new SubscribedUserBrowserTable($this, null, array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id()), $this->get_subscribe_condition());
-		
+
 		$html = array();
 		$html[] = $table->as_html();
-		
+
 		return implode($html, "\n");
 	}
-	
+
 	function get_unsubscribe_condition()
 	{
 		$condition = null;
-		
+
 		$users = $this->get_parent()->retrieve_course_users($this->get_course());
-		
+
 		$conditions = array();
 		while ($user = $users->next_result())
 		{
-			$conditions[] = new EqualityCondition(User :: PROPERTY_USER_ID, $user->get_user());			
+			$conditions[] = new EqualityCondition(User :: PROPERTY_USER_ID, $user->get_user());
 		}
-		
+
 		$condition = new OrCondition($conditions);
-		
+
 		if ($this->search_form->get_condition())
 		{
 			$condition = new AndCondition($condition, $this->search_form->get_condition());
 		}
 		return $condition;
 	}
-	
+
 	function get_subscribe_condition()
 	{
 		$condition = null;
-		
+
 		$users = $this->get_parent()->retrieve_course_users($this->get_course());
-		
+
 		$conditions = array();
 		while ($user = $users->next_result())
 		{
-			$conditions[] = new NotCondition(new EqualityCondition(User :: PROPERTY_USER_ID, $user->get_user()));			
+			$conditions[] = new NotCondition(new EqualityCondition(User :: PROPERTY_USER_ID, $user->get_user()));
 		}
-		
+
 		$condition = new AndCondition($conditions);
-		
+
 		if ($this->search_form->get_condition())
 		{
 			$condition = new AndCondition($condition, $this->search_form->get_condition());
 		}
 		return $condition;
 	}
-	
+
 	function get_usertool_unsubscribe_modification_links()
 	{
 		$toolbar_data = array();
-			
+
 		$toolbar_data[] = array(
 			'href' => $this->get_parent()->get_url(array(Weblcms :: PARAM_USER_ACTION => Weblcms :: ACTION_SUBSCRIBE)),
 			'label' => get_lang('SubscribeUsers'),
 			'img' => $this->get_parent()->get_web_code_path().'img/user-subscribe.gif',
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
-		
+
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
-	
+
 	function get_usertool_subscribe_modification_links()
 	{
 		$toolbar_data = array();
-			
+
 		$toolbar_data[] = array(
 			'href' => $this->get_parent()->get_url(array(Weblcms :: PARAM_USER_ACTION => Weblcms :: ACTION_UNSUBSCRIBE)),
 			'label' => get_lang('UnsubscribeUsers'),
 			'img' => $this->get_parent()->get_web_code_path().'img/user-unsubscribe.gif',
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
-		
+
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
 }
