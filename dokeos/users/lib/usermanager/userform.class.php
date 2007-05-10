@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package users.lib.usermanager
+ */
 require_once dirname(__FILE__).'/../../../main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../main/inc/lib/fileUpload.lib.php';
@@ -17,6 +20,10 @@ class UserForm extends FormValidator {
 	private $form_user;
 	private $unencryptedpass;
 
+	/**
+	 * Creates a new UserForm
+	 * Used by the admin to create/update a user
+	 */
     function UserForm($form_type, $user, $form_user, $action) {
     	parent :: __construct('user_settings', 'post', $action);
     	
@@ -36,6 +43,9 @@ class UserForm extends FormValidator {
 		$this->setDefaults();
     }
     
+    /**
+     * Creates a basic form
+     */
     function build_basic_form()
     {
     	// Lastname
@@ -110,6 +120,9 @@ class UserForm extends FormValidator {
 		$this->addElement('submit', 'user_settings', 'OK');
     }
     
+    /**
+     * Creates an editing form
+     */
     function build_editing_form()
     {
     	$user = $this->user;
@@ -120,11 +133,17 @@ class UserForm extends FormValidator {
     	$this->addElement('hidden', User :: PROPERTY_USER_ID);
     }
     
+    /**
+     * Creates a creating form
+     */
     function build_creation_form()
     {		
     	$this->build_basic_form();
     }
     
+    /**
+     * Updates the user with the new data
+     */
     function update_user()
     {
     	$user = $this->user;
@@ -171,7 +190,9 @@ class UserForm extends FormValidator {
     }
     
     
-    
+    /**
+     * Creates the user, and stores it in the database
+     */
     function create_user()
     {
     	$user = $this->user;
@@ -257,6 +278,9 @@ class UserForm extends FormValidator {
 		parent :: setDefaults($defaults);
 	}
 	
+	/**
+	 * Sends an email to the updated/new user
+	 */
 	function send_email($user)
 	{
 		global $rootWeb;

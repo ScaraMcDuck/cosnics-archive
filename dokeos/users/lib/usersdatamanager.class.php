@@ -1,7 +1,6 @@
 <?php
 /**
- * $Id: repositorydatamanager.class.php 11718 2007-03-27 09:52:32Z Scara84 $
- * @package repository
+ * @package users.lib
  */
 require_once dirname(__FILE__).'/../../repository/lib/configuration.class.php';
 require_once dirname(__FILE__).'/../../repository/lib/repositorydatamanager.class.php';
@@ -27,7 +26,7 @@ abstract class UsersDataManager
 
 	/**
 	 * Array which contains the registered applications running on top of this
-	 * repositorydatamanager
+	 * userdatamanager
 	 */
 	private $applications;
 
@@ -80,6 +79,10 @@ abstract class UsersDataManager
 	 */
 	abstract function update_user($user);
 	
+	/**
+	 * Updates the given user quota in persistent storage.
+	 * @param object $user_quota
+ 	 */
 	abstract function update_user_quota($user_quota);
 	
 	/**

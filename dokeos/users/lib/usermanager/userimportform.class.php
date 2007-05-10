@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package users.lib.usermanager
+ */
 require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../main/inc/lib/import.lib.php';
 require_once dirname(__FILE__).'/../user.class.php';
@@ -15,6 +18,10 @@ class UserImportForm extends FormValidator {
 	private $users;
 	private $udm;
 
+	/**
+	 * Creates a new UserImportForm 
+	 * Used to import users from a file
+	 */
     function UserImportForm($form_type, $action) {
     	parent :: __construct('user_import', 'post', $action);
     	

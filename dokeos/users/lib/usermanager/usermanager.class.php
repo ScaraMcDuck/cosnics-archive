@@ -1,6 +1,6 @@
 <?php
 /**
- * @package user.usermanager
+ * @package users.lib.usermanager
  */
 require_once dirname(__FILE__).'/usermanagercomponent.class.php';
 require_once dirname(__FILE__).'/usersearchform.class.php';
@@ -158,12 +158,18 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 			$this->display_error_message($msg);
 		}
 	}
-	
+	/**
+	 * Display the search form
+	 */
 	private function display_search_form()
 	{
 		echo $this->get_search_form()->display();
 	}
 	
+	/**
+	 * Counts the users
+	 * @param $condition
+	 */
 	function count_users($condition = null)
 	{
 		return UsersDataManager :: get_instance()->count_users($condition);
@@ -246,6 +252,9 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		return $this->get_search_form()->get_condition();
 	}
 	
+	/** 
+	 * Gets the Search form
+	 */
 	private function get_search_form()
 	{
 		if (!isset ($this->search_form))
@@ -255,6 +264,9 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		return $this->search_form;
 	}
 	
+	/**
+	 * Gets the validation of the search form
+	 */
 	function get_search_validate()
 	{
 		return $this->get_search_form()->validate();
@@ -294,6 +306,14 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		$this->parameters[$name] = $value;
 	}
 	
+	/**
+	 * Retrieve the users
+	 * @param $condition
+	 * @param $offset
+	 * @param $count
+	 * @param $order_property
+	 * @param $order_direction
+	 */
 	function retrieve_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return UsersDataManager :: get_instance()->retrieve_users($condition, $offset, $count, $order_property, $order_direction);
@@ -371,6 +391,10 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		return $this->user_id;
 	}
 	
+	/**
+	 * Gets the user
+	 * @return user the requested user.
+	 */
 	function get_user()
 	{
 		return $this->user;
@@ -416,6 +440,10 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		api_not_allowed();
 	}
 	
+	/**
+	 * Gets the available links to display in the platform admin
+	 * @retun array of links and actions
+	 */
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
@@ -426,6 +454,10 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		return array('application' => array('name' => get_lang('Users'), 'class' => 'users'), 'links' => $links, 'search' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
 	}
 	
+	/**
+	 * Gets a link
+	 * @return $link the requested link
+	 */
 	public function get_link($parameters = array (), $encode = false)
 	{
 		$link = 'index_'. self :: APPLICATION_NAME .'.php';
@@ -440,11 +472,19 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		return $link;
 	}
 	
+	/**
+	 * gets the user editing url
+	 * @param return the requested url
+	 */
 	function get_user_editing_url($user)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UPDATE_USER, self :: PARAM_USER_USER_ID => $user->get_user_id()));
 	}
 	
+	/**
+	 * gets the user quota url
+	 * @param return the requested url
+	 */
 	function get_user_quota_url($user)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_USER_QUOTA, self :: PARAM_USER_USER_ID => $user->get_user_id()));

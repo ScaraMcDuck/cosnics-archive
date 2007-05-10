@@ -1,27 +1,27 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package users.lib.usermanager.component.adminuserbrowser
  */
 require_once dirname(__FILE__).'/../../../user_table/usertabledataprovider.class.php';
 /**
- * Data provider for a repository browser table.
+ * Data provider for a user browser table.
  *
- * This class implements some functions to allow repository browser tables to
- * retrieve information about the learning objects to display.
+ * This class implements some functions to allow user browser tables to
+ * retrieve information about the users to display.
  */
 class AdminUserBrowserTableDataProvider implements UserTableDataProvider
 {
   /**
-   * The repository manager component in which the table will be displayed
+   * The user manager component in which the table will be displayed
    */
   private $browser;
   /**
-   * The condition used to select the learning objects
+   * The condition used to select the users
    */
   private $condition;
   /**
    * Constructor
-   * @param RepositoryManagerComponent $browser
+   * @param UserManagerComponent $browser
    * @param Condition $condition
    */
   function AdminUserBrowserTableDataProvider($browser, $condition)
@@ -30,7 +30,9 @@ class AdminUserBrowserTableDataProvider implements UserTableDataProvider
     $this->condition = $condition;
   }
   /**
-   * Gets the learning objects
+   * Gets the users
+   * @param String $user
+   * @param String $category
    * @param int $offset
    * @param int $count
    * @param string $order_property
@@ -46,7 +48,7 @@ class AdminUserBrowserTableDataProvider implements UserTableDataProvider
       return $this->browser->retrieve_users($this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
   /**
-   * Gets the number of learning objects in the table
+   * Gets the number of users in the table
    * @return int
    */
     function get_user_count()
@@ -63,7 +65,7 @@ class AdminUserBrowserTableDataProvider implements UserTableDataProvider
     }
 	/**
 	 * Gets the browser
-	 * @return RepositoryManagerComponent
+	 * @return UserManagerComponent
 	 */
     protected function get_browser()
     {

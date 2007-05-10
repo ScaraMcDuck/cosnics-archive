@@ -1,13 +1,11 @@
 <?php
 /**
- * @package repository.usertable
+ * @package users.lib.user_table
  */
 
 require_once dirname(__FILE__).'/usertablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
-/**
- * TODO: Add comment
- */
+
 class DefaultUserTableCellRenderer implements UserTableCellRenderer
 {
 	/**
@@ -18,9 +16,9 @@ class DefaultUserTableCellRenderer implements UserTableCellRenderer
 	}
 	/**
 	 * Renders a table cell
-	 * @param LearningObjectTableColumnModel $column The column which should be
+	 * @param UserTableColumnModel $column The column which should be
 	 * rendered
-	 * @param Learning Object $learning_object The learning object to render
+	 * @param User $user The User to render
 	 * @return string A HTML representation of the rendered table cell
 	 */
 	function render_cell($column, $user)

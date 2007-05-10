@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package users.lib.usermanager
+ */
 require_once dirname(__FILE__).'/../../../main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../main/inc/lib/fileUpload.lib.php';
@@ -16,6 +19,10 @@ class RegisterForm extends FormValidator {
 	private $user;
 	private $unencryptedpass;
 
+	/**
+	 * Creates a new RegisterForm
+	 * Used for a guest to register him/herself
+	 */
     function RegisterForm($user, $action) {
     	parent :: __construct('user_settings', 'post', $action);
     	
@@ -24,6 +31,9 @@ class RegisterForm extends FormValidator {
 		$this->setDefaults();
     }
     
+    /**
+     * Creates a new basic form
+     */
     function build_basic_form()
     {
     	// Lastname
@@ -78,11 +88,17 @@ class RegisterForm extends FormValidator {
 		$this->addElement('submit', 'user_settings', 'OK');
     }
     
+    /**
+     * Creates a creation form
+     */
     function build_creation_form()
     {		
     	$this->build_basic_form();
     }
     
+    /** 
+     * Creates the user
+     */
     function create_user()
     {
     	$user = $this->user;
@@ -127,13 +143,6 @@ class RegisterForm extends FormValidator {
 				$_uid = intval($user->get_user_id());
 				api_session_register('_uid');
 				
-				// TODO: Make tracking object-oriented
-				
-				//stats
-				//include (api_get_library_path()."/events.lib.inc.php");
-				//event_login();
-				// last user login date is now
-				//$user_last_login_datetime = 0; // used as a unix timestamp it will correspond to : 1 1 1970
 				return true;
 			}
 			else
@@ -180,6 +189,9 @@ class RegisterForm extends FormValidator {
 		parent :: setDefaults($defaults);
 	}
 	
+	/**
+	 * Sends an email to the registered/created user
+	 */
 	function send_email($user)
 	{
 		global $rootWeb;

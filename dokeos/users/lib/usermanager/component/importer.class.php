@@ -1,14 +1,11 @@
 <?php
 /**
- * @package application.weblcms.weblcms_manager.component
+ * @package users.lib.usermanager.component
  */
 require_once dirname(__FILE__).'/../usermanager.class.php';
 require_once dirname(__FILE__).'/../usermanagercomponent.class.php';
 require_once dirname(__FILE__).'/../userimportform.class.php';
 
-/**
- * Weblcms component allows the use to create a course
- */
 class UserManagerImporterComponent extends UserManagerComponent
 {	
 	/**

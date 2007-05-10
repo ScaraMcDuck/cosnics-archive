@@ -1,11 +1,6 @@
 <?php
 /**
- * @package repository.usertable
- */
-/**
- * 
- * TODO: Add comment
- * 
+ * @package users.lib.user_table
  */
 class UserTableColumn
 {
@@ -25,18 +20,9 @@ class UserTableColumn
 	/**
 	 * Constructor. Either defines a column that displays a default property
 	 * of learning objects, or arbitrary content.
-	 * @param string $property_name_or_column_title If the column contains
-	 *                                              arbitrary content, the
-	 *                                              title of the column. If
-	 *                                              it displays a learning
-	 *                                              object property, that
-	 *                                              particular property, a
-	 *                                              LearningObject::PROPERTY_*
-	 *                                              constant.
-	 * @param boolean $contains_learning_object_property True if the column
-	 *                                                   displays a learning
-	 *                                                   object property, false
-	 *                                                   otherwise.
+	 * @param string $property_name_or_column_title If the column contains arbitrary content, the title of the column. If
+	 *   it displays a user property, that particular property, a User::PROPERTY_* constant.
+	 * @param boolean $contains_user_property True if the column displays a user property, false otherwise.
 	 */
 	function UserTableColumn($property_name_or_column_title, $contains_user_property = false)
 	{
