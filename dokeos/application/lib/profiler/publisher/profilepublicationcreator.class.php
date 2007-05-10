@@ -1,8 +1,6 @@
 <?php
 /**
- * $Id: learningobjectpublicationcreator.class.php 11668 2007-03-23 12:20:07Z Scara84 $
- * @package application.weblcms
- * @subpackage publisher
+ * @package application.lib.profiler.publisher
  */
 require_once dirname(__FILE__).'/../profilepublisher.class.php';
 require_once dirname(__FILE__).'/../profilepublishercomponent.class.php';
@@ -16,7 +14,7 @@ require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.c
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/course.lib.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/groupmanager.lib.php';
 /**
- * This class represents a learning object publisher component which can be used
+ * This class represents a profile publisher component which can be used
  * to create a new learning object before publishing it.
  */
 class ProfilePublicationCreator extends ProfilePublisherComponent
@@ -94,6 +92,9 @@ class ProfilePublicationCreator extends ProfilePublisherComponent
 		}
 	}
 	
+	/**
+	 * Gets the editing form
+	 */
 	private function get_editing_form($objectID)
 	{
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);

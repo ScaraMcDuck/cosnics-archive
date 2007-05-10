@@ -1,12 +1,12 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.lib.profiler.profiler_manager.component.profilepublicationbrowser
  */
 require_once dirname(__FILE__).'/profilepublicationbrowsertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/../../../profile_publication_table/defaultprofilepublicationtablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../profiler.class.php';
 /**
- * Cell rendere for the learning object browser table
+ * Cell renderer for the learning object browser table
  */
 class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicationTableCellRenderer
 {
@@ -16,7 +16,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
 	private $browser;
 	/**
 	 * Constructor
-	 * @param RepositoryManagerBrowserComponent $browser
+	 * @param ProfileManagerBrowserComponent $browser
 	 */
 	function ProfilePublicationBrowserTableCellRenderer($browser)
 	{
@@ -51,7 +51,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
 	}
 	/**
 	 * Gets the action links to display
-	 * @param LearningObject $learning_object The learning object for which the
+	 * @param LearningObject $profile The profile object for which the
 	 * action links should be returned
 	 * @return string A HTML representation of the action links
 	 */

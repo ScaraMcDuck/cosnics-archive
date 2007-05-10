@@ -1,11 +1,11 @@
 <?php
 /**
- * @package application.weblcms
+ * @package application.lib.profiler.install
  */
 require_once dirname(__FILE__).'/../profilerdatamanager.class.php';
 /**
- *	This installer can be used to create the storage structure for the
- * weblcms application.
+ * This installer can be used to create the storage structure for the
+ * profiler application.
  */
 class ProfilerInstaller {
 	

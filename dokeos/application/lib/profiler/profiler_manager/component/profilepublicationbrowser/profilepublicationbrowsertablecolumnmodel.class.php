@@ -1,6 +1,6 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.lib.profiler.profiler_manager.component.profilepublicationbrowser
  */
 require_once dirname(__FILE__).'/../../../profile_publication_table/defaultprofilepublicationtablecolumnmodel.class.php';
 /**
@@ -24,7 +24,7 @@ class ProfilePublicationBrowserTableColumnModel extends DefaultProfilePublicatio
 	}
 	/**
 	 * Gets the modification column
-	 * @return LearningObjectTableColumn
+	 * @return ProfileTableColumn
 	 */
 	static function get_modification_column()
 	{

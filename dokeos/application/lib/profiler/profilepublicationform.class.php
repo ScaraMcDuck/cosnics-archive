@@ -1,6 +1,6 @@
 <?php
 /**
- * @package application.profiler
+ * @package application.lib.profiler
  */
 require_once dirname(__FILE__).'/profilepublication.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';

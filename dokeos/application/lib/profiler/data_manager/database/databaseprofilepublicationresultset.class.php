@@ -1,7 +1,6 @@
 <?php
 /**
- * @package repository
- * @subpackage datamanager
+ * @package application.lib.profiler.data_manager.database
  */
 require_once dirname(__FILE__).'/../../../../../repository/lib/resultset.class.php';
 /**

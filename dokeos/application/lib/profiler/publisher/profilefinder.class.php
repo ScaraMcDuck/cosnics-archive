@@ -1,8 +1,6 @@
 <?php
 /**
- * $Id: learningobjectfinder.class.php 9197 2006-09-04 12:02:29Z bmol $
- * @package application.weblcms
- * @subpackage publisher
+ * @package application.lib.profiler.publisher
  */
 require_once dirname(__FILE__).'/profilebrowser.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/andcondition.class.php';
@@ -10,7 +8,7 @@ require_once dirname(__FILE__).'/../../../../repository/lib/condition/orconditio
 require_once dirname(__FILE__).'/../../../../repository/lib/condition/patternmatchcondition.class.php';
 require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
 /**
- * This class represents a learning object publisher component which can be used
+ * This class represents a profiler publisher component which can be used
  * to search for a certain learning object.
  */
 class ProfileFinder extends ProfileBrowser

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package application.profiler
+ * @package application.lib.profiler
  */
 /**
 ==============================================================================

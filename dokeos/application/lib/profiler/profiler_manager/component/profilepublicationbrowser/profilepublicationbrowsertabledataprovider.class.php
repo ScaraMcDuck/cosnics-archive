@@ -1,27 +1,27 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.lib.profiler.profiler_manager.component.profilepublicationbrowser
  */
 require_once dirname(__FILE__).'/../../../profile_publication_table/profilepublicationtabledataprovider.class.php';
 /**
- * Data provider for a repository browser table.
+ * Data provider for a profile browser table.
  *
- * This class implements some functions to allow repository browser tables to
- * retrieve information about the learning objects to display.
+ * This class implements some functions to allow profile browser tables to
+ * retrieve information about the profile objects to display.
  */
 class ProfilePublicationBrowserTableDataProvider implements ProfilePublicationTableDataProvider
 {
   /**
-   * The repository manager component in which the table will be displayed
+   * The profile manager component in which the table will be displayed
    */
   private $browser;
   /**
-   * The condition used to select the learning objects
+   * The condition used to select the profile objects
    */
   private $condition;
   /**
    * Constructor
-   * @param RepositoryManagerComponent $browser
+   * @param ProfileManagerComponent $browser
    * @param Condition $condition
    */
   function ProfilePublicationBrowserTableDataProvider($browser, $condition)
@@ -30,12 +30,12 @@ class ProfilePublicationBrowserTableDataProvider implements ProfilePublicationTa
     $this->condition = $condition;
   }
   /**
-   * Gets the learning objects
+   * Gets the profile objects
    * @param int $offset
    * @param int $count
    * @param string $order_property
    * @param int $order_direction (SORT_ASC or SORT_DESC)
-   * @return ResultSet A set of matching learning objects.
+   * @return ResultSet A set of matching profile objects.
    */
     function get_profile_publications($offset, $count, $order_property, $order_direction)
     {
@@ -44,7 +44,7 @@ class ProfilePublicationBrowserTableDataProvider implements ProfilePublicationTa
       return $this->browser->retrieve_profile_publications($this->get_condition(), $order_property, $order_direction, $offset, $count);
     }
   /**
-   * Gets the number of learning objects in the table
+   * Gets the number of profile objects in the table
    * @return int
    */
     function get_profile_publication_count()
@@ -61,7 +61,7 @@ class ProfilePublicationBrowserTableDataProvider implements ProfilePublicationTa
     }
 	/**
 	 * Gets the browser
-	 * @return RepositoryManagerComponent
+	 * @return ProfileManagerComponent
 	 */
     protected function get_browser()
     {

@@ -1,16 +1,11 @@
 <?php
 /**
- * @package repository.publicationtable
+ * @package application.lib.profiler.profile_publication_table
  */
 require_once dirname(__FILE__).'/../../../../main/inc/lib/sortabletable.class.php';
 require_once dirname(__FILE__).'/defaultprofilepublicationtablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/defaultprofilepublicationtablecellrenderer.class.php';
 
-/**
- * 
- * TODO: Add comment
- * 
- */
 class ProfilePublicationTable
 {
 	/**
@@ -154,7 +149,7 @@ class ProfilePublicationTable
 
 	/**
 	 * Gets the table's data provider.
-	 * @return LearningObjectTableDataProvider The data provider.
+	 * @return ProfileTableDataProvider The data provider.
 	 */
 	function get_data_provider()
 	{
@@ -163,7 +158,7 @@ class ProfilePublicationTable
 
 	/**
 	 * Sets the table's data provider.
-	 * @param LearningObjectTableDataProvider $data_provider The data provider.
+	 * @param ProfileTableDataProvider $data_provider The data provider.
 	 */
 	function set_data_provider($data_provider)
 	{
@@ -172,7 +167,7 @@ class ProfilePublicationTable
 
 	/**
 	 * Gets the table's column model.
-	 * @return LearningObjectTableColumnModel The column model.
+	 * @return ProfileTableColumnModel The column model.
 	 */
 	function get_column_model()
 	{
@@ -181,7 +176,7 @@ class ProfilePublicationTable
 
 	/**
 	 * Sets the table's column model.
-	 * @param LearningObjectTableColumnModel $model The column model.
+	 * @param ProfileTableColumnModel $model The column model.
 	 */
 	function set_column_model($model)
 	{
@@ -190,7 +185,7 @@ class ProfilePublicationTable
 
 	/**
 	 * Gets the table's cell renderer.
-	 * @return LearningObjectTableCellRenderer The cell renderer.
+	 * @return ProfileTableCellRenderer The cell renderer.
 	 */
 	function get_cell_renderer()
 	{
@@ -199,7 +194,7 @@ class ProfilePublicationTable
 
 	/**
 	 * Sets the table's cell renderer.
-	 * @param LearningObjectTableCellRenderer $renderer The cell renderer.
+	 * @param ProfileTableCellRenderer $renderer The cell renderer.
 	 */
 	function set_cell_renderer($renderer)
 	{

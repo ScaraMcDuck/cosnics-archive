@@ -1,9 +1,6 @@
 <?php
 /**
- * @package repository.publicationtable
- */
-/**
- * todo: add comment
+ * @package application.lib.profiler.profile_publication_table
  */
 interface ProfilePublicationTableDataProvider
 {

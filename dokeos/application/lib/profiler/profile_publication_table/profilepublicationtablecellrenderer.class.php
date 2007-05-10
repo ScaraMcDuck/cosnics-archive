@@ -1,17 +1,9 @@
 <?php
 /**
- * @package repository.publicationtable
- */
-/**
- * 
- * TODO: Add comment
- * 
+ * @package application.lib.profiler.profile_publication_table
  */
 interface ProfilePublicationTableCellRenderer
 {
-	/**
-	 * TODO: Add comment
-	 */
 	function render_cell($column, $profile);
 }
 ?>
