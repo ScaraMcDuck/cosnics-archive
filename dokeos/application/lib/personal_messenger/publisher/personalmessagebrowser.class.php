@@ -1,15 +1,15 @@
 <?php
 /**
- * $Id: learningobjectbrowser.class.php 9141 2006-08-21 12:55:22Z bmol $
- * @package application.weblcms
- * @subpackage publisher
+ * @package application.lib.personal_messenger.publisher
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
 require_once dirname(__FILE__).'/../personalmessagepublishercomponent.class.php';
 require_once dirname(__FILE__).'/publication_candidate_table/publicationcandidatetable.class.php';
 /**
- * This class represents a learning object publisher component which can be used
- * to browse through the possible learning objects to publish.
+ * This class represents a personal message publisher component which can be used
+ * to browse through the possible personal messages to publish.
  */
 class PersonalMessageBrowser extends PersonalMessagePublisherComponent
 {

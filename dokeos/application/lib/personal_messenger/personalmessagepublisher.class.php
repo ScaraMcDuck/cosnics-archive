@@ -1,12 +1,14 @@
 <?php
 /**
- * @package application.weblcms
+ * @package application.lib.personal_messenger
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../../../repository/lib/abstractlearningobject.class.php';
 
 /**
 ==============================================================================
- *	This class provides the means to publish a learning object.
+ *	This class provides the means to publish a personal message learning object.
  *
  *	@author Tim De Pauw
 ==============================================================================

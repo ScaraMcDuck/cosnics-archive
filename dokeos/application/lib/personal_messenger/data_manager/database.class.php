@@ -1,4 +1,9 @@
 <?php
+/**
+ * @package application.lib.personal_messenger.data_manager
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
+ */
 require_once dirname(__FILE__).'/../personalmessengerdatamanager.class.php';
 require_once dirname(__FILE__).'/../personalmessagepublication.class.php';
 require_once dirname(__FILE__).'/database/databasepersonalmessagepublicationresultset.class.php';
@@ -247,11 +252,13 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		}
 	}
 	
+	// Inherited.
 	function get_next_personal_message_publication_id()
 	{
 		return $this->connection->nextID($this->get_table_name('personal_messenger_publication'));
 	}
 	
+	// Inherited.
     function count_personal_message_publications($condition = null)
     {
 		$query = 'SELECT COUNT('.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('personal_messenger_publication');
@@ -270,6 +277,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		return $record[0];
     }
     
+    // Inherited.
     function count_unread_personal_message_publications($user)
     {
 		$query = 'SELECT COUNT('.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('personal_messenger_publication');
@@ -282,6 +290,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		return $record[0];
     }
     
+    // Inherited.
     function retrieve_personal_message_publication($id)
 	{
 		
@@ -295,6 +304,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		return self :: record_to_personal_message_publication($record);
 	}
     
+    // Inherited.
     function retrieve_personal_message_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		
@@ -334,6 +344,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		return new DatabasePersonalMessagePublicationResultSet($this, $res);
 	}
 	
+	// Inherited.
 	function record_to_personal_message_publication($record)
 	{
 		if (!is_array($record) || !count($record))
@@ -348,6 +359,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		return new PersonalMessagePublication($record[PersonalMessagePublication :: PROPERTY_ID], $defaultProp);		
 	}
 	
+	// Inherited.
 	function update_personal_message_publication($personal_message_publication)
 	{
 		$where = $this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'='.$personal_message_publication->get_id();
@@ -361,6 +373,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		return true;
 	}
 	
+	// Inherited.
 	function delete_personal_message_publication($personal_message_publication)
 	{
 		$query = 'DELETE FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'=?';
@@ -375,6 +388,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		}
 	}
 	
+	// Inherited.
 	function delete_personal_message_publications($object_id)
 	{
 		$condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
@@ -391,6 +405,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		return true;
 	}
 	
+	// Inherited.
 	function update_personal_message_publication_id($publication_attr)
 	{
 		$where = $this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'='.$publication_attr->get_id();
@@ -412,6 +427,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		return ($name == PersonalMessagePublication :: PROPERTY_PUBLISHED);
 	}
 	
+	// Inherited.
 	function any_learning_object_is_published($object_ids)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE).' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
@@ -419,6 +435,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		return $res->numRows() == 1;
 	}
 	
+	// Inherited.
 	function learning_object_is_published($object_id)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE).'=?';
@@ -434,6 +451,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		return $res;
 	}
 	
+	// Inherited.
 	function create_storage_unit($name,$properties,$indexes)
 	{
 		$name = $this->get_table_name($name);
@@ -463,6 +481,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		}
 	}
 	
+	// Inherited.
 	function get_learning_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		if (isset($type))
@@ -543,6 +562,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		return $publication_attr;
 	}
 	
+	// Inherited.
 	function get_learning_object_publication_attribute($publication_id)
 	{
 
@@ -585,6 +605,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		return $info;
 	}
 	
+	// Inherited.
 	function count_publication_attributes($user, $type = null, $condition = null)
 	{
 		$params = array ();
@@ -596,6 +617,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		return $record[0];
 	}
 	
+	// Inherited.
 	function create_personal_message_publication($publication)
 	{
 		$props = array();

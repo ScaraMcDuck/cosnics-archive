@@ -1,11 +1,8 @@
 <?php
 /**
- * @package repository.publicationtable
- */
-/**
- * 
- * TODO: Add comment
- * 
+ * @package application.lib.personal_messenger.pm_publication_table
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 class PmPublicationTableColumn
 {

@@ -1,6 +1,8 @@
 <?php
 /**
- * @package repository.publicationtable
+ * @package application.lib.personal_messenger.pm_publication_table
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../../../../main/inc/lib/sortabletable.class.php';
 require_once dirname(__FILE__).'/defaultpmpublicationtablecolumnmodel.class.php';

@@ -1,6 +1,8 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.personal_messenger.personal_messenger_manager.component.pmpublicationbrowser
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../../../pm_publication_table/defaultpmpublicationtablecolumnmodel.class.php';
 /**
@@ -24,7 +26,7 @@ class PmPublicationBrowserTableColumnModel extends DefaultPmPublicationTableColu
 	}
 	/**
 	 * Gets the modification column
-	 * @return LearningObjectTableColumn
+	 * @return PersonalMessagePublicationTableColumn
 	 */
 	static function get_modification_column()
 	{

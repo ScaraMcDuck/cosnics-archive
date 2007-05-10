@@ -1,4 +1,9 @@
 <?php
+/**
+ * @package application.lib.personal_messenger
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
+ */
 require_once dirname(__FILE__).'/../../../repository/lib//repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../../users/lib//usersdatamanager.class.php';
 
@@ -70,7 +75,7 @@ class PersonalMessagePublication
 	}
 	
 	/**
-	 * Sets a default property of this user by name.
+	 * Sets a default property of this PMP by name.
 	 * @param string $name The name of the property.
 	 * @param mixed $value The new value for the property.
 	 */
@@ -80,7 +85,7 @@ class PersonalMessagePublication
 	}
 	
 	/**
-	 * Checks if the given identifier is the name of a default user
+	 * Checks if the given identifier is the name of a default PMP
 	 * property.
 	 * @param string $name The identifier.
 	 * @return boolean True if the identifier is a property name, false

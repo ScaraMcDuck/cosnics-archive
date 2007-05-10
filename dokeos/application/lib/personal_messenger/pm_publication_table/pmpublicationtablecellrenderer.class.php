@@ -1,17 +1,11 @@
 <?php
 /**
- * @package repository.publicationtable
- */
-/**
- * 
- * TODO: Add comment
- * 
+ * @package application.lib.personal_messenger.pm_publication_table
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 interface PmPublicationTableCellRenderer
 {
-	/**
-	 * TODO: Add comment
-	 */
 	function render_cell($column, $personal_message);
 }
 ?>

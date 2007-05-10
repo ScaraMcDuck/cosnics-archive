@@ -1,7 +1,15 @@
 <?php
+/**
+ * @package admin.lib.admin_manager
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
+ */
 require_once dirname(__FILE__).'/admincomponent.class.php';
 require_once dirname(__FILE__).'/../admindatamanager.class.php';
 
+/**
+ * The admin allows the platform admin to configure certain aspects of his platform
+ */
 class Admin {
 	
 	const PARAM_ACTION = 'go';
@@ -14,12 +22,19 @@ class Admin {
 	
 	private $user;
 
+	/**
+	 * Constructor
+	 * @param User $user The current user
+	 */
     function Admin($user = null) {
     	$this->user = $user;
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
     }
     
+	/**
+	 * Run this admin manager
+	 */
     function run()
     {
 		$action = $this->get_action();

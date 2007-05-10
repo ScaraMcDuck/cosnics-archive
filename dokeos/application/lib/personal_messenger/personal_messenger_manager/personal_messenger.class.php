@@ -1,6 +1,8 @@
 <?php
 /**
- * @package application.personalmessenger
+ * @package application.personal_messenger.personal_messenger_manager
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/personalmessengercomponent.class.php';
 require_once dirname(__FILE__).'/../personalmessengerdatamanager.class.php';
@@ -17,8 +19,8 @@ require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
 require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 
 /**
- * A user manager provides some functionalities to the admin to manage
- * his users. For each functionality a component is available.
+ * A personal messenger manager allows a user to send/receive personal messages.
+ * For each functionality a component is available.
  */
  class PersonalMessenger extends WebApplication
  {
@@ -50,6 +52,10 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	private $breadcrumbs;
 	private $folder;
 	
+	/**
+	 * Constructor
+	 * @param User $user The current user
+	 */
     function PersonalMessenger($user = null)
     {
     	$this->user = $user;
@@ -68,7 +74,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
     }
     
     /**
-	 * Run this user manager
+	 * Run this personal messenger manager
 	 */
 	function run()
 	{
@@ -161,6 +167,9 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		}
 	}
 	
+	/**
+	 * Displays the menu html
+	 */
 	function get_menu_html()
 	{
 		$extra_items = array ();
@@ -187,6 +196,10 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		
 		return implode($html, "\n");
 	}
+	
+	/**
+	 * Displays the seach form
+	 */
 	
 	private function display_search_form()
 	{
@@ -303,9 +316,8 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	 * @param string $action The action to take (default = browse learning
 	 * objects).
 	 * @param string $message The message to show (default = no message).
-	 * @param int $new_category_id The category to show (default = root
-	 * category).
 	 * @param boolean $error_message Is the passed message an error message?
+	 * @param Array Extra parameters to be added to the redirection url
 	 */
 	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
 	{
@@ -350,6 +362,10 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		return $this->user->get_user_id();
 	}
 	
+	/**
+	 * Gets the user.
+	 * @return int The requested user.
+	 */
 	function get_user()
 	{
 		return $this->user;
@@ -370,12 +386,22 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		api_not_allowed();
 	}
 	
+	/**
+	 * Returns a list of actions available to the admin.
+	 * @return Array $info Contains all possible actions.
+	 */
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
 		$links[] = array ('name' => get_lang('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
 		return array ('application' => array ('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links);
 	}
+	
+	/**
+	 * Return a link to a certain action of this application
+	 * @param array $paramaters The parameters to be added to the url
+	 * @param boolean $encode Should the url be encoded ?
+	 */
 	
 	public function get_link($parameters = array (), $encode = false)
 	{
@@ -391,90 +417,189 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		return $link;
 	}
 	
+	/**
+	 * Returns whether a given object id is published in this application 
+	 * @param int $object_id
+	 * @return boolean Is the object is published
+	 */
+	
 	function learning_object_is_published($object_id)
 	{
 		return PersonalMessengerDataManager :: get_instance()->learning_object_is_published($object_id);
 	}
 
+	/**
+	 * Returns whether a given array of objects has been published
+	 * @param array $object_ids An array of object id's
+	 * @return boolean Was any learning object published
+	 */
+
 	function any_learning_object_is_published($object_ids)
 	{
 		return PersonalMessengerDataManager :: get_instance()->any_learning_object_is_published($object_ids);
 	}
-
+	
+	/**
+	 * Gets the publication attributes of a given array of learning object id's
+	 * @param array $object_id The array of object ids
+	 * @param string $type Type of retrieval
+	 * @param int $offset
+	 * @param int $count
+	 * @param int $order_property
+	 * @param int $order_direction
+	 * @return array An array of Learing Object Publication Attributes
+	 */
 	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return PersonalMessengerDataManager :: get_instance()->get_learning_object_publication_attributes($this->get_user(), $object_id, $type, $offset, $count, $order_property, $order_direction);
 	}
 	
+	/**
+	 * Gets the publication attributes of a given learning object id
+	 * @param int $object_id The object id
+	 * @param string $type Type of retrieval
+	 * @param int $offset
+	 * @param int $count
+	 * @param int $order_property
+	 * @param int $order_direction
+	 * @return LearningObjectPublicationAttribute
+	 */
 	function get_learning_object_publication_attribute($object_id)
 	{
 		return PersonalMessengerDataManager :: get_instance()->get_learning_object_publication_attribute($object_id);
 	}	
 	
+	/**
+	 * Counts the publication attributes
+	 * @param string $type Type of retrieval
+	 * @param Condition $conditions
+	 * @return int
+	 */
 	function count_publication_attributes($type = null, $condition = null)
 	{
 		return PersonalMessengerDataManager :: get_instance()->count_publication_attributes($this->get_user(), $type, $condition);
 	}
 	
+	/**
+	 * Counts the publication attributes
+	 * @param string $type Type of retrieval
+	 * @param Condition $conditions
+	 * @return boolean
+	 */
 	function delete_learning_object_publications($object_id)
 	{
 		return PersonalMessengerDataManager :: get_instance()->delete_personal_message_publications($object_id);
 	}
 	
+	/**
+	 * Update the publication id
+	 * @param LearningObjectPublicationAttribure $publication_attr
+	 * @return boolean
+	 */	
 	function update_learning_object_publication_id($publication_attr)
 	{
 		return PersonalMessengerDataManager :: get_instance()->update_personal_message_publication_id($publication_attr);
 	}
 	
+	/**
+	 * Count the publications
+	 * @param Condition $condition
+	 * @return int
+	 */	
 	function count_personal_message_publications($condition = null)
 	{
 		$pmdm = PersonalMessengerDataManager :: get_instance();
 		return $pmdm->count_personal_message_publications($condition);
 	}
 	
+	/**
+	 * Count the unread publications
+	 * @return int
+	 */	
 	function count_unread_personal_message_publications()
 	{
 		$pmdm = PersonalMessengerDataManager :: get_instance();
 		return $pmdm->count_unread_personal_message_publications($this->user);
 	}
 	
+	/**
+	 * Retrieve a personal message publication
+	 * @param int $id
+	 * @return PersonalMessagePublication
+	 */	
 	function retrieve_personal_message_publication($id)
 	{
 		$pmdm = PersonalMessengerDataManager :: get_instance();
 		return $pmdm->retrieve_personal_message_publication($id);
 	}
 	
+	/**
+	 * Retrieve a series of personal message publications 
+	 * @param Condition $condition
+	 * @param array $orderBy
+	 * @param array $orderDir
+	 * @param int $offset
+	 * @param int $maxObjects
+	 * @return PersonalMessagePublicationResultSet
+	 */	
 	function retrieve_personal_message_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		$pmdm = PersonalMessengerDataManager :: get_instance();
 		return $pmdm->retrieve_personal_message_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
 	
+	/**
+	 * Gets the url for deleting a personal message publication
+	 * @param PersonalMessagePublication
+	 * @return string The url
+	 */
 	function get_publication_deleting_url($personal_message)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id()));
 	}
 	
+	/**
+	 * Gets the url for viewing a personal message publication
+	 * @param PersonalMessagePublication
+	 * @return string The url
+	 */
 	function get_publication_viewing_url($personal_message)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id(), self :: PARAM_FOLDER => $this->get_folder()));
 	}
 	
+	/**
+	 * Gets the url for replying to a personal message publication
+	 * @param PersonalMessagePublication
+	 * @return string The url
+	 */
 	function get_publication_reply_url($personal_message)
 	{
 		return $this->get_url(array (PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_CREATE_PUBLICATION, PersonalMessagePublisher :: PARAM_ACTION => 'publicationcreator', PersonalMessagePublisher :: PARAM_LEARNING_OBJECT_ID => $personal_message->get_personal_message(), self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id(), PersonalMessagePublisher :: PARAM_EDIT => 1));
 	}
 	
+	/**
+	 * Gets the url for creating a personal message publication
+	 * @param PersonalMessagePublication
+	 * @return string The url
+	 */
 	function get_personal_message_creation_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_PUBLICATION));
 	}
 	
+	/**
+	 * Gets the current personal messenger folder
+	 * @return string The folder
+	 */
 	function get_folder()
 	{
 		return $this->folder;
 	}
 	
+	/**
+	 * Parse the input from the sortable tables and process input accordingly
+	 */
 	private function parse_input_from_table()
 	{
 		if (isset ($_POST['action']))

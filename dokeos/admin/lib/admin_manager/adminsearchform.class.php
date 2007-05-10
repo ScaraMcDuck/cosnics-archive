@@ -1,7 +1,9 @@
 <?php
 /**
- * $Id: repositorysearchform.class.php 11509 2007-03-09 14:58:12Z Scara84 $
- * @package repository.repositorymanager
+ * $Id: adminsearchform.class.php 11509 2007-03-09 14:58:12Z Scara84 $
+ * @package admin.lib.admin_manager
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/admin.class.php';
@@ -30,7 +32,7 @@ class AdminSearchForm extends FormValidator
 	const PARAM_SEARCH_SCOPE = 'scope';
 	/**#@-*/
 	/**
-	 * Search in whole repository
+	 * Search in whole application
 	 */
 	const SEARCH_SCOPE_REPOSITORY = 0; //default
 	/**
@@ -46,7 +48,7 @@ class AdminSearchForm extends FormValidator
 	 */
 	const FORM_NAME = 'search';
 	/**
-	 * The repository manager in which this search form is used
+	 * The manager in which this search form is used
 	 */
 	private $manager;
 	/**
@@ -63,7 +65,7 @@ class AdminSearchForm extends FormValidator
 	private $advanced;
 	/**
 	 * Creates a new search form
-	 * @param RepositoryManager $manager The repository manager in which this
+	 * @param AdminManager $manager The admin manager in which this
 	 * search form will be displayed
 	 * @param string $url The location to which the search request should be
 	 * posted.
@@ -160,7 +162,7 @@ class AdminSearchForm extends FormValidator
 		}
 	}
 	/**
-	 * Determines if the user is currently searching the repository.
+	 * Determines if the user is currently searching from the admin.
 	 * @return boolean True if the user is searching.
 	 */
 	function validate()

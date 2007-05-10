@@ -1,7 +1,9 @@
 <?php
 
 /**
- * @package admin.component
+ * @package admin.lib.admin_manager.component
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../admin.class.php';
 require_once dirname(__FILE__).'/../admincomponent.class.php';
@@ -32,6 +34,10 @@ class AdminBrowserComponent extends AdminComponent
 		$this->display_footer();
 	}
 	
+	/**
+	 * Returns an HTML representation of the actions.
+	 * @return string $html HTML representation of the actions.
+	 */
 	function get_application_platform_admin_sections()
 	{
 		$html = array();

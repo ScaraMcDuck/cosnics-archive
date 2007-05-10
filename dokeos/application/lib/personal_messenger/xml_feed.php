@@ -1,6 +1,8 @@
 <?php
 /**
- * @package repository
+ * @package application.lib.personal_messenger
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 $langFile = 'personalmessenger';
 require_once dirname(__FILE__).'/../../../main/inc/claro_init_global.inc.php';

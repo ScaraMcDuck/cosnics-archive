@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package application.personal_messenger.personal_messenger_manager.component
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
+ */
+
 require_once dirname(__FILE__).'/../personal_messenger.class.php';
 require_once dirname(__FILE__).'/../personalmessengercomponent.class.php';
 

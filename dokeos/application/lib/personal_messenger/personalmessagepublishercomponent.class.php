@@ -1,6 +1,8 @@
 <?php
 /**
- * @package application.personal_messenger
+ * @package application.lib.personal_messenger
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 /**
 ==============================================================================
