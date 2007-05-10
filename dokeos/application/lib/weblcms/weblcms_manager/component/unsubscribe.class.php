@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/unsubscribebrowser/unsubscribebrowsertable.clas
 class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 {
 	private $category;
-	
+
 	/**
 	 * Runs this component and displays its output.
 	 */
@@ -21,14 +21,17 @@ class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 		$this->category = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
 		$course_code = $_GET[Weblcms :: PARAM_COURSE];
 		$users = $_GET[Weblcms :: PARAM_USERS];
-		
+		if(!is_array($users))
+		{
+			$users = array($users);
+		}
 		if (isset($course_code))
 		{
 			$course = $this->retrieve_course($course_code);
 			if (isset($users) && $this->get_course()->is_course_admin($this->get_user_id()))
 			{
 				$failures = 0;
-				
+
 				foreach ($users as $user_id)
 				{
 					if ($user_id != $this->get_user_id())
@@ -39,11 +42,11 @@ class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 						}
 					}
 				}
-				
+
 				if ($failures == 0)
 				{
 					$success = true;
-					
+
 					if (count($users) == 1)
 					{
 						$message = 'UserUnsubscribedFromCourse';
@@ -56,7 +59,7 @@ class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 				elseif ($failures == count ($users))
 				{
 					$success = false;
-					
+
 					if (count($users) == 1)
 					{
 						$message = 'UserNotUnsubscribedFromCourse';
@@ -71,11 +74,11 @@ class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 					$success = false;
 					$message = 'PartialUsersNotUnsubscribedFromCourse';
 				}
-				
+
 				$this->redirect(null, get_lang($message), ($success ? false : true), array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $course_code, Weblcms :: PARAM_TOOL => 'user'));
 			}
 			else
-			{			
+			{
 				if ($this->get_course_unsubscription_url($course))
 				{
 					$success = $this->unsubscribe_user_from_course($course, $this->get_user_id());
@@ -83,19 +86,19 @@ class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 				}
 			}
 		}
-		
+
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(null, false, true, array(Weblcms :: PARAM_ACTION)), 'name' => get_lang('MyCourses'));
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseUnsubscribe'));
 		$menu = $this->get_menu_html();
 		$output = $this->get_course_html();
-		
+
 		$this->display_header($breadcrumbs);
 		echo $menu;
 		echo $output;
 		$this->display_footer();
 	}
-	
+
 	function get_course_html()
 	{
 		$conditions = array();
@@ -104,31 +107,31 @@ class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 			$conditions[] = new EqualityCondition(Course :: PROPERTY_CATEGORY_CODE, $this->category);
 		}
 		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
-		
+
 		$condition = new AndCondition($conditions);
-		
+
 		$table = new UnsubscribeBrowserTable($this, null, null, $condition);
-		
+
 		$html = array();
 		$html[] = '<div style="float: right; width: 80%;">';
 		$html[] = $table->as_html();
 		$html[] = '</div>';
-		
+
 		return implode($html, "\n");
 	}
-	
+
 	function get_menu_html()
 	{
 		$temp_replacement = '__CATEGORY_ID__';
 		$url_format = $this->get_url(array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_UNSUBSCRIBE, Weblcms :: PARAM_COURSE_CATEGORY_ID => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$category_menu = new CourseCategoryMenu($this->category, $url_format);
-		
+
 		$html = array();
 		$html[] = '<div style="float: left; width: 20%;">';
 		$html[] = $category_menu->render_as_tree();
 		$html[] = '</div>';
-		
+
 		return implode($html, "\n");
 	}
 }
