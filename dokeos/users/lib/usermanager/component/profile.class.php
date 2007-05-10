@@ -13,15 +13,15 @@ class UserManagerProfileComponent extends UserManagerComponent
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{	
+	{
 		global $this_section;
 		$this_section='myprofile';
-		
+
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('UserProfile'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('ModifyProfile'));
 
 		$user = $this->get_user();
-		
+
 		$form = new ProfileForm(ProfileForm :: TYPE_EDIT, $user, $this->get_url());
 
 		if($form->validate())
