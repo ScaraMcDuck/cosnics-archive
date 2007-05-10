@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../weblcmscomponent.class.php';
 require_once dirname(__FILE__).'/../../course/coursecategorymenu.class.php';
 require_once dirname(__FILE__).'/admincoursebrowser/admincoursebrowsertable.class.php';
 /**
- * Weblcms component which allows the user to manage his or her course subscriptions
+ * Weblcms component which allows the the platform admin to browse the courses
  */
 class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 {

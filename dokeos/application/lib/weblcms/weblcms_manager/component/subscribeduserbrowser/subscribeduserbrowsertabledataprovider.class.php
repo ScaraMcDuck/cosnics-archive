@@ -1,6 +1,6 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__).'/../../../../../../users/lib/user_table/usertabledataprovider.class.php';
 /**
@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/../../../../../../users/lib/user_table/usertabl
 class SubscribedUserBrowserTableDataProvider implements UserTableDataProvider
 {
   /**
-   * The repository manager component in which the table will be displayed
+   * The weblcms component in which the table will be displayed
    */
   private $browser;
   /**
@@ -24,7 +24,7 @@ class SubscribedUserBrowserTableDataProvider implements UserTableDataProvider
   
   /**
    * Constructor
-   * @param RepositoryManagerComponent $browser
+   * @param WeblcmsComponent $browser
    * @param Condition $condition
    */
   function SubscribedUserBrowserTableDataProvider($browser, $condition)
@@ -34,7 +34,7 @@ class SubscribedUserBrowserTableDataProvider implements UserTableDataProvider
     $this->udm = UsersDataManager :: get_instance($browser->get_user_id());
   }
   /**
-   * Gets the learning objects
+   * Gets the users
    * @param int $offset
    * @param int $count
    * @param string $order_property
@@ -50,7 +50,7 @@ class SubscribedUserBrowserTableDataProvider implements UserTableDataProvider
       return $this->udm->retrieve_users($this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
   /**
-   * Gets the number of learning objects in the table
+   * Gets the number of users in the table
    * @return int
    */
     function get_user_count()
@@ -67,7 +67,7 @@ class SubscribedUserBrowserTableDataProvider implements UserTableDataProvider
     }
 	/**
 	 * Gets the browser
-	 * @return RepositoryManagerComponent
+	 * @return WeblcsmComponent
 	 */
     protected function get_browser()
     {

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__).'/../../../course/course_table/coursetable.class.php';
 require_once dirname(__FILE__).'/coursebrowsertabledataprovider.class.php';
@@ -8,13 +8,12 @@ require_once dirname(__FILE__).'/coursebrowsertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/coursebrowsertablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../weblcms.class.php';
 /**
- * Table to display a set of learning objects.
+ * Table to display a set of courses.
  */
 class CourseBrowserTable extends CourseTable
 {
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
 	 */
 	function CourseBrowserTable($browser, $name, $parameters, $condition)
 	{

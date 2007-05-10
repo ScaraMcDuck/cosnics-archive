@@ -1,6 +1,6 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__).'/subscribeduserbrowsertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/../../../../../../users/lib/user_table/defaultusertablecellrenderer.class.php';
@@ -12,12 +12,12 @@ require_once dirname(__FILE__).'/../../../../../../users/lib/usermanager/userman
 class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 {
 	/**
-	 * The repository browser component
+	 * The weblcms browser component
 	 */
 	private $browser;
 	/**
 	 * Constructor
-	 * @param RepositoryManagerBrowserComponent $browser
+	 * @param WeblcmsBrowserComponent $browser
 	 */
 	function SubscribedUserBrowserTableCellRenderer($browser)
 	{
@@ -62,7 +62,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 	}
 	/**
 	 * Gets the action links to display
-	 * @param LearningObject $learning_object The learning object for which the
+	 * @param User $user The user for which the
 	 * action links should be returned
 	 * @return string A HTML representation of the action links
 	 */

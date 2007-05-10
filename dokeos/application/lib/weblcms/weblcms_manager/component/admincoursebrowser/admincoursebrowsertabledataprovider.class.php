@@ -1,6 +1,6 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__).'/../../../course/course_table/coursetabledataprovider.class.php';
 /**
@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/../../../course/course_table/coursetabledatapro
 class AdminCourseBrowserTableDataProvider implements CourseTableDataProvider
 {
   /**
-   * The repository manager component in which the table will be displayed
+   * The weblcms component in which the table will be displayed
    */
   private $browser;
   /**
@@ -21,7 +21,7 @@ class AdminCourseBrowserTableDataProvider implements CourseTableDataProvider
   private $condition;
   /**
    * Constructor
-   * @param RepositoryManagerComponent $browser
+   * @param WeblcmsComponent $browser
    * @param Condition $condition
    */
   function AdminCourseBrowserTableDataProvider($browser, $condition)
@@ -30,12 +30,12 @@ class AdminCourseBrowserTableDataProvider implements CourseTableDataProvider
     $this->condition = $condition;
   }
   /**
-   * Gets the learning objects
+   * Gets the courses
    * @param int $offset
    * @param int $count
    * @param string $order_property
    * @param int $order_direction (SORT_ASC or SORT_DESC)
-   * @return ResultSet A set of matching learning objects.
+   * @return ResultSet A set of matching courses.
    */
     function get_courses($user = null, $category = null, $offset, $count, $order_property, $order_direction)
     {
@@ -46,7 +46,7 @@ class AdminCourseBrowserTableDataProvider implements CourseTableDataProvider
       return $this->browser->retrieve_courses(null, null, $this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
   /**
-   * Gets the number of learning objects in the table
+   * Gets the number of courses in the table
    * @return int
    */
     function get_course_count()
@@ -63,7 +63,7 @@ class AdminCourseBrowserTableDataProvider implements CourseTableDataProvider
     }
 	/**
 	 * Gets the browser
-	 * @return RepositoryManagerComponent
+	 * @return WeblcmsComponent
 	 */
     protected function get_browser()
     {

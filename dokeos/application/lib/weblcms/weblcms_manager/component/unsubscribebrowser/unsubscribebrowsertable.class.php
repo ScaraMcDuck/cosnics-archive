@@ -1,6 +1,6 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__).'/../../../course/course_table/coursetable.class.php';
 require_once dirname(__FILE__).'/unsubscribebrowsertabledataprovider.class.php';
@@ -8,13 +8,12 @@ require_once dirname(__FILE__).'/unsubscribebrowsertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/unsubscribebrowsertablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../weblcms.class.php';
 /**
- * Table to display a set of learning objects.
+ * Table to display a list of users subscribed to a course.
  */
 class UnsubscribeBrowserTable extends CourseTable
 {
 	/**
 	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
 	 */
 	function UnsubscribeBrowserTable($browser, $name, $parameters, $condition)
 	{

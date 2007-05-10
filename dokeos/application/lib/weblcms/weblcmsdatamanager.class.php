@@ -76,10 +76,27 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function get_learning_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
+	/**
+	 * Retrieves the attributes for the given publication.
+	 * @param int $publication_id
+	 * @return array An array of LearningObjectPublicationAttributes objects;
+	 *               empty if the object has not been published anywhere.
+	 */
 	abstract function get_learning_object_publication_attribute($publication_id);
 
+	/**
+	 * Counts the publication attributes
+	 * @param string $type Type of retrieval
+	 * @param Condition $conditions
+	 * @return int
+	 */
 	abstract function count_publication_attributes($user, $type = null, $condition = null);
 
+	/**
+	 * Delete the publications
+	 * @param Array $object_id An array of publication ids
+	 * @return boolean
+	 */	
 	abstract function delete_learning_object_publications($object_id);
 
 	/**
@@ -147,14 +164,39 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false);
 	
+	/**
+	 * Count the number of courses
+	 * @param Condition $condition
+	 * @return int
+	 */
 	abstract function count_courses($conditions = null);
-	
+
+	/**
+	 * Count the number of course categories
+	 * @param Condition $condition
+	 * @return int
+	 */	
 	abstract function count_course_categories($condition = null);
 	
+	/**
+	 * Count the number of courses th user is subscribed to
+	 * @param Condition $condition
+	 * @return int
+	 */	
 	abstract function count_user_courses($conditions = null);
 	
+	/**
+	 * Count the number of course user relations
+	 * @param Condition $condition
+	 * @return int
+	 */	
 	abstract function count_course_user_relations($conditions = null);
 	
+	/**
+	 * Count the number of course user categories
+	 * @param Condition $condition
+	 * @return int
+	 */	
 	abstract function count_course_user_categories($conditions = null);
 
 	/**
@@ -170,8 +212,19 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function create_course($course);
 	
+	/**
+	 * Creates a course category object in persistent storage.
+	 * @param CourseCategory $coursecategory The course category to make persistent.
+	 * @return boolean True if creation succceeded, false otherwise.
+	 */
 	abstract function create_course_category($coursecategory);
 	
+	/**
+	 * Checks whether subscription to a specific course is allowed.
+	 * @param Course $course
+	 * @param int $user_id
+	 * @return boolean
+	 */	
 	function course_subscription_allowed($course, $user_id)
 	{
 		$already_subscribed = $this->is_subscribed($course, $user_id);
@@ -196,6 +249,12 @@ abstract class WeblcmsDataManager
 		}
 	}
 	
+	/**
+	 * Checks whether unsubscription from a specific course is allowed.
+	 * @param Course $course
+	 * @param int $user_id
+	 * @return boolean
+	 */	
 	function course_unsubscription_allowed($course, $user_id)
 	{
 		if ($course->is_course_admin($user_id))
@@ -215,16 +274,52 @@ abstract class WeblcmsDataManager
 		}
 	}
 	
+	/**
+	 * Subscribe a user to a course.
+	 * @param Course $course
+	 * @param int $status
+	 * @param int $tutor_id
+	 * @param int $user_id
+	 * @return boolean
+	 */	
 	abstract function subscribe_user_to_course($course, $status, $tutor_id, $user_id);
-	
+
+	/**
+	 * Unsubscribe a user from a course.
+	 * @param Course $course
+	 * @param int $user_id
+	 * @return boolean
+	 */		
 	abstract function unsubscribe_user_from_course($course, $user_id);
 	
+	/**
+	 * Checks whether a user is subscribed to a course.
+	 * @param Course $course
+	 * @param int $user_id
+	 * @return boolean
+	 */	
 	abstract function is_subscribed($course, $user_id);
 	
+	/**
+	 * Checks whether the course category exists.
+	 * @param string $category_code
+	 * @return boolean
+	 */	
 	abstract function is_course_category($category_code);
 	
+	/**
+	 * Checks whether the course exists.
+	 * @param string $course_code
+	 * @return boolean
+	 */	
 	abstract function is_course($course_code);
 	
+	/**
+	 * Checks whether the given user is an admin for the given course.
+	 * @param Course $course
+	 * @param int $user_id
+	 * @return boolean
+	 */	
 	abstract function is_course_admin($course, $user_id);
 	
 	/**
@@ -234,6 +329,11 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function create_course_user_category($courseusercategory);
 	
+	/**
+	 * Deletes a course user category object from persistent storage.
+	 * @param CourseUserCategory $courseusercategory The course user category to make persistent.
+	 * @return boolean True if creation succceeded, false otherwise.
+	 */
 	abstract function delete_course_user_category($courseusercategory);
 
 	/**
@@ -260,8 +360,19 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function delete_learning_object_publication($publication);
 
+	/**
+	 * Updates a learning object publication object id in persistent storage.
+	 * @param LearningObjectPublicationAttribute $publication_attr The publication to update
+	 *                                               in storage.
+	 * @return boolean True if the update succceeded, false otherwise.
+	 */
 	abstract function update_learning_object_publication_id($publication_attr);
 	
+	/**
+	 * Retrieves a the list of courses a user is the admin for
+	 * @param int $user_id
+	 * @return array An array of course codes
+	 */
 	abstract function retrieve_course_list_of_user_as_course_admin($user_id);
 
 	/**
@@ -350,13 +461,27 @@ abstract class WeblcmsDataManager
 	abstract function retrieve_course($course_code);
 	
 	/**
-	 * Retrieves a course resultset with the given user or category from persistent storage.
-	 * @param int $user The id of the user.
-	 * @param String $category The code of the category.
-	 * @return DatabaseCourseResultSet The resultset of courses.
-	 */
+	 * Retrieve a series of courses 
+	 * @param User $user
+	 * @param string $category
+	 * @param Condition $condition
+	 * @param array $orderBy
+	 * @param array $orderDir
+	 * @param int $offset
+	 * @param int $maxObjects
+	 * @return CourseResultSet
+	 */	
 	abstract function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
+	/**
+	 * Retrieve a series of courses for a specific user + the relation 
+	 * @param Condition $condition
+	 * @param array $orderBy
+	 * @param array $orderDir
+	 * @param int $offset
+	 * @param int $maxObjects
+	 * @return CourseResultSet
+	 */	
 	abstract function retrieve_user_courses($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
 	/**
@@ -367,6 +492,12 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function update_course($course);
 	
+	/**
+	 * Updates the specified course category in persistent storage,
+	 * making any changes permanent.
+	 * @param CourseCategory $coursecategory The coursecatgory object
+	 * @return boolean True if the update succceeded, false otherwise.
+	 */
 	abstract function update_course_category($coursecategory);
 	
 	/**
@@ -377,6 +508,12 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function update_course_user_category($courseusercategory);
 	
+	/**
+	 * Updates the specified course user relation in persistent storage,
+	 * making any changes permanent.
+	 * @param CourseUserRelation $course The course user relation object
+	 * @return boolean True if the update succceeded, false otherwise.
+	 */
 	abstract function update_course_user_relation($courseuserrelation);
 
 	/**
@@ -385,6 +522,10 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function delete_course($course_code);
 	
+	/**
+	 * Deletes the given course category from the database.
+	 * @param CourseCategory $course_category The course category
+	 */
 	abstract function delete_course_category($course_category);
 
 	/**
@@ -402,12 +543,36 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function retrieve_course_category($category_code = null);
 	
+	/**
+	 * Retrieves a single course user relation from persistent storage.
+	 * @param string $course_code
+	 * @param int $user_id
+	 * @return CourseCategory The course category.
+	 */
 	abstract function retrieve_course_user_relation($course_code, $user_id);
 	
+	/**
+	 * Retrieves the relations for the users subscribed to a certain course.
+	 * @param Course $course
+	 * @return CourseUserRelationResultSet
+	 */
 	abstract function retrieve_course_users($course);
 	
+	/**
+	 * Retrieves the next course user relation according to.
+	 * @param int $user_id
+	 * @param int $category_id
+	 * @param int $sort
+	 * @param string $direction
+	 * @return CourseUserRelationResultSet
+	 */
 	abstract function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort, $direction);
 	
+	/**
+	 * Retrieves a set of course user relations
+	 * @param int $user_id
+	 * @param string $course_user_category
+	 */
 	abstract function retrieve_course_user_relations($user_id, $course_user_category);
 	
 	/**
@@ -433,11 +598,18 @@ abstract class WeblcmsDataManager
 	abstract function retrieve_course_user_categories($conditions = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
 	/**
-	 * Retrieves a personal course categories for the user.
+	 * Retrieves a personal course category for the user.
 	 * @return CourseUserCategory The course user category.
 	 */
 	abstract function retrieve_course_user_category($course_user_category_id, $user_id = null);
 	
+	/**
+	 * Retrieves a personal course category for the user according to
+	 * @param int $user_id
+	 * @param int $sort
+	 * @param string $direction
+	 * @return CourseUserCategory The course user category.
+	 */
 	abstract function retrieve_course_user_category_at_sort($user_id, $sort, $direction);
 
 	/**

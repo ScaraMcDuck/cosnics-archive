@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/../repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 require_once dirname(__FILE__).'/../../learningobjectdifferencedisplay.class.php';
 /**
- * Repository manager component which can be used to view a learning object.
+ * Repository manager component which can be used to compare a learning object.
  */
 class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 {

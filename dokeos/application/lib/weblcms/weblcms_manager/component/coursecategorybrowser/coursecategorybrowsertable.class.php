@@ -1,6 +1,6 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @package application.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__).'/../../../course/coursecategory_table/coursecategorytable.class.php';
 require_once dirname(__FILE__).'/coursecategorybrowsertabledataprovider.class.php';
@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/coursecategorybrowsertablecolumnmodel.class.php
 require_once dirname(__FILE__).'/coursecategorybrowsertablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../../weblcms.class.php';
 /**
- * Table to display a set of learning objects.
+ * Table to display a set of course categories.
  */
 class CourseCategoryBrowserTable extends CourseCategoryTable
 {
