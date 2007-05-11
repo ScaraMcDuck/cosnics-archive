@@ -1,13 +1,11 @@
 <?php
 /**
- * @package repository.courseusercategorytable
+ * @package application.lib.weblcms.course.courseusercategory_table
  */
 
 require_once dirname(__FILE__).'/courseusercategorytablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../courseusercategory.class.php';
-/**
- * TODO: Add comment
- */
+
 class DefaultCourseUserCategoryTableCellRenderer implements CourseUserCategoryTableCellRenderer
 {
 	/**
@@ -18,9 +16,9 @@ class DefaultCourseUserCategoryTableCellRenderer implements CourseUserCategoryTa
 	}
 	/**
 	 * Renders a table cell
-	 * @param LearningObjectTableColumnModel $column The column which should be
+	 * @param CourseUserCategoryTableColumnModel $column The column which should be
 	 * rendered
-	 * @param Learning Object $learning_object The learning object to render
+	 * @param Course user category $courseusercategory The learning object to render
 	 * @return string A HTML representation of the rendered table cell
 	 */
 	function render_cell($column, $courseusercategory)

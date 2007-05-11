@@ -1,16 +1,11 @@
 <?php
 /**
- * @package repository.coursecategorytable
+ * @package application.lib.weblcms.course.coursecategory_table
  */
 require_once dirname(__FILE__).'/../../../../../main/inc/lib/sortabletable.class.php';
 require_once dirname(__FILE__).'/defaultcoursecategorytablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/defaultcoursecategorytablecellrenderer.class.php';
 
-/**
- * 
- * TODO: Add comment
- * 
- */
 class CourseCategoryTable
 {
 	/**
@@ -51,17 +46,17 @@ class CourseCategoryTable
 	private $form_actions;
 
 	/**
-	 * Constructor. Creates a learning object table.
-	 * @param LearningObjectTableDataProvider $data_provider The data provider,
+	 * Constructor. Creates a course category table.
+	 * @param CourseCategoryTableDataProvider $data_provider The data provider,
 	 *                                                       which supplies the
-	 *                                                       learning objects
+	 *                                                       course categories
 	 *                                                       to display.
 	 * @param string $table_name The name for the HTML table element.
-	 * @param LearningObjectTableColumnModel $column_model The column model of
+	 * @param CourseCategoryTableColumnModel $column_model The column model of
 	 *                                                     the table. Omit to
 	 *                                                     use the default
 	 *                                                     model.
-	 * @param LearningObjectTableCellRenderer $cell_renderer The cell renderer
+	 * @param CourseCategoryTableCellRenderer $cell_renderer The cell renderer
 	 *                                                       for the table.
 	 *                                                       Omit to use the
 	 *                                                       default renderer.

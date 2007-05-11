@@ -1,9 +1,6 @@
 <?php
 /**
- * @package repository.coursecategorytable
- */
-/**
- * todo: add comment
+ * @package application.lib.weblcms.course.coursecategory_table
  */
 interface CourseCategoryTableDataProvider
 {

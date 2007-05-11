@@ -1,11 +1,6 @@
 <?php
 /**
- * @package repository.coursecategorytable
- */
-/**
- * 
- * TODO: Add comment
- * 
+ * @package application.lib.weblcms.course.coursecategory_table
  */
 class CourseCategoryTableColumn
 {
@@ -31,9 +26,9 @@ class CourseCategoryTableColumn
 	 *                                              it displays a learning
 	 *                                              object property, that
 	 *                                              particular property, a
-	 *                                              LearningObject::PROPERTY_*
+	 *                                              CourseCategory::PROPERTY_*
 	 *                                              constant.
-	 * @param boolean $contains_learning_object_property True if the column
+	 * @param boolean $contains_course_category_property True if the column
 	 *                                                   displays a learning
 	 *                                                   object property, false
 	 *                                                   otherwise.
@@ -53,7 +48,7 @@ class CourseCategoryTableColumn
 		}
 	}
 	/**
-	 * Gets the coursecategory property that this column displays.
+	 * Gets the course category property that this column displays.
 	 * @return string The property name, or null if the column contains
 	 *                arbitrary content.
 	 */

@@ -1,11 +1,6 @@
 <?php
 /**
- * @package repository.coursetable
- */
-/**
- * 
- * TODO: Add comment
- * 
+ * @package application.lib.weblcms.course.course_table
  */
 class CourseTableColumnModel
 {
@@ -23,9 +18,9 @@ class CourseTableColumnModel
 	private $order_direction;
 
 	/**
-	 * Constructor. Creates a new learning object table model.
+	 * Constructor. Creates a new course object table model.
 	 * @param array $columns The columns to use in the table. An array of
-	 *                       LearningObjectTableColumn instances.
+	 *                       CourseTableColumn instances.
 	 * @param int $default_order_column The column to order objects by by
 	 *                                  default, passed as the index of the
 	 *                                  column in $columns.

@@ -1,14 +1,11 @@
 <?php
 /**
- * @package repository.coursecategorytable
+ * @package application.lib.weblcms.course.coursecategory_table
  */
 require_once dirname(__FILE__).'/coursecategorytablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/coursecategorytablecolumn.class.php';
 require_once dirname(__FILE__).'/../coursecategory.class.php';
 
-/**
- * TODO: Add comment
- */
 class DefaultCourseCategoryTableColumnModel extends CourseCategoryTableColumnModel
 {
 	/**
@@ -20,7 +17,7 @@ class DefaultCourseCategoryTableColumnModel extends CourseCategoryTableColumnMod
 	}
 	/**
 	 * Gets the default columns for this model
-	 * @return LearningObjectTableColumn[]
+	 * @return CourseCategoryTableColumn[]
 	 */
 	private static function get_default_columns()
 	{

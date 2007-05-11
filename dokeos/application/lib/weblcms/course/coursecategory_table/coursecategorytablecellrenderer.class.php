@@ -1,17 +1,9 @@
 <?php
 /**
- * @package repository.coursecategorytable
- */
-/**
- * 
- * TODO: Add comment
- * 
+ * @package application.lib.weblcms.course.coursecategory_table
  */
 interface CourseCategoryTableCellRenderer
 {
-	/**
-	 * TODO: Add comment
-	 */
 	function render_cell($column, $learning_object);
 }
 ?>
