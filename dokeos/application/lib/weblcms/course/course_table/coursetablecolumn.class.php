@@ -1,11 +1,6 @@
 <?php
 /**
- * @package repository.coursetable
- */
-/**
- * 
- * TODO: Add comment
- * 
+ * @package application.lib.weblcms.course.course_table
  */
 class CourseTableColumn
 {
@@ -24,16 +19,16 @@ class CourseTableColumn
 	private $sortable;
 	/**
 	 * Constructor. Either defines a column that displays a default property
-	 * of learning objects, or arbitrary content.
+	 * of course objects, or arbitrary content.
 	 * @param string $property_name_or_column_title If the column contains
 	 *                                              arbitrary content, the
 	 *                                              title of the column. If
 	 *                                              it displays a learning
 	 *                                              object property, that
 	 *                                              particular property, a
-	 *                                              LearningObject::PROPERTY_*
+	 *                                              Course::PROPERTY_*
 	 *                                              constant.
-	 * @param boolean $contains_learning_object_property True if the column
+	 * @param boolean $contains_course_property True if the column
 	 *                                                   displays a learning
 	 *                                                   object property, false
 	 *                                                   otherwise.

@@ -1,14 +1,11 @@
 <?php
 /**
- * @package repository.courseusercategorytable
+ * @package application.lib.weblcms.course.courseusercategory_table
  */
 require_once dirname(__FILE__).'/courseusercategorytablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/courseusercategorytablecolumn.class.php';
 require_once dirname(__FILE__).'/../courseusercategory.class.php';
 
-/**
- * TODO: Add comment
- */
 class DefaultCourseUserCategoryTableColumnModel extends CourseUserCategoryTableColumnModel
 {
 	/**

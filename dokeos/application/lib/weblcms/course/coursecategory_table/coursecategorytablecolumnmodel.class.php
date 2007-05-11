@@ -1,11 +1,6 @@
 <?php
 /**
- * @package repository.coursecategorytable
- */
-/**
- * 
- * TODO: Add comment
- * 
+ * @package application.lib.weblcms.course.coursecategory_table
  */
 class CourseCategoryTableColumnModel
 {
@@ -23,9 +18,9 @@ class CourseCategoryTableColumnModel
 	private $order_direction;
 
 	/**
-	 * Constructor. Creates a new learning object table model.
+	 * Constructor. Creates a new course category table model.
 	 * @param array $columns The columns to use in the table. An array of
-	 *                       LearningObjectTableColumn instances.
+	 *                       CourseCategoryTableColumn instances.
 	 * @param int $default_order_column The column to order objects by by
 	 *                                  default, passed as the index of the
 	 *                                  column in $columns.
@@ -69,7 +64,7 @@ class CourseCategoryTableColumnModel
 	}
 
 	/**
-	 * Gets the index of the column to order learning objects by by default.
+	 * Gets the index of the column to order course categories by default.
 	 * @return int The column index.
 	 */
 	function get_default_order_column()
@@ -78,7 +73,7 @@ class CourseCategoryTableColumnModel
 	}
 
 	/**
-	 * Sets the index of the column to order learning objects by by default.
+	 * Sets the index of the column to order course categories by default.
 	 * @param int $column The index.
 	 */
 	function set_default_order_column($column_index)

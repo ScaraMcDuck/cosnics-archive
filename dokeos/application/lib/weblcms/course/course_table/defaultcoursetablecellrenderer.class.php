@@ -1,13 +1,11 @@
 <?php
 /**
- * @package repository.coursetable
+ * @package application.lib.weblcms.course.course_table
  */
 
 require_once dirname(__FILE__).'/coursetablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../course.class.php';
-/**
- * TODO: Add comment
- */
+
 class DefaultCourseTableCellRenderer implements CourseTableCellRenderer
 {
 	/**
@@ -18,9 +16,9 @@ class DefaultCourseTableCellRenderer implements CourseTableCellRenderer
 	}
 	/**
 	 * Renders a table cell
-	 * @param LearningObjectTableColumnModel $column The column which should be
+	 * @param CourseTableColumnModel $column The column which should be
 	 * rendered
-	 * @param Learning Object $learning_object The learning object to render
+	 * @param Course $course The course object to render
 	 * @return string A HTML representation of the rendered table cell
 	 */
 	function render_cell($column, $course)
