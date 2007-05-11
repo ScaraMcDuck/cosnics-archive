@@ -55,7 +55,7 @@ class Weblcms extends WebApplication
 	const PARAM_SUBSCRIBE_SELECTED_AS_ADMIN = 'subscribe_selected_as_admin';
 	const PARAM_USER_ACTION = 'user_action';
 	const PARAM_STATUS = 'user_status';
-	
+
 	const ACTION_SUBSCRIBE = 'subscribe';
 	const ACTION_UNSUBSCRIBE = 'unsubscribe';
 	const ACTION_VIEW_WEBLCMS_HOME = 'home';
@@ -233,14 +233,21 @@ class Weblcms extends WebApplication
 	}
 
 	/**
-	 * Returns the identifier of the course that is being used.
-	 * @return string The course identifier.
+	 * Returns the course that is being used.
+	 * @return string The course.
 	 */
 	function get_course()
 	{
 		return $this->course;
 	}
-
+	/**
+	 * Sets the course
+	 * @param Course $course
+	 */
+	function set_course($course)
+	{
+		$this->course = $course;
+	}
 	/**
 	 * Returns the identifier of the course that is being used.
 	 * @return string The course identifier.
@@ -393,7 +400,7 @@ class Weblcms extends WebApplication
 
 			echo '<div class="clear">&nbsp;</div>';
 		}
-		
+
 		if ($msg = $_GET[self :: PARAM_MESSAGE])
 		{
 			$this->display_message($msg);
@@ -549,7 +556,7 @@ class Weblcms extends WebApplication
 	{
 		return WeblcmsDataManager :: get_instance()->count_publication_attributes($this->get_user(), $type, $condition);
 	}
-	
+
 	/**
 	 * Count the number of courses
 	 * @param Condition $condition
@@ -564,7 +571,7 @@ class Weblcms extends WebApplication
 	 * Count the number of course categories
 	 * @param Condition $condition
 	 * @return int
-	 */	
+	 */
 	function count_course_categories($condition = null)
 	{
 		return WeblcmsDataManager :: get_instance()->count_course_categories($condition);
@@ -574,7 +581,7 @@ class Weblcms extends WebApplication
 	 * Count the number of courses th user is subscribed to
 	 * @param Condition $condition
 	 * @return int
-	 */	
+	 */
 	function count_user_courses($condition = null)
 	{
 		return WeblcmsDataManager :: get_instance()->count_user_courses($condition);
@@ -584,7 +591,7 @@ class Weblcms extends WebApplication
 	 * Count the number of course user categories
 	 * @param Condition $condition
 	 * @return int
-	 */	
+	 */
 	function count_course_user_categories($condition = null)
 	{
 		return WeblcmsDataManager :: get_instance()->count_course_user_categories($condition);
@@ -683,7 +690,7 @@ class Weblcms extends WebApplication
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_user_relations($user_id, $course_user_category);
 	}
-	
+
 	/**
 	 * Retrieves the relations for the users subscribed to a certain course.
 	 * @param Course $course
@@ -695,7 +702,7 @@ class Weblcms extends WebApplication
 	}
 
 	/**
-	 * Retrieve a series of courses 
+	 * Retrieve a series of courses
 	 * @param User $user
 	 * @param string $category
 	 * @param Condition $condition
@@ -704,21 +711,21 @@ class Weblcms extends WebApplication
 	 * @param int $offset
 	 * @param int $maxObjects
 	 * @return CourseResultSet
-	 */	
+	 */
 	function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_courses($user, $category, $condition, $offset, $count, $order_property, $order_direction);
 	}
 
 	/**
-	 * Retrieve a series of courses for a specific user + the relation 
+	 * Retrieve a series of courses for a specific user + the relation
 	 * @param Condition $condition
 	 * @param array $orderBy
 	 * @param array $orderDir
 	 * @param int $offset
 	 * @param int $maxObjects
 	 * @return CourseResultSet
-	 */	
+	 */
 	function retrieve_user_courses($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_user_courses($condition, $offset, $count, $order_property, $order_direction);
@@ -875,7 +882,7 @@ class Weblcms extends WebApplication
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT , self :: PARAM_COMPONENT_ACTION => 'movecat', self :: PARAM_DIRECTION => $direction, self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id()));
 	}
-	
+
     /**
      * Returns the deleting url for the course user category
      * @param CourseUserCategory $course_user_category
@@ -977,7 +984,7 @@ class Weblcms extends WebApplication
 	 * @param int $tutor_id
 	 * @param int $user_id
 	 * @return boolean
-	 */	
+	 */
 	function subscribe_user_to_course($course, $status, $tutor_id, $user_id)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
@@ -989,7 +996,7 @@ class Weblcms extends WebApplication
 	 * @param Course $course
 	 * @param int $user_id
 	 * @return boolean
-	 */		
+	 */
 	function unsubscribe_user_from_course($course, $user_id)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
@@ -1020,7 +1027,7 @@ class Weblcms extends WebApplication
 			{
 				$selected_course_ids = array ($selected_course_ids);
 			}
-			
+
 			$selected_user_ids = $_POST[UserTable :: DEFAULT_NAME.UserTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty ($selected_user_ids))
 			{
@@ -1030,25 +1037,25 @@ class Weblcms extends WebApplication
 			{
 				$selected_user_ids = array ($selected_user_ids);
 			}
-			
+
 			switch ($_POST['action'])
 			{
 				case self :: PARAM_REMOVE_SELECTED :
 					$this->set_action(self :: ACTION_DELETE_COURSE);
 					$_GET[self :: PARAM_COURSE] = $selected_course_ids;
 					break;
-					
+
 				case self :: PARAM_UNSUBSCRIBE_SELECTED :
 					$this->set_action(self :: ACTION_MANAGER_UNSUBSCRIBE);
 					$_GET[self :: PARAM_USERS] = $selected_user_ids;
 					break;
-					
+
 				case self :: PARAM_SUBSCRIBE_SELECTED_AS_STUDENT :
 					$this->set_action(self :: ACTION_MANAGER_SUBSCRIBE);
 					$_GET[self :: PARAM_USERS] = $selected_user_ids;
 					$_GET[self :: PARAM_STATUS] = 5;
 					break;
-					
+
 				case self :: PARAM_SUBSCRIBE_SELECTED_AS_ADMIN :
 					$this->set_action(self :: ACTION_MANAGER_SUBSCRIBE);
 					$_GET[self :: PARAM_USERS] = $selected_user_ids;
