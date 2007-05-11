@@ -14,7 +14,9 @@ require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
  * This class provides some common methods that are used throughout the
  * repository and sometimes outside it.
  *
- * @author Tim De Pauw
+ *  @author Tim De Pauw
+ *  @author Hans De Bisschop
+ *  @author Dieter De Neef
  */
 class RepositoryUtilities
 {

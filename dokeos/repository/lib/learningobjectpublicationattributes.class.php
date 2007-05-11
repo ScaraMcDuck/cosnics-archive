@@ -10,6 +10,8 @@ require_once dirname(__FILE__).'/repositorydatamanager.class.php';
  *
  * @author Bart Mollet
  * @author Tim De Pauw
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 
 class LearningObjectPublicationAttributes

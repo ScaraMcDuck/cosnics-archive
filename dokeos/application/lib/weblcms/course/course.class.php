@@ -1,4 +1,9 @@
 <?php
+/**
+ * @package application.lib.weblcms.course
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
+ */
 require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
 
 /**
@@ -16,19 +21,11 @@ require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
  *	- category code: the category code of the object;
  *	- category name: the name of the category;
  *
- *
- *	Actual learning objects must be instances of extensions of this class.
- *	They may define additional properties which are specific to that
- *	particular type of learning object, e.g. the path to a document. This
- *	class provides a framework for that purpose.
- *
  * To access the values of the properties, this class and its subclasses
  * should provide accessor methods. The names of the properties should be
  * defined as class constants, for standardization purposes. It is recommended
  * that the names of these constants start with the string "PROPERTY_".
  *
- *	@author Hans De Bisschop
- *	@author Dieter De Neef
  */
 
 class Course {
@@ -343,18 +340,30 @@ class Course {
 		$this->set_default_property(self :: PROPERTY_UNSUBSCRIBE_ALLOWED, $subscribe);
 	}
 	
+	/**
+	 * Deletes the course object from persistent storage
+	 * @return boolean
+	 */
 	function delete()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->delete_course($this->get_id());
 	}
 	
+	/**
+	 * Creates the course object in persistent storage
+	 * @return boolean
+	 */
 	function create()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->create_course($this);
 	}
 	
+	/**
+	 * Updates the course object in persistent storage
+	 * @return boolean
+	 */
 	function update()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
@@ -367,6 +376,11 @@ class Course {
 		return true;
 	}
 	
+	/**
+	 * Checks whether the given user is a course admin in this course
+	 * @param int $user_id
+	 * @return boolean
+	 */
 	function is_course_admin($user_id)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();

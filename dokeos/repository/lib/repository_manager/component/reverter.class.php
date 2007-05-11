@@ -7,6 +7,9 @@ require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 /**
  * Repository manager component which provides functionality to revert a
  * learning object from the users repository to a previous state.
+ * 
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 class RepositoryManagerReverterComponent extends RepositoryManagerComponent
 {

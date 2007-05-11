@@ -1,6 +1,9 @@
 <?php
 /**
  * @package repository.repositorymanager
+ * 
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';

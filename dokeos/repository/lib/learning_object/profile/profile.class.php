@@ -3,6 +3,9 @@
  * $Id: calendar_event.class.php 9191 2006-09-01 11:48:41Z bmol $
  * @package repository.learningobject
  * @subpackage calendar_event
+ * 
+ *  @author Hans De Bisschop
+ *  @author Dieter De Neef
  */
 require_once dirname(__FILE__) . '/../../learningobject.class.php';
 /**

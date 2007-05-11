@@ -1,12 +1,15 @@
 <?php
 /**
  * @package repository.repositorymanager
+ * 
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 /**
  * Repository manager component which provides functionality to delete a
- * learning object from the users repository.
+ * learning object publication from the publication overview.
  */
 class RepositoryManagerPublicationDeleterComponent extends RepositoryManagerComponent
 {

@@ -7,6 +7,11 @@
  * Base class for a repository manager component.
  * A repository manager provides different tools to the end user. Each tool is
  * represented by a repository manager component and should extend this class.
+ * 
+ * @author Bart Mollet
+ * @author Tim De Pauw
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 abstract class RepositoryManagerComponent {
 	/**

@@ -2,6 +2,9 @@
 /**
  * @package repository.learningobject
  * @subpackage profile
+ * 
+ *  @author Hans De Bisschop
+ *  @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/profile.class.php';

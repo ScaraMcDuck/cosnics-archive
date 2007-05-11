@@ -10,7 +10,9 @@
  *
  *
  * @package Difference_Engine
- * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
+ * @author Geoffrey T. Dairiki <dairiki@dairiki.org>
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 class Difference_Engine {
 

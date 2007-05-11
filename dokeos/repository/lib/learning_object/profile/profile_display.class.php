@@ -1,8 +1,10 @@
 <?php
 /**
- * $Id: calendar_event_display.class.php 10642 2007-01-10 12:29:07Z bmol $
  * @package repository.learningobject
  * @subpackage profile
+ * 
+ *  @author Hans De Bisschop
+ *  @author Dieter De Neef
  */
 /**
  * This class can be used to display calendar events
