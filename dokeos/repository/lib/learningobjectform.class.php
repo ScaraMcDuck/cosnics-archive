@@ -2,6 +2,11 @@
 /**
  * $Id$
  * @package repository
+ * 
+ * @author Bart Mollet
+ * @author Tim De Pauw
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 
 require_once dirname(__FILE__).'/../../main/inc/lib/formvalidator/FormValidator.class.php';

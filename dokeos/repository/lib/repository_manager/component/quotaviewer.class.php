@@ -13,6 +13,11 @@ require_once api_get_library_path().'/fileDisplay.lib.php';
  * This component displays two progress-bars. The first one displays the used
  * disk space and the second one the number of learning objects in the users
  * repository.
+ * 
+ * @author Bart Mollet
+ * @author Tim De Pauw
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 {

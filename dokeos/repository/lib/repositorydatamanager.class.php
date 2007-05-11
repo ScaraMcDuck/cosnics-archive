@@ -16,6 +16,8 @@ require_once dirname(__FILE__).'/data_manager/database/databaselearningobjectres
  *	respected for all extensions of this class.
  *
  *	@author Tim De Pauw
+ *  @author Hans De Bisschop
+ *  @author Dieter De Neef
  */
 abstract class RepositoryDataManager
 {

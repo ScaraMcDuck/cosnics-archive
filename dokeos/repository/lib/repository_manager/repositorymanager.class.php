@@ -19,6 +19,11 @@ require_once dirname(__FILE__).'/../../../users/lib/usersdatamanager.class.php';
  * A repository manager provides some functionalities to the end user to manage
  * his learning objects in the repository. For each functionality a component is
  * available.
+ * 
+ * @author Bart Mollet
+ * @author Tim De Pauw
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 class RepositoryManager
 {

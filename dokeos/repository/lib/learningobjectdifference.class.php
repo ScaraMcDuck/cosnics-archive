@@ -2,6 +2,9 @@
 /**
  * $Id$
  * @package repository
+ * 
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/repositorydatamanager.class.php';

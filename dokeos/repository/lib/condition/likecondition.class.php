@@ -5,11 +5,12 @@
  */
 require_once dirname(__FILE__).'/condition.class.php';
 /**
- *	This class represents a selection condition that requires an equality.
+ *	This class represents a selection condition that requires a likeness.
  *	An example of an instance would be a condition that requires that the ID
- *	of a learning object be the number 4.
+ *	of a learning object be the like the number 4 e.g. 44, 412, 514, etc.
  *
- *	@author Tim De Pauw
+ *  @author Hans De Bisschop
+ *  @author Dieter De Neef
  */
 class LikeCondition implements Condition
 {

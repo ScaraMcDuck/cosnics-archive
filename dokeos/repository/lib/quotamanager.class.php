@@ -9,7 +9,9 @@ require_once dirname(__FILE__).'/repositorydatamanager.class.php';
  * different quota types. One is the disk space used by the user. The other is
  * the database space used by the user.
  *
- *	@author Bart Mollet
+ * @author Bart Mollet
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 class QuotaManager
 {

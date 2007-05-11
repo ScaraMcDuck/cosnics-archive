@@ -65,6 +65,8 @@ require_once dirname(__FILE__).'/../../users/lib//usersdatamanager.class.php';
  *	class and manipulate the objects at will.
  *
  *	@author Tim De Pauw
+ *  @author Hans De Bisschop
+ *  @author Dieter De Neef
  */
 
 class LearningObject implements AccessibleLearningObject

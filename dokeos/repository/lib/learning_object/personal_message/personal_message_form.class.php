@@ -1,8 +1,10 @@
 <?php
 /**
- * $Id: announcement_form.class.php 9191 2006-09-01 11:48:41Z bmol $
  * @package repository.learningobject
- * @subpackage announcement
+ * @subpackage personal_message
+ * 
+ *  @author Hans De Bisschop
+ *  @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/personal_message.class.php';

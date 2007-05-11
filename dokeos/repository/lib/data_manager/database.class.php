@@ -25,6 +25,8 @@ require_once 'MDB2.php';
  *
  *	@author Tim De Pauw
  *	@author Bart Mollet
+ *  @author Hans De Bisschop
+ *  @author Dieter De Neef
 ==============================================================================
  */
 

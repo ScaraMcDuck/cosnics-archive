@@ -1,4 +1,9 @@
 <?php
+/**
+ * @package application.lib.weblcms.course
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
+ */
 require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
 require_once dirname(__FILE__).'/../../../../users/lib/user.class.php';

@@ -5,11 +5,10 @@
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 require_once dirname(__FILE__).'/publicationbrowser/publicationbrowsertable.class.php';
 /**
- * Repository manager component which displays the quota to the user.
- *
- * This component displays two progress-bars. The first one displays the used
- * disk space and the second one the number of learning objects in the users
- * repository.
+ * Repository manager component which displays user's publications.
+ * 
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 class RepositoryManagerPublicationBrowserComponent extends RepositoryManagerComponent
 {
@@ -26,8 +25,7 @@ class RepositoryManagerPublicationBrowserComponent extends RepositoryManagerComp
 	}
 	
 	/**
-	 * Gets the  table which shows the learning objects in the currently active
-	 * category
+	 * Gets the  table which shows the users's publication
 	 */
 	private function get_publications_html()
 	{

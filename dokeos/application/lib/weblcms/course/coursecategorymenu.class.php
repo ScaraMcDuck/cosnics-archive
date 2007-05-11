@@ -1,6 +1,8 @@
 <?php
 /**
- * @package application.weblcms.course
+ * @package application.lib.weblcms.course
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
