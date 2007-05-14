@@ -136,7 +136,7 @@ class CalendarTool extends RepositoryTool
 		$publication = $datamanager->retrieve_learning_object_publication($publication_id);
 		$html = array();
 		$html[] = $renderer->render_publication($publication);
-		$html[] = '<div id="back_link" style="margin-top: 1em;"><a href="'.$this->get_url(array(), true).'">&larr; '.htmlentities(get_lang('Back')).'</a></div>';
+		$html[] = '<div id="back_link" style="margin-top: 1em;"><a href="'.$this->get_url(array(), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/prev.png"/> '.htmlentities(get_lang('Back')).'</a></div>';
 		echo implode("\n",$html);
 	}
 	/**
