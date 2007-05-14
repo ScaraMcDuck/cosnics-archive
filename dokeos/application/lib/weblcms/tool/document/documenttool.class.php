@@ -12,6 +12,7 @@ require_once dirname(__FILE__).'/../repositorytool.class.php';
 class DocumentTool extends RepositoryTool
 {
 	const ACTION_DOWNLOAD = 'download';
+	const ACTION_ZIP_AND_DOWNLOAD = 'zipanddownload';
 	/*
 	 * Inherited.
 	 */
@@ -50,6 +51,16 @@ class DocumentTool extends RepositoryTool
 				$html[] =  '</li>';
 				$i++;
 			}
+			if($_SESSION['documenttoolmode'] == 0)
+			{
+				$download_parameters[RepositoryTool::PARAM_ACTION] = self::ACTION_ZIP_AND_DOWNLOAD;
+				$html[] =  '<li style="display: inline; margin: 0 1ex 0 0; padding: 0">';
+				$html[] =   '<a href="' . $this->get_url($download_parameters) . '">';
+				$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'/img/save.png" alt="'.get_lang('Download').'" style="vertical-align:middle;"/> ';
+				$html[] =   get_lang('Download');
+				$html[] =  '</a>';
+				$html[] =  '</li>';
+			}
 			$html[] =  '</ul>';
 		}
 		$html[] = $this->perform_requested_actions();
@@ -76,7 +87,7 @@ class DocumentTool extends RepositoryTool
 	}
 	function perform_requested_actions()
 	{
-		$action = isset($_GET[self :: PARAM_ACTION]) ? $_GET[self :: PARAM_ACTION] : $_POST[self :: PARAM_ACTION];
+		$action = $_GET[RepositoryTool :: PARAM_ACTION];
 		if( isset($action))
 		{
 			$datamanager = WeblcmsDataManager :: get_instance();
@@ -88,6 +99,9 @@ class DocumentTool extends RepositoryTool
 					$document = $publication->get_learning_object();
 					$document->send_as_download();
 					return '';
+				case self::	ACTION_ZIP_AND_DOWNLOAD:
+					// TODO: Implement zip & download action
+					return Display::display_warning_message('TODO',true);
 				default:
 					return parent::perform_requested_actions();
 			}
