@@ -29,7 +29,11 @@ class DocumentPublicationListRenderer extends TableLearningObjectPublicationList
     }
 
     function render_title($publication) {
-    	return '<a href="'.htmlentities($publication->get_learning_object()->get_url()).'">'.parent::render_title($publication).'</a>';
+    	$html[] = '<a href="'.htmlentities($publication->get_learning_object()->get_url()).'" style="float:left;margin-right: 20px;">'.parent::render_title($publication).'</a>';
+    	$download_parameters[RepositoryTool :: PARAM_ACTION] = DocumentTool :: ACTION_DOWNLOAD;
+    	$download_parameters[RepositoryTool :: PARAM_PUBLICATION_ID] =  $publication->get_id();
+    	$html[] = '<a href="'.$this->get_url($download_parameters).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/save.png" alt="" style="float: right;"/></a>';
+    	return implode("\n",$html);
     }
 }
 ?>

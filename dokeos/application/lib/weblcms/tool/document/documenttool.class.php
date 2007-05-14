@@ -11,6 +11,7 @@ require_once dirname(__FILE__).'/../repositorytool.class.php';
  */
 class DocumentTool extends RepositoryTool
 {
+	const ACTION_DOWNLOAD = 'download';
 	/*
 	 * Inherited.
 	 */
@@ -24,7 +25,7 @@ class DocumentTool extends RepositoryTool
 		{
 			$_SESSION['documenttoolmode'] = 0;
 		}
-		$this->display_header();
+
 		if($this->is_allowed(ADD_RIGHT))
 		{
 			$html[] = '<ul style="list-style: none; padding: 0; margin: 0 0 1em 0">';
@@ -69,8 +70,28 @@ class DocumentTool extends RepositoryTool
 				$browser = new DocumentBrowser($this);
 				$html[] =  $browser->as_html();
 		}
+		$this->display_header();
 		echo implode("\n",$html);
 		$this->display_footer();
+	}
+	function perform_requested_actions()
+	{
+		$action = isset($_GET[self :: PARAM_ACTION]) ? $_GET[self :: PARAM_ACTION] : $_POST[self :: PARAM_ACTION];
+		if( isset($action))
+		{
+			$datamanager = WeblcmsDataManager :: get_instance();
+			switch($action)
+			{
+				case self::	ACTION_DOWNLOAD:
+					$publication_id = $_GET[RepositoryTool :: PARAM_PUBLICATION_ID];
+					$publication = $datamanager->retrieve_learning_object_publication($publication_id);
+					$document = $publication->get_learning_object();
+					$document->send_as_download();
+					return '';
+				default:
+					return parent::perform_requested_actions();
+			}
+		}
 	}
 }
 ?>
