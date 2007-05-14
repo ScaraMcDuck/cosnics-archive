@@ -784,7 +784,17 @@ class Weblcms extends WebApplication
 			$conditions[] = new InequalityCondition('published',InequalityCondition::GREATER_THAN,$last_visit_date);
 			if (!$this->get_course()->is_course_admin($this->get_user_id()) && !$this->user->is_platform_admin())
 			{
+				// Only select visible publications
 				$conditions[] = new EqualityCondition('hidden',0);
+				// Only select publications which are published forever OR
+				// of which the current time is in the publication period and the last visit date is before the from_date.
+				$conditions_publication_period = array();
+				$conditions_publication_period[] = new InequalityCondition('from_date',InequalityCondition::LESS_THAN_OR_EQUAL,time());
+				$conditions_publication_period[] = new InequalityCondition('to_date',InequalityCondition::GREATER_THAN_OR_EQUAL,time());
+				$conditions_publication_period[] = new InequalityCondition('from_date',InequalityCondition::GREATER_THAN_OR_EQUAL,$last_visit_date);
+				$condition_publication_period = new AndCondition($conditions_publication_period);
+				$condition_publication_forever = new EqualityCondition('from_date',0);
+				$conditions[] = new OrCondition($condition_publication_forever,$condition_publication_period);
 			}
 			$condition = new AndCondition($conditions);
 			$new_items = $wdm->count_learning_object_publications($this->get_course_id(),null,null,null,$condition);
