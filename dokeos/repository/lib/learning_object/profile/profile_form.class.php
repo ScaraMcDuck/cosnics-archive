@@ -2,7 +2,7 @@
 /**
  * @package repository.learningobject
  * @subpackage profile
- * 
+ *
  *  @author Hans De Bisschop
  *  @author Dieter De Neef
  */
@@ -27,6 +27,7 @@ class ProfileForm extends LearningObjectForm
 		$this->add_textfield(Profile :: PROPERTY_AIM, get_lang('Aim'), false,'size="40" style="width: 100%;"');
 		$this->add_textfield(Profile :: PROPERTY_YIM, get_lang('Yim'), false,'size="40" style="width: 100%;"');
 		$this->add_textfield(Profile :: PROPERTY_ICQ, get_lang('Icq'), false,'size="40" style="width: 100%;"');
+		$this->addElement('checkbox',Profile::PROPERTY_PICTURE,get_lang('IncludeAccountPicture'));
 	}
 	protected function build_editing_form()
 	{
@@ -44,6 +45,7 @@ class ProfileForm extends LearningObjectForm
 		$this->add_textfield(Profile :: PROPERTY_AIM, get_lang('Aim'), false,'size="40" style="width: 100%;"');
 		$this->add_textfield(Profile :: PROPERTY_YIM, get_lang('Yim'), false,'size="40" style="width: 100%;"');
 		$this->add_textfield(Profile :: PROPERTY_ICQ, get_lang('Icq'), false,'size="40" style="width: 100%;"');
+		$this->addElement('checkbox',Profile::PROPERTY_PICTURE,get_lang('IncludeAccountPicture'));
 	}
 	function setDefaults($defaults = array ())
 	{
@@ -63,8 +65,9 @@ class ProfileForm extends LearningObjectForm
 			$defaults[Profile :: PROPERTY_YIM] = $lo->get_yim();
 			$defaults[Profile :: PROPERTY_AIM] = $lo->get_aim();
 			$defaults[Profile :: PROPERTY_ICQ] = $lo->get_icq();
+			$defaults[Profile :: PROPERTY_PICTURE] = $lo->get_picture();
 		}
-		
+
 		parent :: setDefaults($defaults);
 	}
 	function create_learning_object()
@@ -83,6 +86,7 @@ class ProfileForm extends LearningObjectForm
 		$object->set_yim($this->exportValue(Profile :: PROPERTY_YIM));
 		$object->set_aim($this->exportValue(Profile :: PROPERTY_AIM));
 		$object->set_icq($this->exportValue(Profile :: PROPERTY_ICQ));
+		$object->set_picture($this->exportValue(Profile::PROPERTY_PICTURE));
 		$this->set_learning_object($object);
 		return parent :: create_learning_object();
 	}
