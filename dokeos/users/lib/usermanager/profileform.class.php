@@ -102,7 +102,7 @@ class ProfileForm extends FormValidator {
 		// Picture
 		if (api_get_setting('profile', 'picture') == 'true')
 		{
-			$this->addElement('file', User::PROPERTY_PICTURE_URI, (($this->form_type == self :: TYPE_EDIT) ? get_lang('UpdateImage') : get_lang('AddImage')));
+			$this->addElement('file', User::PROPERTY_PICTURE_URI, ($this->user->has_picture() ? get_lang('UpdateImage') : get_lang('AddImage')));
 			if($this->form_type == self :: TYPE_EDIT && $this->user->has_picture() )
 			{
 				$this->addElement('checkbox', 'remove_picture', null, get_lang('DelImage'));
@@ -161,7 +161,7 @@ class ProfileForm extends FormValidator {
 		}
 		if(api_get_setting('profile', 'picture') === 'true')
 		{
-			if(isset($_FILES['picture_uri']))
+			if(isset($_FILES['picture_uri']) && strlen($_FILES['picture_uri']['name']) > 0)
 			{
 				$user->set_picture_file($_FILES['picture_uri']);
 			}
