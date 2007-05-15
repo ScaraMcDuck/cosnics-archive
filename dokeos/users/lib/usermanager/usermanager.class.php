@@ -18,26 +18,26 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
  * his users. For each functionality a component is available.
  */
  class UserManager {
- 	
+
  	const APPLICATION_NAME = 'user';
- 	
+
  	const PARAM_ACTION = 'go';
 	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
 	const PARAM_USER_USER_ID = 'user_id';
 	const PARAM_REMOVE_SELECTED = 'delete';
 	const PARAM_FIRSTLETTER = 'firstletter';
-	
+
 	const ACTION_CREATE_USER = 'create';
 	const ACTION_BROWSE_USERS = 'adminbrowse';
 	const ACTION_EXPORT_USERS = 'export';
 	const ACTION_IMPORT_USERS = 'import';
 	const ACTION_UPDATE_USER = 'update';
 	const ACTION_REGISTER_USER = 'register';
-	const ACTION_VIEW_PROFILE = 'profile';
+	const ACTION_VIEW_ACCOUNT = 'account';
 	const ACTION_USER_QUOTA = 'quota';
-	
-	
+
+
 	private $parameters;
 	private $search_parameters;
 	private $user_id;
@@ -49,8 +49,8 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	private $create_url;
 	private $recycle_bin_url;
 	private $breadcrumbs;
-	
-	
+
+
     function UserManager($user_id = null) {
     	if (isset($user_id))
     	{
@@ -59,9 +59,9 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
     	}
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
-		$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_USER));   	
+		$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_USER));
     }
-    
+
     /**
 	 * Run this user manager
 	 */
@@ -95,8 +95,8 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 			case self :: ACTION_BROWSE_USERS :
 				$component = UserManagerComponent :: factory('AdminUserBrowser', $this);
 				break;
-			case self :: ACTION_VIEW_PROFILE :
-				$component = UserManagerComponent :: factory('Profile', $this);
+			case self :: ACTION_VIEW_ACCOUNT :
+				$component = UserManagerComponent :: factory('Account', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_USERS);
@@ -165,7 +165,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	{
 		echo $this->get_search_form()->display();
 	}
-	
+
 	/**
 	 * Counts the users
 	 * @param $condition
@@ -174,7 +174,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	{
 		return UsersDataManager :: get_instance()->count_users($condition);
 	}
-	
+
 	/**
 	 * Displays the footer.
 	 */
@@ -188,7 +188,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		mysql_select_db($mainDbName);
 		Display :: display_footer();
 	}
-	
+
 	/**
 	 * Displays a normal message.
 	 * @param string $message The message.
@@ -223,7 +223,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		$this->display_error_message($message);
 		$this->display_footer();
 	}
-	
+
 	/**
 	 * Displays a warning page.
 	 * @param string $message The message.
@@ -234,7 +234,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		$this->display_warning_message($message);
 		$this->display_footer();
 	}
-	
+
 	/**
 	 * Displays a popup form.
 	 * @param string $message The message.
@@ -251,8 +251,8 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	{
 		return $this->get_search_form()->get_condition();
 	}
-	
-	/** 
+
+	/**
 	 * Gets the Search form
 	 */
 	private function get_search_form()
@@ -263,7 +263,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		}
 		return $this->search_form;
 	}
-	
+
 	/**
 	 * Gets the validation of the search form
 	 */
@@ -284,7 +284,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		{
 			return array_merge($this->search_parameters, $this->parameters);
 		}
-		
+
 		return $this->parameters;
 	}
 	/**
@@ -305,7 +305,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	{
 		$this->parameters[$name] = $value;
 	}
-	
+
 	/**
 	 * Retrieve the users
 	 * @param $condition
@@ -318,7 +318,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	{
 		return UsersDataManager :: get_instance()->retrieve_users($condition, $offset, $count, $order_property, $order_direction);
 	}
-	
+
 	/**
 	 * Redirect the end user to another location.
 	 * @param string $action The action to take (default = browse learning
@@ -379,7 +379,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		{
 			$url = htmlentities($url);
 		}
-	
+
 		return $url;
 	}
 	/**
@@ -390,7 +390,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	{
 		return $this->user_id;
 	}
-	
+
 	/**
 	 * Gets the user
 	 * @return user the requested user.
@@ -399,7 +399,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	{
 		return $this->user;
 	}
-	
+
 	/**
 	 * Retrieves a user.
 	 * @param int $id The id of the user.
@@ -409,13 +409,13 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		$udm = UsersDataManager :: get_instance();
 		return $udm->retrieve_user($id);
 	}
-	
+
 	function retrieve_user_by_username($username)
 	{
 		$udm = UsersDataManager :: get_instance();
 		return $udm->retrieve_user_by_username($username);
 	}
-	
+
 	/**
 	 * @see RepositoryDataManager::learning_object_deletion_allowed()
 	 */
@@ -424,7 +424,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		$udm = UsersDataManager :: get_instance();
 		return $udm->user_deletion_allowed($user);
 	}
-	
+
 	/**
 	 * Gets the URL to the Dokeos claroline folder.
 	 */
@@ -439,7 +439,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	{
 		api_not_allowed();
 	}
-	
+
 	/**
 	 * Gets the available links to display in the platform admin
 	 * @retun array of links and actions
@@ -453,7 +453,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		$links[] = array('name' => get_lang('UserImport'), 'action' => 'import', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
 		return array('application' => array('name' => get_lang('Users'), 'class' => 'users'), 'links' => $links, 'search' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
 	}
-	
+
 	/**
 	 * Gets a link
 	 * @return $link the requested link
@@ -463,7 +463,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		$link = 'index_'. self :: APPLICATION_NAME .'.php';
 		if (count($parameters))
 		{
-			$link .= '?'.http_build_query($parameters);	
+			$link .= '?'.http_build_query($parameters);
 		}
 		if ($encode)
 		{
@@ -471,7 +471,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 		}
 		return $link;
 	}
-	
+
 	/**
 	 * gets the user editing url
 	 * @param return the requested url
@@ -480,7 +480,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UPDATE_USER, self :: PARAM_USER_USER_ID => $user->get_user_id()));
 	}
-	
+
 	/**
 	 * gets the user quota url
 	 * @param return the requested url
