@@ -136,7 +136,7 @@ abstract class RepositoryDataManager
 		$objects = $this->retrieve_learning_objects('category', $condition, null, null, 0, 1, -1);
 		return $objects->next_result();
 	}
-	
+
 	function create_root_category($user_id)
 	{
 		$object = new Category();
@@ -548,8 +548,6 @@ abstract class RepositoryDataManager
 			{
 				return false;
 			}
-			$this->delete_learning_object_publications($object);
-			$object->delete();
 		}
 		return true;
 	}
