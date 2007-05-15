@@ -31,7 +31,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 		{
 			return $this->get_modification_links($user);
 		}
-		
+
 		// Add special features here
 		switch ($column->get_user_property())
 		{
@@ -66,19 +66,28 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 	private function get_modification_links($user)
 	{
 		$toolbar_data = array();
-		
+
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_user_editing_url($user),
 			'label' => get_lang('Edit'),
 			'img' => $this->browser->get_web_code_path().'img/edit.gif'
 		);
-		
+
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_user_quota_url($user),
 			'label' => get_lang('VersionQuota'),
 			'img' => $this->browser->get_web_code_path().'img/versions.gif'
 		);
-		
+
+		if($user->get_user_id() != api_get_user_id())
+		{
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_user_delete_url($user),
+				'label' => get_lang('Delete'),
+				'img' => $this->browser->get_web_code_path().'img/delete.gif'
+			);
+		}
+
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
 }

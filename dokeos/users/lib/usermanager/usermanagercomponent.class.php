@@ -21,7 +21,7 @@ abstract class UserManagerComponent {
 	 * The id of this component
 	 */
 	private $id;
-	
+
 	/**
 	 * Constructor
 	 * @param UserManager $user_manager The user manager which
@@ -31,7 +31,7 @@ abstract class UserManagerComponent {
     	$this->user_manager = $user_manager;
 		$this->id =  ++self :: $component_count;
     }
-    
+
     /**
 	 * @see UserManager::display_header()
 	 */
@@ -39,7 +39,7 @@ abstract class UserManagerComponent {
 	{
 		$this->get_parent()->display_header($breadcrumbs, $display_search);
 	}
-	
+
 	/**
 	 * @see UserManager::display_footer()
 	 */
@@ -47,7 +47,7 @@ abstract class UserManagerComponent {
 	{
 		$this->get_parent()->display_footer();
 	}
-	
+
 	/**
 	 * @see UserManager::display_message()
 	 */
@@ -55,7 +55,7 @@ abstract class UserManagerComponent {
 	{
 		$this->get_parent()->display_message($message);
 	}
-	
+
 	/**
 	 * @see UserManager::display_error_message()
 	 */
@@ -63,7 +63,7 @@ abstract class UserManagerComponent {
 	{
 		$this->get_parent()->display_error_message($message);
 	}
-	
+
 	/**
 	 * @see UserManager::display_error_page()
 	 */
@@ -71,7 +71,7 @@ abstract class UserManagerComponent {
 	{
 		$this->get_parent()->display_error_page($message);
 	}
-	
+
 	/**
 	 * @see UserManager::display_warning_page()
 	 */
@@ -79,7 +79,7 @@ abstract class UserManagerComponent {
 	{
 		$this->get_parent()->display_warning_page($message);
 	}
-	
+
 	/**
 	 * @see UserManager::retrieve_users()
 	 */
@@ -87,7 +87,7 @@ abstract class UserManagerComponent {
 	{
 		return $this->get_parent()->retrieve_users($condition, $offset, $count, $order_property, $order_direction);
 	}
-	
+
 	/**
 	 * @see UserManager::count_users()
 	 */
@@ -110,7 +110,7 @@ abstract class UserManagerComponent {
 	{
 		return $this->get_parent()->get_search_condition();
 	}
-	
+
 	/**
 	 * Retrieve the user manager in which this component is active
 	 * @return UserManager
@@ -119,7 +119,7 @@ abstract class UserManagerComponent {
 	{
 		return $this->user_manager;
 	}
-	
+
 	/**
 	 * Retrieve the component id
 	 */
@@ -127,7 +127,7 @@ abstract class UserManagerComponent {
 	{
 		return $this->id;
 	}
-	
+
 	/**
 	 * @see UserManager::get_user
 	 */
@@ -135,7 +135,7 @@ abstract class UserManagerComponent {
 	{
 		return $this->get_parent()->get_user();
 	}
-	
+
 	/**
 	 * @see UserManager::get_user_id()
 	 */
@@ -143,7 +143,7 @@ abstract class UserManagerComponent {
 	{
 		return $this->get_parent()->get_user_id();
 	}
-	
+
 	/**
 	 * @see UserManager::retrieve_user()
 	 */
@@ -151,7 +151,7 @@ abstract class UserManagerComponent {
 	{
 		return $this->get_parent()->retrieve_user($id);
 	}
-	
+
 	/**
 	 * @see UserManager::get_parameters()
 	 */
@@ -159,7 +159,7 @@ abstract class UserManagerComponent {
 	{
 		return $this->get_parent()->get_parameters($include_search);
 	}
-	
+
 	/**
 	 * @see UserManager::get_parameter()
 	 */
@@ -167,7 +167,7 @@ abstract class UserManagerComponent {
 	{
 		return $this->get_parent()->get_parameter($name);
 	}
-	
+
 	/**
 	 * @see UserManager::set_parameter()
 	 */
@@ -175,7 +175,7 @@ abstract class UserManagerComponent {
 	{
 		$this->get_parent()->set_parameter($name, $value);
 	}
-	
+
 	/**
 	 * @see UserManager::get_search_parameter()
 	 */
@@ -183,7 +183,7 @@ abstract class UserManagerComponent {
 	{
 		return $this->get_parent()->get_search_parameter($name);
 	}
-	
+
 	/**
 	 * @see UserManager::get_search_validate()
 	 */
@@ -191,7 +191,7 @@ abstract class UserManagerComponent {
 	{
 		return $this->get_parent()->get_search_validate();
 	}
-	
+
 	/**
 	 * @see UserManager::force_menu_url()
 	 */
@@ -199,7 +199,7 @@ abstract class UserManagerComponent {
 	{
 		return $this->get_parent()->force_menu_url($url);
 	}
-	
+
 	/**
 	 * @see UserManager::get_url()
 	 */
@@ -207,7 +207,7 @@ abstract class UserManagerComponent {
 	{
 		return $this->get_parent()->get_url($additional_parameters, $include_search, $encode_entities);
 	}
-	
+
 	/**
 	 * @see UserManager::get_link()
 	 */
@@ -215,7 +215,7 @@ abstract class UserManagerComponent {
 	{
 		return $this->get_parent()->get_link($parameters, $encode);
 	}
-	
+
 	/**
 	 * @see UserManager::redirect()
 	 */
@@ -243,6 +243,13 @@ abstract class UserManagerComponent {
 	function get_user_quota_url($user)
 	{
 		return $this->get_parent()->get_user_quota_url($user);
+	}
+	/**
+	 * @see UserManager::get_user_delete_url()
+	 */
+	function get_user_delete_url($user)
+	{
+		return $this->get_parent()->get_user_delete_url($user);
 	}
 	/**
 	 * @see UserManager::get_web_code_path()
