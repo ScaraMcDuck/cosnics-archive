@@ -101,14 +101,14 @@ if ($_uid)
 	echo '<input type="submit" name="submit" value="'. get_lang("Logout"). '" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'" class="logout"/>'."\n";
 	echo '</div>'."\n";
 	echo '</form>'."\n";
-	
+
 	global $user;
-	
+
 	$usermgr = new UserManager($_SESSION['_uid']);
 	$user = $usermgr->get_user();
-	
+
 	$applications = load_applications();
-	
+
 	foreach($applications as $application)
 	{
 		if($GLOBALS['this_section'] == $application)
@@ -119,7 +119,7 @@ if ($_uid)
 		{
 			$link_class='';
 		}
-		
+
 		if ($application == 'personal_messenger')
 		{
 			$pmmgr = PersonalMessengerDataManager :: get_instance();
@@ -129,11 +129,11 @@ if ($_uid)
 		{
 			$count = 0;
 		}
-		
-		
+
+
 		echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_'.$application.'.php" target="_top">';
 		echo get_lang(application_to_class($application));
-		echo ($count > 0 ? '&nbsp;('.$count.')' : null); 
+		echo ($count > 0 ? '&nbsp;('.$count.')' : null);
 		echo '</a>&nbsp;'."\n";
 	}
 
@@ -145,12 +145,12 @@ if ($_uid)
 	{
 		$link_class='';
 	}
-	
+
 	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_repository_manager.php" target="_top">';
 	echo get_lang('MyRepository');
 	echo '</a>&nbsp;'."\n";
-	
-	if($GLOBALS['this_section'] == "myprofile")
+
+	if($GLOBALS['this_section'] == "myaccount")
 	{
 		$link_class='class="here"';
 	}
@@ -158,19 +158,19 @@ if ($_uid)
 	{
 		$link_class='';
 	}
-	
-	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_user.php?go=profile" target="_top">';
+
+	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_user.php?go=account" target="_top">';
 	echo get_lang('ModifyProfile');
 	echo '</a>&nbsp;'."\n";
-	
+
 //	$pmmgr = new PersonalMessenger($user);
 //	$count = $pmmgr->count_unread_personal_message_publications();
-//	
+//
 //	echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_personal_messenger.php" target="_top">';
 //	echo get_lang('MyPMs');
-//	echo ($count > 0 ? '&nbsp;('.$count.')' : null); 
+//	echo ($count > 0 ? '&nbsp;('.$count.')' : null);
 //	echo '</a>&nbsp;'."\n";
-	
+
 	if ($user->is_platform_admin())
 	{
  		if($GLOBALS['this_section'] == "platform_admin")
@@ -185,7 +185,7 @@ if ($_uid)
 		echo get_lang('PlatformAdmin');
 		echo '</a>&nbsp;'."\n";
 	}
-	
+
 	echo '</div> <!-- end of header3 (user) section -->'."\n";
 }
 
