@@ -80,8 +80,6 @@ class ProfileDisplay extends LearningObjectDisplay
 	{
 		$object = $this->get_learning_object();
 		$html = array();
-		$html[] = '<div class="description">';
-		$html[] = $object->get_description();
 		if($object->get_picture())
 		{
 			$user_id = $object->get_owner_id();
@@ -89,9 +87,11 @@ class ProfileDisplay extends LearningObjectDisplay
 			$user = $udm->retrieve_user($user_id);
 			if($user->has_picture())
 			{
-				$html[] = '<img src="'.$user->get_full_picture_url().'" alt="'.$user->get_fullname().'" style="border:1px solid black;"/>';
+				$html[] = '<img src="'.$user->get_full_picture_url().'" alt="'.$user->get_fullname().'" style="position:absolute;right: 20px;border:1px solid black;max-width:150px;"/>';
 			}
 		}
+		$html[] = '<div class="description">';
+		$html[] = $object->get_description();
 		$html[] = '</div>';
 		return implode("\n",$html);
 	}
