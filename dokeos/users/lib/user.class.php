@@ -547,7 +547,7 @@ class User
 	 */
 	function delete()
 	{
-		return UserDataManager :: get_instance()->delete_user($this);
+		return UsersDataManager :: get_instance()->delete_user($this);
 	}
 
 	/**
