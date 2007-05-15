@@ -2,7 +2,7 @@
 /**
  * @package repository.learningobject
  * @subpackage profile
- * 
+ *
  *  @author Hans De Bisschop
  *  @author Dieter De Neef
  */
@@ -16,9 +16,9 @@ class ProfileDisplay extends LearningObjectDisplay
 	{
 		$html = array();
 		$html[] = parent :: get_full_html();
-		
+
 		$object = $this->get_learning_object();
-		
+
 		if ($object->get_address() != '')
 		{
 			$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/home_medium.gif);">';
@@ -26,7 +26,7 @@ class ProfileDisplay extends LearningObjectDisplay
 			$html[] = $object->get_address();
 			$html[] = '</div>';
 		}
-		
+
 		if ($object->get_mail() != '' || $object->get_phone() != '' || $object->get_fax() != '' || $object->get_skype() != '' || $object->get_msn() != '' || $object->get_aim() != '' || $object->get_yim() != '' || $object->get_icq() != '')
 		{
 			$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/contact.gif);">';
@@ -41,7 +41,7 @@ class ProfileDisplay extends LearningObjectDisplay
 			if ($object->get_icq() != '') $html[] = get_lang('Icq') . ': ' . $object->get_icq() . '<br/>';
 			$html[] = '</div>';
 		}
-		
+
 		if ($object->get_competences() != '')
 		{
 			$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/competences.gif);">';
@@ -49,7 +49,7 @@ class ProfileDisplay extends LearningObjectDisplay
 			$html[] = $object->get_competences();
 			$html[] = '</div>';
 		}
-		
+
 		if ($object->get_diplomas() != '')
 		{
 			$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/diplomas.gif);">';
@@ -57,7 +57,7 @@ class ProfileDisplay extends LearningObjectDisplay
 			$html[] = $object->get_diplomas();
 			$html[] = '</div>';
 		}
-		
+
 		if ($object->get_teaching() != '')
 		{
 			$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/teaching.gif);">';
@@ -65,7 +65,7 @@ class ProfileDisplay extends LearningObjectDisplay
 			$html[] = $object->get_teaching();
 			$html[] = '</div>';
 		}
-		
+
 		if ($object->get_open() != '')
 		{
 			$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/open.gif);">';
@@ -73,8 +73,27 @@ class ProfileDisplay extends LearningObjectDisplay
 			$html[] = $object->get_open();
 			$html[] = '</div>';
 		}
-		
+
 		return implode("\n", $html);
+	}
+	function get_description()
+	{
+		$object = $this->get_learning_object();
+		$html = array();
+		$html[] = '<div class="description">';
+		$html[] = $object->get_description();
+		if($object->get_picture())
+		{
+			$user_id = $object->get_owner_id();
+			$udm = UsersDataManager :: get_instance();
+			$user = $udm->retrieve_user($user_id);
+			if($user->has_picture())
+			{
+				$html[] = '<img src="'.$user->get_full_picture_url().'" alt="'.$user->get_fullname().'" style="border:1px solid black;"/>';
+			}
+		}
+		$html[] = '</div>';
+		return implode("\n",$html);
 	}
 }
 ?>

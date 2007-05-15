@@ -15,6 +15,7 @@
   <property name="yim" type="text" notnull="0"/>
   <property name="aim" type="text" notnull="0"/>
   <property name="icq" type="text" notnull="0"/>
+  <property name="picture" type="integer" unsigned="1" notnull="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
