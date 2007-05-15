@@ -33,6 +33,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	const ACTION_EXPORT_USERS = 'export';
 	const ACTION_IMPORT_USERS = 'import';
 	const ACTION_UPDATE_USER = 'update';
+	const ACTION_DELETE_USER = 'delete';
 	const ACTION_REGISTER_USER = 'register';
 	const ACTION_VIEW_ACCOUNT = 'account';
 	const ACTION_USER_QUOTA = 'quota';
@@ -84,6 +85,9 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 				break;
 			case self :: ACTION_UPDATE_USER :
 				$component = UserManagerComponent :: factory('Updater', $this);
+				break;
+			case self :: ACTION_DELETE_USER:
+				$component = UserManagerComponent :: factory('Deleter', $this);
 				break;
 			case self :: ACTION_IMPORT_USERS :
 				$this->force_menu_url($this->create_url, true);
@@ -488,6 +492,14 @@ require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition
 	function get_user_quota_url($user)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_USER_QUOTA, self :: PARAM_USER_USER_ID => $user->get_user_id()));
+	}
+	/**
+	 * gets the user delete url
+	 * @param return the requested url
+	 */
+	function get_user_delete_url($user)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_USER, self :: PARAM_USER_USER_ID => $user->get_user_id()));
 	}
 }
 ?>
