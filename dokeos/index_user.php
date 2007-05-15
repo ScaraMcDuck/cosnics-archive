@@ -1,5 +1,5 @@
 <?php
-$langFile = 'user';
+$langFile = array('user','registration');
 $this_section='platform_admin';
 require_once dirname(__FILE__).'/main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/main/inc/lib/text.lib.php';
