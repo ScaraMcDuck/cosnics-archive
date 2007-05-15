@@ -117,6 +117,10 @@ class ProfileForm extends FormValidator {
 			$lang_options[$languages['folder'][$index]] = $name;
 		}
 		$this->addElement('select', User :: PROPERTY_LANGUAGE, get_lang('Language'), $lang_options);
+		if (api_get_setting('profile', 'language') !== 'true')
+		{
+			$this->freeze(User :: PROPERTY_LANGUAGE);
+		}
 		// Submit button
 		$this->addElement('submit', 'user_settings', 'OK');
     }
@@ -170,7 +174,10 @@ class ProfileForm extends FormValidator {
 				$user->delete_picture();
 			}
 		}
-	   	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
+		if (api_get_setting('profile', 'language') === 'true')
+		{
+	   		$user->set_language($values[User :: PROPERTY_LANGUAGE]);
+		}
    		return $user->update();
     }
 
