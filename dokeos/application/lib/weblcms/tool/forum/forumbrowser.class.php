@@ -81,8 +81,8 @@ class ForumBrowser extends LearningObjectPublicationBrowser
 			$forum_table_row[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/forum'.$new.'.gif">';
 			$forum_url = $this->get_url(array('forum'=>$publication->get_id()));
 			$forum_table_row[] = '<a href="'.$forum_url.'">'.$forum->get_title().'</a><br /><small>'.$forum->get_description().'</small>';
-			$forum_table_row[] = $forum->get_topic_count();
-			$forum_table_row[] = $forum->get_post_count();
+			$forum_table_row[] = ''.$forum->get_topic_count();
+			$forum_table_row[] = ''.$forum->get_post_count();
 			$last_post = $forum->get_last_post();
 			if(!is_null($last_post))
 			{
