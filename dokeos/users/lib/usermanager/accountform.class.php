@@ -107,7 +107,7 @@ class AccountForm extends FormValidator {
 			{
 				$this->addElement('checkbox', 'remove_picture', null, get_lang('DelImage'));
 			}
-			$this->addRule( User::PROPERTY_PICTURE_URI, get_lang('OnlyImagesAllowed'), 'mimetype', array('image/gif', 'image/jpeg', 'image/png'));
+			$this->addRule( User::PROPERTY_PICTURE_URI, get_lang('OnlyImagesAllowed'), 'mimetype', array('image/gif', 'image/jpeg', 'image/png','image/x-png'));
 		}
 		// Language
 		$languages = api_get_languages();
