@@ -64,13 +64,14 @@ class ForumTopicBrowser extends LearningObjectPublicationBrowser
 	function as_html()
 	{
 		$forum = $this->forum_publication->get_learning_object();
-		$html = '<b>'.$forum->get_title().'</b>';
-		if($_GET['action'] == 'newtopic')
+		$display_topics = true;
+		if($_GET['forum_action'] == 'newtopic')
 		{
-			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, new AbstractLearningObject('forum_topic', $this->get_user_id()), 'create', 'post', $this->get_url(array('action'=>'newtopic')));
+			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, new AbstractLearningObject('forum_topic', $this->get_user_id()), 'create', 'post', $this->get_url(array('forum_action'=>'newtopic')));
 			if (!$form->validate())
 			{
 				$html .=  $form->toHTML();
+				$display_topics = false;
 			}
 			else
 			{
@@ -79,13 +80,17 @@ class ForumTopicBrowser extends LearningObjectPublicationBrowser
 				$topic->update();
 				$course = $this->get_course_id();
 				$html .= Display::display_normal_message(get_lang('TopicAdded'),true);
+				$display_topics = true;
 			}
 		}
-		else
+		if($display_topics)
 		{
-			$html .= '<a href="'.$this->get_url(array('action'=>'newtopic')).'">'.get_lang('NewTopic').'</a>';
+			$toolbar_data = array ();
+			$toolbar_data[] = array ('href' => $this->get_url(array('forum_action'=>'newtopic')), 'img' => api_get_path(WEB_CODE_PATH).'/img/forum.gif', 'label' => get_lang('NewTopic'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+			$html .=  '<div style="margin-bottom: 1em;">'.RepositoryUtilities :: build_toolbar($toolbar_data).'</div>';
+			$html .= '<b>'.$forum->get_title().'</b>';
+			$html .= $this->listRenderer->as_html();
 		}
-		$html .= $this->listRenderer->as_html();
 		return $html;
 	}
 	function perform_requested_actions()
