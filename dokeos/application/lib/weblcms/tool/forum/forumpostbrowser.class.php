@@ -53,8 +53,8 @@ class ForumPostBrowser extends LearningObjectPublicationBrowser
 	{
 		$first_post = $this->get_publications(0,1);
 		$forum = $this->forum_publication->get_learning_object();
-		$html = '<b><a href="'.$this->get_url(array('topic'=>null)).'">'.$forum->get_title().'</a> : '.$this->topic->get_title().'</b>';
-		if($_GET['action'] == 'newpost')
+		$show_posts = true;
+		if($_GET['forum_action'] == 'newpost')
 		{
 			$new_post =  new AbstractLearningObject('forum_post', $this->get_user_id());
 			if(isset($_GET['parent_post']))
@@ -62,10 +62,11 @@ class ForumPostBrowser extends LearningObjectPublicationBrowser
 				$parent_post = $forum->get_forum_post($_GET['parent_post']);
 				$new_post->set_description('<blockquote style="border-left:1px solid gray;padding: 5px;">'.$parent_post->get_description().'</blockquote><br />');
 			}
-			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE,$new_post, 'create', 'post', $this->get_url(array('action'=>'newpost',ForumPost :: PROPERTY_PARENT_POST => $_GET[ForumPost :: PROPERTY_PARENT_POST])));
+			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE,$new_post, 'create', 'post', $this->get_url(array('forum_action'=>'newpost',ForumPost :: PROPERTY_PARENT_POST => $_GET[ForumPost :: PROPERTY_PARENT_POST])));
 			if (!$form->validate())
 			{
 				$html .=  $form->toHTML();
+				$show_posts = false;
 			}
 			else
 			{
@@ -74,14 +75,17 @@ class ForumPostBrowser extends LearningObjectPublicationBrowser
 				$post->set_parent_post_id($_GET[ForumPost :: PROPERTY_PARENT_POST]);
 				$post->update();
 				$html .= Display::display_normal_message(get_lang('PostAdded'),true);
+				$show_posts = true;
 			}
 		}
-		else
+		if($show_posts)
 		{
-			$html .= '<a href="'.$this->get_url(array('action'=>'newpost')).'">'.get_lang('NewPost').'</a>';
+			$toolbar_data = array ();
+			$toolbar_data[] = array ('href' => $this->get_url(array('forum_action'=>'newpost')), 'img' => api_get_path(WEB_CODE_PATH).'/img/forum.gif', 'label' => get_lang('NewPost'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+			$html .=  '<div style="margin-bottom: 1em;">'.RepositoryUtilities :: build_toolbar($toolbar_data).'</div>';
+			$html .= '<b><a href="'.$this->get_url(array('topic'=>null)).'">'.$forum->get_title().'</a> : '.$this->topic->get_title().'</b>';
+			$html .= $this->listRenderer->as_html();
 		}
-		$topics = $forum->get_forum_topics();
-		$html .= $this->listRenderer->as_html();
 		return $html;
 	}
 }
