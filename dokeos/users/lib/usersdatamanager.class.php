@@ -37,12 +37,12 @@ abstract class UsersDataManager
 	{
 		$this->initialize();
 	}
-	
+
 	/**
 	 * Initializes the data manager.
 	 */
 	abstract function initialize();
-	
+
 	/**
 	 * retrieves the next user id.
 	 */
@@ -71,27 +71,31 @@ abstract class UsersDataManager
 	 * @param User $user The user.
 	 */
 	abstract function delete_user($user);
-	
+	/**
+	 * Deletes all users from the persistant storage
+	 */
+	abstract function delete_all_users();
+
 	/**
 	 * Updates the given user in persistent storage.
 	 * @param User $user The user.
 	 * @return boolean True if the update succceeded, false otherwise.
 	 */
 	abstract function update_user($user);
-	
+
 	/**
 	 * Updates the given user quota in persistent storage.
 	 * @param object $user_quota
  	 */
 	abstract function update_user_quota($user_quota);
-	
+
 	/**
 	 * Makes the given User persistent.
 	 * @param User $user The user.
 	 * @return boolean True if creation succceeded, false otherwise.
 	 */
 	abstract function create_user($user);
-	
+
 	/**
 	 * Creates a storage unit.
 	 * @param string $name Name of the storage unit
@@ -100,37 +104,37 @@ abstract class UsersDataManager
 	 * storage unit
 	 */
 	abstract function create_storage_unit($name,$properties,$indexes);
-	
+
 	/**
 	 * Retrieves a user.
 	 * @param $id the user ID to retrieve the info from
 	 */
 	abstract function retrieve_user($id);
-	
+
 	/**
 	 * Retrieves a user by his or her username.
 	 * @param $username the username to retrieve the info from
 	 */
 	abstract function retrieve_user_by_username($username);
-	
+
 	/**
 	 * Retrieves users.
 	 */
 	abstract function retrieve_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
 	/**
 	 * Counts the amount of users currently in the database
 	 * @param $conditions optional conditions
 	 */
 	abstract function count_users($conditions = null);
-	
+
 	/**
 	 * Retrieves the version type quota
 	 * @param $user The user
 	 * @param $type quota type
 	 */
 	abstract function retrieve_version_type_quota($user, $type);
-	
+
 	/**
 	 * Checks whether the user is allowed to be deleted
 	 * Unfinished.
@@ -140,7 +144,7 @@ abstract class UsersDataManager
 		// TODO: Check if the user can be deleted (fe: can an admin delete another admin etc)
 		return true;
 	}
-	
+
 	/**
 	 * Checks whether this username is available in the database
 	 */

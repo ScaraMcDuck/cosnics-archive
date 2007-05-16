@@ -45,7 +45,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
 		$this->connection->query('SET NAMES utf8');
 	}
-	
+
 	function debug()
 	{
 		$args = func_get_args();
@@ -57,7 +57,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		 	//echo '</pre>';
 		}
 	}
-	
+
 	/**
 	 * Escapes a column name in accordance with the database type.
 	 * @param string $name The column name.
@@ -82,7 +82,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		}
 		return $prefix.$this->connection->quoteIdentifier($name);
 	}
-	
+
 	/**
 	 * Escapes a table name in accordance with the database type.
 	 * @param string $name The table identifier.
@@ -94,7 +94,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$database_name = $this->connection->quoteIdentifier($user_database);
 		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
 	}
-	
+
 	/**
 	 * Checks whether the given name is a user column
 	 * @param String $name The column name
@@ -103,7 +103,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 	{
 		return User :: is_default_property_name($name); //|| $name == User :: PROPERTY_TYPE || $name == User :: PROPERTY_DISPLAY_ORDER_INDEX || $name == User :: PROPERTY_USER_ID;
 	}
-	
+
 	/**
 	 * Checks whether the given column name is the name of a column that
 	 * contains a date value, and hence should be formatted as such.
@@ -114,7 +114,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 	{
 		return ($name == LearningObject :: PROPERTY_CREATION_DATE || $name == LearningObject :: PROPERTY_MODIFICATION_DATE);
 	}
-	
+
 	// Inherited.
 	function update_user($user)
 	{
@@ -129,7 +129,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 
 		return true;
 	}
-	
+
 	//Inherited.
 	function update_user_quota($user_quota)
 	{
@@ -150,17 +150,17 @@ class DatabaseUsersDataManager extends UsersDataManager
 		{
 			$this->connection->extended->autoExecute($this->get_table_name('user_quota'), $props, MDB2_AUTOQUERY_INSERT);
 		}
-		
+
 	return true;
 	}
-	
+
 	// Inherited.
 	function get_next_user_id()
 	{
 		$id = $this->connection->nextID($this->get_table_name('user'));
 		return $id;
 	}
-	
+
 	// Inherited.
 	function delete_user($user)
 	{
@@ -174,10 +174,20 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$query = 'DELETE FROM '.$this->escape_table_name('user').' WHERE '.$this->escape_column_name('user_id').'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($user->get_user_id());
-		
+
 		return true;
 	}
-	
+
+	// Inherited.
+	function delete_all_users()
+	{
+		$users = $this->retrieve_users()->as_array();
+		foreach($users as $index => $user)
+		{
+			$this->delete_user($user);
+		}
+	}
+
 	// Inherited.
 	function create_user($user)
 	{
@@ -189,12 +199,12 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$props[$this->escape_column_name(User :: PROPERTY_USER_ID)] = $user->get_user_id();
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('user'), $props, MDB2_AUTOQUERY_INSERT);
-		
+
 		// Create the user's root category for the repository
 		$this->repoDM->create_root_category($user->get_user_id());
 		return true;
 	}
-	
+
 	// Inherited.
 	function create_storage_unit($name,$properties,$indexes)
 	{
@@ -225,7 +235,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		}
 
 	}
-	
+
 	/**
 	 * Expands a table identifier to the real table name. Currently, this
 	 * method prefixes the given table name with the user-defined prefix, if
@@ -238,7 +248,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		global $user_database;
 		return $user_database.'.'.$this->prefix.$name;
 	}
-	
+
 	//Inherited.
 	function retrieve_user($id)
 	{
@@ -250,7 +260,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$res->free();
 		return self :: record_to_user($record);
 	}
-	
+
 	//Inherited.
 	function retrieve_user_by_username($username)
 	{
@@ -262,7 +272,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$res->free();
 		return self :: record_to_user($record);
 	}
-	
+
 	/**
 	 * Parses a database record fetched as an associative array into an user.
 	 * @param array $record The associative array.
@@ -281,7 +291,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		}
 		return new User($record[User :: PROPERTY_USER_ID], $defaultProp);
 	}
-	
+
 	//Inherited.
 	function is_username_available($username, $user_id = null)
 	{
@@ -304,7 +314,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 			return true;
 		}
 	}
-	
+
 	//Inherited
 	function count_users($condition = null)
 	{
@@ -319,7 +329,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
-	
+
 	//Inherited.
 	function retrieve_users($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
@@ -336,7 +346,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$orderBy[] = User :: PROPERTY_LASTNAME;
 		$orderDir[] = SORT_ASC;
 		$order = array ();
-		
+
 		for ($i = 0; $i < count($orderBy); $i ++)
 		{
 			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
@@ -349,13 +359,13 @@ class DatabaseUsersDataManager extends UsersDataManager
 		{
 			$maxObjects = null;
 		}
-		
+
 		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseUserResultSet($this, $res);
 	}
-	
+
 	//Inherited.
 	function retrieve_version_type_quota($user, $type)
 	{
@@ -363,7 +373,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute(array($user->get_user_id(), $type));
-		
+
 		if ($res->numRows() >= 1)
 		{
 			$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -375,7 +385,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Translates any type of condition to a SQL WHERE clause.
 	 * @param Condition $condition The Condition object.
