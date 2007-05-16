@@ -1293,6 +1293,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$sql = 'DELETE FROM '.$this->escape_table_name('course_module_last_access').' WHERE course_code = ?';
 		$statement = $this->connection->prepare($sql);
 		$statement->execute($course_code);
+		// Delete subscriptions of classes in the course
+		$sql = 'DELETE FROM '.$this->escape_table_name('course_rel_class').' WHERE course_code = ?';
+		$statement = $this->connection->prepare($sql);
+		$statement->execute($course_code);
+		// Delete subscriptions of users in the course
+		$sql = 'DELETE FROM '.$this->escape_table_name('course_rel_user').' WHERE course_code = ?';
+		$statement = $this->connection->prepare($sql);
+		$statement->execute($course_code);
 		// Delete course
 		$sql = 'DELETE FROM '.$this->escape_table_name('course').' WHERE code = ?';
 		$statement = $this->connection->prepare($sql);
