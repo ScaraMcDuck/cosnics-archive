@@ -36,7 +36,7 @@ class CourseUserRelation {
 	const PROPERTY_TUTOR = 'tutor_id';
 	const PROPERTY_SORT = 'sort';
 	const PROPERTY_CATEGORY = 'user_course_cat';
-	
+
 	private $course;
 	private $user;
 	private $defaultProperties;
@@ -45,7 +45,7 @@ class CourseUserRelation {
 	 * Creates a new course user relation object.
 	 * @param int $id The numeric ID of the course user relation object. May be omitted
 	 *                if creating a new object.
-	 * @param array $defaultProperties The default properties of the course user relation 
+	 * @param array $defaultProperties The default properties of the course user relation
 	 *                object. Associative array.
 	 */
     function CourseUserRelation($course = null, $user = null, $defaultProperties = array ())
@@ -54,7 +54,7 @@ class CourseUserRelation {
     	$this->user = $user;
 		$this->defaultProperties = $defaultProperties;
     }
-    
+
     /**
 	 * Gets a default property of this course user relation object by name.
 	 * @param string $name The name of the property.
@@ -63,7 +63,7 @@ class CourseUserRelation {
 	{
 		return $this->defaultProperties[$name];
 	}
-	
+
 	/**
 	 * Gets the default properties of this course user relation object.
 	 * @return array An associative array containing the properties.
@@ -82,7 +82,7 @@ class CourseUserRelation {
 	{
 		$this->defaultProperties[$name] = $value;
 	}
-	
+
 	/**
 	 * Get the default properties of all course user relations.
 	 * @return array The property names.
@@ -91,7 +91,7 @@ class CourseUserRelation {
 	{
 		return array (self :: PROPERTY_COURSE, self :: PROPERTY_USER, self :: PROPERTY_STATUS, self :: PROPERTY_ROLE, self :: PROPERTY_GROUP, self :: PROPERTY_TUTOR, self :: PROPERTY_SORT, self :: PROPERTY_CATEGORY	);
 	}
-    
+
 	/**
 	 * Returns the course of this course user relation object
 	 * @return int
@@ -100,7 +100,7 @@ class CourseUserRelation {
     {
     	return $this->course;
     }
-    
+
 	/**
 	 * Sets the course of this course user relation object
 	 * @param int $course
@@ -109,7 +109,7 @@ class CourseUserRelation {
 	{
 		$this->course = $course;
 	}
-	
+
 	/**
 	 * Returns the user of this course user relation object
 	 * @return int
@@ -118,7 +118,7 @@ class CourseUserRelation {
     {
     	return $this->user;
     }
-	
+
 	/**
 	 * Sets the user of this course user relation object
 	 * @param int $user
@@ -127,7 +127,19 @@ class CourseUserRelation {
 	{
 		$this->user = $user;
 	}
-	
+
+	/**
+	 * Gets the user
+	 * @return User
+	 * @todo The functions get_user and set_user should work with a User object
+	 * and not with the user id's!
+	 */
+	function get_user_object()
+	{
+		$udm = UsersDatamanager::get_instance();
+		return $udm->retrieve_user($this->user);
+	}
+
 	/**
 	 * Returns the status of this course user relation object
 	 * @return int
@@ -136,7 +148,7 @@ class CourseUserRelation {
     {
     	return $this->get_default_property(self :: PROPERTY_STATUS);
     }
-	
+
 	/**
 	 * Sets the status of this course user relation object
 	 * @param int $status
@@ -145,7 +157,7 @@ class CourseUserRelation {
 	{
 		$this->set_default_property(self :: PROPERTY_STATUS, $status);
 	}
-	
+
 	/**
 	 * Returns the group of this course user relation object
 	 * @return int
@@ -154,7 +166,7 @@ class CourseUserRelation {
     {
     	return $this->get_default_property(self :: PROPERTY_GROUP);
     }
-	
+
 	/**
 	 * Sets the group of this course user relation object
 	 * @param int $group
@@ -163,7 +175,7 @@ class CourseUserRelation {
 	{
 		$this->set_default_property(self :: PROPERTY_GROUP, $group);
 	}
-	
+
 	/**
 	 * Returns the role of this course user relation object
 	 * @return int
@@ -172,7 +184,7 @@ class CourseUserRelation {
     {
     	return $this->get_default_property(self :: PROPERTY_ROLE);
     }
-	
+
 	/**
 	 * Sets the role of this course user relation object
 	 * @param int $role
@@ -181,7 +193,7 @@ class CourseUserRelation {
 	{
 		$this->set_default_property(self :: PROPERTY_ROLE, $role);
 	}
-	
+
 	/**
 	 * Returns the tutor of this course user relation object
 	 * @return int
@@ -190,7 +202,7 @@ class CourseUserRelation {
     {
     	return $this->get_default_property(self :: PROPERTY_TUTOR);
     }
-	
+
 	/**
 	 * Sets the tutor of this course user relation object
 	 * @param int $tutor
@@ -199,7 +211,7 @@ class CourseUserRelation {
 	{
 		$this->set_default_property(self :: PROPERTY_TUTOR, $tutor);
 	}
-	
+
 	/**
 	 * Returns the sort of this course user relation object
 	 * @return int
@@ -208,7 +220,7 @@ class CourseUserRelation {
     {
     	return $this->get_default_property(self :: PROPERTY_SORT);
     }
-	
+
 	/**
 	 * Sets the sort of this course user relation object
 	 * @param int $sort
@@ -217,7 +229,7 @@ class CourseUserRelation {
 	{
 		$this->set_default_property(self :: PROPERTY_SORT, $sort);
 	}
-	
+
 	/**
 	 * Returns the category of this course user relation object
 	 * @return int
@@ -226,7 +238,7 @@ class CourseUserRelation {
     {
     	return $this->get_default_property(self :: PROPERTY_CATEGORY);
     }
-	
+
 	/**
 	 * Sets the category of this course user relation object
 	 * @param int $category
@@ -235,7 +247,7 @@ class CourseUserRelation {
 	{
 		$this->set_default_property(self :: PROPERTY_CATEGORY, $category);
 	}
-	
+
 	/**
 	 * Updates the course user relation object in persistent storage
 	 * @param CourseUserRelation $this The object
@@ -252,7 +264,7 @@ class CourseUserRelation {
 
 		return true;
 	}
-	
+
 	/**
 	 * Creates the course user relation object in persistent storage
 	 * @param CourseUserRelation $this The object
@@ -269,7 +281,7 @@ class CourseUserRelation {
 
 		return true;
 	}
-	
+
 	/**
 	 * Deletes the course user relation object from persistent storage
 	 * @param CourseUserRelation $this The object
