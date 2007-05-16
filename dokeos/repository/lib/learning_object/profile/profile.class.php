@@ -168,6 +168,10 @@ class Profile extends LearningObject
 
 	function set_picture($picture)
 	{
+		if(is_null($picture))
+		{
+			$picture = 0;
+		}
 		return $this->set_additional_property(self::PROPERTY_PICTURE,$picture);
 	}
 
