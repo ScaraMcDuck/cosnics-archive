@@ -132,19 +132,13 @@ class LearningObjectPublicationForm extends FormValidator
 			// Only root category -> store object in root category
 			$this->addElement('hidden',LearningObjectPublication :: PROPERTY_CATEGORY_ID,0);
 		}
-//		$users = CourseManager::get_user_list_from_course_code($this->course->get_id());
-//		$receiver_choices = array();
-//		foreach($users as $index => $user)
-//		{
-//			$receiver_choices[self :: PARAM_TARGET_USER_PREFIX.'-'.$user['user_id']] = $user['firstName'].' '.$user['lastName'];
-//		}
-		// TODO: Next lines reconnect to dokeos-database due
-		// to conflict with DB-connection in repository. This problem
-		// should be fixed.
-		global $dbHost,$dbLogin,$dbPass,$mainDbName;
-		mysql_connect($dbHost,$dbLogin,$dbPass);
-		mysql_select_db($mainDbName);
-		// --
+		$user_relations = $this->course->get_subscribed_users();
+		$receiver_choices = array();
+		foreach($user_relations as $index => $user_relation)
+		{
+			$user = $user_relation->get_user_object();
+			$receiver_choices[self :: PARAM_TARGET_USER_PREFIX.'-'.$user->get_user_id()] = $user->get_fullname();
+		}
 
 //		TODO: Commented until groups structure has been reorganized using possible user / groups classes
 //		$groups = GroupManager::get_group_list(null, $this->course->get_id());
@@ -152,8 +146,8 @@ class LearningObjectPublicationForm extends FormValidator
 //		{
 //			$receiver_choices[self :: PARAM_TARGET_GROUP_PREFIX.'-'.$group['id']] = $group['name'];
 //		}
-//		$attributes = array(self :: PARAM_RECEIVERS => $receiver_choices);
-//		$this->addElement('receivers', self :: PARAM_TARGETS, get_lang('PublishFor'),$attributes);
+		$attributes = array(self :: PARAM_RECEIVERS => $receiver_choices);
+		$this->addElement('receivers', self :: PARAM_TARGETS, get_lang('PublishFor'),$attributes);
 		$this->add_forever_or_timewindow();
 		$this->addElement('checkbox', self :: PARAM_HIDDEN, get_lang('Hidden'));
 		if($this->email_option)

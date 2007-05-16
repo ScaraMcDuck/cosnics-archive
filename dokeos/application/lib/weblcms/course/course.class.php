@@ -29,7 +29,7 @@ require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
  */
 
 class Course {
-	
+
 	const PROPERTY_ID = 'code';
 	const PROPERTY_VISUAL = 'visual_code';
 	const PROPERTY_DB = 'db_name';
@@ -43,14 +43,14 @@ class Course {
 	const PROPERTY_VISIBILITY = 'visibility';
 	const PROPERTY_SUBSCRIBE_ALLOWED = 'subscribe';
 	const PROPERTY_UNSUBSCRIBE_ALLOWED = 'unsubscribe';
-	
+
 	// Remnants from the old Dokeos system
 	const PROPERTY_LAST_VISIT = 'last_visit';
 	const PROPERTY_LAST_EDIT = 'last_edit';
 	const PROPERTY_CREATION_DATE = 'creation_date';
 	const PROPERTY_EXPIRATION_DATE = 'expiration_date';
-	
-	
+
+
 	private $id;
 	private $defaultProperties;
 
@@ -59,7 +59,7 @@ class Course {
 	 * Creates a new course object.
 	 * @param int $id The numeric ID of the course object. May be omitted
 	 *                if creating a new object.
-	 * @param array $defaultProperties The default properties of the course 
+	 * @param array $defaultProperties The default properties of the course
 	 *                object. Associative array.
 	 */
     function Course($id = null, $defaultProperties = array ())
@@ -67,7 +67,7 @@ class Course {
     	$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
     }
-    
+
     /**
 	 * Gets a default property of this course object by name.
 	 * @param string $name The name of the property.
@@ -76,7 +76,7 @@ class Course {
 	{
 		return $this->defaultProperties[$name];
 	}
-	
+
 	/**
 	 * Gets the default properties of this course object.
 	 * @return array An associative array containing the properties.
@@ -95,7 +95,7 @@ class Course {
 	{
 		$this->defaultProperties[$name] = $value;
 	}
-	
+
 	/**
 	 * Get the default properties of all courses.
 	 * @return array The property names.
@@ -104,7 +104,7 @@ class Course {
 	{
 		return array (self :: PROPERTY_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_CATEGORY_CODE, self :: PROPERTY_DB, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
 	}
-    
+
 	/**
 	 * Returns the ID of this course object.
 	 * @return int The ID.
@@ -117,26 +117,26 @@ class Course {
 	/**
 	 * Returns the visual code of this course object
 	 * @return string the visual code
-	 */ 
+	 */
     function get_visual()
     {
     	return $this->get_default_property(self :: PROPERTY_VISUAL);
     }
-    
+
 	/**
 	 * Returns the category code of this course object
 	 * @return string the category code
-	 */ 
+	 */
     function get_category_code()
     {
     	return $this->get_default_property(self :: PROPERTY_CATEGORY_CODE);
     }
-    
+
 	/**
 	 * Returns the dbname of this course object
 	 * Deprecated but still used by the groups manager
 	 * @return string the visual code
-	 */ 
+	 */
     function get_db()
     {
     	return $this->get_default_property(self :: PROPERTY_DB);
@@ -150,16 +150,16 @@ class Course {
     {
     	return $this->get_default_property(self :: PROPERTY_NAME);
     }
-    
+
     /**
      * Returns the path (Directory) of this course object
      * @return string The Path
      */
     function get_path()
     {
-    	return $this->get_default_property(self :: PROPERTY_PATH);	
+    	return $this->get_default_property(self :: PROPERTY_PATH);
     }
-    
+
     /**
      * Returns the titular of this course object
      * @return String The Titular
@@ -176,7 +176,7 @@ class Course {
     {
     	return $this->get_default_property(self :: PROPERTY_LANGUAGE);
     }
-    
+
     /**
      * Returns the ext url of this course object
      * @return String The URL
@@ -185,7 +185,7 @@ class Course {
     {
     	return $this->get_default_property(self :: PROPERTY_EXTLINK_URL);
     }
-    
+
     /**
      * Returns the ext link name of this course object
      * @return String The Name
@@ -194,7 +194,7 @@ class Course {
     {
     	return $this->get_default_property(self :: PROPERTY_EXTLINK_NAME);
     }
-    
+
     /**
      * Returns the visibility code of this course object
      * @return String The Visibility Code
@@ -203,7 +203,7 @@ class Course {
     {
     	return $this->get_default_property(self :: PROPERTY_VISIBILITY);
     }
-    
+
     /**
      * Returns if you can subscribe to this course object
      * @return Int
@@ -212,7 +212,7 @@ class Course {
     {
     	return $this->get_default_property(self :: PROPERTY_SUBSCRIBE_ALLOWED);
     }
-    
+
     /**
      * Returns if you can unsubscribe to this course object
      * @return Int
@@ -221,7 +221,7 @@ class Course {
     {
     	return $this->get_default_property(self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
     }
-    
+
     /**
      * Sets the ID of this course object
      * @param int $id The ID
@@ -229,8 +229,8 @@ class Course {
     function set_id($id)
 	{
 		$this->id = $id;
-	}		
-	
+	}
+
 	/**
 	 * Sets the visual code of this course object
 	 * @param String $visual The visual code
@@ -239,7 +239,7 @@ class Course {
 	{
 		$this->set_default_property(self :: PROPERTY_VISUAL, $visual);
 	}
-	
+
 	/**
 	 * Sets the category code of this course object
 	 * @param String $visual The category code
@@ -248,7 +248,7 @@ class Course {
 	{
 		$this->set_default_property(self :: PROPERTY_CATEGORY_CODE, $category);
 	}
-	
+
 	/**
 	 * Sets the db name of this course object
 	 * @param String $db The db name
@@ -257,7 +257,7 @@ class Course {
 	{
 		$this->set_default_property(self :: PROPERTY_DB, $db);
 	}
-	
+
 	/**
 	 * Sets the course name of this course object
 	 * @param String $name The name of this course object
@@ -266,7 +266,7 @@ class Course {
 	{
 		$this->set_default_property(self :: PROPERTY_NAME, $name);
 	}
-	
+
 	/**
 	 * Sets the course path (directory) of this course object
 	 * @param String $path The path of this course object
@@ -275,7 +275,7 @@ class Course {
 	{
 		$this->set_default_property(self :: PROPERTY_PATH, $path);
 	}
-	
+
 	/**
 	 * Sets the titular of this course object
 	 * @param String $titular The titular of this course object
@@ -284,7 +284,7 @@ class Course {
 	{
 		$this->set_default_property(self :: PROPERTY_TITULAR, $titular);
 	}
-	
+
 	/**
 	 * Sets the language of this course object
 	 * @param String $language The language of this course object
@@ -293,7 +293,7 @@ class Course {
 	{
 		$this->set_default_property(self :: PROPERTY_LANGUAGE, $language);
 	}
-	
+
 	/**
 	 * Sets the extlink URL of this course object
 	 * @param String $url The URL if the extlink
@@ -302,7 +302,7 @@ class Course {
 	{
 		$this->set_default_property(self :: PROPERTY_EXTLINK_URL, $url);
 	}
-	
+
 	/**
 	 * Sets the extlink Name of this course object
 	 * @param String $name The name of the exlink
@@ -311,7 +311,7 @@ class Course {
 	{
 		$this->set_default_property(self :: PROPERTY_EXTLINK_NAME, $name);
 	}
-	
+
 
 	/**
 	 * Sets the visibility of this course object
@@ -321,7 +321,7 @@ class Course {
 	{
 		$this->set_default_property(self :: PROPERTY_VISIBILITY, $visibility);
 	}
-	
+
 	/**
 	 * Sets if a user is allowed to subscribe on this course object
 	 * @param Int $subscribe
@@ -330,7 +330,7 @@ class Course {
 	{
 		$this->set_default_property(self :: PROPERTY_SUBSCRIBE_ALLOWED, $subscribe);
 	}
-	
+
 	/**
 	 * Sets if a user is allowed to unsubscribe on this course object
 	 * @param Int $subscribe
@@ -339,7 +339,7 @@ class Course {
 	{
 		$this->set_default_property(self :: PROPERTY_UNSUBSCRIBE_ALLOWED, $subscribe);
 	}
-	
+
 	/**
 	 * Deletes the course object from persistent storage
 	 * @return boolean
@@ -349,7 +349,7 @@ class Course {
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->delete_course($this->get_id());
 	}
-	
+
 	/**
 	 * Creates the course object in persistent storage
 	 * @return boolean
@@ -359,7 +359,7 @@ class Course {
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->create_course($this);
 	}
-	
+
 	/**
 	 * Updates the course object in persistent storage
 	 * @return boolean
@@ -375,7 +375,7 @@ class Course {
 
 		return true;
 	}
-	
+
 	/**
 	 * Checks whether the given user is a course admin in this course
 	 * @param int $user_id
@@ -385,6 +385,15 @@ class Course {
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->is_course_admin($this, $user_id);
+	}
+	/**
+	 * Gets the subscribed users of this course
+	 * @return array An array of CourseUserRelation objects
+	 */
+	function get_subscribed_users()
+	{
+		$wdm = WeblcmsDataManager::get_instance();
+		return $wdm->retrieve_course_users($this)->as_array();
 	}
 }
 ?>
