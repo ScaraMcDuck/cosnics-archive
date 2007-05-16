@@ -37,8 +37,8 @@ class ForumPostListRenderer extends ListLearningObjectPublicationListRenderer
 			$html[] = $this->render_edit_action($publication);
 			$html[] = $this->render_visibility_action($publication);
 			//$html[] = $this->render_move_to_category_action($publication,$last);
-			$html[] = $this->render_reply_action($publication);
 		}
+		$html[] = $this->render_reply_action($publication);
 		$html[] = '</span>';
 		return implode($html);
 	}
@@ -47,18 +47,27 @@ class ForumPostListRenderer extends ListLearningObjectPublicationListRenderer
 	 */
 	function render_reply_action($publication)
 	{
-		$url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => 'newpost', ForumPost :: PROPERTY_PARENT_POST => $publication->get_learning_object()->get_id()), true);
+		$url = $this->get_url(array ('forum_action' => 'newpost', ForumPost :: PROPERTY_PARENT_POST => $publication->get_learning_object()->get_id()), true);
 		$link = '<a href="'.$url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/treemenu_types/forum.gif"  alt=""/></a>';
 		return $link;
 	}
 	// Inherited
 	function render_publication_information($publication)
 	{
-		$publisher = $this->browser->get_user_info($publication->get_learning_object()->get_owner_id());
 		$html = array ();
 		$html[] = htmlentities(get_lang('PublishedOn')).' '.$this->render_publication_date($publication);
 		$html[] = htmlentities(get_lang('By')).' '.$this->render_publisher($publication);
 		return implode("\n", $html);
+	}
+	/**
+	 * Renders information about the publisher of the given publication.
+	 * @param LearningObjectPublication $publication The publication.
+	 * @return string The HTML rendering.
+	 */
+	function render_publisher($forum_post)
+	{
+		$user = $this->browser->get_user_info($forum_post->get_learning_object()->get_owner_id());
+		return $user->get_firstname().' '.$user->get_lastname();
 	}
 }
 ?>
