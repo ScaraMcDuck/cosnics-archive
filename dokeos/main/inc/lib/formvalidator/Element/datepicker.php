@@ -33,6 +33,10 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
 	function HTML_QuickForm_datepicker($elementName = null, $elementLabel = null, $attributes = null)
 	{
 		global $language_interface;
+		if(!isset($attributes['form_name']))
+		{
+			return;
+		}
 		$js_form_name = $attributes['form_name'];
 		unset($attributes['form_name']);
 		HTML_QuickForm_element :: HTML_QuickForm_element($elementName, $elementLabel, $attributes);
