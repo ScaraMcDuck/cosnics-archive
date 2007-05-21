@@ -22,6 +22,7 @@ class DefaultUserTableColumnModel extends UserTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
+		$columns[] = new UserTableColumn(User :: PROPERTY_PICTURE_URI, true);
 		$columns[] = new UserTableColumn(User :: PROPERTY_LASTNAME, true);
 		$columns[] = new UserTableColumn(User :: PROPERTY_FIRSTNAME, true);
 		return $columns;
