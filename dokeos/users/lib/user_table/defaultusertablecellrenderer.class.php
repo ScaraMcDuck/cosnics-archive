@@ -47,9 +47,22 @@ class DefaultUserTableCellRenderer implements UserTableCellRenderer
 					return $user->get_language();
 				case User :: PROPERTY_VERSION_QUOTA :
 					return $user->get_version_quota();
+				case User :: PROPERTY_PICTURE_URI :
+					return $this->render_picture($user);
 			}
 		}
 		return '&nbsp;';
+	}
+	private function render_picture($user)
+	{
+		if ($user->has_picture())
+		{
+			return '<span style="display:none;">1</span><img src="'.$user->get_full_picture_url().'" alt="'.htmlentities($user->get_fullname()).'" width="40" border="0"/>';
+		}
+		else
+		{
+			return '<span style="display:none;">0</span>';
+		}
 	}
 }
 ?>
