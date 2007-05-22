@@ -5,6 +5,7 @@
  * @subpackage datamanager
  */
 require_once dirname(__FILE__).'/database/databasecourseresultset.class.php';
+require_once dirname(__FILE__).'/database/databasegroupresultset.class.php';
 require_once dirname(__FILE__).'/database/databasecoursecategoryresultset.class.php';
 require_once dirname(__FILE__).'/database/databasecourseusercategoryresultset.class.php';
 require_once dirname(__FILE__).'/database/databasecourseuserrelationresultset.class.php';
@@ -777,9 +778,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			{
 				$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
 			}
-			/*
-			 * Always respect display order as a last resort.
-			 */
 			$orderBy[] = Course :: PROPERTY_NAME;
 			$orderDir[] = SORT_ASC;
 			$order = array ();
@@ -1556,7 +1554,70 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 		return new LearningObjectPublication($record[LearningObjectPublication :: PROPERTY_ID], $obj, $record[LearningObjectPublication :: PROPERTY_COURSE_ID], $record[LearningObjectPublication :: PROPERTY_TOOL], $record[LearningObjectPublication :: PROPERTY_CATEGORY_ID], $target_users, $target_groups, $record[LearningObjectPublication :: PROPERTY_FROM_DATE], $record[LearningObjectPublication :: PROPERTY_TO_DATE], $record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID], $record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE], $record[LearningObjectPublication :: PROPERTY_HIDDEN] != 0, $record[LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX],$record[LearningObjectPublication :: PROPERTY_EMAIL_SENT]);
 	}
+	function record_to_group($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Group :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
 
+		return new Group($record[Group :: PROPERTY_ID], $record[Group::PROPERTY_COURSE_CODE], $defaultProp);
+	}
+	// Inherited
+	function delete_group($id)
+	{
+		// TODO: Delete subscription of users in this group
+		// TODO: Delete other group stuff
+		// Delete group
+		$sql = 'DELETE FROM '.$this->escape_table_name('group').' WHERE id = ?';
+		$statement = $this->connection->prepare($sql);
+		$statement->execute($id);
+	}
+	// Inherited
+	function create_group($group)
+	{
+		$props = array();
+		$props[Group :: PROPERTY_ID] = $group->get_id();
+		$props[Group :: PROPERTY_COURSE_CODE] = $group->get_course_code();
+		$props[Group :: PROPERTY_NAME] = $group->get_name();
+		$this->connection->loadModule('Extended');
+		if ($this->connection->extended->autoExecute($this->get_table_name('group'), $props, MDB2_AUTOQUERY_INSERT))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	// Inherited
+	function update_group($group)
+	{
+		$where = $this->escape_column_name(Group :: PROPERTY_ID).'="'. $group->get_id().'"';
+		$props = array();
+		foreach ($course->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->escape_table_name('group'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+		return true;
+	}
+	// Inherited
+	function retrieve_groups($course_code)
+	{
+		$query = 'SELECT * FROM '. $this->escape_table_name('group');
+		$query .= ' WHERE '.$this->escape_column_name('course_code').'=?';
+		$params[] = $course_code;
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		return new DatabaseGroupResultSet($this, $res);
+	}
 	/**
 	 * Translates any type of condition to a SQL WHERE clause.
 	 * @param Condition $condition The Condition object.

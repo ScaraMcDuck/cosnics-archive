@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="group">
+ <properties>
+  <property name="id" type="integer" unsigned="1" notnull="1" autoincrement="1"/>
+  <property name="course_code" type="text" length="40" notnull="1" default=""/>
+  <property name="name" type="text" length="100" notnull="1" default=""/>
+ </properties>
+ <index name="id" type="unique">
+  <indexproperty name="id"/>
+ </index>
+ <index name="course_code">
+  <indexproperty name="course_code"/>
+ </index>
+</object>
