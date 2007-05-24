@@ -140,12 +140,11 @@ class LearningObjectPublicationForm extends FormValidator
 			$receiver_choices[self :: PARAM_TARGET_USER_PREFIX.'-'.$user->get_user_id()] = $user->get_fullname();
 		}
 
-//		TODO: Commented until groups structure has been reorganized using possible user / groups classes
-//		$groups = GroupManager::get_group_list(null, $this->course->get_id());
-//		foreach($groups as $index => $group)
-//		{
-//			$receiver_choices[self :: PARAM_TARGET_GROUP_PREFIX.'-'.$group['id']] = $group['name'];
-//		}
+		$groups = $this->course->get_groups();
+		foreach($groups as $index => $group)
+		{
+			$receiver_choices[self :: PARAM_TARGET_GROUP_PREFIX.'-'.$group->get_id()] = get_lang('Group').': '.$group->get_name();
+		}
 		$attributes = array(self :: PARAM_RECEIVERS => $receiver_choices);
 		$this->addElement('receivers', self :: PARAM_TARGETS, get_lang('PublishFor'),$attributes);
 		$this->add_forever_or_timewindow();
