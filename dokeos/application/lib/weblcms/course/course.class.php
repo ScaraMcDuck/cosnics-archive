@@ -395,5 +395,14 @@ class Course {
 		$wdm = WeblcmsDataManager::get_instance();
 		return $wdm->retrieve_course_users($this)->as_array();
 	}
+	/**
+	 * Gets the groups defined in this course
+	 * @return array An array of Group objects
+	 */
+	function get_groups()
+	{
+		$wdm = WeblcmsDataManager::get_instance();
+		return $wdm->retrieve_groups($this->get_id())->as_array();
+	}
 }
 ?>
