@@ -98,8 +98,9 @@ abstract class LearningObjectPublicationListRenderer
 				}
 				else
 				{
-					//TODO: Implement this
-					return 'GROUP NAME';
+					$wdm = WeblcmsDatamanager::get_instance();
+					$group = $wdm->retrieve_group($groups[0]);
+					return $group->get_name();
 				}
 			}
 			$target_list = array ();
@@ -111,8 +112,10 @@ abstract class LearningObjectPublicationListRenderer
 			}
 			foreach ($groups as $index => $group_id)
 			{
-				//TODO: Implement this
-				$target_list[] = '<option>GROUP NAME</option>';
+				$wdm = WeblcmsDatamanager::get_instance();
+				//Todo: make this more efficient. Get all groups using a single query
+				$group = $wdm->retrieve_group($group_id);
+				$target_list[] = '<option>'.$group->get_name().'</option>';
 			}
 			$target_list[] = '</select>';
 			return implode("\n", $target_list).$email_suffix;

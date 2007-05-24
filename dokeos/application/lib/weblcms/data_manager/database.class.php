@@ -1609,6 +1609,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return true;
 	}
 	// Inherited
+	function retrieve_group($id)
+	{
+		$query = 'SELECT * FROM '. $this->escape_table_name('group');
+		$query .= ' WHERE '.$this->escape_column_name('id').'=?';
+		$params[] = $id;
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		return $this->record_to_group($res->fetchRow(MDB2_FETCHMODE_ASSOC));
+	}
+	// Inherited
 	function retrieve_groups($course_code)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('group');
