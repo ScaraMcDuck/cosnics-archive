@@ -480,7 +480,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_user'), $props, MDB2_AUTOQUERY_INSERT);
 		}
 		$groups = $publication->get_target_groups();
-		foreach($users as $index => $group_id)
+		foreach($groups as $index => $group_id)
 		{
 			$props = array();
 			$props[$this->escape_column_name('publication')] = $publication->get_id();
