@@ -651,6 +651,11 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function update_group($group);
 	/**
+	 * Retrieves a group
+	 * @param int id
+	 */
+	abstract function retrieve_group($id);
+	/**
 	 * Retrieves the groups defined in a given course
 	 * @param string $course_code
 	 */
