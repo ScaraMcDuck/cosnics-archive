@@ -264,7 +264,6 @@ class Weblcms extends WebApplication
 	function get_groups()
 	{
 		return null;
-		//return GroupManager :: get_group_ids($this->get_course()->get_db(), $this->get_user_id());
 	}
 	/**
 	 * Gets the defined categories in the current tool.
