@@ -79,11 +79,15 @@ class Group
 	}
 	function get_course_code()
 	{
-		return $this->course_code();
+		return $this->course_code;
 	}
 	function get_name()
 	{
 		return $this->get_default_property(self::PROPERTY_NAME);
+	}
+	function set_name($name)
+	{
+		return $this->set_default_property(self::PROPERTY_NAME,$name);
 	}
 	/**
 	 * Deletes the group object from persistent storage
