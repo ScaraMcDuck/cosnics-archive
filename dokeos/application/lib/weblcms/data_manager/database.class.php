@@ -1582,7 +1582,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function create_group($group)
 	{
 		$props = array();
-		$props[Group :: PROPERTY_ID] = $group->get_id();
+		$props[Group :: PROPERTY_ID] = $this->get_next_group_id();
 		$props[Group :: PROPERTY_COURSE_CODE] = $group->get_course_code();
 		$props[Group :: PROPERTY_NAME] = $group->get_name();
 		$this->connection->loadModule('Extended');
@@ -1594,6 +1594,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			return false;
 		}
+	}
+	function get_next_group_id()
+	{
+		return $this->connection->nextID($this->get_table_name('group'));
 	}
 	// Inherited
 	function update_group($group)
