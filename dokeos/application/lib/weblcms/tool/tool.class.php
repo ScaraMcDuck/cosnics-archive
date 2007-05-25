@@ -65,7 +65,16 @@ abstract class Tool
 	function display_header($breadcrumbs = array(), $append = array())
 	{
 		$breadcrumbs[] = array ('url' => $this->get_url(null, false, true, array('tool')), 'name' => $_GET[Weblcms :: PARAM_COURSE]);
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang(Tool :: type_to_class($this->get_tool_id()).'Title'));
+		if(!is_null($this->parent->get_group()))
+		{
+			$group = $this->parent->get_group();
+			$breadcrumbs[] = array( 'url' => $this->get_url(), 'name' => get_lang('Groups'));
+			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => $group->get_name());
+		}
+		if($this->get_tool_id() != 'group')
+		{
+			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang(Tool :: type_to_class($this->get_tool_id()).'Title'));
+		}
 		if (count($append))
 		{
 			foreach ($append as $extra)
@@ -82,7 +91,7 @@ abstract class Tool
 	{
 		$this->parent->display_footer();
 	}
-	
+
 	/**
 	 * @see WebApplication :: get_user()
 	 */
@@ -98,12 +107,12 @@ abstract class Tool
 	{
 		return $this->parent->get_user_id();
 	}
-	
+
 	function get_user_info($user_id)
 	{
 		return $this->parent->get_user_info($user_id);
 	}
-	
+
 	/**
 	 * @see WebApplication :: get_course_id()
 	 */
@@ -159,7 +168,7 @@ abstract class Tool
 	{
 		return $this->parent->get_url($parameters, $encode, $filter, $filterOn);
 	}
-	
+
 	/**
 	 * @see WebApplication :: get_url()
 	 */

@@ -398,6 +398,17 @@ class DatabaseUsersDataManager extends UsersDataManager
 	 */
 	function translate_condition($condition, & $params, $prefix_learning_object_properties = false)
 	{
+		if(is_array($condition))
+		{
+			if(count($condition) == 1)
+			{
+				$condition = $condition[0];
+			}
+			else
+			{
+				$condition = new AndCondition($condition);
+			}
+		}
 		if ($condition instanceof AggregateCondition)
 		{
 			return $this->translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties);

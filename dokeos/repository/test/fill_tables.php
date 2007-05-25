@@ -2,18 +2,18 @@
 $langFile = 'repository';
 require_once dirname(__FILE__).'/../../main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
 include_once (api_get_library_path()."/formvalidator/FormValidator.class.php");
 api_protect_admin_script();
 Display :: display_header();
 set_time_limit(0);
 
 $form = new FormValidator('create_random');
-$form->addElement('submit','go','go');
-
+$form->addElement('submit', 'go', 'go');
 
 if (!$form->isSubmitted())
 {
-	Display::display_warning_message('By running this script, all existing learning objects will be deleted and replaced by randomly created learning objects. Only use this for testing purpuses.');
+	Display :: display_warning_message('By running this script, all existing users and learning objects will be deleted and replaced by randomly created users and learning objects. Only use this for testing purpuses.');
 	echo 'If you\'re sure to continue, click the button below';
 	$form->display();
 }
@@ -27,7 +27,7 @@ else
 	 * @package repository
 	 */
 
-	$users = 2;
+	$users = 3;
 
 	$max_categories = array (3, 2);
 
@@ -57,13 +57,37 @@ else
 	{
 		$words = array_merge($words, explode(' ', $randomText));
 	}
+
+	// Create some random users
+	$usermanager = UsersDataManager :: get_instance();
+	$usermanager->delete_all_users();
+
+	title('Create users');
+	for ($user_nr = 1; $user_nr <= $users; $user_nr ++)
+	{
+		$user = new User();
+		$user->set_firstname(random_word());
+		$user->set_lastname(random_word());
+		$user->set_username('user'.$user_nr);
+		$user->set_password('user'.$user_nr);
+		$user->set_email('user'.$user_nr.'@example.com');
+		$user->set_official_code('USER'.$user_nr);
+		$user->set_language('english');
+		$user->set_status(5);
+		$user->set_creator_id(api_get_user_id());
+		$user->create();
+		$user_ids[$user_nr] = $user->get_user_id();
+		progress();
+	}
+	//exit;
+	// Create some random learning objects
 	$dataManager = RepositoryDataManager :: get_instance();
 
 	$dataManager->delete_all_learning_objects();
 	title('Categories');
 	for ($u = 1; $u <= $users; $u ++)
 	{
-		create_category($u);
+		create_category($user_ids[$u]);
 	}
 	title('Announcements');
 	for ($i = 0; $i < $announcements; $i ++)
@@ -256,6 +280,7 @@ else
 		}
 		$question->set_options($options);
 		$question->create();
+
 		progress();
 	}
 }
@@ -268,8 +293,8 @@ function random_url()
 
 function random_user()
 {
-	global $users;
-	return rand(1, $users);
+	global $users_ids;
+	return $user_id[rand(1, count($user_ids))-1];
 }
 
 function random_string($length)
