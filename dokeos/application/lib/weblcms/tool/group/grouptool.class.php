@@ -12,6 +12,9 @@ require_once dirname(__FILE__).'/usertable/groupsubscribeduserbrowsertable.class
 
 class GroupTool extends Tool
 {
+	const PARAM_GROUP_ACTION = 'group_action';
+	const ACTION_SUBSCRIBE = 'group_subscribe';
+	const ACTION_UNSUBSCRIBE = 'group_unsubscribe';
 	const ACTION_ADD_GROUP = 'add_group';
 	function run()
 	{
@@ -28,12 +31,42 @@ class GroupTool extends Tool
 		$param_add_group[RepositoryTool :: PARAM_ACTION] = self :: ACTION_ADD_GROUP;
 		if (!is_null($this->get_parent()->get_group()->get_id()))
 		{
-			$this->display_header();
-			$table = new GroupSubscribedUserBrowserTable($this, null, array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id())/* $this->get_unsubscribe_condition()*/);
-			$html = array();
-			$html[] = $table->as_html();
-			echo implode($html, "\n");
-			$this->display_footer();
+			$user_action = $_GET[Weblcms :: PARAM_USER_ACTION];
+			$group_action = $_GET[self :: PARAM_GROUP_ACTION];
+			if($user_action == UserTool::USER_DETAILS )
+			{
+				$udm = UsersDataManager::get_instance();
+				$user = $udm->retrieve_user($_GET[Weblcms::PARAM_USERS]);
+				$details = new UserDetails($user);
+				$this->display_header();
+				echo $details->toHtml();
+				$this->display_footer();
+			}
+			elseif($group_action == self::ACTION_SUBSCRIBE)
+			{
+				$this->display_header();
+				if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
+				{
+					echo $this->get_grouptool_subscribe_modification_links();
+				}
+				$html = array();
+				$html[] = 'TODO';
+				echo implode($html, "\n");
+				$this->display_footer();
+			}
+			else
+			{
+				$this->display_header();
+				if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
+				{
+					echo $this->get_grouptool_unsubscribe_modification_links();
+				}
+				$table = new GroupSubscribedUserBrowserTable($this->get_parent(), null, array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id())/* $this->get_unsubscribe_condition()*/);
+				$html = array();
+				$html[] = $table->as_html();
+				echo implode($html, "\n");
+				$this->display_footer();
+			}
 		}
 		else
 		{
@@ -72,6 +105,33 @@ class GroupTool extends Tool
 	function get_group()
 	{
 		return $this->get_parent()->get_group();
+	}
+	function get_grouptool_unsubscribe_modification_links()
+	{
+		$toolbar_data = array();
+
+		$toolbar_data[] = array(
+			'href' => $this->get_parent()->get_url(array(GroupTool :: PARAM_GROUP_ACTION => GroupTool :: ACTION_SUBSCRIBE)),
+			'label' => get_lang('SubscribeUsers'),
+			'img' => $this->get_parent()->get_web_code_path().'img/user-subscribe.gif',
+			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+		);
+
+		return RepositoryUtilities :: build_toolbar($toolbar_data);
+	}
+
+	function get_grouptool_subscribe_modification_links()
+	{
+		$toolbar_data = array();
+
+		$toolbar_data[] = array(
+			'href' => $this->get_parent()->get_url(array(GroupTool :: PARAM_GROUP_ACTION => GroupTool :: ACTION_UNSUBSCRIBE)),
+			'label' => get_lang('UnsubscribeUsers'),
+			'img' => $this->get_parent()->get_web_code_path().'img/user-unsubscribe.gif',
+			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+		);
+
+		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>
