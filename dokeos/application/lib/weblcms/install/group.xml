@@ -4,6 +4,7 @@
   <property name="id" type="integer" unsigned="1" notnull="1" autoincrement="1"/>
   <property name="course_code" type="text" length="40" notnull="1" default=""/>
   <property name="name" type="text" length="100" notnull="1" default=""/>
+  <property name="max_number_of_members" type="integer" unsigned="1" default="0"/>
  </properties>
  <index name="id" type="unique">
   <indexproperty name="id"/>

@@ -17,13 +17,13 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 	 * The class of the tool currently active in this application
 	 */
 	private $tool_class;
-	
+
 	/**
 	 * The course object of the course currently active in this application
 	 */
 	private $course;
-	
-	
+
+
 	/**
 	 * Runs this component and displays its output.
 	 */
@@ -36,7 +36,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 			$this->display_footer();
 			exit;
 		}
-		
+
 		if(!$this->is_allowed(VIEW_RIGHT) && !$this->get_user()->is_platform_admin())
 		{
 			$this->display_header();
@@ -44,20 +44,20 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 			$this->display_footer();
 			exit;
 		}
-		
+
 		$course = $this->get_parameter(Weblcms :: PARAM_COURSE);
 		$tool = $this->get_parameter(Weblcms :: PARAM_TOOL);
 		$action = $this->get_parameter(Weblcms::PARAM_ACTION);
 		$component_action = $this->get_parameter(Weblcms::PARAM_COMPONENT_ACTION);
 		$category = $this->get_parameter(Weblcms::PARAM_CATEGORY);
-		
+
 		if(is_null($category))
 		{
 			$category = 0;
 		}
-		
+
 		if ($course)
-		{		
+		{
 			if($component_action)
 			{
 				$wdm = WeblcmsDataManager :: get_instance();
@@ -78,7 +78,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 			{
 				$wdm = WeblcmsDataManager :: get_instance();
 				$class = Tool :: type_to_class($tool);
-				$toolObj = new $class ($this);
+				$toolObj = new $class ($this->get_parent());
 				$this->set_tool_class($class);
 				$toolObj->run();
 				$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),$tool,$category);
@@ -99,18 +99,18 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 			$this->display_footer();
 		}
 	}
-	
+
 	function is_allowed($right)
 	{
 		$user_id = $this->get_user_id();
 		$course_id = $this->get_course_id();
 		$role_id = RolesRights::get_local_user_role_id($user_id, $course_id);
 		$location_id = RolesRights::get_course_location_id($course_id, TOOL_COURSE_HOMEPAGE);
-		
+
 		$result = RolesRights::is_allowed_which_rights($role_id, $location_id);
 		return $result[$right];
 	}
-	
+
 	function is_course()
 	{
 		return ($this->get_course()->get_id() != null ? true : false);

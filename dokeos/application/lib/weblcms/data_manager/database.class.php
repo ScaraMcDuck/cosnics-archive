@@ -1585,6 +1585,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$props[Group :: PROPERTY_ID] = $this->get_next_group_id();
 		$props[Group :: PROPERTY_COURSE_CODE] = $group->get_course_code();
 		$props[Group :: PROPERTY_NAME] = $group->get_name();
+		$props[Group :: PROPERTY_MAX_NUMBER_OF_MEMBERS] = $group->get_max_number_of_members();
 		$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('group'), $props, MDB2_AUTOQUERY_INSERT))
 		{
@@ -1604,7 +1605,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$where = $this->escape_column_name(Group :: PROPERTY_ID).'="'. $group->get_id().'"';
 		$props = array();
-		foreach ($course->get_default_properties() as $key => $value)
+		foreach ($group->get_default_properties() as $key => $value)
 		{
 			$props[$this->escape_column_name($key)] = $value;
 		}
@@ -1631,6 +1632,60 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseGroupResultSet($this, $res);
+	}
+	function retrieve_group_user_ids($group)
+	{
+		$query = 'SELECT user_id FROM '.$this->escape_table_name('group_rel_user');
+		$query .= ' WHERE '.$this->escape_column_name('group_id').'=?';
+		$params[] = $group->get_id();
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		$user_ids = array();
+		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$user_ids[] = $record['user_id'];
+		}
+		return $user_ids;
+	}
+	// Inherited
+	function retrieve_group_users($group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		$user_ids = $this->retrieve_group_user_ids($group);
+		if(count($user_ids)>0)
+		{
+			$user_condition = new InCondition('user_id',$user_ids);
+			if(is_null($condition))
+			{
+				$condition = $user_condition;
+			}
+			else
+			{
+				$condition = new AndCondition($condition,$user_condition);
+			}
+			$udm = UsersDataManager::get_instance();
+			return $udm->retrieve_users($condition , $offset , $count, $order_property, $order_direction);
+		}
+		return null;
+	}
+	// Inherited
+	function count_group_users($group,$conditions = null)
+	{
+		$user_ids = $this->retrieve_group_user_ids($group);
+		if(count($user_ids) > 0)
+		{
+			$condition = new InCondition('user_id',$user_ids);
+			if(is_null($conditions))
+			{
+				$conditions = array($condition);
+			}
+			else
+			{
+				$conditions = new AndCondition($conditions);
+			}
+			$udm = UsersDataManager::get_instance();
+			return $udm->count_users($conditions);
+		}
+		return 0;
 	}
 	/**
 	 * Translates any type of condition to a SQL WHERE clause.

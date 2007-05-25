@@ -660,6 +660,14 @@ abstract class WeblcmsDataManager
 	 * @param string $course_code
 	 */
 	abstract function retrieve_groups($course_code);
+	/**
+	 * Retrieves the users in a group
+	 */
+	abstract function retrieve_group_users($group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	/**
+	 * Counts the users in a group
+	 */
+	abstract function count_group_users($group,$conditions = null);
 }
 
 ?>

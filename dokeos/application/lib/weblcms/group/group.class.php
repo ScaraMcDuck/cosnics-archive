@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id:$
  * @package application.lib.weblcms.group
  * @author Bart Mollet
  */
@@ -18,9 +19,18 @@ class Group
 	const PROPERTY_ID = 'id';
 	const PROPERTY_COURSE_CODE = 'course_code';
 	const PROPERTY_NAME = 'name';
-
+	const PROPERTY_MAX_NUMBER_OF_MEMBERS = 'max_number_of_members';
+	/**
+	 * The id of this group
+	 */
 	private $id;
+	/**
+	 * The code of the course in which this group was created
+	 */
 	private $course_code;
+	/**
+	 * The default property values
+	 */
 	private $defaultProperties;
 
 	/**
@@ -61,9 +71,10 @@ class Group
 	 * @param string $name The name of the property.
 	 * @param mixed $value The new value for the property.
 	 */
-	function set_default_property($name, $value)
+	private function set_default_property($name, $value)
 	{
 		$this->defaultProperties[$name] = $value;
+		return true;
 	}
 	/**
 	 * Get the default properties of all groups.
@@ -71,23 +82,59 @@ class Group
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_COURSE_CODE, self :: PROPERTY_NAME);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_COURSE_CODE, self :: PROPERTY_NAME, self :: PROPERTY_MAX_NUMBER_OF_MEMBERS);
 	}
+	/**
+	 * Gets the id of this group
+	 * @return int
+	 */
 	function get_id()
 	{
 		return $this->id;
 	}
+	/**
+	 * Gets the course code of the course in which this group was created
+	 * @return string
+	 */
 	function get_course_code()
 	{
 		return $this->course_code;
 	}
+	/**
+	 * Gets the name of this group
+	 * @return string
+	 */
 	function get_name()
 	{
 		return $this->get_default_property(self::PROPERTY_NAME);
 	}
+	/**
+	 * Sets the name of this group
+	 * @param string $name
+	 */
 	function set_name($name)
 	{
 		return $this->set_default_property(self::PROPERTY_NAME,$name);
+	}
+	/**
+	 * Gets the maximum number of members than can be subscribed to this group
+	 * @return int|null If null, no limit is set to the number of members
+	 */
+	function get_max_number_of_members()
+	{
+		return $this->get_default_property(self::PROPERTY_MAX_NUMBER_OF_MEMBERS);
+	}
+	/**
+	 * Sets the maximum number of members of this group
+	 * If the new value is smaller than the number of members currently
+	 * subscribed, no changes are made.
+	 * @param int|null $max_number_of_members If null, no limit is set to the
+	 * number of members.
+	 */
+	function set_max_number_of_members($max_number_of_members)
+	{
+		//Todo: Check current number of members.
+		return $this->set_default_property(self::PROPERTY_MAX_NUMBER_OF_MEMBERS,$max_number_of_members);
 	}
 	/**
 	 * Deletes the group object from persistent storage

@@ -38,6 +38,7 @@ class Weblcms extends WebApplication
 	const APPLICATION_NAME = 'weblcms';
 
 	const PARAM_COURSE = 'course';
+	const PARAM_GROUP = 'group';
 	const PARAM_USERS = 'users';
 	const PARAM_TOOL = 'tool';
 	const PARAM_COMPONENT_ACTION = 'action';
@@ -86,6 +87,11 @@ class Weblcms extends WebApplication
 	private $course;
 
 	/**
+	 * The group object of the group currently active in this application
+	 */
+	private $group;
+
+	/**
 	 * The user object of the currently active user in this application
 	 */
 	private $user;
@@ -104,6 +110,7 @@ class Weblcms extends WebApplication
 		$this->set_parameter(self :: PARAM_COMPONENT_ACTION, $_GET[self :: PARAM_COMPONENT_ACTION]);
 		$this->set_parameter(self :: PARAM_CATEGORY, $_GET[self :: PARAM_CATEGORY]);
 		$this->set_parameter(self :: PARAM_COURSE, $_GET[self :: PARAM_COURSE]);
+		$this->set_parameter(self :: PARAM_GROUP, $_GET[self :: PARAM_GROUP]);
 		$this->set_parameter(self :: PARAM_TOOL, $_GET[self :: PARAM_TOOL]);
 
 		$this->parse_input_from_table();
@@ -111,6 +118,8 @@ class Weblcms extends WebApplication
 		$this->user = $user;
 		$this->course = new Course();
 		$this->load_course();
+		$this->group = new Group();
+		$this->load_group();
 		$this->tools = array ();
 		$this->load_tools();
 	}
@@ -256,6 +265,22 @@ class Weblcms extends WebApplication
 	function get_course_id()
 	{
 		return $this->course->get_id();
+	}
+	/**
+	 * Returns the group that is being used.
+	 * @return string The group.
+	 */
+	function get_group()
+	{
+		return $this->group;
+	}
+	/**
+	 * Sets the group
+	 * @param Group $group
+	 */
+	function set_group($group)
+	{
+		$this->group = $group;
 	}
 	/**
 	 * Gets a list of all groups of the current active course in which the
@@ -483,6 +508,17 @@ class Weblcms extends WebApplication
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
 			$this->course = $wdm->retrieve_course($this->get_parameter(self :: PARAM_COURSE));
+		}
+	}
+	/**
+	 * Loads the current group into the system.
+	 */
+	private function load_group()
+	{
+		if(!is_null($this->get_parameter(self :: PARAM_GROUP)))
+		{
+			$wdm = WeblcmsDataManager :: get_instance();
+			$this->group = $wdm->retrieve_group($this->get_parameter(self :: PARAM_GROUP));
 		}
 	}
 

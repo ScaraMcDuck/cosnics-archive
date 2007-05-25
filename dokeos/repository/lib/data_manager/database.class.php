@@ -354,7 +354,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		return true;
 	}
-	
+
 	//Inherited.
 	function retrieve_learning_object_by_user($user_id)
 	{
@@ -450,7 +450,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 		return true;
 	}
-	
+
 	// Inherited.
 	function delete_learning_object_attachments($object)
 	{
@@ -460,11 +460,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 //		$body = 'message';
 //		$user = api_get_user_info($publication->get_publisher_id());
 //		api_send_mail($user['mail'], $subject, $body);
-		
+
 		// Delete all attachments (only the links, not the actual objects)
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('attachment').'=?';
-		$sth = $this->connection->prepare($query);		
-		
+		$sth = $this->connection->prepare($query);
+
 		if ($sth->execute($object->get_id()))
 		{
 			return true;
@@ -615,7 +615,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res->free();
 		return $versions;
 	}
-	
+
 	function get_latest_version_id ($object)
 	{
 		$object_number = $object->get_object_number();
@@ -625,7 +625,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res = $statement->execute($object_number);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$res->free();
-		
+
 		return $record['id'];
 	}
 
@@ -903,6 +903,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	function translate_condition($condition, & $params, $prefix_learning_object_properties = false)
 	{
+		var_dump($condition);
 		if ($condition instanceof AggregateCondition)
 		{
 			return $this->translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties);
@@ -1149,12 +1150,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		return LearningObject :: is_default_property_name($name) || $name == LearningObject :: PROPERTY_TYPE || $name == LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX || $name == LearningObject :: PROPERTY_ID;
 	}
-	
+
 	function ExecuteQuery($sql)
 	{
 		$this->connection->query($sql);
 	}
-	
+
 	function is_attached ($object, $type = null)
 	{
 		$query = 'SELECT COUNT('.$this->escape_column_name("learning_object").') FROM '.$this->escape_table_name('learning_object_attachment').' AS '.self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE .' WHERE '. self :: ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE . '.attachment';

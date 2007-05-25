@@ -256,6 +256,10 @@ class UserTable
 	function get_users($offset, $count, $order_column, $order_direction)
 	{
 		$users = $this->get_data_provider()->get_users(null, null, $offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_user_property(), $order_direction);
+		if(is_null($users))
+		{
+			return array();
+		}
 		$table_data = array ();
 		$column_count = $this->get_column_model()->get_column_count();
 		while ($user = $users->next_result())
