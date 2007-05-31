@@ -676,6 +676,12 @@ abstract class WeblcmsDataManager
 	 * Counts the users that can be subscribed to a group
 	 */
 	abstract function count_possible_group_users($group,$conditions = null);
+	/**
+	 * Subscribes users to groups
+	 * @param array|User $users A single user or an array of users
+	 * @param array|Group $groups A single group or an array of groups
+	 */
+	abstract function subscribe_users_to_groups($users,$groups);
 }
 
 ?>
