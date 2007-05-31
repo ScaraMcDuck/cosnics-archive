@@ -33,9 +33,7 @@ class GroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTableCell
 	private function get_modification_links($user)
 	{
 		$toolbar_data = array();
-			if($user->get_user_id() != $this->browser->get_user()->get_user_id())
-			{
-				$parameters = array();
+		$parameters = array();
 				$parameters[Weblcms :: PARAM_USERS] = $user->get_user_id();
 				$parameters[GroupTool :: PARAM_GROUP_ACTION] = GroupTool::ACTION_SUBSCRIBE;
 				$unsubscribe_url = $this->browser->get_url($parameters);
@@ -44,7 +42,6 @@ class GroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTableCell
 					'label' => get_lang('Subscribe'),
 					'img' => api_get_path(WEB_CODE_PATH).'/img/user-subscribe.gif'
 				);
-			}
 			$parameters = array();
 			$parameters[Weblcms::PARAM_USER_ACTION] = UserTool::USER_DETAILS;
 			$parameters[Weblcms :: PARAM_USERS] = $user->get_user_id();
