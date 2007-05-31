@@ -6,8 +6,8 @@
   <property name="name" type="text" length="100" notnull="1" default=""/>
   <property name="description" type="text"/>
   <property name="max_number_of_members" type="integer" unsigned="1" default="0"/>
-  <property name="self_reg_allowed" type="integer" length="1" unsigned="1" notnull="1"/>
-  <property name="self_unreg_allowed" type="integer" length="1" unsigned="1" notnull="1"/>
+  <property name="self_reg_allowed" type="integer" length="1" unsigned="1" notnull="1" default="0"/>
+  <property name="self_unreg_allowed" type="integer" length="1" unsigned="1" notnull="1" default="0"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
