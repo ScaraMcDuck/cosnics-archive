@@ -137,6 +137,15 @@ class Group
 		return $this->set_default_property(self::PROPERTY_MAX_NUMBER_OF_MEMBERS,$max_number_of_members);
 	}
 	/**
+	 * Subscribes users to this group
+	 * @param array|User A single user or an array of users
+	 */
+	function subscribe_users($users)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->subscribe_users_to_groups($users,$this);
+	}
+	/**
 	 * Deletes the group object from persistent storage
 	 * @return boolean
 	 */

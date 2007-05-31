@@ -1729,6 +1729,29 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 		return 0;
 	}
+	// Inherited
+	function subscribe_users_to_groups($users,$groups)
+	{
+		if(!is_array($users))
+		{
+			$users = array($users);
+		}
+		if(!is_array($groups))
+		{
+			$groups = array($groups);
+		}
+		foreach($users as $index => $user)
+		{
+			$props = array();
+			$props[User :: PROPERTY_USER_ID] = $user->get_user_id();
+			foreach($groups as $index => $group)
+			{
+				$props['group_id'] = $group->get_id();
+				$this->connection->loadModule('Extended');
+				$this->connection->extended->autoExecute($this->get_table_name('group_rel_user'), $props, MDB2_AUTOQUERY_INSERT);
+			}
+		}
+	}
 	/**
 	 * Translates any type of condition to a SQL WHERE clause.
 	 * @param Condition $condition The Condition object.

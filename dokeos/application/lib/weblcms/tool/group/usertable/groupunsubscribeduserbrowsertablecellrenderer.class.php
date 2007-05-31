@@ -50,8 +50,8 @@ class GroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTableCell
 			if($user->get_user_id() != $this->browser->get_user()->get_user_id())
 			{
 				$parameters = array();
-				//$parameters[Weblcms::PARAM_ACTION] = Weblcms::ACTION_UNSUBSCRIBE;
 				$parameters[Weblcms :: PARAM_USERS] = $user->get_user_id();
+				$parameters[GroupTool :: PARAM_GROUP_ACTION] = GroupTool::ACTION_SUBSCRIBE;
 				$unsubscribe_url = $this->browser->get_url($parameters);
 				$toolbar_data[] = array(
 					'href' => $unsubscribe_url,
