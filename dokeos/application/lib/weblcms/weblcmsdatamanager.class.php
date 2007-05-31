@@ -668,6 +668,14 @@ abstract class WeblcmsDataManager
 	 * Counts the users in a group
 	 */
 	abstract function count_group_users($group,$conditions = null);
+	/**
+	 * Retrieves the users that can be subscribed to a group
+	 */
+	abstract function retrieve_possible_group_users($group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	/**
+	 * Counts the users that can be subscribed to a group
+	 */
+	abstract function count_possible_group_users($group,$conditions = null);
 }
 
 ?>
