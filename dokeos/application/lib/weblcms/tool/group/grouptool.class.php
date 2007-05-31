@@ -10,13 +10,23 @@ require_once dirname(__FILE__).'/../../group/groupform.class.php';
 require_once dirname(__FILE__).'/usertable/groupsubscribeduserbrowsertable.class.php';
 require_once dirname(__FILE__).'/usertable/groupunsubscribeduserbrowsertable.class.php';
 require_once dirname(__FILE__).'/grouptoolsearchform.class.php';
+/**
+ * This tool provides an interface for managing the groups in a course.
+ */
 class GroupTool extends Tool
 {
 	const PARAM_GROUP_ACTION = 'group_action';
 	const ACTION_SUBSCRIBE = 'group_subscribe';
 	const ACTION_UNSUBSCRIBE = 'group_unsubscribe';
 	const ACTION_ADD_GROUP = 'add_group';
+	/**
+	 * The search form which can be used to search for users in the group tool.
+	 */
 	private $search_form;
+	/**
+	 * Runs this tool by performing the requested actions and showing the user
+	 * interface.
+	 */
 	function run()
 	{
 		//		if(!$this->is_allowed(VIEW_RIGHT))
@@ -134,10 +144,19 @@ class GroupTool extends Tool
 			}
 		}
 	}
+	/**
+	 * Gets the current active group
+	 * @return Group|null The current group or null if no group is set at the
+	 * moment.
+	 */
 	function get_group()
 	{
 		return $this->get_parent()->get_group();
 	}
+	/**
+	 * Gets the toolbar to show on the page where the group members are listed.
+	 * @return string
+	 */
 	function get_grouptool_unsubscribe_modification_links()
 	{
 		$toolbar_data = array ();
@@ -146,7 +165,11 @@ class GroupTool extends Tool
 
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
-
+	/**
+	 * Gets the toolbar to show on the page where the possible group members are
+	 * listed.
+	 * @return string
+	 */
 	function get_grouptool_subscribe_modification_links()
 	{
 		$toolbar_data = array ();

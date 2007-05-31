@@ -1,4 +1,10 @@
 <?php
+/**
+ * $Id$
+ * Group tool
+ * @package application.weblcms.tool
+ * @subpackage group
+ */
 require_once dirname(__FILE__).'/../../../../../../users/lib/user_table/usertable.class.php';
 require_once dirname(__FILE__).'/groupunsubscribeduserbrowsertabledataprovider.class.php';
 require_once dirname(__FILE__).'/groupunsubscribeduserbrowsertablecolumnmodel.class.php';
