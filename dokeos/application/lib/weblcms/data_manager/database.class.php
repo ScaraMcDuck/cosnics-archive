@@ -1683,7 +1683,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			}
 			else
 			{
-				$conditions = new AndCondition($conditions);
+				$conditions = new AndCondition($condition,$conditions);
 			}
 			$udm = UsersDataManager::get_instance();
 			return $udm->count_users($conditions);

@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * $Id$
  * Group tool
@@ -11,12 +9,14 @@ require_once dirname(__FILE__).'/../tool.class.php';
 require_once dirname(__FILE__).'/../../group/groupform.class.php';
 require_once dirname(__FILE__).'/usertable/groupsubscribeduserbrowsertable.class.php';
 require_once dirname(__FILE__).'/usertable/groupunsubscribeduserbrowsertable.class.php';
+require_once dirname(__FILE__).'/grouptoolsearchform.class.php';
 class GroupTool extends Tool
 {
 	const PARAM_GROUP_ACTION = 'group_action';
 	const ACTION_SUBSCRIBE = 'group_subscribe';
 	const ACTION_UNSUBSCRIBE = 'group_unsubscribe';
 	const ACTION_ADD_GROUP = 'add_group';
+	private $search_form;
 	function run()
 	{
 		//		if(!$this->is_allowed(VIEW_RIGHT))
@@ -30,6 +30,7 @@ class GroupTool extends Tool
 		$course = $this->get_parent()->get_course();
 		$groups = $dm->retrieve_groups($course->get_id());
 		$param_add_group[RepositoryTool :: PARAM_ACTION] = self :: ACTION_ADD_GROUP;
+		$this->search_form = new GroupToolSearchForm($this, $this->get_url());
 		// We are inside a group area
 		if (!is_null($this->get_parent()->get_group()->get_id()))
 		{
@@ -51,9 +52,11 @@ class GroupTool extends Tool
 					case self :: ACTION_SUBSCRIBE :
 						$html = array ();
 						$this->display_header();
+						$html[] = '<div style="clear: both;">&nbsp;</div>';
+						$html[] = $this->search_form->display();
 						if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
 						{
-							echo $this->get_grouptool_subscribe_modification_links();
+							$html[] = $this->get_grouptool_subscribe_modification_links();
 						}
 						if(isset($_GET[Weblcms::PARAM_USERS]))
 						{
@@ -63,8 +66,7 @@ class GroupTool extends Tool
 							$group->subscribe_users($user);
 							$html[] = Display::display_normal_message(get_lang('UserSubscribed'),true);
 						}
-						$table = new GroupUnsubscribedUserBrowserTable($this->get_parent(), null, array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id()) /* $this->get_unsubscribe_condition()*/
-						);
+						$table = new GroupUnsubscribedUserBrowserTable($this->get_parent(), null, array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id()),$this->search_form->get_condition());
 						$html[] = $table->as_html();
 						echo implode($html, "\n");
 						$this->display_footer();
@@ -72,9 +74,11 @@ class GroupTool extends Tool
 					default :
 						$html = array ();
 						$this->display_header();
+						$html[] = '<div style="clear: both;">&nbsp;</div>';
+						$html[] = $this->search_form->display();
 						if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
 						{
-							echo $this->get_grouptool_unsubscribe_modification_links();
+							$html[] =  $this->get_grouptool_unsubscribe_modification_links();
 						}
 						if($group_action == self :: ACTION_UNSUBSCRIBE && isset($_GET[Weblcms::PARAM_USERS]))
 						{
@@ -84,8 +88,7 @@ class GroupTool extends Tool
 							$group->unsubscribe_users($user);
 							$html[] = Display::display_normal_message(get_lang('UserUnsubscribed'),true);
 						}
-						$table = new GroupSubscribedUserBrowserTable($this->get_parent(), null, array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id()) /* $this->get_unsubscribe_condition()*/
-						);
+						$table = new GroupSubscribedUserBrowserTable($this->get_parent(), null, array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id()),$this->search_form->get_condition());
 						$html[] = $table->as_html();
 						echo implode($html, "\n");
 						$this->display_footer();
