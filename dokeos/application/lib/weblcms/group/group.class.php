@@ -21,6 +21,8 @@ class Group
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_MAX_NUMBER_OF_MEMBERS = 'max_number_of_members';
 	const PROPERTY_DESCRIPTION = 'description';
+	const PROPERTY_SELF_UNREG = 'self_unreg_allowed';
+	const PROPERTY_SELF_REG = 'self_reg_allowed';
 	/**
 	 * The id of this group
 	 */
@@ -83,7 +85,7 @@ class Group
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_COURSE_CODE, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION,self :: PROPERTY_MAX_NUMBER_OF_MEMBERS);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_COURSE_CODE, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION,self :: PROPERTY_MAX_NUMBER_OF_MEMBERS, self :: PROPERTY_SELF_REG, self :: PROPERTY_SELF_UNREG);
 	}
 	/**
 	 * Gets the id of this group
@@ -152,6 +154,46 @@ class Group
 	{
 		//Todo: Check current number of members.
 		return $this->set_default_property(self::PROPERTY_MAX_NUMBER_OF_MEMBERS,$max_number_of_members);
+	}
+	/**
+	 * Determines if self registration is allowed
+	 * @return boolean
+	 */
+	function is_self_registration_allowed()
+	{
+		return $this->get_default_property(self::PROPERTY_SELF_REG);
+	}
+	/**
+	 * Sets if self registration is allowed
+	 * @param boolean $self_reg
+	 */
+	function set_self_registration_allowed($self_reg)
+	{
+		if(is_null($self_reg))
+		{
+			$self_reg = 0;
+		}
+		return $this->set_default_property(self::PROPERTY_SELF_REG,$self_reg);
+	}
+	/**
+	 * Determines if self unregistration is allowed
+	 * @return boolean
+	 */
+	function is_self_unregistration_allowed()
+	{
+		return $this->get_default_property(self::PROPERTY_SELF_UNREG);
+	}
+	/**
+	 * Sets if self unregistration is allowed
+	 * @param boolean $self_unreg
+	 */
+	function set_self_unregistration_allowed($self_unreg)
+	{
+		if(is_null($self_unreg))
+		{
+			$self_unreg = 0;
+		}
+		return $this->set_default_property(self::PROPERTY_SELF_UNREG,$self_unreg);
 	}
 	/**
 	 * Subscribes users to this group
