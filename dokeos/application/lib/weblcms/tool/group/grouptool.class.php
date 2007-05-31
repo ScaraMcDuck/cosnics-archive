@@ -65,20 +65,27 @@ class GroupTool extends Tool
 						}
 						$table = new GroupUnsubscribedUserBrowserTable($this->get_parent(), null, array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id()) /* $this->get_unsubscribe_condition()*/
 						);
-						$html = array ();
 						$html[] = $table->as_html();
 						echo implode($html, "\n");
 						$this->display_footer();
 						break;
 					default :
+						$html = array ();
 						$this->display_header();
 						if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
 						{
 							echo $this->get_grouptool_unsubscribe_modification_links();
 						}
+						if($group_action == self :: ACTION_UNSUBSCRIBE && isset($_GET[Weblcms::PARAM_USERS]))
+						{
+							$udm = UsersDataManager :: get_instance();
+							$user = $udm->retrieve_user($_GET[Weblcms :: PARAM_USERS]);
+							$group = $this->get_parent()->get_group();
+							$group->unsubscribe_users($user);
+							$html[] = Display::display_normal_message(get_lang('UserUnsubscribed'),true);
+						}
 						$table = new GroupSubscribedUserBrowserTable($this->get_parent(), null, array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id()) /* $this->get_unsubscribe_condition()*/
 						);
-						$html = array ();
 						$html[] = $table->as_html();
 						echo implode($html, "\n");
 						$this->display_footer();

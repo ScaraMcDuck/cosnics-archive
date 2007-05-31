@@ -1752,6 +1752,27 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			}
 		}
 	}
+	// Inherited
+	function unsubscribe_users_from_groups($users,$groups)
+	{
+		if(!is_array($users))
+		{
+			$users = array($users);
+		}
+		if(!is_array($groups))
+		{
+			$groups = array($groups);
+		}
+		foreach($users as $index => $user)
+		{
+			foreach($groups as $index => $group)
+			{
+				$sql = 'DELETE FROM '.$this->escape_table_name('group_rel_user').' WHERE group_id = ? AND user_id = ?';
+				$statement = $this->connection->prepare($sql);
+				$statement->execute(array($group->get_id(),$user->get_user_id()));
+			}
+		}
+	}
 	/**
 	 * Translates any type of condition to a SQL WHERE clause.
 	 * @param Condition $condition The Condition object.

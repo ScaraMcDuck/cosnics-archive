@@ -33,24 +33,10 @@ class GroupSubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRe
 	private function get_modification_links($user)
 	{
 		$toolbar_data = array();
-		if($this->browser->get_parameter(Weblcms::PARAM_USER_ACTION) == Weblcms :: ACTION_SUBSCRIBE)
-		{
-			$parameters = array();
-			$parameters[Weblcms::PARAM_ACTION] = Weblcms::ACTION_SUBSCRIBE;
-			$parameters[Weblcms :: PARAM_USERS] = $user->get_user_id();
-			$subscribe_url = $this->browser->get_url($parameters);
-			$toolbar_data[] = array(
-				'href' => $subscribe_url,
-				'label' => get_lang('Subscribe'),
-				'img' => api_get_path(WEB_CODE_PATH).'/img/user-subscribe.gif'
-			);
-		}
-		else
-		{
 			if($user->get_user_id() != $this->browser->get_user()->get_user_id())
 			{
 				$parameters = array();
-				$parameters[Weblcms::PARAM_ACTION] = Weblcms::ACTION_UNSUBSCRIBE;
+				$parameters[GroupTool :: PARAM_GROUP_ACTION] = GroupTool::ACTION_UNSUBSCRIBE;
 				$parameters[Weblcms :: PARAM_USERS] = $user->get_user_id();
 				$unsubscribe_url = $this->browser->get_url($parameters);
 				$toolbar_data[] = array(
@@ -68,7 +54,6 @@ class GroupSubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRe
 				'label' => get_lang('Details'),
 				'img' => api_get_path(WEB_CODE_PATH).'/img/profile.gif'
 			);
-		}
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
 }
