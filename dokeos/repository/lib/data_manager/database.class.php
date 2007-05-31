@@ -903,7 +903,6 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	function translate_condition($condition, & $params, $prefix_learning_object_properties = false)
 	{
-		var_dump($condition);
 		if ($condition instanceof AggregateCondition)
 		{
 			return $this->translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties);
