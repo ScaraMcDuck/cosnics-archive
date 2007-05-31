@@ -9,7 +9,7 @@
 require_once dirname(__FILE__).'/../tool.class.php';
 require_once dirname(__FILE__).'/../../group/groupform.class.php';
 require_once dirname(__FILE__).'/usertable/groupsubscribeduserbrowsertable.class.php';
-
+require_once dirname(__FILE__).'/usertable/groupunsubscribeduserbrowsertable.class.php';
 class GroupTool extends Tool
 {
 	const PARAM_GROUP_ACTION = 'group_action';
@@ -50,7 +50,9 @@ class GroupTool extends Tool
 					echo $this->get_grouptool_subscribe_modification_links();
 				}
 				$html = array();
-				$html[] = 'TODO';
+				$table = new GroupUnsubscribedUserBrowserTable($this->get_parent(), null, array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id())/* $this->get_unsubscribe_condition()*/);
+				$html = array();
+				$html[] = $table->as_html();
 				echo implode($html, "\n");
 				$this->display_footer();
 			}

@@ -1687,6 +1687,48 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 		return 0;
 	}
+	// Inherited
+	function retrieve_possible_group_users($group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		//Todo: Add condition so only users from the course are retrieved
+		$user_ids = $this->retrieve_group_user_ids($group);
+		if(count($user_ids)>0)
+		{
+			$user_condition = new NotCondition(new InCondition('user_id',$user_ids));
+			if(is_null($condition))
+			{
+				$condition = $user_condition;
+			}
+			else
+			{
+				$condition = new AndCondition($condition,$user_condition);
+			}
+			$udm = UsersDataManager::get_instance();
+			return $udm->retrieve_users($condition , $offset , $count, $order_property, $order_direction);
+		}
+		return null;
+	}
+	// Inherited
+	function count_possible_group_users($group,$conditions = null)
+	{
+		//Todo: Add condition so only users from the course are counted
+		$user_ids = $this->retrieve_group_user_ids($group);
+		if(count($user_ids) > 0)
+		{
+			$condition = new NotCondition(new InCondition('user_id',$user_ids));
+			if(is_null($conditions))
+			{
+				$conditions = array($condition);
+			}
+			else
+			{
+				$conditions = new AndCondition($conditions);
+			}
+			$udm = UsersDataManager::get_instance();
+			return $udm->count_users($conditions);
+		}
+		return 0;
+	}
 	/**
 	 * Translates any type of condition to a SQL WHERE clause.
 	 * @param Condition $condition The Condition object.
