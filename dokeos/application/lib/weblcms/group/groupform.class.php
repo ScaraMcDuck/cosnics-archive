@@ -39,7 +39,8 @@ class GroupForm extends FormValidator {
     {
 		$this->addElement('text', Group :: PROPERTY_NAME, get_lang('Title'));
 		$this->addRule(Group :: PROPERTY_NAME, get_lang('ThisFieldIsRequired'), 'required');
-		$this->addElement('text', Group::PROPERTY_MAX_NUMBER_OF_MEMBERS,get_lang('MaxNumberOfMembers'));
+		$this->add_html_editor(Group :: PROPERTY_DESCRIPTION, get_lang('Description'));
+		$this->addElement('text', Group::PROPERTY_MAX_NUMBER_OF_MEMBERS,get_lang('MaxNumberOfMembers'),'size="4"');
 		$this->addRule(Group::PROPERTY_MAX_NUMBER_OF_MEMBERS, get_lang('ThisFieldShouldBeNumeric'), 'regex','/^[0-9]*$/');
 		$this->addElement('submit', 'group_settings', get_lang('Ok'));
     }
@@ -63,6 +64,7 @@ class GroupForm extends FormValidator {
     	$group = $this->group;
     	$values = $this->exportValues();
     	$group->set_name($values[Group :: PROPERTY_NAME]);
+    	$group->set_description($values[Group :: PROPERTY_DESCRIPTION]);
     	$group->set_max_number_of_members($values[Group :: PROPERTY_MAX_NUMBER_OF_MEMBERS]);
     	return $group->update();
     }
@@ -73,6 +75,7 @@ class GroupForm extends FormValidator {
     	$values = $this->exportValues();
 
     	$group->set_name($values[Group :: PROPERTY_NAME]);
+    	$group->set_description($values[Group :: PROPERTY_DESCRIPTION]);
 		$group->set_max_number_of_members($values[Group :: PROPERTY_MAX_NUMBER_OF_MEMBERS]);
     	if ($group->create())
     	{
@@ -94,6 +97,7 @@ class GroupForm extends FormValidator {
 	{
 		$group = $this->group;
 		$defaults[Group :: PROPERTY_NAME] = $group->get_name();
+		$$defaults[Group :: PROPERTY_DESCRIPTION] = $group->get_description();
 		$defaults[Group :: PROPERTY_MAX_NUMBER_OF_MEMBERS] = $group->get_max_number_of_members();
 		parent :: setDefaults($defaults);
 	}

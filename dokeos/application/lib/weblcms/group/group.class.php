@@ -20,6 +20,7 @@ class Group
 	const PROPERTY_COURSE_CODE = 'course_code';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_MAX_NUMBER_OF_MEMBERS = 'max_number_of_members';
+	const PROPERTY_DESCRIPTION = 'description';
 	/**
 	 * The id of this group
 	 */
@@ -82,7 +83,7 @@ class Group
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_COURSE_CODE, self :: PROPERTY_NAME, self :: PROPERTY_MAX_NUMBER_OF_MEMBERS);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_COURSE_CODE, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION,self :: PROPERTY_MAX_NUMBER_OF_MEMBERS);
 	}
 	/**
 	 * Gets the id of this group
@@ -115,6 +116,22 @@ class Group
 	function set_name($name)
 	{
 		return $this->set_default_property(self::PROPERTY_NAME,$name);
+	}
+	/**
+	 * Gets the description of this group
+	 * @return string
+	 */
+	function get_description()
+	{
+		return $this->get_default_property(self::PROPERTY_DESCRIPTION);
+	}
+	/**
+	 * Sets the description of this group
+	 * @param string $description
+	 */
+	function set_description($description)
+	{
+		return $this->set_default_property(self::PROPERTY_DESCRIPTION,$description);
 	}
 	/**
 	 * Gets the maximum number of members than can be subscribed to this group

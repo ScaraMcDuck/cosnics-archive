@@ -1585,6 +1585,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$props[Group :: PROPERTY_ID] = $this->get_next_group_id();
 		$props[Group :: PROPERTY_COURSE_CODE] = $group->get_course_code();
 		$props[Group :: PROPERTY_NAME] = $group->get_name();
+		$props[Group :: PROPERTY_DESCRIPTION] = $group->get_description();
 		$props[Group :: PROPERTY_MAX_NUMBER_OF_MEMBERS] = $group->get_max_number_of_members();
 		$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('group'), $props, MDB2_AUTOQUERY_INSERT))
