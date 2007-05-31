@@ -1690,7 +1690,22 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	// Inherited
 	function retrieve_possible_group_users($group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		//Todo: Add condition so only users from the course are retrieved
+		$udm = UsersDataManager::get_instance();
+		$query = 'SELECT user_id FROM '. $this->escape_table_name('course_rel_user') .' WHERE '.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).'=?';
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($group->get_course_code());
+		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$course_user_ids[] = $record[User::PROPERTY_USER_ID];
+		}
+		if(!is_null($condition))
+		{
+			$condition = new AndCondition($condition,new InCondition(User::PROPERTY_USER_ID,$course_user_ids));
+		}
+		else
+		{
+			$condition = new InCondition(User::PROPERTY_USER_ID,$course_user_ids);
+		}
 		$user_ids = $this->retrieve_group_user_ids($group);
 		if(count($user_ids)>0)
 		{
@@ -1703,31 +1718,33 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			{
 				$condition = new AndCondition($condition,$user_condition);
 			}
-			$udm = UsersDataManager::get_instance();
-			return $udm->retrieve_users($condition , $offset , $count, $order_property, $order_direction);
 		}
-		return null;
+		return $udm->retrieve_users($condition , $offset , $count, $order_property, $order_direction);
 	}
 	// Inherited
 	function count_possible_group_users($group,$conditions = null)
 	{
-		//Todo: Add condition so only users from the course are counted
+		if(!is_array($conditions))
+		{
+			$conditions = array();
+		}
+		$udm = UsersDataManager::get_instance();
+		$query = 'SELECT user_id FROM '. $this->escape_table_name('course_rel_user') .' WHERE '.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).'=?';
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($group->get_course_code());
+		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$course_user_ids[] = $record[User::PROPERTY_USER_ID];
+		}
+		$conditions[] = new InCondition(User::PROPERTY_USER_ID,$course_user_ids);
 		$user_ids = $this->retrieve_group_user_ids($group);
 		if(count($user_ids) > 0)
 		{
-			$condition = new NotCondition(new InCondition('user_id',$user_ids));
-			if(is_null($conditions))
-			{
-				$conditions = array($condition);
-			}
-			else
-			{
-				$conditions = new AndCondition($conditions);
-			}
-			$udm = UsersDataManager::get_instance();
-			return $udm->count_users($conditions);
+			$user_condition = new NotCondition(new InCondition('user_id',$user_ids));
+			$conditions[] = $user_condition;
 		}
-		return 0;
+		$condition = new AndCondition($conditions);
+		return $udm->count_users($condition);
 	}
 	// Inherited
 	function subscribe_users_to_groups($users,$groups)
