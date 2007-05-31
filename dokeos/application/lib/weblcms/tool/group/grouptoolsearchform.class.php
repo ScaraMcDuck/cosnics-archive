@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: grouptool.class.php 12507 2007-05-31 07:47:19Z bmol $
+ * $Id$
  * Group tool
  * @package application.weblcms.tool
  * @subpackage group

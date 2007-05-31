@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * $Id$
+ * Group tool
+ * @package application.weblcms.tool
+ * @subpackage group
+ */
 class GroupSubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 {
 		private $browser;

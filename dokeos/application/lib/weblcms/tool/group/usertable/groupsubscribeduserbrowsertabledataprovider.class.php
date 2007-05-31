@@ -1,4 +1,10 @@
 <?php
+/**
+ * $Id$
+ * Group tool
+ * @package application.weblcms.tool
+ * @subpackage group
+ */
 require_once dirname(__FILE__).'/../../../../../../users/lib/user_table/usertabledataprovider.class.php';
 class GroupSubscribedUserBrowserTableDataprovider  implements UserTableDataProvider
 {
