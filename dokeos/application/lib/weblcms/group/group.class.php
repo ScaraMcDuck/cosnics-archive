@@ -146,6 +146,15 @@ class Group
 		return $wdm->subscribe_users_to_groups($users,$this);
 	}
 	/**
+	 * Unsubscribes users from this group
+	 * @param array|User A single user or an array of users
+	 */
+	function unsubscribe_users($users)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->unsubscribe_users_from_groups($users,$this);
+	}
+	/**
 	 * Deletes the group object from persistent storage
 	 * @return boolean
 	 */

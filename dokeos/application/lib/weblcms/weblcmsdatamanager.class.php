@@ -682,6 +682,12 @@ abstract class WeblcmsDataManager
 	 * @param array|Group $groups A single group or an array of groups
 	 */
 	abstract function subscribe_users_to_groups($users,$groups);
+	/**
+	 * Unsubscribes users from groups
+	 * @param array|User $users A single user or an array of users
+	 * @param array|Group $groups A single group or an array of groups
+	 */
+	abstract function unsubscribe_users_from_groups($users,$groups);
 }
 
 ?>
