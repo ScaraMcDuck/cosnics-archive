@@ -118,7 +118,7 @@ class Weblcms extends WebApplication
 		$this->user = $user;
 		$this->course = new Course();
 		$this->load_course();
-		$this->group = new Group();
+		$this->group = null;
 		$this->load_group();
 		$this->tools = array ();
 		$this->load_tools();
