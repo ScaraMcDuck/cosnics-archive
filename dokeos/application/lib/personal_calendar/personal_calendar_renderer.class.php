@@ -58,7 +58,7 @@ abstract class PersonalCalendarRenderer
 		return $this->personal_calendar;
 	}
 	/**
-	 *
+	 * @see PersonalCalendar::get_url()
 	 */
 	public function get_url($parameters = array (), $encode = false, $filter = false, $filterOn = array())
 	{
@@ -70,7 +70,10 @@ abstract class PersonalCalendarRenderer
 	 */
 	abstract function render();
 	/**
-	 *
+	 * Retrieves a color
+	 * @param mixed $key The key from which the color will be created. Calling
+	 * this function with the same key returns the same color.
+	 * @return string A color string which can be used as a value in CSS rules.
 	 */
 	public function get_color($key = null)
 	{
@@ -81,12 +84,20 @@ abstract class PersonalCalendarRenderer
 		}
 		if(!isset($this->legend[$key]))
 		{
-			$this->legend[$key] = 'rgb('.rand(0,255).','.rand(0,255).','.rand(0,255).')';
+			$color_number = substr(ereg_replace('[0a-zA-Z]','',md5(serialize($key))),0,9);
+			$rgb = array();
+			$rgb['r'] = substr($color_number,0,3)%255;
+			$rgb['g'] = substr($color_number,2,3)%255;
+			$rgb['b'] = substr($color_number,4,3)%255;
+			$this->legend[$key] = 'rgb('.$rgb['r'].','.$rgb['g'].','.$rgb['b'].')';
 		}
 		return $this->legend[$key];
 	}
 	/**
-	 *
+	 * Builds a color-based legend for the personal calendar to help users to
+	 * see which applications and locations are the origin of the the published
+	 * events
+	 * @return string
 	 */
 	public function build_legend()
 	{
