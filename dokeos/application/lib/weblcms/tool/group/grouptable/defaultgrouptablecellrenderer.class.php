@@ -25,6 +25,21 @@ class DefaultGroupTableCellRenderer implements GroupTableCellRenderer
 	 */
 	function render_cell($column, $group)
 	{
+		if ($column === DefaultGroupTableColumnModel :: get_modification_column())
+		{
+			return $this->get_modification_links($group);
+		}
+		if ($column === DefaultGroupTableColumnModel :: get_number_of_members_column())
+		{
+			if(!is_null( $group->get_members()))
+			{
+				return $group->get_members()->size();
+			}
+			else
+			{
+				return '0';
+			}
+		}
 		if ($property = $column->get_group_property())
 		{
 			switch ($property)
@@ -45,6 +60,10 @@ class DefaultGroupTableCellRenderer implements GroupTableCellRenderer
 			}
 		}
 		return '&nbsp;';
+	}
+	private function get_modification_links($group)
+	{
+		return 'todo';
 	}
 }
 ?>
