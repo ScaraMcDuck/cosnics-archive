@@ -1,5 +1,4 @@
 <?php
-
 /**
  * $Id$
  * @package application.personal_calendar
@@ -12,6 +11,9 @@ require_once (dirname(__FILE__).'/../../../common/daycalendar.class.php');
  */
 class PersonalCalendarDayRenderer extends PersonalCalendarRenderer
 {
+	/**
+	 * @see PersonalCalendarRenderer::render()
+	 */
 	public function render()
 	{
 		$calendar = new DayCalendar($this->get_time(), 2);
@@ -41,6 +43,11 @@ class PersonalCalendarDayRenderer extends PersonalCalendarRenderer
 		$html .= $this->build_legend();
 		return $html;
 	}
+	/**
+	 * Renders a personal event
+	 * @param PersonalCalendarEvent $personal_event
+	 * @return string
+	 */
 	private function render_personal_event($personal_event)
 	{
 		$learning_object = $personal_event->get_event();
@@ -54,6 +61,13 @@ class PersonalCalendarDayRenderer extends PersonalCalendarRenderer
 		$html[] = '</div>';
 		return implode("\n", $html);
 	}
+	/**
+	 * Renders an event.
+	 * This function is used to render an event which is retrieved from an other
+	 * application using a personal calendar connector.
+	 * @param LearningObjectPublicationAttributes $event
+	 * @return string
+	 */
 	private function render_event($event)
 	{
 		$dm = RepositoryDataManager :: get_instance();

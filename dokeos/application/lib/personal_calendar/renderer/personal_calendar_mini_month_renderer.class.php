@@ -66,7 +66,7 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
 	}
 	/**
 	 * Gets a html representation of a published calendar event
-	 * @param CalendarEvent $event
+	 * @param LearningObjectPublicationAttributes $event
 	 * @return string
 	 */
 	private function render_event($event)
