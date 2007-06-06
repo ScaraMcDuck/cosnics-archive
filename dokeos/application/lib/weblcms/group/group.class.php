@@ -196,6 +196,16 @@ class Group
 		return $this->set_default_property(self::PROPERTY_SELF_UNREG,$self_unreg);
 	}
 	/**
+	 * Retrieves the users subscribed to this group
+	 * @return DatabaseUserResultSet
+	 */
+	function get_members()
+	{
+		$wdm = WeblcmsDataManager::get_instance();
+		$result = $wdm->retrieve_group_users($this);
+		return $result;
+	}
+	/**
 	 * Subscribes users to this group
 	 * @param array|User A single user or an array of users
 	 */
