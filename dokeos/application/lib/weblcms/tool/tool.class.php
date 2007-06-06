@@ -68,8 +68,12 @@ abstract class Tool
 		if(!is_null($this->parent->get_group()))
 		{
 			$group = $this->parent->get_group();
-			$breadcrumbs[] = array( 'url' => $this->get_url(), 'name' => get_lang('Groups'));
+			$breadcrumbs[] = array( 'url' => $this->get_url(array(Weblcms::PARAM_GROUP=>null)), 'name' => get_lang('Groups'));
 			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => $group->get_name());
+		}
+		elseif($this->get_tool_id() == 'group')
+		{
+			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang(Tool :: type_to_class($this->get_tool_id()).'Title'));
 		}
 		if($this->get_tool_id() != 'group')
 		{
