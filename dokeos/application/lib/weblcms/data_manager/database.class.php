@@ -1673,7 +1673,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->record_to_group($res->fetchRow(MDB2_FETCHMODE_ASSOC));
 	}
 	// Inherited
-	function retrieve_groups($course_code)
+	//@todo: Take parameters into account
+	function retrieve_groups($course_code,$category = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('group');
 		$query .= ' WHERE '.$this->escape_column_name('course_code').'=?';
