@@ -10,6 +10,10 @@ require_once dirname(__FILE__).'/../../group/groupform.class.php';
 require_once dirname(__FILE__).'/usertable/groupsubscribeduserbrowsertable.class.php';
 require_once dirname(__FILE__).'/usertable/groupunsubscribeduserbrowsertable.class.php';
 require_once dirname(__FILE__).'/grouptoolsearchform.class.php';
+require_once dirname(__FILE__).'/grouptable/grouptable.class.php';
+require_once dirname(__FILE__).'/grouptable/defaultgrouptablecellrenderer.class.php';
+require_once dirname(__FILE__).'/grouptable/defaultgrouptablecolumnmodel.class.php';
+require_once dirname(__FILE__).'/grouptable/grouptabledataprovider.class.php';
 /**
  * This tool provides an interface for managing the groups in a course.
  */
@@ -133,12 +137,8 @@ class GroupTool extends Tool
 					$toolbar_data[] = array ('href' => $this->get_url($param_add_group), 'label' => get_lang('Create'), 'img' => api_get_path(WEB_CODE_PATH).'img/group.gif', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 					$this->display_header();
 					echo RepositoryUtilities :: build_toolbar($toolbar_data, array (), 'margin-top: 1em;');
-					echo '<ul>';
-					while ($group = $groups->next_result())
-					{
-						echo '<li><a href="'.$this->get_url(array (Weblcms :: PARAM_GROUP => $group->get_id())).'">'.$group->get_name().'</a></li>';
-					}
-					echo '</ul>';
+					$group_table = new GroupTable(new GroupTableDataProvider($this));
+					echo $group_table->as_html();
 					$this->display_footer();
 					break;
 			}
