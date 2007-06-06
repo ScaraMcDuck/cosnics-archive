@@ -42,7 +42,7 @@ class GroupTool extends Tool
 		$param_add_group[RepositoryTool :: PARAM_ACTION] = self :: ACTION_ADD_GROUP;
 		$this->search_form = new GroupToolSearchForm($this, $this->get_url());
 		// We are inside a group area
-		if (!is_null($this->get_parent()->get_group()->get_id()))
+		if (!is_null($this->get_parent()->get_group()))
 		{
 			$user_action = $_GET[Weblcms :: PARAM_USER_ACTION];
 			$group_action = $_GET[self :: PARAM_GROUP_ACTION];
