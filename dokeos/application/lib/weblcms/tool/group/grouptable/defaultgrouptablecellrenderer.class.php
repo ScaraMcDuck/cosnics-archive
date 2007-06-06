@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $Id: grouptool.class.php 12541 2007-06-06 07:34:34Z bmol $
  * Group tool
@@ -31,7 +32,7 @@ class DefaultGroupTableCellRenderer implements GroupTableCellRenderer
 		}
 		if ($column === DefaultGroupTableColumnModel :: get_number_of_members_column())
 		{
-			if(!is_null( $group->get_members()))
+			if (!is_null($group->get_members()))
 			{
 				return $group->get_members()->size();
 			}
@@ -63,7 +64,16 @@ class DefaultGroupTableCellRenderer implements GroupTableCellRenderer
 	}
 	private function get_modification_links($group)
 	{
-		return 'todo';
+		$toolbar_data = array ();
+		$parameters = array ();
+		$parameters[Weblcms :: PARAM_GROUP] = $group->get_id();
+		$details_url = $this->group_tool->get_url($parameters);
+		$toolbar_data[] = array ('href' => $details_url, 'label' => get_lang('Details'), 'img' => api_get_path(WEB_CODE_PATH).'/img/description.gif');
+		$parameters = array ();
+		$parameters[Weblcms :: PARAM_GROUP] = $group->get_id();
+		$delete_url = $this->group_tool->get_url($parameters);
+		$toolbar_data[] = array ('href' => $details_url, 'label' => get_lang('Delete'), 'img' => api_get_path(WEB_CODE_PATH).'/img/delete.gif');
+		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>
