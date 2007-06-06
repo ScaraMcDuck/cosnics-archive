@@ -62,6 +62,12 @@ class DefaultGroupTableCellRenderer implements GroupTableCellRenderer
 		}
 		return '&nbsp;';
 	}
+	/**
+	 * Gets the action links to display
+	 * @param Group $group The group for which the action links should be
+	 * returned
+	 * @return string A HTML representation of the action links
+	 */
 	private function get_modification_links($group)
 	{
 		$toolbar_data = array ();
