@@ -288,7 +288,9 @@ class Weblcms extends WebApplication
 	 */
 	function get_groups()
 	{
-		return null;
+		$wdm = WeblcmsDataManager :: get_instance();
+		$groups = $wdm->retrieve_groups_from_user($this->get_user(),$this->get_course())->as_array();
+		return $groups;
 	}
 	/**
 	 * Gets the defined categories in the current tool.
@@ -833,11 +835,6 @@ class Weblcms extends WebApplication
 				$conditions[] = new OrCondition($condition_publication_forever,$condition_publication_period);
 			}
 			$groups = $wdm->retrieve_groups_from_user($this->get_user(),$this->get_course())->as_array();
-			$group_ids = array();
-			foreach($groups as $index => $group)
-			{
-				$group_ids[] = $group->get_id();
-			}
 			$condition = new AndCondition($conditions);
 			$new_items = $wdm->count_learning_object_publications($this->get_course_id(),null,$this->get_user_id(),$group_ids,$condition);
 			return $new_items > 0;
