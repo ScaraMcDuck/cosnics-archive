@@ -8,16 +8,24 @@
 require_once dirname(__FILE__).'/../../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../../learningobjectpublicationbrowser.class.php';
 require_once dirname(__FILE__).'/announcementpublicationlistrenderer.class.php';
-
+/**
+ * Browser to allow the user to view the published announcements
+ */
 class AnnouncementBrowser extends LearningObjectPublicationBrowser
 {
-	function AnnouncementBrowser($parent, $types)
+	/**
+	 * @see LearningObjectPublicationBrowser::LearningObjectPublicationBrowser()
+	 */
+	function AnnouncementBrowser($parent)
 	{
 		parent :: __construct($parent, 'announcement');
 		$renderer = new AnnouncementPublicationListRenderer($this);
 		$this->set_publication_list_renderer($renderer);
 	}
-
+	/**
+	 * Retrieves the publications
+	 * @return array An array of LearningObjectPublication objects
+	 */
 	function get_publications($from, $count, $column, $direction)
 	{
 		$datamanager = WeblcmsDataManager :: get_instance();
@@ -46,7 +54,10 @@ class AnnouncementBrowser extends LearningObjectPublicationBrowser
 		}
 		return $visible_publications;
 	}
-
+	/**
+	 * Retrieves the number of published annoucements
+	 * @return int
+	 */
 	function get_publication_count()
 	{
 		return count($this->get_publications());

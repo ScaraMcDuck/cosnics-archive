@@ -6,9 +6,14 @@
  * @subpackage announcement
  */
 require_once dirname(__FILE__).'/../../browser/list_renderer/listlearningobjectpublicationlistrenderer.class.php';
-
+/**
+ * Renderer to display a list of announcement publications.
+ */
 class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationListRenderer
 {
+	/*
+	 * Overriding default function
+	 */
 	function render_up_action($publication, $first = false)
 	{
 		/*
@@ -29,6 +34,9 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		}
 		return $up_link;
 	}
+	/*
+	 * Overriding default function
+	 */
 	function render_down_action($publication, $last = false)
 	{
 		/*
@@ -49,6 +57,9 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		}
 		return $down_link;
 	}
+	/*
+	 * Overriding default function
+	 */
 	function render_move_to_category_action($publication)
 	{
 		return '';
