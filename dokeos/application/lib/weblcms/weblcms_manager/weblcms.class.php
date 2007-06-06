@@ -833,7 +833,7 @@ class Weblcms extends WebApplication
 				$conditions[] = new OrCondition($condition_publication_forever,$condition_publication_period);
 			}
 			$condition = new AndCondition($conditions);
-			$new_items = $wdm->count_learning_object_publications($this->get_course_id(),null,null,null,$condition);
+			$new_items = $wdm->count_learning_object_publications($this->get_course_id(),null,$this->get_user_id(),null,$condition);
 			return $new_items > 0;
 		}
 		return false;
