@@ -11,7 +11,6 @@ require_once dirname(__FILE__).'/../../../../common/userdetails.class.php';
 require_once dirname(__FILE__).'/../../weblcms_manager/component/subscribeduserbrowser/subscribeduserbrowsertable.class.php';
 /**
  * Tool to manage users in the course.
- * @todo: Implementation (recycle old user tool)
  */
 class UserTool extends Tool
 {
@@ -29,6 +28,10 @@ class UserTool extends Tool
 //		}
 
 		$user_action = $_GET[Weblcms :: PARAM_USER_ACTION];
+		if(is_null($user_action))
+		{
+			$user_action = $_POST[Weblcms::PARAM_COMPONENT_ACTION];
+		}
 
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang($user_action == Weblcms :: ACTION_SUBSCRIBE ? 'SubscribeUsers' : 'UnsubscribeUsers'));
@@ -42,9 +45,21 @@ class UserTool extends Tool
 		{
 			case UserTool::USER_DETAILS:
 				$udm = UsersDataManager::get_instance();
-				$user = $udm->retrieve_user($_GET[Weblcms::PARAM_USERS]);
-				$details = new UserDetails($user);
-				echo $details->toHtml();
+				if(isset($_GET[Weblcms::PARAM_USERS]))
+				{
+					$user = $udm->retrieve_user($_GET[Weblcms::PARAM_USERS]);
+					$details = new UserDetails($user);
+					echo $details->toHtml();
+				}
+				if(isset($_POST['user_id']))
+				{
+					foreach($_POST['user_id'] as $index => $user_id)
+					{
+						$user = $udm->retrieve_user($user_id);
+						$details = new UserDetails($user);
+						echo $details->toHtml();
+					}
+				}
 				break;
 			case Weblcms :: ACTION_SUBSCRIBE :
 				if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))

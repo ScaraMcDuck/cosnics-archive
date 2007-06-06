@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id:$
  * @package application.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__).'/../../../../../../users/lib/user_table/usertable.class.php';
@@ -32,7 +33,7 @@ class SubscribedUserBrowserTable extends UserTable
 			$actions[Weblcms :: PARAM_SUBSCRIBE_SELECTED_AS_STUDENT] = get_lang('SubscribeSelectedAsStudent');
 			$actions[Weblcms :: PARAM_SUBSCRIBE_SELECTED_AS_ADMIN] = get_lang('SubscribeSelectedAsAdmin');
 		}
-		
+		$actions[UserTool::USER_DETAILS] = get_lang('Details');
 		if ($browser->get_course()->is_course_admin($browser->get_user_id()))
 		{
 			$this->set_form_actions($actions);
