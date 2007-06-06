@@ -14,14 +14,15 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
 	/**
 	 * @see PersonalCalendarConnector
 	 */
-	public function get_events($user_id, $from_date, $to_date)
+	public function get_events($user, $from_date, $to_date)
 	{
 		$dm = WeblcmsDatamanager :: get_instance();
+		$groups = $dm->retrieve_groups_from_user($user)->as_array();
 		$conditions = array();
 		$conditions[] = new EqualityCondition('tool', 'calendar');
 		$conditions[] = new EqualityCondition('hidden',0);
 		$condition = new AndCondition($conditions);
-		$publications = $dm->retrieve_learning_object_publications(null, null, $user_id, null, $condition);
+		$publications = $dm->retrieve_learning_object_publications(null, null, $user->get_user_id(), $groups, $condition);
 		$result = array ();
 		while ($publication = $publications->next_result())
 		{
