@@ -161,7 +161,7 @@ class AccountForm extends FormValidator {
 		}
 		if (api_get_setting('profile', 'password') === 'true' && strlen($values[User :: PROPERTY_PASSWORD]))
 		{
-			$user->set_password($values[User::PROPERTY_PASSWORD]);
+			$user->set_password(md5($values[User::PROPERTY_PASSWORD]));
 		}
 		if(api_get_setting('profile', 'picture') === 'true')
 		{
