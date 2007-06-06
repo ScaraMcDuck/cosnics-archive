@@ -52,9 +52,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		// Do something with the arguments
 		if($args[1] == 'query')
 		{
-			//echo '<pre>';
-		 	//echo($args[2]);
-		 	//echo '</pre>';
+//			echo '<pre>';
+//		 	echo($args[2]);
+//		 	echo '</pre>';
 		}
 	}
 	/**
@@ -227,6 +227,22 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $learning_object = null)
 	{
+		if(is_array($groups))
+		{
+			if(count($groups) == 0)
+			{
+				$groups = null;
+			}
+			else
+			{
+				$group_ids = array();
+				foreach($groups as $index => $group)
+				{
+					$group_ids[] = $group->get_id();
+				}
+				$groups = $group_ids;
+			}
+		}
 		$params = array ();
 		$query = 'SELECT '.($allowDuplicates ? '' : 'DISTINCT ').'p.* FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
 		/*
@@ -260,9 +276,21 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $learning_object = null)
 	{
-		if(is_array($groups) && count($groups) == 0)
+		if(is_array($groups))
 		{
-			$groups = null;
+			if(count($groups) == 0)
+			{
+				$groups = null;
+			}
+			else
+			{
+				$group_ids = array();
+				foreach($groups as $index => $group)
+				{
+					$group_ids[] = $group->get_id();
+				}
+				$groups = $group_ids;
+			}
 		}
 		$params = array ();
 		$query = 'SELECT COUNT('.($allowDuplicates ? '*' : 'DISTINCT p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID)).') FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
@@ -411,7 +439,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			{
 				$groupConditions[] = new EqualityCondition('group_id', $g);
 			}
-			//$accessConditions[] = new AndCondition(new EqualityCondition('user',null),new OrCondition($groupConditions));
 			$accessConditions[] = new OrCondition($groupConditions);
 
 		}
