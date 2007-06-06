@@ -209,7 +209,7 @@ class PersonalCalendar extends WebApplication
 		return PersonalCalendarDatamanager :: get_instance()->update_learning_object_publication_id($publication_attr);
 	}
 	/**
-	 * @see
+	 * @see Application::get_application_platform_admin_links()
 	 */
 	public function get_application_platform_admin_links()
 	{
