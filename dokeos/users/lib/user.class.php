@@ -350,11 +350,6 @@ class User
 	 */
 	function set_password($password)
 	{
-		global $userPasswordCrypted;
-		if($userPasswordCrypted)
-		{
-			$password = md5($password);
-		}
 		$this->set_default_property(self :: PROPERTY_PASSWORD, $password);
 	}
 
