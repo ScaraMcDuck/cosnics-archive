@@ -661,6 +661,14 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function retrieve_groups($course_code);
 	/**
+	 * Retrieves the groups from a given course in which the given user is
+	 * subscribed
+	 * @param User The user
+	 * @param Course The course
+	 * @return DatabaseGroupResultSet
+	 */
+	abstract function retrieve_groups_from_user($user,$course);
+	/**
 	 * Retrieves the users in a group
 	 */
 	abstract function retrieve_group_users($group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);

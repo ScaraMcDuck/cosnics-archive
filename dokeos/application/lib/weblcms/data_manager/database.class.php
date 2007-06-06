@@ -39,11 +39,24 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->repoDM = & RepositoryDataManager :: get_instance();
 		$this->userDM = & UsersDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
-		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_weblcms'),array('debug'=>3,'debug_handler'=>array('WeblcmsDataManager','debug')));
+		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_weblcms'),array('debug'=>3,'debug_handler'=>array('DatabaseWeblcmsDataManager','debug')));
 		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
 		$this->connection->query('SET NAMES utf8');
 	}
-
+	/**
+	 * This function can be used to handle some debug info from MDB2
+	 */
+	function debug()
+	{
+		$args = func_get_args();
+		// Do something with the arguments
+		if($args[1] == 'query')
+		{
+			//echo '<pre>';
+		 	//echo($args[2]);
+		 	//echo '</pre>';
+		}
+	}
 	/**
 	 * Executes a query
 	 * @param string $query The query (which will be used in a prepare-
@@ -247,6 +260,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $learning_object = null)
 	{
+		if(is_array($groups) && count($groups) == 0)
+		{
+			$groups = null;
+		}
 		$params = array ();
 		$query = 'SELECT COUNT('.($allowDuplicates ? '*' : 'DISTINCT p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID)).') FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
 		$query .= ' ' . $this->get_publication_retrieval_where_clause($learning_object, $course, $categories, $users, $groups, $condition, & $params);
@@ -394,7 +411,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			{
 				$groupConditions[] = new EqualityCondition('group_id', $g);
 			}
-			$accessConditions[] = new AndCondition(new EqualityCondition('user',null),new OrCondition($groupConditions));
+			//$accessConditions[] = new AndCondition(new EqualityCondition('user',null),new OrCondition($groupConditions));
+			$accessConditions[] = new OrCondition($groupConditions);
+
 		}
 		if(!is_null($groups) || !is_null($users))
 		{
@@ -1636,6 +1655,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$res = $statement->execute($params);
 		return new DatabaseGroupResultSet($this, $res);
 	}
+	// Inherited
 	function retrieve_group_user_ids($group)
 	{
 		$query = 'SELECT user_id FROM '.$this->escape_table_name('group_rel_user');
@@ -1649,6 +1669,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$user_ids[] = $record['user_id'];
 		}
 		return $user_ids;
+	}
+	// Inherited
+	function retrieve_groups_from_user($user,$course)
+	{
+		$query = 'SELECT g.* FROM '. $this->escape_table_name('group').' g, '. $this->escape_table_name('group_rel_user').' u';
+		$query .= ' WHERE g.id = u.group_id AND g.'.$this->escape_column_name('course_code').'=? AND u.user_id = ?';
+		$params[] = $course->get_id();
+		$params[] = $user->get_user_id();
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		return new DatabaseGroupResultSet($this, $res);
 	}
 	// Inherited
 	function retrieve_group_users($group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)

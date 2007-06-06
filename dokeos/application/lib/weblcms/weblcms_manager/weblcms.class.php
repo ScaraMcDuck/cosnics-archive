@@ -802,9 +802,9 @@ class Weblcms extends WebApplication
 	 * function and for each tool a query is executed. All information can be
 	 * retrieved using a single query. WeblcmsDataManager should implement this
 	 * functionality.
-	 * @todo This function currently doesn't take the user and group information
-	 * into account. So it's possible this function returns true even if
-	 * there's no new publication for the current user
+	 * @todo This function currently doesn't take the group information into
+	 * account. So it's possible this function returns true even if there's no
+	 * new publication for the current user
 	 * @param string $tool
 	 */
 	function tool_has_new_publications($tool)
@@ -832,8 +832,14 @@ class Weblcms extends WebApplication
 				$condition_publication_forever = new EqualityCondition('from_date',0);
 				$conditions[] = new OrCondition($condition_publication_forever,$condition_publication_period);
 			}
+			$groups = $wdm->retrieve_groups_from_user($this->get_user(),$this->get_course())->as_array();
+			$group_ids = array();
+			foreach($groups as $index => $group)
+			{
+				$group_ids[] = $group->get_id();
+			}
 			$condition = new AndCondition($conditions);
-			$new_items = $wdm->count_learning_object_publications($this->get_course_id(),null,$this->get_user_id(),null,$condition);
+			$new_items = $wdm->count_learning_object_publications($this->get_course_id(),null,$this->get_user_id(),$group_ids,$condition);
 			return $new_items > 0;
 		}
 		return false;
