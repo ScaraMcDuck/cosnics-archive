@@ -1698,12 +1698,21 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $user_ids;
 	}
 	// Inherited
-	function retrieve_groups_from_user($user,$course)
+	function retrieve_groups_from_user($user,$course = null)
 	{
-		$query = 'SELECT g.* FROM '. $this->escape_table_name('group').' g, '. $this->escape_table_name('group_rel_user').' u';
-		$query .= ' WHERE g.id = u.group_id AND g.'.$this->escape_column_name('course_code').'=? AND u.user_id = ?';
-		$params[] = $course->get_id();
-		$params[] = $user->get_user_id();
+		if(!is_null($course))
+		{
+			$query = 'SELECT g.* FROM '. $this->escape_table_name('group').' g, '. $this->escape_table_name('group_rel_user').' u';
+			$query .= ' WHERE g.id = u.group_id AND g.'.$this->escape_column_name('course_code').'=? AND u.user_id = ?';
+			$params[] = $course->get_id();
+			$params[] = $user->get_user_id();
+		}
+		else
+		{
+			$query = 'SELECT g.* FROM '. $this->escape_table_name('group').' g, '. $this->escape_table_name('group_rel_user').' u';
+			$query .= ' WHERE g.id = u.group_id AND u.user_id = ?';
+			$params[] = $user->get_user_id();
+		}
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseGroupResultSet($this, $res);
