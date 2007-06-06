@@ -19,6 +19,11 @@ class PersonalCalendarFinder extends PersonalCalendarBrowser
 	 * The renderer for the search form
 	 */
 	private $renderer;
+	/**
+	 * Constructor
+	 * @param PersonalCalendarPublisher $parent The publisher that created this
+	 * component
+	 */
 	function PersonalCalendarFinder($parent)
 	{
 		parent :: __construct($parent);

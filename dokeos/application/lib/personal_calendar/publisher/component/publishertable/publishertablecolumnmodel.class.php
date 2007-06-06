@@ -1,7 +1,7 @@
 <?php
 /**
- * $Id: publicationcandidatetablecolumnmodel.class.php 9141 2006-08-21 12:55:22Z bmol $
- * @package application.weblcms
+ * $Id$
+ * @package application.personal_calendar
  * @subpackage publisher
  */
 require_once dirname(__FILE__).'/../../../../../../repository/lib/learning_object_table/learningobjecttablecolumnmodel.class.php';
