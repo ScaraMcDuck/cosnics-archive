@@ -86,8 +86,10 @@ class GroupTool extends Tool
 						$this->display_footer();
 						break;
 					default :
+						$group = $this->get_parent()->get_group();
 						$html = array ();
 						$this->display_header();
+						$html[] = get_lang('Members').': '.$group->count_members().' / '.$group->get_max_number_of_members();
 						$html[] = '<div style="clear: both;">&nbsp;</div>';
 						$html[] = $this->search_form->display();
 						if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
@@ -98,7 +100,6 @@ class GroupTool extends Tool
 						{
 							$udm = UsersDataManager :: get_instance();
 							$user = $udm->retrieve_user($_GET[Weblcms :: PARAM_USERS]);
-							$group = $this->get_parent()->get_group();
 							$group->unsubscribe_users($user);
 							$html[] = Display::display_normal_message(get_lang('UserUnsubscribed'),true);
 						}

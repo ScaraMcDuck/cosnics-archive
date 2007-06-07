@@ -205,6 +205,15 @@ class Group
 		$result = $wdm->retrieve_group_users($this);
 		return $result;
 	}
+	function count_members()
+	{
+		$members = $this->get_members();
+		if(!is_null($members))
+		{
+			return $members->size();
+		}
+		return 0;
+	}
 	/**
 	 * Subscribes users to this group
 	 * @param array|User A single user or an array of users
