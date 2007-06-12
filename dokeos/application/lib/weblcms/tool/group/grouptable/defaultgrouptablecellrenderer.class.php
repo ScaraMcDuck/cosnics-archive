@@ -48,8 +48,15 @@ class DefaultGroupTableCellRenderer implements GroupTableCellRenderer
 				case Group :: PROPERTY_ID :
 					return $group->get_id();
 				case Group :: PROPERTY_NAME :
-					$url = $this->group_tool->get_url(array (Weblcms :: PARAM_GROUP => $group->get_id()));
-					return '<a href="'.$url.'">'.$group->get_name().'</a>';
+					if($this->group_tool->is_allowed(EDIT_RIGHT) || $group->is_member($this->group_tool->get_user()) )
+					{
+						$url = $this->group_tool->get_url(array (Weblcms :: PARAM_GROUP => $group->get_id()));
+						return '<a href="'.$url.'">'.$group->get_name().'</a>';
+					}
+					else
+					{
+						return $group->get_name();
+					}
 				case Group :: PROPERTY_DESCRIPTION :
 					return $group->get_description();
 				case Group :: PROPERTY_MAX_NUMBER_OF_MEMBERS :

@@ -60,7 +60,7 @@ class GroupTable
 	{
 		$this->set_data_provider($data_provider);
 		$this->set_name(isset($table_name) ? $table_name : self :: DEFAULT_NAME);
-		$this->set_column_model(isset ($column_model) ? $column_model : new DefaultGroupTableColumnModel());
+		$this->set_column_model(isset ($column_model) ? $column_model : new DefaultGroupTableColumnModel($data_provider->get_parent()));
 		$this->set_cell_renderer(isset ($cell_renderer) ? $cell_renderer : new DefaultGroupTableCellRenderer($data_provider->get_parent()));
 		$this->set_default_row_count(10);
 		$this->set_additional_parameters($this->determine_additional_parameters());

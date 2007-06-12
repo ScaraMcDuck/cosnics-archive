@@ -205,6 +205,11 @@ class Group
 		$result = $wdm->retrieve_group_users($this);
 		return $result;
 	}
+	function is_member($user)
+	{
+		$wdm = WeblcmsDataManager::get_instance();
+		return $wdm->is_group_member($this,$user);
+	}
 	function count_members()
 	{
 		$members = $this->get_members();
