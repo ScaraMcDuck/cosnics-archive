@@ -1861,6 +1861,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			}
 		}
 	}
+	//Inherited
+	function is_group_member($group,$user)
+	{
+		$sql = 'SELECT * FROM '.$this->escape_table_name('group_rel_user').' WHERE group_id = ? AND user_id = ?';
+		$statement = $this->connection->prepare($sql);
+		$res = $statement->execute(array($group->get_id(),$user->get_user_id()));
+		return $res->numRows() > 0;
+	}
 	/**
 	 * Translates any type of condition to a SQL WHERE clause.
 	 * @param Condition $condition The Condition object.

@@ -19,17 +19,22 @@ class DefaultGroupTableColumnModel extends GroupTableColumnModel
 	 */
 	private static $number_of_members_column;
 	/**
+	 *
+	 */
+	private $group_tool;
+	/**
 	 * Constructor
 	 */
-	function DefaultGroupTableColumnModel()
+	function DefaultGroupTableColumnModel($group_tool)
 	{
-		parent :: __construct(self :: get_default_columns(), 1);
+		$this->group_tool = $group_tool;
+		parent :: __construct($this->get_default_columns(), 1);
 	}
 	/**
 	 * Gets the default columns for this model
 	 * @return UserTableColumn[]
 	 */
-	private static function get_default_columns()
+	private function get_default_columns()
 	{
 		$columns = array();
 		$columns[] = new GroupTableColumn(Group :: PROPERTY_NAME, true);
@@ -38,7 +43,10 @@ class DefaultGroupTableColumnModel extends GroupTableColumnModel
 		$columns[] = new GroupTableColumn(Group :: PROPERTY_MAX_NUMBER_OF_MEMBERS, true);
 		$columns[] = new GroupTableColumn(Group :: PROPERTY_SELF_UNREG, true);
 		$columns[] = new GroupTableColumn(Group :: PROPERTY_SELF_REG, true);
-		$columns[] = self :: get_modification_column();
+		if($this->group_tool->is_allowed(EDIT_RIGHT))
+		{
+			$columns[] = self :: get_modification_column();
+		}
 		return $columns;
 	}
 	/**
