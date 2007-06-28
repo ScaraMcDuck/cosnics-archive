@@ -24,12 +24,12 @@ class LearningObjectPublicationAttributes
 	const PROPERTY_PUBLICATION_OBJECT_ID = 'publication_object_id';
 	const PROPERTY_PUBLICATION_USER = 'publication_user';
 	const PROPERTY_URL = 'url';
-	
+
 	/**
-	 * The name of the application in which the learning object was published.
+	 * The id.
 	 */
 	private $id;
-	 
+
 	/**
 	 * The name of the application in which the learning object was published.
 	 */
@@ -54,7 +54,7 @@ class LearningObjectPublicationAttributes
 	 * The date on which the learning object was published.
 	 */
 	private $publication_date;
-	
+
 	/**
 	 * The id of the published learning object.
 	 */
@@ -124,7 +124,7 @@ class LearningObjectPublicationAttributes
 	{
 		$this->url = $url;
 	}
-	
+
 	/**
 	 * Gets the id of the publication.
 	 * @return string The id.
@@ -133,8 +133,8 @@ class LearningObjectPublicationAttributes
 	{
 		return $this->id;
 	}
-	
-	
+
+
 	/**
 	 * Sets the id of the publication.
 	 * @return string The id.
@@ -179,7 +179,7 @@ class LearningObjectPublicationAttributes
 	{
 		$this->publication_date = $date;
 	}
-	
+
 	/**
 	 * Gets the id of the learning object being published.
 	 * @return int The id of the learning object.
@@ -188,7 +188,7 @@ class LearningObjectPublicationAttributes
 	{
 		return $this->publication_object_id;
 	}
-	
+
 	/**
 	 * Gets the id of the learning object being published.
 	 * @return int The id of the learning object.
@@ -196,7 +196,6 @@ class LearningObjectPublicationAttributes
 	function get_publication_object()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-
 		return $rdm->retrieve_learning_object($this->publication_object_id);
 	}
 
@@ -208,7 +207,7 @@ class LearningObjectPublicationAttributes
 	{
 		$this->publication_object_id = $id;
 	}
-	
+
 	function update()
 	{
 		$dm = RepositoryDataManager :: get_instance();
