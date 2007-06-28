@@ -14,38 +14,31 @@ class ProfileForm extends LearningObjectForm
 	protected function build_creation_form()
 	{
 		parent :: build_creation_form();
-		$this->add_html_editor(Profile :: PROPERTY_ADDRESS, get_lang('Address'), false);
-		$this->add_textfield(Profile :: PROPERTY_PHONE, get_lang('Phone'), false,'size="40" style="width: 100%;"');
-		$this->add_textfield(Profile :: PROPERTY_FAX, get_lang('Fax'), false,'size="40" style="width: 100%;"');
-		$this->add_textfield(Profile :: PROPERTY_MAIL, get_lang('Mail'), false,'size="40" style="width: 100%;"');
-		$this->add_html_editor(Profile :: PROPERTY_COMPETENCES, get_lang('Competences'), false);
-		$this->add_html_editor(Profile :: PROPERTY_DIPLOMAS, get_lang('Diplomas'), false);
-		$this->add_html_editor(Profile :: PROPERTY_TEACHING, get_lang('Teaching'), false);
-		$this->add_html_editor(Profile :: PROPERTY_OPEN, get_lang('Open'), false);
-		$this->add_textfield(Profile :: PROPERTY_SKYPE, get_lang('Skype'), false,'size="40" style="width: 100%;"');
-		$this->add_textfield(Profile :: PROPERTY_MSN, get_lang('Msn'), false,'size="40" style="width: 100%;"');
-		$this->add_textfield(Profile :: PROPERTY_AIM, get_lang('Aim'), false,'size="40" style="width: 100%;"');
-		$this->add_textfield(Profile :: PROPERTY_YIM, get_lang('Yim'), false,'size="40" style="width: 100%;"');
-		$this->add_textfield(Profile :: PROPERTY_ICQ, get_lang('Icq'), false,'size="40" style="width: 100%;"');
-		$this->addElement('checkbox',Profile::PROPERTY_PICTURE,get_lang('IncludeAccountPicture'));
+		$this->build_default_form();
 	}
 	protected function build_editing_form()
 	{
 		parent :: build_editing_form();
+		$this->build_default_form();
+	}
+	private function build_default_form()
+	{
 		$this->add_html_editor(Profile :: PROPERTY_ADDRESS, get_lang('Address'), false);
-		$this->add_textfield(Profile :: PROPERTY_PHONE, get_lang('Phone'), false,'size="40" style="width: 100%;"');
-		$this->add_textfield(Profile :: PROPERTY_FAX, get_lang('Fax'), false,'size="40" style="width: 100%;"');
-		$this->add_textfield(Profile :: PROPERTY_MAIL, get_lang('Mail'), false,'size="40" style="width: 100%;"');
+		$this->add_textfield(Profile :: PROPERTY_PHONE, get_lang('Phone'), false,'size="40"');
+		$this->add_textfield(Profile :: PROPERTY_FAX, get_lang('Fax'), false,'size="40"');
+		$this->add_textfield(Profile :: PROPERTY_MAIL, get_lang('Mail'), false,'size="40"');
+		$this->addRule(Profile :: PROPERTY_MAIL,get_lang('InvalidEmail'),'email');
 		$this->add_html_editor(Profile :: PROPERTY_COMPETENCES, get_lang('Competences'), false);
 		$this->add_html_editor(Profile :: PROPERTY_DIPLOMAS, get_lang('Diplomas'), false);
 		$this->add_html_editor(Profile :: PROPERTY_TEACHING, get_lang('Teaching'), false);
 		$this->add_html_editor(Profile :: PROPERTY_OPEN, get_lang('Open'), false);
-		$this->add_textfield(Profile :: PROPERTY_SKYPE, get_lang('Skype'), false,'size="40" style="width: 100%;"');
-		$this->add_textfield(Profile :: PROPERTY_MSN, get_lang('Msn'), false,'size="40" style="width: 100%;"');
-		$this->add_textfield(Profile :: PROPERTY_AIM, get_lang('Aim'), false,'size="40" style="width: 100%;"');
-		$this->add_textfield(Profile :: PROPERTY_YIM, get_lang('Yim'), false,'size="40" style="width: 100%;"');
-		$this->add_textfield(Profile :: PROPERTY_ICQ, get_lang('Icq'), false,'size="40" style="width: 100%;"');
+		$this->add_textfield(Profile :: PROPERTY_SKYPE, get_lang('Skype'), false,'size="40"');
+		$this->add_textfield(Profile :: PROPERTY_MSN, get_lang('Msn'), false,'size="40"');
+		$this->add_textfield(Profile :: PROPERTY_AIM, get_lang('Aim'), false,'size="40"');
+		$this->add_textfield(Profile :: PROPERTY_YIM, get_lang('Yim'), false,'size="40"');
+		$this->add_textfield(Profile :: PROPERTY_ICQ, get_lang('Icq'), false,'size="40"');
 		$this->addElement('checkbox',Profile::PROPERTY_PICTURE,get_lang('IncludeAccountPicture'));
+
 	}
 	function setDefaults($defaults = array ())
 	{
@@ -73,6 +66,17 @@ class ProfileForm extends LearningObjectForm
 	function create_learning_object()
 	{
 		$object = new Profile();
+		$this->fill_properties($object);
+		return parent :: create_learning_object();
+	}
+	function update_learning_object()
+	{
+		$object = $this->get_learning_object();
+		$this->fill_properties($object);
+		return parent :: update_learning_object();
+	}
+	private function fill_properties($object)
+	{
 		$object->set_competences($this->exportValue(Profile :: PROPERTY_COMPETENCES));
 		$object->set_diplomas($this->exportValue(Profile :: PROPERTY_DIPLOMAS));
 		$object->set_teaching($this->exportValue(Profile :: PROPERTY_TEACHING));
@@ -87,26 +91,6 @@ class ProfileForm extends LearningObjectForm
 		$object->set_aim($this->exportValue(Profile :: PROPERTY_AIM));
 		$object->set_icq($this->exportValue(Profile :: PROPERTY_ICQ));
 		$object->set_picture($this->exportValue(Profile::PROPERTY_PICTURE));
-		$this->set_learning_object($object);
-		return parent :: create_learning_object();
-	}
-	function update_learning_object()
-	{
-		$object = $this->get_learning_object();
-		$object->set_competences($this->exportValue(Profile :: PROPERTY_COMPETENCES));
-		$object->set_diplomas($this->exportValue(Profile :: PROPERTY_DIPLOMAS));
-		$object->set_teaching($this->exportValue(Profile :: PROPERTY_TEACHING));
-		$object->set_open($this->exportValue(Profile :: PROPERTY_OPEN));
-		$object->set_phone($this->exportValue(Profile :: PROPERTY_PHONE));
-		$object->set_fax($this->exportValue(Profile :: PROPERTY_FAX));
-		$object->set_address($this->exportValue(Profile :: PROPERTY_ADDRESS));
-		$object->set_mail($this->exportValue(Profile :: PROPERTY_MAIL));
-		$object->set_skype($this->exportValue(Profile :: PROPERTY_SKYPE));
-		$object->set_msn($this->exportValue(Profile :: PROPERTY_MSN));
-		$object->set_yim($this->exportValue(Profile :: PROPERTY_YIM));
-		$object->set_aim($this->exportValue(Profile :: PROPERTY_AIM));
-		$object->set_icq($this->exportValue(Profile :: PROPERTY_ICQ));
-		return parent :: update_learning_object();
 	}
 }
 ?>
