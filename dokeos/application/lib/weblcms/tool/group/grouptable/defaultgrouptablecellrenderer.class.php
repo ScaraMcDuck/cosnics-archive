@@ -62,7 +62,21 @@ class DefaultGroupTableCellRenderer implements GroupTableCellRenderer
 				case Group :: PROPERTY_MAX_NUMBER_OF_MEMBERS :
 					return $group->get_max_number_of_members();
 				case Group :: PROPERTY_SELF_REG :
-					return $group->is_self_registration_allowed() ? get_lang('Yes') : get_lang('No');
+					if( $this->group_tool->is_allowed(EDIT_RIGHT))
+					{
+						$group->is_self_registration_allowed() ? get_lang('Yes') : get_lang('No');
+					}
+					else
+					{
+						if($group->is_self_registration_allowed())
+						{
+							echo "TODO: LINK TO SUBSCRIBE";
+						}
+						if($group->is_self_unregistration_allowed())
+						{
+							echo "TODO: LINK TO UNSUBSCRIBE";
+						}
+					}
 				case Group :: PROPERTY_SELF_UNREG :
 					return $group->is_self_unregistration_allowed() ? get_lang('Yes') : get_lang('No');
 			}
