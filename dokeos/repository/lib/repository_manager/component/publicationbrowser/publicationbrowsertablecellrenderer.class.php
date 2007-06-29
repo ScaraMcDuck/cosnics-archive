@@ -31,7 +31,7 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 		{
 			return $this->get_modification_links($learning_object);
 		}
-		
+
 		// Add special features here
 		switch ($column->get_learning_object_property())
 		{
@@ -48,10 +48,9 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 	 */
 	private function get_modification_links($learning_object)
 	{
-		$toolbar_data = array();
-		
 		if (!$learning_object->get_publication_object()->is_latest_version())
 		{
+			$toolbar_data = array();
 			$update_url = $this->browser->get_publication_update_url($learning_object);
 			$toolbar_data[] = array(
 				'href' => $update_url,
@@ -59,9 +58,9 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 				'confirm' => true,
 				'img' => $this->browser->get_web_code_path().'img/revert.gif'
 			);
+			return RepositoryUtilities :: build_toolbar($toolbar_data);
 		}
-		
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return '';
 	}
 }
 ?>
