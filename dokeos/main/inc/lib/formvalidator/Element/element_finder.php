@@ -169,7 +169,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		}
 		$html[] = $this->_elements[0]->toHTML();
 		$id = 'tbl_'.$this->getName();
-		$html[] = '<table border="0" width="100%" height="'.$this->getHeight().'" cellpadding="0" cellspacing="0" id="'.$id.'"'. ($this->isCollapsed() ? ' style="display: none;"' : '').'>';
+		$html[] = '<table border="0" width="100%" cellpadding="0" cellspacing="0" id="'.$id.'" style="height:'.$this->getHeight().'px; '. ($this->isCollapsed() ? ' display: none;' : '').'">';
 		$html[] = '<tr>';
 		$html[] = '<td width="50%" valign="top">';
 		$this->_elements[1]->setValue('');
