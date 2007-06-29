@@ -41,12 +41,12 @@ class DefaultGroupTableColumnModel extends GroupTableColumnModel
 		$columns[] = new GroupTableColumn(Group :: PROPERTY_DESCRIPTION, true);
 		$columns[] = self :: get_number_of_members_column();
 		$columns[] = new GroupTableColumn(Group :: PROPERTY_MAX_NUMBER_OF_MEMBERS, true);
-		$columns[] = new GroupTableColumn(Group :: PROPERTY_SELF_UNREG, true);
-		$columns[] = new GroupTableColumn(Group :: PROPERTY_SELF_REG, true);
 		if($this->group_tool->is_allowed(EDIT_RIGHT))
 		{
-			$columns[] = self :: get_modification_column();
+			$columns[] = new GroupTableColumn(Group :: PROPERTY_SELF_UNREG, true);
+			$columns[] = new GroupTableColumn(Group :: PROPERTY_SELF_REG, true);
 		}
+		$columns[] = self :: get_modification_column();
 		return $columns;
 	}
 	/**

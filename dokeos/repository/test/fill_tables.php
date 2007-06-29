@@ -4,7 +4,7 @@ require_once dirname(__FILE__).'/../../main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
 include_once (api_get_library_path()."/formvalidator/FormValidator.class.php");
-api_protect_admin_script();
+//api_protect_admin_script();
 Display :: display_header();
 set_time_limit(0);
 
@@ -27,19 +27,19 @@ else
 	 * @package repository
 	 */
 
-	$users = 3;
+	$users = 200;
 
-	$max_categories = array (3, 2);
+	$max_categories = array (2, 3);
 
-	$announcements = rand(2, 10);
-	$calendar_events = rand(2, 10);
-	$documents = rand(2, 10);
-	$links = rand(5, 1);
-	$forums = rand(1, 5);
-	$forum_topics = rand(1, 5);
-	$forum_posts = rand(6, 12);
-	$questions_fill_in_blanks = rand(2, 10);
-	$questions_multiple_choice = rand(2, 10);
+	$announcements = rand(200, 1000);
+	$calendar_events = rand(200, 1000);
+	$documents = rand(200, 1000);
+	$links = rand(500, 1000);
+	$forums = rand(100, 500);
+	$forum_topics = rand(10, 5000);
+	$forum_posts = rand(60, 1200);
+	$questions_fill_in_blanks = rand(200, 100);
+	$questions_multiple_choice = rand(200, 100);
 
 	// TODO
 	//$learning_paths = rand(100,500);
@@ -69,7 +69,7 @@ else
 		$user->set_firstname(random_word());
 		$user->set_lastname(random_word());
 		$user->set_username('user'.$user_nr);
-		$user->set_password('user'.$user_nr);
+		$user->set_password(md5('user'.$user_nr));
 		$user->set_email('user'.$user_nr.'@example.com');
 		$user->set_official_code('USER'.$user_nr);
 		$user->set_language('english');
@@ -293,8 +293,8 @@ function random_url()
 
 function random_user()
 {
-	global $users_ids;
-	return $user_id[rand(1, count($user_ids))-1];
+	global $user_ids;
+	return $user_ids[rand(1, count($user_ids))];
 }
 
 function random_string($length)

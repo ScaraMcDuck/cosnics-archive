@@ -23,6 +23,8 @@ class GroupTool extends Tool
 	const ACTION_SUBSCRIBE = 'group_subscribe';
 	const ACTION_UNSUBSCRIBE = 'group_unsubscribe';
 	const ACTION_ADD_GROUP = 'add_group';
+	const ACTION_USER_SELF_SUBSCRIBE = 'user_subscribe';
+	const ACTION_USER_SELF_UNSUBSCRIBE = 'user_unsubscribe';
 	/**
 	 * The search form which can be used to search for users in the group tool.
 	 */
@@ -85,10 +87,27 @@ class GroupTool extends Tool
 						echo implode($html, "\n");
 						$this->display_footer();
 						break;
+					// User self unregisters from group
+					case self :: ACTION_USER_SELF_UNSUBSCRIBE :
+						$group = $this->get_parent()->get_group();
+						$group->unsubscribe_users($this->get_user());
+						$this->display_header();
+						Display::display_normal_message(get_lang('UserUnSubscribed'));
+						$this->display_footer();
+						break;
+					// User self registers in group
+					case self :: ACTION_USER_SELF_SUBSCRIBE :
+						$group = $this->get_parent()->get_group();
+						$group->subscribe_users($this->get_user());
+						$message = Display::display_normal_message(get_lang('UserSubscribed'),true);
 					default :
 						$group = $this->get_parent()->get_group();
 						$html = array ();
 						$this->display_header();
+						if(!is_null($message))
+						{
+							$html[] = $message;
+						}
 						$html[] = get_lang('Members').': '.$group->count_members().' / '.$group->get_max_number_of_members();
 						$html[] = '<div style="clear: both;">&nbsp;</div>';
 						$html[] = $this->search_form->display();
@@ -132,12 +151,14 @@ class GroupTool extends Tool
 						$this->display_footer();
 					}
 					break;
-					// Display all available groups
+				// Display all available groups
 				default :
-					//TODO: implement the group tool
 					$toolbar_data[] = array ('href' => $this->get_url($param_add_group), 'label' => get_lang('Create'), 'img' => api_get_path(WEB_CODE_PATH).'img/group.gif', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 					$this->display_header();
-					echo RepositoryUtilities :: build_toolbar($toolbar_data, array (), 'margin-top: 1em;');
+					if($this->is_allowed(EDIT_RIGHT))
+					{
+						echo RepositoryUtilities :: build_toolbar($toolbar_data, array (), 'margin-top: 1em;');
+					}
 					$group_table = new GroupTable(new GroupTableDataProvider($this));
 					echo $group_table->as_html();
 					$this->display_footer();
