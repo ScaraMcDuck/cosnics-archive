@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/../adminsearchform.class.php';
  * Admin component
  */
 class AdminBrowserComponent extends AdminComponent
-{	
+{
 	/**
 	 * Runs this component and displays its output.
 	 */
@@ -20,7 +20,7 @@ class AdminBrowserComponent extends AdminComponent
 	{
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => '', 'name' => get_lang('PlatformAdmin'));
-		
+
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($breadcrumbs);
@@ -28,12 +28,12 @@ class AdminBrowserComponent extends AdminComponent
 			$this->display_footer();
 			exit;
 		}
-		
+
 		$this->display_header($breadcrumbs);
 		echo $this->get_application_platform_admin_sections();
 		$this->display_footer();
 	}
-	
+
 	/**
 	 * Returns an HTML representation of the actions.
 	 * @return string $html HTML representation of the actions.
@@ -41,9 +41,10 @@ class AdminBrowserComponent extends AdminComponent
 	function get_application_platform_admin_sections()
 	{
 		$html = array();
-		
+		$search_form_index = 0;
 		foreach ($this->get_application_platform_admin_links() as $application_links)
 		{
+			$search_form_index++;
 			$html[] = '<div class="admin_section">';
 			$html[] = '<div class="main"><img src="'. $this->get_web_code_path() .'img/admin_'. $application_links['application']['class'] .'.gif" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />'. $application_links['application']['name'] .'</div>';
 			$html[] = '<div class="actions">';
@@ -57,12 +58,12 @@ class AdminBrowserComponent extends AdminComponent
 			$html[] = '</div>';
 			if (isset($application_links['search']))
 			{
-				$search_form = new AdminSearchForm($this, $application_links['search']);
+				$search_form = new AdminSearchForm($this, $application_links['search'], $search_form_index);
 				$html[] = $search_form->display();
 			}
 			$html[] = '</div>';
 		}
-		
+
 		return implode("\n", $html);
 	}
 }
