@@ -41,7 +41,6 @@ class DatabaseUsersDataManager extends UsersDataManager
 	{
 		$this->repoDM = & RepositoryDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
-		echo "----- ".$conf->get_parameter('database', 'connection_string_user')."------";
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_user'),array('debug'=>3,'debug_handler'=>array('UsersDatamanager','debug')));
 		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
 		$this->connection->query('SET NAMES utf8');
@@ -53,9 +52,9 @@ class DatabaseUsersDataManager extends UsersDataManager
 		// Do something with the arguments
 		if($args[1] == 'query')
 		{
-			echo '<pre>';
-		 	echo($args[2]);
-		 	echo '</pre>';
+			//echo '<pre>';
+		 	//echo($args[2]);
+		 	//echo '</pre>';
 		}
 	}
 
@@ -221,10 +220,6 @@ class DatabaseUsersDataManager extends UsersDataManager
 		}
 		$options['charset'] = 'utf8';
 		$options['collate'] = 'utf8_unicode_ci';
-		echo "=CREATE TABLE=\n";
-		echo $name;
-		print_r($properties);
-		print_r($options);
 		$manager->createTable($name,$properties,$options);
 		foreach($indexes as $index_name => $index_info)
 		{
