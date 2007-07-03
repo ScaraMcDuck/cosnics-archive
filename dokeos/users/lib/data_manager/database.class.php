@@ -41,6 +41,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 	{
 		$this->repoDM = & RepositoryDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
+		echo "----- ".$conf->get_parameter('database', 'connection_string_user')."------";
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_user'),array('debug'=>3,'debug_handler'=>array('UsersDatamanager','debug')));
 		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
 		$this->connection->query('SET NAMES utf8');
