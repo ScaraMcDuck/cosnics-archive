@@ -1,5 +1,6 @@
 <?php
 /**
+ * $Id: personal_calendar_installer.class.php 12686 2007-07-03 11:32:57Z bmol $
  * @package users.install
  */
 require_once dirname(__FILE__).'/../lib/usersdatamanager.class.php';
