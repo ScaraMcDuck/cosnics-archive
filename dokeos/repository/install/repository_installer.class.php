@@ -33,7 +33,7 @@ class RepositoryInstaller extends Installer
 			$path = $dir.'/'.$type.'/'.$type.'.xml';
 			if (file_exists($path))
 			{
-				$this->parse_xml_file($path);
+				$this->create_storage_unit($path);
 			}
 		}
 		closedir($handle);
