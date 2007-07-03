@@ -220,6 +220,10 @@ class DatabaseUsersDataManager extends UsersDataManager
 		}
 		$options['charset'] = 'utf8';
 		$options['collate'] = 'utf8_unicode_ci';
+		echo "=CREATE TABLE=\n";
+		echo $name;
+		print_r($properties);
+		print_r($options);
 		$manager->createTable($name,$properties,$options);
 		foreach($indexes as $index_name => $index_info)
 		{

@@ -22,7 +22,7 @@ class UsersInstaller {
 	{
 		$sqlfiles = array();
 		$dir = dirname(__FILE__);
-		$handle = opendir($dir);		
+		$handle = opendir($dir);
 		while (false !== ($type = readdir($handle)))
 		{
 			$path = $dir.'/'.$type;
@@ -41,7 +41,7 @@ class UsersInstaller {
 		}
 		closedir($handle);
 	}
-	
+
 	/**
 	 * Parses an sql file and sends the request to the database manager
 	 * @param String $directory
@@ -58,9 +58,9 @@ class UsersInstaller {
 		{
 			$udm->ExecuteQuery($sqlstatement);
 		}
-		
+
 	}
-	
+
 	/**
 	 * Parses an XML file and sends the request to the database manager
 	 * @param String $path
@@ -97,7 +97,7 @@ class UsersInstaller {
 			 $indexes[$index->getAttribute('name')] = $index_info;
 		}
 		$udm = UsersDataManager :: get_instance();
-		echo '<pre>Creating Users Storage Unit: '.$name.'</pre>';flush();
+		echo '<pre>Creating Users Storage Unit: '.$name.'</pre>'."\n";flush();
 		$udm->create_storage_unit($name,$properties,$indexes);
 	}
 }
