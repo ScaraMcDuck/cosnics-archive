@@ -3,12 +3,12 @@
  * @package users.install
  */
 require_once dirname(__FILE__).'/../lib/usersdatamanager.class.php';
-require_once dirname(__FILE__).'/../../../common/installer.class.php';
+require_once dirname(__FILE__).'/../../common/installer.class.php';
 /**
  * This installer can be used to create the storage structure for the
  * users application.
  */
-class UsersInstaller {
+class UsersInstaller extends Installer{
 	/**
 	 * Constructor
 	 */
