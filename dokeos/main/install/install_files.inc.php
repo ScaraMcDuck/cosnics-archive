@@ -69,8 +69,9 @@ function full_file_install($values)
 	$fp = @ fopen('../../repository/conf/configuration.php', 'w');
 	fwrite($fp, $content);
 	fclose($fp);
-	
+
 	require_once('../../users/install/users_installer.class.php');
+//	require_once('../../classgroup/install/classgroup_installer.class.php');
 	require_once('../../application/lib/weblcms/install/weblcms_installer.class.php');
 	require_once('../../application/lib/personal_calendar/install/personal_calendar_installer.class.php');
 	require_once('../../repository/install/repository_installer.class.php');
@@ -86,34 +87,41 @@ function full_file_install($values)
 	$installer = new PersonalCalendarInstaller();
 	$installer->install();
 	unset($installer);
-	
+
 	//-----------------------------------------------------------
 	// Weblcms Install.
 	//-----------------------------------------------------------
 	$installer = new WeblcmsInstaller();
 	$installer->install();
 	unset($installer);
-	
+
 	//-----------------------------------------------------------
 	// Users tables install.
 	//-----------------------------------------------------------
 	$installer = new UsersInstaller();
 	$installer->install();
 	unset($installer);
-	
+
 	//-----------------------------------------------------------
 	// personal messenger tables install.
 	//-----------------------------------------------------------
 	$installer = new PersonalMessengerInstaller();
 	$installer->install();
 	unset($installer);
-	
+
 	//-----------------------------------------------------------
 	// personal messenger tables install.
 	//-----------------------------------------------------------
 	$installer = new ProfilerInstaller();
 	$installer->install();
 	unset($installer);
+
+	//-----------------------------------------------------------
+	// Class groups tables install.
+	//-----------------------------------------------------------
+//	$installer = new ClassGroupInstaller();
+//	$installer->install();
+//	unset($installer);
 
 	echo "<p>File creation is complete!</p>";
 }
