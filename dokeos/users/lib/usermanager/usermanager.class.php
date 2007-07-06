@@ -8,10 +8,10 @@ require_once dirname(__FILE__).'/../usersdatamanager.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 //require_once dirname(__FILE__).'/../optionsmenurenderer.class.php';
 require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/../../../repository/lib/condition/orcondition.class.php';
-require_once dirname(__FILE__).'/../../../repository/lib/condition/andcondition.class.php';
-require_once dirname(__FILE__).'/../../../repository/lib/condition/equalitycondition.class.php';
-require_once dirname(__FILE__).'/../../../repository/lib/condition/likecondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/orcondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/andcondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/equalitycondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/likecondition.class.php';
 
 /**
  * A user manager provides some functionalities to the admin to manage

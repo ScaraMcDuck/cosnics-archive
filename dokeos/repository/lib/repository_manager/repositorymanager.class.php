@@ -10,8 +10,8 @@ require_once dirname(__FILE__).'/../learningobjectcategorymenu.class.php';
 require_once dirname(__FILE__).'/../learningobject.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublicationattributes.class.php';
 require_once dirname(__FILE__).'/../optionsmenurenderer.class.php';
-require_once dirname(__FILE__).'/../condition/orcondition.class.php';
-require_once dirname(__FILE__).'/../condition/equalitycondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/orcondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../learning_object_table/learningobjecttable.class.php';
 require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../users/lib/usersdatamanager.class.php';
@@ -19,7 +19,7 @@ require_once dirname(__FILE__).'/../../../users/lib/usersdatamanager.class.php';
  * A repository manager provides some functionalities to the end user to manage
  * his learning objects in the repository. For each functionality a component is
  * available.
- * 
+ *
  * @author Bart Mollet
  * @author Tim De Pauw
  * @author Hans De Bisschop
@@ -28,7 +28,7 @@ require_once dirname(__FILE__).'/../../../users/lib/usersdatamanager.class.php';
 class RepositoryManager
 {
 	const APPLICATION_NAME = 'repository';
-	
+
    /**#@+
     * Constant defining a parameter of the repository manager.
  	*/
@@ -52,7 +52,7 @@ class RepositoryManager
 	const PARAM_COMPARE_VERSION = 'compare';
 	const PARAM_PUBLICATION_APPLICATION = 'application';
 	const PARAM_PUBLICATION_ID = 'publication';
-	
+
 	/**#@-*/
    /**#@+
     * Constant defining an action of the repository manager.
@@ -323,7 +323,7 @@ class RepositoryManager
 		$this->display_error_message($message);
 		$this->display_footer();
 	}
-	
+
 	/**
 	 * Displays a warning page.
 	 * @param string $message The message.
@@ -334,7 +334,7 @@ class RepositoryManager
 		$this->display_warning_message($message);
 		$this->display_footer();
 	}
-	
+
 	/**
 	 * Displays a popup form.
 	 * @param string $message The message.
@@ -355,7 +355,7 @@ class RepositoryManager
 		{
 			return array_merge($this->search_parameters, $this->parameters);
 		}
-		
+
 		return $this->parameters;
 	}
 	/**
@@ -474,7 +474,7 @@ class RepositoryManager
 		{
 			$url = htmlentities($url);
 		}
-	
+
 		return $url;
 	}
 	/**
@@ -485,7 +485,7 @@ class RepositoryManager
 	{
 		return $this->user->get_user_id();
 	}
-	
+
 	/**
 	 * Gets the user.
 	 * @return int The user.
@@ -494,7 +494,7 @@ class RepositoryManager
 	{
 		return $this->user;
 	}
-	
+
 	/**
 	 * Gets the id of the root category.
 	 * @return integer The requested id.
@@ -550,13 +550,13 @@ class RepositoryManager
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->count_learning_objects($type, $condition, $state, $different_parent_state);
 	}
-	
+
 	function count_publication_attributes($user, $type = null, $condition = null)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->count_publication_attributes($user, $type, $condition);
 	}
-	
+
 	/**
 	 * @see RepositoryDataManager::learning_object_deletion_allowed()
 	 */
@@ -574,7 +574,7 @@ class RepositoryManager
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->learning_object_revert_allowed($learning_object);
 	}
-	
+
 	/**
 	 * @see RepositoryDataManager::get_learning_object_publication_attributes()
 	 */
@@ -592,7 +592,7 @@ class RepositoryManager
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->get_learning_object_publication_attributes($user, $id, $type, $offset, $count, $order_property, $order_direction);
 	}
-	
+
 	/**
 	 * @see RepositoryDataManager::get_learning_object_publication_attribute()
 	 */
@@ -601,12 +601,12 @@ class RepositoryManager
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->get_learning_object_publication_attribute($id, $application);
 	}
-	
+
 	function get_publication_update_url($publication_attribute)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_LEARNING_OBJECT_PUBLICATION, self:: PARAM_PUBLICATION_APPLICATION => $publication_attribute->get_application(), self :: PARAM_PUBLICATION_ID => $publication_attribute->get_id()));
-	}	
-	
+	}
+
 	/**
 	 * Gets the url to view a learning object.
 	 * @param LearningObject $learning_object The learning object.
@@ -909,12 +909,12 @@ class RepositoryManager
 			$quota['title'] = get_lang('Quota');
 			$quota['url'] = $this->get_quota_url();
 			$quota['class'] = 'quota';
-			
+
 			$pub = array ();
 			$pub['title'] = get_lang('MyPublications');
 			$pub['url'] = $this->get_publication_url();
 			$pub['class'] = 'publication';
-			
+
 			$trash = array ();
 			$trash['title'] = get_lang('RecycleBin');
 			$trash['url'] = $this->get_recycle_bin_url();
@@ -978,20 +978,20 @@ class RepositoryManager
 	{
 		echo $this->get_search_form()->display();
 	}
-	
+
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
 		$links[] = array('name' => get_lang('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
 		return array('application' => array('name' => get_lang('Repository'), 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS)));
 	}
-	
+
 	public function get_link($parameters = array (), $encode = false)
 	{
 		$link = 'index_'. self :: APPLICATION_NAME .'_manager.php';
 		if (count($parameters))
 		{
-			$link .= '?'.http_build_query($parameters);	
+			$link .= '?'.http_build_query($parameters);
 		}
 		if ($encode)
 		{

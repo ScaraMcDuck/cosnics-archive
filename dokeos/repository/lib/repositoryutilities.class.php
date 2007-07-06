@@ -4,9 +4,9 @@
  * @package repository
  */
 
-require_once dirname(__FILE__).'/condition/andcondition.class.php';
-require_once dirname(__FILE__).'/condition/orcondition.class.php';
-require_once dirname(__FILE__).'/condition/patternmatchcondition.class.php';
+require_once dirname(__FILE__).'/../../common/condition/andcondition.class.php';
+require_once dirname(__FILE__).'/../../common/condition/orcondition.class.php';
+require_once dirname(__FILE__).'/../../common/condition/patternmatchcondition.class.php';
 require_once dirname(__FILE__).'/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
 
@@ -357,7 +357,7 @@ class RepositoryUtilities
 		{
 			$show_message = 'Show' . $message;
 			$hide_message = 'Hide' . $message;
-			
+
 			$html[]    = '<div id="plus-'.$id.'"><a href="javascript:showElement(\''. $id .'\')">'. get_lang('Show' . $message) .'</a></div>';
 			$html[]    = '<div id="minus-'.$id.'" style="display: none;"><a href="javascript:showElement(\''. $id .'\')">'. get_lang('Hide' . $message) .'</a></div>';
 			$html[]   .= '<div id="'. $id .'" style="display: none; clear: both;">';

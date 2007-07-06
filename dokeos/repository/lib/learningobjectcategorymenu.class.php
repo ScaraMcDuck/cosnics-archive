@@ -6,7 +6,7 @@
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
 require_once dirname(__FILE__).'/../../repository/lib/learningobject.class.php';
-require_once dirname(__FILE__).'/../../repository/lib/condition/equalitycondition.class.php';
+require_once dirname(__FILE__).'/../../common/condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/treemenurenderer.class.php';
 require_once dirname(__FILE__).'/optionsmenurenderer.class.php';
 /**
