@@ -5,9 +5,9 @@
  * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/personalmessagebrowser.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/condition/andcondition.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/condition/orcondition.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/condition/patternmatchcondition.class.php';
+require_once dirname(__FILE__).'/../../../../common/condition/andcondition.class.php';
+require_once dirname(__FILE__).'/../../../../common/condition/orcondition.class.php';
+require_once dirname(__FILE__).'/../../../../common/condition/patternmatchcondition.class.php';
 require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
 /**
  * This class represents a personal message publisher component which can be used

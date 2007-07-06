@@ -7,15 +7,15 @@ require_once dirname(__FILE__).'/database/databaselearningobjectresultset.class.
 require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../configuration.class.php';
 require_once dirname(__FILE__).'/../learningobject.class.php';
-require_once dirname(__FILE__).'/../condition/condition.class.php';
-require_once dirname(__FILE__).'/../condition/equalitycondition.class.php';
-require_once dirname(__FILE__).'/../condition/inequalitycondition.class.php';
-require_once dirname(__FILE__).'/../condition/patternmatchcondition.class.php';
-require_once dirname(__FILE__).'/../condition/aggregatecondition.class.php';
-require_once dirname(__FILE__).'/../condition/andcondition.class.php';
-require_once dirname(__FILE__).'/../condition/orcondition.class.php';
-require_once dirname(__FILE__).'/../condition/notcondition.class.php';
-require_once dirname(__FILE__).'/../condition/incondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/condition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/equalitycondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/inequalitycondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/patternmatchcondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/aggregatecondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/andcondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/orcondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/notcondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/incondition.class.php';
 require_once 'MDB2.php';
 
 /**

@@ -7,10 +7,10 @@ require_once dirname(__FILE__).'/../main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/lib/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/lib/learningobject.class.php';
-require_once dirname(__FILE__).'/lib/condition/equalitycondition.class.php';
-require_once dirname(__FILE__).'/lib/condition/notcondition.class.php';
-require_once dirname(__FILE__).'/lib/condition/andcondition.class.php';
-require_once dirname(__FILE__).'/lib/condition/orcondition.class.php';
+require_once dirname(__FILE__).'/../common/condition/equalitycondition.class.php';
+require_once dirname(__FILE__).'/../common/condition/notcondition.class.php';
+require_once dirname(__FILE__).'/../common/condition/andcondition.class.php';
+require_once dirname(__FILE__).'/../common/condition/orcondition.class.php';
 
 if (api_get_user_id())
 {

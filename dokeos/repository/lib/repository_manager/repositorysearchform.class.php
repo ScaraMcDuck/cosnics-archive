@@ -7,9 +7,9 @@ require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidat
 require_once dirname(__FILE__).'/repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositoryutilities.class.php';
 require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../condition/andcondition.class.php';
-require_once dirname(__FILE__).'/../condition/orcondition.class.php';
-require_once dirname(__FILE__).'/../condition/equalitycondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/andcondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/orcondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/equalitycondition.class.php';
 /**
  * A form to search in the repository.
  * This form can have two representations
@@ -269,7 +269,7 @@ class RepositorySearchForm extends FormValidator
 				}
 			}
 		}
-		
+
 		return $conditions;
 	}
 	/**

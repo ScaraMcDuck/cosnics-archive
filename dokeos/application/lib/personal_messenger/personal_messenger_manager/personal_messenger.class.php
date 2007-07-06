@@ -8,11 +8,11 @@ require_once dirname(__FILE__).'/personalmessengercomponent.class.php';
 require_once dirname(__FILE__).'/../personalmessengerdatamanager.class.php';
 require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/configuration.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/condition/orcondition.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/condition/andcondition.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/condition/notcondition.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/condition/equalitycondition.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/condition/likecondition.class.php';
+require_once dirname(__FILE__).'/../../../../common/condition/orcondition.class.php';
+require_once dirname(__FILE__).'/../../../../common/condition/andcondition.class.php';
+require_once dirname(__FILE__).'/../../../../common/condition/notcondition.class.php';
+require_once dirname(__FILE__).'/../../../../common/condition/equalitycondition.class.php';
+require_once dirname(__FILE__).'/../../../../common/condition/likecondition.class.php';
 require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
 require_once dirname(__FILE__).'/../pm_publication_table/pmpublicationtable.class.php';
 require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
@@ -24,9 +24,9 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
  */
  class PersonalMessenger extends WebApplication
  {
- 	
+
  	const APPLICATION_NAME = 'personal_messenger';
- 	
+
  	const PARAM_ACTION = 'go';
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 	const PARAM_MARK_SELECTED_READ = 'mark_selected_read';
@@ -34,7 +34,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	const PARAM_FOLDER = 'folder';
 	const PARAM_PERSONAL_MESSAGE_ID = 'pm';
 	const PARAM_MARK_TYPE = 'type';
-	
+
 	const ACTION_FOLDER_INBOX = 'inbox';
 	const ACTION_FOLDER_OUTBOX = 'outbox';
 	const ACTION_DELETE_PUBLICATION = 'delete';
@@ -42,16 +42,16 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	const ACTION_VIEW_ATTACHMENTS = 'viewattachments';
 	const ACTION_MARK_PUBLICATION = 'mark';
 	const ACTION_CREATE_PUBLICATION = 'create';
-	
+
 	const ACTION_BROWSE_MESSAGES = 'browse';
-	
+
 	private $parameters;
 	private $search_parameters;
 	private $user;
 	private $search_form;
 	private $breadcrumbs;
 	private $folder;
-	
+
 	/**
 	 * Constructor
 	 * @param User $user The current user
@@ -62,7 +62,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
 		$this->parse_input_from_table();
-		
+
 		if (isset($_GET[PersonalMessenger :: PARAM_FOLDER]))
 		{
 			$this->folder = $_GET[PersonalMessenger :: PARAM_FOLDER];
@@ -72,7 +72,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 			$this->folder = PersonalMessenger :: ACTION_FOLDER_INBOX;
 		}
     }
-    
+
     /**
 	 * Run this personal messenger manager
 	 */
@@ -143,7 +143,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		}
 		$current_crumb = array_pop($breadcrumbs);
 		$interbredcrump = $breadcrumbs;
-		
+
 		$title = $current_crumb['name'];
 		$title_short = $title;
 		if (strlen($title_short) > 53)
@@ -151,12 +151,12 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
 		Display :: display_header($title_short);
-		
+
 		echo $this->get_menu_html();
 		echo '<div style="float: right; width: 80%;">';
 		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
 		echo '<div class="clear">&nbsp;</div>';
-		
+
 		if ($msg = $_GET[self :: PARAM_MESSAGE])
 		{
 			$this->display_message($msg);
@@ -166,7 +166,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 			$this->display_error_message($msg);
 		}
 	}
-	
+
 	/**
 	 * Displays the menu html
 	 */
@@ -178,34 +178,34 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		$create['url'] = $this->get_personal_message_creation_url();
 		$create['class'] = 'create';
 		$extra_items[] = & $create;
-		
+
 		$temp_replacement = '__FOLDER__';
 		$url_format = $this->get_url(array (PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES, PersonalMessenger :: PARAM_FOLDER => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$user_menu = new PersonalMessengerMenu($this->folder, $url_format, & $extra_items);
-		
+
 		if ($this->get_action() == self :: ACTION_CREATE_PUBLICATION)
 		{
 			$user_menu->forceCurrentUrl($create['url'], true);
 		}
-		
+
 		$html = array();
 		$html[] = '<div style="float: left; width: 20%;">';
 		$html[] = $user_menu->render_as_tree();
 		$html[] = '</div>';
-		
+
 		return implode($html, "\n");
 	}
-	
+
 	/**
 	 * Displays the seach form
 	 */
-	
+
 	private function display_search_form()
 	{
 		echo $this->get_search_form()->display();
 	}
-	
+
 	/**
 	 * Displays the footer.
 	 */
@@ -221,7 +221,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		mysql_select_db($mainDbName);
 		Display :: display_footer();
 	}
-	
+
 	/**
 	 * Displays a normal message.
 	 * @param string $message The message.
@@ -256,7 +256,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		$this->display_error_message($message);
 		$this->display_footer();
 	}
-	
+
 	/**
 	 * Displays a warning page.
 	 * @param string $message The message.
@@ -267,7 +267,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		$this->display_warning_message($message);
 		$this->display_footer();
 	}
-	
+
 	/**
 	 * Displays a popup form.
 	 * @param string $message The message.
@@ -289,7 +289,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		{
 			return array_merge($this->search_parameters, $this->parameters);
 		}
-		
+
 		return $this->parameters;
 	}
 	/**
@@ -310,7 +310,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	{
 		$this->parameters[$name] = $value;
 	}
-	
+
 	/**
 	 * Redirect the end user to another location.
 	 * @param string $action The action to take (default = browse learning
@@ -350,7 +350,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		{
 			$url = htmlentities($url);
 		}
-	
+
 		return $url;
 	}
 	/**
@@ -361,7 +361,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	{
 		return $this->user->get_user_id();
 	}
-	
+
 	/**
 	 * Gets the user.
 	 * @return int The requested user.
@@ -370,7 +370,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	{
 		return $this->user;
 	}
-	
+
 	/**
 	 * Gets the URL to the Dokeos claroline folder.
 	 */
@@ -385,7 +385,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	{
 		api_not_allowed();
 	}
-	
+
 	/**
 	 * Returns a list of actions available to the admin.
 	 * @return Array $info Contains all possible actions.
@@ -396,7 +396,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		$links[] = array ('name' => get_lang('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
 		return array ('application' => array ('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links);
 	}
-	
+
 	/**
 	 * Return a link to a certain action of this application
 	 * @param array $paramaters The parameters to be added to the url
@@ -407,7 +407,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		$link = 'index_'. self :: APPLICATION_NAME .'.php';
 		if (count($parameters))
 		{
-			$link .= '?'.http_build_query($parameters);	
+			$link .= '?'.http_build_query($parameters);
 		}
 		if ($encode)
 		{
@@ -415,13 +415,13 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		}
 		return $link;
 	}
-	
+
 	/**
-	 * Returns whether a given object id is published in this application 
+	 * Returns whether a given object id is published in this application
 	 * @param int $object_id
 	 * @return boolean Is the object is published
 	 */
-	
+
 	function learning_object_is_published($object_id)
 	{
 		return PersonalMessengerDataManager :: get_instance()->learning_object_is_published($object_id);
@@ -437,7 +437,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	{
 		return PersonalMessengerDataManager :: get_instance()->any_learning_object_is_published($object_ids);
 	}
-	
+
 	/**
 	 * Gets the publication attributes of a given array of learning object id's
 	 * @param array $object_id The array of object ids
@@ -452,7 +452,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	{
 		return PersonalMessengerDataManager :: get_instance()->get_learning_object_publication_attributes($this->get_user(), $object_id, $type, $offset, $count, $order_property, $order_direction);
 	}
-	
+
 	/**
 	 * Gets the publication attributes of a given learning object id
 	 * @param int $object_id The object id
@@ -466,8 +466,8 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	function get_learning_object_publication_attribute($object_id)
 	{
 		return PersonalMessengerDataManager :: get_instance()->get_learning_object_publication_attribute($object_id);
-	}	
-	
+	}
+
 	/**
 	 * Counts the publication attributes
 	 * @param string $type Type of retrieval
@@ -478,7 +478,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	{
 		return PersonalMessengerDataManager :: get_instance()->count_publication_attributes($this->get_user(), $type, $condition);
 	}
-	
+
 	/**
 	 * Counts the publication attributes
 	 * @param string $type Type of retrieval
@@ -489,64 +489,64 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	{
 		return PersonalMessengerDataManager :: get_instance()->delete_personal_message_publications($object_id);
 	}
-	
+
 	/**
 	 * Update the publication id
 	 * @param LearningObjectPublicationAttribure $publication_attr
 	 * @return boolean
-	 */	
+	 */
 	function update_learning_object_publication_id($publication_attr)
 	{
 		return PersonalMessengerDataManager :: get_instance()->update_personal_message_publication_id($publication_attr);
 	}
-	
+
 	/**
 	 * Count the publications
 	 * @param Condition $condition
 	 * @return int
-	 */	
+	 */
 	function count_personal_message_publications($condition = null)
 	{
 		$pmdm = PersonalMessengerDataManager :: get_instance();
 		return $pmdm->count_personal_message_publications($condition);
 	}
-	
+
 	/**
 	 * Count the unread publications
 	 * @return int
-	 */	
+	 */
 	function count_unread_personal_message_publications()
 	{
 		$pmdm = PersonalMessengerDataManager :: get_instance();
 		return $pmdm->count_unread_personal_message_publications($this->user);
 	}
-	
+
 	/**
 	 * Retrieve a personal message publication
 	 * @param int $id
 	 * @return PersonalMessagePublication
-	 */	
+	 */
 	function retrieve_personal_message_publication($id)
 	{
 		$pmdm = PersonalMessengerDataManager :: get_instance();
 		return $pmdm->retrieve_personal_message_publication($id);
 	}
-	
+
 	/**
-	 * Retrieve a series of personal message publications 
+	 * Retrieve a series of personal message publications
 	 * @param Condition $condition
 	 * @param array $orderBy
 	 * @param array $orderDir
 	 * @param int $offset
 	 * @param int $maxObjects
 	 * @return PersonalMessagePublicationResultSet
-	 */	
+	 */
 	function retrieve_personal_message_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		$pmdm = PersonalMessengerDataManager :: get_instance();
 		return $pmdm->retrieve_personal_message_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
-	
+
 	/**
 	 * Gets the url for deleting a personal message publication
 	 * @param PersonalMessagePublication
@@ -556,7 +556,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id()));
 	}
-	
+
 	/**
 	 * Gets the url for viewing a personal message publication
 	 * @param PersonalMessagePublication
@@ -566,7 +566,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id(), self :: PARAM_FOLDER => $this->get_folder()));
 	}
-	
+
 	/**
 	 * Gets the url for replying to a personal message publication
 	 * @param PersonalMessagePublication
@@ -576,7 +576,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	{
 		return $this->get_url(array (PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_CREATE_PUBLICATION, PersonalMessagePublisher :: PARAM_ACTION => 'publicationcreator', PersonalMessagePublisher :: PARAM_LEARNING_OBJECT_ID => $personal_message->get_personal_message(), self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id(), PersonalMessagePublisher :: PARAM_EDIT => 1));
 	}
-	
+
 	/**
 	 * Gets the url for creating a personal message publication
 	 * @param PersonalMessagePublication
@@ -586,7 +586,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_PUBLICATION));
 	}
-	
+
 	/**
 	 * Gets the current personal messenger folder
 	 * @return string The folder
@@ -595,7 +595,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	{
 		return $this->folder;
 	}
-	
+
 	/**
 	 * Parse the input from the sortable tables and process input accordingly
 	 */

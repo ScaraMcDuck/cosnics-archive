@@ -2,12 +2,6 @@
 /**
  * @package users.lib
  */
-//require_once dirname(__FILE__).'/accessiblelearningobject.class.php';
-//require_once dirname(__FILE__).'/repositorydatamanager.class.php';
-//require_once dirname(__FILE__).'/repositoryutilities.class.php';
-//require_once dirname(__FILE__).'/condition/equalitycondition.class.php';
-//require_once dirname(__FILE__).'/learningobjectdifference.class.php';
-//require_once dirname(__FILE__).'/learningobjectdisplay.class.php';
 /**
  *	This class represents a user.
  *

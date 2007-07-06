@@ -7,11 +7,11 @@ require_once dirname(__FILE__).'/profilersearchform.class.php';
 require_once dirname(__FILE__).'/../profilerdatamanager.class.php';
 require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/configuration.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/condition/orcondition.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/condition/andcondition.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/condition/notcondition.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/condition/equalitycondition.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/condition/likecondition.class.php';
+require_once dirname(__FILE__).'/../../../../common/condition/orcondition.class.php';
+require_once dirname(__FILE__).'/../../../../common/condition/andcondition.class.php';
+require_once dirname(__FILE__).'/../../../../common/condition/notcondition.class.php';
+require_once dirname(__FILE__).'/../../../../common/condition/equalitycondition.class.php';
+require_once dirname(__FILE__).'/../../../../common/condition/likecondition.class.php';
 require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
 require_once dirname(__FILE__).'/../profile_publication_table/profilepublicationtable.class.php';
 require_once dirname(__FILE__).'/../profilepublisher.class.php';
@@ -23,28 +23,28 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
  */
  class Profiler extends WebApplication
  {
- 	
+
  	const APPLICATION_NAME = 'profiler';
- 	
+
  	const PARAM_ACTION = 'go';
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 	const PARAM_MARK_SELECTED_READ = 'mark_selected_read';
 	const PARAM_MARK_SELECTED_UNREAD = 'mark_selected_unread';
 	const PARAM_FIRSTLETTER = 'firstletter';
 	const PARAM_PROFILE_ID = 'profile';
-	
+
 	const ACTION_DELETE_PUBLICATION = 'delete';
 	const ACTION_VIEW_PUBLICATION = 'view';
 	const ACTION_CREATE_PUBLICATION = 'create';
 	const ACTION_BROWSE_PROFILES = 'browse';
-	
+
 	private $parameters;
 	private $search_parameters;
 	private $user;
 	private $search_form;
 	private $breadcrumbs;
 	private $firstletter;
-	
+
 	/**
 	 * Constructor
 	 * @param User $user The current user
@@ -55,13 +55,13 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
 		$this->parse_input_from_table();
-		
+
 		if (isset($_GET[Profiler :: PARAM_FIRSTLETTER]))
 		{
 			$this->firstletter = $_GET[Profiler :: PARAM_FIRSTLETTER];
 		}
     }
-    
+
     /**
 	 * Run this profiler manager
 	 */
@@ -126,7 +126,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		}
 		$current_crumb = array_pop($breadcrumbs);
 		$interbredcrump = $breadcrumbs;
-		
+
 		$title = $current_crumb['name'];
 		$title_short = $title;
 		if (strlen($title_short) > 53)
@@ -134,7 +134,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
 		Display :: display_header($title_short);
-		
+
 		echo $this->get_menu_html();
 		echo '<div style="float: right; width: 80%;">';
 		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
@@ -143,7 +143,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 			$this->display_search_form();
 		}
 		echo '<div class="clear">&nbsp;</div>';
-		
+
 		if ($msg = $_GET[self :: PARAM_MESSAGE])
 		{
 			$this->display_message($msg);
@@ -153,7 +153,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 			$this->display_error_message($msg);
 		}
 	}
-	
+
 	/**
 	 * Displays the menu html
 	 */
@@ -165,7 +165,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		$create['url'] = $this->get_profile_creation_url();
 		$create['class'] = 'create';
 		$extra_items[] = & $create;
-		
+
 		if ($this->get_search_validate())
 		{
 			// $search_url = $this->get_url();
@@ -180,12 +180,12 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		{
 			$search_url = null;
 		}
-		
+
 		$temp_replacement = '__FIRSTLETTER__';
 		$url_format = $this->get_url(array (Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES, Profiler :: PARAM_FIRSTLETTER => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$user_menu = new ProfilerMenu($this->firstletter, $url_format, & $extra_items);
-		
+
 		if ($this->get_action() == self :: ACTION_CREATE_PUBLICATION)
 		{
 			$user_menu->forceCurrentUrl($create['url'], true);
@@ -194,20 +194,20 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		{
 			$user_menu->forceCurrentUrl($this->get_profile_home_url(), true);
 		}
-		
+
 		if (isset ($search_url))
 		{
 			$user_menu->forceCurrentUrl($search_url, true);
 		}
-		
+
 		$html = array();
 		$html[] = '<div style="float: left; width: 20%;">';
 		$html[] = $user_menu->render_as_tree();
 		$html[] = '</div>';
-		
+
 		return implode($html, "\n");
 	}
-	
+
 	/**
 	 * Displays the search form
 	 */
@@ -215,7 +215,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		echo $this->get_search_form()->display();
 	}
-	
+
 	/**
 	 * Displays the footer.
 	 */
@@ -231,7 +231,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		mysql_select_db($mainDbName);
 		Display :: display_footer();
 	}
-	
+
 	/**
 	 * Displays a normal message.
 	 * @param string $message The message.
@@ -266,7 +266,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		$this->display_error_message($message);
 		$this->display_footer();
 	}
-	
+
 	/**
 	 * Displays a warning page.
 	 * @param string $message The message.
@@ -277,7 +277,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		$this->display_warning_message($message);
 		$this->display_footer();
 	}
-	
+
 	/**
 	 * Displays a popup form.
 	 * @param string $message The message.
@@ -299,7 +299,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		{
 			return array_merge($this->search_parameters, $this->parameters);
 		}
-		
+
 		return $this->parameters;
 	}
 	/**
@@ -320,7 +320,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		$this->parameters[$name] = $value;
 	}
-	
+
 	/**
 	 * Redirect the end user to another location.
 	 * @param string $action The action to take (default = browse learning
@@ -361,7 +361,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		{
 			$url = htmlentities($url);
 		}
-	
+
 		return $url;
 	}
 	/**
@@ -372,7 +372,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		return $this->user->get_user_id();
 	}
-	
+
 	/**
 	 * Gets the user.
 	 * @return int The requested user.
@@ -381,7 +381,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		return $this->user;
 	}
-	
+
 	/**
 	 * Gets the URL to the Dokeos claroline folder.
 	 */
@@ -407,7 +407,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		$links[] = array('name' => get_lang('ProfileList'), 'action' => 'list', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PROFILES)));
 		return array ('application' => array ('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PROFILES)));
 	}
-	
+
 	/**
 	 * Return a link to a certain action of this application
 	 * @param array $paramaters The parameters to be added to the url
@@ -418,7 +418,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		$link = 'index_'. self :: APPLICATION_NAME .'.php';
 		if (count($parameters))
 		{
-			$link .= '?'.http_build_query($parameters);	
+			$link .= '?'.http_build_query($parameters);
 		}
 		if ($encode)
 		{
@@ -426,9 +426,9 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		}
 		return $link;
 	}
-	
+
 	/**
-	 * Returns whether a given object id is published in this application 
+	 * Returns whether a given object id is published in this application
 	 * @param int $object_id
 	 * @return boolean Is the object is published
 	 */
@@ -461,7 +461,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		return ProfilerDataManager :: get_instance()->get_learning_object_publication_attributes($this->get_user(), $object_id, $type, $offset, $count, $order_property, $order_direction);
 	}
-	
+
 	/**
 	 * Gets the publication attributes of a given learning object id
 	 * @param int $object_id The object id
@@ -475,8 +475,8 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	function get_learning_object_publication_attribute($object_id)
 	{
 		return ProfilerDataManager :: get_instance()->get_learning_object_publication_attribute($object_id);
-	}	
-	
+	}
+
 	/**
 	 * Counts the publication attributes
 	 * @param string $type Type of retrieval
@@ -487,7 +487,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		return ProfilerDataManager :: get_instance()->count_publication_attributes($this->get_user(), $type, $condition);
 	}
-	
+
 	/**
 	 * Counts the publication attributes
 	 * @param string $type Type of retrieval
@@ -498,64 +498,64 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		return ProfilerDataManager :: get_instance()->delete_profile_publications($object_id);
 	}
-	
+
 	/**
 	 * Update the publication id
 	 * @param LearningObjectPublicationAttribure $publication_attr
 	 * @return boolean
-	 */	
+	 */
 	function update_learning_object_publication_id($publication_attr)
 	{
 		return ProfilerDataManager :: get_instance()->update_profile_publication_id($publication_attr);
 	}
-	
+
 	/**
 	 * Count the publications
 	 * @param Condition $condition
 	 * @return int
-	 */	
+	 */
 	function count_profile_publications($condition = null)
 	{
 		$pmdm = ProfilerDataManager :: get_instance();
 		return $pmdm->count_profile_publications($condition);
 	}
-	
+
 	/**
 	 * Count the unread publications
 	 * @return int
-	 */	
+	 */
 	function count_unread_profile_publications()
 	{
 		$pmdm = ProfilerDataManager :: get_instance();
 		return $pmdm->count_unread_profile_publications($this->user);
 	}
-	
+
 	/**
 	 * Retrieve a profile publication
 	 * @param int $id
 	 * @return PersonalMessagePublication
-	 */	
+	 */
 	function retrieve_profile_publication($id)
 	{
 		$pmdm = ProfilerDataManager :: get_instance();
 		return $pmdm->retrieve_profile_publication($id);
 	}
-	
+
 	/**
-	 * Retrieve a series of profile publications 
+	 * Retrieve a series of profile publications
 	 * @param Condition $condition
 	 * @param array $orderBy
 	 * @param array $orderDir
 	 * @param int $offset
 	 * @param int $maxObjects
 	 * @return PersonalMessagePublicationResultSet
-	 */	
+	 */
 	function retrieve_profile_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		$pmdm = ProfilerDataManager :: get_instance();
 		return $pmdm->retrieve_profile_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
-	
+
 	/**
 	 * Gets the url for deleting a profile publication
 	 * @param PersonalMessagePublication
@@ -565,7 +565,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_PROFILE_ID => $profile->get_id()));
 	}
-	
+
 	/**
 	 * Gets the url for viewing a profile publication
 	 * @param ProfilePublication
@@ -575,7 +575,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PROFILE_ID => $profile->get_id()));
 	}
-	
+
 	/**
 	 * Gets the url for replying to a profile publication
 	 * @param ProfilePublication
@@ -585,7 +585,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		return $this->get_url(array (Profiler :: PARAM_ACTION => Profiler :: ACTION_CREATE_PUBLICATION, ProfilePublisher :: PARAM_ACTION => 'publicationcreator', ProfilePublisher :: PARAM_LEARNING_OBJECT_ID => $profile->get_profile(), self :: PARAM_PROFILE_ID => $profile->get_id(), ProfilePublisher :: PARAM_EDIT => 1));
 	}
-	
+
 	/**
 	 * Gets the url for creating a profile publication
 	 * @param ProfilePublication
@@ -595,7 +595,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_PUBLICATION));
 	}
-	
+
 	/**
 	 * Gets the HOME URL for a profile publication
 	 * @param ProfilePublication
@@ -605,7 +605,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_PROFILES));
 	}
-	
+
 	/**
 	 * Gets the search condition for a profile publication
 	 */
@@ -613,7 +613,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		return $this->get_search_form()->get_condition();
 	}
-	
+
 	/**
 	 * Gets the search form for a profile publication
 	 */
@@ -625,7 +625,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		}
 		return $this->search_form;
 	}
-	
+
 	/**
 	 * Gets the search form's validate
 	 */
@@ -633,7 +633,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		return $this->get_search_form()->validate();
 	}
-	
+
 	/**
 	 * Parse the input from the sortable tables and process input accordingly
 	 */
