@@ -61,6 +61,7 @@ define("HTML_WHITE", "white");
 *	@package dokeos.library
 */
 require_once 'sortabletable.class.php';
+require_once(dirname(__FILE__).'/../../../common/footer.class.php');
 class Display
 {
 	function Display($user)
@@ -261,7 +262,7 @@ class Display
 		}
 		$table->display();
 	}
-	
+
 	/**
 	* Displays a normal message. It is recommended to use this function
 	* to display any normal information messages.
@@ -320,7 +321,7 @@ class Display
 		}
 		echo $out;
 	}
-	
+
 	/**
 	* Displays a message. It is recommended to use this function
 	* to display any warning messages.
@@ -374,7 +375,7 @@ class Display
 		{
 			$style_class = ' class="full_url_print '.$style_class.'"';
 		}
-		else 
+		else
 		{
 			$style_class = ' class="full_url_print"';
 		}
@@ -430,7 +431,8 @@ class Display
 	function display_footer()
 	{
 		global $dokeos_version; //necessary to have the value accessible in the footer
-		include (api_get_include_path()."/claro_init_footer.inc.php");
+		$footer = new Footer($dokeos_version);
+		$footer->display();
 	}
 
 	/**
