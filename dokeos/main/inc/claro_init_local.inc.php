@@ -149,7 +149,6 @@ else
             if ($user->get_auth_source() == PLATFORM_AUTH_SOURCE)
             {
                 //the authentification of this user is managed by Dokeos itself
-
                 $password = trim(stripslashes($password));
 
                 // determine if the password needs to be encrypted before checking

@@ -259,6 +259,7 @@ $defaults['database_scorm'] = 'dokeos_scorm';
 $defaults['database_user'] = 'dokeos_user';
 $defaults['database_repository'] = 'dokeos_repository';
 $defaults['database_weblcms'] = 'dokeos_weblcms';
+$defaults['database_portfolio'] = 'dokeos_portfolio';
 $defaults['database_personal_calendar'] = 'dokeos_personal_calendar';
 $defaults['database_personal_messenger'] = 'dokeos_personal_messenger';
 $defaults['database_profiler'] = 'dokeos_profiler';
@@ -302,6 +303,7 @@ if (isset ($current_values['installation_type']) && $current_values['installatio
 		$defaults['database_user'] = 'dokeos_user';
 		$defaults['database_repository'] = 'dokeos_repository';
 		$defaults['database_weblcms'] = 'dokeos_weblcms';
+		$defaults['database_portfolio'] = 'dokeos_portfolio';
 		$defaults['database_username'] = get_config_param('dbLogin');
 		$defaults['database_password'] = get_config_param('dbPass');
 		$defaults['database_prefix'] = get_config_param('dbNamePrefix');

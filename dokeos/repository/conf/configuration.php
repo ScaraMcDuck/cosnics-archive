@@ -17,6 +17,9 @@ $configuration['database']['connection_string_repository']
 $configuration['database']['connection_string_weblcms']
 	= 'mysql://root:@localhost/dokeos_weblcms';
 
+$configuration['database']['connection_string_portfolio']
+	= 'mysql://root:@localhost/dokeos_portfolio';
+
 $configuration['database']['connection_string_user']
 	= 'mysql://root:@localhost/dokeos_user';
 

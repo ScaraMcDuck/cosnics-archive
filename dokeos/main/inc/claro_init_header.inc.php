@@ -26,6 +26,7 @@ if ( isset($httpHeadXtra) && $httpHeadXtra )
 		$header->add_http_header($thisHttpHead);
 	}
 }
+
 if(api_get_setting('stylesheets')<>'')
 {
 	$header->add_css_file_header(api_get_path(WEB_CODE_PATH). 'css/'. api_get_setting('stylesheets') .'/default.css');

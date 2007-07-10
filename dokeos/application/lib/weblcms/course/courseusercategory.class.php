@@ -158,10 +158,10 @@ class CourseUserCategory {
 	 * Updates the course user category object in persistent storage
 	 * @return boolean
 	 */
-	function update($this)
+	function update($var)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		$success = $wdm->update_course_user_category($this);
+		$success = $wdm->update_course_user_category($var);
 		if (!$success)
 		{
 			return false;
@@ -174,10 +174,10 @@ class CourseUserCategory {
 	 * Creates the course user category object in persistent storage
 	 * @return boolean
 	 */
-	function create($this)
+	function create($var)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		$success = $wdm->create_course_user_category($this);
+		$success = $wdm->create_course_user_category($var);
 		if (!$success)
 		{
 			return false;
@@ -190,10 +190,10 @@ class CourseUserCategory {
 	 * Deletes the course user category object from persistent storage
 	 * @return boolean
 	 */
-	function delete($this)
+	function delete($var)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		$success = $wdm->delete_course_user_category($this);
+		$success = $wdm->delete_course_user_category($var);
 		if (!$success)
 		{
 			return false;

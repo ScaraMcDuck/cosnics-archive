@@ -40,6 +40,8 @@ class Page_DatabaseSettings extends HTML_QuickForm_Page
 		$this->addRule('database_repository', 'ThisFieldIsRequired', 'required');
 		$this->addElement('text', 'database_weblcms', get_lang("WeblcmsDatabase"), array ('size' => '40'));
 		$this->addRule('database_weblcms', 'ThisFieldIsRequired', 'required');
+		$this->addElement('text', 'database_portfolio', get_lang("PortfolioDatabase"), array ('size' => '40'));
+		$this->addRule('database_portfolio', 'ThisFieldIsRequired', 'required');
 		$this->addElement('text', 'database_personal_calendar', get_lang("PersonalCalendarDatabase"), array ('size' => '40'));
 		$this->addRule('database_personal_calendar', 'ThisFieldIsRequired', 'required');
 		$this->addElement('text', 'database_personal_messenger', get_lang("PersonalMessageDatabase"), array ('size' => '40'));

@@ -71,6 +71,8 @@ $scormDbName            = 'dokeos_scorm';
 $user_personal_database = '{DATABASE_PERSONAL}';
 // object repository database
 $repository_database    = 'dokeos_repository';
+// portfolio database
+$portfolio_database    = 'dokeos_portfolio';
 // weblcms database
 $weblcms_database    	= 'dokeos_weblcms';
 // users database

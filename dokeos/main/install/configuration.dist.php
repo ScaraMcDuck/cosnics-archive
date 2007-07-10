@@ -73,6 +73,8 @@ $user_personal_database = '{DATABASE_PERSONAL}';
 $repository_database    = '{DATABASE_REPOSITORY}';
 // weblcms database
 $weblcms_database    	= '{DATABASE_WEBLCMS}';
+// portfolio database
+$portfolio_database    	= '{DATABASE_PORTFOLIO}';
 // users database
 $user_database			= '{DATABASE_USERDB}';
 // personal calendar database
