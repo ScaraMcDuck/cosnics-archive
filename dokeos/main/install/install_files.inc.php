@@ -58,6 +58,7 @@ function full_file_install($values)
 	$config['{DATABASE_PASSWORD}'] = $values['database_password'];
 	$config['{DATABASE_REPOSITORY}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_repository"]);
 	$config['{DATABASE_WEBLCMS}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_weblcms"]);
+	$config['{DATABASE_PORTFOLIO}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_portfolio"]);
 	$config['{DATABASE_PERSONALCALENDAR}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_personal_calendar"]);
 	$config['{DATABASE_PERSONAL_MESSENGER}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_personal_messenger"]);
 	$config['{DATABASE_PROFILER}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_profiler"]);
@@ -73,6 +74,7 @@ function full_file_install($values)
 	require_once('../../users/install/users_installer.class.php');
 //	require_once('../../classgroup/install/classgroup_installer.class.php');
 	require_once('../../application/lib/weblcms/install/weblcms_installer.class.php');
+	require_once('../../application/lib/myportfolio/install/portfolio_installer.class.php');
 	require_once('../../application/lib/personal_calendar/install/personal_calendar_installer.class.php');
 	require_once('../../repository/install/repository_installer.class.php');
 	require_once('../../application/lib/personal_messenger/install/personal_messenger_installer.class.php');
@@ -95,6 +97,13 @@ function full_file_install($values)
 	$installer->install();
 	unset($installer);
 
+	//-----------------------------------------------------------
+	// Portfolio Install.
+	//-----------------------------------------------------------
+	$installer = new PortfolioInstaller();
+	$installer->install();
+	unset($installer);
+	
 	//-----------------------------------------------------------
 	// Users tables install.
 	//-----------------------------------------------------------

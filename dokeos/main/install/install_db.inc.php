@@ -80,6 +80,7 @@ function full_database_install($values)
 	$values["database_user"] = eregi_replace('[^a-z0-9_-]', '', $values["database_user"]);
 	$values["database_repository"] = eregi_replace('[^a-z0-9_-]', '', $values["database_repository"]);
 	$values["database_weblcms"] = eregi_replace('[^a-z0-9_-]', '', $values["database_weblcms"]);
+	$values["database_portfolio"] = eregi_replace('[^a-z0-9_-]', '', $values["database_portfolio"]);
 	$values["database_personal_calendar"] = eregi_replace('[^a-z0-9_-]', '', $values["database_personal_calendar"]);
 	$values["database_personal_messenger"] = eregi_replace('[^a-z0-9_-]', '', $values["database_personal_messenger"]);
 	$values["database_profiler"] = eregi_replace('[^a-z0-9_-]', '', $values["database_profiler"]);
@@ -111,6 +112,7 @@ function full_database_install($values)
 		$values["database_scorm"] = $values["database_main_db"];
 		$values["database_user"] = $values["database_main_db"];
 		$values["database_repository"] = $values["database_main_db"];
+		$values["database_portfolio"] = $values["database_main_db"];
 		$values["database_personal_calendar"] = $values["database_personal_calendar"];
 		$values["database_personal_messenger"] = $values["database_main_db"];
 		$values["database_profiler"] = $values["database_profiler"];
@@ -122,6 +124,7 @@ function full_database_install($values)
 	$user_database = $values["database_user"];
 	$repository_database = $values["database_repository"];
 	$weblcms_database = $values["database_weblcms"];
+	$portfolio_database = $values["database_portfolio"];
 	$database_personal_calendar = $values['database_personal_calendar'];
 	$database_personal_messenger = $values['database_personal_messenger'];
 	$database_profiler = $values['database_profiler'];
@@ -143,15 +146,19 @@ function full_database_install($values)
 	}
 	if(empty($repository_database) || $repository_database == 'mysql' || $repository_database == $database_prefix)
 	{
-		$repository_database = $database_prefix.'user';
+		$repository_database = $database_prefix.'repository';
 	}
-
+	if(empty($portfolio_database) || $portfolio_database == 'mysql' || $portfolio_database == $database_prefix)
+	{
+		$portfolio_database = $database_prefix.'portfolio';
+	}
 	$values["database_main_db"] = $main_database;
 	$values["database_tracking"] = $statistics_database;
 	$values["database_scorm"] = $scorm_database;
 	$values["database_user"] = $user_database;
 	$values["database_repository"] = $repository_database;
 	$values["database_weblcms"] = $weblcms_database;
+	$values["database_portfolio"] = $portfolio_database;
 	$values['database_personal_calendar'] = $database_personal_calendar;
 	$values['database_personal_messenger'] = $database_personal_messenger;
 	$values['database_profiler'] = $database_profiler;
@@ -172,7 +179,7 @@ function full_database_install($values)
 		include("../lang/english/create_course.inc.php");
 	}
 
-	create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database, $repository_database, $weblcms_database, $database_personal_calendar, $database_personal_messenger, $database_profiler);
+	create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database, $repository_database, $weblcms_database, $portfolio_database, $database_personal_calendar, $database_personal_messenger, $database_profiler);
 	create_main_database_tables($main_database, $values);
 	create_tracking_database_tables($statistics_database);
 	create_scorm_database_tables($scorm_database);
@@ -211,7 +218,7 @@ function connect_to_database_server($database_host,$database_username,$database_
 /**
 * Creates the default databases.
 */
-function create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database, $repository_database, $weblcms_database, $database_personal_calendar, $database_personal_messenger, $database_profiler)
+function create_databases($values, $is_single_database, $main_database, $statistics_database, $scorm_database, $user_database, $repository_database, $weblcms_database, $portfolio_database, $database_personal_calendar, $database_personal_messenger, $database_profiler)
 {
 	if(!$is_single_database)
 	{
@@ -277,6 +284,17 @@ function create_databases($values, $is_single_database, $main_database, $statist
 			// multi DB mode AND user data has its own DB so create it
 			mysql_query("DROP DATABASE IF EXISTS `$weblcms_database`") or die(mysql_error());
 			mysql_query("CREATE DATABASE `$weblcms_database`") or die(mysql_error());
+		}
+	}
+
+	//Creating the portfolio database
+	if($portfolio_database != $main_database)
+	{
+		if(!$is_single_database)
+		{
+			// multi DB mode AND user data has its own DB so create it
+			mysql_query("DROP DATABASE IF EXISTS `$portfolio_database`") or die(mysql_error());
+			mysql_query("CREATE DATABASE `$portfolio_database`") or die(mysql_error());
 		}
 	}
 	
@@ -374,7 +392,7 @@ function create_default_categories_in_weblcms()
 	$cat->set_auth_course_child('1');
 	$cat->set_auth_cat_child('1');
 	$cat->create();
-	
+
 }
 
 function create_admin_in_user_table($values)

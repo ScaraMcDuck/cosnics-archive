@@ -17,6 +17,9 @@ $configuration['database']['connection_string_repository']
 $configuration['database']['connection_string_weblcms']
 	= 'mysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_WEBLCMS}';
 
+$configuration['database']['connection_string_portfolio']
+	= 'mysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_PORTFOLIO}';
+	
 $configuration['database']['connection_string_user']
 	= 'mysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_USERDB}';
 

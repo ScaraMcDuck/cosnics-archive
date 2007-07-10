@@ -589,7 +589,7 @@ abstract class WeblcmsDataManager
 	 * @param string $parent The parent of the course category.
 	 * @return DatabaseCourseCategoryResultSet The resultset of course category.
 	 */
-	abstract function retrieve_course_categories($conditions = null, $offset = null, $count = null, $orderBy = null, $orderDir = null);
+	abstract function retrieve_course_categories($parent = null);
 
 	/**
 	 * Retrieves the personal course categories for a given user.
