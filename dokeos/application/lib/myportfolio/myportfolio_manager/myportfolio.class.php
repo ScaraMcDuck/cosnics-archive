@@ -42,7 +42,6 @@ class MyPortfolio extends WebApplication
 
 	function MyPortfolio($user)
 	{
-		echo "i'm alive?";
 		parent :: __construct();
 		if(isset($_POST[self :: PARAM_ACTION]))
 		{
@@ -70,7 +69,7 @@ class MyPortfolio extends WebApplication
 			$usermgr = new UserManager($owner_id);
 			$this->owner=$usermgr->retrieve_user($owner_id);
 		}
-		self :: $item= $this->get_item_id();
+//		self :: $item= $this->get_item_id();
 	}
 
 	/*
