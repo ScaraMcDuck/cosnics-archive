@@ -87,7 +87,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 			{
 				$wdm = WeblcmsDataManager :: get_instance();
 				$this->display_header();
-				$renderer = ToolListRenderer::factory('FixedLocationToolListRenderer',$this);
+				$renderer = ToolListRenderer::factory('FixedLocation',$this);
 				$renderer->display();
 				$this->display_footer();
 				$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),null);

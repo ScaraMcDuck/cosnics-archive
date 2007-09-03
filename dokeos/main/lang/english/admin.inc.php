@@ -521,6 +521,6 @@ $AppPersonalMessenger= 'Personal Messenger';
 $AppProfiler= 'Profiler';
 $AppRepositoryManager  = 'Repository Manager';
 $AppSearchPortal  = 'Search Portal';
-$AppWeblcms  = 'Weblcms';
+$AppWeblcms  = 'WebLCMS';
 
 ?>

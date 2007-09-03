@@ -197,24 +197,28 @@ abstract class Tool
 	private function load_rights()
 	{
 		$tool_id = $this->get_tool_id();
-		//TODO: next lines map the tool-id to the Dokeos defined tool constants. The same values should be used everywhere.
-		$dokeos_tools['description'] = TOOL_COURSE_DESCRIPTION;
-		$dokeos_tools['announcement'] = TOOL_ANNOUNCEMENT;
-		$dokeos_tools['calendar'] = TOOL_CALENDAR_EVENT;
-		$dokeos_tools['link'] = TOOL_LINK;
-		$dokeos_tools['document'] = TOOL_DOCUMENT;
-		$dokeos_tools['forum'] = TOOL_BB_FORUM;
-		$dokeos_tools['dropbox'] = TOOL_DROPBOX;
-		$dokeos_tools['wiki'] = TOOL_DROPBOX;
-		$dokeos_tools['chat'] = TOOL_DROPBOX;
-		$dokeos_tools['learning_path'] = TOOL_LEARNPATH;
-		$dokeos_tools['exercise'] = TOOL_QUIZ;
-		$dokeos_tools['group'] = TOOL_GROUP;
+		//TODO: phase out, because hardcoding tool names is hardly modular
+		switch ($tool_id) {
+			case 'description': $tool_name = TOOL_COURSE_DESCRIPTION; break;
+			case 'announcement': $tool_name = TOOL_ANNOUNCEMENT; break;
+			case 'calendar': $tool_name = TOOL_CALENDAR_EVENT; break;
+			case 'link': $tool_name = TOOL_LINK; break;
+			case 'document': $tool_name = TOOL_DOCUMENT; break;
+			case 'forum': $tool_name = TOOL_FORUM; break;
+			case 'dropbox': $tool_name = TOOL_DROPBOX; break;
+			case 'wiki': $tool_name = TOOL_WIKI; break;
+			case 'chat': $tool_name = TOOL_CHAT; break;
+			case 'learning_path': $tool_name = TOOL_LEARNING_PATH; break;
+			case 'exercise': $tool_name = TOOL_EXERCISE; break;
+			case 'group': $tool_name = TOOL_GROUP; break;
+			// The proper way. We should only keep this, eventually.
+			default: $tool_name = $tool_id;
+		}
 		// Roles and rights system
 		$user_id = $this->get_user_id();
 		$course_id = $this->get_course_id();
 		$role_id = RolesRights::get_local_user_role_id($user_id, $course_id);
-		$location_id = RolesRights::get_course_tool_location_id($course_id, $dokeos_tools[$tool_id]);
+		$location_id = RolesRights::get_course_tool_location_id($course_id, $tool_name);
 		$this->rights = RolesRights::is_allowed_which_rights($role_id, $location_id);
 	}
 

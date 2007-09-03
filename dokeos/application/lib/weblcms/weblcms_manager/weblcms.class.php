@@ -836,7 +836,7 @@ class Weblcms extends WebApplication
 			}
 			$groups = $wdm->retrieve_groups_from_user($this->get_user(),$this->get_course())->as_array();
 			$condition = new AndCondition($conditions);
-			$new_items = $wdm->count_learning_object_publications($this->get_course_id(),null,$this->get_user_id(),$group_ids,$condition);
+			$new_items = $wdm->count_learning_object_publications($this->get_course_id(),null,$this->get_user_id(),$groups,$condition);
 			return $new_items > 0;
 		}
 		return false;
