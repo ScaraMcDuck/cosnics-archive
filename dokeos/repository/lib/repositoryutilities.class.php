@@ -192,7 +192,7 @@ class RepositoryUtilities
 	}
 
 	/**
-	 * Builds a HTML representation of a toolbar, i.e. a list of clickable
+	 * Builds an HTML representation of a toolbar, i.e. a list of clickable
 	 * icons. The icon data is passed as an array with the following structure:
 	 *
 	 *   array(
