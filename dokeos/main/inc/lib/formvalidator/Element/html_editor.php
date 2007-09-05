@@ -94,7 +94,10 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 	 */
 	function getFrozenHtml()
 	{
-		return $this->getValue();
+		$val = $this->getValue();
+		return $val
+			. '<input type="hidden" name="' . htmlspecialchars($this->getName()) . '"'
+			. ' value="' . htmlspecialchars($val) . '"/>';
 	}
 	/**
 	 * Build this element using FCKeditor
