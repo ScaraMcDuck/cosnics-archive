@@ -245,13 +245,12 @@ EOT;
 	{
 		//$this->add_textfield(LearningObject :: PROPERTY_TITLE, get_lang('Title'), true, 'size="100" style="width: 100%"');
 		$this->addElement('text',LearningObject :: PROPERTY_TITLE, get_lang('Title'));
-		$this->addRule(LearningObject :: PROPERTY_TITLE, get_lang('ThisFieldIsRequired'), 'required');
-		$lo = $this->learning_object;
+		$this->make_required(LearningObject :: PROPERTY_TITLE);
 		if ($this->allows_category_selection())
 		{
 			$select = $this->addElement('select', LearningObject :: PROPERTY_PARENT_ID, get_lang('CategoryTypeName'), $this->get_categories());
-			$select->setSelected($lo->get_parent_id());
-			$this->addRule(LearningObject :: PROPERTY_PARENT_ID, get_lang('ThisFieldIsRequired'), 'required');
+			$select->setSelected($this->learning_object->get_parent_id());
+			$this->make_required(LearningObject :: PROPERTY_PARENT_ID);
 		}
 		$this->add_html_editor(LearningObject :: PROPERTY_DESCRIPTION, get_lang('Description'));
 	}
@@ -472,7 +471,7 @@ EOT;
 	 * Validates this form
 	 * @see FormValidator::validate
 	 */
-	public function validate()
+	function validate()
 	{
 		if($this->isSubmitted() && $this->form_type == self :: TYPE_COMPARE)
 		{
@@ -483,6 +482,11 @@ EOT;
 			}
 		}
 		return parent::validate();
+	}
+	
+	function make_required($name)
+	{
+		$this->addRule($name, get_lang('ThisFieldIsRequired'), 'required');
 	}
 }
 ?>
