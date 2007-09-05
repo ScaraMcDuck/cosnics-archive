@@ -137,7 +137,7 @@ EOT;
 	 */
 	function add_html_editor($name, $label, $required = true, $full_page = false)
 	{
-		$this->addElement('html_editor',$name,$label,'rows="15" cols="80"');
+		$element = $this->addElement('html_editor',$name,$label,'rows="15" cols="80"');
 		$this->applyFilter($name,'trim');
 		$html_type = $_SESSION['status'] == COURSEMANAGER ? TEACHER_HTML : STUDENT_HTML;
 		if($full_page)
@@ -162,6 +162,7 @@ EOT;
 		}
 		//Add rule to check not-allowed HTML
 		$this->addRule($name,get_lang('SomeHTMLNotAllowed'),'html',$html_type);
+		return $element;
 	}
 
 	/**
