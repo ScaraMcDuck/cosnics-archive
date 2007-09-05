@@ -231,7 +231,6 @@ class RepositoryUtilities
 		}
 		$class_names[] = 'toolbar';
 		$html = array ();
-		$html[] = '<div class="publication_attributes">';
 		$html[] = '<ul class="'.implode(' ', $class_names).'"'. (isset ($css) ? ' style="'.$css.'"' : '').'>';
 		foreach ($toolbar_data as $index => $elmt)
 		{
@@ -267,7 +266,6 @@ class RepositoryUtilities
 			$html[] = '<li'.(count($classes) ? ' class="'.implode(' ', $classes).'"' : '').'>'.$button.'</li>';
 		}
 		$html[] = '</ul>';
-		$html[] = '</div>';
 		// Don't separate by linefeeds. It creates additional whitespace.
 		return implode($html);
 	}
