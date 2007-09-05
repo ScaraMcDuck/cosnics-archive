@@ -43,6 +43,7 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 		while ($publication = $pubs->next_result())
 		{
 			// If the publication is hidden and the user is not allowed to DELETE or EDIT, don't show this publication
+			// TODO: This sort of thing should really happen in advance, using a Condition; also, avoid code duplication (goes for all tools)
 			if (!$publication->is_visible_for_target_users() && !($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
 			{
 				continue;
