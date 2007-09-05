@@ -68,7 +68,7 @@ abstract class RepositoryTool extends Tool
 				case self :: ACTION_EDIT:
 					if($this->is_allowed(EDIT_RIGHT))
 					{
-						$pid = isset($_GET['pid']) ? $_GET['pid'] : $_POST['pid'];
+						$pid = isset($_GET[self :: PARAM_PUBLICATION_ID]) ? $_GET[self :: PARAM_PUBLICATION_ID] : $_POST[self :: PARAM_PUBLICATION_ID];
 						$publication = $datamanager->retrieve_learning_object_publication($pid);
 						$this->set_parameter(self :: PARAM_ACTION,self :: ACTION_EDIT);
 						$form = new LearningObjectPublicationForm($publication->get_learning_object(),$this, false, $this->get_parent()->get_course());
@@ -89,7 +89,7 @@ abstract class RepositoryTool extends Tool
 				case self :: ACTION_DELETE:
 					if($this->is_allowed(DELETE_RIGHT))
 					{
-						$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
+						$publication = $datamanager->retrieve_learning_object_publication($_GET[self :: PARAM_PUBLICATION_ID]);
 						if($publication->delete())
 						{
 							$message = htmlentities(get_lang('LearningObjectPublicationDeleted'));
@@ -99,7 +99,7 @@ abstract class RepositoryTool extends Tool
 				case self :: ACTION_DELETE_SELECTED:
 					if($this->is_allowed(DELETE_RIGHT))
 					{
-						$publication_ids = $_POST['id'];
+						$publication_ids = $_POST[self :: PARAM_PUBLICATION_ID];
 						//TODO: delete all selected publications in a single action/query
 						foreach($publication_ids as $index => $pid)
 						{
@@ -119,7 +119,7 @@ abstract class RepositoryTool extends Tool
 				case self :: ACTION_TOGGLE_VISIBILITY:
 					if($this->is_allowed(EDIT_RIGHT))
 					{
-						$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
+						$publication = $datamanager->retrieve_learning_object_publication($_GET[self :: PARAM_PUBLICATION_ID]);
 						$publication->toggle_visibility();
 						if($publication->update())
 						{
@@ -130,7 +130,7 @@ abstract class RepositoryTool extends Tool
 				case self :: ACTION_MOVE_UP:
 					if($this->is_allowed(EDIT_RIGHT))
 					{
-						$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
+						$publication = $datamanager->retrieve_learning_object_publication($_GET[self :: PARAM_PUBLICATION_ID]);
 						if($publication->move(-1))
 						{
 							$message = htmlentities(get_lang('LearningObjectPublicationMoved'));
@@ -140,7 +140,7 @@ abstract class RepositoryTool extends Tool
 				case self :: ACTION_MOVE_DOWN:
 					if($this->is_allowed(EDIT_RIGHT))
 					{
-						$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
+						$publication = $datamanager->retrieve_learning_object_publication($_GET[self :: PARAM_PUBLICATION_ID]);
 						if($publication->move(1))
 						{
 							$message = htmlentities(get_lang('LearningObjectPublicationMoved'));
@@ -151,10 +151,10 @@ abstract class RepositoryTool extends Tool
 					if($this->is_allowed(EDIT_RIGHT))
 					{
 						$form = $this->build_move_to_category_form(self::ACTION_MOVE_TO_CATEGORY);
-						$form->addElement('hidden','pid',$_GET['pid']);
+						$form->addElement('hidden',self :: PARAM_PUBLICATION_ID,$_GET[self :: PARAM_PUBLICATION_ID]);
 						if($form->validate())
 						{
-							$publication = $datamanager->retrieve_learning_object_publication($_GET['pid']);
+							$publication = $datamanager->retrieve_learning_object_publication($_GET[self :: PARAM_PUBLICATION_ID]);
 							$publication->set_category_id($_GET[LearningObjectPublication :: PROPERTY_CATEGORY_ID]);
 							$publication->update();
 							$message = get_lang('LearningObjectPublicationMoved');
@@ -169,7 +169,7 @@ abstract class RepositoryTool extends Tool
 					if($this->is_allowed(EDIT_RIGHT))
 					{
 						$form = $this->build_move_to_category_form(self::ACTION_MOVE_SELECTED_TO_CATEGORY);
-						$publication_ids = $_POST['id'];
+						$publication_ids = $_POST[self :: PARAM_PUBLICATION_ID];
 						$form->addElement('hidden','pids',implode('-',$publication_ids));
 						if($form->validate())
 						{

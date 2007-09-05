@@ -180,4 +180,7 @@ $VisualCode='Visual Code';
 $Week='Week';
 $WeekView='Week View';
 $WikiToolTitle='Wiki';
+
+// Specific to Learning Style Survey
+$Survey='Survey';
 ?>
