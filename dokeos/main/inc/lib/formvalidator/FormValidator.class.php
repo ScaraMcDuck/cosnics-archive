@@ -115,17 +115,39 @@ EOT;
 	 * @param string $name The element name
 	 * @param boolean $required Is the form-element required (default=true)
 	 * @param array $attributes Optional list of attributes for the form-element
+	 * @return HTML_QuickForm_input The element.
 	 */
 	function add_textfield( $name, $label,$required = true, $attributes = array())
 	{
-		$this->addElement('text',$name,$label,$attributes);
+		$element = $this->addElement('text',$name,$label,$attributes);
 		$this->applyFilter($name,'trim');
 		if($required)
 		{
 			$this->addRule($name, get_lang('ThisFieldIsRequired'), 'required');
 		}
+		return $element;
 	}
-
+	
+	/**
+	 * Adds a select control to the form.
+	 * @param string $name The element name.
+	 * @param string $label The element label.
+	 * @param array $values Associative array of possible values.
+	 * @param boolean $required <code>true</code> if required (default),
+	 *                          <code>false</code> otherwise.
+	 * @param array $attributes Element attributes (optional).
+	 * @return HTML_QuickForm_select The element.
+	 */
+	function add_select($name, $label, $values, $required = true, $attributes = array())
+	{
+		$element = $this->addElement('select', $name, $label, $values, $attributes);
+		if($required)
+		{
+			$this->addRule($name, get_lang('ThisFieldIsRequired'), 'required');
+		}
+		return $element;
+	}
+	 
 	/**
 	 * Add a HTML-editor to the form to fill in a title.
 	 * A trim-filter is attached to the field.
@@ -134,6 +156,7 @@ EOT;
 	 * @param string $label The label for the form-element
 	 * @param string $name The element name
 	 * @param boolean $required Is the form-element required (default=true)
+	 * @return HTML_QuickForm_html_editor The element.
 	 */
 	function add_html_editor($name, $label, $required = true, $full_page = false)
 	{
@@ -170,11 +193,13 @@ EOT;
 	 * A rule is added to check if the date is a valid one
 	 * @param string $label The label for the form-element
 	 * @param string $name The element name
+	 * @return HTML_QuickForm_datepicker The element.
 	 */
 	function add_datepicker($name,$label)
 	{
-		$this->addElement('datepicker', $name, $label, array ('form_name' => $this->getAttribute('name')));
+		$element = $this->addElement('datepicker', $name, $label, array ('form_name' => $this->getAttribute('name')));
 		$this->addRule($name, get_lang('InvalidDate'), 'date');
+		return $element;
 	}
 
 	/**
