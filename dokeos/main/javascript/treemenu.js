@@ -25,41 +25,43 @@
  *   </li>
  * </ul>
  *
- * @author Tim De Pauw <ct at xanoo dot com>
+ * @author Tim De Pauw <tim,pwnt,be>
  *
  */
 
-var tmClassName = "tree-menu";
-var tmCollapseLevel = 1;
+var TreeMenu = new Object();
 
-function tmInitAll ()
+TreeMenu.className = "tree-menu";
+TreeMenu.collapseLevel = 1;
+
+TreeMenu.initAll = function()
 {
-	var trees = tmGetElementsByClassName("ul", tmClassName);
+	var trees = TreeMenu.getElementsByClassName("ul", TreeMenu.className);
 	for (var i = 0; i < trees.length; i++)
 	{
-		tmInit(trees[i]);
+		TreeMenu.init(trees[i]);
 	}
-}
+};
 
-function tmInit (tree, collapseLevel)
+TreeMenu.init = function(tree, collapseLevel)
 {
 	tree.style.visibility = "hidden";
 	if (collapseLevel == null)
 	{
-		collapseLevel = tmCollapseLevel;
+		collapseLevel = TreeMenu.collapseLevel;
 	}
 	var activeNodes = new Array();
-	tmWalkTree(tree, 0, collapseLevel, activeNodes);
+	TreeMenu.walkTree(tree, 0, collapseLevel, activeNodes);
 	for (var i = 0; i < activeNodes.length; i++)
 	{
-		tmExpandNode(activeNodes[i], true);
+		TreeMenu.expandNode(activeNodes[i], true);
 	}
 	tree.style.visibility = "visible";
-}
+};
 
-function tmWalkTree (tree, level, collapseLevel, activeNodes)
+TreeMenu.walkTree = function(tree, level, collapseLevel, activeNodes)
 {
-	var children = tmFilterTextNodes(tree.childNodes);
+	var children = TreeMenu.filterTextNodes(tree.childNodes);
 	var hasChildren = false;
 	for (var i = 0; i < children.length; i++)
 	{
@@ -68,33 +70,33 @@ function tmWalkTree (tree, level, collapseLevel, activeNodes)
 		{
 			if (i == children.length - 1)
 			{
-				tmAddClassName(child, "last");
+				TreeMenu.addClassName(child, "last");
 			}
-			if (tmIsRootNode(child))
+			if (TreeMenu.isRootNode(child))
 			{
-				tmAddClassName(child, "root");
+				TreeMenu.addClassName(child, "root");
 			}
-			var validChild = tmParseNode(child, level + 1, collapseLevel, activeNodes);
+			var validChild = TreeMenu.parseNode(child, level + 1, collapseLevel, activeNodes);
 			if (validChild)
 			{
 				hasChildren = true;
 			}
-			if (tmHasClassName(child, "current"))
+			if (TreeMenu.hasClassName(child, "current"))
 			{
 				activeNodes[activeNodes.length] = child;
 			}
 			else if (collapseLevel >= 0 && level >= collapseLevel)
 			{
-				tmCollapseNode(child);
+				TreeMenu.collapseNode(child);
 			}
 		}
 	}
 	return hasChildren;
-}
+};
 
-function tmParseNode (node, level, collapseLevel, activeNodes)
+TreeMenu.parseNode = function(node, level, collapseLevel, activeNodes)
 {
-	var children = tmFilterTextNodes(node.childNodes);
+	var children = TreeMenu.filterTextNodes(node.childNodes);
 	// 0 = leaf, 1 = empty node, 2 = node with children
 	var type = 0;
 	var link;
@@ -107,7 +109,7 @@ function tmParseNode (node, level, collapseLevel, activeNodes)
 				link = child;
 				break;
 			case "ul":
-				var hasChildren = tmWalkTree(child, level, collapseLevel, activeNodes);
+				var hasChildren = TreeMenu.walkTree(child, level, collapseLevel, activeNodes);
 				if (hasChildren)
 				{
 					type = 2;
@@ -117,9 +119,9 @@ function tmParseNode (node, level, collapseLevel, activeNodes)
 					node.removeChild(child);
 					type = 1;
 				}
-				if (tmIsLastNode(node))
+				if (TreeMenu.isLastNode(node))
 				{
-					tmAddClassName(child, "last");
+					TreeMenu.addClassName(child, "last");
 				}
 				break;
 		}
@@ -127,63 +129,63 @@ function tmParseNode (node, level, collapseLevel, activeNodes)
 	switch (type)
 	{
 		case 0:
-			tmAddClassName(node, "leaf");
+			TreeMenu.addClassName(node, "leaf");
 			break;
 		case 1:
-			tmAddClassName(node, "empty");
+			TreeMenu.addClassName(node, "empty");
 			break;
 	}
 	if (link)
 	{
-		tmWrapInDiv(link, hasChildren, tmHasClassName(node, "current"));
+		TreeMenu.wrapInDiv(link, hasChildren, TreeMenu.hasClassName(node, "current"));
 		return true;
 	}
 	return false;
-}
+};
 
-function tmExpandOrCollapse (node)
+TreeMenu.expandOrCollapse = function(node)
 {
-	if (tmIsCollapsed(node))
+	if (TreeMenu.isCollapsed(node))
 	{
-		tmExpandNode(node);
+		TreeMenu.expandNode(node);
 	}
 	else
 	{
-		tmCollapseNode(node);
+		TreeMenu.collapseNode(node);
 	}
-}
+};
 
-function tmExpandNode (node, climbUp)
+TreeMenu.expandNode = function(node, climbUp)
 {
-	tmRemoveClassName(node, "collapsed");
-	if (climbUp && !tmIsRootNode(node)
+	TreeMenu.removeClassName(node, "collapsed");
+	if (climbUp && !TreeMenu.isRootNode(node)
 	&& node && node.parentNode && node.parentNode.parentNode)
 	{
-		tmExpandNode(node.parentNode.parentNode, true);
+		TreeMenu.expandNode(node.parentNode.parentNode, true);
 	}
-}
+};
 
-function tmCollapseNode (node)
+TreeMenu.collapseNode = function(node)
 {
-	tmAddClassName(node, "collapsed");
-}
+	TreeMenu.addClassName(node, "collapsed");
+};
 
-function tmIsCollapsed (node)
+TreeMenu.isCollapsed = function(node)
 {
-	return tmHasClassName(node, "collapsed");
-}
+	return TreeMenu.hasClassName(node, "collapsed");
+};
 
-function tmIsRootNode (node)
+TreeMenu.isRootNode = function(node)
 {
-	return (node && node.parentNode ? tmHasClassName(node.parentNode, tmClassName) : false);
-}
+	return (node && node.parentNode ? TreeMenu.hasClassName(node.parentNode, TreeMenu.className) : false);
+};
 
-function tmIsLastNode (node)
+TreeMenu.isLastNode = function(node)
 {
-	return tmHasClassName(node, "last");
-}
+	return TreeMenu.hasClassName(node, "last");
+};
 
-function tmWrapInDiv (link, collapsible, isCurrent)
+TreeMenu.wrapInDiv = function(link, collapsible, isCurrent)
 {
 	var div = document.createElement("div");
 	var linkID = link.getAttribute('id');
@@ -204,19 +206,19 @@ function tmWrapInDiv (link, collapsible, isCurrent)
 	div.appendChild(copy);
 	var parent = link.parentNode;
 	parent.replaceChild(div, link);
-	if (tmHasClassName(parent, "last"))
+	if (TreeMenu.hasClassName(parent, "last"))
 	{
 		div.className = (div.className ? div.className + " last" : "last");
 	}
 	if (collapsible)
 	{
 		div.onclick = function (e) {
-			tmExpandOrCollapse(parent);
+			TreeMenu.expandOrCollapse(parent);
 		};
 	}
-}
+};
 
-function tmFilterTextNodes (nodes) {
+TreeMenu.filterTextNodes = function(nodes) {
 	var result = new Array();
 	for (var i = 0; i < nodes.length; i++) {
 		var node = nodes[i];
@@ -225,41 +227,40 @@ function tmFilterTextNodes (nodes) {
 		}
 	}
 	return result;
-}
+};
 
-
-function tmGetElementsByClassName (tagName, className)
+TreeMenu.getElementsByClassName = function(tagName, className)
 {
 	var el = document.getElementsByTagName(tagName);
 	var res = new Array();
 	for (var i = 0; i < el.length; i++)
 	{
 		var elmt = el[i];
-		if (tmHasClassName(elmt, className))
+		if (TreeMenu.hasClassName(elmt, className))
 		{
 			res[res.length] = elmt;
 		}
 	}
 	return res;
-}
+};
 
-function tmAddClassName (element, className)
+TreeMenu.addClassName = function(element, className)
 {
-	if (!tmHasClassName(element, className))
+	if (!TreeMenu.hasClassName(element, className))
 	{
-		var names = tmGetClassNames(element);
+		var names = TreeMenu.getClassNames(element);
 		names[names.length] = className;
-		tmSetClassNames(element, names);
+		TreeMenu.setClassNames(element, names);
 	}
-	if (tmRequiresCssFix(className))
+	if (TreeMenu.requiresCssFix(className))
 	{
-		tmIECssFix(element);
+		TreeMenu.ieCssFix(element);
 	}
-}
+};
 
-function tmRemoveClassName (element, className)
+TreeMenu.removeClassName = function(element, className)
 {
-	var names = tmGetClassNames(element);
+	var names = TreeMenu.getClassNames(element);
 	var newNames = new Array();
 	for (var i = 0; i < names.length; i++)
 	{
@@ -268,24 +269,24 @@ function tmRemoveClassName (element, className)
 			newNames[newNames.length] = names[i];
 		}
 	}
-	tmSetClassNames(element, newNames);
-	if (tmRequiresCssFix(className))
+	TreeMenu.setClassNames(element, newNames);
+	if (TreeMenu.requiresCssFix(className))
 	{
-		tmIECssFix(element);
+		TreeMenu.ieCssFix(element);
 	}
-}
+};
 
-function tmHasClassName (element, className)
+TreeMenu.hasClassName = function(element, className)
 {
-	return tmArrayContains(tmGetClassNames(element), className);
-}
+	return TreeMenu.arrayContains(TreeMenu.getClassNames(element), className);
+};
 
-function tmGetClassNames (element)
+TreeMenu.getClassNames = function(element)
 {
 	return (element && element.className ? element.className.split(/ +/) : new Array());
-}
+};
 
-function tmSetClassNames (element, classNames)
+TreeMenu.setClassNames = function(element, classNames)
 {
 	if (!element) return;
 	var n = "";
@@ -294,37 +295,37 @@ function tmSetClassNames (element, classNames)
 		n += classNames[i] + " ";
 	}
 	element.className = n;
-}
+};
 
-function tmIECssFix (element)
+TreeMenu.ieCssFix = function(element)
 {
-	tmRemoveClassName(element, "last-empty");
-	tmRemoveClassName(element, "last-leaf");
-	tmRemoveClassName(element, "last-collapsed");
-	var names = tmGetClassNames(element);
-	if (tmArrayContains(names, "last"))
+	TreeMenu.removeClassName(element, "last-empty");
+	TreeMenu.removeClassName(element, "last-leaf");
+	TreeMenu.removeClassName(element, "last-collapsed");
+	var names = TreeMenu.getClassNames(element);
+	if (TreeMenu.arrayContains(names, "last"))
 	{
-		if (tmArrayContains(names, "empty"))
+		if (TreeMenu.arrayContains(names, "empty"))
 		{
-			tmAddClassName(element, "last-empty");
+			TreeMenu.addClassName(element, "last-empty");
 		}
-		else if (tmArrayContains(names, "leaf"))
+		else if (TreeMenu.arrayContains(names, "leaf"))
 		{
-			tmAddClassName(element, "last-leaf");
+			TreeMenu.addClassName(element, "last-leaf");
 		}
-		else if (tmArrayContains(names, "collapsed"))
+		else if (TreeMenu.arrayContains(names, "collapsed"))
 		{
-			tmAddClassName(element, "last-collapsed");
+			TreeMenu.addClassName(element, "last-collapsed");
 		}
 	}
-}
+};
 
-function tmRequiresCssFix (className)
+TreeMenu.requiresCssFix = function(className)
 {
 	return (document.all && (className == "last" || className == "empty" || className == "leaf" || className == "collapsed"));
-}
+};
 
-function tmArrayContains (haystack, needle)
+TreeMenu.arrayContains = function(haystack, needle)
 {
 	for (var i = 0; i < haystack.length; i++)
 	{
@@ -334,9 +335,9 @@ function tmArrayContains (haystack, needle)
 		}
 	}
 	return false;
-}
+};
 
-function tmAddOnloadFunction (f)
+TreeMenu.addOnloadFunction = function(f)
 {
 	if (window.onload)
 	{
@@ -352,15 +353,4 @@ function tmAddOnloadFunction (f)
 	}
 }
 
-/*
- * Primitive check for tree menu initialization. Prevents tree menus from being
- * initialized several times in case the script gets included several times.
- * Note that this still redefines all the functions above every time, which is
- * sort of bad.
- * TODO: Use some sort of singleton pattern to make this obsolete.
- */
-if (!('tmInitialized' in window))
-{
-	tmAddOnloadFunction(tmInitAll);
-	tmInitialized = true;
-}
+TreeMenu.addOnloadFunction(TreeMenu.initAll);

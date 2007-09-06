@@ -4,6 +4,7 @@ require_once 'HTML/QuickForm/select.php';
 require_once 'HTML/QuickForm/button.php';
 require_once 'HTML/QuickForm/hidden.php';
 require_once 'HTML/QuickForm/group.php';
+require_once dirname(__FILE__).'/../../../../../common/resourcemanager.class.php';
 
 /**
  * AJAX-based tree search and multiselect element. Use at your own risk.
@@ -81,10 +82,10 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		// TODO: Figure out why this doesn't happen automatically.
 		$this->_elements[0]->setValue($_REQUEST[$this->_elements[0]->getName()]);
 		$options = $this->get_active_elements();
-		$find = 'elfFind(this.value, \''.$this->search_url.'\', document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));';
+		$find = 'ElementFinder.find(this.value, \''.$this->search_url.'\', document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));';
 		$this->_elements[] = new HTML_QuickForm_text($this->getName().'_search', null, array ('style' => 'width: 100%', 'onkeyup' => $find, 'onchange' => $find, 'onkeypress' => 'var evt = (window.event || event); if (evt && evt.keyCode == 13) return false;', 'class' => 'element_query', 'id' => $this->getName().'_search_field'));
-		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_activate', '>>', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elfActivate(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\'));', 'id' => $activate_button_id, 'disabled' => 'disabled', 'class' => 'activate_elements'));
-		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '<<', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'elfDeactivate(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));',  'id' => $deactivate_button_id, 'disabled' => 'disabled', 'class' => 'deactivate_elements'));
+		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_activate', '>>', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'ElementFinder.activate(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\'));', 'id' => $activate_button_id, 'disabled' => 'disabled', 'class' => 'activate_elements'));
+		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '<<', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'ElementFinder.deactivate(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));',  'id' => $deactivate_button_id, 'disabled' => 'disabled', 'class' => 'deactivate_elements'));
 	}
 
 	function getValue()
@@ -153,9 +154,9 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$html = array ();
 		if (!self :: $initialized)
 		{
-			// TODO: Include tree script only when needed; perhaps make proprietary.
-			$html[] = '<script type="text/javascript" src="'.api_get_path(WEB_CODE_PATH).'javascript/treemenu.js"></script>';
-			$html[] = '<script type="text/javascript" src="'.api_get_path(WEB_CODE_PATH).'javascript/element_finder.js"></script>';
+			$rm = ResourceManager :: get_instance();
+			$html[] = $rm->get_resource_html(api_get_path(WEB_CODE_PATH).'javascript/treemenu.js');
+			$html[] = $rm->get_resource_html(api_get_path(WEB_CODE_PATH).'javascript/element_finder.js');
 			self :: $initialized = true;
 		}
 		if (count($this->locale))
@@ -163,7 +164,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 			$html[] = '<script type="text/javascript">';
 			foreach ($this->locale as $name => $value)
 			{
-				$html[] = 'elfLocale["'.addslashes($name).'"] = "'.addslashes($value).'";';
+				$html[] = 'ElementFinder.locale["'.addslashes($name).'"] = "'.addslashes($value).'";';
 			}
 			$html[] = '</script>';
 		}
@@ -203,7 +204,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 			$html[] = '<input type="button" value="'.htmlentities($this->locale['Display']).'" '.'onclick="document.getElementById(\''.$id.'\').style.display = \'\'; this.style.display = \'none\'; document.getElementById(\''.$this->getName().'_search_field\').focus();" id="'.$this->getName().'_expand_button" />';
 		}
 		$html[] = '<script type="text/javascript">';
-		$html[] = 'elfRestoreFromCache(document.getElementById(\'elf_'.$this->getName().'_active_hidden\'), document.getElementById(\'elf_'.$this->getName().'_active\'));';
+		$html[] = 'ElementFinder.restoreFromCache(document.getElementById(\'elf_'.$this->getName().'_active_hidden\'), document.getElementById(\'elf_'.$this->getName().'_active\'));';
 		if (count($this->exclude))
 		{
 			$ids = array();
@@ -211,7 +212,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 			{
 				$ids[] = "'$id'";
 			}
-			$html[] = 'elfExcludedElements[\'elf_'.$this->getName().'_active\'] = new Array('.implode(',', $ids).')';
+			$html[] = 'ElementFinder.excludedElements[\'elf_'.$this->getName().'_active\'] = new Array('.implode(',', $ids).')';
 		}
 		$html[] = '</script>';
 		return implode("\n", $html);

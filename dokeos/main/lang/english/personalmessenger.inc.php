@@ -47,7 +47,7 @@ $SelectedPublicationUpdated='Selected publication updated';
 $SelectRecipients='Select Recipients';
 $Send='Send';
 $Sender='Sender';
-$SendPersonalMessage='Send a personal message';
+$SendPersonalMessage='Send a Personal Message';
 $ShowAttachment='Show';
 $ViewPersonalMessage='View Personal Message';
 ?>

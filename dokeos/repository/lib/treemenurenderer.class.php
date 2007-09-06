@@ -4,6 +4,7 @@
  * @package repository
  */
 require_once 'HTML/Menu/DirectTreeRenderer.php';
+require_once dirname(__FILE__).'/../../common/resourcemanager.class.php';
 
 /**
  * Renderer which can be used to include a tree menu on your page.
@@ -73,8 +74,8 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 			return $html;
 		}
 		self :: $initialized = true;
-		$html = '<script language="JavaScript" type="text/javascript" src="'.api_get_path(WEB_CODE_PATH).'javascript/treemenu.js"></script>'.$html;
-		return $html;
+		return ResourceManager :: get_instance()->get_resource_html(api_get_path(WEB_CODE_PATH).'javascript/treemenu.js')
+			. $html;
 	}
 }
 ?>
