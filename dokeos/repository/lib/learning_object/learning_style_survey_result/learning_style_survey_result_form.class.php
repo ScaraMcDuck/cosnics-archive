@@ -8,7 +8,15 @@ require_once dirname(__FILE__) . '/learning_style_survey_result.class.php';
  */
 class LearningStyleSurveyResultForm extends LearningObjectForm
 {
-	// TODO
+	function build_creation_form()
+	{
+		parent :: build_creation_form();
+	}
+	
+	function build_editing_form()
+	{
+		// Not allowed
+	}
 	
 	// Inherited
 	function create_learning_object()

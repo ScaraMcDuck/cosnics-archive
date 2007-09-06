@@ -754,33 +754,44 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$module = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
 		return $module->access_date;
 	}
-	function get_course_modules($course_code)
+	function get_course_modules($course_code, $auto_added = false)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('course_module').' WHERE course_code = ?';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($course_code);
 		// If no modules are defined for this course -> insert them in database
 		// @todo This is not the right place to do this, should happen upon course creation
-		if($res->numRows() == 0)
+		if($res->numRows() == 0 && !$auto_added)
 		{
-			$this->add_course_module($course_code,'announcement');
-			$this->add_course_module($course_code,'description');
-			$this->add_course_module($course_code,'calendar');
-			$this->add_course_module($course_code,'document');
-			$this->add_course_module($course_code,'forum');
-			$this->add_course_module($course_code,'link');
-			$this->add_course_module($course_code,'wiki');
-			$this->add_course_module($course_code,'chat');
-			$this->add_course_module($course_code,'search');
-			$this->add_course_module($course_code,'user');
-			$this->add_course_module($course_code,'dropbox');
-			$this->add_course_module($course_code,'exercise');
-			$this->add_course_module($course_code,'group');
-			$this->add_course_module($course_code,'learning_path');
-			$this->add_course_module($course_code,'statistics','course_admin');
-			$this->add_course_module($course_code,'course_settings','course_admin');
-			$this->add_course_module($course_code,'maintenance','course_admin');
-			return $this->get_course_modules($course_code);
+			$tool_dir = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__), '..', 'tool'));
+			if ($handle = opendir($tool_dir))
+			{
+				while (false !== ($file = readdir($handle)))
+				{
+					if (substr($file, 0, 1) != '.')
+					{
+						$file_path = $tool_dir.DIRECTORY_SEPARATOR.$file;
+						if (is_dir($file_path))
+						{
+							// TODO: Move to an XML format for tool properties, instead of .hidden, .section and whatnot
+							$visible = !file_exists($file_path.DIRECTORY_SEPARATOR.' ');
+							$section_file = $file_path.DIRECTORY_SEPARATOR.'.section';
+							if (file_exists($section_file))
+							{
+								$contents = file($section_file);
+								$section = rtrim($contents[0]);
+							}
+							else
+							{
+								$section = 'basic';
+							}
+							$this->add_course_module($course_code, $file, $section, $visible);
+						}
+					}
+				}
+				closedir($handle);
+			}
+			return $this->get_course_modules($course_code, true);
 		}
 		$modules = array();
 		$module = null;
@@ -1501,13 +1512,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$res = $statement->execute(array($visible,$course_code,$module));
 	}
 
-	function add_course_module($course_code,$module,$section = 'basic')
+	function add_course_module($course_code,$module,$section = 'basic',$visible = true)
 	{
 		$props = array ();
 		$props[$this->escape_column_name('course_code')] = $course_code;
 		$props[$this->escape_column_name('name')] = $module;
 		$props[$this->escape_column_name('section')] = $section;
-		$props[$this->escape_column_name('visible')] = true;
+		$props[$this->escape_column_name('visible')] = $visible;
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('course_module'), $props, MDB2_AUTOQUERY_INSERT);
 	}
