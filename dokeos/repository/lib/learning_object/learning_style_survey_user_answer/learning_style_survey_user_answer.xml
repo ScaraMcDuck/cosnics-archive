@@ -11,7 +11,4 @@
  <index name="result_id">
   <indexproperty name="result_id"/>
  </index>
- <index name="question_id">
-  <indexproperty name="question_id"/>
- </index>
 </object>
