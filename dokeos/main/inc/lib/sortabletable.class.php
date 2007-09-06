@@ -266,7 +266,8 @@ class SortableTable extends HTML_Table
 			$html .= '<td colspan="2">';
 			if (count($this->form_actions))
 			{
-				$html .= '<a href="?'.$params.'&amp;'.$this->param_prefix.'selectall=1" onclick="setCheckbox(\'form_'.$this->table_name.'\', true); return false;">'.get_lang('SelectAll').'</a> - ';
+				$html .= '<div class="sortable_table_selection_controls">';
+				$html .= '<a href="?'.$params.'&amp;'.$this->param_prefix.'selectall=1" onclick="setCheckbox(\'form_'.$this->table_name.'\', true); return false;">'.get_lang('SelectAll').'</a>';
 				$html .= '<a href="?'.$params.'"  onclick="setCheckbox(\'form_'.$this->table_name.'\', false); return false;">'.get_lang('UnSelectAll').'</a> ';
 				$html .= '<select name="action">';
 				foreach ($this->form_actions as $action => $label)
@@ -274,7 +275,8 @@ class SortableTable extends HTML_Table
 					$html .= '<option value="'.$action.'">'.$label.'</option>';
 				}
 				$html .= '</select>';
-				$html .= '<input type="submit" value="'.get_lang('Ok').'"/>';
+				$html .= ' <input type="submit" value="'.get_lang('Ok').'"/>';
+				$html .= '</div>';
 			}
 			else
 			{

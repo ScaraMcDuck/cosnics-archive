@@ -151,7 +151,7 @@ class LearningObjectPublicationForm extends FormValidator
 		$this->addElement('checkbox', self :: PARAM_HIDDEN, get_lang('Hidden'));
 		if($this->email_option)
 		{
-			$this->addElement('checkbox', self::PARAM_EMAIL, get_lang('SendByEmail'));
+			$this->addElement('checkbox', self::PARAM_EMAIL, get_lang('SendByEMail'));
 		}
 		$this->addElement('submit', 'submit', get_lang('Ok'));
     }
