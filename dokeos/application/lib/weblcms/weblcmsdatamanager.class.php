@@ -617,8 +617,9 @@ abstract class WeblcmsDataManager
 	 * @param string $course_code
 	 * @param string $module
 	 * @param string $section
+	 * @param boolean $visible
 	 */
-	abstract function add_course_module($course_code,$module,$section = 'basic');
+	abstract function add_course_module($course_code,$module,$section = 'basic',$visible = true);
 	 /**
 	  * Adds a record to the access log of a course module
 	  * @param string $course_code
