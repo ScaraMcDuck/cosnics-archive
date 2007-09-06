@@ -367,6 +367,8 @@ function display_applications_list()
 		$html = array();
 		$html[] = '<h4 style="margin-top: 0px;">'.get_lang('ApplicationList').'</h4>';
 		$html[] = '<ul>';
+		// XXX: index.php?application=$app would be a lot prettier, especially
+		// when combined with mod_rewrite magic.
 		foreach ($applications as $application)
 		{
 			if (isset($_uid))
