@@ -23,6 +23,7 @@
 */
 require_once ('HTML/QuickForm/textarea.php');
 require_once (dirname(__FILE__).'/../../../../../plugin/fckeditor/fckeditor.php');
+require_once (dirname(__FILE__).'/../../../../../common/resourcemanager.class.php');
 /**
 * A html editor field to use with QuickForm
 */
@@ -117,7 +118,7 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 			$editor_lang = 'en';
 		}
 		$name = $this->getAttribute('name');
-		$result []= '<script type="text/javascript" src="'.api_get_path(WEB_PATH).'plugin/fckeditor/fckeditor.js"></script>';
+		$result []= ResourceManager :: get_instance()->get_resource_html(api_get_path(WEB_PATH).'plugin/fckeditor/fckeditor.js');
 		$result []= '<script type="text/javascript">';
 		$result []= "\n/* <![CDATA[ */\n";
 		$result []= 'var oFCKeditor = new FCKeditor( \''.$name.'\' ) ;';

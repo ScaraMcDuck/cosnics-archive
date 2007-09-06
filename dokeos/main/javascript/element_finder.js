@@ -4,55 +4,57 @@
  *
  * Does all sorts of elite tomfoolery. Play with it and be amazed.
  *
- * @author Tim De Pauw <ct at xanoo dot com>
+ * @author Tim De Pauw <tim,pwnt,be>
  *
  */
 
 // TODO: Provide an alternative if AJAX isn't supported.
 // TODO: Find out what breaks stuff in IE.
 
-var elfLocale = new Array();
-elfLocale['Searching'] = 'Searching ...';
-elfLocale['NoResults'] = 'No results';
-elfLocale['Error'] = 'Error';
+var ElementFinder = new Object();
 
-var elfSerializationSeparator = "\t";
+ElementFinder.locale = new Array();
+ElementFinder.locale['Searching'] = 'Searching ...';
+ElementFinder.locale['NoResults'] = 'No results';
+ElementFinder.locale['Error'] = 'Error';
 
-var elfSearchDelay = 500;
+ElementFinder.serializationSeparator = "\t";
 
-var elfAjaxMethods = new Array(
+ElementFinder.searchDelay = 500;
+
+ElementFinder.ajaxMethods = new Array(
 	function() { return new ActiveXObject("Msxml2.XMLHTTP") },
 	function() { return new ActiveXObject("Microsoft.XMLHTTP") },
 	function() { return new XMLHttpRequest() }
 );
 
-var elfAjaxMethodIndex = -1;
+ElementFinder.ajaxMethodIndex = -1;
 
-for (var i = 0; i < elfAjaxMethods.length; i++) {
+for (var i = 0; i < ElementFinder.ajaxMethods.length; i++) {
 	try {
-		elfAjaxMethods[i]();
-		elfAjaxMethodIndex = i;
+		ElementFinder.ajaxMethods[i]();
+		ElementFinder.ajaxMethodIndex = i;
 		break;
 	} catch (e) { }
 }
 
-var elfSearches = new Array();
-var elfLastSearches = new Array();
-var elfTimeouts = new Array();
-var elfSelectedElements = new Array();
-var elfExcludedElements = new Array();
+ElementFinder.searches = new Array();
+ElementFinder.lastSearches = new Array();
+ElementFinder.timeouts = new Array();
+ElementFinder.selectedElements = new Array();
+ElementFinder.excludedElements = new Array();
 
 function ElementFinderSearch (url, origin, destination) {
-	if (elfSearches[destination.getAttribute('id')]) {
-		elfSearches[destination.getAttribute('id')].active = false;
+	if (ElementFinder.searches[destination.getAttribute('id')]) {
+		ElementFinder.searches[destination.getAttribute('id')].active = false;
 	}
-	elfSearches[destination.getAttribute('id')] = this;
+	ElementFinder.searches[destination.getAttribute('id')] = this;
 	this.origin = origin;
 	this.destination = destination;
 	this.active = true;
-	this.ajax = elfGetAjaxObject();
+	this.ajax = ElementFinder.getAjaxObject();
 	this.emptyDestination();
-	elfNotify('Searching', destination);
+	ElementFinder.notify('Searching', destination);
 	var searchObject = this;
 	this.ajax.onreadystatechange = function() {
 		searchObject.readyStateChanged();
@@ -67,61 +69,61 @@ ElementFinderSearch.prototype.readyStateChanged = function () {
 		this.returnResults();
 	}
 	else {
-		elfNotify('Error', this.destination);
+		ElementFinder.notify('Error', this.destination);
 	}
-	elfSearches[this.destination.getAttribute('id')] = null;
+	ElementFinder.searches[this.destination.getAttribute('id')] = null;
 };
 
 ElementFinderSearch.prototype.returnResults = function () {
 	var xml = this.ajax.responseXML;
 	if (!xml) {
-		elfNotify('Error', this.destination);
+		ElementFinder.notify('Error', this.destination);
 		return;
 	}
-	var root = elfLastChild(xml);
+	var root = ElementFinder.lastChild(xml);
 	if (!root) {
-		elfNotify('Error', this.destination);
+		ElementFinder.notify('Error', this.destination);
 		return;
 	}
-	var mainLeaf = elfLastChild(root);
+	var mainLeaf = ElementFinder.lastChild(root);
 	if (mainLeaf) {
 		this.emptyDestination();
 		var ul = document.createElement('ul');
 		this.destination.appendChild(ul);
-		elfBuildResults(mainLeaf, ul, this.destination.getAttribute('id'));
-		ul.className = tmClassName;
-		tmInit(ul, -1);
+		ElementFinder.buildResults(mainLeaf, ul, this.destination.getAttribute('id'));
+		ul.className = TreeMenu.className;
+		TreeMenu.init(ul, -1);
 	}
 	else {
-		elfNotify('NoResults', this.destination);
+		ElementFinder.notify('NoResults', this.destination);
 	}
 };
 
 ElementFinderSearch.prototype.emptyDestination = function () {
-	elfEmptyNode(this.destination);
+	ElementFinder.emptyNode(this.destination);
 };
 
-function elfEmptyNode (node) {
+ElementFinder.emptyNode = function(node) {
 	var children = node.childNodes;
 	for (var i = 0; i < children.length; i++) {
 		node.removeChild(children[i]);
 	}
-}
+};
 
-function elfNotify (msgID, destination) {
-	elfEmptyNode(destination);
-	destination.appendChild(document.createTextNode(elfLocale[msgID]));
-}
+ElementFinder.notify = function(msgID, destination) {
+	ElementFinder.emptyNode(destination);
+	destination.appendChild(document.createTextNode(ElementFinder.locale[msgID]));
+};
 
-function elfLastChild (node) {
+ElementFinder.lastChild = function(node) {
 	if (!node || !node.childNodes || node.childNodes.length == 0) {
 		return null;
 	}
-	var a = tmFilterTextNodes(node.childNodes);
+	var a = TreeMenu.filterTextNodes(node.childNodes);
 	return (a.length == 0 ? null : a[a.length - 1]);
 }
 
-function elfBuildResults (node, ul, destinationID) {
+ElementFinder.buildResults = function(node, ul, destinationID) {
 	var li = document.createElement('li');
 	ul.appendChild(li);
 	var a = document.createElement('a');
@@ -134,7 +136,7 @@ function elfBuildResults (node, ul, destinationID) {
 	li.appendChild(a);
 	var ulSub = document.createElement('ul');
 	li.appendChild(ulSub);
-	var childNodes = tmFilterTextNodes(node.childNodes);
+	var childNodes = TreeMenu.filterTextNodes(node.childNodes);
 	for (var i = 0; i < childNodes.length; i++) {
 		var child = childNodes[i];
 		switch (child.nodeName) {
@@ -147,7 +149,7 @@ function elfBuildResults (node, ul, destinationID) {
 				var a = document.createElement('a');
 				var aID = destinationID + '_' + id;
 				a.setAttribute('id', aID);
-				a.setAttribute('href', 'javascript:elfToggleLinkSelectionState(document.getElementById("' + aID + '"), document.getElementById("' + destinationID + '"));');
+				a.setAttribute('href', 'javascript:ElementFinder.toggleLinkSelectionState(document.getElementById("' + aID + '"), document.getElementById("' + destinationID + '"));');
 				a.setAttribute('element', id);
 				if (className) {
 					a.className = className;
@@ -161,79 +163,79 @@ function elfBuildResults (node, ul, destinationID) {
 				ulSub.appendChild(li);
 				break;
 			case 'node':
-				elfBuildResults(child, ulSub, destinationID);
+				ElementFinder.buildResults(child, ulSub, destinationID);
 				break;
 		}
 	}
-}
+};
 
-function elfToggleLinkSelectionState (link, destination) {
-	elfSetLinkSelected(link, (link.getAttribute('selected') ? false : true), destination);
-}
+ElementFinder.toggleLinkSelectionState = function(link, destination) {
+	ElementFinder.setLinkSelected(link, (link.getAttribute('selected') ? false : true), destination);
+};
 
-function elfSetLinkSelected (link, selected, destination) {
+ElementFinder.setLinkSelected = function(link, selected, destination) {
 	if (selected) {
 		link.setAttribute('selected', 1);
-		tmAddClassName(link, 'selected');
+		TreeMenu.addClassName(link, 'selected');
 		if (destination) {
-			elfSelectedElements[destination.getAttribute('id')] = elfAddToArray(elfSelectedElements[destination.getAttribute('id')], link);
+			ElementFinder.selectedElements[destination.getAttribute('id')] = ElementFinder.addToArray(ElementFinder.selectedElements[destination.getAttribute('id')], link);
 		}
 	}
 	else {
 		link.removeAttribute('selected');
-		tmRemoveClassName(link, 'selected');
+		TreeMenu.removeClassName(link, 'selected');
 		if (destination) {
-			elfSelectedElements[destination.getAttribute('id')] = elfRemoveFromArray(elfSelectedElements[destination.getAttribute('id')], link);
+			ElementFinder.selectedElements[destination.getAttribute('id')] = ElementFinder.removeFromArray(ElementFinder.selectedElements[destination.getAttribute('id')], link);
 		}
 	}
 	if (destination) {
 		var button = document.getElementById(destination.getAttribute('id')+'_button');
-		button.disabled = (elfSelectedElements[destination.getAttribute('id')].length <= 0);
+		button.disabled = (ElementFinder.selectedElements[destination.getAttribute('id')].length <= 0);
 	}
-}
+};
 
-function elfActivate (inactive, active) {
-	var toActivate = elfSelectedElements[inactive.getAttribute('id')];
+ElementFinder.activate = function(inactive, active) {
+	var toActivate = ElementFinder.selectedElements[inactive.getAttribute('id')];
 	if (!toActivate || !toActivate.length) return;
 	var hiddenElmt = document.getElementById(active.getAttribute('id')+'_hidden');
-	var cached = elfUnserialize(hiddenElmt.getAttribute('value'));
+	var cached = ElementFinder.unserialize(hiddenElmt.getAttribute('value'));
 	for (var j = 0; j < toActivate.length; j++) {
 		var link = toActivate[j];
 		var id = link.getAttribute('element');
 		var label = link.firstChild.nodeValue;
 		var description = link.getAttribute('title');
 		var className = link.getAttribute('extraClasses');
-		elfActivateElement(id, label, description, className, active);
-		elfSetLinkSelected(link, false);
-		elfSetLinkEnabled(link, false);
-		cached = elfAddToArray(cached, new Array(id, (className ? className : ""), label, description));
+		ElementFinder.activateElement(id, label, description, className, active);
+		ElementFinder.setLinkSelected(link, false);
+		ElementFinder.setLinkEnabled(link, false);
+		cached = ElementFinder.addToArray(cached, new Array(id, (className ? className : ""), label, description));
 	}
-	hiddenElmt.setAttribute('value', elfSerialize(cached));
+	hiddenElmt.setAttribute('value', ElementFinder.serialize(cached));
 	toActivate.length = 0;
 	document.getElementById(inactive.getAttribute('id')+'_button').disabled = true;
-}
+};
 
-function elfDeactivate (active, inactive) {
-	var toDeactivate = elfSelectedElements[active.getAttribute('id')];
+ElementFinder.deactivate = function(active, inactive) {
+	var toDeactivate = ElementFinder.selectedElements[active.getAttribute('id')];
 	if (!toDeactivate || !toDeactivate.length) return;
 	var hiddenElmt = document.getElementById(active.getAttribute('id')+'_hidden');
-	var cached = elfUnserialize(hiddenElmt.getAttribute('value'));
+	var cached = ElementFinder.unserialize(hiddenElmt.getAttribute('value'));
 	for (var j = 0; j < toDeactivate.length; j++) {
 		var link = toDeactivate[j];
 		var id = link.getAttribute('element');
-		elfDeactivateElement(id, active);
+		ElementFinder.deactivateElement(id, active);
 		var otherLink = document.getElementById(link.getAttribute('id').replace('_active_', '_inactive_'));
 		if (otherLink) {
-			elfSetLinkEnabled(otherLink, true);
+			ElementFinder.setLinkEnabled(otherLink, true);
 		}
-		cached = elfRemoveFromCache(cached, id);
+		cached = ElementFinder.removeFromCache(cached, id);
 	}
-	hiddenElmt.setAttribute('value', elfSerialize(cached));
+	hiddenElmt.setAttribute('value', ElementFinder.serialize(cached));
 	toDeactivate.length = 0;
 	document.getElementById(active.getAttribute('id')+'_button').disabled = true;
-}
+};
 
-function elfRemoveFromCache (cache, id) {
+ElementFinder.removeFromCache = function(cache, id) {
 	if (!cache.length) {
 		return cache;
 	}
@@ -244,9 +246,9 @@ function elfRemoveFromCache (cache, id) {
 		}
 	}
 	return newCache;
-}
+};
 
-function elfActivateElement (element, label, description, extraClasses, activeList) {
+ElementFinder.activateElement = function(element, label, description, extraClasses, activeList) {
 	var ul = activeList.firstChild;
 	if (!ul) {
 		ul = document.createElement('ul');
@@ -257,7 +259,7 @@ function elfActivateElement (element, label, description, extraClasses, activeLi
 	var aID = containerID + '_' + element;
 	var a = document.createElement('a');
 	a.setAttribute('id', aID);
-	a.setAttribute('href', 'javascript:elfToggleLinkSelectionState(document.getElementById("' + aID + '"),document.getElementById("' + containerID + '"));');
+	a.setAttribute('href', 'javascript:ElementFinder.toggleLinkSelectionState(document.getElementById("' + aID + '"),document.getElementById("' + containerID + '"));');
 	if (description) {
 		a.setAttribute('title', description);
 	}
@@ -268,9 +270,9 @@ function elfActivateElement (element, label, description, extraClasses, activeLi
 	a.appendChild(document.createTextNode(label));
 	li.appendChild(a);
 	ul.appendChild(li);
-}
+};
 
-function elfDeactivateElement (element, activeList) {
+ElementFinder.deactivateElement = function(element, activeList) {
 	var ul = activeList.firstChild;
 	for (var i = 0; i < ul.childNodes.length; i++) {
 		var el = ul.childNodes[i];
@@ -279,40 +281,40 @@ function elfDeactivateElement (element, activeList) {
 			break;
 		}
 	}
-}
+};
 
-function elfSetLinkEnabled (link, enabled) {
+ElementFinder.setLinkEnabled = function(link, enabled) {
 	var href = link.getAttribute('href');
 	var realHref = link.getAttribute('realHref');
 	if (enabled) {
 		if (realHref) {
 			link.setAttribute('href', realHref);
 			link.removeAttribute('realHref');
-			tmRemoveClassName(link, 'disabled');
+			TreeMenu.removeClassName(link, 'disabled');
 		}
 	}
 	else if (href) {
 		link.setAttribute('realHref', href);
 		link.setAttribute('href', 'javascript:void(0);');
-		tmAddClassName(link, 'disabled');
+		TreeMenu.addClassName(link, 'disabled');
 	}
-}
+};
 
-function elfAddToArray (array, element) {
+ElementFinder.addToArray = function(array, element) {
 	if (!array || !array.length) {
 		var newArray = new Array();
 		newArray[0] = element;
 		return newArray;
 	}
-	if (elfArrayContains(array, element)) {
+	if (ElementFinder.arrayContains(array, element)) {
 		return array;
 	}
-	var newArray = elfCloneArray(array);
+	var newArray = ElementFinder.cloneArray(array);
 	newArray[newArray.length] = element;
 	return newArray;
-}
+};
 
-function elfRemoveFromArray (array, element) {
+ElementFinder.removeFromArray = function(array, element) {
 	var newArray = new Array();
 	if (!array || !array.length) return newArray;
 	for (var i = 0; i < array.length; i++) {
@@ -321,18 +323,18 @@ function elfRemoveFromArray (array, element) {
 		}
 	}
 	return newArray;
-}
+};
 
-function elfCloneArray (array) {
+ElementFinder.cloneArray = function(array) {
 	var newArray = new Array();
 	if (!array) return newArray;
 	for (var i = 0; i < array.length; i++) {
 		newArray[i] = array[i];
 	}
 	return newArray;
-}
+};
 
-function elfArrayContains (array, element) {
+ElementFinder.arrayContains = function(array, element) {
 	if (!array) return false;
 	for (var i = 0; i < array.length; i++) {
 		if (array[i] == element) {
@@ -340,29 +342,29 @@ function elfArrayContains (array, element) {
 		}
 	}
 	return false;
-}
+};
 
-function elfFind (query, searchURL, origin, destination) {
+ElementFinder.find = function(query, searchURL, origin, destination) {
 	var destID = destination.getAttribute('id');
-	query = elfStripWhitespace(query);
-	if (query.length > 0 && query == elfLastSearches[destID]) {
+	query = ElementFinder.stripWhitespace(query);
+	if (query.length > 0 && query == ElementFinder.lastSearches[destID]) {
 		return;
 	}
-	if (elfTimeouts[destID]) {
-		clearTimeout(elfTimeouts[destID]);
-		elfTimeouts[destID] = null;
+	if (ElementFinder.timeouts[destID]) {
+		clearTimeout(ElementFinder.timeouts[destID]);
+		ElementFinder.timeouts[destID] = null;
 	}
 	if (query.length == 0) {
-		elfEmptyNode(destination);
+		ElementFinder.emptyNode(destination);
 		return;
 	}
-	elfLastSearches[destID] = query;
-	elfTimeouts[destID] = setTimeout(function () {
-		new ElementFinderSearch(searchURL + '?query=' + escape(query) + elfExcludeString(origin), origin, destination);
-	}, elfSearchDelay);
-}
+	ElementFinder.lastSearches[destID] = query;
+	ElementFinder.timeouts[destID] = setTimeout(function () {
+		new ElementFinderSearch(searchURL + '?query=' + escape(query) + ElementFinder.excludeString(origin), origin, destination);
+	}, ElementFinder.searchDelay);
+};
 
-function elfStripWhitespace (str) {
+ElementFinder.stripWhitespace = function(str) {
 	if (str.length == 0) return str;
 	var start;
 	for (start = 0; start < str.length; start++) {
@@ -380,61 +382,61 @@ function elfStripWhitespace (str) {
 		}
 	}
 	return str.substring(start, end + 1);
-}
+};
 
-function elfExcludeString (destination) {
+ElementFinder.excludeString = function(destination) {
 	var destID = destination.getAttribute('id');
 	var elmt = document.getElementById(destID+'_hidden');
-	var chunks = elfUnserialize(elmt.getAttribute('value'));
+	var chunks = ElementFinder.unserialize(elmt.getAttribute('value'));
 	var str = '';
 	for (var i = 0; i < chunks.length; i++) {
 		str += "&exclude[]=" + chunks[i][0];
 	}
-	if (elfExcludedElements[destID]) {
-		for (var i = 0; i < elfExcludedElements[destID].length; i++) {
-			str += "&exclude[]=" + elfExcludedElements[destID][i];
+	if (ElementFinder.excludedElements[destID]) {
+		for (var i = 0; i < ElementFinder.excludedElements[destID].length; i++) {
+			str += "&exclude[]=" + ElementFinder.excludedElements[destID][i];
 		}
 	}
 	return str;
-}
+};
 
-function elfRestoreFromCache (hiddenElmt, active) {
-	var cached = elfUnserialize(hiddenElmt.getAttribute('value'));
+ElementFinder.restoreFromCache = function(hiddenElmt, active) {
+	var cached = ElementFinder.unserialize(hiddenElmt.getAttribute('value'));
 	for (var j = 0; j < cached.length; j++) {
 		var id = cached[j][0];
 		var className = cached[j][1];
 		var title = cached[j][2];
 		var description = cached[j][3];
-		elfActivateElement(id, title, description, className, active);
+		ElementFinder.activateElement(id, title, description, className, active);
 	}
-}
+};
 
-function elfSerialize (elements) {
+ElementFinder.serialize = function(elements) {
 	if (!elements.length) {
 		return "";
 	}
-	var re = new RegExp(elfSerializationSeparator, "g");
-	var string = elfSubserialize(elements[0], re);
+	var re = new RegExp(ElementFinder.serializationSeparator, "g");
+	var string = ElementFinder.subserialize(elements[0], re);
 	for (var i = 1; i < elements.length; i++) {
-		string += elfSerializationSeparator + elfSubserialize(elements[i], re);
+		string += ElementFinder.serializationSeparator + ElementFinder.subserialize(elements[i], re);
 	}
 	return string;
-}
+};
 
-function elfSubserialize (element, re) {
+ElementFinder.subserialize = function(element, re) {
 	var string = element[0];
 	for (var i = 1; i < element.length; i++) {
-		string += elfSerializationSeparator + element[i].replace(re, " ");
+		string += ElementFinder.serializationSeparator + element[i].replace(re, " ");
 	}
 	return string;
-}
+};
 
-function elfUnserialize (string) {
+ElementFinder.unserialize = function(string) {
 	if (!string.length) {
 		return new Array();
 	}
 	var start = 0;
-	var end = string.indexOf(elfSerializationSeparator);
+	var end = string.indexOf(ElementFinder.serializationSeparator);
 	var elements = new Array();
 	var element = new Array();
 	while (end >= 0) {
@@ -444,13 +446,13 @@ function elfUnserialize (string) {
 			element = new Array();
 		}
 		start = end + 1;
-		end = string.indexOf(elfSerializationSeparator, start);
+		end = string.indexOf(ElementFinder.serializationSeparator, start);
 	}
 	element[element.length] = string.substring(start);
 	elements[elements.length] = element;
 	return elements;
-}
+};
 
-function elfGetAjaxObject () {
-	return elfAjaxMethods[elfAjaxMethodIndex]();
-}
+ElementFinder.getAjaxObject = function() {
+	return ElementFinder.ajaxMethods[ElementFinder.ajaxMethodIndex]();
+};
