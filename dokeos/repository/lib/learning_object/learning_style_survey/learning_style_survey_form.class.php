@@ -117,6 +117,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 							$elem->freeze();
 						}
 						$categories = array();
+						$categories[0] = get_lang('None');
 						foreach ($this->category_elements as $category => & $els)
 						{
 							$categories[$category] = $els['name']->exportValue();
@@ -188,6 +189,8 @@ class LearningStyleSurveyForm extends LearningObjectForm
 		$return_value = parent :: create_learning_object();
 		// Categories
 		$categories = array();
+		// For "none"; not really necessary here, it's null anyway
+		$categories[0] = null;
 		foreach ($this->category_elements as $cid => & $els)
 		{
 			$name = $els['name']->exportValue();

@@ -10,8 +10,9 @@ require_once dirname(__FILE__) . '/../../../../common/condition/equalityconditio
  */
 class LearningStyleSurveyProfileForm extends LearningObjectForm
 {
-	const PARAM_SURVEY_ID = 'survey_id';
-	const PARAM_PROFILE_METADATA = 'profile_metadata';
+	const PARAM_SURVEY_ID = 'lssp_survey_id';
+	const PARAM_PROFILE_METADATA = 'lssp_profile_metadata';
+	const PARAM_COMPLETE = 'lssp_complete';
 	
 	private $survey_element;
 	
@@ -39,17 +40,17 @@ class LearningStyleSurveyProfileForm extends LearningObjectForm
 			$this->metadata_elements = array();
 			foreach ($metadata_fields as $field)
 			{
-				$this->metadata_elements[$field] = $this->add_textfield(self :: PARAM_PROFILE_METADATA . '__' . $field, $field, false);
+				$this->metadata_elements[$field] = $this->addElement('textarea', self :: PARAM_PROFILE_METADATA . '__' . $field, $field);
 			}
 			// Extra check, because metadata elements are not required and will consequently always validate
-			$this->addElement('hidden', self :: PARAM_PROFILE_METADATA, 1);
+			$this->addElement('hidden', self :: PARAM_COMPLETE, 1);
 		}
 	}
 	
 	// Overridden to check for extra parameter--see above
 	function validate()
 	{
-		return (parent :: validate() && $_POST[self :: PARAM_PROFILE_METADATA]);
+		return (parent :: validate() && $_POST[self :: PARAM_COMPLETE]);
 	}
 	
 	function build_editing_form()
@@ -66,7 +67,11 @@ class LearningStyleSurveyProfileForm extends LearningObjectForm
 		$metadata = array();
 		foreach ($this->metadata_elements as $param => $el)
 		{
-			$metadata[$param] = $el->exportValue();
+			$value = $el->exportValue();
+			if (!empty($value))
+			{
+				$metadata[$param] = $value;
+			}
 		}
 		$object->set_profile_metadata(null, $metadata);
 		$this->set_learning_object($object);

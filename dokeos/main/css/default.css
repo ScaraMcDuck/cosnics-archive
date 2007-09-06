@@ -1737,3 +1737,6 @@ ul.toolbar li.last span {
 	font-size: 90%;
 	color: #666;
 }
+.sortable_table_selection_controls a {
+	margin-right: 1ex;
+}
