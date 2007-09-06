@@ -334,6 +334,12 @@ function add_roles_rights_tables_v17()
 	mysql_query("INSERT INTO `basic_right` VALUES (1,'ViewRight','ViewRightDescription'),(2,'EditRight','EditRightDescription'),(3,'AddRight','AddRightDescription'),(4,'DeleteRight','DeleteRightDescription');");
 	mysql_query("UNLOCK TABLES;");
 
+	// TODO: Use LCMS tools here
+	// This won't suffice though. Thanks to the modular architecture, tools
+	// can be plugged in at will. However, we can't just add a location to the
+	// default ACL, as other ACLs have already been derived from it, and we
+	// don't know if we can just grant everyone access to newly added tools.
+	// This is being discussed as of 2007-09-06.  
 	mysql_query("LOCK TABLES `location` WRITE;");
 	mysql_query("INSERT INTO `location` VALUES 
 		(1,'platform|courses|course,DEFAULT'),
