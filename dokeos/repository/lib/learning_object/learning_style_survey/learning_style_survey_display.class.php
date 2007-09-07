@@ -12,15 +12,8 @@ class LearningStyleSurveyDisplay extends LearningObjectDisplay
 	{
 		$html = parent :: get_full_html();
 		$survey = $this->get_learning_object();
-		$dm = RepositoryDataManager :: get_instance();
-		$categories = $dm->retrieve_learning_objects(
-			'learning_style_survey_category',
-			new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $survey->get_id())
-		)->as_array();
-		$sections = $dm->retrieve_learning_objects(
-			'learning_style_survey_section',
-			new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $survey->get_id())
-		)->as_array();
+		$categories = $survey->get_survey_categories();
+		$sections = $survey->get_survey_sections();
 		$html .= '<ul class="learning-style-survey-categories">';
 		$category_map = array();
 		foreach ($categories as $category) {
@@ -42,10 +35,7 @@ class LearningStyleSurveyDisplay extends LearningObjectDisplay
 				. htmlspecialchars($section->get_title())
 				. '</div>'
 				. '<ol>';
-			$questions = $dm->retrieve_learning_objects(
-				'learning_style_survey_question',
-				new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $section->get_id())
-			)->as_array();
+			$questions = $section->get_section_questions();
 			foreach ($questions as $question) {
 				$html .= '<li>'
 					. '<div class="learning-style-survey-question-text">'
@@ -60,10 +50,7 @@ class LearningStyleSurveyDisplay extends LearningObjectDisplay
 				elseif ($survey->get_survey_type() == LearningStyleSurvey :: SURVEY_TYPE_ANSWER_ORDERING)
 				{
 					$html .= '<ul class="learning-style-survey-answers">';
-					$answers = $dm->retrieve_learning_objects(
-						'learning_style_survey_answer',
-						new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $question->get_id())
-					)->as_array();
+					$answers = $question->get_question_answers();
 					foreach ($answers as $answer)
 					{
 						$html .= '<li>'
