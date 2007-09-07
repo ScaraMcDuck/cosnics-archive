@@ -11,6 +11,15 @@ class LearningStyleSurveyProfile extends LearningObject
 	const PROPERTY_PROFILE_METADATA = 'profile_metadata';
 	
 	private $metadata;
+	
+	function get_survey()
+	{
+		$dm = RepositoryDataManager :: get_instance();
+		return $dm->retrieve_learning_object(
+			$this->get_survey_id(),
+			'learning_style_survey'
+		);
+	}
 
 	function get_survey_id ()
 	{
@@ -23,6 +32,11 @@ class LearningStyleSurveyProfile extends LearningObject
 		return (is_null($name)
 			? $this->metadata
 			: $this->metadata[$name]);
+	}
+	
+	function set_survey ($survey)
+	{
+		return $this->set_survey_id($survey->get_id());
 	}
 	
 	function set_survey_id ($sid)

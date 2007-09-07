@@ -46,6 +46,11 @@ class LearningStyleSurveyUserAnswer extends LearningObject
 	{
 		return false;
 	}
+	
+	function is_master_type()
+	{
+		return false;
+	}
 }
 
 ?>

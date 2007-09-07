@@ -17,6 +17,15 @@ class LearningStyleSurveyQuestion extends LearningObject
 		return $this->set_additional_property(self :: PROPERTY_QUESTION_CATEGORY_ID, $cid);
 	}
 	
+	function get_question_answers()
+	{
+		$dm = RepositoryDataManager :: get_instance();
+		return $dm->retrieve_learning_objects(
+			'learning_style_survey_answer',
+			new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $this->get_id())
+		)->as_array();
+	}
+	
 	function is_ordered()
 	{
 		return true;

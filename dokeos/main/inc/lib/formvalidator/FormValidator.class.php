@@ -57,6 +57,7 @@ class FormValidator extends HTML_QuickForm
 		$this->registerElementType('select_language', $dir.'Element/select_language.php', 'HTML_QuickForm_Select_Language');
 		$this->registerElementType('upload_or_create', $dir.'Element/upload_or_create.php', 'HTML_QuickForm_upload_or_create');
 		$this->registerElementType('element_finder', $dir.'Element/element_finder.php', 'HTML_QuickForm_element_finder');
+		$this->registerElementType('option_orderer', $dir.'Element/option_orderer.php', 'HTML_QuickForm_option_orderer');
 
 		$this->registerRule('date', null, 'HTML_QuickForm_Rule_Date', $dir.'Rule/Date.php');
 		$this->registerRule('date_compare', null, 'HTML_QuickForm_Rule_DateCompare', $dir.'Rule/DateCompare.php');
