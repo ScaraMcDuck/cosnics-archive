@@ -31,19 +31,13 @@ class LearningStyleSurveyTool extends RepositoryTool
 			array(
 				array(
 					'img' => api_get_path(WEB_CODE_PATH).'/img/browser.gif',
-					'label' => get_lang('BrowserTitle'),
+					'label' => get_lang('TakeSurvey'),
 					'href' => $this->get_url(array('mode' => 0)),
 					'display' => RepositoryUtilities::TOOLBAR_DISPLAY_ICON_AND_LABEL
 				),
 				array(
-					'img' => api_get_path(WEB_CODE_PATH).'/img/browser.gif',
-					'label' => get_lang('TakeSurvey'),
-					'href' => $this->get_url(array('mode' => 2)),
-					'display' => RepositoryUtilities::TOOLBAR_DISPLAY_ICON_AND_LABEL
-				),
-				array(
 					'img' => api_get_path(WEB_CODE_PATH).'/img/publish.gif',
-					'label' => get_lang('Publish'),
+					'label' => get_lang('PublishSurvey'),
 					'href' => $this->get_url(array('mode' => 1)),
 					'display' => RepositoryUtilities::TOOLBAR_DISPLAY_ICON_AND_LABEL
 				)
@@ -67,7 +61,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 				$this->display_footer();
 			}
 		}
-		elseif ($_SESSION[get_class()]['mode'] == 2)
+		else
 		{
 			$this->display_header();
 			echo $toolbar;
@@ -85,6 +79,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 				$answer_data = array();
 				if (!$results->is_empty())
 				{
+					$question_count = 0;
 					$result = $results->next_result();
 					$answers = $result->get_result_answers();
 					foreach ($answers as $answer)
@@ -95,6 +90,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 					$survey = $profile->get_survey();
 					$sections = $survey->get_survey_sections();
 					$pa_answers = LearningStyleSurvey :: get_proposition_agreement_answers();
+					$category_total = array();
 					foreach ($sections as $section)
 					{
 						$questions = $section->get_section_questions();
@@ -103,7 +99,10 @@ class LearningStyleSurveyTool extends RepositoryTool
 							echo $question->get_description();
 							if ($survey->get_survey_type() == LearningStyleSurvey :: SURVEY_TYPE_PROPOSITION_AGREEMENT)
 							{
-								echo '<p>', htmlspecialchars($pa_answers[$answer_data[$question->get_id()]]), '</p>';
+								$answer = $answer_data[$question->get_id()];
+								echo '<p>', htmlspecialchars($pa_answers[$answer]), '</p>';
+								$category_total[$question->get_question_category_id()] += $answer;
+								$question_count++;
 							}
 							elseif ($survey->get_survey_type() == LearningStyleSurvey :: SURVEY_TYPE_ANSWER_ORDERING)
 							{
@@ -111,7 +110,9 @@ class LearningStyleSurveyTool extends RepositoryTool
 								$order = array();
 								foreach ($answers as $answer)
 								{
-									$order[$answer_data[$answer->get_id()] - 1] = $answer->get_description();
+									$pos = $answer_data[$answer->get_id()];
+									$order[$pos - 1] = $answer->get_description();
+									$category_total[$answer->get_answer_category_id()] += $pos;
 								}
 								echo '<ol>';
 								for ($i = 0; $i < count($order); $i++)
@@ -121,6 +122,37 @@ class LearningStyleSurveyTool extends RepositoryTool
 								echo '</ol>';
 							}
 						}
+					}
+					echo '<dl>';
+					$categories = $survey->get_survey_categories();
+					$titles = array();
+					$data = array();
+					foreach ($categories as $category)
+					{
+						$num = $category_total[$category->get_id()];
+						echo '<dt>' . htmlspecialchars($category->get_title()) . '</dt>'
+							. '<dd>' . $num . '</dd>';
+						$titles[] = $category->get_title();
+						$data[] = $num;
+					}
+					echo '</dl>';
+					if (count($data) > 2)
+					{
+						require_once dirname(__FILE__).'/lib/PsychePolygon.class.php';
+						if ($survey->get_survey_type() == LearningStyleSurvey :: SURVEY_TYPE_PROPOSITION_AGREEMENT)
+						{
+							$max_value = $question_count * count($pa_answers);
+						}
+						elseif ($survey->get_survey_type() == LearningStyleSurvey :: SURVEY_TYPE_ANSWER_ORDERING)
+						{
+							// TODO: calculate maximum for each category
+							$max_value = max($data); 
+						}
+						$p = new PsychePolygon($titles, $data, 0, $max_value);
+						$img = $p->create_image(PsychePolygon::IMAGE_TYPE_PNG);
+						echo '<div><img src="data:', $img['mime_type'], ';base64,',
+							base64_encode($img['data']), '"',
+							' width="', $img['width'], '" height="', $img['height'], '"/></div>';
 					}
 				}
 				else
@@ -142,15 +174,6 @@ class LearningStyleSurveyTool extends RepositoryTool
 				$browser = new LearningStyleSurveyBrowser($this);
 				echo $browser->as_html();
 			}
-			$this->display_footer();
-		}
-		else
-		{
-			$this->display_header();
-			echo $toolbar;
-			echo $this->perform_requested_actions();
-			$browser = new LearningStyleSurveyBrowser($this);
-			echo $browser->as_html();
 			$this->display_footer();
 		}
 	}
