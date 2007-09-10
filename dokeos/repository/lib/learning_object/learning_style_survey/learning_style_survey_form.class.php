@@ -181,7 +181,6 @@ class LearningStyleSurveyForm extends LearningObjectForm
 	function create_learning_object()
 	{
 		$survey_type = $this->get_survey_type();
-		$dm = RepositoryDataManager :: get_instance();
 		// The object itself
 		$survey = new LearningStyleSurvey();
 		$survey->set_survey_type($survey_type);
@@ -200,7 +199,6 @@ class LearningStyleSurveyForm extends LearningObjectForm
 			$category->set_title($name);
 			$category->set_description($description);
 			$category->set_parent_id($survey->get_id());
-			$dm->assign_learning_object_display_order_index($category);
 			$category->create();
 			$categories[$cid] = $category->get_id();
 		}
@@ -214,7 +212,6 @@ class LearningStyleSurveyForm extends LearningObjectForm
 			$section->set_title($name);
 			$section->set_description($description);
 			$section->set_parent_id($survey->get_id());
-			$dm->assign_learning_object_display_order_index($section);
 			$section->create();
 			// Questions in section
 			foreach ($this->question_elements[$sid] as $qid => & $data)
@@ -225,7 +222,6 @@ class LearningStyleSurveyForm extends LearningObjectForm
 				$question->set_title($survey->get_title() . ' Q#' . $sid . '.' . $qid);
 				$question->set_description($question_text);
 				$question->set_parent_id($section->get_id());
-				$dm->assign_learning_object_display_order_index($question);
 				if ($survey_type == LearningStyleSurvey :: SURVEY_TYPE_PROPOSITION_AGREEMENT)
 				{
 					$question->set_question_category_id($categories[$data['category']->exportValue()]);
@@ -242,7 +238,6 @@ class LearningStyleSurveyForm extends LearningObjectForm
 						$answer->set_description($answer_text);
 						$answer->set_parent_id($question->get_id());
 						$answer->set_answer_category_id($categories[$adata['category']->exportValue()]);
-						$dm->assign_learning_object_display_order_index($answer);
 						$answer->create();
 					}
 				}

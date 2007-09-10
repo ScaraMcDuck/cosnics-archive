@@ -11,14 +11,14 @@ class LearningStyleSurveyBrowser extends LearningObjectPublicationBrowser
 	function LearningStyleSurveyBrowser($parent)
 	{
 		parent :: __construct($parent, 'learning_style_survey_profile');
-		$renderer = new LearningStyleSurveyPublicationListRenderer($this);
+		$renderer = new LearningStyleSurveyPublicationListRenderer($this, $parent->get_url(array(LearningStyleSurveyTool :: PARAM_SURVEY_PROFILE_ID => '__ID__')));
 		$this->set_publication_list_renderer($renderer);
 	}
 
 	function get_publications($from, $count, $column, $direction)
 	{
 		$datamanager = WeblcmsDataManager :: get_instance();
-		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'learning_style_survey_profile');
+		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'learning_style_survey');
 		$condition = $tool_condition;
 		if($this->is_allowed(EDIT_RIGHT))
 		{

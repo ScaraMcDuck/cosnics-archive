@@ -3,6 +3,8 @@ require_once dirname(__FILE__).'/../repositorytool.class.php';
 require_once dirname(__FILE__).'/learning_style_surveybrowser.class.php';
 require_once dirname(__FILE__).'/../../../../../repository/lib/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object/learning_style_survey_result/learning_style_survey_result_form.class.php';
+require_once dirname(__FILE__).'/../../../../../common/condition/andcondition.class.php';
+require_once dirname(__FILE__).'/../../../../../common/condition/equalitycondition.class.php';
 
 /**
  * @author Tim De Pauw
@@ -70,23 +72,39 @@ class LearningStyleSurveyTool extends RepositoryTool
 			$this->display_header();
 			echo $toolbar;
 			$profile_id = $_REQUEST[self :: PARAM_SURVEY_PROFILE_ID];
-			if ($profile_id && ($profile = RepositoryDataManager :: get_instance()->retrieve_learning_object($profile_id, 'learning_style_survey_profile')))
+			$dm = RepositoryDataManager :: get_instance();
+			// TODO: Make sure the object is published
+			if ($profile_id
+			&& ($profile = $dm->retrieve_learning_object($profile_id, 'learning_style_survey_profile')))
 			{
-				$form = new LearningStyleSurveyResultForm($profile, 'survey', 'post', $this->get_url(array(self :: PARAM_SURVEY_PROFILE_ID => $profile_id)));
-				if ($form->validate())
+				$condition = new AndCondition(
+					new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, api_get_user_id()),
+					new EqualityCondition(LearningStyleSurveyResult :: PROPERTY_PROFILE_ID, $profile_id)
+				);
+				$result = $dm->retrieve_learning_objects('learning_style_survey_result', $condition);
+				if (!$result->is_empty())
 				{
-					// TODO
-					//$object = $form->create_learning_object();
-					var_dump($form->exportValues());
+					Display :: display_error_message(get_lang('SurveyAlreadyTaken'));
+					// TODO: review answers
 				}
-				else {
-					$form->display();
+				else
+				{
+					$form = new LearningStyleSurveyResultForm($profile, 'survey', 'post', $this->get_url(array(self :: PARAM_SURVEY_PROFILE_ID => $profile_id)));
+					if ($form->validate())
+					{
+						$object = $form->create_learning_object();
+						// TODO
+						var_dump($object);
+					}
+					else {
+						$form->display();
+					}
 				}
 			}
 			else
 			{
-				// TODO
-				echo '<p>Please add <code>&amp;', self :: PARAM_SURVEY_PROFILE_ID, '=<em>$profile_id</em></code> to the URL.</p>';
+				$browser = new LearningStyleSurveyBrowser($this);
+				echo $browser->as_html();
 			}
 			$this->display_footer();
 		}
