@@ -5,15 +5,14 @@ require_once dirname(__FILE__).'/../../../../../common/resourcemanager.class.php
 
 class HTML_QuickForm_option_orderer extends HTML_QuickForm_hidden
 {
-	const SEPARATOR = '|';
-	
 	private $options;
 	
-	function HTML_QuickForm_option_orderer($name, $label, $options, $attributes = array())
+	function HTML_QuickForm_option_orderer($name, $label, $options, $separator = '|', $attributes = array())
 	{
+		$this->separator = $separator;
 		$value = (isset($_REQUEST[$name])
 			? $_REQUEST[$name]
-			: implode(self :: SEPARATOR, array_keys($options)));
+			: implode($this->separator, array_keys($options)));
 		HTML_QuickForm_hidden :: HTML_QuickForm_hidden($name, $value, $attributes);
 		$this->options = $options;
 	}
@@ -40,7 +39,7 @@ class HTML_QuickForm_option_orderer extends HTML_QuickForm_hidden
 	
 	function getValue()
 	{
-		return explode(self :: SEPARATOR, parent :: getValue());
+		return explode($this->separator, parent :: getValue());
 	}
 	
 	function exportValue()

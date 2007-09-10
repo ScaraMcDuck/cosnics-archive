@@ -575,6 +575,27 @@ class LearningObject implements AccessibleLearningObject
 		$this->check_for_additional_properties();
 		return $this->additionalProperties;
 	}
+	
+	/**
+	 * Assigns the learning object a display order index. Only applicable
+	 * if this type allows ordering. This also happens automatically upon
+	 * invocation of {@link #create()}.
+	 * @return int The learning object's display index, or -1 if not applicable.
+	 */
+	function assign_display_order_index()
+	{
+		if ($this->is_ordered())
+		{
+			$index = $this->get_display_order_index();
+			if (!$index)
+			{
+				$dm = RepositoryDataManager :: get_instance();
+				return $dm->assign_learning_object_display_order_index($this);
+			}
+			return $index;
+		}
+		return -1;
+	}
 
 	/**
 	 * Instructs the data manager to create the learning object, making it
@@ -584,6 +605,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	function create()
 	{
+		$this->assign_display_order_index();
 		$now = time();
 		$this->set_creation_date($now);
 		$this->set_modification_date($now);

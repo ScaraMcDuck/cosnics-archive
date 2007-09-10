@@ -12,9 +12,13 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 	const PARAM_QUESTION = 'question';
 	const PARAM_ANSWER = 'answer';
 	
+	const ANSWER_SEPARATOR = '|';
+	
 	private $profile;
 	
 	private $survey;
+	
+	private $answer_elements;
 	
 	function __construct($profile, $form_name, $method = 'post', $action = null)
 	{
@@ -102,9 +106,9 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 				$options = array();
 				foreach ($answers as $answer_index => $answer)
 				{
-					$options[$answer_index] = $answer->get_description();
+					$options[$answer->get_id()] = $answer->get_description();
 				}
-				$this->answer_elements[$section_index][$question_index] = $this->addElement('option_orderer', $name, get_lang('YourAnswer'), $options);
+				$this->answer_elements[$section_index][$question_index] = $this->addElement('option_orderer', $name, get_lang('YourAnswer'), $options, self :: ANSWER_SEPARATOR);
 				$this->addRule($name, get_lang('ThisFieldIsRequired'), 'required');
 			}
 			// Next question
@@ -131,10 +135,64 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 	// Inherited
 	function create_learning_object()
 	{
-		// TODO: save results
 		$object = new LearningStyleSurveyResult();
 		$this->set_learning_object($object);
-		return parent :: create_learning_object();
+		$object->set_owner_id($this->get_owner_id());
+		$categories = array_keys($this->get_categories());
+		// Add in root category
+		$object->set_parent_id($categories[0]);
+		$object->set_title(get_lang('SurveyResultPrefix') . ' ' . $this->survey->get_title());
+		$object->set_profile_id($this->get_survey_profile()->get_id());
+		// No result metadata necessary ...
+		$object->create();
+		$sections = $this->survey->get_survey_sections();
+		foreach ($sections as $section_index => $section)
+		{
+			$questions = $section->get_section_questions();
+			foreach ($questions as $question_index => $question)
+			{
+				$elmt = $this->answer_elements[$section_index][$question_index];
+				if ($this->survey->get_survey_type() == LearningStyleSurvey :: SURVEY_TYPE_PROPOSITION_AGREEMENT)
+				{
+					$answer = new LearningStyleSurveyUserAnswer();
+					$answer->set_owner_id($this->get_owner_id());
+					// TODO
+					//$answer->set_title($something);
+					$answer->set_parent_id($object->get_id());
+					$answer->set_question_id($question->get_id());
+					$answer->set_answer($elmt->exportValue());
+					$answer->create();
+				}
+				elseif ($this->survey->get_survey_type() == LearningStyleSurvey :: SURVEY_TYPE_ANSWER_ORDERING)
+				{
+					$answers = $question->get_question_answers();
+					$valid_answer = array();
+					foreach ($answers as $answers)
+					{
+						$valid_answer[$answers->get_id()] = true;
+					}
+					$user_answers = explode(self :: ANSWER_SEPARATOR, $elmt->exportValue());
+					foreach ($user_answers as $index => $answer_id)
+					{
+						if (!$valid_answer[$answer_id])
+						{
+							// The user probably tampered with POST data.
+							// TODO: Handle more cleanly.
+							die('Invalid answer');
+						}
+						$answer = new LearningStyleSurveyUserAnswer();
+						$answer->set_owner_id($this->get_owner_id());
+						// TODO
+						//$answer->set_title($something);
+						$answer->set_parent_id($object->get_id());
+						$answer->set_question_id($answer_id);
+						$answer->set_answer($index + 1);
+						$answer->create();
+					}
+				}
+			}
+		}
+		return $object;
 	}
 	
 	function setDefaults($defaults = array())
