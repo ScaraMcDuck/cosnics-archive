@@ -41,14 +41,7 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 	{
 		// TODO: find out why all this gets added _below_ the footer
 		$this->answer_elements = array();
-		// TODO: move & make customizable
-		$pa_answers = array(
-			1 => get_lang('LearningStyleSurveyStronglyDisagree'),
-			2 => get_lang('LearningStyleSurveyDisagree'),
-			3 => get_lang('LearningStyleSurveyNeutral'),
-			4 => get_lang('LearningStyleSurveyAgree'),
-			5 => get_lang('LearningStyleSurveyStronglyAgree')
-		);
+		$pa_answers = LearningStyleSurvey :: get_proposition_agreement_answers();
 		$profile = $this->get_survey_profile();
 		$this->survey = $profile->get_survey();
 		$categories = $this->survey->get_survey_categories();

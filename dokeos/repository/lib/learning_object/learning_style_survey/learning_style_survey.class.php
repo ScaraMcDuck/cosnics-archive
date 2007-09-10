@@ -76,6 +76,18 @@ class LearningStyleSurvey extends LearningObject
 			self :: SURVEY_TYPE_ANSWER_ORDERING => get_lang('AnswerOrderingSurvey')
 		);
 	}
+	
+	static function get_proposition_agreement_answers()
+	{
+		// TODO: Make customizable
+		return array(
+			1 => get_lang('LearningStyleSurveyStronglyDisagree'),
+			2 => get_lang('LearningStyleSurveyDisagree'),
+			3 => get_lang('LearningStyleSurveyNeutral'),
+			4 => get_lang('LearningStyleSurveyAgree'),
+			5 => get_lang('LearningStyleSurveyStronglyAgree')
+		);
+	}
 }
 
 ?>
