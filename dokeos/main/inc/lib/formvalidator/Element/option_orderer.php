@@ -11,7 +11,10 @@ class HTML_QuickForm_option_orderer extends HTML_QuickForm_hidden
 	
 	function HTML_QuickForm_option_orderer($name, $label, $options, $attributes = array())
 	{
-		HTML_QuickForm_hidden :: HTML_QuickForm_hidden($name, $label, $attributes);
+		$value = (isset($_REQUEST[$name])
+			? $_REQUEST[$name]
+			: implode(self :: SEPARATOR, array_keys($options)));
+		HTML_QuickForm_hidden :: HTML_QuickForm_hidden($name, $value, $attributes);
 		$this->options = $options;
 	}
 	
@@ -25,9 +28,10 @@ class HTML_QuickForm_option_orderer extends HTML_QuickForm_hidden
 	function getFrozenHtml()
 	{
 		$html = '<ol class="option-orderer oord-name_' . $this->getName() . '">';
-		foreach ($this->options as $key => $value)
+		$order = $this->getValue();
+		foreach ($order as $index)
 		{
-			$html .= '<li class="oord-value_' . $key . '">' . $value . '</li>';
+			$html .= '<li class="oord-value_' . $index . '">' . $this->options[$index] . '</li>';
 		}
 		$html .= '</ol>';
 		$html .= parent :: toHtml();

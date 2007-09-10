@@ -35,6 +35,7 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 	
 	function build_creation_form()
 	{
+		// TODO: find out why all this gets added _below_ the footer
 		$this->answer_elements = array();
 		// TODO: move & make customizable
 		$pa_answers = array(
@@ -81,7 +82,7 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 				foreach (range(0, $question_index - 1) as $index)
 				{
 					$name = self :: PARAM_ANSWER . $section_index . '_' . $index;
-					$this->answer_elements[$section_index][$question_index] = $this->addElement('hidden', $name, $_POST[$name]);
+					$this->answer_elements[$section_index][$question_index] = $this->addElement('hidden', $name, $_REQUEST[$name]);
 				}
 			}
 			if ($question_index == 0)
@@ -104,6 +105,7 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 					$options[$answer_index] = $answer->get_description();
 				}
 				$this->answer_elements[$section_index][$question_index] = $this->addElement('option_orderer', $name, get_lang('YourAnswer'), $options);
+				$this->addRule($name, get_lang('ThisFieldIsRequired'), 'required');
 			}
 			// Next question
 			if ($question_index == count($questions) - 1)
