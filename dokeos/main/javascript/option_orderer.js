@@ -20,11 +20,15 @@ OptionOrderer.prototype.updateValue = function()
 	var value;
 	if (this.listItems.length > 0)
 	{
-		value = this.data[this.listItems[0]];
+		value = this.listItems[0]._oordvalue;
 		for (var i = 1; i < this.listItems.length; i++)
 		{
-			value += "|" + this.data[this.listItems[i]];
+			value += "|" + this.listItems[i]._oordvalue;
 		}
+	}
+	else
+	{
+		value = "";
 	}
 	this.input.value = value;
 };
@@ -32,21 +36,13 @@ OptionOrderer.prototype.updateValue = function()
 OptionOrderer.prototype.moveUp = function(listItem)
 {
 	var i = this.determineIndex(listItem);
-	if (i > 0)
-	{
-		this.swap(i - 1, i);
-		this.updateValue();
-	}
+	this.swap(i, (i > 0 ? i - 1 : this.listItems.length - 1));
 };
 
 OptionOrderer.prototype.moveDown = function(listItem)
 {
 	var i = this.determineIndex(listItem);
-	if (i < this.listItems.length - 1)
-	{
-		this.swap(i, i + 1);
-		this.updateValue();
-	}
+	this.swap(i, (i < this.listItems.length - 1 ? i + 1 : 0));
 };
 
 OptionOrderer.prototype.swap = function(i1, i2)
@@ -54,7 +50,15 @@ OptionOrderer.prototype.swap = function(i1, i2)
 	var temp = this.listItems[i1];
 	this.listItems[i1] = this.listItems[i2];
 	this.listItems[i2] = temp;
-	// TODO: update view using DOM manipulation
+	while (this.ol.firstChild)
+	{
+		this.ol.removeChild(this.ol.firstChild);
+	}
+	for (var i = 0; i < this.listItems.length; i++)
+	{
+		this.ol.appendChild(this.listItems[i]);
+	}
+	this.updateValue();
 };
 
 OptionOrderer.prototype.determineIndex = function(listItem)
@@ -71,7 +75,6 @@ OptionOrderer.prototype.determineIndex = function(listItem)
 
 OptionOrderer.prototype.loadData = function()
 {
-	this.data = new Array();
 	this.listItems = new Array();
 	for (var i = 0; i < this.ol.childNodes.length; i++)
 	{
@@ -79,7 +82,7 @@ OptionOrderer.prototype.loadData = function()
 		{
 			this.listItems.push(this.ol.childNodes[i]);
 			var metadata = OptionOrdererUtilities.getElementMetadata(this.ol.childNodes[i]);
-			this.data[this.ol.childNodes[i]] = metadata["value"];
+			this.ol.childNodes[i]._oordvalue = metadata["value"];
 		}
 	}
 };
@@ -94,7 +97,7 @@ OptionOrderer.prototype.transform = function()
 		up.setAttribute("href", "javascript:void(0);");
 		up.onclick = function()
 		{
-			inst.moveUp(inst.listItems[i]);
+			inst.moveUp(this.parentNode.parentNode);
 		};
 		up.appendChild(document.createTextNode(String.fromCharCode(8593)));
 		var down = document.createElement("a");
@@ -102,7 +105,7 @@ OptionOrderer.prototype.transform = function()
 		down.setAttribute("href", "javascript:void(0);");
 		down.onclick = function()
 		{
-			inst.moveDown(inst.listItems[i]);
+			inst.moveDown(this.parentNode.parentNode);
 		};
 		down.appendChild(document.createTextNode(String.fromCharCode(8595)));
 		var container = document.createElement("span");
