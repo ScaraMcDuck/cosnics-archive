@@ -77,6 +77,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 				{
 					// TODO
 					//$object = $form->create_learning_object();
+					var_dump($form->exportValues());
 				}
 				else {
 					$form->display();

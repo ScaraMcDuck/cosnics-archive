@@ -9,7 +9,19 @@
 function OptionOrderer(ol) {
 	this.ol = ol;
 	var metadata = OptionOrdererUtilities.getElementMetadata(this.ol);
-	this.input = OptionOrdererUtilities.getElementsByClassName("input", metadata["name"]);
+	var inputs = document.getElementsByTagName("input");
+	for (var i = 0; i < inputs.length; i++)
+	{
+		if (inputs[i].name == metadata["name"])
+		{
+			this.input = inputs[i];
+			break;
+		}
+	}
+	if (!this.input)
+	{
+		alert("failed");
+	}
 	this.loadData();
 	this.updateValue();
 	this.transform();
@@ -136,8 +148,13 @@ OptionOrdererUtilities.getElementMetadata = function(element)
 	{
 		if (classes[i].indexOf(prefix) == 0)
 		{
-			var parts = classes[i].substring(prefix.length).split("_");
-			metadata[parts[0]] = parts[1];
+			var parts = classes[i].substring(prefix.length).split(/_/);
+			var value = parts[1];
+			for (var i = 2; i < parts.length; i++)
+			{
+				value += "_" + parts[i];
+			}
+			metadata[parts[0]] = value;
 		}
 	}
 	return metadata;
