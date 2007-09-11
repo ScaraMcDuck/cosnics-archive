@@ -96,9 +96,14 @@ abstract class Tool
 		$this->parent->display_footer();
 	}
 	
-	function not_allowed()
+	/**
+	 * Informs the user that access to the page was denied.
+	 */
+	function disallow()
 	{
+		$this->display_header();
 		api_not_allowed();
+		$this->display_footer();
 	}
 
 	/**
