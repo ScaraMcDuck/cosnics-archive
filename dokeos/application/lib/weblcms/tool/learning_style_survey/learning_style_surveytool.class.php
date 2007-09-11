@@ -14,6 +14,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 	const PARAM_SURVEY_PROFILE_ID = 'survey_profile';
 	
 	// TODO: Remove
+	// TODO: Implement roles & rights
 	function is_allowed() {
 		return true;
 	}
@@ -76,84 +77,10 @@ class LearningStyleSurveyTool extends RepositoryTool
 					new EqualityCondition(LearningStyleSurveyResult :: PROPERTY_PROFILE_ID, $profile_id)
 				);
 				$results = $dm->retrieve_learning_objects('learning_style_survey_result', $condition);
-				$answer_data = array();
 				if (!$results->is_empty())
 				{
-					$question_count = 0;
 					$result = $results->next_result();
-					$answers = $result->get_result_answers();
-					foreach ($answers as $answer)
-					{
-						$question = $answer->get_question();
-						$answer_data[$question->get_id()] = $answer->get_answer(); 
-					}
-					$survey = $profile->get_survey();
-					$sections = $survey->get_survey_sections();
-					$pa_answers = LearningStyleSurvey :: get_proposition_agreement_answers();
-					$category_total = array();
-					foreach ($sections as $section)
-					{
-						$questions = $section->get_section_questions();
-						foreach ($questions as $question)
-						{
-							echo $question->get_description();
-							if ($survey->get_survey_type() == LearningStyleSurvey :: SURVEY_TYPE_PROPOSITION_AGREEMENT)
-							{
-								$answer = $answer_data[$question->get_id()];
-								echo '<p>', htmlspecialchars($pa_answers[$answer]), '</p>';
-								$category_total[$question->get_question_category_id()] += $answer;
-								$question_count++;
-							}
-							elseif ($survey->get_survey_type() == LearningStyleSurvey :: SURVEY_TYPE_ANSWER_ORDERING)
-							{
-								$answers = $question->get_question_answers();
-								$order = array();
-								foreach ($answers as $answer)
-								{
-									$pos = $answer_data[$answer->get_id()];
-									$order[$pos - 1] = $answer->get_description();
-									$category_total[$answer->get_answer_category_id()] += $pos;
-								}
-								echo '<ol>';
-								for ($i = 0; $i < count($order); $i++)
-								{
-									echo '<li>', $order[$i], '</li>';
-								}
-								echo '</ol>';
-							}
-						}
-					}
-					echo '<dl>';
-					$categories = $survey->get_survey_categories();
-					$titles = array();
-					$data = array();
-					foreach ($categories as $category)
-					{
-						$num = $category_total[$category->get_id()];
-						echo '<dt>' . htmlspecialchars($category->get_title()) . '</dt>'
-							. '<dd>' . $num . '</dd>';
-						$titles[] = $category->get_title();
-						$data[] = $num;
-					}
-					echo '</dl>';
-					if (count($data) > 2)
-					{
-						require_once dirname(__FILE__).'/lib/PsychePolygon.class.php';
-						if ($survey->get_survey_type() == LearningStyleSurvey :: SURVEY_TYPE_PROPOSITION_AGREEMENT)
-						{
-							$max_value = $question_count * count($pa_answers);
-						}
-						elseif ($survey->get_survey_type() == LearningStyleSurvey :: SURVEY_TYPE_ANSWER_ORDERING)
-						{
-							// TODO: calculate maximum for each category
-							$max_value = max($data); 
-						}
-						$p = new PsychePolygon($titles, $data, 0, $max_value);
-						$img = $p->create_image(PsychePolygon::IMAGE_TYPE_PNG);
-						echo '<div><img src="data:', $img['mime_type'], ';base64,',
-							base64_encode($img['data']), '"',
-							' width="', $img['width'], '" height="', $img['height'], '"/></div>';
-					}
+					$this->review_result($result, $profile);
 				}
 				else
 				{
@@ -161,8 +88,8 @@ class LearningStyleSurveyTool extends RepositoryTool
 					if ($form->validate())
 					{
 						$object = $form->create_learning_object();
-						// TODO
-						var_dump($object);
+						// TODO: analyze answers
+						Display :: display_normal_message(get_lang('AnswersStored'));
 					}
 					else {
 						$form->display();
@@ -175,6 +102,86 @@ class LearningStyleSurveyTool extends RepositoryTool
 				echo $browser->as_html();
 			}
 			$this->display_footer();
+		}
+	}
+	
+	private function review_result($result, $profile)
+	{
+		$question_count = 0;
+		$answers = $result->get_result_answers();
+		$answer_data = array();
+		foreach ($answers as $answer)
+		{
+			$question = $answer->get_question();
+			$answer_data[$question->get_id()] = $answer->get_answer(); 
+		}
+		$survey = $profile->get_survey();
+		$sections = $survey->get_survey_sections();
+		$pa_answers = LearningStyleSurvey :: get_proposition_agreement_answers();
+		$category_total = array();
+		foreach ($sections as $section)
+		{
+			$questions = $section->get_section_questions();
+			foreach ($questions as $question)
+			{
+				echo $question->get_description();
+				// TODO: factory
+				if ($survey->get_survey_type() == LearningStyleSurvey :: SURVEY_TYPE_PROPOSITION_AGREEMENT)
+				{
+					$answer = $answer_data[$question->get_id()];
+					echo '<p>', htmlspecialchars($pa_answers[$answer]), '</p>';
+					$category_total[$question->get_question_category_id()] += $answer;
+					$question_count++;
+				}
+				elseif ($survey->get_survey_type() == LearningStyleSurvey :: SURVEY_TYPE_ANSWER_ORDERING)
+				{
+					$answers = $question->get_question_answers();
+					$order = array();
+					foreach ($answers as $answer)
+					{
+						$pos = $answer_data[$answer->get_id()];
+						$order[$pos - 1] = $answer->get_description();
+						$category_total[$answer->get_answer_category_id()] += $pos;
+					}
+					echo '<ol>';
+					for ($i = 0; $i < count($order); $i++)
+					{
+						echo '<li>', $order[$i], '</li>';
+					}
+					echo '</ol>';
+				}
+			}
+		}
+		echo '<dl>';
+		$categories = $survey->get_survey_categories();
+		$titles = array();
+		$data = array();
+		foreach ($categories as $category)
+		{
+			$num = $category_total[$category->get_id()];
+			echo '<dt>' . htmlspecialchars($category->get_title()) . '</dt>'
+				. '<dd>' . $num . '</dd>';
+			$titles[] = $category->get_title();
+			$data[] = $num;
+		}
+		echo '</dl>';
+		if (count($data) > 2)
+		{
+			require_once dirname(__FILE__).'/lib/PsychePolygon.class.php';
+			if ($survey->get_survey_type() == LearningStyleSurvey :: SURVEY_TYPE_PROPOSITION_AGREEMENT)
+			{
+				$max_value = $question_count * count($pa_answers);
+			}
+			elseif ($survey->get_survey_type() == LearningStyleSurvey :: SURVEY_TYPE_ANSWER_ORDERING)
+			{
+				// TODO: calculate maximum for each category (using $max_value = 100 and percentages)
+				$max_value = max($data); 
+			}
+			$p = new PsychePolygon($titles, $data, 0, $max_value);
+			$img = $p->create_image(PsychePolygon::IMAGE_TYPE_PNG);
+			echo '<div><img src="data:', $img['mime_type'], ';base64,',
+				base64_encode($img['data']), '"',
+				' width="', $img['width'], '" height="', $img['height'], '"/></div>';
 		}
 	}
 }
