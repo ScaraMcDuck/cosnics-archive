@@ -1,13 +1,25 @@
 <?php
 
 /**
+ * Creates one of those fancy polygons that every survey needs. Some
+ * additional documentation is in order. Good luck.
+ * 
  * @author Tim De Pauw
  */
 class PsychePolygon {
+	/**
+	 * An image in the PNG format.
+	 */
 	const IMAGE_TYPE_PNG = 1;
 
+	/**
+	 * An image in the GIF format. 
+	 */
 	const IMAGE_TYPE_GIF = 2;
 
+	/**
+	 * An image in the JPEG format.
+	 */
 	const IMAGE_TYPE_JPEG = 3;
 
 	private static $MIME_TYPES = array(
@@ -63,6 +75,16 @@ class PsychePolygon {
 	
 	private $image_data;
 
+	/**
+	 * Constructor.
+	 * @param array $titles An array of labels for the polygon's vertices.
+	 * @param array $data An array of values for the polygon. Indices need to
+	 *                    correspond to those of $titles.
+	 * @param int $min_value The minimum value to consider.
+	 * @param int $max_value The maximum value to consider.
+	 * @param array $options An associative array of options. Available options
+	 *                       can be found in $DEFAULT_OPTIONS (see source code).
+	 */
 	function __construct (& $titles, & $data, $min_value = 0, $max_value = 100,
 	$options = array()) {
 		if (!extension_loaded('gd')) {
@@ -81,6 +103,12 @@ class PsychePolygon {
 		$this->revalidate();
 	}
 
+	/**
+	 * Creates the polygon image.
+	 * @param int $type The type of image to generate.
+	 * @return array An associative array containing the image as well as its
+	 *               dimensions and MIME type.
+	 */
 	function create_image($type = self::IMAGE_TYPE_PNG) {
 		$this->create_image_object();
 		$this->allocate_colors();
