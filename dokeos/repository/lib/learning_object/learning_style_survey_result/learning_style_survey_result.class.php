@@ -13,13 +13,19 @@ class LearningStyleSurveyResult extends LearningObject
 	
 	private $metadata;
 	
+	private $answers;
+	
 	function get_result_answers ()
 	{
-		$dm = RepositoryDataManager :: get_instance();
-		return $dm->retrieve_learning_objects(
-			'learning_style_survey_user_answer',
-			new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $this->get_id())
-		)->as_array();
+		if (!$this->answers)
+		{
+			$dm = RepositoryDataManager :: get_instance();
+			$this->answers = $dm->retrieve_learning_objects(
+				'learning_style_survey_user_answer',
+				new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $this->get_id())
+			)->as_array();
+		}
+		return $this->answers;
 	}
 
 	function get_profile_id ()

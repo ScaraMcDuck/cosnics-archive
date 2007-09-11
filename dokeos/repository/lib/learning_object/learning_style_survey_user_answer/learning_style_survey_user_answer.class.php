@@ -10,10 +10,16 @@ class LearningStyleSurveyUserAnswer extends LearningObject
 	const PROPERTY_QUESTION_ID = 'question_id';
 	const PROPERTY_ANSWER = 'answer';
 	
+	private $question;
+	
 	function get_question ()
 	{
-		$dm = RepositoryDataManager :: get_instance();
-		return $dm->retrieve_learning_object($this->get_question_id());
+		if (!$this->question)
+		{
+			$dm = RepositoryDataManager :: get_instance();
+			$this->question = $dm->retrieve_learning_object($this->get_question_id());
+		}
+		return $this->question;
 	}
 	
 	function get_question_id ()
