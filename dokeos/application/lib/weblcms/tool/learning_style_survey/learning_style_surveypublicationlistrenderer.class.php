@@ -6,12 +6,9 @@ require_once dirname(__FILE__).'/../../browser/learningobjectpublicationlistrend
  */
 class LearningStyleSurveyPublicationListRenderer extends LearningObjectPublicationListRenderer
 {
-	private $url_template;
-	
-	function __construct($parent, $url_template)
+	function __construct($browser)
 	{
-		parent :: __construct($parent);
-		$this->url_template = $url_template;
+		parent :: __construct($browser);
 	}
 	
 	function as_html()
@@ -29,14 +26,22 @@ class LearningStyleSurveyPublicationListRenderer extends LearningObjectPublicati
 	function render_publication($publication)
 	{
 		$lo = $publication->get_learning_object();
-		return '<li>'
+		$html = '<li>'
 			. '<div class="learning-style-survey-profile-title">'
 			. '<a href="'
-			. htmlspecialchars(str_replace('__ID__', $lo->get_id(), $this->url_template))
-			. '">' . htmlspecialchars($lo->get_title()) . '</a>'
-			. '</div>'
+			. htmlspecialchars(
+				$this->browser->get_parent()->get_url(array(LearningStyleSurveyTool :: PARAM_SURVEY_PROFILE_ID => $lo->get_id()))
+			)
+			. '">' . htmlspecialchars($lo->get_title()) . '</a>';
+		if ($this->browser->get_parent()->is_allowed(ADD_RIGHT))
+		{
+			$results_url = $this->browser->get_parent()->get_url(array(LearningStyleSurveyTool :: PARAM_SURVEY_PROFILE_ID => $lo->get_id(), LearningStyleSurveyTool :: PARAM_VIEW_SURVEY_RESULTS => 1));
+			$html .= ' <a href="' . htmlspecialchars($results_url) . '">[' . get_lang('ViewResults') . ']</a>';
+		}
+		$html .= '</div>'
 			. $lo->get_description()
 			. '</li>';
+		return $html;
 	}
 }
 ?>
