@@ -25,9 +25,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 	{
 		if (!$this->is_allowed(VIEW_RIGHT))
 		{
-			$this->display_header();
-			$this->not_allowed();
-			$this->display_footer();
+			$this->disallow();
 			return;
 		}
 		// TODO: icons etc.
@@ -53,19 +51,20 @@ class LearningStyleSurveyTool extends RepositoryTool
 		{
 			$_SESSION[get_class()]['mode'] = $_GET['mode'];
 		}
-		$this->display_header();
-		echo $toolbar;
 		if ($_SESSION[get_class()]['mode'] == 1)
 		{
 			if ($this->is_allowed(ADD_RIGHT))
 			{
+				$this->display_header();
+				echo $toolbar;
 				require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
 				$pub = new LearningObjectPublisher($this, 'learning_style_survey_profile', true);
 				echo $pub->as_html();
+				$this->display_footer();
 			}
 			else
 			{
-				$this->not_allowed();
+				$this->disallow();
 			}
 		}
 		else
@@ -80,6 +79,8 @@ class LearningStyleSurveyTool extends RepositoryTool
 				{
 					if ($this->is_allowed(ADD_RIGHT))
 					{
+						$this->display_header();
+						echo $toolbar;
 						// TODO: filter on users or groups somehow?
 						$condition = new EqualityCondition(LearningStyleSurveyResult :: PROPERTY_PROFILE_ID, $profile_id);
 						$results = $dm->retrieve_learning_objects('learning_style_survey_result', $condition);
@@ -87,10 +88,11 @@ class LearningStyleSurveyTool extends RepositoryTool
 						{
 							$this->review_result($result, $profile, true);
 						}
+						$this->display_footer();
 					}
 					else
 					{
-						$this->not_allowed();
+						$this->disallow();
 					}
 				}
 				else
@@ -99,6 +101,8 @@ class LearningStyleSurveyTool extends RepositoryTool
 						new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, api_get_user_id()),
 						new EqualityCondition(LearningStyleSurveyResult :: PROPERTY_PROFILE_ID, $profile_id)
 					);
+					$this->display_header();
+					echo $toolbar;
 					$results = $dm->retrieve_learning_objects('learning_style_survey_result', $condition);
 					if (!$results->is_empty())
 					{
@@ -118,15 +122,18 @@ class LearningStyleSurveyTool extends RepositoryTool
 							$form->display();
 						}
 					}
+					$this->display_footer();
 				}
 			}
 			else
 			{
+				$this->display_header();
+				echo $toolbar;
 				$browser = new LearningStyleSurveyBrowser($this);
 				echo $browser->as_html();
+				$this->display_footer();
 			}
 		}
-		$this->display_footer();
 	}
 	
 	private function review_result($result, $profile, $as_admin = false)
