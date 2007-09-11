@@ -11,7 +11,7 @@ class LearningStyleSurveyBrowser extends LearningObjectPublicationBrowser
 	function LearningStyleSurveyBrowser($parent)
 	{
 		parent :: __construct($parent, 'learning_style_survey_profile');
-		$renderer = new LearningStyleSurveyPublicationListRenderer($this, $parent->get_url(array(LearningStyleSurveyTool :: PARAM_SURVEY_PROFILE_ID => '__ID__')));
+		$renderer = new LearningStyleSurveyPublicationListRenderer($this);
 		$this->set_publication_list_renderer($renderer);
 	}
 

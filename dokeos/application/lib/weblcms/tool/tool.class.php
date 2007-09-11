@@ -95,6 +95,11 @@ abstract class Tool
 	{
 		$this->parent->display_footer();
 	}
+	
+	function not_allowed()
+	{
+		api_not_allowed();
+	}
 
 	/**
 	 * @see WebApplication :: get_user()
