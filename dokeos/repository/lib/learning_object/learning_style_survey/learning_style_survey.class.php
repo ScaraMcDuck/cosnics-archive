@@ -1,6 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/../../learningobject.class.php';
+require_once dirname(__FILE__) . '/inc/learning_style_survey_model.class.php';
 
 /**
  * @author Tim De Pauw
@@ -9,22 +10,20 @@ class LearningStyleSurvey extends LearningObject
 {
 	const PROPERTY_SURVEY_TYPE = 'survey_type';
 
-	const SURVEY_TYPE_PROPOSITION_AGREEMENT = 1;
-	const SURVEY_TYPE_ANSWER_ORDERING = 2;
+	private $categories;
 	
-	// TODO: Separate classes
-	// TODO: Make each parameter a (learning?) object, so it can be required, have a type, ...
-	private static $PARAMETER_NAMES = array(
-		self :: SURVEY_TYPE_PROPOSITION_AGREEMENT => array(
-			'first_quartile_end',
-			'second_quartile_end',
-			'third_quartile_end'
-			// TODO
-		),
-		self :: SURVEY_TYPE_ANSWER_ORDERING => array(
-			// TODO
-		)
-	); 
+	private $sections;
+	
+	private $model;
+	
+	function get_survey_model ()
+	{
+		if (!$this->model)
+		{
+			$this->model = LearningStyleSurveyModel :: factory($this->get_survey_type());
+		}
+		return $this->model;
+	}
 	
 	function get_survey_type ()
 	{
@@ -48,45 +47,33 @@ class LearningStyleSurvey extends LearningObject
 	
 	function get_survey_categories()
 	{
-		$dm = RepositoryDataManager :: get_instance();
-		return $dm->retrieve_learning_objects(
-			'learning_style_survey_category',
-			new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $this->get_id())
-		)->as_array();
+		if (!$this->categories)
+		{
+			$dm = RepositoryDataManager :: get_instance();
+			$this->categories = $dm->retrieve_learning_objects(
+				'learning_style_survey_category',
+				new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $this->get_id())
+			)->as_array();
+		}
+		return $this->categories;
 	}
 	
 	function get_survey_sections()
 	{
-		$dm = RepositoryDataManager :: get_instance();
-		return $dm->retrieve_learning_objects(
-			'learning_style_survey_section',
-			new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $this->get_id())
-		)->as_array();
+		if (!$this->sections)
+		{
+			$dm = RepositoryDataManager :: get_instance();
+			$this->sections = $dm->retrieve_learning_objects(
+				'learning_style_survey_section',
+				new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $this->get_id())
+			)->as_array();
+		}
+		return $this->sections;
 	}
 	
 	static function get_survey_type_parameter_names($type)
 	{
-		return self :: $PARAMETER_NAMES[$type];
-	}
-	
-	static function get_available_survey_types()
-	{
-		return array(
-			self :: SURVEY_TYPE_PROPOSITION_AGREEMENT => get_lang('PropositionAgreementSurvey'),
-			self :: SURVEY_TYPE_ANSWER_ORDERING => get_lang('AnswerOrderingSurvey')
-		);
-	}
-	
-	static function get_proposition_agreement_answers()
-	{
-		// TODO: Make customizable
-		return array(
-			1 => get_lang('LearningStyleSurveyStronglyDisagree'),
-			2 => get_lang('LearningStyleSurveyDisagree'),
-			3 => get_lang('LearningStyleSurveyNeutral'),
-			4 => get_lang('LearningStyleSurveyAgree'),
-			5 => get_lang('LearningStyleSurveyStronglyAgree')
-		);
+		return $this->get_survey_model()->get_parameter_names();
 	}
 }
 

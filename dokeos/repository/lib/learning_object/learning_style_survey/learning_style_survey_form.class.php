@@ -51,7 +51,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 		$this->type_element = $this->add_select(
 			LearningStyleSurvey :: PROPERTY_SURVEY_TYPE,
 			get_lang('SurveyType'),
-			LearningStyleSurvey::get_available_survey_types()
+			LearningStyleSurveyModel :: get_known_types()
 		);
 		// Entered default survey properties?
 		if ($this->validate())
@@ -128,12 +128,13 @@ class LearningStyleSurveyForm extends LearningObjectForm
 							{
 								$name = self :: PARAM_QUESTION . $section . '_' . $question;
 								$this->question_elements[$section][$question]['text'] = $this->add_html_editor($name, get_lang('SurveySectionQuestion') . ' ' . $section . '.' . $question);
-								if ($survey_type == LearningStyleSurvey :: SURVEY_TYPE_PROPOSITION_AGREEMENT)
+								// TODO: use model
+								if ($survey_type == LearningStyleSurveyModel :: TYPE_PROPOSITION_AGREEMENT)
 								{
 									$name = self :: PARAM_QUESTION_CATEGORY . $section . '_' . $question;
 									$this->question_elements[$section][$question]['category'] = $this->add_select($name, get_lang('SurveySectionQuestionCategory') . ' ' . $section . '.' . $question, $categories);
 								}
-								elseif ($survey_type == LearningStyleSurvey :: SURVEY_TYPE_ANSWER_ORDERING)
+								elseif ($survey_type == LearningStyleSurveyModel :: TYPE_ANSWER_ORDERING)
 								{
 									$name = self :: PARAM_ANSWER_COUNT . $section . '_' . $question;
 									$this->question_elements[$section][$question]['answers'] = $this->add_textfield($name, get_lang('SurveySectionQuestionAnswerCount') . ' ' . $section . '.' . $question);
@@ -146,7 +147,8 @@ class LearningStyleSurveyForm extends LearningObjectForm
 							}
 						}
 						// Entered answer counts? (if relevant)
-						if ($survey_type == LearningStyleSurvey :: SURVEY_TYPE_ANSWER_ORDERING && $this->validate())
+						// TODO: use model
+						if ($survey_type == LearningStyleSurveyModel :: TYPE_ANSWER_ORDERING && $this->validate())
 						{
 							$this->answer_elements = array();
 							foreach ($this->section_elements as $section => & $els)
@@ -222,12 +224,12 @@ class LearningStyleSurveyForm extends LearningObjectForm
 				$question->set_title($survey->get_title() . ' Q#' . $sid . '.' . $qid);
 				$question->set_description($question_text);
 				$question->set_parent_id($section->get_id());
-				if ($survey_type == LearningStyleSurvey :: SURVEY_TYPE_PROPOSITION_AGREEMENT)
+				if ($survey_type == LearningStyleSurveyModel :: TYPE_PROPOSITION_AGREEMENT)
 				{
 					$question->set_question_category_id($categories[$data['category']->exportValue()]);
 				}
 				$question->create();
-				if ($survey_type == LearningStyleSurvey :: SURVEY_TYPE_ANSWER_ORDERING)
+				if ($survey_type == LearningStyleSurveyModel :: TYPE_ANSWER_ORDERING)
 				{
 					// Answers to question
 					foreach ($this->answer_elements[$sid][$qid] as $aid => & $adata) {

@@ -12,13 +12,19 @@ class LearningStyleSurveyProfile extends LearningObject
 	
 	private $metadata;
 	
+	private $survey;
+	
 	function get_survey()
 	{
-		$dm = RepositoryDataManager :: get_instance();
-		return $dm->retrieve_learning_object(
-			$this->get_survey_id(),
-			'learning_style_survey'
-		);
+		if (!$this->survey)
+		{
+			$dm = RepositoryDataManager :: get_instance();
+			$this->survey = $dm->retrieve_learning_object(
+				$this->get_survey_id(),
+				'learning_style_survey'
+			);
+		}
+		return $this->survey;
 	}
 
 	function get_survey_id ()

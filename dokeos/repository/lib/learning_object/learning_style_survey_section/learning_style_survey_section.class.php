@@ -7,13 +7,19 @@ require_once dirname(__FILE__) . '/../../learningobject.class.php';
  */
 class LearningStyleSurveySection extends LearningObject
 {
+	private $sections;
+	
 	function get_section_questions()
 	{
-		$dm = RepositoryDataManager :: get_instance();
-		return $dm->retrieve_learning_objects(
-			'learning_style_survey_question',
-			new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $this->get_id())
-		)->as_array();
+		if (!$this->sections)
+		{
+			$dm = RepositoryDataManager :: get_instance();
+			$this->sections = $dm->retrieve_learning_objects(
+				'learning_style_survey_question',
+				new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $this->get_id())
+			)->as_array();
+		}
+		return $this->sections;
 	}
 	
 	function is_ordered()
