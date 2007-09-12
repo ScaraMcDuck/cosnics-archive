@@ -9,7 +9,10 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 {
 	function calculate_result(& $result, & $answer_data, $survey, $section, $question)
 	{
-		$result[$question->get_question_category_id()] += $answer_data[$question->get_id()];
+		foreach ($question->get_question_category_ids() as $cid)
+		{
+			$result[$cid] += $answer_data[$question->get_id()];
+		}
 	}
 	
 	function format_answer(& $answer_data, $survey, $section, $question)
@@ -21,12 +24,20 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 	
 	function format_question($survey, $section, $question, & $categories)
 	{
-		return '<div class="learning-style-survey-question-text">'
+		$html = '<div class="learning-style-survey-question-text">'
 			. $question->get_description()
-			. '</div>'
-			. '<div class="learning-style-survey-question-category">'
-			. $this->format_category_name($question->get_question_category_id(), $categories)
 			. '</div>';
+		$cids = $question->get_question_category_ids();
+		if (count($cids))
+		{
+			$html .= '<ul class="learning-style-survey-question-categories">';
+			foreach ($cids as $cid)
+			{
+				$html .= '<li>' . $this->format_category_name($cid, $categories) . '</li>';
+			}
+			$html .= '</ul>';
+		}
+		return $html;
 	}
 	
 	function create_user_answer_element($name, $survey, $section, $question)
@@ -61,10 +72,12 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 		{
 			foreach ($section->get_section_questions() as $question)
 			{
-				$cid = $question->get_question_category_id();
-				if ($cid && $cid == $category->get_id())
+				foreach ($question->get_question_category_ids() as $cid)
 				{
-					$num++; 
+					if ($cid == $category->get_id())
+					{
+						$num++; 
+					}
 				}
 			}
 		}

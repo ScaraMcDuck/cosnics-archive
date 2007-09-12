@@ -7,14 +7,16 @@ require_once dirname(__FILE__) . '/../../learningobject.class.php';
  */
 class LearningStyleSurveyQuestion extends LearningObject
 {
-	const PROPERTY_QUESTION_CATEGORY_ID = 'question_category_id';
+	const PROPERTY_QUESTION_CATEGORY_IDS = 'question_category_ids';
 	
-	function get_question_category_id () {
-		return $this->get_additional_property(self :: PROPERTY_QUESTION_CATEGORY_ID);
+	function get_question_category_ids () {
+		$imploded = $this->get_additional_property(self :: PROPERTY_QUESTION_CATEGORY_IDS);
+		return (is_null($imploded) ? array() : explode(',', $imploded));
 	}
 	
-	function set_question_category_id ($cid) {
-		return $this->set_additional_property(self :: PROPERTY_QUESTION_CATEGORY_ID, $cid);
+	function set_question_category_ids ($cids) {
+		return $this->set_additional_property(self :: PROPERTY_QUESTION_CATEGORY_IDS,
+			(count($cids) ? implode(',', $cids) : null));
 	}
 	
 	function get_question_answers()
