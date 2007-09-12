@@ -114,7 +114,7 @@ class IeeeLom
 		if (!is_null($value))
 		{
 			$this->create_nodes_from_path($path);
-			$new_node = $this->dom->createElement($node, $value);
+			$new_node = $this->dom->createElement($node, htmlspecialchars($value));
 			$node = $this->get_node($path);
 			$node->appendChild($new_node);
 		}
@@ -131,7 +131,7 @@ class IeeeLom
 			$strings = $langstring->get_strings();
 			foreach ($strings as $index => $string)
 			{
-				$string_node = $this->dom->createElement('string', $string['string']);
+				$string_node = $this->dom->createElement('string', htmlspecialchars($string['string']));
 				if (!is_null($string['language']))
 				{
 					$string_node->setAttribute('language', $string['language']);
@@ -169,9 +169,9 @@ class IeeeLom
 		if (!is_null($vocabulary) && ($vocabulary->get_source() != null || $vocabulary->get_value() != null))
 		{
 			$vocabulary_node = $this->dom->createElement($node_name);
-			$source_node = $this->dom->createElement('source', $vocabulary->get_source());
+			$source_node = $this->dom->createElement('source', htmlspecialchars($vocabulary->get_source()));
 			$vocabulary_node->appendChild($source_node);
-			$value_node = $this->dom->createElement('value', $vocabulary->get_value());
+			$value_node = $this->dom->createElement('value', htmlspecialchars($vocabulary->get_value()));
 			$vocabulary_node->appendChild($value_node);
 			$parent_node->appendChild($vocabulary_node);
 		}
@@ -237,12 +237,12 @@ class IeeeLom
 			$identifier_node = $this->dom->createElement('identifier');
 			if (!is_null($catalog))
 			{
-				$catalog_node = $this->dom->createElement('catalog', $catalog);
+				$catalog_node = $this->dom->createElement('catalog', htmlspecialchars($catalog));
 				$identifier_node->appendChild($catalog_node);
 			}
 			if (!is_null($entry))
 			{
-				$entry_node = $this->dom->createElement('entry', $entry);
+				$entry_node = $this->dom->createElement('entry', htmlspecialchars($entry));
 				$identifier_node->appendChild($entry_node);
 			}
 			$general_node = $this->get_node('/lom/general');
@@ -351,7 +351,7 @@ class IeeeLom
 			}
 			foreach ($entity as $index => $entity)
 			{
-				$entity_node = $this->dom->createElement('entity', $entity);
+				$entity_node = $this->dom->createElement('entity', htmlspecialchars($entity));
 				$contribute_node->appendChild($entity_node);
 			}
 			$this->append_datetime_node($contribute_node, 'date', $date);
@@ -375,12 +375,12 @@ class IeeeLom
 			$identifier_node = $this->dom->createElement('identifier');
 			if (!is_null($catalog))
 			{
-				$catalog_node = $this->dom->createElement('catalog', $catalog);
+				$catalog_node = $this->dom->createElement('catalog', htmlspecialchars($catalog));
 				$identifier_node->appendChild($catalog_node);
 			}
 			if (!is_null($entry))
 			{
-				$entry_node = $this->dom->createElement('entry', $entry);
+				$entry_node = $this->dom->createElement('entry', htmlspecialchars($entry));
 				$identifier_node->appendChild($entry_node);
 			}
 			$general_node = $this->get_node('/lom/metametadata');
@@ -407,7 +407,7 @@ class IeeeLom
 			}
 			foreach ($entity as $index => $entity)
 			{
-				$entity_node = $this->dom->createElement('entity', $entity);
+				$entity_node = $this->dom->createElement('entity', htmlspecialchars($entity));
 				$contribute_node->appendChild($entity_node);
 			}
 			$this->append_datetime_node($contribute_node, 'date', $date);
