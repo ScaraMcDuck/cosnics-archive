@@ -2,12 +2,9 @@
 <object name="learning_style_survey_answer">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="answer_category_id" type="integer" unsigned="1" notnull="0"/>
+  <property name="answer_category_ids" type="text"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
- </index>
- <index name="answer_category_id">
-  <indexproperty name="answer_category_id"/>
  </index>
 </object>

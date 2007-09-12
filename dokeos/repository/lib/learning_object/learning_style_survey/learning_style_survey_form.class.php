@@ -117,7 +117,6 @@ class LearningStyleSurveyForm extends LearningObjectForm
 							$elem->freeze();
 						}
 						$categories = array();
-						$categories[0] = get_lang('None');
 						foreach ($this->category_elements as $category => & $els)
 						{
 							$categories[$category] = $els['name']->exportValue();
@@ -132,7 +131,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 								if ($survey_type == LearningStyleSurveyModel :: TYPE_PROPOSITION_AGREEMENT)
 								{
 									$name = self :: PARAM_QUESTION_CATEGORY . $section . '_' . $question;
-									$this->question_elements[$section][$question]['category'] = $this->add_select($name, get_lang('SurveySectionQuestionCategory') . ' ' . $section . '.' . $question, $categories);
+									$this->question_elements[$section][$question]['categories'] = $this->add_select($name, get_lang('SurveySectionQuestionCategories') . ' ' . $section . '.' . $question, $categories, false, array('size' => count($categories), 'multiple' => 'multiple'));
 								}
 								elseif ($survey_type == LearningStyleSurveyModel :: TYPE_ANSWER_ORDERING)
 								{
@@ -163,7 +162,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 										$name = self :: PARAM_ANSWER . $section . '_' . $question . '_' . $answer;
 										$this->answer_elements[$section][$question][$answer]['text'] = $this->add_html_editor($name, get_lang('SurveySectionQuestionAnswer') . ' ' . $section . '.' . $question . '.' . $answer);
 										$name = self :: PARAM_ANSWER_CATEGORY . $section . '_' . $question . '_' . $answer;
-										$this->answer_elements[$section][$question][$answer]['category'] = $this->add_select($name, get_lang('SurveySectionAnswerCategory') . ' ' . $section . '.' . $question . '.' . $answer, $categories);
+										$this->answer_elements[$section][$question][$answer]['categories'] = $this->add_select($name, get_lang('SurveySectionAnswerCategories') . ' ' . $section . '.' . $question . '.' . $answer, $categories, false, array('size' => count($categories), 'multiple' => 'multiple'));
 									}
 								}
 							}
@@ -190,8 +189,6 @@ class LearningStyleSurveyForm extends LearningObjectForm
 		$return_value = parent :: create_learning_object();
 		// Categories
 		$categories = array();
-		// For "none"; not really necessary here, it's null anyway
-		$categories[0] = null;
 		foreach ($this->category_elements as $cid => & $els)
 		{
 			$name = $els['name']->exportValue();
@@ -226,7 +223,12 @@ class LearningStyleSurveyForm extends LearningObjectForm
 				$question->set_parent_id($section->get_id());
 				if ($survey_type == LearningStyleSurveyModel :: TYPE_PROPOSITION_AGREEMENT)
 				{
-					$question->set_question_category_id($categories[$data['category']->exportValue()]);
+					$cat = array();
+					foreach ($data['categories']->getValue() as $index)
+					{
+						$cat[] = $categories[$index];
+					}
+					$question->set_question_category_ids($cat);
 				}
 				$question->create();
 				if ($survey_type == LearningStyleSurveyModel :: TYPE_ANSWER_ORDERING)
@@ -239,7 +241,12 @@ class LearningStyleSurveyForm extends LearningObjectForm
 						$answer->set_title($survey->get_title() . ' A#' . $sid . '.' . $qid . '.' . $aid);
 						$answer->set_description($answer_text);
 						$answer->set_parent_id($question->get_id());
-						$answer->set_answer_category_id($categories[$adata['category']->exportValue()]);
+						$cat = array();
+						foreach ($adata['categories']->getValue() as $index)
+						{
+							$cat[] = $categories[$index];
+						}
+						$answer->set_answer_category_ids($cat);
 						$answer->create();
 					}
 				}

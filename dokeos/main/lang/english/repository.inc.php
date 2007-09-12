@@ -188,9 +188,9 @@ $SurveySectionTitle='Section Title';
 $SurveySectionIntroduction='Section Introduction';
 $SurveySectionQuestionCount='Number of Questions in Section';
 $SurveySectionQuestion='Question';
-$SurveySectionQuestionCategory='Category for Question';
+$SurveySectionQuestionCategories='Categories for Question';
 $SurveySectionQuestionAnswerCount='Number of Answers to Question';
-$SurveySectionAnswerCategory='Category for Answer';
+$SurveySectionAnswerCategories='Categories for Answer';
 $SurveySectionQuestionAnswer='Answer';
 
 ?>

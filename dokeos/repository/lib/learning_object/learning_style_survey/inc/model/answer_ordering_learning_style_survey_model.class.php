@@ -15,7 +15,10 @@ class AnswerOrderingLearningStyleSurveyModel extends LearningStyleSurveyModel
 		$answers = $question->get_question_answers();
 		foreach ($answers as $answer)
 		{
-			$result[$answer->get_answer_category_id()] += $answer_data[$answer->get_id()];
+			foreach ($answer->get_answer_category_ids() as $cid)
+			{
+				$result[$cid] += $answer_data[$answer->get_id()];
+			}
 		}
 	}
 	
@@ -46,14 +49,21 @@ class AnswerOrderingLearningStyleSurveyModel extends LearningStyleSurveyModel
 		$answers = $question->get_question_answers();
 		foreach ($answers as $answer)
 		{
+			$cids = $answer->get_answer_category_ids();
 			$html .= '<li>'
 				. '<div class="learning-style-survey-answer-text">'
 				. $answer->get_description()
-				. '</div>'
-				. '<div class="learning-style-survey-answer-category">'
-				. $this->format_category_name($answer->get_answer_category_id(), $categories)
-				. '</div>'
-				. '</li>';
+				. '</div>';
+			if (count($cids))
+			{
+				$html .= '<ul class="learning-style-survey-answer-categories">';
+				foreach ($cids as $cid)
+				{
+					$html .= '<li>' . $this->format_category_name($cid, $categories);
+				}
+				$html .= '</ul>';
+			}
+			$html .= '</li>';
 		}
 		$html .= '</ul>';
 		return $html;
@@ -112,10 +122,12 @@ class AnswerOrderingLearningStyleSurveyModel extends LearningStyleSurveyModel
 				$max_score = count($answers);
 				foreach ($answers as $answer)
 				{
-					$cid = $answer->get_answer_category_id();
-					if ($cid && $cid == $category->get_id())
+					foreach ($answer->get_answer_category_ids() as $cid)
 					{
-						$num += $max_score;
+						if ($cid == $category->get_id())
+						{
+							$num += $max_score;
+						}
 					}
 				}
 			}
