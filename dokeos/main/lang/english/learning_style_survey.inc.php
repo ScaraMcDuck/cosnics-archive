@@ -32,4 +32,10 @@ $SurveyResultsOfUserPrefix='Results of';
 $MySurveyResults='My Results';
 $ViewSurveyResults='View Results';
 $SurveyResultPrefix='Survey Result:';
+$LearningStyleSurveyStronglyDisagree='I strongly disagree';
+$LearningStyleSurveyDisagree='I disagree';
+$LearningStyleSurveyNeutral='I am undecided';
+$LearningStyleSurveyAgree='I agree';
+$LearningStyleSurveyStronglyAgree='I strongly agree';
+$YourAnswer='Your Answer';
 ?>
