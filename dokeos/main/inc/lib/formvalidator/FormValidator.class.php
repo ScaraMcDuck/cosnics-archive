@@ -36,6 +36,8 @@ define('TEACHER_HTML_FULLPAGE',5);
  */
 class FormValidator extends HTML_QuickForm
 {
+	private $no_errors;
+	
 	/**
 	 * Constructor
 	 * @param string $form_name Name of the form
@@ -107,6 +109,11 @@ EOT;
 	</div>
 EOT;
 		$renderer->setRequiredNoteTemplate($required_note_template);
+	}
+	
+	function set_error_reporting ($enabled)
+	{
+		$this->no_errors = !$enabled;
 	}
 
 	/**
@@ -390,7 +397,24 @@ EOT;
 			}
 		}
 		$return_value = '';
-		if($error)
+		if ($this->no_errors)
+		{
+			$renderer = $this->defaultRenderer();
+			$element_template = <<<EOT
+	<div class="row">
+		<div class="label">
+			<!-- BEGIN required --><span class="form_required">*</span> <!-- END required -->{label}
+		</div>
+		<div class="formw">
+			<!-- BEGIN error --><!-- END error -->	{element}
+		</div>
+	</div>
+
+EOT;
+			$renderer->setElementTemplate($element_template);
+			$this->setRequiredNote('');
+		}
+		elseif($error)
 		{
 			$return_value .= Display::display_error_message(get_lang('FormHasErrorsPleaseComplete'),true);
 		}
