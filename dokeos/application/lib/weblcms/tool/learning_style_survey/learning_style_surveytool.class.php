@@ -159,7 +159,9 @@ class LearningStyleSurveyTool extends RepositoryTool
 		// TODO: determine how much to display in each case
 		if ($as_admin)
 		{
-			$user = $result->get_owner_id();
+			$user_id = $result->get_owner_id();
+			$user = UserManager :: retrieve_user($user_id);
+			$user = ($user ? $user->get_fullname() : 'User #' . $user_id);
 			echo $this->format_result($survey, $category_total, $user),
 				$this->format_answers($survey, $answer_data, $user);
 		}
