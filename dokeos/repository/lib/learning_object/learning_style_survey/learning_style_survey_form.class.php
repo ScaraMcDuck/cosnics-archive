@@ -25,7 +25,8 @@ class LearningStyleSurveyForm extends LearningObjectForm
 	const PARAM_ANSWER_COUNT = 'lss_answer_count';
 	const PARAM_ANSWER = 'lss_answer';
 	const PARAM_ANSWER_CATEGORY = 'lss_answer_category';
-		
+	const PARAM_STEP = 'lss_step';
+	
 	private $type_element;
 	
 	private $category_count_element;
@@ -41,13 +42,15 @@ class LearningStyleSurveyForm extends LearningObjectForm
 	private $question_elements;
 	
 	private $answer_elements;
-			
+	
+	private $no_errors;
+	
 	protected function build_creation_form()
 	{
-		// TODO: Add hidden |step| element; override error reporting when appropriate
 		// TODO: Some sensible defaults based on the type, especially for count fields
 		// TODO: Extract methods
 		parent::build_creation_form();
+		$step = 0;
 		$this->type_element = $this->add_select(
 			LearningStyleSurvey :: PROPERTY_SURVEY_TYPE,
 			get_lang('SurveyType'),
@@ -56,12 +59,14 @@ class LearningStyleSurveyForm extends LearningObjectForm
 		// Entered default survey properties?
 		if ($this->validate())
 		{
+			$step = 1;
 			$this->type_element->freeze();
 			$this->category_count_element = $this->add_textfield(self :: PARAM_CATEGORY_COUNT, get_lang('SurveyCategoryCount'));
 			$this->section_count_element = $this->add_textfield(self :: PARAM_SECTION_COUNT, get_lang('SurveySectionCount'));
 			// Entered category count and section count?
 			if ($this->validate())
 			{
+				$step = 2;
 				$this->category_count_element->freeze();
 				$this->section_count_element->freeze();
 				$category_count = intval($this->category_count_element->exportValue());
@@ -89,6 +94,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 				// Entered categories and sections?
 				if ($this->validate())
 				{
+					$step = 3;
 					foreach ($this->category_elements as & $els)
 					{
 						foreach ($els as $id => $el)
@@ -109,6 +115,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 					// Entered question counts?
 					if ($this->validate())
 					{
+						$step = 4;
 						$this->question_elements = array();
 						$this->answer_elements = array();
 						$survey_type = $this->get_survey_type();
@@ -149,6 +156,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 						// TODO: use model
 						if ($survey_type == LearningStyleSurveyModel :: TYPE_ANSWER_ORDERING && $this->validate())
 						{
+							$step = 5;
 							$this->answer_elements = array();
 							foreach ($this->section_elements as $section => & $els)
 							{
@@ -171,6 +179,13 @@ class LearningStyleSurveyForm extends LearningObjectForm
 				}
 			}
 		}
+		$submitted_step = intval($_REQUEST[self :: PARAM_STEP]);
+		if ($submitted_step != $step)
+		{
+			echo 'DISABLE';
+			$this->set_error_reporting(false);
+		}
+		$this->addElement('html', '<input type="hidden" name="' . self :: PARAM_STEP . '" value="' . $step . '"/>');
 	} // Everybody loves curly braces.
 	
 	protected function build_editing_form()
@@ -260,6 +275,11 @@ class LearningStyleSurveyForm extends LearningObjectForm
 		$object = $this->get_learning_object();
 		// TODO
 		return parent :: update_learning_object();
+	}
+	
+	function toHTML()
+	{
+		return parent :: toHTML($this->no_errors);
 	}
 	
 	private function get_survey_type() {
