@@ -39,7 +39,7 @@
 *	@package dokeos.auth
 ============================================================================== 
 */
-$langFile = "registration";
+api_use_lang_files("registration");
 require ('../inc/claro_init_global.inc.php');
 require_once ('lost_password.lib.php');
 require_once (api_get_library_path().'/formvalidator/FormValidator.class.php');

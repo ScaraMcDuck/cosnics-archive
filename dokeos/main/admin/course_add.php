@@ -33,7 +33,8 @@
 		INIT SECTION
 ==============================================================================
 */
-$langFile = array('admin','create_course');
+api_use_lang_files('admin');
+api_use_lang_files('create_course');
 $cidReset = true;
 require_once ('../inc/claro_init_global.inc.php');
 $this_section=SECTION_PLATFORM_ADMIN;

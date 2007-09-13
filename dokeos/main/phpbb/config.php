@@ -4,7 +4,7 @@
 *	@package dokeos.forum
 ============================================================================== 
 */
-$langFile = 'phpbb';
+api_use_lang_files('phpbb');
 
 include('../inc/claro_init_global.inc.php');
 

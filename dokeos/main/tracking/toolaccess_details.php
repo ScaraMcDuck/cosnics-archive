@@ -41,7 +41,7 @@
 $tool = $_REQUEST['tool'];
 $period = $_REQUEST['period'];
 $reqDate = $_REQUEST['reqDate'];
-$langFile = "tracking";
+api_use_lang_files("tracking");
 
 include('../inc/claro_init_global.inc.php');
 

@@ -39,7 +39,7 @@
 		INIT SECTION
 ==============================================================================
 */
-$langFile = 'registration';
+api_use_lang_files('registration');
 $cidReset = true;
 
 require ('../inc/claro_init_global.inc.php');

@@ -36,7 +36,7 @@
              INIT
   ==========================*/
 
-$langFile = "registration";
+api_use_lang_files("registration");
 require("../inc/claro_init_global.inc.php");
 
 $TABLEUSER      = Database::get_main_table(MAIN_USER_TABLE);

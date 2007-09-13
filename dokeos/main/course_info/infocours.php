@@ -44,7 +44,7 @@
 	   INIT SECTION
 ==============================================================================
 */
-$langFile = array ('create_course', 'course_info');
+api_use_lang_files('create_course', 'course_info');
 include ('../inc/claro_init_global.inc.php');
 $this_section = SECTION_COURSES;
 

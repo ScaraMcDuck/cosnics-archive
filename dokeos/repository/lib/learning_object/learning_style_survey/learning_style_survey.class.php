@@ -3,6 +3,8 @@
 require_once dirname(__FILE__) . '/../../learningobject.class.php';
 require_once dirname(__FILE__) . '/inc/learning_style_survey_model.class.php';
 
+api_use_lang_files('learning_style_survey');
+
 /**
  * @author Tim De Pauw
  */
@@ -40,9 +42,9 @@ class LearningStyleSurvey extends LearningObject
 		return false;
 	}
 	
-	function get_survey_parameter_names()
+	function get_additional_survey_parameters()
 	{
-		return self :: get_survey_type_parameter_names($this->get_survey_type());
+		return $this->get_survey_model()->get_additional_parameters();
 	}
 	
 	function get_survey_categories()
@@ -69,11 +71,6 @@ class LearningStyleSurvey extends LearningObject
 			)->as_array();
 		}
 		return $this->sections;
-	}
-	
-	static function get_survey_type_parameter_names($type)
-	{
-		return $this->get_survey_model()->get_parameter_names();
 	}
 }
 

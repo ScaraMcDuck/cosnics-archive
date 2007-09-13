@@ -38,7 +38,7 @@
 ==============================================================================
 */
 
-$langFile = "tracking";
+api_use_lang_files("tracking");
 include('../inc/claro_init_global.inc.php');
 
 $interbredcrump[]= array ("url"=>"../auth/profile.php", "name"=> get_lang('ModifyProfile'));

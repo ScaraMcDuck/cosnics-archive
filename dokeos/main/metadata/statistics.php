@@ -21,14 +21,14 @@ require('md_funcs.php');
 define('EID_TYPE', 'Mix');
 require('md_' . strtolower(EID_TYPE) . '.php');
 
-$langFile = 'md_mix';
+api_use_lang_files('md_mix');
 include('../inc/claro_init_global.inc.php');
 $this_section=SECTION_COURSES;
 
 $nameTools = get_lang('Tool');
 
 ($nameTools && get_lang('Sorry')) or give_up( 
-    'Language file ' . $langFile . " doesn't define 'Tool' and 'Sorry'");
+    "Language file doesn't define 'Tool' and 'Sorry'");
 
 $_course = api_get_course_info(); isset($_course) or give_up(get_lang('Sorry'));
 
@@ -71,7 +71,7 @@ $kwds = array(); $kwcnt = array(); $kwrefs = array();
 
 while (($kwline = fgets($myFile)))
 {
-    if (ereg('°>(.+)<°', $kwline, $regs) || ereg('">(.+)<°', $kwline, $regs))
+    if (ereg('ï¿½>(.+)<ï¿½', $kwline, $regs) || ereg('">(.+)<ï¿½', $kwline, $regs))
         foreach (explode(',', $regs[1]) as $kw)
             if (!in_array($kw = strtr(trim($kw), $htmldecode), $kwds))
                 $kwds []= $kw;

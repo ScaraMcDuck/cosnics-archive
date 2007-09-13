@@ -18,7 +18,7 @@
 
 
 require("md_funcs.php");
-$langFile = 'Whatever'; 
+api_use_lang_files('Whatever'); 
 require("../inc/claro_init_global.inc.php");
 $this_section=SECTION_COURSES;
 

@@ -37,6 +37,12 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 			}
 			$html .= '</ul>';
 		}
+		else
+		{
+			$html .= '<div class="learning-style-survey-question-no-categories">'
+				. get_lang('NoSurveyQuestionCategories')
+				. '</div>';
+		}
 		return $html;
 	}
 	
@@ -87,18 +93,23 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 		return $num * count($pa_answers);
 	}
 	
-	function get_parameter_names()
+	function get_additional_parameters()
 	{
+		// TODO: This is specific to the Pointcarré implementation of the
+		// Vermunt test. We need a way to make this stuff generic without
+		// breaking usability too much. Input validation would be nice.
 		return array(
-			'first_quartile_end',
-			'second_quartile_end',
-			'third_quartile_end'
+			'Percentiles' => 'Enter percentile limits separated by spaces, one line per category. Omit 0 and 100. Use the same order for categories as you did when adding the survey.' . "\n"
+				. 'Example for 2 categories, each divided into 5 percentiles:' . "\n"
+				. '29 34 40 45' . "\n"
+				. '26 31 37 41'
 		);
 	}
 		
 	private static function get_possible_answers()
 	{
-		// TODO: Make customizable
+		// TODO: This is specific to the Pointcarré implementation of the
+		// Vermunt test. Make it customizable at some point. 
 		return array(
 			1 => get_lang('LearningStyleSurveyStronglyDisagree'),
 			2 => get_lang('LearningStyleSurveyDisagree'),

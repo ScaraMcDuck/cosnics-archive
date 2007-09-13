@@ -28,7 +28,7 @@
 */
 
 // including the learnpath language variable
-$langFile = "learnpath";
+api_use_lang_files("learnpath");
 
 include('../inc/claro_init_global.inc.php');
 $this_section=SECTION_COURSES;

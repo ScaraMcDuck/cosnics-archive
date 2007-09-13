@@ -29,7 +29,7 @@
 *	@package dokeos.exercise
 ============================================================================== 
 */
-	$langFile='exercice';
+	api_use_lang_files('exercice');
 	include('../inc/claro_init_global.inc.php');
 	
 	require_once($rootSys.'main/exercice/hotpotatoes.lib.php'); 

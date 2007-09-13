@@ -30,7 +30,7 @@
             INIT
   ==========================*/
 
-$langFile="registration";
+api_use_lang_files("registration");
 
 
 include("../inc/claro_init_global.inc.php");

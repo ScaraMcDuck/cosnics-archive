@@ -34,7 +34,7 @@
 	Init section
 -----------------------------------------------------------
 */ 
-$langFile='chat';
+api_use_lang_files('chat');
 include('../inc/claro_init_global.inc.php');
 
 $this_section=SECTION_COURSES;

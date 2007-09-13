@@ -77,6 +77,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 				// TODO: make sure $profile is published
 				if ($_REQUEST[self :: PARAM_VIEW_SURVEY_RESULTS])
 				{
+					// TODO: is this the correct right?
 					if ($this->is_allowed(ADD_RIGHT))
 					{
 						$this->display_header();
@@ -84,9 +85,16 @@ class LearningStyleSurveyTool extends RepositoryTool
 						// TODO: filter on users or groups somehow?
 						$condition = new EqualityCondition(LearningStyleSurveyResult :: PROPERTY_PROFILE_ID, $profile_id);
 						$results = $dm->retrieve_learning_objects('learning_style_survey_result', $condition);
-						while ($result = $results->next_result())
+						if (!$results->is_empty())
 						{
-							$this->review_result($result, $profile, true);
+							while ($result = $results->next_result())
+							{
+								$this->review_result($result, $profile, true);
+							}
+						}
+						else
+						{
+							Display :: display_normal_message(get_lang('NoSurveysTakenSoFar'));
 						}
 						$this->display_footer();
 					}
@@ -116,7 +124,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 						{
 							$object = $form->create_learning_object();
 							// TODO: analyze answers, redirect to result, whatever
-							Display :: display_normal_message(get_lang('AnswersStored'));
+							Display :: display_normal_message(get_lang('SurveyAnswersStored'));
 						}
 						else {
 							$form->display();
@@ -183,8 +191,8 @@ class LearningStyleSurveyTool extends RepositoryTool
 		$sections = $survey->get_survey_sections();
 		$model = $survey->get_survey_model();
 		$title = (isset($user)
-			? get_lang('AnswersOfUserPrefix') . ' ' . $user
-			: get_lang('MyAnswers'));
+			? get_lang('SurveyAnswersOfUserPrefix') . ' ' . $user
+			: get_lang('MySurveyAnswers'));
 		$answers_html = '<h4>' . htmlspecialchars($title) . '</h4>';
 		$answers_html .= '<ol>';
 		foreach ($sections as $section)
@@ -209,8 +217,8 @@ class LearningStyleSurveyTool extends RepositoryTool
 		$data = array();
 		// TODO: display user name
 		$title = (isset($user)
-			? get_lang('ResultsOfUserPrefix') . ' ' . $user
-			: get_lang('MyResults'));
+			? get_lang('SurveyResultsOfUserPrefix') . ' ' . $user
+			: get_lang('MySurveyResults'));
 		$result_html = '<h4>' . htmlspecialchars($title) . '</h4>';
 		$result_html .= '<dl>';
 		$categories = $survey->get_survey_categories();

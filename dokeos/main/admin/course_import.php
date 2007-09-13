@@ -137,7 +137,7 @@ function parse_csv_data($file)
 	return $courses;
 }
 
-$langFile = array ('admin', 'registration','create_course');
+api_use_lang_files('admin', 'registration','create_course');
 
 $cidReset = true;
 

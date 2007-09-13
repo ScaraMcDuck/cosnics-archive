@@ -1,6 +1,6 @@
 <?php
 // setting the language file
-$langFile = "agenda";
+api_use_lang_files("agenda");
 
 $id=$_GET['id'];
 

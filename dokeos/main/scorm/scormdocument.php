@@ -39,7 +39,7 @@
 		INIT SECTION
 ==============================================================================
 */
-$langFile = "scormdocument";
+api_use_lang_files("scormdocument");
 
 $uncompress=1;
 

@@ -36,7 +36,7 @@
 */
 $uInfo = $_REQUEST['uInfo'];
 $view = $_REQUEST['view'];
-$langFile = 'tracking';
+api_use_lang_files('tracking');
 
 include('../inc/claro_init_global.inc.php');
 

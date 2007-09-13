@@ -47,7 +47,7 @@
 ==============================================================================
 */ 
 
-$langFile = "postpone";
+api_use_lang_files("postpone");
 //$interbredcrump[]= array ("url"=>"index.php", "name"=> get_lang('Admin'));
 $htmlHeadXtra[] = "
 <style type=\"text/css\">

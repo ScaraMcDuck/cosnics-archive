@@ -36,7 +36,7 @@ if (LFN != 'md_' . strtolower(TYPE))     $urlp .= '&lfn=' . urlencode(LFN);
 if (HTT != 'mds_' . strtolower(TYPE))    $urlp .= '&htt=' . urlencode(HTT);
 if (DBG)                     $urlp .= '&dbg=' . urlencode(DBG);
 
-$langFile = LFN; require("../inc/claro_init_global.inc.php");
+api_use_lang_files(LFN); require("../inc/claro_init_global.inc.php");
 $this_section=SECTION_COURSES;
 
 $nameTools = get_lang('Tool');

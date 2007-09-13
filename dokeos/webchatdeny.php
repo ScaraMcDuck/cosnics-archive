@@ -26,7 +26,7 @@
 ============================================================================== 
 */
 
-$langFile = "index";
+api_use_lang_files("index");
 
 include_once("./main/inc/claro_init_global.inc.php");
 

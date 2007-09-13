@@ -22,7 +22,7 @@ require("../md_funcs.php");
 define('EID_TYPE', 'Document');
 require('../md_' . strtolower(EID_TYPE) . '.php');
 
-$langFile = 'Whatever'; require("../../inc/claro_init_global.inc.php");
+api_use_lang_files('Whatever'); require("../../inc/claro_init_global.inc.php");
 
 isset($_course) or give_up("Select a course first...");
 

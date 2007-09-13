@@ -38,7 +38,7 @@
 
 define('FRAME','message');
 
-$langFile='chat';
+api_use_lang_files('chat');
 
 require('../inc/claro_init_global.inc.php');
 api_protect_course_script();

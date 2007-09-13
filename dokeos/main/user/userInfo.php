@@ -44,7 +44,7 @@
 */
 $editMainUserInfo = $_REQUEST['editMainUserInfo'];
 $uInfo = intval($_REQUEST['uInfo']);
-$langFile = array ('registration', 'userInfo');
+api_use_lang_files('registration', 'userInfo');
 
 include ("../inc/claro_init_global.inc.php");
 require_once(api_get_library_path().'/formvalidator/FormValidator.class.php');

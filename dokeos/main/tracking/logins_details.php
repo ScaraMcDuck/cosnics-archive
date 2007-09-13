@@ -48,7 +48,7 @@ if(!isset($_REQUEST['view']))
 else
 	$view = $_REQUEST['view'];
 
-$langFile = "tracking";
+api_use_lang_files("tracking");
 include('../inc/claro_init_global.inc.php');
 
 $interbredcrump[]= array ("url"=>"../user/user.php", "name"=> get_lang('Users'));

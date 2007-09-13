@@ -37,7 +37,7 @@
        DOKEOS INIT SETTINGS
 ===============================================================================
 */
-$langFile = "group";
+api_use_lang_files("group");
 require_once ('../inc/claro_init_global.inc.php');
 $this_section = SECTION_COURSES;
 

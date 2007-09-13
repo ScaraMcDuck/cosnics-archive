@@ -48,7 +48,7 @@ define('SCRIPTVAL_UnderCourseList', 2);
 define('SCRIPTVAL_Both', 3);
 // End 'don't change' section
 
-$langFile = array ('courses', 'index');
+api_use_lang_files('courses', 'index');
 $cidReset = true; /* Flag forcing the 'current course' reset,
                    as we're not inside a course anymore  */
 /*

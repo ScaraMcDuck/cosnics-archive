@@ -28,7 +28,7 @@
 *	@package dokeos.admin
 ==============================================================================
 */
-$langFile = 'admin';
+api_use_lang_files('admin');
 $cidReset = true;
 include ('../inc/claro_init_global.inc.php');
 $this_section=SECTION_PLATFORM_ADMIN;

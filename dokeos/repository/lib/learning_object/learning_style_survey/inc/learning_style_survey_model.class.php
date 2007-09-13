@@ -26,7 +26,7 @@ abstract class LearningStyleSurveyModel
 	
 	abstract function get_maximum_category_score($survey, $category);
 	
-	abstract function get_parameter_names();
+	abstract function get_additional_parameters();
 	
 	function format_category_name($id, & $categories)
 	{

@@ -55,7 +55,7 @@ define('FILL_IN_BLANKS',	3);
 define('MATCHING',		4);
 define('FREE_ANSWER', 5);
 
-$langFile='exercice';
+api_use_lang_files('exercice');
 
 include('../inc/claro_init_global.inc.php');
 $this_section=SECTION_COURSES;

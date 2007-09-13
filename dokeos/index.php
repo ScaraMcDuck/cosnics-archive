@@ -54,7 +54,6 @@ define('SCRIPTVAL_UnderCourseList', 2);
 define('SCRIPTVAL_Both', 3);
 // End 'don't change' section
 
-$langFile = array ('courses', 'index');
 $cidReset = true; /* Flag forcing the 'current course' reset,
                    as we're not inside a course anymore  */
 /*
@@ -73,6 +72,9 @@ include_once (api_get_library_path()."/system_announcements.lib.php");
 include_once (api_get_library_path()."/text.lib.php");
 include_once (api_get_library_path()."/groupmanager.lib.php");
 include_once (api_get_library_path()."/formvalidator/FormValidator.class.php");
+
+api_use_lang_files('courses', 'index');
+
 if ($_GET['logout'])
 {
 	$query_string='';

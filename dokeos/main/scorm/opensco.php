@@ -28,7 +28,7 @@ Contact: Dokeos, 181 rue Royale, B-1000 Brussels, Belgium, info@dokeos.com
 
 //Maritime :if you open the first, done it, then the second, then the first and not done it and then the second, then //your access is denied (the scos behave this way) !!
 //error_log($_SERVER['REQUEST_URI'],0);
-$langFile = "scorm";
+api_use_lang_files("scorm");
 include('../inc/claro_init_global.inc.php');
 $this_section=SECTION_COURSES;
 

@@ -36,7 +36,7 @@
 		INIT SECTION
 ==============================================================================
 */ 
-$langFile = 'coursebackup';
+api_use_lang_files('coursebackup');
 include ('../inc/claro_init_global.inc.php');
 $nameTools = get_lang('Backup');
 Display::display_header($nameTools);

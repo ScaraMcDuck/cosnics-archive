@@ -24,7 +24,7 @@
 ============================================================================== 
 */
 
-$langFile = "scormdocument";
+api_use_lang_files("scormdocument");
 include('../inc/claro_init_global.inc.php');
 $this_section=SECTION_COURSES;
 

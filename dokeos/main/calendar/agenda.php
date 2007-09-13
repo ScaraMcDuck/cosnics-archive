@@ -27,7 +27,7 @@
 ============================================================================== 
 */
 // setting the language file
-$langFile = 'agenda';
+api_use_lang_files('agenda');
 
 // setting the global file that gets the general configuration, the databases, the languages, ...
 include('../inc/claro_init_global.inc.php');

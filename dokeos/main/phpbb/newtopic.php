@@ -63,7 +63,7 @@ else
 // end of the included section
 
 include ('extention.inc');
-$langFile = "phpbb";
+api_use_lang_files("phpbb");
 
 include ('functions.php');
 include ('config.php');

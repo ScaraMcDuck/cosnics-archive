@@ -38,7 +38,7 @@
 
 // name of the language file which needs to be included 
 // 'inc.php' is automatically appended to the file name 
-$langFile = "document"; 
+api_use_lang_files("document"); 
 
 // global settings initialisation 
 // also provides access to main api (inc/lib/main_api.lib.php)

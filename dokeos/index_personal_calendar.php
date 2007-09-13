@@ -1,5 +1,4 @@
 <?php
-$langFile = array('weblcms');
 $cidReset = true;
 $this_section = 'personal_calendar';
 require_once dirname(__FILE__).'/main/inc/claro_init_global.inc.php';
@@ -10,6 +9,8 @@ if (!api_get_user_id())
 {
 	api_not_allowed();
 }
+
+api_use_lang_files('weblcms');
 
 $usermgr = new UserManager(api_get_user_id());
 $user = $usermgr->retrieve_user(api_get_user_id());
