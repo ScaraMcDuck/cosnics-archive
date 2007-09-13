@@ -38,4 +38,5 @@ $LearningStyleSurveyNeutral='I am undecided';
 $LearningStyleSurveyAgree='I agree';
 $LearningStyleSurveyStronglyAgree='I strongly agree';
 $YourAnswer='Your Answer';
+$SurveyAnswersStored='Your answers have been stored. Thank you for participating.';
 ?>
