@@ -40,7 +40,7 @@
 		INIT SECTION
 ==============================================================================
 */
-$langFile = array ('course_description', 'pedaSuggest');
+api_use_lang_files('course_description', 'pedaSuggest');
 
 include ('../inc/claro_init_global.inc.php');
 $this_section = SECTION_COURSES;

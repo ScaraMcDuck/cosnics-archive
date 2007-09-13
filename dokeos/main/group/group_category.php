@@ -33,7 +33,7 @@
 		INIT SECTION
 ============================================================================== 
 */
-$langFile = "group";
+api_use_lang_files("group");
 require_once ('../inc/claro_init_global.inc.php');
 $this_section = SECTION_COURSES;
 require_once (api_get_library_path().'/groupmanager.lib.php');

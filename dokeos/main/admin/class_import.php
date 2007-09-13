@@ -76,7 +76,7 @@ function save_data($classes)
 
 
 
-$langFile = array ('admin', 'registration');
+api_use_lang_files('admin', 'registration');
 
 $cidReset = true;
 

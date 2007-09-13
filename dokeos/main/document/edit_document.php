@@ -56,7 +56,7 @@
 ==============================================================================
 */
 
-$langFile = "document";
+api_use_lang_files("document");
 
 /*
 ------------------------------------------------------------------------------
@@ -91,7 +91,7 @@ $baseServUrl = $urlAppend."/";
 $courseDir   = $_course['path']."/document";
 $baseWorkDir = $baseServDir.$courseDir;
 $group_document = false;
-$langFile = "document";
+api_use_lang_files("document");
 $use_document_title = (get_setting('use_document_title')=='true')?true:false;
 $noPHP_SELF=true;
 

@@ -39,7 +39,7 @@
 ==============================================================================
 */
 
-#$langFile = "resourcelinker";
+#api_use_lang_files("resourcelinker");
 
 include($clarolineRepositorySys.'lang/english/resourcelinker.inc.php');
 include($clarolineRepositorySys.'lang/'.$_course['language'].'/resourcelinker.inc.php');

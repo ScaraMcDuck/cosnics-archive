@@ -30,7 +30,7 @@
 *	@package dokeos.help
 ============================================================================== 
 */
-$langFile='help';
+api_use_lang_files('help');
 $helpName=$_GET['open'];
 include('../inc/claro_init_global.inc.php');
 $language_code = Database::get_language_isocode($language_interface);

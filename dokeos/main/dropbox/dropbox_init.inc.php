@@ -35,7 +35,7 @@
 ==============================================================================
 */
 
-$langFile = "dropbox";
+api_use_lang_files("dropbox");
 require("../inc/claro_init_global.inc.php");
 
 // Roles and rights system

@@ -34,7 +34,7 @@
 ==============================================================================
 */
 
-$langFile = 'course_info';
+api_use_lang_files('course_info');
 
 include ('../inc/claro_init_global.inc.php');
 include (api_get_library_path()."/course.lib.php");

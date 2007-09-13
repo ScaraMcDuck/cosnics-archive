@@ -42,7 +42,7 @@ if (LFN != 'md_' . strtolower(EID_TYPE))    $urlp .= '&lfn=' . urlencode(LFN);
 if (HTT != LFN)                             $urlp .= '&htt=' . urlencode(HTT);
 if (DBG)                                    $urlp .= '&dbg=' . urlencode(DBG);
 
-$langFile = LFN; 
+api_use_lang_files(LFN); 
 require("../inc/claro_init_global.inc.php");
 $this_section=SECTION_COURSES;
 

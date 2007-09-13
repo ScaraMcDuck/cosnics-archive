@@ -42,7 +42,7 @@
 ============================================================================== 
 */
 // language file to be included 
-$langFile = 'admin';
+api_use_lang_files('admin');
 
 // we are in the admin area so we do not need a course id
 $cidReset = true;

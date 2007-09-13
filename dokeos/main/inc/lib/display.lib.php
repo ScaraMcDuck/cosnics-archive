@@ -422,7 +422,7 @@ class Display
 	function display_header($tool_name, $help = NULL)
 	{
 		$nameTools = $tool_name;
-		global $httpHeadXtra, $htmlHeadXtra, $_course, $_user, $clarolineRepositoryWeb, $text_dir, $plugins, $_uid, $rootAdminWeb, $_cid, $interbredcrump, $charset, $langFile, $noPHP_SELF;
+		global $httpHeadXtra, $htmlHeadXtra, $_course, $_user, $clarolineRepositoryWeb, $text_dir, $plugins, $_uid, $rootAdminWeb, $_cid, $interbredcrump, $charset, $noPHP_SELF;
 		include (api_get_include_path()."/claro_init_header.inc.php");
 	}
 	/**

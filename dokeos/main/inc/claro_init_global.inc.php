@@ -310,37 +310,6 @@ if (isset($_user['language']))
 	$language_interface = $_user['language'];
 }
 
-//if ($_course['language'])
-//{
-//	$language_interface = $_course['language'];
-//}
+api_use_lang_files('trad4all', 'notification');
 
-
-
-/*
- * Include all necessary language files
- * - trad4all
- * - notification
- * - custom tool language files
- */
-$language_files = array();
-$language_files[] = 'trad4all';
-$language_files[] = 'notification';
-if( isset($langFile) )
-{
-	if( !is_array($langFile))
-	{
-		$language_files[] = $langFile;
-	}
-	else
-	{
-		$language_files = array_merge($language_files,$langFile);
-	}
-}
-// Include all files (first english and then current interface language)
-foreach($language_files as $index => $language_file)
-{
-	include($includePath.'/../lang/english/'.$language_file.'.inc.php');
-	include($includePath.'/../lang/'.$language_interface.'/'.$language_file.'.inc.php');
-}
 ?>

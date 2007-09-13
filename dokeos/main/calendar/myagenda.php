@@ -61,7 +61,7 @@
 
 
 // loading the language file
-$langFile = 'agenda';
+api_use_lang_files('agenda');
 // we are not inside a course, so we reset the course id
 $cidReset = true;
 // setting the global file that gets the general configuration, the databases, the languages, ...

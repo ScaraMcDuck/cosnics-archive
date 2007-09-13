@@ -78,7 +78,7 @@ if (!isset ($cidReq))
 
 }
 $section = "course";
-$langFile = "course_home";
+api_use_lang_files("course_home");
 
 include ('../../main/inc/claro_init_global.inc.php');
 $this_section = SECTION_COURSES;

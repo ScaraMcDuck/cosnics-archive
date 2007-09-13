@@ -27,7 +27,7 @@ If you modify code and redistribute, you may ADD your copyright to this notice.
 ============================================================================== 
 */
 
-$langFile = "md_mix";
+api_use_lang_files("md_mix");
 include('../../../main/inc/claro_init_global.inc.php');
 if (! $is_allowed_in_course) api_not_allowed();
 	

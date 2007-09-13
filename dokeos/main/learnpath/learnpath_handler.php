@@ -42,7 +42,7 @@
 */ 
 
 // setting the language file
-$langFile = "learnpath";
+api_use_lang_files("learnpath");
 
 include("../inc/claro_init_global.inc.php");
 $this_section=SECTION_COURSES;
@@ -60,7 +60,7 @@ api_protect_course_script();
 include("learnpath_functions.inc.php");
 include('../resourcelinker/resourcelinker.inc.php');
 //rewrite the language file, sadly overwritten by resourcelinker.inc.php
-$langFile = "learnpath";
+api_use_lang_files("learnpath");
 
 /*
 -----------------------------------------------------------

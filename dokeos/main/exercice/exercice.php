@@ -34,7 +34,7 @@
 ============================================================================== 
 */
 
-$langFile='exercice';
+api_use_lang_files('exercice');
 
 require_once('../inc/claro_init_global.inc.php');
 $this_section=SECTION_COURSES;

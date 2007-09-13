@@ -45,7 +45,7 @@
 ============================================================================== 
 */ 
 
-$langFile =	'announcements'; 
+api_use_lang_files('announcements'); 
 $courseadmins_already_selected = true;	// true : all course admins in the right select box by default
 										// false : no entries in the right select box
 

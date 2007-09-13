@@ -275,7 +275,7 @@ function parse_xml_data($file)
 	return $users;
 }
 
-$langFile = array ('admin', 'registration');
+api_use_lang_files('admin', 'registration');
 
 $cidReset = true;
 

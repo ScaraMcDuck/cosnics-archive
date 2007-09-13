@@ -36,7 +36,7 @@ class LearningStyleSurveyPublicationListRenderer extends LearningObjectPublicati
 		if ($this->browser->get_parent()->is_allowed(ADD_RIGHT))
 		{
 			$results_url = $this->browser->get_parent()->get_url(array(LearningStyleSurveyTool :: PARAM_SURVEY_PROFILE_ID => $lo->get_id(), LearningStyleSurveyTool :: PARAM_VIEW_SURVEY_RESULTS => 1));
-			$html .= ' <a href="' . htmlspecialchars($results_url) . '">[' . get_lang('ViewResults') . ']</a>';
+			$html .= ' <a href="' . htmlspecialchars($results_url) . '">[' . get_lang('ViewSurveyResults') . ']</a>';
 		}
 		$html .= '</div>'
 			. $lo->get_description()

@@ -34,7 +34,7 @@ $finish 		= (!empty($_POST['finish'])?$_POST['finish']:0);
 $imgcount		= (!empty($_POST['imgcount'])?$_POST['imgcount']:null);
 $fld					= (!empty($_POST['fld'])?$_POST['fld']:null);
 
-$langFile='exercice';
+api_use_lang_files('exercice');
 include('../inc/claro_init_global.inc.php');
 $this_section=SECTION_COURSES;
 

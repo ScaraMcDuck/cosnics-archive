@@ -214,7 +214,7 @@ if (is_array($interbredcrump))
 	}
 }
 
-if (isset ($nameTools) && $langFile != 'course_home')
+if (isset ($nameTools))
 {
 	if (!isset ($_uid))
 	{

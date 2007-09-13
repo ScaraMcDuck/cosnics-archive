@@ -40,7 +40,7 @@
 $reqdate = $_REQUEST['reqdate'];
 $period = $_REQUEST['period'];
 $displayType = $_REQUEST['displayType'];
-$langFile = "tracking";
+api_use_lang_files("tracking");
 include('../inc/claro_init_global.inc.php');
 
 $interbredcrump[]= array ("url"=>"courseLog.php", "name"=> get_lang('ToolName'));

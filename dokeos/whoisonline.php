@@ -28,7 +28,7 @@
 ==============================================================================
 */
 
-$langFile = array('index','registration');
+api_use_lang_files('index','registration');
 
 include_once ("./main/inc/claro_init_global.inc.php");
 require_once('application/common/userdetails.class.php');

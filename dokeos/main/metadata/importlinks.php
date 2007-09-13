@@ -23,12 +23,12 @@ define('OF_EID_TYPE', "eid LIKE '" . EID_TYPE . ".%'");
 
 require('md_' . strtolower(EID_TYPE) . '.php');
 
-$langFile = 'md_' . strtolower(EID_TYPE);
+api_use_lang_files('md_' . strtolower(EID_TYPE));
 include('../inc/claro_init_global.inc.php');
 $nameTools = get_lang('Tool');
 
 ($nameTools && get_lang('Sorry')) or give_up( 
-    'Language file ' . $langFile . " doesn't define 'Tool' and 'Sorry'");
+    "Language file doesn't define 'Tool' and 'Sorry'");
 
 $_course = api_get_course_info(); isset($_course) or give_up(get_lang('Sorry'));
 

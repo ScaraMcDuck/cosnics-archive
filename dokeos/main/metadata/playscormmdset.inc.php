@@ -49,7 +49,7 @@ if (HTT != 'mdp_' . strtolower(EID_TYPE))   $urlp .= '&lfn=' . urlencode(HTT);
 if (WHF != '0')                             $urlp .= '&whf=' . urlencode(WHF);
 if (RNG != '*')                             $urlp .= '&rng=' . urlencode(RNG);
 
-$langFile = LFN;
+api_use_lang_files(LFN);
 require($drs . 'main/inc/claro_init_global.inc.php');
 $nameTools = get_lang('Tool');
 

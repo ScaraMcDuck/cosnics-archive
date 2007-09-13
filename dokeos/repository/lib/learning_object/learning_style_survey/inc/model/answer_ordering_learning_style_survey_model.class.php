@@ -63,6 +63,12 @@ class AnswerOrderingLearningStyleSurveyModel extends LearningStyleSurveyModel
 				}
 				$html .= '</ul>';
 			}
+			else
+			{
+				$html .= '<div class="learning-style-survey-answer-no-categories">'
+					. get_lang('NoSurveyAnswerCategories')
+					. '</div>';
+			}
 			$html .= '</li>';
 		}
 		$html .= '</ul>';
@@ -135,7 +141,7 @@ class AnswerOrderingLearningStyleSurveyModel extends LearningStyleSurveyModel
 		return $num;
 	}
 	
-	function get_parameter_names()
+	function get_additional_parameters()
 	{
 		return array();
 	}

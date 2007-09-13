@@ -37,7 +37,7 @@ Contact: Dokeos, 181 rue Royale, B-1000 Brussels, Belgium, info@dokeos.com
 */
 
 //Initialisation includes
-$langFile = "scorm";
+api_use_lang_files("scorm");
 require('../inc/claro_init_global.inc.php');
 $this_section=SECTION_COURSES;
 

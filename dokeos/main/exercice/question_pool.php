@@ -39,7 +39,7 @@ include('exercise.class.php');
 include('question.class.php');
 include('answer.class.php');
 
-$langFile='exercice';
+api_use_lang_files('exercice');
 
 include('../inc/claro_init_global.inc.php');
 $this_section=SECTION_COURSES;

@@ -54,7 +54,7 @@ else
 		INIT SECTION
 ==============================================================================
 */
-$langFile = "forum_admin";
+api_use_lang_files("forum_admin");
 include("../inc/claro_init_global.inc.php");
 api_protect_course_script();
 

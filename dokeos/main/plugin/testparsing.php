@@ -38,7 +38,7 @@
 
 // name of the lang file which needs to be included 
 //'inc.php' is automatically appended to the file name 
-//$langFile = "langFile"; 
+//api_use_lang_files("langFile"); 
 
 // global settings initialisation 
 @include("../inc/claro_init_global.inc.php"); 

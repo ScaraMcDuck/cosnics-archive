@@ -2,7 +2,7 @@
 /**
  * @package repository
  */
-$langFile = 'repository';
+api_use_lang_files('repository');
 require_once dirname(__FILE__).'/../main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/lib/repositoryutilities.class.php';

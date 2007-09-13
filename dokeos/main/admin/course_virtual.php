@@ -37,7 +37,7 @@
 
 // name of the language file which needs to be included 
 // 'inc.php' is automatically appended to the file name 
-$langFile = "admin"; 
+api_use_lang_files("admin"); 
 $extra_lang_file = "create_course";
 
 // global settings initialisation 

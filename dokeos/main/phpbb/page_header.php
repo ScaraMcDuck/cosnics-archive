@@ -57,7 +57,7 @@ if($pagetype == "admin")
 
 $login_logout_link = make_login_logout_link($user_logged_in, $url_phpbb);
 
-$langFile = "phpbb";
+api_use_lang_files("phpbb");
 
 
 $is_allowedToEdit = $is_courseAdmin;

@@ -41,7 +41,7 @@
 ==============================================================================
 */
 // setting the language file
-$langFile = "announcements";
+api_use_lang_files("announcements");
 
 // setting the global file that gets the general configuration, the databases, the languages, ...
 include('../inc/claro_init_global.inc.php');
@@ -99,7 +99,7 @@ include('../resourcelinker/resourcelinker.inc.php');
 // while they were in fact OK. The cause of this is that the resourcelinker file also includes a language file
 // and this would trick get_lang (on test server) into searching for the variable in the resourcelinker.inc.php
 // language file
-$langFile = "announcements";
+api_use_lang_files("announcements");
 
 
 if ($addresources) // When the "Add Resource" button is clicked we store all the form data into a session

@@ -36,7 +36,7 @@
 ==============================================================================
 */
 
-$langFile='external_module';
+api_use_lang_files('external_module');
 
 $iconForImportedTools='external.gif';
 $iconForInactiveImportedTools='external_inactive.gif';

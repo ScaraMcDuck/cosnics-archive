@@ -6,6 +6,7 @@ $AlreadySubscribed='Already subscribed';
 $Amount='Amount';
 $AnnouncementToolTitle='Announcements';
 $Attachments='Attachments';
+$Browse='Browse';
 $BrowserTitle='Browse';
 $By='by';
 $CalendarToolTitle='Calendar';
@@ -94,7 +95,6 @@ $LearningObjectPublicationDeleted='The learning object publication was deleted.'
 $LearningObjectPublicationMoved='The learning object publication was moved.';
 $LearningObjectPublicationVisibilityChanged='The learning object publication visibility was changed.';
 $LearningPathToolTitle='Learning Path';
-$LearningStyleSurveyToolTitle='Learning Style Survey';
 $LimitedPeriod='Limited Period';
 $LinkToolTitle='Links';
 $ListView='List View';
@@ -182,7 +182,4 @@ $VisualCode='Visual Code';
 $Week='Week';
 $WeekView='Week View';
 $WikiToolTitle='Wiki';
-
-// Specific to Learning Style Survey
-$Survey='Survey';
 ?>

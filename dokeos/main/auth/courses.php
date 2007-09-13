@@ -35,7 +35,7 @@
 ==============================================================================
 */
 // including the relevant language file
-$langFile = "courses";
+api_use_lang_files("courses");
 
 // including the global file
 include('../inc/claro_init_global.inc.php');

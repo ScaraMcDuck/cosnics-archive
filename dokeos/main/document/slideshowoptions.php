@@ -59,7 +59,7 @@ Description:
 
 */
 // including the language file
-$langFile = "slideshow";
+api_use_lang_files("slideshow");
 
 include('../inc/claro_init_global.inc.php');
 

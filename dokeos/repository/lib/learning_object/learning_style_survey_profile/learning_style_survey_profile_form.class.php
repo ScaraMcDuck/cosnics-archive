@@ -32,18 +32,31 @@ class LearningStyleSurveyProfileForm extends LearningObjectForm
 			$surveys[$survey->get_id()] = $survey->get_title();
 		}
 		$this->survey_element = $this->add_select(self :: PARAM_SURVEY_ID, get_lang('Survey'), $surveys);
+		$this->metadata_elements = array();
 		if (parent :: validate())
 		{
 			$this->survey_element->freeze();
 			$this->survey = $survey_map[$this->survey_element->exportValue()];
-			$metadata_fields = $this->survey->get_survey_parameter_names();
-			$this->metadata_elements = array();
-			foreach ($metadata_fields as $field)
-			{
-				$this->metadata_elements[$field] = $this->addElement('textarea', self :: PARAM_PROFILE_METADATA . '__' . $field, $field);
-			}
+			$metadata_fields = $this->survey->get_additional_survey_parameters();
 			// Extra check, because metadata elements are not required and will consequently always validate
 			$this->addElement('hidden', self :: PARAM_COMPLETE, 1);
+			if (count($metadata_fields))
+			{
+				foreach ($metadata_fields as $field => $help)
+				{
+					// TODO: use a JS tooltip or something
+					$this->addElement('html', '<div class="row"><div class="label">' . $field . '</div>'
+						. '<div class="formw">' . nl2br(htmlspecialchars($help)) . '</div></div>');
+					$this->metadata_elements[$field] = $this->addElement('textarea', self :: PARAM_PROFILE_METADATA . '__' . $field, '&nbsp;', array('style' => 'width: 100%', 'rows' => 5));
+				}
+			}
+			else
+			{
+				// No metadata, so we can validate immediately. This is
+				// practically the same as publishing the survey itself, but
+				// doing so would make things more complicated.
+				$_POST[self :: PARAM_COMPLETE] = 1;
+			}
 		}
 	}
 	

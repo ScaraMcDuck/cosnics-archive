@@ -22,7 +22,7 @@
 ==============================================================================
 */
 // including the relevant language file
-$langFile = "agenda";
+api_use_lang_files("agenda");
 // including the global init script
 require ('../../../claro_init_global.inc.php');
 

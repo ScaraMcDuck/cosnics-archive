@@ -894,59 +894,55 @@ function api_get_setting($variable, $key = NULL)
 */
 
 /**
-* Whenever the server type in the Dokeos Config settings is
-* set to test/development server you will get an indication that a language variable
-* is not translated and a link to a suggestions form of DLTT.
-*
-* @return language variable '$lang'.$variable or language variable $variable.
-*
-* @author Roan Embrechts
-* @author Patrick Cool
-*/
-function get_lang($variable, $notrans = 'DLTT')
+ * Gets a localized translation for the given string identifier.
+ * @param string $variable the string identifier. 
+ * @return string the translation.
+ * @author Evie Embrechts
+ * @author Patrick Cool
+ * @author Tim De Pauw
+ */
+function get_lang($variable)
 {
-	if (api_get_setting('server_type') != 'test')
+	global $language_interface, $_language_files;
+	// TODO: convert files to a new, more convenient format in advance
+	foreach ($_language_files as $language_file => &$val)
 	{
-		$lvv = isset ($GLOBALS['lang'.$variable]) ? $GLOBALS['lang'.$variable] : (isset ($GLOBALS[$variable]) ? $GLOBALS[$variable] : '[='.$variable.'=]');
-		if (!is_string($lvv))
-			return $lvv;
-		return str_replace("\\'", "'", $lvv);
-	}
-	if (!is_string($variable))
-		return '[=get_lang(?)=]';
-	global $language_interface, $langFile;
-	//language file specified in tool
-	if (isset ($langFile))
-	{
-		if (!is_array($langFile))
+		if (!is_array($val))
 		{
-			include (api_get_path(SYS_CODE_PATH)."lang/".$language_interface."/".$langFile.".inc.php");
-		}
-		else
-		{
-			foreach ($langFile as $index => $language_file)
+			$filename = api_get_path(SYS_CODE_PATH).'lang'.DIRECTORY_SEPARATOR.$language_interface.DIRECTORY_SEPARATOR.$language_file.'.inc.php';
+			$val = array();
+			if (is_file($filename))
 			{
-				include (api_get_path(SYS_CODE_PATH)."lang/".$language_interface."/".$language_file.".inc.php");
+				foreach (file($filename) as $line)
+				{
+					if (preg_match('/^\s*\$(?:lang)?([A-Za-z]+)\s*=\s*((["\']).*?\3)\s*;\s*$/', rtrim($line), $matches))
+					{
+						$name = $matches[1];
+						$value = eval('return ' . $matches[2] . ';');
+						$val[$name] = $value;
+					}
+				}
 			}
 		}
+		if (isset($val[$variable]))
+		{
+			return $val[$variable];
+		}
 	}
-	//general language variables
-	include (api_get_path(SYS_CODE_PATH)."lang/".$language_interface."/trad4all.inc.php");
-	//notification (what's new) language variables
-	include (api_get_path(SYS_CODE_PATH)."lang/".$language_interface."/notification.inc.php");
-	@ eval ('$langvar = $'.$variable.';'); // Note (RH): $$var doesn't work with arrays, see PHP doc
-	if (isset ($langvar) && is_string($langvar) && strlen($langvar) > 0)
+	return '[=' . $variable . '=]';
+}
+
+/**
+ * Adds the given identifiers to the collection of language files to use.
+ * Previously, this was done by accessing $langFile. 
+ */
+function api_use_lang_files()
+{
+	global $_language_files;
+	foreach (func_get_args() as $id)
 	{
-		return str_replace("\\'", "'", $langvar);
+		$_language_files[$id] = true;
 	}
-	@ eval ('$langvar = $lang'.$variable.';');
-	if (isset ($langvar) && is_string($langvar) && strlen($langvar) > 0)
-	{
-		return str_replace("\\'", "'", $langvar);
-	}
-	if ($notrans != 'DLTT')
-		return '[='.$variable.'=]';
-	return '[='.$variable."=]<a href=\"http://www.dokeos.com/DLTT/suggestion.php?file=".$langFile.".inc.php&amp;variable=$".$variable."&amp;language=".$language_interface."\" style=\"color:#FF0000\"><strong>#</strong></a>";
 }
 
 /*

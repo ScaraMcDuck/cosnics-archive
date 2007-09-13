@@ -4,7 +4,7 @@
 *	@package dokeos.document
 ==============================================================================
 */
-	$langFile = "document";
+	api_use_lang_files("document");
 
 	include('../inc/claro_init_global.inc.php');
 
