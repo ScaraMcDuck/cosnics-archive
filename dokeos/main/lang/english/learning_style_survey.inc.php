@@ -39,4 +39,5 @@ $LearningStyleSurveyAgree='I agree';
 $LearningStyleSurveyStronglyAgree='I strongly agree';
 $YourAnswer='Your Answer';
 $SurveyAnswersStored='Your answers have been stored. Thank you for participating.';
+$NoSurveysTakenSoFar='No surveys have been taken so far.';
 ?>
