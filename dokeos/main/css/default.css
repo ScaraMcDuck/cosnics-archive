@@ -544,6 +544,8 @@ div.row div.label {
 }
 div.row div.formw {
 	width: 80%;
+	float: right;
+	text-align: left;
 }
 
 div.row div.forme {
