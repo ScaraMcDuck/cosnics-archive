@@ -1,0 +1,35 @@
+<?php
+$LearningStyleSurveyToolTitle='Learning Style Survey';
+$Survey='Survey';
+$LearningStyleSurveyCreationFormTitle='Create a Learning Style Survey';
+$LearningStyleSurveyTypeName='Learning Style Survey';
+$LearningStyleSurveySectionTypeName='Learning Style Survey Section';
+$LearningStyleSurveyAnswerTypeName='Learning Style Survey Answer';
+$LearningStyleSurveyQuestionTypeName='Learning Style Survey Question';
+$LearningStyleSurveyCategoryTypeName='Learning Style Survey Category';
+$LearningStyleSurveyProfileTypeName='Learning Style Survey Profile';
+$LearningStyleSurveyProfileCreationFormTitle='Create a Learning Style Survey Profile';
+$LearningStyleSurveyResultTypeName='Learning Style Survey Result';
+$LearningStyleSurveyUserAnswerTypeName='Learning Style Survey User Answer';
+$SurveyType='Survey Type';
+$PropositionAgreementSurvey='Proposition Agreement Survey';
+$AnswerOrderingSurvey='Answer Ordering Survey';
+$SurveySectionCount='Number of Sections';
+$SurveyCategoryCount='Number of Categories';
+$SurveyCategoryName='Category Name';
+$SurveyCategoryDescription='Category Description';
+$SurveySectionTitle='Section Title';
+$SurveySectionIntroduction='Section Introduction';
+$SurveySectionQuestionCount='Number of Questions in Section';
+$SurveySectionQuestion='Question';
+$SurveySectionQuestionCategories='Categories for Question';
+$SurveySectionQuestionAnswerCount='Number of Answers to Question';
+$SurveySectionAnswerCategories='Categories for Answer';
+$SurveySectionQuestionAnswer='Answer';
+$SurveyAnswersOfUserPrefix='Answers of';
+$MySurveyAnswers='My Answers';
+$SurveyResultsOfUserPrefix='Results of';
+$MySurveyResults='My Results';
+$ViewSurveyResults='View Results';
+$SurveyResultPrefix='Survey Result:';
+?>
