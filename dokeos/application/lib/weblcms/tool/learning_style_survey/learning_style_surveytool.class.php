@@ -119,7 +119,8 @@ class LearningStyleSurveyTool extends RepositoryTool
 					}
 					else
 					{
-						$form = new LearningStyleSurveyResultForm($profile, 'survey', 'post', $this->get_url(array(self :: PARAM_SURVEY_PROFILE_ID => $profile_id)));
+						$object = new AbstractLearningObject('learning_style_survey_result', api_get_user_id());
+						$form = new LearningStyleSurveyResultForm(LearningStyleSurveyResultForm :: TYPE_CREATE, $object, 'survey', 'post', $this->get_url(array(self :: PARAM_SURVEY_PROFILE_ID => $profile_id)), null, $profile);
 						if ($form->validate())
 						{
 							$object = $form->create_learning_object();

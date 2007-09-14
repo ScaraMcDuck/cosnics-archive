@@ -18,7 +18,7 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 	function format_answer(& $answer_data, $survey, $section, $question)
 	{
 		$answer = $answer_data[$question->get_id()];
-		$pa_answers = self :: get_possible_answers();
+		$pa_answers = self :: get_possible_answers($profile);
 		return '<p>' . htmlspecialchars($pa_answers[$answer]) . '</p>';
 	}
 	
@@ -48,7 +48,7 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 	
 	function create_user_answer_element($name, $profile, $section, $question)
 	{
-		$pa_answers = self :: get_possible_answers();
+		$pa_answers = self :: get_possible_answers($profile);
 		$element = new HTML_QuickForm_select($name, get_lang('YourAnswer'), $pa_answers);
 		$keys = array_keys($pa_answers);
 		sort($keys, SORT_NUMERIC);
@@ -87,7 +87,7 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 				}
 			}
 		}
-		$pa_answers = self :: get_possible_answers();
+		$pa_answers = self :: get_possible_answers($profile);
 		// The number of available answers is also the maximum score per
 		// question; hence, the product is the maximum category score
 		return $num * count($pa_answers);
@@ -102,7 +102,8 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 			'Percentiles' => 'Enter percentile limits separated by spaces, one line per category. Omit 0 and 100. Use the same order for categories as you did when adding the survey.' . "\n"
 				. 'Example for 2 categories, each divided into 5 percentiles:' . "\n"
 				. '29 34 40 45' . "\n"
-				. '26 31 37 41'
+				. '26 31 37 41',
+			'AnswerCount' => 'Enter the number of possible answers per question. Defaults to 5.'
 		);
 	}
 	
@@ -139,17 +140,35 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 		return $html;
 	}
 	
-	private static function get_possible_answers()
+	private static function get_possible_answers($profile = null)
 	{
-		// TODO: This is specific to the Pointcarré implementation of the
-		// Vermunt test. Make it customizable at some point. 
-		return array(
-			1 => get_lang('LearningStyleSurveyStronglyDisagree'),
-			2 => get_lang('LearningStyleSurveyDisagree'),
-			3 => get_lang('LearningStyleSurveyNeutral'),
-			4 => get_lang('LearningStyleSurveyAgree'),
-			5 => get_lang('LearningStyleSurveyStronglyAgree')
-		);
+		if (!$profile)
+		{
+			$answer_count = 5;
+		}
+		else
+		{
+			$metadata = $profile->get_profile_metadata();
+			$answer_count = intval($metadata['AnswerCount']);
+			if ($answer_count < 2)
+			{
+				$answer_count = 5;
+			}
+		}
+		$answers = array();
+		foreach (range(1, $answer_count) as $i)
+		{
+			$answer = get_lang('LearningStyleSurveyAgreement_' . $answer_count . '_' . $i);
+			$answers[] = (substr($answer, 0, 2) != '[='
+				? $answer
+				: str_replace(
+					'%percentage%',
+					round(100 * ($i - 1) / ($answer_count - 1)),
+					get_lang('IAgreePercentage')
+				)
+			);
+		}
+		return $answers;
 	}
 }
 

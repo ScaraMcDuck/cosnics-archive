@@ -18,11 +18,10 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 	
 	private $answer_elements;
 	
-	function __construct($profile, $form_name, $method = 'post', $action = null)
+	function __construct ($form_type, $learning_object, $form_name, $method = 'post', $action = null, $extra = null, $profile = null)
 	{
 		$this->set_survey_profile($profile);
-		$object = new AbstractLearningObject('learning_style_survey_result', api_get_user_id());
-		parent :: __construct(self :: TYPE_CREATE, $object, $form_name, $method, $action);
+		parent :: __construct($form_type, $learning_object, $form_name, $method, $action, $extra);
 	}
 	
 	function get_survey_profile()
@@ -37,7 +36,6 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 	
 	function build_creation_form()
 	{
-		// TODO: find out why all this gets added _below_ the footer
 		$this->answer_elements = array();
 		$this->defaults = array();
 		$profile = $this->get_survey_profile();
