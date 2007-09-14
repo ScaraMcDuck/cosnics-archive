@@ -2,7 +2,6 @@
 /**
  * @package repository
  */
-api_use_lang_files('repository');
 require_once dirname(__FILE__).'/../main/inc/claro_init_global.inc.php';
 require_once dirname(__FILE__).'/lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/lib/repositoryutilities.class.php';
@@ -11,6 +10,8 @@ require_once dirname(__FILE__).'/../common/condition/equalitycondition.class.php
 require_once dirname(__FILE__).'/../common/condition/notcondition.class.php';
 require_once dirname(__FILE__).'/../common/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../common/condition/orcondition.class.php';
+
+api_use_lang_files('repository');
 
 if (api_get_user_id())
 {
@@ -122,7 +123,7 @@ function dump_tree($tree, & $objects)
 		{
 			$id = $lo->get_id();
 			$value = RepositoryUtilities :: learning_object_for_element_finder($lo);
-			echo '<leaf id="', $id, '" class="', $value['class'], '" title="', htmlentities($value['title']), '" description="', htmlentities($value['description']), ')"/>', "\n";
+			echo '<leaf id="', $id, '" class="', $value['class'], '" title="', htmlentities($value['title']), '" description="', htmlentities($value['description']), '"/>', "\n";
 		}
 		echo '</node>', "\n";
 	}
