@@ -14,19 +14,24 @@ abstract class LearningStyleSurveyModel
 	
 	private static $type2class;
 	
-	abstract function calculate_result(& $result, & $answer_data, $survey, $section, $question);
+	abstract function calculate_result(& $result, & $answer_data, $profile, $section, $question);
 	
 	abstract function format_answer(& $answer_data, $survey, $section, $question);
 	
 	abstract function format_question($survey, $section, $question, & $categories);
 	
-	abstract function create_user_answer_element($name, $survey, $section, $question);
+	abstract function create_user_answer_element($name, $profile, $section, $question);
 	
-	abstract function save_user_answer($survey, $section, $question, $answer_element, $owner_id, $survey_id);
+	abstract function save_user_answer($profile, $section, $question, $answer_element, $owner_id, $survey_id);
 	
-	abstract function get_maximum_category_score($survey, $category);
+	abstract function get_maximum_category_score($profile, $category);
 	
 	abstract function get_additional_parameters();
+	
+	function get_additional_result_html($profile, & $result, & $answer_data)
+	{
+		return '';
+	}
 	
 	function format_category_name($id, & $categories)
 	{

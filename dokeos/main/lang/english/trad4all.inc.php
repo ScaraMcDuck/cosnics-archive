@@ -283,6 +283,7 @@ $PleaseTryAgain = "Please Try Again!";
 $PR='P-R';
 $PersonalCalendar='My Agenda';
 $PersonalMessenger='My PMs';
+$PleaseStandBy='Please stand by …';
 $Profiler = "User Profiles";
 $Progress = "Progress";
 $Progression = "Progress";

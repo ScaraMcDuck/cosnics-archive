@@ -88,14 +88,14 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 			$this->addElement('html', $question->get_description());
 			$model = $this->survey->get_survey_model();
 			$name = self :: PARAM_ANSWER . $section_index . '_' . $question_index;
-			$element_data = $model->create_user_answer_element($name, $this->survey, $section, $question);
+			$element_data = $model->create_user_answer_element($name, $profile, $section, $question);
 			$element = $element_data['element'];
 			if (array_key_exists('default', $element_data))
 			{
 				$this->defaults[$name] = $element_data['default'];
 			}
 			$this->addElement($element);
-			$this->addRule($name, get_lang('ThisFieldIsRequired'), 'required');
+			$this->addRule($name, null, 'required');
 			$this->answer_elements[$section_index][$question_index] = $element;
 			// Next question
 			if ($question_index == count($questions) - 1)
@@ -111,6 +111,11 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 			$this->addElement('html', '<input type="hidden" name="' . self :: PARAM_SECTION . '" value="' . $next_section . '"/>');
 			$this->addElement('html', '<input type="hidden" name="' . self :: PARAM_QUESTION . '" value="' . $next_question . '"/>');
 		}
+		// If the user did not answer a question properly, we just show it
+		// again. If not, we go to the next one. This breaks input validation,
+		// as QF thinks the form wasn't filled out properly. Luckily, we can
+		// just handle this "error" silently.
+		$this->set_error_reporting(false);
 	}
 	
 	function build_editing_form()
@@ -139,7 +144,7 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 			foreach ($questions as $question_index => $question)
 			{
 				$elmt = $this->answer_elements[$section_index][$question_index];
-				$model->save_user_answer($this->survey, $section, $question, $elmt, $this->get_owner_id(), $object->get_id());
+				$model->save_user_answer($this->profile, $section, $question, $elmt, $this->get_owner_id(), $object->get_id());
 			}
 		}
 		return $object;

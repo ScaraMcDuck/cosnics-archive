@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../learning_style_survey_model.class.php';
  */
 class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyModel
 {
-	function calculate_result(& $result, & $answer_data, $survey, $section, $question)
+	function calculate_result(& $result, & $answer_data, $profile, $section, $question)
 	{
 		foreach ($question->get_question_category_ids() as $cid)
 		{
@@ -46,7 +46,7 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 		return $html;
 	}
 	
-	function create_user_answer_element($name, $survey, $section, $question)
+	function create_user_answer_element($name, $profile, $section, $question)
 	{
 		$pa_answers = self :: get_possible_answers();
 		$element = new HTML_QuickForm_select($name, get_lang('YourAnswer'), $pa_answers);
@@ -58,7 +58,7 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 		);
 	}
 	
-	function save_user_answer($survey, $section, $question, $answer_element, $owner_id, $parent_object_id)
+	function save_user_answer($profile, $section, $question, $answer_element, $owner_id, $parent_object_id)
 	{
 		$answer = new LearningStyleSurveyUserAnswer();
 		$answer->set_owner_id($owner_id);
@@ -70,11 +70,11 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 		$answer->create();
 	}
 	
-	function get_maximum_category_score($survey, $category)
+	function get_maximum_category_score($profile, $category)
 	{
 		// Number of questions in this category
 		$num = 0;
-		foreach ($survey->get_survey_sections() as $section)
+		foreach ($profile->get_survey()->get_survey_sections() as $section)
 		{
 			foreach ($section->get_section_questions() as $question)
 			{
@@ -105,7 +105,40 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 				. '26 31 37 41'
 		);
 	}
-		
+	
+	function get_additional_result_html ($profile, & $result, & $answer_data)
+	{
+		$metadata = $profile->get_profile_metadata();
+		$lines = preg_split('/(\r\n|\n|\r)/', $metadata['Percentiles']);
+		$survey = $profile->get_survey();
+		$categories = $survey->get_survey_categories();
+		$percentiles = array();
+		foreach ($lines as $index => $line)
+		{
+			preg_match_all('/\S+/', $line, $matches);
+			$percentiles[] = array_map('floatval', $matches[0]);
+		}
+		$html = '<h4>' . get_lang('SurveyResultPeerComparisonTitle') . '</h4>';
+		$html .= '<dl class="survey-result-peer-comparison">';
+		foreach ($categories as $index => $category)
+		{
+			$p = $percentiles[$index];
+			$i = 0;
+			while ($i < count($p) && $result[$category->get_id()] > $p[$i])
+			{
+				$i++;
+			}
+			$percentile = $i + 1;
+			$delta = 100 / (count($p) + 1);
+			$range = round(($percentile - 1) * $delta)
+				. '&ndash;' . round($percentile * $delta) . '%';
+			$html .= '<dt>' . htmlspecialchars($category->get_title()) . '</dt>'
+				. '<dd>' . $range . '</dd>';
+		}
+		$html .= '</dl>';
+		return $html;
+	}
+	
 	private static function get_possible_answers()
 	{
 		// TODO: This is specific to the Pointcarré implementation of the
