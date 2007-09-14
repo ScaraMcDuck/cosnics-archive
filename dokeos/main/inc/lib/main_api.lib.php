@@ -915,7 +915,7 @@ function get_lang($variable)
 			{
 				foreach (file($filename) as $line)
 				{
-					if (preg_match('/^\s*\$(?:lang)?([A-Za-z]+)\s*=\s*((["\']).*?\3)\s*;\s*$/', rtrim($line), $matches))
+					if (preg_match('/^\s*\$(?:lang)?(\S+)\s*=\s*((["\']).*?\3)\s*;\s*$/', rtrim($line), $matches))
 					{
 						$name = $matches[1];
 						$value = eval('return ' . $matches[2] . ';');
