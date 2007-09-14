@@ -18,7 +18,7 @@ class Footer
 		if (get_setting('show_administrator_data') == "true")
 		{
 			$admin_data .= get_lang('Manager');
-			$admin_data .= '&nbsp;:&nbsp;';
+			$admin_data .= ':&nbsp;';
 			$admin_data .= Display :: encrypted_mailto_link(get_setting('emailAdministrator'), get_setting('administratorSurname').' '.get_setting('administratorName'));
 		}
 		$output[] = '    '.$admin_data.'&nbsp;';
