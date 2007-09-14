@@ -155,25 +155,26 @@ class LearningStyleSurveyTool extends RepositoryTool
 			$answer_data[$question->get_id()] = $answer->get_answer(); 
 		}
 		$survey = $profile->get_survey();
-		$category_total = $this->calculate_results($survey, $answer_data);
+		$category_total = $this->calculate_results($profile, $answer_data);
 		// TODO: determine how much to display in each case
 		if ($as_admin)
 		{
 			$user_id = $result->get_owner_id();
 			$user = UserManager :: retrieve_user($user_id);
 			$user = ($user ? $user->get_fullname() : 'User #' . $user_id);
-			echo $this->format_result($survey, $category_total, $user),
-				$this->format_answers($survey, $answer_data, $user);
+			echo $this->format_result($profile, $category_total, $user),
+				$this->format_answers($profile, $answer_data, $user);
 		}
 		else
 		{
-			echo $this->format_result($survey, $category_total),
-				$this->format_answers($survey, $answer_data);
+			echo $this->format_result($profile, $category_total),
+				$this->format_answers($profile, $answer_data);
 		}
 	}
 	
-	private function calculate_results ($survey, & $answer_data)
+	private function calculate_results ($profile, & $answer_data)
 	{
+		$survey = $profile->get_survey();
 		$model = $survey->get_survey_model();
 		$sections = $survey->get_survey_sections();
 		$res = array();
@@ -182,38 +183,42 @@ class LearningStyleSurveyTool extends RepositoryTool
 			$questions = $section->get_section_questions();
 			foreach ($questions as $question)
 			{
-				$model->calculate_result($res, $answer_data, $survey, $section, $question);
+				$model->calculate_result($res, $answer_data, $profile, $section, $question);
 			}
 		}
 		return $res;
 	}
 	
-	private function format_answers($survey, & $answer_data, $user = null)
+	private function format_answers($profile, & $answer_data, $user = null)
 	{
+		$survey = $profile->get_survey();
 		$sections = $survey->get_survey_sections();
 		$model = $survey->get_survey_model();
 		$title = (isset($user)
 			? get_lang('SurveyAnswersOfUserPrefix') . ' ' . $user
 			: get_lang('MySurveyAnswers'));
 		$answers_html = '<h4>' . htmlspecialchars($title) . '</h4>';
-		$answers_html .= '<ol>';
+		$answers_html .= '<ol class="survey-user-answers">';
 		foreach ($sections as $section)
 		{
-			$answers_html .= '<li>' . $section->get_description() . '<ol>';
+			$answers_html .= '<li class="survey-user-answers-section">' . $section->get_description() . '<ol>';
 			$questions = $section->get_section_questions();
 			foreach ($questions as $question)
 			{
-				$answers_html .= '<li>' . $question->get_description();
-				$answers_html .= $model->format_answer($answer_data, $survey, $section, $question);
-				$answers_html .= '</li>';
+				$answers_html .= '<li class="survey-user-answer-container">'
+					. '<div class="survey-user-answer-question">' . $question->get_description() . '</div>'
+					. '<div class="survey-user-answer">' . $model->format_answer($answer_data, $profile, $section, $question) . '</div>'
+					. '</li>';
 			}
 			$answers_html .= '</ol></li>';
 		}
+		$answers_html .= '</ol>';
 		return $answers_html;
 	}
 	
-	function format_result($survey, & $category_total, $user = null)
+	private function format_result($profile, & $category_total, $user = null)
 	{
+		$survey = $profile->get_survey();
 		$model = $survey->get_survey_model();
 		$titles = array();
 		$data = array();
@@ -222,15 +227,16 @@ class LearningStyleSurveyTool extends RepositoryTool
 			? get_lang('SurveyResultsOfUserPrefix') . ' ' . $user
 			: get_lang('MySurveyResults'));
 		$result_html = '<h4>' . htmlspecialchars($title) . '</h4>';
-		$result_html .= '<dl>';
+		$result_html .= '<dl class="survey-user-results">';
 		$categories = $survey->get_survey_categories();
 		foreach ($categories as $category)
 		{
 			$num = $category_total[$category->get_id()];
-			$result_html .= '<dt>' . htmlspecialchars($category->get_title()) . '</dt>'
-				. '<dd>' . $num . '</dd>';
+			$result_html .= '<dt class="survey-category-title">' . htmlspecialchars($category->get_title()) . '</dt>'
+				. '<dd class="survey-category-description">' . $category->get_description() . '</dd>'
+				. '<dd class="survey-user-result">' . $num . '</dd>';
 			$titles[] = $category->get_title();
-			$data[] = $num / $model->get_maximum_category_score($survey, $category) * 100;
+			$data[] = $num / $model->get_maximum_category_score($profile, $category) * 100;
 		}
 		$result_html .= '</dl>';
 		if (count($data) > 2)
@@ -242,6 +248,8 @@ class LearningStyleSurveyTool extends RepositoryTool
 				. base64_encode($img['data']) . '"'
 				. ' width="' . $img['width'] . '" height="' . $img['height'] . '"/></div>';
 		}
+		$result_html .= $survey->get_survey_model()->get_additional_result_html(
+			$profile, $category_total);
 		return $result_html;
 	}
 }

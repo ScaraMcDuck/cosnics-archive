@@ -10,7 +10,7 @@ class AnswerOrderingLearningStyleSurveyModel extends LearningStyleSurveyModel
 {
 	const SEPARATOR = '|';
 	
-	function calculate_result(& $result, & $answer_data, $survey, $section, $question)
+	function calculate_result(& $result, & $answer_data, $profile, $section, $question)
 	{
 		$answers = $question->get_question_answers();
 		foreach ($answers as $answer)
@@ -75,7 +75,7 @@ class AnswerOrderingLearningStyleSurveyModel extends LearningStyleSurveyModel
 		return $html;
 	}
 	
-	function create_user_answer_element($name, $survey, $section, $question)
+	function create_user_answer_element($name, $profile, $section, $question)
 	{
 		$answers = $question->get_question_answers();
 		$options = array();
@@ -89,7 +89,7 @@ class AnswerOrderingLearningStyleSurveyModel extends LearningStyleSurveyModel
 		);
 	}
 	
-	function save_user_answer($survey, $section, $question, $answer_element, $owner_id, $parent_object_id)
+	function save_user_answer($profile, $section, $question, $answer_element, $owner_id, $parent_object_id)
 	{
 		$answers = $question->get_question_answers();
 		$valid_answer = array();
@@ -117,10 +117,10 @@ class AnswerOrderingLearningStyleSurveyModel extends LearningStyleSurveyModel
 		}
 	}
 	
-	function get_maximum_category_score($survey, $category)
+	function get_maximum_category_score($profile, $category)
 	{
 		$num = 0;
-		foreach ($survey->get_survey_sections() as $section)
+		foreach ($profile->get_survey()->get_survey_sections() as $section)
 		{
 			foreach ($section->get_section_questions() as $question)
 			{

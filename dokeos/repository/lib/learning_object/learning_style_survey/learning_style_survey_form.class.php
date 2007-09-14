@@ -182,7 +182,6 @@ class LearningStyleSurveyForm extends LearningObjectForm
 		$submitted_step = intval($_REQUEST[self :: PARAM_STEP]);
 		if ($submitted_step != $step)
 		{
-			echo 'DISABLE';
 			$this->set_error_reporting(false);
 		}
 		$this->addElement('html', '<input type="hidden" name="' . self :: PARAM_STEP . '" value="' . $step . '"/>');
