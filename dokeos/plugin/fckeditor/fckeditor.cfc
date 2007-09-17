@@ -2,55 +2,51 @@
 <!---
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2007 Frederico Caldeira Knabben
- * 
+ *
  * == BEGIN LICENSE ==
- * 
+ *
  * Licensed under the terms of any of the following licenses at your
  * choice:
- * 
+ *
  *  - GNU General Public License Version 2 or later (the "GPL")
  *    http://www.gnu.org/licenses/gpl.html
- * 
+ *
  *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
  *    http://www.gnu.org/licenses/lgpl.html
- * 
+ *
  *  - Mozilla Public License Version 1.1 or later (the "MPL")
  *    http://www.mozilla.org/MPL/MPL-1.1.html
- * 
+ *
  * == END LICENSE ==
- * 
- * File Name: fckeditor.cfc
- * 	ColdFusion MX integration. 
- * 	Note this CFC is created for use only with Coldfusion MX and above.
- * 	For older version, check the fckeditor.cfm.
- * 
- * 	Syntax: 
- * 
- * 	<cfscript>
- * 			fckEditor = createObject("component", "fckEditorV2/fckeditor");
- * 			fckEditor.instanceName="myEditor";
- * 			fckEditor.basePath="/fckEditorV2/";
- * 			fckEditor.value="This is my <strong>initial</strong> html text.";
- * 			fckEditor.width="100%";
- * 			fckEditor.height="200";
- * 		 	// ... additional parameters ...
- * 			fckEditor.create(); // create instance now.
- * 	</cfscript>
- * 
- * 	See your macromedia coldfusion mx documentation for more info.
- * 
- * 	*** Note: 
- * 	Do not use path names with a "." (dot) in the name. This is a coldfusion 
- * 	limitation with the cfc invocation.
- * 
- * File Authors:
- * 		Hendrik Kramer (hk@lwd.de)
+ *
+ * ColdFusion MX integration.
+ * Note this CFC is created for use only with Coldfusion MX and above.
+ * For older version, check the fckeditor.cfm.
+ *
+ * Syntax:
+ *
+ * <cfscript>
+ * 		fckEditor = createObject("component", "fckEditorV2/fckeditor");
+ * 		fckEditor.instanceName="myEditor";
+ * 		fckEditor.basePath="/fckEditorV2/";
+ * 		fckEditor.value="This is my <strong>initial</strong> html text.";
+ * 		fckEditor.width="100%";
+ * 		fckEditor.height="200";
+ * 	 	// ... additional parameters ...
+ * 		fckEditor.create(); // create instance now.
+ * </cfscript>
+ *
+ * See your macromedia coldfusion mx documentation for more info.
+ *
+ * *** Note:
+ * Do not use path names with a "." (dot) in the name. This is a coldfusion
+ * limitation with the cfc invocation.
 --->
-<cffunction 
-	name="create" 
-	access="public" 
-	output="true" 
-	returntype="void" 
+<cffunction
+	name="create"
+	access="public"
+	output="true"
+	returntype="void"
 	hint="Initialize the FCKeditor instance."
 >
 
@@ -150,10 +146,10 @@
 	returnType="void"
 	hint="Create the html editor instance for compatible browsers."
 >
-	
+
 	<cfscript>
 	var sURL = "";
-	
+
 	// try to fix the basePath, if ending slash is missing
 	if( len( this.basePath) and right( this.basePath, 1 ) is not "/" )
 		this.basePath = this.basePath & "/";
@@ -191,20 +187,34 @@
 	var fieldLabel = "";
 	var lConfigKeys = "";
 	var iPos = "";
-	
+
 	/**
 	 * CFML doesn't store casesensitive names for structure keys, but the configuration names must be casesensitive for js.
 	 * So we need to find out the correct case for the configuration keys.
 	 * We "fix" this by comparing the caseless configuration keys to a list of all available configuration options in the correct case.
 	 * changed 20041206 hk@lwd.de (improvements are welcome!)
 	 */
-	lConfigKeys = lConfigKeys & "CustomConfigurationsPath,EditorAreaCSS,DocType,BaseHref,FullPage,Debug,SkinPath,PluginsPath,AutoDetectLanguage,DefaultLanguage,ContentLangDirection,EnableXHTML,EnableSourceXHTML,ProcessHTMLEntities,IncludeLatinEntities,IncludeGreekEntities";
-	lConfigKeys = lConfigKeys & ",FillEmptyBlocks,FormatSource,FormatOutput,FormatIndentator,GeckoUseSPAN,StartupFocus,ForcePasteAsPlainText,ForceSimpleAmpersand,TabSpaces,ShowBorders,UseBROnCarriageReturn";
-	lConfigKeys = lConfigKeys & ",ToolbarStartExpanded,ToolbarCanCollapse,ToolbarSets,ContextMenu,FontColors,FontNames,FontSizes,FontFormats,StylesXmlPath,SpellChecker,IeSpellDownloadUrl,MaxUndoLevels";
-	lConfigKeys = lConfigKeys & ",LinkBrowser,LinkBrowserURL,LinkBrowserWindowWidth,LinkBrowserWindowHeight";
-	lConfigKeys = lConfigKeys & ",LinkUpload,LinkUploadURL,LinkUploadWindowWidth,LinkUploadWindowHeight,LinkUploadAllowedExtensions,LinkUploadDeniedExtensions";
-	lConfigKeys = lConfigKeys & ",ImageBrowser,ImageBrowserURL,ImageBrowserWindowWidth,ImageBrowserWindowHeight,SmileyPath,SmileyImages,SmileyColumns,SmileyWindowWidth,SmileyWindowHeight";
-	
+	lConfigKeys = lConfigKeys & "DisableEnterKeyHandler,CustomConfigurationsPath,EditorAreaCSS,ToolbarComboPreviewCSS,DocType";
+	lConfigKeys = lConfigKeys & ",BaseHref,FullPage,Debug,AllowQueryStringDebug,SkinPath";
+	lConfigKeys = lConfigKeys & ",PreloadImages,PluginsPath,AutoDetectLanguage,DefaultLanguage,ContentLangDirection";
+	lConfigKeys = lConfigKeys & ",ProcessHTMLEntities,IncludeLatinEntities,IncludeGreekEntities,ProcessNumericEntities,AdditionalNumericEntities";
+	lConfigKeys = lConfigKeys & ",FillEmptyBlocks,FormatSource,FormatOutput,FormatIndentator,ForceStrongEm";
+	lConfigKeys = lConfigKeys & ",GeckoUseSPAN,StartupFocus,ForcePasteAsPlainText,AutoDetectPasteFromWord,ForceSimpleAmpersand";
+	lConfigKeys = lConfigKeys & ",TabSpaces,ShowBorders,SourcePopup,ToolbarStartExpanded,ToolbarCanCollapse";
+	lConfigKeys = lConfigKeys & ",IgnoreEmptyParagraphValue,PreserveSessionOnFileBrowser,FloatingPanelsZIndex,TemplateReplaceAll,TemplateReplaceCheckbox";
+	lConfigKeys = lConfigKeys & ",ToolbarLocation,ToolbarSets,EnterMode,ShiftEnterMode,Keystrokes";
+	lConfigKeys = lConfigKeys & ",ContextMenu,BrowserContextMenuOnCtrl,FontColors,FontNames,FontSizes";
+	lConfigKeys = lConfigKeys & ",FontFormats,StylesXmlPath,TemplatesXmlPath,SpellChecker,IeSpellDownloadUrl";
+	lConfigKeys = lConfigKeys & ",SpellerPagesServerScript,FirefoxSpellChecker,MaxUndoLevels,DisableObjectResizing,DisableFFTableHandles";
+	lConfigKeys = lConfigKeys & ",LinkDlgHideTarget	,LinkDlgHideAdvanced,ImageDlgHideLink	,ImageDlgHideAdvanced,FlashDlgHideAdvanced";
+	lConfigKeys = lConfigKeys & ",ProtectedTags,BodyId,BodyClass,DefaultLinkTarget,CleanWordKeepsStructure";
+	lConfigKeys = lConfigKeys & ",LinkBrowser,LinkBrowserURL,LinkBrowserWindowWidth,LinkBrowserWindowHeight,ImageBrowser";
+	lConfigKeys = lConfigKeys & ",ImageBrowserURL,ImageBrowserWindowWidth,ImageBrowserWindowHeight,FlashBrowser,FlashBrowserURL";
+	lConfigKeys = lConfigKeys & ",FlashBrowserWindowWidth ,FlashBrowserWindowHeight,LinkUpload,LinkUploadURL,LinkUploadWindowWidth";
+	lConfigKeys = lConfigKeys & ",LinkUploadWindowHeight,LinkUploadAllowedExtensions,LinkUploadDeniedExtensions,ImageUpload,ImageUploadURL";
+	lConfigKeys = lConfigKeys & ",ImageUploadAllowedExtensions,ImageUploadDeniedExtensions,FlashUpload,FlashUploadURL,FlashUploadAllowedExtensions";
+	lConfigKeys = lConfigKeys & ",FlashUploadDeniedExtensions,SmileyPath,SmileyImages,SmileyColumns,SmileyWindowWidth,SmileyWindowHeight";
+
 	for( key in this.config )
 	{
 		iPos = listFindNoCase( lConfigKeys, key );
@@ -215,13 +225,13 @@
 
 			fieldValue = this.config[key];
 			fieldName = listGetAt( lConfigKeys, iPos );
-			
+
 			// set all boolean possibilities in CFML to true/false values
 			if( isBoolean( fieldValue) and fieldValue )
 				fieldValue = "true";
 			else if( isBoolean( fieldValue) )
 				fieldValue = "false";
-		
+
 			sParams = sParams & HTMLEditFormat( fieldName ) & '=' & HTMLEditFormat( fieldValue );
 		}
 	}
