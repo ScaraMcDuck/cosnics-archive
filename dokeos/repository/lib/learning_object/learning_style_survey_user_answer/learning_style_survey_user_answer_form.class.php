@@ -8,8 +8,6 @@ require_once dirname(__FILE__) . '/learning_style_survey_user_answer.class.php';
  */
 class LearningStyleSurveyUserAnswerForm extends LearningObjectForm
 {
-	// TODO
-	
 	// Inherited
 	function create_learning_object()
 	{
