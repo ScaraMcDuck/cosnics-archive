@@ -20,6 +20,8 @@ class LearningStyleSurveyProfileForm extends LearningObjectForm
 	
 	private $survey;
 	
+	private $defaults;
+	
 	function build_creation_form()
 	{
 		parent :: build_creation_form();
@@ -44,10 +46,7 @@ class LearningStyleSurveyProfileForm extends LearningObjectForm
 			{
 				foreach ($metadata_fields as $field => $help)
 				{
-					// TODO: use a JS tooltip or something
-					$this->addElement('html', '<div class="row"><div class="label">' . $field . '</div>'
-						. '<div class="formw">' . nl2br(htmlspecialchars($help)) . '</div></div>');
-					$this->metadata_elements[$field] = $this->addElement('textarea', self :: PARAM_PROFILE_METADATA . '__' . $field, '&nbsp;', array('style' => 'width: 100%', 'rows' => 5));
+					$this->metadata_elements[$field] = $this->create_metadata_field($field, $help);
 				}
 			}
 			else
@@ -60,16 +59,39 @@ class LearningStyleSurveyProfileForm extends LearningObjectForm
 		}
 	}
 	
+	function build_editing_form()
+	{
+		parent :: build_editing_form();
+		$this->defaults = array();
+		$profile = $this->get_learning_object();
+		$survey = $profile->get_survey();
+		$input = $this->add_textfield(self :: PARAM_SURVEY_ID, get_lang('Survey'));
+		$input->setValue($survey->get_title());
+		$input->freeze();
+		$this->metadata_elements = array();
+		$metadata_fields = $survey->get_additional_survey_parameters();
+		$metadata = $profile->get_profile_metadata();
+		foreach ($metadata_fields as $field => $help)
+		{
+			$input = $this->create_metadata_field($field, $help);
+			$this->metadata_elements[$field] = $input;
+			$this->defaults[$input->getName()] = $metadata[$field];
+		}
+		$_POST[self :: PARAM_COMPLETE] = 1;
+	}
+	
+	private function create_metadata_field ($field, $help)
+	{
+		// TODO: use a JS tooltip or something
+		$this->addElement('html', '<div class="row"><div class="label">' . $field . '</div>'
+			. '<div class="formw">' . nl2br(htmlspecialchars($help)) . '</div></div>');
+		return $this->addElement('textarea', self :: PARAM_PROFILE_METADATA . '__' . $field, '&nbsp;', array('style' => 'width: 100%', 'rows' => 5));
+	}
+	
 	// Overridden to check for extra parameter--see above
 	function validate()
 	{
 		return (parent :: validate() && $_POST[self :: PARAM_COMPLETE]);
-	}
-	
-	function build_editing_form()
-	{
-		parent :: build_editing_form();
-		// TODO
 	}
 	
 	// Inherited
@@ -93,9 +115,28 @@ class LearningStyleSurveyProfileForm extends LearningObjectForm
 	
 	function update_learning_object()
 	{
-		$object = $this->get_learning_object();
-		// TODO
+		$profile = $this->get_learning_object();
+		$metadata_fields = $profile->get_survey()->get_additional_survey_parameters();
+		$new_metadata = array();
+		foreach ($metadata_fields as $name => & $help)
+		{
+			$value = $this->metadata_elements[$name]->exportValue();
+			if (!empty($value))
+			{
+				$new_metadata[$name] = $value;
+			}
+		}
+		$profile->set_profile_metadata(null, $new_metadata);
 		return parent :: update_learning_object();
+	}
+
+	function setDefaults ($defaults = array())
+	{
+		if (count($this->defaults))
+		{
+			$defaults = array_merge($defaults, $this->defaults);
+		}
+		parent :: setDefaults($defaults);
 	}
 }
 
