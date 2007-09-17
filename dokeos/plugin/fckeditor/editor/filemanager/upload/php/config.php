@@ -19,28 +19,20 @@
  *
  * == END LICENSE ==
  *
- * File Name: config.php
- * 	Configuration file for the PHP File Uploader.
- *
- * File Authors:
- * 		Frederico Caldeira Knabben (www.fckeditor.net)
+ * Configuration file for the PHP File Uploader.
  */
 
 global $Config ;
 
 // SECURITY: You must explicitelly enable this "uploader".
-$Config['Enabled'] = true ;
+$Config['Enabled'] = false ;
 
 // Set if the file type must be considere in the target path.
 // Ex: /userfiles/image/ or /userfiles/file/
 $Config['UseFileType'] = false ;
 
-//Dokeos config
-require_once('../../../../../../main/inc/claro_init_global.inc.php');
-
-// Path to user files relative to the document root.
-$Config['UserFilesPath'] = api_get_path(REL_CLARO_PATH).'upload/fckeditor/'.$_uid.'/'; ;
-
+// Path to uploaded files relative to the document root.
+$Config['UserFilesPath'] = '/userfiles/' ;
 
 // Fill the following value it you prefer to specify the absolute path for the
 // user files directory. Usefull if you are using a virtual directory, symbolic
@@ -53,7 +45,7 @@ $Config['UserFilesAbsolutePath'] = '' ;
 $Config['ForceSingleExtension'] = true ;
 
 $Config['AllowedExtensions']['File']	= array() ;
-$Config['DeniedExtensions']['File']		= array('html','htm','php','php2','php3','php4','php5','phtml','pwml','inc','asp','aspx','ascx','jsp','cfm','cfc','pl','bat','exe','com','dll','vbs','js','reg','cgi','htaccess','asis') ;
+$Config['DeniedExtensions']['File']		= array('html','htm','php','php2','php3','php4','php5','phtml','pwml','inc','asp','aspx','ascx','jsp','cfm','cfc','pl','bat','exe','com','dll','vbs','js','reg','cgi','htaccess','asis','sh','shtml','shtm','phtm') ;
 
 $Config['AllowedExtensions']['Image']	= array('jpg','gif','jpeg','png') ;
 $Config['DeniedExtensions']['Image']	= array() ;
