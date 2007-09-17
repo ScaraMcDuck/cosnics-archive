@@ -222,7 +222,6 @@ class LearningStyleSurveyTool extends RepositoryTool
 		$model = $survey->get_survey_model();
 		$titles = array();
 		$data = array();
-		// TODO: display user name
 		$title = (isset($user)
 			? get_lang('SurveyResultsOfUserPrefix') . ' ' . $user
 			: get_lang('MySurveyResults'));
