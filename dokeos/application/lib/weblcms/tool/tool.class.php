@@ -71,10 +71,12 @@ abstract class Tool
 			$breadcrumbs[] = array( 'url' => $this->get_url(array(Weblcms::PARAM_GROUP=>null)), 'name' => get_lang('Groups'));
 			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => $group->get_name());
 		}
+		// TODO: do this by overriding display_header in the group tool
 		elseif($this->get_tool_id() == 'group')
 		{
 			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang(Tool :: type_to_class($this->get_tool_id()).'Title'));
 		}
+		// TODO: make this the default
 		if($this->get_tool_id() != 'group')
 		{
 			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang(Tool :: type_to_class($this->get_tool_id()).'Title'));
