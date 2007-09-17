@@ -28,7 +28,6 @@ class LearningStyleSurveyTool extends RepositoryTool
 			$this->disallow();
 			return;
 		}
-		// TODO: icons etc.
 		$toolbar = RepositoryUtilities::build_toolbar(
 			array(
 				array(

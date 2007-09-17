@@ -43,7 +43,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 	
 	private $answer_elements;
 	
-	private $no_errors;
+	private $defaults;
 	
 	protected function build_creation_form()
 	{
@@ -185,12 +185,78 @@ class LearningStyleSurveyForm extends LearningObjectForm
 			$this->set_error_reporting(false);
 		}
 		$this->addElement('html', '<input type="hidden" name="' . self :: PARAM_STEP . '" value="' . $step . '"/>');
-	} // Everybody loves curly braces.
+	}
 	
 	protected function build_editing_form()
 	{
+		// TODO: avoid code duplication
 		parent :: build_editing_form();
-		// TODO
+		$this->defaults = array();
+		$survey = $this->get_learning_object();
+		$survey_type = $survey->get_survey_type();
+		$this->category_elements = array();
+		$category_options = array();
+		foreach ($survey->get_survey_categories() as $index => $category)
+		{
+			$i = $index + 1;
+			$name = self :: PARAM_CATEGORY_NAME . $i;
+			$name_el = $this->add_textfield($name, get_lang('SurveyCategoryName') . ' ' . $i);
+			$desc_el = $this->add_html_editor(self :: PARAM_CATEGORY_DESCRIPTION . $i, get_lang('SurveyCategoryDescription') . ' ' . $i);
+			$this->category_elements[$category->get_id()] = array(
+				'name' => $name_el,
+				'description' => $desc_el
+			);
+			$this->defaults[$name_el->getName()] = $category->get_title();
+			$this->defaults[$desc_el->getName()] = $category->get_description();
+			$category_options[$category->get_id()] = $category->get_title();
+		}
+		$this->section_elements = array();
+		$this->question_elements = array();
+		$this->answer_elements = array();
+		foreach ($survey->get_survey_sections() as $index => $section)
+		{
+			$i = $index + 1;
+			$name = self :: PARAM_SECTION_TITLE . $i;
+			$title_el = $this->add_textfield($name, get_lang('SurveySectionTitle') . ' ' . $i);
+			$intro_el = $this->add_html_editor(self :: PARAM_SECTION_INTRODUCTION . $i, get_lang('SurveySectionIntroduction') . ' ' . $i);
+			$this->section_elements[$section->get_id()] = array(
+				'title' => $title_el,
+				'introduction' => $intro_el
+			);
+			$this->defaults[$title_el->getName()] = $section->get_title();
+			$this->defaults[$intro_el->getName()] = $section->get_description();
+			foreach ($section->get_section_questions() as $qindex => $question)
+			{
+				$j = $qindex + 1;
+				$name = self :: PARAM_QUESTION . $i . '_' . $j;
+				$el = $this->add_html_editor($name, get_lang('SurveySectionQuestion') . ' ' . $i . '.' . $j);
+				$this->question_elements[$question->get_id()]['text'] = $el;
+				$this->defaults[$el->getName()] = $question->get_description();
+				// TODO: use model
+				if ($survey_type == LearningStyleSurveyModel :: TYPE_PROPOSITION_AGREEMENT)
+				{
+					$name = self :: PARAM_QUESTION_CATEGORY . $i . '_' . $j;
+					$el = $this->add_select($name, get_lang('SurveySectionQuestionCategories') . ' ' . $i . '.' . $j, $category_options, false, array('size' => count($category_options), 'multiple' => 'multiple'));
+					$this->question_elements[$question->get_id()]['categories'] = $el;
+					$this->defaults[$el->getName()] = $question->get_question_category_ids();
+				}
+				elseif ($survey_type == LearningStyleSurveyModel :: TYPE_ANSWER_ORDERING)
+				{
+					foreach ($question->get_question_answers() as $aindex => $answer)
+					{
+						$k = $aindex + 1;
+						$name = self :: PARAM_ANSWER . $i . '_' . $j . '_' . $k;
+						$text_el = $this->add_html_editor($name, get_lang('SurveySectionQuestionAnswer') . ' ' . $i . '.' . $j . '.' . $k);
+						$name = self :: PARAM_ANSWER_CATEGORY . $i . '_' . $j . '_' . $k;
+						$cat_el = $this->add_select($name, get_lang('SurveySectionAnswerCategories') . ' ' . $i . '.' . $j . '.' . $k, $category_options, false, array('size' => count($category_options), 'multiple' => 'multiple'));
+						$this->answer_elements[$answer->get_id()]['text'] = $text_el;
+						$this->answer_elements[$answer->get_id()]['categories'] = $cat_el;
+						$this->defaults[$text_el->getName()] = $answer->get_description();
+						$this->defaults[$cat_el->getName()] = $answer->get_answer_category_ids();
+					}
+				}
+			}
+		}
 	}
 	
 	function create_learning_object()
@@ -271,14 +337,52 @@ class LearningStyleSurveyForm extends LearningObjectForm
 	
 	function update_learning_object()
 	{
-		$object = $this->get_learning_object();
-		// TODO
+		$survey = $this->get_learning_object();
+		$survey_type = $survey->get_survey_type();
+		foreach ($survey->get_survey_categories() as $category)
+		{
+			$el = $this->category_elements[$category->get_id()];
+			$category->set_title($el['name']->exportValue());
+			$category->set_description($el['description']->exportValue());
+			$category->update();
+		}
+		foreach ($survey->get_survey_sections() as $section)
+		{
+			$el = $this->section_elements[$section->get_id()];
+			$section->set_title($el['title']->exportValue());
+			$section->set_description($el['introduction']->exportValue());
+			$section->update();
+			foreach ($section->get_section_questions() as $question)
+			{
+				$el = $this->question_elements[$question->get_id()];
+				$question->set_description($el['text']->exportValue());
+				if ($survey_type == LearningStyleSurveyModel :: TYPE_PROPOSITION_AGREEMENT)
+				{
+					$question->set_question_category_ids($el['categories']->getValue());
+				}
+				elseif ($survey_type == LearningStyleSurveyModel :: TYPE_ANSWER_ORDERING)
+				{
+					foreach ($question->get_question_answers() as $answer)
+					{
+						$el = $this->answer_elements[$answer->get_id()];
+						$answer->set_description($el['text']->exportValue());
+						$answer->set_answer_category_ids($el['categories']->getValue());
+						$answer->update();
+					}
+				}
+				$question->update();
+			}
+		}
 		return parent :: update_learning_object();
 	}
 	
-	function toHTML()
+	function setDefaults ($defaults = array())
 	{
-		return parent :: toHTML($this->no_errors);
+		if (count($this->defaults))
+		{
+			$defaults = array_merge($defaults, $this->defaults);
+		}
+		parent :: setDefaults($defaults);
 	}
 	
 	private function get_survey_type() {

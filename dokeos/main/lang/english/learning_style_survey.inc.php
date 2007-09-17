@@ -42,4 +42,6 @@ $SurveyAnswersStored='Your answers have been stored. Thank you for participating
 $NoSurveysTakenSoFar='No surveys have been taken so far.';
 $SurveyResultPeerComparisonTitle='Compared to Peers';
 $IAgreePercentage='I agree %percentage%%';
+$NoSurveyQuestionCategories='(No categories)';
+$NoSurveyAnswerCategories='(No categories)';
 ?>
