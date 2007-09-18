@@ -412,7 +412,6 @@ EOT;
 
 EOT;
 			$renderer->setElementTemplate($element_template);
-			$this->setRequiredNote('');
 		}
 		elseif($error)
 		{
