@@ -108,13 +108,14 @@ class LearningStyleSurveyTool extends RepositoryTool
 						new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, api_get_user_id()),
 						new EqualityCondition(LearningStyleSurveyResult :: PROPERTY_PROFILE_ID, $profile_id)
 					);
-					$this->display_header();
-					echo $toolbar;
 					$results = $dm->retrieve_learning_objects('learning_style_survey_result', $condition);
 					if (!$results->is_empty())
 					{
+						$this->display_header();
+						echo $toolbar;
 						$result = $results->next_result();
 						$this->review_result($result, $profile);
+						$this->display_footer();
 					}
 					else
 					{
@@ -123,14 +124,15 @@ class LearningStyleSurveyTool extends RepositoryTool
 						if ($form->validate())
 						{
 							$object = $form->create_learning_object();
-							// TODO: analyze answers, redirect to result, whatever
-							Display :: display_normal_message(get_lang('SurveyAnswersStored'));
+							$this->redirect(null, get_lang('SurveyAnswersStored'), false, array(self :: PARAM_SURVEY_PROFILE_ID => $profile_id));
 						}
 						else {
+							$this->display_header();
+							echo $toolbar;
 							$form->display();
+							$this->display_footer();
 						}
 					}
-					$this->display_footer();
 				}
 			}
 			else
