@@ -15,7 +15,7 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 		}
 	}
 	
-	function format_answer(& $answer_data, $survey, $section, $question)
+	function format_answer(& $answer_data, $profile, $section, $question)
 	{
 		$answer = $answer_data[$question->get_id()];
 		$pa_answers = self :: get_possible_answers($profile);
