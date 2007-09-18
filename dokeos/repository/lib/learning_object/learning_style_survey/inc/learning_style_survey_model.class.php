@@ -16,7 +16,7 @@ abstract class LearningStyleSurveyModel
 	
 	abstract function calculate_result(& $result, & $answer_data, $profile, $section, $question);
 	
-	abstract function format_answer(& $answer_data, $survey, $section, $question);
+	abstract function format_answer(& $answer_data, $profile, $section, $question);
 	
 	abstract function format_question($survey, $section, $question, & $categories);
 	

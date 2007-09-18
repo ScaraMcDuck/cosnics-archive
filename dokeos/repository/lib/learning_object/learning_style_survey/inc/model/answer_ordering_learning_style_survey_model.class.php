@@ -22,7 +22,7 @@ class AnswerOrderingLearningStyleSurveyModel extends LearningStyleSurveyModel
 		}
 	}
 	
-	function format_answer(& $answer_data, $survey, $section, $question)
+	function format_answer(& $answer_data, $profile, $section, $question)
 	{
 		$answers = $question->get_question_answers();
 		$order = array();
