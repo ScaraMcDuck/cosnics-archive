@@ -35,7 +35,7 @@ abstract class LearningObjectDisplay
 	 *                           of the current object from the query string,
 	 *                           and replace it.
 	 */
-	protected function LearningObjectDisplay($learning_object, $url_format = null)
+	protected function __construct($learning_object, $url_format = null)
 	{
 		$this->learning_object = $learning_object;
 		if (!isset($url_format))

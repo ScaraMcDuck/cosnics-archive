@@ -15,6 +15,8 @@ class LearningStyleSurveyResult extends LearningObject
 	
 	private $answers;
 	
+	private $profile;
+	
 	function get_result_answers ()
 	{
 		if (!$this->answers)
@@ -26,6 +28,19 @@ class LearningStyleSurveyResult extends LearningObject
 			)->as_array();
 		}
 		return $this->answers;
+	}
+
+	function get_profile()
+	{
+		if (!$this->profile)
+		{
+			$dm = RepositoryDataManager :: get_instance();
+			$this->profile = $dm->retrieve_learning_object(
+				$this->get_profile_id(),
+				'learning_style_survey_profile'
+			);
+		}
+		return $this->profile;
 	}
 
 	function get_profile_id ()

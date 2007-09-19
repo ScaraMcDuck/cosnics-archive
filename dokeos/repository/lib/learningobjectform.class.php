@@ -54,7 +54,7 @@ abstract class LearningObjectForm extends FormValidator
 	 * @param string $method The method to use ('post' or 'get').
 	 * @param string $action The URL to which the form should be submitted.
 	 */
-	function LearningObjectForm($form_type, $learning_object, $form_name, $method = 'post', $action = null, $extra = null)
+	protected function __construct($form_type, $learning_object, $form_name, $method = 'post', $action = null, $extra = null)
 	{
 		parent :: __construct($form_name, $method, $action);
 		$this->form_type = $form_type;

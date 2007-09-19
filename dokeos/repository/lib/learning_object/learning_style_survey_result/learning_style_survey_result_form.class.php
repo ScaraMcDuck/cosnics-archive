@@ -11,6 +11,8 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 	const PARAM_SECTION = 'section';
 	const PARAM_QUESTION = 'question';
 	const PARAM_ANSWER = 'answer';
+	
+	const KEY_PROFILE = '__profile__';
 		
 	private $profile;
 	
@@ -18,9 +20,11 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 	
 	private $answer_elements;
 	
-	function __construct ($form_type, $learning_object, $form_name, $method = 'post', $action = null, $extra = null, $profile = null)
+	protected function __construct ($form_type, $learning_object, $form_name, $method = 'post', $action = null, $extra = null)
 	{
-		$this->set_survey_profile($profile);
+		// Can't pass extra parameters, so we sneak the profile into $extra
+		$this->set_survey_profile($extra[self :: KEY_PROFILE]);
+		unset($extra[self :: KEY_PROFILE]);
 		parent :: __construct($form_type, $learning_object, $form_name, $method, $action, $extra);
 	}
 	

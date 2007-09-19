@@ -1,46 +1,24 @@
 <?php
-require_once dirname(__FILE__).'/../../browser/learningobjectpublicationlistrenderer.class.php';
-
+require_once dirname(__FILE__).'/../../browser/list_renderer/listlearningobjectpublicationlistrenderer.class.php';
 /**
  * @author Tim De Pauw
  */
-class LearningStyleSurveyPublicationListRenderer extends LearningObjectPublicationListRenderer
+class LearningStyleSurveyPublicationListRenderer extends ListLearningObjectPublicationListRenderer
 {
-	function __construct($browser)
+	function render_title($publication)
 	{
-		parent :: __construct($browser);
-	}
-	
-	function as_html()
-	{
-		$publications = $this->get_publications();
-		$html = '<ul>';
-		foreach ($publications as $publication)
-		{
-			$html .= $this->render_publication($publication);
-		}
-		$html .= '</ul>';
-		return $html;
-	}
-	
-	function render_publication($publication)
-	{
+		$title = parent :: render_title($publication);
 		$lo = $publication->get_learning_object();
-		$html = '<li>'
-			. '<div class="learning-style-survey-profile-title">'
-			. '<a href="'
-			. htmlspecialchars(
-				$this->browser->get_parent()->get_url(array(LearningStyleSurveyTool :: PARAM_SURVEY_PROFILE_ID => $lo->get_id()))
-			)
-			. '">' . htmlspecialchars($lo->get_title()) . '</a>';
+		$html = '<a href="'
+			. $this->get_url(array(LearningStyleSurveyTool :: PARAM_SURVEY_PROFILE_ID => $lo->get_id()), true)
+			. '">' . $title . '</a>';
 		if ($this->browser->get_parent()->is_allowed(ADD_RIGHT))
 		{
-			$results_url = $this->browser->get_parent()->get_url(array(LearningStyleSurveyTool :: PARAM_SURVEY_PROFILE_ID => $lo->get_id(), LearningStyleSurveyTool :: PARAM_VIEW_SURVEY_RESULTS => 1));
-			$html .= ' <a href="' . htmlspecialchars($results_url) . '">[' . get_lang('ViewSurveyResults') . ']</a>';
+			// TODO: better icon
+			$html .= ' <a href="'
+				. $this->get_url(array(LearningStyleSurveyTool :: PARAM_SURVEY_PROFILE_ID => $lo->get_id(), LearningStyleSurveyTool :: PARAM_VIEW_SURVEY_RESULTS => 1), true)
+				. '"><img src="'.api_get_path(WEB_CODE_PATH).'img/statistics.png" style="vertical-align: middle;" alt="'.htmlspecialchars('ViewSurveyResults').'"/></a>';
 		}
-		$html .= '</div>'
-			. $lo->get_description()
-			. '</li>';
 		return $html;
 	}
 }
