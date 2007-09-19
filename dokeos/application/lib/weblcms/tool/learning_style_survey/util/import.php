@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/../../../../../../repository/lib/learning_objec
 require_once dirname(__FILE__).'/../../../../../../repository/lib/learning_object/learning_style_survey_category/learning_style_survey_category.class.php';
 require_once dirname(__FILE__).'/../../../../../../repository/lib/learning_object/learning_style_survey_section/learning_style_survey_section.class.php';
 require_once dirname(__FILE__).'/../../../../../../repository/lib/learning_object/learning_style_survey_question/learning_style_survey_question.class.php';
+require_once dirname(__FILE__).'/../../../../../../repository/lib/learning_object/learning_style_survey_profile/learning_style_survey_profile.class.php';
 
 header('Content-Type: text/plain; charset=UTF-8');
 
@@ -26,15 +27,17 @@ $survey_title = array_shift($contents);
 $category_count = intval(array_shift($contents));
 $categories = array();
 $question_categories = array();
+$category_percentiles = '';
 for ($i = 0; $i < $category_count; $i++)
 {
 	$title = array_shift($contents);
+	$categories[] = $title;
 	$questions = explode(' ', array_shift($contents));
 	foreach ($questions as $q)
 	{
 		$question_categories[$q - 1][] = $i;
 	}
-	$categories[] = $title;
+	$category_percentiles .= array_shift($contents) . "\n"; 
 }
 $section_count = intval(array_shift($contents));
 $sections = array();
@@ -113,6 +116,20 @@ foreach ($sections as $section)
 		$qobj->create();
 	}
 }
+
+echo 'Creating profile', "\n";
+
+$metadata = array(
+	'Percentiles' => $category_percentiles
+);
+$profile = new LearningStyleSurveyProfile();
+$profile->set_owner_id($owner_id);
+$profile->set_title($survey_title);
+$profile->set_description('<p>' . htmlspecialchars($survey_title) . '</p>');
+$profile->set_parent_id($my_repository);
+$profile->set_profile_metadata(null, $metadata);
+$profile->set_survey_id($survey->get_id());
+$profile->create();
 
 echo 'Complete.';
 
