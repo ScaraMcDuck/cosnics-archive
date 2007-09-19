@@ -2,6 +2,8 @@
 require_once dirname(__FILE__).'/../repositorytool.class.php';
 require_once dirname(__FILE__).'/learning_style_surveybrowser.class.php';
 require_once dirname(__FILE__).'/../../../../../repository/lib/repositoryutilities.class.php';
+require_once dirname(__FILE__).'/../../../../../repository/lib/learningobjectform.class.php';
+require_once dirname(__FILE__).'/../../../../../repository/lib/learningobjectdisplay.class.php';
 require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object/learning_style_survey_result/learning_style_survey_result_form.class.php';
 require_once dirname(__FILE__).'/../../../../../common/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../../../../../common/condition/equalitycondition.class.php';
@@ -46,6 +48,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 			null,
 			'margin-bottom: 1em;'
 		);
+		$toolbar .= $this->perform_requested_actions();
 		if (isset($_GET['mode']))
 		{
 			$_SESSION[get_class()]['mode'] = $_GET['mode'];
@@ -88,7 +91,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 						{
 							while ($result = $results->next_result())
 							{
-								$this->review_result($result, $profile, true);
+								$this->review_result($result, true);
 							}
 						}
 						else
@@ -114,13 +117,16 @@ class LearningStyleSurveyTool extends RepositoryTool
 						$this->display_header();
 						echo $toolbar;
 						$result = $results->next_result();
-						$this->review_result($result, $profile);
+						$this->review_result($result);
 						$this->display_footer();
 					}
 					else
 					{
 						$object = new AbstractLearningObject('learning_style_survey_result', api_get_user_id());
-						$form = new LearningStyleSurveyResultForm(LearningStyleSurveyResultForm :: TYPE_CREATE, $object, 'survey', 'post', $this->get_url(array(self :: PARAM_SURVEY_PROFILE_ID => $profile_id)), null, $profile);
+						$extra = array(
+							LearningStyleSurveyResultForm :: KEY_PROFILE => $profile
+						);
+						$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'survey', 'post', $this->get_url(array(self :: PARAM_SURVEY_PROFILE_ID => $profile_id)), $extra, $profile);
 						if ($form->validate())
 						{
 							$object = $form->create_learning_object();
@@ -146,112 +152,11 @@ class LearningStyleSurveyTool extends RepositoryTool
 		}
 	}
 	
-	private function review_result($result, $profile, $as_admin = false)
+	private function review_result($result, $as_admin = false)
 	{
-		// TODO: display survey title
-		$answers = $result->get_result_answers();
-		$answer_data = array();
-		foreach ($answers as $answer)
-		{
-			$question = $answer->get_question();
-			$answer_data[$question->get_id()] = $answer->get_answer(); 
-		}
-		$survey = $profile->get_survey();
-		$category_total = $this->calculate_results($profile, $answer_data);
-		// TODO: determine how much to display in each case
-		if ($as_admin)
-		{
-			$user_id = $result->get_owner_id();
-			$user = UserManager :: retrieve_user($user_id);
-			$user = ($user ? $user->get_fullname() : 'User #' . $user_id);
-			echo $this->format_result($profile, $category_total, $user),
-				$this->format_answers($profile, $answer_data, $user);
-		}
-		else
-		{
-			echo $this->format_result($profile, $category_total),
-				$this->format_answers($profile, $answer_data);
-		}
-	}
-	
-	private function calculate_results ($profile, & $answer_data)
-	{
-		$survey = $profile->get_survey();
-		$model = $survey->get_survey_model();
-		$sections = $survey->get_survey_sections();
-		$res = array();
-		foreach ($sections as $section)
-		{
-			$questions = $section->get_section_questions();
-			foreach ($questions as $question)
-			{
-				$model->calculate_result($res, $answer_data, $profile, $section, $question);
-			}
-		}
-		return $res;
-	}
-	
-	private function format_answers($profile, & $answer_data, $user = null)
-	{
-		$survey = $profile->get_survey();
-		$sections = $survey->get_survey_sections();
-		$model = $survey->get_survey_model();
-		$title = (isset($user)
-			? get_lang('SurveyAnswersOfUserPrefix') . ' ' . $user
-			: get_lang('MySurveyAnswers'));
-		$answers_html = '<h4>' . htmlspecialchars($title) . '</h4>';
-		$answers_html .= '<ol class="survey-user-answers">';
-		foreach ($sections as $section)
-		{
-			$answers_html .= '<li class="survey-user-answers-section">' . $section->get_description() . '<ol>';
-			$questions = $section->get_section_questions();
-			foreach ($questions as $question)
-			{
-				$answers_html .= '<li class="survey-user-answer-container">'
-					. '<div class="survey-user-answer-question">' . $question->get_description() . '</div>'
-					. '<div class="survey-user-answer">' . $model->format_answer($answer_data, $profile, $section, $question) . '</div>'
-					. '</li>';
-			}
-			$answers_html .= '</ol></li>';
-		}
-		$answers_html .= '</ol>';
-		return $answers_html;
-	}
-	
-	private function format_result($profile, & $category_total, $user = null)
-	{
-		$survey = $profile->get_survey();
-		$model = $survey->get_survey_model();
-		$titles = array();
-		$data = array();
-		$title = (isset($user)
-			? get_lang('SurveyResultsOfUserPrefix') . ' ' . $user
-			: get_lang('MySurveyResults'));
-		$result_html = '<h4>' . htmlspecialchars($title) . '</h4>';
-		$result_html .= '<dl class="survey-user-results">';
-		$categories = $survey->get_survey_categories();
-		foreach ($categories as $category)
-		{
-			$num = $category_total[$category->get_id()];
-			$result_html .= '<dt class="survey-category-title">' . htmlspecialchars($category->get_title()) . '</dt>'
-				. '<dd class="survey-category-description">' . $category->get_description() . '</dd>'
-				. '<dd class="survey-user-result">' . $num . '</dd>';
-			$titles[] = $category->get_title();
-			$data[] = $num / $model->get_maximum_category_score($profile, $category) * 100;
-		}
-		$result_html .= '</dl>';
-		if (count($data) > 2)
-		{
-			require_once dirname(__FILE__).'/lib/PsychePolygon.class.php';
-			$p = new PsychePolygon($titles, $data);
-			$img = $p->create_image(PsychePolygon::IMAGE_TYPE_PNG);
-			$result_html .= '<div><img src="data:' . $img['mime_type'] . ';base64,'
-				. base64_encode($img['data']) . '"'
-				. ' width="' . $img['width'] . '" height="' . $img['height'] . '"/></div>';
-		}
-		$result_html .= $survey->get_survey_model()->get_additional_result_html(
-			$profile, $category_total);
-		return $result_html;
+		$display = LearningObjectDisplay :: factory($result);
+		$display->set_administrative_view($as_admin);
+		echo $display->get_full_html();
 	}
 }
 ?>
