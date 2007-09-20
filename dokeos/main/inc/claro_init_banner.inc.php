@@ -131,7 +131,7 @@ if ($_uid)
 		}
 
 
-		echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'index_'.$application.'.php" target="_top">';
+		echo '<a '. $link_class .' href="'. api_get_path(WEB_PATH) .'run.php?application='.$application.'" target="_top">';
 		echo get_lang(application_to_class($application));
 		echo ($count > 0 ? '&nbsp;('.$count.')' : null);
 		echo '</a>&nbsp;'."\n";
