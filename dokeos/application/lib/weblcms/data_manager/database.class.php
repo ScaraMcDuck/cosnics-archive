@@ -774,7 +774,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 						if (is_dir($file_path))
 						{
 							// TODO: Move to an XML format for tool properties, instead of .hidden, .section and whatnot
-							$visible = !file_exists($file_path.DIRECTORY_SEPARATOR.' ');
+							$visible = !file_exists($file_path.DIRECTORY_SEPARATOR.'.hidden');
 							$section_file = $file_path.DIRECTORY_SEPARATOR.'.section';
 							if (file_exists($section_file))
 							{
