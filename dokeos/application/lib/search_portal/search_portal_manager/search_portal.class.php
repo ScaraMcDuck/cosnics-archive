@@ -20,7 +20,7 @@ require_once 'Pager/Pager.php';
 class SearchPortal extends WebApplication
 {
 	const APPLICATION_NAME = 'search_portal';
-	
+
 	const PARAM_QUERY = 'query';
 	const PARAM_URL = 'url';
 
@@ -30,7 +30,7 @@ class SearchPortal extends WebApplication
 	 * The parameters that should be passed with every request.
 	 */
 	private $parameters;
-	
+
 	private $user;
 
 	/**
@@ -50,6 +50,9 @@ class SearchPortal extends WebApplication
 	function run()
 	{
 		$supports_remote = WebServiceSearchSource :: is_supported();
+		Display :: display_header(get_lang('SearchPortal'));
+		api_display_tool_title(get_lang('SearchPortal'));
+
 		echo <<<END
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -97,6 +100,7 @@ END;
 				self :: search($query, $url);
 			}
 		}
+		Display :: display_footer();
 	}
 
 	private static function search($query, $url)
@@ -252,7 +256,7 @@ END;
 	{
 		return array ();
 	}
-	
+
 	/**
 	 * Always returns null, as this application does not publish learning objects.
 	 * @return null.
@@ -260,36 +264,36 @@ END;
 	function get_learning_object_publication_attribute($object_id)
 	{
 		return null;
-	}	
-	
+	}
+
 	function count_publication_attributes($type = null, $condition = null)
 	{
 		return null;
 	}
-	
+
 	function delete_learning_object_publications($object_id)
 	{
 		return true;
 	}
-	
+
 	function update_learning_object_publication_id($publication_attr)
 	{
 		return true;
 	}
-	
+
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
 		$links[] = array('name' => get_lang('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
 		return array('application' => array('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links);
 	}
-	
+
 	public function get_link($parameters = array (), $encode = false)
 	{
 		$link = 'index_'. self :: APPLICATION_NAME .'.php';
 		if (count($parameters))
 		{
-			$link .= '?'.http_build_query($parameters);	
+			$link .= '?'.http_build_query($parameters);
 		}
 		if ($encode)
 		{
