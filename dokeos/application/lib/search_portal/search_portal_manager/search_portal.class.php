@@ -64,9 +64,10 @@ function expandRemoteSearch()
 /* ]]> */
 </script>
 END;
-		$form = new FormValidator('search_simple', 'get', '', '', null, false);
+		$form = new FormValidator('search_simple', 'get', $this->get_url(), '', null, false);
 		$form->addElement('text', self :: PARAM_QUERY, '', 'size="40" class="search_query"');
 		$form->addElement('submit', 'submit', get_lang('Search'));
+		$form->addElement('hidden','application');
 		if ($supports_remote)
 		{
 			$form->addElement('static', null, null, '<span id="url_expander" style="font-size: 90%;">[<a href="javascript:void(0);" onclick="expandRemoteSearch();">'.get_lang('RemoteRepository').'</a>]</span>');
@@ -78,6 +79,7 @@ END;
 		$renderer = clone $form->defaultRenderer();
 		$renderer->setElementTemplate('{label} {element} ');
 		$form->accept($renderer);
+		$form->setDefaults(array('application'=>'search_portal'));
 		echo $renderer->toHTML();
 		echo '</div>';
 		if ($form->validate())
