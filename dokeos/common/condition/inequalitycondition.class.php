@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: inequalitycondition.class.php 12391 2007-05-14 12:16:28Z bmol $
+ * $Id$
  * @package repository.condition
  */
 require_once dirname(__FILE__).'/condition.class.php';
