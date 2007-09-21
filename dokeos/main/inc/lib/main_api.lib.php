@@ -941,7 +941,39 @@ function api_use_lang_files()
 	global $_language_files;
 	foreach (func_get_args() as $id)
 	{
-		$_language_files[$id] = true;
+		if (is_array($id))
+		{
+			foreach ($id as $i)
+			{
+				$_language_files[$i] = true;
+			}
+		}
+		else
+		{
+			$_language_files[$id] = true;
+		}
+	}
+}
+
+/**
+ * Removes the given identifiers from the collection of language files to use.
+ */
+function api_ignore_lang_files()
+{
+	global $_language_files;
+	foreach (func_get_args() as $id)
+	{
+		if (is_array($id))
+		{
+			foreach ($id as $i)
+			{
+				unset($_language_files[$i]);
+			}
+		}
+		else
+		{
+			unset($_language_files[$id]);
+		}
 	}
 }
 
