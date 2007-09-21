@@ -1,6 +1,6 @@
 <?php
 /**
- * $id:$
+ * $Id:$
  * @package repository.condition
  */
 require_once dirname(__FILE__).'/condition.class.php';
