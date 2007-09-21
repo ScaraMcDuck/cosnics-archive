@@ -15,6 +15,7 @@ class LearningStyleSurveyDisplay extends LearningObjectDisplay
 		$model = $survey->get_survey_model();
 		$categories = $survey->get_survey_categories();
 		$sections = $survey->get_survey_sections();
+		$html .= '<div class="survey-categories-header">' . get_lang('LearningStyleSurveyCategoryList') . '</div>';
 		$html .= '<ul class="learning-style-survey-categories">';
 		$category_map = array();
 		foreach ($categories as $category) {
@@ -29,16 +30,17 @@ class LearningStyleSurveyDisplay extends LearningObjectDisplay
 			$category_map[$category->get_id()] = $category;
 		}
 		$html .= '</ul>';
+		$html .= '<div class="survey-outline-header">' . get_lang('LearningStyleSurveyOutline') . '</div>';
 		$html .= '<ol class="learning-style-survey-tree">';
 		foreach ($sections as $section) {
-			$html .= '<li>'
+			$html .= '<li class="learning-style-survey-section">'
 				. '<div class="learning-style-survey-section-title">'
 				. htmlspecialchars($section->get_title())
 				. '</div>'
-				. '<ol>';
+				. '<ol class="learning-style-survey-section-questions">';
 			$questions = $section->get_section_questions();
 			foreach ($questions as $question) {
-				$html .= '<li>'
+				$html .= '<li class="learning-style-survey-section-question">'
 					. $model->format_question($survey, $section, $question, $category_map)
 					. '</li>';
 			}
