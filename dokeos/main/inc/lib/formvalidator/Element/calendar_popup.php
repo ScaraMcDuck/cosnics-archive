@@ -21,11 +21,10 @@
 	Mail: info@dokeos.com
 ==============================================================================
 */
-// including the relevant language file
-api_use_lang_files("agenda");
 // including the global init script
 require ('../../../claro_init_global.inc.php');
-
+// including the relevant language file
+api_use_lang_files("agenda");
 // the variables for the days and the months
 // Defining the shorts for the days
 $DaysShort = array(get_lang("SundayShort"), get_lang("MondayShort"), get_lang("TuesdayShort"), get_lang("WednesdayShort"), get_lang("ThursdayShort"), get_lang("FridayShort"), get_lang("SaturdayShort"));
