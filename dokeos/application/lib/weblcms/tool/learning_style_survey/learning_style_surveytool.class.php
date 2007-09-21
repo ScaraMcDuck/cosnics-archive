@@ -30,18 +30,26 @@ class LearningStyleSurveyTool extends RepositoryTool
 			$this->disallow();
 			return;
 		}
+		if (isset($_GET['mode']))
+		{
+			$_SESSION[get_class()]['mode'] = $_GET['mode'];
+		}
 		$toolbar = RepositoryUtilities::build_toolbar(
 			array(
 				array(
 					'img' => api_get_path(WEB_CODE_PATH).'/img/browser.gif',
 					'label' => get_lang('Browse'),
-					'href' => $this->get_url(array('mode' => 0)),
+					'href' => ($_SESSION[get_class()]['mode'] != 0
+						? $this->get_url(array('mode' => 0))
+						: null),
 					'display' => RepositoryUtilities::TOOLBAR_DISPLAY_ICON_AND_LABEL
 				),
 				array(
 					'img' => api_get_path(WEB_CODE_PATH).'/img/publish.gif',
 					'label' => get_lang('Publish'),
-					'href' => $this->get_url(array('mode' => 1)),
+					'href' => ($_SESSION[get_class()]['mode'] != 1
+						? $this->get_url(array('mode' => 1))
+						: null),
 					'display' => RepositoryUtilities::TOOLBAR_DISPLAY_ICON_AND_LABEL
 				)
 			),
@@ -49,10 +57,6 @@ class LearningStyleSurveyTool extends RepositoryTool
 			'margin-bottom: 1em;'
 		);
 		$toolbar .= $this->perform_requested_actions();
-		if (isset($_GET['mode']))
-		{
-			$_SESSION[get_class()]['mode'] = $_GET['mode'];
-		}
 		if ($_SESSION[get_class()]['mode'] == 1)
 		{
 			if ($this->is_allowed(ADD_RIGHT))
