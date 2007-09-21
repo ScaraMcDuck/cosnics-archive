@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: personal_calendar_installer.class.php 11961 2007-04-11 09:40:45Z bmol $
+ * $Id$
  * @package repository
  */
 class Installer {

@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: patternmatchcondition.class.php 9192 2006-09-01 12:17:40Z bmol $
+ * $Id$
  * @package repository.condition
  */
 require_once dirname(__FILE__) . '/condition.class.php';

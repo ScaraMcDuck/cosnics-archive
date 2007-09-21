@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: configuration.class.php 9176 2006-08-30 09:08:17Z bmol $
+ * $Id$
  * @package repository
  */
 
