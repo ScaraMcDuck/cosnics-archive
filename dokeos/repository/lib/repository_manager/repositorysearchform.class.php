@@ -269,7 +269,6 @@ class RepositorySearchForm extends FormValidator
 				}
 			}
 		}
-
 		return $conditions;
 	}
 	/**
@@ -286,7 +285,14 @@ class RepositorySearchForm extends FormValidator
 	 */
 	private function get_types()
 	{
-		$types = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE];
+		if(isset($_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE]))
+		{
+			$types = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE];
+		}
+		else
+		{
+			$types = $_POST[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE];
+		}
 		return (is_array($types) && count($types) ? $types : null);
 	}
 	/**
