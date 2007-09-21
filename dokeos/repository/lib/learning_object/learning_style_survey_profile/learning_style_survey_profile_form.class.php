@@ -25,6 +25,12 @@ class LearningStyleSurveyProfileForm extends LearningObjectForm
 	function build_creation_form()
 	{
 		parent :: build_creation_form();
+		if ($this->get_learning_object())
+		{
+			// For Edit & Publish - sort of hacked in
+			$this->create_prefilled_form();
+			return;
+		}
 		$dm = RepositoryDataManager :: get_instance();
 		$cond = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, api_get_user_id());
 		$survey_map = array();
@@ -62,14 +68,19 @@ class LearningStyleSurveyProfileForm extends LearningObjectForm
 	function build_editing_form()
 	{
 		parent :: build_editing_form();
+		$this->create_prefilled_form();
+	}
+	
+	private function create_prefilled_form()
+	{
 		$this->defaults = array();
 		$profile = $this->get_learning_object();
-		$survey = $profile->get_survey();
+		$this->survey = $profile->get_survey();
 		$input = $this->add_textfield(self :: PARAM_SURVEY_ID, get_lang('Survey'));
-		$input->setValue($survey->get_title());
+		$input->setValue($this->survey->get_title());
 		$input->freeze();
 		$this->metadata_elements = array();
-		$metadata_fields = $survey->get_additional_survey_parameters();
+		$metadata_fields = $this->survey->get_additional_survey_parameters();
 		$metadata = $profile->get_profile_metadata();
 		foreach ($metadata_fields as $field => $help)
 		{

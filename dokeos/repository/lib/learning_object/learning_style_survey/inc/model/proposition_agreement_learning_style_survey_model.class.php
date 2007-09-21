@@ -159,7 +159,7 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 		foreach (range(1, $answer_count) as $i)
 		{
 			$answer = get_lang('LearningStyleSurveyAgreement_' . $answer_count . '_' . $i);
-			$answers[] = (substr($answer, 0, 2) != '[='
+			$answers[$i] = (substr($answer, 0, 2) != '[='
 				? $answer
 				: str_replace(
 					'%percentage%',
