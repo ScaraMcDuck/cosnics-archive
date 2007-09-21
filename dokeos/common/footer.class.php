@@ -1,12 +1,32 @@
 <?php
+/**
+ * $Id$
+ * @package repository
+ */
+/**
+ * Class to display the footer of a HTML-page
+ */
 class Footer
 {
 	private $version;
+	/**
+	 * Create a new Footer
+	 */
 	function Footer($version)
 	{
 		$this->version = $version;
 	}
+	/**
+	 * Display the footer
+	 */
 	function display()
+	{
+		echo $this->toHtml();
+	}
+	/**
+	 * Returns the HTML code for the footer
+	 */
+	function toHtml()
 	{
 		$output[] = '    <div class="clear">&nbsp;</div> <!-- "clearing" div to make sure that footer stays below the main and right column sections -->';
 		$output[] = '   </div> <!-- end of #main" started at the end of claro_init_banner.inc.php -->';
@@ -26,7 +46,7 @@ class Footer
 		$output[] = '  </div> <!-- end of #outerframe opened in header -->';
 		$output[] = ' </body>';
 		$output[] = '</html>';
-		echo implode("\n",$output);
+		return implode("\n",$output);
 	}
 }
 ?>
