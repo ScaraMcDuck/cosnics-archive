@@ -40,7 +40,10 @@ if ( isset($htmlHeadXtra) && $htmlHeadXtra )
 }
 $header->display();
 
-
+if(!isset($text_dir))
+{
+	$text_dir = 'ltr';
+}
 
 echo '<body dir="'. $text_dir.'"';
 if(defined('DOKEOS_HOMEPAGE') && DOKEOS_HOMEPAGE)
