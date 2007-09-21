@@ -1,5 +1,9 @@
 <?php
 /**
+ * $Id$
+ * @package repository
+ */
+/**
  * Class to display the header of a HTML-page
  */
 class Header
@@ -89,6 +93,14 @@ class Header
 	 */
 	public function display()
 	{
+		echo $this->toHtml();
+	}
+	/**
+	 * Creates the HTML output for the header. This function will send all http
+	 * headers to the browser and return the head-tag of the html document
+	 */
+	public function toHtml()
+	{
 		foreach($this->http_headers as $index => $http_header)
 		{
 			header($http_header);
@@ -101,7 +113,7 @@ class Header
 			$output[] = '  '.$html_header;
 		}
 		$output[] = ' </head>';
-		echo implode("\n",$output);
+		return implode("\n",$output);
 	}
 }
 ?>
