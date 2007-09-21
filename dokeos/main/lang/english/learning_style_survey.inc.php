@@ -44,4 +44,6 @@ $SurveyResultPeerComparisonTitle='Compared to Peers';
 $IAgreePercentage='I agree %percentage%%';
 $NoSurveyQuestionCategories='(No categories)';
 $NoSurveyAnswerCategories='(No categories)';
+$LearningStyleSurveyCategoryList='Survey Categories';
+$LearningStyleSurveyOutline='Survey Outline';
 ?>

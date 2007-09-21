@@ -53,7 +53,7 @@ class LearningStyleSurveyResultDisplay extends LearningObjectDisplay
 		$title = (isset($user)
 			? get_lang('SurveyAnswersOfUserPrefix') . ' ' . $user
 			: get_lang('MySurveyAnswers'));
-		$answers_html = '<h4>' . htmlspecialchars($title) . '</h4>';
+		$answers_html = '<div class="survey-result-header">' . htmlspecialchars($title) . '</div>';
 		$answers_html .= '<ol class="survey-user-answers">';
 		foreach ($sections as $section)
 		{
@@ -81,7 +81,7 @@ class LearningStyleSurveyResultDisplay extends LearningObjectDisplay
 		$title = (isset($user)
 			? get_lang('SurveyResultsOfUserPrefix') . ' ' . $user
 			: get_lang('MySurveyResults'));
-		$result_html = '<h4>' . htmlspecialchars($title) . '</h4>';
+		$result_html = '<div class="survey-result-header">' . htmlspecialchars($title) . '</div>';
 		$result_html .= '<dl class="survey-user-results">';
 		$categories = $survey->get_survey_categories();
 		foreach ($categories as $category)
@@ -99,7 +99,7 @@ class LearningStyleSurveyResultDisplay extends LearningObjectDisplay
 			require_once dirname(__FILE__).'/inc/PsychePolygon.class.php';
 			$p = new PsychePolygon($titles, $data);
 			$img = $p->create_image(PsychePolygon::IMAGE_TYPE_PNG);
-			$result_html .= '<div><img src="data:' . $img['mime_type'] . ';base64,'
+			$result_html .= '<div class="survey-user-result-polygon"><img src="data:' . $img['mime_type'] . ';base64,'
 				. base64_encode($img['data']) . '"'
 				. ' width="' . $img['width'] . '" height="' . $img['height'] . '"/></div>';
 		}

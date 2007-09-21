@@ -44,4 +44,6 @@ $SurveyResultPeerComparisonTitle='Vergelijking met andere proefpersonen';
 $IAgreePercentage='%percentage%% akkoord';
 $NoSurveyQuestionCategories='(Geen categorieën)';
 $NoSurveyAnswerCategories='(Geen categorieën)';
+$LearningStyleSurveyCategoryList='Lijst van categorieën';
+$LearningStyleSurveyOutline='Overzicht van enquête';
 ?>

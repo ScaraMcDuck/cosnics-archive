@@ -1742,3 +1742,94 @@ ul.toolbar li.last span {
 .sortable_table_selection_controls a {
 	margin-right: 1ex;
 }
+/* Learning style survey */
+ul.learning-style-survey-categories {
+	list-style: none;
+	padding-left: 0;
+}
+ul.learning-style-survey-categories li {
+	border: 1px solid #DCDCFF;
+	background: #FCFCFF;
+	margin-bottom: 0.5em;
+	padding: 0.5em;
+}
+ul.learning-style-survey-categories div.learning-style-survey-category-title {
+	margin-bottom: 0.5em;
+	font-size: 120%;
+}
+ul.learning-style-survey-categories div.learning-style-survey-category-description {
+	border: 1px dotted #DCDCFF;
+	background: white;
+	padding: 0.5em;
+}
+ol.learning-style-survey-tree {
+	border: 1px solid #DCDCDC;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+ol.learning-style-survey-tree li.learning-style-survey-section {
+	margin-bottom: 0.5em;
+}
+ol.learning-style-survey-tree div.learning-style-survey-section-title {
+	font-size: 120%;
+}
+ol.learning-style-survey-tree ol.learning-style-survey-section-questions {
+	border: 1px dotted #DCDCDC;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+ol.learning-style-survey-tree ul.learning-style-survey-question-categories,
+ol.learning-style-survey-tree ul.learning-style-survey-answer-categories {
+	list-style: none;
+	padding-left: 0;
+	margin-top: 0.5em;
+}
+ol.learning-style-survey-tree ul.learning-style-survey-question-categories li,
+ol.learning-style-survey-tree ul.learning-style-survey-answer-categories li {
+	padding: 0.5em;
+	border: 1px solid #DCDCFF;
+	background: #FCFCFF;
+	margin-bottom: 0.25em;
+}
+ol.learning-style-survey-tree div.learning-style-survey-question-no-categories,
+ol.learning-style-survey-tree div.learning-style-survey-answer-no-categories {
+	border: 1px dotted #DCDCFF;
+	margin-top: 0.5em;
+	padding: 0.5em;
+	font-style: italic;
+}
+dl.survey-user-results {
+	border: 1px solid #DCDCDC;
+	padding: 1em;
+}
+dl.survey-user-results .survey-category-title {
+	padding: 0;
+	margin: 0;
+	font-size: 120%;
+}
+dl.survey-user-results .survey-category-description {
+	padding: 0.5em;
+	margin: 0.5em 0;
+	border: 1px solid #F0F0F0;
+}
+dl.survey-user-results .survey-user-result {
+	padding: 0;
+	margin: 0;
+	text-align: right;
+	font-weight: bold;
+	font-size: 120%;
+}
+div.survey-user-result-polygon {
+	border: 1px solid #DCDCDC;
+	text-align: center;
+}
+ol.survey-user-answers {
+	border: 1px solid #DCDCDC;
+}
+div.survey-categories-header, div.survey-outline-header, div.survey-result-header {
+	font-weight: bold;
+	font-size: 120%;
+	margin: 1.5em 0 0.75em 0;
+}
