@@ -25,20 +25,24 @@
 global $Config ;
 
 // SECURITY: You must explicitelly enable this "uploader".
-$Config['Enabled'] = false ;
+$Config['Enabled'] = true ;
 
 // Set if the file type must be considere in the target path.
 // Ex: /userfiles/image/ or /userfiles/file/
 $Config['UseFileType'] = false ;
 
-// Path to uploaded files relative to the document root.
-$Config['UserFilesPath'] = '/userfiles/' ;
+//Dokeos config
+require_once(dirname(__FILE__).'/../../../../../../../../main/inc/claro_init_global.inc.php');
+
+// Path to user files relative to the document root.
+$Config['UserFilesPath'] = api_get_path(REL_CLARO_PATH).'../upload/fckeditor/'.$_uid.'/'; ;
+
 
 // Fill the following value it you prefer to specify the absolute path for the
 // user files directory. Usefull if you are using a virtual directory, symbolic
 // link or alias. Examples: 'C:\\MySite\\userfiles\\' or '/root/mysite/userfiles/'.
 // Attention: The above 'UserFilesPath' must point to the same directory.
-$Config['UserFilesAbsolutePath'] = '' ;
+$Config['UserFilesAbsolutePath'] = api_get_path(SYS_PATH).'upload/fckeditor/'.$_uid.'/';;
 
 // Due to security issues with Apache modules, it is reccomended to leave the
 // following setting enabled.
