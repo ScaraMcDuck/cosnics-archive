@@ -517,7 +517,7 @@ class Weblcms extends WebApplication
 	 */
 	private function load_group()
 	{
-		if(!is_null($this->get_parameter(self :: PARAM_GROUP)))
+		if(!is_null($this->get_parameter(self :: PARAM_GROUP)) && strlen($this->get_parameter(self :: PARAM_GROUP)>0))
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
 			$this->group = $wdm->retrieve_group($this->get_parameter(self :: PARAM_GROUP));
