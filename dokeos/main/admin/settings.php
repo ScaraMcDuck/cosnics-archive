@@ -28,8 +28,8 @@
 /**
 ==============================================================================
 * With this tool you can easily adjust non critical configuration settings.
-* Non critical means that changing them will not result in a broken campus. 
-*	
+* Non critical means that changing them will not result in a broken campus.
+*
 * @author Patrick Cool
 * @since Dokeos 1.6
 * @package dokeos.admin
@@ -42,11 +42,10 @@
 ==============================================================================
 */
 
-
-// stating the language file
-api_use_lang_files('admin');
 // including some necessary dokeos files
 include ('../inc/claro_init_global.inc.php');
+// stating the language file
+api_use_lang_files('admin');
 require_once (api_get_library_path().'/formvalidator/FormValidator.class.php');
 $this_section = SECTION_PLATFORM_ADMIN;
 
@@ -122,8 +121,8 @@ if ($_GET['category'] and $_GET['category'] <> "Plugins" and $_GET['category'] <
 	if ($form->validate())
 	{
 		$values = $form->exportValues();
-		// the first step is to set all the variables that have type=checkbox of the category 
-		// to false as the checkbox that is unchecked is not in the $_POST data and can 
+		// the first step is to set all the variables that have type=checkbox of the category
+		// to false as the checkbox that is unchecked is not in the $_POST data and can
 		// therefore not be set to false
 		$sql = "UPDATE $table_settings_current SET selected_value='false' WHERE category='".mysql_real_escape_string($_GET['category'])."' AND type='checkbox'";
 		$result = api_sql_query($sql, __FILE__, __LINE__);
@@ -189,7 +188,7 @@ if (isset ($_GET['category']))
 
 /*
 ==============================================================================
-		FOOTER 
+		FOOTER
 ==============================================================================
 */
 Display :: display_footer();
@@ -213,7 +212,7 @@ function get_settings_options($var)
 
 /**
  * This function allows easy activating and inactivating of plugins
- * @todo: a similar function needs to be written to activate or inactivate additional tools. 
+ * @todo: a similar function needs to be written to activate or inactivate additional tools.
  * @author Patrick Cool <patrick.cool@UGent.be>, Ghent University
 */
 function handle_plugins()
@@ -245,7 +244,7 @@ function handle_plugins()
 	/* 	for each of the possible plugin dirs we check if a file plugin.php (that contains all the needed information about this plugin)
 	 	can be found in the dir.
 		this plugin.php file looks like
-		$plugin_info['title']='The title of the plugin'; // 
+		$plugin_info['title']='The title of the plugin'; //
 		$plugin_info['comment']="Some comment about the plugin";
 		$plugin_info['location']=array("main_menu", "main_menu_logged","banner"); // the possible locations where the plugins can be used
 		$plugin_info['version']='0.1 alpha'; // The version number of the plugin
@@ -363,7 +362,7 @@ function handle_stylesheets()
 {
 	$currentstyle = api_get_setting('stylesheets');
 
-	// check 
+	// check
 	if (!isset ($currentstyle) OR $currentstyle == '')
 	{
 		$selected = 'checked="checked"';
@@ -400,7 +399,7 @@ function handle_stylesheets()
 
 /**
  * This function allows easy activating and inactivating of plugins
- * @todo: a similar function needs to be written to activate or inactivate additional tools. 
+ * @todo: a similar function needs to be written to activate or inactivate additional tools.
  * @author Patrick Cool <patrick.cool@UGent.be>, Ghent University
 */
 function store_plugins()
@@ -431,7 +430,7 @@ function store_stylesheets()
 {
 	$table_settings_current = Database :: get_main_table(MAIN_SETTINGS_CURRENT_TABLE);
 
-	// Delete the current stylesheet (if there is one). We are not sure there is one 
+	// Delete the current stylesheet (if there is one). We are not sure there is one
 	$sql = "DELETE FROM $table_settings_current WHERE category='stylesheets'";
 	api_sql_query($sql, __LINE__, __FILE__);
 

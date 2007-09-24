@@ -25,10 +25,10 @@
 ==============================================================================
 * This page allows the platform admin to decide which languages should
 * be available in the language selection menu in the login page. This can be
-* useful for countries with more than one official language (like Belgium: 
-* Dutch, French and German) or international organisations that are active in	
-* a limited number of countries. 
-* 
+* useful for countries with more than one official language (like Belgium:
+* Dutch, French and German) or international organisations that are active in
+* a limited number of countries.
+*
 * @author Patrick Cool, main author
 * @author Roan EMbrechts, code cleaning
 * @since Dokeos 1.6
@@ -37,18 +37,18 @@
 */
 
 /*
-============================================================================== 
+==============================================================================
 	   INIT SECTION
-============================================================================== 
+==============================================================================
 */
-// language file to be included 
-api_use_lang_files('admin');
 
 // we are in the admin area so we do not need a course id
 $cidReset = true;
 
 // include global script
 include ('../inc/claro_init_global.inc.php');
+// language file to be included
+api_use_lang_files('admin');
 $this_section = SECTION_PLATFORM_ADMIN;
 
 api_protect_admin_script();
@@ -57,9 +57,9 @@ $tbl_admin_languages = Database :: get_main_table(MAIN_LANGUAGE_TABLE);
 $tbl_settings_current = Database :: get_main_table(MAIN_SETTINGS_CURRENT_TABLE);
 
 /*
-============================================================================== 
+==============================================================================
 		STORING THE CHANGES
-============================================================================== 
+==============================================================================
 */
 // we change the availability
 if ($_GET['action'] == 'makeunavailable')
@@ -117,9 +117,9 @@ elseif (isset($_POST['action']))
 }
 
 /*
-============================================================================== 
+==============================================================================
 		MAIN CODE
-============================================================================== 
+==============================================================================
 */
 // setting the name of the tool
 $tool_name = get_lang('PlatformLanguages');
@@ -130,13 +130,13 @@ $interbredcrump[] = array ('url' => 'index.php', 'name' => get_lang('PlatformAdm
 // including the header file (which includes the banner itself)
 Display :: display_header($tool_name);
 
-// displaying the naam of the tool 
+// displaying the naam of the tool
 api_display_tool_title($tool_name);
 
 // displaying the explanation for this tool
 echo '<p>'.get_lang('PlatformLanguagesExplanation').'</p>';
 
-// selecting all the languages	
+// selecting all the languages
 $sql_select = "SELECT * FROM $tbl_admin_languages";
 $result_select = api_sql_query($sql_select);
 
@@ -187,7 +187,7 @@ $table->display();
 
 /*
 ==============================================================================
-		FOOTER 
+		FOOTER
 ==============================================================================
 */
 Display :: display_footer();
