@@ -33,9 +33,10 @@
 		INIT SECTION
 ==============================================================================
 */
-api_use_lang_files('admin', 'agenda');
+
 $cidReset = true;
 include ('../inc/claro_init_global.inc.php');
+api_use_lang_files('admin', 'agenda');
 $this_section=SECTION_PLATFORM_ADMIN;
 
 require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
@@ -116,7 +117,7 @@ if (isset ($_POST['action']) && $_POST['action'] == 'delete_selected')
 {
 	foreach($_POST['id'] as $index => $id)
 	{
-		SystemAnnouncementManager :: delete_announcement($id);	
+		SystemAnnouncementManager :: delete_announcement($id);
 	}
 	Display :: display_normal_message(get_lang('AnnouncementDeleted'));
 	$action_todo = false;
@@ -164,15 +165,15 @@ if ($action_todo)
 		$values = $form->exportValues();
 		if( !isset($values['visible_teacher']))
 		{
-			$values['visible_teacher'] = false;	
+			$values['visible_teacher'] = false;
 		}
 		if( !isset($values['visible_student']))
 		{
-			$values['visible_student'] = false;	
+			$values['visible_student'] = false;
 		}
 		if( !isset($values['visible_guest']))
 		{
-			$values['visible_guest'] = false;	
+			$values['visible_guest'] = false;
 		}
 		switch($values['action'])
 		{
@@ -184,7 +185,7 @@ if ($action_todo)
 				SystemAnnouncementManager::update_announcement($values['id'],$values['title'],$values['content'],$values['start'],$values['end'],$values['visible_teacher'],$values['visible_student'],$values['visible_guest']);
 				Display :: display_normal_message(get_lang('AnnouncementUpdated'));
 				break;
-			default:	
+			default:
 				break;
 		}
 		$show_announcement_list = true;
@@ -230,7 +231,7 @@ if ($show_announcement_list)
 }
 /*
 ==============================================================================
-		FOOTER 
+		FOOTER
 ==============================================================================
 */
 Display :: display_footer();
