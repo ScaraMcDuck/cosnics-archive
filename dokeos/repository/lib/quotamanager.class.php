@@ -41,7 +41,7 @@ class QuotaManager
 	private $max_versions;
 	/**
 	 * Create a new QuotaManager
-	 * @param int $owner The user id of the owner
+	 * @param User $owner The user of which the quota should be calculated
 	 */
 	public function QuotaManager($owner)
 	{
@@ -145,7 +145,7 @@ class QuotaManager
 		{
 			$owner = $this->owner;
 			$version_quota = $owner->get_version_type_quota($type);
-			
+
 			if (isset($version_quota))
 			{
 				$this->max_versions = $version_quota;
