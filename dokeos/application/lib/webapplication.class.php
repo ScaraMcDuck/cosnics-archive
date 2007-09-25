@@ -6,11 +6,12 @@
 require_once dirname(__FILE__).'/application.class.php';
 
 abstract class WebApplication extends Application {
-	
+
 	private $parameters;
-	
+
 	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
+	const PARAM_APPLICATION = 'application';
 
 	function WebApplication()
 	{
@@ -37,7 +38,7 @@ abstract class WebApplication extends Application {
 		{
 			$parameters = $this->parameters;
 		}
-		
+
 		if ($filter)
 		{
 			foreach ($parameters as $key => $value)
@@ -48,7 +49,7 @@ abstract class WebApplication extends Application {
 				}
 			}
 		}
-		
+
 		$url = $_SERVER['PHP_SELF'].'?'.http_build_query(($filter ? $url_parameters : $parameters));
 		if ($encode)
 		{
@@ -56,7 +57,7 @@ abstract class WebApplication extends Application {
 		}
 		return $url;
 	}
-	
+
 	/**
 	 * Redirect the end user to another location.
 	 * @param string $action The action to take (default = browse learning
@@ -69,7 +70,7 @@ abstract class WebApplication extends Application {
 	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
 	{
 		$params = array ();
-		
+
 		if (isset($extra_params))
 		{
 			foreach($extra_params as $key => $extra)
@@ -77,12 +78,12 @@ abstract class WebApplication extends Application {
 				$params[$key] = $extra;
 			}
 		}
-		
+
 		if (isset ($message))
 		{
 			$params[$error_message ? self :: PARAM_ERROR_MESSAGE :  self :: PARAM_MESSAGE] = $message;
 		}
-		
+
 		$url = $this->get_url($params);
 		header('Location: '.$url);
 	}
