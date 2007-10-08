@@ -4,6 +4,7 @@
  *	@package include
  */
 require_once(dirname(__FILE__).'/../../common/header.class.php');
+require_once(dirname(__FILE__).'/../../common/banner.class.php');
 
 // Get language iso-code for this page - ignore errors
 // The error ignorance is due to the non compatibility of function_exists()
@@ -56,5 +57,6 @@ echo '<!-- #outerframe container to control some general layout of all pages -->
 echo '<div id="outerframe">'."\n";
 
 //  Banner
-include(api_get_include_path()."/claro_init_banner.inc.php");
+$banner = new Banner();
+$banner->display();
 ?>
