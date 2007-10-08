@@ -369,20 +369,18 @@ function display_applications_list()
 		$html = array();
 		$html[] = '<h4 style="margin-top: 0px;">'.get_lang('ApplicationList').'</h4>';
 		$html[] = '<ul>';
-		// XXX: index.php?application=$app would be a lot prettier, especially
-		// when combined with mod_rewrite magic.
 		foreach ($applications as $application)
 		{
 			if (isset($_uid))
 			{
-				$html[]= '<li><a href="index_'. $application .'.php">'. get_lang('App'.application_to_class($application)) .'</a></li>';
+				$html[]= '<li><a href="run.php?application='. $application .'">'. get_lang('App'.application_to_class($application)) .'</a></li>';
 			}
 			else
 			{
 				$html[]= '<li>'. get_lang('App'.application_to_class($application)) .'</li>';
 			}
 		}
-		
+
 		if (isset($_uid))
 		{
 			$html[]= '<li><a href="index_repository_manager.php">'. get_lang('AppRepositoryManager') .'</a></li>';
@@ -391,9 +389,9 @@ function display_applications_list()
 		{
 			$html[]= '<li>'. get_lang('AppRepositoryManager') .'</li>';
 		}
-		
+
 		$html[] = '</ul>';
-		
+
 		echo implode($html, "\n");
 	}
 }
