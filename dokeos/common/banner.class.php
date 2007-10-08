@@ -59,7 +59,7 @@ class Banner
 		$output[] = '<div id="Header2Right">';
 		$output[] = '<ul>';
 
-		if ((api_get_setting('showonline', 'world') == "true" AND !$_uid) OR (api_get_setting('showonline', 'users') == "true" AND $_uid) OR (api_get_setting('showonline', 'course') == "true" AND $_uid AND $_cid))
+		if ((api_get_setting('showonline', 'world') == "true" AND !$_SESSION['_uid']) OR (api_get_setting('showonline', 'users') == "true" AND $_SESSION['_uid']) OR (api_get_setting('showonline', 'course') == "true" AND $_SESSION['_uid'] AND $_SESSION['_cid']))
 		{
 			$statistics_database = Database :: get_statistic_database();
 			$number = count(WhoIsOnline(api_get_user_id(), $statistics_database, 30));
@@ -68,7 +68,7 @@ class Banner
 			$output[] = "<li>".get_lang('UsersOnline').": ";
 
 			// Display the who's online of the platform
-			if ((api_get_setting('showonline', 'world') == "true" AND !$_uid) OR (api_get_setting('showonline', 'users') == "true" AND $_uid))
+			if ((api_get_setting('showonline', 'world') == "true" AND !$_SESSION['_uid']) OR (api_get_setting('showonline', 'users') == "true" AND $_SESSION['_uid']))
 			{
 				$output[] = "<a href='".api_get_path(WEB_PATH)."whoisonline.php' target='_top'>".$number."</a>";
 			}
@@ -116,7 +116,7 @@ class Banner
 
 			$output[] = '<form method="get" action="'.api_get_path(WEB_PATH).'index.php" class="banner_links" target="_top">';
 			$output[] = '<input type="hidden" name="logout" value="true"/>';
-			$output[] = '<input type="hidden" name="uid" value="'.$_uid.'"/>';
+			$output[] = '<input type="hidden" name="uid" value="'.$_SESSION['_uid'].'"/>';
 			$output[] = '<div id="logout">';
 			$output[] = '<input type="submit" name="submit" value="'.get_lang("Logout").'" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'" class="logout"/>';
 			$output[] = '</div>';
@@ -200,7 +200,7 @@ class Banner
 		global $interbredcrump;
 		if (isset ($nameTools) || is_array($interbredcrump))
 		{
-			if (!isset ($_uid))
+			if (!isset ($_SESSION['_uid']))
 			{
 				$output[] = " ";
 			}
@@ -225,7 +225,7 @@ class Banner
 
 		if (isset ($nameTools))
 		{
-			if (!isset ($_uid))
+			if (!isset ($_SESSION['_uid']))
 			{
 				$output[] = '&nbsp;';
 			}
