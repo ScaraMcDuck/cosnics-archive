@@ -4,6 +4,10 @@
  * @package authentication
  */
 require_once dirname(__FILE__).'/../authentication.class.php';
+/**
+ * This authentication class implements the default authentication method for
+ * the platform using md5-encrypted passwords.
+ */
 class PlatformAuthentication extends Authentication
 {
     function PlatformAuthentication()
