@@ -110,7 +110,34 @@ abstract class UsersDataManager
 	 * @param $id the user ID to retrieve the info from
 	 */
 	abstract function retrieve_user($id);
-
+	/**
+	 *
+	 */
+	public function login($username,$password)
+	{
+		// If username is available, try to login
+		if(!$this->is_username_available($username))
+		{
+			$user = $this->retrieve_user_by_username($username);
+			$authentication_method = $user->get_auth_source();
+			$authentication_class_file = dirname(__FILE__).'/../../common/authentication/'.$authentication_method.'/'.$authentication_method.'authentication.class.php';
+			$authentication_class = ucfirst($authentication_method).'Authentication';
+			require_once $authentication_class_file;
+			$authentication =new $authentication_class;
+			if($authentication->check_login($user,$username,$password))
+			{
+				return $user;
+			}
+			return null;
+		}
+		// If username is not available, check if the authentication method is able to register
+		// a new user in the platform
+		else
+		{
+			//TODO
+			return null;
+		}
+	}
 	/**
 	 * Retrieves a user by his or her username.
 	 * @param $username the username to retrieve the info from
