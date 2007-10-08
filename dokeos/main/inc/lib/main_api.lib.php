@@ -349,7 +349,7 @@ function api_get_configuration_path()
 */
 function api_get_user_id()
 {
-	return $GLOBALS["_uid"];
+	return $_SESSION["_uid"];
 }
 /**
  * @param $user_id (integer): the id of the user
@@ -388,17 +388,17 @@ function api_get_user_info($user_id = '')
 			$user_info['database_quota'] = $result_array['database_quota'];
 			$user_info['version_quota'] = array();
 			$user_info['version_quota']['general'] = $result_array['version_quota'];
-			
+
 			$lot_sql = "SELECT * FROM ".Database :: get_main_table(MAIN_USER_QUOTA_TABLE)." WHERE user_id='".mysql_real_escape_string($user_id)."'";
 			$lot_result = api_sql_query($lot_sql, __FILE__, __LINE__);
 			if(mysql_num_rows($lot_result) > 0)
 			{
 				while($lot_result_array = mysql_fetch_array($lot_result))
 				{
-					$user_info['version_quota'][$lot_result_array['learning_object_type']] = $lot_result_array['user_quota']; 
+					$user_info['version_quota'][$lot_result_array['learning_object_type']] = $lot_result_array['user_quota'];
 				}
 			}
-			
+
 			return $user_info;
 		}
 		return false;
@@ -895,7 +895,7 @@ function api_get_setting($variable, $key = NULL)
 
 /**
  * Gets a localized translation for the given string identifier.
- * @param string $variable the string identifier. 
+ * @param string $variable the string identifier.
  * @return string the translation.
  * @author Evie Embrechts
  * @author Patrick Cool
@@ -934,7 +934,7 @@ function get_lang($variable)
 
 /**
  * Adds the given identifiers to the collection of language files to use.
- * Previously, this was done by accessing $langFile. 
+ * Previously, this was done by accessing $langFile.
  */
 function api_use_lang_files()
 {
@@ -1664,7 +1664,7 @@ function load_applications()
 				if (!in_array($file, applications))
 				{
 					$applications[] = $file;
-					
+
 				}
 			}
 		}
