@@ -1,6 +1,7 @@
 <?php // $Id$
 include_once (api_get_library_path().'/online.inc.php');
 require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
+// Login
 if($_POST['login'])
 {
 	$udm = UsersDataManager::get_instance();
@@ -17,6 +18,7 @@ if($_POST['login'])
 		exit;
 	}
 }
+// Log out
 if ($_GET['logout'])
 {
 	$query_string='';
