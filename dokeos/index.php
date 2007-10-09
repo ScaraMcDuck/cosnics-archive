@@ -23,23 +23,6 @@
 	Mail: info@dokeos.com
 ==============================================================================
 */
-/**
-==============================================================================
-*	This is the index file displayed when a user arrives at Dokeos.
-*
-*	It dispalys:
-*	- tree of courses and categories
-*	- login form
-*	- public menu
-*
-*	Search for
-*	CONFIGURATION parameters
-*	to modify settings
-*
-*	@todo rewrite code to separate display, logic, database code
-*	@package dokeos.main
-==============================================================================
-*/
 /*
 ==============================================================================
 	   INIT SECTION
@@ -268,10 +251,7 @@ if (!$pageIncluded)
 {
 //	echo '<div class="clear">&nbsp;</div>';
 	echo '<div class="home_cats">';
-	if (DISPLAY_COURSES_TO_ANONYMOUS_USERS)
-	{
-		display_applications_list();
-	}
+	display_applications_list();
 	echo '</div>';
 
 	echo '<div class="home_news">';
