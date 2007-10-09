@@ -28,9 +28,8 @@
 ==============================================================================
 */
 
-api_use_lang_files('index','registration');
-
 include_once ("./main/inc/claro_init_global.inc.php");
+api_use_lang_files('index','registration');
 require_once('application/common/userdetails.class.php');
 $track_user_table = Database :: get_main_table(MAIN_USER_TABLE);
 
