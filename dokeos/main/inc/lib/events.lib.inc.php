@@ -1,30 +1,30 @@
 <?php
 // $Id$
 /*
-============================================================================== 
+==============================================================================
 	Dokeos - elearning and course management software
-	
+
 	Copyright (c) 2004 Dokeos S.A.
 	Copyright (c) 2003 University of Ghent (UGent)
 	Copyright (c) 2001 Universite catholique de Louvain (UCL)
 	Copyright (c) Sebastien Piraux
 	Copyright (c) Toon Van Hoecke
-	
+
 	For a full list of contributors, see "credits.txt".
 	The full license can be read in "license.txt".
-	
+
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
 	as published by the Free Software Foundation; either version 2
 	of the License, or (at your option) any later version.
-	
+
 	See the GNU General Public License for more details.
-	
+
 	Contact: Dokeos, 181 rue Royale, B-1000 Brussels, Belgium, info@dokeos.com
-============================================================================== 
+==============================================================================
 */
 /**
-============================================================================== 
+==============================================================================
 * EVENTS LIBRARY
 *
 * This is the events library for Dokeos.
@@ -35,12 +35,12 @@
 *
 * @package dokeos.library
 * @todo convert queries to use Database API
-============================================================================== 
+==============================================================================
 */
 /*
-============================================================================== 
+==============================================================================
 	   INIT SECTION
-============================================================================== 
+==============================================================================
 */
 // REGROUP TABLE NAMES FOR MAINTENANCE PURPOSE
 $TABLETRACK_LOGIN = $statsDbName."`.`track_e_login";
@@ -55,9 +55,9 @@ $TABLETRACK_LASTACCESS = $statsDbName."`.`track_e_lastaccess"; //for "what's new
 
 
 /*
-============================================================================== 
+==============================================================================
 		FUNCTIONS
-============================================================================== 
+==============================================================================
 */
 
 /**
@@ -86,12 +86,12 @@ function event_open()
 			$remhost = "Unknown"; // don't change this
 		$reallyNow = time();
 		$sql = "INSERT INTO `".$TABLETRACK_OPEN."`
-		
+
 						(`open_remote_host`,
 						 `open_agent`,
 						 `open_referer`,
 						 `open_date`)
-		
+
 						VALUES
 						('".$remhost."',
 						 '".$_SERVER['HTTP_USER_AGENT']."', '".$referer."', FROM_UNIXTIME($reallyNow) )";
@@ -112,17 +112,16 @@ function event_login()
 	// if tracking is disabled record nothing
 	if (!$is_trackingEnabled)
 		return 0;
-	global $_uid;
 	global $TABLETRACK_LOGIN;
 	$reallyNow = time();
 	$sql = "INSERT INTO `".$TABLETRACK_LOGIN."`
-	
+
 				(`login_user_id`,
 				 `login_ip`,
 				 `login_date`)
-	
+
 				 VALUES
-					('".$_uid."',
+					('".$_SESSION['_uid']."',
 					'".$_SERVER['REMOTE_ADDR']."',
 					FROM_UNIXTIME(".$reallyNow."))";
 	$res = api_sql_query($sql,__FILE__,__LINE__);
@@ -155,13 +154,13 @@ function event_access_course()
 		$user_id = "NULL";
 	}
 	$sql = "INSERT INTO `".$TABLETRACK_ACCESS."`
-	
+
 				(`access_user_id`,
 				 `access_cours_code`,
 				 `access_date`)
-	
+
 				VALUES
-	
+
 				(".$user_id.",
 				'".$_cid."',
 				FROM_UNIXTIME(".$reallyNow."))";
@@ -194,7 +193,7 @@ function event_access_course()
  *  ...
  *  Values can be added if new modules are created (15char max)
  *  I encourage to use $nameTool as $tool when calling this function
- *  
+ *
  * 	Functionality for "what's new" notification is added by Toon Van Hoecke
  */
 function event_access_tool($tool)
@@ -225,9 +224,9 @@ function event_access_tool($tool)
 							 `access_cours_code`,
 							 `access_tool`,
 							 `access_date`)
-			
+
 							VALUES
-			
+
 							(".$user_id.",".// Don't add ' ' around value, it's already done.
 	"'".$_cid."' ,
 					'".htmlspecialchars($tool, ENT_QUOTES)."',
@@ -288,7 +287,7 @@ function event_download($doc_url)
 				 `down_doc_path`,
 				 `down_date`
 				)
-	
+
 				VALUES
 				(
 				 ".$user_id.",
@@ -333,7 +332,7 @@ function event_upload($doc_id)
 				 `upload_work_id`,
 				 `upload_date`
 				)
-	
+
 				VALUES
 				(
 				 ".$user_id.",
@@ -377,7 +376,7 @@ function event_link($link_id)
 				 `links_link_id`,
 				 `links_date`
 				)
-	
+
 				VALUES
 				(
 				 ".$user_id.",
@@ -425,7 +424,7 @@ function event_exercice($exo_id, $score, $weighting)
 			   `exe_weighting`,
 			   `exe_date`
 			  )
-	
+
 			  VALUES
 			  (
 			  ".$user_id.",
