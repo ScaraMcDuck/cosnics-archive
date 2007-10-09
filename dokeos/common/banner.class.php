@@ -207,10 +207,6 @@ class Banner
 			else
 			{
 				$output[] = '&nbsp;&nbsp;<a href="'.api_get_path(WEB_PATH).'index.php" target="_top">'.api_get_setting('siteName').'</a>';
-				if (isset ($_GET['coursePath']))
-				{
-					$output[] = '&gt; <a href="'.api_get_path(WEB_PATH).'"user_portal.php" target="_top">'.get_lang('MyCourses').'</a>';
-				}
 			}
 		}
 
