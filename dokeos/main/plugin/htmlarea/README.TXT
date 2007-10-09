@@ -1,3 +1,0 @@
-- images have been put in /img/htmlarea/
-- language files have been put in /lang/[lang]/htmlarea.js.php
-- css files have been put in /css/htmlarea.css
