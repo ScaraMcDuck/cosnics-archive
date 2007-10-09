@@ -111,9 +111,11 @@ abstract class UsersDataManager
 	 */
 	abstract function retrieve_user($id);
 	/**
-	 *
+	 * Logs a user in to the platform
+	 * @param string $username
+	 * @param string $password
 	 */
-	public function login($username,$password)
+	public function login($username,$password = null)
 	{
 		// If username is available, try to login
 		if(!$this->is_username_available($username))
@@ -137,6 +139,23 @@ abstract class UsersDataManager
 			//TODO
 			return null;
 		}
+	}
+	/**
+	 * Logs the user out of the system
+	 */
+	public function logout()
+	{
+		$user = $this->retrieve_user(api_get_user_id());
+		$authentication_method = $user->get_auth_source();
+		$authentication_class_file = dirname(__FILE__).'/../../common/authentication/'.$authentication_method.'/'.$authentication_method.'authentication.class.php';
+		$authentication_class = ucfirst($authentication_method).'Authentication';
+		require_once $authentication_class_file;
+		$authentication =new $authentication_class;
+		if($authentication->logout($user))
+		{
+			return true;
+		}
+		return false;
 	}
 	/**
 	 * Retrieves a user by his or her username.
