@@ -1,5 +1,6 @@
 <?php // $Id$
-include_once (api_get_library_path().'/online.inc.php');
+require_once (api_get_library_path().'/online.inc.php');
+require_once (api_get_library_path().'/events.lib.inc.php');
 require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
 // Login
 if($_POST['login'])
@@ -10,6 +11,13 @@ if($_POST['login'])
 	{
 		$_SESSION['_uid'] = $user->get_user_id();
 		loginCheck($_SESSION['_uid']);
+		event_login();
+		if ($user->is_platform_admin())
+		{
+			// decode all open event informations and fill the track_c_* tables
+			include (api_get_library_path()."/stats.lib.inc.php");
+			decodeOpenInfos();
+		}
 	}
 	else
 	{
