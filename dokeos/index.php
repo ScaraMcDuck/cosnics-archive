@@ -75,21 +75,7 @@ include_once (api_get_library_path()."/formvalidator/FormValidator.class.php");
 
 api_use_lang_files('courses', 'index');
 
-if ($_GET['logout'])
-{
-	$query_string='';
 
-	if(!empty($_SESSION['user_language_choice']))
-	{
-		$query_string='?language='.$_SESSION['user_language_choice'];
-	}
-
-	LoginDelete($uid, $statsDbName);
-	api_session_destroy();
-
-	header("Location: index.php$query_string");
-	exit();
-}
 /*
 -----------------------------------------------------------
 	Table definitions
@@ -179,19 +165,6 @@ if ($_POST["submitAuth"])
 	$uid = $_SESSION['_uid'];
 	if (isset ($uid))
 	{
-		$sqlLastLogin = "SELECT UNIX_TIMESTAMP(login_date)
-								FROM $track_login_table
-								WHERE login_user_id = '$uid'
-								ORDER BY login_date DESC LIMIT 1";
-		$resLastLogin = api_sql_query($sqlLastLogin, __FILE__, __LINE__);
-		if (!$resLastLogin)
-			if (mysql_num_rows($resLastLogin) > 0)
-			{
-				$user_last_login_datetime = mysql_fetch_array($resLastLogin);
-				$user_last_login_datetime = $user_last_login_datetime[0];
-				api_session_register('user_last_login_datetime');
-			}
-		mysql_free_result($resLastLogin);
 		event_login();
 		if (api_is_platform_admin())
 		{
