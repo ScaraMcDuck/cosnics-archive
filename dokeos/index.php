@@ -45,26 +45,9 @@
 	   INIT SECTION
 ==============================================================================
 */
-// only this script should have this constant defined
+
 define('DOKEOS_HOMEPAGE', true);
-// Don't change these settings
-define('SCRIPTVAL_No', 0);
-define('SCRIPTVAL_InCourseList', 1);
-define('SCRIPTVAL_UnderCourseList', 2);
-define('SCRIPTVAL_Both', 3);
-// End 'don't change' section
-
-$cidReset = true; /* Flag forcing the 'current course' reset,
-                   as we're not inside a course anymore  */
-/*
------------------------------------------------------------
-	Included libraries
------------------------------------------------------------
-*/
-//this includes main_api too:
 include_once ("./main/inc/claro_init_global.inc.php");
-//$this_section = SECTION_COURSES;
-
 include_once (api_get_library_path()."/course.lib.php");
 include_once (api_get_library_path()."/debug.lib.inc.php");
 include_once (api_get_library_path()."/events.lib.inc.php");
@@ -72,114 +55,9 @@ include_once (api_get_library_path()."/system_announcements.lib.php");
 include_once (api_get_library_path()."/text.lib.php");
 include_once (api_get_library_path()."/groupmanager.lib.php");
 include_once (api_get_library_path()."/formvalidator/FormValidator.class.php");
-
 api_use_lang_files('courses', 'index');
+$nameTools = api_get_setting('siteName');
 
-
-/*
------------------------------------------------------------
-	Table definitions
------------------------------------------------------------
-*/
-//new table definitions, using database library
-//these already have backticks around them!
-$main_course_table = Database :: get_main_table(MAIN_COURSE_TABLE);
-$main_category_table = Database :: get_main_table(MAIN_CATEGORY_TABLE);
-$track_login_table = Database :: get_statistic_table(STATISTIC_TRACK_E_LOGIN_TABLE);
-/*
------------------------------------------------------------
-	Constants and CONFIGURATION parameters
------------------------------------------------------------
-*/
-// ---- Category list options ----
-/** defines wether or not anonymous visitors can see a list of the courses on
-the Dokeos homepage that are open to the world */
-define('DISPLAY_COURSES_TO_ANONYMOUS_USERS', true);
-define('CONFVAL_showNodeEmpty', true);
-define('CONFVAL_showNumberOfChild', false); // actually count are only for direct children
-define('CONFVAL_ShowLinkBackToTopOfTree', false);
-// ---- Course list options ----
-define('CONFVAL_showCourseLangIfNotSameThatPlatform', true);
-// Order to sort data
-$orderKey = array('keyTools', 'keyTime', 'keyCourse'); // default "best" Choice
-//$orderKey = array('keyTools', 'keyCourse', 'keyTime');
-//$orderKey = array('keyCourse', 'keyTime', 'keyTools');
-//$orderKey = array('keyCourse', 'keyTools', 'keyTime');
-define('CONFVAL_showExtractInfo', SCRIPTVAL_UnderCourseList);
-// SCRIPTVAL_InCourseList    // best choice if $orderKey[0] == 'keyCourse'
-// SCRIPTVAL_UnderCourseList // best choice
-// SCRIPTVAL_Both // probably only for debug
-if (isset($_uid))
-{
-	$nameTools = api_get_setting('siteName');
-}
-
-/*
------------------------------------------------------------
-	Check configuration parameters integrity
------------------------------------------------------------
-*/
-if (CONFVAL_showExtractInfo != SCRIPTVAL_UnderCourseList and $orderKey[0] != "keyCourse")
-{
-	// CONFVAL_showExtractInfo must be SCRIPTVAL_UnderCourseList to accept $orderKey[0] !="keyCourse"
-	if (DEBUG || api_is_platform_admin()) // Show bug if admin. Else force a new order
-		die("
-					<strong>
-					config error:".__FILE__."</strong>
-					<br/>
-					set
-					<ul>
-						<li>
-							CONFVAL_showExtractInfo=SCRIPTVAL_UnderCourseList
-							(actually : ".CONFVAL_showExtractInfo.")
-						</li>
-					</ul>
-					or
-					<ul>
-						<li>
-							\$orderKey[0] !=\"keyCourse\"
-							(actually : ".$orderKey[0].")
-						</li>
-					</ul>");
-	else
-	{
-		$orderKey = array ("keyCourse", "keyTools", "keyTime");
-	}
-}
-/*
-==============================================================================
-		LOGIN
-==============================================================================
-*/
-
-if ($_GET["submitAuth"] == 1)
-{
-	echo "Attempted breakin - sysadmins notified.";
-	session_destroy();
-	die();
-}
-if ($_POST["submitAuth"])
-{
-	// To ensure legacy compatibility, we set the following variables.
-	// But they should be removed at last.
-	$uid = $_SESSION['_uid'];
-	if (isset ($uid))
-	{
-		event_login();
-		if (api_is_platform_admin())
-		{
-			// decode all open event informations and fill the track_c_* tables
-			include (api_get_library_path()."/stats.lib.inc.php");
-			decodeOpenInfos();
-		}
-	}
-} // end login -- if($submit)
-else
-{
-	// only if login form was not sent because if the form is sent the user was
-	// already on the page.
-	event_open();
-}
 /*
 -----------------------------------------------------------
 	Header
@@ -190,20 +68,6 @@ else
 $help = "Clar";
 
 Display :: display_header($nameTools, $help);
-
-/*
-==============================================================================
-		FUNCTIONS
-
-		display_anonymous_right_menu()
-		display_applications_list()
-
-		display_login_form()
-		handle_login_failed()
-
-		display_lost_password_info()
-==============================================================================
-*/
 
 /*
 -----------------------------------------------------------
@@ -369,20 +233,7 @@ function display_applications_list()
 	}
 }
 
-function category_has_open_courses($category)
-{
-	$main_course_table = Database :: get_main_table(MAIN_COURSE_TABLE);
-	$sql_query = "SELECT * FROM $main_course_table WHERE category_code='$category'";
-	$sql_result = api_sql_query($sql_query, __FILE__, __LINE__);
-	while ($course = mysql_fetch_array($sql_result))
-	{
-		$course_location_id = RolesRights::get_course_location_id($course['code']);
-		$is_allowed_anonymous_access = RolesRights::is_allowed(ANONYMOUS_GUEST_COURSE_VISITOR, VIEW_RIGHT, $course_location_id);
-		if ($is_allowed_anonymous_access) return true; //at least one open course
-	}
 
-	return false;
-}
 
 /*
 ==============================================================================
