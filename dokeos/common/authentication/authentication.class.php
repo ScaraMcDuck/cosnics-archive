@@ -3,6 +3,10 @@
  * $Id$
  * @package authentication
  */
+/**
+ * An abstract class for handling authentication. Impement new authentication
+ * methods by creating a class which extends this abstract class.
+ */
 abstract class Authentication {
 	/**
 	 * Constructor
