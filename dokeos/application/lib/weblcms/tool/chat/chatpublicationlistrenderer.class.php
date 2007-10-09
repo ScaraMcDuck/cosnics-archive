@@ -9,6 +9,13 @@ require_once dirname(__FILE__).'/../../browser/list_renderer/listlearningobjectp
 
 class ChatPublicationListRenderer extends ListLearningObjectPublicationListRenderer
 {
-
+	function render_description($publication)
+	{
+		$chatbox =  $publication->get_learning_object();
+		$html[] = $chatbox->get_description();
+		$display = LearningObjectDisplay::factory($chatbox);
+		$html[] = $display->get_chatbox_html();
+		return implode("\n",$html);
+	}
 }
 ?>
