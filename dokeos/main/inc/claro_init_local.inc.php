@@ -8,6 +8,7 @@ if($_POST['login'])
 	if(!is_null($user))
 	{
 		$_SESSION['_uid'] = $user->get_user_id();
+		loginCheck($_SESSION['_uid']);
 	}
 	else
 	{
