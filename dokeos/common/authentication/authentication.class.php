@@ -30,5 +30,15 @@ abstract class Authentication {
      * on a given username and password
      */
     abstract function can_register_new_user();
+    /**
+     * Logs the current user out of the platform. The different authentication
+     * methods can overwrite this function if additional operations are needed
+     * before a user can be logged out.
+     * @param User $user The user which is logging out
+     */
+    function logout($user)
+    {
+    	api_session_destroy();
+    }
 }
 ?>
