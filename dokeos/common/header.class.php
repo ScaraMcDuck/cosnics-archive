@@ -39,6 +39,7 @@ class Header
 		$this->add_http_header('Content-Type: text/html; charset=UTF-8');
 		$this->add_css_file_header(api_get_path(WEB_CODE_PATH) .'css/default.css');
 		$this->add_css_file_header(api_get_path(WEB_CODE_PATH) .'css/print.css','print');
+		$this->add_javascript_file_header(api_get_path(WEB_CODE_PATH).'../plugin/jquery/jquery-1.2.1.min.js');
 		$this->add_link_header(api_get_path(WEB_PATH). 'index.php','top');
 		$this->add_link_header(api_get_path(WEB_PATH). 'index_weblcms.php','courses',htmlentities(get_lang('OtherCourses')));
 		$this->add_link_header(api_get_path(WEB_PATH). 'index_user.php?go=account','account',htmlentities(get_lang('ModifyProfile')));
@@ -77,6 +78,14 @@ class Header
 		$header[] = '@import "'. api_get_path(WEB_CODE_PATH) .'css/default.css";';
 		$header[] = '/*]]>*/';
 		$header[] ='</style>';
+		$this->add_html_header(implode(' ',$header));
+	}
+	/**
+	 * Adds a javascript file
+	 */
+	public function add_javascript_file_header($file)
+	{
+		$header[] = '<script type="text/javascript" src="'.$file.'"></script>';
 		$this->add_html_header(implode(' ',$header));
 	}
 	/**
