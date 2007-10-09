@@ -1,25 +1,25 @@
 <?php
-// $Id$ 
+// $Id$
 /*
-============================================================================== 
+==============================================================================
 	Dokeos - elearning and course management software
-	
+
 	Copyright (c) 2004-2005 Dokeos S.A.
 	Copyright (c) 2003 Ghent University (UGent)
 	Copyright (c) 2001 Universite catholique de Louvain (UCL)
 	Copyright (c) Denes Nagy
 	Copyright (c) Yannick Warnier
-	
+
 	For a full list of contributors, see "credits.txt".
 	The full license can be read in "license.txt".
-	
+
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
 	as published by the Free Software Foundation; either version 2
 	of the License, or (at your option) any later version.
-	
+
 	See the GNU General Public License for more details.
-	
+
 	Contact address: Dokeos, 44 rue des palais, B-1030 Brussels, Belgium
 	Mail: info@dokeos.com
 ==============================================================================
@@ -46,13 +46,13 @@
 * @todo rename functions to coding conventions: not deleteitem but delete_item, etc
 * @todo rewrite functions to comply with phpDocumentor
 * @todo remove code duplication
-============================================================================== 
+==============================================================================
 */
 
 /**
  * This function deletes an item
  * @param integer 	$id: the item we want to delete
- * @return boolean	True if item was deleted, false if not found or error 
+ * @return boolean	True if item was deleted, false if not found or error
  **/
 function deleteitem($id)
 {
@@ -143,7 +143,7 @@ function deletemodule($chapter_id)
  * This function deletes an entire path.
  *
  * @param integer 	$id: the path we want to delete
- * @return	void 
+ * @return	void
  **/
 function deletepath($path_id)
 {
@@ -170,7 +170,7 @@ function deletepath($path_id)
  * @param string    $direction: move the given chapter up or down
  * @param integer   Item ID
  * @param integer   $moduleid: the id of the chapter the element resides in
- * @return	boolean	Returns false on error 
+ * @return	boolean	Returns false on error
  * @note    With this new version, the moveitem deals with items AND directories (not the base-level modules). This is a lot more complicated but is a temporary step towards new database structure as 'everything is an item'
  **/
 function moveitem($direction, $id, $moduleid, $type = 'item')
@@ -261,7 +261,7 @@ function moveitem($direction, $id, $moduleid, $type = 'item')
  *
  * @param   string $direction: move the given chapter up or down
  * @param   integer $id: the id of the chapter we want to move
- * @return	void 
+ * @return	void
  **/
 function movemodule($direction, $id)
 {
@@ -319,9 +319,9 @@ function movemodule($direction, $id)
  * @param		string	Chapter name
  * @param		string	Chapter description (optional)
  * @param		integer	Parent chapter ID (default: 0)
- * @param		integer Learnpath ID 
+ * @param		integer Learnpath ID
  * @param		mixed		If type 'item', then array(prereq_id=>value, prereq_..)
- * @return	integer	The new chapter ID, or false on failure 
+ * @return	integer	The new chapter ID, or false on failure
  * @TODO	Finish this function before it is used. Currently only chapters can be added using it.
  * @note This function is currently never used!
  */
@@ -331,8 +331,8 @@ function insert_item($type = 'item', $name, $chapter_description = '', $parent_i
 	$tbl_learnpath_item = Database :: get_course_table(LEARNPATH_ITEM_TABLE);
 
 	// getting the last order number from the chapters table, in this learnpath, for the parent chapter given
-	$sql = "SELECT * FROM $tbl_learnpath_chapter 
-			WHERE learnpath_id=$learnpath_id 
+	$sql = "SELECT * FROM $tbl_learnpath_chapter
+			WHERE learnpath_id=$learnpath_id
 			AND parent_chapter_id = $parent_id
 			ORDER BY display_order DESC";
 	$result = api_sql_query($sql, __FILE__, __LINE__);
@@ -340,7 +340,7 @@ function insert_item($type = 'item', $name, $chapter_description = '', $parent_i
 	$last_chapter_order = $row["display_order"];
 
 	// getting the last order number of the items
-	$sql = "SELECT * FROM $tbl_learnpath_item 
+	$sql = "SELECT * FROM $tbl_learnpath_item
 			AND parent_chapter_id = $parent_id
 			ORDER BY display_order DESC";
 	$result = api_sql_query($sql, __FILE__, __LINE__);
@@ -350,11 +350,11 @@ function insert_item($type = 'item', $name, $chapter_description = '', $parent_i
 
 	if ($type === 'chapter')
 	{
-		$sql = "INSERT INTO $tbl_learnpath_chapter 
-						(learnpath_id, chapter_name, chapter_description, display_order) 
-						VALUES ('".domesticate($learnpath_id)."', 
+		$sql = "INSERT INTO $tbl_learnpath_chapter
+						(learnpath_id, chapter_name, chapter_description, display_order)
+						VALUES ('".domesticate($learnpath_id)."',
 						'".domesticate(htmlspecialchars($chapter_name))."',
-						'".domesticate(htmlspecialchars($chapter_description))."', 
+						'".domesticate(htmlspecialchars($chapter_description))."',
 						$new_order )";
 		$result = api_sql_query($sql, __FILE__, __LINE__);
 		if ($result === false)
@@ -365,11 +365,11 @@ function insert_item($type = 'item', $name, $chapter_description = '', $parent_i
 	}
 	elseif ($type === 'item')
 	{
-		$sql = "INSERT INTO $tbl_learnpath_item 
-						(chapter_id, item_type, item_id, display_order) 
-						VALUES ('".domesticate($parent_id)."', 
+		$sql = "INSERT INTO $tbl_learnpath_item
+						(chapter_id, item_type, item_id, display_order)
+						VALUES ('".domesticate($parent_id)."',
 						'".domesticate(htmlspecialchars($item_type))."',
-						'".domesticate(htmlspecialchars($item_id))."', 
+						'".domesticate(htmlspecialchars($item_id))."',
 						$new_order )";
 		$result = api_sql_query($sql, __FILE__, __LINE__);
 		if ($result === false)
@@ -387,7 +387,7 @@ function insert_item($type = 'item', $name, $chapter_description = '', $parent_i
  **/
 function array_learnpath_categories()
 {
-	#global $tbl_learnpath_chapter; 
+	#global $tbl_learnpath_chapter;
 	global $learnpath_id;
 	$tbl_learnpath_chapter = Database :: get_course_table(LEARNPATH_CHAPTER_TABLE);
 
@@ -868,7 +868,7 @@ function learnpath_chapters($learnpath_id)
  */
 function is_prereq($learnpath_id)
 {
-	#global $tbl_learnpath_chapter, $tbl_learnpath_item; 
+	#global $tbl_learnpath_chapter, $tbl_learnpath_item;
 	global $xml_output;
 	$tbl_learnpath_item = Database :: get_course_table(LEARNPATH_ITEM_TABLE);
 	$tbl_learnpath_chapter = Database :: get_course_table(LEARNPATH_CHAPTER_TABLE);
@@ -1051,7 +1051,7 @@ function prereqcheck($id_in_path)
 function get_learnpath_tree($learnpath_id)
 {
 	//init elems
-	#global $tbl_learnpath_item, $tbl_learnpath_chapter; 
+	#global $tbl_learnpath_item, $tbl_learnpath_chapter;
 	$tbl_learnpath_item = Database :: get_course_table(LEARNPATH_ITEM_TABLE);
 	$tbl_learnpath_chapter = Database :: get_course_table(LEARNPATH_CHAPTER_TABLE);
 
@@ -1137,15 +1137,15 @@ function get_ordered_items_list($tree, $chapter = 0, $include_chapters = false)
 }
 
 /**
- * Displays the structure of a chapter recursively. Takes the result of get_learnpath_tree as argument 
+ * Displays the structure of a chapter recursively. Takes the result of get_learnpath_tree as argument
  * @param	array		Chapter structure
  * @param	integer	Chapter ID (start point in the tree)
- * @param	integer	Learnpath ID 
+ * @param	integer	Learnpath ID
  * @param	integer	User ID
- * @param	boolean	Indicates if the style is wrapped (true) or extended (false) 
+ * @param	boolean	Indicates if the style is wrapped (true) or extended (false)
  * @param	integer	Level reached so far in the tree depth (enables recursive behaviour)
  * @return	array		Number of items, Number of items completed
- * @author	Many changes by Yannick Warnier <yannick.warnier@dokeos.com> 
+ * @author	Many changes by Yannick Warnier <yannick.warnier@dokeos.com>
  **/
 function display_toc_chapter_contents($tree, $chapter_id = 0, $learnpath_id, $uid, $wrap, $level = 0)
 {
@@ -1327,7 +1327,7 @@ function get_tracking_table($learnpath_id, $user_id, $chapter_id = 0, $tree = fa
 /**
  * This function returns false if there is at least one item in the path
  * @param	Learnpath ID
- * @return	boolean	True if nothing was found, false otherwise 
+ * @return	boolean	True if nothing was found, false otherwise
  */
 function is_empty($id)
 {
@@ -1362,12 +1362,12 @@ function is_empty($id)
 }
 
 /**
- * This function writes $content to $filename   
+ * This function writes $content to $filename
  * @param	string	Destination filename
  * @param	string	Learnpath name
  * @param	integer	Learnpath ID
  * @param	string	Content to write
- * @return	void 
+ * @return	void
  */
 function exporttofile($filename, $LPname, $LPid, $content)
 {
@@ -1614,9 +1614,9 @@ function export_exercise($item_id)
  * @param	integer	Id from learnpath_items table
  * @param	integer	Item id
  * @param	string	Itm type
- * @param	boolean	Shall the SCORM communications features be added? (true). Default: false. 
+ * @param	boolean	Shall the SCORM communications features be added? (true). Default: false.
  * @return	void (outputs a zip file)
- * @todo	Try using the SCORM communications addition (adding a button and several javascript calls to the SCORM API) elsewhere than just in the export feature, so it doesn't look like an incoherent feature 
+ * @todo	Try using the SCORM communications addition (adding a button and several javascript calls to the SCORM API) elsewhere than just in the export feature, so it doesn't look like an incoherent feature
  */
 
 function exportitem($id, $item_id, $item_type, $add_scorm_communications = false)
@@ -1652,14 +1652,14 @@ function exportitem($id, $item_id, $item_type, $add_scorm_communications = false
 
 	$LPname = display_addedresource_link_in_learnpath($item_type, $item_id, '', $id, 'builder', 'nolink');
 
-	$expcontent = "<!-- 
+	$expcontent = "<!--
 		This is an exported file from Dokeos Learning Path belonging to a Scorm compliant content package.
 		Do not modify or replace individually.
-			
+
 		Export module author : Denes Nagy <darkden@evk.bke.hu>
-	
+
 		-->
-			
+
 		";
 	//files needed for communicating with the scos
 	$scocomfiles = "<script type='text/javascript' src='../js/APIWrapper.js'></script>"."<script type='text/javascript' src='../js/SCOFunctions.js'></script>";
@@ -1685,7 +1685,7 @@ function exportitem($id, $item_id, $item_type, $add_scorm_communications = false
 				</table>
 			</form>";
 
-	/** 
+	/**
 	 * switch between the different element types, namely:
 	 * - Agenda
 	 * - Ad_Valvas
@@ -1701,7 +1701,7 @@ function exportitem($id, $item_id, $item_type, $add_scorm_communications = false
 	 * - Assignments	]  Theses elements are all replaced by a simple message in the exported document
 	 * - Groups					]
 	 * - Users						]
-	 * - Link _self  
+	 * - Link _self
 	 * - Link _blank
 	 */
 	switch ($item_type)
@@ -1809,18 +1809,8 @@ function exportitem($id, $item_id, $item_type, $add_scorm_communications = false
 				list ($hour, $min) = explode(":", $last_post_time);
 				$announceDate = mktime($hour, $min, 0, $month, $day, $year);
 
-				//3.4 Compare the end date to the last login date of the user (mark it in red if he has not already read it)
-				if ($announceDate > $_SESSION['user_last_login_datetime'])
-				{
-					$colorBecauseNew = " color=\"red\" ";
-				}
-				else
-				{
-					$colorBecauseNew = "  ";
-				}
-
 				//3.5 Write this content to the export string (formatted HTML array)
-				$expcontent .= "<tr>\n"."<td class=\"cell_header\">\n"."<font ".$colorBecauseNew.">".$langPubl." : ".ucfirst(format_locale_date($dateFormatLong, strtotime($last_post_date)))."</font>\n"."</td>\n"."</tr>\n"."<tr>\n"."<td>\n".$content."</td>\n"."</tr>\n";
+				$expcontent .= "<tr>\n"."<td class=\"cell_header\">\n".$langPubl." : ".ucfirst(format_locale_date($dateFormatLong, strtotime($last_post_date)))."\n"."</td>\n"."</tr>\n"."<tr>\n"."<td>\n".$content."</td>\n"."</tr>\n";
 
 			} // while loop
 
@@ -1873,10 +1863,10 @@ function exportitem($id, $item_id, $item_type, $add_scorm_communications = false
 			$filename = 'data/'.$filename.$pathname[$last];
 			$copyneeded = true;
 
-			//htm files do not need to be copied as the ok button is inserted into them, 
+			//htm files do not need to be copied as the ok button is inserted into them,
 			//so don't copy directly
 			$extension = explode(".", $pathname[$last]);
-			//This old condition was WRONG for names like design.html.old. Instead, we now get the extension 
+			//This old condition was WRONG for names like design.html.old. Instead, we now get the extension
 			// by using preg_match to match case-insensitive (probably faster than 4 conditions)
 			//if (($extension[1]=='htm') or ($extension[1]=='html') or ($extension[1]=='HTM') or ($extension[1]=='HTML')) {
 			//4 Check the file extension
@@ -1893,7 +1883,7 @@ function exportitem($id, $item_id, $item_type, $add_scorm_communications = false
 				$file = file_get_contents($orig);
 
 				//4.a.2 Get all the src links in this file
-				//preg_match_all("|((?i)src=\".*\" )|U",$file,$match);				
+				//preg_match_all("|((?i)src=\".*\" )|U",$file,$match);
 				$match = GetSRCTags($orig);
 
 				//4.a.3 For each src tag found, do the following:
@@ -1918,7 +1908,7 @@ function exportitem($id, $item_id, $item_type, $add_scorm_communications = false
 						//the previous lines are used when creating docs with Dokeos Document tool's htmlarea
 						//rows marked by 'mp3' are needed because the mp3 plugin inserts the swf-mp3 links in a very strange way
 						//and we can decode them with those 3 lines, hoping this will not cause errors in case of other htmls,
-						//created by any other software												
+						//created by any other software
 						//4.a.3.2.a.4 Prepare source and destination paths
 						$source = api_get_path(SYS_COURSE_PATH).$_course['path'].'/document'.dirname($myrow['path']).'/'.$src;
 						$dest = $expdir.'/data/'.$src;
@@ -1946,7 +1936,7 @@ function exportitem($id, $item_id, $item_type, $add_scorm_communications = false
 					{
 						$file .= $scocomfiles.$donebutton;
 					}
-				} //sco communication insertion end	
+				} //sco communication insertion end
 
 				//4.a.5 Replace the file's name by adding the element's ID before htm
 				// This will not work with uppercase HTML though. Maybe use the preg_replace syntax proposed...
@@ -2018,7 +2008,7 @@ function exportitem($id, $item_id, $item_type, $add_scorm_communications = false
 					//The previous lines are used when creating docs with Dokeos Document tool's htmlarea
 					//rows marked by 'mp3' are needed because the mp3 plugin inserts the swf-mp3 links in a very strange way
 					//and we can decode them with those 3 lines, hoping this will not cause errors in case of other htmls,
-					//created by any other software												
+					//created by any other software
 					//Prepare source and destination paths
 					$source = api_get_path(SYS_COURSE_PATH).$_course['path'].'/document'.dirname($myrow['path']).'/'.$src;
 					$dest = $expdir.'/data/'.$src;
@@ -2048,7 +2038,7 @@ function exportitem($id, $item_id, $item_type, $add_scorm_communications = false
 			//8 Finally, add the API loading calls (although that might have been done first)
 			$content = str_replace("</script>", "</script>".$scocomfiles.$start, $content);
 
-			//9 Change the filename to add the database ID and export to a new file, 
+			//9 Change the filename to add the database ID and export to a new file,
 			//  setting the circle1_files array for later reuse
 			$filename = str_replace('.htm', $id.'.htm', $filename);
 			exporttofile($filename, $LPname, $id, $content);
@@ -2207,7 +2197,7 @@ function exportpath($learnpath_id)
 {
 	//1 Initialise variables
 	global $_course, $circle1_files, $LPnamesafe, $LPname, $expdir;
-	//$tbl_learnpath_main, $tbl_learnpath_chapter, $tbl_learnpath_item, 
+	//$tbl_learnpath_main, $tbl_learnpath_chapter, $tbl_learnpath_item,
 	$tbl_learnpath_main = Database :: get_course_table(LEARNPATH_MAIN_TABLE);
 	$tbl_learnpath_item = Database :: get_course_table(LEARNPATH_ITEM_TABLE);
 	$tbl_learnpath_chapter = Database :: get_course_table(LEARNPATH_CHAPTER_TABLE);
@@ -2223,7 +2213,7 @@ function exportpath($learnpath_id)
 	$LPname = $row['learnpath_name'];
 	$LPnamesafe = replace_dangerous_char($LPname, 'strict');
 
-	//3 Get a temporary dir for creating the zip file	
+	//3 Get a temporary dir for creating the zip file
 	$expdir = api_get_path('SYS_COURSE_PATH').$_course['path']."/temp/".$LPnamesafe;
 	$fromdir = '../scorm/export/'; //this dir contains some standard files
 
@@ -2241,11 +2231,11 @@ function exportpath($learnpath_id)
 	//$circle2=array('');
 
 	//4 Get the first level chapters - YW added parent_chapter_id condition for multi-level paths
-	$sql = "SELECT * FROM $tbl_learnpath_chapter 
-			WHERE (learnpath_id=$learnpath_id and parent_chapter_id=0) 
+	$sql = "SELECT * FROM $tbl_learnpath_chapter
+			WHERE (learnpath_id=$learnpath_id and parent_chapter_id=0)
 			ORDER BY display_order ASC";
 	//to get all the elements, we should use the function that builds the table of content get_learnpath_tree
-	//WHERE (learnpath_id=$learnpath_id) 
+	//WHERE (learnpath_id=$learnpath_id)
 	//ORDER BY parent_chapter_id, display_order ASC";
 	$result = api_sql_query($sql, __FILE__, __LINE__);
 
@@ -2255,7 +2245,7 @@ function exportpath($learnpath_id)
 		//5.1 Get items data from the database for this chapter
 		$chapter_id = $row['id'];
 		//$sql2a="SELECT * FROM $tbl_learnpath_chapter WHERE (learnpath_id=$learnpath_id and parent_chapter_id=$chapter_id) ORDER BY display_order ASC";
-		//$result2a=api_sql_query($sql,__FILE__,__LINE__); 		
+		//$result2a=api_sql_query($sql,__FILE__,__LINE__);
 		$sql2b = "SELECT * FROM $tbl_learnpath_item WHERE (chapter_id=$chapter_id) ORDER BY display_order ASC";
 		$result2b = api_sql_query($sql2b, __FILE__, __LINE__);
 
@@ -2335,11 +2325,11 @@ function exportpath($learnpath_id)
  * Export SCORM content into a zip file
  *
  * Basically, all this function does is put the scorm directory back into a zip file (like the one
- * that was most probably used to import the course at first) 
+ * that was most probably used to import the course at first)
  * @param	string	Name of the SCORM path (or the directory under which it resides)
  * @param	array		Not used right now. Should replace the use of global $_course
- * @return	void 
- * @author	imandak80 
+ * @return	void
+ * @author	imandak80
  */
 function exportSCORM($scormname, $course)
 {
@@ -2361,7 +2351,7 @@ function exportSCORM($scormname, $course)
 		//  echo "Error  : ".$zip_folder->errorInfo(true);
 	}
 
-	//send to client	
+	//send to client
 	DocumentManager :: file_send_for_download($zipfilename, false, basename($scormname.".zip"));
 
 	//clear
@@ -2371,7 +2361,7 @@ function exportSCORM($scormname, $course)
 
 /**
  * This function returns an xml tag
- * $data behaves as the content in case of full tags 
+ * $data behaves as the content in case of full tags
  * $data is an array of attributes in case of returning an opening tag
  * @param	string
  * @param	string
@@ -2424,12 +2414,12 @@ function xmltagwrite($tagname, $which, $data, $linebreak = "yes")
  * This function writes the imsmanifest.xml and exports the chapter names
  * @param	array		Array containing filenames
  * @param	integer	Learnpath_id
- * @return	void 
+ * @return	void
  */
 function createimsmanifest($circle1_files, $learnpath_id)
 {
 	global $_course, $LPname, $expdir, $LPnamesafe;
-	//$tbl_learnpath_main, $tbl_learnpath_chapter, $tbl_learnpath_item, 
+	//$tbl_learnpath_main, $tbl_learnpath_chapter, $tbl_learnpath_item,
 	$tbl_learnpath_main = Database :: get_course_table(LEARNPATH_MAIN_TABLE);
 	$tbl_learnpath_item = Database :: get_course_table(LEARNPATH_ITEM_TABLE);
 	$tbl_learnpath_chapter = Database :: get_course_table(LEARNPATH_CHAPTER_TABLE);
@@ -2613,7 +2603,7 @@ function createimsmanifest($circle1_files, $learnpath_id)
 	* @param	string	file path
 	* @return	mixed		array of strings on success, false on failure
 	* @author unknown
-	* @author included by imandak80 
+	* @author included by imandak80
 	*/
 function GetSRCTags($fileName)
 {
@@ -2649,7 +2639,7 @@ function GetSRCTags($fileName)
  * Copy file and create directories in the path if needed.
  *
  * @param	string	$source Source path
- * @param	string	$dest Destination path 
+ * @param	string	$dest Destination path
  * @return boolean 	true on success, false on failure
  */
 function CopyNCreate($source, $dest)
