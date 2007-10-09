@@ -1405,95 +1405,9 @@ function api_get_languages()
 function api_disp_html_area($name, $content = '', $height = '', $width = '100%', $optAttrib = '')
 {
 	global $urlAppend, $_course;
-	$navigator = api_get_navigator();
-	if (($navigator['name'] == 'Internet Explorer' && $navigator['version'] >= 6.0) || ($navigator['name'] == 'Mozilla' && $navigator['version'] >= 1.4))
-	{
-		$display_htmlarea = true;
-	}
-	else
-	{
-		$display_htmlarea = false;
-	}
-	if ($display_htmlarea)
-	{
-		$htmlarea_path = api_get_code_web_path()."plugin/htmlarea/";
-		// We set the language and use the platform language if there is no course language (for using htmlarea in the admin section)
-		if (!$_course)
-		{
-			$user_selected_language = $_SESSION["user_language_choice"] ? $_SESSION["user_language_choice"] : get_setting('platformLanguage');
-
-			$lang = $user_selected_language;
-		}
-		else
-		{
-			$lang = $_course['language'];
-		}
-	}
 ?>
-
 <textarea id="<?php echo $name; ?>" name="<?php echo $name; ?>" rows="15" cols="70" style="width:<?php echo $width; ?>; <?php if(!empty($height)) echo "height:$height;"; ?>" <?php echo $optAttrib; ?> ><?php echo $content; ?></textarea>
-
 <?php
-
-
-	if ($display_htmlarea)
-	{
-?>
-
-<script	type="text/javascript">
-/* <![CDATA[ */
-_editor_url='<?php echo $htmlarea_path; ?>';
-_image_url='<?php echo api_get_code_web_path(); ?>img/htmlarea/';
-_css_url='<?php echo api_get_code_web_path(); ?>css/';
-
-if(typeof _document_path != 'string')
-{
-	_document_path='<?php if(empty($_course['path'])) echo api_get_path(SYS_CODE_PATH).'upload/'; else echo api_get_path(SYS_COURSE_PATH).$_course['path'].'/document/'; ?>';
-}
-
-_document_url=_document_path.replace(/<?php echo str_replace('/','\/',api_get_path(SYS_PATH)); ?>/,'<?php echo addslashes(api_get_path(WEB_PATH)); ?>');
-/* ]]> */
-</script>
-<script	type="text/javascript" src="<?php echo $htmlarea_path; ?>htmlarea.js"></script>
-<script	type="text/javascript" src="<?php echo api_get_code_web_path(); ?>lang/<?php echo $lang; ?>/htmlarea.js.php"></script>
-<script	type="text/javascript" src="<?php echo $htmlarea_path; ?>dialog.js"></script>
-
-<script	type="text/javascript">
-/* <![CDATA[ */
-//HTMLArea.loadPlugin('ImageManager');
-
-var	editor=null;
-
-function initEditor()
-{
-	var config = new HTMLArea.Config();
-
-	config.hideSomeButtons(" showhelp undo redo popupeditor ");
-
-	<?php if(!empty($width) && !strstr($width,'%')): ?>
-	config.width='<?php echo $width; ?>';
-	<?php endif; ?>
-
-	<?php if(!empty($height) && !strstr($height,'%')): ?>
-	config.height='<?php echo $height; ?>';
-	<?php endif; ?>
-
-	editor=new HTMLArea("<?php echo	$name; ?>",config);
-
-	// comment the following two lines to	see	how	customization works
-	editor.generate();
-
-	return false;
-}
-
-initEditor();
-/* ]]> */
-</script>
-
-<?php
-
-
-	}
 }
 /**
  * Apply parsing to content to parse tex commandos that are seperated by [tex]
