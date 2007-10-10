@@ -12,6 +12,19 @@ abstract class Filecompression
     function Filecompression()
     {
     }
+    protected function create_temporary_directory()
+    {
+		$path = api_get_path(SYS_PATH).'archive/'.uniqid();
+		mkdir($path);
+		return $path;
+    }
+    /**
+     * Extracts a compressed file to a given directory
+     * @param string $file The full path to the file which should be extracted
+     * @return string|boolean The full path to the directory where the file was
+     * extracted or boolean false if extraction wasn't successfull
+     */
+    abstract function extract_file($file);
     /**
      * Create a filecompression instance
      * @todo At the moment this returns the class using pclzip. The class to
