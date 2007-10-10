@@ -7,6 +7,7 @@
 require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/document.class.php';
 require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/Rule/DiskQuota.php';
+require_once dirname(__FILE__).'/../../../../common/filecompression/filecompression.class.php';
 /**
  * A form to create/update a document.
  *
@@ -20,6 +21,7 @@ class DocumentForm extends LearningObjectForm
 	{
 		parent :: build_creation_form();
 		$this->addElement('upload_or_create', 'upload_or_create', get_lang('FileName'));
+		$this->addElement('checkbox','uncompress',get_lang('Uncompress'));
 		$this->addFormRule(array ($this, 'check_document_form'));
 	}
 	protected function build_editing_form()
@@ -81,7 +83,14 @@ class DocumentForm extends LearningObjectForm
 		$object->set_filename($filename);
 		$object->set_filesize(filesize($full_path));
 		$this->set_learning_object($object);
-		return parent :: create_learning_object();
+		$document = parent :: create_learning_object();
+		if($values['uncompress'])
+		{
+			$filecompression = Filecompression::factory();
+			$dir = $filecompression->extract_file($document->get_full_path());
+			//TODO: read contents from $dir and add all entries as new learning objects
+		}
+		return $document;
 	}
 	function update_learning_object()
 	{
@@ -172,14 +181,14 @@ class DocumentForm extends LearningObjectForm
 	{
 		// TODO: Do the errors need htmlentities()?
 		$errors = array ();
-		
+
 		$owner_id = $this->get_owner_id();
 		$udm = & UsersDataManager :: get_instance();
-		
+
 		$owner = $udm->retrieve_user($owner_id);
-		
+
 		$quotamanager = new QuotaManager($owner);
-		
+
 		if (!$fields['choice'])
 		{
 			if (isset ($_FILES['file']) && isset($_FILES['file']['error']) && $_FILES['file']['error'] != 0)
@@ -203,10 +212,14 @@ class DocumentForm extends LearningObjectForm
 			{
 				$size = $_FILES['file']['size'];
 				$available_disk_space = $quotamanager->get_available_disk_space();
-				
+
 				if ($size > $available_disk_space)
 				{
 					$errors['upload_or_create'] = get_lang('DiskQuotaExceeded');
+				}
+				if( $fields['uncompress'] && !in_array($_FILES['file']['type'], array('application/x-zip-compressed')))
+				{
+					$errors['uncompress'] = get_lang('UncompressOnlyForZipFiles');
 				}
 			}
 			else
@@ -222,9 +235,9 @@ class DocumentForm extends LearningObjectForm
 			fwrite($handle, "writing to tempfile");
 			fclose($handle);
 			$file['size'] = filesize($tmpfname);
-			
+
 			$available_disk_space = $quotamanager->get_available_disk_space();
-			
+
 			if ($file['size'] > $available_disk_space)
 			{
 				$errors['upload_or_create'] = get_lang('DiskQuotaExceeded');
