@@ -12,17 +12,21 @@ class ChatboxDisplay extends LearningObjectDisplay
 		$html[] = '<input type="text" name="message" id="message" style="width: 95%;"/>';
    		$html[] = '<input type="submit" id="submit" value="'.get_lang('Ok').'"/>';
    		$html[] = '</form>';
-		$html[] =<<<END
-<script language="JavaScript" type="text/javascript">
+		$html[] = "
+<script language=\"JavaScript\" type=\"text/javascript\">
 var loadChatContent = function()
 {
-	$.get('/dokeoslcms/repository/lib/learning_object/chatbox/chatbox_server.php',{}, function(data)
+	$.get('/dokeoslcms/repository/lib/learning_object/chatbox/chatbox_server.php?chatbox=".$this->get_learning_object()->get_id()."',{}, function(data)
 		{
-			$('#container').empty()
+			$('#container').empty();
  			$('#container').append(data);
- 			elements = $('#container').get();
- 			container = elements[0];
- 			container.scrollTop = container.scrollHeight;
+			try
+			{
+ 				elements = $('#container').get();
+ 				container = elements[0];
+ 				container.scrollTop = container.scrollHeight;
+			}
+			catch(Exception e){}
      		setTimeout(loadChatContent, 1000);
     	}
     );
@@ -32,15 +36,14 @@ $(function()
 		loadChatContent();
 		$('#submit').bind('click',{}, function()
 			{
-				$.get('/dokeoslcms/repository/lib/learning_object/chatbox/chatbox_server.php?message=' + $('#message').attr('value'));
+				$.get('/dokeoslcms/repository/lib/learning_object/chatbox/chatbox_server.php?chatbox=".$this->get_learning_object()->get_id()."&message=' + $('#message').attr('value'));
 				$('#message').attr('value','');
 				return false;
 			}
 		);
 	}
 );
-</script>
-END;
+</script>";
 		return implode("\n",$html);
 	}
 }
