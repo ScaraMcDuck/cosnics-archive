@@ -8,8 +8,8 @@ class ChatboxDisplay extends LearningObjectDisplay
 	public function get_chatbox_html()
 	{
 		$html[] = '<div id="container" style="height: 200px; overflow: auto; border: 1px solid black;"></div>';
-   		$html[] = '<form method="get">';
-		$html[] = '<input type="text" name="message" id="message" style="width: 95%;"/>';
+   		$html[] = '<form method="get" autocomplete="off">';
+		$html[] = '<input type="text" name="message" id="message" style="width: 95%;text-align:left;"/>';
    		$html[] = '<input type="submit" id="submit" value="'.get_lang('Ok').'"/>';
    		$html[] = '</form>';
 		$html[] = "
@@ -26,7 +26,7 @@ var loadChatContent = function()
  				container = elements[0];
  				container.scrollTop = container.scrollHeight;
 			}
-			catch(Exception e){}
+			catch(error){}
      		setTimeout(loadChatContent, 1000);
     	}
     );
