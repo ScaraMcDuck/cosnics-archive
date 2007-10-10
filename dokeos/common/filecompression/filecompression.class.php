@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: authentication.class.php 13439 2007-10-10 08:22:49Z bmol $
+ * $Id$
  * @package filecompression
  */
 /**
