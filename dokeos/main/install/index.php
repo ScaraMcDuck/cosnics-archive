@@ -51,7 +51,6 @@ require_once ('../inc/installedVersion.inc.php');
 require_once ('../inc/lib/main_api.lib.php');
 require_once ('../lang/english/trad4all.inc.php');
 require_once ('../lang/english/install.inc.php');
-require_once ('../inc/lib/auth.lib.inc.php');
 require_once ('install_upgrade.lib.php');
 require_once ('install_db.inc.php');
 require_once ('install_files.inc.php');
