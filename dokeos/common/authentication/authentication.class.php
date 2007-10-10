@@ -33,7 +33,20 @@ abstract class Authentication {
      * Checks if this authenticaion method is able to register new users based
      * on a given username and password
      */
-    abstract function can_register_new_user();
+    public function can_register_new_user()
+    {
+    	return false;
+    }
+    /**
+     * Registers a new user
+     * @param string $username
+     * @param string $password
+     * @return boolean True on success, false if not
+     */
+    public function register_new_user($username,$password = null)
+    {
+    	return false;
+    }
     /**
      * Logs the current user out of the platform. The different authentication
      * methods can overwrite this function if additional operations are needed
