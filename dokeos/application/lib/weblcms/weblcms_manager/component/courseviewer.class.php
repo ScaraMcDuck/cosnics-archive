@@ -87,6 +87,14 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 			{
 				$wdm = WeblcmsDataManager :: get_instance();
 				$this->display_header();
+				//Todo: Depending on settings, display menu and/or shortcut icons
+				//Display shortcut icons
+				//$renderer = ToolListRenderer::factory('Menu',$this);
+				//$renderer->set_type(MenuToolListRenderer::MENU_TYPE_TOP_NAVIGATION);
+				//$renderer->display();
+				//Display menu
+				//$renderer = ToolListRenderer::factory('Menu',$this);
+				//$renderer->display();
 				$renderer = ToolListRenderer::factory('FixedLocation',$this);
 				$renderer->display();
 				$this->display_footer();
