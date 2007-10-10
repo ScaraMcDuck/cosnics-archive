@@ -90,7 +90,7 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 		}
 	}
 	/**
-	 * Returns the htmlarea content in HTML
+	 * Returns the frozen content in HTML
 	 *@return string
 	 */
 	function getFrozenHtml()
