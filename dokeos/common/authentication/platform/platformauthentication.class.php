@@ -25,9 +25,5 @@ class PlatformAuthentication extends Authentication
     {
     	return true;
     }
-    public function can_register_new_user()
-    {
-    	return false;
-    }
 }
 ?>

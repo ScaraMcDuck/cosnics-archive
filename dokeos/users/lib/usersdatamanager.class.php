@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package users.lib
  */
@@ -86,7 +87,7 @@ abstract class UsersDataManager
 	/**
 	 * Updates the given user quota in persistent storage.
 	 * @param object $user_quota
- 	 */
+		 */
 	abstract function update_user_quota($user_quota);
 
 	/**
@@ -103,7 +104,7 @@ abstract class UsersDataManager
 	 * @param array $indexes The indexes which should be defined in the created
 	 * storage unit
 	 */
-	abstract function create_storage_unit($name,$properties,$indexes);
+	abstract function create_storage_unit($name, $properties, $indexes);
 
 	/**
 	 * Retrieves a user.
@@ -115,28 +116,47 @@ abstract class UsersDataManager
 	 * @param string $username
 	 * @param string $password
 	 */
-	public function login($username,$password = null)
+	public function login($username, $password = null)
 	{
-		// If username is available, try to login
-		if(!$this->is_username_available($username))
+			// If username is available, try to login
+	if (!$this->is_username_available($username))
 		{
 			$user = $this->retrieve_user_by_username($username);
 			$authentication_method = $user->get_auth_source();
 			$authentication_class_file = dirname(__FILE__).'/../../common/authentication/'.$authentication_method.'/'.$authentication_method.'authentication.class.php';
 			$authentication_class = ucfirst($authentication_method).'Authentication';
 			require_once $authentication_class_file;
-			$authentication =new $authentication_class;
-			if($authentication->check_login($user,$username,$password))
+			$authentication = new $authentication_class;
+			if ($authentication->check_login($user, $username, $password))
 			{
 				return $user;
 			}
 			return null;
 		}
-		// If username is not available, check if the authentication method is able to register
-		// a new user in the platform
+		// If username is not available, check if an authentication method is able to register
+		// the user in the platform
 		else
 		{
-			//TODO
+			$authentication_dir = dir(dirname(__FILE__).'/../../common/authentication/');
+			while (false !== ($authentication_method = $authentication_dir->read()))
+			{
+				if(strpos($authentication_method,'.') === false && is_dir($authentication_dir->path.'/'.$authentication_method))
+				{
+					$authentication_class_file = $authentication_dir->path.'/'.$authentication_method.'/'.$authentication_method.'authentication.class.php';
+					$authentication_class = ucfirst($authentication_method).'Authentication';
+					require_once $authentication_class_file;
+					$authentication = new $authentication_class;
+					if($authentication->can_register_new_user())
+					{
+						if($authentication->register_new_user($username,$password))
+						{
+							$authentication_dir->close();
+							return $this->retrieve_user_by_username($username);
+						}
+					}
+				}
+			}
+			$authentication_dir->close();
 			return null;
 		}
 	}
@@ -150,8 +170,8 @@ abstract class UsersDataManager
 		$authentication_class_file = dirname(__FILE__).'/../../common/authentication/'.$authentication_method.'/'.$authentication_method.'authentication.class.php';
 		$authentication_class = ucfirst($authentication_method).'Authentication';
 		require_once $authentication_class_file;
-		$authentication =new $authentication_class;
-		if($authentication->logout($user))
+		$authentication = new $authentication_class;
+		if ($authentication->logout($user))
 		{
 			return true;
 		}
