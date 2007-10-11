@@ -31,7 +31,10 @@ abstract class Filecompression
      */
     abstract function is_supported_mimetype($mimetype);
     /**
-     * Extracts a compressed file to a given directory
+     * Extracts a compressed file to a given directory. This function will also
+     * make sure that all resulting directory- and filenames are safe using the
+     * Filesystem::get_safe_filename function.
+     * @see Filesystem::get_safe_filename
      * @param string $file The full path to the file which should be extracted
      * @return string|boolean The full path to the directory where the file was
      * extracted or boolean false if extraction wasn't successfull
