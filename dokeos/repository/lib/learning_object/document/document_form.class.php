@@ -77,7 +77,7 @@ class DocumentForm extends LearningObjectForm
 		$object = new Document();
 		$object->set_path($path);
 		$object->set_filename($filename);
-		$object->set_filesize(filesize($full_path));
+		$object->set_filesize(Filesystem::get_disk_space($full_path));
 		$this->set_learning_object($object);
 		$document = parent :: create_learning_object();
 		if($values['uncompress'])
@@ -123,7 +123,7 @@ class DocumentForm extends LearningObjectForm
 		}
 		$object->set_path($path);
 		$object->set_filename($filename);
-		$object->set_filesize(filesize($this->get_upload_path().'/'.$object->get_path()));
+		$object->set_filesize(Filesystem::get_disk_space($this->get_upload_path().'/'.$object->get_path()));
 		return parent :: update_learning_object();
 	}
 	/**
@@ -173,6 +173,7 @@ class DocumentForm extends LearningObjectForm
 				{
 					$errors['uncompress'] = get_lang('UncompressOnlyForZipFiles');
 				}
+				//TODO: Add a check to see if the uncompressed file doesn't take to much disk space
 			}
 			else
 			{
@@ -182,14 +183,8 @@ class DocumentForm extends LearningObjectForm
 		else
 		{
 			// Create an HTML-document
-			$tmpfname = tempnam('', '');
-			$handle = fopen($tmpfname, "w");
-			fwrite($handle, "writing to tempfile");
-			fclose($handle);
-			$file['size'] = filesize($tmpfname);
-
+			$file['size'] = Filesystem::guess_disk_space($fields['html_content']);
 			$available_disk_space = $quotamanager->get_available_disk_space();
-
 			if ($file['size'] > $available_disk_space)
 			{
 				$errors['upload_or_create'] = get_lang('DiskQuotaExceeded');
@@ -201,7 +196,6 @@ class DocumentForm extends LearningObjectForm
 					$errors['upload_or_create'] = get_lang('NoFileCreated');
 				}
 			}
-			unlink($tmpfname);
 		}
 		if (count($errors) == 0)
 		{

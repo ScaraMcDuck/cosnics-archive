@@ -153,5 +153,42 @@ class Filesystem
 		}
 		return false;
 	}
+	/**
+	 * Determines the number of bytes taken by a given directory or file
+	 * @param string $path The full path to the file or directory of which the
+	 * disk space should be determined
+	 * @return int The number of bytes taken on disk by the given directory or
+	 * file
+	 */
+	public static function get_disk_space($path)
+	{
+		if(is_file($path))
+		{
+			return filesize($path);
+		}
+		if(is_dir($path))
+		{
+			return total_disk_space($path);
+		}
+		// If path doesn't exist, return null
+		return 0;
+	}
+	/**
+	 * Guesses the disk space used when the given content would be written to a
+	 * file
+	 * @param string $content
+	 * @return int The number of bytes taken on disk by a file containing the
+	 * given content
+	 */
+	public static function guess_disk_space($content)
+	{
+		$tmpfname =tempnam();
+		$handle = fopen($tmpfname, "w");
+		fwrite($handle, $content);
+		fclose($handle);
+		$disk_space = filesize($tmpfname);
+		unlink($tmpfname);
+		return $disk_space;
+	}
 }
 ?>
