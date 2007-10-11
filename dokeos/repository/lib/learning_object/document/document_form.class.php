@@ -57,19 +57,14 @@ class DocumentForm extends LearningObjectForm
 		$owner = $this->get_owner_id();
 		$values = $this->exportValues();
 		$owner_path = $this->get_upload_path().'/'.$owner;
-		if (!is_dir($owner_path))
-		{
-			mkdir($owner_path);
-		}
+		Filesystem::create_dir($owner_path);
 		if ($values['choice'])
 		{
 			$filename = $values[Document :: PROPERTY_TITLE].'.html';
-			$filename = Filesyste::create_unique_filename($this->get_upload_path().'/'.$owner, $filename);
+			$filename = Filesystem::create_unique_filename($this->get_upload_path().'/'.$owner, $filename);
 			$path = $owner.'/'.$filename;
 			$full_path = $this->get_upload_path().'/'.$path;
-			$create_file = fopen($full_path, 'w') or die('Failed to create "'.$full_path.'"');
-			fwrite($create_file, $values['html_content']);
-			fclose($create_file);
+			Filesystem::write_to_file($full_path,$values['html_content']);
 		}
 		else
 		{
@@ -101,10 +96,7 @@ class DocumentForm extends LearningObjectForm
 		$filename = $object->get_filename();
 		$owner = $object->get_owner_id();
 		$owner_path = $this->get_upload_path().'/'.$owner;
-		if (!is_dir($owner_path))
-		{
-			mkdir($owner_path);
-		}
+		Filesystem::create_dir($owner_path);
 		if (isset ($values['html_content']))
 		{
 			if ((isset($values['version']) && $values['version'] == 0) || !isset($values['version']))
@@ -115,11 +107,7 @@ class DocumentForm extends LearningObjectForm
 			$filename = Filesystem::create_unique_filename($this->get_upload_path().'/'.$owner, $object->get_title() . '.html');
 			$path = $owner.'/'.$filename;
 			$full_path = $this->get_upload_path().'/'.$path;
-
-			$create_file = fopen($full_path, 'w') or die('Failed to create "'.$full_path.'"');
-			fwrite($create_file, $values['html_content']);
-			fclose($create_file);
-			chmod($full_path, 0777);
+			Filesystem::write_to_file($full_path,$values['html_content']);
 		}
 		elseif (strlen($_FILES['file']['name']) > 0)
 		{

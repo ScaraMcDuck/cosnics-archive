@@ -9,6 +9,11 @@
  * fileManage.lib.php, document.lib.php, fileUpload.lib.php But keep the
  * functions to filesystem-related stuff. So this isn't the place for code for
  * getting an icon to match a documents filetype for example.
+ * @todo Make sure all functions in this class remove special chars before doing
+ * stuff. So other modules shouldn't take care of the special chars problems.
+ * This also means some functions which now return boolean should return the
+ * changed pathname or filename after they successfully finished their
+ * work.
  */
 class Filesystem
 {
@@ -124,6 +129,29 @@ class Filesystem
 	    //Replace set of underscores by a single underscore
 		$safe_filename = ereg_replace('[_]+','_',$safe_filename);
 		return $safe_filename;
+	}
+	/**
+	 * Writes content to a file. This function will try to create the path and
+	 * the file if they don't exist yet.
+	 * @param string $file The full path to the file
+	 * @param string $content
+	 * @param boolean $append If true the given conten will be appended to the
+	 * end of the file
+	 */
+	public static function write_to_file($file,$content,$append = false)
+	{
+		if(Filesystem::create_dir(dirname($file)))
+		{
+			if($create_file = fopen($file, $append ? 'a': 'w'))
+			{
+				fwrite($create_file, $values['html_content']);
+				fclose($create_file);
+				chmod($file, 0777);
+				return true;
+			}
+			return false;
+		}
+		return false;
 	}
 }
 ?>
