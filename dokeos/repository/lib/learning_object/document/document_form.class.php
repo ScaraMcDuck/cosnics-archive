@@ -169,9 +169,10 @@ class DocumentForm extends LearningObjectForm
 				{
 					$errors['upload_or_create'] = get_lang('DiskQuotaExceeded');
 				}
-				if( $fields['uncompress'] && !in_array($_FILES['file']['type'], array('application/x-zip-compressed')))
+				$filecompression = Filecompression::factory();
+				if( $fields['uncompress'] && !$filecompression->is_supported_mimetype($_FILES['file']['type']))
 				{
-					$errors['uncompress'] = get_lang('UncompressOnlyForZipFiles');
+					$errors['uncompress'] = get_lang('UncompressNotAvailableForThisFile');
 				}
 				//TODO: Add a check to see if the uncompressed file doesn't take to much disk space
 			}
