@@ -33,8 +33,8 @@ abstract class Filecompression
     /**
      * Extracts a compressed file to a given directory. This function will also
      * make sure that all resulting directory- and filenames are safe using the
-     * Filesystem::get_safe_filename function.
-     * @see Filesystem::get_safe_filename
+     * Filesystem::create_safe_names function.
+     * @see Filesystem::create_safe_names
      * @param string $file The full path to the file which should be extracted
      * @return string|boolean The full path to the directory where the file was
      * extracted or boolean false if extraction wasn't successfull

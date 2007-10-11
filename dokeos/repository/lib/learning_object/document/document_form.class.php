@@ -15,7 +15,6 @@ require_once dirname(__FILE__).'/../../../../common/filesystem/filesystem.class.
  * A destinction is made between HTML documents and other documents. For HTML
  * documents an online HTML editor is used to edit the contents of the document.
  */
-
 class DocumentForm extends LearningObjectForm
 {
 	protected function build_creation_form()
@@ -61,14 +60,14 @@ class DocumentForm extends LearningObjectForm
 		if ($values['choice'])
 		{
 			$filename = $values[Document :: PROPERTY_TITLE].'.html';
-			$filename = Filesystem::create_unique_filename($this->get_upload_path().'/'.$owner, $filename);
+			$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $filename);
 			$path = $owner.'/'.$filename;
 			$full_path = $this->get_upload_path().'/'.$path;
 			Filesystem::write_to_file($full_path,$values['html_content']);
 		}
 		else
 		{
-			$filename = Filesystem::create_unique_filename($this->get_upload_path().'/'.$owner, $_FILES['file']['name']);
+			$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $_FILES['file']['name']);
 			$path = $owner.'/'.$filename;
 			$full_path = $this->get_upload_path().'/'.$path;
 			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
@@ -104,7 +103,7 @@ class DocumentForm extends LearningObjectForm
 				unlink($this->get_upload_path().'/'.$object->get_path());
 			}
 
-			$filename = Filesystem::create_unique_filename($this->get_upload_path().'/'.$owner, $object->get_title() . '.html');
+			$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $object->get_title() . '.html');
 			$path = $owner.'/'.$filename;
 			$full_path = $this->get_upload_path().'/'.$path;
 			Filesystem::write_to_file($full_path,$values['html_content']);
@@ -115,7 +114,7 @@ class DocumentForm extends LearningObjectForm
 			{
 				unlink($this->get_upload_path().'/'.$object->get_path());
 			}
-			$filename = Filesystem::create_unique_filename($this->get_upload_path().'/'.$owner, $_FILES['file']['name']);
+			$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $_FILES['file']['name']);
 			$path = $owner.'/'.$filename;
 			$full_path = $this->get_upload_path().'/'.$path;
 			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');

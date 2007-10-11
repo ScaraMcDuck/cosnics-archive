@@ -19,9 +19,7 @@ class PclzipFilecompression extends Filecompression
 		return in_array($mimetype,$this->get_supported_mimetypes());
 	}
 	/**
-	 * @todo Make sure all resulting filenames are safe so this function follows
-	 * the documentation of
-	 * @see Filecompressen::extract_file
+	 *
 	 */
 	function extract_file($file)
 	{
@@ -31,6 +29,7 @@ class PclzipFilecompression extends Filecompression
 		{
 			return false;
 		}
+		Filesystem::create_safe_names($dir);
 		return $dir;
 	}
 }

@@ -17,6 +17,9 @@
  */
 class Filesystem
 {
+	const LIST_FILES_AND_DIRECTORIES = 1;
+	const LIST_FILES = 2;
+	const LIST_DIRECTORIES = 3;
 	/**
 	 * Creates a directory.
 	 * This function creates all missing directories in a given path.
@@ -26,7 +29,11 @@ class Filesystem
 	 */
 	public static function create_dir($path,$mode = '0777')
 	{
-		return mkdir($path,$mode,true);
+		if(!is_dir($path))
+		{
+			return mkdir($path,$mode,true);
+		}
+		return true;
 	}
 	/**
 	 * Removes a directory and all its contents.
@@ -92,45 +99,86 @@ class Filesystem
 		}
 	}
 	/**
-	 * Creates a unique filename. This function will also use the function
-	 * Filesystem::create_safe_filename to make sure the resulting filename is
-	 * safe to use.
-	 * @param string $path The path where the file will be created
+	 * Creates a unique name for a file or a directory. This function will also
+	 * use the function Filesystem::create_safe_name to make sure the resulting
+	 * name is safe to use.
+	 * @param string $desired_path The path
 	 * @param string $desired_filename The desired filename
-	 * @return string A unique filename based on the given wanted filename
+	 * @return string A unique name based on the given desired_name
 	 */
-	public static function create_unique_filename($path,$desired_filename)
+	public static function create_unique_name($desired_path,$desired_filename = null)
 	{
-		$filename = Filesystem::create_safe_filename($desired_filename);
-		$new_filename = $filename;
 		$index = 0;
-		while (file_exists($path.'/'.$new_filename))
+		if(!is_null($desired_filename))
 		{
-			$file_parts = explode('.', $filename);
-			$new_filename = array_shift($file_parts). ($index ++).'.'.implode('.',$file_parts);
+			$filename = Filesystem::create_safe_name($desired_filename);
+			$new_filename = $filename;
+			while (file_exists($desired_path.'/'.$new_filename))
+			{
+				$file_parts = explode('.', $filename);
+				$new_filename = array_shift($file_parts). ($index ++).'.'.implode('.',$file_parts);
+			}
+			return $new_filename;
 		}
-		return $new_filename;
+		$desired_path = dirname($desired_path).'/'.Filesystem::create_safe_name(basename($desired_path));
+		while(is_dir($desired_path))
+		{
+			$desired_path = ($index++);
+		}
+		return $desired_path;
 	}
 	/**
-	 * Creates a safe filename
-	 * @param string $desired_filename The desired filename
-	 * @return string The safe filename
+	 * Creates a safe name for a file or directory
+	 * @param string $desired_name The desired name
+	 * @return string The safe name
 	 */
-	public static function create_safe_filename($desired_filename)
+	public static function create_safe_name($desired_name)
 	{
 		//Change encoding
-		$safe_filename = mb_convert_encoding($desired_filename,"ISO-8859-1","UTF-8");
+		$safe_name = mb_convert_encoding($desired_name,"ISO-8859-1","UTF-8");
 		//Replace .php by .phps
-		$safe_filename = eregi_replace("\.(php.?|phtml)$", ".phps", $safe_filename);
+		$safe_name = eregi_replace("\.(php.?|phtml)$", ".phps", $safe_name);
 		//If first letter is . add something before
-		$safe_filename = eregi_replace("^\.","0.",$safe_filename);
+		$safe_name = eregi_replace("^\.","0.",$safe_name);
 		//Replace accented characters
-		$safe_filename = strtr($safe_filename, 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝàáâãäåçèéêëìíîïðñòóôõöøùúûüýÿ', 'aaaaaaaceeeeiiiidnoooooouuuuyaaaaaaceeeeiiiidnoooooouuuuyy');
+		$safe_name = strtr($safe_name, 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝàáâãäåçèéêëìíîïðñòóôõöøùúûüýÿ', 'aaaaaaaceeeeiiiidnoooooouuuuyaaaaaaceeeeiiiidnoooooouuuuyy');
 		//Replace all except letters, numbers, - and . to underscores
-	    $safe_filename =  ereg_replace('[^0-9a-zA-Z\-\.]', '_',$safe_filename);
+	    $safe_name =  ereg_replace('[^0-9a-zA-Z\-\.]', '_',$safe_name);
 	    //Replace set of underscores by a single underscore
-		$safe_filename = ereg_replace('[_]+','_',$safe_filename);
-		return $safe_filename;
+		$safe_name = ereg_replace('[_]+','_',$safe_name);
+		return $safe_name;
+	}
+	/**
+	 * Scans all files and directories in the given path and subdirectories. If
+	 * a file or directory name isn't considered as safe, it will be renamed to
+	 * a safe name.
+	 * @param string $path The full path to the directory. This directory will
+	 * not be renamed, only its content.
+	 */
+	public static function create_safe_names($path)
+	{
+		$list = Filesystem::get_directory_content($path);
+		// Sort everything, so renaming a file or directory has no impact on next elements in the array
+		rsort($list);
+		foreach($list as $index => $entry)
+		{
+			if(basename($entry) != Filesystem::create_safe_name(basename($entry)))
+			{
+				if( is_file($entry))
+				{
+					$safe_name = Filesystem::create_unique_name(dirname($entry),basename($entry));
+					$destination = dirname($entry).'/'.$safe_name;
+					echo $destination."\n";
+					Filesystem::copy_file($entry, $destination);
+					unlink($entry);
+				}
+				elseif(is_dir($entry))
+				{
+					$safe_name = Filesystem::create_unique_name($entry);
+					rename($entry,$safe_name);
+				}
+			}
+		}
 	}
 	/**
 	 * Writes content to a file. This function will try to create the path and
@@ -191,6 +239,30 @@ class Filesystem
 		$disk_space = filesize($tmpfname);
 		unlink($tmpfname);
 		return $disk_space;
+	}
+	/**
+	 * Retrieves all contents (files and/or directories) of a directory
+	 * @param string $path The full path of the directory
+	 * @param const $type Type to determines which items should be included in
+	 * the resulting list
+	 * @return array Containing the requested directory contents. All entries
+	 * are full paths.
+	 */
+	public static function get_directory_content($path, $type = Filesystem::LIST_FILES_AND_DIRECTORIES)
+	{
+		$it = new RecursiveDirectoryIterator($path);
+		foreach (new RecursiveIteratorIterator($it, 1) as $entry)
+		{
+			if(($type == Filesystem::LIST_FILES_AND_DIRECTORIES || $type == Filesystem::LIST_FILES) && is_file($entry))
+			{
+				$result[] = $entry->getRealPath();
+			}
+			if(($type == Filesystem::LIST_FILES_AND_DIRECTORIES || $type == Filesystem::LIST_DIRECTORIES) && is_dir($entry))
+			{
+				$result[] = $entry->getRealPath();
+			}
+		}
+		return $result;
 	}
 }
 ?>
