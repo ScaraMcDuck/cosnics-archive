@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: fileManage.lib.php 7893 2006-03-02 09:54:40Z  $
+ * $Id$
  * @package filesystem
  */
 /**
