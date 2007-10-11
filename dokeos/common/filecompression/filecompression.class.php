@@ -19,6 +19,18 @@ abstract class Filecompression
 		return $path;
     }
     /**
+     * Retrieves an array of all supported mimetypes for this file compression
+     * implementation.
+     * @return array
+     */
+    abstract function get_supported_mimetypes();
+    /**
+     * Determines if a given mimetype is supported by the file compression
+     * implementation.
+     * @return boolean True if the given mimetype is supported.
+     */
+    abstract function is_supported_mimetype($mimetype);
+    /**
      * Extracts a compressed file to a given directory
      * @param string $file The full path to the file which should be extracted
      * @return string|boolean The full path to the directory where the file was

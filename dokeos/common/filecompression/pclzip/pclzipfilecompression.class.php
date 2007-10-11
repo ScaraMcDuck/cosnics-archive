@@ -10,6 +10,14 @@ require_once api_get_path(SYS_PATH).'plugin/pclzip-2-6/pclzip.lib.php';
  */
 class PclzipFilecompression extends Filecompression
 {
+	function get_supported_mimetypes()
+	{
+		return array('application/x-zip-compressed');
+	}
+	function is_supported_mimetype($mimetype)
+	{
+		return in_array($mimetype,$this->get_supported_mimetypes());
+	}
 	function extract_file($file)
 	{
 		$dir = $this->create_temporary_directory();
