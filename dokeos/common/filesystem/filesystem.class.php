@@ -92,7 +92,9 @@ class Filesystem
 		}
 	}
 	/**
-	 * Creates a unique filename
+	 * Creates a unique filename. This function will also use the function
+	 * Filesystem::create_safe_filename to make sure the resulting filename is
+	 * safe to use.
 	 * @param string $path The path where the file will be created
 	 * @param string $desired_filename The desired filename
 	 * @return string A unique filename based on the given wanted filename
