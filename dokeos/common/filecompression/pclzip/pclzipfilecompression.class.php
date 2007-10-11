@@ -12,7 +12,7 @@ class PclzipFilecompression extends Filecompression
 {
 	function get_supported_mimetypes()
 	{
-		return array('application/x-zip-compressed');
+		return array('application/x-zip-compressed','application/zip','multipart/x-zip','application/x-gzip','multipart/x-gzip');
 	}
 	function is_supported_mimetype($mimetype)
 	{
