@@ -8,6 +8,7 @@ require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/document.class.php';
 require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/Rule/DiskQuota.php';
 require_once dirname(__FILE__).'/../../../../common/filecompression/filecompression.class.php';
+require_once dirname(__FILE__).'/../../../../common/filesystem/filesystem.class.php';
 /**
  * A form to create/update a document.
  *
@@ -63,7 +64,7 @@ class DocumentForm extends LearningObjectForm
 		if ($values['choice'])
 		{
 			$filename = $values[Document :: PROPERTY_TITLE].'.html';
-			$filename = $this->create_unique_filename($owner, $filename);
+			$filename = Filesyste::create_unique_filename($this->get_upload_path().'/'.$owner, $filename);
 			$path = $owner.'/'.$filename;
 			$full_path = $this->get_upload_path().'/'.$path;
 			$create_file = fopen($full_path, 'w') or die('Failed to create "'.$full_path.'"');
@@ -72,7 +73,7 @@ class DocumentForm extends LearningObjectForm
 		}
 		else
 		{
-			$filename = $this->create_unique_filename($owner, $_FILES['file']['name']);
+			$filename = Filesystem::create_unique_filename($this->get_upload_path().'/'.$owner, $_FILES['file']['name']);
 			$path = $owner.'/'.$filename;
 			$full_path = $this->get_upload_path().'/'.$path;
 			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
@@ -111,7 +112,7 @@ class DocumentForm extends LearningObjectForm
 				unlink($this->get_upload_path().'/'.$object->get_path());
 			}
 
-			$filename = $this->create_unique_filename($owner, $object->get_title() . '.html');
+			$filename = Filesystem::create_unique_filename($this->get_upload_path().'/'.$owner, $object->get_title() . '.html');
 			$path = $owner.'/'.$filename;
 			$full_path = $this->get_upload_path().'/'.$path;
 
@@ -126,7 +127,7 @@ class DocumentForm extends LearningObjectForm
 			{
 				unlink($this->get_upload_path().'/'.$object->get_path());
 			}
-			$filename = $this->create_unique_filename($owner, $_FILES['file']['name']);
+			$filename = Filesystem::create_unique_filename($this->get_upload_path().'/'.$owner, $_FILES['file']['name']);
 			$path = $owner.'/'.$filename;
 			$full_path = $this->get_upload_path().'/'.$path;
 			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
@@ -136,43 +137,6 @@ class DocumentForm extends LearningObjectForm
 		$object->set_filename($filename);
 		$object->set_filesize(filesize($this->get_upload_path().'/'.$object->get_path()));
 		return parent :: update_learning_object();
-	}
-
-	/**
-	 * Creates a valid filename.
-	 * @param string $desired_filename The desired filename.
-	 * @return string A valid filename.
-	 */
-	private function create_valid_filename($desired_filename)
-	{
-		//Change encoding
-		$valid_filename = mb_convert_encoding($desired_filename,"ISO-8859-1","UTF-8");
-		//Replace .php by .phps
-		$valid_filename = eregi_replace("\.(php.?|phtml)$", ".phps", $valid_filename);
-		//If first letter is . add something before
-		$valid_filename = eregi_replace("^\.","0.",$valid_filename);
-		//Replace accented characters
-		$valid_filename = strtr($valid_filename, 'Ã Ã¡Ã¢Ã£Ã¤Ã¥Ã§Ã¨Ã©ÃªÃ«Ã¬Ã­Ã®Ã¯Ã°Ã±Ã²Ã³Ã´ÃµÃ¶Ã¸Ã¹ÃºÃ»Ã¼Ã½Ã¿Ã€Ã�Ã‚ÃƒÃ„Ã…Ã†Ã‡ÃˆÃ‰ÃŠÃ‹ÃŒÃ�ÃŽÃ�Ã�Ã‘Ã’Ã“Ã”Ã•Ã–Ã˜Ã™ÃšÃ›ÃœÃ�Ãž', 'aaaaaaceeeeiiiidnoooooouuuuyyaaaaaaceeeeiiiidnoooooouuuuyy');
-		//Replace all except letters, numbers, - and . to underscores
-	    $valid_filename =  ereg_replace('[^0-9a-zA-Z\-\.]', '_',$valid_filename);
-	    //Replace set of underscores by a single underscore
-		$valid_filename = ereg_replace('[_]+','_',$valid_filename);
-		return $valid_filename;
-	}
-	/**
-	 * Creates a unique path.
-	 */
-	private function create_unique_filename($path, $filename)
-	{
-		$filename = $this->create_valid_filename($filename);
-		$new_filename = $filename;
-		$index = 0;
-		while (file_exists($this->get_upload_path().'/'.$path.'/'.$new_filename))
-		{
-			$file_parts = explode('.', $filename);
-			$new_filename = array_shift($file_parts). ($index ++).'.'.implode($file_parts);
-		}
-		return $new_filename;
 	}
 	/**
 	 *
