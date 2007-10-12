@@ -30,7 +30,7 @@ if (file_exists($main_configuration_file_path)) {
 require_once($includePath.'/lib/main_api.lib.php');
 
 // Add the path to the pear packages to the include path
-ini_set('include_path',ini_get('include_path').PATH_SEPARATOR.api_get_library_path().'/pear');
+ini_set('include_path',realpath(api_get_path(SYS_PATH).'/plugin/pear'));
 
 // Include the libraries that are necessary everywhere
 require_once(api_get_library_path().'/database.lib.php');
@@ -93,16 +93,16 @@ while ($row=mysql_fetch_array($result))
 }
 // we have to store the settings for the plugins differently because it expects an array
 $sql="SELECT * FROM dokeos_main.settings_current WHERE category='plugins'";
-$result=mysql_query($sql) or die(mysql_error()); 
+$result=mysql_query($sql) or die(mysql_error());
 while ($row=mysql_fetch_array($result))
-{ 
-	$key= $row['variable']; 
+{
+	$key= $row['variable'];
 	if (is_string($_setting[$key]))
 	{
 		$_setting[$key]=array();
 	}
-	$_setting[$key][]=$row['selected_value']; 
-	$plugins[$key][]=$row['selected_value']; 
+	$_setting[$key][]=$row['selected_value'];
+	$plugins[$key][]=$row['selected_value'];
 }
 
 
@@ -278,8 +278,8 @@ if ($_POST["language_list"])
 	{
 	$user_language = str_replace("index.php?language=","",$_POST["language_list"]);
 	}
-	
-// Checking if we have a valid language. If not we set it to the platform language. 
+
+// Checking if we have a valid language. If not we set it to the platform language.
 $valid_languages=api_get_languages();
 if (!in_array($user_language,$valid_languages['folder']))
 {
