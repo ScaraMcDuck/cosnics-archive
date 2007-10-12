@@ -17,8 +17,17 @@
  */
 class Filesystem
 {
+	/**
+	 * Constant representing "Files and directories"
+	 */
 	const LIST_FILES_AND_DIRECTORIES = 1;
+	/**
+	 * Constant representing "Files"
+	 */
 	const LIST_FILES = 2;
+	/**
+	 * Constant representing "Directories"
+	 */
 	const LIST_DIRECTORIES = 3;
 	/**
 	 * Creates a directory.

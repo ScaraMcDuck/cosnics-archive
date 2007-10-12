@@ -100,7 +100,7 @@ class DocumentForm extends LearningObjectForm
 		{
 			if ((isset($values['version']) && $values['version'] == 0) || !isset($values['version']))
 			{
-				unlink($this->get_upload_path().'/'.$object->get_path());
+				Filesystem::remove($this->get_upload_path().'/'.$object->get_path());
 			}
 
 			$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $object->get_title() . '.html');
@@ -112,7 +112,7 @@ class DocumentForm extends LearningObjectForm
 		{
 			if ((isset($values['version']) && $values['version'] == 0) || !isset($values['version']))
 			{
-				unlink($this->get_upload_path().'/'.$object->get_path());
+				Filesystem::remove($this->get_upload_path().'/'.$object->get_path());
 			}
 			$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $_FILES['file']['name']);
 			$path = $owner.'/'.$filename;
