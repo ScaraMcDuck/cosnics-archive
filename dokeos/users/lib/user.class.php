@@ -2,6 +2,7 @@
 /**
  * @package users.lib
  */
+require_once dirname(__FILE__).'/../../common/filesystem/filesystem.class.php';
 /**
  *	This class represents a user.
  *
@@ -453,7 +454,7 @@ class User
 		if($this->has_picture())
 		{
 			$path = api_get_path(SYS_CODE_PATH).'upload/users/'.$this->get_picture_uri();
-			unlink($path);
+			Filesystem::remove($path);
 			$this->set_picture_uri(null);
 		}
 	}

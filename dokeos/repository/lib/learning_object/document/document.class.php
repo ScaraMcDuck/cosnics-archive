@@ -7,6 +7,7 @@
  */
 require_once dirname(__FILE__).'/../../learningobject.class.php';
 require_once dirname(__FILE__).'/../../configuration.class.php';
+require_once dirname(__FILE__).'/../../../../common/filesystem/filesystem.class.php';
 /**
  * A Document.
  */
@@ -44,7 +45,7 @@ class Document extends LearningObject
 	{
 		$path = Configuration :: get_instance()->get_parameter('general', 'upload_path');
 		$path = $path.'/'.$this->get_path();
-		unlink($path);
+		Filesystem::remove($path);
 		parent :: delete();
 	}
 
@@ -54,7 +55,7 @@ class Document extends LearningObject
 		$path = $path.'/'.$this->get_path();
 		if (RepositoryDataManager :: get_instance()->is_only_document_occurence($this->get_path()))
 		{
-			unlink($path);
+			Filesystem::remove($path);
 		}
 		parent :: delete_version();
 	}
