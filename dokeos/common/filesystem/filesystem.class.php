@@ -264,5 +264,39 @@ class Filesystem
 		}
 		return $result;
 	}
+	/**
+	 * Removes a file or a directory (and all its contents).
+	 * @param string $path To full path to the file or directory to delete
+	 * @return boolean True if successfull, false if not. When a directory is
+	 * given to delete, this function will delete as much as possible from this
+	 * directory. If some subdirectories or files in the given directory can't
+	 * be deleted, this function will return false.
+	 */
+	public static function remove($path)
+	{
+		if(is_file($path))
+		{
+			return @unlink($path);
+		}
+		elseif(is_dir($path))
+		{
+			$content = Filesystem::get_directory_content($path);
+			// Reverse sort the content so deepest entries come first.
+			rsort($content);
+			$result = true;
+			foreach($content as $index => $entry)
+			{
+				if(is_file($entry))
+				{
+					$result &= @unlink($entry);
+				}
+				elseif(is_dir($entry))
+				{
+					$result &= @rmdir($entry);
+				}
+			}
+			return ($result & @rmdir($path));
+		}
+	}
 }
 ?>
