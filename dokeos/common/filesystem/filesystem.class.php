@@ -227,7 +227,13 @@ class Filesystem
 		}
 		if(is_dir($path))
 		{
-			return total_disk_space($path);
+			$total_disk_space = 0;
+			$files = Filesystem::get_directory_content($path,Filesystem::LIST_FILES);
+			foreach($files as $index => $file)
+			{
+				$total_disk_space += @filesize($file);
+			}
+			return $total_disk_space;
 		}
 		// If path doesn't exist, return null
 		return 0;
@@ -245,7 +251,7 @@ class Filesystem
 		$handle = fopen($tmpfname, "w");
 		fwrite($handle, $content);
 		fclose($handle);
-		$disk_space = filesize($tmpfname);
+		$disk_space = Filesystem::get_disk_space($tmpfname);
 		unlink($tmpfname);
 		return $disk_space;
 	}
