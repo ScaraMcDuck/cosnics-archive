@@ -59,26 +59,50 @@ abstract class Mail
 		require_once dirname(__FILE__).'/default/defaultmail.class.php';
 		return new DefaultMail($subject,$message,$to,$from,$cc,$bcc);
 	}
+	/**
+	 * Retrieves the subject for the email
+	 * @return string
+	 */
 	function get_subject()
 	{
 		return $this->subject;
 	}
+	/**
+	 * Retrieves the message for the email
+	 * @return string
+	 */
 	function get_message()
 	{
 		return $this->message;
 	}
+	/**
+	 * Retrieves the receiver(s) in the TO-field of the email
+	 * @return array
+	 */
 	function get_to()
 	{
 		return $this->to;
 	}
+	/**
+	 * Retrieves the receiver(s) in the CC-field of the email
+	 * @return array
+	 */
 	function get_cc()
 	{
 		return $this->cc;
 	}
+	/**
+	 * Retrieves the receiver(s) in the BCC-field of the email
+	 * @return array
+	 */
 	function get_bcc()
 	{
 		return $this->bcc;
 	}
+	/**
+	 * Retrieves the sender of the email
+	 * @return array
+	 */
 	function get_from()
 	{
 		return $this->from;
