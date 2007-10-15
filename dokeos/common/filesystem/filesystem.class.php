@@ -38,6 +38,12 @@ class Filesystem
 	 */
 	public static function create_dir($path,$mode = '0777')
 	{
+		// If the given path is a file, return false
+		if(is_file($path))
+		{
+			return false;
+		}
+		// If the directory doesn't exist yet, create it using php's mkdir function
 		if(!is_dir($path))
 		{
 			return mkdir($path,$mode,true);
