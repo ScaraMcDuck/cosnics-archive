@@ -45,48 +45,6 @@ class Filesystem
 		return true;
 	}
 	/**
-	 * Removes a directory and all its contents.
-	 * @param $string $path
-	 * @return boolean True if successfull, false if not.
-	 */
-	public static function remove_dir($path)
-	{
-		if (!is_writable($path))
-		{
-			// If path is not writable, try to change permissions
-			if (!@ chmod($path, 0777))
-			{
-				return false;
-			}
-		}
-		$d = dir($path);
-		// Recursively remove all entries in the directory
-		while (false !== ($entry = $d->read()))
-		{
-			if ($entry == '.' || $entry == '..')
-			{
-				continue;
-			}
-			$entry = $path.'/'.$entry;
-			if (is_dir($entry))
-			{
-				if (!Filesystem::remove_dir($entry))
-				{
-					return false;
-				}
-				continue;
-			}
-			if (!@ unlink($entry))
-			{
-				$d->close();
-				return false;
-			}
-		}
-		$d->close();
-		// And finally remove the directory itself
-		return rmdir($path);
-	}
-	/**
 	 * Copies a file. If the destination directory doesn't exist, this function
 	 * tries to create the directory using the Filesystem::create_dir function.
 	 * @param string $source The full path to the source file
