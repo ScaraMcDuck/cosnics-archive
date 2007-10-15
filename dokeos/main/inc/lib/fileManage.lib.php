@@ -489,53 +489,6 @@ function index_and_sort_dir($path)
 }
 
 
-/**
- * build an html form listing all directories of a given directory
- *
- */
-
-function form_dir_list($sourceType, $sourceComponent, $command, $baseWorkDir)
-{
-
-	$dirList = index_and_sort_dir($baseWorkDir);
-
-	$dialogBox .= "<form action=\"".$_SERVER['PHP_SELF']."\" method=\"post\">\n" ;
-	$dialogBox .= "<input type=\"hidden\" name=\"".$sourceType."\" value=\"".$sourceComponent."\">\n" ;
-	$dialogBox .= get_lang('Move').' '.$sourceComponent.' '.get_lang('To');
-	$dialogBox .= "<select name=\"".$command."\">\n" ;
-	$dialogBox .= "<option value=\"\" style=\"color:#999999\">".get_lang('Root')."\n";
-
-	$bwdLen = strlen($baseWorkDir) ;	// base directories lenght, used under
-
-	/* build html form inputs */
-
-	if ($dirList)
-	{
-		while (list( , $pathValue) = each($dirList) )
-		{
-
-			$pathValue = substr ( $pathValue , $bwdLen );		// truncate cunfidential informations confidentielles
-			$dirname = basename ($pathValue);					// extract $pathValue directory name du nom
-
-			/* compute de the display tab */
-
-			$tab = "";										// $tab reinitialisation
-			$depth = substr_count($pathValue, "/");			// The number of nombre '/' indicates the directory deepness
-
-			for ($h=0; $h<$depth; $h++)
-			{
-				$tab .= "&nbsp;&nbsp";
-			}
-			$dialogBox .= "<option value=\"$pathValue\">$tab>$dirname\n";
-		}
-	}
-
-	$dialogBox .= "</select>\n";
-	$dialogBox .= "<input type=\"submit\" value=\"".get_lang('Ok')."\">";
-	$dialogBox .= "</form>\n";
-
-	return $dialogBox;
-}
 
 //------------------------------------------------------------------------------
 
@@ -544,7 +497,7 @@ function form_dir_list($sourceType, $sourceComponent, $command, $baseWorkDir)
  *
  * @returns a resource identifier or FALSE if the query was not executed correctly.
  * @author KilerCris@Mail.com original function from  php manual
- * @author Christophe Gesché gesche@ipm.ucl.ac.be Claroline Team
+ * @author Christophe Geschï¿½ gesche@ipm.ucl.ac.be Claroline Team
  * @since  28-Aug-2001 09:12
  * @param 	sting	$path 		wanted path
  * @param 	boolean	$verbose	fix if comments must be printed
@@ -619,38 +572,6 @@ function getextension($filename)
 	return array(array_pop($bouts), implode(".", $bouts));
 }
 
-/**
- * to compute the size of the directory
- *
- * @returns integer size
- * @param 	string	$path path to size
- * @param 	boolean $recursive if true , include subdir in total
- */
-function dirsize($root,$recursive=true)
-{
-	$dir=@opendir($root);
-
-	$size=0;
-
-	while($file=@readdir($dir))
-	{
-		if(!in_array($file,array('.','..')))
-		{
-			if(is_dir($root.'/'.$file))
-			{
-				$size+=$recursive?dirsize($root.'/'.$file):0;
-			}
-			else
-			{
-				$size+=@filesize($root.'/'.$file);
-			}
-		}
-	}
-
-	@closedir($dir);
-
-	return $size;
-}
 
 /*
 ===============================================================
@@ -661,104 +582,13 @@ function dirsize($root,$recursive=true)
 /**
 	This class contains functions that you can access statically.
 
-	FileManager::list_all_directories($path)
-	FileManager::list_all_files($dir_array)
-	FileManager::compat_load_file($file_name)
-	FileManager::set_default_settings($upload_path, $filename, $filetype="file", $glued_table, $default_visibility='v')
+FileManager::set_default_settings($upload_path, $filename, $filetype="file", $glued_table, $default_visibility='v')
 
 	@author Roan Embrechts
 	@version 1.1, July 2004
 */
 class FileManager
 {
-
-	/**
-	---------------------------------------------------------------
-		Returns a list of all directories, except the base dir,
-		of the current course. This function uses recursion.
-
-		Convention: the parameter $path does not end with a slash.
-
-		@author Roan Embrechts
-		@version 1.0.1
-	---------------------------------------------------------------
-	*/
-	function list_all_directories($path)
-	{
-		chdir($path);
-		$handle = opendir($path);
-		while ($element = readdir($handle) )
-		{
-			if ( $element == "." || $element == "..") continue;	// skip the current and parent directories
-			if ( is_dir($element) )
-			{
-				$dirArray[] = $path."/".$element;
-			}
-
-		}
-		closedir($handle) ;
-		// recursive operation if subdirectories exist
-		$dirNumber = sizeof($dirArray);
-		if ( $dirNumber > 0 )
-		{
-			for ($i = 0 ; $i < $dirNumber ; $i++ )
-			{
-				$subDirArray = FileManager::list_all_directories( $dirArray[$i] ) ;			    // function recursivity
-				$dirArray  =  array_merge( $dirArray , $subDirArray ) ;	// data merge
-			}
-		}
-		$resultArray  =  $dirArray;
-		chdir("..") ;
-		return $resultArray ;
-	}
-
-
-	/**
-	===============================================================
-		This function receives a list of directories.
-		It returns a list of all files in these directories
-
-		@author Roan Embrechts
-		@version 1.0
-	===============================================================
-	*/
-	function list_all_files($dirArray)
-	{
-		foreach ($dirArray as $directory)
-		{
-			chdir($directory);
-			$handle = opendir($directory);
-
-			while ($element = readdir($handle) )
-			{
-				if ( $element == "." || $element == ".." || $element == '.htaccess') continue;	// skip the current and parent directories
-				if ( ! is_dir($element) )
-				{
-					$elementArray[] = $directory."/".$element;
-				}
-			}
-			closedir($handle) ;
-			chdir("..") ;
-		}
-
-		return $elementArray;
-	}
-
-
-	/**
-		Load contents of file $filename into memory
-		and return them as a string.
-		Function kept for compatibility with older PHP versions.
-		Function is binary safe (is needed on Windows)
-	*/
-	function compat_load_file($file_name)
-	{
-		$fp = fopen($file_name, "rb");
-		$buffer = fread ($fp, filesize ($file_name));
-		fclose ($fp);
-		//api_display_debug_info(htmlentities($buffer));
-		return $buffer;
-	}
 
 
 	/**
