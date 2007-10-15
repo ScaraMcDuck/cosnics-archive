@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: authentication.class.php 13418 2007-10-09 08:05:07Z bmol $
+ * $Id$
  * @package mail
  */
 require_once dirname(__FILE__).'/../mail.class.php';
