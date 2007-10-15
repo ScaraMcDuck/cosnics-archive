@@ -42,7 +42,7 @@ define('DOKEOS_INSTALL', 1);
 define('MAX_COURSE_TRANSFER', 100);
 define("INSTALL_TYPE_UPDATE", "update");
 
-ini_set('include_path',ini_get('include_path').PATH_SEPARATOR.'../inc/lib/pear');
+ini_set('include_path',ini_get('include_path').PATH_SEPARATOR.'../../plugin/pear');
 //echo ini_get('include_path'); //DEBUG
 require_once 'HTML/QuickForm/Controller.php';
 require_once 'HTML/QuickForm/Rule.php';
@@ -250,7 +250,7 @@ $defaults['install_language'] = 'english';
 $defaults['platform_language'] = 'english';
 $urlAppendPath = str_replace('/main/install/'.basename(__FILE__), '', $_SERVER['PHP_SELF']);
 $defaults['platform_url'] = 'http://'.$_SERVER['HTTP_HOST'].$urlAppendPath.'/';
-$defaults['license'] = implode("\n", file('../license/gpl.txt'));
+$defaults['license'] = implode("\n", file('../../documentation/license.txt'));
 $defaults['database_host'] = 'localhost';
 $defaults['database_main_db'] = 'dokeos_main';
 $defaults['database_tracking'] = 'dokeos_stats';
