@@ -1,7 +1,7 @@
 <?php
 
 /**
- * $Id: header.class.php 13150 2007-09-21 07:07:01Z bmol $
+ * $Id$
  * @package repository
  */
 /**
