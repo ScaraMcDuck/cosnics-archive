@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__).'/learningobjectpublication.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';
-require_once api_get_path(SYS_CODE_PATH).'/inc/lib/html2text.class.php';
+require_once api_get_path(SYS_CODE_PATH).'/../plugin/html2text/class.html2text.inc';
 /**
  * This class represents a form to allow a user to publish a learning object.
  *

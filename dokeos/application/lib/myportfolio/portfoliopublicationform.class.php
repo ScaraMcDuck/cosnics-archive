@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/portfoliopublication.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';
-require_once api_get_path(SYS_CODE_PATH).'/inc/lib/html2text.class.php';
+require_once api_get_path(SYS_CODE_PATH).'/../plugin/html2text/class.html2text.inc';
 /**
  * This class represents a form to allow a user to publish a learning object.
  *
@@ -27,7 +27,7 @@ class PortfolioPublicationForm extends FormValidator
 	 * publication)
 	 */
 	private $form_user;
-	
+
 	/**
 	 * Creates a new learning object publication form.
 	 * @param LearningObject The learning object that will be published
@@ -43,7 +43,7 @@ class PortfolioPublicationForm extends FormValidator
 		$this->build_form();
 		$this->setDefaults();
     }
-    
+
 	/**
 	 * Sets the default values of the form.
 	 *
@@ -60,7 +60,7 @@ class PortfolioPublicationForm extends FormValidator
 	 */
     function build_form()
     {
-    	
+
 		$this->addElement('submit', 'submit', get_lang('Ok'));
     }
 
@@ -71,12 +71,12 @@ class PortfolioPublicationForm extends FormValidator
     function create_learning_object_publication()
     {
 		$values = $this->exportValues();
-		
+
 		$pub = new PortfolioPublication();
 		$pub->set_portfolio_item($this->learning_object->get_id());
 		$pub->set_publisher($this->form_user->get_user_id());
 		$pub->set_published(time());
-		
+
 		if ($pub->create())
 		{
 			return true;
