@@ -166,7 +166,7 @@ class Filesystem
 		{
 			if($create_file = fopen($file, $append ? 'a': 'w'))
 			{
-				fwrite($create_file, $values['html_content']);
+				fwrite($create_file, $content);
 				fclose($create_file);
 				chmod($file, 0777);
 				return true;
