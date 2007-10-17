@@ -111,6 +111,7 @@ abstract class Mail
 	}
 	/**
 	 * Send the email
+	 * @return boolean True if the mail was successfully sent, false if not.
 	 */
 	abstract function send();
 }
