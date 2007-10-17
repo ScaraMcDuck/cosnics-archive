@@ -7,7 +7,7 @@
 require_once dirname(__FILE__).'/personalmessagepublication.class.php';
 require_once dirname(__FILE__).'/../../../users/lib/usersdatamanager.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';
-require_once api_get_path(SYS_CODE_PATH).'/inc/lib/html2text.class.php';
+require_once api_get_path(SYS_CODE_PATH).'/../plugin/html2text/class.html2text.inc';
 /**
  * This class represents a form to allow a user to publish a learning object.
  *
@@ -30,9 +30,9 @@ class PersonalMessagePublicationForm extends FormValidator
 	 * publication)
 	 */
 	private $form_user;
-	
+
 	private $publication;
-	
+
 	/**
 	 * Creates a new learning object publication form.
 	 * @param LearningObject The learning object that will be published
@@ -49,7 +49,7 @@ class PersonalMessagePublicationForm extends FormValidator
 		$this->build_form();
 		$this->setDefaults();
     }
-    
+
 	/**
 	 * Sets the default values of the form.
 	 *
@@ -78,10 +78,10 @@ class PersonalMessagePublicationForm extends FormValidator
 			$recipient['title'] = $recip->get_username();
 			$recipient['description'] = $recip->get_lastname() . ' ' . $recip->get_firstname();
 			$recipients[$recipient['id']] = $recipient;
-			
+
 			//print_r($recipients);
     	}
-    	
+
 		$url = api_get_path(WEB_PATH).'application/lib/personal_messenger/xml_feed.php';
 		$locale = array ();
 		$locale['Display'] = get_lang('SelectRecipients');
@@ -92,7 +92,7 @@ class PersonalMessagePublicationForm extends FormValidator
 		$elem = $this->addElement('element_finder', 'recipients', get_lang('Recipients'), $url, $locale, $recipients);
 		$elem->excludeElements(array($this->form_user->get_user_id()));
 		$elem->setDefaultCollapsed(false);
-		
+
 		$this->addElement('submit', 'submit', get_lang('Ok'));
     }
 
@@ -104,9 +104,9 @@ class PersonalMessagePublicationForm extends FormValidator
     {
 		$values = $this->exportValues();
 		$pmdm = PersonalMessengerDataManager :: get_instance();
-		
+
 		$failures = 0;
-		
+
 		foreach ($values['recipients'] as $recip)
 		{
 			if ($recip != $this->form_user->get_user_id())
@@ -118,7 +118,7 @@ class PersonalMessagePublicationForm extends FormValidator
 				$sender_pub->set_user($this->form_user->get_user_id());
 				$sender_pub->set_sender($this->form_user->get_user_id());
 				$sender_pub->set_status('0');
-				
+
 				if ($sender_pub->create())
 				{
 					$recipient_pub = new PersonalMessagePublication();
