@@ -3,19 +3,28 @@
  * $Id$
  * @package filecompression
  */
+require_once(dirname(__FILE__).'/../filesystem/filesystem.class.php');
 /**
  * An abstract class for handling file compression. Impement new compression
  * methods by creating a class which extends this abstract class.
  */
 abstract class Filecompression
 {
+	/**
+	 * Constructor
+	 */
     function Filecompression()
     {
     }
+    /**
+     * Creates a temporary directory in which the file can be extracted
+     * @return string The full path to the created directory
+     * @todo Put this function in filesystem class
+     */
     protected function create_temporary_directory()
     {
-		$path = api_get_path(SYS_PATH).'archive/'.uniqid();
-		mkdir($path);
+		$path = api_get_path(SYS_PATH).'files/temp/'.uniqid();
+		Filesystem::create_dir($path);
 		return $path;
     }
     /**

@@ -18,9 +18,6 @@ class PclzipFilecompression extends Filecompression
 	{
 		return in_array($mimetype,$this->get_supported_mimetypes());
 	}
-	/**
-	 *
-	 */
 	function extract_file($file)
 	{
 		$dir = $this->create_temporary_directory();
