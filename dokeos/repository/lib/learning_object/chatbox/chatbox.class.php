@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../../learningobject.class.php';
+require_once dirname(__FILE__).'/../../../../common/filesystem/filesystem.class.php';
 /**
  * @package repository.learningobject
  * @subpackage chatbox
@@ -14,11 +15,7 @@ class Chatbox extends LearningObject
 	 */
 	private function get_log_file()
 	{
-		$path = realpath(api_get_path(SYS_CODE_PATH)).'upload/chatbox/';
-		mkdir($path);
-		$file = $path.'chatbox.'.$this->get_id().'.txt';
-		touch($file);
-		return $file;
+		return realpath(api_get_path(SYS_CODE_PATH)).'../files/chatbox/chatbox.'.$this->get_id().'.txt';
 	}
 	/**
 	 * Get all messages in this chatbox
@@ -37,25 +34,9 @@ class Chatbox extends LearningObject
 	 */
 	public function add_message($user, $message)
 	{
-		$message = '<div><span class="chatuser">'.$user->get_fullname().'</span><span class="chatmessage">'.$message.'</span></div>';
+		$message = '<div><span class="chatuser">'.$user->get_fullname().'</span><span class="chatmessage">'.$message.'</span></div>'."\n";
 		$file = $this->get_log_file();
-		if (is_writable($file))
-		{
-			if (!$handle = fopen($file, 'a'))
-			{
-				return false;
-			}
-			if (!fwrite($handle, $message))
-			{
-				return false;
-			}
-			fclose($handle);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return Filesystem::write_to_file($file,$message,true);
 	}
 }
 ?>
