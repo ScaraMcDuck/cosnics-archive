@@ -422,7 +422,7 @@ class User
 	{
 		if($this->has_picture())
 		{
-			return api_get_path(WEB_CODE_PATH).'upload/users/'.$this->get_picture_uri();
+			return api_get_path(WEB_CODE_PATH).'../files/userpictures/'.$this->get_picture_uri();
 		}
 		else
 		{
@@ -437,12 +437,9 @@ class User
 	function set_picture_file($file_info)
 	{
 		$this->delete_picture();
-		$img_file = uniqid(rand()).preg_replace("/[^\.a-zA-Z0-9s]/", "", $file_info['name']);
-		$path = api_get_path(SYS_CODE_PATH).'upload/users/';
-		if(!is_dir($path))
-		{
-			mkdir($path);
-		}
+		$path = api_get_path(SYS_CODE_PATH).'../files/userpictures/';
+		Filesystem::create_dir($path);
+		$img_file = Filesystem::create_unique_name($path,$file_info['name']);
 		move_uploaded_file($file_info['tmp_name'],$path.$img_file);
 		$this->set_picture_uri($img_file);
 	}
@@ -453,7 +450,7 @@ class User
 	{
 		if($this->has_picture())
 		{
-			$path = api_get_path(SYS_CODE_PATH).'upload/users/'.$this->get_picture_uri();
+			$path = api_get_path(SYS_CODE_PATH).'../files/userpictures/'.$this->get_picture_uri();
 			Filesystem::remove($path);
 			$this->set_picture_uri(null);
 		}
