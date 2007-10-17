@@ -57,33 +57,73 @@ class DocumentForm extends LearningObjectForm
 		$values = $this->exportValues();
 		$owner_path = $this->get_upload_path().'/'.$owner;
 		Filesystem::create_dir($owner_path);
-		if ($values['choice'])
+		if(!$values['uncompress'])
 		{
-			$filename = $values[Document :: PROPERTY_TITLE].'.html';
-			$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $filename);
-			$path = $owner.'/'.$filename;
-			$full_path = $this->get_upload_path().'/'.$path;
-			Filesystem::write_to_file($full_path,$values['html_content']);
+			if ($values['choice'])
+			{
+				$filename = $values[Document :: PROPERTY_TITLE].'.html';
+				$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $filename);
+				$path = $owner.'/'.$filename;
+				$full_path = $this->get_upload_path().'/'.$path;
+				Filesystem::write_to_file($full_path,$values['html_content']);
+			}
+			else
+			{
+				$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $_FILES['file']['name']);
+				$path = $owner.'/'.$filename;
+				$full_path = $this->get_upload_path().'/'.$path;
+				move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
+			}
+			chmod($full_path, 0777);
+			$object = new Document();
+			$object->set_path($path);
+			$object->set_filename($filename);
+			$object->set_filesize(Filesystem::get_disk_space($full_path));
+			$this->set_learning_object($object);
+			$document = parent :: create_learning_object();
 		}
 		else
 		{
-			$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $_FILES['file']['name']);
-			$path = $owner.'/'.$filename;
-			$full_path = $this->get_upload_path().'/'.$path;
-			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
-		}
-		chmod($full_path, 0777);
-		$object = new Document();
-		$object->set_path($path);
-		$object->set_filename($filename);
-		$object->set_filesize(Filesystem::get_disk_space($full_path));
-		$this->set_learning_object($object);
-		$document = parent :: create_learning_object();
-		if($values['uncompress'])
-		{
 			$filecompression = Filecompression::factory();
 			$dir = $filecompression->extract_file($document->get_full_path());
-			//TODO: read contents from $dir and add all entries as new learning objects
+			$entries = Filesystem::get_directory_content($dir);
+			foreach($entries as $index => $entry)
+			{
+				$url = str_replace(realpath($dir),'',realpath($entry));
+				if(is_dir($entry))
+				{
+					//Create a category in the repository
+					$object = new Category();
+					$this->set_learning_object($object);
+					$object = parent::create_learning_object();
+					$object->set_title(basename($url));
+					if(isset($created_directories[dirname($url)]))
+					{
+						$object->set_parent_id($created_directories[dirname($url)]);
+					}
+					$object->update();
+					$created_directories[$url] = $object->get_id();
+				}
+				elseif(is_file($entry))
+				{
+					//Create a document in the repository
+					$new_path = $owner_path.'/'.basename($entry);
+					Filesystem::copy_file($entry,$new_path);
+					$object = new Document();
+					$object->set_path($owner.'/'.basename($entry));
+					$object->set_filename(basename($entry));
+					$object->set_filesize(Filesystem::get_disk_space($new_path));
+					$this->set_learning_object($object);
+					$object = parent :: create_learning_object();
+					$object->set_title(basename($url));
+					if(isset($created_directories[dirname($url)]))
+					{
+						$object->set_parent_id($created_directories[dirname($url)]);
+					}
+					$object->update();
+				}
+			}
+			Filesystem::remove($dir);
 		}
 		return $document;
 	}
