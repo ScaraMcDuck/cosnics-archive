@@ -57,32 +57,29 @@ class DocumentForm extends LearningObjectForm
 		$values = $this->exportValues();
 		$owner_path = $this->get_upload_path().'/'.$owner;
 		Filesystem::create_dir($owner_path);
-		if(!$values['uncompress'])
+		if ($values['choice'])
 		{
-			if ($values['choice'])
-			{
-				$filename = $values[Document :: PROPERTY_TITLE].'.html';
-				$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $filename);
-				$path = $owner.'/'.$filename;
-				$full_path = $this->get_upload_path().'/'.$path;
-				Filesystem::write_to_file($full_path,$values['html_content']);
-			}
-			else
-			{
-				$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $_FILES['file']['name']);
-				$path = $owner.'/'.$filename;
-				$full_path = $this->get_upload_path().'/'.$path;
-				move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
-			}
-			chmod($full_path, 0777);
-			$object = new Document();
-			$object->set_path($path);
-			$object->set_filename($filename);
-			$object->set_filesize(Filesystem::get_disk_space($full_path));
-			$this->set_learning_object($object);
-			$document = parent :: create_learning_object();
+			$filename = $values[Document :: PROPERTY_TITLE].'.html';
+			$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $filename);
+			$path = $owner.'/'.$filename;
+			$full_path = $this->get_upload_path().'/'.$path;
+			Filesystem::write_to_file($full_path,$values['html_content']);
 		}
 		else
+		{
+			$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $_FILES['file']['name']);
+			$path = $owner.'/'.$filename;
+			$full_path = $this->get_upload_path().'/'.$path;
+			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
+		}
+		chmod($full_path, 0777);
+		$object = new Document();
+		$object->set_path($path);
+		$object->set_filename($filename);
+		$object->set_filesize(Filesystem::get_disk_space($full_path));
+		$this->set_learning_object($object);
+		$document = parent :: create_learning_object();
+		if($values['uncompress'])
 		{
 			$filecompression = Filecompression::factory();
 			$dir = $filecompression->extract_file($document->get_full_path());
