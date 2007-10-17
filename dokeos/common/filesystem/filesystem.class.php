@@ -141,7 +141,6 @@ class Filesystem
 				{
 					$safe_name = Filesystem::create_unique_name(dirname($entry),basename($entry));
 					$destination = dirname($entry).'/'.$safe_name;
-					echo $destination."\n";
 					Filesystem::copy_file($entry, $destination);
 					unlink($entry);
 				}
