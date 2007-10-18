@@ -49,12 +49,8 @@ abstract class AdminDataManager
 	}
 
 	/**
-	 * Loads the applications installed on the system. Applications are classes
-	 * in the /application/lib subdirectory. Each application is a directory,
-	 * which in its turn contains a class file named after the application. For
-	 * instance, the weblcms application is the class Weblcms, defined in
-	 * /application/lib/weblcms/weblcms.class.php. Applications must extend the
-	 * Application class.
+	 * Loads the applications installed on the system and uses the function
+	 * register_application to register them.
 	 */
 	private function load_applications()
 	{
