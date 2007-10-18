@@ -58,23 +58,10 @@ abstract class AdminDataManager
 	 */
 	private function load_applications()
 	{
-		$path = dirname(__FILE__).'/../../application/lib';
-		if ($handle = opendir($path))
+		$applications = Application::load_all();
+		foreach($applications as $index => $application)
 		{
-			while (false !== ($file = readdir($handle)))
-			{
-				$toolPath = $path.'/'. $file .'/'.$file.'_manager';
-				if (is_dir($toolPath) && self :: is_application_name($file))
-				{
-					require_once $toolPath.'/'.$file.'.class.php';
-					$this->register_application($file);
-				}
-			}
-			closedir($handle);
-		}
-		else
-		{
-			die('Failed to load applications');
+			$this->register_application($application);
 		}
 	}
 
@@ -109,16 +96,6 @@ abstract class AdminDataManager
 	static function class_to_application($class)
 	{
 		return preg_replace(array ('/^([A-Z])/e', '/([A-Z])/e'), array ('strtolower(\1)', '"_".strtolower(\1)'), $class);
-	}
-
-	/**
-	 * Determines whether or not the given name is a valid application name.
-	 * @param string $name The name to evaluate.
-	 * @return True if the name is a valid application name, false otherwise.
-	 */
-	static function is_application_name($name)
-	{
-		return (preg_match('/^[a-z][a-z_]+$/', $name) > 0);
 	}
 
 	/**
