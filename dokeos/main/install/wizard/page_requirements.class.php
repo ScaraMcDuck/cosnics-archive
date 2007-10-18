@@ -31,7 +31,7 @@ class Page_Requirements extends HTML_QuickForm_Page
 	}
 	function get_not_writable_folders()
 	{
-		$writable_folders = array ('../inc/conf', '../garbage', '../upload', '../../archive', '../../courses', '../../home');
+		$writable_folders = array ('../../files','../../home');
 		$not_writable = array ();
 		foreach ($writable_folders as $index => $folder)
 		{
