@@ -125,7 +125,7 @@ class Banner
 			$usermgr = new UserManager($_SESSION['_uid']);
 			$user = $usermgr->get_user();
 
-			$applications = load_applications();
+			$applications = Application::load_all();
 
 			foreach ($applications as $application)
 			{
