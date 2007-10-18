@@ -58,8 +58,11 @@ abstract class Mail
 	 */
 	public static function factory($subject,$message,$to,$from = null, $cc = array(),$bcc = array())
 	{
-		require_once dirname(__FILE__).'/default/defaultmail.class.php';
-		return new DefaultMail($subject,$message,$to,$from,$cc,$bcc);
+		// This value should come from configuration and can be one of the available mail-implementations
+		$mail_file = 'default';
+		require_once dirname(__FILE__).'/'.$mail_file.'/'.$mail_file.'mail.class.php';
+		$mail_class = ucfirst($mail_file).'Mail';
+		return new $mail_class($subject,$message,$to,$from,$cc,$bcc);
 	}
 	/**
 	 * Retrieves the subject for the email
