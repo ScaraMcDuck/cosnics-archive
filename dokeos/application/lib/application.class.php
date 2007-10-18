@@ -67,7 +67,7 @@ abstract class Application
 		foreach($directories as $index => $directory)
 		{
 			$application_name = basename($directory);
-			if(is_application_name($application_name))
+			if(Application::is_application_name($application_name))
 			{
 				require_once($directory.'/'.$application_name.'_manager/'.$application_name.'.class.php');
 				if (!in_array($application_name, applications))
@@ -77,6 +77,16 @@ abstract class Application
 			}
 		}
 		return $applications;
+	}
+	/**
+	 * Determines if a given name is the name of an application
+	 * @param string $name
+	 * @return boolean
+	 * @todo Better would be to check if the class for the application exists
+	 */
+	public static function is_application_name($name)
+	{
+		return (preg_match('/^[a-z][a-z_]+$/', $name) > 0);
 	}
 }
 ?>
