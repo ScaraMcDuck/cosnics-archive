@@ -87,7 +87,7 @@ function display_anonymous_right_menu()
 			}
 			if (get_setting('allow_lostpassword') == 'true')
 			{
-				display_lost_password_info();
+				echo "<li><a href=\"main/auth/lostPassword.php\">".get_lang("LostPassword")."</a></li>";
 			}
 			echo '</ul></div>';
 		}
@@ -163,14 +163,6 @@ function display_login_form()
 	$form->addElement('password','password',get_lang('Pass'),array('size'=>15));
 	$form->addElement('submit','submitAuth',get_lang('Ok'));
 	$form->display();
-}
-
-/**
- * Displays a link to the lost password section
- */
-function display_lost_password_info()
-{
-	echo "<li><a href=\"main/auth/lostPassword.php\">".get_lang("LostPassword")."</a></li>";
 }
 
 /**
