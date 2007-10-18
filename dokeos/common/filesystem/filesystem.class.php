@@ -223,19 +223,33 @@ class Filesystem
 	 * @param string $path The full path of the directory
 	 * @param const $type Type to determines which items should be included in
 	 * the resulting list
+	 * @param boolean $recursive If true, all content of all subdirectories will
+	 * also be returned.
 	 * @return array Containing the requested directory contents. All entries
 	 * are full paths.
 	 */
-	public static function get_directory_content($path, $type = Filesystem::LIST_FILES_AND_DIRECTORIES)
+	public static function get_directory_content($path, $type = Filesystem::LIST_FILES_AND_DIRECTORIES, $recursive = true)
 	{
-		$it = new RecursiveDirectoryIterator($path);
-		foreach (new RecursiveIteratorIterator($it, 1) as $entry)
+		if($recursive)
 		{
-			if(($type == Filesystem::LIST_FILES_AND_DIRECTORIES || $type == Filesystem::LIST_FILES) && is_file($entry))
+			$it = new RecursiveDirectoryIterator($path);
+			$it = new RecursiveIteratorIterator($it, 1);
+		}
+		else
+		{
+			$it = new DirectoryIterator($path);
+		}
+		foreach ( $it as $entry)
+		{
+			if($it->isDot())
+			{
+				continue;
+			}
+			if(($type == Filesystem::LIST_FILES_AND_DIRECTORIES || $type == Filesystem::LIST_FILES) && $entry->isFile())
 			{
 				$result[] = $entry->getRealPath();
 			}
-			if(($type == Filesystem::LIST_FILES_AND_DIRECTORIES || $type == Filesystem::LIST_DIRECTORIES) && is_dir($entry))
+			if(($type == Filesystem::LIST_FILES_AND_DIRECTORIES || $type == Filesystem::LIST_DIRECTORIES) && $entry->isDir())
 			{
 				$result[] = $entry->getRealPath();
 			}

@@ -1555,37 +1555,7 @@ function api_show_course_navigation_menu($isHidden = false)
 	}
 }
 
-/**
- * Loads the applications installed on the system. Applications are classes
- * in the /application/lib subdirectory. Each application is a directory,
- * which in its turn contains a class file named after the application. For
- * instance, the weblcms application is the class Weblcms, defined in
- * /application/lib/weblcms/weblcms.class.php. Applications must extend the
- * Application class.
- */
-function load_applications()
-{
-	$applications = array();
-	$path = api_get_path(SYS_CODE_PATH).'../application/lib';
-	if ($handle = opendir($path))
-	{
-		while (false !== ($file = readdir($handle)))
-		{
-			$toolPath = $path.'/'. $file .'/'.$file.'_manager';
-			if (is_dir($toolPath) && is_application_name($file))
-			{
-				require_once $toolPath.'/'.$file.'.class.php';
-				if (!in_array($file, applications))
-				{
-					$applications[] = $file;
 
-				}
-			}
-		}
-		closedir($handle);
-	}
-	return $applications;
-}
 
 function is_application_name($name)
 {
