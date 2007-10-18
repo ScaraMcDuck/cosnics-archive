@@ -160,37 +160,6 @@ function format_url($file_path)
 	return implode('/', $path_component);
 }
 
-/**
- * Get the most recent time the content of a folder was changed.
- *
- * @param  - $dir_name (string)   - Path of the dir on the hard disk
- * @param  - $do_recursive (bool) - Traverse all folders in the folder?
- * @return - Time the content of the folder was changed
- */
-function recent_modified_file_time($dir_name, $do_recursive = true)
-{
-	$dir = dir($dir_name);
-	$last_modified = 0;
-
-	while(($entry = $dir->read()) !== false)
-	{
-		if ($entry != '.' && $entry != '..')
-			continue;
-
-		if (!is_dir($dir_name.'/'.$entry))
-			$current_modified = filemtime($dir_name.'/'.$entry);
-		elseif ($do_recursive)
-			$current_modified = recent_modified_file_time($dir_name.'/'.$entry, true);
-
-		if ($current_modified > $last_modified)
-			$last_modified = $current_modified;
-	}
-
-	$dir->close();
-
-	//prevents returning 0 (for empty directories)
-	return ($last_modified == 0) ? filemtime($dir_name) : $last_modified;
-}
 
 /**
  * Get the total size of a directory.
