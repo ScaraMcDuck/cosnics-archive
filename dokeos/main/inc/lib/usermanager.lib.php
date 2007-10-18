@@ -1,34 +1,34 @@
-<?php // $Id$ 
+<?php // $Id$
 /*
-============================================================================== 
+==============================================================================
 	Dokeos - elearning and course management software
-	
+
 	Copyright (c) 2004 Dokeos S.A.
 	Copyright (c) 2003 University of Ghent (UGent)
 	Copyright (c) 2001 Universite catholique de Louvain (UCL)
 	Copyright (c) various contributors
 	Copyright (c) Bart Mollet, Hogeschool Gent
-	
+
 	For a full list of contributors, see "credits.txt".
 	The full license can be read in "license.txt".
-	
+
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
 	as published by the Free Software Foundation; either version 2
 	of the License, or (at your option) any later version.
-	
+
 	See the GNU General Public License for more details.
-	
+
 	Contact: Dokeos, 181 rue Royale, B-1000 Brussels, Belgium, info@dokeos.com
-============================================================================== 
+==============================================================================
 */
 /**
-============================================================================== 
+==============================================================================
 *	This library provides functions for user management.
 *	Include/require it in your code to use its functionality.
 *
 *	@package dokeos.library
-============================================================================== 
+==============================================================================
 */
 class UserManager
 {
@@ -54,7 +54,7 @@ class UserManager
 	  * @desc The function tries to retrieve $_uid from the global space.
 	  * if it exists, $_uid is the creator id       If       a problem arises,
 	  * it stores the error message in global $api_failureList
-	  * 
+	  *
 	  * @todo Add the user language to the parameters
 	  */
 	function create_user($firstName, $lastName, $status, $email, $loginName, $password, $official_code = '', $phone = '', $picture_uri = '', $auth_source = PLATFORM_AUTH_SOURCE)
@@ -93,7 +93,7 @@ class UserManager
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Can user be deleted?
 	 * This functions checks if there's a course in which the given user is the
@@ -118,10 +118,10 @@ class UserManager
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Delete a user from the platform
-	 * @param int $user_id The user id 
+	 * @param int $user_id The user id
 	 * @return boolean true if user is succesfully deleted, false otherwise
 	 */
 	function delete_user($user_id)
@@ -135,7 +135,7 @@ class UserManager
 		$table_class_user = Database :: get_main_table(MAIN_CLASS_USER_TABLE);
 		$table_course = Database :: get_main_table(MAIN_COURSE_TABLE);
 		$table_admin = Database :: get_main_table(MAIN_ADMIN_TABLE);
-		
+
 		// Unsubscribe the user from all groups in all his courses
 		$sql = "SELECT * FROM $table_course c, $table_course_user cu WHERE cu.user_id = '".$user_id."' AND c.code = cu.course_code";
 		$res = api_sql_query($sql,__FILE__,__LINE__);
@@ -145,44 +145,44 @@ class UserManager
 			$sql = "DELETE FROM $table_group WHERE user_id = '".$user_id."'";
 			api_sql_query($sql,__FILE__,__LINE__);
 		}
-		
+
 		// Unsubscribe user from all classes
 		$sql = "DELETE FROM $table_class_user WHERE user_id = '".$user_id."'";
 		api_sql_query($sql,__FILE__,__LINE__);
-		
+
 		// Unsubscribe user from all courses
 		$sql = "DELETE FROM $table_course_user WHERE user_id = '".$user_id."'";
 		api_sql_query($sql,__FILE__,__LINE__);
-		
+
 		// Delete user picture
 		$user_info = api_get_user_info($user_id);
 		if(strlen($user_info['picture_uri']) > 0)
 		{
 			$img_path = api_get_code_sys_path().'upload/users/'.$user_info['picture_uri'];
-			unlink($img_path);	
+			unlink($img_path);
 		}
-		
+
 		// Delete the personal course categories
 		$course_cat_table = Database::get_user_personal_table(USER_COURSE_CATEGORY_TABLE);
 		$sql = "DELETE FROM $course_cat_table WHERE user_id = '".$user_id."'";
-		api_sql_query($sql,__FILE__,__LINE__);		
-		
+		api_sql_query($sql,__FILE__,__LINE__);
+
 		// Delete user from database
 		$sql = "DELETE FROM $table_user WHERE user_id = '".$user_id."'";
 		api_sql_query($sql,__FILE__,__LINE__);
-		
+
 		// Delete user from the admin table
 		$sql = "DELETE FROM $table_admin WHERE user_id = '".$user_id."'";
 		api_sql_query($sql,__FILE__,__LINE__);
-		
+
 		// Delete the personal agenda-items from this user
 		$agenda_table = Database :: get_user_personal_table(PERSONAL_AGENDA);
 		$sql = "DELETE FROM $agenda_table WHERE user = '".$user_id."'";
 		api_sql_query($sql,__FILE__,__LINE__);
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Update user information
 	 * @param int $user_id
@@ -203,7 +203,7 @@ class UserManager
 	{
 		global $userPasswordCrypted;
 		$table_user = Database :: get_main_table(MAIN_USER_TABLE);
-		$sql = "UPDATE $table_user SET 
+		$sql = "UPDATE $table_user SET
 				lastname='".mysql_real_escape_string($lastname)."',
 				firstname='".mysql_real_escape_string($firstname)."',
 				username='".mysql_real_escape_string($username)."',";
@@ -229,7 +229,7 @@ class UserManager
 		$sql .=	" WHERE user_id='$user_id'";
 		return api_sql_query($sql,__FILE__,__LINE__);
 	}
-	
+
 	/**
 	 * Check if a username is available
 	 * @param string the wanted username
@@ -242,25 +242,9 @@ class UserManager
 		$res = api_sql_query($sql,__FILE__,__LINE__);
 		return mysql_num_rows($res) == 0;
 	}
-	
+
 	/**
-	* @return an array with all users of the platform.
-	* @todo optional course code parameter, optional sorting parameters...
-	* @deprecated This function isn't used anywhere in the code.
-	*/
-	function get_user_list()
-	{
-		$user_table = Database :: get_main_table(MAIN_USER_TABLE);
-		$sql_query = "SELECT * FROM $user_table";
-		$sql_result = api_sql_query($sql_query,__FILE__,__LINE__);
-		while ($result = mysql_fetch_array($sql_result))
-		{
-			$return_array[] = $result;
-		}
-		return $return_array;
-	}
-	/**
-	 * Get user information 
+	 * Get user information
 	 * @param string $username The username
 	 * @return array All user information as an associative array
 	 */
@@ -269,9 +253,9 @@ class UserManager
 		$user_table = Database :: get_main_table(MAIN_USER_TABLE);
 		$sql = "SELECT * FROM $user_table WHERE username='".$username."'";
 		$res = api_sql_query($sql,__FILE__,__LINE__);
-		$user = mysql_fetch_array($res,MYSQL_ASSOC);	
+		$user = mysql_fetch_array($res,MYSQL_ASSOC);
 		return $user;
 	}
-	
+
 }
 ?>
