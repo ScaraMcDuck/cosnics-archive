@@ -161,34 +161,7 @@ function format_url($file_path)
 }
 
 
-/**
- * Get the total size of a directory.
- *
- * @param  - $dir_name (string) - Path of the dir on the hard disk
- * @return - Total size in bytes
- */
-function folder_size($dir_name)
-{
-	$size = 0;
 
-	if ($dir_handle = opendir($dir_name))
-	{
-		while (($entry = readdir($dir_handle)) !== false)
-		{
-			if($entry == '.' || $entry == '..')
-				continue;
-
-        	if(is_dir($dir_name.'/'.$entry))
-        		$size += folder_size($dir_name.'/'.$entry);
-        	else
-        		$size += filesize($dir_name.'/'.$entry);
-		}
-
-		closedir($dir_handle);
-    }
-
-    return $size;
-}
 
 /**
  * Calculates the total size of a directory by adding the sizes (that
