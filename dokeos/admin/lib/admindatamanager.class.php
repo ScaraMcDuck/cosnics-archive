@@ -79,16 +79,6 @@ abstract class AdminDataManager
 	}
 
 	/**
-	 * Converts an application name to the corresponding class name.
-	 * @param string $application The application name.
-	 * @return string The class name.
-	 */
-	static function application_to_class($application)
-	{
-		return ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $application));
-	}
-
-	/**
 	 * Converts an application class name to the corresponding application name.
 	 * @param string $class The class name.
 	 * @return string The application name.
@@ -132,12 +122,11 @@ abstract class AdminDataManager
 		$applications = $this->get_registered_applications();
 		foreach($applications as $index => $application_name)
 		{
-			$application_class = self::application_to_class($application_name);
-			$application = new $application_class;
+			$application = Application::factory($application_name);
 			$links = $application->get_application_platform_admin_links();
 			if ($links['application']['name'])
 			{
-				$links['application']['name'] = get_lang('App'.$this->application_to_class($links['application']['name']));
+				$links['application']['name'] = get_lang('App'.Application::application_to_class($links['application']['name']));
 				$info[] = $links;
 			}
 		}
