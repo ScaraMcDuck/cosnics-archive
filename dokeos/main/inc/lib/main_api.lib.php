@@ -1556,8 +1556,4 @@ function api_show_course_navigation_menu($isHidden = false)
 }
 
 
-function application_to_class($application)
-{
-	return ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $application));
-}
 ?>

@@ -160,8 +160,7 @@ abstract class RepositoryDataManager
 		$result = false;
 		foreach($applications as $index => $application_name)
 		{
-			$application_class = self::application_to_class($application_name);
-			$application = new $application_class;
+			$application = Application::factory($application_name);
 			if ($application->learning_object_is_published($id))
 			{
 				return true;
@@ -183,8 +182,7 @@ abstract class RepositoryDataManager
 		$result = false;
 		foreach($applications as $index => $application_name)
 		{
-			$application_class = self::application_to_class($application_name);
-			$application = new $application_class;
+			$application = Application::factory($application_name);
 			if ($application->any_learning_object_is_published($ids))
 			{
 				return true;
@@ -205,8 +203,7 @@ abstract class RepositoryDataManager
 		$info = array();
 		foreach($applications as $index => $application_name)
 		{
-			$application_class = self::application_to_class($application_name);
-			$application = new $application_class($user);
+			$application = Application::factory($application_name);
 			$info = array_merge($info, $application->get_learning_object_publication_attributes($id, $type, $offset, $count, $order_property, $order_direction));
 		}
 
@@ -221,9 +218,7 @@ abstract class RepositoryDataManager
 	 */
 	function get_learning_object_publication_attribute($id, $application, $user)
 	{
-		$applications = $this->get_registered_applications();
-		$application_class = self::application_to_class($application);
-		$application = new $application_class;
+		$application = Application::factory($application);
 		return $application->get_learning_object_publication_attribute($id);
 	}
 
@@ -448,8 +443,7 @@ abstract class RepositoryDataManager
 		$info = 0;
 		foreach($applications as $index => $application_name)
 		{
-			$application_class = self::application_to_class($application_name);
-			$application = new $application_class($user);
+			$application = Application::factory($application_name);
 			$info += $application->count_publication_attributes($type, $condition);
 		}
 		return $info;
@@ -488,9 +482,7 @@ abstract class RepositoryDataManager
 	 */
 	function update_learning_object_publication_id($publication_attr)
 	{
-		$applications = $this->get_registered_applications();
-		$application_class = self::application_to_class($publication_attr->get_application());
-		$application = new $application_class;
+		$application = Application::factory($publication_attr->get_application());
 		return $application->update_learning_object_publication_id($publication_attr);
 	}
 
@@ -558,8 +550,7 @@ abstract class RepositoryDataManager
 		$applications = $this->get_registered_applications();
 		foreach($applications as $index => $application_name)
 		{
-			$application_class = self::application_to_class($application_name);
-			$application = new $application_class;
+			$application = Application::factory($application_name);
 			$application->delete_learning_object_publications($object->get_id());
 		}
 		return true;
@@ -767,16 +758,6 @@ abstract class RepositoryDataManager
 		{
 			$this->register_application($application);
 		}
-	}
-
-	/**
-	 * Converts an application name to the corresponding class name.
-	 * @param string $application The application name.
-	 * @return string The class name.
-	 */
-	static function application_to_class($application)
-	{
-		return ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $application));
 	}
 
 	/**

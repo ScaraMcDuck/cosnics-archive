@@ -185,11 +185,11 @@ function display_applications_list()
 		{
 			if (isset($_uid))
 			{
-				$html[]= '<li><a href="run.php?application='. $application .'">'. get_lang('App'.application_to_class($application)) .'</a></li>';
+				$html[]= '<li><a href="run.php?application='. $application .'">'. get_lang('App'.Application::application_to_class($application)) .'</a></li>';
 			}
 			else
 			{
-				$html[]= '<li>'. get_lang('App'.application_to_class($application)) .'</li>';
+				$html[]= '<li>'. get_lang('App'.Application::application_to_class($application)) .'</li>';
 			}
 		}
 

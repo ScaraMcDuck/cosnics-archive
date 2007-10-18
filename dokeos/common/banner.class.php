@@ -149,7 +149,7 @@ class Banner
 				}
 
 				$output[] = '<a '.$link_class.' href="'.api_get_path(WEB_PATH).'run.php?application='.$application.'" target="_top">';
-				$output[] = get_lang(application_to_class($application));
+				$output[] = get_lang(Application::application_to_class($application));
 				$output[] = ($count > 0 ? '&nbsp;('.$count.')' : null);
 				$output[] = '</a>&nbsp;';
 			}

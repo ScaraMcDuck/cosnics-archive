@@ -3,6 +3,7 @@
  * $Id$
  * @package application
  */
+require_once(dirname(__FILE__).'/../../common/filesystem/filesystem.class.php');
 /**
 ==============================================================================
  *	This is the base class for all applications based on the learning object
@@ -87,6 +88,26 @@ abstract class Application
 	public static function is_application_name($name)
 	{
 		return (preg_match('/^[a-z][a-z_]+$/', $name) > 0);
+	}
+	/**
+	 * Converts an application name to the corresponding class name.
+	 * @param string $application The application name.
+	 * @return string The class name.
+	 */
+	public static function application_to_class($application)
+	{
+		return ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $application));
+	}
+	/**
+	 * Creates a new instance of the given application
+	 * @param string $application
+	 * @return Application An instance of the application corresponding to the
+	 * given $application
+	 */
+	public static function factory($application)
+	{
+		$class = Application::application_to_class($application);
+		return new $class;
 	}
 }
 ?>
