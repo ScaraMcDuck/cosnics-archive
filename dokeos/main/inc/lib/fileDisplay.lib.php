@@ -132,7 +132,6 @@ function format_file_size($file_size)
 
 	return $file_size;
 }
-
 /**
  * Transform a UNIX time stamp in human readable format date.
  *
@@ -144,7 +143,6 @@ function format_date($date)
 {
 	return date('d.m.Y', $date);
 }
-
 /**
  * Transform the file path to a URL.
  *
@@ -159,10 +157,6 @@ function format_url($file_path)
 
 	return implode('/', $path_component);
 }
-
-
-
-
 /**
  * Calculates the total size of a directory by adding the sizes (that
  * are stored in the database) of all files & folders in this directory.
