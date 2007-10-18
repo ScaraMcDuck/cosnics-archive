@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: defaultmail.class.php 13485 2007-10-15 14:27:36Z bmol $
+ * $Id$
  * @package mail
  */
 /**
