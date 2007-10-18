@@ -760,15 +760,6 @@ abstract class RepositoryDataManager
 		}
 	}
 
-	/**
-	 * Converts an application class name to the corresponding application name.
-	 * @param string $class The class name.
-	 * @return string The application name.
-	 */
-	static function class_to_application($class)
-	{
-		return preg_replace(array ('/^([A-Z])/e', '/([A-Z])/e'), array ('strtolower(\1)', '"_".strtolower(\1)'), $class);
-	}
 
 	/**
 	 * Gets the disk space consumed by the given user.
