@@ -175,7 +175,7 @@ function display_login_form()
 function display_applications_list()
 {
 	$_uid = api_get_user_id();
-	$applications = load_applications();
+	$applications = Application::load_all();
 	if (count($applications))
 	{
 		$html = array();
