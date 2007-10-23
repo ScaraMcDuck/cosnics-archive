@@ -5,6 +5,7 @@
  */
 require_once dirname(__FILE__).'/../../repository/lib/configuration.class.php';
 require_once dirname(__FILE__).'/../../repository/lib/repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/../../common/authentication/authentication.class.php';
 /**
  *	This is a skeleton for a data manager for the Users table.
  *	Data managers must extend this class and implement its abstract methods.
@@ -123,10 +124,7 @@ abstract class UsersDataManager
 		{
 			$user = $this->retrieve_user_by_username($username);
 			$authentication_method = $user->get_auth_source();
-			$authentication_class_file = dirname(__FILE__).'/../../common/authentication/'.$authentication_method.'/'.$authentication_method.'authentication.class.php';
-			$authentication_class = ucfirst($authentication_method).'Authentication';
-			require_once $authentication_class_file;
-			$authentication = new $authentication_class;
+			$authentication = Authentication::factory($authentication_method);
 			if ($authentication->check_login($user, $username, $password))
 			{
 				return $user;

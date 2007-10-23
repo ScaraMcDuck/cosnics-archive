@@ -57,5 +57,18 @@ abstract class Authentication {
     {
     	api_session_destroy();
     }
+    /**
+     * Creates an instance of an authentication class
+     * @param string $authentication_method
+     * @return Authentication An object of a class implementing this abstract
+     * class.
+     */
+    function factory($authentication_method)
+    {
+		$authentication_class_file = dirname(__FILE__).'/'.$authentication_method.'/'.$authentication_method.'authentication.class.php';
+		$authentication_class = ucfirst($authentication_method).'Authentication';
+		require_once $authentication_class_file;
+		return new $authentication_class;
+    }
 }
 ?>
