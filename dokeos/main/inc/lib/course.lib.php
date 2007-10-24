@@ -1,44 +1,44 @@
 <?php
-// $Id$ 
+// $Id$
 /*
-============================================================================== 
+==============================================================================
 	Dokeos - elearning and course management software
-	
+
 	Copyright (c) 2004-2005 Dokeos S.A.
 	Copyright (c) 2001 Universite catholique de Louvain (UCL)
 	Copyright (c) Roan Embrechts, Vrije Universiteit Brussel
 	Copyright (c) Bart Mollet, Hogeschool Gent
 	Copyright (c) Yannick Warnier, Dokeos S.A.
-	
+
 	For a full list of contributors, see "credits.txt".
 	The full license can be read in "license.txt".
-	
+
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
 	as published by the Free Software Foundation; either version 2
 	of the License, or (at your option) any later version.
-	
+
 	See the GNU General Public License for more details.
-	
+
 	Contact address: Dokeos, 44 rue des palais, B-1030 Brussels, Belgium
 	Mail: info@dokeos.com
-============================================================================== 
+==============================================================================
 */
 /**
-============================================================================== 
+==============================================================================
 * This is the course library for Dokeos.
 *
 * All main course functions should be placed here.
-* 
+*
 * You can find general course functions, functions dealign with
 * users in courses, virtual/linked/combined courses, some functions use the
 * roles/rights system...
 *
 * @package dokeos.library
-============================================================================== 
+==============================================================================
 */
 /*
-============================================================================== 
+==============================================================================
 	DOCUMENTATION
 	(list not up to date, you can auto generate documentation with phpDocumentor)
 
@@ -48,7 +48,7 @@
 	CourseManager::is_existing_course_code($wanted_course_code)
 	CourseManager::get_real_course_list()
 	CourseManager::get_virtual_course_list()
-	
+
 	GENERAL COURSE FUNCTIONS
 	CourseManager::get_access_settings($course_code)
 	CourseManager::set_course_tool_visibility($tool_table_id, $visibility)
@@ -61,28 +61,28 @@
 	CourseManager::get_list_of_virtual_courses_for_specific_user_and_real_course($user_id, $real_course_code)
 	CourseManager::has_virtual_courses_from_code($real_course_code, $user_id)
 	CourseManager::get_target_of_linked_course($virtual_course_code)
-	
+
 	TITLE AND CODE FUNCTIONS
 	DEPRECATED CourseManager::determine_course_title($_uid, $_cid, $_course)
 	CourseManager::determine_course_title_from_course_info($user_id, $course_info)
 	CourseManager::create_combined_name($user_is_registered_in_real_course, $real_course_name, $virtual_course_list)
 	CourseManager::create_combined_code($user_is_registered_in_real_course, $real_course_code, $virtual_course_list)
-	
+
 	USER FUNCTIONS
 	CourseManager::get_real_course_list_of_user_as_course_admin($user_id)
 	CourseManager::get_course_list_of_user_as_course_admin($user_id)
-	
+
 	CourseManager::is_user_subscribed_in_course($user_id, $course_code)
 	CourseManager::is_user_subscribed_in_real_or_linked_course($user_id, $course_code)
 	CourseManager::get_user_list_from_course_code($course_code)
 	CourseManager::get_real_and_linked_user_list($course_code);
-	
+
 	GROUP FUNCTIONS
 	CourseManager::get_group_list_of_course($course_code)
-	
+
 	CREATION FUNCTIONS
 	CourseManager::attempt_create_virtual_course($real_course_code, $course_title, $wanted_course_code, $course_language, $course_category)
-============================================================================== 
+==============================================================================
 */
 
 /*
@@ -109,7 +109,7 @@ include_once (api_get_library_path()."/database.lib.php");
 include_once (api_get_library_path()."/add_course.lib.inc.php");
 
 /*
------------------------------------------------------------ 
+-----------------------------------------------------------
 		Constants
 -----------------------------------------------------------
 */
@@ -117,10 +117,10 @@ include_once (api_get_library_path()."/add_course.lib.inc.php");
 //LOGIC: course visibility and registration settings
 /*
 	COURSE VISIBILITY
-	
-	MAPPING OLD SETTINGS TO NEW SETTINGS 
+
+	MAPPING OLD SETTINGS TO NEW SETTINGS
 	-----------------------
-	
+
 	NOT_VISIBLE_NO_SUBSCRIPTION_ALLOWED
 	--> COURSE_VISIBILITY_REGISTERED, SUBSCRIBE_NOT_ALLOWED
 	NOT_VISIBLE_SUBSCRIPTION_ALLOWED
@@ -143,7 +143,7 @@ define("VISIBLE_NO_SUBSCRIPTION_ALLOWED", 3);
 	COURSE_VISIBILITY_REGISTERED
 	COURSE_VISIBILITY_OPEN_PLATFORM
 	COURSE_VISIBILITY_OPEN_WORLD
-	
+
 	SUBSCRIBE_ALLOWED
 	SUBSCRIBE_NOT_ALLOWED
 	UNSUBSCRIBE_ALLOWED
@@ -164,9 +164,9 @@ $TABLEANNOUNCEMENTS = "announcement";
 $coursesRepositories = $rootSys;
 
 /*
-============================================================================== 
+==============================================================================
 		CourseManager CLASS
-============================================================================== 
+==============================================================================
 */
 
 /**
@@ -204,10 +204,10 @@ class CourseManager
 		if ($allowed_for_normal_member)
 			RolesRights :: set_value(NORMAL_COURSE_MEMBER, VIEW_RIGHT, $tool_location_id, $visibility);
 	}
-	
+
 	/**
 	* Returns a list of tools visible in the public tool section of a course homepage.
-	* 
+	*
 	* We return a list of tools based on the role and view rights.
 	* For most roles (course visitors, course members...)
 	* we return a list of all tools for which they have the view right.
@@ -221,17 +221,17 @@ class CourseManager
 		//get list of tools of the current course
 		$course_tool_table = Database::get_course_tool_list_table();
 		$sql_result = api_sql_query("SELECT * FROM $course_tool_table WHERE admin=0 ORDER BY id",__FILE__,__LINE__);
-		
+
 		if ($role_id == TEACHING_ASSISTANT || $role_id == COURSE_ADMIN)
 		{
 			$view_as_role = $_SESSION['view_as_role'];
 			if ($role_id == $view_as_role) unset($_SESSION['view_as_role']);
-			
+
 			if (isset($view_as_role) && $view_as_role) $role_id = $view_as_role;
-			
+
 			if ($role_id == TEACHING_ASSISTANT || $role_id == COURSE_ADMIN) $role_id = NORMAL_COURSE_MEMBER;
 		}
-		
+
 		//for each tool, check the view right for the current role
 		while ($this_tool = mysql_fetch_array($sql_result))
 		{
@@ -240,14 +240,14 @@ class CourseManager
 			//skip learning path entries, these are added later
 			if (stristr($tool_link,'learnpath/learnpath_handler.php?')) continue;
 			$location_id = RolesRights::get_course_tool_location_id($course_id, $tool_name);
-			
+
 			if (RolesRights::is_allowed($role_id, VIEW_RIGHT, $location_id))
 			$accessible_public_tool_list[] = $this_tool;
 		}
-		
+
 		return $accessible_public_tool_list;
 	}
-	
+
 	/**
 	* Returns a list of public, but hidden tools visible in the hidden tool section of a course homepage.
 	* This section is normally only visible for the course admin, who can make tools visible for others there.
@@ -257,7 +257,7 @@ class CourseManager
 		//get list of tools of the current course
 		$course_tool_table = Database::get_course_tool_list_table();
 		$sql_result = api_sql_query("SELECT * FROM $course_tool_table WHERE admin=0 AND visibility != 2 ORDER BY id",__FILE__,__LINE__);
-		
+
 		if ($role_id == TEACHING_ASSISTANT || $role_id == COURSE_ADMIN)
 		{
 			$view_as_role = $_SESSION['view_as_role'];
@@ -265,7 +265,7 @@ class CourseManager
 			if (isset($view_as_role) && $view_as_role) $role_id = $view_as_role;
 			if ($role_id == TEACHING_ASSISTANT || $role_id == COURSE_ADMIN) $role_id = NORMAL_COURSE_MEMBER;
 		}
-		
+
 		//for each tool, check the view right for the current role
 		while ($this_tool = mysql_fetch_array($sql_result))
 		{
@@ -274,14 +274,14 @@ class CourseManager
 			//skip learning path entries, these are added later
 			if (stristr($tool_link,'learnpath/learnpath_handler.php?')) continue;
 			$location_id = RolesRights::get_course_tool_location_id($course_id, $tool_name);
-			
+
 			if (! RolesRights::is_allowed($role_id, VIEW_RIGHT, $location_id))
 			$hidden_public_tool_list[] = $this_tool;
 		}
-		
+
 		return $hidden_public_tool_list;
 	}
-	
+
 	/**
 	* Returns a list of public, but hidden tools visible in the hidden tool section of a course homepage.
 	* This section is normally only visible for the course admin, who can make tools visible for others there.
@@ -291,24 +291,24 @@ class CourseManager
 		//get list of tools of the current course
 		$course_tool_table = Database::get_course_tool_list_table();
 		$sql_result = api_sql_query("SELECT * FROM $course_tool_table WHERE admin=1 AND visibility != 2 ORDER BY id",__FILE__,__LINE__);
-		
+
 		if ($role_id == TEACHING_ASSISTANT || $role_id == COURSE_ADMIN)
 		{
 			$view_as_role = $_SESSION['view_as_role'];
 			if ($role_id == $view_as_role) unset($_SESSION['view_as_role']);
 			if (isset($view_as_role) && $view_as_role) $role_id = $view_as_role;
 		}
-		
+
 		//for each tool, check the view right for the current role
 		while ($this_tool = mysql_fetch_array($sql_result))
 		{
 			$tool_name = $this_tool['name'];
 			$location_id = RolesRights::get_course_tool_location_id($course_id, $tool_name);
-			
+
 			if (RolesRights::is_allowed($role_id, VIEW_RIGHT, $location_id))
 			$course_admin_tool_list[] = $this_tool;
 		}
-		
+
 		return $course_admin_tool_list;
 	}
 
@@ -320,15 +320,15 @@ class CourseManager
 		//get list of tools of the current course
 		$course_tool_table = Database::get_course_tool_list_table();
 		$sql_result = api_sql_query("SELECT * FROM $course_tool_table WHERE visibility = 2 ORDER BY id",__FILE__,__LINE__);
-		
+
 		while ($this_tool = mysql_fetch_array($sql_result))
 		{
 			$course_admin_tool_list[] = $this_tool;
 		}
-		
+
 		return $course_admin_tool_list;
 	}
-	
+
 	/*
 	* Returns the access settings of the course:
 	* which visibility;
@@ -386,7 +386,7 @@ class CourseManager
 		$table_course_user = Database :: get_main_table(MAIN_COURSE_USER_TABLE);
 		$table_course = Database :: get_main_table(MAIN_COURSE_TABLE);
 		$user_role_table = Database :: get_main_table(MAIN_USER_ROLE_TABLE);
-		
+
 		// Unsubscribe user from all groups in the course
 		$sql = "SELECT * FROM $table_course WHERE code = '".$course_code."'";
 		$res = api_sql_query($sql, __FILE__, __LINE__);
@@ -394,11 +394,11 @@ class CourseManager
 		$table_group = Database :: get_course_table(GROUP_USER_TABLE, $course->db_name);
 		$sql = "DELETE FROM $table_group WHERE user_id = '".$user_id."'";
 		api_sql_query($sql, __FILE__, __LINE__);
-		
+
 		// Unsubscribe user from the course
 		$sql = "DELETE FROM $table_course_user WHERE user_id = '".$user_id."' AND course_code = '".$course_code."'";
 		api_sql_query($sql, __FILE__, __LINE__);
-		
+
 		//Remove role entry(entries) from user_role table
 		$location_id = RolesRights::get_course_location_id($course_code);
 		$remove_role_sql = "DELETE FROM $user_role_table WHERE user_id='$user_id' AND location_id='$location_id'";
@@ -691,15 +691,14 @@ class CourseManager
 		$course_table = Database :: get_main_table(MAIN_COURSE_TABLE);
 		$course_user_table = Database :: get_main_table(MAIN_COURSE_USER_TABLE);
 
-		$sql_query = "	SELECT * 
+		$sql_query = "	SELECT *
 										FROM $course_table course
 										LEFT JOIN $course_user_table course_user
-										ON course.`code` = course_user.`course_code` 
-										WHERE course.`target_course_code` IS NULL 
+										ON course.`code` = course_user.`course_code`
+										WHERE course.`target_course_code` IS NULL
 											AND course_user.`user_id` = '$user_id'
 											AND course_user.`status` = '1'";
 
-		//api_display_debug_info($sql_query);
 		$sql_result = api_sql_query($sql_query, __FILE__, __LINE__);
 
 		while ($result = mysql_fetch_array($sql_result))
@@ -719,10 +718,10 @@ class CourseManager
 		$course_table = Database :: get_main_table(MAIN_COURSE_TABLE);
 		$course_user_table = Database :: get_main_table(MAIN_COURSE_USER_TABLE);
 
-		$sql_query = "	SELECT * 
+		$sql_query = "	SELECT *
 										FROM $course_table course
 										LEFT JOIN $course_user_table course_user
-										ON course.`code` = course_user.`course_code` 
+										ON course.`code` = course_user.`course_code`
 										WHERE course_user.`user_id` = '$user_id'
 											AND course_user.`status` = '1'";
 
@@ -735,14 +734,14 @@ class CourseManager
 
 		return $result_array;
 	}
-	
+
 	/**
 	* @return boolean true if the user is course admin, false otherwise
 	*/
 	function is_course_admin_in_real_or_linked_courses($user_id, $real_course_code)
 	{
 		if ( CourseManager::get_user_in_course_status($user_id, $real_course_code) == COURSEMANAGER ) return true;
-		
+
 		$user_subscribed_virtual_course_list = CourseManager::get_list_of_virtual_courses_for_specific_user_and_real_course($user_id, $real_course_code);
 		foreach ($user_subscribed_virtual_course_list as $this_course)
 		{
@@ -763,7 +762,7 @@ class CourseManager
 		$real_course_name = $real_course_info["title"];
 		$real_course_visual_code = $real_course_info["visual_code"];
 
-		//is the user registered in the real course? 
+		//is the user registered in the real course?
 		$table = Database :: get_main_table(MAIN_COURSE_USER_TABLE);
 		$sql_query = "SELECT * FROM $table WHERE `user_id` = '$_uid' AND `course_code` = '$real_course_code'";
 		$sql_result = api_sql_query($sql_query, __FILE__, __LINE__);
@@ -847,7 +846,7 @@ class CourseManager
 		$real_course_visual_code = $real_course_info["visual_code"];
 		$real_course_real_code = $course_info['system_code'];
 
-		//is the user registered in the real course? 
+		//is the user registered in the real course?
 		$table = Database :: get_main_table(MAIN_COURSE_USER_TABLE);
 		$sql_query = "SELECT * FROM $table WHERE `user_id` = '$user_id' AND `course_code` = '$real_course_real_code'";
 		$sql_result = api_sql_query($sql_query, __FILE__, __LINE__);
@@ -1049,9 +1048,9 @@ class CourseManager
 	}
 
 	/**
-	* This function returns the course code of the real course 
+	* This function returns the course code of the real course
 	* to which a virtual course is linked.
-	* 
+	*
 	* @param the course code of the virtual course
 	* @return the course code of the real course
 	*/
@@ -1113,10 +1112,10 @@ class CourseManager
 		$course_table = Database :: get_main_table(MAIN_COURSE_TABLE);
 		$course_user_table = Database :: get_main_table(MAIN_COURSE_USER_TABLE);
 
-		$sql_query = "	SELECT * 
+		$sql_query = "	SELECT *
 										FROM $course_table course
 										LEFT JOIN $course_user_table course_user
-										ON course.`code` = course_user.`course_code` 
+										ON course.`code` = course_user.`course_code`
 										WHERE course_user.`user_id` = '$user_id' AND ( course.`code` = '$course_code' OR `target_course_code` = '$course_code') ";
 
 		$sql_result = api_sql_query($sql_query, __FILE__, __LINE__);
@@ -1207,10 +1206,10 @@ class CourseManager
 		$course_table = Database :: get_main_table(MAIN_COURSE_TABLE);
 		$course_user_table = Database :: get_main_table(MAIN_COURSE_USER_TABLE);
 
-		$sql_query = "	SELECT * 
+		$sql_query = "	SELECT *
 										FROM $course_table course
 										LEFT JOIN $course_user_table course_user
-										ON course.`code` = course_user.`course_code` 
+										ON course.`code` = course_user.`course_code`
 										WHERE course.`target_course_code` = '$real_course_code' AND course_user.`user_id` = '$user_id'";
 
 		$sql_result = api_sql_query($sql_query, __FILE__, __LINE__);
@@ -1258,7 +1257,7 @@ class CourseManager
 	*/
 	function attempt_create_virtual_course($real_course_code, $course_title, $wanted_course_code, $course_language, $course_category)
 	{
-		//better: create parameter list, check the entire list, when false display errormessage	
+		//better: create parameter list, check the entire list, when false display errormessage
 		CourseManager :: check_parameter_or_fail($real_course_code, "Unspecified parameter: real course id.");
 		CourseManager :: check_parameter_or_fail($course_title, "Unspecified parameter: course title.");
 		CourseManager :: check_parameter_or_fail($wanted_course_code, "Unspecified parameter: wanted course code.");
@@ -1291,7 +1290,7 @@ class CourseManager
 		$real_course_info = Database :: get_course_info_from_code($real_course_code);
 		$real_course_code = $real_course_info["system_code"];
 
-		//check: virtual course creation fails if another course has the same 
+		//check: virtual course creation fails if another course has the same
 		//code, real or fake.
 		if (CourseManager :: is_existing_course_code($wanted_course_code))
 		{
@@ -1313,13 +1312,13 @@ class CourseManager
 		//HACK ----------------------------------------------------------------
 		$expiration_date = time() + $firstExpirationDelay;
 		//END HACK ------------------------------------------------------------
-		
+
 		add_course_role_right_location_values($course_sys_code);
-		
+
 		register_course($course_sys_code, $course_screen_code, $course_repository, $course_db_name, $responsible_teacher, $faculty_shortname, $course_title, $course_language, $teacher_id, $expiration_date);
 
 		//above was the normal course creation table update call,
-		//now one more thing: fill in the target_course_code field				
+		//now one more thing: fill in the target_course_code field
 
 		$sql_query = "UPDATE $course_table SET `target_course_code` = '$real_course_code' WHERE `code` = '$course_sys_code' LIMIT 1 ";
 		api_sql_query($sql_query, __FILE__, __LINE__);
@@ -1349,7 +1348,7 @@ class CourseManager
 		$user_role_table = Database :: get_main_table(MAIN_USER_ROLE_TABLE);
 		$location_table = Database::get_main_table(MAIN_LOCATION_TABLE);
 		$role_right_location_table = Database::get_main_table(MAIN_ROLE_RIGHT_LOCATION_TABLE);
-		
+
 		$sql = "SELECT * FROM $table_course WHERE code='".$code."'";
 		$res = api_sql_query($sql, __FILE__, __LINE__);
 		if (mysql_num_rows($res) == 0)
@@ -1394,7 +1393,7 @@ class CourseManager
 			$garbage_dir = api_get_path(GARBAGE_PATH).$course->directory.'_'.time();
 			rename($course_dir, $garbage_dir);
 		}
-		
+
 		// Unsubscribe all classes from the course
 		$sql = "DELETE FROM $table_course_class WHERE course_code='".$code."'";
 		api_sql_query($sql, __FILE__, __LINE__);
@@ -1404,13 +1403,13 @@ class CourseManager
 		// Delete the course from the database
 		$sql = "DELETE FROM $table_course WHERE code='".$code."'";
 		api_sql_query($sql, __FILE__, __LINE__);
-		
+
 		//Roles-rights: remove all course (sub)locations
 		//and user-role relations for this course
 		$course_location_id = RolesRights::get_course_location_id($code);
 		$remove_role_sql = "DELETE FROM $user_role_table WHERE location_id='$course_location_id'";
 		api_sql_query($remove_role_sql, __FILE__, __LINE__);
-		
+
 		$location_list = RolesRights::get_location_list($code);
 		foreach ($location_list as $this_location)
 		{

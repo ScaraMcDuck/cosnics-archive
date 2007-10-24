@@ -148,7 +148,7 @@ if(isset($_SESSION['_gid']) && $_SESSION['_gid']!='')
 
 $interbredcrump[]=array("url"=>"./document.php?curdirpath=".urlencode($_GET['curdirpath']).$req_gid, "name"=> get_lang('Documents'));
 
-$is_allowedToEdit = is_allowed_to_edit() || $_SESSION['group_member_with_upload_rights'];
+$is_allowedToEdit = api_is_allowed_to_edit() || $_SESSION['group_member_with_upload_rights'];
 
 if(!$is_allowedToEdit)
 {
@@ -188,8 +188,6 @@ event_access_tool(TOOL_DOCUMENT);
 function change_name($baseWorkDir, $sourceFile, $renameTo, $dir, $doc)
 {
 	$file_name_for_change = $baseWorkDir.$dir.$sourceFile;
-
-	//api_display_debug_info("call my_rename: params $file_name_for_change, $renameTo");
 
 	$renameTo = my_rename($file_name_for_change, stripslashes($renameTo)); //fileManage API
 

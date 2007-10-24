@@ -1398,7 +1398,6 @@ function replace_img_path_in_html_file($originalImgPath, $newImgPath, $htmlFile)
 		$exploded_file_path = explode('/',$newImgPath[$i]);
 		$replace_by = $exploded_file_path[count($exploded_file_path)-2].'/'.$exploded_file_path[count($exploded_file_path)-1];
 		//$message .= "Element [$i] <b>" . $replace_what . "</b> replaced by <b>" . $replace_by . "</b><br>"; //debug
-		//api_display_debug_info($message);
 
 		$buffer = str_replace( $replace_what, $replace_by, $buffer);
 	}
@@ -1539,7 +1538,6 @@ function api_replace_parameter($upload_path, $buffer, $param_name="src")
 		//$message .= "In tag $count, <b>" . htmlentities($tag_list[$count])
 		//	. "</b>, parameter <b>" . $replaceWhat[$count] . "</b> replaced by <b>" . $replaceBy[$count] . "</b><br>"; //debug
 	}
-	//if (isset($message) && $message == true) api_display_debug_info($message); //debug
 	$buffer = str_replace($replaceWhat, $replaceBy, $buffer);
 	return $buffer;
 }

@@ -6,11 +6,11 @@
 */
 
 /**
-============================================================================== 
+==============================================================================
 *	Dokeos Metadata: create table entries for a category of Link-type items
 *
 *	@package dokeos.metadata
-============================================================================== 
+==============================================================================
 */
 
 
@@ -27,12 +27,12 @@ api_use_lang_files('md_' . strtolower(EID_TYPE));
 include('../inc/claro_init_global.inc.php');
 $nameTools = get_lang('Tool');
 
-($nameTools && get_lang('Sorry')) or give_up( 
+($nameTools && get_lang('Sorry')) or give_up(
     "Language file doesn't define 'Tool' and 'Sorry'");
 
 $_course = api_get_course_info(); isset($_course) or give_up(get_lang('Sorry'));
 
-$is_allowed_to_edit = isset($_uid) && $is_courseMember && is_allowed_to_edit();
+$is_allowed_to_edit = isset($_uid) && $is_courseMember && api_is_allowed_to_edit();
 if (!$is_allowed_to_edit) give_up(get_lang('Denied'));
 
 $mdStore = new mdstore($is_allowed_to_edit);  // create table if needed
@@ -60,11 +60,11 @@ function check_andor_get($row, $get = '', $check = '', $tobe = '')
 	$regs = array(); // for use with ereg()
 
 	if ($get == $mdCat && !$check)  // cheat to be quicker
-		if (ereg('<coverage>[^<]*<string language="..">([^<]+)<\/string>', 
+		if (ereg('<coverage>[^<]*<string language="..">([^<]+)<\/string>',
 			$row['mdxmltext'], $regs)) return strtr($regs[1], $htmldecode);
 
 	if ($check == $mdCat && !$get)  // cheat to be quicker
-		if (ereg('<coverage>[^<]*<string language="..">([^<]+)<\/string>', 
+		if (ereg('<coverage>[^<]*<string language="..">([^<]+)<\/string>',
 			$row['mdxmltext'], $regs))
 				return (strtr($regs[1], $htmldecode) == $tobe);
 
@@ -83,15 +83,15 @@ function check_andor_get($row, $get = '', $check = '', $tobe = '')
 function get_cat($catname)
 {
     global $_course; $cateq = "category_title='". addslashes($catname) . "'";
-    
+
     $linkcat_table = Database::get_course_table(LINK_CATEGORY_TABLE);
     $result = api_sql_query("SELECT id FROM $linkcat_table WHERE " . $cateq, __FILE__, __LINE__);
-    
+
     if (mysql_num_rows($result) >= 1 && ($row = mysql_fetch_array($result)))
         return $row['id'];  // several categories with same name: take first
-    
+
     return FALSE;
-}    
+}
 
 
 // SET CURRENT LINKS CATEGORY - HEADER ---------------------------------------->
@@ -101,11 +101,11 @@ unset($lci);  // category-id
 if (isset($lcn))  // category_title
 {
     $lcn = substr(ereg_replace("[^\x20-\x7E\xA1-\xFF]", "", $lcn), 0, 255);
-    
+
     $uceids = array(); $mceids = array();
-    
+
     $result = $mdStore->mds_get_many('eid,mdxmltext', OF_EID_TYPE);
-    
+
     while ($row = mysql_fetch_array($result))
         if (check_andor_get($row, '', $mdCat, $lcn)) $uceids[] = $row['eid'];
 
@@ -113,34 +113,34 @@ if (isset($lcn))  // category_title
     {
         $link_table = Database::get_course_link_table();
         $result = api_sql_query("SELECT id FROM $link_table WHERE category_id=" . $lci, __FILE__, __LINE__);
-        
+
         while ($row = mysql_fetch_array($result))
         {
             $lceids[$id = (int) $row['id']] = ($eid = EID_TYPE . '.' . $id);
-            
+
             if (in_array($eid, $uceids)) $mceids[] = $eid;
         }
-        
-        $hdrInfo = ' ' . get_lang('WorkOn') . ' ' . htmlspecialchars($lcn) . 
+
+        $hdrInfo = ' ' . get_lang('WorkOn') . ' ' . htmlspecialchars($lcn) .
             ', LC-id=&nbsp;' . htmlspecialchars($lci);
     }
     elseif ($lcn)
     {
-        $hdrInfo = ' (' . htmlspecialchars($lcn) . 
+        $hdrInfo = ' (' . htmlspecialchars($lcn) .
             ': ' . get_lang('NotInDB') . ')';
     }
     else
         unset($lcn);
 
     $uceids = array_diff($uceids, $mceids);  // old entries with no link
-    
+
     if (count($lceids) && count($uceids))
     {
         $mdStore->mds_delete_many($uceids); $ufos = mysql_affected_rows();
     }
 
     $interbredcrump[]= array(
-        'url' => $_SERVER['PHP_SELF'] . '?lcn=' . urlencode($lcn), 
+        'url' => $_SERVER['PHP_SELF'] . '?lcn=' . urlencode($lcn),
         'name'=> get_lang('Continue') . ' ' . htmlspecialchars($lcn));
 }
 
@@ -152,7 +152,7 @@ Display::display_header($nameTools);
 
 // OPERATIONS ----------------------------------------------------------------->
 
-if ($ufos) echo '<h3>', $ufos, ' ', get_lang('RemainingFor'), ' ', 
+if ($ufos) echo '<h3>', $ufos, ' ', get_lang('RemainingFor'), ' ',
         htmlspecialchars($lcn), '</h3>', "\n";
 
 if (isset($slo)) echo '<h3>', $slo, '</h3>', "\n";  // selected links op
@@ -163,12 +163,12 @@ if ($slo == get_lang('Create') && count($lceids))
     foreach ($lceids as $id => $eid)
     {
         $mdObj = new mdobject($_course, $id); $xht = $mdObj->mdo_define_htt();
-        $mdStore->mds_put($eid, $mdt = $mdObj->mdo_generate_default_xml_metadata(), 
+        $mdStore->mds_put($eid, $mdt = $mdObj->mdo_generate_default_xml_metadata(),
             'mdxmltext', '?');
         $xht->xht_xmldoc = new xmddoc(explode("\n", $mdt));
-        $mdStore->mds_put($eid, $xht->xht_fill_template('INDEXABLETEXT'), 
+        $mdStore->mds_put($eid, $xht->xht_fill_template('INDEXABLETEXT'),
             'indexabletext');
-        echo '<span class="lbs" onClick="', "makeWindow('index.php?eid=", 
+        echo '<span class="lbs" onClick="', "makeWindow('index.php?eid=",
             urlencode($eid), "', '', '')\">", htmlspecialchars($eid), '</span> ';
     }
     echo '<br>';
@@ -176,37 +176,37 @@ if ($slo == get_lang('Create') && count($lceids))
 elseif ($slo == get_lang('Remove') && count($lceids))
 {
     $mdStore->mds_delete_many($mceids); $aff = mysql_affected_rows();
-    
-    echo $aff, ' MDEs/ ', count($lceids), ' ', get_lang('MdCallingTool'), 
-        '<br><br><b>', get_lang('AllRemovedFor'), 
+
+    echo $aff, ' MDEs/ ', count($lceids), ' ', get_lang('MdCallingTool'),
+        '<br><br><b>', get_lang('AllRemovedFor'),
         ' ', htmlspecialchars($lcn), '</b><br>';
 }
 elseif ($slo == get_lang('Remove') && count($mceids))  // obsolete category
 {
     $mdStore->mds_delete_many($mceids);
-    
+
     echo get_lang('AllRemovedFor'), ' ', htmlspecialchars($lcn), '<br>';
 }
 elseif ($slo == get_lang('Index') && file_exists($phpDigIncCn) && count($mceids))
 {
-    $result = $mdStore->mds_get_many('eid,mdxmltext,indexabletext', 
-        OF_EID_TYPE . " AND eid IN ('" . 
+    $result = $mdStore->mds_get_many('eid,mdxmltext,indexabletext',
+        OF_EID_TYPE . " AND eid IN ('" .
         implode("','", array_map('addslashes', $mceids)) . "')");
-    
+
     while ($row = mysql_fetch_array($result))  // load indexabletexts in memory
         $idt[check_andor_get($row, $mdUrl)] = $row['indexabletext'];
-    
+
     require($phpDigIncCn);  // switch to PhpDig DB
-    
+
     foreach ($idt as $url => $text)
     {
         $pu = parse_url($url);
         if (!isset($pu['scheme'])) $pu['scheme'] = "http";
-        
+
         if (isset($pu['host']))
         {
             $url = $pu['scheme'] . "://" . $pu['host'] . "/"; $file = '';
-            
+
             if (($path = $pu['path']))
             if (substr($path, -1) == '/') $path = substr($path, 1);
             else
@@ -214,33 +214,33 @@ elseif ($slo == get_lang('Index') && file_exists($phpDigIncCn) && count($mceids)
                 $pi = pathinfo($path); $path = $pi['dirname'];
                 if ($path{0} == '\\') $path = substr($path, 1);
                 if ($path{0} == '/')  $path = substr($path, 1) . '/';
-                
+
                 $file = $pi['basename'];
             }
-            
-            $file .= ($pu['query'] ? '?'.$pu['query'] : '') . 
+
+            $file .= ($pu['query'] ? '?'.$pu['query'] : '') .
                     ($pu['fragment'] ? '#'.$pu['fragment'] : '');
-            
-            
+
+
             if ($site_id = remove_engine_entries($url, $path, $file))
             {
                 echo '<table>', "\n";
-                index_words($site_id, $path, $file, 
-                    get_first_words($text, $url . $path, $file), 
+                index_words($site_id, $path, $file,
+                    get_first_words($text, $url . $path, $file),
                     get_keywords($text));
                 echo '</table>', "\n";
             }
             else
             {
                 echo '<table>', "\n";
-                echo '<tr><td>', htmlspecialchars($url), 
-                    '</td><td>', htmlspecialchars($path), 
+                echo '<tr><td>', htmlspecialchars($url),
+                    '</td><td>', htmlspecialchars($path),
                     '</td><td>', htmlspecialchars($file), '</td></tr>';
                 echo '</table>', "\n";
             }
         }
     }
-    
+
     if(isset($db)) mysql_select_db($mainDbName, $db);  // back to Dokeos
 }
 elseif ($slo == get_lang('Index'))
@@ -267,8 +267,8 @@ if (count($perCat))
     echo '<table>', "\n";
     foreach ($perCat as $cat => $number)
     {
-        echo '<tr><td>', $cat == $lcn ? '' : '(', htmlspecialchars($cat), 
-            $cat == $lcn ? '' : ')', ':</td><td align="right">', 
+        echo '<tr><td>', $cat == $lcn ? '' : '(', htmlspecialchars($cat),
+            $cat == $lcn ? '' : ')', ':</td><td align="right">',
             $number, '</td></tr>', "\n";
     }
     echo '</table>', "\n";
@@ -276,7 +276,7 @@ if (count($perCat))
 
 if (isset($lci))
 {
-    echo '<br><br>', htmlspecialchars($lcn), ' ', get_lang('MdCallingTool'), 
+    echo '<br><br>', htmlspecialchars($lcn), ' ', get_lang('MdCallingTool'),
         ': ', count($lceids), '<br>', "\n";
 }
 
@@ -286,19 +286,19 @@ if (isset($lci))
 
 echo '<h3>', $nameTools, $hdrInfo, '</h3>', "\n";
 
-echo '<form action="' . $_SERVER['PHP_SELF'] . '?lcn=' . urlencode($lcn) . 
-    '" method="post">', "\n"; 
+echo '<form action="' . $_SERVER['PHP_SELF'] . '?lcn=' . urlencode($lcn) .
+    '" method="post">', "\n";
 
-if (count($lceids)) echo 
+if (count($lceids)) echo
     '<input type="submit" name="slo" value="', get_lang('Create'), '">', "\n";
-if ($perCat[$lcn]) echo 
+if ($perCat[$lcn]) echo
     '<input type="submit" name="slo" value="', get_lang('Remove'), '">', "\n";
-if ($perCat[$lcn] && file_exists($phpDigIncCn)) echo 
+if ($perCat[$lcn] && file_exists($phpDigIncCn)) echo
     '<input type="submit" name="slo" value="', get_lang('Index'), '">', "\n";
 
 echo '</form>', "\n";
 
-if (count($perCat)) foreach ($perCat as $cat => $number) 
+if (count($perCat)) foreach ($perCat as $cat => $number)
     $perCat[$cat] = '(' . htmlspecialchars($cat) . ')';
 
 $linkcat_table = Database::get_course_table(LINK_CATEGORY_TABLE);
@@ -314,21 +314,21 @@ while ($row = mysql_fetch_array($result))
 if (count($dups))
 {
     $warning = get_lang('WarningDups');;
-    
+
     foreach ($dups as $cat) unset($perCat[$cat]);
 }
 
 echo '<h3>', get_lang('OrElse'), $warning, '</h3>', "\n",  // select new target
-    '<table><tr><td align="right" class="alternativeBgDark">', "\n", 
-    '<form action="'.$_SERVER['PHP_SELF'].'" method="post">', "\n", 
+    '<table><tr><td align="right" class="alternativeBgDark">', "\n",
+    '<form action="'.$_SERVER['PHP_SELF'].'" method="post">', "\n",
     get_lang('SLC'), ' :', "\n", '<select name="lcn">', "\n",
     '<option value=""></option>', "\n";
-    
-    foreach ($perCat as $cat => $text) echo '<option value="' . 
-        htmlspecialchars($cat) . '"' . 
+
+    foreach ($perCat as $cat => $text) echo '<option value="' .
+        htmlspecialchars($cat) . '"' .
         ($cat == $lcn ? ' selected' : '') . '>' . $text . '</option>', "\n";
 
-echo '</select><input type="submit" value="', get_lang('Ok'), '">', "\n", 
+echo '</select><input type="submit" value="', get_lang('Ok'), '">', "\n",
     '</form>', "\n", '</td></tr></table>', "\n";
 
 Display::display_footer();

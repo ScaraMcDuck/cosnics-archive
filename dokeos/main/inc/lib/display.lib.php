@@ -142,7 +142,6 @@ class Display
 		if (!isset ($cellspacing))
 			$cellspacing = "0";
 		//... add more properties as you see fit
-		//api_display_debug_info("Dokeos light grey is " . DOKEOSLIGHTGREY);
 		$bgcolor = "bgcolor='".DOKEOSLIGHTGREY."'";
 		echo "<table $class border=\"0\" cellspacing=\"$cellspacing\" cellpadding=\"$cellpadding\" width=\"$width\">\n";
 		echo "<thead><tr $bgcolor>";

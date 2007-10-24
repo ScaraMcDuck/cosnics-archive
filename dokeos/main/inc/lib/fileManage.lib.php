@@ -627,7 +627,6 @@ class FileManager
 		$full_file_name = str_replace("//", "/", $full_file_name);
 
 		$sql_query = "SELECT count(*) as number_existing FROM $glued_table WHERE path='$full_file_name'";
-		//api_display_debug_info($sql_query);
 		$sql_result = api_sql_query($sql_query,__FILE__,__LINE__);
 		$result = mysql_fetch_array($sql_result);
 
