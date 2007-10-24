@@ -249,13 +249,13 @@ class Filesystem
 			{
 				//getRealPath() results in php-error in older PHP5 versions
 				//$result[] = $entry->getRealPath();
-				$result[] = $entry->getPath().'/'.$entry->__toString();
+				$result[] = $entry->__toString();
 			}
 			if(($type == Filesystem::LIST_FILES_AND_DIRECTORIES || $type == Filesystem::LIST_DIRECTORIES) && $entry->isDir())
 			{
 				//getRealPath() results in php-error in older PHP5 versions
 				//$result[] = $entry->getRealPath();
-				$result[] = $entry->getPath().'/'.$entry->__toString();
+				$result[] = $entry->__toString();
 			}
 		}
 		return $result;
