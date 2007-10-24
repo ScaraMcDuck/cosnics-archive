@@ -6,6 +6,7 @@
  * @subpackage document
  */
 require_once dirname(__FILE__).'/../repositorytool.class.php';
+require_once dirname(__FILE__).'/../../../../../common/filecompression/filecompression.class.php';
 /**
  * This tool allows a user to publish documents in his or her course.
  */
@@ -100,12 +101,82 @@ class DocumentTool extends RepositoryTool
 					$document->send_as_download();
 					return '';
 				case self::	ACTION_ZIP_AND_DOWNLOAD:
-					// TODO: Implement zip & download action
-					return Display::display_warning_message('TODO',true);
+					$parent = $this->get_parent();
+					$category_id = $parent->get_parameter(Weblcms::PARAM_CATEGORY);
+					$category_folder_mapping = $this->create_folder_structure($category_id);
+					$archive_file = $this->create_document_archive($category_folder_mapping);
+					$archive_url = api_get_path(WEB_CODE_PATH).'../'.str_replace(DIRECTORY_SEPARATOR,'/',str_replace(realpath(api_get_path(SYS_PATH)),'',$archive_file));
+					return Display::display_normal_message('<a href="'.$archive_url.'">'.get_lang('Download').'</a>',true);
 				default:
 					return parent::perform_requested_actions();
 			}
 		}
+	}
+	/**
+	 * This function will create an archive file containing all contents of the
+	 * given categories (only those visible for the current user). After the
+	 * archive is created, the target folder will be deleted.
+	 * @param array $category_folder_mapping
+	 */
+	private function create_document_archive($category_folder_mapping)
+	{
+		$dm = WeblcmsDataManager :: get_instance();
+		if($this->is_allowed(EDIT_RIGHT))
+		{
+			$user_id = null;
+			$groups = null;
+		}
+		else
+		{
+			$user_id = $this->get_user_id();
+			$groups = $this->get_groups();
+		}
+		$target_path = current($category_folder_mapping);
+		foreach($category_folder_mapping as $category_id => $dir)
+		{
+			$publications = $dm->retrieve_learning_object_publications($this->get_course_id(), $category_id, $user_id, $groups);
+			while($publication = $publications->next_result())
+			{
+				$document = $publication->get_learning_object();
+				$document_path = $document->get_full_path();
+				$archive_file_location = $dir.'/'.Filesystem::create_unique_name($dir,$document->get_filename());
+				Filesystem::copy_file($document->get_full_path(),$archive_file_location);
+			}
+		}
+		$compression = FileCompression::factory();
+		$archive_file = $compression->create_archive($target_path);
+		Filesystem::remove($target_path);
+		return $archive_file;
+	}
+	/**
+	 * Creates a folder structure from the given categories.
+	 * @param array|int $categories
+	 * @param array $category_folder_mapping
+	 * @param $path
+	 * @return array An array mapping the category id to the folder.
+	 */
+	private function create_folder_structure($categories,&$category_folder_mapping = array(), $path = null)
+	{
+		if(is_null($path))
+		{
+			$path = realpath(api_get_path(SYS_CODE_PATH).'../files/temp');
+			$path = Filesystem::create_unique_name($path.'/weblcms_document_download_'.$this->get_parent()->get_course_id());
+			$category_folder_mapping[$categories] = $path;
+			Filesystem::create_dir($path);
+			$parent = $this->get_parent();
+			$course = $parent->get_course_id();
+			$tool = $parent->get_parameter(Weblcms :: PARAM_TOOL);
+			$categories = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($course, $tool,$categories);
+		}
+		foreach($categories as $index => $category_info)
+		{
+			$category = $category_info['obj'];
+			$category_path = Filesystem::create_unique_name($path.'/'.$category->get_title());
+			$category_folder_mapping[$category->get_id()] = $category_path;
+			Filesystem::create_dir($category_path);
+			$this->create_folder_structure($category_info['sub'],$category_folder_mapping,$category_path);
+		}
+		return $category_folder_mapping;
 	}
 }
 ?>

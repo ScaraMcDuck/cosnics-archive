@@ -50,6 +50,13 @@ abstract class Filecompression
      */
     abstract function extract_file($file);
     /**
+     * Creates an archive containing all contents from the given directory.
+     * @param string $path The full path to the content that should be stored in
+     * the archive.
+     * @return string The full path to the created archive file.
+     */
+    abstract function create_archive($path);
+    /**
      * Create a filecompression instance
      * @todo At the moment this returns the class using pclzip. The class to
      * return should be configurable
