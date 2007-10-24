@@ -93,12 +93,12 @@ class Filesystem
 			}
 			return $new_filename;
 		}
-		$desired_path = dirname($desired_path).'/'.Filesystem::create_safe_name(basename($desired_path));
-		while(is_dir($desired_path))
+		$unique_path = dirname($desired_path).'/'.Filesystem::create_safe_name(basename($desired_path));
+		while(is_dir($unique_path))
 		{
-			$desired_path = ($index++);
+			$unique_path = $desired_path.($index++);
 		}
-		return $desired_path;
+		return $unique_path;
 	}
 	/**
 	 * Creates a safe name for a file or directory
