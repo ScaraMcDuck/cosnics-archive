@@ -600,11 +600,15 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return true;
 	}
 
-	function retrieve_learning_object_publication_categories($course, $tools)
+	function retrieve_learning_object_publication_categories($course, $tools,$root_category_id = 0)
 	{
 		if (!is_array($tools))
 		{
 			$tools = array($tools);
+		}
+		if(count($tools) > 1)
+		{
+			$root_category_id = 0;
 		}
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_COURSE_ID).'=? AND '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TOOL).' IN ('.str_repeat('?,',count($tools)-1).'?)';
 		$sth = $this->connection->prepare($query);
@@ -619,7 +623,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$siblings = & $cats[$parent];
 			$siblings[] = $cat;
 		}
-		return $this->get_publication_category_tree(0, & $cats);
+		return $this->get_publication_category_tree($root_category_id, & $cats);
 	}
 
 	function retrieve_learning_object_publication_category($id)

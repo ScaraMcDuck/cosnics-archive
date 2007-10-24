@@ -400,9 +400,12 @@ abstract class WeblcmsDataManager
 	 * given course and tools.
 	 * @param string $course The course ID.
 	 * @param mixed $tools The tool names. May be a string if only one.
+	 * @param integer $root_category_id If $tools is only one tool, then only
+	 * return the categories under this given category_id (Default: 0 = root
+	 * category of the tools)
 	 * @return array The publication categories.
 	 */
-	abstract function retrieve_learning_object_publication_categories($course, $tools);
+	abstract function retrieve_learning_object_publication_categories($course, $tools, $root_category_id = 0);
 
 	/**
 	 * Retrieves a single learning object publication category by ID and
