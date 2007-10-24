@@ -6,11 +6,11 @@
 */
 
 /**
-============================================================================== 
+==============================================================================
 *	Dokeos Metadata: index all course documents with PhpDig
 *
 *	@package dokeos.metadata
-============================================================================== 
+==============================================================================
 */
 
 
@@ -27,12 +27,12 @@ api_use_lang_files('md_' . strtolower(EID_TYPE));
 include('../inc/claro_init_global.inc.php');
 $nameTools = get_lang('Tool');
 
-($nameTools && get_lang('Sorry')) or give_up( 
+($nameTools && get_lang('Sorry')) or give_up(
     "Language file doesn't define 'Tool' and 'Sorry'");
 
 $_course = api_get_course_info(); isset($_course) or give_up(get_lang('Sorry'));
 
-$is_allowed_to_edit = isset($_uid) && $is_courseMember && is_allowed_to_edit();
+$is_allowed_to_edit = isset($_uid) && $is_courseMember && api_is_allowed_to_edit();
 if (!$is_allowed_to_edit) give_up(get_lang('Denied'));
 
 $mdObj = new mdobject($_course, 0);
@@ -73,31 +73,31 @@ while ($row = mysql_fetch_array($result))  // load indexabletexts in memory
 if (count($idt) && file_exists($phpDigIncCn))
 {
     require($phpDigIncCn);  // switch to PhpDig DB
-    
+
     foreach ($idt as $url => $text)
     if (ereg('^http://([^/]+)/(.+)/([^/]+)\?cidReq=(.+)$', $url, $regs))
     {
         $path = $regs[2] .'/'; $file = $regs[3] . '?cidReq=' . $regs[4];
-        if ($site_id = remove_engine_entries('http://' . $regs[1] .'/', 
+        if ($site_id = remove_engine_entries('http://' . $regs[1] .'/',
                 $path, $file))
         {
             echo '<table>', "\n";
-            index_words($site_id, $path, $file, 
-                get_first_words($text, $path, $file), 
+            index_words($site_id, $path, $file,
+                get_first_words($text, $path, $file),
                 get_keywords($text));
             echo '</table>', "\n";
         }
     }
-    
+
     if(isset($db)) mysql_select_db($mainDbName, $db);  // back to Dokeos
 }
 else echo 'No documents with metadata or no PhpDig in this course...<br>';
 
 if (false && file_exists($phpDigIncCn))  // future: buttons for operations
 {
-    echo '<form action="' . $_SERVER['PHP_SELF'] . '" method="post">', "\n", 
-        '<input type="submit" name="dmo" value="', get_lang('Import', 'noDLTT'), '">', "\n", 
-        '<input type="submit" name="dmo" value="', get_lang('Remove', 'noDLTT'), '">', "\n", 
+    echo '<form action="' . $_SERVER['PHP_SELF'] . '" method="post">', "\n",
+        '<input type="submit" name="dmo" value="', get_lang('Import', 'noDLTT'), '">', "\n",
+        '<input type="submit" name="dmo" value="', get_lang('Remove', 'noDLTT'), '">', "\n",
         '</form>', "\n";
 }
 

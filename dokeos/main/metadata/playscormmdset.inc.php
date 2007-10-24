@@ -6,14 +6,14 @@
 */
 
 /**
-============================================================================== 
+==============================================================================
 *	Dokeos Metadata: include file for accessing Scorm metadata
 *
-*   This script is to be included from /coursedir/scorm/dir.../index.php, 
+*   This script is to be included from /coursedir/scorm/dir.../index.php,
 *   after setting $scormid and $drs (Dokeos document root).
 *
 *	@package dokeos.metadata
-============================================================================== 
+==============================================================================
 */
 
 
@@ -74,36 +74,36 @@ if (!file_exists(DIRECTORY)) give_up('No such directory: ' . DIRECTORY);
 
 $topdir = strtolower(realpath(DR));  // to stop search for .htt file
 
-if (strpos(strtolower(realpath(DIRECTORY)), $topdir) !== 0) 
+if (strpos(strtolower(realpath(DIRECTORY)), $topdir) !== 0)
     give_up('Invalid directory: ' . DIRECTORY);
 
 chdir(DIRECTORY);
 
 for ($i = 0; $i < 10; $i++)
     if(!file_exists(HTT . '.htt'))
-        if (strtolower(realpath(getcwd())) == $topdir) {break;} 
+        if (strtolower(realpath(getcwd())) == $topdir) {break;}
         else chdir('..');
 
 
 // XML and DB STUFF ----------------------------------------------------------->
 
-$is_allowed_to_edit = isset($_uid) && $is_courseMember && is_allowed_to_edit();
+$is_allowed_to_edit = isset($_uid) && $is_courseMember && api_is_allowed_to_edit();
 
 $mdStore = new mdstore($is_allowed_to_edit);
 
 if (($mdt_rec = $mdStore->mds_get(EID)) === FALSE)  // no record, default XML
      $mdt = $mdObj->mdo_generate_default_xml_metadata();
 else $mdt = $mdt_rec;
-    
+
 $xhtxmldoc = new xmddoc(explode("\n", $mdt));
 
 (!$xhtxmldoc->error) or give_up($xhtxmldoc->error);
 
-if (SID == $id_range_first && 
+if (SID == $id_range_first &&
         ($prv = $xhtxmldoc->xmd_select_single_element('previous')) != -1)
     $xhtxmldoc->xmd_remove_element($prv);
 
-if (SID == $id_range_last && 
+if (SID == $id_range_last &&
         ($nxt = $xhtxmldoc->xmd_select_single_element('next')) != -1)
     $xhtxmldoc->xmd_remove_element($nxt);
 
@@ -112,27 +112,27 @@ $before_first = $id_range_first ? TRUE : FALSE; $after_last = FALSE;
 foreach ($xhtxmldoc->xmd_select_elements('child') as $chEl)
 {
     $chId = $xhtxmldoc->attributes[$chEl]['identifier'];  // no get_att yet...
-    
+
     if ($after_last ||
         ($before_first = $before_first && $chId != $id_range_first))
     {
         $xhtxmldoc->xmd_remove_element($chEl); continue;
     }
-    
+
     if (($mdt_rec = $mdStore->mds_get(BID . '.' . $chId)) === FALSE)
          $mdt = $mdObj->mdo_generate_default_xml_metadata();
     else $mdt = $mdt_rec;
-        
+
     $xhtxmldocchild = new xmddoc(explode("\n", $mdt));
-    
+
     (!$xhtxmldocchild->error) or give_up($chId . ': ' . $xhtxmldocchild->error);
-    
+
     // make stuff below a parameter? copy some already in importmanifest?
-    $xhtxmldoc->xmd_copy_foreign_child($xhtxmldocchild, 
+    $xhtxmldoc->xmd_copy_foreign_child($xhtxmldocchild,
         $xhtxmldocchild->xmd_select_single_element('title'), $chEl);
-    $xhtxmldoc->xmd_copy_foreign_child($xhtxmldocchild, 
+    $xhtxmldoc->xmd_copy_foreign_child($xhtxmldocchild,
         $xhtxmldocchild->xmd_select_single_element('resource'), $chEl);
-    
+
     $after_last = $after_last || $chId == $id_range_last;
 }
 
@@ -169,7 +169,7 @@ else
     	}
     }
     ?>
-    <!DOCTYPE html 
+    <!DOCTYPE html
          PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $document_language; ?>" lang="<?php echo $document_language; ?>">
@@ -201,7 +201,7 @@ else
 echo "\n";
 
 $xhtDoc->xht_dbgn = DBG;  // for template debug info, set to e.g. 10000
-if (($ti = $xhtDoc->xht_param['traceinfo'])) $xhtDoc->xht_param['traceinfo'] = 
+if (($ti = $xhtDoc->xht_param['traceinfo'])) $xhtDoc->xht_param['traceinfo'] =
     '<h5>Trace information</h5>' . htmlspecialchars($ti);
 
 echo $xhtDoc->xht_fill_template('METADATA'), "\n";

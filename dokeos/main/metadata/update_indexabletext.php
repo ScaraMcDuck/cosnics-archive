@@ -6,11 +6,11 @@
 */
 
 /**
-============================================================================== 
+==============================================================================
 *	Dokeos Metadata: update indexabletext for all eid_type records
 *
 *	@package dokeos.metadata
-============================================================================== 
+==============================================================================
 */
 
 
@@ -29,12 +29,12 @@ $this_section=SECTION_COURSES;
 
 $nameTools = get_lang('Tool');
 
-($nameTools && get_lang('Sorry')) or give_up( 
+($nameTools && get_lang('Sorry')) or give_up(
     "Language file doesn't define 'Tool' and 'Sorry'");
 
 $_course = api_get_course_info(); isset($_course) or give_up(get_lang('Sorry'));
 
-$is_allowed_to_edit = isset($_uid) && $is_courseMember && is_allowed_to_edit();
+$is_allowed_to_edit = isset($_uid) && $is_courseMember && api_is_allowed_to_edit();
 if (!$is_allowed_to_edit) give_up(get_lang('Denied'));
 
 $mdStore = new mdstore($is_allowed_to_edit);  // create table if needed
@@ -61,10 +61,10 @@ while ($row = mysql_fetch_array($result))
 {
     $eid = $row['eid']; $xmltext = $row['mdxmltext'];
     $xhtDoc->xht_xmldoc = new xmddoc(explode("\n", $xmltext));
-    
-    $mdStore->mds_put($eid, 
+
+    $mdStore->mds_put($eid,
         $xhtDoc->xht_fill_template('INDEXABLETEXT'), 'indexabletext');
-    
+
     echo htmlspecialchars($eid), ' ';
 }
 

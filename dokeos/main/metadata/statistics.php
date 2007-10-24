@@ -6,11 +6,11 @@
 */
 
 /**
-============================================================================== 
+==============================================================================
 *	Dokeos Metadata: statistics about metadata
 *
 *	@package dokeos.metadata
-============================================================================== 
+==============================================================================
 */
 
 
@@ -27,12 +27,12 @@ $this_section=SECTION_COURSES;
 
 $nameTools = get_lang('Tool');
 
-($nameTools && get_lang('Sorry')) or give_up( 
+($nameTools && get_lang('Sorry')) or give_up(
     "Language file doesn't define 'Tool' and 'Sorry'");
 
 $_course = api_get_course_info(); isset($_course) or give_up(get_lang('Sorry'));
 
-$is_allowed_to_edit = isset($_uid) && $is_courseMember && is_allowed_to_edit();
+$is_allowed_to_edit = isset($_uid) && $is_courseMember && api_is_allowed_to_edit();
 if (!$is_allowed_to_edit) give_up(get_lang('Denied'));
 
 $mdStore = new mdstore(FALSE);  // no create from statistics
@@ -86,11 +86,11 @@ echo count($kwds), ' ', get_lang('CourseKwds'), '<br>', "\n";
 while ($row = mysql_fetch_array($result))
 {
     $eid = $row['eid']; $curr = ''; $xmltext = $row['mdxmltext']; $offset = 0;
-    
+
     if (substr($eid, 0, 6) == 'Scorm.')
         if (($dotpos = strpos($eid, '.', 6)) && $dotpos + 1 < strlen($eid))
             $curr = substr($eid, 0, $dotpos);
-                
+
     while (($start = strpos($xmltext, '<keyword>', $offset)))
         if (($start = strpos($xmltext, '">', $start + 9)))
         {
@@ -100,8 +100,8 @@ while ($row = mysql_fetch_array($result))
                 if (!in_array($kw, $kwds))
                 {
                     if (!in_array($kw = '!' . $kw, $kwds)) $kwds []= $kw;
-                    $kwrefs[$kw] .= ' ' . ($curr ? 
-                        (strpos($kwrefs[$kw], $curr) ? 
+                    $kwrefs[$kw] .= ' ' . ($curr ?
+                        (strpos($kwrefs[$kw], $curr) ?
                             substr($eid, $dotpos+1) : $eid) : $eid);
                 }
                 $kwcnt[$kw] ++;  // = $kwcnt[$kw] ? $kwcnt[$kw] + 1 : 1;
@@ -111,7 +111,7 @@ while ($row = mysql_fetch_array($result))
             // <keyword><string language="en">lecture</string></keyword>
         }
         else $offset = $start + 9;
-    
+
     // xmd would be nicer but this is faster...
 }
 
@@ -124,7 +124,7 @@ echo '<h4>', get_lang('NonCourseKwds'), '</h4>', "\n";
 
 foreach ($kwds as $kw)
     if ($kw{0} == '!')
-        echo '<b>', htmlspecialchars(substr($kw, 1)), '</b>: ', $kwcnt[$kw], 
+        echo '<b>', htmlspecialchars(substr($kw, 1)), '</b>: ', $kwcnt[$kw],
             ': <i>', htmlspecialchars($kwrefs[$kw]), ";</i> \n";
     else break;
 
