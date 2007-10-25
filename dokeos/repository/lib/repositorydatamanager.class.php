@@ -138,6 +138,12 @@ abstract class RepositoryDataManager
 		return $objects->next_result();
 	}
 
+	/**
+	 * Creates a root category for the given user
+	 * @param int $user_id The id of the user for which the category should be
+	 * created.
+	 * @return Categroy The newly created root category of the user's repository
+	 */
 	function create_root_category($user_id)
 	{
 		$object = new Category();
@@ -145,6 +151,7 @@ abstract class RepositoryDataManager
 		$object->set_title(get_lang('MyRepository'));
 		$object->set_description('...');
 		$object->create();
+		return $object;
 	}
 
 	/**
