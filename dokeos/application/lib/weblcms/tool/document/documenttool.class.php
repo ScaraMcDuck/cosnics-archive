@@ -103,6 +103,10 @@ class DocumentTool extends RepositoryTool
 				case self::	ACTION_ZIP_AND_DOWNLOAD:
 					$parent = $this->get_parent();
 					$category_id = $parent->get_parameter(Weblcms::PARAM_CATEGORY);
+					if(!isset($category_id) || is_null($category_id) || strlen($category_id) == 0)
+					{
+						$category_id = 0;
+					}
 					$category_folder_mapping = $this->create_folder_structure($category_id);
 					$archive_file = $this->create_document_archive($category_folder_mapping);
 					$archive_url = api_get_path(WEB_CODE_PATH).'../'.str_replace(DIRECTORY_SEPARATOR,'/',str_replace(realpath(api_get_path(SYS_PATH)),'',$archive_file));
