@@ -101,15 +101,7 @@ class DocumentTool extends RepositoryTool
 					$document->send_as_download();
 					return '';
 				case self::	ACTION_ZIP_AND_DOWNLOAD:
-					$parent = $this->get_parent();
-					$category_id = $parent->get_parameter(Weblcms::PARAM_CATEGORY);
-					if(!isset($category_id) || is_null($category_id) || strlen($category_id) == 0)
-					{
-						$category_id = 0;
-					}
-					$category_folder_mapping = $this->create_folder_structure($category_id);
-					$archive_file = $this->create_document_archive($category_folder_mapping);
-					$archive_url = api_get_path(WEB_CODE_PATH).'../'.str_replace(DIRECTORY_SEPARATOR,'/',str_replace(realpath(api_get_path(SYS_PATH)),'',$archive_file));
+					$archive_url = $this->create_document_archive();
 					return Display::display_normal_message('<a href="'.$archive_url.'">'.get_lang('Download').'</a>',true);
 				default:
 					return parent::perform_requested_actions();
@@ -120,10 +112,17 @@ class DocumentTool extends RepositoryTool
 	 * This function will create an archive file containing all contents of the
 	 * given categories (only those visible for the current user). After the
 	 * archive is created, the target folder will be deleted.
-	 * @param array $category_folder_mapping
+	 * @return string The URL of the created archive
 	 */
-	private function create_document_archive($category_folder_mapping)
+	private function create_document_archive()
 	{
+		$parent = $this->get_parent();
+		$category_id = $parent->get_parameter(Weblcms::PARAM_CATEGORY);
+		if(!isset($category_id) || is_null($category_id) || strlen($category_id) == 0)
+		{
+			$category_id = 0;
+		}
+		$category_folder_mapping = $this->create_folder_structure($category_id);
 		$dm = WeblcmsDataManager :: get_instance();
 		if($this->is_allowed(EDIT_RIGHT))
 		{
@@ -150,7 +149,8 @@ class DocumentTool extends RepositoryTool
 		$compression = FileCompression::factory();
 		$archive_file = $compression->create_archive($target_path);
 		Filesystem::remove($target_path);
-		return $archive_file;
+		$archive_url = api_get_path(WEB_CODE_PATH).'../'.str_replace(DIRECTORY_SEPARATOR,'/',str_replace(realpath(api_get_path(SYS_PATH)),'',$archive_file));
+		return $archive_url;
 	}
 	/**
 	 * Creates a folder structure from the given categories.
