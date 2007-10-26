@@ -36,7 +36,7 @@ class TableLearningObjectPublicationListRenderer extends LearningObjectPublicati
 			{
 				$actions[RepositoryTool::ACTION_DELETE_SELECTED] = get_lang('Delete');
 			}
-			$this->table->set_form_actions($actions);
+			$this->table->set_form_actions($actions,'id',RepositoryTool::PARAM_ACTION);
 		}
 	}
 	/**

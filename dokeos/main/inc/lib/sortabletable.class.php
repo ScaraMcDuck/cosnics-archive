@@ -218,22 +218,22 @@ class SortableTable extends HTML_Table
 		{
 			$form = $this->get_page_select_form();
 			$nav = $this->get_navigation_html();
-			$html = '<table style="width:100%;">';
-			$html .= '<tr>';
-			$html .= '<td style="width:25%;">';
-			$html .= $form;
-			$html .= '</td>';
-			$html .= '<td style="text-align:center;">';
-			$html .= $this->get_table_title();
-			$html .= '</td>';
-			$html .= '<td style="text-align:right;width:25%;">';
-			$html .= $nav;
-			$html .= '</td>';
-			$html .= '</tr>';
-			$html .= '</table>';
+			$html[] = '<table style="width:100%;">';
+			$html[] =  '<tr>';
+			$html[] = '<td style="width:25%;">';
+			$html[] = $form;
+			$html[] = '</td>';
+			$html[] = '<td style="text-align:center;">';
+			$html[] = $this->get_table_title();
+			$html[] = '</td>';
+			$html[] = '<td style="text-align:right;width:25%;">';
+			$html[] = $nav;
+			$html[] = '</td>';
+			$html[] = '</tr>';
+			$html[] = '</table>';
 			if (count($this->form_actions))
 			{
-				$html .= '<script type="text/javascript">
+				$html[] = '<script type="text/javascript">
 							/* <![CDATA[ */
 							function setCheckbox(formName, value) {
 								var d = document[formName];
@@ -255,45 +255,45 @@ class SortableTable extends HTML_Table
 							</script>';
 				$params = $this->get_sortable_table_param_string.'&amp;'.$this->get_additional_url_paramstring();
 
-				$html .= '<form method="post" action="'.$_SERVER['PHP_SELF'].'?'.$params.'" name="form_'.$this->table_name.'"  onsubmit="return anyCheckboxChecked(\'form_'.$this->table_name.'\') &amp;&amp; confirm(\''.addslashes(htmlentities(get_lang("ConfirmYourChoice"))).'\');">';
+				$html[] = '<form method="post" action="'.$_SERVER['PHP_SELF'].'?'.$params.'" name="form_'.$this->table_name.'"  onsubmit="return anyCheckboxChecked(\'form_'.$this->table_name.'\') &amp;&amp; confirm(\''.addslashes(htmlentities(get_lang("ConfirmYourChoice"))).'\');">';
 			}
 		}
-		$html .= $this->get_table_html();
+		$html[] = $this->get_table_html();
 		if (!$empty_table)
 		{
-			$html .= '<table style="width:100%;">';
-			$html .= '<tr>';
-			$html .= '<td colspan="2">';
+			$html[] = '<table style="width:100%;">';
+			$html[] = '<tr>';
+			$html[] = '<td colspan="2">';
 			if (count($this->form_actions))
 			{
-				$html .= '<div class="sortable_table_selection_controls">';
-				$html .= '<a href="?'.$params.'&amp;'.$this->param_prefix.'selectall=1" onclick="setCheckbox(\'form_'.$this->table_name.'\', true); return false;">'.get_lang('SelectAll').'</a>';
-				$html .= '<a href="?'.$params.'"  onclick="setCheckbox(\'form_'.$this->table_name.'\', false); return false;">'.get_lang('UnSelectAll').'</a> ';
-				$html .= '<select name="action">';
+				$html[] = '<div class="sortable_table_selection_controls">';
+				$html[] = '<a href="?'.$params.'&amp;'.$this->param_prefix.'selectall=1" onclick="setCheckbox(\'form_'.$this->table_name.'\', true); return false;">'.get_lang('SelectAll').'</a>';
+				$html[] = '<a href="?'.$params.'"  onclick="setCheckbox(\'form_'.$this->table_name.'\', false); return false;">'.get_lang('UnSelectAll').'</a> ';
+				$html[] = '<select name="'.$this->form_actions_select_name.'">';
 				foreach ($this->form_actions as $action => $label)
 				{
-					$html .= '<option value="'.$action.'">'.$label.'</option>';
+					$html[] = '<option value="'.$action.'">'.$label.'</option>';
 				}
-				$html .= '</select>';
-				$html .= ' <input type="submit" value="'.get_lang('Ok').'"/>';
-				$html .= '</div>';
+				$html[] = '</select>';
+				$html[] = ' <input type="submit" value="'.get_lang('Ok').'"/>';
+				$html[] = '</div>';
 			}
 			else
 			{
-				$html .= $form;
+				$html[] = $form;
 			}
-			$html .= '</td>';
-			$html .= '<td style="text-align:right;">';
-			$html .= $nav;
-			$html .= '</td>';
-			$html .= '</tr>';
-			$html .= '</table>';
+			$html[] = '</td>';
+			$html[] = '<td style="text-align:right;">';
+			$html[] = $nav;
+			$html[] = '</td>';
+			$html[] = '</tr>';
+			$html[] = '</table>';
 			if (count($this->form_actions) > 0)
 			{
-				$html .= '</form>';
+				$html[] = '</form>';
 			}
 		}
-		return $html;
+		return implode("\n",$html);
 	}
 	/**
 	 * Get the HTML-code with the navigational buttons to browse through the
@@ -516,10 +516,11 @@ class SortableTable extends HTML_Table
 	 * @param string $checkbox_name The name of the generated checkboxes. The
 	 * value of the checkbox will be the value of the first column.
 	 */
-	function set_form_actions($actions, $checkbox_name = 'id')
+	function set_form_actions($actions, $checkbox_name = 'id', $select_name = 'action')
 	{
 		$this->form_actions = $actions;
 		$this->checkbox_name = $checkbox_name;
+		$this->form_actions_select_name = $select_name;
 	}
 	/**
 	 * Define a list of additional parameters to use in the generated URLs
