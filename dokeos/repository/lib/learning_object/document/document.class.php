@@ -83,6 +83,17 @@ class Document extends LearningObject
 	{
 		return 'filesize';
 	}
+	/**
+	 * Determines if this document is an image
+	 * @return boolean True if the document is an image
+	 */
+	function is_image()
+	{
+		$filename = $this->get_filename();
+		$parts = explode('.', $filename);
+		$extension = $parts[count($parts) - 1];
+		return in_array($extension,array('gif','png','jpg','jpeg','svg','bmp'));
+	}
 	function send_as_download()
 	{
 		header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
