@@ -33,42 +33,6 @@
 ==============================================================================
 */
 
-/*
-==============================================================================
-List of functions
-replace_dangerous_char($filename, $strict = 'loose')
-function php2phps ($fileName)
-function htaccess2txt($filename)
-function disable_dangerous_file($filename)
-function unique_name($path,$name)
-function get_document_title($name)
-function process_uploaded_file($uploaded_file)
-function handle_uploaded_document($_course,$uploaded_file,$base_work_dir,$upload_path,$user_id,$to_group_id,$to_user_id,$maxFilledSpace,$unzip=0,$what_if_file_exists='')
-function enough_size($fileSize, $dir, $maxDirSpace) //depreciated
-function enough_space($file_size, $max_dir_space)
-function dir_total_space($dirPath) //depreciated
-function documents_total_space()
-function add_ext_on_mime($fileName,$fileType)
-function treat_uploaded_file($uploadedFile, $baseWorkDir, $uploadPath, $maxFilledSpace, $uncompress= '') //depreciated
-function unzip_uploaded_file($uploaded_file, $upload_path, $base_work_dir, $max_filled_space)
-function clean_up_files_in_zip($p_event, &$p_header)
-function clean_up_path(&$path)
-function add_document($_course,$path,$filetype,$filesize,$title)
-function update_existing_document($_course,$document_id,$filesize)
-function item_property_update_on_folder($_course,$path,$user_id)
-function get_levels($filename)
-function set_default_settings($upload_path,$filename,$filetype="file")
-function search_img_from_html($htmlFile)
-function create_unexisting_directory($_course,$user_id,$base_work_dir,$desired_dir_name)
-function move_uploaded_file_collection_into_directory($_course, $uploaded_file_collection, $base_work_dir, $missing_files_dir,$user_id,$max_filled_space)
-function replace_img_path_in_html_file($originalImgPath, $newImgPath, $htmlFile)
-function check_for_missing_files($file)
-function build_missing_files_form($missing_files,$upload_path,$file_name)
-	Still experimental:
-function api_replace_parameter($upload_path, $buffer, $param_name="src")
-==============================================================================
-*/
-
 
 /**
  * replaces "forbidden" characters in a filename string
@@ -180,74 +144,6 @@ function get_document_title($name)
 	$name_no_ext = substr($name, 0, strlen($name) - strlen(strstr($name,$ext)));
 	$filename = addslashes($name_no_ext);
 	return $filename;
-}
-
-//------------------------------------------------------------------------------
-
-/**
- * This checks if the upload succeeded
- *
- * @param array $uploaded_file ($_FILES)
- * @return true if upload succeeded
- */
-function process_uploaded_file($uploaded_file)
-{
-/* phpversion is needed to determine if error codes are sent with the file upload */
-$phpversion = intval(str_replace(".", "", phpversion()));
-
-/* as of version 4.2.0 php gives error codes if something went wrong with the upload */
-if ($phpversion >= 420)
-{
-	//0; There is no error, the file uploaded with success.
-	//1; The uploaded file exceeds the upload_max_filesize directive in php.ini.
-	if ($uploaded_file['error'] == 1)
-	{
-		Display::display_error_message(get_lang('UplExceedMaxServerUpload'). ini_get('upload_max_filesize')); //server config
-		return false;
-	}
-	//2; The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.
-	//not used at the moment, but could be handy if we want to limit the size of an upload (e.g. image upload in html editor).
-	elseif ($uploaded_file['error'] == 2)
-	{
-		Display::display_error_message(get_lang('UplExceedMaxPostSize'). round($_POST['MAX_FILE_SIZE']/1024) ." KB");
-		return false;
-	}
-	//3; The uploaded file was only partially uploaded.
-	elseif ($uploaded_file['error'] == 3)
-	{
-		Display::display_error_message(get_lang('$UplPartialUpload')." ".get_lang('PleaseTryAgain'));
-		return false;
-	}
-	//4; No file was uploaded.
-	elseif ($uploaded_file['error'] == 4)
-	{
-		Display::display_error_message(get_lang('UplNoFileUploaded')." ". get_lang('UplSelectFileFirst'));
-		return false;
-	}
-}
-/* older php versions */
-else {
-	/* is there an uploaded file? */
-	if (!is_uploaded_file($uploaded_file['tmp_name']))
-	{
-		Display::display_error_message(get_lang('UplNoFileUploaded'));
-		return false;
-	}
-	/* file upload size limitations */
-	$max_upload_file_size = (ini_get('upload_max_filesize')*1024*1024);
-	if (($uploaded_file['size'])>$max_upload_file_size)
-	{
-		Display::display_error_message(get_lang('UplFileTooBig'));
-		return false;
-	}
-	/* tmp_name gets set to none if something went wrong */
-	if ($uploaded_file['tmp_name'] == "none")
-	{
-		Display::display_error_message(get_lang('UplUploadFailed'));
-		return false;
-	}
-}
-return true;
 }
 
 //------------------------------------------------------------------------------
@@ -1238,53 +1134,6 @@ function set_default_settings($upload_path,$filename,$filetype="file")
 	api_sql_query($query,__FILE__,__LINE__);
 }
 
-//------------------------------------------------------------------------------
-
-/**
- * retrieve the image path list in a html file
- *
- * @author Hugues Peeters <hugues.peeters@claroline.net>
- * @param  string $htmlFile
- * @return array -  images path list
- */
-
-function search_img_from_html($htmlFile)
-{
-	$imgFilePath = array();
-
-	$fp = fopen($htmlFile, "r") or die('<center>can not open file</center>');
-
-	// search and store occurences of the <IMG> tag in an array
-
-	$buffer = fread( $fp, filesize($htmlFile) ) or die('<center>can not read file</center>');;
-
-	$matches = array();
-	if ( preg_match_all('~<[[:space:]]*img[^>]*>~i', $buffer, $matches) )
-	{
-		$imgTagList = $matches[0];
-	}
-
-	fclose ($fp); unset($buffer);
-
-	// Search the image file path from all the <IMG> tag detected
-
-	if ( sizeof($imgTagList)  > 0)
-	{
-		foreach($imgTagList as $thisImgTag)
-		{
-			if ( preg_match('~src[[:space:]]*=[[:space:]]*[\"]{1}([^\"]+)[\"]{1}~i',
-							$thisImgTag, $matches) )
-			{
-				$imgPathList[] = $matches[1];
-			}
-		}
-
-		$imgPathList = array_unique($imgPathList);		// remove duplicate entries
-	}
-
-	return $imgPathList;
-
-}
 
 //------------------------------------------------------------------------------
 
@@ -1328,95 +1177,6 @@ function create_unexisting_directory($_course,$user_id,$to_group_id,$to_user_id,
 	return false;
 	}
 }
-
-//------------------------------------------------------------------------------
-
-/**
- * Handles uploaded missing images
- *
- * @author Hugues Peeters <hugues.peeters@claroline.net>
- * @author Bert Vanderkimpen
- * @param array $_course
- * @param array $uploaded_file_collection - follows the $_FILES Structure
- * @param string $base_work_dir
- * @param string $missing_files_dir
- * @param int $user_id
- * @param int $max_filled_space
- */
-
-function move_uploaded_file_collection_into_directory($_course, $uploaded_file_collection, $base_work_dir, $missing_files_dir,$user_id,$to_group_id,$to_user_id,$max_filled_space)
-{
-	$number_of_uploaded_images = count($uploaded_file_collection['name']);
-	for ($i=0; $i < $number_of_uploaded_images; $i++)
-		{
-		$missing_file['name'] = $uploaded_file_collection['name'][$i];
-		$missing_file['type'] = $uploaded_file_collection['type'][$i];
-		$missing_file['tmp_name'] = $uploaded_file_collection['tmp_name'][$i];
-		$missing_file['error'] = $uploaded_file_collection['error'][$i];
-		$missing_file['size'] = $uploaded_file_collection['size'][$i];
-
-		$upload_ok = process_uploaded_file($missing_file);
-			if($upload_ok)
-			{
-			$new_file_list[] = handle_uploaded_document($_course,$missing_file,$base_work_dir,$missing_files_dir,$user_id,$to_group_id,$to_user_id,$max_filled_space,0,'overwrite');
-			}
-		unset($missing_file);
-		}
-	return $new_file_list;
-}
-
-//------------------------------------------------------------------------------
-
-//------------------------------------------------------------------------------
-
-/*
- * Open the old html file and replace the src path into the img tag
- * This also works for files in subdirectories.
- * @param $originalImgPath is an array
- * @param $newImgPath is an array
- */
-function replace_img_path_in_html_file($originalImgPath, $newImgPath, $htmlFile)
-{
-	global $_course;
-
-	/*
-	 * Open the file
-	 */
-	$fp = fopen($htmlFile, "r");
-	$buffer = fread ($fp, filesize ($htmlFile));
-
-	/*
-	 * Fix the image tags
-	 */
-	for ($i = 0, $fileNb = count($originalImgPath); $i < $fileNb ; $i++)
-	{
-		$replace_what = $originalImgPath[$i];
-		/*
-		we only need the directory and the filename
-		/path/to/file_html_files/missing_file.gif -> file_html_files/missing_file.gif
-		*/
-		$exploded_file_path = explode('/',$newImgPath[$i]);
-		$replace_by = $exploded_file_path[count($exploded_file_path)-2].'/'.$exploded_file_path[count($exploded_file_path)-1];
-		//$message .= "Element [$i] <b>" . $replace_what . "</b> replaced by <b>" . $replace_by . "</b><br>"; //debug
-
-		$buffer = str_replace( $replace_what, $replace_by, $buffer);
-	}
-
-	$new_html_content .= $buffer;
-
-	fclose ($fp) or die ('<center>cannot close file</center>');;
-
-	/*
-	 * Write the resulted new file
-	 */
-	$fp = fopen($htmlFile, 'w')      or die('<center>cannot open file</center>');
-	fwrite($fp, $new_html_content)   or die('<center>cannot write in file</center>');
-}
-
-//------------------------------------------------------------------------------
-
-
-//------------------------------------------------------------------------------
 
 /**
 	EXPERIMENTAL - function seems to work, needs more testing
@@ -1544,23 +1304,6 @@ function api_replace_parameter($upload_path, $buffer, $param_name="src")
 
 //------------------------------------------------------------------------------
 
-/**
- * Checks the extension of a file, if it's .htm or .html
- * we use search_img_from_html to get all image paths in the file
- *
- * @param string $file
- * @return array paths
- * @see check_for_missing_files() uses search_img_from_html()
- */
-function check_for_missing_files($file)
-{
-	if (strrchr($file, '.') == '.htm' || strrchr($file, '.') == '.html')
-	{
-		$img_file_path = search_img_from_html($file);
-		return $img_file_path;
-	}
-	return false;
-}
 
 //------------------------------------------------------------------------------
 
