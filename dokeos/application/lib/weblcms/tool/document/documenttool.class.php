@@ -35,6 +35,7 @@ class DocumentTool extends RepositoryTool
 			$options['browser'] = 'BrowserTitle';
 			$options['publish'] = 'Publish';
 			$options['category'] = 'ManageCategories';
+			$options['slideshow'] = 'SlideShow';
 			foreach ($options as $key => $title)
 			{
 				$current = ($_SESSION['documenttoolmode'] == $i);
@@ -67,6 +68,11 @@ class DocumentTool extends RepositoryTool
 		$html[] = $this->perform_requested_actions();
 		switch ($_SESSION['documenttoolmode'])
 		{
+			case 3:
+				require_once dirname(__FILE__).'/documentslideshow.class.php';
+				$browser = new DocumentSlideshow($this);
+				$html[] =  $browser->as_html();
+				break;
 			case 2:
 				require_once dirname(__FILE__).'/../../learningobjectpublicationcategorymanager.class.php';
 				$catman = new LearningObjectPublicationCategoryManager($this, 'document');
