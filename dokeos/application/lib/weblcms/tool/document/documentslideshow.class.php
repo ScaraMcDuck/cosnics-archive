@@ -26,8 +26,6 @@ class DocumentSlideshow extends LearningObjectPublicationBrowser
 	function get_publications($from, $count, $column, $direction)
 	{
 		$datamanager = WeblcmsDataManager :: get_instance();
-		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'document');
-		$condition = $tool_condition;
 		if($this->is_allowed(EDIT_RIGHT))
 		{
 			$user_id = null;
@@ -38,7 +36,7 @@ class DocumentSlideshow extends LearningObjectPublicationBrowser
 			$user_id = $this->get_user_id();
 			$groups = $this->get_groups();
 		}
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups, $condition, false, array (Announcement :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC));
+		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $user_id, $groups, $this->get_condition());
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
 		{

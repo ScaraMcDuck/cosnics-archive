@@ -14,6 +14,7 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 		if (count($publications) == 0)
 		{
 			$html[] = Display :: display_normal_message(get_lang('NoPublicationsAvailable'), true);
+			return implode("\n", $html);
 		}
 		if (!isset ($_GET['slideshow_index']))
 		{
