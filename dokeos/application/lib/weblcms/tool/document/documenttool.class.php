@@ -94,8 +94,8 @@ class DocumentTool extends RepositoryTool
 	}
 	function perform_requested_actions()
 	{
-		$action = $_GET[RepositoryTool :: PARAM_ACTION];
-		if( isset($action))
+		$action = isset($_POST[RepositoryTool :: PARAM_ACTION]) ? $_POST[RepositoryTool :: PARAM_ACTION] : $_GET[RepositoryTool :: PARAM_ACTION];
+		if( isset($action) )
 		{
 			$datamanager = WeblcmsDataManager :: get_instance();
 			switch($action)

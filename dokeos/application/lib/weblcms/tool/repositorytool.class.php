@@ -59,7 +59,7 @@ abstract class RepositoryTool extends Tool
 	 // XXX: should all this really be handled here?
 	function perform_requested_actions()
 	{
-		$action = isset($_GET[self :: PARAM_ACTION]) ? $_GET[self :: PARAM_ACTION] : $_POST[self :: PARAM_ACTION];
+		$action = isset($_POST[self :: PARAM_ACTION]) ? $_POST[self :: PARAM_ACTION] : $_GET[self :: PARAM_ACTION];
 		if(isset($action))
 		{
 			$datamanager = WeblcmsDataManager :: get_instance();
