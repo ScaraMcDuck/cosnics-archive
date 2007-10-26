@@ -1,29 +1,29 @@
 <?php
-// $Id$ 
+// $Id$
 /*
 ==============================================================================
 	Dokeos - elearning and course management software
-	
+
 	Copyright (c) 2004-2005 Dokeos S.A.
 	Copyright (c) 2003 Ghent University (UGent)
 	Copyright (c) Roan Embrechts, Vrije Universiteit Brussel
-	
+
 	For a full list of contributors, see "credits.txt".
 	The full license can be read in "license.txt".
-	
+
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
 	as published by the Free Software Foundation; either version 2
 	of the License, or (at your option) any later version.
-	
+
 	See the GNU General Public License for more details.
-	
+
 	Contact address: Dokeos, 44 rue des palais, B-1030 Brussels, Belgium
 	Mail: info@dokeos.com
 ==============================================================================
 */
 /**
-============================================================================== 
+==============================================================================
 *	This is the document library for Dokeos.
 *	It is / will be used to provide a service layer to all document-using tools.
 *	and eliminate code duplication fro group documents, scorm documents, main documents.
@@ -31,20 +31,14 @@
 *
 *	@version 1.1, January 2005
 *	@package dokeos.library
-============================================================================== 
+==============================================================================
 */
 
-/*
-============================================================================== 
-	DOCUMENTATION
-	use the functions like this: DocumentManager::get_course_quota()
-============================================================================== 
-*/
 
 /*
-============================================================================== 
+==============================================================================
 		CONSTANTS
-============================================================================== 
+==============================================================================
 */
 
 define("DISK_QUOTA_FIELD", "disk_quota"); //name of the database field
@@ -52,9 +46,9 @@ define("DISK_QUOTA_FIELD", "disk_quota"); //name of the database field
 define("DEFAULT_DOCUMENT_QUOTA", get_setting('default_document_quotum'));
 
 /*
-============================================================================== 
+==============================================================================
 		VARIABLES
-============================================================================== 
+==============================================================================
 */
 
 $sys_course_path = api_get_path(SYS_COURSE_PATH);
@@ -63,10 +57,10 @@ $baseServUrl = $urlAppend."/"; //WARNING do not use $urlAppend
 $baseWorkDir = $sys_course_path.$courseDir;
 
 /*
-============================================================================== 
+==============================================================================
 		DocumentManager CLASS
 		the class and its functions
-============================================================================== 
+==============================================================================
 */
 
 /**
@@ -74,30 +68,7 @@ $baseWorkDir = $sys_course_path.$courseDir;
  */
 class DocumentManager
 {
-	/**
-	* @return the document folder quuta of the current course, in bytes
-	* @todo eliminate globals
-	*/
-	function get_course_quota()
-	{
-		global $_course, $maxFilledSpace;
-		$course_code = $_course['sysCode'];
-		$course_table = Database :: get_main_table(MAIN_COURSE_TABLE);
 
-		$sql_query = "SELECT `".DISK_QUOTA_FIELD."` FROM $course_table WHERE `code` = '$course_code'";
-		$sql_result = api_sql_query($sql_query, __FILE__, __LINE__);
-		$result = mysql_fetch_array($sql_result);
-		$course_quota = $result[DISK_QUOTA_FIELD];
-
-		if ($course_quota == NULL)
-		{
-			//course table entry for quota was null
-			//use default value
-			$course_quota = DEFAULT_DOCUMENT_QUOTA;
-		}
-
-		return $course_quota;
-	}
 
 	/**
 	*	Get the content type of a file by checking the extension
@@ -139,31 +110,7 @@ class DocumentManager
 		return "application/octet-stream";
 	}
 
-	/**
-	*	@return true if the user is allowed to see the document, false otherwise
-	*	@author Sergio A Kessler, first version
-	*	@author Roan Embrechts, bugfix
-	*   @todo ??not only check if a file is visible, but also check if the user is allowed to see the file??
-	*/
-	function file_visible_to_user($this_course, $doc_url)
-	{
-		if (api_is_allowed_to_edit())
-		{
-			return true;
-		}
-		else
-		{
-			//$document_table = Database::get_course_document_table();
-			$tbl_document = $this_course.'document';
-			$tbl_item_property = $this_course.'item_property';
-			//$doc_url = addslashes($doc_url);
-			$query = "SELECT 1 FROM `$tbl_document` AS docs,`$tbl_item_property` AS props WHERE props.tool = 'document' AND docs.id=props.ref AND props.visibility <> '1' AND docs.path = '$doc_url'";
-			//echo $query;
-			$result = api_sql_query($query, __FILE__, __LINE__);
 
-			return (mysql_num_rows($result) == 0);
-		}
-	}
 
 	/**
 	* This function streams a file to the client
@@ -232,289 +179,6 @@ class DocumentManager
 			}
 			readfile($full_file_name);
 			return true;
-		}
-	}
-
-	/**
-	* Fetches all document data for the given user/group
-	*
-	* @param array $_course
-	* @param string $path
-	* @param int $to_group_id
-	* @param int $to_user_id
-	* @param boolean $can_see_invisible
-	* @return array with all document data 
-	*/
-	function get_all_document_data($_course, $path = '/', $to_group_id = 0, $to_user_id = NULL, $can_see_invisible = false)
-	{
-		$TABLE_ITEMPROPERTY = Database :: get_course_table(ITEM_PROPERTY_TABLE, $_course['dbName']);
-		$TABLE_DOCUMENT = Database :: get_course_table(DOCUMENT_TABLE, $_course['dbName']);
-
-		//if to_user_id = NULL -> change query (IS NULL)
-		//$to_user_id = (is_null($to_user_id))?'IS NULL':'= '.$to_user_id;
-		if (!is_null($to_user_id))
-		{
-			$to_field = 'last.to_user_id';
-			$to_value = $to_user_id;
-		}
-		else
-		{
-			$to_field = 'last.to_group_id';
-			$to_value = $to_group_id;
-		}
-
-		//escape underscores in the path so they don't act as a wildcard
-		$path = str_replace('_', '\_', $path);
-
-		//if they can't see invisible files, they can only see files with visibility 1
-		$visibility_bit = ' = 1';
-		//if they can see invisible files, only deleted files (visibility 2) are filtered out
-		if ($can_see_invisible)
-		{
-			$visibility_bit = ' <> 2';
-		}
-
-		//the given path will not end with a slash, unless it's the root '/'
-		//so no root -> add slash
-		$added_slash = ($path == '/') ? '' : '/';
-
-		$sql = "SELECT *
-						FROM  ".$TABLE_ITEMPROPERTY."  AS last, ".$TABLE_DOCUMENT."  AS docs
-						WHERE docs.id = last.ref
-						AND docs.path LIKE '".$path.$added_slash."%'
-						AND docs.path NOT LIKE '".$path.$added_slash."%/%'
-						AND last.tool = '".TOOL_DOCUMENT."' 
-						AND ".$to_field." = ".$to_value."
-						AND last.visibility".$visibility_bit;
-
-		//echo $sql;
-
-		$result = mysql_query($sql);
-
-		if ($result && mysql_num_rows($result) != 0)
-		{
-			while ($row = mysql_fetch_assoc($result))
-				//while ($row = mysql_fetch_array($result,MYSQL_NUM))
-			{
-				$document_data[$row['id']] = $row;
-				//$document_data[] = $row;
-			}
-			return $document_data;
-		}
-		else
-		{
-			//display_error("Error getting document info from database (".mysql_error().")!");
-			return false;
-		}
-	}
-
-	/**
-	 * Gets the paths of all folders in a course
-	 * can show all folders (exept for the deleted ones) or only visible ones
-	 * @param array $_course
-	 * @param boolean $can_see_invisible
-	 * @param int $to_group_id
-	 * @return array with paths
-	 */
-	function get_all_document_folders($_course, $to_group_id = '0', $can_see_invisible = false)
-	{
-		$TABLE_ITEMPROPERTY = Database :: get_course_table(ITEM_PROPERTY_TABLE, $_course['dbName']);
-		$TABLE_DOCUMENT = Database :: get_course_table(DOCUMENT_TABLE, $_course['dbName']);
-
-		if ($can_see_invisible)
-		{
-			$sql = "SELECT path
-								FROM  ".$TABLE_ITEMPROPERTY."  AS last, ".$TABLE_DOCUMENT."  AS docs
-								WHERE docs.id = last.ref
-								AND docs.filetype = 'folder' 
-								AND last.tool = '".TOOL_DOCUMENT."' 
-								AND last.to_group_id = ".$to_group_id." 
-								AND last.visibility <> 2";
-
-			$result = api_sql_query($sql, __FILE__, __LINE__);
-
-			if ($result && mysql_num_rows($result) != 0)
-			{
-				while ($row = mysql_fetch_assoc($result))
-				{
-					$document_folders[] = $row['path'];
-				}
-				sort($document_folders, SORT_ASC);
-				//return results
-				return $document_folders;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		//no invisible folders
-		else
-		{
-			//get visible folders
-			$visible_sql = "SELECT path
-						FROM  ".$TABLE_ITEMPROPERTY."  AS last, ".$TABLE_DOCUMENT."  AS docs
-						WHERE docs.id = last.ref
-						AND docs.filetype = 'folder' 
-						AND last.tool = '".TOOL_DOCUMENT."' 
-						AND last.to_group_id = ".$to_group_id." 
-						AND last.visibility = 1";
-			$visibleresult = api_sql_query($visible_sql, __FILE__, __LINE__);
-			while ($all_visible_folders = mysql_fetch_assoc($visibleresult))
-			{
-				$visiblefolders[] = $all_visible_folders['path'];
-				//echo "visible folders: ".$all_visible_folders['path']."<br>";
-			}
-			//get invisible folders
-			$invisible_sql = "SELECT path 
-						FROM  ".$TABLE_ITEMPROPERTY."  AS last, ".$TABLE_DOCUMENT."  AS docs
-						WHERE docs.id = last.ref
-						AND docs.filetype = 'folder' 
-						AND last.tool = '".TOOL_DOCUMENT."' 
-						AND last.to_group_id = ".$to_group_id." 
-						AND last.visibility = 0";
-			$invisibleresult = api_sql_query($invisible_sql, __FILE__, __LINE__);
-			while ($invisible_folders = mysql_fetch_assoc($invisibleresult))
-			{
-				//get visible folders in the invisible ones -> they are invisible too
-				//echo "invisible folders: ".$invisible_folders['path']."<br>";
-				$folder_in_invisible_sql = "SELECT path 
-								FROM  ".$TABLE_ITEMPROPERTY."  AS last, ".$TABLE_DOCUMENT."  AS docs
-								WHERE docs.id = last.ref
-								AND docs.path LIKE '".mysql_real_escape_string($invisible_folders['path'])."/%' 
-								AND docs.filetype = 'folder' 
-								AND last.tool = '".TOOL_DOCUMENT."' 
-								AND last.to_group_id = ".$to_group_id." 
-								AND last.visibility = 1";
-				$folder_in_invisible_result = api_sql_query($folder_in_invisible_sql, __FILE__, __LINE__);
-				while ($folders_in_invisible_folder = mysql_fetch_assoc($folder_in_invisible_result))
-				{
-					$invisiblefolders[] = $folders_in_invisible_folder['path'];
-					//echo "<br>folders in invisible folders: ".$folders_in_invisible_folder['path']."<br><br><br>";
-				}
-			}
-			//if both results are arrays -> //calculate the difference between the 2 arrays -> only visible folders are left :)
-			if (is_array($visiblefolders) && is_array($invisiblefolders))
-			{
-				$document_folders = array_diff($visiblefolders, $invisiblefolders);
-				sort($document_folders, SORT_ASC);
-				return $document_folders;
-			}
-			//only visible folders found
-			elseif (is_array($visiblefolders))
-			{
-				sort($visiblefolders, SORT_ASC);
-				return $visiblefolders;
-			}
-			//no visible folders found
-			else
-			{
-				return false;
-			}
-		}
-	}
-
-	/**
-	 * This deletes a document by changing visibility to 2, renaming it to filename_DELETED_#id
-	 * Files/folders that are inside a deleted folder get visibility 2
-	 *
-	 * @param array $_course
-	 * @param string $path, path stored in the database
-	 * @param string ,$base_work_dir, path to the documents folder
-	 * @return boolean true/false
-	 * @todo now only files/folders in a folder get visibility 2, we should rename them too.
-	 */
-	function delete_document($_course, $path, $base_work_dir)
-	{
-		$TABLE_DOCUMENT = Database :: get_course_table(DOCUMENT_TABLE);
-		$TABLE_ITEMPROPERTY = Database :: get_course_table(LAST_TOOL_EDIT_TABLE);
-
-		//first, delete the actual document...
-		$document_id = DocumentManager :: get_document_id($_course, $path);
-		$new_path = $path.'_DELETED_'.$document_id;
-
-		if ($document_id)
-		{
-			if (get_setting('permanently_remove_deleted_files') == 'true') //deleted files are *really* deleted
-			{
-				$what_to_delete_sql = "SELECT id FROM ".$TABLE_DOCUMENT." WHERE path='".$path."' OR path LIKE '".$path."/%'";
-				//get all id's of documents that are deleted
-				$what_to_delete_result = api_sql_query($what_to_delete_sql, __FILE__, __LINE__);
-
-				if ($what_to_delete_result && mysql_num_rows($what_to_delete_result) != 0)
-				{
-					//needed to deleted medadata
-					require_once (api_get_include_path()."/../metadata/md_funcs.php");
-					$mdStore = new mdstore(TRUE);
-
-					//delete all item_property entries
-					while ($row = mysql_fetch_array($what_to_delete_result))
-					{
-						//query to delete from item_property table
-						$remove_from_item_property_sql = "DELETE FROM ".$TABLE_ITEMPROPERTY." WHERE ref = ".$row['id']." AND tool='".TOOL_DOCUMENT."'";
-						//query to delete from document table
-						$remove_from_document_sql = "DELETE FROM ".$TABLE_DOCUMENT." WHERE id = ".$row['id']."";
-
-						//echo($remove_from_item_property_sql.'<br>');
-						api_sql_query($remove_from_item_property_sql, __FILE__, __LINE__);
-						//echo($remove_from_document_sql.'<br>');
-						api_sql_query($remove_from_document_sql, __FILE__, __LINE__);
-
-						//delete metadata
-						$eid = 'Document'.'.'.$row['id'];
-						$mdStore->mds_delete($eid);
-						$mdStore->mds_delete_offspring($eid);
-
-					}
-					//delete documents, do it like this so metadata get's deleted too
-					//update_db_info('delete', $path);
-					//throw it away
-					my_delete($base_work_dir.$path);
-
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-			else //set visibility to 2 and rename file/folder to qsdqsd_DELETED_#id
-				{
-				if (api_item_property_update($_course, TOOL_DOCUMENT, $document_id, 'delete', $user_id))
-				{
-					//echo('item_property_update OK');
-					if (rename($base_work_dir.$path, $base_work_dir.$new_path))
-					{
-						//echo('rename OK');
-						$sql = "UPDATE $TABLE_DOCUMENT set path='".$new_path."' WHERE id='".$document_id."'";
-						if (api_sql_query($sql, __FILE__, __LINE__))
-						{
-							//if it is a folder it can contain files
-							$sql = "SELECT id,path FROM ".$TABLE_DOCUMENT." WHERE path LIKE '".$path."/%'";
-							$result = api_sql_query($sql, __FILE__, __LINE__);
-							if ($result && mysql_num_rows($result) > 0)
-							{
-								while ($deleted_items = mysql_fetch_assoc($result))
-								{
-									//echo('to delete also: id '.$deleted_items['id']);
-									api_item_property_update($_course, TOOL_DOCUMENT, $deleted_items['id'], 'delete', $user_id);
-									//Change path of subfolders and documents in database
-									$old_item_path = $deleted_items['path'];
-									$new_item_path = $new_path.substr($old_item_path, strlen($path));
-									$sql = "UPDATE $TABLE_DOCUMENT set path = '".$new_item_path."' WHERE id = ".$deleted_items['id'];
-									api_sql_query($sql, __FILE__, __LINE__);
-								}
-							}
-							//echo('dbase update OK');
-							return true;
-						}
-					}
-				}
-				else
-				{
-					return false;
-				}
-			}
 		}
 	}
 
