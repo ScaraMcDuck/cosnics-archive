@@ -156,7 +156,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 				{
 					$query .= ' ORDER BY '.implode(', ', $order);
 				}
-
 				$statement = $this->connection->prepare($query);
 				$param = $user->get_user_id();
 			}
@@ -167,9 +166,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$statement = $this->connection->prepare($query);
 			$param = $object_id;
 		}
-
 		$res = $statement->execute($param);
-
 		$publication_attr = array();
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
