@@ -13,10 +13,10 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 
 	private $prefix;
 	private $repoDM;
-	
+
 	const ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE = 'pmb';
 	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
-	
+
 	function initialize()
 	{
 		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
@@ -29,7 +29,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
 		$this->connection->query('SET NAMES utf8');
 	}
-	
+
 	/**
 	 * Escapes a column name
 	 * @param string $name
@@ -46,14 +46,14 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		}
 		return $prefix.$this->connection->quoteIdentifier($name);
 	}
-	
+
 	static function handle_error($error)
 	{
 		die(__FILE__.':'.__LINE__.': '.$error->getMessage()
 		// For debugging only. May create a security hazard.
 		.' ('.$error->getDebugInfo().')');
 	}
-	
+
 	function debug()
 	{
 		$args = func_get_args();
@@ -65,14 +65,14 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		 	//echo '</pre>';
 		}
 	}
-	
+
 	function escape_table_name($name)
 	{
 		global $personal_messenger_database;
 		$database_name = $this->connection->quoteIdentifier($personal_messenger_database);
 		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
 	}
-	
+
 	/**
 	 * Gets the full name of a given table (by adding the database name and a
 	 * prefix if required)
@@ -83,7 +83,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		global $personal_messenger_database;
 		return $personal_messenger_database.'.'.$this->prefix.$name;
 	}
-	
+
 	/**
 	 * Translates any type of condition to a SQL WHERE clause.
 	 * @param Condition $condition The Condition object.
@@ -251,13 +251,13 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 			die('Cannot translate condition');
 		}
 	}
-	
+
 	// Inherited.
 	function get_next_personal_message_publication_id()
 	{
 		return $this->connection->nextID($this->get_table_name('personal_messenger_publication'));
 	}
-	
+
 	// Inherited.
     function count_personal_message_publications($condition = null)
     {
@@ -276,7 +276,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$res->free();
 		return $record[0];
     }
-    
+
     // Inherited.
     function count_unread_personal_message_publications($user)
     {
@@ -289,13 +289,13 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$res->free();
 		return $record[0];
     }
-    
+
     // Inherited.
     function retrieve_personal_message_publication($id)
 	{
-		
+
 		$query = 'SELECT * FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'=?';
-		
+
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);
@@ -303,11 +303,11 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$res->free();
 		return self :: record_to_personal_message_publication($record);
 	}
-    
+
     // Inherited.
     function retrieve_personal_message_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
-		
+
 		$query = 'SELECT * FROM ';
 		$query .= $this->escape_table_name('personal_messenger_publication');
 
@@ -343,7 +343,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$res = $statement->execute($params);
 		return new DatabasePersonalMessagePublicationResultSet($this, $res);
 	}
-	
+
 	// Inherited.
 	function record_to_personal_message_publication($record)
 	{
@@ -356,9 +356,9 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		{
 			$defaultProp[$prop] = $record[$prop];
 		}
-		return new PersonalMessagePublication($record[PersonalMessagePublication :: PROPERTY_ID], $defaultProp);		
+		return new PersonalMessagePublication($record[PersonalMessagePublication :: PROPERTY_ID], $defaultProp);
 	}
-	
+
 	// Inherited.
 	function update_personal_message_publication($personal_message_publication)
 	{
@@ -372,7 +372,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$this->connection->extended->autoExecute($this->get_table_name('personal_messenger_publication'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 		return true;
 	}
-	
+
 	// Inherited.
 	function delete_personal_message_publication($personal_message_publication)
 	{
@@ -387,7 +387,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 			return false;
 		}
 	}
-	
+
 	// Inherited.
 	function delete_personal_message_publications($object_id)
 	{
@@ -404,7 +404,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		}
 		return true;
 	}
-	
+
 	// Inherited.
 	function update_personal_message_publication_id($publication_attr)
 	{
@@ -421,12 +421,12 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 			return false;
 		}
 	}
-	
+
 	static function is_date_column($name)
 	{
 		return ($name == PersonalMessagePublication :: PROPERTY_PUBLISHED);
 	}
-	
+
 	// Inherited.
 	function any_learning_object_is_published($object_ids)
 	{
@@ -434,7 +434,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$res = $this->limitQuery($query, 1, null,$object_ids);
 		return $res->numRows() == 1;
 	}
-	
+
 	// Inherited.
 	function learning_object_is_published($object_id)
 	{
@@ -442,7 +442,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$res = $this->limitQuery($query, 1,null, array ($object_id));
 		return $res->numRows() == 1;
 	}
-	
+
 	private function limitQuery($query,$limit,$offset,$params,$is_manip = false)
 	{
 		$this->connection->setLimit($limit,$offset);
@@ -450,7 +450,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$res = $statement->execute($params);
 		return $res;
 	}
-	
+
 	// Inherited.
 	function create_storage_unit($name,$properties,$indexes)
 	{
@@ -480,7 +480,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 			}
 		}
 	}
-	
+
 	// Inherited.
 	function get_learning_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
@@ -529,7 +529,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$publication = $this->record_to_personal_message_publication($record);
-			
+
 			$info = new LearningObjectPublicationAttributes();
 			$info->set_id($publication->get_id());
 			$info->set_publisher_user_id($publication->get_sender());
@@ -537,7 +537,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 			$info->set_application('Personal Messenger');
 			//TODO: i8n location string
 			if ($publication->get_user() == $publication->get_recipient())
-			{ 
+			{
 				$recipient = $publication->get_publication_recipient();
 				$info->set_location($recipient->get_firstname().'&nbsp;'. $recipient->get_lastname() .'&nbsp;/&nbsp;' . get_lang('Inbox'));
 			}
@@ -550,18 +550,18 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 			{
 				$info->set_location(get_lang('UnknownLocation'));
 			}
-			
+
 			if ($publication->get_user() == $user->get_user_id())
 			{
 				$info->set_url('index_personal_messenger.php?go=view&pm='.$publication->get_id());
 			}
 			$info->set_publication_object_id($publication->get_personal_message());
-			
+
 			$publication_attr[] = $info;
 		}
 		return $publication_attr;
 	}
-	
+
 	// Inherited.
 	function get_learning_object_publication_attribute($publication_id)
 	{
@@ -570,11 +570,11 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$statement = $this->connection->prepare($query);
 		$this->connection->setLimit(0,1);
 		$res = $statement->execute($publication_id);
-		
+
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-		
+
 		$publication = $this->record_to_personal_message_publication($record);
-			
+
 		$info = new LearningObjectPublicationAttributes();
 		$info->set_id($publication->get_id());
 		$info->set_publisher_user_id($publication->get_sender());
@@ -582,7 +582,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$info->set_application('Personal Messenger');
 		//TODO: i8n location string
 		if ($publication->get_user() == $publication->get_recipient())
-		{ 
+		{
 			$recipient = $publication->get_publication_recipient();
 			$info->set_location($recipient->get_firstname().'&nbsp;'. $recipient->get_lastname() .'&nbsp;/&nbsp;' . get_lang('Inbox'));
 		}
@@ -595,7 +595,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		{
 			$info->set_location(get_lang('UnknownLocation'));
 		}
-		
+
 		if ($publication->get_user() == $user->get_user_id())
 		{
 			$info->set_url('index_personal_messenger.php?go=view&pm='.$publication->get_id());
@@ -604,7 +604,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 
 		return $info;
 	}
-	
+
 	// Inherited.
 	function count_publication_attributes($user, $type = null, $condition = null)
 	{
@@ -616,7 +616,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
-	
+
 	// Inherited.
 	function create_personal_message_publication($publication)
 	{
@@ -626,7 +626,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$props[$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID)] = $publication->get_id();
-		
+
 		$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('personal_messenger_publication'), $props, MDB2_AUTOQUERY_INSERT))
 		{

@@ -210,10 +210,13 @@ abstract class RepositoryDataManager
 		$info = array();
 		foreach($applications as $index => $application_name)
 		{
-			$application = Application::factory($application_name);
-			$info = array_merge($info, $application->get_learning_object_publication_attributes($id, $type, $offset, $count, $order_property, $order_direction));
+			$application = Application::factory($application_name,$user);
+			$attributes = $application->get_learning_object_publication_attributes($id, $type, $offset, $count, $order_property, $order_direction);
+			if(!is_null($attributes) && count($attributes) > 0)
+			{
+				$info = array_merge($info, $attributes);
+			}
 		}
-
 		return $info;
 	}
 
@@ -444,13 +447,13 @@ abstract class RepositoryDataManager
 	 *                                        tree structures.
 	 * @return int The number of matching learning objects.
 	 */
-	function count_publication_attributes($user, $type = null, $condition = null, $user)
+	function count_publication_attributes($user, $type = null, $condition = null)
 	{
 		$applications = $this->get_registered_applications();
 		$info = 0;
 		foreach($applications as $index => $application_name)
 		{
-			$application = Application::factory($application_name);
+			$application = Application::factory($application_name,$user);
 			$info += $application->count_publication_attributes($type, $condition);
 		}
 		return $info;

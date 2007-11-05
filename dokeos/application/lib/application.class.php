@@ -104,10 +104,10 @@ abstract class Application
 	 * @return Application An instance of the application corresponding to the
 	 * given $application
 	 */
-	public static function factory($application)
+	public static function factory($application,$user = null)
 	{
 		$class = Application::application_to_class($application);
-		return new $class;
+		return new $class($user);
 	}
 }
 ?>
