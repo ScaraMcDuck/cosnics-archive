@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: filecompression.class.php 13555 2007-10-24 14:15:23Z bmol $
+ * $Id$
  * @package imagemanipulation
  */
  /**
@@ -8,17 +8,43 @@
  */
 class GdImageManipulation extends ImageManipulation
 {
-    function scale($width,$height,$type = ImageManipulation::SCALE_INSIDE)
-    {
-    }
- 	function crop($width,$height,$offset_x = ImageManipulation::OFFSET_CENTER,$offset_y = ImageManipulation::OFFSET_CENTER)
+	private $gd_image = null;
+	public function GdImageManipulation($source_file)
+	{
+		parent::ImageManipulation($source_file);
+		$this->gd_image = imagecreatefrompng($this->source_file);
+	}
+ 	function crop($width,$height,$offset_x = ImageManipulation::CROP_CENTER,$offset_y = ImageManipulation::CROP_CENTER)
  	{
+  		if($offset_x == ImageManipulation::CROP_CENTER)
+  		{
+  			$offset_x = ($this->width - $width)/2;
+  		}
+  		if($offset_y == ImageManipulation::CROP_CENTER)
+  		{
+  			$offset_y = ($this->height - $height)/2;
+  		}
+  		$result = imagecreatetruecolor($width, $height);
+  		imagecopy($result, $this->gd_image, 0, 0, $offset_x, $offset_y, $width, $height);
+  		$this->gd_image = $result;
+		$this->width = $width;
+		$this->height = $height;
  	}
 	function resize($width,$height)
 	{
+		$result = imagecreatetruecolor($width, $height);
+		imagecopyresampled($result, $this->gd_image, 0, 0, 0, 0, $width, $height, $this->width, $this->height);
+		$this->gd_image = $result;
+		$this->width = $width;
+		$this->height = $height;
 	}
 	function write_to_file($file = null)
 	{
+		if(is_null($file))
+		{
+			$file = $this->source_file;
+		}
+		imagepng($this->gd_image,$file);
 	}
 }
 ?>
