@@ -1,11 +1,11 @@
 <?php
-
 /**
  * $Id: documentpublicationlistrenderer.class.php 12389 2007-05-14 11:30:07Z bmol $
  * Document tool - slideshow renderer
  * @package application.weblcms.tool
  * @subpackage document
  */
+require_once(dirname(__FILE__).'/../../../../../common/imagemanipulation/imagemanipulation.class.php');
 class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublicationListRenderer
 {
 	function as_html()
@@ -99,32 +99,28 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 	}
 	function render_thumbnails($publications)
 	{
-		$thumbnail_size = 120;
 		foreach ($publications as $index => $publication)
 		{
 			$document = $publication->get_learning_object();
-			$img_url = $document->get_url();
 			$path = $document->get_full_path();
-			$imagesize = getimagesize($path);
-			$width = $imagesize[0];
-			$height = $imagesize[1];
-			if ($width <= $thumbnail_size && $height <= $thumbnail_size)
-			{
-				$style = '';
-			}
-			elseif ($width >= $height)
-			{
-				$style = 'width: 100px;';
-			}
-			elseif ($height > $width)
-			{
-				$style = 'height: 100px;';
-			}
-			$html[] = '<a href="'.$this->get_url(array ('slideshow_index' => $index)).'" style="border:1px solid #F0F0F0;margin: 2px;text-align: center;width: '.$thumbnail_size.'px;height:'.$thumbnail_size.'px;padding:5px;float:left;">';
-			$html[] = '<img src="'.$img_url.'" style="margin: auto;'.$style.'"/>';
+			$thumbnail_path = $this->get_thumbnail_path($path);
+			$thumbnail_url = api_get_path(WEB_CODE_PATH).'../files/temp/'.basename($thumbnail_path);
+			$html[] = '<a href="'.$this->get_url(array ('slideshow_index' => $index)).'" style="border:1px solid #F0F0F0;margin: 2px;text-align: center;width:110px;height:110px;padding:5px;float:left;">';
+			$html[] = '<img src="'.$thumbnail_url.'" style="margin: 5px;"/>';
 			$html[] = '</a>';
 		}
 		return implode("\n", $html);
+	}
+	private function get_thumbnail_path($image_path)
+	{
+		$thumbnail_path = api_get_path(SYS_CODE_PATH).'../files/temp/'.md5($image_path).basename($image_path);
+		if(!is_file($thumbnail_path))
+		{
+			$thumbnail_creator = ImageManipulation::factory($image_path);
+			$thumbnail_creator->create_square_thumbnail(100,100);
+			$thumbnail_creator->write_to_file($thumbnail_path);
+		}
+		return $thumbnail_path;
 	}
 }
 ?>
