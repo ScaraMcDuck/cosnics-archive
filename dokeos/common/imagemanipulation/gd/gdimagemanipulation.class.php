@@ -16,6 +16,9 @@ class GdImageManipulation extends ImageManipulation
 	}
  	function crop($width,$height,$offset_x = ImageManipulation::CROP_CENTER,$offset_y = ImageManipulation::CROP_CENTER)
  	{
+		if (!function_exists('imagecopy')) {
+    		return FALSE;
+  		}
   		if($offset_x == ImageManipulation::CROP_CENTER)
   		{
   			$offset_x = ($this->width - $width)/2;
@@ -32,6 +35,9 @@ class GdImageManipulation extends ImageManipulation
  	}
 	function resize($width,$height)
 	{
+		if (!function_exists('imagecopyresampled')) {
+    		return FALSE;
+  		}
 		$result = imagecreatetruecolor($width, $height);
 		imagecopyresampled($result, $this->gd_image, 0, 0, 0, 0, $width, $height, $this->width, $this->height);
 		$this->gd_image = $result;
@@ -47,6 +53,9 @@ class GdImageManipulation extends ImageManipulation
 		$extension = $this->get_image_extension();
 		$extension = str_replace('jpg', 'jpeg', $extension);
 		$create_function = 'image'.$extension;
+		if (!function_exists($create_function)) {
+    		return FALSE;
+  		}
 		return $create_function($this->gd_image,$file);
 	}
 	private function load_gd_image()
@@ -54,6 +63,9 @@ class GdImageManipulation extends ImageManipulation
 		$extension = $this->get_image_extension();
 		$extension = str_replace('jpg', 'jpeg', $extension);
 		$create_function = 'imagecreatefrom'.$extension;
+		if (!function_exists($create_function)) {
+    		return FALSE;
+  		}
 		$this->gd_image =  $create_function($this->source_file);
 	}
 }
