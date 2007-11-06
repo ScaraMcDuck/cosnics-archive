@@ -1,12 +1,12 @@
 <?php
 /**
- * $Id: filecompression.class.php 13555 2007-10-24 14:15:23Z bmol $
+ * $Id$
  * @package imagemanipulation
  */
- /**
- * An abstract class for handling image manipulations. Impement new image
- * manipulation methods by creating a class which extends this abstract class.
- */
+/**
+* An abstract class for handling image manipulations. Impement new image
+* manipulation methods by creating a class which extends this abstract class.
+*/
 abstract class ImageManipulation
 {
 	/**
@@ -27,55 +27,95 @@ abstract class ImageManipulation
 	/**
 	 * The file on which the manipulations will be done
 	 */
-	private $file;
+	protected $source_file;
 	/**
 	 * Constructor
-	 * @param string $file Full path of the image file on which the
+	 * @param string $source_file Full path of the image file on which the
 	 * manipulations should be done
 	 */
-    function ImageManipulation($file)
-    {
-    	$this->file = $file;
-    }
-    /**
-     * Resize an image maintaining the original aspect-ratio
-     * @param int $width
-     * @param int $height
-     * @param int $type
-     */
-    abstract function scale($width,$height,$type = ImageManipulation::SCALE_INSIDE);
+	function ImageManipulation($source_file)
+	{
+		$this->source_file = $source_file;
+		$dimension = getimagesize($source_file);
+		$this->width = $dimension[0];
+		$this->height = $dimension[1];
+	}
 	/**
- 	 * Crop an image to the rectangle specified by the given offsets and
- 	 * dimensions.
- 	 * @param int $width The width of the image after cropping
- 	 * @param int $height The height of the image after cropping
- 	 * @param int $offset_x
- 	 * @param int $offset_y
- 	 */
- 	abstract function crop($width,$height,$offset_x = ImageManipulation::OFFSET_CENTER,$offset_y = ImageManipulation::OFFSET_CENTER);
+	 * Resize an image maintaining the original aspect-ratio
+	 * @param int $width
+	 * @param int $height
+	 * @param int $type
+	 */
+	function scale($width, $height, $type = ImageManipulation :: SCALE_INSIDE)
+	{
+		$aspect = $this->height / $this->width;
+		if($type == ImageManipulation::SCALE_OUTSIDE)
+		{
+            $new_aspect = $height/$width;
+            $width = ($aspect < $new_aspect ? 9999999 : $width);
+            $height = ($aspect > $new_aspect ? 9999999 : $height);
+		}
+		// don't scale up
+		if ($width >= $this->width && $height >= $this->height)
+		{
+    		return false;
+  		}
+  		$new_aspect = $height/$width;
+  		if ($aspect < $new_aspect)
+  		{
+    		$width = (int)min($width, $this->width);
+    		$height = (int)round($width * $aspect);
+  		}
+  		else
+  		{
+    		$height = (int)min($height, $this->height);
+    		$width = (int)round($height / $aspect);
+  		}
+  		$this->resize($width,$height);
+	}
+	/**
+	 * Creates a quare thumbnail from by rescaling the image to the given width
+	 * & height (using the SCALE_OUTSIDE parameter). After this, the resulting
+	 * image will be cropped. The result is a square image.
+	 * @param int $size With & height of the resulting square
+	 */
+	function create_square_thumbnail($size)
+	{
+		$this->scale($size,$size,ImageManipulation::SCALE_OUTSIDE);
+		$this->crop($size,$size);
+	}
+	/**
+	 * Crop an image to the rectangle specified by the given offsets and
+	 * dimensions.
+	 * @param int $width The width of the image after cropping
+	 * @param int $height The height of the image after cropping
+	 * @param int $offset_x
+	 * @param int $offset_y
+	 */
+	abstract function crop($width, $height, $offset_x = ImageManipulation :: CROP_CENTER, $offset_y = ImageManipulation :: CROP_CENTER);
 	/**
 	 * Resize an image to an exact set of dimensions, ignoring aspect ratio.
 	 * @param int $width The width of the image after resizing
 	 * @param int $height The height of the image after resizing
 	 */
-	abstract function resize($width,$height);
+	abstract function resize($width, $height);
 	/**
 	 * Write the resulting image (after some manipulations to a file)
-	 * @param string $file Full path of the file to which the image should be
+	 * @param string $source_file Full path of the file to which the image should be
 	 * written. If null, the original image will be overwritten.
 	 */
-	abstract function write_to_file($file = null);
-    /**
-     * Create an imagemanipulation instance
-     * @todo At the moment this returns the class using GD. The class to return
-     * should be configurable
-     * @param string $file Full path of the image file on which the
-     * manipulations should be done
-     */
-    public static function factory($file)
-    {
+	abstract function write_to_file($source_file = null);
+	/**
+	 * Create an imagemanipulation instance
+	 * @todo At the moment this returns the class using GD. The class to return
+	 * should be configurable
+	 * @param string $source_file Full path of the image file on which the
+	 * manipulations should be done
+	 */
+	public static function factory($source_file)
+	{
 		require_once dirname(__FILE__).'/gd/gdimagemanipulation.class.php';
-		return new GdImageManipulation($file);
-    }
+		return new GdImageManipulation($source_file);
+	}
 }
 ?>
