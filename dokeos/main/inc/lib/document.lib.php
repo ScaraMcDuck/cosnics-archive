@@ -182,32 +182,6 @@ class DocumentManager
 		}
 	}
 
-	/**
-	 * Gets the id of a document with a given path
-	 *
-	 * @param array $_course
-	 * @param string $path
-	 * @return int id of document / false if no doc found
-	 */
-	function get_document_id($_course, $path)
-	{
-		$TABLE_DOCUMENT = Database :: get_course_table(DOCUMENT_TABLE, $_course['dbName']);
-
-		$sql = "SELECT id FROM $TABLE_DOCUMENT WHERE path = '$path'";
-
-		$result = api_sql_query($sql, __FILE__, __LINE__);
-
-		if ($result && mysql_num_rows($result) == 1)
-		{
-			$row = mysql_fetch_row($result);
-			return $row[0];
-		}
-		else
-		{
-			return false;
-		}
-	}
-
 }
 //end class DocumentManager
 ?>
