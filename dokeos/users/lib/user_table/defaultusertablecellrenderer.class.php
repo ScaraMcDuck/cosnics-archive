@@ -5,6 +5,7 @@
 
 require_once dirname(__FILE__).'/usertablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
+require_once dirname(__FILE__).'/../../../common/imagemanipulation/imagemanipulation.class.php';
 
 class DefaultUserTableCellRenderer implements UserTableCellRenderer
 {
@@ -57,12 +58,26 @@ class DefaultUserTableCellRenderer implements UserTableCellRenderer
 	{
 		if ($user->has_picture())
 		{
-			return '<span style="display:none;">1</span><img src="'.$user->get_full_picture_url().'" alt="'.htmlentities($user->get_fullname()).'" width="40" border="0"/>';
+			$picture = $user->get_full_picture_path();
+			$thumbnail_path = $this->get_thumbnail_path($picture);
+			$thumbnail_url = api_get_path(WEB_CODE_PATH).'../files/temp/'.basename($thumbnail_path);
+			return '<span style="display:none;">1</span><img src="'.$thumbnail_url.'" alt="'.htmlentities($user->get_fullname()).'" border="0"/>';
 		}
 		else
 		{
 			return '<span style="display:none;">0</span>';
 		}
+	}
+	private function get_thumbnail_path($image_path)
+	{
+		$thumbnail_path = api_get_path(SYS_CODE_PATH).'../files/temp/'.md5($image_path).basename($image_path);
+		if(!is_file($thumbnail_path))
+		{
+			$thumbnail_creator = ImageManipulation::factory($image_path);
+			$thumbnail_creator->create_square_thumbnail(20,20);
+			$thumbnail_creator->write_to_file($thumbnail_path);
+		}
+		return $thumbnail_path;
 	}
 }
 ?>
