@@ -12,7 +12,6 @@ require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectform.c
 require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/course.lib.php';
-require_once api_get_path(SYS_CODE_PATH).'/inc/lib/groupmanager.lib.php';
 /**
  * This class represents a profile publisher component which can be used
  * to create a new learning object before publishing it.
@@ -91,7 +90,7 @@ class PortfolioPublicationCreator extends PortfolioPublisherComponent
 			return $form->toHTML();
 		}
 	}
-	
+
 	/**
 	 * Gets the editing form
 	 */
@@ -122,14 +121,14 @@ class PortfolioPublicationCreator extends PortfolioPublisherComponent
 		$out = ($new ? Display :: display_normal_message(htmlentities(get_lang('ObjectCreated')), true) : '');
 		$tool = $this->get_parent()->get_parent();
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
-		
+
 		$pid = $this->pid;
 		$publication = null;
 		if (isset($pid))
 		{
 			$publication = PortfolioDataManager :: get_instance()->retrieve_portfolio_publication($pid);
 		}
-		
+
 		$form = new PortfolioPublicationForm($object, $this->get_user(),$this->get_url(array(PortfolioPublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id())));
 		if ($form->validate())
 		{
@@ -144,7 +143,7 @@ class PortfolioPublicationCreator extends PortfolioPublisherComponent
 				$message = 'PortfolioNotPublished';
 			}
 			// TODO: Use a function for this.
-			
+
 			$this->redirect(null, get_lang($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES));
 		}
 		else

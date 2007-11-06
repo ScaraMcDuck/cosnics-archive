@@ -14,7 +14,6 @@ require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectform.c
 require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/course.lib.php';
-require_once api_get_path(SYS_CODE_PATH).'/inc/lib/groupmanager.lib.php';
 /**
  * This class represents a personal message publisher component which can be used
  * to create a new personal message before publishing it.
@@ -22,7 +21,7 @@ require_once api_get_path(SYS_CODE_PATH).'/inc/lib/groupmanager.lib.php';
 class PersonalMessagePublicationCreator extends PersonalMessagePublisherComponent
 {
 	private $pid;
-	
+
 	/*
 	 * Inherited
 	 */
@@ -96,7 +95,7 @@ class PersonalMessagePublicationCreator extends PersonalMessagePublisherComponen
 			return $form->toHTML();
 		}
 	}
-	
+
 	private function get_editing_form($objectID)
 	{
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
@@ -125,14 +124,14 @@ class PersonalMessagePublicationCreator extends PersonalMessagePublisherComponen
 		$out = ($new ? Display :: display_normal_message(htmlentities(get_lang('ObjectCreated')), true) : '');
 		$tool = $this->get_parent()->get_parent();
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
-		
+
 		$pid = $this->pid;
 		$publication = null;
 		if (isset($pid))
 		{
 			$publication = PersonalMessengerDataManager :: get_instance()->retrieve_personal_message_publication($pid);
 		}
-		
+
 		$form = new PersonalMessagePublicationForm($object, $publication, $this->get_user(),$this->get_url(array (PersonalMessagePublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id())));
 		if ($form->validate())
 		{
@@ -147,7 +146,7 @@ class PersonalMessagePublicationCreator extends PersonalMessagePublisherComponen
 				$message = 'PersonalMessageNotSent';
 			}
 			// TODO: Use a function for this.
-			
+
 			$this->redirect(null, get_lang($message), ($failures ? true : false), array(PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES, PersonalMessenger :: PARAM_FOLDER => PersonalMessenger :: ACTION_FOLDER_OUTBOX));
 		}
 		else
