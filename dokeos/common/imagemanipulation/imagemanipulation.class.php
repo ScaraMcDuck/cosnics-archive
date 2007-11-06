@@ -41,7 +41,8 @@ abstract class ImageManipulation
 		$this->height = $dimension[1];
 	}
 	/**
-	 * Resize an image maintaining the original aspect-ratio
+	 * Resize an image maintaining the original aspect-ratio. Images which are
+	 * allready smaller than the given width and height won't be scaled.
 	 * @param int $width
 	 * @param int $height
 	 * @param int $type
