@@ -430,6 +430,17 @@ class User
 			return api_get_path(WEB_CODE_PATH).'img/unknown.jpg';
 		}
 	}
+	function get_full_picture_path()
+	{
+		if($this->has_picture())
+		{
+			return api_get_path(SYS_CODE_PATH).'../files/userpictures/'.$this->get_picture_uri();
+		}
+		else
+		{
+			return api_get_path(SYS_CODE_PATH).'img/unknown.jpg';
+		}
+	}
 	/**
 	 * Sets the picture file
 	 * @param array The information of the uploaded file (from the $_FILES-
