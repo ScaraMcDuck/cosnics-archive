@@ -117,5 +117,16 @@ abstract class ImageManipulation
 		require_once dirname(__FILE__).'/gd/gdimagemanipulation.class.php';
 		return new GdImageManipulation($source_file);
 	}
+	/**
+	 * Gets the image extension from the source file.
+	 * @return string
+	 */
+	protected function get_image_extension()
+	{
+		$info = getimagesize($this->source_file);
+		$extensions = array('1' => 'gif', '2' => 'jpg', '3' => 'png');
+    	$extension = array_key_exists($info[2], $extensions) ?  $extensions[$info[2]] : '';
+    	return $extension;
+	}
 }
 ?>
