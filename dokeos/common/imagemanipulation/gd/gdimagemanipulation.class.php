@@ -12,7 +12,7 @@ class GdImageManipulation extends ImageManipulation
 	public function GdImageManipulation($source_file)
 	{
 		parent::ImageManipulation($source_file);
-		$this->gd_image = imagecreatefrompng($this->source_file);
+		$this->load_gd_image();
 	}
  	function crop($width,$height,$offset_x = ImageManipulation::CROP_CENTER,$offset_y = ImageManipulation::CROP_CENTER)
  	{
@@ -44,7 +44,17 @@ class GdImageManipulation extends ImageManipulation
 		{
 			$file = $this->source_file;
 		}
-		imagepng($this->gd_image,$file);
+		$extension = $this->get_image_extension();
+		$extension = str_replace('jpg', 'jpeg', $extension);
+		$create_function = 'image'.$extension;
+		return $create_function($this->gd_image,$file);
+	}
+	private function load_gd_image()
+	{
+		$extension = $this->get_image_extension();
+		$extension = str_replace('jpg', 'jpeg', $extension);
+		$create_function = 'imagecreatefrom'.$extension;
+		$this->gd_image =  $create_function($this->source_file);
 	}
 }
 ?>
