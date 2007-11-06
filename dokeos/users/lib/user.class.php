@@ -3,6 +3,7 @@
  * @package users.lib
  */
 require_once dirname(__FILE__).'/../../common/filesystem/filesystem.class.php';
+require_once dirname(__FILE__).'/../../common/imagemanipulation/imagemanipulation.class.php';
 /**
  *	This class represents a user.
  *
@@ -433,6 +434,7 @@ class User
 	 * Sets the picture file
 	 * @param array The information of the uploaded file (from the $_FILES-
 	 * array)
+	 * @todo Make image resizing configurable
 	 */
 	function set_picture_file($file_info)
 	{
@@ -441,6 +443,10 @@ class User
 		Filesystem::create_dir($path);
 		$img_file = Filesystem::create_unique_name($path,$this->get_user_id().'-'.$this->get_fullname().'-'.$file_info['name']);
 		move_uploaded_file($file_info['tmp_name'],$path.$img_file);
+		$image_manipulation = ImageManipulation::factory($path.$img_file);
+		//Scale image to fit in 400x400 box. Should be configurable somewhere
+		$image_manipulation->scale(400,400);
+		$image_manipulation->write_to_file();
 		$this->set_picture_uri($img_file);
 	}
 	/**
