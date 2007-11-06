@@ -439,7 +439,7 @@ class User
 		$this->delete_picture();
 		$path = api_get_path(SYS_CODE_PATH).'../files/userpictures/';
 		Filesystem::create_dir($path);
-		$img_file = Filesystem::create_unique_name($path,$file_info['name']);
+		$img_file = Filesystem::create_unique_name($path,$this->get_user_id().'-'.$this->get_fullname().'-'.$file_info['name']);
 		move_uploaded_file($file_info['tmp_name'],$path.$img_file);
 		$this->set_picture_uri($img_file);
 	}

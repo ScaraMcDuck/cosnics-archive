@@ -9,12 +9,12 @@ require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../usersdatamanager.class.php';
 
 class UserForm extends FormValidator {
-	
+
 	const TYPE_CREATE = 1;
 	const TYPE_EDIT = 2;
 	const RESULT_SUCCESS = 'UserUpdated';
 	const RESULT_ERROR = 'UserUpdateFailed';
-	
+
 	private $parent;
 	private $user;
 	private $form_user;
@@ -26,10 +26,10 @@ class UserForm extends FormValidator {
 	 */
     function UserForm($form_type, $user, $form_user, $action) {
     	parent :: __construct('user_settings', 'post', $action);
-    	
+
     	$this->user = $user;
     	$this->form_user = $form_user;
-    	
+
 		$this->form_type = $form_type;
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
@@ -39,10 +39,10 @@ class UserForm extends FormValidator {
 		{
 			$this->build_creation_form();
 		}
-		
+
 		$this->setDefaults();
     }
-    
+
     /**
      * Creates a basic form
      */
@@ -96,10 +96,10 @@ class UserForm extends FormValidator {
 		// Version quota
 		$this->addElement('text', User :: PROPERTY_VERSION_QUOTA, get_lang('VersionQuota'));
 		$this->addRule(User :: PROPERTY_VERSION_QUOTA, get_lang('FieldMustBeNumeric'), 'numeric', null, 'server');
-		
+
 		// Status
-		$status = array();  
-		$status[STUDENT] = get_lang('Student');  
+		$status = array();
+		$status[STUDENT] = get_lang('Student');
 		$status[COURSEMANAGER]  = get_lang('CourseAdmin');
 		$this->addElement('select',User :: PROPERTY_STATUS,get_lang('Status'),$status);
 		// Platform admin
@@ -111,15 +111,15 @@ class UserForm extends FormValidator {
 		$group[] =& $this->createElement('radio', User :: PROPERTY_PLATFORMADMIN,null,get_lang('Yes'),1);
 		$group[] =& $this->createElement('radio', User :: PROPERTY_PLATFORMADMIN,null,get_lang('No'),0);
 		$this->addGroup($group, 'admin', get_lang('PlatformAdmin'), '&nbsp;');
-		//  Send email 
+		//  Send email
 		$group = array();
 		$group[] =& $this->createElement('radio', 'send_mail',null,get_lang('Yes'),1);
 		$group[] =& $this->createElement('radio', 'send_mail',null,get_lang('No'),0);
-		$this->addGroup($group, 'mail', get_lang('SendMailToNewUser'), '&nbsp;'); 
+		$this->addGroup($group, 'mail', get_lang('SendMailToNewUser'), '&nbsp;');
 		// Submit button
 		$this->addElement('submit', 'user_settings', 'OK');
     }
-    
+
     /**
      * Creates an editing form
      */
@@ -127,20 +127,20 @@ class UserForm extends FormValidator {
     {
     	$user = $this->user;
     	$parent = $this->parent;
-    	
+
     	$this->build_basic_form();
-    	
+
     	$this->addElement('hidden', User :: PROPERTY_USER_ID);
     }
-    
+
     /**
      * Creates a creating form
      */
     function build_creation_form()
-    {		
+    {
     	$this->build_basic_form();
     }
-    
+
     /**
      * Updates the user with the new data
      */
@@ -149,15 +149,9 @@ class UserForm extends FormValidator {
     	$user = $this->user;
     	$values = $this->exportValues();
     	$password = $values['pw']['pass'] == '1' ? md5(api_generate_password()) : ($values['pw']['pass'] == '2' ? $user->get_password() : md5($values['pw'][User :: PROPERTY_PASSWORD]));
-    	
     	if ($_FILES[User :: PROPERTY_PICTURE_URI] && file_exists($_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name']))
     	{
-			$temp_picture_location = $_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name'];
-			$picture_name = $_FILES[User :: PROPERTY_PICTURE_URI]['name'];
-			$picture_uri = uniqid('').'_'.replace_dangerous_char($picture_name);
-			$picture_location = api_get_path(SYS_CODE_PATH).'upload/users/'.$picture_uri;
-			$user->set_picture_uri($picture_location);
-			move_uploaded_file($temp_picture_location, $picture_location);
+			$user->set_picture_file($_FILES[User :: PROPERTY_PICTURE_URI]);
     	}
 		$udm = UsersDataManager :: get_instance();
     	if ($udm->is_username_available($values[User :: PROPERTY_USERNAME], $values[User :: PROPERTY_USER_ID]))
@@ -169,7 +163,6 @@ class UserForm extends FormValidator {
 	 	   	$user->set_password($password);
 	 	   	$this->unencryptedpass = $password;
     		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
-			$user->set_picture_uri($picture_uri);
   		  	$user->set_phone($values[User :: PROPERTY_PHONE]);
   		  	$user->set_status(intval($values[User :: PROPERTY_STATUS]));
  		   	$user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
@@ -178,18 +171,18 @@ class UserForm extends FormValidator {
     		$send_mail = intval($values['mail']['send_mail']);
     		if ($send_mail)
     		{
-    			$this->send_email($user); 
+    			$this->send_email($user);
     		}
 
     		return $user->update();
     	}
-    	else 
+    	else
     	{
     		return false;
     	}
     }
-    
-    
+
+
     /**
      * Creates the user, and stores it in the database
      */
@@ -197,17 +190,12 @@ class UserForm extends FormValidator {
     {
     	$user = $this->user;
     	$values = $this->exportValues();
-    	
+
     	$password = $values['pw']['pass'] == '1' ? api_generate_password() : $values['pw'][User :: PROPERTY_PASSWORD];
-    	
+
     	if ($_FILES[User :: PROPERTY_PICTURE_URI] && file_exists($_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name']))
     	{
-			$temp_picture_location = $_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name'];
-			$picture_name = $_FILES[User :: PROPERTY_PICTURE_URI]['name'];
-			$picture_uri = uniqid('').'_'.replace_dangerous_char($picture_name);
-			$picture_location = api_get_path(SYS_CODE_PATH).'upload/users/'.$picture_uri;
-			$user->set_picture_uri($picture_location);
-			move_uploaded_file($temp_picture_location, $picture_location);			
+			$user->set_picture_file($_FILES[User :: PROPERTY_PICTURE_URI]);
     	}
 		$udm = UsersDataManager :: get_instance();
     	if ($udm->is_username_available($values[User :: PROPERTY_USERNAME], $values[User :: PROPERTY_USER_ID]))
@@ -220,7 +208,6 @@ class UserForm extends FormValidator {
 	 	   	$user->set_password(md5($password));
 	 	   	$this->unencryptedpass = $password;
     		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
-			$user->set_picture_uri($picture_uri);
   		  	$user->set_phone($values[User :: PROPERTY_PHONE]);
   		  	$user->set_status(intval($values[User :: PROPERTY_STATUS]));
   		  	if ($values[User :: PROPERTY_VERSION_QUOTA] != '')
@@ -234,20 +221,20 @@ class UserForm extends FormValidator {
     		$send_mail = intval($values['mail']['send_mail']);
     		if ($send_mail)
     		{
-    			$this->send_email($user); 
+    			$this->send_email($user);
     		}
 
     		return $user->create();
     	}
-    	else 
+    	else
     	{
     		return false;
     	}
-    
+
     }
-    
+
 	/**
-	 * Sets default values. 
+	 * Sets default values.
 	 * @param array $defaults Default values for this form's parameters.
 	 */
 	function setDefaults($defaults = array ())
@@ -277,7 +264,7 @@ class UserForm extends FormValidator {
 		$defaults[User :: PROPERTY_LANGUAGE] = $user->get_language();
 		parent :: setDefaults($defaults);
 	}
-	
+
 	/**
 	 * Sends an email to the updated/new user
 	 */
