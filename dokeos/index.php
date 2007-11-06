@@ -36,7 +36,6 @@ include_once (api_get_library_path()."/debug.lib.inc.php");
 include_once (api_get_library_path()."/events.lib.inc.php");
 include_once (api_get_library_path()."/system_announcements.lib.php");
 include_once (api_get_library_path()."/text.lib.php");
-include_once (api_get_library_path()."/groupmanager.lib.php");
 include_once (api_get_library_path()."/formvalidator/FormValidator.class.php");
 api_use_lang_files('courses', 'index');
 $nameTools = api_get_setting('siteName');

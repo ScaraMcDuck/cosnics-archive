@@ -14,7 +14,6 @@ require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectform.c
 require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';
 require_once api_get_path(SYS_CODE_PATH).'/inc/lib/course.lib.php';
-require_once api_get_path(SYS_CODE_PATH).'/inc/lib/groupmanager.lib.php';
 /**
  * This class represents a learning object publisher component which can be used
  * to create a new learning object before publishing it.
