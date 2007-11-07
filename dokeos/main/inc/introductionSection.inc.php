@@ -3,26 +3,26 @@
 /*
 ==============================================================================
 	Dokeos - elearning and course management software
-	
+
 	Copyright (c) 2004-2005 Dokeos S.A.
 	Copyright (c) Bart Mollet, Hogeschool Gent
-	
+
 	For a full list of contributors, see "credits.txt".
 	The full license can be read in "license.txt".
-	
+
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
 	as published by the Free Software Foundation; either version 2
 	of the License, or (at your option) any later version.
-	
+
 	See the GNU General Public License for more details.
-	
+
 	Contact address: Dokeos, 44 rue des palais, B-1030 Brussels, Belgium
 	Mail: info@dokeos.com
 ==============================================================================
 */
 /**
-============================================================================== 
+==============================================================================
  * The INTRODUCTION MICRO MODULE is used to insert and edit
  * an introduction section on a Dokeos Module. It can be inserted on any
  * Dokeos Module, provided a connection to a course Database is already active.
@@ -42,7 +42,7 @@
  * include(moduleIntro.inc.php);
 *
 *	@package dokeos.include
-============================================================================== 
+==============================================================================
 */
 
 
@@ -82,7 +82,7 @@ if ($intro_editAllowed)
 		{
 			$form_values = $form->exportValues();
 			$intro_content = $form_values['intro_content'];
-	
+
 			if ( ! empty($intro_content) )
 			{
 				$sql = "REPLACE $TBL_INTRODUCTION SET id='$moduleId',intro_text='".mysql_real_escape_string($intro_content)."'";
@@ -95,7 +95,7 @@ if ($intro_editAllowed)
 		}
 		else
 		{
-		$intro_cmdEdit = true;	
+		$intro_cmdEdit = true;
 		}
 	}
 
@@ -179,8 +179,8 @@ if ($intro_dispCommand)
 	else // displays "edit intro && delete intro" Commands
 	{
 		echo	"<div id=\"courseintro_icons\"><p>\n",
-				"<a href=\"".$_SERVER['PHP_SELF']."?intro_cmdEdit=1\"><img src=\"" . api_get_code_web_path() . "img/edit.gif\" alt=\"",get_lang('Modify'),"\" border=\"0\" /></a>\n",
-				"<a href=\"".$_SERVER['PHP_SELF']."?intro_cmdDel=1\" onclick=\"javascript:if(!confirm('".addslashes(htmlentities(get_lang('ConfirmYourChoice')))."')) return false;\"><img src=\"" . api_get_code_web_path() . "img/delete.gif\" alt=\"",get_lang('Delete'),"\" border=\"0\" /></a>\n",
+				"<a href=\"".$_SERVER['PHP_SELF']."?intro_cmdEdit=1\"><img src=\"" . api_get_path(WEB_CODE_PATH) . "img/edit.gif\" alt=\"",get_lang('Modify'),"\" border=\"0\" /></a>\n",
+				"<a href=\"".$_SERVER['PHP_SELF']."?intro_cmdDel=1\" onclick=\"javascript:if(!confirm('".addslashes(htmlentities(get_lang('ConfirmYourChoice')))."')) return false;\"><img src=\"" . api_get_path(WEB_CODE_PATH) . "img/delete.gif\" alt=\"",get_lang('Delete'),"\" border=\"0\" /></a>\n",
 				"</p>\n</div>";
 	}
 }

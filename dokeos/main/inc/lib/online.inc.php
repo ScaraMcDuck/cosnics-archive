@@ -161,7 +161,7 @@ function chatcall() {
 	$limittime = mktime(date("H"),date("i")-$minute_passed,date("s"),date("m"),date("d"),date("Y"));
 
 	if (($row['chatcall_user_id']) and ($calltime>$limittime)) {
-		$webpath=api_get_code_web_path();
+		$webpath=api_get_path(WEB_CODE_PATH);
 		$message=get_lang('YouWereCalled').' : '.GetFullUserName($row['chatcall_user_id'],'').'<br>'.get_lang('DoYouAccept')
 							."<p>"
 				."<a href=\"".$webpath."chat/chat.php?cidReq=".$_cid."&origin=whoisonlinejoin\">"
