@@ -22,40 +22,6 @@
 	Mail: info@dokeos.com
 ==============================================================================
 */
-/**
-==============================================================================
-*	This is the document library for Dokeos.
-*	It is / will be used to provide a service layer to all document-using tools.
-*	and eliminate code duplication fro group documents, scorm documents, main documents.
-*	Include/require it in your code to use its functionality.
-*
-*	@version 1.1, January 2005
-*	@package dokeos.library
-==============================================================================
-*/
-
-
-/*
-==============================================================================
-		CONSTANTS
-==============================================================================
-*/
-
-define("DISK_QUOTA_FIELD", "disk_quota"); //name of the database field
-/** default quota for the course documents folder */
-define("DEFAULT_DOCUMENT_QUOTA", get_setting('default_document_quotum'));
-
-/*
-==============================================================================
-		VARIABLES
-==============================================================================
-*/
-
-$sys_course_path = api_get_path(SYS_COURSE_PATH);
-$baseServDir = api_get_path(SYS_PATH);
-$baseServUrl = $urlAppend."/"; //WARNING do not use $urlAppend
-$baseWorkDir = $sys_course_path.$courseDir;
-
 /*
 ==============================================================================
 		DocumentManager CLASS
