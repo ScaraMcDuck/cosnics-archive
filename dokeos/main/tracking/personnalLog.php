@@ -41,7 +41,6 @@
 api_use_lang_files("tracking");
 include('../inc/claro_init_global.inc.php');
 
-$interbredcrump[]= array ("url"=>"../auth/profile.php", "name"=> get_lang('ModifyProfile'));
 $nameTools = get_lang('ToolName');
 
 $htmlHeadXtra[] = "<style type=\"text/css\">
