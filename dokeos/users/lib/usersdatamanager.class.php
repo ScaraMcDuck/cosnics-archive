@@ -211,6 +211,12 @@ abstract class UsersDataManager
 
 	/**
 	 * Checks whether this username is available in the database
+	 * @param string $username The username to be checked
+	 * @param int $user_id If not null, the function will check if the given
+	 * username is available for the given user. If the given username of the
+	 * user with this id is the same as the current username of the user, this
+	 * function will return true
+	 * @return boolean True if the username is available, false if not.
 	 */
 	abstract function is_username_available($username, $user_id = null);
 }
