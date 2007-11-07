@@ -402,17 +402,6 @@ class Display
 	}
 
 	/**
-	*	Create a hyperlink to the platform homepage.
-	*	@param string $name, the visible name of the hyperlink, default is sitename
-	*	@return string with html code for hyperlink
-	*/
-	function get_platform_home_link_html($name = '')
-	{
-		if ($name == '')
-			$name = get_setting('siteName');
-		return "<a href=\"".api_get_path(WEB_PATH)."index.php\">$name</a>";
-	}
-	/**
 	 * Display the page header
 	 * @param string $tool_name The name of the page (will be showed in the
 	 * page title)
