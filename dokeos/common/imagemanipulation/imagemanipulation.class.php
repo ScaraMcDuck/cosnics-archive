@@ -75,15 +75,22 @@ abstract class ImageManipulation
   		$this->resize($width,$height);
 	}
 	/**
-	 * Creates a quare thumbnail from by rescaling the image to the given width
-	 * & height (using the SCALE_OUTSIDE parameter). After this, the resulting
-	 * image will be cropped. The result is a square image.
-	 * @param int $size With & height of the resulting square
+	 * Creates a thumbnail from by rescaling the image to the given width &
+	 * height (using the SCALE_OUTSIDE parameter). After this, the resulting
+	 * image will be cropped. The result is an image which the exact given with
+	 * and height.
+	 * @param int $width With of the resulting image
+	 * @param int $height Height of the resulting image (if null, the height
+	 * will be the same as the width, resulting in a square image)
 	 */
-	function create_square_thumbnail($size)
+	function create_thumbnail($width,$height = null)
 	{
-		$this->scale($size,$size,ImageManipulation::SCALE_OUTSIDE);
-		$this->crop($size,$size);
+		if(is_null($height))
+		{
+			$height = $width;
+		}
+		$this->scale($width,$height,ImageManipulation::SCALE_OUTSIDE);
+		$this->crop($width,$height);
 	}
 	/**
 	 * Crop an image to the rectangle specified by the given offsets and

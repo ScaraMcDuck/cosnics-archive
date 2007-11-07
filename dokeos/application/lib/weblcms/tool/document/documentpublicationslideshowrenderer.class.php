@@ -117,7 +117,7 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 		if(!is_file($thumbnail_path))
 		{
 			$thumbnail_creator = ImageManipulation::factory($image_path);
-			$thumbnail_creator->create_square_thumbnail(100,100);
+			$thumbnail_creator->create_thumbnail(100);
 			$thumbnail_creator->write_to_file($thumbnail_path);
 		}
 		return $thumbnail_path;
