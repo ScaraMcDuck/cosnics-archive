@@ -167,8 +167,8 @@ while ($row = mysql_fetch_array($result_select))
 	// the third column
 	$row_td[] = $row['dokeos_folder'];
 	// the fourth column with the visibility icon and the edit icon
-	$row_td[] = '<a href="'.$_SERVER['PHP_SELF'].'?action='.($row['available']==1?'makeunavailable':'makeavailable').'&amp;id='.$row['id'].'"><img src="'.api_get_code_web_path().($row['available']==1?'img/visible.gif':'img/invisible.gif').'" alt="'.get_lang($row['available']==1?'MakeUnavailable':'MakeAvailable').'" /></a> '
-		. '<a href="'.$_SERVER['PHP_SELF'].'?action=edit&amp;id='.$row['id'].'"><img src="'.api_get_code_web_path().'img/edit.gif" alt="'.get_lang('Edit').'" /></a>';
+	$row_td[] = '<a href="'.$_SERVER['PHP_SELF'].'?action='.($row['available']==1?'makeunavailable':'makeavailable').'&amp;id='.$row['id'].'"><img src="'.api_get_path(WEB_CODE_PATH).($row['available']==1?'img/visible.gif':'img/invisible.gif').'" alt="'.get_lang($row['available']==1?'MakeUnavailable':'MakeAvailable').'" /></a> '
+		. '<a href="'.$_SERVER['PHP_SELF'].'?action=edit&amp;id='.$row['id'].'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif" alt="'.get_lang('Edit').'" /></a>';
 
 	$language_data[] = $row_td;
 }
