@@ -1,35 +1,35 @@
 <?php
 // $Id$
 /*
-============================================================================== 
+==============================================================================
 	Dokeos - elearning and course management software
-	
+
 	Copyright (c) 2004 Dokeos S.A.
 	Copyright (c) 2003 University of Ghent (UGent)
 	Copyright (c) 2001 Universite catholique de Louvain (UCL)
 	Copyright (c) various contributors
-	
+
 	For a full list of contributors, see "credits.txt".
 	The full license can be read in "license.txt".
-	
+
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
 	as published by the Free Software Foundation; either version 2
 	of the License, or (at your option) any later version.
-	
+
 	See the GNU General Public License for more details.
-	
+
 	Contact: Dokeos, 181 rue Royale, B-1000 Brussels, Belgium, info@dokeos.com
-============================================================================== 
+==============================================================================
 */
 /**
-============================================================================== 
+==============================================================================
 *	This script displays a list of the users of the current course.
 *	Course admins can change user perimssions, subscribe and unsubscribe users...
 *
 *	EXPERIMENTAL: support for virtual courses
-*	- show users registered in virtual and real courses; 
-*	- only show the users of a virtual course if the current user; 
+*	- show users registered in virtual and real courses;
+*	- only show the users of a virtual course if the current user;
 *	is registered in that virtual course.
 *
 *	Exceptions: platform admin and the course admin will see all virtual courses.
@@ -40,12 +40,12 @@
 *	@todo display table functions need support for align and valign (e.g. to center text in cells) (this is now possible)
 *	@author Roan Embrechts, refactoring + virtual courses support
 *	@package dokeos.user
-============================================================================== 
+==============================================================================
 */
 /*
-============================================================================== 
+==============================================================================
 	   INIT SECTION
-============================================================================== 
+==============================================================================
 */
 api_use_lang_files('registration');
 include ("../inc/claro_init_global.inc.php");
@@ -80,15 +80,15 @@ if (!isset ($_cid))
 }
 /*
 -----------------------------------------------------------
-	Constants and variables 
+	Constants and variables
 -----------------------------------------------------------
 */
 $currentCourseID = $_course['sysCode'];
 
 /*
-============================================================================== 
+==============================================================================
 		FUNCTIONS
-============================================================================== 
+==============================================================================
 */
 
 /**
@@ -119,7 +119,7 @@ function get_user_data($from, $number_of_items, $column, $direction)
 	$course_user_table = Database :: get_main_table(MAIN_COURSE_USER_TABLE);
 	if($is_allowed[EDIT_RIGHT])
 	{
-		$columns[] = 'u.user_id';	
+		$columns[] = 'u.user_id';
 	}
 	$columns[] = 'u.official_code';
 	$columns[] = 'u.lastname';
@@ -129,19 +129,19 @@ function get_user_data($from, $number_of_items, $column, $direction)
 	if($is_allowed[EDIT_RIGHT])
 	{
 		//role column
-		$columns[] = 'u.user_id';	
-		
+		$columns[] = 'u.user_id';
+
 		if($is_allowed_to_track)
 		{
-			$columns[] = 'u.user_id';	
-		}	
+			$columns[] = 'u.user_id';
+		}
 	}
-	$columns[] = 'u.user_id';	
-	
+	$columns[] = 'u.user_id';
+
 	$sql = "SELECT ";
 	foreach( $columns as $index => $sqlcolumn)
 	{
-		$columns[$index] = ' '.$sqlcolumn.' AS col'.$index.' ';	
+		$columns[$index] = ' '.$sqlcolumn.' AS col'.$index.' ';
 	}
 	$sql .= implode(" , ",$columns);
 	$sql .= "FROM $user_table u,$course_user_table cu WHERE u.user_id = cu.user_id and course_code='".$_SESSION['_course']['id']."'";
@@ -159,7 +159,7 @@ function get_user_data($from, $number_of_items, $column, $direction)
 		$users[''.$user[0]] = $user;
 		$user_ids[] = $user[0];
 	}
-	$sql = "SELECT ug.user_id, ug.group_id group_id, sg.name 
+	$sql = "SELECT ug.user_id, ug.group_id group_id, sg.name
                     FROM ".Database :: get_course_group_user_table()." ug
                     LEFT JOIN ".Database :: get_course_group_table()." sg
                     ON ug.group_id = sg.id
@@ -174,7 +174,7 @@ function get_user_data($from, $number_of_items, $column, $direction)
 
 /**
  * Build the tracking-column of the table
- * @param int $user_id The user id 
+ * @param int $user_id The user id
  * @return string Some HTML-code
  */
 function tracking_filter($user_id)
@@ -186,7 +186,7 @@ function tracking_filter($user_id)
 
 /**
  * Build the modify-column of the table
- * @param int $user_id The user id 
+ * @param int $user_id The user id
  * @return string Some HTML-code
  */
 function modify_filter($user_id)
@@ -286,7 +286,7 @@ function show_users_in_virtual_courses($is_allowed_to_track, $origin='')
 				$role_name = RolesRights::get_visual_local_user_role($user_id, $virtual_course_code);
 				$table_row[$row ++] = $role_name; //New role column
 			}
-				
+
 			if ($is_allowed_to_track)
 				$table_row[$row ++] = '<a href="../tracking/userLog.php?'.api_get_cidreq().'&amp;origin='.$origin.'&amp;uInfo='.$user_id.'"><img border="0" alt="'.get_lang('Tracking').'" src="../img/statistics.png" /></a>'; //Tracking column
 			Display :: display_table_row($bgcolor, $table_row, true);
@@ -300,7 +300,7 @@ function show_users_in_virtual_courses($is_allowed_to_track, $origin='')
 */
 function get_group_list($user_id)
 {
-	$sql = "SELECT ug.user_id, ug.group_id group_id, sg.name 
+	$sql = "SELECT ug.user_id, ug.group_id group_id, sg.name
                     FROM ".Database :: get_course_group_user_table()." ug
                     LEFT JOIN ".Database :: get_course_group_table()." sg
                     ON ug.group_id = sg.id
@@ -314,9 +314,9 @@ function get_group_list($user_id)
 }
 
 /*
-============================================================================== 
+==============================================================================
 		MAIN CODE
-============================================================================== 
+==============================================================================
 */
 //statistics
 event_access_tool(TOOL_USER);
@@ -404,7 +404,7 @@ else
 1. since only a count is used there is not need to use the MAIN_USER_TABLE
 SELECT count(user_id) nb_users FROM  ".Database :: get_main_table(MAIN_COURSE_USER_TABLE)." WHERE course_code=".$currentCourseID
 2. secondly $userTotalNb is not used anywhere in the code but the SQL statement is executed
-So we have double performance loss: 
+So we have double performance loss:
 * using a table that is irrelevant in the query
 * executing a statement that is not used.
 */
@@ -424,8 +424,6 @@ $userTotalNb = $userTotalNb["nb_users"];
 */
 api_display_tool_title($nameTools);
 
-//Introduction section
-Display::display_introduction_section(TOOL_USER, $is_allowed);
 
 if ($is_allowed[EDIT_RIGHT])
 {
@@ -456,9 +454,9 @@ if (CourseManager::has_virtual_courses_from_code($course_id, $user_id))
 }
 
 /*
-============================================================================== 
+==============================================================================
 		DISPLAY LIST OF USERS
-============================================================================== 
+==============================================================================
 */
 
 $default_column = $is_allowed[EDIT_RIGHT] ? 2 : 1;
@@ -481,7 +479,7 @@ if ($is_allowed[EDIT_RIGHT])
 	//separate columns are merged into one role column
 	//$table->set_header($header_nr++, get_lang('Tutor'));
 	//$table->set_header($header_nr++, get_lang('CourseManager'));
-	
+
 	//roles column (new for 1.7)
 	$table->set_header($header_nr++, get_lang('UserRole'), true);
 	$table->set_column_filter($header_nr-1,'role_filter');
@@ -492,9 +490,9 @@ if ($is_allowed[EDIT_RIGHT])
 		$table->set_column_filter($header_nr-1,'tracking_filter');
 	}
 }
-		
+
 //actions column
-$table->set_header($header_nr++, '', false);	
+$table->set_header($header_nr++, '', false);
 $table->set_column_filter($header_nr-1,'modify_filter');
 if ($is_allowed[EDIT_RIGHT])
 {
@@ -520,9 +518,9 @@ if (api_get_setting('allow_user_headings') == 'true' && $is_allowed[EDIT_RIGHT] 
 show_users_in_virtual_courses($is_allowed_to_track);
 
 /*
-============================================================================== 
-		FOOTER 
-============================================================================== 
+==============================================================================
+		FOOTER
+==============================================================================
 */
 if ($origin != 'learnpath')
 {

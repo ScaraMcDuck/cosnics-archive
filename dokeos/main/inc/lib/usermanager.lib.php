@@ -158,7 +158,7 @@ class UserManager
 		$user_info = api_get_user_info($user_id);
 		if(strlen($user_info['picture_uri']) > 0)
 		{
-			$img_path = api_get_code_sys_path().'upload/users/'.$user_info['picture_uri'];
+			$img_path = api_get_path(SYS_CODE_PATH).'upload/users/'.$user_info['picture_uri'];
 			unlink($img_path);
 		}
 

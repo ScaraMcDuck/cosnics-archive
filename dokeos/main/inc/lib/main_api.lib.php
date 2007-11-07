@@ -195,40 +195,7 @@ function api_block_anonymous_users()
 		use these functions instead
 ==============================================================================
 */
-/**
-*	@return an array with the navigator name and version
-*/
-function api_get_navigator()
-{
-	$navigator = 'Unknown';
-	$version = 0;
-	if (strstr($_SERVER['HTTP_USER_AGENT'], 'Opera'))
-	{
-		$navigator = 'Opera';
-		list (, $version) = explode('Opera', $_SERVER['HTTP_USER_AGENT']);
-	}
-	elseif (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE'))
-	{
-		$navigator = 'Internet Explorer';
-		list (, $version) = explode('MSIE', $_SERVER['HTTP_USER_AGENT']);
-	}
-	elseif (strstr($_SERVER['HTTP_USER_AGENT'], 'Gecko'))
-	{
-		$navigator = 'Mozilla';
-		list (, $version) = explode('; rv:', $_SERVER['HTTP_USER_AGENT']);
-	}
-	elseif (strstr($_SERVER['HTTP_USER_AGENT'], 'Netscape'))
-	{
-		$navigator = 'Netscape';
-		list (, $version) = explode('Netscape', $_SERVER['HTTP_USER_AGENT']);
-	}
-	$version = doubleval($version);
-	if (!strstr($version, '.'))
-	{
-		$version = number_format(doubleval($version), 1);
-	}
-	return array ('name' => $navigator, 'version' => $version);
-}
+
 /**
 *	@return True if user selfregistration is allowed, false otherwise.
 */
@@ -293,30 +260,7 @@ function api_get_path($path_type)
 			return;
 	}
 }
-/**
-*	Alias for api_get_path(REL_PATH).
-*	@return the relative web path for Dokeos (/...)
-*/
-function api_get_root_rel()
-{
-	return api_get_path(REL_PATH);
-}
-/**
-*	Alias for api_get_path(SYS_CODE_PATH).
-*	@return the filesystem code path e.g. /xxx/dokeos/main/
-*/
-function api_get_code_sys_path()
-{
-	return api_get_path(SYS_CODE_PATH);
-}
-/**
-*	Alias for api_get_path(WEB_CODE_PATH).
-*	@return the url code path e.g. http://xxx/dokeos/main/
-*/
-function api_get_code_web_path()
-{
-	return api_get_path(WEB_CODE_PATH);
-}
+
 /**
 *	Alias for api_get_path(INCLUDE_PATH).
 *	@return the path of the include (inc) directory
@@ -609,50 +553,7 @@ function api_session_destroy()
 	session_destroy();
 }
 
-/*
-==============================================================================
-		STRING MANAGEMENT
-==============================================================================
-*/
-function api_add_url_param($url, $param)
-{
-	if (empty ($param))
-	{
-		return $url;
-	}
-	if (strstr($url, '?'))
-	{
-		if ($param[0] != '&')
-		{
-			$param = '&'.$param;
-		}
-		list (, $query_string) = explode('?', $url);
-		$param_list1 = explode('&', $param);
-		$param_list2 = explode('&', $query_string);
-		$param_list1_keys = $param_list1_vals = array ();
-		foreach ($param_list1 as $key => $enreg)
-		{
-			list ($param_list1_keys[$key], $param_list1_vals[$key]) = explode('=', $enreg);
-		}
-		$param_list1 = array ('keys' => $param_list1_keys, 'vals' => $param_list1_vals);
-		foreach ($param_list2 as $enreg)
-		{
-			$enreg = explode('=', $enreg);
-			$key = array_search($enreg[0], $param_list1['keys']);
-			if (!is_null($key) && !is_bool($key))
-			{
-				$url = str_replace($enreg[0].'='.$enreg[1], $enreg[0].'='.$param_list1['vals'][$key], $url);
-				$param = str_replace('&'.$enreg[0].'='.$param_list1['vals'][$key], '', $param);
-			}
-		}
-		$url .= $param;
-	}
-	else
-	{
-		$url = $url.'?'.$param;
-	}
-	return $url;
-}
+
 /**
 * Returns a difficult to guess password.
 * @param int $length, the length of the password
@@ -671,99 +572,6 @@ function api_generate_password($length = 8)
 		$password .= $characters[rand() % strlen($characters)];
 	}
 	return $password;
-}
-/**
-* Checks a password to see wether it is OK to use.
-* @param string $password
-* @return true if the password is acceptable, false otherwise
-*/
-function api_check_password($password)
-{
-	$lengthPass = strlen($password);
-	if ($lengthPass < 5)
-	{
-		return false;
-	}
-	$passLower = strtolower($password);
-	$cptLettres = $cptChiffres = 0;
-	for ($i = 0; $i < $lengthPass; $i ++)
-	{
-		$codeCharCur = ord($passLower[$i]);
-		if ($i && abs($codeCharCur - $codeCharPrev) <= 1)
-		{
-			$consecutif ++;
-			if ($consecutif == 3)
-			{
-				return false;
-			}
-		}
-		else
-		{
-			$consecutif = 1;
-		}
-		if ($codeCharCur >= 97 && $codeCharCur <= 122)
-		{
-			$cptLettres ++;
-		}
-		elseif ($codeCharCur >= 48 && $codeCharCur <= 57)
-		{
-			$cptChiffres ++;
-		}
-		else
-		{
-			return false;
-		}
-		$codeCharPrev = $codeCharCur;
-	}
-	return ($cptLettres >= 3 && $cptChiffres >= 2) ? true : false;
-}
-/**
- * truncates a string
- *
- * @author Brouckaert Olivier
- * @param  string text - text to truncate
- * @param  integer length - length of the truncated text
- * @param  string endStr - suffix
- * @param  boolean middle - if true, truncates on string middle
- */
-function api_trunc_str($text, $length = 30, $endStr = '...', $middle = false)
-{
-	if (strlen($text) <= $length)
-	{
-		return $text;
-	}
-	if ($middle)
-	{
-		$text = rtrim(substr($text, 0, round($length / 2))).$endStr.ltrim(substr($text, -round($length / 2)));
-	}
-	else
-	{
-		$text = rtrim(substr($text, 0, $length)).$endStr;
-	}
-	return $text;
-}
-// deprecated, use api_trunc_str() instead
-function shorten($input, $length = 15)
-{
-	$length = intval($length);
-	if (!$length)
-	{
-		$length = 15;
-	}
-	return api_trunc_str($input, $length);
-}
-/**
- * handling simple and double apostrofe in order that strings be stored properly in database
- *
- * @author Denes Nagy
- * @param  string variable - the variable to be revised
- */
-function domesticate($input)
-{
-	$input = stripslashes($input);
-	$input = str_replace("'", "''", $input);
-	$input = str_replace('"', "''", $input);
-	return ($input);
 }
 
 /*
@@ -1109,126 +917,6 @@ function is_student_view_enabled()
 
 /*
 ==============================================================================
-		WHAT'S NEW
-		functions for the what's new icons
-		in the user course list
-==============================================================================
-*/
-/**
- * @param $last_post_datetime standard output date in a sql query
- * @return unix timestamp
- * @author Toon Van Hoecke <Toon.VanHoecke@UGent.be>
- * @version October 2003
- * @desc convert sql date to unix timestamp
-*/
-function convert_mysql_date($last_post_datetime)
-{
-	list ($last_post_date, $last_post_time) = split(" ", $last_post_datetime);
-	list ($year, $month, $day) = explode("-", $last_post_date);
-	list ($hour, $min, $sec) = explode(":", $last_post_time);
-	$announceDate = mktime($hour, $min, $sec, $month, $day, $year);
-	return $announceDate;
-}
-
-/**
- * Updates or adds item properties to the Item_propetry table
- * Tool and lastedit_type are language independant strings (langvars->get_lang!)
- *
- * @param array $_course
- * @param $_course : array with course properties
- * @param $tool : tool id, linked to 'rubrique' of the course tool_list (Warning: language sensitive !!)
- * @param $item_id : id of the item itself, linked to key of every tool ('id', ...), "*" = all items of the tool
- * @param $lastedit_type : add or update action (1) message to be translated (in trad4all) : e.g. DocumentAdded, DocumentUpdated;
- * 												(2) "delete"; (3) "visible"; (4) "invisible";
- * @param $user_id : id of the editing/adding user
- * @param $to_group_id : id of the intended group ( 0 = for everybody), only relevant for $type (1)
- * @param $to_user_id : id of the intended user (always has priority over $to_group_id !), only relevant for $type (1)
- * @param string $start_visible 0000-00-00 00:00:00 format
- * @param unknown_type $end_visible 0000-00-00 00:00:00 format
- * @return false if fails
- * @author Toon Van Hoecke <Toon.VanHoecke@UGent.be>, Ghent University
- * @version January 2005
- * @desc update the item_properties table (if entry not exists, insert) of the course
- */
-function api_item_property_update($_course, $tool, $item_id, $lastedit_type, $user_id, $to_group_id = 0, $to_user_id = NULL, $start_visible = 0, $end_visible = 0)
-{
-	$time = time();
-	$time = date("Y-m-d H:i:s", $time);
-	$TABLE_ITEMPROPERTY = Database :: get_course_table(ITEM_PROPERTY_TABLE);
-	if ($to_user_id <= 0)
-		$to_user_id = NULL; //no to_user_id set
-	$start_visible = ($start_visible == 0) ? "0000-00-00 00:00:00" : $start_visible;
-	$end_visible = ($end_visible == 0) ? "0000-00-00 00:00:00" : $end_visible;
-	// set filters for $to_user_id and $to_group_id, with priority for $to_user_id
-	$filter = "tool='$tool' AND ref='$item_id'";
-	if ($item_id == "*")
-		$filter = "tool='$tool' AND visibility<>'2'"; // for all (not deleted) items of the tool
-	// check if $to_user_id and $to_group_id are passed in the function call
-	// if both are not passed (both are null) then it is a message for everybody and $to_group_id should be 0 !
-	if (is_null($to_user_id) && is_null($to_group_id))
-		$to_group_id = 0;
-	if (!is_null($to_user_id))
-		$to_filter = " AND to_user_id='$to_user_id'"; // set filter to intended user
-	else
-		if (!is_null($to_group_id))
-			$to_filter = " AND to_group_id='$to_group_id'"; // set filter to intended group
-	// update if possible
-	$set_type = "";
-	switch ($lastedit_type)
-	{
-		case "delete" : // delete = make item only visible for the platform admin
-			$visibility = '2';
-			$sql = "UPDATE $TABLE_ITEMPROPERTY
-										SET lastedit_date='$time', lastedit_user_id='$user_id', visibility='$visibility' $set_type
-										WHERE $filter";
-			break;
-		case "visible" : // change item to visible
-			$visibility = '1';
-			$sql = "UPDATE $TABLE_ITEMPROPERTY
-										SET lastedit_date='$time', lastedit_user_id='$user_id', visibility='$visibility' $set_type
-										WHERE $filter";
-			break;
-		case "invisible" : // change item to invisible
-			$visibility = '0';
-			$sql = "UPDATE $TABLE_ITEMPROPERTY
-										SET lastedit_date='$time', lastedit_user_id='$user_id', visibility='$visibility' $set_type
-										WHERE $filter";
-			break;
-		default : // item will be added or updated
-			$set_type = ", lastedit_type='$lastedit_type' ";
-			$visibility = '1';
-			$filter .= $to_filter;
-			$sql = "UPDATE $TABLE_ITEMPROPERTY
-										SET lastedit_date='$time', lastedit_user_id='$user_id' $set_type
-										WHERE $filter";
-	}
-
-	$res = mysql_query($sql);
-	// insert if no entries are found (can only happen in case of $lastedit_type switch is 'default')
-	if (mysql_affected_rows() == 0)
-	{
-		if (!is_null($to_user_id)) // $to_user_id has more priority than $to_group_id
-		{
-			$to_field = "to_user_id";
-			$to_value = $to_user_id;
-		}
-		else // $to_user_id is not set
-			{
-			$to_field = "to_group_id";
-			$to_value = $to_group_id;
-		}
-		$sql = "INSERT INTO $TABLE_ITEMPROPERTY
-						   		  			(tool,   ref,       insert_date,insert_user_id,lastedit_date,lastedit_type,   lastedit_user_id,$to_field,  visibility,   start_visible,   end_visible)
-						         	VALUES 	('$tool','$item_id','$time',    '$user_id',	   '$time',		 '$lastedit_type','$user_id',	   '$to_value','$visibility','$start_visible','$end_visible')";
-		$res = mysql_query($sql);
-		if (!$res)
-			return FALSE;
-	}
-	return TRUE;
-}
-
-/*
-==============================================================================
 		Language Dropdown
 ==============================================================================
 */
@@ -1403,8 +1091,4 @@ function string_2_boolean($string)
 		return false;
 	}
 }
-
-
-
-
 ?>
