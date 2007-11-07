@@ -64,56 +64,6 @@ require_once 'sortabletable.class.php';
 require_once(dirname(__FILE__).'/../../../common/footer.class.php');
 class Display
 {
-	function Display($user)
-	{
-		$this->user = $user;
-	}
-	/**
-	* Displays the tool introduction of a tool.
-	*
-	* @author Patrick Cool <patrick.cool@UGent.be>, Ghent University
-	* @param string $tool These are the constants that are used for indicating the tools
-	* @return html code for adding an introduction
-	*/
-	function display_introduction_section($tool, $is_allowed)
-	{
-		$moduleId = $tool;
-		include (api_get_include_path()."/introductionSection.inc.php");
-	}
-
-	/*
-	*	Displays a localised html file
-	*
-	*	tries to show the file "$full_file_name"."_".$language_interface.".html"
-	*	and if this does not exist, shows the file "$full_file_name".".html"
-	*
-	*	warning this function defines a global
-	*
-	*	@param $full_file_name, the (path) name of the file, without .html
-	*/
-	function display_localised_html_file($full_file_name)
-	{
-		global $language_interface;
-		$localised_file_name = $full_file_name."_".$language_interface.".html";
-		$default_file_name = $full_file_name.".html";
-		if (file_exists($localised_file_name))
-		{
-			include ($localised_file_name);
-		}
-		else
-			include ($default_file_name); //default
-	}
-
-	/**
-	*	Display simple html header of table.
-	*/
-	function display_table_header()
-	{
-		$bgcolor = "bgcolor='white'";
-		echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"4\" width=\"85%\"><tbody>";
-		return $bgcolor;
-	}
-
 	/**
 	*	Display html header of table with several options.
 	*
