@@ -46,6 +46,7 @@ abstract class ImageManipulation
 	 * @param int $width
 	 * @param int $height
 	 * @param int $type
+	 * @return boolean True if successfull, false if not
 	 */
 	function scale($width, $height, $type = ImageManipulation :: SCALE_INSIDE)
 	{
@@ -72,7 +73,7 @@ abstract class ImageManipulation
     		$height = (int)min($height, $this->height);
     		$width = (int)round($height / $aspect);
   		}
-  		$this->resize($width,$height);
+  		return $this->resize($width,$height);
 	}
 	/**
 	 * Creates a thumbnail from by rescaling the image to the given width &
@@ -82,6 +83,7 @@ abstract class ImageManipulation
 	 * @param int $width With of the resulting image
 	 * @param int $height Height of the resulting image (if null, the height
 	 * will be the same as the width, resulting in a square image)
+	 * @return boolean True if successfull, false if not
 	 */
 	function create_thumbnail($width,$height = null)
 	{
@@ -89,8 +91,11 @@ abstract class ImageManipulation
 		{
 			$height = $width;
 		}
-		$this->scale($width,$height,ImageManipulation::SCALE_OUTSIDE);
-		$this->crop($width,$height);
+		if($this->scale($width,$height,ImageManipulation::SCALE_OUTSIDE))
+		{
+			return $this->crop($width,$height);
+		}
+		return false;
 	}
 	/**
 	 * Crop an image to the rectangle specified by the given offsets and
@@ -99,18 +104,21 @@ abstract class ImageManipulation
 	 * @param int $height The height of the image after cropping
 	 * @param int $offset_x
 	 * @param int $offset_y
+	 * @return boolean True if successfull, false if not
 	 */
 	abstract function crop($width, $height, $offset_x = ImageManipulation :: CROP_CENTER, $offset_y = ImageManipulation :: CROP_CENTER);
 	/**
 	 * Resize an image to an exact set of dimensions, ignoring aspect ratio.
 	 * @param int $width The width of the image after resizing
 	 * @param int $height The height of the image after resizing
+	 * @return boolean True if successfull, false if not
 	 */
 	abstract function resize($width, $height);
 	/**
 	 * Write the resulting image (after some manipulations to a file)
 	 * @param string $source_file Full path of the file to which the image should be
 	 * written. If null, the original image will be overwritten.
+	 * @return boolean True if successfull, false if not
 	 */
 	abstract function write_to_file($source_file = null);
 	/**

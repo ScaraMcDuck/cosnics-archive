@@ -28,10 +28,14 @@ class GdImageManipulation extends ImageManipulation
   			$offset_y = ($this->height - $height)/2;
   		}
   		$result = imagecreatetruecolor($width, $height);
-  		imagecopy($result, $this->gd_image, 0, 0, $offset_x, $offset_y, $width, $height);
-  		$this->gd_image = $result;
-		$this->width = $width;
-		$this->height = $height;
+  		if(imagecopy($result, $this->gd_image, 0, 0, $offset_x, $offset_y, $width, $height))
+  		{
+	  		$this->gd_image = $result;
+			$this->width = $width;
+			$this->height = $height;
+			return true;
+  		}
+  		return false;
  	}
 	function resize($width,$height)
 	{
@@ -39,10 +43,14 @@ class GdImageManipulation extends ImageManipulation
     		return FALSE;
   		}
 		$result = imagecreatetruecolor($width, $height);
-		imagecopyresampled($result, $this->gd_image, 0, 0, 0, 0, $width, $height, $this->width, $this->height);
-		$this->gd_image = $result;
-		$this->width = $width;
-		$this->height = $height;
+		if(imagecopyresampled($result, $this->gd_image, 0, 0, 0, 0, $width, $height, $this->width, $this->height))
+		{
+			$this->gd_image = $result;
+			$this->width = $width;
+			$this->height = $height;
+			return true;
+		}
+		return false;
 	}
 	function write_to_file($file = null)
 	{
@@ -58,6 +66,9 @@ class GdImageManipulation extends ImageManipulation
   		}
 		return $create_function($this->gd_image,$file);
 	}
+	/**
+	 * Loads the image file in memory using the imagecreatefromXXX functions.
+	 */
 	private function load_gd_image()
 	{
 		$extension = $this->get_image_extension();
