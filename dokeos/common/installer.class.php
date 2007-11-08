@@ -11,6 +11,9 @@ class Installer {
     }
     /**
      * Parses an XML file describing a storage unit.
+     * For defining the 'type' of the field, the same definition is used as the
+     * PEAR::MDB2 package. See http://pear.php.net/manual/en/package.database.
+     * mdb2.datatypes.php
      * @param string $file The complete path to the XML-file from which the
      * storage unit definition should be read.
      * @return array An with values for the keys 'name','properties' and
