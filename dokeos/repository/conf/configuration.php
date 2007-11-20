@@ -25,10 +25,10 @@ $configuration['database']['connection_string_user']
 
 $configuration['database']['connection_string_personal_calendar']
 	= 'mysql://root:@localhost/dokeos_personal_calendar';
-	
+
 $configuration['database']['connection_string_personal_messenger']
 	= 'mysql://root:@localhost/dokeos_personal_messenger';
-	
+
 $configuration['database']['connection_string_profiler']
 	= 'mysql://root:@localhost/dokeos_profiler';
 
@@ -36,9 +36,9 @@ $configuration['database']['table_name_prefix']
 	= 'dokeos_';
 
 $configuration['general']['upload_path']
-	= dirname(__FILE__).'/../../main/upload';
+	= dirname(__FILE__).'/../../files/repository';
 
 $configuration['general']['upload_url']
-	= api_get_path(WEB_PATH).'main/upload';
+	= api_get_path(WEB_PATH).'files/repository';
 
 ?>
