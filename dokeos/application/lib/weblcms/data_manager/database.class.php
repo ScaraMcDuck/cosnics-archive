@@ -2150,5 +2150,57 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		return ($name == LearningObject :: PROPERTY_CREATION_DATE || $name == LearningObject :: PROPERTY_MODIFICATION_DATE);
 	}
+	
+	/**
+	 * Creates a learning object publication feedback in persistent storage.
+	 * @param LearningObjectPublicationFeedback $publication_feedback The publication feedback to make
+	 * persistent.
+	 * @return boolean True if creation succceeded, false otherwise.
+	*/
+	function create_learning_object_publication_feedback($publication_feedback)
+	{
+		$props = array ();
+		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_ID)] = $publication_feedback->get_id();
+		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_PUBLICATION_OBJECT_ID)] = $publication_feedback->get_publication();
+		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_LEARNING_OBJECT_ID)] = $publication_feedback->get_learning_object();
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication'), $props, MDB2_AUTOQUERY_INSERT);
+		return true;
+	}
+
+	/**
+	 * Updates a learning object publication in persistent storage.
+	 * @param LearningObjectPublicationFeedback $publication The publication feedback to update
+	 * in storage.
+	 * @return boolean True if the update succceeded, false otherwise.
+	*/
+	function update_learning_object_publication($publication_feedback)
+	{
+		$where = $this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_ID).'='.$publication_feedback->get_id();
+		$props = array();
+		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_ID)] = $publication_feedback->get_id();
+		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_PUBLICATION_OBJECT_ID)] = $publication_feedback->get_publication();
+		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_LEARNING_OBJECT_ID)] = $publication_feedback->get_learning_object();
+		$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_feedback'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+		return true;
+	}
+
+	/**
+	 * Removes learning object publication feedback from persistent storage.
+	 * @param LearningObjectPublicationFeedback $publication_feedback The publication feedback to remove
+	 * from storage.
+	 * @return boolean True if deletion succceeded, false otherwise.
+	*/
+	function delete_learning_object_publication($publication_feedback)
+	{
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_feedback').' WHERE id = ?';
+		$statement = $this->connection->prepare($query);
+		$statement->execute($publication_feedback->get_id());
+		return true;
+	}
+	
+	function get_next_learning_object_publication_feedback_id(){
+		return $this->connection->nextID($this->get_table_name('learning_object_publication_feedback'));
+	} 
 }
 ?>

@@ -246,6 +246,16 @@ abstract class LearningObjectPublicationListRenderer
 		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete.gif"  alt=""/></a>';
 		return $delete_link;
 	}
+	
+	/**
+	 * Renders the means to give feedback to the given publication
+	 * @param LearningObjectPublication $publication The publication
+	 * 
+	 */
+	function render_feedback_action($publication){
+		$feedback_link = "details";	
+		return $feedback_link;	
+	}
 
 	/**
 	 * Renders the means to move the given publication to another category.
@@ -317,6 +327,7 @@ abstract class LearningObjectPublicationListRenderer
 			$html[] = $this->render_visibility_action($publication);
 			$html[] = $this->render_up_action($publication,$first);
 			$html[] = $this->render_down_action($publication,$last);
+			$html[] = $this->render_feedback_action($publication);
 			$html[] = $this->render_move_to_category_action($publication,$last);
 		}
 		$html[] = '</span>';

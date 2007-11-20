@@ -9,16 +9,26 @@ require_once dirname(__FILE__).'/../../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../../learningobjectpublicationbrowser.class.php';
 require_once dirname(__FILE__).'/../../browser/learningobjectpublicationcategorytree.class.php';
 require_once dirname(__FILE__).'/documentpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/../../browser/list_renderer/learningobjectpublicationdetailsrenderer.class.php';
 
 class DocumentBrowser extends LearningObjectPublicationBrowser
 {
+
 	function DocumentBrowser($parent, $types)
 	{
 		parent :: __construct($parent, 'document');
 		$tree_id = 'pcattree';
 		$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
 		$parent->set_parameter($tree_id, $_GET[$tree_id]);
-		$renderer = new DocumentPublicationListRenderer($this);
+		if(isset($_GET['pid']))
+		{
+			$this->set_publication_id($_GET['pid']);
+			$renderer = new LearningObjectPublicationDetailsRenderer($this);
+		}
+		else
+		{
+			$renderer = new DocumentPublicationListRenderer($this);
+		}
 		$this->set_publication_list_renderer($renderer);
 		$this->set_publication_category_tree($tree);
 	}

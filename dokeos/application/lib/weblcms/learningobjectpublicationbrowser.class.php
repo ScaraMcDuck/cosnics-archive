@@ -40,6 +40,8 @@ abstract class LearningObjectPublicationBrowser
 	 * The tool that instantiated this browser.
 	 */
 	private $parent;
+	
+	private $publication_id; 
 
 	/**
 	 * Constructor.
@@ -98,6 +100,17 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->categoryTree;
 	}
+	
+	function get_publication_id()
+	{
+		return $this->publication_id;
+	}
+	
+	function set_publication_id($publication_id)
+	{
+		$this->publication_id = $publication_id;  
+	}
+	
 	/**
 	 * Sets the publication category tree.
 	 * @param LearningObjectPublicationCategoryTree $tree The category tree.
