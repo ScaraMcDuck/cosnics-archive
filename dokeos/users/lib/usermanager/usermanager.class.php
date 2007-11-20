@@ -37,6 +37,7 @@ require_once dirname(__FILE__).'/../../../common/condition/likecondition.class.p
 	const ACTION_REGISTER_USER = 'register';
 	const ACTION_VIEW_ACCOUNT = 'account';
 	const ACTION_USER_QUOTA = 'quota';
+	const ACTION_RESET_PASSWORD = 'reset_password';
 
 
 	private $parameters;
@@ -101,6 +102,9 @@ require_once dirname(__FILE__).'/../../../common/condition/likecondition.class.p
 				break;
 			case self :: ACTION_VIEW_ACCOUNT :
 				$component = UserManagerComponent :: factory('Account', $this);
+				break;
+			case self :: ACTION_RESET_PASSWORD :
+				$component = UserManagerComponent :: factory('ResetPassword', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_USERS);

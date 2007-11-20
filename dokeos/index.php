@@ -86,7 +86,7 @@ function display_anonymous_right_menu()
 			}
 			if (get_setting('allow_lostpassword') == 'true')
 			{
-				echo "<li><a href=\"main/auth/lostPassword.php\">".get_lang("LostPassword")."</a></li>";
+				echo '<li><a href="index_user.php?go=reset_password">'.get_lang('LostPassword').'</a></li>';
 			}
 			echo '</ul></div>';
 		}
