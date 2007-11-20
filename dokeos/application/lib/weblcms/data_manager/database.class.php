@@ -2174,7 +2174,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	 * in storage.
 	 * @return boolean True if the update succceeded, false otherwise.
 	*/
-	function update_learning_object_publication($publication_feedback)
+	function update_learning_object_publication_feedback($publication_feedback)
 	{
 		$where = $this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_ID).'='.$publication_feedback->get_id();
 		$props = array();
@@ -2191,7 +2191,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	 * from storage.
 	 * @return boolean True if deletion succceeded, false otherwise.
 	*/
-	function delete_learning_object_publication($publication_feedback)
+	function delete_learning_object_publication_feedback($publication_feedback)
 	{
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_feedback').' WHERE id = ?';
 		$statement = $this->connection->prepare($query);
