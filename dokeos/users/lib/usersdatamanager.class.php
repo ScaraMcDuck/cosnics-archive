@@ -178,8 +178,16 @@ abstract class UsersDataManager
 	/**
 	 * Retrieves a user by his or her username.
 	 * @param $username the username to retrieve the info from
+	 * @return User|null
 	 */
 	abstract function retrieve_user_by_username($username);
+
+	/**
+	 * Retrieves a user by his or her email.
+	 * @param $email the email to retrieve the info from
+	 * @return User|null
+	 */
+	abstract function retrieve_user_by_email($email);
 
 	/**
 	 * Retrieves users.
