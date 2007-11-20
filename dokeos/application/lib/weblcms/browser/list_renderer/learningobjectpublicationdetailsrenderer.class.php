@@ -66,7 +66,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 	 */
 	function render_publication_feedback($publication){
 		$html = array();
-		$html[] = 'lijst met feedback LO';
+		$html[] = $publication->get_feedback();
 		return implode("\n", $html);
 	}
 }

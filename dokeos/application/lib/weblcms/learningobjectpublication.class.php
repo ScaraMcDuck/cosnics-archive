@@ -340,5 +340,10 @@ class LearningObjectPublication
 	{
 		return WeblcmsDataManager :: get_instance()->move_learning_object_publication($this, $places);
 	}
+	
+	function get_feedback()
+	{
+		return WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_feedback($this);
+	}
 }
 ?>

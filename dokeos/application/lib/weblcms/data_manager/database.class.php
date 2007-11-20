@@ -2199,8 +2199,19 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return true;
 	}
 	
-	function get_next_learning_object_publication_feedback_id(){
+	function get_next_learning_object_publication_feedback_id()
+	{
 		return $this->connection->nextID($this->get_table_name('learning_object_publication_feedback'));
 	} 
+	
+	function retrieve_learning_object_publication_feedback($publication_id)
+	{
+		$query = 'SELECT * FROM '. $this->escape_table_name('learning_object_publication_feedback');
+		$query .= ' WHERE '.$this->escape_table_name('learning_object_publication_feedback').'.'.$this->escape_column_name(LearningObjectPublicationFeedback :: PROPERTY_PUBLICATION_ID).'=?';
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($publication_id);
+		return new DatabasePublicatoinFeedbackRelationResultSet($this, $res);	
+		
+	}
 }
 ?>
