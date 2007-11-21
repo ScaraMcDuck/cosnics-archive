@@ -28,14 +28,16 @@ class LearningObjectPublicationFeedback
 	 * Constructor
 	 * @param int $id The id of this learning object publiction
 	 * @param int $publication The id of the publication 
-	 * @param LearningObject $learningObject The learning object which is published by this publication
+	 * @param int $learningObject_id The learning object id which is published by this publication
 	 */
-	function LearningObjectPublicationFeedback($id, $publication, $learningObject)
+	function LearningObjectPublicationFeedback($id, $publication, $learningObject_id)
 	{
 		$this->id = $id;
 		$this->publication = $publication;
-		$this->learningObject = $learningObject;
+		$dm = RepositoryDataManager :: get_instance();	
+		$this->learningObject = $dm->retrieve_learning_object($learningObject_id);	
 	}
+	
    /**
     * Gets the publication feedback id.
     * @return int

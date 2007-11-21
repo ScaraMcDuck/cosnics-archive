@@ -20,6 +20,8 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$publication = $dm->retrieve_learning_object_publication($publication_id);
 		$html[] = $this->render_publication($publication);
 		$html[] = $this->render_publication_feedback($publication);
+		$form = LearningObjectForm::factory(LearningObjectForm :: TYPE_CREATE,new AbstractLearningObject('feedback',api_get_user_id()),'new_feedback');
+		$html[] = $form->toHtml();  	
 		return implode("\n", $html);
 	}
 
@@ -66,7 +68,15 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 	 */
 	function render_publication_feedback($publication){
 		$html = array();
-		$html[] = $publication->get_feedback();
+		$feedback_publication_array = array();
+		$feedback_publication_array = $publication->get_feedback();
+		foreach($feedback_publication_array as $index=>$feedback_publication )
+		{
+			$learning_object = $feedback_publication->get_learning_object();
+			$display = LearningObjectDisplay::factory($learning_object);
+			$html[] = $display->get_full_html(); 
+			$html[] = '<br />';
+		}	
 		return implode("\n", $html);
 	}
 }
