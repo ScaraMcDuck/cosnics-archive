@@ -10,12 +10,28 @@ require_once dirname(__FILE__).'/feedback.class.php';
  */
 class FeedbackForm extends LearningObjectForm
 {
-	// Inherited
+	protected function build_creation_form()
+	{
+		parent :: build_creation_form();
+		$this->addElement('select',Feedback :: PROPERTY_ICON,get_lang('icon'),Feedback::get_possible_icons());
+	}
+	protected function build_editing_form()
+	{
+		parent :: build_editing_form();
+		$this->addElement('select',Feedback :: PROPERTY_ICON,get_lang('icon'),Feedback::get_possible_icons());
+	}
 	function create_learning_object()
 	{
 		$object = new Feedback();
+		$object->set_icon($this->exportValue(Feedback :: PROPERTY_ICON));
 		$this->set_learning_object($object);
 		return parent :: create_learning_object();
+	}
+	function update_learning_object()
+	{
+		$object = $this->get_learning_object();
+		$object->set_icon($this->exportValue(Feedback :: PROPERTY_ICON));
+		return parent :: update_learning_object();
 	}
 }
 ?>
