@@ -13,6 +13,7 @@ require_once dirname(__FILE__).'/database/databaselearningobjectpublicationresul
 require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublication.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublicationcategory.class.php';
+require_once dirname(__FILE__).'/../learningobjectpublicationfeedback.class.php';
 require_once dirname(__FILE__).'/../course/course.class.php';
 require_once dirname(__FILE__).'/../course/coursecategory.class.php';
 require_once dirname(__FILE__).'/../course/courseusercategory.class.php';
@@ -2207,11 +2208,24 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function retrieve_learning_object_publication_feedback($publication_id)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('learning_object_publication_feedback');
-		$query .= ' WHERE '.$this->escape_table_name('learning_object_publication_feedback').'.'.$this->escape_column_name(LearningObjectPublicationFeedback :: PROPERTY_PUBLICATION_ID).'=?';
+		$query .= ' WHERE '.$this->escape_table_name('learning_object_publication_feedback').'.'.$this->escape_column_name(LearningObjectPublicationFeedback :: PROPERTY_PUBLICATION_OBJECT_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($publication_id);
-		return new DatabasePublicatoinFeedbackRelationResultSet($this, $res);	
-		
+		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$publication_feedback_object = $this->record_to_publication_feedback($record); 	
+			$feedback_array[] = $publication_feedback_object;
+		}
+		return $feedback_array; 
+	}
+	
+	function record_to_publication_feedback($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		return new LearningObjectPublicationFeedback($record[LearningObjectPublicationFeedback :: PROPERTY_ID], $record[LearningObjectPublicationFeedback::PROPERTY_PUBLICATION_OBJECT_ID], $record[LearningObjectPublicationFeedback::PROPERTY_LEARNING_OBJECT_ID]);
 	}
 }
 ?>

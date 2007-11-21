@@ -343,7 +343,7 @@ class LearningObjectPublication
 	
 	function get_feedback()
 	{
-		return WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_feedback($this);
+		return WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_feedback($this->get_id());
 	}
 }
 ?>
