@@ -97,7 +97,7 @@ abstract class Tool
 	{
 		$this->parent->display_footer();
 	}
-	
+
 	/**
 	 * Informs the user that access to the page was denied.
 	 */
@@ -208,6 +208,30 @@ abstract class Tool
 	 */
 	private function load_rights()
 	{
+		/**
+		 * Here we set the rights depending on the user status in the course.
+		 * This completely ignores the roles-rights library.
+		 * TODO: WORK NEEDED FOR PROPPER ROLES-RIGHTS LIBRARY
+		 */
+		$user = $this->get_user();
+		$course = $this->get_course();
+		$relation = $this->parent->retrieve_course_user_relation($course->get_id(),$user->get_user_id());
+		$this->rights[VIEW_RIGHT] = false;
+		$this->rights[EDIT_RIGHT] = false;
+		$this->rights[ADD_RIGHT] = false;
+		$this->rights[DELETE_RIGHT] = false;
+		if($relation->get_status() == 5)
+		{
+			$this->rights[VIEW_RIGHT] = true;
+		}
+		if($relation->get_status() == 1 || $user->is_admin())
+		{
+			$this->rights[VIEW_RIGHT] = true;
+			$this->rights[EDIT_RIGHT] = true;
+			$this->rights[ADD_RIGHT] = true;
+			$this->rights[DELETE_RIGHT] = true;
+		}
+		return;
 		$tool_id = $this->get_tool_id();
 		//TODO: phase out, because hardcoding tool names is hardly modular
 		switch ($tool_id) {
