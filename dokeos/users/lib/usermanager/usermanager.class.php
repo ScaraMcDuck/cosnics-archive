@@ -381,11 +381,13 @@ require_once dirname(__FILE__).'/../../../common/condition/likecondition.class.p
 	 */
 	function get_url($additional_parameters = array (), $include_search = false, $encode_entities = false, $x = null)
 	{
+		$url = parse_url(api_get_path(WEB_PATH));
+		$url = $url['scheme'].'://'.$url['host'];
 		$eventual_parameters = array_merge($this->get_parameters($include_search), $additional_parameters);
-		$url = $_SERVER['PHP_SELF'].'?'.http_build_query($eventual_parameters);
+		$url .= $_SERVER['PHP_SELF'].'?'.http_build_query($eventual_parameters);
 		if ($encode_entities)
 		{
-			$url = htmlentities($url);
+			$url .= htmlentities($url);
 		}
 
 		return $url;
