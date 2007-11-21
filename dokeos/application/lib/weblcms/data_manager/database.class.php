@@ -2165,7 +2165,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_PUBLICATION_OBJECT_ID)] = $publication_feedback->get_publication();
 		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_LEARNING_OBJECT_ID)] = $publication_feedback->get_learning_object();
 		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication'), $props, MDB2_AUTOQUERY_INSERT);
+		$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_feedback'), $props, MDB2_AUTOQUERY_INSERT);
 		return true;
 	}
 
