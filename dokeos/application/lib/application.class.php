@@ -5,12 +5,9 @@
  */
 require_once(dirname(__FILE__).'/../../common/filesystem/filesystem.class.php');
 /**
-==============================================================================
- *	This is the base class for all applications based on the learning object
- *	repository.
- *
- *	@author Tim De Pauw
-==============================================================================
+ * This	is the base class for all applications based on the learning object
+ * repository.
+ * @author Tim De Pauw
  */
 abstract class Application
 {
@@ -42,15 +39,32 @@ abstract class Application
 	 *               empty if the object has not been published anywhere.
 	 */
 	abstract function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-
+	/**
+	 * Determines where in this application the given learning object
+	 * publication is published.
+	 * @param int $publication_id The ID of the learning object publication.
+	 * @return LearningObjectPublicationAttributes
+	 */
 	abstract function get_learning_object_publication_attribute($publication_id);
-
+	/**
+	 * Counts the number of publications
+	 * @param string $type
+	 * @param Condition $condition
+	 * @return int
+	 */
 	abstract function count_publication_attributes($type = null, $condition = null);
-
+	/**
+	 * Deletes all publications of a given learning object
+	 * @param int $object_id The id of the learning object
+	 */
 	abstract function delete_learning_object_publications($object_id);
-
+	/**
+	 *
+	 */
 	abstract function update_learning_object_publication_id($publication_attr);
-
+	/**
+	 * Gets the links to admin-components of this application
+	 */
 	abstract function get_application_platform_admin_links();
 	/**
 	 * Loads the applications installed on the system. Applications are classes
