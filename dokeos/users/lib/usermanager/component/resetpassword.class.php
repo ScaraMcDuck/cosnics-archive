@@ -67,23 +67,26 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 		{
 			$udm = UsersDataManager :: get_instance();
 			$values = $form->exportValues();
-			$user = $udm->retrieve_user_by_email($values[User :: PROPERTY_EMAIL]);
-			if(is_null($user))
+			$users = $udm->retrieve_users_by_email($values[User :: PROPERTY_EMAIL]);
+			if(count($users) == 0)
 			{
 				Display::display_error_message('NoUserWithThisEmail');
 			}
 			else
 			{
-				$auth_source = $user->get_auth_source();
-				$auth = Authentication::factory($auth_source);
-				if(!$auth->is_password_changeable())
+				foreach($users as $index => $user)
 				{
-					Display::display_error_message('ResetPasswordNotPossibleForThisUser');
-				}
-				else
-				{
-					$this->send_reset_link($user);
-					Display::display_normal_message('ResetLinkHasBeenSend');
+					$auth_source = $user->get_auth_source();
+					$auth = Authentication::factory($auth_source);
+					if(!$auth->is_password_changeable())
+					{
+						Display::display_error_message('ResetPasswordNotPossibleForThisUser');
+					}
+					else
+					{
+						$this->send_reset_link($user);
+						Display::display_normal_message('ResetLinkHasBeenSend');
+					}
 				}
 			}
 		}
@@ -127,6 +130,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 		$url = $this->get_url($url_params);
 		$mail_subject = get_lang('LoginRequest');
 		$mail_body[] = $user->get_fullname().',';
+		$mail_body[] = get_lang('UserName').' :'.$user->get_username();
 		$mail_body[] = get_lang('YourAccountParam').' '.api_get_path(WEB_PATH).': '.$url;
 		$mail_body = implode("\n",$mail_body);
 		$mail = Mail::factory($mail_subject,$mail_body,$user->get_email());
