@@ -20,6 +20,15 @@ class FeedbackForm extends LearningObjectForm
 		parent :: build_editing_form();
 		$this->addElement('select',Feedback :: PROPERTY_ICON,get_lang('icon'),Feedback::get_possible_icons());
 	}
+	function setDefaults($defaults = array ())
+	{
+		$lo = $this->get_learning_object();
+		if (isset($lo))
+		{
+			$defaults[Feedback :: PROPERTY_ICON] = $lo->get_icon();
+		}
+		parent :: setDefaults($defaults);
+	}
 	function create_learning_object()
 	{
 		$object = new Feedback();
