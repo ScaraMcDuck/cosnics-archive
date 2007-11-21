@@ -276,18 +276,18 @@ class DatabaseUsersDataManager extends UsersDataManager
 		return null;
 	}
 	//Inherited.
-	function retrieve_user_by_email($email)
+	function retrieve_users_by_email($email)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('user').' AS '.self :: ALIAS_USER_TABLE.' WHERE '.$this->escape_column_name(User :: PROPERTY_EMAIL).'=?';
-		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($email);
-		if($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		$users = array();
+		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$res->free();
-			return self :: record_to_user($record);
+			$users[] = self :: record_to_user($record);
 		}
-		return null;
+		$res->free();
+		return $users;
 	}
 
 	/**
