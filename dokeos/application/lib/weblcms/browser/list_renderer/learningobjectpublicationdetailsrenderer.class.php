@@ -22,6 +22,14 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$html[] = $this->render_publication_feedback($publication);
 		$form = LearningObjectForm::factory(LearningObjectForm :: TYPE_CREATE,new AbstractLearningObject('feedback',api_get_user_id()),'new_feedback');
 		$html[] = $form->toHtml();  	
+		if($form->validate())
+		{
+			//creation feedback object
+			$feedback = $form->create_learning_object();
+			//creation publication feedback object
+			$publication_feedback = new LearningObjectPublicationFeedBack(0,$this->browser->get_publication_id(),$feedback->get_id());
+			$publication_feedback->create();
+		}
 		return implode("\n", $html);
 	}
 
