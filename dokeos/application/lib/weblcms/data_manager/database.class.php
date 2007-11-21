@@ -2151,7 +2151,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		return ($name == LearningObject :: PROPERTY_CREATION_DATE || $name == LearningObject :: PROPERTY_MODIFICATION_DATE);
 	}
-	
+
 	/**
 	 * Creates a learning object publication feedback in persistent storage.
 	 * @param LearningObjectPublicationFeedback $publication_feedback The publication feedback to make
@@ -2163,7 +2163,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$props = array ();
 		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_ID)] = $publication_feedback->get_id();
 		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_PUBLICATION_OBJECT_ID)] = $publication_feedback->get_publication();
-		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_LEARNING_OBJECT_ID)] = $publication_feedback->get_learning_object();
+		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_LEARNING_OBJECT_ID)] = $publication_feedback->get_learning_object_id();
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_feedback'), $props, MDB2_AUTOQUERY_INSERT);
 		return true;
@@ -2181,7 +2181,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$props = array();
 		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_ID)] = $publication_feedback->get_id();
 		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_PUBLICATION_OBJECT_ID)] = $publication_feedback->get_publication();
-		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_LEARNING_OBJECT_ID)] = $publication_feedback->get_learning_object();
+		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_LEARNING_OBJECT_ID)] = $publication_feedback->get_learning_object_id();
 		$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_feedback'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 		return true;
 	}
@@ -2199,12 +2199,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$statement->execute($publication_feedback->get_id());
 		return true;
 	}
-	
+
 	function get_next_learning_object_publication_feedback_id()
 	{
 		return $this->connection->nextID($this->get_table_name('learning_object_publication_feedback'));
-	} 
-	
+	}
+
 	function retrieve_learning_object_publication_feedback($publication_id)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('learning_object_publication_feedback');
@@ -2213,12 +2213,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$res = $statement->execute($publication_id);
 		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$publication_feedback_object = $this->record_to_publication_feedback($record); 	
+			$publication_feedback_object = $this->record_to_publication_feedback($record);
 			$feedback_array[] = $publication_feedback_object;
 		}
-		return $feedback_array; 
+		return $feedback_array;
 	}
-	
+
 	function record_to_publication_feedback($record)
 	{
 		if (!is_array($record) || !count($record))

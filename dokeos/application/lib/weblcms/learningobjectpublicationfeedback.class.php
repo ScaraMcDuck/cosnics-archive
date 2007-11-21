@@ -14,30 +14,30 @@ class LearningObjectPublicationFeedback
 	const PROPERTY_PUBLICATION_OBJECT_ID = 'publication';
 	const PROPERTY_LEARNING_OBJECT_ID = 'learning_object';
 	/**#@-*/
-   
+
    /**#@+
     * Property of this publication. See {@link LearningObjectPublication} for
     * more information about this property.
  	*/
 	private $id;
-	private $publication; 
+	private $publication;
 	private $learningObject;
 	/**#@-*/
-	
+
 	/**
 	 * Constructor
 	 * @param int $id The id of this learning object publiction
-	 * @param int $publication The id of the publication 
+	 * @param int $publication The id of the publication
 	 * @param int $learningObject_id The learning object id which is published by this publication
 	 */
 	function LearningObjectPublicationFeedback($id, $publication, $learningObject_id)
 	{
 		$this->id = $id;
 		$this->publication = $publication;
-		$dm = RepositoryDataManager :: get_instance();	
-		$this->learningObject = $dm->retrieve_learning_object($learningObject_id);	
+		$dm = RepositoryDataManager :: get_instance();
+		$this->learningObject = $dm->retrieve_learning_object($learningObject_id);
 	}
-	
+
    /**
     * Gets the publication feedback id.
     * @return int
@@ -62,7 +62,11 @@ class LearningObjectPublicationFeedback
 	{
 		return $this->learningObject;
 	}
-	
+	function get_learning_object_id()
+	{
+		return $this->get_learning_object()->get_id();
+	}
+
    /**
     * Sets a property of this learning object publication.
     * See constructor for detailed information about the property.
@@ -77,7 +81,7 @@ class LearningObjectPublicationFeedback
 	{
 		$this->learningObject = $learningObject;
 	}
-	
+
 	function set_publication($publication)
 	{
 		$this->publication = $publication;

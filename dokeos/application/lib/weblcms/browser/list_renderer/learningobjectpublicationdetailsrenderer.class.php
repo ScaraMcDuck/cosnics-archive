@@ -18,10 +18,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$publication_id = $this->browser->get_publication_id();
 		$dm = WeblcmsDataManager :: get_instance();
 		$publication = $dm->retrieve_learning_object_publication($publication_id);
-		$html[] = $this->render_publication($publication);
-		$html[] = $this->render_publication_feedback($publication);
 		$form = LearningObjectForm::factory(LearningObjectForm :: TYPE_CREATE,new AbstractLearningObject('feedback',api_get_user_id()),'new_feedback','post',$this->browser->get_url(array('pid'=>$this->browser->get_publication_id())));
-		$html[] = $form->toHtml();  	
 		if($form->validate())
 		{
 			//creation feedback object
@@ -29,7 +26,11 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 			//creation publication feedback object
 			$publication_feedback = new LearningObjectPublicationFeedBack(null,$this->browser->get_publication_id(),$feedback->get_id());
 			$publication_feedback->create();
+			$html[] = Display::display_normal_message(get_lang('FeedbackAdded'),true);
 		}
+		$html[] = $this->render_publication($publication);
+		$html[] = $this->render_publication_feedback($publication);
+		$html[] = $form->toHtml();
 		return implode("\n", $html);
 	}
 
@@ -68,11 +69,11 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$html[] = '</div>';
 		return implode("\n", $html);
 	}
-	
+
 	/**
 	 * Renders a list of all LearningObjects of the type 'feedback' attached to this LearningObject
 	 * @param  LearningObjectPublication $publication The publication.
-	 * @return string The rendered HTLM. 
+	 * @return string The rendered HTLM.
 	 */
 	function render_publication_feedback($publication){
 		$html = array();
@@ -82,9 +83,9 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		{
 			$learning_object = $feedback_publication->get_learning_object();
 			$display = LearningObjectDisplay::factory($learning_object);
-			$html[] = $display->get_full_html(); 
+			$html[] = $display->get_full_html();
 			$html[] = '<br />';
-		}	
+		}
 		return implode("\n", $html);
 	}
 }
