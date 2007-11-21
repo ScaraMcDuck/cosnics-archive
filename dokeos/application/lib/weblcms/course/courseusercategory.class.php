@@ -28,7 +28,7 @@ class CourseUserCategory {
 	const PROPERTY_USER = 'user_id';
 	const PROPERTY_SORT = 'sort';
 	const PROPERTY_TITLE = 'title';
-	
+
 	private $id;
 	private $defaultProperties;
 
@@ -44,7 +44,7 @@ class CourseUserCategory {
     	$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
     }
-    
+
     /**
 	 * Gets a default property of this course user category object by name.
 	 * @param string $name The name of the property.
@@ -53,7 +53,7 @@ class CourseUserCategory {
 	{
 		return $this->defaultProperties[$name];
 	}
-	
+
 	/**
 	 * Gets the default properties of this course user category object.
 	 * @return array An associative array containing the properties.
@@ -72,7 +72,7 @@ class CourseUserCategory {
 	{
 		$this->defaultProperties[$name] = $value;
 	}
-	
+
 	/**
 	 * Get the default properties of all user course user categories.
 	 * @return array The property names.
@@ -81,16 +81,16 @@ class CourseUserCategory {
 	{
 		return array (self :: PROPERTY_ID, self :: PROPERTY_USER, self :: PROPERTY_SORT, self :: PROPERTY_TITLE);
 	}
-    
+
 	/**
 	 * Returns the id of this course user category object
 	 * @return int
-	 */ 
+	 */
     function get_id()
     {
     	return $this->id;
     }
-    
+
     /**
      * Sets the id of this course user category object
      * @param int $id
@@ -99,16 +99,16 @@ class CourseUserCategory {
 	{
 		$this->id = $id;
 	}
-	
+
 	/**
 	 * Returns the user of this course user category object
 	 * @return int
-	 */ 
+	 */
     function get_user()
     {
     	return $this->get_default_property(self :: PROPERTY_USER);
     }
-	
+
     /**
      * Sets the user of this course user category object
      * @param int $user
@@ -117,16 +117,16 @@ class CourseUserCategory {
 	{
 		$this->set_default_property(self :: PROPERTY_USER, $user);
 	}
-	
+
 	/**
 	 * Returns the sort order of this course user category object
 	 * @return int
-	 */ 
+	 */
     function get_sort()
     {
     	return $this->get_default_property(self :: PROPERTY_SORT);
     }
-	
+
     /**
      * Sets the sort order of this course user category object
      * @param int $sort
@@ -135,16 +135,16 @@ class CourseUserCategory {
 	{
 		$this->set_default_property(self :: PROPERTY_SORT, $sort);
 	}
-	
+
 	/**
 	 * Returns the title of this course user category object
 	 * @return string
-	 */ 
+	 */
     function get_title()
     {
     	return $this->get_default_property(self :: PROPERTY_TITLE);
     }
-	
+
     /**
      * Sets the title of this course user category object
      * @param string $title
@@ -153,15 +153,15 @@ class CourseUserCategory {
 	{
 		$this->set_default_property(self :: PROPERTY_TITLE, $title);
 	}
-	
+
 	/**
 	 * Updates the course user category object in persistent storage
 	 * @return boolean
 	 */
-	function update($var)
+	function update()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		$success = $wdm->update_course_user_category($var);
+		$success = $wdm->update_course_user_category($this);
 		if (!$success)
 		{
 			return false;
@@ -169,15 +169,15 @@ class CourseUserCategory {
 
 		return true;
 	}
-	
+
 	/**
 	 * Creates the course user category object in persistent storage
 	 * @return boolean
 	 */
-	function create($var)
+	function create()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		$success = $wdm->create_course_user_category($var);
+		$success = $wdm->create_course_user_category($this);
 		if (!$success)
 		{
 			return false;
@@ -185,15 +185,15 @@ class CourseUserCategory {
 
 		return true;
 	}
-	
+
 	/**
 	 * Deletes the course user category object from persistent storage
 	 * @return boolean
 	 */
-	function delete($var)
+	function delete()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		$success = $wdm->delete_course_user_category($var);
+		$success = $wdm->delete_course_user_category($this);
 		if (!$success)
 		{
 			return false;
