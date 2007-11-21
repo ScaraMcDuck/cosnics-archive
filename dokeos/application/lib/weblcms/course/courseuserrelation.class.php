@@ -250,13 +250,12 @@ class CourseUserRelation {
 
 	/**
 	 * Updates the course user relation object in persistent storage
-	 * @param CourseUserRelation $this The object
 	 * @return boolean
 	 */
-	function update($var)
+	function update()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		$success = $wdm->update_course_user_relation($var);
+		$success = $wdm->update_course_user_relation($this);
 		if (!$success)
 		{
 			return false;
@@ -267,13 +266,12 @@ class CourseUserRelation {
 
 	/**
 	 * Creates the course user relation object in persistent storage
-	 * @param CourseUserRelation $this The object
 	 * @return boolean
 	 */
-	function create($var)
+	function create()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		$success = $wdm->create_course_user_category($var);
+		$success = $wdm->create_course_user_category($this);
 		if (!$success)
 		{
 			return false;
@@ -284,13 +282,12 @@ class CourseUserRelation {
 
 	/**
 	 * Deletes the course user relation object from persistent storage
-	 * @param CourseUserRelation $this The object
 	 * @return boolean
 	 */
-	function delete($var)
+	function delete()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		$success = $wdm->delete_course_user_category($var);
+		$success = $wdm->delete_course_user_category($this);
 		if (!$success)
 		{
 			return false;
