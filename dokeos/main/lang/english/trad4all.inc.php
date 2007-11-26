@@ -360,4 +360,8 @@ $wiki = "Wiki";
 $WithSelected = "With selected";
 $YouHaveNewMessage = "You have a new message!";
 $YZ='Y-Z';
+$LearningObjectPublicationDetails = "Publication details";
+$LearningObjectPublicationListFeedback = "Publication feedback overview";
+$LearningObjectPublicationNoFeedback = "No feedback for this publication";
+$LearningObjectPublicationAddFeedback = "Add new feedback to this publication";
 ?>

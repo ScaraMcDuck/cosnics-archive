@@ -253,7 +253,8 @@ abstract class LearningObjectPublicationListRenderer
 	 * 
 	 */
 	function render_feedback_action($publication){
-		$feedback_link = "details";	
+		$feedback_url = $this->get_url(array (RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+		$feedback_link = '<a href="'.$feedback_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/browser.gif" alt=""/></a>';
 		return $feedback_link;	
 	}
 

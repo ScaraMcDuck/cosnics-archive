@@ -30,6 +30,7 @@ abstract class RepositoryTool extends Tool
 	const ACTION_MOVE_TO_CATEGORY = 'move_to_category';
 	const ACTION_MOVE_SELECTED_TO_CATEGORY = 'move_selected_to_category';
 	const ACTION_SHOW_NORMAL_MESSAGE = 'show_normal_message';
+	const ACTION_SHOW_DETAIL_FEEDBACK = 'show_detail_and_feedback';
 
 	/**
 	 * @see Application :: get_categories()
