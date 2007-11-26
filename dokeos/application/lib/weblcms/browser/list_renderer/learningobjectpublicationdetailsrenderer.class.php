@@ -4,6 +4,7 @@
  * @subpackage browser.detailrenderer
  */
 require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'../../../learningobjectpublisher.class.php';
 /**
  * Renderer to display all details of learning object publication
  */
@@ -28,9 +29,14 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 			$publication_feedback->create();
 			$html[] = Display::display_normal_message(get_lang('FeedbackAdded'),true);
 		}
+		$html[] = get_lang('LearningObjectPublicationDetails');
 		$html[] = $this->render_publication($publication);
 		$html[] = $this->render_publication_feedback($publication);
+		$html[] = '<div class="title">'.get_lang('LearningObjectPublicationAddFeedback').'</div>';
 		$html[] = $form->toHtml();
+		
+		//$pub = new LearningObjectPublisher($this, 'feedback');
+		//$html[] =  $pub->as_html();
 		return implode("\n", $html);
 	}
 
@@ -64,7 +70,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$html[] = $this->render_publication_information($publication);
 		$html[] = '</div>';
 		$html[] = '<div class="publication_actions">';
-		//$html[] = $this->render_publication_actions($publication,$first,$last);
+		$html[] = $this->render_publication_actions($publication,$first,$last);
 		$html[] = '</div>';
 		$html[] = '</div>';
 		return implode("\n", $html);
@@ -79,12 +85,16 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$html = array();
 		$feedback_publication_array = array();
 		$feedback_publication_array = $publication->get_feedback();
-		foreach($feedback_publication_array as $index=>$feedback_publication )
+		if(count($feedback_publication_array) > 0)
 		{
-			$learning_object = $feedback_publication->get_learning_object();
-			$display = LearningObjectDisplay::factory($learning_object);
-			$html[] = $display->get_full_html();
-			$html[] = '<br />';
+			$html[] = get_lang('LearningObjectPublicationListFeedback');
+			foreach($feedback_publication_array as $index=>$feedback_publication)
+			{
+				$learning_object = $feedback_publication->get_learning_object();
+				$display = LearningObjectDisplay::factory($learning_object);
+				$html[] = $display->get_full_html();
+				$html[] = '<br />';
+			}
 		}
 		return implode("\n", $html);
 	}
