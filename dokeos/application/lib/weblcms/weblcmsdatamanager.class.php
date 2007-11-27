@@ -701,29 +701,8 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function unsubscribe_users_from_groups($users,$groups);
 	/**
-	 *
+	 * Is user member of the group
 	 */
 	abstract function is_group_member($group,$user);
-	/**
-	 * Creates a learning object publication feedback in persistent storage.
-	 * @param LearningObjectPublicationFeedback $publication_feedback The publication feedback to make
-	 *                                               persistent.
-	 * @return boolean True if creation succceeded, false otherwise.
-	 */
-	abstract function create_learning_object_publication_feedback($publication_feedback);
-	/**
-	 * Updates a learning object publication in persistent storage.
-	 * @param LearningObjectPublicationFeedback $publication The publication feedback to update
-	 *                                               in storage.
-	 * @return boolean True if the update succceeded, false otherwise.
-	 */
-	abstract function update_learning_object_publication_feedback($publication_feedback);
-	/**
-	 * Removes learning object publication feedback from persistent storage.
-	 * @param LearningObjectPublicationFeedback $publication_feedback The publication feedback to remove
-	 *                                               from storage.
-	 * @return boolean True if deletion succceeded, false otherwise.
-	 */
-	abstract function delete_learning_object_publication_feedback($publication_feedback);
 }
 ?>

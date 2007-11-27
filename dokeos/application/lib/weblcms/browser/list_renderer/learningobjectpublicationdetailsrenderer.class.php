@@ -4,6 +4,7 @@
  * @subpackage browser.detailrenderer
  */
 require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/listpublicationfeedbacklistrenderer.class.php';
 require_once dirname(__FILE__).'../../../learningobjectpublisher.class.php';
 /**
  * Renderer to display all details of learning object publication
@@ -19,24 +20,27 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$publication_id = $this->browser->get_publication_id();
 		$dm = WeblcmsDataManager :: get_instance();
 		$publication = $dm->retrieve_learning_object_publication($publication_id);
-		$form = LearningObjectForm::factory(LearningObjectForm :: TYPE_CREATE,new AbstractLearningObject('feedback',api_get_user_id()),'new_feedback','post',$this->browser->get_url(array('pid'=>$this->browser->get_publication_id())));
+		//$form = LearningObjectForm::factory(LearningObjectForm :: TYPE_CREATE,new AbstractLearningObject('feedback',api_get_user_id()),'new_feedback','post',$this->browser->get_url(array('pid'=>$this->browser->get_publication_id())));
+		$this->browser->get_parent()->set_parameter('pid',$publication_id);
+		$pub = new LearningObjectPublisher($this->browser->get_parent(), 'feedback', true);
+				
+		/*
 		if($form->validate())
 		{
 			//creation feedback object
 			$feedback = $form->create_learning_object();
 			//creation publication feedback object
-			$publication_feedback = new LearningObjectPublicationFeedBack(null,$this->browser->get_publication_id(),$feedback->get_id());
+			$publication_feedback= new LearningObjectPublicationFeedback(null, $feedback, $this->browser->get_course_id(), $publication->get_tool().'_feedback', $this->browser->get_publication_id(),$this->browser->get_user_id(), time(), 0, 0);
 			$publication_feedback->create();
 			$html[] = Display::display_normal_message(get_lang('FeedbackAdded'),true);
 		}
+		*/
 		$html[] = get_lang('LearningObjectPublicationDetails');
 		$html[] = $this->render_publication($publication);
 		$html[] = $this->render_publication_feedback($publication);
 		$html[] = '<div class="title">'.get_lang('LearningObjectPublicationAddFeedback').'</div>';
-		$html[] = $form->toHtml();
-		
-		//$pub = new LearningObjectPublisher($this, 'feedback');
-		//$html[] =  $pub->as_html();
+		//$html[] = $form->toHtml();
+		$html[] = $pub->as_html();
 		return implode("\n", $html);
 	}
 
@@ -83,18 +87,14 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 	 */
 	function render_publication_feedback($publication){
 		$html = array();
-		$feedback_publication_array = array();
-		$feedback_publication_array = $publication->get_feedback();
-		if(count($feedback_publication_array) > 0)
+		$publication_feedback_array = array();
+		$publication_feedback_array = $publication->retrieve_feedback();
+		
+		if(count($publication_feedback_array) > 0)
 		{
 			$html[] = get_lang('LearningObjectPublicationListFeedback');
-			foreach($feedback_publication_array as $index=>$feedback_publication)
-			{
-				$learning_object = $feedback_publication->get_learning_object();
-				$display = LearningObjectDisplay::factory($learning_object);
-				$html[] = $display->get_full_html();
-				$html[] = '<br />';
-			}
+			$renderer = new ListPublicationFeedbackListRenderer($this->browser,$publication_feedback_array);
+			$html[] = $renderer->as_html();
 		}
 		return implode("\n", $html);
 	}

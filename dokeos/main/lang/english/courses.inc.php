@@ -65,4 +65,5 @@ $UnsubscribeFromCourse = "Unsubscribe from courses";
 $UpOneCategory = "One category up";
 $ViewOpenCourses = "View open courses";
 $YouAreNowUnsubscribed = "You are now unsubscribed from the course";
+$ShowPublicationDetails = "Show publication details and feedback";
 ?>
