@@ -18,6 +18,7 @@ class LearningObjectPublication
 	const PROPERTY_LEARNING_OBJECT_ID = 'learning_object';
 	const PROPERTY_COURSE_ID = 'course';
 	const PROPERTY_TOOL = 'tool';
+	const PROPERTY_PARENT_ID = 'parent_id';
 	const PROPERTY_CATEGORY_ID = 'category';
 	const PROPERTY_FROM_DATE = 'from_date';
 	const PROPERTY_TO_DATE = 'to_date';
@@ -35,6 +36,7 @@ class LearningObjectPublication
 	private $learningObject;
 	private $course;
 	private $tool;
+	private $parent_id;
 	private $category;
 	private $targetUsers;
 	private $targetGroups;
@@ -71,12 +73,13 @@ class LearningObjectPublication
 	 * @param int $displayOrder The display order of this publication in its
 	 * location (course - tool - category)
 	 */
-	function LearningObjectPublication($id, $learningObject, $course, $tool,$category, $targetUsers, $targetGroups, $fromDate, $toDate, $publisher, $publicationDate, $hidden, $displayOrder, $emailSent)
+	function LearningObjectPublication($id, $learningObject, $course, $tool, $category, $targetUsers, $targetGroups, $fromDate, $toDate, $publisher, $publicationDate, $hidden, $displayOrder, $emailSent)
 	{
 		$this->id = $id;
 		$this->learningObject = $learningObject;
 		$this->course = $course;
 		$this->tool = $tool;
+		$this->parent_id = 0;
 		$this->category = $category;
 		$this->targetUsers = $targetUsers;
 		$this->targetGroups = $targetGroups;
@@ -120,6 +123,16 @@ class LearningObjectPublication
 	{
 		return $this->tool;
 	}
+	
+	/**
+	 * Gets the parent_id of the learning object publication
+	 * @return int
+	 */
+	function get_parent_id()
+	{
+		return $this->parent_id;
+	}
+	
 	/**
 	 * Gets the id of the learning object publication category in which this
 	 * publication was made
@@ -244,6 +257,16 @@ class LearningObjectPublication
 	{
 		$this->course = $course;
 	}
+	
+	protected function set_tool($tool)
+	{
+		$this->tool = $tool;		
+	}
+	
+	function set_parent_id($parent_id)
+	{
+		$this->parent_id = $parent_id;
+	}
 
 	function set_category_id($category)
 	{
@@ -341,7 +364,7 @@ class LearningObjectPublication
 		return WeblcmsDataManager :: get_instance()->move_learning_object_publication($this, $places);
 	}
 	
-	function get_feedback()
+	function retrieve_feedback()
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_feedback($this->get_id());
 	}

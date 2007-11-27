@@ -2,113 +2,91 @@
 /**
  * @package application.weblcms
  */
+
 /**
- * This class represents a learning object publication feedback object.
+ * This class represents a learning object publication feedback.
+ *
+ * When publishing a learning object from the repository in the weblcms
+ * application, attached to another learning object, a new object of this type is created.
  */
-class LearningObjectPublicationFeedback
+class LearningObjectPublicationFeedback extends LearningObjectPublication
 {
-   /**
-    * Constant defining a property of the publication
- 	*/
-	const PROPERTY_ID = 'id';
-	const PROPERTY_PUBLICATION_OBJECT_ID = 'publication';
-	const PROPERTY_LEARNING_OBJECT_ID = 'learning_object';
-	/**#@-*/
-
-   /**#@+
-    * Property of this publication. See {@link LearningObjectPublication} for
-    * more information about this property.
- 	*/
-	private $id;
-	private $publication;
-	private $learningObject;
-	/**#@-*/
-
-	/**
+    /**
 	 * Constructor
 	 * @param int $id The id of this learning object publiction
-	 * @param int $publication The id of the publication
-	 * @param int $learningObject_id The learning object id which is published by this publication
+	 * @param LearningObject $learningObject The learning object which is
+	 * published by this publication
+	 * @param string $course The course code of the course where this
+	 * publication is made
+	 * @param string $tool The tool where this publication is made
+	 * @param int $parent_id The id of this learning object publication parent
+	 * @param int $category The id of the learning object publication category
+	 * in which this publication is stored
+	 * @param array $targetUsers The users for which this publication is made.
+	 * If this array contains no elements, the publication is for everybody.
+	 * @param array $targetGroups The groups for which this publication is made.
+	 * If this array contains no elements, the publication is for everybody.
+	 * @param int $fromDate The date on which this publication should become
+	 * available. If value is 0, publication is available forever.
+	 * @param int $toDate The date on which this publication should become
+	 * unavailable. If value is 0, publication is available forever.
+	 * @param int $publisher The user id of the person who created this
+	 * publication.
+	 * @param int $publicationDate The date on which this publication was made.
+	 * @param boolean $hidden If true, this publication is invisible
+	 * @param int $displayOrder The display order of this publication in its
+	 * location (course - tool - category)
 	 */
-	function LearningObjectPublicationFeedback($id, $publication, $learningObject_id)
+	function LearningObjectPublicationFeedback($id, $learningObject, $course, $tool, $parent_id,$publisher, $publicationDate, $hidden, $emailSent)
 	{
-		$this->id = $id;
-		$this->publication = $publication;
-		$dm = RepositoryDataManager :: get_instance();
-		$this->learningObject = $dm->retrieve_learning_object($learningObject_id);
+		
+		parent :: LearningObjectPublication($id, $learningObject, $course, $tool, 0, 0, 0, 0, 0, $publisher, $publicationDate, $hidden, 0, $emailSent);
+		$this->set_parent_id($parent_id);
 	}
-
-   /**
-    * Gets the publication feedback id.
-    * @return int
- 	*/
-	function get_id()
-	{
-		return $this->id;
-	}
-   /**
-    * Gets the publication id.
-    * @return int
- 	*/
-	function get_publication()
-	{
-		return $this->publication;
-	}
-	/**
-	 * Gets the learning object.
-	 * @return LearningObject
-	 */
-	function get_learning_object()
-	{
-		return $this->learningObject;
-	}
-	function get_learning_object_id()
-	{
-		return $this->get_learning_object()->get_id();
-	}
-
-   /**
+   
+   /*
     * Sets a property of this learning object publication.
     * See constructor for detailed information about the property.
-    * @see LearningObjectPublication()
+    * @see LearningObjectPublicationFeedback()
  	*/
-	function set_id($id)
+	
+	function set_category_id($category)
 	{
-		$this->id = $id;
+		parent :: set_category(0);
 	}
 
-	function set_learning_object($learningObject)
+	function set_target_users($targetUsers)
 	{
-		$this->learningObject = $learningObject;
+		parent :: set_target_users(0);
 	}
 
-	function set_publication($publication)
+	function set_target_groups($targetGroups)
 	{
-		$this->publication = $publication;
+		parent :: set_target_groups(0);
 	}
 
-	function create()
+	function set_from_date($fromDate)
 	{
-		$dm = WeblcmsDataManager :: get_instance();
-		$id = $dm->get_next_learning_object_publication_feedback_id();
-		$this->set_id($id);
-		return $dm->create_learning_object_publication_feedback($this);
+		parent :: set_from_date(0);
 	}
-	/**
-	 * Updates this publication feedback in persistent storage
-	 * @see WeblcmsDataManager::update_learning_object_publication()
-	 */
-	function update()
+
+	function set_to_date($toDate)
 	{
-		return WeblcmsDataManager :: get_instance()->update_learning_object_publication_feedback($this);
+		parent :: set_to_date(0);
 	}
-	/**
-	 * Deletes this publication feedback from persistent storage
-	 * @see WeblcmsDataManager::delete_learning_object_publication()
-	 */
-	function delete()
+
+	function set_hidden($hidden)
 	{
-		return WeblcmsDataManager :: get_instance()->delete_learning_object_publication_feedback($this);
+		parent :: set_hidden(0);
+	}
+
+	function set_display_order_index($displayOrder)
+	{
+		parent :: set_display_order_index(0);
+	}
+	function set_email_sent($emailSent)
+	{
+		parent :: set_email_sent(0);
 	}
 }
 ?>

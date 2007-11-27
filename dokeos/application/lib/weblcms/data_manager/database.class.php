@@ -108,6 +108,20 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		return $this->record_to_publication($record);
 	}
+	
+	function retrieve_learning_object_publication_feedback($pid)
+	{
+		$query = 'SELECT * FROM '. $this->escape_table_name('learning_object_publication');
+		$query .= ' WHERE '.$this->escape_table_name('learning_object_publication').'.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_PARENT_ID).'=?';
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($pid);
+		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$publication_feedback = $this->record_to_learning_object_publication_feedback($record);
+			$feedback_array[] = $publication_feedback;
+		}
+		return $feedback_array;
+	}
 
 	function learning_object_is_published($object_id)
 	{
@@ -474,6 +488,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID)] = $publication->get_learning_object()->get_id();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID)] = $publication->get_course_id();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL)] = $publication->get_tool();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_PARENT_ID)] = $publication->get_parent_id();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_CATEGORY_ID)] = $publication->get_category_id();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_FROM_DATE)] = $publication->get_from_date();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_TO_DATE)] = $publication->get_to_date();
@@ -536,6 +551,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$props = array();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID)] = $publication->get_course_id();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL)] = $publication->get_tool();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_PARENT_ID)] = $publication->get_parent_id();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_CATEGORY_ID)] = $publication->get_category_id();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_FROM_DATE)] = $publication->get_from_date();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_TO_DATE)] = $publication->get_to_date();
@@ -2151,81 +2167,27 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		return ($name == LearningObject :: PROPERTY_CREATION_DATE || $name == LearningObject :: PROPERTY_MODIFICATION_DATE);
 	}
-
-	/**
-	 * Creates a learning object publication feedback in persistent storage.
-	 * @param LearningObjectPublicationFeedback $publication_feedback The publication feedback to make
-	 * persistent.
-	 * @return boolean True if creation succceeded, false otherwise.
-	*/
-	function create_learning_object_publication_feedback($publication_feedback)
+	
+	function record_to_learning_object_publication_feedback($record)
 	{
-		$props = array ();
-		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_ID)] = $publication_feedback->get_id();
-		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_PUBLICATION_OBJECT_ID)] = $publication_feedback->get_publication();
-		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_LEARNING_OBJECT_ID)] = $publication_feedback->get_learning_object_id();
-		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_feedback'), $props, MDB2_AUTOQUERY_INSERT);
-		return true;
-	}
-
-	/**
-	 * Updates a learning object publication in persistent storage.
-	 * @param LearningObjectPublicationFeedback $publication The publication feedback to update
-	 * in storage.
-	 * @return boolean True if the update succceeded, false otherwise.
-	*/
-	function update_learning_object_publication_feedback($publication_feedback)
-	{
-		$where = $this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_ID).'='.$publication_feedback->get_id();
-		$props = array();
-		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_ID)] = $publication_feedback->get_id();
-		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_PUBLICATION_OBJECT_ID)] = $publication_feedback->get_publication();
-		$props[$this->escape_column_name(LearningObjectPublicationFeedBack :: PROPERTY_LEARNING_OBJECT_ID)] = $publication_feedback->get_learning_object_id();
-		$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_feedback'), $props, MDB2_AUTOQUERY_UPDATE, $where);
-		return true;
-	}
-
-	/**
-	 * Removes learning object publication feedback from persistent storage.
-	 * @param LearningObjectPublicationFeedback $publication_feedback The publication feedback to remove
-	 * from storage.
-	 * @return boolean True if deletion succceeded, false otherwise.
-	*/
-	function delete_learning_object_publication_feedback($publication_feedback)
-	{
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_feedback').' WHERE id = ?';
-		$statement = $this->connection->prepare($query);
-		$statement->execute($publication_feedback->get_id());
-		return true;
-	}
-
-	function get_next_learning_object_publication_feedback_id()
-	{
-		return $this->connection->nextID($this->get_table_name('learning_object_publication_feedback'));
-	}
-
-	function retrieve_learning_object_publication_feedback($publication_id)
-	{
-		$query = 'SELECT * FROM '. $this->escape_table_name('learning_object_publication_feedback');
-		$query .= ' WHERE '.$this->escape_table_name('learning_object_publication_feedback').'.'.$this->escape_column_name(LearningObjectPublicationFeedback :: PROPERTY_PUBLICATION_OBJECT_ID).'=?';
-		$statement = $this->connection->prepare($query);
-		$res = $statement->execute($publication_id);
-		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		$obj = $this->repoDM->retrieve_learning_object($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_group').' WHERE publication = ?';
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($record[LearningObjectPublication :: PROPERTY_ID]);
+		$target_groups = array();
+		while($target_group = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$publication_feedback_object = $this->record_to_publication_feedback($record);
-			$feedback_array[] = $publication_feedback_object;
+			$target_groups[] = $target_group['group_id'];
 		}
-		return $feedback_array;
-	}
-
-	function record_to_publication_feedback($record)
-	{
-		if (!is_array($record) || !count($record))
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_user').' WHERE publication = ?';
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($record[LearningObjectPublication :: PROPERTY_ID]);
+		$target_users = array();
+		while($target_user = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+			$target_users[] = $target_user['user'];
 		}
-		return new LearningObjectPublicationFeedback($record[LearningObjectPublicationFeedback :: PROPERTY_ID], $record[LearningObjectPublicationFeedback::PROPERTY_PUBLICATION_OBJECT_ID], $record[LearningObjectPublicationFeedback::PROPERTY_LEARNING_OBJECT_ID]);
+		return new LearningObjectPublicationFeedback($record[LearningObjectPublication :: PROPERTY_ID], $obj, $record[LearningObjectPublication :: PROPERTY_COURSE_ID], $record[LearningObjectPublication :: PROPERTY_TOOL], $record[LearningObjectPublication :: PROPERTY_PARENT_ID], $record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID], $record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE], $record[LearningObjectPublication :: PROPERTY_HIDDEN] != 0, $record[LearningObjectPublication :: PROPERTY_EMAIL_SENT]);	
 	}
 }
 ?>

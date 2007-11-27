@@ -5,6 +5,7 @@
   <property name="learning_object" type="integer"  unsigned="1" notnull="1"/>
   <property name="course" type="text" length="255" notnull="1"/>
   <property name="tool" type="text" length="255" notnull="1"/>
+  <property name="parent_id" type=integer' unsigned="1" notnull="1"/>
   <property name="category" type="integer" unsigned="1" notnull="1"/>
   <!--
   from_date & end_date are defined as integers here. Shouldn't they be
@@ -22,6 +23,9 @@
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
+ </index>
+ <index name="parent_id">
+  <indexproperty name="parent_id">
  </index>
  <index name="date">
   <indexproperty name="from_date"/>
