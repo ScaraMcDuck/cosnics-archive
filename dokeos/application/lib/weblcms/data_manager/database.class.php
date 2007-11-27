@@ -2187,6 +2187,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			$target_users[] = $target_user['user'];
 		}
+		
 		return new LearningObjectPublicationFeedback($record[LearningObjectPublication :: PROPERTY_ID], $obj, $record[LearningObjectPublication :: PROPERTY_COURSE_ID], $record[LearningObjectPublication :: PROPERTY_TOOL], $record[LearningObjectPublication :: PROPERTY_PARENT_ID], $record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID], $record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE], $record[LearningObjectPublication :: PROPERTY_HIDDEN] != 0, $record[LearningObjectPublication :: PROPERTY_EMAIL_SENT]);	
 	}
 }

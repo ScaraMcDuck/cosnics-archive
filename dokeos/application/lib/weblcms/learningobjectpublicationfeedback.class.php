@@ -40,7 +40,7 @@ class LearningObjectPublicationFeedback extends LearningObjectPublication
 	function LearningObjectPublicationFeedback($id, $learningObject, $course, $tool, $parent_id,$publisher, $publicationDate, $hidden, $emailSent)
 	{
 		
-		parent :: LearningObjectPublication($id, $learningObject, $course, $tool, 0, 0, 0, 0, 0, $publisher, $publicationDate, $hidden, 0, $emailSent);
+		parent :: LearningObjectPublication($id, $learningObject, $course, $tool, 0, array(), array(), 0, 0, $publisher, $publicationDate, $hidden, 0, $emailSent);
 		$this->set_parent_id($parent_id);
 	}
    
@@ -57,12 +57,12 @@ class LearningObjectPublicationFeedback extends LearningObjectPublication
 
 	function set_target_users($targetUsers)
 	{
-		parent :: set_target_users(0);
+		parent :: set_target_users(array());
 	}
 
 	function set_target_groups($targetGroups)
 	{
-		parent :: set_target_groups(0);
+		parent :: set_target_groups(array());
 	}
 
 	function set_from_date($fromDate)
