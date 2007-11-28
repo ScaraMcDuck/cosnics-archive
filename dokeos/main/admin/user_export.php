@@ -38,7 +38,7 @@ $this_section = SECTION_PLATFORM_ADMIN;
 
 api_protect_admin_script();
 include (api_get_library_path().'/fileManage.lib.php');
-include (api_get_library_path().'/export.lib.inc.php');
+include ('../../common/export/export.class.php');
 include (api_get_library_path().'/formvalidator/FormValidator.class.php');
 
 $course_table = Database :: get_main_table(MAIN_COURSE_TABLE);

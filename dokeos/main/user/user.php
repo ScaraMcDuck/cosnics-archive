@@ -68,10 +68,10 @@ RolesRights::protect_location($role_id, $location_id);
 */
 include_once (api_get_library_path()."/debug.lib.inc.php");
 include_once (api_get_library_path()."/events.lib.inc.php");
-include_once (api_get_library_path()."/export.lib.inc.php");
 include_once (api_get_library_path()."/course.lib.php");
 require_once (api_get_library_path().'/sortabletable.class.php');
 require_once (api_get_library_path().'/role_right.lib.php');
+include_once ('../../common/export/export.class.php');
 
 //CHECK KEYS
 if (!isset ($_cid))
