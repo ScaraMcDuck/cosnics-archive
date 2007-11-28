@@ -294,5 +294,33 @@ class Filesystem
 			return ($result & @rmdir($path));
 		}
 	}
+	
+	/**
+	 * Transform the file size in a human readable format.
+	 *
+	 * @param  - $file_size (int) - Size of the file in bytes
+	 * @return - A human readable representation of the file size
+	 */
+	public static function format_file_size($file_size)
+	{
+		if($file_size >= 1073741824)
+		{
+			$file_size = round($file_size / 1073741824 * 100) / 100 . 'G';
+		}
+		elseif($file_size >= 1048576)
+		{
+			$file_size = round($file_size / 1048576 * 100) / 100 . 'M';
+		}
+		elseif($file_size >= 1024)
+		{
+			$file_size = round($file_size / 1024 * 100) / 100 . 'k';
+		}
+		else
+		{
+			$file_size = $file_size . 'B';
+		}
+	
+		return $file_size;
+}
 }
 ?>
