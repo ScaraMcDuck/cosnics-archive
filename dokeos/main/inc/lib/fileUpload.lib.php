@@ -19,22 +19,4 @@ function replace_dangerous_char($filename, $strict = 'loose')
 	return ereg_replace("[^!-~]", "x", $filename);
 }
 
-//------------------------------------------------------------------------------
-
-/**
- * change the file name extension from .php to .phps
- * Useful to secure a site !!
- *
- * @author - Hugues Peeters <peeters@ipm.ucl.ac.be>
- * @param  - fileName (string) name of a file
- * @return - the filenam phps'ized
- */
-
-function php2phps ($fileName)
-{
-	$fileName = eregi_replace("\.(php.?|phtml)$", ".phps", $fileName);
-	return $fileName;
-}
-
-
 ?>
