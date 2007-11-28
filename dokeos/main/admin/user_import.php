@@ -284,7 +284,7 @@ api_protect_admin_script();
 require_once (api_get_library_path().'/fileManage.lib.php');
 require_once (api_get_library_path().'/usermanager.lib.php');
 require_once (api_get_library_path().'/classmanager.lib.php');
-require_once (api_get_library_path().'/import.lib.php');
+require_once (api_get_library_path().'/../../common/import/import.class.php');
 require_once (api_get_library_path().'/formvalidator/FormValidator.class.php');
 $formSent = 0;
 $errorMsg = '';

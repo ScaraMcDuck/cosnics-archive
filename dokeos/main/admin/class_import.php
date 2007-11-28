@@ -84,7 +84,7 @@ include ('../inc/claro_init_global.inc.php');
 api_protect_admin_script();
 require_once (api_get_library_path().'/fileManage.lib.php');
 require_once (api_get_library_path().'/classmanager.lib.php');
-require_once (api_get_library_path().'/import.lib.php');
+require_once (api_get_library_path().'/../../common/import/import.class.php');
 require_once (api_get_library_path().'/formvalidator/FormValidator.class.php');
 
 $tool_name = get_lang('ImportClassListCSV');

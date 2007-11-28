@@ -3,7 +3,7 @@
  * @package users.lib.usermanager
  */
 require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/../../../main/inc/lib/import.lib.php';
+require_once dirname(__FILE__).'/../../../common/import/import.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../usersdatamanager.class.php';
 
