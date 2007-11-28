@@ -2,6 +2,8 @@
 /**
  * $Id$
  * @package repository
+ * @todo Some more common install-functions can be added here. Example: A
+ * function which returns the list of xml-files from a given directory.
  */
 class Installer {
 	/**
