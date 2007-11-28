@@ -290,9 +290,15 @@ END;
 		return array('application' => array('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links);
 	}
 
+	/**
+	 * Return a link to a certain action of this application
+	 * @param array $paramaters The parameters to be added to the url
+	 * @param boolean $encode Should the url be encoded ?
+	 */
 	public function get_link($parameters = array (), $encode = false)
 	{
-		$link = 'index_'. self :: APPLICATION_NAME .'.php';
+		$link = 'run.php';
+		$parameters['application'] = self :: APPLICATION_NAME;
 		if (count($parameters))
 		{
 			$link .= '?'.http_build_query($parameters);
