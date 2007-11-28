@@ -294,7 +294,7 @@ class Filesystem
 			return ($result & @rmdir($path));
 		}
 	}
-	
+
 	/**
 	 * Transform the file size in a human readable format.
 	 *
@@ -303,24 +303,27 @@ class Filesystem
 	 */
 	public static function format_file_size($file_size)
 	{
-		if($file_size >= 1073741824)
+		// Todo: Megabyte vs Mebibyte...
+		$kilobyte = 1024;
+		$megabyte = pow($kilobyte,2);
+		$gigabyte = pow($kilobyte,3);
+		if($file_size >= $gigabyte)
 		{
-			$file_size = round($file_size / 1073741824 * 100) / 100 . 'G';
+			$file_size = round($file_size / $gigabyte * 100) / 100 . 'GB';
 		}
-		elseif($file_size >= 1048576)
+		elseif($file_size >= $megabyte)
 		{
-			$file_size = round($file_size / 1048576 * 100) / 100 . 'M';
+			$file_size = round($file_size / $megabyte * 100) / 100 . 'MB';
 		}
-		elseif($file_size >= 1024)
+		elseif($file_size >= $kilobyte)
 		{
-			$file_size = round($file_size / 1024 * 100) / 100 . 'k';
+			$file_size = round($file_size / $kilobyte * 100) / 100 . 'kB';
 		}
 		else
 		{
 			$file_size = $file_size . 'B';
 		}
-	
 		return $file_size;
-}
+	}
 }
 ?>
