@@ -1315,8 +1315,6 @@ class CourseManager
 
 		add_course_role_right_location_values($course_sys_code);
 
-		register_course($course_sys_code, $course_screen_code, $course_repository, $course_db_name, $responsible_teacher, $faculty_shortname, $course_title, $course_language, $teacher_id, $expiration_date);
-
 		//above was the normal course creation table update call,
 		//now one more thing: fill in the target_course_code field
 
