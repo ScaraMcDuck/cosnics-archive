@@ -22,8 +22,9 @@ class PortfolioInstaller {
 	function install()
 	{
 		$sqlfiles = array();
+		//Todo: Use FileSystem::get_directory_content to get xml files
 		$dir = dirname(__FILE__);
-		$handle = opendir($dir);		
+		$handle = opendir($dir);
 		while (false !== ($type = readdir($handle)))
 		{
 			$path = $dir.'/'.$type;
@@ -42,7 +43,7 @@ class PortfolioInstaller {
 		}
 		closedir($handle);
 	}
-	
+
 	/**
 	 * Parses an sql file and sends the request to the database manager
 	 * @param String $directory
@@ -60,9 +61,9 @@ class PortfolioInstaller {
 			echo $sqlstatement. '<br />';
 			$dm->ExecuteQuery($sqlstatement);
 		}
-		
+
 	}
-	
+
 	function parse_xml_file($path)
 	{
 		$doc = new DOMDocument();

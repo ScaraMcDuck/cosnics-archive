@@ -22,6 +22,7 @@ class UsersInstaller extends Installer{
 	{
 		$sqlfiles = array();
 		$dir = dirname(__FILE__);
+		//Todo: Use FileSystem::get_directory_content to get xml files
 		$handle = opendir($dir);
 		while (false !== ($type = readdir($handle)))
 		{

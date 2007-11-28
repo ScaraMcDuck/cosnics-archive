@@ -21,6 +21,7 @@ class ClassGroupInstaller {
 	function install()
 	{
 		$sqlfiles = array();
+		//Todo: Use FileSystem::get_directory_content to get xml files
 		$dir = dirname(__FILE__);
 		$handle = opendir($dir);
 		while (false !== ($type = readdir($handle)))
