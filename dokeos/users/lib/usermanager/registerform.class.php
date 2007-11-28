@@ -109,7 +109,7 @@ class RegisterForm extends FormValidator {
     	{
 			$temp_picture_location = $_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name'];
 			$picture_name = $_FILES[User :: PROPERTY_PICTURE_URI]['name'];
-			$picture_uri = uniqid('').'_'.replace_dangerous_char($picture_name);
+			$picture_uri = create_unique_name($picture_name);
 			$picture_location = api_get_path(SYS_CODE_PATH).'upload/users/'.$picture_uri;
 			$user->set_picture_uri($picture_location);
 			move_uploaded_file($temp_picture_location, $picture_location);			
