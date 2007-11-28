@@ -53,7 +53,6 @@ class Banner
 			}
 		}
 
-		$web_course_path = api_get_path(WEB_COURSE_PATH);
 		$output[] = '</div> <!-- end of #header1 -->';
 		$output[] = '<div id="header2">';
 		$output[] = '<div id="Header2Right">';
