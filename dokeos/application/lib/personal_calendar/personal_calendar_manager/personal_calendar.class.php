@@ -225,7 +225,8 @@ class PersonalCalendar extends WebApplication
 	 */
 	public function get_link($parameters = array (), $encode = false)
 	{
-		$link = 'index_'.self :: APPLICATION_NAME.'.php';
+		$link = 'index.php';
+		$parameters['application'] = self::APPLICATION_NAME;
 		if (count($parameters))
 		{
 			$link .= '?'.http_build_query($parameters);
