@@ -14,7 +14,7 @@ class UserExportForm extends FormValidator {
 	private $current_value;
 	private $user;
 	private $users;
-	private $udm;
+
 
 	/**
 	 * Creates a new UserImportForm 
@@ -38,32 +38,6 @@ class UserExportForm extends FormValidator {
 		$this->addElement('submit', 'user_export', get_lang('Ok'));
 		$this->setDefaults(array('file_type'=>'csv'));
 		
-    }
-    
-    function export_users()
-    {
-		$export = $form->exportValues();
-		$file_type = $export['file_type'];
-		$udm = $this->udm;
-    	$udm = UsersDataManager :: get_instance();
-    	$udm->retrieve_users();
-		
-		$filename = 'export_users_'.date('Y-m-d_H-i-s');
-		//$res = api_sql_query($sql,__FILE__,__LINE__);
-		$data = array();
-		//while($user = mysql_fetch_array($res,MYSQL_ASSOC))
-		//{
-		//	$data[] = $user	;
-		//}
-		switch($file_type)
-		{
-			case 'xml':
-				Export::export_table_xml($data,$filename,'Contact','Contacts');
-				break;
-			case 'csv':
-				Export::export_table_csv($data,$filename);
-				break;
-		}
     }
 }
 ?>

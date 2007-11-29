@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../usermanager.class.php';
 require_once dirname(__FILE__).'/../usermanagercomponent.class.php';
 require_once dirname(__FILE__).'/../userexportform.class.php';
-require_once dirname(__FILE__).'/../../../common/export/export.class.php';
+require_once dirname(__FILE__).'/../../../../common/export/export.class.php';
 
 class UserManagerExporterComponent extends UserManagerComponent
 {	
@@ -14,6 +14,7 @@ class UserManagerExporterComponent extends UserManagerComponent
 	 */
 	function run()
 	{
+		
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$breadcrumbs = array();
@@ -33,12 +34,15 @@ class UserManagerExporterComponent extends UserManagerComponent
 		{
 			$export = $form->exportValues();
 			$file_type = $export['file_type'];
-			$udm = $this->udm;
-    		$udm = UsersDataManager :: get_instance();
-    		$udm->retrieve_users();
-    		$data = array();
-			$success = $this->export_users($file_type,$data);
-			$this->redirect('url', get_lang($success ? 'UserCreatedExport' : 'UserNotCreatedExport'). '<br />' .$form->get_failed_csv(), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
+			$udm = DatabaseUsersDataManager :: get_instance();
+			$result = $udm->retrieve_users();
+    		echo '<pre>';
+    		var_dump($result);
+    		//$data = array();
+    		//$data = $result->as_array();
+    		//$success = $this->export_users($file_type,$data);
+    		//$success = true;
+			//$this->redirect('url', get_lang($success ? 'UserCreatedExport' : 'UserNotCreatedExport'). '<br />', ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
 		}
 		else
 		{
