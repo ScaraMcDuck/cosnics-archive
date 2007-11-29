@@ -316,7 +316,7 @@ $langDocContent = "<p>A ferramenta Documentos é similar ao Gerenciador de Arquiv
 		</h4>
 		<ul>
 			<li>
-				Clique no botão <img src=../document/../img/deplacer.gif width=34 height=16>
+				Clique no botão <img src=../document/../img/move.gif width=34 height=16>
 				na coluna \'Mover\'
 			</li>
 			<li>

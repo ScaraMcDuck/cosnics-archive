@@ -83,7 +83,7 @@ $langDocContent = "<p>Het beheer van cursusmateriaal met de documentenmodule geb
 </ul>
 <h4>Een nieuwe naam geven aan een document of map</h4>
 <ul>
-	<li>Klik op de toets <img src=\"../img/renommer.gif\" width=\"20\" height=\"20\" alt=\"Hernoemen\" /> in de kolom \'Nieuwe naam\'.</li>
+	<li>Klik op de toets <img src=\"../img/rename.gif\" width=\"20\" height=\"20\" alt=\"Hernoemen\" /> in de kolom \'Nieuwe naam\'.</li>
 	<li>Geef de nieuwe naam in in de voorbehouden zone linksboven.</li>
 	<li>Klik op \'OK\'; <input type=\"submit\" value=\"OK\" name=\"submit24\" />.</li>
 </ul>

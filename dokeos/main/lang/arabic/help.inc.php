@@ -137,7 +137,7 @@ $langDocContent = "<p>Le module de gestion de document fonctionne de
 	<h4>Déplacer un document (ou un répertoire)</h4>
 	<ul>
 	  <li>Cliquez sur le bouton <img
- src=../document/../img/deplacer.gif width=34 height=16> 
+ src=../document/../img/move.gif width=34 height=16> 
 		dans la colonne déplacer</li>
 	  <li>Choisissez le répertoire dans lequel vous souhaitez
  déplacer 
