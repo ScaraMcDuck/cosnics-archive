@@ -94,6 +94,10 @@ require_once dirname(__FILE__).'/../../../common/condition/likecondition.class.p
 				$this->force_menu_url($this->create_url, true);
 				$component = UserManagerComponent :: factory('Importer', $this);
 				break;
+			case self :: ACTION_EXPORT_USERS :
+				$this->force_menu_url($this->create_url, true);
+				$component = UserManagerComponent :: factory('Exporter', $this);
+				break;
 			case self :: ACTION_USER_QUOTA :
 				$component = UserManagerComponent :: factory('quota', $this);
 				break;
@@ -459,7 +463,7 @@ require_once dirname(__FILE__).'/../../../common/condition/likecondition.class.p
 		$links = array();
 		$links[] = array('name' => get_lang('UserList'), 'action' => 'list', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
 		$links[] = array('name' => get_lang('UserCreate'), 'action' => 'add', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
-		//$links[] = array('name' => get_lang('UserExport'), 'action' => 'export', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
+		$links[] = array('name' => get_lang('UserExport'), 'action' => 'export', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
 		$links[] = array('name' => get_lang('UserImport'), 'action' => 'import', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
 		return array('application' => array('name' => get_lang('Users'), 'class' => 'users'), 'links' => $links, 'search' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
 	}

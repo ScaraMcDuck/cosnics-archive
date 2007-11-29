@@ -5,7 +5,7 @@
  *	@package export
  */
  
-require_once (api_get_library_path().'document.lib.php');
+require_once (api_get_library_path().'/document.lib.php');
 class Export
 {
 	/**
