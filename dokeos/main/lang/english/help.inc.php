@@ -230,7 +230,7 @@ $langDocContent = "<p>The Documents tool is similar to the FileManager of
 	</h4>
 	<ul>
 		<li>
-			click on the <img src=../img/renommer.gif width=20 height=20 align=baseline>
+			click on the <img src=../img/rename.gif width=20 height=20 align=baseline>
 			button in the Rename column
 		</li>
 		<li>
@@ -296,7 +296,7 @@ $langDocContent = "<p>The Documents tool is similar to the FileManager of
 		<ul>
 			<li>
 				Click on
-				<img src=../document/../img/dossier.gif width=20 height=20>
+				<img src=../document/../img/folder.gif width=20 height=20>
 				\'Create a directory\' (top left)
 			</li>
 			<li>
