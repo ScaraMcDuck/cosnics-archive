@@ -34,13 +34,14 @@ class UserManagerExporterComponent extends UserManagerComponent
 		{
 			$export = $form->exportValues();
 			$file_type = $export['file_type'];
-			$udm = DatabaseUsersDataManager :: get_instance();
-			$result = $udm->retrieve_users();
-    		echo '<pre>';
-    		var_dump($result);
-    		//$data = array();
-    		//$data = $result->as_array();
-    		//$success = $this->export_users($file_type,$data);
+			$result = new DatabaseUserResultSet();
+			$result = parent :: retrieve_users();
+			while($item = $result->next_result())
+     		{
+ 	        	$data[] = $item;
+     		}
+     		var_dump($data);
+    		$success = $this->export_users($file_type,$data);
     		//$success = true;
 			//$this->redirect('url', get_lang($success ? 'UserCreatedExport' : 'UserNotCreatedExport'). '<br />', ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
 		}
@@ -54,14 +55,14 @@ class UserManagerExporterComponent extends UserManagerComponent
 	
 	function export_users($file_type, $data)
     {
-		$filename = 'export_users_'.date('Y-m-d_H-i-s');
+    	$filename = 'export_users_'.date('Y-m-d_H-i-s');
 		switch($file_type)
 		{
 			case 'xml':
 				Export::export_table_xml($data,$filename,'Contact','Contacts');
 				break;
 			case 'csv':
-				Export::export_table_csv($data,$filename);
+			    Export::export_table_csv($data,$filename);
 				break;
 		}
     }
