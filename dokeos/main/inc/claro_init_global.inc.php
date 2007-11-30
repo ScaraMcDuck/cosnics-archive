@@ -43,15 +43,21 @@ api_session_start($already_installed);
 
 $error_message = <<<EOM
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 	<head>
 		<title>Dokeos not installed!</title>
+		<link rel="stylesheet" href="main/css/default.css" type="text/css"/>
 	</head>
 	<body>
-		<div style="text-align: center;"><br /><br />
-			<form action="main/install/index.php" method="get"><input type="submit" value="&nbsp;&nbsp; Click to INSTALL DOKEOS &nbsp;&nbsp;" /></form><br />
-			or <a href="installation_guide.html" target="_blank">read the installation guide</a>
-		</div>
+		<div style="background-color:#4171B5;color:white;font-size:x-large;">Dokeos not installed</div>
+			<div style="text-align: center;"><br /><br />
+					<form action="main/install/index.php" method="get"><input type="submit" value="&nbsp;&nbsp; Click to INSTALL DOKEOS &nbsp;&nbsp;" /></form><br />
+					or <a href="documentation/installation_guide.html" target="_blank">read the installation guide</a><br /><br />
+			</div>
+			<div id="footer">
+				<div class="copyright">Platform <a href="http://www.dokeos.com"> Dokeos </a> &copy; 2006 </div>
+				&nbsp;
+			</div>
 	</body>
 </html>
 EOM;
