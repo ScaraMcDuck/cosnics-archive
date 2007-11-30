@@ -49,15 +49,15 @@ $error_message = <<<EOM
 		<link rel="stylesheet" href="main/css/default.css" type="text/css"/>
 	</head>
 	<body>
-		<div style="background-color:#4171B5;color:white;font-size:x-large;">Dokeos not installed</div>
-			<div style="text-align: center;"><br /><br />
-					<form action="main/install/index.php" method="get"><input type="submit" value="&nbsp;&nbsp; Click to INSTALL DOKEOS &nbsp;&nbsp;" /></form><br />
-					or <a href="documentation/installation_guide.html" target="_blank">read the installation guide</a><br /><br />
-			</div>
-			<div id="footer">
-				<div class="copyright">Platform <a href="http://www.dokeos.com"> Dokeos </a> &copy; 2006 </div>
-				&nbsp;
-			</div>
+		<div id="header1">Dokeos not installed!</div>
+		<div style="text-align: center;"><br /><br />
+				<form action="main/install/index.php" method="get"><input type="submit" value="&nbsp;&nbsp; Click to INSTALL DOKEOS &nbsp;&nbsp;" /></form><br />
+				or <a href="documentation/installation_guide.html" target="_blank">read the installation guide</a><br /><br />
+		</div>
+		<div id="footer">
+			<div class="copyright">Platform <a href="http://www.dokeos.com"> Dokeos </a> &copy; 2007 </div>
+			&nbsp;
+		</div>
 	</body>
 </html>
 EOM;
