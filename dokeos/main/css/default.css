@@ -590,31 +590,6 @@ input[text] {font-size: 12px; }
 	text-align: right;
 }
 
-/************************************************************
-  styles below here are not necessarily used in the current
-	release and the CVS files, they are from earlier versions,
-	and have been left untouched for anyone needing them in
-	their own platform ...
-*************************************************************/
-.topBanner a:link, .topBanner a:active, .topBanner a:visited { text-decoration:none; color:white;}
-.topBanner table { text-decoration:none;}
-.topBanner a:hover { text-decoration:underline;}
-.topBanner td { border-top: solid White 1px;}
-.alternativeBgLight { background-color: #f5f5f5;}
-.alternativeBgDark 	{ background-color: #e6e6e6 }
-.forms {letter-spacing: normal; text-align: justify; text-indent: 3pt;
- word-spacing: normal; padding: 2px 5px;}
-.formsTips	{ text-align: justify; text-indent: 15pt; word-spacing: normal; }
-/*
-input.forms	{ letter-spacing: normal; text-align: justify; text-indent: 3pt;	word-spacing: normal;
-padding-top: 0px;	padding-right: 0px;	padding-bottom: 0px;	padding-left: 0px;}
-*/
-.warn {	border: thin double Silver;	margin-left: 15px;	margin-right: 15px;  font-family: serif;  color: Red;  padding-left: 25px;    }
-.small {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px}
-.xsmall {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px}
-.xxsmall {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 9px}
-
-
 /*****************************************************
  *  DATA TABLE STYLES                                *
  *****************************************************/
