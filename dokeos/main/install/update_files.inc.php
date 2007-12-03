@@ -184,9 +184,9 @@ function file_upgrade_v15_to_v16()
 		// Write a .htaccess file in the course repository
 		write_courses_htaccess_file($urlAppendPath);
 
-		require_once ('../inc/lib/fileManage.lib.php');
+		require_once ('../../common/filesystem/filesystem.class.php');
 		// First remove the upload/users directory in the new installation
-		removeDir($newPath.'claroline/upload/users');
+		Filesystem::remove($newPath.'claroline/upload/users');
 		// Move the old user images to the new installation
 		@ rename($oldPath.'claroline/img/users', $newPath.'claroline/upload/users');
 
