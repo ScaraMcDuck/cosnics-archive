@@ -30,6 +30,7 @@
 api_use_lang_files("index");
 
 include("../inc/claro_init_global.inc.php");
+include("../../common/filesystem/filesystem.class.php");
 
 $track_user_table = Database::get_main_table(MAIN_USER_TABLE);
 
@@ -70,7 +71,7 @@ function display_productions($_uid)
 
 	if( !is_dir($sysdir))
 	{
-		mkpath($sysdir);
+		Filesystem::create_dir($sysdir);
 	}
 	$handle = opendir($sysdir);
 	$tableout=false;
