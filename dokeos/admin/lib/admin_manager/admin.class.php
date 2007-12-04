@@ -18,6 +18,8 @@ class Admin {
 
 	const ACTION_ADMIN_BROWSER = 'browse';
 	const ACTION_SYSTEM_ANNOUNCEMENTS = 'systemannouncements';
+	const ACTION_LANGUAGES = 'languages';
+	const ACTION_SETTINGS = 'settings';
 
 	private $parameters;
 
