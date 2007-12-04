@@ -1,50 +1,52 @@
 <?php
 /**
- *	This is the export library for Dokeos.
- *	Include/require it in your code to use its functionality.
- *	@package export
+ * $Id: filecompression.class.php 13555 2007-10-24 14:15:23Z bmol $
+ * @package export
  */
- 
 require_once (api_get_library_path().'/document.lib.php');
-class Export
+/**
+ * Abstract class to export tabular data.
+ * Create a new type of export by extending this class.
+ */
+abstract class Export
 {
-	/**
-	 * Export tabular data to CSV-file
-	 * @param array $data 
-	 * @param string $filename
-	 */
-	function export_table_csv($data, $filename = 'export')
+	private $filename;
+	public function Export($filename)
 	{
-		$file = Filesystem::create_unique_name(api_get_path(SYS_ARCHIVE_PATH),'export.csv');
-		$handle = fopen($file, 'a+');
-		foreach ($data as $index => $row)
-		{
-			fwrite($handle, '"'.implode('";"', $row).'"'."\n");
-		}
-		fclose($handle);
-		DocumentManager :: file_send_for_download($file, true, $filename.'.csv');
-		exit;
+		$this->filename = $filename;
+		Export::get_supported_filetypes();
 	}
-	/**
-	 * Export tabular data to XLS-file
-	 * @param array $data 
-	 * @param string $filename
-	 */
-	function export_table_xls($data, $filename = 'export')
+	protected function get_filename()
 	{
-		$file = Filesystem::create_unique_name(api_get_path(SYS_ARCHIVE_PATH),'export.xls');
-		$handle = fopen($file, 'a+');
-		foreach ($data as $index => $row)
+		return $this->filename;
+	}
+	abstract function write_to_file($data);
+	public static function get_supported_filetypes()
+	{
+		$directories = FileSystem::get_directory_content(dirname(__FILE__),FileSystem::LIST_DIRECTORIES,false);
+		foreach($directories as $index => $directory)
 		{
-			fwrite($handle, implode("\t", $row)."\n");
+			$type = basename($directory);
+			if($type != '.svn')
+			{
+				$types[$type] = $type;
+			}
 		}
-		fclose($handle);
-		DocumentManager :: file_send_for_download($file, true, $filename.'.xls');
-		exit;
+		return $types;
+	}
+	public static function factory($type, $filename = 'export')
+	{
+		$file = dirname(__FILE__).'/'.$type.'/'.$type.'export.class.php';
+		$class = ucfirst($type).'Export';
+		if(file_exists($file))
+		{
+			require_once($file);
+			return new $class($filename.'.'.$type);
+		}
 	}
 	/**
 	 * Export tabular data to XML-file
-	 * @param array $data 
+	 * @param array $data
 	 * @param string $filename
 	 */
 	function export_table_xml($data, $filename = 'export', $item_tagname = 'item', $wrapper_tagname = null)
