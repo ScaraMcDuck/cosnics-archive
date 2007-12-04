@@ -37,12 +37,20 @@ class UserManagerExporterComponent extends UserManagerComponent
 			$result = parent :: retrieve_users();
 			while($user = $result->next_result())
      		{
- 	        	$data[] = array($user->get_user_id(),$user->get_lastname(),$user->get_firstname(),$user->get_fullname(),
- 								$user->get_username(),$user->get_password(),$user->get_auth_source(),$user->get_email(),
- 								$user->get_status(),$user->get_official_code(),$user->get_phone());
-     		}
-     		$success = $this->export_users($file_type,$data);
-     		$this->redirect('url', get_lang($success ? 'UserCreatedExport' : 'UserNotCreatedExport'). '<br />', ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
+     			$user_array[USER::PROPERTY_USER_ID] = $user->get_user_id();
+     			$user_array[USER::PROPERTY_LASTNAME] = $user->get_lastname();
+     			$user_array[USER::PROPERTY_FIRSTNAME] = $user->get_firstname();
+     			$user_array[USER::PROPERTY_USERNAME] = $user->get_username();
+     			$user_array[USER::PROPERTY_AUTH_SOURCE] = $user->get_auth_source();
+     			$user_array[USER::PROPERTY_EMAIL] = $user->get_email();
+     			$user_array[USER::PROPERTY_STATUS] = $user->get_status();
+     			$user_array[USER::PROPERTY_PHONE] = $user->get_phone();
+     			$user_array[USER::PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
+     			$user_array[USER::PROPERTY_LANGUAGE] = $user->get_language();
+     			var_dump($user_array);
+     			$data[] = $user_array; 
+ 	        }
+			$this->export_users($file_type,$data);
 		}
 		else
 		{
@@ -58,15 +66,6 @@ class UserManagerExporterComponent extends UserManagerComponent
     	$export = Export::factory($file_type,$filename);
     	$export->write_to_file($data);
     	return;
-		switch($file_type)
-		{
-			case 'xml':
-				Export::export_table_xml($data,$filename,'Contact','Contacts');
-				break;
-			case 'csv':
-			    Export::export_table_csv($data,$filename);
-			    break;
-		}
     }
 }
 ?>
