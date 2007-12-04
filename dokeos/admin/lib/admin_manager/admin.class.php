@@ -11,15 +11,16 @@ require_once dirname(__FILE__).'/../admindatamanager.class.php';
  * The admin allows the platform admin to configure certain aspects of his platform
  */
 class Admin {
-	
+
 	const PARAM_ACTION = 'go';
 	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
-	
+
 	const ACTION_ADMIN_BROWSER = 'browse';
-	
+	const ACTION_SYSTEM_ANNOUNCEMENTS = 'systemannouncements';
+
 	private $parameters;
-	
+
 	private $user;
 
 	/**
@@ -31,7 +32,7 @@ class Admin {
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
     }
-    
+
 	/**
 	 * Run this admin manager
 	 */
@@ -39,18 +40,17 @@ class Admin {
     {
 		$action = $this->get_action();
 		$component = null;
-		
 		switch ($action)
 		{
-			case self :: ACTION_ADMIN_BROWSER :
-				$component = AdminComponent :: factory('Browser', $this);
+			case self :: ACTION_SYSTEM_ANNOUNCEMENTS :
+				$component = AdminComponent :: factory('Systemannouncements', $this);
 				break;
 			default :
 				$component = AdminComponent :: factory('Browser', $this);
 		}
 		$component->run();
     }
-    
+
 	/**
 	 * Displays the header.
 	 * @param array $breadcrumbs Breadcrumbs to show in the header.
@@ -134,7 +134,7 @@ class Admin {
 		$this->display_error_message($message);
 		$this->display_footer();
 	}
-	
+
 	/**
 	 * Displays a warning page.
 	 * @param string $message The message.
@@ -145,7 +145,7 @@ class Admin {
 		$this->display_warning_message($message);
 		$this->display_footer();
 	}
-	
+
 	/**
 	 * Displays a popup form.
 	 * @param string $message The message.
@@ -154,7 +154,7 @@ class Admin {
 	{
 		Display :: display_normal_message($form_html);
 	}
-	
+
 	/**
 	 * Gets the current action.
 	 * @see get_parameter()
@@ -164,7 +164,7 @@ class Admin {
 	{
 		return $this->get_parameter(self :: PARAM_ACTION);
 	}
-	
+
 	/**
 	 * Sets the current action.
 	 * @param string $action The new action.
@@ -173,7 +173,7 @@ class Admin {
 	{
 		return $this->set_parameter(self :: PARAM_ACTION, $action);
 	}
-	
+
 	/**
 	 * Gets the value of a parameter.
 	 * @param string $name The parameter name.
@@ -183,12 +183,12 @@ class Admin {
 	{
 		return $this->parameters[$name];
 	}
-	
+
 	function get_user()
 	{
 		return $this->user;
 	}
-	
+
 	/**
 	 * Sets the value of a parameter.
 	 * @param string $name The parameter name.
@@ -198,13 +198,13 @@ class Admin {
 	{
 		$this->parameters[$name] = $value;
 	}
-	
+
 	function get_application_platform_admin_links()
 	{
 		$adm = AdminDataManager :: get_instance();
 		return $adm->get_application_platform_admin_links($this->user);
 	}
-	
+
 	/**
 	 * Gets the URL to the Dokeos claroline folder.
 	 */
