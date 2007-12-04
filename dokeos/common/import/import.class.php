@@ -41,8 +41,6 @@ class Import
 		return $result;
 	}
 
-
-
 	/* This function will read the CSV-file and put it in an array.
 	   This will happen without any use of key's
 	 */
