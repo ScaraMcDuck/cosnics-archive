@@ -37,17 +37,16 @@ class UserManagerExporterComponent extends UserManagerComponent
 			$result = parent :: retrieve_users();
 			while($user = $result->next_result())
      		{
-     			$user_array[USER::PROPERTY_USER_ID] = $user->get_user_id();
-     			$user_array[USER::PROPERTY_LASTNAME] = $user->get_lastname();
-     			$user_array[USER::PROPERTY_FIRSTNAME] = $user->get_firstname();
-     			$user_array[USER::PROPERTY_USERNAME] = $user->get_username();
-     			$user_array[USER::PROPERTY_AUTH_SOURCE] = $user->get_auth_source();
-     			$user_array[USER::PROPERTY_EMAIL] = $user->get_email();
-     			$user_array[USER::PROPERTY_STATUS] = $user->get_status();
-     			$user_array[USER::PROPERTY_PHONE] = $user->get_phone();
-     			$user_array[USER::PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
-     			$user_array[USER::PROPERTY_LANGUAGE] = $user->get_language();
-     			var_dump($user_array);
+     			$user_array[User::PROPERTY_USER_ID] = $user->get_user_id();
+     			$user_array[User::PROPERTY_LASTNAME] = $user->get_lastname();
+     			$user_array[User::PROPERTY_FIRSTNAME] = $user->get_firstname();
+     			$user_array[User::PROPERTY_USERNAME] = $user->get_username();
+     			$user_array[User::PROPERTY_AUTH_SOURCE] = $user->get_auth_source();
+     			$user_array[User::PROPERTY_EMAIL] = $user->get_email();
+     			$user_array[User::PROPERTY_STATUS] = $user->get_status();
+     			$user_array[User::PROPERTY_PHONE] = $user->get_phone();
+     			$user_array[User::PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
+     			$user_array[User::PROPERTY_LANGUAGE] = $user->get_language();
      			$data[] = $user_array; 
  	        }
 			$this->export_users($file_type,$data);
