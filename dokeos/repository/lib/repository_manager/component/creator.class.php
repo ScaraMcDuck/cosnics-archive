@@ -8,6 +8,9 @@ require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/../../abstractlearningobject.class.php';
 require_once dirname(__FILE__).'/../../repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/../../../../common/import/import.class.php';
+require_once dirname(__FILE__).'/../../quotamanager.class.php';
+require_once dirname(__FILE__).'/csvcreator.class.php';
 /**
  * Repository manager component which gives the user the possibility to create a
  * new learning object in his repository. When no type is passed to this
@@ -32,6 +35,19 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		asort($type_options);
 		$type_form->addElement('select', RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE, get_lang('CreateANew'), $type_options, array('class' => 'learning-object-creation-type'));
 		$type_form->addElement('submit', 'submit', get_lang('Ok'));
+
+
+		/* newly added form for the import function*/
+		$import_form = new FormValidator('import_csv', 'post', $this->get_url());
+		$import_form->addElement('html', '<br /><br /><br />');
+		$import_form->addElement('static', 'info', '<b> Importeer hier</b>');
+		$import_form->addElement('html', '<br /><br />');
+						
+		$import_form->addElement('file', 'file', get_lang('FileName'));
+		$import_form->addElement('submit', 'course_import', get_lang('Ok'));
+		
+		//end of extra for import function
+
 		$type = ($type_form->validate() ? $type_form->exportValue(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE) : $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE]);
 		if ($type)
 		{
@@ -51,6 +67,55 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 				$this->display_footer();
 			}
 		}
+
+		/*Bijgewerkt voor import_form te valideren */
+		else if ($import_form->validate())
+		{
+			
+			$category = $_GET[RepositoryManager :: PARAM_CATEGORY_ID];
+			
+			//$object = new AbstractLearningObject($type, $this->get_user_id(), $category);
+			//$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE => $type)));		
+
+			$csvarray = Import :: read_csv($_FILES['file']['tmp_name']);
+			
+			$csvcreator = new CSVCreator();
+			$waar=$csvcreator->quotacheck($csvarray,$this->get_user());
+			if ($waar)
+			{	
+				
+				$typearray = $this->get_learning_object_types(true);
+				$temparray= $csvcreator->csv_validate($typearray, $csvarray);
+				if (count($temparray) == count($csvarray))
+				{
+					//functie oproepen om deze array met forms te gaan createn
+					//als vorige functie goed afloopt een message outputten
+					echo 'gelukt';
+				}
+				else
+				{
+					$errormessage= 'The folowing rows have been reported as wrong: ';
+					for ($i = 1 ; $i < count($temparray); $i++)
+					{
+						$errormessage=$errormessage.' '.$i;
+					}
+					
+				$this->display_header($breadcrumbs);							
+				Display :: display_warning_message($errormessage);			
+				$this->display_footer();
+				}
+			}
+			
+			else 
+			{	
+				$this->display_header($breadcrumbs);
+							
+				Display :: display_warning_message('Your quota would be exceeded by importing this CSV , aborted.');			
+				$this->display_footer();
+
+			}
+			
+		}
 		else
 		{
 			$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('Create')));
@@ -65,6 +130,8 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 				$renderer = clone $type_form->defaultRenderer();
 				$renderer->setElementTemplate('{label} {element} ');
 				$type_form->accept($renderer);
+				echo $renderer->toHTML();
+				$import_form->accept($renderer);
 				echo $renderer->toHTML();
 			}
 			$this->display_footer();

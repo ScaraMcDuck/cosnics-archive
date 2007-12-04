@@ -40,5 +40,22 @@ class Import
 		fclose($handle);
 		return $result;
 	}
+
+
+
+	/* This function will read the CSV-file and put it in an array.
+	   This will happen without any use of key's
+	 */
+	function read_csv($filename)
+	{
+		$result = array ();
+		$handle = fopen($filename, "r");
+		while (($row = fgetcsv($handle, 1000, ";")) !== FALSE)
+		{
+		     $result[] = $row;
+		}
+		fclose($handle);
+		return $result;
+	}
 }
 ?>
