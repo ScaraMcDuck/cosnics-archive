@@ -8,13 +8,13 @@ require_once dirname(__FILE__).'/../userexportform.class.php';
 require_once dirname(__FILE__).'/../../../../common/export/export.class.php';
 
 class UserManagerExporterComponent extends UserManagerComponent
-{	
+{
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		
+
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$breadcrumbs = array();
@@ -24,12 +24,12 @@ class UserManagerExporterComponent extends UserManagerComponent
 			$this->display_footer();
 			exit;
 		}
-		
+
 		$form = new UserExportForm(UserExportForm :: TYPE_EXPORT, $this->get_url());
-		
+
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('UserCreateExport'));
-		
+
 		if($form->validate())
 		{
 			$export = $form->exportValues();
@@ -51,10 +51,13 @@ class UserManagerExporterComponent extends UserManagerComponent
 			$this->display_footer();
 		}
 	}
-	
+
 	function export_users($file_type, $data)
     {
     	$filename = 'export_users_'.date('Y-m-d_H-i-s');
+    	$export = Export::factory($file_type,$filename);
+    	$export->write_to_file($data);
+    	return;
 		switch($file_type)
 		{
 			case 'xml':
