@@ -34,16 +34,15 @@ class UserManagerExporterComponent extends UserManagerComponent
 		{
 			$export = $form->exportValues();
 			$file_type = $export['file_type'];
-			$result = new DatabaseUserResultSet();
 			$result = parent :: retrieve_users();
-			while($item = $result->next_result())
+			while($user = $result->next_result())
      		{
- 	        	$data[] = $item;
+ 	        	$data[] = array($user->get_user_id(),$user->get_lastname(),$user->get_firstname(),$user->get_fullname(),
+ 								$user->get_username(),$user->get_password(),$user->get_auth_source(),$user->get_email(),
+ 								$user->get_status(),$user->get_official_code(),$user->get_phone());
      		}
-     		var_dump($data);
-    		$success = $this->export_users($file_type,$data);
-    		//$success = true;
-			//$this->redirect('url', get_lang($success ? 'UserCreatedExport' : 'UserNotCreatedExport'). '<br />', ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
+     		$success = $this->export_users($file_type,$data);
+     		$this->redirect('url', get_lang($success ? 'UserCreatedExport' : 'UserNotCreatedExport'). '<br />', ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
 		}
 		else
 		{
@@ -63,7 +62,7 @@ class UserManagerExporterComponent extends UserManagerComponent
 				break;
 			case 'csv':
 			    Export::export_table_csv($data,$filename);
-				break;
+			    break;
 		}
     }
 }

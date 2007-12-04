@@ -22,7 +22,7 @@ class Export
 			fwrite($handle, '"'.implode('";"', $row).'"'."\n");
 		}
 		fclose($handle);
-		//DocumentManager :: file_send_for_download($file, true, $filename.'.csv');
+		DocumentManager :: file_send_for_download($file, true, $filename.'.csv');
 		exit;
 	}
 	/**
