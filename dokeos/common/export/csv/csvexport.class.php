@@ -13,6 +13,8 @@ class CsvExport extends Export
 	{
 		$file = Filesystem::create_unique_name(api_get_path(SYS_ARCHIVE_PATH),$this->get_filename());
 		$handle = fopen($file, 'a+');
+		$key_array = array_keys($data[0]);
+		fwrite($handle, '"'.implode('";"', $key_array).'"'."\n");
 		foreach ($data as $index => $row)
 		{
 			fwrite($handle, '"'.implode('";"', $row).'"'."\n");
