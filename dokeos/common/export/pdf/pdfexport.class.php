@@ -4,6 +4,7 @@
  * @package export
  */
 require_once dirname(__FILE__).'/../export.class.php';
+require_once dirname(__FILE__).'../../plugin/ezpdf/class.ezpdf.php';
 /**
  * Exports data to PDF-format
  */
