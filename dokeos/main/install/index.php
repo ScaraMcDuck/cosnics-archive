@@ -47,6 +47,7 @@ ini_set('include_path',ini_get('include_path').PATH_SEPARATOR.'../../plugin/pear
 require_once 'HTML/QuickForm/Controller.php';
 require_once 'HTML/QuickForm/Rule.php';
 require_once 'HTML/QuickForm/Action/Display.php';
+require_once '../../common/filesystem/filesystem.class.php';
 require_once ('../inc/installedVersion.inc.php');
 require_once ('../inc/lib/main_api.lib.php');
 require_once ('../lang/english/trad4all.inc.php');
