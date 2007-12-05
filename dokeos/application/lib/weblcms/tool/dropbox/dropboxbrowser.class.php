@@ -8,13 +8,22 @@
 require_once dirname(__FILE__).'/../../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../../learningobjectpublicationbrowser.class.php';
 require_once dirname(__FILE__).'/dropboxpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/../../browser/list_renderer/learningobjectpublicationdetailsrenderer.class.php';
 
 class DropboxBrowser extends LearningObjectPublicationBrowser
 {
 	function DropboxBrowser($parent, $types)
 	{
 		parent :: __construct($parent, 'dropbox');
-		$renderer = new AnnouncementPublicationListRenderer($this);
+		if(isset($_GET['pid']))
+		{
+			$this->set_publication_id($_GET['pid']);
+			$renderer = new LearningObjectPublicationDetailsRenderer($this);
+		}
+		else
+		{
+			$renderer = new DropboxPublicationListRenderer($this);
+		}
 		$this->set_publication_list_renderer($renderer);
 	}
 
