@@ -43,6 +43,8 @@ class LearningObjectPublicationFeedback extends LearningObjectPublication
 		
 		parent :: LearningObjectPublication($id, $learningObject, $course, $tool, 0, array(), array(), 0, 0, $publisher, $publicationDate, $modifiedDate, $hidden, 0, $emailSent);
 		$this->set_parent_id($parent_id);
+		$this->set_modified_date(time());
+		$this->set_email_sent();
 	}
    
    /*
@@ -91,22 +93,22 @@ class LearningObjectPublicationFeedback extends LearningObjectPublication
 	}
 	function create() 
 	{
-		$dm = WeblcmsDataManager :: get_instance();
-		$parent_object = $dm->retrieve_learning_object_publication($this->parent_id);
-		$parent_object->set_modified_date(time());
-		$parent_object->update();
-		$id = $dm->get_next_learning_object_publication_id();
-		$this->set_id($id);
-		return $dm->create_learning_object_publication($this);
+		$this->update_parent_modified_date();	
+		return parent::create();
 	}
 	
 	function update()
 	{
+		$this->update_parent_modified_date();
+		return parent::update();
+	}
+	
+	function update_parent_modified_date()
+	{
 		$dm = WeblcmsDataManager :: get_instance();
-		$parent_object = $dm->retrieve_learning_object_publication($this->parent_id);
+		$parent_object = $dm->retrieve_learning_object_publication($this->get_parent_id());
 		$parent_object->set_modified_date(time());
-		$parent_object->update();
-		return $dm->update_learning_object_publication($this);
+		$parent_object->update();	
 	}
 }
 ?>
