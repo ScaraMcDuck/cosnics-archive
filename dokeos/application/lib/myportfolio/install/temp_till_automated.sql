@@ -1,2 +1,0 @@
-INSERT INTO `dokeos_portfolio_publication` VALUES (1, 999, 1,1)
-INSERT INTO `dokeos_repository`.`dokeos_learning_object` VALUES (999, 1, 999, NULL, "portfolio_item", "Admin's Portfolio", "This is a test item", 0, 0, 0, 0,0)

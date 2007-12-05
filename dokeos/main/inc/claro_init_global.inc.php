@@ -88,7 +88,7 @@ or die ( "<center>"
   RETRIEVING ALL THE DOKEOS CONFIG SETTINGS
 --------------------------------------------
 */
-$sql="SELECT * FROM dokeos_main.settings_current";
+$sql="SELECT * FROM ".$mainDbName.".settings_current";
 $result=mysql_query($sql) or die(mysql_error());
 while ($row=mysql_fetch_array($result))
 {
@@ -98,7 +98,7 @@ while ($row=mysql_fetch_array($result))
 		{ $_setting[$row['variable']][$row['subkey']]=$row['selected_value']; }
 }
 // we have to store the settings for the plugins differently because it expects an array
-$sql="SELECT * FROM dokeos_main.settings_current WHERE category='plugins'";
+$sql="SELECT * FROM ".$mainDbName.".settings_current WHERE category='plugins'";
 $result=mysql_query($sql) or die(mysql_error());
 while ($row=mysql_fetch_array($result))
 {
