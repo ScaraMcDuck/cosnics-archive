@@ -33,14 +33,15 @@ class LearningObjectPublicationFeedback extends LearningObjectPublication
 	 * @param int $publisher The user id of the person who created this
 	 * publication.
 	 * @param int $publicationDate The date on which this publication was made.
+	 * @param int $modifiedDate The date on which this publication was updated.
 	 * @param boolean $hidden If true, this publication is invisible
 	 * @param int $displayOrder The display order of this publication in its
 	 * location (course - tool - category)
 	 */
-	function LearningObjectPublicationFeedback($id, $learningObject, $course, $tool, $parent_id,$publisher, $publicationDate, $hidden, $emailSent)
+	function LearningObjectPublicationFeedback($id, $learningObject, $course, $tool, $parent_id,$publisher, $publicationDate, $modifiedDate, $hidden, $emailSent)
 	{
 		
-		parent :: LearningObjectPublication($id, $learningObject, $course, $tool, 0, array(), array(), 0, 0, $publisher, $publicationDate, $hidden, 0, $emailSent);
+		parent :: LearningObjectPublication($id, $learningObject, $course, $tool, 0, array(), array(), 0, 0, $publisher, $publicationDate, $modifiedDate, $hidden, 0, $emailSent);
 		$this->set_parent_id($parent_id);
 	}
    
@@ -87,6 +88,25 @@ class LearningObjectPublicationFeedback extends LearningObjectPublication
 	function set_email_sent($emailSent)
 	{
 		parent :: set_email_sent(0);
+	}
+	function create() 
+	{
+		$dm = WeblcmsDataManager :: get_instance();
+		$parent_object = $dm->retrieve_learning_object_publication($this->parent_id);
+		$parent_object->set_modified_date(time());
+		$parent_object->update();
+		$id = $dm->get_next_learning_object_publication_id();
+		$this->set_id($id);
+		return $dm->create_learning_object_publication($this);
+	}
+	
+	function update()
+	{
+		$dm = WeblcmsDataManager :: get_instance();
+		$parent_object = $dm->retrieve_learning_object_publication($this->parent_id);
+		$parent_object->set_modified_date(time());
+		$parent_object->update();
+		return $dm->update_learning_object_publication($this);
 	}
 }
 ?>
