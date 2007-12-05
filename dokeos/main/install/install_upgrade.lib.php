@@ -51,7 +51,6 @@ define("ROLE_RIGHT_LOCATION_DATA_FILENAME", "role_right_location_data.csv");
 define("COUNTRY_DATA_FILENAME", "country_data.csv");
 define("SETTING_OPTION_DATA_FILENAME", "setting_option_data.csv");
 define("SETTING_CURRENT_DATA_FILENAME", "setting_current_data.csv");
-define("COURSES_HTACCESS_FILENAME", "htaccess.dist");
 define("DOKEOS_CONFIG_FILENAME", "configuration.dist.php");
 
 /*
@@ -91,7 +90,7 @@ function set_file_folder_permissions()
 */
 function fill_language_table($language_table)
 {
-	$file_path = dirname(__FILE__).'/'.LANGUAGE_DATA_FILENAME;
+	$file_path = dirname(__FILE__).'/data/'.LANGUAGE_DATA_FILENAME;
 	$add_language_sql = "LOAD DATA INFILE '".mysql_real_escape_string($file_path)."' INTO TABLE $language_table FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\'';";
 	@ mysql_query($add_language_sql);
 }
@@ -101,7 +100,7 @@ function fill_language_table($language_table)
 */
 function fill_role_table($role_table)
 {
-	$file_path = dirname(__FILE__).'/'.ROLE_DATA_FILENAME;
+	$file_path = dirname(__FILE__).'/data/'.ROLE_DATA_FILENAME;
 	$add_role_sql = "LOAD DATA INFILE '".mysql_real_escape_string($file_path)."' INTO TABLE $role_table FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\'';";
 	@ mysql_query($add_role_sql);
 }
@@ -111,7 +110,7 @@ function fill_role_table($role_table)
 */
 function fill_right_table($right_table)
 {
-	$file_path = dirname(__FILE__).'/'.RIGHT_DATA_FILENAME;
+	$file_path = dirname(__FILE__).'/data/'.RIGHT_DATA_FILENAME;
 	$add_right_sql = "LOAD DATA INFILE '".mysql_real_escape_string($file_path)."' INTO TABLE $right_table FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\'';";
 	@ mysql_query($add_right_sql);
 }
@@ -121,7 +120,7 @@ function fill_right_table($right_table)
 */
 function fill_location_table($location_table)
 {
-	$file_path = dirname(__FILE__).'/'.LOCATION_DATA_FILENAME;
+	$file_path = dirname(__FILE__).'/data/'.LOCATION_DATA_FILENAME;
 	$add_location_sql = "LOAD DATA INFILE '".mysql_real_escape_string($file_path)."' INTO TABLE $location_table FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\'';";
 	@ mysql_query($add_location_sql);
 }
@@ -131,7 +130,7 @@ function fill_location_table($location_table)
 */
 function fill_role_right_location_table($role_right_location_table)
 {
-	$file_path = dirname(__FILE__).'/'.ROLE_RIGHT_LOCATION_DATA_FILENAME;
+	$file_path = dirname(__FILE__).'/data/'.ROLE_RIGHT_LOCATION_DATA_FILENAME;
 	$add_data_sql = "LOAD DATA INFILE '".mysql_real_escape_string($file_path)."' INTO TABLE $role_right_location_table FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\'';";
 	@ mysql_query($add_data_sql);
 }
@@ -155,7 +154,7 @@ function fill_current_settings_table($current_settings_table, $installation_sett
 	$allowSelfRegProf = $installation_settings['allow_teacher_self_registration'];
 	$adminPhoneForm = $installation_settings['admin_phone_form'];
 
-	$file_path = dirname(__FILE__).'/'.SETTING_CURRENT_DATA_FILENAME;
+	$file_path = dirname(__FILE__).'/data/'.SETTING_CURRENT_DATA_FILENAME;
 	$add_setting_current_sql = "LOAD DATA INFILE '".mysql_real_escape_string($file_path)."' INTO TABLE $current_settings_table FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\'';";
 	@ mysql_query($add_setting_current_sql);
 
@@ -177,7 +176,7 @@ function fill_current_settings_table($current_settings_table, $installation_sett
 */
 function fill_settings_options_table($settings_options_table)
 {
-	$file_path = dirname(__FILE__).'/'.SETTING_OPTION_DATA_FILENAME;
+	$file_path = dirname(__FILE__).'/data/'.SETTING_OPTION_DATA_FILENAME;
 	$add_setting_option_sql = "LOAD DATA INFILE '".mysql_real_escape_string($file_path)."' INTO TABLE $settings_options_table FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\'';";
 	@ mysql_query($add_setting_option_sql);
 }
@@ -187,27 +186,9 @@ function fill_settings_options_table($settings_options_table)
 */
 function fill_track_countries_table($track_countries_table)
 {
-	$file_path = dirname(__FILE__).'/'.COUNTRY_DATA_FILENAME;
+	$file_path = dirname(__FILE__).'/data/'.COUNTRY_DATA_FILENAME;
 	$add_country_sql = "LOAD DATA INFILE '".mysql_real_escape_string($file_path)."' INTO TABLE $track_countries_table FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\'';";
 	@ mysql_query($add_country_sql);
-}
-
-/**
- * Adds a .htaccess file to the courses directory
- * @param string $url_append The path from your webroot to your dokeos root
- */
-function write_courses_htaccess_file($url_append)
-{
-	$file_path = dirname(__FILE__).'/'.COURSES_HTACCESS_FILENAME;
-	$content = file_get_contents($file_path);
-	$content = str_replace('{DOKEOS_URL_APPEND_PATH}', $url_append, $content);
-	$fp = @ fopen('../../courses/.htaccess', 'w');
-	if ($fp)
-	{
-		fwrite($fp, $content);
-		return fclose($fp);
-	}
-	return false;
 }
 
 /**

@@ -45,8 +45,6 @@ function full_file_install($values)
 	// Write a distribution file with the config as a backup for the admin
 	//OLD: write_dokeos_config_file('../inc/conf/claro_main.conf.dist.php');
 	write_dokeos_config_file('../inc/conf/config.inc.dist.php', $values);
-	// Write a .htaccess file in the course repository
-	write_courses_htaccess_file($urlAppendPath);
 
 	//-----------------------------------------------------------
 	// Repository Install.
