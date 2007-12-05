@@ -71,22 +71,20 @@ function file_upgrade_v16_to_v17($urlAppendPath, $main_database)
 	$main_course_table = "`$main_database`.`course`";
 	$newPath = str_replace('\\', '/', realpath('../..')).'/';
 	$oldPath = $_POST['updatePath'];
-	
+
 	if (defined('DOKEOS_INSTALL'))
 	{
 		// Write the Dokeos config file
 		write_dokeos_config_file($newPath.'claroline/inc/conf/claro_main.conf.php');
 		// Write a distribution file with the config as a backup for the admin
 		write_dokeos_config_file($newPath.'claroline/inc/conf/claro_main.conf.dist.php');
-		// Write a .htaccess file in the course repository
-		write_courses_htaccess_file($urlAppendPath);
 
 		//rename or delete the config file of the old installation
 		if (!@ rename($oldPath.'claroline/inc/conf/claro_main.conf.php', $oldPath.'claroline/inc/conf/claro_main.conf.old.php'))
 		{
 			unlink($oldPath.'claroline/inc/conf/claro_main.conf.php');
 		}
-		
+
 		//move all courses from the old path to the new path
 		$get_course_list_sql = "SELECT directory FROM $main_course_table WHERE target_course_code IS NULL";
 		$sql_result = mysql_query($get_course_list_sql);
@@ -130,7 +128,7 @@ function file_upgrade_v15_to_v16()
 			fputs($fp, '<?php
 															$cidReq = "'.$key.'";
 															$dbname = "'.str_replace($dbPrefixForm, '', $mysql_base_course).'";
-									
+
 															include("../../claroline/course_home/course_home.php");
 															?>');
 
@@ -181,8 +179,6 @@ function file_upgrade_v15_to_v16()
 		write_dokeos_config_file($newPath.'claroline/inc/conf/claro_main.conf.php');
 		// Write a distribution file with the config as a backup for the admin
 		write_dokeos_config_file($newPath.'claroline/inc/conf/claro_main.conf.dist.php');
-		// Write a .htaccess file in the course repository
-		write_courses_htaccess_file($urlAppendPath);
 
 		require_once ('../../common/filesystem/filesystem.class.php');
 		// First remove the upload/users directory in the new installation
