@@ -108,7 +108,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		return $this->record_to_publication($record);
 	}
-	
+
 	function retrieve_learning_object_publication_feedback($pid)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('learning_object_publication');
@@ -2120,8 +2120,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	private function get_table_name($name)
 	{
-		global $weblcms_database;
-		return $weblcms_database.'.'.$this->prefix.$name;
+		$dsn = $this->connection->getDSN('array');
+		return $dsn['database'].'.'.$this->prefix.$name;
 	}
 
 	/**
@@ -2131,8 +2131,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	 */
 	function escape_table_name($name)
 	{
-		global $weblcms_database;
-		$database_name = $this->connection->quoteIdentifier($weblcms_database);
+		$dsn = $this->connection->getDSN('array');
+		$database_name = $this->connection->quoteIdentifier($dsn['database']);
 		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
 	}
 
@@ -2169,7 +2169,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		return ($name == LearningObject :: PROPERTY_CREATION_DATE || $name == LearningObject :: PROPERTY_MODIFICATION_DATE);
 	}
-	
+
 	function record_to_learning_object_publication_feedback($record)
 	{
 		$obj = $this->repoDM->retrieve_learning_object($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
@@ -2189,8 +2189,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			$target_users[] = $target_user['user'];
 		}
-		
-		return new LearningObjectPublicationFeedback($record[LearningObjectPublication :: PROPERTY_ID], $obj, $record[LearningObjectPublication :: PROPERTY_COURSE_ID], $record[LearningObjectPublication :: PROPERTY_TOOL], $record[LearningObjectPublication :: PROPERTY_PARENT_ID], $record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID], $record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE], $record[LearningObjectPublication :: PROPERTY_HIDDEN] != 0, $record[LearningObjectPublication :: PROPERTY_EMAIL_SENT]);	
+
+		return new LearningObjectPublicationFeedback($record[LearningObjectPublication :: PROPERTY_ID], $obj, $record[LearningObjectPublication :: PROPERTY_COURSE_ID], $record[LearningObjectPublication :: PROPERTY_TOOL], $record[LearningObjectPublication :: PROPERTY_PARENT_ID], $record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID], $record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE], $record[LearningObjectPublication :: PROPERTY_HIDDEN] != 0, $record[LearningObjectPublication :: PROPERTY_EMAIL_SENT]);
 	}
 }
 ?>

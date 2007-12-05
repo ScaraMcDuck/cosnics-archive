@@ -68,8 +68,8 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 
 	function escape_table_name($name)
 	{
-		global $personal_messenger_database;
-		$database_name = $this->connection->quoteIdentifier($personal_messenger_database);
+		$dsn = $this->connection->getDSN('array');
+		$database_name = $this->connection->quoteIdentifier($dsn['database']);
 		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
 	}
 
@@ -80,8 +80,8 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 	 */
 	private function get_table_name($name)
 	{
-		global $personal_messenger_database;
-		return $personal_messenger_database.'.'.$this->prefix.$name;
+		$dsn = $this->connection->getDSN('array');
+		return $dsn['database'].'.'.$this->prefix.$name;
 	}
 
 	/**

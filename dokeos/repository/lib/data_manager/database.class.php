@@ -875,8 +875,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	function get_table_name($name)
 	{
-		global $repository_database;
-		return $repository_database.'.'.$this->prefix.$name;
+		$dsn = $this->connection->getDSN('array');
+		return $dsn['database'].'.'.$this->prefix.$name;
 	}
 
 	/**
@@ -886,8 +886,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	function escape_table_name($name)
 	{
-		global $repository_database;
-		$database_name = $this->connection->quoteIdentifier($repository_database);
+		$dsn = $this->connection->getDSN('array');
+		$database_name = $this->connection->quoteIdentifier($dsn['database']);
 		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
 	}
 
