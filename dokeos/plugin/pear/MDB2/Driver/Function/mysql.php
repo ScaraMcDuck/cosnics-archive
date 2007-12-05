@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: mysql.php,v 1.10 2006/06/12 21:48:43 lsmith Exp $
+// $Id: mysql.php,v 1.11 2007/01/12 11:29:12 quipo Exp $
 //
 
 require_once 'MDB2/Driver/Function/Common.php';
@@ -100,5 +100,21 @@ class MDB2_Driver_Function_mysql extends MDB2_Driver_Function_Common
         $args = func_get_args();
         return "CONCAT(".implode(', ', $args).")";
     }
+
+    // }}}
+    // {{{ guid()
+
+    /**
+     * Returns global unique identifier
+     *
+     * @return string to get global unique identifier
+     * @access public
+     */
+    function guid()
+    {
+        return 'UUID()';
+    }
+
+    // }}}
 }
 ?>
