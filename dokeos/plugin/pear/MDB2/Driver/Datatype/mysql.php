@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2006 Manuel Lemos, Tomas V.V.Cox,                 |
+// | Copyright (c) 1998-2007 Manuel Lemos, Tomas V.V.Cox,                 |
 // | Stig. S. Bakken, Lukas Smith                                         |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
@@ -43,7 +43,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: mysql.php,v 1.54 2006/10/14 13:42:02 lsmith Exp $
+// $Id: mysql.php,v 1.60 2007/03/28 16:58:54 quipo Exp $
 //
 
 require_once 'MDB2/Driver/Datatype/Common.php';
@@ -120,12 +120,12 @@ class MDB2_Driver_Datatype_mysql extends MDB2_Driver_Datatype_Common
         if (PEAR::isError($db)) {
             return $db;
         }
+
         switch ($field['type']) {
         case 'text':
-        	
-//            if (empty($field['length']) && array_key_exists('default', $field)) {
-//                $field['length'] = $db->varchar_max_length;
-//            }
+            if (empty($field['length']) && array_key_exists('default', $field)) {
+                $field['length'] = $db->varchar_max_length;
+            }
             $length = !empty($field['length']) ? $field['length'] : false;
             $fixed = !empty($field['fixed']) ? $field['fixed'] : false;
             return $fixed ? ($length ? 'CHAR('.$length.')' : 'CHAR(255)')
@@ -224,7 +224,7 @@ class MDB2_Driver_Datatype_mysql extends MDB2_Driver_Datatype_Common
             return $db;
         }
 
-        $default = $autoinc = '';;
+        $default = $autoinc = '';
         if (!empty($field['autoincrement'])) {
             $autoinc = ' AUTO_INCREMENT PRIMARY KEY';
         } elseif (array_key_exists('default', $field)) {
@@ -301,7 +301,7 @@ class MDB2_Driver_Datatype_mysql extends MDB2_Driver_Datatype_Common
     }
 
     // }}}
-    // {{{ mapNativeDatatype()
+    // {{{ _mapNativeDatatype()
 
     /**
      * Maps a native array description of a field to a MDB2 datatype and length
@@ -310,7 +310,7 @@ class MDB2_Driver_Datatype_mysql extends MDB2_Driver_Datatype_Common
      * @return array containing the various possible types, length, sign, fixed
      * @access public
      */
-    function mapNativeDatatype($field)
+    function _mapNativeDatatype($field)
     {
         $db_type = strtolower($field['type']);
         $db_type = strtok($db_type, '(), ');
@@ -318,8 +318,8 @@ class MDB2_Driver_Datatype_mysql extends MDB2_Driver_Datatype_Common
             $db_type = strtok('(), ');
         }
         if (!empty($field['length'])) {
-            $length = $field['length'];
-            $decimal = '';
+            $length = strtok($field['length'], ', ');
+            $decimal = strtok(', ');
         } else {
             $length = strtok('(), ');
             $decimal = strtok('(), ');
@@ -428,6 +428,9 @@ class MDB2_Driver_Datatype_mysql extends MDB2_Driver_Datatype_Common
         case 'numeric':
             $type[] = 'decimal';
             $unsigned = preg_match('/ unsigned/i', $field['type']);
+            if ($decimal !== false) {
+                $length = $length.','.$decimal;
+            }
             break;
         case 'tinyblob':
         case 'mediumblob':
@@ -435,6 +438,10 @@ class MDB2_Driver_Datatype_mysql extends MDB2_Driver_Datatype_Common
         case 'blob':
             $type[] = 'blob';
             $length = null;
+            break;
+        case 'binary':
+        case 'varbinary':
+            $type[] = 'blob';
             break;
         case 'year':
             $type[] = 'integer';
@@ -449,6 +456,10 @@ class MDB2_Driver_Datatype_mysql extends MDB2_Driver_Datatype_Common
 
             return $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
                 'unknown database attribute type: '.$db_type, __FUNCTION__);
+        }
+
+        if ((int)$length <= 0) {
+            $length = null;
         }
 
         return array($type, $length, $unsigned, $fixed);
