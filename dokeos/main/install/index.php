@@ -85,31 +85,16 @@ $updateFromVersion = array ('1.5', '1.5.4', '1.5.5', '1.6.2');
 */
 function get_language_folder_list()
 {
-	$dirname = dirname(__FILE__).'/../lang';
-	if ($dirname[strlen($dirname) - 1] != '/')
-		$dirname .= '/';
-	$handle = opendir($dirname);
-	while ($entries = readdir($handle))
+	$path = dirname(__FILE__).'/../lang';
+	$list = FileSystem::get_directory_content($path, Filesystem::LIST_DIRECTORIES, false);
+	$language_list = array();
+	foreach($list as $index => $language)
 	{
-		if ($entries == '.' || $entries == '..' || $entries == '.svn')
+		if ($language == '.' || $language == '..' || $language == '.svn')
 			continue;
-		if (is_dir($dirname.$entries))
-		{
-			$language_list[$entries] = $entries;
-		}
+		$language_list[$language] = $language;
 	}
-	closedir($handle);
 	return $language_list;
-}
-
-// Rule for passwords comparison
-function comparePassword($fields)
-{
-	if (strlen($fields['password1']) && strlen($fields['password2']) && $fields['password1'] != $fields['password2'])
-	{
-		return array ('password1' => 'Passwords are not the same');
-	}
-	return true;
 }
 
 // Rule to check update path
