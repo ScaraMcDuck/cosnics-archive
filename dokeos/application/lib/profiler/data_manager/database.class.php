@@ -12,10 +12,10 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 	private $prefix;
 	private $repoDM;
 	private $userDM;
-	
+
 	const ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE = 'pmb';
 	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
-	
+
 	function initialize()
 	{
 		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
@@ -29,7 +29,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
 		$this->connection->query('SET NAMES utf8');
 	}
-	
+
 	/**
 	 * Escapes a column name
 	 * @param string $name
@@ -46,14 +46,14 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		}
 		return $prefix.$this->connection->quoteIdentifier($name);
 	}
-	
+
 	static function handle_error($error)
 	{
 		die(__FILE__.':'.__LINE__.': '.$error->getMessage()
 		// For debugging only. May create a security hazard.
 		.' ('.$error->getDebugInfo().')');
 	}
-	
+
 	function debug()
 	{
 		$args = func_get_args();
@@ -65,14 +65,14 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		 	//echo '</pre>';
 		}
 	}
-	
+
 	function escape_table_name($name)
 	{
-		global $profiler_database;
-		$database_name = $this->connection->quoteIdentifier($profiler_database);
+		$dsn = $this->connection->getDSN('array');
+		$database_name = $this->connection->quoteIdentifier($dsn['database']);
 		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
 	}
-	
+
 	/**
 	 * Gets the full name of a given table (by adding the database name and a
 	 * prefix if required)
@@ -80,10 +80,10 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 	 */
 	private function get_table_name($name)
 	{
-		global $profiler_database;
-		return $profiler_database.'.'.$this->prefix.$name;
+		$dsn = $this->connection->getDSN('array');
+		return $dsn['database'].'.'.$this->prefix.$name;
 	}
-	
+
 	/**
 	 * Translates any type of condition to a SQL WHERE clause.
 	 * @param Condition $condition The Condition object.
@@ -262,13 +262,13 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 			die('Cannot translate condition');
 		}
 	}
-	
+
 	//Inherited.
 	function get_next_profile_publication_id()
 	{
 		return $this->connection->nextID($this->get_table_name('profiler_publication'));
 	}
-	
+
 	//Inherited.
     function count_profile_publications($condition = null)
     {
@@ -288,15 +288,15 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		$res->free();
 		return $record[0];
     }
-    
+
     //Inherited
     function retrieve_profile_publication($id)
 	{
-		
+
 		$query = 'SELECT * FROM '.$this->escape_table_name('profiler_publication');
 		$query .= ' JOIN '.$this->userDM->escape_table_name('user') . 'ON' . $this->escape_table_name('profiler_publication'). '.' . $this->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
 		$query .= ' WHERE '.$this->escape_column_name(ProfilePublication :: PROPERTY_ID).'=?';
-		
+
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);
@@ -304,11 +304,11 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		$res->free();
 		return self :: record_to_profile_publication($record);
 	}
-    
+
     //Inherited.
     function retrieve_profile_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
-		
+
 		$query = 'SELECT * FROM '.$this->escape_table_name('profiler_publication');
 		$query .= 'JOIN '.$this->userDM->escape_table_name('user') . 'ON' . $this->escape_table_name('profiler_publication'). '.' . $this->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
 
@@ -331,13 +331,13 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		{
 			$maxObjects = null;
 		}
-		
+
 		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseProfilePublicationResultSet($this, $res);
 	}
-	
+
 	//Inherited.
 	function record_to_profile_publication($record)
 	{
@@ -350,9 +350,9 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		{
 			$defaultProp[$prop] = $record[$prop];
 		}
-		return new ProfilePublication($record[ProfilePublication :: PROPERTY_ID], $defaultProp);		
+		return new ProfilePublication($record[ProfilePublication :: PROPERTY_ID], $defaultProp);
 	}
-	
+
 	//Inherited.
 	function update_profile_publication($profile_publication)
 	{
@@ -366,7 +366,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		$this->connection->extended->autoExecute($this->get_table_name('profiler_publication'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 		return true;
 	}
-	
+
 	//Inherited
 	function delete_profile_publication($profile_publication)
 	{
@@ -381,7 +381,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 			return false;
 		}
 	}
-	
+
 	//Inherited.
 	function delete_profile_publications($object_id)
 	{
@@ -398,8 +398,8 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		}
 		return true;
 	}
-	
-	
+
+
 	//Inherited.
 	function update_profile_publication_id($publication_attr)
 	{
@@ -416,13 +416,13 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 			return false;
 		}
 	}
-	
+
 	//Inherited.
 	static function is_date_column($name)
 	{
 		return ($name == ProfilePublication :: PROPERTY_PUBLISHED);
 	}
-	
+
 	//Inherited.
 	function any_learning_object_is_published($object_ids)
 	{
@@ -430,7 +430,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		$res = $this->limitQuery($query, 1, null,$object_ids);
 		return $res->numRows() == 1;
 	}
-	
+
 	//Inherited.
 	function learning_object_is_published($object_id)
 	{
@@ -438,7 +438,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		$res = $this->limitQuery($query, 1,null, array ($object_id));
 		return $res->numRows() == 1;
 	}
-	
+
 	//Inherited
 	private function limitQuery($query,$limit,$offset,$params,$is_manip = false)
 	{
@@ -447,7 +447,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		$res = $statement->execute($params);
 		return $res;
 	}
-	
+
 	//Inherited
 	function create_storage_unit($name,$properties,$indexes)
 	{
@@ -477,7 +477,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 			}
 		}
 	}
-	
+
 	//Inherited
 	function get_learning_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
@@ -526,7 +526,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$publication = $this->record_to_profile_publication($record);
-			
+
 			$info = new LearningObjectPublicationAttributes();
 			$info->set_id($publication->get_id());
 			$info->set_publisher_user_id($publication->get_publisher());
@@ -536,12 +536,12 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 			$info->set_location(get_lang('List'));
 			$info->set_url('index_profiler.php?go=view&profile='.$publication->get_id());
 			$info->set_publication_object_id($publication->get_profile());
-			
+
 			$publication_attr[] = $info;
 		}
 		return $publication_attr;
 	}
-	
+
 	//Indered.
 	function get_learning_object_publication_attribute($publication_id)
 	{
@@ -550,11 +550,11 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		$statement = $this->connection->prepare($query);
 		$this->connection->setLimit(0,1);
 		$res = $statement->execute($publication_id);
-		
+
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-		
+
 		$publication = $this->record_to_profile_publication($record);
-			
+
 		$info = new LearningObjectPublicationAttributes();
 		$info->set_id($publication->get_id());
 		$info->set_publisher_user_id($publication->get_publisher());
@@ -567,7 +567,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 
 		return $info;
 	}
-	
+
 	//Inherited.
 	function count_publication_attributes($user, $type = null, $condition = null)
 	{
@@ -579,7 +579,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
-	
+
 	//Inherited.
 	function create_profile_publication($publication)
 	{
@@ -589,7 +589,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$props[$this->escape_column_name(ProfilePublication :: PROPERTY_ID)] = $publication->get_id();
-		
+
 		$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('profiler_publication'), $props, MDB2_AUTOQUERY_INSERT))
 		{

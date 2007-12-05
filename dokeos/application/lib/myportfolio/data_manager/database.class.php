@@ -22,7 +22,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 
 	private $repoDM;
 	private $userDM;
-	
+
 	function initialize()
 	{
 		$this->repoDM = & RepositoryDataManager :: get_instance();
@@ -31,25 +31,25 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_portfolio'),array('debug'=>3,'debug_handler'=>array('PortfolioDataManager','debug')));
 		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
 		$this->connection->query('SET NAMES utf8');
-		
+
 	}
-	
+
 	function ExecuteQuery($sql)
 	{
 		$this->connection->query($sql);
 	}
-	
+
 
 	private function get_table_name($name)
 	{
-		global $portfolio_database;
-		return $portfolio_database.'.'.$this->prefix.$name;
+		$dsn = $this->connection->getDSN('array');
+		return $dsn['database'].'.'.$this->prefix.$name;
 	}
 
 	function escape_table_name($name)
 	{
-		global $portfolio_database;
-		$database_name = $this->connection->quoteIdentifier($portfolio_database);
+		$dsn = $this->connection->getDSN('array');
+		$database_name = $this->connection->quoteIdentifier($dsn['database']);
 		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
 	}
 
@@ -57,7 +57,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	{
 		list($table, $column) = explode('.', $name, 2);
 		$prefix = '';
-		
+
 		if (isset($column))
 		{
 			$prefix = $table.'.';
@@ -65,7 +65,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		}
 		return $prefix.$this->connection->quoteIdentifier($name);
 	}
-	
+
 	private function limitQuery($query,$limit,$offset,$params,$is_manip = false)
 	{
 		$this->connection->setLimit($limit,$offset);
@@ -84,7 +84,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			$result=$res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $result['child'];
 		}
-		else 
+		else
 		{
 			$props = array ();
 			$props['userid']=$user->get_user_id();
@@ -104,9 +104,9 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			$props['display_order']=1;
 			$this->connection->extended->autoExecute($this->get_table_name('tree_relation'), $props, MDB2_AUTOQUERY_INSERT);
 			return $result['treeitem'];
-		}	
+		}
 	}
-	
+
 	function get_item_title($item)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('treeitem').' WHERE '.$this->escape_column_name('treeitem').'=?';
@@ -115,7 +115,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		{
 			$result=$res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $result['title'];
-		}	
+		}
 	}
 
 	function get_owner($item)
@@ -137,16 +137,16 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$children = array();
 		$i=0;
 		$nrchild=$res->numRows();
-		
+
 		while($i<$nrchild)
 		{
 			$result=$res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$children[]=$result['child'];
 			$i++;
 		}
-		
+
 		return $children;
-		
+
 	}
 
 	function create_page($title,$user)
@@ -239,7 +239,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	{
 		return $this->connection->nextID($this->get_table_name('treeitem'));
 	}
-	
+
 	//Inherited.
     function count_portfolio_publications($condition = null)
     {
@@ -259,7 +259,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$res->free();
 		return $record[0];
     }
-    
+
     //Inherited
     function retrieve_portfolio_publication($id)
 	{
@@ -268,7 +268,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$query .= ' JOIN '.$this->userDM->escape_table_name('user') . ' ON ' . $this->escape_table_name('portfolio_publication'). '.' . $this->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
 		$query .= ' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_ID).'=?';
 		echo $query;
-		
+
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);
@@ -283,7 +283,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$query = 'SELECT * FROM '.$this->escape_table_name('portfolio_publication');
 		$query .= ' JOIN '.$this->userDM->escape_table_name('user') . ' ON ' . $this->escape_table_name('portfolio_publication'). '.' . $this->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
 		$query .= ' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_TREEITEM).'=?';
-		
+
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($item);
@@ -291,11 +291,11 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$res->free();
 		return self :: record_to_portfolio_publication($record);
 	}
-    
+
     //Inherited.
     function retrieve_portfolio_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
-		
+
 		$query = 'SELECT * FROM '.$this->escape_table_name('portfolio_publication');
 		$query .= 'JOIN '.$this->userDM->escape_table_name('user') . ' ON ' . $this->escape_table_name('portfolio_publication'). '.' . $this->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
 
@@ -318,13 +318,13 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		{
 			$maxObjects = null;
 		}
-		
+
 		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabasePortfolioPublicationResultSet($this, $res);
 	}
-	
+
 	//Inherited.
 	function record_to_portfolio_publication($record)
 	{
@@ -337,9 +337,9 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		{
 			$defaultProp[$prop] = $record[$prop];
 		}
-		return new PortfolioPublication($record[PortfolioPublication :: PROPERTY_ID], $defaultProp);		
+		return new PortfolioPublication($record[PortfolioPublication :: PROPERTY_ID], $defaultProp);
 	}
-	
+
 	//Inherited.
 	function update_portfolio_publication($portfolio_publication)
 	{
@@ -353,7 +353,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$this->connection->extended->autoExecute($this->get_table_name('portfolio_publication'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 		return true;
 	}
-	
+
 	//Inherited
 	function delete_portfolio_publication($portfolio_publication)
 	{
@@ -368,7 +368,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			return false;
 		}
 	}
-	
+
 	//Inherited.
 	function delete_portfolio_publications($object_id)
 	{
@@ -385,8 +385,8 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		}
 		return true;
 	}
-	
-	
+
+
 	//Inherited.
 	function update_portfolio_publication_id($publication_attr)
 	{
@@ -403,13 +403,13 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			return false;
 		}
 	}
-	
+
 	//Inherited.
 	static function is_date_column($name)
 	{
 		return ($name == PortfolioPublication :: PROPERTY_PUBLISHED);
 	}
-	
+
 	//Inherited.
 	function any_learning_object_is_published($object_ids)
 	{
@@ -417,7 +417,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$res = $this->limitQuery($query, 1, null,$object_ids);
 		return $res->numRows() == 1;
 	}
-	
+
 	//Inherited.
 	function learning_object_is_published($object_id)
 	{
@@ -425,7 +425,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$res = $this->limitQuery($query, 1,null, array ($object_id));
 		return $res->numRows() == 1;
 	}
-	
+
 
 	//Inherited
 	function get_learning_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
@@ -475,7 +475,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$publication = $this->record_to_portfolio_publication($record);
-			
+
 			$info = new LearningObjectPublicationAttributes();
 			$info->set_id($publication->get_id());
 			$info->set_publisher_user_id($publication->get_publisher());
@@ -485,12 +485,12 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			$info->set_location(get_lang('List'));
 			$info->set_url('index_myportfolio.php?go=view&portfolio='.$publication->get_id());
 			$info->set_publication_object_id($publication->get_portfolio());
-			
+
 			$publication_attr[] = $info;
 		}
 		return $publication_attr;
 	}
-	
+
 	//Indered.
 	function get_learning_object_publication_attribute($publication_id)
 	{
@@ -499,11 +499,11 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$statement = $this->connection->prepare($query);
 		$this->connection->setLimit(0,1);
 		$res = $statement->execute($publication_id);
-		
+
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-		
+
 		$publication = $this->record_to_portfolio_publication($record);
-			
+
 		$info = new LearningObjectPublicationAttributes();
 		$info->set_id($publication->get_id());
 		$info->set_publisher_user_id($publication->get_publisher());
@@ -516,7 +516,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 
 		return $info;
 	}
-	
+
 	//Inherited.
 	function count_publication_attributes($user, $type = null, $condition = null)
 	{
@@ -528,7 +528,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
-	
+
 	//Inherited.
 	function create_portfolio_publication($publication)
 	{
@@ -538,7 +538,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$props[$this->escape_column_name(PortfolioPublication :: PROPERTY_ID)] = $publication->get_id();
-		
+
 		$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('portfolio_publication'), $props, MDB2_AUTOQUERY_INSERT))
 		{

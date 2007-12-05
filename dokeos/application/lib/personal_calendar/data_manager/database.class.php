@@ -95,8 +95,8 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	 */
 	private function get_table_name($name)
 	{
-		global $personal_calendar_database;
-		return $personal_calendar_database.'.'.$this->prefix.$name;
+		$dsn = $this->connection->getDSN('array');
+		return $dsn['database'].'.'.$this->prefix.$name;
 	}
 	/**
 	 * Escapes a column name
