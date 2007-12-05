@@ -66,23 +66,6 @@ $mainDbName             = '{DATABASE_MAIN}';
 $statsDbName            = '{DATABASE_STATS}';
 // scorm Dokeos database
 $scormDbName            = '{DATABASE_SCORM}';
-// user Personal Database (where all the personal stuff of the user is stored
-// (personal agenda items, course sorting)
-$user_personal_database = '{DATABASE_PERSONAL}';
-// object repository database
-$repository_database    = '{DATABASE_REPOSITORY}';
-// weblcms database
-$weblcms_database    	= '{DATABASE_WEBLCMS}';
-// portfolio database
-$portfolio_database    	= '{DATABASE_PORTFOLIO}';
-// users database
-$user_database			= '{DATABASE_USERDB}';
-// personal calendar database
-$personal_calendar_database = '{DATABASE_PERSONALCALENDAR}';
-// personal message database
-$personal_messenger_database = '{DATABASE_PERSONAL_MESSENGER}';
-// profiler database
-$profiler_database = '{DATABASE_PROFILER}';
 
 //============================================================================
 //   Directory settings
