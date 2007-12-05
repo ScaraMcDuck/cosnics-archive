@@ -12,6 +12,7 @@ require_once dirname(__FILE__).'/../../browser/list_renderer/minimonthcalendarle
 require_once dirname(__FILE__).'/../../browser/list_renderer/monthcalendarlearningobjectpublicationlistrenderer.class.php';
 require_once dirname(__FILE__).'/../../browser/list_renderer/weekcalendarlearningobjectpublicationlistrenderer.class.php';
 require_once dirname(__FILE__).'/../../browser/list_renderer/daycalendarlearningobjectpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/../../browser/list_renderer/learningobjectpublicationdetailsrenderer.class.php';
 
 class CalendarBrowser extends LearningObjectPublicationBrowser
 {
@@ -23,7 +24,15 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 	function CalendarBrowser($parent, $types)
 	{
 		parent :: __construct($parent, 'calendar');
-		$renderer = new CalendarListRenderer($this);
+		if(isset($_GET['pid']))
+		{
+			$this->set_publication_id($_GET['pid']);
+			$renderer = new LearningObjectPublicationDetailsRenderer($this);
+		}
+		else
+		{
+			$renderer = new CalendarListRenderer($this);
+		}
 		$this->set_publication_list_renderer($renderer);
 	}
 
