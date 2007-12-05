@@ -89,8 +89,8 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	 */
 	function escape_table_name($name)
 	{
-		global $user_database;
-		$database_name = $this->connection->quoteIdentifier($user_database);
+		$dsn = $this->connection->getDSN('array');
+		$database_name = $this->connection->quoteIdentifier($dsn['database']);
 		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
 	}
 
@@ -244,8 +244,8 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	 */
 	function get_table_name($name)
 	{
-		global $user_database;
-		return $user_database.'.'.$this->prefix.$name;
+		$dsn = $this->connection->getDSN('array');
+		return $dsn['database'].'.'.$this->prefix.$name;
 	}
 
 	//Inherited.
