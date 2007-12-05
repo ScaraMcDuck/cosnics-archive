@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: Common.php,v 1.16 2006/08/07 20:15:21 lsmith Exp $
+// $Id: Common.php,v 1.17 2007/01/12 11:29:12 quipo Exp $
 //
 
 /**
@@ -203,6 +203,27 @@ class MDB2_Driver_Function_Common extends MDB2_Module_Common
     function upper($expression)
     {
         return "UPPER($expression)";
+    }
+
+    // }}}
+    // {{{ guid()
+
+    /**
+     * Returns global unique identifier
+     *
+     * @return string to get global unique identifier
+     * @access public
+     */
+    function guid()
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        $error =& $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+            'method not implemented', __FUNCTION__);
+        return $error;
     }
 
     // }}}
