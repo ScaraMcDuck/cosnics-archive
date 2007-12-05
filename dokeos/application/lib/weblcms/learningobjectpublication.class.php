@@ -25,6 +25,7 @@ class LearningObjectPublication
 	const PROPERTY_HIDDEN = 'hidden';
 	const PROPERTY_PUBLISHER_ID = 'publisher';
 	const PROPERTY_PUBLICATION_DATE = 'published';
+	const PROPERTY_MODIFIED_DATE = 'modified';
 	const PROPERTY_DISPLAY_ORDER_INDEX = 'display_order';
 	const PROPERTY_EMAIL_SENT = 'email_sent';
 	/**#@-*/
@@ -45,6 +46,7 @@ class LearningObjectPublication
 	private $hidden;
 	private $publisher;
 	private $publicationDate;
+	private $modifiedDate;
 	private $displayOrder;
 	private $emailSent;
 	/**#@-*/
@@ -73,7 +75,7 @@ class LearningObjectPublication
 	 * @param int $displayOrder The display order of this publication in its
 	 * location (course - tool - category)
 	 */
-	function LearningObjectPublication($id, $learningObject, $course, $tool, $category, $targetUsers, $targetGroups, $fromDate, $toDate, $publisher, $publicationDate, $hidden, $displayOrder, $emailSent)
+	function LearningObjectPublication($id, $learningObject, $course, $tool, $category, $targetUsers, $targetGroups, $fromDate, $toDate, $publisher, $publicationDate, $modifiedDate, $hidden, $displayOrder, $emailSent)
 	{
 		$this->id = $id;
 		$this->learningObject = $learningObject;
@@ -87,6 +89,7 @@ class LearningObjectPublication
 		$this->toDate = $toDate;
 		$this->publisher = $publisher;
 		$this->publicationDate = $publicationDate;
+		$this->modifiedDate = $modifiedDate; 
 		$this->hidden = $hidden;
 		$this->displayOrder = $displayOrder;
 		$this->emailSent = $emailSent;
@@ -194,6 +197,16 @@ class LearningObjectPublication
 	{
 		return $this->publicationDate;
 	}
+	
+	/**
+	 * Gets the date on which this publication was made
+	 * @return int
+	 */
+	 function get_modified_date()
+	 {
+	 	return $this->modifiedDate;	
+	 }
+	  
 	/**
 	 * Determines whether this publication was sent by email to the users and
 	 * groups for which this publication was made
@@ -301,6 +314,11 @@ class LearningObjectPublication
 	function set_publication_date($publicationDate)
 	{
 		$this->publicationDate = $publicationDate;
+	}
+	
+	function set_modified_date($modifiedDate)
+	{
+		$this->modifiedDate = $modifiedDate;
 	}
 
 	function set_hidden($hidden)
