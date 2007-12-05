@@ -133,6 +133,14 @@ function full_file_install($values)
 //	$installer->install();
 //	unset($installer);
 
+	$files_path = dirname(__FILE__).'/../../files/';
+	$directories = array('archive','fckeditor','garbage','repository','temp','userpictures');
+	foreach($directories as $index => $directory)
+	{
+		$path = $files_path.$directory;
+		FileSystem::create_dir($path);
+	}
+
 	echo "<p>File creation is complete!</p>";
 }
 ?>
