@@ -197,6 +197,7 @@ class LearningObjectPublicationForm extends FormValidator
 		$pub->set_from_date($from);
 		$pub->set_to_date($to);
 		$pub->set_hidden($hidden);
+		$pub->set_modified_date(time());
 		$pub->set_target_users($users);
 		$pub->set_target_groups($groups);
 		$pub->update();
@@ -242,8 +243,9 @@ class LearningObjectPublicationForm extends FormValidator
 		$dm = WeblcmsDataManager :: get_instance();
 		$displayOrder = $dm->get_next_learning_object_publication_display_order_index($course,$tool,$category);
 		$publisher = $this->tool->get_user_id();
+		$modifiedDate = time();
 		$publicationDate = time();
-		$pub = new LearningObjectPublication(null, $this->learning_object, $course, $tool, $category, $users, $groups, $from, $to, $publisher, $publicationDate, $hidden, $displayOrder, false);
+		$pub = new LearningObjectPublication(null, $this->learning_object, $course, $tool, $category, $users, $groups, $from, $to, $publisher, $publicationDate, $modifiedDate, $hidden, $displayOrder, false);
 		$pub->create();
 		if($this->email_option && $values[self::PARAM_EMAIL])
 		{
