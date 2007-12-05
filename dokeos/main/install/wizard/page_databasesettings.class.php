@@ -19,6 +19,21 @@ class Page_DatabaseSettings extends HTML_QuickForm_Page
 	{
 		return get_lang('DBSettingIntro');
 	}
+	//TODO: Move this function elsewhere?
+	public static function get_databases()
+	{
+		$databases['database_main_db']= get_lang("MainDB");
+		$databases['database_tracking']= get_lang("StatDB");
+		$databases['database_scorm']= get_lang("ScormDB");
+		$databases['database_user']= get_lang("UserDB");
+		$databases['database_repository']= get_lang("RepositoryDatabase");
+		$databases['database_weblcms']= get_lang("WeblcmsDatabase");
+		$databases['database_portfolio']= get_lang("PortfolioDatabase");
+		$databases['database_personal_calendar']= get_lang("PersonalCalendarDatabase");
+		$databases['database_personal_messenger']= get_lang("PersonalMessageDatabase");
+		$databases['database_profiler']= get_lang("ProfilerDatabase");
+		return $databases;
+	}
 	function buildForm()
 	{
 		$this->_formBuilt = true;
@@ -28,27 +43,15 @@ class Page_DatabaseSettings extends HTML_QuickForm_Page
 		$this->addElement('password', 'database_password', get_lang("DBPassword"), array ('size' => '40'));
 		$this->addRule(array('database_host','database_username','database_password'),get_lang('CouldNotConnectToDatabase'),new ValidateDatabaseConnection());
 		$this->addElement('text', 'database_prefix', get_lang("DbPrefixForm"), array ('size' => '40'));
-		$this->addElement('text', 'database_main_db', get_lang("MainDB"), array ('size' => '40'));
-		$this->addRule('database_main_db', 'ThisFieldIsRequired', 'required');
-		$this->addElement('text', 'database_tracking', get_lang("StatDB"), array ('size' => '40'));
-		$this->addRule('database_tracking', 'ThisFieldIsRequired', 'required');
-		$this->addElement('text', 'database_scorm', get_lang("ScormDB"), array ('size' => '40'));
-		$this->addRule('database_scorm', 'ThisFieldIsRequired', 'required');
-		$this->addElement('text', 'database_user', get_lang("UserDB"), array ('size' => '40'));
-		$this->addRule('database_user', 'ThisFieldIsRequired', 'required');
-		$this->addElement('text', 'database_repository', get_lang("RepositoryDatabase"), array ('size' => '40'));
-		$this->addRule('database_repository', 'ThisFieldIsRequired', 'required');
-		$this->addElement('text', 'database_weblcms', get_lang("WeblcmsDatabase"), array ('size' => '40'));
-		$this->addRule('database_weblcms', 'ThisFieldIsRequired', 'required');
-		$this->addElement('text', 'database_portfolio', get_lang("PortfolioDatabase"), array ('size' => '40'));
-		$this->addRule('database_portfolio', 'ThisFieldIsRequired', 'required');
-		$this->addElement('text', 'database_personal_calendar', get_lang("PersonalCalendarDatabase"), array ('size' => '40'));
-		$this->addRule('database_personal_calendar', 'ThisFieldIsRequired', 'required');
-		$this->addElement('text', 'database_personal_messenger', get_lang("PersonalMessageDatabase"), array ('size' => '40'));
-		$this->addRule('database_personal_messenger', 'ThisFieldIsRequired', 'required');
-		$this->addElement('text', 'database_profiler', get_lang("ProfilerDatabase"), array ('size' => '40'));
-		$this->addRule('database_profiler', 'ThisFieldIsRequired', 'required');
-		
+		$this->addRule('database_prefix', 'OnlyCharactersNumbersUnderscoresAndHyphens', 'regex', '/^[a-z][a-z0-9_-]+$/');
+
+		$databases = Page_DatabaseSettings::get_databases();
+		foreach($databases as $database_name => $database_label)
+		{
+			$this->addElement('text', $database_name, $database_label, array ('size' => '40'));
+			$this->addRule($database_name, 'ThisFieldIsRequired', 'required');
+			$this->addRule($database_name, 'OnlyCharactersNumbersUnderscoresAndHyphens', 'regex', '/^[a-z][a-z0-9_-]+$/');
+		}
 		$enable_tracking[] = & $this->createElement('radio', 'enable_tracking', null, get_lang("Yes"), 1);
 		$enable_tracking[] = & $this->createElement('radio', 'enable_tracking', null, get_lang("No"), 0);
 		$this->addGroup($enable_tracking, 'tracking', get_lang("EnableTracking"), '&nbsp;', false);
@@ -68,6 +71,7 @@ class ValidateDatabaseConnection extends HTML_QuickForm_Rule
 		$db_host = $parameters[0];
 		$db_user = $parameters[1];
 		$db_password = $parameters[2];
+		//TODO use database abstraction here
 		if(mysql_connect($db_host,$db_user,$db_password))
 		{
 			return true;

@@ -25,6 +25,7 @@ class Page_ConfigSettings extends HTML_QuickForm_Page
 		$this->addElement('select', 'platform_language', get_lang("MainLang"), get_language_folder_list());
 		$this->addElement('text', 'platform_url', get_lang("DokeosURL"), array ('size' => '40'));
 		$this->addRule('platform_url', get_lang('ThisFieldIsRequired'), 'required');
+		$this->addRule('platform_url', 'AddTrailingSlash', 'regex', '/^.*\/$/');
 		$this->addElement('text', 'admin_email', get_lang("AdminEmail"), array ('size' => '40'));
 		$this->addRule('admin_email', get_lang('ThisFieldIsRequired'), 'required');
 		$this->addRule('admin_email', get_lang('WrongEmail'), 'email');

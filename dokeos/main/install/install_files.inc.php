@@ -54,14 +54,14 @@ function full_file_install($values)
 	$content = file_get_contents('../../repository/conf/configuration.dist.php');
 	$config['{DATABASE_HOST}'] = $values['database_host'];
 	$config['{DATABASE_USER}'] = $values['database_username'];
-	$config['{DATABASE_USERDB}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_user"]);
 	$config['{DATABASE_PASSWORD}'] = $values['database_password'];
-	$config['{DATABASE_REPOSITORY}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_repository"]);
-	$config['{DATABASE_WEBLCMS}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_weblcms"]);
-	$config['{DATABASE_PORTFOLIO}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_portfolio"]);
-	$config['{DATABASE_PERSONALCALENDAR}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_personal_calendar"]);
-	$config['{DATABASE_PERSONAL_MESSENGER}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_personal_messenger"]);
-	$config['{DATABASE_PROFILER}'] = ($values['database_single'] ? $values["database_main_db"] : $values["database_profiler"]);
+	$config['{DATABASE_USERDB}'] =  $values['database_user'];
+	$config['{DATABASE_REPOSITORY}'] = $values['database_repository'];
+	$config['{DATABASE_WEBLCMS}'] =  $values['database_weblcms'];
+	$config['{DATABASE_PORTFOLIO}'] =$values['database_portfolio'];
+	$config['{DATABASE_PERSONALCALENDAR}'] = $values['database_personal_calendar'];
+	$config['{DATABASE_PERSONAL_MESSENGER}'] = $values['database_personal_messenger'];
+	$config['{DATABASE_PROFILER}'] =  $values['database_profiler'];
 
 	foreach ($config as $key => $value)
 	{
@@ -79,6 +79,14 @@ function full_file_install($values)
 	require_once('../../repository/install/repository_installer.class.php');
 	require_once('../../application/lib/personal_messenger/install/personal_messenger_installer.class.php');
 	require_once('../../application/lib/profiler/install/profiler_installer.class.php');
+
+	//-----------------------------------------------------------
+	// Users tables install.
+	//-----------------------------------------------------------
+	$installer = new UsersInstaller();
+	$installer->install();
+	unset($installer);
+
 	$installer = new RepositoryInstaller();
 	$installer->install();
 	unset($installer);
@@ -97,19 +105,7 @@ function full_file_install($values)
 	$installer->install();
 	unset($installer);
 
-	//-----------------------------------------------------------
-	// Portfolio Install.
-	//-----------------------------------------------------------
-	$installer = new PortfolioInstaller();
-	$installer->install();
-	unset($installer);
-	
-	//-----------------------------------------------------------
-	// Users tables install.
-	//-----------------------------------------------------------
-	$installer = new UsersInstaller();
-	$installer->install();
-	unset($installer);
+
 
 	//-----------------------------------------------------------
 	// personal messenger tables install.
@@ -126,6 +122,13 @@ function full_file_install($values)
 	unset($installer);
 
 	//-----------------------------------------------------------
+	// Portfolio Install.
+	//-----------------------------------------------------------
+	$installer = new PortfolioInstaller();
+	$installer->install();
+	unset($installer);
+
+	//-----------------------------------------------------------
 	// Class groups tables install.
 	//-----------------------------------------------------------
 //	$installer = new ClassGroupInstaller();
@@ -134,5 +137,4 @@ function full_file_install($values)
 
 	echo "<p>File creation is complete!</p>";
 }
-
 ?>
