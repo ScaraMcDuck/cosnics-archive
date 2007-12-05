@@ -20,8 +20,6 @@ class Page_ConfigSettings extends HTML_QuickForm_Page
 	function buildForm()
 	{
 		$this->_formBuilt = true;
-		$languages = array ();
-		$languages['dutch'] = 'dutch';
 		$this->addElement('select', 'platform_language', get_lang("MainLang"), get_language_folder_list());
 		$this->addElement('text', 'platform_url', get_lang("DokeosURL"), array ('size' => '40'));
 		$this->addRule('platform_url', get_lang('ThisFieldIsRequired'), 'required');
