@@ -28,16 +28,17 @@ class Installer {
 		$object = $doc->getElementsByTagname('object')->item(0);
 		$name = $object->getAttribute('name');
 		$xml_properties = $doc->getElementsByTagname('property');
+		$attributes = array('type','length','unsigned','notnull','default','autoincrement','fixed');
 		foreach($xml_properties as $index => $property)
 		{
 			 $property_info = array();
-			 $property_info['type'] = $property->getAttribute('type');
-			 $property_info['length'] = $property->getAttribute('length');
-			 $property_info['unsigned'] = $property->getAttribute('unsigned');
-			 $property_info['notnull'] = $property->getAttribute('notnull');
-			 $property_info['default'] = $property->getAttribute('default');
-			 $property_info['autoincrement'] = $property->getAttribute('autoincrement');
-			 $property_info['fixed'] = $property->getAttribute('fixed');
+			 foreach($attributes as $index => $attribute)
+			 {
+			 	if($property->hasAttribute($attribute))
+			 	{
+			 		$property_info[$attribute] = $property->getAttribute($attribute);
+			 	}
+			 }
 			 $properties[$property->getAttribute('name')] = $property_info;
 		}
 		$xml_indexes = $doc->getElementsByTagname('index');
