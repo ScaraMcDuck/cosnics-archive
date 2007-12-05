@@ -9,6 +9,7 @@ require_once dirname(__FILE__).'/../../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../../learningobjectpublicationbrowser.class.php';
 require_once dirname(__FILE__).'/../../browser/learningobjectpublicationcategorytree.class.php';
 require_once dirname(__FILE__).'/linkpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/../../browser/list_renderer/learningobjectpublicationdetailsrenderer.class.php';
 
 class LinkBrowser extends LearningObjectPublicationBrowser
 {
@@ -18,7 +19,16 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 		// TODO: Assign a dynamic tree name.
 		$tree_id = 'pcattree';
 		$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
-		$renderer = new LinkPublicationListRenderer($this);
+		
+		if(isset($_GET['pid']))
+		{
+			$this->set_publication_id($_GET['pid']);
+			$renderer = new LearningObjectPublicationDetailsRenderer($this);
+		}
+		else
+		{
+			$renderer = new LinkPublicationListRenderer($this);
+		}
 		$this->set_publication_list_renderer($renderer);
 		$this->set_publication_category_tree($tree);
 	}

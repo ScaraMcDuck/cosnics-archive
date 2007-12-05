@@ -8,6 +8,7 @@
 require_once dirname(__FILE__).'/../../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../../learningobjectpublicationbrowser.class.php';
 require_once dirname(__FILE__).'/announcementpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/../../browser/list_renderer/learningobjectpublicationdetailsrenderer.class.php';
 /**
  * Browser to allow the user to view the published announcements
  */
@@ -19,7 +20,15 @@ class AnnouncementBrowser extends LearningObjectPublicationBrowser
 	function AnnouncementBrowser($parent)
 	{
 		parent :: __construct($parent, 'announcement');
-		$renderer = new AnnouncementPublicationListRenderer($this);
+		if(isset($_GET['pid']))
+		{
+			$this->set_publication_id($_GET['pid']);
+			$renderer = new LearningObjectPublicationDetailsRenderer($this);
+		}
+		else
+		{
+			$renderer = new AnnouncementPublicationListRenderer($this);
+		}
 		$this->set_publication_list_renderer($renderer);
 	}
 	/**
