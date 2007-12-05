@@ -558,7 +558,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_TO_DATE)] = $publication->get_to_date();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLISHER_ID)] = $publication->get_publisher_id();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLICATION_DATE)] = $publication->get_publication_date();
-		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_MODIFIED_DATE)] = $publication->set_modified_date();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_MODIFIED_DATE)] = $publication->get_modified_date();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_HIDDEN)] = $publication->is_hidden();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX)] = $publication->get_display_order_index();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_EMAIL_SENT)] = $publication->is_email_sent();

@@ -197,7 +197,8 @@ class LearningObjectPublicationForm extends FormValidator
 		$pub->set_from_date($from);
 		$pub->set_to_date($to);
 		$pub->set_hidden($hidden);
-		$pub->set_modified_date(time());
+		$modifiedDate = time();
+		$pub->set_modified_date($modifiedDate);
 		$pub->set_target_users($users);
 		$pub->set_target_groups($groups);
 		$pub->update();
