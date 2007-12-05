@@ -280,6 +280,7 @@ $defaults['encrypt_password'] = 1;
 $defaults['organization_name'] = 'Dokeos';
 $defaults['organization_url'] = 'http://www.dokeos.com';
 $defaults['self_reg'] = 1;
+$defaults['self_reg_teacher'] = 0;
 
 // Add all installation pages to the wizard
 $wizard->addPage(new Page_Language('page_language'));
