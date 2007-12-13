@@ -193,7 +193,7 @@ class Display
 	 * 					'per_page' = number of items to show per page
 	 * 					'page_nr' = The page to display
 	 * @param array $query_vars Additional variables to add in the query-string
-	 * @author bart.mollet@hogent.be
+	 * @author digitaal-leren@hogent.be
 	 */
 	function display_sortable_table($header, $content, $sorting_options = array (), $paging_options = array (), $query_vars = null)
 	{

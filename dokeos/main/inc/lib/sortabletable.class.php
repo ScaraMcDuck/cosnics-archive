@@ -5,7 +5,7 @@
 	Dokeos - elearning and course management software
 
 	Copyright (c) 2005 Dokeos S.A.
-	Copyright (c) Bart Mollet (bart.mollet@hogent.be)
+	Copyright (c) Bart Mollet (digitaal-leren@hogent.be)
 
 	For a full list of contributors, see "credits.txt".
 	The full license can be read in "license.txt".

@@ -7,7 +7,7 @@
 	Copyright (c) 2004 Dokeos S.A.
 	Copyright (c) 2003 Ghent University (UGent)
 	Copyright (c) 2001 Universite catholique de Louvain (UCL)
-	Copyright (c) Bart Mollet (bart.mollet@hogent.be)
+	Copyright (c) Bart Mollet (digitaal-leren@hogent.be)
 	
 	For a full list of contributors, see "credits.txt".
 	The full license can be read in "license.txt".
@@ -27,7 +27,7 @@
  * ==============================================================================
  * Create a backup.
  * 
- * @author Bart Mollet <bart.mollet@hogent.be>
+ * @author Bart Mollet <digitaal-leren@hogent.be>
  * @package dokeos.backup
  * ==============================================================================
  */

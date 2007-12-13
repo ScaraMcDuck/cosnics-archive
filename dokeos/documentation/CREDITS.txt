@@ -4,7 +4,7 @@
 ---------------------------------
  Initial development
 ---------------------------------
-Bart Mollet (bart.mollet@hogent.be)
+Bart Mollet (digitaal-leren@hogent.be)
 Tom Brutin
 Tim De Pauw
 Dieter De Neef
@@ -33,7 +33,7 @@ Olivier Brouckaert (oli.brouckaert@dokeos.com)
 Patrick Cool (patrick.cool@ugent.be)
 Roan Embrechts (roan.embrechts@vub.ac.be)
 Rene Haentjens (rene.haentjens@intec.ugent.be)
-Bart Mollet (bart.mollet@hogent.be)
+Bart Mollet (digitaal-leren@hogent.be)
 Wolfgang Schneider (webmaster@bibelcenter.de)
 Bert Vanderkimpen (bert.vanderkimpen@ugent.be)
 Yannick Warnier (ywarnier@beeznest.org)
@@ -112,7 +112,7 @@ Olivier Cauberghe <olivier.cauberghe@ugent.be>
 Patrick Cool (patrick.cool@ugent.be)
 Roan Embrechts (roan.embrechts@vub.ac.be)
 Rene Haentjens (rene.haentjens@intec.ugent.be)
-Bart Mollet (bart.mollet@hogent.be)
+Bart Mollet (digitaal-leren@hogent.be)
 Denes Nagy (darkden@evk.bke.hu)
 Pablo Rey (prey@cesga.es)
 Wolfgang Schneider (webmaster@bibelcenter.de)
