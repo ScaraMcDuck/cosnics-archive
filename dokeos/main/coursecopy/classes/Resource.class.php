@@ -7,7 +7,7 @@
 	Copyright (c) 2004 Dokeos S.A.
 	Copyright (c) 2003 Ghent University (UGent)
 	Copyright (c) 2001 Universite catholique de Louvain (UCL)
-	Copyright (c) Bart Mollet (bart.mollet@hogent.be)
+	Copyright (c) Bart Mollet (digitaal-leren@hogent.be)
 
 	For a full list of contributors, see "credits.txt".
 	The full license can be read in "license.txt".
@@ -46,7 +46,7 @@ define('RESOURCE_SCORM', 'Scorm');
  * Representation of a resource in a Dokeos-course.
  * This is a base class of which real resource-classes (for Links,
  * Documents,...) should be derived.
- * @author Bart Mollet <bart.mollet@hogent.be>s
+ * @author Bart Mollet <digitaal-leren@hogent.be>s
  * @package  dokeos.backup
  * @todo Use the gloabaly defined constants voor tools and remove the RESOURCE_*
  * constants

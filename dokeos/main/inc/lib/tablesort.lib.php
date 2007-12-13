@@ -7,7 +7,7 @@
 	Copyright (c) 2004 Dokeos S.A.
 	Copyright (c) 2003 Ghent University (UGent)
 	Copyright (c) 2001 Universite catholique de Louvain (UCL)
-	Copyright (c) Bart Mollet (bart.mollet@hogent.be)
+	Copyright (c) Bart Mollet (digitaal-leren@hogent.be)
 	
 	For a full list of contributors, see "credits.txt".
 	The full license can be read in "license.txt".
@@ -82,7 +82,7 @@ class TableSort
 	 * @param constant $type How should data be sorted (SORT_REGULAR, SORT_NUMERIC,
 	 * SORT_STRING,SORT_DATE,SORT_IMAGE)
 	 * @return array The sorted dataset
-	 * @author bart.mollet@hogent.be
+	 * @author digitaal-leren@hogent.be
 	 */
 	function sort_table($data, $column = 0, $direction = SORT_ASC, $type = SORT_REGULAR)
 	{
@@ -126,7 +126,7 @@ class TableSort
 	 * @param int $column The index of the column to check
 	 * @return bool true if column contains only dates, false otherwise
 	 * @todo Take locale into account (eg decimal point or comma ?)
-	 * @author bart.mollet@hogent.be
+	 * @author digitaal-leren@hogent.be
 	 */
 	function is_numeric_column($data, $column)
 	{
@@ -142,7 +142,7 @@ class TableSort
 	 * @param array $data The data-array
 	 * @param int $column The index of the column to check
 	 * @return bool true if column contains only dates, false otherwise
-	 * @author bart.mollet@hogent.be
+	 * @author digitaal-leren@hogent.be
 	 */
 	function is_date_column($data, $column)
 	{
@@ -169,7 +169,7 @@ class TableSort
 	 * @param array $data The data-array
 	 * @param int $column The index of the column to check
 	 * @return bool true if column contains only images, false otherwise
-	 * @author bart.mollet@hogent.be
+	 * @author digitaal-leren@hogent.be
 	 */
 	function is_image_column($data, $column)
 	{
