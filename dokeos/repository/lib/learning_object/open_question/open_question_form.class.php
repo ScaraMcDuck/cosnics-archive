@@ -11,6 +11,12 @@ require_once dirname(__FILE__).'/open_question.class.php';
  */
 class OpenQuestionForm extends LearningObjectForm
 {
+	function setCsvValues($valuearray)
+	{
+		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];	
+		parent :: setValues($defaults);		
+	}
 	// Inherited
 	function create_learning_object()
 	{

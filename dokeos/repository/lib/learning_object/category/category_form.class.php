@@ -11,6 +11,14 @@ require_once dirname(__FILE__).'/category.class.php';
  */
 class CategoryForm extends LearningObjectForm
 {
+	function setCsvValues($valuearray)
+	{
+		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];	
+		parent :: setValues($defaults);
+			
+	}
+
 	//Inherited
 	function create_learning_object()
 	{
@@ -18,5 +26,6 @@ class CategoryForm extends LearningObjectForm
 		$this->set_learning_object($object);
 		return parent :: create_learning_object();
 	}
+
 }
 ?>

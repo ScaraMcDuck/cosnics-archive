@@ -18,5 +18,13 @@ class AnnouncementForm extends LearningObjectForm
 		$this->set_learning_object($object);
 		return parent :: create_learning_object();
 	}
+
+	function setCsvValues($valuearray)
+	{
+		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];	
+		parent :: setValues($defaults);
+			
+	}	
 }
 ?>

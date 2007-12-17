@@ -585,7 +585,6 @@ EOT;
 			        }
 		        }
 		}
-		echo 'return = '.count($this->_errors).'<br />';
 		return (0 == count($this->_errors));
 	}// end func validatecsv		
 }

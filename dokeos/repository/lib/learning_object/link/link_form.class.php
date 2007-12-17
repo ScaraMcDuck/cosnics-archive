@@ -17,6 +17,7 @@ class LinkForm extends LearningObjectForm
 		parent :: build_editing_form();
 		$this->add_textfield(Link :: PROPERTY_URL, get_lang('URL'), true,'size="40" style="width: 100%;"');
 	}
+
 	function setDefaults($defaults = array ())
 	{
 		$lo = $this->get_learning_object();
@@ -29,6 +30,15 @@ class LinkForm extends LearningObjectForm
 			$defaults[Link :: PROPERTY_URL] = 'http://';
 		}
 		parent :: setDefaults($defaults);
+	}
+
+	function setCsvValues($valuearray)
+	{
+		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];
+		$defaults[Link :: PROPERTY_URL] = $valuearray[2];	
+		parent :: setValues($defaults);
+			
 	}
 	function create_learning_object()
 	{
@@ -43,5 +53,11 @@ class LinkForm extends LearningObjectForm
 		$object->set_url($this->exportValue(Link :: PROPERTY_URL));
 		return parent :: update_learning_object();
 	}
+
+	function validatecsv($value)
+	{
+		return parent :: validatecsv($value);
+	}
+
 }
 ?>

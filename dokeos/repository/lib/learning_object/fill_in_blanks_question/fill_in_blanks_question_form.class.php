@@ -31,6 +31,13 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 		}
 		parent :: setDefaults($defaults);
 	}
+	function setCsvValues($valuearray)
+	{
+		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];
+		$defaults[FillInBlanksQuestion :: PROPERTY_ANSWER] = $valuearray[2];	
+		parent :: setValues($defaults);		
+	}
 	function create_learning_object()
 	{
 		$object = new FillInBlanksQuestion();
