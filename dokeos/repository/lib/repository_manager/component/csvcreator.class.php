@@ -35,6 +35,7 @@ class CSVCreator extends RepositoryManagerComponent
 		//elke regel in het csvbestand aflopen
 		for ($i = 0 ; $i < count($csvarray); $i++)
 		{
+			//Kijken of het object in csv wel bestaat.
 			if (in_array($csvarray[$i][0],$typearray))
 			{	
 				//Het eerste element van de regel is het type van het te importeren object.
@@ -47,35 +48,39 @@ class CSVCreator extends RepositoryManagerComponent
 				//Formulier voor dit object aanmaken
 				$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create');	
 				$valuearray= array();
-				
-				//aantal elementen in regel
-				$number= count($csvarray[$i]);
+
 
 				//valuearray opvullen met de waarden van de regel en formulier invullen
-				for ( $j=1; $j<$number; $j++)
+				for ( $j=1; $j<count($csvarray[$i]); $j++)
 				{
 					array_push($valuearray, $csvarray[$i][$j]);
 				}
-				$lo_form->setCsvValues($valuearray);
 				
-				//Elk element in regel valideren.
-				for ( $h=1; $h<$number; $h++)
+				if($lo_form->setCsvValues($valuearray))
 				{
-					if (!$lo_form->validatecsv($csvarray[$i][$h]))
+					//Elk element in regel valideren.
+					for ( $h=0; $h<count($valuearray); $h++)
 					{
-						$message = 'a'.$message;
+						if (!$lo_form->validatecsv($valuearray[$h]))
+						{
+							echo 'ik ben verkeerd<br />';
+							$message = 'a'.$message;
+						}
 					}
+					//Message is leeg indien geen fouten gebeurt zijn.		
+					if (empty($message))
+					{
+						array_push($objectarray, $lo_form);
+					}
+					else 
+					{
+						array_push($foutenarray, $i);
+					}								
 				}
-				//Message is leeg indien geen fouten gebeurt zijn.		
-				if (empty($message))
-				{
-					array_push($objectarray, $lo_form);
-				}
-				else 
+				else
 				{
 					array_push($foutenarray, $i);
 				}
-											
 			}
 			//Type zit er niet tussen -> fout
 			else 

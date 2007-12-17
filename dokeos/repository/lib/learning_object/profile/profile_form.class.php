@@ -11,6 +11,9 @@ require_once dirname(__FILE__).'/profile.class.php';
 
 class ProfileForm extends LearningObjectForm
 {
+	const REQUIRED_PROPERTIES = 3;
+	const TOTAL_PROPERTIES = 16;
+
 	protected function build_creation_form()
 	{
 		parent :: build_creation_form();
@@ -63,31 +66,42 @@ class ProfileForm extends LearningObjectForm
 
 		parent :: setDefaults($defaults);
 	}
+
 	function setCsvValues($valuearray)
 	{	
-		//Required 
-		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];
-		//Not Required
-		$defaults[Profile :: PROPERTY_COMPETENCES] = $valuearray[2];
-		$defaults[Profile :: PROPERTY_DIPLOMAS] = $valuearray[3];
-		$defaults[Profile :: PROPERTY_TEACHING] = $valuearray[4];
-		$defaults[Profile :: PROPERTY_OPEN] = $valuearray[5];
-		$defaults[Profile :: PROPERTY_PHONE] = $valuearray[6];
-		$defaults[Profile :: PROPERTY_FAX] = $valuearray[7];
-		$defaults[Profile :: PROPERTY_ADDRESS] = $valuearray[8];
-		$defaults[Profile :: PROPERTY_MAIL] = $valuearray[9];
-		$defaults[Profile :: PROPERTY_SKYPE] = $valuearray[10];
-		$defaults[Profile :: PROPERTY_MSN] = $valuearray[11];
-		$defaults[Profile :: PROPERTY_YIM] = $valuearray[12];
-		$defaults[Profile :: PROPERTY_AIM] = $valuearray[13];
-		$defaults[Profile :: PROPERTY_ICQ] = $valuearray[14];
-		//Not Required (0 or 1)
-		$defaults[Profile :: PROPERTY_PICTURE] = $valuearray[15];
-		parent :: setValues($defaults);		
+		if((count($valuearray) == self :: REQUIRED_PROPERTIES) || (count($valuearray) == self :: TOTAL_PROPERTIES))
+		{
+			//Required 
+			$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
+			$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];
+			$defaults[Profile :: PROPERTY_MAIL] = $valuearray[2];
+			if(count($valuearray) > self :: REQUIRED_PROPERTIES)
+			{
+				//Not Required
+				$defaults[Profile :: PROPERTY_COMPETENCES] = $valuearray[3];
+				$defaults[Profile :: PROPERTY_DIPLOMAS] = $valuearray[4];
+				$defaults[Profile :: PROPERTY_TEACHING] = $valuearray[5];
+				$defaults[Profile :: PROPERTY_OPEN] = $valuearray[6];
+				$defaults[Profile :: PROPERTY_PHONE] = $valuearray[7];
+				$defaults[Profile :: PROPERTY_FAX] = $valuearray[8];
+				$defaults[Profile :: PROPERTY_ADDRESS] = $valuearray[9];
+				$defaults[Profile :: PROPERTY_SKYPE] = $valuearray[10];
+				$defaults[Profile :: PROPERTY_MSN] = $valuearray[11];
+				$defaults[Profile :: PROPERTY_YIM] = $valuearray[12];
+				$defaults[Profile :: PROPERTY_AIM] = $valuearray[13];
+				$defaults[Profile :: PROPERTY_ICQ] = $valuearray[14];
+				//Not Required (0 or 1)
+				$defaults[Profile :: PROPERTY_PICTURE] = $valuearray[15];
+			}
+			parent :: setValues($defaults);	
+			return true;	
+		}
+		return false;	
 	}
+
 	function create_learning_object()
 	{
+		echo 'ik ben in create van profiel<br />';
 		$object = new Profile();
 		$this->fill_properties($object);
 		return parent :: create_learning_object();
