@@ -295,20 +295,26 @@ EOT;
 	 */
 	function setDefaults($defaults = array ())
 	{
+		
 		$lo = $this->learning_object;
 		$defaults[LearningObject :: PROPERTY_ID] = $lo->get_id();
+	
 		if ($this->form_type == self :: TYPE_REPLY)
 		{
 			$defaults[LearningObject :: PROPERTY_TITLE] = get_lang('ReplyShort'). ' ' . $lo->get_title();
 		}
 		else
-		{
+		{			
 			$defaults[LearningObject :: PROPERTY_TITLE] = $lo->get_title();
 			$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
 		}
 		parent :: setDefaults($defaults);
 	}
-
+	function setValues($defaults)
+	{
+		parent :: setDefaults($defaults);
+	}
+	
 	/**
 	 * Creates a learning object from the submitted form values. Traditionally,
 	 * you override this method to ensure that the form's learning object is
@@ -466,6 +472,7 @@ EOT;
 	 */
 	function validate()
 	{
+		echo 'valide lo<br />';
 		if($this->isSubmitted() && $this->form_type == self :: TYPE_COMPARE)
 		{
 			$values = $this->exportValues();
@@ -474,7 +481,112 @@ EOT;
 				return false;
 			}
 		}
-		return parent::validate();
+		
+		return parent :: validate();
 	}
+
+
+	function validatecsv($value)
+	{
+		include_once('HTML/QuickForm/RuleRegistry.php');
+		$registry =& HTML_QuickForm_RuleRegistry::singleton();
+
+		foreach ($this->_rules as $target => $rules) 
+		{
+		        $submitValue = $value;
+
+		        foreach ($rules as $elementName => $rule) 
+		        {
+			        //DEEL 1
+			        if ((isset($rule['group']) && isset($this->_errors[$rule['group']])) ||
+		                isset($this->_errors[$target])) 
+			        {
+			                continue 2;
+			        }
+
+			        //DEEL 2
+			        // If element is not required and is empty, we shouldn't validate it
+			        if (!$this->isElementRequired($target)) 
+			        {
+			                if (!isset($submitValue) || '' == $submitValue) 
+			                {
+					        continue 2;		
+			                } 
+	                		// Fix for bug #3501: we shouldn't validate not uploaded files, either.
+			                // Unfortunately, we can't just use $element->isUploadedFile() since
+			                // the element in question can be buried in group. Thus this hack.
+	                		elseif (is_array($submitValue)) 
+	                		{
+	                			if (false === ($pos = strpos($target, '['))) 
+	                			{
+	                			        $isUpload = !empty($this->_submitFiles[$target]);
+	                			} 
+	                		else 
+	                		{
+	                        		$base = substr($target, 0, $pos);
+	                        		$idx  = "['" . str_replace(array(']', '['), array('', "']['"), substr($target, $pos + 1, -1)) . "']";
+	                        		eval("\$isUpload = isset(\$this->_submitFiles['{$base}']['name']{$idx});");
+	                		}
+
+	                		if ($isUpload && (!isset($submitValue['error']) || 0 != $submitValue['error'])) 
+			                {
+			                        continue 2;
+			                }
+		                }
+		        }
+
+		        //DEEL 3 
+		        if (isset($rule['dependent']) && is_array($rule['dependent'])) 
+		        {
+		                $values = array($submitValue);
+		                foreach ($rule['dependent'] as $elName) 
+		                {
+			                $values[] = $this->getSubmitValue($elName);
+		                }
+		                $result = $registry->validate($rule['type'], $values, $rule['format'], true);
+		        } 
+		        elseif (is_array($submitValue) && !isset($rule['howmany'])) 
+		        {                              
+		                $result = $registry->validate($rule['type'], $submitValue, $rule['format'], true);
+		        } 
+		        else 
+		        {
+				$result = $registry->validate($rule['type'], $submitValue, $rule['format'], false);
+	        	}
+
+	        	
+			//DEEL 4
+		        if (!$result || (!empty($rule['howmany']) && $rule['howmany'] > (int)$result)) 
+			{
+		                if (isset($rule['group'])) 
+		                {
+			                $this->_errors[$rule['group']] = $rule['message'];
+		                } 
+		                else 
+		                {
+			                $this->_errors[$target] = $rule['message'];
+		                }
+		        }
+	        }
+	}
+
+		// process the global rules now
+		foreach ($this->_formRules as $rule) 
+		{
+		        if (true !== ($res = call_user_func($rule, $this->_submitValues, $this->_submitFiles))) 
+			{
+			        if (is_array($res)) 
+				{
+			                $this->_errors += $res;
+			        } 
+				else 
+				{
+			                return PEAR::raiseError(null, QUICKFORM_ERROR, null, E_USER_WARNING, 'Form rule callback returned invalid value in HTML_QuickForm::validate()', 'HTML_QuickForm_Error', true);
+			        }
+		        }
+		}
+		echo 'return = '.count($this->_errors).'<br />';
+		return (0 == count($this->_errors));
+	}// end func validatecsv		
 }
 ?>
