@@ -63,6 +63,29 @@ class ProfileForm extends LearningObjectForm
 
 		parent :: setDefaults($defaults);
 	}
+	function setCsvValues($valuearray)
+	{	
+		//Required 
+		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];
+		//Not Required
+		$defaults[Profile :: PROPERTY_COMPETENCES] = $valuearray[2];
+		$defaults[Profile :: PROPERTY_DIPLOMAS] = $valuearray[3];
+		$defaults[Profile :: PROPERTY_TEACHING] = $valuearray[4];
+		$defaults[Profile :: PROPERTY_OPEN] = $valuearray[5];
+		$defaults[Profile :: PROPERTY_PHONE] = $valuearray[6];
+		$defaults[Profile :: PROPERTY_FAX] = $valuearray[7];
+		$defaults[Profile :: PROPERTY_ADDRESS] = $valuearray[8];
+		$defaults[Profile :: PROPERTY_MAIL] = $valuearray[9];
+		$defaults[Profile :: PROPERTY_SKYPE] = $valuearray[10];
+		$defaults[Profile :: PROPERTY_MSN] = $valuearray[11];
+		$defaults[Profile :: PROPERTY_YIM] = $valuearray[12];
+		$defaults[Profile :: PROPERTY_AIM] = $valuearray[13];
+		$defaults[Profile :: PROPERTY_ICQ] = $valuearray[14];
+		//Not Required (0 or 1)
+		$defaults[Profile :: PROPERTY_PICTURE] = $valuearray[15];
+		parent :: setValues($defaults);		
+	}
 	function create_learning_object()
 	{
 		$object = new Profile();

@@ -71,26 +71,29 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		/*Bijgewerkt voor import_form te valideren */
 		else if ($import_form->validate())
 		{
+			$category = $_GET[RepositoryManager :: PARAM_CATEGORY_ID];	
 			
-			$category = $_GET[RepositoryManager :: PARAM_CATEGORY_ID];
-			
-			//$object = new AbstractLearningObject($type, $this->get_user_id(), $category);
-			//$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE => $type)));		
-
+			//Het csvbestand omzetten naar 2D-array
 			$csvarray = Import :: read_csv($_FILES['file']['tmp_name']);
 			
 			$csvcreator = new CSVCreator();
+
+			//Controleren of er genoeg plaats is om alles in te voeren
 			$waar=$csvcreator->quotacheck($csvarray,$this->get_user());
 			if ($waar)
 			{	
-				
+				//Alle gekende types opvragen
 				$typearray = $this->get_learning_object_types(true);
+				//Validatie csv indien fouten, wordt een array met regelnrs van de fouten teruggegeven.
 				$temparray= $csvcreator->csv_validate($typearray, $csvarray);
 				if (count($temparray) == count($csvarray))
 				{
-					//functie oproepen om deze array met forms te gaan createn
-					//als vorige functie goed afloopt een message outputten
-					echo 'gelukt';
+					for($i = 0;$i <count($temparray);$i++)
+					{
+						$temparray[$i]->create_learning_object();
+					}
+					$this->display_header($breadcrumbs);						
+					$this->display_footer();	
 				}
 				else
 				{
@@ -100,19 +103,17 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 						$errormessage=$errormessage.' '.$i;
 					}
 					
-				$this->display_header($breadcrumbs);							
-				Display :: display_warning_message($errormessage);			
-				$this->display_footer();
+					$this->display_header($breadcrumbs);							
+					Display :: display_warning_message($errormessage);			
+					$this->display_footer();
 				}
 			}
-			
+			//Te veel import
 			else 
 			{	
-				$this->display_header($breadcrumbs);
-							
+				$this->display_header($breadcrumbs);	
 				Display :: display_warning_message('Your quota would be exceeded by importing this CSV , aborted.');			
 				$this->display_footer();
-
 			}
 			
 		}

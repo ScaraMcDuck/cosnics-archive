@@ -52,6 +52,13 @@ class MatchingQuestionForm extends LearningObjectForm
 		}
 		parent :: setDefaults($defaults);
 	}
+	function setCsvValues($valuearray)
+	{	
+		//Required 
+		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];
+		parent :: setValues($defaults);		
+	}	
 	function create_learning_object()
 	{
 		$object = new MatchingQuestion();

@@ -31,10 +31,22 @@ class CalendarEventForm extends LearningObjectForm
 		if (isset ($lo))
 		{
 			$defaults[CalendarEvent :: PROPERTY_START_DATE] = $lo->get_start_date();
+			echo '<br /><br />'.$lo->get_start_date();
 			$defaults[CalendarEvent :: PROPERTY_END_DATE] = $lo->get_end_date();
+			echo '<br /><br />'.$lo->get_end_date().'<br />';
 		}
 		parent :: setDefaults($defaults);
 	}
+
+	function setCsvValues($valuearray)
+	{
+		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];
+		$defaults[CalendarEvent :: PROPERTY_START_DATE] = $valuearray[2];
+		$defaults[CalendarEvent :: PROPERTY_END_DATE] = $valuearray[3];
+		parent :: setValues($defaults);	
+	}
+
 	// Inherited
 	function create_learning_object()
 	{
