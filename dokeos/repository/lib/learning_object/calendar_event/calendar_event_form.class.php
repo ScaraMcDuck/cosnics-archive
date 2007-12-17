@@ -12,6 +12,7 @@ require_once dirname(__FILE__) . '/calendar_event.class.php';
  */
 class CalendarEventForm extends LearningObjectForm
 {
+	const TOTAL_PROPERTIES = 4;
 	// Inherited
     protected function build_creation_form()
     {
@@ -39,12 +40,17 @@ class CalendarEventForm extends LearningObjectForm
 	}
 
 	function setCsvValues($valuearray)
-	{
-		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];
-		$defaults[CalendarEvent :: PROPERTY_START_DATE] = $valuearray[2];
-		$defaults[CalendarEvent :: PROPERTY_END_DATE] = $valuearray[3];
-		parent :: setValues($defaults);	
+	{	
+		if(count($valuearray) == self :: TOTAL_PROPERTIES)
+		{
+			$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
+			$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];
+			$defaults[CalendarEvent :: PROPERTY_START_DATE] = $valuearray[2];
+			$defaults[CalendarEvent :: PROPERTY_END_DATE] = $valuearray[3];	
+			parent :: setValues($defaults);
+			return true;
+		}
+		return false;
 	}
 
 	// Inherited

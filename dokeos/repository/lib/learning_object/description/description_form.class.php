@@ -11,12 +11,17 @@ require_once dirname(__FILE__).'/description.class.php';
  */
 class DescriptionForm extends LearningObjectForm
 {
+	const TOTAL_PROPERTIES = 2;
 	function setCsvValues($valuearray)
 	{
-		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];	
-		parent :: setValues($defaults);
-			
+		if(count($valuearray) == self :: TOTAL_PROPERTIES)
+		{
+			$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
+			$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];	
+			parent :: setValues($defaults);
+			return true;
+		}
+		return false;
 	}
 	// Inherited
 	function create_learning_object()

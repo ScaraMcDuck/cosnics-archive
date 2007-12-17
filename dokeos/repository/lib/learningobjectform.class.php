@@ -313,6 +313,7 @@ EOT;
 	function setValues($defaults)
 	{
 		parent :: setDefaults($defaults);
+		echo 'setvalues gepasseerd<br />';
 	}
 	
 	/**
@@ -472,7 +473,6 @@ EOT;
 	 */
 	function validate()
 	{
-		echo 'valide lo<br />';
 		if($this->isSubmitted() && $this->form_type == self :: TYPE_COMPARE)
 		{
 			$values = $this->exportValues();
@@ -493,6 +493,7 @@ EOT;
 
 		foreach ($this->_rules as $target => $rules) 
 		{
+			//echo 'waarde om te checken int begin   =   '.$submitValue;
 		        $submitValue = $value;
 
 		        foreach ($rules as $elementName => $rule) 
@@ -551,7 +552,10 @@ EOT;
 		        } 
 		        else 
 		        {
+				echo 'submitvalue = '.$submitValue.'<br />';
 				$result = $registry->validate($rule['type'], $submitValue, $rule['format'], false);
+				echo 'Type = '.$rule['type'].'<br />';
+				echo 'Result = '.$result.'<br />';
 	        	}
 
 	        	

@@ -7,6 +7,8 @@ require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/link.class.php';
 class LinkForm extends LearningObjectForm
 {
+	const TOTAL_PROPERTIES = 3;
+
 	protected function build_creation_form()
 	{
 		parent :: build_creation_form();
@@ -34,11 +36,15 @@ class LinkForm extends LearningObjectForm
 
 	function setCsvValues($valuearray)
 	{
-		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];
-		$defaults[Link :: PROPERTY_URL] = $valuearray[2];	
-		parent :: setValues($defaults);
-			
+		if(count($valuearray) == self :: TOTAL_PROPERTIES)
+		{
+			$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
+			$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];	
+			$defaults[Link :: PROPERTY_URL] = $valuearray[2];
+			parent :: setValues($defaults);
+			return true;
+		}
+		return false;	
 	}
 	function create_learning_object()
 	{
