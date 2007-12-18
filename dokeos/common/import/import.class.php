@@ -52,7 +52,10 @@ class Import
 		$handle = fopen($filename, "r");
 		while (($row = fgetcsv($handle, 1000, ";")) !== FALSE)
 		{
-		     $result[] = $row;
+			if (!empty($row[0]))
+			{
+		  	   $result[] = $row;
+			}
 		}
 		fclose($handle);
 		return $result;
