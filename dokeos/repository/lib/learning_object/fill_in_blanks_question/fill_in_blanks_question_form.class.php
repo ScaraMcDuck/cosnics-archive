@@ -7,7 +7,6 @@ require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/fill_in_blanks_question.class.php';
 class FillInBlanksQuestionForm extends LearningObjectForm
 {
-	const TOTAL_PROPERTIES = 3;
 	protected function build_creation_form()
 	{
 		parent :: build_creation_form();
@@ -32,18 +31,16 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 		}
 		parent :: setDefaults($defaults);
 	}
+
 	function setCsvValues($valuearray)
 	{
-		if(count($valuearray) == self :: TOTAL_PROPERTIES)
-		{
-			$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-			$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];	
-			$defaults[FillInBlanksQuestion :: PROPERTY_ANSWER] = $valuearray[2];
-			parent :: setValues($defaults);
-			return true;
-		}
-		return false;	
+		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
+		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
+		$defaults[FillInBlanksQuestion :: PROPERTY_ANSWER] = $valuearray[3];
+		parent :: setValues($defaults);			
 	}
+
 	function create_learning_object()
 	{
 		$object = new FillInBlanksQuestion();

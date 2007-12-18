@@ -41,16 +41,12 @@ class CalendarEventForm extends LearningObjectForm
 
 	function setCsvValues($valuearray)
 	{	
-		if(count($valuearray) == self :: TOTAL_PROPERTIES)
-		{
-			$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-			$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];
-			$defaults[CalendarEvent :: PROPERTY_START_DATE] = $valuearray[2];
-			$defaults[CalendarEvent :: PROPERTY_END_DATE] = $valuearray[3];	
-			parent :: setValues($defaults);
-			return true;
-		}
-		return false;
+		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
+		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
+		$defaults[CalendarEvent :: PROPERTY_START_DATE] = $valuearray[2];
+		$defaults[CalendarEvent :: PROPERTY_END_DATE] = $valuearray[3];
+		parent :: setValues($defaults);
 	}
 
 	// Inherited
