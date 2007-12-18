@@ -36,16 +36,13 @@ class LinkForm extends LearningObjectForm
 
 	function setCsvValues($valuearray)
 	{
-		if(count($valuearray) == self :: TOTAL_PROPERTIES)
-		{
-			$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-			$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];	
-			$defaults[Link :: PROPERTY_URL] = $valuearray[2];
-			parent :: setValues($defaults);
-			return true;
-		}
-		return false;	
+		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
+		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
+		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
+		$defaults[Link :: PROPERTY_URL] = $valuearray[3];
+		parent :: setValues($defaults);			
 	}
+
 	function create_learning_object()
 	{
 		$object = new Link();
