@@ -313,7 +313,6 @@ EOT;
 	function setValues($defaults)
 	{
 		parent :: setDefaults($defaults);
-		echo 'setvalues gepasseerd<br />';
 	}
 	
 	/**
@@ -488,28 +487,19 @@ EOT;
 
 	function validatecsv($value)
 	{
-		echo 'ik ben in validatecsv<br />';
+		
 		include_once('HTML/QuickForm/RuleRegistry.php');
 		$registry =& HTML_QuickForm_RuleRegistry::singleton();
 		$rulenr='-1';
-		
-			echo 'aantal regels is'.count($this->_rules);
 		foreach ($this->_rules as $target => $rules) 
 		{
 			$rulenr++;
-			//echo 'regelnummer ter check'.$rulenr'<br />'; 
-			//echo 'waarde om te checken int begin   =   '.$submitValue;
 		        $submitValue = $value[$rulenr];
 		        foreach ($rules as $elementName => $rule) 
 		        {
-			        //DEEL 1
-			        if ((isset($rule['group']) && isset($this->_errors[$rule['group']])) ||
-		                isset($this->_errors[$target])) 
-			        {
-			                continue 2;
-			        }
+			      
 
-			        //DEEL 2
+			        //Part 1
 			        // If element is not required and is empty, we shouldn't validate it
 			        if (!$this->isElementRequired($target)) 
 			        {
@@ -540,31 +530,12 @@ EOT;
 		                }
 		        }
 
-		        //DEEL 3 
-		        if (isset($rule['dependent']) && is_array($rule['dependent'])) 
-		        {
-		                $values = array($submitValue);
-		                foreach ($rule['dependent'] as $elName) 
-		                {
-			                $values[] = $this->getSubmitValue($elName);
-		                }
-		                $result = $registry->validate($rule['type'], $values, $rule['format'], true);
-		        } 
-		        elseif (is_array($submitValue) && !isset($rule['howmany'])) 
-		        {       
-		            $result = $registry->validate($rule['type'], $submitValue, $rule['format'], true);
-		        
-			} 
-		        else 
-		        {
-				echo 'format '.$rule['format'].'<br />';
-				echo 'regel = '.$rule['type'].'<br />';
-				echo 'submitvalue = '.$submitValue.'<br />';
-				$result = $registry->validate($rule['type'], $submitValue, $rule['format'], false);
-		       	}
+		        //validate the rule with the submitted value 	        	
+			$result = $registry->validate($rule['type'], $submitValue, $rule['format'], false);
+		 
 
 	        	
-			//DEEL 4
+			//Error handling 
 		        if (!$result || (!empty($rule['howmany']) && $rule['howmany'] > (int)$result)) 
 			{
 		                if (isset($rule['group'])) 
@@ -576,7 +547,6 @@ EOT;
 			                $this->_errors[$target] = $rule['message'];
 		                }
 		        }
-			echo 'aantal fouten '.count($this->_errors);
 	        }
 	}
 
@@ -587,9 +557,7 @@ EOT;
 			{
 			        if (is_array($res)) 
 				{
-					echo 'ik zet error dr in';
-					
-			                $this->_errors += $res;
+					$this->_errors += $res;
 			        } 
 				else 
 				{
@@ -597,9 +565,6 @@ EOT;
 			        }
 		        }
 		}
-		
-		$comma_separated = implode(",", $this->_errors);
-		echo $comma_separated; 
 		return (0 == count($this->_errors));
 	}// end func validatecsv		
 }

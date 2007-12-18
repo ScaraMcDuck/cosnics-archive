@@ -23,11 +23,9 @@ class CSVCreator extends RepositoryManagerComponent
 	//function to check 
 	function parent_split($parent)
 	{
-	echo $parent;
 	$aparent = explode('#',$parent);
 	$bparent = explode(' ',$aparent[1]);
 	return $bparent[0];
-
 	}
 	/*
 	 * Deze functie zal een array teruggeven
