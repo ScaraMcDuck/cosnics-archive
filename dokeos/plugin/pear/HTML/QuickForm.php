@@ -1499,8 +1499,9 @@ class HTML_QuickForm extends HTML_Common {
                     }
                     $result = $registry->validate($rule['type'], $values, $rule['format'], true);
                 } elseif (is_array($submitValue) && !isset($rule['howmany'])) {
+                   
                     $result = $registry->validate($rule['type'], $submitValue, $rule['format'], true);
-                } else {
+                } else {          
                     $result = $registry->validate($rule['type'], $submitValue, $rule['format'], false);
                 }
 
