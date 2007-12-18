@@ -89,7 +89,6 @@ class ProfileForm extends LearningObjectForm
 
 	function create_learning_object()
 	{
-		echo 'ik ben in create van profiel<br />';
 		$object = new Profile();
 		$this->fill_properties($object);
 		return parent :: create_learning_object();
