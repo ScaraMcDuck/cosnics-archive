@@ -71,7 +71,6 @@ class CSVCreator extends RepositoryManagerComponent
 				
 				if ($lo_form->validatecsv($valuearray))
 				{
-					
 					array_push($objectarray, $lo_form);
 				}
 				else 
@@ -90,7 +89,7 @@ class CSVCreator extends RepositoryManagerComponent
 				
 		}
 		//return the errorarray if its filled
-		if (!empty($errorarray[0]))
+		if ($errorarray[0]=='faultyarrayreturn')
 		{		
 			return $errorarray;
 		}
