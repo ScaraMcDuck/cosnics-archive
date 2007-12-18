@@ -108,7 +108,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 					$this->display_footer();
 				}
 			}
-			//Te veel import
+			//To much to be imported
 			else 
 			{	
 				$this->display_header($breadcrumbs);	
