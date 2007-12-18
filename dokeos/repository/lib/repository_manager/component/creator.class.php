@@ -86,7 +86,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 				$typearray = $this->get_learning_object_types(true);
 				//Validatie csv indien fouten, wordt een array met regelnrs van de fouten teruggegeven.
 				$temparray= $csvcreator->csv_validate($typearray, $csvarray);
-				if (count($temparray) == count($csvarray))
+				if (!$temparray[0]=='faultyarrayreturn')
 				{
 					for($i = 0;$i <count($temparray);$i++)
 					{
@@ -100,7 +100,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 					$errormessage= 'The folowing rows have been reported as wrong: ';
 					for ($i = 1 ; $i < count($temparray); $i++)
 					{
-						$errormessage=$errormessage.' '.$i;
+						$errormessage=$errormessage.' '.$temparray[$i];
 					}
 					
 					$this->display_header($breadcrumbs);							

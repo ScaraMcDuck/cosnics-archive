@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/profile.class.php';
 
 class ProfileForm extends LearningObjectForm
 {
-	const REQUIRED_PROPERTIES = 3;
+	const REQUIRED_PROPERTIES = 2;
 	const TOTAL_PROPERTIES = 16;
 
 	protected function build_creation_form()
@@ -74,10 +74,10 @@ class ProfileForm extends LearningObjectForm
 			//Required 
 			$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
 			$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];
-			$defaults[Profile :: PROPERTY_MAIL] = $valuearray[2];
 			if(count($valuearray) > self :: REQUIRED_PROPERTIES)
 			{
 				//Not Required
+				$defaults[Profile :: PROPERTY_MAIL] = $valuearray[2];
 				$defaults[Profile :: PROPERTY_COMPETENCES] = $valuearray[3];
 				$defaults[Profile :: PROPERTY_DIPLOMAS] = $valuearray[4];
 				$defaults[Profile :: PROPERTY_TEACHING] = $valuearray[5];

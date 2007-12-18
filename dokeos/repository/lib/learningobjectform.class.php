@@ -488,14 +488,18 @@ EOT;
 
 	function validatecsv($value)
 	{
+		echo 'ik ben in validatecsv<br />';
 		include_once('HTML/QuickForm/RuleRegistry.php');
 		$registry =& HTML_QuickForm_RuleRegistry::singleton();
-
+		$rulenr='-1';
+		
+			echo 'aantal regels is'.count($this->_rules);
 		foreach ($this->_rules as $target => $rules) 
 		{
+			$rulenr++;
+			//echo 'regelnummer ter check'.$rulenr'<br />'; 
 			//echo 'waarde om te checken int begin   =   '.$submitValue;
-		        $submitValue = $value;
-
+		        $submitValue = $value[$rulenr];
 		        foreach ($rules as $elementName => $rule) 
 		        {
 			        //DEEL 1
@@ -547,16 +551,17 @@ EOT;
 		                $result = $registry->validate($rule['type'], $values, $rule['format'], true);
 		        } 
 		        elseif (is_array($submitValue) && !isset($rule['howmany'])) 
-		        {                              
-		                $result = $registry->validate($rule['type'], $submitValue, $rule['format'], true);
-		        } 
+		        {       
+		            $result = $registry->validate($rule['type'], $submitValue, $rule['format'], true);
+		        
+			} 
 		        else 
 		        {
+				echo 'format '.$rule['format'].'<br />';
+				echo 'regel = '.$rule['type'].'<br />';
 				echo 'submitvalue = '.$submitValue.'<br />';
 				$result = $registry->validate($rule['type'], $submitValue, $rule['format'], false);
-				echo 'Type = '.$rule['type'].'<br />';
-				echo 'Result = '.$result.'<br />';
-	        	}
+		       	}
 
 	        	
 			//DEEL 4
@@ -571,6 +576,7 @@ EOT;
 			                $this->_errors[$target] = $rule['message'];
 		                }
 		        }
+			echo 'aantal fouten '.count($this->_errors);
 	        }
 	}
 
@@ -581,6 +587,8 @@ EOT;
 			{
 			        if (is_array($res)) 
 				{
+					echo 'ik zet error dr in';
+					
 			                $this->_errors += $res;
 			        } 
 				else 
@@ -589,6 +597,9 @@ EOT;
 			        }
 		        }
 		}
+		
+		$comma_separated = implode(",", $this->_errors);
+		echo $comma_separated; 
 		return (0 == count($this->_errors));
 	}// end func validatecsv		
 }
