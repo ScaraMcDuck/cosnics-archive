@@ -86,14 +86,16 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 				$typearray = $this->get_learning_object_types(true);
 				//Validatie csv indien fouten, wordt een array met regelnrs van de fouten teruggegeven.
 				$temparray= $csvcreator->csv_validate($typearray, $csvarray);
-				if (!$temparray[0]=='faultyarrayreturn')
+				if (!($temparray[0]=='faultyarrayreturn'))
 				{
 					for($i = 0;$i <count($temparray);$i++)
 					{
 						$temparray[$i]->create_learning_object();
 					}
-					$this->display_header($breadcrumbs);						
-					$this->display_footer();	
+					$message= 'You created '.count($temparray).' objects';
+					//this redirect is a solution to show the ROOT directory , needs to be modded when users get chance to include 'category' into csv files
+			
+					$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, $message,1);					
 				}
 				else
 				{
