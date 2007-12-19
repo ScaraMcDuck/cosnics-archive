@@ -310,7 +310,7 @@ EOT;
 		}
 		parent :: setDefaults($defaults);
 	}
-	function setValues($defaults)
+	function set_values($defaults)
 	{
 		parent :: setDefaults($defaults);
 	}

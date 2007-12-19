@@ -7,11 +7,11 @@ require_once dirname(__FILE__).'/wiki.class.php';
  */
 class WikiForm extends LearningObjectForm
 {
-	function setCsvValues($valuearray)
+	function set_csv_values($valuearray)
 	{
 		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
 		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];	
-		parent :: setValues($defaults);
+		parent :: set_values($defaults);
 	}
 	function create_learning_object()
 	{
