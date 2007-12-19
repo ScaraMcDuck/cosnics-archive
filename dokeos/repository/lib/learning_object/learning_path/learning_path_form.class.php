@@ -7,12 +7,12 @@ require_once dirname(__FILE__).'/learning_path.class.php';
  */
 class LearningPathForm extends LearningObjectForm
 {
-	function setCsvValues($valuearray)
+	function set_csv_values($valuearray)
 	{
 		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
 		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
 		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
-		parent :: setValues($defaults);			
+		parent :: set_values($defaults);			
 	}
 
 	function create_learning_object()

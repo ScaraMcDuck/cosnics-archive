@@ -272,6 +272,47 @@ EOT;
 		$this->addElement('html','<script language="javascript" src="'.api_get_path(WEB_CODE_PATH).'inc/lib/javascript/upload.js" type="text/javascript"></script>');
 		$this->addElement('html','<script type="text/javascript">var myUpload = new upload('.(abs(intval($delay))*1000).');</script>');
     }
+
+	function validate_csv($value)
+	{
+		include_once('HTML/QuickForm/RuleRegistry.php');
+		$registry =& HTML_QuickForm_RuleRegistry::singleton();
+		$rulenr='-1';
+		foreach ($this->_rules as $target => $rules) 
+		{
+		  $rulenr++;
+		  $submitValue = $value[$rulenr];
+		  foreach ($rules as $elementName => $rule) 
+		  {
+		   $result = $registry->validate($rule['type'], $submitValue, $rule['format'], false);
+                	if (!$this->isElementRequired($target)) 
+                	{
+                   	 if (!isset($submitValue) || '' == $submitValue) 
+                   	 {                    
+                        continue 2;
+                  	 } 
+               		}              	
+              			        
+		  if (!$result || (!empty($rule['howmany']) && $rule['howmany'] > (int)$result)) 
+		  {
+                    
+                    if (isset($rule['group'])) 
+                    {
+                        
+                        $this->_errors[$rule['group']] = $rule['message'];
+                    } 
+                    else 
+                    {
+                        $this->_errors[$target] = $rule['message'];
+                    }
+                 }
+                }	
+              }   
+	return (0 == count($this->_errors));
+       }
+
+
+
 	/**
 	 * Adds an error message to the form.
 	 * @param string $label The label for the error message
@@ -456,4 +497,5 @@ function html_filter_student_fullpage($html)
 {
 	return html_filter($html,STUDENT_HTML_FULLPAGE);
 }
+
 ?>

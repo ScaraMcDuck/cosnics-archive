@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../../quotamanager.class.php';
 class CSVCreator extends RepositoryManagerComponent
 {
 	
-	function quotacheck($csvarray,$user)
+	function quota_check($csvarray,$user)
 	{
 		$amount_to_add=count($csvarray);
 		$quotamanagercsv = new QuotaManager($user);
@@ -20,7 +20,6 @@ class CSVCreator extends RepositoryManagerComponent
 		else 
 			{return false;}
 	}
-	//function to check 
 	function parent_split($parent)
 	{
 	$aparent = explode('#',$parent);
@@ -28,9 +27,10 @@ class CSVCreator extends RepositoryManagerComponent
 	return $bparent[0];
 	}
 	/*
-	 * Deze functie zal een array teruggeven
-	 * Indien er fouten voorkwamen in het csvbestand, zal deze functie een 
-	 * array weergeven die de regelnummers bevat van de fouten in het bestand.
+	 * This function will return an array , if errors occured in the csv file it will return an array
+	 * with array[0]='faultyarrayreturn'
+	 * An errorarray will consist of the numbers of rules where there were errors
+	 * A objectarray will consist of objectsforms that need to be created.
 	 */
 	function csv_validate($typearray, $csvarray)
 	{
@@ -45,7 +45,6 @@ class CSVCreator extends RepositoryManagerComponent
 			if (in_array($csvarray[$i][0],$typearray))
 			{	
 				$dataManager = RepositoryDataManager :: get_instance();
-				//Het eerste element van de regel is het type van het te importeren object.
 				$type = $csvarray[$i][0];	
 				//retrieve the root category (this is for now , can be modded later on so users can include 					the category where they want everything to be added
 				$user = api_get_user_id();
@@ -67,9 +66,9 @@ class CSVCreator extends RepositoryManagerComponent
 					array_push($valuearray, $csvarray[$i][$j]);
 				}
 				
-				$lo_form->setCsvValues($valuearray);				
+				$lo_form->set_csv_values($valuearray);				
 				
-				if ($lo_form->validatecsv($valuearray))
+				if ($lo_form->validate_csv($valuearray))
 				{
 					array_push($objectarray, $lo_form);
 				}

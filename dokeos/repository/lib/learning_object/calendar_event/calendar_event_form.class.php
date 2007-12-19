@@ -39,7 +39,7 @@ class CalendarEventForm extends LearningObjectForm
 		parent :: setDefaults($defaults);
 	}
 
-	function setCsvValues($valuearray)
+	function set_csv_values($valuearray)
 	{	
 		
 
@@ -48,7 +48,7 @@ class CalendarEventForm extends LearningObjectForm
 		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
 		$defaults[CalendarEvent :: PROPERTY_START_DATE] = $valuearray[3];
 		$defaults[CalendarEvent :: PROPERTY_END_DATE] = $valuearray[4];
-		parent :: setValues($defaults);
+		parent :: set_values($defaults);
 	}
 
 	// Inherited

@@ -37,7 +37,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		$type_form->addElement('submit', 'submit', get_lang('Ok'));
 
 
-		/* newly added form for the import function*/
+
 		$import_form = new FormValidator('import_csv', 'post', $this->get_url());
 		$import_form->addElement('html', '<br /><br /><br />');
 		$import_form->addElement('static', 'info', '<b> Importeer hier</b>');
@@ -45,8 +45,6 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 						
 		$import_form->addElement('file', 'file', get_lang('FileName'));
 		$import_form->addElement('submit', 'course_import', get_lang('Ok'));
-		
-		//end of extra for import function
 
 		$type = ($type_form->validate() ? $type_form->exportValue(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE) : $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE]);
 		if ($type)
@@ -68,23 +66,17 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			}
 		}
 
-		/*Bijgewerkt voor import_form te valideren */
+		
 		else if ($import_form->validate())
 		{
-			$category = $_GET[RepositoryManager :: PARAM_CATEGORY_ID];	
-			
-			//Het csvbestand omzetten naar 2D-array
-			$csvarray = Import :: read_csv($_FILES['file']['tmp_name']);
-			
+			$category = $_GET[RepositoryManager :: PARAM_CATEGORY_ID];
+			$csvarray = Import :: read_csv($_FILES['file']['tmp_name']);			
 			$csvcreator = new CSVCreator();
 
-			//Controleren of er genoeg plaats is om alles in te voeren
-			$waar=$csvcreator->quotacheck($csvarray,$this->get_user());
-			if ($waar)
+			$true=$csvcreator->quota_check($csvarray,$this->get_user());
+			if ($true)
 			{	
-				//Alle gekende types opvragen
 				$typearray = $this->get_learning_object_types(true);
-				//Validatie csv indien fouten, wordt een array met regelnrs van de fouten teruggegeven.
 				$temparray= $csvcreator->csv_validate($typearray, $csvarray);
 				if (!($temparray[0]=='faultyarrayreturn'))
 				{
@@ -93,7 +85,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 						$temparray[$i]->create_learning_object();
 					}
 					$message= 'You created '.count($temparray).' objects';
-					//this redirect is a solution to show the ROOT directory , needs to be modded when users get chance to include 'category' into csv files
+					//this redirect is a solution to show the ROOT directory , needs to be modded when 						//users get chance to include 'category' into csv files
 			
 					$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, $message,1);					
 				}
