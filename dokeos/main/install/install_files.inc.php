@@ -54,12 +54,7 @@ function full_file_install($values)
 	$config['{DATABASE_USER}'] = $values['database_username'];
 	$config['{DATABASE_PASSWORD}'] = $values['database_password'];
 	$config['{DATABASE_USERDB}'] =  $values['database_user'];
-	$config['{DATABASE_REPOSITORY}'] = $values['database_repository'];
-	$config['{DATABASE_WEBLCMS}'] =  $values['database_weblcms'];
-	$config['{DATABASE_PORTFOLIO}'] =$values['database_portfolio'];
-	$config['{DATABASE_PERSONALCALENDAR}'] = $values['database_personal_calendar'];
-	$config['{DATABASE_PERSONAL_MESSENGER}'] = $values['database_personal_messenger'];
-	$config['{DATABASE_PROFILER}'] =  $values['database_profiler'];
+	$config['{DATABASE_NAME}'] = $values['database_name'];
 
 	foreach ($config as $key => $value)
 	{
@@ -84,6 +79,10 @@ function full_file_install($values)
 	$installer = new UsersInstaller();
 	$installer->install();
 	unset($installer);
+	
+	//-----------------------------------------------------------
+	// Repository tables install.
+	//-----------------------------------------------------------
 
 	$installer = new RepositoryInstaller();
 	$installer->install();

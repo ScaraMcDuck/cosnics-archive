@@ -84,35 +84,21 @@ function connect_to_database_server($database_host,$database_username,$database_
 */
 function create_databases($values)
 {
-	$databases = Page_DatabaseSettings::get_databases();
-	$databases_to_create = array();
-	if($values['database_single'])
-	{
-		$databases_to_create[] = 'database_main_db';
-	}
-	else
-	{
-		$databases_to_create = array_keys($databases);
-	}
-	foreach($databases_to_create as $index => $database)
-	{
-		//TODO Database abstraction!
-		mysql_query('DROP DATABASE IF EXISTS '.$values[$database]) or die('DROP ERROR '.mysql_error());
-		mysql_query('CREATE DATABASE IF NOT EXISTS '.$values[$database]) or die('CREATE ERROR '.mysql_error());
-	}
-	create_main_database_tables($values);
-	create_tracking_database_tables($values);
-	create_scorm_database_tables($values);
-	create_user_database_tables($values);
+	mysql_query('DROP DATABASE IF EXISTS '.$values['database_name']) or die('DROP ERROR '.mysql_error());
+	mysql_query('CREATE DATABASE IF NOT EXISTS '.$values['database_name']) or die('CREATE ERROR '.mysql_error());
+
+	create_main_tables($values);
+	create_tracking_tables($values);
+	create_scorm_tables($values);
 }
 
 /**
 * creating the tables of the main database
 */
-function create_main_database_tables($values)
+function create_main_tables($values)
 {
 	//TODO: Database abstraction
-	mysql_select_db($values['database_main_db']) or die('SELECT DB ERROR '.mysql_error());
+	mysql_select_db($values['database_name']) or die('SELECT DB ERROR '.mysql_error());
 
 	$installation_settings['{ORGANISATIONNAME}'] = $values['organization_name'];
 	$installation_settings['{ORGANISATIONURL}'] = $values['organization_url'];
@@ -192,9 +178,9 @@ function create_admin_in_user_table($values)
 /**
 * creating the tables of the tracking database
 */
-function create_tracking_database_tables($values)
+function create_tracking_tables($values)
 {
-	mysql_select_db($values['database_tracking']) or die('SELECT DB ERROR '.mysql_error());
+	mysql_select_db($values['database_name']) or die('SELECT DB ERROR '.mysql_error());
 
 	mysql_query("CREATE TABLE `track_c_browsers` (
 				`id` int(11) NOT NULL auto_increment,
@@ -347,9 +333,9 @@ function create_tracking_database_tables($values)
 /**
 * creating the tables of the SCORM database
 */
-function create_scorm_database_tables($values)
+function create_scorm_tables($values)
 {
-	mysql_select_db($values['database_scorm']) or die(mysql_error());
+	mysql_select_db($values['database_name']) or die(mysql_error());
 
 	mysql_query("CREATE TABLE `scorm_main` (
 				`contentId` int(5) unsigned NOT NULL auto_increment,
@@ -368,37 +354,6 @@ function create_scorm_database_tables($values)
 				`score` int(10) default NULL,
 				`time` varchar(20) default NULL,
 				KEY `scoId` (`scoId`)
-				) TYPE=MyISAM") or die(mysql_error());
-}
-
-/**
-* creating the tables of the USER database
-* this database stores
-* - the personal agenda items are stored
-* - the user defined course categories (sorting of my courses)
-*/
-function create_user_database_tables($values)
-{
-	mysql_select_db($values['database_user']) or die(mysql_error());
-
-	// creating the table where the personal agenda items are stored
-	mysql_query("CREATE TABLE `personal_agenda` (
-				`id` int NOT NULL auto_increment,
-				`user` int unsigned,
-				`title` text,
-				`text` text,
-				`date` datetime default NULL,
-				`enddate` datetime default NULL,
-				`course` varchar(255),
-				UNIQUE KEY `id` (`id`))
-				TYPE=MyISAM") or die(mysql_error());
-
-	// creating the table that is used for the user defined course categories
-	mysql_query("CREATE TABLE `user_course_category` (
-				`id` int unsigned NOT NULL auto_increment,
-				`user_id` int unsigned NOT NULL default '0',
-				`title` text NOT NULL,
-				PRIMARY KEY  (`id`)
 				) TYPE=MyISAM") or die(mysql_error());
 }
 

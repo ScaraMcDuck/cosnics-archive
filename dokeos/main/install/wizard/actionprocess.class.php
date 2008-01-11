@@ -29,19 +29,8 @@ class ActionProcess extends HTML_QuickForm_Action
 			<img src="../img/bluelogo.gif" alt="logo" align="right"/>
 		<?php
 		echo '<pre>';
-
-		$databases = Page_DatabaseSettings::get_databases();
-		foreach($databases as $database_name => $database_label)
-		{
-			if($values['database_single'])
-			{
-				$values[$database_name] = $values['database_prefix'].$values['database_main_db'];
-			}
-			else
-			{
-				$values[$database_name] = $values['database_prefix'].$values[$database_name];
-			}
-		}
+		
+		print_r($values);
 
 		full_database_install($values);
 		full_file_install($values);

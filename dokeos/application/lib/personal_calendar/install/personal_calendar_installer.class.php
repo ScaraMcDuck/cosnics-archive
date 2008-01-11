@@ -26,7 +26,7 @@ class PersonalCalendarInstaller extends Installer{
 	{
 		$storage_unit_info = parent::parse_xml_file($path);
 		$dm = PersonalCalendarDataManager :: get_instance();
-		echo '<pre>Creating PersonalCalendar Storage Unit: '.$storage_unit_info['name'].'</pre>';flush();
+		echo '<pre>Creating Personal Calendar Storage Unit: '.$storage_unit_info['name'].'</pre>';flush();
 		$dm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']);
 	}
 }

@@ -43,7 +43,7 @@ class UsersInstaller extends Installer{
 	{
 		$storage_unit_info = parent::parse_xml_file($path);
 		$dm = UsersDataManager :: get_instance();
-		echo '<pre>Creating PersonalCalendar Storage Unit: '.$storage_unit_info['name'].'</pre>';flush();
+		echo '<pre>Creating User Storage Unit: '.$storage_unit_info['name'].'</pre>';flush();
 		$dm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']);
 
 	}
