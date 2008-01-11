@@ -28,8 +28,8 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$this->repoDM = & RepositoryDataManager :: get_instance();
 		$this->userDM = & UsersDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
-		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_portfolio'),array('debug'=>3,'debug_handler'=>array('PortfolioDataManager','debug')));
-		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
+		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('PortfolioDataManager','debug')));
+		$this->prefix = 'myportfolio_';
 		$this->connection->query('SET NAMES utf8');
 
 	}

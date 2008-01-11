@@ -22,11 +22,11 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		$this->repoDM = & RepositoryDataManager :: get_instance();
 		$this->userDM = & UsersDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
-		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_profiler'),array('debug'=>3,'debug_handler'=>array('ProfilerDatamanager','debug')));
+		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('ProfilerDatamanager','debug')));
 		if (PEAR::isError($this)) {
    		 die($this->connection->getMessage());
 		}
-		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
+		$this->prefix = 'profiler_';
 		$this->connection->query('SET NAMES utf8');
 	}
 

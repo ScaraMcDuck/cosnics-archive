@@ -62,7 +62,7 @@ $error_message = <<<EOM
 </html>
 EOM;
 
-if (! $already_installed) die($error_message);
+if (!$already_installed) die($error_message);
 
 if(empty($statsDbName) && $already_installed)
 {
@@ -88,7 +88,8 @@ or die ( "<center>"
   RETRIEVING ALL THE DOKEOS CONFIG SETTINGS
 --------------------------------------------
 */
-$sql="SELECT * FROM ".$mainDbName.".settings_current";
+$current_settings_table = Database :: get_main_table(MAIN_SETTINGS_CURRENT_TABLE);
+$sql="SELECT * FROM $current_settings_table";
 $result=mysql_query($sql) or die(mysql_error());
 while ($row=mysql_fetch_array($result))
 {
@@ -98,7 +99,7 @@ while ($row=mysql_fetch_array($result))
 		{ $_setting[$row['variable']][$row['subkey']]=$row['selected_value']; }
 }
 // we have to store the settings for the plugins differently because it expects an array
-$sql="SELECT * FROM ".$mainDbName.".settings_current WHERE category='plugins'";
+$sql="SELECT * FROM $current_settings_table WHERE category='plugins'";
 $result=mysql_query($sql) or die(mysql_error());
 while ($row=mysql_fetch_array($result))
 {

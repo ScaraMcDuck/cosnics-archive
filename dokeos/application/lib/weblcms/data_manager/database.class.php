@@ -40,8 +40,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->repoDM = & RepositoryDataManager :: get_instance();
 		$this->userDM = & UsersDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
-		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_weblcms'),array('debug'=>3,'debug_handler'=>array('DatabaseWeblcmsDataManager','debug')));
-		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
+		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseWeblcmsDataManager','debug')));
+		$this->prefix = 'weblcms_';
 		$this->connection->query('SET NAMES utf8');
 	}
 	/**

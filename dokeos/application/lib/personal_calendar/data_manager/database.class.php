@@ -26,8 +26,8 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	{
 		$this->repoDM = & RepositoryDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
-		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_personal_calendar'),array('debug'=>3,'debug_handler'=>array('PersonalCalendarDatamanager','debug')));
-		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
+		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('PersonalCalendarDatamanager','debug')));
+		$this->prefix = 'personal_calendar_';
 		$this->connection->query('SET NAMES utf8');
 	}
 	/**

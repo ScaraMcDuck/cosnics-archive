@@ -41,7 +41,7 @@
 		CONSTANTS
 ==============================================================================
 */
-define("DOKEOS_MAIN_DATABASE_FILE", "dokeos_main.sql");
+define("DOKEOS_MAIN_TABLES", "dokeos_main.sql");
 
 define("LANGUAGE_DATA_FILENAME", "language_data.csv");
 define("ROLE_DATA_FILENAME", "default_roles.csv");
@@ -210,21 +210,8 @@ function write_dokeos_config_file($path, $values)
 	$config['{DATABASE_USER}'] = $values['database_username'];
 	$config['{DATABASE_PASSWORD}'] = $values['database_password'];
 	$config['{TRACKING_ENABLED}'] = boolean_to_string($values['enable_tracking']);
-	$config['{SINGLE_DATABASE}'] = boolean_to_string($is_single_database);
-	$config['{COURSE_TABLE_PREFIX}'] = ($is_single_database ? 'crs_' : '');
-	$config['{DATABASE_GLUE}'] = ($is_single_database ? '_' : '`.`');
-	$config['{DATABASE_PREFIX}'] = $values['database_prefix'];
-	$config['{DATABASE_MAIN}'] = $values["database_main_db"];
-	$config['{DATABASE_STATS}'] =$values["database_tracking"];
-	$config['{DATABASE_SCORM}'] =  $values["database_scorm"];
-	$config['{DATABASE_USERDB}'] = $values["database_user"];
-	$config['{DATABASE_PERSONAL}'] = $values['database_user'];
-	$config['{DATABASE_REPOSITORY}'] =  $values["database_repository"];
-	$config['{DATABASE_WEBLCMS}'] = $values["database_weblcms"];
-	$config['{DATABASE_PORTFOLIO}'] = $values["database_portfolio"];
-	$config['{DATABASE_PERSONALCALENDAR}'] =  $values["database_personal_calendar"];
-	$config['{DATABASE_PERSONAL_MESSENGER}'] = $values["database_personal_messenger"];
-	$config['{DATABASE_PROFILER}'] = $values["database_profiler"];
+	$config['{DATABASE_GLUE}'] = '_';
+	$config['{DATABASE_NAME}'] = $values['database_name'];
 	$config['{ROOT_WEB}'] = $values['platform_url'];
 	$config['{ROOT_SYS}'] = str_replace('\\', '/', realpath($values['platform_url']).'/');
 	$config['{URL_APPEND_PATH}'] = $urlAppendPath;
@@ -269,7 +256,7 @@ function write_dokeos_config_file($path, $values)
 */
 function load_main_database($installation_settings)
 {
-	$dokeos_main_sql_file_string = file_get_contents(DOKEOS_MAIN_DATABASE_FILE);
+	$dokeos_main_sql_file_string = file_get_contents(DOKEOS_MAIN_TABLES);
 
 	//replace symbolic parameters with user-specified values
 	foreach ($installation_settings as $key => $value)

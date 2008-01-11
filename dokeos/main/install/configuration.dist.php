@@ -50,9 +50,7 @@ $dbPass         = '{DATABASE_PASSWORD}';
 //   Database settings
 //============================================================================
 // is tracking enabled?
-$is_trackingEnabled = {TRACKING_ENABLED};
-// is single database enabled (DO NOT MODIFY THIS)
-$singleDbEnabled    = {SINGLE_DATABASE};
+$is_trackingEnabled = '{TRACKING_ENABLED}';
 // prefix for course tables (IF NOT EMPTY, can be replaced by another prefix,
 // else leave empty)
 $courseTablePrefix      = '{COURSE_TABLE_PREFIX}';
@@ -61,11 +59,11 @@ $dbGlu                  = '{DATABASE_GLUE}';
 // prefix all created bases (for courses) with this string
 $dbNamePrefix           = '{DATABASE_PREFIX}';
 // main Dokeos database
-$mainDbName             = '{DATABASE_MAIN}';
+$mainDbName             = '{DATABASE_NAME}';
 // stats Dokeos database
-$statsDbName            = '{DATABASE_STATS}';
+$statsDbName            = '{DATABASE_NAME}';
 // scorm Dokeos database
-$scormDbName            = '{DATABASE_SCORM}';
+$scormDbName            = '{DATABASE_NAME}';
 
 //============================================================================
 //   Directory settings

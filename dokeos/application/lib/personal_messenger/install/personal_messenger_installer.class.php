@@ -30,7 +30,7 @@ class PersonalMessengerInstaller extends Installer {
 	function create_storage_unit($path)
 	{
 		$storage_unit_info = parent::parse_xml_file($path);
-		echo '<pre>Creating PersonalMessenger Storage Unit: '.$storage_unit_info['name'].'</pre>';flush();
+		echo '<pre>Creating Personal Messenger Storage Unit: '.$storage_unit_info['name'].'</pre>';flush();
 		$this->pmdm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']);
 	}
 }
