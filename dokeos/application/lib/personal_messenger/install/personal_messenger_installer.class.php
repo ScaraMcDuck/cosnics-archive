@@ -24,13 +24,19 @@ class PersonalMessengerInstaller extends Installer {
 	 */
 	function install()
 	{
+		echo '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(../img/admin_personal_messenger.gif);">';
+		echo '<div class="title">'. get_lang('AppPersonalMessenger') .'</div>';
+		echo '<div class="description">';
 		$this->create_storage_unit(dirname(__FILE__).'/personal_messenger_publication.xml');
+		echo '<br /><span style="color: #008000; font-weight: bold;">'. get_lang('ApplicationSuccess') .'</span>';
+		echo '</div>';
+		echo '</div>';
 	}
 
 	function create_storage_unit($path)
 	{
 		$storage_unit_info = parent::parse_xml_file($path);
-		echo '<pre>Creating Personal Messenger Storage Unit: '.$storage_unit_info['name'].'</pre>';flush();
+		echo 'Creating Personal Messenger Storage Unit: '.$storage_unit_info['name'].'<br />';flush();
 		$this->pmdm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']);
 	}
 }

@@ -8,11 +8,11 @@ require_once dirname(__FILE__).'/../portfoliodatamanager.class.php';
  *	This installer can be used to create the storage structure for the
  *      portfolio application.
  */
-class PortfolioInstaller {
+class MyportfolioInstaller {
 	/**
 	 * Constructor
 	 */
-    function PortfolioInstaller() {
+    function MyportfolioInstaller() {
     }
 	/**
 	 * Runs the install-script.
@@ -21,6 +21,9 @@ class PortfolioInstaller {
 	 */
 	function install()
 	{
+		echo '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(../img/admin_personal_messenger.gif);">';
+		echo '<div class="title">'. get_lang('AppMyportfolio') .'</div>';
+		echo '<div class="description">';
 		$sqlfiles = array();
 		//Todo: Use FileSystem::get_directory_content to get xml files
 		$dir = dirname(__FILE__);
@@ -42,6 +45,9 @@ class PortfolioInstaller {
 			$this->parse_sql_file($dir , $sqlfiles[$i]);
 		}
 		closedir($handle);
+		echo '<br /><span style="color: #008000; font-weight: bold;">'. get_lang('ApplicationSuccess') .'</span>';
+		echo '</div>';
+		echo '</div>';
 	}
 
 	/**
@@ -55,7 +61,7 @@ class PortfolioInstaller {
 		$path = $directory.'/'.$sqlfilename;
 		$filecontent = file_get_contents($path);
 		$sqlstring = explode("\n", $filecontent);
-		echo '<pre>Executing additional portfolio SQL statement(s)</pre>';flush();
+		echo 'Executing additional portfolio SQL statement(s)<br />';flush();
 		foreach($sqlstring as $sqlstatement)
 		{
 			echo $sqlstatement. '<br />';
@@ -96,7 +102,7 @@ class PortfolioInstaller {
 			 $indexes[$index->getAttribute('name')] = $index_info;
 		}
 		$dm = PortfolioDataManager :: get_instance();
-		echo '<pre>Creating Portfolio Storage Unit: '.$name.'</pre>';flush();
+		echo 'Creating Portfolio Storage Unit: '.$name.'<br />';flush();
 		$dm->create_storage_unit($name,$properties,$indexes);
 	}
 }

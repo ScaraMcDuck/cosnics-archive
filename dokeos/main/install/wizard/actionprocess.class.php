@@ -28,16 +28,11 @@ class ActionProcess extends HTML_QuickForm_Action
 		<div style="margin:50px;">
 			<img src="../img/bluelogo.gif" alt="logo" align="right"/>
 		<?php
-		echo '<pre>';
-		
-		print_r($values);
-
 		full_database_install($values);
 		full_file_install($values);
 		create_admin_in_user_table($values);
 		create_default_categories_in_weblcms();
-		echo '</pre>';
-		$page->controller->container(true);
+		//$page->controller->container(true);
 		?>
 		<a href="../../index.php"><?php echo get_lang('GoToYourNewlyCreatedPortal'); ?></a>
         </div>

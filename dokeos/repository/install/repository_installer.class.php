@@ -26,6 +26,9 @@ class RepositoryInstaller extends Installer
 	 */
 	function install()
 	{
+		echo '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(../img/admin_repository.gif);">';
+		echo '<div class="title">'. get_lang('Repository') .'</div>';
+		echo '<div class="description">';
 		$dir = dirname(__FILE__).'/../lib/learning_object';
 		$handle = opendir($dir);
 		while (false !== ($type = readdir($handle)))
@@ -49,6 +52,9 @@ class RepositoryInstaller extends Installer
 			}
 		}
 		closedir($handle);
+		echo '<br /><span style="color: #008000; font-weight: bold;">'. get_lang('ApplicationSuccess') .'</span>';
+		echo '</div>';
+		echo '</div>';
 	}
 
 	/**
@@ -62,7 +68,7 @@ class RepositoryInstaller extends Installer
 	{
 		$storage_unit_info = parent::parse_xml_file($path);
 		$dm = RepositoryDataManager :: get_instance();
-		echo '<pre>Creating Repository Storage Unit: '.$storage_unit_info['name'].'</pre>';flush();
+		echo 'Creating Repository Storage Unit: '.$storage_unit_info['name'].'<br />';flush();
 		$dm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']);
 
 	}

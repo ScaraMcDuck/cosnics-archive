@@ -714,6 +714,7 @@ function get_lang($variable)
 	{
 		if (!is_array($val))
 		{
+			if (!isset($language_interface)) $language_interface = 'english';
 			$filename = api_get_path(SYS_CODE_PATH).'lang'.DIRECTORY_SEPARATOR.$language_interface.DIRECTORY_SEPARATOR.$language_file.'.inc.php';
 			$val = array();
 			if (is_file($filename))

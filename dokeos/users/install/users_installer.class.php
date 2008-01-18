@@ -20,6 +20,9 @@ class UsersInstaller extends Installer{
 	 */
 	function install()
 	{
+		echo '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(../img/admin_users.gif);">';
+		echo '<div class="title">'. get_lang('Users') .'</div>';
+		echo '<div class="description">';
 		$sqlfiles = array();
 		$dir = dirname(__FILE__);
 		//Todo: Use FileSystem::get_directory_content to get xml files
@@ -33,6 +36,9 @@ class UsersInstaller extends Installer{
 			}
 		}
 		closedir($handle);
+		echo '<br /><span style="color: #008000; font-weight: bold;">'. get_lang('ApplicationSuccess') .'</span>';
+		echo '</div>';
+		echo '</div>';
 	}
 
 	/**
@@ -43,7 +49,7 @@ class UsersInstaller extends Installer{
 	{
 		$storage_unit_info = parent::parse_xml_file($path);
 		$dm = UsersDataManager :: get_instance();
-		echo '<pre>Creating User Storage Unit: '.$storage_unit_info['name'].'</pre>';flush();
+		echo 'Creating User Storage Unit: '.$storage_unit_info['name'].'<br />';flush();
 		$dm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']);
 
 	}

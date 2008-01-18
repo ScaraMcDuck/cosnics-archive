@@ -22,12 +22,18 @@ class ProfilerInstaller extends Installer {
 	 */
 	function install()
 	{
+		echo '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(../img/admin_profiler.gif);">';
+		echo '<div class="title">'. get_lang('AppProfiler') .'</div>';
+		echo '<div class="description">';
 		$this->create_storage_unit(dirname(__FILE__).'/profiler_publication.xml');
+		echo '<br /><span style="color: #008000; font-weight: bold;">'. get_lang('ApplicationSuccess') .'</span>';
+		echo '</div>';
+		echo '</div>';
 	}
 	function create_storage_unit($path)
 	{
 		$storage_unit_info = parent::parse_xml_file($path);
-		echo '<pre>Creating Profiler Storage Unit: '.$storage_unit_info['name'].'</pre>';flush();
+		echo 'Creating Profiler Storage Unit: '.$storage_unit_info['name'].'<br />';flush();
 		$this->pdm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']);
 	}
 }
