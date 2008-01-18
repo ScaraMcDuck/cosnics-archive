@@ -50,11 +50,11 @@ require_once 'HTML/QuickForm/Action/Display.php';
 require_once '../../common/filesystem/filesystem.class.php';
 require_once ('../inc/installedVersion.inc.php');
 require_once ('../inc/lib/main_api.lib.php');
-require_once ('../lang/english/trad4all.inc.php');
-require_once ('../lang/english/install.inc.php');
 require_once ('install_upgrade.lib.php');
 require_once ('install_db.inc.php');
 require_once ('install_files.inc.php');
+
+api_use_lang_files('install','admin');
 
 $wizard_classes = scandir('wizard');
 foreach($wizard_classes as $index => $file)
@@ -226,6 +226,9 @@ function get_config_param($param,$path)
 ==============================================================================
 */
 
+// Set the SYS_CODE_PATH as it's used by the get_lang function
+$GLOBALS['clarolineRepositorySys'] = dirname(__FILE__) . '/../';
+
 // Create a new wizard
 $wizard = & new HTML_QuickForm_Controller('regWizard', true);
 
@@ -311,6 +314,7 @@ if (isset ($current_values['installation_type']) && $current_values['installatio
 }
 $wizard->addPage(new Page_License('page_license'));
 $wizard->addPage(new Page_DatabaseSettings('page_databasesettings'));
+$wizard->addPage(new Page_ApplicationSettings('page_applicationsettings'));
 $wizard->addPage(new Page_ConfigSettings('page_configsettings'));
 $wizard->addPage(new Page_ConfirmSettings('page_confirmsettings'));
 
@@ -325,10 +329,9 @@ $wizard->addAction('display', new ActionDisplay());
 
 // Set the installation language
 $install_language = $wizard->exportValue('page_language', 'install_language');
-require_once ('../lang/english/trad4all.inc.php');
-require_once ('../lang/english/install.inc.php');
-include_once ("../lang/$install_language/trad4all.inc.php");
-include_once ("../lang/$install_language/install.inc.php");
+
+// Set the language interface or installer doesn't get translated.
+$language_interface = $install_language;
 
 // Set default platform language to the choosen install language
 $defaults['platform_language'] = $install_language;

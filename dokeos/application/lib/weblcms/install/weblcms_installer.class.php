@@ -22,6 +22,10 @@ class WeblcmsInstaller extends Installer {
 	 */
 	function install()
 	{
+		echo '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(../img/admin_weblcms.gif);">';
+		echo '<div class="title">'. get_lang('AppWeblcms') .'</div>';
+		echo '<div class="description">';
+		
 		$sqlfiles = array();
 		//Todo: Use FileSystem::get_directory_content to get xml files
 		$dir = dirname(__FILE__);
@@ -35,11 +39,15 @@ class WeblcmsInstaller extends Installer {
 			}
 		}
 		closedir($handle);
+		
+		echo '<br /><span style="color: #008000; font-weight: bold;">'. get_lang('ApplicationSuccess') .'</span>';
+		echo '</div>';
+		echo '</div>';
 	}
 	function create_storage_unit($path)
 	{
 		$storage_unit_info = parent::parse_xml_file($path);
-		echo '<pre>Creating WebLcms Storage Unit: '.$storage_unit_info['name'].'</pre>';flush();
+		echo 'Creating WebLcms Storage Unit: '.$storage_unit_info['name'].'<br />';flush();
 		$this->dm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']);
 
 	}

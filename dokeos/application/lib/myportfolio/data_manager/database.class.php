@@ -231,7 +231,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	//Inherited.
 	function get_next_portfolio_publication_id()
 	{
-		return $this->connection->nextID($this->get_table_name('portfolio_publication'));
+		return $this->connection->nextID($this->get_table_name('publication'));
 	}
 
 		//Inherited.
@@ -243,8 +243,8 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	//Inherited.
     function count_portfolio_publications($condition = null)
     {
-		$query = 'SELECT COUNT('.$this->escape_column_name(PortfolioPublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('portfolio_publication');
-		$query .= 'JOIN '.$this->userDM->escape_table_name('user') . 'ON' . $this->escape_table_name('portfolio_publication'). '.' . $this->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
+		$query = 'SELECT COUNT('.$this->escape_column_name(PortfolioPublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('publication');
+		$query .= 'JOIN '.$this->userDM->escape_table_name('user') . 'ON' . $this->escape_table_name('publication'). '.' . $this->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
 
 		$params = array ();
 		if (isset ($condition))
@@ -264,8 +264,8 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
     function retrieve_portfolio_publication($id)
 	{
 		echo "moop";
-		$query = 'SELECT * FROM '.$this->escape_table_name('portfolio_publication');
-		$query .= ' JOIN '.$this->userDM->escape_table_name('user') . ' ON ' . $this->escape_table_name('portfolio_publication'). '.' . $this->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
+		$query = 'SELECT * FROM '.$this->escape_table_name('publication');
+		$query .= ' JOIN '.$this->userDM->escape_table_name('user') . ' ON ' . $this->escape_table_name('publication'). '.' . $this->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
 		$query .= ' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_ID).'=?';
 		echo $query;
 
@@ -280,8 +280,8 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 
     function retrieve_portfolio_publication_from_item($item)
 	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('portfolio_publication');
-		$query .= ' JOIN '.$this->userDM->escape_table_name('user') . ' ON ' . $this->escape_table_name('portfolio_publication'). '.' . $this->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
+		$query = 'SELECT * FROM '.$this->escape_table_name('publication');
+		$query .= ' JOIN '.$this->userDM->escape_table_name('user') . ' ON ' . $this->escape_table_name('publication'). '.' . $this->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
 		$query .= ' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_TREEITEM).'=?';
 
 		$this->connection->setLimit(1);
@@ -296,8 +296,8 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
     function retrieve_portfolio_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 
-		$query = 'SELECT * FROM '.$this->escape_table_name('portfolio_publication');
-		$query .= 'JOIN '.$this->userDM->escape_table_name('user') . ' ON ' . $this->escape_table_name('portfolio_publication'). '.' . $this->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
+		$query = 'SELECT * FROM '.$this->escape_table_name('publication');
+		$query .= 'JOIN '.$this->userDM->escape_table_name('user') . ' ON ' . $this->escape_table_name('publication'). '.' . $this->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
 
 		$params = array ();
 		if (isset ($condition))
@@ -350,14 +350,14 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('portfolio_publication'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+		$this->connection->extended->autoExecute($this->get_table_name('publication'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 		return true;
 	}
 
 	//Inherited
 	function delete_portfolio_publication($portfolio_publication)
 	{
-		$query = 'DELETE FROM '.$this->escape_table_name('portfolio_publication').' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_ID).'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		if ($statement->execute($portfolio_publication->get_id()))
 		{
@@ -394,7 +394,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$props = array();
 		$props[$this->escape_column_name(PortfolioPublication :: PROPERTY_PROFILE)] = $publication_attr->get_publication_object_id();
 		$this->connection->loadModule('Extended');
-		if ($this->connection->extended->autoExecute($this->get_table_name('portfolio_publication'), $props, MDB2_AUTOQUERY_UPDATE, $where))
+		if ($this->connection->extended->autoExecute($this->get_table_name('publication'), $props, MDB2_AUTOQUERY_UPDATE, $where))
 		{
 			return true;
 		}
@@ -413,7 +413,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	//Inherited.
 	function any_learning_object_is_published($object_ids)
 	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('portfolio_publication').' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_PROFILE).' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
+		$query = 'SELECT * FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_PROFILE).' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
 		$res = $this->limitQuery($query, 1, null,$object_ids);
 		return $res->numRows() == 1;
 	}
@@ -421,7 +421,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	//Inherited.
 	function learning_object_is_published($object_id)
 	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('portfolio_publication').' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_PROFILE).'=?';
+		$query = 'SELECT * FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_PROFILE).'=?';
 		$res = $this->limitQuery($query, 1,null, array ($object_id));
 		return $res->numRows() == 1;
 	}
@@ -434,7 +434,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		{
 			if ($type == 'user')
 			{
-				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->escape_column_name('title') .' FROM '.$this->escape_table_name('portfolio_publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.$this->repoDM->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`profile` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
+				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->escape_column_name('title') .' FROM '.$this->escape_table_name('publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.$this->repoDM->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`profile` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
 				$query .= ' WHERE '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.'.$this->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER).'=?';
 
 				$order = array ();
@@ -464,7 +464,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		}
 		else
 		{
-			$query = 'SELECT * FROM '.$this->escape_table_name('portfolio_publication').' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_PROFILE).'=?';
+			$query = 'SELECT * FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_PROFILE).'=?';
 			$statement = $this->connection->prepare($query);
 			$param = $object_id;
 		}
@@ -495,7 +495,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	function get_learning_object_publication_attribute($publication_id)
 	{
 
-		$query = 'SELECT * FROM '.$this->escape_table_name('portfolio_publication').' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_ID).'=?';
+		$query = 'SELECT * FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		$this->connection->setLimit(0,1);
 		$res = $statement->execute($publication_id);
@@ -521,7 +521,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	function count_publication_attributes($user, $type = null, $condition = null)
 	{
 		$params = array ();
-		$query = 'SELECT COUNT('.$this->escape_column_name(PortfolioPublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('portfolio_publication').' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER).'=?';;
+		$query = 'SELECT COUNT('.$this->escape_column_name(PortfolioPublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER).'=?';;
 
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($user->get_user_id());
@@ -540,7 +540,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$props[$this->escape_column_name(PortfolioPublication :: PROPERTY_ID)] = $publication->get_id();
 
 		$this->connection->loadModule('Extended');
-		if ($this->connection->extended->autoExecute($this->get_table_name('portfolio_publication'), $props, MDB2_AUTOQUERY_INSERT))
+		if ($this->connection->extended->autoExecute($this->get_table_name('publication'), $props, MDB2_AUTOQUERY_INSERT))
 		{
 			return true;
 		}

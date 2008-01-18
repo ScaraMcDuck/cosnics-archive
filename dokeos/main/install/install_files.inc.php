@@ -39,6 +39,19 @@
 function full_file_install($values)
 {
 	global $urlAppendPath;
+	
+	$footer  = '</div></div></div>'."\n";
+	$footer .= '<div class="clear">&nbsp;</div> <!-- \'clearing\' div to make sure that footer stays below the main and right column sections -->'."\n";
+	$footer .= '</div> <!-- end of #main" started at the end of claro_init_banner.inc.php -->'."\n";
+	$footer .= "\n";
+	$footer .= '<div id="footer"> <!-- start of #footer section -->'."\n";
+	$footer .= '&copy;&nbsp;2007-'. date('Y'). '&nbsp;Scaramanga Productions';
+	$footer .= '</div> <!-- end of #footer -->'."\n";
+	$footer .= '</div> <!-- end of #outerframe opened in header -->'."\n";
+	$footer .= "\n";
+	$footer .= '</body>'."\n";
+	$footer .= '</html>'."\n";
+	
 	// Write the Dokeos config file
 	//OLD: write_dokeos_config_file('../inc/conf/claro_main.conf.php');
 	write_dokeos_config_file('../inc/conf/config.inc.php', $values);
@@ -66,12 +79,7 @@ function full_file_install($values)
 
 	require_once('../../users/install/users_installer.class.php');
 //	require_once('../../classgroup/install/classgroup_installer.class.php');
-	require_once('../../application/lib/weblcms/install/weblcms_installer.class.php');
-	require_once('../../application/lib/myportfolio/install/portfolio_installer.class.php');
-	require_once('../../application/lib/personal_calendar/install/personal_calendar_installer.class.php');
 	require_once('../../repository/install/repository_installer.class.php');
-	require_once('../../application/lib/personal_messenger/install/personal_messenger_installer.class.php');
-	require_once('../../application/lib/profiler/install/profiler_installer.class.php');
 
 	//-----------------------------------------------------------
 	// Users tables install.
@@ -87,43 +95,58 @@ function full_file_install($values)
 	$installer = new RepositoryInstaller();
 	$installer->install();
 	unset($installer);
-
+	
 	//-----------------------------------------------------------
-	// Personal calendar Install.
+	// Applications tables install
 	//-----------------------------------------------------------
-	$installer = new PersonalCalendarInstaller();
-	$installer->install();
-	unset($installer);
-
-	//-----------------------------------------------------------
-	// Weblcms Install.
-	//-----------------------------------------------------------
-	$installer = new WeblcmsInstaller();
-	$installer->install();
-	unset($installer);
-
-
-
-	//-----------------------------------------------------------
-	// personal messenger tables install.
-	//-----------------------------------------------------------
-	$installer = new PersonalMessengerInstaller();
-	$installer->install();
-	unset($installer);
-
-	//-----------------------------------------------------------
-	// personal messenger tables install.
-	//-----------------------------------------------------------
-	$installer = new ProfilerInstaller();
-	$installer->install();
-	unset($installer);
-
-	//-----------------------------------------------------------
-	// Portfolio Install.
-	//-----------------------------------------------------------
-	$installer = new PortfolioInstaller();
-	$installer->install();
-	unset($installer);
+	
+	$path = dirname(__FILE__).'/../../application/lib/';
+	if ($handle = opendir($path))
+	{
+		while (false !== ($file = readdir($handle)))
+		{
+			$toolPath = $path.'/'. $file .'/install';
+			if (is_dir($toolPath) && (preg_match('/^[a-z][a-z_]+$/', $file) > 0))
+			{
+				$check_name = 'install_' . $file;
+				if (isset($values[$check_name]) && $values[$check_name] == '1')
+				{
+					require_once('../../application/lib/'. $file .'/install/'. $file .'_installer.class.php');
+					
+					$application_class = ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $file)) . 'Installer';
+					
+					$installer = new $application_class;
+					$installer->install();
+					unset($installer);
+				}
+				else
+				{
+					$application_path = dirname(__FILE__).'/../../application/lib/' . $file . '/';
+					$application = ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $file));
+					
+					echo '<div class="learning_object" style="padding: 15px 15px 15px 60px; background-image: url(../img/block_'. $file .'.png);">';
+					echo '<div class="title">'. get_lang($application) .'</div>';
+					echo '<div class="description">';
+					
+					FileSystem::remove_dir($application_path);
+					
+					echo '<span style="color: #008000; font-weight: bold;">'. get_lang('ApplicationSuccessRemove') .'</span>';
+					echo '</div>';
+					echo '</div>';
+				}
+			}
+		}
+		closedir($handle);
+	}
+	else
+	{
+		echo '<div class="learning_object" style="padding: 15px 15px 15px 60px; background-image: url(../img/message_error.png);">';
+		echo '<div class="title">'. get_lang('Error') .'</div>';
+		echo '<div class="description">';
+		echo '<span style="color: #FF0000; font-weight: bold;">'. get_lang('ApplicationFailed') .'</span>';
+		echo $footer;
+		exit;
+	}
 
 	//-----------------------------------------------------------
 	// Class groups tables install.

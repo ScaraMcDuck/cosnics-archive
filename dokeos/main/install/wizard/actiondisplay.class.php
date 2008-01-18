@@ -23,21 +23,38 @@ class ActionDisplay extends HTML_QuickForm_Action_Display
 		$renderer->setHeaderTemplate($header_template);
 		HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>'.get_lang('ThisFieldIsRequired').'</small>');
 		$current_page->accept($renderer);
-?>
-		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-		<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-		<head>
-		<title>-- Dokeos installation -- version <?php echo $dokeos_version; ?></title>
-		<link rel="stylesheet" href="../css/default.css" type="text/css"/>
-		</head>
-		<body dir="<?php echo get_lang('text_dir'); ?>">
-		<div id="header1">
-			Dokeos installation - version <?php echo $dokeos_version; ?><?php if($installType == 'new') echo ' - New installation'; else if($installType == 'update') echo ' - Update from Dokeos '.implode('|',$updateFromVersion); ?>
-		</div>
-		<div style="float: left; background-color:#EFEFEF;margin-right: 20px;padding: 10px;">
-			<img src="../img/bluelogo.gif" alt="logo"/>
-			<?php
-
+		
+		echo '<!DOCTYPE html
+		     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+		echo '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">'."\n";
+		echo '<head>'."\n";
+		echo '<title>-- ' .$dokeos_version . ' Installation --</title>'."\n";
+		echo '<link rel="stylesheet" href="../css/default.css" type="text/css"/>'."\n";
+		echo '<link rel="stylesheet" href="../css/skorpiuz.css" type="text/css"/>'."\n";		
+		echo '</head>'."\n";
+		echo '<body dir="'. get_lang('text_dir') .'">' . "\n";
+		
+		echo '<!-- #outerframe container to control some general layout of all pages -->'."\n";
+		echo '<div id="outerframe">'."\n";
+		
+		echo '<div id="header">  <!-- header section start -->'."\n";
+		echo '<div id="header1"> <!-- top of banner with institution name/hompage link -->'."\n";
+		echo 'Dokeos installation - version ' . $dokeos_version;
+		if ($installType == 'new')
+		{
+			echo ' - New installation';
+		}
+		elseif ($installType == 'update')
+		{
+			echo ' - Update from Dokeos ' . implode('|',$updateFromVersion);
+		}		
+		echo '<div class="clear">&nbsp;</div>'."\n";
+		echo '</div> <!-- end of the whole #header section -->'."\n";
+		echo '<!--   Begin Of script Output   -->'."\n";
+		
+		echo '<div style="float: left; background-color:#EFEFEF;margin-right: 20px;padding: 15px;">';
+		echo '<img src="../img/bluelogo.gif" alt="logo"/>';
 		$all_pages = $current_page->controller->_pages;
 		$total_number_of_pages = count($all_pages);
 		$current_page_number = 0;
@@ -57,22 +74,25 @@ class ActionDisplay extends HTML_QuickForm_Action_Display
 			}
 		}
 		echo '</ol>';
-		echo '</div>';
+		echo '</div>' . "\n";
+		
 		echo '<div style="margin: 10px;">';
 		echo '<h2>'.get_lang('Step').' '.$current_page_number.' '.get_lang('of').' '.$total_number_of_pages.' &ndash; '.$current_page->get_title().'</h2>';
 		echo '<div>';
 		echo $current_page->get_info();
 		echo '</div>';
 		echo $renderer->toHtml();
-		?>
-        </div>
-        <div style="clear:both;"></div>
-        <div id="footer">
-        &copy; <?php echo $dokeos_version; ?>
-        </div>
-		</body>
-		</html>
-		<?php
+		echo '</div>';
+		
+		echo '<div class="clear">&nbsp;</div> <!-- \'clearing\' div to make sure that footer stays below the main and right column sections -->'."\n";
+		echo "\n";
+		echo '<div id="footer"> <!-- start of #footer section -->'."\n";
+		echo $dokeos_version . '&nbsp;&copy;&nbsp;2007-'. date('Y'). '&nbsp;Scaramanga Productions';
+		echo '</div> <!-- end of #footer -->'."\n";
+		echo '</div> <!-- end of #outerframe opened in header -->'."\n";
+		echo "\n";
+		echo '</body>'."\n";
+		echo '</html>'."\n";
 	}
 }
 ?>
