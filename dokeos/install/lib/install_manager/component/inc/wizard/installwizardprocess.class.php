@@ -28,13 +28,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 	{
 		$values = $page->controller->exportValues();
 		
-		$this->parent->display_header();
-		
-		echo '<pre>';
-		print_r($values);
-		echo '</pre>';
-		
-		$this->parent->display_footer();
+		$this->parent->display_warning_page('Process the data and install the applications');
 	}
 }
 ?>
