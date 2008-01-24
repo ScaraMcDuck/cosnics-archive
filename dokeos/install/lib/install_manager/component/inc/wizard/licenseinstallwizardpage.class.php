@@ -33,6 +33,7 @@ class LicenseInstallWizardPage extends InstallWizardPage
 	
 	function set_form_defaults()
 	{
+		$defaults = array();
 		$defaults['license'] = implode("\n", file('../documentation/license.txt'));
 		$this->setDefaults($defaults);
 	}

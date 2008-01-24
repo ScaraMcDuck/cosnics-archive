@@ -110,6 +110,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 	
 	function set_form_defaults()
 	{
+		$defaults = array();
 		$defaults['installation_type'] = 'new';
 		$this->setDefaults($defaults);
 	}	
