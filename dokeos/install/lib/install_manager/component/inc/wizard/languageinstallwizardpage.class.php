@@ -47,6 +47,7 @@ class LanguageInstallWizardPage extends InstallWizardPage
 	
 	function set_form_defaults()
 	{
+		$defaults = array();
 		$defaults['install_language'] = 'english';
 		$defaults['platform_language'] = 'english';
 		$this->setDefaults($defaults);

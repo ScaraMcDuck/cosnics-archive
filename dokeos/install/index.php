@@ -8,10 +8,7 @@ require_once dirname(__FILE__).'/../users/lib/usermanager/usermanager.class.php'
 
 api_use_lang_files('install');
 
-$usermgr = new UserManager(api_get_user_id());
-$user = $usermgr->retrieve_user(api_get_user_id());
-
-$repmgr = new InstallManager($user);
+$repmgr = new InstallManager(null);
 try
 {
 	$repmgr->run();
