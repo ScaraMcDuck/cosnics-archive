@@ -5,8 +5,6 @@
  * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../../repository/lib/configuration.class.php';
-require_once dirname(__FILE__).'/../../users/lib/usermanager/usermanager.class.php';
-require_once dirname(__FILE__).'/../../repository/lib/repository_manager/repositorymanager.class.php';
 
 abstract class AdminDataManager
 {
@@ -16,18 +14,11 @@ abstract class AdminDataManager
 	private static $instance;
 
 	/**
-	 * Array which contains the registered applications running on top of this
-	 * admindatamanager
-	 */
-	private $applications;
-
-	/**
 	 * Constructor.
 	 */
 	protected function AdminDataManager()
 	{
-		$this->applications = array();
-		$this->load_applications();
+		$this->initialize();
 	}
 
 	/**
@@ -46,32 +37,6 @@ abstract class AdminDataManager
 			self :: $instance = new $class ();
 		}
 		return self :: $instance;
-	}
-
-	/**
-	 * Loads the applications installed on the system and uses the function
-	 * register_application to register them.
-	 */
-	private function load_applications()
-	{
-		$applications = Application::load_all();
-		foreach($applications as $index => $application)
-		{
-			$this->register_application($application);
-		}
-	}
-
-	/**
-	 * Registers an application with this admin datamanager.
-	 * @param string $application The application name.
-	 */
-	function register_application($application)
-	{
-		if (in_array($application, $this->applications))
-		{
-			die('Application already registered: '.$application);
-		}
-		$this->applications[] = $application;
 	}
 
 	/**
@@ -105,7 +70,7 @@ abstract class AdminDataManager
 		$info[] = $repository_manager->get_application_platform_admin_links();
 
 		// Secondly the links for the plugin applications running on top of the essential Dokeos components
-		$applications = $this->get_registered_applications();
+		$applications = Application :: load_all();
 		foreach($applications as $index => $application_name)
 		{
 			$application = Application::factory($application_name);
@@ -119,15 +84,14 @@ abstract class AdminDataManager
 
 		return $info;
 	}
-
+	
 	/**
-	 * Returns the names of the applications known to this
-	 * admin.
-	 * @return array The applications.
+	 * Creates a storage unit
+	 * @param string $name Name of the storage unit
+	 * @param array $properties Properties of the storage unit
+	 * @param array $indexes The indexes which should be defined in the created
+	 * storage unit
 	 */
-	function get_registered_applications()
-	{
-		return $this->applications;
-	}
+	abstract function create_storage_unit($name,$properties,$indexes);
 }
 ?>
