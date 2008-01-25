@@ -82,17 +82,17 @@ function full_file_install($values)
 	require_once('../../repository/install/repository_installer.class.php');
 
 	//-----------------------------------------------------------
-	// Users tables install.
-	//-----------------------------------------------------------
-	$installer = new UsersInstaller();
-	$installer->install();
-	unset($installer);
-	
-	//-----------------------------------------------------------
 	// Repository tables install.
 	//-----------------------------------------------------------
 
 	$installer = new RepositoryInstaller();
+	$installer->install();
+	unset($installer);
+
+	//-----------------------------------------------------------
+	// Users tables install.
+	//-----------------------------------------------------------
+	$installer = new UsersInstaller($values);
 	$installer->install();
 	unset($installer);
 	

@@ -5,6 +5,7 @@
  */
 require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../common/installer.class.php';
+require_once dirname(__FILE__).'/../../common/filesystem/filesystem.class.php';
 /**
  * This	 installer can be used to create the storage structure for the
  * repository.
@@ -26,35 +27,27 @@ class RepositoryInstaller extends Installer
 	 */
 	function install()
 	{
-		echo '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(../img/admin_repository.gif);">';
-		echo '<div class="title">'. get_lang('Repository') .'</div>';
-		echo '<div class="description">';
-		$dir = dirname(__FILE__).'/../lib/learning_object';
-		$handle = opendir($dir);
-		while (false !== ($type = readdir($handle)))
+		$dir_lo		= dirname(__FILE__) . '/../lib/learning_object';
+		$dir_app	= dirname(__FILE__);
+		$files_lo	= FileSystem :: get_directory_content($dir_lo, FileSystem :: LIST_FILES);
+		$files_app	= FileSystem :: get_directory_content($dir_app, FileSystem :: LIST_FILES);
+		
+		$files = array_merge($files_app, $files_lo);
+		
+		foreach($files as $file)
 		{
-			$path = $dir.'/'.$type.'/'.$type.'.xml';
-			if (file_exists($path))
+			if ((substr($file, -3) == 'xml'))
 			{
-				$this->create_storage_unit($path);
+				if (!$this->create_storage_unit($file))
+				{
+					return array('success' => false, 'message' => $this->retrieve_message());
+				}
 			}
 		}
-		closedir($handle);
-
-		$dir = dirname(__FILE__);
-		$handle = opendir($dir);
-		while (false !== ($type = readdir($handle)))
-		{
-			$path = $dir.'/'.$type;
-			if (file_exists($path) && (substr($path, -3) == 'xml'))
-			{
-				$this->create_storage_unit($path);
-			}
-		}
-		closedir($handle);
-		echo '<br /><span style="color: #008000; font-weight: bold;">'. get_lang('ApplicationSuccess') .'</span>';
-		echo '</div>';
-		echo '</div>';
+		
+		$success_message = '<span style="color: green; font-weight: bold;">' . get_lang('ApplicationInstallSuccess') . '</span>';
+		$this->add_message($success_message);
+		return array('success' => true, 'message' => $this->retrieve_message());
 	}
 
 	/**
@@ -68,8 +61,20 @@ class RepositoryInstaller extends Installer
 	{
 		$storage_unit_info = parent::parse_xml_file($path);
 		$dm = RepositoryDataManager :: get_instance();
-		echo 'Creating Repository Storage Unit: '.$storage_unit_info['name'].'<br />';flush();
-		$dm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']);
+		$this->add_message(get_lang('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
+		if (!$dm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
+		{
+			$error_message = '<span style="color: red; font-weight: bold;">' . get_lang('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em></span>';
+			$this->add_message($error_message);
+			$this->add_message(get_lang('ApplicationInstallFailed'));
+			$this->add_message(get_lang('PlatformInstallFailed'));
+			
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 
 	}
 }

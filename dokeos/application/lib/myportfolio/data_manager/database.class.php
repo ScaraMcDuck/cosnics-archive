@@ -208,23 +208,31 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		}
 		$options['charset'] = 'utf8';
 		$options['collate'] = 'utf8_unicode_ci';
-		$manager->createTable($name,$properties,$options);
-		foreach($indexes as $index_name => $index_info)
+		if (!MDB2 :: isError($manager->createTable($name,$properties,$options)))
 		{
-			if($index_info['type'] == 'primary')
+			foreach($indexes as $index_name => $index_info)
 			{
-				$index_info['primary'] = 1;
-				$manager->createConstraint($name,$index_name,$index_info);
+				if($index_info['type'] == 'primary')
+				{
+					$index_info['primary'] = 1;
+					if (MDB2 :: isError($manager->createConstraint($name,$index_name,$index_info)))
+					{
+						return false;
+					}
+				}
+				else
+				{
+					if (MDB2 :: isError($manager->createIndex($name,$index_name,$index_info)))
+					{
+						return false;
+					}
+				}
 			}
-			else if($index_info['type'] == 'unique')
-			{
-				$index_info['unique'] = 1;
-				$manager->createConstraint($name,$index_name,$index_info);
-			}
-			else
-			{
-				$manager->createIndex($name,$index_name,$index_info);
-			}
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 
