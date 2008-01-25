@@ -47,6 +47,8 @@ class DatabaseInstallWizardPage extends InstallWizardPage
 	function set_form_defaults()
 	{
 		$defaults = array();
+		$defaults['database_host'] = 'localhost';
+		$defaults['database_name'] = 'lcms';
 		//$defaults['enable_tracking'] = 1;
 		$this->setDefaults($defaults);
 	}

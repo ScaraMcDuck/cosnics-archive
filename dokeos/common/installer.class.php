@@ -5,11 +5,15 @@
  * @todo Some more common install-functions can be added here. Example: A
  * function which returns the list of xml-files from a given directory.
  */
-class Installer {
+class Installer
+{
+	private $message;
 	/**
 	 * Constructor
 	 */
-    function Installer() {
+    function Installer()
+    {
+    	$this->message = array();
     }
     /**
      * Parses an XML file describing a storage unit.
@@ -58,6 +62,26 @@ class Installer {
 		$result['properties'] = $properties;
 		$result['indexes'] = $indexes;
 		return $result;
+    }
+    
+    function add_message($message)
+    {
+    	$this->message[] = $message;
+    }
+    
+    function set_message($message)
+    {
+    	$this->message = $message;
+    }
+    
+    function get_message()
+    {
+    	return $this->message;
+    }
+    
+    function retrieve_message()
+    {
+    	return implode('<br />'."\n", $this->get_message());
     }
 }
 ?>

@@ -4,52 +4,121 @@
  */
 require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../../../../common/installer.class.php';
+require_once dirname(__FILE__).'/../../../../common/filesystem/filesystem.class.php';
 /**
  *	This installer can be used to create the storage structure for the
  * weblcms application.
  */
 class WeblcmsInstaller extends Installer {
 
-	private $dm;
+	private $wdm;
 	/**
 	 * Constructor
 	 */
     function WeblcmsInstaller() {
-    	$this->dm = WeblcmsDataManager :: get_instance();
+    	$this->wdm = WeblcmsDataManager :: get_instance();
     }
 	/**
 	 * Runs the install-script.
 	 */
 	function install()
 	{
-		echo '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(../img/admin_weblcms.gif);">';
-		echo '<div class="title">'. get_lang('AppWeblcms') .'</div>';
-		echo '<div class="description">';
-		
-		$sqlfiles = array();
-		//Todo: Use FileSystem::get_directory_content to get xml files
 		$dir = dirname(__FILE__);
-		$handle = opendir($dir);
-		while (false !== ($type = readdir($handle)))
+		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
+		
+		foreach($files as $file)
 		{
-			$path = $dir.'/'.$type;
-			if (file_exists($path) && (substr($path, -3) == 'xml'))
+			if ((substr($file, -3) == 'xml'))
 			{
-				$this->create_storage_unit($path);
+				if (!$this->create_storage_unit($file))
+				{
+					return array('success' => false, 'message' => $this->retrieve_message());
+				}
 			}
 		}
-		closedir($handle);
 		
-		echo '<br /><span style="color: #008000; font-weight: bold;">'. get_lang('ApplicationSuccess') .'</span>';
-		echo '</div>';
-		echo '</div>';
+		if (!$this->create_default_categories_in_weblcms())
+		{
+			return array('success' => false, 'message' => $this->retrieve_message());
+		}
+		else
+		{
+			$this->add_message(get_lang('DefaultWeblcmsCategoriesCreated'));
+		}
+		
+		$success_message = '<span style="color: green; font-weight: bold;">' . get_lang('ApplicationInstallSuccess') . '</span>';
+		$this->add_message($success_message);
+		return array('success' => true, 'message' => $this->retrieve_message());
 	}
+	
+	/**
+	 * Parses an XML file and sends the request to the database manager
+	 * @param String $path
+	 */
 	function create_storage_unit($path)
 	{
 		$storage_unit_info = parent::parse_xml_file($path);
-		echo 'Creating WebLcms Storage Unit: '.$storage_unit_info['name'].'<br />';flush();
-		$this->dm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']);
-
+		$this->add_message(get_lang('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
+		if (!$this->wdm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
+		{
+			$error_message = '<span style="color: red; font-weight: bold;">' . get_lang('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em></span>';
+			$this->add_message($error_message);
+			$this->add_message(get_lang('ApplicationInstallFailed'));
+			$this->add_message(get_lang('PlatformInstallFailed'));
+			
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
+	function create_default_categories_in_weblcms()
+	{
+		//Creating Language Skills
+		$cat = new CourseCategory();
+		$cat->set_name('Language skills');
+		$cat->set_code('LANG');
+		$cat->set_parent('0');
+		$cat->set_tree_pos('1');
+		$cat->set_children_count('0');
+		$cat->set_auth_course_child('1');
+		$cat->set_auth_cat_child('1');
+		if (!$cat->create())
+		{
+			return false;
+		}
+	
+		//creating PC Skills
+		$cat = new CourseCategory();
+		$cat->set_name('PC skills');
+		$cat->set_code('PC');
+		$cat->set_parent('0');
+		$cat->set_tree_pos('2');
+		$cat->set_children_count('0');
+		$cat->set_auth_course_child('1');
+		$cat->set_auth_cat_child('1');
+		if (!$cat->create())
+		{
+			return false;
+		}
+	
+		//creating Projects
+		$cat = new CourseCategory();
+		$cat->set_name('Projects');
+		$cat->set_code('PROJ');
+		$cat->set_parent('0');
+		$cat->set_tree_pos('3');
+		$cat->set_children_count('0');
+		$cat->set_auth_course_child('1');
+		$cat->set_auth_cat_child('1');
+		if (!$cat->create())
+		{
+			return false;
+		}
+		
+		return true;
 	}
 }
 ?>

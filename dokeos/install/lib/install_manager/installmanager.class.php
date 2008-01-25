@@ -148,8 +148,10 @@ class InstallManager
 		{
 			echo ' - Update from Dokeos ' . implode('|',$updateFromVersion);
 		}		
+		echo '</div>'."\n";
 		echo '<div class="clear">&nbsp;</div>'."\n";
 		echo '</div> <!-- end of the whole #header section -->'."\n";
+		echo '<div id="main"> <!-- start of #main wrapper for #content and #menu divs -->'."\n";
 		echo '<!--   Begin Of script Output   -->'."\n";
 	}
 	/**
@@ -158,11 +160,6 @@ class InstallManager
 	function display_footer()
 	{
 		echo '</div>';
-		echo '<div class="clear">&nbsp;</div>';
-		// TODO: Find out why we need to reconnect here.
-		global $dbHost, $dbLogin, $dbPass, $mainDbName;
-		mysql_connect($dbHost, $dbLogin, $dbPass);
-		mysql_select_db($mainDbName);
 		global $dokeos_version, $installType, $updateFromVersion;
 		echo '<div class="clear">&nbsp;</div> <!-- \'clearing\' div to make sure that footer stays below the main and right column sections -->'."\n";
 		echo "\n";

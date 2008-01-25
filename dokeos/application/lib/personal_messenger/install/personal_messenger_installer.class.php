@@ -6,17 +6,20 @@
  */
 require_once dirname(__FILE__).'/../personalmessengerdatamanager.class.php';
 require_once dirname(__FILE__).'/../../../../common/installer.class.php';
+require_once dirname(__FILE__).'/../../../../common/filesystem/filesystem.class.php';
 /**
  *	This installer can be used to create the storage structure for the
  * personal messenger application.
  */
-class PersonalMessengerInstaller extends Installer {
+class PersonalMessengerInstaller extends Installer
+{
 
 	private $pmdm;
 	/**
 	 * Constructor
 	 */
-    function PersonalMessengerInstaller() {
+    function PersonalMessengerInstaller()
+    {
     	$this->pmdm = PersonalMessengerDataManager :: get_instance();
     }
 	/**
@@ -24,20 +27,47 @@ class PersonalMessengerInstaller extends Installer {
 	 */
 	function install()
 	{
-		echo '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(../img/admin_personal_messenger.gif);">';
-		echo '<div class="title">'. get_lang('AppPersonalMessenger') .'</div>';
-		echo '<div class="description">';
-		$this->create_storage_unit(dirname(__FILE__).'/personal_messenger_publication.xml');
-		echo '<br /><span style="color: #008000; font-weight: bold;">'. get_lang('ApplicationSuccess') .'</span>';
-		echo '</div>';
-		echo '</div>';
+		$dir = dirname(__FILE__);
+		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
+		
+		foreach($files as $file)
+		{
+			if ((substr($file, -3) == 'xml'))
+			{
+				if (!$this->create_storage_unit($file))
+				{
+					return array('success' => false, 'message' => $this->retrieve_message());
+				}
+			}
+		}
+		
+		$success_message = '<span style="color: green; font-weight: bold;">' . get_lang('ApplicationInstallSuccess') . '</span>';
+		$this->add_message($success_message);
+		return array('success' => true, 'message' => $this->retrieve_message());
 	}
 
+	/**
+	 * Parses an XML file and sends the request to the database manager
+	 * @param String $path
+	 */
 	function create_storage_unit($path)
 	{
 		$storage_unit_info = parent::parse_xml_file($path);
-		echo 'Creating Personal Messenger Storage Unit: '.$storage_unit_info['name'].'<br />';flush();
-		$this->pmdm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']);
+		$this->add_message(get_lang('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
+		if (!$this->pmdm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
+		{
+			$error_message = '<span style="color: red; font-weight: bold;">' . get_lang('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em></span>';
+			$this->add_message($error_message);
+			$this->add_message(get_lang('ApplicationInstallFailed'));
+			$this->add_message(get_lang('PlatformInstallFailed'));
+			
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+
 	}
 }
 ?>
