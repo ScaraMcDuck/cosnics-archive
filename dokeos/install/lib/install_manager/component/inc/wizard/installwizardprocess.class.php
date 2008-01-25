@@ -41,6 +41,12 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		
 		mysql_select_db($values['database_name']) or die('SELECT DB ERROR '.mysql_error());
 		
+		require_once('../admin/install/admin_installer.class.php');
+		$installer = new AdminInstaller();
+		$result = $installer->install();
+		$this->process_result('admin', $result);
+		unset($installer);		
+		
 		// 3. Install the Repository
 		require_once('../repository/install/repository_installer.class.php');
 		$installer = new RepositoryInstaller();
