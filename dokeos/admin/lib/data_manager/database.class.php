@@ -3,8 +3,11 @@
  * @package admin
  * @subpackage datamanager
  */
-//require_once dirname(__FILE__).'/database/databasesettingsresultset.class.php';
+require_once dirname(__FILE__).'/database/databasesettingresultset.class.php';
+require_once dirname(__FILE__).'/database/databaselanguageresultset.class.php';
 require_once dirname(__FILE__).'/../admindatamanager.class.php';
+require_once dirname(__FILE__).'/../language.class.php';
+require_once dirname(__FILE__).'/../setting.class.php';
 require_once 'MDB2.php';
 
 class DatabaseAdminDataManager extends AdminDataManager
@@ -323,5 +326,159 @@ class DatabaseAdminDataManager extends AdminDataManager
 			die('Cannot translate condition');
 		}
 	}
+	
+	function record_to_language($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Language :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+
+		return new Language($record[Language :: PROPERTY_ID], $defaultProp);
+	}
+	
+	function record_to_setting($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Setting :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+
+		return new Setting($record[Setting :: PROPERTY_ID], $defaultProp);
+	}
+	
+    function retrieve_languages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+
+		$query = 'SELECT * FROM ';
+		$query .= $this->escape_table_name('language');
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+		}
+		/*
+		 * Always respect alphabetical order as a last resort.
+		 */
+		$orderBy[] = Language :: PROPERTY_ORIGINAL_NAME;
+		$orderDir[] = SORT_ASC;
+		$order = array ();
+
+		for ($i = 0; $i < count($orderBy); $i ++)
+		{
+			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+		}
+		if (count($order))
+		{
+			$query .= ' ORDER BY '.implode(', ', $order);
+		}
+		if ($maxObjects < 0)
+		{
+			$maxObjects = null;
+		}
+		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		return new DatabaseLanguageResultSet($this, $res);
+	}
+	
+    function retrieve_settings($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+
+		$query = 'SELECT * FROM ';
+		$query .= $this->escape_table_name('setting');
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+		}
+		/*
+		 * Always respect alphabetical order as a last resort.
+		 */
+		$orderBy[] = Setting :: PROPERTY_VARIABLE;
+		$orderDir[] = SORT_ASC;
+		$order = array ();
+
+		for ($i = 0; $i < count($orderBy); $i ++)
+		{
+			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+		}
+		if (count($order))
+		{
+			$query .= ' ORDER BY '.implode(', ', $order);
+		}
+		if ($maxObjects < 0)
+		{
+			$maxObjects = null;
+		}
+		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		return new DatabaseSettingResultSet($this, $res);
+	}
+	
+	// Inherited.
+	function get_next_language_id()
+	{
+		return $this->connection->nextID($this->get_table_name('language'));
+	}
+	
+	// Inherited.
+	function get_next_setting_id()
+	{
+		return $this->connection->nextID($this->get_table_name('setting'));
+	}
+	
+	function create_language($language)
+	{
+		$props = array();
+		foreach ($language->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$props[$this->escape_column_name(Language :: PROPERTY_ID)] = $language->get_id();
+
+		$this->connection->loadModule('Extended');
+		if ($this->connection->extended->autoExecute($this->get_table_name('language'), $props, MDB2_AUTOQUERY_INSERT))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	function create_setting($setting)
+	{
+		$props = array();
+		foreach ($setting->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$props[$this->escape_column_name(Setting :: PROPERTY_ID)] = $setting->get_id();
+
+		$this->connection->loadModule('Extended');
+		if ($this->connection->extended->autoExecute($this->get_table_name('setting'), $props, MDB2_AUTOQUERY_INSERT))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}	
 }
 ?>

@@ -292,113 +292,6 @@ function api_get_user_id()
 {
 	return $_SESSION["_uid"];
 }
-/**
- * @param $user_id (integer): the id of the user
- * @return $user_info (array): user_id, lastname, firstname, username, email, ...
- * @author Patrick Cool <patrick.cool@UGent.be>
- * @version 21 September 2004
- * @desc find all the information about a user. If no paramater is passed you find all the information about the current user.
-*/
-function api_get_user_info($user_id = '')
-{
-	global $tbl_user;
-	if ($user_id == '')
-	{
-		return $GLOBALS["_user"];
-	}
-	else
-	{
-		$sql = "SELECT * FROM ".Database :: get_main_table(MAIN_USER_TABLE)." WHERE user_id='".mysql_real_escape_string($user_id)."'";
-		$result = api_sql_query($sql, __FILE__, __LINE__);
-		if(mysql_num_rows($result) > 0)
-		{
-			$result_array = mysql_fetch_array($result);
-			// this is done so that it returns the same array-index-names
-			// ideally the names of the fields of the user table are renamed so that they match $_user (or vice versa)
-			// $_user should also contain every field of the user table (except password maybe). This would make the
-			// following lines obsolete (and the code cleaner and slimmer !!!
-			$user_info['firstName'] = $result_array['firstname'];
-			$user_info['lastName'] = $result_array['lastname'];
-			$user_info['mail'] = $result_array['email'];
-			$user_info['picture_uri'] = $result_array['picture_uri'];
-			$user_info['user_id'] = $result_array['user_id'];
-			$user_info['official_code'] = $result_array['official_code'];
-			$user_info['status'] = $result_array['status'];
-			$user_info['language'] = $result_array['language'];
-			$user_info['disk_quota'] = $result_array['disk_quota'];
-			$user_info['database_quota'] = $result_array['database_quota'];
-			$user_info['version_quota'] = array();
-			$user_info['version_quota']['general'] = $result_array['version_quota'];
-
-			$lot_sql = "SELECT * FROM ".Database :: get_main_table(MAIN_USER_QUOTA_TABLE)." WHERE user_id='".mysql_real_escape_string($user_id)."'";
-			$lot_result = api_sql_query($lot_sql, __FILE__, __LINE__);
-			if(mysql_num_rows($lot_result) > 0)
-			{
-				while($lot_result_array = mysql_fetch_array($lot_result))
-				{
-					$user_info['version_quota'][$lot_result_array['learning_object_type']] = $lot_result_array['user_quota'];
-				}
-			}
-
-			return $user_info;
-		}
-		return false;
-	}
-}
-/**
- * Returns the current course id (integer)
-*/
-function api_get_course_id()
-{
-	return $GLOBALS["_cid"];
-}
-/**
- * Returns the current course directory
- *
- * This function relies on api_get_course_info()
- * @return	string	The directory where the course is located inside the Dokeos "courses" directory
- * @author	Yannick Warnier <yannick.warnier@dokeos.com>
-*/
-function api_get_course_path()
-{
-	$info = api_get_course_info();
-	return $info['path'];
-}
-/**
- * Returns the cidreq parameter name + current course id
-*/
-function api_get_cidreq()
-{
-	if (!empty ($GLOBALS["_cid"]))
-	{
-		return 'cidReq='.$GLOBALS["_cid"];
-	}
-	return '';
-}
-/**
-*	Returns the current course info array.
-*	Note: this array is only defined if the user is inside a course.
-*	Array elements:
-*	['name']
-*	['official_code']
-*	['sysCode']
-*	['path']
-*	['dbName']
-*	['dbNameGlu']
-*	['titular']
-*	['language']
-*	['extLink']['url' ]
-*	['extLink']['name']
-*	['categoryCode']
-*	['categoryName']
-*
-* @todo	same behaviour as api_get_user_info so that api_get_course_id becomes absolete too
-*/
-function api_get_course_info()
-{
-	global $_course;
-	return $_course;
-}
 
 /*
 ==============================================================================
@@ -785,38 +678,6 @@ function api_ignore_lang_files()
 
 /*
 ==============================================================================
-		USER PERMISSIONS
-==============================================================================
-*/
-/**
-* Check if current user is a platform administrator
-* @return true if the user has platform admin rights,
-* false otherwise.
-*/
-function api_is_platform_admin()
-{
-	return $_SESSION["is_platformAdmin"];
-}
-/**
- * Check if current user is allowed to create courses
-* @return true if the user has course creation rights,
-* false otherwise.
-*/
-function api_is_allowed_to_create_course()
-{
-	return $_SESSION["is_allowedCreateCourse"];
-}
-/**
- * Check if the current user is a course administrator
- * @return boolean True if current user is a course administrator
- */
-function api_is_course_admin()
-{
-	return $_SESSION["is_courseAdmin"];
-}
-
-/*
-==============================================================================
 		DISPLAY OPTIONS
 		student view, title, message boxes,...
 ==============================================================================
@@ -868,27 +729,6 @@ function api_display_tool_title($titleElement)
 }
 
 /**
-*	Function that removes the need to directly use is_courseAdmin global in
-*	tool scripts. It returns true or false depending on the user's rights in
-*	this particular course.
-*
-*	@author Roan Embrechts
-*	@author Patrick Cool
-*	@version 1.1, February 2004
-*	@return boolean, true: the user has the rights to edit, false: he does not
-*/
-function api_is_allowed_to_edit()
-{
-	$is_courseAdmin = api_is_course_admin();
-	if (is_student_view_enabled())
-	{
-		$is_allowed = $is_courseAdmin && $_SESSION["studentview"] != "studentenview";
-		return $is_allowed;
-	}
-	else
-		return $is_courseAdmin;
-}
-/**
 *	Displays message "You are not allowed here..."
 *	and exits the entire script.
 *
@@ -901,16 +741,6 @@ function api_not_allowed()
 	Display :: display_error_message("<p>Either you are not allowed here or your session has expired.<br><br>You may try <a href=\"$home_url\" target=\"_top\">reconnecting on the home page</a>.</p>");
 	$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
 	exit;
-}
-/**
-* Returns true if student view option is enabled, false otherwise. If it is
-* true, tools can provide a student / course manager switch option. (see
-* display_tool_view_option() )
-* @return boolean True if student view option is enabled.
-*/
-function is_student_view_enabled()
-{
-	return api_get_setting('show_student_view') == 'true';
 }
 
 /*
