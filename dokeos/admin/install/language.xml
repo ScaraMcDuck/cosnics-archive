@@ -5,7 +5,7 @@
   <property name="original_name" type="text" length="255"/>
   <property name="english_name" type="text" length="255"/>
   <property name="isocode" type="text" length="10"/>
-  <property name="dokeos_folder" type="text" length="588" notnull="1" default=""/>
+  <property name="folder" type="text" length="588" notnull="1" default=""/>
   <property name="available" type="integer" length="4" default="1"/>
  </properties>
  <index name="id" type="primary">

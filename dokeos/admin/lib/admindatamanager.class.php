@@ -5,6 +5,8 @@
  * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../../repository/lib/configuration.class.php';
+require_once dirname(__FILE__).'/../../repository/lib/repository_manager/repositorymanager.class.php';
+require_once dirname(__FILE__).'/../../users/lib/usermanager/usermanager.class.php';
 
 abstract class AdminDataManager
 {

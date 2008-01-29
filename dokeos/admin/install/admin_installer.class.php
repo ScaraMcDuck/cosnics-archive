@@ -4,8 +4,8 @@
  * @package users.install
  */
 require_once dirname(__FILE__).'/../lib/admindatamanager.class.php';
-//require_once dirname(__FILE__).'/../lib/language.class.php';
-//require_once dirname(__FILE__).'/../lib/setting.class.php';
+require_once dirname(__FILE__).'/../lib/language.class.php';
+require_once dirname(__FILE__).'/../lib/setting.class.php';
 require_once dirname(__FILE__).'/../../common/installer.class.php';
 require_once dirname(__FILE__).'/../../common/filesystem/filesystem.class.php';
 /**
@@ -41,14 +41,25 @@ class AdminInstaller extends Installer
 			}
 		}
 		
-//		if (!$this->create_admin_account())
-//		{
-//			return array('success' => false, 'message' => $this->retrieve_message());
-//		}
-//		else
-//		{
-//			$this->add_message(get_lang('AdminAccountCreated'));
-//		}
+		// Add the default language entries in the database
+		if (!$this->create_languages())
+		{
+			return array('success' => false, 'message' => $this->retrieve_message());
+		}
+		else
+		{
+			$this->add_message(get_lang('DefaultLanguagesAdded'));
+		}
+		
+		// Add the default settings to the database
+		if (!$this->create_settings())
+		{
+			return array('success' => false, 'message' => $this->retrieve_message());
+		}
+		else
+		{
+			$this->add_message(get_lang('DefaultSettingsAdded'));
+		}
 		
 		$success_message = '<span style="color: green; font-weight: bold;">' . get_lang('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);
@@ -77,6 +88,30 @@ class AdminInstaller extends Installer
 			return true;
 		}
 
+	}
+	
+	function create_languages()
+	{
+		$lang_dutch = new Language();
+		$lang_dutch->set_original_name('Nederlands');
+		$lang_dutch->set_english_name('Dutch');
+		$lang_dutch->set_isocode('nl');
+		$lang_dutch->set_folder('dutch');
+		$lang_dutch->set_available('1');
+		
+		if (!$lang_dutch->create())
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
+	function create_settings()
+	{
+		return true;
 	}
 }
 ?>
