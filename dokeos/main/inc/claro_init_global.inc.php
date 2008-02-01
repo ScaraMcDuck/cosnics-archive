@@ -37,6 +37,8 @@ require_once(api_get_library_path().'/database.lib.php');
 require_once(api_get_library_path().'/display.lib.php');
 require_once(api_get_library_path().'/role_right.lib.php');
 
+require_once(dirname(__FILE__).'/../../admin/lib/admindatamanager.class.php');
+
 // Start session
 
 api_session_start($already_installed);
@@ -85,35 +87,38 @@ or die ( "<center>"
 
 /*
 --------------------------------------------
-  RETRIEVING ALL THE DOKEOS CONFIG SETTINGS
+  DOKEOS CONFIG SETTINGS
 --------------------------------------------
 */
-$current_settings_table = Database :: get_main_table(MAIN_SETTINGS_CURRENT_TABLE);
-$sql="SELECT * FROM $current_settings_table";
-$result=mysql_query($sql) or die(mysql_error());
-while ($row=mysql_fetch_array($result))
-{
-	if ($row['subkey']==NULL)
-		{ $_setting[$row['variable']]=$row['selected_value']; }
-	else
-		{ $_setting[$row['variable']][$row['subkey']]=$row['selected_value']; }
-}
-// we have to store the settings for the plugins differently because it expects an array
-$sql="SELECT * FROM $current_settings_table WHERE category='plugins'";
-$result=mysql_query($sql) or die(mysql_error());
-while ($row=mysql_fetch_array($result))
-{
-	$key= $row['variable'];
-	if (is_string($_setting[$key]))
-	{
-		$_setting[$key]=array();
-	}
-	$_setting[$key][]=$row['selected_value'];
-	$plugins[$key][]=$row['selected_value'];
-}
 
+$adm = AdminDataManager :: get_instance();
 
-if(get_setting('server_type') == 'test')
+//$current_settings_table = Database :: get_main_table(MAIN_SETTINGS_CURRENT_TABLE);
+//$sql="SELECT * FROM $current_settings_table";
+//$result=mysql_query($sql) or die(mysql_error());
+//while ($row=mysql_fetch_array($result))
+//{
+//	if ($row['subkey']==NULL)
+//		{ $_setting[$row['variable']]=$row['selected_value']; }
+//	else
+//		{ $_setting[$row['variable']][$row['subkey']]=$row['selected_value']; }
+//}
+//// we have to store the settings for the plugins differently because it expects an array
+//$sql="SELECT * FROM $current_settings_table WHERE category='plugins'";
+//$result=mysql_query($sql) or die(mysql_error());
+//while ($row=mysql_fetch_array($result))
+//{
+//	$key= $row['variable'];
+//	if (is_string($_setting[$key]))
+//	{
+//		$_setting[$key]=array();
+//	}
+//	$_setting[$key][]=$row['selected_value'];
+//	$plugins[$key][]=$row['selected_value'];
+//}
+
+$server_type = $adm->retrieve_setting_from_variable_name('admin', 'server_type');
+if($server_type->get_value() == 'test')
 {
 	/*
 	--------------------------------------------
@@ -266,8 +271,9 @@ require($includePath."/claro_init_local.inc.php");
 // ===== "who is logged in?" module section =====
 
 include_once($includePath."/lib/online.inc.php");
+// TODO: Tracking framework
 // check and modify the date of user in the track.e.online table
-if (!$x=strpos($_SERVER['PHP_SELF'],'whoisonline.php')) { LoginCheck(isset($_uid) ? $_uid : '',$statsDbName); }
+//if (!$x=strpos($_SERVER['PHP_SELF'],'whoisonline.php')) { LoginCheck(isset($_uid) ? $_uid : '',$statsDbName); }
 
 // ===== end "who is logged in?" module section =====
 
@@ -287,10 +293,16 @@ if ($_POST["language_list"])
 	}
 
 // Checking if we have a valid language. If not we set it to the platform language.
-$valid_languages=api_get_languages();
+$languages = $adm->retrieve_languages();
+$valid_languages = array();
+while ($language = $languages->next_result())
+{
+	$valid_languages[] = $language->get_english_name();	
+}
+
 if (!in_array($user_language,$valid_languages['folder']))
 {
-	$user_language=get_setting('platformLanguage');
+	$user_language=$adm->retrieve_setting_from_variable_name('admin', 'platform_language')->get_value();
 }
 
 
@@ -309,14 +321,8 @@ if (isset($_SESSION['_uid']))
 }
 else
 {
-	$language_interface = get_setting('platformLanguage');
-}
-
-if (isset($_user['language']))
-{
-	$language_interface = $_user['language'];
+	$language_interface = $adm->retrieve_setting_from_variable_name('admin', 'platform_language')->get_value();
 }
 
 api_use_lang_files('trad4all', 'notification');
-
 ?>

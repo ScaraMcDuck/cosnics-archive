@@ -176,6 +176,7 @@ class CourseUserCategory {
 	 */
 	function create()
 	{
+		// TODO: Use get_next_...
 		$wdm = WeblcmsDataManager :: get_instance();
 		$success = $wdm->create_course_user_category($this);
 		if (!$success)

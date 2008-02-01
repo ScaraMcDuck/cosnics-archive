@@ -37,7 +37,19 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 			exit;
 		}
 
-		if(!$this->is_allowed(VIEW_RIGHT) && !$this->get_user()->is_platform_admin())
+		/**
+		 * Here we set the rights depending on the user status in the course.
+		 * This completely ignores the roles-rights library.
+		 * TODO: WORK NEEDED FOR PROPPER ROLES-RIGHTS LIBRARY
+		 */
+
+		$user = $this->get_user();
+		$course = $this->get_course();
+		$relation = $this->retrieve_course_user_relation($course->get_id(),$user->get_user_id());
+		
+		if($relation->get_status() != 5 && $relation->get_status() != 1 && !$user->is_admin())
+		//TODO: Roles & Rights
+		//if(!$this->is_allowed(VIEW_RIGHT) && !$this->get_user()->is_platform_admin())
 		{
 			$this->display_header();
 			api_not_allowed();

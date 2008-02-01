@@ -9,13 +9,23 @@
  */
 class Banner
 {
+	private $admindatamanager;
+	
 	/**
 	 * Constructor
 	 */
-	function Banner()
+	function Banner($admindatamanager)
 	{
-
+		$this->admindatamanager = $admindatamanager;
 	}
+	
+	function get_setting($application, $variable)
+	{
+		$adm		= $this->admindatamanager;
+		$setting	= $adm->retrieve_setting_from_variable_name($application, $variable);
+		return $setting->get_value();
+	}
+	
 	/**
 	 * Displays the banner.
 	 */
@@ -32,9 +42,9 @@ class Banner
 		$output[] = '<div id="header">  <!-- header section start -->';
 		$output[] = '<div id="header1"> <!-- top of banner with institution name/hompage link -->';
 		$output[] = '<div id="institution">';
-		$output[] = '<a href="'.api_get_path(WEB_PATH).'index.php" target="_top">'.api_get_setting('siteName').'</a>';
+		$output[] = '<a href="'.api_get_path(WEB_PATH).'index.php" target="_top">'.$this->get_setting('admin', 'site_name').'</a>';
 		$output[] = '-';
-		$output[] = '<a href="'.api_get_setting('InstitutionUrl').'" target="_top">'.api_get_setting('Institution').'</a>';
+		$output[] = '<a href="'.$this->get_setting('admin', 'institution_url').'" target="_top">'.$this->get_setting('admin', 'institution').'</a>';
 		$output[] = '</div>';
 
 		//not to let the header disappear if there's nothing on the left
@@ -57,46 +67,48 @@ class Banner
 		$output[] = '<div id="header2">';
 		$output[] = '<div id="Header2Right">';
 		$output[] = '<ul>';
+		
+		// TODO: Reimplement "Who is online ?" 
 
-		if ((api_get_setting('showonline', 'world') == "true" AND !$_SESSION['_uid']) OR (api_get_setting('showonline', 'users') == "true" AND $_SESSION['_uid']) OR (api_get_setting('showonline', 'course') == "true" AND $_SESSION['_uid'] AND $_SESSION['_cid']))
-		{
-			$statistics_database = Database :: get_statistic_database();
-			$number = count(WhoIsOnline(api_get_user_id(), $statistics_database, 30));
-			$online_in_course = who_is_online_in_this_course(api_get_user_id(), 30, $_course['id']);
-			$number_online_in_course = count($online_in_course);
-			$output[] = "<li>".get_lang('UsersOnline').": ";
-
-			// Display the who's online of the platform
-			if ((api_get_setting('showonline', 'world') == "true" AND !$_SESSION['_uid']) OR (api_get_setting('showonline', 'users') == "true" AND $_SESSION['_uid']))
-			{
-				$output[] = "<a href='".api_get_path(WEB_PATH)."whoisonline.php' target='_top'>".$number."</a>";
-			}
-
-			// Display brackets if who's online of the campus AND who's online in the course are active
-			if (api_get_setting('showonline', 'users') == "true" AND api_get_setting('showonline', 'course') == "true" AND $_course)
-			{
-				$output[] = '(';
-			}
-
-			// Display the who's online for the course
-			if ($_course AND api_get_setting('showonline', 'course') == "true")
-			{
-				$output[] = "<a href='".api_get_path(REL_CLARO_PATH)."online/whoisonlinecourse.php' target='_top'>$number_online_in_course ".get_lang('InThisCourse')."</a>";
-			}
-
-			// Display brackets if who's online of the campus AND who's online in the course are active
-			if (api_get_setting('showonline', 'users') == "true" AND api_get_setting('showonline', 'course') == "true" AND $_course)
-			{
-				$output[] = ')';
-			}
-
-			$output[] = '</li>';
-		}
+//		if ((api_get_setting('showonline', 'world') == "true" AND !$_SESSION['_uid']) OR (api_get_setting('showonline', 'users') == "true" AND $_SESSION['_uid']) OR (api_get_setting('showonline', 'course') == "true" AND $_SESSION['_uid'] AND $_SESSION['_cid']))
+//		{
+//			$statistics_database = Database :: get_statistic_database();
+//			$number = count(WhoIsOnline(api_get_user_id(), $statistics_database, 30));
+//			$online_in_course = who_is_online_in_this_course(api_get_user_id(), 30, $_course['id']);
+//			$number_online_in_course = count($online_in_course);
+//			$output[] = "<li>".get_lang('UsersOnline').": ";
+//
+//			// Display the who's online of the platform
+//			if ((api_get_setting('showonline', 'world') == "true" AND !$_SESSION['_uid']) OR (api_get_setting('showonline', 'users') == "true" AND $_SESSION['_uid']))
+//			{
+//				$output[] = "<a href='".api_get_path(WEB_PATH)."whoisonline.php' target='_top'>".$number."</a>";
+//			}
+//
+//			// Display brackets if who's online of the campus AND who's online in the course are active
+//			if (api_get_setting('showonline', 'users') == "true" AND api_get_setting('showonline', 'course') == "true" AND $_course)
+//			{
+//				$output[] = '(';
+//			}
+//
+//			// Display the who's online for the course
+//			if ($_course AND api_get_setting('showonline', 'course') == "true")
+//			{
+//				$output[] = "<a href='".api_get_path(REL_CLARO_PATH)."online/whoisonlinecourse.php' target='_top'>$number_online_in_course ".get_lang('InThisCourse')."</a>";
+//			}
+//
+//			// Display brackets if who's online of the campus AND who's online in the course are active
+//			if (api_get_setting('showonline', 'users') == "true" AND api_get_setting('showonline', 'course') == "true" AND $_course)
+//			{
+//				$output[] = ')';
+//			}
+//
+//			$output[] = '</li>';
+//		}
 
 		$output[] = '</ul>';
 		$output[] = '</div>';
 		$output[] = '<!-- link to campus home (not logged in)';
-		$output[] = '<a href="'.api_get_path(WEB_PATH).'index.php" target="_top">'.api_get_setting('siteName').'</a>';
+		$output[] = '<a href="'.api_get_path(WEB_PATH).'index.php" target="_top">' . $this->get_setting('admin', 'site_name') . '</a>';
 		$output[] = '-->';
 		//not to let the empty header disappear and ensure help pic is inside the header
 		$output[] = '<div class="clear">&nbsp;</div>';
@@ -205,7 +217,7 @@ class Banner
 			}
 			else
 			{
-				$output[] = '&nbsp;&nbsp;<a href="'.api_get_path(WEB_PATH).'index.php" target="_top">'.api_get_setting('siteName').'</a>';
+				$output[] = '&nbsp;&nbsp;<a href="'.api_get_path(WEB_PATH).'index.php" target="_top">'.$this->get_setting('admin', 'site_name').'</a>';
 			}
 		}
 

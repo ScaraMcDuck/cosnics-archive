@@ -85,7 +85,7 @@ abstract class Application
 			if(Application::is_application_name($application_name))
 			{
 				require_once($directory.'/'.$application_name.'_manager/'.$application_name.'.class.php');
-				if (!in_array($application_name, applications))
+				if (!in_array($application_name, $applications))
 					{
 						$applications[] = $application_name;
 					}

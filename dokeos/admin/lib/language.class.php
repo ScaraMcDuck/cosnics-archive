@@ -56,7 +56,7 @@ class Language
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_PERSONAL_MESSAGE, self :: PROPERTY_STATUS, self :: PROPERTY_USER, self :: PROPERTY_SENDER, self :: PROPERTY_RECIPIENT, self :: PROPERTY_PUBLISHED);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_ORIGINAL_NAME, self :: PROPERTY_ENGLISH_NAME, self :: PROPERTY_ISOCODE, self :: PROPERTY_FOLDER, self :: PROPERTY_AVAILABLE);
 	}
 	
 	/**

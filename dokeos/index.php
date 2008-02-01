@@ -38,7 +38,7 @@ include_once (api_get_library_path()."/system_announcements.lib.php");
 include_once (api_get_library_path()."/text.lib.php");
 include_once (api_get_library_path()."/formvalidator/FormValidator.class.php");
 api_use_lang_files('courses', 'index');
-$nameTools = api_get_setting('siteName');
+$nameTools = $adm->retrieve_setting_from_variable_name('admin', 'site_name')->get_value();
 
 /*
 -----------------------------------------------------------
@@ -65,14 +65,15 @@ Display :: display_header($nameTools, $help);
  */
 function display_anonymous_right_menu()
 {
-	global $loginFailed, $plugins;
+	global $loginFailed, $plugins, $adm;
 
-	$platformLanguage = api_get_setting('platformLanguage');
+	$platformLanguage = $adm->retrieve_setting_from_variable_name('admin', 'platform_language')->get_value();
 
 	$_uid = api_get_user_id();
 	if ( !(isset($_uid) && $_uid) ) // only display if the user isn't logged in
 	{
-		api_display_language_form();
+		// TODO: New Language form
+		//api_display_language_form();
 		display_login_form();
 
 		if ($loginFailed)
@@ -233,9 +234,10 @@ else
 	}
 }
 
+// TODO: Reimplement system announcements
 // Display System announcements
-$announcement = $_GET['announcement'] ? $_GET['announcement'] : -1;
-SystemAnnouncementManager :: display_announcements(VISIBLE_GUEST, $announcement);
+//$announcement = $_GET['announcement'] ? $_GET['announcement'] : -1;
+//SystemAnnouncementManager :: display_announcements(VISIBLE_GUEST, $announcement);
 
 // Display courses and category list
 if (!$pageIncluded)

@@ -24,7 +24,6 @@ if(!file_exists($application_path))
 	api_not_allowed();
 }
 
-
 require_once $application_path;
 
 api_use_lang_files($application_key);

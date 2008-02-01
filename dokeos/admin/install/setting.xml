@@ -4,7 +4,7 @@
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="application" type="text" length="255"/>
   <property name="variable" type="text" length="255"/>
-  <property name="value" type="text" length="10"/>
+  <property name="value" type="text" length="255"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

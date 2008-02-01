@@ -10,8 +10,9 @@ if($_POST['login'])
 	if(!is_null($user))
 	{
 		$_SESSION['_uid'] = $user->get_user_id();
-		loginCheck($_SESSION['_uid']);
-		event_login();
+		// TODO: Tracking framework
+		//loginCheck($_SESSION['_uid']);
+		//event_login();
 		if ($user->is_platform_admin())
 		{
 			// decode all open event informations and fill the track_c_* tables
@@ -34,7 +35,8 @@ if ($_GET['logout'])
 	{
 		$query_string='?language='.$_SESSION['user_language_choice'];
 	}
-	LoginDelete($uid, $statsDbName);
+	// TODO: Reimplement tracking
+	//LoginDelete($uid, $statsDbName);
 	$udm = UsersDataManager::get_instance();
 	$udm->logout();
 	header("Location: index.php$query_string");

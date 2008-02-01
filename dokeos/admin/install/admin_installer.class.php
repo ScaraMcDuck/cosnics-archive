@@ -103,14 +103,93 @@ class AdminInstaller extends Installer
 		{
 			return false;
 		}
-		else
+		
+		$lang_english = new Language();
+		$lang_english->set_original_name('English');
+		$lang_english->set_english_name('English');
+		$lang_english->set_isocode('en');
+		$lang_english->set_folder('english');
+		$lang_english->set_available('1');
+		
+		if (!$lang_english->create())
 		{
-			return true;
+			return false;
 		}
+		
+		return true;
 	}
 	
 	function create_settings()
 	{
+		$settings = array();
+		
+		$setting = new Setting();
+		$setting->set_application('admin');
+		$setting->set_variable('site_name');
+		$setting->set_value('Dokeos');
+		$settings[] = $setting;
+		
+		$setting = new Setting();
+		$setting->set_application('admin');
+		$setting->set_variable('server_type');
+		$setting->set_value('production');
+		$settings[] = $setting;
+		
+		$setting = new Setting();
+		$setting->set_application('admin');
+		$setting->set_variable('platform_language');
+		$setting->set_value('english');
+		$settings[] = $setting;
+		
+		$setting = new Setting();
+		$setting->set_application('admin');
+		$setting->set_variable('institution');
+		$setting->set_value('Dokeos Company');
+		$settings[] = $setting;
+		
+		$setting = new Setting();
+		$setting->set_application('admin');
+		$setting->set_variable('institution_url');
+		$setting->set_value('http://www.dokeos.com');
+		$settings[] = $setting;
+		
+		$setting = new Setting();
+		$setting->set_application('admin');
+		$setting->set_variable('show_administrator_data');
+		$setting->set_value('true');
+		$settings[] = $setting;
+		
+		$setting = new Setting();
+		$setting->set_application('admin');
+		$setting->set_variable('administrator_email');
+		$setting->set_value('info@dokeos.com');
+		$settings[] = $setting;
+		
+		$setting = new Setting();
+		$setting->set_application('admin');
+		$setting->set_variable('administrator_surname');
+		$setting->set_value('Admin');
+		$settings[] = $setting;
+		
+		$setting = new Setting();
+		$setting->set_application('admin');
+		$setting->set_variable('administrator_firstname');
+		$setting->set_value('Mr.');
+		$settings[] = $setting;
+		
+		$setting = new Setting();
+		$setting->set_application('admin');
+		$setting->set_variable('stylesheets');
+		$settings[] = $setting;
+		
+		foreach ($settings as $setting)
+		{
+			if (!$setting->create())
+			{
+				return false;
+			}
+		}
+		
 		return true;
 	}
 }
