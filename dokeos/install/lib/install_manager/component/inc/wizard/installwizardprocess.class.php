@@ -6,6 +6,7 @@
  * @subpackage maintenance
  */
  require_once dirname(__FILE__).'/../../../../../../common/filesystem/filesystem.class.php';
+ require_once dirname(__FILE__).'/../../../../../../application/lib/application.class.php';
 /**
  * This class implements the action to take after the user has completed a
  * course maintenance wizard

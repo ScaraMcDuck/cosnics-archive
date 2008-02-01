@@ -22,12 +22,24 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
 		$this->repoDM = & RepositoryDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
-		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('PersonalMessengerDatamanager','debug')));
+		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabasePersonalMessengerDatamanager','debug')));
 		if (PEAR::isError($this)) {
    		 die($this->connection->getMessage());
 		}
 		$this->prefix = 'personal_messenger_';
 		$this->connection->query('SET NAMES utf8');
+	}
+	
+	function debug()
+	{
+		$args = func_get_args();
+		// Do something with the arguments
+		if($args[1] == 'query')
+		{
+			//echo '<pre>';
+		 	//echo($args[2]);
+		 	//echo '</pre>';
+		}
 	}
 
 	/**
@@ -52,18 +64,6 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		die(__FILE__.':'.__LINE__.': '.$error->getMessage()
 		// For debugging only. May create a security hazard.
 		.' ('.$error->getDebugInfo().')');
-	}
-
-	function debug()
-	{
-		$args = func_get_args();
-		// Do something with the arguments
-		if($args[1] == 'query')
-		{
-			//echo '<pre>';
-		 	//echo($args[2]);
-		 	//echo '</pre>';
-		}
 	}
 
 	function escape_table_name($name)

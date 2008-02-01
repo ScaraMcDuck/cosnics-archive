@@ -6,6 +6,7 @@
  */
 require_once(dirname(__FILE__).'/ieee_lom.class.php');
 require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
+require_once dirname(__FILE__).'/../../../../admin/lib/admindatamanager.class.php';
 /**
  * This class automatically generates IEEE LOM compatible metadata for learning
  * objects.
@@ -21,9 +22,10 @@ class IeeeLomGenerator
 	static function generate($learning_object)
 	{
 		$udm = UsersDataManager :: get_instance();
+		$adm = AdminDataManager :: get_instance();
 		
 		$lom = new IeeeLom();
-		$lom->add_identifier(api_get_setting('InstitutionUrl'),$learning_object->get_id());
+		$lom->add_identifier($adm->retrieve_setting_from_variable_name('admin', 'institution_url')->get_value(),$learning_object->get_id());
 		$lom->add_title(new LangString($learning_object->get_title(),'x-none'));
 		$lom->add_description(new LangString($learning_object->get_description(),'x-none'));
 		$owner = $udm->retrieve_user($learning_object->get_owner_id());
@@ -40,11 +42,11 @@ class IeeeLomGenerator
 			$lom->add_contribute(new Vocabulary('LOMV1.0',$versionowner == $owner ? 'author' : 'editor'),$vcard->fetch(),new IeeeLomDateTime(date('Y-m-d\TH:i:sO',$version->get_creation_date())));
 		}
 		$vcard = new Contact_Vcard_Build();
-		$vcard->setFormattedName(api_get_setting('Institution'));
-		$vcard->setName(api_get_setting('siteName'));
-		$vcard->addOrganization(api_get_setting('Institution'));
-		$vcard->setURL(api_get_setting('InstitutionUrl'));
-		$lom->add_metadata_identifier(api_get_setting('Institution'),$learning_object->get_id());
+		$vcard->setFormattedName($adm->retrieve_setting_from_variable_name('admin', 'institution')->get_value());
+		$vcard->setName($adm->retrieve_setting_from_variable_name('admin', 'site_name')->get_value());
+		$vcard->addOrganization($adm->retrieve_setting_from_variable_name('admin', 'institution')->get_value());
+		$vcard->setURL($adm->retrieve_setting_from_variable_name('admin', 'institution_url')->get_value());
+		$lom->add_metadata_identifier($adm->retrieve_setting_from_variable_name('admin', 'institution')->get_value(),$learning_object->get_id());
 		$lom->add_metadata_contribute(new Vocabulary('LOMv1.0','creator'),$vcard->fetch(),new IeeeLomDateTime(date('Y-m-d\TH:i:sO')));
 		$lom->add_metadata_schema('LOMv1.0');
 		if(method_exists('IeeeLomGenerator','generate_'.$learning_object->get_type()))

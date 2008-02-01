@@ -190,7 +190,7 @@ class CourseForm extends FormValidator {
     	if ($course->create())
     	{
     		// TODO: Temporary function pending revamped roles&rights system
-    		add_course_role_right_location_values($course->get_id());
+    		//add_course_role_right_location_values($course->get_id());
 
     		$wdm = WeblcmsDataManager :: get_instance();
 			if (!$this->user->is_platform_admin())

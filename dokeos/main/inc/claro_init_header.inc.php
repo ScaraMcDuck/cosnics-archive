@@ -9,7 +9,8 @@ require_once(dirname(__FILE__).'/../../common/banner.class.php');
 // Get language iso-code for this page - ignore errors
 // The error ignorance is due to the non compatibility of function_exists()
 // with the object syntax of Database::get_language_isocode()
-@$document_language = Database::get_language_isocode($language_interface);
+
+$document_language = $adm->retrieve_language_from_english_name($language_interface)->get_isocode();
 if(empty($document_language))
 {
   //if there was no valid iso-code, use the english one
@@ -19,7 +20,7 @@ if(empty($document_language))
 
 $header = new Header($document_language);
 $header->add_default_headers();
-$header->set_page_title((empty($nameTools) ? '' : $nameTools.' - ').get_setting('siteName'));
+$header->set_page_title((empty($nameTools) ? '' : $nameTools.' - ').$adm->retrieve_setting_from_variable_name('admin', 'site_name')->get_value());
 if ( isset($httpHeadXtra) && $httpHeadXtra )
 {
 	foreach($httpHeadXtra as $thisHttpHead)
@@ -28,9 +29,9 @@ if ( isset($httpHeadXtra) && $httpHeadXtra )
 	}
 }
 
-if(api_get_setting('stylesheets')<>'')
+if($adm->retrieve_setting_from_variable_name('admin', 'stylesheets')->get_value()<>'')
 {
-	$header->add_css_file_header(api_get_path(WEB_CODE_PATH). 'css/'. api_get_setting('stylesheets') .'/default.css');
+	$header->add_css_file_header(api_get_path(WEB_CODE_PATH). 'css/'. $adm->retrieve_setting_from_variable_name('admin', 'stylesheets')->get_value() .'/default.css');
 }
 if ( isset($htmlHeadXtra) && $htmlHeadXtra )
 {
@@ -57,6 +58,6 @@ echo '<!-- #outerframe container to control some general layout of all pages -->
 echo '<div id="outerframe">'."\n";
 
 //  Banner
-$banner = new Banner();
+$banner = new Banner($adm);
 $banner->display();
 ?>

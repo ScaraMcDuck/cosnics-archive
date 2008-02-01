@@ -360,7 +360,7 @@ class Display
 	function display_header($tool_name, $help = NULL)
 	{
 		$nameTools = $tool_name;
-		global $httpHeadXtra, $htmlHeadXtra, $_course, $_user, $clarolineRepositoryWeb, $text_dir, $plugins, $_uid, $rootAdminWeb, $_cid, $interbredcrump, $charset, $noPHP_SELF;
+		global $language_interface, $adm, $httpHeadXtra, $htmlHeadXtra, $_course, $_user, $clarolineRepositoryWeb, $text_dir, $plugins, $_uid, $rootAdminWeb, $_cid, $interbredcrump, $charset, $noPHP_SELF;
 		include (api_get_include_path()."/claro_init_header.inc.php");
 	}
 	/**
@@ -368,8 +368,8 @@ class Display
 	 */
 	function display_footer()
 	{
-		global $dokeos_version; //necessary to have the value accessible in the footer
-		$footer = new Footer($dokeos_version);
+		global $adm, $dokeos_version; //necessary to have the value accessible in the footer
+		$footer = new Footer($adm, $dokeos_version);
 		$footer->display();
 	}
 

@@ -25,7 +25,6 @@ class DatabaseAdminDataManager extends AdminDataManager
 	
 	function initialize()
 	{
-		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseAdminDatamanager','debug')));
 		$this->prefix = 'admin_';
@@ -62,10 +61,10 @@ class DatabaseAdminDataManager extends AdminDataManager
 			$prefix = $table.'.';
 			$name = $column;
 		}
-		elseif ($prefix_user_object_properties && self :: is_user_column($name))
-		{
-			$prefix = self :: ALIAS_USER_TABLE.'.';
-		}
+//		elseif ($prefix_user_object_properties && self :: is_user_column($name))
+//		{
+//			$prefix = self :: ALIAS_USER_TABLE.'.';
+//		}
 		return $prefix.$this->connection->quoteIdentifier($name);
 	}
 
@@ -122,6 +121,24 @@ class DatabaseAdminDataManager extends AdminDataManager
 		{
 			return false;
 		}
+	}
+	
+	/**
+	 * Executes a query
+	 * @param string $query The query (which will be used in a prepare-
+	 * statement)
+	 * @param int $limit The number of rows
+	 * @param int $offset The offset
+	 * @param array $params The parameters to replace the placeholders in the
+	 * query
+	 * @param boolean $is_manip Is the query a manipulation query
+	 */
+	private function limitQuery($query,$limit,$offset,$params,$is_manip = false)
+	{
+		$this->connection->setLimit($limit,$offset);
+		$statement = $this->connection->prepare($query,null,($is_manip ? MDB2_PREPARE_MANIP : null));
+		$res = $statement->execute($params);
+		return $res;
 	}
 
 	/**
@@ -427,6 +444,22 @@ class DatabaseAdminDataManager extends AdminDataManager
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseSettingResultSet($this, $res);
+	}
+	
+	function retrieve_language_from_english_name($english_name)
+	{
+		$query = 'SELECT * FROM '.$this->escape_table_name('language').' WHERE '.$this->escape_column_name(Language :: PROPERTY_ENGLISH_NAME).'=?';
+		$res = $this->limitQuery($query, 1, null, array ($english_name));
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		return $this->record_to_language($record);
+	}
+	
+	function retrieve_setting_from_variable_name($application = 'admin', $variable)
+	{
+		$query = 'SELECT * FROM '.$this->escape_table_name('setting').' WHERE '.$this->escape_column_name(Setting :: PROPERTY_APPLICATION).'=? AND '.$this->escape_column_name(Setting :: PROPERTY_VARIABLE).'=?';
+		$res = $this->limitQuery($query, 1, null, array ($application, $variable));
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		return $this->record_to_setting($record);
 	}
 	
 	// Inherited.

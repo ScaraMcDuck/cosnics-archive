@@ -1116,22 +1116,23 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 		if ($this->create_course_user_relation($courseuserrelation))
 		{
-			$role_id = ($status == COURSEMANAGER) ? COURSE_ADMIN : NORMAL_COURSE_MEMBER;
-			$location_id = RolesRights::get_course_location_id($course->get_id());
-
-			$user_rel_props = array();
-			$user_rel_props['user_id'] = $user_id;
-			$user_rel_props['role_id'] = $role_id;
-			$user_rel_props['location_id'] = $location_id;
-
-			if ($this->connection->extended->autoExecute(Database :: get_main_table(MAIN_USER_ROLE_TABLE), $user_rel_props, MDB2_AUTOQUERY_INSERT))
-			{
+			// TODO: New Roles & Rights system
+//			$role_id = ($status == COURSEMANAGER) ? COURSE_ADMIN : NORMAL_COURSE_MEMBER;
+//			$location_id = RolesRights::get_course_location_id($course->get_id());
+//
+//			$user_rel_props = array();
+//			$user_rel_props['user_id'] = $user_id;
+//			$user_rel_props['role_id'] = $role_id;
+//			$user_rel_props['location_id'] = $location_id;
+//
+//			if ($this->connection->extended->autoExecute(Database :: get_main_table(MAIN_USER_ROLE_TABLE), $user_rel_props, MDB2_AUTOQUERY_INSERT))
+//			{
 				return true;
-			}
-			else
-			{
-				return false;
-			}
+//			}
+//			else
+//			{
+//				return false;
+//			}
 		}
 		else
 		{
