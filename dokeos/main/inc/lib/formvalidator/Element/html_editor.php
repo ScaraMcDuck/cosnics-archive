@@ -24,6 +24,7 @@
 require_once ('HTML/QuickForm/textarea.php');
 require_once (dirname(__FILE__).'/../../../../../plugin/fckeditor/fckeditor.php');
 require_once (dirname(__FILE__).'/../../../../../common/resourcemanager.class.php');
+require_once (dirname(__FILE__).'/../../../../../admin/lib/admindatamanager.class.php');
 /**
 * A html editor field to use with QuickForm
 */
@@ -110,7 +111,9 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 		{
 			return parent::toHTML();
 		}
-		@ $editor_lang = Database :: get_language_isocode($language_interface);
+	
+		$adm = AdminDataManager :: get_instance();
+		$editor_lang = $adm->retrieve_language_from_english_name($language_interface)->get_isocode();
 		$language_file = api_get_path(SYS_PATH).'plugin/fckeditor/editor/lang/'.$editor_lang.'.js';
 		if (empty ($editor_lang) || !file_exists($language_file))
 		{

@@ -32,11 +32,13 @@ $DaysShort = array(get_lang("SundayShort"), get_lang("MondayShort"), get_lang("T
 $DaysLong = array(get_lang("SundayLong"), get_lang("MondayLong"), get_lang("TuesdayLong"), get_lang("WednesdayLong"), get_lang("ThursdayLong"), get_lang("FridayLong"), get_lang("SaturdayLong"));
 // Defining the months of the year to allow translation of the months
 $MonthsLong = array(get_lang("JanuaryLong"), get_lang("FebruaryLong"), get_lang("MarchLong"), get_lang("AprilLong"), get_lang("MayLong"), get_lang("JuneLong"), get_lang("JulyLong"), get_lang("AugustLong"), get_lang("SeptemberLong"), get_lang("OctoberLong"), get_lang("NovemberLong"), get_lang("DecemberLong"));
-@ $iso_lang = Database :: get_language_isocode($language_interface);
-if (empty ($iso_lang) )
+
+
+$iso_lang = $adm->retrieve_language_from_english_name($language_interface)->get_isocode();
+if(empty($document_language))
 {
-	//if there was no valid iso-code, use the english one
-	$iso_lang = 'en';
+  //if there was no valid iso-code, use the english one
+  $iso_lang = 'en';
 }
 ?>
 <!DOCTYPE html
