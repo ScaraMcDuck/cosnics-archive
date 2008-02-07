@@ -51,11 +51,11 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
 			$popup_link = str_replace($char, "\\".$char, $popup_link);
 			$hour_minute_devider = str_replace($char, "\\".$char, $hour_minute_devider);
 		}
-		@ $editor_lang = Database :: get_language_isocode($language_interface);
-		if (empty ($editor_lang) )
+		$editor_lang = $adm->retrieve_language_from_english_name($language_interface)->get_isocode();
+		if(empty($editor_lang))
 		{
-			//if there was no valid iso-code, use the english one
-			$editor_lang = 'en';
+		  //if there was no valid iso-code, use the english one
+  		$editor_lang = 'en';
 		}
 		// If translation not available in PEAR::HTML_QuickForm_date, add the Dokeos-translation
 		if(! array_key_exists($editor_lang,$this->_locale))
