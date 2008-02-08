@@ -1,7 +1,12 @@
 <?php
-
-abstract class WeblcmsComponent {
-
+/**
+ * @package application.weblcms.weblcms_component
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
+ */
+ 
+abstract class WeblcmsComponent
+{
 	/**
 	 * The number of components allready instantiated
 	 */
@@ -598,6 +603,11 @@ abstract class WeblcmsComponent {
 	function get_search_parameter($name)
 	{
 		return $this->get_parent()->get_search_parameter($name);
+	}
+	
+	function get_platform_setting($variable, $application = Weblcms :: APPLICATION_NAME)
+	{
+		return $this->get_parent()->get_platform_setting($variable, $application);
 	}
 	
 	/**

@@ -27,7 +27,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('LostPassword'));
 
 		$user_id = $this->get_user_id();
-		if( get_setting('allow_lostpassword') == 'false')
+		if($this->get_platform_setting('allow_password_retrieval', 'admin')->get_value() == 'false')
 		{
 			api_not_allowed();
 			exit;

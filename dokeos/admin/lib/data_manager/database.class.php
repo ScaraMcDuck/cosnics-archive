@@ -454,7 +454,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 		return $this->record_to_language($record);
 	}
 	
-	function retrieve_setting_from_variable_name($application = 'admin', $variable)
+	function retrieve_setting_from_variable_name($variable, $application = 'admin')
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('setting').' WHERE '.$this->escape_column_name(Setting :: PROPERTY_APPLICATION).'=? AND '.$this->escape_column_name(Setting :: PROPERTY_VARIABLE).'=?';
 		$res = $this->limitQuery($query, 1, null, array ($application, $variable));

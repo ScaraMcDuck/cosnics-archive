@@ -18,7 +18,11 @@ class LocalRepositorySearchSource implements SearchSource
 	function search ($query)
 	{
 		$condition = RepositoryUtilities :: query_to_condition($query);
-		$repository_title = api_get_setting('siteName');
+		
+		$adm = AdminDataManager :: get_instance();
+		$site_name_setting = $adm->retrieve_setting_from_variable_name('site_name');
+		$repository_title = $site_name_setting->get_value();
+		
 		$repository_url = api_get_path(WEB_PATH);
 		$returned_results = $this->data_manager->retrieve_learning_objects(null, $condition, array (LearningObject :: PROPERTY_TITLE), array (SORT_ASC));
 		$result_count = count($returned_results);

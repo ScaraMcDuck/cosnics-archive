@@ -19,6 +19,7 @@ class UserForm extends FormValidator {
 	private $user;
 	private $form_user;
 	private $unencryptedpass;
+	private $adminDM;
 
 	/**
 	 * Creates a new UserForm
@@ -26,7 +27,8 @@ class UserForm extends FormValidator {
 	 */
     function UserForm($form_type, $user, $form_user, $action) {
     	parent :: __construct('user_settings', 'post', $action);
-
+		
+		$this->adminDM = AdminDataManager :: get_instance();
     	$this->user = $user;
     	$this->form_user = $form_user;
 
@@ -276,10 +278,10 @@ class UserForm extends FormValidator {
 		$username = $user->get_username();
 		$password = $this->unencryptedpass;
 		$emailto = '"'.$firstname.' '.$lastname.'" <'.$user->get_email().'>';
-		$emailsubject = '['.get_setting('siteName').'] '.get_lang('YourReg').' '.get_setting('siteName');
-		$emailheaders = 'From: '.get_setting('administratorName').' '.get_setting('administratorSurname').' <'.get_setting('emailAdministrator').">\n";
-		$emailheaders .= 'Reply-To: '.get_setting('emailAdministrator');
-		$emailbody=get_lang('Dear')." ".stripslashes("$firstname $lastname").",\n\n".get_lang('YouAreReg')." ". get_setting('siteName') ." ".get_lang('Settings')." ". $username ."\n". get_lang('Password')." : ".stripslashes($password)."\n\n" .get_lang('Address') ." ". get_setting('siteName') ." ". get_lang('Is') ." : ". $rootWeb ."\n\n". get_lang('Problem'). "\n\n". get_lang('Formula').",\n\n".get_setting('administratorName')." ".get_setting('administratorSurname')."\n". get_lang('Manager'). " ".get_setting('siteName')."\nT. ".get_setting('administratorTelephone')."\n" .get_lang('Email') ." : ".get_setting('emailAdministrator');
+		$emailsubject = '['.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value().'] '.get_lang('YourReg').' '.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value();
+		$emailheaders = 'From: '.$this->adminDM->retrieve_setting_from_variable_name('administrator_firstname')->get_value().' '.$this->adminDM->retrieve_setting_from_variable_name('administrator_surname')->get_value().' <'.$this->adminDM->retrieve_setting_from_variable_name('administrator_email')->get_value().">\n";
+		$emailheaders .= 'Reply-To: '.$this->adminDM->retrieve_setting_from_variable_name('administrator_email')->get_value();
+		$emailbody=get_lang('Dear')." ".stripslashes("$firstname $lastname").",\n\n".get_lang('YouAreReg')." ". $this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value() ." ".get_lang('Settings')." ". $username ."\n". get_lang('Password')." : ".stripslashes($password)."\n\n" .get_lang('Address') ." ". $this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value() ." ". get_lang('Is') ." : ". $rootWeb ."\n\n". get_lang('Problem'). "\n\n". get_lang('Formula').",\n\n".$this->adminDM->retrieve_setting_from_variable_name('administrator_firstname')->get_value()." ".$this->adminDM->retrieve_setting_from_variable_name('administrator_surname')->get_value()."\n". get_lang('Manager'). " ".$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value()."\nT. ".$this->adminDM->retrieve_setting_from_variable_name('administrator_telephone')->get_value()."\n" .get_lang('Email') ." : ".$this->adminDM->retrieve_setting_from_variable_name('administrator_email')->get_value();
 		@api_send_mail($emailto, $emailsubject, $emailbody, $emailheaders);
 	}
 }

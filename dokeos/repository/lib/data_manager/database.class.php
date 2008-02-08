@@ -47,11 +47,14 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * The table name prefix, if any.
 	 */
 	private $prefix;
+	
+	private $adminDM;
 
 	// Inherited.
 	function initialize()
 	{
 		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
+		$this->adminDM = & AdminDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseRepositoryDataManager','debug')));
 		if (PEAR::isError($this)) {
@@ -455,7 +458,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function delete_learning_object_attachments($object)
 	{
 		// TODO: SCARA - Add notification for users who are using this object as an attachment
-//		$subject = '['.api_get_setting('siteName').'] '.$publication->get_learning_object()->get_title();
+//		$subject = '['.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value().'] '.$publication->get_learning_object()->get_title();
 //		// TODO: SCARA - Add meaningfull attachment removal message
 //		$body = 'message';
 //		$user = api_get_user_info($publication->get_publisher_id());

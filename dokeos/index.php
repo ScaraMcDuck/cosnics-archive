@@ -38,7 +38,7 @@ include_once (api_get_library_path()."/system_announcements.lib.php");
 include_once (api_get_library_path()."/text.lib.php");
 include_once (api_get_library_path()."/formvalidator/FormValidator.class.php");
 api_use_lang_files('courses', 'index');
-$nameTools = $adm->retrieve_setting_from_variable_name('admin', 'site_name')->get_value();
+$nameTools = $adm->retrieve_setting_from_variable_name('site_name', 'admin')->get_value();
 
 /*
 -----------------------------------------------------------
@@ -67,7 +67,7 @@ function display_anonymous_right_menu()
 {
 	global $loginFailed, $plugins, $adm;
 
-	$platformLanguage = $adm->retrieve_setting_from_variable_name('admin', 'platform_language')->get_value();
+	$platformLanguage = $adm->retrieve_setting_from_variable_name('platform_language', 'admin')->get_value();
 
 	$_uid = api_get_user_id();
 	if ( !(isset($_uid) && $_uid) ) // only display if the user isn't logged in
@@ -78,14 +78,14 @@ function display_anonymous_right_menu()
 
 		if ($loginFailed)
 			handle_login_failed();
-		if (get_setting('allow_lostpassword') == 'true' OR api_get_setting('allow_registration') == 'true')
+		if ($adm->retrieve_setting_from_variable_name('allow_password_retrieval')->get_value() == 'true' OR $adm->retrieve_setting_from_variable_name('allow_registration')->get_value() == 'true')
 		{
 			echo '<div class="menusection"><span class="menusectioncaption">'.get_lang('MenuUser').'</span><ul class="menulist">';
-			if (get_setting('allow_registration') == 'true')
+			if ($adm->retrieve_setting_from_variable_name('allow_registration')->get_value() == 'true')
 			{
 				echo '<li><a href="index_user.php?go=register">'.get_lang('Reg').'</a></li>';
 			}
-			if (get_setting('allow_lostpassword') == 'true')
+			if ($adm->retrieve_setting_from_variable_name('allow_password_retrieval')->get_value() == 'true')
 			{
 				echo '<li><a href="index_user.php?go=reset_password">'.get_lang('LostPassword').'</a></li>';
 			}

@@ -14,7 +14,7 @@ class UserManagerRegisterComponent extends UserManagerComponent
 	 */
 	function run()
 	{	
-		if (get_setting('allow_registration') == 'false')
+		if ($this->get_platform_setting('allow_registration', 'admin')->get_value() == 'false')
 		{
 			api_not_allowed();
 		}

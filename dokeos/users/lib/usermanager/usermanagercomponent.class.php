@@ -265,6 +265,12 @@ abstract class UserManagerComponent {
 	{
 		$this->get_parent()->not_allowed();
 	}
+	
+	function get_platform_setting($variable, $application = UserManager :: APPLICATION_NAME)
+	{
+		return $this->get_parent()->get_platform_setting($variable, $application);
+	}
+	
 	/**
 	 * Create a new user manager component
 	 * @param string $type The type of the component to create.

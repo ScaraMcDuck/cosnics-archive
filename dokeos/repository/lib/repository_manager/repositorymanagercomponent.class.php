@@ -404,6 +404,12 @@ abstract class RepositoryManagerComponent {
 	{
 		return $this->get_parent()->get_category_condition($category_id);
 	}
+	
+	function get_platform_setting($variable, $application = RepositoryManager :: APPLICATION_NAME)
+	{
+		return $this->get_parent()->get_platform_setting($variable, $application);
+	}
+	
 	/**
 	 * Create a new repository manager component
 	 * @param string $type The type of the component to create.

@@ -112,7 +112,7 @@ abstract class AdminDataManager
 	
 	abstract function retrieve_settings($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
 	
-	abstract function retrieve_setting_from_variable_name($application = 'admin', $variable);
+	abstract function retrieve_setting_from_variable_name($variable, $application = 'admin');
 	
 	abstract function retrieve_language_from_english_name($english_name);
 }

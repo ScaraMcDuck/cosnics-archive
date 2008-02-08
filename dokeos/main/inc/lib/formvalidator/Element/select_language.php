@@ -34,12 +34,14 @@ class HTML_QuickForm_Select_Language extends HTML_QuickForm_select
 	{
 		parent::HTML_QuickForm_Select($elementName, $elementLabel, $options, $attributes);
 		// Get all languages
-		$languages = api_get_languages();
+		$adm = AdminDataManager :: get_instance();
+		$languages = $adm->retrieve_languages();
 		$this->_options = array();
 		$this->_values = array();
-		foreach ($languages['name'] as $index => $name)
+		
+		while ($language = $languages->next_result())
 		{
-			$this->addOption($name,$languages['folder'][$index]);
+			$this->addOption($language->get_english_name(),$language->get_folder());
 		}
 	}
 }
