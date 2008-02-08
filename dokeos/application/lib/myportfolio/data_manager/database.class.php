@@ -22,11 +22,13 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 
 	private $repoDM;
 	private $userDM;
+	private $adminDM;
 
 	function initialize()
 	{
 		$this->repoDM = & RepositoryDataManager :: get_instance();
 		$this->userDM = & UsersDataManager :: get_instance();
+		$this->adminDM = & AdminDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabasePortfolioDataManager','debug')));
 		$this->prefix = 'myportfolio_';
@@ -396,7 +398,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$publications = $this->retrieve_portfolio_publications($condition, null, null, null, null, true, array (), array (), 0, -1, $object_id);
 		while ($publication = $publications->next_result())
 		{
-//			$subject = '['.api_get_setting('siteName').'] '.$publication->get_learning_object()->get_title();
+//			$subject = '['.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value().'] '.$publication->get_learning_object()->get_title();
 //			// TODO: SCARA - Add meaningfull publication removal message
 //			$body = 'message';
 //			$user = $this->userDM->retrieve_user($publication->get_publisher_id());

@@ -117,7 +117,7 @@ $adm = AdminDataManager :: get_instance();
 //	$plugins[$key][]=$row['selected_value'];
 //}
 
-$server_type = $adm->retrieve_setting_from_variable_name('admin', 'server_type');
+$server_type = $adm->retrieve_setting_from_variable_name('server_type', 'admin');
 if($server_type->get_value() == 'test')
 {
 	/*
@@ -302,7 +302,7 @@ while ($language = $languages->next_result())
 
 if (!in_array($user_language,$valid_languages['folder']))
 {
-	$user_language=$adm->retrieve_setting_from_variable_name('admin', 'platform_language')->get_value();
+	$user_language=$adm->retrieve_setting_from_variable_name('platform_language', 'admin')->get_value();
 }
 
 
@@ -321,7 +321,7 @@ if (isset($_SESSION['_uid']))
 }
 else
 {
-	$language_interface = $adm->retrieve_setting_from_variable_name('admin', 'platform_language')->get_value();
+	$language_interface = $adm->retrieve_setting_from_variable_name('platform_language', 'admin')->get_value();
 }
 
 api_use_lang_files('trad4all', 'notification');

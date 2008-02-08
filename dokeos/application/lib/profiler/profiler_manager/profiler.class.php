@@ -670,5 +670,11 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 			}
 		}
 	}
+	
+	function get_platform_setting($variable, $application = self :: APPLICATION_NAME)
+	{
+		$adm = AdminDataManager :: get_instance();
+		return $adm->retrieve_setting_from_variable_name($variable, $application);
+	}
 }
 ?>

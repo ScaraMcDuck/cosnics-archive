@@ -252,7 +252,11 @@ class LearningObjectPublicationForm extends FormValidator
 		{
 			$learning_object = $this->learning_object;
 			$display = LearningObjectDisplay::factory($learning_object);
-			$subject = '['.api_get_setting('siteName').'] '.$learning_object->get_title();
+			
+			$adm = AdminDataManager :: get_instance();
+			$site_name_setting = $adm->retrieve_setting_from_variable_name('site_name');
+			
+			$subject = '['.$site_name_setting->get_value().'] '.$learning_object->get_title();
 			$body = new html2text($display->get_full_html());
 			//@todo: send email to correct users/groups. For testing, the email is sent now to the publisher.
 			$user = $this->user;

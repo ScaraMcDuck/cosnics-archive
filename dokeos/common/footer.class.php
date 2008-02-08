@@ -19,10 +19,10 @@ class Footer
 		$this->version = $version;
 	}
 	
-	function get_setting($application, $variable)
+	function get_setting($variable, $application)
 	{
 		$adm		= $this->admindatamanager;
-		$setting	= $adm->retrieve_setting_from_variable_name($application, $variable);
+		$setting	= $adm->retrieve_setting_from_variable_name($variable, $application);
 		return $setting->get_value();
 	}
 	
@@ -45,11 +45,11 @@ class Footer
 		$output[] = '     '.get_lang('Platform').'&nbsp;<a href="http://www.dokeos.com">'.$this->version.'</a>&nbsp;&copy;&nbsp;'.date('Y');
 		$output[] = '    </div>';
 		$admin_data = '';
-		if ($this->get_setting('admin', 'show_administrator_data') == "true")
+		if ($this->get_setting('show_administrator_data', 'admin') == "true")
 		{
 			$admin_data .= get_lang('Manager');
 			$admin_data .= ':&nbsp;';
-			$admin_data .= Display :: encrypted_mailto_link($this->get_setting('admin', 'administrator_email'), $this->get_setting('admin', 'administrator_surname').' '.$this->get_setting('admin', 'administrator_firstname'));
+			$admin_data .= Display :: encrypted_mailto_link($this->get_setting('administrator_email', 'admin'), $this->get_setting('administrator_surname', 'admin').' '.$this->get_setting('administrator_firstname', 'admin'));
 		}
 		$output[] = '    '.$admin_data.'&nbsp;';
 		$output[] = '   </div> <!-- end of #footer -->';

@@ -67,6 +67,10 @@ abstract class Application
 	 */
 	abstract function get_application_platform_admin_links();
 	/**
+	 * Gets a platform setting
+	 */
+	abstract function get_platform_setting($variable, $application = 'admin');
+	/**
 	 * Loads the applications installed on the system. Applications are classes
 	 * in the /application/lib subdirectory. Each application is a directory,
 	 * which in its turn contains a class file named after the application. For

@@ -91,12 +91,14 @@ class CourseForm extends FormValidator {
 		/*
 		 * TODO: SCARA - It's probably better to have a general language class somewhere ?
 		 */
-
-		$languages = api_get_languages();
+		 
+		$adm = AdminDataManager :: get_instance();
+		$languages = $adm->retrieve_languages();
 		$lang_options = array();
-		foreach ($languages['name'] as $index => $name)
+		
+		while ($language = $languages->next_result())
 		{
-			$lang_options[$languages['folder'][$index]] = $name;
+			$lang_options[$language->get_folder()] = $language->get_english_name();	
 		}
 
 		$this->addElement('select', Course :: PROPERTY_LANGUAGE, get_lang('Language'), $lang_options);

@@ -19,10 +19,10 @@ class Banner
 		$this->admindatamanager = $admindatamanager;
 	}
 	
-	function get_setting($application, $variable)
+	function get_setting($variable, $application)
 	{
 		$adm		= $this->admindatamanager;
-		$setting	= $adm->retrieve_setting_from_variable_name($application, $variable);
+		$setting	= $adm->retrieve_setting_from_variable_name($variable, $application);
 		return $setting->get_value();
 	}
 	
@@ -42,9 +42,9 @@ class Banner
 		$output[] = '<div id="header">  <!-- header section start -->';
 		$output[] = '<div id="header1"> <!-- top of banner with institution name/hompage link -->';
 		$output[] = '<div id="institution">';
-		$output[] = '<a href="'.api_get_path(WEB_PATH).'index.php" target="_top">'.$this->get_setting('admin', 'site_name').'</a>';
+		$output[] = '<a href="'.api_get_path(WEB_PATH).'index.php" target="_top">'.$this->get_setting('site_name', 'admin').'</a>';
 		$output[] = '-';
-		$output[] = '<a href="'.$this->get_setting('admin', 'institution_url').'" target="_top">'.$this->get_setting('admin', 'institution').'</a>';
+		$output[] = '<a href="'.$this->get_setting('institution_url', 'admin').'" target="_top">'.$this->get_setting('institution', 'admin').'</a>';
 		$output[] = '</div>';
 
 		//not to let the header disappear if there's nothing on the left
@@ -70,7 +70,7 @@ class Banner
 		
 		// TODO: Reimplement "Who is online ?" 
 
-//		if ((api_get_setting('showonline', 'world') == "true" AND !$_SESSION['_uid']) OR (api_get_setting('showonline', 'users') == "true" AND $_SESSION['_uid']) OR (api_get_setting('showonline', 'course') == "true" AND $_SESSION['_uid'] AND $_SESSION['_cid']))
+//		if (($this->get_setting('showonline_world') == "true" AND !$_SESSION['_uid']) OR ($this->get_setting('showonline_users') == "true" AND $_SESSION['_uid']) OR ($this->get_setting('showonline_course') == "true" AND $_SESSION['_uid'] AND $_SESSION['_cid']))
 //		{
 //			$statistics_database = Database :: get_statistic_database();
 //			$number = count(WhoIsOnline(api_get_user_id(), $statistics_database, 30));
@@ -79,25 +79,25 @@ class Banner
 //			$output[] = "<li>".get_lang('UsersOnline').": ";
 //
 //			// Display the who's online of the platform
-//			if ((api_get_setting('showonline', 'world') == "true" AND !$_SESSION['_uid']) OR (api_get_setting('showonline', 'users') == "true" AND $_SESSION['_uid']))
+//			if (($this->get_setting('showonline_world') == "true" AND !$_SESSION['_uid']) OR ($this->get_setting('showonline_users') == "true" AND $_SESSION['_uid']))
 //			{
 //				$output[] = "<a href='".api_get_path(WEB_PATH)."whoisonline.php' target='_top'>".$number."</a>";
 //			}
 //
 //			// Display brackets if who's online of the campus AND who's online in the course are active
-//			if (api_get_setting('showonline', 'users') == "true" AND api_get_setting('showonline', 'course') == "true" AND $_course)
+//			if ($this->get_setting('showonline_users') == "true" AND $this->get_setting('showonline_course') == "true" AND $_course)
 //			{
 //				$output[] = '(';
 //			}
 //
 //			// Display the who's online for the course
-//			if ($_course AND api_get_setting('showonline', 'course') == "true")
+//			if ($_course AND $this->get_setting('showonline_course') == "true")
 //			{
 //				$output[] = "<a href='".api_get_path(REL_CLARO_PATH)."online/whoisonlinecourse.php' target='_top'>$number_online_in_course ".get_lang('InThisCourse')."</a>";
 //			}
 //
 //			// Display brackets if who's online of the campus AND who's online in the course are active
-//			if (api_get_setting('showonline', 'users') == "true" AND api_get_setting('showonline', 'course') == "true" AND $_course)
+//			if ($this->get_setting('showonline_users') == "true" AND $this->get_setting('showonline_course') == "true" AND $_course)
 //			{
 //				$output[] = ')';
 //			}
@@ -108,7 +108,7 @@ class Banner
 		$output[] = '</ul>';
 		$output[] = '</div>';
 		$output[] = '<!-- link to campus home (not logged in)';
-		$output[] = '<a href="'.api_get_path(WEB_PATH).'index.php" target="_top">' . $this->get_setting('admin', 'site_name') . '</a>';
+		$output[] = '<a href="'.api_get_path(WEB_PATH).'index.php" target="_top">' . $this->get_setting('site_name', 'admin') . '</a>';
 		$output[] = '-->';
 		//not to let the empty header disappear and ensure help pic is inside the header
 		$output[] = '<div class="clear">&nbsp;</div>';
@@ -217,7 +217,7 @@ class Banner
 			}
 			else
 			{
-				$output[] = '&nbsp;&nbsp;<a href="'.api_get_path(WEB_PATH).'index.php" target="_top">'.$this->get_setting('admin', 'site_name').'</a>';
+				$output[] = '&nbsp;&nbsp;<a href="'.api_get_path(WEB_PATH).'index.php" target="_top">'.$this->get_setting('site_name', 'admin').'</a>';
 			}
 		}
 

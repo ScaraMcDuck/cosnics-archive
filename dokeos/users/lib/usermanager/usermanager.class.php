@@ -511,5 +511,11 @@ require_once dirname(__FILE__).'/../../../common/condition/likecondition.class.p
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_USER, self :: PARAM_USER_USER_ID => $user->get_user_id()));
 	}
+	
+	function get_platform_setting($variable, $application = self :: APPLICATION_NAME)
+	{
+		$adm = AdminDataManager :: get_instance();
+		return $adm->retrieve_setting_from_variable_name($variable, $application);
+	}	
 }
 ?>
