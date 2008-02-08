@@ -77,7 +77,7 @@ class HTML_QuickForm_receivers extends HTML_QuickForm_group
 	{
 		include_once ('HTML/QuickForm/Renderer/Default.php');
 		$this->_separator = '<br/>';
-		$renderer = & new HTML_QuickForm_Renderer_Default();
+		$renderer = new HTML_QuickForm_Renderer_Default();
 		$renderer->setElementTemplate('{element}');
 		$select_boxes = $this->_elements[2];
 		$select_boxes->setElementTemplate('<div style="margin-left:20px;display:block;" id="receivers_'.$select_boxes->getName().'">'.$select_boxes->_elementTemplate.'</div>');
@@ -108,7 +108,7 @@ class HTML_QuickForm_receivers extends HTML_QuickForm_group
 	/**
 	 * accept renderer
 	 */
-	function accept(& $renderer, $required = false, $error = null)
+	function accept($renderer, $required = false, $error = null)
 	{
 		$renderer->renderElement($this, $required, $error);
 	}

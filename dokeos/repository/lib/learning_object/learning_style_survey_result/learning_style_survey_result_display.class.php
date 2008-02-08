@@ -45,7 +45,7 @@ class LearningStyleSurveyResultDisplay extends LearningObjectDisplay
 		}
 	}
 
-	private function format_answers($profile, & $answer_data, $user = null)
+	private function format_answers($profile, $answer_data, $user = null)
 	{
 		$survey = $profile->get_survey();
 		$sections = $survey->get_survey_sections();
@@ -72,7 +72,7 @@ class LearningStyleSurveyResultDisplay extends LearningObjectDisplay
 		return $answers_html;
 	}
 	
-	private function format_result($profile, & $category_total, $user = null)
+	private function format_result($profile, $category_total, $user = null)
 	{
 		$survey = $profile->get_survey();
 		$model = $survey->get_survey_model();
@@ -108,7 +108,7 @@ class LearningStyleSurveyResultDisplay extends LearningObjectDisplay
 		return $result_html;
 	}
 
-	private function calculate_results ($profile, & $answer_data)
+	private function calculate_results ($profile, $answer_data)
 	{
 		$survey = $profile->get_survey();
 		$model = $survey->get_survey_model();

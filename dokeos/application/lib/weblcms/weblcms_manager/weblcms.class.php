@@ -315,10 +315,10 @@ class Weblcms extends WebApplication
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		$cats = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($course, $tool);
 		$root = array ();
-		$root['obj'] = & new LearningObjectPublicationCategory(0, get_lang('RootCategory'), $course->get_code, $tool, 0);
-		$root['sub'] = & $cats;
+		$root['obj'] = new LearningObjectPublicationCategory(0, get_lang('RootCategory'), $course->get_code, $tool, 0);
+		$root['sub'] = $cats;
 		$tree = array ();
-		$tree[] = & $root;
+		$tree[] = $root;
 		return $tree;
 	}
 	/**
@@ -328,7 +328,7 @@ class Weblcms extends WebApplication
 	{
 		$categories = array ();
 		$tree = $this->get_category_tree();
-		self :: translate_category_tree(& $tree, & $categories);
+		self :: translate_category_tree($tree, $categories);
 		return $categories;
 	}
 	/**
@@ -340,7 +340,7 @@ class Weblcms extends WebApplication
 	 * values are the new titles
 	 * @param int $level The current level in the tree structure
 	 */
-	private static function translate_category_tree(& $tree, & $categories, $level = 0)
+	private static function translate_category_tree($tree, $categories, $level = 0)
 	{
 		foreach ($tree as $node)
 		{
@@ -350,7 +350,7 @@ class Weblcms extends WebApplication
 			$subtree = $node['sub'];
 			if (is_array($subtree) && count($subtree))
 			{
-				self :: translate_category_tree(& $subtree, & $categories, $level +1);
+				self :: translate_category_tree($subtree, $categories, $level +1);
 			}
 		}
 	}

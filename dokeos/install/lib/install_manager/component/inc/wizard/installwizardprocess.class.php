@@ -26,7 +26,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 	{
 		$this->parent = $parent;
 	}
-	function perform(& $page, $actionName)
+	function perform($page, $actionName)
 	{
 		$values = $page->controller->exportValues();
 		

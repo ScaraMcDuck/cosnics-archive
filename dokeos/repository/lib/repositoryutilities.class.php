@@ -118,12 +118,12 @@ class RepositoryUtilities
 	 * ordering happens in-place; there is no return value.
 	 * @param array $objects The learning objects to order.
 	 */
-	static function order_learning_objects_by_title(& $objects)
+	static function order_learning_objects_by_title($objects)
 	{
 		usort($objects, array (get_class(), 'by_title'));
 	}
 
-	static function order_learning_objects_by_id_desc(& $objects)
+	static function order_learning_objects_by_id_desc($objects)
 	{
 		usort($objects, array (get_class(), 'by_id_desc'));
 	}
@@ -134,7 +134,7 @@ class RepositoryUtilities
 	 * @param array $objects The learning objects.
 	 * @return array The value.
 	 */
-	static function learning_objects_for_element_finder(& $objects)
+	static function learning_objects_for_element_finder($objects)
 	{
 		$return = array ();
 		foreach ($objects as $object)

@@ -125,10 +125,10 @@ abstract class LearningObjectDisplay
 				$html[] = '<div class="attachments" style="margin-top: 1em;">';
 				$html[] = '<div class="attachments_title">'.htmlentities(get_lang('Attachments')).'</div>';
 				$html[] = '<ul class="attachments_list">';
-				RepositoryUtilities :: order_learning_objects_by_title(& $attachments);
+				RepositoryUtilities :: order_learning_objects_by_title($attachments);
 				foreach ($attachments as $attachment)
 				{
-					$disp = self :: factory(& $attachment);
+					$disp = self :: factory($attachment);
 					$html[] = '<li><img src="'.api_get_path(WEB_CODE_PATH).'/img/treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 				}
 				$html[] = '</ul>';

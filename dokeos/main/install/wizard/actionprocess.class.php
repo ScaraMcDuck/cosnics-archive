@@ -10,7 +10,7 @@
 */
 class ActionProcess extends HTML_QuickForm_Action
 {
-	function perform(& $page, $actionName)
+	function perform($page, $actionName)
 	{
 		global $dokeos_version, $installType, $updateFromVersion;
 		$values = $page->controller->exportValues();

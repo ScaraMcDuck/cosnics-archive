@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../learning_style_survey_model.class.php';
  */
 class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyModel
 {
-	function calculate_result(& $result, & $answer_data, $profile, $section, $question)
+	function calculate_result($result, $answer_data, $profile, $section, $question)
 	{
 		foreach ($question->get_question_category_ids() as $cid)
 		{
@@ -15,14 +15,14 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 		}
 	}
 	
-	function format_answer(& $answer_data, $profile, $section, $question)
+	function format_answer($answer_data, $profile, $section, $question)
 	{
 		$answer = $answer_data[$question->get_id()];
 		$pa_answers = self :: get_possible_answers($profile);
 		return '<p>' . htmlspecialchars($pa_answers[$answer]) . '</p>';
 	}
 	
-	function format_question($survey, $section, $question, & $categories)
+	function format_question($survey, $section, $question, $categories)
 	{
 		$html = '<div class="learning-style-survey-question-text">'
 			. $question->get_description()
@@ -107,7 +107,7 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 		);
 	}
 	
-	function get_additional_result_html ($profile, & $result, & $answer_data)
+	function get_additional_result_html ($profile, $result, $answer_data)
 	{
 		$metadata = $profile->get_profile_metadata();
 		$lines = preg_split('/(\r\n|\n|\r)/', $metadata['Percentiles']);

@@ -330,7 +330,7 @@ function totally_random_word($length)
 function random_word()
 {
 	global $words;
-	return random_array_element(& $words);
+	return random_array_element($words);
 }
 
 function random_filename()
@@ -341,22 +341,22 @@ function random_filename()
 function random_category($owner)
 {
 	global $created_categories;
-	return random_array_element(& $created_categories[$owner]);
+	return random_array_element($created_categories[$owner]);
 }
 
 function random_forum()
 {
 	global $created_forums;
-	return random_array_element(& $created_forums);
+	return random_array_element($created_forums);
 }
 
 function random_forum_topic()
 {
 	global $created_forum_topics;
-	return random_array_element(& $created_forum_topics);
+	return random_array_element($created_forum_topics);
 }
 
-function random_array_element(& $array)
+function random_array_element($array)
 {
 	return $array[rand(0, count($array) - 1)];
 }

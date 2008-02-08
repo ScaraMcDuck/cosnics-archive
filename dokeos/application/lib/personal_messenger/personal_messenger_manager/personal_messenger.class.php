@@ -177,12 +177,12 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		$create['title'] = get_lang('Send');
 		$create['url'] = $this->get_personal_message_creation_url();
 		$create['class'] = 'create';
-		$extra_items[] = & $create;
+		$extra_items[] = $create;
 
 		$temp_replacement = '__FOLDER__';
 		$url_format = $this->get_url(array (PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES, PersonalMessenger :: PARAM_FOLDER => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
-		$user_menu = new PersonalMessengerMenu($this->folder, $url_format, & $extra_items);
+		$user_menu = new PersonalMessengerMenu($this->folder, $url_format, $extra_items);
 
 		if ($this->get_action() == self :: ACTION_CREATE_PUBLICATION)
 		{

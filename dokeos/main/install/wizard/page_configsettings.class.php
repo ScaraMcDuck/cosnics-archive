@@ -42,17 +42,17 @@ class Page_ConfigSettings extends HTML_QuickForm_Page
 		$this->addRule('organization_name', get_lang('ThisFieldIsRequired'), 'required');
 		$this->addElement('text', 'organization_url', get_lang("InstituteURL"), array ('size' => '40'));
 		$this->addRule('organization_url', get_lang('ThisFieldIsRequired'), 'required');
-		$encrypt[] = & $this->createElement('radio', 'encrypt_password', null, get_lang('Yes'), 1);
-		$encrypt[] = & $this->createElement('radio', 'encrypt_password', null, get_lang('No'), 0);
+		$encrypt[] = $this->createElement('radio', 'encrypt_password', null, get_lang('Yes'), 1);
+		$encrypt[] = $this->createElement('radio', 'encrypt_password', null, get_lang('No'), 0);
 		$this->addGroup($encrypt, 'tracking', get_lang("EncryptUserPass"), '&nbsp;', false);
-		$self_reg[] = & $this->createElement('radio', 'self_reg', null, get_lang('Yes'), 1);
-		$self_reg[] = & $this->createElement('radio', 'self_reg', null, get_lang('No'), 0);
+		$self_reg[] = $this->createElement('radio', 'self_reg', null, get_lang('Yes'), 1);
+		$self_reg[] = $this->createElement('radio', 'self_reg', null, get_lang('No'), 0);
 		$this->addGroup($self_reg, 'tracking', get_lang("AllowSelfReg"), '&nbsp;', false);
-		$self_reg_teacher[] = & $this->createElement('radio', 'self_reg_teacher', null, get_lang('Yes'), 1);
-		$self_reg_teacher[] = & $this->createElement('radio', 'self_reg_teacher', null, get_lang('No'), 0);
+		$self_reg_teacher[] = $this->createElement('radio', 'self_reg_teacher', null, get_lang('Yes'), 1);
+		$self_reg_teacher[] = $this->createElement('radio', 'self_reg_teacher', null, get_lang('No'), 0);
 		$this->addGroup($self_reg_teacher, 'tracking', get_lang("AllowSelfRegProf"), '&nbsp;', false);
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 	}

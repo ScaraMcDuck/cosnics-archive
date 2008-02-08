@@ -30,7 +30,7 @@ class InstallWizardDisplay extends HTML_QuickForm_Action_Display
 	 */
 	function _renderForm($current_page)
 	{
-		$renderer = & $current_page->defaultRenderer();
+		$renderer = $current_page->defaultRenderer();
 		$current_page->setRequiredNote('<font color="#FF0000">*</font> '.get_lang('ThisFieldIsRequired'));
 		$element_template = "\n\t<tr>\n\t\t<td valign=\"top\"><!-- BEGIN required --><span style=\"color: #ff0000\">*</span> <!-- END required -->{label}</td>\n\t\t<td valign=\"top\" align=\"left\"><!-- BEGIN error --><span style=\"color: #ff0000;font-size:x-small;margin:2px;\">{error}</span><br /><!-- END error -->\t{element}</td>\n\t</tr>";
 		$renderer->setElementTemplate($element_template);

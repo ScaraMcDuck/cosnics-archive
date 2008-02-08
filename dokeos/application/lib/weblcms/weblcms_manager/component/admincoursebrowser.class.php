@@ -65,7 +65,7 @@ class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 			$search['title'] = get_lang('SearchResults');
 			$search['url'] = $search_url;
 			$search['class'] = 'search_results';
-			$extra_items[] = & $search;
+			$extra_items[] = $search;
 		}
 		else
 		{
@@ -75,7 +75,7 @@ class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 		$temp_replacement = '__CATEGORY_ID__';
 		$url_format = $this->get_url(array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER, Weblcms :: PARAM_COURSE_CATEGORY_ID => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
-		$category_menu = new CourseCategoryMenu($this->category, $url_format, & $extra_items);
+		$category_menu = new CourseCategoryMenu($this->category, $url_format, $extra_items);
 		
 		if (isset ($search_url))
 		{

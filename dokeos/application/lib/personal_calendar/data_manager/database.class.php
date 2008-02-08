@@ -24,7 +24,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	 */
 	function initialize()
 	{
-		$this->repoDM = & RepositoryDataManager :: get_instance();
+		$this->repoDM = RepositoryDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabasePersonalCalendarDatamanager','debug')));
 		$this->prefix = 'personal_calendar_';

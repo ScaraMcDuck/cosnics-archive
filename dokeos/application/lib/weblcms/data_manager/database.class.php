@@ -38,9 +38,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function initialize()
 	{
-		$this->repoDM = & RepositoryDataManager :: get_instance();
-		$this->userDM = & UsersDataManager :: get_instance();
-		$this->adminDM = & AdminDataManager :: get_instance();
+		$this->repoDM = RepositoryDataManager :: get_instance();
+		$this->userDM = UsersDataManager :: get_instance();
+		$this->adminDM = AdminDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseWeblcmsDataManager','debug')));
 		$this->prefix = 'weblcms_';
@@ -85,7 +85,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -262,7 +262,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		/*
 		 * Add WHERE clause (also extends $params).
 		 */
-		$query .= ' ' . $this->get_publication_retrieval_where_clause($learning_object, $course, $categories, $users, $groups, $condition, & $params);
+		$query .= ' ' . $this->get_publication_retrieval_where_clause($learning_object, $course, $categories, $users, $groups, $condition, $params);
 		/*
 		 * Always respect display order as a last resort.
 		 */
@@ -308,7 +308,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 		$params = array ();
 		$query = 'SELECT COUNT('.($allowDuplicates ? '*' : 'DISTINCT p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID)).') FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
-		$query .= ' ' . $this->get_publication_retrieval_where_clause($learning_object, $course, $categories, $users, $groups, $condition, & $params);
+		$query .= ' ' . $this->get_publication_retrieval_where_clause($learning_object, $course, $categories, $users, $groups, $condition, $params);
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -321,7 +321,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$query = 'SELECT COUNT('.$this->escape_column_name(Course :: PROPERTY_ID).') FROM '.$this->escape_table_name('course');
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
@@ -335,7 +335,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$query = 'SELECT COUNT('.$this->escape_column_name(CourseCategory :: PROPERTY_ID).') FROM '.$this->escape_table_name('course_category');
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
@@ -350,7 +350,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$query .= 'JOIN '.$this->escape_table_name('course_rel_user').' ON '.$this->escape_table_name('course').'.'.$this->escape_column_name(Course :: PROPERTY_ID).'='.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('course_code');
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -365,7 +365,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$query = 'SELECT COUNT('.$this->escape_column_name(CourseUserCategory :: PROPERTY_ID).') FROM '.$this->escape_table_name('course_user_category');
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
@@ -390,7 +390,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$query = 'SELECT COUNT('.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).') FROM '.$this->escape_table_name('course_rel_user');
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
@@ -398,7 +398,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $record[0];
 	}
 
-	private function get_publication_retrieval_where_clause ($learning_object, $course, $categories, $users, $groups, $condition, & $params)
+	private function get_publication_retrieval_where_clause ($learning_object, $course, $categories, $users, $groups, $condition, $params)
 	{
 		$cond = array ();
 		if (!is_null($learning_object))
@@ -474,7 +474,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$cond[] = $condition;
 		}
 		$condition = new AndCondition($cond);
-		$where_clause = (is_null($condition) ? '' : 'WHERE '.$this->translate_condition($condition, & $params));
+		$where_clause = (is_null($condition) ? '' : 'WHERE '.$this->translate_condition($condition, $params));
 		return $where_clause;
 	}
 
@@ -639,10 +639,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			$parent = $record[LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID];
 			$cat = $this->record_to_publication_category($record);
-			$siblings = & $cats[$parent];
+			$siblings = $cats[$parent];
 			$siblings[] = $cat;
 		}
-		return $this->get_publication_category_tree($root_category_id, & $cats);
+		return $this->get_publication_category_tree($root_category_id, $cats);
 	}
 
 	function retrieve_learning_object_publication_category($id)
@@ -856,7 +856,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$params = array ();
 			if (isset ($condition))
 			{
-				$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+				$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 			}
 			$orderBy[] = Course :: PROPERTY_NAME;
 			$orderDir[] = SORT_ASC;
@@ -948,7 +948,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 
 		/*
@@ -1416,7 +1416,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 
 		/*
@@ -1452,7 +1452,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 		if (isset ($conditions))
 		{
-			$query .= ' WHERE '.$this->translate_condition($conditions, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($conditions, $params, true);
 		}
 
 		/*
@@ -1595,7 +1595,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return 1;
 	}
 
-	private function get_publication_category_tree($parent, & $categories)
+	private function get_publication_category_tree($parent, $categories)
 	{
 		$subtree = array ();
 		foreach ($categories[$parent] as $child)
@@ -1603,7 +1603,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$id = $child->get_id();
 			$ar = array ();
 			$ar['obj'] = $child;
-			$ar['sub'] = $this->get_publication_category_tree($id, & $categories);
+			$ar['sub'] = $this->get_publication_category_tree($id, $categories);
 			$subtree[$id] = $ar;
 		}
 		return $subtree;
@@ -1914,19 +1914,19 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof AggregateCondition)
 		{
-			return $this->translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties);
+			return $this->translate_aggregate_condition($condition, $params, $prefix_learning_object_properties);
 		}
 		elseif ($condition instanceof InCondition)
 		{
-			return $this->translate_in_condition($condition, & $params, $prefix_learning_object_properties);
+			return $this->translate_in_condition($condition, $params, $prefix_learning_object_properties);
 		}
 		elseif ($condition instanceof Condition)
 		{
-			return $this->translate_simple_condition($condition, & $params, $prefix_learning_object_properties);
+			return $this->translate_simple_condition($condition, $params, $prefix_learning_object_properties);
 		}
 		else
 		{
@@ -1944,14 +1944,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_aggregate_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof AndCondition)
 		{
 			$cond = array ();
 			foreach ($condition->get_conditions() as $c)
 			{
-				$cond[] = $this->translate_condition($c, & $params, $prefix_learning_object_properties);
+				$cond[] = $this->translate_condition($c, $params, $prefix_learning_object_properties);
 			}
 			return '('.implode(' AND ', $cond).')';
 		}
@@ -1960,13 +1960,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$cond = array ();
 			foreach ($condition->get_conditions() as $c)
 			{
-				$cond[] = $this->translate_condition($c, & $params, $prefix_learning_object_properties);
+				$cond[] = $this->translate_condition($c, $params, $prefix_learning_object_properties);
 			}
 			return '('.implode(' OR ', $cond).')';
 		}
 		elseif ($condition instanceof NotCondition)
 		{
-			return 'NOT ('.$this->translate_condition($condition->get_condition(), & $params, $prefix_learning_object_properties) . ')';
+			return 'NOT ('.$this->translate_condition($condition->get_condition(), $params, $prefix_learning_object_properties) . ')';
 		}
 		else
 		{
@@ -1984,7 +1984,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_in_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_in_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof InCondition)
 		{
@@ -2016,7 +2016,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_simple_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_simple_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof EqualityCondition)
 		{

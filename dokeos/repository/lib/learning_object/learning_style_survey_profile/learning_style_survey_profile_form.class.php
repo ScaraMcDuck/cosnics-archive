@@ -129,7 +129,7 @@ class LearningStyleSurveyProfileForm extends LearningObjectForm
 		$profile = $this->get_learning_object();
 		$metadata_fields = $profile->get_survey()->get_additional_survey_parameters();
 		$new_metadata = array();
-		foreach ($metadata_fields as $name => & $help)
+		foreach ($metadata_fields as $name => $help)
 		{
 			$value = $this->metadata_elements[$name]->exportValue();
 			if (!empty($value))

@@ -23,8 +23,8 @@ class Page_LocationOldVersion extends HTML_QuickForm_Page
 		$this->applyFilter('old_version_path', 'trim');
 		$this->addRule('old_version_path', get_lang('ThisFieldIsRequired'), 'required');
 		$this->addRule('old_version_path', get_lang('BadUpdatePath'), 'callback', 'check_update_path');
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 	}

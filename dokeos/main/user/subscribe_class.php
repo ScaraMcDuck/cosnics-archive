@@ -160,7 +160,7 @@ function reg_filter($class_id)
 }
 // Build search-form
 $form = new FormValidator('search_class', 'get','','',null,false);
-$renderer = & $form->defaultRenderer();
+$renderer = $form->defaultRenderer();
 $renderer->setElementTemplate('<span>{element}</span> ');
 $form->add_textfield('keyword', '', false);
 $form->addElement('submit', 'submit', get_lang('SearchButton'));

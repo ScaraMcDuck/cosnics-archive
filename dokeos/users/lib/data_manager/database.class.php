@@ -39,7 +39,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 	 */
 	function initialize()
 	{
-		$this->repoDM = & RepositoryDataManager :: get_instance();
+		$this->repoDM = RepositoryDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseUsersDatamanager','debug')));
 		$this->prefix = 'user_';
@@ -351,7 +351,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$query = 'SELECT COUNT('.$this->escape_column_name(User :: PROPERTY_USER_ID).') FROM '.$this->escape_table_name('user').' AS '. self :: ALIAS_USER_TABLE;
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
@@ -367,7 +367,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 		/*
 		 * Always respect display order as a last resort.
@@ -425,7 +425,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if(is_array($condition))
 		{
@@ -440,15 +440,15 @@ class DatabaseUsersDataManager extends UsersDataManager
 		}
 		if ($condition instanceof AggregateCondition)
 		{
-			return $this->translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties);
+			return $this->translate_aggregate_condition($condition, $params, $prefix_learning_object_properties);
 		}
 		elseif ($condition instanceof InCondition)
 		{
-			return $this->translate_in_condition($condition, & $params, $prefix_learning_object_properties);
+			return $this->translate_in_condition($condition, $params, $prefix_learning_object_properties);
 		}
 		elseif ($condition instanceof Condition)
 		{
-			return $this->translate_simple_condition($condition, & $params, $prefix_learning_object_properties);
+			return $this->translate_simple_condition($condition, $params, $prefix_learning_object_properties);
 		}
 		else
 		{
@@ -466,14 +466,14 @@ class DatabaseUsersDataManager extends UsersDataManager
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_aggregate_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof AndCondition)
 		{
 			$cond = array ();
 			foreach ($condition->get_conditions() as $c)
 			{
-				$cond[] = $this->translate_condition($c, & $params, $prefix_learning_object_properties);
+				$cond[] = $this->translate_condition($c, $params, $prefix_learning_object_properties);
 			}
 			return '('.implode(' AND ', $cond).')';
 		}
@@ -482,13 +482,13 @@ class DatabaseUsersDataManager extends UsersDataManager
 			$cond = array ();
 			foreach ($condition->get_conditions() as $c)
 			{
-				$cond[] = $this->translate_condition($c, & $params, $prefix_learning_object_properties);
+				$cond[] = $this->translate_condition($c, $params, $prefix_learning_object_properties);
 			}
 			return '('.implode(' OR ', $cond).')';
 		}
 		elseif ($condition instanceof NotCondition)
 		{
-			return 'NOT ('.$this->translate_condition($condition->get_condition(), & $params, $prefix_learning_object_properties) . ')';
+			return 'NOT ('.$this->translate_condition($condition->get_condition(), $params, $prefix_learning_object_properties) . ')';
 		}
 		else
 		{
@@ -506,7 +506,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_in_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_in_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof InCondition)
 		{
@@ -538,7 +538,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_simple_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_simple_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof EqualityCondition)
 		{

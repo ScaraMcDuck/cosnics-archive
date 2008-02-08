@@ -103,7 +103,7 @@ class Resource
 	/**
 	 * Checks if this resource links to a given resource
 	 */
-	function links_to(& $resource)
+	function links_to($resource)
 	{
 		if (is_array($this->linked_resources[$resource->get_type()]))
 		{

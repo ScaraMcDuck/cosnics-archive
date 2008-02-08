@@ -182,7 +182,7 @@ class SortableTable extends HTML_Table
 			$query_vars_exclude = array_diff($query_vars, $query_vars_needed);
 			$params['excludeVars'] = $query_vars_exclude;
 			$params['extraVars'] = $this->additional_parameters;
-			$this->pager = & Pager :: factory($params);
+			$this->pager = Pager :: factory($params);
 		}
 		return $this->pager;
 	}

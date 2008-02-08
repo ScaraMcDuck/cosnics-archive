@@ -10,7 +10,7 @@ class AnswerOrderingLearningStyleSurveyModel extends LearningStyleSurveyModel
 {
 	const SEPARATOR = '|';
 	
-	function calculate_result(& $result, & $answer_data, $profile, $section, $question)
+	function calculate_result($result, $answer_data, $profile, $section, $question)
 	{
 		$answers = $question->get_question_answers();
 		foreach ($answers as $answer)
@@ -22,7 +22,7 @@ class AnswerOrderingLearningStyleSurveyModel extends LearningStyleSurveyModel
 		}
 	}
 	
-	function format_answer(& $answer_data, $profile, $section, $question)
+	function format_answer($answer_data, $profile, $section, $question)
 	{
 		$answers = $question->get_question_answers();
 		$order = array();
@@ -40,7 +40,7 @@ class AnswerOrderingLearningStyleSurveyModel extends LearningStyleSurveyModel
 		return $answers_html;
 	}
 	
-	function format_question($survey, $section, $question, & $categories)
+	function format_question($survey, $section, $question, $categories)
 	{
 		$html = '<div class="learning-style-survey-question-text">'
 			. $question->get_description()

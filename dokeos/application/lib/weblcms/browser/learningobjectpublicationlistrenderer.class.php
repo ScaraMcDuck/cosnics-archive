@@ -293,10 +293,10 @@ abstract class LearningObjectPublicationListRenderer
 			if(count($attachments)>0)
 			{
 				$html[] = '<ul class="attachments_list">';
-				RepositoryUtilities :: order_learning_objects_by_title(& $attachments);
+				RepositoryUtilities :: order_learning_objects_by_title($attachments);
 				foreach ($attachments as $attachment)
 				{
-					$disp = LearningObjectDisplay :: factory(& $attachment);
+					$disp = LearningObjectDisplay :: factory($attachment);
 					$html[] = '<li><img src="'.api_get_path(WEB_CODE_PATH).'/img/treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 				}
 				$html[] = '</ul>';

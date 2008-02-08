@@ -77,7 +77,7 @@ if (api_get_user_id())
 		}
 	}
 
-	$tree = get_tree(0, & $categories);
+	$tree = get_tree(0, $categories);
 }
 else
 {
@@ -89,22 +89,22 @@ echo '<?xml version="1.0" encoding="iso-8859-1"?>', "\n", '<tree>', "\n";
 
 if (isset($tree))
 {
-	dump_tree($tree, & $objects_by_cat);
+	dump_tree($tree, $objects_by_cat);
 }
 
 echo '</tree>';
 
-function get_tree($index, & $flat_tree)
+function get_tree($index, $flat_tree)
 {
 	$tree = array ();
 	foreach ($flat_tree[$index] as $child)
 	{
-		$tree[] = array ('obj' => $child, 'sub' => get_tree($child->get_id(), & $flat_tree));
+		$tree[] = array ('obj' => $child, 'sub' => get_tree($child->get_id(), $flat_tree));
 	}
 	return $tree;
 }
 
-function dump_tree($tree, & $objects)
+function dump_tree($tree, $objects)
 {
 	if (!count($tree))
 	{
@@ -112,13 +112,13 @@ function dump_tree($tree, & $objects)
 	}
 	foreach ($tree as $node)
 	{
-		if (!contains_results($node, & $objects))
+		if (!contains_results($node, $objects))
 		{
 			continue;
 		}
 		$id = $node['obj']->get_id();
 		echo '<node id="', $id, '" class="type_category unlinked" title="', htmlentities($node['obj']->get_title()), '">', "\n";
-		dump_tree($node['sub'], & $objects);
+		dump_tree($node['sub'], $objects);
 		foreach ($objects[$id] as $lo)
 		{
 			$id = $lo->get_id();
@@ -129,7 +129,7 @@ function dump_tree($tree, & $objects)
 	}
 }
 
-function contains_results($node, & $objects)
+function contains_results($node, $objects)
 {
 	if (count($objects[$node['obj']->get_id()]))
 	{
@@ -137,7 +137,7 @@ function contains_results($node, & $objects)
 	}
 	foreach ($node['sub'] as $child)
 	{
-		if (contains_results($child, & $objects))
+		if (contains_results($child, $objects))
 		{
 			return true;
 		}

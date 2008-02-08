@@ -230,7 +230,7 @@ function get_config_param($param,$path)
 $GLOBALS['clarolineRepositorySys'] = dirname(__FILE__) . '/../';
 
 // Create a new wizard
-$wizard = & new HTML_QuickForm_Controller('regWizard', true);
+$wizard = new HTML_QuickForm_Controller('regWizard', true);
 
 // The default values for installation
 $defaults = array ();

@@ -85,7 +85,7 @@ class PsychePolygon {
 	 * @param array $options An associative array of options. Available options
 	 *                       can be found in $DEFAULT_OPTIONS (see source code).
 	 */
-	function __construct (& $titles, & $data, $min_value = 0, $max_value = 100,
+	function __construct ($titles, $data, $min_value = 0, $max_value = 100,
 	$options = array()) {
 		if (!extension_loaded('gd')) {
 			die(get_class() . ' requires that GD be enabled');
@@ -308,7 +308,7 @@ class PsychePolygon {
 		ob_end_clean();
 	}
 
-	private function measure_string (& $str) {
+	private function measure_string ($str) {
 		$bbox = imagettfbbox(
 			$this->options['font_size'], 0, $this->font_file, $str);
 		return array(

@@ -55,7 +55,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 
 			if (count($versions) >= 2)
 			{
-				RepositoryUtilities :: order_learning_objects_by_id_desc(& $versions);
+				RepositoryUtilities :: order_learning_objects_by_id_desc($versions);
 				foreach ($versions as $version)
 				{
 					$version_entry = array();

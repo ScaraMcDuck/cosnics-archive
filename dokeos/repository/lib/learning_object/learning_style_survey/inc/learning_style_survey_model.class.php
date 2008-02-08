@@ -14,11 +14,11 @@ abstract class LearningStyleSurveyModel
 	
 	private static $type2class;
 	
-	abstract function calculate_result(& $result, & $answer_data, $profile, $section, $question);
+	abstract function calculate_result($result, $answer_data, $profile, $section, $question);
 	
-	abstract function format_answer(& $answer_data, $profile, $section, $question);
+	abstract function format_answer($answer_data, $profile, $section, $question);
 	
-	abstract function format_question($survey, $section, $question, & $categories);
+	abstract function format_question($survey, $section, $question, $categories);
 	
 	abstract function create_user_answer_element($name, $profile, $section, $question);
 	
@@ -28,12 +28,12 @@ abstract class LearningStyleSurveyModel
 	
 	abstract function get_additional_parameters();
 	
-	function get_additional_result_html($profile, & $result, & $answer_data)
+	function get_additional_result_html($profile, $result, $answer_data)
 	{
 		return '';
 	}
 	
-	function format_category_name($id, & $categories)
+	function format_category_name($id, $categories)
 	{
 		if (isset($id) && array_key_exists($id, $categories))
 		{

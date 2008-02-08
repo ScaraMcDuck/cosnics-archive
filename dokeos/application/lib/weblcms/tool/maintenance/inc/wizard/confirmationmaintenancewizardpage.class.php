@@ -37,8 +37,8 @@ class ConfirmationMaintenanceWizardPage extends MaintenanceWizardPage
 		$this->addElement('static','','',$this->message);
 		$this->addElement('checkbox', 'confirm',' ', get_lang('Confirm'));
 		$this->addRule('confirm',get_lang('ThisFieldIsRequired'),'required');
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 		$this->_formBuilt = true;

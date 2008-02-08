@@ -378,7 +378,7 @@ function api_session_start($already_installed = true)
 	{
 		include_once (api_get_library_path().'/session_handler.class.php');
 		$session_handler = new session_handler();
-		@ session_set_save_handler(array (& $session_handler, 'open'), array (& $session_handler, 'close'), array (& $session_handler, 'read'), array (& $session_handler, 'write'), array (& $session_handler, 'destroy'), array (& $session_handler, 'garbage'));
+		@ session_set_save_handler(array ($session_handler, 'open'), array ($session_handler, 'close'), array ($session_handler, 'read'), array ($session_handler, 'write'), array ($session_handler, 'destroy'), array ($session_handler, 'garbage'));
 	}
 	session_name('dk_sid');
 	session_start();

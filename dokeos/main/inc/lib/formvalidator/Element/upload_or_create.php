@@ -96,7 +96,7 @@ class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
 	/**
 	 * accept renderer
 	 */
-	function accept(& $renderer, $required = false, $error = null)
+	function accept($renderer, $required = false, $error = null)
 	{
 		$renderer->renderElement($this, $required, $error);
 	}

@@ -29,8 +29,8 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 			}
 		}
 		$this->addFormRule(array('PublicationSelectionMaintenanceWizardPage','count_selected_publications'));
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 		$this->_formBuilt = true;

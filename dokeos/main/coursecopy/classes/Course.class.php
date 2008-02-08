@@ -50,7 +50,7 @@ class Course
 	/**
 	 * Check if a resource links to the given resource
 	 */
-	function is_linked_resource(& $resource_to_check)
+	function is_linked_resource($resource_to_check)
 	{
 		foreach($this->resources as $type => $resources)
 		{
@@ -74,7 +74,7 @@ class Course
 	/**
 	 * Add a resource from a given type to this course
 	 */
-	function add_resource(& $resource)
+	function add_resource($resource)
 	{
 		$this->resources[$resource->get_type()][$resource->get_id()] = $resource;
 	}

@@ -44,14 +44,14 @@ class SettingsInstallWizardPage extends InstallWizardPage
 		$this->addRule('organization_name', get_lang('ThisFieldIsRequired'), 'required');
 		$this->addElement('text', 'organization_url', get_lang("InstituteURL"), array ('size' => '40'));
 		$this->addRule('organization_url', get_lang('ThisFieldIsRequired'), 'required');
-		$encrypt[] = & $this->createElement('radio', 'encrypt_password', null, get_lang('Yes'), 1);
-		$encrypt[] = & $this->createElement('radio', 'encrypt_password', null, get_lang('No'), 0);
+		$encrypt[] = $this->createElement('radio', 'encrypt_password', null, get_lang('Yes'), 1);
+		$encrypt[] = $this->createElement('radio', 'encrypt_password', null, get_lang('No'), 0);
 		$this->addGroup($encrypt, 'encrypt_password', get_lang("EncryptUserPass"), '&nbsp;', false);
-		$self_reg[] = & $this->createElement('radio', 'self_reg', null, get_lang('Yes'), 1);
-		$self_reg[] = & $this->createElement('radio', 'self_reg', null, get_lang('No'), 0);
+		$self_reg[] = $this->createElement('radio', 'self_reg', null, get_lang('Yes'), 1);
+		$self_reg[] = $this->createElement('radio', 'self_reg', null, get_lang('No'), 0);
 		$this->addGroup($self_reg, 'self_reg', get_lang("AllowSelfReg"), '&nbsp;', false);
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 		$this->set_form_defaults();
@@ -60,7 +60,7 @@ class SettingsInstallWizardPage extends InstallWizardPage
 	function set_form_defaults()
 	{
 		$defaults = array();
-		$defaults['platform_language'] = $this->exportValue('platform_language');
+		$defaults['platform_language'] = $this->controller->exportValue('page_language', 'install_language');
 		$urlAppendPath = str_replace('/install/index.php', '', $_SERVER['PHP_SELF']);
 		$defaults['platform_url'] = 'http://'.$_SERVER['HTTP_HOST'].$urlAppendPath.'/';
 		$defaults['admin_email'] = $_SERVER['SERVER_ADMIN'];
