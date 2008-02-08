@@ -35,8 +35,8 @@ class Page_ConfirmSettings extends HTML_QuickForm_Page
 		$this->addElement('static', 'confirm_platform_name', get_lang("CampusName"), $values['platform_name']);
 		$this->addElement('static', 'confirm_organization_name', get_lang("InstituteShortName"), $values['organization_name']);
 		$this->addElement('static', 'confirm_organization_url', get_lang("InstituteURL"), $values['organization_url']);
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 	}

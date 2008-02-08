@@ -70,7 +70,7 @@ class FormValidator extends HTML_QuickForm
 		$this->registerRule('disk_quota',null,'HTML_QuickForm_Rule_DiskQuota',$dir.'Rule/DiskQuota.php');
 
 		// Modify the default templates
-		$renderer = & $this->defaultRenderer();
+		$renderer = $this->defaultRenderer();
 		$form_template = <<<EOT
 
 <form {attributes}>

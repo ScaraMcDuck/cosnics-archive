@@ -69,7 +69,7 @@ $tool_name = get_lang('DokeosConfigSettings');
 if ($_GET['category'] and $_GET['category'] <> "Plugins" and $_GET['category'] <> "stylesheets")
 {
 	$form = new FormValidator('settings', 'post', 'settings.php?category='.$_GET['category']);
-	$renderer = & $form->defaultRenderer();
+	$renderer = $form->defaultRenderer();
 	$renderer->setHeaderTemplate('<div class="settingtitle">{header}</div>'."\n");
 	$renderer->setElementTemplate('<div class="settingcomment">{label}</div>'."\n".'<div class="settingvalue">{element}</div>'."\n");
 	$sqlsettings = "SELECT DISTINCT * FROM $table_settings_current WHERE category='".$_GET['category']."' GROUP BY variable ORDER BY id ASC";
@@ -103,7 +103,7 @@ if ($_GET['category'] and $_GET['category'] <> "Plugins" and $_GET['category'] <
 				$group = array ();
 				while ($rowkeys = mysql_fetch_array($result))
 				{
-					$element = & $form->createElement('checkbox', $rowkeys['subkey'], '', get_lang($rowkeys['subkeytext']));
+					$element = $form->createElement('checkbox', $rowkeys['subkey'], '', get_lang($rowkeys['subkeytext']));
 					if ($rowkeys['selected_value'] == 'true' && ! $form->isSubmitted())
 					{
 						$element->setChecked(true);

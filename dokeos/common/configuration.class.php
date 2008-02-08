@@ -29,7 +29,7 @@ class Configuration
 	{
 		global $configuration;
 		require_once dirname(__FILE__).'/../conf/configuration.php';
-		$this->params = & $configuration;
+		$this->params = $configuration;
 	}
 
 	/**

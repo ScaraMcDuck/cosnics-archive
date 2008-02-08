@@ -12,10 +12,10 @@ class ActionDisplay extends HTML_QuickForm_Action_Display
 	 * Displays the HTML-code of a page in the wizard
 	 * @param HTML_Quickform_Page $page The page to display.
 	 */
-	function _renderForm(& $current_page)
+	function _renderForm($current_page)
 	{
 		global $dokeos_version, $installType, $updateFromVersion;
-		$renderer = & $current_page->defaultRenderer();
+		$renderer = $current_page->defaultRenderer();
 		$current_page->setRequiredNote('<font color="#FF0000">*</font> '.get_lang('ThisFieldIsRequired'));
 		$element_template = "\n\t<tr>\n\t\t<td valign=\"top\"><!-- BEGIN required --><span style=\"color: #ff0000\">*</span> <!-- END required -->{label}</td>\n\t\t<td valign=\"top\" align=\"left\"><!-- BEGIN error --><span style=\"color: #ff0000;font-size:x-small;margin:2px;\">{error}</span><br /><!-- END error -->\t{element}</td>\n\t</tr>";
 		$renderer->setElementTemplate($element_template);

@@ -20,9 +20,9 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 	function initialize()
 	{
 		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
-		$this->repoDM = & RepositoryDataManager :: get_instance();
-		$this->userDM = & UsersDataManager :: get_instance();
-		$this->adminDM = & AdminDataManager :: get_instance();
+		$this->repoDM = RepositoryDataManager :: get_instance();
+		$this->userDM = UsersDataManager :: get_instance();
+		$this->adminDM = AdminDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseProfilerDatamanager','debug')));
 		if (PEAR::isError($this)) {
@@ -96,19 +96,19 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof AggregateCondition)
 		{
-			return $this->translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties);
+			return $this->translate_aggregate_condition($condition, $params, $prefix_learning_object_properties);
 		}
 		elseif ($condition instanceof InCondition)
 		{
-			return $this->translate_in_condition($condition, & $params, $prefix_learning_object_properties);
+			return $this->translate_in_condition($condition, $params, $prefix_learning_object_properties);
 		}
 		elseif ($condition instanceof Condition)
 		{
-			return $this->translate_simple_condition($condition, & $params, $prefix_learning_object_properties);
+			return $this->translate_simple_condition($condition, $params, $prefix_learning_object_properties);
 		}
 		else
 		{
@@ -126,14 +126,14 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_aggregate_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof AndCondition)
 		{
 			$cond = array ();
 			foreach ($condition->get_conditions() as $c)
 			{
-				$cond[] = $this->translate_condition($c, & $params, $prefix_learning_object_properties);
+				$cond[] = $this->translate_condition($c, $params, $prefix_learning_object_properties);
 			}
 			return '('.implode(' AND ', $cond).')';
 		}
@@ -142,13 +142,13 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 			$cond = array ();
 			foreach ($condition->get_conditions() as $c)
 			{
-				$cond[] = $this->translate_condition($c, & $params, $prefix_learning_object_properties);
+				$cond[] = $this->translate_condition($c, $params, $prefix_learning_object_properties);
 			}
 			return '('.implode(' OR ', $cond).')';
 		}
 		elseif ($condition instanceof NotCondition)
 		{
-			return 'NOT ('.$this->translate_condition($condition->get_condition(), & $params, $prefix_learning_object_properties) . ')';
+			return 'NOT ('.$this->translate_condition($condition->get_condition(), $params, $prefix_learning_object_properties) . ')';
 		}
 		else
 		{
@@ -166,7 +166,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_in_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_in_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof InCondition)
 		{
@@ -198,7 +198,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_simple_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_simple_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof EqualityCondition)
 		{
@@ -281,7 +281,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		if (isset ($condition))
 		{
 			// TODO: SCARA - Exclude category from learning object count
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -317,7 +317,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 		$order = array ();
 

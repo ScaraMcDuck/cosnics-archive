@@ -65,7 +65,7 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 	 * @return array A tree structured representation of the given list of
 	 * categories
 	 */
-	private function convert_tree(& $tree)
+	private function convert_tree($tree)
 	{
 		$new_tree = array ();
 		$i = 0;
@@ -74,7 +74,7 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 			$node = array ();
 			$obj = $oldNode['obj'];
 			$node['url'] = $this->get_category_url($obj->get_id());
-			$node['sub'] = $this->convert_tree(& $oldNode['sub']);
+			$node['sub'] = $this->convert_tree($oldNode['sub']);
 			$node['count'] = 0;
 			$node['count'] = $this->browser->get_publication_count($obj->get_id());
 			foreach($node['sub'] as $index => $subnode)

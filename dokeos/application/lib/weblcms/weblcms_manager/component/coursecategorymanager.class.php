@@ -101,7 +101,7 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 			$search['title'] = get_lang('SearchResults');
 			$search['url'] = $search_url;
 			$search['class'] = 'search_results';
-			$extra_items[] = & $search;
+			$extra_items[] = $search;
 		}
 		else
 		{

@@ -93,7 +93,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		return array_keys($this->get_active_elements());
 	}
 
-	function exportValue(& $submitValues, $assoc = false)
+	function exportValue($submitValues, $assoc = false)
 	{
 		if ($assoc)
 		{
@@ -122,7 +122,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$this->_elements[0]->setValue($serialized);
 	}
 
-	private static function remove_tabs(& $string, $key)
+	private static function remove_tabs($string, $key)
 	{
 		$string = str_replace("\t", ' ', $string);
 	}
@@ -218,7 +218,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		return implode("\n", $html);
 	}
 
-	function accept(& $renderer, $required = false, $error = null)
+	function accept($renderer, $required = false, $error = null)
 	{
 		$renderer->renderElement($this, $required, $error);
 	}

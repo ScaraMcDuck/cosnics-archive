@@ -25,7 +25,7 @@ class LanguageInstallWizardPage extends InstallWizardPage
 	{
 		$this->_formBuilt = true;
 		$this->addElement('select', 'install_language', get_lang('InstallationLanguage'), $this->get_language_folder_list());
-		$buttons[0] = & HTML_QuickForm :: createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
+		$buttons[0] = HTML_QuickForm :: createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
 		$this->addGroup($buttons, 'buttons', '', '&nbsp', false);
 		$this->setDefaultAction('next');
 		$this->set_form_defaults();

@@ -38,7 +38,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	 */
 	function initialize()
 	{
-		$this->repoDM = & RepositoryDataManager :: get_instance();
+		$this->repoDM = RepositoryDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string_user'),array('debug'=>3,'debug_handler'=>array('ClassGroupDatamanager','debug')));
 		$this->prefix = $conf->get_parameter('database', 'table_name_prefix');
@@ -321,7 +321,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 		$query = 'SELECT COUNT('.$this->escape_column_name(User :: PROPERTY_USER_ID).') FROM '.$this->escape_table_name('user').' AS '. self :: ALIAS_USER_TABLE;
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
@@ -337,7 +337,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 		/*
 		 * Always respect display order as a last resort.
@@ -395,7 +395,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if(is_array($condition))
 		{
@@ -410,15 +410,15 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 		}
 		if ($condition instanceof AggregateCondition)
 		{
-			return $this->translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties);
+			return $this->translate_aggregate_condition($condition, $params, $prefix_learning_object_properties);
 		}
 		elseif ($condition instanceof InCondition)
 		{
-			return $this->translate_in_condition($condition, & $params, $prefix_learning_object_properties);
+			return $this->translate_in_condition($condition, $params, $prefix_learning_object_properties);
 		}
 		elseif ($condition instanceof Condition)
 		{
-			return $this->translate_simple_condition($condition, & $params, $prefix_learning_object_properties);
+			return $this->translate_simple_condition($condition, $params, $prefix_learning_object_properties);
 		}
 		else
 		{
@@ -436,14 +436,14 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_aggregate_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof AndCondition)
 		{
 			$cond = array ();
 			foreach ($condition->get_conditions() as $c)
 			{
-				$cond[] = $this->translate_condition($c, & $params, $prefix_learning_object_properties);
+				$cond[] = $this->translate_condition($c, $params, $prefix_learning_object_properties);
 			}
 			return '('.implode(' AND ', $cond).')';
 		}
@@ -452,13 +452,13 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 			$cond = array ();
 			foreach ($condition->get_conditions() as $c)
 			{
-				$cond[] = $this->translate_condition($c, & $params, $prefix_learning_object_properties);
+				$cond[] = $this->translate_condition($c, $params, $prefix_learning_object_properties);
 			}
 			return '('.implode(' OR ', $cond).')';
 		}
 		elseif ($condition instanceof NotCondition)
 		{
-			return 'NOT ('.$this->translate_condition($condition->get_condition(), & $params, $prefix_learning_object_properties) . ')';
+			return 'NOT ('.$this->translate_condition($condition->get_condition(), $params, $prefix_learning_object_properties) . ')';
 		}
 		else
 		{
@@ -476,7 +476,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_in_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_in_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof InCondition)
 		{
@@ -508,7 +508,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_simple_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_simple_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof EqualityCondition)
 		{

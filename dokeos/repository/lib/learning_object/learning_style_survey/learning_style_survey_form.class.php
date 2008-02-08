@@ -95,7 +95,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 				if ($this->validate())
 				{
 					$step = 3;
-					foreach ($this->category_elements as & $els)
+					foreach ($this->category_elements as $els)
 					{
 						foreach ($els as $id => $el)
 						{
@@ -103,7 +103,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 						}
 					}
 					$this->question_count_elements = array();
-					foreach ($this->section_elements as $section => & $els)
+					foreach ($this->section_elements as $section => $els)
 					{
 						foreach ($els as $id => $el)
 						{
@@ -124,11 +124,11 @@ class LearningStyleSurveyForm extends LearningObjectForm
 							$elem->freeze();
 						}
 						$categories = array();
-						foreach ($this->category_elements as $category => & $els)
+						foreach ($this->category_elements as $category => $els)
 						{
 							$categories[$category] = $els['name']->exportValue();
 						}
-						foreach ($this->section_elements as $section => & $els)
+						foreach ($this->section_elements as $section => $els)
 						{
 							foreach (range(1, intval($this->question_count_elements[$section]->exportValue())) as $question)
 							{
@@ -158,9 +158,9 @@ class LearningStyleSurveyForm extends LearningObjectForm
 						{
 							$step = 5;
 							$this->answer_elements = array();
-							foreach ($this->section_elements as $section => & $els)
+							foreach ($this->section_elements as $section => $els)
 							{
-								foreach ($this->question_elements[$section] as $question => & $data)
+								foreach ($this->question_elements[$section] as $question => $data)
 								{
 									$data['text']->freeze();
 									$answer_count = $data['answers'];
@@ -269,7 +269,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 		$return_value = parent :: create_learning_object();
 		// Categories
 		$categories = array();
-		foreach ($this->category_elements as $cid => & $els)
+		foreach ($this->category_elements as $cid => $els)
 		{
 			$name = $els['name']->exportValue();
 			$description = $els['description']->exportValue();
@@ -282,7 +282,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 			$categories[$cid] = $category->get_id();
 		}
 		// Sections
-		foreach ($this->section_elements as $sid => & $els)
+		foreach ($this->section_elements as $sid => $els)
 		{
 			$name = $els['title']->exportValue();
 			$description = $els['introduction']->exportValue();
@@ -293,7 +293,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 			$section->set_parent_id($survey->get_id());
 			$section->create();
 			// Questions in section
-			foreach ($this->question_elements[$sid] as $qid => & $data)
+			foreach ($this->question_elements[$sid] as $qid => $data)
 			{
 				$question_text = $data['text']->exportValue();
 				$question = new LearningStyleSurveyQuestion();
@@ -314,7 +314,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 				if ($survey_type == LearningStyleSurveyModel :: TYPE_ANSWER_ORDERING)
 				{
 					// Answers to question
-					foreach ($this->answer_elements[$sid][$qid] as $aid => & $adata) {
+					foreach ($this->answer_elements[$sid][$qid] as $aid => $adata) {
 						$answer_text = $adata['text']->exportValue();
 						$answer = new LearningStyleSurveyAnswer();
 						$answer->set_owner_id($this->get_owner_id());

@@ -164,7 +164,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if(is_array($condition))
 		{
@@ -179,15 +179,15 @@ class DatabaseAdminDataManager extends AdminDataManager
 		}
 		if ($condition instanceof AggregateCondition)
 		{
-			return $this->translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties);
+			return $this->translate_aggregate_condition($condition, $params, $prefix_learning_object_properties);
 		}
 		elseif ($condition instanceof InCondition)
 		{
-			return $this->translate_in_condition($condition, & $params, $prefix_learning_object_properties);
+			return $this->translate_in_condition($condition, $params, $prefix_learning_object_properties);
 		}
 		elseif ($condition instanceof Condition)
 		{
-			return $this->translate_simple_condition($condition, & $params, $prefix_learning_object_properties);
+			return $this->translate_simple_condition($condition, $params, $prefix_learning_object_properties);
 		}
 		else
 		{
@@ -205,14 +205,14 @@ class DatabaseAdminDataManager extends AdminDataManager
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_aggregate_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_aggregate_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof AndCondition)
 		{
 			$cond = array ();
 			foreach ($condition->get_conditions() as $c)
 			{
-				$cond[] = $this->translate_condition($c, & $params, $prefix_learning_object_properties);
+				$cond[] = $this->translate_condition($c, $params, $prefix_learning_object_properties);
 			}
 			return '('.implode(' AND ', $cond).')';
 		}
@@ -221,13 +221,13 @@ class DatabaseAdminDataManager extends AdminDataManager
 			$cond = array ();
 			foreach ($condition->get_conditions() as $c)
 			{
-				$cond[] = $this->translate_condition($c, & $params, $prefix_learning_object_properties);
+				$cond[] = $this->translate_condition($c, $params, $prefix_learning_object_properties);
 			}
 			return '('.implode(' OR ', $cond).')';
 		}
 		elseif ($condition instanceof NotCondition)
 		{
-			return 'NOT ('.$this->translate_condition($condition->get_condition(), & $params, $prefix_learning_object_properties) . ')';
+			return 'NOT ('.$this->translate_condition($condition->get_condition(), $params, $prefix_learning_object_properties) . ')';
 		}
 		else
 		{
@@ -245,7 +245,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_in_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_in_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof InCondition)
 		{
@@ -277,7 +277,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 	 *                                                   to avoid collisions.
 	 * @return string The WHERE clause.
 	 */
-	function translate_simple_condition($condition, & $params, $prefix_learning_object_properties = false)
+	function translate_simple_condition($condition, $params, $prefix_learning_object_properties = false)
 	{
 		if ($condition instanceof EqualityCondition)
 		{
@@ -383,7 +383,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 		/*
 		 * Always respect alphabetical order as a last resort.
@@ -419,7 +419,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 		/*
 		 * Always respect alphabetical order as a last resort.

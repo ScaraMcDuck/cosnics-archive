@@ -34,8 +34,8 @@ class ApplicationInstallWizardPage extends InstallWizardPage
 			$appDefaults[$checkbox_name] = '1';
 		}
 		
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 		$this->setDefaults($appDefaults);

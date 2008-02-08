@@ -26,9 +26,9 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 
 	function initialize()
 	{
-		$this->repoDM = & RepositoryDataManager :: get_instance();
-		$this->userDM = & UsersDataManager :: get_instance();
-		$this->adminDM = & AdminDataManager :: get_instance();
+		$this->repoDM = RepositoryDataManager :: get_instance();
+		$this->userDM = UsersDataManager :: get_instance();
+		$this->adminDM = AdminDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabasePortfolioDataManager','debug')));
 		$this->prefix = 'myportfolio_';
@@ -272,7 +272,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		if (isset ($condition))
 		{
 			// TODO: SCARA - Exclude category from learning object count
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -324,7 +324,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
 		}
 		$order = array ();
 

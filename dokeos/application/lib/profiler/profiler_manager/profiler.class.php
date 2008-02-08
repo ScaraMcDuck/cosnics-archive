@@ -164,7 +164,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		$create['title'] = get_lang('Publish');
 		$create['url'] = $this->get_profile_creation_url();
 		$create['class'] = 'create';
-		$extra_items[] = & $create;
+		$extra_items[] = $create;
 
 		if ($this->get_search_validate())
 		{
@@ -174,7 +174,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 			$search['title'] = get_lang('SearchResults');
 			$search['url'] = $search_url;
 			$search['class'] = 'search_results';
-			$extra_items[] = & $search;
+			$extra_items[] = $search;
 		}
 		else
 		{
@@ -184,7 +184,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		$temp_replacement = '__FIRSTLETTER__';
 		$url_format = $this->get_url(array (Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES, Profiler :: PARAM_FIRSTLETTER => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
-		$user_menu = new ProfilerMenu($this->firstletter, $url_format, & $extra_items);
+		$user_menu = new ProfilerMenu($this->firstletter, $url_format, $extra_items);
 
 		if ($this->get_action() == self :: ACTION_CREATE_PUBLICATION)
 		{

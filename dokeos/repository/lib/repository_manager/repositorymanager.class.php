@@ -813,7 +813,7 @@ class RepositoryManager
 	function get_category_condition($category_id)
 	{
 		$subcat = array ();
-		$this->get_category_id_list($category_id, & $this->get_category_menu(true)->_menu, & $subcat);
+		$this->get_category_id_list($category_id, $this->get_category_menu(true)->_menu, $subcat);
 		$conditions = array ();
 		foreach ($subcat as $cat)
 		{
@@ -843,7 +843,7 @@ class RepositoryManager
 	/**
 	 * @todo Move this to LearningObjectCategoryMenu or something.
 	 */
-	private function get_category_id_list($category_id, & $node, & $subcat)
+	private function get_category_id_list($category_id, $node, $subcat)
 	{
 		// XXX: Make sure we don't mess up things with trash here.
 		foreach ($node as $id => $subnode)
@@ -854,7 +854,7 @@ class RepositoryManager
 			{
 				$subcat[] = $id;
 			}
-			$this->get_category_id_list($new_id, & $subnode['sub'], & $subcat);
+			$this->get_category_id_list($new_id, $subnode['sub'], $subcat);
 		}
 	}
 
@@ -926,10 +926,10 @@ class RepositoryManager
 			{
 				$trash['class'] = 'trash';
 			}
-			$extra_items[] = & $pub;
-			$extra_items[] = & $trash;
-			$extra_items[] = & $create;
-			$extra_items[] = & $quota;
+			$extra_items[] = $pub;
+			$extra_items[] = $trash;
+			$extra_items[] = $create;
+			$extra_items[] = $quota;
 			if ($force_search || $this->get_search_form()->validate())
 			{
 				// $search_url = $this->get_url();
@@ -938,13 +938,13 @@ class RepositoryManager
 				$search['title'] = get_lang('SearchResults');
 				$search['url'] = $search_url;
 				$search['class'] = 'search_results';
-				$extra_items[] = & $search;
+				$extra_items[] = $search;
 			}
 			else
 			{
 				$search_url = null;
 			}
-			$this->category_menu = new LearningObjectCategoryMenu($this->get_user_id(), $category, $url_format, & $extra_items);
+			$this->category_menu = new LearningObjectCategoryMenu($this->get_user_id(), $category, $url_format, $extra_items);
 			if (isset ($search_url))
 			{
 				$this->category_menu->forceCurrentUrl($search_url, true);

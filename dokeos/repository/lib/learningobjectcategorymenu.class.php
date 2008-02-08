@@ -39,11 +39,11 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function LearningObjectCategoryMenu($owner, $current_category, $url_format = '?category=%s', & $extra_items = array())
+	function LearningObjectCategoryMenu($owner, $current_category, $url_format = '?category=%s', $extra_items = array())
 	{
 		$this->owner = $owner;
 		$this->urlFmt = $url_format;
-		$menu = $this->get_menu_items(& $extra_items);
+		$menu = $this->get_menu_items($extra_items);
 		parent :: __construct($menu);
 		$this->array_renderer = new HTML_Menu_ArrayRenderer();
 		$this->forceCurrentUrl($this->get_category_url($current_category));
@@ -56,7 +56,7 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	 *               is the structure needed by PEAR::HTML_Menu, on which this
 	 *               class is based.
 	 */
-	private function get_menu_items(& $extra_items)
+	private function get_menu_items($extra_items)
 	{
 		$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->owner);
 		$datamanager = RepositoryDataManager :: get_instance();
@@ -66,7 +66,7 @@ class LearningObjectCategoryMenu extends HTML_Menu
 		{
 			$categories[$category->get_parent_id()][] = $category;
 		}
-		$menu = & $this->get_sub_menu_items($categories, 0);
+		$menu = $this->get_sub_menu_items($categories, 0);
 		if (count($extra_items))
 		{
 			$menu = array_merge($menu, $extra_items);
@@ -118,7 +118,7 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	{
 		$this->render($this->array_renderer, 'urhere');
 		$breadcrumbs = $this->array_renderer->toArray();
-		foreach ($breadcrumbs as & $crumb)
+		foreach ($breadcrumbs as $crumb)
 		{
 			$crumb['name'] = $crumb['title'];
 			unset($crumb['title']);

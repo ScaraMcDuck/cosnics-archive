@@ -188,7 +188,7 @@ function reg_filter($user_id)
 }
 // Build search-form
 $form = new FormValidator('search_user', 'get','','',null,false);
-$renderer = & $form->defaultRenderer();
+$renderer = $form->defaultRenderer();
 $renderer->setElementTemplate('<span>{element}</span> ');
 $form->add_textfield('keyword', '', false);
 $form->addElement('submit', 'submit', get_lang('SearchButton'));

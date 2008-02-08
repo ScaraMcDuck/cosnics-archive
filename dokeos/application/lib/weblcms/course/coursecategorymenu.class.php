@@ -59,7 +59,7 @@ class CourseCategoryMenu extends HTML_Menu
 		{
 			$categories[$category->get_parent()][] = $category;
 		}
-		$menu = & $this->get_sub_menu_items($categories, 0);
+		$menu = $this->get_sub_menu_items($categories, 0);
 		if (count($extra_items))
 		{
 			$menu = array_merge($menu, $extra_items);

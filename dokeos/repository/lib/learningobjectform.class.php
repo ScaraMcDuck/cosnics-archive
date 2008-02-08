@@ -174,7 +174,7 @@ abstract class LearningObjectForm extends FormValidator
 	 */
 	private function build_version_compare_form()
 	{
-		$renderer = & $this->defaultRenderer();
+		$renderer = $this->defaultRenderer();
 		$form_template = <<<EOT
 
 <form {attributes}>
@@ -264,7 +264,7 @@ EOT;
 			if ($this->form_type != self :: TYPE_REPLY)
 			{
 				$attached_objects = $object->get_attached_learning_objects();
-				$attachments = RepositoryUtilities :: learning_objects_for_element_finder(& $attached_objects);
+				$attachments = RepositoryUtilities :: learning_objects_for_element_finder($attached_objects);
 			}
 			else
 			{

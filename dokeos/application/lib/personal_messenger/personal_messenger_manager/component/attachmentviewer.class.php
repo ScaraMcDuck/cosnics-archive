@@ -60,7 +60,7 @@ class PersonalMessengerAttachmentViewerComponent extends PersonalMessengerCompon
 			$attachments = $message->get_attached_learning_objects();
 			if (count($attachments))
 			{
-				RepositoryUtilities :: order_learning_objects_by_title(& $attachments);
+				RepositoryUtilities :: order_learning_objects_by_title($attachments);
 				foreach ($attachments as $attachment)
 				{
 					$display = LearningObjectDisplay :: factory($attachment);
