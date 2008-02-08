@@ -117,7 +117,7 @@ $adm = AdminDataManager :: get_instance();
 //	$plugins[$key][]=$row['selected_value'];
 //}
 
-$server_type = $adm->retrieve_setting_from_variable_name('server_type', 'admin');
+$server_type = $adm->retrieve_setting_from_variable_name('server_type');
 if($server_type->get_value() == 'test')
 {
 	/*

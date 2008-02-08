@@ -23,6 +23,7 @@ class ApplicationInstallWizardPage extends InstallWizardPage
 	
 	function buildForm()
 	{
+		$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
 		$this->_formBuilt = true;
 
 		$applications = Application::load_all();

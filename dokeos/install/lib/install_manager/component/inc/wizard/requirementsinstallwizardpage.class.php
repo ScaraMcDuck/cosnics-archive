@@ -91,6 +91,8 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 	function buildForm()
 	{
 		global $updateFromVersion;
+		$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
+		
 		$this->_formBuilt = true;
 		$this->addElement('radio', 'installation_type', get_lang('InstallType'), get_lang('NewInstall'), 'new');
 		//$update_group[0] = & HTML_QuickForm :: createElement('radio', 'installation_type', null, 'Update from Dokeos '.implode('|', $updateFromVersion).'', 'update');

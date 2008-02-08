@@ -34,5 +34,11 @@ abstract class InstallWizardPage extends HTML_QuickForm_Page
 	{
 		return $this->parent;
 	}
+	
+	function set_lang($lang)
+	{
+		global $language_interface;
+		$language_interface = $lang;
+	}
 }
 ?>
