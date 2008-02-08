@@ -43,7 +43,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		mysql_select_db($values['database_name']) or die('SELECT DB ERROR '.mysql_error());
 		
 		require_once('../admin/install/admin_installer.class.php');
-		$installer = new AdminInstaller();
+		$installer = new AdminInstaller($values);
 		$result = $installer->install();
 		$this->process_result('admin', $result);
 		unset($installer);		
@@ -101,6 +101,10 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		// 6. Create additional folders
 		$folder_creation = $this->create_folders();
 		$this->process_result('folder', $folder_creation);
+		
+		// 7. If all goes well we now show the link to the portal
+		$message = '<a href="../index.php">' . get_lang('GoToYourNewlyCreatedPortal') . '</a>';
+		$this->process_result('Finished', array('success' => true, 'message' => $message));
 		
 		// Display the page footer
 		$this->parent->display_footer();

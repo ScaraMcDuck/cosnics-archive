@@ -20,6 +20,7 @@ class LicenseInstallWizardPage extends InstallWizardPage
 	}
 	function buildForm()
 	{
+		$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
 		$this->_formBuilt = true;
 		$this->addElement('textarea', 'license', get_lang('Licence'), array ('cols' => 80, 'rows' => 20, 'disabled' => 'disabled', 'style'=>'background-color: white;'));
 		$this->addElement('checkbox','license_accept','',get_lang('IAccept'));

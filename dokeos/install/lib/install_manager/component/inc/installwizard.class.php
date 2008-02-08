@@ -32,6 +32,8 @@ class InstallWizard extends HTML_QuickForm_Controller
 	 */
 	function InstallWizard($parent)
 	{
+		global $language_interface;
+		//$language_interface = 'english';
 		$this->parent = $parent;
 		parent :: HTML_QuickForm_Controller('InstallWizard', true);
 		$this->addPage(new LanguageInstallWizardPage('page_language',$this->parent));

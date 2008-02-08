@@ -20,6 +20,7 @@ class SettingsInstallWizardPage extends InstallWizardPage
 	}
 	function buildForm()
 	{
+		$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
 		$this->_formBuilt = true;
 		$this->addElement('select', 'platform_language', get_lang("MainLang"), $this->get_language_folder_list());
 		$this->addElement('text', 'platform_url', get_lang("DokeosURL"), array ('size' => '40'));
@@ -28,8 +29,8 @@ class SettingsInstallWizardPage extends InstallWizardPage
 		$this->addElement('text', 'admin_email', get_lang("AdminEmail"), array ('size' => '40'));
 		$this->addRule('admin_email', get_lang('ThisFieldIsRequired'), 'required');
 		$this->addRule('admin_email', get_lang('WrongEmail'), 'email');
-		$this->addElement('text', 'admin_lastname', get_lang("AdminLastName"), array ('size' => '40'));
-		$this->addRule('admin_lastname', get_lang('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', 'admin_surname', get_lang("AdminLastName"), array ('size' => '40'));
+		$this->addRule('admin_surname', get_lang('ThisFieldIsRequired'), 'required');
 		$this->addElement('text', 'admin_firstname', get_lang("AdminFirstName"), array ('size' => '40'));
 		$this->addRule('admin_firstname', get_lang('ThisFieldIsRequired'), 'required');
 		$this->addElement('text', 'admin_phone', get_lang("AdminPhone"), array ('size' => '40'));
@@ -68,7 +69,7 @@ class SettingsInstallWizardPage extends InstallWizardPage
 		{
 			$defaults['admin_email'] .= '.localdomain';
 		}
-		$defaults['admin_lastname'] = 'Doe';
+		$defaults['admin_surname'] = 'Doe';
 		$defaults['admin_firstname'] = mt_rand(0,1)?'John':'Jane';
 		$defaults['admin_username'] = 'admin';
 		$defaults['admin_password'] = substr(md5(time()), 0, 8);

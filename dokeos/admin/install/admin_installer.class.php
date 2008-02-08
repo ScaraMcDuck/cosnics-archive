@@ -15,11 +15,13 @@ require_once dirname(__FILE__).'/../../common/filesystem/filesystem.class.php';
 class AdminInstaller extends Installer
 {
 	private $adm;
+	private $values;
 	/**
 	 * Constructor
 	 */
-    function AdminInstaller()
+    function AdminInstaller($values)
     {
+    	$this->values = $values;
     	$this->adm = AdminDataManager :: get_instance();
     }
 	/**
@@ -121,70 +123,35 @@ class AdminInstaller extends Installer
 	
 	function create_settings()
 	{
+		$values = $this->values;
+		
 		$settings = array();
+		$settings[] = array('admin', 'site_name', $values['platform_name']);
+		$settings[] = array('admin', 'server_type', 'production');
+		$settings[] = array('admin', 'platform_language', $values['platform_language']);
 		
-		$setting = new Setting();
-		$setting->set_application('admin');
-		$setting->set_variable('site_name');
-		$setting->set_value('Dokeos');
-		$settings[] = $setting;
+		$settings[] = array('admin', 'institution', $values['organization_name']);
+		$settings[] = array('admin', 'institution_url', $values['organization_url']);
 		
-		$setting = new Setting();
-		$setting->set_application('admin');
-		$setting->set_variable('server_type');
-		$setting->set_value('production');
-		$settings[] = $setting;
+		$settings[] = array('admin', 'show_administrator_data', 'true');
+		$settings[] = array('admin', 'administrator_firstname', $values['admin_firstname']);
+		$settings[] = array('admin', 'administrator_surname', $values['admin_surname']);
+		$settings[] = array('admin', 'administrator_email', $values['admin_email']);
+		$settings[] = array('admin', 'administrator_telephone', $values['admin_phone']);
 		
-		$setting = new Setting();
-		$setting->set_application('admin');
-		$setting->set_variable('platform_language');
-		$setting->set_value('english');
-		$settings[] = $setting;
+		$settings[] = array('admin', 'stylesheets', 'dokeos');
 		
-		$setting = new Setting();
-		$setting->set_application('admin');
-		$setting->set_variable('institution');
-		$setting->set_value('Dokeos Company');
-		$settings[] = $setting;
-		
-		$setting = new Setting();
-		$setting->set_application('admin');
-		$setting->set_variable('institution_url');
-		$setting->set_value('http://www.dokeos.com');
-		$settings[] = $setting;
-		
-		$setting = new Setting();
-		$setting->set_application('admin');
-		$setting->set_variable('show_administrator_data');
-		$setting->set_value('true');
-		$settings[] = $setting;
-		
-		$setting = new Setting();
-		$setting->set_application('admin');
-		$setting->set_variable('administrator_email');
-		$setting->set_value('info@dokeos.com');
-		$settings[] = $setting;
-		
-		$setting = new Setting();
-		$setting->set_application('admin');
-		$setting->set_variable('administrator_surname');
-		$setting->set_value('Admin');
-		$settings[] = $setting;
-		
-		$setting = new Setting();
-		$setting->set_application('admin');
-		$setting->set_variable('administrator_firstname');
-		$setting->set_value('Mr.');
-		$settings[] = $setting;
-		
-		$setting = new Setting();
-		$setting->set_application('admin');
-		$setting->set_variable('stylesheets');
-		$settings[] = $setting;
+		$settings[] = array('admin', 'allow_password_retrieval', $values['encrypt_password']);
+		$settings[] = array('admin', 'allow_registration', $values['self_reg']);
 		
 		foreach ($settings as $setting)
 		{
-			if (!$setting->create())
+			$setting_object = new Setting();
+			$setting_object->set_application($setting[0]);
+			$setting_object->set_variable($setting[1]);
+			$setting_object->set_value($setting[2]);
+			
+			if (!$setting_object->create())
 			{
 				return false;
 			}

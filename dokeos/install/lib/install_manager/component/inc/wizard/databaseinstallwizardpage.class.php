@@ -22,6 +22,7 @@ class DatabaseInstallWizardPage extends InstallWizardPage
 	}
 	function buildForm()
 	{
+		$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
 		$this->_formBuilt = true;
 		$this->addElement('text', 'database_host', get_lang("DBHost"), array ('size' => '40'));
 		$this->addRule('database_host', 'ThisFieldIsRequired', 'required');
