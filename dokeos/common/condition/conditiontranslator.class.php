@@ -94,7 +94,9 @@ class ConditionTranslator
 		}
 		elseif ($condition instanceof NotCondition)
 		{
-			$this->strings[] = 'NOT ('.$this->translate($condition->get_condition()) . ')';
+			$this->strings[] = 'NOT (';
+			$this->translate($condition->get_condition());
+			$this->strings[] = ')';
 		}
 		else
 		{
