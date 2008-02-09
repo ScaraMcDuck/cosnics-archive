@@ -159,8 +159,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
-		$params = $translator->get_parameters();
 		
 		/*
 		 * Always respect display order as a last resort.
@@ -253,9 +253,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
 			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
-		$params = $translator->get_parameters();
 
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);

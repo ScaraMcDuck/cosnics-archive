@@ -9,6 +9,7 @@
 require_once dirname(__FILE__).'/../portfoliodatamanager.class.php';
 require_once dirname(__FILE__).'/../portfoliopublication.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/configuration.class.php';
+require_once dirname(__FILE__).'/../../../../common/condition/conditiontranslator.class.php';
 
 
 class DatabasePortfolioDataManager extends PortfolioDataManager
@@ -271,8 +272,10 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			// TODO: SCARA - Exclude category from learning object count
-			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -324,8 +327,12 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
+		
 		$order = array ();
 
 		for ($i = 0; $i < count($orderBy); $i ++)

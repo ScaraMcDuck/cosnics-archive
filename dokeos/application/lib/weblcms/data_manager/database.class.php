@@ -18,6 +18,7 @@ require_once dirname(__FILE__).'/../course/course.class.php';
 require_once dirname(__FILE__).'/../course/coursecategory.class.php';
 require_once dirname(__FILE__).'/../course/courseusercategory.class.php';
 require_once dirname(__FILE__).'/../course/courseuserrelation.class.php';
+require_once dirname(__FILE__).'/../../../../common/condition/conditiontranslator.class.php';
 
 class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 {
@@ -80,12 +81,15 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function retrieve_max_sort_value($table, $column, $condition = null)
 	{
-		$params = array ();
 		$query .= 'SELECT MAX('. $this->escape_column_name($column) .') as '. self :: ALIAS_MAX_SORT .' FROM'. $this->escape_table_name($table);
 
+		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -262,7 +266,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		/*
 		 * Add WHERE clause (also extends $params).
 		 */
-		$query .= ' ' . $this->get_publication_retrieval_where_clause($learning_object, $course, $categories, $users, $groups, $condition, $params);
+		$translator = $this->get_publication_retrieval_where_clause($learning_object, $course, $categories, $users, $groups, $condition, $params);
+		if (!is_null($translator))
+		{
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
 		/*
 		 * Always respect display order as a last resort.
 		 */
@@ -308,7 +317,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 		$params = array ();
 		$query = 'SELECT COUNT('.($allowDuplicates ? '*' : 'DISTINCT p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID)).') FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
-		$query .= ' ' . $this->get_publication_retrieval_where_clause($learning_object, $course, $categories, $users, $groups, $condition, $params);
+		
+		$translator = $this->get_publication_retrieval_where_clause($learning_object, $course, $categories, $users, $groups, $condition, $params);
+		if (!is_null($translator))
+		{
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -317,12 +333,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function count_courses($condition = null)
 	{
-		$params = array ();
 		$query = 'SELECT COUNT('.$this->escape_column_name(Course :: PROPERTY_ID).') FROM '.$this->escape_table_name('course');
+		
+		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
+		
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -331,12 +352,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function count_course_categories($condition = null)
 	{
-		$params = array ();
 		$query = 'SELECT COUNT('.$this->escape_column_name(CourseCategory :: PROPERTY_ID).') FROM '.$this->escape_table_name('course_category');
+
+		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
+
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -345,12 +371,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function count_user_courses($condition = null)
 	{
-		$params = array ();
 		$query = 'SELECT COUNT('.$this->escape_table_name('course').'.'.$this->escape_column_name(Course :: PROPERTY_ID).') FROM '.$this->escape_table_name('course');
 		$query .= 'JOIN '.$this->escape_table_name('course_rel_user').' ON '.$this->escape_table_name('course').'.'.$this->escape_column_name(Course :: PROPERTY_ID).'='.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('course_code');
+
+		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -361,12 +391,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function count_course_user_categories($conditions = null)
 	{
-		$params = array ();
 		$query = 'SELECT COUNT('.$this->escape_column_name(CourseUserCategory :: PROPERTY_ID).') FROM '.$this->escape_table_name('course_user_category');
+
+		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
+
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -386,12 +421,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function count_course_user_relations($conditions = null)
 	{
-		$params = array ();
 		$query = 'SELECT COUNT('.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).') FROM '.$this->escape_table_name('course_rel_user');
+
+		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
+
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -474,8 +514,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$cond[] = $condition;
 		}
 		$condition = new AndCondition($cond);
-		$where_clause = (is_null($condition) ? '' : 'WHERE '.$this->translate_condition($condition, $params));
-		return $where_clause;
+		
+		if (!is_null($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			return $translator;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	function get_next_learning_object_publication_id()
@@ -856,8 +905,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$params = array ();
 			if (isset ($condition))
 			{
-				$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
+				$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+				$translator->translate($condition);
+				$query .= $translator->render_query();
+				$params = $translator->get_parameters();
 			}
+
 			$orderBy[] = Course :: PROPERTY_NAME;
 			$orderDir[] = SORT_ASC;
 			$order = array ();
@@ -948,7 +1001,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
 
 		/*
@@ -1413,10 +1469,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function retrieve_course_categories($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('course_category');
+		
 		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, $params, true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
 
 		/*
@@ -1449,10 +1509,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$query = 'SELECT * FROM '. $this->escape_table_name('course_user_category');
 
 		$params = array ();
-
-		if (isset ($conditions))
+		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($conditions, $params, true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
 
 		/*
@@ -1903,184 +1965,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$statement = $this->connection->prepare($sql);
 		$res = $statement->execute(array($group->get_id(),$user->get_user_id()));
 		return $res->numRows() > 0;
-	}
-	/**
-	 * Translates any type of condition to a SQL WHERE clause.
-	 * @param Condition $condition The Condition object.
-	 * @param array $params A reference to the query's parameter list.
-	 * @param boolean $prefix_learning_object_properties Whether or not to
-	 *                                                   prefix learning
-	 *                                                   object properties
-	 *                                                   to avoid collisions.
-	 * @return string The WHERE clause.
-	 */
-	function translate_condition($condition, $params, $prefix_learning_object_properties = false)
-	{
-		if ($condition instanceof AggregateCondition)
-		{
-			return $this->translate_aggregate_condition($condition, $params, $prefix_learning_object_properties);
-		}
-		elseif ($condition instanceof InCondition)
-		{
-			return $this->translate_in_condition($condition, $params, $prefix_learning_object_properties);
-		}
-		elseif ($condition instanceof Condition)
-		{
-			return $this->translate_simple_condition($condition, $params, $prefix_learning_object_properties);
-		}
-		else
-		{
-			die('Need a Condition instance');
-		}
-	}
-
-	/**
-	 * Translates an aggregate condition to a SQL WHERE clause.
-	 * @param AggregateCondition $condition The AggregateCondition object.
-	 * @param array $params A reference to the query's parameter list.
-	 * @param boolean $prefix_learning_object_properties Whether or not to
-	 *                                                   prefix learning
-	 *                                                   object properties
-	 *                                                   to avoid collisions.
-	 * @return string The WHERE clause.
-	 */
-	function translate_aggregate_condition($condition, $params, $prefix_learning_object_properties = false)
-	{
-		if ($condition instanceof AndCondition)
-		{
-			$cond = array ();
-			foreach ($condition->get_conditions() as $c)
-			{
-				$cond[] = $this->translate_condition($c, $params, $prefix_learning_object_properties);
-			}
-			return '('.implode(' AND ', $cond).')';
-		}
-		elseif ($condition instanceof OrCondition)
-		{
-			$cond = array ();
-			foreach ($condition->get_conditions() as $c)
-			{
-				$cond[] = $this->translate_condition($c, $params, $prefix_learning_object_properties);
-			}
-			return '('.implode(' OR ', $cond).')';
-		}
-		elseif ($condition instanceof NotCondition)
-		{
-			return 'NOT ('.$this->translate_condition($condition->get_condition(), $params, $prefix_learning_object_properties) . ')';
-		}
-		else
-		{
-			die('Cannot translate aggregate condition');
-		}
-	}
-
-	/**
-	 * Translates an in condition to a SQL WHERE clause.
-	 * @param InCondition $condition The InCondition object.
-	 * @param array $params A reference to the query's parameter list.
-	 * @param boolean $prefix_learning_object_properties Whether or not to
-	 *                                                   prefix learning
-	 *                                                   object properties
-	 *                                                   to avoid collisions.
-	 * @return string The WHERE clause.
-	 */
-	function translate_in_condition($condition, $params, $prefix_learning_object_properties = false)
-	{
-		if ($condition instanceof InCondition)
-		{
-			$name = $condition->get_name();
-			$where_clause = $this->escape_column_name($name).' IN (';
-			$values = $condition->get_values();
-			$placeholders = array();
-			foreach($values as $index => $value)
-			{
-				$placeholders[] = '?';
-				$params[] = $value;
-			}
-			$where_clause .= implode(',',$placeholders).')';
-			return $where_clause;
-		}
-		else
-		{
-			die('Cannot translate in condition');
-		}
-	}
-
-	/**
-	 * Translates a simple condition to a SQL WHERE clause.
-	 * @param Condition $condition The Condition object.
-	 * @param array $params A reference to the query's parameter list.
-	 * @param boolean $prefix_learning_object_properties Whether or not to
-	 *                                                   prefix learning
-	 *                                                   object properties
-	 *                                                   to avoid collisions.
-	 * @return string The WHERE clause.
-	 */
-	function translate_simple_condition($condition, $params, $prefix_learning_object_properties = false)
-	{
-		if ($condition instanceof EqualityCondition)
-		{
-			$name = $condition->get_name();
-			$value = $condition->get_value();
-			if (self :: is_date_column($name))
-			{
-				$value = self :: to_db_date($value);
-			}
-			if (is_null($value))
-			{
-				return $this->escape_column_name($name).' IS NULL';
-			}
-			$params[] = $value;
-			return $this->escape_column_name($name, $prefix_learning_object_properties).' = ?';
-		}
-		elseif ($condition instanceof LikeCondition)
-		{
-			$name = $condition->get_name();
-			$value = $condition->get_value();
-			if (is_null($value))
-			{
-				return $this->escape_column_name($name).' IS NULL';
-			}
-			$params[] = $value;
-			return $this->escape_column_name($name, $prefix_learning_object_properties).' LIKE ?';
-		}
-		elseif ($condition instanceof InequalityCondition)
-		{
-			$name = $condition->get_name();
-			$value = $condition->get_value();
-			if (self :: is_date_column($name))
-			{
-				$value = self :: to_db_date($value);
-			}
-			$params[] = $value;
-			switch ($condition->get_operator())
-			{
-				case InequalityCondition :: GREATER_THAN :
-					$operator = '>';
-					break;
-				case InequalityCondition :: GREATER_THAN_OR_EQUAL :
-					$operator = '>=';
-					break;
-				case InequalityCondition :: LESS_THAN :
-					$operator = '<';
-					break;
-				case InequalityCondition :: LESS_THAN_OR_EQUAL :
-					$operator = '<=';
-					break;
-				default :
-					die('Unknown operator for inequality condition');
-			}
-			return $this->escape_column_name($name, $prefix_learning_object_properties).' '.$operator.' ?';
-		}
-		elseif ($condition instanceof PatternMatchCondition)
-		{
-			$params[] = $this->translate_search_string($condition->get_pattern());
-			return $this->escape_column_name($condition->get_name(), $prefix_learning_object_properties).' LIKE ?';
-		}
-		else
-		{
-			die('Cannot translate condition');
-		}
 	}
 
 	function ExecuteQuery($sql)

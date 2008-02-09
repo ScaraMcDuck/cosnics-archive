@@ -100,13 +100,13 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$query = 'SELECT COUNT('.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('personal_messenger_publication');
 
 		$params = array ();
-		// TODO: Rework condition translation system and move to common folder
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
 			$translator->translate($condition);
 			// TODO: SCARA - Exclude category from learning object count
 			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
 
 		$sth = $this->connection->prepare($query);
@@ -150,15 +150,14 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$query .= $this->escape_table_name('personal_messenger_publication');
 
 		$params = array ();
-		// TODO: Rework condition translation system and move to common folder
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
 			$translator->translate($condition);
 			// TODO: SCARA - Exclude category from learning object count
 			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
-		$params = $translator->get_parameters();
 
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($translator->get_parameters());

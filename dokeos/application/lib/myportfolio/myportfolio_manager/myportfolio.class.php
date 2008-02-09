@@ -392,9 +392,9 @@ class MyPortfolio extends WebApplication
 		if($this->get_parameter(self::PARAM_ITEM)=="")
 		{
 			$pdm = PortfolioDataManager :: get_instance();
-			echo "this one?";
+			//echo "this one?";
 			$root=$pdm->get_root_element($this->user);
-			echo "no";
+			//echo "no";
 			return $root;
 		}
 		else return $this->get_parameter(self::PARAM_ITEM);

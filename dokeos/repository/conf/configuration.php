@@ -12,7 +12,7 @@ $configuration['general']['data_manager']
 	= 'Database';
 
 $configuration['database']['connection_string']
-	= 'mysql://root:root@localhost/lcms';
+	= 'mysql://root:@localhost/lcms';
 
 $configuration['general']['upload_path']
 	= dirname(__FILE__).'/../../files/repository';
