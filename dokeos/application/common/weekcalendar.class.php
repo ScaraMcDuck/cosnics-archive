@@ -139,9 +139,9 @@ class WeekCalendar extends CalendarTable
 		$navigation->updateCellAttributes(0,0,'style="text-align: left;"');
 		$navigation->updateCellAttributes(0,1,'style="text-align: center;"');
 		$navigation->updateCellAttributes(0,2,'style="text-align: right;"');
-		$navigation->setCellContents(0,0,'<a href="'.str_replace('-TIME-',$prev,$url_format).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/prev.png" style="vertical-align: middle;" alt="&lt;&lt;"/></a> ');
+		$navigation->setCellContents(0,0,'<a href="'.str_replace('-TIME-',$prev,$url_format).'"><img src="'.Path :: get_path(WEB_IMG_PATH).'prev.png" style="vertical-align: middle;" alt="&lt;&lt;"/></a> ');
 		$navigation->setCellContents(0,1,htmlentities(get_lang('Week')).' '.$week_number.' : '.date('l d M Y',$this->get_start_time()).' - '.date('l d M Y',strtotime('+6 Days',$this->get_start_time())));
-		$navigation->setCellContents(0,2,' <a href="'.str_replace('-TIME-',$next,$url_format).'"><img src="'.api_get_path(WEB_CODE_PATH).'/img/next.png" style="vertical-align: middle;" alt="&gt;&gt;"/></a> ');
+		$navigation->setCellContents(0,2,' <a href="'.str_replace('-TIME-',$next,$url_format).'"><img src="'.Path :: get_path(WEB_IMG_PATH).'next.png" style="vertical-align: middle;" alt="&gt;&gt;"/></a> ');
 		$this->navigation_html = $navigation->toHtml();
 	}
 	/**

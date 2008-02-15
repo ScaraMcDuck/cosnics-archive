@@ -6,8 +6,7 @@
  */
 require_once dirname(__FILE__).'/personalmessagepublication.class.php';
 require_once dirname(__FILE__).'/../../../users/lib/usersdatamanager.class.php';
-require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';
-require_once api_get_path(SYS_CODE_PATH).'/../plugin/html2text/class.html2text.inc';
+require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
 /**
  * This class represents a form to allow a user to publish a learning object.
  *
@@ -82,7 +81,7 @@ class PersonalMessagePublicationForm extends FormValidator
 			//print_r($recipients);
     	}
 
-		$url = api_get_path(WEB_PATH).'application/lib/personal_messenger/xml_feed.php';
+		$url = Path :: get_path(WEB_PATH).'application/lib/personal_messenger/xml_feed.php';
 		$locale = array ();
 		$locale['Display'] = get_lang('SelectRecipients');
 		$locale['Searching'] = get_lang('Searching');

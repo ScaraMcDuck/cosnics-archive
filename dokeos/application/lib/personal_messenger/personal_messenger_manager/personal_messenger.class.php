@@ -374,9 +374,9 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	/**
 	 * Gets the URL to the Dokeos claroline folder.
 	 */
-	function get_web_code_path()
+	function get_path($path_type)
 	{
-		return api_get_path(WEB_CODE_PATH);
+		return Path :: get_path($path_type);
 	}
 	/**
 	 * Wrapper for api_not_allowed().

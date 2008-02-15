@@ -65,7 +65,7 @@ class PersonalMessengerAttachmentViewerComponent extends PersonalMessengerCompon
 				{
 					$display = LearningObjectDisplay :: factory($attachment);
 					$html[] = $display->get_full_html();
-//					$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$attachment->get_icon_name().'.gif);">';
+//					$html[] = '<div class="learning_object" style="background-image: url('.$this->get_path(WEB_IMG_PATH).$attachment->get_icon_name().'.gif);">';
 //					$html[] = '<div class="title">'. $attachment->get_title() .'</div>';
 //					$html[] = $attachment->get_description();
 //					$html[] = '</div>';

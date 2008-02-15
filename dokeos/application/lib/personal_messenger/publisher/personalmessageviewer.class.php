@@ -26,13 +26,13 @@ class PersonalMessageViewer extends PesonalMessagePublisherComponent
 			$toolbar_data = array();
 			$toolbar_data[] = array(
 				'href' => $this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator', LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id())),
-				'img' => api_get_path(WEB_CODE_PATH).'img/publish.gif',
+				'img' => $this->get_path(WEB_IMG_PATH).'publish.gif',
 				'label' => get_lang('Publish'),
 				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 			);
 //			$toolbar_data[] = array(
 //				'href' => $this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator', LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id(), LearningObjectPublisher :: PARAM_EDIT => 1)),
-//				'img' => api_get_path(WEB_CODE_PATH).'img/editpublish.gif',
+//				'img' => $this->get_path(WEB_IMG_PATH).'img/editpublish.gif',
 //				'label' => get_lang('EditAndPublish'),
 //				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 //			);
