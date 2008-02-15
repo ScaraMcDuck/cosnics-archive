@@ -37,7 +37,7 @@
 ==============================================================================
 */ 
 api_use_lang_files('coursebackup');
-include ('../inc/claro_init_global.inc.php');
+include ('../inc/global.inc.php');
 include_once(api_get_library_path() . "/fileManage.lib.php");
 require_once ('classes/CourseBuilder.class.php');
 require_once ('classes/CourseRestorer.class.php');

@@ -36,7 +36,7 @@
 ==============================================================================
 */ 
 api_use_lang_files('coursebackup');
-include ('../inc/claro_init_global.inc.php');
+include ('../inc/global.inc.php');
 $nameTools = get_lang('RecycleCourse');
 Display::display_header($nameTools);
 require_once('classes/CourseBuilder.class.php');

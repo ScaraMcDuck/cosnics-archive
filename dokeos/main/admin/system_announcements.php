@@ -35,7 +35,7 @@
 */
 
 $cidReset = true;
-include ('../inc/claro_init_global.inc.php');
+include ('../inc/global.inc.php');
 api_use_lang_files('admin', 'agenda');
 $this_section=SECTION_PLATFORM_ADMIN;
 

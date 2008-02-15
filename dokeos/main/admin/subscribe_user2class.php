@@ -32,7 +32,7 @@ api_use_lang_files('admin');
 
 $cidReset = true;
 
-require ('../inc/claro_init_global.inc.php');
+require ('../inc/global.inc.php');
 require_once (api_get_library_path().'/classmanager.lib.php');
 api_protect_admin_script();
 $course = $_GET['course'];

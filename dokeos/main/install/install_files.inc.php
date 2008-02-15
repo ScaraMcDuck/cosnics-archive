@@ -42,7 +42,7 @@ function full_file_install($values)
 	
 	$footer  = '</div></div></div>'."\n";
 	$footer .= '<div class="clear">&nbsp;</div> <!-- \'clearing\' div to make sure that footer stays below the main and right column sections -->'."\n";
-	$footer .= '</div> <!-- end of #main" started at the end of claro_init_banner.inc.php -->'."\n";
+	$footer .= '</div> <!-- end of #main" started at the end of banner.inc.php -->'."\n";
 	$footer .= "\n";
 	$footer .= '<div id="footer"> <!-- start of #footer section -->'."\n";
 	$footer .= '&copy;&nbsp;2007-'. date('Y'). '&nbsp;Scaramanga Productions';

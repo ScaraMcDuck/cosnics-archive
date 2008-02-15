@@ -38,7 +38,7 @@ $uInfo = $_REQUEST['uInfo'];
 $view = $_REQUEST['view'];
 api_use_lang_files('tracking');
 
-include('../inc/claro_init_global.inc.php');
+include('../inc/global.inc.php');
 
 // Roles and rights system
 $user_id = api_get_user_id();

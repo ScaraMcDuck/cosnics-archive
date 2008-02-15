@@ -2,7 +2,7 @@
 /**
  * @package users.lib.usermanager
  */
-require_once dirname(__FILE__).'/../../../main/inc/claro_init_global.inc.php';
+require_once dirname(__FILE__).'/../../../main/inc/global.inc.php';
 require_once dirname(__FILE__).'/../../../main/inc/lib/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../userquota.class.php';

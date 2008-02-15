@@ -32,7 +32,7 @@
 */
 api_use_lang_files('help');
 $helpName=$_GET['open'];
-include('../inc/claro_init_global.inc.php');
+include('../inc/global.inc.php');
 $language_code = Database::get_language_isocode($language_interface);
 header('Content-Type: text/html; charset='. $charset);
 ?>

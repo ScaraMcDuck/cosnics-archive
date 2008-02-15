@@ -33,7 +33,7 @@
 
 api_use_lang_files('admin');
 $cidReset = true;
-require ('../inc/claro_init_global.inc.php');
+require ('../inc/global.inc.php');
 require_once (api_get_library_path().'/sortabletable.class.php');
 require_once (api_get_library_path().'/formvalidator/FormValidator.class.php');
 $this_section = SECTION_PLATFORM_ADMIN;

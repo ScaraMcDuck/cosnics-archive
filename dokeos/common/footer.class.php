@@ -39,7 +39,7 @@ class Footer
 	function toHtml()
 	{
 		$output[] = '    <div class="clear">&nbsp;</div> <!-- "clearing" div to make sure that footer stays below the main and right column sections -->';
-		$output[] = '   </div> <!-- end of #main" started at the end of claro_init_banner.inc.php -->';
+		$output[] = '   </div> <!-- end of #main" started at the end of banner.inc.php -->';
 		$output[] = '   <div id="footer"> <!-- start of #footer section -->';
 		$output[] = '    <div class="copyright">';
 		$output[] = '     '.get_lang('Platform').'&nbsp;<a href="http://www.dokeos.com">'.$this->version.'</a>&nbsp;&copy;&nbsp;'.date('Y');

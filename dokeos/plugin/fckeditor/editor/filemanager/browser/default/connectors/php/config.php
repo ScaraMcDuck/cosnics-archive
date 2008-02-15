@@ -28,7 +28,7 @@ global $Config ;
 $Config['Enabled'] = true ;
 
 //Dokeos config
-require_once(dirname(__FILE__).'/../../../../../../../../main/inc/claro_init_global.inc.php');
+require_once(dirname(__FILE__).'/../../../../../../../../main/inc/global.inc.php');
 
 // Path to user files relative to the document root.
 $Config['UserFilesPath'] = api_get_path(REL_CLARO_PATH).'../files/fckeditor/'.$_uid.'/'; ;

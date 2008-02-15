@@ -14,7 +14,7 @@ foreach(explode('_',$application_key) as $key => $value)
 $this_section = $application_key;
 $application_path = dirname(__FILE__).'/application/lib/'.$application_key.'/'.$application_key.'_manager/'.$application_key.'.class.php';
 
-require_once dirname(__FILE__).'/main/inc/claro_init_global.inc.php';
+require_once dirname(__FILE__).'/main/inc/global.inc.php';
 require_once dirname(__FILE__).'/main/inc/lib/text.lib.php';
 require_once dirname(__FILE__).'/users/lib/usermanager/usermanager.class.php';
 

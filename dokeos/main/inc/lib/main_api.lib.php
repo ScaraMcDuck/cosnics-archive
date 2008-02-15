@@ -33,7 +33,7 @@
 ==============================================================================
 *	This is a code library for Dokeos.
 *	It is included by default in every Dokeos file
-*	(through including the claro_init_global.inc.php)
+*	(through including the global.inc.php)
 *
 *	@package dokeos.library
 ==============================================================================
@@ -141,7 +141,7 @@ function api_protect_course_script()
 {
 	if (!isset ($_SESSION["_course"]))
 	{
-		include (api_get_include_path()."/claro_init_header.inc.php");
+		include (api_get_include_path()."/header.inc.php");
 		api_not_allowed();
 	}
 }
@@ -161,13 +161,13 @@ function api_protect_admin_script()
 		$usermgr = new UserManager($_SESSION['_uid']);
 		if (!$usermgr->get_user()->is_platform_admin())
 		{
-			include (api_get_include_path()."/claro_init_header.inc.php");
+			include (api_get_include_path()."/header.inc.php");
 			api_not_allowed();
 		}
 	}
 	else
 	{
-		include (api_get_include_path()."/claro_init_header.inc.php");
+		include (api_get_include_path()."/header.inc.php");
 		api_not_allowed();
 	}
 }
@@ -182,7 +182,7 @@ function api_block_anonymous_users()
 	$_uid = api_get_user_id();
 	if (!(isset ($_uid) && $_uid))
 	{
-		include (api_get_include_path()."/claro_init_header.inc.php");
+		include (api_get_include_path()."/header.inc.php");
 		api_not_allowed();
 	}
 }

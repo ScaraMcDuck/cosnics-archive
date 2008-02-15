@@ -39,7 +39,7 @@
 ==============================================================================
 */
 api_use_lang_files('course_info');
-include ('../inc/claro_init_global.inc.php');
+include ('../inc/global.inc.php');
 $this_section = SECTION_COURSES;
 
 /*

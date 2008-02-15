@@ -30,7 +30,7 @@
 *	@package dokeos.help
 ==============================================================================
 */
-require_once ('../inc/claro_init_global.inc.php');
+require_once ('../inc/global.inc.php');
 api_use_lang_files('help');
 require_once (api_get_library_path().'/formvalidator/FormValidator.class.php');
 require_once (api_get_library_path().'/formvalidator/Rule/HTML.php');

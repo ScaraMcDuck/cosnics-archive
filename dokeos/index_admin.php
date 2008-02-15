@@ -1,6 +1,6 @@
 <?php
 $this_section = 'platform_admin';
-require_once dirname(__FILE__).'/main/inc/claro_init_global.inc.php';
+require_once dirname(__FILE__).'/main/inc/global.inc.php';
 require_once dirname(__FILE__).'/main/inc/lib/text.lib.php';
 require_once dirname(__FILE__).'/admin/lib/admin_manager/admin.class.php';
 
