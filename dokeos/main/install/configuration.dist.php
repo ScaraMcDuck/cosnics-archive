@@ -37,35 +37,6 @@ install time.
 */
 
 //============================================================================
-//   MYSQL connection settings
-//============================================================================
-// Your MySQL server
-$dbHost         = '{DATABASE_HOST}';
-// Your MySQL username
-$dbLogin        = '{DATABASE_USER}';
-// Your MySQL password
-$dbPass         = '{DATABASE_PASSWORD}';
-
-//============================================================================
-//   Database settings
-//============================================================================
-// is tracking enabled?
-$is_trackingEnabled = '{TRACKING_ENABLED}';
-// prefix for course tables (IF NOT EMPTY, can be replaced by another prefix,
-// else leave empty)
-$courseTablePrefix      = '{COURSE_TABLE_PREFIX}';
-// separator between database and table name (DO NOT MODIFY THIS)
-$dbGlu                  = '{DATABASE_GLUE}';
-// prefix all created bases (for courses) with this string
-$dbNamePrefix           = '{DATABASE_PREFIX}';
-// main Dokeos database
-$mainDbName             = '{DATABASE_NAME}';
-// stats Dokeos database
-$statsDbName            = '{DATABASE_NAME}';
-// scorm Dokeos database
-$scormDbName            = '{DATABASE_NAME}';
-
-//============================================================================
 //   Directory settings
 //============================================================================
 // URL to the root of your Dokeos installation
@@ -76,67 +47,15 @@ $rootSys                     = dirname(__FILE__).'/../../../';
 $urlAppend                   = '{URL_APPEND_PATH}';
 // Directory of the Dokeos code
 $clarolineRepositoryAppend   = "main/";
-// Directory to store all course-related files
-$coursesRepositoryAppend     = "courses/";
-// Directory of the admin-area
-$rootAdminAppend             = "admin/";
 // Do not change the following values
 $clarolineRepositorySys      = $rootSys.$clarolineRepositoryAppend;
 $clarolineRepositoryWeb      = $rootWeb.$clarolineRepositoryAppend;
-$coursesRepositorySys        = $rootSys.$coursesRepositoryAppend;
-$coursesRepositoryWeb        = $rootWeb.$coursesRepositoryAppend;
-$rootAdminSys                = $clarolineRepositorySys.$rootAdminAppend;
-$rootAdminWeb                = $clarolineRepositoryWeb.$rootAdminAppend;
-// directory to store archived courses
-$archiveDirName              = "archive";
-// change this to a place out of web if you can
-$garbageRepositorySys        = '{GARBAGE_DIR}';
-// URL to your phpMyAdmin installation.
-// If not empty, a link will be available in the Platform Administration
-$phpMyAdminPath              = '';
-
-//============================================================================
-//   Login modules settings
-//============================================================================
-// For new login module
-// Uncomment these lines to activate ldap
-// $extAuthSource["ldap"]["login"]=$clarolineRepositorySys."auth/ldap/login.php";
-// $extAuthSource["ldap"]["newUser"]=$clarolineRepositorySys."auth/ldap/newUser.php";
-
-//============================================================================
-//   Language settings
-//============================================================================
-// Available Languages : look at the "lang" directory
-$platformLanguage   = '{PLATFORM_LANGUAGE}';
-$language           = $platformLanguage;
 
 //============================================================================
 //   Misc. settings
 //============================================================================
 // Dokeos version
 $dokeos_version   = '{DOKEOS_VERSION}';
-// Verbose backup
-$verboseBackup      = false;
 // security word for password recovery
 $security_key       = '{SECURITY_KEY}';
-// light grey
-$color1 = "#F5F5F5";
-// less light grey for bicolored tables, also used in forums, groups etc.
-$color2 = "#E6E6E6";
-// Settings for new and future features
-$userPasswordCrypted          = {ENCRYPT_PASSWORD};
-// You may have to restart your web server if you change this
-$storeSessionInDb             = false;
-
-//============================================================================
-//   Plugin settings
-//============================================================================
-// plugins arrays
-$plugins["main_menu"]        = array();
-$plugins["main_menu_logged"] = array();
-$plugins["banner"]           = array();
-// To load a new plugin, add a line like this
-//     $plugins["main_menu"][] = "my_plugin";
-// where "my_plugin" is the directory where your plugin is in folder "plugin"
-// main_menu_logged is the same as main_menu for when a user is logged in
 ?>

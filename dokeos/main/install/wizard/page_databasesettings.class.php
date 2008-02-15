@@ -27,16 +27,6 @@ class Page_DatabaseSettings extends HTML_QuickForm_Page
 		$this->addElement('text', 'database_username', get_lang("DBLogin"), array ('size' => '40'));
 		$this->addElement('password', 'database_password', get_lang("DBPassword"), array ('size' => '40'));
 		$this->addRule(array('database_host','database_username','database_password'),get_lang('CouldNotConnectToDatabase'),new ValidateDatabaseConnection());
-//		$this->addElement('text', 'database_prefix', get_lang("DbPrefixForm"), array ('size' => '40'));
-//		$this->addRule('database_prefix', 'OnlyCharactersNumbersUnderscoresAndHyphens', 'regex', '/^[a-z][a-z0-9_-]+$/');
-
-//		$databases = Page_DatabaseSettings::get_databases();
-//		foreach($databases as $database_name => $database_label)
-//		{
-//			$this->addElement('text', $database_name, $database_label, array ('size' => '40'));
-//			$this->addRule($database_name, 'ThisFieldIsRequired', 'required');
-//			$this->addRule($database_name, 'OnlyCharactersNumbersUnderscoresAndHyphens', 'regex', '/^[a-z][a-z0-9_-]+$/');
-//		}
 
 		$this->addElement('text', 'database_name', get_lang('DatabaseName'), array ('size' => '40'));
 		$this->addRule('database_name', 'ThisFieldIsRequired', 'required');
@@ -45,9 +35,7 @@ class Page_DatabaseSettings extends HTML_QuickForm_Page
 		$enable_tracking[] = $this->createElement('radio', 'enable_tracking', null, get_lang("Yes"), 1);
 		$enable_tracking[] = $this->createElement('radio', 'enable_tracking', null, get_lang("No"), 0);
 		$this->addGroup($enable_tracking, 'tracking', get_lang("EnableTracking"), '&nbsp;', false);
-//		$several_db[] = $this->createElement('radio', 'database_single', null, get_lang("One"),1);
-//		$several_db[] = $this->createElement('radio', 'database_single', null, get_lang("Several"),0);
-//		$this->addGroup($several_db, 'db', get_lang("SingleDb"), '&nbsp;', false);
+
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);

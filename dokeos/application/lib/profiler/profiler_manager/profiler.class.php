@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/profilercomponent.class.php';
 require_once dirname(__FILE__).'/profilersearchform.class.php';
 require_once dirname(__FILE__).'/../profilerdatamanager.class.php';
 require_once dirname(__FILE__).'/../../webapplication.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/configuration.class.php';
+require_once dirname(__FILE__).'/../../../../common/configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../../../../common/condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../../../../common/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../../../../common/condition/notcondition.class.php';

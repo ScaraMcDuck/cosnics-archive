@@ -110,15 +110,6 @@ function display_anonymous_right_menu()
 	 echo '</ul>';
 	echo '</div>';
 
-	// Load appropriate plugins for this menu bar
-	if (is_array($plugins['main_menu']))
-	{
-		foreach ($plugins['main_menu'] as $this_plugin)
-		{
-			include (api_get_path(PLUGIN_PATH)."$this_plugin/index.php");
-		}
-	}
-
 
 	echo '<div class="note">';
 	// includes for any files to be displayed below anonymous right menu

@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__).'/database/databaselearningobjectresultset.class.php';
 require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../configuration.class.php';
+require_once dirname(__FILE__).'/../../../common/configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../learningobject.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/conditiontranslator.class.php';
 

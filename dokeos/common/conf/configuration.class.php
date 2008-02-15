@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id$
+ * $Id: configuration.class.php 14277 2008-02-08 21:13:49Z Scara84 $
  * @package repository
  */
 
@@ -28,7 +28,7 @@ class Configuration
 	private function Configuration()
 	{
 		global $configuration;
-		require_once dirname(__FILE__).'/../conf/configuration.php';
+		require_once dirname(__FILE__).'/configuration.php';
 		$this->params = $configuration;
 	}
 

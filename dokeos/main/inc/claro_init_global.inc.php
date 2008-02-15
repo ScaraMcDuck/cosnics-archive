@@ -28,6 +28,9 @@ if (file_exists($main_configuration_file_path)) {
 }
 // include the main Dokeos platform library file
 require_once($includePath.'/lib/main_api.lib.php');
+// TODO: Move this to a common area since it's used everywhere.
+require_once dirname(__FILE__).'/../../common/filesystem/path.class.php';
+require_once(dirname(__FILE__).'/../../common/configuration/configuration.class.php');
 
 // Add the path to the pear packages to the include path
 ini_set('include_path',realpath(api_get_path(SYS_PATH).'/plugin/pear'));
@@ -38,6 +41,7 @@ require_once(api_get_library_path().'/display.lib.php');
 require_once(api_get_library_path().'/role_right.lib.php');
 
 require_once(dirname(__FILE__).'/../../admin/lib/admindatamanager.class.php');
+require_once 'MDB2.php';
 
 // Start session
 
@@ -64,26 +68,22 @@ $error_message = <<<EOM
 </html>
 EOM;
 
-if (!$already_installed) die($error_message);
-
-if(empty($statsDbName) && $already_installed)
+// 
+if (!$already_installed)
 {
-	$statsDbName=$mainDbName;
+	die($error_message);
 }
 
-// connect to the server database and select the main claroline DB
+// Test database connection
+$conf = Configuration :: get_instance();
+$connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'));
 
-$dokeos_database_connection = @mysql_connect($dbHost, $dbLogin, $dbPass) or die ($error_message);
-
-if (! $dbHost) die($error_message);
+if (MDB2 :: isError($connection))
+{
+	die($error_message);
+}
 
 unset($error_message);
-
-$selectResult = mysql_select_db($mainDbName,$dokeos_database_connection)
-
-or die ( "<center>"
-		."WARNING ! SYSTEM UNABLE TO SELECT THE MAIN DOKEOS DATABASE"
-		."</center>");
 
 /*
 --------------------------------------------
@@ -92,30 +92,6 @@ or die ( "<center>"
 */
 
 $adm = AdminDataManager :: get_instance();
-
-//$current_settings_table = Database :: get_main_table(MAIN_SETTINGS_CURRENT_TABLE);
-//$sql="SELECT * FROM $current_settings_table";
-//$result=mysql_query($sql) or die(mysql_error());
-//while ($row=mysql_fetch_array($result))
-//{
-//	if ($row['subkey']==NULL)
-//		{ $_setting[$row['variable']]=$row['selected_value']; }
-//	else
-//		{ $_setting[$row['variable']][$row['subkey']]=$row['selected_value']; }
-//}
-//// we have to store the settings for the plugins differently because it expects an array
-//$sql="SELECT * FROM $current_settings_table WHERE category='plugins'";
-//$result=mysql_query($sql) or die(mysql_error());
-//while ($row=mysql_fetch_array($result))
-//{
-//	$key= $row['variable'];
-//	if (is_string($_setting[$key]))
-//	{
-//		$_setting[$key]=array();
-//	}
-//	$_setting[$key][]=$row['selected_value'];
-//	$plugins[$key][]=$row['selected_value'];
-//}
 
 $server_type = $adm->retrieve_setting_from_variable_name('server_type');
 if($server_type->get_value() == 'test')
@@ -128,7 +104,6 @@ if($server_type->get_value() == 'test')
 	--------------------------------------------
 	*/
 	error_reporting(E_ALL & ~E_NOTICE);
-	//error_reporting(E_ALL);
 
 	//Addslashes to all $_GET variables
 	foreach($_GET as $key=>$val)
