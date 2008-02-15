@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id:$
+ * $Id$
  * @package users.usermanager
  */
 class UserDetails
@@ -24,7 +24,7 @@ class UserDetails
 	 */
 	public function toHtml()
 	{
-		$html[] = '<div class="user_details" style="clear: both;background-image: url('.api_get_path(WEB_CODE_PATH).'/img/profile.gif);">';
+		$html[] = '<div class="user_details" style="clear: both;background-image: url('.Path :: get_path(WEB_IMG_PATH).'profile.gif);">';
 		$html[] = '<img src="'.$this->user->get_full_picture_url().'" alt="'.$this->user->get_fullname().'" style="margin: 10px;max-height: 150px; border:1px solid black;float: right; display: inline;"/>';
 		$html[] = '<div class="title">';
 		$html[] = $this->user->get_fullname();

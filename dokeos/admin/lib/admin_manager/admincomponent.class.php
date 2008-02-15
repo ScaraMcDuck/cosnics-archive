@@ -119,9 +119,9 @@ abstract class AdminComponent {
 		return new $class($admin);
 	}
 	
-	function get_web_code_path()
+	function get_path($path_type)
 	{
-		return $this->get_parent()->get_web_code_path();
+		return $this->get_parent()->get_path($path_type);
 	}
 }
 ?>

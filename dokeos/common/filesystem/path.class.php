@@ -2,6 +2,44 @@
 
 require_once dirname(__FILE__).'/../configuration/configuration.class.php';
 
+// The root paths
+define('WEB_PATH', 'WEB_PATH');
+define('SYS_PATH', 'SYS_PATH');
+
+// Platform-level paths
+define('WEB_LIB_PATH', 'WEB_LIB_PATH');
+define('SYS_LIB_PATH', 'SYS_LIB_PATH');
+define('WEB_PLUGIN_PATH', 'WEB_PLUGIN_PATH');
+define('SYS_PLUGIN_PATH', 'SYS_PLUGIN_PATH');
+define('WEB_CODE_PATH', 'WEB_CODE_PATH');
+define('SYS_CODE_PATH', 'SYS_CODE_PATH');
+define('WEB_FILE_PATH', 'WEB_FILE_PATH');
+define('SYS_FILE_PATH', 'SYS_FILE_PATH');
+define('WEB_LAYOUT_PATH', 'WEB_LAYOUT_PATH');
+define('SYS_LAYOUT_PATH', 'SYS_LAYOUT_PATH');
+
+// Files-paths
+define('WEB_ARCHIVE_PATH', 'WEB_ARCHIVE_PATH');
+define('SYS_ARCHIVE_PATH', 'SYS_ARCHIVE_PATH');
+define('WEB_FCK_PATH', 'WEB_FCK_PATH');
+define('SYS_FCK_PATH', 'SYS_FCK_PATH');
+define('WEB_GARBAGE_PATH', 'WEB_GARBAGE_PATH');
+define('SYS_GARBAGE_PATH', 'SYS_GARBAGE_PATH');
+define('WEB_REPO_PATH', 'WEB_REPO_PATH');
+define('SYS_REPO_PATH', 'SYS_REPO_PATH');
+define('WEB_TEMP_PATH', 'WEB_TEMP_PATH');
+define('SYS_TEMP_PATH', 'SYS_TEMP_PATH');
+define('WEB_USER_PATH', 'WEB_USER_PATH');
+define('SYS_USER_PATH', 'SYS_USER_PATH');
+define('WEB_FCK_PATH', 'WEB_FCK_PATH');
+define('SYS_FCK_PATH', 'SYS_FCK_PATH');
+
+// Layout-paths
+define('WEB_IMG_PATH', 'WEB_IMG_PATH');
+define('SYS_IMG_PATH', 'SYS_IMG_PATH');
+define('WEB_CSS_PATH', 'WEB_CSS_PATH');
+define('SYS_CSS_PATH', 'SYS_CSS_PATH');
+
 class Path
 {
     public static function get_path($path_type)
@@ -9,37 +47,111 @@ class Path
     	$conf = Configuration :: get_instance();
 		switch ($path_type)
 		{
-			case 'WEB_PATH' :
+			case WEB_PATH :
 				return $conf->get_parameter('general', 'root_web');
-			case 'SYS_PATH' :
+			case SYS_PATH :
 				return $conf->get_parameter('general', 'root_sys');
-			case 'WEB_LIB_PATH' :
-				return self :: get_path('WEB_PATH') . 'common/';
-			case 'SYS_LIB_PATH' :
-				return self :: get_path('SYS_PATH') . 'common/';
-			case 'WEB_PLUGIN_PATH' :
-				return self :: get_path('WEB_PATH') . 'plugin/';
-			case 'SYS_PLUGIN_PATH' :
-				return self :: get_path('SYS_PATH') . 'plugin/';
-			case 'WEB_CODE_PATH' :
-				return self :: get_path('WEB_PATH') . 'main/';
-			case 'SYS_CODE_PATH' :
-				return self :: get_path('SYS_PATH') . 'main/';
-			case 'WEB_ARCHIVE_PATH' :
-				return self :: get_path('WEB_PATH') . 'archive/';
-			case 'SYS_ARCHIVE_PATH' :
-				return self :: get_path('SYS_PATH') . 'archive/';
-			case 'WEB_IMG_PATH' :
-				return self :: get_path('WEB_PATH') . 'layout/img/';
-			case 'SYS_IMG_PATH' :
-				return self :: get_path('SYS_PATH') . 'layout/img/';
-			case 'WEB_CSS_PATH' :
-				return self :: get_path('WEB_PATH') . 'layout/css/';
-			case 'SYS_CSS_PATH' :
-				return self :: get_path('SYS_PATH') . 'layout/css/';
+				
+			// Platform-level paths
+			case WEB_LIB_PATH :
+				return self :: get_path(WEB_PATH) . 'common/';
+			case SYS_LIB_PATH :
+				return self :: get_path(SYS_PATH) . 'common/';
+			case WEB_PLUGIN_PATH :
+				return self :: get_path(WEB_PATH) . 'plugin/';
+			case SYS_PLUGIN_PATH :
+				return self :: get_path(SYS_PATH) . 'plugin/';
+			case WEB_CODE_PATH :
+				return self :: get_path(WEB_PATH) . 'main/';
+			case SYS_CODE_PATH :
+				return self :: get_path(SYS_PATH) . 'main/';
+			case WEB_FILE_PATH :
+				return self :: get_path(WEB_PATH) . 'files/';
+			case SYS_FILE_PATH :
+				return self :: get_path(SYS_PATH) . 'files/';
+			case WEB_LAYOUT_PATH :
+				return self :: get_path(WEB_PATH) . 'layout/';
+			case SYS_LAYOUT_PATH :
+				return self :: get_path(SYS_PATH) . 'layout/';
+			
+			// Files-paths
+			case WEB_ARCHIVE_PATH :
+				return self :: get_path(WEB_FILE_PATH) . 'archive/';
+			case SYS_ARCHIVE_PATH :
+				return self :: get_path(SYS_FILE_PATH) . 'archive/';
+				
+			// Layout-paths
+			case WEB_IMG_PATH :
+				return self :: get_path(WEB_LAYOUT_PATH) . 'img/';
+			case SYS_IMG_PATH :
+				return self :: get_path(SYS_LAYOUT_PATH) . 'img/';
+			case WEB_CSS_PATH :
+				return self :: get_path(WEB_LAYOUT_PATH) . 'css/';
+			case SYS_CSS_PATH :
+				return self :: get_path(SYS_LAYOUT_PATH) . 'css/';
+				
 			default :
 				return;
 		}
     }
+		
+	public static function get_platform_path($path_type)
+	{
+		switch ($path_type)
+		{
+			case WEB_LIB_PATH :
+				return self :: get_path(WEB_PATH) . 'common/';
+			case SYS_LIB_PATH :
+				return self :: get_path(SYS_PATH) . 'common/';
+			case WEB_PLUGIN_PATH :
+				return self :: get_path(WEB_PATH) . 'plugin/';
+			case SYS_PLUGIN_PATH :
+				return self :: get_path(SYS_PATH) . 'plugin/';
+			case WEB_CODE_PATH :
+				return self :: get_path(WEB_PATH) . 'main/';
+			case SYS_CODE_PATH :
+				return self :: get_path(SYS_PATH) . 'main/';
+			case WEB_FILE_PATH :
+				return self :: get_path(WEB_PATH) . 'files/';
+			case SYS_FILE_PATH :
+				return self :: get_path(SYS_PATH) . 'files/';
+			case WEB_LAYOUT_PATH :
+				return self :: get_path(WEB_PATH) . 'layout/';
+			case SYS_LAYOUT_PATH :
+				return self :: get_path(SYS_PATH) . 'layout/';
+			default :
+				return;
+		}
+	}
+	
+	public static function get_file_path($path_type)
+	{
+		switch ($path_type)
+		{
+			case WEB_ARCHIVE_PATH :
+				return self :: get_platform_path(WEB_FILE_PATH) . 'archive/';
+			case SYS_ARCHIVE_PATH :
+				return self :: get_platform_path(SYS_FILE_PATH) . 'archive/';
+			default :
+				return;
+		}
+	}
+	
+	public static function get_layout_path($path_type)
+	{
+		switch ($path_type)
+		{
+			case WEB_IMG_PATH :
+				return self :: get_platform_path(WEB_LAYOUT_PATH) . 'layout/img/';
+			case SYS_IMG_PATH :
+				return self :: get_platform_path(SYS_LAYOUT_PATH) . 'layout/img/';
+			case WEB_CSS_PATH :
+				return self :: get_platform_path(WEB_LAYOUT_PATH) . 'layout/css/';
+			case SYS_CSS_PATH :
+				return self :: get_platform_path(SYS_LAYOUT_PATH) . 'layout/css/';
+			default :
+				return;
+		}
+	}
 }
 ?>

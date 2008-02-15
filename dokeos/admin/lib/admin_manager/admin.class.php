@@ -210,9 +210,9 @@ class Admin {
 	/**
 	 * Gets the URL to the Dokeos claroline folder.
 	 */
-	function get_web_code_path()
+	function get_path($path_type)
 	{
-		return Path :: get_path('WEB_CODE_PATH');
+		return Path :: get_path($path_type);
 	}
 }
 ?>

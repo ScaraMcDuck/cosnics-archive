@@ -42,11 +42,11 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 			case PersonalMessagePublication :: PROPERTY_STATUS:
 				if ($personal_message->get_status() == 1)
 				{
-					return '<img src="'.$this->browser->get_web_code_path().'img/personal_message_new.gif" />';
+					return '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'personal_message_new.gif" />';
 				}
 				else
 				{
-					return '<img src="'.$this->browser->get_web_code_path().'img/personal_message.gif" />';
+					return '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'personal_message.gif" />';
 				}
 				break;
 			case PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE:
@@ -76,7 +76,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 			'href' => $delete_url,
 			'label' => get_lang('Delete'),
 			'confirm' => true,
-			'img' => $this->browser->get_web_code_path().'img/delete.gif'
+			'img' => $this->browser->get_path(WEB_IMG_PATH).'delete.gif'
 		);
 		
 		if ($this->browser->get_folder() == PersonalMessenger :: ACTION_FOLDER_INBOX)
@@ -85,7 +85,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 			$toolbar_data[] = array(
 				'href' => $reply_url,
 				'label' => get_lang('Reply'),
-				'img' => $this->browser->get_web_code_path().'img/reply.gif'
+				'img' => $this->browser->get_path(WEB_IMG_PATH).'reply.gif'
 			);
 		}
 	
