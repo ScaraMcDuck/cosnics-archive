@@ -70,13 +70,13 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_user_editing_url($user),
 			'label' => get_lang('Edit'),
-			'img' => $this->browser->get_web_code_path().'img/edit.gif'
+			'img' => $this->browser->get_path(WEB_IMG_PATH).'edit.gif'
 		);
 
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_user_quota_url($user),
 			'label' => get_lang('VersionQuota'),
-			'img' => $this->browser->get_web_code_path().'img/versions.gif'
+			'img' => $this->browser->get_path(WEB_IMG_PATH).'versions.gif'
 		);
 
 		if($user->get_user_id() != api_get_user_id())
@@ -84,7 +84,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_user_delete_url($user),
 				'label' => get_lang('Delete'),
-				'img' => $this->browser->get_web_code_path().'img/delete.gif'
+				'img' => $this->browser->get_path(WEB_IMG_PATH).'delete.gif'
 			);
 		}
 

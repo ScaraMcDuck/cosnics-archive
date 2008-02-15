@@ -105,5 +105,10 @@ abstract class PortfolioPublisherComponent
 	{
 		return $this->parent->redirect($action, $message, $error_message, $extra_params);
 	}
+	
+	function get_path($path_type)
+	{
+		return $this->parent->get_path($path_type);
+	}
 }
 ?>

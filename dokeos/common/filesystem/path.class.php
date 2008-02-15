@@ -79,6 +79,18 @@ class Path
 				return self :: get_path(WEB_FILE_PATH) . 'archive/';
 			case SYS_ARCHIVE_PATH :
 				return self :: get_path(SYS_FILE_PATH) . 'archive/';
+			case WEB_TEMP_PATH :
+				return self :: get_path(WEB_FILE_PATH) . 'temp/';
+			case SYS_TEMP_PATH :
+				return self :: get_path(SYS_FILE_PATH) . 'temp/';
+			case WEB_USER_PATH :
+				return self :: get_path(WEB_FILE_PATH) . 'userpictures/';
+			case SYS_USER_PATH :
+				return self :: get_path(SYS_FILE_PATH) . 'userpictures/';
+			case WEB_FCK_PATH :
+				return self :: get_path(WEB_FILE_PATH) . 'fckeditor/';
+			case SYS_FCK_PATH :
+				return self :: get_path(SYS_FILE_PATH) . 'fckeditor/';
 				
 			// Layout-paths
 			case WEB_IMG_PATH :

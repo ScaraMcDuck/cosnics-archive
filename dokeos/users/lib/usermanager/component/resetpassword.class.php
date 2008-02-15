@@ -110,7 +110,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 		$user->update();
 		$mail_subject = get_lang('LoginRequest');
 		$mail_body[] = $user->get_fullname().',';
-		$mail_body[] = get_lang('YourAccountParam').' '.api_get_path(WEB_PATH);
+		$mail_body[] = get_lang('YourAccountParam').' '.$this->get_path(WEB_PATH);
 		$mail_body[] = get_lang('UserName').' :'.$user->get_username();
 		$mail_body[] = get_lang('Pass').' :'.$password;
 		$mail_body = implode("\n",$mail_body);
@@ -131,7 +131,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 		$mail_subject = get_lang('LoginRequest');
 		$mail_body[] = $user->get_fullname().',';
 		$mail_body[] = get_lang('UserName').' :'.$user->get_username();
-		$mail_body[] = get_lang('YourAccountParam').' '.api_get_path(WEB_PATH).': '.$url;
+		$mail_body[] = get_lang('YourAccountParam').' '.$this->get_path(WEB_PATH).': '.$url;
 		$mail_body = implode("\n",$mail_body);
 		$mail = Mail::factory($mail_subject,$mail_body,$user->get_email());
 		return $mail->send();

@@ -7,7 +7,6 @@ require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once dirname(__FILE__).'/../myportfolio_manager/portfoliocomponent.class.php';
 require_once dirname(__FILE__).'/../pftreemanager.class.php';
 require_once dirname(__FILE__).'/../portfoliodatamanager.class.php';
-//require_once api_get_path(SYS_CODE_PATH).'/inc/lib/formvalidator/FormValidator.class.php';
 
 /**
 ================================================================================
@@ -249,7 +248,7 @@ class MyPortfolio extends WebApplication
 		echo '</div>';
 		echo '<div style="float: right; width: 10%;">';
 		//$this->owner->photo or so
-		echo '<img align=right src="'.api_get_path(WEB_CODE_PATH).'img/unknown.jpg"</img><br />';
+		echo '<img align=right src="'.$this->get_path(WEB_IMG_PATH).'unknown.jpg"</img><br />';
 		echo '</div>';
 		echo '<div class="clear">&nbsp;</div>';
 		Display :: display_footer();
@@ -408,6 +407,11 @@ class MyPortfolio extends WebApplication
 	{
 		$adm = AdminDataManager :: get_instance();
 		return $adm->retrieve_setting_from_variable_name($variable, $application);
+	}
+	
+	function get_path($path_type)
+	{
+		return Path :: get_path($path_type);
 	}
 }
 ?>

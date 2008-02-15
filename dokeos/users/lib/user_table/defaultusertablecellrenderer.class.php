@@ -60,7 +60,7 @@ class DefaultUserTableCellRenderer implements UserTableCellRenderer
 		{
 			$picture = $user->get_full_picture_path();
 			$thumbnail_path = $this->get_thumbnail_path($picture);
-			$thumbnail_url = api_get_path(WEB_CODE_PATH).'../files/temp/'.basename($thumbnail_path);
+			$thumbnail_url = Path :: get_path(WEB_TEMP_PATH).basename($thumbnail_path);
 			return '<span style="display:none;">1</span><img src="'.$thumbnail_url.'" alt="'.htmlentities($user->get_fullname()).'" border="0"/>';
 		}
 		else
@@ -70,7 +70,7 @@ class DefaultUserTableCellRenderer implements UserTableCellRenderer
 	}
 	private function get_thumbnail_path($image_path)
 	{
-		$thumbnail_path = api_get_path(SYS_CODE_PATH).'../files/temp/'.md5($image_path).basename($image_path);
+		$thumbnail_path = Path :: get_path(WEB_TEMP_PATH).md5($image_path).basename($image_path);
 		if(!is_file($thumbnail_path))
 		{
 			$thumbnail_creator = ImageManipulation::factory($image_path);

@@ -334,13 +334,6 @@ class InstallManager
 	}
 
 	/**
-	 * Gets the URL to the Dokeos claroline folder.
-	 */
-	function get_web_code_path()
-	{
-		return api_get_path(WEB_CODE_PATH);
-	}
-	/**
 	 * Wrapper for api_not_allowed().
 	 */
 	function not_allowed()
