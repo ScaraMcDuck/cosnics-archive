@@ -1,6 +1,6 @@
 <?php
 // $Id$
-require ('../../../claro_init_global.inc.php');
+require ('../../../global.inc.php');
 ?>
 var day;
 var month;

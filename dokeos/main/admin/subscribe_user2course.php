@@ -44,7 +44,7 @@ api_use_lang_files('admin');
 
 $cidReset = true;
 
-require ('../inc/claro_init_global.inc.php');
+require ('../inc/global.inc.php');
 $this_section=SECTION_PLATFORM_ADMIN;
 
 require_once(api_get_library_path().'/course.lib.php');

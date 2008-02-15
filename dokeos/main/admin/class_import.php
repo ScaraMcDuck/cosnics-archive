@@ -80,7 +80,7 @@ api_use_lang_files('admin', 'registration');
 
 $cidReset = true;
 
-include ('../inc/claro_init_global.inc.php');
+include ('../inc/global.inc.php');
 api_protect_admin_script();
 require_once (api_get_library_path().'/fileManage.lib.php');
 require_once (api_get_library_path().'/classmanager.lib.php');

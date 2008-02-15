@@ -46,7 +46,7 @@ $editMainUserInfo = $_REQUEST['editMainUserInfo'];
 $uInfo = intval($_REQUEST['uInfo']);
 api_use_lang_files('registration', 'userInfo');
 
-include ("../inc/claro_init_global.inc.php");
+include ("../inc/global.inc.php");
 require_once(api_get_library_path().'/formvalidator/FormValidator.class.php');
 require_once(api_get_library_path().'/role_right.lib.php');
 $this_section = SECTION_COURSES;

@@ -39,7 +39,7 @@
 */
 
 api_use_lang_files("tracking");
-include('../inc/claro_init_global.inc.php');
+include('../inc/global.inc.php');
 
 $nameTools = get_lang('ToolName');
 

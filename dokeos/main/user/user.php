@@ -48,7 +48,7 @@
 ==============================================================================
 */
 api_use_lang_files('registration');
-include ("../inc/claro_init_global.inc.php");
+include ("../inc/global.inc.php");
 $this_section = SECTION_COURSES;
 
 // Roles and rights system

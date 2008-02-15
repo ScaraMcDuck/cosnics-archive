@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__).'/../../../../../../main/inc/claro_init_global.inc.php';
+require_once dirname(__FILE__).'/../../../../../../main/inc/global.inc.php';
 require_once dirname(__FILE__).'/../../../../../../repository/lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../../../../../repository/lib/learning_object/learning_style_survey/learning_style_survey.class.php';
 require_once dirname(__FILE__).'/../../../../../../repository/lib/learning_object/learning_style_survey_category/learning_style_survey_category.class.php';

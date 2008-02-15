@@ -29,7 +29,7 @@
 
 api_use_lang_files("index");
 
-include("../inc/claro_init_global.inc.php");
+include("../inc/global.inc.php");
 include("../../common/filesystem/filesystem.class.php");
 
 $track_user_table = Database::get_main_table(MAIN_USER_TABLE);

@@ -4,7 +4,7 @@ This file is a temporary test file , used by the students of HoGent to test csv 
 The file is based on the fill_tables file and has been modded by Maarten Dauwe
 */
 
-require_once dirname(__FILE__).'/../../main/inc/claro_init_global.inc.php';
+require_once dirname(__FILE__).'/../../main/inc/global.inc.php';
 require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
 include_once (api_get_library_path()."/formvalidator/FormValidator.class.php");

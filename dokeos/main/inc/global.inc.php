@@ -241,7 +241,7 @@ else
 }
 
 // include the local (contextual) parameters of this course or section
-require($includePath."/claro_init_local.inc.php");
+require($includePath."/local.inc.php");
 
 // ===== "who is logged in?" module section =====
 

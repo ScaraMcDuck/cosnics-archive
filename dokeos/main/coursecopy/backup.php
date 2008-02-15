@@ -37,7 +37,7 @@
 ==============================================================================
 */ 
 api_use_lang_files('coursebackup');
-include ('../inc/claro_init_global.inc.php');
+include ('../inc/global.inc.php');
 $nameTools = get_lang('Backup');
 Display::display_header($nameTools);
 api_display_tool_title($nameTools);

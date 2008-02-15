@@ -46,7 +46,7 @@
 $cidReset = true;
 
 // include global script
-include ('../inc/claro_init_global.inc.php');
+include ('../inc/global.inc.php');
 // language file to be included
 api_use_lang_files('admin');
 $this_section = SECTION_PLATFORM_ADMIN;

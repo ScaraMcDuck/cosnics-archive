@@ -1,6 +1,6 @@
 <?php
 
-// $Id$
+// $Id: database.lib.php 14105 2008-01-11 14:45:05Z Scara84 $
 /*
 ==============================================================================
 	Dokeos - elearning and course management software
@@ -190,7 +190,7 @@ class Database
 	*	Returns the course table prefix for single database.
 	*	Not certain exactly when this is used.
 	*	Do research.
-	*	It's used in claro_init_local.
+	*	It's used in local.
 	*/
 	function get_course_table_prefix()
 	{
@@ -482,7 +482,7 @@ class Database
 		//$result_array["directory"] = $result_array["directory"];
 
 		/*
-		still to do: (info taken from claro_init_local.inc.php)
+		still to do: (info taken from local.inc.php)
 
 		$_course['id'          ]         = $cData['cours_id'         ]; //auto-assigned integer
 		$_course['name'        ]         = $cData['title'            ];
@@ -537,7 +537,7 @@ class Database
 
 	/**
 	*	Glues a course database.
-	*	glue format from claro_init_local.
+	*	glue format from local.
 	*/
 	function glue_course_database_name($database_name)
 	{

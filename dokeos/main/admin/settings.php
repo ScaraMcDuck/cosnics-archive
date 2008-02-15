@@ -43,7 +43,7 @@
 */
 
 // including some necessary dokeos files
-include ('../inc/claro_init_global.inc.php');
+include ('../inc/global.inc.php');
 // stating the language file
 api_use_lang_files('admin');
 require_once (api_get_library_path().'/formvalidator/FormValidator.class.php');

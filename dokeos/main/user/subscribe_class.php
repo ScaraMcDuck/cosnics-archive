@@ -33,7 +33,7 @@
 ============================================================================== 
 */
 api_use_lang_files('registration');
-include ("../inc/claro_init_global.inc.php");
+include ("../inc/global.inc.php");
 $this_section = SECTION_COURSES;
 
 require_once (api_get_library_path().'/course.lib.php');

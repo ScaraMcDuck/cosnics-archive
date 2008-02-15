@@ -43,7 +43,7 @@
 */ 
 
 api_use_lang_files("admin"); 
-include("../inc/claro_init_global.inc.php"); 
+include("../inc/global.inc.php"); 
 $this_section=SECTION_PLATFORM_ADMIN;
 
 api_protect_admin_script();

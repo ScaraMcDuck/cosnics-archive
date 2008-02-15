@@ -30,7 +30,7 @@
 */
 
 define('DOKEOS_HOMEPAGE', true);
-include_once ("./main/inc/claro_init_global.inc.php");
+include_once ("./main/inc/global.inc.php");
 include_once (api_get_library_path()."/course.lib.php");
 include_once (api_get_library_path()."/debug.lib.inc.php");
 include_once (api_get_library_path()."/events.lib.inc.php");

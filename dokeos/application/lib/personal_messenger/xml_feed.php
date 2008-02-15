@@ -5,7 +5,7 @@
  * @author Dieter De Neef
  */
 api_use_lang_files('personalmessenger');
-require_once dirname(__FILE__).'/../../../main/inc/claro_init_global.inc.php';
+require_once dirname(__FILE__).'/../../../main/inc/global.inc.php';
 require_once dirname(__FILE__).'/personalmessengerdatamanager.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/../../../users/lib/user.class.php';
