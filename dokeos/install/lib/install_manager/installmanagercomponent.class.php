@@ -109,13 +109,6 @@ abstract class InstallManagerComponent {
 	}
 	
 	/**
-	 * @see RepositoryManager::get_web_code_path()
-	 */
-	function get_web_code_path()
-	{
-		return $this->get_parent()->get_web_code_path();
-	}
-	/**
 	 * @see RepositoryManager::not_allowed()
 	 */
 	function not_allowed()

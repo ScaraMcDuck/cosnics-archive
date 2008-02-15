@@ -423,22 +423,22 @@ class User
 	{
 		if($this->has_picture())
 		{
-			return api_get_path(WEB_CODE_PATH).'../files/userpictures/'.$this->get_picture_uri();
+			return Path :: get_path(WEB_USER_PATH).$this->get_picture_uri();
 		}
 		else
 		{
-			return api_get_path(WEB_CODE_PATH).'img/unknown.jpg';
+			return Path :: get_path(WEB_IMG_PATH).'unknown.jpg';
 		}
 	}
 	function get_full_picture_path()
 	{
 		if($this->has_picture())
 		{
-			return api_get_path(SYS_CODE_PATH).'../files/userpictures/'.$this->get_picture_uri();
+			return Path :: get_path(SYS_USER_PATH).$this->get_picture_uri();
 		}
 		else
 		{
-			return api_get_path(SYS_CODE_PATH).'img/unknown.jpg';
+			return Path :: get_path(SYS_IMG_PATH).'img/unknown.jpg';
 		}
 	}
 	/**
@@ -450,7 +450,7 @@ class User
 	function set_picture_file($file_info)
 	{
 		$this->delete_picture();
-		$path = api_get_path(SYS_CODE_PATH).'../files/userpictures/';
+		$path = Path :: get_path(SYS_USER_PATH);
 		Filesystem::create_dir($path);
 		$img_file = Filesystem::create_unique_name($path,$this->get_user_id().'-'.$this->get_fullname().'-'.$file_info['name']);
 		move_uploaded_file($file_info['tmp_name'],$path.$img_file);
@@ -467,7 +467,7 @@ class User
 	{
 		if($this->has_picture())
 		{
-			$path = api_get_path(SYS_CODE_PATH).'../files/userpictures/'.$this->get_picture_uri();
+			$path = Path :: get_path(SYS_USER_PATH).$this->get_picture_uri();
 			Filesystem::remove($path);
 			$this->set_picture_uri(null);
 		}
