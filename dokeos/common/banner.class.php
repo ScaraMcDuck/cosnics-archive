@@ -49,20 +49,6 @@ class Banner
 
 		//not to let the header disappear if there's nothing on the left
 		$output[] = '<div class="clear">&nbsp;</div>';
-
-		/*
-		-----------------------------------------------------------------------------
-			Plugins for banner section
-		-----------------------------------------------------------------------------
-		*/
-		if (is_array($plugins['banner']))
-		{
-			foreach ($plugins['banner'] as $this_plugin)
-			{
-				include (api_get_path(PLUGIN_PATH)."$this_plugin/index.php");
-			}
-		}
-
 		$output[] = '</div> <!-- end of #header1 -->';
 		$output[] = '<div id="header2">';
 		$output[] = '<div id="Header2Right">';

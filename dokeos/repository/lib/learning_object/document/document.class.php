@@ -6,7 +6,7 @@
  * @subpackage document
  */
 require_once dirname(__FILE__).'/../../learningobject.class.php';
-require_once dirname(__FILE__).'/../../configuration.class.php';
+require_once dirname(__FILE__).'/../../../../common/configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../../../../common/filesystem/filesystem.class.php';
 /**
  * A Document.

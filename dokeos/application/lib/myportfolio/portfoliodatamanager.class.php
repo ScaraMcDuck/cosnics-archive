@@ -4,7 +4,7 @@
  * @package application.portfolio
  */
 
-require_once dirname(__FILE__).'/../../../repository/lib/configuration.class.php';
+require_once dirname(__FILE__).'/../../../common/configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/repositorydatamanager.class.php';
 
 /**

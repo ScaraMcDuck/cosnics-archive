@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/weblcmssearchform.class.php';
 require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublicationcategory.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/configuration.class.php';
+require_once dirname(__FILE__).'/../../../../common/configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../tool/tool.class.php';
 require_once dirname(__FILE__).'/../toollistrenderer.class.php';
 require_once dirname(__FILE__).'/../course/course.class.php';

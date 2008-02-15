@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../repository/lib/configuration.class.php';
+require_once dirname(__FILE__).'/../../common/configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../../repository/lib/repository_manager/repositorymanager.class.php';
 require_once dirname(__FILE__).'/../../users/lib/usermanager/usermanager.class.php';
 
@@ -64,8 +64,8 @@ abstract class AdminDataManager
 
 		// 4. Platform
 		// Deleted from actions: , array('name' => get_lang('ConfigureHomepage'), 'action' => 'home', 'url' => '/LCMS/main/admin/configure_homepage.php')
-		$old_admin_url = api_get_path(WEB_CODE_PATH);
-		$info[] = array('application' => array('name' => get_lang('Platform'), 'class' => 'platform'), 'links' => array(array('name' => get_lang('DokeosConfiguration'), 'action' => 'manage', 'url' => $old_admin_url.'admin/settings.php'), array('name' => get_lang('SystemAnnouncements'), 'action' => 'system', 'url' => 'index_admin.php?'.Admin::PARAM_ACTION.'='.Admin::ACTION_SYSTEM_ANNOUNCEMENTS), array('name' => get_lang('Languages'), 'action' => 'language', 'url' => $old_admin_url.'admin/languages.php')));
+		//$old_admin_url = api_get_path(WEB_CODE_PATH);
+		//$info[] = array('application' => array('name' => get_lang('Platform'), 'class' => 'platform'), 'links' => array(array('name' => get_lang('DokeosConfiguration'), 'action' => 'manage', 'url' => $old_admin_url.'admin/settings.php'), array('name' => get_lang('SystemAnnouncements'), 'action' => 'system', 'url' => 'index_admin.php?'.Admin::PARAM_ACTION.'='.Admin::ACTION_SYSTEM_ANNOUNCEMENTS), array('name' => get_lang('Languages'), 'action' => 'language', 'url' => $old_admin_url.'admin/languages.php')));
 
 		// 5. Repository
 		$repository_manager = new RepositoryManager($user);

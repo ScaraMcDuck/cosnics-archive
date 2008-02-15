@@ -3,7 +3,7 @@
 /**
  * @package users.lib
  */
-require_once dirname(__FILE__).'/../../repository/lib/configuration.class.php';
+require_once dirname(__FILE__).'/../../common/configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../../repository/lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../common/authentication/authentication.class.php';
 /**

@@ -212,7 +212,7 @@ class Admin {
 	 */
 	function get_web_code_path()
 	{
-		return api_get_path(WEB_CODE_PATH);
+		return Path :: get_path('WEB_CODE_PATH');
 	}
 }
 ?>

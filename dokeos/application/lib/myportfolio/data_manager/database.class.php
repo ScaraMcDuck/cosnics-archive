@@ -8,7 +8,7 @@
 
 require_once dirname(__FILE__).'/../portfoliodatamanager.class.php';
 require_once dirname(__FILE__).'/../portfoliopublication.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/configuration.class.php';
+require_once dirname(__FILE__).'/../../../../common/configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../../../../common/condition/conditiontranslator.class.php';
 
 
