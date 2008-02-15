@@ -1,0 +1,1 @@
+java -jar "E:\Documents and Settings\hadebi\Mijn documenten\workspace\LCMS\statsvn.jar" "E:\Documents and Settings\hadebi\Mijn documenten\workspace\LCMS\logfile.log" "E:\Documents and Settings\hadebi\Mijn documenten\workspace\LCMS"
