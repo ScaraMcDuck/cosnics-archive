@@ -1,6 +1,6 @@
 <?php
 // $Id$
-/* This is a test to see if SVN works
+/* 
 ==============================================================================
 	Dokeos - elearning and course management software
 
