@@ -17,7 +17,7 @@ class LearningStyleSurveyPublicationListRenderer extends ListLearningObjectPubli
 			// TODO: better icon
 			$html .= ' <a href="'
 				. $this->get_url(array(LearningStyleSurveyTool :: PARAM_SURVEY_PROFILE_ID => $lo->get_id(), LearningStyleSurveyTool :: PARAM_VIEW_SURVEY_RESULTS => 1), true)
-				. '"><img src="'.api_get_path(WEB_CODE_PATH).'img/statistics.png" style="vertical-align: middle;" alt="'.htmlspecialchars('ViewSurveyResults').'"/></a>';
+				. '"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'statistics.png" style="vertical-align: middle;" alt="'.htmlspecialchars('ViewSurveyResults').'"/></a>';
 		}
 		return $html;
 	}

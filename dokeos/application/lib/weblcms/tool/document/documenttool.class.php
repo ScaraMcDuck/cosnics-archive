@@ -44,7 +44,7 @@ class DocumentTool extends RepositoryTool
 				{
 					$html[] =   '<a href="' . $this->get_url(array('documenttoolmode' => $i), true) . '">';
 				}
-				$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$key.'.gif" alt="'.get_lang($title).'" style="vertical-align:middle;"/> ';
+				$html[] = '<img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).$key.'.gif" alt="'.get_lang($title).'" style="vertical-align:middle;"/> ';
 				$html[] =   get_lang($title);
 				if (!$current)
 				{
@@ -58,7 +58,7 @@ class DocumentTool extends RepositoryTool
 				$download_parameters[RepositoryTool::PARAM_ACTION] = self::ACTION_ZIP_AND_DOWNLOAD;
 				$html[] =  '<li style="display: inline; margin: 0 1ex 0 0; padding: 0">';
 				$html[] =   '<a href="' . $this->get_url($download_parameters) . '">';
-				$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'/img/save.png" alt="'.get_lang('Download').'" style="vertical-align:middle;"/> ';
+				$html[] = '<img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).'save.png" alt="'.get_lang('Download').'" style="vertical-align:middle;"/> ';
 				$html[] =   get_lang('Download');
 				$html[] =  '</a>';
 				$html[] =  '</li>';
@@ -155,7 +155,7 @@ class DocumentTool extends RepositoryTool
 		$compression = FileCompression::factory();
 		$archive_file = $compression->create_archive($target_path);
 		Filesystem::remove($target_path);
-		$archive_url = api_get_path(WEB_CODE_PATH).'../'.str_replace(DIRECTORY_SEPARATOR,'/',str_replace(realpath(api_get_path(SYS_PATH)),'',$archive_file));
+		$archive_url = $this->get_parent()->get_path(WEB_CODE_PATH).'../'.str_replace(DIRECTORY_SEPARATOR,'/',str_replace(realpath($this->get_parent()->get_path(SYS_PATH)),'',$archive_file));
 		return $archive_url;
 	}
 	/**
@@ -169,7 +169,7 @@ class DocumentTool extends RepositoryTool
 	{
 		if(is_null($path))
 		{
-			$path = realpath(api_get_path(SYS_CODE_PATH).'../files/temp');
+			$path = realpath($this->get_parent()->get_path(WEB_TEMP_PATH));
 			$path = Filesystem::create_unique_name($path.'/weblcms_document_download_'.$this->get_parent()->get_course_id());
 			$category_folder_mapping[$categories] = $path;
 			Filesystem::create_dir($path);

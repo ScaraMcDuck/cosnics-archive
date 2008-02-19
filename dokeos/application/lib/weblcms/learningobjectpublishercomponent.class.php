@@ -122,5 +122,9 @@ abstract class LearningObjectPublisherComponent
 	{
 		return $this->parent->get_default_learning_object($type);
 	}
+	function get_path($path_type)
+	{
+		return $this->parent->get_path($path_type);
+	}
 }
 ?>

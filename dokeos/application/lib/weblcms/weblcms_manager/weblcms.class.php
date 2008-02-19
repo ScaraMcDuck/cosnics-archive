@@ -1055,9 +1055,9 @@ class Weblcms extends WebApplication
 	/**
 	 * Gets the URL to the Dokeos claroline folder.
 	 */
-	function get_web_code_path()
+	function get_path($path_type)
 	{
-		return api_get_path(WEB_CODE_PATH);
+		return Path :: get_path($path_type);
 	}
 
 	/**

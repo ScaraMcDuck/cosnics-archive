@@ -231,5 +231,10 @@ abstract class LearningObjectPublicationBrowser
 	 * @return int The number of publications.
 	 */
 	abstract function get_publication_count();
+	
+	function get_path($path_type)
+	{
+		return $this->get_parent()->get_parent()->get_path($path_type);
+	}
 }
 ?>

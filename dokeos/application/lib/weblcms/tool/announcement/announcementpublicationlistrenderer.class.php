@@ -26,11 +26,11 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		{
 			$up_img = 'up.gif';
 			$up_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_DOWN, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-			$up_link = '<a href="'.$up_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$up_img.'" alt=""/></a>';
+			$up_link = '<a href="'.$up_url.'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).$up_img.'" alt=""/></a>';
 		}
 		else
 		{
-			$up_link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/up_na.gif"  alt=""/>';
+			$up_link = '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'up_na.gif"  alt=""/>';
 		}
 		return $up_link;
 	}
@@ -49,11 +49,11 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		{
 			$down_img = 'down.gif';
 			$down_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_UP, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-			$down_link = '<a href="'.$down_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$down_img.'"  alt=""/></a>';
+			$down_link = '<a href="'.$down_url.'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).$down_img.'"  alt=""/></a>';
 		}
 		else
 		{
-			$down_link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/down_na.gif"  alt=""/>';
+			$down_link = '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'down_na.gif"  alt=""/>';
 		}
 		return $down_link;
 	}
