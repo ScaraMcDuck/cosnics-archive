@@ -32,7 +32,7 @@ class LinkTool extends RepositoryTool
 			{
 				$html[] =   '<a href="' . $this->get_url(array('linktoolmode' => $i), true) . '">';
 			}
-			$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'/img/'.$key.'.gif" alt="'.get_lang($title).'" style="vertical-align:middle;"/> ';
+			$html[] = '<img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).$key.'.gif" alt="'.get_lang($title).'" style="vertical-align:middle;"/> ';
 			$html[] =   get_lang($title);
 			if (!$current)
 			{

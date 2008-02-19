@@ -79,7 +79,7 @@ abstract class LearningObjectPublicationListRenderer
 	{
 		if($publication->is_email_sent())
 		{
-			$email_suffix = ' - <img src="'.api_get_path(WEB_CODE_PATH).'img/email.png" alt="" style="vertical-align: middle;"/>';
+			$email_suffix = ' - <img src="'.$this->browser->get_path(WEB_IMG_PATH).'email.png" alt="" style="vertical-align: middle;"/>';
 		}
 		if ($publication->is_for_everybody())
 		{
@@ -168,11 +168,11 @@ abstract class LearningObjectPublicationListRenderer
 		{
 			$up_img = 'up.gif';
 			$up_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_UP, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-			$up_link = '<a href="'.$up_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$up_img.'" alt=""/></a>';
+			$up_link = '<a href="'.$up_url.'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).$up_img.'" alt=""/></a>';
 		}
 		else
 		{
-			$up_link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/up_na.gif"  alt=""/>';
+			$up_link = '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'up_na.gif"  alt=""/>';
 		}
 		return $up_link;
 	}
@@ -190,11 +190,11 @@ abstract class LearningObjectPublicationListRenderer
 		{
 			$down_img = 'down.gif';
 			$down_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_DOWN, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-			$down_link = '<a href="'.$down_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$down_img.'"  alt=""/></a>';
+			$down_link = '<a href="'.$down_url.'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).$down_img.'"  alt=""/></a>';
 		}
 		else
 		{
-			$down_link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/down_na.gif"  alt=""/>';
+			$down_link = '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'down_na.gif"  alt=""/>';
 		}
 		return $down_link;
 	}
@@ -219,7 +219,7 @@ abstract class LearningObjectPublicationListRenderer
 		{
 			$visibility_img = 'visible_clock.gif';
 		}
-		$visibility_link = '<a href="'.$visibility_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$visibility_img.'"  alt=""/></a>';
+		$visibility_link = '<a href="'.$visibility_url.'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).$visibility_img.'"  alt=""/></a>';
 		return $visibility_link;
 	}
 
@@ -231,7 +231,7 @@ abstract class LearningObjectPublicationListRenderer
 	function render_edit_action($publication)
 	{
 		$edit_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_EDIT, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-		$edit_link = '<a href="'.$edit_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif"  alt=""/></a>';
+		$edit_link = '<a href="'.$edit_url.'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'edit.gif"  alt=""/></a>';
 		return $edit_link;
 	}
 
@@ -243,7 +243,7 @@ abstract class LearningObjectPublicationListRenderer
 	function render_delete_action($publication)
 	{
 		$delete_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_DELETE, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete.gif"  alt=""/></a>';
+		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'delete.gif"  alt=""/></a>';
 		return $delete_link;
 	}
 	
@@ -255,7 +255,7 @@ abstract class LearningObjectPublicationListRenderer
 	function render_feedback_action($publication)
 	{
 		$feedback_url = $this->get_url(array (RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-		$feedback_link = '<a href="'.$feedback_url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/browser.gif" alt=""/></a>';
+		$feedback_link = '<a href="'.$feedback_url.'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'browser.gif" alt=""/></a>';
 		return $feedback_link;
 	}
 
@@ -270,11 +270,11 @@ abstract class LearningObjectPublicationListRenderer
 		if(count($categories) > 1)
 		{
 			$url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_TO_CATEGORY, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-			$link = '<a href="'.$url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/move.gif"  alt=""/></a>';
+			$link = '<a href="'.$url.'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'move.gif"  alt=""/></a>';
 		}
 		else
 		{
-			$link = '<img src="'.api_get_path(WEB_CODE_PATH).'img/move_na.gif"  alt=""/>';
+			$link = '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'move_na.gif"  alt=""/>';
 		}
 		return $link;
 	}
@@ -297,7 +297,7 @@ abstract class LearningObjectPublicationListRenderer
 				foreach ($attachments as $attachment)
 				{
 					$disp = LearningObjectDisplay :: factory($attachment);
-					$html[] = '<li><img src="'.api_get_path(WEB_CODE_PATH).'/img/treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+					$html[] = '<li><img src="'.$this->browser->get_path(WEB_IMG_PATH).'treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 				}
 				$html[] = '</ul>';
 				return implode("\n",$html);
@@ -344,7 +344,7 @@ abstract class LearningObjectPublicationListRenderer
 	function render_icon($publication)
 	{
 		$object = $publication->get_learning_object();
-		return '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$object->get_icon_name().'.gif" alt=""/>';
+		return '<img src="'.$this->browser->get_path(WEB_IMG_PATH).$object->get_icon_name().'.gif" alt=""/>';
 	}
 	/**
 	 * Formats the given date in a human-readable format.

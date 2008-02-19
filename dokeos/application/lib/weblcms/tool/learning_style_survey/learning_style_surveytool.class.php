@@ -37,7 +37,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 		$toolbar = RepositoryUtilities::build_toolbar(
 			array(
 				array(
-					'img' => api_get_path(WEB_CODE_PATH).'/img/browser.gif',
+					'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'browser.gif',
 					'label' => get_lang('Browse'),
 					'href' => ($_SESSION[get_class()]['mode'] != 0
 						? $this->get_url(array('mode' => 0))
@@ -45,7 +45,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 					'display' => RepositoryUtilities::TOOLBAR_DISPLAY_ICON_AND_LABEL
 				),
 				array(
-					'img' => api_get_path(WEB_CODE_PATH).'/img/publish.gif',
+					'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'publish.gif',
 					'label' => get_lang('Publish'),
 					'href' => ($_SESSION[get_class()]['mode'] != 1
 						? $this->get_url(array('mode' => 1))

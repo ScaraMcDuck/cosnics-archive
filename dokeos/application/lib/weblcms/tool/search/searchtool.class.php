@@ -63,7 +63,7 @@ class SearchTool extends Tool
 				{
 					foreach($objects as $index => $object)
 					{
-						echo '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$object->get_icon_name().'.gif);">';
+						echo '<div class="learning_object" style="background-image: url('.$this->get_parent()->get_path(WEB_IMG_PATH).$object->get_icon_name().'.gif);">';
 						echo '<div class="title"">'.$object->get_title().'</div>';
 						echo '<div class="description">'.$object->get_description().'</div>';
 						echo '</div>';

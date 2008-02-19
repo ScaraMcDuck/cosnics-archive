@@ -75,18 +75,6 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		$html[] = '</ul>';
 		$html[] = '</div>';
 
-		//Load appropriate plugins for this menu bar
-
-		// TODO: SCARA - Is this still needed ?
-
-		//if (is_array($plugins['main_menu_logged']))
-		//{
-		//	foreach ($plugins['main_menu_logged'] as $this_plugin)
-		//	{
-		//		include (api_get_path(PLUGIN_PATH)."$this_plugin/index.php");
-		//	}
-		//}
-
 		$html[] = '</div>';
 
 		return implode($html, "\n");
@@ -145,7 +133,7 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 						$params[Weblcms::PARAM_COURSE] = $course->get_id();
 						$params[Weblcms::PARAM_ACTION] = Weblcms::ACTION_VIEW_COURSE;
 						$url = $weblcms->get_url($params);
-						$html[] = '<a href="'.$url.'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$tool->name.'_tool_new.gif" alt="'.get_lang('New').'"/></a>';
+						$html[] = '<a href="'.$url.'"><img src="'. $this->get_path(WEB_IMG_PATH).$tool->name.'_tool_new.gif" alt="'.get_lang('New').'"/></a>';
 					}
 				}
 				$html[] = '</li>';

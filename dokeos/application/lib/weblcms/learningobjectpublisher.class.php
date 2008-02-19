@@ -196,5 +196,10 @@ class LearningObjectPublisher
 	{
 		return $this->mail_option;
 	}
+	
+	function get_path($path_type)
+	{
+		return $this->parent->get_path($path_type);
+	}
 }
 ?>
