@@ -36,12 +36,14 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		// 1. Connection to mySQL and creating the database
 		$db_creation = $this->create_database($values);
 		$this->process_result('database', $db_creation);
+		flush();
 		
 		// 2. Write the config files
 		// TODO: Unify both config files
 		$config_file = $this->write_config_file($values);
 		$config_file = $this->write_vintage_config_file($values);
 		$this->process_result('config', $config_file);
+		flush();
 		
 		mysql_select_db($values['database_name']) or die('SELECT DB ERROR '.mysql_error());
 		
@@ -50,7 +52,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		$installer = new AdminInstaller($values);
 		$result = $installer->install();
 		$this->process_result('admin', $result);
-		unset($installer);		
+		unset($installer);
+		flush();
 		
 		// 3. Install the Repository
 		require_once('../repository/install/repository_installer.class.php');
@@ -58,6 +61,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		$result = $installer->install();
 		$this->process_result('repository', $result);
 		unset($installer);
+		flush();
 		
 		// 4. Install the Users
 		require_once('../users/install/users_installer.class.php');
@@ -65,10 +69,12 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		$result = $installer->install();
 		$this->process_result('users', $result);
 		unset($installer, $result);
+		flush();
 		
 		// 5. Install additional applications
 		$path = dirname(__FILE__).'/../../../../../../application/lib/';
 		$applications = FileSystem :: get_directory_content($path, FileSystem :: LIST_DIRECTORIES, false);
+		flush();
 		
 		foreach($applications as $application)
 		{
@@ -100,15 +106,18 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 					}
 				}
 			}
+			flush();
 		}
 		
 		// 6. Create additional folders
 		$folder_creation = $this->create_folders();
 		$this->process_result('folder', $folder_creation);
+		flush();
 		
 		// 7. If all goes well we now show the link to the portal
 		$message = '<a href="../index.php">' . get_lang('GoToYourNewlyCreatedPortal') . '</a>';
 		$this->process_result('Finished', array('success' => true, 'message' => $message));
+		flush();
 		
 		// Display the page footer
 		$this->parent->display_footer();
