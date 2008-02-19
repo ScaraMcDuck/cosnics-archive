@@ -1,6 +1,6 @@
 <?php
 // $Id$
-/*
+/* This is a test to see if SVN works
 ==============================================================================
 	Dokeos - elearning and course management software
 
@@ -40,7 +40,7 @@ include_once (api_get_library_path()."/formvalidator/FormValidator.class.php");
 api_use_lang_files('courses', 'index');
 $nameTools = $adm->retrieve_setting_from_variable_name('site_name', 'admin')->get_value();
 
-/*
+/* 
 -----------------------------------------------------------
 	Header
 	include the HTTP, HTML headers plus the top banner
