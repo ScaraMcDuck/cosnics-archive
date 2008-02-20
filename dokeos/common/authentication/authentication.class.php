@@ -55,7 +55,7 @@ abstract class Authentication {
      */
     function logout($user)
     {
-    	api_session_destroy();
+    	PlatformSession :: platform_session_destroy();
     }
     /**
      * Creates an instance of an authentication class
