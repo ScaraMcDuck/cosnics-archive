@@ -1844,12 +1844,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$condition = new InCondition('user_id',$user_ids);
 			if(is_null($conditions))
 			{
-				$conditions = array($condition);
+				$conditions = $condition;
 			}
 			else
 			{
 				$conditions = new AndCondition($condition,$conditions);
 			}
+			
 			$udm = UsersDataManager::get_instance();
 			return $udm->count_users($conditions);
 		}

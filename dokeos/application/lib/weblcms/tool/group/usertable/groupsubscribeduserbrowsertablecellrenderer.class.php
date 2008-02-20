@@ -47,7 +47,7 @@ class GroupSubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRe
 				$toolbar_data[] = array(
 					'href' => $unsubscribe_url,
 					'label' => get_lang('Unsubscribe'),
-					'img' => api_get_path(WEB_CODE_PATH).'/img/user-unsubscribe.gif'
+					'img' => $this->browser->get_path(WEB_IMG_PATH).'user-unsubscribe.gif'
 				);
 			}
 			$parameters = array();
@@ -57,7 +57,7 @@ class GroupSubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRe
 			$toolbar_data[] = array(
 				'href' => $unsubscribe_url,
 				'label' => get_lang('Details'),
-				'img' => api_get_path(WEB_CODE_PATH).'/img/profile.gif'
+				'img' => $this->browser->get_path(WEB_IMG_PATH).'profile.gif'
 			);
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}

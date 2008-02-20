@@ -72,7 +72,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		$form->addElement('select', 'type', '', $types);
 		$form->addElement('submit', 'submit', get_lang('Ok'));
 		$form->setDefaults(array ('tool' => $_GET['tool'], LearningObjectPublisher :: PARAM_ACTION => $_GET[LearningObjectPublisher :: PARAM_ACTION]));
-		return $form->asHtml();
+		return $form->toHtml();
 	}
 	/**
 	 * Gets the form to create the learning object.

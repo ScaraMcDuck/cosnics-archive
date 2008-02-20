@@ -325,7 +325,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	function get_view_url ()
 	{
-		return api_get_path(WEB_PATH).'index_repository_manager.php?go=view&category='.$this->get_parent_id().'&object='.$this->get_id();
+		return $this->get_path(WEB_PATH).'index_repository_manager.php?go=view&category='.$this->get_parent_id().'&object='.$this->get_id();
 	}
 
 	/**
@@ -912,6 +912,11 @@ class LearningObject implements AccessibleLearningObject
 	{
 		$class = self :: type_to_class($type);
 		return new $class ($id, $defaultProperties, $additionalProperties);
+	}
+	
+	function get_path($path_type)
+	{
+		return Path :: get_path($path_type);
 	}
 }
 ?>

@@ -57,7 +57,7 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 				'href' => $course_unsubscription_url,
 				'label' => get_lang('Unsubscribe'),
 				'confirm' => true,
-				'img' => $this->browser->get_web_code_path().'img/delete.gif'
+				'img' => $this->browser->get_path(WEB_IMG_PATH).'delete.gif'
 			);
 			
 			return RepositoryUtilities :: build_toolbar($toolbar_data);

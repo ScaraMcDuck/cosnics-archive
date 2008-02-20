@@ -28,7 +28,7 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerComponen
 			$object = $this->retrieve_learning_object($id);
 			$lom = IeeeLomGenerator::generate($object);
 			$this->display_header($breadcrumbs);
-			echo '<div class="metadata" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/info_small.gif);">';
+			echo '<div class="metadata" style="background-image: url('.$this->get_path(WEB_IMG_PATH).'info_small.gif);">';
 			echo '<div class="title">'. $object->get_title(). '</div>';
 			echo '<pre>';
 			$lom->display();

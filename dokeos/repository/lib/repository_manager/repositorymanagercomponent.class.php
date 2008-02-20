@@ -357,11 +357,11 @@ abstract class RepositoryManagerComponent {
 		return $this->get_parent()->get_learning_object_types($only_master_types);
 	}
 	/**
-	 * @see RepositoryManager::get_web_code_path()
+	 * @see RepositoryManager::get_path()
 	 */
-	function get_web_code_path()
+	function get_path($path_type)
 	{
-		return $this->get_parent()->get_web_code_path();
+		return $this->get_parent()->get_path($path_type);
 	}
 	/**
 	 * @see RepositoryManager::not_allowed()

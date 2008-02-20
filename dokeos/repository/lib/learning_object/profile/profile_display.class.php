@@ -21,7 +21,7 @@ class ProfileDisplay extends LearningObjectDisplay
 
 		if ($object->get_address() != '')
 		{
-			$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/home_medium.gif);">';
+			$html[] = '<div class="learning_object" style="background-image: url('.$this->get_path(WEB_IMG_PATH).'home_medium.gif);">';
 			$html[] = '<div class="title">'. get_lang('Address') .'</div>';
 			$html[] = $object->get_address();
 			$html[] = '</div>';
@@ -29,7 +29,7 @@ class ProfileDisplay extends LearningObjectDisplay
 
 		if ($object->get_mail() != '' || $object->get_phone() != '' || $object->get_fax() != '' || $object->get_skype() != '' || $object->get_msn() != '' || $object->get_aim() != '' || $object->get_yim() != '' || $object->get_icq() != '')
 		{
-			$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/contact.gif);">';
+			$html[] = '<div class="learning_object" style="background-image: url('.$this->get_path(WEB_IMG_PATH).'contact.gif);">';
 			$html[] = '<div class="title">'. get_lang('Contact') .'</div>';
 			if ($object->get_mail() != '') $html[] = get_lang('Mail') . ': <a href="mailto:' . $object->get_mail() . '">' . $object->get_mail() . '</a><br/>';
 			if ($object->get_phone() != '') $html[] = get_lang('TelShort') . ': ' . $object->get_phone() . '<br/>';
@@ -44,7 +44,7 @@ class ProfileDisplay extends LearningObjectDisplay
 
 		if ($object->get_competences() != '')
 		{
-			$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/competences.gif);">';
+			$html[] = '<div class="learning_object" style="background-image: url('.$this->get_path(WEB_IMG_PATH).'competences.gif);">';
 			$html[] = '<div class="title">'. get_lang('Competences') .'</div>';
 			$html[] = $object->get_competences();
 			$html[] = '</div>';
@@ -52,7 +52,7 @@ class ProfileDisplay extends LearningObjectDisplay
 
 		if ($object->get_diplomas() != '')
 		{
-			$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/diplomas.gif);">';
+			$html[] = '<div class="learning_object" style="background-image: url('.$this->get_path(WEB_IMG_PATH).'diplomas.gif);">';
 			$html[] = '<div class="title">'. get_lang('Diplomas') .'</div>';
 			$html[] = $object->get_diplomas();
 			$html[] = '</div>';
@@ -60,7 +60,7 @@ class ProfileDisplay extends LearningObjectDisplay
 
 		if ($object->get_teaching() != '')
 		{
-			$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/teaching.gif);">';
+			$html[] = '<div class="learning_object" style="background-image: url('.$this->get_path(WEB_IMG_PATH).'teaching.gif);">';
 			$html[] = '<div class="title">'. get_lang('Teaching') .'</div>';
 			$html[] = $object->get_teaching();
 			$html[] = '</div>';
@@ -68,7 +68,7 @@ class ProfileDisplay extends LearningObjectDisplay
 
 		if ($object->get_open() != '')
 		{
-			$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/open.gif);">';
+			$html[] = '<div class="learning_object" style="background-image: url('.$this->get_path(WEB_IMG_PATH).'open.gif);">';
 			$html[] = '<div class="title">'. get_lang('Open') .'</div>';
 			$html[] = $object->get_open();
 			$html[] = '</div>';

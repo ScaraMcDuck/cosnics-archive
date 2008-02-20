@@ -86,7 +86,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			{
 				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_COMPONENT_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
 			}
-			$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/'.$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
+			$html[] = '<img src="'.$parent->get_path(WEB_IMG_PATH).$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
 			$html[] = $title;
 			if($this->is_course_admin || $tool->visible)
 			{
@@ -94,7 +94,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			}
 			if($this->is_course_admin && $section!= 'course_admin')
 			{
-				$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_COMPONENT_ACTION=>$lcms_action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/'.$visible_image.'" alt=""/></a>';
+				$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_COMPONENT_ACTION=>$lcms_action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img src="'.$parent->get_path(WEB_IMG_PATH).$visible_image.'" alt=""/></a>';
 			}
 			$table->setCellContents($row,$col,implode("\n",$html));
 			$table->updateColAttributes($col,'style="width: '.floor(100/FixedLocationToolListRenderer::NUMBER_OF_COLUMNS).'%;"');

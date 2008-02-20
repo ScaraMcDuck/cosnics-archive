@@ -155,7 +155,7 @@ class UserTool extends Tool
 		$toolbar_data[] = array(
 			'href' => $this->get_parent()->get_url(array(Weblcms :: PARAM_USER_ACTION => Weblcms :: ACTION_SUBSCRIBE)),
 			'label' => get_lang('SubscribeUsers'),
-			'img' => $this->get_parent()->get_web_code_path().'img/user-subscribe.gif',
+			'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'user-subscribe.gif',
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 
@@ -169,7 +169,7 @@ class UserTool extends Tool
 		$toolbar_data[] = array(
 			'href' => $this->get_parent()->get_url(array(Weblcms :: PARAM_USER_ACTION => Weblcms :: ACTION_UNSUBSCRIBE)),
 			'label' => get_lang('UnsubscribeUsers'),
-			'img' => $this->get_parent()->get_web_code_path().'img/user-unsubscribe.gif',
+			'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'user-unsubscribe.gif',
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 

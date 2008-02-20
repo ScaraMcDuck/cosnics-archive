@@ -183,7 +183,7 @@ class GroupTool extends Tool
 	{
 		$toolbar_data = array ();
 
-		$toolbar_data[] = array ('href' => $this->get_parent()->get_url(array (GroupTool :: PARAM_GROUP_ACTION => GroupTool :: ACTION_SUBSCRIBE)), 'label' => get_lang('SubscribeUsers'), 'img' => $this->get_parent()->get_web_code_path().'img/user-subscribe.gif', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+		$toolbar_data[] = array ('href' => $this->get_parent()->get_url(array (GroupTool :: PARAM_GROUP_ACTION => GroupTool :: ACTION_SUBSCRIBE)), 'label' => get_lang('SubscribeUsers'), 'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'user-subscribe.gif', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
@@ -196,7 +196,7 @@ class GroupTool extends Tool
 	{
 		$toolbar_data = array ();
 
-		$toolbar_data[] = array ('href' => $this->get_parent()->get_url(array (GroupTool :: PARAM_GROUP_ACTION => GroupTool :: ACTION_UNSUBSCRIBE)), 'label' => get_lang('UnsubscribeUsers'), 'img' => $this->get_parent()->get_web_code_path().'img/user-unsubscribe.gif', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+		$toolbar_data[] = array ('href' => $this->get_parent()->get_url(array (GroupTool :: PARAM_GROUP_ACTION => GroupTool :: ACTION_UNSUBSCRIBE)), 'label' => get_lang('UnsubscribeUsers'), 'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'user-unsubscribe.gif', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}

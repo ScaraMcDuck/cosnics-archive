@@ -23,7 +23,7 @@ abstract class Filecompression
      */
     protected function create_temporary_directory()
     {
-		$path = api_get_path(SYS_PATH).'files/temp/'.uniqid();
+		$path = $this->get_path(SYS_TEMP_PATH).uniqid();
 		Filesystem::create_dir($path);
 		return $path;
     }
@@ -66,5 +66,10 @@ abstract class Filecompression
 		require_once dirname(__FILE__).'/pclzip/pclzipfilecompression.class.php';
 		return new PclzipFilecompression();
     }
+    
+	private function get_path($path_type)
+	{
+		return Path :: get_path($path_type);
+	}    
 }
 ?>

@@ -12,7 +12,7 @@ class XmlExport extends Export
 {
 	public function write_to_file($data)
 	{
-		$file = Filesystem::create_unique_name(api_get_path(SYS_ARCHIVE_PATH),$this->get_filename());
+		$file = Filesystem::create_unique_name($this->get_path(SYS_ARCHIVE_PATH),$this->get_filename());
 		$handle = fopen($file, 'a+');
 		fwrite($handle, '<?xml version="1.0" encoding="ISO-8859-1"?>'."\n");
 		foreach ($data as $index => $row)

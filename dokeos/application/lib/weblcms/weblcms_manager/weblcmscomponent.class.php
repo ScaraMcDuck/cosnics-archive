@@ -558,7 +558,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_web_code_path()
+	 * @see Weblcms::get_path()
 	 */	
 	function get_path($path_type)
 	{

@@ -71,5 +71,10 @@ abstract class Export
 			return new $class($filename.'.'.$type);
 		}
 	}
+	
+	private function get_path($path_type)
+	{
+		return Path :: get_path($path_type);
+	}
 }
 ?>

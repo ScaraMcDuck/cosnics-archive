@@ -284,5 +284,10 @@ abstract class Tool
 	{
 		return $this->parent->get_last_visit_date();
 	}
+	
+	function get_path($path_type)
+	{
+		return $this->get_parent()->get_path($path_type);
+	}
 }
 ?>

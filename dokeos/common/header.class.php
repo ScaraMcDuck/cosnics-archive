@@ -37,14 +37,14 @@ class Header
 	public function add_default_headers()
 	{
 		$this->add_http_header('Content-Type: text/html; charset=UTF-8');
-		$this->add_css_file_header(api_get_path(WEB_CODE_PATH) .'css/default.css');
-		$this->add_css_file_header(api_get_path(WEB_CODE_PATH) .'css/print.css','print');
-		$this->add_javascript_file_header(api_get_path(WEB_CODE_PATH).'../plugin/jquery/jquery-1.2.1.min.js');
-		$this->add_link_header(api_get_path(WEB_PATH). 'index.php','top');
-		$this->add_link_header(api_get_path(WEB_PATH). 'index_weblcms.php','courses',htmlentities(get_lang('OtherCourses')));
-		$this->add_link_header(api_get_path(WEB_PATH). 'index_user.php?go=account','account',htmlentities(get_lang('ModifyProfile')));
+		$this->add_css_file_header($this->get_path(WEB_CSS_PATH) .'default.css');
+		$this->add_css_file_header($this->get_path(WEB_CSS_PATH) .'print.css','print');
+		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery-1.2.1.min.js');
+		$this->add_link_header($this->get_path(WEB_PATH). 'index.php','top');
+		$this->add_link_header($this->get_path(WEB_PATH). 'index_weblcms.php','courses',htmlentities(get_lang('OtherCourses')));
+		$this->add_link_header($this->get_path(WEB_PATH). 'index_user.php?go=account','account',htmlentities(get_lang('ModifyProfile')));
 		$this->add_link_header('http://www.dokeos.com/documentation.php','help');
-		$this->add_html_header('<link rel="shortcut icon" href="'. api_get_path(WEB_PATH). 'favicon.ico" type="image/x-icon" />');
+		$this->add_html_header('<link rel="shortcut icon" href="'. $this->get_path(WEB_PATH). 'favicon.ico" type="image/x-icon" />');
 		$this->add_html_header('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />');
 	}
 	/**
@@ -75,7 +75,7 @@ class Header
 	{
 		$header[] = '<style type="text/css" media="'.$media.'">';
 		$header[] = '/*<![CDATA[*/';
-		$header[] = '@import "'. api_get_path(WEB_CODE_PATH) .'css/default.css";';
+		$header[] = '@import "'. $this->get_path(WEB_CSS_PATH) .'default.css";';
 		$header[] = '/*]]>*/';
 		$header[] ='</style>';
 		$this->add_html_header(implode(' ',$header));
@@ -123,6 +123,11 @@ class Header
 		}
 		$output[] = ' </head>';
 		return implode("\n",$output);
+	}
+	
+	function get_path($path_type)
+	{
+		return Path :: get_path($path_type);
 	}
 }
 ?>

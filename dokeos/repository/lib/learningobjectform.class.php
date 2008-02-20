@@ -270,7 +270,7 @@ EOT;
 			{
 				$attachments = array();
 			}
-			$url = api_get_path(WEB_PATH).'repository/xml_feed.php';
+			$url = $this->get_path(WEB_PATH).'repository/xml_feed.php';
 			$locale = array ();
 			$locale['Display'] = get_lang('AddAttachments');
 			$locale['Searching'] = get_lang('Searching');
@@ -482,6 +482,11 @@ EOT;
 		}
 		
 		return parent :: validate();
+	}
+	
+	function get_path($path_type)
+	{
+		return Path :: get_path($path_type);
 	}
 }
 ?>
