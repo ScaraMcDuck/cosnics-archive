@@ -3,7 +3,6 @@
  * $Id: filecompression.class.php 13555 2007-10-24 14:15:23Z bmol $
  * @package export
  */
-require_once (api_get_library_path().'/document.lib.php');
 /**
  * Abstract class to export tabular data.
  * Create a new type of export by extending this class.
