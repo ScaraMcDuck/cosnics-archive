@@ -275,14 +275,6 @@ function api_get_library_path()
 	return api_get_path(LIBRARY_PATH);
 }
 /**
-*	Alias for api_get_path(CONFIGURATION_PATH).
-*	@return the path of the configuration (conf) directory
-*/
-function api_get_configuration_path()
-{
-	return api_get_path(CONFIGURATION_PATH);
-}
-/**
 * note: this function was deprecated but turned out to be quite useful for
 * API functions, so it will remain here.
 *
@@ -339,110 +331,6 @@ function api_sql_query($query, $file = '', $line = 0)
 	}
 	return $result;
 }
-/**
- * Store the result of a query into an array
- *
- * @author Olivier Brouckaert
- * @param  resource $result - the return value of the query
- * @return array - the value returned by the query
- */
-function api_store_result($result)
-{
-	$tab = array ();
-	while ($row = mysql_fetch_array($result))
-	{
-		$tab[] = $row;
-	}
-	return $tab;
-}
-
-/*
-==============================================================================
-		SESSION MANAGEMENT
-==============================================================================
-*/
-/**
- * start the dokeos session
- *
- * @author Olivier Brouckaert
- * @param  string variable - the variable name to save into the session
- */
-function api_session_start($already_installed = true)
-{
-	global $storeSessionInDb;
-	if (is_null($storeSessionInDb))
-	{
-		$storeSessionInDb = false;
-	}
-	if ($storeSessionInDb && function_exists('session_set_save_handler'))
-	{
-		include_once (api_get_library_path().'/session_handler.class.php');
-		$session_handler = new session_handler();
-		@ session_set_save_handler(array ($session_handler, 'open'), array ($session_handler, 'close'), array ($session_handler, 'read'), array ($session_handler, 'write'), array ($session_handler, 'destroy'), array ($session_handler, 'garbage'));
-	}
-	session_name('dk_sid');
-	session_start();
-	if ($already_installed)
-	{
-		if (empty ($_SESSION['checkDokeosURL']))
-		{
-			$_SESSION['checkDokeosURL'] = api_get_path(WEB_PATH);
-		}
-		elseif ($_SESSION['checkDokeosURL'] != api_get_path(WEB_PATH))
-		{
-			api_session_clear();
-		}
-	}
-}
-/**
- * save a variable into the session
- *
- * BUG: function works only with global variables
- *
- * @author Olivier Brouckaert
- * @param  string variable - the variable name to save into the session
- */
-function api_session_register($variable)
-{
-	global $$variable;
-	session_register($variable);
-	$_SESSION[$variable] = $$variable;
-}
-/**
- * Remove a variable from the session.
- *
- * @author Olivier Brouckaert
- * @param  string variable - the variable name to remove from the session
- */
-function api_session_unregister($variable)
-{
-	session_unregister($variable);
-	$_SESSION[$variable] = null;
-	unset ($GLOBALS[$variable]);
-}
-/**
- * Clear the session
- *
- * @author Olivier Brouckaert
- */
-function api_session_clear()
-{
-	session_regenerate_id();
-	session_unset();
-	$_SESSION = array ();
-}
-/**
- * Destroy the session
- *
- * @author Olivier Brouckaert
- */
-function api_session_destroy()
-{
-	session_unset();
-	$_SESSION = array ();
-	session_destroy();
-}
-
 
 /**
 * Returns a difficult to guess password.
@@ -462,96 +350,6 @@ function api_generate_password($length = 8)
 		$password .= $characters[rand() % strlen($characters)];
 	}
 	return $password;
-}
-
-/*
-==============================================================================
-		FAILURE MANAGEMENT
-==============================================================================
-*/
-
-/*
- * The Failure Management module is here to compensate
- * the absence of an 'exception' device in PHP 4.
- */
-/**
- * $api_failureList - array containing all the failure recorded
- * in order of arrival.
- */
-$api_failureList = array ();
-/**
- * Fills a global array called $api_failureList
- * This array collects all the failure occuring during the script runs
- * The main purpose is allowing to manage the display messages externaly
- * from the functions or objects. This strengthens encupsalation principle
- *
- * @author Hugues Peeters <peeters@ipm.ucl.ac.be>
- * @param  string $failureType - the type of failure
- * @global array $api_failureList
- * @return bolean false to stay consistent with the main script
- */
-function api_set_failure($failureType)
-{
-	global $api_failureList;
-	$api_failureList[] = $failureType;
-	return false;
-}
-/**
- * get the last failure stored in $api_failureList;
- *
- * @author Hugues Peeters <hugues.peeters@claroline.net>
- * @param void
- * @return string - the last failure stored
- */
-function api_get_last_failure()
-{
-	global $api_failureList;
-	return $api_failureList[count($api_failureList) - 1];
-}
-/**
- * collects and manage failures occuring during script execution
- * The main purpose is allowing to manage the display messages externaly
- * from functions or objects. This strengthens encupsalation principle
- *
- * @author Hugues Peeters <hugues.peeters@claroline.net>
- * @package dokeos.library
- */
-class api_failure
-{
-	/*
-	 * IMPLEMENTATION NOTE : For now the $api_failureList list is set to the
-	 * global scope, as PHP 4 is unable to manage static variable in class. But
-	 * this feature is awaited in PHP 5. The class is already written to minize
-	 * the change when static class variable will be possible. And the API won't
-	 * change.
-	 */
-	var $api_failureList = array ();
-	/**
-	 * Pile the last failure in the failure list
-	 *
-	 * @author Hugues Peeters <peeters@ipm.ucl.ac.be>
-	 * @param  string $failureType - the type of failure
-	 * @global array  $api_failureList
-	 * @return bolean false to stay consistent with the main script
-	 */
-	function set_failure($failureType)
-	{
-		global $api_failureList;
-		$api_failureList[] = $failureType;
-		return false;
-	}
-	/**
-	 * get the last failure stored
-	 *
-	 * @author Hugues Peeters <hugues.peeters@claroline.net>
-	 * @param void
-	 * @return string - the last failure stored
-	 */
-	function get_last_failure()
-	{
-		global $api_failureList;
-		return $api_failureList[count($api_failureList) - 1];
-	}
 }
 
 /*
@@ -792,25 +590,6 @@ function api_display_language_form()
 	echo "<noscript><input type=\"submit\" name=\"user_select_language\" value=\"".get_lang("Ok")."\" /></noscript>";
 	echo "</form>";
 }
-/**
-* Return a list of all the languages that are made available by the admin.
-* @return array An array with all languages. Structure of the array is
-*  array['name'] = An array with the name of every language
-*  array['folder'] = An array with the corresponding dokeos-folder
-*/
-function api_get_languages()
-{
-	$tbl_language = Database :: get_main_table(MAIN_LANGUAGE_TABLE);
-	;
-	$sql = "SELECT * FROM $tbl_language WHERE available='1' ORDER BY original_name ASC";
-	$result = api_sql_query($sql, __FILE__, __LINE__);
-	while ($row = mysql_fetch_array($result))
-	{
-		$language_list['name'][] = $row['original_name'];
-		$language_list['folder'][] = $row['dokeos_folder'];
-	}
-	return $language_list;
-}
 
 /*
 ==============================================================================
@@ -818,21 +597,6 @@ function api_get_languages()
 		functions for the WYSIWYG html editor, TeX parsing...
 ==============================================================================
 */
-/**
-* Displays the HtmlArea WYSIWYG editor for online editing of html
-* @param string $name The name of the form-element
-* @param string $content The default content of the html-editor
-* @param int $height The height of the form element
-* @param int $width The width of the form element
-* @param string $optAttrib optional attributes for the form element
-*/
-function api_disp_html_area($name, $content = '', $height = '', $width = '100%', $optAttrib = '')
-{
-	global $urlAppend, $_course;
-?>
-<textarea id="<?php echo $name; ?>" name="<?php echo $name; ?>" rows="15" cols="70" style="width:<?php echo $width; ?>; <?php if(!empty($height)) echo "height:$height;"; ?>" <?php echo $optAttrib; ?> ><?php echo $content; ?></textarea>
-<?php
-}
 /**
  * Apply parsing to content to parse tex commandos that are seperated by [tex]
  * [/tex] to make it readable for techexplorer plugin.
@@ -899,24 +663,5 @@ function api_max_sort_value($user_course_category, $user_id)
 	}
 
 	return $max_sort;
-}
-
-/**
- * This function converts the string "true" or "false" to a boolean true or false.
- * This function is in the first place written for the Dokeos Config Settings (also named AWACS)
- * @param string "true" or "false"
- * @return boolean true or false
- * @author Patrick Cool <patrick.cool@UGent.be>, Ghent University
- */
-function string_2_boolean($string)
-{
-	if ($string == "true")
-	{
-		return true;
-	}
-	if ($string == "false")
-	{
-		return false;
-	}
 }
 ?>
