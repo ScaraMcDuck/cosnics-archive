@@ -66,11 +66,13 @@ class RegisterForm extends FormValidator {
 		// Phone Number
 		$this->addElement('text', User :: PROPERTY_PHONE, get_lang('PhoneNumber'));
 		// Language
-		$languages = api_get_languages();
+		$adm = AdminDataManager :: get_instance();
+		$languages = $adm->retrieve_languages();
 		$lang_options = array();
-		foreach ($languages['name'] as $index => $name)
+		
+		while ($language = $languages->next_result())
 		{
-			$lang_options[$languages['folder'][$index]] = $name;
+			$lang_options[$language->get_folder()] = $language->get_english_name();	
 		}
 		$this->addElement('select', User :: PROPERTY_LANGUAGE, get_lang('Language'), $lang_options);
 		// Status

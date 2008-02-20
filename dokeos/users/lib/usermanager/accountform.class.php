@@ -112,11 +112,13 @@ class AccountForm extends FormValidator {
 			$this->addRule( User::PROPERTY_PICTURE_URI, get_lang('OnlyImagesAllowed'), 'mimetype', array('image/gif', 'image/jpeg', 'image/png','image/x-png'));
 		}
 		// Language
-		$languages = api_get_languages();
+		$adm = AdminDataManager :: get_instance();
+		$languages = $adm->retrieve_languages();
 		$lang_options = array();
-		foreach ($languages['name'] as $index => $name)
+		
+		while ($language = $languages->next_result())
 		{
-			$lang_options[$languages['folder'][$index]] = $name;
+			$lang_options[$language->get_folder()] = $language->get_english_name();	
 		}
 		$this->addElement('select', User :: PROPERTY_LANGUAGE, get_lang('Language'), $lang_options);
 		if ($this->adm->retrieve_setting_from_variable_name('profile_language')->get_value() !== 'true')

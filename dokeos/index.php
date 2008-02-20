@@ -135,6 +135,7 @@ function display_anonymous_right_menu()
 function handle_login_failed()
 {
 	$message = get_lang("InvalidId");
+	// TODO: Replace this by setting from DB.
 	if (api_is_self_registration_allowed())
 		$message = get_lang("InvalidForSelfRegistration");
 	echo "<div id=\"login_fail\">".$message."</div>";
