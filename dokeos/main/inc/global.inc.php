@@ -20,9 +20,10 @@
 $includePath = dirname(__FILE__);
 
 // include the main Dokeos platform configuration file
-$main_configuration_file_path = $includePath."/conf/config.inc.php";
+$main_configuration_file_path = $includePath . '/../../common/configuration/configuration.php';
 $already_installed = false;
-if (file_exists($main_configuration_file_path)) {
+if (file_exists($main_configuration_file_path))
+{
 	require_once($main_configuration_file_path);
 	$already_installed = true;
 }
@@ -31,9 +32,10 @@ require_once($includePath.'/lib/main_api.lib.php');
 // TODO: Move this to a common area since it's used everywhere.
 require_once dirname(__FILE__).'/../../common/filesystem/path.class.php';
 require_once(dirname(__FILE__).'/../../common/configuration/configuration.class.php');
+require_once(dirname(__FILE__).'/../../common/platformsession.class.php');
 
 // Add the path to the pear packages to the include path
-ini_set('include_path',realpath(api_get_path(SYS_PATH).'/plugin/pear'));
+ini_set('include_path',realpath(Path :: get_path(SYS_PLUGIN_PATH).'pear'));
 
 // Include the libraries that are necessary everywhere
 require_once(api_get_library_path().'/database.lib.php');
@@ -45,7 +47,7 @@ require_once 'MDB2.php';
 
 // Start session
 
-api_session_start($already_installed);
+PlatformSession :: platform_session_start($already_installed);
 
 $error_message = <<<EOM
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -240,8 +242,56 @@ else
 	}
 }
 
-// include the local (contextual) parameters of this course or section
-require($includePath."/local.inc.php");
+/*
+ * Handle login and logout
+ * (Previously in local.inc.php)
+ */
+
+// TODO: Are these includes still necessary ?
+require_once (api_get_library_path().'/online.inc.php');
+require_once (api_get_library_path().'/events.lib.inc.php');
+require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
+ 
+// Login
+if($_POST['login'])
+{
+	$udm = UsersDataManager::get_instance();
+	$user = $udm->login($_POST['login'],$_POST['password']);
+	if(!is_null($user))
+	{
+		PlatformSession :: platform_session_register('_uid', $user->get_user_id());
+		// TODO: Tracking framework
+		//loginCheck($_SESSION['_uid']);
+		//event_login();
+//		if ($user->is_platform_admin())
+//		{
+//			// decode all open event informations and fill the track_c_* tables
+//			include (api_get_library_path()."/stats.lib.inc.php");
+//			decodeOpenInfos();
+//		}
+	}
+	else
+	{
+		PlatformSession :: platform_session_unregister('_uid');
+		header('Location: index.php?loginFailed=1');
+		exit;
+	}
+}
+// Log out
+if ($_GET['logout'])
+{
+	$query_string='';
+	if(!empty($_SESSION['user_language_choice']))
+	{
+		$query_string='?language='.$_SESSION['user_language_choice'];
+	}
+	// TODO: Reimplement tracking
+	//LoginDelete($uid, $statsDbName);
+	$udm = UsersDataManager::get_instance();
+	$udm->logout();
+	header("Location: index.php");
+	exit();
+}
 
 // ===== "who is logged in?" module section =====
 

@@ -141,10 +141,7 @@ class RegisterForm extends FormValidator {
     		}
 			if ($user->create())
 			{
-				global $_uid;
-				$_uid = intval($user->get_user_id());
-				api_session_register('_uid');
-				
+				PlatformSession :: platform_session_register('_uid', intval($user->get_user_id()));
 				return true;
 			}
 			else
