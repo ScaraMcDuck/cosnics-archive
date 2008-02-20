@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/profilebrowser.class.php';
 require_once dirname(__FILE__).'/../../../../common/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../../../../common/condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../../../../common/condition/patternmatchcondition.class.php';
-require_once api_get_library_path().'/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/FormValidator.class.php';
 /**
  * This class represents a profiler publisher component which can be used
  * to search for a certain learning object.
