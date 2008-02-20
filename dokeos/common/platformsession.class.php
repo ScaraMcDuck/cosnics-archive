@@ -22,9 +22,9 @@ class PlatformSession
 		{
 			if (empty ($_SESSION['checkDokeosURL']))
 			{
-				$_SESSION['checkDokeosURL'] = api_get_path(WEB_PATH);
+				$_SESSION['checkDokeosURL'] = Path :: get_path(WEB_PATH);
 			}
-			elseif ($_SESSION['checkDokeosURL'] != api_get_path(WEB_PATH))
+			elseif ($_SESSION['checkDokeosURL'] != Path :: get_path(WEB_PATH))
 			{
 				self :: platform_session_clear();
 			}
@@ -56,6 +56,11 @@ class PlatformSession
 		session_unset();
 		$_SESSION = array ();
 		session_destroy();
+	}
+	
+	public static function platform_session_retrieve($variable)
+	{
+		return $_SESSION[$variable];
 	}
 }
 ?>
