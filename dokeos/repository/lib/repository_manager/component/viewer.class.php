@@ -136,7 +136,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				{
 					$recycle_bin_button = array(
 						'href' => $recycle_url,
-						'img' => api_get_path(WEB_CODE_PATH).'img/recycle_bin.gif',
+						'img' => $this->get_path(WEB_IMG_PATH).'recycle_bin.gif',
 						'label' => get_lang('Remove'),
 						'confirm' => true,
 						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
@@ -149,7 +149,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					{
 						$recycle_bin_button = array(
 							'href' => $delete_url,
-							'img' => api_get_path(WEB_CODE_PATH).'img/delete.gif',
+							'img' => $this->get_path(WEB_IMG_PATH).'delete.gif',
 							'label' => get_lang('Delete'),
 							'confirm' => true,
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
@@ -159,7 +159,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					else
 					{
 						$recycle_bin_button = array(
-							'img' => api_get_path(WEB_CODE_PATH).'img/recycle_bin_na.gif',
+							'img' => $this->get_path(WEB_IMG_PATH).'recycle_bin_na.gif',
 							'label' => get_lang('Remove'),
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
@@ -175,7 +175,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					{
 						$force_delete_button = array(
 							'href' => $delete_link_url,
-							'img' => api_get_path(WEB_CODE_PATH).'img/unlink.gif',
+							'img' => $this->get_path(WEB_IMG_PATH).'unlink.gif',
 							'label' => get_lang('Unlink'),
 							'confirm' => true,
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
@@ -187,7 +187,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					{
 						$toolbar_data[] = array(
 							'href' => $edit_url,
-							'img' => api_get_path(WEB_CODE_PATH).'img/edit.gif',
+							'img' => $this->get_path(WEB_IMG_PATH).'edit.gif',
 							'label' => get_lang('Edit'),
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
@@ -195,7 +195,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					else
 					{
 						$toolbar_data[] = array(
-							'img' => api_get_path(WEB_CODE_PATH).'img/edit_na.gif',
+							'img' => $this->get_path(WEB_IMG_PATH).'edit_na.gif',
 							'label' => get_lang('Edit'),
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
@@ -213,7 +213,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					{
 						$toolbar_data[] = array(
 							'href' =>  $this->get_learning_object_moving_url($object),
-							'img' => api_get_path(WEB_CODE_PATH).'img/move.gif',
+							'img' => $this->get_path(WEB_IMG_PATH).'move.gif',
 							'label' => get_lang('Move'),
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
@@ -221,13 +221,13 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					$toolbar_data[] = array(
 						'href' => $this->get_learning_object_metadata_editing_url($object),
 						'label' => get_lang('Metadata'),
-						'img' => api_get_path(WEB_CODE_PATH).'img/info_small.gif',
+						'img' => $this->get_path(WEB_IMG_PATH).'info_small.gif',
 						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
 					$toolbar_data[] = array(
 						'href' => $this->get_learning_object_rights_editing_url($object),
 						'label' => get_lang('Rights'),
-						'img' => api_get_path(WEB_CODE_PATH).'img/group_small.gif',
+						'img' => $this->get_path(WEB_IMG_PATH).'group_small.gif',
 						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
 				}
@@ -236,7 +236,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					$toolbar_data[] = array(
 						'href' => $this->get_learning_object_restoring_url($object),
 						'label' => get_lang('Restore'),
-						'img' => api_get_path(WEB_CODE_PATH).'img/restore.gif',
+						'img' => $this->get_path(WEB_IMG_PATH).'restore.gif',
 						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
 					$toolbar_data[] = $recycle_bin_button;

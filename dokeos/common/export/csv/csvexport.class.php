@@ -11,7 +11,7 @@ class CsvExport extends Export
 {
 	public function write_to_file($data)
 	{
-		$file = Filesystem::create_unique_name(api_get_path(SYS_ARCHIVE_PATH),$this->get_filename());
+		$file = Filesystem::create_unique_name($this->get_path(SYS_ARCHIVE_PATH),$this->get_filename());
 		$handle = fopen($file, 'a+');
 		$key_array = array_keys($data[0]);
 		fwrite($handle, '"'.implode('";"', $key_array).'"'."\n");

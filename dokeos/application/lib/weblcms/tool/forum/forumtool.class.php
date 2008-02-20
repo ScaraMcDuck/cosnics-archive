@@ -69,8 +69,8 @@ class ForumTool extends RepositoryTool
 			{
 				if($this->is_allowed(ADD_RIGHT))
 				{
-					echo '<a href="' . $this->get_url(array('admin' => 1), true) . '"><img src="'.api_get_path(WEB_CODE_PATH).'/img/publish.gif" alt="'.get_lang('Publish').'" style="vertical-align:middle;"/> '.get_lang('Publish').'</a> ';
-					echo '<a href="' . $this->get_url(array('category_manager_action' => 1), true) . '"><img src="'.api_get_path(WEB_CODE_PATH).'/img/category.gif" alt="'.get_lang('ManageCategories').'" style="vertical-align:middle;"/> '.get_lang('ManageCategories').'</a></p>';
+					echo '<a href="' . $this->get_url(array('admin' => 1), true) . '"><img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).'publish.gif" alt="'.get_lang('Publish').'" style="vertical-align:middle;"/> '.get_lang('Publish').'</a> ';
+					echo '<a href="' . $this->get_url(array('category_manager_action' => 1), true) . '"><img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).'category.gif" alt="'.get_lang('ManageCategories').'" style="vertical-align:middle;"/> '.get_lang('ManageCategories').'</a></p>';
 				}
 				echo $this->perform_requested_actions();
 				$browser = new ForumBrowser($this);

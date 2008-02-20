@@ -113,7 +113,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 		$quota_data = array();
 
 		$quota_data_row = array();
-		$quota_data_row[] = '<img src="'. $this->get_web_code_path().'img/versions_large.gif" alt=""/>';
+		$quota_data_row[] = '<img src="'. $this->get_path(WEB_IMG_PATH).'versions_large.gif" alt=""/>';
 		$quota_data_row[] = get_lang('Default');
 		$quota_data_row[] = $user->get_version_quota();
 
@@ -123,7 +123,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 		{
 			$quota_data_row = array();
 
-			$quota_data_row[] = '<img src="'. $this->get_web_code_path().'img/'. $type .'.gif" alt="'.$type.'"/>';
+			$quota_data_row[] = '<img src="'. $this->get_path(WEB_IMG_PATH). $type .'.gif" alt="'.$type.'"/>';
 			$quota_data_row[] = get_lang(self :: type_to_class($type). 'TypeName');
 			$object = new AbstractLearningObject($type, $this->get_user_id());
 			if ($object->is_versionable())

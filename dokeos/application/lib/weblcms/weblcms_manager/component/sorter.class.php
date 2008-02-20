@@ -303,14 +303,14 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			$toolbar_data[] = array(
 				'href' => $this->get_course_user_move_url($course, 'up'),
 				'label' => get_lang('Up'),
-				'img' => $this->get_web_code_path().'img/up.gif'
+				'img' => $this->get_path(WEB_IMG_PATH).'up.gif'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 				'label' => get_lang('Up'),
-				'img' => $this->get_web_code_path().'img/up_na.gif'
+				'img' => $this->get_path(WEB_IMG_PATH).'up_na.gif'
 			);
 		}
 		
@@ -319,25 +319,25 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			$toolbar_data[] = array(
 				'href' => $this->get_course_user_move_url($course, 'down'),
 				'label' => get_lang('Down'),
-				'img' => $this->get_web_code_path().'img/down.gif'
+				'img' => $this->get_path(WEB_IMG_PATH).'down.gif'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 				'label' => get_lang('Up'),
-				'img' => $this->get_web_code_path().'img/down_na.gif'
+				'img' => $this->get_path(WEB_IMG_PATH).'down_na.gif'
 			);
 		}
 		
 		$toolbar_data[] = array(
 			'href' => $this->get_course_user_edit_url($course),
 			'label' => get_lang('Edit'),
-			'img' => $this->get_web_code_path().'img/edit.gif'
+			'img' => $this->get_path(WEB_IMG_PATH).'edit.gif'
 		);
 		
 		$toolbar_data[] = array(
-			'img' => $this->get_web_code_path().'img/spacer.gif'
+			'img' => $this->get_path(WEB_IMG_PATH).'spacer.gif'
 		);
 
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
@@ -352,14 +352,14 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			$toolbar_data[] = array(
 				'href' => $this->get_course_user_category_move_url($courseusercategory, 'up'),
 				'label' => get_lang('Up'),
-				'img' => $this->get_web_code_path().'img/up.gif'
+				'img' => $this->get_path(WEB_IMG_PATH).'up.gif'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 				'label' => get_lang('Up'),
-				'img' => $this->get_web_code_path().'img/up_na.gif'
+				'img' => $this->get_path(WEB_IMG_PATH).'up_na.gif'
 			);
 		}
 		
@@ -368,28 +368,28 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			$toolbar_data[] = array(
 				'href' => $this->get_course_user_category_move_url($courseusercategory, 'down'),
 				'label' => get_lang('Down'),
-				'img' => $this->get_web_code_path().'img/down.gif'
+				'img' => $this->get_path(WEB_IMG_PATH).'down.gif'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 				'label' => get_lang('Up'),
-				'img' => $this->get_web_code_path().'img/down_na.gif'
+				'img' => $this->get_path(WEB_IMG_PATH).'down_na.gif'
 			);
 		}
 		
 		$toolbar_data[] = array(
 			'href' => $this->get_course_user_category_edit_url($courseusercategory),
 			'label' => get_lang('Edit'),
-			'img' => $this->get_web_code_path().'img/edit.gif'
+			'img' => $this->get_path(WEB_IMG_PATH).'edit.gif'
 		);
 			
 		$toolbar_data[] = array(
 			'href' => $this->get_course_user_category_delete_url($courseusercategory),
 			'label' => get_lang('Delete'),
 			'confirm' => true,
-			'img' => $this->get_web_code_path().'img/delete.gif'
+			'img' => $this->get_path(WEB_IMG_PATH).'delete.gif'
 		);
 		
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
@@ -402,7 +402,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		$toolbar_data[] = array(
 			'href' => $this->get_course_user_category_add_url(),
 			'label' => get_lang('CreateCourseUserCategory'),
-			'img' => $this->get_web_code_path().'img/folder.gif',
+			'img' => $this->get_path(WEB_IMG_PATH).'folder.gif',
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		

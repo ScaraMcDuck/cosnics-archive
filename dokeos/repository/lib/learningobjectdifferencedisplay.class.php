@@ -36,7 +36,7 @@ class LearningObjectDifferenceDisplay {
 		$diff = $this->get_difference();
 
 		$html = array();
-		$html[] = '<div class="difference" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$diff->get_object()->get_icon_name().'.gif);">';
+		$html[] = '<div class="difference" style="background-image: url('.$this->get_path(WEB_IMG_PATH) . $diff->get_object()->get_icon_name().'.gif);">';
 		$html[] = '<div class="titleleft">';
 		$html[] = $diff->get_object()->get_title();
 		$html[] = date(" (d M Y, H:i:s O)",$diff->get_object()->get_creation_date());
@@ -103,7 +103,7 @@ class LearningObjectDifferenceDisplay {
 	function get_legend()
 	{
 		$html = array();
-		$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/description.gif);">';
+		$html[] = '<div class="learning_object" style="background-image: url('.$this->get_path(WEB_IMG_PATH).'description.gif);">';
 		$html[] = '<div class="title">'. get_lang('Legend') .'</div>';
 		$html[] = '<span class="compare_delete">'. get_lang('CompareExample') .'</span>: '. get_lang('CompareDeleteInfo') .'<br />';
 		$html[] = '<span class="compare_add">'. get_lang('CompareExample') .'</span>: '. get_lang('CompareAddInfo') .'<br />';
@@ -123,6 +123,11 @@ class LearningObjectDifferenceDisplay {
 		$class = LearningObject :: type_to_class($type).'DifferenceDisplay';
 		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_differencedisplay.class.php';
 		return new $class($difference);
+	}
+	
+	function get_path($path_type)
+	{
+		return Path :: get_path($path_type);
 	}
 
 }

@@ -253,7 +253,7 @@ function random_string($length)
 function create_random_file_content($path)
 {
 	$string = random_string(50);
-	$path = api_get_path(SYS_CODE_PATH).'/upload/'.$path;
+	$path = Path :: get_path(SYS_REPO_PATH).$path;
 	$handle = fopen($path, 'w+');
 	fwrite($handle, $string);
 	fclose($handle);

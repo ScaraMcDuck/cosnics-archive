@@ -42,7 +42,7 @@ class Banner
 		$output[] = '<div id="header">  <!-- header section start -->';
 		$output[] = '<div id="header1"> <!-- top of banner with institution name/hompage link -->';
 		$output[] = '<div id="institution">';
-		$output[] = '<a href="'.api_get_path(WEB_PATH).'index.php" target="_top">'.$this->get_setting('site_name', 'admin').'</a>';
+		$output[] = '<a href="'.$this->get_path(WEB_PATH).'index.php" target="_top">'.$this->get_setting('site_name', 'admin').'</a>';
 		$output[] = '-';
 		$output[] = '<a href="'.$this->get_setting('institution_url', 'admin').'" target="_top">'.$this->get_setting('institution', 'admin').'</a>';
 		$output[] = '</div>';
@@ -67,7 +67,7 @@ class Banner
 //			// Display the who's online of the platform
 //			if (($this->get_setting('showonline_world') == "true" AND !$_SESSION['_uid']) OR ($this->get_setting('showonline_users') == "true" AND $_SESSION['_uid']))
 //			{
-//				$output[] = "<a href='".api_get_path(WEB_PATH)."whoisonline.php' target='_top'>".$number."</a>";
+//				$output[] = "<a href='".$this->get_path(WEB_PATH)."whoisonline.php' target='_top'>".$number."</a>";
 //			}
 //
 //			// Display brackets if who's online of the campus AND who's online in the course are active
@@ -79,7 +79,7 @@ class Banner
 //			// Display the who's online for the course
 //			if ($_course AND $this->get_setting('showonline_course') == "true")
 //			{
-//				$output[] = "<a href='".api_get_path(REL_CLARO_PATH)."online/whoisonlinecourse.php' target='_top'>$number_online_in_course ".get_lang('InThisCourse')."</a>";
+//				$output[] = "<a href='".$this->get_path(REL_CLARO_PATH)."online/whoisonlinecourse.php' target='_top'>$number_online_in_course ".get_lang('InThisCourse')."</a>";
 //			}
 //
 //			// Display brackets if who's online of the campus AND who's online in the course are active
@@ -94,7 +94,7 @@ class Banner
 		$output[] = '</ul>';
 		$output[] = '</div>';
 		$output[] = '<!-- link to campus home (not logged in)';
-		$output[] = '<a href="'.api_get_path(WEB_PATH).'index.php" target="_top">' . $this->get_setting('site_name', 'admin') . '</a>';
+		$output[] = '<a href="'.$this->get_path(WEB_PATH).'index.php" target="_top">' . $this->get_setting('site_name', 'admin') . '</a>';
 		$output[] = '-->';
 		//not to let the empty header disappear and ensure help pic is inside the header
 		$output[] = '<div class="clear">&nbsp;</div>';
@@ -111,7 +111,7 @@ class Banner
 
 			$output[] = '<div id="header3"> <!-- start user section line with name, my course, my profile, scorm info, etc -->';
 
-			$output[] = '<form method="get" action="'.api_get_path(WEB_PATH).'index.php" class="banner_links" target="_top">';
+			$output[] = '<form method="get" action="'.$this->get_path(WEB_PATH).'index.php" class="banner_links" target="_top">';
 			$output[] = '<input type="hidden" name="logout" value="true"/>';
 			$output[] = '<input type="hidden" name="uid" value="'.$_SESSION['_uid'].'"/>';
 			$output[] = '<div id="logout">';
@@ -145,7 +145,7 @@ class Banner
 					$count = 0;
 				}
 
-				$output[] = '<a '.$link_class.' href="'.api_get_path(WEB_PATH).'run.php?application='.$application.'" target="_top">';
+				$output[] = '<a '.$link_class.' href="'.$this->get_path(WEB_PATH).'run.php?application='.$application.'" target="_top">';
 				$output[] = get_lang(Application::application_to_class($application));
 				$output[] = ($count > 0 ? '&nbsp;('.$count.')' : null);
 				$output[] = '</a>&nbsp;';
@@ -160,7 +160,7 @@ class Banner
 				$link_class = '';
 			}
 
-			$output[] = '<a '.$link_class.' href="'.api_get_path(WEB_PATH).'index_repository_manager.php" target="_top">';
+			$output[] = '<a '.$link_class.' href="'.$this->get_path(WEB_PATH).'index_repository_manager.php" target="_top">';
 			$output[] = get_lang('MyRepository');
 			$output[] = '</a>&nbsp;';
 
@@ -173,7 +173,7 @@ class Banner
 				$link_class = '';
 			}
 
-			$output[] = '<a '.$link_class.' href="'.api_get_path(WEB_PATH).'index_user.php?go=account" target="_top">';
+			$output[] = '<a '.$link_class.' href="'.$this->get_path(WEB_PATH).'index_user.php?go=account" target="_top">';
 			$output[] = get_lang('ModifyProfile');
 			$output[] = '</a>&nbsp;';
 
@@ -187,7 +187,7 @@ class Banner
 				{
 					$link_class = '';
 				}
-				$output[] = '<a id="platform_admin" '.$link_class.' href="'.api_get_path(WEB_PATH).'index_admin.php" target="_top">';
+				$output[] = '<a id="platform_admin" '.$link_class.' href="'.$this->get_path(WEB_PATH).'index_admin.php" target="_top">';
 				$output[] = get_lang('PlatformAdmin');
 				$output[] = '</a>&nbsp;';
 			}
@@ -203,7 +203,7 @@ class Banner
 			}
 			else
 			{
-				$output[] = '&nbsp;&nbsp;<a href="'.api_get_path(WEB_PATH).'index.php" target="_top">'.$this->get_setting('site_name', 'admin').'</a>';
+				$output[] = '&nbsp;&nbsp;<a href="'.$this->get_path(WEB_PATH).'index.php" target="_top">'.$this->get_setting('site_name', 'admin').'</a>';
 			}
 		}
 
@@ -243,6 +243,11 @@ class Banner
 		$output[] = '<!--   Begin Of script Output   -->';
 
 		return implode("\n", $output);
+	}
+	
+	function get_path($path_type)
+	{
+		return Path :: get_path($path_type);
 	}
 }
 ?>

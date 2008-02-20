@@ -5,6 +5,7 @@ require_once dirname(__FILE__).'/../configuration/configuration.class.php';
 // The root paths
 define('WEB_PATH', 'WEB_PATH');
 define('SYS_PATH', 'SYS_PATH');
+define('REL_PATH', 'REL_PATH');
 
 // Platform-level paths
 define('WEB_LIB_PATH', 'WEB_LIB_PATH');
@@ -15,6 +16,7 @@ define('WEB_CODE_PATH', 'WEB_CODE_PATH');
 define('SYS_CODE_PATH', 'SYS_CODE_PATH');
 define('WEB_FILE_PATH', 'WEB_FILE_PATH');
 define('SYS_FILE_PATH', 'SYS_FILE_PATH');
+define('REL_FILE_PATH', 'REL_FILE_PATH');
 define('WEB_LAYOUT_PATH', 'WEB_LAYOUT_PATH');
 define('SYS_LAYOUT_PATH', 'SYS_LAYOUT_PATH');
 
@@ -51,6 +53,9 @@ class Path
 				return $conf->get_parameter('general', 'root_web');
 			case SYS_PATH :
 				return $conf->get_parameter('general', 'root_sys');
+			case REL_PATH :
+				$url_append = $conf->get_parameter('general', 'url_append');
+				return (substr($url_append, -1) === '/' ? $url_append : $url_append.'/');
 				
 			// Platform-level paths
 			case WEB_LIB_PATH :
@@ -69,6 +74,8 @@ class Path
 				return self :: get_path(WEB_PATH) . 'files/';
 			case SYS_FILE_PATH :
 				return self :: get_path(SYS_PATH) . 'files/';
+			case REL_FILE_PATH :
+				return self :: get_path(REL_PATH) . 'files/';
 			case WEB_LAYOUT_PATH :
 				return self :: get_path(WEB_PATH) . 'layout/';
 			case SYS_LAYOUT_PATH :
@@ -91,6 +98,12 @@ class Path
 				return self :: get_path(WEB_FILE_PATH) . 'fckeditor/';
 			case SYS_FCK_PATH :
 				return self :: get_path(SYS_FILE_PATH) . 'fckeditor/';
+			case REL_FCK_PATH :
+				return self :: get_path(REL_FILE_PATH) . 'fckeditor/';
+			case WEB_REPO_PATH :
+				return self :: get_path(WEB_FILE_PATH) . 'repository/';
+			case SYS_REPO_PATH :
+				return self :: get_path(SYS_FILE_PATH) . 'repository/';
 				
 			// Layout-paths
 			case WEB_IMG_PATH :

@@ -74,7 +74,7 @@ abstract class LearningObjectDisplay
 	{
 		$object = $this->get_learning_object();
 		$html = array();
-		$html[] = '<div class="learning_object" style="background-image: url('.api_get_path(WEB_CODE_PATH).'img/'.$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.gif);">';
+		$html[] = '<div class="learning_object" style="background-image: url('.$this->get_path(WEB_IMG_PATH).$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.gif);">';
 		$html[] = '<div class="title">'. htmlentities($object->get_title()) .'</div>';
 		$html[] = $this->get_description();
 		$html[] = '</div>';
@@ -129,7 +129,7 @@ abstract class LearningObjectDisplay
 				foreach ($attachments as $attachment)
 				{
 					$disp = self :: factory($attachment);
-					$html[] = '<li><img src="'.api_get_path(WEB_CODE_PATH).'/img/treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+					$html[] = '<li><img src="'.$this->get_path(WEB_IMG_PATH).'treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 				}
 				$html[] = '</ul>';
 				$html[] = '</div>';
@@ -158,29 +158,29 @@ abstract class LearningObjectDisplay
 		$html[] = $version_entry['date'] .'&nbsp;';
 		if (isset($version_entry['delete_link']))
 		{
-			$html[] = '<a href="'. $version_entry['delete_link'] .'" title="' .get_lang('Delete'). '" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version.gif" alt="'.htmlentities(get_lang('Delete')).'"/></a>';
+			$html[] = '<a href="'. $version_entry['delete_link'] .'" title="' .get_lang('Delete'). '" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.$this->get_path(WEB_IMG_PATH).'delete_version.gif" alt="'.htmlentities(get_lang('Delete')).'"/></a>';
 		}
 		else
 		{
-			$html[] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/delete_version_na.gif" alt="'.htmlentities(get_lang('Delete')).'"/>';
+			$html[] = '<img src="'.$this->get_path(WEB_IMG_PATH).'delete_version_na.gif" alt="'.htmlentities(get_lang('Delete')).'"/>';
 		}
 
 		if (isset($version_entry['revert_link']))
 		{
-			$html[] = '&nbsp;<a href="'. $version_entry['revert_link'] .'" title="' .get_lang('Revert'). '" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'/img/revert.gif" alt="'.htmlentities(get_lang('Revert')).'"/></a>';
+			$html[] = '&nbsp;<a href="'. $version_entry['revert_link'] .'" title="' .get_lang('Revert'). '" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.$this->get_path(WEB_IMG_PATH).'revert.gif" alt="'.htmlentities(get_lang('Revert')).'"/></a>';
 		}
 		else
 		{
-			$html[] = '&nbsp;<img src="'.api_get_path(WEB_CODE_PATH).'/img/revert_na.gif" alt="'.htmlentities(get_lang('Revert')).'"/>';
+			$html[] = '&nbsp;<img src="'.$this->get_path(WEB_IMG_PATH).'revert_na.gif" alt="'.htmlentities(get_lang('Revert')).'"/>';
 		}
 
 //		if (isset($version_entry['comment']) && $version_entry['comment'] != '')
 //		{
-//			$html[] = '&nbsp;<img src="'.api_get_path(WEB_CODE_PATH).'/img/comment_small.gif"  onmouseover="return escape(\''. str_replace(array("\n", "\r", "\r\n"), '', htmlentities($version_entry['comment'])) .'\')" />';
+//			$html[] = '&nbsp;<img src="'.$this->get_path(WEB_IMG_PATH).'comment_small.gif"  onmouseover="return escape(\''. str_replace(array("\n", "\r", "\r\n"), '', htmlentities($version_entry['comment'])) .'\')" />';
 //		}
 //		else
 //		{
-//			$html[] = '&nbsp;<img src="'.api_get_path(WEB_CODE_PATH).'/img/empty.gif" alt="'. get_lang('NoComment') .'"/>';
+//			$html[] = '&nbsp;<img src="'.$this->get_path(WEB_IMG_PATH).'empty.gif" alt="'. get_lang('NoComment') .'"/>';
 //		}
 
 		$html[] = '&nbsp;<a href="'.htmlentities($version_entry['viewing_link']).'">'.$version_entry['title'].'</a>';
@@ -295,6 +295,11 @@ abstract class LearningObjectDisplay
 		$class = LearningObject :: type_to_class($type).'Display';
 		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_display.class.php';
 		return new $class($object);
+	}
+	
+	function get_path($path_type)
+	{
+		return Path :: get_path($path_type);
 	}
 }
 ?>

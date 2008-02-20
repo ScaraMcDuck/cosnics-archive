@@ -60,7 +60,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_editing_url($learning_object),
 			'label' => get_lang('Edit'),
-			'img' => $this->browser->get_web_code_path().'img/edit.gif'
+			'img' => $this->browser->get_path(WEB_IMG_PATH).'edit.gif'
 		);
 		$html = array ();
 		if ($url = $this->browser->get_learning_object_recycling_url($learning_object))
@@ -68,7 +68,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 			$toolbar_data[] = array(
 				'href' => $url,
 				'label' => get_lang('Remove'),
-				'img' => $this->browser->get_web_code_path().'img/recycle_bin.gif',
+				'img' => $this->browser->get_path(WEB_IMG_PATH).'recycle_bin.gif',
 				'confirm' => true
 			);
 		}
@@ -76,7 +76,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		{
 			$toolbar_data[] = array(
 				'label' => get_lang('Remove'),
-				'img' => $this->browser->get_web_code_path().'img/recycle_bin_na.gif'
+				'img' => $this->browser->get_path(WEB_IMG_PATH).'recycle_bin_na.gif'
 			);
 		}
 		if($this->browser->get_number_of_categories() > 1)
@@ -84,18 +84,18 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_learning_object_moving_url($learning_object),
 				'label' => get_lang('Move'),
-				'img' => $this->browser->get_web_code_path().'img/move.gif'
+				'img' => $this->browser->get_path(WEB_IMG_PATH).'move.gif'
 			);
 		}
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_metadata_editing_url($learning_object),
 			'label' => get_lang('Metadata'),
-			'img' => $this->browser->get_web_code_path().'img/info_small.gif'
+			'img' => $this->browser->get_path(WEB_IMG_PATH).'info_small.gif'
 		);
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_rights_editing_url($learning_object),
 			'label' => get_lang('Rights'),
-			'img' => $this->browser->get_web_code_path().'img/group_small.gif'
+			'img' => $this->browser->get_path(WEB_IMG_PATH).'group_small.gif'
 		);
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}

@@ -15,7 +15,7 @@ class Chatbox extends LearningObject
 	 */
 	private function get_log_file()
 	{
-		return realpath(api_get_path(SYS_CODE_PATH)).'../files/chatbox/chatbox.'.$this->get_id().'.txt';
+		return realpath($this->get_path(SYS_CODE_PATH)).'../files/chatbox/chatbox.'.$this->get_id().'.txt';
 	}
 	/**
 	 * Get all messages in this chatbox

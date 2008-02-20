@@ -45,7 +45,7 @@ class GroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTableCell
 				$toolbar_data[] = array(
 					'href' => $unsubscribe_url,
 					'label' => get_lang('Subscribe'),
-					'img' => api_get_path(WEB_CODE_PATH).'/img/user-subscribe.gif'
+					'img' => $this->browser->get_path(WEB_IMG_PATH).'user-subscribe.gif'
 				);
 			$parameters = array();
 			$parameters[Weblcms::PARAM_USER_ACTION] = UserTool::USER_DETAILS;
@@ -54,7 +54,7 @@ class GroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTableCell
 			$toolbar_data[] = array(
 				'href' => $unsubscribe_url,
 				'label' => get_lang('Details'),
-				'img' => api_get_path(WEB_CODE_PATH).'/img/profile.gif'
+				'img' => $this->browser->get_path(WEB_IMG_PATH).'profile.gif'
 			);
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}

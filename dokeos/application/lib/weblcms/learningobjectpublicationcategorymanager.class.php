@@ -140,8 +140,8 @@ class LearningObjectPublicationCategoryManager
 			if ($id != 0)
 			{
 				// TODO: Use RepositoryUtilities :: build_toolbar(). But this UI needs to change anyway.
-				$options[] = '<a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT, self :: PARAM_ID => $id), true).'"><img src="'.api_get_path(WEB_CODE_PATH).'img/edit.gif"  alt=""/></a>';
-				$options[] = '<a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE, self :: PARAM_ID => $id), true).'" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.api_get_path(WEB_CODE_PATH).'img/delete.gif"  alt=""/></a>';
+				$options[] = '<a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT, self :: PARAM_ID => $id), true).'"><img src="'.$this->parent->get_path(WEB_IMG_PATH).'edit.gif"  alt=""/></a>';
+				$options[] = '<a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE, self :: PARAM_ID => $id), true).'" onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"><img src="'.$this->parent->get_path(WEB_IMG_PATH).'delete.gif"  alt=""/></a>';
 			}
 			$options = ' '.join(' ', $options);
 			$html .= '<li>'.htmlentities($category->get_title()).$options.$this->category_tree_as_html($subtree).'</li>';

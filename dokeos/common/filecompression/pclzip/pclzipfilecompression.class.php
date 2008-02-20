@@ -3,7 +3,7 @@
  * $Id$
  * @package filecompression
  */
-require_once api_get_path(SYS_PATH).'plugin/pclzip-2-6/pclzip.lib.php';
+require_once dirname(__FILE__).'/../../../plugin/pclzip-2-6/pclzip.lib.php';
 /**
  * This class implements file compression and extraction using the PclZip
  * library
@@ -31,8 +31,8 @@ class PclzipFilecompression extends Filecompression
 	}
 	function create_archive($path)
 	{
-		$archive_file = Filesystem::create_unique_name(api_get_path(SYS_PATH).'files/temp/',uniqid().'.zip');
-		$archive_file = realpath(api_get_path(SYS_PATH).'files/temp/').$archive_file;
+		$archive_file = Filesystem::create_unique_name($this->get_path(SYS_TEMP_PATH),uniqid().'.zip');
+		$archive_file = realpath($this->get_path(SYS_TEMP_PATH)).$archive_file;
 		$content = Filesystem::get_directory_content($path);
 		$pclzip = new PclZip($archive_file);
 		// Looks like the PCLZIP_OPT_REMOVE_PATH parameter can't deal with the drive-letter in Windows-paths, so we remove it here.

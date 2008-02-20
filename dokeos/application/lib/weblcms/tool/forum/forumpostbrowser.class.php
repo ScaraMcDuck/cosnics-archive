@@ -81,7 +81,7 @@ class ForumPostBrowser extends LearningObjectPublicationBrowser
 		if($show_posts)
 		{
 			$toolbar_data = array ();
-			$toolbar_data[] = array ('href' => $this->get_url(array('forum_action'=>'newpost')), 'img' => api_get_path(WEB_CODE_PATH).'/img/forum.gif', 'label' => get_lang('NewPost'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+			$toolbar_data[] = array ('href' => $this->get_url(array('forum_action'=>'newpost')), 'img' => $this->get_path(WEB_IMG_PATH).'forum.gif', 'label' => get_lang('NewPost'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 			$html .=  '<div style="margin-bottom: 1em;">'.RepositoryUtilities :: build_toolbar($toolbar_data).'</div>';
 			$html .= '<b><a href="'.$this->get_url(array('topic'=>null)).'">'.$forum->get_title().'</a> : '.$this->topic->get_title().'</b>';
 			$html .= $this->listRenderer->as_html();
