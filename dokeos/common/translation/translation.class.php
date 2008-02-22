@@ -7,11 +7,6 @@ class Translation
 	private static $instance;
 	
 	/**
-	 * The language files to be used for translation
-	 */
-	private $language_files;
-	
-	/**
 	 * Language strings defined in the language-files. Stored as an associative array.
 	 */
 	private $strings;
@@ -35,6 +30,7 @@ class Translation
 		{
 			$this->language = $language;
 		}
+		$this->strings = array();
 	}
 
 	/**
@@ -50,24 +46,6 @@ class Translation
 		return self :: $instance;
 	}
 	
-	function use_lang_files()
-	{
-		foreach (func_get_args() as $id)
-		{
-			if (is_array($id))
-			{
-				foreach ($id as $i)
-				{
-					$this->language_files[$i] = true;
-				}
-			}
-			else
-			{
-				$this->language_files[$id] = true;
-			}
-		}
-	}
-	
 	function add_language_file_to_array($language, $application)
 	{
 		$lang = array();
@@ -76,22 +54,14 @@ class Translation
 		$this->strings[$language][$application] = $lang[$application];
 	}
 	
-	function ignore_lang_files()
+	function get_language()
 	{
-		foreach (func_get_args() as $id)
-		{
-			if (is_array($id))
-			{
-				foreach ($id as $i)
-				{
-					unset($this->language_files[$i]);
-				}
-			}
-			else
-			{
-				unset($this->language_files[$id]);
-			}
-		}
+		return $this->language;
+	}
+	
+	function set_language($language)
+	{
+		$this->language = $language;
 	}
 
 	/**
@@ -101,7 +71,7 @@ class Translation
 	 * @param string $name The parameter name.
 	 * @return mixed The parameter value.
 	 */
-	function get_translation($variable, $application)
+	function get_lang($variable, $application)
 	{
 		$language = $this->language;
 		
@@ -120,12 +90,7 @@ class Translation
 			}
 		}
 		
-		$strings = $this->strings;
-		
-		//echo '<pre>';
-		//print_r($lang);
-		//echo '<pre>';
-		
+		$strings = $this->strings;		
 		if (isset($strings[$language][$application][$variable]))
 		{
 			return $strings[$language][$application][$variable];

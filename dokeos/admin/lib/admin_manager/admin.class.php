@@ -10,7 +10,9 @@ require_once dirname(__FILE__).'/../admindatamanager.class.php';
 /**
  * The admin allows the platform admin to configure certain aspects of his platform
  */
-class Admin {
+class Admin
+{
+	const APPLICATION_NAME = 'admin';
 
 	const PARAM_ACTION = 'go';
 	const PARAM_MESSAGE = 'message';
@@ -213,6 +215,12 @@ class Admin {
 	function get_path($path_type)
 	{
 		return Path :: get_path($path_type);
+	}
+	
+	static function get_lang($variable)
+	{
+		$trans = Translation :: get_instance();
+		return $trans->get_lang($variable, self :: APPLICATION_NAME);
 	}
 }
 ?>
