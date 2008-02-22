@@ -159,7 +159,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(Admin :: get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (Language :: get_default_property_names() as $prop)
@@ -174,7 +174,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(Admin :: get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (Setting :: get_default_property_names() as $prop)
