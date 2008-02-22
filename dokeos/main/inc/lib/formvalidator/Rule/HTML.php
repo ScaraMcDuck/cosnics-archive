@@ -22,7 +22,7 @@
 ==============================================================================
 */
 require_once ('HTML/QuickForm/Rule.php');
-require_once (api_get_path(SYS_PATH).'plugin/kses-0.2.2/kses.php');
+require_once (Path :: get_path(SYS_PLUGIN_PATH).'kses-0.2.2/kses.php');
 /**
  * QuickForm rule to check a html
  */
