@@ -14,6 +14,7 @@ require_once dirname(__FILE__).'/../main/inc/lib/text.lib.php';
 require_once dirname(__FILE__).'/../main/inc/lib/database.lib.php';
 require_once dirname(__FILE__).'/../main/inc/lib/display.lib.php';
 require_once dirname(__FILE__).'/lib/install_manager/installmanager.class.php';
+require_once dirname(__FILE__).'/../common/filesystem/path.class.php';
 
 api_use_lang_files('trad4all', 'install');
 $language_interface = 'english';
