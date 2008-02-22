@@ -79,7 +79,7 @@ abstract class AdminDataManager
 			$links = $application->get_application_platform_admin_links();
 			if ($links['application']['name'])
 			{
-				$links['application']['name'] = get_lang('App'.Application::application_to_class($links['application']['name']));
+				$links['application']['name'] = Translation :: get_lang(Application::application_to_class($links['application']['name']));
 				$info[] = $links;
 			}
 		}

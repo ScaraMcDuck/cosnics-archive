@@ -179,7 +179,7 @@ class Banner
 
 			if ($user->is_platform_admin())
 			{
-				if ($GLOBALS['this_section'] == "platform_admin")
+				if ($GLOBALS['this_section'] == "admin")
 				{
 					$link_class = 'class="here"';
 				}
@@ -187,7 +187,7 @@ class Banner
 				{
 					$link_class = '';
 				}
-				$output[] = '<a id="platform_admin" '.$link_class.' href="'.$this->get_path(WEB_PATH).'index_admin.php" target="_top">';
+				$output[] = '<a id="admin" '.$link_class.' href="'.$this->get_path(WEB_PATH).'index_admin.php" target="_top">';
 				$output[] = get_lang('PlatformAdmin');
 				$output[] = '</a>&nbsp;';
 			}

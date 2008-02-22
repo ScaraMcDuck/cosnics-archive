@@ -19,6 +19,8 @@ define('SYS_FILE_PATH', 'SYS_FILE_PATH');
 define('REL_FILE_PATH', 'REL_FILE_PATH');
 define('WEB_LAYOUT_PATH', 'WEB_LAYOUT_PATH');
 define('SYS_LAYOUT_PATH', 'SYS_LAYOUT_PATH');
+define('WEB_LANG_PATH', 'WEB_LANG_PATH');
+define('SYS_LANG_PATH', 'SYS_LANG_PATH');
 
 // Files-paths
 define('WEB_ARCHIVE_PATH', 'WEB_ARCHIVE_PATH');
@@ -80,6 +82,10 @@ class Path
 				return self :: get_path(WEB_PATH) . 'layout/';
 			case SYS_LAYOUT_PATH :
 				return self :: get_path(SYS_PATH) . 'layout/';
+			case WEB_LANG_PATH :
+				return self :: get_path(WEB_PATH) . 'languages/';
+			case SYS_LANG_PATH :
+				return self :: get_path(SYS_PATH) . 'languages/';
 			
 			// Files-paths
 			case WEB_ARCHIVE_PATH :

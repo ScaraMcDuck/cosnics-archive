@@ -13,8 +13,8 @@ class AdminSystemannouncementsComponent extends AdminComponent
     function run()
     {
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => 'index_admin.php', 'name' => get_lang('PlatformAdmin'));
-		$breadcrumbs[] = array ('url' => '', 'name' => get_lang('SystemAnnouncements'));
+		$breadcrumbs[] = array ('url' => 'index_admin.php', 'name' => Admin :: get_lang('PlatformAdmin'));
+		$breadcrumbs[] = array ('url' => '', 'name' => Admin :: get_lang('SystemAnnouncements'));
 		$this->display_header($breadcrumbs);
 		echo 'TODO';
 		$this->display_footer();

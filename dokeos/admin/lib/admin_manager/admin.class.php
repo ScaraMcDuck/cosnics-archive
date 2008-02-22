@@ -216,11 +216,5 @@ class Admin
 	{
 		return Path :: get_path($path_type);
 	}
-	
-	static function get_lang($variable)
-	{
-		$trans = Translation :: get_instance();
-		return $trans->get_lang($variable, self :: APPLICATION_NAME);
-	}
 }
 ?>
