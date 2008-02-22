@@ -33,6 +33,7 @@ require_once($includePath.'/lib/main_api.lib.php');
 require_once dirname(__FILE__).'/../../common/filesystem/path.class.php';
 require_once(dirname(__FILE__).'/../../common/configuration/configuration.class.php');
 require_once(dirname(__FILE__).'/../../common/platformsession.class.php');
+require_once(dirname(__FILE__).'/../../common/translation/translation.class.php');
 
 // Add the path to the pear packages to the include path
 ini_set('include_path',realpath(Path :: get_path(SYS_PLUGIN_PATH).'pear'));
