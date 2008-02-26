@@ -1,8 +1,13 @@
 <?php
-/*
- * Created on 25-feb-08
- *
- * To change the template for this generated file go to
- * Window - Preferences - PHPeclipse - PHP - Code Templates
+
+/**
+ * @package migration.dokeos185
  */
+
+require_once dirname(__FILE__).'/../lib/import_class.class.php';
+
+class Dokeos185_Class extends Import
+{
+	
+}
 ?>

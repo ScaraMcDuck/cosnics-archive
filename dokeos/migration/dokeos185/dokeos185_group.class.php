@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @package migration.dokeos185
+ */
+
 /*
  * Created on 25-feb-08
  *

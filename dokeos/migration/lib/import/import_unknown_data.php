@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package migration
+ */
+
 abstract class Import_Unknown_Data
 {
 	abstract function convertToLearningObjects();
