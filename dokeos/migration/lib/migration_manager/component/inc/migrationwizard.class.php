@@ -1,12 +1,13 @@
 <?php
 /**
- * @package migration.migration_manager
+ * @package migration.lib.migration_manager.component.inc
  */
 require_once 'HTML/QuickForm/Controller.php';
 require_once 'HTML/QuickForm/Rule.php';
 require_once 'HTML/QuickForm/Action/Display.php';
 
-//require_once dirname(__FILE__).'/wizard/languageinstallwizardpage.class.php';
+require_once dirname(__FILE__).'/wizard/settingsmigrationwizardpage.class.php';
+require_once dirname(__FILE__).'/wizard/migrationwizarddisplay.class.php';
 
 /**
  * A wizard which guides the user through several steps to perform the migration
@@ -29,7 +30,8 @@ class MigrationWizard extends HTML_QuickForm_Controller
 		global $language_interface;
 		$this->parent = $parent;
 		parent :: HTML_QuickForm_Controller('MigrationWizard', true);
-		$this->addPage(new LanguageInstallWizardPage('page_language',$this->parent));
+		$this->addPage(new SettingsMigrationWizardPage('page_settings',$this->parent));
+		$this->addAction('display', new MigrationWizardDisplay($this->parent));
 	}
 }
 ?>

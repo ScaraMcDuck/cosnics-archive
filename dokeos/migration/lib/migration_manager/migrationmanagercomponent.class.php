@@ -96,7 +96,7 @@ abstract class MigrationManagerComponent
 	 */
 	function get_parent()
 	{
-		return $this->install_manager;
+		return $this->migration_manager;
 	}
 	
 	/**
