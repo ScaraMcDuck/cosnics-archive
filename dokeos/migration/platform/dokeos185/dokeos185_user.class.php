@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @package migration.dokeos185
+ * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../lib/import_user.class.php';
+require_once dirname(__FILE__).'/../../lib/import/import_user.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 user
@@ -43,7 +43,7 @@ class Dokeos185_User extends Import
 	const PROPERTY_OPENID = 'openid';
 	
 	// Property Table Admin
-	const PROPERTY_ADMIN_USER_ID = 'user_id';
+	const PROPERTY_ADMIN = 'user_id';
 	
 	const ACTION_READ_USER = 'read';
 	
@@ -59,12 +59,9 @@ class Dokeos185_User extends Import
 	 * array.
 	 */
 	private $defaultProperties;
-	
-	
+		
 	/**
 	 * Creates a new user object.
-	 * @param int $id The numeric ID of the user object. May be omitted
-	 *                if creating a new object.
 	 * @param array $defaultProperties The default properties of the user
 	 *                                 object. Associative array.
 	 */
@@ -234,7 +231,7 @@ class Dokeos185_User extends Import
 	
 	/**
 	 * Returns the creator ID for this user.
-	 * @return Int The ID
+	 * @return Int The creator ID
 	 */
 	function get_creator_id()
 	{
@@ -497,7 +494,7 @@ class Dokeos185_User extends Import
 	 * Sets the openarea for this user.
 	 * @param String $openarea The openarea.
 	 */
-	function set_diplomas($diplomas)
+	function set_openarea($openarea)
 	{
 		$this->set_default_property(self :: PROPERTY_OPENAREA, $openarea);
 	}
@@ -506,9 +503,83 @@ class Dokeos185_User extends Import
 	 * Sets the teach for this user.
 	 * @param String $teach The teach.
 	 */
-	function set_diplomas($diplomas)
+	function set_teach($teach)
 	{
-		$this->set_default_property(self :: PROPERTY_DIPLOMAS, $diplomas);
+		$this->set_default_property(self :: PROPERTY_TEACH, $teach);
 	}
+	
+	/**
+	 * Sets the productions for this user.
+	 * @param String $productions The productions.
+	 */
+	function set_productions($productions)
+	{
+		$this->set_default_property(self :: PROPERTY_PRODUCTIONS, $productions);
+	}
+	
+	/**
+	 * Sets the chatcall_user_id for this user.
+	 * @param int $chatcall_user_id The chatcall_user_id.
+	 */
+	function set_chatcall_user_id($chatcall_user_id)
+	{
+		$this->set_default_property(self :: PROPERTY_CHATCALL_USER_ID, $chatcall_user_id);
+	}
+	
+	/**
+	 * Sets the chatcall_date for this user.
+	 * @param String $chatcall_date The chatcall_date.
+	 */
+	function set_chatcall_date($chatcall_date)
+	{
+		$this->set_default_property(self :: PROPERTY_CHATCALL_DATE, $chatcall_date);
+	}
+	
+	/**
+	 * Sets the chatcall_text for this user.
+	 * @param String $chatcall_text The chatcall_text.
+	 */
+	function set_chatcall_text($chatcall_text)
+	{
+		$this->set_default_property(self :: PROPERTY_CHATCALL_TEXT, $chatcall_text);
+	}
+	
+	/**
+	 * Sets the registration_date for this user.
+	 * @param String $registration_date The registration_date.
+	 */
+	function set_registration_date($registration_date)
+	{
+		$this->set_default_property(self :: PROPERTY_REGISTRATION_DATE, $registration_date);
+	}
+	
+	/**
+	 * Sets the expiration_date for this user.
+	 * @param String $expiration_date The expiration_date.
+	 */
+	function set_expiration_date($expiration_date)
+	{
+		$this->set_default_property(self :: PROPERTY_EXPIRATION_DATE, $expiration_date);
+	}
+	
+	/**
+	 * Sets active for this user.
+	 * @param String $active active.
+	 */
+	function set_active($active)
+	{
+		$this->set_default_property(self :: PROPERTY_ACTIVE, $active);
+	}
+	
+	/**
+	 * Sets the openid for this user.
+	 * @param String $openid The openid.
+	 */
+	function set_openid($openid)
+	{
+		$this->set_default_property(self :: PROPERTY_OPENID, $openid);
+	}
+	
+	// TODO Admin functions
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package migration
+ * @package migration.lib.import
  */
 
 abstract class Import_Unknown_Data

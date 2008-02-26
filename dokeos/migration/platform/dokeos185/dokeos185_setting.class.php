@@ -1,8 +1,10 @@
 <?php
 
 /**
- * @package migration.dokeos185
+ * @package migration.platform.dokeos185
  */
+
+require_once dirname(__FILE__).'/../../lib/import/import_setting.class.php';
 
 /*
  * Created on 25-feb-08
