@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package migration
+ */
+
 abstract class Import
 {
 	static function factory($old_system, $type)
