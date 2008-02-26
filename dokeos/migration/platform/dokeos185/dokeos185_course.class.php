@@ -294,5 +294,203 @@ class Dokeos185_Course extends Import
 	{
 		return $this->registration_code;
 	}
+	
+	/**
+	 * Sets the code of this course.
+	 * @param String $code The code.
+	 */
+	function set_code($code)
+	{
+		$this->code = $code;
+	}
+	
+	/**
+	 * Sets the directory of this course.
+	 * @param String $directory The directory.
+	 */
+	function set_directory($directory)
+	{
+		$this->directory = $directory;
+	}
+	
+	/**
+	 * Sets the db_name of this course.
+	 * @param String $db_name The db_name.
+	 */
+	function set_db_name($db_name)
+	{
+		$this->db_name = $db_name;
+	}
+	
+	/**
+	 * Sets the course_language of this course.
+	 * @param String $course_language The course_language.
+	 */
+	function set_course_language($course_language)
+	{
+		$this->course_language = $course_language;
+	}
+	
+	/**
+	 * Sets the title of this course.
+	 * @param String $title The title.
+	 */
+	function set_title($title)
+	{
+		$this->title = $title;
+	}
+	
+	/**
+	 * Sets the description of this course.
+	 * @param String $description The description.
+	 */
+	function set_description($description)
+	{
+		$this->description = $description;
+	}
+	
+	/**
+	 * Sets the category_code of this course.
+	 * @param String $category_code The category_code.
+	 */
+	function set_category_code($category_code)
+	{
+		$this->category_code = $category_code;
+	}
+	
+	/**
+	 * Sets the visibility of this course.
+	 * @param int $visibility The visibility.
+	 */
+	function set_visibility($visibility)
+	{
+		$this->visibility = $visibility;
+	}
+	
+	/**
+	 * Sets the show_score of this course.
+	 * @param String $show_score The show_score.
+	 */
+	function set_show_score($show_score)
+	{
+		$this->show_score = $show_score;
+	}
+	
+	/**
+	 * Sets the tutor_name of this course.
+	 * @param String $tutor_name The tutor_name.
+	 */
+	function set_tutor_name($tutor_name)
+	{
+		$this->tutor_name = $tutor_name;
+	}
+	
+	/**
+	 * Sets the visual_code of this course.
+	 * @param String $visual_code The visual_code.
+	 */
+	function set_visual_code($visual_code)
+	{
+		$this->visual_code = $visual_code;
+	}
+	
+	/**
+	 * Sets the visual_code of this course.
+	 * @param String $visual_code The visual_code.
+	 */
+	function set_visual_code($visual_code)
+	{
+		$this->visual_code = $visual_code;
+	}
+	
+	/**
+	 * Sets the department_url of this course.
+	 * @param String $department_url The department_url.
+	 */
+	function set_department_url($department_url)
+	{
+		$this->department_url = $department_url;
+	}
+	
+	/**
+	 * Sets the disk_quota of this course.
+	 * @param Int $disk_quota The disk_quota.
+	 */
+	function set_disk_quota($disk_quota)
+	{
+		$this->disk_quota = $disk_quota;
+	}
+	
+	/**
+	 * Sets the last_visit of this course.
+	 * @param String $last_visit The last_visit.
+	 */
+	function set_last_visit($last_visit)
+	{
+		$this->last_visit = $last_visit;
+	}
+	
+	/**
+	 * Sets the last_edit of this course.
+	 * @param String $last_edit The last_edit.
+	 */
+	function set_last_edit($last_edit)
+	{
+		$this->last_edit = $last_edit;
+	}
+	
+	/**
+	 * Sets the creation_date of this course.
+	 * @param String $creation_date The creation_date.
+	 */
+	function set_creation_date($creation_date)
+	{
+		$this->creation_date = $creation_date;
+	}
+	
+	/**
+	 * Sets the expiration_date of this course.
+	 * @param String $expiration_date The expiration_date.
+	 */
+	function set_expiration_date($expiration_date)
+	{
+		$this->expiration_date = $expiration_date;
+	}
+	
+	/**
+	 * Sets the target_course_code of this course.
+	 * @param String $target_course_code The target_course_code.
+	 */
+	function set_target_course_code($target_course_code)
+	{
+		$this->target_course_code = $target_course_code;
+	}
+	
+	/**
+	 * Sets the subscribe of this course.
+	 * @param int $subscribe The subscribe.
+	 */
+	function set_subscribe($subscribe)
+	{
+		$this->subscribe = $subscribe;
+	}
+	
+	/**
+	 * Sets the unsubscribe of this course.
+	 * @param int $unsubscribe The unsubscribe.
+	 */
+	function set_subscribe($unsubscribe)
+	{
+		$this->subscribe = $unsubscribe;
+	}
+	
+	/**
+	 * Sets the registration_code of this course.
+	 * @param String $registration_code The registration_code.
+	 */
+	function set_registration_code($registration_code)
+	{
+		$this->registration_code = $registration_code;
+	}
 }
 ?>
