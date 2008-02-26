@@ -15,7 +15,9 @@ require_once dirname(__FILE__).'/../../lib/import/import_user.class.php';
 class Dokeos185_User extends Import
 {
 	
-	// Properties Table User
+	/**
+	 * Table User Properties
+	 */ 
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_LASTNAME = 'lastname';
 	const PROPERTY_FIRSTNAME = 'firstname';
@@ -42,7 +44,9 @@ class Dokeos185_User extends Import
 	const PROPERTY_ACTIVE = 'active';
 	const PROPERTY_OPENID = 'openid';
 	
-	// Property Table Admin
+	/** 
+	 * Table Admin Properties
+	 */
 	const PROPERTY_ADMIN = 'user_id';
 	
 	const ACTION_READ_USER = 'read';
@@ -119,6 +123,13 @@ class Dokeos185_User extends Import
 	{
 		return in_array($name, self :: get_default_property_names());
 	}
+	
+	
+	
+	/**
+	 * USER GETTERS AND SETTERS
+	 */
+	
 	
 	/**
 	 * Returns the user_id of this user.
@@ -580,6 +591,10 @@ class Dokeos185_User extends Import
 		$this->set_default_property(self :: PROPERTY_OPENID, $openid);
 	}
 	
+	
+	/**
+	 * ADMIN GETTERS AND SETTERS
+	 */
 	// TODO Admin functions
 }
 ?>
