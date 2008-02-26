@@ -234,30 +234,7 @@ class InstallManager
 	 */
 	function get_parameters($include_search = false)
 	{
-		if ($include_search && isset ($this->search_parameters))
-		{
-			return array_merge($this->search_parameters, $this->parameters);
-		}
-
 		return $this->parameters;
-	}
-	
-	/**
-	 * Gets the user id.
-	 * @return int The user id.
-	 */
-	function get_user_id()
-	{
-		return $this->user->get_user_id();
-	}
-
-	/**
-	 * Gets the user.
-	 * @return int The user.
-	 */
-	function get_user()
-	{
-		return $this->user;
 	}
 	
 	/**
