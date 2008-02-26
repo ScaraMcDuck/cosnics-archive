@@ -488,7 +488,25 @@ class Dokeos185_User extends Import
 	 * Sets the diplomas for this user.
 	 * @param String $diplomas The diplomas.
 	 */
-	function set_language($diplomas)
+	function set_diplomas($diplomas)
+	{
+		$this->set_default_property(self :: PROPERTY_DIPLOMAS, $diplomas);
+	}
+	
+	/**
+	 * Sets the openarea for this user.
+	 * @param String $openarea The openarea.
+	 */
+	function set_diplomas($diplomas)
+	{
+		$this->set_default_property(self :: PROPERTY_OPENAREA, $openarea);
+	}
+	
+	/**
+	 * Sets the teach for this user.
+	 * @param String $teach The teach.
+	 */
+	function set_diplomas($diplomas)
 	{
 		$this->set_default_property(self :: PROPERTY_DIPLOMAS, $diplomas);
 	}
