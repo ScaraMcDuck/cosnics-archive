@@ -6,8 +6,8 @@ require_once 'HTML/QuickForm/Controller.php';
 require_once 'HTML/QuickForm/Rule.php';
 require_once 'HTML/QuickForm/Action/Display.php';
 
+require_once dirname(__FILE__).'/wizard/systemmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/settingsmigrationwizardpage.class.php';
-require_once dirname(__FILE__).'/wizard/databasemigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/migrationwizarddisplay.class.php';
 
 /**
