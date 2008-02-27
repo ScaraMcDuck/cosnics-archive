@@ -4,12 +4,15 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/import_user.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_user.class.php';
+require_once dirname(__FILE__) . '/../../../users/lib/user.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/profile/profile.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 user
  *
  * @author David Van Wayenbergh
+ * @author Sven Vanpoucke 
  */
 
 class Dokeos185_User extends Import
@@ -591,10 +594,57 @@ class Dokeos185_User extends Import
 		$this->set_default_property(self :: PROPERTY_OPENID, $openid);
 	}
 	
+	function convertToNewUser()
+	{
+		//User parameters
+		$lcms_user = new User();
+		$lcms_user->set_lastname($this->get_lastname());
+		$lcms_user->set_firstname($this->get_firstname());
+		$lcms_user->set_username($this->get_username());
+		$lcms_user->set_password($this->get_password());
+		$lcms_user->set_auth_source($this->get_auth_source());
+		$lcms_user->set_email($this->get_email());
+		$lcms_user->set_status($this->get_status());
+		$lcms_user->set_platformadmin($this->get_platformadmin());
+		$lcms_user->set_official_code($this->get_official_code());
+		$lcms_user->set_phone($this->get_phone());
+		$lcms_user->set_picture_uri($this->get_picture_uri());
+		//TODO: Convert creator id to new id's
+		$lcms_user->set_creator_id($this->get_creator_id());
+		$lcms_user->set_language($this->get_language());
+		
+		$lcms_user->create();
+		
+		// Repository_Profile parameters
+		$lcms_repository_profile = new Profile();
+		$lcms_repository_profile->set_competences($this->get_competences());
+		$lcms_repository_profile->set_diplomas($this->get_diplomas());
+		$lcms_repository_profile->set_open($this->get_openarea());
+		$lcms_repository_profile->set_teaching($this->get_teach());
+		
+		//Learning object parameters
+		$lcms_repository_profile->set_owner_id($lcms_user->get_user_id());
+		$lcms_repository_profile->set_type('profile');
+		$lcms_repository_profile->set_title($lcms_user->get_fullname());
+		$lcms_repository_profile->set_description('...');
+		$lcms_repository_profile->set_parent(0);
+		$lcms_repository_profile->set_display_order(0);
+		$lcms_repository_profile->set_state(0);
+		
+		$lcms_repository_profile->create();
+	}
 	
 	/**
 	 * ADMIN GETTERS AND SETTERS
 	 */
-	// TODO Admin functions
+	function get_platformadmin()
+	{
+		return $this->get_default_property(self :: PROPERTY_ADMIN);
+	}
+	
+	function set_platformadmin($platformadmin)
+	{
+		$this->set_default_property(self :: PROPERTY_ADMIN, $platformadmin);
+	}
 }
 ?>
