@@ -6,6 +6,11 @@ $lang['general']['Profiler'] = 'Profiler';
 $lang['general']['SearchPortal'] = 'Search Portal';
 $lang['general']['Weblcms'] = 'WebLcms';
 $lang['general']['Repository'] = 'Repository';
+$lang['general']['Myportfolio'] = 'My Portfolio';
+$lang['general']['MyRepository'] = 'My Repository';
+$lang['general']['ModifyProfile'] = 'My Account';
+$lang['general']['PlatformAdmin'] = 'Platform Administration';
+$lang['general']['Logout'] = 'Logout';
 $lang['general']['InvalidDataRetrievedFromDatabase'] = 'Invalid data retrieved from the database.';
 
 $lang['general']['AprilInit'] = 'A';
