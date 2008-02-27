@@ -148,7 +148,7 @@ abstract class RepositoryDataManager
 	{
 		$object = new Category();
 		$object->set_owner_id($user_id);
-		$object->set_title(get_lang('MyRepository'));
+		$object->set_title(Translation :: get_lang('MyRepository'));
 		$object->set_description('...');
 		$object->create();
 		return $object;

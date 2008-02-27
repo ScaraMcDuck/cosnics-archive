@@ -10,7 +10,7 @@ class ChatboxDisplay extends LearningObjectDisplay
 		$html[] = '<div id="container" style="height: 200px; overflow: auto; border: 1px solid black;"></div>';
    		$html[] = '<form method="get" autocomplete="off">';
 		$html[] = '<input type="text" name="message" id="message" style="width: 95%;text-align:left;"/>';
-   		$html[] = '<input type="submit" id="submit" value="'.get_lang('Ok').'"/>';
+   		$html[] = '<input type="submit" id="submit" value="'.Translation :: get_lang('Ok').'"/>';
    		$html[] = '</form>';
 		$html[] = "
 <script language=\"JavaScript\" type=\"text/javascript\">

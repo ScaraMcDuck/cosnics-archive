@@ -39,7 +39,7 @@ abstract class LearningStyleSurveyModel
 		{
 			return htmlspecialchars($categories[$id]->get_title());
 		}
-		return get_lang('None');
+		return Translation :: get_lang('None');
 	}
 	
 	static function get_known_types()
@@ -67,7 +67,7 @@ abstract class LearningStyleSurveyModel
 					$type = $matches[1];
 					$cctype = RepositoryUtilities :: underscores_to_camelcase($type);
 					$const = constant(get_class() . '::TYPE_' . strtoupper($type));
-					self :: $types[$const] = get_lang($cctype . 'Survey');
+					self :: $types[$const] = Translation :: get_lang($cctype . 'Survey');
 					self :: $type2class[$const] = $cctype . get_class();
 				}
 			}

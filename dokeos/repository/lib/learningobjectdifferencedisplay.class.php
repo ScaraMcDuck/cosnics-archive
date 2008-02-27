@@ -104,11 +104,11 @@ class LearningObjectDifferenceDisplay {
 	{
 		$html = array();
 		$html[] = '<div class="learning_object" style="background-image: url('.$this->get_path(WEB_IMG_PATH).'description.gif);">';
-		$html[] = '<div class="title">'. get_lang('Legend') .'</div>';
-		$html[] = '<span class="compare_delete">'. get_lang('CompareExample') .'</span>: '. get_lang('CompareDeleteInfo') .'<br />';
-		$html[] = '<span class="compare_add">'. get_lang('CompareExample') .'</span>: '. get_lang('CompareAddInfo') .'<br />';
-		$html[] = '<span class="compare_change">'. get_lang('CompareExample') .'</span>: '. get_lang('CompareChangeInfo') .'<br />';
-		$html[] = '<span class="compare_copy">'. get_lang('CompareExample') .'</span>: '. get_lang('CompareCopyInfo') .'<br />';
+		$html[] = '<div class="title">'. Translation :: get_lang('Legend') .'</div>';
+		$html[] = '<span class="compare_delete">'. Translation :: get_lang('CompareExample') .'</span>: '. Translation :: get_lang('CompareDeleteInfo') .'<br />';
+		$html[] = '<span class="compare_add">'. Translation :: get_lang('CompareExample') .'</span>: '. Translation :: get_lang('CompareAddInfo') .'<br />';
+		$html[] = '<span class="compare_change">'. Translation :: get_lang('CompareExample') .'</span>: '. Translation :: get_lang('CompareChangeInfo') .'<br />';
+		$html[] = '<span class="compare_copy">'. Translation :: get_lang('CompareExample') .'</span>: '. Translation :: get_lang('CompareCopyInfo') .'<br />';
 		$html[] = '</div>';
 
 		return implode("\n", $html);

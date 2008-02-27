@@ -17,13 +17,13 @@ class CalendarEventForm extends LearningObjectForm
     protected function build_creation_form()
     {
     	parent :: build_creation_form();
-    	$this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
+    	$this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, Translation :: get_lang('StartTimeWindow'), Translation :: get_lang('EndTimeWindow'));
     }
     // Inherited
     protected function build_editing_form()
     {
 		parent :: build_editing_form();
-    	$this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, get_lang('StartTimeWindow'), get_lang('EndTimeWindow'));
+    	$this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, Translation :: get_lang('StartTimeWindow'), Translation :: get_lang('EndTimeWindow'));
 	}
 	// Inherited
 	function setDefaults($defaults = array ())

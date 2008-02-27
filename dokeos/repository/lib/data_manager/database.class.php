@@ -792,7 +792,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (LearningObject :: get_default_property_names() as $prop)

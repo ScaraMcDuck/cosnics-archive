@@ -23,21 +23,21 @@ class ProfileForm extends LearningObjectForm
 	}
 	private function build_default_form()
 	{
-		$this->add_html_editor(Profile :: PROPERTY_ADDRESS, get_lang('Address'), false);
-		$this->add_textfield(Profile :: PROPERTY_PHONE, get_lang('Phone'), false,'size="40"');
-		$this->add_textfield(Profile :: PROPERTY_FAX, get_lang('Fax'), false,'size="40"');
-		$this->add_textfield(Profile :: PROPERTY_MAIL, get_lang('Mail'), false,'size="40"');
-		$this->addRule(Profile :: PROPERTY_MAIL,get_lang('InvalidEmail'),'email');
-		$this->add_html_editor(Profile :: PROPERTY_COMPETENCES, get_lang('Competences'), false);
-		$this->add_html_editor(Profile :: PROPERTY_DIPLOMAS, get_lang('Diplomas'), false);
-		$this->add_html_editor(Profile :: PROPERTY_TEACHING, get_lang('Teaching'), false);
-		$this->add_html_editor(Profile :: PROPERTY_OPEN, get_lang('Open'), false);
-		$this->add_textfield(Profile :: PROPERTY_SKYPE, get_lang('Skype'), false,'size="40"');
-		$this->add_textfield(Profile :: PROPERTY_MSN, get_lang('Msn'), false,'size="40"');
-		$this->add_textfield(Profile :: PROPERTY_AIM, get_lang('Aim'), false,'size="40"');
-		$this->add_textfield(Profile :: PROPERTY_YIM, get_lang('Yim'), false,'size="40"');
-		$this->add_textfield(Profile :: PROPERTY_ICQ, get_lang('Icq'), false,'size="40"');
-		$this->addElement('checkbox',Profile::PROPERTY_PICTURE,get_lang('IncludeAccountPicture'));
+		$this->add_html_editor(Profile :: PROPERTY_ADDRESS, Translation :: get_lang('Address'), false);
+		$this->add_textfield(Profile :: PROPERTY_PHONE, Translation :: get_lang('Phone'), false,'size="40"');
+		$this->add_textfield(Profile :: PROPERTY_FAX, Translation :: get_lang('Fax'), false,'size="40"');
+		$this->add_textfield(Profile :: PROPERTY_MAIL, Translation :: get_lang('Mail'), false,'size="40"');
+		$this->addRule(Profile :: PROPERTY_MAIL,Translation :: get_lang('InvalidEmail'),'email');
+		$this->add_html_editor(Profile :: PROPERTY_COMPETENCES, Translation :: get_lang('Competences'), false);
+		$this->add_html_editor(Profile :: PROPERTY_DIPLOMAS, Translation :: get_lang('Diplomas'), false);
+		$this->add_html_editor(Profile :: PROPERTY_TEACHING, Translation :: get_lang('Teaching'), false);
+		$this->add_html_editor(Profile :: PROPERTY_OPEN, Translation :: get_lang('Open'), false);
+		$this->add_textfield(Profile :: PROPERTY_SKYPE, Translation :: get_lang('Skype'), false,'size="40"');
+		$this->add_textfield(Profile :: PROPERTY_MSN, Translation :: get_lang('Msn'), false,'size="40"');
+		$this->add_textfield(Profile :: PROPERTY_AIM, Translation :: get_lang('Aim'), false,'size="40"');
+		$this->add_textfield(Profile :: PROPERTY_YIM, Translation :: get_lang('Yim'), false,'size="40"');
+		$this->add_textfield(Profile :: PROPERTY_ICQ, Translation :: get_lang('Icq'), false,'size="40"');
+		$this->addElement('checkbox',Profile::PROPERTY_PICTURE,Translation :: get_lang('IncludeAccountPicture'));
 
 	}
 	function setDefaults($defaults = array ())

@@ -23,7 +23,7 @@ class RepositoryRecycleBinBrowserTableColumnModel extends DefaultLearningObjectT
 		parent :: __construct();
 		$this->set_default_order_column(0);
 		$col = new LearningObjectTableColumn(LearningObject :: PROPERTY_PARENT_ID, true);
-		$col->set_title(get_lang('OriginalLocation'));
+		$col->set_title(Translation :: get_lang('OriginalLocation'));
 		$this->add_column($col);
 		$this->add_column(self :: get_action_column());
 	}

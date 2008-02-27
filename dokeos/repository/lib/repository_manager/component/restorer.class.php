@@ -71,11 +71,11 @@ class RepositoryManagerRestorerComponent extends RepositoryManagerComponent
 					$message = 'AllSelectedObjectsRestored';
 				}
 			}
-			$this->redirect(RepositoryManager :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS, get_lang($message));
+			$this->redirect(RepositoryManager :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS, Translation :: get_lang($message));
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(get_lang('NoObjectSelected')));
+			$this->display_error_page(htmlentities(Translation :: get_lang('NoObjectSelected')));
 		}
 	}
 }

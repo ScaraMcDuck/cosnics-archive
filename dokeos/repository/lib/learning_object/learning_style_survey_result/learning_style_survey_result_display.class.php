@@ -51,8 +51,8 @@ class LearningStyleSurveyResultDisplay extends LearningObjectDisplay
 		$sections = $survey->get_survey_sections();
 		$model = $survey->get_survey_model();
 		$title = (isset($user)
-			? get_lang('SurveyAnswersOfUserPrefix') . ' ' . $user
-			: get_lang('MySurveyAnswers'));
+			? Translation :: get_lang('SurveyAnswersOfUserPrefix') . ' ' . $user
+			: Translation :: get_lang('MySurveyAnswers'));
 		$answers_html = '<div class="survey-result-header">' . htmlspecialchars($title) . '</div>';
 		$answers_html .= '<ol class="survey-user-answers">';
 		foreach ($sections as $section)
@@ -79,8 +79,8 @@ class LearningStyleSurveyResultDisplay extends LearningObjectDisplay
 		$titles = array();
 		$data = array();
 		$title = (isset($user)
-			? get_lang('SurveyResultsOfUserPrefix') . ' ' . $user
-			: get_lang('MySurveyResults'));
+			? Translation :: get_lang('SurveyResultsOfUserPrefix') . ' ' . $user
+			: Translation :: get_lang('MySurveyResults'));
 		$result_html = '<div class="survey-result-header">' . htmlspecialchars($title) . '</div>';
 		$result_html .= '<dl class="survey-user-results">';
 		$categories = $survey->get_survey_categories();

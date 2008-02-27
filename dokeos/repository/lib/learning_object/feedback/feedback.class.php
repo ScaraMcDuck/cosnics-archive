@@ -26,11 +26,11 @@ class Feedback extends LearningObject {
 	}
 	static function get_possible_icons()
 	{
-		$icons['thumbs_up'] = get_lang('thumbs_up');
-		$icons['thumbs_down'] = get_lang('thumbs_down');
-		$icons['wrong'] = get_lang('wrong');
-		$icons['right'] = get_lang('right');
-		$icons['description'] = get_lang('informative');
+		$icons['thumbs_up'] = Translation :: get_lang('thumbs_up');
+		$icons['thumbs_down'] = Translation :: get_lang('thumbs_down');
+		$icons['wrong'] = Translation :: get_lang('wrong');
+		$icons['right'] = Translation :: get_lang('right');
+		$icons['description'] = Translation :: get_lang('informative');
 		return $icons;
 	}
 }

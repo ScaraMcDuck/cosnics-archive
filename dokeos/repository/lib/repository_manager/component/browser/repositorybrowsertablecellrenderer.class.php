@@ -44,7 +44,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 				}
 				return '<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.$title.'">'.$title_short.'</a>';
 			case LearningObject :: PROPERTY_MODIFICATION_DATE:
-				return format_locale_date(get_lang('dateFormatShort').', '.get_lang('timeNoSecFormat'),$learning_object->get_modification_date());
+				return format_locale_date(Translation :: get_lang('dateFormatShort').', '.Translation :: get_lang('timeNoSecFormat'),$learning_object->get_modification_date());
 		}
 		return parent :: render_cell($column, $learning_object);
 	}
@@ -59,7 +59,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		$toolbar_data = array();
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_editing_url($learning_object),
-			'label' => get_lang('Edit'),
+			'label' => Translation :: get_lang('Edit'),
 			'img' => $this->browser->get_path(WEB_IMG_PATH).'edit.gif'
 		);
 		$html = array ();
@@ -67,7 +67,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		{
 			$toolbar_data[] = array(
 				'href' => $url,
-				'label' => get_lang('Remove'),
+				'label' => Translation :: get_lang('Remove'),
 				'img' => $this->browser->get_path(WEB_IMG_PATH).'recycle_bin.gif',
 				'confirm' => true
 			);
@@ -75,7 +75,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		else
 		{
 			$toolbar_data[] = array(
-				'label' => get_lang('Remove'),
+				'label' => Translation :: get_lang('Remove'),
 				'img' => $this->browser->get_path(WEB_IMG_PATH).'recycle_bin_na.gif'
 			);
 		}
@@ -83,18 +83,18 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		{
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_learning_object_moving_url($learning_object),
-				'label' => get_lang('Move'),
+				'label' => Translation :: get_lang('Move'),
 				'img' => $this->browser->get_path(WEB_IMG_PATH).'move.gif'
 			);
 		}
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_metadata_editing_url($learning_object),
-			'label' => get_lang('Metadata'),
+			'label' => Translation :: get_lang('Metadata'),
 			'img' => $this->browser->get_path(WEB_IMG_PATH).'info_small.gif'
 		);
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_rights_editing_url($learning_object),
-			'label' => get_lang('Rights'),
+			'label' => Translation :: get_lang('Rights'),
 			'img' => $this->browser->get_path(WEB_IMG_PATH).'group_small.gif'
 		);
 		return RepositoryUtilities :: build_toolbar($toolbar_data);

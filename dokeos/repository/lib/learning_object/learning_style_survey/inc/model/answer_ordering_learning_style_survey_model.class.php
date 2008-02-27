@@ -66,7 +66,7 @@ class AnswerOrderingLearningStyleSurveyModel extends LearningStyleSurveyModel
 			else
 			{
 				$html .= '<div class="learning-style-survey-answer-no-categories">'
-					. get_lang('NoSurveyAnswerCategories')
+					. Translation :: get_lang('NoSurveyAnswerCategories')
 					. '</div>';
 			}
 			$html .= '</li>';
@@ -83,7 +83,7 @@ class AnswerOrderingLearningStyleSurveyModel extends LearningStyleSurveyModel
 		{
 			$options[$answer->get_id()] = $answer->get_description();
 		}
-		$element = new HTML_QuickForm_option_orderer($name, get_lang('YourAnswer'), $options, self :: SEPARATOR);
+		$element = new HTML_QuickForm_option_orderer($name, Translation :: get_lang('YourAnswer'), $options, self :: SEPARATOR);
 		return array(
 			'element' => $element
 		);

@@ -20,8 +20,8 @@ class DocumentForm extends LearningObjectForm
 	protected function build_creation_form()
 	{
 		parent :: build_creation_form();
-		$this->addElement('upload_or_create', 'upload_or_create', get_lang('FileName'));
-		$this->addElement('checkbox','uncompress',get_lang('Uncompress'));
+		$this->addElement('upload_or_create', 'upload_or_create', Translation :: get_lang('FileName'));
+		$this->addElement('checkbox','uncompress',Translation :: get_lang('Uncompress'));
 		$this->addFormRule(array ($this, 'check_document_form'));
 	}
 	protected function build_editing_form()
@@ -30,15 +30,15 @@ class DocumentForm extends LearningObjectForm
 		$object = $this->get_learning_object();
 		if (RepositoryUtilities :: is_html_document($object->get_path()))
 		{
-			$this->add_html_editor('html_content', get_lang('HtmlDocument'),false,true);
-			$this->addRule('html_content', get_lang('DiskQuotaExceeded'), 'disk_quota');
+			$this->add_html_editor('html_content', Translation :: get_lang('HtmlDocument'),false,true);
+			$this->addRule('html_content', Translation :: get_lang('DiskQuotaExceeded'), 'disk_quota');
 			//TODO: add option to upload & overwrite a HTML-document
 			//TODO: add Rule to check if diskquota doesn't exceed when uploading a document
 		}
 		else
 		{
-			$this->addElement('file', 'file', get_lang('FileName'));
-			$this->addRule('file', get_lang('DiskQuotaExceeded'), 'disk_quota');
+			$this->addElement('file', 'file', Translation :: get_lang('FileName'));
+			$this->addRule('file', Translation :: get_lang('DiskQuotaExceeded'), 'disk_quota');
 		}
 	}
 	function setDefaults($defaults = array ())
@@ -183,16 +183,16 @@ class DocumentForm extends LearningObjectForm
 			{
 			  	switch($_FILES['file']['error']){
 			   		case 1: //uploaded file exceeds the upload_max_filesize directive in php.ini
-			     		$errors['upload_or_create'] = get_lang('FileTooBig');
+			     		$errors['upload_or_create'] = Translation :: get_lang('FileTooBig');
 			    		break;
 			   		case 2: //uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the html form
-			     		$errors['upload_or_create'] = get_lang('FileTooBig');
+			     		$errors['upload_or_create'] = Translation :: get_lang('FileTooBig');
 			     		break;
 			   		case 3: //uploaded file was only partially uploaded
-			     		$errors['upload_or_create'] = get_lang('UploadIncomplete');
+			     		$errors['upload_or_create'] = Translation :: get_lang('UploadIncomplete');
 			     		break;
 			   		case 4: //no file was uploaded
-			     		$errors['upload_or_create'] = get_lang('NoFileSelected');
+			     		$errors['upload_or_create'] = Translation :: get_lang('NoFileSelected');
 			     		break;
 			  	}
 			}
@@ -203,18 +203,18 @@ class DocumentForm extends LearningObjectForm
 
 				if ($size > $available_disk_space)
 				{
-					$errors['upload_or_create'] = get_lang('DiskQuotaExceeded');
+					$errors['upload_or_create'] = Translation :: get_lang('DiskQuotaExceeded');
 				}
 				$filecompression = Filecompression::factory();
 				if( $fields['uncompress'] && !$filecompression->is_supported_mimetype($_FILES['file']['type']))
 				{
-					$errors['uncompress'] = get_lang('UncompressNotAvailableForThisFile');
+					$errors['uncompress'] = Translation :: get_lang('UncompressNotAvailableForThisFile');
 				}
 				//TODO: Add a check to see if the uncompressed file doesn't take to much disk space
 			}
 			else
 			{
-				$errors['upload_or_create'] = get_lang('NoFileSelected');
+				$errors['upload_or_create'] = Translation :: get_lang('NoFileSelected');
 			}
 		}
 		else
@@ -224,13 +224,13 @@ class DocumentForm extends LearningObjectForm
 			$available_disk_space = $quotamanager->get_available_disk_space();
 			if ($file['size'] > $available_disk_space)
 			{
-				$errors['upload_or_create'] = get_lang('DiskQuotaExceeded');
+				$errors['upload_or_create'] = Translation :: get_lang('DiskQuotaExceeded');
 			}
 			else
 			{
 				if (!HTML_QuickForm_Rule_Required :: validate($fields['html_content']))
 				{
-					$errors['upload_or_create'] = get_lang('NoFileCreated');
+					$errors['upload_or_create'] = Translation :: get_lang('NoFileCreated');
 				}
 			}
 		}
