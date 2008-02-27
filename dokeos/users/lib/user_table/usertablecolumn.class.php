@@ -29,7 +29,7 @@ class UserTableColumn
 		if ($contains_user_property)
 		{
 			$this->user_property = $property_name_or_column_title;
-			$this->title = get_lang(ucfirst($this->user_property));
+			$this->title = Translation :: get_lang(ucfirst($this->user_property));
 			$this->sortable = true;
 		}
 		else

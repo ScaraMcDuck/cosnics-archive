@@ -41,8 +41,8 @@ class UserQuotaForm extends FormValidator {
     {
     	foreach($this->learning_object_types as $type)
     	{
-    		$this->addElement('text', $type, get_lang($type));
-    		$this->addRule($type, get_lang('FieldMustBeNumeric'), 'numeric', null, 'server');
+    		$this->addElement('text', $type, Translation :: get_lang($type));
+    		$this->addRule($type, Translation :: get_lang('FieldMustBeNumeric'), 'numeric', null, 'server');
     	}
     	
 		// Submit button

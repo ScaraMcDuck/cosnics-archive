@@ -35,11 +35,11 @@ class UserImportForm extends FormValidator {
     
     function build_importing_form()
     {
-    	$this->addElement('file', 'file', get_lang('FileName'));
+    	$this->addElement('file', 'file', Translation :: get_lang('FileName'));
     	$allowed_upload_types = array ('xml', 'csv');
-		$this->addRule('file', get_lang('OnlyXMLCSVAllowed'), 'filetype', $allowed_upload_types);
+		$this->addRule('file', Translation :: get_lang('OnlyXMLCSVAllowed'), 'filetype', $allowed_upload_types);
     	
-		$this->addElement('submit', 'user_import', get_lang('Ok'));
+		$this->addElement('submit', 'user_import', Translation :: get_lang('Ok'));
     }
     
     function import_users()

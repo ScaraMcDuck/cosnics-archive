@@ -25,7 +25,7 @@ class AdminUserBrowserTable extends UserTable
 		$this->set_additional_parameters($parameters);
 		$actions = array();
 		//Deactivated: What should happen when a user is removed ? Full remove or deactivation of account ?
-		//$actions[UserManager :: PARAM_REMOVE_SELECTED] = get_lang('RemoveSelected');
+		//$actions[UserManager :: PARAM_REMOVE_SELECTED] = Translation :: get_lang('RemoveSelected');
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}

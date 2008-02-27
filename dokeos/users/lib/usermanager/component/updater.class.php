@@ -15,7 +15,7 @@ class UserManagerUpdaterComponent extends UserManagerComponent
 	function run()
 	{	
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('UserUpdate'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('UserUpdate'));
 		$id = $_GET[UserManager :: PARAM_USER_USER_ID];
 		if ($id)
 		{
@@ -24,7 +24,7 @@ class UserManagerUpdaterComponent extends UserManagerComponent
 			if (!$this->get_user()->is_platform_admin())
 			{
 				$this->display_header();
-				Display :: display_error_message(get_lang("NotAllowed"));
+				Display :: display_error_message(Translation :: get_lang("NotAllowed"));
 				$this->display_footer();
 				exit;
 			}
@@ -34,7 +34,7 @@ class UserManagerUpdaterComponent extends UserManagerComponent
 			if($form->validate())
 			{
 				$success = $form->update_user();
-				$this->redirect('url', get_lang($success ? 'UserUpdated' : 'UserNotUpdated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
+				$this->redirect('url', Translation :: get_lang($success ? 'UserUpdated' : 'UserNotUpdated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
 			}
 			else
 			{
@@ -45,7 +45,7 @@ class UserManagerUpdaterComponent extends UserManagerComponent
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(get_lang('NoObjectSelected')));
+			$this->display_error_page(htmlentities(Translation :: get_lang('NoObjectSelected')));
 		}
 	}
 }

@@ -43,7 +43,7 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
 		$this->_persistantFreeze = true;
 		$this->_appendName = true;
 		$this->_type = 'datepicker';
-		$popup_link = '<a href="javascript:openCalendar(\''.$js_form_name.'\',\''.$elementName.'\')"><img src="'.api_get_path(WEB_CODE_PATH).'/img/calendar_select.gif" style="vertical-align:middle;"/></a>';
+		$popup_link = '<a href="javascript:openCalendar(\''.$js_form_name.'\',\''.$elementName.'\')"><img src="'.Path :: get_path(WEB_CODE_PATH).'/img/calendar_select.gif" style="vertical-align:middle;"/></a>';
 		$special_chars = array ('D', 'l', 'd', 'M', 'F', 'm', 'y', 'H', 'a', 'A', 's', 'i', 'h', 'g', ' ');
 		$hour_minute_devider = get_lang("HourMinuteDivider");
 		foreach ($special_chars as $index => $char)
@@ -88,7 +88,7 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
 			define('DATEPICKER_JAVASCRIPT_INCLUDED',1);
 			$js = "\n";
 			$js .= '<script src="';
-			$js .= api_get_path(WEB_CODE_PATH).'inc/lib/formvalidator/Element/';
+			$js .= Path :: get_path(WEB_CODE_PATH).'inc/lib/formvalidator/Element/';
 			$js .= 'tbl_change.js.php" type="text/javascript"></script>';
 			$js .= "\n";
 		}
