@@ -159,7 +159,7 @@ class RepositoryUtilities
 		$return = array ();
 		$return['class'] = 'type type_'.$type;
 		$return['title'] = $object->get_title();
-		$return['description'] = get_lang(LearningObject :: type_to_class($type).'TypeName').' ('.$date.')';
+		$return['description'] = Translation :: get_lang(LearningObject :: type_to_class($type).'TypeName').' ('.$date.')';
 		return $return;
 	}
 
@@ -251,7 +251,7 @@ class RepositoryUtilities
 			}
 			if (isset ($elmt['href']))
 			{
-				$button = '<a href="'.htmlentities($elmt['href']).'" title="'.$label.'"'. ($elmt['confirm'] ? ' onclick="return confirm(\''.addslashes(htmlentities(get_lang('ConfirmYourChoice'))).'\');"' : '').'>'.$button.'</a>';
+				$button = '<a href="'.htmlentities($elmt['href']).'" title="'.$label.'"'. ($elmt['confirm'] ? ' onclick="return confirm(\''.addslashes(htmlentities(Translation :: get_lang('ConfirmYourChoice'))).'\');"' : '').'>'.$button.'</a>';
 			}
 			$classes = array();
 			if ($index == 0)
@@ -300,7 +300,7 @@ class RepositoryUtilities
 		$udm = UsersDataManager :: get_instance();
 		$html 	= array ();
 		$html[] = '<div class="publications">';
-		$html[] = '<div class="publications_title">'.htmlentities(get_lang('ThisObjectIsPublished')).'</div>';
+		$html[] = '<div class="publications_title">'.htmlentities(Translation :: get_lang('ThisObjectIsPublished')).'</div>';
 		$html[] = '<ul class="publications_list">';
 		foreach ($publication_attr as $info)
 		{
@@ -356,8 +356,8 @@ class RepositoryUtilities
 			$show_message = 'Show' . $message;
 			$hide_message = 'Hide' . $message;
 
-			$html[]    = '<div id="plus-'.$id.'"><a href="javascript:showElement(\''. $id .'\')">'. get_lang('Show' . $message) .'</a></div>';
-			$html[]    = '<div id="minus-'.$id.'" style="display: none;"><a href="javascript:showElement(\''. $id .'\')">'. get_lang('Hide' . $message) .'</a></div>';
+			$html[]    = '<div id="plus-'.$id.'"><a href="javascript:showElement(\''. $id .'\')">'. Translation :: get_lang('Show' . $message) .'</a></div>';
+			$html[]    = '<div id="minus-'.$id.'" style="display: none;"><a href="javascript:showElement(\''. $id .'\')">'. Translation :: get_lang('Hide' . $message) .'</a></div>';
 			$html[]   .= '<div id="'. $id .'" style="display: none; clear: both;">';
 		}
 		elseif($type == 'end')

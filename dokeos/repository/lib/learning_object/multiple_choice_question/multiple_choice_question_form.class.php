@@ -150,7 +150,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 				{
 					$group[] = $this->createElement('image','remove['.$option_number.']',$this->get_path(WEB_IMG_PATH).'list-remove.png');
 				}
-				$label = $show_label ? get_lang('Answers') : '';
+				$label = $show_label ? Translation :: get_lang('Answers') : '';
 				$show_label = false;
 				$this->addGroup($group,'options_group_'.$option_number,$label,'',false);
 				$this->addGroupRule('options_group_'.$option_number,
@@ -158,16 +158,16 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 						'option['.$option_number.']' =>
 							array(
 								array(
-									get_lang('ThisFieldIsRequired'),'required'
+									Translation :: get_lang('ThisFieldIsRequired'),'required'
 								)
 							),
 						'weight['.$option_number.']' =>
 							array(
 								array(
-									get_lang('ThisFieldIsRequired'), 'required'
+									Translation :: get_lang('ThisFieldIsRequired'), 'required'
 								),
 								array(
-									get_lang('ValueShouldBeNumeric'),'numeric'
+									Translation :: get_lang('ValueShouldBeNumeric'),'numeric'
 								)
 							)
 					)
@@ -182,7 +182,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 	{
 		if(!isset($fields['correct']))
 		{
-			$message = $_SESSION['mc_answer_type'] == 'checkbox' ? get_lang('SelectAtLeastOneCorrectAnswer') : get_lang('SelectACorrectAnswer');
+			$message = $_SESSION['mc_answer_type'] == 'checkbox' ? Translation :: get_lang('SelectAtLeastOneCorrectAnswer') : Translation :: get_lang('SelectACorrectAnswer');
 			 return array('change_answer_type' => $message);
 		}
 		return true;

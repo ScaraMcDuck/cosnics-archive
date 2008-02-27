@@ -21,7 +21,7 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerComponen
 	 */
 	function run()
 	{
-		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('Metadata')));
+		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => Translation :: get_lang('Metadata')));
 		$id = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
 		if ($id)
 		{
@@ -38,7 +38,7 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerComponen
 		}
 		else
 		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
 		}
 
 	}

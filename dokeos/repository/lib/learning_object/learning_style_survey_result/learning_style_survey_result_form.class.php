@@ -134,7 +134,7 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 		$categories = array_keys($this->get_categories());
 		// Add in root category
 		$object->set_parent_id($categories[0]);
-		$object->set_title(get_lang('SurveyResultPrefix') . ' ' . $this->survey->get_title());
+		$object->set_title(Translation :: get_lang('SurveyResultPrefix') . ' ' . $this->survey->get_title());
 		$object->set_profile_id($this->get_survey_profile()->get_id());
 		// No result metadata necessary ...
 		$object->create();

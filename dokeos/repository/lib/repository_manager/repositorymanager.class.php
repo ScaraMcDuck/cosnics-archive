@@ -902,21 +902,21 @@ class RepositoryManager
 			}
 			$extra_items = array ();
 			$create = array ();
-			$create['title'] = get_lang('Create');
+			$create['title'] = Translation :: get_lang('Create');
 			$create['url'] = $this->get_learning_object_creation_url();
 			$create['class'] = 'create';
 			$quota = array ();
-			$quota['title'] = get_lang('Quota');
+			$quota['title'] = Translation :: get_lang('Quota');
 			$quota['url'] = $this->get_quota_url();
 			$quota['class'] = 'quota';
 
 			$pub = array ();
-			$pub['title'] = get_lang('MyPublications');
+			$pub['title'] = Translation :: get_lang('MyPublications');
 			$pub['url'] = $this->get_publication_url();
 			$pub['class'] = 'publication';
 
 			$trash = array ();
-			$trash['title'] = get_lang('RecycleBin');
+			$trash['title'] = Translation :: get_lang('RecycleBin');
 			$trash['url'] = $this->get_recycle_bin_url();
 			if ($this->count_learning_objects(null, new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->get_user_id()), LearningObject :: STATE_RECYCLED))
 			{
@@ -935,7 +935,7 @@ class RepositoryManager
 				// $search_url = $this->get_url();
 				$search_url = '#';
 				$search = array ();
-				$search['title'] = get_lang('SearchResults');
+				$search['title'] = Translation :: get_lang('SearchResults');
 				$search['url'] = $search_url;
 				$search['class'] = 'search_results';
 				$extra_items[] = $search;
@@ -982,8 +982,8 @@ class RepositoryManager
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => get_lang('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
-		return array('application' => array('name' => get_lang('Repository'), 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS)));
+		$links[] = array('name' => Translation :: get_lang('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
+		return array('application' => array('name' => Translation :: get_lang('Repository'), 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS)));
 	}
 
 	public function get_link($parameters = array (), $encode = false)

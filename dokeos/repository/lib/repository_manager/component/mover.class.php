@@ -33,8 +33,8 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 			}
 			$categories = $this->get_categories_for_select($ids);
 			$form = new FormValidator('move', 'post', $this->get_url(array (RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $ids)));
-			$form->addElement('select', RepositoryManager :: PARAM_DESTINATION_LEARNING_OBJECT_ID, get_lang('NewCategory'), $categories);
-			$form->addElement('submit', 'submit', get_lang('Move'));
+			$form->addElement('select', RepositoryManager :: PARAM_DESTINATION_LEARNING_OBJECT_ID, Translation :: get_lang('NewCategory'), $categories);
+			$form->addElement('submit', 'submit', Translation :: get_lang('Move'));
 			if ($form->validate())
 			{
 				$destination = $form->exportValue(RepositoryManager :: PARAM_DESTINATION_LEARNING_OBJECT_ID);
@@ -90,14 +90,14 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 						$message = 'AllSelectedObjectsMoved';
 					}
 				}
-				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, get_lang($message), ($failures ? null : $destination));
+				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get_lang($message), ($failures ? null : $destination));
 			}
 			else
 			{
 				$renderer = clone $form->defaultRenderer();
 				$renderer->setElementTemplate('{label} {element} ');
 				$form->accept($renderer);
-				$breadcrumbs = array(array('url' => $this->get_url(), 'name' => get_lang('Move')));
+				$breadcrumbs = array(array('url' => $this->get_url(), 'name' => Translation :: get_lang('Move')));
 				$this->display_header($breadcrumbs);
 				$this->display_popup_form($renderer->toHTML());
 				$this->display_footer();
@@ -105,7 +105,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(get_lang('NoObjectSelected')));
+			$this->display_error_page(htmlentities(Translation :: get_lang('NoObjectSelected')));
 		}
 	}
 	/**

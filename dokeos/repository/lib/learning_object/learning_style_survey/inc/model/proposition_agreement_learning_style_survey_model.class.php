@@ -40,7 +40,7 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 		else
 		{
 			$html .= '<div class="learning-style-survey-question-no-categories">'
-				. get_lang('NoSurveyQuestionCategories')
+				. Translation :: get_lang('NoSurveyQuestionCategories')
 				. '</div>';
 		}
 		return $html;
@@ -49,7 +49,7 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 	function create_user_answer_element($name, $profile, $section, $question)
 	{
 		$pa_answers = self :: get_possible_answers($profile);
-		$element = new HTML_QuickForm_select($name, get_lang('YourAnswer'), $pa_answers);
+		$element = new HTML_QuickForm_select($name, Translation :: get_lang('YourAnswer'), $pa_answers);
 		$keys = array_keys($pa_answers);
 		sort($keys, SORT_NUMERIC);
 		return array(
@@ -119,7 +119,7 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 			preg_match_all('/\S+/', $line, $matches);
 			$percentiles[] = array_map('floatval', $matches[0]);
 		}
-		$html = '<h4>' . get_lang('SurveyResultPeerComparisonTitle') . '</h4>';
+		$html = '<h4>' . Translation :: get_lang('SurveyResultPeerComparisonTitle') . '</h4>';
 		$html .= '<dl class="survey-result-peer-comparison">';
 		foreach ($categories as $index => $category)
 		{
@@ -158,13 +158,13 @@ class PropositionAgreementLearningStyleSurveyModel extends LearningStyleSurveyMo
 		$answers = array();
 		foreach (range(1, $answer_count) as $i)
 		{
-			$answer = get_lang('LearningStyleSurveyAgreement_' . $answer_count . '_' . $i);
+			$answer = Translation :: get_lang('LearningStyleSurveyAgreement_' . $answer_count . '_' . $i);
 			$answers[$i] = (substr($answer, 0, 2) != '[='
 				? $answer
 				: str_replace(
 					'%percentage%',
 					round(100 * ($i - 1) / ($answer_count - 1)),
-					get_lang('IAgreePercentage')
+					Translation :: get_lang('IAgreePercentage')
 				)
 			);
 		}

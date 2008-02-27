@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/main/inc/lib/text.lib.php';
 require_once dirname(__FILE__).'/repository/lib/repository_manager/repositorymanager.class.php';
 require_once dirname(__FILE__).'/users/lib/usermanager/usermanager.class.php';
 
-api_use_lang_files('repository','agenda');
+Translation :: set_application('repository');
 
 if (!api_get_user_id())
 {

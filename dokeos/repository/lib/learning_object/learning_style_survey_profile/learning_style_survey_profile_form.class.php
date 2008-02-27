@@ -39,7 +39,7 @@ class LearningStyleSurveyProfileForm extends LearningObjectForm
 			$survey_map[$survey->get_id()] = $survey;
 			$surveys[$survey->get_id()] = $survey->get_title();
 		}
-		$this->survey_element = $this->add_select(self :: PARAM_SURVEY_ID, get_lang('Survey'), $surveys);
+		$this->survey_element = $this->add_select(self :: PARAM_SURVEY_ID, Translation :: get_lang('Survey'), $surveys);
 		$this->metadata_elements = array();
 		if (parent :: validate())
 		{
@@ -76,7 +76,7 @@ class LearningStyleSurveyProfileForm extends LearningObjectForm
 		$this->defaults = array();
 		$profile = $this->get_learning_object();
 		$this->survey = $profile->get_survey();
-		$input = $this->add_textfield(self :: PARAM_SURVEY_ID, get_lang('Survey'));
+		$input = $this->add_textfield(self :: PARAM_SURVEY_ID, Translation :: get_lang('Survey'));
 		$input->setValue($this->survey->get_title());
 		$input->freeze();
 		$this->metadata_elements = array();

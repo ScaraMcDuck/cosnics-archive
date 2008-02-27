@@ -156,14 +156,14 @@ abstract class LearningObjectForm extends FormValidator
 			if ($object->get_version_count() < $quotamanager->get_max_versions($object->get_type()))
 			{
 				$this->add_element_hider('script_block');
-				$this->addElement('checkbox','version', get_lang('CreateAsNewVersion'), null, 'onclick="javascript:showElement(\''. LearningObject :: PROPERTY_COMMENT .'\')"');
+				$this->addElement('checkbox','version', Translation :: get_lang('CreateAsNewVersion'), null, 'onclick="javascript:showElement(\''. LearningObject :: PROPERTY_COMMENT .'\')"');
 				$this->add_element_hider('begin', LearningObject :: PROPERTY_COMMENT);
-				$this->addElement('text', LearningObject :: PROPERTY_COMMENT, get_lang('VersionComment'));
+				$this->addElement('text', LearningObject :: PROPERTY_COMMENT, Translation :: get_lang('VersionComment'));
 				$this->add_element_hider('end', LearningObject :: PROPERTY_COMMENT);
 			}
 			else
 			{
-				$this->add_warning_message(null, get_lang('VersionQuotaExceeded'));
+				$this->add_warning_message(null, Translation :: get_lang('VersionQuotaExceeded'));
 			}
 		}
 		$this->addElement('hidden', LearningObject :: PROPERTY_ID);
@@ -207,7 +207,7 @@ EOT;
 				$html[] = '<div class="versions_na" style="margin-top: 1em;">';
 			}
 
-			$html[] = '<div class="versions_title">'.htmlentities(get_lang('Versions')).'</div>';
+			$html[] = '<div class="versions_title">'.htmlentities(Translation :: get_lang('Versions')).'</div>';
 
 			$this->addElement('html', implode("\n", $html));
 			$this->add_element_hider('script_radio', $object);
@@ -230,7 +230,7 @@ EOT;
 				$this->addGroup($versions, null, null, "\n");
 				$i++;
 			}
-			$this->addElement('submit', 'submit', get_lang('CompareVersions'));
+			$this->addElement('submit', 'submit', Translation :: get_lang('CompareVersions'));
 			$this->addElement('html', '</div>');
 		}
 	}
@@ -243,14 +243,14 @@ EOT;
 	 */
 	private function build_basic_form()
 	{
-		//$this->add_textfield(LearningObject :: PROPERTY_TITLE, get_lang('Title'), true, 'size="100" style="width: 100%"');
-		$this->add_textfield(LearningObject :: PROPERTY_TITLE, get_lang('Title'));
+		//$this->add_textfield(LearningObject :: PROPERTY_TITLE, Translation :: get_lang('Title'), true, 'size="100" style="width: 100%"');
+		$this->add_textfield(LearningObject :: PROPERTY_TITLE, Translation :: get_lang('Title'));
 		if ($this->allows_category_selection())
 		{
-			$select = $this->add_select(LearningObject :: PROPERTY_PARENT_ID, get_lang('CategoryTypeName'), $this->get_categories());
+			$select = $this->add_select(LearningObject :: PROPERTY_PARENT_ID, Translation :: get_lang('CategoryTypeName'), $this->get_categories());
 			$select->setSelected($this->learning_object->get_parent_id());
 		}
-		$this->add_html_editor(LearningObject :: PROPERTY_DESCRIPTION, get_lang('Description'));
+		$this->add_html_editor(LearningObject :: PROPERTY_DESCRIPTION, Translation :: get_lang('Description'));
 	}
 
 	/**
@@ -272,19 +272,19 @@ EOT;
 			}
 			$url = $this->get_path(WEB_PATH).'repository/xml_feed.php';
 			$locale = array ();
-			$locale['Display'] = get_lang('AddAttachments');
-			$locale['Searching'] = get_lang('Searching');
-			$locale['NoResults'] = get_lang('NoResults');
-			$locale['Error'] = get_lang('Error');
+			$locale['Display'] = Translation :: get_lang('AddAttachments');
+			$locale['Searching'] = Translation :: get_lang('Searching');
+			$locale['NoResults'] = Translation :: get_lang('NoResults');
+			$locale['Error'] = Translation :: get_lang('Error');
 			$hidden = true;
-			$elem = $this->addElement('element_finder', 'attachments', get_lang('Attachments'), $url, $locale, $attachments);
+			$elem = $this->addElement('element_finder', 'attachments', Translation :: get_lang('Attachments'), $url, $locale, $attachments);
 			if ($id = $object->get_id())
 			{
 				$elem->excludeElements(array($object->get_id()));
 			}
 			$elem->setDefaultCollapsed(count($attachments) == 0);
 		}
-		$this->addElement('submit', 'submit', get_lang('Ok'));
+		$this->addElement('submit', 'submit', Translation :: get_lang('Ok'));
 	}
 
 	/**
@@ -301,7 +301,7 @@ EOT;
 	
 		if ($this->form_type == self :: TYPE_REPLY)
 		{
-			$defaults[LearningObject :: PROPERTY_TITLE] = get_lang('ReplyShort'). ' ' . $lo->get_title();
+			$defaults[LearningObject :: PROPERTY_TITLE] = Translation :: get_lang('ReplyShort'). ' ' . $lo->get_title();
 		}
 		else
 		{			
@@ -433,7 +433,7 @@ EOT;
 		$quotamanager = new QuotaManager($owner);
 		if ($this->form_type == self :: TYPE_CREATE && $quotamanager->get_available_database_space() <= 0)
 		{
-			Display :: display_warning_message(htmlentities(get_lang('MaxNumberOfLearningObjectsReached')));
+			Display :: display_warning_message(htmlentities(Translation :: get_lang('MaxNumberOfLearningObjectsReached')));
 		}
 		else
 		{
