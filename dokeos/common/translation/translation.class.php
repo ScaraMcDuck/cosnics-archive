@@ -53,39 +53,32 @@ class Translation
 	 */
 	static function get_lang($variable)
 	{
-		if (!isset (self :: $instance))
-		{
-			self :: $instance = new self();
-		}
-		return self :: $instance->translate($variable);
+		$instance = self :: get_instance();
+		return $instance->translate($variable);
 	}
 	
-	function add_language_file_to_array($language, $application)
+	static function get_language()
 	{
-		$lang = array();
-		$path = Path :: get_path(SYS_LANG_PATH) . $language . '/' . $application . '.inc.php';
-		include_once($path);
-		$this->strings[$language][$application] = $lang[$application];
+		$instance = self :: get_instance();
+		return $instance->language;
 	}
 	
-	function get_language()
+	static function set_language($language)
 	{
-		return $this->language;
+		$instance = self :: get_instance();
+		$instance->language = $language;
 	}
 	
-	function set_language($language)
+	static function get_application()
 	{
-		$this->language = $language;
-	}
-	
-	function get_application()
-	{
-		return $this->application;
+		$instance = self :: get_instance();
+		return $instance->application;
 	}	
 	
-	function set_application($application)
+	static function set_application($application)
 	{
-		$this->application = $application;
+		$instance = self :: get_instance();
+		$instance->application = $application;
 	}
 
 	/**
@@ -122,8 +115,16 @@ class Translation
 		}
 		else
 		{
-			return '[='. $application . '::' . $variable .'=]';
+			return '[='. $application . '=' . $variable .'=]';
 		}
+	}
+	
+	function add_language_file_to_array($language, $application)
+	{
+		$lang = array();
+		$path = Path :: get_path(SYS_LANG_PATH) . $language . '/' . $application . '.inc.php';
+		include_once($path);
+		$this->strings[$language][$application] = $lang[$application];
 	}
 }
 ?>
