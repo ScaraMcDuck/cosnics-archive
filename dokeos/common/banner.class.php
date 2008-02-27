@@ -62,7 +62,7 @@ class Banner
 //			$number = count(WhoIsOnline(api_get_user_id(), $statistics_database, 30));
 //			$online_in_course = who_is_online_in_this_course(api_get_user_id(), 30, $_course['id']);
 //			$number_online_in_course = count($online_in_course);
-//			$output[] = "<li>".get_lang('UsersOnline').": ";
+//			$output[] = "<li>".Translation :: get_lang('UsersOnline').": ";
 //
 //			// Display the who's online of the platform
 //			if (($this->get_setting('showonline_world') == "true" AND !$_SESSION['_uid']) OR ($this->get_setting('showonline_users') == "true" AND $_SESSION['_uid']))
@@ -79,7 +79,7 @@ class Banner
 //			// Display the who's online for the course
 //			if ($_course AND $this->get_setting('showonline_course') == "true")
 //			{
-//				$output[] = "<a href='".$this->get_path(REL_CLARO_PATH)."online/whoisonlinecourse.php' target='_top'>$number_online_in_course ".get_lang('InThisCourse')."</a>";
+//				$output[] = "<a href='".$this->get_path(REL_CLARO_PATH)."online/whoisonlinecourse.php' target='_top'>$number_online_in_course ".Translation :: get_lang('InThisCourse')."</a>";
 //			}
 //
 //			// Display brackets if who's online of the campus AND who's online in the course are active
@@ -115,7 +115,7 @@ class Banner
 			$output[] = '<input type="hidden" name="logout" value="true"/>';
 			$output[] = '<input type="hidden" name="uid" value="'.$_SESSION['_uid'].'"/>';
 			$output[] = '<div id="logout">';
-			$output[] = '<input type="submit" name="submit" value="'.get_lang("Logout").'" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'" class="logout"/>';
+			$output[] = '<input type="submit" name="submit" value="'.Translation :: get_lang("Logout").'" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'" class="logout"/>';
 			$output[] = '</div>';
 			$output[] = '</form>';
 
@@ -146,7 +146,7 @@ class Banner
 				}
 
 				$output[] = '<a '.$link_class.' href="'.$this->get_path(WEB_PATH).'run.php?application='.$application.'" target="_top">';
-				$output[] = get_lang(Application::application_to_class($application));
+				$output[] = Translation :: get_lang(Application::application_to_class($application));
 				$output[] = ($count > 0 ? '&nbsp;('.$count.')' : null);
 				$output[] = '</a>&nbsp;';
 			}
@@ -161,7 +161,7 @@ class Banner
 			}
 
 			$output[] = '<a '.$link_class.' href="'.$this->get_path(WEB_PATH).'index_repository_manager.php" target="_top">';
-			$output[] = get_lang('MyRepository');
+			$output[] = Translation :: get_lang('MyRepository');
 			$output[] = '</a>&nbsp;';
 
 			if ($GLOBALS['this_section'] == "myaccount")
@@ -174,7 +174,7 @@ class Banner
 			}
 
 			$output[] = '<a '.$link_class.' href="'.$this->get_path(WEB_PATH).'index_user.php?go=account" target="_top">';
-			$output[] = get_lang('ModifyProfile');
+			$output[] = Translation :: get_lang('ModifyProfile');
 			$output[] = '</a>&nbsp;';
 
 			if ($user->is_platform_admin())
@@ -188,7 +188,7 @@ class Banner
 					$link_class = '';
 				}
 				$output[] = '<a id="admin" '.$link_class.' href="'.$this->get_path(WEB_PATH).'index_admin.php" target="_top">';
-				$output[] = get_lang('PlatformAdmin');
+				$output[] = Translation :: get_lang('PlatformAdmin');
 				$output[] = '</a>&nbsp;';
 			}
 
