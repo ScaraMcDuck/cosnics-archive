@@ -45,11 +45,11 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 				}
 				if ($number_of_deleted_publications == $number_of_publications_to_delete)
 				{
-					$_SESSION['maintenance_message'] = get_lang('AllSelectedPublicationsRemoved');
+					$_SESSION['maintenance_message'] = Translation :: get_lang('AllSelectedPublicationsRemoved');
 				}
 				else
 				{
-					$_SESSION['maintenance_error_message'] = get_lang('NotAllSelectedPublicationsRemoved');
+					$_SESSION['maintenance_error_message'] = Translation :: get_lang('NotAllSelectedPublicationsRemoved');
 				}
 				break;
 			case ActionSelectionMaintenanceWizardPage :: ACTION_COPY :
@@ -82,7 +82,7 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 						$pub->create();
 					}
 				}
-				$_SESSION['maintenance_message'] = get_lang('CopyFinished');
+				$_SESSION['maintenance_message'] = Translation :: get_lang('CopyFinished');
 				break;
 			case ActionSelectionMaintenanceWizardPage :: ACTION_BACKUP :
 				$_SESSION['maintenance_error_message'] = 'BACKUP: TODO';

@@ -38,11 +38,11 @@ class LearningObjectPublicationCategoryForm extends FormValidator
 	 */
 	function build_creation_form()
 	{
-		$this->addElement('text', self :: PARAM_TITLE, get_lang('Title'));
-		$this->addRule(self :: PARAM_TITLE, get_lang('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', self :: PARAM_TITLE, Translation :: get_lang('Title'));
+		$this->addRule(self :: PARAM_TITLE, Translation :: get_lang('ThisFieldIsRequired'), 'required');
 		$categories = $this->parent->get_categories(true);
-		$this->addElement('select', self :: PARAM_CATEGORY, get_lang('Category'), $categories);
-		$this->addElement('submit', 'submit', get_lang('Ok'));
+		$this->addElement('select', self :: PARAM_CATEGORY, Translation :: get_lang('Category'), $categories);
+		$this->addElement('submit', 'submit', Translation :: get_lang('Ok'));
 	}
 	/**
 	 * Add the necessary elements to this form so it can be used to edit an

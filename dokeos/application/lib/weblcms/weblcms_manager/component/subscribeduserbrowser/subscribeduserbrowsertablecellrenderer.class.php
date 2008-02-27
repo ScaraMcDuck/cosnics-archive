@@ -40,16 +40,16 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 				$course_user_relation = $this->browser->get_parent()->retrieve_course_user_relation($this->browser->get_course_id(), $user->get_user_id());
 				if ($course_user_relation->get_status() == 1)
 				{
-					return get_lang('CourseAdmin');
+					return Translation :: get_lang('CourseAdmin');
 				}
 				else
 				{
-					return get_lang('Student');
+					return Translation :: get_lang('Student');
 				}
 			case User :: PROPERTY_PLATFORMADMIN :
 				if ($user->get_platformadmin() == '1')
 				{
-					return get_lang('PlatformAdmin');
+					return Translation :: get_lang('PlatformAdmin');
 				}
 				else
 				{
@@ -77,7 +77,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 			$subscribe_url = $this->browser->get_url($parameters);
 			$toolbar_data[] = array(
 				'href' => $subscribe_url,
-				'label' => get_lang('Subscribe'),
+				'label' => Translation :: get_lang('Subscribe'),
 				'img' => $this->browser->get_path(WEB_IMG_PATH).'user-subscribe.gif'
 			);
 		}
@@ -91,7 +91,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 				$unsubscribe_url = $this->browser->get_url($parameters);
 				$toolbar_data[] = array(
 					'href' => $unsubscribe_url,
-					'label' => get_lang('Unsubscribe'),
+					'label' => Translation :: get_lang('Unsubscribe'),
 					'img' => $this->browser->get_path(WEB_IMG_PATH).'user-unsubscribe.gif'
 				);
 			}
@@ -101,7 +101,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 			$unsubscribe_url = $this->browser->get_url($parameters);
 			$toolbar_data[] = array(
 				'href' => $unsubscribe_url,
-				'label' => get_lang('Details'),
+				'label' => Translation :: get_lang('Details'),
 				'img' => $this->browser->get_path(WEB_IMG_PATH).'profile.gif'
 			);
 		}

@@ -113,8 +113,8 @@ class WeblcmsSearchForm extends FormValidator
 	private function build_simple_search_form()
 	{
 		$this->renderer->setElementTemplate('{element}');
-		$this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, get_lang('Find'), 'size="20" class="search_query"');
-		$this->addElement('submit', 'search', get_lang('Ok'));
+		$this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get_lang('Find'), 'size="20" class="search_query"');
+		$this->addElement('submit', 'search', Translation :: get_lang('Ok'));
 	}
 	/**
 	 * Display the form

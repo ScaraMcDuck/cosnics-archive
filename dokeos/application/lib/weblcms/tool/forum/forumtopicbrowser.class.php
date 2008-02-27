@@ -46,7 +46,7 @@ class ForumTopicBrowser extends LearningObjectPublicationBrowser
 			$forum_table_row[] = $author->get_firstname().' '.$author->get_lastname();
 			$last_post = $topic->get_last_post();
 			$last_post_author = $this->get_user_info($last_post->get_owner_id());
-			$forum_table_row[] = date('r',$last_post->get_creation_date()).' '.get_lang('By').' '.$last_post_author->get_firstname().' '.$last_post_author->get_lastname();
+			$forum_table_row[] = date('r',$last_post->get_creation_date()).' '.Translation :: get_lang('By').' '.$last_post_author->get_firstname().' '.$last_post_author->get_lastname();
 			if($this->is_allowed(EDIT_RIGHT) || $this->is_allowed(DELETE_RIGHT))
 			{
 				$forum_table_row[] = $renderer->render_publication_actions($topic, $first, $last);
@@ -79,14 +79,14 @@ class ForumTopicBrowser extends LearningObjectPublicationBrowser
 				$topic->set_parent_id($forum->get_id());
 				$topic->update();
 				$course = $this->get_course_id();
-				$html .= Display::display_normal_message(get_lang('TopicAdded'),true);
+				$html .= Display::display_normal_message(Translation :: get_lang('TopicAdded'),true);
 				$display_topics = true;
 			}
 		}
 		if($display_topics)
 		{
 			$toolbar_data = array ();
-			$toolbar_data[] = array ('href' => $this->get_url(array('forum_action'=>'newtopic')), 'img' => $this->get_path(WEB_IMG_PATH).'forum.gif', 'label' => get_lang('NewTopic'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+			$toolbar_data[] = array ('href' => $this->get_url(array('forum_action'=>'newtopic')), 'img' => $this->get_path(WEB_IMG_PATH).'forum.gif', 'label' => Translation :: get_lang('NewTopic'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 			$html .=  '<div style="margin-bottom: 1em;">'.RepositoryUtilities :: build_toolbar($toolbar_data).'</div>';
 			$html .= '<b>'.$forum->get_title().'</b>';
 			$html .= $this->listRenderer->as_html();

@@ -23,12 +23,12 @@ class WeblcmsCourseCreatorComponent extends WeblcmsComponent
 		}
 		
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('CourseCreate'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('CourseCreate'));
 		
 		if (!$this->get_user()->is_teacher() && !$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($breadcrumbs);
-			Display :: display_error_message(get_lang("NotAllowed"));
+			Display :: display_error_message(Translation :: get_lang("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}
@@ -46,7 +46,7 @@ class WeblcmsCourseCreatorComponent extends WeblcmsComponent
 		if($form->validate())
 		{
 			$success = $form->create_course();
-			$this->redirect(Weblcms :: ACTION_VIEW_WEBLCMS_HOME, get_lang($success ? 'CourseCreated' : 'CourseNotCreated'), ($success ? false : true));
+			$this->redirect(Weblcms :: ACTION_VIEW_WEBLCMS_HOME, Translation :: get_lang($success ? 'CourseCreated' : 'CourseNotCreated'), ($success ? false : true));
 		}
 		else
 		{

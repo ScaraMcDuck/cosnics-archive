@@ -44,12 +44,12 @@ class CourseForm extends FormValidator {
 
     function build_basic_form()
     {
-		$this->addElement('text', Course :: PROPERTY_VISUAL, get_lang('VisualCode'));
-		$this->addRule(Course :: PROPERTY_VISUAL, get_lang('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', Course :: PROPERTY_VISUAL, Translation :: get_lang('VisualCode'));
+		$this->addRule(Course :: PROPERTY_VISUAL, Translation :: get_lang('ThisFieldIsRequired'), 'required');
 
 		if (!$this->user->is_platform_admin())
 		{
-			$this->addElement('text', Course :: PROPERTY_TITULAR, get_lang('Teacher'));
+			$this->addElement('text', Course :: PROPERTY_TITULAR, Translation :: get_lang('Teacher'));
 		}
 		else
 		{
@@ -64,12 +64,12 @@ class CourseForm extends FormValidator {
 				$user_options[$user->get_user_id()] = $user->get_lastname() . '&nbsp;' . $user->get_firstname();
 			}
 
-			$this->addElement('select', Course :: PROPERTY_TITULAR, get_lang('Teacher'), $user_options);
+			$this->addElement('select', Course :: PROPERTY_TITULAR, Translation :: get_lang('Teacher'), $user_options);
 		}
-		$this->addRule(Course :: PROPERTY_TITULAR, get_lang('ThisFieldIsRequired'), 'required');
+		$this->addRule(Course :: PROPERTY_TITULAR, Translation :: get_lang('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('text', Course :: PROPERTY_NAME, get_lang('Title'));
-		$this->addRule(Course :: PROPERTY_NAME, get_lang('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', Course :: PROPERTY_NAME, Translation :: get_lang('Title'));
+		$this->addRule(Course :: PROPERTY_NAME, Translation :: get_lang('ThisFieldIsRequired'), 'required');
 
 		$cat_options = array();
 		$parent = $this->parent;
@@ -83,10 +83,10 @@ class CourseForm extends FormValidator {
 			$cat_options[$category->get_code()] = $category->get_name();
 		}
 
-		$this->addElement('select', Course :: PROPERTY_CATEGORY_CODE, get_lang('Category'), $cat_options);
+		$this->addElement('select', Course :: PROPERTY_CATEGORY_CODE, Translation :: get_lang('Category'), $cat_options);
 
-		$this->addElement('text', Course :: PROPERTY_EXTLINK_NAME, get_lang('Department'));
-		$this->addElement('text', Course :: PROPERTY_EXTLINK_URL, get_lang('DepartmentUrl'));
+		$this->addElement('text', Course :: PROPERTY_EXTLINK_NAME, Translation :: get_lang('Department'));
+		$this->addElement('text', Course :: PROPERTY_EXTLINK_URL, Translation :: get_lang('DepartmentUrl'));
 
 		/*
 		 * TODO: SCARA - It's probably better to have a general language class somewhere ?
@@ -101,27 +101,27 @@ class CourseForm extends FormValidator {
 			$lang_options[$language->get_folder()] = $language->get_english_name();	
 		}
 
-		$this->addElement('select', Course :: PROPERTY_LANGUAGE, get_lang('Language'), $lang_options);
+		$this->addElement('select', Course :: PROPERTY_LANGUAGE, Translation :: get_lang('Language'), $lang_options);
 
 		$course_access = array();
-		$course_access[] =& $this->createElement('radio', null, null, get_lang('CourseAccessOpenWorld'), COURSE_VISIBILITY_OPEN_WORLD);
-		$course_access[] =& $this->createElement('radio', null, null, get_lang('CourseAccessOpenRegistered'), COURSE_VISIBILITY_OPEN_PLATFORM);
-		$course_access[] =& $this->createElement('radio', null, null, get_lang('CourseAccessPrivate'), COURSE_VISIBILITY_REGISTERED);
-		$course_access[] =& $this->createElement('radio', null, null, get_lang('CourseAccessClosed'), COURSE_VISIBILITY_CLOSED);
-		$course_access[] =& $this->createElement('radio', null, null, get_lang('CourseAccessModified'), COURSE_VISIBILITY_MODIFIED);
-		$this->addGroup($course_access, Course :: PROPERTY_VISIBILITY, get_lang('CourseAccess'), '<br />');
+		$course_access[] =& $this->createElement('radio', null, null, Translation :: get_lang('CourseAccessOpenWorld'), COURSE_VISIBILITY_OPEN_WORLD);
+		$course_access[] =& $this->createElement('radio', null, null, Translation :: get_lang('CourseAccessOpenRegistered'), COURSE_VISIBILITY_OPEN_PLATFORM);
+		$course_access[] =& $this->createElement('radio', null, null, Translation :: get_lang('CourseAccessPrivate'), COURSE_VISIBILITY_REGISTERED);
+		$course_access[] =& $this->createElement('radio', null, null, Translation :: get_lang('CourseAccessClosed'), COURSE_VISIBILITY_CLOSED);
+		$course_access[] =& $this->createElement('radio', null, null, Translation :: get_lang('CourseAccessModified'), COURSE_VISIBILITY_MODIFIED);
+		$this->addGroup($course_access, Course :: PROPERTY_VISIBILITY, Translation :: get_lang('CourseAccess'), '<br />');
 
 		$subscribe_allowed = array();
-		$subscribe_allowed[] =& $this->createElement('radio', null, null, get_lang('SubscribeAllowed'), 1);
-		$subscribe_allowed[] =& $this->createElement('radio', null, null, get_lang('SubscribeNotAllowed'), 0);
-		$this->addGroup($subscribe_allowed, Course :: PROPERTY_SUBSCRIBE_ALLOWED, get_lang('Subscribe'), '<br />');
+		$subscribe_allowed[] =& $this->createElement('radio', null, null, Translation :: get_lang('SubscribeAllowed'), 1);
+		$subscribe_allowed[] =& $this->createElement('radio', null, null, Translation :: get_lang('SubscribeNotAllowed'), 0);
+		$this->addGroup($subscribe_allowed, Course :: PROPERTY_SUBSCRIBE_ALLOWED, Translation :: get_lang('Subscribe'), '<br />');
 
 		$unsubscribe_allowed = array();
-		$unsubscribe_allowed[] =& $this->createElement('radio', null, null, get_lang('UnsubscribeAllowed'), 1);
-		$unsubscribe_allowed[] =& $this->createElement('radio', null, null, get_lang('UnsubscribeNotAllowed'), 0);
-		$this->addGroup($unsubscribe_allowed, Course :: PROPERTY_UNSUBSCRIBE_ALLOWED, get_lang('Unsubscribe'), '<br />');
+		$unsubscribe_allowed[] =& $this->createElement('radio', null, null, Translation :: get_lang('UnsubscribeAllowed'), 1);
+		$unsubscribe_allowed[] =& $this->createElement('radio', null, null, Translation :: get_lang('UnsubscribeNotAllowed'), 0);
+		$this->addGroup($unsubscribe_allowed, Course :: PROPERTY_UNSUBSCRIBE_ALLOWED, Translation :: get_lang('Unsubscribe'), '<br />');
 
-		$this->addElement('submit', 'course_settings', get_lang('Ok'));
+		$this->addElement('submit', 'course_settings', Translation :: get_lang('Ok'));
     }
 
     function build_editing_form()
@@ -136,8 +136,8 @@ class CourseForm extends FormValidator {
 
     function build_creation_form()
     {
-    	$this->addElement('text', Course :: PROPERTY_ID, get_lang('CourseCode'));
-    	$this->addRule(Course :: PROPERTY_ID, get_lang('ThisFieldIsRequired'), 'required');
+    	$this->addElement('text', Course :: PROPERTY_ID, Translation :: get_lang('CourseCode'));
+    	$this->addRule(Course :: PROPERTY_ID, Translation :: get_lang('ThisFieldIsRequired'), 'required');
     	$this->build_basic_form();
     }
 

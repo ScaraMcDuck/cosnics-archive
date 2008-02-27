@@ -19,7 +19,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		$publications = $this->get_publications();
 		if(count($publications) == 0)
 		{
-			$html[] = Display::display_normal_message(get_lang('NoPublicationsAvailable'),true);
+			$html[] = Display::display_normal_message(Translation :: get_lang('NoPublicationsAvailable'),true);
 		}
 		foreach ($publications as $index => $publication)
 		{

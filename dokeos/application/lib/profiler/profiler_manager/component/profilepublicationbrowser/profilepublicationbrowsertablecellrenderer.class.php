@@ -35,7 +35,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
 		switch ($column->get_profile_property())
 		{
 			case ProfilePublication :: PROPERTY_PUBLISHED:
-				return format_locale_date(get_lang('dateFormatShort').', '.get_lang('timeNoSecFormat'),$profile->get_published());
+				return format_locale_date(Translation :: get_lang('dateFormatShort').', '.Translation :: get_lang('timeNoSecFormat'),$profile->get_published());
 				break;
 			case ProfilePublication :: PROPERTY_PROFILE:
 				$title = parent :: render_cell($column, $profile);
@@ -64,7 +64,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
 			$delete_url = $this->browser->get_publication_deleting_url($profile);
 			$toolbar_data[] = array(
 				'href' => $delete_url,
-				'label' => get_lang('Delete'),
+				'label' => Translation :: get_lang('Delete'),
 				'confirm' => true,
 				'img' => $this->browser->get_path(WEB_IMG_PATH).'delete.gif'
 			);

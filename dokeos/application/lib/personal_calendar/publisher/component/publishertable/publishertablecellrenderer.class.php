@@ -58,13 +58,13 @@ class PublisherTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 		$toolbar_data[] = array(
 			'href' => $publish_url,
 			'img' => Path :: get_path(WEB_IMG_PATH).'publish.gif',
-			'label' => get_lang('Publish')
+			'label' => Translation :: get_lang('Publish')
 		);
 		/*
 		$toolbar_data[] = array(
 			'href' => $edit_and_publish_url,
 			'img' => Path :: get_path(WEB_IMG_PATH).'editpublish.gif',
-			'label' => get_lang('EditAndPublish')
+			'label' => Translation :: get_lang('EditAndPublish')
 		);
 		*/
 		return RepositoryUtilities :: build_toolbar($toolbar_data);

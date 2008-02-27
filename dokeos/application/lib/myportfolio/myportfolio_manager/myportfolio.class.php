@@ -154,9 +154,9 @@ class MyPortfolio extends WebApplication
 
 /*	function show_item_header($item)
 	{
-		print '<a href="'.$this->get_url(array (self :: PARAM_ACTION=>self::ACTION_CREATE,self :: PARAM_ITEM => $item), true).'">'.get_lang("pf_create_child").'</a>';
-		print '<a href="'.$this->get_url(array (self :: PARAM_ACTION=>self::ACTION_EDIT,self :: PARAM_ITEM => $item), true).'">'.get_lang("pf_edit_item").'</a>';
-		print '<a href="'.$this->get_url(array (self :: PARAM_ACTION=>self::ACTION_DELETE,self :: PARAM_ITEM => $item), true).'">'.get_lang("pf_delete_item").'</a><br /><br />';
+		print '<a href="'.$this->get_url(array (self :: PARAM_ACTION=>self::ACTION_CREATE,self :: PARAM_ITEM => $item), true).'">'.Translation :: get_lang("pf_create_child").'</a>';
+		print '<a href="'.$this->get_url(array (self :: PARAM_ACTION=>self::ACTION_EDIT,self :: PARAM_ITEM => $item), true).'">'.Translation :: get_lang("pf_edit_item").'</a>';
+		print '<a href="'.$this->get_url(array (self :: PARAM_ACTION=>self::ACTION_DELETE,self :: PARAM_ITEM => $item), true).'">'.Translation :: get_lang("pf_delete_item").'</a><br /><br />';
 	}
 */
 
@@ -169,7 +169,7 @@ class MyPortfolio extends WebApplication
 			$item=$pdm->get_root_element($this->user);
 		}
 		$title=$pdm->get_item_title($item);
-		print '<h3 style="float: left;" title="'.get_lang("pf_title_new_page_for").' '.$title.'">'.get_lang("pf_title_new_page_for").' '.$title.'</h3>';
+		print '<h3 style="float: left;" title="'.Translation :: get_lang("pf_title_new_page_for").' '.$title.'">'.Translation :: get_lang("pf_title_new_page_for").' '.$title.'</h3>';
 
 		require_once dirname(__FILE__).'/../weblcms/learningobjectpublisher.class.php';
 		$pub = new LearningObjectPublisher($this, 'document');
@@ -179,8 +179,8 @@ class MyPortfolio extends WebApplication
 //		$form = new FormValidator('create_page', 'post');
 //		$form->addElement('hidden', self :: PARAM_ITEM);
 //		$form->addElement('hidden', self :: PARAM_ACTION);
-//		$form->add_textfield('title', get_lang('title'),$required = true);
-//		$form->addElement('submit', 'submit', get_lang('Ok'));
+//		$form->add_textfield('title', Translation :: get_lang('title'),$required = true);
+//		$form->addElement('submit', 'submit', Translation :: get_lang('Ok'));
 //		$form->setDefaults(array (self :: PARAM_ITEM => $item, self :: PARAM_ACTION => self::ACTION_CREATED));
 //		print $form->toHtml();
 	}
@@ -195,14 +195,14 @@ class MyPortfolio extends WebApplication
 			$item=$pdm->get_root_element($this->user);
 		}
 		$title=$pdm->get_item_title($item);
-		print '<h3 style="float: left;" title="'.get_lang("pf_title_new_page_for").' '.$title.'">'.get_lang("pf_title_new_page_for").' '.$title.'</h3>';
+		print '<h3 style="float: left;" title="'.Translation :: get_lang("pf_title_new_page_for").' '.$title.'">'.Translation :: get_lang("pf_title_new_page_for").' '.$title.'</h3>';
 
 
 		$form = new FormValidator('create_page', 'post');
 		$form->addElement('hidden', self :: PARAM_ITEM);
 		$form->addElement('hidden', self :: PARAM_ACTION);
-		$form->add_textfield('title', get_lang('title'),$required = true);
-		$form->addElement('submit', 'submit', get_lang('Ok'));
+		$form->add_textfield('title', Translation :: get_lang('title'),$required = true);
+		$form->addElement('submit', 'submit', Translation :: get_lang('Ok'));
 		$form->setDefaults(array (self :: PARAM_ITEM => $item, self :: PARAM_ACTION => self::ACTION_CREATED));
 		print $form->toHtml();
 	}

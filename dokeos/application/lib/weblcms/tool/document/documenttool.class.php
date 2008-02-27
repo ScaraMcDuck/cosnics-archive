@@ -44,8 +44,8 @@ class DocumentTool extends RepositoryTool
 				{
 					$html[] =   '<a href="' . $this->get_url(array('documenttoolmode' => $i), true) . '">';
 				}
-				$html[] = '<img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).$key.'.gif" alt="'.get_lang($title).'" style="vertical-align:middle;"/> ';
-				$html[] =   get_lang($title);
+				$html[] = '<img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).$key.'.gif" alt="'.Translation :: get_lang($title).'" style="vertical-align:middle;"/> ';
+				$html[] =   Translation :: get_lang($title);
 				if (!$current)
 				{
 					$html[] =  '</a>';
@@ -58,8 +58,8 @@ class DocumentTool extends RepositoryTool
 				$download_parameters[RepositoryTool::PARAM_ACTION] = self::ACTION_ZIP_AND_DOWNLOAD;
 				$html[] =  '<li style="display: inline; margin: 0 1ex 0 0; padding: 0">';
 				$html[] =   '<a href="' . $this->get_url($download_parameters) . '">';
-				$html[] = '<img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).'save.png" alt="'.get_lang('Download').'" style="vertical-align:middle;"/> ';
-				$html[] =   get_lang('Download');
+				$html[] = '<img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).'save.png" alt="'.Translation :: get_lang('Download').'" style="vertical-align:middle;"/> ';
+				$html[] =   Translation :: get_lang('Download');
 				$html[] =  '</a>';
 				$html[] =  '</li>';
 			}
@@ -108,7 +108,7 @@ class DocumentTool extends RepositoryTool
 					return '';
 				case self::	ACTION_ZIP_AND_DOWNLOAD:
 					$archive_url = $this->create_document_archive();
-					return Display::display_normal_message('<a href="'.$archive_url.'">'.get_lang('Download').'</a>',true);
+					return Display::display_normal_message('<a href="'.$archive_url.'">'.Translation :: get_lang('Download').'</a>',true);
 				default:
 					return parent::perform_requested_actions();
 			}

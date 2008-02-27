@@ -22,7 +22,7 @@ class ProfilePublicationBrowserTable extends ProfilePublicationTable
 		$data_provider = new ProfilePublicationBrowserTableDataProvider($browser, $condition);
 		parent :: __construct($data_provider, $name, $model, $renderer);
 		$actions = array();
-		$actions[Profiler :: PARAM_DELETE_SELECTED] = get_lang('RemoveSelected');
+		$actions[Profiler :: PARAM_DELETE_SELECTED] = Translation :: get_lang('RemoveSelected');
 		if ($browser->get_user()->is_platform_admin())
 		{
 			$this->set_form_actions($actions);

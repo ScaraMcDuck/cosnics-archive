@@ -31,7 +31,7 @@ class CalendarTool extends RepositoryTool
 		}
 		if ($_SESSION['calendaradmin'])
 		{
-			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), true) . '"><img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).'browser.gif" alt="'.get_lang('BrowserTitle').'" style="vertical-align:middle;"/> '.get_lang('BrowserTitle').'</a></p>';
+			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), true) . '"><img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).'browser.gif" alt="'.Translation :: get_lang('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get_lang('BrowserTitle').'</a></p>';
 			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
 			$pub = new LearningObjectPublisher($this, 'calendar_event');
 			$event = new CalendarEvent();
@@ -49,7 +49,7 @@ class CalendarTool extends RepositoryTool
 			$this->display_header();
 			if($this->is_allowed(ADD_RIGHT))
 			{
-				echo '<p><a href="' . $this->get_url(array('admin' => 1), true) . '"><img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).'publish.gif" alt="'.get_lang('Publish').'" style="vertical-align:middle;"/> '.get_lang('Publish').'</a></p>';
+				echo '<p><a href="' . $this->get_url(array('admin' => 1), true) . '"><img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).'publish.gif" alt="'.Translation :: get_lang('Publish').'" style="vertical-align:middle;"/> '.Translation :: get_lang('Publish').'</a></p>';
 			}
 			echo $this->perform_requested_actions();
 			if($_GET[self :: PARAM_ACTION] == self :: ACTION_DELETE || $_GET['view'] == 'list')
@@ -71,25 +71,25 @@ class CalendarTool extends RepositoryTool
 		$toolbar_data[] = array(
 			'href' => $this->get_url(array('view'=>'list')),
 			'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'calendar_down.gif',
-			'label' => get_lang('ListView'),
+			'label' => Translation :: get_lang('ListView'),
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		$toolbar_data[] = array(
 			'href' => $this->get_url(array('view'=>'month')),
 			'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'calendar_month.gif',
-			'label' => get_lang('MonthView'),
+			'label' => Translation :: get_lang('MonthView'),
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		$toolbar_data[] = array(
 			'href' => $this->get_url(array('view'=>'week')),
 			'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'calendar_week.gif',
-			'label' => get_lang('WeekView'),
+			'label' => Translation :: get_lang('WeekView'),
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		$toolbar_data[] = array(
 			'href' => $this->get_url(array('view'=>'day')),
 			'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'calendar_day.gif',
-			'label' => get_lang('DayView'),
+			'label' => Translation :: get_lang('DayView'),
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		echo '<div style="margin-bottom: 1em;">'.RepositoryUtilities :: build_toolbar($toolbar_data).'</div>';
@@ -136,7 +136,7 @@ class CalendarTool extends RepositoryTool
 		$publication = $datamanager->retrieve_learning_object_publication($publication_id);
 		$html = array();
 		$html[] = $renderer->render_publication($publication);
-		$html[] = '<div id="back_link" style="margin-top: 1em;"><a href="'.$this->get_url(array(), true).'"><img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).'prev.png"/> '.htmlentities(get_lang('Back')).'</a></div>';
+		$html[] = '<div id="back_link" style="margin-top: 1em;"><a href="'.$this->get_url(array(), true).'"><img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).'prev.png"/> '.htmlentities(Translation :: get_lang('Back')).'</a></div>';
 		echo implode("\n",$html);
 	}
 	/**

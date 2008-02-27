@@ -161,7 +161,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		$extra_items = array ();
 		$create = array ();
-		$create['title'] = get_lang('Publish');
+		$create['title'] = Translation :: get_lang('Publish');
 		$create['url'] = $this->get_profile_creation_url();
 		$create['class'] = 'create';
 		$extra_items[] = $create;
@@ -171,7 +171,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 			// $search_url = $this->get_url();
 			$search_url = '#';
 			$search = array ();
-			$search['title'] = get_lang('SearchResults');
+			$search['title'] = Translation :: get_lang('SearchResults');
 			$search['url'] = $search_url;
 			$search['class'] = 'search_results';
 			$extra_items[] = $search;
@@ -404,7 +404,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => get_lang('ProfileList'), 'action' => 'list', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PROFILES)));
+		$links[] = array('name' => Translation :: get_lang('ProfileList'), 'action' => 'list', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PROFILES)));
 		return array ('application' => array ('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PROFILES)));
 	}
 

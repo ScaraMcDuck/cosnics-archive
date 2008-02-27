@@ -79,7 +79,7 @@ abstract class PersonalCalendarRenderer
 	{
 		if(is_null($key))
 		{
-			$this->legend[get_lang('MyAgenda')] = 'red';
+			$this->legend[Translation :: get_lang('MyAgenda')] = 'red';
 			return 'red';
 		}
 		if(!isset($this->legend[$key]))

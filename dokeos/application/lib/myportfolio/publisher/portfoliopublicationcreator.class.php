@@ -68,7 +68,7 @@ class PortfolioPublicationCreator extends PortfolioPublisherComponent
 		$form->addElement('hidden', 'tool');
 		$form->addElement('hidden', PortfolioPublisher :: PARAM_ACTION);
 		$form->addElement('select', 'type', '', $types);
-		$form->addElement('submit', 'submit', get_lang('Ok'));
+		$form->addElement('submit', 'submit', Translation :: get_lang('Ok'));
 		$form->setDefaults(array ('tool' => $_GET['tool'], PortfolioPublisher :: PARAM_ACTION => $_GET[PortfolioPublisher :: PARAM_ACTION]));
 		return $form->asHtml();
 	}
@@ -118,7 +118,7 @@ class PortfolioPublicationCreator extends PortfolioPublisherComponent
 	 */
 	private function get_publication_form($objectID, $new = false)
 	{
-		$out = ($new ? Display :: display_normal_message(htmlentities(get_lang('ObjectCreated')), true) : '');
+		$out = ($new ? Display :: display_normal_message(htmlentities(Translation :: get_lang('ObjectCreated')), true) : '');
 		$tool = $this->get_parent()->get_parent();
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
 
@@ -144,7 +144,7 @@ class PortfolioPublicationCreator extends PortfolioPublisherComponent
 			}
 			// TODO: Use a function for this.
 
-			$this->redirect(null, get_lang($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES));
+			$this->redirect(null, Translation :: get_lang($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES));
 		}
 		else
 		{

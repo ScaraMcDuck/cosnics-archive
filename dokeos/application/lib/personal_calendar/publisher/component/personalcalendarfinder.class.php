@@ -29,8 +29,8 @@ class PersonalCalendarFinder extends PersonalCalendarBrowser
 		parent :: __construct($parent);
 		$this->form = new FormValidator('search', 'get','','',null,false);
 		$this->form->addElement('hidden', 'publish_action');
-		$this->form->addElement('text', 'query', get_lang('Find'), 'size="40" class="search_query"');
-		$this->form->addElement('submit', 'submit', get_lang('Ok'));
+		$this->form->addElement('text', 'query', Translation :: get_lang('Find'), 'size="40" class="search_query"');
+		$this->form->addElement('submit', 'submit', Translation :: get_lang('Ok'));
 		$this->renderer = clone $this->form->defaultRenderer();
 		$this->renderer->setElementTemplate('<span>{element}</span> ');
 		$this->form->accept($this->renderer);

@@ -24,9 +24,9 @@ class PmPublicationBrowserTable extends PmPublicationTable
 		$data_provider = new PmPublicationBrowserTableDataProvider($browser, $condition);
 		parent :: __construct($data_provider, $name, $model, $renderer);
 		$actions = array();
-		$actions[PersonalMessenger :: PARAM_DELETE_SELECTED] = get_lang('RemoveSelected');
-		$actions[PersonalMessenger :: PARAM_MARK_SELECTED_READ] = get_lang('MarkSelectedRead');
-		$actions[PersonalMessenger :: PARAM_MARK_SELECTED_UNREAD] = get_lang('MarkSelectedUnread');
+		$actions[PersonalMessenger :: PARAM_DELETE_SELECTED] = Translation :: get_lang('RemoveSelected');
+		$actions[PersonalMessenger :: PARAM_MARK_SELECTED_READ] = Translation :: get_lang('MarkSelectedRead');
+		$actions[PersonalMessenger :: PARAM_MARK_SELECTED_UNREAD] = Translation :: get_lang('MarkSelectedUnread');
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}

@@ -174,7 +174,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	{
 		$extra_items = array ();
 		$create = array ();
-		$create['title'] = get_lang('Send');
+		$create['title'] = Translation :: get_lang('Send');
 		$create['url'] = $this->get_personal_message_creation_url();
 		$create['class'] = 'create';
 		$extra_items[] = $create;
@@ -393,7 +393,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array ('name' => get_lang('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
+		$links[] = array ('name' => Translation :: get_lang('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
 		return array ('application' => array ('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links);
 	}
 

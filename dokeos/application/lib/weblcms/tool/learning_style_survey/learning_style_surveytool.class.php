@@ -38,7 +38,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 			array(
 				array(
 					'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'browser.gif',
-					'label' => get_lang('Browse'),
+					'label' => Translation :: get_lang('Browse'),
 					'href' => ($_SESSION[get_class()]['mode'] != 0
 						? $this->get_url(array('mode' => 0))
 						: null),
@@ -46,7 +46,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 				),
 				array(
 					'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'publish.gif',
-					'label' => get_lang('Publish'),
+					'label' => Translation :: get_lang('Publish'),
 					'href' => ($_SESSION[get_class()]['mode'] != 1
 						? $this->get_url(array('mode' => 1))
 						: null),
@@ -100,7 +100,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 						}
 						else
 						{
-							Display :: display_normal_message(get_lang('NoSurveysTakenSoFar'));
+							Display :: display_normal_message(Translation :: get_lang('NoSurveysTakenSoFar'));
 						}
 						$this->display_footer();
 					}
@@ -134,7 +134,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 						if ($form->validate())
 						{
 							$object = $form->create_learning_object();
-							$this->redirect(null, get_lang('SurveyAnswersStored'), false, array(self :: PARAM_SURVEY_PROFILE_ID => $profile_id));
+							$this->redirect(null, Translation :: get_lang('SurveyAnswersStored'), false, array(self :: PARAM_SURVEY_PROFILE_ID => $profile_id));
 						}
 						else {
 							$this->display_header();

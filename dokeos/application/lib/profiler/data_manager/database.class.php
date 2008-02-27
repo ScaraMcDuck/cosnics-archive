@@ -173,7 +173,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (ProfilePublication :: get_default_property_names() as $prop)
@@ -376,7 +376,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 			$info->set_publication_date($publication->get_published());
 			$info->set_application('Profiler');
 			//TODO: i8n location string
-			$info->set_location(get_lang('List'));
+			$info->set_location(Translation :: get_lang('List'));
 			$info->set_url('index_profiler.php?go=view&profile='.$publication->get_id());
 			$info->set_publication_object_id($publication->get_profile());
 
@@ -404,7 +404,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		$info->set_publication_date($publication->get_published());
 		$info->set_application('Profiler');
 		//TODO: i8n location string
-		$info->set_location(get_lang('List'));
+		$info->set_location(Translation :: get_lang('List'));
 		$info->set_url('index_profiler.php?go=view&profile='.$publication->get_id());
 		$info->set_publication_object_id($publication->get_profile());
 

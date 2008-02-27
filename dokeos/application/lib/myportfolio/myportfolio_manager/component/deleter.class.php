@@ -55,11 +55,11 @@ class PortfolioDeleterComponent extends PortfolioComponent
 				}
 			}
 			
-			$this->redirect(null, get_lang($message), ($failures ? true : false), array(MyPortfolio :: PARAM_ACTION => MyPortfolio :: ACTION_BROWSE_PROFILES));
+			$this->redirect(null, Translation :: get_lang($message), ($failures ? true : false), array(MyPortfolio :: PARAM_ACTION => MyPortfolio :: ACTION_BROWSE_PROFILES));
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(get_lang('NoPublicationSelected')));
+			$this->display_error_page(htmlentities(Translation :: get_lang('NoPublicationSelected')));
 		}
 	}
 }

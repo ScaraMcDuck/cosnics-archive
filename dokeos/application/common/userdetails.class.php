@@ -30,12 +30,12 @@ class UserDetails
 		$html[] = $this->user->get_fullname();
 		$html[] = '</div>';
 		$html[] = '<div class="description">';
-		$html[] = get_lang('Email').': '.Display :: encrypted_mailto_link($this->user->get_email());
-		$html[] = '<br />'.get_lang('Username').': '.$this->user->get_username();
-		$html[] = '<br />'.get_lang('Status').': '.($this->user->get_status() == 1 ? get_lang('Teacher') : get_lang('Student'));
+		$html[] = Translation :: get_lang('Email').': '.Display :: encrypted_mailto_link($this->user->get_email());
+		$html[] = '<br />'.Translation :: get_lang('Username').': '.$this->user->get_username();
+		$html[] = '<br />'.Translation :: get_lang('Status').': '.($this->user->get_status() == 1 ? Translation :: get_lang('Teacher') : Translation :: get_lang('Student'));
 		if($this->user->is_platform_admin())
 		{
-			$html[] = ', '.get_lang('PlatformAdmin');
+			$html[] = ', '.Translation :: get_lang('PlatformAdmin');
 		}
 		$html[] = '</div>';
 		$html[] = '<div style="clear:both;"><span></span></div>';

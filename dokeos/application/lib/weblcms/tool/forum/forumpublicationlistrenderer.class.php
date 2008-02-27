@@ -18,17 +18,17 @@ class ForumPublicationListRenderer extends TableLearningObjectPublicationListRen
     		$this->set_header($column++,'',false);
     	}
     	$this->set_header($column++, '' , false);
-    	$this->set_header($column++, get_lang('Forum'), false);
-		$this->set_header($column++, get_lang('Topics'), false);
-		$this->set_header($column++, get_lang('Posts'), false);
-		$this->set_header($column++, get_lang('LastPost'), false);
+    	$this->set_header($column++, Translation :: get_lang('Forum'), false);
+		$this->set_header($column++, Translation :: get_lang('Topics'), false);
+		$this->set_header($column++, Translation :: get_lang('Posts'), false);
+		$this->set_header($column++, Translation :: get_lang('LastPost'), false);
     	if($browser->is_allowed(EDIT_RIGHT) || $browser->is_allowed(DELETE_RIGHT))
     	{
     		$this->set_header($column++,'',false);
     	}
     	if($browser->is_allowed(EDIT_RIGHT) || $browser->is_allowed(DELETE_RIGHT))
     	{
-    		$actions[RepositoryTool::ACTION_DELETE_SELECTED] = get_lang('Delete');
+    		$actions[RepositoryTool::ACTION_DELETE_SELECTED] = Translation :: get_lang('Delete');
     		$this->table->set_form_actions($actions);
     	}
     }

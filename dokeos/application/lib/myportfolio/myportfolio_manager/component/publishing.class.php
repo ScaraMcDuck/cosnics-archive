@@ -15,7 +15,7 @@ class PortfolioPublishingComponent extends PortfolioComponent
 	{
 		
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('PublishPortfolio'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('PublishPortfolio'));
 		
 		$publisher = $this->get_publisher_html();
 		
@@ -26,7 +26,7 @@ class PortfolioPublishingComponent extends PortfolioComponent
 		{
 			$out .= '<li><a';
 			if ($this->get_parent()->get_action() == $action) $out .= ' class="current"';
-			$out .= ' href="'.$this->get_url(array (MyPortfolio :: PARAM_ACTION => $action), true).'">'.htmlentities(get_lang(ucfirst($action).'Title')).'</a></li>';
+			$out .= ' href="'.$this->get_url(array (MyPortfolio :: PARAM_ACTION => $action), true).'">'.htmlentities(Translation :: get_lang(ucfirst($action).'Title')).'</a></li>';
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
 

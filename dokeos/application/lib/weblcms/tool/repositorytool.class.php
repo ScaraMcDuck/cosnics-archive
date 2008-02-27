@@ -77,7 +77,7 @@ abstract class RepositoryTool extends Tool
 						if( $form->validate())
 						{
 							$form->update_learning_object_publication();
-							$message = htmlentities(get_lang('LearningObjectPublicationUpdated'));
+							$message = htmlentities(Translation :: get_lang('LearningObjectPublicationUpdated'));
 						}
 						else
 						{
@@ -93,7 +93,7 @@ abstract class RepositoryTool extends Tool
 						$publication = $datamanager->retrieve_learning_object_publication($_GET[self :: PARAM_PUBLICATION_ID]);
 						if($publication->delete())
 						{
-							$message = htmlentities(get_lang('LearningObjectPublicationDeleted'));
+							$message = htmlentities(Translation :: get_lang('LearningObjectPublicationDeleted'));
 						}
 					}
 					break;
@@ -109,11 +109,11 @@ abstract class RepositoryTool extends Tool
 						}
 						if(count($publication_ids) > 1)
 						{
-							$message = htmlentities(get_lang('LearningObjectPublicationsDeleted'));
+							$message = htmlentities(Translation :: get_lang('LearningObjectPublicationsDeleted'));
 						}
 						else
 						{
-							$message = htmlentities(get_lang('LearningObjectPublicationDeleted'));
+							$message = htmlentities(Translation :: get_lang('LearningObjectPublicationDeleted'));
 						}
 					}
 					break;
@@ -124,7 +124,7 @@ abstract class RepositoryTool extends Tool
 						$publication->toggle_visibility();
 						if($publication->update())
 						{
-							$message = htmlentities(get_lang('LearningObjectPublicationVisibilityChanged'));
+							$message = htmlentities(Translation :: get_lang('LearningObjectPublicationVisibilityChanged'));
 						}
 					}
 					break;
@@ -134,7 +134,7 @@ abstract class RepositoryTool extends Tool
 						$publication = $datamanager->retrieve_learning_object_publication($_GET[self :: PARAM_PUBLICATION_ID]);
 						if($publication->move(-1))
 						{
-							$message = htmlentities(get_lang('LearningObjectPublicationMoved'));
+							$message = htmlentities(Translation :: get_lang('LearningObjectPublicationMoved'));
 						}
 					}
 					break;
@@ -144,7 +144,7 @@ abstract class RepositoryTool extends Tool
 						$publication = $datamanager->retrieve_learning_object_publication($_GET[self :: PARAM_PUBLICATION_ID]);
 						if($publication->move(1))
 						{
-							$message = htmlentities(get_lang('LearningObjectPublicationMoved'));
+							$message = htmlentities(Translation :: get_lang('LearningObjectPublicationMoved'));
 						}
 					}
 					break;
@@ -158,7 +158,7 @@ abstract class RepositoryTool extends Tool
 							$publication = $datamanager->retrieve_learning_object_publication($_GET[self :: PARAM_PUBLICATION_ID]);
 							$publication->set_category_id($_GET[LearningObjectPublication :: PROPERTY_CATEGORY_ID]);
 							$publication->update();
-							$message = get_lang('LearningObjectPublicationMoved');
+							$message = Translation :: get_lang('LearningObjectPublicationMoved');
 						}
 						else
 						{
@@ -185,11 +185,11 @@ abstract class RepositoryTool extends Tool
 							}
 							if(count($publication_ids) == 1)
 							{
-								$message = get_lang('LearningObjectPublicationMoved');
+								$message = Translation :: get_lang('LearningObjectPublicationMoved');
 							}
 							else
 							{
-								$message = get_lang('LearningObjectPublicationsMoved');
+								$message = Translation :: get_lang('LearningObjectPublicationsMoved');
 							}
 						}
 						else
@@ -217,8 +217,8 @@ abstract class RepositoryTool extends Tool
 	{
 		$form = new FormValidator($action,'get',$this->get_url());
 		$categories = $this->get_categories(true);
-		$form->addElement('select', LearningObjectPublication :: PROPERTY_CATEGORY_ID, get_lang('Category'), $categories);
-		$form->addElement('submit', 'submit', get_lang('Ok'));
+		$form->addElement('select', LearningObjectPublication :: PROPERTY_CATEGORY_ID, Translation :: get_lang('Category'), $categories);
+		$form->addElement('submit', 'submit', Translation :: get_lang('Ok'));
 		$parameters = $this->get_parameters();
 		$parameters['pcattree'] = $_GET['pcattree'];
 		$parameters[self :: PARAM_ACTION] = $action;

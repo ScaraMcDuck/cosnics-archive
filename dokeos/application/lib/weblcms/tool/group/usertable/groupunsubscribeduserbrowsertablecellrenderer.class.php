@@ -44,7 +44,7 @@ class GroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTableCell
 				$unsubscribe_url = $this->browser->get_url($parameters);
 				$toolbar_data[] = array(
 					'href' => $unsubscribe_url,
-					'label' => get_lang('Subscribe'),
+					'label' => Translation :: get_lang('Subscribe'),
 					'img' => $this->browser->get_path(WEB_IMG_PATH).'user-subscribe.gif'
 				);
 			$parameters = array();
@@ -53,7 +53,7 @@ class GroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTableCell
 			$unsubscribe_url = $this->browser->get_url($parameters);
 			$toolbar_data[] = array(
 				'href' => $unsubscribe_url,
-				'label' => get_lang('Details'),
+				'label' => Translation :: get_lang('Details'),
 				'img' => $this->browser->get_path(WEB_IMG_PATH).'profile.gif'
 			);
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
