@@ -20,7 +20,7 @@ class PortfolioBrowserComponent extends PortfolioComponent
 		$output = $this->get_publications_html();
 		
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('MyPortfolio'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('MyPortfolio'));
 		
 		$this->display_header($breadcrumbs, true);
 		echo $output;

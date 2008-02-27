@@ -38,7 +38,7 @@ class CourseTableColumn
 		if ($contains_course_property)
 		{
 			$this->course_property = $property_name_or_column_title;
-			$this->title = get_lang(ucfirst($this->course_property));
+			$this->title = Translation :: get_lang(ucfirst($this->course_property));
 			$this->sortable = true;
 		}
 		else

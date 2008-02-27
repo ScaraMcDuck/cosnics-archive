@@ -28,8 +28,8 @@ class CourseUserImportForm extends FormValidator {
     
     function build_importing_form()
     {
-    	$this->addElement('file', 'file', get_lang('FileName'));
-		$this->addElement('submit', 'course_user_import', get_lang('Ok'));
+    	$this->addElement('file', 'file', Translation :: get_lang('FileName'));
+		$this->addElement('submit', 'course_user_import', Translation :: get_lang('Ok'));
     }
     
     function import_course_users()

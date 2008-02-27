@@ -26,6 +26,7 @@ if(!file_exists($application_path))
 
 require_once $application_path;
 
+Translation :: set_application($this_section);
 api_use_lang_files($application_key);
 // TODO: Move this somewhere where it makes sense.
 //api_protect_course_script();

@@ -195,7 +195,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (PersonalMessagePublication :: get_default_property_names() as $prop)
@@ -398,16 +398,16 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 			if ($publication->get_user() == $publication->get_recipient())
 			{
 				$recipient = $publication->get_publication_recipient();
-				$info->set_location($recipient->get_firstname().'&nbsp;'. $recipient->get_lastname() .'&nbsp;/&nbsp;' . get_lang('Inbox'));
+				$info->set_location($recipient->get_firstname().'&nbsp;'. $recipient->get_lastname() .'&nbsp;/&nbsp;' . Translation :: get_lang('Inbox'));
 			}
 			elseif($publication->get_user() == $publication->get_sender())
 			{
 				$sender = $publication->get_publication_sender();
-				$info->set_location($sender->get_firstname().'&nbsp;'. $sender->get_lastname() .'&nbsp;/&nbsp;' . get_lang('Outbox'));
+				$info->set_location($sender->get_firstname().'&nbsp;'. $sender->get_lastname() .'&nbsp;/&nbsp;' . Translation :: get_lang('Outbox'));
 			}
 			else
 			{
-				$info->set_location(get_lang('UnknownLocation'));
+				$info->set_location(Translation :: get_lang('UnknownLocation'));
 			}
 
 			if ($publication->get_user() == $user->get_user_id())
@@ -443,16 +443,16 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		if ($publication->get_user() == $publication->get_recipient())
 		{
 			$recipient = $publication->get_publication_recipient();
-			$info->set_location($recipient->get_firstname().'&nbsp;'. $recipient->get_lastname() .'&nbsp;/&nbsp;' . get_lang('Inbox'));
+			$info->set_location($recipient->get_firstname().'&nbsp;'. $recipient->get_lastname() .'&nbsp;/&nbsp;' . Translation :: get_lang('Inbox'));
 		}
 		elseif($publication->get_user() == $publication->get_sender())
 		{
 			$sender = $publication->get_publication_sender();
-			$info->set_location($sender->get_firstname().'&nbsp;'. $sender->get_lastname() .'&nbsp;/&nbsp;' . get_lang('Outbox'));
+			$info->set_location($sender->get_firstname().'&nbsp;'. $sender->get_lastname() .'&nbsp;/&nbsp;' . Translation :: get_lang('Outbox'));
 		}
 		else
 		{
-			$info->set_location(get_lang('UnknownLocation'));
+			$info->set_location(Translation :: get_lang('UnknownLocation'));
 		}
 
 		if ($publication->get_user() == $user->get_user_id())

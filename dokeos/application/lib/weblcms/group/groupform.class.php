@@ -37,14 +37,14 @@ class GroupForm extends FormValidator {
 
     function build_basic_form()
     {
-		$this->addElement('text', Group :: PROPERTY_NAME, get_lang('Title'));
-		$this->addRule(Group :: PROPERTY_NAME, get_lang('ThisFieldIsRequired'), 'required');
-		$this->add_html_editor(Group :: PROPERTY_DESCRIPTION, get_lang('Description'));
-		$this->addElement('text', Group::PROPERTY_MAX_NUMBER_OF_MEMBERS,get_lang('MaxNumberOfMembers'),'size="4"');
-		$this->addRule(Group::PROPERTY_MAX_NUMBER_OF_MEMBERS, get_lang('ThisFieldShouldBeNumeric'), 'regex','/^[0-9]*$/');
-		$this->addElement('checkbox',Group::PROPERTY_SELF_REG,get_lang('Registration'),get_lang('SelfRegAllowed'));
-		$this->addElement('checkbox',Group::PROPERTY_SELF_UNREG,null,get_lang('SelfUnRegAllowed'));
-		$this->addElement('submit', 'group_settings', get_lang('Ok'));
+		$this->addElement('text', Group :: PROPERTY_NAME, Translation :: get_lang('Title'));
+		$this->addRule(Group :: PROPERTY_NAME, Translation :: get_lang('ThisFieldIsRequired'), 'required');
+		$this->add_html_editor(Group :: PROPERTY_DESCRIPTION, Translation :: get_lang('Description'));
+		$this->addElement('text', Group::PROPERTY_MAX_NUMBER_OF_MEMBERS,Translation :: get_lang('MaxNumberOfMembers'),'size="4"');
+		$this->addRule(Group::PROPERTY_MAX_NUMBER_OF_MEMBERS, Translation :: get_lang('ThisFieldShouldBeNumeric'), 'regex','/^[0-9]*$/');
+		$this->addElement('checkbox',Group::PROPERTY_SELF_REG,Translation :: get_lang('Registration'),Translation :: get_lang('SelfRegAllowed'));
+		$this->addElement('checkbox',Group::PROPERTY_SELF_UNREG,null,Translation :: get_lang('SelfUnRegAllowed'));
+		$this->addElement('submit', 'group_settings', Translation :: get_lang('Ok'));
     }
 
     function build_editing_form()

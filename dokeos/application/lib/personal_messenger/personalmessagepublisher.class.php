@@ -59,7 +59,7 @@ class PersonalMessagePublisher
 		{
 			$out .= '<li><a';
 			if ($this->get_action() == $action) $out .= ' class="current"';
-			$out .= ' href="'.$this->get_url(array (PersonalMessagePublisher :: PARAM_ACTION => $action), true).'">'.htmlentities(get_lang(ucfirst($action).'Title')).'</a></li>';
+			$out .= ' href="'.$this->get_url(array (PersonalMessagePublisher :: PARAM_ACTION => $action), true).'">'.htmlentities(Translation :: get_lang(ucfirst($action).'Title')).'</a></li>';
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
 		$action = $this->get_action();

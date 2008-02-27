@@ -56,7 +56,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		if (isset($direction) && isset($course))
 		{
 			$success = $this->move_course($course, $direction);
-			$this->redirect(null, get_lang($success ? 'CourseUserMoved' : 'CourseUserNotMoved'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => Weblcms :: ACTION_MANAGER_SORT));
+			$this->redirect(null, Translation :: get_lang($success ? 'CourseUserMoved' : 'CourseUserNotMoved'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => Weblcms :: ACTION_MANAGER_SORT));
 		}
 		else
 		{
@@ -72,7 +72,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		if (isset($direction) && isset($category))
 		{
 			$success = $this->move_category($category, $direction);
-			$this->redirect(null, get_lang($success ? 'CourseUserCategoryMoved' : 'CourseUserCategoryNotMoved'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => Weblcms :: ACTION_MANAGER_SORT));
+			$this->redirect(null, Translation :: get_lang($success ? 'CourseUserCategoryMoved' : 'CourseUserCategoryNotMoved'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => Weblcms :: ACTION_MANAGER_SORT));
 		}
 		else
 		{
@@ -89,13 +89,13 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		if($form->validate())
 		{
 			$success = $form->update_course_user_relation();
-			$this->redirect(null, get_lang($success ? 'CourseUserCategoryUpdated' : 'CourseUserCategoryNotUpdated'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => Weblcms :: ACTION_MANAGER_SORT));
+			$this->redirect(null, Translation :: get_lang($success ? 'CourseUserCategoryUpdated' : 'CourseUserCategoryNotUpdated'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => Weblcms :: ACTION_MANAGER_SORT));
 		}
 		else
 		{
-			$this->display_page_header(get_lang('SetCourseUserCategory'));
+			$this->display_page_header(Translation :: get_lang('SetCourseUserCategory'));
 			$form->display();
-//			echo '<h3>'. get_lang('UserCourseList') .'</h3>';
+//			echo '<h3>'. Translation :: get_lang('UserCourseList') .'</h3>';
 //			$this->display_courses();
 			$this->display_footer();
 		}
@@ -164,13 +164,13 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		if($form->validate())
 		{
 			$success = $form->create_course_user_category();
-			$this->redirect(null, get_lang($success ? 'CourseUserCategoryAdded' : 'CourseUserCategoryNotAdded'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'view'));
+			$this->redirect(null, Translation :: get_lang($success ? 'CourseUserCategoryAdded' : 'CourseUserCategoryNotAdded'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'view'));
 		}
 		else
 		{
-			$this->display_page_header(get_lang('CreateCourseUserCategory'));
+			$this->display_page_header(Translation :: get_lang('CreateCourseUserCategory'));
 			$form->display();
-//			echo '<h3>'. get_lang('UserCourseList') .'</h3>';
+//			echo '<h3>'. Translation :: get_lang('UserCourseList') .'</h3>';
 //			$this->display_courses();
 			$this->display_footer();
 		}
@@ -186,13 +186,13 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		if($form->validate())
 		{
 			$success = $form->update_course_user_category();
-			$this->redirect(null, get_lang($success ? 'CourseUserCategoryUpdated' : 'CourseUserCategoryNotUpdated'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'view', Weblcms :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id));
+			$this->redirect(null, Translation :: get_lang($success ? 'CourseUserCategoryUpdated' : 'CourseUserCategoryNotUpdated'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'view', Weblcms :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id));
 		}
 		else
 		{
-			$this->display_page_header(get_lang('EditCourseUserCategory'));
+			$this->display_page_header(Translation :: get_lang('EditCourseUserCategory'));
 			$form->display();
-//			echo '<h3>'. get_lang('UserCourseList') .'</h3>';
+//			echo '<h3>'. Translation :: get_lang('UserCourseList') .'</h3>';
 //			$this->display_courses();
 			$this->display_footer();
 		}
@@ -220,12 +220,12 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		}
 		
 		$success = $courseusercategory->delete();
-		$this->redirect(null, get_lang($success ? 'CourseUserCategoryDeleted' : 'CourseUserCategoryNotDeleted'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'view'));
+		$this->redirect(null, Translation :: get_lang($success ? 'CourseUserCategoryDeleted' : 'CourseUserCategoryNotDeleted'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'view'));
 	}
 	
 	function show_course_list()
 	{
-		$this->display_page_header(get_lang('SortMyCourses'));
+		$this->display_page_header(Translation :: get_lang('SortMyCourses'));
 		$this->display_courses();
 		$this->display_footer();
 	}
@@ -233,7 +233,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	function display_page_header($title)
 	{
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(null, false, true, array(Weblcms :: PARAM_ACTION)), 'name' => get_lang('MyCourses'));
+		$breadcrumbs[] = array ('url' => $this->get_url(null, false, true, array(Weblcms :: PARAM_ACTION)), 'name' => Translation :: get_lang('MyCourses'));
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => $title);
 		$this->display_header($breadcrumbs);
 	}
@@ -302,14 +302,14 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		{
 			$toolbar_data[] = array(
 				'href' => $this->get_course_user_move_url($course, 'up'),
-				'label' => get_lang('Up'),
+				'label' => Translation :: get_lang('Up'),
 				'img' => $this->get_path(WEB_IMG_PATH).'up.gif'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
-				'label' => get_lang('Up'),
+				'label' => Translation :: get_lang('Up'),
 				'img' => $this->get_path(WEB_IMG_PATH).'up_na.gif'
 			);
 		}
@@ -318,21 +318,21 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		{
 			$toolbar_data[] = array(
 				'href' => $this->get_course_user_move_url($course, 'down'),
-				'label' => get_lang('Down'),
+				'label' => Translation :: get_lang('Down'),
 				'img' => $this->get_path(WEB_IMG_PATH).'down.gif'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
-				'label' => get_lang('Up'),
+				'label' => Translation :: get_lang('Up'),
 				'img' => $this->get_path(WEB_IMG_PATH).'down_na.gif'
 			);
 		}
 		
 		$toolbar_data[] = array(
 			'href' => $this->get_course_user_edit_url($course),
-			'label' => get_lang('Edit'),
+			'label' => Translation :: get_lang('Edit'),
 			'img' => $this->get_path(WEB_IMG_PATH).'edit.gif'
 		);
 		
@@ -351,14 +351,14 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		{
 			$toolbar_data[] = array(
 				'href' => $this->get_course_user_category_move_url($courseusercategory, 'up'),
-				'label' => get_lang('Up'),
+				'label' => Translation :: get_lang('Up'),
 				'img' => $this->get_path(WEB_IMG_PATH).'up.gif'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
-				'label' => get_lang('Up'),
+				'label' => Translation :: get_lang('Up'),
 				'img' => $this->get_path(WEB_IMG_PATH).'up_na.gif'
 			);
 		}
@@ -367,27 +367,27 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		{
 			$toolbar_data[] = array(
 				'href' => $this->get_course_user_category_move_url($courseusercategory, 'down'),
-				'label' => get_lang('Down'),
+				'label' => Translation :: get_lang('Down'),
 				'img' => $this->get_path(WEB_IMG_PATH).'down.gif'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
-				'label' => get_lang('Up'),
+				'label' => Translation :: get_lang('Up'),
 				'img' => $this->get_path(WEB_IMG_PATH).'down_na.gif'
 			);
 		}
 		
 		$toolbar_data[] = array(
 			'href' => $this->get_course_user_category_edit_url($courseusercategory),
-			'label' => get_lang('Edit'),
+			'label' => Translation :: get_lang('Edit'),
 			'img' => $this->get_path(WEB_IMG_PATH).'edit.gif'
 		);
 			
 		$toolbar_data[] = array(
 			'href' => $this->get_course_user_category_delete_url($courseusercategory),
-			'label' => get_lang('Delete'),
+			'label' => Translation :: get_lang('Delete'),
 			'confirm' => true,
 			'img' => $this->get_path(WEB_IMG_PATH).'delete.gif'
 		);
@@ -401,7 +401,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			
 		$toolbar_data[] = array(
 			'href' => $this->get_course_user_category_add_url(),
-			'label' => get_lang('CreateCourseUserCategory'),
+			'label' => Translation :: get_lang('CreateCourseUserCategory'),
 			'img' => $this->get_path(WEB_IMG_PATH).'folder.gif',
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);

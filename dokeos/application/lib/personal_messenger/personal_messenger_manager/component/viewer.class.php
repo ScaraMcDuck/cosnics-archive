@@ -19,7 +19,7 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 	function run()
 	{
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('ViewPersonalMessage'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('ViewPersonalMessage'));
 		
 		$id = $_GET[PersonalMessenger :: PARAM_PERSONAL_MESSAGE_ID];
 		
@@ -30,7 +30,7 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 			if ($this->get_user_id() != $publication->get_user())
 			{
 				$this->display_header($breadcrumbs);
-				Display :: display_error_message(get_lang("NotAllowed"));
+				Display :: display_error_message(Translation :: get_lang("NotAllowed"));
 				$this->display_footer();
 				exit;
 			}
@@ -50,7 +50,7 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(get_lang('NoPersonalMessageSelected')));
+			$this->display_error_page(htmlentities(Translation :: get_lang('NoPersonalMessageSelected')));
 		}
 	}
 	
@@ -64,17 +64,17 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 		$recipient = $publication->get_publication_recipient();
 
 		$html[] = '<div class="learning_object" style="background-image: url('.$this->get_path(WEB_IMG_PATH).'description.gif);">';
-		$html[] = '<div class="title">'. get_lang('Data') .'</div>';		
+		$html[] = '<div class="title">'. Translation :: get_lang('Data') .'</div>';		
 		$html[] = '<div class="description">';
-		$html[] = '<b>'.get_lang('MessageFrom'). '</b>:&nbsp;'. $sender->get_firstname(). '&nbsp;' .$sender->get_lastname() . '<br />';
-		$html[] = '<b>'.get_lang('MessageTo'). '</b>:&nbsp;'. $recipient->get_firstname(). '&nbsp;' .$recipient->get_lastname() . '<br />';
-		$html[] = '<b>'.get_lang('MessageDate'). '</b>:&nbsp;'. format_locale_date(get_lang('dateFormatShort').', '.get_lang('timeNoSecFormat'),$publication->get_published()) . '<br />';
-		$html[] = '<b>'.get_lang('MessageSubject'). '</b>:&nbsp;'. $message->get_title();
+		$html[] = '<b>'.Translation :: get_lang('MessageFrom'). '</b>:&nbsp;'. $sender->get_firstname(). '&nbsp;' .$sender->get_lastname() . '<br />';
+		$html[] = '<b>'.Translation :: get_lang('MessageTo'). '</b>:&nbsp;'. $recipient->get_firstname(). '&nbsp;' .$recipient->get_lastname() . '<br />';
+		$html[] = '<b>'.Translation :: get_lang('MessageDate'). '</b>:&nbsp;'. format_locale_date(Translation :: get_lang('dateFormatShort').', '.Translation :: get_lang('timeNoSecFormat'),$publication->get_published()) . '<br />';
+		$html[] = '<b>'.Translation :: get_lang('MessageSubject'). '</b>:&nbsp;'. $message->get_title();
 		$html[] = '</div>';
 		$html[] = '</div>';
 		
 		$html[] = '<div class="learning_object" style="background-image: url('.$this->get_path(WEB_IMG_PATH).'personal_message.gif);">';
-		$html[] = '<div class="title">'. get_lang('Message') .'</div>';
+		$html[] = '<div class="title">'. Translation :: get_lang('Message') .'</div>';
 		$html[] = '<div class="description">'.$message->get_description().'</div>';
 		$html[] = '</div>';
 		
@@ -86,12 +86,12 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 			{
 				$html[] = RepositoryUtilities :: build_block_hider('script');
 				$html[] = '<div class="attachments" style="margin-top: 1em;">';
-				$html[] = '<div class="attachments_title">'.htmlentities(get_lang('Attachments')).'</div>';
+				$html[] = '<div class="attachments_title">'.htmlentities(Translation :: get_lang('Attachments')).'</div>';
 				$html[] = '<ul class="attachments_list">';
 				RepositoryUtilities :: order_learning_objects_by_title($attachments);
 				foreach ($attachments as $attachment)
 				{
-					$html[] = '<li class="personal_message_attachment"><div style="float: left;"><img src="'.$this->get_path(WEB_IMG_PATH).'treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(get_lang(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/></div><div style="float: left;">&nbsp;'.$attachment->get_title().'&nbsp;</div>';
+					$html[] = '<li class="personal_message_attachment"><div style="float: left;"><img src="'.$this->get_path(WEB_IMG_PATH).'treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(Translation :: get_lang(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/></div><div style="float: left;">&nbsp;'.$attachment->get_title().'&nbsp;</div>';
 					$html[] = RepositoryUtilities :: build_block_hider('begin', $attachment->get_id(), 'Attachment');
 					
 					$display = LearningObjectDisplay :: factory($attachment);
@@ -121,7 +121,7 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 		{
 			$toolbar_data[] = array(
 				'href' => $this->get_publication_reply_url($publication),
-				'label' => get_lang('Reply'),
+				'label' => Translation :: get_lang('Reply'),
 				'img' => $this->get_path(WEB_IMG_PATH).'reply.gif',
 				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 			);

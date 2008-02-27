@@ -57,15 +57,15 @@ abstract class AdminDataManager
 		$info[] = $user_manager->get_application_platform_admin_links();
 
 		// 2. UserRolesRights
-		//$info[] = array('application' => array('name' => get_lang('UserRolesRights'), 'class' => 'user_roles_rights'), 'links' => array(array('name' => get_lang('ManageRoles'), 'action' => 'manage', 'url' => '/LCMS/main/admin/manage_roles.php'), array('name' => get_lang('RolesRightsOverview'), 'action' => 'list', 'url' => '/LCMS/main/admin/roles_rights_overview.php')));
+		//$info[] = array('application' => array('name' => Translation :: get_lang('UserRolesRights'), 'class' => 'user_roles_rights'), 'links' => array(array('name' => Translation :: get_lang('ManageRoles'), 'action' => 'manage', 'url' => '/LCMS/main/admin/manage_roles.php'), array('name' => Translation :: get_lang('RolesRightsOverview'), 'action' => 'list', 'url' => '/LCMS/main/admin/roles_rights_overview.php')));
 
 		// 3. Classes of Users
-		//$info[] = array('application' => array('name' => get_lang('ClassesOfUsers'), 'class' => 'user_classes'), 'links' => array(array('name' => get_lang('ClassList'), 'action' => 'list', 'url' => '/LCMS/main/admin/class_list.php'), array('name' => get_lang('AddClasses'), 'action' => 'add', 'url' => '/LCMS/main/admin/class_add.php'), array('name' => get_lang('ImportClasses'), 'action' => 'import', 'url' => '/LCMS/main/admin/class_import.php')));
+		//$info[] = array('application' => array('name' => Translation :: get_lang('ClassesOfUsers'), 'class' => 'user_classes'), 'links' => array(array('name' => Translation :: get_lang('ClassList'), 'action' => 'list', 'url' => '/LCMS/main/admin/class_list.php'), array('name' => Translation :: get_lang('AddClasses'), 'action' => 'add', 'url' => '/LCMS/main/admin/class_add.php'), array('name' => Translation :: get_lang('ImportClasses'), 'action' => 'import', 'url' => '/LCMS/main/admin/class_import.php')));
 
 		// 4. Platform
-		// Deleted from actions: , array('name' => get_lang('ConfigureHomepage'), 'action' => 'home', 'url' => '/LCMS/main/admin/configure_homepage.php')
+		// Deleted from actions: , array('name' => Translation :: get_lang('ConfigureHomepage'), 'action' => 'home', 'url' => '/LCMS/main/admin/configure_homepage.php')
 		//$old_admin_url = Path :: get_path(WEB_CODE_PATH);
-		//$info[] = array('application' => array('name' => get_lang('Platform'), 'class' => 'platform'), 'links' => array(array('name' => get_lang('DokeosConfiguration'), 'action' => 'manage', 'url' => $old_admin_url.'admin/settings.php'), array('name' => get_lang('SystemAnnouncements'), 'action' => 'system', 'url' => 'index_admin.php?'.Admin::PARAM_ACTION.'='.Admin::ACTION_SYSTEM_ANNOUNCEMENTS), array('name' => get_lang('Languages'), 'action' => 'language', 'url' => $old_admin_url.'admin/languages.php')));
+		//$info[] = array('application' => array('name' => Translation :: get_lang('Platform'), 'class' => 'platform'), 'links' => array(array('name' => Translation :: get_lang('DokeosConfiguration'), 'action' => 'manage', 'url' => $old_admin_url.'admin/settings.php'), array('name' => Translation :: get_lang('SystemAnnouncements'), 'action' => 'system', 'url' => 'index_admin.php?'.Admin::PARAM_ACTION.'='.Admin::ACTION_SYSTEM_ANNOUNCEMENTS), array('name' => Translation :: get_lang('Languages'), 'action' => 'language', 'url' => $old_admin_url.'admin/languages.php')));
 
 		// 5. Repository
 		$repository_manager = new RepositoryManager($user);

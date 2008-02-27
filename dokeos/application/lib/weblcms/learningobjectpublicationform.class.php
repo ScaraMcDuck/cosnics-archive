@@ -125,7 +125,7 @@ class LearningObjectPublicationForm extends FormValidator
 		if(count($categories) > 1)
 		{
 			// More than one category -> let user select one
-			$this->addElement('select', self :: PARAM_CATEGORY_ID, get_lang('Category'), $categories);
+			$this->addElement('select', self :: PARAM_CATEGORY_ID, Translation :: get_lang('Category'), $categories);
 		}
 		else
 		{
@@ -143,17 +143,17 @@ class LearningObjectPublicationForm extends FormValidator
 		$groups = $this->course->get_groups();
 		foreach($groups as $index => $group)
 		{
-			$receiver_choices[self :: PARAM_TARGET_GROUP_PREFIX.'-'.$group->get_id()] = get_lang('Group').': '.$group->get_name();
+			$receiver_choices[self :: PARAM_TARGET_GROUP_PREFIX.'-'.$group->get_id()] = Translation :: get_lang('Group').': '.$group->get_name();
 		}
 		$attributes = array(self :: PARAM_RECEIVERS => $receiver_choices);
-		$this->addElement('receivers', self :: PARAM_TARGETS, get_lang('PublishFor'),$attributes);
+		$this->addElement('receivers', self :: PARAM_TARGETS, Translation :: get_lang('PublishFor'),$attributes);
 		$this->add_forever_or_timewindow();
-		$this->addElement('checkbox', self :: PARAM_HIDDEN, get_lang('Hidden'));
+		$this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get_lang('Hidden'));
 		if($this->email_option)
 		{
-			$this->addElement('checkbox', self::PARAM_EMAIL, get_lang('SendByEMail'));
+			$this->addElement('checkbox', self::PARAM_EMAIL, Translation :: get_lang('SendByEMail'));
 		}
-		$this->addElement('submit', 'submit', get_lang('Ok'));
+		$this->addElement('submit', 'submit', Translation :: get_lang('Ok'));
     }
     /**
      * Updates a learning object publication using the values from the form.

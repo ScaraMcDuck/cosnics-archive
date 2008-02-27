@@ -55,7 +55,7 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 		{	
 			$toolbar_data[] = array(
 				'href' => $course_subscription_url,
-				'label' => get_lang('Subscribe'),
+				'label' => Translation :: get_lang('Subscribe'),
 				'confirm' => true,
 				'img' => $this->browser->get_path(WEB_IMG_PATH).'enroll.gif'
 			);
@@ -64,11 +64,11 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 		}
 		elseif ($this->browser->is_subscribed($course, $this->browser->get_user_id()))
 		{
-			return get_lang('AlreadySubscribed');
+			return Translation :: get_lang('AlreadySubscribed');
 		}
 		else
 		{
-			return get_lang('SubscriptionNotAllowed');
+			return Translation :: get_lang('SubscriptionNotAllowed');
 		}
 		
 	}

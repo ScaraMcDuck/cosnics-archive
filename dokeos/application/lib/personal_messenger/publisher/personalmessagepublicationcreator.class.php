@@ -13,7 +13,7 @@ require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectdispla
 require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectform.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/../../../../main/inc/lib/course.lib.php';
+//require_once dirname(__FILE__).'/../../../../main/inc/lib/course.lib.php';
 /**
  * This class represents a personal message publisher component which can be used
  * to create a new personal message before publishing it.
@@ -73,7 +73,7 @@ class PersonalMessagePublicationCreator extends PersonalMessagePublisherComponen
 		$form->addElement('hidden', 'tool');
 		$form->addElement('hidden', PersonalMessagePublisher :: PARAM_ACTION);
 		$form->addElement('select', 'type', '', $types);
-		$form->addElement('submit', 'submit', get_lang('Ok'));
+		$form->addElement('submit', 'submit', Translation :: get_lang('Ok'));
 		$form->setDefaults(array ('tool' => $_GET['tool'], PersonalMessagePublisher :: PARAM_ACTION => $_GET[PersonalMessagePublisher :: PARAM_ACTION]));
 		return $form->asHtml();
 	}
@@ -121,7 +121,7 @@ class PersonalMessagePublicationCreator extends PersonalMessagePublisherComponen
 	 */
 	private function get_publication_form($objectID, $new = false)
 	{
-		$out = ($new ? Display :: display_normal_message(htmlentities(get_lang('ObjectCreated')), true) : '');
+		$out = ($new ? Display :: display_normal_message(htmlentities(Translation :: get_lang('ObjectCreated')), true) : '');
 		$tool = $this->get_parent()->get_parent();
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
 
@@ -147,7 +147,7 @@ class PersonalMessagePublicationCreator extends PersonalMessagePublisherComponen
 			}
 			// TODO: Use a function for this.
 
-			$this->redirect(null, get_lang($message), ($failures ? true : false), array(PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES, PersonalMessenger :: PARAM_FOLDER => PersonalMessenger :: ACTION_FOLDER_OUTBOX));
+			$this->redirect(null, Translation :: get_lang($message), ($failures ? true : false), array(PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES, PersonalMessenger :: PARAM_FOLDER => PersonalMessenger :: ACTION_FOLDER_OUTBOX));
 		}
 		else
 		{

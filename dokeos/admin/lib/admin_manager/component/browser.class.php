@@ -24,7 +24,7 @@ class AdminBrowserComponent extends AdminComponent
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($breadcrumbs);
-			Display :: display_error_message(get_lang("NotAllowed"));
+			Display :: display_error_message(Translation :: get_lang('NotAllowed'));
 			$this->display_footer();
 			exit;
 		}

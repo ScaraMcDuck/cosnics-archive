@@ -55,7 +55,7 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 		{	
 			$toolbar_data[] = array(
 				'href' => $course_unsubscription_url,
-				'label' => get_lang('Unsubscribe'),
+				'label' => Translation :: get_lang('Unsubscribe'),
 				'confirm' => true,
 				'img' => $this->browser->get_path(WEB_IMG_PATH).'delete.gif'
 			);
@@ -66,11 +66,11 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 		{
 			if ($course->is_course_admin($this->browser->get_user_id()))
 			{
-				return '<span class="info_message">'.get_lang('UnsubscriptionAdmin').'</span>';
+				return '<span class="info_message">'.Translation :: get_lang('UnsubscriptionAdmin').'</span>';
 			}
 			else
 			{
-				return get_lang('UnsubscriptionNotAllowed');
+				return Translation :: get_lang('UnsubscriptionNotAllowed');
 			}
 		}
 		

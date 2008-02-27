@@ -22,7 +22,7 @@ class UserTool extends Tool
 //		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
 //		{
 //			$this->display_header();
-//			Display :: display_error_message(get_lang("NotAllowed"));
+//			Display :: display_error_message(Translation :: get_lang("NotAllowed"));
 //			$this->display_footer();
 //			exit;
 //		}
@@ -34,7 +34,7 @@ class UserTool extends Tool
 		}
 
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang($user_action == Weblcms :: ACTION_SUBSCRIBE ? 'SubscribeUsers' : 'UnsubscribeUsers'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang($user_action == Weblcms :: ACTION_SUBSCRIBE ? 'SubscribeUsers' : 'UnsubscribeUsers'));
 		$this->set_parameter(Weblcms :: PARAM_USER_ACTION,$user_action);
 		$this->display_header(null, $breadcrumbs);
 		$this->search_form = new UserToolSearchForm($this, $this->get_url());
@@ -154,7 +154,7 @@ class UserTool extends Tool
 
 		$toolbar_data[] = array(
 			'href' => $this->get_parent()->get_url(array(Weblcms :: PARAM_USER_ACTION => Weblcms :: ACTION_SUBSCRIBE)),
-			'label' => get_lang('SubscribeUsers'),
+			'label' => Translation :: get_lang('SubscribeUsers'),
 			'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'user-subscribe.gif',
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
@@ -168,7 +168,7 @@ class UserTool extends Tool
 
 		$toolbar_data[] = array(
 			'href' => $this->get_parent()->get_url(array(Weblcms :: PARAM_USER_ACTION => Weblcms :: ACTION_UNSUBSCRIBE)),
-			'label' => get_lang('UnsubscribeUsers'),
+			'label' => Translation :: get_lang('UnsubscribeUsers'),
 			'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'user-unsubscribe.gif',
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);

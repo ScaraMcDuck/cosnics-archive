@@ -31,13 +31,13 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 			//creation publication feedback object
 			$publication_feedback= new LearningObjectPublicationFeedback(null, $feedback, $this->browser->get_course_id(), $publication->get_tool().'_feedback', $this->browser->get_publication_id(),$this->browser->get_user_id(), time(), 0, 0);
 			$publication_feedback->create();
-			$html[] = Display::display_normal_message(get_lang('FeedbackAdded'),true);
+			$html[] = Display::display_normal_message(Translation :: get_lang('FeedbackAdded'),true);
 		}
 		
-		$html[] = get_lang('LearningObjectPublicationDetails');
+		$html[] = Translation :: get_lang('LearningObjectPublicationDetails');
 		$html[] = $this->render_publication($publication);
 		$html[] = $this->render_publication_feedback($publication);
-		$html[] = '<div class="title">'.get_lang('LearningObjectPublicationAddFeedback').'</div>';
+		$html[] = '<div class="title">'.Translation :: get_lang('LearningObjectPublicationAddFeedback').'</div>';
 		$html[] = $form->toHtml();
 		//$html[] = $pub->as_html();
 		return implode("\n", $html);
@@ -91,7 +91,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		
 		if(count($publication_feedback_array) > 0)
 		{
-			$html[] = get_lang('LearningObjectPublicationListFeedback');
+			$html[] = Translation :: get_lang('LearningObjectPublicationListFeedback');
 			$renderer = new ListPublicationFeedbackListRenderer($this->browser,$publication_feedback_array);
 			$html[] = $renderer->as_html();
 		}

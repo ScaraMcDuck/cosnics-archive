@@ -16,13 +16,13 @@ class MiniMonthCalendar extends MonthCalendar
 	public function MiniMonthCalendar($display_time)
 	{
 		parent :: MonthCalendar($display_time);
-		$daynames[] = get_lang('MondayShort');
-		$daynames[] = get_lang('TuesdayShort');
-		$daynames[] = get_lang('WednesdayShort');
-		$daynames[] = get_lang('ThursdayShort');
-		$daynames[] = get_lang('FridayShort');
-		$daynames[] = get_lang('SaturdayShort');
-		$daynames[] = get_lang('SundayShort');
+		$daynames[] = Translation :: get_lang('MondayShort');
+		$daynames[] = Translation :: get_lang('TuesdayShort');
+		$daynames[] = Translation :: get_lang('WednesdayShort');
+		$daynames[] = Translation :: get_lang('ThursdayShort');
+		$daynames[] = Translation :: get_lang('FridayShort');
+		$daynames[] = Translation :: get_lang('SaturdayShort');
+		$daynames[] = Translation :: get_lang('SundayShort');
 		$this->set_daynames($daynames);
 		$this->updateAttributes('class="calendar mini"');
 		$this->setRowType(0, 'th');

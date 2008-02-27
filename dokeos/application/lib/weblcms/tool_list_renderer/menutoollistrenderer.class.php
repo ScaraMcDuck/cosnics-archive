@@ -64,7 +64,7 @@ class MenuToolListRenderer extends ToolListRenderer
 					$new = '_new';
 				}
 				$tool_image = $tool->name.'_tool'.$new.'.gif';
-				$title = htmlspecialchars(get_lang(Tool :: type_to_class($tool->name).'Title'));
+				$title = htmlspecialchars(Translation :: get_lang(Tool :: type_to_class($tool->name).'Title'));
 				if( $this->type == MENU_TYPE_LIST_NAVIGATION)
 				{
 					$html[] = '<li>';

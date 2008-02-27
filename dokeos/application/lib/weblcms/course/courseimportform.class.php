@@ -30,8 +30,8 @@ class CourseImportForm extends FormValidator {
     
     function build_importing_form()
     {
-    	$this->addElement('file', 'file', get_lang('FileName'));
-		$this->addElement('submit', 'course_import', get_lang('Ok'));
+    	$this->addElement('file', 'file', Translation :: get_lang('FileName'));
+		$this->addElement('submit', 'course_import', Translation :: get_lang('Ok'));
     }
     
     function import_courses()

@@ -23,14 +23,14 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 		{
 			foreach ($tool_publications as $index => $publication)
 			{
-				$label = $index == 0 ? get_lang(ucfirst($tool).'ToolTitle') : '';
+				$label = $index == 0 ? Translation :: get_lang(ucfirst($tool).'ToolTitle') : '';
 				$learning_object = $publication->get_learning_object();
 				$this->addElement('checkbox', 'publications['.$publication->get_id().']', $label, $learning_object->get_title());
 			}
 		}
 		$this->addFormRule(array('PublicationSelectionMaintenanceWizardPage','count_selected_publications'));
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get_lang('Previous'));
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 		$this->_formBuilt = true;
@@ -45,7 +45,7 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 		{
 			return true;
 		}
-		return array('buttons' => get_lang('SelectPublications'));
+		return array('buttons' => Translation :: get_lang('SelectPublications'));
 	}
 }
 ?>

@@ -20,8 +20,8 @@ class SearchForm extends FormValidator
     	parent::FormValidator('search','get');
     	$renderer = $this->defaultRenderer();
 		$renderer->setElementTemplate('{element}');
-		$this->frozen_elements[] = $this->addElement('text','query', get_lang('Find'), 'size="40" class="search_query"');
-		$this->addElement('submit', 'search', get_lang('Ok'));
+		$this->frozen_elements[] = $this->addElement('text','query', Translation :: get_lang('Find'), 'size="40" class="search_query"');
+		$this->addElement('submit', 'search', Translation :: get_lang('Ok'));
     	$this->parent = $parent;
     	$defaults = array();
     	$parameters = array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $parent->get_course_id(), WebApplication::PARAM_APPLICATION => $parent->get_parameter(WebApplication::PARAM_APPLICATION), Weblcms :: PARAM_TOOL => 'search');

@@ -44,19 +44,19 @@ class MaintenanceWizard extends HTML_QuickForm_Controller
 		{
 			case  ActionSelectionMaintenanceWizardPage::ACTION_EMPTY:
 				$this->addPage(new PublicationSelectionMaintenanceWizardPage('publication_selection',$this->parent));
-				$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation',$this->parent,get_lang('EmptyConfirmationQuestion')));
+				$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation',$this->parent,Translation :: get_lang('EmptyConfirmationQuestion')));
 				break;
 			case  ActionSelectionMaintenanceWizardPage::ACTION_COPY:
 				$this->addPage(new PublicationSelectionMaintenanceWizardPage('publication_selection',$this->parent));
 				$this->addPage(new CourseSelectionMaintenanceWizardPage('course_selection',$this->parent));
-				$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation',$this->parent,get_lang('CopyConfirmationQuestion')));
+				$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation',$this->parent,Translation :: get_lang('CopyConfirmationQuestion')));
 				break;
 			case  ActionSelectionMaintenanceWizardPage::ACTION_BACKUP:
 				$this->addPage(new PublicationSelectionMaintenanceWizardPage('publication_selection',$this->parent));
-				$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation',$this->parent,get_lang('BackupConfirmationQuestion')));
+				$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation',$this->parent,Translation :: get_lang('BackupConfirmationQuestion')));
 				break;
 			case  ActionSelectionMaintenanceWizardPage::ACTION_DELETE:
-				$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation',$this->parent,get_lang('DeleteConfirmationQuestion')));
+				$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation',$this->parent,Translation :: get_lang('DeleteConfirmationQuestion')));
 				break;
 		}
 	}

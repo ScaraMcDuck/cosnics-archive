@@ -115,7 +115,7 @@ class Translation
 		}
 		else
 		{
-			return '[='. $application . '=' . $variable .'=]';
+			return '[='. self :: application_to_class($application) . '=' . $variable .'=]';
 		}
 	}
 	
@@ -125,6 +125,11 @@ class Translation
 		$path = Path :: get_path(SYS_LANG_PATH) . $language . '/' . $application . '.inc.php';
 		include_once($path);
 		$this->strings[$language][$application] = $lang[$application];
+	}
+	
+	static function application_to_class($application)
+	{
+		return ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $application));
 	}
 }
 ?>
