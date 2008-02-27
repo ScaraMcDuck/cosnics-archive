@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/admin/lib/admin_manager/admin.class.php';
 // TODO: Move this somewhere where it makes sense.
 //api_protect_course_script();
 
-Translation :: get_instance()->set_application($this_section);
+Translation :: set_application($this_section);
 
 if (!api_get_user_id())
 {

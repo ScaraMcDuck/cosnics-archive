@@ -19,7 +19,7 @@ require_once dirname(__FILE__).'/../common/translation/translation.class.php';
 
 $language_interface = 'english';
 
-Translation :: get_instance()->set_application($this_section);
+Translation :: set_application($this_section);
 
 /*if (!api_get_user_id())
 {
