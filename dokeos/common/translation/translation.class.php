@@ -98,6 +98,11 @@ class Translation
 		}
 		
 		$application = $this->get_application();
+		
+		if (!isset($application))
+		{
+			$application = 'general';
+		}
 				
 		if (!is_array($this->strings[$language][$application]))
 		{

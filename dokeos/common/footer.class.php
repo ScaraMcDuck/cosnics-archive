@@ -42,12 +42,12 @@ class Footer
 		$output[] = '   </div> <!-- end of #main" started at the end of banner.inc.php -->';
 		$output[] = '   <div id="footer"> <!-- start of #footer section -->';
 		$output[] = '    <div class="copyright">';
-		$output[] = '     '.get_lang('Platform').'&nbsp;<a href="http://www.dokeos.com">'.$this->version.'</a>&nbsp;&copy;&nbsp;'.date('Y');
+		$output[] = '     '.Translation :: get_lang('Platform').'&nbsp;<a href="http://www.dokeos.com">'.$this->version.'</a>&nbsp;&copy;&nbsp;'.date('Y');
 		$output[] = '    </div>';
 		$admin_data = '';
 		if ($this->get_setting('show_administrator_data', 'admin') == "true")
 		{
-			$admin_data .= get_lang('Manager');
+			$admin_data .= Translation :: get_lang('Manager');
 			$admin_data .= ':&nbsp;';
 			$admin_data .= Display :: encrypted_mailto_link($this->get_setting('administrator_email', 'admin'), $this->get_setting('administrator_surname', 'admin').' '.$this->get_setting('administrator_firstname', 'admin'));
 		}
