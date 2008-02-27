@@ -652,5 +652,10 @@ class Dokeos185_User extends Import
 	{
 		$this->set_default_property(self :: PROPERTY_ADMIN, $platformadmin);
 	}
+	
+	static function getAllUsers()
+	{
+		return MigrationDataManager::getInstance(Dokeos185);
+	}
 }
 ?>
