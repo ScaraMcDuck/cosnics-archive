@@ -114,18 +114,18 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 	
 		$adm = AdminDataManager :: get_instance();
 		$editor_lang = $adm->retrieve_language_from_english_name($language_interface)->get_isocode();
-		$language_file = api_get_path(SYS_PATH).'plugin/fckeditor/editor/lang/'.$editor_lang.'.js';
+		$language_file = Path :: get_path(SYS_PATH).'plugin/fckeditor/editor/lang/'.$editor_lang.'.js';
 		if (empty ($editor_lang) || !file_exists($language_file))
 		{
 			//if there was no valid iso-code, use the english one
 			$editor_lang = 'en';
 		}
 		$name = $this->getAttribute('name');
-		$result []= ResourceManager :: get_instance()->get_resource_html(api_get_path(WEB_PATH).'plugin/fckeditor/fckeditor.js');
+		$result []= ResourceManager :: get_instance()->get_resource_html(Path :: get_path(WEB_PATH).'plugin/fckeditor/fckeditor.js');
 		$result []= '<script type="text/javascript">';
 		$result []= "\n/* <![CDATA[ */\n";
 		$result []= 'var oFCKeditor = new FCKeditor( \''.$name.'\' ) ;';
-		$result []= 'oFCKeditor.BasePath = "'.api_get_path(WEB_PATH).'plugin/fckeditor/";';
+		$result []= 'oFCKeditor.BasePath = "'.Path :: get_path(WEB_PATH).'plugin/fckeditor/";';
 		$result []= 'oFCKeditor.Width = 650;';
 		$result []= 'oFCKeditor.Height = '. ($this->fullPage ? '500' : '150').';';
 		$result []= 'oFCKeditor.Config[ "FullPage" ] = '. ($this->fullPage ? 'true' : 'false').';';
@@ -136,8 +136,8 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 		$result []= "\n/* ]]> */\n";
 		$result []= '</script>';
 		$result []= '<noscript>'.parent :: toHTML().'</noscript>';
-		$result []= '<small><a href="#" onclick="MyWindow=window.open('."'".api_get_path(WEB_CODE_PATH)."help/allowed_html_tags.php?fullpage=". ($this->fullPage ? '1' : '0')."','MyWindow','toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=500,height=600,left=200,top=20'".'); return false;">'.get_lang('AllowedHTMLTags').'</a></small>';
-		@mkdir(api_get_path(SYS_PATH).'main/upload/fckeditor/'.$_uid.'/');
+		$result []= '<small><a href="#" onclick="MyWindow=window.open('."'".Path :: get_path(WEB_CODE_PATH)."help/allowed_html_tags.php?fullpage=". ($this->fullPage ? '1' : '0')."','MyWindow','toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=500,height=600,left=200,top=20'".'); return false;">'.get_lang('AllowedHTMLTags').'</a></small>';
+		@mkdir(Path :: get_path(SYS_PATH).'main/upload/fckeditor/'.$_uid.'/');
 		return implode("\n",$result);
 	}
 }

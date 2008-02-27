@@ -24,7 +24,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 	function run()
 	{
 		$breadcrumbs = array ();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('LostPassword'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('LostPassword'));
 
 		$user_id = $this->get_user_id();
 		if($this->get_platform_setting('allow_password_retrieval', 'admin')->get_value() == 'false')
@@ -35,7 +35,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 		if (isset ($user_id))
 		{
 			$this->display_header($breadcrumbs);
-			Display :: display_warning_message(get_lang('AlreadyRegistered'));
+			Display :: display_warning_message(Translation :: get_lang('AlreadyRegistered'));
 			$this->display_footer();
 			exit;
 		}
@@ -53,16 +53,16 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 			}
 			else
 			{
-				Display::display_error_message(get_lang('InvalidRequest'));
+				Display::display_error_message(Translation :: get_lang('InvalidRequest'));
 			}
 		}
 		else
 		{
 		$form = new FormValidator('lost_password','post',$this->get_url());
-		$form->addElement('text', User :: PROPERTY_EMAIL, get_lang('Email'));
-		$form->addRule(User :: PROPERTY_EMAIL, get_lang('ThisFieldIsRequired'), 'required');
-		$form->addRule(User :: PROPERTY_EMAIL, get_lang('WrongEmail'), 'email');
-		$form->addElement('submit', 'submit', get_lang('Ok'));
+		$form->addElement('text', User :: PROPERTY_EMAIL, Translation :: get_lang('Email'));
+		$form->addRule(User :: PROPERTY_EMAIL, Translation :: get_lang('ThisFieldIsRequired'), 'required');
+		$form->addRule(User :: PROPERTY_EMAIL, Translation :: get_lang('WrongEmail'), 'email');
+		$form->addElement('submit', 'submit', Translation :: get_lang('Ok'));
 		if ($form->validate())
 		{
 			$udm = UsersDataManager :: get_instance();
@@ -108,11 +108,11 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 		$password = api_generate_password();
 		$user->set_password(md5($password));
 		$user->update();
-		$mail_subject = get_lang('LoginRequest');
+		$mail_subject = Translation :: get_lang('LoginRequest');
 		$mail_body[] = $user->get_fullname().',';
-		$mail_body[] = get_lang('YourAccountParam').' '.$this->get_path(WEB_PATH);
-		$mail_body[] = get_lang('UserName').' :'.$user->get_username();
-		$mail_body[] = get_lang('Pass').' :'.$password;
+		$mail_body[] = Translation :: get_lang('YourAccountParam').' '.$this->get_path(WEB_PATH);
+		$mail_body[] = Translation :: get_lang('UserName').' :'.$user->get_username();
+		$mail_body[] = Translation :: get_lang('Pass').' :'.$password;
 		$mail_body = implode("\n",$mail_body);
 		$mail = Mail::factory($mail_subject,$mail_body,$user->get_email());
 		return $mail->send();
@@ -128,10 +128,10 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 		$url_params[self::PARAM_RESET_KEY]  = $this->get_user_key($user);
 		$url_params[User::PROPERTY_USER_ID] = $user->get_user_id();
 		$url = $this->get_url($url_params);
-		$mail_subject = get_lang('LoginRequest');
+		$mail_subject = Translation :: get_lang('LoginRequest');
 		$mail_body[] = $user->get_fullname().',';
-		$mail_body[] = get_lang('UserName').' :'.$user->get_username();
-		$mail_body[] = get_lang('YourAccountParam').' '.$this->get_path(WEB_PATH).': '.$url;
+		$mail_body[] = Translation :: get_lang('UserName').' :'.$user->get_username();
+		$mail_body[] = Translation :: get_lang('YourAccountParam').' '.$this->get_path(WEB_PATH).': '.$url;
 		$mail_body = implode("\n",$mail_body);
 		$mail = Mail::factory($mail_subject,$mail_body,$user->get_email());
 		return $mail->send();

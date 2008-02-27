@@ -461,11 +461,11 @@ require_once dirname(__FILE__).'/../../../common/condition/likecondition.class.p
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => get_lang('UserList'), 'action' => 'list', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
-		$links[] = array('name' => get_lang('UserCreate'), 'action' => 'add', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
-		$links[] = array('name' => get_lang('UserExport'), 'action' => 'export', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
-		$links[] = array('name' => get_lang('UserImport'), 'action' => 'import', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
-		return array('application' => array('name' => get_lang('Users'), 'class' => 'users'), 'links' => $links, 'search' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
+		$links[] = array('name' => Translation :: get_lang('UserList'), 'action' => 'list', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
+		$links[] = array('name' => Translation :: get_lang('UserCreate'), 'action' => 'add', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
+		$links[] = array('name' => Translation :: get_lang('UserExport'), 'action' => 'export', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
+		$links[] = array('name' => Translation :: get_lang('UserImport'), 'action' => 'import', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
+		return array('application' => array('name' => Translation :: get_lang('Users'), 'class' => 'users'), 'links' => $links, 'search' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
 	}
 
 	/**

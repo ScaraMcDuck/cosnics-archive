@@ -1,10 +1,10 @@
 <?php
-$this_section='platform_admin';
+$this_section='user';
 require_once dirname(__FILE__).'/main/inc/global.inc.php';
 require_once dirname(__FILE__).'/main/inc/lib/text.lib.php';
 require_once dirname(__FILE__).'/users/lib/usermanager/usermanager.class.php';
 
-api_use_lang_files('user','registration');
+Translation :: set_application($this_section);
 
 if (!api_get_user_id() && !($_GET['go'] == 'register' || $_GET['go'] == 'reset_password'))
 {

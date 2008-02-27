@@ -28,7 +28,7 @@ function openCalendar(form, field) {
 			datevalues[dateindex++] = forminputs[i].value;
 		}
 	}
-    window.open("<?php echo api_get_path(WEB_CODE_PATH); ?>inc/lib/formvalidator/Element/calendar_popup.php", "calendar", "width=220,height=200,status=no");
+    window.open("<?php echo Path :: get_path(WEB_CODE_PATH); ?>inc/lib/formvalidator/Element/calendar_popup.php", "calendar", "width=220,height=200,status=no");
 	day = datevalues[0];
 	month = datevalues[1];
 	year = datevalues[2];

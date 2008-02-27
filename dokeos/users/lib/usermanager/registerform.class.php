@@ -39,32 +39,32 @@ class RegisterForm extends FormValidator {
     function build_basic_form()
     {
     	// Lastname
-		$this->addElement('text', User :: PROPERTY_LASTNAME, get_lang('LastName'));
-		$this->addRule(User :: PROPERTY_LASTNAME, get_lang('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get_lang('LastName'));
+		$this->addRule(User :: PROPERTY_LASTNAME, Translation :: get_lang('ThisFieldIsRequired'), 'required');
 		// Firstname
-		$this->addElement('text', User :: PROPERTY_FIRSTNAME, get_lang('FirstName'));
-		$this->addRule(User :: PROPERTY_FIRSTNAME, get_lang('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', User :: PROPERTY_FIRSTNAME, Translation :: get_lang('FirstName'));
+		$this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get_lang('ThisFieldIsRequired'), 'required');
 		// Email
-		$this->addElement('text', User :: PROPERTY_EMAIL, get_lang('Email'));
-		$this->addRule(User :: PROPERTY_EMAIL, get_lang('ThisFieldIsRequired'), 'required');
-		$this->addRule(User :: PROPERTY_EMAIL, get_lang('WrongEmail'), 'email');
+		$this->addElement('text', User :: PROPERTY_EMAIL, Translation :: get_lang('Email'));
+		$this->addRule(User :: PROPERTY_EMAIL, Translation :: get_lang('ThisFieldIsRequired'), 'required');
+		$this->addRule(User :: PROPERTY_EMAIL, Translation :: get_lang('WrongEmail'), 'email');
 		// Username
-		$this->addElement('text', User :: PROPERTY_USERNAME, get_lang('Username'));
-		$this->addRule(User :: PROPERTY_USERNAME, get_lang('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get_lang('Username'));
+		$this->addRule(User :: PROPERTY_USERNAME, Translation :: get_lang('ThisFieldIsRequired'), 'required');
 		//pw
 		$group = array();
-		$group[] =& $this->createElement('radio', 'pass', null,get_lang('AutoGeneratePassword').'<br />',1);
+		$group[] =& $this->createElement('radio', 'pass', null,Translation :: get_lang('AutoGeneratePassword').'<br />',1);
 		$group[] =& $this->createElement('radio', 'pass', null,null,0);
 		$group[] =& $this->createElement('password', User :: PROPERTY_PASSWORD,null,null);
-		$this->addGroup($group, 'pw', get_lang('Password'), '');
+		$this->addGroup($group, 'pw', Translation :: get_lang('Password'), '');
 		// Official Code
-		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, get_lang('OfficialCode'));
+		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get_lang('OfficialCode'));
 		// Picture URI
-		$this->addElement('file', User :: PROPERTY_PICTURE_URI, get_lang('AddPicture'));
+		$this->addElement('file', User :: PROPERTY_PICTURE_URI, Translation :: get_lang('AddPicture'));
 		$allowed_picture_types = array ('jpg', 'jpeg', 'png', 'gif');
-		$this->addRule(User :: PROPERTY_PICTURE_URI, get_lang('OnlyImagesAllowed'), 'filetype', $allowed_picture_types);
+		$this->addRule(User :: PROPERTY_PICTURE_URI, Translation :: get_lang('OnlyImagesAllowed'), 'filetype', $allowed_picture_types);
 		// Phone Number
-		$this->addElement('text', User :: PROPERTY_PHONE, get_lang('PhoneNumber'));
+		$this->addElement('text', User :: PROPERTY_PHONE, Translation :: get_lang('PhoneNumber'));
 		// Language
 		$adm = AdminDataManager :: get_instance();
 		$languages = $adm->retrieve_languages();
@@ -74,20 +74,20 @@ class RegisterForm extends FormValidator {
 		{
 			$lang_options[$language->get_folder()] = $language->get_english_name();	
 		}
-		$this->addElement('select', User :: PROPERTY_LANGUAGE, get_lang('Language'), $lang_options);
+		$this->addElement('select', User :: PROPERTY_LANGUAGE, Translation :: get_lang('Language'), $lang_options);
 		// Status
 		if ($this->adminDM->retrieve_setting_from_variable_name('allow_registration_as_teacher')->get_value() == 'true')
 		{
 			$status = array();  
-			$status[STUDENT] = get_lang('Student');  
-			$status[COURSEMANAGER]  = get_lang('CourseAdmin');
-			$this->addElement('select',User :: PROPERTY_STATUS,get_lang('Status'),$status);
+			$status[STUDENT] = Translation :: get_lang('Student');  
+			$status[COURSEMANAGER]  = Translation :: get_lang('CourseAdmin');
+			$this->addElement('select',User :: PROPERTY_STATUS,Translation :: get_lang('Status'),$status);
 		}
 		//  Send email 
 		$group = array();
-		$group[] =& $this->createElement('radio', 'send_mail',null,get_lang('Yes'),1);
-		$group[] =& $this->createElement('radio', 'send_mail',null,get_lang('No'),0);
-		$this->addGroup($group, 'mail', get_lang('SendMailToNewUser'), '&nbsp;'); 
+		$group[] =& $this->createElement('radio', 'send_mail',null,Translation :: get_lang('Yes'),1);
+		$group[] =& $this->createElement('radio', 'send_mail',null,Translation :: get_lang('No'),0);
+		$this->addGroup($group, 'mail', Translation :: get_lang('SendMailToNewUser'), '&nbsp;'); 
 		// Submit button
 		$this->addElement('submit', 'user_settings', 'OK');
     }
@@ -201,10 +201,10 @@ class RegisterForm extends FormValidator {
 		$username = $user->get_username();
 		$password = $this->unencryptedpass;
 		$emailto = '"'.$firstname.' '.$lastname.'" <'.$user->get_email().'>';
-		$emailsubject = '['.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value().'] '.get_lang('YourReg').' '.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value();
+		$emailsubject = '['.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value().'] '.Translation :: get_lang('YourReg').' '.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value();
 		$emailheaders = 'From: '.$this->adminDM->retrieve_setting_from_variable_name('administrator_firstname')->get_value().' '.$this->adminDM->retrieve_setting_from_variable_name('administrator_surname')->get_value().' <'.$this->adminDM->retrieve_setting_from_variable_name('administrator_email')->get_value().">\n";
 		$emailheaders .= 'Reply-To: '.$this->adminDM->retrieve_setting_from_variable_name('administrator_email')->get_value();
-		$emailbody=get_lang('Dear')." ".stripslashes("$firstname $lastname").",\n\n".get_lang('YouAreReg')." ". $this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value() ." ".get_lang('Settings')." ". $username ."\n". get_lang('Password')." : ".stripslashes($password)."\n\n" .get_lang('Address') ." ". $this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value() ." ". get_lang('Is') ." : ". $rootWeb ."\n\n". get_lang('Problem'). "\n\n". get_lang('Formula').",\n\n".$this->adminDM->retrieve_setting_from_variable_name('administrator_firstname')->get_value()." ".$this->adminDM->retrieve_setting_from_variable_name('administrator_surname')->get_value()."\n". get_lang('Manager'). " ".$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value()."\nT. ".$this->adminDM->retrieve_setting_from_variable_name('administrator_telephone')->get_value()."\n" .get_lang('Email') ." : ".$this->adminDM->retrieve_setting_from_variable_name('administrator_email')->get_value();
+		$emailbody=Translation :: get_lang('Dear')." ".stripslashes("$firstname $lastname").",\n\n".Translation :: get_lang('YouAreReg')." ". $this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value() ." ".Translation :: get_lang('Settings')." ". $username ."\n". Translation :: get_lang('Password')." : ".stripslashes($password)."\n\n" .Translation :: get_lang('Address') ." ". $this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value() ." ". Translation :: get_lang('Is') ." : ". $rootWeb ."\n\n". Translation :: get_lang('Problem'). "\n\n". Translation :: get_lang('Formula').",\n\n".$this->adminDM->retrieve_setting_from_variable_name('administrator_firstname')->get_value()." ".$this->adminDM->retrieve_setting_from_variable_name('administrator_surname')->get_value()."\n". Translation :: get_lang('Manager'). " ".$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value()."\nT. ".$this->adminDM->retrieve_setting_from_variable_name('administrator_telephone')->get_value()."\n" .Translation :: get_lang('Email') ." : ".$this->adminDM->retrieve_setting_from_variable_name('administrator_email')->get_value();
 		@api_send_mail($emailto, $emailsubject, $emailbody, $emailheaders);
 	}
 }

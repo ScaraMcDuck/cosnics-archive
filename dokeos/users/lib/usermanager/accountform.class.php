@@ -45,18 +45,18 @@ class AccountForm extends FormValidator {
     	// Show user picture
     	$this->addElement('html','<img src="'.$this->user->get_full_picture_url().'" alt="'.$this->user->get_fullname().'" style="position:absolute; right: 10px; z-index:1; border:1px solid black; max-width: 150px;"/>');
     	// Name
-		$this->addElement('text', User :: PROPERTY_LASTNAME, get_lang('LastName'));
-		$this->addElement('text', User :: PROPERTY_FIRSTNAME, get_lang('FirstName'));
+		$this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get_lang('LastName'));
+		$this->addElement('text', User :: PROPERTY_FIRSTNAME, Translation :: get_lang('FirstName'));
 		if ($this->adm->retrieve_setting_from_variable_name('profile_name')->get_value() !== 'true')
 		{
 			$this->freeze(array(User :: PROPERTY_LASTNAME,User :: PROPERTY_FIRSTNAME));
 		}
 		$this->applyFilter(array(User :: PROPERTY_LASTNAME, User :: PROPERTY_FIRSTNAME), 'stripslashes');
 		$this->applyFilter(array(User :: PROPERTY_LASTNAME, User :: PROPERTY_FIRSTNAME), 'trim');
-		$this->addRule(User :: PROPERTY_LASTNAME , get_lang('ThisFieldIsRequired'), 'required');
-		$this->addRule(User :: PROPERTY_FIRSTNAME, get_lang('ThisFieldIsRequired'), 'required');
+		$this->addRule(User :: PROPERTY_LASTNAME , Translation :: get_lang('ThisFieldIsRequired'), 'required');
+		$this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get_lang('ThisFieldIsRequired'), 'required');
 		// Official Code
-		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, get_lang('OfficialCode'));
+		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get_lang('OfficialCode'));
 		if ($this->adm->retrieve_setting_from_variable_name('profile_official_code')->get_value() !== 'true')
 		{
 			$this->freeze(User :: PROPERTY_OFFICIAL_CODE);
@@ -65,10 +65,10 @@ class AccountForm extends FormValidator {
 		$this->applyFilter(User :: PROPERTY_OFFICIAL_CODE, 'trim');
 		if ($this->adm->retrieve_setting_from_variable_name('registration_official_code')->get_value() == 'true')
 		{
-			$this->addRule(User :: PROPERTY_OFFICIAL_CODE, get_lang('ThisFieldIsRequired'), 'required');
+			$this->addRule(User :: PROPERTY_OFFICIAL_CODE, Translation :: get_lang('ThisFieldIsRequired'), 'required');
 		}
 		// Email
-		$this->addElement('text', User :: PROPERTY_EMAIL, get_lang('Email'));
+		$this->addElement('text', User :: PROPERTY_EMAIL, Translation :: get_lang('Email'));
 		if ($this->adm->retrieve_setting_from_variable_name('profile_email')->get_value() !== 'true')
 		{
 			$this->freeze(User :: PROPERTY_EMAIL);
@@ -77,39 +77,39 @@ class AccountForm extends FormValidator {
 		$this->applyFilter(User :: PROPERTY_EMAIL, 'trim');
 		if ($this->adm->retrieve_setting_from_variable_name('registration_email')->get_value() == 'true')
 		{
-			$this->addRule(User :: PROPERTY_EMAIL, get_lang('ThisFieldIsRequired'), 'required');
+			$this->addRule(User :: PROPERTY_EMAIL, Translation :: get_lang('ThisFieldIsRequired'), 'required');
     	}
-		$this->addRule(User :: PROPERTY_EMAIL, get_lang('EmailWrong'), 'email');
+		$this->addRule(User :: PROPERTY_EMAIL, Translation :: get_lang('EmailWrong'), 'email');
 		// Username
-		$this->addElement('text', User :: PROPERTY_USERNAME, get_lang('Username'));
+		$this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get_lang('Username'));
 		if ($this->adm->retrieve_setting_from_variable_name('profile_login')->get_value() !== 'true')
 		{
 			$this->freeze(User :: PROPERTY_USERNAME);
 		}
 		$this->applyFilter(User :: PROPERTY_USERNAME, 'stripslashes');
 		$this->applyFilter(User :: PROPERTY_USERNAME, 'trim');
-		$this->addRule(User :: PROPERTY_USERNAME, get_lang('ThisFieldIsRequired'), 'required');
-		$this->addRule(User :: PROPERTY_USERNAME, get_lang('UsernameWrong'), 'username');
+		$this->addRule(User :: PROPERTY_USERNAME, Translation :: get_lang('ThisFieldIsRequired'), 'required');
+		$this->addRule(User :: PROPERTY_USERNAME, Translation :: get_lang('UsernameWrong'), 'username');
 		//Todo: The rule to check unique username should be updated to the LCMS code api
-		//$this->addRule(User :: PROPERTY_USERNAME, get_lang('UserTaken'), 'username_available', $user_data['username']);
+		//$this->addRule(User :: PROPERTY_USERNAME, Translation :: get_lang('UserTaken'), 'username_available', $user_data['username']);
 
 		// Password
 		if ($this->adm->retrieve_setting_from_variable_name('profile_password')->get_value() == 'true')
 		{
-			$this->addElement('static', null, null, '<em>'.get_lang('Enter2passToChange').'</em>');
-			$this->addElement('password', User :: PROPERTY_PASSWORD, get_lang('Pass'),         array('size' => 40));
-			$this->addElement('password', 'password2', get_lang('Confirmation'), array('size' => 40));
-			$this->addRule(array(User :: PROPERTY_PASSWORD, 'password2'), get_lang('PassTwo'), 'compare');
+			$this->addElement('static', null, null, '<em>'.Translation :: get_lang('Enter2passToChange').'</em>');
+			$this->addElement('password', User :: PROPERTY_PASSWORD, Translation :: get_lang('Pass'),         array('size' => 40));
+			$this->addElement('password', 'password2', Translation :: get_lang('Confirmation'), array('size' => 40));
+			$this->addRule(array(User :: PROPERTY_PASSWORD, 'password2'), Translation :: get_lang('PassTwo'), 'compare');
 		}
 		// Picture
 		if ($this->adm->retrieve_setting_from_variable_name('profile_picture')->get_value() == 'true')
 		{
-			$this->addElement('file', User::PROPERTY_PICTURE_URI, ($this->user->has_picture() ? get_lang('UpdateImage') : get_lang('AddImage')));
+			$this->addElement('file', User::PROPERTY_PICTURE_URI, ($this->user->has_picture() ? Translation :: get_lang('UpdateImage') : Translation :: get_lang('AddImage')));
 			if($this->form_type == self :: TYPE_EDIT && $this->user->has_picture() )
 			{
-				$this->addElement('checkbox', 'remove_picture', null, get_lang('DelImage'));
+				$this->addElement('checkbox', 'remove_picture', null, Translation :: get_lang('DelImage'));
 			}
-			$this->addRule( User::PROPERTY_PICTURE_URI, get_lang('OnlyImagesAllowed'), 'mimetype', array('image/gif', 'image/jpeg', 'image/png','image/x-png'));
+			$this->addRule( User::PROPERTY_PICTURE_URI, Translation :: get_lang('OnlyImagesAllowed'), 'mimetype', array('image/gif', 'image/jpeg', 'image/png','image/x-png'));
 		}
 		// Language
 		$adm = AdminDataManager :: get_instance();
@@ -120,7 +120,7 @@ class AccountForm extends FormValidator {
 		{
 			$lang_options[$language->get_folder()] = $language->get_english_name();	
 		}
-		$this->addElement('select', User :: PROPERTY_LANGUAGE, get_lang('Language'), $lang_options);
+		$this->addElement('select', User :: PROPERTY_LANGUAGE, Translation :: get_lang('Language'), $lang_options);
 		if ($this->adm->retrieve_setting_from_variable_name('profile_language')->get_value() !== 'true')
 		{
 			$this->freeze(User :: PROPERTY_LANGUAGE);

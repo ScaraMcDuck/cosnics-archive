@@ -253,7 +253,7 @@ EOT;
 	 */
 	function add_resource_button()
 	{
-		$group[] = $this->createElement('static','add_resource_img',null,'<img src="'.api_get_path(WEB_CODE_PATH).'img/attachment.gif" alt="'.get_lang('Attachment').'"/>');
+		$group[] = $this->createElement('static','add_resource_img',null,'<img src="'.Path :: get_path(WEB_CODE_PATH).'img/attachment.gif" alt="'.get_lang('Attachment').'"/>');
 		$group[] = $this->createElement('submit','add_resource',get_lang('Attachment'),'class="link_alike"');
 		$this->addGroup($group);
 	}
@@ -268,8 +268,8 @@ EOT;
 	function add_progress_bar($delay = 2)
 	{
 		$this->with_progress_bar = true;
-		$this->updateAttributes("onsubmit=\"myUpload.start('dynamic_div','".api_get_path(WEB_CODE_PATH)."img/progress_bar.gif','".get_lang('PleaseStandBy')."','".$this->getAttribute('id')."')\"");
-		$this->addElement('html','<script language="javascript" src="'.api_get_path(WEB_CODE_PATH).'inc/lib/javascript/upload.js" type="text/javascript"></script>');
+		$this->updateAttributes("onsubmit=\"myUpload.start('dynamic_div','".Path :: get_path(WEB_CODE_PATH)."img/progress_bar.gif','".get_lang('PleaseStandBy')."','".$this->getAttribute('id')."')\"");
+		$this->addElement('html','<script language="javascript" src="'.Path :: get_path(WEB_CODE_PATH).'inc/lib/javascript/upload.js" type="text/javascript"></script>');
 		$this->addElement('html','<script type="text/javascript">var myUpload = new upload('.(abs(intval($delay))*1000).');</script>');
     }
 

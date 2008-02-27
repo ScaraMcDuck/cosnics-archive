@@ -47,7 +47,7 @@ if(empty($document_language))
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $iso_lang; ?>" lang="<?php echo $iso_lang; ?>">
 <head>
 <title>Calendar</title>
-<link rel="stylesheet" type="text/css" href="<?php echo api_get_path(WEB_CODE_PATH); ?>/css/default.css"/>
+<link rel="stylesheet" type="text/css" href="<?php echo Path :: get_path(WEB_CODE_PATH); ?>/css/default.css"/>
 <style type="text/css">
 /*<![CDATA[*/
 table.calendar

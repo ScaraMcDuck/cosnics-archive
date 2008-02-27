@@ -39,16 +39,16 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 			case User :: PROPERTY_STATUS :
 				if ($user->get_status() == '1')
 				{
-					return get_lang('CourseAdmin');
+					return Translation :: get_lang('CourseAdmin');
 				}
 				else
 				{
-					return get_lang('Student');
+					return Translation :: get_lang('Student');
 				}
 			case User :: PROPERTY_PLATFORMADMIN :
 				if ($user->get_platformadmin() == '1')
 				{
-					return get_lang('PlatformAdmin');
+					return Translation :: get_lang('PlatformAdmin');
 				}
 				else
 				{
@@ -69,13 +69,13 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_user_editing_url($user),
-			'label' => get_lang('Edit'),
+			'label' => Translation :: get_lang('Edit'),
 			'img' => $this->browser->get_path(WEB_IMG_PATH).'edit.gif'
 		);
 
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_user_quota_url($user),
-			'label' => get_lang('VersionQuota'),
+			'label' => Translation :: get_lang('VersionQuota'),
 			'img' => $this->browser->get_path(WEB_IMG_PATH).'versions.gif'
 		);
 
@@ -83,7 +83,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 		{
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_user_delete_url($user),
-				'label' => get_lang('Delete'),
+				'label' => Translation :: get_lang('Delete'),
 				'img' => $this->browser->get_path(WEB_IMG_PATH).'delete.gif'
 			);
 		}

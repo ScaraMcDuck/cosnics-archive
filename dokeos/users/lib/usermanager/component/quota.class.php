@@ -16,7 +16,7 @@ class UserManagerQuotaComponent extends UserManagerComponent
 	{		
 		$user_id = $this->get_user_id();
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => get_lang('UserQuota'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('UserQuota'));
 		if (!$this->get_user()->is_platform_admin()) 
 		{
 			api_not_allowed();
@@ -29,7 +29,7 @@ class UserManagerQuotaComponent extends UserManagerComponent
 			if (!$this->get_user()->is_platform_admin())
 			{
 				$this->display_header();
-				Display :: display_error_message(get_lang("NotAllowed"));
+				Display :: display_error_message(Translation :: get_lang("NotAllowed"));
 				$this->display_footer();
 				exit;
 			}
@@ -38,7 +38,7 @@ class UserManagerQuotaComponent extends UserManagerComponent
 			if($form->validate())
 			{
 				$success = $form->update_quota();
-				$this->redirect('url', get_lang($success ? 'UserQuotaUpdated' : 'UserQuotaNotUpdated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => ACTION_BROWSE_USERS));
+				$this->redirect('url', Translation :: get_lang($success ? 'UserQuotaUpdated' : 'UserQuotaNotUpdated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => ACTION_BROWSE_USERS));
 			}
 			else
 			{
@@ -49,7 +49,7 @@ class UserManagerQuotaComponent extends UserManagerComponent
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(get_lang('NoObjectSelected')));
+			$this->display_error_page(htmlentities(Translation :: get_lang('NoObjectSelected')));
 		}
 	}
 }

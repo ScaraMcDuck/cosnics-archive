@@ -56,19 +56,19 @@ class UserMenu extends HTML_Menu
 		}
 		
 		$home = array ();
-		$home['title'] = get_lang('Home');
+		$home['title'] = Translation :: get_lang('Home');
 		$home['url'] = $this->get_home_url();
 		$home['class'] = 'home';
 		$home_item[] = $home;
 		for ($i = 0; $i <= 7; $i++)
 		{
-			$menu_item['title'] = get_lang(chr(65 + (3*$i)).chr(67 + (3*$i)));
+			$menu_item['title'] = Translation :: get_lang(chr(65 + (3*$i)).chr(67 + (3*$i)));
 			$menu_item['url'] = $this->get_category_url(chr(65 + (3*$i)));
 			$menu_item['class'] = 'type_category';
 			$home_item[] = $menu_item;
 		}
 		$menu_item = array ();
-		$menu_item['title'] = get_lang('YZ');
+		$menu_item['title'] = Translation :: get_lang('YZ');
 		$menu_item['url'] = $this->get_category_url(chr(89));
 		$menu_item['class'] = 'type_category';
 		$home_item[] = $menu_item;
