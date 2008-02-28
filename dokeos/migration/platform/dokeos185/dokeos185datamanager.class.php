@@ -64,6 +64,7 @@ class Dokeos185DataManager extends MigrationDataManager
 			$users[] = $this->record_to_user($record);
 		}
 		$result->free();
+		
 		return $users;
 	}
 	
