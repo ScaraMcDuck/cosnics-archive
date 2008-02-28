@@ -10,14 +10,14 @@ require_once 'MDB2.php';
  * @author Sven Vanpoucke
  * @author David Van Wayenbergh
  */
-class Dokeos185_DataManager extends MigrationDataManager
+class Dokeos185DataManager extends MigrationDataManager
 {	
 	
 	private static $old_directory;
 	private static $_configuration;
 	private $db;
 	
-	function validateSettings($parameters)
+	function validate_settings($parameters)
 	{
 		self :: $old_directory = 'file://' . $parameters[0];
 
@@ -53,7 +53,7 @@ class Dokeos185_DataManager extends MigrationDataManager
 		$this->db = MDB2 :: connect($dsn);
 	}
 	
-	function getAllUsers()
+	function get_all_users()
 	{
 		$this->db_connect('main_database');
 		$query = 'select * from user';
@@ -61,7 +61,7 @@ class Dokeos185_DataManager extends MigrationDataManager
 		$users = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$users[] = self :: record_to_user($record);
+			$users[] = $this->record_to_user($record);
 		}
 		$result->free();
 		return $users;
@@ -74,11 +74,11 @@ class Dokeos185_DataManager extends MigrationDataManager
 			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
-		foreach (Dokeos185_User :: get_default_property_names() as $prop)
+		foreach (Dokeos185User :: get_default_property_names() as $prop)
 		{
 			$defaultProp[$prop] = $record[$prop];
 		}
-		return new Dokeos185_User($defaultProp);
+		return new Dokeos185User($defaultProp);
 	}
 }
 

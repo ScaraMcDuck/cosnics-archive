@@ -4,7 +4,7 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/import_course.class.php';
+require_once dirname(__FILE__).'/../../lib/import/importcourse.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 course_category
@@ -12,19 +12,19 @@ require_once dirname(__FILE__).'/../../lib/import/import_course.class.php';
  * @author David Van Wayenbergh
  */
 
-class Dokeos185_course_category extends Import{
+class Dokeos185CourseCategory extends Import{
 	
 	/**
 	 * course category properties
 	 */
-	const PROPERTY_CATEGORY_ID = 'id';
-	const PROPERTY_CATEGORY_NAME = 'name';
-	const PROPERTY_CATEGORY_CODE = 'code';
-	const PROPERTY_CATEGORY_PARENT_ID = 'parent_id';
-	const PROPERTY_CATEGORY_TREE_POS = 'tree_pos';
-	const PROPERTY_CATEGORY_CHILDREN_COUNT = 'children_cont';
-	const PROPERTY_CATEGORY_AUTH_COURSE_CHILD = 'auth_course_child';
-	const PROPERTY_CATEGORY_AUTH_CAT_CHILD = 'auth_cat_child';
+	const PROPERTY_ID = 'id';
+	const PROPERTY_NAME = 'name';
+	const PROPERTY_CODE = 'code';
+	const PROPERTY_PARENT_ID = 'parent_id';
+	const PROPERTY_TREE_POS = 'tree_pos';
+	const PROPERTY_CHILDREN_COUNT = 'children_cont';
+	const PROPERTY_AUTH_COURSE_CHILD = 'auth_course_child';
+	const PROPERTY_AUTH_CAT_CHILD = 'auth_cat_child';
 
     /**
 	 * Alfanumeric identifier of the course object.
@@ -42,7 +42,7 @@ class Dokeos185_course_category extends Import{
 	 * @param array $defaultProperties The default properties of the user
 	 *                                 object. Associative array.
 	 */
-	function Course_Category($defaultProperties = array ())
+	function Dokeos185CourseCategory($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
@@ -71,7 +71,9 @@ class Dokeos185_course_category extends Import{
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self ::PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_CODE,
+		self ::PROPERTY_PARENT_ID, self::PROPERTY_TREE_POS, self::PROPERTY_CHILDREN_COUNT,
+		self::PROPERTY_AUTH_COURSE_CHILD, self::PROPERTY_AUTH_CAT_CHILD);
 	}
 	
 	/**

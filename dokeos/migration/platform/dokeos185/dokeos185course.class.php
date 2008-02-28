@@ -4,7 +4,7 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/import_course.class.php';
+require_once dirname(__FILE__).'/../../lib/import/importcourse.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 course
@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/../../lib/import/import_course.class.php';
  * @author David Van Wayenbergh
  */
 
-class Dokeos185_Course extends Import
+class Dokeos185Course extends Import
 {
 	
 	/**
@@ -56,7 +56,7 @@ class Dokeos185_Course extends Import
 	 * @param array $defaultProperties The default properties of the user
 	 *                                 object. Associative array.
 	 */
-	function Course($defaultProperties = array ())
+	function Dokeos185Course($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
@@ -85,7 +85,13 @@ class Dokeos185_Course extends Import
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self ::PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA);
+		return array (self :: PROPERTY_CODE,self::PROPERTY_DIRECTORY,self::PROPERTY_DB_NAME,
+		self::PROPERTY_COURSE_LANGUAGE,self::PROPERTY_TITLE,self::PROPERTY_DESCRIPTION,
+		self::PROPERTY_CATEGORY_CODE,self::PROPERTY_VISIBILITY,self::PROPERTY_SHOW_SCORE,
+		self::PROPERTY_TUTOR_NAME,self::PROPERTY_VISUAL_CODE,self::PROPERTY_DEPARTMENT_URL,
+		self::PROPERTY_DISK_QUOTA,self::PROPERTY_LAST_VISIT,self::PROPERTY_LAST_EDIT,
+		self::PROPERTY_CREATION_DATE,self::PROPERTY_EXPIRATION_DATE,self::PROPERTY_TARGET_COURSE_CODE,
+		self::PROPERTY_SUBSCRIBE,self::PROPERTY_UNSUBSCRIBE,self::PROPERTY_REGISTRATION_CODE);
 	}
 	
 	/**

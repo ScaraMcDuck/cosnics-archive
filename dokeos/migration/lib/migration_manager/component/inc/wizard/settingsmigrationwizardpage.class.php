@@ -35,7 +35,7 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$this->addElement('text', 'old_directory', Translation :: get_lang('old_directory'), array ('size' => '40'));
 		$this->addRule('old_directory', 'ThisFieldIsRequired', 'required');
 		
-		ValidateSettings :: setValues($this->controller->exportValues());
+		ValidateSettings :: set_values($this->controller->exportValues());
 		
 		$this->addRule(array('old_directory'),Translation :: get_lang('CouldNotVerifySettings'), new ValidateSettings());
 
@@ -61,10 +61,10 @@ class ValidateSettings extends HTML_QuickForm_Rule
 	public function validate($parameters)
 	{
 		$dmgr = MigrationDataManager :: getInstance(self :: $values['old_system']);
-		return $dmgr->validateSettings($parameters);
+		return $dmgr->validate_settings($parameters);
 	}
 	
-	public static function setValues($values)
+	public static function set_values($values)
 	{
 		self::$values = $values;
 	}
