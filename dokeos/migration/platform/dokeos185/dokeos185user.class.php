@@ -72,7 +72,7 @@ class Dokeos185User extends Import
 	 * @param array $defaultProperties The default properties of the user
 	 *                                 object. Associative array.
 	 */
-	function DokeosUser($defaultProperties = array ())
+	function Dokeos185User($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
@@ -630,12 +630,8 @@ class Dokeos185User extends Import
 		
 		//Learning object parameters
 		$lcms_repository_profile->set_owner_id($lcms_user->get_user_id());
-		$lcms_repository_profile->set_type('profile');
 		$lcms_repository_profile->set_title($lcms_user->get_fullname());
 		$lcms_repository_profile->set_description('...');
-		$lcms_repository_profile->set_parent(0);
-		$lcms_repository_profile->set_display_order(0);
-		$lcms_repository_profile->set_state(0);
 		
 		$lcms_repository_profile->create();
 	}
