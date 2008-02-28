@@ -46,7 +46,14 @@ class Filesystem
 		// If the directory doesn't exist yet, create it using php's mkdir function
 		if(!is_dir($path))
 		{
-			return mkdir($path,$mode,true);
+			if (!mkdir($path,$mode,true))
+			{
+				return false;
+			}
+			else
+			{
+				return chmod($path,$mode);
+			}
 		}
 		return true;
 	}
