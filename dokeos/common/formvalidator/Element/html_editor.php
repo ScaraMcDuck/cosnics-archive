@@ -22,9 +22,9 @@
 ==============================================================================
 */
 require_once ('HTML/QuickForm/textarea.php');
-require_once (dirname(__FILE__).'/../../../../../plugin/fckeditor/fckeditor.php');
-require_once (dirname(__FILE__).'/../../../../../common/resourcemanager.class.php');
-require_once (dirname(__FILE__).'/../../../../../admin/lib/admindatamanager.class.php');
+require_once (dirname(__FILE__).'/../../../plugin/fckeditor/fckeditor.php');
+require_once (dirname(__FILE__).'/../../resourcemanager.class.php');
+require_once (dirname(__FILE__).'/../../../admin/lib/admindatamanager.class.php');
 /**
 * A html editor field to use with QuickForm
 */

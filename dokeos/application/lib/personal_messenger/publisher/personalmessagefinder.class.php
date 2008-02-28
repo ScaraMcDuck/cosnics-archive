@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/personalmessagebrowser.class.php';
 require_once dirname(__FILE__).'/../../../../common/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../../../../common/condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../../../../common/condition/patternmatchcondition.class.php';
-require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../../../../common/formvalidator/FormValidator.class.php';
 /**
  * This class represents a personal message publisher component which can be used
  * to search for a certain personal message.

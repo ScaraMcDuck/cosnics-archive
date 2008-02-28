@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../../../../common/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/coursecategory.class.php';
 
 class CourseCategoryForm extends FormValidator {

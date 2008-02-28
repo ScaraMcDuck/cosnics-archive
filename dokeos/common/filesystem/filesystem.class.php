@@ -36,7 +36,7 @@ class Filesystem
 	 * @param string $mode
 	 * @return boolean True if successfull, false if not.
 	 */
-	public static function create_dir($path,$mode = '0777')
+	public static function create_dir($path,$mode = 0777)
 	{
 		// If the given path is a file, return false
 		if(is_file($path))
