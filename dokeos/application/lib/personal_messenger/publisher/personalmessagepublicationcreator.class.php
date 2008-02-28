@@ -13,7 +13,6 @@ require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectdispla
 require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectform.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/../../../../common/formvalidator/FormValidator.class.php';
-//require_once dirname(__FILE__).'/../../../../main/inc/lib/course.lib.php';
 /**
  * This class represents a personal message publisher component which can be used
  * to create a new personal message before publishing it.
