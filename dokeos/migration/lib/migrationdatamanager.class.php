@@ -3,7 +3,7 @@
 abstract class MigrationDataManager
 {
 	abstract function validate_settings($parameters);
-	abstract function move_file($old_rel_path, $new_rel_path);
+	abstract function move_file($old_rel_path, $new_rel_path,$filename);
 	abstract function create_directory($is_new_system, $rel_path);
 	
 	private static $instances = array();

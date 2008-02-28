@@ -667,6 +667,19 @@ class Dokeos185User extends Import
 		
 		$lcms_user->create();
 		
+		// Create user directory
+		$rep_dir = '/files/repository/' . $lcms_user->get_user_id() . '/';
+		MigrationDataManager :: getInstance('Dokeos185')->create_directory(true, $rep_dir);
+		
+		// Move picture to correct directory
+		if($lcms_user->get_picture_uri())
+		{
+			$old_rel_path_picture = '/main/upload/users/';
+			$new_rel_path_picture = '/files/userpictures/';
+			MigrationDataManager :: getInstance('Dokeos185')->
+				move_file($old_rel_path_picture, $new_rel_path_picture, $lcms_user->get_picture_uri());
+		}
+		
 		// Repository_Profile parameters
 		$lcms_repository_profile = new Profile();
 		$lcms_repository_profile->set_competences($this->get_competences());

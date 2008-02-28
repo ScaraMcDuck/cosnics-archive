@@ -45,17 +45,6 @@ class Dokeos185DataManager extends MigrationDataManager
 		return false;
 	}
 	
-	function move_file($old_rel_path, $new_rel_path)
-	{
-		// FileSystem :: copy_file($old_file, $new_file);
-		// FileSystem :: remove($old_file);
-	}
-	
-	function create_directory($is_new_system, $rel_path)
-	{
-		
-	}
-	
 	function db_connect($dbname)
 	{
 		$param = isset(self :: $_configuration[$dbname])?self :: $_configuration[$dbname]:$dbname;
