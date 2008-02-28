@@ -107,8 +107,8 @@ class Dokeos185_User extends Import
 		self :: PROPERTY_STATUS, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self ::PROPERTY_PICTURE_URI, 
 		self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_COMPETENCES, self :: PROPERTY_DIPLOMAS,
 		self :: PROPERTY_OPENAREA, self :: PROPERTY_TEACH, self :: PROPERTY_PRODUCTIONS,self :: PROPERTY_CHATCALL_USER_ID,
-		self :: PROPERTY_CHATCALL_DATE, self :: PROPERTY_CHATCALL_TEXT, self :: REGISTRATION_DATE, EXPIRATION_DATE,
-		self :: PROPERTY_ACTIVE, self :: PROPERTY_OPENID);
+		self :: PROPERTY_CHATCALL_DATE, self :: PROPERTY_CHATCALL_TEXT, self :: PROPERTY_REGISTRATION_DATE, 
+		self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_ACTIVE, self :: PROPERTY_OPENID);
 	}
 	
 	/**
@@ -655,7 +655,7 @@ class Dokeos185_User extends Import
 	
 	static function getAllUsers()
 	{
-		return MigrationDataManager::getInstance(Dokeos185);
+		return MigrationDataManager::getInstance(Dokeos185)->getAllUsers();
 	}
 }
 ?>

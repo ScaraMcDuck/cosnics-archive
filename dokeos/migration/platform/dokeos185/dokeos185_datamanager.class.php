@@ -1,24 +1,34 @@
 <?php
 
 require_once(dirname(__FILE__) . '/../../lib/migrationdatamanager.class.php');
+require_once(dirname(__FILE__) . '/../../../admin/lib/admindatamanager.class.php');
 require_once 'MDB2.php';
 
+/**
+ * Class that connects to the old dokeos185 system
+ * 
+ * @author Sven Vanpoucke
+ * @author David Van Wayenbergh
+ */
 class Dokeos185_DataManager extends MigrationDataManager
 {	
 	
-	private $old_directory;
+	private static $old_directory;
+	private static $_configuration;
 	private $db;
 	
 	function validateSettings($parameters)
 	{
-		$old_directory = 'file://' . $parameters[0];
+		self :: $old_directory = 'file://' . $parameters[0];
 
-		if(file_exists($old_directory) && is_dir($old_directory))
+		if(file_exists(self :: $old_directory) && is_dir(self :: $old_directory))
 		{
-			$config_file = $old_directory . '/main/inc/conf/configuration.php';
+			$config_file = self :: $old_directory . '/main/inc/conf/configuration.php';
 			if(file_exists($config_file) && is_file($config_file))
 			{
 				require_once($config_file);
+				
+				self :: $_configuration = $_configuration;
 
 				if(mysql_connect($_configuration['db_host']	, $_configuration['db_user'], 
 								 $_configuration['db_password']	))
@@ -34,22 +44,20 @@ class Dokeos185_DataManager extends MigrationDataManager
 		
 		return false;
 	}
-	function dbConnect($dbname)
+	
+	function db_connect($dbname)
 	{
-		$config_file = $this ->old_directory . '/main/inc/conf/configuration.php';
-		require_once($config_file);
-		
-		$param = isset($_configuration[$dbname])?$_configuration[$dbname]:$dbname;
-		$dsn = 'mysql://'.$_configuration['db_user'].':'.$_configuration['db_password'].'@'.
-				$_configuration['db_host'].'/'.$param;
-		
-		$db->connection = MDB2 :: connect($dsn);
+		$param = isset(self :: $_configuration[$dbname])?self :: $_configuration[$dbname]:$dbname;
+		$dsn = 'mysql://'.self :: $_configuration['db_user'].':'.self :: $_configuration['db_password'].'@'.
+				self :: $_configuration['db_host'].'/'.$param;
+		$this->db = MDB2 :: connect($dsn);
 	}
+	
 	function getAllUsers()
 	{
-		dbConnect(main_database);
+		$this->db_connect('main_database');
 		$query = 'select * from user';
-		$result = $db->query($query);
+		$result = $this->db->query($query);
 		$users = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
@@ -58,6 +66,7 @@ class Dokeos185_DataManager extends MigrationDataManager
 		$result->free();
 		return $users;
 	}
+	
 	function record_to_user($record)
 	{
 		if (!is_array($record) || !count($record))
