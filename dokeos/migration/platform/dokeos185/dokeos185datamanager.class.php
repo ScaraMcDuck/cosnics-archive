@@ -45,6 +45,17 @@ class Dokeos185DataManager extends MigrationDataManager
 		return false;
 	}
 	
+	function move_file($old_rel_path, $new_rel_path)
+	{
+		// FileSystem :: copy_file($old_file, $new_file);
+		// FileSystem :: remove($old_file);
+	}
+	
+	function create_directory($is_new_system, $rel_path)
+	{
+		
+	}
+	
 	function db_connect($dbname)
 	{
 		$param = isset(self :: $_configuration[$dbname])?self :: $_configuration[$dbname]:$dbname;
@@ -56,14 +67,31 @@ class Dokeos185DataManager extends MigrationDataManager
 	function get_all_users()
 	{
 		$this->db_connect('main_database');
-		$query = 'select * from user';
+		$query = 'SELECT * FROM user';
 		$result = $this->db->query($query);
 		$users = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
+			$user = $this->record_to_user($record);
 			$users[] = $this->record_to_user($record);
+			
 		}
 		$result->free();
+		
+		foreach($users as $user)
+		{
+			$query_admin = 'SELECT * FROM admin WHERE user_id=' . $user->get_user_id();
+			//$statement = $this->db->prepare($query_admin);
+			//$result_admin = $statement->execute($user->get_user_id());
+			$result_admin = $this->db->query($query_admin);
+			
+			if($result_admin->numRows() == 1)
+			{
+				$user->set_platformadmin(1);
+			}
+			
+			$result_admin->free();
+		}
 		
 		return $users;
 	}
@@ -75,7 +103,7 @@ class Dokeos185DataManager extends MigrationDataManager
 			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
-		foreach (Dokeos185User :: get_default_property_names() as $prop)
+		foreach (Dokeos185User :: get_default_user_property_names() as $prop)
 		{
 			$defaultProp[$prop] = $record[$prop];
 		}
