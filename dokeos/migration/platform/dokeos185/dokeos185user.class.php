@@ -62,19 +62,26 @@ class Dokeos185User extends Import
 
 
 	/**
-	 * Default properties of the user object, stored in an associative
+	 * Default properties of the user table, stored in an associative
 	 * array.
 	 */
-	private $defaultProperties;
+	private $default_user_properties;
+	
+	/**
+	 * Default properties of the admin table, stored in an associative array
+	 */
+	
+	private $default_admin_properties;	
 		
 	/**
 	 * Creates a new user object.
-	 * @param array $defaultProperties The default properties of the user
+	 * @param array $default_user_properties The default properties of the user
 	 *                                 object. Associative array.
 	 */
-	function Dokeos185User($defaultProperties = array ())
+	function Dokeos185User($default_user_properties = array (), $default_admin_properties = array())
 	{
-		$this->defaultProperties = $defaultProperties;
+		$this->default_user_properties = $default_user_properties;
+		$this->default_admin_properties = $default_admin_properties;
 	}
 	
 	
@@ -82,25 +89,43 @@ class Dokeos185User extends Import
 	 * Gets a default property of this user object by name.
 	 * @param string $name The name of the property.
 	 */
-	function get_default_property($name)
+	function get_default_user_property($name)
 	{
-		return $this->defaultProperties[$name];
+		return $this->default_user_properties[$name];
 	}
+	
+	/**
+	 * Gets a default property of the admin table by name
+	 * @param string $name The name of the property.
+	 */
+	 function get_default_admin_property($name)
+	 {
+	 	return $this->default_admin_properties[$name];
+	 }
 	
 	/**
 	 * Gets the default properties of this user.
 	 * @return array An associative array containing the properties.
 	 */
-	function get_default_properties()
+	function get_default_user_properties()
 	{
-		return $this->defaultProperties;
+		return $this->default_user_properties;
 	}
 	
 	/**
-	 * Get the default properties of all users.
+	 * Gets the default properties of the admin
+	 * @return array An associative array containing the properties.
+	 */
+	function get_default_admin_properties()
+	{
+		return $this->default_admin_properties;
+	}
+	
+	/**
+	 * Get the default properties of the users.
 	 * @return array The property names.
 	 */
-	static function get_default_property_names()
+	static function get_default_user_property_names()
 	{
 		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, 
 		self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EMAIL, 
@@ -112,27 +137,32 @@ class Dokeos185User extends Import
 	}
 	
 	/**
+	 * Get the default properties of the admins
+	 */
+	static function get_default_admin_property_names()
+	{
+		return array (self :: PROPERTY_ADMIN);
+	}
+	
+	/**
 	 * Sets a default property of this user by name.
 	 * @param string $name The name of the property.
 	 * @param mixed $value The new value for the property.
 	 */
-	function set_default_property($name, $value)
+	function set_default_user_property($name, $value)
 	{
-		$this->defaultProperties[$name] = $value;
+		$this->default_user_properties[$name] = $value;
 	}
 	
 	/**
-	 * Checks if the given identifier is the name of a default user
-	 * property.
-	 * @param string $name The identifier.
-	 * @return boolean True if the identifier is a property name, false
-	 *                 otherwise.
+	 * Sets a default property of this admin by name.
+	 * @param string $name The name of the property.
+	 * @param mixed $value The new value for the property.
 	 */
-	static function is_default_property_name($name)
+	function set_default_admin_property($name, $value)
 	{
-		return in_array($name, self :: get_default_property_names());
+		$this->default_admin_properties[$name] = $value;
 	}
-	
 	
 	
 	/**
@@ -146,7 +176,7 @@ class Dokeos185User extends Import
 	 */
 	function get_user_id()
 	{
-		return $this->user_id;
+		return $this->get_default_user_property(self :: PROPERTY_USER_ID);
 	}
 	
 	/**
@@ -155,7 +185,7 @@ class Dokeos185User extends Import
 	 */
 	function get_lastname()
 	{
-		return $this->get_default_property(self :: PROPERTY_LASTNAME);
+		return $this->get_default_user_property(self :: PROPERTY_LASTNAME);
 	}
 	
 	/**
@@ -164,7 +194,7 @@ class Dokeos185User extends Import
 	 */
 	function get_firstname()
 	{
-		return $this->get_default_property(self :: PROPERTY_FIRSTNAME);
+		return $this->get_default_user_property(self :: PROPERTY_FIRSTNAME);
 	}
 	
 	/**
@@ -183,7 +213,7 @@ class Dokeos185User extends Import
 	 */
 	function get_username()
 	{
-		return $this->get_default_property(self :: PROPERTY_USERNAME);
+		return $this->get_default_user_property(self :: PROPERTY_USERNAME);
 	}
 	
 	/**
@@ -192,7 +222,7 @@ class Dokeos185User extends Import
 	 */
 	function get_password()
 	{
-		return $this->get_default_property(self :: PROPERTY_PASSWORD);
+		return $this->get_default_user_property(self :: PROPERTY_PASSWORD);
 	}
 	
 	/**
@@ -201,7 +231,7 @@ class Dokeos185User extends Import
 	 */
 	function get_auth_source()
 	{
-		return $this->get_default_property(self :: PROPERTY_AUTH_SOURCE);
+		return $this->get_default_user_property(self :: PROPERTY_AUTH_SOURCE);
 	}
 	
 	/**
@@ -210,7 +240,7 @@ class Dokeos185User extends Import
 	 */
 	function get_email()
 	{
-		return $this->get_default_property(self :: PROPERTY_EMAIL);
+		return $this->get_default_user_property(self :: PROPERTY_EMAIL);
 	}
 	
 	/**
@@ -219,7 +249,7 @@ class Dokeos185User extends Import
 	 */
 	function get_status()
 	{
-		return $this->get_default_property(self :: PROPERTY_STATUS);
+		return $this->get_default_user_property(self :: PROPERTY_STATUS);
 	}
 	
 	/**
@@ -228,7 +258,7 @@ class Dokeos185User extends Import
 	 */
 	function get_official_code()
 	{
-		return $this->get_default_property(self :: PROPERTY_OFFICIAL_CODE);
+		return $this->get_default_user_property(self :: PROPERTY_OFFICIAL_CODE);
 	}
 	
 	/**
@@ -237,7 +267,7 @@ class Dokeos185User extends Import
 	 */
 	function get_phone()
 	{
-		return $this->get_default_property(self :: PROPERTY_PHONE);
+		return $this->get_default_user_property(self :: PROPERTY_PHONE);
 	}
 	
 	/**
@@ -246,7 +276,7 @@ class Dokeos185User extends Import
 	 */
 	function get_picture_uri()
 	{
-		return $this->get_default_property(self :: PROPERTY_PICTURE_URI);
+		return $this->get_default_user_property(self :: PROPERTY_PICTURE_URI);
 	}
 	
 	/**
@@ -255,7 +285,7 @@ class Dokeos185User extends Import
 	 */
 	function get_creator_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_CREATOR_ID);
+		return $this->get_default_user_property(self :: PROPERTY_CREATOR_ID);
 	}
 	
 	/**
@@ -264,7 +294,7 @@ class Dokeos185User extends Import
 	 */
 	function get_language()
 	{
-		return $this->get_default_property(self :: PROPERTY_LANGUAGE);
+		return $this->get_default_user_property(self :: PROPERTY_LANGUAGE);
 	}
 	
 	/**
@@ -273,7 +303,7 @@ class Dokeos185User extends Import
 	 */
 	 function get_competences()
 	{
-		return $this->get_default_property(self :: PROPERTY_COMPETENCES);
+		return $this->get_default_user_property(self :: PROPERTY_COMPETENCES);
 	}
 	
 	/**
@@ -282,7 +312,7 @@ class Dokeos185User extends Import
 	 */
 	 function get_diplomas()
 	{
-		return $this->get_default_property(self :: PROPERTY_DIPLOMAS);
+		return $this->get_default_user_property(self :: PROPERTY_DIPLOMAS);
 	}
 	/**
 	 * Returns the openarea for this user.
@@ -290,7 +320,7 @@ class Dokeos185User extends Import
 	 */
 	 function get_openarea()
 	{
-		return $this->get_default_property(self :: PROPERTY_OPENAREA);
+		return $this->get_default_user_property(self :: PROPERTY_OPENAREA);
 	}
 	
 	/**
@@ -299,7 +329,7 @@ class Dokeos185User extends Import
 	 */
 	 function get_teach()
 	{
-		return $this->get_default_property(self :: PROPERTY_TEACH);
+		return $this->get_default_user_property(self :: PROPERTY_TEACH);
 	}
 	
 	/**
@@ -308,7 +338,7 @@ class Dokeos185User extends Import
 	 */
 	 function get_productions()
 	{
-		return $this->get_default_property(self :: PROPERTY_PRODUCTIONS);
+		return $this->get_default_user_property(self :: PROPERTY_PRODUCTIONS);
 	}
 	
 	/**
@@ -317,7 +347,7 @@ class Dokeos185User extends Import
 	 */
 	 function get_chatcall_user_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_CHATCALL_USER_ID);
+		return $this->get_default_user_property(self :: PROPERTY_CHATCALL_USER_ID);
 	}
 	
 	/**
@@ -326,7 +356,7 @@ class Dokeos185User extends Import
 	 */
 	 function get_chatcall_date()
 	{
-		return $this->get_default_property(self :: PROPERTY_CHATCALL_DATE);
+		return $this->get_default_user_property(self :: PROPERTY_CHATCALL_DATE);
 	}
 	
 	/**
@@ -335,7 +365,7 @@ class Dokeos185User extends Import
 	 */
 	 function get_chatcall_text()
 	{
-		return $this->get_default_property(self :: PROPERTY_CHATCALL_TEXT);
+		return $this->get_default_user_property(self :: PROPERTY_CHATCALL_TEXT);
 	}
 	
 	/**
@@ -344,7 +374,7 @@ class Dokeos185User extends Import
 	 */
 	 function get_registration_date()
 	{
-		return $this->get_default_property(self :: PROPERTY_REGISTRATION_DATE);
+		return $this->get_default_user_property(self :: PROPERTY_REGISTRATION_DATE);
 	}
 	
 	/**
@@ -353,7 +383,7 @@ class Dokeos185User extends Import
 	 */
 	 function get_expiration_date()
 	{
-		return $this->get_default_property(self :: PROPERTY_EXPIRATION_DATE);
+		return $this->get_default_user_property(self :: PROPERTY_EXPIRATION_DATE);
 	}
 	
 	/**
@@ -362,7 +392,7 @@ class Dokeos185User extends Import
 	 */
 	 function get_active()
 	{
-		return $this->get_default_property(self :: PROPERTY_ACTIVE);
+		return $this->get_default_user_property(self :: PROPERTY_ACTIVE);
 	}
 	
 	/**
@@ -371,7 +401,7 @@ class Dokeos185User extends Import
 	 */
 	 function get_openid()
 	{
-		return $this->get_default_property(self :: PROPERTY_OPENID);
+		return $this->get_default_user_property(self :: PROPERTY_OPENID);
 	}
 	
 	/**
@@ -600,6 +630,22 @@ class Dokeos185User extends Import
 		$this->set_default_property(self :: PROPERTY_OPENID, $openid);
 	}
 	
+	/**
+	 * ADMIN GETTERS AND SETTERS
+	 */
+	function get_platformadmin()
+	{
+		return $this->get_default_admin_property(self :: PROPERTY_ADMIN);
+	}
+	
+	function set_platformadmin($platformadmin)
+	{
+		$this->set_default_admin_property(self :: PROPERTY_ADMIN, $platformadmin);
+	}
+	
+	/**
+	 * Migration functions
+	 */
 	function convert_to_new_user()
 	{
 		//User parameters
@@ -636,22 +682,9 @@ class Dokeos185User extends Import
 		$lcms_repository_profile->create();
 	}
 	
-	/**
-	 * ADMIN GETTERS AND SETTERS
-	 */
-	function get_platformadmin()
-	{
-		return $this->get_default_property(self :: PROPERTY_ADMIN);
-	}
-	
-	function set_platformadmin($platformadmin)
-	{
-		$this->set_default_property(self :: PROPERTY_ADMIN, $platformadmin);
-	}
-	
 	static function get_all_users()
 	{
-		return MigrationDataManager::getInstance(Dokeos185)->get_all_users();
+		return MigrationDataManager::getInstance('Dokeos185')->get_all_users();
 	}
 }
 ?>
