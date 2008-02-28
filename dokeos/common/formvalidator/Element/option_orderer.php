@@ -1,7 +1,7 @@
 <?php
 
 require_once 'HTML/QuickForm/hidden.php';
-require_once dirname(__FILE__).'/../../../../../common/resourcemanager.class.php';
+require_once dirname(__FILE__).'/../../resourcemanager.class.php';
 
 class HTML_QuickForm_option_orderer extends HTML_QuickForm_hidden
 {

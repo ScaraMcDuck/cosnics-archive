@@ -6,7 +6,7 @@
  */
 require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/document.class.php';
-require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/Rule/DiskQuota.php';
+require_once dirname(__FILE__).'/../../../../common/formvalidator/Rule/DiskQuota.php';
 require_once dirname(__FILE__).'/../../../../common/filecompression/filecompression.class.php';
 require_once dirname(__FILE__).'/../../../../common/filesystem/filesystem.class.php';
 /**

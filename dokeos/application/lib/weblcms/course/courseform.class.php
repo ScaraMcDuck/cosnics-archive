@@ -4,8 +4,8 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../../../main/inc/lib/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/../../../../main/inc/lib/add_course.lib.inc.php';
+require_once dirname(__FILE__).'/../../../../common/formvalidator/FormValidator.class.php';
+//require_once dirname(__FILE__).'/../../../../main/inc/lib/add_course.lib.inc.php';
 require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
 require_once dirname(__FILE__).'/../../../../users/lib/user.class.php';
 require_once dirname(__FILE__).'/course.class.php';

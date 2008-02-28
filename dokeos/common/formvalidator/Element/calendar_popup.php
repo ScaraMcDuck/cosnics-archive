@@ -22,7 +22,7 @@
 ==============================================================================
 */
 // including the global init script
-require ('../../../global.inc.php');
+require ('../../../main/inc/global.inc.php');
 // including the relevant language file
 api_use_lang_files("agenda");
 // the variables for the days and the months
