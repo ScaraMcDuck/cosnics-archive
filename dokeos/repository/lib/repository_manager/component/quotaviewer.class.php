@@ -6,6 +6,7 @@
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 require_once dirname(__FILE__).'/../../quotamanager.class.php';
 require_once dirname(__FILE__).'/../../abstractlearningobject.class.php';
+require_once dirname(__FILE__).'/../../../../common/filesystem/filesystem.class.php';
 /**
  * Repository manager component which displays the quota to the user.
  *
@@ -29,7 +30,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 		$this->display_header($breadcrumbs);
 		$quotamanager = new QuotaManager($this->get_user());
 		echo '<h3>'.htmlentities(Translation :: get_lang('DiskSpace')).'</h3>';
-		echo self :: get_bar($quotamanager->get_used_disk_space_percent(), Filesystem::format_file_size($quotamanager->get_used_disk_space()).' / '.format_file_size($quotamanager->get_max_disk_space()));
+		echo self :: get_bar($quotamanager->get_used_disk_space_percent(), Filesystem :: format_file_size($quotamanager->get_used_disk_space()).' / '. Filesystem :: format_file_size($quotamanager->get_max_disk_space()));
 		echo '<div style="clear: both;">&nbsp;</div>';
 		echo '<h3>'.htmlentities(Translation :: get_lang('NumberOfLearningObjects')).'</h3>';
 		echo self :: get_bar($quotamanager->get_used_database_space_percent(), $quotamanager->get_used_database_space().' / '.$quotamanager->get_max_database_space());
