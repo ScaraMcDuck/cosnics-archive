@@ -109,6 +109,24 @@ class Dokeos185DataManager extends MigrationDataManager
 		}
 		return new Dokeos185User($defaultProp);
 	}
+	
+	function move_file($old_rel_path, $new_rel_path,$filename)
+	{
+		$old_file = self :: $_configuration['root_sys'].$old_rel_path . $filename;
+		$new_file = Path :: get_path(SYS_PATH).$new_rel_path . $filename;
+		FileSystem :: copy_file($old_file, $new_file);
+		// FileSystem :: remove($old_file);
+	}
+	
+	function create_directory($is_new_system, $rel_path)
+	{
+		if($is_new_system)
+			$path = Path :: get_path(SYS_PATH).$rel_path;
+		else
+			$path = self :: $_configuration['root_sys'].$rel_path;
+		
+		FileSystem :: create_dir($path);
+	}
 }
 
 ?>
