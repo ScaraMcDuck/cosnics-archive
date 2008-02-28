@@ -35,11 +35,11 @@ class MigrationWizardProcess extends HTML_QuickForm_Action
 		echo('Migrating users<br />');
 		$userclass = Import :: factory($exportvalues['old_system'], 'user');
 		$users = array();
-		$users = $userclass->getAllUsers();
+		$users = $userclass->get_all_users();
 		
 		foreach($users as $user)
 		{
-			$lcms_user = $user->convertToNewUser();
+			$lcms_user = $user->convert_to_new_user();
 		}
 		
 		echo('All users done<br />');

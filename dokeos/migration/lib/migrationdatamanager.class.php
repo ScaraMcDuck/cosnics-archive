@@ -2,7 +2,7 @@
 
 abstract class MigrationDataManager
 {
-	abstract function validateSettings($parameters);
+	abstract function validate_settings($parameters);
 	
 	private static $instances = array();
 	
@@ -14,13 +14,13 @@ abstract class MigrationDataManager
 		if(!isset(self :: $instances[$platform]))
 		{
 			$filename = dirname(__FILE__) . '/../platform/' . strtolower($platform) . '/' . 
-				strtolower($platform) . '_datamanager.class.php';
+				strtolower($platform) . 'datamanager.class.php';
 			if (!file_exists($filename) || !is_file($filename))
 			{
 				echo($filename);
-				die('Failed to load ' . $platform . '_datamanager.class.php');
+				die('Failed to load ' . $platform . 'datamanager.class.php');
 			}
-			$class = $platform . '_DataManager';
+			$class = $platform . 'DataManager';
 			require_once $filename;
 			self :: $instances[$platform] = new $class();
 		}

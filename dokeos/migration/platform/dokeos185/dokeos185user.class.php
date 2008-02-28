@@ -4,7 +4,7 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_user.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/importuser.class.php';
 require_once dirname(__FILE__) . '/../../../users/lib/user.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/profile/profile.class.php';
 
@@ -15,7 +15,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/profi
  * @author Sven Vanpoucke 
  */
 
-class Dokeos185_User extends Import
+class Dokeos185User extends Import
 {
 	
 	/**
@@ -72,7 +72,7 @@ class Dokeos185_User extends Import
 	 * @param array $defaultProperties The default properties of the user
 	 *                                 object. Associative array.
 	 */
-	function User($defaultProperties = array ())
+	function DokeosUser($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
@@ -600,7 +600,7 @@ class Dokeos185_User extends Import
 		$this->set_default_property(self :: PROPERTY_OPENID, $openid);
 	}
 	
-	function convertToNewUser()
+	function convert_to_new_user()
 	{
 		//User parameters
 		$lcms_user = new User();
@@ -653,9 +653,9 @@ class Dokeos185_User extends Import
 		$this->set_default_property(self :: PROPERTY_ADMIN, $platformadmin);
 	}
 	
-	static function getAllUsers()
+	static function get_all_users()
 	{
-		return MigrationDataManager::getInstance(Dokeos185)->getAllUsers();
+		return MigrationDataManager::getInstance(Dokeos185)->get_all_users();
 	}
 }
 ?>

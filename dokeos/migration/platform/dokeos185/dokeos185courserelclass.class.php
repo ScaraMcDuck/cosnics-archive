@@ -4,7 +4,7 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/import_course.class.php';
+require_once dirname(__FILE__).'/../../lib/import/importcourse.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 course_rel_class
@@ -12,13 +12,13 @@ require_once dirname(__FILE__).'/../../lib/import/import_course.class.php';
  * @author David Van Wayenbergh
  */
  
-class Dokeos185_course_rel_class extends Import{
+class Dokeos185CourseRelClass extends Import{
 
 	/**
 	 * course relation class properties
 	 */
-	const PROPERTY_REL_CLASS_CODE = 'course_code';
-	const PROPERTY_REL_CLASS_CLASS_ID = 'class_id';
+	const PROPERTY_CODE = 'course_code';
+	const PROPERTY_CLASS_ID = 'class_id';
 	
 	/**
 	 * Alfanumeric identifier of the course object.
@@ -36,7 +36,7 @@ class Dokeos185_course_rel_class extends Import{
 	 * @param array $defaultProperties The default properties of the user
 	 *                                 object. Associative array.
 	 */
-	function Course_Rel_Class($defaultProperties = array ())
+	function Dokeos185CourseRelClass($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
@@ -65,7 +65,7 @@ class Dokeos185_course_rel_class extends Import{
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self ::PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA);
+		return array (self :: PROPERTY_CODE,self :: PROPERTY_CLASS_ID);
 	}
 	
 	/**
