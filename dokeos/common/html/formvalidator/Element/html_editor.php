@@ -136,7 +136,7 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 		$result []= "\n/* ]]> */\n";
 		$result []= '</script>';
 		$result []= '<noscript>'.parent :: toHTML().'</noscript>';
-		$result []= '<small><a href="#" onclick="MyWindow=window.open('."'".Path :: get_path(WEB_CODE_PATH)."help/allowed_html_tags.php?fullpage=". ($this->fullPage ? '1' : '0')."','MyWindow','toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=500,height=600,left=200,top=20'".'); return false;">'.get_lang('AllowedHTMLTags').'</a></small>';
+		$result []= '<small><a href="#" onclick="MyWindow=window.open('."'".Path :: get_path(WEB_LIB_PATH)."html/allowed_html_tags.php?fullpage=". ($this->fullPage ? '1' : '0')."','MyWindow','toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=500,height=600,left=200,top=20'".'); return false;">'.get_lang('AllowedHTMLTags').'</a></small>';
 		@mkdir(Path :: get_path(SYS_PATH).'main/upload/fckeditor/'.$_uid.'/');
 		return implode("\n",$result);
 	}
