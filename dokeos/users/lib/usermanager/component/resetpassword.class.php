@@ -29,8 +29,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 		$user_id = $this->get_user_id();
 		if($this->get_platform_setting('allow_password_retrieval', 'admin')->get_value() == 'false')
 		{
-			api_not_allowed();
-			exit;
+			Display :: display_not_allowed();
 		}
 		if (isset ($user_id))
 		{

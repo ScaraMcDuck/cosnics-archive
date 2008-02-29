@@ -201,21 +201,6 @@ function api_display_tool_title($titleElement)
 }
 
 /**
-*	Displays message "You are not allowed here..."
-*	and exits the entire script.
-*
-*	@author Roan Embrechts
-*	@version 1.0, February 2004
-*/
-function api_not_allowed()
-{
-	$home_url = api_get_path(WEB_PATH);
-	Display :: display_error_message("<p>Either you are not allowed here or your session has expired.<br><br>You may try <a href=\"$home_url\" target=\"_top\">reconnecting on the home page</a>.</p>");
-	$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-	exit;
-}
-
-/**
  * Send an email.
  *
  * Wrapper function for the standard php mail() function. Change this function

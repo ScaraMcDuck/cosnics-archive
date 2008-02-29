@@ -62,6 +62,7 @@ define("HTML_WHITE", "white");
 */
 require_once 'table/sortabletable.class.php';
 require_once(dirname(__FILE__).'/../footer.class.php');
+
 class Display
 {
 	/**
@@ -75,7 +76,7 @@ class Display
 	* @param boolean $return
 	* @return mixed
 	*/
-	function display_normal_message($message, $return = false)
+	public static function display_normal_message($message, $return = false)
 	{
 		$out = '';
 		if (!headers_sent())
@@ -105,7 +106,7 @@ class Display
 	* @param boolean $return
 	* @return mixed
 	*/
-	function display_error_message($message, $return = false)
+	public static function display_error_message($message, $return = false)
 	{
 		$out = '';
 		if (!headers_sent())
@@ -136,7 +137,7 @@ class Display
 	* @param boolean $return
 	* @return mixed
 	*/
-	function display_warning_message($message, $return = false)
+	public static function display_warning_message($message, $return = false)
 	{
 		$out = '';
 		if (!headers_sent())
@@ -161,7 +162,7 @@ class Display
 	 * @param - $style_class (string) - optional, class from stylesheet
 	 * @return - encrypted mailto hyperlink
 	 */
-	function encrypted_mailto_link($email, $clickable_text = null, $style_class = '')
+	public static function encrypted_mailto_link($email, $clickable_text = null, $style_class = '')
 	{
 		if (is_null($clickable_text))
 		{
@@ -209,7 +210,7 @@ class Display
 	 * page title)
 	 * @param string $help
 	 */
-	function display_header($tool_name, $help = NULL)
+	public static function display_header($tool_name, $help = NULL)
 	{
 		$nameTools = $tool_name;
 		global $language_interface, $adm, $httpHeadXtra, $htmlHeadXtra, $_course, $_user, $clarolineRepositoryWeb, $text_dir, $plugins, $_uid, $rootAdminWeb, $_cid, $interbredcrump, $charset, $noPHP_SELF;
@@ -218,11 +219,19 @@ class Display
 	/**
 	 * Display the page footer
 	 */
-	function display_footer()
+	public static function display_footer()
 	{
 		global $adm, $dokeos_version; //necessary to have the value accessible in the footer
 		$footer = new Footer($adm, $dokeos_version);
 		$footer->display();
+	}
+	
+	public static function display_not_allowed()
+	{
+		$home_url = Path :: get_path(WEB_PATH);
+		self :: display_error_message("<p>Either you are not allowed here or your session has expired.<br><br>You may try <a href=\"$home_url\" target=\"_top\">reconnecting on the home page</a>.</p>");
+		$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
+		exit;
 	}
 }
 ?>

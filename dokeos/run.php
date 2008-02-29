@@ -20,7 +20,7 @@ require_once dirname(__FILE__).'/users/lib/usermanager/usermanager.class.php';
 // If application path doesn't exist, block the user
 if(!file_exists($application_path))
 {
-	api_not_allowed();
+	Display :: display_not_allowed();
 }
 
 require_once $application_path;
@@ -29,7 +29,7 @@ Translation :: set_application($this_section);
 
 if (!api_get_user_id())
 {
-	api_not_allowed();
+	Display :: display_not_allowed();
 }
 // Load the current user
 $usermgr = new UserManager(api_get_user_id());

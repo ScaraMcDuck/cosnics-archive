@@ -20,7 +20,7 @@ class ExerciseTool extends RepositoryTool
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
 			$this->display_header();
-			api_not_allowed();
+			Display :: display_not_allowed();
 			$this->display_footer();
 			return;
 		}

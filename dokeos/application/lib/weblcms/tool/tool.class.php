@@ -104,7 +104,7 @@ abstract class Tool
 	function disallow()
 	{
 		$this->display_header();
-		api_not_allowed();
+		Display :: display_not_allowed();
 		$this->display_footer();
 	}
 

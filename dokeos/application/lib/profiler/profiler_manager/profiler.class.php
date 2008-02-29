@@ -390,11 +390,11 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		return Path :: get_path($path_type);
 	}
 	/**
-	 * Wrapper for api_not_allowed().
+	 * Wrapper for Display :: display_not_allowed();.
 	 */
 	function not_allowed()
 	{
-		api_not_allowed();
+		Display :: display_not_allowed();
 	}
 
 	/**

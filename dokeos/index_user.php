@@ -7,7 +7,7 @@ Translation :: set_application($this_section);
 
 if (!api_get_user_id() && !($_GET['go'] == 'register' || $_GET['go'] == 'reset_password'))
 {
-	api_not_allowed();
+	Display :: display_not_allowed();
 }
 if(!api_get_user_id())
 {
