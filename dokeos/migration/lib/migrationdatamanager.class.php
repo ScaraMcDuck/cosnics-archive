@@ -66,13 +66,14 @@ abstract class MigrationDataManager
 	}
 	
 	/**
-	 * creates additional tables in the LCMS-database for the migration
+	 * creates temporary tables in the LCMS-database for the migration
 	 */
-	function create_additional_tables()
+	function create_temporary_tables()
 	{
+		$this->db_lcms_connect();
 		$query = 'CREATE TABLE failed_elements(
 				  id int identity(1,1),
-				  failed_id int,
+				  failed_id varchar(20),
 				  table_name varchar(50),
 				  primary key(id))';
 		$this->db_lcms->query($query);
@@ -86,18 +87,20 @@ abstract class MigrationDataManager
 		
 		$query = 'CREATE TABLE id_reference(
 				  id int identity(1,1),
-				  old_id int,
-				  new_id int,
+				  old_id varchar(20),
+				  new_id varchar(20),
 				  table_name varchar(50),
 				  primary key(id))';
 		$this->db_lcms->query($query);
 	}
 	
 	/**
-	 * deletes additional tables in the LCMS-database for the migration
+	 * deletes temporary tables in the LCMS-database for the migration
 	 */
-	function delete_additional_tables()
+	function delete_temporary_tables()
 	{
+		$this->db_lcms_connect();
+		
 		$query = 'DROP TABLE failed_elements';
 		$this->db_lcms->query($query);
 		
@@ -110,37 +113,108 @@ abstract class MigrationDataManager
 	
 	/**
 	 * add a failed migration element to table failed_elements
+	 * @param String $failed_id ID from the object that failed to migrate
+	 * @param String $table The table where the failed_id is stored
 	 */
 	function add_failed_element($failed_id,$table)
 	{
-		$query = 'insert into failed_elements(failed_id, table_name) values ('.
-					$failed_id . ','.$table.')';
+		$this->db_lcms_connect();
+	
+		$query = 'INSERT INTO failed_elements(failed_id, table_name) VALUES (\''.
+					$failed_id . '\',\'' . $table.'\')';
 		$this->db_lcms->query($query);
 	}
 	
 	/**
 	 * add a migrated file to the table recovery to make a rollback action possible
+	 * @param String $old_path the old path of an element
+	 * @param String $new_path the new path of an element
 	 */
 	function add_recovery_element($old_path,$new_path)
 	{
-		$query = 'insert into recovery(old_path, new_path) values ('.
-					$old_path . ','.$new_path .')';
+		$this->db_lcms_connect();
+		
+		$query = 'INSERT INTO recovery(old_path, new_path) VALUES (\''.
+					$old_path . '\',\''.$new_path .'\')';
 		$this->db_lcms->query($query);
 	}
 	
 	/**
 	 * add an id reference to the table id_reference
+	 * @param String $old_id The old ID of an element
+	 * @param String $new_id The new ID of an element
+	 * @param String $table_name The name of the table where an element is placed
 	 */
 	function add_id_reference_element($old_id,$new_id,$table_name)
 	{
-		$query = 'insert into recovery(old_id, new_id, table_name) values ('.
-					$old_id . ','.$new_id . ',' . $table_name . ')';
+		$this->db_lcms_connect();		
+
+		$query = 'INSERT INTO id_reference(old_id, new_id, table_name) VALUES (\'' .
+					$old_id . '\',\'' . $new_id . '\',\'' . $table_name . '\')';
 		$this->db_lcms->query($query);
 	}
 	
 	/**
-	 * 
+	 * select an failed migration element from table failed_elements by id
+	 * @param int $id ID of  an failed migration element
+	 * @return database-record failed migration record
 	 */
+	 function select_failed_element($id)
+	 {
+	 	$this->db_lcms_connect();	
+	 
+	 	$query = 'SELECT * FROM failed_elements WHERE id = \'' . $id . '\'';
+	 	
+		$result = $this->db_lcms->query($query);
+		
+		$record = $result;
+		
+		$result->free();
+		
+		return $record;
+	 }
+	 
+	 /**
+	 * select a recovery element from table recovery by id
+	 * @param int $id ID of  an recovery element
+	 * @return database-record recovery record
+	 */
+	 function select_recovery_element($id)
+	 {
+		$this->db_lcms_connect(); 	
+	
+	 	$query = 'SELECT * FROM recovery WHERE id = \'' . $id . '\'';
+	 	
+		$result = $this->db_lcms->query($query);
+		
+		$record = $result;
+		
+		$result->free();
+		
+		return $record;
+	 }
+	 
+	/**
+	 * select an id reference element from table id_reference by id
+	 * @param int $id ID of  an id_reference element
+	 * @return database-record id_reference record
+	 */
+	 function select_id_reference_element($id)
+	 {
+	 	$this->db_lcms_connect();	
+	 
+	 	$query = 'SELECT * FROM id_reference WHERE id = \'' . $id . '\'';
+	 	
+		$result = $this->db_lcms->query($query);
+		
+		$record = $result;
+		
+		$result->free();
+		
+		return $record;
+	 }
+	 
+	 
 }
 
 ?>
