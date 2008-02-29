@@ -41,18 +41,28 @@ class MigrationWizardProcess extends HTML_QuickForm_Action
 			 
 		$logfile = new Logger('user');
 		$logfile->set_start_time();
-		$logfile->add_message('started migrating users');
+		$logfile->add_message('Starting migration users');
+		
 		$userclass = Import :: factory($exportvalues['old_system'], 'user');
 		$users = array();
 		$users = $userclass->get_all_users();
 		
 		foreach($users as $user)
 		{
-			$lcms_user = $user->convert_to_new_user();
+			if($user->is_valid())
+			{
+				$lcms_user = $user->convert_to_new_user();
+				logfile->add_message('User added (' . $lcms_user->get_user_id() . ')');
+			}	
+			else
+			{
+				echo('User is not valid (' . $user->get_user_id() . ')');
+				logfile->add_message('User is not valid (' . $user->get_user_id() . ')');
+			}
 		}
 		
 
-		$logfile->add_message('users migrated');
+		$logfile->add_message('Users migrated');
 		echo( Translation :: get_lang('users') . ' ' .
 			  Translation :: get_lang('done') . '<br />');
 			  
