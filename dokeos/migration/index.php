@@ -16,6 +16,7 @@ require_once dirname(__FILE__).'/../main/inc/lib/display.lib.php';
 require_once dirname(__FILE__).'/lib/migration_manager/migrationmanager.class.php';
 require_once dirname(__FILE__).'/../common/filesystem/path.class.php';
 require_once dirname(__FILE__).'/../common/translation/translation.class.php';
+require_once dirname(__FILE__).'/../main/inc/global.inc.php';
 
 $language_interface = 'english';
 

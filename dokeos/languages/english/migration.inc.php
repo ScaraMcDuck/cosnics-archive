@@ -17,4 +17,9 @@ $lang['migration']['CouldNotVerifySettings'] = "Could not verify the settings";
 $lang['migration']['ThisFieldIsRequired'] = "This field is required";
 $lang['migration']['old_directory'] = "Old directory";
 
+$lang['migration']['productions'] = "productions";
+$lang['migration']['migrating'] = "migrating";
+$lang['migration']['users'] = "users";
+$lang['migration']['done'] = "done";
+
 ?>

@@ -32,7 +32,12 @@ class MigrationWizardProcess extends HTML_QuickForm_Action
 		$exportvalues = $page->controller->exportValues();
 		$this->parent->display_header();
 		
-		echo('Migrating users<br />');
+		$mgdm = MigrationDataManager :: getInstance($exportvalues['old_system']);
+		$mgdm->create_temporary_tables();
+		
+		echo(Translation :: get_lang('migrating') . ' ' . 
+			 Translation :: get_lang('users') . '<br />');
+			 
 		$userclass = Import :: factory($exportvalues['old_system'], 'user');
 		$users = array();
 		$users = $userclass->get_all_users();
@@ -42,7 +47,8 @@ class MigrationWizardProcess extends HTML_QuickForm_Action
 			$lcms_user = $user->convert_to_new_user();
 		}
 		
-		echo('All users done<br />');
+		echo( Translation :: get_lang('users') . ' ' .
+			  Translation :: get_lang('done') . '<br />');
 		
 		$this->parent->display_footer();
 	}
