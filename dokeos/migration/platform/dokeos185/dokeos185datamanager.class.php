@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * package migration.platform.dokeos185
+ */
 require_once(dirname(__FILE__) . '/../../lib/migrationdatamanager.class.php');
 require_once(dirname(__FILE__) . '/../../../admin/lib/admindatamanager.class.php');
 require_once 'MDB2.php';
@@ -12,11 +15,26 @@ require_once 'MDB2.php';
  */
 class Dokeos185DataManager extends MigrationDataManager
 {	
-	
+	/**
+	 * Directory of the old system
+	 */
 	private static $old_directory;
+	
+	/**
+	 * Configuration file of the old system
+	 */
 	private static $_configuration;
+	
+	/**
+	 * MDB2 instance 
+	 */
 	private $db;
 	
+	/**
+	 * Function to validate the dokeos 185 settings given in the wizard
+	 * @param Array $parameters settings from the wizard
+	 * @return true if settings are valid, otherwise false
+	 */
 	function validate_settings($parameters)
 	{
 		self :: $old_directory = 'file://' . $parameters[0];
@@ -45,6 +63,10 @@ class Dokeos185DataManager extends MigrationDataManager
 		return false;
 	}
 	
+	/**
+	 * Connect to the dokeos185 database with login data from the $_configuration
+	 * @param String $dbname with databasename 
+	 */
 	function db_connect($dbname)
 	{
 		$param = isset(self :: $_configuration[$dbname])?self :: $_configuration[$dbname]:$dbname;
@@ -53,6 +75,10 @@ class Dokeos185DataManager extends MigrationDataManager
 		$this->db = MDB2 :: connect($dsn);
 	}
 	
+	/**
+	 * Get all the users from the dokeos185 database
+	 * @return array of Dokeos185User
+	 */
 	function get_all_users()
 	{
 		$this->db_connect('main_database');
@@ -72,6 +98,7 @@ class Dokeos185DataManager extends MigrationDataManager
 			$query_admin = 'SELECT * FROM admin WHERE user_id=' . $user->get_user_id();
 			//$statement = $this->db->prepare($query_admin);
 			//$result_admin = $statement->execute($user->get_user_id());
+			//TODO: make use of statements
 			$result_admin = $this->db->query($query_admin);
 			
 			if($result_admin->numRows() == 1)
@@ -85,6 +112,11 @@ class Dokeos185DataManager extends MigrationDataManager
 		return $users;
 	}
 	
+	/**
+	 * Map a resultset record to a Dokeos185User Object
+	 * @param ResultSetRecord $record from database
+	 * @return Dokeos185User object with mapped data
+	 */
 	function record_to_user($record)
 	{
 		if (!is_array($record) || !count($record))
@@ -99,21 +131,37 @@ class Dokeos185DataManager extends MigrationDataManager
 		return new Dokeos185User($defaultProp);
 	}
 	
+	/**
+	 * Move a file to a new place, makes use of FileSystem class
+	 * Built in checks for same filename
+	 * @param String $old_rel_path Relative path on the old system
+	 * @param String $new_rel_path Relative path on the LCMS system
+	 */
 	function move_file($old_rel_path, $new_rel_path,$filename)
 	{
-		$old_file = self :: $_configuration['root_sys'].$old_rel_path . $filename;
-		$new_file = Path :: get_path(SYS_PATH).$new_rel_path . $filename;
-		FileSystem :: copy_file($old_file, $new_file);
+		$old_path = self :: $_configuration['root_sys'] . $old_rel_path;
+		$new_path = Path :: get_path(SYS_PATH) . $new_rel_path;
+			
+		$new_filename = FileSystem :: copy_file_with_double_files_protection($old_path,
+			$filename, $new_path, $filename);
+			
+		return($new_filename);
+			
 		// FileSystem :: remove($old_file);
 	}
 	
+	/**
+	 * Create a directory 
+	 * @param boolean $is_new_system Which system the directory has to be created on (true = LCMS)
+	 * @param String $rel_path Relative path on the chosen system
+	 */
 	function create_directory($is_new_system, $rel_path)
 	{
 		if($is_new_system)
 			$path = Path :: get_path(SYS_PATH).$rel_path;
 		else
 			$path = self :: $_configuration['root_sys'].$rel_path;
-		
+			
 		FileSystem :: create_dir($path);
 	}
 }

@@ -644,7 +644,7 @@ class Dokeos185User extends Import
 	}
 	
 	/**
-	 * Migration functions
+	 * Migration users, create directories, copy user pictures, migrate user profiles
 	 */
 	function convert_to_new_user()
 	{
@@ -660,7 +660,17 @@ class Dokeos185User extends Import
 		$lcms_user->set_platformadmin($this->get_platformadmin());
 		$lcms_user->set_official_code($this->get_official_code());
 		$lcms_user->set_phone($this->get_phone());
-		$lcms_user->set_picture_uri($this->get_picture_uri());
+		
+		// Move picture to correct directory
+		if($this->get_picture_uri())
+		{
+			$old_rel_path_picture = '/main/upload/users/';
+			$new_rel_path_picture = '/files/userpictures/';
+			$lcms_user->set_picture_uri(MigrationDataManager :: getInstance('Dokeos185')->
+				move_file($old_rel_path_picture, $new_rel_path_picture, 
+				$this->get_picture_uri()));
+		}
+		
 		//TODO: Convert creator id to new id's
 		$lcms_user->set_creator_id($this->get_creator_id());
 		$lcms_user->set_language($this->get_language());
@@ -670,15 +680,6 @@ class Dokeos185User extends Import
 		// Create user directory
 		$rep_dir = '/files/repository/' . $lcms_user->get_user_id() . '/';
 		MigrationDataManager :: getInstance('Dokeos185')->create_directory(true, $rep_dir);
-		
-		// Move picture to correct directory
-		if($lcms_user->get_picture_uri())
-		{
-			$old_rel_path_picture = '/main/upload/users/';
-			$new_rel_path_picture = '/files/userpictures/';
-			MigrationDataManager :: getInstance('Dokeos185')->
-				move_file($old_rel_path_picture, $new_rel_path_picture, $lcms_user->get_picture_uri());
-		}
 		
 		// Repository_Profile parameters
 		$lcms_repository_profile = new Profile();
