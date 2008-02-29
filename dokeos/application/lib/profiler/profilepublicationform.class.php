@@ -3,7 +3,7 @@
  * @package application.lib.profiler
  */
 require_once dirname(__FILE__).'/profilepublication.class.php';
-require_once dirname(__FILE__).'/../../../common/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../plugin/html2text/class.html2text.inc';
 /**
  * This class represents a form to allow a user to publish a learning object.

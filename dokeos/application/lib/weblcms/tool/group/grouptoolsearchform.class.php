@@ -5,7 +5,7 @@
  * @package application.weblcms.tool
  * @subpackage group
  */
-require_once dirname(__FILE__).'/../../../../../common/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../../../../../common/html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../weblcms_manager/weblcms.class.php';
 require_once dirname(__FILE__).'/../../weblcmsdatamanager.class.php';
 

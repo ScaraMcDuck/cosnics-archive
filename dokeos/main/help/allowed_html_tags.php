@@ -34,8 +34,8 @@ require_once ('../inc/global.inc.php');
 
 Translation :: set_application('general');
 
-require_once (PATH :: get_path(SYS_LIB_PATH).'formvalidator/FormValidator.class.php');
-require_once (PATH :: get_path(SYS_LIB_PATH).'formvalidator/Rule/HTML.php');
+require_once (PATH :: get_path(SYS_LIB_PATH).'html/formvalidator/FormValidator.class.php');
+require_once (PATH :: get_path(SYS_LIB_PATH).'html/formvalidator/Rule/HTML.php');
 // TODO: Use AdminDataManager here ...
 //$language_code = Database :: get_language_isocode($language_interface);
 $language_code = 'en';

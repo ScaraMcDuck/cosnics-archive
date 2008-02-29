@@ -2,7 +2,7 @@
 /**
  * @package application.lib.profiler.profile_publication_table
  */
-require_once dirname(__FILE__).'/../../../../main/inc/lib/sortabletable.class.php';
+require_once dirname(__FILE__).'/../../../../common/html/table/sortabletable.class.php';
 require_once dirname(__FILE__).'/defaultprofilepublicationtablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/defaultprofilepublicationtablecellrenderer.class.php';
 

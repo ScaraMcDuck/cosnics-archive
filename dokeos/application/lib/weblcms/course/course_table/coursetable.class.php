@@ -2,7 +2,7 @@
 /**
  * @package application.lib.weblcms.course.course_table
  */
-require_once dirname(__FILE__).'/../../../../../main/inc/lib/sortabletable.class.php';
+require_once dirname(__FILE__).'/../../../../../common/html/table/sortabletable.class.php';
 require_once dirname(__FILE__).'/defaultcoursetablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/defaultcoursetablecellrenderer.class.php';
 

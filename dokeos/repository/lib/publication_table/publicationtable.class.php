@@ -2,7 +2,7 @@
 /**
  * @package repository.publicationtable
  */
-require_once dirname(__FILE__).'/../../../main/inc/lib/sortabletable.class.php';
+require_once dirname(__FILE__).'/../../../common/html/table/sortabletable.class.php';
 require_once dirname(__FILE__).'/defaultpublicationtablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/defaultpublicationtablecellrenderer.class.php';
 
