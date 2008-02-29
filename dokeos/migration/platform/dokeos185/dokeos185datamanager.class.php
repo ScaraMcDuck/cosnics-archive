@@ -139,11 +139,18 @@ class Dokeos185DataManager extends MigrationDataManager
 	 */
 	function move_file($old_rel_path, $new_rel_path,$filename)
 	{
-		$old_path = self :: $_configuration['root_sys'] . $old_rel_path;
-		$new_path = Path :: get_path(SYS_PATH) . $new_rel_path;
-			
+		$old_path = $this->append_full_path(false, $old_rel_path);
+		$new_path = $this->append_full_path(true, $new_rel_path);
+		
+		$old_file = $old_path . $filename;
+		$new_file = $new_path . $filename;
+		
+		if(!file_exists($old_file) || !is_file($old_file)) return null;
+		
 		$new_filename = FileSystem :: copy_file_with_double_files_protection($old_path,
 			$filename, $new_path, $filename);
+		
+		$this->add_recovery_element($old_file, $new_file);
 			
 		return($new_filename);
 			
@@ -156,13 +163,23 @@ class Dokeos185DataManager extends MigrationDataManager
 	 * @param String $rel_path Relative path on the chosen system
 	 */
 	function create_directory($is_new_system, $rel_path)
+	{		
+		FileSystem :: create_dir($this->append_full_path($is_new_system, $rel_path));
+	}
+	
+	/**
+	 * Function to return the full path
+	 * @param boolean $is_new_system Which system the directory has to be created on (true = LCMS)
+	 * @param String $rel_path Relative path on the chosen system
+	 */
+	function append_full_path($is_new_system, $rel_path)
 	{
 		if($is_new_system)
 			$path = Path :: get_path(SYS_PATH).$rel_path;
 		else
 			$path = self :: $_configuration['root_sys'].$rel_path;
-			
-		FileSystem :: create_dir($path);
+		
+		return $path;
 	}
 }
 

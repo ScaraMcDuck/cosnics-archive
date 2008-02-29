@@ -648,6 +648,8 @@ class Dokeos185User extends Import
 	 */
 	function convert_to_new_user()
 	{
+		$mgdm = MigrationDataManager :: getInstance('Dokeos185');
+		
 		//User parameters
 		$lcms_user = new User();
 		$lcms_user->set_lastname($this->get_lastname());
@@ -662,24 +664,34 @@ class Dokeos185User extends Import
 		$lcms_user->set_phone($this->get_phone());
 		
 		// Move picture to correct directory
+		$old_rel_path_picture = '/main/upload/users/';
+		
 		if($this->get_picture_uri())
 		{
-			$old_rel_path_picture = '/main/upload/users/';
 			$new_rel_path_picture = '/files/userpictures/';
-			$lcms_user->set_picture_uri(MigrationDataManager :: getInstance('Dokeos185')->
-				move_file($old_rel_path_picture, $new_rel_path_picture, 
-				$this->get_picture_uri()));
+			
+			$picture_uri = $mgdm->move_file($old_rel_path_picture, $new_rel_path_picture, 
+					$this->get_picture_uri());
+			if($picture_uri)
+				$lcms_user->set_picture_uri($picture_uri);
 		}
 		
-		//TODO: Convert creator id to new id's
-		$lcms_user->set_creator_id($this->get_creator_id());
+		// Get new id from temporary table for references
+		$creator_id = $mgdm->get_id_reference($this->get_creator_id(), 'user_user');
+		if($creator_id)
+			$lcms_user->set_creator_id($creator_id);
+		
 		$lcms_user->set_language($this->get_language());
 		
+		//create user in database
 		$lcms_user->create();
+		
+		//Add id references to temp table
+		$mgdm->add_id_reference($this->get_user_id(), $lcms_user->get_user_id(), 'user_user');
 		
 		// Create user directory
 		$rep_dir = '/files/repository/' . $lcms_user->get_user_id() . '/';
-		MigrationDataManager :: getInstance('Dokeos185')->create_directory(true, $rep_dir);
+		$mgdm->create_directory(true, $rep_dir);
 		
 		// Repository_Profile parameters
 		$lcms_repository_profile = new Profile();
@@ -693,7 +705,87 @@ class Dokeos185User extends Import
 		$lcms_repository_profile->set_title($lcms_user->get_fullname());
 		$lcms_repository_profile->set_description('...');
 		
+		//Retrieve repository id from user
+		$lcms_repository_profile->set_parent_id($mgdm->get_parent_id($lcms_user->get_user_id(), 
+			'category', 'MyRepository'));
+		
+		//Create profile in database
 		$lcms_repository_profile->create();
+		
+		//Publish Profile
+		$lcms_profile_publication = new ProfilePublication();
+		$lcms_profile_publication->set_profile($lcms_repository_profile->get_id());
+		$lcms_profile_publication->set_publisher($lcms_user->get_user_id());
+		
+		//Create profile publication in database
+		$lcms_profile_publication->create();
+		
+		//Copy productions -> learning objects
+		$old_path = $old_rel_path_picture . $this->get_user_id() . '/' . $this->get_user_id() . '/';
+		$directory = $mgdm->append_full_path(false,$old_path);
+		
+		if(file_exists($directory))
+		{
+			$files_list = $list = Filesystem::get_directory_content($directory, Filesystem::LIST_FILES);
+			
+			if(count($files_list) != 0)
+			{
+				//Create category for user in lcms
+				$lcms_repository_category = new Category();
+				$lcms_repository_category->set_owner_id($lcms_user->get_user_id());
+				$lcms_repository_category->set_title(Translation :: get_lang('productions'));
+				$lcms_repository_category->set_description('...');
+		
+				//Retrieve repository id from user
+				$lcms_repository_category->set_parent_id($mgdm->get_parent_id($lcms_user->get_user_id(), 
+					'category', 'MyRepository'));
+				
+				//Create category in database
+				$lcms_repository_category->create();
+				
+				foreach($files_list as $file)
+				{
+					$file_split = split('/', $file);
+					$filename = $file_split[count($file_split) - 1];
+					$new_path = '/files/repository/' . $lcms_user->get_user_id() . '/';
+					
+					$filename = $mgdm->move_file($old_path, $new_path, $filename);
+					
+					if($filename)
+					{
+						
+						//Create document
+						$lcms_repository_document = new Document();
+						$lcms_repository_document->set_filename($filename);
+						$lcms_repository_document->set_path($lcms_user->get_user_id() . '/' . $filename);
+						$lcms_repository_document->set_filesize(filesize($file));
+						
+						$lcms_repository_document->set_owner_id($lcms_user->get_user_id());
+						$lcms_repository_document->set_title($filename);
+						$lcms_repository_document->set_description($filename);
+			
+						//Retrieve category id from user
+						$lcms_repository_document->set_parent_id($mgdm->get_parent_id($lcms_user->get_user_id(), 
+							'category', Translation :: get_lang('productions')));
+							
+						//Create document in db
+						$lcms_repository_document->create();
+					}
+				}
+			}
+		}
+	}
+	
+	function is_valid_user()
+	{
+		if(!$this->get_username() || !$this->get_password() || !$this->get_status())
+		{
+			MigrationDataManager::getInstance('Dokeos185')->add_failed_element($this->get_user_id(),
+				'dokeos_main.user');
+			return false;
+		}
+			
+		return true;
 	}
 	
 	static function get_all_users()
