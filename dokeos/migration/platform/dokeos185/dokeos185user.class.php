@@ -774,6 +774,8 @@ class Dokeos185User extends Import
 				}
 			}
 		}
+		
+		return $lcms_user;
 	}
 	
 	function is_valid_user()
