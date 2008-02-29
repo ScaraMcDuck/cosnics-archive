@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/usersearchform.class.php';
 require_once dirname(__FILE__).'/../usersdatamanager.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 //require_once dirname(__FILE__).'/../optionsmenurenderer.class.php';
-require_once dirname(__FILE__).'/../../../common/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/equalitycondition.class.php';

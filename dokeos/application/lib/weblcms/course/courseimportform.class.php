@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../../../common/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../../../../common/html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../../common/import/import.class.php';
 require_once dirname(__FILE__).'/course.class.php';
 require_once dirname(__FILE__).'/coursecategory.class.php';
@@ -58,7 +58,8 @@ class CourseImportForm extends FormValidator {
     			
     			if ($course->create())
     			{
-    				add_course_role_right_location_values($course->get_id());
+    				// TODO: Temporary function pending revamped roles&rights system
+    				//add_course_role_right_location_values($course->get_id());
     				$wdm = WeblcmsDataManager :: get_instance();
     				if ($wdm->subscribe_user_to_course($course, '1', '1', $teacher_info['user_id']))
     				{

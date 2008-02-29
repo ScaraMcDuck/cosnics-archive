@@ -5,7 +5,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../../common/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/admin.class.php';
 require_once dirname(__FILE__).'/../admindatamanager.class.php';
 /**

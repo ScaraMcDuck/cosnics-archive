@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/../learning_style_survey_model.class.php';
-require_once dirname(__FILE__) . '/../../../../../../common/formvalidator/Element/option_orderer.php';
+require_once dirname(__FILE__) . '/../../../../../../common/html/formvalidator/Element/option_orderer.php';
 
 /**
  * @author Tim De Pauw
