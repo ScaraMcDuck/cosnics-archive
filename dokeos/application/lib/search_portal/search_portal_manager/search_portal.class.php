@@ -51,7 +51,7 @@ class SearchPortal extends WebApplication
 	{
 		$supports_remote = WebServiceSearchSource :: is_supported();
 		Display :: display_header(Translation :: get_lang('SearchPortal'));
-		api_display_tool_title(Translation :: get_lang('SearchPortal'));
+		Display :: display_tool_title(Translation :: get_lang('SearchPortal'));
 
 		echo <<<END
 <script type="text/javascript">

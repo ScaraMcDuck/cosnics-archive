@@ -148,58 +148,6 @@ function api_generate_password($length = 8)
 	return $password;
 }
 
-/*
-==============================================================================
-		DISPLAY OPTIONS
-		student view, title, message boxes,...
-==============================================================================
-*/
-/**
- * Displays the title of a tool.
- * Normal use: parameter is a string:
- * api_display_tool_title("My Tool")
- *
- * Optionally, there can be a subtitle below
- * the normal title, and / or a supra title above the normal title.
- *
- * e.g. supra title:
- * group
- * GROUP PROPERTIES
- *
- * e.g. subtitle:
- * AGENDA
- * calender & events tool
- *
- * @author Hugues Peeters <hugues.peeters@claroline.net>
- * @param  mixed $titleElement - it could either be a string or an array
- *                               containing 'supraTitle', 'mainTitle',
- *                               'subTitle'
- * @return void
- */
-function api_display_tool_title($titleElement)
-{
-	if (is_string($titleElement))
-	{
-		$tit = $titleElement;
-		unset ($titleElement);
-		$titleElement['mainTitle'] = $tit;
-	}
-	echo '<h3>';
-	if ($titleElement['supraTitle'])
-	{
-		echo '<small>'.$titleElement['supraTitle'].'</small><br>';
-	}
-	if ($titleElement['mainTitle'])
-	{
-		echo $titleElement['mainTitle'];
-	}
-	if ($titleElement['subTitle'])
-	{
-		echo '<br><small>'.$titleElement['subTitle'].'</small>';
-	}
-	echo '</h3>';
-}
-
 /**
  * Send an email.
  *

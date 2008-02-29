@@ -407,7 +407,7 @@ class Weblcms extends WebApplication
 				echo '<option value="'.$tool.'"'. ($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($title).'</option>';
 			}
 			echo '</select></form></div>';
-			api_display_tool_title(htmlentities(Translation :: get_lang($this->tool_class.'Title')));
+			Display :: display_tool_title(htmlentities(Translation :: get_lang($this->tool_class.'Title')));
 		}
 		else
 		{
