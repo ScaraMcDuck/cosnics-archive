@@ -39,7 +39,7 @@ class MigrationWizardProcess extends HTML_QuickForm_Action
 		echo(Translation :: get_lang('migrating') . ' ' . 
 			 Translation :: get_lang('users') . '<br />');
 			 
-		$logfile = new Logger('user');
+		$logfile = new Logger('user.txt');
 		$logfile->set_start_time();
 		$logfile->add_message('Starting migration users');
 		
@@ -52,12 +52,12 @@ class MigrationWizardProcess extends HTML_QuickForm_Action
 			if($user->is_valid_user())
 			{
 				$lcms_user = $user->convert_to_new_user();
-				$logfile->add_message('User added (' . $lcms_user->get_user_id() . ')');
+				//$logfile->add_message('User added (' . $lcms_user->get_user_id() . ')');
 			}
 			else
 			{
 				$message = 'User is not valid (' . $user->get_user_id() . ')';
-				$logfile->add_message('User is not valid (' . $user->get_user_id() . ')');
+				//$logfile->add_message('User is not valid (' . $user->get_user_id() . ')');
 			}
 		}
 		

@@ -30,6 +30,11 @@ class Dokeos185DataManager extends MigrationDataManager
 	 */
 	private $db;
 	
+	function __construct()
+	{
+		parent :: __construct();
+	}
+	
 	/**
 	 * Function to validate the dokeos 185 settings given in the wizard
 	 * @param Array $parameters settings from the wizard

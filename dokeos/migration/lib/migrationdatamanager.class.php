@@ -44,6 +44,11 @@ abstract class MigrationDataManager
 		return self :: $instances[$platform];
 	}
 	
+	function __construct()
+	{
+		$this->db_lcms_connect();
+	}
+	
 	/**
 	 * makes a connection to the LCMS database
 	 */
@@ -64,15 +69,12 @@ abstract class MigrationDataManager
 	function get_parent_id($owner,$type,$title)
 	{
 		$this->db_lcms_connect();
-		
 		$query = 'SELECT id FROM repository_learning_object WHERE owner=\'' . $owner . '\' AND type=\'' . $type .
 		 		'\' AND title=\'' . $title . '\'';
 
 		$result = $this->db_lcms->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$result->free();
-		
-		$this->db_lcms->disconnect();
 		
 		return $record['id'];
 	}
@@ -83,7 +85,6 @@ abstract class MigrationDataManager
 	function create_temporary_tables()
 	{
 		$this->db_lcms_connect();
-		
 		$query = 'DROP TABLE IF EXISTS ' . self :: TEMP_FAILED_ELEMENTS_TABLE . ';';
 		$this->db_lcms->query($query);
 		$query = 'CREATE TABLE ' . self :: TEMP_FAILED_ELEMENTS_TABLE . ' (
@@ -111,17 +112,14 @@ abstract class MigrationDataManager
 				  table_name varchar(50),
 				  primary key(id));';
 		$this->db_lcms->query($query);
-		
-		$this->db_lcms->disconnect();
 	}
 	
 	/**
 	 * deletes temporary tables in the LCMS-database for the migration
 	 */
 	function delete_temporary_tables()
-	{
+	{	
 		$this->db_lcms_connect();
-		
 		$query = 'DROP TABLE ' . self :: TEMP_FAILED_ELEMENTS_TABLE;
 		$this->db_lcms->query($query);
 		
@@ -131,7 +129,6 @@ abstract class MigrationDataManager
 		$query = 'DROP TABLE ' . self :: TEMP_ID_REFERENCE_TABLE;
 		$this->db_lcms->query($query);
 		
-		$this->db_lcms->disconnect();
 	}
 	
 	/**
@@ -142,13 +139,11 @@ abstract class MigrationDataManager
 	function add_failed_element($failed_id,$table)
 	{
 		$this->db_lcms_connect();
-	
 		$query = 'INSERT INTO ' . self :: TEMP_FAILED_ELEMENTS_TABLE . 
 				 ' (failed_id, table_name) VALUES (\''.
 					$failed_id . '\',\'' . $table.'\')';
 		$this->db_lcms->query($query);
 		
-		$this->db_lcms->disconnect();
 	}
 	
 	/**
@@ -159,13 +154,10 @@ abstract class MigrationDataManager
 	function add_recovery_element($old_path,$new_path)
 	{
 		$this->db_lcms_connect();
-		
 		$query = 'INSERT INTO ' . self :: TEMP_RECOVERY_TABLE .
 				 '(old_path, new_path) VALUES (\''.
 					$old_path . '\',\''.$new_path .'\')';
 		$this->db_lcms->query($query);
-		
-		$this->db_lcms->disconnect();
 	}
 	
 	/**
@@ -175,15 +167,12 @@ abstract class MigrationDataManager
 	 * @param String $table_name The name of the table where an element is placed
 	 */
 	function add_id_reference($old_id,$new_id,$table_name)
-	{
-		$this->db_lcms_connect();		
-
+	{	
+		$this->db_lcms_connect();
 		$query = 'INSERT INTO ' . self :: TEMP_ID_REFERENCE_TABLE . 
 				 ' (old_id, new_id, table_name) VALUES (\'' .
 					$old_id . '\',\'' . $new_id . '\',\'' . $table_name . '\')';
 		$this->db_lcms->query($query);
-		
-		$this->db_lcms->disconnect();
 	}
 	
 	/**
@@ -192,16 +181,14 @@ abstract class MigrationDataManager
 	 * @return database-record failed migration record
 	 */
 	 function get_failed_element($id)
-	 {
-	 	$this->db_lcms_connect();	
-	 
+	 {	
+	 	$this->db_lcms_connect();
 	 	$query = 'SELECT * FROM ' . self :: TEMP_FAILED_ELEMENTS_TABLE . 
 				 ' WHERE id = \'' . $id . '\'';
 		$result = $this->db_lcms->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$result->free();
 	
-		$this->db_lcms->disconnect();
 		
 		if($record)
 			return $record;
@@ -215,16 +202,13 @@ abstract class MigrationDataManager
 	 * @return database-record recovery record
 	 */
 	 function get_recovery_element($id)
-	 {
-		$this->db_lcms_connect(); 	
-	
+	 {	
+		$this->db_lcms_connect();
 	 	$query = 'SELECT * FROM ' . self :: TEMP_RECOVERY_TABLE . 
 				 ' WHERE id = \'' . $id . '\'';
 		$result = $this->db_lcms->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$result->free();
-		
-		$this->db_lcms->disconnect();
 		
 		if($record)
 			return $record;
@@ -239,15 +223,12 @@ abstract class MigrationDataManager
 	 */
 	 function get_id_reference($old_id, $table_name)
 	 {
-	 	$this->db_lcms_connect();	
-	 
+		$this->db_lcms_connect();
 	 	$query = 'SELECT new_id FROM ' . self :: TEMP_ID_REFERENCE_TABLE . 
 				 ' WHERE old_id = \'' . $old_id . '\' AND table_name=\'' . $table_name . '\'';
 		$result = $this->db_lcms->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$result->free();
-		
-		$this->db_lcms->disconnect();
 		
 		if($record)
 			return $record['new_id'];
