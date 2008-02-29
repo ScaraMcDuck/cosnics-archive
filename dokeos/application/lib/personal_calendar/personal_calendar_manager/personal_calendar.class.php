@@ -128,7 +128,7 @@ class PersonalCalendar extends WebApplication
 			$out .=   '</div>';
 		}
 		Display :: display_header(Translation :: get_lang('MyAgenda'));
-		api_display_tool_title(Translation :: get_lang('MyAgenda'));
+		Display :: display_tool_title(Translation :: get_lang('MyAgenda'));
 		echo $out;
 		Display :: display_footer();
 	}

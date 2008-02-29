@@ -233,5 +233,29 @@ class Display
 		$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
 		exit;
 	}
+	
+	public static function display_tool_title($titleElement)
+	{
+		if (is_string($titleElement))
+		{
+			$tit = $titleElement;
+			unset ($titleElement);
+			$titleElement['mainTitle'] = $tit;
+		}
+		echo '<h3>';
+		if ($titleElement['supraTitle'])
+		{
+			echo '<small>'.$titleElement['supraTitle'].'</small><br>';
+		}
+		if ($titleElement['mainTitle'])
+		{
+			echo $titleElement['mainTitle'];
+		}
+		if ($titleElement['subTitle'])
+		{
+			echo '<br><small>'.$titleElement['subTitle'].'</small>';
+		}
+		echo '</h3>';
+	}
 }
 ?>
