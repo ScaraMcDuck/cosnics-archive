@@ -37,7 +37,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 		switch ($column->get_personal_message_property())
 		{
 			case PersonalMessagePublication :: PROPERTY_PUBLISHED:
-				return format_locale_date(Translation :: get_lang('dateFormatShort').', '.Translation :: get_lang('timeNoSecFormat'),$personal_message->get_published());
+				return Text :: format_locale_date(Translation :: get_lang('dateFormatShort').', '.Translation :: get_lang('timeNoSecFormat'),$personal_message->get_published());
 				break;
 			case PersonalMessagePublication :: PROPERTY_STATUS:
 				if ($personal_message->get_status() == 1)

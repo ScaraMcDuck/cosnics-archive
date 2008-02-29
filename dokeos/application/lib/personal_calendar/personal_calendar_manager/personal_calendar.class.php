@@ -41,7 +41,6 @@ class PersonalCalendar extends WebApplication
 	 */
 	public function run()
 	{
-		api_use_lang_files('agenda');
 		if (isset ($_GET['publish']) && $_GET['publish'] == 1)
 		{
 			$_SESSION['personal_calendar_publish'] = true;

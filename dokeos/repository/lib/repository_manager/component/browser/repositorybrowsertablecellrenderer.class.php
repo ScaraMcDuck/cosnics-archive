@@ -44,7 +44,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 				}
 				return '<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.$title.'">'.$title_short.'</a>';
 			case LearningObject :: PROPERTY_MODIFICATION_DATE:
-				return format_locale_date(Translation :: get_lang('dateFormatShort').', '.Translation :: get_lang('timeNoSecFormat'),$learning_object->get_modification_date());
+				return Text :: format_locale_date(Translation :: get_lang('dateFormatShort').', '.Translation :: get_lang('timeNoSecFormat'),$learning_object->get_modification_date());
 		}
 		return parent :: render_cell($column, $learning_object);
 	}

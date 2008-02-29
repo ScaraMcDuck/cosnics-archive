@@ -163,10 +163,10 @@ class SortableTable extends HTML_Table
 			$params['perPage'] = $this->per_page;
 			$params['totalItems'] = $total_number_of_items;
 			$params['urlVar'] = $this->param_prefix.'page_nr';
-			$params['prevImg'] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/prev.png"  style="vertical-align: middle;"/>';
-			$params['nextImg'] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/next.png"  style="vertical-align: middle;"/>';
-			$params['firstPageText'] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/first.png"  style="vertical-align: middle;"/>';
-			$params['lastPageText'] = '<img src="'.api_get_path(WEB_CODE_PATH).'img/last.png"  style="vertical-align: middle;"/>';
+			$params['prevImg'] = '<img src="'.Path :: get_path(WEB_IMG_PATH).'prev.png"  style="vertical-align: middle;"/>';
+			$params['nextImg'] = '<img src="'.Path :: get_path(WEB_IMG_PATH).'next.png"  style="vertical-align: middle;"/>';
+			$params['firstPageText'] = '<img src="'.Path :: get_path(WEB_IMG_PATH).'first.png"  style="vertical-align: middle;"/>';
+			$params['lastPageText'] = '<img src="'.Path :: get_path(WEB_IMG_PATH).'last.png"  style="vertical-align: middle;"/>';
 			$params['firstPagePre'] = '';
 			$params['lastPagePre'] = '';
 			$params['firstPagePost'] = '';
@@ -211,7 +211,7 @@ class SortableTable extends HTML_Table
 		{
 			$cols = $this->getColCount();
 			$this->setCellAttributes(1, 0, 'style="font-style: italic;text-align:center;" colspan='.$cols);
-			$this->setCellContents(1, 0, get_lang('NoSearchResults'));
+			$this->setCellContents(1, 0, Translation :: get_lang('NoSearchResults'));
 			$empty_table = true;
 		}
 		if (!$empty_table)
@@ -255,7 +255,7 @@ class SortableTable extends HTML_Table
 							</script>';
 				$params = $this->get_sortable_table_param_string.'&amp;'.$this->get_additional_url_paramstring();
 
-				$html[] = '<form method="post" action="'.$_SERVER['PHP_SELF'].'?'.$params.'" name="form_'.$this->table_name.'"  onsubmit="return anyCheckboxChecked(\'form_'.$this->table_name.'\') &amp;&amp; confirm(\''.addslashes(htmlentities(get_lang("ConfirmYourChoice"))).'\');">';
+				$html[] = '<form method="post" action="'.$_SERVER['PHP_SELF'].'?'.$params.'" name="form_'.$this->table_name.'"  onsubmit="return anyCheckboxChecked(\'form_'.$this->table_name.'\') &amp;&amp; confirm(\''.addslashes(htmlentities(Translation :: get_lang("ConfirmYourChoice"))).'\');">';
 			}
 		}
 		$html[] = $this->get_table_html();
@@ -267,15 +267,15 @@ class SortableTable extends HTML_Table
 			if (count($this->form_actions))
 			{
 				$html[] = '<div class="sortable_table_selection_controls">';
-				$html[] = '<a href="?'.$params.'&amp;'.$this->param_prefix.'selectall=1" onclick="setCheckbox(\'form_'.$this->table_name.'\', true); return false;">'.get_lang('SelectAll').'</a>';
-				$html[] = '<a href="?'.$params.'"  onclick="setCheckbox(\'form_'.$this->table_name.'\', false); return false;">'.get_lang('UnSelectAll').'</a> ';
+				$html[] = '<a href="?'.$params.'&amp;'.$this->param_prefix.'selectall=1" onclick="setCheckbox(\'form_'.$this->table_name.'\', true); return false;">'.Translation :: get_lang('SelectAll').'</a>';
+				$html[] = '<a href="?'.$params.'"  onclick="setCheckbox(\'form_'.$this->table_name.'\', false); return false;">'.Translation :: get_lang('UnSelectAll').'</a> ';
 				$html[] = '<select name="'.$this->form_actions_select_name.'">';
 				foreach ($this->form_actions as $action => $label)
 				{
 					$html[] = '<option value="'.$action.'">'.$label.'</option>';
 				}
 				$html[] = '</select>';
-				$html[] = ' <input type="submit" value="'.get_lang('Ok').'"/>';
+				$html[] = ' <input type="submit" value="'.Translation :: get_lang('Ok').'"/>';
 				$html[] = '</div>';
 			}
 			else

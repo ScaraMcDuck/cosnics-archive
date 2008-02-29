@@ -31,12 +31,8 @@
 
 define('DOKEOS_HOMEPAGE', true);
 include_once ("./main/inc/global.inc.php");
-include_once (api_get_library_path()."/debug.lib.inc.php");
-include_once (api_get_library_path()."/events.lib.inc.php");
-include_once (api_get_library_path()."/system_announcements.lib.php");
-include_once (api_get_library_path()."/text.lib.php");
 include_once Path :: get_path(WEB_LIB_PATH)."html/formvalidator/FormValidator.class.php";
-api_use_lang_files('courses', 'index');
+Translation :: set_application('general');
 $nameTools = $adm->retrieve_setting_from_variable_name('site_name', 'admin')->get_value();
 
 /* 
@@ -135,8 +131,8 @@ function handle_login_failed()
 {
 	$message = get_lang("InvalidId");
 	// TODO: Replace this by setting from DB.
-	if (api_is_self_registration_allowed())
-		$message = get_lang("InvalidForSelfRegistration");
+	//if (api_is_self_registration_allowed())
+	//	$message = get_lang("InvalidForSelfRegistration");
 	echo "<div id=\"login_fail\">".$message."</div>";
 }
 

@@ -23,15 +23,13 @@
 */
 // including the global init script
 require ('../../../../main/inc/global.inc.php');
-// including the relevant language file
-api_use_lang_files("agenda");
 // the variables for the days and the months
 // Defining the shorts for the days
-$DaysShort = array(get_lang("SundayShort"), get_lang("MondayShort"), get_lang("TuesdayShort"), get_lang("WednesdayShort"), get_lang("ThursdayShort"), get_lang("FridayShort"), get_lang("SaturdayShort"));
+$DaysShort = array(Translation :: get_lang("SundayShort"), Translation :: get_lang("MondayShort"), Translation :: get_lang("TuesdayShort"), Translation :: get_lang("WednesdayShort"), Translation :: get_lang("ThursdayShort"), Translation :: get_lang("FridayShort"), Translation :: get_lang("SaturdayShort"));
 // Defining the days of the week to allow translation of the days
-$DaysLong = array(get_lang("SundayLong"), get_lang("MondayLong"), get_lang("TuesdayLong"), get_lang("WednesdayLong"), get_lang("ThursdayLong"), get_lang("FridayLong"), get_lang("SaturdayLong"));
+$DaysLong = array(Translation :: get_lang("SundayLong"), Translation :: get_lang("MondayLong"), Translation :: get_lang("TuesdayLong"), Translation :: get_lang("WednesdayLong"), Translation :: get_lang("ThursdayLong"), Translation :: get_lang("FridayLong"), Translation :: get_lang("SaturdayLong"));
 // Defining the months of the year to allow translation of the months
-$MonthsLong = array(get_lang("JanuaryLong"), get_lang("FebruaryLong"), get_lang("MarchLong"), get_lang("AprilLong"), get_lang("MayLong"), get_lang("JuneLong"), get_lang("JulyLong"), get_lang("AugustLong"), get_lang("SeptemberLong"), get_lang("OctoberLong"), get_lang("NovemberLong"), get_lang("DecemberLong"));
+$MonthsLong = array(Translation :: get_lang("JanuaryLong"), Translation :: get_lang("FebruaryLong"), Translation :: get_lang("MarchLong"), Translation :: get_lang("AprilLong"), Translation :: get_lang("MayLong"), Translation :: get_lang("JuneLong"), Translation :: get_lang("JulyLong"), Translation :: get_lang("AugustLong"), Translation :: get_lang("SeptemberLong"), Translation :: get_lang("OctoberLong"), Translation :: get_lang("NovemberLong"), Translation :: get_lang("DecemberLong"));
 
 
 $iso_lang = $adm->retrieve_language_from_english_name($language_interface)->get_isocode();

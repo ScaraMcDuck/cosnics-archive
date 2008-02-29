@@ -253,9 +253,11 @@ abstract class Tool
 		// Roles and rights system
 		$user_id = $this->get_user_id();
 		$course_id = $this->get_course_id();
-		$role_id = RolesRights::get_local_user_role_id($user_id, $course_id);
-		$location_id = RolesRights::get_course_tool_location_id($course_id, $tool_name);
-		$this->rights = RolesRights::is_allowed_which_rights($role_id, $location_id);
+		
+		// TODO: New Roles & Rights system
+//		$role_id = RolesRights::get_local_user_role_id($user_id, $course_id);
+//		$location_id = RolesRights::get_course_tool_location_id($course_id, $tool_name);
+//		$this->rights = RolesRights::is_allowed_which_rights($role_id, $location_id);
 	}
 
 	/**

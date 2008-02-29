@@ -3,8 +3,6 @@
 require_once dirname(__FILE__) . '/../../learningobject.class.php';
 require_once dirname(__FILE__) . '/inc/learning_style_survey_model.class.php';
 
-api_use_lang_files('learning_style_survey');
-
 /**
  * @author Tim De Pauw
  */

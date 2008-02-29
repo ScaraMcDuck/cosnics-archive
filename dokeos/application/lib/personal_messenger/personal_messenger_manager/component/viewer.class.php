@@ -68,7 +68,7 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 		$html[] = '<div class="description">';
 		$html[] = '<b>'.Translation :: get_lang('MessageFrom'). '</b>:&nbsp;'. $sender->get_firstname(). '&nbsp;' .$sender->get_lastname() . '<br />';
 		$html[] = '<b>'.Translation :: get_lang('MessageTo'). '</b>:&nbsp;'. $recipient->get_firstname(). '&nbsp;' .$recipient->get_lastname() . '<br />';
-		$html[] = '<b>'.Translation :: get_lang('MessageDate'). '</b>:&nbsp;'. format_locale_date(Translation :: get_lang('dateFormatShort').', '.Translation :: get_lang('timeNoSecFormat'),$publication->get_published()) . '<br />';
+		$html[] = '<b>'.Translation :: get_lang('MessageDate'). '</b>:&nbsp;'. Text :: format_locale_date(Translation :: get_lang('dateFormatShort').', '.Translation :: get_lang('timeNoSecFormat'),$publication->get_published()) . '<br />';
 		$html[] = '<b>'.Translation :: get_lang('MessageSubject'). '</b>:&nbsp;'. $message->get_title();
 		$html[] = '</div>';
 		$html[] = '</div>';

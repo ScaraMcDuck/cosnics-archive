@@ -1226,18 +1226,19 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$statement = $this->connection->prepare($sql);
 		if ($statement->execute(array($course->get_id(), $user_id)))
 		{
-			$location_id = RolesRights::get_course_location_id($course->get_id());
-
-			$sql = 'DELETE FROM '.Database :: get_main_table(MAIN_USER_ROLE_TABLE).' WHERE '. $this->escape_column_name('user_id') .'=? AND'. $this->escape_column_name('location_id') .'=?';
-			$statement = $this->connection->prepare($sql);
-			if ($statement->execute(array($user_id, $location_id)))
-			{
+			// TODO: New Roles & Rights system
+//			$location_id = RolesRights::get_course_location_id($course->get_id());
+//
+//			$sql = 'DELETE FROM '.Database :: get_main_table(MAIN_USER_ROLE_TABLE).' WHERE '. $this->escape_column_name('user_id') .'=? AND'. $this->escape_column_name('location_id') .'=?';
+//			$statement = $this->connection->prepare($sql);
+//			if ($statement->execute(array($user_id, $location_id)))
+//			{
 				return true;
-			}
-			else
-			{
-				return false;
-			}
+//			}
+//			else
+//			{
+//				return false;
+//			}
 		}
 		else
 		{

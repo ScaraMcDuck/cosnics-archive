@@ -20,7 +20,7 @@ class CsvExport extends Export
 			fwrite($handle, '"'.implode('";"', $row).'"'."\n");
 		}
 		fclose($handle);
-		DocumentManager :: file_send_for_download($file, true, $file);
+		Filesystem :: file_send_for_download($file, true, $file);
 		exit;
 	}
 }

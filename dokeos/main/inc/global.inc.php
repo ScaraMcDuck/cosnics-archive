@@ -34,14 +34,13 @@ require_once dirname(__FILE__).'/../../common/filesystem/path.class.php';
 require_once(dirname(__FILE__).'/../../common/configuration/configuration.class.php');
 require_once(dirname(__FILE__).'/../../common/session/platformsession.class.php');
 require_once(dirname(__FILE__).'/../../common/translation/translation.class.php');
+require_once dirname(__FILE__).'/../../common/html/text.class.php';
 
 // Add the path to the pear packages to the include path
 ini_set('include_path',realpath(Path :: get_path(SYS_PLUGIN_PATH).'pear'));
 
 // Include the libraries that are necessary everywhere
-require_once(api_get_library_path().'/database.lib.php');
-require_once(api_get_library_path().'/display.lib.php');
-require_once(api_get_library_path().'/role_right.lib.php');
+require_once(Path :: get_path(SYS_LIB_PATH) . 'html/display.class.php');
 
 require_once(dirname(__FILE__).'/../../admin/lib/admindatamanager.class.php');
 require_once 'MDB2.php';
@@ -249,8 +248,6 @@ else
  */
 
 // TODO: Are these includes still necessary ?
-require_once (api_get_library_path().'/online.inc.php');
-require_once (api_get_library_path().'/events.lib.inc.php');
 require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
  
 // Login
@@ -349,6 +346,4 @@ else
 {
 	$language_interface = $adm->retrieve_setting_from_variable_name('platform_language', 'admin')->get_value();
 }
-
-api_use_lang_files('trad4all', 'notification');
 ?>
