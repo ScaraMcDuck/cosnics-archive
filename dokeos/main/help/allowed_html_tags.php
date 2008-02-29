@@ -31,10 +31,14 @@
 ==============================================================================
 */
 require_once ('../inc/global.inc.php');
-api_use_lang_files('help');
-require_once (api_get_library_path().'/formvalidator/FormValidator.class.php');
-require_once (api_get_library_path().'/formvalidator/Rule/HTML.php');
-$language_code = Database :: get_language_isocode($language_interface);
+
+Translation :: set_application('general');
+
+require_once (PATH :: get_path(SYS_LIB_PATH).'formvalidator/FormValidator.class.php');
+require_once (PATH :: get_path(SYS_LIB_PATH).'formvalidator/Rule/HTML.php');
+// TODO: Use AdminDataManager here ...
+//$language_code = Database :: get_language_isocode($language_interface);
+$language_code = 'en';
 header('Content-Type: text/html; charset='.$charset);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -44,11 +48,11 @@ header('Content-Type: text/html; charset='.$charset);
 <title>
 <?php echo get_lang('AllowedHTMLTags'); ?>
 </title>
-<link rel="stylesheet" type="text/css" href="<?php echo api_get_path(WEB_CODE_PATH); ?>css/default.css"/>
+<link rel="stylesheet" type="text/css" href="<?php echo Path :: get_path(WEB_CSS_PATH); ?>default.css"/>
 </head>
 <body>
 <div style="margin:10px;">
-<div style="text-align:right;"><a href="javascript:window.close();"><?php echo get_lang('Close'); ?></a></div>
+<div style="text-align:right;"><a href="javascript:window.close();"><?php echo Translation :: get_lang('Close'); ?></a></div>
 <h4>
 <?php echo get_lang('AllowedHTMLTags'); ?>
 </h4>
@@ -67,7 +71,25 @@ foreach ($tags as $tag => $attributes)
 	$row[] = '<kbd>&nbsp;'.implode(', ',array_keys($attributes)).'</kbd>';
 	$table_data[] = $row;
 }
-Display::display_sortable_table($table_header,$table_data,array(),array(),array('fullpage'=>$_GET['fullpage']));
+
+// TODO: Nicer solution for this page please ...
+
+$sorting_options = array();
+$paging_options = array();
+
+$column = isset ($sorting_options['column']) ? $sorting_options['column'] : 0;
+$default_items_per_page = isset ($paging_options['per_page']) ? $paging_options['per_page'] : 20;
+$table = new SortableTableFromArray($table_data, $column, $default_items_per_page);
+if (is_array($query_vars))
+{
+	$table->set_additional_parameters($query_vars);
+}
+foreach ($table_header as $index => $header_item)
+{
+	$table->set_header($index, $header_item[0], $header_item[1], $header_item[2], $header_item[3]);
+}
+$table->display();
+
 ?>
 <div style="text-align:right;"><a href="javascript:window.close();"><?php echo get_lang('Close'); ?></a></div>
 </div>

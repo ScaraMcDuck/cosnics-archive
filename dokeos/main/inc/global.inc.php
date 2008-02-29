@@ -32,7 +32,7 @@ require_once($includePath.'/lib/main_api.lib.php');
 // TODO: Move this to a common area since it's used everywhere.
 require_once dirname(__FILE__).'/../../common/filesystem/path.class.php';
 require_once(dirname(__FILE__).'/../../common/configuration/configuration.class.php');
-require_once(dirname(__FILE__).'/../../common/platformsession.class.php');
+require_once(dirname(__FILE__).'/../../common/session/platformsession.class.php');
 require_once(dirname(__FILE__).'/../../common/translation/translation.class.php');
 
 // Add the path to the pear packages to the include path
