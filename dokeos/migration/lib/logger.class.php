@@ -19,6 +19,7 @@ class Logger{
     function Logger($filename)
     {
     	$this->filename = Path :: get_path('SYS_PATH') . '/migration/logfiles/' . $filename;
+    	FileSystem :: write_to_file($this->filename, '',false);
     }
     
     /**
@@ -45,22 +46,29 @@ class Logger{
     function get_microtime() 
     { 
     	list($usec, $sec) = explode(" ",microtime()); 
-    	return ((float)$usec + (float)$sec)*1000; 
+    	return ((float)$usec + (float)$sec); 
 	}
 	
     /**
-     * 
+     * function to set the start time
      */
      function set_start_time()
      {
      	$this->begin = $this->get_microtime();
      }
      
+     /**
+      * function to write the used time
+      */
      function write_passed_time()
      {
-     	$this->add_message('Passed Time: ' . (int)($this->get_microtime() - $this->begin) . ' ms');
+     	$this->add_message('Passed Time: ' . (int)($this->get_microtime() - $this->begin) . ' s');
      }
      
+     /**
+      * function to get the timestamps
+      * @return String returns the timestamps used in a log file
+      */
      function get_timestamp()
      {
      	setlocale ( LC_TIME, 0);
