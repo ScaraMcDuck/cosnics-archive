@@ -41,7 +41,6 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		// 2. Write the config files
 		// TODO: Unify both config files
 		$config_file = $this->write_config_file($values);
-		$config_file = $this->write_vintage_config_file($values);
 		$this->process_result('config', $config_file);
 		flush();
 		
@@ -217,52 +216,6 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 			return array('success' => false, 'message' => get_lang('ConfigWriteFailed'));
 		}
 	}
-		
-	function write_vintage_config_file($values)
-	{
-		global $dokeos_version;
-		global $urlAppendPath;
-	
-		$file_path = dirname(__FILE__).'/../../../../../../main/install/configuration.dist.php';
-		$content = file_get_contents($file_path);
-		$config['{DOKEOS_VERSION}'] = $dokeos_version;
-		$config['{DATE_GENERATED}'] = date('r');
-		$config['{DATABASE_HOST}'] = $values['database_host'];
-		$config['{DATABASE_USER}'] = $values['database_username'];
-		$config['{DATABASE_PASSWORD}'] = $values['database_password'];
-		$config['{DATABASE_NAME}'] = $values['database_name'];
-		$config['{ROOT_WEB}'] = $values['platform_url'];
-		$config['{ROOT_SYS}'] = str_replace('\\', '/', realpath($values['platform_url']).'/');
-		$config['{URL_APPEND_PATH}'] = str_replace('/install/index.php', '', $_SERVER['PHP_SELF']);
-		$config['{GARBAGE_DIR}'] = str_replace("\\", "/", realpath("../garbage/")."/");
-		$config['{PLATFORM_LANGUAGE}'] = $values['platform_language'];
-		$config['{SECURITY_KEY}'] = md5(uniqid(rand().time()));
-		$config['{ENCRYPT_PASSWORD}'] = $values['encrypt_password'];
-		foreach ($config as $key => $value)
-		{
-			$content = str_replace($key, $value, $content);
-		}
-		$fp = fopen('../main/inc/conf/config.inc.php', 'w');
-	
-		if ($fp !== false)
-		{
-			
-			if (fwrite($fp, $content))
-			{
-				fclose($fp);
-				return array('success' => true, 'message' => get_lang('VintageConfigWriteSuccess'));
-			}
-			else
-			{
-				return array('success' => false, 'message' => get_lang('VintageConfigWriteFailed'));
-			}
-		}
-		else
-		{
-			return array('success' => false, 'message' => get_lang('VintageConfigWriteFailed'));
-		}
-	}
-	
 	
 	function display_install_block_header($application)
 	{
