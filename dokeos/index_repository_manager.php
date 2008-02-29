@@ -9,7 +9,7 @@ Translation :: set_application('repository');
 
 if (!api_get_user_id())
 {
-	api_not_allowed();
+	Display :: display_not_allowed();
 }
 
 $usermgr = new UserManager(api_get_user_id());

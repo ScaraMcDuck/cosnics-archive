@@ -7,7 +7,7 @@ Translation :: set_application($this_section);
 
 if (!api_get_user_id())
 {
-	api_not_allowed();
+	Display :: display_not_allowed();
 }
 
 $usermgr = new UserManager(api_get_user_id());
@@ -15,7 +15,7 @@ $user = $usermgr->retrieve_user(api_get_user_id());
 
 if (!$user->is_platform_admin())
 {
-	api_not_allowed();
+	Display :: display_not_allowed();
 }
 
 $app = new Admin($user);

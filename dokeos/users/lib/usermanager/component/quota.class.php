@@ -19,7 +19,7 @@ class UserManagerQuotaComponent extends UserManagerComponent
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('UserQuota'));
 		if (!$this->get_user()->is_platform_admin()) 
 		{
-			api_not_allowed();
+			Display :: display_not_allowed();
 		}
 		$id = $_GET[UserManager :: PARAM_USER_USER_ID];
 		if ($id)

@@ -16,7 +16,7 @@ class UserManagerRegisterComponent extends UserManagerComponent
 	{	
 		if ($this->get_platform_setting('allow_registration', 'admin')->get_value() == 'false')
 		{
-			api_not_allowed();
+			Display :: display_not_allowed();
 		}
 		
 		$user_id = $this->get_user_id();
