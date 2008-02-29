@@ -268,8 +268,8 @@ EOT;
 	function add_progress_bar($delay = 2)
 	{
 		$this->with_progress_bar = true;
-		$this->updateAttributes("onsubmit=\"myUpload.start('dynamic_div','".Path :: get_path(WEB_CODE_PATH)."img/progress_bar.gif','".get_lang('PleaseStandBy')."','".$this->getAttribute('id')."')\"");
-		$this->addElement('html','<script language="javascript" src="'.Path :: get_path(WEB_CODE_PATH).'inc/lib/javascript/upload.js" type="text/javascript"></script>');
+		$this->updateAttributes("onsubmit=\"myUpload.start('dynamic_div','".Path :: get_path(WEB_IMG_PATH)."progress_bar.gif','".get_lang('PleaseStandBy')."','".$this->getAttribute('id')."')\"");
+		$this->addElement('html','<script language="javascript" src="'.Path :: get_path(WEB_LIB_PATH).'javascript/upload.js" type="text/javascript"></script>');
 		$this->addElement('html','<script type="text/javascript">var myUpload = new upload('.(abs(intval($delay))*1000).');</script>');
     }
 
