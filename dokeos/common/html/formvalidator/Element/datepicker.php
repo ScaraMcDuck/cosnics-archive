@@ -45,7 +45,7 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
 		$this->_type = 'datepicker';
 		$popup_link = '<a href="javascript:openCalendar(\''.$js_form_name.'\',\''.$elementName.'\')"><img src="'.Path :: get_path(WEB_CODE_PATH).'/img/calendar_select.gif" style="vertical-align:middle;"/></a>';
 		$special_chars = array ('D', 'l', 'd', 'M', 'F', 'm', 'y', 'H', 'a', 'A', 's', 'i', 'h', 'g', ' ');
-		$hour_minute_devider = get_lang("HourMinuteDivider");
+		$hour_minute_devider = Translation :: get_lang("HourMinuteDivider");
 		foreach ($special_chars as $index => $char)
 		{
 			$popup_link = str_replace($char, "\\".$char, $popup_link);
@@ -61,7 +61,7 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
 		// If translation not available in PEAR::HTML_QuickForm_date, add the Dokeos-translation
 		if(! array_key_exists($editor_lang,$this->_locale))
 		{
-			$this->_locale[$editor_lang]['months_long'] = array (get_lang("JanuaryLong"), get_lang("FebruaryLong"), get_lang("MarchLong"), get_lang("AprilLong"), get_lang("MayLong"), get_lang("JuneLong"), get_lang("JulyLong"), get_lang("AugustLong"), get_lang("SeptemberLong"), get_lang("OctoberLong"), get_lang("NovemberLong"), get_lang("DecemberLong"));
+			$this->_locale[$editor_lang]['months_long'] = array (Translation :: get_lang("JanuaryLong"), Translation :: get_lang("FebruaryLong"), Translation :: get_lang("MarchLong"), Translation :: get_lang("AprilLong"), Translation :: get_lang("MayLong"), Translation :: get_lang("JuneLong"), Translation :: get_lang("JulyLong"), Translation :: get_lang("AugustLong"), Translation :: get_lang("SeptemberLong"), Translation :: get_lang("OctoberLong"), Translation :: get_lang("NovemberLong"), Translation :: get_lang("DecemberLong"));
 		}
 		$this->_options['format'] = 'dFY '.$popup_link.'   H '.$hour_minute_devider.' i';
 		$this->_options['minYear'] = date('Y')-1;

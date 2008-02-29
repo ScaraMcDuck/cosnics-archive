@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../common/condition/notcondition.class.php';
 require_once dirname(__FILE__).'/../common/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../common/condition/orcondition.class.php';
 
-api_use_lang_files('repository');
+Translation :: set_application('repository');
 
 if (api_get_user_id())
 {

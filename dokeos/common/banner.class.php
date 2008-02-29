@@ -56,41 +56,6 @@ class Banner
 		
 		// TODO: Reimplement "Who is online ?" 
 
-//		if (($this->get_setting('showonline_world') == "true" AND !$_SESSION['_uid']) OR ($this->get_setting('showonline_users') == "true" AND $_SESSION['_uid']) OR ($this->get_setting('showonline_course') == "true" AND $_SESSION['_uid'] AND $_SESSION['_cid']))
-//		{
-//			$statistics_database = Database :: get_statistic_database();
-//			$number = count(WhoIsOnline(api_get_user_id(), $statistics_database, 30));
-//			$online_in_course = who_is_online_in_this_course(api_get_user_id(), 30, $_course['id']);
-//			$number_online_in_course = count($online_in_course);
-//			$output[] = "<li>".Translation :: get_lang('UsersOnline').": ";
-//
-//			// Display the who's online of the platform
-//			if (($this->get_setting('showonline_world') == "true" AND !$_SESSION['_uid']) OR ($this->get_setting('showonline_users') == "true" AND $_SESSION['_uid']))
-//			{
-//				$output[] = "<a href='".$this->get_path(WEB_PATH)."whoisonline.php' target='_top'>".$number."</a>";
-//			}
-//
-//			// Display brackets if who's online of the campus AND who's online in the course are active
-//			if ($this->get_setting('showonline_users') == "true" AND $this->get_setting('showonline_course') == "true" AND $_course)
-//			{
-//				$output[] = '(';
-//			}
-//
-//			// Display the who's online for the course
-//			if ($_course AND $this->get_setting('showonline_course') == "true")
-//			{
-//				$output[] = "<a href='".$this->get_path(REL_CLARO_PATH)."online/whoisonlinecourse.php' target='_top'>$number_online_in_course ".Translation :: get_lang('InThisCourse')."</a>";
-//			}
-//
-//			// Display brackets if who's online of the campus AND who's online in the course are active
-//			if ($this->get_setting('showonline_users') == "true" AND $this->get_setting('showonline_course') == "true" AND $_course)
-//			{
-//				$output[] = ')';
-//			}
-//
-//			$output[] = '</li>';
-//		}
-
 		$output[] = '</ul>';
 		$output[] = '</div>';
 		$output[] = '<!-- link to campus home (not logged in)';

@@ -120,16 +120,17 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 		}
 	}
 
-	function is_allowed($right)
-	{
-		$user_id = $this->get_user_id();
-		$course_id = $this->get_course_id();
-		$role_id = RolesRights::get_local_user_role_id($user_id, $course_id);
-		$location_id = RolesRights::get_course_location_id($course_id, TOOL_COURSE_HOMEPAGE);
-
-		$result = RolesRights::is_allowed_which_rights($role_id, $location_id);
-		return $result[$right];
-	}
+// TODO: New Roles & Rights system
+//	function is_allowed($right)
+//	{
+//		$user_id = $this->get_user_id();
+//		$course_id = $this->get_course_id();
+//		$role_id = RolesRights::get_local_user_role_id($user_id, $course_id);
+//		$location_id = RolesRights::get_course_location_id($course_id, TOOL_COURSE_HOMEPAGE);
+//
+//		$result = RolesRights::is_allowed_which_rights($role_id, $location_id);
+//		return $result[$right];
+//	}
 
 	function is_course()
 	{

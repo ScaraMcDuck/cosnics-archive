@@ -354,7 +354,7 @@ abstract class LearningObjectPublicationListRenderer
 	function format_date($date)
 	{
 		$date_format = Translation :: get_lang('dateTimeFormatLong');
-		return format_locale_date($date_format,$date);
+		return Text :: format_locale_date($date_format,$date);
 	}
 
 	/**

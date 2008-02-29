@@ -10,14 +10,12 @@ require_once dirname(__FILE__).'/../main/inc/lib/main_api.lib.php';
 ini_set('include_path',realpath(dirname(__FILE__).'/../plugin/pear'));
 
 require_once dirname(__FILE__).'/../main/inc/installedVersion.inc.php';
-require_once dirname(__FILE__).'/../main/inc/lib/text.lib.php';
-require_once dirname(__FILE__).'/../main/inc/lib/database.lib.php';
-require_once dirname(__FILE__).'/../main/inc/lib/display.lib.php';
+require_once dirname(__FILE__).'/../common/html/display.class.php';
 require_once dirname(__FILE__).'/lib/install_manager/installmanager.class.php';
 //TODO: Temporary solution
 //require_once dirname(__FILE__).'/../common/filesystem/path.class.php';
 
-api_use_lang_files('trad4all', 'install');
+Translation :: set_application($this_section);
 $language_interface = 'english';
 
 $repmgr = new InstallManager(null);

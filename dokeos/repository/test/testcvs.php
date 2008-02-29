@@ -7,8 +7,7 @@ The file is based on the fill_tables file and has been modded by Maarten Dauwe
 require_once dirname(__FILE__).'/../../main/inc/global.inc.php';
 require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
-api_use_lang_files('repository');
-//api_protect_admin_script();
+Translation :: set_application('repository');
 Display :: display_header();
 set_time_limit(0);
 // create new form 

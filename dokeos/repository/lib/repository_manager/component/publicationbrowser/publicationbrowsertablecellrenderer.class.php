@@ -36,7 +36,7 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 		switch ($column->get_learning_object_property())
 		{
 			case LearningObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE:
-				return format_locale_date(Translation :: get_lang('dateFormatShort').', '.Translation :: get_lang('timeNoSecFormat'),$learning_object->get_publication_date());
+				return Text :: format_locale_date(Translation :: get_lang('dateFormatShort').', '.Translation :: get_lang('timeNoSecFormat'),$learning_object->get_publication_date());
 		}
 		return parent :: render_cell($column, $learning_object);
 	}

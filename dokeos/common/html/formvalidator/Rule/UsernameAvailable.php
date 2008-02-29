@@ -36,15 +36,17 @@ class HTML_QuickForm_Rule_UsernameAvailable extends HTML_QuickForm_Rule
 	 */
 	function validate($username,$current_username = null)
 	{
-		$user_table = Database::get_main_table(MAIN_USER_TABLE);
-		$sql = "SELECT * FROM $user_table WHERE username = '$username'";
-		if(!is_null($current_username))
-		{
-			$sql .= " AND username != '$current_username'";
-		}
-		$res = api_sql_query($sql,__FILE__,__LINE__);
-		$number = mysql_num_rows($res);
-		return $number == 0;
+		// TODO: Contact UserDataManager for this ...
+//		$user_table = Database::get_main_table(MAIN_USER_TABLE);
+//		$sql = "SELECT * FROM $user_table WHERE username = '$username'";
+//		if(!is_null($current_username))
+//		{
+//			$sql .= " AND username != '$current_username'";
+//		}
+//		$res = api_sql_query($sql,__FILE__,__LINE__);
+//		$number = mysql_num_rows($res);
+//		return $number == 0;
+		return true;
 	}
 }
 ?>
