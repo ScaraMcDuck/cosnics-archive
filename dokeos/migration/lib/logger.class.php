@@ -1,5 +1,8 @@
 <?php
+
 require_once(dirname(__FILE__) . '/../../common/filesystem/filesystem.class.php');
+require_once(dirname(__FILE__) . '/../../common/filesystem/path.class.php');
+
 /**
  * package migration.lib
  * 
@@ -8,15 +11,14 @@ require_once(dirname(__FILE__) . '/../../common/filesystem/filesystem.class.php'
 class Logger{
 
 	private $filename;
-	private $filesystem;
+	private $begin;
 	
 	/**
 	 * Constructor for creating a logfile
 	 */
-    function logger($filename)
+    function Logger($filename)
     {
-    	this->$filename = '/../migration/logfiles/' . $filename;
-    	$filesystem = new Filesystem();
+    	$this->filename = Path :: get_path('SYS_PATH') . '/migration/logfiles/' . $filename;
     }
     
     /**
@@ -25,7 +27,7 @@ class Logger{
      */
     function add_message($message)
     {
-    	$filesystem->write_to_file($filename, $message,true);
+    	FileSystem :: write_to_file($this->filename, $this->get_timestamp() . $message . "\n",true);
     }
     
     /**
@@ -34,7 +36,36 @@ class Logger{
      */
     function get_log_path()
     {
-    	return $filename;
+    	return $this->filename;
     }
+    
+    /**
+     * function to get the microtime
+     */
+    function get_microtime() 
+    { 
+    	list($usec, $sec) = explode(" ",microtime()); 
+    	return ((float)$usec + (float)$sec)*1000; 
+	}
+	
+    /**
+     * 
+     */
+     function set_start_time()
+     {
+     	$this->begin = $this->get_microtime();
+     }
+     
+     function write_passed_time()
+     {
+     	$this->add_message('Passed Time: ' . (int)($this->get_microtime() - $this->begin) . ' ms');
+     }
+     
+     function get_timestamp()
+     {
+     	setlocale ( LC_TIME, 0);
+     	$timestamp = strftime("[%H:%M:%S] ", time());
+     	return  $timestamp;
+     }
 }
 ?>
