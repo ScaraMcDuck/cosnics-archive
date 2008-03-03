@@ -515,7 +515,7 @@ class Dokeos185Course extends Import
 	 * Sets the unsubscribe of this course.
 	 * @param int $unsubscribe The unsubscribe.
 	 */
-	function set_subscribe($unsubscribe)
+	function set_unsubscribe($unsubscribe)
 	{
 		$this->subscribe = $unsubscribe;
 	}
