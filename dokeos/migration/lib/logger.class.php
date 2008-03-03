@@ -21,7 +21,7 @@ class Logger{
     {
     	$this->filename = Path :: get_path('SYS_PATH') . '/migration/logfiles/' . $filename;
     	Filesystem::create_dir(dirname($filename));
-    	$this->file = fopen($this->filename, 'a');
+    	$this->file = fopen($this->filename, 'w');
     }
     
     /**
