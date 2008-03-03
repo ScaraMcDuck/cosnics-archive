@@ -87,7 +87,6 @@ class Dokeos185DataManager extends MigrationDataManager
 		$users = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$user = $this->record_to_user($record);
 			$users[] = $this->record_to_user($record);
 			
 		}
@@ -178,6 +177,160 @@ class Dokeos185DataManager extends MigrationDataManager
 		
 		return $path;
 	}
+	
+	/** Get all the categories of the courses from the dokeos185 database
+	 * @return array of Dokeos185CourseCategory
+	 */
+	function get_all_courses_category()
+	{
+		$this->db_connect('main_database');
+		$query = 'SELECT * FROM course_category';
+		$result = $this->db->query($query);
+		$course_categories = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$course_categories[] = $this->record_to_course_category($record);
+			
+		}
+		$result->free();
+		
+		return $courses;
+	}
+	
+	/**
+	 * Map a resultset record to a Dokeos185CourseCategory Object
+	 * @param ResultSetRecord $record from database
+	 * @return Dokeos185CourseCategory object with mapped data
+	 */
+	function record_to_course_category($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Dokeos185CourseCategory :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new Dokeos185CourseCategory($defaultProp);
+	}
+
+	/** Get all the courses from the dokeos185 database
+	 * @return array of Dokeos185Courses
+	 */
+	function get_all_courses()
+	{
+		$this->db_connect('main_database');
+		$query = 'SELECT * FROM course';
+		$result = $this->db->query($query);
+		$courses = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$courses[] = $this->record_to_course($record);
+			
+		}
+		$result->free();
+		
+		return $courses;
+	}
+	
+	/**
+	 * Map a resultset record to a Dokeos185Course Object
+	 * @param ResultSetRecord $record from database
+	 * @return Dokeos185Course object with mapped data
+	 */
+	function record_to_course($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Dokeos185Course :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new Dokeos185Course($defaultProp);
+	}
+	
+	/** Get all the class relations of courses from the dokeos185 database
+	 * @return array of Dokeos185CoursesRelClass
+	 */
+	function get_all_course_rel_class()
+	{
+		$this->db_connect('main_database');
+		$query = 'SELECT * FROM course_rel_class';
+		$result = $this->db->query($query);
+		$course_rel_classes = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$course_rel_classes[] = $this->record_to_course_rel_class($record);
+			
+		}
+		$result->free();
+		
+		return $course_rel_classes;
+	}
+	
+	/**
+	 * Map a resultset record to a Dokeos185CourseRelClass Object
+	 * @param ResultSetRecord $record from database
+	 * @return Dokeos185CourseRelClass object with mapped data
+	 */
+	function record_to_course_rel_class($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Dokeos185CourseRelClass :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new Dokeos185CourseRelClass($defaultProp);
+	}
+	
+	/** Get all the user relations of courses from the dokeos185 database
+	 * @return array of Dokeos185CoursesRelUser
+	 */
+	function get_all_course_rel_user()
+	{
+		$this->db_connect('main_database');
+		$query = 'SELECT * FROM course_rel_user';
+		$result = $this->db->query($query);
+		$course_rel_users = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$course_rel_users[] = $this->record_to_course_rel_user($record);
+			
+		}
+		$result->free();
+		
+		return $course_rel_users;
+	}
+	
+	/**
+	 * Map a resultset record to a Dokeos185CourseRelUser Object
+	 * @param ResultSetRecord $record from database
+	 * @return Dokeos185CourseRelUser object with mapped data
+	 */
+	function record_to_course_rel_user($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Dokeos185CourseRelUser :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new Dokeos185CourseRelUser($defaultProp);
+	}
+	
+	
 }
 
 ?>
