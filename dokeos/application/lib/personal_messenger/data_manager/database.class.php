@@ -7,7 +7,7 @@
 require_once dirname(__FILE__).'/../personalmessengerdatamanager.class.php';
 require_once dirname(__FILE__).'/../personalmessagepublication.class.php';
 require_once dirname(__FILE__).'/database/databasepersonalmessagepublicationresultset.class.php';
-require_once dirname(__FILE__).'/../../../../common/condition/conditiontranslator.class.php';
+require_once Path :: get_library_path().'condition/conditiontranslator.class.php';
 
 require_once 'MDB2.php';
 

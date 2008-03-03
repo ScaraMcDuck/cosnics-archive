@@ -5,9 +5,9 @@
 require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object_table/learningobjecttabledataprovider.class.php';
 require_once dirname(__FILE__).'/../../../../../repository/lib/learningobject.class.php';
 require_once dirname(__FILE__).'/../../../../../repository/lib/repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../../../../../common/condition/equalitycondition.class.php';
-require_once dirname(__FILE__).'/../../../../../common/condition/andcondition.class.php';
-require_once dirname(__FILE__).'/../../../../../common/condition/orcondition.class.php';
+require_once Path :: get_library_path().'condition/equalitycondition.class.php';
+require_once Path :: get_library_path().'condition/andcondition.class.php';
+require_once Path :: get_library_path().'condition/orcondition.class.php';
 /**
  * This class represents a data provider for a publication candidate table
  */

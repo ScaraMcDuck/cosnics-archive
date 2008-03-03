@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../common/configuration/configuration.class.php';
+require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../../repository/lib/repository_manager/repositorymanager.class.php';
 require_once dirname(__FILE__).'/../../users/lib/usermanager/usermanager.class.php';
 

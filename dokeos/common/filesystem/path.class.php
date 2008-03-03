@@ -116,5 +116,10 @@ class Path
 				return;
 		}
     }
+    
+    public static function get_library_path()
+    {
+    	return self :: get_path(SYS_LIB_PATH);
+    }
 }
 ?>

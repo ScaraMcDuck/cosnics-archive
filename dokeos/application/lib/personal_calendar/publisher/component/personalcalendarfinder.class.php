@@ -4,7 +4,7 @@
  * @package application.personal_calendar
  */
 require_once dirname(__FILE__).'/personalcalendarbrowser.class.php';
-require_once dirname(__FILE__).'/../../../../../common/html/formvalidator/FormValidator.class.php';
+require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
  * Finder component of the personal calendar event publisher. This component can
  * be used to search in the repository.

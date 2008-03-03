@@ -3,10 +3,10 @@
  * @package application.lib.profiler.publisher
  */
 require_once dirname(__FILE__).'/profilebrowser.class.php';
-require_once dirname(__FILE__).'/../../../../common/condition/andcondition.class.php';
-require_once dirname(__FILE__).'/../../../../common/condition/orcondition.class.php';
-require_once dirname(__FILE__).'/../../../../common/condition/patternmatchcondition.class.php';
-require_once dirname(__FILE__).'/../../../../common/html/formvalidator/FormValidator.class.php';
+require_once Path :: get_library_path().'condition/andcondition.class.php';
+require_once Path :: get_library_path().'condition/orcondition.class.php';
+require_once Path :: get_library_path().'condition/patternmatchcondition.class.php';
+require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
  * This class represents a profiler publisher component which can be used
  * to search for a certain learning object.
