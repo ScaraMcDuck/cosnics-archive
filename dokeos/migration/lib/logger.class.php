@@ -11,6 +11,7 @@ require_once(dirname(__FILE__) . '/../../common/filesystem/path.class.php');
 class Logger{
 
 	private $filename;
+	private $file;
 	private $begin;
 	
 	/**
@@ -19,7 +20,8 @@ class Logger{
     function Logger($filename)
     {
     	$this->filename = Path :: get_path('SYS_PATH') . '/migration/logfiles/' . $filename;
-    	FileSystem :: write_to_file($this->filename, '',false);
+    	Filesystem::create_dir(dirname($filename));
+    	$this->file = fopen($this->filename, 'a');
     }
     
     /**
@@ -28,7 +30,16 @@ class Logger{
      */
     function add_message($message)
     {
-    	FileSystem :: write_to_file($this->filename, $this->get_timestamp() . $message . "\n",true);
+    	fwrite($this->file, $this->get_timestamp() . $message . "\n");
+    }
+    
+    /**
+     * close the log file
+     */
+    function close_file()
+    {
+    	fclose($this->file);
+		chmod($this->file, 0777);
     }
     
     /**
