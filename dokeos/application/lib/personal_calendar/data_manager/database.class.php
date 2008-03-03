@@ -4,7 +4,7 @@
  * @package application.personal_calendar
  */
 require_once dirname(__FILE__).'/../personalcalendardatamanager.class.php';
-require_once dirname(__FILE__).'/../../../../common/condition/conditiontranslator.class.php';
+require_once Path :: get_library_path().'condition/conditiontranslator.class.php';
 require_once 'MDB2.php';
 /**
  * This is an implementation of a personal calendar datamanager using the PEAR::

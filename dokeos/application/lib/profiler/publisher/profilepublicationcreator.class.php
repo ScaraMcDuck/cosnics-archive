@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/../../../../repository/lib/repositorydatamanage
 require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectdisplay.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectform.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
-require_once dirname(__FILE__).'/../../../../common/html/formvalidator/FormValidator.class.php';
+require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
  * This class represents a profile publisher component which can be used
  * to create a new learning object before publishing it.

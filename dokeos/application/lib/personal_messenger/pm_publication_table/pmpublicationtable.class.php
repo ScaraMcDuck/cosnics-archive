@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../../../common/html/table/sortabletable.class.php';
+require_once Path :: get_library_path().'html/table/sortabletable.class.php';
 require_once dirname(__FILE__).'/defaultpmpublicationtablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/defaultpmpublicationtablecellrenderer.class.php';
 
