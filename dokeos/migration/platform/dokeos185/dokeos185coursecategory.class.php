@@ -10,9 +10,15 @@ require_once dirname(__FILE__).'/../../lib/import/importcourse.class.php';
  * This class represents an old Dokeos 1.8.5 course_category
  *
  * @author David Van Wayenbergh
+ * @author Sven Vanpoucke
  */
 
-class Dokeos185CourseCategory extends Import{
+class Dokeos185CourseCategory extends Import
+{
+	/**
+	 * Migration data manager
+	 */
+	private static $mgdm;
 	
 	/**
 	 * course category properties
@@ -246,13 +252,23 @@ class Dokeos185CourseCategory extends Import{
 		$this->auth_cat_child = $auth_cat_child;
 	}
 	
+	function is_valid_course_category()
+	{
+		if(!$this->get_name() || !$this->get_code() || !$this->get_parent_id())
+		{
+			self :: $mgdm->add_failed_element($this->get_id(),
+				'dokeos_main.course_category');
+			return false;
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * Migration course_category
 	 */
 	function convert_to_new_course_category()
-	{
-		$mgdm = MigrationDataManager :: getInstance('Dokeos185');
-		
+	{	
 		//Course category parameters
 		$lcms_course_category = new CourseCategory();
 		
@@ -272,8 +288,14 @@ class Dokeos185CourseCategory extends Import{
 		$lcms_course_category->create();
 		
 		//Add id references to temp table
-		$mgdm->add_id_reference($this->get_id(), $lcms_course_category->get_id(), 'weblcms_course_category');
+		self :: $mgdm->add_id_reference($this->get_id(), $lcms_course_category->get_id(), 'weblcms_course_category');
 			
+	}
+	
+	function get_all_course_categories($mgdm)
+	{
+		self :: $mgdm = $mgdm;
+		return self :: $mgdm->get_all_course_categories();	
 	}
 }
 ?>

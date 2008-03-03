@@ -10,10 +10,15 @@ require_once dirname(__FILE__).'/../../lib/import/importcourse.class.php';
  * This class represents an old Dokeos 1.8.5 course
  *
  * @author David Van Wayenbergh
+ * @author Sven Vanpoucke
  */
 
 class Dokeos185Course extends Import
 {
+	/**
+	 * Migration data manager
+	 */
+	private static $mgdm;
 	
 	/**
 	 * course properties
@@ -422,15 +427,6 @@ class Dokeos185Course extends Import
 	}
 	
 	/**
-	 * Sets the visual_code of this course.
-	 * @param String $visual_code The visual_code.
-	 */
-	function set_visual_code($visual_code)
-	{
-		$this->visual_code = $visual_code;
-	}
-	
-	/**
 	 * Sets the department_name of this course.
 	 * @param String $department_name The department_name.
 	 */
@@ -503,15 +499,6 @@ class Dokeos185Course extends Import
 	}
 	
 	/**
-	 * Sets the subscribe of this course.
-	 * @param int $subscribe The subscribe.
-	 */
-	function set_subscribe($subscribe)
-	{
-		$this->subscribe = $subscribe;
-	}
-	
-	/**
 	 * Sets the unsubscribe of this course.
 	 * @param int $unsubscribe The unsubscribe.
 	 */
@@ -527,6 +514,18 @@ class Dokeos185Course extends Import
 	function set_registration_code($registration_code)
 	{
 		$this->registration_code = $registration_code;
+	}
+	
+	function is_valid_course()
+	{
+		if(!$this->get_code() || !$this->get_show_score())
+		{
+			self :: $mgdm->add_failed_element($this->get_code(),
+				'dokeos_main.course');
+			return false;
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -555,7 +554,13 @@ class Dokeos185Course extends Import
 		$lcms_course->create();
 		
 		//Add id references to temp table
-		$mgdm->add_id_reference($this->get_code(), $lcms_course->get_id(), 'weblcms_course');
+		self :: $mgdm->add_id_reference($this->get_code(), $lcms_course->get_code(), 'weblcms_course');
+	}
+	
+	function get_all_courses($mgdm)
+	{
+		self :: $mgdm = $mgdm;
+		return self :: $mgdm->get_all_courses();
 	}
 }
 ?>

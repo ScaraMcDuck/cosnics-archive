@@ -700,7 +700,7 @@ class Dokeos185User extends Import
 		self :: $mgdm->add_id_reference($this->get_user_id(), $lcms_user->get_user_id(), 'user_user');
 		
 		// Create user directory
-		$rep_dir = '/files/repository/' . $lcms_user->get_user_id() . '/';
+		//$rep_dir = '/files/repository/' . $lcms_user->get_user_id() . '/';
 		//self :: $mgdm->create_directory(true, $rep_dir);
 		
 		// Repository_Profile parameters

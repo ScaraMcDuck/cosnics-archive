@@ -54,12 +54,12 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			$message = $message . '<br />' . $fcourses;
 		}
 		
-		if(count($this->$failed_course_rel_user) > 0)
+		if(count($this->failed_course_rel_user) > 0)
 			$message = $message . '<br / ><br />' . 
 				Translation :: get_lang('Course_User_Relation_failed')  . ' (' .
 				Translation :: get_lang('Dont_forget') . ')';
 			
-		foreach($this->$failed_course_rel_user as $fcourserelusers)
+		foreach($this->failed_course_rel_user as $fcourserelusers)
 		{
 			$message = $message . '<br />' . $fcourserelusers;
 		}
@@ -91,13 +91,13 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
 		//Migrate course categories
-		$this->migrate_coursecategories();
+		$this->migrate_course_categories();
 		
 		//Migrate the courses
-		$this->migrate_courses();
+		//$this->migrate_courses();
 		
 		//Migrate course users
-		$this->migrate_course_users();
+		//$this->migrate_course_users();
 	
 		//Close the logfile
 		$this->logfile->write_all_messages();
@@ -114,7 +114,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		
 		$coursecategoryclass =  Import :: factory($this->old_system, 'coursecategory');
 		$coursecategories = array();
-		$coursecategories = $coursecategoryclass->get_all_coursecategories($this->mgdm);
+		$coursecategories = $coursecategoryclass->get_all_course_categories($this->mgdm);
 		
 		foreach($coursecategories as $coursecategory)
 		{
@@ -122,7 +122,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			{
 				$lcms_coursecategory = $coursecategory->convert_to_new_course_category();
 				$this->logfile->add_message('Course category added ( ' . 
-					$coursecategory->get_id() . ' )');
+					$lcms_coursecategory->get_id() . ' )');
 			}
 			else
 			{
@@ -151,11 +151,11 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			if($course->is_valid_course())
 			{
 				$lcms_course = $course->convert_to_new_course();
-				$this->logfile->add_message('Course added ( ' . $lcms_course->get_id() . ' )');
+				$this->logfile->add_message('Course added ( ' . $lcms_course->get_code() . ' )');
 			}
 			else
 			{
-				$message = 'Course is not valid ( ' . $course->get_id() . ' )';
+				$message = 'Course is not valid ( ' . $course->get_code() . ' )';
 				$this->logfile->add_message($message);
 				$this->failed_courses[] = $message;
 			}
@@ -171,23 +171,26 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		
 		$coursereluserclass = Import :: factory($this->old_system, 'coursereluser');
 		$courserelusers = array();
-		$courserelusers = $coursereluserclass->get_all_courses($this->mgdm);
+		$courserelusers = $coursereluserclass->get_all_course_rel_user($this->mgdm);
 		
 		foreach($courserelusers as $coursereluser)
 		{
-			if($courserelusers->is_valid_course_user_relation())
+			if($coursereluser->is_valid_course_user_relation())
 			{
-				$lcms_courserelusers = $courserelusers->convert_to_new_course_user_relation();
-				$this->logfile->add_message('Course user relation added ( ' . $lcms_courserelusers->get_id() . ' )');
+				$lcms_coursereluser = $coursereluser->convert_to_new_course_user_relation();
+				$this->logfile->add_message('Course user relation added ( ' 
+					. $lcms_coursereluser->get_course_code() . ' ' .
+					  $lcms_coursereluser->get_user_id() . ' )');
 			}
 			else
 			{
-				$message = 'Course user relation is not valid ( ' . $courserelusers->get_id() . ' )';
+				$message = 'Course user relation is not valid ( '
+					. $coursereluser->get_course_code() . ' ' .
+					  $coursereluser->get_user_id() . ' )';
 				$this->logfile->add_message($message);
 				$this->failed_course_rel_user[] = $message;
 			}
 		}
-		
 
 		$this->logfile->add_message('Course user relations migrated');
 	}
