@@ -181,7 +181,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	/** Get all the categories of the courses from the dokeos185 database
 	 * @return array of Dokeos185CourseCategory
 	 */
-	function get_all_courses_category()
+	function get_all_course_categories()
 	{
 		$this->db_connect('main_database');
 		$query = 'SELECT * FROM course_category';

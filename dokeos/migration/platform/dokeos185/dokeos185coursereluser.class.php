@@ -9,11 +9,16 @@ require_once dirname(__FILE__).'/../../lib/import/importcourse.class.php';
 /**
  * This class represents an old Dokeos 1.8.5 course_rel_user
  *
- * @author David Van Wayenbergh
+ * @author David Van Wayenberghµ
+ * @author Sven Vanpoucke
  */
  
-class Dokeos185CourseRelUser extends Import{
-
+class Dokeos185CourseRelUser extends Import
+{
+	/**
+	 * Migration data manager
+	 */
+	private static $mgdm;
 
 	/**
 	 * course relation user properties
@@ -178,15 +183,6 @@ class Dokeos185CourseRelUser extends Import{
 	}
 	
 	/**
-	 * Sets the course_code of this rel_user.
-	 * @param String $course_code The course_code.
-	 */
-	function set_course_code($course_code)
-	{
-		$this->course_code = $course_code;
-	}
-	
-	/**
 	 * Sets the user_id of this rel_user.
 	 * @param int $user_id The user_id.
 	 */
@@ -249,13 +245,24 @@ class Dokeos185CourseRelUser extends Import{
 		$this->user_course_cat = $user_course_cat;
 	}
 	
+	function is_valid_course_user_relation()
+	{
+		if(!$this->get_course_code() || !$this->get_user_id() || !$this->get_status() 
+			|| !$this->get_group_id() || $this->get_tutor_id())
+		{
+			self :: $mgdm->add_failed_element($this->get_user_id(),
+				'dokeos_main.user');
+			return false;
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * Migration course user relation
 	 */
 	function convert_to_new_course_rel_user()
 	{
-		$mgdm = MigrationDataManager :: getInstance('Dokeos185');
-		
 		//course_rel_user parameters
 		$lcms_course_rel_user = new CourseUserRelation();
 		$lcms_course_rel_user->set_course($this->get_course_code());
@@ -273,5 +280,11 @@ class Dokeos185CourseRelUser extends Import{
 		
 		//create user in database
 		$lcms_course_rel_user->create();
+	}
+	
+	function get_all_course_rel_user($mgdm)
+	{
+		self :: $mgdm = $mgdm;
+		return self :: $mgdm->get_all_course_rel_user();
 	}
 }
