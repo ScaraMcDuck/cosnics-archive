@@ -2,7 +2,6 @@
 /**
  * @package users.lib.usermanager
  */
-require_once dirname(__FILE__).'/../../../main/inc/global.inc.php';
 require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../usersdatamanager.class.php';
@@ -151,7 +150,7 @@ class UserForm extends FormValidator {
     {
     	$user = $this->user;
     	$values = $this->exportValues();
-    	$password = $values['pw']['pass'] == '1' ? md5(api_generate_password()) : ($values['pw']['pass'] == '2' ? $user->get_password() : md5($values['pw'][User :: PROPERTY_PASSWORD]));
+    	$password = $values['pw']['pass'] == '1' ? md5(Text :: generate_password()) : ($values['pw']['pass'] == '2' ? $user->get_password() : md5($values['pw'][User :: PROPERTY_PASSWORD]));
     	if ($_FILES[User :: PROPERTY_PICTURE_URI] && file_exists($_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name']))
     	{
 			$user->set_picture_file($_FILES[User :: PROPERTY_PICTURE_URI]);
@@ -194,7 +193,7 @@ class UserForm extends FormValidator {
     	$user = $this->user;
     	$values = $this->exportValues();
 
-    	$password = $values['pw']['pass'] == '1' ? api_generate_password() : $values['pw'][User :: PROPERTY_PASSWORD];
+    	$password = $values['pw']['pass'] == '1' ? Text :: generate_password() : $values['pw'][User :: PROPERTY_PASSWORD];
 
     	if ($_FILES[User :: PROPERTY_PICTURE_URI] && file_exists($_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name']))
     	{
@@ -278,12 +277,12 @@ class UserForm extends FormValidator {
 		$lastname = $user->get_lastname();
 		$username = $user->get_username();
 		$password = $this->unencryptedpass;
-		$emailto = '"'.$firstname.' '.$lastname.'" <'.$user->get_email().'>';
-		$emailsubject = '['.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value().'] '.Translation :: get_lang('YourReg').' '.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value();
-		$emailheaders = 'From: '.$this->adminDM->retrieve_setting_from_variable_name('administrator_firstname')->get_value().' '.$this->adminDM->retrieve_setting_from_variable_name('administrator_surname')->get_value().' <'.$this->adminDM->retrieve_setting_from_variable_name('administrator_email')->get_value().">\n";
-		$emailheaders .= 'Reply-To: '.$this->adminDM->retrieve_setting_from_variable_name('administrator_email')->get_value();
-		$emailbody=Translation :: get_lang('Dear')." ".stripslashes("$firstname $lastname").",\n\n".Translation :: get_lang('YouAreReg')." ". $this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value() ." ".Translation :: get_lang('Settings')." ". $username ."\n". Translation :: get_lang('Password')." : ".stripslashes($password)."\n\n" .Translation :: get_lang('Address') ." ". $this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value() ." ". Translation :: get_lang('Is') ." : ". $rootWeb ."\n\n". Translation :: get_lang('Problem'). "\n\n". Translation :: get_lang('Formula').",\n\n".$this->adminDM->retrieve_setting_from_variable_name('administrator_firstname')->get_value()." ".$this->adminDM->retrieve_setting_from_variable_name('administrator_surname')->get_value()."\n". Translation :: get_lang('Manager'). " ".$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value()."\nT. ".$this->adminDM->retrieve_setting_from_variable_name('administrator_telephone')->get_value()."\n" .Translation :: get_lang('Email') ." : ".$this->adminDM->retrieve_setting_from_variable_name('administrator_email')->get_value();
-		@api_send_mail($emailto, $emailsubject, $emailbody, $emailheaders);
+		
+		$subject = '['.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value().'] '.Translation :: get_lang('YourReg').' '.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value();
+		$body = Translation :: get_lang('Dear')." ".stripslashes("$firstname $lastname").",\n\n".Translation :: get_lang('YouAreReg')." ". $this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value() ." ".Translation :: get_lang('Settings')." ". $username ."\n". Translation :: get_lang('Password')." : ".stripslashes($password)."\n\n" .Translation :: get_lang('Address') ." ". $this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value() ." ". Translation :: get_lang('Is') ." : ". $rootWeb ."\n\n". Translation :: get_lang('Problem'). "\n\n". Translation :: get_lang('Formula').",\n\n".$this->adminDM->retrieve_setting_from_variable_name('administrator_firstname')->get_value()." ".$this->adminDM->retrieve_setting_from_variable_name('administrator_surname')->get_value()."\n". Translation :: get_lang('Manager'). " ".$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value()."\nT. ".$this->adminDM->retrieve_setting_from_variable_name('administrator_telephone')->get_value()."\n" .Translation :: get_lang('Email') ." : ".$this->adminDM->retrieve_setting_from_variable_name('administrator_email')->get_value();		
+		
+		$mail = Mail :: factory($subject, $body, $user->get_email(), $this->adminDM->retrieve_setting_from_variable_name('administrator_email')->get_value());
+		$mail->send();
 	}
 }
 ?>

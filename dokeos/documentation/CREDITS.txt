@@ -215,9 +215,6 @@ PclZip library - Vincent Blavet (http://www.phpconcept.net)
 --------------------------------
  Library Contributions
 --------------------------------
-main_api
-all developers
-
 database library
 Roan Embrechts
 Bart Mollet

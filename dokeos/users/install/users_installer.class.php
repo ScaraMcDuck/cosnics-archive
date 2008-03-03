@@ -89,7 +89,7 @@ class UsersInstaller extends Installer
 		$user->set_firstname($values['admin_firstname']);
 		$user->set_username($values['admin_username']);
 		$user->set_password(md5($values['admin_password']));
-		$user->set_auth_source(PLATFORM_AUTH_SOURCE);
+		$user->set_auth_source('platform');
 		$user->set_email($values['admin_email']);
 		$user->set_status('1');
 		$user->set_platformadmin('1');

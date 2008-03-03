@@ -1,6 +1,6 @@
 <?php
 // $Id$
-require ('../../../../main/inc/global.inc.php');
+require ('../../../global.inc.php');
 ?>
 var day;
 var month;

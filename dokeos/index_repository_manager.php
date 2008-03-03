@@ -1,19 +1,19 @@
 <?php
 $cidReset = true;
 $this_section = 'myrepository';
-require_once dirname(__FILE__).'/main/inc/global.inc.php';
+require_once dirname(__FILE__).'/common/global.inc.php';
 require_once dirname(__FILE__).'/repository/lib/repository_manager/repositorymanager.class.php';
 require_once dirname(__FILE__).'/users/lib/usermanager/usermanager.class.php';
 
 Translation :: set_application('repository');
 
-if (!api_get_user_id())
+if (!PlatformSession :: get_user_id())
 {
 	Display :: display_not_allowed();
 }
 
-$usermgr = new UserManager(api_get_user_id());
-$user = $usermgr->retrieve_user(api_get_user_id());
+$usermgr = new UserManager(PlatformSession :: get_user_id());
+$user = $usermgr->retrieve_user(PlatformSession :: get_user_id());
 
 $repmgr = new RepositoryManager($user);
 try

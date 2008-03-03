@@ -32,7 +32,7 @@ class LearningStyleSurveyProfileForm extends LearningObjectForm
 			return;
 		}
 		$dm = RepositoryDataManager :: get_instance();
-		$cond = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, api_get_user_id());
+		$cond = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, PlatformSession :: get_user_id());
 		$survey_map = array();
 		$surveys = array();
 		foreach ($dm->retrieve_learning_objects('learning_style_survey', $cond)->as_array() as $survey) {

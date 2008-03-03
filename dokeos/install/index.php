@@ -4,12 +4,8 @@ session_start();
 $cidReset = true;
 $this_section = 'install';
 
-$GLOBALS['clarolineRepositorySys'] = dirname(__FILE__) . '/../main/';
-
-require_once dirname(__FILE__).'/../main/inc/lib/main_api.lib.php';
 ini_set('include_path',realpath(dirname(__FILE__).'/../plugin/pear'));
 
-require_once dirname(__FILE__).'/../main/inc/installedVersion.inc.php';
 require_once dirname(__FILE__).'/../common/html/display.class.php';
 require_once dirname(__FILE__).'/lib/install_manager/installmanager.class.php';
 //TODO: Temporary solution

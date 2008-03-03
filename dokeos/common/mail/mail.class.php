@@ -58,7 +58,7 @@ abstract class Mail
 	 */
 	public static function factory($subject,$message,$to,$from = null, $cc = array(),$bcc = array())
 	{
-		// This value should come from configuration and can be one of the available mail-implementations
+		// TODO: This value should come from configuration and can be one of the available mail-implementations
 		$mail_file = 'default';
 		require_once dirname(__FILE__).'/'.$mail_file.'/'.$mail_file.'mail.class.php';
 		$mail_class = ucfirst($mail_file).'Mail';

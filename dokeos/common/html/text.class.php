@@ -124,5 +124,20 @@ class Text
 		}
 		return $textext;
 	}
+	
+	public static function generate_password($length = 8)
+	{
+		$characters = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+		if ($length < 2)
+		{
+			$length = 2;
+		}
+		$password = '';
+		for ($i = 0; $i < $length; $i ++)
+		{
+			$password .= $characters[rand() % strlen($characters)];
+		}
+		return $password;
+	}
 }
 ?>

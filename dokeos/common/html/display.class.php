@@ -60,8 +60,8 @@ define("HTML_WHITE", "white");
 *	@version 1.0.4
 *	@package dokeos.library
 */
-require_once 'table/sortabletable.class.php';
-require_once(dirname(__FILE__).'/../footer.class.php');
+require_once(dirname(__FILE__).'/table/sortabletable.class.php');
+require_once(dirname(__FILE__).'/footer.class.php');
 
 class Display
 {
@@ -214,7 +214,7 @@ class Display
 	{
 		$nameTools = $tool_name;
 		global $language_interface, $adm, $httpHeadXtra, $htmlHeadXtra, $_course, $_user, $clarolineRepositoryWeb, $text_dir, $plugins, $_uid, $rootAdminWeb, $_cid, $interbredcrump, $charset, $noPHP_SELF;
-		include (Path :: get_path(SYS_CODE_PATH).'inc/header.inc.php');
+		include (Path :: get_path(SYS_LIB_PATH).'html/header.inc.php');
 	}
 	/**
 	 * Display the page footer

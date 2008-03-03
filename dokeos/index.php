@@ -30,7 +30,7 @@
 */
 
 define('DOKEOS_HOMEPAGE', true);
-include_once ("./main/inc/global.inc.php");
+include_once ("./common/global.inc.php");
 include_once Path :: get_path(WEB_LIB_PATH)."html/formvalidator/FormValidator.class.php";
 Translation :: set_application('general');
 $nameTools = $adm->retrieve_setting_from_variable_name('site_name', 'admin')->get_value();
@@ -64,7 +64,7 @@ function display_anonymous_right_menu()
 
 	$platformLanguage = $adm->retrieve_setting_from_variable_name('platform_language', 'admin')->get_value();
 
-	$_uid = api_get_user_id();
+	$_uid = PlatformSession :: get_user_id();
 	if ( !(isset($_uid) && $_uid) ) // only display if the user isn't logged in
 	{
 		// TODO: New Language form
@@ -161,7 +161,7 @@ function display_login_form()
 */
 function display_applications_list()
 {
-	$_uid = api_get_user_id();
+	$_uid = PlatformSession :: get_user_id();
 	$applications = Application::load_all();
 	if (count($applications))
 	{

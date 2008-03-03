@@ -245,7 +245,8 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 //			// TODO: SCARA - Add meaningfull publication removal message
 //			$body = 'message';
 //			$user = $this->userDM->retrieve_user($publication->get_publisher_id());
-//			api_send_mail($user->get_email(), $subject, $body);
+//			$mail = Mail :: factory($subject, $body, $user->get_email());
+//			$mail->send();
 			$this->delete_personal_message_publication($publication);
 		}
 		return true;

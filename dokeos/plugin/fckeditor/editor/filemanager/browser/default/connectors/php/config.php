@@ -28,7 +28,7 @@ global $Config ;
 $Config['Enabled'] = true ;
 
 //Dokeos config
-require_once(dirname(__FILE__).'/../../../../../../../../main/inc/global.inc.php');
+require_once(dirname(__FILE__).'/../../../../../../../../common/global.inc.php');
 
 // Path to user files relative to the document root.
 $Config['UserFilesPath'] = Path :: get_path(REL_FCK_PATH).$_uid.'/'; ;

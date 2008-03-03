@@ -20,7 +20,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$publication_id = $this->browser->get_publication_id();
 		$dm = WeblcmsDataManager :: get_instance();
 		$publication = $dm->retrieve_learning_object_publication($publication_id);
-		$form = LearningObjectForm::factory(LearningObjectForm :: TYPE_CREATE,new AbstractLearningObject('feedback',api_get_user_id()),'new_feedback','post',$this->browser->get_url(array('pid'=>$this->browser->get_publication_id())));
+		$form = LearningObjectForm::factory(LearningObjectForm :: TYPE_CREATE,new AbstractLearningObject('feedback',PlatformSession :: get_user_id()),'new_feedback','post',$this->browser->get_url(array('pid'=>$this->browser->get_publication_id())));
 		//$this->browser->get_parent()->set_parameter('pid',$publication_id);
 		//$pub = new LearningObjectPublisher($this->browser->get_parent(), 'feedback', true);
 				

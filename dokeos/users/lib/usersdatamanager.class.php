@@ -163,7 +163,7 @@ abstract class UsersDataManager
 	 */
 	public function logout()
 	{
-		$user = $this->retrieve_user(api_get_user_id());
+		$user = $this->retrieve_user(PlatformSession :: get_user_id());
 		$authentication_method = $user->get_auth_source();
 		$authentication_class_file = dirname(__FILE__).'/../../common/authentication/'.$authentication_method.'/'.$authentication_method.'authentication.class.php';
 		$authentication_class = ucfirst($authentication_method).'Authentication';
