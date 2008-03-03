@@ -130,10 +130,10 @@ class InstallManager
 		echo '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">'."\n";
 		echo '<head>'."\n";
 		echo '<title>-- ' .$dokeos_version . ' Installation --</title>'."\n";
-		echo '<link rel="stylesheet" href="../main/css/default.css" type="text/css"/>'."\n";
+		echo '<link rel="stylesheet" href="../layout/css/default.css" type="text/css"/>'."\n";
 		echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'."\n";		
 		echo '</head>'."\n";
-		echo '<body dir="'. get_lang('text_dir') .'">' . "\n";
+		echo '<body dir="'. Translation :: get_lang('text_dir') .'">' . "\n";
 		
 		echo '<!-- #outerframe container to control some general layout of all pages -->'."\n";
 		echo '<div id="outerframe">'."\n";
@@ -321,8 +321,8 @@ class InstallManager
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => get_lang('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
-		return array('application' => array('name' => get_lang('Repository'), 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS)));
+		$links[] = array('name' => Translation :: get_lang('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
+		return array('application' => array('name' => Translation :: get_lang('Repository'), 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS)));
 	}
 
 	public function get_link($parameters = array (), $encode = false)

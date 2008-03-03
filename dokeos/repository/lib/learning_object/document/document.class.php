@@ -43,16 +43,14 @@ class Document extends LearningObject
 	}
 	function delete()
 	{
-		$path = Configuration :: get_instance()->get_parameter('general', 'upload_path');
-		$path = $path.'/'.$this->get_path();
+		$path = Path :: get_path(SYS_FILE_PATH) . $this->get_path();
 		Filesystem::remove($path);
 		parent :: delete();
 	}
 
 	function delete_version()
 	{
-		$path = Configuration :: get_instance()->get_parameter('general', 'upload_path');
-		$path = $path.'/'.$this->get_path();
+		$path = Path :: get_path(SYS_FILE_PATH) . $this->get_path();
 		if (RepositoryDataManager :: get_instance()->is_only_document_occurence($this->get_path()))
 		{
 			Filesystem::remove($path);
@@ -62,7 +60,7 @@ class Document extends LearningObject
 
 	function get_url()
 	{
-		return Configuration :: get_instance()->get_parameter('general', 'upload_url').'/'.$this->get_path();
+		return Path :: get_path(SYS_FILE_PATH) . $this->get_path();
 	}
 	function get_full_path()
 	{

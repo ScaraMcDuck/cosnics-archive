@@ -17,15 +17,6 @@ $configuration['database']['connection_string']
 $configuration['general']['root_web']
 	= '{ROOT_WEB}';
 	
-$configuration['general']['root_sys']
-	= dirname(__FILE__) . '/../../';
-	
-$configuration['general']['upload_path']
-	= dirname(__FILE__).'/../../files/repository';
-
-$configuration['general']['upload_url']
-	= $configuration['general']['root_web'] . 'files/repository';
-	
 $configuration['general']['url_append']
 	= '{URL_APPEND}';
 	
