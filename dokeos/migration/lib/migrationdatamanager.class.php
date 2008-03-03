@@ -259,6 +259,17 @@ abstract class MigrationDataManager
 	 	$result = $this->db_lcms->query($query);
 	 	return ($result->numRows() > 0);
 	 }
+	 
+	 /**
+	  * Checks if a code is allready available in a table
+	  */
+	 function code_available($table_name, $code)
+	 {
+	 	$this->db_lcms_connect();
+	 	$query = 'SELECT id AS \'count\' FROM ' . $table_name . ' WHERE code=\'' . $code . '\'';
+	 	$result = $this->db-lcms->query($query);
+	 	return ($result->numRows() > 0);
+	 }
 }
 
 ?>

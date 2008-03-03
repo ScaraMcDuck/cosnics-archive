@@ -190,11 +190,10 @@ class Dokeos185DataManager extends MigrationDataManager
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$course_categories[] = $this->record_to_course_category($record);
-			
 		}
 		$result->free();
 		
-		return $courses;
+		return $course_categories;
 	}
 	
 	/**
