@@ -248,4 +248,30 @@ class Dokeos185CourseRelUser extends Import{
 	{
 		$this->user_course_cat = $user_course_cat;
 	}
+	
+	/**
+	 * Migration course user relation
+	 */
+	function convert_to_new_course_rel_user()
+	{
+		$mgdm = MigrationDataManager :: getInstance('Dokeos185');
+		
+		//course_rel_user parameters
+		$lcms_course_rel_user = new CourseUserRelation();
+		$lcms_course_rel_user->set_course($this->get_course_code());
+		
+		$user_id = $mgdm->get_id_reference($this->get_user_id(), 'user_user');
+		if($user_id)
+			$lcms_course_rel_user->set_user($user_id);
+		
+		$lcms_course_rel_user->set_status($this->get_status());
+		$lcms_course_rel_user->set_role($this->get_role());
+		$lcms_course_rel_user->set_group($this->get_group_id());
+		$lcms_course_rel_user->set_tutor($this->get_tutor_id());
+		$lcms_course_rel_user->set_sort($this->get_sort());
+		$lcms_course_rel_user->set_category($this->get_user_course_cat());
+		
+		//create user in database
+		$lcms_course_rel_user->create();
+	}
 }

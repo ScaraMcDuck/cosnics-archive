@@ -701,7 +701,7 @@ class Dokeos185User extends Import
 		
 		// Create user directory
 		$rep_dir = '/files/repository/' . $lcms_user->get_user_id() . '/';
-		self :: $mgdm->create_directory(true, $rep_dir);
+		//self :: $mgdm->create_directory(true, $rep_dir);
 		
 		// Repository_Profile parameters
 		$lcms_repository_profile = new Profile();

@@ -142,7 +142,7 @@ class Dokeos185CourseCategory extends Import{
 	 * Returns the tree_pos of this category.
 	 * @return int The tree_pos.
 	 */
-	function tree_pos()
+	function get_tree_pos()
 	{
 		return $this->tree_pos;
 	}
@@ -244,6 +244,36 @@ class Dokeos185CourseCategory extends Import{
 	function set_auth_cat_child($auth_cat_child)
 	{
 		$this->auth_cat_child = $auth_cat_child;
+	}
+	
+	/**
+	 * Migration course_category
+	 */
+	function convert_to_new_course_category()
+	{
+		$mgdm = MigrationDataManager :: getInstance('Dokeos185');
+		
+		//Course category parameters
+		$lcms_course_category = new CourseCategory();
+		
+		$lcms_course_category->set_name($this->get_name());
+		$lcms_course_category->set_code($this->get_code());
+		
+		$parent_id = $mgdm->get_id_reference($this->get_parent_id(), 'weblcms_course_category');
+		if($parent_id)
+			$lcms_course_category->set_parent($parent_id);
+		
+		$lcms_course_category->set_tree_pos($this->get_tree_pos());
+		$lcms_course_category->set_children_count($this->get_children_count());
+		$lcms_course_category->set_auth_course_child($this->get_auth_course_child());
+		$lcms_course_category->set_auth_cat_child($this->get_auth_cat_child());
+		
+		//create course_category in database
+		$lcms_course_category->create();
+		
+		//Add id references to temp table
+		$mgdm->add_id_reference($this->get_id(), $lcms_course_category->get_id(), 'weblcms_course_category');
+			
 	}
 }
 ?>

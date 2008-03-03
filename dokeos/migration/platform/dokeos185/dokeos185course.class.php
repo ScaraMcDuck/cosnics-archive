@@ -29,6 +29,7 @@ class Dokeos185Course extends Import
 	const PROPERTY_SHOW_SCORE = 'show_score';
 	const PROPERTY_TUTOR_NAME = 'tutor_name';
 	const PROPERTY_VISUAL_CODE = 'visual_code';
+	const PROPERTY_DEPARTMENT_NAME = 'department_name';
 	const PROPERTY_DEPARTMENT_URL = 'department_url';
 	const PROPERTY_DISK_QUOTA = 'disk_quota';
 	const PROPERTY_LAST_VISIT = 'last_visit';
@@ -91,7 +92,8 @@ class Dokeos185Course extends Import
 		self::PROPERTY_TUTOR_NAME,self::PROPERTY_VISUAL_CODE,self::PROPERTY_DEPARTMENT_URL,
 		self::PROPERTY_DISK_QUOTA,self::PROPERTY_LAST_VISIT,self::PROPERTY_LAST_EDIT,
 		self::PROPERTY_CREATION_DATE,self::PROPERTY_EXPIRATION_DATE,self::PROPERTY_TARGET_COURSE_CODE,
-		self::PROPERTY_SUBSCRIBE,self::PROPERTY_UNSUBSCRIBE,self::PROPERTY_REGISTRATION_CODE);
+		self::PROPERTY_SUBSCRIBE,self::PROPERTY_UNSUBSCRIBE,self::PROPERTY_REGISTRATION_CODE,
+		self::PROPERTY_DEPARTMENT_NAME);
 	}
 	
 	/**
@@ -222,6 +224,15 @@ class Dokeos185Course extends Import
 	}
 	
 	/**
+	 * Returns the department_name of this course.
+	 * @return String The department_name.
+	 */
+	function get_department_name()
+	{
+		return $this->department_name;
+	}
+	
+	/**
 	 * Returns the department_url of this course.
 	 * @return String The department_url.
 	 */
@@ -243,7 +254,7 @@ class Dokeos185Course extends Import
 	 * Returns the last_visit of this course.
 	 * @return String The last_visit.
 	 */
-	function last_visit()
+	function get_last_visit()
 	{
 		return $this->last_visit;
 	}
@@ -297,7 +308,7 @@ class Dokeos185Course extends Import
 	 * Returns the unsubscribe of this course.
 	 * @return int The unsubscribe.
 	 */
-	function get_unsubsribe()
+	function get_unsubscribe()
 	{
 		return $this->unsubscribe;
 	}
@@ -420,6 +431,15 @@ class Dokeos185Course extends Import
 	}
 	
 	/**
+	 * Sets the department_name of this course.
+	 * @param String $department_name The department_name.
+	 */
+	function set_department_name($department_name)
+	{
+		$this->department_name = $department_name;
+	}
+	
+	/**
 	 * Sets the department_url of this course.
 	 * @param String $department_url The department_url.
 	 */
@@ -507,6 +527,35 @@ class Dokeos185Course extends Import
 	function set_registration_code($registration_code)
 	{
 		$this->registration_code = $registration_code;
+	}
+	
+	/**
+	 * Migration courses
+	 */
+	function convert_to_new_courses()
+	{
+		$mgdm = MigrationDataManager :: getInstance('Dokeos185');
+		
+		//Course parameters
+		$lcms_course = new Course();
+		$lcms_course->set_db($this->get_db_name());
+		$lcms_course->set_path($this->get_directory());
+		$lcms_course->set_language($this->get_course_language());
+		$lcms_course->set_name($this->get_title());
+		$lcms_course->set_category_code($this->get_category_code());
+		$lcms_course->set_visibility($this->get_visibility());
+		$lcms_course->set_titular($this->get_tutor_name());
+		$lcms_course->set_visual($this->get_visual_code());
+		$lcms_course->set_extlink_name($this->get_department_name());
+		$lcms_course->set_extlink_url($this->get_department_url());
+		$lcms_course->set_subscribe_allowed($this->get_subscribe());
+		$lcms_course->set_unsubscribe_allowed($this->get_unsubscribe());
+		
+		//create course in database
+		$lcms_course->create();
+		
+		//Add id references to temp table
+		$mgdm->add_id_reference($this->get_code(), $lcms_course->get_id(), 'weblcms_course');
 	}
 }
 ?>
