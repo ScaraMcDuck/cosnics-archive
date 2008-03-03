@@ -4,6 +4,8 @@ session_start();
 $cidReset = true;
 $this_section = 'migration';
 
+ini_set('include_path',realpath(dirname(__FILE__).'/../plugin/pear'));
+
 require_once dirname(__FILE__).'/../main/inc/installedVersion.inc.php';
 require_once dirname(__FILE__).'/lib/migration_manager/migrationmanager.class.php';
 require_once dirname(__FILE__).'/../main/inc/global.inc.php';

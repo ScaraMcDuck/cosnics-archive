@@ -52,12 +52,13 @@ class MigrationWizardProcess extends HTML_QuickForm_Action
 			if($user->is_valid_user())
 			{
 				$lcms_user = $user->convert_to_new_user();
-				//$logfile->add_message('User added (' . $lcms_user->get_user_id() . ')');
+				$logfile->add_message('User added (' . $lcms_user->get_user_id() . ')');
 			}
 			else
 			{
 				$message = 'User is not valid (' . $user->get_user_id() . ')';
-				//$logfile->add_message('User is not valid (' . $user->get_user_id() . ')');
+				$logfile->add_message('User is not valid (' . $user->get_user_id() . ')');
+				echo($message . '<br />');
 			}
 		}
 		

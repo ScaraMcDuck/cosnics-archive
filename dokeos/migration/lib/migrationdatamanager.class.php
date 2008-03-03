@@ -44,7 +44,7 @@ abstract class MigrationDataManager
 		return self :: $instances[$platform];
 	}
 	
-	function __construct()
+	function MigrationDataManager()
 	{
 		$this->db_lcms_connect();
 	}
@@ -153,7 +153,7 @@ abstract class MigrationDataManager
 	 */
 	function add_recovery_element($old_path,$new_path)
 	{
-		$this->db_lcms_connect();
+
 		$query = 'INSERT INTO ' . self :: TEMP_RECOVERY_TABLE .
 				 '(old_path, new_path) VALUES (\''.
 					$old_path . '\',\''.$new_path .'\')';
@@ -182,7 +182,7 @@ abstract class MigrationDataManager
 	 */
 	 function get_failed_element($id)
 	 {	
-	 	$this->db_lcms_connect();
+		$this->db_lcms_connect();
 	 	$query = 'SELECT * FROM ' . self :: TEMP_FAILED_ELEMENTS_TABLE . 
 				 ' WHERE id = \'' . $id . '\'';
 		$result = $this->db_lcms->query($query);

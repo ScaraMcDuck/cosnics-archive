@@ -30,9 +30,9 @@ class Dokeos185DataManager extends MigrationDataManager
 	 */
 	private $db;
 	
-	function __construct()
+	function Dokeos185DataManager()
 	{
-		parent :: __construct();
+		parent :: MigrationDataManager();
 	}
 	
 	/**

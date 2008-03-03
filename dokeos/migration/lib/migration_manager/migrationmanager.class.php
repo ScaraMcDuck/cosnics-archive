@@ -121,7 +121,7 @@ class MigrationManager
 		echo '<link rel="stylesheet" href="../main/css/default.css" type="text/css"/>'."\n";
 		echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'."\n";		
 		echo '</head>'."\n";
-		echo '<body dir="'. get_lang('text_dir') .'">' . "\n";
+		echo '<body dir="'. Translation :: get_lang('text_dir') .'">' . "\n";
 		
 		echo '<!-- #outerframe container to control some general layout of all pages -->'."\n";
 		echo '<div id="outerframe">'."\n";
