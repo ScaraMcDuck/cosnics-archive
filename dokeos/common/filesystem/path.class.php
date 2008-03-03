@@ -12,8 +12,6 @@ define('WEB_LIB_PATH', 'WEB_LIB_PATH');
 define('SYS_LIB_PATH', 'SYS_LIB_PATH');
 define('WEB_PLUGIN_PATH', 'WEB_PLUGIN_PATH');
 define('SYS_PLUGIN_PATH', 'SYS_PLUGIN_PATH');
-define('WEB_CODE_PATH', 'WEB_CODE_PATH');
-define('SYS_CODE_PATH', 'SYS_CODE_PATH');
 define('WEB_FILE_PATH', 'WEB_FILE_PATH');
 define('SYS_FILE_PATH', 'SYS_FILE_PATH');
 define('REL_FILE_PATH', 'REL_FILE_PATH');
@@ -68,10 +66,6 @@ class Path
 				return self :: get_path(WEB_PATH) . 'plugin/';
 			case SYS_PLUGIN_PATH :
 				return self :: get_path(SYS_PATH) . 'plugin/';
-			case WEB_CODE_PATH :
-				return self :: get_path(WEB_PATH) . 'main/';
-			case SYS_CODE_PATH :
-				return self :: get_path(SYS_PATH) . 'main/';
 			case WEB_FILE_PATH :
 				return self :: get_path(WEB_PATH) . 'files/';
 			case SYS_FILE_PATH :

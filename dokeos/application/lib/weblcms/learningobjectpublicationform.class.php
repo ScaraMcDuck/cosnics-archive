@@ -258,9 +258,11 @@ class LearningObjectPublicationForm extends FormValidator
 			
 			$subject = '['.$site_name_setting->get_value().'] '.$learning_object->get_title();
 			$body = new html2text($display->get_full_html());
-			//@todo: send email to correct users/groups. For testing, the email is sent now to the publisher.
+			// TODO: send email to correct users/groups. For testing, the email is sent now to the publisher.
 			$user = $this->user;
-			if(api_send_mail($user->get_email(),$learning_object->get_title(),$body->get_text()))
+			$mail = Mail :: factory($learning_object->get_title(), $body->get_text(), $user->get_email());
+			
+			if($mail->send())
 			{
 				$pub->set_email_sent(true);
 			}

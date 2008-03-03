@@ -8,6 +8,7 @@ require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../../common/configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../learningobject.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/conditiontranslator.class.php';
+require_once dirname(__FILE__).'/../../../admin/lib/admindatamanager.class.php';
 
 require_once 'MDB2.php';
 
@@ -461,8 +462,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 //		$subject = '['.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value().'] '.$publication->get_learning_object()->get_title();
 //		// TODO: SCARA - Add meaningfull attachment removal message
 //		$body = 'message';
-//		$user = api_get_user_info($publication->get_publisher_id());
-//		api_send_mail($user['mail'], $subject, $body);
+//		$user = $object->get_owner_id();
+//		$mail = Mail :: factory($subject, $body, $user->get_email());
+//		$mail->send();
 
 		// Delete all attachments (only the links, not the actual objects)
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('attachment').'=?';

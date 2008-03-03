@@ -30,7 +30,7 @@
 *	@package dokeos.help
 ==============================================================================
 */
-require_once ('../../main/inc/global.inc.php');
+require_once ('../global.inc.php');
 
 Translation :: set_application('general');
 

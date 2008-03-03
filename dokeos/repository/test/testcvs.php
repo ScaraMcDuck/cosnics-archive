@@ -4,7 +4,7 @@ This file is a temporary test file , used by the students of HoGent to test csv 
 The file is based on the fill_tables file and has been modded by Maarten Dauwe
 */
 
-require_once dirname(__FILE__).'/../../main/inc/global.inc.php';
+require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
 Translation :: set_application('repository');
@@ -35,12 +35,12 @@ else
 	$dataManager->delete_all_learning_objects();
 	title('Er wordt een nieuwe Category gemaakt (vroegere zijn gewist)');
 	
-		create_category(api_get_user_id());
+		create_category(PlatformSession :: get_user_id());
 	
 	title('5 willekeurige Announcements worden aangemaakt : ');
 	for ($i = 0; $i < 5; $i ++)
 	{
-		$user = api_get_user_id();
+		$user = PlatformSession :: get_user_id();
 		$parent= $dataManager->retrieve_root_category($user);
 		//echo $parent;
 		$test= parent_split($parent);
@@ -56,7 +56,7 @@ else
 	title('Kalender Evenementen worden aangemaakt ');
 	for ($i = 0; $i < 5; $i ++)
 	{
-		$user = api_get_user_id();
+		$user = PlatformSession :: get_user_id();
 		$event = new CalendarEvent();
 		$event->set_owner_id($user);
 		$event->set_title('Titel'.$i);

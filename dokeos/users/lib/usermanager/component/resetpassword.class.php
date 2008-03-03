@@ -104,7 +104,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 	 */
 	private function create_new_password($user)
 	{
-		$password = api_generate_password();
+		$password = Text :: generate_password();
 		$user->set_password(md5($password));
 		$user->update();
 		$mail_subject = Translation :: get_lang('LoginRequest');

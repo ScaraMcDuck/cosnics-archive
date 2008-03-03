@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../../main/inc/global.inc.php';
+require_once dirname(__FILE__).'/../../../common/global.inc.php';
 require_once dirname(__FILE__).'/personalmessengerdatamanager.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/../../../users/lib/user.class.php';
@@ -14,7 +14,7 @@ require_once dirname(__FILE__).'/../../../common/condition/andcondition.class.ph
 require_once dirname(__FILE__).'/../../../common/condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../../../users/lib/usersdatamanager.class.php';
 
-if (api_get_user_id())
+if (PlatformSession :: get_user_id())
 {
 	$conditions = array ();
 

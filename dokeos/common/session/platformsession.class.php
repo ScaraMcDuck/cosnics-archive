@@ -62,5 +62,10 @@ class PlatformSession
 	{
 		return $_SESSION[$variable];
 	}
+	
+	public static function get_user_id()
+	{
+		return self :: platform_session_retrieve('_uid');
+	}
 }
 ?>

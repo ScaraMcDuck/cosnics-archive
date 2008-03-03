@@ -112,7 +112,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 				else
 				{
 					$condition = new AndCondition(
-						new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, api_get_user_id()),
+						new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, PlatformSession :: get_user_id()),
 						new EqualityCondition(LearningStyleSurveyResult :: PROPERTY_PROFILE_ID, $profile_id)
 					);
 					$results = $dm->retrieve_learning_objects('learning_style_survey_result', $condition);
@@ -126,7 +126,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 					}
 					else
 					{
-						$object = new AbstractLearningObject('learning_style_survey_result', api_get_user_id());
+						$object = new AbstractLearningObject('learning_style_survey_result', PlatformSession :: get_user_id());
 						$extra = array(
 							LearningStyleSurveyResultForm :: KEY_PROFILE => $profile
 						);

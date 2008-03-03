@@ -22,7 +22,7 @@
 ==============================================================================
 */
 // including the global init script
-require ('../../../../main/inc/global.inc.php');
+require ('../../../global.inc.php');
 // the variables for the days and the months
 // Defining the shorts for the days
 $DaysShort = array(Translation :: get_lang("SundayShort"), Translation :: get_lang("MondayShort"), Translation :: get_lang("TuesdayShort"), Translation :: get_lang("WednesdayShort"), Translation :: get_lang("ThursdayShort"), Translation :: get_lang("FridayShort"), Translation :: get_lang("SaturdayShort"));

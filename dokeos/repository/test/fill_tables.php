@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../../main/inc/global.inc.php';
+require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
 
@@ -74,7 +74,7 @@ else
 		$user->set_official_code('USER'.$user_nr);
 		$user->set_language('english');
 		$user->set_status(5);
-		$user->set_creator_id(api_get_user_id());
+		$user->set_creator_id(PlatformSession :: get_user_id());
 		$user->create();
 		$user_ids[$user_nr] = $user->get_user_id();
 		progress();

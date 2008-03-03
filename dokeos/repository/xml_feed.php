@@ -2,7 +2,7 @@
 /**
  * @package repository
  */
-require_once dirname(__FILE__).'/../main/inc/global.inc.php';
+require_once dirname(__FILE__).'/../common/global.inc.php';
 require_once dirname(__FILE__).'/lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/lib/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/lib/learningobject.class.php';
@@ -13,7 +13,7 @@ require_once dirname(__FILE__).'/../common/condition/orcondition.class.php';
 
 Translation :: set_application('repository');
 
-if (api_get_user_id())
+if (PlatformSession :: get_user_id())
 {
 	$conditions = array ();
 
@@ -23,7 +23,7 @@ if (api_get_user_id())
 		$conditions[] = $query_condition;
 	}
 
-	$owner_condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, api_get_user_id());
+	$owner_condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, PlatformSession :: get_user_id());
 	$conditions[] = $owner_condition;
 
 	$category_type_condition = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'category');
