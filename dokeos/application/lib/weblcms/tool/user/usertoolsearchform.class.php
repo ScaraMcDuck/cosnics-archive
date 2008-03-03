@@ -2,7 +2,7 @@
 /**
  * @package users.usermanager
  */
-require_once dirname(__FILE__).'/../../../../../common/html/formvalidator/FormValidator.class.php';
+require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../weblcms_manager/weblcms.class.php';
 require_once dirname(__FILE__).'/../../weblcmsdatamanager.class.php';
 

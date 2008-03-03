@@ -5,8 +5,8 @@ require_once dirname(__FILE__).'/../../../../../repository/lib/repositoryutiliti
 require_once dirname(__FILE__).'/../../../../../repository/lib/learningobjectform.class.php';
 require_once dirname(__FILE__).'/../../../../../repository/lib/learningobjectdisplay.class.php';
 require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object/learning_style_survey_result/learning_style_survey_result_form.class.php';
-require_once dirname(__FILE__).'/../../../../../common/condition/andcondition.class.php';
-require_once dirname(__FILE__).'/../../../../../common/condition/equalitycondition.class.php';
+require_once Path :: get_library_path().'condition/andcondition.class.php';
+require_once Path :: get_library_path().'condition/equalitycondition.class.php';
 
 /**
  * @author Tim De Pauw

@@ -3,7 +3,7 @@
  * $Id: repositorysearchform.class.php 11509 2007-03-09 14:58:12Z Scara84 $
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../../../../common/html/formvalidator/FormValidator.class.php';
+require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/weblcms.class.php';
 require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
 /**

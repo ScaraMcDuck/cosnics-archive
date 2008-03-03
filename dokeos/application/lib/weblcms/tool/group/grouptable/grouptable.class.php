@@ -5,7 +5,7 @@
  * @package application.weblcms.tool
  * @subpackage group
  */
-require_once dirname(__FILE__).'/../../../../../../common/html/table/sortabletable.class.php';
+require_once Path :: get_library_path().'html/table/sortabletable.class.php';
 
 class GroupTable
 {

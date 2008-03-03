@@ -3,7 +3,7 @@
  * $Id$
  * @package application
  */
-require_once(dirname(__FILE__).'/../../common/filesystem/filesystem.class.php');
+require_once(Path :: get_library_path().'filesystem/filesystem.class.php');
 /**
  * This	is the base class for all applications based on the learning object
  * repository.
