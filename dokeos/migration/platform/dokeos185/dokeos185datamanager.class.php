@@ -16,23 +16,31 @@ require_once 'MDB2.php';
 class Dokeos185DataManager extends MigrationDataManager
 {	
 	/**
-	 * Directory of the old system
-	 */
-	private static $old_directory;
-	
-	/**
-	 * Configuration file of the old system
-	 */
-	private static $_configuration;
-	
-	/**
 	 * MDB2 instance 
 	 */
 	private $db;
+	private $_configuration;
 	
-	function Dokeos185DataManager()
+	function Dokeos185DataManager($old_directory)
 	{
 		parent :: MigrationDataManager();
+		$this->get_configuration($old_directory);
+	}
+	
+	function get_configuration($old_directory)
+	{
+		$old_directory = 'file://' . $old_directory;
+		
+		if(file_exists($old_directory) && is_dir($old_directory))
+		{
+			$config_file = $old_directory . '/main/inc/conf/configuration.php';
+			if(file_exists($config_file) && is_file($config_file))
+			{
+				require_once($config_file);
+
+				$this->_configuration = $_configuration;
+			}
+		}
 	}
 	
 	/**
@@ -40,43 +48,30 @@ class Dokeos185DataManager extends MigrationDataManager
 	 * @param Array $parameters settings from the wizard
 	 * @return true if settings are valid, otherwise false
 	 */
-	function validate_settings($parameters)
-	{
-		self :: $old_directory = 'file://' . $parameters[0];
-
-		if(file_exists(self :: $old_directory) && is_dir(self :: $old_directory))
+	function validate_settings()
+	{		
+		if(mysql_connect($this->_configuration['db_host']	, $this->_configuration['db_user'], 
+						 $this->_configuration['db_password']	))
 		{
-			$config_file = self :: $old_directory . '/main/inc/conf/configuration.php';
-			if(file_exists($config_file) && is_file($config_file))
-			{
-				require_once($config_file);
-				
-				self :: $_configuration = $_configuration;
-
-				if(mysql_connect($_configuration['db_host']	, $_configuration['db_user'], 
-								 $_configuration['db_password']	))
-				{
-					
-					if(mysql_select_db($_configuration['main_database']) &&
-					   mysql_select_db($_configuration['statistics_database']) &&
-					    mysql_select_db($_configuration['user_personal_database']))
-							return true;
-				}	
-			}
-		}
+			
+			if(mysql_select_db($this->_configuration['main_database']) &&
+			   mysql_select_db($this->_configuration['statistics_database']) &&
+			    mysql_select_db($this->_configuration['user_personal_database']))
+					return true;
+		}	
 		
 		return false;
 	}
-	
+
 	/**
-	 * Connect to the dokeos185 database with login data from the $_configuration
+	 * Connect to the dokeos185 database with login data from the $$this->_configuration
 	 * @param String $dbname with databasename 
 	 */
 	function db_connect($dbname)
 	{
-		$param = isset(self :: $_configuration[$dbname])?self :: $_configuration[$dbname]:$dbname;
-		$dsn = 'mysql://'.self :: $_configuration['db_user'].':'.self :: $_configuration['db_password'].'@'.
-				self :: $_configuration['db_host'].'/'.$param;
+		$param = isset($this->_configuration[$dbname])?$this->_configuration[$dbname]:$dbname;
+		$dsn = 'mysql://'.$this->_configuration['db_user'].':'.$this->_configuration['db_password'].'@'.
+				$this->_configuration['db_host'].'/'.$param;
 		$this->db = MDB2 :: connect($dsn);
 	}
 	
@@ -101,9 +96,6 @@ class Dokeos185DataManager extends MigrationDataManager
 		foreach($users as $user)
 		{
 			$query_admin = 'SELECT * FROM admin WHERE user_id=' . $user->get_user_id();
-			//$statement = $this->db->prepare($query_admin);
-			//$result_admin = $statement->execute($user->get_user_id());
-			//TODO: make use of statements
 			$result_admin = $this->db->query($query_admin);
 			
 			if($result_admin->numRows() == 1)
@@ -182,7 +174,7 @@ class Dokeos185DataManager extends MigrationDataManager
 		if($is_new_system)
 			$path = Path :: get_path(SYS_PATH).$rel_path;
 		else
-			$path = self :: $_configuration['root_sys'].$rel_path;
+			$path = $this->_configuration['root_sys'].$rel_path;
 		
 		return $path;
 	}

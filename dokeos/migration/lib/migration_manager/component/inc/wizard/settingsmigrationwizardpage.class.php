@@ -60,13 +60,13 @@ class ValidateSettings extends HTML_QuickForm_Rule
 	
 	public function validate($parameters)
 	{
-		$dmgr = MigrationDataManager :: getInstance(self :: $values['old_system']);
-		return $dmgr->validate_settings($parameters);
+		$dmgr = MigrationDataManager :: getInstance(self :: $values['old_system'], $parameters[0]);
+		return $dmgr->validate_settings();
 	}
 	
 	public static function set_values($values)
 	{
-		self::$values = $values;
+		self :: $values = $values;
 	}
 }
 ?>

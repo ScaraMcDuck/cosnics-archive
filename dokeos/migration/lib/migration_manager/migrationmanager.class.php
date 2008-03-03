@@ -118,7 +118,7 @@ class MigrationManager
 		echo '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">'."\n";
 		echo '<head>'."\n";
 		echo '<title>-- Dokeos Migration --</title>'."\n";
-		echo '<link rel="stylesheet" href="../main/css/default.css" type="text/css"/>'."\n";
+		echo '<link rel="stylesheet" href="../layout/css/default.css" type="text/css"/>'."\n";
 		echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'."\n";		
 		echo '</head>'."\n";
 		echo '<body dir="'. Translation :: get_lang('text_dir') .'">' . "\n";

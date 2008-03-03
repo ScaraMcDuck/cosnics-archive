@@ -21,5 +21,14 @@ $lang['migration']['productions'] = "productions";
 $lang['migration']['migrating'] = "migrating";
 $lang['migration']['users'] = "users";
 $lang['migration']['done'] = "done";
+$lang['migration']['Users_title'] = "Users migration";
+$lang['migration']['Users_info'] = "Users are now migrated";
+$lang['migration']['Users_failed'] = "The following users failed";
+$lang['migration']['Dont_forget'] = "You can manually transfer them. Make sure to remove them in the temp_failed_elements table before proceeding!";
+$lang['migration']['Courses_title'] = "Courses migration";
+$lang['migration']['Courses_info'] = "Courses are now migrated";
+$lang['migration']['Course_Categories_failed']= "The following course categories failed";
+$lang['migration']['Courses_failed'] = "The following courses failed";
+$lang['migration']['Course_User_Relation_failed'] = "The following course user relations failed";
 
 ?>
