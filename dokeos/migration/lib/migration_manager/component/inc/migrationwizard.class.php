@@ -9,7 +9,8 @@ require_once 'HTML/QuickForm/Action/Display.php';
 require_once dirname(__FILE__).'/wizard/systemmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/settingsmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/migrationwizarddisplay.class.php';
-require_once dirname(__FILE__).'/wizard/migrationwizardprocess.class.php';
+require_once dirname(__FILE__).'/wizard/usersmigrationwizardpage.class.php';
+require_once dirname(__FILE__).'/wizard/coursesmigrationwizardpage.class.php';
 
 /**
  * A wizard which guides the user through several steps to perform the migration
@@ -34,8 +35,9 @@ class MigrationWizard extends HTML_QuickForm_Controller
 		parent :: HTML_QuickForm_Controller('MigrationWizard', true);
 		$this->addPage(new SystemMigrationWizardPage('page_system',$this->parent));
 		$this->addPage(new SettingsMigrationWizardPage('page_settings',$this->parent));
+		$this->addPage(new UsersMigrationWizardPage('page_users',$this->parent));
+		$this->addPage(new CoursesMigrationWizardPage('page_courses',$this->parent));
 		$this->addAction('display', new MigrationWizardDisplay($this->parent));
-		$this->addAction('process', new MigrationWizardProcess($this->parent));
 	}
 }
 ?>

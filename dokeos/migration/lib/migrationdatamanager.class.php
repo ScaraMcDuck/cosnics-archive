@@ -10,12 +10,12 @@ require_once(dirname(__FILE__) . '/../../common/configuration/configuration.php'
 //TODO use pear package for lcms database connection
 abstract class MigrationDataManager
 {
-	abstract function validate_settings($parameters);
+	abstract function validate_settings();
 	abstract function move_file($old_rel_path, $new_rel_path,$filename);
 	abstract function create_directory($is_new_system, $rel_path);
 	abstract function append_full_path($is_new_system, $rel_path);
 	
-	private static $instances = array();
+	private static $instance;
 	private $db_lcms;
 	
 	const TEMP_FAILED_ELEMENTS_TABLE = 'temp_failed_elements';
@@ -25,9 +25,9 @@ abstract class MigrationDataManager
 	/**
 	 * Singleton and factory pattern in one
 	 */
-	static function getInstance($platform)
+	static function getInstance($platform, $old_directory)
 	{
-		if(!isset(self :: $instances[$platform]))
+		if(!isset(self :: $instance))
 		{
 			$filename = dirname(__FILE__) . '/../platform/' . strtolower($platform) . '/' . 
 				strtolower($platform) . 'datamanager.class.php';
@@ -38,10 +38,10 @@ abstract class MigrationDataManager
 			}
 			$class = $platform . 'DataManager';
 			require_once $filename;
-			self :: $instances[$platform] = new $class();
+			self :: $instance = new $class($old_directory);
 		}
 		
-		return self :: $instances[$platform];
+		return self :: $instance;
 	}
 	
 	function MigrationDataManager()
@@ -54,8 +54,10 @@ abstract class MigrationDataManager
 	 */
 	function db_lcms_connect()
 	{
-		global $configuration;
-		$this->db_lcms = MDB2 :: connect($configuration['database']['connection_string']);
+		$conf = Configuration :: get_instance();
+		$this->db_lcms = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),
+			array('debug'=>3,'debug_handler'=>array('MigrationDataManager','debug')));
+		$this->db_lcms->query('SET NAMES utf8');
 	}
 	
 	/**
@@ -85,8 +87,9 @@ abstract class MigrationDataManager
 	function create_temporary_tables()
 	{
 		$this->db_lcms_connect();
-		$query = 'DROP TABLE IF EXISTS ' . self :: TEMP_FAILED_ELEMENTS_TABLE . ';';
-		$this->db_lcms->query($query);
+		
+		$this->delete_temporary_tables();
+		
 		$query = 'CREATE TABLE ' . self :: TEMP_FAILED_ELEMENTS_TABLE . ' (
 				  id int NOT NULL AUTO_INCREMENT,
 				  failed_id varchar(20),
@@ -94,17 +97,13 @@ abstract class MigrationDataManager
 				  primary key(id));';
 		$this->db_lcms->query($query);
 		
-		$query = 'DROP TABLE IF EXISTS ' . self :: TEMP_RECOVERY_TABLE . ';';
-		$this->db_lcms->query($query);
 		$query = 'CREATE TABLE ' . self :: TEMP_RECOVERY_TABLE . ' (
 				  id int NOT NULL AUTO_INCREMENT,
 				  old_path varchar(200),
 				  new_path varchar(200),
 				  primary key(id));';
 		$this->db_lcms->query($query);
-		
-		$query = 'DROP TABLE IF EXISTS ' . self :: TEMP_ID_REFERENCE_TABLE . ';';
-		$this->db_lcms->query($query);
+
 		$query = 'CREATE TABLE ' . self :: TEMP_ID_REFERENCE_TABLE . ' (
 				  id int NOT NULL AUTO_INCREMENT,
 				  old_id varchar(20),
@@ -120,13 +119,13 @@ abstract class MigrationDataManager
 	function delete_temporary_tables()
 	{	
 		$this->db_lcms_connect();
-		$query = 'DROP TABLE ' . self :: TEMP_FAILED_ELEMENTS_TABLE;
+		$query = 'DROP TABLE IF EXISTS ' . self :: TEMP_FAILED_ELEMENTS_TABLE;
 		$this->db_lcms->query($query);
 		
-		$query = 'DROP TABLE ' . self :: TEMP_RECOVERY_TABLE;
+		$query = 'DROP TABLE IF EXISTS ' . self :: TEMP_RECOVERY_TABLE;
 		$this->db_lcms->query($query);
 		
-		$query = 'DROP TABLE ' . self :: TEMP_ID_REFERENCE_TABLE;
+		$query = 'DROP TABLE IF EXISTS ' . self :: TEMP_ID_REFERENCE_TABLE;
 		$this->db_lcms->query($query);
 		
 	}
@@ -153,7 +152,7 @@ abstract class MigrationDataManager
 	 */
 	function add_recovery_element($old_path,$new_path)
 	{
-
+		$this->db_lcms_connect();
 		$query = 'INSERT INTO ' . self :: TEMP_RECOVERY_TABLE .
 				 '(old_path, new_path) VALUES (\''.
 					$old_path . '\',\''.$new_path .'\')';
@@ -236,7 +235,30 @@ abstract class MigrationDataManager
 		return NULL;
 	 }
 	 
+	 /**
+	  * Checks if an authentication method is available in the lcms system
+	  * @param string $auth_method Authentication method to check for
+	  * @return true if method is available
+	  */
+	 function is_authentication_available($auth_method)
+	 {
+	 	//TODO: make a authentication method list
+	 	return true;
+	 }
 	 
+	 /**
+	  * Checks if a language is available in the lcms system
+	  * @param string $language Language to check for
+	  * @return true if language is available
+	  */
+	 function is_language_available($language)
+	 {
+	 	$this->db_lcms_connect();
+	 	$query = 'SELECT id FROM admin_language WHERE folder=\'' . $language . '\';';
+
+	 	$result = $this->db_lcms->query($query);
+	 	return ($result->numRows() > 0);
+	 }
 }
 
 ?>

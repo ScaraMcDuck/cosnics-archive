@@ -17,6 +17,10 @@ require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/profi
 
 class Dokeos185User extends Import
 {
+	/**
+	 * Migration data manager
+	 */
+	private static $mgdm;
 	
 	/**
 	 * Table User Properties
@@ -647,16 +651,19 @@ class Dokeos185User extends Import
 	 * Migration users, create directories, copy user pictures, migrate user profiles
 	 */
 	function convert_to_new_user()
-	{
-		$mgdm = MigrationDataManager :: getInstance('Dokeos185');
-		
+	{	
 		//User parameters
 		$lcms_user = new User();
 		$lcms_user->set_lastname($this->get_lastname());
 		$lcms_user->set_firstname($this->get_firstname());
 		$lcms_user->set_username($this->get_username());
 		$lcms_user->set_password($this->get_password());
-		$lcms_user->set_auth_source($this->get_auth_source());
+		
+		if(self :: $mgdm->is_authentication_available($this->get_auth_source()))
+			$lcms_user->set_auth_source($this->get_auth_source());
+		else
+			$lcms_user->set_auth_source('platform');
+		
 		$lcms_user->set_email($this->get_email());
 		$lcms_user->set_status($this->get_status());
 		$lcms_user->set_platformadmin($this->get_platformadmin());
@@ -670,28 +677,31 @@ class Dokeos185User extends Import
 		{
 			$new_rel_path_picture = '/files/userpictures/';
 			
-			$picture_uri = $mgdm->move_file($old_rel_path_picture, $new_rel_path_picture, 
+			$picture_uri = self :: $mgdm->move_file($old_rel_path_picture, $new_rel_path_picture, 
 					$this->get_picture_uri());
 			if($picture_uri)
 				$lcms_user->set_picture_uri($picture_uri);
 		}
 		
 		// Get new id from temporary table for references
-		$creator_id = $mgdm->get_id_reference($this->get_creator_id(), 'user_user');
+		$creator_id = self :: $mgdm->get_id_reference($this->get_creator_id(), 'user_user');
 		if($creator_id)
 			$lcms_user->set_creator_id($creator_id);
 		
-		$lcms_user->set_language($this->get_language());
+		if(self :: $mgdm->is_language_available($this->get_language()))
+			$lcms_user->set_language($this->get_language());
+		else
+			$lcms_user->set_language('english');
 		
 		//create user in database
 		$lcms_user->create();
 		
 		//Add id references to temp table
-		$mgdm->add_id_reference($this->get_user_id(), $lcms_user->get_user_id(), 'user_user');
+		self :: $mgdm->add_id_reference($this->get_user_id(), $lcms_user->get_user_id(), 'user_user');
 		
 		// Create user directory
 		$rep_dir = '/files/repository/' . $lcms_user->get_user_id() . '/';
-		$mgdm->create_directory(true, $rep_dir);
+		self :: $mgdm->create_directory(true, $rep_dir);
 		
 		// Repository_Profile parameters
 		$lcms_repository_profile = new Profile();
@@ -706,7 +716,7 @@ class Dokeos185User extends Import
 		$lcms_repository_profile->set_description('...');
 		
 		//Retrieve repository id from user
-		$lcms_repository_profile->set_parent_id($mgdm->get_parent_id($lcms_user->get_user_id(), 
+		$lcms_repository_profile->set_parent_id(self :: $mgdm->get_parent_id($lcms_user->get_user_id(), 
 			'category', 'MyRepository'));
 		
 		//Create profile in database
@@ -722,7 +732,7 @@ class Dokeos185User extends Import
 		
 		//Copy productions -> learning objects
 		$old_path = $old_rel_path_picture . $this->get_user_id() . '/' . $this->get_user_id() . '/';
-		$directory = $mgdm->append_full_path(false,$old_path);
+		$directory = self :: $mgdm->append_full_path(false,$old_path);
 		
 		if(file_exists($directory))
 		{
@@ -737,7 +747,7 @@ class Dokeos185User extends Import
 				$lcms_repository_category->set_description('...');
 		
 				//Retrieve repository id from user
-				$lcms_repository_category->set_parent_id($mgdm->get_parent_id($lcms_user->get_user_id(), 
+				$lcms_repository_category->set_parent_id(self :: $mgdm->get_parent_id($lcms_user->get_user_id(), 
 					'category', 'MyRepository'));
 				
 				//Create category in database
@@ -749,7 +759,7 @@ class Dokeos185User extends Import
 					$filename = $file_split[count($file_split) - 1];
 					$new_path = '/files/repository/' . $lcms_user->get_user_id() . '/';
 					
-					$filename = $mgdm->move_file($old_path, $new_path, $filename);
+					$filename = self :: $mgdm->move_file($old_path, $new_path, $filename);
 					
 					if($filename)
 					{
@@ -765,7 +775,7 @@ class Dokeos185User extends Import
 						$lcms_repository_document->set_description($filename);
 			
 						//Retrieve category id from user
-						$lcms_repository_document->set_parent_id($mgdm->get_parent_id($lcms_user->get_user_id(), 
+						$lcms_repository_document->set_parent_id(self :: $mgdm->get_parent_id($lcms_user->get_user_id(), 
 							'category', Translation :: get_lang('productions')));
 							
 						//Create document in db
@@ -782,7 +792,7 @@ class Dokeos185User extends Import
 	{
 		if(!$this->get_username() || !$this->get_password() || !$this->get_status())
 		{
-			MigrationDataManager::getInstance('Dokeos185')->add_failed_element($this->get_user_id(),
+			self :: $mgdm->add_failed_element($this->get_user_id(),
 				'dokeos_main.user');
 			return false;
 		}
@@ -790,9 +800,10 @@ class Dokeos185User extends Import
 		return true;
 	}
 	
-	static function get_all_users()
+	static function get_all_users($mgdm)
 	{
-		return MigrationDataManager::getInstance('Dokeos185')->get_all_users();
+		self :: $mgdm = $mgdm;
+		return self :: $mgdm->get_all_users();	
 	}
 }
 ?>
