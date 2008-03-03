@@ -26,6 +26,34 @@ if (file_exists($main_configuration_file_path))
 	require_once($main_configuration_file_path);
 	$already_installed = true;
 }
+
+$error_message = <<<EOM
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<title>Dokeos not installed!</title>
+		<link rel="stylesheet" href="layout/css/default.css" type="text/css"/>
+	</head>
+	<body>
+		<div id="header1">Dokeos not installed!</div>
+		<div style="text-align: center;"><br /><br />
+				<form action="install/index.php" method="get"><input type="submit" value="&nbsp;&nbsp; Click to INSTALL DOKEOS &nbsp;&nbsp;" /></form><br />
+				or <a href="documentation/installation_guide.html" target="_blank">read the installation guide</a><br /><br />
+		</div>
+		<div id="footer">
+			<div class="copyright">Platform <a href="http://www.dokeos.com"> Dokeos </a> &copy; 2007 </div>
+			&nbsp;
+		</div>
+	</body>
+</html>
+EOM;
+
+// 
+if (!$already_installed)
+{
+	die($error_message);
+}
+
 // include the main Dokeos platform library file
 
 // TODO: Temporary solution till these are relocated to a more suitable location
@@ -78,18 +106,16 @@ define('TOOL_RECYCLE_COURSE', 'recycle_course');
 define('TOOL_COURSE_HOMEPAGE', 'course_homepage');
 define('TOOL_COURSE_RIGHTS_OVERVIEW', 'course_rights');
 
-// TODO: Move this to a common area since it's used everywhere.
-require_once dirname(__FILE__).'/filesystem/path.class.php';
+// Add the path to the pear packages to the include path
 require_once(dirname(__FILE__).'/configuration/configuration.class.php');
+require_once dirname(__FILE__).'/filesystem/path.class.php';
+ini_set('include_path',realpath(Path :: get_path(SYS_PLUGIN_PATH).'pear'));
+
+// TODO: Move this to a common area since it's used everywhere.
 require_once(dirname(__FILE__).'/session/platformsession.class.php');
 require_once(dirname(__FILE__).'/translation/translation.class.php');
 require_once dirname(__FILE__).'/html/text.class.php';
 require_once dirname(__FILE__).'/mail/mail.class.php';
-
-// Add the path to the pear packages to the include path
-ini_set('include_path',realpath(Path :: get_path(SYS_PLUGIN_PATH).'pear'));
-
-// Include the libraries that are necessary everywhere
 require_once(Path :: get_path(SYS_LIB_PATH) . 'html/display.class.php');
 
 require_once(dirname(__FILE__).'/../admin/lib/admindatamanager.class.php');
@@ -98,33 +124,6 @@ require_once 'MDB2.php';
 // Start session
 
 PlatformSession :: platform_session_start($already_installed);
-
-$error_message = <<<EOM
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-	<head>
-		<title>Dokeos not installed!</title>
-		<link rel="stylesheet" href="main/css/default.css" type="text/css"/>
-	</head>
-	<body>
-		<div id="header1">Dokeos not installed!</div>
-		<div style="text-align: center;"><br /><br />
-				<form action="main/install/index.php" method="get"><input type="submit" value="&nbsp;&nbsp; Click to INSTALL DOKEOS &nbsp;&nbsp;" /></form><br />
-				or <a href="documentation/installation_guide.html" target="_blank">read the installation guide</a><br /><br />
-		</div>
-		<div id="footer">
-			<div class="copyright">Platform <a href="http://www.dokeos.com"> Dokeos </a> &copy; 2007 </div>
-			&nbsp;
-		</div>
-	</body>
-</html>
-EOM;
-
-// 
-if (!$already_installed)
-{
-	die($error_message);
-}
 
 // Test database connection
 $conf = Configuration :: get_instance();

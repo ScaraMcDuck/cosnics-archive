@@ -97,11 +97,11 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 					$application_path = dirname(__FILE__).'/../../application/lib/' . $application . '/';
 					if (!FileSystem::remove($application_path))
 					{
-						$this->process_result($application, array('success' => false, 'message' => get_lang('ApplicationRemoveFailed')));
+						$this->process_result($application, array('success' => false, 'message' => Translation :: get_lang('ApplicationRemoveFailed')));
 					}
 					else
 					{
-						$this->process_result($application, array('success' => true, 'message' => get_lang('ApplicationRemoveSuccess')));
+						$this->process_result($application, array('success' => true, 'message' => Translation :: get_lang('ApplicationRemoveSuccess')));
 					}
 				}
 			}
@@ -114,7 +114,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		flush();
 		
 		// 7. If all goes well we now show the link to the portal
-		$message = '<a href="../index.php">' . get_lang('GoToYourNewlyCreatedPortal') . '</a>';
+		$message = '<a href="../index.php">' . Translation :: get_lang('GoToYourNewlyCreatedPortal') . '</a>';
 		$this->process_result('Finished', array('success' => true, 'message' => $message));
 		flush();
 		
@@ -139,19 +139,19 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 			{
 				if (mysql_query('CREATE DATABASE IF NOT EXISTS '. $values['database_name'] . ' DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci'))
 				{
-					return array('success' => true, 'message' => get_lang('DBCreated'));
+					return array('success' => true, 'message' => Translation :: get_lang('DBCreated'));
 				}
 				else
 				{
-					return array('success' => false, 'message' => (get_lang('DBCreateError') . ' ' . mysql_error()));
+					return array('success' => false, 'message' => (Translation :: get_lang('DBCreateError') . ' ' . mysql_error()));
 				}
 			}
 			else
 			{
-				return array('success' => false, 'message' => (get_lang('DBDropError') . ' ' . mysql_error()));
+				return array('success' => false, 'message' => (Translation :: get_lang('DBDropError') . ' ' . mysql_error()));
 			}
 		}
-		$this->add_message(get_lang('ApplicationInstallFailed'));
+		$this->add_message(Translation :: get_lang('ApplicationInstallFailed'));
 	}
 	
 	function create_folders()
@@ -163,10 +163,10 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 			$path = $files_path . $directory;
 			if (!FileSystem :: create_dir($path))
 			{
-				return array('success' => false, 'message' => get_lang('FoldersCreatedFailed'));
+				return array('success' => false, 'message' => Translation :: get_lang('FoldersCreatedFailed'));
 			}
 		}
-		return array('success' => true, 'message' => get_lang('FoldersCreatedSuccess'));
+		return array('success' => true, 'message' => Translation :: get_lang('FoldersCreatedSuccess'));
 	}
 	
 	function write_config_file($values)
@@ -177,7 +177,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		
 		if ($content === false)
 		{
-			return array('success' => false, 'message' => get_lang('ConfigWriteFailed'));
+			return array('success' => false, 'message' => Translation :: get_lang('ConfigWriteFailed'));
 		}
 		
 		$config['{DATABASE_HOST}']		= $values['database_host'];
@@ -204,16 +204,16 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 			if (fwrite($fp, $content))
 			{
 				fclose($fp);
-				return array('success' => true, 'message' => get_lang('ConfigWriteSuccess'));
+				return array('success' => true, 'message' => Translation :: get_lang('ConfigWriteSuccess'));
 			}
 			else
 			{
-				return array('success' => false, 'message' => get_lang('ConfigWriteFailed'));
+				return array('success' => false, 'message' => Translation :: get_lang('ConfigWriteFailed'));
 			}
 		}
 		else
 		{
-			return array('success' => false, 'message' => get_lang('ConfigWriteFailed'));
+			return array('success' => false, 'message' => Translation :: get_lang('ConfigWriteFailed'));
 		}
 	}
 	
@@ -221,7 +221,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 	{
 		$html = array();
 		$html[] = '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(../layout/img/admin_'. $application .'.gif);">';
-		$html[] = '<div class="title">'. get_lang(Application::application_to_class($application)) .'</div>';
+		$html[] = '<div class="title">'. Translation :: get_lang(Application::application_to_class($application)) .'</div>';
 		$html[] = '<div class="description">';
 		return implode("\n", $html);
 	}

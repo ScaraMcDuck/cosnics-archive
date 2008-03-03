@@ -41,7 +41,7 @@ class MyportfolioInstaller extends Installer
 			}
 		}
 		
-		$success_message = '<span style="color: green; font-weight: bold;">' . get_lang('ApplicationInstallSuccess') . '</span>';
+		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get_lang('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);
 		return array('success' => true, 'message' => $this->retrieve_message());
 	}
@@ -53,13 +53,13 @@ class MyportfolioInstaller extends Installer
 	function create_storage_unit($path)
 	{
 		$storage_unit_info = parent::parse_xml_file($path);
-		$this->add_message(get_lang('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
+		$this->add_message(Translation :: get_lang('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
 		if (!$this->mpdm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
 		{
-			$error_message = '<span style="color: red; font-weight: bold;">' . get_lang('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em></span>';
+			$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get_lang('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em></span>';
 			$this->add_message($error_message);
-			$this->add_message(get_lang('ApplicationInstallFailed'));
-			$this->add_message(get_lang('PlatformInstallFailed'));
+			$this->add_message(Translation :: get_lang('ApplicationInstallFailed'));
+			$this->add_message(Translation :: get_lang('PlatformInstallFailed'));
 			
 			return false;
 		}

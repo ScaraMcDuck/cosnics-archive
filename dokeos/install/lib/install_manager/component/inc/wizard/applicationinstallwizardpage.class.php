@@ -13,12 +13,12 @@ class ApplicationInstallWizardPage extends InstallWizardPage
 {
 	function get_title()
 	{
-		return get_lang('AppSetting');
+		return Translation :: get_lang('AppSetting');
 	}
 	
 	function get_info()
 	{
-		return get_lang('AppSettingIntro');
+		return Translation :: get_lang('AppSettingIntro');
 	}
 	
 	function buildForm()
@@ -30,12 +30,12 @@ class ApplicationInstallWizardPage extends InstallWizardPage
 		foreach($applications as $application)
 		{
 			$checkbox_name = 'install_' . $application;
-			$this->addElement('checkbox', $checkbox_name, '', get_lang(Application::application_to_class($application)));
+			$this->addElement('checkbox', $checkbox_name, '', Translation :: get_lang(Application::application_to_class($application)));
 			$appDefaults[$checkbox_name] = '1';
 		}
 		
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.get_lang('Previous'));
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get_lang('Previous'));
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 		$this->setDefaults($appDefaults);

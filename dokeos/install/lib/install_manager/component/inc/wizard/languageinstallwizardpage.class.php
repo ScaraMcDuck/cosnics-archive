@@ -13,7 +13,7 @@ class LanguageInstallWizardPage extends InstallWizardPage
 {
 	function get_title()
 	{
-		return get_lang('WelcomeToDokeosInstaller');
+		return Translation :: get_lang('WelcomeToDokeosInstaller');
 	}
 	
 	function get_info()
@@ -24,8 +24,8 @@ class LanguageInstallWizardPage extends InstallWizardPage
 	function buildForm()
 	{
 		$this->_formBuilt = true;
-		$this->addElement('select', 'install_language', get_lang('InstallationLanguage'), $this->get_language_folder_list());
-		$buttons[0] = HTML_QuickForm :: createElement('submit', $this->getButtonName('next'), get_lang('Next').' >>');
+		$this->addElement('select', 'install_language', Translation :: get_lang('InstallationLanguage'), $this->get_language_folder_list());
+		$buttons[0] = HTML_QuickForm :: createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
 		$this->addGroup($buttons, 'buttons', '', '&nbsp', false);
 		$this->setDefaultAction('next');
 		$this->set_form_defaults();
@@ -33,7 +33,7 @@ class LanguageInstallWizardPage extends InstallWizardPage
 	
 	function get_language_folder_list()
 	{
-		$path = dirname(__FILE__).'/../../../../../../main/lang';
+		$path = dirname(__FILE__).'/../../../../../../languages';
 		$list = FileSystem::get_directory_content($path, Filesystem::LIST_DIRECTORIES, false);
 		$language_list = array();
 		foreach($list as $index => $language)

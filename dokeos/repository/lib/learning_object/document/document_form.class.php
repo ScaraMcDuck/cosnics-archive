@@ -46,7 +46,7 @@ class DocumentForm extends LearningObjectForm
 		$object = $this->get_learning_object();
 		if (isset ($object) && RepositoryUtilities :: is_html_document($object->get_path()))
 		{
-			$defaults['html_content'] = file_get_contents($this->get_upload_path().'/'.$object->get_path());
+			$defaults['html_content'] = file_get_contents($this->get_upload_path().$object->get_path());
 		}
 		$defaults['choice'] = 0;
 		parent :: setDefaults($defaults);
@@ -55,21 +55,21 @@ class DocumentForm extends LearningObjectForm
 	{
 		$owner = $this->get_owner_id();
 		$values = $this->exportValues();
-		$owner_path = $this->get_upload_path().'/'.$owner;
+		$owner_path = $this->get_upload_path().$owner;
 		Filesystem::create_dir($owner_path);
 		if ($values['choice'])
 		{
 			$filename = $values[Document :: PROPERTY_TITLE].'.html';
-			$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $filename);
+			$filename = Filesystem::create_unique_name($this->get_upload_path().$owner, $filename);
 			$path = $owner.'/'.$filename;
-			$full_path = $this->get_upload_path().'/'.$path;
+			$full_path = $this->get_upload_path().$path;
 			Filesystem::write_to_file($full_path,$values['html_content']);
 		}
 		else
 		{
-			$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $_FILES['file']['name']);
+			$filename = Filesystem::create_unique_name($this->get_upload_path().$owner, $_FILES['file']['name']);
 			$path = $owner.'/'.$filename;
-			$full_path = $this->get_upload_path().'/'.$path;
+			$full_path = $this->get_upload_path().$path;
 			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
 		}
 		chmod($full_path, 0777);
@@ -131,35 +131,35 @@ class DocumentForm extends LearningObjectForm
 		$path = $object->get_path();
 		$filename = $object->get_filename();
 		$owner = $object->get_owner_id();
-		$owner_path = $this->get_upload_path().'/'.$owner;
+		$owner_path = $this->get_upload_path().$owner;
 		Filesystem::create_dir($owner_path);
 		if (isset ($values['html_content']))
 		{
 			if ((isset($values['version']) && $values['version'] == 0) || !isset($values['version']))
 			{
-				Filesystem::remove($this->get_upload_path().'/'.$object->get_path());
+				Filesystem::remove($this->get_upload_path().$object->get_path());
 			}
 
-			$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $object->get_title() . '.html');
+			$filename = Filesystem::create_unique_name($this->get_upload_path().$owner, $object->get_title() . '.html');
 			$path = $owner.'/'.$filename;
-			$full_path = $this->get_upload_path().'/'.$path;
+			$full_path = $this->get_upload_path().$path;
 			Filesystem::write_to_file($full_path,$values['html_content']);
 		}
 		elseif (strlen($_FILES['file']['name']) > 0)
 		{
 			if ((isset($values['version']) && $values['version'] == 0) || !isset($values['version']))
 			{
-				Filesystem::remove($this->get_upload_path().'/'.$object->get_path());
+				Filesystem::remove($this->get_upload_path().$object->get_path());
 			}
-			$filename = Filesystem::create_unique_name($this->get_upload_path().'/'.$owner, $_FILES['file']['name']);
+			$filename = Filesystem::create_unique_name($this->get_upload_path().$owner, $_FILES['file']['name']);
 			$path = $owner.'/'.$filename;
-			$full_path = $this->get_upload_path().'/'.$path;
+			$full_path = $this->get_upload_path().$path;
 			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
 			chmod($full_path, 0777);
 		}
 		$object->set_path($path);
 		$object->set_filename($filename);
-		$object->set_filesize(Filesystem::get_disk_space($this->get_upload_path().'/'.$object->get_path()));
+		$object->set_filesize(Filesystem::get_disk_space($this->get_upload_path().$object->get_path()));
 		return parent :: update_learning_object();
 	}
 	/**
@@ -243,7 +243,7 @@ class DocumentForm extends LearningObjectForm
 
 	private static function get_upload_path()
 	{
-		return realpath(Configuration :: get_instance()->get_parameter('general', 'upload_path'));
+		return Path :: get_path(SYS_FILE_PATH);
 	}
 }
 ?>
