@@ -6,7 +6,7 @@
 require_once dirname(__FILE__).'/database/databaseuserresultset.class.php';
 require_once dirname(__FILE__).'/../classgroupdatamanager.class.php';
 require_once dirname(__FILE__).'/../classgroup.class.php';
-require_once dirname(__FILE__).'/../../../common/condition/conditiontranslator.class.php';
+require_once Path :: get_library_path().'condition/conditiontranslator.class.php';
 require_once 'MDB2.php';
 
 /**

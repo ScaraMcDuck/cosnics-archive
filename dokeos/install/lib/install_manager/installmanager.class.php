@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/installmanagercomponent.class.php';
 require_once dirname(__FILE__).'/../installdatamanager.class.php';
-require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidator.class.php';
+require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
  * An install manager provides some functionalities to the end user to install
  * his Dokeos platform

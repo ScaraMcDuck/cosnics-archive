@@ -3,7 +3,7 @@
  * $Id$
  * @package application.weblcms
  */
-require_once dirname(__FILE__).'/../../../../common/html/formvalidator/FormValidator.class.php';
+require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
  * Form for creating and updating a learning object publication category
  */
