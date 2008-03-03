@@ -4,7 +4,8 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/importcourse.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/importcourse.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/course/coursecategory.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 course_category
@@ -114,7 +115,7 @@ class Dokeos185CourseCategory extends Import
 	 */
 	function get_id()
 	{
-		return $this->id;
+		return $this->get_default_property(self :: PROPERTY_ID);
 	}
 	
 	/**
@@ -123,7 +124,7 @@ class Dokeos185CourseCategory extends Import
 	 */
 	function get_name()
 	{
-		return $this->name;
+		return $this->get_default_property(self :: PROPERTY_NAME);
 	}
 	
 	/**
@@ -132,7 +133,7 @@ class Dokeos185CourseCategory extends Import
 	 */
 	function get_code()
 	{
-		return $this->code;
+		return $this->get_default_property(self :: PROPERTY_CODE);
 	}
 	
 	/**
@@ -141,7 +142,7 @@ class Dokeos185CourseCategory extends Import
 	 */
 	function get_parent_id()
 	{
-		return $this->parent_id;
+		return $this->get_default_property(self :: PROPERTY_PARENT_ID);
 	}
 	
 	/**
@@ -150,7 +151,7 @@ class Dokeos185CourseCategory extends Import
 	 */
 	function get_tree_pos()
 	{
-		return $this->tree_pos;
+		return $this->get_default_property(self :: PROPERTY_TREE_POS);
 	}
 	
 	/**
@@ -159,7 +160,7 @@ class Dokeos185CourseCategory extends Import
 	 */
 	function get_children_count()
 	{
-		return $this->children_count;
+		return $this->get_default_property(self :: PROPERTY_CHILDREN_COUNT);
 	}
 	
 	/**
@@ -168,7 +169,7 @@ class Dokeos185CourseCategory extends Import
 	 */
 	function get_auth_course_child()
 	{
-		return $this->auth_course_child;
+		return $this->get_default_property(self :: PROPERTY_AUTH_COURSE_CHILD);
 	}
 	
 	/**
@@ -177,7 +178,7 @@ class Dokeos185CourseCategory extends Import
 	 */
 	function get_auth_cat_child()
 	{
-		return $this->auth_cat_child;
+		return $this->get_default_property(self :: PROPERTY_AUTH_CAT_CHILD);
 	}
 	
 	/**
@@ -186,7 +187,7 @@ class Dokeos185CourseCategory extends Import
 	 */
 	function set_id($id)
 	{
-		$this->id = $id;
+		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
 	
 	/**
@@ -195,7 +196,7 @@ class Dokeos185CourseCategory extends Import
 	 */
 	function set_name($name)
 	{
-		$this->name = $name;
+		$this->set_default_property(self :: PROPERTY_NAME, $name);
 	}
 	
 	/**
@@ -204,7 +205,7 @@ class Dokeos185CourseCategory extends Import
 	 */
 	function set_code($code)
 	{
-		$this->code = $code;
+		$this->set_default_property(self :: PROPERTY_CODE, $code);
 	}
 	
 	/**
@@ -213,7 +214,7 @@ class Dokeos185CourseCategory extends Import
 	 */
 	function set_parent_id($parent_id)
 	{
-		$this->parent_id = $parent_id;
+		$this->set_default_property(self :: PROPERTY_PARENT_ID, $parent_id);
 	}
 	
 	/**
@@ -222,7 +223,7 @@ class Dokeos185CourseCategory extends Import
 	 */
 	function set_tree_pos($tree_pos)
 	{
-		$this->tree_pos = $tree_pos;
+		$this->set_default_property(self :: PROPERTY_TREE_POS, $tree_post);
 	}
 	
 	/**
@@ -231,7 +232,7 @@ class Dokeos185CourseCategory extends Import
 	 */
 	function set_children_count($children_count)
 	{
-		$this->children_count = $children_count;
+		$this->set_default_property(self :: PROPERTY_CHILDREN_COUNT, $children_count);
 	}
 	
 	/**
@@ -240,7 +241,7 @@ class Dokeos185CourseCategory extends Import
 	 */
 	function set_auth_course_child($auth_course_child)
 	{
-		$this->auth_course_child = $auth_course_child;
+		$this->set_default_property(self :: PROPERTY_AUTH_COURSE_CHILD, $auth_course_child);
 	}
 	
 	/**
@@ -249,12 +250,12 @@ class Dokeos185CourseCategory extends Import
 	 */
 	function set_auth_cat_child($auth_cat_child)
 	{
-		$this->auth_cat_child = $auth_cat_child;
+		$this->set_default_property(self :: PROPERTY_AUTH_CAT_CHILD, $auth_cat_child);
 	}
 	
 	function is_valid_course_category()
 	{
-		if(!$this->get_name() || !$this->get_code() || !$this->get_parent_id())
+		if(!$this->get_name() || !$this->get_code())
 		{
 			self :: $mgdm->add_failed_element($this->get_id(),
 				'dokeos_main.course_category');
@@ -273,26 +274,48 @@ class Dokeos185CourseCategory extends Import
 		$lcms_course_category = new CourseCategory();
 		
 		$lcms_course_category->set_name($this->get_name());
+		
+		$index = 0;
+		while(self :: $mgdm->code_available($this->get_code()))
+		{
+			$this->set_code($this->get_code() . ($index ++));
+		}
+		
 		$lcms_course_category->set_code($this->get_code());
 		
-		$parent_id = $mgdm->get_id_reference($this->get_parent_id(), 'weblcms_course_category');
-		if($parent_id)
-			$lcms_course_category->set_parent($parent_id);
+		//Add id references to temp table
+		self :: $mgdm->add_id_reference($this->get_code(), $lcms_course_category->get_code(), 'weblcms_course_category');
+		
+		if($this->get_parent_id())
+		{
+			$parent_id = $mgdm->get_id_reference($this->get_parent_id(), 'weblcms_course_category');
+			if($parent_id)
+				$lcms_course_category->set_parent($parent_id);
+		}
+		else
+			$lcms_course_category->set_parent(0);
 		
 		$lcms_course_category->set_tree_pos($this->get_tree_pos());
-		$lcms_course_category->set_children_count($this->get_children_count());
+		
+		if($this->get_children_count())
+			$lcms_course_category->set_children_count($this->get_children_count());
+		else
+			$lcms_course_category->set_children_count(0);
+			
 		$lcms_course_category->set_auth_course_child($this->get_auth_course_child());
 		$lcms_course_category->set_auth_cat_child($this->get_auth_cat_child());
 		
 		//create course_category in database
 		$lcms_course_category->create();
 		
-		//Add id references to temp table
-		self :: $mgdm->add_id_reference($this->get_id(), $lcms_course_category->get_id(), 'weblcms_course_category');
-			
+		return $lcms_course_category;
 	}
 	
-	function get_all_course_categories($mgdm)
+	/** 
+	 * Get all course categories from database
+	 * @param Migration Data Manager $mgdm the datamanager from where the courses should be retrieved;
+	 */
+	static function get_all_course_categories($mgdm)
 	{
 		self :: $mgdm = $mgdm;
 		return self :: $mgdm->get_all_course_categories();	

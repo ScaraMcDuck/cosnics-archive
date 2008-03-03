@@ -93,6 +93,9 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		//Migrate course categories
 		$this->migrate_course_categories();
 		
+		//Migrate the user course categories
+		//$this->migrate_user_course_categories
+		
 		//Migrate the courses
 		//$this->migrate_courses();
 		
@@ -118,11 +121,11 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		
 		foreach($coursecategories as $coursecategory)
 		{
-			if($coursecategory->is_valid_coursecategory())
+			if($coursecategory->is_valid_course_category())
 			{
 				$lcms_coursecategory = $coursecategory->convert_to_new_course_category();
 				$this->logfile->add_message('Course category added ( ' . 
-					$lcms_coursecategory->get_id() . ' )');
+					$lcms_coursecategory->get_code() . ' )');
 			}
 			else
 			{
@@ -133,6 +136,36 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		}
 		
 		$this->logfile->add_message('Course categories migrated');
+	}
+	
+	/**
+	 * Migrate user course categories
+	 */
+	function migrate_user_course_categories()
+	{
+		$this->logfile->add_message('Starting migration user course categories');
+		
+		$usercoursecategoryclass =  Import :: factory($this->old_system, 'usercoursecategory');
+		$usercoursecategories = array();
+		$usercoursecategories = $usercoursecategoryclass->get_all_users_courses_categories($this->mgdm);
+		
+		foreach($usercoursecategories as $usercoursecategory)
+		{
+			if($usercoursecategory->is_valid_user_course_category())
+			{
+				$lcms_usercoursecategory = $usercoursecategory->convert_to_new_user_course_category();
+				$this->logfile->add_message('User course category added ( ' . 
+					$lcms_usercoursecategory->get_id() . ' )');
+			}
+			else
+			{
+				$message = 'User course category is not valid ( ID ' . $usercoursecategory->get_id() . ' )';
+				$this->logfile->add_message($message);
+				$this->failed_course_categories[] = $message;
+			}
+		}
+		
+		$this->logfile->add_message('User course categories migrated');
 	}
 	
 	/**
@@ -165,6 +198,9 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->add_message('Courses migrated');
 	}
 	
+	/**
+	 * Migrate course users
+	 */
 	function migrate_course_users()
 	{
 		$this->logfile->add_message('Starting migration course users relations');

@@ -100,7 +100,7 @@ class Dokeos185CourseRelClass extends Import{
 	 */
 	function get_course_code()
 	{
-		return $this->course_code;
+		return $this->get_default_property(self :: PROPERTY_COURSE_CODE);
 	}
 	
 	/**
@@ -109,7 +109,7 @@ class Dokeos185CourseRelClass extends Import{
 	 */
 	function get_class_id()
 	{
-		return $this->class_id;
+		return $this->get_default_property(self :: PROPERTY_CLASS_ID);
 	}
 	
 	/**
@@ -118,7 +118,7 @@ class Dokeos185CourseRelClass extends Import{
 	 */
 	function set_course_code($course_code)
 	{
-		$this->course_code = $course_code;
+		$this->set_default_property(self :: PROPERTY_COURSE_CODE, $course_code);
 	}
 	
 	/**
@@ -127,7 +127,7 @@ class Dokeos185CourseRelClass extends Import{
 	 */
 	function set_class_id($class_id)
 	{
-		$this->class_id = $class_id;
+		$this->set_default_property(self :: PROPERTY_CLASS_ID, $class_id);
 	}
 }
 ?>

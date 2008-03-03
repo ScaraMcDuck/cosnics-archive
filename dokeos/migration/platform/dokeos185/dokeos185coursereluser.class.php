@@ -105,7 +105,6 @@ class Dokeos185CourseRelUser extends Import
 		return in_array($name, self :: get_default_property_names());
 	}
 	
-	
 	/**
 	 * RELATION USER GETTERS AND SETTERS
 	 */
@@ -116,7 +115,7 @@ class Dokeos185CourseRelUser extends Import
 	 */
 	function get_course_code()
 	{
-		return $this->course_code;
+		return $this->get_default_property(self :: PROPERTY_COURSE_CODE);
 	}
 	
 	/**
@@ -125,7 +124,7 @@ class Dokeos185CourseRelUser extends Import
 	 */
 	function get_user_id()
 	{
-		return $this->user_id;
+		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 	
 	/**
@@ -134,7 +133,7 @@ class Dokeos185CourseRelUser extends Import
 	 */
 	function get_status()
 	{
-		return $this->user_id;
+		return $this->get_default_property(self :: PROPERTY_STATUS);
 	}
 	
 	/**
@@ -143,7 +142,7 @@ class Dokeos185CourseRelUser extends Import
 	 */
 	function get_role()
 	{
-		return $this->role;
+		return $this->get_default_property(self :: PROPERTY_ROLE);
 	}
 	
 	/**
@@ -152,7 +151,7 @@ class Dokeos185CourseRelUser extends Import
 	 */
 	function get_group_id()
 	{
-		return $this->group_id;
+		return $this->get_default_property(self :: PROPERTY_GROUP_ID);
 	}
 	
 	/**
@@ -161,7 +160,7 @@ class Dokeos185CourseRelUser extends Import
 	 */
 	function get_tutor_id()
 	{
-		return $this->tutor_id;
+		return $this->get_default_property(self :: PROPERTY_TUTOR_ID);
 	}
 	
 	/**
@@ -170,7 +169,7 @@ class Dokeos185CourseRelUser extends Import
 	 */
 	function get_sort()
 	{
-		return $this->type;
+		return $this->get_default_property(self :: PROPERTY_SORT);
 	}
 	
 	/**
@@ -179,7 +178,7 @@ class Dokeos185CourseRelUser extends Import
 	 */
 	function get_user_course_cat()
 	{
-		return $this->user_course_cat;
+	return $this->get_default_property(self :: PROPERTY_USER_COURSE_CAT);
 	}
 	
 	/**
@@ -188,16 +187,25 @@ class Dokeos185CourseRelUser extends Import
 	 */
 	function set_user_id($user_id)
 	{
-		$this->user_id = $user_id;
+		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
 	}
 	
 	/**
-	 * Sets the status of this rel_user.
+	 * Sets the course code of this rel_user.
 	 * @param int $status The status.
 	 */
 	function set_course_code($course_code)
 	{
-		$this->course_code = $course_code;
+		$this->set_default_property(self :: PROPERTY_COURSE_CODE, $course_code);
+	}
+	
+	/**
+	 * Sets the status of this rel_user
+	 * @param int $status The status of the course
+	 */
+	function set_status($status)
+	{
+		$this->set_default_property(self :: PROPERTY_STATUS, $status);
 	}
 	
 	/**
@@ -206,7 +214,7 @@ class Dokeos185CourseRelUser extends Import
 	 */
 	function set_role($role)
 	{
-		$this->role = $role;
+		$this->set_default_property(self :: PROPERTY_ROLE, $role);
 	}
 	
 	/**
@@ -215,7 +223,7 @@ class Dokeos185CourseRelUser extends Import
 	 */
 	function set_group_id($group_id)
 	{
-		$this->group_id = $group_id;
+		$this->set_default_property(self :: PROPERTY_GROUP_ID, $group_id);
 	}
 	
 	/**
@@ -224,7 +232,7 @@ class Dokeos185CourseRelUser extends Import
 	 */
 	function set_tutor_id($tutor_id)
 	{
-		$this->tutor_id = $tutor_id;
+		$this->set_default_property(self :: PROPERTY_TUTOR_ID, $tutor_id);
 	}
 	
 	/**
@@ -233,7 +241,7 @@ class Dokeos185CourseRelUser extends Import
 	 */
 	function set_sort($sort)
 	{
-		$this->type = $sort;
+		$this->set_default_property(self :: PROPERTY_SORT, $sort);
 	}
 	
 	/**
@@ -242,7 +250,7 @@ class Dokeos185CourseRelUser extends Import
 	 */
 	function set_user_course_cat($user_course_cat)
 	{
-		$this->user_course_cat = $user_course_cat;
+		$this->set_default_property(self :: PROPERTY_USER_COURSE_CAT, $user_course_cat);
 	}
 	
 	function is_valid_course_user_relation()
@@ -251,7 +259,7 @@ class Dokeos185CourseRelUser extends Import
 			|| !$this->get_group_id() || $this->get_tutor_id())
 		{
 			self :: $mgdm->add_failed_element($this->get_user_id(),
-				'dokeos_main.user');
+				'dokeos_main.course_rel_user');
 			return false;
 		}
 		
