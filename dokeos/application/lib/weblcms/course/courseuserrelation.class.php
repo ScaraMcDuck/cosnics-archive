@@ -271,7 +271,7 @@ class CourseUserRelation {
 	function create()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		$success = $wdm->create_course_user_category($this);
+		$success = $wdm->create_course_user_relation($this);
 		if (!$success)
 		{
 			return false;

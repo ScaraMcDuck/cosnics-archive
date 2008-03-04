@@ -359,6 +359,12 @@ class Course {
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->create_course($this);
 	}
+	
+	function create_all()
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->create_course_all($this);
+	}
 
 	/**
 	 * Updates the course object in persistent storage

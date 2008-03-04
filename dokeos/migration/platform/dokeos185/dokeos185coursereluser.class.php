@@ -272,16 +272,16 @@ class Dokeos185CourseRelUser extends Import
 	/**
 	 * Migration course user relation
 	 */
-	function convert_to_new_course_rel_user()
+	function convert_to_new_course_user_relation()
 	{
 		//course_rel_user parameters
 		$lcms_course_rel_user = new CourseUserRelation();
 		
-		$course_code = $mgdm->get_id_reference($this->get_course_code(), 'weblcms_course');
+		$course_code = self :: $mgdm->get_id_reference($this->get_course_code(), 'weblcms_course');
 		if($course_code)
-			$lcms_course_rel_user->set_course_code($course_code);
+			$lcms_course_rel_user->set_course($course_code);
 		
-		$user_id = $mgdm->get_id_reference($this->get_user_id(), 'user_user');
+		$user_id = self :: $mgdm->get_id_reference($this->get_user_id(), 'user_user');
 		if($user_id)
 			$lcms_course_rel_user->set_user($user_id);
 		
@@ -293,12 +293,9 @@ class Dokeos185CourseRelUser extends Import
 		
 		$lcms_course_rel_user->set_sort($this->get_sort());
 		
-		$category_code = $mgdm->get_id_reference($this->get_user_course_cat(), 'weblcms_course_category');
+		$category_code = self :: $mgdm->get_id_reference($this->get_user_course_cat(), 'weblcms_course_category');
 		if($category_code)
 			$lcms_course_rel_user->set_user_course_cat($category_code);
-		
-		
-		
 		
 		//create user in database
 		$lcms_course_rel_user->create();
