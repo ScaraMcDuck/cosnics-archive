@@ -5,7 +5,7 @@
  * @subpackage browser.listrenderer
  */
 require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
-require_once dirname(__FILE__).'/../../../../common/weekcalendar.class.php';
+require_once Path :: get_application_library_path().'weekcalendar.class.php';
 /**
  * Interval between sections in the week view of the calendar.
  */
