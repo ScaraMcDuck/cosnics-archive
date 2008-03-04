@@ -97,7 +97,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		$this->migrate_user_course_categories();
 		
 		//Migrate the courses
-		//$this->migrate_courses();
+		$this->migrate_courses();
 		
 		//Migrate course users
 		//$this->migrate_course_users();
@@ -184,7 +184,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			if($course->is_valid_course())
 			{
 				$lcms_course = $course->convert_to_new_course();
-				$this->logfile->add_message('Course added ( ' . $lcms_course->get_code() . ' )');
+				$this->logfile->add_message('Course added ( ' . $lcms_course->get_id() . ' )');
 			}
 			else
 			{

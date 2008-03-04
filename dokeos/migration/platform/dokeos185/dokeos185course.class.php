@@ -5,7 +5,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/importcourse.class.php';
-require_once dirname(__FILE__).'/../../application/lib/weblcms/course/course.class.php';
+require_once dirname(__FILE__).'/../../../application/lib/weblcms/course/course.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 course
@@ -136,7 +136,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_code()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_CODE);
+		return $this->get_default_property(self :: PROPERTY_CODE);
 	}
 	
 	/**
@@ -145,7 +145,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_Directory()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_DIRECTORY);
+		return $this->get_default_property(self :: PROPERTY_DIRECTORY);
 	}
 	
 	/**
@@ -154,7 +154,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_db_name()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_DB_NAME);
+		return $this->get_default_property(self :: PROPERTY_DB_NAME);
 	}
 	
 	/**
@@ -163,7 +163,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_course_language()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_COURSE_LANGUAGE);
+		return $this->get_default_property(self :: PROPERTY_COURSE_LANGUAGE);
 	}
 	
 	/**
@@ -172,7 +172,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_title()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_TITLE);
+		return $this->get_default_property(self :: PROPERTY_TITLE);
 	}
 	
 	/**
@@ -181,7 +181,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_description()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_DESCRIPTION);
+		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
 	}
 	
 	/**
@@ -190,7 +190,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_category_code()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_CATEGORY_CODE);
+		return $this->get_default_property(self :: PROPERTY_CATEGORY_CODE);
 	}
 	
 	/**
@@ -199,7 +199,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_visibility()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_VISIBILITY);
+		return $this->get_default_property(self :: PROPERTY_VISIBILITY);
 	}
 	
 	/**
@@ -208,7 +208,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_show_score()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_SHOW_SCORE);
+		return $this->get_default_property(self :: PROPERTY_SHOW_SCORE);
 	}
 	
 	/**
@@ -217,7 +217,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_tutor_name()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_TUTOR_NAME);
+		return $this->get_default_property(self :: PROPERTY_TUTOR_NAME);
 	}
 	
 	/**
@@ -226,7 +226,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_visual_code()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_VISUAL_CODE);
+		return $this->get_default_property(self :: PROPERTY_VISUAL_CODE);
 	}
 	
 	/**
@@ -235,7 +235,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_department_name()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_DEPARTMENT_NAME);
+		return $this->get_default_property(self :: PROPERTY_DEPARTMENT_NAME);
 	}
 	
 	/**
@@ -244,7 +244,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_department_url()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_DEPARTMENT_URL);
+		return $this->get_default_property(self :: PROPERTY_DEPARTMENT_URL);
 	}
 	
 	/**
@@ -253,7 +253,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_disk_quota()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_DISK_QUOTA);
+		return $this->get_default_property(self :: PROPERTY_DISK_QUOTA);
 	}
 	
 	/**
@@ -262,7 +262,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_last_visit()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_LAST_VISIT);
+		return $this->get_default_property(self :: PROPERTY_LAST_VISIT);
 	}
 	
 	/**
@@ -271,7 +271,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_last_edit()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_LAST_EDIT);
+		return $this->get_default_property(self :: PROPERTY_LAST_EDIT);
 	}
 	
 	/**
@@ -280,7 +280,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_creation_date()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_CREATION_DATE);
+		return $this->get_default_property(self :: PROPERTY_CREATION_DATE);
 	}
 	
 	/**
@@ -289,7 +289,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_expiration_date()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_EXPIRATION_DATE);
+		return $this->get_default_property(self :: PROPERTY_EXPIRATION_DATE);
 	}
 	
 	/**
@@ -298,7 +298,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_target_course_code()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_TARGET_COURSE_CODE);
+		return $this->get_default_property(self :: PROPERTY_TARGET_COURSE_CODE);
 	}
 	
 	/**
@@ -307,7 +307,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_subscribe()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_SUBSCRIBE);
+		return $this->get_default_property(self :: PROPERTY_SUBSCRIBE);
 	}
 	
 	/**
@@ -316,7 +316,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_unsubscribe()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_UNSUBSCRIBE);
+		return $this->get_default_property(self :: PROPERTY_UNSUBSCRIBE);
 	}
 	
 	/**
@@ -325,7 +325,7 @@ class Dokeos185Course extends Import
 	 */
 	function get_registration_code()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_REGISTRATION_CODE);
+		return $this->get_default_property(self :: PROPERTY_REGISTRATION_CODE);
 	}
 	
 	/**
@@ -528,7 +528,9 @@ class Dokeos185Course extends Import
 	
 	function is_valid_course()
 	{
-		if(!$this->get_code() || !$this->get_show_score())
+		echo($this->get_code() . '</BR>');	
+		echo($this->get_show_score() . '</BR>');
+		if(!$this->get_code() || $this->get_show_score() == NULL)
 		{
 			self :: $mgdm->add_failed_element($this->get_code(),
 				'dokeos_main.course');
@@ -541,17 +543,26 @@ class Dokeos185Course extends Import
 	/**
 	 * Migration courses
 	 */
-	function convert_to_new_courses()
-	{
-		$mgdm = MigrationDataManager :: getInstance('Dokeos185');
-		
+	function convert_to_new_course()
+	{		
 		//Course parameters
 		$lcms_course = new Course();
+		$lcms_course->set_id($this->get_code());
 		$lcms_course->set_db($this->get_db_name());
 		$lcms_course->set_path($this->get_directory());
-		$lcms_course->set_language($this->get_course_language());
+		
+		if(self :: $mgdm->is_language_available($this->get_course_language()))
+			$lcms_course->set_language($this->get_course_language());
+		else
+			$lcms_course->set_language('english');
+		
 		$lcms_course->set_name($this->get_title());
-		$lcms_course->set_category_code($this->get_category_code());
+		
+		$category_code = self :: $mgdm->get_id_reference($this->get_category_code(), 'weblcms_course_category');
+		if($category_code)
+			$lcms_course->set_category_code($category_code);
+		
+		
 		$lcms_course->set_visibility($this->get_visibility());
 		$lcms_course->set_titular($this->get_tutor_name());
 		$lcms_course->set_visual($this->get_visual_code());
@@ -564,7 +575,9 @@ class Dokeos185Course extends Import
 		$lcms_course->create();
 		
 		//Add id references to temp table
-		self :: $mgdm->add_id_reference($this->get_code(), $lcms_course->get_code(), 'weblcms_course');
+		self :: $mgdm->add_id_reference($this->get_code(), $lcms_course->get_id(), 'weblcms_course');
+		
+		return $lcms_course;
 	}
 	
 	function get_all_courses($mgdm)
