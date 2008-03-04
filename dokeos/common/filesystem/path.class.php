@@ -19,12 +19,12 @@ define('WEB_LANG_PATH', 'WEB_LANG_PATH');
 define('SYS_LANG_PATH', 'SYS_LANG_PATH');
 
 // Some paths for the LCMS-applications
-define('SYS_APP_PATH', 'SYS_LANG_PATH');
-define('SYS_APP_ADM_PATH', 'SYS_APP_ADM_PATH');
-define('SYS_APP_CLSS_PATH', 'SYS_APP_CLSS_PATH');
-define('SYS_APP_INST_PATH', 'SYS_APP_INST_PATH');
-define('SYS_APP_MIGR_PATH', 'SYS_APP_MIGR_PATH');
-define('SYS_APP_REPO_PATH', 'SYS_APP_REPO_PATH');
+define('SYS_APP_PATH', 'SYS_APP_PATH');
+define('SYS_APP_ADMIN_PATH', 'SYS_APP_ADMIN_PATH');
+define('SYS_APP_CLASSGROUP_PATH', 'SYS_APP_CLASSGROUP_PATH');
+define('SYS_APP_INSTALL_PATH', 'SYS_APP_INSTALL_PATH');
+define('SYS_APP_MIGRATION_PATH', 'SYS_APP_MIGRATION_PATH');
+define('SYS_APP_REPOSITORY_PATH', 'SYS_APP_REPOSITORY_PATH');
 define('SYS_APP_USER_PATH', 'SYS_APP_USER_PATH');
 
 // Files-paths
@@ -155,6 +155,21 @@ class Path
     public static function get_user_path()
     {
     	return self :: get_path(SYS_APP_USER_PATH);
+    }
+    
+    public static function get_admin_path()
+    {
+    	return self :: get_path(SYS_APP_ADMIN_PATH);
+    }
+    
+    public static function get_plugin_path()
+    {
+    	return self :: get_path(SYS_PLUGIN_PATH);
+    }
+    
+    public static function get_language_path()
+    {
+    	return self :: get_path(SYS_LANG_PATH);
     }
 }
 ?>
