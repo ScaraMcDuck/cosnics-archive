@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../usermanager.class.php';
 require_once dirname(__FILE__).'/../usermanagercomponent.class.php';
 require_once dirname(__FILE__).'/../userexportform.class.php';
-require_once dirname(__FILE__).'/../../../../common/export/export.class.php';
+require_once Path :: get_library_path().'export/export.class.php';
 
 class UserManagerExporterComponent extends UserManagerComponent
 {

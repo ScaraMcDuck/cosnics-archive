@@ -5,9 +5,9 @@
  */
 require_once dirname(__FILE__).'/database/databaselearningobjectresultset.class.php';
 require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../../../common/configuration/configuration.class.php';
+require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../learningobject.class.php';
-require_once dirname(__FILE__).'/../../../common/condition/conditiontranslator.class.php';
+require_once Path :: get_library_path().'condition/conditiontranslator.class.php';
 require_once dirname(__FILE__).'/../../../admin/lib/admindatamanager.class.php';
 
 require_once 'MDB2.php';

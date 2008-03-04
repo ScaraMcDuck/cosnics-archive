@@ -10,10 +10,10 @@ require_once dirname(__FILE__).'/../learningobjectcategorymenu.class.php';
 require_once dirname(__FILE__).'/../learningobject.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublicationattributes.class.php';
 require_once dirname(__FILE__).'/../optionsmenurenderer.class.php';
-require_once dirname(__FILE__).'/../../../common/condition/orcondition.class.php';
-require_once dirname(__FILE__).'/../../../common/condition/equalitycondition.class.php';
+require_once Path :: get_library_path().'condition/orcondition.class.php';
+require_once Path :: get_library_path().'condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../learning_object_table/learningobjecttable.class.php';
-require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidator.class.php';
+require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../users/lib/usersdatamanager.class.php';
 /**
  * A repository manager provides some functionalities to the end user to manage

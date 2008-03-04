@@ -3,7 +3,7 @@
  * $Id$
  * @package repository
  */
-require_once dirname(__FILE__).'/../../common/configuration/configuration.class.php';
+require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once dirname(__FILE__).'/learningobjectpublicationattributes.class.php';
 require_once dirname(__FILE__).'/data_manager/database/databaselearningobjectresultset.class.php';
 require_once dirname(__FILE__).'/../../application/lib/application.class.php';

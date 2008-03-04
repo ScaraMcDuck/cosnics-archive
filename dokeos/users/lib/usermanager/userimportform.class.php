@@ -2,8 +2,8 @@
 /**
  * @package users.lib.usermanager
  */
-require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/../../../common/import/import.class.php';
+require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
+require_once Path :: get_library_path().'import/import.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../usersdatamanager.class.php';
 
