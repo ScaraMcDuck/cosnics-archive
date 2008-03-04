@@ -299,6 +299,8 @@ class Dokeos185CourseRelUser extends Import
 		
 		//create user in database
 		$lcms_course_rel_user->create();
+		
+		return $lcms_course_rel_user;
 	}
 	
 	function get_all_course_rel_user($mgdm)
