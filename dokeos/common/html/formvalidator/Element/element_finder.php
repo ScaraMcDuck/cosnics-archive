@@ -4,7 +4,7 @@ require_once 'HTML/QuickForm/select.php';
 require_once 'HTML/QuickForm/button.php';
 require_once 'HTML/QuickForm/hidden.php';
 require_once 'HTML/QuickForm/group.php';
-require_once dirname(__FILE__).'/../../../resourcemanager.class.php';
+require_once Path :: get_library_path().'resourcemanager.class.php';
 
 /**
  * AJAX-based tree search and multiselect element. Use at your own risk.

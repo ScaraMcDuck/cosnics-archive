@@ -5,7 +5,7 @@
  * @subpackage browser.listrenderer
  */
 require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
-require_once dirname(__FILE__).'/../../../../common/monthcalendar.class.php';
+require_once Path :: get_application_library_path().'monthcalendar.class.php';
 /**
  * Renderer to display events in a month calendar
  */
