@@ -49,7 +49,7 @@ class Path
 			case WEB_PATH :
 				return Configuration :: get_instance()->get_parameter('general', 'root_web');
 			case SYS_PATH :
-				return realpath(dirname(__FILE__) . '/../../');
+				return realpath(dirname(__FILE__) . '/../../') . '/';
 			case REL_PATH :
 				$url_append = Configuration :: get_instance()->get_parameter('general', 'url_append');
 				return (substr($url_append, -1) === '/' ? $url_append : $url_append.'/');
