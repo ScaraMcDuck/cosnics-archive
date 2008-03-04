@@ -530,7 +530,8 @@ class Dokeos185Course extends Import
 	{
 		echo($this->get_code() . '</BR>');	
 		echo($this->get_show_score() . '</BR>');
-		if(!$this->get_code() || $this->get_show_score() == NULL)
+		if(!$this->get_code() || $this->get_show_score() == NULL || 
+			self :: $mgdm->get_failed_element('dokeos_main.course_category', $this->get_category_code()))
 		{
 			self :: $mgdm->add_failed_element($this->get_code(),
 				'dokeos_main.course');
