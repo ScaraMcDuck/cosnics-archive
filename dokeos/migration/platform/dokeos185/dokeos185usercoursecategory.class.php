@@ -207,13 +207,13 @@ class Dokeos185UserCourseCategory extends Import
 		$lcms_user_course_category->set_title($this->get_title());
 		$lcms_user_course_category->set_sort($this->get_sort());
 		
-		
-		
 		//create course in database
 		$lcms_user_course_category->create();
 		
 		//Add id references to temp table
-		self :: $mgdm->add_id_reference($this->get_id(), $lcms_user_course_category->get_code(), 'weblcms_course_user_category');
+		self :: $mgdm->add_id_reference($this->get_id(), $lcms_user_course_category->get_id(), 'weblcms_course_user_category');
+		
+		return $lcms_user_course_category;
 	}
 	
 	function get_all_users_courses_categories($mgdm)

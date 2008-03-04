@@ -29,7 +29,6 @@ class CourseUserCategory {
 	const PROPERTY_SORT = 'sort';
 	const PROPERTY_TITLE = 'title';
 
-	private $id;
 	private $defaultProperties;
 
 	/**
@@ -41,8 +40,8 @@ class CourseUserCategory {
 	 */
     function CourseUserCategory($id = null, $defaultProperties = array ())
     {
-    	$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
+		$this->set_id($id);
     }
 
     /**
@@ -88,7 +87,7 @@ class CourseUserCategory {
 	 */
     function get_id()
     {
-    	return $this->id;
+    	return $this->get_default_property(self :: PROPERTY_ID);
     }
 
     /**
@@ -97,7 +96,7 @@ class CourseUserCategory {
      */
     function set_id($id)
 	{
-		$this->id = $id;
+		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
 
 	/**
@@ -176,8 +175,8 @@ class CourseUserCategory {
 	 */
 	function create()
 	{
-		// TODO: Use get_next_...
 		$wdm = WeblcmsDataManager :: get_instance();
+		$this->set_id($wdm->get_next_course_user_category_id());
 		$success = $wdm->create_course_user_category($this);
 		if (!$success)
 		{
