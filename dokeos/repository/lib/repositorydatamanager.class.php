@@ -148,9 +148,7 @@ abstract class RepositoryDataManager
 	{
 		$object = new Category();
 		$object->set_owner_id($user_id);
-		// TODO: Make the Translations work in the installer
-		//$object->set_title(Translation :: get_lang('MyRepository'));
-		$object->set_title('MyRepository');
+		$object->set_title(Translation :: get_lang('MyRepository'));
 		$object->set_description('...');
 		$object->create();
 		return $object;

@@ -144,8 +144,6 @@ class PersonalMessagePublicationCreator extends PersonalMessagePublisherComponen
 				$failures++;
 				$message = 'PersonalMessageNotSent';
 			}
-			// TODO: Use a function for this.
-
 			$this->redirect(null, Translation :: get_lang($message), ($failures ? true : false), array(PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES, PersonalMessenger :: PARAM_FOLDER => PersonalMessenger :: ACTION_FOLDER_OUTBOX));
 		}
 		else

@@ -4,6 +4,7 @@
  * @subpackage install
  */
 require_once dirname(__FILE__).'/installwizardpage.class.php';
+require_once 'MDB2.php';
 /**
  * Class for database settings page
  * Displays a form where the user can enter the installation settings
@@ -33,10 +34,6 @@ class DatabaseInstallWizardPage extends InstallWizardPage
 		$this->addElement('text', 'database_name', Translation :: get_lang('DatabaseName'), array ('size' => '40'));
 		$this->addRule('database_name', 'ThisFieldIsRequired', 'required');
 		$this->addRule('database_name', 'OnlyCharactersNumbersUnderscoresAndHyphens', 'regex', '/^[a-z][a-z0-9_-]+$/');
-
-		//$enable_tracking[] = $this->createElement('radio', 'enable_tracking', null, Translation :: get_lang("Yes"), 1);
-		//$enable_tracking[] = $this->createElement('radio', 'enable_tracking', null, Translation :: get_lang("No"), 0);
-		//$this->addGroup($enable_tracking, 'tracking', Translation :: get_lang("EnableTracking"), '&nbsp;', false);
 		
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get_lang('Previous'));
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
@@ -62,12 +59,18 @@ class ValidateDatabaseConnection extends HTML_QuickForm_Rule
 		$db_host = $parameters[0];
 		$db_user = $parameters[1];
 		$db_password = $parameters[2];
-		//TODO use database abstraction here
-		if(mysql_connect($db_host,$db_user,$db_password))
+		
+		$connection_string = 'mysql://'. $db_user .':'. $db_password .'@'. $db_host;
+		$connection = MDB2 :: connect($connection_string);
+		
+		if (MDB2 :: isError($connection))
+		{
+			return false;
+		}
+		else
 		{
 			return true;
 		}
-		return false;
 	}
 }
 ?>

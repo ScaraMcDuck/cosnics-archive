@@ -39,7 +39,6 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		flush();
 		
 		// 2. Write the config files
-		// TODO: Unify both config files
 		$config_file = $this->write_config_file($values);
 		$this->process_result('config', $config_file);
 		flush();
