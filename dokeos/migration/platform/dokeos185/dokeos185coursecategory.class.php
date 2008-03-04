@@ -291,7 +291,7 @@ class Dokeos185CourseCategory extends Import
 		
 		if($this->get_parent_id())
 		{
-			$parent_id = $mgdm->get_id_reference($this->get_parent_id(), 'weblcms_course_category');
+			$parent_id = self :: $mgdm->get_id_reference($this->get_parent_id(), 'weblcms_course_category');
 			if($parent_id)
 				$lcms_course_category->set_parent($parent_id);
 		}
@@ -305,9 +305,9 @@ class Dokeos185CourseCategory extends Import
 		else
 			$lcms_course_category->set_children_count(0);
 			
-		$lcms_course_category->set_auth_course_child($this->get_auth_course_child());
-		$lcms_course_category->set_auth_cat_child($this->get_auth_cat_child());
-		
+		$lcms_course_category->set_auth_course_child($this->get_auth_course_child()?1:0);
+		$lcms_course_category->set_auth_cat_child($this->get_auth_cat_child()?1:0);
+
 		//create course_category in database
 		$lcms_course_category->create();
 		

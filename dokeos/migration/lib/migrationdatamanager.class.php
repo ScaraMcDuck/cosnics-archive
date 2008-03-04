@@ -269,7 +269,7 @@ abstract class MigrationDataManager
 	 {
 	 	$this->db_lcms_connect();
 	 	$query = 'SELECT MAX(' . $field_name . ') AS \'highest\' FROM ' . $table_name;
-	 	echo($query . 'test');
+	 	
 	 	$result = $this->db_lcms->query($query);
 	 	$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 	 	$number = $record['highest'];
