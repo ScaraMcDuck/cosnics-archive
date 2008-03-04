@@ -5,7 +5,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/importclass.class.php';
-require_once dirname(__FILE__).'/../../../application/lib/weblcms/course/courseuserrelation.class.php';
+require_once dirname(__FILE__).'/../../../classgroup/lib/classgroup.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 class
@@ -169,13 +169,20 @@ class Dokeos185Class extends Import
 	
 	function convert_to_new_class()
 	{
-		// TODO	
-	
 		//class parameters
-		//$lcms_class = new Class();
+		$lcms_class = new ClassGroup();
 		
-		$lcms_course_rel_user->set_status($this->get_status());
-		$lcms_course_rel_user->set_role($this->get_role());
+		$lcms_class->set_name($this->get_name());
+		$lcms_class->set_description($this->get_name());
+		$lcms_class->set_sort(self :: $mgdm->get_next_position('classgroup_classgroup', 'sort'));
+		
+		//create course in database
+		$lcms_class->create();
+		
+		//Add id references to temp table
+		self :: $mgdm->add_id_reference($this->get_id(), $lcms_class->get_id(), 'classgroup_classgroup');
+		
+		return $lcms_class;
 	}
 	function get_all_classes($mgdm)
 	{
