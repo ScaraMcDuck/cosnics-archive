@@ -366,6 +366,84 @@ class Dokeos185DataManager extends MigrationDataManager
 		}
 		return new Dokeos185UserCourseCategory($defaultProp);
 	}
+	
+	/** Get all the Class from the dokeos185 database
+	 * @return array of Dokeos185Class
+	 */
+	function get_all_classes()
+	{
+		$this->db_connect('main_database');
+		$query = 'SELECT * FROM class';
+		$result = $this->db->query($query);
+		$classes = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$classes[] = $this->record_to_class($record);
+			
+		}
+		$result->free();
+		
+		return $classes;
+	}
+	
+	/**
+	 * Map a resultset record to a Dokeos185Class Object
+	 * @param ResultSetRecord $record from database
+	 * @return Dokeos185Class object with mapped data
+	 */
+	function record_to_class($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Dokeos185Class :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new Dokeos185Class($defaultProp);
+	}
+	
+	/** Get all the Class_User from the dokeos185 database
+	 * @return array of Dokeos185ClassUser
+	 */
+	function get_all_classe_user()
+	{
+		$this->db_connect('main_database');
+		$query = 'SELECT * FROM class_user';
+		$result = $this->db->query($query);
+		$class_users = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$class_users[] = $this->record_to_class_user($record);
+			
+		}
+		$result->free();
+		
+		return $class_users;
+	}
+	
+	/**
+	 * Map a resultset record to a Dokeos185ClassUser Object
+	 * @param ResultSetRecord $record from database
+	 * @return Dokeos185ClassUser object with mapped data
+	 */
+	function record_to_class_user($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Dokeos185ClassUser :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new Dokeos185ClassUser($defaultProp);
+	}
+	
+	
 }
 
 ?>
