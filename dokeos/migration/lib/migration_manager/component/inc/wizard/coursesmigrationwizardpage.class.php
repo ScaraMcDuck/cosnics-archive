@@ -215,7 +215,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			{
 				$lcms_coursereluser = $coursereluser->convert_to_new_course_user_relation();
 				$this->logfile->add_message('Course user relation added ( ' 
-					. $lcms_coursereluser->get_course_code() . ' ' .
+					. $lcms_coursereluser->get_course() . ' ' .
 					  $lcms_coursereluser->get_user_id() . ' )');
 			}
 			else

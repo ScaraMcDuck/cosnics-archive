@@ -34,10 +34,10 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$this->_formBuilt = true;
 		$this->addElement('text', 'old_directory', Translation :: get_lang('old_directory'), array ('size' => '40'));
 		$this->addRule('old_directory', 'ThisFieldIsRequired', 'required');
+
+		$exports = $this->controller->exportValues();
 		
-		ValidateSettings :: set_values($this->controller->exportValues());
-		
-		$this->addRule(array('old_directory'),Translation :: get_lang('CouldNotVerifySettings'), new ValidateSettings());
+		$this->addRule(array('old_directory', $exports['old_system']),Translation :: get_lang('CouldNotVerifySettings'), new ValidateSettings());
 
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get_lang('Previous'));
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
@@ -56,17 +56,10 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 
 class ValidateSettings extends HTML_QuickForm_Rule
 {
-	private static $values;
-	
 	public function validate($parameters)
 	{
-		$dmgr = MigrationDataManager :: getInstance(self :: $values['old_system'], $parameters[0]);
+		$dmgr = MigrationDataManager :: getInstance($parameters[1], $parameters[0]);
 		return $dmgr->validate_settings();
-	}
-	
-	public static function set_values($values)
-	{
-		self :: $values = $values;
 	}
 }
 ?>

@@ -715,10 +715,10 @@ class Dokeos185User extends Import
 		$lcms_repository_profile->set_title($lcms_user->get_fullname());
 		$lcms_repository_profile->set_description('...');
 		
-		$repository_id = self :: $mgdm->get_parent_id($lcms_user->get_user_id(), 
-			'category', 'MyRepository');
-		
 		//Retrieve repository id from user
+		$repository_id = self :: $mgdm->get_parent_id($lcms_user->get_user_id(), 
+			'category', 'My Repository');
+		
 		$lcms_repository_profile->set_parent_id($repository_id);
 		
 		//Create profile in database

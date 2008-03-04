@@ -73,7 +73,7 @@ abstract class MigrationDataManager
 		$this->db_lcms_connect();
 		$query = 'SELECT id FROM repository_learning_object WHERE owner=\'' . $owner . '\' AND type=\'' . $type .
 		 		'\' AND title=\'' . $title . '\'';
-
+	
 		$result = $this->db_lcms->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$result->free();

@@ -1086,6 +1086,25 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			return false;
 		}
 	}
+	
+	function create_course_all($course)
+	{
+		$props = array();
+		foreach ($course->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$props[Course :: PROPERTY_ID] = $course->get_id();
+		$this->connection->loadModule('Extended');
+		if ($this->connection->extended->autoExecute($this->get_table_name('course'), $props, MDB2_AUTOQUERY_INSERT))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 	function is_subscribed($course, $user_id)
 	{
