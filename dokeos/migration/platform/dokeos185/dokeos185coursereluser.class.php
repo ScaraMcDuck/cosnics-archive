@@ -261,7 +261,7 @@ class Dokeos185CourseRelUser extends Import
 			self :: $mgdm->get_failed_element('dokeos_main.course', $this->get_course_code()) ||
 			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()) )
 		{
-			self :: $mgdm->add_failed_element($this->get_user_id(),
+			self :: $mgdm->add_failed_element($this->get_user_id() . '-' . $this->get_course_code(),
 				'dokeos_main.course_rel_user');
 			return false;
 		}
