@@ -179,11 +179,11 @@ abstract class MigrationDataManager
 	 * @param int $id ID of  an failed migration element
 	 * @return database-record failed migration record
 	 */
-	 function get_failed_element($id)
+	 function get_failed_element($table_name, $old_id)
 	 {	
 		$this->db_lcms_connect();
 	 	$query = 'SELECT * FROM ' . self :: TEMP_FAILED_ELEMENTS_TABLE . 
-				 ' WHERE id = \'' . $id . '\'';
+				 ' WHERE table_name=\'' . $table_name . '\' AND failed_id=\'' . $old_id . '\'';
 		$result = $this->db_lcms->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$result->free();
