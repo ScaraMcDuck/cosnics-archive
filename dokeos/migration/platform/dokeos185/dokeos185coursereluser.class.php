@@ -4,7 +4,8 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/importcourse.class.php';
+require_once dirname(__FILE__).'/../../lib/import/importcoursereluser.class.php';
+require_once dirname(__FILE__).'/../../application/lib/weblcms/course/courseuserrelation.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 course_rel_user
@@ -290,7 +291,7 @@ class Dokeos185CourseRelUser extends Import
 		$lcms_course_rel_user->create();
 	}
 	
-	function get_all_course_rel_user($mgdm)
+	function get_all_course_rel_users($mgdm)
 	{
 		self :: $mgdm = $mgdm;
 		return self :: $mgdm->get_all_course_rel_user();

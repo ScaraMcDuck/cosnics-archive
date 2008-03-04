@@ -259,6 +259,24 @@ abstract class MigrationDataManager
 	 	$result = $this->db_lcms->query($query);
 	 	return ($result->numRows() > 0);
 	 }
+
+	 
+	 /**
+	  * get the next position
+	  * @return int next position
+	  */
+	 function get_next_position($table_name,$field_name)
+	 {
+	 	$this->db_lcms_connect();
+	 	$query = 'SELECT MAX(' . $field_name . ') AS \'highest\' FROM ' . $table_name;
+	 	echo($query . 'test');
+	 	$result = $this->db_lcms->query($query);
+	 	$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+	 	$number = $record['highest'];
+	 	
+	 	return ++$number;
+	 }
+
 	 
 	 /**
 	  * Checks if a code is allready available in a table
@@ -266,10 +284,11 @@ abstract class MigrationDataManager
 	 function code_available($table_name, $code)
 	 {
 	 	$this->db_lcms_connect();
-	 	$query = 'SELECT id AS \'count\' FROM ' . $table_name . ' WHERE code=\'' . $code . '\'';
-	 	$result = $this->db-lcms->query($query);
+	 	$query = 'SELECT id FROM ' . $table_name . ' WHERE code=\'' . $code . '\'';
+	 	$result = $this->db_lcms->query($query);
 	 	return ($result->numRows() > 0);
 	 }
+
 }
 
 ?>
