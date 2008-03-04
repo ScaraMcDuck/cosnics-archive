@@ -329,7 +329,43 @@ class Dokeos185DataManager extends MigrationDataManager
 		return new Dokeos185CourseRelUser($defaultProp);
 	}
 	
+	/** Get all the user courses category relations from the dokeos185 database
+	 * @return array of Dokeos185UserCourseCategory
+	 */
+	function get_all_users_courses_categories()
+	{
+		$this->db_connect('user_personal_database');
+		$query = 'SELECT * FROM user_course_category';
+		$result = $this->db->query($query);
+		$users_courses_categories = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$users_courses_categories[] = $this->record_to_user_course_category($record);
+			
+		}
+		$result->free();
+		
+		return $users_courses_categories;
+	}
 	
+	/**
+	 * Map a resultset record to a Dokeos185UserCourseCategory Object
+	 * @param ResultSetRecord $record from database
+	 * @return Dokeos185UserCourseCategory object with mapped data
+	 */
+	function record_to_user_course_category($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Dokeos185UserCourseCategory :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new Dokeos185UserCourseCategory($defaultProp);
+	}
 }
 
 ?>

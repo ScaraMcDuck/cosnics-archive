@@ -3,8 +3,8 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/importusercoursecategro.class.php';
-require_once dirname(__FILE__).'/../../application/lib/weblcms/course/courseusercategory.class.php';
+require_once dirname(__FILE__).'/../../lib/import/importusercoursecategory.class.php';
+require_once dirname(__FILE__).'/../../../application/lib/weblcms/course/courseusercategory.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 user course category
@@ -109,7 +109,7 @@ class Dokeos185UserCourseCategory extends Import
 	 */
 	function get_id()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_ID);
+		return $this->get_default_property(self :: PROPERTY_ID);
 	}
 	
 	/**
@@ -118,7 +118,7 @@ class Dokeos185UserCourseCategory extends Import
 	 */
 	function get_user_id()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_USER_ID);
+		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 	
 	/**
@@ -127,7 +127,7 @@ class Dokeos185UserCourseCategory extends Import
 	 */
 	function get_title()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_TITLE);
+		return $this->get_default_property(self :: PROPERTY_TITLE);
 	}
 	
 	/**
@@ -136,7 +136,7 @@ class Dokeos185UserCourseCategory extends Import
 	 */
 	function get_sort()
 	{
-		return $this->get_default_user_property(self :: PROPERTY_SORT);
+		return $this->get_default_property(self :: PROPERTY_SORT);
 	}
 	
 	/**
@@ -179,9 +179,9 @@ class Dokeos185UserCourseCategory extends Import
 	 * checks if a user course category is valid to be written at the db
 	 * @return Boolean 
 	 */
-	function is_valid_course()
+	function is_valid_user_course_category()
 	{
-		if(!$this->get_id() || !$this->get_user_id || !$this->get_title())
+		if(!$this->get_id() || !$this->get_user_id() || !$this->get_title())
 		{
 			self :: $mgdm->add_failed_element($this->get_id(),
 				'dokeos_user.user_course_category');

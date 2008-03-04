@@ -94,7 +94,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		$this->migrate_course_categories();
 		
 		//Migrate the user course categories
-		//$this->migrate_user_course_categories
+		$this->migrate_user_course_categories();
 		
 		//Migrate the courses
 		//$this->migrate_courses();
