@@ -181,12 +181,14 @@ class Dokeos185UserCourseCategory extends Import
 	 */
 	function is_valid_user_course_category()
 	{
-		if(!$this->get_id() || !$this->get_user_id() || !$this->get_title())
+		if(!$this->get_id() || !$this->get_user_id() || !$this->get_title() || 
+			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()))
 		{
 			self :: $mgdm->add_failed_element($this->get_id(),
 				'dokeos_user.user_course_category');
 			return false;
 		}
+		
 		return true;
 	}
 	
@@ -195,17 +197,14 @@ class Dokeos185UserCourseCategory extends Import
 	 */
 	function convert_to_new_user_course_category()
 	{
-		$mgdm = MigrationDataManager :: getInstance('Dokeos185');
-		
 		//Course parameters
 		$lcms_user_course_category = new CourseUserCategory();
 		
-		$user_id = $mgdm->get_id_reference($this->get_user_id(), 'user_user');
+		$user_id = self :: $mgdm->get_id_reference($this->get_user_id(), 'user_user');
 		if($user_id)
 			$lcms_user_course_category->set_user($user_id);
 			
 		$lcms_user_course_category->set_title($this->get_title());
-		$lcms_user_course_category->set_sort($this->get_sort());
 		
 		//create course in database
 		$lcms_user_course_category->create();
