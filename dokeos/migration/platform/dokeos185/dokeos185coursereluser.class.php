@@ -5,7 +5,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/importcoursereluser.class.php';
-require_once dirname(__FILE__).'/../../application/lib/weblcms/course/courseuserrelation.class.php';
+require_once dirname(__FILE__).'/../../../application/lib/weblcms/course/courseuserrelation.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 course_rel_user
@@ -116,7 +116,7 @@ class Dokeos185CourseRelUser extends Import
 	 */
 	function get_course_code()
 	{
-		return $this->get_default_property(self :: PROPERTY_COURSE_CODE);
+		return $this->get_default_property(self :: PROPERTY_CODE);
 	}
 	
 	/**
@@ -274,7 +274,10 @@ class Dokeos185CourseRelUser extends Import
 	{
 		//course_rel_user parameters
 		$lcms_course_rel_user = new CourseUserRelation();
-		$lcms_course_rel_user->set_course($this->get_course_code());
+		
+		$course_code = $mgdm->get_id_reference($this->get_course_code(), 'weblcms_course');
+		if($course_code)
+			$lcms_course_rel_user->set_course_code($course_code);
 		
 		$user_id = $mgdm->get_id_reference($this->get_user_id(), 'user_user');
 		if($user_id)
@@ -283,15 +286,23 @@ class Dokeos185CourseRelUser extends Import
 		$lcms_course_rel_user->set_status($this->get_status());
 		$lcms_course_rel_user->set_role($this->get_role());
 		$lcms_course_rel_user->set_group($this->get_group_id());
+		
 		$lcms_course_rel_user->set_tutor($this->get_tutor_id());
+		
 		$lcms_course_rel_user->set_sort($this->get_sort());
-		$lcms_course_rel_user->set_category($this->get_user_course_cat());
+		
+		$category_code = $mgdm->get_id_reference($this->get_user_course_cat(), 'weblcms_course_category');
+		if($category_code)
+			$lcms_course_rel_user->set_user_course_cat($category_code);
+		
+		
+		
 		
 		//create user in database
 		$lcms_course_rel_user->create();
 	}
 	
-	function get_all_course_rel_users($mgdm)
+	function get_all_course_rel_user($mgdm)
 	{
 		self :: $mgdm = $mgdm;
 		return self :: $mgdm->get_all_course_rel_user();

@@ -100,7 +100,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		$this->migrate_courses();
 		
 		//Migrate course users
-		//$this->migrate_course_users();
+		$this->migrate_course_users();
 	
 		//Close the logfile
 		$this->logfile->write_all_messages();
