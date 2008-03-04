@@ -42,9 +42,18 @@ class SystemMigrationWizardPage extends MigrationWizardPage
 	
 	function get_old_systems_list()
 	{
-		//TODO: add function to get more available systems
 		$system_list = array();
-		$system_list['dokeos185'] = 'dokeos 1.8.5';
+		
+		$path = Path :: get_path(SYS_APP_MIGRATION_PATH).'platform/';
+		$directories = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
+		foreach($directories as $index => $directory)
+		{
+			if ($directory[0] !== '.')
+			{
+				$system_list[] = $directory;
+			}
+		}
+
 		return $system_list;
 	}
 	

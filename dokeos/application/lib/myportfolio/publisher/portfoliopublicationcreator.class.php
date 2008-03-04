@@ -141,8 +141,6 @@ class PortfolioPublicationCreator extends PortfolioPublisherComponent
 				$failures++;
 				$message = 'PortfolioNotPublished';
 			}
-			// TODO: Use a function for this.
-
 			$this->redirect(null, Translation :: get_lang($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES));
 		}
 		else

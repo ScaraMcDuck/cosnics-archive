@@ -86,11 +86,7 @@ class CourseForm extends FormValidator {
 
 		$this->addElement('text', Course :: PROPERTY_EXTLINK_NAME, Translation :: get_lang('Department'));
 		$this->addElement('text', Course :: PROPERTY_EXTLINK_URL, Translation :: get_lang('DepartmentUrl'));
-
-		/*
-		 * TODO: SCARA - It's probably better to have a general language class somewhere ?
-		 */
-		 
+		
 		$adm = AdminDataManager :: get_instance();
 		$languages = $adm->retrieve_languages();
 		$lang_options = array();
