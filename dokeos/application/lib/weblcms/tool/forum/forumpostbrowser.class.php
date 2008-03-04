@@ -7,7 +7,7 @@
  */
 require_once dirname(__FILE__).'/../../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../../learningobjectpublicationbrowser.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/learningobjectform.class.php';
+require_once Path :: get_repository_path(). 'lib/learningobjectform.class.php';
 require_once dirname(__FILE__).'/forumpublicationlistrenderer.class.php';
 require_once dirname(__FILE__).'/forumtopiclistrenderer.class.php';
 require_once dirname(__FILE__).'/forumpostlistrenderer.class.php';

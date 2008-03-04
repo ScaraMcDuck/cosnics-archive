@@ -1,12 +1,12 @@
 <?php
 
 require_once dirname(__FILE__).'/../../../../../../common/global.inc.php';
-require_once dirname(__FILE__).'/../../../../../../repository/lib/repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../../../../../../repository/lib/learning_object/learning_style_survey/learning_style_survey.class.php';
-require_once dirname(__FILE__).'/../../../../../../repository/lib/learning_object/learning_style_survey_category/learning_style_survey_category.class.php';
-require_once dirname(__FILE__).'/../../../../../../repository/lib/learning_object/learning_style_survey_section/learning_style_survey_section.class.php';
-require_once dirname(__FILE__).'/../../../../../../repository/lib/learning_object/learning_style_survey_question/learning_style_survey_question.class.php';
-require_once dirname(__FILE__).'/../../../../../../repository/lib/learning_object/learning_style_survey_profile/learning_style_survey_profile.class.php';
+require_once Path :: get_repository_path(). 'lib/repositorydatamanager.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object/learning_style_survey/learning_style_survey.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object/learning_style_survey_category/learning_style_survey_category.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object/learning_style_survey_section/learning_style_survey_section.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object/learning_style_survey_question/learning_style_survey_question.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object/learning_style_survey_profile/learning_style_survey_profile.class.php';
 
 header('Content-Type: text/plain; charset=UTF-8');
 

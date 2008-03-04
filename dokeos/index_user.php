@@ -1,7 +1,7 @@
 <?php
 $this_section='user';
 require_once dirname(__FILE__).'/common/global.inc.php';
-require_once dirname(__FILE__).'/users/lib/usermanager/usermanager.class.php';
+require_once Path :: get_user_path(). 'lib/usermanager/usermanager.class.php';
 
 Translation :: set_application($this_section);
 

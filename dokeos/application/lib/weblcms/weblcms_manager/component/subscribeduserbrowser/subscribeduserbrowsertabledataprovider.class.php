@@ -2,7 +2,7 @@
 /**
  * @package application.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__).'/../../../../../../users/lib/user_table/usertabledataprovider.class.php';
+require_once Path :: get_user_path(). 'lib/user_table/usertabledataprovider.class.php';
 /**
  * Data provider for a repository browser table.
  *

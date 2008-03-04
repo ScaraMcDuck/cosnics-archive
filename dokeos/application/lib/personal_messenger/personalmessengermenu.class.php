@@ -6,7 +6,7 @@
  */
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
-require_once dirname(__FILE__).'/../../../repository/lib/treemenurenderer.class.php';
+require_once Path :: get_repository_path(). 'lib/treemenurenderer.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
  * personal messages.

@@ -5,8 +5,8 @@
  * @author Dieter De Neef
  */
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
-require_once dirname(__FILE__).'/../../../../users/lib/user.class.php';
+require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
+require_once Path :: get_user_path(). 'lib/user.class.php';
 require_once dirname(__FILE__).'/course.class.php';
 require_once dirname(__FILE__).'/coursecategory.class.php';
 

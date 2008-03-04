@@ -5,8 +5,8 @@
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../userquota.class.php';
-require_once dirname(__FILE__).'/../../../repository/lib/repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../../../repository/lib/abstractlearningobject.class.php';
+require_once Path :: get_repository_path(). 'lib/repositorydatamanager.class.php';
+require_once Path :: get_repository_path(). 'lib/abstractlearningobject.class.php';
 
 
 class UserQuotaForm extends FormValidator {

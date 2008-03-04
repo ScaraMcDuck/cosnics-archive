@@ -4,9 +4,9 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object_table/learningobjecttablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object_table/learningobjecttablecolumn.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/learningobject.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object_table/learningobjecttablecolumnmodel.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object_table/learningobjecttablecolumn.class.php';
+require_once Path :: get_repository_path(). 'lib/learningobject.class.php';
 /**
  * This class represents a column model for a publication candidate table
  */

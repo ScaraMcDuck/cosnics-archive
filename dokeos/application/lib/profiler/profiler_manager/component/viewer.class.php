@@ -4,8 +4,8 @@
  */
 require_once dirname(__FILE__).'/../profiler.class.php';
 require_once dirname(__FILE__).'/../profilercomponent.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/repositoryutilities.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/learningobjectdisplay.class.php';
+require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
+require_once Path :: get_repository_path(). 'lib/learningobjectdisplay.class.php';
 
 class ProfilerViewerComponent extends ProfilerComponent
 {	

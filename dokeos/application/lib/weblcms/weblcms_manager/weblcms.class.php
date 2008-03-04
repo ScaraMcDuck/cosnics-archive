@@ -19,8 +19,8 @@ require_once Path :: get_library_path().'condition/notcondition.class.php';
 require_once Path :: get_library_path().'condition/equalitycondition.class.php';
 require_once Path :: get_library_path().'condition/likecondition.class.php';
 require_once dirname(__FILE__).'/../course/course_table/coursetable.class.php';
-require_once dirname(__FILE__).'/../../../../users/lib/user_table/usertable.class.php';
-require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
+require_once Path :: get_user_path(). 'lib/user_table/usertable.class.php';
+require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 
 /**
 ==============================================================================

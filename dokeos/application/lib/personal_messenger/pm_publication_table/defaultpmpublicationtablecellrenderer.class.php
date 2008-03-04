@@ -6,7 +6,7 @@
  */
 
 require_once dirname(__FILE__).'/pmpublicationtablecellrenderer.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/learningobject.class.php';
+require_once Path :: get_repository_path(). 'lib/learningobject.class.php';
 require_once dirname(__FILE__).'/../personalmessagepublication.class.php';
 
 class DefaultPmPublicationTableCellRenderer implements PmPublicationTableCellRenderer

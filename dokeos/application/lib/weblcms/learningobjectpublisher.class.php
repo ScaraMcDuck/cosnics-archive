@@ -3,7 +3,7 @@
  * $Id$
  * @package application.weblcms
  */
-require_once dirname(__FILE__).'/../../../repository/lib/abstractlearningobject.class.php';
+require_once Path :: get_repository_path(). 'lib/abstractlearningobject.class.php';
 
 /**
 ==============================================================================

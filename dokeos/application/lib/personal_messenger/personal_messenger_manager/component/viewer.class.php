@@ -6,7 +6,7 @@
  */
 require_once dirname(__FILE__).'/../personal_messenger.class.php';
 require_once dirname(__FILE__).'/../personalmessengercomponent.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/repositoryutilities.class.php';
+require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
 
 class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 {	

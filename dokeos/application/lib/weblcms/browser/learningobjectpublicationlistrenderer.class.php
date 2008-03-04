@@ -4,7 +4,7 @@
  * @package application.weblcms
  * @subpackage browser
  */
-require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectdisplay.class.php';
+require_once Path :: get_repository_path(). 'lib/learningobjectdisplay.class.php';
 /**
  * This is a generic renderer for a set of learning object publications.
  * @package application.weblcms.tool

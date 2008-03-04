@@ -4,7 +4,7 @@
  * @package application.weblcms
  * @subpackage browser
  */
-require_once dirname(__FILE__).'/../../../../repository/lib/treemenurenderer.class.php';
+require_once Path :: get_repository_path(). 'lib/treemenurenderer.class.php';
 require_once 'HTML/Menu.php';
 /**
  * A tree menu to display categories in a tool

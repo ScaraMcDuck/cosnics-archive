@@ -3,11 +3,11 @@
  * $Id:$
  * @package application.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__).'/../../../../../../users/lib/user_table/usertable.class.php';
+require_once Path :: get_user_path(). 'lib/user_table/usertable.class.php';
 require_once dirname(__FILE__).'/subscribeduserbrowsertabledataprovider.class.php';
 require_once dirname(__FILE__).'/subscribeduserbrowsertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/subscribeduserbrowsertablecellrenderer.class.php';
-require_once dirname(__FILE__).'/../../../../../../users/lib/usermanager/usermanager.class.php';
+require_once Path :: get_user_path(). 'lib/usermanager/usermanager.class.php';
 /**
  * Table to display a list of users not subscribed to a course.
  */
