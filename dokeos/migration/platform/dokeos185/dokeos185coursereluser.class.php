@@ -293,9 +293,9 @@ class Dokeos185CourseRelUser extends Import
 		
 		$lcms_course_rel_user->set_sort($this->get_sort());
 		
-		$category_code = self :: $mgdm->get_id_reference($this->get_user_course_cat(), 'weblcms_course_category');
+		$category_code = self :: $mgdm->get_id_reference($this->get_user_course_cat(), 'weblcms_course_user_category');
 		if($category_code)
-			$lcms_course_rel_user->set_user_course_cat($category_code);
+			$lcms_course_rel_user->set_category($category_code);
 		
 		//create user in database
 		$lcms_course_rel_user->create();
