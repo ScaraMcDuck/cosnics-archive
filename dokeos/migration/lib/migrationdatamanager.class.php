@@ -92,7 +92,7 @@ abstract class MigrationDataManager
 		
 		$query = 'CREATE TABLE ' . self :: TEMP_FAILED_ELEMENTS_TABLE . ' (
 				  id int NOT NULL AUTO_INCREMENT,
-				  failed_id varchar(20),
+				  failed_id varchar(50),
 				  table_name varchar(50),
 				  primary key(id));';
 		$this->db_lcms->query($query);
@@ -106,8 +106,8 @@ abstract class MigrationDataManager
 
 		$query = 'CREATE TABLE ' . self :: TEMP_ID_REFERENCE_TABLE . ' (
 				  id int NOT NULL AUTO_INCREMENT,
-				  old_id varchar(20),
-				  new_id varchar(20),
+				  old_id varchar(50),
+				  new_id varchar(50),
 				  table_name varchar(50),
 				  primary key(id));';
 		$this->db_lcms->query($query);

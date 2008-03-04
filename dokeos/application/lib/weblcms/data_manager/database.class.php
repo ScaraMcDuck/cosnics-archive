@@ -1273,12 +1273,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			$props[$this->escape_column_name($key)] = $value;
 		}
-		$props[CourseUserCategory :: PROPERTY_ID] = $courseusercategory->get_id();
+		$props[$this->escape_column_name(CourseUserCategory :: PROPERTY_ID)] = $courseusercategory->get_id();
 
 		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $courseusercategory->get_user());
 		$sort = $this->retrieve_max_sort_value('course_user_category', CourseUserCategory :: PROPERTY_SORT, $condition);
 
-		$props[CourseUserCategory :: PROPERTY_SORT] = $sort+1;
+		$props[$this->escape_column_name(CourseUserCategory :: PROPERTY_SORT)] = $sort+1;
 
 		$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('course_user_category'), $props, MDB2_AUTOQUERY_INSERT))
@@ -1289,6 +1289,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			return false;
 		}
+	}
+	
+	function get_next_course_user_category_id()
+	{
+		return $this->connection->nextID($this->get_table_name('course_user_category'));
 	}
 
 	function delete_course_user_category($courseusercategory)
