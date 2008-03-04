@@ -5,7 +5,7 @@
  * @author Van Wayenbergh David
  * @author Vanpoucke Sven
  */
-require_once(dirname(__FILE__) . '/../../common/configuration/configuration.php');
+require_once(Path :: get_library_path().'configuration/configuration.php');
 
 //TODO use pear package for lcms database connection
 abstract class MigrationDataManager

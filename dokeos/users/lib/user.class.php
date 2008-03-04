@@ -2,8 +2,8 @@
 /**
  * @package users.lib
  */
-require_once dirname(__FILE__).'/../../common/filesystem/filesystem.class.php';
-require_once dirname(__FILE__).'/../../common/imagemanipulation/imagemanipulation.class.php';
+require_once Path :: get_library_path().'filesystem/filesystem.class.php';
+require_once Path :: get_library_path().'imagemanipulation/imagemanipulation.class.php';
 /**
  *	This class represents a user.
  *

@@ -3,13 +3,13 @@
  * $Id$
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidator.class.php';
+require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositoryutilities.class.php';
 require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../../../common/condition/andcondition.class.php';
-require_once dirname(__FILE__).'/../../../common/condition/orcondition.class.php';
-require_once dirname(__FILE__).'/../../../common/condition/equalitycondition.class.php';
+require_once Path :: get_library_path().'condition/andcondition.class.php';
+require_once Path :: get_library_path().'condition/orcondition.class.php';
+require_once Path :: get_library_path().'condition/equalitycondition.class.php';
 /**
  * A form to search in the repository.
  * This form can have two representations

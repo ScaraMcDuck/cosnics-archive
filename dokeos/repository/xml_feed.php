@@ -6,10 +6,10 @@ require_once dirname(__FILE__).'/../common/global.inc.php';
 require_once dirname(__FILE__).'/lib/repositorydatamanager.class.php';
 require_once dirname(__FILE__).'/lib/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/lib/learningobject.class.php';
-require_once dirname(__FILE__).'/../common/condition/equalitycondition.class.php';
-require_once dirname(__FILE__).'/../common/condition/notcondition.class.php';
-require_once dirname(__FILE__).'/../common/condition/andcondition.class.php';
-require_once dirname(__FILE__).'/../common/condition/orcondition.class.php';
+require_once Path :: get_library_path().'condition/equalitycondition.class.php';
+require_once Path :: get_library_path().'condition/notcondition.class.php';
+require_once Path :: get_library_path().'condition/andcondition.class.php';
+require_once Path :: get_library_path().'condition/orcondition.class.php';
 
 Translation :: set_application('repository');
 

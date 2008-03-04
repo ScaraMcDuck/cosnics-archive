@@ -7,8 +7,8 @@ require_once dirname(__FILE__).'/../usermanager.class.php';
 require_once dirname(__FILE__).'/../usermanagercomponent.class.php';
 require_once dirname(__FILE__).'/../registerform.class.php';
 require_once dirname(__FILE__).'/../../usersdatamanager.class.php';
-require_once dirname(__FILE__).'/../../../../common/authentication/authentication.class.php';
-require_once dirname(__FILE__).'/../../../../common/mail/mail.class.php';
+require_once Path :: get_library_path().'authentication/authentication.class.php';
+require_once Path :: get_library_path().'mail/mail.class.php';
 /**
  * This component can be used to reset the password of a user. The user will be
  * asked for his email-address and if the authentication source of the user

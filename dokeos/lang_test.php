@@ -4,7 +4,7 @@ $this_section = 'myrepository';
 require_once dirname(__FILE__).'/common/global.inc.php';
 require_once dirname(__FILE__).'/repository/lib/repository_manager/repositorymanager.class.php';
 require_once dirname(__FILE__).'/users/lib/usermanager/usermanager.class.php';
-require_once dirname(__FILE__).'/common/translation/translation.class.php';
+require_once Path :: get_library_path().'translation/translation.class.php';
 
 $trans = Translation :: get_instance();
 

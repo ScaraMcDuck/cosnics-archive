@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 require_once dirname(__FILE__).'/../../learningobjectform.class.php';
 require_once dirname(__FILE__).'/../../abstractlearningobject.class.php';
 require_once dirname(__FILE__).'/../../repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../../../../common/import/import.class.php';
+require_once Path :: get_library_path().'import/import.class.php';
 require_once dirname(__FILE__).'/../../quotamanager.class.php';
 require_once dirname(__FILE__).'/csvcreator.class.php';
 /**

@@ -3,9 +3,9 @@
 /**
  * @package users.lib
  */
-require_once dirname(__FILE__).'/../../common/configuration/configuration.class.php';
+require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../../repository/lib/repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../../common/authentication/authentication.class.php';
+require_once Path :: get_library_path().'authentication/authentication.class.php';
 /**
  *	This is a skeleton for a data manager for the Users table.
  *	Data managers must extend this class and implement its abstract methods.
@@ -135,7 +135,7 @@ abstract class UsersDataManager
 		// the user in the platform
 		else
 		{
-			$authentication_dir = dir(dirname(__FILE__).'/../../common/authentication/');
+			$authentication_dir = dir(Path :: get_library_path().'authentication/');
 			while (false !== ($authentication_method = $authentication_dir->read()))
 			{
 				if(strpos($authentication_method,'.') === false && is_dir($authentication_dir->path.'/'.$authentication_method))
@@ -165,7 +165,7 @@ abstract class UsersDataManager
 	{
 		$user = $this->retrieve_user(PlatformSession :: get_user_id());
 		$authentication_method = $user->get_auth_source();
-		$authentication_class_file = dirname(__FILE__).'/../../common/authentication/'.$authentication_method.'/'.$authentication_method.'authentication.class.php';
+		$authentication_class_file = Path :: get_library_path().'authentication/'.$authentication_method.'/'.$authentication_method.'authentication.class.php';
 		$authentication_class = ucfirst($authentication_method).'Authentication';
 		require_once $authentication_class_file;
 		$authentication = new $authentication_class;

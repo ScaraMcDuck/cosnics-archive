@@ -3,7 +3,7 @@
  * @package migration.migrationmanager
  */
 require_once dirname(__FILE__).'/migrationmanagercomponent.class.php';
-require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidator.class.php';
+require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 
 /**
  * A migration manager provides some functionalities to the administrator to migrate
