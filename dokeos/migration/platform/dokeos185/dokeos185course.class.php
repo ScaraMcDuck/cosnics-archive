@@ -547,7 +547,16 @@ class Dokeos185Course extends Import
 	{		
 		//Course parameters
 		$lcms_course = new Course();
+		
+		$old_code = $this->get_code();
+		$index = 0;
+		while(self :: $mgdm->code_available('weblcms_course',$this->get_code()))
+		{
+			$this->set_code($this->get_code() . ($index ++));
+		}
+		
 		$lcms_course->set_id($this->get_code());
+		
 		$lcms_course->set_db($this->get_db_name());
 		$lcms_course->set_path($this->get_directory());
 		
