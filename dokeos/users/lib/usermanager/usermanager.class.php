@@ -6,7 +6,6 @@ require_once dirname(__FILE__).'/usermanagercomponent.class.php';
 require_once dirname(__FILE__).'/usersearchform.class.php';
 require_once dirname(__FILE__).'/../usersdatamanager.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
-//require_once dirname(__FILE__).'/../optionsmenurenderer.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_library_path().'condition/orcondition.class.php';
 require_once Path :: get_library_path().'condition/andcondition.class.php';

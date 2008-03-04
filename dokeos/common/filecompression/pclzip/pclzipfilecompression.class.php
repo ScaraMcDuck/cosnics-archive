@@ -3,7 +3,7 @@
  * $Id$
  * @package filecompression
  */
-require_once dirname(__FILE__).'/../../../plugin/pclzip-2-6/pclzip.lib.php';
+require_once Path :: get_plugin_path().'pclzip-2-6/pclzip.lib.php';
 /**
  * This class implements file compression and extraction using the PclZip
  * library
