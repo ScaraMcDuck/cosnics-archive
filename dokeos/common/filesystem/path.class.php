@@ -91,8 +91,6 @@ class Path
 			// Some paths for the LCMS applications
 			case SYS_APP_PATH :
 				return self :: get_path(SYS_PATH) . 'application/';
-			case SYS_APP_LIB_PATH :
-				return self :: get_path(SYS_PATH) . 'common/';
 			case SYS_APP_ADMIN_PATH :
 				return self :: get_path(SYS_PATH) . 'admin/';
 			case SYS_APP_CLASSGROUP_PATH :
@@ -105,6 +103,10 @@ class Path
 				return self :: get_path(SYS_PATH) . 'repository/';
 			case SYS_APP_USER_PATH :
 				return self :: get_path(SYS_PATH) . 'users/';
+			
+			// Application-paths
+			case SYS_APP_LIB_PATH :
+				return self :: get_path(SYS_APP_PATH) . 'common/';
 			
 			// Files-paths
 			case WEB_ARCHIVE_PATH :
