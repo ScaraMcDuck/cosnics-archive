@@ -4,9 +4,9 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object_table/learningobjecttabledataprovider.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/learningobject.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/repositorydatamanager.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object_table/learningobjecttabledataprovider.class.php';
+require_once Path :: get_repository_path(). 'lib/learningobject.class.php';
+require_once Path :: get_repository_path(). 'lib/repositorydatamanager.class.php';
 require_once Path :: get_library_path().'condition/equalitycondition.class.php';
 require_once Path :: get_library_path().'condition/andcondition.class.php';
 require_once Path :: get_library_path().'condition/orcondition.class.php';

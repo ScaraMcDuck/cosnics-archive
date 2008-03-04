@@ -4,8 +4,8 @@
  */
 require_once dirname(__FILE__).'/profilepublicationtablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/profilepublicationtablecolumn.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/learningobject.class.php';
-require_once dirname(__FILE__).'/../../../../users/lib/user.class.php';
+require_once Path :: get_repository_path(). 'lib/learningobject.class.php';
+require_once Path :: get_user_path(). 'lib/user.class.php';
 require_once dirname(__FILE__).'/../profilepublication.class.php';
 
 class DefaultProfilePublicationTableColumnModel extends ProfilePublicationTableColumnModel

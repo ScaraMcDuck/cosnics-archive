@@ -6,8 +6,8 @@ require_once dirname(__FILE__).'/../search_source/localrepositorysearchsource.cl
 require_once dirname(__FILE__).'/../search_source/webservicesearchsource.class.php';
 require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
+require_once Path :: get_repository_path(). 'lib/repositorydatamanager.class.php';
+require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once 'Pager/Pager.php';
 

@@ -14,7 +14,7 @@ require_once Path :: get_library_path().'condition/orcondition.class.php';
 require_once Path :: get_library_path().'condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../learning_object_table/learningobjecttable.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/../../../users/lib/usersdatamanager.class.php';
+require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 /**
  * A repository manager provides some functionalities to the end user to manage
  * his learning objects in the repository. For each functionality a component is

@@ -297,7 +297,7 @@ else
  */
 
 // TODO: Are these includes still necessary ?
-require_once dirname(__FILE__).'/../users/lib/usersdatamanager.class.php';
+require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
  
 // Login
 if($_POST['login'])
@@ -387,7 +387,7 @@ if (in_array($user_language,$valid_languages['folder']) and (isset($_GET['langua
 
 if (isset($_SESSION['_uid']))
 {
-	require_once dirname(__FILE__).'/../users/lib/usersdatamanager.class.php';
+	require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 	$language_interface = UsersDataManager :: get_instance()->retrieve_user(PlatformSession :: get_user_id())->get_language();
 }
 else

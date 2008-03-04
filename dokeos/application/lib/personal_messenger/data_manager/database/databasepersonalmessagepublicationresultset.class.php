@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../../../../repository/lib/resultset.class.php';
+require_once Path :: get_repository_path(). 'lib/resultset.class.php';
 /**
  * Resultset to hold a set of personal message publications
  */

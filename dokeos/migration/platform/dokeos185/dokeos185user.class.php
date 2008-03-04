@@ -5,8 +5,8 @@
  */
 
 require_once dirname(__FILE__) . '/../../lib/import/importuser.class.php';
-require_once dirname(__FILE__) . '/../../../users/lib/user.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/profile/profile.class.php';
+require_once Path :: get_user_path(). 'lib/user.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object/profile/profile.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 user

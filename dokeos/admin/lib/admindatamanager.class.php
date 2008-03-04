@@ -5,8 +5,8 @@
  * @author Dieter De Neef
  */
 require_once Path :: get_library_path().'configuration/configuration.class.php';
-require_once dirname(__FILE__).'/../../repository/lib/repository_manager/repositorymanager.class.php';
-require_once dirname(__FILE__).'/../../users/lib/usermanager/usermanager.class.php';
+require_once Path :: get_repository_path(). 'lib/repository_manager/repositorymanager.class.php';
+require_once Path :: get_user_path(). 'lib/usermanager/usermanager.class.php';
 
 abstract class AdminDataManager
 {

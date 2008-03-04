@@ -2,9 +2,9 @@
 /**
  * @package application.lib.profiler.publisher.publication_candidate_table
  */
-require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object_table/defaultlearningobjecttablecellrenderer.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/learningobject.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/repositoryutilities.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object_table/defaultlearningobjecttablecellrenderer.class.php';
+require_once Path :: get_repository_path(). 'lib/learningobject.class.php';
+require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/publicationcandidatetablecolumnmodel.class.php';
 /**
  * This class is a cell renderer for a publication candidate table

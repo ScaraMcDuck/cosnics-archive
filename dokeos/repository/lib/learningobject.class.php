@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/repositoryutilities.class.php';
 require_once Path :: get_library_path().'condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/learningobjectdifference.class.php';
 require_once dirname(__FILE__).'/learningobjectdisplay.class.php';
-require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
+require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 /**
  *	This class represents a learning object in the repository. Every object
  *	that can be associated with a module is in fact a learning object.

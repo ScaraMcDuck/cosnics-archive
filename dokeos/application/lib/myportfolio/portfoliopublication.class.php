@@ -2,8 +2,8 @@
 /**
  * @package application.lib.portfolio
  */
-require_once dirname(__FILE__).'/../../../repository/lib//repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../../../users/lib//usersdatamanager.class.php';
+require_once Path :: get_repository_path(). 'lib/repositorydatamanager.class.php';
+require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 
 /**
  *	This class represents a PortfolioPublication. 

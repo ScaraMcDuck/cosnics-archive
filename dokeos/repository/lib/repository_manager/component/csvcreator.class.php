@@ -2,7 +2,7 @@
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
 require_once dirname(__FILE__).'/../../repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../../../../users/lib/usersdatamanager.class.php';
+require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 require_once dirname(__FILE__).'/../../quotamanager.class.php';
 
 class CSVCreator extends RepositoryManagerComponent

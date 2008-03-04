@@ -8,10 +8,10 @@ require_once dirname(__FILE__).'/../learningobjectpublisher.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublishercomponent.class.php';
 require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
 require_once dirname(__FILE__).'/../learningobjectpublicationform.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectdisplay.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectform.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
+require_once Path :: get_repository_path(). 'lib/repositorydatamanager.class.php';
+require_once Path :: get_repository_path(). 'lib/learningobjectdisplay.class.php';
+require_once Path :: get_repository_path(). 'lib/learningobjectform.class.php';
+require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
  * This class represents a learning object publisher component which can be used

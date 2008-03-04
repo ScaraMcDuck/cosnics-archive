@@ -5,8 +5,8 @@
  */
 require_once dirname(__FILE__).'/soaplearningobject.class.php';
 require_once dirname(__FILE__).'/learningobjectsoapsearchutilities.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/repositoryutilities.class.php';
+require_once Path :: get_repository_path(). 'lib/repositorydatamanager.class.php';
+require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
 
 class LearningObjectSoapSearchServer
 {

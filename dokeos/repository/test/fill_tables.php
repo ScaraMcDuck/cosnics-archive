@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
+require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 
 Translation :: set_application('repository');
 

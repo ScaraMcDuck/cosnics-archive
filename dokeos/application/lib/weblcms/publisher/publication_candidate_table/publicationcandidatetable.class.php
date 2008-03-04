@@ -7,7 +7,7 @@
 require_once dirname(__FILE__).'/publicationcandidatetabledataprovider.class.php';
 require_once dirname(__FILE__).'/publicationcandidatetablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/publicationcandidatetablecellrenderer.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object_table/learningobjecttable.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object_table/learningobjecttable.class.php';
 /**
  * This class represents a table with learning objects which are candidates for
  * publication.

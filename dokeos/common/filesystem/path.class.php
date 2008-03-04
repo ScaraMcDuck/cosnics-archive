@@ -18,6 +18,15 @@ define('SYS_LAYOUT_PATH', 'SYS_LAYOUT_PATH');
 define('WEB_LANG_PATH', 'WEB_LANG_PATH');
 define('SYS_LANG_PATH', 'SYS_LANG_PATH');
 
+// Some paths for the LCMS-applications
+define('SYS_APP_PATH', 'SYS_LANG_PATH');
+define('SYS_APP_ADM_PATH', 'SYS_APP_ADM_PATH');
+define('SYS_APP_CLSS_PATH', 'SYS_APP_CLSS_PATH');
+define('SYS_APP_INST_PATH', 'SYS_APP_INST_PATH');
+define('SYS_APP_MIGR_PATH', 'SYS_APP_MIGR_PATH');
+define('SYS_APP_REPO_PATH', 'SYS_APP_REPO_PATH');
+define('SYS_APP_USER_PATH', 'SYS_APP_USER_PATH');
+
 // Files-paths
 define('WEB_ARCHIVE_PATH', 'WEB_ARCHIVE_PATH');
 define('SYS_ARCHIVE_PATH', 'SYS_ARCHIVE_PATH');
@@ -77,6 +86,22 @@ class Path
 				return self :: get_path(WEB_PATH) . 'languages/';
 			case SYS_LANG_PATH :
 				return self :: get_path(SYS_PATH) . 'languages/';
+				
+			// Some paths for the LCMS applications
+			case SYS_APP_PATH :
+				return self :: get_path(SYS_PATH) . 'application/';
+			case SYS_APP_ADMIN_PATH :
+				return self :: get_path(SYS_PATH) . 'admin/';
+			case SYS_APP_CLASSGROUP_PATH :
+				return self :: get_path(SYS_PATH) . 'classgroup/';
+			case SYS_APP_INSTALL_PATH :
+				return self :: get_path(SYS_PATH) . 'install/';
+			case SYS_APP_MIGRATION_PATH :
+				return self :: get_path(SYS_PATH) . 'migration/';
+			case SYS_APP_REPOSITORY_PATH :
+				return self :: get_path(SYS_PATH) . 'repository/';
+			case SYS_APP_USER_PATH :
+				return self :: get_path(SYS_PATH) . 'users/';
 			
 			// Files-paths
 			case WEB_ARCHIVE_PATH :
@@ -120,6 +145,16 @@ class Path
     public static function get_library_path()
     {
     	return self :: get_path(SYS_LIB_PATH);
+    }
+    
+    public static function get_repository_path()
+    {
+    	return self :: get_path(SYS_APP_REPOSITORY_PATH);
+    }
+    
+    public static function get_user_path()
+    {
+    	return self :: get_path(SYS_APP_USER_PATH);
     }
 }
 ?>

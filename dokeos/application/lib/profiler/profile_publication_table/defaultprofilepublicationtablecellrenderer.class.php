@@ -4,9 +4,9 @@
  */
 
 require_once dirname(__FILE__).'/profilepublicationtablecellrenderer.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/learningobject.class.php';
+require_once Path :: get_repository_path(). 'lib/learningobject.class.php';
 require_once dirname(__FILE__).'/../profilepublication.class.php';
-require_once dirname(__FILE__).'/../../../../users/lib/user.class.php';
+require_once Path :: get_user_path(). 'lib/user.class.php';
 
 class DefaultProfilePublicationTableCellRenderer implements ProfilePublicationTableCellRenderer
 {

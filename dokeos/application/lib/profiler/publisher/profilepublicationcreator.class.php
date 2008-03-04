@@ -6,10 +6,10 @@ require_once dirname(__FILE__).'/../profilepublisher.class.php';
 require_once dirname(__FILE__).'/../profilepublishercomponent.class.php';
 require_once dirname(__FILE__).'/../profilerdatamanager.class.php';
 require_once dirname(__FILE__).'/../profilepublicationform.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectdisplay.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectform.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
+require_once Path :: get_repository_path(). 'lib/repositorydatamanager.class.php';
+require_once Path :: get_repository_path(). 'lib/learningobjectdisplay.class.php';
+require_once Path :: get_repository_path(). 'lib/learningobjectform.class.php';
+require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
  * This class represents a profile publisher component which can be used

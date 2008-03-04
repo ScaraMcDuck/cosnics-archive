@@ -1,11 +1,11 @@
 <?php
 /**
- * $Id:$
+ * $Id$
  * @package application.personal_calendar
  */
 require_once dirname(__FILE__).'/../personalcalendarpublishercomponent.class.php';
 require_once dirname(__FILE__).'/../../personalcalendardatamanager.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/learningobjectform.class.php';
+require_once Path :: get_repository_path(). 'lib/learningobjectform.class.php';
 /**
  * Creation component of the personal calendar event publisher. This component
  * can be used to create a new calendar event in the repository and at the same

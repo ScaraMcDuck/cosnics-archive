@@ -1,10 +1,10 @@
 <?php
 require_once dirname(__FILE__).'/../repositorytool.class.php';
 require_once dirname(__FILE__).'/learning_style_surveybrowser.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/repositoryutilities.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/learningobjectform.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/learningobjectdisplay.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/learning_object/learning_style_survey_result/learning_style_survey_result_form.class.php';
+require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
+require_once Path :: get_repository_path(). 'lib/learningobjectform.class.php';
+require_once Path :: get_repository_path(). 'lib/learningobjectdisplay.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object/learning_style_survey_result/learning_style_survey_result_form.class.php';
 require_once Path :: get_library_path().'condition/andcondition.class.php';
 require_once Path :: get_library_path().'condition/equalitycondition.class.php';
 

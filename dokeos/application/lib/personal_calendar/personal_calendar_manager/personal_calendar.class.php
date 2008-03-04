@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
+require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/../renderer/personal_calendar_mini_month_renderer.class.php';
 require_once dirname(__FILE__).'/../renderer/personal_calendar_list_renderer.class.php';
 require_once dirname(__FILE__).'/../renderer/personal_calendar_month_renderer.class.php';

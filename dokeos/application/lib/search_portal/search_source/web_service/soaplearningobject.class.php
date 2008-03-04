@@ -3,7 +3,7 @@
  * @package application.searchportal
  * @subpackage webservice
  */
-require_once dirname(__FILE__).'/../../../../../repository/lib/accessiblelearningobject.class.php';
+require_once Path :: get_repository_path(). 'lib/accessiblelearningobject.class.php';
 
 class SoapLearningObject implements AccessibleLearningObject
 {
