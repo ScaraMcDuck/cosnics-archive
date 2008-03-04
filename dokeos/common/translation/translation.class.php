@@ -127,7 +127,7 @@ class Translation
 	function add_language_file_to_array($language, $application)
 	{
 		$lang = array();
-		$path = Path :: get_path(SYS_LANG_PATH) . $language . '/' . $application . '.inc.php';
+		$path = Path :: get_language_path() . $language . '/' . $application . '.inc.php';
 		include_once($path);
 		$this->strings[$language][$application] = $lang[$application];
 	}

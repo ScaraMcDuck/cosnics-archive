@@ -4,7 +4,7 @@
  * package migration.platform.dokeos185
  */
 require_once(dirname(__FILE__) . '/../../lib/migrationdatamanager.class.php');
-require_once(dirname(__FILE__) . '/../../../admin/lib/admindatamanager.class.php');
+require_once(Path :: get_admin_path().'lib/admindatamanager.class.php');
 require_once 'MDB2.php';
 
 /**

@@ -109,7 +109,7 @@ define('TOOL_COURSE_RIGHTS_OVERVIEW', 'course_rights');
 // Add the path to the pear packages to the include path
 require_once(dirname(__FILE__).'/configuration/configuration.class.php');
 require_once dirname(__FILE__).'/filesystem/path.class.php';
-ini_set('include_path',realpath(Path :: get_path(SYS_PLUGIN_PATH).'pear'));
+ini_set('include_path',realpath(Path :: get_plugin_path().'pear'));
 
 // TODO: Move this to a common area since it's used everywhere.
 require_once(dirname(__FILE__).'/session/platformsession.class.php');
@@ -118,7 +118,7 @@ require_once dirname(__FILE__).'/html/text.class.php';
 require_once dirname(__FILE__).'/mail/mail.class.php';
 require_once(Path :: get_path(SYS_LIB_PATH) . 'html/display.class.php');
 
-require_once(dirname(__FILE__).'/../admin/lib/admindatamanager.class.php');
+require_once(Path :: get_admin_path().'lib/admindatamanager.class.php');
 require_once 'MDB2.php';
 
 // Start session

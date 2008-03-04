@@ -5,7 +5,7 @@
  * @package mail
  */
 require_once dirname(__FILE__).'/../mail.class.php';
-require_once dirname(__FILE__).'/../../../plugin/phpmailer/class.phpmailer.php';
+require_once Path :: get_plugin_path().'phpmailer/class.phpmailer.php';
 /**
  * This class implements the abstract Mail class and uses the phpmailer project
  * to  send the emails.
