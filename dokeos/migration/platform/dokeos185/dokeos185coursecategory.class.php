@@ -4,8 +4,10 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importcourse.class.php';
+
+require_once dirname(__FILE__).'/../../lib/import/importcoursecategory.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/course/coursecategory.class.php';
+
 
 /**
  * This class represents an old Dokeos 1.8.5 course_category
@@ -275,8 +277,9 @@ class Dokeos185CourseCategory extends Import
 		
 		$lcms_course_category->set_name($this->get_name());
 		
+		$old_code = $this->get_code();
 		$index = 0;
-		while(self :: $mgdm->code_available($this->get_code()))
+		while(self :: $mgdm->code_available('weblcms_course_category',$this->get_code()))
 		{
 			$this->set_code($this->get_code() . ($index ++));
 		}
@@ -284,7 +287,7 @@ class Dokeos185CourseCategory extends Import
 		$lcms_course_category->set_code($this->get_code());
 		
 		//Add id references to temp table
-		self :: $mgdm->add_id_reference($this->get_code(), $lcms_course_category->get_code(), 'weblcms_course_category');
+		self :: $mgdm->add_id_reference($old_code, $lcms_course_category->get_code(), 'weblcms_course_category');
 		
 		if($this->get_parent_id())
 		{
@@ -295,7 +298,7 @@ class Dokeos185CourseCategory extends Import
 		else
 			$lcms_course_category->set_parent(0);
 		
-		$lcms_course_category->set_tree_pos($this->get_tree_pos());
+		$lcms_course_category->set_tree_pos(self::$mgdm->get_next_position('weblcms_course_category','tree_pos'));
 		
 		if($this->get_children_count())
 			$lcms_course_category->set_children_count($this->get_children_count());
