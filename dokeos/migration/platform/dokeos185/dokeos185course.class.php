@@ -528,7 +528,7 @@ class Dokeos185Course extends Import
 	
 	function is_valid_course()
 	{
-		if(!$this->get_code() || $this->get_show_score() == NULL || 
+		if(!$this->get_code() || $this->get_show_score() == NULL || $this->get_category_code() == NULL ||
 			self :: $mgdm->get_failed_element('dokeos_main.course_category', $this->get_category_code()))
 		{
 			self :: $mgdm->add_failed_element($this->get_code(),

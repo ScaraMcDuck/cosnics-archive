@@ -28,7 +28,9 @@ $lang['migration']['Dont_forget'] = "You can manually transfer them. Make sure t
 $lang['migration']['Courses_title'] = "Courses migration";
 $lang['migration']['Courses_info'] = "Courses are now migrated";
 $lang['migration']['Course_Categories_failed']= "The following course categories failed";
+$lang['migration']['Course_User_Category_failed'] = "The following user categories failed";
 $lang['migration']['Course_failed'] = "The following courses failed";
 $lang['migration']['Course_User_Relation_failed'] = "The following course user relations failed";
+$lang['migration']['Course_Class_Relation_failed'] = "The following course class relations failed";
 
 ?>

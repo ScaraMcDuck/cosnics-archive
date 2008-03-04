@@ -15,9 +15,8 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 	private $logfile;
 	private $mgdm;
 	private $old_system;
-	private $failed_course_categories;
-	private $failed_courses;
-	private $failed_course_rel_user;
+	
+	private $failed_elements;
 	
 	/**
 	 * @return string Title of the page
@@ -34,37 +33,33 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 	{
 		$message = Translation :: get_lang('Courses_info');
 		
-		if(count($this->failed_course_categories) > 0)
-			$message = $message . '<br / ><br />' . 
-				Translation :: get_lang('Course_Categories_failed') . ' (' .
-				Translation :: get_lang('Dont_forget') . ')';
-			
-		foreach($this->failed_course_categories as $fcoursecategory)
+		for($i=0; $i<5; $i++)
 		{
-			$message = $message . '<br />' . $fcoursecategory;
-		}
-		
-		if(count($this->failed_courses) > 0)
-			$message = $message . '<br / ><br />' . 
-				Translation :: get_lang('Course_failed')  . ' (' .
-				Translation :: get_lang('Dont_forget') . ')';
+			if(count($this->failed_elements[$i]) > 0)
+				$message = $message . '<br / ><br />' . 
+					$this->get_failed_message($i) . ' (' .
+					Translation :: get_lang('Dont_forget') . ')';
 			
-		foreach($this->failed_courses as $fcourses)
-		{
-			$message = $message . '<br />' . $fcourses;
-		}
-		
-		if(count($this->failed_course_rel_user) > 0)
-			$message = $message . '<br / ><br />' . 
-				Translation :: get_lang('Course_User_Relation_failed')  . ' (' .
-				Translation :: get_lang('Dont_forget') . ')';
-			
-		foreach($this->failed_course_rel_user as $fcourserelusers)
-		{
-			$message = $message . '<br />' . $fcourserelusers;
+			foreach($this->failed_elements[$i] as $felement)
+			{
+				$message = $message . '<br />' . $felement;
+			}
 		}
 		
 		return $message;
+	}
+	
+	function get_failed_message($index)
+	{
+		switch($index)
+		{
+			case 0: return Translation :: get_lang('Course_Category_failed'); 
+			case 1: return Translation :: get_lang('Course_User_Category_failed'); 
+			case 2: return Translation :: get_lang('Course_failed'); 
+			case 3: return Translation :: get_lang('Course_User_Relation_failed'); 
+			case 4: return Translation :: get_lang('Course_Class_Relation_failed'); 
+			default: return Translation :: get_lang('Course_failed'); 
+		}
 	}
 	
 	
@@ -101,6 +96,9 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		
 		//Migrate course users
 		$this->migrate_course_users();
+		
+		//Migrate course classes
+		//$this->migrate_course_classes();
 	
 		//Close the logfile
 		$this->logfile->write_all_messages();
@@ -124,14 +122,14 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			if($coursecategory->is_valid_course_category())
 			{
 				$lcms_coursecategory = $coursecategory->convert_to_new_course_category();
-				$this->logfile->add_message('Course category added ( ' . 
+				$this->logfile->add_message('Course category added ( CODE: ' . 
 					$lcms_coursecategory->get_code() . ' )');
 			}
 			else
 			{
-				$message = 'Course category is not valid ( ID ' . $coursecategory->get_id() . ' )';
+				$message = 'Course category is not valid ( ID: ' . $coursecategory->get_id() . ' )';
 				$this->logfile->add_message($message);
-				$this->failed_course_categories[] = $message;
+				$this->failed_elements[0][] = $message;
 			}
 		}
 		
@@ -154,14 +152,14 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			if($usercoursecategory->is_valid_user_course_category())
 			{
 				$lcms_usercoursecategory = $usercoursecategory->convert_to_new_user_course_category();
-				$this->logfile->add_message('User course category added ( ' . 
+				$this->logfile->add_message('User course category added ( ID: ' . 
 					$lcms_usercoursecategory->get_id() . ' )');
 			}
 			else
 			{
-				$message = 'User course category is not valid ( ID ' . $usercoursecategory->get_id() . ' )';
+				$message = 'User course category is not valid ( ID: ' . $usercoursecategory->get_id() . ' )';
 				$this->logfile->add_message($message);
-				$this->failed_course_categories[] = $message;
+				$this->failed_elements[1][] = $message;
 			}
 		}
 		
@@ -184,13 +182,13 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			if($course->is_valid_course())
 			{
 				$lcms_course = $course->convert_to_new_course();
-				$this->logfile->add_message('Course added ( ' . $lcms_course->get_id() . ' )');
+				$this->logfile->add_message('Course added ( Course: ' . $lcms_course->get_id() . ' )');
 			}
 			else
 			{
-				$message = 'Course is not valid ( ' . $course->get_code() . ' )';
+				$message = 'Course is not valid ( Course: ' . $course->get_code() . ' )';
 				$this->logfile->add_message($message);
-				$this->failed_courses[] = $message;
+				$this->failed_elements[2][] = $message;
 			}
 		}
 		
@@ -214,17 +212,50 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			if($coursereluser->is_valid_course_user_relation())
 			{
 				$lcms_coursereluser = $coursereluser->convert_to_new_course_user_relation();
-				$this->logfile->add_message('Course user relation added ( Course:' 
-					. $lcms_coursereluser->get_course() . ' UserID:' .
+				$this->logfile->add_message('Course user relation added ( Course: ' 
+					. $lcms_coursereluser->get_course() . ' UserID: ' .
 					  $lcms_coursereluser->get_user() . ' )');
 			}
 			else
 			{
-				$message = 'Course user relation is not valid ( '
-					. $coursereluser->get_course_code() . ' ' .
+				$message = 'Course user relation is not valid ( Course: '
+					. $coursereluser->get_course_code() . ' UserID: ' .
 					  $coursereluser->get_user_id() . ' )';
 				$this->logfile->add_message($message);
-				$this->failed_course_rel_user[] = $message;
+				$this->failed_elements[3][] = $message;
+			}
+		}
+
+		$this->logfile->add_message('Course user relations migrated');
+	}
+	
+	/**
+	 * Migrate course classes
+	 */
+	function migrate_course_classes()
+	{
+		$this->logfile->add_message('Starting migration course class relations');
+		
+		$courserelclass_class = Import :: factory($this->old_system, 'courserelclass');
+		$courserelclasses = array();
+		$courserelclasses = $courserelclass_class->get_all_course_rel_class($this->mgdm);
+		
+		foreach($courserelclasses as $courserelclass)
+		{
+			if($courserelclass->is_valid_course_class_relation())
+			{
+				$lcms_courserelclass = $courserelclass->convert_to_new_course_class_relation();
+				$this->logfile->add_message('Course class relation added ( Course: ' 
+					. $lcms_courserelclass->get_course() . ' UserID: ' .
+					  $lcms_courserelclass->get_user() . ' )');
+			}
+			else
+			{
+				$message = 'Course class relation is not valid ( Course: '
+					. $courserelclass->get_course_code() . ' ClassID: ' .
+					  $courserelclass->get_user_id() . ' )';
+				$this->logfile->add_message($message);
+				$this->failed_elements[4][] = $message;
 			}
 		}
 
