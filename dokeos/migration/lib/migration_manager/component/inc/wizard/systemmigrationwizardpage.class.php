@@ -50,7 +50,7 @@ class SystemMigrationWizardPage extends MigrationWizardPage
 		{
 			if ($directory[0] !== '.')
 			{
-				$system_list[] = $directory;
+				$system_list[$directory] = $directory;
 			}
 		}
 
