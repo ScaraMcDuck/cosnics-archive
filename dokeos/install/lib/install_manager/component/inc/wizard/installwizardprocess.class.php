@@ -69,7 +69,15 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		unset($installer, $result);
 		flush();
 		
-		// 5. Install additional applications
+		// 5. Install the ClassGroup
+		require_once('../classgroup/install/classgroup_installer.class.php');
+		$installer = new ClassGroupInstaller($values);
+		$result = $installer->install();
+		$this->process_result('classgroup', $result);
+		unset($installer, $result);
+		flush();
+		
+		// 6. Install additional applications
 		$path = dirname(__FILE__).'/../../../../../../application/lib/';
 		$applications = FileSystem :: get_directory_content($path, FileSystem :: LIST_DIRECTORIES, false);
 		flush();
@@ -107,12 +115,12 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 			flush();
 		}
 		
-		// 6. Create additional folders
+		// 7. Create additional folders
 		$folder_creation = $this->create_folders();
 		$this->process_result('folder', $folder_creation);
 		flush();
 		
-		// 7. If all goes well we now show the link to the portal
+		// 8. If all goes well we now show the link to the portal
 		$message = '<a href="../index.php">' . Translation :: get_lang('GoToYourNewlyCreatedPortal') . '</a>';
 		$this->process_result('Finished', array('success' => true, 'message' => $message));
 		flush();
