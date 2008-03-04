@@ -256,8 +256,10 @@ class Dokeos185CourseRelUser extends Import
 	
 	function is_valid_course_user_relation()
 	{
-		if(!$this->get_course_code() || !$this->get_user_id() || !$this->get_status() 
-			|| !$this->get_group_id() || $this->get_tutor_id())
+		if(!$this->get_course_code() || !$this->get_user_id() || $this->get_status() == NULL
+			|| $this->get_group_id() == NULL || $this->get_tutor_id() == NULL ||
+			self :: $mgdm->get_failed_element('dokeos_main.course', $this->get_course_code()) ||
+			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()) )
 		{
 			self :: $mgdm->add_failed_element($this->get_user_id(),
 				'dokeos_main.course_rel_user');

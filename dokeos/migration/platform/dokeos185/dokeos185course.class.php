@@ -528,8 +528,6 @@ class Dokeos185Course extends Import
 	
 	function is_valid_course()
 	{
-		echo($this->get_code() . '</BR>');	
-		echo($this->get_show_score() . '</BR>');
 		if(!$this->get_code() || $this->get_show_score() == NULL || 
 			self :: $mgdm->get_failed_element('dokeos_main.course_category', $this->get_category_code()))
 		{
@@ -580,12 +578,16 @@ class Dokeos185Course extends Import
 		$lcms_course->set_extlink_url($this->get_department_url());
 		$lcms_course->set_subscribe_allowed($this->get_subscribe());
 		$lcms_course->set_unsubscribe_allowed($this->get_unsubscribe());
+		$lcms_course->set_default_property(Course :: PROPERTY_LAST_VISIT, $this->get_last_visit());
+		$lcms_course->set_default_property(Course :: PROPERTY_LAST_EDIT, $this->get_last_edit());
+		$lcms_course->set_default_property(Course :: PROPERTY_CREATION_DATE, $this->get_creation_date());
+		$lcms_course->set_default_property(Course :: PROPERTY_EXPIRATION_DATE, $this->get_expiration_date());
 		
 		//create course in database
-		$lcms_course->create();
+		$lcms_course->create_all();
 		
 		//Add id references to temp table
-		self :: $mgdm->add_id_reference($this->get_code(), $lcms_course->get_id(), 'weblcms_course');
+		self :: $mgdm->add_id_reference($old_code, $lcms_course->get_id(), 'weblcms_course');
 		
 		return $lcms_course;
 	}
