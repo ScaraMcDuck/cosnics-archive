@@ -150,7 +150,19 @@ require_once dirname(__FILE__).'/../../../application/lib/weblcms/course/courseu
 	
 	function convert_to_new_class_user()
 	{
-		// TODO
+		$lcms_class_user = new ClassGroupRelUser();
+		
+		$class_id = self :: $mgdm->get_id_reference($this->get_class_id(), 'classgroup_classgroup');
+		if($class_id)
+			$lcms_class_user->set_classgroup_id($class_id);
+		
+		$user_id = self :: $mgdm->get_id_reference($this->get_user_id(), 'user_user');
+		if($user_id)
+			$lcms_class_user->set_user_id($user_id);
+		
+		$lcms_class_user->create();
+		
+		return $lcms_class_user;
 	}
 	
 	function get_all_class_user($mgdm)
