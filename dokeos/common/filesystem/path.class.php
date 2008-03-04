@@ -162,6 +162,11 @@ class Path
     	return self :: get_path(SYS_APP_USER_PATH);
     }
     
+    public static function get_classgroup_path()
+    {
+    	return self :: get_path(SYS_APP_CLASSGROUP_PATH);
+    }    
+    
     public static function get_admin_path()
     {
     	return self :: get_path(SYS_APP_ADMIN_PATH);

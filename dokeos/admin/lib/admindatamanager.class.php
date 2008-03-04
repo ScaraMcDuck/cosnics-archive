@@ -7,6 +7,7 @@
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_manager/repositorymanager.class.php';
 require_once Path :: get_user_path(). 'lib/usermanager/usermanager.class.php';
+require_once Path :: get_classgroup_path(). 'lib/classgroup_manager/classgroupmanager.class.php';
 
 abstract class AdminDataManager
 {
@@ -58,6 +59,8 @@ abstract class AdminDataManager
 
 		// 2. UserRolesRights
 		// 3. Classes of Users
+		$classgroup_manager = new ClassGroupManager($user->get_user_id());
+		$info[] = $classgroup_manager->get_application_platform_admin_links();		
 		// 4. Platform
 		
 		// 5. Repository
