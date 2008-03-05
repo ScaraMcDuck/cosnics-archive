@@ -36,5 +36,7 @@ $lang['migration']['Class_title'] = "Classes migration";
 $lang['migration']['Class_info'] =  "Classes are now migrated";
 $lang['migration']['Class_failed'] = "The following classes failed";
 $lang['migration']['Class_user_failed'] = "The following class users failed";
-
+$lang['migration']['System_Settings_title'] = "System settings migration";
+$lang['migration']['System_Settings_info'] = "System settings are now migrated";
+$lang['migration']['System_Settings_failed'] = "The following system settings failed";
 ?>
