@@ -444,6 +444,44 @@ class Dokeos185DataManager extends MigrationDataManager
 	}
 	
 	
+	
+	/** Get all the current settings from the dokeos185 database
+	 * @return array of Dokeos185SettingCurrent
+	 */
+	function get_all_current_settings()
+	{
+		$this->db_connect('main_database');
+		$query = 'SELECT * FROM setting_current';
+		$result = $this->db->query($query);
+		$settings_current = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$settings_current[] = $this->record_to_current_setting($record);
+			
+		}
+		$result->free();
+		
+		return $settings_current;
+	}
+	
+	/**
+	 * Map a resultset record to a Dokeos185SettingCurrent Object
+	 * @param ResultSetRecord $record from database
+	 * @return Dokeos185SettingCurrent object with mapped data
+	 */
+	function record_to_current_setting($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Dokeos185SettingCurrent :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new Dokeos185SettingCurrent($defaultProp);
+	}
 }
 
 ?>

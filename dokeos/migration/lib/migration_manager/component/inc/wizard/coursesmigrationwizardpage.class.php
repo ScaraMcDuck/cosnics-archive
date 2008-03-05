@@ -98,7 +98,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		$this->migrate_course_users();
 		
 		//Migrate course classes
-		$this->migrate_course_classes();
+		//$this->migrate_course_classes();
 	
 		//Close the logfile
 		$this->logfile->write_all_messages();

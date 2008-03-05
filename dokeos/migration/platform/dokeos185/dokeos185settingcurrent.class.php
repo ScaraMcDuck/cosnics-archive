@@ -4,7 +4,8 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/importsetting.class.php';
+require_once dirname(__FILE__).'/../../lib/import/importsettingcurrent.class.php';
+require_once dirname(__FILE__).'/../../../admin/lib/setting.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 class
@@ -26,9 +27,14 @@ class Dokeos185SettingCurrent extends Import
 	 
 	const PROPERTY_ID = 'id';
 	const PROPERTY_VARIABLE = 'variable';
+	const PROPERTY_SUBKEY = 'subkey';
+	const PROPERTY_TYPE = 'type';
 	const PROPERTY_CATEGORY = 'category';
 	const PROPERTY_SELECTED_VALUE = 'selected_value';
-	
+	const PROPERTY_TITLE = 'title';
+	const PROPERTY_COMMENT = 'comment';
+	const PROPERTY_SCOPE = 'scope';
+	const PROPERTY_SUBKEYTEXT = 'subkeytext';
 	
 	/**
 	 * Alfanumeric identifier of the current setting object.
@@ -75,8 +81,9 @@ class Dokeos185SettingCurrent extends Import
 	 */
 	static function get_default_property_names()
 	{
-		return array (self::PROPERTY_ID, self :: PROPERTY_CODE, 
-		self::PROPERTY_NAME);
+		return array (self::PROPERTY_ID, self :: PROPERTY_VARIABLE, self :: PROPERTY_SUBKEY,
+		self :: PROPERTY_TYPE, self::PROPERTY_CATEGORY, self::PROPERTY_SELECTED_VALUE, self :: PROPERTY_TITLE,
+		self :: PROPERTY_COMMENT, self :: PROPERTY_SCOPE, self :: PROPERTY_SUBKEYTEXT);
 	}
 	
 	/**
@@ -112,20 +119,201 @@ class Dokeos185SettingCurrent extends Import
 	 
 	/**
 	 * Returns the variable of this current setting.
-	 * @return String The code.
+	 * @return String The variable.
 	 */
-	function get_code()
+	function get_variable()
 	{
-		return $this->get_default_property(self :: PROPERTY_CODE);
+		return $this->get_default_property(self :: PROPERTY_VARIABLE);
 	}
 	
 	/**
-	 * Returns the name of this current setting.
-	 * @return int The name.
+	 * Returns the subkey of this current setting.
+	 * @return String The subkey.
 	 */
-	function get_name()
+	function get_subkey()
 	{
-		return $this->get_default_property(self :: PROPERTY_Name);
+		return $this->get_default_property(self :: PROPERTY_SUBKEY);
+	}
+	
+	/**
+	 * Returns the type of this current setting.
+	 * @return String The type.
+	 */
+	function get_type()
+	{
+		return $this->get_default_property(self :: PROPERTY_TYPE);
+	}
+	
+	/**
+	 * Returns the category of this current setting.
+	 * @return String The category.
+	 */
+	function get_category()
+	{
+		return $this->get_default_property(self :: PROPERTY_CATEGORY);
+	}
+	
+	/**
+	 * Returns the selected_value of this current setting.
+	 * @return String The selected_value.
+	 */
+	function get_selected_value()
+	{
+		return $this->get_default_property(self :: PROPERTY_SELECTED_VALUE);
+	}
+	
+	/**
+	 * Returns the title of this current setting.
+	 * @return String The title.
+	 */
+	function get_title()
+	{
+		return $this->get_default_property(self :: PROPERTY_TITLE);
+	}
+	
+	/**
+	 * Returns the comment of this current setting.
+	 * @return String The comment.
+	 */
+	function get_comment()
+	{
+		return $this->get_default_property(self :: PROPERTY_COMMENT);
+	}
+	
+	/**
+	 * Returns the scope of this current setting.
+	 * @return String The scope.
+	 */
+	function get_scope()
+	{
+		return $this->get_default_property(self :: PROPERTY_SCOPE);
+	}
+	
+	/**
+	 * Returns the subkeytext of this current setting.
+	 * @return String The subkeytext.
+	 */
+	function get_scope()
+	{
+		return $this->get_default_property(self :: PROPERTY_SUBKEYTEXT);
+	}
+	
+	/**
+	 * Sets the id of this current setting.
+	 * @param int $id The id.
+	 */
+	function set_id($id)
+	{
+		$this->$this->set_default_property(self :: PROPERTY_ID, $id);
+	}
+	
+	/**
+	 * Sets the variable of this current setting.
+	 * @param int $variable The variable.
+	 */
+	function set_variable($variable)
+	{
+		$this->$this->set_default_property(self :: PROPERTY_ID, $variable);
+	}
+	
+	/**
+	 * Sets the subkey of this current setting.
+	 * @param int $subkey The subkey.
+	 */
+	function set_subkey($subkey)
+	{
+		$this->$this->set_default_property(self :: PROPERTY_ID, $subkey);
+	}
+	
+	/**
+	 * Sets the type of this current setting.
+	 * @param int $type The type.
+	 */
+	function set_type($type)
+	{
+		$this->$this->set_default_property(self :: PROPERTY_ID, $type);
+	}
+	
+	/**
+	 * Sets the category of this current setting.
+	 * @param int $category The category.
+	 */
+	function set_category($category)
+	{
+		$this->$this->set_default_property(self :: PROPERTY_ID, $category);
+	}
+	
+	/**
+	 * Sets the selected_value of this current setting.
+	 * @param int $selected_value The selected_value.
+	 */
+	function set_selected_value($selected_value)
+	{
+		$this->$this->set_default_property(self :: PROPERTY_ID, $selected_value);
+	}
+	
+	/**
+	 * Sets the title of this current setting.
+	 * @param int $title The title.
+	 */
+	function set_title($title)
+	{
+		$this->$this->set_default_property(self :: PROPERTY_ID, $title);
+	}
+	
+	/**
+	 * Sets the comment of this current setting.
+	 * @param int $comment The comment.
+	 */
+	function set_comment($comment)
+	{
+		$this->$this->set_default_property(self :: PROPERTY_ID, $comment);
+	}
+	
+	/**
+	 * Sets the scope of this current setting.
+	 * @param int $scope The scope.
+	 */
+	function set_scope($scope)
+	{
+		$this->$this->set_default_property(self :: PROPERTY_ID, $scope);
+	}
+	
+	/**
+	 * Sets the subkeytext of this current setting.
+	 * @param int $subkeytext The subkeytext.
+	 */
+	function set_subkey_text($subkeytext)
+	{
+		$this->$this->set_default_property(self :: PROPERTY_ID, $subkeytext);
+	}
+	
+	/**
+	 * Migration course user relation
+	 */
+	function convert_to_new_admin_setting()
+	{
+		//course_rel_user parameters
+		$lcms_admin_setting = new Setting();
+		
+		$lcms_admin_setting->set_application($this->get_category());
+		$lcms_admin_setting->set_variable($this->get_variable());
+		$lcms_admin_setting->set_value($this->get_selected_value());
+		
+		//create user in database
+		$lcms_admin_setting->create();
+		
+		return $lcms_admin_setting;
+	}
+	
+	/** 
+	 * Get all current settings from database
+	 * @param Migration Data Manager $mgdm the datamanager from where the settings should be retrieved;
+	 */
+	static function get_all_current_settings($mgdm)
+	{
+		self :: $mgdm = $mgdm;
+		return self :: $mgdm->get_all_current_settings();	
 	}
 }
 ?>
