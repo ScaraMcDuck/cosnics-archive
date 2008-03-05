@@ -482,6 +482,45 @@ class Dokeos185DataManager extends MigrationDataManager
 		}
 		return new Dokeos185SettingCurrent($defaultProp);
 	}
+	
+	/** 
+	 * Get all the personal agendas from the dokeos185 database
+	 * @return array of Dokeos185PersonalAgenda
+	 */
+	function get_all_personal_agendas()
+	{
+		$this->db_connect('user_personal_database');
+		$query = 'SELECT * FROM personal_agenda';
+		$result = $this->db->query($query);
+		$personal_agendas = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$personal_agendas[] = $this->record_to_personal_agenda($record);
+			
+		}
+		$result->free();
+		
+		return $personal_agendas;
+	}
+	
+	/**
+	 * Map a resultset record to a Dokeos185PersonalAgenda Object
+	 * @param ResultSetRecord $record from database
+	 * @return Dokeos185PersonalAgenda object with mapped data
+	 */
+	function record_to_personal_agenda($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Dokeos185PersonalAgenda :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new Dokeos185PersonalAgenda($defaultProp);
+	}
 }
 
 ?>

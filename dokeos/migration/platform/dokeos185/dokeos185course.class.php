@@ -556,8 +556,8 @@ class Dokeos185Course extends Import
 		
 		$lcms_course->set_id($this->get_code());
 		
-		$lcms_course->set_db($this->get_db_name());
-		$lcms_course->set_path($this->get_directory());
+		//$lcms_course->set_db($this->get_db_name());
+		//$lcms_course->set_path($this->get_directory());
 		
 		if(self :: $mgdm->is_language_available($this->get_course_language()))
 			$lcms_course->set_language($this->get_course_language());
