@@ -33,6 +33,7 @@ $lang['migration']['Course_failed'] = "The following courses failed";
 $lang['migration']['Course_User_Relation_failed'] = "The following course user relations failed";
 $lang['migration']['Course_Class_Relation_failed'] = "The following course class relations failed";
 $lang['migration']['Class_title'] = "Classes migration";
+$lang['migration']['Class_info'] =  "Classes are now migrated";
 $lang['migration']['Class_failed'] = "The following classes failed";
 $lang['migration']['Class_user_failed'] = "The following class users failed";
 

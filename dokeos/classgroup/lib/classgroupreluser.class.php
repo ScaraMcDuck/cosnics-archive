@@ -9,7 +9,7 @@
 
 class ClassGroupRelUser
 {
-	const PROPERTY_CLASSGROUP_ID = 'classgroup_id';
+	const PROPERTY_GROUP_ID = 'classgroup_id';
 	const PROPERTY_USER_ID = 'user_id';
 
 	private $classgroup_id;

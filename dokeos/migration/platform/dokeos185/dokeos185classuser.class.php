@@ -4,7 +4,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/importclass.class.php';
-require_once dirname(__FILE__).'/../../../application/lib/weblcms/course/courseuserrelation.class.php';
+require_once dirname(__FILE__).'/../../../classgroup/lib/classgroupreluser.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 class
@@ -13,7 +13,7 @@ require_once dirname(__FILE__).'/../../../application/lib/weblcms/course/courseu
  * @author Sven Vanpoucke
  */
  
- class Dokeos185Class extends Import
+ class Dokeos185ClassUser extends Import
 {
 	/**
 	 * Migration data manager
@@ -136,7 +136,7 @@ require_once dirname(__FILE__).'/../../../application/lib/weblcms/course/courseu
 	
 	function is_valid_class_user()
 	{
-		if(!$this->get_class_id() || !$this->get_userid() || 
+		if(!$this->get_class_id() || !$this->get_user_id() || 
 			self :: $mgdm->get_failed_element('dokeos_main.class', $this->get_class_id()) ||
 			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()))
 		{
@@ -165,10 +165,10 @@ require_once dirname(__FILE__).'/../../../application/lib/weblcms/course/courseu
 		return $lcms_class_user;
 	}
 	
-	function get_all_class_user($mgdm)
+	function get_all_class_users($mgdm)
 	{
 		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_class_user();
+		return self :: $mgdm->get_all_class_users();
 	}
 }
 ?>

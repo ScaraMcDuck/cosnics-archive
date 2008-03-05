@@ -256,7 +256,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	/** Get all the class relations of courses from the dokeos185 database
 	 * @return array of Dokeos185CoursesRelClass
 	 */
-	function get_all_course_rel_class()
+	function get_all_course_rel_classes()
 	{
 		$this->db_connect('main_database');
 		$query = 'SELECT * FROM course_rel_class';
@@ -408,7 +408,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	/** Get all the Class_User from the dokeos185 database
 	 * @return array of Dokeos185ClassUser
 	 */
-	function get_all_classe_user()
+	function get_all_class_users()
 	{
 		$this->db_connect('main_database');
 		$query = 'SELECT * FROM class_user';

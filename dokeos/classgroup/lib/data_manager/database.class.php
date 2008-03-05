@@ -196,9 +196,9 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	function create_classgroup_rel_user($classgroupreluser)
 	{
 		$props = array();
-		$props[$this->escape_column_name(ClassGroupRelUser :: PROPERTY_GROUP_ID)] = $classgroupreluser->get_group_id();
+		$props[$this->escape_column_name(ClassGroupRelUser :: PROPERTY_GROUP_ID)] = $classgroupreluser->get_classgroup_id();
 		$props[$this->escape_column_name(ClassGroupRelUser :: PROPERTY_USER_ID)] = $classgroupreluser->get_user_id();
-		$props[$this->escape_column_name(ClassGroupRelUser :: PROPERTY_LOCATION_ID)] = $classgroupreluser->get_location_id();
+		//$props[$this->escape_column_name(ClassGroupRelUser :: PROPERTY_LOCATION_ID)] = $classgroupreluser->get_location_id();
 		$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('classgroup_rel_user'), $props, MDB2_AUTOQUERY_INSERT))
 		{
