@@ -52,7 +52,6 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
-		$this->perform();
 	}
 	
 	function perform()

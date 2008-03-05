@@ -41,6 +41,11 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 		global $language_interface;
 		$language_interface = $lang;
 	}
+	
+	function perform()
+	{
+		
+	}
 }
 
 ?>

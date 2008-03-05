@@ -257,9 +257,7 @@ class Dokeos185CourseRelUser extends Import
 	function is_valid_course_user_relation()
 	{
 		if(!$this->get_course_code() || !$this->get_user_id() || $this->get_status() == NULL
-			|| $this->get_group_id() == NULL || $this->get_tutor_id() == NULL || 
-			   $this->get_user_course_cat() ||
-			self :: $mgdm->get_failed_element('dokeos_user.user_course_category', $this->get_course_code()) ||
+			|| $this->get_group_id() == NULL || $this->get_tutor_id() == NULL ||
 			self :: $mgdm->get_failed_element('dokeos_main.course', $this->get_course_code()) ||
 			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()) )
 		{
@@ -298,6 +296,8 @@ class Dokeos185CourseRelUser extends Import
 		$category_code = self :: $mgdm->get_id_reference($this->get_user_course_cat(), 'weblcms_course_user_category');
 		if($category_code)
 			$lcms_course_rel_user->set_category($category_code);
+		else
+			$lcms_course_rel_user->set_category(0);
 		
 		//create user in database
 		$lcms_course_rel_user->create();

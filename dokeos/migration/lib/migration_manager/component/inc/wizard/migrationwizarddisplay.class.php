@@ -60,6 +60,9 @@ class MigrationWizardDisplay extends HTML_QuickForm_Action_Display
 				echo '<li>'.$page->get_title().'</li>';
 			}
 		}
+		
+		$current_page->perform();
+		
 		echo '</ol>';
 		echo '</div>' . "\n";
 		
@@ -69,18 +72,8 @@ class MigrationWizardDisplay extends HTML_QuickForm_Action_Display
 		echo $current_page->get_info();
 		echo '</div>';
 		
-		if(isset($_SESSION['install_message']))
-		{
-			Display::display_normal_message($_SESSION['install_message']);
-			unset($_SESSION['install_message']);
-		}
-		if(isset($_SESSION['install_error_message']))
-		{
-			Display::display_error_message($_SESSION['install_error_message']);
-			unset($_SESSION['install_error_message']);
-		}
-		
 		parent::_renderForm($current_page);
+		
 		echo '</div>';
 		
 		$this->parent->display_footer();
