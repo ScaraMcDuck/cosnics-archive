@@ -158,7 +158,7 @@ class Dokeos185Class extends Import
 	
 	function is_valid_class()
 	{
-		if(!$this->get_id() || !$this->get_name())
+		if(!$this->get_name())
 		{
 			self :: $mgdm->add_failed_element($this->get_id(),
 				'dokeos_main.class');

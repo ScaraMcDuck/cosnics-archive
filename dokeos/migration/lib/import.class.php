@@ -18,7 +18,17 @@ abstract class Import
 		$class = $old_system . $type;
 		require_once $filename;
 		return new $class();
-	}		
+	}	
+	
+	function precheck()
+	{
+		
+	}	
+	
+	function postcheck()
+	{
+		
+	}
 }
 
 ?>

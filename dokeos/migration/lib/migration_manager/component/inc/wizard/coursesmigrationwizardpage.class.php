@@ -121,12 +121,12 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			if($coursecategory->is_valid_course_category())
 			{
 				$lcms_coursecategory = $coursecategory->convert_to_new_course_category();
-				$this->logfile->add_message('Course category added ( CODE: ' . 
+				$this->logfile->add_message('SUCCES: Course category added ( CODE: ' . 
 					$lcms_coursecategory->get_code() . ' )');
 			}
 			else
 			{
-				$message = 'Course category is not valid ( ID: ' . $coursecategory->get_id() . ' )';
+				$message = 'FAILED: Course category is not valid ( ID: ' . $coursecategory->get_id() . ' )';
 				$this->logfile->add_message($message);
 				$this->failed_elements[0][] = $message;
 			}
@@ -151,12 +151,12 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			if($usercoursecategory->is_valid_user_course_category())
 			{
 				$lcms_usercoursecategory = $usercoursecategory->convert_to_new_user_course_category();
-				$this->logfile->add_message('User course category added ( ID: ' . 
+				$this->logfile->add_message('SUCCES: User course category added ( ID: ' . 
 					$lcms_usercoursecategory->get_id() . ' )');
 			}
 			else
 			{
-				$message = 'User course category is not valid ( ID: ' . $usercoursecategory->get_id() . ' )';
+				$message = 'FAILED: User course category is not valid ( ID: ' . $usercoursecategory->get_id() . ' )';
 				$this->logfile->add_message($message);
 				$this->failed_elements[1][] = $message;
 			}
@@ -181,11 +181,11 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			if($course->is_valid_course())
 			{
 				$lcms_course = $course->convert_to_new_course();
-				$this->logfile->add_message('Course added ( Course: ' . $lcms_course->get_id() . ' )');
+				$this->logfile->add_message('SUCCES: Course added ( Course: ' . $lcms_course->get_id() . ' )');
 			}
 			else
 			{
-				$message = 'Course is not valid ( Course: ' . $course->get_code() . ' )';
+				$message = 'FAILED: Course is not valid ( Course: ' . $course->get_code() . ' )';
 				$this->logfile->add_message($message);
 				$this->failed_elements[2][] = $message;
 			}
@@ -211,13 +211,13 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			if($coursereluser->is_valid_course_user_relation())
 			{
 				$lcms_coursereluser = $coursereluser->convert_to_new_course_user_relation();
-				$this->logfile->add_message('Course user relation added ( Course: ' 
+				$this->logfile->add_message('SUCCES: Course user relation added ( Course: ' 
 					. $lcms_coursereluser->get_course() . ' UserID: ' .
 					  $lcms_coursereluser->get_user() . ' )');
 			}
 			else
 			{
-				$message = 'Course user relation is not valid ( Course: '
+				$message = 'FAILED: Course user relation is not valid ( Course: '
 					. $coursereluser->get_course_code() . ' UserID: ' .
 					  $coursereluser->get_user_id() . ' )';
 				$this->logfile->add_message($message);
@@ -244,13 +244,13 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			if($courserelclass->is_valid_course_class_relation())
 			{
 				$lcms_courserelclass = $courserelclass->convert_to_new_course_class_relation();
-				$this->logfile->add_message('Course class relation added ( Course: ' 
+				$this->logfile->add_message('SUCCES: Course class relation added ( Course: ' 
 					. $lcms_courserelclass->get_course() . ' UserID: ' .
 					  $lcms_courserelclass->get_user() . ' )');
 			}
 			else
 			{
-				$message = 'Course class relation is not valid ( Course: '
+				$message = 'FAILED: Course class relation is not valid ( Course: '
 					. $courserelclass->get_course_code() . ' ClassID: ' .
 					  $courserelclass->get_user_id() . ' )';
 				$this->logfile->add_message($message);

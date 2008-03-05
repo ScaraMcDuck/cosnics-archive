@@ -90,11 +90,11 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 			if($user->is_valid_user())
 			{
 				$lcms_user = $user->convert_to_new_user();
-				$this->logfile->add_message('User added ( ' . $lcms_user->get_user_id() . ' )');
+				$this->logfile->add_message('SUCCES: User added ( ' . $lcms_user->get_user_id() . ' )');
 			}
 			else
 			{
-				$message = 'User is not valid ( ID ' . $user->get_user_id() . ' )';
+				$message = 'FAILED: User is not valid ( ID ' . $user->get_user_id() . ' )';
 				$this->logfile->add_message($message);
 				$this->failed_users[] = $message;
 			}

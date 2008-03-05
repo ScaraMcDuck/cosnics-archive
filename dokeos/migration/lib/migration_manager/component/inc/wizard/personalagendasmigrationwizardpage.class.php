@@ -22,7 +22,7 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Class_title');
+		return Translation :: get_lang('Personal_agenda_title');
 	}
 	
 	/**
@@ -30,7 +30,7 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_info()
 	{
-		$message = Translation :: get_lang('Class_info');
+		$message = Translation :: get_lang('Personal_agenda_info');
 		
 		for($i=0; $i<2; $i++)
 		{
@@ -52,9 +52,8 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Class_failed'); 
-			case 1: return Translation :: get_lang('Class_user_failed'); 
-			default: return Translation :: get_lang('Class_failed'); 
+			case 0: return Translation :: get_lang('Personal_agenda_failed'); 
+			default: return Translation :: get_lang('Personal_agenda_failed'); 
 		}
 	}
 	
@@ -79,11 +78,9 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 		//Create temporary tables, create migrationdatamanager
 		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
-		//Migrate the classes
-		$this->migrate_classes();
+		//Migrate the personal agendas
+		$this->migrate_personal_agendas();
 		
-		//Migrate the class users
-		$this->migrate_class_users();
 	
 		//Close the logfile
 		$this->logfile->write_all_messages();
@@ -94,65 +91,31 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 	/**
 	 * Migrate the classes
 	 */
-	function migrate_classes()
+	function migrate_personal_agendas()
 	{
-		$this->logfile->add_message('Starting migration classes');
+		$this->logfile->add_message('Starting migration personal agendas');
 		
-		$class_class = Import :: factory($this->old_system, 'class');
-		$classes = array();
-		$classes = $class_class->get_all_classes($this->mgdm);
+		$pa_class = Import :: factory($this->old_system, 'personalagenda');
+		$pas = array();
+		$pas = $pa_class->get_all_personal_agendas($this->mgdm);
 		
-		foreach($classes as $class)
+		foreach($pas as $pa)
 		{
-			if($class->is_valid_class())
+			if($pa->is_valid_personal_agenda())
 			{
-				$lcms_class = $class->convert_to_new_class();
-				$this->logfile->add_message('SUCCES: Class added ( ' . $lcms_class->get_id() . ' )');
+				$lcms_pa = $pa->convert_to_new_personal_agenda();
+				$this->logfile->add_message('SUCCES: Personal Agenda added ( ' . $lcms_pa->get_id() . ' )');
 			}
 			else
 			{
-				$message = 'FAILED: Class is not valid ( ID ' . $class->get_id() . ' )';
+				$message = 'FAILED: Personal Agenda is not valid ( ID ' . $pa->get_id() . ' )';
 				$this->logfile->add_message($message);
 				$this->failed_elements[0][] = $message;
 			}
 		}
 		
 
-		$this->logfile->add_message('Classes migrated');
-	}
-	
-	/**
-	 * Migrate the class users
-	 */
-	function migrate_class_users()
-	{
-		$this->logfile->add_message('Starting migration class users');
-		
-		$classuser_class = Import :: factory($this->old_system, 'classuser');
-		$classusers = array();
-		$classusers = $classuser_class->get_all_class_users($this->mgdm);
-		
-		foreach($classusers as $classuser)
-		{
-			if($classuser->is_valid_class_user())
-			{
-				$lcms_classuser = $classuser->convert_to_new_class_user();
-				$this->logfile->add_message('SUCCES: Class user added ( Class: ' . 
-				$lcms_classuser->get_classgroup_id() . ' User: ' . 
-				$lcms_classuser->get_user_id() . ' )');
-			}
-			else
-			{
-				$message = 'FAILED: Class user is not valid ( Class: ' . 
-				$classuser->get_class_id() . ' User: ' .
-				$classuser->get_user_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[1][] = $message;
-			}
-		}
-		
-
-		$this->logfile->add_message('Classes migrated');
+		$this->logfile->add_message('Personal agendas migrated');
 	}
 
 }
