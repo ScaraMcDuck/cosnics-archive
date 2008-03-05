@@ -451,7 +451,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	function get_all_current_settings()
 	{
 		$this->db_connect('main_database');
-		$query = 'SELECT * FROM setting_current';
+		$query = 'SELECT * FROM settings_current WHERE category = \'Platform\'';
 		$result = $this->db->query($query);
 		$settings_current = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
@@ -482,6 +482,46 @@ class Dokeos185DataManager extends MigrationDataManager
 		}
 		return new Dokeos185SettingCurrent($defaultProp);
 	}
+
+	
+	/** Get all the system announcements from the dokeos185 database
+	 * @return array of Dokeos185SystenAnnoucements
+	 */
+	function get_all_system_announcements()
+	{
+		$this->db_connect('main_database');
+		$query = 'SELECT * FROM sys_announcement';
+		$result = $this->db->query($query);
+		$settings_current = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$system_annoucements[] = $this->record_to_current_setting($record);
+			
+		}
+		$result->free();
+		
+		return $system_annoucements;
+	}
+	
+	/**
+	 * Map a resultset record to a Dokeos185SystemAnnouncement Object
+	 * @param ResultSetRecord $record from database
+	 * @return Dokeos185SystemAnnouncement object with mapped data
+	 */
+	function record_to_current_setting($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Dokeos185SystemAnnouncement :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new Dokeos185SystemAnnouncement($defaultProp);
+	}
+
 	
 	/** 
 	 * Get all the personal agendas from the dokeos185 database
@@ -521,6 +561,7 @@ class Dokeos185DataManager extends MigrationDataManager
 		}
 		return new Dokeos185PersonalAgenda($defaultProp);
 	}
+
 }
 
 ?>

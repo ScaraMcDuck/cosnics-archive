@@ -204,88 +204,88 @@ class Dokeos185SettingCurrent extends Import
 	 */
 	function set_id($id)
 	{
-		$this->$this->set_default_property(self :: PROPERTY_ID, $id);
+		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
 	
 	/**
 	 * Sets the variable of this current setting.
-	 * @param int $variable The variable.
+	 * @param String $variable The variable.
 	 */
 	function set_variable($variable)
 	{
-		$this->$this->set_default_property(self :: PROPERTY_ID, $variable);
+		$this->set_default_property(self :: PROPERTY_ID, $variable);
 	}
 	
 	/**
 	 * Sets the subkey of this current setting.
-	 * @param int $subkey The subkey.
+	 * @param String $subkey The subkey.
 	 */
 	function set_subkey($subkey)
 	{
-		$this->$this->set_default_property(self :: PROPERTY_ID, $subkey);
+		$this->set_default_property(self :: PROPERTY_ID, $subkey);
 	}
 	
 	/**
 	 * Sets the type of this current setting.
-	 * @param int $type The type.
+	 * @param String $type The type.
 	 */
 	function set_type($type)
 	{
-		$this->$this->set_default_property(self :: PROPERTY_ID, $type);
+		$this->set_default_property(self :: PROPERTY_ID, $type);
 	}
 	
 	/**
 	 * Sets the category of this current setting.
-	 * @param int $category The category.
+	 * @param String $category The category.
 	 */
 	function set_category($category)
 	{
-		$this->$this->set_default_property(self :: PROPERTY_ID, $category);
+		$this->set_default_property(self :: PROPERTY_ID, $category);
 	}
 	
 	/**
 	 * Sets the selected_value of this current setting.
-	 * @param int $selected_value The selected_value.
+	 * @param String $selected_value The selected_value.
 	 */
 	function set_selected_value($selected_value)
 	{
-		$this->$this->set_default_property(self :: PROPERTY_ID, $selected_value);
+		$this->set_default_property(self :: PROPERTY_ID, $selected_value);
 	}
 	
 	/**
 	 * Sets the title of this current setting.
-	 * @param int $title The title.
+	 * @param String $title The title.
 	 */
 	function set_title($title)
 	{
-		$this->$this->set_default_property(self :: PROPERTY_ID, $title);
+		$this->set_default_property(self :: PROPERTY_ID, $title);
 	}
 	
 	/**
 	 * Sets the comment of this current setting.
-	 * @param int $comment The comment.
+	 * @param String $comment The comment.
 	 */
 	function set_comment($comment)
 	{
-		$this->$this->set_default_property(self :: PROPERTY_ID, $comment);
+		$this->set_default_property(self :: PROPERTY_ID, $comment);
 	}
 	
 	/**
 	 * Sets the scope of this current setting.
-	 * @param int $scope The scope.
+	 * @param String $scope The scope.
 	 */
 	function set_scope($scope)
 	{
-		$this->$this->set_default_property(self :: PROPERTY_ID, $scope);
+		$this->set_default_property(self :: PROPERTY_ID, $scope);
 	}
 	
 	/**
 	 * Sets the subkeytext of this current setting.
-	 * @param int $subkeytext The subkeytext.
+	 * @param String $subkeytext The subkeytext.
 	 */
 	function set_subkey_text($subkeytext)
 	{
-		$this->$this->set_default_property(self :: PROPERTY_ID, $subkeytext);
+		$this->set_default_property(self :: PROPERTY_ID, $subkeytext);
 	}
 	
 	/**
