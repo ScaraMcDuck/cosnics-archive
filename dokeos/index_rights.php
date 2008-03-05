@@ -1,0 +1,28 @@
+<?php
+$this_section = 'rights';
+require_once dirname(__FILE__).'/common/global.inc.php';
+require_once Path :: get_rights_path(). 'lib/rights_manager/rightsmanager.class.php';
+require_once Path :: get_user_path(). 'lib/usermanager/usermanager.class.php';
+
+Translation :: set_application($this_section);
+
+if (!PlatformSession :: get_user_id())
+{
+	Display :: display_not_allowed();
+}
+
+$usermgr = new UserManager(PlatformSession :: get_user_id());
+$user = $usermgr->retrieve_user(PlatformSession :: get_user_id());
+
+$rmgr = new RightsManager($user);
+try
+{
+	$rmgr->run();
+}
+catch(Exception $exception)
+{
+	$rmgr->display_header();
+	Display :: display_error_message($exception->getMessage());
+	$rmgr->display_footer();
+}
+?>
