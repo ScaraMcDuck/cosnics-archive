@@ -30,7 +30,7 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_info()
 	{
-		$message = Translation :: get_lang('Courses_info');
+		$message = Translation :: get_lang('Class_info');
 		
 		for($i=0; $i<2; $i++)
 		{
