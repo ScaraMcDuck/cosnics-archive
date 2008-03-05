@@ -126,7 +126,7 @@ class Dokeos185Class extends Import
 	 */
 	function get_name()
 	{
-		return $this->get_default_property(self :: PROPERTY_Name);
+		return $this->get_default_property(self :: PROPERTY_NAME);
 	}
 	
 	/**

@@ -53,7 +53,7 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 		switch($index)
 		{
 			case 0: return Translation :: get_lang('Class_failed'); 
-			case 1: return Translation :: get_lang('Class_User_failed'); 
+			case 1: return Translation :: get_lang('Class_user_failed'); 
 			default: return Translation :: get_lang('Class_failed'); 
 		}
 	}
@@ -85,7 +85,7 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 		$this->migrate_classes();
 		
 		//Migrate the class users
-		//$this->migrate_class_users();
+		$this->migrate_class_users();
 	
 		//Close the logfile
 		$this->logfile->write_all_messages();
@@ -139,11 +139,15 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 			if($classuser->is_valid_class_user())
 			{
 				$lcms_classuser = $classuser->convert_to_new_class_user();
-				$this->logfile->add_message('Class user added ( ' . $lcms_classuser->get_id() . ' )');
+				$this->logfile->add_message('Class user added ( Class: ' . 
+				$lcms_classuser->get_classgroup_id() . ' User: ' . 
+				$lcms_classuser->get_user_id() . ' )');
 			}
 			else
 			{
-				$message = 'Class user is not valid ( ID ' . $classuser->get_id() . ' )';
+				$message = 'Class user is not valid ( Class: ' . 
+				$classuser->get_class_id() . ' User: ' .
+				$classuser->get_user_id() . ' )';
 				$this->logfile->add_message($message);
 				$this->failed_elements[1][] = $message;
 			}

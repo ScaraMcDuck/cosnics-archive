@@ -12,7 +12,8 @@ require_once dirname(__FILE__).'/../../lib/import/importcourserelclass.class.php
  * @author David Van Wayenbergh
  */
  
-class Dokeos185CourseRelClass extends Import{
+class Dokeos185CourseRelClass extends Import
+{
 
 	/**
 	 * course relation class properties
@@ -128,6 +129,46 @@ class Dokeos185CourseRelClass extends Import{
 	function set_class_id($class_id)
 	{
 		$this->set_default_property(self :: PROPERTY_CLASS_ID, $class_id);
+	}
+	
+	function is_valid_course_class_relation()
+	{
+		if(!$this->get_course_code() || !$this->get_class_id() ||
+			self :: $mgdm->get_failed_element('dokeos_main.course', $this->get_course_code()) ||
+			self :: $mgdm->get_failed_element('dokeos_main.class', $this->get_class_id()) )
+		{
+			self :: $mgdm->add_failed_element($this->get_course_id() . '-' . $this->get_class_code(),
+				'dokeos_main.course_rel_class');
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Migration course user relation
+	 */
+	function convert_to_new_course_class_relation()
+	{
+		$lcms_course_class_relation = new CourseClassRelation();
+		
+		$course_id = self :: $mgdm->get_id_reference($this->get_user_id(), 'weblcms_course');
+		if($course_id)
+			$lcms_course_class_relation->set_user_id($course_id);
+		
+		$class_id = self :: $mgdm->get_id_reference($this->get_class_id(), 'classgroup_classgroup');
+		if($class_id)
+			$lcms_course_class_relation->set_classgroup_id($class_id);
+		
+		$lcms_course_class_relation->create();
+		
+		return $lcms_course_class_relation;
+	}
+	
+	function get_all_course_rel_user($mgdm)
+	{
+		self :: $mgdm = $mgdm;
+		return self :: $mgdm->get_all_course_rel_classes();
 	}
 }
 ?>
