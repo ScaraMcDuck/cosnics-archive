@@ -1,25 +1,27 @@
 <?php
 /**
- * @package classgroup.install
+ * @package application.weblcms
  */
-require_once dirname(__FILE__).'/../lib/classgroupdatamanager.class.php';
+require_once dirname(__FILE__).'/../lib/rightsdatamanager.class.php';
 require_once Path :: get_library_path().'installer.class.php';
 /**
- * This installer can be used to create the storage structure for the
- * classgroup application.
+ *	This installer can be used to create the storage structure for the
+ * weblcms application.
  */
-class ClassGroupInstaller extends Installer
+class RightsInstaller extends Installer
 {
-	private $values;
+	private $rdm;
 	/**
 	 * Constructor
 	 */
-    function ClassGroupInstaller($values)
+    function RightsInstaller($values)
     {
     	$this->values = $values;
     }
 	/**
 	 * Runs the install-script.
+	 * @todo This function now uses the function of the RepositoryInstaller
+	 * class. These shared functions should be available in a common base class.
 	 */
 	function install()
 	{
@@ -49,13 +51,13 @@ class ClassGroupInstaller extends Installer
 	function create_storage_unit($path)
 	{
 		$storage_unit_info = parent::parse_xml_file($path);
-		$dm = ClassGroupDataManager :: get_instance();
+		$dm = RightsDataManager :: get_instance();
 		$this->add_message(Translation :: get_lang('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
 		if (!$dm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
 		{
 			$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get_lang('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em></span>';
 			$this->add_message($error_message);
-			$this->add_message(Translation :: get_lang('ApplicationInstallFailed'));
+			$this->add_message( Translation :: get_lang('ApplicationInstallFailed'));
 			$this->add_message(Translation :: get_lang('PlatformInstallFailed'));
 			
 			return false;

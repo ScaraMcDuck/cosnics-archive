@@ -121,7 +121,7 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 			$editor_lang = 'en';
 		}
 		$name = $this->getAttribute('name');
-		$result []= ResourceManager :: get_instance()->get_resource_html(Path :: get_plugin_path().'fckeditor/fckeditor.js');
+		$result []= ResourceManager :: get_instance()->get_resource_html(Path :: get_path(WEB_PLUGIN_PATH).'fckeditor/fckeditor.js');
 		$result []= '<script type="text/javascript">';
 		$result []= "\n/* <![CDATA[ */\n";
 		$result []= 'var oFCKeditor = new FCKeditor( \''.$name.'\' ) ;';
@@ -137,7 +137,7 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 		$result []= '</script>';
 		$result []= '<noscript>'.parent :: toHTML().'</noscript>';
 		$result []= '<small><a href="#" onclick="MyWindow=window.open('."'".Path :: get_path(WEB_LIB_PATH)."html/allowed_html_tags.php?fullpage=". ($this->fullPage ? '1' : '0')."','MyWindow','toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=500,height=600,left=200,top=20'".'); return false;">'.Translation :: get_lang('AllowedHTMLTags').'</a></small>';
-		@mkdir(Path :: get_path(SYS_PATH).'main/upload/fckeditor/'.$_uid.'/');
+		@mkdir(Path :: get_path(SYS_PATH).'files/fckeditor/'.$_uid.'/');
 		return implode("\n",$result);
 	}
 }

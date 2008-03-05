@@ -77,7 +77,15 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		unset($installer, $result);
 		flush();
 		
-		// 6. Install additional applications
+		// 6. Install the Roles'n'Rights
+		require_once('../rights/install/rights_installer.class.php');
+		$installer = new RightsInstaller($values);
+		$result = $installer->install();
+		$this->process_result('rights', $result);
+		unset($installer, $result);
+		flush();
+		
+		// 7. Install additional applications
 		$path = dirname(__FILE__).'/../../../../../../application/lib/';
 		$applications = FileSystem :: get_directory_content($path, FileSystem :: LIST_DIRECTORIES, false);
 		flush();
@@ -115,12 +123,12 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 			flush();
 		}
 		
-		// 7. Create additional folders
+		// 8. Create additional folders
 		$folder_creation = $this->create_folders();
 		$this->process_result('folder', $folder_creation);
 		flush();
 		
-		// 8. If all goes well we now show the link to the portal
+		// 9. If all goes well we now show the link to the portal
 		$message = '<a href="../index.php">' . Translation :: get_lang('GoToYourNewlyCreatedPortal') . '</a>';
 		$this->process_result('Finished', array('success' => true, 'message' => $message));
 		flush();
