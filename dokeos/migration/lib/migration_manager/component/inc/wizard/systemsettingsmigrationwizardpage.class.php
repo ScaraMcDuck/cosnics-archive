@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../../../import.class.php';
  * Class for user migration execution
  * @author Sven Vanpoucke
  */
-class CoursesMigrationWizardPage extends MigrationWizardPage
+class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 {
 	private $logfile;
 	private $mgdm;
@@ -34,11 +34,11 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 	{
 		$message = Translation :: get_lang('System_Settings_info');
 		
-		for($i=0; $i<1; $i++)
+		for($i=0; $i<2; $i++)
 		{
 			if(count($this->failed_elements[$i]) > 0)
 				$message = $message . '<br / ><br />' . 
-					$this->get_failed_message() . ' (' .
+					$this->get_failed_message($i) . ' (' .
 					Translation :: get_lang('Dont_forget') . ')';
 			
 			foreach($this->failed_elements[$i] as $felement)
@@ -50,9 +50,14 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		return $message;
 	}
 	
-	function get_failed_message()
+	function get_failed_message($index)
 	{
-		return Translation :: get_lang('System_Settings_failed'); 
+		switch($index)
+		{
+			case 0: return Translation :: get_lang('System_Settings_failed'); 
+			case 1: return Translation :: get_lang('System_Announcements_failed'); 
+			default: return Translation :: get_lang('System_Settings_failed'); 
+		}
 	}
 	
 	function buildForm()
@@ -76,8 +81,11 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		//Create temporary tables, create migrationdatamanager
 		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
-		//Migrate course categories
+		//Migrate system settings
 		$this->migrate_system_settings();
+		
+		//Migrate system announcements
+		$this->migrate_system_announcements();
 		
 		//Close the logfile
 		$this->logfile->write_all_messages();
@@ -92,7 +100,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 	{
 		$this->logfile->add_message('Starting migration system settings');
 		
-		$systemsettingsclass =  Import :: factory($this->old_system, 'systemannouncement');
+		$systemsettingsclass =  Import :: factory($this->old_system, 'settingcurrent');
 		$systemsettings = array();
 		$systemsettings = $systemsettingsclass->get_all_system_settings($this->mgdm);
 		
@@ -101,8 +109,8 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			if($systemsetting->is_valid_system_setting())
 			{
 				$lcms_admin_setting = $systemsetting->convert_to_new_system_setting();
-				$this->logfile->add_message('System setting added ( CODE: ' . 
-					$lcms_admin_setting->get_code() . ' )');
+				$this->logfile->add_message('System setting added ( ID: ' . 
+					$lcms_admin_setting->get_id() . ' )');
 			}
 			else
 			{
@@ -113,6 +121,36 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		}
 		
 		$this->logfile->add_message('System setting migrated');
+	}
+	
+	/**
+	 * Migrate System Announcements
+	 */
+	function migrate_system_announcements()
+	{
+		$this->logfile->add_message('Starting migration system announcements');
+		
+		$systemannouncementsclass =  Import :: factory($this->old_system, 'systemannouncement');
+		$systemannouncements = array();
+		$systemannouncements = $systemannouncementsclass->get_all_system_announcements($this->mgdm);
+		
+		foreach($systemannouncements as $systemannouncement)
+		{
+			if($systemannouncement->is_valid_system_announcement())
+			{
+				$lcms_system_announcement = $systemsetting->convert_to_new_system_announcement();
+				$this->logfile->add_message('System announcement added ( ID: ' . 
+					$lcms_system_announcement->get_code() . ' )');
+			}
+			else
+			{
+				$message = 'System announecment is not valid ( ID: ' . $systemannouncement->get_id() . ' )';
+				$this->logfile->add_message($message);
+				$this->failed_elements[1][] = $message;
+			}
+		}
+		
+		$this->logfile->add_message('System announcements migrated');
 	}
 
 }
