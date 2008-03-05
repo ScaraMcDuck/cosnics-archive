@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__).'/../../lib/import/importpersonalagenda.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object/calendar_event/calendar_event.class.php';
-require_once Path :: get_application_library_path() . 'personal_calendar/personalcalendarevent.class.php';
+require_once Path :: get_path(SYS_APP_PATH) . 'lib/personal_calendar/personalcalendarevent.class.php';
 
 /**
  * Class that represents the personal agenda data from dokeos 1.8.5

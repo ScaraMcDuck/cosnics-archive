@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../../../../import.class.php';
  * Class for class migration execution
  * @author Sven Vanpoucke
  */
-class ClassesMigrationWizardPage extends MigrationWizardPage
+class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 {
 	private $logfile;
 	private $mgdm;
