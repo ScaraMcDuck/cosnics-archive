@@ -1,0 +1,302 @@
+<?php
+/**
+ * @package migration.platform.dokeos185
+ */
+
+require_once dirname(__FILE__).'/../../lib/import/importsystemannouncement.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object/announcement/announcement.class.php';
+
+/**
+ * This class represents an old Dokeos 1.8.5 system announcement
+ *
+ * @author David Van Wayenberghµ
+ * @author Sven Vanpoucke
+ */
+ 
+class Dokeos185SystemAnnouncement extends Import
+{
+	/**
+	 * Migration data manager
+	 */
+	private static $mgdm;
+
+	/**
+	 * course relation user properties
+	 */
+	const PROPERTY_ID = 'id';
+	const PROPERTY_TITLE = 'title';
+	const PROPERTY_CONTENT = 'content';
+	const PROPERTY_DATE_START = 'date_start';
+	const PROPERTY_DATE_END = 'date_end';
+	const PROPERTY_VISIBLE_TEACHER = 'visible_teacher';
+	const PROPERTY_VISIBLE_STUDENT = 'visible_student';
+	const PROPERTY_VISIBLE_GUEST = 'visible_guest';
+	const PROPERTY_LANG = 'lang';
+	
+	
+	/**
+	 * Default properties of the system annoucement object, stored in an associative
+	 * array.
+	 */
+	private $defaultProperties;
+	
+	/**
+	 * Creates a new system annoucement object.
+	 * @param array $defaultProperties The default properties of the system annoucement
+	 *                                 object. Associative array.
+	 */
+	function Dokeos185CourseRelUser($defaultProperties = array ())
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
+	
+	/**
+	 * Gets a default property of this system annoucement object by name.
+	 * @param string $name The name of the property.
+	 */
+	function get_default_property($name)
+	{
+		return $this->defaultProperties[$name];
+	}
+	
+	/**
+	 * Gets the default properties of this system annoucement.
+	 * @return array An associative array containing the properties.
+	 */
+	function get_default_properties()
+	{
+		return $this->defaultProperties;
+	}
+	
+	/**
+	 * Get the default properties of all system annoucement.
+	 * @return array The property names.
+	 */
+	static function get_default_property_names()
+	{
+		return array (self :: PROPERTY_ID, self::PROPERTY_TITLE,
+		self::PROPERTY_CONTENT, self::PROPERTY_DATE_START,
+		self::PROPERTY_DATE_END,self::PROPERTY_VISIBLE_TEACHER,
+		self::PROPERTY_VISIBLE_STUDENT,self::PROPERTY_VISIBLE_GUEST,
+		self::PROPERTY_LANG);
+	}
+	
+	/**
+	 * Sets a default property of this system annoucement by name.
+	 * @param string $name The name of the property.
+	 * @param mixed $value The new value for the property.
+	 */
+	function set_default_property($name, $value)
+	{
+		$this->defaultProperties[$name] = $value;
+	}
+	
+	/**
+	 * Checks if the given identifier is the name of a default system annoucement
+	 * property.
+	 * @param string $name The identifier.
+	 * @return boolean True if the identifier is a property name, false
+	 *                 otherwise.
+	 */
+	static function is_default_property_name($name)
+	{
+		return in_array($name, self :: get_default_property_names());
+	}
+	
+	/**
+	 * Returns the id of this system announcement.
+	 * @return int The id.
+	 */
+	function get_id()
+	{
+		return $this->get_default_property(self :: PROPERTY_ID);
+	}
+	
+	/**
+	 * Returns the title of this system announcement.
+	 * @return String The title.
+	 */
+	function get_title()
+	{
+		return $this->get_default_property(self :: PROPERTY_TITLE);
+	}
+	
+	/**
+	 * Returns the content of this system announcement.
+	 * @return String The content.
+	 */
+	function get_content()
+	{
+		return $this->get_default_property(self :: PROPERTY_CONTENT);
+	}
+	
+	/**
+	 * Returns the date_start of this system announcement.
+	 * @return String The date_start.
+	 */
+	function get_date_start()
+	{
+		return $this->get_default_property(self :: PROPERTY_DATE_START);
+	}
+	
+	/**
+	 * Returns the date_end of this system announcement.
+	 * @return String The date_end.
+	 */
+	function get_date_end()
+	{
+		return $this->get_default_property(self :: PROPERTY_DATE_END);
+	}
+	
+	/**
+	 * Returns the visible_teacher of this system announcement.
+	 * @return int The visible_teacher.
+	 */
+	function get_visible_teacher()
+	{
+		return $this->get_default_property(self :: PROPERTY_VISIBLE_TEACHER);
+	}
+	
+	/**
+	 * Returns the visible_student of this system announcement.
+	 * @return int The visible_student.
+	 */
+	function get_visible_student()
+	{
+		return $this->get_default_property(self :: PROPERTY_VISIBLE_STUDENT);
+	}
+	
+	/**
+	 * Returns the visible_guest of this system announcement.
+	 * @return int The visible_guest.
+	 */
+	function get_visible_guest()
+	{
+		return $this->get_default_property(self :: PROPERTY_VISIBLE_GUEST);
+	}
+	
+	/**
+	 * Returns the lang of this system announcement.
+	 * @return String The lang.
+	 */
+	function get_lang()
+	{
+		return $this->get_default_property(self :: PROPERTY_LANG);
+	}
+	
+	/**
+	 * Sets the id of this system announcement.
+	 * @param int $id The id.
+	 */
+	function set_id($id)
+	{
+		$this->set_default_property(self :: PROPERTY_ID, $id);
+	}
+	
+	/**
+	 * Sets the title of this system announcement.
+	 * @param String $title The title.
+	 */
+	function set_title($title)
+	{
+		$this->set_default_property(self :: PROPERTY_TITLE, $title);
+	}
+	
+	/**
+	 * Sets the content of this system announcement.
+	 * @param String $content The content.
+	 */
+	function set_content($content)
+	{
+		$this->set_default_property(self :: PROPERTY_CONTENT, $content);
+	}
+	
+	/**
+	 * Sets the date_start of this system announcement.
+	 * @param String $date_start The date_start.
+	 */
+	function set_date_start($date_start)
+	{
+		$this->set_default_property(self :: PROPERTY_DATE_START, $date_start);
+	}
+	
+	/**
+	 * Sets the date_end of this system announcement.
+	 * @param String $date_end The date_end.
+	 */
+	function set_date_end($date_end)
+	{
+		$this->set_default_property(self :: PROPERTY_DATE_END, $date_end);
+	}
+	
+	/**
+	 * Sets the visible_teacher of this system announcement.
+	 * @param int $visible_teacher The visible_teacher.
+	 */
+	function set_visible_teacher($visible_teacher)
+	{
+		$this->set_default_property(self :: PROPERTY_VISIBLE_TEACHER, $visible_teacher);
+	}
+	
+	/**
+	 * Sets the visible_student of this system announcement.
+	 * @param int $visible_student The visible_student.
+	 */
+	function set_visible_student($visible_student)
+	{
+		$this->set_default_property(self :: PROPERTY_VISIBLE_STUDENT, $visible_student);
+	}
+	
+	/**
+	 * Sets the visible_guest of this system announcement.
+	 * @param int $visible_guest The visible_guest.
+	 */
+	function set_visible_guest($visible_guest)
+	{
+		$this->set_default_property(self :: PROPERTY_VISIBLE_GUEST, $visible_guest);
+	}
+	
+	/**
+	 * Sets the lang of this system announcement.
+	 * @param String $lang The lang.
+	 */
+	function set_lang($lang)
+	{
+		$this->set_default_property(self :: PROPERTY_VISIBLE_LANG, $lang);
+	}
+	
+	function is_valid_system_announcement()
+	{
+		if(!$this->get_title() || !$this->get_content())
+		{
+			self :: $mgdm->add_failed_element($this->get_id(), 'dokeos_main.sys_announcement');
+			return false;
+		}
+		
+		return true;
+	}
+	
+	function convert_to_new_system_announcement($admin_id)
+	{	
+		$lcms_repository_announcement = new Announcement();
+		$lcms_repository_announcement->set_owner_id($admin_id);
+		$lcms_repository_announcement->set_title($this->get_title());
+		$lcms_repository_announcement->set_description($this->get_content());
+		
+		//Retrieve repository id from user
+		$repository_id = self :: $mgdm->get_parent_id($admin_id, 
+			'category', 'My Repository');
+		
+		$lcms_repository_announcement->set_parent_id($repository_id);
+		
+		//Create announcement in database
+		$lcms_repository_announcement->create();
+	}
+	
+	static function get_all_system_announcements($mgdm)
+	{
+		self :: $mgdm = $mgdm;
+		return self :: $mgdm->get_all_system_announcements();	
+	}
+}
+?>
