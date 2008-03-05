@@ -51,6 +51,18 @@ class PersonalCalendarEvent
 		$this->set_publication_date(time());
 		return $dm->create_personal_calendar_event($this);
 	}
+	
+	/**
+	 * A create method with more freedom, does not set publication date automatically
+	 */
+	public function create_all()
+	{
+		$dm = PersonalCalendarDataManager :: get_instance();
+		$id = $dm->get_next_personal_calendar_event_id();
+		$this->set_id($id);
+		return $dm->create_personal_calendar_event($this);
+	}
+	
 	/**
 	 * Deletes the publication of this event in the personal calendar.
 	 */
