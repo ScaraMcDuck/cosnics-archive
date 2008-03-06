@@ -6,6 +6,8 @@ require_once dirname(__FILE__) . '/migrationwizardpage.class.php';
 require_once dirname(__FILE__) . '/../../../../migrationdatamanager.class.php'; 
 require_once dirname(__FILE__) . '/../../../../logger.class.php'; 
 require_once dirname(__FILE__) . '/../../../../import.class.php'; 
+require_once dirname(__FILE__) . '/../../../../../../users/lib/usersdatamanager.class.php'; 
+
 /**
  * Class for user migration execution
  * 
@@ -88,9 +90,17 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		$languages = array('english');
 		$auth_list = array('platform');
 		
+		$lcms_users = array();
+		$resultset = UsersDataManager :: get_instance()->retrieve_users();
+	
+		while ($lcms_user = $resultset->next_result())
+		{
+			$lcms_users[] = $lcms_user;	
+		}
+
 		foreach($users as $user)
 		{
-			if($user->is_valid_user())
+			if($user->is_valid_user($lcms_users))
 			{
 				$lcms_user = $user->convert_to_new_user($auth_list, $languages, $idrefs);
 				$this->logfile->add_message('SUCCES: User added ( ' . $lcms_user->get_user_id() . ' )');
