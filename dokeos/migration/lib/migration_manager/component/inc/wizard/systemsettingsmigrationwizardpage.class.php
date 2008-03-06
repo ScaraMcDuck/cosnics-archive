@@ -132,13 +132,14 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		
 		$systemannouncementsclass =  Import :: factory($this->old_system, 'systemannouncement');
 		$systemannouncements = array();
-		$systemannouncements = $systemannouncementsclass->get_all_system_announcements($this->mgdm);;
+		$systemannouncements = $systemannouncementsclass->get_all_system_announcements($this->mgdm);
+		$id = $this->mgdm->get_id_reference($this->mgdm->get_old_admin_id(), 'dokeos_main.user');
 		
 		foreach($systemannouncements as $systemannouncement)
 		{
 			if($systemannouncement->is_valid_system_announcement())
 			{
-				$lcms_system_announcement = $systemannouncement->convert_to_new_system_announcement(1);
+				$lcms_system_announcement = $systemannouncement->convert_to_new_system_announcement($id);
 				$this->logfile->add_message('System announcement added ( ID: ' . 
 					$lcms_system_announcement->get_id() . ' )');
 			}

@@ -16,6 +16,21 @@ require_once dirname(__FILE__).'/../../../admin/lib/setting.class.php';
 
 class Dokeos185SettingCurrent extends Import
 {
+	private $convert = array
+					   (
+							'siteName'=> 'site_name', 
+							'server_type' => 'server_type', 
+							'Institution' => 'institution',
+							'InstitutionUrl' => 'institution_url',
+							'show_administrator_data' => 'show_administrator_data',
+							'administratorName' => 'administrator_firstname',
+							'administratorSurname' => 'administrator_surname',
+							'emailAdministrator' => 'administrator_email',
+							'administratorTelephone' => 'administrator_telephone',
+							'allow_lostpassword' => 'allow_password_retrieval',
+							'allow_registration' => 'allow_registration'
+					   );	
+
 	/**
 	 * Migration data manager
 	 */
@@ -299,16 +314,37 @@ class Dokeos185SettingCurrent extends Import
 	function convert_to_new_admin_setting()
 	{
 		//course_rel_user parameters
+		
 		$lcms_admin_setting = new Setting();
+		if ($this->convert[$this->get_variable()])
+		{
+			$value = $convert[$this->get_variable()];
+			
+			if($this->get_variable() == 'allow_lostpassword')
+			{
+				if ($this->get_variable()== 'true')
+					$value = '1';
+				else
+					$value = '0';
+			}
+			
+			if($this->get_variable() == 'allow_registration')
+			{
+				if ($this->get_variable() == 'true')
+					$value = '1';
+				else
+					$value = '0';
+			}
+			
+			$lcms_admin_setting->set_application('admin');
+			$lcms_admin_setting->set_variable($this->get_variable());
+			$lcms_admin_setting->set_value($this->get_selected_value());
 		
-		$lcms_admin_setting->set_application('admin');
-		$lcms_admin_setting->set_variable($this->get_variable());
-		$lcms_admin_setting->set_value($this->get_selected_value());
+			//create user in database
+			$lcms_admin_setting->create();
 		
-		//create user in database
-		$lcms_admin_setting->create();
-		
-		return $lcms_admin_setting;
+			return $lcms_admin_setting;
+		}
 	}
 	
 	/** 

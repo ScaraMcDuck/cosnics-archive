@@ -288,7 +288,7 @@ abstract class MigrationDataManager
 	 	$result = $this->db_lcms->query($query);
 	 	return ($result->numRows() > 0);
 	 }
-
+	 
 	/**
 	 * Creates a unix time from the given timestamp
 	 */
