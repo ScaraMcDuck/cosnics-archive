@@ -561,7 +561,24 @@ class Dokeos185DataManager extends MigrationDataManager
 		}
 		return new Dokeos185PersonalAgenda($defaultProp);
 	}
-
+	
+	/**
+	 * Get the first admin id
+	 * @return admin_id
+	 */
+	function get_old_admin_id()
+	{
+		$this->db_connect('main_database');
+		$query = 'SELECT * FROM `user` WHERE EXISTS
+	(SELECT user_id FROM admin WHERE user.user_id = admin.user_id)';
+		$result = $this->db->query($query);
+		$personal_agendas = array();
+		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$id = $record['user_id'];
+		$result->free();
+		
+		return $id;
+	} 
 }
 
 ?>
