@@ -84,12 +84,15 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		$userclass = Import :: factory($this->old_system, 'user');
 		$users = array();
 		$users = $userclass->get_all_users($this->mgdm);
+		$idrefs = $this->mgdm->get_id_references('user_user');
+		$languages = array('english');
+		$auth_list = array('platform');
 		
 		foreach($users as $user)
 		{
 			if($user->is_valid_user())
 			{
-				$lcms_user = $user->convert_to_new_user();
+				$lcms_user = $user->convert_to_new_user($auth_list, $languages, $idrefs);
 				$this->logfile->add_message('SUCCES: User added ( ' . $lcms_user->get_user_id() . ' )');
 			}
 			else

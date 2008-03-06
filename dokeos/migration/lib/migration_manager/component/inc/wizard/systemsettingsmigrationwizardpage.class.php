@@ -109,8 +109,9 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 			if($systemsetting->is_valid_current_setting())
 			{
 				$lcms_admin_setting = $systemsetting->convert_to_new_admin_setting();
-				$this->logfile->add_message('System setting added ( ID: ' . 
-					$lcms_admin_setting->get_id() . ' )');
+				if($lcms_admin_setting)
+					$this->logfile->add_message('System setting added ( ID: ' . 
+						$lcms_admin_setting->get_id() . ' )');
 			}
 			else
 			{
@@ -133,7 +134,7 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		$systemannouncementsclass =  Import :: factory($this->old_system, 'systemannouncement');
 		$systemannouncements = array();
 		$systemannouncements = $systemannouncementsclass->get_all_system_announcements($this->mgdm);
-		$id = $this->mgdm->get_id_reference($this->mgdm->get_old_admin_id(), 'dokeos_main.user');
+		$id = $this->mgdm->get_id_reference($this->mgdm->get_old_admin_id(), 'user_user');
 		
 		foreach($systemannouncements as $systemannouncement)
 		{

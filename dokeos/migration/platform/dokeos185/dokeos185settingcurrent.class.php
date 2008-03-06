@@ -315,36 +315,38 @@ class Dokeos185SettingCurrent extends Import
 	{
 		//course_rel_user parameters
 		
-		$lcms_admin_setting = new Setting();
-		if ($this->convert[$this->get_variable()])
+		$value = $this->convert[$this->get_variable()];
+		if ($value)
 		{
-			$value = $convert[$this->get_variable()];
+			$lcms_admin_setting = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name($value);
 			
 			if($this->get_variable() == 'allow_lostpassword')
 			{
-				if ($this->get_variable()== 'true')
-					$value = '1';
+				if ($this->get_selected_value() == 'true')
+					$this->set_selected_value(1);
 				else
-					$value = '0';
+					$this->set_selected_value(0);
 			}
 			
 			if($this->get_variable() == 'allow_registration')
 			{
-				if ($this->get_variable() == 'true')
-					$value = '1';
+				if ($this->get_selected_value() == 'true')
+					$this->set_selected_value(1);
 				else
-					$value = '0';
+					$this->set_selected_value(0);
 			}
 			
-			$lcms_admin_setting->set_application('admin');
-			$lcms_admin_setting->set_variable($this->get_variable());
 			$lcms_admin_setting->set_value($this->get_selected_value());
 		
-			//create user in database
-			$lcms_admin_setting->create();
+			// Update setting in database
+			//$lcms_admin_setting->update();
 		
-			return $lcms_admin_setting;
+			//return $lcms_admin_setting;
+			
+			return null;
 		}
+		
+		return null;
 	}
 	
 	/** 
