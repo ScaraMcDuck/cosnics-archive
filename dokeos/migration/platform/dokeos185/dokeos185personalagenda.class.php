@@ -228,11 +228,11 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 	 */
 	function is_valid_personal_agenda()
 	{
-		if(!$this->get_user() || !($this->get_title() || $this->get_text()) || $this->get_date() ||
+		if(!$this->get_user() || (!$this->get_title() && !$this->get_text()) || !$this->get_date() ||
 			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user()) )
-		{
+		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
-				'dokeos_main.class');
+				'dokeos_main.personal_agenda');
 			return false;
 		}
 		return true;
@@ -268,7 +268,7 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 			$lcms_calendar_event->set_owner_id($owner_id);
 		
 		//Get repository from user
-		$repository_id = self :: $mgdm->get_parent_id($lcms_user->get_user_id(), 
+		$repository_id = self :: $mgdm->get_parent_id($owner_id, 
 			'category', Translation :: get_lang('MyRepository'));
 		
 		$lcms_calendar_event->set_parent_id($repository_id);
@@ -278,7 +278,7 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 		//Create personal agenda publication
 		
 		$lcms_personal_calendar = new PersonalCalendarEvent(0, 
-			$owner_id, $lcms_calendar_event->get_id(), $this->get_date());
+			$owner_id, $lcms_calendar_event, $this->get_date());
 		
 		$lcms_personal_calendar->create_all();
 		
