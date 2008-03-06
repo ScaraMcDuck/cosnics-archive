@@ -29,22 +29,22 @@ class Logger{
      * add a message to a logfile
      * @param String $message add a message to a logfile
      */
-    function write_message($message)
+    function add_message($message)
     {
     	fwrite($this->file, $this->get_timestamp() . $message . "\n");
     }
     
-    function add_message($message)
+   /* function add_message($message)
     {
     	$this->messages[] = $this->get_timestamp() . $message . "\n";
-    }
+    }*/
     
     function write_all_messages()
     {
-    	foreach($this->messages as $message)
+    	/*foreach($this->messages as $message)
     	{
     		fwrite($this->file, $message);
-    	}
+    	}*/
     }
     
     /**
