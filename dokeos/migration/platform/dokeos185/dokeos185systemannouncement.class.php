@@ -45,7 +45,7 @@ class Dokeos185SystemAnnouncement extends Import
 	 * @param array $defaultProperties The default properties of the system annoucement
 	 *                                 object. Associative array.
 	 */
-	function Dokeos185CourseRelUser($defaultProperties = array ())
+	function Dokeos185SystemAnnouncement($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
@@ -291,6 +291,8 @@ class Dokeos185SystemAnnouncement extends Import
 		
 		//Create announcement in database
 		$lcms_repository_announcement->create();
+		
+		return $lcms_repository_announcement;
 	}
 	
 	static function get_all_system_announcements($mgdm)

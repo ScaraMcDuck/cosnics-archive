@@ -5,7 +5,7 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- $lang['weblcms']['AdminBy'] = 'Administration by';
+$lang['weblcms']['AdminBy'] = 'Administration by';
 $lang['weblcms']['AdministrationTools'] = 'Administration';
 $lang['weblcms']['Tools'] = 'Tools';
 $lang['weblcms']['State'] = 'Status of the system';
@@ -65,7 +65,7 @@ $lang['weblcms']['ReadMore'] = 'Read more...';
 $lang['weblcms']['DeleteThisArticle'] = 'Delete this article';
 $lang['weblcms']['EditThisPost'] = 'Edit this post';
 $lang['weblcms']['DeleteThisComment'] = 'Delete this comment';
-$lang['weblcms']['NoArticles'] = 'At this time, there are no articles in this blog. If you are the author of this blog, click on the link 'new article' to write a new one.';
+$lang['weblcms']['NoArticles'] = 'At this time, there are no articles in this blog. If you are the author of this blog, click on the link \'new article\' to write a new one.';
 $lang['weblcms']['NoTasks'] = 'You have no task to do at this time.';
 $lang['weblcms']['Rating'] = 'Rating';
 $lang['weblcms']['RateThis'] = 'Rate this article';
@@ -271,8 +271,8 @@ $lang['weblcms']['langNewEx'] = 'New test';
 $lang['weblcms']['langCreateDocument'] = 'Create document';
 $lang['weblcms']['langMissingImagesDetected'] = 'Missing images detected';
 $lang['weblcms']['langPublish'] = 'Publish';
-$lang['weblcms']['langScormcontentstudent'] = 'This is a SCORM course. If you would like to play it, click here : <input type=button name=scormbutton value='Launch&nbsp;it&nbsp;!' onclick='openscorm()'>';
-$lang['weblcms']['langScormcontent'] = 'This is a Scorm content<br><input type=button name=scormbutton value='Launch&nbsp;it&nbsp;!' onclick='openscorm()'>';
+$lang['weblcms']['langScormcontentstudent'] = 'This is a SCORM course. If you would like to play it, click here : <input type=button name=scormbutton value=\'Launch&nbsp;it&nbsp;!\' onclick=\'openscorm()\'>';
+$lang['weblcms']['langScormcontent'] = 'This is a Scorm content<br><input type=button name=scormbutton value=\'Launch&nbsp;it&nbsp;!\' onclick=\'openscorm()\'>';
 $lang['weblcms']['langQuestion'] = 'Question';
 $lang['weblcms']['langQuestions'] = 'Questions';
 $lang['weblcms']['langAnswers'] = 'Answers';
@@ -374,7 +374,7 @@ $lang['weblcms']['langPrivate'] = 'private';
 $lang['weblcms']['langPublic'] = 'public';
 $lang['weblcms']['langPropModify'] = 'Modify settings';
 $lang['weblcms']['langState'] = 'State';
-$lang['weblcms']['langGroupFilledGroups'] = 'Groups have been filled (or completed) by users present in the 'Users' list.';
+$lang['weblcms']['langGroupFilledGroups'] = 'Groups have been filled (or completed) by users present in the \'Users\' list.';
 $lang['weblcms']['langCourseBackup'] = 'Backup this course';
 $lang['weblcms']['langCourseTitular'] = 'Teacher';
 $lang['weblcms']['langCourseTitle'] = 'Course title';
@@ -653,7 +653,7 @@ $lang['weblcms']['langRandomLanguage'] = 'Shuffle selection in aivailable langua
 $lang['weblcms']['langCreateDoc'] = 'Create a document';
 $lang['weblcms']['langNoFileName'] = 'Please enter the file name';
 $lang['weblcms']['langAreYouSureToDelete'] = 'Are you sure you want to delete';
-$lang['weblcms']['langScormcontentstudent'] = 'This is a Scorm format course. To play it, click here : <input type=button name=scormbutton value='Launch&nbsp;it&nbsp;!' onclick='openscorm()'>';
+$lang['weblcms']['langScormcontentstudent'] = 'This is a Scorm format course. To play it, click here : <input type=button name=scormbutton value=\'Launch&nbsp;it&nbsp;!\' onclick=\'openscorm()\'>';
 $lang['weblcms']['langCreateDocument'] = 'Create a document';
 $lang['weblcms']['langEditDocument'] = 'Edit';
 $lang['weblcms']['langOrganiseDocuments'] = 'Create table of contents';
@@ -816,8 +816,8 @@ $lang['weblcms']['langCourseManager'] = 'Teacher';
 $lang['weblcms']['langAddPage'] = 'Add a page';
 $lang['weblcms']['langSendPage'] = 'Page to upload';
 $lang['weblcms']['langCouldNot'] = 'File could not be uploaded';
-$lang['weblcms']['langOkSentPage'] = 'Your page has been uploaded.<p>It is now linked from the <a href=\"../../".$_course['path']."/index.php\">Homepage</a>';
-$lang['weblcms']['langOkSentLink'] = 'Your link has been added. It is now accessible from the <a href=\"".api_get_path(WEB_COURSE_PATH). $_course['path'] . "/index.php\">Homepage</a>';
+$lang['weblcms']['langOkSentPage'] = 'Your page has been uploaded.<p>It is now linked from the <a href=\"../../".$_course[\'path\']."/index.php\">Homepage</a>';
+$lang['weblcms']['langOkSentLink'] = 'Your link has been added. It is now accessible from the <a href=\"".api_get_path(WEB_COURSE_PATH). $_course[\'path\'] . "/index.php\">Homepage</a>';
 $lang['weblcms']['langTooBig'] = 'You didn\'t choose any file to send, or it is too big';
 $lang['weblcms']['langExplanation'] = 'The page must be in HTML format (e.g. "my_page.htm"). It will be linked from Homepage. If you want to send non HTML documents (PDF, Word, Power Point, Video, etc.) use <a href=../document/document.php>Documents tool</a>';
 $lang['weblcms']['langPgTitle'] = 'Title of the page';
@@ -863,11 +863,11 @@ $lang['weblcms']['langHomeContent'] = '<p>The course home page shows a series of
 <b>Navigation</b>
 <p>To browse your course, you have 2 navigation tools. One on top left is a tree showing where you are and how deep you are in the course. On top right, you can access to a tool through its icon in one clic. Whether you select your course code on left (always UPPER CASE) or the house icon on the right, you will reach the home page of your course. </p>
 <b>Best practice</b>
-<p>To motivate your students, it is important that your course area is a dynamic area. This will indicate that there is 'somebody behind the screen'. A quick way to give this feeling is to edit the Introduction text (clic on yellow pencil) at least evey week to tell latest news, forthcoming deadlines and so on.</p>
+<p>To motivate your students, it is important that your course area is a dynamic area. This will indicate that there is \'somebody behind the screen\'. A quick way to give this feeling is to edit the Introduction text (clic on yellow pencil) at least evey week to tell latest news, forthcoming deadlines and so on.</p>
 <p>To build your course, it might proove relevant to follow these steps:
 <ol><li>In Course Settings, check Course Acces : Private and Subscription : Denied. This way, nobody can enter your course area during building process,</li>
 <li>Show all the tools clicking on the grey link below the ones situated at the bottom of the page,</li>
-<li>Use the tools you need to 'fill' your area with content, events, guidelines, tests etc.,</li>
+<li>Use the tools you need to \'fill\' your area with content, events, guidelines, tests etc.,</li>
 <li>Hide all tools : your home page is empty in Student view,</li>
 <li>Use the Path tool to structure the way students will visit it and learn with it. This way, you use the other tools, but you don\'t show them at first sight.</li>
 <li>Click on the eye icon besides the path you created : this path will then show on your home page,</li>
@@ -1095,7 +1095,7 @@ $lang['weblcms']['langDocContent'] = '<p>The Documents tool is similar to the Fi
 		</h4>
 		<ul>
 			<li>
-				Click on <img src=../document/../img/comment.gif width=20 height=20> in column 'Comment'
+				Click on <img src=../document/../img/comment.gif width=20 height=20> in column \'Comment\'
 			</li>
 			<li>
 				Type new comment in the corresponding field (top right).
@@ -1139,7 +1139,7 @@ $lang['weblcms']['langDocContent'] = '<p>The Documents tool is similar to the Fi
 				in column \'Move\'
 			</li>
 			<li>
-				Choose the directory into which you want to move the document (or directory) in the corresponding scrolling menu (top left) (note: the word 'root' means you cannot go upper than that level in the document tree of the server).
+				Choose the directory into which you want to move the document (or directory) in the corresponding scrolling menu (top left) (note: the word \'root\' means you cannot go upper than that level in the document tree of the server).
 			</li>
 			<li>
 				Validate by clicking on <input type=submit value=OK name=submit232>.
@@ -1163,12 +1163,12 @@ $lang['weblcms']['langUserContent'] = '<p><b>Adding users</b></p>
  authorisation to modify the content and organisation of this course area. You can only choose between giving all the admin
  rights and giving none of them.</p>
 <p>To allow an assistant, for instance, to co-admin the area, you need to be sure he/she is already registered, then click
- on the pencil, then check 'Teacher', then 'Ok'.</P>
+ on the pencil, then check \'Teacher\', then \'Ok\'.</P>
 <p><b>Co-teachers</b></p>
 <p>To mention in the header of the area the name of a
- co-teacher (coÂ§chairmen, etc.), use the tool 'Course settings'. This
+ co-teacher (coÂ§chairmen, etc.), use the tool\'Course settings\'. This
  modification does not register your co-teacher as a user of the course.
- The field 'Teachers' is completely independant of the Users
+ The field \'Teachers\' is completely independant of the Users
  list.</p>
  <p><b>Tracking and Personal Home Pages</b></p>
  <p>In addition to showing the users list and modifying their rights, the Users tool also shows individual tracking and allows the teacher define headings for personal home pages to be filled-in by students.</p>';
@@ -1176,9 +1176,9 @@ $lang['weblcms']['langGroupContent'] = '<p><b>Introduction</b></p>
 <p>This tool allows to create and manage workgroups.
 At creation (Create groups), groups are empty. There are
 many ways to fill them:
-<ul><li>automatically ('Fill groups (random)'),</li>
-<li>manually ('Edit'),</li>
-<li>self-registration by users (Groups settings: 'Self registration allowed...').</li>
+<ul><li>automatically (\'Fill groups (random)\'),</li>
+<li>manually (\'Edit\'),</li>
+<li>self-registration by users (Groups settings: \'Self registration allowed...\').</li>
 </ul>
 These three ways can be combined. You can, for instance, ask users to self-register first.
 Then discover that some of them didn\'t register and decide to fill groups automatically (random) in
@@ -1186,7 +1186,7 @@ order to complete them. You can also edit each group to compose membership user 
 <p>Groups filling, whether automatical or manual, works only if there are already users
 registered in the area. Users list is visible in <b>Users</b> tool. </p><hr noshade size=1>
 <p><b>Create groups</b></p>
-<p>To create new groups, click on 'Create new group(s)' and determine number of groups to
+<p>To create new groups, click on \'Create new group(s)\' and determine number of groups to
 create.</p><hr noshade size=1>
 <p><b>Group settings</b></p>
 <p>You can determine Group settings globally (for all groups).
@@ -1311,7 +1311,7 @@ $lang['weblcms']['langPathContent'] = 'The Learning Path tool has two functions 
 <img src="../img/path_help.gif">
 <p><b>
 What is a Learning Path ?</b>
-</p><p>A Learning Path is a sequence of learning steps included in modules. It can be content-based (looking like a table of contents) or activities-based, looking like an agenda or a programme of what you need to do in order to understand and practice a certain knowledge or know-how.</p><p>In addition to being structured, a learning path can also be sequenced. This means that some steps will constitute pre-requisites for others ('you cannot go to step 2 before step1'). Your sequence can be suggestive (you show steps one after the other) or imperative (you add pre-requisites so that people are forced to follow the sequence).
+</p><p>A Learning Path is a sequence of learning steps included in modules. It can be content-based (looking like a table of contents) or activities-based, looking like an agenda or a programme of what you need to do in order to understand and practice a certain knowledge or know-how.</p><p>In addition to being structured, a learning path can also be sequenced. This means that some steps will constitute pre-requisites for others (\'you cannot go to step 2 before step1\'). Your sequence can be suggestive (you show steps one after the other) or imperative (you add pre-requisites so that people are forced to follow the sequence).
 </p>
 <p><b>How to create our own Learning Path ?</b></p>
 <p>
@@ -1350,7 +1350,7 @@ completed or incomplete, so the progress of students is clearly available.
 </p><p>
 If you alter the original title of a step, the new title will appear in
 the path, but the original title will not be deleted. So if you want
-test8.doc to appear as 'Final Exam' in the path, you do not have to rename
+test8.doc to appear as \'Final Exam\' in the path, you do not have to rename
 the file, you can use the new title in the path. It is also useful
 to give new titles to links as they are too long.
 </p><p>
@@ -1403,7 +1403,7 @@ The Learning Path section lists all the <i>self-built Learning Paths</i>
 and all uploaded <i>Scorm format Learning Paths</i>, as well.
 </p>';
 $lang['weblcms']['langHDescription'] = 'Help Course Description';
-$lang['weblcms']['langDescriptionContent'] = '<p>This tool will help you describe your course in a synthetic way and from the outside. It may help your future students get a clear view on what they can expect from this course. It is also an opportunity for you to rethink your course scenario.</p>Items are given here as proposals. If you want to create a course description with your own items, use only the 'Other' item and decide for its title.</p>
+$lang['weblcms']['langDescriptionContent'] = '<p>This tool will help you describe your course in a synthetic way and from the outside. It may help your future students get a clear view on what they can expect from this course. It is also an opportunity for you to rethink your course scenario.</p>Items are given here as proposals. If you want to create a course description with your own items, use only the \'Other\' item and decide for its title.</p>
 <p>
 To fill the course description, select Create and edit with forms &gt; Scrolldown menu and select the item of your choice &gt; fill the form &gt; Validate. You can always edit or delete the content of every item by clicking on the pencil or red cross icons.</p>';
 $lang['weblcms']['langHLinks'] = 'Help Links tool';
@@ -1427,23 +1427,23 @@ The links <b>Support Forum</b> and <b>Documentation</b> that point to the main D
 To enter a course (main area of your startpage), click on its name. Your profile can vary from one course to the other. It is possible that you are teacher in one course and student in another. 
 </p>';
 $lang['weblcms']['langHAgenda'] = 'Help Agenda';
-$lang['weblcms']['langAgendaContent'] = '<p>The agenda appears both in each course area and as a synthetic tool for the student ('My agenda' in top banner).</p>
+$lang['weblcms']['langAgendaContent'] = '<p>The agenda appears both in each course area and as a synthetic tool for the student (\'My agenda\' in top banner).</p>
 <p>In the course, the agenda appears as a list of events. You can attach documents or activities to a date so that the agenda becomes a chronological programme for your learning activities.</p>
 <p>In addition to being present in the agenda, the new events are indicated to the student when he/she logs in the next time. The system tells what has been added in the Agenda (and in the Announcements) since his/her last visit : icons appear on the portal home page besides the courses where events and announcements hve been added.</p>
 <p>If you want to go further in the logic of structuring learning activities one after the other, we suggest that you use preferably the Learning Path that offers the same principles with more advanced features. The Learning Path can be considered as a synthesis of a Table of Contens tool + an Agenda + sequencing (imposed order) and tracking.</p>';
 $lang['weblcms']['langHAnnouncements'] = 'Help Announcements';
 $lang['weblcms']['langAnnouncementsContent'] = '<p>The Announcements tool allows you to send an email to all your students or to some of them or to some groups. It can proove efficient to drive students back to your website if they do not visit it very often.</p>
-<p>To send a message to some users and/or some groups, select 'Messages to selected users' then use CTRL+C to select more than one in the left hand menu, click on the right arrow to move them then type your message in the field below.</p>';
+<p>To send a message to some users and/or some groups, select \'Messages to selected users\' then use CTRL+C to select more than one in the left hand menu, click on the right arrow to move them then type your message in the field below.</p>';
 $lang['weblcms']['langHChat'] = 'Help Chat';
 $lang['weblcms']['langChatContent'] = '<p>The Chat tool allows you to discuss live with your students.</p>
-<p>This chat is not similar to usual ones, like MSN&reg; or Yahoo Messenger&reg; because it is web based. The disadvantage is that it refreshes only after 10 seconds and not immediately. The advantage is that it is integrated in your course,it archives your discussions into the Documents tool and it doesn't require from your students any plugin to download.</p>
+<p>This chat is not similar to usual ones, like MSN&reg; or Yahoo Messenger&reg; because it is web based. The disadvantage is that it refreshes only after 10 seconds and not immediately. The advantage is that it is integrated in your course,it archives your discussions into the Documents tool and it doesn\'t require from your students any plugin to download.</p>
 <p>If users send their pictures in \'My e-portfolio\' (top banner), then this picture will appear in the discussion to help identify who is speaking.</p>
 <p>Only the teacher is allowed to delete the discussion when he/she finds it relevant.</p>
 <p><b>Pedagogical relevance</b></p>
-<p>Adding a chat to your course is not necessarily a good idea. However, if this participates to your scenario, the chat can help. You can imagine, for instance, to hide the chat always except at a certain time when you have a dedicated meeting with your students to answer their questions live. It is less a 'free' dicsussion tool this way, but you give students a guarantee that they will benefit from this live meeting.</p>';
+<p>Adding a chat to your course is not necessarily a good idea. However, if this participates to your scenario, the chat can help. You can imagine, for instance, to hide the chat always except at a certain time when you have a dedicated meeting with your students to answer their questions live. It is less a \'free\' dicsussion tool this way, but you give students a guarantee that they will benefit from this live meeting.</p>';
 $lang['weblcms']['langHWork'] = 'Help for Student Publications';
 $lang['weblcms']['langWorkContent'] = '<p>The student publications tool is a very simple one. It allows your students to upload any document in the course area.</p>
-<p>Depending on your course scenario, you can set all files to be visible to all students by default, or only visible for you. Making all files visible is useful when for instance you want to ask students to give their opinion on each other's papers or let them learn to publish texts to the world. Keep files invisible if e.g. you ask the same question to everybody and want to avoid cheating.</p>
+<p>Depending on your course scenario, you can set all files to be visible to all students by default, or only visible for you. Making all files visible is useful when for instance you want to ask students to give their opinion on each other\'s papers or let them learn to publish texts to the world. Keep files invisible if e.g. you ask the same question to everybody and want to avoid cheating.</p>
 <p>This tool has an <i>Introduction text</i> area to allow you to write a question, detailed guidelines, a reminder of a deadline or anything else you may find relevant.</p>';
 $lang['weblcms']['langHTracking'] = 'Help Tracking';
 $lang['weblcms']['langTrackingContent'] = '<p>The tracking helps you follow your students : did they connect to the sytem, when, how many times? How much do they get in tests? Did they already upload their Paper? When? If you use Scorm courses, you can evn know how much time a student spent on a module or chapter. The trackinggives information at 2 levels:
@@ -1451,17 +1451,17 @@ $lang['weblcms']['langTrackingContent'] = '<p>The tracking helps you follow your
 <li><b>Nominatively</b>: What pages has John Doe visited? What score does he get in tests? When was hs last connection on the system?</li></ul>';
 $lang['weblcms']['langHSettings'] = 'Help Course settings';
 $lang['weblcms']['langSettingsContent'] = '<p>Course settings allows you to manage the global parameters of your course : Title, code, language, name of teachers etc.</p>
-<p>The options situated in the middle of the page deal with confidentiality settings : is the course public or private? Can students register to it? You can use these settigs dynamically : open registration during one week > ask your students to register > close access to registration > remove possible intruders through the Users list. This way you keep control of who is in byt you don't have the administrative hassle of registrating them yourself.</p>
+<p>The options situated in the middle of the page deal with confidentiality settings : is the course public or private? Can students register to it? You can use these settigs dynamically : open registration during one week > ask your students to register > close access to registration > remove possible intruders through the Users list. This way you keep control of who is in byt you don\'t have the administrative hassle of registrating them yourself.</p>
 <p>At the bottom of the page, you can Backup the course and delete it. Backup will create a file on the server and allow you to copy it on your own Hard Disk locally. So that there will be 2 backups of it in different places. If you backup a course then delete it. You will not be allowed to restore it yourself but the system administrator can do this for you if you give him/her the code of your course. Backuping a course is also a good way to get all your documents back onto your own computer. You will need a tool, like Winzip&reg; to UNZIP the archive. Note that backuping a course does not remove it in any way.</p>';
 $lang['weblcms']['PageAfterLoginTitle'] = 'Page after login';
 $lang['weblcms']['PageAfterLoginComment'] = 'The page which is seen by the user entering the platform';
 $lang['weblcms']['langHExternal'] = 'Help Add a Link';
 $lang['weblcms']['langExternalContent'] = '<p>Dokeos is a modular tool. You can hide and show tools whenever you want, according to your project or to its different chronological phases. But you can also add on your home page tools or pages that you have created yourself or that come from the outside of your Dokeos portal. This way, you will make of your course home page YOUR page.</p>
 <p>To take possession of your page that way, you will Add links on it. These links can be of 2 types:
-<ul><li><b>External link</b>: you create on your home page a link to a website situated outside your course area. In this case, you will select Target= In a new window because you don't want that website to replace your Dokeos environment.</li>
+<ul><li><b>External link</b>: you create on your home page a link to a website situated outside your course area. In this case, you will select Target= In a new window because you don\'t want that website to replace your Dokeos environment.</li>
 <li><b>Internal link</b>: you link towards a page or a tool inside your Dokeos course. To do this, you go first to that page or document or tool, you copy its URL from the URL bar of your browser (CTRL+C), then you go to Add a link and you paste this URL in the URL field and you give it the name you want. In this case, you will select Target=Same window because you will keep the Dokeos banner on top and the remain in the same environment.</li></ul>
 Once created, these links cannot be edited. To modify them, the only solution is to deactivate them then delete them, then restart from zero.</p>';
-$lang['weblcms']['langTooBig'] = 'You didn't choose any file to upload, or it is too big.';
+$lang['weblcms']['langTooBig'] = 'You didn\'t choose any file to upload, or it is too big.';
 $lang['weblcms']['langOkSent'] = 'Your page has been uploaded.<p>It is now linked from <a href=../../$dbname/index.php>Homepage</a>';
 $lang['weblcms']['langCouldNot'] = 'File could not be uploaded.';
 $lang['weblcms']['langNotAllowed'] = 'Not allowed';
@@ -1471,9 +1471,9 @@ $lang['weblcms']['langPageTitleModified'] = 'The title of the page has been modi
 $lang['weblcms']['langPageAdded'] = 'Page added';
 $lang['weblcms']['langInvalidId'] = 'Login failed - incorrect username or password.';
 $lang['weblcms']['langWelcome'] = 'courses are freely available below. Other  courses require
-a username and a password, which you can obtain by clicking on 'registration'. Teachers
+a username and a password, which you can obtain by clicking on \'registration\'. Teachers
 can create course areas by clicking on registration too, but selecting then
-'Create course areas'.';
+\'Create course areas\'.';
 $lang['weblcms']['langPass'] = 'Password';
 $lang['weblcms']['langReg'] = 'Registration';
 $lang['weblcms']['langMenu'] = 'Menu';
@@ -1966,7 +1966,7 @@ $lang['weblcms']['langVisualCode'] = 'visual code';
 $lang['weblcms']['langAddCourse'] = 'Create a course';
 $lang['weblcms']['langAdminManageVirtualCourses'] = 'Manage virtual courses';
 $lang['weblcms']['langAdminCreateVirtualCourse'] = 'Create a virtual course';
-$lang['weblcms']['langAdminCreateVirtualCourseExplanation'] = 'The virtual course will share storage space (directory and database) with an existing 'real' course.';
+$lang['weblcms']['langAdminCreateVirtualCourseExplanation'] = 'The virtual course will share storage space (directory and database) with an existing \'real\' course.';
 $lang['weblcms']['langRealCourseCode'] = 'Real course code';
 $lang['weblcms']['langCourseCreationSucceeded'] = 'The course was successfully created.';
 $lang['weblcms']['langYourDokeosUses'] = 'Your Dokeos installation uses presently';
@@ -2592,7 +2592,7 @@ $lang['weblcms']['AnnouncementExampleTitle'] = 'This is an announcement example'
 $lang['weblcms']['SendMailToNewUser'] = 'Send mail to new user';
 $lang['weblcms']['YouAreNowUnsubscribed'] = 'You are now unsubscribed from the course';
 $lang['weblcms']['ExtendedProfileTitle'] = 'Extended profile';
-$lang['weblcms']['ExtendedProfileComment'] = 'If this setting is set to 'True', a user can fill in following (optional) fields: 'My competences', 'My diplomas', 'What I am able to teach' and 'My personal open area'';
+$lang['weblcms']['ExtendedProfileComment'] = 'If this setting is set to \'True\', a user can fill in following (optional) fields: \'My competences\', \'My diplomas\', \'What I am able to teach\' and \'My personal open area\'';
 $lang['weblcms']['Classes'] = 'Classes';
 $lang['weblcms']['UserUnsubscribed'] = 'User is now unsubscribed';
 $lang['weblcms']['CannotUnsubscribeUserFromCourse'] = 'User can not be unsubscribed from course. This user is a course administrator.';
@@ -2648,8 +2648,8 @@ $lang['weblcms']['ImportClassListCSV'] = 'Import class list via CSV';
 $lang['weblcms']['ShowOnlineWorld'] = 'Display number of users online on the login page (visible for the world)';
 $lang['weblcms']['ShowOnlineUsers'] = 'Display number of users online all pages (visible for the persons who are logged in)';
 $lang['weblcms']['ShowOnlineCourse'] = 'Display number of users online in this course';
-$lang['weblcms']['ShowOnlineWorld'] = 'Who's online visible to the world';
-$lang['weblcms']['ShowOnlineUsers'] = 'Who's online visible to users';
+$lang['weblcms']['ShowOnlineWorld'] = 'Who\'s online visible to the world';
+$lang['weblcms']['ShowOnlineUsers'] = 'Who\'s online visible to users';
 $lang['weblcms']['ShowOnlineCourse'] = 'Who\'s online visible in same course';
 $lang['weblcms']['ShowNavigationMenuTitle'] = 'Display course navigation menu';
 $lang['weblcms']['ShowNavigationMenuComment'] = 'Display a navigation menu that makes it easy to go to different areas of the course.';

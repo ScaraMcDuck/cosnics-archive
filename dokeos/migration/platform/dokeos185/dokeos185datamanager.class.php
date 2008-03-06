@@ -495,7 +495,7 @@ class Dokeos185DataManager extends MigrationDataManager
 		$settings_current = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$system_annoucements[] = $this->record_to_current_setting($record);
+			$system_annoucements[] = $this->record_to_system_announcement($record);
 			
 		}
 		$result->free();
@@ -508,7 +508,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	 * @param ResultSetRecord $record from database
 	 * @return Dokeos185SystemAnnouncement object with mapped data
 	 */
-	function record_to_current_setting($record)
+	function record_to_system_announcement($record)
 	{
 		if (!is_array($record) || !count($record))
 		{

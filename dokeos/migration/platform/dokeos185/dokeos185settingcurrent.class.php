@@ -193,7 +193,7 @@ class Dokeos185SettingCurrent extends Import
 	 * Returns the subkeytext of this current setting.
 	 * @return String The subkeytext.
 	 */
-	function get_scope()
+	function get_subkey_text()
 	{
 		return $this->get_default_property(self :: PROPERTY_SUBKEYTEXT);
 	}
@@ -288,6 +288,11 @@ class Dokeos185SettingCurrent extends Import
 		$this->set_default_property(self :: PROPERTY_ID, $subkeytext);
 	}
 	
+	function is_valid_current_setting()
+	{
+		return true;
+	}
+	
 	/**
 	 * Migration course user relation
 	 */
@@ -296,7 +301,7 @@ class Dokeos185SettingCurrent extends Import
 		//course_rel_user parameters
 		$lcms_admin_setting = new Setting();
 		
-		$lcms_admin_setting->set_application($this->get_category());
+		$lcms_admin_setting->set_application('admin');
 		$lcms_admin_setting->set_variable($this->get_variable());
 		$lcms_admin_setting->set_value($this->get_selected_value());
 		

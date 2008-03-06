@@ -38,8 +38,8 @@ class MigrationWizard extends HTML_QuickForm_Controller
 		parent :: HTML_QuickForm_Controller('MigrationWizard', true);
 		$this->addPage(new SystemMigrationWizardPage('page_system',$this->parent));
 		$this->addPage(new SettingsMigrationWizardPage('page_settings',$this->parent));
-		$this->addPage(new SystemSettingsMigrationWizardPage('page_system_settings',$this->parent));
 		$this->addPage(new UsersMigrationWizardPage('page_users',$this->parent));
+		$this->addPage(new SystemSettingsMigrationWizardPage('page_systemsettings',$this->parent));
 		$this->addPage(new ClassesMigrationWizardPage('page_classes', $this->parent));
 		$this->addPage(new CoursesMigrationWizardPage('page_courses',$this->parent));
 		$this->addPage(new PersonalAgendasMigrationWizardPage('page_pa',$this->parent));
