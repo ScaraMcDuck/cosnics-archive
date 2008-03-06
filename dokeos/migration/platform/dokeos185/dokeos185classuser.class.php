@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../../classgroup/lib/classgroupreluser.class
 /**
  * This class represents an old Dokeos 1.8.5 class
  *
- * @author David Van Wayenberghµ
+ * @author David Van Wayenbergh
  * @author Sven Vanpoucke
  */
  
@@ -21,7 +21,7 @@ require_once dirname(__FILE__).'/../../../classgroup/lib/classgroupreluser.class
 	private static $mgdm;
 
 	/**
-	 * course relation user properties
+	 * class relation user properties
 	 */
 	 
 	const PROPERTY_CLASS_ID = 'class_id';

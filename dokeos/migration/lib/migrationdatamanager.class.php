@@ -6,6 +6,9 @@
  * @author Vanpoucke Sven
  */
 require_once(Path :: get_library_path().'configuration/configuration.php');
+require_once(Path :: get_path(SYS_APP_MIGRATION_PATH) . '/lib/failedelement.class.php');
+require_once(Path :: get_path(SYS_APP_MIGRATION_PATH) . '/lib/idreference.class.php');
+require_once(Path :: get_path(SYS_APP_MIGRATION_PATH) . '/lib/recoveryelement.class.php');
 
 //TODO use pear package for lcms database connection
 abstract class MigrationDataManager
@@ -145,6 +148,17 @@ abstract class MigrationDataManager
 		
 	}
 	
+	function create_failed_element($failed_element)
+	{
+		$this->db_lcms_connect();
+		$query = 'INSERT INTO ' . self :: TEMP_FAILED_ELEMENTS_TABLE . 
+				 ' (failed_id, table_name) VALUES (\''.
+					$failed_element->get_failed_id() . '\',\'' . 
+					$failed_element->get_table_name() .'\')';
+		$this->db_lcms->query($query);
+		
+	}
+	
 	/**
 	 * add a migrated file to the table recovery to make a rollback action possible
 	 * @param String $old_path the old path of an element
@@ -156,6 +170,16 @@ abstract class MigrationDataManager
 		$query = 'INSERT INTO ' . self :: TEMP_RECOVERY_TABLE .
 				 '(old_path, new_path) VALUES (\''.
 					$old_path . '\',\''.$new_path .'\')';
+		$this->db_lcms->query($query);
+	}
+	
+	function create_recovery_element($recovery_element)
+	{
+		$this->db_lcms_connect();
+		$query = 'INSERT INTO ' . self :: TEMP_RECOVERY_TABLE .
+				 '(old_path, new_path) VALUES (\''.
+					$recovery_element->get_old_path() . '\',\'' . 
+					$recovery_element->get_new_path() .'\')';
 		$this->db_lcms->query($query);
 	}
 	
@@ -171,6 +195,17 @@ abstract class MigrationDataManager
 		$query = 'INSERT INTO ' . self :: TEMP_ID_REFERENCE_TABLE . 
 				 ' (old_id, new_id, table_name) VALUES (\'' .
 					$old_id . '\',\'' . $new_id . '\',\'' . $table_name . '\')';
+		$this->db_lcms->query($query);
+	}
+	
+	function create_id_reference($id_reference)
+	{	
+		$this->db_lcms_connect();
+		$query = 'INSERT INTO ' . self :: TEMP_ID_REFERENCE_TABLE . 
+				 ' (old_id, new_id, table_name) VALUES (\'' .
+					$id_reference->get_old_id() . '\',\'' . 
+					$id_reference->get_new_id() . '\',\'' . 
+					$id_reference->get_table_name() . '\')';
 		$this->db_lcms->query($query);
 	}
 	
@@ -193,6 +228,76 @@ abstract class MigrationDataManager
 			return $record;
 			
 		return NULL;
+	 }
+	 
+	 function get_failed_elements($table_name)
+	 {
+	 	$this->db_lcms_connect();
+	 	$query = 'SELECT * FROM ' . self :: TEMP_FAILED_ELEMENTS_TABLE . 
+				 ' WHERE table_name=\'' . $table_name . '\'';
+		$result = $this->db_lcms->query($query);
+		$failed_elements = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$failed_elements = $this->record_to_classobject($record, 'FailedElement');
+		}
+		
+		$result->free();
+		
+		return $failed_elements;
+	 }
+	 
+	 function get_recovery_elements()
+	 {
+	 	$this->db_lcms_connect();
+	 	$query = 'SELECT * FROM ' . self :: TEMP_RECOVERY_TABLE;
+		$result = $this->db_lcms->query($query);
+		$recovery_elements = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$recovery_elements[] = $this->record_to_classobject($record, 'RecoveryElement');
+		}
+		
+		$result->free();
+		
+		return $recovery_elements;
+	 }
+	 
+	 function get_id_references($table_name)
+	 {
+	 	$this->db_lcms_connect();
+	 	$query = 'SELECT new_id FROM ' . self :: TEMP_ID_REFERENCE_TABLE . 
+				 ' WHERE table_name=\'' . $table_name . '\'';
+		$result = $this->db_lcms->query($query);
+		$id_references = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$id_references[] = $this->record_to_classobject($record, 'IdReference');
+		}
+		
+		$result->free();
+		
+		return $id_references;
+	 }
+	 
+	 function record_to_classobject($record, $classname)
+	 {
+		 if (!is_array($record) || !count($record))
+		 {
+		 	throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		 }
+		 $defaultProp = array ();
+		 
+		 $class = new $classname($defaultProp);
+		 
+		 foreach ($class->get_default_property_names() as $prop)
+		 {
+		 	 $defaultProp[$prop] = $record[$prop];
+		 }
+		 
+		 $class->set_default_properties($defaultProp);
+		 
+		 return $class;
 	 }
 	 
 	 /**
