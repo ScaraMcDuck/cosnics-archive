@@ -806,7 +806,7 @@ class Dokeos185User extends Import
 		return $lcms_user;
 	}
 	
-	function is_valid_user()
+	function is_valid_user($lcms_users)
 	{
 		if(!$this->get_username() || !$this->get_password() || !$this->get_status())
 		{
@@ -817,6 +817,30 @@ class Dokeos185User extends Import
 			
 			return false;
 		}
+		
+		$index = 0;
+		$user = $this->username_exists($lcms_users, $this->get_username());	
+		$firstuser = $user;
+		$newusername = $this->get_username();
+		
+		if($user)
+		{
+			do
+			{
+				$newusername = $newusername . ($index ++);
+				$user = $this->username_exists($lcms_users,$newusername);	
+			}while($user);
+		}
+		
+		if($firstuser)
+		{
+			$firstuser->set_username($newusername);
+			$firstuser->update();
+			/*mail($firstuser->get_email(),'Login for Dokeos changed',
+			'Because we upgraded dokeos to a newer version we were obligated\r\n
+			 to change your login name\r\n
+			 new login: ' . $firstuser->get_username());*/
+		}
 			
 		return true;
 	}
@@ -825,6 +849,18 @@ class Dokeos185User extends Import
 	{
 		self :: $mgdm = $mgdm;
 		return self :: $mgdm->get_all_users();	
+	}
+	
+	function username_exists($lcms_users,$old_username)
+	{
+		foreach($lcms_users as $lcms_user)
+		{
+			if($lcms_user->get_username() == $old_username)
+			{
+				return $lcms_user;
+			}
+		}
+		return null;
 	}
 }
 ?>
