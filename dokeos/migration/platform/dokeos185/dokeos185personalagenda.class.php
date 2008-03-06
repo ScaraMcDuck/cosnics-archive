@@ -245,12 +245,12 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 	{
 		// Create calendar event	
 		$lcms_calendar_event = new CalendarEvent();
-		$lcms_calendar_event->set_start_date($this->get_date());
+		$lcms_calendar_event->set_start_date(self :: $mgdm->make_unix_time($this->get_date()));
 		
 		if(!$this->get_enddate())
-			$lcms_calendar_event->set_end_date($this->get_date());
+			$lcms_calendar_event->set_end_date(self :: $mgdm->make_unix_time($this->get_date()));
 		else
-			$lcms_calendar_event->set_end_date($this->get_enddate());
+			$lcms_calendar_event->set_end_date(self :: $mgdm->make_unix_time($this->get_enddate()));
 			
 		if(!$this->get_title())
 			$lcms_calendar_event->set_title($this->get_text());
@@ -278,7 +278,7 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 		//Create personal agenda publication
 		
 		$lcms_personal_calendar = new PersonalCalendarEvent(0, 
-			$owner_id, $lcms_calendar_event, $this->get_date());
+			$owner_id, $lcms_calendar_event, self :: $mgdm->make_unix_time($this->get_date()));
 		
 		$lcms_personal_calendar->create_all();
 		

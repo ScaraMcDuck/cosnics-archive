@@ -289,6 +289,17 @@ abstract class MigrationDataManager
 	 	return ($result->numRows() > 0);
 	 }
 
+	/**
+	 * Creates a unix time from the given timestamp
+	 */
+	function make_unix_time($date) 
+	{
+		list($dat, $tim) = explode(" ", $date);
+		list($y, $mo, $d) = explode("-", $dat);
+		list($h, $mi, $s) = explode(":", $tim);
+	
+		return mktime($h, $mi, $s, $mo, $d, $y);
+	}
 }
 
 ?>
