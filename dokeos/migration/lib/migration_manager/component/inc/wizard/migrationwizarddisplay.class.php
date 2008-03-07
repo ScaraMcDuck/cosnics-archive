@@ -61,14 +61,13 @@ class MigrationWizardDisplay extends HTML_QuickForm_Action_Display
 			}
 		}
 		
-		$current_page->perform();
-		
 		echo '</ol>';
 		echo '</div>' . "\n";
 		
 		echo '<div style="margin: 10px;">';
 		echo '<h2>'.Translation :: get_lang('Step').' '.$current_page_number.' '.Translation :: get_lang('of').' '.$total_number_of_pages.' &ndash; '.$current_page->get_title().'</h2>';
 		echo '<div>';
+		$current_page->perform();
 		echo $current_page->get_info();
 		echo '</div>';
 		

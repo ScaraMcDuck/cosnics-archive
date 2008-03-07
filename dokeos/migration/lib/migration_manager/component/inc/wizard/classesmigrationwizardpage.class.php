@@ -84,12 +84,34 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 		//Create temporary tables, create migrationdatamanager
 		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
-		//Migrate the classes
-		$this->migrate_classes();
-		
-		//Migrate the class users
-		$this->migrate_class_users();
-	
+		if(isset($exportvalues['migrate_classes']) && $exportvalues['migrate_classes'] == 1)
+		{	
+			//Migrate the classes
+			$this->migrate_classes();
+			
+			//Migrate the class users
+			if(isset($exportvalues['migrate_users']))
+			{
+				$this->migrate_class_users();
+			}
+			else
+			{
+				echo(Translation :: get_lang('Classes') . ' ' .
+				     Translation :: get_lang('failed') . ' ' .
+				     Translation :: get_lang('because') . ' ' . 
+				     Translation :: get_lang('Users') . ' ' .
+				     Translation :: get_lang('skipped'));
+				$this->logfile->add_message('Classes failed because users skipped');
+			}
+			
+		}
+		else
+		{
+			echo(Translation :: get_lang('Classes')
+				 . ' ' . Translation :: get_lang('skipped'));
+			$this->logfile->add_message('Classes skipped');
+		}
+
 		//Close the logfile
 		$this->logfile->write_all_messages();
 		$this->logfile->write_passed_time();

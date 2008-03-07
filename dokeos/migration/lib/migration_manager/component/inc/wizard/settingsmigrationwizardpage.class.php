@@ -27,21 +27,19 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 	{
 		return Translation :: get_lang('Setting_info') . ':';
 	}
-	
-	//TODO: Add support for FTP
+
 	function buildForm()
 	{
+		$exports = $this->controller->exportValues();
 		$this->_formBuilt = true;
 		$this->addElement('text', 'old_directory', Translation :: get_lang('old_directory'), array ('size' => '40'));
 		$this->addRule('old_directory', 'ThisFieldIsRequired', 'required');
 
-		$migrate_users = $this->addElement('checkbox', 'migrate_users', '', Translation :: get_lang('migrate_users'))->setChecked(true);
+		$this->addElement('checkbox', 'migrate_users', '', Translation :: get_lang('migrate_users'))->setChecked(true);
 		$this->addElement('checkbox', 'migrate_settings', '', Translation :: get_lang('migrate_settings'))->setChecked(true);
 		$this->addElement('checkbox', 'migrate_classes', '', Translation :: get_lang('migrate_classes'))->setChecked(true);
 		$this->addElement('checkbox', 'migrate_courses', '', Translation :: get_lang('migrate_courses'))->setChecked(true);
 		$this->addElement('checkbox', 'migrate_personal_agendas', '', Translation :: get_lang('migrate_personal_agendas'))->setChecked(true);
-
-		$exports = $this->controller->exportValues();
 		
 		$this->addRule(array('old_directory', $exports['old_system']),Translation :: get_lang('CouldNotVerifySettings'), new ValidateSettings());
 

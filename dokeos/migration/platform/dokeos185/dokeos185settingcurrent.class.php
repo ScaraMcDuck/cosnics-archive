@@ -305,7 +305,7 @@ class Dokeos185SettingCurrent extends Import
 	
 	function is_valid_current_setting()
 	{
-		return true;
+		return isset($this->convert[$this->get_variable()]);
 	}
 	
 	/**

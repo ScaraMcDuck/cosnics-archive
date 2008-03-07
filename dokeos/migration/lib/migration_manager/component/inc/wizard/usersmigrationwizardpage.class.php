@@ -72,9 +72,17 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		//Create temporary tables, create migrationdatamanager
 		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
 		$this->mgdm->create_temporary_tables();
-			
+	
 		//Migrate the users
-		$this->migrate_users();
+		if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
+		{	
+			$this->migrate_users();
+		}
+		else
+		{
+			echo(Translation :: get_lang('Users') . ' ' . Translation :: get_lang('skipped'));
+			$this->logfile->add_message('users_skipped');
+		}
 		
 		//Close the logfile
 		$this->logfile->write_all_messages();
