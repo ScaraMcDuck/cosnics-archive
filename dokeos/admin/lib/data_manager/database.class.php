@@ -279,6 +279,20 @@ class DatabaseAdminDataManager extends AdminDataManager
 		return $this->record_to_setting($record);
 	}
 	
+	function update_setting($setting)
+	{
+		$where = $this->escape_column_name(Setting :: PROPERTY_ID).'='.$setting->get_id();
+		$props = array();
+		foreach ($setting->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('setting'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+
+		return true;
+	}
+	
 	// Inherited.
 	function get_next_language_id()
 	{
