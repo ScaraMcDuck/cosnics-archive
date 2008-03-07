@@ -18,6 +18,7 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 	private $old_system;
 	
 	private $failed_elements;
+	private $succes;
 	
 	/**
 	 * @return string Title of the page
@@ -31,32 +32,36 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 	 * @return string Info of the page
 	 */
 	function get_info()
-	{
-		$message = Translation :: get_lang('System_Settings_info');
-		
+	{		
 		for($i=0; $i<2; $i++)
 		{
+			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
+				Translation :: get_lang('migrated');
+			
 			if(count($this->failed_elements[$i]) > 0)
-				$message = $message . '<br / ><br />' . 
-					$this->get_failed_message($i) . ' (' .
-					Translation :: get_lang('Dont_forget') . ')';
+				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
+					 $this->get_message($i) . ' ' . Translation :: get_lang('failed');
 			
 			foreach($this->failed_elements[$i] as $felement)
 			{
-				$message = $message . '<br />' . $felement;
+				$message = $message . '<br />' . $felement ;
 			}
+			
+			$message = $message . '<br />';
 		}
+		
+		$message = $message . '<br />' . Translation :: get_lang('Dont_forget');
 		
 		return $message;
 	}
 	
-	function get_failed_message($index)
+	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('System_Settings_failed'); 
-			case 1: return Translation :: get_lang('System_Announcements_failed'); 
-			default: return Translation :: get_lang('System_Settings_failed'); 
+			case 0: return Translation :: get_lang('System_Settings'); 
+			case 1: return Translation :: get_lang('System_Announcements'); 
+			default: return Translation :: get_lang('System_Settings'); 
 		}
 	}
 	
@@ -112,6 +117,7 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 				if($lcms_admin_setting)
 					$this->logfile->add_message('System setting added ( ID: ' . 
 						$lcms_admin_setting->get_id() . ' )');
+				$this->succes[0]++;
 			}
 			else
 			{
@@ -143,10 +149,11 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 				$lcms_system_announcement = $systemannouncement->convert_to_new_system_announcement($id);
 				$this->logfile->add_message('System announcement added ( ID: ' . 
 					$lcms_system_announcement->get_id() . ' )');
+				$this->succes[1]++;
 			}
 			else
 			{
-				$message = 'System announecment is not valid ( ID: ' . $systemannouncement->get_id() . ' )';
+				$message = 'System announcment is not valid ( ID: ' . $systemannouncement->get_id() . ' )';
 				$this->logfile->add_message($message);
 				$this->failed_elements[1][] = $message;
 			}

@@ -16,6 +16,7 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 	private $mgdm;
 	private $old_system;
 	private $failed_elements;
+	private $succes;
 	
 	/**
 	 * @return string Title of the page
@@ -29,31 +30,35 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 	 * @return string Info of the page
 	 */
 	function get_info()
-	{
-		$message = Translation :: get_lang('Personal_agenda_info');
-		
-		for($i=0; $i<2; $i++)
+	{		
+		for($i=0; $i<1; $i++)
 		{
+			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
+				Translation :: get_lang('migrated');
+			
 			if(count($this->failed_elements[$i]) > 0)
-				$message = $message . '<br / ><br />' . 
-					$this->get_failed_message($i) . ' (' .
-					Translation :: get_lang('Dont_forget') . ')';
+				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
+					 $this->get_message($i) . ' ' . Translation :: get_lang('failed');
 			
 			foreach($this->failed_elements[$i] as $felement)
 			{
-				$message = $message . '<br />' . $felement;
+				$message = $message . '<br />' . $felement ;
 			}
+			
+			$message = $message . '<br />';
 		}
+		
+		$message = $message . '<br />' . Translation :: get_lang('Dont_forget');
 		
 		return $message;
 	}
 	
-	function get_failed_message($index)
+	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Personal_agenda_failed'); 
-			default: return Translation :: get_lang('Personal_agenda_failed'); 
+			case 0: return Translation :: get_lang('Personal_agendas'); 
+			default: return Translation :: get_lang('Personal_agendas'); 
 		}
 	}
 	
@@ -105,6 +110,7 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 			{
 				$lcms_pa = $pa->convert_to_new_personal_agenda();
 				$this->logfile->add_message('SUCCES: Personal Agenda added ( ' . $lcms_pa->get_id() . ' )');
+				$this->succes[0]++;
 			}
 			else
 			{

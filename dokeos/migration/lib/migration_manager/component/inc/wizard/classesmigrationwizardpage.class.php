@@ -16,6 +16,7 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 	private $mgdm;
 	private $old_system;
 	private $failed_elements;
+	private $succes;
 	
 	/**
 	 * @return string Title of the page
@@ -29,32 +30,36 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 	 * @return string Info of the page
 	 */
 	function get_info()
-	{
-		$message = Translation :: get_lang('Class_info');
-		
+	{		
 		for($i=0; $i<2; $i++)
 		{
+			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
+				Translation :: get_lang('migrated');
+			
 			if(count($this->failed_elements[$i]) > 0)
-				$message = $message . '<br / ><br />' . 
-					$this->get_failed_message($i) . ' (' .
-					Translation :: get_lang('Dont_forget') . ')';
+				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
+					 $this->get_message($i) . ' ' . Translation :: get_lang('failed');
 			
 			foreach($this->failed_elements[$i] as $felement)
 			{
-				$message = $message . '<br />' . $felement;
+				$message = $message . '<br />' . $felement ;
 			}
+			
+			$message = $message . '<br />';
 		}
+		
+		$message = $message . '<br />' . Translation :: get_lang('Dont_forget');
 		
 		return $message;
 	}
 	
-	function get_failed_message($index)
+	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Class_failed'); 
-			case 1: return Translation :: get_lang('Class_user_failed'); 
-			default: return Translation :: get_lang('Class_failed'); 
+			case 0: return Translation :: get_lang('Classes'); 
+			case 1: return Translation :: get_lang('Class_users'); 
+			default: return Translation :: get_lang('Classes'); 
 		}
 	}
 	
@@ -108,6 +113,7 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 			{
 				$lcms_class = $class->convert_to_new_class();
 				$this->logfile->add_message('SUCCES: Class added ( ' . $lcms_class->get_id() . ' )');
+				$this->succes[0]++;
 			}
 			else
 			{
@@ -140,6 +146,7 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message('SUCCES: Class user added ( Class: ' . 
 				$lcms_classuser->get_classgroup_id() . ' User: ' . 
 				$lcms_classuser->get_user_id() . ' )');
+				$this->succes[1]++;
 			}
 			else
 			{

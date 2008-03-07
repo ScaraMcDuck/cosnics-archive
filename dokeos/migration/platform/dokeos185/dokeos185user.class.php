@@ -650,7 +650,7 @@ class Dokeos185User extends Import
 	/**
 	 * Migration users, create directories, copy user pictures, migrate user profiles
 	 */
-	function convert_to_new_user($auth_list, $language_list, &$id_references)
+	function convert_to_new_user()
 	{	
 		//User parameters
 		$lcms_user = new User();
@@ -658,13 +658,11 @@ class Dokeos185User extends Import
 		$lcms_user->set_firstname($this->get_firstname());
 		$lcms_user->set_username($this->get_username());
 		$lcms_user->set_password($this->get_password());
-			
-		$lcms_user->set_auth_source('platform');
-		foreach($auth_list as $auth_method)
-		{
-			if($auth_method == $this->get_auth_source())
-				$lcms_user->set_auth_source($this->get_auth_source());
-		}
+		
+		if(self :: $mgdm->is_authentication_available($this->get_auth_source()))
+			$lcms_user->set_auth_source($this->get_auth_source());
+		else
+			$lcms_user->set_auth_source('platform');	
 		
 		$lcms_user->set_email($this->get_email());
 		$lcms_user->set_status($this->get_status());
@@ -686,35 +684,20 @@ class Dokeos185User extends Import
 		}
 		
 		// Get new id from temporary table for references
-		foreach($id_references as $id_ref)
-		{
-			if($id_ref->get_old_id())
-			{
-				$lcms_user->set_creator_id($id_ref->get_new_id());
-				break;
-			}
-				
-		}
-			
-		$lcms_user->set_language('english');
-		foreach($language_list as $language)
-		{
-			if($language == $this->get_language())
-				$$lcms_user->set_language($this->get_language());
-		}
+		$creator_id =  self :: $mgdm->get_id_reference($this->get_creator_id(), 'user_user');
+		if($creator_id)
+			$lcms_user->set_creator_id($creatorid);
+
+		if(self :: $mgdm->is_language_available($this->get_language()))
+			$lcms_user->set_language($this->get_language());
+		else
+			$lcms_user->set_language('english');
 		
 		//create user in database
 		$lcms_user->create();
 		
 		//Add id references to temp table
-		//self :: $mgdm->add_id_reference($this->get_user_id(), $lcms_user->get_user_id(), 'user_user');
-		
-		$id_reference = new IdReference();
-		$id_reference->set_old_id($this->get_user_id());
-		$id_reference->set_new_id($lcms_user->get_user_id());
-		$id_reference->set_table_name('user_user');
-		$id_reference->create();
-		$id_references[] = $id_reference;
+		self :: $mgdm->add_id_reference($this->get_user_id(), $lcms_user->get_user_id(), 'user_user');
 		
 		// Create user directory
 		//$rep_dir = '/files/repository/' . $lcms_user->get_user_id() . '/';
@@ -732,7 +715,6 @@ class Dokeos185User extends Import
 		$lcms_repository_profile->set_title($lcms_user->get_fullname());
 		$lcms_repository_profile->set_description('...');
 		
-		//TODO: get repository lang from other lang files
 		//Retrieve repository id from user
 		$repository_id = self :: $mgdm->get_parent_id($lcms_user->get_user_id(), 
 			'category', Translation :: get_lang('MyRepository'));
@@ -810,10 +792,7 @@ class Dokeos185User extends Import
 	{
 		if(!$this->get_username() || !$this->get_password() || !$this->get_status())
 		{
-			$failed_element = new FailedElement();
-			$failed_element->set_failed_id($this->get_user_id());
-			$failed_element->set_table_name('dokeos_main.user');
-			$failed_element->create();
+			self :: $mgdm->add_failed_element($this->get_user_id(), 'dokeos_main.user');
 			
 			return false;
 		}
