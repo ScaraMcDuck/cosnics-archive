@@ -4,7 +4,7 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importcalendarevent.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/importresource.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/announcement/announcement.class.php';
 
 /**
@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/annou
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185CalendarEvent extends ImportCalendarEvent
+class Dokeos185CalendarEvent extends ImportResource
 {
 	/**
 	 * Migration data manager
