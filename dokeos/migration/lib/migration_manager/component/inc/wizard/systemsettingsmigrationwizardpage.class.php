@@ -86,11 +86,35 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		//Create temporary tables, create migrationdatamanager
 		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
-		//Migrate system settings
-		$this->migrate_system_settings();
-		
-		//Migrate system announcements
-		$this->migrate_system_announcements();
+		if(isset($exportvalues['migrate_settings']) && $exportvalues['migrate_settings'] == 1)
+		{	
+			//Migrate system settings
+			$this->migrate_system_settings();
+			
+			//Migrate system announcements
+			if(isset($exportvalues['migrate_users']))
+			{
+				$this->migrate_system_announcements();
+			}
+			else
+			{
+				echo(Translation :: get_lang('System_Announcements') . ' ' .
+				     Translation :: get_lang('failed') . ' ' .
+				     Translation :: get_lang('because') . ' ' . 
+				     Translation :: get_lang('Users') . ' ' .
+				     Translation :: get_lang('skipped'));
+				$this->logfile->add_message('System announcements failed because users skipped');
+			}
+			
+		}
+		else
+		{
+			echo(Translation :: get_lang('System_Settings') . ' & ' .
+			     Translation :: get_lang('System_Announcements')
+				 . ' ' . Translation :: get_lang('skipped'));
+			$this->logfile->add_message('system settings & announcements skipped');
+		}
+
 		
 		//Close the logfile
 		$this->logfile->write_all_messages();
@@ -121,9 +145,9 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				$message = 'System setting is not valid ( ID: ' . $systemsetting->get_id() . ' )';
+				/*$message = 'System setting is not valid ( ID: ' . $systemsetting->get_id() . ' )';
 				$this->logfile->add_message($message);
-				$this->failed_elements[0][] = $message;
+				$this->failed_elements[0][] = $message;*/
 			}
 		}
 		

@@ -30,6 +30,8 @@ $lang['migration']['MyRepository'] = "My Repository";
 
 $lang['migration']['migrated'] = "migrated";
 $lang['migration']['failed'] = "failed";
+$lang['migration']['skipped'] = "skipped";
+$lang['migration']['because'] = "because";
 $lang['migration']['Dont_forget'] = "You can manually transfer failed elements. Make sure to remove them in the temp_failed_elements table before proceeding when data is transferred manually!";
 
 $lang['migration']['Users_title'] = "Users migration";

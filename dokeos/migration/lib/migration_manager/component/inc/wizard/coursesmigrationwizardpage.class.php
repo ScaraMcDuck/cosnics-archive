@@ -89,20 +89,56 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		//Create temporary tables, create migrationdatamanager
 		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
-		//Migrate course categories
-		$this->migrate_course_categories();
-		
-		//Migrate the user course categories
-		$this->migrate_user_course_categories();
-		
-		//Migrate the courses
-		$this->migrate_courses();
-		
-		//Migrate course users
-		$this->migrate_course_users();
-		
-		//Migrate course classes
-		//$this->migrate_course_classes();
+		if(isset($exportvalues['migrate_courses']) && $exportvalues['migrate_courses'] == 1)
+		{	
+			//Migrate course categories
+			$this->migrate_course_categories();
+			
+			//Migrate the courses
+			$this->migrate_courses();
+			
+			//Migrate the class users
+			if(isset($exportvalues['migrate_users']))
+			{
+				//Migrate the user course categories
+				$this->migrate_user_course_categories();
+				
+				//Migrate course users
+				$this->migrate_course_users();
+			}
+			else
+			{
+				echo(Translation :: get_lang('Course_user_categories') . ' & ' .
+					 Translation :: get_lang('Course_user_relations') . ' ' .
+				     Translation :: get_lang('failed') . ' ' .
+				     Translation :: get_lang('because') . ' ' . 
+				     Translation :: get_lang('Users') . ' ' .
+				     Translation :: get_lang('skipped'));
+				$this->logfile->add_message('Classes failed because users skipped');
+			}
+			
+			if(isset($exportvalues['migrate_classes']))
+			{
+				//Migrate course classes
+				//$this->migrate_course_classes();
+			}
+			else
+			{
+				echo(Translation :: get_lang('Course_classes') . ' ' .
+				     Translation :: get_lang('failed') . ' ' .
+				     Translation :: get_lang('because') . ' ' . 
+				     Translation :: get_lang('Classes') . ' ' .
+				     Translation :: get_lang('skipped'));
+				$this->logfile->add_message('Classes failed because users skipped');
+			}
+			
+		}
+		else
+		{
+			echo(Translation :: get_lang('Classes')
+				 . ' ' . Translation :: get_lang('skipped'));
+			$this->logfile->add_message('Classes skipped');
+		}
 	
 		//Close the logfile
 		$this->logfile->write_all_messages();

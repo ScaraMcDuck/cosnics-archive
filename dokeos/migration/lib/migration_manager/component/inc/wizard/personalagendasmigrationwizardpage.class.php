@@ -83,9 +83,30 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 		//Create temporary tables, create migrationdatamanager
 		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
-		//Migrate the personal agendas
-		$this->migrate_personal_agendas();
-		
+		if(isset($exportvalues['migrate_personal_agendas']) && $exportvalues['migrate_personal_agendas'] == 1)
+		{	
+			//Migrate the personal agendas
+			if(isset($exportvalues['migrate_users']))
+			{
+				$this->migrate_personal_agendas();
+			}
+			else
+			{
+				echo(Translation :: get_lang('Personal_agendas') . ' ' .
+				     Translation :: get_lang('failed') . ' ' .
+				     Translation :: get_lang('because') . ' ' . 
+				     Translation :: get_lang('Users') . ' ' .
+				     Translation :: get_lang('skipped'));
+				$this->logfile->add_message('Personal agendas failed because users skipped');
+			}
+			
+		}
+		else
+		{
+			echo(Translation :: get_lang('Personal_agendas')
+				 . ' ' . Translation :: get_lang('skipped'));
+			$this->logfile->add_message('personal agendas skipped');
+		}
 	
 		//Close the logfile
 		$this->logfile->write_all_messages();
