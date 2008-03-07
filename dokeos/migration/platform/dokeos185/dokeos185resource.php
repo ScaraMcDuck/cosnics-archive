@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../../lib/import/importcalendarevent.class.ph
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/announcement/announcement.class.php';
 
 /**
- * This class represents an old Dokeos 1.8.5 Calendar Event
+ * This class represents an old Dokeos 1.8.5 Resource
  *
  * @author Sven Vanpoucke
  */
@@ -23,10 +23,10 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 	 * Announcement properties
 	 */	 
 	const PROPERTY_ID = 'id';
-	const PROPERTY_TITLE = 'title';
-	const PROPERTY_CONTENT = 'content';
-	const PROPERTY_START_DATE = 'start_date';
-	const PROPERTY_END_DATE = 'end_date';
+	const PROPERTY_SOURCE_TYPE = 'source_type';
+	const PROPERTY_SOURCE_ID = 'source_id';
+	const PROPERTY_RESOURCE_TYPE = 'resource_type';
+	const PROPERTY_RESOURCE_ID = 'resource_id';
 	
 	/**
 	 * Default properties stored in an associative array.
@@ -66,8 +66,8 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_CONTENT,
-					  self :: PROPERTY_START_DATE, self :: PROPERTY_END_DATE);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_SOURCE_TYPE, self :: PROPERTY_SOURCE_ID,
+					  self :: PROPERTY_RESOURCE_TYPE, self :: PROPERTY_RESOURCE_ID);
 	}
 	
 	/**
@@ -89,7 +89,7 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 	}
 	
 	/**
-	 * Returns the id of this calendar event.
+	 * Returns the id of this resource.
 	 * @return int The id.
 	 */
 	function get_id()
@@ -98,43 +98,43 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 	}
 	 
 	/**
-	 * Returns the title of this calendar event.
-	 * @return string the title.
+	 * Returns the source_type of this resource.
+	 * @return string the source_type.
 	 */
-	function get_title()
+	function get_source_type()
 	{
-		return $this->get_default_property(self :: PROPERTY_TITLE);
+		return $this->get_default_property(self :: PROPERTY_SOURCE_TYPE);
 	}
 	
 	/**
-	 * Returns the content of this calendar event.
-	 * @return string the content.
+	 * Returns the source_id of this resource.
+	 * @return int the source_id.
 	 */
-	function get_content()
+	function get_source_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_CONTENT);
+		return $this->get_default_property(self :: PROPERTY_SOURCE_ID);
 	}
 	
 	/**
-	 * Returns the start_date of this calendar event.
-	 * @return date the start_date.
+	 * Returns the res_type of this resource.
+	 * @return string the res_type.
 	 */
-	function get_start_date()
+	function get_res_type()
 	{
-		return $this->get_default_property(self :: PROPERTY_START_DATE);
+		return $this->get_default_property(self :: PROPERTY_RESOURCE_TYPE);
 	}
 	
 	/**
-	 * Returns the end_date of this calendar event.
-	 * @return date the end_date.
+	 * Returns the resource_id of this resource.
+	 * @return int the resource_id.
 	 */
-	function get_end_date()
+	function get_resource_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_END_DATE);
+		return $this->get_default_property(self :: PROPERTY_RESOURCE_ID);
 	}
 	
 	/**
-	 * Sets the id of this calendar event.
+	 * Sets the id of this resource.
 	 * @param int $id The id.
 	 */
 	function set_id($id)
@@ -143,55 +143,55 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 	}
 	
 	/**
-	 * Sets the title of this calendar event.
-	 * @param string $title The title
+	 * Sets the source_type of this resource.
+	 * @param string $source_type The source_type
 	 */
-	function set_title($title)
+	function set_source_type($source_type)
 	{
-		$this->set_default_property(self :: PROPERTY_TITLE, $title);
+		$this->set_default_property(self :: PROPERTY_SOURCE_TYPE, $source_type);
 	}
 	
 	/**
-	 * Sets the content of this calendar event.
-	 * @param string $content The content
+	 * Sets the source_id of this resource.
+	 * @param int $source_id The source_id
 	 */
-	function set_content($content)
+	function set_source_id($source_id)
 	{
-		$this->set_default_property(self :: PROPERTY_CONTENT, $content);
+		$this->set_default_property(self :: PROPERTY_SOURCE_ID, $source_id);
 	}
 	
 	/**
-	 * Sets the start_date of this calendar event.
-	 * @param string $start_date The start_date
+	 * Sets the res_type of this resource.
+	 * @param string $res_type The res_type
 	 */
-	function set_start_date($start_date)
+	function set_res_type($res_type)
 	{
-		$this->set_default_property(self :: PROPERTY_START_DATE, $start_date);
+		$this->set_default_property(self :: PROPERTY_RESOURCE_TYPE, $res_type);
 	}
 	
 	/**
-	 * Sets the end_date of this calendar event.
-	 * @param string $end_date The end_date
+	 * Sets the resource_id of this resource.
+	 * @param int $resource_id The resource_id
 	 */
-	function set_end_date($end_date)
+	function set_resource_id($resource_id)
 	{
-		$this->set_default_property(self :: PROPERTY_END_DATE, $end_date);
+		$this->set_default_property(self :: PROPERTY_RESOURCE_ID, $resource_id);
 	}
 	
-	function is_valid_calendar_event()
+	function is_valid_resource()
 	{
 		
 	}
 	
-	function convert_to_new_calendar_event()
+	function convert_to_new_resource()
 	{
 		
 	}
 	
-	function get_all_calendar_events($mgdm)
+	function get_all_resources($mgdm)
 	{
 		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_calendar_events();
+		return self :: $mgdm->get_all_resources();
 	}
 }
 ?>

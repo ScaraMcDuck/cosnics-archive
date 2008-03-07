@@ -64,7 +64,7 @@ class IdReference
 		$this->defaultProperties[$name] = $value;
 	}
 	
-		/**
+	/**
 	 * Sets the default properties of this class
 	 */
 	function set_default_properties($defaultProperties)
