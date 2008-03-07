@@ -16,6 +16,11 @@ $lang['migration']['DBPassword'] = "Database password";
 $lang['migration']['CouldNotVerifySettings'] = "Could not verify the settings";
 $lang['migration']['ThisFieldIsRequired'] = "This field is required";
 $lang['migration']['old_directory'] = "Old directory";
+$lang['migration']['migrate_users'] = "Migrate users";
+$lang['migration']['migrate_settings'] = "Migrate settings and system announcements";
+$lang['migration']['migrate_classes'] = "Migrate classes";
+$lang['migration']['migrate_courses'] = "Migrate courses";
+$lang['migration']['migrate_personal_agendas'] = "Migrate personal agendas";
 
 $lang['migration']['productions'] = "productions";
 $lang['migration']['migrating'] = "migrating";
@@ -23,31 +28,29 @@ $lang['migration']['users'] = "users";
 $lang['migration']['done'] = "done";
 $lang['migration']['MyRepository'] = "My Repository";
 
+$lang['migration']['migrated'] = "migrated";
+$lang['migration']['failed'] = "failed";
+$lang['migration']['Dont_forget'] = "You can manually transfer failed elements. Make sure to remove them in the temp_failed_elements table before proceeding when data is transferred manually!";
+
 $lang['migration']['Users_title'] = "Users migration";
-$lang['migration']['Users_info'] = "Users are now migrated";
-$lang['migration']['Users_failed'] = "The following users failed";
-$lang['migration']['Dont_forget'] = "You can manually transfer them. Make sure to remove them in the temp_failed_elements table before proceeding, when data is transferred manually!";
+$lang['migration']['Users'] = "user(s)";
 
 $lang['migration']['Courses_title'] = "Courses migration";
-$lang['migration']['Courses_info'] = "Courses are now migrated";
-$lang['migration']['Course_Categories_failed']= "The following course categories failed";
-$lang['migration']['Course_User_Category_failed'] = "The following user categories failed";
-$lang['migration']['Course_failed'] = "The following courses failed";
-$lang['migration']['Course_User_Relation_failed'] = "The following course user relations failed";
-$lang['migration']['Course_Class_Relation_failed'] = "The following course class relations failed";
+$lang['migration']['Courses'] = "course(s)";
+$lang['migration']['Course_Categories']= "course categorie(s)";
+$lang['migration']['Course_User_Categories'] = "user categorie(s)";
+$lang['migration']['Course_User_Relations'] = "course user relation(s)";
+$lang['migration']['Course_Class_Relations'] = "course class relation(s)";
 
 $lang['migration']['Class_title'] = "Classes migration";
-$lang['migration']['Class_info'] =  "Classes are now migrated";
-$lang['migration']['Class_failed'] = "The following classes failed";
-$lang['migration']['Class_user_failed'] = "The following class users failed";
+$lang['migration']['Classes'] =  "class(es)";
+$lang['migration']['Class_users'] = "class user(s)";
 
 $lang['migration']['System_Settings_title'] = "System settings migration";
-$lang['migration']['System_Settings_info'] = "System settings are now migrated";
-$lang['migration']['System_Settings_failed'] = "The following system settings failed";
-$lang['migration']['System_Announcements_failed'] = "The following system announcements failed";
+$lang['migration']['System_Settings'] = "system setting(s)";
+$lang['migration']['System_Announcements'] = "system announcement(s)";
 
 $lang['migration']['Personal_agenda_title'] = "Personal agenda migration";
-$lang['migration']['Personal_agenda_info'] = "Personal agendas are now migrated";
-$lang['migration']['Personal_agenda_failed'] = "The following personal agendas failed";
+$lang['migration']['Personal_agendas'] = "agenda(s)";
 
 ?>

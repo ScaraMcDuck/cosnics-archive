@@ -35,6 +35,12 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$this->addElement('text', 'old_directory', Translation :: get_lang('old_directory'), array ('size' => '40'));
 		$this->addRule('old_directory', 'ThisFieldIsRequired', 'required');
 
+		$migrate_users = $this->addElement('checkbox', 'migrate_users', '', Translation :: get_lang('migrate_users'))->setChecked(true);
+		$this->addElement('checkbox', 'migrate_settings', '', Translation :: get_lang('migrate_settings'))->setChecked(true);
+		$this->addElement('checkbox', 'migrate_classes', '', Translation :: get_lang('migrate_classes'))->setChecked(true);
+		$this->addElement('checkbox', 'migrate_courses', '', Translation :: get_lang('migrate_courses'))->setChecked(true);
+		$this->addElement('checkbox', 'migrate_personal_agendas', '', Translation :: get_lang('migrate_personal_agendas'))->setChecked(true);
+
 		$exports = $this->controller->exportValues();
 		
 		$this->addRule(array('old_directory', $exports['old_system']),Translation :: get_lang('CouldNotVerifySettings'), new ValidateSettings());
@@ -52,6 +58,7 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$defaults['old_directory'] = '/home/svennie/sites/dokeos/';
 		$this->setDefaults($defaults);
 	}
+
 }
 
 class ValidateSettings extends HTML_QuickForm_Rule

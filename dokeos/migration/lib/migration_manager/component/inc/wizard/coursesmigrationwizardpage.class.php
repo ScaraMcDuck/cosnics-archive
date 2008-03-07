@@ -17,6 +17,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 	private $old_system;
 	
 	private $failed_elements;
+	private $succes;
 	
 	/**
 	 * @return string Title of the page
@@ -30,35 +31,39 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 	 * @return string Info of the page
 	 */
 	function get_info()
-	{
-		$message = Translation :: get_lang('Courses_info');
-		
+	{		
 		for($i=0; $i<5; $i++)
 		{
+			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
+				Translation :: get_lang('migrated');
+			
 			if(count($this->failed_elements[$i]) > 0)
-				$message = $message . '<br / ><br />' . 
-					$this->get_failed_message($i) . ' (' .
-					Translation :: get_lang('Dont_forget') . ')';
+				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
+					 $this->get_message($i) . ' ' . Translation :: get_lang('failed');
 			
 			foreach($this->failed_elements[$i] as $felement)
 			{
-				$message = $message . '<br />' . $felement;
+				$message = $message . '<br />' . $felement ;
 			}
+			
+			$message = $message . '<br />';
 		}
+		
+		$message = $message . '<br />' . Translation :: get_lang('Dont_forget');
 		
 		return $message;
 	}
 	
-	function get_failed_message($index)
+	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Course_Category_failed'); 
-			case 1: return Translation :: get_lang('Course_User_Category_failed'); 
-			case 2: return Translation :: get_lang('Course_failed'); 
-			case 3: return Translation :: get_lang('Course_User_Relation_failed'); 
-			case 4: return Translation :: get_lang('Course_Class_Relation_failed'); 
-			default: return Translation :: get_lang('Course_failed'); 
+			case 0: return Translation :: get_lang('Course_Categories'); 
+			case 1: return Translation :: get_lang('Course_User_Categories'); 
+			case 2: return Translation :: get_lang('Courses'); 
+			case 3: return Translation :: get_lang('Course_User_Relations'); 
+			case 4: return Translation :: get_lang('Course_Class_Relations'); 
+			default: return Translation :: get_lang('Courses'); 
 		}
 	}
 	
@@ -123,6 +128,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 				$lcms_coursecategory = $coursecategory->convert_to_new_course_category();
 				$this->logfile->add_message('SUCCES: Course category added ( CODE: ' . 
 					$lcms_coursecategory->get_code() . ' )');
+				$this->succes[0]++;
 			}
 			else
 			{
@@ -153,6 +159,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 				$lcms_usercoursecategory = $usercoursecategory->convert_to_new_user_course_category();
 				$this->logfile->add_message('SUCCES: User course category added ( ID: ' . 
 					$lcms_usercoursecategory->get_id() . ' )');
+				$this->succes[1]++;
 			}
 			else
 			{
@@ -182,6 +189,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			{
 				$lcms_course = $course->convert_to_new_course();
 				$this->logfile->add_message('SUCCES: Course added ( Course: ' . $lcms_course->get_id() . ' )');
+				$this->succes[2]++;
 			}
 			else
 			{
@@ -214,6 +222,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message('SUCCES: Course user relation added ( Course: ' 
 					. $lcms_coursereluser->get_course() . ' UserID: ' .
 					  $lcms_coursereluser->get_user() . ' )');
+				$this->succes[3]++;
 			}
 			else
 			{
@@ -247,6 +256,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message('SUCCES: Course class relation added ( Course: ' 
 					. $lcms_courserelclass->get_course() . ' UserID: ' .
 					  $lcms_courserelclass->get_user() . ' )');
+				$this->succes[4]++;
 			}
 			else
 			{

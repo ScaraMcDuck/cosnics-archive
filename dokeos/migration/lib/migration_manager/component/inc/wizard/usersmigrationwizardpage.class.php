@@ -18,6 +18,7 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 	private $mgdm;
 	private $old_system;
 	private $failed_users = array();
+	private $users_succes = 0;
 	
 	/**
 	 * @return string Title of the page
@@ -32,17 +33,19 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_info()
 	{
-		$message = Translation :: get_lang('Users_info');
+		$message = $this->users_succes . ' ' . Translation :: get_lang('Users') . ' ' .
+			Translation :: get_lang('migrated');
 		
 		if(count($this->failed_users) > 0)
-			$message = $message . '<br / ><br />' . 
-				Translation :: get_lang('Users_failed')  . ' (' .
-				Translation :: get_lang('Dont_forget') . ')';
+			$message = $message . '<br / >' . count($this->failed_users) . ' ' .
+			Translation :: get_lang('Users') . ' ' . Translation :: get_lang('failed') . '<br />';
 			
 		foreach($this->failed_users as $fuser)
 		{
 			$message = $message . '<br />' . $fuser;
 		}
+		
+		$message = $message . '<br /><br />' . Translation :: get_lang('Dont_forget');
 		
 		return $message;
 	}
@@ -61,18 +64,18 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		$exportvalues = $this->controller->exportValues();
 		$this->old_system = $exportvalues['old_system'];
 		$old_directory = $exportvalues['old_directory'];
-		
+
 		//Create logfile
 		$this->logfile = new Logger('users.txt');
 		$this->logfile->set_start_time();
-		
+			
 		//Create temporary tables, create migrationdatamanager
 		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
 		$this->mgdm->create_temporary_tables();
-		
+			
 		//Migrate the users
 		$this->migrate_users();
-	
+		
 		//Close the logfile
 		$this->logfile->write_all_messages();
 		$this->logfile->write_passed_time();
@@ -86,11 +89,7 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		$userclass = Import :: factory($this->old_system, 'user');
 		$users = array();
 		$users = $userclass->get_all_users($this->mgdm);
-		$idrefs = $this->mgdm->get_id_references('user_user');
-		$languages = array('english');
-		$auth_list = array('platform');
 
-		//TODO get language list and auth list
 		$lcms_users = array();
 		$resultset = UsersDataManager :: get_instance()->retrieve_users();
 	
@@ -103,12 +102,14 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		{
 			if($user->is_valid_user($lcms_users))
 			{
-				$lcms_user = $user->convert_to_new_user($auth_list, $languages, $idrefs);
-				$this->logfile->add_message('SUCCES: User added ( ' . $lcms_user->get_user_id() . ' )');
+				$lcms_user = $user->convert_to_new_user();
+				$this->logfile->add_message('SUCCES: User added ( ID:' . $lcms_user->get_user_id() . ' )');
+				$this->users_succes++;
 			}
 			else
 			{
-				$message = 'FAILED: User is not valid ( ID ' . $user->get_user_id() . ' )';
+				$message = 'FAILED: User is not valid ( ID: ' . $user->get_user_id() . ' Username:  ' 
+					. $user->get_username() . ')';
 				$this->logfile->add_message($message);
 				$this->failed_users[] = $message;
 			}
