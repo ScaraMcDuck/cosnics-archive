@@ -72,7 +72,7 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 		$old_directory = $exportvalues['old_directory'];
 		
 		//Create logfile
-		$this->logfile = new Logger('classes.txt');
+		$this->logfile = new Logger('personalagenda.txt');
 		$this->logfile->set_start_time();
 		
 		//Create temporary tables, create migrationdatamanager

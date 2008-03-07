@@ -89,7 +89,8 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		$idrefs = $this->mgdm->get_id_references('user_user');
 		$languages = array('english');
 		$auth_list = array('platform');
-		
+
+		//TODO get language list and auth list
 		$lcms_users = array();
 		$resultset = UsersDataManager :: get_instance()->retrieve_users();
 	
