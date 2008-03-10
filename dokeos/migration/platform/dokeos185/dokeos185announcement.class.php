@@ -204,8 +204,9 @@ class Dokeos185Announcement extends ImportAnnouncement
 	{
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'announcement',$this->get_id());	
 	
-		if(!$this->get_id() || !$this->get_display_order() || !$this->get_title() || !$this->get_content()
-			|| $this->item_property->get_insert_user_id() == 0 || !$this->item_property->get_insert_date())
+
+		if(!$this->get_id() || !$this->get_display_order() || !$this->get_title() || $this->get_content()
+			|| $item_property->get_user()!=0 || !$item_property->get_insert_date() || !self :: $mgdm->get_id_reference($item_property->get_user(), 'dokeos_main.user'))
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.announcement');
@@ -217,7 +218,29 @@ class Dokeos185Announcement extends ImportAnnouncement
 	function convert_to_new_announcement($course)
 	{
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
+		
+		echo('test');
+		// Category for tool already exists?
+		$lcms_repository_category = self :: $mgdm->get_parent_id($new_user_id, 'category',
+			$this->item_property->get_tool());
+		if(!$lcms_repository_category)
+		{
+			
+			//Create category for tool in lcms
+			$lcms_repository_category = new Category();
+			$lcms_repository_category->set_owner_id($new_user_id);
+			$lcms_repository_category->set_title($this->item_property->get_tool());
+			$lcms_repository_category->set_description('...');
 	
+			//Retrieve repository id from course
+			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+					'category', self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course'));
+			$lcms_repository_category->set_parent_id($repository_id);
+			
+			//Create category in database
+			$lcms_repository_category->create();
+		}
+			
 		//announcement parameters
 		$lcms_announcement = new Announcement();
 		
@@ -225,17 +248,16 @@ class Dokeos185Announcement extends ImportAnnouncement
 		$lcms_announcement->set_description($this->get_content());
 		
 		$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
-			'category', Translation :: get_lang('MyRepository'));
+			'category', $lcms_repository_category->get_id());
 		$lcms_announcement->set_parent_id($repository_id);
 		
-		//itemproperty
-	
 		$lcms_announcement->set_owner_id($new_user_id);
 		$lcms_announcement->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
 		$lcms_announcement->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
 		
 		//create announcement in database
 		$lcms_announcement->create_all();
+		
 		
 		//publication
 		if($this->item_property->get_visibility() <= 1) 
