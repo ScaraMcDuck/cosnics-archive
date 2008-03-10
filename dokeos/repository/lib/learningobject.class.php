@@ -616,6 +616,17 @@ class LearningObject implements AccessibleLearningObject
 		$this->set_object_number($object_number);
 		return $dm->create_learning_object($this, 'new');
 	}
+	
+	function create_all()
+	{
+		$this->assign_display_order_index();
+		$dm = RepositoryDataManager :: get_instance();
+		$id = $dm->get_next_learning_object_id();
+		$this->set_id($id);
+		$object_number = $dm->get_next_learning_object_number();
+		$this->set_object_number($object_number);
+		return $dm->create_learning_object($this, 'new');
+	}
 
 	/**
 	 * Instructs the data manager to update the learning object, making any

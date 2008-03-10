@@ -271,7 +271,7 @@ class LearningObjectPublication
 		$this->course = $course;
 	}
 	
-	protected function set_tool($tool)
+	function set_tool($tool)
 	{
 		$this->tool = $tool;		
 	}

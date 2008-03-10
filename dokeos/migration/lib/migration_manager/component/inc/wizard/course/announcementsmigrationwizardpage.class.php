@@ -19,7 +19,7 @@ class AnnouncementMigrationWizardPage extends MigrationWizardPage
 	private $mgdm;
 	private $old_system;
 	private $failed_announcements = array();
-	private $announcements_succes = 0;
+	private $succes;
 	
 	/**
 	 * @return string Title of the page
@@ -154,9 +154,9 @@ class AnnouncementMigrationWizardPage extends MigrationWizardPage
 			{
 				if($announcement->is_valid_announcement($course))
 				{
-					$lcms_announcement = $announcement->convert_to_new_announcement();
+					$lcms_announcement = $announcement->convert_to_new_announcement($course);
 					$this->logfile->add_message('SUCCES: Announcement added ( ID:' . $lcms_announcement->get_id() . ' )');
-					$this->announcements_succes++;
+					$this->succes[0]++;
 				}
 				else
 				{
