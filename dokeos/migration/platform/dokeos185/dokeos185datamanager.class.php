@@ -585,9 +585,7 @@ class Dokeos185DataManager extends MigrationDataManager
 		$this->db_connect($db);
 		
 		$query = 'SELECT * FROM item_property WHERE tool = \'' . $tool . 
-		'\' AND ref = ' . $id . ' AND visibility <> 2';
-		
-		echo($query);
+		'\' AND ref = ' . $id;
 		
 		$result = $this->db->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);

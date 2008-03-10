@@ -204,8 +204,8 @@ class Dokeos185Announcement extends ImportAnnouncement
 	{
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'announcement',$this->get_id());	
 	
-		if(!$this->get_id() || !$this->get_display_order() || !$this->get_title() || $this->get_content()
-			|| $item_property->get_user()!=0 || !$item_property->get_insert_date())
+		if(!$this->get_id() || !$this->get_display_order() || !$this->get_title() || !$this->get_content()
+			|| $this->item_property->get_insert_user_id() == 0 || !$this->item_property->get_insert_date())
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.announcement');
@@ -214,9 +214,9 @@ class Dokeos185Announcement extends ImportAnnouncement
 		return true;
 	}
 	
-	function convert_to_new_announcement($new_code)
+	function convert_to_new_announcement($course)
 	{
-		$new_user_id = self :: $mgdm->get_id_reference($item_property->get_insert_user_id(),'user_user');	
+		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
 	
 		//announcement parameters
 		$lcms_announcement = new Announcement();
@@ -229,35 +229,40 @@ class Dokeos185Announcement extends ImportAnnouncement
 		$lcms_announcement->set_parent_id($repository_id);
 		
 		//itemproperty
-		
-		
+	
 		$lcms_announcement->set_owner_id($new_user_id);
-		$lcms_announcement->set_creation_date($item_property->get_insert_date());
-		$lcms_announcement->set_modified_date($item_property->get_lastedit_date());
+		$lcms_announcement->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
+		$lcms_announcement->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
 		
 		//create announcement in database
-		$lcms_announcement->create();
+		$lcms_announcement->create_all();
 		
 		//publication
-		$publication = new LearningObjectPublication();
-		
-		$publication->set_learning_object($lcms_announcement->get_id());
-		$publication->set_course(self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course'));
-		$publication->set_tool('announcement');
-		$publication->set_publisher($new_user_id);
-		$publication->set_from_date($item_property->get_start_visible());
-		$publication->set_to_date($item_property->get_end_visible());
-		$publication->set_publication_date($item_property->get_insert_date());
-		$publication->set_modified_date($item_property->get_modified_date());
-		$publication->set_display_order_index($this->get_display_order());
-		
-		if ($item_property->get_visibility() == 1)
-			$publication->set_hidden(0);
-		else
-			$publication->set_hidden(1);
-		
-		//create publication in database
-		$publication->create();
+		if($this->item_property->get_visibility() <= 1) 
+		{
+			$publication = new LearningObjectPublication();
+			
+			$publication->set_learning_object($lcms_announcement);
+			$publication->set_course_id(self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course'));
+			$publication->set_publisher_id($new_user_id);
+			$publication->set_tool('announcement');
+			$publication->set_category_id(0);
+			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
+			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
+			$publication->set_from_date(0);
+			$publication->set_to_date(0);
+			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
+			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+			//$publication->set_modified_date(0);
+			//$publication->set_display_order_index($this->get_display_order());
+			$publication->set_display_order_index(0);
+			$publication->set_email_sent($this->get_email_sent());
+			
+			$publication->set_hidden($this->item_property->get_visibility() == 1?0:1);
+			
+			//create publication in database
+			$publication->create();
+		}
 		
 		return $lcms_announcement;
 	}
