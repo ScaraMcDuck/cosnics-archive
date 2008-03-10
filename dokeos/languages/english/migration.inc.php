@@ -51,7 +51,7 @@ $lang['migration']['Course_Categories']= "course categorie(s)";
 $lang['migration']['Course_User_Categories'] = "user categorie(s)";
 $lang['migration']['Course_User_Relations'] = "course user relation(s)";
 $lang['migration']['Course_Class_Relations'] = "course class relation(s)";
-
+$lang['migration']['Course_Tools'] = "tool(s)";
 
 $lang['migration']['Classes_info'] = "In the next step we will migrate the classes and subscribe the users to the classes.";
 $lang['migration']['Class_title'] = "Classes migration";

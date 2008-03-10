@@ -32,7 +32,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_info()
 	{		
-		for($i=0; $i<4; $i++)
+		for($i=0; $i<6; $i++)
 		{
 			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
 				Translation :: get_lang('migrated');
@@ -68,6 +68,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			case 2: return Translation :: get_lang('Courses'); 
 			case 3: return Translation :: get_lang('Course_User_Relations'); 
 			case 4: return Translation :: get_lang('Course_Class_Relations'); 
+			case 5: return Translation :: get_lang('Course_Tools');
 			default: return Translation :: get_lang('Courses'); 
 		}
 	}
@@ -248,6 +249,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 				$lcms_course = $course->convert_to_new_course();
 				$this->logfile->add_message('SUCCES: Course added ( Course: ' . $lcms_course->get_id() . ' )');
 				$this->succes[2]++;
+				$this->migrate_course_tools($course);
 			}
 			else
 			{
@@ -327,6 +329,37 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		}
 
 		$this->logfile->add_message('Course user relations migrated');
+	}
+	
+	/**
+	 * migrate course tools
+	 */
+	function migrate_course_tools($course)
+	{
+		$this->logfile->add_message('Starting migration course tools COURSE: ' . $course->get_code());
+		
+		$tool_class = Import :: factory($this->old_system, 'tool');
+		$tools = array();
+		$tools = $tool_class->get_all_tools($this->mgdm, $course->get_db_name());
+		
+		foreach($tools as $tool)
+		{
+			if($tool->is_valid_tool())
+			{
+				$lcms_tool = $tool->convert_to_new_tool();
+				$this->logfile->add_message('SUCCES: Course tool added ( ID: ' . 
+						$lcms_tool->get_id() . ' )');
+				$this->succes[5]++;
+			}
+			else
+			{
+				$message = 'FAILED: Course tool is not valid ( ID: ' . $tool->get_id() . ' )';
+				$this->logfile->add_message($message);
+				$this->failed_elements[5][] = $message;
+			}
+		}
+
+		$this->logfile->add_message('Course tools migrated COURSE: ' . $course->get_code());
 	}
 
 }
