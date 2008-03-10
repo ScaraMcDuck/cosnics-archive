@@ -637,6 +637,44 @@ class Dokeos185DataManager extends MigrationDataManager
 		}
 		return new Dokeos185Announcement($defaultProp);
 	}
+	
+	/** Get all the tools from the dokeos185 database
+	 * @return array of Dokeos185Annoucements
+	 */
+	function get_all_tools($db)
+	{
+		$this->db_connect($db);
+		$query = 'SELECT * FROM tool';
+		$result = $this->db->query($query);
+		$tools = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$tools[] = $this->record_to_tool($record);
+			
+		}
+		$result->free();
+		
+		return $tools;
+	}
+	
+	/**
+	 * Map a resultset record to a Dokeos185Tool Object
+	 * @param ResultSetRecord $record from database
+	 * @return Dokeos185Announcement object with mapped data
+	 */
+	function record_to_tool($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Dokeos185Tool :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new Dokeos185Tool($defaultProp);
+	}
 }
 
 ?>
