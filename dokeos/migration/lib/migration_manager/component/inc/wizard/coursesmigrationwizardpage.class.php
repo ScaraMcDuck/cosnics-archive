@@ -157,6 +157,8 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			echo(Translation :: get_lang('Courses')
 				 . ' ' . Translation :: get_lang('skipped') . '<br />');
 			$this->logfile->add_message('Courses skipped');
+			
+			return false;
 		}
 	
 		//Close the logfile

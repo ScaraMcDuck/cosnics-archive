@@ -127,6 +127,8 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 			echo(Translation :: get_lang('Classes')
 				 . ' ' . Translation :: get_lang('skipped') . '<br />');
 			$this->logfile->add_message('Classes skipped');
+			
+			return false;
 		}
 
 		//Close the logfile

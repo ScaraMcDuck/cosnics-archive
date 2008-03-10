@@ -2,6 +2,9 @@
 /**
  * @package migration.lib.migration_manager.component.inc.wizard
  */
+
+require_once Path :: get_library_path().'resourcemanager.class.php';
+
 /**
  * This class provides the needed functionality to show a page in a migration
  * wizard.
@@ -39,6 +42,11 @@ class MigrationWizardDisplay extends HTML_QuickForm_Action_Display
 		$current_page->accept($renderer);
 		
 		$this->parent->display_header();
+		
+		$rm = ResourceManager :: get_instance();
+		$html = $rm->get_resource_html(Path :: get_path(WEB_LIB_PATH).'javascript/migration.js');
+		echo($html);
+		
 		
 		echo '<div style="float: left; background-color:#EFEFEF;margin-right: 20px;padding: 15px;">';
 		echo '<img src="../layout/img/bluelogo.gif" alt="logo"/>';

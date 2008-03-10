@@ -98,6 +98,7 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		{
 			echo(Translation :: get_lang('Users') . ' ' . Translation :: get_lang('skipped') . '<br />');
 			$this->logfile->add_message('users_skipped');
+			return false;
 		}
 		
 		//Close the logfile

@@ -21,6 +21,7 @@ $lang['migration']['migrate_settings'] = "Migrate settings and system announceme
 $lang['migration']['migrate_classes'] = "Migrate classes";
 $lang['migration']['migrate_courses'] = "Migrate courses";
 $lang['migration']['migrate_personal_agendas'] = "Migrate personal agendas";
+$lang['migration']['migrate_announcements'] = "Migrate announcements";
 
 $lang['migration']['productions'] = "productions";
 $lang['migration']['migrating'] = "migrating";
