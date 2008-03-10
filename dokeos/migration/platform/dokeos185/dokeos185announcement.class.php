@@ -6,6 +6,8 @@
  
 require_once dirname(__FILE__) . '/../../lib/import/importannouncement.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/announcement/announcement.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once 'dokeos185itemproperty.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 announcement
@@ -17,7 +19,7 @@ class Dokeos185Announcement extends ImportAnnouncement
 	/**
 	 * Migration data manager
 	 */
-	private static $mgdm;
+	private static $mgdm,$item_property;
 
 	/**
 	 * Announcement properties
@@ -198,20 +200,73 @@ class Dokeos185Announcement extends ImportAnnouncement
 		$this->set_default_property(self :: PROPERTY_EMAIL_SENT, $email_sent);
 	}
 	
-	function is_valid_announcement()
+	function is_valid_announcement($course)
 	{
-		
+		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'announcement',$this->get_id());	
+	
+		if(!$this->get_id() || !$this->get_display_order() || !$this->get_title() || $this->get_content()
+			|| $item_property->get_user()!=0 || !$item_property->get_insert_date())
+		{		 
+			self :: $mgdm->add_failed_element($this->get_id(),
+				$course->get_db_name() . '.announcement');
+			return false;
+		}
+		return true;
 	}
 	
-	function convert_to_new_announcement()
+	function convert_to_new_announcement($new_code)
 	{
+		$new_user_id = self :: $mgdm->get_id_reference($item_property->get_insert_user_id(),'user_user');	
+	
+		//announcement parameters
+		$lcms_announcement = new Announcement();
 		
+		$lcms_announcement->set_title($this->get_title());
+		$lcms_announcement->set_description($this->get_content());
+		
+		$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+			'category', Translation :: get_lang('MyRepository'));
+		$lcms_announcement->set_parent_id($repository_id);
+		
+		//itemproperty
+		
+		
+		$lcms_announcement->set_owner_id($new_user_id);
+		$lcms_announcement->set_creation_date($item_property->get_insert_date());
+		$lcms_announcement->set_modified_date($item_property->get_lastedit_date());
+		
+		//create announcement in database
+		$lcms_announcement->create();
+		
+		//publication
+		$publication = new LearningObjectPublication();
+		
+		$publication->set_learning_object($lcms_announcement->get_id());
+		$publication->set_course(self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course'));
+		$publication->set_tool('announcement');
+		$publication->set_publisher($new_user_id);
+		$publication->set_from_date($item_property->get_start_visible());
+		$publication->set_to_date($item_property->get_end_visible());
+		$publication->set_publication_date($item_property->get_insert_date());
+		$publication->set_modified_date($item_property->get_modified_date());
+		$publication->set_display_order_index($this->get_display_order());
+		
+		if ($item_property->get_visibility() == 1)
+			$publication->set_hidden(0);
+		else
+			$publication->set_hidden(1);
+		
+		//create publication in database
+		$publication->create();
+		
+		return $lcms_announcement;
 	}
 	
-	function get_all_announcements($mgdm)
+	static function get_all_announcements($mgdm,$db)
 	{
 		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_announcements();
+		return self :: $mgdm->get_all_announcements($db);
 	}
+	
 }
 ?>

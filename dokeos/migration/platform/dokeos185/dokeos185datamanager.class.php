@@ -578,7 +578,67 @@ class Dokeos185DataManager extends MigrationDataManager
 		$result->free();
 		
 		return $id;
-	} 
+	}
+	
+	function get_item_property($db, $tool, $id)
+	{
+		$this->db_connect($db);
+		
+		$query = 'SELECT * FROM item_property WHERE tool = \'' . $tool . 
+		'\' AND ref = ' . $id . ' AND visibility <> 2';
+		
+		echo($query);
+		
+		$result = $this->db->query($query);
+		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		
+		foreach (Dokeos185ItemProperty :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		
+		$result->free();
+		
+		return new Dokeos185ItemProperty($defaultProp);
+	}
+	
+	/** Get all the announcements from the dokeos185 database
+	 * @return array of Dokeos185Annoucements
+	 */
+	function get_all_announcements($db)
+	{
+		$this->db_connect($db);
+		$query = 'SELECT * FROM announcement';
+		$result = $this->db->query($query);
+		$announcements = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$annoucements[] = $this->record_to_announcement($record);
+			
+		}
+		$result->free();
+		
+		return $annoucements;
+	}
+	
+	/**
+	 * Map a resultset record to a Dokeos185Announcement Object
+	 * @param ResultSetRecord $record from database
+	 * @return Dokeos185Announcement object with mapped data
+	 */
+	function record_to_announcement($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Dokeos185Announcement :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new Dokeos185Announcement($defaultProp);
+	}
 }
 
 ?>
