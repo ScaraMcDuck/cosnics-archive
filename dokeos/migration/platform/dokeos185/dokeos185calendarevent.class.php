@@ -188,7 +188,7 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 		
 	}
 	
-	function get_all_calendar_events($mgdm)
+	function get_all_calendar_events($course, $mgdm)
 	{
 		self :: $mgdm = $mgdm;
 		return self :: $mgdm->get_all_calendar_events();

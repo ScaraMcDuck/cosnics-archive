@@ -41,11 +41,15 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$this->addRule('old_directory', 'ThisFieldIsRequired', 'required');
 
 		$this->addElement('checkbox', 'migrate_users', '', Translation :: get_lang('migrate_users'), 'onclick=\'users_clicked()\'');
-		$this->addElement('checkbox', 'migrate_personal_agendas', '', Translation :: get_lang('migrate_personal_agendas'), 'onclick=\'personal_agendas_clicked()\'');
+		$this->addElement('checkbox', 'migrate_personal_agendas', '', Translation :: get_lang('migrate_personal_agendas'), 'onclick=\'personal_agendas_clicked()\' style=\'margin-left: 20px;\'');
 		$this->addElement('checkbox', 'migrate_settings', '', Translation :: get_lang('migrate_settings'));
 		$this->addElement('checkbox', 'migrate_classes', '', Translation :: get_lang('migrate_classes'));
 		$this->addElement('checkbox', 'migrate_courses', '', Translation :: get_lang('migrate_courses'), 'onclick=\'courses_clicked()\'');
-		$this->addElement('checkbox', 'migrate_announcements', '', Translation :: get_lang('migrate_announcements'), 'onclick=\'announcements_clicked()\'');
+		$this->addElement('checkbox', 'migrate_groups', '', Translation :: get_lang('migrate_groups'), 'onclick=\'groups_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_announcements', '', Translation :: get_lang('migrate_announcements'), 'onclick=\'announcements_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_calendar_events', '', Translation :: get_lang('migrate_calendar_events'), 'onclick=\'calendar_events_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_documents', '', Translation :: get_lang('migrate_documents'), 'onclick=\'documents_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_links', '', Translation :: get_lang('migrate_links'), 'onclick=\'links_clicked()\' style=\'margin-left: 20px;\'');
 		
 		$this->addRule(array('old_directory', $exports['old_system']),Translation :: get_lang('CouldNotVerifySettings'), new ValidateSettings());
 
