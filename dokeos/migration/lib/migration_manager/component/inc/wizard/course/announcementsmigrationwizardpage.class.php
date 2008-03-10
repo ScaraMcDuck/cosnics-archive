@@ -74,7 +74,7 @@ class AnnouncementMigrationWizardPage extends MigrationWizardPage
 	
 	function perform()
 	{
-		/*$logger = new Logger('migration.txt', true);
+		$logger = new Logger('migration.txt', true);
 		
 		if($logger->is_text_in_file('announcements'))
 		{
@@ -83,7 +83,7 @@ class AnnouncementMigrationWizardPage extends MigrationWizardPage
 			return false;
 		}
 		
-		$logger->write_text('announcements');*/
+		$logger->write_text('announcements');
 		
 		$exportvalues = $this->controller->exportValues();
 		$this->old_system = $exportvalues['old_system'];

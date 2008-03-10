@@ -8,6 +8,7 @@ require_once dirname(__FILE__) . '/../../lib/import/importannouncement.class.php
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/announcement/announcement.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
 require_once 'dokeos185itemproperty.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 announcement
@@ -205,8 +206,9 @@ class Dokeos185Announcement extends ImportAnnouncement
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'announcement',$this->get_id());	
 	
 
-		if(!$this->get_id() || !$this->get_display_order() || !$this->get_title() || $this->get_content()
-			|| $item_property->get_user()!=0 || !$item_property->get_insert_date() || !self :: $mgdm->get_id_reference($item_property->get_user(), 'dokeos_main.user'))
+		if(!$this->get_id() || !$this->get_title() || !$this->get_content()
+			|| $this->item_property->get_insert_user_id() == 0 || !$this->item_property->get_insert_date() ||
+			self :: $mgdm->get_failed_element('dokeos_main.user', $this->item_property->get_insert_user_id() ))
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.announcement');
@@ -218,42 +220,47 @@ class Dokeos185Announcement extends ImportAnnouncement
 	function convert_to_new_announcement($course)
 	{
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
+		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
-		echo('test');
-		// Category for tool already exists?
-		$lcms_repository_category = self :: $mgdm->get_parent_id($new_user_id, 'category',
-			$this->item_property->get_tool());
-		if(!$lcms_repository_category)
+		$course_cat = self :: $mgdm->get_parent_id($new_user_id, 
+					'category', $new_course_code);
+		
+		//announcement parameters
+		$lcms_announcement = new Announcement();
+		
+		// Category for announcements already exists?
+		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+			'announcement', $course_cat);
+		if(!$lcms_category_id)
 		{
-			
 			//Create category for tool in lcms
 			$lcms_repository_category = new Category();
 			$lcms_repository_category->set_owner_id($new_user_id);
-			$lcms_repository_category->set_title($this->item_property->get_tool());
+			$lcms_repository_category->set_title('announcement');
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
-			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
-					'category', self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course'));
-			$lcms_repository_category->set_parent_id($repository_id);
+			$lcms_repository_category->set_parent_id($course_cat);
 			
 			//Create category in database
 			$lcms_repository_category->create();
-		}
 			
-		//announcement parameters
-		$lcms_announcement = new Announcement();
+			$lcms_announcement->set_parent_id($lcms_repository_category->get_id());
+		}
+		else
+		{
+			$lcms_announcement->set_parent_id($lcms_category_id);	
+		}
 		
 		$lcms_announcement->set_title($this->get_title());
 		$lcms_announcement->set_description($this->get_content());
 		
-		$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
-			'category', $lcms_repository_category->get_id());
-		$lcms_announcement->set_parent_id($repository_id);
-		
 		$lcms_announcement->set_owner_id($new_user_id);
 		$lcms_announcement->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
 		$lcms_announcement->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+		
+		if($this->item_property->get_visibility() == 2)
+			$lcms_announcement->set_state(1);
 		
 		//create announcement in database
 		$lcms_announcement->create_all();
@@ -265,7 +272,7 @@ class Dokeos185Announcement extends ImportAnnouncement
 			$publication = new LearningObjectPublication();
 			
 			$publication->set_learning_object($lcms_announcement);
-			$publication->set_course_id(self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course'));
+			$publication->set_course_id($new_course_code);
 			$publication->set_publisher_id($new_user_id);
 			$publication->set_tool('announcement');
 			$publication->set_category_id(0);

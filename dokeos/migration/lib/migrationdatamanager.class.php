@@ -71,11 +71,14 @@ abstract class MigrationDataManager
 	 * @param String $title title of the learning object
 	 * @return $record returns a parent_id
 	 */
-	function get_parent_id($owner,$type,$title)
+	function get_parent_id($owner,$type,$title,$parent = null)
 	{
 		$this->db_lcms_connect();
 		$query = 'SELECT id FROM repository_learning_object WHERE owner=\'' . $owner . '\' AND type=\'' . $type .
 		 		'\' AND title=\'' . $title . '\'';
+		
+		if($parent)
+			$query = $query . ' AND parent=' . $parent;
 	
 		$result = $this->db_lcms->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);

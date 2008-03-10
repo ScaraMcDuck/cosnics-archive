@@ -10,8 +10,8 @@
  */
 abstract class ImportGroup extends Import
 {
-	abstract function is_valid_group();
-	abstract function convert_to_new_group();
-	abstract static function get_all_groups();
+	abstract function is_valid_group($course);
+	abstract function convert_to_new_group($course);
+	abstract static function get_all_groups($course, $mgdm);
 }
 ?>

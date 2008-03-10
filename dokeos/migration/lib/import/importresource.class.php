@@ -10,9 +10,9 @@
  */
 abstract class ImportResource extends Import
 {
-	abstract function is_valid_resource();
-	abstract function convert_to_new_resource();
-	abstract static function get_all_resources($mgdm);
+	abstract function is_valid_resource($course);
+	abstract function convert_to_new_resource($course);
+	abstract static function get_all_resources($course, $mgdm);
 }
 
 ?>
