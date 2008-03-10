@@ -32,11 +32,14 @@ $lang['migration']['migrated'] = "migrated";
 $lang['migration']['failed'] = "failed";
 $lang['migration']['skipped'] = "skipped";
 $lang['migration']['because'] = "because";
+$lang['migration']['already_migrated'] = "have already been migrated, skipping";
 $lang['migration']['Dont_forget'] = "You can manually transfer failed elements. Make sure to remove them in the temp_failed_elements table before proceeding when data is transferred manually!";
 
+$lang['migration']['Users_info'] = "In the next step we will migrate the users and add their information to a profile. We will also copy their pictures and make documents of their productions.";
 $lang['migration']['Users_title'] = "Users migration";
 $lang['migration']['Users'] = "user(s)";
 
+$lang['migration']['Courses_info'] = "In the next step we will migrate the course categories, the user course categories, the courses. We will subscribe the users and the classes to the courses.";
 $lang['migration']['Courses_title'] = "Courses migration";
 $lang['migration']['Courses'] = "course(s)";
 $lang['migration']['Course_Categories']= "course categorie(s)";
@@ -44,14 +47,18 @@ $lang['migration']['Course_User_Categories'] = "user categorie(s)";
 $lang['migration']['Course_User_Relations'] = "course user relation(s)";
 $lang['migration']['Course_Class_Relations'] = "course class relation(s)";
 
+
+$lang['migration']['Classes_info'] = "In the next step we will migrate the classes and subscribe the users to the classes.";
 $lang['migration']['Class_title'] = "Classes migration";
 $lang['migration']['Classes'] =  "class(es)";
 $lang['migration']['Class_users'] = "class user(s)";
 
+$lang['migration']['System_Settings_info'] = "In the next step we will migrate the settings and the system announcements.";
 $lang['migration']['System_Settings_title'] = "System settings migration";
 $lang['migration']['System_Settings'] = "system setting(s)";
 $lang['migration']['System_Announcements'] = "system announcement(s)";
 
+$lang['migration']['Personal_agenda_info'] = "In the next step we wil migrate the personal agenda's of the users.";
 $lang['migration']['Personal_agenda_title'] = "Personal agenda migration";
 $lang['migration']['Personal_agendas'] = "agenda(s)";
 

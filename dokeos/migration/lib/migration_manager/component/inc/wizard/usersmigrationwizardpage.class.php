@@ -50,6 +50,11 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		return $message;
 	}
 	
+	function next_step_info()
+	{
+		return Translation :: get_lang('System_Settings_info');
+	}
+	
 	
 	function buildForm()
 	{
@@ -61,6 +66,17 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 	
 	function perform()
 	{
+		$logger = new Logger('migration.txt', true);
+		
+		if($logger->is_text_in_file('users'))
+		{
+			echo(Translation :: get_lang('Users') . ' ' .
+				 Translation :: get_lang('already_migrated'));
+			return;
+		}
+		
+		$logger->write_text('users');
+		
 		$exportvalues = $this->controller->exportValues();
 		$this->old_system = $exportvalues['old_system'];
 		$old_directory = $exportvalues['old_directory'];
@@ -80,12 +96,11 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Users') . ' ' . Translation :: get_lang('skipped'));
+			echo(Translation :: get_lang('Users') . ' ' . Translation :: get_lang('skipped') . '<br />');
 			$this->logfile->add_message('users_skipped');
 		}
 		
 		//Close the logfile
-		$this->logfile->write_all_messages();
 		$this->logfile->write_passed_time();
 		$this->logfile->close_file();
 	}
@@ -116,8 +131,7 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				$message = 'FAILED: User is not valid ( ID: ' . $user->get_user_id() . ' Username:  ' 
-					. $user->get_username() . ')';
+				$message = 'FAILED: User is not valid ( ID: ' . $user->get_user_id() . ')';
 				$this->logfile->add_message($message);
 				$this->failed_users[] = $message;
 			}

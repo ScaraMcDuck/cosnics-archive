@@ -55,6 +55,11 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		return $message;
 	}
 	
+	function next_step_info()
+	{
+		return Translation :: get_lang('Classes_info');
+	}
+	
 	function get_message($index)
 	{
 		switch($index)
@@ -102,8 +107,9 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 				     Translation :: get_lang('failed') . ' ' .
 				     Translation :: get_lang('because') . ' ' . 
 				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped'));
+				     Translation :: get_lang('skipped') . '<br />');
 				$this->logfile->add_message('System announcements failed because users skipped');
+				$this->succes[1] = 0;
 			}
 			
 		}
@@ -111,13 +117,12 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		{
 			echo(Translation :: get_lang('System_Settings') . ' & ' .
 			     Translation :: get_lang('System_Announcements')
-				 . ' ' . Translation :: get_lang('skipped'));
+				 . ' ' . Translation :: get_lang('skipped') . '<br />');
 			$this->logfile->add_message('system settings & announcements skipped');
 		}
 
 		
 		//Close the logfile
-		$this->logfile->write_all_messages();
 		$this->logfile->write_passed_time();
 		$this->logfile->close_file();
 	}

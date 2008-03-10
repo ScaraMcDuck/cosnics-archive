@@ -96,20 +96,20 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 				     Translation :: get_lang('failed') . ' ' .
 				     Translation :: get_lang('because') . ' ' . 
 				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped'));
+				     Translation :: get_lang('skipped') . '<br />');
 				$this->logfile->add_message('Personal agendas failed because users skipped');
+				$this->succes[0] = 0;
 			}
 			
 		}
 		else
 		{
 			echo(Translation :: get_lang('Personal_agendas')
-				 . ' ' . Translation :: get_lang('skipped'));
+				 . ' ' . Translation :: get_lang('skipped') . '<br />');
 			$this->logfile->add_message('personal agendas skipped');
 		}
 	
 		//Close the logfile
-		$this->logfile->write_all_messages();
 		$this->logfile->write_passed_time();
 		$this->logfile->close_file();
 	}

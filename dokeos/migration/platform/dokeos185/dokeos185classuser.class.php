@@ -13,7 +13,7 @@ require_once dirname(__FILE__).'/../../../classgroup/lib/classgroupreluser.class
  * @author Sven Vanpoucke
  */
  
- class Dokeos185ClassUser extends Import
+class Dokeos185ClassUser extends Import
 {
 	/**
 	 * Migration data manager

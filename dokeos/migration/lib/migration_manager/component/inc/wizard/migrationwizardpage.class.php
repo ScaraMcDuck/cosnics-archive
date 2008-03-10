@@ -46,6 +46,11 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 	{
 		
 	}
+	
+	function next_step_info()
+	{
+		
+	}
 }
 
 ?>
