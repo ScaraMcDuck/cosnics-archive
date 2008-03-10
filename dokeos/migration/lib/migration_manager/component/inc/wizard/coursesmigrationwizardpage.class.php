@@ -32,7 +32,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_info()
 	{		
-		for($i=0; $i<5; $i++)
+		for($i=0; $i<4; $i++)
 		{
 			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
 				Translation :: get_lang('migrated');
@@ -52,6 +52,11 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		$message = $message . '<br />' . Translation :: get_lang('Dont_forget');
 		
 		return $message;
+	}
+	
+	function next_step_info()
+	{
+		return Translation :: get_lang('Personal_agenda_info');
 	}
 	
 	function get_message($index)
@@ -108,13 +113,15 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Course_user_categories') . ' & ' .
-					 Translation :: get_lang('Course_user_relations') . ' ' .
+				echo(Translation :: get_lang('Course_User_Categories') . ' & ' .
+					 Translation :: get_lang('Course_User_Relations') . ' ' .
 				     Translation :: get_lang('failed') . ' ' .
 				     Translation :: get_lang('because') . ' ' . 
 				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped'));
-				$this->logfile->add_message('Classes failed because users skipped');
+				     Translation :: get_lang('skipped') . '<br />');
+				$this->logfile->add_message('Course user categories and user relations failed because users skipped');
+				$this->succes[1] = 0;
+				$this->succes[3] = 0;
 			}
 			
 			if(isset($exportvalues['migrate_classes']))
@@ -128,20 +135,20 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 				     Translation :: get_lang('failed') . ' ' .
 				     Translation :: get_lang('because') . ' ' . 
 				     Translation :: get_lang('Classes') . ' ' .
-				     Translation :: get_lang('skipped'));
-				$this->logfile->add_message('Classes failed because users skipped');
+				     Translation :: get_lang('skipped') . '<br />');
+				$this->logfile->add_message('Course classes failed because users skipped');
+				$this->succes[4] = 0;
 			}
 			
 		}
 		else
 		{
-			echo(Translation :: get_lang('Classes')
-				 . ' ' . Translation :: get_lang('skipped'));
-			$this->logfile->add_message('Classes skipped');
+			echo(Translation :: get_lang('Courses')
+				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			$this->logfile->add_message('Courses skipped');
 		}
 	
 		//Close the logfile
-		$this->logfile->write_all_messages();
 		$this->logfile->write_passed_time();
 		$this->logfile->close_file();
 	}

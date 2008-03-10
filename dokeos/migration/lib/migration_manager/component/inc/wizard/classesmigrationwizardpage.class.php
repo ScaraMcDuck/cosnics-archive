@@ -53,6 +53,11 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 		return $message;
 	}
 	
+	function next_step_info()
+	{
+		return Translation :: get_lang('Courses_info');
+	}
+	
 	function get_message($index)
 	{
 		switch($index)
@@ -96,24 +101,24 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Classes') . ' ' .
+				echo(Translation :: get_lang('Class_users') . ' ' .
 				     Translation :: get_lang('failed') . ' ' .
 				     Translation :: get_lang('because') . ' ' . 
 				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped'));
+				     Translation :: get_lang('skipped') . '<br />');
 				$this->logfile->add_message('Classes failed because users skipped');
+				$this->succes[1] = 0;
 			}
 			
 		}
 		else
 		{
 			echo(Translation :: get_lang('Classes')
-				 . ' ' . Translation :: get_lang('skipped'));
+				 . ' ' . Translation :: get_lang('skipped') . '<br />');
 			$this->logfile->add_message('Classes skipped');
 		}
 
 		//Close the logfile
-		$this->logfile->write_all_messages();
 		$this->logfile->write_passed_time();
 		$this->logfile->close_file();
 	}

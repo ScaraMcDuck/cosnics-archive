@@ -8,21 +8,20 @@ require_once(Path :: get_library_path().'filesystem/path.class.php');
  * 
  * @author Van Wayenbergh David
  */
-class Logger{
-
+class Logger
+{
 	private $filename;
 	private $file;
 	private $begin;
-	private $messages = array();
 	
 	/**
 	 * Constructor for creating a logfile
 	 */
-    function Logger($filename)
+    function Logger($filename, $append = false)
     {
     	$this->filename = Path :: get_path('SYS_PATH') . '/migration/logfiles/' . $filename;
     	Filesystem::create_dir(dirname($filename));
-    	$this->file = fopen($this->filename, 'w');
+    	$this->file = fopen($this->filename, $append?'a+':'w+');
     }
     
     /**
@@ -34,17 +33,21 @@ class Logger{
     	fwrite($this->file, $this->get_timestamp() . $message . "\n");
     }
     
-   /* function add_message($message)
+    function write_text($text)
     {
-    	$this->messages[] = $this->get_timestamp() . $message . "\n";
-    }*/
+    	fwrite($this->file, $text . "\n");
+    }
     
-    function write_all_messages()
+    function is_text_in_file($text)
     {
-    	/*foreach($this->messages as $message)
+    	while (!feof($this->file))
     	{
-    		fwrite($this->file, $message);
-    	}*/
+    		$line = fgets($this->file);
+    		if(strcmp($line,$text))
+    			return true;
+    	}
+
+    	return false;
     }
     
     /**

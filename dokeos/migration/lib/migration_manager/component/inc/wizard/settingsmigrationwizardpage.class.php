@@ -27,6 +27,11 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 	{
 		return Translation :: get_lang('Setting_info') . ':';
 	}
+	
+	function next_step_info()
+	{
+		return Translation :: get_lang('Users_info');
+	}
 
 	function buildForm()
 	{
@@ -35,11 +40,11 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$this->addElement('text', 'old_directory', Translation :: get_lang('old_directory'), array ('size' => '40'));
 		$this->addRule('old_directory', 'ThisFieldIsRequired', 'required');
 
-		$this->addElement('checkbox', 'migrate_users', '', Translation :: get_lang('migrate_users'))->setChecked(true);
-		$this->addElement('checkbox', 'migrate_settings', '', Translation :: get_lang('migrate_settings'))->setChecked(true);
-		$this->addElement('checkbox', 'migrate_classes', '', Translation :: get_lang('migrate_classes'))->setChecked(true);
-		$this->addElement('checkbox', 'migrate_courses', '', Translation :: get_lang('migrate_courses'))->setChecked(true);
-		$this->addElement('checkbox', 'migrate_personal_agendas', '', Translation :: get_lang('migrate_personal_agendas'))->setChecked(true);
+		$this->addElement('checkbox', 'migrate_users', '', Translation :: get_lang('migrate_users'));
+		$this->addElement('checkbox', 'migrate_settings', '', Translation :: get_lang('migrate_settings'));
+		$this->addElement('checkbox', 'migrate_classes', '', Translation :: get_lang('migrate_classes'));
+		$this->addElement('checkbox', 'migrate_courses', '', Translation :: get_lang('migrate_courses'));
+		$this->addElement('checkbox', 'migrate_personal_agendas', '', Translation :: get_lang('migrate_personal_agendas'));
 		
 		$this->addRule(array('old_directory', $exports['old_system']),Translation :: get_lang('CouldNotVerifySettings'), new ValidateSettings());
 
@@ -54,6 +59,11 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 	{
 		$defaults = array();
 		$defaults['old_directory'] = '/home/svennie/sites/dokeos/';
+		$defaults['migrate_users'] = '1';
+		$defaults['migrate_settings'] = '1';
+		$defaults['migrate_classes'] = '1';
+		$defaults['migrate_courses'] = '1';
+		$defaults['migrate_personal_agendas'] = '1';
 		$this->setDefaults($defaults);
 	}
 

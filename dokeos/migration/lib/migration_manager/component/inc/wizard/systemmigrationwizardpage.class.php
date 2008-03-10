@@ -57,6 +57,11 @@ class SystemMigrationWizardPage extends MigrationWizardPage
 		return $system_list;
 	}
 	
+	function perform()
+	{
+		new Logger('migration.txt', false);
+	}
+	
 	function set_form_defaults()
 	{
 		$defaults = array();
