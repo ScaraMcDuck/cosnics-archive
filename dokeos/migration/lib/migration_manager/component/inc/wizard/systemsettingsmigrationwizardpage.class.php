@@ -130,6 +130,8 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 			     Translation :: get_lang('System_Announcements')
 				 . ' ' . Translation :: get_lang('skipped') . '<br />');
 			$this->logfile->add_message('system settings & announcements skipped');
+			
+			return false;
 		}
 
 		

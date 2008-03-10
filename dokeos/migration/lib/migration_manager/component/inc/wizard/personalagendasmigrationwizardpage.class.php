@@ -118,6 +118,8 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 			echo(Translation :: get_lang('Personal_agendas')
 				 . ' ' . Translation :: get_lang('skipped') . '<br />');
 			$this->logfile->add_message('personal agendas skipped');
+			
+			return false;
 		}
 	
 		//Close the logfile
