@@ -42,8 +42,9 @@ class Logger
     {
     	while (!feof($this->file))
     	{
-    		$line = fgets($this->file);
-    		if(strcmp($line,$text))
+    		$line = trim(fgets($this->file));
+    		$line = trim($line);
+    		if(strcmp($line,$text) == 0)
     			return true;
     	}
 
