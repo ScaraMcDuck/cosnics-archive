@@ -71,8 +71,8 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		if($logger->is_text_in_file('users'))
 		{
 			echo(Translation :: get_lang('Users') . ' ' .
-				 Translation :: get_lang('already_migrated'));
-			return;
+				 Translation :: get_lang('already_migrated') . '<br />');
+			return false;
 		}
 		
 		$logger->write_text('users');
@@ -103,6 +103,8 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		//Close the logfile
 		$this->logfile->write_passed_time();
 		$this->logfile->close_file();
+		
+		return true;
 	}
 	
 	function migrate_users()

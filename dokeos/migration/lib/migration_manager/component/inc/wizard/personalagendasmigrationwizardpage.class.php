@@ -72,6 +72,17 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 	
 	function perform()
 	{
+		$logger = new Logger('migration.txt', true);
+		
+		if($logger->is_text_in_file('personalagendas'))
+		{
+			echo(Translation :: get_lang('Personal_agendas') . ' ' .
+				 Translation :: get_lang('already_migrated') . '<br />');
+			return false;
+		}
+		
+		$logger->write_text('personalagendas');
+		
 		$exportvalues = $this->controller->exportValues();
 		$this->old_system = $exportvalues['old_system'];
 		$old_directory = $exportvalues['old_directory'];
@@ -112,6 +123,8 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 		//Close the logfile
 		$this->logfile->write_passed_time();
 		$this->logfile->close_file();
+		
+		return true;
 	}
 	
 	/**
