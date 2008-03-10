@@ -586,8 +586,23 @@ class Dokeos185Course extends Import
 		//create course in database
 		$lcms_course->create_all();
 		
+		$adminid = self :: $mgdm->get_id_reference(self :: $mgdm->get_old_admin_id(), 'user_user');
 		//Add id references to temp table
 		self :: $mgdm->add_id_reference($old_code, $lcms_course->get_id(), 'weblcms_course');
+		
+		// Create course directories for administrator
+		$lcms_repository_category = new Category();
+		$lcms_repository_category->set_owner_id($adminid);
+		$lcms_repository_category->set_title($lcms_course->get_id());
+		$lcms_repository_category->set_description('...');
+
+		//Retrieve repository id from course
+		$repository_id = self :: $mgdm->get_parent_id($adminid, 
+				'category', Translation :: get_lang('MyRepository'));
+		$lcms_repository_category->set_parent_id($repository_id);
+		
+		//Create category in database
+		$lcms_repository_category->create();
 		
 		return $lcms_course;
 	}
