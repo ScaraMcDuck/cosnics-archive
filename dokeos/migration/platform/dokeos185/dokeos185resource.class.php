@@ -188,7 +188,7 @@ class Dokeos185CalendarEvent extends ImportResource
 		
 	}
 	
-	function get_all_resources($mgdm)
+	function get_all_resources($course, $mgdm)
 	{
 		self :: $mgdm = $mgdm;
 		return self :: $mgdm->get_all_resources();
