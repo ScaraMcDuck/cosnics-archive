@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../../lib/import/importlinkcategory.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublicationcategory.class.php';
 
 /**
- * This class represents an old Dokeos 1.8.5 course_rel_class
+ * This class represents an old Dokeos 1.8.5 Link Category
  *
  * @author David Van Wayenbergh
  */

@@ -81,12 +81,12 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 	{
 		$logger = new Logger('migration.txt', true);
 		
-	/*	if($logger->is_text_in_file('metadata'))
+		if($logger->is_text_in_file('metadata'))
 		{
 			echo(Translation :: get_lang('Course_metadata') . ' ' .
 				 Translation :: get_lang('already_migrated') . '<br />');
 			return false;
-		}*/
+		}
 		
 		$logger->write_text('metadata');
 		
