@@ -249,7 +249,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 				$lcms_course = $course->convert_to_new_course();
 				$this->logfile->add_message('SUCCES: Course added ( Course: ' . $lcms_course->get_id() . ' )');
 				$this->succes[2]++;
-				$this->migrate_course_tools($course);
+				//$this->migrate_course_tools($course);
 			}
 			else
 			{
