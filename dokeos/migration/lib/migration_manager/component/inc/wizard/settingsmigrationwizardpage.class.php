@@ -51,6 +51,10 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$this->addElement('checkbox', 'migrate_documents', '', Translation :: get_lang('migrate_documents'), 'onclick=\'documents_clicked()\' style=\'margin-left: 20px;\'');
 		$this->addElement('checkbox', 'migrate_links', '', Translation :: get_lang('migrate_links'), 'onclick=\'links_clicked()\' style=\'margin-left: 20px;\'');
 		
+		$this->addElement('checkbox', 'migrate_deleted_files', '', 
+			Translation :: get_lang('migrate_deleted_files'), 'onclick=\'deleted_files_clicked("' . 
+			Translation :: get_lang('confirm_deleted_files'). '")\' style=\'margin-top: 20px;\'');
+		
 		$this->addRule(array('old_directory', $exports['old_system']),Translation :: get_lang('CouldNotVerifySettings'), new ValidateSettings());
 
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get_lang('Previous'));
@@ -65,10 +69,16 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$defaults = array();
 		$defaults['old_directory'] = '/home/svennie/sites/dokeos/';
 		$defaults['migrate_users'] = '1';
+		$defaults['migrate_personal_agendas'] = '1';
 		$defaults['migrate_settings'] = '1';
 		$defaults['migrate_classes'] = '1';
 		$defaults['migrate_courses'] = '1';
-		$defaults['migrate_personal_agendas'] = '1';
+		$defaults['migrate_groups'] = '1';
+		$defaults['migrate_announcements'] = '1';
+		$defaults['migrate_calendar_events'] = '1';
+		$defaults['migrate_documents'] = '1';
+		$defaults['migrate_links'] = '1';
+		$defaults['migrate_deleted_files'] = '0';
 		$this->setDefaults($defaults);
 	}
 

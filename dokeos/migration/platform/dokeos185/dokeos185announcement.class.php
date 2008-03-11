@@ -227,13 +227,13 @@ class Dokeos185Announcement extends ImportAnnouncement
 		
 		// Category for announcements already exists?
 		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
-			Translation :: get_lang('announcement'));
+			Translation :: get_lang('announcements'));
 		if(!$lcms_category_id)
 		{
 			//Create category for tool in lcms
 			$lcms_repository_category = new Category();
 			$lcms_repository_category->set_owner_id($new_user_id);
-			$lcms_repository_category->set_title('announcement');
+			$lcms_repository_category->set_title(Translation :: get_lang('announcements'));
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
@@ -295,10 +295,10 @@ class Dokeos185Announcement extends ImportAnnouncement
 		return $lcms_announcement;
 	}
 	
-	static function get_all_announcements($mgdm,$db)
+	static function get_all_announcements($mgdm,$db,$include_deleted_files)
 	{
 		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_announcements($db);
+		return self :: $mgdm->get_all_announcements($db, $include_deleted_files);
 	}
 	
 }

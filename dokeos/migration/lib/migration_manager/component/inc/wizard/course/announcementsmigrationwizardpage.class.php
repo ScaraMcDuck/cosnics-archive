@@ -18,6 +18,7 @@ class AnnouncementMigrationWizardPage extends MigrationWizardPage
 	private $logfile;
 	private $mgdm;
 	private $old_system;
+	private $include_deleted_files;
 	private $failed_announcements = array();
 	private $succes;
 	
@@ -76,18 +77,19 @@ class AnnouncementMigrationWizardPage extends MigrationWizardPage
 	{
 		$logger = new Logger('migration.txt', true);
 		
-		if($logger->is_text_in_file('announcements'))
+		/*if($logger->is_text_in_file('announcements'))
 		{
 			echo(Translation :: get_lang('Announcements') . ' ' .
 				 Translation :: get_lang('already_migrated') . '<br />');
 			return false;
-		}
+		}*/
 		
 		$logger->write_text('announcements');
 		
 		$exportvalues = $this->controller->exportValues();
 		$this->old_system = $exportvalues['old_system'];
 		$old_directory = $exportvalues['old_directory'];
+		$this->include_deleted_files = $exportvalues['migrate_deleted_files'];
 		
 		//Create logfile
 		$this->logfile = new Logger('announcements.txt');
@@ -148,7 +150,7 @@ class AnnouncementMigrationWizardPage extends MigrationWizardPage
 				continue;
 			}
 			
-			$announcements = $announcementclass->get_all_announcements($this->mgdm,$course->get_db_name());
+			$announcements = $announcementclass->get_all_announcements($this->mgdm,$course->get_db_name(), $this->include_deleted_files);
 			
 			foreach($announcements as $announcement)
 			{

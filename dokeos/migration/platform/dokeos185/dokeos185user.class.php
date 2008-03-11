@@ -7,6 +7,7 @@
 require_once dirname(__FILE__) . '/../../lib/import/importuser.class.php';
 require_once Path :: get_user_path(). 'lib/user.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object/profile/profile.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 user
@@ -715,11 +716,32 @@ class Dokeos185User extends Import
 		$lcms_repository_profile->set_title($lcms_user->get_fullname());
 		$lcms_repository_profile->set_description('...');
 		
-		//Retrieve repository id from user
-		$repository_id = self :: $mgdm->get_parent_id($lcms_user->get_user_id(), 
-			'category', Translation :: get_lang('MyRepository'));
-		
-		$lcms_repository_profile->set_parent_id($repository_id);
+		// Category for calendar events already exists?
+		$lcms_category_id = self :: $mgdm->get_parent_id($lcms_user->get_user_id(), 'category',
+			Translation :: get_lang('profiles'));
+		if(!$lcms_category_id)
+		{
+			//Create category for tool in lcms
+			$lcms_repository_category = new Category();
+			$lcms_repository_category->set_owner_id($lcms_user->get_user_id());
+			$lcms_repository_category->set_title(Translation :: get_lang('profiles'));
+			$lcms_repository_category->set_description('...');
+	
+			//Retrieve repository id from user
+			$repository_id = self :: $mgdm->get_parent_id($lcms_user->get_user_id(), 
+				'category', Translation :: get_lang('MyRepository'));
+	
+			$lcms_repository_category->set_parent_id($repository_id);
+			
+			//Create category in database
+			$lcms_repository_category->create();
+			
+			$lcms_repository_profile->set_parent_id($lcms_repository_category->get_id());
+		}
+		else
+		{
+			$lcms_repository_profile->set_parent_id($lcms_category_id);
+		}
 		
 		//Create profile in database
 		$lcms_repository_profile->create();

@@ -7,6 +7,7 @@
 require_once dirname(__FILE__).'/../../lib/import/importpersonalagenda.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object/calendar_event/calendar_event.class.php';
 require_once Path :: get_path(SYS_APP_PATH) . 'lib/personal_calendar/personalcalendarevent.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
 
 /**
  * Class that represents the personal agenda data from dokeos 1.8.5
@@ -267,11 +268,32 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 		if($owner_id)
 			$lcms_calendar_event->set_owner_id($owner_id);
 		
-		//Get repository from user
-		$repository_id = self :: $mgdm->get_parent_id($owner_id, 
-			'category', Translation :: get_lang('MyRepository'));
-		
-		$lcms_calendar_event->set_parent_id($repository_id);
+		// Category for calendar events already exists?
+		$lcms_category_id = self :: $mgdm->get_parent_id($owner_id, 'category',
+			Translation :: get_lang('calendar_events'));
+		if(!$lcms_category_id)
+		{
+			//Create category for tool in lcms
+			$lcms_repository_category = new Category();
+			$lcms_repository_category->set_owner_id($owner_id);
+			$lcms_repository_category->set_title(Translation :: get_lang('calendar_events'));
+			$lcms_repository_category->set_description('...');
+	
+			//Retrieve repository id from user
+			$repository_id = self :: $mgdm->get_parent_id($owner_id, 
+				'category', Translation :: get_lang('MyRepository'));
+	
+			$lcms_repository_category->set_parent_id($repository_id);
+			
+			//Create category in database
+			$lcms_repository_category->create();
+			
+			$lcms_calendar_event->set_parent_id($lcms_repository_category->get_id());
+		}
+		else
+		{
+			$lcms_calendar_event->set_parent_id($lcms_category_id);
+		}
 		
 		$lcms_calendar_event->create();
 		

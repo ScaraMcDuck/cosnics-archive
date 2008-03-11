@@ -603,10 +603,15 @@ class Dokeos185DataManager extends MigrationDataManager
 	/** Get all the announcements from the dokeos185 database
 	 * @return array of Dokeos185Annoucements
 	 */
-	function get_all_announcements($db)
+	function get_all_announcements($db, $include_deleted_files)
 	{
 		$this->db_connect($db);
 		$query = 'SELECT * FROM announcement';
+		
+		if(!$include_deleted_files)
+			$query = $query . ' WHERE id IN (SELECT ref FROM item_property WHERE tool=\'announcement\'' .
+					' AND visibility <> 2);';
+
 		$result = $this->db->query($query);
 		$announcements = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
