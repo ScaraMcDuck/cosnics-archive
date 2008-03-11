@@ -28,6 +28,10 @@ $lang['migration']['migrate_documents'] = "Migrate documents";
 $lang['migration']['migrate_links'] = "Migrate links";
 
 $lang['migration']['productions'] = "productions";
+$lang['migration']['announcements'] = "announcements";
+$lang['migration']['system_announcements'] = "system announcements";
+$lang['migration']['calendar_events'] = "calendar events";
+$lang['migration']['profiles'] = "profiles";
 $lang['migration']['migrating'] = "migrating";
 $lang['migration']['users'] = "users";
 $lang['migration']['done'] = "done";

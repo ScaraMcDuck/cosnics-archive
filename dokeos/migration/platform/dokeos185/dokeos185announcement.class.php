@@ -222,15 +222,12 @@ class Dokeos185Announcement extends ImportAnnouncement
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
-		$course_cat = self :: $mgdm->get_parent_id($new_user_id, 
-					'category', $new_course_code);
-		
 		//announcement parameters
 		$lcms_announcement = new Announcement();
 		
 		// Category for announcements already exists?
 		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
-			'announcement', $course_cat);
+			Translation :: get_lang('announcement'));
 		if(!$lcms_category_id)
 		{
 			//Create category for tool in lcms
@@ -240,7 +237,9 @@ class Dokeos185Announcement extends ImportAnnouncement
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
-			$lcms_repository_category->set_parent_id($course_cat);
+			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+				'category', Translation :: get_lang('MyRepository'));
+			$lcms_repository_category->set_parent_id($repository_id);
 			
 			//Create category in database
 			$lcms_repository_category->create();
