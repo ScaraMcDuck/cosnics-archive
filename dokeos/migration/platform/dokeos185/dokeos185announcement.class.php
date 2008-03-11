@@ -20,7 +20,8 @@ class Dokeos185Announcement extends ImportAnnouncement
 	/**
 	 * Migration data manager
 	 */
-	private static $mgdm,$item_property;
+	private static $mgdm;
+	private $item_property;
 
 	/**
 	 * Announcement properties
@@ -204,7 +205,6 @@ class Dokeos185Announcement extends ImportAnnouncement
 	function is_valid_announcement($course)
 	{
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'announcement',$this->get_id());	
-	
 
 		if(!$this->get_id() || !$this->get_title() || !$this->get_content()
 			|| $this->item_property->get_insert_user_id() == 0 || !$this->item_property->get_insert_date() ||
@@ -263,7 +263,6 @@ class Dokeos185Announcement extends ImportAnnouncement
 		
 		//create announcement in database
 		$lcms_announcement->create_all();
-		
 		
 		//publication
 		if($this->item_property->get_visibility() <= 1) 
