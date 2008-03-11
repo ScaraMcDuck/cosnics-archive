@@ -138,7 +138,7 @@ class Dokeos185Tool extends ImportTool
 	{		
 		$value = $this->convert[$this->get_name()];
 		$db = WeblcmsDataManager :: get_instance();
-		$db->set_module_visible($course,$value,$this->get_visibility);
+		$db->set_module_visible($course->get->get_title(),$value,$this->get_visibility);
 		
 		return $this;
 	}

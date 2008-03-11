@@ -5,7 +5,10 @@
  */
 
 require_once dirname(__FILE__) . '/../../lib/import/importcalendarevent.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/announcement/announcement.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/calendar_event/calendar_event.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once 'dokeos185itemproperty.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
 
 /**
@@ -18,7 +21,7 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 	/**
 	 * Migration data manager
 	 */
-	private static $mgdm;
+	private static $mgdm, $item_property;
 
 	/**
 	 * Announcement properties
@@ -179,20 +182,110 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 		$this->set_default_property(self :: PROPERTY_END_DATE, $end_date);
 	}
 	
-	function is_valid_calendar_event()
+	function is_valid_calendar_event($course)
 	{
-		
+		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'calendar_event',$this->get_id());	
+	
+
+		if(!$this->get_id() || !$this->get_title() || !$this->get_content()
+			|| $this->item_property->get_insert_user_id() == 0 || !$this->item_property->get_insert_date() ||
+			self :: $mgdm->get_failed_element('dokeos_main.user', $this->item_property->get_insert_user_id() ))
+		{		 
+			self :: $mgdm->add_failed_element($this->get_id(),
+				$course->get_db_name() . '.calendar_event');
+			return false;
+		}
+		return true;
 	}
 	
-	function convert_to_new_calendar_event()
+	function convert_to_new_calendar_event($course)
 	{
+		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
+		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
+	
+		//calendar event parameters
+		$lcms_calendar_event = new CalendarEvent();
 		
+		$lcms_calendar_event->set_start_date(self :: $mgdm->make_unix_time($this->get_start_date()));
+		$lcms_calendar_event->set_end_date(self :: $mgdm->make_unix_time($this->get_end_date()));
+			
+		
+		// Category for calendar_events already exists?
+		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+			Translation :: get_lang('calendar_events'));
+		if(!$lcms_category_id)
+		{
+			//Create category for tool in lcms
+			$lcms_repository_category = new Category();
+			$lcms_repository_category->set_owner_id($new_user_id);
+			$lcms_repository_category->set_title(Translation :: get_lang('calendar_events'));
+			$lcms_repository_category->set_description('...');
+	
+			//Retrieve repository id from user
+			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+				'category', Translation :: get_lang('MyRepository'));
+	
+			$lcms_repository_category->set_parent_id($repository_id);
+			
+			//Create category in database
+			$lcms_repository_category->create();
+			
+			$lcms_calendar_event->set_parent_id($lcms_repository_category->get_id());
+		}
+		else
+		{
+			$lcms_calendar_event->set_parent_id($lcms_category_id);
+		}
+		
+		
+		$lcms_calendar_event->set_title($this->get_title());
+		$lcms_calendar_event->set_description($this->get_content());
+		
+		$lcms_calendar_event->set_owner_id($new_user_id);
+		$lcms_calendar_event->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
+		$lcms_calendar_event->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+		
+		if($this->item_property->get_visibility() == 2)
+			$lcms_calendar_event->set_state(1);
+		
+		//create announcement in database
+		$lcms_calendar_event->create_all();
+		
+		
+		//publication
+		if($this->item_property->get_visibility() <= 1) 
+		{
+			$publication = new LearningObjectPublication();
+			
+			$publication->set_learning_object($lcms_calendar_event);
+			$publication->set_course_id($new_course_code);
+			$publication->set_publisher_id($new_user_id);
+			$publication->set_tool('calendar_event');
+			$publication->set_category_id(0);
+			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
+			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
+			$publication->set_from_date(0);
+			$publication->set_to_date(0);
+			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
+			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+			//$publication->set_modified_date(0);
+			//$publication->set_display_order_index($this->get_display_order());
+			$publication->set_display_order_index(0);
+			$publication->set_email_sent(0);
+			
+			$publication->set_hidden($this->item_property->get_visibility() == 1?0:1);
+			
+			//create publication in database
+			$publication->create();
+		}
+		
+		return $lcms_calendar_event;
 	}
 	
-	function get_all_calendar_events($course, $mgdm)
+	static function get_all_calendar_events($course, $mgdm)
 	{
 		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_calendar_events();
+		return self :: $mgdm->get_all_calendar_events($course);
 	}
 }
 ?>

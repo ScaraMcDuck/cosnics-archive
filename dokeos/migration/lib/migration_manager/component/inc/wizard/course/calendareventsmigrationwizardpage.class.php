@@ -2,10 +2,10 @@
 /**
  * @package migration.lib.migration_manager.component.inc.wizard
  */
-require_once dirname(__FILE__) . '/migrationwizardpage.class.php';
-require_once dirname(__FILE__) . '/../../../../migrationdatamanager.class.php'; 
-require_once dirname(__FILE__) . '/../../../../logger.class.php'; 
-require_once dirname(__FILE__) . '/../../../../import.class.php'; 
+require_once dirname(__FILE__) . '/../migrationwizardpage.class.php';
+require_once dirname(__FILE__) . '/../../../../../migrationdatamanager.class.php'; 
+require_once dirname(__FILE__) . '/../../../../../logger.class.php'; 
+require_once dirname(__FILE__) . '/../../../../../import.class.php'; 
 /**
  * Class for course calendar events migration
  * @author Sven Vanpoucke
@@ -23,7 +23,7 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Class_title');
+		return Translation :: get_lang('Calendar_events_title');
 	}
 	
 	/**
@@ -55,7 +55,7 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Courses_info');
+		return Translation :: get_lang('Calendar_events_info');
 	}
 	
 	function get_message($index)
@@ -105,9 +105,21 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 			//Migrate the calendar events and resources
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']))
 			{
-				$this->migrate_calendar_events();
-				//TODO: migrate resources
-				//$this->migrate_resources();
+				$courseclass = Import :: factory($this->old_system, 'course');
+				$courses = array();
+				$courses = $courseclass->get_all_courses($this->mgdm);
+				
+				foreach($courses as $course)
+				{
+					if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
+					{
+						continue;
+					}	
+			
+					$this->migrate_calendar_events($course);
+					//TODO: migrate resources
+					//$this->migrate_resources();
+				}
 			}
 			else
 			{
@@ -151,9 +163,9 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 		
 		foreach($calendar_events as $calendar_event)
 		{
-			if($calendar_event->is_valid_calendar_event())
+			if($calendar_event->is_valid_calendar_event($course))
 			{
-				$lcms_calendar_event = $calendar_event->convert_to_new_calendar_event();
+				$lcms_calendar_event = $calendar_event->convert_to_new_calendar_event($course);
 				$this->logfile->add_message('SUCCES: Calendar event added ( ' . $lcms_calendar_event->get_id() . ' )');
 				$this->succes[0]++;
 			}
@@ -182,9 +194,9 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 		
 		foreach($resources as $resource)
 		{
-			if($resource->is_valid_resource())
+			if($resource->is_valid_resource($course))
 			{
-				$lcms_resource = $resource->convert_to_new_resource();
+				$lcms_resource = $resource->convert_to_new_resource($course);
 				$this->logfile->add_message('SUCCES: Calendar resource user added ( ID: ' .  
 						$lcms_resource->get_id() . ' )');
 				$this->succes[1]++;

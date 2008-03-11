@@ -76,4 +76,8 @@ $lang['migration']['Personal_agendas'] = "agenda(s)";
 $lang['migration']['Announcement_info'] = "In the next step we wil migrate the Announcements of the courses.";
 $lang['migration']['Announcements_title'] = "Course announcement migration";
 $lang['migration']['Announcements'] = "Announcement(s)";
+
+$lang['migration']['Calendar_events_info'] = "In the next step we wil migrate the calendar events of the courses.";
+$lang['migration']['Calendar_events_title'] = "Course calendar events migration";
+$lang['migration']['Calendar_events'] = "calendar event(s)";
 ?>

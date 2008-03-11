@@ -680,6 +680,44 @@ class Dokeos185DataManager extends MigrationDataManager
 		}
 		return new Dokeos185Tool($defaultProp);
 	}
+	
+	/** Get all the calendar events from the dokeos185 database
+	 * @return array of Dokeos185CalendarEvents
+	 */
+	function get_all_calendar_events($course)
+	{
+		$this->db_connect($course->get_db_name());
+		$query = 'SELECT * FROM calendar_event';
+		$result = $this->db->query($query);
+		$calendar_events = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$calendar_events[] = $this->record_to_calendar_event($record);
+			
+		}
+		$result->free();
+		
+		return $calendar_events;
+	}
+	
+	/**
+	 * Map a resultset record to a Dokeos185CalendarEvent Object
+	 * @param ResultSetRecord $record from database
+	 * @return Dokeos185CalendarEvent object with mapped data
+	 */
+	function record_to_calendar_event($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Dokeos185CalendarEvent :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new Dokeos185CalendarEvent($defaultProp);
+	}
 }
 
 ?>
