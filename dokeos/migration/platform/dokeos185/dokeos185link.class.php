@@ -6,6 +6,9 @@
 
 require_once dirname(__FILE__).'/../../lib/import/importlink.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/learning_object/link/link.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once 'dokeos185itemproperty.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 course_rel_class
@@ -15,6 +18,8 @@ require_once dirname(__FILE__).'/../../../repository/lib/learning_object/link/li
 
 class Dokeos185Link extends Import
 {
+	private static $mgdm;
+	private $item_property;
 	
  	/**
 	 * course relation class properties
@@ -26,11 +31,6 @@ class Dokeos185Link extends Import
  	const PROPERTY_CATEGORY_ID = 'category_id';
  	const PROPERTY_DISPLAY_ORDER = 'display_order';
  	const PROPERTY_ON_HOMEPAGE = 'on_homepage';
- 	
- 	/**
-	 * Alfanumeric identifier of the link object.
-	 */
-	private $code;
 	
 	/**
 	 * Default properties of the link object, stored in an associative
@@ -88,15 +88,12 @@ class Dokeos185Link extends Import
 	}
 	
 	/**
-	 * Checks if the given identifier is the name of a default course
-	 * property.
-	 * @param string $name The identifier.
-	 * @return boolean True if the identifier is a property name, false
-	 *                 otherwise.
+	 * Sets the default properties of this link.
+	 * @param array $defaultProperties An associative array containing the properties.
 	 */
-	static function is_default_property_name($name)
+	function set_default_properties($defaultProperties)
 	{
-		return in_array($name, self :: get_default_property_names());
+		return $this->defaultProperties = $defaultProperties;
 	}
 	
 	/**
@@ -225,6 +222,114 @@ class Dokeos185Link extends Import
 		$this->set_default_property(self :: PROPERTY_ON_HOMEPAGE, $on_homepage);
 	}
 	
+	function is_valid_link($course)
+	{
+		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'link',$this->get_id());
+		
+		if(!$this->get_url() || !$this->get_id() || !$this->get_title() || 
+			 $this->item_property->get_insert_user_id() == 0 || 
+			!$this->item_property->get_insert_date() ||
+			self :: $mgdm->get_failed_element('dokeos_main.user', $this->item_property->get_insert_user_id() ))
+		{		 
+			self :: $mgdm->add_failed_element($this->get_id(),
+				$course->get_db_name() . '.link');
+			return false;
+		}
+		return true;
+	}
+	
+	function convert_to_new_link($course)
+	{
+		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
+		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		
+		$lcms_link = new Link();
+		
+		// Category for links already exists?
+		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+			Translation :: get_lang('links'));
+		if(!$lcms_category_id)
+		{
+			//Create category for tool in lcms
+			$lcms_repository_category = new Category();
+			$lcms_repository_category->set_owner_id($new_user_id);
+			$lcms_repository_category->set_title(Translation :: get_lang('links'));
+			$lcms_repository_category->set_description('...');
+	
+			//Retrieve repository id from course
+			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+				'category', Translation :: get_lang('MyRepository'));
+			$lcms_repository_category->set_parent_id($repository_id);
+			
+			//Create category in database
+			$lcms_repository_category->create();
+			
+			$lcms_link->set_parent_id($lcms_repository_category->get_id());
+		}
+		else
+		{
+			$lcms_link->set_parent_id($lcms_category_id);	
+		}
+		
+		$lcms_link->set_url($this->get_url());
+		$lcms_link->set_title($this->get_title());
+		if($this->get_description())
+			$lcms_link->set_description($this->get_description());
+		else
+			$lcms_link->set_description($this->get_title());
+		
+		$lcms_link->set_owner_id($new_user_id);
+		$lcms_link->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
+		$lcms_link->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+		
+		if($this->item_property->get_visibility() == 2)
+			$lcms_link->set_state(1);
+		
+		//create link in database
+		$lcms_link->create_all();
+		
+		//publication
+		if($this->item_property->get_visibility() <= 1) 
+		{
+			$publication = new LearningObjectPublication();
+			
+			$publication->set_learning_object($lcms_link);
+			$publication->set_course_id($new_course_code);
+			$publication->set_publisher_id($new_user_id);
+			$publication->set_tool('link');
+			
+			$category_id =  self :: $mgdm->get_id_reference($this->get_category_id(), $new_course_code . '.link_category');
+			if($category_id)
+				$publication->set_category_id($category_id);
+			else
+				$publication->set_category_id(0);
+				
+			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
+			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
+			$publication->set_from_date(0);
+			$publication->set_to_date(0);
+			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
+			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+			//$publication->set_modified_date(0);
+			//$publication->set_display_order_index($this->get_display_order());
+			$publication->set_display_order_index(0);
+			$publication->set_email_sent(0);
+			
+			$publication->set_hidden($this->item_property->get_visibility() == 1?0:1);
+			
+			//create publication in database
+			$publication->create();
+		}
+		
+		return $lcms_link;
+		
+	}
+	
+	function get_all_links($db, $mgdm, $include_deleted_files)
+	{
+		self :: $mgdm = $mgdm;
+		return self :: $mgdm->get_all_links($db, $include_deleted_files);
+	}
 	
 }
 ?>

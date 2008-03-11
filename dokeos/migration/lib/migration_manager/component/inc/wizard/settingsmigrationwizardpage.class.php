@@ -45,6 +45,7 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$this->addElement('checkbox', 'migrate_settings', '', Translation :: get_lang('migrate_settings'));
 		$this->addElement('checkbox', 'migrate_classes', '', Translation :: get_lang('migrate_classes'));
 		$this->addElement('checkbox', 'migrate_courses', '', Translation :: get_lang('migrate_courses'), 'onclick=\'courses_clicked()\'');
+		$this->addElement('checkbox', 'migrate_metadata', '', Translation :: get_lang('migrate_metadata'), 'onclick=\'metadata_clicked()\' style=\'margin-left: 20px;\'');
 		$this->addElement('checkbox', 'migrate_groups', '', Translation :: get_lang('migrate_groups'), 'onclick=\'groups_clicked()\' style=\'margin-left: 20px;\'');
 		$this->addElement('checkbox', 'migrate_announcements', '', Translation :: get_lang('migrate_announcements'), 'onclick=\'announcements_clicked()\' style=\'margin-left: 20px;\'');
 		$this->addElement('checkbox', 'migrate_calendar_events', '', Translation :: get_lang('migrate_calendar_events'), 'onclick=\'calendar_events_clicked()\' style=\'margin-left: 20px;\'');
@@ -74,6 +75,7 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$defaults['migrate_classes'] = '1';
 		$defaults['migrate_courses'] = '1';
 		$defaults['migrate_groups'] = '1';
+		$defaults['migrate_metadata'] = 1;
 		$defaults['migrate_announcements'] = '1';
 		$defaults['migrate_calendar_events'] = '1';
 		$defaults['migrate_documents'] = '1';

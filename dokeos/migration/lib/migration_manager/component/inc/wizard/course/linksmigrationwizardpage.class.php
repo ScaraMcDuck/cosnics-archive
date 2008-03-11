@@ -7,10 +7,10 @@ require_once dirname(__FILE__) . '/../../../../../migrationdatamanager.class.php
 require_once dirname(__FILE__) . '/../../../../../logger.class.php'; 
 require_once dirname(__FILE__) . '/../../../../../import.class.php'; 
 /**
- * Class for course calendar events migration
+ * Class for course links migration
  * @author Sven Vanpoucke
  */
-class CalendarEventsMigrationWizardPage extends MigrationWizardPage
+class LinksMigrationWizardPage extends MigrationWizardPage
 {
 	private $logfile;
 	private $mgdm;
@@ -24,7 +24,7 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Calendar_events_title');
+		return Translation :: get_lang('Links_title');
 	}
 	
 	/**
@@ -56,16 +56,16 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Calendar_events_info');
+		return Translation :: get_lang('Links_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Calendar_events'); 
-			case 1: return Translation :: get_lang('Calendar_resources'); 
-			default: return Translation :: get_lang('Calendar_events'); 
+			case 0: return Translation :: get_lang('Link_categories'); 
+			case 1: return Translation :: get_lang('Links'); 
+			default: return Translation :: get_lang('Link_categories'); 
 		}
 	}
 	
@@ -81,14 +81,14 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 	{
 		$logger = new Logger('migration.txt', true);
 		
-		if($logger->is_text_in_file('calendar_events'))
+		if($logger->is_text_in_file('links'))
 		{
-			echo(Translation :: get_lang('Calendar_events') . ' ' .
+			echo(Translation :: get_lang('Links') . ' ' .
 				 Translation :: get_lang('already_migrated') . '<br />');
 			return false;
 		}
 		
-		$logger->write_text('calendar_events');
+		$logger->write_text('links');
 		
 		$exportvalues = $this->controller->exportValues();
 		$this->old_system = $exportvalues['old_system'];
@@ -96,15 +96,15 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 		$this->include_deleted_files = $exportvalues['migrate_deleted_files'];
 		
 		//Create logfile
-		$this->logfile = new Logger('calendar_events.txt');
+		$this->logfile = new Logger('links.txt');
 		$this->logfile->set_start_time();
 		
 		//Create migrationdatamanager
 		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
-		if(isset($exportvalues['migrate_calendar_events']) && $exportvalues['migrate_calendar_events'] == 1)
+		if(isset($exportvalues['migrate_links']) && $exportvalues['migrate_links'] == 1)
 		{	
-			//Migrate the calendar events and resources
+			//Migrate link categories and the links 
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']))
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
@@ -118,29 +118,28 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 			
-					$this->migrate_calendar_events($course);
-					//TODO: migrate resources
-					//$this->migrate_resources();
+					$this->migrate_link_categories($course);
+					$this->migrate_links($course);
 				}
 			}
 			else
 			{
-				echo(Translation :: get_lang('Calendar_events') . ' and ' .
-					 Translation :: get_lang('Calendar_resources') . ' ' .
+				echo(Translation :: get_lang('Link_categories') . ' and ' .
+					 Translation :: get_lang('Links') . ' ' .
 				     Translation :: get_lang('failed') . ' ' .
 				     Translation :: get_lang('because') . ' ' . 
 				     Translation :: get_lang('Users') . ' ' .
 				     Translation :: get_lang('skipped') . '<br />');
-				$this->logfile->add_message('Calendar events failed because users skipped');
+				$this->logfile->add_message('Links failed because users skipped');
 				$this->succes[1] = 0;
 			}
 			
 		}
 		else
 		{
-			echo(Translation :: get_lang('Calendar_events')
+			echo(Translation :: get_lang('Links')
 				 . ' ' . Translation :: get_lang('skipped') . '<br />');
-			$this->logfile->add_message('Calendar events skipped');
+			$this->logfile->add_message('Links kipped');
 			
 			return false;
 		}
@@ -153,67 +152,67 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 	}
 	
 	/**
-	 * Migrate the calendar events
+	 * Migrate the link categories
 	 */
-	function migrate_calendar_events($course)
+	function migrate_link_categories($course)
 	{
-		$this->logfile->add_message('Starting migration calendarevents for course ' . $course->get_code());
+		$this->logfile->add_message('Starting migration link categories for course ' . $course->get_code());
 		
-		$class_calendar_event = Import :: factory($this->old_system, 'calendarevent');
-		$calendar_events = array();
-		$calendar_events = $class_calendar_event->get_all_calendar_events($course, $this->mgdm, $this->include_deleted_files);
+		$class_link_categories = Import :: factory($this->old_system, 'linkcategory');
+		$link_categories = array();
+		$link_categories = $class_link_categories->get_all_link_categories($course->get_db_name(), $this->mgdm);
 		
-		foreach($calendar_events as $calendar_event)
+		foreach($link_categories as $link_category)
 		{
-			if($calendar_event->is_valid_calendar_event($course))
+			if($link_category->is_valid_link_category($course))
 			{
-				$lcms_calendar_event = $calendar_event->convert_to_new_calendar_event($course);
-				$this->logfile->add_message('SUCCES: Calendar event added ( ID ' . $lcms_calendar_event->get_id() . ' )');
+				$lcms_link_category = $link_category->convert_to_new_link_category($course);
+				$this->logfile->add_message('SUCCES: Link category added ( ID: ' . $lcms_link_category->get_id() . ' )');
 				$this->succes[0]++;
 			}
 			else
 			{
-				$message = 'FAILED: Calendar event is not valid ( ID ' . $calendar_event->get_id() . ' )';
+				$message = 'FAILED: Link category is not valid ( ID: ' . $link_category->get_id() . ' )';
 				$this->logfile->add_message($message);
 				$this->failed_elements[0][] = $message;
 			}
 		}
 		
 
-		$this->logfile->add_message('Calendar events migrated for course ' . $course->get_code());
+		$this->logfile->add_message('Link categories migrated for course ' . $course->get_code());
 	}
 	
 	/**
-	 * Migrate the calendar resources
+	 * Migrate the links
 	 */
-	function migrate_calendar_resources($course)
+	function migrate_links($course)
 	{
 		$this->logfile->add_message('Starting migration calendar resources for course' . $course->get_code());
 		
-		$resourceclass = Import :: factory($this->old_system, 'resource');
-		$resources = array();
-		$resources = $resourceclass->get_all_resources($course,$this->mgdm);
+		$linkclass = Import :: factory($this->old_system, 'link');
+		$links = array();
+		$links = $linkclass->get_all_links($course->get_db_name(),$this->mgdm, $this->include_deleted_files);
 		
-		foreach($resources as $resource)
+		foreach($links as $link)
 		{
-			if($resource->is_valid_resource($course))
+			if($link->is_valid_link($course))
 			{
-				$lcms_resource = $resource->convert_to_new_resource($course);
-				$this->logfile->add_message('SUCCES: Calendar resource added ( ID: ' .  
-						$lcms_resource->get_id() . ' )');
+				$lcms_link = $link->convert_to_new_link($course);
+				$this->logfile->add_message('SUCCES: Link added ( ID: ' .  
+						$lcms_link->get_id() . ' )');
 				$this->succes[1]++;
 			}
 			else
 			{
-				$message = 'FAILED: Calendar resource is not valid ( ID: ' . 
-					$resource->get_id() . ' )';
+				$message = 'FAILED: Link is not valid ( ID: ' . 
+					$link->get_id() . ' )';
 				$this->logfile->add_message($message);
 				$this->failed_elements[1][] = $message;
 			}
 		}
 		
 
-		$this->logfile->add_message('Calendar resources migrated for course '. $course->get_code());
+		$this->logfile->add_message('Links migrated for course '. $course->get_code());
 	}
 
 }

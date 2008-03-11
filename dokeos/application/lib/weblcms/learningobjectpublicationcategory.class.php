@@ -129,6 +129,16 @@ class LearningObjectPublicationCategory {
     {
     	$this->title = $title;
     }
+    
+    function set_course($course)
+    {
+    	$this->course = $course;
+    }
+    
+    function set_tool($tool)
+    {
+    	$this->tool = $tool;
+    }
 
     /**
      * Returns the numeric identifier of the parent category.

@@ -22,11 +22,12 @@ $lang['migration']['migrate_classes'] = "Migrate classes";
 $lang['migration']['migrate_courses'] = "Migrate courses";
 $lang['migration']['migrate_personal_agendas'] = "Migrate personal agendas";
 $lang['migration']['migrate_groups'] = "Migrate groups";
+$lang['migration']['migrate_metadata'] = "Migrate metadata: settings, descriptions, tool settings";
 $lang['migration']['migrate_announcements'] = "Migrate announcements";
 $lang['migration']['migrate_calendar_events'] = "Migrate calendar events";
 $lang['migration']['migrate_documents'] = "Migrate documents";
 $lang['migration']['migrate_links'] = "Migrate links";
-$lang['migration']['migrate_deleted_files'] = "Migrate deleted files";
+$lang['migration']['migrate_deleted_files'] = "Migrate deleted files - When you select this option all deleted files from the old system will be migrated to the recycle bin";
 $lang['migration']['confirm_deleted_files'] = "Are you sure you wish to migrate the deleted files";
 
 $lang['migration']['productions'] = "productions";
@@ -34,6 +35,8 @@ $lang['migration']['announcements'] = "announcements";
 $lang['migration']['system_announcements'] = "system announcements";
 $lang['migration']['calendar_events'] = "calendar events";
 $lang['migration']['profiles'] = "profiles";
+$lang['migration']['links'] = "links";
+$lang['migration']['descriptions'] = "descriptions";
 $lang['migration']['migrating'] = "migrating";
 $lang['migration']['users'] = "users";
 $lang['migration']['done'] = "done";
@@ -57,7 +60,6 @@ $lang['migration']['Course_Categories']= "course categorie(s)";
 $lang['migration']['Course_User_Categories'] = "user categorie(s)";
 $lang['migration']['Course_User_Relations'] = "course user relation(s)";
 $lang['migration']['Course_Class_Relations'] = "course class relation(s)";
-$lang['migration']['Course_Tools'] = "tool(s)";
 
 $lang['migration']['Classes_info'] = "In the next step we will migrate the classes and subscribe the users to the classes.";
 $lang['migration']['Class_title'] = "Classes migration";
@@ -73,6 +75,13 @@ $lang['migration']['Personal_agenda_info'] = "In the next step we wil migrate th
 $lang['migration']['Personal_agenda_title'] = "Personal agenda migration";
 $lang['migration']['Personal_agendas'] = "agenda(s)";
 
+$lang['migration']['Course_meta_info'] = "In the next step we will migrate the course settings, descriptions and tools.";
+$lang['migration']['Course_meta_title'] = "Courses metadata migration";
+$lang['migration']['Course_meta_Tools'] = "tool(s)";
+$lang['migration']['Course_meta_Descriptions'] = "description(s)";
+$lang['migration']['Course_meta_Settings'] = "setting(s)";
+$lang['migration']['Course_metadata'] = "metadata";
+
 $lang['migration']['Announcement_info'] = "In the next step we wil migrate the Announcements of the courses.";
 $lang['migration']['Announcements_title'] = "Course announcement migration";
 $lang['migration']['Announcements'] = "Announcement(s)";
@@ -80,4 +89,9 @@ $lang['migration']['Announcements'] = "Announcement(s)";
 $lang['migration']['Calendar_events_info'] = "In the next step we wil migrate the calendar events of the courses.";
 $lang['migration']['Calendar_events_title'] = "Course calendar events migration";
 $lang['migration']['Calendar_events'] = "calendar event(s)";
+
+$lang['migration']['Links_title'] = "Course links migration";
+$lang['migration']['Links'] = "Link(s)";
+$lang['migration']['Link_categories'] = "Link categorie(s)";
+$lang['migration']['Links_info'] = "In the next step we will migrate the links and link categories.";
 ?>

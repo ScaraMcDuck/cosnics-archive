@@ -4,7 +4,8 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/importcourserelclass.class.php';
+require_once dirname(__FILE__).'/../../lib/import/importlinkcategory.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublicationcategory.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 course_rel_class
@@ -12,19 +13,16 @@ require_once dirname(__FILE__).'/../../lib/import/importcourserelclass.class.php
  * @author David Van Wayenbergh
  */
 
-class dokeos185linkcategory 
+class Dokeos185LinkCategory extends ImportLinkCategory
 {
+	private static $mgdm;
+	
 	/**
 	 * link category properties
 	 */
 	const PROPERTY_ID = 'id';
 	const PROPERTY_CATEGORY_TITLE = 'category_title';
 	const PROPERTY_DESCRIPTION = 'description';
-	
-	/**
-	 * Alfanumeric identifier of the link category object.
-	 */
-	private $code;
 	
 	/**
 	 * Default properties of the link category object, stored in an associative
@@ -66,8 +64,8 @@ class dokeos185linkcategory
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_CLASS_CATEGORY_TITLE,
-						self :: PROPERTY_CLASS_DESCRIPTION);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_CATEGORY_TITLE,
+						self :: PROPERTY_DESCRIPTION);
 	}
 	
 	/**
@@ -81,15 +79,12 @@ class dokeos185linkcategory
 	}
 	
 	/**
-	 * Checks if the given identifier is the name of a default link category
-	 * property.
-	 * @param string $name The identifier.
-	 * @return boolean True if the identifier is a property name, false
-	 *                 otherwise.
+	 * Sets the default properties of this link.
+	 * @param array $defaultProperties An associative array containing the properties.
 	 */
-	static function is_default_property_name($name)
+	function set_default_properties($defaultProperties)
 	{
-		return in_array($name, self :: get_default_property_names());
+		return $this->defaultProperties = $defaultProperties;
 	}
 	
 	/**
@@ -144,6 +139,42 @@ class dokeos185linkcategory
 	function set_description($description)
 	{
 		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
+	}
+	
+	function is_valid_link_category($course)
+	{	
+		if(!$this->get_id() || !$this->get_category_title() || !$this->get_description())
+		{		 
+			self :: $mgdm->add_failed_element($this->get_id(),
+				$course->get_db_name() . '.link');
+			return false;
+		}
+		return true;
+	}
+	
+	function convert_to_new_link_category($course)
+	{	
+		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		
+		$lcms_link_category = new LearningObjectPublicationCategory();
+		
+		$lcms_link_category->set_course($new_course_code);
+		$lcms_link_category->set_tool('link');
+		$lcms_link_category->set_title($this->get_category_title());
+		$lcms_link_category->get_parent_category_id(0);
+		
+		$lcms_link_category->create();
+		
+		self :: $mgdm->add_id_reference($this->get_id(), $lcms_link_category->get_id(), $new_course_code . '.link_category');
+		
+		return $lcms_link_category;
+		
+	}
+	
+	function get_all_link_categories($db, $mgdm)
+	{
+		self :: $mgdm = $mgdm;
+		return self :: $mgdm->get_all_link_categories($db);
 	}
 }
 ?>

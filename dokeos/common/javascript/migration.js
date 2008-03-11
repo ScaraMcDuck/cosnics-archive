@@ -25,6 +25,7 @@ function courses_clicked()
 {
 	if(document.page_settings.migrate_courses.checked == false)
 	{
+		document.page_settings.migrate_metadata.checked = false;
 		document.page_settings.migrate_groups.checked = false;
 		document.page_settings.migrate_announcements.checked = false;
 		document.page_settings.migrate_calendar_events.checked = false;
@@ -36,6 +37,14 @@ function courses_clicked()
 function groups_clicked()
 {
 	if(document.page_settings.migrate_groups.checked == true)
+	{
+		document.page_settings.migrate_courses.checked = true;
+	}
+}
+
+function metadata_clicked()
+{
+	if(document.page_settings.migrate_metadata.checked == true)
 	{
 		document.page_settings.migrate_courses.checked = true;
 	}
