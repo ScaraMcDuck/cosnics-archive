@@ -26,6 +26,8 @@ $lang['migration']['migrate_announcements'] = "Migrate announcements";
 $lang['migration']['migrate_calendar_events'] = "Migrate calendar events";
 $lang['migration']['migrate_documents'] = "Migrate documents";
 $lang['migration']['migrate_links'] = "Migrate links";
+$lang['migration']['migrate_deleted_files'] = "Migrate deleted files";
+$lang['migration']['confirm_deleted_files'] = "Are you sure you wish to migrate the deleted files";
 
 $lang['migration']['productions'] = "productions";
 $lang['migration']['announcements'] = "announcements";

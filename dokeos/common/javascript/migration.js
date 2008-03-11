@@ -72,3 +72,16 @@ function links_clicked()
 		document.page_settings.migrate_courses.checked = true;
 	}
 }
+
+function deleted_files_clicked(message)
+{
+	if(document.page_settings.migrate_deleted_files.checked == true)
+	{
+		var really_delete = confirm(message);
+		
+		if(!really_delete)
+		{
+			document.page_settings.migrate_deleted_files.checked = false;
+		}
+	}
+}
