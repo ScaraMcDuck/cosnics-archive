@@ -7,11 +7,11 @@
 require_once dirname(__FILE__).'/../../lib/import/importgroup.class.php';
 
 /**
- * This class represents an old Dokeos 1.8.5 Group (table group_info)
+ * This class represents an old Dokeos 1.8.5 Group category
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185Group extends ImportGroup
+class Dokeos185GroupCategory extends ImportGroupCategory
 {
 	/**
 	 * Migration data manager
@@ -22,17 +22,17 @@ class Dokeos185Group extends ImportGroup
 	 * Group properties
 	 */	 
 	const PROPERTY_ID = 'id';
-	const PROPERTY_NAME = 'name';
-	const PROPERTY_CATEGORY_ID = 'category_id';
+	const PROPERTY_TITLE = 'name';
+	const PROPERTY_GROUPS_PER_USER = 'groups_per_user';
 	const PROPERTY_DESCRIPTION = 'description';
 	const PROPERTY_MAX_STUDENT = 'max_student';
 	const PROPERTY_DOC_STATE = 'doc_state';
 	const PROPERTY_CALENDAR_STATE = 'calendar_state';
 	const PROPERTY_WORK_STATE = 'work_state';
 	const PROPERTY_ANNOUNCEMENTS_STATE = 'groups_state';
-	const PROPERTY_SECRET_DIRECTORY = 'secret_directory';
-	const PROPERTY_SELF_REGISTRATION_ALLOWED = 'self_registration_allowed';
-	const PROPERTY_SELF_UNREGISTRATION_ALLOWED = 'self_unregistration_allowed';
+	const PROPERTY_DISPLAY_ORDER = 'display_order';
+	const PROPERTY_SELF_REG_ALLOWED = 'self_reg_allowed';
+	const PROPERTY_SELF_UNREG_ALLOWED = 'self_unreg_allowed';
 	
 	/**
 	 * Default properties stored in an associative array.
@@ -72,12 +72,12 @@ class Dokeos185Group extends ImportGroup
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_CATEGORY_ID,
+		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_GROUPS_PER_USER,
 					  self :: PROPERTY_DESCRIPTION, self :: PROPERTY_MAX_STUDENT, 
 					  self :: PROPERTY_DOC_STATE, self :: PROPERTY_CALENDAR_STATE, 
 					  self :: PROPERTY_WORK_STATE, self :: PROPERTY_ANNOUNCEMENTS_STATE, 
-					  self :: PROPERTY_SECRET_DIRECTORY, self :: PROPERTY_SELF_REGISTRATION_ALLOWED,
-					  self :: PROPERTY_SELF_UNREGISTRATION_ALLOWED);
+					  self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_SELF_REG_ALLOWED,
+					  self :: PROPERTY_SELF_UNREG_ALLOWED);
 	}
 	
 	/**
@@ -117,12 +117,12 @@ class Dokeos185Group extends ImportGroup
 	}
 	
 	/**
-	 * Returns the category_id of this group.
-	 * @return string the category_id.
+	 * Returns the groups_per_user of this group.
+	 * @return string the groups_per_user.
 	 */
-	function get_category_id()
+	function get_groups_per_user()
 	{
-		return $this->get_default_property(self :: PROPERTY_CATEGORY_ID);
+		return $this->get_default_property(self :: PROPERTY_GROUPS_PER_USER);
 	}
 	
 	/**
@@ -154,7 +154,7 @@ class Dokeos185Group extends ImportGroup
 	
 	
 	/**
-	 * Returns the calendar_state of this announcement.
+	 * Returns the calendar_state of this groupcategory.
 	 * @return int The calendar_state.
 	 */
 	function get_calendar_state()
@@ -163,7 +163,7 @@ class Dokeos185Group extends ImportGroup
 	}
 	 
 	/**
-	 * Returns the work_state of this announcement.
+	 * Returns the work_state of this groupcategory.
 	 * @return string the work_state.
 	 */
 	function get_work_state()
@@ -172,39 +172,39 @@ class Dokeos185Group extends ImportGroup
 	}
 	
 	/**
-	 * Returns the announcements_state of this announcement.
-	 * @return string the announcements_state.
+	 * Returns the groupcategorys_state of this groupcategory.
+	 * @return string the groupcategorys_state.
 	 */
-	function get_announcements_state()
+	function get_groupcategorys_state()
 	{
 		return $this->get_default_property(self :: PROPERTY_ANNOUNCEMENTS_STATE);
 	}
 	
 	/**
-	 * Returns the secret_directory of this announcement.
-	 * @return date the secret_directory.
+	 * Returns the display_order of this groupcategory.
+	 * @return date the display_order.
 	 */
-	function get_secret_directory()
+	function get_display_order()
 	{
-		return $this->get_default_property(self :: PROPERTY_SECRET_DIRECTORY);
+		return $this->get_default_property(self :: PROPERTY_DISPLAY_ORDER);
 	}
 	
 	/**
-	 * Returns the self_registration_allowed of this announcement.
-	 * @return int the self_registration_allowed.
+	 * Returns the self_reg_allowed of this groupcategory.
+	 * @return int the self_reg_allowed.
 	 */
-	function get_self_registration_allowed()
+	function get_self_reg_allowed()
 	{
-		return $this->get_default_property(self :: PROPERTY_SELF_REGISTRATION_ALLOWED);
+		return $this->get_default_property(self :: PROPERTY_SELF_REG_ALLOWED);
 	}
 	
 	/**
-	 * Returns the self_unregistration_allowed of this announcement.
-	 * @return int the self_unregistration_allowed.
+	 * Returns the self_unreg_allowed of this groupcategory.
+	 * @return int the self_unreg_allowed.
 	 */
-	function get_self_unregistration_allowed()
+	function get_self_unreg_allowed()
 	{
-		return $this->get_default_property(self :: PROPERTY_SELF_UNREGISTRATION_ALLOWED);
+		return $this->get_default_property(self :: PROPERTY_SELF_UNREG_ALLOWED);
 	}
 	
 	/**
@@ -226,12 +226,12 @@ class Dokeos185Group extends ImportGroup
 	}
 	
 	/**
-	 * Sets the category_id of this group.
-	 * @param string $category_id The category_id
+	 * Sets the groups_per_user of this group.
+	 * @param string $groups_per_user The groups_per_user
 	 */
-	function set_category_id($category_id)
+	function set_groups_per_user($groups_per_user)
 	{
-		$this->set_default_property(self :: PROPERTY_CATEGORY_ID, $category_id);
+		$this->set_default_property(self :: PROPERTY_GROUPS_PER_USER, $groups_per_user);
 	}
 	
 	/**
@@ -263,7 +263,7 @@ class Dokeos185Group extends ImportGroup
 	
 	
 	/**
-	 * Sets the calendar_state of this announcement.
+	 * Sets the calendar_state of this groupcategory.
 	 * @param int $calendar_state The calendar_state.
 	 */
 	function set_calendar_state($calendar_state)
@@ -272,7 +272,7 @@ class Dokeos185Group extends ImportGroup
 	}
 	
 	/**
-	 * Sets the work_state of this announcement.
+	 * Sets the work_state of this groupcategory.
 	 * @param string $work_state The work_state
 	 */
 	function set_work_state($work_state)
@@ -281,52 +281,52 @@ class Dokeos185Group extends ImportGroup
 	}
 	
 	/**
-	 * Sets the announcements_state of this announcement.
-	 * @param string $announcements_state The announcements_state
+	 * Sets the groupcategorys_state of this groupcategory.
+	 * @param string $groupcategorys_state The groupcategorys_state
 	 */
-	function set_announcements_state($announcements_state)
+	function set_groupcategorys_state($groupcategorys_state)
 	{
-		$this->set_default_property(self :: PROPERTY_ANNOUNCEMENTS_STATE, $announcements_state);
+		$this->set_default_property(self :: PROPERTY_ANNOUNCEMENTS_STATE, $groupcategorys_state);
 	}
 	
 	/**
-	 * Sets the secret_directory of this announcement.
-	 * @param string $secret_directory The secret_directory
+	 * Sets the display_order of this groupcategory.
+	 * @param string $display_order The display_order
 	 */
-	function set_secret_directory($secret_directory)
+	function set_display_order($display_order)
 	{
-		$this->set_default_property(self :: PROPERTY_SECRET_DIRECTORY, $secret_directory);
+		$this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
 	}
 	
 	/**
-	 * Sets the self_registration_allowed of this announcement.
-	 * @param string $self_registration_allowed The self_registration_allowed
+	 * Sets the self_reg_allowed of this groupcategory.
+	 * @param string $self_reg_allowed The self_reg_allowed
 	 */
-	function set_self_registration_allowed($self_registration_allowed)
+	function set_self_reg_allowed($self_reg_allowed)
 	{
-		$this->set_default_property(self :: PROPERTY_SELF_REGISTRATION_ALLOWED, $self_registration_allowed);
+		$this->set_default_property(self :: PROPERTY_SELF_REG_ALLOWED, $self_reg_allowed);
 	}
 	
 	/**
-	 * Sets the self_unregistration_allowed of this announcement.
-	 * @param string $self_unregistration_allowed The self_unregistration_allowed
+	 * Sets the self_unreg_allowed of this groupcategory.
+	 * @param string $self_unreg_allowed The self_unreg_allowed
 	 */
-	function set_self_unregistration_allowed($self_unregistration_allowed)
+	function set_self_unreg_allowed($self_unreg_allowed)
 	{
-		$this->set_default_property(self :: PROPERTY_SELF_UNREGISTRATION_ALLOWED, $self_unregistration_allowed);
+		$this->set_default_property(self :: PROPERTY_SELF_UNREG_ALLOWED, $self_unreg_allowed);
 	}
 	
-	function is_valid_group($course)
+	function is_valid_group_category($course)
 	{
 		
 	}
 	
-	function convert_to_new_group($course)
+	function convert_to_new_group_category($course)
 	{
 		
 	}
 	
-	static function get_all_groups($mgdm,$db)
+	static function get_all_group_categories($mgdm,$db)
 	{
 		self :: $mgdm = $mgdm;
 		return self :: $mgdm->get_all_groups($db);
