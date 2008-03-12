@@ -422,7 +422,6 @@ abstract class MigrationDataManager
 		
 		if($parent)
 			$query = $query . ' AND parent=' . $parent;
-	
 		$result = $this->db_lcms->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$result->free();
