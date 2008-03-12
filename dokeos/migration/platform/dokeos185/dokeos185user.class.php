@@ -682,6 +682,8 @@ class Dokeos185User extends Import
 					$this->get_picture_uri());
 			if($picture_uri)
 				$lcms_user->set_picture_uri($picture_uri);
+			else
+				$lcms_user->set_picture_uri($this->get_picture_uri());
 		}
 		
 		// Get new id from temporary table for references

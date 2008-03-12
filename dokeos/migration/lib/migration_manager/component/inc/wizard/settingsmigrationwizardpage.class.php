@@ -40,7 +40,7 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$this->addElement('text', 'old_directory', Translation :: get_lang('old_directory'), array ('size' => '40'));
 		$this->addRule('old_directory', 'ThisFieldIsRequired', 'required');
 
-		$this->addElement('checkbox', 'migrate_users', '', Translation :: get_lang('migrate_users'), 'onclick=\'users_clicked()\'');
+		$this->addElement('checkbox', 'migrate_users', '', Translation :: get_lang('migrate_users'), 'onclick=\'users_clicked()\' style=\'margin-top: 20px;\'');
 		$this->addElement('checkbox', 'migrate_personal_agendas', '', Translation :: get_lang('migrate_personal_agendas'), 'onclick=\'personal_agendas_clicked()\' style=\'margin-left: 20px;\'');
 		$this->addElement('checkbox', 'migrate_settings', '', Translation :: get_lang('migrate_settings'));
 		$this->addElement('checkbox', 'migrate_classes', '', Translation :: get_lang('migrate_classes'));
@@ -55,6 +55,10 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$this->addElement('checkbox', 'migrate_deleted_files', '', 
 			Translation :: get_lang('migrate_deleted_files'), 'onclick=\'deleted_files_clicked("' . 
 			Translation :: get_lang('confirm_deleted_files'). '")\' style=\'margin-top: 20px;\'');
+			
+		$this->addElement('checkbox', 'move_files', '', 
+			Translation :: get_lang('move_files'), 'onclick=\'move_files_clicked("' . 
+			Translation :: get_lang('confirm_move_files'). '")\'');
 		
 		$this->addRule(array('old_directory', $exports['old_system']),Translation :: get_lang('CouldNotVerifySettings'), new ValidateSettings());
 
@@ -81,6 +85,7 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$defaults['migrate_documents'] = '1';
 		$defaults['migrate_links'] = '1';
 		$defaults['migrate_deleted_files'] = '0';
+		$defaults['move_files'] = '0';
 		$this->setDefaults($defaults);
 	}
 

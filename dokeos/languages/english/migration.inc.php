@@ -29,6 +29,8 @@ $lang['migration']['migrate_documents'] = "Migrate documents";
 $lang['migration']['migrate_links'] = "Migrate links";
 $lang['migration']['migrate_deleted_files'] = "Migrate deleted files - When you select this option all deleted files from the old system will be migrated to the recycle bin";
 $lang['migration']['confirm_deleted_files'] = "Are you sure you wish to migrate the deleted files";
+$lang['migration']['move_files'] = "Move files to new directory instead of copying them. Increases risk of failure, decreases harddisk load";
+$lang['migration']['confirm_move_files'] = "Are you sure you wish to move the files instead of copy them";
 
 $lang['migration']['productions'] = "productions";
 $lang['migration']['announcements'] = "announcements";

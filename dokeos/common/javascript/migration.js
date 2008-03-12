@@ -94,3 +94,16 @@ function deleted_files_clicked(message)
 		}
 	}
 }
+
+function move_files_clicked(message)
+{
+	if(document.page_settings.move_files.checked == true)
+	{
+		var really_move = confirm(message);
+		
+		if(!really_move)
+		{
+			document.page_settings.move_files.checked = false;
+		}
+	}
+}
