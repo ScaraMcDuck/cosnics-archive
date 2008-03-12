@@ -20,6 +20,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	 */
 	private $db;
 	private $_configuration;
+	private static $move_file;
 	
 	function Dokeos185DataManager($old_directory)
 	{
@@ -140,11 +141,11 @@ class Dokeos185DataManager extends MigrationDataManager
 		
 		$old_file = $old_path . $filename;
 		$new_file = $new_path . $filename;
-		
+
 		if(!file_exists($old_file) || !is_file($old_file)) return null;
 		
 		$new_filename = FileSystem :: copy_file_with_double_files_protection($old_path,
-			$filename, $new_path, $filename);
+			$filename, $new_path, $filename, self:: $move_file);
 		
 		$this->add_recovery_element($old_file, $new_file);
 			
@@ -819,6 +820,11 @@ class Dokeos185DataManager extends MigrationDataManager
 		$result->free();
 
 		return $groups;
+	}
+	
+	static function set_move_file($move_file)
+	{
+		self :: $move_file = $move_file;
 	}
 	
 }

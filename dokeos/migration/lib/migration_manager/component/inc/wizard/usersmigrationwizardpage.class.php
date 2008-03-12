@@ -87,6 +87,10 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 			
 		//Create temporary tables, create migrationdatamanager
 		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
+	
+		if(isset($exportvalues['move_files']))
+			$this->mgdm->set_move_file(true);
+			
 		$this->mgdm->create_temporary_tables();
 	
 		//Migrate the users
@@ -140,7 +144,6 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 			}
 		}
 		
-
 		$this->logfile->add_message('Users migrated');
 	}
 

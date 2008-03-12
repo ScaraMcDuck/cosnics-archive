@@ -78,6 +78,29 @@ class Filesystem
 			return copy($source,$destination);
 		}
 	}
+	
+	/**
+	 * Moves a file. If the destination directory doesn't exist, this function
+	 * tries to create the directory using the Filesystem::create_dir function.
+	 * @param string $source The full path to the source file
+	 * @param string $destination The full path to the destination file
+	 * @param boolean $overwrite If the destination file allready exists, should
+	 * it be overwritten?
+	 * @return boolean True if successfull, false if not.
+	 */
+	public static function move_file($source,$destination,$overwrite = false)
+	{
+		if(file_exists($destination) && !$overwrite)
+		{
+			return false;
+		}
+		$destination_dir = dirname($destination);
+		if(file_exists($source) && Filesystem::create_dir($destination_dir))
+		{
+			return rename($source,$destination);
+		}
+	}
+	
 	/**
 	 * Creates a unique name for a file or a directory. This function will also
 	 * use the function Filesystem::create_safe_name to make sure the resulting
@@ -344,7 +367,7 @@ class Filesystem
 	 * @return A new unique name when changes was needed, otherwise null
 	 */
 	public static function copy_file_with_double_files_protection($source_path, $source_filename,
-		$destination_path, $destination_filename)
+		$destination_path, $destination_filename, $move_file)
 	{
 		$source_file = $source_path . $source_filename;
 		$destination_file = $destination_path . $destination_filename;
@@ -358,15 +381,22 @@ class Filesystem
 				if(!(md5_file($source_file) == md5_file($destination_file)))
 				{
 					$new_unique_file = self :: create_unique_name($destination_path, $destination_filename);
-					self :: copy_file($source_file, $destination_path . $new_unique_file);
+					
+					if($move_file)
+						self :: move_file($source_file, $destination_path . $new_unique_file);
+					else
+						self :: copy_file($source_file, $destination_path . $new_unique_file);
 					return $new_unique_file;
 				}
 				else
-					return $destination_filename;
+					return null;
 			}
 		}
 		
-		self :: copy_file($source_file, $destination_file);
+		if($move_file)
+			self :: move_file($source_file, $destination_file);
+		else
+			self :: copy_file($source_file, $destination_file);
 		
 		return $destination_filename;
 	}

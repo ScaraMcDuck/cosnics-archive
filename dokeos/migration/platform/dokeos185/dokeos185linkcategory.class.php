@@ -171,7 +171,7 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 		
 	}
 	
-	function get_all_link_categories($db, $mgdm)
+	static function get_all_link_categories($db, $mgdm)
 	{
 		self :: $mgdm = $mgdm;
 		return self :: $mgdm->get_all_link_categories($db);
