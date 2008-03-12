@@ -34,6 +34,7 @@ $lang['migration']['productions'] = "productions";
 $lang['migration']['announcements'] = "announcements";
 $lang['migration']['system_announcements'] = "system announcements";
 $lang['migration']['calendar_events'] = "calendar events";
+$lang['migration']['documents'] = "documents";
 $lang['migration']['profiles'] = "profiles";
 $lang['migration']['links'] = "links";
 $lang['migration']['descriptions'] = "descriptions";
@@ -90,8 +91,11 @@ $lang['migration']['Calendar_events_info'] = "In the next step we wil migrate th
 $lang['migration']['Calendar_events_title'] = "Course calendar events migration";
 $lang['migration']['Calendar_events'] = "calendar event(s)";
 
+$lang['migration']['Documents_info'] = "In the next step we wil migrate the documents of the courses.";
+$lang['migration']['Documents_title'] = "Course documents migration";
+$lang['migration']['Documents'] = "document(s)";
+
 $lang['migration']['Links_title'] = "Course links migration";
 $lang['migration']['Links'] = "Link(s)";
 $lang['migration']['Link_categories'] = "Link categorie(s)";
-$lang['migration']['Links_info'] = "In the next step we will migrate the links and link categories.";
 ?>
