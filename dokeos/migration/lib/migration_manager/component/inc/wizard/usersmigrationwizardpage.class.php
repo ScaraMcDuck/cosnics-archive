@@ -19,6 +19,12 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 	private $old_system;
 	private $failed_users = array();
 	private $users_succes = 0;
+	private $command_execute;
+	
+	function UsersMigrationWizardPage($command_execute)
+	{
+		$this->command_execute = $command_execute;
+	}
 	
 	/**
 	 * @return string Title of the page
@@ -72,12 +78,18 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		{
 			echo(Translation :: get_lang('Users') . ' ' .
 				 Translation :: get_lang('already_migrated') . '<br />');
+			
+			$logger->close_file();
 			return false;
 		}
 		
 		$logger->write_text('users');
-		
-		$exportvalues = $this->controller->exportValues();
+
+		if($this->command_execute)
+			require(dirname(__FILE__) . '/../../../../../settings.inc.php');
+		else
+			$exportvalues = $this->controller->exportValues();
+			
 		$this->old_system = $exportvalues['old_system'];
 		$old_directory = $exportvalues['old_directory'];
 
@@ -88,7 +100,7 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		//Create temporary tables, create migrationdatamanager
 		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
 	
-		if(isset($exportvalues['move_files']))
+		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
 			$this->mgdm->set_move_file(true);
 			
 		$this->mgdm->create_temporary_tables();
@@ -108,6 +120,8 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		//Close the logfile
 		$this->logfile->write_passed_time();
 		$this->logfile->close_file();
+		
+		$logger->close_file();
 		
 		return true;
 	}

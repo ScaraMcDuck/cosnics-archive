@@ -17,6 +17,12 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 	private $old_system;
 	private $failed_elements;
 	private $succes;
+	private $command_execute;
+	
+	function MetaDataMigrationWizardPage($command_execute)
+	{
+		$this->command_execute = $command_execute;
+	}
 	
 	/**
 	 * @return string Title of the page
@@ -90,7 +96,11 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 		
 		$logger->write_text('metadata');
 		
-		$exportvalues = $this->controller->exportValues();
+		if($this->command_execute)
+			require(dirname(__FILE__) . '/../../../../../../settings.inc.php');
+		else
+			$exportvalues = $this->controller->exportValues();
+			
 		$this->old_system = $exportvalues['old_system'];
 		$old_directory = $exportvalues['old_directory'];
 		
@@ -104,7 +114,8 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['migrate_metadata']) && $exportvalues['migrate_metadata'] == 1)
 		{	
 			//Migrate descriptions, settings and tools
-			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']))
+			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
+					 $exportvalues['migrate_courses'] == 1 &&  $exportvalues['migrate_users'] == 1)
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
 				$courses = array();

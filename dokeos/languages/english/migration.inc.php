@@ -92,6 +92,7 @@ $lang['migration']['Announcements'] = "Announcement(s)";
 $lang['migration']['Calendar_events_info'] = "In the next step we wil migrate the calendar events of the courses.";
 $lang['migration']['Calendar_events_title'] = "Course calendar events migration";
 $lang['migration']['Calendar_events'] = "calendar event(s)";
+$lang['migration']['Calendar_resources'] = "calendar resource(s)";
 
 $lang['migration']['Documents_info'] = "In the next step we wil migrate the documents of the courses.";
 $lang['migration']['Documents_title'] = "Course documents migration";

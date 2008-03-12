@@ -52,7 +52,7 @@ class MigrationWizard extends HTML_QuickForm_Controller
 		$this->addPage(new PersonalAgendasMigrationWizardPage('page_pa',$this->parent));
 		$this->addPage(new MetaDataMigrationWizardPage('page_metadata',$this->parent));
 		$this->addPage(new GroupsMigrationWizardPage('page_groups',$this->parent));
-		$this->addPage(new AnnouncementMigrationWizardPage('page_announcements',$this->parent));
+		$this->addPage(new AnnouncementsMigrationWizardPage('page_announcements',$this->parent));
 		$this->addPage(new CalendarEventsMigrationWizardPage('page_calendar_events',$this->parent));
 		$this->addPage(new DocumentsMigrationWizardPage('page_documents',$this->parent));
 		$this->addPage(new LinksMigrationWizardPage('page_links',$this->parent));

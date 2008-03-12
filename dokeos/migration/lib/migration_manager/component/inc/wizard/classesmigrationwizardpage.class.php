@@ -17,6 +17,12 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 	private $old_system;
 	private $failed_elements;
 	private $succes;
+	private $command_execute;
+	
+	function ClassesMigrationWizardPage($command_execute)
+	{
+		$this->command_execute = $command_execute;
+	}
 	
 	/**
 	 * @return string Title of the page
@@ -89,7 +95,11 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 		
 		$logger->write_text('classes');
 		
-		$exportvalues = $this->controller->exportValues();
+		if($this->command_execute)
+			require(dirname(__FILE__) . '/../../../../../settings.inc.php');
+		else
+			$exportvalues = $this->controller->exportValues();
+		
 		$this->old_system = $exportvalues['old_system'];
 		$old_directory = $exportvalues['old_directory'];
 		
@@ -106,7 +116,7 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 			$this->migrate_classes();
 			
 			//Migrate the class users
-			if(isset($exportvalues['migrate_users']))
+			if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 			{
 				$this->migrate_class_users();
 			}

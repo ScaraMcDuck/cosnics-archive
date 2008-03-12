@@ -40,6 +40,8 @@ class Logger
     
     function is_text_in_file($text)
     {
+ 		if(!$this->file) { echo("false"); return; }
+ 		
     	while (!feof($this->file))
     	{
     		$line = trim(fgets($this->file));
