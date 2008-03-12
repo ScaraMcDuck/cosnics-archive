@@ -124,6 +124,14 @@ class Dokeos185SettingCurrent extends Import
 	}
 	
 	/**
+	 * Sets the default properties of this class
+	 */
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
+	
+	/**
 	 * Returns the id of this current setting.
 	 * @return int The id.
 	 */

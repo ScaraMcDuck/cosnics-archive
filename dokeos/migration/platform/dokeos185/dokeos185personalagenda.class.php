@@ -87,6 +87,14 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 	}
 	
 	/**
+	 * Sets the default properties of this class
+	 */
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
+	
+	/**
 	 * Checks if the given identifier is the name of a default personal agenda
 	 * property.
 	 * @param string $name The identifier.

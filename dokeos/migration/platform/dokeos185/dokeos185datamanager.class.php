@@ -190,32 +190,13 @@ class Dokeos185DataManager extends MigrationDataManager
 		$course_categories = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$course_categories[] = $this->record_to_course_category($record);
+			$course_categories[] = $this->record_to_classobject($record, 'Dokeos185CourseCategory');
 		}
 		$result->free();
 		
 		return $course_categories;
 	}
 	
-	/**
-	 * Map a resultset record to a Dokeos185CourseCategory Object
-	 * @param ResultSetRecord $record from database
-	 * @return Dokeos185CourseCategory object with mapped data
-	 */
-	function record_to_course_category($record)
-	{
-		if (!is_array($record) || !count($record))
-		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
-		}
-		$defaultProp = array ();
-		foreach (Dokeos185CourseCategory :: get_default_property_names() as $prop)
-		{
-			$defaultProp[$prop] = $record[$prop];
-		}
-		return new Dokeos185CourseCategory($defaultProp);
-	}
-
 	/** Get all the courses from the dokeos185 database
 	 * @return array of Dokeos185Courses
 	 */
@@ -227,31 +208,12 @@ class Dokeos185DataManager extends MigrationDataManager
 		$courses = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$courses[] = $this->record_to_course($record);
+			$courses[] = $this->record_to_classobject($record, 'Dokeos185Course');
 			
 		}
 		$result->free();
 		
 		return $courses;
-	}
-	
-	/**
-	 * Map a resultset record to a Dokeos185Course Object
-	 * @param ResultSetRecord $record from database
-	 * @return Dokeos185Course object with mapped data
-	 */
-	function record_to_course($record)
-	{
-		if (!is_array($record) || !count($record))
-		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
-		}
-		$defaultProp = array ();
-		foreach (Dokeos185Course :: get_default_property_names() as $prop)
-		{
-			$defaultProp[$prop] = $record[$prop];
-		}
-		return new Dokeos185Course($defaultProp);
 	}
 	
 	/** Get all the class relations of courses from the dokeos185 database
@@ -265,31 +227,12 @@ class Dokeos185DataManager extends MigrationDataManager
 		$course_rel_classes = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$course_rel_classes[] = $this->record_to_course_rel_class($record);
+			$course_rel_classes[] = $this->record_to_classobject($record, 'Dokeos185CourseRelClass');
 			
 		}
 		$result->free();
 		
 		return $course_rel_classes;
-	}
-	
-	/**
-	 * Map a resultset record to a Dokeos185CourseRelClass Object
-	 * @param ResultSetRecord $record from database
-	 * @return Dokeos185CourseRelClass object with mapped data
-	 */
-	function record_to_course_rel_class($record)
-	{
-		if (!is_array($record) || !count($record))
-		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
-		}
-		$defaultProp = array ();
-		foreach (Dokeos185CourseRelClass :: get_default_property_names() as $prop)
-		{
-			$defaultProp[$prop] = $record[$prop];
-		}
-		return new Dokeos185CourseRelClass($defaultProp);
 	}
 	
 	/** Get all the user relations of courses from the dokeos185 database
@@ -303,31 +246,12 @@ class Dokeos185DataManager extends MigrationDataManager
 		$course_rel_users = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$course_rel_users[] = $this->record_to_course_rel_user($record);
+			$course_rel_users[] = $this->record_to_classobject($record, 'Dokeos185CourseRelUser');
 			
 		}
 		$result->free();
 		
 		return $course_rel_users;
-	}
-	
-	/**
-	 * Map a resultset record to a Dokeos185CourseRelUser Object
-	 * @param ResultSetRecord $record from database
-	 * @return Dokeos185CourseRelUser object with mapped data
-	 */
-	function record_to_course_rel_user($record)
-	{
-		if (!is_array($record) || !count($record))
-		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
-		}
-		$defaultProp = array ();
-		foreach (Dokeos185CourseRelUser :: get_default_property_names() as $prop)
-		{
-			$defaultProp[$prop] = $record[$prop];
-		}
-		return new Dokeos185CourseRelUser($defaultProp);
 	}
 	
 	/** Get all the user courses category relations from the dokeos185 database
@@ -341,31 +265,12 @@ class Dokeos185DataManager extends MigrationDataManager
 		$users_courses_categories = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$users_courses_categories[] = $this->record_to_user_course_category($record);
+			$users_courses_categories[] = $this->record_to_classobject($record, 'Dokeos185UserCourseCategory');
 			
 		}
 		$result->free();
 		
 		return $users_courses_categories;
-	}
-	
-	/**
-	 * Map a resultset record to a Dokeos185UserCourseCategory Object
-	 * @param ResultSetRecord $record from database
-	 * @return Dokeos185UserCourseCategory object with mapped data
-	 */
-	function record_to_user_course_category($record)
-	{
-		if (!is_array($record) || !count($record))
-		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
-		}
-		$defaultProp = array ();
-		foreach (Dokeos185UserCourseCategory :: get_default_property_names() as $prop)
-		{
-			$defaultProp[$prop] = $record[$prop];
-		}
-		return new Dokeos185UserCourseCategory($defaultProp);
 	}
 	
 	/** Get all the tools from the dokeos185 database
@@ -379,31 +284,12 @@ class Dokeos185DataManager extends MigrationDataManager
 		$tools = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$tools[] = $this->record_to_tool($record);
+			$tools[] = $this->record_to_classobject($record, 'Dokeos185Tool');
 			
 		}
 		$result->free();
 		
 		return $tools;
-	}
-	
-	/**
-	 * Map a resultset record to a Dokeos185Tool Object
-	 * @param ResultSetRecord $record from database
-	 * @return Dokeos185Announcement object with mapped data
-	 */
-	function record_to_tool($record)
-	{
-		if (!is_array($record) || !count($record))
-		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
-		}
-		$defaultProp = array ();
-		foreach (Dokeos185Tool :: get_default_property_names() as $prop)
-		{
-			$defaultProp[$prop] = $record[$prop];
-		}
-		return new Dokeos185Tool($defaultProp);
 	}
 	
 	/**
@@ -436,33 +322,14 @@ class Dokeos185DataManager extends MigrationDataManager
 		$classes = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$classes[] = $this->record_to_class($record);
+			$classes[] = $this->record_to_classobject($record, 'Dokeos185Class');
 			
 		}
 		$result->free();
 		
 		return $classes;
 	}
-	
-	/**
-	 * Map a resultset record to a Dokeos185Class Object
-	 * @param ResultSetRecord $record from database
-	 * @return Dokeos185Class object with mapped data
-	 */
-	function record_to_class($record)
-	{
-		if (!is_array($record) || !count($record))
-		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
-		}
-		$defaultProp = array ();
-		foreach (Dokeos185Class :: get_default_property_names() as $prop)
-		{
-			$defaultProp[$prop] = $record[$prop];
-		}
-		return new Dokeos185Class($defaultProp);
-	}
-	
+		
 	/** Get all the Class_User from the dokeos185 database
 	 * @return array of Dokeos185ClassUser
 	 */
@@ -474,35 +341,14 @@ class Dokeos185DataManager extends MigrationDataManager
 		$class_users = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$class_users[] = $this->record_to_class_user($record);
+			$class_users[] = $this->record_to_classobject($record, 'Dokeos185ClassUser');
 			
 		}
 		$result->free();
 		
 		return $class_users;
 	}
-	
-	/**
-	 * Map a resultset record to a Dokeos185ClassUser Object
-	 * @param ResultSetRecord $record from database
-	 * @return Dokeos185ClassUser object with mapped data
-	 */
-	function record_to_class_user($record)
-	{
-		if (!is_array($record) || !count($record))
-		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
-		}
-		$defaultProp = array ();
-		foreach (Dokeos185ClassUser :: get_default_property_names() as $prop)
-		{
-			$defaultProp[$prop] = $record[$prop];
-		}
-		return new Dokeos185ClassUser($defaultProp);
-	}
-	
-	
-	
+		
 	/** Get all the current settings from the dokeos185 database
 	 * @return array of Dokeos185SettingCurrent
 	 */
@@ -514,34 +360,14 @@ class Dokeos185DataManager extends MigrationDataManager
 		$settings_current = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$settings_current[] = $this->record_to_current_setting($record);
+			$settings_current[] = $this->record_to_classobject($record, 'Dokeos185SettingCurrent');
 			
 		}
 		$result->free();
 		
 		return $settings_current;
 	}
-	
-	/**
-	 * Map a resultset record to a Dokeos185SettingCurrent Object
-	 * @param ResultSetRecord $record from database
-	 * @return Dokeos185SettingCurrent object with mapped data
-	 */
-	function record_to_current_setting($record)
-	{
-		if (!is_array($record) || !count($record))
-		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
-		}
-		$defaultProp = array ();
-		foreach (Dokeos185SettingCurrent :: get_default_property_names() as $prop)
-		{
-			$defaultProp[$prop] = $record[$prop];
-		}
-		return new Dokeos185SettingCurrent($defaultProp);
-	}
-
-	
+		
 	/** Get all the system announcements from the dokeos185 database
 	 * @return array of Dokeos185SystenAnnoucements
 	 */
@@ -553,33 +379,13 @@ class Dokeos185DataManager extends MigrationDataManager
 		$settings_current = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$system_annoucements[] = $this->record_to_system_announcement($record);
+			$system_annoucements[] = $this->record_to_classobject($record, 'Dokeos185SystemAnnouncement');
 			
 		}
 		$result->free();
 		
 		return $system_annoucements;
 	}
-	
-	/**
-	 * Map a resultset record to a Dokeos185SystemAnnouncement Object
-	 * @param ResultSetRecord $record from database
-	 * @return Dokeos185SystemAnnouncement object with mapped data
-	 */
-	function record_to_system_announcement($record)
-	{
-		if (!is_array($record) || !count($record))
-		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
-		}
-		$defaultProp = array ();
-		foreach (Dokeos185SystemAnnouncement :: get_default_property_names() as $prop)
-		{
-			$defaultProp[$prop] = $record[$prop];
-		}
-		return new Dokeos185SystemAnnouncement($defaultProp);
-	}
-
 	
 	/** 
 	 * Get all the personal agendas from the dokeos185 database
@@ -593,31 +399,12 @@ class Dokeos185DataManager extends MigrationDataManager
 		$personal_agendas = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$personal_agendas[] = $this->record_to_personal_agenda($record);
+			$personal_agendas[] = $this->record_to_classobject($record, 'Dokeos185PersonalAgenda');
 			
 		}
 		$result->free();
 		
 		return $personal_agendas;
-	}
-	
-	/**
-	 * Map a resultset record to a Dokeos185PersonalAgenda Object
-	 * @param ResultSetRecord $record from database
-	 * @return Dokeos185PersonalAgenda object with mapped data
-	 */
-	function record_to_personal_agenda($record)
-	{
-		if (!is_array($record) || !count($record))
-		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
-		}
-		$defaultProp = array ();
-		foreach (Dokeos185PersonalAgenda :: get_default_property_names() as $prop)
-		{
-			$defaultProp[$prop] = $record[$prop];
-		}
-		return new Dokeos185PersonalAgenda($defaultProp);
 	}
 	
 	/**
@@ -674,31 +461,12 @@ class Dokeos185DataManager extends MigrationDataManager
 		$announcements = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$annoucements[] = $this->record_to_announcement($record);
+			$annoucements[] = $this->record_to_classobject($record, 'Dokeos185Announcement');
 			
 		}
 		$result->free();
 		
 		return $annoucements;
-	}
-	
-	/**
-	 * Map a resultset record to a Dokeos185Announcement Object
-	 * @param ResultSetRecord $record from database
-	 * @return Dokeos185Announcement object with mapped data
-	 */
-	function record_to_announcement($record)
-	{
-		if (!is_array($record) || !count($record))
-		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
-		}
-		$defaultProp = array ();
-		foreach (Dokeos185Announcement :: get_default_property_names() as $prop)
-		{
-			$defaultProp[$prop] = $record[$prop];
-		}
-		return new Dokeos185Announcement($defaultProp);
 	}
 	
 	/** Get all the calendar events from the dokeos185 database
@@ -717,31 +485,12 @@ class Dokeos185DataManager extends MigrationDataManager
 		$calendar_events = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$calendar_events[] = $this->record_to_calendar_event($record);
+			$calendar_events[] = $this->record_to_classobject($record, 'Dokeos185CalendarEvent');
 			
 		}
 		$result->free();
 		
 		return $calendar_events;
-	}
-	
-	/**
-	 * Map a resultset record to a Dokeos185CalendarEvent Object
-	 * @param ResultSetRecord $record from database
-	 * @return Dokeos185CalendarEvent object with mapped data
-	 */
-	function record_to_calendar_event($record)
-	{
-		if (!is_array($record) || !count($record))
-		{
-			throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
-		}
-		$defaultProp = array ();
-		foreach (Dokeos185CalendarEvent :: get_default_property_names() as $prop)
-		{
-			$defaultProp[$prop] = $record[$prop];
-		}
-		return new Dokeos185CalendarEvent($defaultProp);
 	}
 	
 	/** Get all the links from the dokeos185 database

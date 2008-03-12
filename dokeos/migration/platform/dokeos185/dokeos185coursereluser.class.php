@@ -107,6 +107,14 @@ class Dokeos185CourseRelUser extends Import
 	}
 	
 	/**
+	 * Sets the default properties of this class
+	 */
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
+	
+	/**
 	 * RELATION USER GETTERS AND SETTERS
 	 */
 	 

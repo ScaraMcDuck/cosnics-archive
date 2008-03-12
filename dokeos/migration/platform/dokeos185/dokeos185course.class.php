@@ -124,6 +124,13 @@ class Dokeos185Course extends Import
 		return in_array($name, self :: get_default_property_names());
 	}
 	
+	/**
+	 * Sets the default properties of this class
+	 */
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
 	
 	/**
 	 * COURSE GETTERS AND SETTERS

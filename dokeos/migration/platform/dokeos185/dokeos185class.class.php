@@ -101,6 +101,13 @@ class Dokeos185Class extends Import
 		return in_array($name, self :: get_default_property_names());
 	}
 	
+	/**
+	 * Sets the default properties of this class
+	 */
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
 	 
 	/**
 	 * Returns the id of this class.

@@ -107,6 +107,14 @@ class dokeos185forumforum
 	}
 	
 	/**
+	 * Sets the default properties of this class
+	 */
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
+	
+	/**
 	 * Checks if the given identifier is the name of a default forum forum
 	 * property.
 	 * @param string $name The identifier.
