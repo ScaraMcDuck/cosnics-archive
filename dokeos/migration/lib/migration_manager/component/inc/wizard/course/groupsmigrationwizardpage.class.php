@@ -17,6 +17,12 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 	private $old_system;
 	private $failed_elements;
 	private $succes;
+	private $command_execute;
+	
+	function GroupsMigrationWizardPage($command_execute)
+	{
+		$this->command_execute = $command_execute;
+	}
 	
 	/**
 	 * @return string Title of the page
@@ -82,16 +88,20 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 	{
 		$logger = new Logger('migration.txt', true);
 		
-		/*if($logger->is_text_in_file('groups'))
+		if($logger->is_text_in_file('groups'))
 		{
 			echo(Translation :: get_lang('Groups') . ' ' .
 				 Translation :: get_lang('already_migrated') . '<br />');
 			return false;
-		}*/
+		}
 		
 		$logger->write_text('groups');
 		
-		$exportvalues = $this->controller->exportValues();
+		if($this->command_execute)
+			require(dirname(__FILE__) . '/../../../../../../settings.inc.php');
+		else
+			$exportvalues = $this->controller->exportValues();
+			
 		$this->old_system = $exportvalues['old_system'];
 		$old_directory = $exportvalues['old_directory'];
 		
@@ -105,7 +115,8 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['migrate_groups']) && $exportvalues['migrate_groups'] == 1)
 		{	
 			//Migrate descriptions, settings and tools
-			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']))
+			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
+				     $exportvalues['migrate_courses'] == 1 && $exportvalues['migrate_users'] == 1)
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
 				$courses = array();

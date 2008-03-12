@@ -19,6 +19,12 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 	
 	private $failed_elements;
 	private $succes;
+	private $command_execute;
+	
+	function SystemSettingsMigrationWizardPage($command_execute)
+	{
+		$this->command_execute = $command_execute;
+	}
 	
 	/**
 	 * @return string Title of the page
@@ -90,8 +96,12 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		}
 		
 		$logger->write_text('systemsettings');
-		
-		$exportvalues = $this->controller->exportValues();
+	
+		if($this->command_execute) 
+			require(dirname(__FILE__) . '/../../../../../settings.inc.php');
+		else
+			$exportvalues = $this->controller->exportValues();
+			
 		$this->old_system = $exportvalues['old_system'];
 		$old_directory = $exportvalues['old_directory'];
 		
@@ -108,7 +118,7 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 			$this->migrate_system_settings();
 			
 			//Migrate system announcements
-			if(isset($exportvalues['migrate_users']))
+			if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 			{
 				$this->migrate_system_announcements();
 			}
@@ -140,6 +150,8 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->close_file();
 		
 		return true;
+		
+		$logger->close_file();
 	}
 	
 	/**

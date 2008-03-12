@@ -18,7 +18,12 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 	private $failed_elements;
 	private $include_deleted_files;
 	private $succes;
+	private $command_execute;
 	
+	function CalendarEventsMigrationWizardPage($command_execute)
+	{
+		$this->command_execute = $command_execute;
+	}
 	/**
 	 * @return string Title of the page
 	 */
@@ -32,7 +37,7 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_info()
 	{		
-		for($i=0; $i<2; $i++)
+		for($i=0; $i<1; $i++)
 		{
 			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
 				Translation :: get_lang('migrated');
@@ -90,7 +95,11 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 		
 		$logger->write_text('calendar_events');
 		
-		$exportvalues = $this->controller->exportValues();
+		if($this->command_execute)
+			require(dirname(__FILE__) . '/../../../../../../settings.inc.php');
+		else
+			$exportvalues = $this->controller->exportValues();
+			
 		$this->old_system = $exportvalues['old_system'];
 		$old_directory = $exportvalues['old_directory'];
 		$this->include_deleted_files = $exportvalues['migrate_deleted_files'];
@@ -105,7 +114,8 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['migrate_calendar_events']) && $exportvalues['migrate_calendar_events'] == 1)
 		{	
 			//Migrate the calendar events and resources
-			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']))
+			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
+				$exportvalues['migrate_courses'] == 1 && $exportvalues['migrate_users'] == 1)
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
 				$courses = array();

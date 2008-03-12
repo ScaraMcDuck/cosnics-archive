@@ -17,6 +17,12 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 	private $old_system;
 	private $failed_elements;
 	private $succes;
+	private $command_execute;
+	
+	function PersonalAgendasMigrationWizardPage($command_execute)
+	{
+		$this->command_execute = $command_execute;
+	}
 	
 	/**
 	 * @return string Title of the page
@@ -83,7 +89,11 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 		
 		$logger->write_text('personalagendas');
 		
-		$exportvalues = $this->controller->exportValues();
+		if($this->command_execute)
+			require(dirname(__FILE__) . '/../../../../../settings.inc.php');
+		else
+			$exportvalues = $this->controller->exportValues();
+			
 		$this->old_system = $exportvalues['old_system'];
 		$old_directory = $exportvalues['old_directory'];
 		
@@ -97,7 +107,7 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['migrate_personal_agendas']) && $exportvalues['migrate_personal_agendas'] == 1)
 		{	
 			//Migrate the personal agendas
-			if(isset($exportvalues['migrate_users']))
+			if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 			{
 				$this->migrate_personal_agendas();
 			}

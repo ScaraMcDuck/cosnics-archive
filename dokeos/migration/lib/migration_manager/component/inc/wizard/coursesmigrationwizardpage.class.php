@@ -18,6 +18,12 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 	
 	private $failed_elements;
 	private $succes;
+	private $command_execute;
+	
+	function CoursesMigrationWizardPage($command_execute)
+	{
+		$this->command_execute = $command_execute;
+	}
 	
 	/**
 	 * @return string Title of the page
@@ -94,7 +100,11 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		
 		$logger->write_text('courses');
 		
-		$exportvalues = $this->controller->exportValues();
+		if($this->command_execute)
+			require(dirname(__FILE__) . '/../../../../../settings.inc.php');
+		else
+			$exportvalues = $this->controller->exportValues();
+			
 		$this->old_system = $exportvalues['old_system'];
 		$old_directory = $exportvalues['old_directory'];
 		
@@ -114,7 +124,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			$this->migrate_courses();
 			
 			//Migrate the class users
-			if(isset($exportvalues['migrate_users']))
+			if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 			{
 				//Migrate the user course categories
 				$this->migrate_user_course_categories();
@@ -135,7 +145,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 				$this->succes[3] = 0;
 			}
 			
-			if(isset($exportvalues['migrate_classes']))
+			if(isset($exportvalues['migrate_classes']) && $exportvalues['migrate_classes'] ==1)
 			{
 				//Migrate course classes
 				//$this->migrate_course_classes();

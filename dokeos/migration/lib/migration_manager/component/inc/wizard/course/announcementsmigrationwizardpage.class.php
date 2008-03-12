@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/../../../../../../../repository/lib/learning_
  * Class for user migration execution
  * 
  */
-class AnnouncementMigrationWizardPage extends MigrationWizardPage
+class AnnouncementsMigrationWizardPage extends MigrationWizardPage
 {
 	private $logfile;
 	private $mgdm;
@@ -21,6 +21,12 @@ class AnnouncementMigrationWizardPage extends MigrationWizardPage
 	private $include_deleted_files;
 	private $failed_announcements = array();
 	private $succes;
+	private $command_execute;
+	
+	function AnnouncementsMigrationWizardPage($command_execute)
+	{
+		$this->command_execute = $command_execute;
+	}
 	
 	/**
 	 * @return string Title of the page
@@ -86,7 +92,11 @@ class AnnouncementMigrationWizardPage extends MigrationWizardPage
 		
 		$logger->write_text('announcements');
 		
-		$exportvalues = $this->controller->exportValues();
+		if($this->command_execute)
+			require(dirname(__FILE__) . '/../../../../../../settings.inc.php');
+		else
+			$exportvalues = $this->controller->exportValues();
+			
 		$this->old_system = $exportvalues['old_system'];
 		$old_directory = $exportvalues['old_directory'];
 		$this->include_deleted_files = $exportvalues['migrate_deleted_files'];
@@ -101,7 +111,8 @@ class AnnouncementMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['migrate_announcements']) && $exportvalues['migrate_announcements'] == 1)
 		{	
 			//Migrate the personal agendas
-			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']))
+			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
+					$exportvalues['migrate_courses'] == 1 && $exportvalues['migrate_users'] == 1)
 			{
 				$this->migrate_announcements();
 			}
