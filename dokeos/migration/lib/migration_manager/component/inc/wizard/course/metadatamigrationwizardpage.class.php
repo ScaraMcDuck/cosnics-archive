@@ -64,7 +64,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 		{
 			case 0: return Translation :: get_lang('Course_meta_Descriptions'); 
 			case 1: return Translation :: get_lang('Course_meta_Tools');
-			case 1: return Translation :: get_lang('Course_meta_Settings');  
+			case 2: return Translation :: get_lang('Course_meta_Settings');  
 			default: return Translation :: get_lang('Course_meta_Descriptions'); 
 		}
 	}
@@ -239,7 +239,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 			{
 				$message = 'FAILED: Course tool is not valid ( ID: ' . $tool->get_id() . ' )';
 				$this->logfile->add_message($message);
-				$this->failed_elements[5][] = $message;
+				$this->failed_elements[2][] = $message;
 			}
 		}
 

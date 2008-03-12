@@ -96,6 +96,14 @@ $lang['migration']['Documents_title'] = "Course documents migration";
 $lang['migration']['Documents'] = "document(s)";
 
 $lang['migration']['Links_title'] = "Course links migration";
+$lang['migration']['Links_info'] = "In the next step we wil migrate the links of the courses.";
 $lang['migration']['Links'] = "Link(s)";
 $lang['migration']['Link_categories'] = "Link categorie(s)";
+
+$lang['migration']['Groups_title'] = "Course groups migration";
+$lang['migration']['Groups_info'] = "In the next step we wil migrate the group categories, the groups and subscribe the users to the groups of the courses.";
+$lang['migration']['Group_categories'] = "Group categorie(s)";
+$lang['migration']['Groups'] = "Group(s)";
+$lang['migration']['Group_rel_users'] = "Group user relation(s)";
+$lang['migration']['Group_rel_tutors'] = "Group tutor relation(s)";
 ?>

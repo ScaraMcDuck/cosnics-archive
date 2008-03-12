@@ -5,6 +5,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/importgroup.class.php';
+require_once dirname(__FILE__).'/../../../application/lib/weblcms/group/group.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 Group (table group_info)
@@ -318,15 +319,34 @@ class Dokeos185Group extends ImportGroup
 	
 	function is_valid_group($course)
 	{
+		if(!$this->get_name() || $this->get_self_registration_allowed() == NULL
+			|| $this->get_self_unregistration_allowed() == NULL)
+		{
+			self :: $mgdm->add_failed_element($this->get_id(),
+				$course->get_db_name() . '.group');
+			return false;		
+		}
 		
+		return true;
 	}
 	
 	function convert_to_new_group($course)
 	{
+		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
+		$lcms_group = new Group();
+		$lcms_group->set_course_code($new_course_code);
+		$lcms_group->set_name($this->get_name());
+		$lcms_group->set_max_number_of_members($this->get_max_student());
+		$lcms_group->set_description($this->get_description());
+		$lcms_group->set_self_registration_allowed($this->get_self_registration_allowed());
+		$lcms_group->set_self_unregistration_allowed($this->get_self_unregistration_allowed());
+		$lcms_group->create();
+		
+		return $lcms_group;
 	}
 	
-	static function get_all_groups($mgdm,$db)
+	static function get_all_groups($db, $mgdm)
 	{
 		self :: $mgdm = $mgdm;
 		return self :: $mgdm->get_all_groups($db);

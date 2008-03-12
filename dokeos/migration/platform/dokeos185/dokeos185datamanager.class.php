@@ -805,6 +805,22 @@ class Dokeos185DataManager extends MigrationDataManager
 		return $documents;
 	}
 	
+	function get_all_groups($course_db)
+	{
+		$this->db_connect($course_db);
+		$query = 'SELECT * FROM group_info';
+		
+		$result = $this->db->query($query);
+		$groups = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$groups[] = $this->record_to_classobject($record, 'Dokeos185Group');
+		}
+		$result->free();
+
+		return $groups;
+	}
+	
 }
 
 ?>
