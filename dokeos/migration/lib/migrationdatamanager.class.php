@@ -408,6 +408,27 @@ abstract class MigrationDataManager
 	
 		return mktime($h, $mi, $s, $mo, $d, $y);
 	}
+	
+	/**
+	 * Gets the parent id of weblcmslearningobjectpublicationcategory
+	 * 
+	 */
+	function publication_category_exist($title,$course_code,$tool,$parent = null)
+	{
+		$this->db_lcms_connect();
+		
+		$query = 'SELECT id FROM weblcms_learning_object_publication_category WHERE title=\'' . $title . '\' AND course=\'' . $course_code .
+		 		'\' AND tool=\'' . $tool . '\'';
+		
+		if($parent)
+			$query = $query . ' AND parent=' . $parent;
+	
+		$result = $this->db_lcms->query($query);
+		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$result->free();
+		
+		return $record['id'];
+	}
 }
 
 ?>

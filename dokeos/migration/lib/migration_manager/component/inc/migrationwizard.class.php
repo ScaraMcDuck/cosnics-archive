@@ -17,7 +17,9 @@ require_once dirname(__FILE__).'/wizard/personalagendasmigrationwizardpage.class
 require_once dirname(__FILE__).'/wizard/course/metadatamigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/course/announcementsmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/course/calendareventsmigrationwizardpage.class.php';
+require_once dirname(__FILE__).'/wizard/course/documentsmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/course/linksmigrationwizardpage.class.php';
+
 
 /**
  * A wizard which guides the user through several steps to perform the migration
@@ -50,7 +52,8 @@ class MigrationWizard extends HTML_QuickForm_Controller
 		$this->addPage(new MetaDataMigrationWizardPage('page_meta_data',$this->parent));
 		$this->addPage(new AnnouncementMigrationWizardPage('page_announcements',$this->parent));
 		$this->addPage(new CalendarEventsMigrationWizardPage('page_calendar_events',$this->parent));
-		$this->addPage(new LinksMigrationWizardPage('page_calendar_events',$this->parent));
+		$this->addPage(new DocumentsMigrationWizardPage('page_documents',$this->parent));
+		$this->addPage(new LinksMigrationWizardPage('page_links',$this->parent));
 		$this->addAction('display', new MigrationWizardDisplay($this->parent));
 	}
 }

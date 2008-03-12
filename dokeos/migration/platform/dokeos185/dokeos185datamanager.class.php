@@ -785,6 +785,26 @@ class Dokeos185DataManager extends MigrationDataManager
 
 		return $link_categories;
 	}
+	
+	/** Get all the documents from the dokeos185 database
+	 * @return array of Dokeos185Documents
+	 */
+	function get_all_documents($course)
+	{
+		$this->db_connect($course->get_db_name());
+		$query = 'SELECT * FROM document';
+		$result = $this->db->query($query);
+		$documents = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$documents[] = $this->record_to_classobject($record,'Dokeos185Document');
+			
+		}
+		$result->free();
+		
+		return $documents;
+	}
+	
 }
 
 ?>
