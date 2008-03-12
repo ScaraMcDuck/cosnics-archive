@@ -428,6 +428,21 @@ abstract class MigrationDataManager
 		
 		return $record['id'];
 	}
+	
+	function get_document_id($path,$owner_id)
+	{
+		$this->db_lcms_connect();
+		
+		$query = 'SELECT id FROM repository_document WHERE path=\'' . $path . '\' AND id IN ' .
+						'(SELECT id FROM repository_learning_object WHERE owner = ' . $owner_id . ')';
+		
+		echo ($query);
+		$result = $this->db_lcms->query($query);
+		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$result->free();
+		
+		return $record['id'];
+	}
 }
 
 ?>

@@ -542,7 +542,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	function get_all_documents($course)
 	{
 		$this->db_connect($course->get_db_name());
-		$query = 'SELECT * FROM document';
+		$query = 'SELECT * FROM document WHERE filetype <> \'folder\'';
 		$result = $this->db->query($query);
 		$documents = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
