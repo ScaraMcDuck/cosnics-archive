@@ -95,6 +95,12 @@ class Group
 	{
 		return $this->id;
 	}
+	
+	function set_id($id)
+	{
+		$this->id = $id;
+	}
+	
 	/**
 	 * Gets the course code of the course in which this group was created
 	 * @return string
@@ -102,6 +108,11 @@ class Group
 	function get_course_code()
 	{
 		return $this->course_code;
+	}
+	
+	function set_course_code($code)
+	{
+		$this->course_code = $code;
 	}
 	/**
 	 * Gets the name of this group
@@ -254,6 +265,7 @@ class Group
 	function create()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
+		$this->set_id($wdm->get_next_group_id());
 		return $wdm->create_group($this);
 	}
 

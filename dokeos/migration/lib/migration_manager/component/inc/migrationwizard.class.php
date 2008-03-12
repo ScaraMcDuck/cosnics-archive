@@ -15,6 +15,7 @@ require_once dirname(__FILE__).'/wizard/coursesmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/systemsettingsmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/personalagendasmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/course/metadatamigrationwizardpage.class.php';
+require_once dirname(__FILE__).'/wizard/course/groupsmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/course/announcementsmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/course/calendareventsmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/course/documentsmigrationwizardpage.class.php';
@@ -49,7 +50,8 @@ class MigrationWizard extends HTML_QuickForm_Controller
 		$this->addPage(new ClassesMigrationWizardPage('page_classes', $this->parent));
 		$this->addPage(new CoursesMigrationWizardPage('page_courses',$this->parent));
 		$this->addPage(new PersonalAgendasMigrationWizardPage('page_pa',$this->parent));
-		$this->addPage(new MetaDataMigrationWizardPage('page_meta_data',$this->parent));
+		$this->addPage(new MetaDataMigrationWizardPage('page_metadata',$this->parent));
+		$this->addPage(new GroupsMigrationWizardPage('page_groups',$this->parent));
 		$this->addPage(new AnnouncementMigrationWizardPage('page_announcements',$this->parent));
 		$this->addPage(new CalendarEventsMigrationWizardPage('page_calendar_events',$this->parent));
 		$this->addPage(new DocumentsMigrationWizardPage('page_documents',$this->parent));
