@@ -105,6 +105,14 @@ class Dokeos185SystemAnnouncement extends Import
 	}
 	
 	/**
+	 * Sets the default properties of this class
+	 */
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
+	
+	/**
 	 * Returns the id of this system announcement.
 	 * @return int The id.
 	 */

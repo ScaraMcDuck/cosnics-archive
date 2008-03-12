@@ -108,6 +108,14 @@ class Dokeos185CourseCategory extends Import
 	}
 	
 	/**
+	 * Sets the default properties of this class
+	 */
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
+	
+	/**
 	 * CATEGORY GETTERS AND SETTERS
 	 */
 	 

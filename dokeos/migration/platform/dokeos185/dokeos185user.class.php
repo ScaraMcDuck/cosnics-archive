@@ -160,6 +160,14 @@ class Dokeos185User extends Import
 	}
 	
 	/**
+	 * Sets the default properties of this class
+	 */
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
+	
+	/**
 	 * Sets a default property of this admin by name.
 	 * @param string $name The name of the property.
 	 * @param mixed $value The new value for the property.

@@ -88,6 +88,14 @@ class Dokeos185UserCourseCategory extends Import
 	}
 	
 	/**
+	 * Sets the default properties of this class
+	 */
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
+	
+	/**
 	 * Checks if the given identifier is the name of a default user course category
 	 * property.
 	 * @param string $name The identifier.

@@ -97,6 +97,13 @@ class Dokeos185ClassUser extends Import
 		return in_array($name, self :: get_default_property_names());
 	}
 	
+	/**
+	 * Sets the default properties of this class
+	 */
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
 	
 	/**
 	 * Returns the class_id of this class_user.

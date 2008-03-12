@@ -80,6 +80,14 @@ class Dokeos185CourseRelClass extends Import
 	}
 	
 	/**
+	 * Sets the default properties of this class
+	 */
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
+	
+	/**
 	 * Checks if the given identifier is the name of a default course
 	 * property.
 	 * @param string $name The identifier.
