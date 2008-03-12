@@ -246,18 +246,17 @@ class Dokeos185Document extends Import
 		// Categories already exists?
 		$file_split = array();
 		$file_split = split('/', $old_path);
-		foreach($file_split as $cat)
-		{
-			if(strcmp($cat,''))
-				unset ($file_split[$cat]);
-		}
+		
+		array_shift($file_split);
+		array_pop($file_split);
+		
 		$parent = 0;
 		
 		foreach($file_split as $cat)
 		{
-			echo($cat . ' test<BR/>');
-			$lcms_category_id = self :: $mgdm->publication_category_exist($cat, $course->get_code(),
-				'document');
+			$lcms_category_id = self :: $mgdm->publication_category_exist($cat, $new_course_code,
+				'document',$parent);
+			
 			if(!$lcms_category_id)
 			{
 				//Create category for tool in lcms
