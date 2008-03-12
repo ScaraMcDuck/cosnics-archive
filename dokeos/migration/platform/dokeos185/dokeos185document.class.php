@@ -9,6 +9,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/learning_object/documen
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
 require_once 'dokeos185itemproperty.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublicationcategory.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/learningobject.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 document
@@ -21,6 +22,7 @@ class Dokeos185Document extends Import
 	private static $mgdm;
 	private $item_property;
 	
+	private static $files = array();
 
 	/**
 	 * document properties
@@ -233,109 +235,148 @@ class Dokeos185Document extends Import
 	{
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
-	
-		//document parameters
-		$lcms_document = new Document();
-
-		$lcms_document->set_filesize($this->get_size());
 		
 		$pos = strpos($this->get_path(), $this->get_title());
 		$filename = substr($this->get_path(), $pos);
 		$old_path = substr($this->get_path(), 0, $pos);
 		
-		// Categories already exists?
-		$file_split = array();
-		$file_split = split('/', $old_path);
-		
-		array_shift($file_split);
-		array_pop($file_split);
-		
-		$parent = 0;
-		
-		foreach($file_split as $cat)
-		{
-			$lcms_category_id = self :: $mgdm->publication_category_exist($cat, $new_course_code,
-				'document',$parent);
-			
-			if(!$lcms_category_id)
-			{
-				//Create category for tool in lcms
-				$lcms_category = new LearningObjectPublicationCategory();
-				$lcms_category->set_title($cat);
-				$lcms_category->set_course($new_course_code);
-				$lcms_category->set_tool('document');
-				$lcms_category->set_parent_category_id($parent);
-				
-				//Create category in database
-				$lcms_category->create();
-				$parent = $lcms_category->get_id();
-			}
-			else
-			{
-				$parent = $lcms_category_id;
-			}
-			
-		}
-		
-		// Move file to correct directory
-		
-		$new_path = $new_user_id . $old_path;
+		$new_path = $new_user_id . '/';
 		$old_rel_path = 'courses/' . $course->get_code() . '/document/'  . $old_path;
 
 		$new_rel_path = 'files/repository/' . $new_path;
 		
-		$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
-			$filename);
 		
-			
-		if($file)
+		
+		if(!self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename))])
 		{
-			$lcms_document->set_title($this->get_title());
-			$lcms_document->set_description('...');
-			$lcms_document->set_comment($this->get_comment());
 			
-			$lcms_document->set_owner_id($new_user_id);
-			$lcms_document->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-			$lcms_document->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
-			$lcms_document->set_path($new_rel_path);
-			$lcms_document->set_filename($filename);
-			$lcms_document->set_parent_id($parent);
-		
-			if($this->item_property->get_visibility() == 2)
-				$lcms_document->set_state(1);
+			// Move file to correct directory
+			$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
+				$filename);
 			
-			
-			//create document in database
-			$lcms_document->create_all();
-			
-			//publication
-			if($this->item_property->get_visibility() <= 1) 
+			if($file)
 			{
-				$publication = new LearningObjectPublication();
 				
-				$publication->set_learning_object($lcms_document);
-				$publication->set_course_id($new_course_code);
-				$publication->set_publisher_id($new_user_id);
-				$publication->set_tool('document');
-				$publication->set_category_id($parent);
-				//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
-				//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
-				$publication->set_from_date(0);
-				$publication->set_to_date(0);
-				$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-				$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
-				//$publication->set_modified_date(0);
-				//$publication->set_display_order_index($this->get_display_order());
-				$publication->set_display_order_index(0);
-				$publication->set_email_sent(0);
+				//document parameters
+				$lcms_document = new Document();
+	
+				$lcms_document->set_filesize($this->get_size());
+				$lcms_document->set_title($this->get_title());
+				$lcms_document->set_description('...');
+				$lcms_document->set_comment($this->get_comment());
 				
-				$publication->set_hidden($this->item_property->get_visibility() == 1?0:1);
-						
+				$lcms_document->set_owner_id($new_user_id);
+				$lcms_document->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
+				$lcms_document->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+				$lcms_document->set_path($new_path . $filename);
+				$lcms_document->set_filename($filename);
+				
+				// Category for announcements already exists?
+				$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+					Translation :: get_lang('documents'));
+				if(!$lcms_category_id)
+				{
+					//Create category for tool in lcms
+					$lcms_repository_category = new Category();
+					$lcms_repository_category->set_owner_id($new_user_id);
+					$lcms_repository_category->set_title(Translation :: get_lang('documents'));
+					$lcms_repository_category->set_description('...');
+			
+					//Retrieve repository id from course
+					$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+						'category', Translation :: get_lang('MyRepository'));
+					$lcms_repository_category->set_parent_id($repository_id);
+					
+					//Create category in database
+					$lcms_repository_category->create();
+					
+					$lcms_document->set_parent_id($lcms_repository_category->get_id());
+				}
+				else
+				{
+					$lcms_document->set_parent_id($lcms_category_id);	
+				}
+			
+				if($this->item_property->get_visibility() == 2)
+					$lcms_document->set_state(1);
+				
+				//create document in database
+				$lcms_document->create_all();
+				
+				self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(true,$new_rel_path . $filename))] = $lcms_document->get_id();
 			}
 			
-			//create publication in database
-			$publication->create();
 		}
+		else
+		{
+			$lcms_document = new LearningObject();
+			$id = self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename))];
+			$lcms_document->set_id($id);
+			
+			
+		}
+			
+		//publication
+		if($this->item_property->get_visibility() <= 1) 
+		{
+			// Categories already exists?
+			$file_split = array();
+			$file_split = split('/', $old_path);
+			
+			array_shift($file_split);
+			array_pop($file_split);
+			
+			$parent = 0;
+			
+			foreach($file_split as $cat)
+			{
+				$lcms_category_id = self :: $mgdm->publication_category_exist($cat, $new_course_code,
+					'document',$parent);
+				
+				if(!$lcms_category_id)
+				{
+					//Create category for tool in lcms
+					$lcms_category = new LearningObjectPublicationCategory();
+					$lcms_category->set_title($cat);
+					$lcms_category->set_course($new_course_code);
+					$lcms_category->set_tool('document');
+					$lcms_category->set_parent_category_id($parent);
+					
+					//Create category in database
+					$lcms_category->create();
+					$parent = $lcms_category->get_id();
+				}
+				else
+				{
+					$parent = $lcms_category_id;
+				}
+				
+			}	
+		
+			$publication = new LearningObjectPublication();
+			
+			$publication->set_learning_object($lcms_document);
+			$publication->set_course_id($new_course_code);
+			$publication->set_publisher_id($new_user_id);
+			$publication->set_tool('document');
+			$publication->set_category_id($parent);
+			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
+			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
+			$publication->set_from_date(0);
+			$publication->set_to_date(0);
+			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
+			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+			//$publication->set_modified_date(0);
+			//$publication->set_display_order_index($this->get_display_order());
+			$publication->set_display_order_index(0);
+			$publication->set_email_sent(0);
+			
+			$publication->set_hidden($this->item_property->get_visibility() == 1?0:1);
+			
+			//create publication in database
+			$publication->create();		
+		}
+		
 		
 		return $lcms_document;
 	}
