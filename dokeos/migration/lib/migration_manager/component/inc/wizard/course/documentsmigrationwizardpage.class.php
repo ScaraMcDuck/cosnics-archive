@@ -16,6 +16,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 	private $mgdm;
 	private $old_system;
 	private $failed_elements;
+	private $include_deleted_files;
 	private $succes;
 	private $command_execute;
 	
@@ -102,6 +103,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 			
 		$this->old_system = $exportvalues['old_system'];
 		$old_directory = $exportvalues['old_directory'];
+		$this->include_deleted_files = $exportvalues['migrate_deleted_files'];
 		
 		//Create logfile
 		$this->logfile = new Logger('documents.txt');
@@ -167,7 +169,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 		
 		$class_document = Import :: factory($this->old_system, 'document');
 		$documents = array();
-		$documents = $class_document->get_all_documents($course, $this->mgdm);
+		$documents = $class_document->get_all_documents($course, $this->mgdm, $this->include_deleted_files);
 		
 		foreach($documents as $document)
 		{

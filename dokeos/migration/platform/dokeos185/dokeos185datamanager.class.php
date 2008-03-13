@@ -501,7 +501,7 @@ class Dokeos185DataManager extends MigrationDataManager
 		$this->db_connect($db);
 		$query = 'SELECT * FROM link';
 		
-		if(!$include_deleted_files != 1)
+		if($include_deleted_files != 1)
 			$query = $query . ' WHERE id IN (SELECT ref FROM item_property WHERE tool=\'link\'' .
 					' AND visibility <> 2);';
 
@@ -539,10 +539,15 @@ class Dokeos185DataManager extends MigrationDataManager
 	/** Get all the documents from the dokeos185 database
 	 * @return array of Dokeos185Documents
 	 */
-	function get_all_documents($course)
+	function get_all_documents($course, $include_deleted_files)
 	{
 		$this->db_connect($course->get_db_name());
 		$query = 'SELECT * FROM document WHERE filetype <> \'folder\'';
+		
+		if($include_deleted_files != 1)
+			$query = $query . ' AND id IN (SELECT ref FROM item_property WHERE tool=\'document\'' .
+					' AND visibility <> 2);';
+		
 		$result = $this->db->query($query);
 		$documents = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
