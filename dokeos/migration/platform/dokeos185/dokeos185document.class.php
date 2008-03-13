@@ -381,10 +381,10 @@ class Dokeos185Document extends Import
 		return $lcms_document;
 	}
 	
-	static function get_all_documents($course, $mgdm)
+	static function get_all_documents($course, $mgdm, $include_deleted_files)
 	{
 		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_documents($course);
+		return self :: $mgdm->get_all_documents($course, $include_deleted_files);
 	}
 }
 ?>
