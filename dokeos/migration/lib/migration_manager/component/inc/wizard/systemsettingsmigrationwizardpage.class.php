@@ -21,8 +21,9 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 	private $succes;
 	private $command_execute;
 	
-	function SystemSettingsMigrationWizardPage($command_execute)
+	function SystemSettingsMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
+		MigrationWizardPage :: MigrationWizardPage($page_name, $parent);
 		$this->command_execute = $command_execute;
 	}
 	

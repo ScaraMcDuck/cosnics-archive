@@ -31,17 +31,17 @@
 	$logger = new Logger('migration.txt', false);
 	$logger->close_file();
 	
-	migrate(new UsersMigrationWizardPage(true));
-	migrate(new SystemSettingsMigrationWizardPage(true));
-	migrate(new ClassesMigrationWizardPage(true));
-	migrate(new CoursesMigrationWizardPage(true));
-	migrate(new PersonalAgendasMigrationWizardPage(true));
-	migrate(new MetadataMigrationWizardPage(true));
-	migrate(new GroupsMigrationWizardPage(true));
-	migrate(new AnnouncementsMigrationWizardPage(true));
-	migrate(new CalendarEventsMigrationWizardPage(true));
-	//migrate(new DocumentsMigrationWizardPage(true));
-	migrate(new LinksMigrationWizardPage(true));
+	migrate(new UsersMigrationWizardPage(null, null, true));
+	migrate(new SystemSettingsMigrationWizardPage(null, null, true));
+	migrate(new ClassesMigrationWizardPage(null, null, true));
+	migrate(new CoursesMigrationWizardPage(null, null, true));
+	migrate(new PersonalAgendasMigrationWizardPage(null, null, true));
+	migrate(new MetadataMigrationWizardPage(null, null, true));
+	migrate(new GroupsMigrationWizardPage(null, null, true));
+	migrate(new AnnouncementsMigrationWizardPage(null, null, true));
+	migrate(new CalendarEventsMigrationWizardPage(null, null, true));
+	migrate(new DocumentsMigrationWizardPage(null, null, true));
+	migrate(new LinksMigrationWizardPage(null, null, true));
 	
 	echo("\n");
 	

@@ -40,7 +40,7 @@ class Logger
     
     function is_text_in_file($text)
     {
- 		if(!$this->file) { echo("false"); return; }
+ 		if(!$this->file) { return; }
  		
     	while (!feof($this->file))
     	{

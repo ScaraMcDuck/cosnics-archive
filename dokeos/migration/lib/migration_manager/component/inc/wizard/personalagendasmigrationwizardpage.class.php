@@ -19,8 +19,9 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 	private $succes;
 	private $command_execute;
 	
-	function PersonalAgendasMigrationWizardPage($command_execute)
+	function PersonalAgendasMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
+		MigrationWizardPage :: MigrationWizardPage($page_name, $parent);
 		$this->command_execute = $command_execute;
 	}
 	
