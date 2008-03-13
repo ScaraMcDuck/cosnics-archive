@@ -114,33 +114,6 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
 	}
 	
-	/**
-	 * Sets the id of this link category.
-	 * @param int $id The id.
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	
-	/**
-	 * Sets the category_title of this link category.
-	 * @param String $category_title The category_title.
-	 */
-	function set_category_title($category_title)
-	{
-		$this->set_default_property(self :: PROPERTY_CATEGORY_TITLE, $category_title);
-	}
-	
-	/**
-	 * Sets the description of this link category.
-	 * @param String $description The description.
-	 */
-	function set_description($description)
-	{
-		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
-	}
-	
 	function is_valid_link_category($course)
 	{	
 		if(!$this->get_id() || !$this->get_category_title() || !$this->get_description())

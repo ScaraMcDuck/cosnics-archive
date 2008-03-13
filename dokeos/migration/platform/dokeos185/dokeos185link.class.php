@@ -159,69 +159,6 @@ class Dokeos185Link extends Import
 		return $this->get_default_property(self :: PROPERTY_ON_HOMEPAGE);
 	}
 	
-	/**
-	 * Sets the id of this link.
-	 * @param int $id The id.
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	
-	/**
-	 * Sets the url of this link.
-	 * @param String $url The url.
-	 */
-	function set_url($url)
-	{
-		$this->set_default_property(self :: PROPERTY_URL, $url);
-	}
-	
-	/**
-	 * Sets the title of this link.
-	 * @param String $title The title.
-	 */
-	function set_title($title)
-	{
-		$this->set_default_property(self :: PROPERTY_TITLE, $title);
-	}
-	
-	/**
-	 * Sets the description of this link.
-	 * @param String $description The description.
-	 */
-	function set_description($description)
-	{
-		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
-	}
-	
-	/**
-	 * Sets the category_category_id of this link.
-	 * @param int $category_id The category_id.
-	 */
-	function set_category_id($category_id)
-	{
-		$this->set_default_property(self :: PROPERTY_CATEGORY_ID, $category_id);
-	}
-	
-	/**
-	 * Sets the display_order of this link.
-	 * @param int $display_order The display_order.
-	 */
-	function set_display_order($display_order)
-	{
-		$this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
-	}
-	
-	/**
-	 * Sets the on_homepage of this link.
-	 * @param int $on_homepage The on_homepage.
-	 */
-	function set_on_homepage($on_homepage)
-	{
-		$this->set_default_property(self :: PROPERTY_ON_HOMEPAGE, $on_homepage);
-	}
-	
 	function is_valid_link($course)
 	{
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'link',$this->get_id());

@@ -133,51 +133,6 @@ class Dokeos185GroupRelUser extends ImportGroupRelUser
 		return $this->get_default_property(self :: PROPERTY_ROLE);
 	}
 	
-	/**
-	 * Sets the id of this group tutor relation.
-	 * @param int $id The id.
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	
-	/**
-	 * Sets the user_id of this group tutor relation.
-	 * @param String $user_id The user_id.
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
-	
-	/**
-	 * Sets the group_id of this group tutor relation.
-	 * @param String $group_id The group_id.
-	 */
-	function set_group_id($group_id)
-	{
-		$this->set_default_property(self :: PROPERTY_GROUP_ID, $group_id);
-	}
-	
-	/**
-	 * Sets the status of this group tutor relation.
-	 * @param String $status The status.
-	 */
-	function set_status($status)
-	{
-		$this->set_default_property(self :: PROPERTY_STATUS, $status);
-	}
-	
-	/**
-	 * Sets the role of this group tutor relation.
-	 * @param String $role The role.
-	 */
-	function set_role($role)
-	{
-		$this->set_default_property(self :: PROPERTY_ROLE, $role);
-	}
-	
 	function is_valid_group_rel_tutor($course)
 	{	
 		

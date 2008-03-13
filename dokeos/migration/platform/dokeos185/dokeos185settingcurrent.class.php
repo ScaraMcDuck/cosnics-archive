@@ -222,93 +222,12 @@ class Dokeos185SettingCurrent extends Import
 	}
 	
 	/**
-	 * Sets the id of this current setting.
-	 * @param int $id The id.
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	
-	/**
-	 * Sets the variable of this current setting.
-	 * @param String $variable The variable.
-	 */
-	function set_variable($variable)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $variable);
-	}
-	
-	/**
-	 * Sets the subkey of this current setting.
-	 * @param String $subkey The subkey.
-	 */
-	function set_subkey($subkey)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $subkey);
-	}
-	
-	/**
-	 * Sets the type of this current setting.
-	 * @param String $type The type.
-	 */
-	function set_type($type)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $type);
-	}
-	
-	/**
-	 * Sets the category of this current setting.
-	 * @param String $category The category.
-	 */
-	function set_category($category)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $category);
-	}
-	
-	/**
-	 * Sets the selected_value of this current setting.
-	 * @param String $selected_value The selected_value.
+	 * Returns the selected value of this current setting.
+	 * @return String The selected value.
 	 */
 	function set_selected_value($selected_value)
 	{
 		$this->set_default_property(self :: PROPERTY_ID, $selected_value);
-	}
-	
-	/**
-	 * Sets the title of this current setting.
-	 * @param String $title The title.
-	 */
-	function set_title($title)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $title);
-	}
-	
-	/**
-	 * Sets the comment of this current setting.
-	 * @param String $comment The comment.
-	 */
-	function set_comment($comment)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $comment);
-	}
-	
-	/**
-	 * Sets the scope of this current setting.
-	 * @param String $scope The scope.
-	 */
-	function set_scope($scope)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $scope);
-	}
-	
-	/**
-	 * Sets the subkeytext of this current setting.
-	 * @param String $subkeytext The subkeytext.
-	 */
-	function set_subkey_text($subkeytext)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $subkeytext);
 	}
 	
 	function is_valid_current_setting()

@@ -123,24 +123,6 @@ class Dokeos185ClassUser extends Import
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 	
-	/**
-	 * Sets the class_id of this class_user.
-	 * @param int $class_id The class_id.
-	 */
-	function set_class_id($class_id)
-	{
-		$this->set_default_property(self :: PROPERTY_CLASS_ID, $class_id);
-	}
-	
-	/**
-	 * Sets the user_id of this class_user.
-	 * @param int $user_id The user_id.
-	 */
-	function set_code($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
-	
 	function is_valid_class_user()
 	{
 		if(!$this->get_class_id() || !$this->get_user_id() || 

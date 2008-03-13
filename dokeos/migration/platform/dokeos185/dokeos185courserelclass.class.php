@@ -121,24 +121,6 @@ class Dokeos185CourseRelClass extends Import
 		return $this->get_default_property(self :: PROPERTY_CLASS_ID);
 	}
 	
-	/**
-	 * Sets the course_code of this rel_class.
-	 * @param String $course_code The course_code.
-	 */
-	function set_course_code($course_code)
-	{
-		$this->set_default_property(self :: PROPERTY_COURSE_CODE, $course_code);
-	}
-	
-	/**
-	 * Sets the class_id of this rel_class.
-	 * @param int $class_id The class_id.
-	 */
-	function set_class_id($class_id)
-	{
-		$this->set_default_property(self :: PROPERTY_CLASS_ID, $class_id);
-	}
-	
 	function is_valid_course_class_relation()
 	{
 		if(!$this->get_course_code() || !$this->get_class_id() ||

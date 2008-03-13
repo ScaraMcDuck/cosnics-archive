@@ -148,42 +148,6 @@ class Dokeos185UserCourseCategory extends Import
 	}
 	
 	/**
-	 * Sets the id of this user course category.
-	 * @param String $id The id.
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	
-	/**
-	 * Sets the user id of this user course category.
-	 * @param String $user_id The user_id.
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
-	
-	/**
-	 * Sets the title of this user course category.
-	 * @param String $title The title.
-	 */
-	function set_title($title)
-	{
-		$this->set_default_property(self :: PROPERTY_TITLE, $title);
-	}
-	
-	/**
-	 * Sets the sort of this user course category.
-	 * @param String $sort The sort.
-	 */
-	function set_sort($sort)
-	{
-		$this->set_default_property(self :: PROPERTY_SORT, $sort);
-	}
-	
-	/**
 	 * checks if a user course category is valid to be written at the db
 	 * @return Boolean 
 	 */

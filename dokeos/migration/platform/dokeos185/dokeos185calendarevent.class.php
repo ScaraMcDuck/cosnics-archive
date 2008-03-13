@@ -136,51 +136,6 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 		return $this->get_default_property(self :: PROPERTY_END_DATE);
 	}
 	
-	/**
-	 * Sets the id of this calendar event.
-	 * @param int $id The id.
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	
-	/**
-	 * Sets the title of this calendar event.
-	 * @param string $title The title
-	 */
-	function set_title($title)
-	{
-		$this->set_default_property(self :: PROPERTY_TITLE, $title);
-	}
-	
-	/**
-	 * Sets the content of this calendar event.
-	 * @param string $content The content
-	 */
-	function set_content($content)
-	{
-		$this->set_default_property(self :: PROPERTY_CONTENT, $content);
-	}
-	
-	/**
-	 * Sets the start_date of this calendar event.
-	 * @param string $start_date The start_date
-	 */
-	function set_start_date($start_date)
-	{
-		$this->set_default_property(self :: PROPERTY_START_DATE, $start_date);
-	}
-	
-	/**
-	 * Sets the end_date of this calendar event.
-	 * @param string $end_date The end_date
-	 */
-	function set_end_date($end_date)
-	{
-		$this->set_default_property(self :: PROPERTY_END_DATE, $end_date);
-	}
-	
 	function is_valid_calendar_event($course)
 	{
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'calendar_event',$this->get_id());	

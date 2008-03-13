@@ -148,60 +148,6 @@ class Dokeos185Announcement extends ImportAnnouncement
 		return $this->get_default_property(self :: PROPERTY_EMAIL_SENT);
 	}
 	
-	/**
-	 * Sets the id of this announcement.
-	 * @param int $id The id.
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	
-	/**
-	 * Sets the title of this announcement.
-	 * @param string $title The title
-	 */
-	function set_title($title)
-	{
-		$this->set_default_property(self :: PROPERTY_TITLE, $title);
-	}
-	
-	/**
-	 * Sets the content of this announcement.
-	 * @param string $content The content
-	 */
-	function set_content($content)
-	{
-		$this->set_default_property(self :: PROPERTY_CONTENT, $content);
-	}
-	
-	/**
-	 * Sets the end_date of this announcement.
-	 * @param string $end_date The end_date
-	 */
-	function set_end_date($end_date)
-	{
-		$this->set_default_property(self :: PROPERTY_END_DATE, $end_date);
-	}
-	
-	/**
-	 * Sets the display_order of this announcement.
-	 * @param string $display_order The display_order
-	 */
-	function set_display_order($display_order)
-	{
-		$this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
-	}
-	
-	/**
-	 * Sets the email_sent of this announcement.
-	 * @param string $email_sent The email_sent
-	 */
-	function set_email_sent($email_sent)
-	{
-		$this->set_default_property(self :: PROPERTY_EMAIL_SENT, $email_sent);
-	}
-	
 	function is_valid_announcement($course)
 	{
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'announcement',$this->get_id());	

@@ -136,33 +136,6 @@ class Dokeos185Class extends Import
 		return $this->get_default_property(self :: PROPERTY_NAME);
 	}
 	
-	/**
-	 * Sets the id of this class.
-	 * @param int $id The id.
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	
-	/**
-	 * Sets the code of this class.
-	 * @param String $code The code.
-	 */
-	function set_code($code)
-	{
-		$this->set_default_property(self :: PROPERTY_CODE, $code);
-	}
-	
-	/**
-	 * Sets the name of this class
-	 * @param String $name The name of the class
-	 */
-	function set_name($name)
-	{
-		$this->set_default_property(self :: PROPERTY_NAME, $name);
-	}
-	
 	function is_valid_class()
 	{
 		if(!$this->get_name())

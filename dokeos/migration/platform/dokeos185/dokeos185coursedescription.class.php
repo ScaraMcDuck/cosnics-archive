@@ -116,33 +116,6 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 		return $this->get_default_property(self :: PROPERTY_CONTENT);
 	}
 	
-	/**
-	 * Sets the id of this course content.
-	 * @param int $id The id.
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	
-	/**
-	 * Sets the title of this course content.
-	 * @param String $title The title.
-	 */
-	function set_title($title)
-	{
-		$this->set_default_property(self :: PROPERTY_TITLE, $title);
-	}
-	
-	/**
-	 * Sets the content of this course content.
-	 * @param String $content The content.
-	 */
-	function set_content($content)
-	{
-		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $content);
-	}
-	
 	function is_valid_course_description()
 	{	
 		if(!$this->get_id() || !$this->get_title() || !$this->get_content())

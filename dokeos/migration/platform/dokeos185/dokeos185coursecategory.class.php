@@ -192,75 +192,12 @@ class Dokeos185CourseCategory extends Import
 	}
 	
 	/**
-	 * Sets the id of this category.
-	 * @param int $id The id.
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	
-	/**
-	 * Sets the name of this category.
-	 * @param String $name The name.
-	 */
-	function set_name($name)
-	{
-		$this->set_default_property(self :: PROPERTY_NAME, $name);
-	}
-	
-	/**
 	 * Sets the code of this category.
 	 * @param String $code The code.
 	 */
 	function set_code($code)
 	{
 		$this->set_default_property(self :: PROPERTY_CODE, $code);
-	}
-	
-	/**
-	 * Sets the parent_id of this category.
-	 * @param String $parent_id The parent_id.
-	 */
-	function set_parent_id($parent_id)
-	{
-		$this->set_default_property(self :: PROPERTY_PARENT_ID, $parent_id);
-	}
-	
-	/**
-	 * Sets the tree_pos of this category.
-	 * @param int $tree_pos The tree_pos.
-	 */
-	function set_tree_pos($tree_pos)
-	{
-		$this->set_default_property(self :: PROPERTY_TREE_POS, $tree_post);
-	}
-	
-	/**
-	 * Sets the children_count of this category.
-	 * @param int $children_count The children_count.
-	 */
-	function set_children_count($children_count)
-	{
-		$this->set_default_property(self :: PROPERTY_CHILDREN_COUNT, $children_count);
-	}
-	
-	/**
-	 * Sets the auth_course_child of this category.
-	 * @param Boolean $auth_course_child The auth_course_child.
-	 */
-	function set_auth_course_child($auth_course_child)
-	{
-		$this->set_default_property(self :: PROPERTY_AUTH_COURSE_CHILD, $auth_course_child);
-	}
-	
-	/**
-	 * Sets the auth_cat_child of this category.
-	 * @param Boolean $auth_cat_child The auth_cat_child.
-	 */
-	function set_auth_cat_child($auth_cat_child)
-	{
-		$this->set_default_property(self :: PROPERTY_AUTH_CAT_CHILD, $auth_cat_child);
 	}
 	
 	function is_valid_course_category()

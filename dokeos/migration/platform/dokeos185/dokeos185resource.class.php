@@ -133,51 +133,6 @@ class Dokeos185CalendarEvent extends ImportResource
 		return $this->get_default_property(self :: PROPERTY_RESOURCE_ID);
 	}
 	
-	/**
-	 * Sets the id of this resource.
-	 * @param int $id The id.
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	
-	/**
-	 * Sets the source_type of this resource.
-	 * @param string $source_type The source_type
-	 */
-	function set_source_type($source_type)
-	{
-		$this->set_default_property(self :: PROPERTY_SOURCE_TYPE, $source_type);
-	}
-	
-	/**
-	 * Sets the source_id of this resource.
-	 * @param int $source_id The source_id
-	 */
-	function set_source_id($source_id)
-	{
-		$this->set_default_property(self :: PROPERTY_SOURCE_ID, $source_id);
-	}
-	
-	/**
-	 * Sets the res_type of this resource.
-	 * @param string $res_type The res_type
-	 */
-	function set_res_type($res_type)
-	{
-		$this->set_default_property(self :: PROPERTY_RESOURCE_TYPE, $res_type);
-	}
-	
-	/**
-	 * Sets the resource_id of this resource.
-	 * @param int $resource_id The resource_id
-	 */
-	function set_resource_id($resource_id)
-	{
-		$this->set_default_property(self :: PROPERTY_RESOURCE_ID, $resource_id);
-	}
-	
 	function is_valid_resource()
 	{
 		
