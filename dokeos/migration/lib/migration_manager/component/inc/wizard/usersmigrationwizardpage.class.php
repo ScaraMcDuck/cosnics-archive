@@ -21,8 +21,9 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 	private $users_succes = 0;
 	private $command_execute;
 	
-	function UsersMigrationWizardPage($command_execute)
+	function UsersMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
+		parent :: MigrationWizardPage($page_name, $parent);
 		$this->command_execute = $command_execute;
 	}
 	

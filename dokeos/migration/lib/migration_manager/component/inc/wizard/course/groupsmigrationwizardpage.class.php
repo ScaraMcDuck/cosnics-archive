@@ -19,8 +19,9 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 	private $succes;
 	private $command_execute;
 	
-	function GroupsMigrationWizardPage($command_execute)
+	function GroupsMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
+		MigrationWizardPage :: MigrationWizardPage($page_name, $parent);
 		$this->command_execute = $command_execute;
 	}
 	

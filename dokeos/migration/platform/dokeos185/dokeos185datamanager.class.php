@@ -453,7 +453,7 @@ class Dokeos185DataManager extends MigrationDataManager
 		$this->db_connect($db);
 		$query = 'SELECT * FROM announcement';
 		
-		if(!$include_deleted_files)
+		if($include_deleted_files != 1)
 			$query = $query . ' WHERE id IN (SELECT ref FROM item_property WHERE tool=\'announcement\'' .
 					' AND visibility <> 2);';
 
@@ -477,7 +477,7 @@ class Dokeos185DataManager extends MigrationDataManager
 		$this->db_connect($course->get_db_name());
 		$query = 'SELECT * FROM calendar_event';
 		
-		if(!$include_deleted_files)
+		if($include_deleted_files != 1)
 			$query = $query . ' WHERE id IN (SELECT ref FROM item_property WHERE tool=\'calendar_event\'' .
 					' AND visibility <> 2);';
 		
@@ -501,7 +501,7 @@ class Dokeos185DataManager extends MigrationDataManager
 		$this->db_connect($db);
 		$query = 'SELECT * FROM link';
 		
-		if(!$include_deleted_files)
+		if(!$include_deleted_files != 1)
 			$query = $query . ' WHERE id IN (SELECT ref FROM item_property WHERE tool=\'link\'' .
 					' AND visibility <> 2);';
 

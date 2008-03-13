@@ -19,8 +19,9 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 	private $succes;
 	private $command_execute;
 	
-	function MetaDataMigrationWizardPage($command_execute)
+	function MetaDataMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
+		MigrationWizardPage :: MigrationWizardPage($page_name, $parent);
 		$this->command_execute = $command_execute;
 	}
 	
