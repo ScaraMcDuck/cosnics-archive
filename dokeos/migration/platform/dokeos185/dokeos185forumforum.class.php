@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../../lib/import/importcourse.class.php';
 require_once dirname(__FILE__).'/../../../application/lib/weblcms/course/course.class.php';
 
 /**
- * This class represents an old Dokeos 1.8.5 course
+ * This class represents an old Dokeos 1.8.5 forum forum
  *
  * @author David Van Wayenbergh
  */

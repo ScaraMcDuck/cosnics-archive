@@ -162,60 +162,6 @@ class Dokeos185Document extends Import
 		return $this->get_default_property(self :: PROPERTY_FILETYPE);
 	}
 	
-	/**
-	 * Sets the id of this document.
-	 * @param int $id The id.
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	
-	/**
-	 * Sets the path of this document.
-	 * @param String $path The $path.
-	 */
-	function set_path($path)
-	{
-		$this->set_default_property(self :: PROPERTY_PATH, $path);
-	}
-	
-	/**
-	 * Sets the title of this document.
-	 * @param String $title The title.
-	 */
-	function set_title($title)
-	{
-		$this->set_default_property(self :: PROPERTY_TITLE, $title);
-	}
-	
-	/**
-	 * Sets the size of this document.
-	 * @param String $size The size.
-	 */
-	function set_size($size)
-	{
-		$this->set_default_property(self :: PROPERTY_SIZE, $size);
-	}
-	
-	/**
-	 * Sets the comment of this document.
-	 * @param String $comment The comment.
-	 */
-	function set_comment($comment)
-	{
-		$this->set_default_property(self :: PROPERTY_COMMENT, $comment);
-	}
-	
-	/**
-	 * Sets the filetype of this document.
-	 * @param String $filetype The filetype.
-	 */
-	function set_filetype($filetype)
-	{
-		$this->set_default_property(self :: PROPERTY_FILETYPE, $filetype);
-	}
-	
 	function is_valid_document($course)
 	{
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'document',$this->get_id());	
@@ -268,8 +214,8 @@ class Dokeos185Document extends Import
 				$lcms_document->set_owner_id($new_user_id);
 				$lcms_document->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
 				$lcms_document->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
-				$lcms_document->set_path($new_path . $filename);
-				$lcms_document->set_filename($filename);
+				$lcms_document->set_path($new_path . $file);
+				$lcms_document->set_filename($file);
 				
 				// Category for announcements already exists?
 				$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
@@ -303,7 +249,7 @@ class Dokeos185Document extends Import
 				//create document in database
 				$lcms_document->create_all();
 				
-				self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(true,$new_rel_path . $filename))] = $lcms_document->get_id();
+				self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(true,$new_rel_path . $file))] = $lcms_document->get_id();
 			}
 			
 		}

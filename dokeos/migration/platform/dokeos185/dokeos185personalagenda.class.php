@@ -170,69 +170,6 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 	}
 	
 	/**
-	 * Sets the id of this personal agenda.
-	 * @param int $id The id.
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	
-	/**
-	 * Sets the user of this personal agenda.
-	 * @param int $user The id of the user.
-	 */
-	function set_user($user)
-	{
-		$this->set_default_property(self :: PROPERTY_USER, $user);
-	}
-	
-	/**
-	 * Sets the title of this personal agenda
-	 * @param string $title The title
-	 */
-	function set_title($title)
-	{
-		$this->set_default_property(self :: PROPERTY_TITLE, $title);
-	}
-	
-	/**
-	 * Sets the text of this personal agenda
-	 * @param string $text The text
-	 */
-	function set_text($text)
-	{
-		$this->set_default_property(self :: PROPERTY_TEXT, $text);
-	}
-	
-	/**
-	 * Sets the date of this personal agenda
-	 * @param int $date The date
-	 */
-	function set_date($date)
-	{
-		$this->set_default_property(self :: PROPERTY_DATE, $text);
-	}
-	
-	/**
-	 * Sets the end date of this personal agenda
-	 * @param int $enddate The enddate
-	 */
-	function set_enddate($enddate)
-	{
-		$this->set_default_property(self :: PROPERTY_ENDDATE, $text);
-	}
-	
-	/**
-	 * Sets the course of this personal agenda
-	 * @param int $course The course ID
-	 */
-	function set_course($course)
-	{
-		$this->set_default_property(self :: PROPERTY_COURSE, $text);
-	}
-	
-	/**
 	 * Check if personal agenda is valid
 	 */
 	function is_valid_personal_agenda()
