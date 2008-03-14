@@ -1,5 +1,5 @@
 <?php
-
+echo('test');
 /**
  * package migration.platform.dokeos185
  */
@@ -23,7 +23,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	private static $move_file;
 	
 	function Dokeos185DataManager($old_directory)
-	{
+	{	
 		parent :: MigrationDataManager();
 		$this->get_configuration($old_directory);
 	}
@@ -51,7 +51,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	 */
 	function validate_settings()
 	{		
-		if(mysql_connect($this->_configuration['db_host']	, $this->_configuration['db_user'], 
+		if(mysql_connect($this->_configuration['db_host'], $this->_configuration['db_user'], 
 						 $this->_configuration['db_password']	))
 		{
 			
@@ -69,10 +69,20 @@ class Dokeos185DataManager extends MigrationDataManager
 	 * @param String $dbname with databasename 
 	 */
 	function db_connect($dbname)
-	{
+	{	
 		$param = isset($this->_configuration[$dbname])?$this->_configuration[$dbname]:$dbname;
+		$host = $this->_configuration['db_host'];
+		if(strpos($host, ':') =! -1)
+		{
+			$array = split(':', $host);
+			$socket = $array[count($array)];
+			$host = 'unix(' . $socket . ')';
+			echo($host);
+		}
+		
 		$dsn = 'mysql://'.$this->_configuration['db_user'].':'.$this->_configuration['db_password'].'@'.
-				$this->_configuration['db_host'].'/'.$param;
+				$host.'/'.$param;
+		echo($dsn);
 		$this->db = MDB2 :: connect($dsn);
 	}
 	

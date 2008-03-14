@@ -195,7 +195,9 @@ class Dokeos185CourseRelUser extends Import
 		if(!$this->get_course_code() || !$this->get_user_id() || $this->get_status() == NULL
 			|| $this->get_group_id() == NULL || $this->get_tutor_id() == NULL ||
 			self :: $mgdm->get_failed_element('dokeos_main.course', $this->get_course_code()) ||
-			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()) )
+			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()) ||
+			!self :: $mgdm->get_id_reference($this->get_course_code(), 'weblcms_course') ||
+			!self :: $mgdm->get_id_reference($this->get_user_id(), 'user_user'))
 		{
 			self :: $mgdm->add_failed_element($this->get_user_id() . '-' . $this->get_course_code(),
 				'dokeos_main.course_rel_user');

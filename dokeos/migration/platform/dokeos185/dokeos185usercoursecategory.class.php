@@ -154,7 +154,8 @@ class Dokeos185UserCourseCategory extends Import
 	function is_valid_user_course_category()
 	{
 		if(!$this->get_id() || !$this->get_user_id() || !$this->get_title() || 
-			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()))
+			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()) ||
+			!self :: $mgdm->get_id_reference($this->get_user_id(), 'user_user') )
 		{
 			self :: $mgdm->add_failed_element($this->get_id(),
 				'dokeos_user.user_course_category');
