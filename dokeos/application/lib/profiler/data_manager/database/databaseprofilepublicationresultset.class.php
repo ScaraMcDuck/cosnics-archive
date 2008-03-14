@@ -2,7 +2,7 @@
 /**
  * @package application.lib.profiler.data_manager.database
  */
-require_once Path :: get_repository_path(). 'lib/resultset.class.php';
+require_once Path :: get_library_path(). 'database/resultset.class.php';
 /**
  * Resultset to hold a set of learning objects
  */
