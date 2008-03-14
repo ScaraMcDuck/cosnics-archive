@@ -3,7 +3,7 @@
  * $Id$
  * @package repository
  */
-require_once dirname(__FILE__).'/resultset.class.php';
+require_once Path :: get_library_path(). 'database/resultset.class.php';
 
 /**
  * This class allows you to wrap an array in a result set. It does not offer
