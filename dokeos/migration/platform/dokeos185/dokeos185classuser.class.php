@@ -127,7 +127,8 @@ class Dokeos185ClassUser extends Import
 	{
 		if(!$this->get_class_id() || !$this->get_user_id() || 
 			self :: $mgdm->get_failed_element('dokeos_main.class', $this->get_class_id()) ||
-			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()))
+			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()) ||
+			!self :: $mgdm->get_id_reference($this->get_user_id(), 'user_user'))
 		{
 			self :: $mgdm->add_failed_element($this->get_class_id() . '-' . $this->get_user_id(),
 				'dokeos_main.class_user');

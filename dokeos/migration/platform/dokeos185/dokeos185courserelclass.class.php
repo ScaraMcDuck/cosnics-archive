@@ -125,7 +125,9 @@ class Dokeos185CourseRelClass extends Import
 	{
 		if(!$this->get_course_code() || !$this->get_class_id() ||
 			self :: $mgdm->get_failed_element('dokeos_main.course', $this->get_course_code()) ||
-			self :: $mgdm->get_failed_element('dokeos_main.class', $this->get_class_id()) )
+			self :: $mgdm->get_failed_element('dokeos_main.class', $this->get_class_id()) ||
+			!self :: $mgdm->get_id_reference($this->get_course_code(), 'weblcms_course') ||
+			!self :: $mgdm->get_id_reference($this->get_class_id(), 'classgroup_classgroup'))
 		{
 			self :: $mgdm->add_failed_element($this->get_course_id() . '-' . $this->get_class_code(),
 				'dokeos_main.course_rel_class');
