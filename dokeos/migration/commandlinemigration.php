@@ -16,6 +16,7 @@
 	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/calendareventsmigrationwizardpage.class.php');
 	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/documentsmigrationwizardpage.class.php');
 	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/linksmigrationwizardpage.class.php');
+	require_once(dirname(__FILE__) . '/lib/logger.class.php');
 	
 	Translation :: set_application("migration");
 
@@ -44,6 +45,7 @@
 	migrate(new LinksMigrationWizardPage(null, null, true));
 	
 	echo("\n");
+	echo("Total time passed: " . Logger :: get_total_time_passed() . "s\n\n");
 	
 	function migrate($migration)
 	{

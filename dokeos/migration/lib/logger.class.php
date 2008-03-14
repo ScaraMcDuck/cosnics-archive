@@ -93,7 +93,41 @@ class Logger
       */
      function write_passed_time()
      {
-     	$this->add_message('Passed Time: ' . (int)($this->get_microtime() - $this->begin) . ' s');
+     	$passedtime = (int)($this->get_microtime() - $this->begin);
+     	$this->add_message('Passed Time: ' . $passedtime . ' s');
+     	
+     	$timefile = fopen($this->filename = Path :: get_path('SYS_PATH') . '/migration/logfiles/time.txt', 'r');
+     	if(!$timefile) { return; }
+
+		$totaltime = 0;
+		
+    	if (!feof($timefile))
+    		$totaltime = (int)trim(fgets($timefile));
+    	
+    	fclose($timefile);
+    	
+    	$timefile = fopen($this->filename = Path :: get_path('SYS_PATH') . '/migration/logfiles/time.txt', 'w');
+     	if(!$timefile) { return; }
+    	
+    	$totaltime += $passedtime;
+    	
+    	fwrite($timefile, $totaltime);
+    	
+    	fclose($timefile);
+    	
+     }
+     
+     static function get_total_time_passed()
+     {
+     	$timefile = fopen(Path :: get_path('SYS_PATH') . '/migration/logfiles/time.txt', 'r');
+     	if(!$timefile) { return; }
+
+		$totaltime = 0;
+		
+    	if (!feof($timefile))
+    		$totaltime = (int)trim(fgets($timefile));
+    	
+    	return $totaltime;
      }
      
      /**
