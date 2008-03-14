@@ -168,6 +168,11 @@ class Dokeos185Announcement extends ImportAnnouncement
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
+		if(!$new_user_id)
+		{
+			$new_user_id = self :: $mgdm->get_owner($new_course_code);
+		}
+		
 		//announcement parameters
 		$lcms_announcement = new Announcement();
 		
