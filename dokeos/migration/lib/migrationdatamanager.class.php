@@ -436,12 +436,76 @@ abstract class MigrationDataManager
 		$query = 'SELECT id FROM repository_document WHERE path=\'' . $path . '\' AND id IN ' .
 						'(SELECT id FROM repository_learning_object WHERE owner = ' . $owner_id . ')';
 		
-		echo ($query);
 		$result = $this->db_lcms->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$result->free();
 		
 		return $record['id'];
+	}
+	function get_owner($course)
+	{
+		$this->db_lcms_connect();
+		
+		$query = 'SELECT user_id FROM weblcms_course_rel_user WHERE course_code = \'' . $course . '\'';
+		
+		$result = $this->db_lcms->query($query);
+		$owners = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$owners[] = $record['user_id'];
+			
+		}
+		$result->free();
+		
+		if (count($owners) == 1)
+		{
+			return $owners[0];
+		}
+		else
+		{
+			$query = 'SELECT CRL.user_id FROM weblcms_course_rel_user CRL 
+					JOIN user_user UU ON UU.user_id = CRL.user_id
+					JOIN weblcms_course C ON C.code = CRL.course_code
+					WHERE CRL.status = 1 AND CRL.course_code = \'' . $course . 
+					'\' AND C.tutor_name = (UU.firstname + \' \' + UU.lastname)';
+			
+			$result = $this->db_lcms->query($query);
+			$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$result->free();
+			if ($record)
+				return $record['user_id'];
+			else
+			{
+				$query = 'SELECT COUNT(LOP.publisher) as count, CRL.user_id FROM weblcms_course_rel_user CRL
+						JOIN weblcms_learning_object_publication LOP ON LOP.publisher = CRL.user_id
+						AND LOP.course = CRL.course_code WHERE CRL.status = 1 AND
+						CRL.course_code = \'' . $course . '\' GROUP BY CRL.user_id';
+				
+				$result = $this->db_lcms->query($query);
+				$owner_id = -1;
+				$max_published = 0;
+				
+				while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+				{
+					if($record['count'] > $max_published) 
+					{
+						$max_published = $record['count'];
+						$owner_id = $record['user_id'];
+					}
+					
+				}
+				$result->free();
+				
+				if ($owner_id == -1)
+				{
+					$query = 'SELECT user_id FROM user_user WHERE admin = 1';
+					$result = $this->db_lcms->query($query);
+					$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+					$owner_id = $record['user_id'];
+				}
+				return $owner_id;
+			}
+		}
 	}
 }
 
