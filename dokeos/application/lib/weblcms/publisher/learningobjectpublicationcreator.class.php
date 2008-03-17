@@ -69,7 +69,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		$form->addElement('hidden', 'tool');
 		$form->addElement('hidden', LearningObjectPublisher :: PARAM_ACTION);
 		$form->addElement('select', 'type', '', $types);
-		$form->addElement('submit', 'submit', get_lang('Ok'));
+		$form->addElement('submit', 'submit', Translation :: get_lang('Ok'));
 		$form->setDefaults(array ('tool' => $_GET['tool'], LearningObjectPublisher :: PARAM_ACTION => $_GET[LearningObjectPublisher :: PARAM_ACTION]));
 		return $form->toHtml();
 	}
@@ -127,14 +127,14 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 			$publication = $form->create_learning_object_publication();
 			// TODO: Use a function for this.
 			//$parameters['action'] = RepositoryTool::ACTION_SHOW_NORMAL_MESSAGE;
-			$parameters['message'] = get_lang('ObjectPublished');
+			$parameters['message'] = Translation :: get_lang('ObjectPublished');
 			$parameters['pcattree'] = $publication->get_category_id();
 			$parameters['admin'] = 0;
 			$url = $this->get_url($parameters);
 			// Redirect to location where the publication was made
 			header('Location: '.$url);
 			// In case headers were allready sent, we simply show the confirmation message here
-			$out .= Display::display_normal_message(get_lang('ObjectPublished'),true);
+			$out .= Display::display_normal_message(Translation :: get_lang('ObjectPublished'),true);
 		}
 		else
 		{

@@ -35,8 +35,8 @@ class LearningObjectFinder extends LearningObjectBrowser
 		$this->form->addElement('hidden', LearningObjectPublisher :: PARAM_ACTION);
 		$this->form->addElement('hidden', Weblcms :: PARAM_ACTION);
 		$this->form->addElement('hidden', Weblcms :: PARAM_COURSE);
-		$this->form->addElement('text', 'query', get_lang('Find'), 'size="40" class="search_query"');
-		$this->form->addElement('submit', 'submit', get_lang('Ok'));
+		$this->form->addElement('text', 'query', Translation :: get_lang('Find'), 'size="40" class="search_query"');
+		$this->form->addElement('submit', 'submit', Translation :: get_lang('Ok'));
 		$this->renderer = clone $this->form->defaultRenderer();
 		$this->renderer->setElementTemplate('<span>{element}</span> ');
 		$this->form->accept($this->renderer);
