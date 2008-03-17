@@ -234,7 +234,11 @@ class Dokeos185Announcement extends ImportAnnouncement
 			//$publication->set_modified_date(0);
 			//$publication->set_display_order_index($this->get_display_order());
 			$publication->set_display_order_index(0);
-			$publication->set_email_sent($this->get_email_sent());
+			
+			if($this->get_email_sent())
+				$publication->set_email_sent($this->get_email_sent());
+			else
+				$publication->set_email_sent(0);
 			
 			$publication->set_hidden($this->item_property->get_visibility() == 1?0:1);
 			
