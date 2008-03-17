@@ -195,7 +195,7 @@ class Dokeos185SystemAnnouncement extends Import
 	
 	function is_valid_system_announcement()
 	{
-		if(!$this->get_title() || !$this->get_content())
+		if(!($this->get_title() || $this->get_content()))
 		{
 			self :: $mgdm->add_failed_element($this->get_id(), 'dokeos_main.sys_announcement');
 			return false;
