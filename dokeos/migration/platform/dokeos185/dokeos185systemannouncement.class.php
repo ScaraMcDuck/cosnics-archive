@@ -208,8 +208,16 @@ class Dokeos185SystemAnnouncement extends Import
 	{	
 		$lcms_repository_announcement = new Announcement();
 		$lcms_repository_announcement->set_owner_id($admin_id);
-		$lcms_repository_announcement->set_title($this->get_title());
-		$lcms_repository_announcement->set_description($this->get_content());
+		
+		if(!$this->get_title())
+			$lcms_announcement->set_title(substr($this->get_content(),0,20));
+		else
+			$lcms_announcement->set_title($this->get_title());
+		
+		if(!$this->get_content())
+			$lcms_announcement->set_description($this->get_title());
+		else
+			$lcms_announcement->set_description($this->get_content());
 		
 		// Category for announcements already exists?
 		$lcms_category_id = self :: $mgdm->get_parent_id($admin_id, 'category',
