@@ -187,7 +187,7 @@ class Dokeos185Document extends Import
 			$new_user_id = self :: $mgdm->get_owner($new_course_code);
 		}
 		
-		$pos = strpos($this->get_path(), $this->get_title());
+		$pos = strpos($this->get_path(), '/');
 		$filename = substr($this->get_path(), $pos);
 		$old_path = substr($this->get_path(), 0, $pos);
 		
