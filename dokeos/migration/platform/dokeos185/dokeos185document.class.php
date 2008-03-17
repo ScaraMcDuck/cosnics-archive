@@ -200,6 +200,8 @@ class Dokeos185Document extends Import
 		
 		if(!self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename))])
 		{
+			$filename = iconv("UTF-8", "ISO-8859-1", $filename);
+			$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 			
 			// Move file to correct directory
 			$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
@@ -212,7 +214,12 @@ class Dokeos185Document extends Import
 				$lcms_document = new Document();
 	
 				$lcms_document->set_filesize($this->get_size());
-				$lcms_document->set_title($this->get_title());
+				
+				if($this->get_title())
+					$lcms_document->set_title($this->get_title());
+				else
+					$lcms_document->set_title($filename);
+					
 				$lcms_document->set_description('...');
 				$lcms_document->set_comment($this->get_comment());
 				

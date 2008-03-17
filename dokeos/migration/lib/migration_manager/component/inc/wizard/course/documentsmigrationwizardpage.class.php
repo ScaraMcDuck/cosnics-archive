@@ -176,7 +176,8 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 			if($document->is_valid_document($course))
 			{
 				$lcms_document = $document->convert_to_new_document($course);
-				$this->logfile->add_message('SUCCES: document added ( ' . $lcms_document->get_id() . ' )');
+				if($lcms_document)
+					$this->logfile->add_message('SUCCES: document added ( ' . $lcms_document->get_id() . ' )');
 				$this->succes[0]++;
 			}
 			else
