@@ -141,9 +141,8 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'calendar_event',$this->get_id());	
 	
 
-		if(!$this->get_id() || !$this->get_title() || !$this->get_content()
-			|| $this->item_property->get_insert_user_id() == 0 || !$this->item_property->get_insert_date() ||
-			self :: $mgdm->get_failed_element('dokeos_main.user', $this->item_property->get_insert_user_id() ))
+		if(!$this->get_id() || !($this->get_title() || $this->get_content())
+			|| !$this->item_property->get_insert_date())
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.calendar_event');
@@ -197,8 +196,15 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 		}
 		
 		
-		$lcms_calendar_event->set_title($this->get_title());
-		$lcms_calendar_event->set_description($this->get_content());
+		if(!$this->get_title())
+			$lcms_calendar_event->set_title(substr($this->get_content(),0,20));
+		else
+			$lcms_calendar_event->set_title($this->get_title());
+		
+		if(!$this->get_content())
+			$lcms_calendar_event->set_description($this->get_title());
+		else
+			$lcms_calendar_event->set_description($this->get_content());
 		
 		$lcms_calendar_event->set_owner_id($new_user_id);
 		$lcms_calendar_event->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));

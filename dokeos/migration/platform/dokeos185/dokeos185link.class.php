@@ -164,9 +164,7 @@ class Dokeos185Link extends Import
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'link',$this->get_id());
 		
 		if(!$this->get_url() || !$this->get_id() || !$this->get_title() || 
-			 $this->item_property->get_insert_user_id() == 0 || 
-			!$this->item_property->get_insert_date() ||
-			self :: $mgdm->get_failed_element('dokeos_main.user', $this->item_property->get_insert_user_id() ))
+			!$this->item_property->get_insert_date())
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.link');

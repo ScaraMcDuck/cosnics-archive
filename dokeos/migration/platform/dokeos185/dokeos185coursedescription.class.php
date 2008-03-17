@@ -118,7 +118,7 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 	
 	function is_valid_course_description($course)
 	{	
-		if(!$this->get_id() || !$this->get_title() || !$this->get_content())
+		if(!$this->get_id() || !($this->get_title() || $this->get_content()))
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.description');
@@ -130,8 +130,16 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 	function convert_to_new_course_description($course)
 	{	
 		$lcms_content = new Description();
-		$lcms_content->set_title($this->get_title());
-		$lcms_content->set_description($this->get_content());
+		
+		if(!$this->get_title())
+			$lcms_calendar_event->set_title(substr($this->get_content(),0,20));
+		else
+			$lcms_calendar_event->set_title($this->get_title());
+		
+		if(!$this->get_content())
+			$lcms_calendar_event->set_description($this->get_title());
+		else
+			$lcms_calendar_event->set_description($this->get_content());
 		
 		$user_id = self :: $mgdm->get_id_reference(self :: $mgdm->get_old_admin_id(), 'user_user');
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
