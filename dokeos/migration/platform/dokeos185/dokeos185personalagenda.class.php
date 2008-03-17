@@ -200,7 +200,7 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 			$lcms_calendar_event->set_end_date(self :: $mgdm->make_unix_time($this->get_enddate()));
 			
 		if(!$this->get_title())
-			$lcms_calendar_event->set_title($this->get_text());
+			$lcms_calendar_event->set_title(substr($this->get_text(),0,20));
 		else
 			$lcms_calendar_event->set_title($this->get_title());
 		

@@ -202,8 +202,15 @@ class Dokeos185Announcement extends ImportAnnouncement
 			$lcms_announcement->set_parent_id($lcms_category_id);	
 		}
 		
-		$lcms_announcement->set_title($this->get_title());
-		$lcms_announcement->set_description($this->get_content());
+		if(!$this->get_title())
+			$lcms_announcement->set_title(substr($this->get_content(),0,20));
+		else
+			$lcms_announcement->set_title($this->get_title());
+		
+		if(!$this->get_content())
+			$lcms_announcement->set_description($this->get_title());
+		else
+			$lcms_announcement->set_description($this->get_content());
 		
 		$lcms_announcement->set_owner_id($new_user_id);
 		$lcms_announcement->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
