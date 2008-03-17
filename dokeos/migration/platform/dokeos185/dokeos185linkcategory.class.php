@@ -116,7 +116,7 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 	
 	function is_valid_link_category($course)
 	{	
-		if(!$this->get_id() || !$this->get_category_title() || !$this->get_description())
+		if(!$this->get_id() || !($this->get_category_title() || $this->get_description()))
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.link');
@@ -133,7 +133,12 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 		
 		$lcms_link_category->set_course($new_course_code);
 		$lcms_link_category->set_tool('link');
-		$lcms_link_category->set_title($this->get_category_title());
+		
+		if(!$this->get_title())
+			$lcms_link_category->set_title($this->get_description());
+		else
+			$lcms_link_category->set_title($this->get_category_title());
+			
 		$lcms_link_category->get_parent_category_id(0);
 		
 		$lcms_link_category->create();

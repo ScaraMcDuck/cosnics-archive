@@ -167,8 +167,7 @@ class Dokeos185Document extends Import
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'document',$this->get_id());	
 		
 		if(!$this->get_id() || !$this->get_path() || !$this->get_filetype()
-			|| $this->item_property->get_insert_user_id() == 0 || !$this->item_property->get_insert_date() ||
-			self :: $mgdm->get_failed_element('dokeos_main.user', $this->item_property->get_insert_user_id() ))
+			|| !$this->item_property->get_insert_date())
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.document');
@@ -187,7 +186,7 @@ class Dokeos185Document extends Import
 			$new_user_id = self :: $mgdm->get_owner($new_course_code);
 		}
 		
-		$pos = strpos($this->get_path(), '/');
+		$pos = strrpos($this->get_path(), '/');
 		$filename = substr($this->get_path(), $pos);
 		$old_path = substr($this->get_path(), 0, $pos);
 		
@@ -196,30 +195,30 @@ class Dokeos185Document extends Import
 
 		$new_rel_path = 'files/repository/' . $new_path;
 		
-		
+		$lcms_document = null;
 		
 		if(!self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename))])
 		{
+			
 			$filename = iconv("UTF-8", "ISO-8859-1", $filename);
 			$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
-			
+
 			// Move file to correct directory
+			//echo($old_rel_path . "\t" . $new_rel_path . "\t" . $filename . "\n");
+
 			$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
 				$filename);
-			
+
 			if($file)
 			{
-				
 				//document parameters
 				$lcms_document = new Document();
 	
 				$lcms_document->set_filesize($this->get_size());
-				
 				if($this->get_title())
 					$lcms_document->set_title($this->get_title());
 				else
 					$lcms_document->set_title($filename);
-					
 				$lcms_document->set_description('...');
 				$lcms_document->set_comment($this->get_comment());
 				
@@ -270,12 +269,10 @@ class Dokeos185Document extends Import
 			$lcms_document = new LearningObject();
 			$id = self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename))];
 			$lcms_document->set_id($id);
-			
-			
 		}
 			
 		//publication
-		if($this->item_property->get_visibility() <= 1) 
+		if($this->item_property->get_visibility() <= 1 && $lcms_document) 
 		{
 			// Categories already exists?
 			$file_split = array();
