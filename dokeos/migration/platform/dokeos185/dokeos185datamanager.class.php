@@ -72,17 +72,17 @@ class Dokeos185DataManager extends MigrationDataManager
 	{	
 		$param = isset($this->_configuration[$dbname])?$this->_configuration[$dbname]:$dbname;
 		$host = $this->_configuration['db_host'];
-		if(strpos($host, ':') =! -1)
+		$pos = strpos($host, ':');		
+
+		if($pos ==! false)
 		{
 			$array = split(':', $host);
-			$socket = $array[count($array)];
+			$socket = $array[count($array) - 1];
 			$host = 'unix(' . $socket . ')';
-			echo($host);
 		}
 		
 		$dsn = 'mysql://'.$this->_configuration['db_user'].':'.$this->_configuration['db_password'].'@'.
 				$host.'/'.$param;
-		echo($dsn);
 		$this->db = MDB2 :: connect($dsn);
 	}
 	

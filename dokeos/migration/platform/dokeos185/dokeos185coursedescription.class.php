@@ -116,12 +116,12 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 		return $this->get_default_property(self :: PROPERTY_CONTENT);
 	}
 	
-	function is_valid_course_description()
+	function is_valid_course_description($course)
 	{	
 		if(!$this->get_id() || !$this->get_title() || !$this->get_content())
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
-				$course->get_db_name() . '.link');
+				$course->get_db_name() . '.description');
 			return false;
 		}
 		return true;

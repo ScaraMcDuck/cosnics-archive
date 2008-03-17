@@ -483,7 +483,7 @@ abstract class MigrationDataManager
 				
 				$result = $this->db_lcms->query($query);
 				$owner_id = -1;
-				$max_published = 0;
+				$max_published = -1;
 				
 				while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
