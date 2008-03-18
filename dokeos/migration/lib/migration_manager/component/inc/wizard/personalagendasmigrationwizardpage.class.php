@@ -151,13 +151,14 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 		$pas = array();
 		$pas = $pa_class->get_all_personal_agendas($this->mgdm);
 		
-		foreach($pas as $pa)
+		foreach($pas as $i => $pa)
 		{
 			if($pa->is_valid_personal_agenda())
 			{
 				$lcms_pa = $pa->convert_to_new_personal_agenda();
 				$this->logfile->add_message('SUCCES: Personal Agenda added ( ' . $lcms_pa->get_id() . ' )');
 				$this->succes[0]++;
+				unset($lcms_pa);
 			}
 			else
 			{
@@ -165,6 +166,8 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message($message);
 				$this->failed_elements[0][] = $message;
 			}
+			
+			unset($pas[$i]);
 		}
 		
 
