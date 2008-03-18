@@ -122,7 +122,7 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 				$courses = array();
 				$courses = $courseclass->get_all_courses($this->mgdm);
 				
-				foreach($courses as $course)
+				foreach($courses as $i => $course)
 				{
 					if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
 					{
@@ -132,6 +132,7 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 					$this->migrate_calendar_events($course);
 					//TODO: migrate resources
 					//$this->migrate_resources();
+					uunset($courses[$i]);
 				}
 			}
 			else
@@ -174,13 +175,14 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 		$calendar_events = array();
 		$calendar_events = $class_calendar_event->get_all_calendar_events($course, $this->mgdm, $this->include_deleted_files);
 		
-		foreach($calendar_events as $calendar_event)
+		foreach($calendar_events as $j => $calendar_event)
 		{
 			if($calendar_event->is_valid_calendar_event($course))
 			{
 				$lcms_calendar_event = $calendar_event->convert_to_new_calendar_event($course);
 				$this->logfile->add_message('SUCCES: Calendar event added ( ID ' . $lcms_calendar_event->get_id() . ' )');
 				$this->succes[0]++;
+				unset($lcms_calendar_event);
 			}
 			else
 			{
@@ -188,6 +190,7 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message($message);
 				$this->failed_elements[0][] = $message;
 			}
+			unset($calendar_events[$j]);
 		}
 		
 

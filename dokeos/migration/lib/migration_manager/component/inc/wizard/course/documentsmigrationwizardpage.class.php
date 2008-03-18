@@ -122,7 +122,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 				$courses = array();
 				$courses = $courseclass->get_all_courses($this->mgdm);
 				
-				foreach($courses as $course)
+				foreach($courses as $i => $course)
 				{
 					if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
 					{
@@ -130,6 +130,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 					}	
 			
 					$this->migrate_documents($course);
+					unset($courses[$i]);
 				}
 			}
 			else
@@ -171,7 +172,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 		$documents = array();
 		$documents = $class_document->get_all_documents($course, $this->mgdm, $this->include_deleted_files);
 		
-		foreach($documents as $document)
+		foreach($documents as $j => $document)
 		{
 			if($document->is_valid_document($course))
 			{
@@ -179,6 +180,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 				if($lcms_document)
 					$this->logfile->add_message('SUCCES: document added ( ' . $lcms_document->get_id() . ' )');
 				$this->succes[0]++;
+				unset($lcms_document);
 			}
 			else
 			{
@@ -186,6 +188,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message($message);
 				$this->failed_elements[0][] = $message;
 			}
+			unset($documents[$j]);
 		}
 		
 

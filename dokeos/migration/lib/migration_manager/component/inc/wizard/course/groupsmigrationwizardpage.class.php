@@ -123,7 +123,7 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 				$courses = array();
 				$courses = $courseclass->get_all_courses($this->mgdm);
 				
-				foreach($courses as $course)
+				foreach($courses as $i => $course)
 				{
 					if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
 					{
@@ -135,6 +135,7 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 					//$this->migrate_group_rel_users($course);
 					//$this->migrate_group_rel_tutors($course);
 					//TODO: group categories, group rel users, group rel tutors;
+					unset($courses[$i]);
 				}
 			}
 			else
@@ -177,13 +178,14 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 		$groupcategories = array();
 		$groupcategories = $groupcatclass->get_all_group_categories($course->get_db_name(), $this->mgdm);
 		
-		foreach($groupcategories as $groupcategory)
+		foreach($groupcategories as $j => $groupcategory)
 		{
 			if($groupcategory->is_valid_group_category($course))
 			{
 				$lcms_groupcat = $groupcategory->convert_to_new_group_category($course);
 				$this->logfile->add_message('SUCCES: Group category added ( ID: ' . $lcms_groupcat->get_id() . ' )');
 				$this->succes[0]++;
+				unset($lcms_groupcat);
 			}
 			else
 			{
@@ -208,7 +210,7 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 		$groups = array();
 		$groups = $groupclass->get_all_groups($course->get_db_name(),$this->mgdm);
 		
-		foreach($groups as $group)
+		foreach($groups as $j => $group)
 		{
 			if($group->is_valid_group($course))
 			{
@@ -216,6 +218,7 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message('SUCCES: Group added ( ID: ' .  
 						$lcms_group->get_id() . ' )');
 				$this->succes[0]++;
+				unset($lcms_group);
 			}
 			else
 			{
@@ -224,6 +227,7 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message($message);
 				$this->failed_elements[0][] = $message;
 			}
+			unset($groups[$j]);
 		}
 		
 

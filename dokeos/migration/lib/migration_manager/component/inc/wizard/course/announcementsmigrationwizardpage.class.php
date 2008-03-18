@@ -155,7 +155,7 @@ class AnnouncementsMigrationWizardPage extends MigrationWizardPage
 		
 		$courses = $courseclass->get_all_courses($this->mgdm);
 		
-		foreach($courses as $course)
+		foreach($courses as $i => $course)
 		{
 			if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
 			{
@@ -164,13 +164,14 @@ class AnnouncementsMigrationWizardPage extends MigrationWizardPage
 			
 			$announcements = $announcementclass->get_all_announcements($this->mgdm,$course->get_db_name(), $this->include_deleted_files);
 			
-			foreach($announcements as $announcement)
+			foreach($announcements as $j => $announcement)
 			{
 				if($announcement->is_valid_announcement($course))
 				{
 					$lcms_announcement = $announcement->convert_to_new_announcement($course);
 					$this->logfile->add_message('SUCCES: Announcement added ( ID:' . $lcms_announcement->get_id() . ' )');
 					$this->succes[0]++;
+					unset($lcms_announcement);
 				}
 				else
 				{
@@ -180,7 +181,9 @@ class AnnouncementsMigrationWizardPage extends MigrationWizardPage
 				}
 				
 				$this->logfile->add_message('Announcements ' . $course->get_code() . ' migrated');
+				unset($announcements[$j]);
 			}
+			unset($courses[$i]);
 		}
 
 		$this->logfile->add_message('Announcements courses migrated');
