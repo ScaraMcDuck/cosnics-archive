@@ -184,7 +184,7 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 				$this->failed_elements[0][] = $message;*/
 			}
 			
-			unset($systemsetting[$i]);
+			unset($systemsettings[$i]);
 		}
 		
 		$this->logfile->add_message('System setting migrated');
