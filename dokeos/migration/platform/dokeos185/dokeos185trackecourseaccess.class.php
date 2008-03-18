@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 track_e_course_access
+ * This class presents a Dokeos185 track_e_course_access
  *
  * @author Sven Vanpoucke
  */
@@ -89,14 +89,6 @@ class Dokeos185TrackECourseAccess
 	}
 
 	/**
-	 * Sets the course_access_id of this Dokeos185TrackECourseAccess.
-	 * @param course_access_id
-	 */
-	function set_course_access_id($course_access_id)
-	{
-		$this->set_default_property(self :: PROPERTY_COURSE_ACCESS_ID, $course_access_id);
-	}
-	/**
 	 * Returns the course_code of this Dokeos185TrackECourseAccess.
 	 * @return the course_code.
 	 */
@@ -105,14 +97,6 @@ class Dokeos185TrackECourseAccess
 		return $this->get_default_property(self :: PROPERTY_COURSE_CODE);
 	}
 
-	/**
-	 * Sets the course_code of this Dokeos185TrackECourseAccess.
-	 * @param course_code
-	 */
-	function set_course_code($course_code)
-	{
-		$this->set_default_property(self :: PROPERTY_COURSE_CODE, $course_code);
-	}
 	/**
 	 * Returns the user_id of this Dokeos185TrackECourseAccess.
 	 * @return the user_id.
@@ -123,14 +107,6 @@ class Dokeos185TrackECourseAccess
 	}
 
 	/**
-	 * Sets the user_id of this Dokeos185TrackECourseAccess.
-	 * @param user_id
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
-	/**
 	 * Returns the login_course_date of this Dokeos185TrackECourseAccess.
 	 * @return the login_course_date.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185TrackECourseAccess
 		return $this->get_default_property(self :: PROPERTY_LOGIN_COURSE_DATE);
 	}
 
-	/**
-	 * Sets the login_course_date of this Dokeos185TrackECourseAccess.
-	 * @param login_course_date
-	 */
-	function set_login_course_date($login_course_date)
-	{
-		$this->set_default_property(self :: PROPERTY_LOGIN_COURSE_DATE, $login_course_date);
-	}
 	/**
 	 * Returns the logout_course_date of this Dokeos185TrackECourseAccess.
 	 * @return the logout_course_date.
@@ -157,14 +125,6 @@ class Dokeos185TrackECourseAccess
 	}
 
 	/**
-	 * Sets the logout_course_date of this Dokeos185TrackECourseAccess.
-	 * @param logout_course_date
-	 */
-	function set_logout_course_date($logout_course_date)
-	{
-		$this->set_default_property(self :: PROPERTY_LOGOUT_COURSE_DATE, $logout_course_date);
-	}
-	/**
 	 * Returns the counter of this Dokeos185TrackECourseAccess.
 	 * @return the counter.
 	 */
@@ -173,14 +133,6 @@ class Dokeos185TrackECourseAccess
 		return $this->get_default_property(self :: PROPERTY_COUNTER);
 	}
 
-	/**
-	 * Sets the counter of this Dokeos185TrackECourseAccess.
-	 * @param counter
-	 */
-	function set_counter($counter)
-	{
-		$this->set_default_property(self :: PROPERTY_COUNTER, $counter);
-	}
 
 }
 

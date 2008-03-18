@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 track_e_lastaccess
+ * This class presents a Dokeos185 track_e_lastaccess
  *
  * @author Sven Vanpoucke
  */
@@ -89,14 +89,6 @@ class Dokeos185TrackELastaccess
 	}
 
 	/**
-	 * Sets the access_id of this Dokeos185TrackELastaccess.
-	 * @param access_id
-	 */
-	function set_access_id($access_id)
-	{
-		$this->set_default_property(self :: PROPERTY_ACCESS_ID, $access_id);
-	}
-	/**
 	 * Returns the access_user_id of this Dokeos185TrackELastaccess.
 	 * @return the access_user_id.
 	 */
@@ -105,14 +97,6 @@ class Dokeos185TrackELastaccess
 		return $this->get_default_property(self :: PROPERTY_ACCESS_USER_ID);
 	}
 
-	/**
-	 * Sets the access_user_id of this Dokeos185TrackELastaccess.
-	 * @param access_user_id
-	 */
-	function set_access_user_id($access_user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_ACCESS_USER_ID, $access_user_id);
-	}
 	/**
 	 * Returns the access_date of this Dokeos185TrackELastaccess.
 	 * @return the access_date.
@@ -123,14 +107,6 @@ class Dokeos185TrackELastaccess
 	}
 
 	/**
-	 * Sets the access_date of this Dokeos185TrackELastaccess.
-	 * @param access_date
-	 */
-	function set_access_date($access_date)
-	{
-		$this->set_default_property(self :: PROPERTY_ACCESS_DATE, $access_date);
-	}
-	/**
 	 * Returns the access_cours_code of this Dokeos185TrackELastaccess.
 	 * @return the access_cours_code.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185TrackELastaccess
 		return $this->get_default_property(self :: PROPERTY_ACCESS_COURS_CODE);
 	}
 
-	/**
-	 * Sets the access_cours_code of this Dokeos185TrackELastaccess.
-	 * @param access_cours_code
-	 */
-	function set_access_cours_code($access_cours_code)
-	{
-		$this->set_default_property(self :: PROPERTY_ACCESS_COURS_CODE, $access_cours_code);
-	}
 	/**
 	 * Returns the access_tool of this Dokeos185TrackELastaccess.
 	 * @return the access_tool.
@@ -157,14 +125,6 @@ class Dokeos185TrackELastaccess
 	}
 
 	/**
-	 * Sets the access_tool of this Dokeos185TrackELastaccess.
-	 * @param access_tool
-	 */
-	function set_access_tool($access_tool)
-	{
-		$this->set_default_property(self :: PROPERTY_ACCESS_TOOL, $access_tool);
-	}
-	/**
 	 * Returns the access_session_id of this Dokeos185TrackELastaccess.
 	 * @return the access_session_id.
 	 */
@@ -173,14 +133,6 @@ class Dokeos185TrackELastaccess
 		return $this->get_default_property(self :: PROPERTY_ACCESS_SESSION_ID);
 	}
 
-	/**
-	 * Sets the access_session_id of this Dokeos185TrackELastaccess.
-	 * @param access_session_id
-	 */
-	function set_access_session_id($access_session_id)
-	{
-		$this->set_default_property(self :: PROPERTY_ACCESS_SESSION_ID, $access_session_id);
-	}
 
 }
 

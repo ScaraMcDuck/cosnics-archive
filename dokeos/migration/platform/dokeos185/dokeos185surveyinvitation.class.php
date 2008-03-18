@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 survey_invitation
+ * This class presents a Dokeos185 survey_invitation
  *
  * @author Sven Vanpoucke
  */
@@ -90,14 +90,6 @@ class Dokeos185SurveyInvitation
 	}
 
 	/**
-	 * Sets the survey_invitation_id of this Dokeos185SurveyInvitation.
-	 * @param survey_invitation_id
-	 */
-	function set_survey_invitation_id($survey_invitation_id)
-	{
-		$this->set_default_property(self :: PROPERTY_SURVEY_INVITATION_ID, $survey_invitation_id);
-	}
-	/**
 	 * Returns the survey_code of this Dokeos185SurveyInvitation.
 	 * @return the survey_code.
 	 */
@@ -106,14 +98,6 @@ class Dokeos185SurveyInvitation
 		return $this->get_default_property(self :: PROPERTY_SURVEY_CODE);
 	}
 
-	/**
-	 * Sets the survey_code of this Dokeos185SurveyInvitation.
-	 * @param survey_code
-	 */
-	function set_survey_code($survey_code)
-	{
-		$this->set_default_property(self :: PROPERTY_SURVEY_CODE, $survey_code);
-	}
 	/**
 	 * Returns the user of this Dokeos185SurveyInvitation.
 	 * @return the user.
@@ -124,14 +108,6 @@ class Dokeos185SurveyInvitation
 	}
 
 	/**
-	 * Sets the user of this Dokeos185SurveyInvitation.
-	 * @param user
-	 */
-	function set_user($user)
-	{
-		$this->set_default_property(self :: PROPERTY_USER, $user);
-	}
-	/**
 	 * Returns the invitation_code of this Dokeos185SurveyInvitation.
 	 * @return the invitation_code.
 	 */
@@ -140,14 +116,6 @@ class Dokeos185SurveyInvitation
 		return $this->get_default_property(self :: PROPERTY_INVITATION_CODE);
 	}
 
-	/**
-	 * Sets the invitation_code of this Dokeos185SurveyInvitation.
-	 * @param invitation_code
-	 */
-	function set_invitation_code($invitation_code)
-	{
-		$this->set_default_property(self :: PROPERTY_INVITATION_CODE, $invitation_code);
-	}
 	/**
 	 * Returns the invitation_date of this Dokeos185SurveyInvitation.
 	 * @return the invitation_date.
@@ -158,14 +126,6 @@ class Dokeos185SurveyInvitation
 	}
 
 	/**
-	 * Sets the invitation_date of this Dokeos185SurveyInvitation.
-	 * @param invitation_date
-	 */
-	function set_invitation_date($invitation_date)
-	{
-		$this->set_default_property(self :: PROPERTY_INVITATION_DATE, $invitation_date);
-	}
-	/**
 	 * Returns the reminder_date of this Dokeos185SurveyInvitation.
 	 * @return the reminder_date.
 	 */
@@ -175,14 +135,6 @@ class Dokeos185SurveyInvitation
 	}
 
 	/**
-	 * Sets the reminder_date of this Dokeos185SurveyInvitation.
-	 * @param reminder_date
-	 */
-	function set_reminder_date($reminder_date)
-	{
-		$this->set_default_property(self :: PROPERTY_REMINDER_DATE, $reminder_date);
-	}
-	/**
 	 * Returns the answered of this Dokeos185SurveyInvitation.
 	 * @return the answered.
 	 */
@@ -191,14 +143,6 @@ class Dokeos185SurveyInvitation
 		return $this->get_default_property(self :: PROPERTY_ANSWERED);
 	}
 
-	/**
-	 * Sets the answered of this Dokeos185SurveyInvitation.
-	 * @param answered
-	 */
-	function set_answered($answered)
-	{
-		$this->set_default_property(self :: PROPERTY_ANSWERED, $answered);
-	}
 
 }
 

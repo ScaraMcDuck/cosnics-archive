@@ -1,26 +1,18 @@
-<?php
-
+<?php 
 /**
- * @package migration.platform.dokeos185
+ * migration.lib.platform.dokeos185
  */
- 
-require_once dirname(__FILE__) . '/../../lib/import/importgradebookcategory.class.php';
 
 /**
- * This class represents an old Dokeos 1.8.5 gradebook category
+ * This class presents a Dokeos185 gradebook_category
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185GradebookCategory extends ImportGradebookCategory
+class Dokeos185GradebookCategory
 {
 	/**
-	 * Migration data manager
+	 * Dokeos185GradebookCategory properties
 	 */
-	private static $mgdm;
-	
-	/**
-	 * Gradebook Category properties
-	 */	 
 	const PROPERTY_ID = 'id';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_DESCRIPTION = 'description';
@@ -30,21 +22,21 @@ class Dokeos185GradebookCategory extends ImportGradebookCategory
 	const PROPERTY_WEIGHT = 'weight';
 	const PROPERTY_VISIBLE = 'visible';
 	const PROPERTY_CERTIF_MIN_SCORE = 'certif_min_score';
-	
+
 	/**
 	 * Default properties stored in an associative array.
 	 */
 	private $defaultProperties;
-	
+
 	/**
-	 * Creates a new dokeos185 Gradebook Category object
+	 * Creates a new Dokeos185GradebookCategory object
 	 * @param array $defaultProperties The default properties
 	 */
 	function Dokeos185GradebookCategory($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
-	
+
 	/**
 	 * Gets a default property by name.
 	 * @param string $name The name of the property.
@@ -53,7 +45,7 @@ class Dokeos185GradebookCategory extends ImportGradebookCategory
 	{
 		return $this->defaultProperties[$name];
 	}
-	
+
 	/**
 	 * Gets the default properties
 	 * @return array An associative array containing the properties.
@@ -62,18 +54,16 @@ class Dokeos185GradebookCategory extends ImportGradebookCategory
 	{
 		return $this->defaultProperties;
 	}
-	
+
 	/**
 	 * Get the default properties
 	 * @return array The property names.
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION,
-					  self :: PROPERTY_USER_ID, self :: PROPERTY_COURSE_CODE, 
-					  self :: PROPERTY_PARENT_ID);
+		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_NAME, SELF :: PROPERTY_DESCRIPTION, SELF :: PROPERTY_USER_ID, SELF :: PROPERTY_COURSE_CODE, SELF :: PROPERTY_PARENT_ID, SELF :: PROPERTY_WEIGHT, SELF :: PROPERTY_VISIBLE, SELF :: PROPERTY_CERTIF_MIN_SCORE);
 	}
-	
+
 	/**
 	 * Sets a default property by name.
 	 * @param string $name The name of the property.
@@ -83,7 +73,7 @@ class Dokeos185GradebookCategory extends ImportGradebookCategory
 	{
 		$this->defaultProperties[$name] = $value;
 	}
-	
+
 	/**
 	 * Sets the default properties of this class
 	 */
@@ -91,102 +81,89 @@ class Dokeos185GradebookCategory extends ImportGradebookCategory
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
-	
+
 	/**
-	 * Returns the id of this gradebook category.
-	 * @return int The id.
+	 * Returns the id of this Dokeos185GradebookCategory.
+	 * @return the id.
 	 */
 	function get_id()
 	{
 		return $this->get_default_property(self :: PROPERTY_ID);
 	}
-	 
+
 	/**
-	 * Returns the name of this gradebook category.
-	 * @return string the name.
+	 * Returns the name of this Dokeos185GradebookCategory.
+	 * @return the name.
 	 */
 	function get_name()
 	{
 		return $this->get_default_property(self :: PROPERTY_NAME);
 	}
-	
+
 	/**
-	 * Returns the description of this gradebook category.
-	 * @return string the description.
+	 * Returns the description of this Dokeos185GradebookCategory.
+	 * @return the description.
 	 */
 	function get_description()
 	{
 		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
 	}
-	
+
 	/**
-	 * Returns the user_id of this gradebook category.
-	 * @return date the user_id.
+	 * Returns the user_id of this Dokeos185GradebookCategory.
+	 * @return the user_id.
 	 */
 	function get_user_id()
 	{
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
-	
+
 	/**
-	 * Returns the course_code of this gradebook category.
-	 * @return int the course_code.
+	 * Returns the course_code of this Dokeos185GradebookCategory.
+	 * @return the course_code.
 	 */
 	function get_course_code()
 	{
 		return $this->get_default_property(self :: PROPERTY_COURSE_CODE);
 	}
-	
+
 	/**
-	 * Returns the parent_id of this gradebook category.
-	 * @return int the parent_id.
+	 * Returns the parent_id of this Dokeos185GradebookCategory.
+	 * @return the parent_id.
 	 */
 	function get_parent_id()
 	{
 		return $this->get_default_property(self :: PROPERTY_PARENT_ID);
 	}
-	
+
 	/**
-	 * Returns the weight of this announcement.
-	 * @return string the weight.
+	 * Returns the weight of this Dokeos185GradebookCategory.
+	 * @return the weight.
 	 */
 	function get_weight()
 	{
 		return $this->get_default_property(self :: PROPERTY_WEIGHT);
 	}
-	
+
 	/**
-	 * Returns the visible of this announcement.
-	 * @return string the visible.
+	 * Returns the visible of this Dokeos185GradebookCategory.
+	 * @return the visible.
 	 */
 	function get_visible()
 	{
 		return $this->get_default_property(self :: PROPERTY_VISIBLE);
 	}
-	
+
 	/**
-	 * Returns the certif_min_score of this announcement.
-	 * @return date the certif_min_score.
+	 * Returns the certif_min_score of this Dokeos185GradebookCategory.
+	 * @return the certif_min_score.
 	 */
 	function get_certif_min_score()
 	{
 		return $this->get_default_property(self :: PROPERTY_CERTIF_MIN_SCORE);
 	}
-	
-	function is_valid_gradebook_category($course)
-	{
-		
-	}
-	
-	function convert_to_new_gradebook_category($course)
-	{
-		
-	}
-	
-	static function get_all_gradebook_categories($mgdm)
-	{
 
-	}
-	
+
 }
+
 ?>

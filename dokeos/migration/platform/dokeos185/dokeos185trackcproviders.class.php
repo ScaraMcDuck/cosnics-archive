@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 track_c_providers
+ * This class presents a Dokeos185 track_c_providers
  *
  * @author Sven Vanpoucke
  */
@@ -86,14 +86,6 @@ class Dokeos185TrackCProviders
 	}
 
 	/**
-	 * Sets the id of this Dokeos185TrackCProviders.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the provider of this Dokeos185TrackCProviders.
 	 * @return the provider.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185TrackCProviders
 	}
 
 	/**
-	 * Sets the provider of this Dokeos185TrackCProviders.
-	 * @param provider
-	 */
-	function set_provider($provider)
-	{
-		$this->set_default_property(self :: PROPERTY_PROVIDER, $provider);
-	}
-	/**
 	 * Returns the counter of this Dokeos185TrackCProviders.
 	 * @return the counter.
 	 */
@@ -119,14 +103,6 @@ class Dokeos185TrackCProviders
 		return $this->get_default_property(self :: PROPERTY_COUNTER);
 	}
 
-	/**
-	 * Sets the counter of this Dokeos185TrackCProviders.
-	 * @param counter
-	 */
-	function set_counter($counter)
-	{
-		$this->set_default_property(self :: PROPERTY_COUNTER, $counter);
-	}
 
 }
 

@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 track_e_uploads
+ * This class presents a Dokeos185 track_e_uploads
  *
  * @author Sven Vanpoucke
  */
@@ -88,14 +88,6 @@ class Dokeos185TrackEUploads
 	}
 
 	/**
-	 * Sets the upload_id of this Dokeos185TrackEUploads.
-	 * @param upload_id
-	 */
-	function set_upload_id($upload_id)
-	{
-		$this->set_default_property(self :: PROPERTY_UPLOAD_ID, $upload_id);
-	}
-	/**
 	 * Returns the upload_user_id of this Dokeos185TrackEUploads.
 	 * @return the upload_user_id.
 	 */
@@ -104,14 +96,6 @@ class Dokeos185TrackEUploads
 		return $this->get_default_property(self :: PROPERTY_UPLOAD_USER_ID);
 	}
 
-	/**
-	 * Sets the upload_user_id of this Dokeos185TrackEUploads.
-	 * @param upload_user_id
-	 */
-	function set_upload_user_id($upload_user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_UPLOAD_USER_ID, $upload_user_id);
-	}
 	/**
 	 * Returns the upload_date of this Dokeos185TrackEUploads.
 	 * @return the upload_date.
@@ -122,14 +106,6 @@ class Dokeos185TrackEUploads
 	}
 
 	/**
-	 * Sets the upload_date of this Dokeos185TrackEUploads.
-	 * @param upload_date
-	 */
-	function set_upload_date($upload_date)
-	{
-		$this->set_default_property(self :: PROPERTY_UPLOAD_DATE, $upload_date);
-	}
-	/**
 	 * Returns the upload_cours_id of this Dokeos185TrackEUploads.
 	 * @return the upload_cours_id.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185TrackEUploads
 	}
 
 	/**
-	 * Sets the upload_cours_id of this Dokeos185TrackEUploads.
-	 * @param upload_cours_id
-	 */
-	function set_upload_cours_id($upload_cours_id)
-	{
-		$this->set_default_property(self :: PROPERTY_UPLOAD_COURS_ID, $upload_cours_id);
-	}
-	/**
 	 * Returns the upload_work_id of this Dokeos185TrackEUploads.
 	 * @return the upload_work_id.
 	 */
@@ -155,14 +123,6 @@ class Dokeos185TrackEUploads
 		return $this->get_default_property(self :: PROPERTY_UPLOAD_WORK_ID);
 	}
 
-	/**
-	 * Sets the upload_work_id of this Dokeos185TrackEUploads.
-	 * @param upload_work_id
-	 */
-	function set_upload_work_id($upload_work_id)
-	{
-		$this->set_default_property(self :: PROPERTY_UPLOAD_WORK_ID, $upload_work_id);
-	}
 
 }
 

@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 lp_iv_interaction
+ * This class presents a Dokeos185 lp_iv_interaction
  *
  * @author Sven Vanpoucke
  */
@@ -94,14 +94,6 @@ class Dokeos185LpIvInteraction
 	}
 
 	/**
-	 * Sets the id of this Dokeos185LpIvInteraction.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the order_id of this Dokeos185LpIvInteraction.
 	 * @return the order_id.
 	 */
@@ -110,14 +102,6 @@ class Dokeos185LpIvInteraction
 		return $this->get_default_property(self :: PROPERTY_ORDER_ID);
 	}
 
-	/**
-	 * Sets the order_id of this Dokeos185LpIvInteraction.
-	 * @param order_id
-	 */
-	function set_order_id($order_id)
-	{
-		$this->set_default_property(self :: PROPERTY_ORDER_ID, $order_id);
-	}
 	/**
 	 * Returns the lp_iv_id of this Dokeos185LpIvInteraction.
 	 * @return the lp_iv_id.
@@ -128,14 +112,6 @@ class Dokeos185LpIvInteraction
 	}
 
 	/**
-	 * Sets the lp_iv_id of this Dokeos185LpIvInteraction.
-	 * @param lp_iv_id
-	 */
-	function set_lp_iv_id($lp_iv_id)
-	{
-		$this->set_default_property(self :: PROPERTY_LP_IV_ID, $lp_iv_id);
-	}
-	/**
 	 * Returns the interaction_id of this Dokeos185LpIvInteraction.
 	 * @return the interaction_id.
 	 */
@@ -144,14 +120,6 @@ class Dokeos185LpIvInteraction
 		return $this->get_default_property(self :: PROPERTY_INTERACTION_ID);
 	}
 
-	/**
-	 * Sets the interaction_id of this Dokeos185LpIvInteraction.
-	 * @param interaction_id
-	 */
-	function set_interaction_id($interaction_id)
-	{
-		$this->set_default_property(self :: PROPERTY_INTERACTION_ID, $interaction_id);
-	}
 	/**
 	 * Returns the interaction_type of this Dokeos185LpIvInteraction.
 	 * @return the interaction_type.
@@ -162,14 +130,6 @@ class Dokeos185LpIvInteraction
 	}
 
 	/**
-	 * Sets the interaction_type of this Dokeos185LpIvInteraction.
-	 * @param interaction_type
-	 */
-	function set_interaction_type($interaction_type)
-	{
-		$this->set_default_property(self :: PROPERTY_INTERACTION_TYPE, $interaction_type);
-	}
-	/**
 	 * Returns the weighting of this Dokeos185LpIvInteraction.
 	 * @return the weighting.
 	 */
@@ -178,14 +138,6 @@ class Dokeos185LpIvInteraction
 		return $this->get_default_property(self :: PROPERTY_WEIGHTING);
 	}
 
-	/**
-	 * Sets the weighting of this Dokeos185LpIvInteraction.
-	 * @param weighting
-	 */
-	function set_weighting($weighting)
-	{
-		$this->set_default_property(self :: PROPERTY_WEIGHTING, $weighting);
-	}
 	/**
 	 * Returns the completion_time of this Dokeos185LpIvInteraction.
 	 * @return the completion_time.
@@ -196,14 +148,6 @@ class Dokeos185LpIvInteraction
 	}
 
 	/**
-	 * Sets the completion_time of this Dokeos185LpIvInteraction.
-	 * @param completion_time
-	 */
-	function set_completion_time($completion_time)
-	{
-		$this->set_default_property(self :: PROPERTY_COMPLETION_TIME, $completion_time);
-	}
-	/**
 	 * Returns the correct_responses of this Dokeos185LpIvInteraction.
 	 * @return the correct_responses.
 	 */
@@ -212,14 +156,6 @@ class Dokeos185LpIvInteraction
 		return $this->get_default_property(self :: PROPERTY_CORRECT_RESPONSES);
 	}
 
-	/**
-	 * Sets the correct_responses of this Dokeos185LpIvInteraction.
-	 * @param correct_responses
-	 */
-	function set_correct_responses($correct_responses)
-	{
-		$this->set_default_property(self :: PROPERTY_CORRECT_RESPONSES, $correct_responses);
-	}
 	/**
 	 * Returns the student_response of this Dokeos185LpIvInteraction.
 	 * @return the student_response.
@@ -230,14 +166,6 @@ class Dokeos185LpIvInteraction
 	}
 
 	/**
-	 * Sets the student_response of this Dokeos185LpIvInteraction.
-	 * @param student_response
-	 */
-	function set_student_response($student_response)
-	{
-		$this->set_default_property(self :: PROPERTY_STUDENT_RESPONSE, $student_response);
-	}
-	/**
 	 * Returns the result of this Dokeos185LpIvInteraction.
 	 * @return the result.
 	 */
@@ -247,14 +175,6 @@ class Dokeos185LpIvInteraction
 	}
 
 	/**
-	 * Sets the result of this Dokeos185LpIvInteraction.
-	 * @param result
-	 */
-	function set_result($result)
-	{
-		$this->set_default_property(self :: PROPERTY_RESULT, $result);
-	}
-	/**
 	 * Returns the latency of this Dokeos185LpIvInteraction.
 	 * @return the latency.
 	 */
@@ -263,14 +183,6 @@ class Dokeos185LpIvInteraction
 		return $this->get_default_property(self :: PROPERTY_LATENCY);
 	}
 
-	/**
-	 * Sets the latency of this Dokeos185LpIvInteraction.
-	 * @param latency
-	 */
-	function set_latency($latency)
-	{
-		$this->set_default_property(self :: PROPERTY_LATENCY, $latency);
-	}
 
 }
 

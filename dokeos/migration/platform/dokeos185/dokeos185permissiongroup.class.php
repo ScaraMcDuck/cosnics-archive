@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 permission_group
+ * This class presents a Dokeos185 permission_group
  *
  * @author Sven Vanpoucke
  */
@@ -87,14 +87,6 @@ class Dokeos185PermissionGroup
 	}
 
 	/**
-	 * Sets the id of this Dokeos185PermissionGroup.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the group_id of this Dokeos185PermissionGroup.
 	 * @return the group_id.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185PermissionGroup
 		return $this->get_default_property(self :: PROPERTY_GROUP_ID);
 	}
 
-	/**
-	 * Sets the group_id of this Dokeos185PermissionGroup.
-	 * @param group_id
-	 */
-	function set_group_id($group_id)
-	{
-		$this->set_default_property(self :: PROPERTY_GROUP_ID, $group_id);
-	}
 	/**
 	 * Returns the tool of this Dokeos185PermissionGroup.
 	 * @return the tool.
@@ -121,14 +105,6 @@ class Dokeos185PermissionGroup
 	}
 
 	/**
-	 * Sets the tool of this Dokeos185PermissionGroup.
-	 * @param tool
-	 */
-	function set_tool($tool)
-	{
-		$this->set_default_property(self :: PROPERTY_TOOL, $tool);
-	}
-	/**
 	 * Returns the action of this Dokeos185PermissionGroup.
 	 * @return the action.
 	 */
@@ -137,14 +113,6 @@ class Dokeos185PermissionGroup
 		return $this->get_default_property(self :: PROPERTY_ACTION);
 	}
 
-	/**
-	 * Sets the action of this Dokeos185PermissionGroup.
-	 * @param action
-	 */
-	function set_action($action)
-	{
-		$this->set_default_property(self :: PROPERTY_ACTION, $action);
-	}
 
 }
 

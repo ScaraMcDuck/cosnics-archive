@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 quiz_rel_question
+ * This class presents a Dokeos185 quiz_rel_question
  *
  * @author Sven Vanpoucke
  */
@@ -85,14 +85,6 @@ class Dokeos185QuizRelQuestion
 	}
 
 	/**
-	 * Sets the question_id of this Dokeos185QuizRelQuestion.
-	 * @param question_id
-	 */
-	function set_question_id($question_id)
-	{
-		$this->set_default_property(self :: PROPERTY_QUESTION_ID, $question_id);
-	}
-	/**
 	 * Returns the exercice_id of this Dokeos185QuizRelQuestion.
 	 * @return the exercice_id.
 	 */
@@ -101,14 +93,6 @@ class Dokeos185QuizRelQuestion
 		return $this->get_default_property(self :: PROPERTY_EXERCICE_ID);
 	}
 
-	/**
-	 * Sets the exercice_id of this Dokeos185QuizRelQuestion.
-	 * @param exercice_id
-	 */
-	function set_exercice_id($exercice_id)
-	{
-		$this->set_default_property(self :: PROPERTY_EXERCICE_ID, $exercice_id);
-	}
 
 }
 

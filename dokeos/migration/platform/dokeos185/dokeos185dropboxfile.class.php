@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 dropbox_file
+ * This class presents a Dokeos185 dropbox_file
  *
  * @author Sven Vanpoucke
  */
@@ -94,14 +94,6 @@ class Dokeos185DropboxFile
 	}
 
 	/**
-	 * Sets the id of this Dokeos185DropboxFile.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the uploader_id of this Dokeos185DropboxFile.
 	 * @return the uploader_id.
 	 */
@@ -110,14 +102,6 @@ class Dokeos185DropboxFile
 		return $this->get_default_property(self :: PROPERTY_UPLOADER_ID);
 	}
 
-	/**
-	 * Sets the uploader_id of this Dokeos185DropboxFile.
-	 * @param uploader_id
-	 */
-	function set_uploader_id($uploader_id)
-	{
-		$this->set_default_property(self :: PROPERTY_UPLOADER_ID, $uploader_id);
-	}
 	/**
 	 * Returns the filename of this Dokeos185DropboxFile.
 	 * @return the filename.
@@ -128,14 +112,6 @@ class Dokeos185DropboxFile
 	}
 
 	/**
-	 * Sets the filename of this Dokeos185DropboxFile.
-	 * @param filename
-	 */
-	function set_filename($filename)
-	{
-		$this->set_default_property(self :: PROPERTY_FILENAME, $filename);
-	}
-	/**
 	 * Returns the filesize of this Dokeos185DropboxFile.
 	 * @return the filesize.
 	 */
@@ -144,14 +120,6 @@ class Dokeos185DropboxFile
 		return $this->get_default_property(self :: PROPERTY_FILESIZE);
 	}
 
-	/**
-	 * Sets the filesize of this Dokeos185DropboxFile.
-	 * @param filesize
-	 */
-	function set_filesize($filesize)
-	{
-		$this->set_default_property(self :: PROPERTY_FILESIZE, $filesize);
-	}
 	/**
 	 * Returns the title of this Dokeos185DropboxFile.
 	 * @return the title.
@@ -162,14 +130,6 @@ class Dokeos185DropboxFile
 	}
 
 	/**
-	 * Sets the title of this Dokeos185DropboxFile.
-	 * @param title
-	 */
-	function set_title($title)
-	{
-		$this->set_default_property(self :: PROPERTY_TITLE, $title);
-	}
-	/**
 	 * Returns the description of this Dokeos185DropboxFile.
 	 * @return the description.
 	 */
@@ -178,14 +138,6 @@ class Dokeos185DropboxFile
 		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
 	}
 
-	/**
-	 * Sets the description of this Dokeos185DropboxFile.
-	 * @param description
-	 */
-	function set_description($description)
-	{
-		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
-	}
 	/**
 	 * Returns the author of this Dokeos185DropboxFile.
 	 * @return the author.
@@ -196,14 +148,6 @@ class Dokeos185DropboxFile
 	}
 
 	/**
-	 * Sets the author of this Dokeos185DropboxFile.
-	 * @param author
-	 */
-	function set_author($author)
-	{
-		$this->set_default_property(self :: PROPERTY_AUTHOR, $author);
-	}
-	/**
 	 * Returns the upload_date of this Dokeos185DropboxFile.
 	 * @return the upload_date.
 	 */
@@ -212,14 +156,6 @@ class Dokeos185DropboxFile
 		return $this->get_default_property(self :: PROPERTY_UPLOAD_DATE);
 	}
 
-	/**
-	 * Sets the upload_date of this Dokeos185DropboxFile.
-	 * @param upload_date
-	 */
-	function set_upload_date($upload_date)
-	{
-		$this->set_default_property(self :: PROPERTY_UPLOAD_DATE, $upload_date);
-	}
 	/**
 	 * Returns the last_upload_date of this Dokeos185DropboxFile.
 	 * @return the last_upload_date.
@@ -230,14 +166,6 @@ class Dokeos185DropboxFile
 	}
 
 	/**
-	 * Sets the last_upload_date of this Dokeos185DropboxFile.
-	 * @param last_upload_date
-	 */
-	function set_last_upload_date($last_upload_date)
-	{
-		$this->set_default_property(self :: PROPERTY_LAST_UPLOAD_DATE, $last_upload_date);
-	}
-	/**
 	 * Returns the cat_id of this Dokeos185DropboxFile.
 	 * @return the cat_id.
 	 */
@@ -247,14 +175,6 @@ class Dokeos185DropboxFile
 	}
 
 	/**
-	 * Sets the cat_id of this Dokeos185DropboxFile.
-	 * @param cat_id
-	 */
-	function set_cat_id($cat_id)
-	{
-		$this->set_default_property(self :: PROPERTY_CAT_ID, $cat_id);
-	}
-	/**
 	 * Returns the session_id of this Dokeos185DropboxFile.
 	 * @return the session_id.
 	 */
@@ -263,14 +183,6 @@ class Dokeos185DropboxFile
 		return $this->get_default_property(self :: PROPERTY_SESSION_ID);
 	}
 
-	/**
-	 * Sets the session_id of this Dokeos185DropboxFile.
-	 * @param session_id
-	 */
-	function set_session_id($session_id)
-	{
-		$this->set_default_property(self :: PROPERTY_SESSION_ID, $session_id);
-	}
 
 }
 

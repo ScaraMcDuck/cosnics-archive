@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 track_e_hotspot
+ * This class presents a Dokeos185 track_e_hotspot
  *
  * @author Sven Vanpoucke
  */
@@ -91,14 +91,6 @@ class Dokeos185TrackEHotspot
 	}
 
 	/**
-	 * Sets the hotspot_id of this Dokeos185TrackEHotspot.
-	 * @param hotspot_id
-	 */
-	function set_hotspot_id($hotspot_id)
-	{
-		$this->set_default_property(self :: PROPERTY_HOTSPOT_ID, $hotspot_id);
-	}
-	/**
 	 * Returns the hotspot_user_id of this Dokeos185TrackEHotspot.
 	 * @return the hotspot_user_id.
 	 */
@@ -107,14 +99,6 @@ class Dokeos185TrackEHotspot
 		return $this->get_default_property(self :: PROPERTY_HOTSPOT_USER_ID);
 	}
 
-	/**
-	 * Sets the hotspot_user_id of this Dokeos185TrackEHotspot.
-	 * @param hotspot_user_id
-	 */
-	function set_hotspot_user_id($hotspot_user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_HOTSPOT_USER_ID, $hotspot_user_id);
-	}
 	/**
 	 * Returns the hotspot_course_code of this Dokeos185TrackEHotspot.
 	 * @return the hotspot_course_code.
@@ -125,14 +109,6 @@ class Dokeos185TrackEHotspot
 	}
 
 	/**
-	 * Sets the hotspot_course_code of this Dokeos185TrackEHotspot.
-	 * @param hotspot_course_code
-	 */
-	function set_hotspot_course_code($hotspot_course_code)
-	{
-		$this->set_default_property(self :: PROPERTY_HOTSPOT_COURSE_CODE, $hotspot_course_code);
-	}
-	/**
 	 * Returns the hotspot_exe_id of this Dokeos185TrackEHotspot.
 	 * @return the hotspot_exe_id.
 	 */
@@ -141,14 +117,6 @@ class Dokeos185TrackEHotspot
 		return $this->get_default_property(self :: PROPERTY_HOTSPOT_EXE_ID);
 	}
 
-	/**
-	 * Sets the hotspot_exe_id of this Dokeos185TrackEHotspot.
-	 * @param hotspot_exe_id
-	 */
-	function set_hotspot_exe_id($hotspot_exe_id)
-	{
-		$this->set_default_property(self :: PROPERTY_HOTSPOT_EXE_ID, $hotspot_exe_id);
-	}
 	/**
 	 * Returns the hotspot_question_id of this Dokeos185TrackEHotspot.
 	 * @return the hotspot_question_id.
@@ -159,14 +127,6 @@ class Dokeos185TrackEHotspot
 	}
 
 	/**
-	 * Sets the hotspot_question_id of this Dokeos185TrackEHotspot.
-	 * @param hotspot_question_id
-	 */
-	function set_hotspot_question_id($hotspot_question_id)
-	{
-		$this->set_default_property(self :: PROPERTY_HOTSPOT_QUESTION_ID, $hotspot_question_id);
-	}
-	/**
 	 * Returns the hotspot_answer_id of this Dokeos185TrackEHotspot.
 	 * @return the hotspot_answer_id.
 	 */
@@ -175,14 +135,6 @@ class Dokeos185TrackEHotspot
 		return $this->get_default_property(self :: PROPERTY_HOTSPOT_ANSWER_ID);
 	}
 
-	/**
-	 * Sets the hotspot_answer_id of this Dokeos185TrackEHotspot.
-	 * @param hotspot_answer_id
-	 */
-	function set_hotspot_answer_id($hotspot_answer_id)
-	{
-		$this->set_default_property(self :: PROPERTY_HOTSPOT_ANSWER_ID, $hotspot_answer_id);
-	}
 	/**
 	 * Returns the hotspot_correct of this Dokeos185TrackEHotspot.
 	 * @return the hotspot_correct.
@@ -193,14 +145,6 @@ class Dokeos185TrackEHotspot
 	}
 
 	/**
-	 * Sets the hotspot_correct of this Dokeos185TrackEHotspot.
-	 * @param hotspot_correct
-	 */
-	function set_hotspot_correct($hotspot_correct)
-	{
-		$this->set_default_property(self :: PROPERTY_HOTSPOT_CORRECT, $hotspot_correct);
-	}
-	/**
 	 * Returns the hotspot_coordinate of this Dokeos185TrackEHotspot.
 	 * @return the hotspot_coordinate.
 	 */
@@ -209,14 +153,6 @@ class Dokeos185TrackEHotspot
 		return $this->get_default_property(self :: PROPERTY_HOTSPOT_COORDINATE);
 	}
 
-	/**
-	 * Sets the hotspot_coordinate of this Dokeos185TrackEHotspot.
-	 * @param hotspot_coordinate
-	 */
-	function set_hotspot_coordinate($hotspot_coordinate)
-	{
-		$this->set_default_property(self :: PROPERTY_HOTSPOT_COORDINATE, $hotspot_coordinate);
-	}
 
 }
 

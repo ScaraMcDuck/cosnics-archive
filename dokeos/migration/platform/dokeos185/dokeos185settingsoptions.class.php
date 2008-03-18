@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 settings_options
+ * This class presents a Dokeos185 settings_options
  *
  * @author Sven Vanpoucke
  */
@@ -87,14 +87,6 @@ class Dokeos185SettingsOptions
 	}
 
 	/**
-	 * Sets the id of this Dokeos185SettingsOptions.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the variable of this Dokeos185SettingsOptions.
 	 * @return the variable.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185SettingsOptions
 		return $this->get_default_property(self :: PROPERTY_VARIABLE);
 	}
 
-	/**
-	 * Sets the variable of this Dokeos185SettingsOptions.
-	 * @param variable
-	 */
-	function set_variable($variable)
-	{
-		$this->set_default_property(self :: PROPERTY_VARIABLE, $variable);
-	}
 	/**
 	 * Returns the value of this Dokeos185SettingsOptions.
 	 * @return the value.
@@ -121,14 +105,6 @@ class Dokeos185SettingsOptions
 	}
 
 	/**
-	 * Sets the value of this Dokeos185SettingsOptions.
-	 * @param value
-	 */
-	function set_value($value)
-	{
-		$this->set_default_property(self :: PROPERTY_VALUE, $value);
-	}
-	/**
 	 * Returns the display_text of this Dokeos185SettingsOptions.
 	 * @return the display_text.
 	 */
@@ -137,14 +113,6 @@ class Dokeos185SettingsOptions
 		return $this->get_default_property(self :: PROPERTY_DISPLAY_TEXT);
 	}
 
-	/**
-	 * Sets the display_text of this Dokeos185SettingsOptions.
-	 * @param display_text
-	 */
-	function set_display_text($display_text)
-	{
-		$this->set_default_property(self :: PROPERTY_DISPLAY_TEXT, $display_text);
-	}
 
 }
 

@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 session_rel_course
+ * This class presents a Dokeos185 session_rel_course
  *
  * @author Sven Vanpoucke
  */
@@ -87,14 +87,6 @@ class Dokeos185SessionRelCourse
 	}
 
 	/**
-	 * Sets the id_session of this Dokeos185SessionRelCourse.
-	 * @param id_session
-	 */
-	function set_id_session($id_session)
-	{
-		$this->set_default_property(self :: PROPERTY_ID_SESSION, $id_session);
-	}
-	/**
 	 * Returns the course_code of this Dokeos185SessionRelCourse.
 	 * @return the course_code.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185SessionRelCourse
 		return $this->get_default_property(self :: PROPERTY_COURSE_CODE);
 	}
 
-	/**
-	 * Sets the course_code of this Dokeos185SessionRelCourse.
-	 * @param course_code
-	 */
-	function set_course_code($course_code)
-	{
-		$this->set_default_property(self :: PROPERTY_COURSE_CODE, $course_code);
-	}
 	/**
 	 * Returns the id_coach of this Dokeos185SessionRelCourse.
 	 * @return the id_coach.
@@ -121,14 +105,6 @@ class Dokeos185SessionRelCourse
 	}
 
 	/**
-	 * Sets the id_coach of this Dokeos185SessionRelCourse.
-	 * @param id_coach
-	 */
-	function set_id_coach($id_coach)
-	{
-		$this->set_default_property(self :: PROPERTY_ID_COACH, $id_coach);
-	}
-	/**
 	 * Returns the nbr_users of this Dokeos185SessionRelCourse.
 	 * @return the nbr_users.
 	 */
@@ -137,14 +113,6 @@ class Dokeos185SessionRelCourse
 		return $this->get_default_property(self :: PROPERTY_NBR_USERS);
 	}
 
-	/**
-	 * Sets the nbr_users of this Dokeos185SessionRelCourse.
-	 * @param nbr_users
-	 */
-	function set_nbr_users($nbr_users)
-	{
-		$this->set_default_property(self :: PROPERTY_NBR_USERS, $nbr_users);
-	}
 
 }
 

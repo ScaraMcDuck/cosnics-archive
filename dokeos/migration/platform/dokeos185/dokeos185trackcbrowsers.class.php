@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 track_c_browsers
+ * This class presents a Dokeos185 track_c_browsers
  *
  * @author Sven Vanpoucke
  */
@@ -86,14 +86,6 @@ class Dokeos185TrackCBrowsers
 	}
 
 	/**
-	 * Sets the id of this Dokeos185TrackCBrowsers.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the browser of this Dokeos185TrackCBrowsers.
 	 * @return the browser.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185TrackCBrowsers
 	}
 
 	/**
-	 * Sets the browser of this Dokeos185TrackCBrowsers.
-	 * @param browser
-	 */
-	function set_browser($browser)
-	{
-		$this->set_default_property(self :: PROPERTY_BROWSER, $browser);
-	}
-	/**
 	 * Returns the counter of this Dokeos185TrackCBrowsers.
 	 * @return the counter.
 	 */
@@ -119,14 +103,6 @@ class Dokeos185TrackCBrowsers
 		return $this->get_default_property(self :: PROPERTY_COUNTER);
 	}
 
-	/**
-	 * Sets the counter of this Dokeos185TrackCBrowsers.
-	 * @param counter
-	 */
-	function set_counter($counter)
-	{
-		$this->set_default_property(self :: PROPERTY_COUNTER, $counter);
-	}
 
 }
 

@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 openid_association
+ * This class presents a Dokeos185 openid_association
  *
  * @author Sven Vanpoucke
  */
@@ -91,14 +91,6 @@ class Dokeos185OpenidAssociation
 	}
 
 	/**
-	 * Sets the id of this Dokeos185OpenidAssociation.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the idp_endpoint_uri of this Dokeos185OpenidAssociation.
 	 * @return the idp_endpoint_uri.
 	 */
@@ -107,14 +99,6 @@ class Dokeos185OpenidAssociation
 		return $this->get_default_property(self :: PROPERTY_IDP_ENDPOINT_URI);
 	}
 
-	/**
-	 * Sets the idp_endpoint_uri of this Dokeos185OpenidAssociation.
-	 * @param idp_endpoint_uri
-	 */
-	function set_idp_endpoint_uri($idp_endpoint_uri)
-	{
-		$this->set_default_property(self :: PROPERTY_IDP_ENDPOINT_URI, $idp_endpoint_uri);
-	}
 	/**
 	 * Returns the session_type of this Dokeos185OpenidAssociation.
 	 * @return the session_type.
@@ -125,14 +109,6 @@ class Dokeos185OpenidAssociation
 	}
 
 	/**
-	 * Sets the session_type of this Dokeos185OpenidAssociation.
-	 * @param session_type
-	 */
-	function set_session_type($session_type)
-	{
-		$this->set_default_property(self :: PROPERTY_SESSION_TYPE, $session_type);
-	}
-	/**
 	 * Returns the assoc_handle of this Dokeos185OpenidAssociation.
 	 * @return the assoc_handle.
 	 */
@@ -141,14 +117,6 @@ class Dokeos185OpenidAssociation
 		return $this->get_default_property(self :: PROPERTY_ASSOC_HANDLE);
 	}
 
-	/**
-	 * Sets the assoc_handle of this Dokeos185OpenidAssociation.
-	 * @param assoc_handle
-	 */
-	function set_assoc_handle($assoc_handle)
-	{
-		$this->set_default_property(self :: PROPERTY_ASSOC_HANDLE, $assoc_handle);
-	}
 	/**
 	 * Returns the assoc_type of this Dokeos185OpenidAssociation.
 	 * @return the assoc_type.
@@ -159,14 +127,6 @@ class Dokeos185OpenidAssociation
 	}
 
 	/**
-	 * Sets the assoc_type of this Dokeos185OpenidAssociation.
-	 * @param assoc_type
-	 */
-	function set_assoc_type($assoc_type)
-	{
-		$this->set_default_property(self :: PROPERTY_ASSOC_TYPE, $assoc_type);
-	}
-	/**
 	 * Returns the expires_in of this Dokeos185OpenidAssociation.
 	 * @return the expires_in.
 	 */
@@ -175,14 +135,6 @@ class Dokeos185OpenidAssociation
 		return $this->get_default_property(self :: PROPERTY_EXPIRES_IN);
 	}
 
-	/**
-	 * Sets the expires_in of this Dokeos185OpenidAssociation.
-	 * @param expires_in
-	 */
-	function set_expires_in($expires_in)
-	{
-		$this->set_default_property(self :: PROPERTY_EXPIRES_IN, $expires_in);
-	}
 	/**
 	 * Returns the mac_key of this Dokeos185OpenidAssociation.
 	 * @return the mac_key.
@@ -193,14 +145,6 @@ class Dokeos185OpenidAssociation
 	}
 
 	/**
-	 * Sets the mac_key of this Dokeos185OpenidAssociation.
-	 * @param mac_key
-	 */
-	function set_mac_key($mac_key)
-	{
-		$this->set_default_property(self :: PROPERTY_MAC_KEY, $mac_key);
-	}
-	/**
 	 * Returns the created of this Dokeos185OpenidAssociation.
 	 * @return the created.
 	 */
@@ -209,14 +153,6 @@ class Dokeos185OpenidAssociation
 		return $this->get_default_property(self :: PROPERTY_CREATED);
 	}
 
-	/**
-	 * Sets the created of this Dokeos185OpenidAssociation.
-	 * @param created
-	 */
-	function set_created($created)
-	{
-		$this->set_default_property(self :: PROPERTY_CREATED, $created);
-	}
 
 }
 

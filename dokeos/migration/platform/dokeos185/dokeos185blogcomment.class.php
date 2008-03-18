@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 blog_comment
+ * This class presents a Dokeos185 blog_comment
  *
  * @author Sven Vanpoucke
  */
@@ -92,14 +92,6 @@ class Dokeos185BlogComment
 	}
 
 	/**
-	 * Sets the comment_id of this Dokeos185BlogComment.
-	 * @param comment_id
-	 */
-	function set_comment_id($comment_id)
-	{
-		$this->set_default_property(self :: PROPERTY_COMMENT_ID, $comment_id);
-	}
-	/**
 	 * Returns the title of this Dokeos185BlogComment.
 	 * @return the title.
 	 */
@@ -108,14 +100,6 @@ class Dokeos185BlogComment
 		return $this->get_default_property(self :: PROPERTY_TITLE);
 	}
 
-	/**
-	 * Sets the title of this Dokeos185BlogComment.
-	 * @param title
-	 */
-	function set_title($title)
-	{
-		$this->set_default_property(self :: PROPERTY_TITLE, $title);
-	}
 	/**
 	 * Returns the comment of this Dokeos185BlogComment.
 	 * @return the comment.
@@ -126,14 +110,6 @@ class Dokeos185BlogComment
 	}
 
 	/**
-	 * Sets the comment of this Dokeos185BlogComment.
-	 * @param comment
-	 */
-	function set_comment($comment)
-	{
-		$this->set_default_property(self :: PROPERTY_COMMENT, $comment);
-	}
-	/**
 	 * Returns the author_id of this Dokeos185BlogComment.
 	 * @return the author_id.
 	 */
@@ -142,14 +118,6 @@ class Dokeos185BlogComment
 		return $this->get_default_property(self :: PROPERTY_AUTHOR_ID);
 	}
 
-	/**
-	 * Sets the author_id of this Dokeos185BlogComment.
-	 * @param author_id
-	 */
-	function set_author_id($author_id)
-	{
-		$this->set_default_property(self :: PROPERTY_AUTHOR_ID, $author_id);
-	}
 	/**
 	 * Returns the date_creation of this Dokeos185BlogComment.
 	 * @return the date_creation.
@@ -160,14 +128,6 @@ class Dokeos185BlogComment
 	}
 
 	/**
-	 * Sets the date_creation of this Dokeos185BlogComment.
-	 * @param date_creation
-	 */
-	function set_date_creation($date_creation)
-	{
-		$this->set_default_property(self :: PROPERTY_DATE_CREATION, $date_creation);
-	}
-	/**
 	 * Returns the blog_id of this Dokeos185BlogComment.
 	 * @return the blog_id.
 	 */
@@ -176,14 +136,6 @@ class Dokeos185BlogComment
 		return $this->get_default_property(self :: PROPERTY_BLOG_ID);
 	}
 
-	/**
-	 * Sets the blog_id of this Dokeos185BlogComment.
-	 * @param blog_id
-	 */
-	function set_blog_id($blog_id)
-	{
-		$this->set_default_property(self :: PROPERTY_BLOG_ID, $blog_id);
-	}
 	/**
 	 * Returns the post_id of this Dokeos185BlogComment.
 	 * @return the post_id.
@@ -194,14 +146,6 @@ class Dokeos185BlogComment
 	}
 
 	/**
-	 * Sets the post_id of this Dokeos185BlogComment.
-	 * @param post_id
-	 */
-	function set_post_id($post_id)
-	{
-		$this->set_default_property(self :: PROPERTY_POST_ID, $post_id);
-	}
-	/**
 	 * Returns the task_id of this Dokeos185BlogComment.
 	 * @return the task_id.
 	 */
@@ -211,14 +155,6 @@ class Dokeos185BlogComment
 	}
 
 	/**
-	 * Sets the task_id of this Dokeos185BlogComment.
-	 * @param task_id
-	 */
-	function set_task_id($task_id)
-	{
-		$this->set_default_property(self :: PROPERTY_TASK_ID, $task_id);
-	}
-	/**
 	 * Returns the parent_comment_id of this Dokeos185BlogComment.
 	 * @return the parent_comment_id.
 	 */
@@ -227,14 +163,6 @@ class Dokeos185BlogComment
 		return $this->get_default_property(self :: PROPERTY_PARENT_COMMENT_ID);
 	}
 
-	/**
-	 * Sets the parent_comment_id of this Dokeos185BlogComment.
-	 * @param parent_comment_id
-	 */
-	function set_parent_comment_id($parent_comment_id)
-	{
-		$this->set_default_property(self :: PROPERTY_PARENT_COMMENT_ID, $parent_comment_id);
-	}
 
 }
 

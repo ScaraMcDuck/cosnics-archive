@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 survey_answer
+ * This class presents a Dokeos185 survey_answer
  *
  * @author Sven Vanpoucke
  */
@@ -89,14 +89,6 @@ class Dokeos185SurveyAnswer
 	}
 
 	/**
-	 * Sets the answer_id of this Dokeos185SurveyAnswer.
-	 * @param answer_id
-	 */
-	function set_answer_id($answer_id)
-	{
-		$this->set_default_property(self :: PROPERTY_ANSWER_ID, $answer_id);
-	}
-	/**
 	 * Returns the survey_id of this Dokeos185SurveyAnswer.
 	 * @return the survey_id.
 	 */
@@ -105,14 +97,6 @@ class Dokeos185SurveyAnswer
 		return $this->get_default_property(self :: PROPERTY_SURVEY_ID);
 	}
 
-	/**
-	 * Sets the survey_id of this Dokeos185SurveyAnswer.
-	 * @param survey_id
-	 */
-	function set_survey_id($survey_id)
-	{
-		$this->set_default_property(self :: PROPERTY_SURVEY_ID, $survey_id);
-	}
 	/**
 	 * Returns the question_id of this Dokeos185SurveyAnswer.
 	 * @return the question_id.
@@ -123,14 +107,6 @@ class Dokeos185SurveyAnswer
 	}
 
 	/**
-	 * Sets the question_id of this Dokeos185SurveyAnswer.
-	 * @param question_id
-	 */
-	function set_question_id($question_id)
-	{
-		$this->set_default_property(self :: PROPERTY_QUESTION_ID, $question_id);
-	}
-	/**
 	 * Returns the option_id of this Dokeos185SurveyAnswer.
 	 * @return the option_id.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185SurveyAnswer
 		return $this->get_default_property(self :: PROPERTY_OPTION_ID);
 	}
 
-	/**
-	 * Sets the option_id of this Dokeos185SurveyAnswer.
-	 * @param option_id
-	 */
-	function set_option_id($option_id)
-	{
-		$this->set_default_property(self :: PROPERTY_OPTION_ID, $option_id);
-	}
 	/**
 	 * Returns the value of this Dokeos185SurveyAnswer.
 	 * @return the value.
@@ -157,14 +125,6 @@ class Dokeos185SurveyAnswer
 	}
 
 	/**
-	 * Sets the value of this Dokeos185SurveyAnswer.
-	 * @param value
-	 */
-	function set_value($value)
-	{
-		$this->set_default_property(self :: PROPERTY_VALUE, $value);
-	}
-	/**
 	 * Returns the user of this Dokeos185SurveyAnswer.
 	 * @return the user.
 	 */
@@ -173,14 +133,6 @@ class Dokeos185SurveyAnswer
 		return $this->get_default_property(self :: PROPERTY_USER);
 	}
 
-	/**
-	 * Sets the user of this Dokeos185SurveyAnswer.
-	 * @param user
-	 */
-	function set_user($user)
-	{
-		$this->set_default_property(self :: PROPERTY_USER, $user);
-	}
 
 }
 

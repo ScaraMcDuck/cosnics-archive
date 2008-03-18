@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 session_rel_user
+ * This class presents a Dokeos185 session_rel_user
  *
  * @author Sven Vanpoucke
  */
@@ -85,14 +85,6 @@ class Dokeos185SessionRelUser
 	}
 
 	/**
-	 * Sets the id_session of this Dokeos185SessionRelUser.
-	 * @param id_session
-	 */
-	function set_id_session($id_session)
-	{
-		$this->set_default_property(self :: PROPERTY_ID_SESSION, $id_session);
-	}
-	/**
 	 * Returns the id_user of this Dokeos185SessionRelUser.
 	 * @return the id_user.
 	 */
@@ -101,14 +93,6 @@ class Dokeos185SessionRelUser
 		return $this->get_default_property(self :: PROPERTY_ID_USER);
 	}
 
-	/**
-	 * Sets the id_user of this Dokeos185SessionRelUser.
-	 * @param id_user
-	 */
-	function set_id_user($id_user)
-	{
-		$this->set_default_property(self :: PROPERTY_ID_USER, $id_user);
-	}
 
 }
 

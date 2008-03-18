@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 role
+ * This class presents a Dokeos185 role
  *
  * @author Sven Vanpoucke
  */
@@ -87,14 +87,6 @@ class Dokeos185Role
 	}
 
 	/**
-	 * Sets the role_id of this Dokeos185Role.
-	 * @param role_id
-	 */
-	function set_role_id($role_id)
-	{
-		$this->set_default_property(self :: PROPERTY_ROLE_ID, $role_id);
-	}
-	/**
 	 * Returns the role_name of this Dokeos185Role.
 	 * @return the role_name.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185Role
 		return $this->get_default_property(self :: PROPERTY_ROLE_NAME);
 	}
 
-	/**
-	 * Sets the role_name of this Dokeos185Role.
-	 * @param role_name
-	 */
-	function set_role_name($role_name)
-	{
-		$this->set_default_property(self :: PROPERTY_ROLE_NAME, $role_name);
-	}
 	/**
 	 * Returns the role_comment of this Dokeos185Role.
 	 * @return the role_comment.
@@ -121,14 +105,6 @@ class Dokeos185Role
 	}
 
 	/**
-	 * Sets the role_comment of this Dokeos185Role.
-	 * @param role_comment
-	 */
-	function set_role_comment($role_comment)
-	{
-		$this->set_default_property(self :: PROPERTY_ROLE_COMMENT, $role_comment);
-	}
-	/**
 	 * Returns the default_role of this Dokeos185Role.
 	 * @return the default_role.
 	 */
@@ -137,14 +113,6 @@ class Dokeos185Role
 		return $this->get_default_property(self :: PROPERTY_DEFAULT_ROLE);
 	}
 
-	/**
-	 * Sets the default_role of this Dokeos185Role.
-	 * @param default_role
-	 */
-	function set_default_role($default_role)
-	{
-		$this->set_default_property(self :: PROPERTY_DEFAULT_ROLE, $default_role);
-	}
 
 }
 

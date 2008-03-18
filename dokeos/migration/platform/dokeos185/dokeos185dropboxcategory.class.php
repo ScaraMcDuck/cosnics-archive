@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 dropbox_category
+ * This class presents a Dokeos185 dropbox_category
  *
  * @author Sven Vanpoucke
  */
@@ -88,14 +88,6 @@ class Dokeos185DropboxCategory
 	}
 
 	/**
-	 * Sets the cat_id of this Dokeos185DropboxCategory.
-	 * @param cat_id
-	 */
-	function set_cat_id($cat_id)
-	{
-		$this->set_default_property(self :: PROPERTY_CAT_ID, $cat_id);
-	}
-	/**
 	 * Returns the cat_name of this Dokeos185DropboxCategory.
 	 * @return the cat_name.
 	 */
@@ -104,14 +96,6 @@ class Dokeos185DropboxCategory
 		return $this->get_default_property(self :: PROPERTY_CAT_NAME);
 	}
 
-	/**
-	 * Sets the cat_name of this Dokeos185DropboxCategory.
-	 * @param cat_name
-	 */
-	function set_cat_name($cat_name)
-	{
-		$this->set_default_property(self :: PROPERTY_CAT_NAME, $cat_name);
-	}
 	/**
 	 * Returns the received of this Dokeos185DropboxCategory.
 	 * @return the received.
@@ -122,14 +106,6 @@ class Dokeos185DropboxCategory
 	}
 
 	/**
-	 * Sets the received of this Dokeos185DropboxCategory.
-	 * @param received
-	 */
-	function set_received($received)
-	{
-		$this->set_default_property(self :: PROPERTY_RECEIVED, $received);
-	}
-	/**
 	 * Returns the sent of this Dokeos185DropboxCategory.
 	 * @return the sent.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185DropboxCategory
 	}
 
 	/**
-	 * Sets the sent of this Dokeos185DropboxCategory.
-	 * @param sent
-	 */
-	function set_sent($sent)
-	{
-		$this->set_default_property(self :: PROPERTY_SENT, $sent);
-	}
-	/**
 	 * Returns the user_id of this Dokeos185DropboxCategory.
 	 * @return the user_id.
 	 */
@@ -155,14 +123,6 @@ class Dokeos185DropboxCategory
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 
-	/**
-	 * Sets the user_id of this Dokeos185DropboxCategory.
-	 * @param user_id
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
 
 }
 

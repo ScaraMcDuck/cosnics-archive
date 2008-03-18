@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 lp
+ * This class presents a Dokeos185 lp
  *
  * @author Sven Vanpoucke
  */
@@ -100,14 +100,6 @@ class Dokeos185Lp
 	}
 
 	/**
-	 * Sets the id of this Dokeos185Lp.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the lp_type of this Dokeos185Lp.
 	 * @return the lp_type.
 	 */
@@ -116,14 +108,6 @@ class Dokeos185Lp
 		return $this->get_default_property(self :: PROPERTY_LP_TYPE);
 	}
 
-	/**
-	 * Sets the lp_type of this Dokeos185Lp.
-	 * @param lp_type
-	 */
-	function set_lp_type($lp_type)
-	{
-		$this->set_default_property(self :: PROPERTY_LP_TYPE, $lp_type);
-	}
 	/**
 	 * Returns the name of this Dokeos185Lp.
 	 * @return the name.
@@ -134,14 +118,6 @@ class Dokeos185Lp
 	}
 
 	/**
-	 * Sets the name of this Dokeos185Lp.
-	 * @param name
-	 */
-	function set_name($name)
-	{
-		$this->set_default_property(self :: PROPERTY_NAME, $name);
-	}
-	/**
 	 * Returns the ref of this Dokeos185Lp.
 	 * @return the ref.
 	 */
@@ -150,14 +126,6 @@ class Dokeos185Lp
 		return $this->get_default_property(self :: PROPERTY_REF);
 	}
 
-	/**
-	 * Sets the ref of this Dokeos185Lp.
-	 * @param ref
-	 */
-	function set_ref($ref)
-	{
-		$this->set_default_property(self :: PROPERTY_REF, $ref);
-	}
 	/**
 	 * Returns the description of this Dokeos185Lp.
 	 * @return the description.
@@ -168,14 +136,6 @@ class Dokeos185Lp
 	}
 
 	/**
-	 * Sets the description of this Dokeos185Lp.
-	 * @param description
-	 */
-	function set_description($description)
-	{
-		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
-	}
-	/**
 	 * Returns the path of this Dokeos185Lp.
 	 * @return the path.
 	 */
@@ -184,14 +144,6 @@ class Dokeos185Lp
 		return $this->get_default_property(self :: PROPERTY_PATH);
 	}
 
-	/**
-	 * Sets the path of this Dokeos185Lp.
-	 * @param path
-	 */
-	function set_path($path)
-	{
-		$this->set_default_property(self :: PROPERTY_PATH, $path);
-	}
 	/**
 	 * Returns the force_commit of this Dokeos185Lp.
 	 * @return the force_commit.
@@ -202,14 +154,6 @@ class Dokeos185Lp
 	}
 
 	/**
-	 * Sets the force_commit of this Dokeos185Lp.
-	 * @param force_commit
-	 */
-	function set_force_commit($force_commit)
-	{
-		$this->set_default_property(self :: PROPERTY_FORCE_COMMIT, $force_commit);
-	}
-	/**
 	 * Returns the default_view_mod of this Dokeos185Lp.
 	 * @return the default_view_mod.
 	 */
@@ -218,14 +162,6 @@ class Dokeos185Lp
 		return $this->get_default_property(self :: PROPERTY_DEFAULT_VIEW_MOD);
 	}
 
-	/**
-	 * Sets the default_view_mod of this Dokeos185Lp.
-	 * @param default_view_mod
-	 */
-	function set_default_view_mod($default_view_mod)
-	{
-		$this->set_default_property(self :: PROPERTY_DEFAULT_VIEW_MOD, $default_view_mod);
-	}
 	/**
 	 * Returns the default_encoding of this Dokeos185Lp.
 	 * @return the default_encoding.
@@ -236,14 +172,6 @@ class Dokeos185Lp
 	}
 
 	/**
-	 * Sets the default_encoding of this Dokeos185Lp.
-	 * @param default_encoding
-	 */
-	function set_default_encoding($default_encoding)
-	{
-		$this->set_default_property(self :: PROPERTY_DEFAULT_ENCODING, $default_encoding);
-	}
-	/**
 	 * Returns the display_order of this Dokeos185Lp.
 	 * @return the display_order.
 	 */
@@ -252,14 +180,6 @@ class Dokeos185Lp
 		return $this->get_default_property(self :: PROPERTY_DISPLAY_ORDER);
 	}
 
-	/**
-	 * Sets the display_order of this Dokeos185Lp.
-	 * @param display_order
-	 */
-	function set_display_order($display_order)
-	{
-		$this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
-	}
 	/**
 	 * Returns the content_maker of this Dokeos185Lp.
 	 * @return the content_maker.
@@ -270,14 +190,6 @@ class Dokeos185Lp
 	}
 
 	/**
-	 * Sets the content_maker of this Dokeos185Lp.
-	 * @param content_maker
-	 */
-	function set_content_maker($content_maker)
-	{
-		$this->set_default_property(self :: PROPERTY_CONTENT_MAKER, $content_maker);
-	}
-	/**
 	 * Returns the content_local of this Dokeos185Lp.
 	 * @return the content_local.
 	 */
@@ -286,14 +198,6 @@ class Dokeos185Lp
 		return $this->get_default_property(self :: PROPERTY_CONTENT_LOCAL);
 	}
 
-	/**
-	 * Sets the content_local of this Dokeos185Lp.
-	 * @param content_local
-	 */
-	function set_content_local($content_local)
-	{
-		$this->set_default_property(self :: PROPERTY_CONTENT_LOCAL, $content_local);
-	}
 	/**
 	 * Returns the content_license of this Dokeos185Lp.
 	 * @return the content_license.
@@ -304,14 +208,6 @@ class Dokeos185Lp
 	}
 
 	/**
-	 * Sets the content_license of this Dokeos185Lp.
-	 * @param content_license
-	 */
-	function set_content_license($content_license)
-	{
-		$this->set_default_property(self :: PROPERTY_CONTENT_LICENSE, $content_license);
-	}
-	/**
 	 * Returns the prevent_reinit of this Dokeos185Lp.
 	 * @return the prevent_reinit.
 	 */
@@ -320,14 +216,6 @@ class Dokeos185Lp
 		return $this->get_default_property(self :: PROPERTY_PREVENT_REINIT);
 	}
 
-	/**
-	 * Sets the prevent_reinit of this Dokeos185Lp.
-	 * @param prevent_reinit
-	 */
-	function set_prevent_reinit($prevent_reinit)
-	{
-		$this->set_default_property(self :: PROPERTY_PREVENT_REINIT, $prevent_reinit);
-	}
 	/**
 	 * Returns the js_lib of this Dokeos185Lp.
 	 * @return the js_lib.
@@ -338,14 +226,6 @@ class Dokeos185Lp
 	}
 
 	/**
-	 * Sets the js_lib of this Dokeos185Lp.
-	 * @param js_lib
-	 */
-	function set_js_lib($js_lib)
-	{
-		$this->set_default_property(self :: PROPERTY_JS_LIB, $js_lib);
-	}
-	/**
 	 * Returns the debug of this Dokeos185Lp.
 	 * @return the debug.
 	 */
@@ -355,14 +235,6 @@ class Dokeos185Lp
 	}
 
 	/**
-	 * Sets the debug of this Dokeos185Lp.
-	 * @param debug
-	 */
-	function set_debug($debug)
-	{
-		$this->set_default_property(self :: PROPERTY_DEBUG, $debug);
-	}
-	/**
 	 * Returns the theme of this Dokeos185Lp.
 	 * @return the theme.
 	 */
@@ -371,14 +243,6 @@ class Dokeos185Lp
 		return $this->get_default_property(self :: PROPERTY_THEME);
 	}
 
-	/**
-	 * Sets the theme of this Dokeos185Lp.
-	 * @param theme
-	 */
-	function set_theme($theme)
-	{
-		$this->set_default_property(self :: PROPERTY_THEME, $theme);
-	}
 
 }
 

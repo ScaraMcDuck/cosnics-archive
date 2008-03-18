@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 blog_post
+ * This class presents a Dokeos185 blog_post
  *
  * @author Sven Vanpoucke
  */
@@ -89,14 +89,6 @@ class Dokeos185BlogPost
 	}
 
 	/**
-	 * Sets the post_id of this Dokeos185BlogPost.
-	 * @param post_id
-	 */
-	function set_post_id($post_id)
-	{
-		$this->set_default_property(self :: PROPERTY_POST_ID, $post_id);
-	}
-	/**
 	 * Returns the title of this Dokeos185BlogPost.
 	 * @return the title.
 	 */
@@ -105,14 +97,6 @@ class Dokeos185BlogPost
 		return $this->get_default_property(self :: PROPERTY_TITLE);
 	}
 
-	/**
-	 * Sets the title of this Dokeos185BlogPost.
-	 * @param title
-	 */
-	function set_title($title)
-	{
-		$this->set_default_property(self :: PROPERTY_TITLE, $title);
-	}
 	/**
 	 * Returns the full_text of this Dokeos185BlogPost.
 	 * @return the full_text.
@@ -123,14 +107,6 @@ class Dokeos185BlogPost
 	}
 
 	/**
-	 * Sets the full_text of this Dokeos185BlogPost.
-	 * @param full_text
-	 */
-	function set_full_text($full_text)
-	{
-		$this->set_default_property(self :: PROPERTY_FULL_TEXT, $full_text);
-	}
-	/**
 	 * Returns the date_creation of this Dokeos185BlogPost.
 	 * @return the date_creation.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185BlogPost
 		return $this->get_default_property(self :: PROPERTY_DATE_CREATION);
 	}
 
-	/**
-	 * Sets the date_creation of this Dokeos185BlogPost.
-	 * @param date_creation
-	 */
-	function set_date_creation($date_creation)
-	{
-		$this->set_default_property(self :: PROPERTY_DATE_CREATION, $date_creation);
-	}
 	/**
 	 * Returns the blog_id of this Dokeos185BlogPost.
 	 * @return the blog_id.
@@ -157,14 +125,6 @@ class Dokeos185BlogPost
 	}
 
 	/**
-	 * Sets the blog_id of this Dokeos185BlogPost.
-	 * @param blog_id
-	 */
-	function set_blog_id($blog_id)
-	{
-		$this->set_default_property(self :: PROPERTY_BLOG_ID, $blog_id);
-	}
-	/**
 	 * Returns the author_id of this Dokeos185BlogPost.
 	 * @return the author_id.
 	 */
@@ -173,14 +133,6 @@ class Dokeos185BlogPost
 		return $this->get_default_property(self :: PROPERTY_AUTHOR_ID);
 	}
 
-	/**
-	 * Sets the author_id of this Dokeos185BlogPost.
-	 * @param author_id
-	 */
-	function set_author_id($author_id)
-	{
-		$this->set_default_property(self :: PROPERTY_AUTHOR_ID, $author_id);
-	}
 
 }
 

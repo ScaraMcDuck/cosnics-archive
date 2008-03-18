@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 forum_mailcue
+ * This class presents a Dokeos185 forum_mailcue
  *
  * @author Sven Vanpoucke
  */
@@ -86,14 +86,6 @@ class Dokeos185ForumMailcue
 	}
 
 	/**
-	 * Sets the thread_id of this Dokeos185ForumMailcue.
-	 * @param thread_id
-	 */
-	function set_thread_id($thread_id)
-	{
-		$this->set_default_property(self :: PROPERTY_THREAD_ID, $thread_id);
-	}
-	/**
 	 * Returns the user_id of this Dokeos185ForumMailcue.
 	 * @return the user_id.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185ForumMailcue
 	}
 
 	/**
-	 * Sets the user_id of this Dokeos185ForumMailcue.
-	 * @param user_id
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
-	/**
 	 * Returns the post_id of this Dokeos185ForumMailcue.
 	 * @return the post_id.
 	 */
@@ -119,14 +103,6 @@ class Dokeos185ForumMailcue
 		return $this->get_default_property(self :: PROPERTY_POST_ID);
 	}
 
-	/**
-	 * Sets the post_id of this Dokeos185ForumMailcue.
-	 * @param post_id
-	 */
-	function set_post_id($post_id)
-	{
-		$this->set_default_property(self :: PROPERTY_POST_ID, $post_id);
-	}
 
 }
 

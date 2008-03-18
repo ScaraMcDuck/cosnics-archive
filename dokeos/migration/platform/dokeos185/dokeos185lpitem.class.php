@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 lp_item
+ * This class presents a Dokeos185 lp_item
  *
  * @author Sven Vanpoucke
  */
@@ -101,14 +101,6 @@ class Dokeos185LpItem
 	}
 
 	/**
-	 * Sets the id of this Dokeos185LpItem.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the lp_id of this Dokeos185LpItem.
 	 * @return the lp_id.
 	 */
@@ -117,14 +109,6 @@ class Dokeos185LpItem
 		return $this->get_default_property(self :: PROPERTY_LP_ID);
 	}
 
-	/**
-	 * Sets the lp_id of this Dokeos185LpItem.
-	 * @param lp_id
-	 */
-	function set_lp_id($lp_id)
-	{
-		$this->set_default_property(self :: PROPERTY_LP_ID, $lp_id);
-	}
 	/**
 	 * Returns the item_type of this Dokeos185LpItem.
 	 * @return the item_type.
@@ -135,14 +119,6 @@ class Dokeos185LpItem
 	}
 
 	/**
-	 * Sets the item_type of this Dokeos185LpItem.
-	 * @param item_type
-	 */
-	function set_item_type($item_type)
-	{
-		$this->set_default_property(self :: PROPERTY_ITEM_TYPE, $item_type);
-	}
-	/**
 	 * Returns the ref of this Dokeos185LpItem.
 	 * @return the ref.
 	 */
@@ -151,14 +127,6 @@ class Dokeos185LpItem
 		return $this->get_default_property(self :: PROPERTY_REF);
 	}
 
-	/**
-	 * Sets the ref of this Dokeos185LpItem.
-	 * @param ref
-	 */
-	function set_ref($ref)
-	{
-		$this->set_default_property(self :: PROPERTY_REF, $ref);
-	}
 	/**
 	 * Returns the title of this Dokeos185LpItem.
 	 * @return the title.
@@ -169,14 +137,6 @@ class Dokeos185LpItem
 	}
 
 	/**
-	 * Sets the title of this Dokeos185LpItem.
-	 * @param title
-	 */
-	function set_title($title)
-	{
-		$this->set_default_property(self :: PROPERTY_TITLE, $title);
-	}
-	/**
 	 * Returns the description of this Dokeos185LpItem.
 	 * @return the description.
 	 */
@@ -185,14 +145,6 @@ class Dokeos185LpItem
 		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
 	}
 
-	/**
-	 * Sets the description of this Dokeos185LpItem.
-	 * @param description
-	 */
-	function set_description($description)
-	{
-		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
-	}
 	/**
 	 * Returns the path of this Dokeos185LpItem.
 	 * @return the path.
@@ -203,14 +155,6 @@ class Dokeos185LpItem
 	}
 
 	/**
-	 * Sets the path of this Dokeos185LpItem.
-	 * @param path
-	 */
-	function set_path($path)
-	{
-		$this->set_default_property(self :: PROPERTY_PATH, $path);
-	}
-	/**
 	 * Returns the min_score of this Dokeos185LpItem.
 	 * @return the min_score.
 	 */
@@ -219,14 +163,6 @@ class Dokeos185LpItem
 		return $this->get_default_property(self :: PROPERTY_MIN_SCORE);
 	}
 
-	/**
-	 * Sets the min_score of this Dokeos185LpItem.
-	 * @param min_score
-	 */
-	function set_min_score($min_score)
-	{
-		$this->set_default_property(self :: PROPERTY_MIN_SCORE, $min_score);
-	}
 	/**
 	 * Returns the max_score of this Dokeos185LpItem.
 	 * @return the max_score.
@@ -237,14 +173,6 @@ class Dokeos185LpItem
 	}
 
 	/**
-	 * Sets the max_score of this Dokeos185LpItem.
-	 * @param max_score
-	 */
-	function set_max_score($max_score)
-	{
-		$this->set_default_property(self :: PROPERTY_MAX_SCORE, $max_score);
-	}
-	/**
 	 * Returns the mastery_score of this Dokeos185LpItem.
 	 * @return the mastery_score.
 	 */
@@ -253,14 +181,6 @@ class Dokeos185LpItem
 		return $this->get_default_property(self :: PROPERTY_MASTERY_SCORE);
 	}
 
-	/**
-	 * Sets the mastery_score of this Dokeos185LpItem.
-	 * @param mastery_score
-	 */
-	function set_mastery_score($mastery_score)
-	{
-		$this->set_default_property(self :: PROPERTY_MASTERY_SCORE, $mastery_score);
-	}
 	/**
 	 * Returns the parent_item_id of this Dokeos185LpItem.
 	 * @return the parent_item_id.
@@ -271,14 +191,6 @@ class Dokeos185LpItem
 	}
 
 	/**
-	 * Sets the parent_item_id of this Dokeos185LpItem.
-	 * @param parent_item_id
-	 */
-	function set_parent_item_id($parent_item_id)
-	{
-		$this->set_default_property(self :: PROPERTY_PARENT_ITEM_ID, $parent_item_id);
-	}
-	/**
 	 * Returns the previous_item_id of this Dokeos185LpItem.
 	 * @return the previous_item_id.
 	 */
@@ -287,14 +199,6 @@ class Dokeos185LpItem
 		return $this->get_default_property(self :: PROPERTY_PREVIOUS_ITEM_ID);
 	}
 
-	/**
-	 * Sets the previous_item_id of this Dokeos185LpItem.
-	 * @param previous_item_id
-	 */
-	function set_previous_item_id($previous_item_id)
-	{
-		$this->set_default_property(self :: PROPERTY_PREVIOUS_ITEM_ID, $previous_item_id);
-	}
 	/**
 	 * Returns the next_item_id of this Dokeos185LpItem.
 	 * @return the next_item_id.
@@ -305,14 +209,6 @@ class Dokeos185LpItem
 	}
 
 	/**
-	 * Sets the next_item_id of this Dokeos185LpItem.
-	 * @param next_item_id
-	 */
-	function set_next_item_id($next_item_id)
-	{
-		$this->set_default_property(self :: PROPERTY_NEXT_ITEM_ID, $next_item_id);
-	}
-	/**
 	 * Returns the display_order of this Dokeos185LpItem.
 	 * @return the display_order.
 	 */
@@ -321,14 +217,6 @@ class Dokeos185LpItem
 		return $this->get_default_property(self :: PROPERTY_DISPLAY_ORDER);
 	}
 
-	/**
-	 * Sets the display_order of this Dokeos185LpItem.
-	 * @param display_order
-	 */
-	function set_display_order($display_order)
-	{
-		$this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
-	}
 	/**
 	 * Returns the prerequisite of this Dokeos185LpItem.
 	 * @return the prerequisite.
@@ -339,14 +227,6 @@ class Dokeos185LpItem
 	}
 
 	/**
-	 * Sets the prerequisite of this Dokeos185LpItem.
-	 * @param prerequisite
-	 */
-	function set_prerequisite($prerequisite)
-	{
-		$this->set_default_property(self :: PROPERTY_PREREQUISITE, $prerequisite);
-	}
-	/**
 	 * Returns the parameters of this Dokeos185LpItem.
 	 * @return the parameters.
 	 */
@@ -355,14 +235,6 @@ class Dokeos185LpItem
 		return $this->get_default_property(self :: PROPERTY_PARAMETERS);
 	}
 
-	/**
-	 * Sets the parameters of this Dokeos185LpItem.
-	 * @param parameters
-	 */
-	function set_parameters($parameters)
-	{
-		$this->set_default_property(self :: PROPERTY_PARAMETERS, $parameters);
-	}
 	/**
 	 * Returns the launch_data of this Dokeos185LpItem.
 	 * @return the launch_data.
@@ -373,14 +245,6 @@ class Dokeos185LpItem
 	}
 
 	/**
-	 * Sets the launch_data of this Dokeos185LpItem.
-	 * @param launch_data
-	 */
-	function set_launch_data($launch_data)
-	{
-		$this->set_default_property(self :: PROPERTY_LAUNCH_DATA, $launch_data);
-	}
-	/**
 	 * Returns the max_time_allowed of this Dokeos185LpItem.
 	 * @return the max_time_allowed.
 	 */
@@ -389,14 +253,6 @@ class Dokeos185LpItem
 		return $this->get_default_property(self :: PROPERTY_MAX_TIME_ALLOWED);
 	}
 
-	/**
-	 * Sets the max_time_allowed of this Dokeos185LpItem.
-	 * @param max_time_allowed
-	 */
-	function set_max_time_allowed($max_time_allowed)
-	{
-		$this->set_default_property(self :: PROPERTY_MAX_TIME_ALLOWED, $max_time_allowed);
-	}
 
 }
 

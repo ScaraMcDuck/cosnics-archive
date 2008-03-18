@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 track_c_os
+ * This class presents a Dokeos185 track_c_os
  *
  * @author Sven Vanpoucke
  */
@@ -86,14 +86,6 @@ class Dokeos185TrackCOs
 	}
 
 	/**
-	 * Sets the id of this Dokeos185TrackCOs.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the os of this Dokeos185TrackCOs.
 	 * @return the os.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185TrackCOs
 	}
 
 	/**
-	 * Sets the os of this Dokeos185TrackCOs.
-	 * @param os
-	 */
-	function set_os($os)
-	{
-		$this->set_default_property(self :: PROPERTY_OS, $os);
-	}
-	/**
 	 * Returns the counter of this Dokeos185TrackCOs.
 	 * @return the counter.
 	 */
@@ -119,14 +103,6 @@ class Dokeos185TrackCOs
 		return $this->get_default_property(self :: PROPERTY_COUNTER);
 	}
 
-	/**
-	 * Sets the counter of this Dokeos185TrackCOs.
-	 * @param counter
-	 */
-	function set_counter($counter)
-	{
-		$this->set_default_property(self :: PROPERTY_COUNTER, $counter);
-	}
 
 }
 

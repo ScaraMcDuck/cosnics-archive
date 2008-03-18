@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 blog_rating
+ * This class presents a Dokeos185 blog_rating
  *
  * @author Sven Vanpoucke
  */
@@ -89,14 +89,6 @@ class Dokeos185BlogRating
 	}
 
 	/**
-	 * Sets the rating_id of this Dokeos185BlogRating.
-	 * @param rating_id
-	 */
-	function set_rating_id($rating_id)
-	{
-		$this->set_default_property(self :: PROPERTY_RATING_ID, $rating_id);
-	}
-	/**
 	 * Returns the blog_id of this Dokeos185BlogRating.
 	 * @return the blog_id.
 	 */
@@ -105,14 +97,6 @@ class Dokeos185BlogRating
 		return $this->get_default_property(self :: PROPERTY_BLOG_ID);
 	}
 
-	/**
-	 * Sets the blog_id of this Dokeos185BlogRating.
-	 * @param blog_id
-	 */
-	function set_blog_id($blog_id)
-	{
-		$this->set_default_property(self :: PROPERTY_BLOG_ID, $blog_id);
-	}
 	/**
 	 * Returns the rating_type of this Dokeos185BlogRating.
 	 * @return the rating_type.
@@ -123,14 +107,6 @@ class Dokeos185BlogRating
 	}
 
 	/**
-	 * Sets the rating_type of this Dokeos185BlogRating.
-	 * @param rating_type
-	 */
-	function set_rating_type($rating_type)
-	{
-		$this->set_default_property(self :: PROPERTY_RATING_TYPE, $rating_type);
-	}
-	/**
 	 * Returns the item_id of this Dokeos185BlogRating.
 	 * @return the item_id.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185BlogRating
 		return $this->get_default_property(self :: PROPERTY_ITEM_ID);
 	}
 
-	/**
-	 * Sets the item_id of this Dokeos185BlogRating.
-	 * @param item_id
-	 */
-	function set_item_id($item_id)
-	{
-		$this->set_default_property(self :: PROPERTY_ITEM_ID, $item_id);
-	}
 	/**
 	 * Returns the user_id of this Dokeos185BlogRating.
 	 * @return the user_id.
@@ -157,14 +125,6 @@ class Dokeos185BlogRating
 	}
 
 	/**
-	 * Sets the user_id of this Dokeos185BlogRating.
-	 * @param user_id
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
-	/**
 	 * Returns the rating of this Dokeos185BlogRating.
 	 * @return the rating.
 	 */
@@ -173,14 +133,6 @@ class Dokeos185BlogRating
 		return $this->get_default_property(self :: PROPERTY_RATING);
 	}
 
-	/**
-	 * Sets the rating of this Dokeos185BlogRating.
-	 * @param rating
-	 */
-	function set_rating($rating)
-	{
-		$this->set_default_property(self :: PROPERTY_RATING, $rating);
-	}
 
 }
 
