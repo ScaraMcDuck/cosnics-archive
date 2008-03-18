@@ -1,5 +1,5 @@
 <?php
-echo('test');
+
 /**
  * package migration.platform.dokeos185
  */
