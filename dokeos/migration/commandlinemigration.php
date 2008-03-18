@@ -1,6 +1,9 @@
 <?php
 
 	ini_set('include_path',realpath(dirname(__FILE__).'/../plugin/pear'));
+	ini_set("memory_limit"		,"3500M"	);	// Geen php-beperkingen voor geheugengebruik
+	ini_set("max_execution_time"	,"72000");	// Twee uur moet voldoende zijn...
+
 	require_once dirname(__FILE__).'/../common/global.inc.php';
 	require_once 'HTML/QuickForm/Controller.php';
 	require_once 'HTML/QuickForm/Rule.php';
@@ -32,17 +35,39 @@
 	$logger = new Logger('migration.txt', false);
 	$logger->close_file();
 	
-	migrate(new UsersMigrationWizardPage(null, null, true));
-	migrate(new SystemSettingsMigrationWizardPage(null, null, true));
-	migrate(new ClassesMigrationWizardPage(null, null, true));
-	migrate(new CoursesMigrationWizardPage(null, null, true));
-	migrate(new PersonalAgendasMigrationWizardPage(null, null, true));
-	migrate(new MetadataMigrationWizardPage(null, null, true));
-	migrate(new GroupsMigrationWizardPage(null, null, true));
-	migrate(new AnnouncementsMigrationWizardPage(null, null, true));
-	migrate(new CalendarEventsMigrationWizardPage(null, null, true));
-	migrate(new DocumentsMigrationWizardPage(null, null, true));
-	migrate(new LinksMigrationWizardPage(null, null, true));
+	$wizardpage = new UsersMigrationWizardPage(null, null, true);
+	migrate($wizardpage);
+	unset($wizardpage);
+	$wizardpage = new SystemSettingsMigrationWizardPage(null, null, true);
+	migrate($wizardpage);
+	unset($wizardpage);
+	$wizardpage = new ClassesMigrationWizardPage(null, null, true);
+	migrate($wizardpage);
+	unset($wizardpage);
+	$wizardpage = new CoursesMigrationWizardPage(null, null, true);
+	migrate($wizardpage);
+	unset($wizardpage);
+	$wizardpage = new PersonalAgendasMigrationWizardPage(null, null, true);
+	migrate($wizardpage);
+	unset($wizardpage);
+	$wizardpage = new MetadataMigrationWizardPage(null, null, true);
+	migrate($wizardpage);
+	unset($wizardpage);
+	$wizardpage = new GroupsMigrationWizardPage(null, null, true);
+	migrate($wizardpage);
+	unset($wizardpage);
+	$wizardpage = new AnnouncementsMigrationWizardPage(null, null, true);
+	migrate($wizardpage);
+	unset($wizardpage);
+	$wizardpage = new CalendarEventsMigrationWizardPage(null, null, true);
+	migrate($wizardpage);
+	unset($wizardpage);
+	$wizardpage = new DocumentsMigrationWizardPage(null, null, true);
+	migrate($wizardpage);
+	unset($wizardpage);
+	$wizardpage = new LinksMigrationWizardPage(null, null, true);
+	migrate($wizardpage);
+	unset($wizardpage);
 	
 	echo("\n");
 	echo("Total time passed: " . Logger :: get_total_time_passed() . "s\n\n");

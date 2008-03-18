@@ -160,13 +160,14 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 		$classes = array();
 		$classes = $class_class->get_all_classes($this->mgdm);
 		
-		foreach($classes as $class)
+		foreach($classes as $i => $class)
 		{
 			if($class->is_valid_class())
 			{
 				$lcms_class = $class->convert_to_new_class();
 				$this->logfile->add_message('SUCCES: Class added ( ' . $lcms_class->get_id() . ' )');
 				$this->succes[0]++;
+				unset($lcms_class);
 			}
 			else
 			{
@@ -174,8 +175,8 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message($message);
 				$this->failed_elements[0][] = $message;
 			}
+			unset($classes[$i]);
 		}
-		
 
 		$this->logfile->add_message('Classes migrated');
 	}
@@ -191,7 +192,7 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 		$classusers = array();
 		$classusers = $classuser_class->get_all_class_users($this->mgdm);
 		
-		foreach($classusers as $classuser)
+		foreach($classusers as $i => $classuser)
 		{
 			if($classuser->is_valid_class_user())
 			{
@@ -200,6 +201,7 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 				$lcms_classuser->get_classgroup_id() . ' User: ' . 
 				$lcms_classuser->get_user_id() . ' )');
 				$this->succes[1]++;
+				unset($lcms_classuser);
 			}
 			else
 			{
@@ -209,6 +211,8 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message($message);
 				$this->failed_elements[1][] = $message;
 			}
+			
+			unset($classusers[$i]);
 		}
 		
 

@@ -166,7 +166,7 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		$systemsettings = array();
 		$systemsettings = $systemsettingsclass->get_all_current_settings($this->mgdm);
 		
-		foreach($systemsettings as $systemsetting)
+		foreach($systemsettings as $i => $systemsetting)
 		{
 			if($systemsetting->is_valid_current_setting())
 			{
@@ -175,6 +175,7 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 					$this->logfile->add_message('System setting added ( ID: ' . 
 						$lcms_admin_setting->get_id() . ' )');
 				$this->succes[0]++;
+				unset($lcms_admin_setting);
 			}
 			else
 			{
@@ -182,6 +183,8 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message($message);
 				$this->failed_elements[0][] = $message;*/
 			}
+			
+			unset($systemsetting[$i]);
 		}
 		
 		$this->logfile->add_message('System setting migrated');
@@ -199,7 +202,7 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		$systemannouncements = $systemannouncementsclass->get_all_system_announcements($this->mgdm);
 		$id = $this->mgdm->get_id_reference($this->mgdm->get_old_admin_id(), 'user_user');
 		
-		foreach($systemannouncements as $systemannouncement)
+		foreach($systemannouncements as $i => $systemannouncement)
 		{
 			if($systemannouncement->is_valid_system_announcement())
 			{
@@ -207,6 +210,7 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message('System announcement added ( ID: ' . 
 					$lcms_system_announcement->get_id() . ' )');
 				$this->succes[1]++;
+				unset($lcms_system_announcement);
 			}
 			else
 			{
@@ -214,6 +218,8 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message($message);
 				$this->failed_elements[1][] = $message;
 			}
+			
+			unset($systemannouncements[$i]);
 		}
 		
 		$this->logfile->add_message('System announcements migrated');

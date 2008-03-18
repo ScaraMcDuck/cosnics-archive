@@ -143,13 +143,14 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 			$lcms_users[] = $lcms_user;	
 		}
 
-		foreach($users as $user)
+		foreach($users as $i => $user)
 		{
 			if($user->is_valid_user($lcms_users))
 			{
 				$lcms_user = $user->convert_to_new_user();
 				$this->logfile->add_message('SUCCES: User added ( ID:' . $lcms_user->get_user_id() . ' )');
 				$this->users_succes++;
+				unset($lcms_user);
 			}
 			else
 			{
@@ -157,6 +158,8 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message($message);
 				$this->failed_users[] = $message;
 			}
+			
+			unset($users[$i]);
 		}
 		
 		$this->logfile->add_message('Users migrated');

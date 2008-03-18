@@ -190,7 +190,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		$coursecategories = array();
 		$coursecategories = $coursecategoryclass->get_all_course_categories($this->mgdm);
 		
-		foreach($coursecategories as $coursecategory)
+		foreach($coursecategories as $i => $coursecategory)
 		{
 			if($coursecategory->is_valid_course_category())
 			{
@@ -198,6 +198,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message('SUCCES: Course category added ( CODE: ' . 
 					$lcms_coursecategory->get_code() . ' )');
 				$this->succes[0]++;
+				unset($lcms_coursecategory);
 			}
 			else
 			{
@@ -205,6 +206,8 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message($message);
 				$this->failed_elements[0][] = $message;
 			}
+			
+			unset($coursecategories[$i]);
 		}
 		
 		$this->logfile->add_message('Course categories migrated');
@@ -221,7 +224,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		$usercoursecategories = array();
 		$usercoursecategories = $usercoursecategoryclass->get_all_users_courses_categories($this->mgdm);
 		
-		foreach($usercoursecategories as $usercoursecategory)
+		foreach($usercoursecategories as $i => $usercoursecategory)
 		{
 			if($usercoursecategory->is_valid_user_course_category())
 			{
@@ -229,6 +232,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message('SUCCES: User course category added ( ID: ' . 
 					$lcms_usercoursecategory->get_id() . ' )');
 				$this->succes[1]++;
+				unset($lcms_usercoursecategory);
 			}
 			else
 			{
@@ -236,6 +240,8 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message($message);
 				$this->failed_elements[1][] = $message;
 			}
+			
+			unset($usercoursecategories[$i]);
 		}
 		
 		$this->logfile->add_message('User course categories migrated');
@@ -252,14 +258,14 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		$courses = array();
 		$courses = $courseclass->get_all_courses($this->mgdm);
 		
-		foreach($courses as $course)
+		foreach($courses as $i => $course)
 		{
 			if($course->is_valid_course())
 			{
 				$lcms_course = $course->convert_to_new_course();
 				$this->logfile->add_message('SUCCES: Course added ( Course: ' . $lcms_course->get_id() . ' )');
 				$this->succes[2]++;
-				//$this->migrate_course_tools($course);
+				unset($lcms_course);
 			}
 			else
 			{
@@ -267,6 +273,8 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message($message);
 				$this->failed_elements[2][] = $message;
 			}
+			
+			unset($courses[$i]);
 		}
 		
 
@@ -284,7 +292,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		$courserelusers = array();
 		$courserelusers = $coursereluserclass->get_all_course_rel_user($this->mgdm);
 		
-		foreach($courserelusers as $coursereluser)
+		foreach($courserelusers as $i => $coursereluser)
 		{
 			if($coursereluser->is_valid_course_user_relation())
 			{
@@ -293,6 +301,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 					. $lcms_coursereluser->get_course() . ' UserID: ' .
 					  $lcms_coursereluser->get_user() . ' )');
 				$this->succes[3]++;
+				unset($lcms_coursereluser);
 			}
 			else
 			{
@@ -302,6 +311,8 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message($message);
 				$this->failed_elements[3][] = $message;
 			}
+			
+			unset($courserelusers[$i]);
 		}
 
 		$this->logfile->add_message('Course user relations migrated');
@@ -318,7 +329,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		$courserelclasses = array();
 		$courserelclasses = $courserelclass_class->get_all_course_rel_class($this->mgdm);
 		
-		foreach($courserelclasses as $courserelclass)
+		foreach($courserelclasses as $i => $courserelclass)
 		{
 			if($courserelclass->is_valid_course_class_relation())
 			{
@@ -327,6 +338,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 					. $lcms_courserelclass->get_course() . ' UserID: ' .
 					  $lcms_courserelclass->get_user() . ' )');
 				$this->succes[4]++;
+				unset($lcms_courserelclass);
 			}
 			else
 			{
@@ -336,6 +348,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message($message);
 				$this->failed_elements[4][] = $message;
 			}
+			unset($courserelclass[$i]);
 		}
 
 		$this->logfile->add_message('Course user relations migrated');
