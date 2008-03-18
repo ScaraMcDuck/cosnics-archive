@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 blog_task
+ * This class presents a Dokeos185 blog_task
  *
  * @author Sven Vanpoucke
  */
@@ -89,14 +89,6 @@ class Dokeos185BlogTask
 	}
 
 	/**
-	 * Sets the task_id of this Dokeos185BlogTask.
-	 * @param task_id
-	 */
-	function set_task_id($task_id)
-	{
-		$this->set_default_property(self :: PROPERTY_TASK_ID, $task_id);
-	}
-	/**
 	 * Returns the blog_id of this Dokeos185BlogTask.
 	 * @return the blog_id.
 	 */
@@ -105,14 +97,6 @@ class Dokeos185BlogTask
 		return $this->get_default_property(self :: PROPERTY_BLOG_ID);
 	}
 
-	/**
-	 * Sets the blog_id of this Dokeos185BlogTask.
-	 * @param blog_id
-	 */
-	function set_blog_id($blog_id)
-	{
-		$this->set_default_property(self :: PROPERTY_BLOG_ID, $blog_id);
-	}
 	/**
 	 * Returns the title of this Dokeos185BlogTask.
 	 * @return the title.
@@ -123,14 +107,6 @@ class Dokeos185BlogTask
 	}
 
 	/**
-	 * Sets the title of this Dokeos185BlogTask.
-	 * @param title
-	 */
-	function set_title($title)
-	{
-		$this->set_default_property(self :: PROPERTY_TITLE, $title);
-	}
-	/**
 	 * Returns the description of this Dokeos185BlogTask.
 	 * @return the description.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185BlogTask
 		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
 	}
 
-	/**
-	 * Sets the description of this Dokeos185BlogTask.
-	 * @param description
-	 */
-	function set_description($description)
-	{
-		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
-	}
 	/**
 	 * Returns the color of this Dokeos185BlogTask.
 	 * @return the color.
@@ -157,14 +125,6 @@ class Dokeos185BlogTask
 	}
 
 	/**
-	 * Sets the color of this Dokeos185BlogTask.
-	 * @param color
-	 */
-	function set_color($color)
-	{
-		$this->set_default_property(self :: PROPERTY_COLOR, $color);
-	}
-	/**
 	 * Returns the system_task of this Dokeos185BlogTask.
 	 * @return the system_task.
 	 */
@@ -173,14 +133,6 @@ class Dokeos185BlogTask
 		return $this->get_default_property(self :: PROPERTY_SYSTEM_TASK);
 	}
 
-	/**
-	 * Sets the system_task of this Dokeos185BlogTask.
-	 * @param system_task
-	 */
-	function set_system_task($system_task)
-	{
-		$this->set_default_property(self :: PROPERTY_SYSTEM_TASK, $system_task);
-	}
 
 }
 

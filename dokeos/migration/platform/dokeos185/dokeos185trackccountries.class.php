@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 track_c_countries
+ * This class presents a Dokeos185 track_c_countries
  *
  * @author Sven Vanpoucke
  */
@@ -87,14 +87,6 @@ class Dokeos185TrackCCountries
 	}
 
 	/**
-	 * Sets the id of this Dokeos185TrackCCountries.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the code of this Dokeos185TrackCCountries.
 	 * @return the code.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185TrackCCountries
 		return $this->get_default_property(self :: PROPERTY_CODE);
 	}
 
-	/**
-	 * Sets the code of this Dokeos185TrackCCountries.
-	 * @param code
-	 */
-	function set_code($code)
-	{
-		$this->set_default_property(self :: PROPERTY_CODE, $code);
-	}
 	/**
 	 * Returns the country of this Dokeos185TrackCCountries.
 	 * @return the country.
@@ -121,14 +105,6 @@ class Dokeos185TrackCCountries
 	}
 
 	/**
-	 * Sets the country of this Dokeos185TrackCCountries.
-	 * @param country
-	 */
-	function set_country($country)
-	{
-		$this->set_default_property(self :: PROPERTY_COUNTRY, $country);
-	}
-	/**
 	 * Returns the counter of this Dokeos185TrackCCountries.
 	 * @return the counter.
 	 */
@@ -137,14 +113,6 @@ class Dokeos185TrackCCountries
 		return $this->get_default_property(self :: PROPERTY_COUNTER);
 	}
 
-	/**
-	 * Sets the counter of this Dokeos185TrackCCountries.
-	 * @param counter
-	 */
-	function set_counter($counter)
-	{
-		$this->set_default_property(self :: PROPERTY_COUNTER, $counter);
-	}
 
 }
 

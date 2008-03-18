@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 online_link
+ * This class presents a Dokeos185 online_link
  *
  * @author Sven Vanpoucke
  */
@@ -86,14 +86,6 @@ class Dokeos185OnlineLink
 	}
 
 	/**
-	 * Sets the id of this Dokeos185OnlineLink.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the name of this Dokeos185OnlineLink.
 	 * @return the name.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185OnlineLink
 	}
 
 	/**
-	 * Sets the name of this Dokeos185OnlineLink.
-	 * @param name
-	 */
-	function set_name($name)
-	{
-		$this->set_default_property(self :: PROPERTY_NAME, $name);
-	}
-	/**
 	 * Returns the url of this Dokeos185OnlineLink.
 	 * @return the url.
 	 */
@@ -119,14 +103,6 @@ class Dokeos185OnlineLink
 		return $this->get_default_property(self :: PROPERTY_URL);
 	}
 
-	/**
-	 * Sets the url of this Dokeos185OnlineLink.
-	 * @param url
-	 */
-	function set_url($url)
-	{
-		$this->set_default_property(self :: PROPERTY_URL, $url);
-	}
 
 }
 

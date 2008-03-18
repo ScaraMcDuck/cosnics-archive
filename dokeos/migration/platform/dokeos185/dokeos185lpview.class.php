@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 lp_view
+ * This class presents a Dokeos185 lp_view
  *
  * @author Sven Vanpoucke
  */
@@ -89,14 +89,6 @@ class Dokeos185LpView
 	}
 
 	/**
-	 * Sets the id of this Dokeos185LpView.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the lp_id of this Dokeos185LpView.
 	 * @return the lp_id.
 	 */
@@ -105,14 +97,6 @@ class Dokeos185LpView
 		return $this->get_default_property(self :: PROPERTY_LP_ID);
 	}
 
-	/**
-	 * Sets the lp_id of this Dokeos185LpView.
-	 * @param lp_id
-	 */
-	function set_lp_id($lp_id)
-	{
-		$this->set_default_property(self :: PROPERTY_LP_ID, $lp_id);
-	}
 	/**
 	 * Returns the user_id of this Dokeos185LpView.
 	 * @return the user_id.
@@ -123,14 +107,6 @@ class Dokeos185LpView
 	}
 
 	/**
-	 * Sets the user_id of this Dokeos185LpView.
-	 * @param user_id
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
-	/**
 	 * Returns the view_count of this Dokeos185LpView.
 	 * @return the view_count.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185LpView
 		return $this->get_default_property(self :: PROPERTY_VIEW_COUNT);
 	}
 
-	/**
-	 * Sets the view_count of this Dokeos185LpView.
-	 * @param view_count
-	 */
-	function set_view_count($view_count)
-	{
-		$this->set_default_property(self :: PROPERTY_VIEW_COUNT, $view_count);
-	}
 	/**
 	 * Returns the last_item of this Dokeos185LpView.
 	 * @return the last_item.
@@ -157,14 +125,6 @@ class Dokeos185LpView
 	}
 
 	/**
-	 * Sets the last_item of this Dokeos185LpView.
-	 * @param last_item
-	 */
-	function set_last_item($last_item)
-	{
-		$this->set_default_property(self :: PROPERTY_LAST_ITEM, $last_item);
-	}
-	/**
 	 * Returns the progress of this Dokeos185LpView.
 	 * @return the progress.
 	 */
@@ -173,14 +133,6 @@ class Dokeos185LpView
 		return $this->get_default_property(self :: PROPERTY_PROGRESS);
 	}
 
-	/**
-	 * Sets the progress of this Dokeos185LpView.
-	 * @param progress
-	 */
-	function set_progress($progress)
-	{
-		$this->set_default_property(self :: PROPERTY_PROGRESS, $progress);
-	}
 
 }
 

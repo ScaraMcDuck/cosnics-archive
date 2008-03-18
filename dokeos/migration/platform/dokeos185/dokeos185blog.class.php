@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 blog
+ * This class presents a Dokeos185 blog
  *
  * @author Sven Vanpoucke
  */
@@ -88,14 +88,6 @@ class Dokeos185Blog
 	}
 
 	/**
-	 * Sets the blog_id of this Dokeos185Blog.
-	 * @param blog_id
-	 */
-	function set_blog_id($blog_id)
-	{
-		$this->set_default_property(self :: PROPERTY_BLOG_ID, $blog_id);
-	}
-	/**
 	 * Returns the blog_name of this Dokeos185Blog.
 	 * @return the blog_name.
 	 */
@@ -104,14 +96,6 @@ class Dokeos185Blog
 		return $this->get_default_property(self :: PROPERTY_BLOG_NAME);
 	}
 
-	/**
-	 * Sets the blog_name of this Dokeos185Blog.
-	 * @param blog_name
-	 */
-	function set_blog_name($blog_name)
-	{
-		$this->set_default_property(self :: PROPERTY_BLOG_NAME, $blog_name);
-	}
 	/**
 	 * Returns the blog_subtitle of this Dokeos185Blog.
 	 * @return the blog_subtitle.
@@ -122,14 +106,6 @@ class Dokeos185Blog
 	}
 
 	/**
-	 * Sets the blog_subtitle of this Dokeos185Blog.
-	 * @param blog_subtitle
-	 */
-	function set_blog_subtitle($blog_subtitle)
-	{
-		$this->set_default_property(self :: PROPERTY_BLOG_SUBTITLE, $blog_subtitle);
-	}
-	/**
 	 * Returns the date_creation of this Dokeos185Blog.
 	 * @return the date_creation.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185Blog
 	}
 
 	/**
-	 * Sets the date_creation of this Dokeos185Blog.
-	 * @param date_creation
-	 */
-	function set_date_creation($date_creation)
-	{
-		$this->set_default_property(self :: PROPERTY_DATE_CREATION, $date_creation);
-	}
-	/**
 	 * Returns the visibility of this Dokeos185Blog.
 	 * @return the visibility.
 	 */
@@ -155,14 +123,6 @@ class Dokeos185Blog
 		return $this->get_default_property(self :: PROPERTY_VISIBILITY);
 	}
 
-	/**
-	 * Sets the visibility of this Dokeos185Blog.
-	 * @param visibility
-	 */
-	function set_visibility($visibility)
-	{
-		$this->set_default_property(self :: PROPERTY_VISIBILITY, $visibility);
-	}
 
 }
 

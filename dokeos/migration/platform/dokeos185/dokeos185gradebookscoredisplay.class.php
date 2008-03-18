@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 gradebook_score_display
+ * This class presents a Dokeos185 gradebook_score_display
  *
  * @author Sven Vanpoucke
  */
@@ -86,14 +86,6 @@ class Dokeos185GradebookScoreDisplay
 	}
 
 	/**
-	 * Sets the id of this Dokeos185GradebookScoreDisplay.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the score of this Dokeos185GradebookScoreDisplay.
 	 * @return the score.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185GradebookScoreDisplay
 	}
 
 	/**
-	 * Sets the score of this Dokeos185GradebookScoreDisplay.
-	 * @param score
-	 */
-	function set_score($score)
-	{
-		$this->set_default_property(self :: PROPERTY_SCORE, $score);
-	}
-	/**
 	 * Returns the display of this Dokeos185GradebookScoreDisplay.
 	 * @return the display.
 	 */
@@ -119,14 +103,6 @@ class Dokeos185GradebookScoreDisplay
 		return $this->get_default_property(self :: PROPERTY_DISPLAY);
 	}
 
-	/**
-	 * Sets the display of this Dokeos185GradebookScoreDisplay.
-	 * @param display
-	 */
-	function set_display($display)
-	{
-		$this->set_default_property(self :: PROPERTY_DISPLAY, $display);
-	}
 
 }
 

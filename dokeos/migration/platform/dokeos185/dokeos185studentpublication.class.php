@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 student_publication
+ * This class presents a Dokeos185 student_publication
  *
  * @author Sven Vanpoucke
  */
@@ -92,14 +92,6 @@ class Dokeos185StudentPublication
 	}
 
 	/**
-	 * Sets the id of this Dokeos185StudentPublication.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the url of this Dokeos185StudentPublication.
 	 * @return the url.
 	 */
@@ -108,14 +100,6 @@ class Dokeos185StudentPublication
 		return $this->get_default_property(self :: PROPERTY_URL);
 	}
 
-	/**
-	 * Sets the url of this Dokeos185StudentPublication.
-	 * @param url
-	 */
-	function set_url($url)
-	{
-		$this->set_default_property(self :: PROPERTY_URL, $url);
-	}
 	/**
 	 * Returns the title of this Dokeos185StudentPublication.
 	 * @return the title.
@@ -126,14 +110,6 @@ class Dokeos185StudentPublication
 	}
 
 	/**
-	 * Sets the title of this Dokeos185StudentPublication.
-	 * @param title
-	 */
-	function set_title($title)
-	{
-		$this->set_default_property(self :: PROPERTY_TITLE, $title);
-	}
-	/**
 	 * Returns the description of this Dokeos185StudentPublication.
 	 * @return the description.
 	 */
@@ -142,14 +118,6 @@ class Dokeos185StudentPublication
 		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
 	}
 
-	/**
-	 * Sets the description of this Dokeos185StudentPublication.
-	 * @param description
-	 */
-	function set_description($description)
-	{
-		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
-	}
 	/**
 	 * Returns the author of this Dokeos185StudentPublication.
 	 * @return the author.
@@ -160,14 +128,6 @@ class Dokeos185StudentPublication
 	}
 
 	/**
-	 * Sets the author of this Dokeos185StudentPublication.
-	 * @param author
-	 */
-	function set_author($author)
-	{
-		$this->set_default_property(self :: PROPERTY_AUTHOR, $author);
-	}
-	/**
 	 * Returns the active of this Dokeos185StudentPublication.
 	 * @return the active.
 	 */
@@ -176,14 +136,6 @@ class Dokeos185StudentPublication
 		return $this->get_default_property(self :: PROPERTY_ACTIVE);
 	}
 
-	/**
-	 * Sets the active of this Dokeos185StudentPublication.
-	 * @param active
-	 */
-	function set_active($active)
-	{
-		$this->set_default_property(self :: PROPERTY_ACTIVE, $active);
-	}
 	/**
 	 * Returns the accepted of this Dokeos185StudentPublication.
 	 * @return the accepted.
@@ -194,14 +146,6 @@ class Dokeos185StudentPublication
 	}
 
 	/**
-	 * Sets the accepted of this Dokeos185StudentPublication.
-	 * @param accepted
-	 */
-	function set_accepted($accepted)
-	{
-		$this->set_default_property(self :: PROPERTY_ACCEPTED, $accepted);
-	}
-	/**
 	 * Returns the post_group_id of this Dokeos185StudentPublication.
 	 * @return the post_group_id.
 	 */
@@ -211,14 +155,6 @@ class Dokeos185StudentPublication
 	}
 
 	/**
-	 * Sets the post_group_id of this Dokeos185StudentPublication.
-	 * @param post_group_id
-	 */
-	function set_post_group_id($post_group_id)
-	{
-		$this->set_default_property(self :: PROPERTY_POST_GROUP_ID, $post_group_id);
-	}
-	/**
 	 * Returns the sent_date of this Dokeos185StudentPublication.
 	 * @return the sent_date.
 	 */
@@ -227,14 +163,6 @@ class Dokeos185StudentPublication
 		return $this->get_default_property(self :: PROPERTY_SENT_DATE);
 	}
 
-	/**
-	 * Sets the sent_date of this Dokeos185StudentPublication.
-	 * @param sent_date
-	 */
-	function set_sent_date($sent_date)
-	{
-		$this->set_default_property(self :: PROPERTY_SENT_DATE, $sent_date);
-	}
 
 }
 

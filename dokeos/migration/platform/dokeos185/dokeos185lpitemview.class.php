@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 lp_item_view
+ * This class presents a Dokeos185 lp_item_view
  *
  * @author Sven Vanpoucke
  */
@@ -95,14 +95,6 @@ class Dokeos185LpItemView
 	}
 
 	/**
-	 * Sets the id of this Dokeos185LpItemView.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the lp_item_id of this Dokeos185LpItemView.
 	 * @return the lp_item_id.
 	 */
@@ -111,14 +103,6 @@ class Dokeos185LpItemView
 		return $this->get_default_property(self :: PROPERTY_LP_ITEM_ID);
 	}
 
-	/**
-	 * Sets the lp_item_id of this Dokeos185LpItemView.
-	 * @param lp_item_id
-	 */
-	function set_lp_item_id($lp_item_id)
-	{
-		$this->set_default_property(self :: PROPERTY_LP_ITEM_ID, $lp_item_id);
-	}
 	/**
 	 * Returns the lp_view_id of this Dokeos185LpItemView.
 	 * @return the lp_view_id.
@@ -129,14 +113,6 @@ class Dokeos185LpItemView
 	}
 
 	/**
-	 * Sets the lp_view_id of this Dokeos185LpItemView.
-	 * @param lp_view_id
-	 */
-	function set_lp_view_id($lp_view_id)
-	{
-		$this->set_default_property(self :: PROPERTY_LP_VIEW_ID, $lp_view_id);
-	}
-	/**
 	 * Returns the view_count of this Dokeos185LpItemView.
 	 * @return the view_count.
 	 */
@@ -145,14 +121,6 @@ class Dokeos185LpItemView
 		return $this->get_default_property(self :: PROPERTY_VIEW_COUNT);
 	}
 
-	/**
-	 * Sets the view_count of this Dokeos185LpItemView.
-	 * @param view_count
-	 */
-	function set_view_count($view_count)
-	{
-		$this->set_default_property(self :: PROPERTY_VIEW_COUNT, $view_count);
-	}
 	/**
 	 * Returns the start_time of this Dokeos185LpItemView.
 	 * @return the start_time.
@@ -163,14 +131,6 @@ class Dokeos185LpItemView
 	}
 
 	/**
-	 * Sets the start_time of this Dokeos185LpItemView.
-	 * @param start_time
-	 */
-	function set_start_time($start_time)
-	{
-		$this->set_default_property(self :: PROPERTY_START_TIME, $start_time);
-	}
-	/**
 	 * Returns the total_time of this Dokeos185LpItemView.
 	 * @return the total_time.
 	 */
@@ -179,14 +139,6 @@ class Dokeos185LpItemView
 		return $this->get_default_property(self :: PROPERTY_TOTAL_TIME);
 	}
 
-	/**
-	 * Sets the total_time of this Dokeos185LpItemView.
-	 * @param total_time
-	 */
-	function set_total_time($total_time)
-	{
-		$this->set_default_property(self :: PROPERTY_TOTAL_TIME, $total_time);
-	}
 	/**
 	 * Returns the score of this Dokeos185LpItemView.
 	 * @return the score.
@@ -197,14 +149,6 @@ class Dokeos185LpItemView
 	}
 
 	/**
-	 * Sets the score of this Dokeos185LpItemView.
-	 * @param score
-	 */
-	function set_score($score)
-	{
-		$this->set_default_property(self :: PROPERTY_SCORE, $score);
-	}
-	/**
 	 * Returns the status of this Dokeos185LpItemView.
 	 * @return the status.
 	 */
@@ -213,14 +157,6 @@ class Dokeos185LpItemView
 		return $this->get_default_property(self :: PROPERTY_STATUS);
 	}
 
-	/**
-	 * Sets the status of this Dokeos185LpItemView.
-	 * @param status
-	 */
-	function set_status($status)
-	{
-		$this->set_default_property(self :: PROPERTY_STATUS, $status);
-	}
 	/**
 	 * Returns the suspend_data of this Dokeos185LpItemView.
 	 * @return the suspend_data.
@@ -231,14 +167,6 @@ class Dokeos185LpItemView
 	}
 
 	/**
-	 * Sets the suspend_data of this Dokeos185LpItemView.
-	 * @param suspend_data
-	 */
-	function set_suspend_data($suspend_data)
-	{
-		$this->set_default_property(self :: PROPERTY_SUSPEND_DATA, $suspend_data);
-	}
-	/**
 	 * Returns the lesson_location of this Dokeos185LpItemView.
 	 * @return the lesson_location.
 	 */
@@ -247,14 +175,6 @@ class Dokeos185LpItemView
 		return $this->get_default_property(self :: PROPERTY_LESSON_LOCATION);
 	}
 
-	/**
-	 * Sets the lesson_location of this Dokeos185LpItemView.
-	 * @param lesson_location
-	 */
-	function set_lesson_location($lesson_location)
-	{
-		$this->set_default_property(self :: PROPERTY_LESSON_LOCATION, $lesson_location);
-	}
 	/**
 	 * Returns the core_exit of this Dokeos185LpItemView.
 	 * @return the core_exit.
@@ -265,14 +185,6 @@ class Dokeos185LpItemView
 	}
 
 	/**
-	 * Sets the core_exit of this Dokeos185LpItemView.
-	 * @param core_exit
-	 */
-	function set_core_exit($core_exit)
-	{
-		$this->set_default_property(self :: PROPERTY_CORE_EXIT, $core_exit);
-	}
-	/**
 	 * Returns the max_score of this Dokeos185LpItemView.
 	 * @return the max_score.
 	 */
@@ -281,14 +193,6 @@ class Dokeos185LpItemView
 		return $this->get_default_property(self :: PROPERTY_MAX_SCORE);
 	}
 
-	/**
-	 * Sets the max_score of this Dokeos185LpItemView.
-	 * @param max_score
-	 */
-	function set_max_score($max_score)
-	{
-		$this->set_default_property(self :: PROPERTY_MAX_SCORE, $max_score);
-	}
 
 }
 

@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 php_session
+ * This class presents a Dokeos185 php_session
  *
  * @author Sven Vanpoucke
  */
@@ -88,14 +88,6 @@ class Dokeos185PhpSession
 	}
 
 	/**
-	 * Sets the session_id of this Dokeos185PhpSession.
-	 * @param session_id
-	 */
-	function set_session_id($session_id)
-	{
-		$this->set_default_property(self :: PROPERTY_SESSION_ID, $session_id);
-	}
-	/**
 	 * Returns the session_name of this Dokeos185PhpSession.
 	 * @return the session_name.
 	 */
@@ -104,14 +96,6 @@ class Dokeos185PhpSession
 		return $this->get_default_property(self :: PROPERTY_SESSION_NAME);
 	}
 
-	/**
-	 * Sets the session_name of this Dokeos185PhpSession.
-	 * @param session_name
-	 */
-	function set_session_name($session_name)
-	{
-		$this->set_default_property(self :: PROPERTY_SESSION_NAME, $session_name);
-	}
 	/**
 	 * Returns the session_time of this Dokeos185PhpSession.
 	 * @return the session_time.
@@ -122,14 +106,6 @@ class Dokeos185PhpSession
 	}
 
 	/**
-	 * Sets the session_time of this Dokeos185PhpSession.
-	 * @param session_time
-	 */
-	function set_session_time($session_time)
-	{
-		$this->set_default_property(self :: PROPERTY_SESSION_TIME, $session_time);
-	}
-	/**
 	 * Returns the session_start of this Dokeos185PhpSession.
 	 * @return the session_start.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185PhpSession
 	}
 
 	/**
-	 * Sets the session_start of this Dokeos185PhpSession.
-	 * @param session_start
-	 */
-	function set_session_start($session_start)
-	{
-		$this->set_default_property(self :: PROPERTY_SESSION_START, $session_start);
-	}
-	/**
 	 * Returns the session_value of this Dokeos185PhpSession.
 	 * @return the session_value.
 	 */
@@ -155,14 +123,6 @@ class Dokeos185PhpSession
 		return $this->get_default_property(self :: PROPERTY_SESSION_VALUE);
 	}
 
-	/**
-	 * Sets the session_value of this Dokeos185PhpSession.
-	 * @param session_value
-	 */
-	function set_session_value($session_value)
-	{
-		$this->set_default_property(self :: PROPERTY_SESSION_VALUE, $session_value);
-	}
 
 }
 

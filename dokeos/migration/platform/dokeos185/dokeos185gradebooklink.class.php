@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 gradebook_link
+ * This class presents a Dokeos185 gradebook_link
  *
  * @author Sven Vanpoucke
  */
@@ -92,14 +92,6 @@ class Dokeos185GradebookLink
 	}
 
 	/**
-	 * Sets the id of this Dokeos185GradebookLink.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the type of this Dokeos185GradebookLink.
 	 * @return the type.
 	 */
@@ -108,14 +100,6 @@ class Dokeos185GradebookLink
 		return $this->get_default_property(self :: PROPERTY_TYPE);
 	}
 
-	/**
-	 * Sets the type of this Dokeos185GradebookLink.
-	 * @param type
-	 */
-	function set_type($type)
-	{
-		$this->set_default_property(self :: PROPERTY_TYPE, $type);
-	}
 	/**
 	 * Returns the ref_id of this Dokeos185GradebookLink.
 	 * @return the ref_id.
@@ -126,14 +110,6 @@ class Dokeos185GradebookLink
 	}
 
 	/**
-	 * Sets the ref_id of this Dokeos185GradebookLink.
-	 * @param ref_id
-	 */
-	function set_ref_id($ref_id)
-	{
-		$this->set_default_property(self :: PROPERTY_REF_ID, $ref_id);
-	}
-	/**
 	 * Returns the user_id of this Dokeos185GradebookLink.
 	 * @return the user_id.
 	 */
@@ -142,14 +118,6 @@ class Dokeos185GradebookLink
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 
-	/**
-	 * Sets the user_id of this Dokeos185GradebookLink.
-	 * @param user_id
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
 	/**
 	 * Returns the course_code of this Dokeos185GradebookLink.
 	 * @return the course_code.
@@ -160,14 +128,6 @@ class Dokeos185GradebookLink
 	}
 
 	/**
-	 * Sets the course_code of this Dokeos185GradebookLink.
-	 * @param course_code
-	 */
-	function set_course_code($course_code)
-	{
-		$this->set_default_property(self :: PROPERTY_COURSE_CODE, $course_code);
-	}
-	/**
 	 * Returns the category_id of this Dokeos185GradebookLink.
 	 * @return the category_id.
 	 */
@@ -176,14 +136,6 @@ class Dokeos185GradebookLink
 		return $this->get_default_property(self :: PROPERTY_CATEGORY_ID);
 	}
 
-	/**
-	 * Sets the category_id of this Dokeos185GradebookLink.
-	 * @param category_id
-	 */
-	function set_category_id($category_id)
-	{
-		$this->set_default_property(self :: PROPERTY_CATEGORY_ID, $category_id);
-	}
 	/**
 	 * Returns the date of this Dokeos185GradebookLink.
 	 * @return the date.
@@ -194,14 +146,6 @@ class Dokeos185GradebookLink
 	}
 
 	/**
-	 * Sets the date of this Dokeos185GradebookLink.
-	 * @param date
-	 */
-	function set_date($date)
-	{
-		$this->set_default_property(self :: PROPERTY_DATE, $date);
-	}
-	/**
 	 * Returns the weight of this Dokeos185GradebookLink.
 	 * @return the weight.
 	 */
@@ -211,14 +155,6 @@ class Dokeos185GradebookLink
 	}
 
 	/**
-	 * Sets the weight of this Dokeos185GradebookLink.
-	 * @param weight
-	 */
-	function set_weight($weight)
-	{
-		$this->set_default_property(self :: PROPERTY_WEIGHT, $weight);
-	}
-	/**
 	 * Returns the visible of this Dokeos185GradebookLink.
 	 * @return the visible.
 	 */
@@ -227,14 +163,6 @@ class Dokeos185GradebookLink
 		return $this->get_default_property(self :: PROPERTY_VISIBLE);
 	}
 
-	/**
-	 * Sets the visible of this Dokeos185GradebookLink.
-	 * @param visible
-	 */
-	function set_visible($visible)
-	{
-		$this->set_default_property(self :: PROPERTY_VISIBLE, $visible);
-	}
 
 }
 

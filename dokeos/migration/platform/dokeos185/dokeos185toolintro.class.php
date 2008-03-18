@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 tool_intro
+ * This class presents a Dokeos185 tool_intro
  *
  * @author Sven Vanpoucke
  */
@@ -85,14 +85,6 @@ class Dokeos185ToolIntro
 	}
 
 	/**
-	 * Sets the id of this Dokeos185ToolIntro.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the intro_text of this Dokeos185ToolIntro.
 	 * @return the intro_text.
 	 */
@@ -101,14 +93,6 @@ class Dokeos185ToolIntro
 		return $this->get_default_property(self :: PROPERTY_INTRO_TEXT);
 	}
 
-	/**
-	 * Sets the intro_text of this Dokeos185ToolIntro.
-	 * @param intro_text
-	 */
-	function set_intro_text($intro_text)
-	{
-		$this->set_default_property(self :: PROPERTY_INTRO_TEXT, $intro_text);
-	}
 
 }
 

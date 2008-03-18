@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 track_e_attempt
+ * This class presents a Dokeos185 track_e_attempt
  *
  * @author Sven Vanpoucke
  */
@@ -92,14 +92,6 @@ class Dokeos185TrackEAttempt
 	}
 
 	/**
-	 * Sets the exe_id of this Dokeos185TrackEAttempt.
-	 * @param exe_id
-	 */
-	function set_exe_id($exe_id)
-	{
-		$this->set_default_property(self :: PROPERTY_EXE_ID, $exe_id);
-	}
-	/**
 	 * Returns the user_id of this Dokeos185TrackEAttempt.
 	 * @return the user_id.
 	 */
@@ -108,14 +100,6 @@ class Dokeos185TrackEAttempt
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 
-	/**
-	 * Sets the user_id of this Dokeos185TrackEAttempt.
-	 * @param user_id
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
 	/**
 	 * Returns the question_id of this Dokeos185TrackEAttempt.
 	 * @return the question_id.
@@ -126,14 +110,6 @@ class Dokeos185TrackEAttempt
 	}
 
 	/**
-	 * Sets the question_id of this Dokeos185TrackEAttempt.
-	 * @param question_id
-	 */
-	function set_question_id($question_id)
-	{
-		$this->set_default_property(self :: PROPERTY_QUESTION_ID, $question_id);
-	}
-	/**
 	 * Returns the answer of this Dokeos185TrackEAttempt.
 	 * @return the answer.
 	 */
@@ -142,14 +118,6 @@ class Dokeos185TrackEAttempt
 		return $this->get_default_property(self :: PROPERTY_ANSWER);
 	}
 
-	/**
-	 * Sets the answer of this Dokeos185TrackEAttempt.
-	 * @param answer
-	 */
-	function set_answer($answer)
-	{
-		$this->set_default_property(self :: PROPERTY_ANSWER, $answer);
-	}
 	/**
 	 * Returns the teacher_comment of this Dokeos185TrackEAttempt.
 	 * @return the teacher_comment.
@@ -160,14 +128,6 @@ class Dokeos185TrackEAttempt
 	}
 
 	/**
-	 * Sets the teacher_comment of this Dokeos185TrackEAttempt.
-	 * @param teacher_comment
-	 */
-	function set_teacher_comment($teacher_comment)
-	{
-		$this->set_default_property(self :: PROPERTY_TEACHER_COMMENT, $teacher_comment);
-	}
-	/**
 	 * Returns the marks of this Dokeos185TrackEAttempt.
 	 * @return the marks.
 	 */
@@ -176,14 +136,6 @@ class Dokeos185TrackEAttempt
 		return $this->get_default_property(self :: PROPERTY_MARKS);
 	}
 
-	/**
-	 * Sets the marks of this Dokeos185TrackEAttempt.
-	 * @param marks
-	 */
-	function set_marks($marks)
-	{
-		$this->set_default_property(self :: PROPERTY_MARKS, $marks);
-	}
 	/**
 	 * Returns the course_code of this Dokeos185TrackEAttempt.
 	 * @return the course_code.
@@ -194,14 +146,6 @@ class Dokeos185TrackEAttempt
 	}
 
 	/**
-	 * Sets the course_code of this Dokeos185TrackEAttempt.
-	 * @param course_code
-	 */
-	function set_course_code($course_code)
-	{
-		$this->set_default_property(self :: PROPERTY_COURSE_CODE, $course_code);
-	}
-	/**
 	 * Returns the position of this Dokeos185TrackEAttempt.
 	 * @return the position.
 	 */
@@ -211,14 +155,6 @@ class Dokeos185TrackEAttempt
 	}
 
 	/**
-	 * Sets the position of this Dokeos185TrackEAttempt.
-	 * @param position
-	 */
-	function set_position($position)
-	{
-		$this->set_default_property(self :: PROPERTY_POSITION, $position);
-	}
-	/**
 	 * Returns the tms of this Dokeos185TrackEAttempt.
 	 * @return the tms.
 	 */
@@ -227,14 +163,6 @@ class Dokeos185TrackEAttempt
 		return $this->get_default_property(self :: PROPERTY_TMS);
 	}
 
-	/**
-	 * Sets the tms of this Dokeos185TrackEAttempt.
-	 * @param tms
-	 */
-	function set_tms($tms)
-	{
-		$this->set_default_property(self :: PROPERTY_TMS, $tms);
-	}
 
 }
 

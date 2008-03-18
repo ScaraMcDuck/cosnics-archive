@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 role_permissions
+ * This class presents a Dokeos185 role_permissions
  *
  * @author Sven Vanpoucke
  */
@@ -87,14 +87,6 @@ class Dokeos185RolePermissions
 	}
 
 	/**
-	 * Sets the role_id of this Dokeos185RolePermissions.
-	 * @param role_id
-	 */
-	function set_role_id($role_id)
-	{
-		$this->set_default_property(self :: PROPERTY_ROLE_ID, $role_id);
-	}
-	/**
 	 * Returns the tool of this Dokeos185RolePermissions.
 	 * @return the tool.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185RolePermissions
 		return $this->get_default_property(self :: PROPERTY_TOOL);
 	}
 
-	/**
-	 * Sets the tool of this Dokeos185RolePermissions.
-	 * @param tool
-	 */
-	function set_tool($tool)
-	{
-		$this->set_default_property(self :: PROPERTY_TOOL, $tool);
-	}
 	/**
 	 * Returns the action of this Dokeos185RolePermissions.
 	 * @return the action.
@@ -121,14 +105,6 @@ class Dokeos185RolePermissions
 	}
 
 	/**
-	 * Sets the action of this Dokeos185RolePermissions.
-	 * @param action
-	 */
-	function set_action($action)
-	{
-		$this->set_default_property(self :: PROPERTY_ACTION, $action);
-	}
-	/**
 	 * Returns the default_perm of this Dokeos185RolePermissions.
 	 * @return the default_perm.
 	 */
@@ -137,14 +113,6 @@ class Dokeos185RolePermissions
 		return $this->get_default_property(self :: PROPERTY_DEFAULT_PERM);
 	}
 
-	/**
-	 * Sets the default_perm of this Dokeos185RolePermissions.
-	 * @param default_perm
-	 */
-	function set_default_perm($default_perm)
-	{
-		$this->set_default_property(self :: PROPERTY_DEFAULT_PERM, $default_perm);
-	}
 
 }
 

@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 dropbox_person
+ * This class presents a Dokeos185 dropbox_person
  *
  * @author Sven Vanpoucke
  */
@@ -85,14 +85,6 @@ class Dokeos185DropboxPerson
 	}
 
 	/**
-	 * Sets the file_id of this Dokeos185DropboxPerson.
-	 * @param file_id
-	 */
-	function set_file_id($file_id)
-	{
-		$this->set_default_property(self :: PROPERTY_FILE_ID, $file_id);
-	}
-	/**
 	 * Returns the user_id of this Dokeos185DropboxPerson.
 	 * @return the user_id.
 	 */
@@ -101,14 +93,6 @@ class Dokeos185DropboxPerson
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 
-	/**
-	 * Sets the user_id of this Dokeos185DropboxPerson.
-	 * @param user_id
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
 
 }
 

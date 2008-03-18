@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 quiz
+ * This class presents a Dokeos185 quiz
  *
  * @author Sven Vanpoucke
  */
@@ -90,14 +90,6 @@ class Dokeos185Quiz
 	}
 
 	/**
-	 * Sets the id of this Dokeos185Quiz.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the title of this Dokeos185Quiz.
 	 * @return the title.
 	 */
@@ -106,14 +98,6 @@ class Dokeos185Quiz
 		return $this->get_default_property(self :: PROPERTY_TITLE);
 	}
 
-	/**
-	 * Sets the title of this Dokeos185Quiz.
-	 * @param title
-	 */
-	function set_title($title)
-	{
-		$this->set_default_property(self :: PROPERTY_TITLE, $title);
-	}
 	/**
 	 * Returns the description of this Dokeos185Quiz.
 	 * @return the description.
@@ -124,14 +108,6 @@ class Dokeos185Quiz
 	}
 
 	/**
-	 * Sets the description of this Dokeos185Quiz.
-	 * @param description
-	 */
-	function set_description($description)
-	{
-		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
-	}
-	/**
 	 * Returns the sound of this Dokeos185Quiz.
 	 * @return the sound.
 	 */
@@ -140,14 +116,6 @@ class Dokeos185Quiz
 		return $this->get_default_property(self :: PROPERTY_SOUND);
 	}
 
-	/**
-	 * Sets the sound of this Dokeos185Quiz.
-	 * @param sound
-	 */
-	function set_sound($sound)
-	{
-		$this->set_default_property(self :: PROPERTY_SOUND, $sound);
-	}
 	/**
 	 * Returns the type of this Dokeos185Quiz.
 	 * @return the type.
@@ -158,14 +126,6 @@ class Dokeos185Quiz
 	}
 
 	/**
-	 * Sets the type of this Dokeos185Quiz.
-	 * @param type
-	 */
-	function set_type($type)
-	{
-		$this->set_default_property(self :: PROPERTY_TYPE, $type);
-	}
-	/**
 	 * Returns the random of this Dokeos185Quiz.
 	 * @return the random.
 	 */
@@ -175,14 +135,6 @@ class Dokeos185Quiz
 	}
 
 	/**
-	 * Sets the random of this Dokeos185Quiz.
-	 * @param random
-	 */
-	function set_random($random)
-	{
-		$this->set_default_property(self :: PROPERTY_RANDOM, $random);
-	}
-	/**
 	 * Returns the active of this Dokeos185Quiz.
 	 * @return the active.
 	 */
@@ -191,14 +143,6 @@ class Dokeos185Quiz
 		return $this->get_default_property(self :: PROPERTY_ACTIVE);
 	}
 
-	/**
-	 * Sets the active of this Dokeos185Quiz.
-	 * @param active
-	 */
-	function set_active($active)
-	{
-		$this->set_default_property(self :: PROPERTY_ACTIVE, $active);
-	}
 
 }
 

@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 chat_connected
+ * This class presents a Dokeos185 chat_connected
  *
  * @author Sven Vanpoucke
  */
@@ -85,14 +85,6 @@ class Dokeos185ChatConnected
 	}
 
 	/**
-	 * Sets the user_id of this Dokeos185ChatConnected.
-	 * @param user_id
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
-	/**
 	 * Returns the last_connection of this Dokeos185ChatConnected.
 	 * @return the last_connection.
 	 */
@@ -101,14 +93,6 @@ class Dokeos185ChatConnected
 		return $this->get_default_property(self :: PROPERTY_LAST_CONNECTION);
 	}
 
-	/**
-	 * Sets the last_connection of this Dokeos185ChatConnected.
-	 * @param last_connection
-	 */
-	function set_last_connection($last_connection)
-	{
-		$this->set_default_property(self :: PROPERTY_LAST_CONNECTION, $last_connection);
-	}
 
 }
 

@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 gradebook_result
+ * This class presents a Dokeos185 gradebook_result
  *
  * @author Sven Vanpoucke
  */
@@ -88,14 +88,6 @@ class Dokeos185GradebookResult
 	}
 
 	/**
-	 * Sets the id of this Dokeos185GradebookResult.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the user_id of this Dokeos185GradebookResult.
 	 * @return the user_id.
 	 */
@@ -104,14 +96,6 @@ class Dokeos185GradebookResult
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 
-	/**
-	 * Sets the user_id of this Dokeos185GradebookResult.
-	 * @param user_id
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
 	/**
 	 * Returns the evaluation_id of this Dokeos185GradebookResult.
 	 * @return the evaluation_id.
@@ -122,14 +106,6 @@ class Dokeos185GradebookResult
 	}
 
 	/**
-	 * Sets the evaluation_id of this Dokeos185GradebookResult.
-	 * @param evaluation_id
-	 */
-	function set_evaluation_id($evaluation_id)
-	{
-		$this->set_default_property(self :: PROPERTY_EVALUATION_ID, $evaluation_id);
-	}
-	/**
 	 * Returns the date of this Dokeos185GradebookResult.
 	 * @return the date.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185GradebookResult
 	}
 
 	/**
-	 * Sets the date of this Dokeos185GradebookResult.
-	 * @param date
-	 */
-	function set_date($date)
-	{
-		$this->set_default_property(self :: PROPERTY_DATE, $date);
-	}
-	/**
 	 * Returns the score of this Dokeos185GradebookResult.
 	 * @return the score.
 	 */
@@ -155,14 +123,6 @@ class Dokeos185GradebookResult
 		return $this->get_default_property(self :: PROPERTY_SCORE);
 	}
 
-	/**
-	 * Sets the score of this Dokeos185GradebookResult.
-	 * @param score
-	 */
-	function set_score($score)
-	{
-		$this->set_default_property(self :: PROPERTY_SCORE, $score);
-	}
 
 }
 

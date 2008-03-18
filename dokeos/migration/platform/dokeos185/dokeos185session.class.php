@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 session
+ * This class presents a Dokeos185 session
  *
  * @author Sven Vanpoucke
  */
@@ -91,14 +91,6 @@ class Dokeos185Session
 	}
 
 	/**
-	 * Sets the id of this Dokeos185Session.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the id_coach of this Dokeos185Session.
 	 * @return the id_coach.
 	 */
@@ -107,14 +99,6 @@ class Dokeos185Session
 		return $this->get_default_property(self :: PROPERTY_ID_COACH);
 	}
 
-	/**
-	 * Sets the id_coach of this Dokeos185Session.
-	 * @param id_coach
-	 */
-	function set_id_coach($id_coach)
-	{
-		$this->set_default_property(self :: PROPERTY_ID_COACH, $id_coach);
-	}
 	/**
 	 * Returns the name of this Dokeos185Session.
 	 * @return the name.
@@ -125,14 +109,6 @@ class Dokeos185Session
 	}
 
 	/**
-	 * Sets the name of this Dokeos185Session.
-	 * @param name
-	 */
-	function set_name($name)
-	{
-		$this->set_default_property(self :: PROPERTY_NAME, $name);
-	}
-	/**
 	 * Returns the nbr_courses of this Dokeos185Session.
 	 * @return the nbr_courses.
 	 */
@@ -141,14 +117,6 @@ class Dokeos185Session
 		return $this->get_default_property(self :: PROPERTY_NBR_COURSES);
 	}
 
-	/**
-	 * Sets the nbr_courses of this Dokeos185Session.
-	 * @param nbr_courses
-	 */
-	function set_nbr_courses($nbr_courses)
-	{
-		$this->set_default_property(self :: PROPERTY_NBR_COURSES, $nbr_courses);
-	}
 	/**
 	 * Returns the nbr_users of this Dokeos185Session.
 	 * @return the nbr_users.
@@ -159,14 +127,6 @@ class Dokeos185Session
 	}
 
 	/**
-	 * Sets the nbr_users of this Dokeos185Session.
-	 * @param nbr_users
-	 */
-	function set_nbr_users($nbr_users)
-	{
-		$this->set_default_property(self :: PROPERTY_NBR_USERS, $nbr_users);
-	}
-	/**
 	 * Returns the nbr_classes of this Dokeos185Session.
 	 * @return the nbr_classes.
 	 */
@@ -175,14 +135,6 @@ class Dokeos185Session
 		return $this->get_default_property(self :: PROPERTY_NBR_CLASSES);
 	}
 
-	/**
-	 * Sets the nbr_classes of this Dokeos185Session.
-	 * @param nbr_classes
-	 */
-	function set_nbr_classes($nbr_classes)
-	{
-		$this->set_default_property(self :: PROPERTY_NBR_CLASSES, $nbr_classes);
-	}
 	/**
 	 * Returns the date_start of this Dokeos185Session.
 	 * @return the date_start.
@@ -193,14 +145,6 @@ class Dokeos185Session
 	}
 
 	/**
-	 * Sets the date_start of this Dokeos185Session.
-	 * @param date_start
-	 */
-	function set_date_start($date_start)
-	{
-		$this->set_default_property(self :: PROPERTY_DATE_START, $date_start);
-	}
-	/**
 	 * Returns the date_end of this Dokeos185Session.
 	 * @return the date_end.
 	 */
@@ -209,14 +153,6 @@ class Dokeos185Session
 		return $this->get_default_property(self :: PROPERTY_DATE_END);
 	}
 
-	/**
-	 * Sets the date_end of this Dokeos185Session.
-	 * @param date_end
-	 */
-	function set_date_end($date_end)
-	{
-		$this->set_default_property(self :: PROPERTY_DATE_END, $date_end);
-	}
 
 }
 

@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 track_e_login
+ * This class presents a Dokeos185 track_e_login
  *
  * @author Sven Vanpoucke
  */
@@ -88,14 +88,6 @@ class Dokeos185TrackELogin
 	}
 
 	/**
-	 * Sets the login_id of this Dokeos185TrackELogin.
-	 * @param login_id
-	 */
-	function set_login_id($login_id)
-	{
-		$this->set_default_property(self :: PROPERTY_LOGIN_ID, $login_id);
-	}
-	/**
 	 * Returns the login_user_id of this Dokeos185TrackELogin.
 	 * @return the login_user_id.
 	 */
@@ -104,14 +96,6 @@ class Dokeos185TrackELogin
 		return $this->get_default_property(self :: PROPERTY_LOGIN_USER_ID);
 	}
 
-	/**
-	 * Sets the login_user_id of this Dokeos185TrackELogin.
-	 * @param login_user_id
-	 */
-	function set_login_user_id($login_user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_LOGIN_USER_ID, $login_user_id);
-	}
 	/**
 	 * Returns the login_date of this Dokeos185TrackELogin.
 	 * @return the login_date.
@@ -122,14 +106,6 @@ class Dokeos185TrackELogin
 	}
 
 	/**
-	 * Sets the login_date of this Dokeos185TrackELogin.
-	 * @param login_date
-	 */
-	function set_login_date($login_date)
-	{
-		$this->set_default_property(self :: PROPERTY_LOGIN_DATE, $login_date);
-	}
-	/**
 	 * Returns the login_ip of this Dokeos185TrackELogin.
 	 * @return the login_ip.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185TrackELogin
 	}
 
 	/**
-	 * Sets the login_ip of this Dokeos185TrackELogin.
-	 * @param login_ip
-	 */
-	function set_login_ip($login_ip)
-	{
-		$this->set_default_property(self :: PROPERTY_LOGIN_IP, $login_ip);
-	}
-	/**
 	 * Returns the logout_date of this Dokeos185TrackELogin.
 	 * @return the logout_date.
 	 */
@@ -155,14 +123,6 @@ class Dokeos185TrackELogin
 		return $this->get_default_property(self :: PROPERTY_LOGOUT_DATE);
 	}
 
-	/**
-	 * Sets the logout_date of this Dokeos185TrackELogin.
-	 * @param logout_date
-	 */
-	function set_logout_date($logout_date)
-	{
-		$this->set_default_property(self :: PROPERTY_LOGOUT_DATE, $logout_date);
-	}
 
 }
 

@@ -1,29 +1,17 @@
-<?php
-
+<?php 
 /**
- * @package migration.platform.dokeos185
+ * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/importcourse.class.php';
-require_once dirname(__FILE__).'/../../../application/lib/weblcms/course/course.class.php';
-
 /**
- * This class represents an old Dokeos 1.8.5 forum post
+ * This class presents a Dokeos185 forum_post
  *
- * @author David Van Wayenbergh
+ * @author Sven Vanpoucke
  */
- 
- 
-class dokeos185forumpost
+class Dokeos185ForumPost
 {
-
-    /**
-	 * Migration data manager
-	 */
-	private static $mgdm;
-	
 	/**
-	 * forum forum properties
+	 * Dokeos185ForumPost properties
 	 */
 	const PROPERTY_POST_ID = 'post_id';
 	const PROPERTY_POST_TITLE = 'post_title';
@@ -36,55 +24,50 @@ class dokeos185forumpost
 	const PROPERTY_POST_NOTIFICATION = 'post_notification';
 	const PROPERTY_POST_PARENT_ID = 'post_parent_id';
 	const PROPERTY_VISIBLE = 'visible';
-	
+
 	/**
-	 * Default properties of the forum post object, stored in an associative
-	 * array.
+	 * Default properties stored in an associative array.
 	 */
 	private $defaultProperties;
-	
+
 	/**
-	 * Creates a new forum post object.
-	 * @param array $defaultProperties The default properties of the forum post
-	 *                                 object. Associative array.
+	 * Creates a new Dokeos185ForumPost object
+	 * @param array $defaultProperties The default properties
 	 */
 	function Dokeos185ForumPost($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
-	
+
 	/**
-	 * Gets a default property of this forum post object by name.
+	 * Gets a default property by name.
 	 * @param string $name The name of the property.
 	 */
 	function get_default_property($name)
 	{
 		return $this->defaultProperties[$name];
 	}
-	
+
 	/**
-	 * Gets the default properties of this forum post.
+	 * Gets the default properties
 	 * @return array An associative array containing the properties.
 	 */
 	function get_default_properties()
 	{
 		return $this->defaultProperties;
 	}
-	
+
 	/**
-	 * Get the default properties of all forum posts.
+	 * Get the default properties
 	 * @return array The property names.
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_POST_ID,self::PROPERTY_POST_TITLE,self::PROPERTY_POST_TEXT,
-		self::PROPERTY_THREAD_ID,self::PROPERTY_FORUM_ID,self::PROPERTY_POSTER_ID,
-		self::PROPERTY_POSTER_NAME,self::PROPERTY_POST_DATE,self::PROPERTY_POST_NOTIFICATION,
-		self::PROPERTY_POST_PARENT_ID,self::PROPERTY_VISIBLE);
+		return array (SELF :: PROPERTY_POST_ID, SELF :: PROPERTY_POST_TITLE, SELF :: PROPERTY_POST_TEXT, SELF :: PROPERTY_THREAD_ID, SELF :: PROPERTY_FORUM_ID, SELF :: PROPERTY_POSTER_ID, SELF :: PROPERTY_POSTER_NAME, SELF :: PROPERTY_POST_DATE, SELF :: PROPERTY_POST_NOTIFICATION, SELF :: PROPERTY_POST_PARENT_ID, SELF :: PROPERTY_VISIBLE);
 	}
-	
+
 	/**
-	 * Sets a default property of this forum post by name.
+	 * Sets a default property by name.
 	 * @param string $name The name of the property.
 	 * @param mixed $value The new value for the property.
 	 */
@@ -92,7 +75,7 @@ class dokeos185forumpost
 	{
 		$this->defaultProperties[$name] = $value;
 	}
-	
+
 	/**
 	 * Sets the default properties of this class
 	 */
@@ -100,116 +83,107 @@ class dokeos185forumpost
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
-	
+
 	/**
-	 * Checks if the given identifier is the name of a default forum post
-	 * property.
-	 * @param string $name The identifier.
-	 * @return boolean True if the identifier is a property name, false
-	 *                 otherwise.
-	 */
-	static function is_default_property_name($name)
-	{
-		return in_array($name, self :: get_default_property_names());
-	}
-	
-	/**
-	 * Returns the post_id of this forum post.
-	 * @return int The post_id.
+	 * Returns the post_id of this Dokeos185ForumPost.
+	 * @return the post_id.
 	 */
 	function get_post_id()
 	{
 		return $this->get_default_property(self :: PROPERTY_POST_ID);
 	}
-	
+
 	/**
-	 * Returns the post_title of this forum post.
-	 * @return int The post_title.
+	 * Returns the post_title of this Dokeos185ForumPost.
+	 * @return the post_title.
 	 */
 	function get_post_title()
 	{
 		return $this->get_default_property(self :: PROPERTY_POST_TITLE);
 	}
-	
+
 	/**
-	 * Returns the post_text of this forum post.
-	 * @return int The post_text.
+	 * Returns the post_text of this Dokeos185ForumPost.
+	 * @return the post_text.
 	 */
 	function get_post_text()
 	{
 		return $this->get_default_property(self :: PROPERTY_POST_TEXT);
 	}
-	
+
 	/**
-	 * Returns the thread_id of this forum post.
-	 * @return int The thread_id.
+	 * Returns the thread_id of this Dokeos185ForumPost.
+	 * @return the thread_id.
 	 */
 	function get_thread_id()
 	{
 		return $this->get_default_property(self :: PROPERTY_THREAD_ID);
 	}
-	
+
 	/**
-	 * Returns the forum_id of this forum post.
-	 * @return int The forum_id.
+	 * Returns the forum_id of this Dokeos185ForumPost.
+	 * @return the forum_id.
 	 */
 	function get_forum_id()
 	{
 		return $this->get_default_property(self :: PROPERTY_FORUM_ID);
 	}
-	
+
 	/**
-	 * Returns the poster_id of this forum post.
-	 * @return int The poster_id.
+	 * Returns the poster_id of this Dokeos185ForumPost.
+	 * @return the poster_id.
 	 */
 	function get_poster_id()
 	{
 		return $this->get_default_property(self :: PROPERTY_POSTER_ID);
 	}
-	
+
 	/**
-	 * Returns the poster_name of this forum post.
-	 * @return int The poster_name.
+	 * Returns the poster_name of this Dokeos185ForumPost.
+	 * @return the poster_name.
 	 */
 	function get_poster_name()
 	{
 		return $this->get_default_property(self :: PROPERTY_POSTER_NAME);
 	}
-	
+
 	/**
-	 * Returns the post_date of this forum post.
-	 * @return int The post_date.
+	 * Returns the post_date of this Dokeos185ForumPost.
+	 * @return the post_date.
 	 */
 	function get_post_date()
 	{
 		return $this->get_default_property(self :: PROPERTY_POST_DATE);
 	}
-	
+
 	/**
-	 * Returns the post_notification of this forum post.
-	 * @return int The post_notification.
+	 * Returns the post_notification of this Dokeos185ForumPost.
+	 * @return the post_notification.
 	 */
 	function get_post_notification()
 	{
 		return $this->get_default_property(self :: PROPERTY_POST_NOTIFICATION);
 	}
-	
+
 	/**
-	 * Returns the post_parent_id of this forum post.
-	 * @return int The post_parent_id.
+	 * Returns the post_parent_id of this Dokeos185ForumPost.
+	 * @return the post_parent_id.
 	 */
 	function get_post_parent_id()
 	{
 		return $this->get_default_property(self :: PROPERTY_POST_PARENT_ID);
 	}
-	
+
 	/**
-	 * Returns the visible of this forum post.
-	 * @return int The visible.
+	 * Returns the visible of this Dokeos185ForumPost.
+	 * @return the visible.
 	 */
 	function get_visible()
 	{
 		return $this->get_default_property(self :: PROPERTY_VISIBLE);
 	}
+
+
 }
+
 ?>

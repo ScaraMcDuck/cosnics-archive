@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 permission_task
+ * This class presents a Dokeos185 permission_task
  *
  * @author Sven Vanpoucke
  */
@@ -87,14 +87,6 @@ class Dokeos185PermissionTask
 	}
 
 	/**
-	 * Sets the id of this Dokeos185PermissionTask.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the task_id of this Dokeos185PermissionTask.
 	 * @return the task_id.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185PermissionTask
 		return $this->get_default_property(self :: PROPERTY_TASK_ID);
 	}
 
-	/**
-	 * Sets the task_id of this Dokeos185PermissionTask.
-	 * @param task_id
-	 */
-	function set_task_id($task_id)
-	{
-		$this->set_default_property(self :: PROPERTY_TASK_ID, $task_id);
-	}
 	/**
 	 * Returns the tool of this Dokeos185PermissionTask.
 	 * @return the tool.
@@ -121,14 +105,6 @@ class Dokeos185PermissionTask
 	}
 
 	/**
-	 * Sets the tool of this Dokeos185PermissionTask.
-	 * @param tool
-	 */
-	function set_tool($tool)
-	{
-		$this->set_default_property(self :: PROPERTY_TOOL, $tool);
-	}
-	/**
 	 * Returns the action of this Dokeos185PermissionTask.
 	 * @return the action.
 	 */
@@ -137,14 +113,6 @@ class Dokeos185PermissionTask
 		return $this->get_default_property(self :: PROPERTY_ACTION);
 	}
 
-	/**
-	 * Sets the action of this Dokeos185PermissionTask.
-	 * @param action
-	 */
-	function set_action($action)
-	{
-		$this->set_default_property(self :: PROPERTY_ACTION, $action);
-	}
 
 }
 

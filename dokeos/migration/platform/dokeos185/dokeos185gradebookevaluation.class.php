@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 gradebook_evaluation
+ * This class presents a Dokeos185 gradebook_evaluation
  *
  * @author Sven Vanpoucke
  */
@@ -93,14 +93,6 @@ class Dokeos185GradebookEvaluation
 	}
 
 	/**
-	 * Sets the id of this Dokeos185GradebookEvaluation.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the name of this Dokeos185GradebookEvaluation.
 	 * @return the name.
 	 */
@@ -109,14 +101,6 @@ class Dokeos185GradebookEvaluation
 		return $this->get_default_property(self :: PROPERTY_NAME);
 	}
 
-	/**
-	 * Sets the name of this Dokeos185GradebookEvaluation.
-	 * @param name
-	 */
-	function set_name($name)
-	{
-		$this->set_default_property(self :: PROPERTY_NAME, $name);
-	}
 	/**
 	 * Returns the description of this Dokeos185GradebookEvaluation.
 	 * @return the description.
@@ -127,14 +111,6 @@ class Dokeos185GradebookEvaluation
 	}
 
 	/**
-	 * Sets the description of this Dokeos185GradebookEvaluation.
-	 * @param description
-	 */
-	function set_description($description)
-	{
-		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
-	}
-	/**
 	 * Returns the user_id of this Dokeos185GradebookEvaluation.
 	 * @return the user_id.
 	 */
@@ -143,14 +119,6 @@ class Dokeos185GradebookEvaluation
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 
-	/**
-	 * Sets the user_id of this Dokeos185GradebookEvaluation.
-	 * @param user_id
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
 	/**
 	 * Returns the course_code of this Dokeos185GradebookEvaluation.
 	 * @return the course_code.
@@ -161,14 +129,6 @@ class Dokeos185GradebookEvaluation
 	}
 
 	/**
-	 * Sets the course_code of this Dokeos185GradebookEvaluation.
-	 * @param course_code
-	 */
-	function set_course_code($course_code)
-	{
-		$this->set_default_property(self :: PROPERTY_COURSE_CODE, $course_code);
-	}
-	/**
 	 * Returns the category_id of this Dokeos185GradebookEvaluation.
 	 * @return the category_id.
 	 */
@@ -177,14 +137,6 @@ class Dokeos185GradebookEvaluation
 		return $this->get_default_property(self :: PROPERTY_CATEGORY_ID);
 	}
 
-	/**
-	 * Sets the category_id of this Dokeos185GradebookEvaluation.
-	 * @param category_id
-	 */
-	function set_category_id($category_id)
-	{
-		$this->set_default_property(self :: PROPERTY_CATEGORY_ID, $category_id);
-	}
 	/**
 	 * Returns the date of this Dokeos185GradebookEvaluation.
 	 * @return the date.
@@ -195,14 +147,6 @@ class Dokeos185GradebookEvaluation
 	}
 
 	/**
-	 * Sets the date of this Dokeos185GradebookEvaluation.
-	 * @param date
-	 */
-	function set_date($date)
-	{
-		$this->set_default_property(self :: PROPERTY_DATE, $date);
-	}
-	/**
 	 * Returns the weight of this Dokeos185GradebookEvaluation.
 	 * @return the weight.
 	 */
@@ -211,14 +155,6 @@ class Dokeos185GradebookEvaluation
 		return $this->get_default_property(self :: PROPERTY_WEIGHT);
 	}
 
-	/**
-	 * Sets the weight of this Dokeos185GradebookEvaluation.
-	 * @param weight
-	 */
-	function set_weight($weight)
-	{
-		$this->set_default_property(self :: PROPERTY_WEIGHT, $weight);
-	}
 	/**
 	 * Returns the max of this Dokeos185GradebookEvaluation.
 	 * @return the max.
@@ -229,14 +165,6 @@ class Dokeos185GradebookEvaluation
 	}
 
 	/**
-	 * Sets the max of this Dokeos185GradebookEvaluation.
-	 * @param max
-	 */
-	function set_max($max)
-	{
-		$this->set_default_property(self :: PROPERTY_MAX, $max);
-	}
-	/**
 	 * Returns the visible of this Dokeos185GradebookEvaluation.
 	 * @return the visible.
 	 */
@@ -245,14 +173,6 @@ class Dokeos185GradebookEvaluation
 		return $this->get_default_property(self :: PROPERTY_VISIBLE);
 	}
 
-	/**
-	 * Sets the visible of this Dokeos185GradebookEvaluation.
-	 * @param visible
-	 */
-	function set_visible($visible)
-	{
-		$this->set_default_property(self :: PROPERTY_VISIBLE, $visible);
-	}
 
 }
 

@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 shared_survey
+ * This class presents a Dokeos185 shared_survey
  *
  * @author Sven Vanpoucke
  */
@@ -94,14 +94,6 @@ class Dokeos185SharedSurvey
 	}
 
 	/**
-	 * Sets the survey_id of this Dokeos185SharedSurvey.
-	 * @param survey_id
-	 */
-	function set_survey_id($survey_id)
-	{
-		$this->set_default_property(self :: PROPERTY_SURVEY_ID, $survey_id);
-	}
-	/**
 	 * Returns the code of this Dokeos185SharedSurvey.
 	 * @return the code.
 	 */
@@ -110,14 +102,6 @@ class Dokeos185SharedSurvey
 		return $this->get_default_property(self :: PROPERTY_CODE);
 	}
 
-	/**
-	 * Sets the code of this Dokeos185SharedSurvey.
-	 * @param code
-	 */
-	function set_code($code)
-	{
-		$this->set_default_property(self :: PROPERTY_CODE, $code);
-	}
 	/**
 	 * Returns the title of this Dokeos185SharedSurvey.
 	 * @return the title.
@@ -128,14 +112,6 @@ class Dokeos185SharedSurvey
 	}
 
 	/**
-	 * Sets the title of this Dokeos185SharedSurvey.
-	 * @param title
-	 */
-	function set_title($title)
-	{
-		$this->set_default_property(self :: PROPERTY_TITLE, $title);
-	}
-	/**
 	 * Returns the subtitle of this Dokeos185SharedSurvey.
 	 * @return the subtitle.
 	 */
@@ -144,14 +120,6 @@ class Dokeos185SharedSurvey
 		return $this->get_default_property(self :: PROPERTY_SUBTITLE);
 	}
 
-	/**
-	 * Sets the subtitle of this Dokeos185SharedSurvey.
-	 * @param subtitle
-	 */
-	function set_subtitle($subtitle)
-	{
-		$this->set_default_property(self :: PROPERTY_SUBTITLE, $subtitle);
-	}
 	/**
 	 * Returns the author of this Dokeos185SharedSurvey.
 	 * @return the author.
@@ -162,14 +130,6 @@ class Dokeos185SharedSurvey
 	}
 
 	/**
-	 * Sets the author of this Dokeos185SharedSurvey.
-	 * @param author
-	 */
-	function set_author($author)
-	{
-		$this->set_default_property(self :: PROPERTY_AUTHOR, $author);
-	}
-	/**
 	 * Returns the lang of this Dokeos185SharedSurvey.
 	 * @return the lang.
 	 */
@@ -178,14 +138,6 @@ class Dokeos185SharedSurvey
 		return $this->get_default_property(self :: PROPERTY_LANG);
 	}
 
-	/**
-	 * Sets the lang of this Dokeos185SharedSurvey.
-	 * @param lang
-	 */
-	function set_lang($lang)
-	{
-		$this->set_default_property(self :: PROPERTY_LANG, $lang);
-	}
 	/**
 	 * Returns the template of this Dokeos185SharedSurvey.
 	 * @return the template.
@@ -196,14 +148,6 @@ class Dokeos185SharedSurvey
 	}
 
 	/**
-	 * Sets the template of this Dokeos185SharedSurvey.
-	 * @param template
-	 */
-	function set_template($template)
-	{
-		$this->set_default_property(self :: PROPERTY_TEMPLATE, $template);
-	}
-	/**
 	 * Returns the intro of this Dokeos185SharedSurvey.
 	 * @return the intro.
 	 */
@@ -212,14 +156,6 @@ class Dokeos185SharedSurvey
 		return $this->get_default_property(self :: PROPERTY_INTRO);
 	}
 
-	/**
-	 * Sets the intro of this Dokeos185SharedSurvey.
-	 * @param intro
-	 */
-	function set_intro($intro)
-	{
-		$this->set_default_property(self :: PROPERTY_INTRO, $intro);
-	}
 	/**
 	 * Returns the surveythanks of this Dokeos185SharedSurvey.
 	 * @return the surveythanks.
@@ -230,14 +166,6 @@ class Dokeos185SharedSurvey
 	}
 
 	/**
-	 * Sets the surveythanks of this Dokeos185SharedSurvey.
-	 * @param surveythanks
-	 */
-	function set_surveythanks($surveythanks)
-	{
-		$this->set_default_property(self :: PROPERTY_SURVEYTHANKS, $surveythanks);
-	}
-	/**
 	 * Returns the creation_date of this Dokeos185SharedSurvey.
 	 * @return the creation_date.
 	 */
@@ -247,14 +175,6 @@ class Dokeos185SharedSurvey
 	}
 
 	/**
-	 * Sets the creation_date of this Dokeos185SharedSurvey.
-	 * @param creation_date
-	 */
-	function set_creation_date($creation_date)
-	{
-		$this->set_default_property(self :: PROPERTY_CREATION_DATE, $creation_date);
-	}
-	/**
 	 * Returns the course_code of this Dokeos185SharedSurvey.
 	 * @return the course_code.
 	 */
@@ -263,14 +183,6 @@ class Dokeos185SharedSurvey
 		return $this->get_default_property(self :: PROPERTY_COURSE_CODE);
 	}
 
-	/**
-	 * Sets the course_code of this Dokeos185SharedSurvey.
-	 * @param course_code
-	 */
-	function set_course_code($course_code)
-	{
-		$this->set_default_property(self :: PROPERTY_COURSE_CODE, $course_code);
-	}
 
 }
 

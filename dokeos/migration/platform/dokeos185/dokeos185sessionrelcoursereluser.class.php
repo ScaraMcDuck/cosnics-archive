@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 session_rel_course_rel_user
+ * This class presents a Dokeos185 session_rel_course_rel_user
  *
  * @author Sven Vanpoucke
  */
@@ -86,14 +86,6 @@ class Dokeos185SessionRelCourseRelUser
 	}
 
 	/**
-	 * Sets the id_session of this Dokeos185SessionRelCourseRelUser.
-	 * @param id_session
-	 */
-	function set_id_session($id_session)
-	{
-		$this->set_default_property(self :: PROPERTY_ID_SESSION, $id_session);
-	}
-	/**
 	 * Returns the course_code of this Dokeos185SessionRelCourseRelUser.
 	 * @return the course_code.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185SessionRelCourseRelUser
 	}
 
 	/**
-	 * Sets the course_code of this Dokeos185SessionRelCourseRelUser.
-	 * @param course_code
-	 */
-	function set_course_code($course_code)
-	{
-		$this->set_default_property(self :: PROPERTY_COURSE_CODE, $course_code);
-	}
-	/**
 	 * Returns the id_user of this Dokeos185SessionRelCourseRelUser.
 	 * @return the id_user.
 	 */
@@ -119,14 +103,6 @@ class Dokeos185SessionRelCourseRelUser
 		return $this->get_default_property(self :: PROPERTY_ID_USER);
 	}
 
-	/**
-	 * Sets the id_user of this Dokeos185SessionRelCourseRelUser.
-	 * @param id_user
-	 */
-	function set_id_user($id_user)
-	{
-		$this->set_default_property(self :: PROPERTY_ID_USER, $id_user);
-	}
 
 }
 

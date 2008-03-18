@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 blog_task_rel_user
+ * This class presents a Dokeos185 blog_task_rel_user
  *
  * @author Sven Vanpoucke
  */
@@ -87,14 +87,6 @@ class Dokeos185BlogTaskRelUser
 	}
 
 	/**
-	 * Sets the blog_id of this Dokeos185BlogTaskRelUser.
-	 * @param blog_id
-	 */
-	function set_blog_id($blog_id)
-	{
-		$this->set_default_property(self :: PROPERTY_BLOG_ID, $blog_id);
-	}
-	/**
 	 * Returns the user_id of this Dokeos185BlogTaskRelUser.
 	 * @return the user_id.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185BlogTaskRelUser
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 
-	/**
-	 * Sets the user_id of this Dokeos185BlogTaskRelUser.
-	 * @param user_id
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
 	/**
 	 * Returns the task_id of this Dokeos185BlogTaskRelUser.
 	 * @return the task_id.
@@ -121,14 +105,6 @@ class Dokeos185BlogTaskRelUser
 	}
 
 	/**
-	 * Sets the task_id of this Dokeos185BlogTaskRelUser.
-	 * @param task_id
-	 */
-	function set_task_id($task_id)
-	{
-		$this->set_default_property(self :: PROPERTY_TASK_ID, $task_id);
-	}
-	/**
 	 * Returns the target_date of this Dokeos185BlogTaskRelUser.
 	 * @return the target_date.
 	 */
@@ -137,14 +113,6 @@ class Dokeos185BlogTaskRelUser
 		return $this->get_default_property(self :: PROPERTY_TARGET_DATE);
 	}
 
-	/**
-	 * Sets the target_date of this Dokeos185BlogTaskRelUser.
-	 * @param target_date
-	 */
-	function set_target_date($target_date)
-	{
-		$this->set_default_property(self :: PROPERTY_TARGET_DATE, $target_date);
-	}
 
 }
 

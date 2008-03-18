@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 track_c_referers
+ * This class presents a Dokeos185 track_c_referers
  *
  * @author Sven Vanpoucke
  */
@@ -86,14 +86,6 @@ class Dokeos185TrackCReferers
 	}
 
 	/**
-	 * Sets the id of this Dokeos185TrackCReferers.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the referer of this Dokeos185TrackCReferers.
 	 * @return the referer.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185TrackCReferers
 	}
 
 	/**
-	 * Sets the referer of this Dokeos185TrackCReferers.
-	 * @param referer
-	 */
-	function set_referer($referer)
-	{
-		$this->set_default_property(self :: PROPERTY_REFERER, $referer);
-	}
-	/**
 	 * Returns the counter of this Dokeos185TrackCReferers.
 	 * @return the counter.
 	 */
@@ -119,14 +103,6 @@ class Dokeos185TrackCReferers
 		return $this->get_default_property(self :: PROPERTY_COUNTER);
 	}
 
-	/**
-	 * Sets the counter of this Dokeos185TrackCReferers.
-	 * @param counter
-	 */
-	function set_counter($counter)
-	{
-		$this->set_default_property(self :: PROPERTY_COUNTER, $counter);
-	}
 
 }
 

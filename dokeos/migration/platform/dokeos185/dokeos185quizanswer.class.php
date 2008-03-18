@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 quiz_answer
+ * This class presents a Dokeos185 quiz_answer
  *
  * @author Sven Vanpoucke
  */
@@ -92,14 +92,6 @@ class Dokeos185QuizAnswer
 	}
 
 	/**
-	 * Sets the id of this Dokeos185QuizAnswer.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the question_id of this Dokeos185QuizAnswer.
 	 * @return the question_id.
 	 */
@@ -108,14 +100,6 @@ class Dokeos185QuizAnswer
 		return $this->get_default_property(self :: PROPERTY_QUESTION_ID);
 	}
 
-	/**
-	 * Sets the question_id of this Dokeos185QuizAnswer.
-	 * @param question_id
-	 */
-	function set_question_id($question_id)
-	{
-		$this->set_default_property(self :: PROPERTY_QUESTION_ID, $question_id);
-	}
 	/**
 	 * Returns the answer of this Dokeos185QuizAnswer.
 	 * @return the answer.
@@ -126,14 +110,6 @@ class Dokeos185QuizAnswer
 	}
 
 	/**
-	 * Sets the answer of this Dokeos185QuizAnswer.
-	 * @param answer
-	 */
-	function set_answer($answer)
-	{
-		$this->set_default_property(self :: PROPERTY_ANSWER, $answer);
-	}
-	/**
 	 * Returns the correct of this Dokeos185QuizAnswer.
 	 * @return the correct.
 	 */
@@ -142,14 +118,6 @@ class Dokeos185QuizAnswer
 		return $this->get_default_property(self :: PROPERTY_CORRECT);
 	}
 
-	/**
-	 * Sets the correct of this Dokeos185QuizAnswer.
-	 * @param correct
-	 */
-	function set_correct($correct)
-	{
-		$this->set_default_property(self :: PROPERTY_CORRECT, $correct);
-	}
 	/**
 	 * Returns the comment of this Dokeos185QuizAnswer.
 	 * @return the comment.
@@ -160,14 +128,6 @@ class Dokeos185QuizAnswer
 	}
 
 	/**
-	 * Sets the comment of this Dokeos185QuizAnswer.
-	 * @param comment
-	 */
-	function set_comment($comment)
-	{
-		$this->set_default_property(self :: PROPERTY_COMMENT, $comment);
-	}
-	/**
 	 * Returns the ponderation of this Dokeos185QuizAnswer.
 	 * @return the ponderation.
 	 */
@@ -176,14 +136,6 @@ class Dokeos185QuizAnswer
 		return $this->get_default_property(self :: PROPERTY_PONDERATION);
 	}
 
-	/**
-	 * Sets the ponderation of this Dokeos185QuizAnswer.
-	 * @param ponderation
-	 */
-	function set_ponderation($ponderation)
-	{
-		$this->set_default_property(self :: PROPERTY_PONDERATION, $ponderation);
-	}
 	/**
 	 * Returns the position of this Dokeos185QuizAnswer.
 	 * @return the position.
@@ -194,14 +146,6 @@ class Dokeos185QuizAnswer
 	}
 
 	/**
-	 * Sets the position of this Dokeos185QuizAnswer.
-	 * @param position
-	 */
-	function set_position($position)
-	{
-		$this->set_default_property(self :: PROPERTY_POSITION, $position);
-	}
-	/**
 	 * Returns the hotspot_coordinates of this Dokeos185QuizAnswer.
 	 * @return the hotspot_coordinates.
 	 */
@@ -211,14 +155,6 @@ class Dokeos185QuizAnswer
 	}
 
 	/**
-	 * Sets the hotspot_coordinates of this Dokeos185QuizAnswer.
-	 * @param hotspot_coordinates
-	 */
-	function set_hotspot_coordinates($hotspot_coordinates)
-	{
-		$this->set_default_property(self :: PROPERTY_HOTSPOT_COORDINATES, $hotspot_coordinates);
-	}
-	/**
 	 * Returns the hotspot_type of this Dokeos185QuizAnswer.
 	 * @return the hotspot_type.
 	 */
@@ -227,14 +163,6 @@ class Dokeos185QuizAnswer
 		return $this->get_default_property(self :: PROPERTY_HOTSPOT_TYPE);
 	}
 
-	/**
-	 * Sets the hotspot_type of this Dokeos185QuizAnswer.
-	 * @param hotspot_type
-	 */
-	function set_hotspot_type($hotspot_type)
-	{
-		$this->set_default_property(self :: PROPERTY_HOTSPOT_TYPE, $hotspot_type);
-	}
 
 }
 

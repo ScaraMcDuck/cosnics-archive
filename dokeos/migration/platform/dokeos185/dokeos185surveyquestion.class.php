@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 survey_question
+ * This class presents a Dokeos185 survey_question
  *
  * @author Sven Vanpoucke
  */
@@ -92,14 +92,6 @@ class Dokeos185SurveyQuestion
 	}
 
 	/**
-	 * Sets the question_id of this Dokeos185SurveyQuestion.
-	 * @param question_id
-	 */
-	function set_question_id($question_id)
-	{
-		$this->set_default_property(self :: PROPERTY_QUESTION_ID, $question_id);
-	}
-	/**
 	 * Returns the survey_id of this Dokeos185SurveyQuestion.
 	 * @return the survey_id.
 	 */
@@ -108,14 +100,6 @@ class Dokeos185SurveyQuestion
 		return $this->get_default_property(self :: PROPERTY_SURVEY_ID);
 	}
 
-	/**
-	 * Sets the survey_id of this Dokeos185SurveyQuestion.
-	 * @param survey_id
-	 */
-	function set_survey_id($survey_id)
-	{
-		$this->set_default_property(self :: PROPERTY_SURVEY_ID, $survey_id);
-	}
 	/**
 	 * Returns the survey_question of this Dokeos185SurveyQuestion.
 	 * @return the survey_question.
@@ -126,14 +110,6 @@ class Dokeos185SurveyQuestion
 	}
 
 	/**
-	 * Sets the survey_question of this Dokeos185SurveyQuestion.
-	 * @param survey_question
-	 */
-	function set_survey_question($survey_question)
-	{
-		$this->set_default_property(self :: PROPERTY_SURVEY_QUESTION, $survey_question);
-	}
-	/**
 	 * Returns the survey_question_comment of this Dokeos185SurveyQuestion.
 	 * @return the survey_question_comment.
 	 */
@@ -142,14 +118,6 @@ class Dokeos185SurveyQuestion
 		return $this->get_default_property(self :: PROPERTY_SURVEY_QUESTION_COMMENT);
 	}
 
-	/**
-	 * Sets the survey_question_comment of this Dokeos185SurveyQuestion.
-	 * @param survey_question_comment
-	 */
-	function set_survey_question_comment($survey_question_comment)
-	{
-		$this->set_default_property(self :: PROPERTY_SURVEY_QUESTION_COMMENT, $survey_question_comment);
-	}
 	/**
 	 * Returns the type of this Dokeos185SurveyQuestion.
 	 * @return the type.
@@ -160,14 +128,6 @@ class Dokeos185SurveyQuestion
 	}
 
 	/**
-	 * Sets the type of this Dokeos185SurveyQuestion.
-	 * @param type
-	 */
-	function set_type($type)
-	{
-		$this->set_default_property(self :: PROPERTY_TYPE, $type);
-	}
-	/**
 	 * Returns the display of this Dokeos185SurveyQuestion.
 	 * @return the display.
 	 */
@@ -176,14 +136,6 @@ class Dokeos185SurveyQuestion
 		return $this->get_default_property(self :: PROPERTY_DISPLAY);
 	}
 
-	/**
-	 * Sets the display of this Dokeos185SurveyQuestion.
-	 * @param display
-	 */
-	function set_display($display)
-	{
-		$this->set_default_property(self :: PROPERTY_DISPLAY, $display);
-	}
 	/**
 	 * Returns the sort of this Dokeos185SurveyQuestion.
 	 * @return the sort.
@@ -194,14 +146,6 @@ class Dokeos185SurveyQuestion
 	}
 
 	/**
-	 * Sets the sort of this Dokeos185SurveyQuestion.
-	 * @param sort
-	 */
-	function set_sort($sort)
-	{
-		$this->set_default_property(self :: PROPERTY_SORT, $sort);
-	}
-	/**
 	 * Returns the shared_question_id of this Dokeos185SurveyQuestion.
 	 * @return the shared_question_id.
 	 */
@@ -211,14 +155,6 @@ class Dokeos185SurveyQuestion
 	}
 
 	/**
-	 * Sets the shared_question_id of this Dokeos185SurveyQuestion.
-	 * @param shared_question_id
-	 */
-	function set_shared_question_id($shared_question_id)
-	{
-		$this->set_default_property(self :: PROPERTY_SHARED_QUESTION_ID, $shared_question_id);
-	}
-	/**
 	 * Returns the max_value of this Dokeos185SurveyQuestion.
 	 * @return the max_value.
 	 */
@@ -227,14 +163,6 @@ class Dokeos185SurveyQuestion
 		return $this->get_default_property(self :: PROPERTY_MAX_VALUE);
 	}
 
-	/**
-	 * Sets the max_value of this Dokeos185SurveyQuestion.
-	 * @param max_value
-	 */
-	function set_max_value($max_value)
-	{
-		$this->set_default_property(self :: PROPERTY_MAX_VALUE, $max_value);
-	}
 
 }
 

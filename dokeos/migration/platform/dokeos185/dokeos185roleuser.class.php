@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 role_user
+ * This class presents a Dokeos185 role_user
  *
  * @author Sven Vanpoucke
  */
@@ -86,14 +86,6 @@ class Dokeos185RoleUser
 	}
 
 	/**
-	 * Sets the role_id of this Dokeos185RoleUser.
-	 * @param role_id
-	 */
-	function set_role_id($role_id)
-	{
-		$this->set_default_property(self :: PROPERTY_ROLE_ID, $role_id);
-	}
-	/**
 	 * Returns the scope of this Dokeos185RoleUser.
 	 * @return the scope.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185RoleUser
 	}
 
 	/**
-	 * Sets the scope of this Dokeos185RoleUser.
-	 * @param scope
-	 */
-	function set_scope($scope)
-	{
-		$this->set_default_property(self :: PROPERTY_SCOPE, $scope);
-	}
-	/**
 	 * Returns the user_id of this Dokeos185RoleUser.
 	 * @return the user_id.
 	 */
@@ -119,14 +103,6 @@ class Dokeos185RoleUser
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 
-	/**
-	 * Sets the user_id of this Dokeos185RoleUser.
-	 * @param user_id
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
 
 }
 

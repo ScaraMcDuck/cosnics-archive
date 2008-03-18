@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 blog_rel_user
+ * This class presents a Dokeos185 blog_rel_user
  *
  * @author Sven Vanpoucke
  */
@@ -85,14 +85,6 @@ class Dokeos185BlogRelUser
 	}
 
 	/**
-	 * Sets the blog_id of this Dokeos185BlogRelUser.
-	 * @param blog_id
-	 */
-	function set_blog_id($blog_id)
-	{
-		$this->set_default_property(self :: PROPERTY_BLOG_ID, $blog_id);
-	}
-	/**
 	 * Returns the user_id of this Dokeos185BlogRelUser.
 	 * @return the user_id.
 	 */
@@ -101,14 +93,6 @@ class Dokeos185BlogRelUser
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 
-	/**
-	 * Sets the user_id of this Dokeos185BlogRelUser.
-	 * @param user_id
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
 
 }
 

@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 dropbox_post
+ * This class presents a Dokeos185 dropbox_post
  *
  * @author Sven Vanpoucke
  */
@@ -89,14 +89,6 @@ class Dokeos185DropboxPost
 	}
 
 	/**
-	 * Sets the file_id of this Dokeos185DropboxPost.
-	 * @param file_id
-	 */
-	function set_file_id($file_id)
-	{
-		$this->set_default_property(self :: PROPERTY_FILE_ID, $file_id);
-	}
-	/**
 	 * Returns the dest_user_id of this Dokeos185DropboxPost.
 	 * @return the dest_user_id.
 	 */
@@ -105,14 +97,6 @@ class Dokeos185DropboxPost
 		return $this->get_default_property(self :: PROPERTY_DEST_USER_ID);
 	}
 
-	/**
-	 * Sets the dest_user_id of this Dokeos185DropboxPost.
-	 * @param dest_user_id
-	 */
-	function set_dest_user_id($dest_user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_DEST_USER_ID, $dest_user_id);
-	}
 	/**
 	 * Returns the feedback_date of this Dokeos185DropboxPost.
 	 * @return the feedback_date.
@@ -123,14 +107,6 @@ class Dokeos185DropboxPost
 	}
 
 	/**
-	 * Sets the feedback_date of this Dokeos185DropboxPost.
-	 * @param feedback_date
-	 */
-	function set_feedback_date($feedback_date)
-	{
-		$this->set_default_property(self :: PROPERTY_FEEDBACK_DATE, $feedback_date);
-	}
-	/**
 	 * Returns the feedback of this Dokeos185DropboxPost.
 	 * @return the feedback.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185DropboxPost
 		return $this->get_default_property(self :: PROPERTY_FEEDBACK);
 	}
 
-	/**
-	 * Sets the feedback of this Dokeos185DropboxPost.
-	 * @param feedback
-	 */
-	function set_feedback($feedback)
-	{
-		$this->set_default_property(self :: PROPERTY_FEEDBACK, $feedback);
-	}
 	/**
 	 * Returns the cat_id of this Dokeos185DropboxPost.
 	 * @return the cat_id.
@@ -157,14 +125,6 @@ class Dokeos185DropboxPost
 	}
 
 	/**
-	 * Sets the cat_id of this Dokeos185DropboxPost.
-	 * @param cat_id
-	 */
-	function set_cat_id($cat_id)
-	{
-		$this->set_default_property(self :: PROPERTY_CAT_ID, $cat_id);
-	}
-	/**
 	 * Returns the session_id of this Dokeos185DropboxPost.
 	 * @return the session_id.
 	 */
@@ -173,14 +133,6 @@ class Dokeos185DropboxPost
 		return $this->get_default_property(self :: PROPERTY_SESSION_ID);
 	}
 
-	/**
-	 * Sets the session_id of this Dokeos185DropboxPost.
-	 * @param session_id
-	 */
-	function set_session_id($session_id)
-	{
-		$this->set_default_property(self :: PROPERTY_SESSION_ID, $session_id);
-	}
 
 }
 

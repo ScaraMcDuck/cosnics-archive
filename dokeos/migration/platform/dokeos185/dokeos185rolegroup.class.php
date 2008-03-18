@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 role_group
+ * This class presents a Dokeos185 role_group
  *
  * @author Sven Vanpoucke
  */
@@ -86,14 +86,6 @@ class Dokeos185RoleGroup
 	}
 
 	/**
-	 * Sets the role_id of this Dokeos185RoleGroup.
-	 * @param role_id
-	 */
-	function set_role_id($role_id)
-	{
-		$this->set_default_property(self :: PROPERTY_ROLE_ID, $role_id);
-	}
-	/**
 	 * Returns the scope of this Dokeos185RoleGroup.
 	 * @return the scope.
 	 */
@@ -103,14 +95,6 @@ class Dokeos185RoleGroup
 	}
 
 	/**
-	 * Sets the scope of this Dokeos185RoleGroup.
-	 * @param scope
-	 */
-	function set_scope($scope)
-	{
-		$this->set_default_property(self :: PROPERTY_SCOPE, $scope);
-	}
-	/**
 	 * Returns the group_id of this Dokeos185RoleGroup.
 	 * @return the group_id.
 	 */
@@ -119,14 +103,6 @@ class Dokeos185RoleGroup
 		return $this->get_default_property(self :: PROPERTY_GROUP_ID);
 	}
 
-	/**
-	 * Sets the group_id of this Dokeos185RoleGroup.
-	 * @param group_id
-	 */
-	function set_group_id($group_id)
-	{
-		$this->set_default_property(self :: PROPERTY_GROUP_ID, $group_id);
-	}
 
 }
 

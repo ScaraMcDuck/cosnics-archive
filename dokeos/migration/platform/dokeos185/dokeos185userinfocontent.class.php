@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 userinfo_content
+ * This class presents a Dokeos185 userinfo_content
  *
  * @author Sven Vanpoucke
  */
@@ -89,14 +89,6 @@ class Dokeos185UserinfoContent
 	}
 
 	/**
-	 * Sets the id of this Dokeos185UserinfoContent.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the user_id of this Dokeos185UserinfoContent.
 	 * @return the user_id.
 	 */
@@ -105,14 +97,6 @@ class Dokeos185UserinfoContent
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 
-	/**
-	 * Sets the user_id of this Dokeos185UserinfoContent.
-	 * @param user_id
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
 	/**
 	 * Returns the definition_id of this Dokeos185UserinfoContent.
 	 * @return the definition_id.
@@ -123,14 +107,6 @@ class Dokeos185UserinfoContent
 	}
 
 	/**
-	 * Sets the definition_id of this Dokeos185UserinfoContent.
-	 * @param definition_id
-	 */
-	function set_definition_id($definition_id)
-	{
-		$this->set_default_property(self :: PROPERTY_DEFINITION_ID, $definition_id);
-	}
-	/**
 	 * Returns the editor_ip of this Dokeos185UserinfoContent.
 	 * @return the editor_ip.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185UserinfoContent
 		return $this->get_default_property(self :: PROPERTY_EDITOR_IP);
 	}
 
-	/**
-	 * Sets the editor_ip of this Dokeos185UserinfoContent.
-	 * @param editor_ip
-	 */
-	function set_editor_ip($editor_ip)
-	{
-		$this->set_default_property(self :: PROPERTY_EDITOR_IP, $editor_ip);
-	}
 	/**
 	 * Returns the edition_time of this Dokeos185UserinfoContent.
 	 * @return the edition_time.
@@ -157,14 +125,6 @@ class Dokeos185UserinfoContent
 	}
 
 	/**
-	 * Sets the edition_time of this Dokeos185UserinfoContent.
-	 * @param edition_time
-	 */
-	function set_edition_time($edition_time)
-	{
-		$this->set_default_property(self :: PROPERTY_EDITION_TIME, $edition_time);
-	}
-	/**
 	 * Returns the content of this Dokeos185UserinfoContent.
 	 * @return the content.
 	 */
@@ -173,14 +133,6 @@ class Dokeos185UserinfoContent
 		return $this->get_default_property(self :: PROPERTY_CONTENT);
 	}
 
-	/**
-	 * Sets the content of this Dokeos185UserinfoContent.
-	 * @param content
-	 */
-	function set_content($content)
-	{
-		$this->set_default_property(self :: PROPERTY_CONTENT, $content);
-	}
 
 }
 

@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 survey_question_option
+ * This class presents a Dokeos185 survey_question_option
  *
  * @author Sven Vanpoucke
  */
@@ -88,14 +88,6 @@ class Dokeos185SurveyQuestionOption
 	}
 
 	/**
-	 * Sets the question_option_id of this Dokeos185SurveyQuestionOption.
-	 * @param question_option_id
-	 */
-	function set_question_option_id($question_option_id)
-	{
-		$this->set_default_property(self :: PROPERTY_QUESTION_OPTION_ID, $question_option_id);
-	}
-	/**
 	 * Returns the question_id of this Dokeos185SurveyQuestionOption.
 	 * @return the question_id.
 	 */
@@ -104,14 +96,6 @@ class Dokeos185SurveyQuestionOption
 		return $this->get_default_property(self :: PROPERTY_QUESTION_ID);
 	}
 
-	/**
-	 * Sets the question_id of this Dokeos185SurveyQuestionOption.
-	 * @param question_id
-	 */
-	function set_question_id($question_id)
-	{
-		$this->set_default_property(self :: PROPERTY_QUESTION_ID, $question_id);
-	}
 	/**
 	 * Returns the survey_id of this Dokeos185SurveyQuestionOption.
 	 * @return the survey_id.
@@ -122,14 +106,6 @@ class Dokeos185SurveyQuestionOption
 	}
 
 	/**
-	 * Sets the survey_id of this Dokeos185SurveyQuestionOption.
-	 * @param survey_id
-	 */
-	function set_survey_id($survey_id)
-	{
-		$this->set_default_property(self :: PROPERTY_SURVEY_ID, $survey_id);
-	}
-	/**
 	 * Returns the option_text of this Dokeos185SurveyQuestionOption.
 	 * @return the option_text.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185SurveyQuestionOption
 	}
 
 	/**
-	 * Sets the option_text of this Dokeos185SurveyQuestionOption.
-	 * @param option_text
-	 */
-	function set_option_text($option_text)
-	{
-		$this->set_default_property(self :: PROPERTY_OPTION_TEXT, $option_text);
-	}
-	/**
 	 * Returns the sort of this Dokeos185SurveyQuestionOption.
 	 * @return the sort.
 	 */
@@ -155,14 +123,6 @@ class Dokeos185SurveyQuestionOption
 		return $this->get_default_property(self :: PROPERTY_SORT);
 	}
 
-	/**
-	 * Sets the sort of this Dokeos185SurveyQuestionOption.
-	 * @param sort
-	 */
-	function set_sort($sort)
-	{
-		$this->set_default_property(self :: PROPERTY_SORT, $sort);
-	}
 
 }
 

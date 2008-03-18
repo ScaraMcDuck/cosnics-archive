@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 quiz_question
+ * This class presents a Dokeos185 quiz_question
  *
  * @author Sven Vanpoucke
  */
@@ -90,14 +90,6 @@ class Dokeos185QuizQuestion
 	}
 
 	/**
-	 * Sets the id of this Dokeos185QuizQuestion.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the question of this Dokeos185QuizQuestion.
 	 * @return the question.
 	 */
@@ -106,14 +98,6 @@ class Dokeos185QuizQuestion
 		return $this->get_default_property(self :: PROPERTY_QUESTION);
 	}
 
-	/**
-	 * Sets the question of this Dokeos185QuizQuestion.
-	 * @param question
-	 */
-	function set_question($question)
-	{
-		$this->set_default_property(self :: PROPERTY_QUESTION, $question);
-	}
 	/**
 	 * Returns the description of this Dokeos185QuizQuestion.
 	 * @return the description.
@@ -124,14 +108,6 @@ class Dokeos185QuizQuestion
 	}
 
 	/**
-	 * Sets the description of this Dokeos185QuizQuestion.
-	 * @param description
-	 */
-	function set_description($description)
-	{
-		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
-	}
-	/**
 	 * Returns the ponderation of this Dokeos185QuizQuestion.
 	 * @return the ponderation.
 	 */
@@ -140,14 +116,6 @@ class Dokeos185QuizQuestion
 		return $this->get_default_property(self :: PROPERTY_PONDERATION);
 	}
 
-	/**
-	 * Sets the ponderation of this Dokeos185QuizQuestion.
-	 * @param ponderation
-	 */
-	function set_ponderation($ponderation)
-	{
-		$this->set_default_property(self :: PROPERTY_PONDERATION, $ponderation);
-	}
 	/**
 	 * Returns the position of this Dokeos185QuizQuestion.
 	 * @return the position.
@@ -158,14 +126,6 @@ class Dokeos185QuizQuestion
 	}
 
 	/**
-	 * Sets the position of this Dokeos185QuizQuestion.
-	 * @param position
-	 */
-	function set_position($position)
-	{
-		$this->set_default_property(self :: PROPERTY_POSITION, $position);
-	}
-	/**
 	 * Returns the type of this Dokeos185QuizQuestion.
 	 * @return the type.
 	 */
@@ -175,14 +135,6 @@ class Dokeos185QuizQuestion
 	}
 
 	/**
-	 * Sets the type of this Dokeos185QuizQuestion.
-	 * @param type
-	 */
-	function set_type($type)
-	{
-		$this->set_default_property(self :: PROPERTY_TYPE, $type);
-	}
-	/**
 	 * Returns the picture of this Dokeos185QuizQuestion.
 	 * @return the picture.
 	 */
@@ -191,14 +143,6 @@ class Dokeos185QuizQuestion
 		return $this->get_default_property(self :: PROPERTY_PICTURE);
 	}
 
-	/**
-	 * Sets the picture of this Dokeos185QuizQuestion.
-	 * @param picture
-	 */
-	function set_picture($picture)
-	{
-		$this->set_default_property(self :: PROPERTY_PICTURE, $picture);
-	}
 
 }
 

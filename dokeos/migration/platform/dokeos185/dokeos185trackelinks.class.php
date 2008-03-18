@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 track_e_links
+ * This class presents a Dokeos185 track_e_links
  *
  * @author Sven Vanpoucke
  */
@@ -88,14 +88,6 @@ class Dokeos185TrackELinks
 	}
 
 	/**
-	 * Sets the links_id of this Dokeos185TrackELinks.
-	 * @param links_id
-	 */
-	function set_links_id($links_id)
-	{
-		$this->set_default_property(self :: PROPERTY_LINKS_ID, $links_id);
-	}
-	/**
 	 * Returns the links_user_id of this Dokeos185TrackELinks.
 	 * @return the links_user_id.
 	 */
@@ -104,14 +96,6 @@ class Dokeos185TrackELinks
 		return $this->get_default_property(self :: PROPERTY_LINKS_USER_ID);
 	}
 
-	/**
-	 * Sets the links_user_id of this Dokeos185TrackELinks.
-	 * @param links_user_id
-	 */
-	function set_links_user_id($links_user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_LINKS_USER_ID, $links_user_id);
-	}
 	/**
 	 * Returns the links_date of this Dokeos185TrackELinks.
 	 * @return the links_date.
@@ -122,14 +106,6 @@ class Dokeos185TrackELinks
 	}
 
 	/**
-	 * Sets the links_date of this Dokeos185TrackELinks.
-	 * @param links_date
-	 */
-	function set_links_date($links_date)
-	{
-		$this->set_default_property(self :: PROPERTY_LINKS_DATE, $links_date);
-	}
-	/**
 	 * Returns the links_cours_id of this Dokeos185TrackELinks.
 	 * @return the links_cours_id.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185TrackELinks
 	}
 
 	/**
-	 * Sets the links_cours_id of this Dokeos185TrackELinks.
-	 * @param links_cours_id
-	 */
-	function set_links_cours_id($links_cours_id)
-	{
-		$this->set_default_property(self :: PROPERTY_LINKS_COURS_ID, $links_cours_id);
-	}
-	/**
 	 * Returns the links_link_id of this Dokeos185TrackELinks.
 	 * @return the links_link_id.
 	 */
@@ -155,14 +123,6 @@ class Dokeos185TrackELinks
 		return $this->get_default_property(self :: PROPERTY_LINKS_LINK_ID);
 	}
 
-	/**
-	 * Sets the links_link_id of this Dokeos185TrackELinks.
-	 * @param links_link_id
-	 */
-	function set_links_link_id($links_link_id)
-	{
-		$this->set_default_property(self :: PROPERTY_LINKS_LINK_ID, $links_link_id);
-	}
 
 }
 

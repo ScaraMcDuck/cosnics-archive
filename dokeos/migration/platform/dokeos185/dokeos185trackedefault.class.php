@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 track_e_default
+ * This class presents a Dokeos185 track_e_default
  *
  * @author Sven Vanpoucke
  */
@@ -90,14 +90,6 @@ class Dokeos185TrackEDefault
 	}
 
 	/**
-	 * Sets the default_id of this Dokeos185TrackEDefault.
-	 * @param default_id
-	 */
-	function set_default_id($default_id)
-	{
-		$this->set_default_property(self :: PROPERTY_DEFAULT_ID, $default_id);
-	}
-	/**
 	 * Returns the default_user_id of this Dokeos185TrackEDefault.
 	 * @return the default_user_id.
 	 */
@@ -106,14 +98,6 @@ class Dokeos185TrackEDefault
 		return $this->get_default_property(self :: PROPERTY_DEFAULT_USER_ID);
 	}
 
-	/**
-	 * Sets the default_user_id of this Dokeos185TrackEDefault.
-	 * @param default_user_id
-	 */
-	function set_default_user_id($default_user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_DEFAULT_USER_ID, $default_user_id);
-	}
 	/**
 	 * Returns the default_cours_code of this Dokeos185TrackEDefault.
 	 * @return the default_cours_code.
@@ -124,14 +108,6 @@ class Dokeos185TrackEDefault
 	}
 
 	/**
-	 * Sets the default_cours_code of this Dokeos185TrackEDefault.
-	 * @param default_cours_code
-	 */
-	function set_default_cours_code($default_cours_code)
-	{
-		$this->set_default_property(self :: PROPERTY_DEFAULT_COURS_CODE, $default_cours_code);
-	}
-	/**
 	 * Returns the default_date of this Dokeos185TrackEDefault.
 	 * @return the default_date.
 	 */
@@ -140,14 +116,6 @@ class Dokeos185TrackEDefault
 		return $this->get_default_property(self :: PROPERTY_DEFAULT_DATE);
 	}
 
-	/**
-	 * Sets the default_date of this Dokeos185TrackEDefault.
-	 * @param default_date
-	 */
-	function set_default_date($default_date)
-	{
-		$this->set_default_property(self :: PROPERTY_DEFAULT_DATE, $default_date);
-	}
 	/**
 	 * Returns the default_event_type of this Dokeos185TrackEDefault.
 	 * @return the default_event_type.
@@ -158,14 +126,6 @@ class Dokeos185TrackEDefault
 	}
 
 	/**
-	 * Sets the default_event_type of this Dokeos185TrackEDefault.
-	 * @param default_event_type
-	 */
-	function set_default_event_type($default_event_type)
-	{
-		$this->set_default_property(self :: PROPERTY_DEFAULT_EVENT_TYPE, $default_event_type);
-	}
-	/**
 	 * Returns the default_value_type of this Dokeos185TrackEDefault.
 	 * @return the default_value_type.
 	 */
@@ -175,14 +135,6 @@ class Dokeos185TrackEDefault
 	}
 
 	/**
-	 * Sets the default_value_type of this Dokeos185TrackEDefault.
-	 * @param default_value_type
-	 */
-	function set_default_value_type($default_value_type)
-	{
-		$this->set_default_property(self :: PROPERTY_DEFAULT_VALUE_TYPE, $default_value_type);
-	}
-	/**
 	 * Returns the default_value of this Dokeos185TrackEDefault.
 	 * @return the default_value.
 	 */
@@ -191,14 +143,6 @@ class Dokeos185TrackEDefault
 		return $this->get_default_property(self :: PROPERTY_DEFAULT_VALUE);
 	}
 
-	/**
-	 * Sets the default_value of this Dokeos185TrackEDefault.
-	 * @param default_value
-	 */
-	function set_default_value($default_value)
-	{
-		$this->set_default_property(self :: PROPERTY_DEFAULT_VALUE, $default_value);
-	}
 
 }
 

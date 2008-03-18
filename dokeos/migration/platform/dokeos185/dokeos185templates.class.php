@@ -4,7 +4,7 @@
  */
 
 /**
- * This class presents a dokeos185 templates
+ * This class presents a Dokeos185 templates
  *
  * @author Sven Vanpoucke
  */
@@ -89,14 +89,6 @@ class Dokeos185Templates
 	}
 
 	/**
-	 * Sets the id of this Dokeos185Templates.
-	 * @param id
-	 */
-	function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
-	/**
 	 * Returns the title of this Dokeos185Templates.
 	 * @return the title.
 	 */
@@ -105,14 +97,6 @@ class Dokeos185Templates
 		return $this->get_default_property(self :: PROPERTY_TITLE);
 	}
 
-	/**
-	 * Sets the title of this Dokeos185Templates.
-	 * @param title
-	 */
-	function set_title($title)
-	{
-		$this->set_default_property(self :: PROPERTY_TITLE, $title);
-	}
 	/**
 	 * Returns the description of this Dokeos185Templates.
 	 * @return the description.
@@ -123,14 +107,6 @@ class Dokeos185Templates
 	}
 
 	/**
-	 * Sets the description of this Dokeos185Templates.
-	 * @param description
-	 */
-	function set_description($description)
-	{
-		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
-	}
-	/**
 	 * Returns the course_code of this Dokeos185Templates.
 	 * @return the course_code.
 	 */
@@ -139,14 +115,6 @@ class Dokeos185Templates
 		return $this->get_default_property(self :: PROPERTY_COURSE_CODE);
 	}
 
-	/**
-	 * Sets the course_code of this Dokeos185Templates.
-	 * @param course_code
-	 */
-	function set_course_code($course_code)
-	{
-		$this->set_default_property(self :: PROPERTY_COURSE_CODE, $course_code);
-	}
 	/**
 	 * Returns the user_id of this Dokeos185Templates.
 	 * @return the user_id.
@@ -157,14 +125,6 @@ class Dokeos185Templates
 	}
 
 	/**
-	 * Sets the user_id of this Dokeos185Templates.
-	 * @param user_id
-	 */
-	function set_user_id($user_id)
-	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
-	}
-	/**
 	 * Returns the ref_doc of this Dokeos185Templates.
 	 * @return the ref_doc.
 	 */
@@ -173,14 +133,6 @@ class Dokeos185Templates
 		return $this->get_default_property(self :: PROPERTY_REF_DOC);
 	}
 
-	/**
-	 * Sets the ref_doc of this Dokeos185Templates.
-	 * @param ref_doc
-	 */
-	function set_ref_doc($ref_doc)
-	{
-		$this->set_default_property(self :: PROPERTY_REF_DOC, $ref_doc);
-	}
 
 }
 
