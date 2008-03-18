@@ -122,7 +122,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 				$courses = array();
 				$courses = $courseclass->get_all_courses($this->mgdm);
 				
-				foreach($courses as $course)
+				foreach($courses as $i => $course)
 				{
 					if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
 					{
@@ -132,6 +132,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 					$this->migrate_descriptions($course);
 					//$this->migrate_settings($course);
 					//$this->migrate_tools($course);
+					unset($courses[$i]);
 				}
 			}
 			else
@@ -174,13 +175,14 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 		$descriptions = array();
 		$descriptions = $descriptions_class->get_all_course_descriptions($course->get_db_name(), $this->mgdm);
 		
-		foreach($descriptions as $description)
+		foreach($descriptions as $j => $description)
 		{
 			if($description->is_valid_course_description($course))
 			{
 				$lcms_description = $description->convert_to_new_course_description($course);
 				$this->logfile->add_message('SUCCES: Description added ( ID: ' . $lcms_description->get_id() . ' )');
 				$this->succes[0]++;
+				unset($lcms_description);
 			}
 			else
 			{
@@ -188,6 +190,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message($message);
 				$this->failed_elements[0][] = $message;
 			}
+			unset($description[$j]);
 		}
 		
 
