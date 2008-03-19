@@ -52,6 +52,11 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$this->addElement('checkbox', 'migrate_documents', '', Translation :: get_lang('migrate_documents'), 'onclick=\'documents_clicked()\' style=\'margin-left: 20px;\'');
 		$this->addElement('checkbox', 'migrate_links', '', Translation :: get_lang('migrate_links'), 'onclick=\'links_clicked()\' style=\'margin-left: 20px;\'');
 		$this->addElement('checkbox', 'migrate_dropboxes', '', Translation :: get_lang('migrate_dropboxes'), 'onclick=\'dropboxes_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_forums', '', Translation :: get_lang('migrate_forums'), 'onclick=\'forums_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_learning_paths', '', Translation :: get_lang('migrate_learning_paths'), 'onclick=\'learning_paths_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_quizzes', '', Translation :: get_lang('migrate_quizzes'), 'onclick=\'quizzes_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_student_publications', '', Translation :: get_lang('migrate_student_publications'), 'onclick=\'student_publications_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_surveys', '', Translation :: get_lang('migrate_surveys'), 'onclick=\'surveys_clicked()\' style=\'margin-left: 20px;\'');
 		
 		$this->addElement('checkbox', 'migrate_deleted_files', '', 
 			Translation :: get_lang('migrate_deleted_files'), 'onclick=\'deleted_files_clicked("' . 
@@ -86,6 +91,11 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$defaults['migrate_documents'] = '1';
 		$defaults['migrate_links'] = '1';
 		$defaults['migrate_dropboxes'] = '1';
+		$defaults['migrate_forums'] = '1';
+		$defaults['migrate_learning_paths'] = '1';
+		$defaults['migrate_quizzes'] = '1';
+		$defaults['migrate_student_publications'] = '1';
+		$defaults['migrate_surveys'] = '1';
 		$defaults['migrate_deleted_files'] = '0';
 		$defaults['move_files'] = '0';
 		$this->setDefaults($defaults);

@@ -32,6 +32,11 @@ function courses_clicked()
 		document.page_settings.migrate_documents.checked = false;
 		document.page_settings.migrate_links.checked = false;
 		document.page_settings.migrate_dropboxes.checked = false;
+		document.page_settings.migrate_forums.checked = false
+		document.page_settings.migrate_learning_paths.checked = false
+		document.page_settings.migrate_quizzes.checked = false
+		document.page_settings.migrate_student_publications.checked = false
+		document.page_settings.migrate_surveys.checked = false
 	}
 }
 
@@ -86,6 +91,46 @@ function links_clicked()
 function dropboxes_clicked()
 {
 	if(document.page_settings.migrate_dropboxes.checked == true)
+	{
+		document.page_settings.migrate_courses.checked = true;
+	}
+}
+
+function forums_clicked()
+{
+	if(document.page_settings.migrate_forums.checked == true)
+	{
+		document.page_settings.migrate_courses.checked = true;
+	}
+}
+
+function learning_paths_clicked()
+{
+	if(document.page_settings.migrate_learning_paths.checked == true)
+	{
+		document.page_settings.migrate_courses.checked = true;
+	}
+}
+
+function quizzes_clicked()
+{
+	if(document.page_settings.migrate_quizzes.checked == true)
+	{
+		document.page_settings.migrate_courses.checked = true;
+	}
+}
+
+function student_publications_clicked()
+{
+	if(document.page_settings.migrate_student_publications.checked == true)
+	{
+		document.page_settings.migrate_courses.checked = true;
+	}
+}
+
+function surveys_clicked()
+{
+	if(document.page_settings.migrate_surveys.checked == true)
 	{
 		document.page_settings.migrate_courses.checked = true;
 	}
