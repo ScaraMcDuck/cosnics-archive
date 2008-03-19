@@ -28,6 +28,12 @@ $lang['migration']['migrate_calendar_events'] = "Migrate calendar events";
 $lang['migration']['migrate_documents'] = "Migrate documents";
 $lang['migration']['migrate_links'] = "Migrate links";
 $lang['migration']['migrate_dropboxes'] = "Migrate dropboxes";
+$lang['migration']['migrate_forums'] = "Migrate forums";
+$lang['migration']['migrate_learning_paths'] = "Migrate learning paths";
+$lang['migration']['migrate_quizzes'] = "Migrate quizzes";
+$lang['migration']['migrate_student_publications'] = "Migrate student publications";
+$lang['migration']['migrate_surveys'] = "Migrate surveys";
+
 $lang['migration']['migrate_deleted_files'] = "Migrate deleted files - When you select this option all deleted files from the old system will be migrated to the recycle bin";
 $lang['migration']['confirm_deleted_files'] = "Are you sure you wish to migrate the deleted files";
 $lang['migration']['move_files'] = "Move files to new directory instead of copying them. Increases risk of failure, decreases harddisk load";
@@ -113,9 +119,36 @@ $lang['migration']['Group_rel_tutors'] = "Group tutor relation(s)";
 
 $lang['migration']['Dropboxes'] = "Dropboxes";
 $lang['migration']['Dropboxes_title'] = "Course dropboxes migration";
-$lang['migration']['Dropboxes_info'] = "In the next step we will migrate the dropbox categories, the dropbox feedbacks and files";
-$lang['migration']['Dropbox_categories'] = "Dropbox_categor(y)(ies)";
+$lang['migration']['Dropboxes_info'] = "In the next step we will migrate the course dropbox categories, the course dropbox feedbacks and files";
+$lang['migration']['Dropbox_categories'] = "Dropbox categor(y)(ies)";
 $lang['migration']['Dropbox_feedbacks'] = "Dropbox feedback(s)";
 $lang['migration']['Dropbox_files'] = "Dropbox fil(es)";
- 
+
+$lang['migration']['Forums_title'] = "Course forums migration";
+$lang['migration']['Forums_info'] = "In the next step we will migrate the course forum categories, the forums, the forum threads and the forum posts";
+$lang['migration']['Forum_categories'] = "Forum categorie(s)";
+$lang['migration']['Forums'] = "Forum(s)";
+$lang['migration']['Forum_threads'] = "Forum thread(s)";
+$lang['migration']['Forum_posts'] = "Forum post(s)";
+
+$lang['migration']['Learning_paths_title'] = "Course learning paths migration";
+$lang['migration']['Learning_paths_info'] = "In the next step we will migrate the course learning paths and items";
+$lang['migration']['Learning_paths'] = "Learning path(s)";
+$lang['migration']['Learning_path_items'] = "Learning path item(s)";
+
+$lang['migration']['Quiz_title'] = "Course quizzes migration";
+$lang['migration']['Quiz_info'] = "In the next step we will migrate the course quizzes";
+$lang['migration']['Quizzes'] = "quiz(zes)";
+$lang['migration']['Quiz_questions'] = "Quiz question(s)";
+$lang['migration']['Quiz_answers'] = "Quiz answer(s)";
+
+$lang['migration']['Student_publication_title'] = "Course student publications migration";
+$lang['migration']['Student_publication_info'] = "In the next step we will migrate the course student publications";
+$lang['migration']['Student_publication(s)'] = "Student publication(s)";
+
+$lang['migration']['Survey_title'] = "Course Surveys migration";
+$lang['migration']['Survey_info'] = "In the next step we will migrate the course Surveys";
+$lang['migration']['Surveys'] = "Survey(s)";
+$lang['migration']['Survey_questions'] = "Survey question(s)";
+$lang['migration']['Survey_answers'] = "Survey answer(s)";
 ?>
