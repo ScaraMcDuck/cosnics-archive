@@ -586,6 +586,68 @@ class Dokeos185DataManager extends MigrationDataManager
 		return $groups;
 	}
 	
+	function get_all_dropbox_categories($course_db)
+	{
+		$this->db_connect($course_db);
+		$query = 'SELECT * FROM dropbox_category';
+		$result = $this->db->query($query);
+		
+		return mapper($result, 'Dokeos185DropboxCategory');
+	}
+	
+	function get_all_dropbox_feedbacks($course_db)
+	{
+		$this->db_connect($course_db);
+		$query = 'SELECT * FROM dropbox_feedback';
+		$result = $this->db->query($query);
+		
+		return mapper($result, 'Dokeos185DropboxFeedback');
+	}
+	
+	function get_all_dropbox_files($course_db, $include_deleted_files)
+	{
+		$this->db_connect($course_db);
+		$query = 'SELECT * FROM group_info';
+		
+		if($include_deleted_files != 1)
+			$query = $query . ' AND id IN (SELECT ref FROM item_property WHERE tool=\'dropbox\'' .
+					' AND visibility <> 2);';
+		
+		$result = $this->db->query($query);
+		
+		return mapper($result, 'Dokeos185DropboxFile');
+	}
+	
+	
+	function get_all_forum_categories($course_db, $include_deleted_files)
+	{
+		$this->db_connect($course_db);
+		$query = 'SELECT * FROM forum_category';
+		
+		if($include_deleted_files != 1)
+			$query = $query . ' AND id IN (SELECT ref FROM item_property WHERE tool=\'forum_category\'' .
+					' AND visibility <> 2);';
+		
+		$result = $this->db->query($query);
+		
+		return mapper($result, 'Dokeos185ForumCategory');
+	}
+	
+	function get_all($database, $tablename, $classname, $tool_name = null)
+	{
+		$this->db_connect($database);
+		$query = 'SELECT * FROM ' . $tablename;
+		
+		if($tool_name)
+			$query = $query . ' AND id IN (SELECT ref FROM item_property WHERE ' .
+					'tool=\''. $tool_name . '\' AND visibility <> 2);';
+		
+		$result = $this->db->query($query);
+		
+		return mapper($result, $classname);
+		
+	}
+	
 	static function set_move_file($move_file)
 	{
 		self :: $move_file = $move_file;
@@ -604,6 +666,18 @@ class Dokeos185DataManager extends MigrationDataManager
 			return $record['code'];
 			
 		return null;
+	}
+	
+	function mapper($result, $class)
+	{
+		$list = array();
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$list[] = $this->record_to_classobject($record, $class);
+		}
+		$result->free();
+
+		return $list;
 	}
 	
 }

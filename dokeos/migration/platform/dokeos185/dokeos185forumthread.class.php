@@ -183,6 +183,19 @@ class Dokeos185ForumThread
 		return $this->get_default_property(self :: PROPERTY_LOCKED);
 	}
 
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters[0];
+		
+		if($array[2] =! 1)
+			$tool_name = 'forum_thread';
+		
+		$coursedb = $array[1];
+		$tablename = 'forum_thread';
+		$classname = 'Dokeos185ForumThread';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
+	}
 
 }
 

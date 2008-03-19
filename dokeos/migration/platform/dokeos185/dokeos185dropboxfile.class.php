@@ -369,7 +369,7 @@ class Dokeos185DropboxFile
 	static function get_all($array)
 	{
 		self :: $mgdm = $array[0];
-		return self :: $mgdm->get_all($array[1], $array[2]);	
+		return self :: $mgdm->get_all_dropbox_files($array[1], $array[2]);	
 	}
 }
 
