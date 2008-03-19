@@ -132,7 +132,7 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 					$this->migrate_calendar_events($course);
 					//TODO: migrate resources
 					//$this->migrate_resources();
-					uunset($courses[$i]);
+					unset($courses[$i]);
 				}
 			}
 			else
