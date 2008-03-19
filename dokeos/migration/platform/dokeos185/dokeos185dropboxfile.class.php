@@ -3,6 +3,13 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__).'/../../lib/import/importdropboxfile.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/learning_object/document/document.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once 'dokeos185itemproperty.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublicationcategory.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/learningobject.class.php';
+
 /**
  * This class presents a Dokeos185 dropbox_file
  *
@@ -202,10 +209,10 @@ class Dokeos185DropboxFile
 		return true;
 	}
 	
-	function convert_to_lcms($courses)
+	function convert_to_lcms($array)
 	{
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
-		$course = $courses[0];
+		$course = $array[0];
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
 		
 		if(!$new_user_id)
