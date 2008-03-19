@@ -27,6 +27,7 @@ $lang['migration']['migrate_announcements'] = "Migrate announcements";
 $lang['migration']['migrate_calendar_events'] = "Migrate calendar events";
 $lang['migration']['migrate_documents'] = "Migrate documents";
 $lang['migration']['migrate_links'] = "Migrate links";
+$lang['migration']['migrate_dropboxes'] = "Migrate dropboxes";
 $lang['migration']['migrate_deleted_files'] = "Migrate deleted files - When you select this option all deleted files from the old system will be migrated to the recycle bin";
 $lang['migration']['confirm_deleted_files'] = "Are you sure you wish to migrate the deleted files";
 $lang['migration']['move_files'] = "Move files to new directory instead of copying them. Increases risk of failure, decreases harddisk load";
@@ -109,4 +110,12 @@ $lang['migration']['Group_categories'] = "Group categorie(s)";
 $lang['migration']['Groups'] = "Group(s)";
 $lang['migration']['Group_rel_users'] = "Group user relation(s)";
 $lang['migration']['Group_rel_tutors'] = "Group tutor relation(s)";
+
+$lang['migration']['Dropboxes'] = "Dropboxes";
+$lang['migration']['Dropboxes_title'] = "Course dropboxes migration";
+$lang['migration']['Dropboxes_info'] = "In the next step we will migrate the dropbox categories, the dropbox feedbacks and files";
+$lang['migration']['Dropbox_categories'] = "Dropbox_categor(y)(ies)";
+$lang['migration']['Dropbox_feedbacks'] = "Dropbox feedback(s)";
+$lang['migration']['Dropbox_files'] = "Dropbox fil(es)";
+ 
 ?>

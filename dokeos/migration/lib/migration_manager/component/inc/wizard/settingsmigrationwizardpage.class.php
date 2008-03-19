@@ -51,6 +51,7 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$this->addElement('checkbox', 'migrate_calendar_events', '', Translation :: get_lang('migrate_calendar_events'), 'onclick=\'calendar_events_clicked()\' style=\'margin-left: 20px;\'');
 		$this->addElement('checkbox', 'migrate_documents', '', Translation :: get_lang('migrate_documents'), 'onclick=\'documents_clicked()\' style=\'margin-left: 20px;\'');
 		$this->addElement('checkbox', 'migrate_links', '', Translation :: get_lang('migrate_links'), 'onclick=\'links_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_dropboxes', '', Translation :: get_lang('migrate_dropboxes'), 'onclick=\'dropboxes_clicked()\' style=\'margin-left: 20px;\'');
 		
 		$this->addElement('checkbox', 'migrate_deleted_files', '', 
 			Translation :: get_lang('migrate_deleted_files'), 'onclick=\'deleted_files_clicked("' . 
@@ -84,6 +85,7 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$defaults['migrate_calendar_events'] = '1';
 		$defaults['migrate_documents'] = '1';
 		$defaults['migrate_links'] = '1';
+		$defaults['migrate_dropboxes'] = '1';
 		$defaults['migrate_deleted_files'] = '0';
 		$defaults['move_files'] = '0';
 		$this->setDefaults($defaults);
