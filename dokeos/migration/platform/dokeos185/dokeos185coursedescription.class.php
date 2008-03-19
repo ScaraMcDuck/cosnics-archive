@@ -132,14 +132,14 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 		$lcms_content = new Description();
 		
 		if(!$this->get_title())
-			$lcms_calendar_event->set_title(substr($this->get_content(),0,20));
+			$lcms_content->set_title(substr($this->get_content(),0,20));
 		else
-			$lcms_calendar_event->set_title($this->get_title());
+			$lcms_content->set_title($this->get_title());
 		
 		if(!$this->get_content())
-			$lcms_calendar_event->set_description($this->get_title());
+			$lcms_content->set_description($this->get_title());
 		else
-			$lcms_calendar_event->set_description($this->get_content());
+			$lcms_content->set_description($this->get_content());
 		
 		$user_id = self :: $mgdm->get_id_reference(self :: $mgdm->get_old_admin_id(), 'user_user');
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
