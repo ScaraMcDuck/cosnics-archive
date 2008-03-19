@@ -182,6 +182,20 @@ class Dokeos185ForumPost
 	{
 		return $this->get_default_property(self :: PROPERTY_VISIBLE);
 	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters[0];
+		
+		if($array[2] =! 1)
+			$tool_name = 'forum_post';
+		
+		$coursedb = $array[1];
+		$tablename = 'forum_post';
+		$classname = 'Dokeos185ForumPost';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
+	}
 
 
 }

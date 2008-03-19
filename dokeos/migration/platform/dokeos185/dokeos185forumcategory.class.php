@@ -138,6 +138,20 @@ class Dokeos185ForumCategory
 		
 		return true;
 	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters[0];
+		
+		if($array[2] =! 1)
+			$tool_name = 'forum_category';
+		
+		$coursedb = $array[1];
+		$tablename = 'forum_category';
+		$classname = 'Dokeos185ForumCategory';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
+	}
 }
 
 ?>

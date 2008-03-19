@@ -368,10 +368,19 @@ class Dokeos185ForumForum
 		*/
 		return $lcms_forum;
 	}
-	static function get_all($array)
+	
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $array[0];
-		return self :: $mgdm->get_all_forum_forums($array[1], $array[2]);	
+		self :: $mgdm = $parameters[0];
+		
+		if($array[2] =! 1)
+			$tool_name = 'forum_forum';
+		
+		$coursedb = $array[1];
+		$tablename = 'forum_forum';
+		$classname = 'Dokeos185ForumForum';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
 }
 
