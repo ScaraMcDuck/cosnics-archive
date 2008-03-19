@@ -507,6 +507,7 @@ abstract class MigrationDataManager
 			}
 		}
 	}
+	
 }
 
 ?>

@@ -8,39 +8,40 @@ require_once dirname(__FILE__) . '/../../../../../logger.class.php';
 require_once dirname(__FILE__) . '/../../../../../import.class.php'; 
 
 /**
- * Class for course dropbox migration
+ * Class for course forum migration
  * @author Sven Vanpoucke
  */
-class DropBoxMigrationWizardPage extends MigrationWizardPage
+class ForumsMigrationWizardPage extends MigrationWizardPage
 {
 	private $include_deleted_files;
 	
-	function DropBoxMigrationWizardPage($page_name, $parent, $command_execute = false)
+	function ForumsMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent, $command_execute);
-		$this->succes = array(0,0,0);
+		$this->succes = array(0,0,0,0);
 	}
 	/**
 	 * @return string Title of the page
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Dropboxes_title');
+		return Translation :: get_lang('Forums_title');
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Dropboxes_info');
+		return Translation :: get_lang('Forums_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Dropbox_categories');
-			case 1: return Translation :: get_lang('Dropbox_feedbacks');
-			case 2: return Translation :: get_lang('Dropbox_files');
-			default: return Translation :: get_lang('Dropbox_categories'); 
+			case 0: return Translation :: get_lang('Forum_categories');
+			case 1: return Translation :: get_lang('Forums');
+			case 2: return Translation :: get_lang('Forum_threads');
+			case 3: return Translation :: get_lang('Forum_posts');
+			default: return Translation :: get_lang('Forum_categories'); 
 		}
 	}
 
@@ -48,9 +49,9 @@ class DropBoxMigrationWizardPage extends MigrationWizardPage
 	{
 		$logger = new Logger('migration.txt', true);
 		
-		if($logger->is_text_in_file('dropboxes'))
+		if($logger->is_text_in_file('forums'))
 		{
-			echo(Translation :: get_lang('Dropboxes') . ' ' .
+			echo(Translation :: get_lang('Forums') . ' ' .
 				 Translation :: get_lang('already_migrated') . '<br />');
 			return false;
 		}
@@ -65,13 +66,13 @@ class DropBoxMigrationWizardPage extends MigrationWizardPage
 		$this->include_deleted_files = $exportvalues['migrate_deleted_files'];
 		
 		//Create logfile
-		$this->logfile = new Logger('dropbox.txt');
+		$this->logfile = new Logger('forums.txt');
 		$this->logfile->set_start_time();
 		
 		//Create migrationdatamanager
 		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
-		if(isset($exportvalues['migrate_dropbox']) && $exportvalues['migrate_dropbox'] == 1)
+		if(isset($exportvalues['migrate_forums']) && $exportvalues['migrate_forums'] == 1)
 		{	
 			//Migrate the dropbox
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
@@ -88,30 +89,31 @@ class DropBoxMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 					
-					$this->migrate('DropBoxCategory', array($this->mgdm), array(), $course);
-					$this->migrate('DropBoxFeedback', array($this->mgdm), array(), $course);
-					$this->migrate('DropBoxFile', array($this->mgdm), array(), $course);
+					$this->migrate('ForumCategory', array($this->mgdm), array(), $course);
+					$this->migrate('ForumForum', array($this->mgdm), array(), $course);
+					$this->migrate('ForumThread', array($this->mgdm), array(), $course);
+					$this->migrate('ForumPost', array($this->mgdm), array(), $course);
 					
 					unset($courses[$i]);
 				}
 			}
 			else
 			{
-				echo(Translation :: get_lang('Dropboxes') .
+				echo(Translation :: get_lang('Forums') .
 				     Translation :: get_lang('failed') . ' ' .
 				     Translation :: get_lang('because') . ' ' . 
 				     Translation :: get_lang('Users') . ' ' .
 				     Translation :: get_lang('skipped') . '<br />');
-				$this->logfile->add_message('Dropboxes failed because users or courses skipped');
-				$this->succes = array(0,0,0);
+				$this->logfile->add_message('Forums failed because users or courses skipped');
+				$this->succes = array(0,0,0,0);
 			}
 			
 		}
 		else
 		{
-			echo(Translation :: get_lang('Dropboxes')
+			echo(Translation :: get_lang('Forums')
 				 . ' ' . Translation :: get_lang('skipped') . '<br />');
-			$this->logfile->add_message('Dropboxes skipped');
+			$this->logfile->add_message('Forums skipped');
 			
 			return false;
 		}
@@ -120,7 +122,7 @@ class DropBoxMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
-		$logger->write_text('dropboxes');
+		$logger->write_text('forums');
 		
 		return true;
 	}

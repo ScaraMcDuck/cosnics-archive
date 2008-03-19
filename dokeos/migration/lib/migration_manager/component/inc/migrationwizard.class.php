@@ -20,7 +20,7 @@ require_once dirname(__FILE__).'/wizard/course/announcementsmigrationwizardpage.
 require_once dirname(__FILE__).'/wizard/course/calendareventsmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/course/documentsmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/course/linksmigrationwizardpage.class.php';
-require_once dirname(__FILE__).'/wizard/course/dropboxmigrationwizardpage.class.php';
+require_once dirname(__FILE__).'/wizard/course/dropboxesmigrationwizardpage.class.php';
 
 
 /**
@@ -57,7 +57,7 @@ class MigrationWizard extends HTML_QuickForm_Controller
 		$this->addPage(new CalendarEventsMigrationWizardPage('page_calendar_events',$this->parent));
 		$this->addPage(new DocumentsMigrationWizardPage('page_documents',$this->parent));
 		$this->addPage(new LinksMigrationWizardPage('page_links',$this->parent));
-		$this->addPage(new DropBoxMigrationWizardPage('page_dropbox',$this->parent));
+		$this->addPage(new DropBoxesMigrationWizardPage('page_dropbox',$this->parent));
 		$this->addAction('display', new MigrationWizardDisplay($this->parent));
 	}
 }
