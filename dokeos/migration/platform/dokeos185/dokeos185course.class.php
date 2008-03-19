@@ -345,7 +345,7 @@ class Dokeos185Course extends Import
 	
 	function is_valid_course()
 	{
-		if(!$this->get_code() || $this->get_show_score() == NULL || $this->get_category_code() == NULL ||
+		if(!$this->get_code() || $this->get_show_score() == NULL ||
 			self :: $mgdm->get_failed_element('dokeos_main.course_category', $this->get_category_code()))
 		{
 			self :: $mgdm->add_failed_element($this->get_code(),
@@ -386,7 +386,8 @@ class Dokeos185Course extends Import
 		$category_code = self :: $mgdm->get_id_reference($this->get_category_code(), 'weblcms_course_category');
 		if($category_code)
 			$lcms_course->set_category_code($category_code);
-		
+		else
+			$lcms_course->set_category_code(self :: $mgdm->get_first_course_category());		
 		
 		$lcms_course->set_visibility($this->get_visibility());
 		$lcms_course->set_titular($this->get_tutor_name());

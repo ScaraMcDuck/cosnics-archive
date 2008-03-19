@@ -591,6 +591,21 @@ class Dokeos185DataManager extends MigrationDataManager
 		self :: $move_file = $move_file;
 	}
 	
+	/**
+	 * Returns the first available course category
+	 */
+	function get_first_course_category()
+	{
+		$this->db_lcms_connect();
+	 	$query = 'SELECT code FROM weblcms_course_category';
+	 	$result = $this->db->query($query);
+		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		if($record)
+			return $record['code'];
+			
+		return null;
+	}
+	
 }
 
 ?>

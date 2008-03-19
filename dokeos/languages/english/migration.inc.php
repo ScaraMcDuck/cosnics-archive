@@ -144,7 +144,7 @@ $lang['migration']['Quiz_answers'] = "Quiz answer(s)";
 
 $lang['migration']['Student_publication_title'] = "Course student publications migration";
 $lang['migration']['Student_publication_info'] = "In the next step we will migrate the course student publications";
-$lang['migration']['Student_publication(s)'] = "Student publication(s)";
+$lang['migration']['Student_publications'] = "Student publication(s)";
 
 $lang['migration']['Survey_title'] = "Course Surveys migration";
 $lang['migration']['Survey_info'] = "In the next step we will migrate the course Surveys";
