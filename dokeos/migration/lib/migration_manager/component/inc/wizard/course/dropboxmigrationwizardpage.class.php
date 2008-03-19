@@ -25,22 +25,22 @@ class DropBoxMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Dropbox_title');
+		return Translation :: get_lang('Dropboxes_title');
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Dropbox_info');
+		return Translation :: get_lang('Dropboxes_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Dropbox_category');
-			case 1: return Translation :: get_lang('Dropbox_feedback');
-			case 2: return Translation :: get_lang('Dropbox_file');
-			default: return Translation :: get_lang('Dropbox_category'); 
+			case 0: return Translation :: get_lang('Dropbox_categories');
+			case 1: return Translation :: get_lang('Dropbox_feedbacks');
+			case 2: return Translation :: get_lang('Dropbox_files');
+			default: return Translation :: get_lang('Dropbox_categories'); 
 		}
 	}
 
@@ -48,9 +48,9 @@ class DropBoxMigrationWizardPage extends MigrationWizardPage
 	{
 		$logger = new Logger('migration.txt', true);
 		
-		if($logger->is_text_in_file('dropbox'))
+		if($logger->is_text_in_file('dropboxes'))
 		{
-			echo(Translation :: get_lang('Dropbox') . ' ' .
+			echo(Translation :: get_lang('Dropboxes') . ' ' .
 				 Translation :: get_lang('already_migrated') . '<br />');
 			return false;
 		}
@@ -97,21 +97,21 @@ class DropBoxMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Dropbox') .
+				echo(Translation :: get_lang('Dropboxes') .
 				     Translation :: get_lang('failed') . ' ' .
 				     Translation :: get_lang('because') . ' ' . 
 				     Translation :: get_lang('Users') . ' ' .
 				     Translation :: get_lang('skipped') . '<br />');
-				$this->logfile->add_message('Dropbox failed because users skipped');
+				$this->logfile->add_message('Dropboxes failed because users or courses skipped');
 				$this->succes = array(0,0,0);
 			}
 			
 		}
 		else
 		{
-			echo(Translation :: get_lang('Dropbox')
+			echo(Translation :: get_lang('Dropboxes')
 				 . ' ' . Translation :: get_lang('skipped') . '<br />');
-			$this->logfile->add_message('Dropbox events skipped');
+			$this->logfile->add_message('Dropboxes skipped');
 			
 			return false;
 		}
@@ -120,7 +120,7 @@ class DropBoxMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
-		$logger->write_text('dropbox');
+		$logger->write_text('dropboxes');
 		
 		return true;
 	}

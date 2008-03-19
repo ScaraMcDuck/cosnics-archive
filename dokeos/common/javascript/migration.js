@@ -31,6 +31,7 @@ function courses_clicked()
 		document.page_settings.migrate_calendar_events.checked = false;
 		document.page_settings.migrate_documents.checked = false;
 		document.page_settings.migrate_links.checked = false;
+		document.page_settings.migrate_dropboxes.checked = false;
 	}
 }
 
@@ -77,6 +78,14 @@ function documents_clicked()
 function links_clicked()
 {
 	if(document.page_settings.migrate_links.checked == true)
+	{
+		document.page_settings.migrate_courses.checked = true;
+	}
+}
+
+function dropboxes_clicked()
+{
+	if(document.page_settings.migrate_dropboxes.checked == true)
 	{
 		document.page_settings.migrate_courses.checked = true;
 	}
