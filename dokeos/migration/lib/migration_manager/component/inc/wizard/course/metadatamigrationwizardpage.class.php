@@ -190,7 +190,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message($message);
 				$this->failed_elements[0][] = $message;
 			}
-			unset($description[$j]);
+			unset($descriptions[$j]);
 		}
 		
 
