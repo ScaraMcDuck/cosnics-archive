@@ -3,6 +3,9 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__).'/../../lib/import/importforumcategory.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublicationcategory.class.php';
+
 /**
  * This class presents a Dokeos185 forum_category
  *
@@ -123,7 +126,18 @@ class Dokeos185ForumCategory
 		return $this->get_default_property(self :: PROPERTY_LOCKED);
 	}
 
-
+	function is_valid($array)
+	{
+		$course = $array[0];
+		if(!($this->get_cat_title() || $this->get_cat_comment()))
+		{
+			self :: $mgdm->add_failed_element($this->get_cat_id(),
+				$course->get_db_name() . '.forum_category');
+			return false;
+		}
+		
+		return true;
+	}
 }
 
 ?>

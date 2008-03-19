@@ -135,8 +135,9 @@ class Dokeos185DropboxCategory
 		$this->set_default_property(self :: PROPERTY_CAT_ID, $code);
 	}
 	
-	function is_valid($courses)
+	function is_valid($array)
 	{
+		$course = $array[0];
 		if(!$this->get_cat_name())
 		{
 			self :: $mgdm->add_failed_element($this->get_cat_id(),
@@ -150,11 +151,11 @@ class Dokeos185DropboxCategory
 	/**
 	 * Migration dropbox_category
 	 */
-	function convert_to_lcms($courses)
+	function convert_to_lcms($array)
 	{	
 		//Course category parameters
 		$lcms_dropbox_category = new LearningObjectPublicationCategory();
-		$course = $courses[0];
+		$course = $array[0];
 		$lcms_dropbox_category->set_title($this->get_cat_name());
 		
 		$old_id = $this->get_cat_id();

@@ -128,8 +128,9 @@ class Dokeos185DropboxFeedback
 		return $this->get_default_property(self :: PROPERTY_FEEDBACK_DATE);
 	}
 
-	function is_valid($courses)
+	function is_valid($array)
 	{
+		$course = $array[0];
 		if(!$this->get_feedback_id() || !$this->get_feedback()
 			|| !$this->get_feedback_date())
 		{		 
