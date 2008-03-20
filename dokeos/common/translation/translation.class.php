@@ -51,31 +51,31 @@ class Translation
 	 * Returns the instance of this class.
 	 * @return Translation The instance.
 	 */
-	static function get_lang($variable)
+	function get_lang($variable)
 	{
 		$instance = self :: get_instance();
 		return $instance->translate($variable);
 	}
 	
-	static function get_language()
+	function get_language()
 	{
 		$instance = self :: get_instance();
 		return $instance->language;
 	}
 	
-	static function set_language($language)
+	function set_language($language)
 	{
 		$instance = self :: get_instance();
 		$instance->language = $language;
 	}
 	
-	static function get_application()
+	function get_application()
 	{
 		$instance = self :: get_instance();
 		return $instance->application;
 	}	
 	
-	static function set_application($application)
+	function set_application($application)
 	{
 		$instance = self :: get_instance();
 		$instance->application = $application;
