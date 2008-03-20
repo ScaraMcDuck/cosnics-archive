@@ -95,8 +95,6 @@ class LinksMigrationWizardPage extends MigrationWizardPage
 			return false;
 		}
 		
-		$logger->write_text('links');
-		
 		if($this->command_execute)
 			require(dirname(__FILE__) . '/../../../../../../settings.inc.php');
 		else
@@ -160,7 +158,8 @@ class LinksMigrationWizardPage extends MigrationWizardPage
 		//Close the logfile
 		$this->logfile->write_passed_time();
 		$this->logfile->close_file();
-		
+		$logger->write_text('links');
+
 		return true;
 	}
 	
@@ -175,13 +174,14 @@ class LinksMigrationWizardPage extends MigrationWizardPage
 		$link_categories = array();
 		$link_categories = $class_link_categories->get_all_link_categories($course->get_db_name(), $this->mgdm);
 		
-		foreach($link_categories as $link_category)
+		foreach($link_categories as $j => $link_category)
 		{
 			if($link_category->is_valid_link_category($course))
 			{
 				$lcms_link_category = $link_category->convert_to_new_link_category($course);
 				$this->logfile->add_message('SUCCES: Link category added ( ID: ' . $lcms_link_category->get_id() . ' )');
 				$this->succes[0]++;
+				unset($lcms_link_category);
 			}
 			else
 			{
@@ -189,6 +189,7 @@ class LinksMigrationWizardPage extends MigrationWizardPage
 				$this->logfile->add_message($message);
 				$this->failed_elements[0][] = $message;
 			}
+			unset($link_categories[$j]);
 		}
 		
 
@@ -200,7 +201,7 @@ class LinksMigrationWizardPage extends MigrationWizardPage
 	 */
 	function migrate_links($course)
 	{
-		$this->logfile->add_message('Starting migration calendar resources for course' . $course->get_code());
+		$this->logfile->add_message('Starting migration links for course' . $course->get_code());
 		
 		$linkclass = Import :: factory($this->old_system, 'link');
 		$links = array();
@@ -209,7 +210,7 @@ class LinksMigrationWizardPage extends MigrationWizardPage
 		foreach($links as $j => $link)
 		{
 			if($link->is_valid_link($course))
-			{
+			{				
 				$lcms_link = $link->convert_to_new_link($course);
 				$this->logfile->add_message('SUCCES: Link added ( ID: ' .  
 						$lcms_link->get_id() . ' )');

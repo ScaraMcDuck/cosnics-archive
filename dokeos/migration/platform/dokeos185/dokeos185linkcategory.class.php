@@ -134,7 +134,7 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 		$lcms_link_category->set_course($new_course_code);
 		$lcms_link_category->set_tool('link');
 		
-		if(!$this->get_title())
+		if(!$this->get_category_title())
 			$lcms_link_category->set_title($this->get_description());
 		else
 			$lcms_link_category->set_title($this->get_category_title());
