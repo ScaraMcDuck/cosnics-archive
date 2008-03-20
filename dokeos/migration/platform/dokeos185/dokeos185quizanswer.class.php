@@ -162,6 +162,20 @@ class Dokeos185QuizAnswer
 	{
 		return $this->get_default_property(self :: PROPERTY_HOTSPOT_TYPE);
 	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+
+		if($array['del_files'] =! 1)
+			$tool_name = 'quiz_answer';
+		
+		$coursedb = $array['course'];
+		$tablename = 'quiz_answer';
+		$classname = 'Dokeos185QuizAnswer';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
+	}
 
 
 }

@@ -185,12 +185,12 @@ class Dokeos185ForumPost
 	
 	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $parameters[0];
+		self :: $mgdm = $parameters['mgdm'];
 		
-		if($array[2] =! 1)
+		if($array['del_files'] =! 1)
 			$tool_name = 'forum_post';
 		
-		$coursedb = $array[1];
+		$coursedb = $array['course'];
 		$tablename = 'forum_post';
 		$classname = 'Dokeos185ForumPost';
 			

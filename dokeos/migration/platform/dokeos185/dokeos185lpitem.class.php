@@ -252,6 +252,20 @@ class Dokeos185LpItem
 	{
 		return $this->get_default_property(self :: PROPERTY_MAX_TIME_ALLOWED);
 	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+
+		if($array['del_files'] =! 1)
+			$tool_name = 'lp_item';
+		
+		$coursedb = $array['course'];
+		$tablename = 'lp_item';
+		$classname = 'Dokeos185LpItem';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
+	}
 
 
 }

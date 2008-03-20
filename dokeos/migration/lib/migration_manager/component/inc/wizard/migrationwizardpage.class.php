@@ -112,8 +112,8 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 		if($course)
 		{
 			$this->logfile->add_message('Starting migration ' . $type . ' for course ' . $course->get_code());
-			$retrieve_parms[] = $course;
-			$convert_parms[] = $course;
+			$retrieve_parms['course'] = $course;
+			$convert_parms['course'] = $course;
 			$final_message = $type . ' migrated for course ' . $course->get_code();
 			$extra_message = ' COURSE: ' . $course;
 		}

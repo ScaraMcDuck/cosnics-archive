@@ -188,8 +188,8 @@ class Dokeos185DropboxCategory
 	 */
 	static function get_all($array)
 	{
-		self :: $mgdm = $array[0];
-		return self :: $mgdm->get_all_dropbox_categories($array[1], $array[2]);	
+		self :: $mgdm = $array['mgdm'];
+		return self :: $mgdm->get_all_dropbox_categories($array['course']);	
 	}
 }
 

@@ -132,7 +132,20 @@ class Dokeos185SurveyAnswer
 	{
 		return $this->get_default_property(self :: PROPERTY_USER);
 	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
 
+		if($array['del_files'] =! 1)
+			$tool_name = 'survey_answer';
+		
+		$coursedb = $array['course'];
+		$tablename = 'survey_answer';
+		$classname = 'Dokeos185SurveyAnswer';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
+	}
 
 }
 

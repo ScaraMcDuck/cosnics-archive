@@ -142,6 +142,20 @@ class Dokeos185QuizQuestion
 	{
 		return $this->get_default_property(self :: PROPERTY_PICTURE);
 	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+
+		if($array['del_files'] =! 1)
+			$tool_name = 'quiz_question';
+		
+		$coursedb = $array['course'];
+		$tablename = 'quiz_question';
+		$classname = 'Dokeos185QuizQuestion';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
+	}
 
 
 }
