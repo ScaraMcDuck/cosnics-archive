@@ -87,8 +87,8 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 					
-					$this->migrate('Lp', array($this->mgdm), array(), $course);
-					$this->migrate('LpItem', array($this->mgdm), array(), $course);
+					$this->migrate('Lp', array('mgdm' => $this->mgdm), array(), $course);
+					$this->migrate('LpItem', array('mgdm' => $this->mgdm), array(), $course);
 					
 					unset($courses[$i]);
 				}

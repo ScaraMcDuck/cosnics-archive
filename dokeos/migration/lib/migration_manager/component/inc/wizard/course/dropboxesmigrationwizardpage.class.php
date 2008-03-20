@@ -88,9 +88,9 @@ class DropBoxesMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 					
-					$this->migrate('DropBoxCategory', array($this->mgdm), array(), $course);
-					$this->migrate('DropBoxFeedback', array($this->mgdm), array(), $course);
-					$this->migrate('DropBoxFile', array($this->mgdm, $this->include_deleted_files), array(), $course);
+					$this->migrate('DropBoxCategory', array('mgdm' => $this->mgdm), array(), $course);
+					$this->migrate('DropBoxFeedback', array('mgdm' => $this->mgdm), array(), $course);
+					$this->migrate('DropBoxFile', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course);
 					
 					unset($courses[$i]);
 				}

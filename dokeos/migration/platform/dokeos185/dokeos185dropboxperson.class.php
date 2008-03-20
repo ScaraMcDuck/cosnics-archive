@@ -92,6 +92,8 @@ class Dokeos185DropboxPerson
 	{
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
+	
+	
 
 
 }

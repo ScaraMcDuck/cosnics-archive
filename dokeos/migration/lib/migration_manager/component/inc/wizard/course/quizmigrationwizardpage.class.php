@@ -88,9 +88,9 @@ class QuizMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 					
-					$this->migrate('Quiz', array($this->mgdm), array(), $course);
-					$this->migrate('QuizQuestion', array($this->mgdm), array(), $course);
-					$this->migrate('QuizAnswer', array($this->mgdm), array(), $course);
+					$this->migrate('Quiz', array('mgdm' => $this->mgdm), array(), $course);
+					$this->migrate('QuizQuestion', array('mgdm' => $this->mgdm), array(), $course);
+					$this->migrate('QuizAnswer', array('mgdm' => $this->mgdm), array(), $course);
 					
 					unset($courses[$i]);
 				}

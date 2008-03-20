@@ -163,6 +163,19 @@ class Dokeos185SurveyQuestion
 		return $this->get_default_property(self :: PROPERTY_MAX_VALUE);
 	}
 
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+
+		if($array['del_files'] =! 1)
+			$tool_name = 'survey_question';
+		
+		$coursedb = $array['course'];
+		$tablename = 'survey_question';
+		$classname = 'Dokeos185SurveyQuestion';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
+	}
 
 }
 

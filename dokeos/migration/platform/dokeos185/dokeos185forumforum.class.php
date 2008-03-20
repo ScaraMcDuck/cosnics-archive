@@ -371,12 +371,12 @@ class Dokeos185ForumForum
 	
 	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $parameters[0];
-		
-		if($array[2] =! 1)
+		self :: $mgdm = $parameters['mgdm'];
+
+		if($array['del_files'] =! 1)
 			$tool_name = 'forum_forum';
 		
-		$coursedb = $array[1];
+		$coursedb = $array['course'];
 		$tablename = 'forum_forum';
 		$classname = 'Dokeos185ForumForum';
 			

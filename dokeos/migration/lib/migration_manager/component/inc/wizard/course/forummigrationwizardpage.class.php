@@ -89,10 +89,10 @@ class ForumsMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 					
-					$this->migrate('ForumCategory', array($this->mgdm), array(), $course);
-					$this->migrate('ForumForum', array($this->mgdm), array(), $course);
-					$this->migrate('ForumThread', array($this->mgdm), array(), $course);
-					$this->migrate('ForumPost', array($this->mgdm), array(), $course);
+					$this->migrate('ForumCategory', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course);
+					$this->migrate('ForumForum', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course);
+					$this->migrate('ForumThread', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course);
+					$this->migrate('ForumPost', array('mgdm' => $this->mgdm), array(), $course);
 					
 					unset($courses[$i]);
 				}
