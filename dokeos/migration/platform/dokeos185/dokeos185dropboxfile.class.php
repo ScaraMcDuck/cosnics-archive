@@ -226,7 +226,7 @@ class Dokeos185DropboxFile
 
 		$new_rel_path = 'files/repository/' . $new_path;
 		
-		$lcms_dropbox_file = null;
+		$lcms_document = null;
 		
 		if(!self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $this->get_filename()))])
 		{
@@ -238,7 +238,7 @@ class Dokeos185DropboxFile
 			//echo($old_rel_path . "\t" . $new_rel_path . "\t" . $filename . "\n");
 
 			$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
-				$this->get_filename());
+				$filename);
 
 			if($file)
 			{
@@ -249,7 +249,7 @@ class Dokeos185DropboxFile
 				if($this->get_title())
 					$lcms_document->set_title($this->get_title());
 				else
-					$lcms_document->set_title($this->get_filename());
+					$lcms_document->set_title($filename);
 				$lcms_document->set_description('...');
 				
 				$lcms_document->set_owner_id($new_user_id);
