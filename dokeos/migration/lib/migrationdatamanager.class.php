@@ -24,6 +24,7 @@ abstract class MigrationDataManager
 	const TEMP_FAILED_ELEMENTS_TABLE = 'temp_failed_elements';
 	const TEMP_RECOVERY_TABLE = 'temp_recovery';
 	const TEMP_ID_REFERENCE_TABLE = 'temp_id_reference';
+	const TEMP_FILES_M5_TABLE = 'temp_files_md5';
 	
 	/**
 	 * Singleton and factory pattern in one
@@ -100,7 +101,8 @@ abstract class MigrationDataManager
 				  id int NOT NULL AUTO_INCREMENT,
 				  failed_id varchar(50),
 				  table_name varchar(50),
-				  primary key(id));';
+				  primary key(id),
+				  INDEX `failed`(`failed_id`, `table_name`) );';
 		$this->db_lcms->query($query);
 		
 		$query = 'CREATE TABLE ' . self :: TEMP_RECOVERY_TABLE . ' (
@@ -115,8 +117,19 @@ abstract class MigrationDataManager
 				  old_id varchar(50),
 				  new_id varchar(50),
 				  table_name varchar(50),
-				  primary key(id));';
+				  primary key(id),
+				  INDEX `old_id`(`old_id`, `table_name`) );';
 		$this->db_lcms->query($query);
+		
+		$query = 'CREATE TABLE ' . self :: TEMP_FILES_M5_TABLE . '  (
+				  id int NOT NULL AUTO_INCREMENT,
+				  user_id int NOT NULL, 
+				  document_id int NOT NULL,
+				  file_md5 varchar(30),
+				  primary key(id),
+				  INDEX file_md5 (user_id, file_md5) );';
+		$this->db_lcms->query($query);
+		
 	}
 	
 	/**
@@ -132,6 +145,9 @@ abstract class MigrationDataManager
 		$this->db_lcms->query($query);
 		
 		$query = 'DROP TABLE IF EXISTS ' . self :: TEMP_ID_REFERENCE_TABLE;
+		$this->db_lcms->query($query);
+		
+		$query = 'DROP TABLE IF EXISTS ' . self :: TEMP_FILES_M5_TABLE;
 		$this->db_lcms->query($query);
 		
 	}
@@ -209,6 +225,18 @@ abstract class MigrationDataManager
 					$id_reference->get_old_id() . '\',\'' . 
 					$id_reference->get_new_id() . '\',\'' . 
 					$id_reference->get_table_name() . '\')';
+		$this->db_lcms->query($query);
+	}
+	
+	/**
+	 * Adds an md5 of a file to the database for later checks
+	 */
+	function add_file_md5($user_id, $document_id, $md5)
+	{
+		$this->db_lcms_connect();
+		$query = 'INSERT INTO ' . self :: TEMP_FILES_M5_TABLE . 
+				 ' (user_id, document_id, file_md5) VALUES (\'' .
+					$user_id . '\',\'' . $document_id . '\',\'' . $md5 . '\')';
 		$this->db_lcms->query($query);
 	}
 	
@@ -339,6 +367,24 @@ abstract class MigrationDataManager
 		
 		if($record)
 			return $record['new_id'];
+			
+		return NULL;
+	 }
+	 
+	 /**
+	  * Selects a document id from the files_md5 table
+	  */
+	 function get_document_from_md5($user_id, $md5)
+	 {
+	 	$this->db_lcms_connect();
+	 	$query = 'SELECT document_id FROM ' . self :: TEMP_FILES_M5_TABLE . 
+				 ' WHERE user_id = \'' . $user_id . '\' AND file_md5=\'' . $md5 . '\'';
+		$result = $this->db_lcms->query($query);
+		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$result->free();
+		
+		if($record)
+			return $record['document_id'];
 			
 		return NULL;
 	 }

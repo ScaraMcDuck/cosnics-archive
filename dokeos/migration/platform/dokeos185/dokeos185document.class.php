@@ -196,10 +196,11 @@ class Dokeos185Document extends Import
 		$new_rel_path = 'files/repository/' . $new_path;
 		
 		$lcms_document = null;
+		$document_md5 = md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename));
+		$document_id = self :: $mgdm->get_document_from_md5($new_user_id,$document_md5);
 		
-		if(!self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename))])
+		if(!$document_id)
 		{
-			
 			$filename = iconv("UTF-8", "ISO-8859-1", $filename);
 			$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 
@@ -260,15 +261,14 @@ class Dokeos185Document extends Import
 				//create document in database
 				$lcms_document->create_all();
 				
-				self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(true,$new_rel_path . $file))] = $lcms_document->get_id();
+				self :: $mgdm->add_file_md5($new_user_id, $lcms_document->get_id(), $document_md5);
 			}
 			
 		}
 		else
 		{
 			$lcms_document = new LearningObject();
-			$id = self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename))];
-			$lcms_document->set_id($id);
+			$lcms_document->set_id($document_id);
 		}
 			
 		//publication
