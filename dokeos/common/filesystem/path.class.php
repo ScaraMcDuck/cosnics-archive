@@ -175,6 +175,11 @@ class Path
     	return self :: get_path(SYS_APP_RIGHTS_PATH);
     }
     
+    public static function get_migration_path()
+    {
+    	return self :: get_path(SYS_APP_MIGRATION_PATH);
+    }
+    
     public static function get_admin_path()
     {
     	return self :: get_path(SYS_APP_ADMIN_PATH);

@@ -26,6 +26,7 @@ require_once dirname(__FILE__).'/../../../common/condition/likecondition.class.p
 	const PARAM_COMPONENT_ACTION = 'action';
 	
 	const ACTION_EDIT_RIGHTS = 'edit';
+	const ACTION_TEST = 'test';
 	
 	const VIEW_RIGHT = '1';
 	const EDIT_RIGHT = '2';
@@ -76,6 +77,9 @@ require_once dirname(__FILE__).'/../../../common/condition/likecondition.class.p
 		{
 			case self :: ACTION_EDIT_RIGHTS :
 				$component = RightsManagerComponent :: factory('Editor', $this);
+				break;
+			case self :: ACTION_TEST :
+				$component = RightsManagerComponent :: factory('Tester', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_EDIT_RIGHTS);

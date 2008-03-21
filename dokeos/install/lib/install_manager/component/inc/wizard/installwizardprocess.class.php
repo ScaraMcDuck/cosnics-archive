@@ -105,7 +105,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 					$installer = new $application_class;
 					$result = $installer->install();
 					$this->process_result($application, $result);
-					unset($installer);
+					unset($installer, $result);
+					flush();
 				}
 				else
 				{
