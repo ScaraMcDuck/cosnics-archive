@@ -94,8 +94,6 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 			return false;
 		}
 		
-		$logger->write_text('documents');
-		
 		if($this->command_execute)
 			require(dirname(__FILE__) . '/../../../../../../settings.inc.php');
 		else
@@ -157,7 +155,8 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 		//Close the logfile
 		$this->logfile->write_passed_time();
 		$this->logfile->close_file();
-		
+		$logger->write_text('documents');
+		$logger->close_file();
 		return true;
 	}
 	
