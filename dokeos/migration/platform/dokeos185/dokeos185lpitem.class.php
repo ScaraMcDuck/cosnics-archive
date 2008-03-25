@@ -302,10 +302,7 @@ class Dokeos185LpItem
 				//Create category for tool in lcms
 				$lcms_repository_category = new Category();
 				$lcms_repository_category->set_owner_id($new_user_id);
-				if ($this->get_item_type() == 'dokeos_chapter')
-					$lcms_repository_category->set_title(Translation :: get_lang('learning_path_chapters'));
-				else
-					$lcms_repository_category->set_title(Translation :: get_lang('learning_path_items'));
+				$lcms_repository_category->set_title(Translation :: get_lang('learning_paths'));
 				$lcms_repository_category->set_description('...');
 		
 				//Retrieve repository id from course

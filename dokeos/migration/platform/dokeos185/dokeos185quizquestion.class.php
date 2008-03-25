@@ -215,13 +215,13 @@ class Dokeos185QuizQuestion
 		
 		// Category for quiz questions already exists?
 		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
-			Translation :: get_lang('quiz_questions'));
+			Translation :: get_lang('quizzes'));
 		if(!$lcms_category_id)
 		{
 			//Create category for tool in lcms
 			$lcms_repository_category = new Category();
 			$lcms_repository_category->set_owner_id($new_user_id);
-			$lcms_repository_category->set_title(Translation :: get_lang('quiz_questions'));
+			$lcms_repository_category->set_title(Translation :: get_lang('quizzes'));
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course

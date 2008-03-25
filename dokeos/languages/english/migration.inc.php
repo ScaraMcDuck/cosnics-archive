@@ -47,6 +47,13 @@ $lang['migration']['documents'] = "documents";
 $lang['migration']['profiles'] = "profiles";
 $lang['migration']['links'] = "links";
 $lang['migration']['descriptions'] = "descriptions";
+$lang['migration']['dropboxes'] = "dropboxes";
+$lang['migration']['forums'] = "forums";
+$lang['migration']['learning_paths'] = "learning paths";
+$lang['migration']['quizzes'] = "quizzes";
+$lang['migration']['student_publications'] = "student publications";
+$lang['migration']['surveys'] = "surveys";
+
 $lang['migration']['migrating'] = "migrating";
 $lang['migration']['users'] = "users";
 $lang['migration']['done'] = "done";
@@ -142,12 +149,13 @@ $lang['migration']['Quizzes'] = "quiz(zes)";
 $lang['migration']['Quiz_questions'] = "Quiz question(s)";
 $lang['migration']['Quiz_answers'] = "Quiz answer(s)";
 
-$lang['migration']['Student_publication_title'] = "Course student publications migration";
-$lang['migration']['Student_publication_info'] = "In the next step we will migrate the course student publications";
+$lang['migration']['Student_publications_title'] = "Course student publications migration";
+$lang['migration']['Student_publications_info'] = "In the next step we will migrate the course student publications";
 $lang['migration']['Student_publications'] = "Student publication(s)";
 
-$lang['migration']['Survey_title'] = "Course Surveys migration";
-$lang['migration']['Survey_info'] = "In the next step we will migrate the course Surveys";
+$lang['migration']['Surveys'] =
+$lang['migration']['Surveys_title'] = "Course Surveys migration";
+$lang['migration']['Surveys_info'] = "In the next step we will migrate the course Surveys";
 $lang['migration']['Surveys'] = "Survey(s)";
 $lang['migration']['Survey_questions'] = "Survey question(s)";
 $lang['migration']['Survey_answers'] = "Survey answer(s)";
