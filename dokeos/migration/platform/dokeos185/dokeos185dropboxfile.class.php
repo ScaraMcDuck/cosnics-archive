@@ -201,8 +201,15 @@ class Dokeos185DropboxFile
 		$course = $courses['course'];
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'dropbox',$this->get_id());	
 		
+		
+		$filename = $this->get_filename();
+		$old_rel_path = 'courses/' . $course->get_code() . '/dropbox/';
+
+		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
+		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
+		
 		if(!$this->get_id() ||
-			!$this->item_property->get_insert_date())
+			!$this->item_property->get_insert_date() || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)))
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.dropbox_file');
@@ -230,12 +237,11 @@ class Dokeos185DropboxFile
 		
 		$lcms_document = null;
 		
-		if(!self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $this->get_filename()))])
-		{
+		$filename = iconv("UTF-8", "ISO-8859-1", $this->get_filename());
+		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 			
-			$filename = iconv("UTF-8", "ISO-8859-1", $this->get_filename());
-			$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
-
+		//if(!self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $this->get_filename()))])
+		//{
 			// Move file to correct directory
 			//echo($old_rel_path . "\t" . $new_rel_path . "\t" . $filename . "\n");
 
@@ -295,13 +301,14 @@ class Dokeos185DropboxFile
 				self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(true,$new_rel_path . $file))] = $lcms_document->get_id();
 			}
 			
-		}
-		else
-		{
-			$lcms_document = new LearningObject();
-			$id = self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $this->get_filename()))];
-			$lcms_document->set_id($id);
-		}
+		//}
+		//else
+		
+		//{
+		//	$lcms_document = new LearningObject();
+		//	$id = self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $this->get_filename()))];
+		//	$lcms_document->set_id($id);
+		//}
 		/*	
 		//publication
 		if($this->item_property->get_visibility() <= 1 && $lcms_document) 

@@ -10,6 +10,7 @@
  */
 class Dokeos185Survey
 {
+	private static $mgdm;
 	/**
 	 * Dokeos185Survey properties
 	 */
@@ -253,14 +254,14 @@ class Dokeos185Survey
 		return $this->get_default_property(self :: PROPERTY_ANONYMOUS);
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 
-		if($array['del_files'] =! 1)
+		if($parameters['del_files'] =! 1)
 			$tool_name = 'survey';
 		
-		$coursedb = $array['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'survey';
 		$classname = 'Dokeos185Survey';
 			
