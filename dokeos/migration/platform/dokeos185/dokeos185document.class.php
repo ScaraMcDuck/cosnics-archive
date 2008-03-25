@@ -166,8 +166,18 @@ class Dokeos185Document extends Import
 	{
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'document',$this->get_id());	
 		
+		$pos = strrpos($this->get_path(), '/');
+		$filename = substr($this->get_path(), $pos);
+		$old_path = substr($this->get_path(), 0, $pos);
+		
+		$new_path = $new_user_id . '/';
+		$old_rel_path = 'courses/' . $course->get_code() . '/document/'  . $old_path;
+
+		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
+		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
+
 		if(!$this->get_id() || !$this->get_path() || !$this->get_filetype()
-			|| !$this->item_property->get_insert_date())
+			|| !$this->item_property->get_insert_date() || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)) )
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.document');
@@ -196,19 +206,34 @@ class Dokeos185Document extends Import
 		$new_rel_path = 'files/repository/' . $new_path;
 		
 		$lcms_document = null;
-		$document_md5 = md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename));
-		$document_id = self :: $mgdm->get_document_from_md5($new_user_id,$document_md5);
-		
-		if(!$document_id)
-		{
-			$filename = iconv("UTF-8", "ISO-8859-1", $filename);
-			$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 
+		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
+		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
+
+		//$document_md5 = md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)); 
+		//$document_id = self :: $mgdm->get_document_from_md5($new_user_id,$document_md5);
+		
+		//if(!$document_id)
+		//{
+			
 			// Move file to correct directory
 			//echo($old_rel_path . "\t" . $new_rel_path . "\t" . $filename . "\n");
 
-			$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
-				$filename);
+			if($filename == '/20070925_6_7.zip')
+			{
+				$start_time = Logger :: get_microtime();
+
+				$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
+					$filename);
+
+				$end_time = Logger :: get_microtime();
+				$passedtime = $end_time - $start_time;
+				echo($filename . ' ' . $passedtime);
+				flush();
+			}
+			else
+				$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
+					$filename);
 
 			if($file)
 			{
@@ -261,15 +286,24 @@ class Dokeos185Document extends Import
 				//create document in database
 				$lcms_document->create_all();
 				
-				self :: $mgdm->add_file_md5($new_user_id, $lcms_document->get_id(), $document_md5);
+				//self :: $mgdm->add_file_md5($new_user_id, $lcms_document->get_id(), $document_md5);
+			}
+			else
+			{
+				$document_id = self :: $mgdm->get_document_id($new_rel_path . $filename, $new_user_id);
+				if($document_id)
+				{
+					$lcms_document = new LearningObject();
+					$lcms_document->set_id($document_id);
+				}
 			}
 			
-		}
-		else
+	//	}
+		/*else
 		{
 			$lcms_document = new LearningObject();
 			$lcms_document->set_id($document_id);
-		}
+		}*/
 			
 		//publication
 		if($this->item_property->get_visibility() <= 1 && $lcms_document) 
@@ -332,6 +366,7 @@ class Dokeos185Document extends Import
 			$publication->create();		
 		}
 		
+		flush();
 		
 		return $lcms_document;
 	}
