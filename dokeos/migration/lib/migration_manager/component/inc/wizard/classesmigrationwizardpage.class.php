@@ -158,7 +158,7 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 		
 		$class_class = Import :: factory($this->old_system, 'class');
 		$classes = array();
-		$classes = $class_class->get_all_classes($this->mgdm);
+		$classes = $class_class->get_all(array('mgdm' => $this->mgdm));
 		
 		foreach($classes as $i => $class)
 		{
@@ -190,7 +190,7 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 		
 		$classuser_class = Import :: factory($this->old_system, 'classuser');
 		$classusers = array();
-		$classusers = $classuser_class->get_all_class_users($this->mgdm);
+		$classusers = $classuser_class->get_all(array('mgdm' => $this->mgdm));
 		
 		foreach($classusers as $i => $classuser)
 		{

@@ -119,7 +119,7 @@ class LinksMigrationWizardPage extends MigrationWizardPage
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
 				$courses = array();
-				$courses = $courseclass->get_all_courses($this->mgdm);
+				$courses = $courseclass->get_all(array('mgdm' => $this->mgdm));
 				
 				foreach($courses as $i => $course)
 				{
@@ -172,7 +172,7 @@ class LinksMigrationWizardPage extends MigrationWizardPage
 		
 		$class_link_categories = Import :: factory($this->old_system, 'linkcategory');
 		$link_categories = array();
-		$link_categories = $class_link_categories->get_all_link_categories($course->get_db_name(), $this->mgdm);
+		$link_categories = $class_link_categories->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name()));
 		
 		foreach($link_categories as $j => $link_category)
 		{
@@ -205,7 +205,7 @@ class LinksMigrationWizardPage extends MigrationWizardPage
 		
 		$linkclass = Import :: factory($this->old_system, 'link');
 		$links = array();
-		$links = $linkclass->get_all_links($course->get_db_name(),$this->mgdm, $this->include_deleted_files);
+		$links = $linkclass->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name(), 'del_files' => $this->include_deleted_files));
 		
 		foreach($links as $j => $link)
 		{

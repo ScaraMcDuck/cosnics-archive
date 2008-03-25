@@ -199,7 +199,7 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		
 		$systemannouncementsclass =  Import :: factory($this->old_system, 'systemannouncement');
 		$systemannouncements = array();
-		$systemannouncements = $systemannouncementsclass->get_all_system_announcements($this->mgdm);
+		$systemannouncements = $systemannouncementsclass->get_all(array('mgdm' => $this->mgdm));
 		$id = $this->mgdm->get_id_reference($this->mgdm->get_old_admin_id(), 'user_user');
 		
 		foreach($systemannouncements as $i => $systemannouncement)

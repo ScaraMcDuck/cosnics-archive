@@ -188,7 +188,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		
 		$coursecategoryclass =  Import :: factory($this->old_system, 'coursecategory');
 		$coursecategories = array();
-		$coursecategories = $coursecategoryclass->get_all_course_categories($this->mgdm);
+		$coursecategories = $coursecategoryclass->get_all(array('mgdm' => $this->mgdm));
 		
 		foreach($coursecategories as $i => $coursecategory)
 		{
@@ -222,7 +222,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		
 		$usercoursecategoryclass =  Import :: factory($this->old_system, 'usercoursecategory');
 		$usercoursecategories = array();
-		$usercoursecategories = $usercoursecategoryclass->get_all_users_courses_categories($this->mgdm);
+		$usercoursecategories = $usercoursecategoryclass->get_all(array('mgdm' => $this->mgdm));
 		
 		foreach($usercoursecategories as $i => $usercoursecategory)
 		{
@@ -256,7 +256,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		
 		$courseclass = Import :: factory($this->old_system, 'course');
 		$courses = array();
-		$courses = $courseclass->get_all_courses($this->mgdm);
+		$courses = $courseclass->get_all(array('mgdm' => $this->mgdm));
 		
 		foreach($courses as $i => $course)
 		{
@@ -290,7 +290,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		
 		$coursereluserclass = Import :: factory($this->old_system, 'coursereluser');
 		$courserelusers = array();
-		$courserelusers = $coursereluserclass->get_all_course_rel_user($this->mgdm);
+		$courserelusers = $coursereluserclass->get_all(array('mgdm' => $this->mgdm));
 		
 		foreach($courserelusers as $i => $coursereluser)
 		{
@@ -327,7 +327,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		
 		$courserelclass_class = Import :: factory($this->old_system, 'courserelclass');
 		$courserelclasses = array();
-		$courserelclasses = $courserelclass_class->get_all_course_rel_class($this->mgdm);
+		$courserelclasses = $courserelclass_class->get_all(array('mgdm' => $this->mgdm));
 		
 		foreach($courserelclasses as $i => $courserelclass)
 		{

@@ -121,7 +121,7 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
 				$courses = array();
-				$courses = $courseclass->get_all_courses($this->mgdm);
+				$courses = $courseclass->get_all(array('mgdm' => $this->mgdm));
 				
 				foreach($courses as $i => $course)
 				{
@@ -176,7 +176,7 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 		
 		$groupcatclass = Import :: factory($this->old_system, 'groupcategory');
 		$groupcategories = array();
-		$groupcategories = $groupcatclass->get_all_group_categories($course->get_db_name(), $this->mgdm);
+		$groupcategories = $groupcatclass->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name()));
 		
 		foreach($groupcategories as $j => $groupcategory)
 		{
@@ -208,7 +208,7 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 		
 		$groupclass = Import :: factory($this->old_system, 'group');
 		$groups = array();
-		$groups = $groupclass->get_all_groups($course->get_db_name(),$this->mgdm);
+		$groups = $groupclass->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name()));
 		
 		foreach($groups as $j => $group)
 		{
@@ -243,7 +243,7 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 		
 		$group_rel_user_class = Import :: factory($this->old_system, 'groupreluser');
 		$group_rel_users = array();
-		$group_rel_users = $group_rel_user_class->get_all_group_rel_users($this->mgdm, $course->get_db_name());
+		$group_rel_users = $group_rel_user_class->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name()));
 		
 		foreach($group_rel_users as $group_rel_user)
 		{
@@ -274,7 +274,7 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 		
 		$group_rel_tutor_class = Import :: factory($this->old_system, 'groupreltutor');
 		$group_rel_tutors = array();
-		$group_rel_tutors = $group_rel_tutor_class->get_all_group_rel_tutors($this->mgdm, $course->get_db_name());
+		$group_rel_tutors = $group_rel_tutor_class->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name()));
 		
 		foreach($group_rel_tutors as $group_rel_tutor)
 		{
