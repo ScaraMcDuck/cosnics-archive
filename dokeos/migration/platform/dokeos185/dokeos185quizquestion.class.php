@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/multi
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/open_question/open_question.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
-
+require_once dirname(__FILE__) . '/Dokeos185QuizAnswer.class.php';
 
 /**
  * This class presents a Dokeos185 quiz_question
@@ -161,10 +161,10 @@ class Dokeos185QuizQuestion
 	{
 		self :: $mgdm = $parameters['mgdm'];
 
-		if($array['del_files'] =! 1)
+		if($parameters['del_files'] =! 1)
 			$tool_name = 'quiz_question';
 		
-		$coursedb = $array['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'quiz_question';
 		$classname = 'Dokeos185QuizQuestion';
 			
@@ -190,11 +190,8 @@ class Dokeos185QuizQuestion
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
 		$answers = array();
-		$answers = self :: $mgdm -> get_all_question_answer();
-		
-		
-		$new_user_id = self :: $mgdm->get_owner($course);
-		
+		$answers = self :: $mgdm -> get_all_question_answer($course->get_db_name(),$this->get_id());
+		$new_user_id = self :: $mgdm->get_owner($course->get_code());
 		
 		
 		//sort of quiz question
@@ -287,7 +284,7 @@ class Dokeos185QuizQuestion
 			$publication->create();
 		}
 		*/
-		return $lcms_lp;
+		return $lcms_question;
 	}
 }
 

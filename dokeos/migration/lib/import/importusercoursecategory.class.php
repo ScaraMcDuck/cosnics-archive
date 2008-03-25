@@ -13,6 +13,6 @@ abstract class ImportUserCourseCategory extends Import
 {
 	abstract function is_valid_user_course_category();
 	abstract function convert_to_new_user_course_categorie();
-	abstract static function get_all_users_courses_categories();
+	abstract static function get_all($parameters);
 }
 ?>

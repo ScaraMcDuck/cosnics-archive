@@ -157,10 +157,10 @@ class Dokeos185Quiz
 	{
 		self :: $mgdm = $parameters['mgdm'];
 
-		if($array['del_files'] =! 1)
+		if($parameters['del_files'] =! 1)
 			$tool_name = 'quiz';
 		
-		$coursedb = $array['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'quiz';
 		$classname = 'Dokeos185Quiz';
 			
@@ -215,13 +215,13 @@ class Dokeos185Quiz
 			$lcms_exercise->set_parent_id($lcms_category_id);	
 		}
 		
-		if(!$this->get_name())
+		if(!$this->get_title())
 			$lcms_exercise->set_title(substr($this->get_description(),0,20));
 		else
-			$lcms_exercise->set_title($this->get_name());
+			$lcms_exercise->set_title($this->get_title());
 		
 		if(!$this->get_description())
-			$lcms_exercise->set_description($this->get_name());
+			$lcms_exercise->set_description($this->get_title());
 		else
 			$lcms_exercise->set_description($this->get_description());
 		

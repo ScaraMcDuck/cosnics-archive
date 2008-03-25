@@ -12,6 +12,6 @@ abstract class ImportClass extends Import
 {
 	abstract function is_valid_class();
 	abstract function convert_to_new_class();
-	abstract static function get_all_classes();
+	abstract static function get_all($parameters);
 }
 ?>

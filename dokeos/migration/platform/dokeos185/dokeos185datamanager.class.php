@@ -265,7 +265,6 @@ class Dokeos185DataManager extends MigrationDataManager
 		if($tool_name)
 			$query = $query . ' WHERE id IN (SELECT ref FROM item_property WHERE ' .
 					'tool=\''. $tool_name . '\' AND visibility <> 2);';
-		
 		$result = $this->db->query($query);
 		
 		return $this->mapper($result, $classname);

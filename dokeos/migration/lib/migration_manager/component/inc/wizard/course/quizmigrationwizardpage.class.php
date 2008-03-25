@@ -39,7 +39,7 @@ class QuizMigrationWizardPage extends MigrationWizardPage
 		{
 			case 0: return Translation :: get_lang('Quizzes');
 			case 1: return Translation :: get_lang('Quiz_questions');
-			case 2: return Translation :: get_lang('Quiz_answers');
+			//case 2: return Translation :: get_lang('Quiz_answers');
 			default: return Translation :: get_lang('Quizzes'); 
 		}
 	}
@@ -88,9 +88,8 @@ class QuizMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 					
-					$this->migrate('Quiz', array('mgdm' => $this->mgdm), array(), $course);
-					$this->migrate('QuizQuestion', array('mgdm' => $this->mgdm), array(), $course);
-					$this->migrate('QuizAnswer', array('mgdm' => $this->mgdm), array(), $course);
+					$this->migrate('Quiz', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
+					$this->migrate('QuizQuestion', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
 					
 					unset($courses[$i]);
 				}

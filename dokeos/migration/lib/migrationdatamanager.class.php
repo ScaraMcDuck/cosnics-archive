@@ -319,7 +319,7 @@ abstract class MigrationDataManager
 		 	throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
 		 }
 		 $defaultProp = array ();
-		 
+
 		 $class = new $classname($defaultProp);
 		 
 		 foreach ($class->get_default_property_names() as $prop)

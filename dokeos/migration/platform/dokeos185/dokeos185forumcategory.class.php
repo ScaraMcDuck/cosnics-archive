@@ -155,16 +155,8 @@ class Dokeos185ForumCategory
 		$lcms_forum_category->set_title($this->get_cat_title());
 		
 		$old_id = $this->get_cat_id();
-		$index = 0;
-		while(self :: $mgdm->code_available('weblcms_learning_object_publication_category',$this->get_cat_id()))
-		{
-			$this->set_code($this->get_cat_id() . ($index ++));
-		}
 		
-		$lcms_forum_category->set_id($this->get_cat_id());
 		
-		//Add id references to temp table
-		self :: $mgdm->add_id_reference($old_id, $lcms_forum_category->get_id(), 'weblcms_learning_object_publication_category');
 		
 		$lcms_forum_category->set_course(self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course'));
 		
@@ -172,6 +164,10 @@ class Dokeos185ForumCategory
 		
 		//create course_category in database
 		$lcms_forum_category->create();
+		
+		//Add id references to temp table
+		self :: $mgdm->add_id_reference($old_id, $lcms_forum_category->get_id(), 'weblcms_learning_object_publication_category');
+		
 		return $lcms_forum_category;
 	}
 	

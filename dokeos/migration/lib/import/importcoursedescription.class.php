@@ -10,8 +10,8 @@
  */
 abstract class ImportCourseDescription extends Import
 {
-	abstract function is_valid_course_description($course);
-	abstract function convert_to_new_course_description($course);
-	abstract static function get_all_course_descriptions($mgdm, $db);
+	abstract function is_valid($array);
+	abstract function convert_to_lcms($array);
+	abstract static function get_all($array);
 }
 ?>
