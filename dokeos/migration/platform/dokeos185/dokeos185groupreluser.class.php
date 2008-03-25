@@ -143,10 +143,15 @@ class Dokeos185GroupRelUser extends ImportGroupRelUser
 		
 	}
 	
-	function get_all_group_rel_tutor($db, $mgdm)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_group_rel_tutor($db);
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$coursedb = $parameters['course'];
+		$tablename = 'group_rel_user';
+		$classname = 'Dokeos185GroupRelUser';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
 }
 ?>
