@@ -129,6 +129,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 			
 					$this->migrate_documents($course);
 					unset($courses[$i]);
+					flush();
 				}
 			}
 			else
