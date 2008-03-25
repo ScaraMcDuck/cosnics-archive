@@ -78,7 +78,7 @@ class MigrationWizardDisplay extends HTML_QuickForm_Action_Display
 
 		echo '<div id="dynamic_div" style="display:block;margin-left:40%;margin-top:10px;height:50px;"></div>';
 		echo '<script language="javascript" src="'.Path :: get_path(WEB_LIB_PATH).'javascript/upload.js" type="text/javascript"></script>';
-		echo '<script type="text/javascript">var myUpload = new upload('.(abs(intval($delay))*1000).'); myUpload.start(\'dynamic_div\',\''.Path :: get_path(WEB_IMG_PATH).'progress_bar.gif\',\'' .Translation :: get_lang('PleaseStandBy').'\',\'null);</script>';
+		echo '<script type="text/javascript">var myUpload = new upload('.(abs(intval($delay))*1000).'); myUpload.start(\'dynamic_div\',\''.Path :: get_path(WEB_IMG_PATH).'progress_bar.gif\',\'' .Translation :: get_lang('PleaseStandBy').'\',\'\');</script>';
 
 		flush();
 
