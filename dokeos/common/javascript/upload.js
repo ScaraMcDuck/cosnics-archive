@@ -6,6 +6,7 @@
  * Upload class. Used to pack functions into one practical object.
  * Call like this: var myUpload = new upload(5);
  */
+
 function upload(latency){ 
 	/**
 	 * Starts the timer
@@ -36,9 +37,11 @@ function upload(latency){
 	{
 		clearTimeout(__progress_bar_interval);
 		document.getElementById(__progress_bar_domid).innerHTML = null;
+		document.getElementById(__progress_bar_domid).style.display = 'none';
 	}
 
 	this.start = start;
+	this.stop = stop;
 	var __progress_bar_domid = '';
 	var __progress_bar_img = '../img/progress_bar.gif';
 	var __progress_bar_text = 'Uploading... Please wait';
