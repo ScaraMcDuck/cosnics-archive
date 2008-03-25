@@ -14,12 +14,12 @@ require_once dirname(__FILE__) . '/../../../../../../users/lib/usersdatamanager.
  */
 class UsersMigrationWizardPage extends MigrationWizardPage
 {
-	private $logfile;
-	private $mgdm;
-	private $old_system;
+	//private $logfile;
+	//private $mgdm;
+	//private $old_system;
 	private $failed_users = array();
 	private $users_succes = 0;
-	private $command_execute;
+	//private $command_execute;
 	
 	function UsersMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{

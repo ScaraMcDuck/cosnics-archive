@@ -304,6 +304,16 @@ class Dokeos185DataManager extends MigrationDataManager
 		return $list;
 	}
 	
+	
+	function get_all_question_answer($database,$id)
+	{
+		$this->db_connect($database);
+		$query = 'SELECT * FROM quiz_answer WHERE question_id = ' . $id;
+		$result = $this->db->query($query);
+		
+		return $this->mapper($result, 'Dokeos185QuizAnswer');
+		
+	}
 }
 
 ?>

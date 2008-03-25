@@ -16,6 +16,13 @@ require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/categ
  */
 class Dokeos185ForumForum
 {
+	/** 
+	 * Migration data manager
+	 */
+	private static $mgdm;
+	
+	private $item_property;
+	
 	/**
 	 * Dokeos185ForumForum properties
 	 */
@@ -76,7 +83,7 @@ class Dokeos185ForumForum
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_FORUM_ID, SELF :: PROPERTY_FORUM_TITLE, SELF :: PROPERTY_FORUM_COMMENT, SELF :: PROPERTY_FORUM_THREADS, SELF :: PROPERTY_FORUM_POSTS, SELF :: PROPERTY_FORUM_LAST_POST, SELF :: PROPERTY_FORUM_CATEGORY, SELF :: PROPERTY_ALLOW_ANONYMOUS, SELF :: PROPERTY_ALLOW_EDIT, SELF :: PROPERTY_APPROVAL_DIRECT_POST, SELF :: PROPERTY_ALLOW_ATTACHMENTS, SELF :: PROPERTY_ALLOW_NEW_THREADS, SELF :: PROPERTY_DEFAULT_VIEW, SELF :: PROPERTY_FORUM_OF_GROUP, SELF :: PROPERTY_FORUM_GROUP_PUBLIC_PRIVATE, SELF :: PROPERTY_FORUM_ORDER, SELF :: PROPERTY_LOCKED, SELF :: PROPERTY_SESSION_ID);
+		return array (self :: PROPERTY_FORUM_ID, self :: PROPERTY_FORUM_TITLE, self :: PROPERTY_FORUM_COMMENT, self :: PROPERTY_FORUM_THREADS, self :: PROPERTY_FORUM_POSTS, self :: PROPERTY_FORUM_LAST_POST, self :: PROPERTY_FORUM_CATEGORY, self :: PROPERTY_ALLOW_ANONYMOUS, self :: PROPERTY_ALLOW_EDIT, self :: PROPERTY_APPROVAL_DIRECT_POST, self :: PROPERTY_ALLOW_ATTACHMENTS, self :: PROPERTY_ALLOW_NEW_THREADS, self :: PROPERTY_DEFAULT_VIEW, self :: PROPERTY_FORUM_OF_GROUP, self :: PROPERTY_FORUM_GROUP_PUBLIC_PRIVATE, self :: PROPERTY_FORUM_ORDER, self :: PROPERTY_LOCKED, self :: PROPERTY_SESSION_ID);
 	}
 
 	/**
@@ -261,9 +268,9 @@ class Dokeos185ForumForum
 
 	function is_valid($array)
 	{
-		$course = $array[0];
-		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'forum',$this->get_id());	
-
+		$course = $array['course'];
+		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'forum',$this->get_forum_id());	
+		
 		if(!$this->get_forum_id() || !($this->get_forum_title() || $this->get_comment())
 			|| !$this->item_property->get_insert_date())
 		{		 
@@ -277,7 +284,7 @@ class Dokeos185ForumForum
 	function convert_to_lcms($array)
 	{
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
-		$course = $array[0];
+		$course = $array['course'];
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
 		if(!$new_user_id)
@@ -290,13 +297,13 @@ class Dokeos185ForumForum
 		
 		// Category for announcements already exists?
 		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
-			Translation :: get_lang('forums'));
+			Translation :: get_lang('Forums'));
 		if(!$lcms_category_id)
 		{
 			//Create category for tool in lcms
 			$lcms_repository_category = new Category();
 			$lcms_repository_category->set_owner_id($new_user_id);
-			$lcms_repository_category->set_title(Translation :: get_lang('forums'));
+			$lcms_repository_category->set_title(Translation :: get_lang('Forums'));
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
@@ -366,6 +373,7 @@ class Dokeos185ForumForum
 			$publication->create();
 		}
 		*/
+		
 		return $lcms_forum;
 	}
 	
@@ -373,10 +381,10 @@ class Dokeos185ForumForum
 	{
 		self :: $mgdm = $parameters['mgdm'];
 
-		if($array['del_files'] =! 1)
+		if($parameters['del_files'] =! 1)
 			$tool_name = 'forum_forum';
 		
-		$coursedb = $array['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'forum_forum';
 		$classname = 'Dokeos185ForumForum';
 			

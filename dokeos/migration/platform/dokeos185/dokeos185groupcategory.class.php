@@ -31,8 +31,8 @@ class Dokeos185GroupCategory extends ImportGroupCategory
 	const PROPERTY_WORK_STATE = 'work_state';
 	const PROPERTY_ANNOUNCEMENTS_STATE = 'groups_state';
 	const PROPERTY_DISPLAY_ORDER = 'display_order';
-	const PROPERTY_SELF_REG_ALLOWED = 'self_reg_allowed';
-	const PROPERTY_SELF_UNREG_ALLOWED = 'self_unreg_allowed';
+	const PROPERTY_self_REG_ALLOWED = 'self_reg_allowed';
+	const PROPERTY_self_UNREG_ALLOWED = 'self_unreg_allowed';
 	
 	/**
 	 * Default properties stored in an associative array.
@@ -76,8 +76,8 @@ class Dokeos185GroupCategory extends ImportGroupCategory
 					  self :: PROPERTY_DESCRIPTION, self :: PROPERTY_MAX_STUDENT, 
 					  self :: PROPERTY_DOC_STATE, self :: PROPERTY_CALENDAR_STATE, 
 					  self :: PROPERTY_WORK_STATE, self :: PROPERTY_ANNOUNCEMENTS_STATE, 
-					  self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_SELF_REG_ALLOWED,
-					  self :: PROPERTY_SELF_UNREG_ALLOWED);
+					  self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_self_REG_ALLOWED,
+					  self :: PROPERTY_self_UNREG_ALLOWED);
 	}
 	
 	/**
@@ -195,7 +195,7 @@ class Dokeos185GroupCategory extends ImportGroupCategory
 	 */
 	function get_self_reg_allowed()
 	{
-		return $this->get_default_property(self :: PROPERTY_SELF_REG_ALLOWED);
+		return $this->get_default_property(self :: PROPERTY_self_REG_ALLOWED);
 	}
 	
 	/**
@@ -204,7 +204,7 @@ class Dokeos185GroupCategory extends ImportGroupCategory
 	 */
 	function get_self_unreg_allowed()
 	{
-		return $this->get_default_property(self :: PROPERTY_SELF_UNREG_ALLOWED);
+		return $this->get_default_property(self :: PROPERTY_self_UNREG_ALLOWED);
 	}
 	
 	function is_valid_group_category($course)

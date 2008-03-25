@@ -13,6 +13,11 @@ require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobje
  */
 class Dokeos185ForumCategory
 {
+	/** 
+	 * Migration data manager
+	 */
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185ForumCategory properties
 	 */
@@ -60,7 +65,7 @@ class Dokeos185ForumCategory
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_CAT_ID, SELF :: PROPERTY_CAT_TITLE, SELF :: PROPERTY_CAT_COMMENT, SELF :: PROPERTY_CAT_ORDER, SELF :: PROPERTY_LOCKED);
+		return array (self :: PROPERTY_CAT_ID, self :: PROPERTY_CAT_TITLE, self :: PROPERTY_CAT_COMMENT, self :: PROPERTY_CAT_ORDER, self :: PROPERTY_LOCKED);
 	}
 
 	/**
@@ -128,7 +133,7 @@ class Dokeos185ForumCategory
 
 	function is_valid($array)
 	{
-		$course = $array[0];
+		$course = $array['course'];
 		if(!($this->get_cat_title() || $this->get_cat_comment()))
 		{
 			self :: $mgdm->add_failed_element($this->get_cat_id(),
@@ -139,14 +144,45 @@ class Dokeos185ForumCategory
 		return true;
 	}
 	
+	/**
+	 * Migration forum category
+	 */
+	function convert_to_lcms($array)
+	{	
+		//Course category parameters
+		$lcms_forum_category = new LearningObjectPublicationCategory();
+		$course = $array['course'];
+		$lcms_forum_category->set_title($this->get_cat_title());
+		
+		$old_id = $this->get_cat_id();
+		$index = 0;
+		while(self :: $mgdm->code_available('weblcms_learning_object_publication_category',$this->get_cat_id()))
+		{
+			$this->set_code($this->get_cat_id() . ($index ++));
+		}
+		
+		$lcms_forum_category->set_id($this->get_cat_id());
+		
+		//Add id references to temp table
+		self :: $mgdm->add_id_reference($old_id, $lcms_forum_category->get_id(), 'weblcms_learning_object_publication_category');
+		
+		$lcms_forum_category->set_course(self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course'));
+		
+		$lcms_forum_category->set_tool('forum');
+		
+		//create course_category in database
+		$lcms_forum_category->create();
+		return $lcms_forum_category;
+	}
+	
 	static function get_all($parameters = array())
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		
-		if($array['del_files'] =! 1)
+		if($parameters['del_files'] =! 1)
 			$tool_name = 'forum_category';
 		
-		$coursedb = $array['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'forum_category';
 		$classname = 'Dokeos185ForumCategory';
 			

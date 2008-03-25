@@ -54,7 +54,7 @@ class Dokeos185ToolIntro
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_INTRO_TEXT);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_INTRO_TEXT);
 	}
 
 	/**

@@ -58,7 +58,7 @@ class Dokeos185DropboxPost
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_FILE_ID, SELF :: PROPERTY_DEST_USER_ID, SELF :: PROPERTY_FEEDBACK_DATE, SELF :: PROPERTY_FEEDBACK, SELF :: PROPERTY_CAT_ID, SELF :: PROPERTY_SESSION_ID);
+		return array (self :: PROPERTY_FILE_ID, self :: PROPERTY_DEST_USER_ID, self :: PROPERTY_FEEDBACK_DATE, self :: PROPERTY_FEEDBACK, self :: PROPERTY_CAT_ID, self :: PROPERTY_SESSION_ID);
 	}
 
 	/**

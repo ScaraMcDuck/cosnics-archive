@@ -12,12 +12,12 @@ require_once dirname(__FILE__) . '/../../../../import.class.php';
  */
 class ClassesMigrationWizardPage extends MigrationWizardPage
 {
-	private $logfile;
-	private $mgdm;
-	private $old_system;
-	private $failed_elements;
-	private $succes;
-	private $command_execute;
+	//private $logfile;
+	//private $mgdm;
+	//private $old_system;
+	//private $failed_elements;
+	//private $succes;
+	//private $command_execute;
 	
 	function ClassesMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{

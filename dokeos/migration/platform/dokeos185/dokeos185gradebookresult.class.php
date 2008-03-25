@@ -57,7 +57,7 @@ class Dokeos185GradebookResult
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_USER_ID, SELF :: PROPERTY_EVALUATION_ID, SELF :: PROPERTY_DATE, SELF :: PROPERTY_SCORE);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_EVALUATION_ID, self :: PROPERTY_DATE, self :: PROPERTY_SCORE);
 	}
 
 	/**

@@ -3,6 +3,12 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importlp.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/learning_path/learning_path.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once 'dokeos185itemproperty.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
+
 /**
  * This class presents a Dokeos185 lp
  *
@@ -10,6 +16,13 @@
  */
 class Dokeos185Lp
 {
+	/** 
+	 * Migration data manager
+	 */
+	private static $mgdm;
+	
+	private $item_property;
+	
 	/**
 	 * Dokeos185Lp properties
 	 */
@@ -69,7 +82,7 @@ class Dokeos185Lp
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_LP_TYPE, SELF :: PROPERTY_NAME, SELF :: PROPERTY_REF, SELF :: PROPERTY_DESCRIPTION, SELF :: PROPERTY_PATH, SELF :: PROPERTY_FORCE_COMMIT, SELF :: PROPERTY_DEFAULT_VIEW_MOD, SELF :: PROPERTY_DEFAULT_ENCODING, SELF :: PROPERTY_DISPLAY_ORDER, SELF :: PROPERTY_CONTENT_MAKER, SELF :: PROPERTY_CONTENT_LOCAL, SELF :: PROPERTY_CONTENT_LICENSE, SELF :: PROPERTY_PREVENT_REINIT, SELF :: PROPERTY_JS_LIB, SELF :: PROPERTY_DEBUG, SELF :: PROPERTY_THEME);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_LP_TYPE, self :: PROPERTY_NAME, self :: PROPERTY_REF, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PATH, self :: PROPERTY_FORCE_COMMIT, self :: PROPERTY_DEFAULT_VIEW_MOD, self :: PROPERTY_DEFAULT_ENCODING, self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_CONTENT_MAKER, self :: PROPERTY_CONTENT_LOCAL, self :: PROPERTY_CONTENT_LICENSE, self :: PROPERTY_PREVENT_REINIT, self :: PROPERTY_JS_LIB, self :: PROPERTY_DEBUG, self :: PROPERTY_THEME);
 	}
 
 	/**
@@ -242,21 +255,129 @@ class Dokeos185Lp
 	{
 		return $this->get_default_property(self :: PROPERTY_THEME);
 	}
-
+	
+	function is_valid($array)
+	{
+		$course = $array['course'];
+		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'learnpath',$this->get_id());	
+		if(!$this->get_id() || !$this->get_lp_type() || !$this->get_name()
+			|| !$this->item_property->get_insert_date())
+		{		 
+			self :: $mgdm->add_failed_element($this->get_id(),
+				$course->get_db_name() . '.lp');
+			return false;
+		}
+		return true;
+	}
+	
+	function convert_to_lcms($array)
+	{
+		$course = $array['course'];
+		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$new_user_id = self :: $mgdm->get_owner($new_course_code);
+		//forum parameters
+		$lcms_lp = new LearningPath();
+		
+		// Category for announcements already exists?
+		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+			Translation :: get_lang('learning_paths'));
+		if(!$lcms_category_id)
+		{
+			//Create category for tool in lcms
+			$lcms_repository_category = new Category();
+			$lcms_repository_category->set_owner_id($new_user_id);
+			$lcms_repository_category->set_title(Translation :: get_lang('learning_paths'));
+			$lcms_repository_category->set_description('...');
+	
+			//Retrieve repository id from course
+			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+				'category', Translation :: get_lang('MyRepository'));
+			$lcms_repository_category->set_parent_id($repository_id);
+			
+			//Create category in database
+			$lcms_repository_category->create();
+			
+			$lcms_lp->set_parent_id($lcms_repository_category->get_id());
+		}
+		else
+		{
+			$lcms_lp->set_parent_id($lcms_category_id);	
+		}
+		
+		if(!$this->get_name())
+			$lcms_lp->set_title(substr($this->get_description(),0,20));
+		else
+			$lcms_lp->set_title($this->get_name());
+		
+		if(!$this->get_description())
+			$lcms_lp->set_description($this->get_name());
+		else
+			$lcms_lp->set_description($this->get_description());
+		
+		$lcms_lp->set_owner_id($new_user_id);
+		$lcms_lp->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
+		$lcms_lp->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+		$lcms_lp->set_display_order_index($this->get_display_order());
+		
+		if($this->item_property->get_visibility() == 2)
+			$lcms_lp->set_state(1);
+		
+		//create announcement in database
+		$lcms_lp->create_all();
+		
+		//Add id references to temp table
+		self :: $mgdm->add_id_reference($this->get_id(), $lcms_lp->get_id(), 'repository_learning_object');
+		
+		/*
+		//publication
+		if($this->item_property->get_visibility() <= 1) 
+		{
+			$publication = new LearningObjectPublication();
+			
+			$publication->set_learning_object($lcms_announcement);
+			$publication->set_course_id($new_course_code);
+			$publication->set_publisher_id($new_user_id);
+			$publication->set_tool('announcement');
+			$publication->set_category_id(0);
+			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
+			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
+			$publication->set_from_date(0);
+			$publication->set_to_date(0);
+			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
+			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+			//$publication->set_modified_date(0);
+			//$publication->set_display_order_index($this->get_display_order());
+			$publication->set_display_order_index(0);
+			
+			if($this->get_email_sent())
+				$publication->set_email_sent($this->get_email_sent());
+			else
+				$publication->set_email_sent(0);
+			
+			$publication->set_hidden($this->item_property->get_visibility() == 1?0:1);
+			
+			//create publication in database
+			$publication->create();
+		}
+		*/
+		return $lcms_lp;
+	}
+	
 	static function get_all($parameters = array())
 	{
 		self :: $mgdm = $parameters['mgdm'];
 
-		if($array['del_files'] =! 1)
+		if($parameters['del_files'] =! 1)
 			$tool_name = 'learnpath';
 		
-		$coursedb = $array['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'lp';
 		$classname = 'Dokeos185Lp';
 			
 		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
-
+	
+	
 }
 
 ?>

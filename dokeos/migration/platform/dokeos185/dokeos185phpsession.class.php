@@ -57,7 +57,7 @@ class Dokeos185PhpSession
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_SESSION_ID, SELF :: PROPERTY_SESSION_NAME, SELF :: PROPERTY_SESSION_TIME, SELF :: PROPERTY_SESSION_START, SELF :: PROPERTY_SESSION_VALUE);
+		return array (self :: PROPERTY_SESSION_ID, self :: PROPERTY_SESSION_NAME, self :: PROPERTY_SESSION_TIME, self :: PROPERTY_SESSION_START, self :: PROPERTY_SESSION_VALUE);
 	}
 
 	/**

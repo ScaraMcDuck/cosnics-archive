@@ -58,7 +58,7 @@ class Dokeos185Language
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_ORIGINAL_NAME, SELF :: PROPERTY_ENGLISH_NAME, SELF :: PROPERTY_ISOCODE, SELF :: PROPERTY_DOKEOS_FOLDER, SELF :: PROPERTY_AVAILABLE);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_ORIGINAL_NAME, self :: PROPERTY_ENGLISH_NAME, self :: PROPERTY_ISOCODE, self :: PROPERTY_DOKEOS_FOLDER, self :: PROPERTY_AVAILABLE);
 	}
 
 	/**

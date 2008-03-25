@@ -58,7 +58,7 @@ class Dokeos185BlogRating
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_RATING_ID, SELF :: PROPERTY_BLOG_ID, SELF :: PROPERTY_RATING_TYPE, SELF :: PROPERTY_ITEM_ID, SELF :: PROPERTY_USER_ID, SELF :: PROPERTY_RATING);
+		return array (self :: PROPERTY_RATING_ID, self :: PROPERTY_BLOG_ID, self :: PROPERTY_RATING_TYPE, self :: PROPERTY_ITEM_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_RATING);
 	}
 
 	/**

@@ -60,7 +60,7 @@ class Dokeos185LpIvObjective
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_LP_IV_ID, SELF :: PROPERTY_ORDER_ID, SELF :: PROPERTY_OBJECTIVE_ID, SELF :: PROPERTY_SCORE_RAW, SELF :: PROPERTY_SCORE_MAX, SELF :: PROPERTY_SCORE_MIN, SELF :: PROPERTY_STATUS);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_LP_IV_ID, self :: PROPERTY_ORDER_ID, self :: PROPERTY_OBJECTIVE_ID, self :: PROPERTY_SCORE_RAW, self :: PROPERTY_SCORE_MAX, self :: PROPERTY_SCORE_MIN, self :: PROPERTY_STATUS);
 	}
 
 	/**

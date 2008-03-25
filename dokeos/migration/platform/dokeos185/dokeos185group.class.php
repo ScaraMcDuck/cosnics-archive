@@ -32,8 +32,8 @@ class Dokeos185Group extends ImportGroup
 	const PROPERTY_WORK_STATE = 'work_state';
 	const PROPERTY_ANNOUNCEMENTS_STATE = 'groups_state';
 	const PROPERTY_SECRET_DIRECTORY = 'secret_directory';
-	const PROPERTY_SELF_REGISTRATION_ALLOWED = 'self_registration_allowed';
-	const PROPERTY_SELF_UNREGISTRATION_ALLOWED = 'self_unregistration_allowed';
+	const PROPERTY_self_REGISTRATION_ALLOWED = 'self_registration_allowed';
+	const PROPERTY_self_UNREGISTRATION_ALLOWED = 'self_unregistration_allowed';
 	
 	/**
 	 * Default properties stored in an associative array.
@@ -77,8 +77,8 @@ class Dokeos185Group extends ImportGroup
 					  self :: PROPERTY_DESCRIPTION, self :: PROPERTY_MAX_STUDENT, 
 					  self :: PROPERTY_DOC_STATE, self :: PROPERTY_CALENDAR_STATE, 
 					  self :: PROPERTY_WORK_STATE, self :: PROPERTY_ANNOUNCEMENTS_STATE, 
-					  self :: PROPERTY_SECRET_DIRECTORY, self :: PROPERTY_SELF_REGISTRATION_ALLOWED,
-					  self :: PROPERTY_SELF_UNREGISTRATION_ALLOWED);
+					  self :: PROPERTY_SECRET_DIRECTORY, self :: PROPERTY_self_REGISTRATION_ALLOWED,
+					  self :: PROPERTY_self_UNREGISTRATION_ALLOWED);
 	}
 	
 	/**
@@ -196,7 +196,7 @@ class Dokeos185Group extends ImportGroup
 	 */
 	function get_self_registration_allowed()
 	{
-		return $this->get_default_property(self :: PROPERTY_SELF_REGISTRATION_ALLOWED);
+		return $this->get_default_property(self :: PROPERTY_self_REGISTRATION_ALLOWED);
 	}
 	
 	/**
@@ -205,7 +205,7 @@ class Dokeos185Group extends ImportGroup
 	 */
 	function get_self_unregistration_allowed()
 	{
-		return $this->get_default_property(self :: PROPERTY_SELF_UNREGISTRATION_ALLOWED);
+		return $this->get_default_property(self :: PROPERTY_self_UNREGISTRATION_ALLOWED);
 	}
 	
 	function is_valid_group($course)

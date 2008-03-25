@@ -62,7 +62,7 @@ class Dokeos185DropboxFeedback
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_FEEDBACK_ID, SELF :: PROPERTY_FILE_ID, SELF :: PROPERTY_AUTHOR_USER_ID, SELF :: PROPERTY_FEEDBACK, SELF :: PROPERTY_FEEDBACK_DATE);
+		return array (self :: PROPERTY_FEEDBACK_ID, self :: PROPERTY_FILE_ID, self :: PROPERTY_AUTHOR_USER_ID, self :: PROPERTY_FEEDBACK, self :: PROPERTY_FEEDBACK_DATE);
 	}
 
 	/**

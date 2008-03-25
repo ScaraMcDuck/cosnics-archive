@@ -57,7 +57,7 @@ class Dokeos185TrackEOnline
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_LOGIN_ID, SELF :: PROPERTY_LOGIN_USER_ID, SELF :: PROPERTY_LOGIN_DATE, SELF :: PROPERTY_LOGIN_IP, SELF :: PROPERTY_COURSE);
+		return array (self :: PROPERTY_LOGIN_ID, self :: PROPERTY_LOGIN_USER_ID, self :: PROPERTY_LOGIN_DATE, self :: PROPERTY_LOGIN_IP, self :: PROPERTY_COURSE);
 	}
 
 	/**

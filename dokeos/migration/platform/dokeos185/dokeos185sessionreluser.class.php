@@ -54,7 +54,7 @@ class Dokeos185SessionRelUser
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID_SESSION, SELF :: PROPERTY_ID_USER);
+		return array (self :: PROPERTY_ID_SESSION, self :: PROPERTY_ID_USER);
 	}
 
 	/**

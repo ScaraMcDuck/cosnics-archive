@@ -55,7 +55,7 @@ class Dokeos185TrackCProviders
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_PROVIDER, SELF :: PROPERTY_COUNTER);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_PROVIDER, self :: PROPERTY_COUNTER);
 	}
 
 	/**

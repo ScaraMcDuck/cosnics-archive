@@ -57,7 +57,7 @@ class Dokeos185SurveyQuestionOption
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_QUESTION_OPTION_ID, SELF :: PROPERTY_QUESTION_ID, SELF :: PROPERTY_SURVEY_ID, SELF :: PROPERTY_OPTION_TEXT, SELF :: PROPERTY_SORT);
+		return array (self :: PROPERTY_QUESTION_OPTION_ID, self :: PROPERTY_QUESTION_ID, self :: PROPERTY_SURVEY_ID, self :: PROPERTY_OPTION_TEXT, self :: PROPERTY_SORT);
 	}
 
 	/**

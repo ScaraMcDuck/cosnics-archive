@@ -54,7 +54,7 @@ class Dokeos185BlogRelUser
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_BLOG_ID, SELF :: PROPERTY_USER_ID);
+		return array (self :: PROPERTY_BLOG_ID, self :: PROPERTY_USER_ID);
 	}
 
 	/**

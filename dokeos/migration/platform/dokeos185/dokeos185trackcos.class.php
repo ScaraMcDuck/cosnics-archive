@@ -55,7 +55,7 @@ class Dokeos185TrackCOs
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_OS, SELF :: PROPERTY_COUNTER);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_OS, self :: PROPERTY_COUNTER);
 	}
 
 	/**

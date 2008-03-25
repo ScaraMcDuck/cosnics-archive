@@ -57,7 +57,7 @@ class Dokeos185TrackEOpen
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_OPEN_ID, SELF :: PROPERTY_OPEN_REMOTE_HOST, SELF :: PROPERTY_OPEN_AGENT, SELF :: PROPERTY_OPEN_REFERER, SELF :: PROPERTY_OPEN_DATE);
+		return array (self :: PROPERTY_OPEN_ID, self :: PROPERTY_OPEN_REMOTE_HOST, self :: PROPERTY_OPEN_AGENT, self :: PROPERTY_OPEN_REFERER, self :: PROPERTY_OPEN_DATE);
 	}
 
 	/**
