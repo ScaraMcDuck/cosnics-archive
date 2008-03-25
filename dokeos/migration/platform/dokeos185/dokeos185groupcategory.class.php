@@ -217,10 +217,15 @@ class Dokeos185GroupCategory extends ImportGroupCategory
 		
 	}
 	
-	static function get_all_group_categories($mgdm,$db)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_groups($db);
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$coursedb = $parameters['course'];
+		$tablename = 'group_category';
+		$classname = 'Dokeos185GroupCategory';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
 	
 }
