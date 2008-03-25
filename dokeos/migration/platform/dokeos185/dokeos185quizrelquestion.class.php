@@ -54,7 +54,7 @@ class Dokeos185QuizRelQuestion
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_QUESTION_ID, SELF :: PROPERTY_EXERCICE_ID);
+		return array (self :: PROPERTY_QUESTION_ID, self :: PROPERTY_EXERCICE_ID);
 	}
 
 	/**

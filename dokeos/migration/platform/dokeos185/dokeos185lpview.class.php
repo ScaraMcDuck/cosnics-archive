@@ -58,7 +58,7 @@ class Dokeos185LpView
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_LP_ID, SELF :: PROPERTY_USER_ID, SELF :: PROPERTY_VIEW_COUNT, SELF :: PROPERTY_LAST_ITEM, SELF :: PROPERTY_PROGRESS);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_LP_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_VIEW_COUNT, self :: PROPERTY_LAST_ITEM, self :: PROPERTY_PROGRESS);
 	}
 
 	/**

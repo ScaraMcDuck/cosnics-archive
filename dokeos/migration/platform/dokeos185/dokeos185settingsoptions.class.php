@@ -56,7 +56,7 @@ class Dokeos185SettingsOptions
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_VARIABLE, SELF :: PROPERTY_VALUE, SELF :: PROPERTY_DISPLAY_TEXT);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_VARIABLE, self :: PROPERTY_VALUE, self :: PROPERTY_DISPLAY_TEXT);
 	}
 
 	/**

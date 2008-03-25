@@ -54,7 +54,7 @@ class Dokeos185OnlineConnected
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_USER_ID, SELF :: PROPERTY_LAST_CONNECTION);
+		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LAST_CONNECTION);
 	}
 
 	/**

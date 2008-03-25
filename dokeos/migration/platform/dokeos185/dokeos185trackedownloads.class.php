@@ -57,7 +57,7 @@ class Dokeos185TrackEDownloads
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_DOWN_ID, SELF :: PROPERTY_DOWN_USER_ID, SELF :: PROPERTY_DOWN_DATE, SELF :: PROPERTY_DOWN_COURS_ID, SELF :: PROPERTY_DOWN_DOC_PATH);
+		return array (self :: PROPERTY_DOWN_ID, self :: PROPERTY_DOWN_USER_ID, self :: PROPERTY_DOWN_DATE, self :: PROPERTY_DOWN_COURS_ID, self :: PROPERTY_DOWN_DOC_PATH);
 	}
 
 	/**

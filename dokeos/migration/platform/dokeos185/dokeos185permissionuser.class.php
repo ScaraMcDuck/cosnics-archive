@@ -56,7 +56,7 @@ class Dokeos185PermissionUser
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_USER_ID, SELF :: PROPERTY_TOOL, SELF :: PROPERTY_ACTION);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_TOOL, self :: PROPERTY_ACTION);
 	}
 
 	/**

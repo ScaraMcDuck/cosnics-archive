@@ -60,7 +60,7 @@ class Dokeos185Session
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_ID_COACH, SELF :: PROPERTY_NAME, SELF :: PROPERTY_NBR_COURSES, SELF :: PROPERTY_NBR_USERS, SELF :: PROPERTY_NBR_CLASSES, SELF :: PROPERTY_DATE_START, SELF :: PROPERTY_DATE_END);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_ID_COACH, self :: PROPERTY_NAME, self :: PROPERTY_NBR_COURSES, self :: PROPERTY_NBR_USERS, self :: PROPERTY_NBR_CLASSES, self :: PROPERTY_DATE_START, self :: PROPERTY_DATE_END);
 	}
 
 	/**

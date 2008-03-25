@@ -3,13 +3,27 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importforumthread.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/forum_topic/forum_topic.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once 'dokeos185itemproperty.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
+
 /**
  * This class presents a Dokeos185 forum_thread
  *
- * @author Sven Vanpoucke
+ * @author Vanpoucke Sven
+ * @author Van Wayenbergh David
  */
 class Dokeos185ForumThread
 {
+	/** 
+	 * Migration data manager
+	 */
+	private static $mgdm;
+	
+	private $item_property;	
+
 	/**
 	 * Dokeos185ForumThread properties
 	 */
@@ -63,7 +77,7 @@ class Dokeos185ForumThread
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_THREAD_ID, SELF :: PROPERTY_THREAD_TITLE, SELF :: PROPERTY_FORUM_ID, SELF :: PROPERTY_THREAD_REPLIES, SELF :: PROPERTY_THREAD_POSTER_ID, SELF :: PROPERTY_THREAD_POSTER_NAME, SELF :: PROPERTY_THREAD_VIEWS, SELF :: PROPERTY_THREAD_LAST_POST, SELF :: PROPERTY_THREAD_DATE, SELF :: PROPERTY_THREAD_STICKY, SELF :: PROPERTY_LOCKED);
+		return array (self :: PROPERTY_THREAD_ID, self :: PROPERTY_THREAD_TITLE, self :: PROPERTY_FORUM_ID, self :: PROPERTY_THREAD_REPLIES, self :: PROPERTY_THREAD_POSTER_ID, self :: PROPERTY_THREAD_POSTER_NAME, self :: PROPERTY_THREAD_VIEWS, self :: PROPERTY_THREAD_LAST_POST, self :: PROPERTY_THREAD_DATE, self :: PROPERTY_THREAD_STICKY, self :: PROPERTY_LOCKED);
 	}
 
 	/**
@@ -183,20 +197,123 @@ class Dokeos185ForumThread
 		return $this->get_default_property(self :: PROPERTY_LOCKED);
 	}
 
+
+	function is_valid($array)
+	{
+		$course = $array['course'];
+		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'forum_thread',$this->get_thread_id());	
+
+		if(!$this->get_thread_id() || !$this->get_thread_title() 
+			|| !$this->item_property->get_insert_date())
+		{		 
+			self :: $mgdm->add_failed_element($this->get_id(),
+				$course->get_db_name() . '.forum_thread');
+			return false;
+		}
+		return true;
+	}
+	
+	function convert_to_lcms($array)
+	{
+		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
+		$course = $array['course'];
+		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		
+		if(!$new_user_id)
+		{
+			$new_user_id = self :: $mgdm->get_owner($new_course_code);
+		}
+		
+		//forum parameters
+		$lcms_forum_topic = new ForumTopic();
+		
+		// Category for announcements already exists?
+		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+			Translation :: get_lang('Forum_threads'));
+		if(!$lcms_category_id)
+		{
+			//Create category for tool in lcms
+			$lcms_repository_category = new Category();
+			$lcms_repository_category->set_owner_id($new_user_id);
+			$lcms_repository_category->set_title(Translation :: get_lang('Forum_threads'));
+			$lcms_repository_category->set_description('...');
+	
+			//Retrieve repository id from course
+			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+				'category', Translation :: get_lang('MyRepository'));
+			$lcms_repository_category->set_parent_id($repository_id);
+			
+			//Create category in database
+			$lcms_repository_category->create();
+			
+			$lcms_forum_topic->set_parent_id($lcms_repository_category->get_id());
+		}
+		else
+		{
+			$lcms_forum_topic->set_parent_id($lcms_category_id);	
+		}
+		
+		$lcms_forum_topic->set_title($this->get_thread_title());
+		
+		$lcms_forum_topic->set_description('...');
+		
+		$lcms_forum_topic->set_owner_id($new_user_id);
+		$lcms_forum_topic->set_creation_date(self :: $mgdm->make_unix_time($this->get_thread_date()));
+		$lcms_forum_topic->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+		
+		if($this->item_property->get_visibility() == 2)
+			$lcms_forum_topic->set_state(1);
+		
+		//create announcement in database
+		$lcms_forum_topic->create_all();
+		
+		/*
+		//publication
+		if($this->item_property->get_visibility() <= 1) 
+		{
+			$publication = new LearningObjectPublication();
+			
+			$publication->set_learning_object($lcms_announcement);
+			$publication->set_course_id($new_course_code);
+			$publication->set_publisher_id($new_user_id);
+			$publication->set_tool('announcement');
+			$publication->set_category_id(0);
+			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
+			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
+			$publication->set_from_date(0);
+			$publication->set_to_date(0);
+			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
+			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+			//$publication->set_modified_date(0);
+			//$publication->set_display_order_index($this->get_display_order());
+			$publication->set_display_order_index(0);
+			
+			if($this->get_email_sent())
+				$publication->set_email_sent($this->get_email_sent());
+			else
+				$publication->set_email_sent(0);
+			
+			$publication->set_hidden($this->item_property->get_visibility() == 1?0:1);
+			
+			//create publication in database
+			$publication->create();
+		}
+		*/
+		return $lcms_forum_topic;
+	}
 	static function get_all($parameters = array())
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		
-		if($array['del_files'] =! 1)
+		if($parameters['del_files'] =! 1)
 			$tool_name = 'forum_thread';
 		
-		$coursedb = $array['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'forum_thread';
 		$classname = 'Dokeos185ForumThread';
 			
 		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
-
 }
 
 ?>

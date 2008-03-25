@@ -55,7 +55,7 @@ class Dokeos185GradebookScoreDisplay
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_SCORE, SELF :: PROPERTY_DISPLAY);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_SCORE, self :: PROPERTY_DISPLAY);
 	}
 
 	/**

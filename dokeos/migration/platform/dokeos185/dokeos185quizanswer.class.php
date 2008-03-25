@@ -61,7 +61,7 @@ class Dokeos185QuizAnswer
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_QUESTION_ID, SELF :: PROPERTY_ANSWER, SELF :: PROPERTY_CORRECT, SELF :: PROPERTY_COMMENT, SELF :: PROPERTY_PONDERATION, SELF :: PROPERTY_POSITION, SELF :: PROPERTY_HOTSPOT_COORDINATES, SELF :: PROPERTY_HOTSPOT_TYPE);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_QUESTION_ID, self :: PROPERTY_ANSWER, self :: PROPERTY_CORRECT, self :: PROPERTY_COMMENT, self :: PROPERTY_PONDERATION, self :: PROPERTY_POSITION, self :: PROPERTY_HOTSPOT_COORDINATES, self :: PROPERTY_HOTSPOT_TYPE);
 	}
 
 	/**
@@ -162,21 +162,6 @@ class Dokeos185QuizAnswer
 	{
 		return $this->get_default_property(self :: PROPERTY_HOTSPOT_TYPE);
 	}
-	
-	static function get_all($parameters = array())
-	{
-		self :: $mgdm = $parameters['mgdm'];
-
-		if($array['del_files'] =! 1)
-			$tool_name = 'quiz_answer';
-		
-		$coursedb = $array['course'];
-		$tablename = 'quiz_answer';
-		$classname = 'Dokeos185QuizAnswer';
-			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
-	}
-
 
 }
 

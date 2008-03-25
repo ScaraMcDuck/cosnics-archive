@@ -55,7 +55,7 @@ class Dokeos185ForumMailcue
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_THREAD_ID, SELF :: PROPERTY_USER_ID, SELF :: PROPERTY_POST_ID);
+		return array (self :: PROPERTY_THREAD_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_POST_ID);
 	}
 
 	/**

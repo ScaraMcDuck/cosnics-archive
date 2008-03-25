@@ -10,6 +10,15 @@
  */
 class Dokeos185StudentPublication
 {
+	/** 
+	 * Migration data manager
+	 */
+	private static $mgdm;
+	
+	private $item_property;
+	
+	private static $files = array();
+	
 	/**
 	 * Dokeos185StudentPublication properties
 	 */
@@ -61,7 +70,7 @@ class Dokeos185StudentPublication
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_URL, SELF :: PROPERTY_TITLE, SELF :: PROPERTY_DESCRIPTION, SELF :: PROPERTY_AUTHOR, SELF :: PROPERTY_ACTIVE, SELF :: PROPERTY_ACCEPTED, SELF :: PROPERTY_POST_GROUP_ID, SELF :: PROPERTY_SENT_DATE);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_URL, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_AUTHOR, self :: PROPERTY_ACTIVE, self :: PROPERTY_ACCEPTED, self :: PROPERTY_POST_GROUP_ID, self :: PROPERTY_SENT_DATE);
 	}
 
 	/**
@@ -163,9 +172,9 @@ class Dokeos185StudentPublication
 		return $this->get_default_property(self :: PROPERTY_SENT_DATE);
 	}
 
-	function is_valid($courses)
+	function is_valid($array)
 	{
-		$course = $courses[0];
+		$course = $array[0];
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'work',$this->get_id());	
 		
 		if(!$this->get_id() || !$this->get_url() ||
@@ -190,7 +199,7 @@ class Dokeos185StudentPublication
 		}
 		
 		$new_path = $new_user_id . '/';
-		$old_rel_path = 'courses/' . $course->get_code() . '/' . $this->get_url();
+		$old_rel_path = 'courses/' . $course->get_code() . '/' . dirname($this->get_url());
 
 		$new_rel_path = 'files/repository/' . $new_path;
 		$filename = basename($this->get_url());
@@ -214,13 +223,14 @@ class Dokeos185StudentPublication
 				//document parameters
 				$lcms_document = new Document();
 	
-				$lcms_document->set_filesize($this->get_filesize());
 				if($this->get_title())
 					$lcms_document->set_title($this->get_title());
 				else
 					$lcms_document->set_title($filename);
-				$lcms_document->set_description('...');
-				
+				if(!$this->get_description())
+					$lcms_document->set_description('...');
+				else
+					$lcms_document->set_description($this->get_description());
 				$lcms_document->set_owner_id($new_user_id);
 				$lcms_document->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
 				$lcms_document->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
@@ -229,16 +239,16 @@ class Dokeos185StudentPublication
 				
 				// Category for announcements already exists?
 				$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
-					Translation :: get_lang('dropbox'));
+					Translation :: get_lang('student_publication'));
 				if(!$lcms_category_id)
 				{
 					//Create category for tool in lcms
 					$lcms_repository_category = new Category();
 					$lcms_repository_category->set_owner_id($new_user_id);
-					$lcms_repository_category->set_title(Translation :: get_lang('dropboxes'));
+					$lcms_repository_category->set_title(Translation :: get_lang('student_publications'));
 					$lcms_repository_category->set_description('...');
 			
-					//Retrieve repository id from dropbox
+					//Retrieve repository id from student_publications
 					$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
 						'category', Translation :: get_lang('MyRepository'));
 					$lcms_repository_category->set_parent_id($repository_id);
@@ -261,7 +271,6 @@ class Dokeos185StudentPublication
 				
 				self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(true,$new_rel_path . $file))] = $lcms_document->get_id();
 			}
-			
 		}
 		else
 		{

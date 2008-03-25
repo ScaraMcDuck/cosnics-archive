@@ -57,7 +57,7 @@ class Dokeos185TrackELinks
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_LINKS_ID, SELF :: PROPERTY_LINKS_USER_ID, SELF :: PROPERTY_LINKS_DATE, SELF :: PROPERTY_LINKS_COURS_ID, SELF :: PROPERTY_LINKS_LINK_ID);
+		return array (self :: PROPERTY_LINKS_ID, self :: PROPERTY_LINKS_USER_ID, self :: PROPERTY_LINKS_DATE, self :: PROPERTY_LINKS_COURS_ID, self :: PROPERTY_LINKS_LINK_ID);
 	}
 
 	/**

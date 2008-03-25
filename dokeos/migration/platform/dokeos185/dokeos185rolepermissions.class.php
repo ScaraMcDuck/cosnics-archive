@@ -56,7 +56,7 @@ class Dokeos185RolePermissions
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ROLE_ID, SELF :: PROPERTY_TOOL, SELF :: PROPERTY_ACTION, SELF :: PROPERTY_DEFAULT_PERM);
+		return array (self :: PROPERTY_ROLE_ID, self :: PROPERTY_TOOL, self :: PROPERTY_ACTION, self :: PROPERTY_DEFAULT_PERM);
 	}
 
 	/**

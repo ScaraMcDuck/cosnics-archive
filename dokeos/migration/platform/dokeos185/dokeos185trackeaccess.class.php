@@ -57,7 +57,7 @@ class Dokeos185TrackEAccess
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ACCESS_ID, SELF :: PROPERTY_ACCESS_USER_ID, SELF :: PROPERTY_ACCESS_DATE, SELF :: PROPERTY_ACCESS_COURS_CODE, SELF :: PROPERTY_ACCESS_TOOL);
+		return array (self :: PROPERTY_ACCESS_ID, self :: PROPERTY_ACCESS_USER_ID, self :: PROPERTY_ACCESS_DATE, self :: PROPERTY_ACCESS_COURS_CODE, self :: PROPERTY_ACCESS_TOOL);
 	}
 
 	/**

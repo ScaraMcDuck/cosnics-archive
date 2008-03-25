@@ -55,7 +55,7 @@ class Dokeos185SessionRelCourseRelUser
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID_SESSION, SELF :: PROPERTY_COURSE_CODE, SELF :: PROPERTY_ID_USER);
+		return array (self :: PROPERTY_ID_SESSION, self :: PROPERTY_COURSE_CODE, self :: PROPERTY_ID_USER);
 	}
 
 	/**

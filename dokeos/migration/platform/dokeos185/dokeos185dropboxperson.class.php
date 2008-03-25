@@ -54,7 +54,7 @@ class Dokeos185DropboxPerson
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_FILE_ID, SELF :: PROPERTY_USER_ID);
+		return array (self :: PROPERTY_FILE_ID, self :: PROPERTY_USER_ID);
 	}
 
 	/**

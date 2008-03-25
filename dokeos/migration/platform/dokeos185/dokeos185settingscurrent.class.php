@@ -4,23 +4,24 @@
  */
 
 /**
- * This class presents a dokeos185 course_setting
+ * This class presents a dokeos185 settings_current
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185CourseSetting
+class Dokeos185SettingsCurrent
 {
 	/**
-	 * Dokeos185CourseSetting properties
+	 * Dokeos185SettingsCurrent properties
 	 */
 	const PROPERTY_ID = 'id';
 	const PROPERTY_VARIABLE = 'variable';
 	const PROPERTY_SUBKEY = 'subkey';
 	const PROPERTY_TYPE = 'type';
 	const PROPERTY_CATEGORY = 'category';
-	const PROPERTY_VALUE = 'value';
+	const PROPERTY_SELECTED_VALUE = 'selected_value';
 	const PROPERTY_TITLE = 'title';
 	const PROPERTY_COMMENT = 'comment';
+	const PROPERTY_SCOPE = 'scope';
 	const PROPERTY_SUBKEYTEXT = 'subkeytext';
 
 	/**
@@ -29,10 +30,10 @@ class Dokeos185CourseSetting
 	private $defaultProperties;
 
 	/**
-	 * Creates a new Dokeos185CourseSetting object
+	 * Creates a new Dokeos185SettingsCurrent object
 	 * @param array $defaultProperties The default properties
 	 */
-	function Dokeos185CourseSetting($defaultProperties = array ())
+	function Dokeos185SettingsCurrent($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
@@ -61,7 +62,7 @@ class Dokeos185CourseSetting
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_VARIABLE, self :: PROPERTY_SUBKEY, self :: PROPERTY_TYPE, self :: PROPERTY_CATEGORY, self :: PROPERTY_VALUE, self :: PROPERTY_TITLE, self :: PROPERTY_COMMENT, self :: PROPERTY_SUBKEYTEXT);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_VARIABLE, self :: PROPERTY_SUBKEY, self :: PROPERTY_TYPE, self :: PROPERTY_CATEGORY, self :: PROPERTY_SELECTED_VALUE, self :: PROPERTY_TITLE, self :: PROPERTY_COMMENT, self :: PROPERTY_SCOPE, self :: PROPERTY_SUBKEYTEXT);
 	}
 
 	/**
@@ -83,7 +84,7 @@ class Dokeos185CourseSetting
 	}
 
 	/**
-	 * Returns the id of this Dokeos185CourseSetting.
+	 * Returns the id of this Dokeos185SettingsCurrent.
 	 * @return the id.
 	 */
 	function get_id()
@@ -92,7 +93,7 @@ class Dokeos185CourseSetting
 	}
 
 	/**
-	 * Sets the id of this Dokeos185CourseSetting.
+	 * Sets the id of this Dokeos185SettingsCurrent.
 	 * @param id
 	 */
 	function set_id($id)
@@ -100,7 +101,7 @@ class Dokeos185CourseSetting
 		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
 	/**
-	 * Returns the variable of this Dokeos185CourseSetting.
+	 * Returns the variable of this Dokeos185SettingsCurrent.
 	 * @return the variable.
 	 */
 	function get_variable()
@@ -109,7 +110,7 @@ class Dokeos185CourseSetting
 	}
 
 	/**
-	 * Sets the variable of this Dokeos185CourseSetting.
+	 * Sets the variable of this Dokeos185SettingsCurrent.
 	 * @param variable
 	 */
 	function set_variable($variable)
@@ -117,7 +118,7 @@ class Dokeos185CourseSetting
 		$this->set_default_property(self :: PROPERTY_VARIABLE, $variable);
 	}
 	/**
-	 * Returns the subkey of this Dokeos185CourseSetting.
+	 * Returns the subkey of this Dokeos185SettingsCurrent.
 	 * @return the subkey.
 	 */
 	function get_subkey()
@@ -126,7 +127,7 @@ class Dokeos185CourseSetting
 	}
 
 	/**
-	 * Sets the subkey of this Dokeos185CourseSetting.
+	 * Sets the subkey of this Dokeos185SettingsCurrent.
 	 * @param subkey
 	 */
 	function set_subkey($subkey)
@@ -134,7 +135,7 @@ class Dokeos185CourseSetting
 		$this->set_default_property(self :: PROPERTY_SUBKEY, $subkey);
 	}
 	/**
-	 * Returns the type of this Dokeos185CourseSetting.
+	 * Returns the type of this Dokeos185SettingsCurrent.
 	 * @return the type.
 	 */
 	function get_type()
@@ -143,7 +144,7 @@ class Dokeos185CourseSetting
 	}
 
 	/**
-	 * Sets the type of this Dokeos185CourseSetting.
+	 * Sets the type of this Dokeos185SettingsCurrent.
 	 * @param type
 	 */
 	function set_type($type)
@@ -151,7 +152,7 @@ class Dokeos185CourseSetting
 		$this->set_default_property(self :: PROPERTY_TYPE, $type);
 	}
 	/**
-	 * Returns the category of this Dokeos185CourseSetting.
+	 * Returns the category of this Dokeos185SettingsCurrent.
 	 * @return the category.
 	 */
 	function get_category()
@@ -160,7 +161,7 @@ class Dokeos185CourseSetting
 	}
 
 	/**
-	 * Sets the category of this Dokeos185CourseSetting.
+	 * Sets the category of this Dokeos185SettingsCurrent.
 	 * @param category
 	 */
 	function set_category($category)
@@ -168,24 +169,24 @@ class Dokeos185CourseSetting
 		$this->set_default_property(self :: PROPERTY_CATEGORY, $category);
 	}
 	/**
-	 * Returns the value of this Dokeos185CourseSetting.
-	 * @return the value.
+	 * Returns the selected_value of this Dokeos185SettingsCurrent.
+	 * @return the selected_value.
 	 */
-	function get_value()
+	function get_selected_value()
 	{
-		return $this->get_default_property(self :: PROPERTY_VALUE);
+		return $this->get_default_property(self :: PROPERTY_SELECTED_VALUE);
 	}
 
 	/**
-	 * Sets the value of this Dokeos185CourseSetting.
-	 * @param value
+	 * Sets the selected_value of this Dokeos185SettingsCurrent.
+	 * @param selected_value
 	 */
-	function set_value($value)
+	function set_selected_value($selected_value)
 	{
-		$this->set_default_property(self :: PROPERTY_VALUE, $value);
+		$this->set_default_property(self :: PROPERTY_SELECTED_VALUE, $selected_value);
 	}
 	/**
-	 * Returns the title of this Dokeos185CourseSetting.
+	 * Returns the title of this Dokeos185SettingsCurrent.
 	 * @return the title.
 	 */
 	function get_title()
@@ -194,7 +195,7 @@ class Dokeos185CourseSetting
 	}
 
 	/**
-	 * Sets the title of this Dokeos185CourseSetting.
+	 * Sets the title of this Dokeos185SettingsCurrent.
 	 * @param title
 	 */
 	function set_title($title)
@@ -202,7 +203,7 @@ class Dokeos185CourseSetting
 		$this->set_default_property(self :: PROPERTY_TITLE, $title);
 	}
 	/**
-	 * Returns the comment of this Dokeos185CourseSetting.
+	 * Returns the comment of this Dokeos185SettingsCurrent.
 	 * @return the comment.
 	 */
 	function get_comment()
@@ -211,7 +212,7 @@ class Dokeos185CourseSetting
 	}
 
 	/**
-	 * Sets the comment of this Dokeos185CourseSetting.
+	 * Sets the comment of this Dokeos185SettingsCurrent.
 	 * @param comment
 	 */
 	function set_comment($comment)
@@ -219,7 +220,24 @@ class Dokeos185CourseSetting
 		$this->set_default_property(self :: PROPERTY_COMMENT, $comment);
 	}
 	/**
-	 * Returns the subkeytext of this Dokeos185CourseSetting.
+	 * Returns the scope of this Dokeos185SettingsCurrent.
+	 * @return the scope.
+	 */
+	function get_scope()
+	{
+		return $this->get_default_property(self :: PROPERTY_SCOPE);
+	}
+
+	/**
+	 * Sets the scope of this Dokeos185SettingsCurrent.
+	 * @param scope
+	 */
+	function set_scope($scope)
+	{
+		$this->set_default_property(self :: PROPERTY_SCOPE, $scope);
+	}
+	/**
+	 * Returns the subkeytext of this Dokeos185SettingsCurrent.
 	 * @return the subkeytext.
 	 */
 	function get_subkeytext()
@@ -228,7 +246,7 @@ class Dokeos185CourseSetting
 	}
 
 	/**
-	 * Sets the subkeytext of this Dokeos185CourseSetting.
+	 * Sets the subkeytext of this Dokeos185SettingsCurrent.
 	 * @param subkeytext
 	 */
 	function set_subkeytext($subkeytext)

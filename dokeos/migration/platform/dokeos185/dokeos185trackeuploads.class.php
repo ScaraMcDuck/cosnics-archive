@@ -57,7 +57,7 @@ class Dokeos185TrackEUploads
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_UPLOAD_ID, SELF :: PROPERTY_UPLOAD_USER_ID, SELF :: PROPERTY_UPLOAD_DATE, SELF :: PROPERTY_UPLOAD_COURS_ID, SELF :: PROPERTY_UPLOAD_WORK_ID);
+		return array (self :: PROPERTY_UPLOAD_ID, self :: PROPERTY_UPLOAD_USER_ID, self :: PROPERTY_UPLOAD_DATE, self :: PROPERTY_UPLOAD_COURS_ID, self :: PROPERTY_UPLOAD_WORK_ID);
 	}
 
 	/**

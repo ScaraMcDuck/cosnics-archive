@@ -57,7 +57,7 @@ class Dokeos185UserinfoDef
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_TITLE, SELF :: PROPERTY_COMMENT, SELF :: PROPERTY_LINE_COUNT, SELF :: PROPERTY_RANK);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_COMMENT, self :: PROPERTY_LINE_COUNT, self :: PROPERTY_RANK);
 	}
 
 	/**

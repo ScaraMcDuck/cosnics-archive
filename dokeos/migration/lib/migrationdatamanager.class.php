@@ -9,6 +9,7 @@ require_once(Path :: get_library_path().'configuration/configuration.php');
 require_once(Path :: get_path(SYS_APP_MIGRATION_PATH) . '/lib/failedelement.class.php');
 require_once(Path :: get_path(SYS_APP_MIGRATION_PATH) . '/lib/idreference.class.php');
 require_once(Path :: get_path(SYS_APP_MIGRATION_PATH) . '/lib/recoveryelement.class.php');
+require_once dirname(__FILE__) . '/../../repository/lib/repositorydatamanager.class.php';
 
 //TODO use pear package for lcms database connection
 abstract class MigrationDataManager
@@ -438,7 +439,11 @@ abstract class MigrationDataManager
 	 function code_available($table_name, $code)
 	 {
 	 	$this->db_lcms_connect();
-	 	$query = 'SELECT * FROM ' . $table_name . ' WHERE code=\'' . $code . '\'';
+	 	$query = 'SELECT * FROM ' . $table_name . ' WHERE ';
+	 	if ($table_name == 'weblcms_course')
+	 		$query = $query . 'code=\'' . $code . '\'';
+	 	else
+	 		$query = $query . 'id=\'' . $code . '\'';
 	 	$result = $this->db_lcms->query($query);
 	 	return ($result->numRows() > 0);
 	 }
@@ -552,6 +557,13 @@ abstract class MigrationDataManager
 				return $owner_id;
 			}
 		}
+	}
+	
+	function get_owner_learning_object($lp_id, $tool)
+	{
+		$datamanager = RepositoryDataManager::get_instance();
+		$result = $datamanager->retrieve_learning_object($lp_id, $tool);
+		return $result;
 	}
 	
 }

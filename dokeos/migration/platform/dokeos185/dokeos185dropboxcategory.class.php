@@ -60,7 +60,7 @@ class Dokeos185DropboxCategory
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_CAT_ID, SELF :: PROPERTY_CAT_NAME, SELF :: PROPERTY_RECEIVED, SELF :: PROPERTY_SENT, SELF :: PROPERTY_USER_ID);
+		return array (self :: PROPERTY_CAT_ID, self :: PROPERTY_CAT_NAME, self :: PROPERTY_RECEIVED, self :: PROPERTY_SENT, self :: PROPERTY_USER_ID);
 	}
 
 	/**
@@ -137,7 +137,7 @@ class Dokeos185DropboxCategory
 	
 	function is_valid($array)
 	{
-		$course = $array[0];
+		$course = $array['course'];
 		if(!$this->get_cat_name())
 		{
 			self :: $mgdm->add_failed_element($this->get_cat_id(),
@@ -155,7 +155,7 @@ class Dokeos185DropboxCategory
 	{	
 		//Course category parameters
 		$lcms_dropbox_category = new LearningObjectPublicationCategory();
-		$course = $array[0];
+		$course = $array['course'];
 		$lcms_dropbox_category->set_title($this->get_cat_name());
 		
 		$old_id = $this->get_cat_id();

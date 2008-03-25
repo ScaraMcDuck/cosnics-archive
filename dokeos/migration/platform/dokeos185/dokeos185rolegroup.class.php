@@ -55,7 +55,7 @@ class Dokeos185RoleGroup
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ROLE_ID, SELF :: PROPERTY_SCOPE, SELF :: PROPERTY_GROUP_ID);
+		return array (self :: PROPERTY_ROLE_ID, self :: PROPERTY_SCOPE, self :: PROPERTY_GROUP_ID);
 	}
 
 	/**

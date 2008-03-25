@@ -20,7 +20,9 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 	/**
 	 * Migration data manager
 	 */
-	private static $mgdm, $item_property;
+	private static $mgdm;
+	
+	private $item_property;
 
 	/**
 	 * Announcement properties

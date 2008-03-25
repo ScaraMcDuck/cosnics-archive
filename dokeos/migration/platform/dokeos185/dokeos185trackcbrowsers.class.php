@@ -55,7 +55,7 @@ class Dokeos185TrackCBrowsers
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_BROWSER, SELF :: PROPERTY_COUNTER);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_BROWSER, self :: PROPERTY_COUNTER);
 	}
 
 	/**

@@ -58,7 +58,7 @@ class Dokeos185BlogPost
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_POST_ID, SELF :: PROPERTY_TITLE, SELF :: PROPERTY_FULL_TEXT, SELF :: PROPERTY_DATE_CREATION, SELF :: PROPERTY_BLOG_ID, SELF :: PROPERTY_AUTHOR_ID);
+		return array (self :: PROPERTY_POST_ID, self :: PROPERTY_TITLE, self :: PROPERTY_FULL_TEXT, self :: PROPERTY_DATE_CREATION, self :: PROPERTY_BLOG_ID, self :: PROPERTY_AUTHOR_ID);
 	}
 
 	/**

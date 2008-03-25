@@ -58,7 +58,7 @@ class Dokeos185TrackEHotpotatoes
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_EXE_NAME, SELF :: PROPERTY_EXE_USER_ID, SELF :: PROPERTY_EXE_DATE, SELF :: PROPERTY_EXE_COURS_ID, SELF :: PROPERTY_EXE_RESULT, SELF :: PROPERTY_EXE_WEIGHTING);
+		return array (self :: PROPERTY_EXE_NAME, self :: PROPERTY_EXE_USER_ID, self :: PROPERTY_EXE_DATE, self :: PROPERTY_EXE_COURS_ID, self :: PROPERTY_EXE_RESULT, self :: PROPERTY_EXE_WEIGHTING);
 	}
 
 	/**

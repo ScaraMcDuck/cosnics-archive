@@ -10,12 +10,12 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 	 * The MigrationManager component in which the wizard runs.
 	 */
 	private $parent;
-	private $failed_elements;
-	private $succes;
-	private $logfile;
-	private $mgdm;
-	private $old_system;
-	private $command_execute;
+	protected $failed_elements;
+	protected $succes;
+	protected $logfile;
+	protected $mgdm;
+	protected $old_system;
+	protected $command_execute;
 	
 	/**
 	 * Constructor
@@ -70,7 +70,7 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 	 */
 	function get_info()
 	{
-		for($i=0; $i<count($succes); $i++)
+		for($i=0; $i<count($this->succes); $i++)
 		{
 			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
 				Translation :: get_lang('migrated');
@@ -104,7 +104,7 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 	/**
 	 * General method for migration
 	 */
-	function migrate($type, $retrieve_parms = array(), $convert_parms = array(), $course = null)
+	function migrate($type, $retrieve_parms = array(), $convert_parms = array(), $course = null,$i)
 	{
 		$class = Import :: factory($this->old_system, strtolower($type));
 		$items = array();
@@ -115,7 +115,7 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 			$retrieve_parms['course'] = $course;
 			$convert_parms['course'] = $course;
 			$final_message = $type . ' migrated for course ' . $course->get_code();
-			$extra_message = ' COURSE: ' . $course;
+			$extra_message = ' COURSE: ' . $course->get_code();
 		}
 		else
 		{
@@ -127,22 +127,23 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 		
 		foreach($items as $j => $item)
 		{
+			
 			if($item->is_valid($convert_parms))
 			{
 				$lcms_item = $item->convert_to_lcms($convert_parms);
 				$this->logfile->add_message('SUCCES: ' . $type . ' added ( ID: ' . $lcms_item->get_id() . $extra_message . ' )');
-				$this->succes[0]++;
+				$this->succes[$i]++;
 				unset($lcms_item);
 			}
 			else
 			{
 				$message = 'FAILED: ' . $type . ' is not valid ( ID: ' . $item->get_id() . $extra_message . ' )';
 				$this->logfile->add_message($message);
-				$this->failed_elements[0][] = $message;
+				$this->failed_elements[$i][] = $message;
 			}
 			unset($items[$j]);
 		}
-
+		
 		$this->logfile->add_message($final_message);
 	}
 	

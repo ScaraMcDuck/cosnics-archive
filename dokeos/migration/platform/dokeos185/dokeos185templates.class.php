@@ -58,7 +58,7 @@ class Dokeos185Templates
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_TITLE, SELF :: PROPERTY_DESCRIPTION, SELF :: PROPERTY_COURSE_CODE, SELF :: PROPERTY_USER_ID, SELF :: PROPERTY_REF_DOC);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_COURSE_CODE, self :: PROPERTY_USER_ID, self :: PROPERTY_REF_DOC);
 	}
 
 	/**

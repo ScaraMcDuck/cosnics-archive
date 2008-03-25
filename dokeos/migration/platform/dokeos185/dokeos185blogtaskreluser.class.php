@@ -56,7 +56,7 @@ class Dokeos185BlogTaskRelUser
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_BLOG_ID, SELF :: PROPERTY_USER_ID, SELF :: PROPERTY_TASK_ID, SELF :: PROPERTY_TARGET_DATE);
+		return array (self :: PROPERTY_BLOG_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_TASK_ID, self :: PROPERTY_TARGET_DATE);
 	}
 
 	/**

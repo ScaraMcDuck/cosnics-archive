@@ -15,13 +15,13 @@ require_once dirname(__FILE__) . '/../../../../../../../repository/lib/learning_
  */
 class AnnouncementsMigrationWizardPage extends MigrationWizardPage
 {
-	private $logfile;
-	private $mgdm;
-	private $old_system;
+	//private $logfile;
+	//private $mgdm;
+	//private $old_system;
 	private $include_deleted_files;
-	private $failed_announcements = array();
-	private $succes;
-	private $command_execute;
+	//private $failed_announcements = array();
+	//private $succes;
+	//private $command_execute;
 	
 	function AnnouncementsMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{

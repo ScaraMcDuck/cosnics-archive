@@ -56,7 +56,7 @@ class Dokeos185Role
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ROLE_ID, SELF :: PROPERTY_ROLE_NAME, SELF :: PROPERTY_ROLE_COMMENT, SELF :: PROPERTY_DEFAULT_ROLE);
+		return array (self :: PROPERTY_ROLE_ID, self :: PROPERTY_ROLE_NAME, self :: PROPERTY_ROLE_COMMENT, self :: PROPERTY_DEFAULT_ROLE);
 	}
 
 	/**

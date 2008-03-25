@@ -8,40 +8,38 @@ require_once dirname(__FILE__) . '/../../../../../logger.class.php';
 require_once dirname(__FILE__) . '/../../../../../import.class.php'; 
 
 /**
- * Class for course forum migration
+ * Class for course learning paths migration
  * @author Sven Vanpoucke
  */
-class ForumsMigrationWizardPage extends MigrationWizardPage
+class LearningPathsMigrationWizardPage extends MigrationWizardPage
 {
 	private $include_deleted_files;
 	
-	function ForumsMigrationWizardPage($page_name, $parent, $command_execute = false)
+	function LearningPathsMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent, $command_execute);
-		$this->succes = array(0,0,0,0);
+		$this->succes = array(0,0);
 	}
 	/**
 	 * @return string Title of the page
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Forums_title');
+		return Translation :: get_lang('Learning_paths_title');
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Forums_info');
+		return Translation :: get_lang('Learning_paths_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Forum_categories');
-			case 1: return Translation :: get_lang('Forums');
-			case 2: return Translation :: get_lang('Forum_threads');
-			case 3: return Translation :: get_lang('Forum_posts');
-			default: return Translation :: get_lang('Forum_categories'); 
+			case 0: return Translation :: get_lang('Learning_paths');
+			case 1: return Translation :: get_lang('Learning_path_items');
+			default: return Translation :: get_lang('Learning_paths'); 
 		}
 	}
 
@@ -49,9 +47,9 @@ class ForumsMigrationWizardPage extends MigrationWizardPage
 	{
 		$logger = new Logger('migration.txt', true);
 		
-		if($logger->is_text_in_file('forums'))
+		if($logger->is_text_in_file('learning_paths'))
 		{
-			echo(Translation :: get_lang('Forums') . ' ' .
+			echo(Translation :: get_lang('Learning_paths') . ' ' .
 				 Translation :: get_lang('already_migrated') . '<br />');
 			return false;
 		}
@@ -66,13 +64,13 @@ class ForumsMigrationWizardPage extends MigrationWizardPage
 		$this->include_deleted_files = $exportvalues['migrate_deleted_files'];
 		
 		//Create logfile
-		$this->logfile = new Logger('forums.txt');
+		$this->logfile = new Logger('learning_paths.txt');
 		$this->logfile->set_start_time();
 		
 		//Create migrationdatamanager
 		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
-		if(isset($exportvalues['migrate_forums']) && $exportvalues['migrate_forums'] == 1)
+		if(isset($exportvalues['migrate_learning_paths']) && $exportvalues['migrate_learning_paths'] == 1)
 		{	
 			//Migrate the dropbox
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
@@ -89,31 +87,29 @@ class ForumsMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 					
-					$this->migrate('ForumCategory', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course);
-					$this->migrate('ForumForum', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course);
-					$this->migrate('ForumThread', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course);
-					$this->migrate('ForumPost', array('mgdm' => $this->mgdm), array(), $course);
+					$this->migrate('Lp', array('mgdm' => $this->mgdm), array(), $course,0);
+					$this->migrate('LpItem', array('mgdm' => $this->mgdm), array(), $course,1);
 					
 					unset($courses[$i]);
 				}
 			}
 			else
 			{
-				echo(Translation :: get_lang('Forums') .
+				echo(Translation :: get_lang('Learning_paths') .
 				     Translation :: get_lang('failed') . ' ' .
 				     Translation :: get_lang('because') . ' ' . 
 				     Translation :: get_lang('Users') . ' ' .
 				     Translation :: get_lang('skipped') . '<br />');
-				$this->logfile->add_message('Forums failed because users or courses skipped');
-				$this->succes = array(0,0,0,0);
+				$this->logfile->add_message('Learning paths failed because users or courses skipped');
+				$this->succes = array(0,0);
 			}
 			
 		}
 		else
 		{
-			echo(Translation :: get_lang('Forums')
+			echo(Translation :: get_lang('Learning_paths')
 				 . ' ' . Translation :: get_lang('skipped') . '<br />');
-			$this->logfile->add_message('Forums skipped');
+			$this->logfile->add_message('Learning paths skipped');
 			
 			return false;
 		}
@@ -122,7 +118,7 @@ class ForumsMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
-		$logger->write_text('forums');
+		$logger->write_text('learning_paths');
 		
 		return true;
 	}

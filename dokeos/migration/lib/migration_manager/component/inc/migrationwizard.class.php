@@ -21,7 +21,8 @@ require_once dirname(__FILE__).'/wizard/course/calendareventsmigrationwizardpage
 require_once dirname(__FILE__).'/wizard/course/documentsmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/course/linksmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/course/dropboxesmigrationwizardpage.class.php';
-
+require_once dirname(__FILE__).'/wizard/course/forumsmigrationwizardpage.class.php';
+require_once dirname(__FILE__).'/wizard/course/learningpathsmigrationwizardpage.class.php';
 
 /**
  * A wizard which guides the user through several steps to perform the migration
@@ -57,7 +58,9 @@ class MigrationWizard extends HTML_QuickForm_Controller
 		$this->addPage(new CalendarEventsMigrationWizardPage('page_calendar_events',$this->parent));
 		$this->addPage(new DocumentsMigrationWizardPage('page_documents',$this->parent));
 		$this->addPage(new LinksMigrationWizardPage('page_links',$this->parent));
-		$this->addPage(new DropBoxesMigrationWizardPage('page_dropbox',$this->parent));
+		//$this->addPage(new DropBoxesMigrationWizardPage('page_dropbox',$this->parent));
+		$this->addPage(new ForumsMigrationWizardPage('page_forum',$this->parent));
+		$this->addPage(new LearningPathsMigrationWizardPage('page_learning_path',$this->parent));
 		$this->addAction('display', new MigrationWizardDisplay($this->parent));
 	}
 }

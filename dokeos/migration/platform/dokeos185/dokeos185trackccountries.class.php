@@ -56,7 +56,7 @@ class Dokeos185TrackCCountries
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_CODE, SELF :: PROPERTY_COUNTRY, SELF :: PROPERTY_COUNTER);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_CODE, self :: PROPERTY_COUNTRY, self :: PROPERTY_COUNTER);
 	}
 
 	/**

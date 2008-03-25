@@ -56,7 +56,7 @@ class Dokeos185PermissionTask
 	 */
 	static function get_default_property_names()
 	{
-		return array (SELF :: PROPERTY_ID, SELF :: PROPERTY_TASK_ID, SELF :: PROPERTY_TOOL, SELF :: PROPERTY_ACTION);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_TASK_ID, self :: PROPERTY_TOOL, self :: PROPERTY_ACTION);
 	}
 
 	/**
