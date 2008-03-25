@@ -252,10 +252,15 @@ class Dokeos185SystemAnnouncement extends Import
 		return $lcms_repository_announcement;
 	}
 	
-	static function get_all_system_announcements($mgdm)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_system_announcements();	
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'main_database';
+		$tablename = 'sys_announcement';
+		$classname = 'Dokeos185SystemAnnouncement';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
 	}
 }
 ?>

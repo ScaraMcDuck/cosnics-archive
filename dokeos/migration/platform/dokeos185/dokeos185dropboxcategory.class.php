@@ -186,10 +186,15 @@ class Dokeos185DropboxCategory
 	 * Get all course categories from database
 	 * @param Migration Data Manager $mgdm the datamanager from where the courses should be retrieved;
 	 */
-	static function get_all($array)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $array['mgdm'];
-		return self :: $mgdm->get_all_dropbox_categories($array['course']);	
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$coursedb = $parameters['course'];
+		$tablename = 'dropbox_category';
+		$classname = 'Dokeos185DropboxCategory';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
 }
 

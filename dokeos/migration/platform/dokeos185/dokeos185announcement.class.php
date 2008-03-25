@@ -255,10 +255,18 @@ class Dokeos185Announcement extends ImportAnnouncement
 		return $lcms_announcement;
 	}
 	
-	static function get_all_announcements($mgdm,$db,$include_deleted_files)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_announcements($db, $include_deleted_files);
+		self :: $mgdm = $parameters['mgdm'];
+		
+		if($parameters['del_files'] =! 1)
+			$tool_name = 'announcement';
+		
+		$coursedb = $parameters['course'];
+		$tablename = 'announcement';
+		$classname = 'Dokeos185Announcement';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
 	
 }

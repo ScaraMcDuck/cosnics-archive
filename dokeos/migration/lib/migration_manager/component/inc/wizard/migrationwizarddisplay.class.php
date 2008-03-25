@@ -75,6 +75,9 @@ class MigrationWizardDisplay extends HTML_QuickForm_Action_Display
 		echo '<div style="margin: 10px;">';
 		echo '<h2>'.Translation :: get_lang('Step').' '.$current_page_number.' '.Translation :: get_lang('of').' '.$total_number_of_pages.' &ndash; '.$current_page->get_title().'</h2>';
 		echo '<div>';
+
+		flush();
+
 		$performed_correct = $current_page->perform();
 		if($performed_correct)
 			echo $current_page->get_info();

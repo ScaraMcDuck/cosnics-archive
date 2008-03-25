@@ -188,176 +188,6 @@ class Dokeos185DataManager extends MigrationDataManager
 		
 		return $path;
 	}
-	
-	/** Get all the categories of the courses from the dokeos185 database
-	 * @return array of Dokeos185CourseCategory
-	 */
-	function get_all_course_categories()
-	{
-		$this->db_connect('main_database');
-		$query = 'SELECT * FROM course_category';
-		$result = $this->db->query($query);
-		$course_categories = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$course_categories[] = $this->record_to_classobject($record, 'Dokeos185CourseCategory');
-		}
-		$result->free();
-		
-		return $course_categories;
-	}
-	
-	/** Get all the courses from the dokeos185 database
-	 * @return array of Dokeos185Courses
-	 */
-	function get_all_courses()
-	{
-		$this->db_connect('main_database');
-		$query = 'SELECT * FROM course';
-		$result = $this->db->query($query);
-		$courses = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$courses[] = $this->record_to_classobject($record, 'Dokeos185Course');
-			
-		}
-		$result->free();
-		
-		return $courses;
-	}
-	
-	/** Get all the class relations of courses from the dokeos185 database
-	 * @return array of Dokeos185CoursesRelClass
-	 */
-	function get_all_course_rel_classes()
-	{
-		$this->db_connect('main_database');
-		$query = 'SELECT * FROM course_rel_class';
-		$result = $this->db->query($query);
-		$course_rel_classes = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$course_rel_classes[] = $this->record_to_classobject($record, 'Dokeos185CourseRelClass');
-			
-		}
-		$result->free();
-		
-		return $course_rel_classes;
-	}
-	
-	/** Get all the user relations of courses from the dokeos185 database
-	 * @return array of Dokeos185CoursesRelUser
-	 */
-	function get_all_course_rel_user()
-	{
-		$this->db_connect('main_database');
-		$query = 'SELECT * FROM course_rel_user';
-		$result = $this->db->query($query);
-		$course_rel_users = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$course_rel_users[] = $this->record_to_classobject($record, 'Dokeos185CourseRelUser');
-			
-		}
-		$result->free();
-		
-		return $course_rel_users;
-	}
-	
-	/** Get all the user courses category relations from the dokeos185 database
-	 * @return array of Dokeos185UserCourseCategory
-	 */
-	function get_all_users_courses_categories()
-	{
-		$this->db_connect('user_personal_database');
-		$query = 'SELECT * FROM user_course_category';
-		$result = $this->db->query($query);
-		$users_courses_categories = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$users_courses_categories[] = $this->record_to_classobject($record, 'Dokeos185UserCourseCategory');
-			
-		}
-		$result->free();
-		
-		return $users_courses_categories;
-	}
-	
-	/** Get all the tools from the dokeos185 database
-	 * @return array of Dokeos185Annoucements
-	 */
-	function get_all_tools($db)
-	{
-		$this->db_connect($db);
-		$query = 'SELECT * FROM tool';
-		$result = $this->db->query($query);
-		$tools = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$tools[] = $this->record_to_classobject($record, 'Dokeos185Tool');
-			
-		}
-		$result->free();
-		
-		return $tools;
-	}
-	
-	/**
-	 * Get all the course descriptions from the dokeos185 database
-	 */
-	function get_all_course_descriptions($db)
-	{
-		$this->db_connect($db);
-		$query = 'SELECT * FROM course_description';
-		$result = $this->db->query($query);
-		$course_descriptions = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$course_descriptions[] = $this->record_to_classobject($record, 'Dokeos185CourseDescription');
-			
-		}
-		$result->free();
-		
-		return $course_descriptions;
-	}
-	
-	/** Get all the Class from the dokeos185 database
-	 * @return array of Dokeos185Class
-	 */
-	function get_all_classes()
-	{
-		$this->db_connect('main_database');
-		$query = 'SELECT * FROM class';
-		$result = $this->db->query($query);
-		$classes = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$classes[] = $this->record_to_classobject($record, 'Dokeos185Class');
-			
-		}
-		$result->free();
-		
-		return $classes;
-	}
-		
-	/** Get all the Class_User from the dokeos185 database
-	 * @return array of Dokeos185ClassUser
-	 */
-	function get_all_class_users()
-	{
-		$this->db_connect('main_database');
-		$query = 'SELECT * FROM class_user';
-		$result = $this->db->query($query);
-		$class_users = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$class_users[] = $this->record_to_classobject($record, 'Dokeos185ClassUser');
-			
-		}
-		$result->free();
-		
-		return $class_users;
-	}
 		
 	/** Get all the current settings from the dokeos185 database
 	 * @return array of Dokeos185SettingCurrent
@@ -376,45 +206,6 @@ class Dokeos185DataManager extends MigrationDataManager
 		$result->free();
 		
 		return $settings_current;
-	}
-		
-	/** Get all the system announcements from the dokeos185 database
-	 * @return array of Dokeos185SystenAnnoucements
-	 */
-	function get_all_system_announcements()
-	{
-		$this->db_connect('main_database');
-		$query = 'SELECT * FROM sys_announcement';
-		$result = $this->db->query($query);
-		$settings_current = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$system_annoucements[] = $this->record_to_classobject($record, 'Dokeos185SystemAnnouncement');
-			
-		}
-		$result->free();
-		
-		return $system_annoucements;
-	}
-	
-	/** 
-	 * Get all the personal agendas from the dokeos185 database
-	 * @return array of Dokeos185PersonalAgenda
-	 */
-	function get_all_personal_agendas()
-	{
-		$this->db_connect('user_personal_database');
-		$query = 'SELECT * FROM personal_agenda';
-		$result = $this->db->query($query);
-		$personal_agendas = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$personal_agendas[] = $this->record_to_classobject($record, 'Dokeos185PersonalAgenda');
-			
-		}
-		$result->free();
-		
-		return $personal_agendas;
 	}
 	
 	/**
@@ -443,107 +234,9 @@ class Dokeos185DataManager extends MigrationDataManager
 		'\' AND ref = ' . $id;
 		
 		$result = $this->db->query($query);
-		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$itemprops = $this->mapper($result, 'Dokeos185ItemProperty');
 		
-		foreach (Dokeos185ItemProperty :: get_default_property_names() as $prop)
-		{
-			$defaultProp[$prop] = $record[$prop];
-		}
-		
-		$result->free();
-		
-		return new Dokeos185ItemProperty($defaultProp);
-	}
-	
-	/** Get all the announcements from the dokeos185 database
-	 * @return array of Dokeos185Annoucements
-	 */
-	function get_all_announcements($db, $include_deleted_files)
-	{
-		$this->db_connect($db);
-		$query = 'SELECT * FROM announcement';
-		
-		if($include_deleted_files != 1)
-			$query = $query . ' WHERE id IN (SELECT ref FROM item_property WHERE tool=\'announcement\'' .
-					' AND visibility <> 2);';
-
-		$result = $this->db->query($query);
-		$announcements = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$annoucements[] = $this->record_to_classobject($record, 'Dokeos185Announcement');
-			
-		}
-		$result->free();
-		
-		return $annoucements;
-	}
-	
-	/** Get all the calendar events from the dokeos185 database
-	 * @return array of Dokeos185CalendarEvents
-	 */
-	function get_all_calendar_events($course, $include_deleted_files)
-	{
-		$this->db_connect($course->get_db_name());
-		$query = 'SELECT * FROM calendar_event';
-		
-		if($include_deleted_files != 1)
-			$query = $query . ' WHERE id IN (SELECT ref FROM item_property WHERE tool=\'calendar_event\'' .
-					' AND visibility <> 2);';
-		
-		$result = $this->db->query($query);
-		$calendar_events = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$calendar_events[] = $this->record_to_classobject($record, 'Dokeos185CalendarEvent');
-			
-		}
-		$result->free();
-		
-		return $calendar_events;
-	}
-	
-	/** Get all the links from the dokeos185 database
-	 * @return array of Dokeos185Links
-	 */
-	function get_all_links($db, $include_deleted_files)
-	{
-		$this->db_connect($db);
-		$query = 'SELECT * FROM link';
-		
-		if($include_deleted_files != 1)
-			$query = $query . ' WHERE id IN (SELECT ref FROM item_property WHERE tool=\'link\'' .
-					' AND visibility <> 2);';
-
-		$result = $this->db->query($query);
-		$links = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$links[] = $this->record_to_classobject($record, 'Dokeos185Link');
-			
-		}
-		$result->free();
-		
-		return $links;
-	}
-	
-	/** Get all the link categories from the dokeos185 database
-	 * @return array of Dokeos185LinkCategory
-	 */
-	function get_all_link_categories($db)
-	{	
-		$this->db_connect($db);
-		$query = 'SELECT * FROM link_category';
-		
-		$result = $this->db->query($query);
-		$link_categories = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$link_categories[] = $this->record_to_classobject($record, 'Dokeos185LinkCategory');
-		}
-		$result->free();
-
-		return $link_categories;
+		return $itemprops[0];
 	}
 	
 	/** Get all the documents from the dokeos185 database
@@ -559,78 +252,9 @@ class Dokeos185DataManager extends MigrationDataManager
 					' AND visibility <> 2);';
 		
 		$result = $this->db->query($query);
-		$documents = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$documents[] = $this->record_to_classobject($record,'Dokeos185Document');
-			
-		}
-		$result->free();
+		$documents = $this->mapper($result, 'Dokeos185Document');
 		
 		return $documents;
-	}
-	
-	function get_all_groups($course_db)
-	{
-		$this->db_connect($course_db);
-		$query = 'SELECT * FROM group_info';
-		
-		$result = $this->db->query($query);
-		$groups = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$groups[] = $this->record_to_classobject($record, 'Dokeos185Group');
-		}
-		$result->free();
-
-		return $groups;
-	}
-	
-	function get_all_dropbox_categories($course_db)
-	{
-		$this->db_connect($course_db);
-		$query = 'SELECT * FROM dropbox_category';
-		$result = $this->db->query($query);
-		
-		return mapper($result, 'Dokeos185DropboxCategory');
-	}
-	
-	function get_all_dropbox_feedbacks($course_db)
-	{
-		$this->db_connect($course_db);
-		$query = 'SELECT * FROM dropbox_feedback';
-		$result = $this->db->query($query);
-		
-		return mapper($result, 'Dokeos185DropboxFeedback');
-	}
-	
-	function get_all_dropbox_files($course_db, $include_deleted_files)
-	{
-		$this->db_connect($course_db);
-		$query = 'SELECT * FROM group_info';
-		
-		if($include_deleted_files != 1)
-			$query = $query . ' AND id IN (SELECT ref FROM item_property WHERE tool=\'dropbox\'' .
-					' AND visibility <> 2);';
-		
-		$result = $this->db->query($query);
-		
-		return mapper($result, 'Dokeos185DropboxFile');
-	}
-	
-	
-	function get_all_forum_categories($course_db, $include_deleted_files)
-	{
-		$this->db_connect($course_db);
-		$query = 'SELECT * FROM forum_category';
-		
-		if($include_deleted_files != 1)
-			$query = $query . ' AND id IN (SELECT ref FROM item_property WHERE tool=\'forum_category\'' .
-					' AND visibility <> 2);';
-		
-		$result = $this->db->query($query);
-		
-		return mapper($result, 'Dokeos185ForumCategory');
 	}
 	
 	function get_all($database, $tablename, $classname, $tool_name = null)
@@ -639,12 +263,12 @@ class Dokeos185DataManager extends MigrationDataManager
 		$query = 'SELECT * FROM ' . $tablename;
 		
 		if($tool_name)
-			$query = $query . ' AND id IN (SELECT ref FROM item_property WHERE ' .
+			$query = $query . ' WHERE id IN (SELECT ref FROM item_property WHERE ' .
 					'tool=\''. $tool_name . '\' AND visibility <> 2);';
 		
 		$result = $this->db->query($query);
 		
-		return mapper($result, $classname);
+		return $this->mapper($result, $classname);
 		
 	}
 	

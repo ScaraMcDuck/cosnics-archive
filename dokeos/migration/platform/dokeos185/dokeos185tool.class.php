@@ -143,10 +143,15 @@ class Dokeos185Tool extends ImportTool
 		return $this;
 	}
 	
-	static function get_all_tools($mgdm,$db)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_tools($db);
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = $parameters['course'];
+		$tablename = 'tool';
+		$classname = 'Dokeos185Tool';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
 	}
 }
 ?>
