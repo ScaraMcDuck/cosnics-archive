@@ -11,6 +11,6 @@ abstract class ImportCourseRelClass extends Import
 {
 	abstract function is_valid_course_rel_class();
 	abstract function convert_to_new_course_rel_class();
-	abstract static function get_all_courses_rel_classes();
+	abstract static function get_all($parameters);
 }
 ?>

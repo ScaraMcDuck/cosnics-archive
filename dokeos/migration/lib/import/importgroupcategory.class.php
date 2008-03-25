@@ -10,8 +10,8 @@
  */
 abstract class ImportGroupCategory extends Import
 {
-	abstract function is_valid_group_category($course);
-	abstract function convert_to_new_group_category($course);
-	abstract static function get_all_group_categories($course, $mgdm);
+	abstract function is_valid($array);
+	abstract function convert_to_lcms($array);
+	abstract static function get_all($array);
 }
 ?>

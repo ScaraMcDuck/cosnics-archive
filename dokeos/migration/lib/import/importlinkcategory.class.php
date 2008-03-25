@@ -11,8 +11,8 @@
 
 abstract class ImportLinkCategory extends Import
 {
-	abstract function is_valid_link_category($course);
-	abstract function convert_to_new_link_category($course);
-	abstract static function get_all_link_categories($db, $mgdm);
+	abstract function is_valid_link_category($parameters);
+	abstract function convert_to_new_link_category($parameters);
+	abstract static function get_all($parameters);
 }
 ?>

@@ -5,14 +5,14 @@
  */
 
 /**
- * Abstract class that defines an announcement
- * @author Sven Vanpoucke
+ * Abstract class that defines a quiz
+ * @author Van Wayenbergh David
  */
-abstract class ImportAnnouncement extends Import
+
+abstract class ImportQuiz extends Import
 {
 	abstract function is_valid($array);
 	abstract function convert_to_lcms($array);
 	abstract static function get_all($array);
 }
-
 ?>
