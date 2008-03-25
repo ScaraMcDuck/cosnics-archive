@@ -198,7 +198,7 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 		
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		

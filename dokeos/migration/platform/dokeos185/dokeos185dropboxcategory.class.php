@@ -13,6 +13,8 @@ require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobje
  */
 class Dokeos185DropboxCategory
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185DropboxCategory properties
 	 */
@@ -153,24 +155,13 @@ class Dokeos185DropboxCategory
 	 */
 	function convert_to_lcms($array)
 	{	
+		
 		//Course category parameters
 		$lcms_dropbox_category = new LearningObjectPublicationCategory();
 		$course = $array['course'];
 		$lcms_dropbox_category->set_title($this->get_cat_name());
 		
-		$old_id = $this->get_cat_id();
-		$index = 0;
-		while(self :: $mgdm->code_available('weblcms_learning_object_publication_category',$this->get_cat_id()))
-		{
-			$this->set_code($this->get_cat_id() . ($index ++));
-		}
-		
-		$lcms_dropbox_category->set_id($this->get_cat_id());
-		
-		//Add id references to temp table
-		self :: $mgdm->add_id_reference($old_id, $lcms_dropbox_category->get_id(), 'weblcms_learning_object_publication_category');
-		
-		$lcms_dropbox_category->set_parent(0);
+		$lcms_dropbox_category->set_parent_category_id(0);
 		
 		$lcms_dropbox_category->set_course(self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course'));
 		
@@ -179,6 +170,9 @@ class Dokeos185DropboxCategory
 		//create course_category in database
 		$lcms_dropbox_category->create();
 		
+		//Add id references to temp table
+		self :: $mgdm->add_id_reference($this->get_cat_id(), $lcms_dropbox_category->get_id(), 'weblcms_learning_object_publication_category');
+		
 		return $lcms_dropbox_category;
 	}
 	
@@ -186,11 +180,11 @@ class Dokeos185DropboxCategory
 	 * Get all course categories from database
 	 * @param Migration Data Manager $mgdm the datamanager from where the courses should be retrieved;
 	 */
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		
-		$coursedb = $parameters['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'dropbox_category';
 		$classname = 'Dokeos185DropboxCategory';
 			

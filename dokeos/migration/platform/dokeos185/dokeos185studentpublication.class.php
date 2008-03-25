@@ -3,6 +3,13 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importstudentpublication.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/learning_object/document/document.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once 'dokeos185itemproperty.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublicationcategory.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/learningobject.class.php';
+
 /**
  * This class presents a Dokeos185 student_publication
  *
@@ -174,7 +181,7 @@ class Dokeos185StudentPublication
 
 	function is_valid($array)
 	{
-		$course = $array[0];
+		$course = $array['course'];
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'work',$this->get_id());	
 		
 		if(!$this->get_id() || !$this->get_url() ||
@@ -344,14 +351,14 @@ class Dokeos185StudentPublication
 		return $lcms_document;
 	}
 
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 
-		if($array['del_files'] =! 1)
+		if($parameters['del_files'] =! 1)
 			$tool_name = 'work';
 		
-		$coursedb = $array['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'student_publication';
 		$classname = 'Dokeos185StudentPublication';
 			
