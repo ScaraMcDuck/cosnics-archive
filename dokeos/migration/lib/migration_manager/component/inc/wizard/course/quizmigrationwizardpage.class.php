@@ -79,7 +79,7 @@ class QuizMigrationWizardPage extends MigrationWizardPage
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
 				$courses = array();
-				$courses = $courseclass->get_all_courses($this->mgdm);
+				$courses = $courseclass->get_all(array('mgdm' => $this->mgdm));
 				
 				foreach($courses as $i => $course)
 				{

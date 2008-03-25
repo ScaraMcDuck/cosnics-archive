@@ -120,7 +120,7 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
 				$courses = array();
-				$courses = $courseclass->get_all_courses($this->mgdm);
+				$courses = $courseclass->get_all(array('mgdm' => $this->mgdm));
 				
 				foreach($courses as $i => $course)
 				{
@@ -173,7 +173,7 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 		
 		$class_calendar_event = Import :: factory($this->old_system, 'calendarevent');
 		$calendar_events = array();
-		$calendar_events = $class_calendar_event->get_all_calendar_events($course, $this->mgdm, $this->include_deleted_files);
+		$calendar_events = $class_calendar_event->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name(), 'del_files' => $this->include_deleted_files));
 		
 		foreach($calendar_events as $j => $calendar_event)
 		{
@@ -206,7 +206,7 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 		
 		$resourceclass = Import :: factory($this->old_system, 'resource');
 		$resources = array();
-		$resources = $resourceclass->get_all_resources($course,$this->mgdm);
+		$resources = $resourceclass->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name() ));
 		
 		foreach($resources as $resource)
 		{

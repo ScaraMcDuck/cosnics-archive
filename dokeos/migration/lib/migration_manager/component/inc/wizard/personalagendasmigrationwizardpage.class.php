@@ -149,7 +149,7 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 		
 		$pa_class = Import :: factory($this->old_system, 'personalagenda');
 		$pas = array();
-		$pas = $pa_class->get_all_personal_agendas($this->mgdm);
+		$pas = $pa_class->get_all(array('mgdm' => $this->mgdm));
 		
 		foreach($pas as $i => $pa)
 		{

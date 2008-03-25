@@ -120,7 +120,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
 				$courses = array();
-				$courses = $courseclass->get_all_courses($this->mgdm);
+				$courses = $courseclass->get_all(array('mgdm' => $this->mgdm));
 				
 				foreach($courses as $i => $course)
 				{
@@ -173,7 +173,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 		
 		$descriptions_class = Import :: factory($this->old_system, 'coursedescription');
 		$descriptions = array();
-		$descriptions = $descriptions_class->get_all_course_descriptions($course->get_db_name(), $this->mgdm);
+		$descriptions = $descriptions_class->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name()));
 		
 		foreach($descriptions as $j => $description)
 		{
@@ -206,7 +206,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 		
 		$settingsclass = Import :: factory($this->old_system, 'coursesetting');
 		$settings = array();
-		$settings = $settingsclass->get_all_settings($course->get_db_name(),$this->mgdm);
+		$settings = $settingsclass->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name()));
 		
 		foreach($settings as $setting)
 		{
@@ -239,7 +239,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 		
 		$tool_class = Import :: factory($this->old_system, 'tool');
 		$tools = array();
-		$tools = $tool_class->get_all_tools($this->mgdm, $course->get_db_name());
+		$tools = $tool_class->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name()));
 		
 		foreach($tools as $tool)
 		{
