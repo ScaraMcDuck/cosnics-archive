@@ -19,7 +19,8 @@ function upload(latency){
 		__progress_bar_domid = domid;
 		__progress_bar_img   = img;
 		__progress_bar_text  = text;
-		__progress_bar_interval = setTimeout(__display_progress_bar,latency);
+		//__progress_bar_interval = setTimeout(__display_progress_bar,latency);
+		__display_progress_bar()
 		__upload_form_domid  = formid;
 	}
 	/**
@@ -35,7 +36,7 @@ function upload(latency){
 
 	function stop()
 	{
-		clearTimeout(__progress_bar_interval);
+		//clearTimeout(__progress_bar_interval);
 		document.getElementById(__progress_bar_domid).innerHTML = null;
 		document.getElementById(__progress_bar_domid).style.display = 'none';
 	}
