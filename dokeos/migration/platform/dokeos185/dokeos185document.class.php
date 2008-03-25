@@ -170,7 +170,6 @@ class Dokeos185Document extends Import
 		$filename = substr($this->get_path(), $pos);
 		$old_path = substr($this->get_path(), 0, $pos);
 		
-		$new_path = $new_user_id . '/';
 		$old_rel_path = 'courses/' . $course->get_code() . '/document/'  . $old_path;
 
 		$filename = iconv("UTF-8", "ISO-8859-1", $filename);

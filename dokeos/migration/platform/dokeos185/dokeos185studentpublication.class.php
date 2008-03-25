@@ -184,8 +184,11 @@ class Dokeos185StudentPublication
 		$course = $array['course'];
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'work',$this->get_id());	
 		
-		if(!$this->get_id() || !$this->get_url() ||
-			!$this->item_property->get_insert_date())
+		$old_rel_path = 'courses/' . $course->get_code() . '/' . $this->get_url();
+		
+		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
+		
+		if(!$this->get_url() || !$this->item_property->get_insert_date() || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path)))
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.student_publication');
@@ -206,27 +209,35 @@ class Dokeos185StudentPublication
 		}
 		
 		$new_path = $new_user_id . '/';
-		$old_rel_path = 'courses/' . $course->get_code() . '/' . dirname($this->get_url());
+		$old_rel_path = 'courses/' . $course->get_code() . '/' . dirname($this->get_url()) . '/';
 
 		$new_rel_path = 'files/repository/' . $new_path;
 		$filename = basename($this->get_url());
 		
 		$lcms_document = null;
 		
-		if(!self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename))])
-		{
+		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
+		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
+		
+		//$document_md5 = md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)); 
+		//$document_id = self :: $mgdm->get_document_from_md5($new_user_id,$document_md5);
 			
-			$filename = iconv("UTF-8", "ISO-8859-1", $filename);
-			$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
+		//if(!self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename))])
+		//{
+			
+			
 
 			// Move file to correct directory
 			//echo($old_rel_path . "\t" . $new_rel_path . "\t" . $filename . "\n");
-
+			echo self :: $mgdm->append_full_path(false,$old_rel_path) . '<BR/>';
+			echo self :: $mgdm->append_full_path(true,$new_rel_path) . '<BR/>';
+			echo $filename . '<BR/>';
 			$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
 				$filename);
-
+			
 			if($file)
 			{
+				
 				//document parameters
 				$lcms_document = new Document();
 	
@@ -276,15 +287,15 @@ class Dokeos185StudentPublication
 				//create document in database
 				$lcms_document->create_all();
 				
-				self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(true,$new_rel_path . $file))] = $lcms_document->get_id();
+				//self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(true,$new_rel_path . $file))] = $lcms_document->get_id();
 			}
-		}
-		else
-		{
-			$lcms_document = new LearningObject();
-			$id = self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $this->get_filename()))];
-			$lcms_document->set_id($id);
-		}
+		//}
+		//else
+		//{
+		//	$lcms_document = new LearningObject();
+		//	$id = self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $this->get_filename()))];
+		//	$lcms_document->set_id($id);
+		//}
 		/*	
 		//publication
 		if($this->item_property->get_visibility() <= 1 && $lcms_document) 
@@ -347,7 +358,6 @@ class Dokeos185StudentPublication
 			$publication->create();		
 		}
 		*/
-		
 		return $lcms_document;
 	}
 
