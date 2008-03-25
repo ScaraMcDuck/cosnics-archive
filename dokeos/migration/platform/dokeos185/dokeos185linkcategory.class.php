@@ -149,10 +149,15 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 		
 	}
 	
-	static function get_all_link_categories($db, $mgdm)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_link_categories($db);
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$coursedb = $parameters['course'];
+		$tablename = 'link_category';
+		$classname = 'Dokeos185LinkCategory';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
 }
 ?>

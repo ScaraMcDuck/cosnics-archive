@@ -164,10 +164,16 @@ class Dokeos185Class extends Import
 		
 		return $lcms_class;
 	}
-	function get_all_classes($mgdm)
+	
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_classes();
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'main_database';
+		$tablename = 'class';
+		$classname = 'Dokeos185Class';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
 	}
 }
 ?>

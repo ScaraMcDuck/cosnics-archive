@@ -155,10 +155,15 @@ class Dokeos185ClassUser extends Import
 		return $lcms_class_user;
 	}
 	
-	function get_all_class_users($mgdm)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_class_users();
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'main_database';
+		$tablename = 'class_user';
+		$classname = 'Dokeos185ClassUser';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
 	}
 }
 ?>

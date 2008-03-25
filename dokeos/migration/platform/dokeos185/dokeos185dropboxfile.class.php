@@ -366,10 +366,18 @@ class Dokeos185DropboxFile
 		return $lcms_document;
 	}
 	
-	static function get_all($array)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $array['mgdm'];
-		return self :: $mgdm->get_all_dropbox_files($array['course'], $array['del_files']);	
+		self :: $mgdm = $parameters['mgdm'];
+		
+		if($parameters['del_files'] =! 1)
+			$tool_name = 'dropbox';
+		
+		$coursedb = $parameters['course'];
+		$tablename = 'dropbox_file';
+		$classname = 'Dokeos185DropboxFile';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
 }
 

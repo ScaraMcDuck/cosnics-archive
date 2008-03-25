@@ -258,10 +258,15 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 	 * Get all personal agendas from database
 	 * @param Migration Data Manager $mgdm the datamanager from where the settings should be retrieved;
 	 */
-	static function get_all_personal_agendas($mgdm)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_personal_agendas();	
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'user_personal_database';
+		$tablename = 'personal_agenda';
+		$classname = 'Dokeos185PersonalAgenda';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
 	}
 }
 ?>

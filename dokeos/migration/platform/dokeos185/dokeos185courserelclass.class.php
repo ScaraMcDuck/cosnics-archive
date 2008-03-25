@@ -157,10 +157,15 @@ class Dokeos185CourseRelClass extends Import
 		return $lcms_course_class_relation;
 	}
 	
-	function get_all_course_rel_user($mgdm)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_course_rel_classes();
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'main_database';
+		$tablename = 'course_rel_class';
+		$classname = 'Dokeos185CourseRelClass';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
 	}
 }
 ?>

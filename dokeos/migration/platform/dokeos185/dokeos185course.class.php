@@ -409,10 +409,15 @@ class Dokeos185Course extends Import
 		return $lcms_course;
 	}
 	
-	function get_all_courses($mgdm)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_courses();
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'main_database';
+		$tablename = 'course';
+		$classname = 'Dokeos185Course';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
 	}
 }
 ?>

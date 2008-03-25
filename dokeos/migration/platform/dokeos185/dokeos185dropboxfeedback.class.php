@@ -203,10 +203,15 @@ class Dokeos185DropboxFeedback
 	 * Get all dropbox feedbacks from database
 	 * @param Migration Data Manager $mgdm the datamanager from where the dropbox feedback should be retrieved;
 	 */
-	static function get_all($array)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $array['mgdm'];
-		return self :: $mgdm->get_all_dropbox_feedbacks($array['course']);	
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$coursedb = $parameters['course'];
+		$tablename = 'dropbox_feedback';
+		$classname = 'Dokeos185DropboxFeedback';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
 }
 

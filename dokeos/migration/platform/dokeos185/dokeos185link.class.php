@@ -265,10 +265,18 @@ class Dokeos185Link extends Import
 		
 	}
 	
-	function get_all_links($db, $mgdm, $include_deleted_files)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_links($db, $include_deleted_files);
+		self :: $mgdm = $parameters['mgdm'];
+		
+		if($parameters['del_files'] =! 1)
+			$tool_name = 'link';
+		
+		$coursedb = $parameters['course'];
+		$tablename = 'link';
+		$classname = 'Dokeos185Link';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
 	
 }

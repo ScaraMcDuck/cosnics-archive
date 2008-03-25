@@ -198,10 +198,15 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 		
 	}
 	
-	static function get_all_course_descriptions($db, $mgdm)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_course_descriptions($db);
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = $parameters['course'];
+		$tablename = 'course_description';
+		$classname = 'Dokeos185CourseDescription';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
 	}
 }
 ?>

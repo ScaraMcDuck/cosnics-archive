@@ -247,10 +247,18 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 		return $lcms_calendar_event;
 	}
 	
-	static function get_all_calendar_events($course, $mgdm)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_calendar_events($course);
+		self :: $mgdm = $parameters['mgdm'];
+		
+		if($parameters['del_files'] =! 1)
+			$tool_name = 'calendar_event';
+		
+		$coursedb = $parameters['course'];
+		$tablename = 'calendar_event';
+		$classname = 'Dokeos185CalendarEvent';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
 }
 ?>

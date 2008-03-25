@@ -188,10 +188,15 @@ class Dokeos185UserCourseCategory extends Import
 		return $lcms_user_course_category;
 	}
 	
-	function get_all_users_courses_categories($mgdm)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_users_courses_categories();
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'user_personal_database';
+		$tablename = 'user_course_category';
+		$classname = 'Dokeos185UserCourseCategory';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
 	}
 }
 ?>
