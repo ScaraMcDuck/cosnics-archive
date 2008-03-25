@@ -17,6 +17,8 @@ require_once dirname(__FILE__).'/../../../repository/lib/learningobject.class.ph
  */
 class Dokeos185DropboxFile
 {
+	private static $mgdm;
+	
 	private $item_property;
 	
 	private static $files = array();	
@@ -196,7 +198,7 @@ class Dokeos185DropboxFile
 
 	function is_valid($courses)
 	{
-		$course = $courses[0];
+		$course = $courses['course'];
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'dropbox',$this->get_id());	
 		
 		if(!$this->get_id() ||
@@ -212,7 +214,7 @@ class Dokeos185DropboxFile
 	function convert_to_lcms($array)
 	{
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
-		$course = $array[0];
+		$course = $array['course'];
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
 		
 		if(!$new_user_id)
@@ -366,14 +368,14 @@ class Dokeos185DropboxFile
 		return $lcms_document;
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		
 		if($parameters['del_files'] =! 1)
 			$tool_name = 'dropbox';
 		
-		$coursedb = $parameters['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'dropbox_file';
 		$classname = 'Dokeos185DropboxFile';
 			

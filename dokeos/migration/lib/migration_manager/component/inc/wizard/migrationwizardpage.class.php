@@ -124,15 +124,18 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 		}
 		
 		$items = $class->get_all($retrieve_parms);
-		
+
 		foreach($items as $j => $item)
 		{
 			
 			if($item->is_valid($convert_parms))
 			{
 				$lcms_item = $item->convert_to_lcms($convert_parms);
-				$this->logfile->add_message('SUCCES: ' . $type . ' added ( ID: ' . $lcms_item->get_id() . $extra_message . ' )');
-				$this->succes[$i]++;
+				if($lcms_item)
+				{
+					$this->logfile->add_message('SUCCES: ' . $type . ' added ( ID: ' . $lcms_item->get_id() . $extra_message . ' )');
+					$this->succes[$i]++;
+				}
 				unset($lcms_item);
 			}
 			else

@@ -59,7 +59,7 @@ class DropBoxesMigrationWizardPage extends MigrationWizardPage
 			require(dirname(__FILE__) . '/../../../../../../settings.inc.php');
 		else
 			$exportvalues = $this->controller->exportValues();
-			
+		
 		$this->old_system = $exportvalues['old_system'];
 		$old_directory = $exportvalues['old_directory'];
 		$this->include_deleted_files = $exportvalues['migrate_deleted_files'];
@@ -67,7 +67,7 @@ class DropBoxesMigrationWizardPage extends MigrationWizardPage
 		//Create logfile
 		$this->logfile = new Logger('dropboxes.txt');
 		$this->logfile->set_start_time();
-		
+			
 		//Create migrationdatamanager
 		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
@@ -88,9 +88,9 @@ class DropBoxesMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 					
-					$this->migrate('DropBoxCategory', array('mgdm' => $this->mgdm), array(), $course);
-					$this->migrate('DropBoxFeedback', array('mgdm' => $this->mgdm), array(), $course);
-					$this->migrate('DropBoxFile', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course);
+					$this->migrate('DropBoxCategory', array('mgdm' => $this->mgdm), array(), $course,0);
+					$this->migrate('DropBoxFeedback', array('mgdm' => $this->mgdm), array(), $course,1);
+					$this->migrate('DropBoxFile', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,2);
 					
 					unset($courses[$i]);
 				}

@@ -255,7 +255,7 @@ class Dokeos185Announcement extends ImportAnnouncement
 		return $lcms_announcement;
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		

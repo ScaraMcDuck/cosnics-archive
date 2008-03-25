@@ -88,9 +88,9 @@ class SurveysMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 					
-					$this->migrate('Survey', array('mgdm' => $this->mgdm), array(), $course);
-					$this->migrate('SurveyQuestion', array('mgdm' => $this->mgdm), array(), $course);
-					$this->migrate('SurveyAnswer', array('mgdm' => $this->mgdm), array(), $course);
+					$this->migrate('Survey', array('mgdm' => $this->mgdm), array(), $course,0);
+					$this->migrate('SurveyQuestion', array('mgdm' => $this->mgdm), array(), $course,1);
+					$this->migrate('SurveyAnswer', array('mgdm' => $this->mgdm), array(), $course,2);
 					
 					unset($courses[$i]);
 				}

@@ -11,8 +11,8 @@
 
 abstract class ImportPersonalAgenda extends Import
 {
-	abstract function is_valid();
-	abstract function convert_to_lcms();
+	abstract function is_valid_personal_agenda();
+	abstract function convert_to_new_personal_agenda();
 	abstract static function get_all($array);
 }
 ?>

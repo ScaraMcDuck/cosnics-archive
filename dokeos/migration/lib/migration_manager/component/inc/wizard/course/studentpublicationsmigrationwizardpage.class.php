@@ -86,7 +86,7 @@ class StudentPublicationsMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 					
-					$this->migrate('StudentPublication', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course);
+					$this->migrate('StudentPublication', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
 					
 					unset($courses[$i]);
 				}

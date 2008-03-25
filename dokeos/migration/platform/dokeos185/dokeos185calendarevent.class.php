@@ -249,7 +249,7 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 		return $lcms_calendar_event;
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		

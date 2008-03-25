@@ -15,6 +15,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/categ
  */
 class Dokeos185DropboxFeedback
 {
+	private static $mgdm;
 	/**
 	 * Dokeos185DropboxFeedback properties
 	 */
@@ -146,6 +147,7 @@ class Dokeos185DropboxFeedback
 	 */
 	function convert_to_lcms($courses)
 	{	
+		$course = $courses['course'];
 		$new_user_id = self :: $mgdm->get_id_reference($this->get_author_user_id(),'user_user');	
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
@@ -203,11 +205,11 @@ class Dokeos185DropboxFeedback
 	 * Get all dropbox feedbacks from database
 	 * @param Migration Data Manager $mgdm the datamanager from where the dropbox feedback should be retrieved;
 	 */
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		
-		$coursedb = $parameters['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'dropbox_feedback';
 		$classname = 'Dokeos185DropboxFeedback';
 			

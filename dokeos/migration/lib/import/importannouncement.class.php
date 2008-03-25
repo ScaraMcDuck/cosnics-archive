@@ -10,8 +10,8 @@
  */
 abstract class ImportAnnouncement extends Import
 {
-	abstract function is_valid($array);
-	abstract function convert_to_lcms($array);
+	abstract function is_valid_announcement($array);
+	abstract function convert_to_new_announcement($array);
 	abstract static function get_all($array);
 }
 
