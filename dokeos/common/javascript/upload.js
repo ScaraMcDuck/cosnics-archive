@@ -31,6 +31,13 @@ function upload(latency){
 			document.getElementById(__upload_form_domid).style.display = 'none';
 		}
 	}
+
+	function stop()
+	{
+		clearTimeout(__progress_bar_interval);
+		document.getElementById(__progress_bar_domid).innerHTML = null;
+	}
+
 	this.start = start;
 	var __progress_bar_domid = '';
 	var __progress_bar_img = '../img/progress_bar.gif';
