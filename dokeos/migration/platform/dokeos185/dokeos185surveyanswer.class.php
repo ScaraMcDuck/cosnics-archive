@@ -3,6 +3,11 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importsurveyanswer.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/learning_style_survey_user_answer/learning_style_survey_user_answer.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
+
 /**
  * This class presents a Dokeos185 survey_answer
  *
@@ -149,6 +154,7 @@ class Dokeos185SurveyAnswer
 	}
 	function is_valid($array)
 	{
+		
 		$course = $array['course'];
 
 		if(!$this->get_value() || !$this->get_user)
@@ -165,14 +171,13 @@ class Dokeos185SurveyAnswer
 		$course = $array['course'];
 		$new_user_id = self :: $mgdm->get_id_reference($this->get_user(),'user_user');	
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
-		
 		if(!$new_user_id)
 		{
 			$new_user_id = self :: $mgdm->get_owner($new_course_code);
 		}
 		
 		//survey parameters
-		$lcms_survey_answer = new LearningStyleSurveyAnswer();
+		$lcms_survey_user_answer = new LearningStyleSurveyUserAnswer();
 		
 		// Category for surveys already exists?
 		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
@@ -193,19 +198,19 @@ class Dokeos185SurveyAnswer
 			//Create category in database
 			$lcms_repository_category->create();
 			
-			$lcms_survey_answer->set_parent_id($lcms_repository_category->get_id());
+			$lcms_survey_user_answer->set_parent_id($lcms_repository_category->get_id());
 		}
 		else
 		{
-			$lcms_survey_answer->set_parent_id($lcms_category_id);	
+			$lcms_survey_user_answer->set_parent_id($lcms_category_id);	
 		}
 		
-		$lcms_survey_answer->set_description($this->get_value());
+		$lcms_survey_user_answer->set_description($this->get_value());
 		
-		$lcms_survey_answer->set_owner_id($new_user_id);
+		$lcms_survey_user_answer->set_owner_id($new_user_id);
 		
 		//create announcement in database
-		$lcms_survey->create_all();
+		$lcms_survey_user_answer->create_all();
 		
 		//publication
 		/*
@@ -239,7 +244,7 @@ class Dokeos185SurveyAnswer
 			$publication->create();
 		}
 		*/
-		return $lcms_survey_answer;
+		return $lcms_survey_user_answer;
 	}
 }
 

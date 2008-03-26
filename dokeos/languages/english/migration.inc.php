@@ -158,5 +158,6 @@ $lang['migration']['Surveys_title'] = "Course Surveys migration";
 $lang['migration']['Surveys_info'] = "In the next step we will migrate the course Surveys";
 $lang['migration']['Surveys'] = "Survey(s)";
 $lang['migration']['Survey_questions'] = "Survey question(s)";
+$lang['migration']['Survey_question_options'] = "Survey question option(s)";
 $lang['migration']['Survey_answers'] = "Survey answer(s)";
 ?>

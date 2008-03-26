@@ -3,6 +3,11 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importsurveyquestionoption.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/learning_style_survey_answer/learning_style_survey_answer.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
+
 /**
  * This class presents a Dokeos185 survey_question_option
  *
@@ -10,6 +15,8 @@
  */
 class Dokeos185SurveyQuestionOption
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185SurveyQuestionOption properties
 	 */
@@ -123,18 +130,110 @@ class Dokeos185SurveyQuestionOption
 		return $this->get_default_property(self :: PROPERTY_SORT);
 	}
 
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 
-		if($array['del_files'] =! 1)
+		if($parameters['del_files'] =! 1)
 			$tool_name = 'survey_question_option';
 		
-		$coursedb = $array['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'survey_question_option';
 		$classname = 'Dokeos185SurveyQuestionOption';
 			
 		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
+	}
+	
+	function is_valid($array)
+	{
+		
+		$course = $array['course'];
+
+		if(!$this->get_option_text())
+		{		 
+			self :: $mgdm->add_failed_element($this->get_id(),
+				$course->get_db_name() . '.survey_question_option');
+			return false;
+		}
+		return true;
+	}
+	
+	function convert_to_lcms($array)
+	{
+		$course = $array['course'];	
+		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$new_user_id = self :: $mgdm->get_owner($new_course_code);
+		
+		
+		//survey parameters
+		$lcms_survey_answer = new LearningStyleSurveyAnswer();
+		
+		// Category for surveys already exists?
+		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+			Translation :: get_lang('surveys'));
+		if(!$lcms_category_id)
+		{
+			//Create category for tool in lcms
+			$lcms_repository_category = new Category();
+			$lcms_repository_category->set_owner_id($new_user_id);
+			$lcms_repository_category->set_title(Translation :: get_lang('surveys'));
+			$lcms_repository_category->set_description('...');
+	
+			//Retrieve repository id from course
+			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+				'category', Translation :: get_lang('MyRepository'));
+			$lcms_repository_category->set_parent_id($repository_id);
+			
+			//Create category in database
+			$lcms_repository_category->create();
+			
+			$lcms_survey_answer->set_parent_id($lcms_repository_category->get_id());
+		}
+		else
+		{
+			$lcms_survey_answer->set_parent_id($lcms_category_id);	
+		}
+		
+		$lcms_survey_answer->set_description($this->get_option_text());
+		
+		$lcms_survey_answer->set_owner_id($new_user_id);
+		
+		//create announcement in database
+		$lcms_survey_answer->create_all();
+		
+		//publication
+		/*
+		if($this->item_property->get_visibility() <= 1) 
+		{
+			$publication = new LearningObjectPublication();
+			
+			$publication->set_learning_object($lcms_announcement);
+			$publication->set_course_id($new_course_code);
+			$publication->set_publisher_id($new_user_id);
+			$publication->set_tool('announcement');
+			$publication->set_category_id(0);
+			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
+			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
+			$publication->set_from_date(0);
+			$publication->set_to_date(0);
+			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
+			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+			//$publication->set_modified_date(0);
+			//$publication->set_display_order_index($this->get_display_order());
+			$publication->set_display_order_index(0);
+			
+			if($this->get_email_sent())
+				$publication->set_email_sent($this->get_email_sent());
+			else
+				$publication->set_email_sent(0);
+			
+			$publication->set_hidden($this->item_property->get_visibility() == 1?0:1);
+			
+			//create publication in database
+			$publication->create();
+		}
+		*/
+		return $lcms_survey_answer;
 	}
 }
 

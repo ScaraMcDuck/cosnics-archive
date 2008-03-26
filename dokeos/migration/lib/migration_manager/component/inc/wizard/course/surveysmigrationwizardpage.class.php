@@ -39,7 +39,8 @@ class SurveysMigrationWizardPage extends MigrationWizardPage
 		{
 			case 0: return Translation :: get_lang('Surveys');
 			case 1: return Translation :: get_lang('Survey_questions');
-			case 2: return Translation :: get_lang('Survey_answers');
+			case 2: return Translation :: get_lang('Survey_question_options');
+			case 3: return Translation :: get_lang('Survey_answers');
 			default: return Translation :: get_lang('Surveys'); 
 		}
 	}
@@ -90,7 +91,8 @@ class SurveysMigrationWizardPage extends MigrationWizardPage
 					
 					$this->migrate('Survey', array('mgdm' => $this->mgdm), array(), $course,0);
 					$this->migrate('SurveyQuestion', array('mgdm' => $this->mgdm), array(), $course,1);
-					$this->migrate('SurveyAnswer', array('mgdm' => $this->mgdm), array(), $course,2);
+					$this->migrate('SurveyQuestionOption', array('mgdm' => $this->mgdm), array(), $course,2);
+					$this->migrate('SurveyAnswer', array('mgdm' => $this->mgdm), array(), $course,3);
 					
 					unset($courses[$i]);
 				}
