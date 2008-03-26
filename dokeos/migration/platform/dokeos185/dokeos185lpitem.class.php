@@ -286,43 +286,50 @@ class Dokeos185LpItem
 		$course = $array['course'];
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
-		
-		//forum parameters
-		if ($this->get_item_type() == 'dokeos_chapter')
-			$lcms_lp_item = new LearningPathChapter();
-		else
-			$lcms_lp_item = new LearningPathItem();
-		if ($this->get_ref() || $this->get_ref() == 0)
+		if($this->get_item_type() == 'dokeos_chapter')
 		{
-			// Category for lp item/chapter already exists?
-			$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
-				Translation :: get_lang('learning_paths'));
-			if(!$lcms_category_id)
-			{
-				//Create category for tool in lcms
-				$lcms_repository_category = new Category();
-				$lcms_repository_category->set_owner_id($new_user_id);
-				$lcms_repository_category->set_title(Translation :: get_lang('learning_paths'));
-				$lcms_repository_category->set_description('...');
-		
-				//Retrieve repository id from course
-				$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
-					'category', Translation :: get_lang('MyRepository'));
-				$lcms_repository_category->set_parent_id($repository_id);
-				
-				//Create category in database
-				$lcms_repository_category->create();
-				
-				$lcms_lp_item->set_parent_id($lcms_repository_category->get_id());
-			}
-			else
-			{
-				$lcms_lp_item->set_parent_id($lcms_category_id);	
-			}
+			$lcms_lp_item = new LearningPathChapter();
 		}
 		else
 		{
-			$lcms_lp_item->set_parent_id(self :: $mgdm->get_id_reference($this->get_ref(),'lp_item'));
+			$referentie = 0;
+			$lcms_lp_item = new LearningPathItem();
+			//forum parameters
+			switch($this->get_item_type())
+			{
+				case 'document': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_document'); break;
+				case 'quiz': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_learning_object'); break;
+				case 'link': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_link'); break;
+				case 'student_publication': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_document'); break;
+				case 'forum': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_forum_post'); break;
+				case 'thread': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_forum_topic'); break;
+			}
+		}
+		
+		// Category for lp item/chapter already exists?
+		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+			Translation :: get_lang('learning_paths'));
+		if(!$lcms_category_id)
+		{
+			//Create category for tool in lcms
+			$lcms_repository_category = new Category();
+			$lcms_repository_category->set_owner_id($new_user_id);
+			$lcms_repository_category->set_title(Translation :: get_lang('learning_paths'));
+			$lcms_repository_category->set_description('...');
+	
+			//Retrieve repository id from course
+			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+				'category', Translation :: get_lang('MyRepository'));
+			$lcms_repository_category->set_parent_id($repository_id);
+			
+			//Create category in database
+			$lcms_repository_category->create();
+			
+			$lcms_lp_item->set_parent_id($lcms_repository_category->get_id());
+		}
+		else
+		{
+			$lcms_lp_item->set_parent_id($lcms_category_id);	
 		}
 		if(!$this->get_title())
 		{	

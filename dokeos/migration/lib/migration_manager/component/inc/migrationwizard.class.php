@@ -63,10 +63,10 @@ class MigrationWizard extends HTML_QuickForm_Controller
 		$this->addPage(new LinksMigrationWizardPage('page_links',$this->parent));
 		$this->addPage(new DropBoxesMigrationWizardPage('page_dropbox',$this->parent));
 		$this->addPage(new ForumsMigrationWizardPage('page_forum',$this->parent));
-		//$this->addPage(new LearningPathsMigrationWizardPage('page_learning_path',$this->parent));
 		$this->addPage(new QuizMigrationWizardPage('page_quizs',$this->parent));
 		$this->addPage(new StudentPublicationsMigrationWizardPage('page_student_publication',$this->parent));
 		$this->addPage(new SurveysMigrationWizardPage('page_survey',$this->parent));
+		$this->addPage(new LearningPathsMigrationWizardPage('page_learning_path',$this->parent));
 		$this->addAction('display', new MigrationWizardDisplay($this->parent));
 	}
 }

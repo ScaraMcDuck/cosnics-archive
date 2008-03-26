@@ -3,6 +3,11 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importsurveyquestion.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/learning_style_survey_question/learning_style_survey_question.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
+
 /**
  * This class presents a Dokeos185 survey_question
  *
@@ -181,7 +186,7 @@ class Dokeos185SurveyQuestion
 	{
 		$course = $array['course'];
 
-		if(!$this->get_title() || !$this->get_creation_date())
+		if(!$this->get_survey_question())
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.survey');
@@ -268,6 +273,7 @@ class Dokeos185SurveyQuestion
 			$publication->create();
 		}
 		*/
+		
 		return $lcms_survey_question;
 	}
 }
