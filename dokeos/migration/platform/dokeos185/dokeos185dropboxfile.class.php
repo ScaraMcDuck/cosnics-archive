@@ -209,7 +209,8 @@ class Dokeos185DropboxFile
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 		
 		if(!$this->get_id() ||
-			!$this->item_property->get_insert_date() || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)))
+			!$this->item_property->get_insert_date() || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)) 
+			|| !$this->item_property)
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.dropbox_file');

@@ -204,7 +204,7 @@ class Dokeos185ForumThread
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'forum_thread',$this->get_thread_id());	
 
 		if(!$this->get_thread_id() || !$this->get_thread_title() 
-			|| !$this->item_property->get_insert_date())
+			|| !$this->item_property || !$this->item_property->get_insert_date())
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.forum_thread');

@@ -140,7 +140,7 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 			}
 			else
 			{
-				$message = 'FAILED: ' . $type . ' is not valid ( ID: ' . $item->get_id() . $extra_message . ' )';
+				$message = write_failed($item, $extra_message, $type);
 				$this->logfile->add_message($message);
 				$this->failed_elements[$i][] = $message;
 			}
@@ -158,6 +158,43 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 		$this->_formBuilt = true;
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
+	}
+	
+	function write_failed($item, $extra_message, $type)
+	{
+		switch(true)
+		{
+			case ($item instanceof Dokeos185DropboxFeedback) : return 'FAILED: ' . $type . 
+							' is not valid ( ID: ' . $item->get_feedback_id() . $extra_message . ' )';	
+							
+			case (($item instanceof Dokeos185DropboxCategory)||($item instanceof Dokeos185ForumCategory)) : 
+							return 'FAILED: ' . $type . 
+							' is not valid ( ID: ' . $item->get_cat_id() . $extra_message . ' )';
+							
+			case ($item instanceof Dokeos185ForumForum) : return 'FAILED: ' . $type . 
+							' is not valid ( ID: ' . $item->get_forum_id() . $extra_message . ' )';
+							
+			case ($item instanceof Dokeos185ForumPost) :return 'FAILED: ' . $type . 
+							' is not valid ( ID: ' . $item->get_post_id() . $extra_message . ' )';
+							
+			case ($item instanceof Dokeos185ForumThread) :return 'FAILED: ' . $type . 
+							' is not valid ( ID: ' . $item->get_thread_id() . $extra_message . ' )';	
+							
+			case ($item instanceof Dokeos185Survey) :return 'FAILED: ' . $type . 
+							' is not valid ( ID: ' . $item->get_survey_id() . $extra_message . ' )';	
+							
+			case ($item instanceof Dokeos185SurveyAnswer) :return 'FAILED: ' . $type . 
+							' is not valid ( ID: ' . $item->get_answer_id() . $extra_message . ' )';
+							
+			case ($item instanceof Dokeos185SurveyQuestion) :return 'FAILED: ' . $type . 
+							' is not valid ( ID: ' . $item->get_question_id() . $extra_message . ' )';	
+							
+			case ($item instanceof Dokeos185QuestionOption) :return 'FAILED: ' . $type . 
+							' is not valid ( ID: ' . $item->get_question_option_id() . $extra_message . ' )';	
+							
+			default: return 'FAILED: ' . $type . 
+							' is not valid ( ID: ' . $item->get_id() . $extra_message . ' )';
+		}
 	}
 }
 

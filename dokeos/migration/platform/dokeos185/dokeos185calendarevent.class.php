@@ -144,7 +144,7 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 	
 
 		if(!$this->get_id() || !($this->get_title() || $this->get_content())
-			|| !$this->item_property->get_insert_date())
+			|| !$this->item_property->get_insert_date() || !$this->item_property)
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.calendar_event');

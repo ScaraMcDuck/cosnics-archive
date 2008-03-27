@@ -272,7 +272,7 @@ class Dokeos185ForumForum
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'forum',$this->get_forum_id());	
 		
 		if(!$this->get_forum_id() || !($this->get_forum_title() || $this->get_comment())
-			|| !$this->item_property->get_insert_date())
+			|| !$this->item_property || !$this->item_property->get_insert_date())
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.forum_forum');
