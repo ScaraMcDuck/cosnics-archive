@@ -260,8 +260,9 @@ class Dokeos185Lp
 	{
 		$course = $array['course'];
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'learnpath',$this->get_id());	
+		
 		if(!$this->get_id() || !$this->get_lp_type() || !$this->get_name()
-			|| !$this->item_property->get_insert_date())
+			|| !$this->item_property || !$this->item_property->get_insert_date())
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.lp');

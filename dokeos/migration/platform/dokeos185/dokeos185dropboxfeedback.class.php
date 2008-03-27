@@ -131,11 +131,11 @@ class Dokeos185DropboxFeedback
 
 	function is_valid($array)
 	{
-		$course = $array[0];
+		$course = $array['course'];
 		if(!$this->get_feedback_id() || !$this->get_feedback()
 			|| !$this->get_feedback_date())
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			self :: $mgdm->add_failed_element($this->get_feedback_id(),
 				$course->get_db_name() . '.dropbox_feedback');
 			return false;
 		}
