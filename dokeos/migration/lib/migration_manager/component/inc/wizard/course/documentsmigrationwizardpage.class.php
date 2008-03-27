@@ -168,6 +168,8 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 	{
 		$this->logfile->add_message('Starting migration documents for course ' . $course->get_code());
 		
+		$csvlogger = new Logger('doc.csv');
+		
 		$class_document = Import :: factory($this->old_system, 'document');
 		$documents = array();
 		$documents = $class_document->get_all_documents($course, $this->mgdm, $this->include_deleted_files);
@@ -176,9 +178,18 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 		{
 			if($document->is_valid_document($course))
 			{
+				$begin_time = Logger :: get_microtime();		
 				$lcms_document = $document->convert_to_new_document($course);
+				
 				if($lcms_document)
-					$this->logfile->add_message('SUCCES: document added ( ' . $lcms_document->get_id() . ' )');
+				{
+					$end_time = Logger :: get_microtime();
+					$passedtime = ($end_time - $begin_time);
+					$this->logfile->add_message('SUCCES: document added ( ID: ' . $lcms_document->get_id() . ' )');
+					$csvlogger->write_text($lcms_document->get_filename() . ';' . $lcms_document->get_filesize() .
+						';' . $passedtime);
+				}
+
 				$this->succes[0]++;
 				unset($lcms_document);
 			}
@@ -191,6 +202,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 			unset($documents[$j]);
 		}
 		
+		$csvlogger->close_file();
 
 		$this->logfile->add_message('Documents migrated for course ' . $course->get_code());
 	}
