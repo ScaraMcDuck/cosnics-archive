@@ -493,11 +493,11 @@ abstract class MigrationDataManager
 		
 		return $record['id'];
 	}
-	function get_owner($course)
+	function get_owner($course, $debug = false)
 	{
 		$this->db_lcms_connect();
 		
-		$query = 'SELECT user_id FROM weblcms_course_rel_user WHERE course_code = \'' . $course . '\'';
+		$query = 'SELECT user_id FROM weblcms_course_rel_user WHERE course_code = \'' . $course . '\' AND status=1;';
 		
 		$result = $this->db_lcms->query($query);
 		$owners = array();
@@ -514,11 +514,11 @@ abstract class MigrationDataManager
 		}
 		else
 		{
-			$query = 'SELECT CRL.user_id FROM weblcms_course_rel_user CRL 
-					JOIN user_user UU ON UU.user_id = CRL.user_id
-					JOIN weblcms_course C ON C.code = CRL.course_code
-					WHERE CRL.status = 1 AND CRL.course_code = \'' . $course . 
-					'\' AND C.tutor_name = (UU.firstname + \' \' + UU.lastname)';
+			$query = 'SELECT CRL.user_id FROM weblcms_course_rel_user CRL WHERE CRL.user_id IN (
+					  SELECT UU.user_id FROM user_user UU WHERE CONCAT(UU.lastname,\' \',UU.firstname) IN (
+					  SELECT C.tutor_name FROM weblcms_course C WHERE C.code = CRL.course_code)) AND CRL.status = 1 AND CRL.course_code = \'' . $course . '\';';
+			if($debug)
+				echo($query);
 			
 			$result = $this->db_lcms->query($query);
 			$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -527,10 +527,12 @@ abstract class MigrationDataManager
 				return $record['user_id'];
 			else
 			{
-				$query = 'SELECT COUNT(LOP.publisher) as count, CRL.user_id FROM weblcms_course_rel_user CRL
-						JOIN weblcms_learning_object_publication LOP ON LOP.publisher = CRL.user_id
-						AND LOP.course = CRL.course_code WHERE CRL.status = 1 AND
-						CRL.course_code = \'' . $course . '\' GROUP BY CRL.user_id';
+				$query = 'SELECT COUNT(LOP.publisher) as count, LOP.publisher FROM weblcms_learning_object_publication LOP WHERE LOP.publisher = (
+						  SELECT CRL.user_id FROM weblcms_course_rel_user CRL WHERE CRL.course_code = \''. $course .'\' AND CRL.status = 1) AND
+						  LOP.course = \''. $course .'\' GROUP BY LOP.publisher;';
+				
+				if($debug)
+					echo($query);
 				
 				$result = $this->db_lcms->query($query);
 				$owner_id = -1;

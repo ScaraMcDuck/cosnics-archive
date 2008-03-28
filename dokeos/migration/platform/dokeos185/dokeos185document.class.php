@@ -187,17 +187,26 @@ class Dokeos185Document extends Import
 	
 	function convert_to_new_document($course)
 	{
+		$start_time = Logger :: get_microtime();
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
-		
-		if(!$new_user_id)
-		{
-			$new_user_id = self :: $mgdm->get_owner($new_course_code);
-		}
+		$end_time = Logger :: get_microtime();
+		$passedtime_idref = $end_time - $start_time;
 		
 		$pos = strrpos($this->get_path(), '/');
 		$filename = substr($this->get_path(), $pos);
 		$old_path = substr($this->get_path(), 0, $pos);
+		
+		if(!$new_user_id)
+		{
+			$start_time = Logger :: get_microtime();
+			if($filename == '/taak_3_handbal.doc')
+				$new_user_id = self :: $mgdm->get_owner($new_course_code, true);
+			else
+				$new_user_id = self :: $mgdm->get_owner($new_course_code);
+			$end_time = Logger :: get_microtime();
+			$passedtime_orphan = $end_time - $start_time;
+		}
 		
 		$new_path = $new_user_id . '/';
 		$old_rel_path = 'courses/' . $course->get_code() . '/document/'  . $old_path;
@@ -209,33 +218,21 @@ class Dokeos185Document extends Import
 		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 
-		//$document_md5 = md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)); 
-		//$document_id = self :: $mgdm->get_document_from_md5($new_user_id,$document_md5);
+		$document_md5 = md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)); 
+		$document_id = self :: $mgdm->get_document_from_md5($new_user_id,$document_md5);
 		
-		//if(!$document_id)
-		//{
+		if(!$document_id)
+		{
 			
-			// Move file to correct directory
-			//echo($old_rel_path . "\t" . $new_rel_path . "\t" . $filename . "\n");
-
-			if($filename == '/20070925_6_7.zip')
-			{
-				$start_time = Logger :: get_microtime();
-
-				$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
-					$filename);
-
-				$end_time = Logger :: get_microtime();
-				$passedtime = $end_time - $start_time;
-				echo($filename . ' ' . $passedtime);
-				flush();
-			}
-			else
-				$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
-					$filename);
+			$start_time = Logger :: get_microtime();
+			$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
+				$filename);
+			$end_time = Logger :: get_microtime();
+			$passedtime_copy = $end_time - $start_time;
 
 			if($file)
 			{
+				$start_time = Logger :: get_microtime();
 				//document parameters
 				$lcms_document = new Document();
 	
@@ -284,29 +281,39 @@ class Dokeos185Document extends Import
 				
 				//create document in database
 				$lcms_document->create_all();
+				$end_time = Logger :: get_microtime();
+				$passedtime_document = $end_time - $start_time;
 				
 				//self :: $mgdm->add_file_md5($new_user_id, $lcms_document->get_id(), $document_md5);
 			}
 			else
 			{
+				$start_time = Logger :: get_microtime();
 				$document_id = self :: $mgdm->get_document_id($new_rel_path . $filename, $new_user_id);
 				if($document_id)
 				{
 					$lcms_document = new LearningObject();
 					$lcms_document->set_id($document_id);
 				}
+				$end_time = Logger :: get_microtime();
+				$passedtime_doublefile = $end_time - $start_time;
 			}
 			
-	//	}
-		/*else
+		}
+		else
 		{
 			$lcms_document = new LearningObject();
 			$lcms_document->set_id($document_id);
-		}*/
+		}
 			
 		//publication
+		$start_time = Logger :: get_microtime();
+		
 		if($this->item_property->get_visibility() <= 1 && $lcms_document) 
 		{
+			
+			$start_time_cat = Logger :: get_microtime();
+			
 			// Categories already exists?
 			$file_split = array();
 			$file_split = split('/', $old_path);
@@ -340,6 +347,9 @@ class Dokeos185Document extends Import
 				}
 				
 			}	
+			
+			$end_time_cat = Logger :: get_microtime();
+			$passedtime_categories = $end_time_cat - $start_time_cat;
 		
 			$publication = new LearningObjectPublication();
 			
@@ -365,9 +375,14 @@ class Dokeos185Document extends Import
 			$publication->create();		
 		}
 		
+		$end_time = Logger :: get_microtime();
+		$passedtime_publication = $end_time - $start_time;
+		
 		flush();
 		
-		return $lcms_document;
+		return array('document' => $lcms_document, 'copy_time' => $passedtime_copy, 'document_time' => $passedtime_document, 
+					 'categories_time' => $passedtime_categories, 'publication_time' => $passedtime_publication, 'idref_time' => $passedtime_idref,
+					 'orphan_time' => $passedtime_orphan, 'doublefile_time' => $passedtime_doublefile); 
 	}
 	
 	static function get_all_documents($course, $mgdm, $include_deleted_files)

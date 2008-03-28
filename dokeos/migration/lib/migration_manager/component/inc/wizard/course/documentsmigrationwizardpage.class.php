@@ -110,6 +110,11 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 		//Create migrationdatamanager
 		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
+		$csvlogger = new Logger('doc.csv');
+		$csvlogger->write_text('oud document pad;filesize;total passed time;copytime;documenttime;categories_time;publication_time;' .
+			'idref_time;orphan_time;doublefile_time;totaltime (copy to pub);difference (passed - total)');
+		$csvlogger->close_file();
+		
 		if(isset($exportvalues['migrate_documents']) && $exportvalues['migrate_documents'] == 1)
 		{	
 			//Migrate the calendar events and resources
@@ -122,7 +127,11 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 				
 				foreach($courses as $i => $course)
 				{
-					if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
+					$old_rel_path = 'courses/' . $course->get_code() . '/document/';
+					$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
+					$full_path = $this->mgdm->append_full_path(false,$old_rel_path);
+					
+					if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()) || !is_dir($full_path))
 					{
 						continue;
 					}	
@@ -168,7 +177,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 	{
 		$this->logfile->add_message('Starting migration documents for course ' . $course->get_code());
 		
-		$csvlogger = new Logger('doc.csv');
+		$csvlogger = new Logger('doc.csv', true);
 		
 		$class_document = Import :: factory($this->old_system, 'document');
 		$documents = array();
@@ -179,15 +188,40 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 			if($document->is_valid_document($course))
 			{
 				$begin_time = Logger :: get_microtime();		
-				$lcms_document = $document->convert_to_new_document($course);
+				$array = $document->convert_to_new_document($course);
+				$lcms_document = $array['document'];
 				
 				if($lcms_document)
 				{
 					$end_time = Logger :: get_microtime();
 					$passedtime = ($end_time - $begin_time);
+					
 					$this->logfile->add_message('SUCCES: document added ( ID: ' . $lcms_document->get_id() . ' )');
-					$csvlogger->write_text($lcms_document->get_filename() . ';' . $lcms_document->get_filesize() .
-						';' . $passedtime);
+					$copytime = $array['copy_time'];
+					$documenttime = $array['document_time'];
+					$categories_time = $array['categories_time'];
+					$publication_time = $array['publication_time'];
+					$idref_time = $array['idref_time'];
+					$orphan_time = $array['orphan_time'];
+					$doublefile_time = $array['doublefile_time'];
+					$total_time = $copytime + $documenttime + $publication_time + $idref_time + $orphan_time + $doublefile_time;
+					$difference = $passedtime - $total_time;
+					
+					$passedtime = number_format($passedtime, 3, ',', '');
+					$copytime = number_format($copytime, 3, ',', '');
+					$documenttime = number_format($documenttime, 3, ',', '');
+					$categories_time = number_format($categories_time, 3, ',', '');
+					$publication_time = number_format($publication_time, 3, ',', '');
+					$idref_time = number_format($idref_time, 3, ',', '');
+					$orphan_time = number_format($orphan_time, 3, ',', '');
+					$doublefile_time = number_format($doublefile_time, 3, ',', '');
+					$total_time = number_format($total_time, 3, ',', '');
+					$difference = number_format($difference, 3, ',', '');
+					
+					$csvlogger->write_text($document->get_path() . ';' . $lcms_document->get_filesize() .
+						';' . $passedtime . ';' . $copytime . ';' . $documenttime . ';' . $categories_time .
+						';' . $publication_time . ';' . $idref_time . ';' . $orphan_time . 
+						';' . $doublefile_time . ';' . $total_time . ';' . $difference);
 				}
 
 				$this->succes[0]++;
