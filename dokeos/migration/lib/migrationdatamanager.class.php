@@ -126,7 +126,7 @@ abstract class MigrationDataManager
 				  id int NOT NULL AUTO_INCREMENT,
 				  user_id int NOT NULL, 
 				  document_id int NOT NULL,
-				  file_md5 varchar(30),
+				  file_md5 varchar(35),
 				  primary key(id),
 				  INDEX file_md5 (user_id, file_md5) );';
 		$this->db_lcms->query($query);

@@ -21,8 +21,7 @@ class Dokeos185Document extends Import
 {
 	private static $mgdm;
 	private $item_property;
-	
-	private static $files = array();
+	private static $counter = 0;
 
 	/**
 	 * document properties
@@ -161,6 +160,11 @@ class Dokeos185Document extends Import
 	{
 		return $this->get_default_property(self :: PROPERTY_FILETYPE);
 	}
+
+	static function get_counter()
+	{
+		return self :: $counter;
+	}
 	
 	function is_valid_document($course)
 	{
@@ -170,16 +174,23 @@ class Dokeos185Document extends Import
 		$filename = substr($this->get_path(), $pos);
 		$old_path = substr($this->get_path(), 0, $pos);
 		
-		$old_rel_path = 'courses/' . $course->get_code() . '/document/'  . $old_path;
+		$old_rel_path = 'courses/' . $course->get_directory() . '/document/'  . $old_path;
 
 		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 
-		if(!$this->get_id() || !$this->get_path() || !$this->get_filetype() || !$this->item_property
+		if(!$this->get_id() || !$this->get_path() || !$this->get_filetype() || !$this->item_property || !$this->item_property->get_ref()
 			|| !$this->item_property->get_insert_date() || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)) )
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.document');
+			
+			if(	file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)) )
+			{
+				$filesize = filesize(self :: $mgdm->append_full_path(false,$old_rel_path . $filename));
+				self :: $counter += $filesize;
+			}
+			
 			return false;
 		}
 		return true;
@@ -209,7 +220,7 @@ class Dokeos185Document extends Import
 		}
 		
 		$new_path = $new_user_id . '/';
-		$old_rel_path = 'courses/' . $course->get_code() . '/document/'  . $old_path;
+		$old_rel_path = 'courses/' . $course->get_directory() . '/document/'  . $old_path;
 
 		$new_rel_path = 'files/repository/' . $new_path;
 		
@@ -281,13 +292,17 @@ class Dokeos185Document extends Import
 				
 				//create document in database
 				$lcms_document->create_all();
+				
+				//Add id references to temp table
+				self :: $mgdm->add_id_reference($this->get_id(), $lcms_document->get_id(), 'repository_document');
+				
 				$end_time = Logger :: get_microtime();
 				$passedtime_document = $end_time - $start_time;
-				
-				//self :: $mgdm->add_file_md5($new_user_id, $lcms_document->get_id(), $document_md5);
+			
+				self :: $mgdm->add_file_md5($new_user_id, $lcms_document->get_id(), $document_md5);
 			}
 			else
-			{
+			{ 
 				$start_time = Logger :: get_microtime();
 				$document_id = self :: $mgdm->get_document_id($new_rel_path . $filename, $new_user_id);
 				if($document_id)
@@ -303,7 +318,9 @@ class Dokeos185Document extends Import
 		else
 		{
 			$lcms_document = new LearningObject();
-			$lcms_document->set_id($document_id);
+			$filesize = filesize(self :: $mgdm->append_full_path(false,$old_rel_path . $filename));
+			self :: $counter += $filesize;
+			
 		}
 			
 		//publication

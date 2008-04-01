@@ -164,6 +164,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 
 		//Close the logfile
 		$this->logfile->write_passed_time();
+		$this->logfile->add_message('Counter: ' . Dokeos185Document :: get_counter());
 		$this->logfile->close_file();
 		$logger->write_text('documents');
 		$logger->close_file();
@@ -191,7 +192,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 				$array = $document->convert_to_new_document($course);
 				$lcms_document = $array['document'];
 				
-				if($lcms_document)
+				if($lcms_document and is_a($lcms_document, 'Document'))
 				{
 					$end_time = Logger :: get_microtime();
 					$passedtime = ($end_time - $begin_time);
