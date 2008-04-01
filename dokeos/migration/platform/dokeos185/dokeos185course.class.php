@@ -150,7 +150,7 @@ class Dokeos185Course extends Import
 	 * Returns the directory of this course.
 	 * @return String The directory.
 	 */
-	function get_Directory()
+	function get_directory()
 	{
 		return $this->get_default_property(self :: PROPERTY_DIRECTORY);
 	}
