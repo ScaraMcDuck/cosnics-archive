@@ -127,7 +127,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 				
 				foreach($courses as $i => $course)
 				{
-					$old_rel_path = 'courses/' . $course->get_code() . '/document/';
+					$old_rel_path = 'courses/' . $course->get_directory() . '/document/';
 					$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 					$full_path = $this->mgdm->append_full_path(false,$old_rel_path);
 					
