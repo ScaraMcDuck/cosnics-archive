@@ -213,7 +213,7 @@ class Dokeos185ForumPost
 
 		if(!$this->get_post_id() || !$this->get_post_title() || !$this->get_post_text())
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			self :: $mgdm->add_failed_element($this->get_post_id(),
 				$course->get_db_name() . '.forum_post');
 			return false;
 		}

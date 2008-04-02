@@ -203,14 +203,13 @@ class Dokeos185DropboxFile
 		
 		
 		$filename = $this->get_filename();
-		$old_rel_path = 'courses/' . $course->get_code() . '/dropbox/';
+		$old_rel_path = 'courses/' . $course->get_directory() . '/dropbox/';
 
 		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 		
-		if(!$this->get_id() ||
-			!$this->item_property->get_insert_date() || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)) 
-			|| !$this->item_property)
+		if(!$this->get_id() || !$this->item_property || !$this->item_property->get_ref() ||
+			!$this->item_property->get_insert_date() || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)))
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.dropbox_file');
@@ -232,7 +231,7 @@ class Dokeos185DropboxFile
 		
 		
 		$new_path = $new_user_id . '/';
-		$old_rel_path = 'courses/' . $course->get_code() . '/dropbox/';
+		$old_rel_path = 'courses/' . $course->get_directory() . '/dropbox/';
 
 		$new_rel_path = 'files/repository/' . $new_path;
 		

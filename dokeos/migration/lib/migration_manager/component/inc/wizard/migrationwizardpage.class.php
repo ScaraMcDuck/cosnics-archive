@@ -79,10 +79,10 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
 					 $this->get_message($i) . ' ' . Translation :: get_lang('failed');
 			
-			foreach($this->failed_elements[$i] as $felement)
+			/*foreach($this->failed_elements[$i] as $felement)
 			{
 				$message = $message . '<br />' . $felement ;
-			}
+			}*/
 			
 			$message = $message . '<br />';
 		}

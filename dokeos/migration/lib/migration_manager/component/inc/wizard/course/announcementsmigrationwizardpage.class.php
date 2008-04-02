@@ -182,10 +182,9 @@ class AnnouncementsMigrationWizardPage extends MigrationWizardPage
 					$this->logfile->add_message($message);
 					$this->failed_announcements[] = $message;
 				}
-				
-				$this->logfile->add_message('Announcements ' . $course->get_code() . ' migrated');
 				unset($announcements[$j]);
 			}
+			$this->logfile->add_message('Announcements ' . $course->get_code() . ' migrated');
 			unset($courses[$i]);
 		}
 

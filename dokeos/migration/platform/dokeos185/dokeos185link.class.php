@@ -164,7 +164,7 @@ class Dokeos185Link extends Import
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'link',$this->get_id());
 		
 		if(!$this->get_url() || !$this->get_id() || !$this->get_title() || 
-			!$this->item_property->get_insert_date())
+			!$this->item_property || !$this->item_property->get_ref() || !$this->item_property->get_insert_date() )
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.link');
@@ -227,6 +227,9 @@ class Dokeos185Link extends Import
 		
 		//create link in database
 		$lcms_link->create_all();
+		
+		//Add id references to temp table
+		self :: $mgdm->add_id_reference($this->get_id(), $lcms_link->get_id(), 'repository_link');
 		
 		//publication
 		if($this->item_property->get_visibility() <= 1) 
