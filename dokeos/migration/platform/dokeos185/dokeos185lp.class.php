@@ -262,7 +262,7 @@ class Dokeos185Lp
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'learnpath',$this->get_id());	
 		
 		if(!$this->get_id() || !$this->get_lp_type() || !$this->get_name()
-			|| !$this->item_property || !$this->item_property->get_insert_date())
+			|| !$this->item_property || !$this->item_property->get_ref() || !$this->item_property->get_insert_date())
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.lp');
@@ -327,7 +327,7 @@ class Dokeos185Lp
 		$lcms_lp->create_all();
 		
 		//Add id references to temp table
-		self :: $mgdm->add_id_reference($this->get_id(), $lcms_lp->get_id(), 'repository_learning_object');
+		self :: $mgdm->add_id_reference($this->get_id(), $lcms_lp->get_id(), 'repository_learning_path');
 		
 		/*
 		//publication

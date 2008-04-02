@@ -157,7 +157,7 @@ class Dokeos185QuizQuestion
 		return $this->get_default_property(self :: PROPERTY_PICTURE);
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 

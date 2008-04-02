@@ -271,10 +271,10 @@ class Dokeos185ForumForum
 		$course = $array['course'];
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'forum',$this->get_forum_id());	
 		
-		if(!$this->get_forum_id() || !($this->get_forum_title() || $this->get_comment())
-			|| !$this->item_property || !$this->item_property->get_insert_date())
+		if(!$this->get_forum_id() || !($this->get_forum_title() || $this->get_forum_comment())
+			|| !$this->item_property || !$this->item_property->get_ref() || !$this->item_property->get_insert_date())
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			self :: $mgdm->add_failed_element($this->get_forum_id(),
 				$course->get_db_name() . '.forum_forum');
 			return false;
 		}
@@ -340,6 +340,9 @@ class Dokeos185ForumForum
 		
 		//create announcement in database
 		$lcms_forum->create_all();
+		
+		//Add id references to temp table
+		self :: $mgdm->add_id_reference($this->get_forum_id(), $lcms_forum->get_id(), 'repository_forum');
 		
 		/*
 		//publication

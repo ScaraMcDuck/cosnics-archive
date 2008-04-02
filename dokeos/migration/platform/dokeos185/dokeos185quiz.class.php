@@ -230,6 +230,9 @@ class Dokeos185Quiz
 		//create announcement in database
 		$lcms_exercise->create_all();
 		
+		//Add id references to temp table
+		self :: $mgdm->add_id_reference($this->get_id(), $lcms_exercise->get_id(), 'exercice');
+		
 		/*
 		//publication
 		if($this->item_property->get_visibility() <= 1) 

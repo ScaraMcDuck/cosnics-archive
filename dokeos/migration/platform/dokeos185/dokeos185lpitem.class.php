@@ -279,7 +279,7 @@ class Dokeos185LpItem
 	
 	function convert_to_lcms($array)
 	{
-		$id = self :: $mgdm->get_id_reference($this->get_lp_id(),'repository_learning_object');
+		$id = self :: $mgdm->get_id_reference($this->get_lp_id(),'repository_learning_path');
 		
 		$lo = self :: $mgdm->get_owner_learning_object($id,'learning_path');
 		$new_user_id = $lo->get_owner_id();
@@ -298,11 +298,11 @@ class Dokeos185LpItem
 			switch($this->get_item_type())
 			{
 				case 'document': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_document'); break;
-				case 'quiz': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_learning_object'); break;
+				case 'quiz': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'exercice'); break;
 				case 'link': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_link'); break;
-				case 'student_publication': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_document'); break;
-				case 'forum': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_forum_post'); break;
-				case 'thread': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_forum_topic'); break;
+				case 'student_publication': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_work'); break;
+				case 'forum': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_forum'); break;
+				case 'thread': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_forum_thread'); break;
 			}
 		}
 		

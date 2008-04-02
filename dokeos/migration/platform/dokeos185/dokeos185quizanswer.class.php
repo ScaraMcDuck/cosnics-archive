@@ -6,7 +6,7 @@
 /**
  * This class presents a Dokeos185 quiz_answer
  *
- * @author Sven Vanpoucke
+ * @author Sven Vanpouckes
  */
 class Dokeos185QuizAnswer
 {
