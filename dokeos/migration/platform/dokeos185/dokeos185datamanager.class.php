@@ -151,7 +151,7 @@ class Dokeos185DataManager extends MigrationDataManager
 		
 		$old_file = $old_path . $filename;
 		$new_file = $new_path . $filename;
-
+		
 		if(!file_exists($old_file) || !is_file($old_file)) return null;
 		
 		$new_filename = FileSystem :: copy_file_with_double_files_protection($old_path,

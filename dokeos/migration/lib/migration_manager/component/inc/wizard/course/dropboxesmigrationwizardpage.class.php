@@ -71,6 +71,9 @@ class DropBoxesMigrationWizardPage extends MigrationWizardPage
 		//Create migrationdatamanager
 		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
+		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
+			$this->mgdm->set_move_file(true);
+		
 		if(isset($exportvalues['migrate_dropboxes']) && $exportvalues['migrate_dropboxes'] == 1)
 		{	
 			//Migrate the dropbox
