@@ -82,7 +82,7 @@ class MigrationWizardDisplay extends HTML_QuickForm_Action_Display
 
 		flush();
 
-		$performed_correct = $current_page->perform();
+		$performed_correct = $current_page->perform(); 
 		if($performed_correct)
 			echo $current_page->get_info();
 		echo '</div>';
