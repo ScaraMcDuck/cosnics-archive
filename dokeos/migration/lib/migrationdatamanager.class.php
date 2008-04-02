@@ -103,7 +103,7 @@ abstract class MigrationDataManager
 				  failed_id varchar(50),
 				  table_name varchar(50),
 				  primary key(id),
-				  INDEX `failed`(`failed_id`, `table_name`) );';
+				  INDEX failed(failed_id, table_name) );';
 		$this->db_lcms->query($query);
 		
 		$query = 'CREATE TABLE ' . self :: TEMP_RECOVERY_TABLE . ' (
@@ -119,7 +119,7 @@ abstract class MigrationDataManager
 				  new_id varchar(50),
 				  table_name varchar(50),
 				  primary key(id),
-				  INDEX `old_id`(`old_id`, `table_name`) );';
+				  INDEX old_id(old_id, table_name) );';
 		$this->db_lcms->query($query);
 		
 		$query = 'CREATE TABLE ' . self :: TEMP_FILES_M5_TABLE . '  (
@@ -566,6 +566,19 @@ abstract class MigrationDataManager
 		$datamanager = RepositoryDataManager::get_instance();
 		$result = $datamanager->retrieve_learning_object($lp_id, $tool);
 		return $result;
+	}
+	
+	function get_user_by_full_name($fullname)
+	{
+		$this->db_lcms_connect();
+	 	$query = 'SELECT user_id FROM user_user WHERE ' .
+	 			 'CONCAT(firstname, \' \', lastname) = \'' . $fullname . '\' OR ' .
+	 			 'CONCAT(lastname, \' \', firstname) = \'' . $fullname . '\'';
+
+	 	$result = $this->db_lcms->query($query);
+	 	$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+	 	if($record)
+	 		return $record['user_id'];
 	}
 	
 }
