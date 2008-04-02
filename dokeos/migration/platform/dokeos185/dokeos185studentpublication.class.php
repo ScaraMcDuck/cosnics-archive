@@ -184,11 +184,11 @@ class Dokeos185StudentPublication
 		$course = $array['course'];
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'work',$this->get_id());	
 		
-		$old_rel_path = 'courses/' . $course->get_code() . '/' . $this->get_url();
+		$old_rel_path = 'courses/' . $course->get_directory() . '/' . $this->get_url();
 		
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 		
-		if(!$this->get_url() || !$this->item_property->get_insert_date() || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path)))
+		if(!$this->get_url() /*|| !$this->item_property || !$this->item_property->get_ref() || !$this->item_property->get_insert_date()*/ || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path)))
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.student_publication');
@@ -199,7 +199,11 @@ class Dokeos185StudentPublication
 	
 	function convert_to_lcms($array)
 	{
-		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
+		if($this->item_property)
+			$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
+		else
+			$new_user_id = self :: $mgdm->get_user_by_full_name($this->get_author());
+		
 		$course = $array['course'];
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
 		
@@ -209,7 +213,7 @@ class Dokeos185StudentPublication
 		}
 		
 		$new_path = $new_user_id . '/';
-		$old_rel_path = 'courses/' . $course->get_code() . '/' . dirname($this->get_url()) . '/';
+		$old_rel_path = 'courses/' . $course->get_directory() . '/' . dirname($this->get_url()) . '/';
 
 		$new_rel_path = 'files/repository/' . $new_path;
 		$filename = basename($this->get_url());
@@ -229,9 +233,6 @@ class Dokeos185StudentPublication
 
 			// Move file to correct directory
 			//echo($old_rel_path . "\t" . $new_rel_path . "\t" . $filename . "\n");
-			echo self :: $mgdm->append_full_path(false,$old_rel_path) . '<BR/>';
-			echo self :: $mgdm->append_full_path(true,$new_rel_path) . '<BR/>';
-			echo $filename . '<BR/>';
 			$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
 				$filename);
 			
@@ -250,8 +251,8 @@ class Dokeos185StudentPublication
 				else
 					$lcms_document->set_description($this->get_description());
 				$lcms_document->set_owner_id($new_user_id);
-				$lcms_document->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-				$lcms_document->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+				//$lcms_document->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
+				//$lcms_document->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
 				$lcms_document->set_path($new_path . $file);
 				$lcms_document->set_filename($file);
 				
@@ -281,11 +282,14 @@ class Dokeos185StudentPublication
 					$lcms_document->set_parent_id($lcms_category_id);	
 				}
 			
-				if($this->item_property->get_visibility() == 2)
-					$lcms_document->set_state(1);
+				//if($this->item_property->get_visibility() == 2)
+				//	$lcms_document->set_state(1);
 				
 				//create document in database
-				$lcms_document->create_all();
+				//$lcms_document->create_all();
+				$lcms_document->create();
+				//Add id references to temp table
+				self :: $mgdm->add_id_reference($this->get_id(), $lcms_document->get_id(), 'repository_work');
 				
 				//self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(true,$new_rel_path . $file))] = $lcms_document->get_id();
 			}
