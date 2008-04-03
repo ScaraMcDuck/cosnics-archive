@@ -26,7 +26,7 @@ class Installer
      * 'indexes'
      */
     public static function parse_xml_file($file)
-    {
+    { 
 		$doc = new DOMDocument();
 		$doc->load($file);
 		$object = $doc->getElementsByTagname('object')->item(0);
