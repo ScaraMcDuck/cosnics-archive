@@ -10,8 +10,8 @@ require_once(Path :: get_path(SYS_APP_MIGRATION_PATH) . '/lib/failedelement.clas
 require_once(Path :: get_path(SYS_APP_MIGRATION_PATH) . '/lib/idreference.class.php');
 require_once(Path :: get_path(SYS_APP_MIGRATION_PATH) . '/lib/recoveryelement.class.php');
 require_once dirname(__FILE__) . '/../../repository/lib/repositorydatamanager.class.php';
+require_once Path :: get_library_path().'installer.class.php';
 
-//TODO use pear package for lcms database connection
 abstract class MigrationDataManager
 {
 	abstract function validate_settings();
@@ -65,6 +65,63 @@ abstract class MigrationDataManager
 		$this->db_lcms->query('SET NAMES utf8');
 	}
 	
+	function debug()
+	{
+		$args = func_get_args();
+		// Do something with the arguments
+		if($args[1] == 'query')
+		{
+			//echo '<pre>';
+		 	//echo($args[2]);
+		 	//echo '</pre>';
+		}
+	}
+	
+	function create_storage_unit($name,$properties,$indexes)
+	{
+		$this->db_lcms->loadModule('Manager');
+		$manager = $this->db_lcms->manager;
+		$tables = $manager->listTables();
+		if( in_array($name,$tables))
+		{
+			$manager->dropTable($name);
+		}
+		
+		$name = $this->get_table_name($name);
+		
+		$options['charset'] = 'utf8';
+		$options['collate'] = 'utf8_unicode_ci';
+		if (!MDB2 :: isError($manager->createTable($name,$properties,$options)))
+		{
+			foreach($indexes as $index_name => $index_info)
+			{
+				if($index_info['type'] == 'primary')
+				{
+					$index_info['primary'] = 1;
+					$manager->createConstraint($name,$index_name,$index_info);
+	
+				}
+				else
+				{
+					$manager->createIndex($name,$index_name,$index_info);
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Expands a table identifier to the real table name. Currently, this
+	 * method prefixes the given table name.
+	 * @param string $name The table identifier.
+	 * @return string The actual table name.
+	 */
+	function get_table_name($name)
+	{
+		$dsn = $this->db_lcms->getDSN('array');
+		return $dsn['database'].'.'.$name;
+	}
+	
 	/**
 	 * gets the parent_id from a learning object
 	 * 
@@ -94,62 +151,17 @@ abstract class MigrationDataManager
 	 */
 	function create_temporary_tables()
 	{
-		$this->db_lcms_connect();
+		$dir = dirname(__FILE__) . '/data_manager/';
+		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
 		
-		$this->delete_temporary_tables();
-		
-		$query = 'CREATE TABLE ' . self :: TEMP_FAILED_ELEMENTS_TABLE . ' (
-				  id int NOT NULL AUTO_INCREMENT,
-				  failed_id varchar(50),
-				  table_name varchar(50),
-				  primary key(id),
-				  INDEX failed(failed_id, table_name) );';
-		$this->db_lcms->query($query);
-		
-		$query = 'CREATE TABLE ' . self :: TEMP_RECOVERY_TABLE . ' (
-				  id int NOT NULL AUTO_INCREMENT,
-				  old_path varchar(200),
-				  new_path varchar(200),
-				  primary key(id));';
-		$this->db_lcms->query($query);
-
-		$query = 'CREATE TABLE ' . self :: TEMP_ID_REFERENCE_TABLE . ' (
-				  id int NOT NULL AUTO_INCREMENT,
-				  old_id varchar(50),
-				  new_id varchar(50),
-				  table_name varchar(50),
-				  primary key(id),
-				  INDEX old_id(old_id, table_name) );';
-		$this->db_lcms->query($query);
-		
-		$query = 'CREATE TABLE ' . self :: TEMP_FILES_M5_TABLE . '  (
-				  id int NOT NULL AUTO_INCREMENT,
-				  user_id int NOT NULL, 
-				  document_id int NOT NULL,
-				  file_md5 varchar(35),
-				  primary key(id),
-				  INDEX file_md5 (user_id, file_md5) );';
-		$this->db_lcms->query($query);
-		
-	}
-	
-	/**
-	 * deletes temporary tables in the LCMS-database for the migration
-	 */
-	function delete_temporary_tables()
-	{	
-		$this->db_lcms_connect();
-		$query = 'DROP TABLE IF EXISTS ' . self :: TEMP_FAILED_ELEMENTS_TABLE;
-		$this->db_lcms->query($query);
-		
-		$query = 'DROP TABLE IF EXISTS ' . self :: TEMP_RECOVERY_TABLE;
-		$this->db_lcms->query($query);
-		
-		$query = 'DROP TABLE IF EXISTS ' . self :: TEMP_ID_REFERENCE_TABLE;
-		$this->db_lcms->query($query);
-		
-		$query = 'DROP TABLE IF EXISTS ' . self :: TEMP_FILES_M5_TABLE;
-		$this->db_lcms->query($query);
+		foreach($files as $file)
+		{
+			if ((substr($file, -3) == 'xml'))
+			{
+				$storage_unit_info = Installer :: parse_xml_file($file);
+				$this->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']);
+			}
+		}
 		
 	}
 	
@@ -168,17 +180,6 @@ abstract class MigrationDataManager
 		
 	}
 	
-	function create_failed_element($failed_element)
-	{
-		$this->db_lcms_connect();
-		$query = 'INSERT INTO ' . self :: TEMP_FAILED_ELEMENTS_TABLE . 
-				 ' (failed_id, table_name) VALUES (\''.
-					$failed_element->get_failed_id() . '\',\'' . 
-					$failed_element->get_table_name() .'\')';
-		$this->db_lcms->query($query);
-		
-	}
-	
 	/**
 	 * add a migrated file to the table recovery to make a rollback action possible
 	 * @param String $old_path the old path of an element
@@ -190,16 +191,6 @@ abstract class MigrationDataManager
 		$query = 'INSERT INTO ' . self :: TEMP_RECOVERY_TABLE .
 				 '(old_path, new_path) VALUES (\''.
 					$old_path . '\',\''.$new_path .'\')';
-		$this->db_lcms->query($query);
-	}
-	
-	function create_recovery_element($recovery_element)
-	{
-		$this->db_lcms_connect();
-		$query = 'INSERT INTO ' . self :: TEMP_RECOVERY_TABLE .
-				 '(old_path, new_path) VALUES (\''.
-					$recovery_element->get_old_path() . '\',\'' . 
-					$recovery_element->get_new_path() .'\')';
 		$this->db_lcms->query($query);
 	}
 	
@@ -215,17 +206,6 @@ abstract class MigrationDataManager
 		$query = 'INSERT INTO ' . self :: TEMP_ID_REFERENCE_TABLE . 
 				 ' (old_id, new_id, table_name) VALUES (\'' .
 					$old_id . '\',\'' . $new_id . '\',\'' . $table_name . '\')';
-		$this->db_lcms->query($query);
-	}
-	
-	function create_id_reference($id_reference)
-	{	
-		$this->db_lcms_connect();
-		$query = 'INSERT INTO ' . self :: TEMP_ID_REFERENCE_TABLE . 
-				 ' (old_id, new_id, table_name) VALUES (\'' .
-					$id_reference->get_old_id() . '\',\'' . 
-					$id_reference->get_new_id() . '\',\'' . 
-					$id_reference->get_table_name() . '\')';
 		$this->db_lcms->query($query);
 	}
 	
@@ -260,56 +240,6 @@ abstract class MigrationDataManager
 			return $record;
 			
 		return NULL;
-	 }
-	 
-	 function get_failed_elements($table_name)
-	 {
-	 	$this->db_lcms_connect();
-	 	$query = 'SELECT * FROM ' . self :: TEMP_FAILED_ELEMENTS_TABLE . 
-				 ' WHERE table_name=\'' . $table_name . '\'';
-		$result = $this->db_lcms->query($query);
-		$failed_elements = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$failed_elements = $this->record_to_classobject($record, 'FailedElement');
-		}
-		
-		$result->free();
-		
-		return $failed_elements;
-	 }
-	 
-	 function get_recovery_elements()
-	 {
-	 	$this->db_lcms_connect();
-	 	$query = 'SELECT * FROM ' . self :: TEMP_RECOVERY_TABLE;
-		$result = $this->db_lcms->query($query);
-		$recovery_elements = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$recovery_elements[] = $this->record_to_classobject($record, 'RecoveryElement');
-		}
-		
-		$result->free();
-		
-		return $recovery_elements;
-	 }
-	 
-	 function get_id_references($table_name)
-	 {
-	 	$this->db_lcms_connect();
-	 	$query = 'SELECT new_id FROM ' . self :: TEMP_ID_REFERENCE_TABLE . 
-				 ' WHERE table_name=\'' . $table_name . '\'';
-		$result = $this->db_lcms->query($query);
-		$id_references = array();
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$id_references[] = $this->record_to_classobject($record, 'IdReference');
-		}
-		
-		$result->free();
-		
-		return $id_references;
 	 }
 	 
 	 function record_to_classobject($record, $classname)
