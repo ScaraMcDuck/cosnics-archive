@@ -37,6 +37,9 @@ function courses_clicked()
 		document.page_settings.migrate_quizzes.checked = false
 		document.page_settings.migrate_student_publications.checked = false
 		document.page_settings.migrate_surveys.checked = false
+		document.page_settings.migrate_scorms.checked = false
+		document.page_settings.migrate_assignments.checked = false
+		document.page_settings.migrate_userinfos.checked = false
 	}
 }
 
@@ -131,6 +134,30 @@ function student_publications_clicked()
 function surveys_clicked()
 {
 	if(document.page_settings.migrate_surveys.checked == true)
+	{
+		document.page_settings.migrate_courses.checked = true;
+	}
+}
+
+function scorms_clicked()
+{
+	if(document.page_settings.migrate_scorms.checked == true)
+	{
+		document.page_settings.migrate_courses.checked = true;
+	}
+}
+
+function assignments_clicked()
+{
+	if(document.page_settings.migrate_assignments.checked == true)
+	{
+		document.page_settings.migrate_courses.checked = true;
+	}
+}
+
+function userinfos_clicked()
+{
+	if(document.page_settings.migrate_userinfos.checked == true)
 	{
 		document.page_settings.migrate_courses.checked = true;
 	}

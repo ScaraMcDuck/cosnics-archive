@@ -57,6 +57,9 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$this->addElement('checkbox', 'migrate_quizzes', '', Translation :: get_lang('migrate_quizzes'), 'onclick=\'quizzes_clicked()\' style=\'margin-left: 20px;\'');
 		$this->addElement('checkbox', 'migrate_student_publications', '', Translation :: get_lang('migrate_student_publications'), 'onclick=\'student_publications_clicked()\' style=\'margin-left: 20px;\'');
 		$this->addElement('checkbox', 'migrate_surveys', '', Translation :: get_lang('migrate_surveys'), 'onclick=\'surveys_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_scorms', '', Translation :: get_lang('migrate_scorms'), 'onclick=\'scorms_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_assignments', '', Translation :: get_lang('migrate_assignments'), 'onclick=\'assignments_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_userinfos', '', Translation :: get_lang('migrate_userinfos'), 'onclick=\'userinfos_clicked()\' style=\'margin-left: 20px;\'');
 		
 		$this->addElement('checkbox', 'migrate_deleted_files', '', 
 			Translation :: get_lang('migrate_deleted_files'), 'onclick=\'deleted_files_clicked("' . 
@@ -96,6 +99,9 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$defaults['migrate_quizzes'] = '1';
 		$defaults['migrate_student_publications'] = '1';
 		$defaults['migrate_surveys'] = '1';
+		$defaults['migrate_scorms'] = '1';
+		$defaults['migrate_assignments'] = '1';
+		$defaults['migrate_userinfos'] = '1';
 		$defaults['migrate_deleted_files'] = '0';
 		$defaults['move_files'] = '0';
 		$this->setDefaults($defaults);
