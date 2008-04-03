@@ -140,7 +140,7 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 			}
 			else
 			{
-				$message = write_failed($item, $extra_message, $type);
+				$message = $this->write_failed($item, $extra_message, $type);
 				$this->logfile->add_message($message);
 				$this->failed_elements[$i][] = $message;
 			}
