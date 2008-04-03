@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/useri
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185UserinfoDef
+class Dokeos185UserinfoDef extends ImportUserinfoDef
 {
 	/**
 	 * Dokeos185UserinfoDef properties
