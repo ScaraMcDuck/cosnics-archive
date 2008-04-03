@@ -26,6 +26,9 @@ require_once dirname(__FILE__).'/wizard/course/learningpathsmigrationwizardpage.
 require_once dirname(__FILE__).'/wizard/course/quizmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/course/studentpublicationsmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/course/surveysmigrationwizardpage.class.php';
+require_once dirname(__FILE__).'/wizard/course/scormsmigrationwizardpage.class.php';
+require_once dirname(__FILE__).'/wizard/course/assignmentsmigrationwizardpage.class.php';
+require_once dirname(__FILE__).'/wizard/course/userinfosmigrationwizardpage.class.php';
 
 /**
  * A wizard which guides the user through several steps to perform the migration
@@ -58,15 +61,18 @@ class MigrationWizard extends HTML_QuickForm_Controller
 		$this->addPage(new MetaDataMigrationWizardPage('page_metadata',$this->parent));
 		$this->addPage(new GroupsMigrationWizardPage('page_groups',$this->parent));
 		$this->addPage(new AnnouncementsMigrationWizardPage('page_announcements',$this->parent));
-		$this->addPage(new CalendarEventsMigrationWizardPage('page_calendar_events',$this->parent));
+		$this->addPage(new CalendarEventsMigrationWizardPage('page_calendarevents',$this->parent));
 		$this->addPage(new DocumentsMigrationWizardPage('page_documents',$this->parent));
 		$this->addPage(new LinksMigrationWizardPage('page_links',$this->parent));
 		$this->addPage(new DropBoxesMigrationWizardPage('page_dropbox',$this->parent));
 		$this->addPage(new ForumsMigrationWizardPage('page_forum',$this->parent));
 		$this->addPage(new QuizMigrationWizardPage('page_quizs',$this->parent));
-		$this->addPage(new StudentPublicationsMigrationWizardPage('page_student_publication',$this->parent));
+		$this->addPage(new StudentPublicationsMigrationWizardPage('page_studentpublication',$this->parent));
 		$this->addPage(new SurveysMigrationWizardPage('page_survey',$this->parent));
-		$this->addPage(new LearningPathsMigrationWizardPage('page_learning_path',$this->parent));
+		$this->addPage(new LearningPathsMigrationWizardPage('page_learningpath',$this->parent));
+		$this->addPage(new ScormsMigrationWizardPage('page_scorms',$this->parent));
+		$this->addPage(new AssignmentsMigrationWizardPage('page_assignments',$this->parent));
+		$this->addPage(new UserinfosMigrationWizardPage('page_userinfos',$this->parent));
 		$this->addAction('display', new MigrationWizardDisplay($this->parent));
 	}
 }

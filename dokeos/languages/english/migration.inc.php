@@ -33,6 +33,9 @@ $lang['migration']['migrate_learning_paths'] = "Migrate learning paths";
 $lang['migration']['migrate_quizzes'] = "Migrate quizzes";
 $lang['migration']['migrate_student_publications'] = "Migrate student publications";
 $lang['migration']['migrate_surveys'] = "Migrate surveys";
+$lang['migration']['migrate_scorms'] = "Migrate scorms";
+$lang['migration']['migrate_assignments'] = "Migrate assignments";
+$lang['migration']['migrate_userinfos'] = "Migrate userinfos";
 
 $lang['migration']['migrate_deleted_files'] = "Migrate deleted files - When you select this option all deleted files from the old system will be migrated to the recycle bin";
 $lang['migration']['confirm_deleted_files'] = "Are you sure you wish to migrate the deleted files";
@@ -53,6 +56,9 @@ $lang['migration']['learning_paths'] = "learning paths";
 $lang['migration']['quizzes'] = "quizzes";
 $lang['migration']['student_publications'] = "student publications";
 $lang['migration']['surveys'] = "surveys";
+$lang['migration']['scorms'] = "scorms";
+$lang['migration']['assignments'] = "assignments";
+$lang['migration']['userinfos'] = "userinfos";
 
 $lang['migration']['migrating'] = "migrating";
 $lang['migration']['users'] = "users";
@@ -153,11 +159,27 @@ $lang['migration']['Student_publications_title'] = "Course student publications 
 $lang['migration']['Student_publications_info'] = "In the next step we will migrate the course student publications";
 $lang['migration']['Student_publications'] = "Student publication(s)";
 
-$lang['migration']['Surveys'] =
-$lang['migration']['Surveys_title'] = "Course Surveys migration";
+$lang['migration']['Surveys_title'] = "Course surveys migration";
 $lang['migration']['Surveys_info'] = "In the next step we will migrate the course Surveys";
 $lang['migration']['Surveys'] = "Survey(s)";
 $lang['migration']['Survey_questions'] = "Survey question(s)";
 $lang['migration']['Survey_question_options'] = "Survey question option(s)";
 $lang['migration']['Survey_answers'] = "Survey answer(s)";
+
+$lang['migration']['Scorms_title'] = "Course scorms migration";
+$lang['migration']['Surveys_info'] = "In the next step we will migrate the course Scorms";
+$lang['migration']['Scorms'] = "Scorms";
+$lang['migration']['Scorm_documents'] = "Scorm document(s)";
+
+$lang['migration']['Assignments_title'] = "Course assignments migration";
+$lang['migration']['Assignments_info'] = "In the next step we will migrate the course assignments";
+$lang['migration']['Assignments'] = "Assignment(s)";
+$lang['migration']['Assignment_files'] = "Assignment file(s)";
+$lang['migration']['Assignment_submissions'] = "Assignment submission(s)";
+
+$lang['migration']['Userinfos_title'] = "Course userinfos migration";
+$lang['migration']['Userinfos_info'] = "In the next step we will migrate the course userinfos";
+$lang['migration']['Userinfos'] = "Userinfo(s)";
+$lang['migration']['Userinfo_definitions'] = "Userinfo definition(s)";
+$lang['migration']['Userinfo_contents'] = "Userinfo content(s)";
 ?>

@@ -8,37 +8,38 @@ require_once dirname(__FILE__) . '/../../../../../logger.class.php';
 require_once dirname(__FILE__) . '/../../../../../import.class.php'; 
 
 /**
- * Class for course student publications migration
+ * Class for course assignments migration
  * @author Sven Vanpoucke
  */
-class StudentPublicationsMigrationWizardPage extends MigrationWizardPage
+class UserinfosMigrationWizardPage extends MigrationWizardPage
 {
 	private $include_deleted_files;
 	
-	function StudentPublicationsMigrationWizardPage($page_name, $parent, $command_execute = false)
+	function UserinfosMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent, $command_execute);
-		$this->succes = array(0);
+		$this->succes = array(0,0);
 	}
 	/**
 	 * @return string Title of the page
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Student_publications_title');
+		return Translation :: get_lang('Userinfos_title');
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Student_publications_info');
+		return Translation :: get_lang('Userinfos_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Student_publications');
-			default: return Translation :: get_lang('Student_publications'); 
+			case 0: return Translation :: get_lang('Userinfo_definitions');
+			case 1: return Translation :: get_lang('Userinfo_contents');
+			default: return Translation :: get_lang('Userinfo_definitions'); 
 		}
 	}
 
@@ -46,9 +47,9 @@ class StudentPublicationsMigrationWizardPage extends MigrationWizardPage
 	{
 		$logger = new Logger('migration.txt', true);
 		
-		if($logger->is_text_in_file('student_publications'))
+		if($logger->is_text_in_file('userinfos'))
 		{
-			echo(Translation :: get_lang('Student_publications') . ' ' .
+			echo(Translation :: get_lang('Userinfos') . ' ' .
 				 Translation :: get_lang('already_migrated') . '<br />');
 			return false;
 		}
@@ -63,7 +64,7 @@ class StudentPublicationsMigrationWizardPage extends MigrationWizardPage
 		$this->include_deleted_files = $exportvalues['migrate_deleted_files'];
 		
 		//Create logfile
-		$this->logfile = new Logger('student_publications.txt');
+		$this->logfile = new Logger('userinfos.txt');
 		$this->logfile->set_start_time();
 		
 		//Create migrationdatamanager
@@ -72,7 +73,7 @@ class StudentPublicationsMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
 			$this->mgdm->set_move_file(true);
 		
-		if(isset($exportvalues['migrate_student_publications']) && $exportvalues['migrate_student_publications'] == 1)
+		if(isset($exportvalues['migrate_userinfos']) && $exportvalues['migrate_userinfos'] == 1)
 		{	
 			//Migrate the dropbox
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
@@ -89,28 +90,29 @@ class StudentPublicationsMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 					
-					$this->migrate('StudentPublication', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
+					$this->migrate('UserinfoDef', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
+					$this->migrate('UserinfoContent', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
 					
 					unset($courses[$i]);
 				}
 			}
 			else
 			{
-				echo(Translation :: get_lang('Student_publications') .
+				echo(Translation :: get_lang('Userinfos') .
 				     Translation :: get_lang('failed') . ' ' .
 				     Translation :: get_lang('because') . ' ' . 
 				     Translation :: get_lang('Users') . ' ' .
 				     Translation :: get_lang('skipped') . '<br />');
-				$this->logfile->add_message('Student publications failed because users or courses skipped');
-				$this->succes = array(0);
+				$this->logfile->add_message('Userinfos failed because users or courses skipped');
+				$this->succes = array(0,0,0);
 			}
 			
 		}
 		else
 		{
-			echo(Translation :: get_lang('Student_publications')
+			echo(Translation :: get_lang('Userinfos')
 				 . ' ' . Translation :: get_lang('skipped') . '<br />');
-			$this->logfile->add_message('Student publications skipped');
+			$this->logfile->add_message('Userinfos skipped');
 			
 			return false;
 		}
@@ -119,7 +121,7 @@ class StudentPublicationsMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
-		$logger->write_text('student_publications');
+		$logger->write_text('userinfos');
 		
 		return true;
 	}

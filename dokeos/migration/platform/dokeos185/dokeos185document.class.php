@@ -211,10 +211,7 @@ class Dokeos185Document extends Import
 		if(!$new_user_id)
 		{
 			$start_time = Logger :: get_microtime();
-			if($filename == '/taak_3_handbal.doc')
-				$new_user_id = self :: $mgdm->get_owner($new_course_code, true);
-			else
-				$new_user_id = self :: $mgdm->get_owner($new_course_code);
+			$new_user_id = self :: $mgdm->get_owner($new_course_code);
 			$end_time = Logger :: get_microtime();
 			$passedtime_orphan = $end_time - $start_time;
 		}
