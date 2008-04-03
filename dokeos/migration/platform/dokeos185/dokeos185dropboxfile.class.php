@@ -268,7 +268,7 @@ class Dokeos185DropboxFile
 				
 				// Category for announcements already exists?
 				$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
-					Translation :: get_lang('dropbox'));
+					Translation :: get_lang('dropboxes'));
 				if(!$lcms_category_id)
 				{
 					//Create category for tool in lcms
