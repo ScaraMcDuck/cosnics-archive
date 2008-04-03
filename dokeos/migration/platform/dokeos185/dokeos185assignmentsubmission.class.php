@@ -3,6 +3,12 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__).'/../../lib/import/importassignmentsubmission.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/learning_object/document/document.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublicationcategory.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/learningobject.class.php';
+
 /**
  * This class presents a Dokeos185 assignment_submission
  *
@@ -416,7 +422,7 @@ class Dokeos185AssignmentSubmission
 		
 		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'assignment_file';
-		$classname = 'Dokeos185AssignmentFile';
+		$classname = 'Dokeos185AssignmentSubmission';
 			
 		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
