@@ -3,6 +3,11 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importuserinfocontent.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/userinfo_content/userinfo_comment.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
+
 /**
  * This class presents a Dokeos185 userinfo_content
  *
@@ -133,7 +138,118 @@ class Dokeos185UserinfoContent
 		return $this->get_default_property(self :: PROPERTY_CONTENT);
 	}
 
+	static function get_all($parameters)
+	{
+		self :: $mgdm = $parameters['mgdm'];
 
+		if($parameters['del_files'] =! 1)
+			$tool_name = 'quiz';
+		
+		$coursedb = $parameters['course']->get_db_name();
+		$tablename = 'quiz';
+		$classname = 'Dokeos185UserinfoContent';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
+	}
+
+	function is_valid($array)
+	{
+		$course = $array['course'];
+		if(!$this->get_user_id() || !$this->get_content())
+		{		 
+			self :: $mgdm->add_failed_element($this->get_id(),
+				$course->get_db_name() . '.userinfocontent');
+			return false;
+		}
+		return true;
+	}
+	
+	function convert_to_lcms($array)
+	{
+		$course = $array['course'];
+		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		
+		if(!$new_user_id)
+		{
+			$new_user_id = self :: $mgdm->get_owner($new_course_code);
+		}
+		
+		//forum parameters
+		$lcms_userinfo_content = new UserinfoContent();
+		
+		// Category for announcements already exists?
+		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+			Translation :: get_lang('userinfo_contents'));
+		if(!$lcms_category_id)
+		{
+			//Create category for tool in lcms
+			$lcms_repository_category = new Category();
+			$lcms_repository_category->set_owner_id($new_user_id);
+			$lcms_repository_category->set_title(Translation :: get_lang('userinfo_contents'));
+			$lcms_repository_category->set_description('...');
+	
+			//Retrieve repository id from course
+			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+				'category', Translation :: get_lang('MyRepository'));
+			$lcms_repository_category->set_parent_id($repository_id);
+			
+			//Create category in database
+			$lcms_repository_category->create();
+			
+			$lcms_userinfo_content->set_parent_id($lcms_repository_category->get_id());
+		}
+		else
+		{
+			$lcms_userinfo_content->set_parent_id($lcms_category_id);	
+		}
+		
+		
+		$lcms_userinfo_content->set_title(substr($this->get_content(),0,20));
+		
+		$lcms_userinfo_content->set_description($this->get_content());
+		
+		$lcms_document->set_creation_date(self :: $mgdm->make_unix_time($this->get_edition_time()));
+				$lcms_document->set_modification_date(self :: $mgdm->make_unix_time($this->get_edition_time()));
+		
+		$lcms_userinfo_content->set_owner_id($new_user_id);
+		
+		//create announcement in database
+		$lcms_userinfo_content->create_all();
+		
+		/*
+		//publication
+		if($this->item_property->get_visibility() <= 1) 
+		{
+			$publication = new LearningObjectPublication();
+			
+			$publication->set_learning_object($lcms_announcement);
+			$publication->set_course_id($new_course_code);
+			$publication->set_publisher_id($new_user_id);
+			$publication->set_tool('announcement');
+			$publication->set_category_id(0);
+			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
+			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
+			$publication->set_from_date(0);
+			$publication->set_to_date(0);
+			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
+			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+			//$publication->set_modified_date(0);
+			//$publication->set_display_order_index($this->get_display_order());
+			$publication->set_display_order_index(0);
+			
+			if($this->get_email_sent())
+				$publication->set_email_sent($this->get_email_sent());
+			else
+				$publication->set_email_sent(0);
+			
+			$publication->set_hidden($this->item_property->get_visibility() == 1?0:1);
+			
+			//create publication in database
+			$publication->create();
+		}
+		*/
+		return $lcms_exercise;
+	}
 }
 
 ?>
