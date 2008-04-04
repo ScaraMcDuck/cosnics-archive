@@ -175,7 +175,7 @@ class Dokeos185QuizQuestion
 	{
 		$course = $array['course'];
 		if(!$this->get_id() || !$this->get_type() || !$this->get_question()
-			|| !$this->get_position() || !$this->get_description())
+			|| !$this->get_position())
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.quiz_question');
@@ -242,7 +242,7 @@ class Dokeos185QuizQuestion
 		$lcms_question->set_title($this->get_question());
 		
 		if(!$this->get_description())
-			$lcms_question->set_description('...');
+			$lcms_question->set_description($this->get_question());
 		else
 			$lcms_question->set_description($this->get_description());
 		
@@ -250,7 +250,7 @@ class Dokeos185QuizQuestion
 		$lcms_question->set_display_order_index($this->get_position());
 		
 		//create announcement in database
-		$lcms_question->create_all();
+		$lcms_question->create();
 		
 		/*
 		//publication

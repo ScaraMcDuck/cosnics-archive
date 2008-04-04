@@ -157,7 +157,7 @@ class Dokeos185SurveyAnswer
 		
 		$course = $array['course'];
 
-		if(!$this->get_value() || !$this->get_user)
+		if(!$this->get_value())
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.survey_answer');
@@ -206,7 +206,7 @@ class Dokeos185SurveyAnswer
 		}
 		
 		$lcms_survey_user_answer->set_description($this->get_value());
-		
+		$lcms_survey_user_answer->set_title($this->get_value());
 		$lcms_survey_user_answer->set_owner_id($new_user_id);
 		
 		//create announcement in database

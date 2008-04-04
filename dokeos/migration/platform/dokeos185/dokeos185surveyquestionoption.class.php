@@ -195,11 +195,11 @@ class Dokeos185SurveyQuestionOption
 		}
 		
 		$lcms_survey_answer->set_description($this->get_option_text());
-		
+		$lcms_survey_answer->set_title($this->get_option_text());
 		$lcms_survey_answer->set_owner_id($new_user_id);
 		
 		//create announcement in database
-		$lcms_survey_answer->create_all();
+		$lcms_survey_answer->create();
 		
 		//publication
 		/*

@@ -228,7 +228,7 @@ class Dokeos185Quiz
 		$lcms_exercise->set_owner_id($new_user_id);
 		
 		//create announcement in database
-		$lcms_exercise->create_all();
+		$lcms_exercise->create();
 		
 		//Add id references to temp table
 		self :: $mgdm->add_id_reference($this->get_id(), $lcms_exercise->get_id(), 'exercice');
