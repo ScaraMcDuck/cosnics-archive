@@ -35,6 +35,8 @@ class Dokeos185AssignmentSubmission
 	const PROPERTY_ORIGINAL_AUTH_ID = 'original_auth_id';
 	const PROPERTY_SCORE = 'score';
 
+	private static $mgdm;
+
 	/**
 	 * Default properties stored in an associative array.
 	 */
@@ -229,8 +231,9 @@ class Dokeos185AssignmentSubmission
 		return $this->get_default_property(self :: PROPERTY_SCORE);
 	}
 
-	function is_valid_document($course)
+	function is_valid($array)
 	{
+		$course = $array['course'];		
 		$filename = $this->get_submitted_doc_path();
 		$old_rel_path = 'courses/' . $course->get_directory() . '/assignment/assig_'  . $this->get_assignment_id() . '/';
 
@@ -246,10 +249,11 @@ class Dokeos185AssignmentSubmission
 		return true;
 	}
 	
-	function convert_to_new_document($course)
-	{
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
-		$new_user_id = self :: $mgdm-> $this->get_user_id();
+		$new_user_id = self :: $mgdm->get_id_reference($this->get_user_id(), 'user_user');
 		if(!$new_user_id)
 		{
 			$new_user_id = self :: $mgdm->get_owner($new_course_code);
@@ -421,7 +425,7 @@ class Dokeos185AssignmentSubmission
 		self :: $mgdm = $parameters['mgdm'];
 		
 		$coursedb = $parameters['course']->get_db_name();
-		$tablename = 'assignment_file';
+		$tablename = 'assignment_submission';
 		$classname = 'Dokeos185AssignmentSubmission';
 			
 		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	

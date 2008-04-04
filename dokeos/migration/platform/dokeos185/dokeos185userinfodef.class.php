@@ -19,6 +19,8 @@ class Dokeos185UserinfoDef extends ImportUserinfoDef
 	const PROPERTY_COMMENT = 'comment';
 	const PROPERTY_LINE_COUNT = 'line_count';
 	const PROPERTY_RANK = 'rank';
+	
+	private static $mgdm;
 
 	/**
 	 * Default properties stored in an associative array.
@@ -125,7 +127,7 @@ class Dokeos185UserinfoDef extends ImportUserinfoDef
 	}
 
 	function is_valid($parameters)
-	{
+	{ 
 		$course = $parameters['course'];
 		
 		if(!$this->get_title())
@@ -140,12 +142,14 @@ class Dokeos185UserinfoDef extends ImportUserinfoDef
 	
 	function convert_to_lcms($parameters)
 	{	
+		$course = $parameters['course'];
+
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		$new_user_id = self :: $mgdm->get_owner($new_course_code);
-		
+	
 		//userinfodef parameters
 		$lcms_userinfodef = new UserinfoDef();
-		
+
 		// Category for userinfo already exists?
 		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
 			Translation :: get_lang('userinfos'));
@@ -180,7 +184,7 @@ class Dokeos185UserinfoDef extends ImportUserinfoDef
 			$lcms_userinfodef->set_comment($this->get_comment());
 		
 		//create userinfodef in database
-		$lcms_userinfodef->create();
+		$lcms_userinfodef->create_all();
 		
 		
 		return $lcms_userinfodef;

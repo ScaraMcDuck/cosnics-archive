@@ -26,6 +26,8 @@ class Dokeos185Scormdocument
 	const PROPERTY_FILETYPE = 'filetype';
 	const PROPERTY_NAME = 'name';
 
+	private static $mgdm;
+
 	/**
 	 * Default properties stored in an associative array.
 	 */
@@ -144,13 +146,13 @@ class Dokeos185Scormdocument
 		$course = $courses['course'];
 		
 		$filename = basename($this->get_path());
-		$old_rel_path = 'courses/' . $course->get_directory() . '/scorm/';
+		$old_rel_path = 'courses/' . $course->get_directory() . '/scorm' . dirname($this->get_path()) . '/';
 
 		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 		
-		if(!$this->get_id() || !$this->get_path() || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)))
-		{		 
+		if(!$this->get_path() || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)))
+		{	
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.scorm_file');
 			return false;
@@ -165,15 +167,15 @@ class Dokeos185Scormdocument
 		
 		$new_user_id = self :: $mgdm->get_owner($new_course_code);
 		
-		
 		$new_path = $new_user_id . '/';
-		$old_rel_path = 'courses/' . $course->get_directory() . '/scorm/';
-
+		$old_rel_path = 'courses/' . $course->get_directory() . '/scorm/' . dirname($this->get_path()) . '/';
+		
 		$new_rel_path = 'files/repository/' . $new_path;
 		
 		$lcms_document = null;
-		
-		$filename = iconv("UTF-8", "ISO-8859-1", basename($this->get_filename()));
+
+		$filename = basename($this->get_path());
+		$filename = iconv("UTF-8", "ISO-8859-1", basename($filename));
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 			
 		//if(!self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $this->get_filename()))])
@@ -195,7 +197,8 @@ class Dokeos185Scormdocument
 					$lcms_document->set_title($this->get_path());
 				
 				$lcms_document->set_description('...');
-				$lcms_document->set_comment($this->get_comment);
+				if($this->get_comment())
+					$lcms_document->set_comment($this->get_comment);
 				
 				$lcms_document->set_owner_id($new_user_id);
 				
@@ -210,7 +213,7 @@ class Dokeos185Scormdocument
 					//Create category for tool in lcms
 					$lcms_repository_category = new Category();
 					$lcms_repository_category->set_owner_id($new_user_id);
-					$lcms_repository_category->set_title(Translation :: get_lang('dropboxes'));
+					$lcms_repository_category->set_title(Translation :: get_lang('scorms'));
 					$lcms_repository_category->set_description('...');
 			
 					//Retrieve repository id from dropbox
@@ -228,13 +231,13 @@ class Dokeos185Scormdocument
 					$lcms_document->set_parent_id($lcms_category_id);	
 				}
 			
-				if($this->get_visibility() == 2)
-					$lcms_document->set_state(1);
+				//if($this->get_visibility() == 2)
+				//	$lcms_document->set_state(1);
 				
 				//create document in database
 				$lcms_document->create();
 				
-				self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(true,$new_rel_path . $file))] = $lcms_document->get_id();
+				//self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(true,$new_rel_path . $file))] = $lcms_document->get_id();
 			}
 			
 		//}
@@ -308,6 +311,8 @@ class Dokeos185Scormdocument
 		}
 		*/
 		
+		flush();
+
 		return $lcms_document;
 	}
 	
