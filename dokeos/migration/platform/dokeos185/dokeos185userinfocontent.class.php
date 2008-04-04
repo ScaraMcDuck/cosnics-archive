@@ -4,7 +4,7 @@
  */
 
 require_once dirname(__FILE__) . '/../../lib/import/importuserinfocontent.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/userinfo_content/userinfo_comment.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/userinfo_content/userinfo_content.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
 
@@ -24,6 +24,8 @@ class Dokeos185UserinfoContent
 	const PROPERTY_EDITOR_IP = 'editor_ip';
 	const PROPERTY_EDITION_TIME = 'edition_time';
 	const PROPERTY_CONTENT = 'content';
+
+	private static $mgdm;
 
 	/**
 	 * Default properties stored in an associative array.
@@ -139,14 +141,11 @@ class Dokeos185UserinfoContent
 	}
 
 	static function get_all($parameters)
-	{
+	{ 
 		self :: $mgdm = $parameters['mgdm'];
-
-		if($parameters['del_files'] =! 1)
-			$tool_name = 'quiz';
 		
 		$coursedb = $parameters['course']->get_db_name();
-		$tablename = 'quiz';
+		$tablename = 'userinfo_content';
 		$classname = 'Dokeos185UserinfoContent';
 			
 		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
@@ -168,7 +167,6 @@ class Dokeos185UserinfoContent
 	{
 		$course = $array['course'];
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
-		$new_user_id = self :: $mgdm->get_id_reference($this->get_user_id(),'user_user');	
 		
 		if(!$new_user_id)
 		{
@@ -180,13 +178,13 @@ class Dokeos185UserinfoContent
 		
 		// Category for announcements already exists?
 		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
-			Translation :: get_lang('userinfos'));
+			Translation :: get_lang('userinfo_contents'));
 		if(!$lcms_category_id)
 		{
 			//Create category for tool in lcms
 			$lcms_repository_category = new Category();
 			$lcms_repository_category->set_owner_id($new_user_id);
-			$lcms_repository_category->set_title(Translation :: get_lang('userinfos'));
+			$lcms_repository_category->set_title(Translation :: get_lang('userinfo_contents'));
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
@@ -249,7 +247,7 @@ class Dokeos185UserinfoContent
 			$publication->create();
 		}
 		*/
-		return $lcms_exercise;
+		return $lcms_userinfo_content;
 	}
 }
 

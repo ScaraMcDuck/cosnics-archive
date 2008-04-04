@@ -83,7 +83,7 @@ class Dokeos185DataManager extends MigrationDataManager
 		
 		$dsn = 'mysql://'.$this->_configuration['db_user'].':'.$this->_configuration['db_password'].'@'.
 				$host.'/'.$param;
-		$this->db = MDB2 :: connect($dsn);
+		$this->db = MDB2 :: connect($dsn, array('debug'=>3,'debug_handler'=>array('MigrationDataManager','debug')) );
 	}
 	
 	/**
@@ -260,13 +260,20 @@ class Dokeos185DataManager extends MigrationDataManager
 	function get_all($database, $tablename, $classname, $tool_name = null)
 	{
 		$this->db_connect($database);
-		$query = 'SELECT * FROM ' . $tablename;
 		
+		$querycheck = 'SHOW table status like \'' . $tablename . '\'';
+		$result = $this->db->query($querycheck);
+		if(MDB2 :: isError($result) || $result->numRows() == 0) return false;
+
+		$query = 'SELECT * FROM ' . $tablename;
+
 		if($tool_name)
 			$query = $query . ' WHERE id IN (SELECT ref FROM item_property WHERE ' .
 					'tool=\''. $tool_name . '\' AND visibility <> 2);';
+
 		$result = $this->db->query($query);
-		
+		if(MDB2 :: isError($result)) return false;
+
 		return $this->mapper($result, $classname);
 		
 	}

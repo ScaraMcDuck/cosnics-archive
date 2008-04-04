@@ -23,6 +23,8 @@ class Dokeos185AssignmentFile
 	const PROPERTY_ASSIGNMENT_ID = 'assignment_id';
 	const PROPERTY_DOC_PATH = 'doc_path';
 
+	private static $mgdm;
+
 	/**
 	 * Default properties stored in an associative array.
 	 */
@@ -109,9 +111,10 @@ class Dokeos185AssignmentFile
 		return $this->get_default_property(self :: PROPERTY_DOC_PATH);
 	}
 
-	function is_valid_document($course)
-	{
-		$filename = $this->get_doc_path();
+	function is_valid($array)
+	{ 
+		$course = $array['course'];
+		$filename = $this->get_doc_path(); 
 		$old_rel_path = 'courses/' . $course->get_directory() . '/assignment/assig_'  . $this->get_assignment_id() . '/';
 
 		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
@@ -126,8 +129,10 @@ class Dokeos185AssignmentFile
 		return true;
 	}
 	
-	function convert_to_new_document($course)
-	{
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
 		$new_user_id = self :: $mgdm->get_owner($new_course_code);
 		
@@ -140,9 +145,9 @@ class Dokeos185AssignmentFile
 		$lcms_document = null;
 
 		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
-		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
+		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path); 
 
-		$document_md5 = md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)); 
+		$document_md5 = md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename));
 		$document_id = self :: $mgdm->get_document_from_md5($new_user_id,$document_md5);
 		
 		if(!$document_id)
@@ -207,6 +212,7 @@ class Dokeos185AssignmentFile
 		else
 		{
 			$lcms_document = new LearningObject();
+			$lcms_document->set_id($document_id);
 		}
 			
 		//publication

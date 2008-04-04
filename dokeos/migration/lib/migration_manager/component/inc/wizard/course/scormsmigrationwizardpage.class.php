@@ -84,12 +84,16 @@ class ScormsMigrationWizardPage extends MigrationWizardPage
 				
 				foreach($courses as $i => $course)
 				{
-					if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
+					$old_rel_path = 'courses/' . $course->get_directory() . '/scorm/';
+					$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
+					$full_path = $this->mgdm->append_full_path(false,$old_rel_path);					
+
+					if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()) || !is_dir($full_path))
 					{
 						continue;
 					}	
 					
-					$this->migrate('ScormDocument', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
+					$this->migrate('Scormdocument', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
 					
 					unset($courses[$i]);
 				}
