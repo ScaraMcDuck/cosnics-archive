@@ -152,7 +152,11 @@ class Dokeos185ForumCategory
 		//Course category parameters
 		$lcms_forum_category = new LearningObjectPublicationCategory();
 		$course = $array['course'];
-		$lcms_forum_category->set_title($this->get_cat_title());
+		
+		if($this->get_cat_title())
+			$lcms_forum_category->set_title($this->get_cat_title());
+		else
+			$lcms_forum_category->set_title($this->get_cat_comment());
 		
 		$old_id = $this->get_cat_id();
 		

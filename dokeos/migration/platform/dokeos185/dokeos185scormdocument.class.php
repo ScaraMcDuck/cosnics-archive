@@ -149,7 +149,7 @@ class Dokeos185Scormdocument
 		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 		
-		if(!$this->get_id() || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)))
+		if(!$this->get_id() || !$this->get_path() || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)))
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.scorm_file');

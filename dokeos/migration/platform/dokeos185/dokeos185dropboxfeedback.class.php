@@ -193,8 +193,6 @@ class Dokeos185DropboxFeedback
 		$lcms_dropbox_feedback->set_creation_date(self :: $mgdm->make_unix_time($this->get_feedback_date()));
 		$lcms_dropbox_feedback->set_modification_date(self :: $mgdm->make_unix_time($this->get_feedback_date()));
 		
-		$lcms_dropbox_feedback->set_state(1);
-		
 		//create announcement in database
 		$lcms_dropbox_feedback->create_all();
 		

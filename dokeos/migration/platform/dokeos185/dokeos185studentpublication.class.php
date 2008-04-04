@@ -207,10 +207,10 @@ class Dokeos185StudentPublication
 		$course = $array['course'];
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
 		
-		//if(!$new_user_id)
-		//{
+		if(!$new_user_id)
+		{
 			$new_user_id = self :: $mgdm->get_owner($new_course_code);
-		//}
+		}
 		
 		$new_path = $new_user_id . '/';
 		$old_rel_path = 'courses/' . $course->get_directory() . '/' . dirname($this->get_url()) . '/';

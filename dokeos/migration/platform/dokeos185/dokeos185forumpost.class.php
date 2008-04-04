@@ -211,7 +211,7 @@ class Dokeos185ForumPost
 	{
 		$course = $array['course'];	
 
-		if(!$this->get_post_id() || !$this->get_post_title() || !$this->get_post_text())
+		if(!$this->get_post_id() || !($this->get_post_title() || $this->get_post_text()))
 		{		 
 			self :: $mgdm->add_failed_element($this->get_post_id(),
 				$course->get_db_name() . '.forum_post');
@@ -259,20 +259,28 @@ class Dokeos185ForumPost
 			$lcms_forum_post->set_parent_id($lcms_category_id);	
 		}
 		
-		$lcms_forum_post->set_title($this->get_post_title());
+		if(!$this->get_post_title())
+			$lcms_forum_post->set_title(substr($this->get_post_text(),0,20));
+		else
+			$lcms_forum_post->set_title($this->get_post_title());
 		
-		$lcms_forum_post->set_description($this->get_post_text());
+		if(!$this->get_post_text())
+			$lcms_forum_post->set_description($this->get_post_title());
+		else
+			$lcms_forum_post->set_description($this->get_post_text());
 		
 		$lcms_forum_post->set_owner_id($new_user_id);
 		$lcms_forum_post->set_creation_date(self :: $mgdm->make_unix_time($this->get_post_date()));
 		$lcms_forum_post->set_modification_date(self :: $mgdm->make_unix_time($this->get_post_date()));
-		$lcms_forum_post->set_parent_post_id($this->get_post_parent_id());
-		
-		if($this->get_visible() == 2)
-			$lcms_forum_post->set_state(1);
+		$lcms_forum_post->set_parent_post_id(self :: $mgdm->get_id_reference($this->get_post_parent_id(),'repository_forum_forum'));
+				
+		//if($this->get_visible() == 2)
+			//$lcms_forum_post->set_state(1);
 		
 		//create announcement in database
 		$lcms_forum_post->create_all();
+		
+		self :: $mgdm->add_id_reference($this->get_post_id, $lcms_forum_post->get_id(), 'repository_forum_forum');
 		
 		/*
 		//publication

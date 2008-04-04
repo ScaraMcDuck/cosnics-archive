@@ -233,13 +233,14 @@ class Dokeos185SurveyQuestion
 		$lcms_survey_question->set_title($this->get_survey_question());
 		
 		$lcms_survey_question->set_description('...');
-		$lcms_survey_question->set_comment($this->get_survey_question_comment());
+		if($this->get_survey_question_comment())
+			$lcms_survey_question->set_comment($this->get_survey_question_comment());
 		
 		$lcms_survey_question->set_owner_id($new_user_id);
 		$lcms_survey_question->set_display_order_index($this->get_sort());
 		
 		//create announcement in database
-		$lcms_survey_question->create_all();
+		$lcms_survey_question->create();
 		
 		//publication
 		/*

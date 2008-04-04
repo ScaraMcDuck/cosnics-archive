@@ -180,7 +180,7 @@ class Dokeos185UserinfoDef extends ImportUserinfoDef
 			$lcms_userinfodef->set_comment($this->get_comment());
 		
 		//create userinfodef in database
-		$lcms_userinfodef->create_all();
+		$lcms_userinfodef->create();
 		
 		
 		return $lcms_userinfodef;

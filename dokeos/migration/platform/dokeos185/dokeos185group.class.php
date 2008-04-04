@@ -229,10 +229,21 @@ class Dokeos185Group extends ImportGroup
 		$lcms_group->set_course_code($new_course_code);
 		$lcms_group->set_name($this->get_name());
 		$lcms_group->set_max_number_of_members($this->get_max_student());
-		$lcms_group->set_description($this->get_description());
+		
+		if($this->get_description())
+		{
+			$lcms_group->set_description($this->get_description());
+		}
+		else
+		{
+			$lcms_group->set_description($this->get_name());
+		}	
+		
 		$lcms_group->set_self_registration_allowed($this->get_self_registration_allowed());
 		$lcms_group->set_self_unregistration_allowed($this->get_self_unregistration_allowed());
 		$lcms_group->create();
+		
+		self :: $mgdm->add_id_reference($old_id, $lcms_forum_category->get_id(), 'weblcms_group');
 		
 		return $lcms_group;
 	}
