@@ -284,6 +284,30 @@ $lang['migration']['Shared_surveys'] = "Userinfo(s)";
 $lang['migration']['Shared_survey_questions'] = "Userinfo definition(s)";
 $lang['migration']['Shared_survey_question_options'] = "Userinfo content(s)";
 
+//Tracker page
+$lang['migration']['Trackers'] = "Tracker(s)";
+$lang['migration']['Trackers_title'] = "Tracker(s) migration";
+$lang['migration']['Trackers_info'] = "In the next step we will migrate the trackers";
+$lang['migration']['Tracker_c_os'] = "Operating System Tracker(s)";
+$lang['migration']['Tracker_c_browsers'] = "Browser Tracker(s)";
+$lang['migration']['Tracker_c_countries'] = "Country Tracker(s)";
+$lang['migration']['Tracker_c_providers'] = "Provider Tracker(s)";
+$lang['migration']['Tracker_c_referers'] = "Referer Tracker(s)";
+$lang['migration']['Tracker_e_access'] = "Access Tracker(s)";
+$lang['migration']['Tracker_e_attempt'] = "Attempt Tracker(s)";
+$lang['migration']['Tracker_e_courseaccess'] = "Course Access Tracker(s)";
+$lang['migration']['Tracker_e_default'] = "Default Tracker(s)";
+$lang['migration']['Tracker_e_downloads'] = "Downloads Tracker(s)";
+$lang['migration']['Tracker_e_exercices'] = "Exercice Tracker(s)";
+$lang['migration']['Tracker_e_hotpotatoes'] = "Hot Potatoes Tracker(s)";
+$lang['migration']['Tracker_e_hotspot'] = "Hotspot Tracker(s)";
+$lang['migration']['Tracker_e_lastaccess'] = "Last Access Tracker(s)";
+$lang['migration']['Tracker_e_links'] = "Link Tracker(s)";
+$lang['migration']['Tracker_e_login'] = "Login Tracker(s)";
+$lang['migration']['Tracker_e_online'] = "Online Tracker(s)";
+$lang['migration']['Tracker_e_open'] = "Open Tracker(s)";
+$lang['migration']['Tracker_e_uploads'] = "Uploads Tracker(s)";
+
 //Others page
 $lang['migration']['Others_title'] = "Others migration";
 $lang['migration']['Others_info'] = "In the next step we will migrate the other data that doesn't belong to a block";
