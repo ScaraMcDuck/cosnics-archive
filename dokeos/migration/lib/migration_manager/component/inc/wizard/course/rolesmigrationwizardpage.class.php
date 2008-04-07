@@ -8,42 +8,40 @@ require_once dirname(__FILE__) . '/../../../../../logger.class.php';
 require_once dirname(__FILE__) . '/../../../../../import.class.php'; 
 
 /**
- * Class for course learning paths migration
+ * Class for course roles migration
  * @author Sven Vanpoucke
  */
-class LearningPathsMigrationWizardPage extends MigrationWizardPage
+class RolesMigrationWizardPage extends MigrationWizardPage
 {
 	private $include_deleted_files;
 	
-	function LearningPathsMigrationWizardPage($page_name, $parent, $command_execute = false)
+	function RolesMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent, $command_execute);
-		$this->succes = array(0,0,0,0,0,0);
+		$this->succes = array(0,0,0,0);
 	}
 	/**
 	 * @return string Title of the page
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Learning_paths_title');
+		return Translation :: get_lang('Roles_title');
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Learning_paths_info');
+		return Translation :: get_lang('Roles_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Learning_paths');
-			case 1: return Translation :: get_lang('Learning_path_items');
-			case 2: return Translation :: get_lang('Learning_path_item_views');
-			case 3: return Translation :: get_lang('Learning_path_iv_interactions');
-			case 4: return Translation :: get_lang('Learning_path_iv_objectives');
-			case 5: return Translation :: get_lang('Learning_path_views');
-			default: return Translation :: get_lang('Learning_paths'); 
+			case 0: return Translation :: get_lang('Roles');
+			case 1: return Translation :: get_lang('Role_groups');
+			case 2: return Translation :: get_lang('Role_permissions');
+			case 3: return Translation :: get_lang('Role_users');
+			default: return Translation :: get_lang('Roles'); 
 		}
 	}
 
@@ -51,9 +49,9 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 	{
 		$logger = new Logger('migration.txt', true);
 		
-		if($logger->is_text_in_file('learning_paths'))
+		if($logger->is_text_in_file('roles'))
 		{
-			echo(Translation :: get_lang('Learning_paths') . ' ' .
+			echo(Translation :: get_lang('Roles') . ' ' .
 				 Translation :: get_lang('already_migrated') . '<br />');
 			return false;
 		}
@@ -68,7 +66,7 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 		$this->include_deleted_files = $exportvalues['migrate_deleted_files'];
 		
 		//Create logfile
-		$this->logfile = new Logger('learning_paths.txt');
+		$this->logfile = new Logger('roles.txt');
 		$this->logfile->set_start_time();
 		
 		//Create migrationdatamanager
@@ -77,7 +75,7 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
 			$this->mgdm->set_move_file(true);
 		
-		if(isset($exportvalues['migrate_learning_paths']) && $exportvalues['migrate_learning_paths'] == 1)
+		if(isset($exportvalues['migrate_roles']) && $exportvalues['migrate_roles'] == 1)
 		{	
 			//Migrate the dropbox
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
@@ -94,33 +92,31 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 					
-					$this->migrate('Lp', array('mgdm' => $this->mgdm), array(), $course,0);
-					$this->migrate('LpItem', array('mgdm' => $this->mgdm), array(), $course,1);
-					//$this->migrate('LpItemView', array('mgdm' => $this->mgdm), array(), $course,2);
-					//$this->migrate('LpIvInteraction', array('mgdm' => $this->mgdm), array(), $course,3);
-					//$this->migrate('LpIvObjective', array('mgdm' => $this->mgdm), array(), $course,4);
-					//$this->migrate('LpView', array('mgdm' => $this->mgdm), array(), $course,5);
+					//$this->migrate('Roles', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
+					//$this->migrate('RoleGroup', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
+					//$this->migrate('RolePermissions', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,2);
+					//$this->migrate('RoleUser', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,3);
 					
 					unset($courses[$i]);
 				}
 			}
 			else
 			{
-				echo(Translation :: get_lang('Learning_paths') .
+				echo(Translation :: get_lang('Roles') .
 				     Translation :: get_lang('failed') . ' ' .
 				     Translation :: get_lang('because') . ' ' . 
 				     Translation :: get_lang('Users') . ' ' .
 				     Translation :: get_lang('skipped') . '<br />');
-				$this->logfile->add_message('Learning paths failed because users or courses skipped');
-				$this->succes = array(0,0,0,0,0,0);
+				$this->logfile->add_message('Roles failed because users or courses skipped');
+				$this->succes = array(0,0,0,0);
 			}
 			
 		}
 		else
 		{
-			echo(Translation :: get_lang('Learning_paths')
+			echo(Translation :: get_lang('Roles')
 				 . ' ' . Translation :: get_lang('skipped') . '<br />');
-			$this->logfile->add_message('Learning paths skipped');
+			$this->logfile->add_message('Roles skipped');
 			
 			return false;
 		}
@@ -129,7 +125,7 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
-		$logger->write_text('learning_paths');
+		$logger->write_text('roles');
 		
 		return true;
 	}
