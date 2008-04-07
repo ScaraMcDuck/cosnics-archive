@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importsharedsurveyquestionoption.class.php';
+
 /**
  * This class presents a Dokeos185 shared_survey_question_option
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185SharedSurveyQuestionOption
+class Dokeos185SharedSurveyQuestionOption extends ImportSharedSurveyQuestionOption
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185SharedSurveyQuestionOption properties
 	 */
@@ -123,6 +127,26 @@ class Dokeos185SharedSurveyQuestionOption
 		return $this->get_default_property(self :: PROPERTY_SORT);
 	}
 
+	function is_valid($array)
+	{
+		
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'main_database';
+		$tablename = 'shared_survey_question_option';
+		$classname = 'Dokeos185SharedSurveyQuestionOption';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

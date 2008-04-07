@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importtrackehotpotatoes.class.php';
+
 /**
  * This class presents a Dokeos185 track_e_hotpotatoes
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackEHotpotatoes
+class Dokeos185TrackEHotpotatoes extends ImportTrackEHotpotatoes
 {
+	private static $mgdm;
+
 	/**
 	 * Dokeos185TrackEHotpotatoes properties
 	 */
@@ -132,7 +136,27 @@ class Dokeos185TrackEHotpotatoes
 	{
 		return $this->get_default_property(self :: PROPERTY_EXE_WEIGHTING);
 	}
-
+	
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'statistics_database';
+		$tablename = 'track_e_hotpotatoes';
+		$classname = 'Dokeos185TrackEHotpotatoes';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

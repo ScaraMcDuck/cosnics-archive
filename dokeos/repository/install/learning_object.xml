@@ -35,4 +35,9 @@
  <index name="state">
   <indexproperty name="state"/>
  </index>
+ <index name="category">
+   <indexproperty name="owner" />
+   <indexproperty name="type" />
+   <indexproperty name="title" />
+ </index>
 </object>

@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importtrackeuploads.class.php';
+
 /**
  * This class presents a Dokeos185 track_e_uploads
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackEUploads
+class Dokeos185TrackEUploads extends ImportTrackEUploads
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185TrackEUploads properties
 	 */
@@ -122,7 +126,27 @@ class Dokeos185TrackEUploads
 	{
 		return $this->get_default_property(self :: PROPERTY_UPLOAD_WORK_ID);
 	}
-
+	
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'statistics_database';
+		$tablename = 'track_e_uploads';
+		$classname = 'Dokeos185TrackEUploads';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

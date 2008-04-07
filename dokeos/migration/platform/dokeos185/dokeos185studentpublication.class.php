@@ -15,7 +15,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/learningobject.class.ph
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185StudentPublication
+class Dokeos185StudentPublication extends ImportStudentPublication
 {
 	/** 
 	 * Migration data manager

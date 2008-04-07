@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importonlinelink.class.php';
+
 /**
  * This class presents a Dokeos185 online_link
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185OnlineLink
+class Dokeos185OnlineLink extends ImportOnlineLink
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185OnlineLink properties
 	 */
@@ -103,6 +107,26 @@ class Dokeos185OnlineLink
 		return $this->get_default_property(self :: PROPERTY_URL);
 	}
 
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = $parameters['course'];
+		$tablename = 'online_link';
+		$classname = 'Dokeos185OnlineLink';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

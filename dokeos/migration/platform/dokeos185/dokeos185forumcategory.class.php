@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobje
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185ForumCategory
+class Dokeos185ForumCategory extends ImportForumCategory
 {
 	/** 
 	 * Migration data manager

@@ -133,20 +133,25 @@ class Dokeos185CalendarEvent extends ImportResource
 		return $this->get_default_property(self :: PROPERTY_RESOURCE_ID);
 	}
 	
-	function is_valid_resource()
+	function is_valid($array)
 	{
-		
+		$course = $array['course'];
 	}
 	
-	function convert_to_new_resource()
-	{
-		
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
 	}
 	
-	function get_all_resources($course, $mgdm)
+	static function get_all($parameters = array())
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_resources();
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = $parameters['course'];
+		$tablename = 'resource';
+		$classname = 'Dokeos185Resource';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
 	}
 }
 ?>

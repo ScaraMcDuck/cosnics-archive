@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importrolepermissions.class.php';
+
 /**
  * This class presents a Dokeos185 role_permissions
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185RolePermissions
+class Dokeos185RolePermissions extends ImportRolePermissions
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185RolePermissions properties
 	 */
@@ -113,6 +117,26 @@ class Dokeos185RolePermissions
 		return $this->get_default_property(self :: PROPERTY_DEFAULT_PERM);
 	}
 
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = $parameters['course'];
+		$tablename = 'role_permissions';
+		$classname = 'Dokeos185RolePermissions';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

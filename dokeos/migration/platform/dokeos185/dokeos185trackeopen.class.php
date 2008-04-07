@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importtrackeopen.class.php';
+
 /**
  * This class presents a Dokeos185 track_e_open
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackEOpen
+class Dokeos185TrackEOpen extends ImportTrackEOpen
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185TrackEOpen properties
 	 */
@@ -122,7 +126,27 @@ class Dokeos185TrackEOpen
 	{
 		return $this->get_default_property(self :: PROPERTY_OPEN_DATE);
 	}
-
+	
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'statistics_database';
+		$tablename = 'track_e_open';
+		$classname = 'Dokeos185TrackEOpen';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

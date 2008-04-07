@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importgradebooklink.class.php';
+
 /**
  * This class presents a Dokeos185 gradebook_link
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185GradebookLink
+class Dokeos185GradebookLink extends ImportGradebookLink
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185GradebookLink properties
 	 */
@@ -163,6 +167,26 @@ class Dokeos185GradebookLink
 		return $this->get_default_property(self :: PROPERTY_VISIBLE);
 	}
 
+	function is_valid($array)
+	{
+		
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'main_database';
+		$tablename = 'gradebook_link';
+		$classname = 'Dokeos185GradebookLink';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

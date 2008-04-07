@@ -17,7 +17,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/learningobject.class.ph
  * @author David Van Wayenbergh
  */
  
-class Dokeos185Document extends Import
+class Dokeos185Document extends ImportDocument
 {
 	private static $mgdm;
 	private $item_property;

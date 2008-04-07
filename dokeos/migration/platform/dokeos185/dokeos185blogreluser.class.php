@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importblogreluser.class.php';
+
 /**
  * This class presents a Dokeos185 blog_rel_user
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185BlogRelUser
+class Dokeos185BlogRelUser extends ImportBlogRelUser
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185BlogRelUser properties
 	 */
@@ -93,6 +97,26 @@ class Dokeos185BlogRelUser
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = $parameters['course'];
+		$tablename = 'blog_post_rel_user';
+		$classname = 'Dokeos185BlogPostRelUser';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importopenidassociation.class.php';
+
 /**
  * This class presents a Dokeos185 openid_association
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185OpenidAssociation
+class Dokeos185OpenidAssociation extends ImportOpenidAssociation
 {
+	private static $mgdm;
+
 	/**
 	 * Dokeos185OpenidAssociation properties
 	 */
@@ -153,6 +157,26 @@ class Dokeos185OpenidAssociation
 		return $this->get_default_property(self :: PROPERTY_CREATED);
 	}
 
+	function is_valid($array)
+	{
+		
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'main_database';
+		$tablename = 'openid_association';
+		$classname = 'Dokeos185OpenidAssociation';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

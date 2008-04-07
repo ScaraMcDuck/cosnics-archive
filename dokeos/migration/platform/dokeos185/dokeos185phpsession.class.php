@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importphpsession.class.php';
+
 /**
  * This class presents a Dokeos185 php_session
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185PhpSession
+class Dokeos185PhpSession extends ImportPhpSession
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185PhpSession properties
 	 */
@@ -123,6 +127,26 @@ class Dokeos185PhpSession
 		return $this->get_default_property(self :: PROPERTY_SESSION_VALUE);
 	}
 
+	function is_valid($array)
+	{
+		
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'main_database';
+		$tablename = 'php_session';
+		$classname = 'Dokeos185PhpSession';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

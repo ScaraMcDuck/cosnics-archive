@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importpermissiongroup.class.php';
+
 /**
  * This class presents a Dokeos185 permission_group
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185PermissionGroup
+class Dokeos185PermissionGroup extends ImportPermissionGroup
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185PermissionGroup properties
 	 */
@@ -113,6 +117,26 @@ class Dokeos185PermissionGroup
 		return $this->get_default_property(self :: PROPERTY_ACTION);
 	}
 
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = $parameters['course'];
+		$tablename = 'permission_group';
+		$classname = 'Dokeos185PermissionGroup';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

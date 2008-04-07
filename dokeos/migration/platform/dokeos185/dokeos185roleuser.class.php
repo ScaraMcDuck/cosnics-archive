@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importroleuser.class.php';
+
 /**
  * This class presents a Dokeos185 role_user
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185RoleUser
+class Dokeos185RoleUser extends ImportRoleUser
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185RoleUser properties
 	 */
@@ -103,6 +107,26 @@ class Dokeos185RoleUser
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = $parameters['course'];
+		$tablename = 'role_user';
+		$classname = 'Dokeos185RoleUser';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

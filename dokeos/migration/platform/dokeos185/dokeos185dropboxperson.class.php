@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importdropboxperson.class.php';
+
 /**
  * This class presents a Dokeos185 dropbox_person
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185DropboxPerson
+class Dokeos185DropboxPerson extends ImportDropboxPerson
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185DropboxPerson properties
 	 */
@@ -93,8 +97,26 @@ class Dokeos185DropboxPerson
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 	
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
 	
-
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = $parameters['course'];
+		$tablename = 'dropbox_person';
+		$classname = 'Dokeos185DropboxPerson';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

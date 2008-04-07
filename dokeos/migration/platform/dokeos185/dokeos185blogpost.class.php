@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importblogpost.class.php';
+
 /**
  * This class presents a Dokeos185 blog_post
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185BlogPost
+class Dokeos185BlogPost extends ImportBlogPost
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185BlogPost properties
 	 */
@@ -133,6 +137,26 @@ class Dokeos185BlogPost
 		return $this->get_default_property(self :: PROPERTY_AUTHOR_ID);
 	}
 
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = $parameters['course'];
+		$tablename = 'blog_post';
+		$classname = 'Dokeos185BlogPost';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 
