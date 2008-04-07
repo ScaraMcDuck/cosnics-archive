@@ -53,27 +53,45 @@ class MigrationWizard extends HTML_QuickForm_Controller
 		parent :: HTML_QuickForm_Controller('MigrationWizard', true);
 		$this->addPage(new SystemMigrationWizardPage('page_system',$this->parent));
 		$this->addPage(new SettingsMigrationWizardPage('page_settings',$this->parent));
-		$this->addPage(new UsersMigrationWizardPage('page_users',$this->parent));
-		$this->addPage(new SystemSettingsMigrationWizardPage('page_systemsettings',$this->parent));
-		$this->addPage(new ClassesMigrationWizardPage('page_classes', $this->parent));
-		$this->addPage(new CoursesMigrationWizardPage('page_courses',$this->parent));
-		$this->addPage(new PersonalAgendasMigrationWizardPage('page_pa',$this->parent));
-		$this->addPage(new MetaDataMigrationWizardPage('page_metadata',$this->parent));
-		$this->addPage(new GroupsMigrationWizardPage('page_groups',$this->parent));
-		$this->addPage(new AnnouncementsMigrationWizardPage('page_announcements',$this->parent));
-		$this->addPage(new CalendarEventsMigrationWizardPage('page_calendarevents',$this->parent));
-		$this->addPage(new DocumentsMigrationWizardPage('page_documents',$this->parent));
-		$this->addPage(new LinksMigrationWizardPage('page_links',$this->parent));
-		$this->addPage(new DropBoxesMigrationWizardPage('page_dropbox',$this->parent));
-		$this->addPage(new ForumsMigrationWizardPage('page_forum',$this->parent));
-		$this->addPage(new QuizMigrationWizardPage('page_quizs',$this->parent));
-		$this->addPage(new StudentPublicationsMigrationWizardPage('page_studentpublication',$this->parent));
-		$this->addPage(new SurveysMigrationWizardPage('page_survey',$this->parent));
-		$this->addPage(new LearningPathsMigrationWizardPage('page_learningpath',$this->parent));
-		$this->addPage(new ScormsMigrationWizardPage('page_scorms',$this->parent));
-		$this->addPage(new AssignmentsMigrationWizardPage('page_assignments',$this->parent));
-		$this->addPage(new UserinfosMigrationWizardPage('page_userinfos',$this->parent));
+		
+		$this->addpages();
+		
 		$this->addAction('display', new MigrationWizardDisplay($this->parent));
+	}
+	
+	function addpages()
+	{
+		$exports = $this->exportValues();
+		$old_system = $exports['old_system'];
+	
+		if(!$old_system) return;
+		
+		$pages = $this->loadpages($old_system);
+		foreach($pages as $name => $page)
+		{
+			$this->addPage(new $page($name,$this->parent));
+		}
+	}
+	
+	function loadpages($old_system)
+	{
+		$file = realpath(Path :: get_migration_path() . 'platform/' . $old_system . '/wizards.xml');
+		$doc = new DOMDocument();
+		$doc->load($file);
+		$platform = $doc->getElementsByTagname('platform')->item(0);
+		$name = $platform->getAttribute('name');
+		$xml_wizards = $doc->getElementsByTagname('wizard');
+		
+		$wizardpages = array();
+		
+		foreach($xml_wizards as $wizard)
+		{
+			if($wizard->hasAttribute('name') && $wizard->hasAttribute('wizardpage'))
+				$wizardpages[$wizard->getAttribute('name')] = $wizard->getAttribute('wizardpage');
+		}
+		
+		return $wizardpages;
+		
 	}
 }
 ?>
