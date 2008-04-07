@@ -331,6 +331,7 @@ class Dokeos185Survey extends ImportSurvey
 		$lcms_survey->set_description('...');
 		
 		$lcms_survey->set_owner_id($new_user_id);
+		// unix time ?
 		$lcms_survey->set_creation_date($this->get_creation_date());
 		$lcms_survey->set_modification_date($this->get_creation_date());
 		

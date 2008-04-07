@@ -300,8 +300,8 @@ class Dokeos185AssignmentSubmission extends ImportAssignmentSubmission
 				$lcms_document->set_creation_date(self :: $mgdm->make_unix_time($this->get_creation_date()));
 				$lcms_document->set_modification_date(self :: $mgdm->make_unix_time($this->get_last_edit_date()));
 				
-				if($this->get_visibility() == 2)
-					$lcms_document->set_state(1);
+				//if($this->get_visibility() == 2)
+				//	$lcms_document->set_state(1);
 				
 				// Category for announcements already exists?
 				$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
