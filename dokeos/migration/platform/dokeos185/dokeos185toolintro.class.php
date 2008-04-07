@@ -4,6 +4,9 @@
  */
 
 require_once dirname(__FILE__) . '/../../lib/import/importtoolintro.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/description/description.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
 
 /**
  * This class presents a Dokeos185 tool_intro
@@ -105,6 +108,67 @@ class Dokeos185ToolIntro extends ImportToolIntro
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
+
+		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$user_id = self :: $mgdm->get_owner($course);
+		
+		$lcms_tool_intro = new Description();
+		$lcms_tool_intro->set_title($this->get_intro_text());
+		
+		$lcms_tool_intro->set_description($this->get_intro_text());
+		
+		// Category for contents already exists?
+		$lcms_category_id = self :: $mgdm->get_parent_id($user_id, 'category',
+			Translation :: get_lang('descriptions'));
+		if(!$lcms_category_id)
+		{
+			//Create category for tool in lcms
+			$lcms_repository_category = new Category();
+			$lcms_repository_category->set_owner_id($user_id);
+			$lcms_repository_category->set_title(Translation :: get_lang('descriptions'));
+			$lcms_repository_category->set_description('...');
+	
+			//Retrieve repository id from course
+			$repository_id = self :: $mgdm->get_parent_id($user_id, 
+				'category', Translation :: get_lang('MyRepository'));
+			$lcms_repository_category->set_parent_id($repository_id);
+			
+			//Create category in database
+			$lcms_repository_category->create();
+			
+			$lcms_tool_intro->set_parent_id($lcms_repository_category->get_id());
+		}
+		else
+		{
+			$lcms_tool_intro->set_parent_id($lcms_category_id);	
+		}
+		
+		$lcms_tool_intro->set_owner_id($user_id);
+		$lcms_tool_intro->create();
+		/*
+		$publication = new LearningObjectPublication();
+			
+		$publication->set_learning_object($lcms_content);
+		$publication->set_course_id($new_course_code);
+		$publication->set_publisher_id($user_id);
+		$publication->set_tool('description');
+		$publication->set_category_id(0);
+		$publication->set_from_date(0);
+		$publication->set_to_date(0);
+		
+		$now = time();
+		$publication->set_publication_date($now);
+		$publication->set_modified_date($now);
+		
+		$publication->set_display_order_index(0);
+		$publication->set_email_sent(0);
+		$publication->set_hidden(0);
+		
+		//create publication in database
+		$publication->create();
+		*/
+		return $lcms_tool_intro;
+		
 	}
 	
 	static function get_all($parameters = array())
