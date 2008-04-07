@@ -8,6 +8,9 @@ $lang['migration']['System_title'] = "Welcome";
 $lang['migration']['System_info'] = "Please choose the system you want to migrate from";
 $lang['migration']['Old_system'] = "Old System";
 
+$lang['migration']['Page_loader_title'] = "Page loader";
+$lang['migration']['Page_loader_info'] = "We are now loading the pages from the xml file";
+
 $lang['migration']['Setting_title'] = "Settings";
 $lang['migration']['Setting_info'] = "Please provide the necessary information of your old system";
 $lang['migration']['DBHost'] = "Database host";
@@ -16,6 +19,7 @@ $lang['migration']['DBPassword'] = "Database password";
 $lang['migration']['CouldNotVerifySettings'] = "Could not verify the settings";
 $lang['migration']['ThisFieldIsRequired'] = "This field is required";
 $lang['migration']['old_directory'] = "Old directory";
+
 $lang['migration']['migrate_users'] = "Migrate users";
 $lang['migration']['migrate_settings'] = "Migrate settings and system announcements";
 $lang['migration']['migrate_classes'] = "Migrate classes";

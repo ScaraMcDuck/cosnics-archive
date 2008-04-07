@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<platform name="dokeos185">
+ <wizards>
+  
+  <wizard name="page_systemsettings" wizardpage="SystemSettingsMigrationWizardPage"/>
+  <wizard name="page_classes" wizardpage="ClassesMigrationWizardPage"/>
+  <wizard name="page_courses" wizardpage="CoursesMigrationWizardPage"/>
+  <wizard name="page_pa" wizardpage="PersonalAgendasMigrationWizardPage"/>
+  <wizard name="page_metadata" wizardpage="MetaDataMigrationWizardPage"/>
+  <wizard name="page_groups" wizardpage="GroupsMigrationWizardPage"/>
+  <wizard name="page_announcements" wizardpage="AnnouncementsMigrationWizardPage"/>
+  <wizard name="page_calendarevents" wizardpage="CalendarEventsMigrationWizardPage"/>
+  <wizard name="page_documents" wizardpage="DocumentsMigrationWizardPage"/>
+  <wizard name="page_links" wizardpage="LinksMigrationWizardPage"/>
+  <wizard name="page_dropbox" wizardpage="DropBoxesMigrationWizardPage"/>
+  <wizard name="page_forum" wizardpage="ForumsMigrationWizardPage"/>
+  <wizard name="page_quizs" wizardpage="QuizMigrationWizardPage"/>
+  <wizard name="page_studentpublication" wizardpage="StudentPublicationsMigrationWizardPage"/>
+  <wizard name="page_survey" wizardpage="SurveysMigrationWizardPage"/>
+  <wizard name="page_learningpath" wizardpage="LearningPathsMigrationWizardPage"/>
+  <wizard name="page_scorms" wizardpage="ScormsMigrationWizardPage"/>
+  <wizard name="page_assignments" wizardpage="AssignmentsMigrationWizardPage"/>
+  <wizard name="page_userinfos" wizardpage="UserinfosMigrationWizardPage"/>
+ </wizards>
+</platform>
