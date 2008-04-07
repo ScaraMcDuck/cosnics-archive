@@ -91,6 +91,7 @@ class AssignmentsMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 					
+					//$this->migrate('Assignment', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
 					$this->migrate('AssignmentFile', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
 					$this->migrate('AssignmentSubmission', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,2);
 					

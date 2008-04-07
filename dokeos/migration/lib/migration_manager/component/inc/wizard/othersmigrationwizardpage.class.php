@@ -8,41 +8,38 @@ require_once dirname(__FILE__) . '/../../../../../logger.class.php';
 require_once dirname(__FILE__) . '/../../../../../import.class.php'; 
 
 /**
- * Class for course forum migration
+ * Class for shared surveys migration
  * @author Sven Vanpoucke
  */
-class ForumsMigrationWizardPage extends MigrationWizardPage
+class OthersMigrationWizardPage extends MigrationWizardPage
 {
 	private $include_deleted_files;
 	
-	function ForumsMigrationWizardPage($page_name, $parent, $command_execute = false)
+	function OthersMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent, $command_execute);
-		$this->succes = array(0,0,0,0,0);
+		$this->succes = array(0,0);
 	}
 	/**
 	 * @return string Title of the page
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Forums_title');
+		return Translation :: get_lang('Others_title');
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Forums_info');
+		return Translation :: get_lang('Others_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Forum_categories');
-			case 1: return Translation :: get_lang('Forums');
-			case 2: return Translation :: get_lang('Forum_threads');
-			case 3: return Translation :: get_lang('Forum_posts');
-			case 4: return Translation :: get_lang('Forum_mailcues');
-			default: return Translation :: get_lang('Forum_categories'); 
+			case 0: return Translation :: get_lang('Other_openid_associations');
+			case 1: return Translation :: get_lang('Other_templates');
+			default: return Translation :: get_lang('Other_openid_associations'); 
 		}
 	}
 
@@ -50,9 +47,9 @@ class ForumsMigrationWizardPage extends MigrationWizardPage
 	{
 		$logger = new Logger('migration.txt', true);
 		
-		if($logger->is_text_in_file('forums'))
+		if($logger->is_text_in_file('others'))
 		{
-			echo(Translation :: get_lang('Forums') . ' ' .
+			echo(Translation :: get_lang('Others') . ' ' .
 				 Translation :: get_lang('already_migrated') . '<br />');
 			return false;
 		}
@@ -67,7 +64,7 @@ class ForumsMigrationWizardPage extends MigrationWizardPage
 		$this->include_deleted_files = $exportvalues['migrate_deleted_files'];
 		
 		//Create logfile
-		$this->logfile = new Logger('forums.txt');
+		$this->logfile = new Logger('others.txt');
 		$this->logfile->set_start_time();
 		
 		//Create migrationdatamanager
@@ -76,49 +73,31 @@ class ForumsMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
 			$this->mgdm->set_move_file(true);
 		
-		if(isset($exportvalues['migrate_forums']) && $exportvalues['migrate_forums'] == 1)
+		if(isset($exportvalues['migrate_others']) && $exportvalues['migrate_others'] == 1)
 		{	
-			//Migrate the dropbox
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
 				$exportvalues['migrate_courses'] == 1 && $exportvalues['migrate_users'] == 1)
 			{
-				$courseclass = Import :: factory($this->old_system, 'course');
-				$courses = array();
-				$courses = $courseclass->get_all(array('mgdm' => $this->mgdm));
-				
-				foreach($courses as $i => $course)
-				{
-					if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
-					{
-						continue;
-					}	
-					
-					$this->migrate('ForumCategory', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
-					$this->migrate('ForumForum', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
-					$this->migrate('ForumThread', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,2);
-					$this->migrate('ForumPost', array('mgdm' => $this->mgdm), array(), $course,3);
-					//$this->migrate('ForumMailcue', array('mgdm' => $this->mgdm), array(), $course,4);
-					
-					unset($courses[$i]);
-				}
+				//$this->migrate('OpenidAssociation', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
+				//$this->migrate('Templates', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
 			}
 			else
 			{
-				echo(Translation :: get_lang('Forums') .
+				echo(Translation :: get_lang('Others') .
 				     Translation :: get_lang('failed') . ' ' .
 				     Translation :: get_lang('because') . ' ' . 
 				     Translation :: get_lang('Users') . ' ' .
 				     Translation :: get_lang('skipped') . '<br />');
-				$this->logfile->add_message('Forums failed because users or courses skipped');
-				$this->succes = array(0,0,0,0,0);
+				$this->logfile->add_message('Others failed because users or courses skipped');
+				$this->succes = array(0,0,0);
 			}
 			
 		}
 		else
 		{
-			echo(Translation :: get_lang('Forums')
+			echo(Translation :: get_lang('Others')
 				 . ' ' . Translation :: get_lang('skipped') . '<br />');
-			$this->logfile->add_message('Forums skipped');
+			$this->logfile->add_message('Others skipped');
 			
 			return false;
 		}
@@ -127,7 +106,7 @@ class ForumsMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
-		$logger->write_text('forums');
+		$logger->write_text('others');
 		
 		return true;
 	}

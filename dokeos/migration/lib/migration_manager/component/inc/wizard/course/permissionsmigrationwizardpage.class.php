@@ -8,42 +8,39 @@ require_once dirname(__FILE__) . '/../../../../../logger.class.php';
 require_once dirname(__FILE__) . '/../../../../../import.class.php'; 
 
 /**
- * Class for course learning paths migration
+ * Class for course permissions migration
  * @author Sven Vanpoucke
  */
-class LearningPathsMigrationWizardPage extends MigrationWizardPage
+class PermissionsMigrationWizardPage extends MigrationWizardPage
 {
 	private $include_deleted_files;
 	
-	function LearningPathsMigrationWizardPage($page_name, $parent, $command_execute = false)
+	function PermissionsMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent, $command_execute);
-		$this->succes = array(0,0,0,0,0,0);
+		$this->succes = array(0,0,0);
 	}
 	/**
 	 * @return string Title of the page
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Learning_paths_title');
+		return Translation :: get_lang('Permissions_title');
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Learning_paths_info');
+		return Translation :: get_lang('Permissions_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Learning_paths');
-			case 1: return Translation :: get_lang('Learning_path_items');
-			case 2: return Translation :: get_lang('Learning_path_item_views');
-			case 3: return Translation :: get_lang('Learning_path_iv_interactions');
-			case 4: return Translation :: get_lang('Learning_path_iv_objectives');
-			case 5: return Translation :: get_lang('Learning_path_views');
-			default: return Translation :: get_lang('Learning_paths'); 
+			case 0: return Translation :: get_lang('Permission_groups');
+			case 1: return Translation :: get_lang('Permission_users');
+			case 2: return Translation :: get_lang('Permission_tasks');
+			default: return Translation :: get_lang('Permission_groups'); 
 		}
 	}
 
@@ -51,9 +48,9 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 	{
 		$logger = new Logger('migration.txt', true);
 		
-		if($logger->is_text_in_file('learning_paths'))
+		if($logger->is_text_in_file('permissions'))
 		{
-			echo(Translation :: get_lang('Learning_paths') . ' ' .
+			echo(Translation :: get_lang('Permissions') . ' ' .
 				 Translation :: get_lang('already_migrated') . '<br />');
 			return false;
 		}
@@ -68,7 +65,7 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 		$this->include_deleted_files = $exportvalues['migrate_deleted_files'];
 		
 		//Create logfile
-		$this->logfile = new Logger('learning_paths.txt');
+		$this->logfile = new Logger('permissions.txt');
 		$this->logfile->set_start_time();
 		
 		//Create migrationdatamanager
@@ -77,7 +74,7 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
 			$this->mgdm->set_move_file(true);
 		
-		if(isset($exportvalues['migrate_learning_paths']) && $exportvalues['migrate_learning_paths'] == 1)
+		if(isset($exportvalues['migrate_permissions']) && $exportvalues['migrate_permissions'] == 1)
 		{	
 			//Migrate the dropbox
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
@@ -94,33 +91,30 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 					
-					$this->migrate('Lp', array('mgdm' => $this->mgdm), array(), $course,0);
-					$this->migrate('LpItem', array('mgdm' => $this->mgdm), array(), $course,1);
-					//$this->migrate('LpItemView', array('mgdm' => $this->mgdm), array(), $course,2);
-					//$this->migrate('LpIvInteraction', array('mgdm' => $this->mgdm), array(), $course,3);
-					//$this->migrate('LpIvObjective', array('mgdm' => $this->mgdm), array(), $course,4);
-					//$this->migrate('LpView', array('mgdm' => $this->mgdm), array(), $course,5);
+					//$this->migrate('PermissionGroup', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
+					//$this->migrate('PermissionTask', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
+					//$this->migrate('PermissionUser', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,2);
 					
 					unset($courses[$i]);
 				}
 			}
 			else
 			{
-				echo(Translation :: get_lang('Learning_paths') .
+				echo(Translation :: get_lang('Permissions') .
 				     Translation :: get_lang('failed') . ' ' .
 				     Translation :: get_lang('because') . ' ' . 
 				     Translation :: get_lang('Users') . ' ' .
 				     Translation :: get_lang('skipped') . '<br />');
-				$this->logfile->add_message('Learning paths failed because users or courses skipped');
-				$this->succes = array(0,0,0,0,0,0);
+				$this->logfile->add_message('Permissions failed because users or courses skipped');
+				$this->succes = array(0,0,0);
 			}
 			
 		}
 		else
 		{
-			echo(Translation :: get_lang('Learning_paths')
+			echo(Translation :: get_lang('Permissions')
 				 . ' ' . Translation :: get_lang('skipped') . '<br />');
-			$this->logfile->add_message('Learning paths skipped');
+			$this->logfile->add_message('Permissions skipped');
 			
 			return false;
 		}
@@ -129,7 +123,7 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
-		$logger->write_text('learning_paths');
+		$logger->write_text('permissions');
 		
 		return true;
 	}

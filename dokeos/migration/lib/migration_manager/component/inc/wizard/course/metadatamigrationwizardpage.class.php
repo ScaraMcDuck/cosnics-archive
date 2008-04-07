@@ -72,6 +72,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 			case 0: return Translation :: get_lang('Course_meta_Descriptions'); 
 			case 1: return Translation :: get_lang('Course_meta_Tools');
 			case 2: return Translation :: get_lang('Course_meta_Settings');  
+			case 2: return Translation :: get_lang('Course_tool_intros');  
 			default: return Translation :: get_lang('Course_meta_Descriptions'); 
 		}
 	}
@@ -135,6 +136,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 					$this->migrate_descriptions($course);
 					//$this->migrate_settings($course);
 					//$this->migrate_tools($course);
+					//$this->migrate('ToolIntro', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
 					unset($courses[$i]);
 				}
 			}

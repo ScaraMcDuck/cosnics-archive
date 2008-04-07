@@ -260,13 +260,13 @@ $lang['migration']['Role_groups'] = "Role group(s)";
 $lang['migration']['Role_users'] = "Role user(s)";
 $lang['migration']['Role_permissions'] = "Role permission(s)";
 
-//Others page
-$lang['migration']['Others_title'] = "Course others migration";
-$lang['migration']['Others_info'] = "In the next step we will migrate the other data that doesn't belong to a block";
-$lang['migration']['Others'] = "Other(s)";
-$lang['migration']['Other_chat_connecteds'] = "Chat connected(s)";
-$lang['migration']['Other_online_connecteds'] = "Online connected(s)";
-$lang['migration']['Other_online_links'] = "Online link(s)";
+//Others course page
+$lang['migration']['Others_course_title'] = "Course others migration";
+$lang['migration']['Others_course_info'] = "In the next step we will migrate the other data that doesn't belong to a block";
+$lang['migration']['Others_course'] = "Other(s)";
+$lang['migration']['Other_course_chat_connecteds'] = "Chat connected(s)";
+$lang['migration']['Other_course_online_connecteds'] = "Online connected(s)";
+$lang['migration']['Other_course_online_links'] = "Online link(s)";
 
 //Gradebook page
 $lang['migration']['Sessions_title'] = "Sessions migration";
@@ -284,4 +284,10 @@ $lang['migration']['Shared_surveys'] = "Userinfo(s)";
 $lang['migration']['Shared_survey_questions'] = "Userinfo definition(s)";
 $lang['migration']['Shared_survey_question_options'] = "Userinfo content(s)";
 
+//Others page
+$lang['migration']['Others_title'] = "Others migration";
+$lang['migration']['Others_info'] = "In the next step we will migrate the other data that doesn't belong to a block";
+$lang['migration']['Others'] = "Other(s)";
+$lang['migration']['Other_openid_associations'] = "Openid association(s)";
+$lang['migration']['Other_templates'] = "Template(s)";
 ?>
