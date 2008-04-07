@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importdropboxpost.class.php';
+
 /**
  * This class presents a Dokeos185 dropbox_post
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185DropboxPost
+class Dokeos185DropboxPost extends ImportDropboxPost
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185DropboxPost properties
 	 */
@@ -133,6 +137,26 @@ class Dokeos185DropboxPost
 		return $this->get_default_property(self :: PROPERTY_SESSION_ID);
 	}
 
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = $parameters['course'];
+		$tablename = 'dropbox_post';
+		$classname = 'Dokeos185DropboxPost';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

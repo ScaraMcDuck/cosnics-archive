@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/categ
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185Quiz
+class Dokeos185Quiz extends ImportQuiz
 {
 	/** 
 	 * Migration data manager

@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importquizanswer.class.php';
+
 /**
  * This class presents a Dokeos185 quiz_answer
  *
  * @author Sven Vanpouckes
  */
-class Dokeos185QuizAnswer
+class Dokeos185QuizAnswer extends ImportQuizAnswer
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185QuizAnswer properties
 	 */
@@ -161,6 +165,17 @@ class Dokeos185QuizAnswer
 	function get_hotspot_type()
 	{
 		return $this->get_default_property(self :: PROPERTY_HOTSPOT_TYPE);
+	}
+
+	static function get_all($parameters)
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$coursedb = $parameters['course']->get_db_name();
+		$tablename = 'quiz_answer';
+		$classname = 'Dokeos185QuizAnswer';
+			
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
 
 }

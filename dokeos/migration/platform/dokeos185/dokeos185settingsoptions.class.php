@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importsettingsoptions.class.php';
+
 /**
  * This class presents a Dokeos185 settings_options
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185SettingsOptions
+class Dokeos185SettingsOptions extends ImportSettingsOptions
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185SettingsOptions properties
 	 */
@@ -113,6 +117,26 @@ class Dokeos185SettingsOptions
 		return $this->get_default_property(self :: PROPERTY_DISPLAY_TEXT);
 	}
 
+	function is_valid($array)
+	{
+		
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'main_database';
+		$tablename = 'settings_options';
+		$classname = 'Dokeos185SettingsOptions';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

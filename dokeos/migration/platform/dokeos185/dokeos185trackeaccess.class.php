@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importtrackeaccess.class.php';
+
 /**
  * This class presents a Dokeos185 track_e_access
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackEAccess
+class Dokeos185TrackEAccess extends ImportTrackEAccess
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185TrackEAccess properties
 	 */
@@ -123,6 +127,27 @@ class Dokeos185TrackEAccess
 		return $this->get_default_property(self :: PROPERTY_ACCESS_TOOL);
 	}
 
+	
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'statistics_database';
+		$tablename = 'track_e_access';
+		$classname = 'Dokeos185TrackEAccess';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

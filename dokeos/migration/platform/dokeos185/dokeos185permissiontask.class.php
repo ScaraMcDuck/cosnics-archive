@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importpermissiontask.class.php';
+
 /**
  * This class presents a Dokeos185 permission_task
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185PermissionTask
+class Dokeos185PermissionTask extends ImportPermissionTask
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185PermissionTask properties
 	 */
@@ -113,6 +117,26 @@ class Dokeos185PermissionTask
 		return $this->get_default_property(self :: PROPERTY_ACTION);
 	}
 
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = $parameters['course'];
+		$tablename = 'permission_task';
+		$classname = 'Dokeos185PermissionTask';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

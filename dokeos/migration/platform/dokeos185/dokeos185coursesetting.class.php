@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importcoursesetting.class.php';
+
 /**
  * This class presents a dokeos185 course_setting
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185CourseSetting
+class Dokeos185CourseSetting extends ImportCourseSetting
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185CourseSetting properties
 	 */
@@ -234,6 +238,27 @@ class Dokeos185CourseSetting
 	function set_subkeytext($subkeytext)
 	{
 		$this->set_default_property(self :: PROPERTY_SUBKEYTEXT, $subkeytext);
+	}
+
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = $parameters['course'];
+		$tablename = 'course_setting';
+		$classname = 'Dokeos185CourseSetting';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
 	}
 
 }

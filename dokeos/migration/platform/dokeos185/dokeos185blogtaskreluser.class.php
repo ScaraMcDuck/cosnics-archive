@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importblogtaskreluser.class.php';
+
 /**
  * This class presents a Dokeos185 blog_task_rel_user
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185BlogTaskRelUser
+class Dokeos185BlogTaskRelUser extends ImportBlogTaskRelUser
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185BlogTaskRelUser properties
 	 */
@@ -113,6 +117,31 @@ class Dokeos185BlogTaskRelUser
 		return $this->get_default_property(self :: PROPERTY_TARGET_DATE);
 	}
 
+	function get_intro_text()
+	{
+		return $this->get_default_property(self :: PROPERTY_INTRO_TEXT);
+	}
+
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = $parameters['course'];
+		$tablename = 'blog_task_rel_user';
+		$classname = 'Dokeos185BlogTaskRelUser';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/categ
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185Lp
+class Dokeos185Lp extends ImportLP
 {
 	/** 
 	 * Migration data manager

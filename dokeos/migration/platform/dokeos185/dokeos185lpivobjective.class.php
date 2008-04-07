@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importlpivobjective.class.php';
+
 /**
  * This class presents a Dokeos185 lp_iv_objective
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185LpIvObjective
+class Dokeos185LpIvObjective extends ImportLpIvObjective
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185LpIvObjective properties
 	 */
@@ -153,6 +157,26 @@ class Dokeos185LpIvObjective
 		return $this->get_default_property(self :: PROPERTY_STATUS);
 	}
 
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = $parameters['course'];
+		$tablename = 'lp_iv_objective';
+		$classname = 'Dokeos185LpIvObjective';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

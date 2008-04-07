@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <platform name="dokeos185">
  <wizards>
-  
+  <wizard name="page_users" wizardpage="UsersMigrationWizardPage"/>
   <wizard name="page_systemsettings" wizardpage="SystemSettingsMigrationWizardPage"/>
   <wizard name="page_classes" wizardpage="ClassesMigrationWizardPage"/>
   <wizard name="page_courses" wizardpage="CoursesMigrationWizardPage"/>

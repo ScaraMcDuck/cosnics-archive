@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importtrackelogin.class.php';
+
 /**
  * This class presents a Dokeos185 track_e_login
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackELogin
+class Dokeos185TrackELogin extends ImportTrackELogin
 {
+	private static $mgdm;
+
 	/**
 	 * Dokeos185TrackELogin properties
 	 */
@@ -123,7 +127,26 @@ class Dokeos185TrackELogin
 		return $this->get_default_property(self :: PROPERTY_LOGOUT_DATE);
 	}
 
-
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'statistics_database';
+		$tablename = 'track_e_login';
+		$classname = 'Dokeos185TrackELogin';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 }
 
 ?>

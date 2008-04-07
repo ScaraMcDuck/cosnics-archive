@@ -17,7 +17,7 @@ require_once dirname(__FILE__) . '/Dokeos185QuizAnswer.class.php';
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185QuizQuestion
+class Dokeos185QuizQuestion extends ImportQuizQuestion
 {
 	/** 
 	 * Migration data manager

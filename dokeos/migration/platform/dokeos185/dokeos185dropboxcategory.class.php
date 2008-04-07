@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobje
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185DropboxCategory
+class Dokeos185DropboxCategory extends ImportDropboxCategory
 {
 	private static $mgdm;
 	

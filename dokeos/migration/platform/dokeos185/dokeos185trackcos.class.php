@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importtrackcos.class.php';
+
 /**
  * This class presents a Dokeos185 track_c_os
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackCOs
+class Dokeos185TrackCOs extends ImportTrackC0s
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185TrackCOs properties
 	 */
@@ -103,7 +107,26 @@ class Dokeos185TrackCOs
 		return $this->get_default_property(self :: PROPERTY_COUNTER);
 	}
 
-
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'statistics_database';
+		$tablename = 'track_c_os';
+		$classname = 'Dokeos185TrackC0s';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 }
 
 ?>

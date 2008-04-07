@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importtrackeexercices.class.php';
+
 /**
  * This class presents a Dokeos185 track_e_exercices
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackEExercices
+class Dokeos185TrackEExercices extends ImportTrackEExercices
 {
+	private static $mgdm;
+
 	/**
 	 * Dokeos185TrackEExercices properties
 	 */
@@ -143,6 +147,26 @@ class Dokeos185TrackEExercices
 		return $this->get_default_property(self :: PROPERTY_EXE_WEIGHTING);
 	}
 
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'statistics_database';
+		$tablename = 'track_e_exercices';
+		$classname = 'Dokeos185TrackEExercices';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

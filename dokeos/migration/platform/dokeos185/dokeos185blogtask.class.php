@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importblogtask.class.php';
+
 /**
  * This class presents a Dokeos185 blog_task
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185BlogTask
+class Dokeos185BlogTask extends ImportBlogTask
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185BlogTask properties
 	 */
@@ -133,6 +137,26 @@ class Dokeos185BlogTask
 		return $this->get_default_property(self :: PROPERTY_SYSTEM_TASK);
 	}
 
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = $parameters['course'];
+		$tablename = 'blog_task';
+		$classname = 'Dokeos185BlogTask';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

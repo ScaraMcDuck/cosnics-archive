@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importtrackelinks.class.php';
+
 /**
  * This class presents a Dokeos185 track_e_links
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackELinks
+class Dokeos185TrackELinks extends ImportTrackELinks
 {
+	private static $mgdm;	
+
 	/**
 	 * Dokeos185TrackELinks properties
 	 */
@@ -123,6 +127,26 @@ class Dokeos185TrackELinks
 		return $this->get_default_property(self :: PROPERTY_LINKS_LINK_ID);
 	}
 
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'statistics_database';
+		$tablename = 'track_e_links';
+		$classname = 'Dokeos185TrackELinks';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/../../lib/import/importcourserelclass.class.php
  * @author David Van Wayenbergh
  */
  
-class Dokeos185CourseRelClass extends Import
+class Dokeos185CourseRelClass extends ImportCourseRelClass
 {
 
 	/**

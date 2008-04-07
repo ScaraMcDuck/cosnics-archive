@@ -14,7 +14,7 @@ require_once dirname(__FILE__).'/../../../classgroup/lib/classgroup.class.php';
  * @author Sven Vanpoucke
  */
 
-class Dokeos185Class extends Import
+class Dokeos185Class extends ImportClass
 {
 	/**
 	 * Migration data manager

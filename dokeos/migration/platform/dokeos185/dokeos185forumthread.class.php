@@ -15,7 +15,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/categ
  * @author Vanpoucke Sven
  * @author Van Wayenbergh David
  */
-class Dokeos185ForumThread
+class Dokeos185ForumThread extends ImportForumThread
 {
 	/** 
 	 * Migration data manager

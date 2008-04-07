@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importsurveyinvitation.class.php';
+
 /**
  * This class presents a Dokeos185 survey_invitation
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185SurveyInvitation
+class Dokeos185SurveyInvitation extends ImportSurveyInvitation
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185SurveyInvitation properties
 	 */
@@ -143,12 +147,19 @@ class Dokeos185SurveyInvitation
 		return $this->get_default_property(self :: PROPERTY_ANSWERED);
 	}
 
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+
 	static function get_all($parameters = array())
 	{
 		self :: $mgdm = $parameters['mgdm'];
-
-		if($array['del_files'] =! 1)
-			$tool_name = 'survey_invitation';
 		
 		$coursedb = $array['course'];
 		$tablename = 'survey_invitation';

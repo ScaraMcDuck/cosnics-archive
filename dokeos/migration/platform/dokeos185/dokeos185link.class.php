@@ -16,7 +16,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/categ
  * @author David Van Wayenbergh
  */
 
-class Dokeos185Link extends Import
+class Dokeos185Link extends ImportLink
 {
 	private static $mgdm;
 	private $item_property;

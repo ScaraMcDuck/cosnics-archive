@@ -3,12 +3,14 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importquizrelquestion.class.php';
+
 /**
  * This class presents a Dokeos185 quiz_rel_question
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185QuizRelQuestion
+class Dokeos185QuizRelQuestion extends ImportQuizRelQuestion
 {
 	/**
 	 * Dokeos185QuizRelQuestion properties

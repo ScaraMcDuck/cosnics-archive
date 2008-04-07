@@ -14,7 +14,7 @@ require_once dirname(__FILE__).'/../../../admin/lib/setting.class.php';
  * @author Sven Vanpoucke
  */
 
-class Dokeos185SettingCurrent extends Import
+class Dokeos185SettingCurrent extends ImportSettingCurrent
 {
 	private $convert = array
 					   (

@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/categ
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185Survey
+class Dokeos185Survey extends ImportSurvey
 {
 	private static $mgdm;
 	/**

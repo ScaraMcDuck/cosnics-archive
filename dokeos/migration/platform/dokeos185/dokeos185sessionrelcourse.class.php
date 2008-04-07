@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importsessionrelcourse.class.php';
+
 /**
  * This class presents a Dokeos185 session_rel_course
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185SessionRelCourse
+class Dokeos185SessionRelCourse extends ImportSessionRelCourse
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185SessionRelCourse properties
 	 */
@@ -113,6 +117,26 @@ class Dokeos185SessionRelCourse
 		return $this->get_default_property(self :: PROPERTY_NBR_USERS);
 	}
 
+	function is_valid($array)
+	{
+		
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'main_database';
+		$tablename = 'session_rel_course';
+		$classname = 'Dokeos185SessionRelCourse';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

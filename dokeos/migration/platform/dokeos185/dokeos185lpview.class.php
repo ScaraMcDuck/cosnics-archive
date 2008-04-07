@@ -3,13 +3,17 @@
  * migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../../lib/import/importlpview.class.php';
+
 /**
  * This class presents a Dokeos185 lp_view
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185LpView
+class Dokeos185LpView extends ImportLpView
 {
+	private static $mgdm;
+	
 	/**
 	 * Dokeos185LpView properties
 	 */
@@ -133,6 +137,26 @@ class Dokeos185LpView
 		return $this->get_default_property(self :: PROPERTY_PROGRESS);
 	}
 
+	function is_valid($array)
+	{
+		$course = $array['course'];
+	}
+	
+	function convert_to_lcms($array)
+	{	
+		$course = $array['course'];
+	}
+	
+	static function get_all($parameters = array())
+	{
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = $parameters['course'];
+		$tablename = 'lp_view';
+		$classname = 'Dokeos185LpView';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+	}
 
 }
 

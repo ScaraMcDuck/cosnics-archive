@@ -3,7 +3,7 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/importclass.class.php';
+require_once dirname(__FILE__).'/../../lib/import/importclassuser.class.php';
 require_once dirname(__FILE__).'/../../../classgroup/lib/classgroupreluser.class.php';
 
 /**
@@ -13,7 +13,7 @@ require_once dirname(__FILE__).'/../../../classgroup/lib/classgroupreluser.class
  * @author Sven Vanpoucke
  */
  
-class Dokeos185ClassUser extends Import
+class Dokeos185ClassUser extends ImportClassUser
 {
 	/**
 	 * Migration data manager
