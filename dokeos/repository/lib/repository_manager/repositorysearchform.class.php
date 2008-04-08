@@ -132,9 +132,9 @@ class RepositorySearchForm extends FormValidator
 	private function build_simple_search_form()
 	{
 		$this->renderer->setElementTemplate('{element}');
-		$this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get_lang('Find'), 'size="20" class="search_query"');
-		$this->addElement('submit', 'search', Translation :: get_lang('Ok'));
-		$this->addElement('static', '', '', '<div class="to_advanced_search" style="font-size:smaller;"><a href="'.$this->manager->get_url(array (self :: PARAM_ADVANCED_SEARCH => 1), false, true).'">'.htmlentities(Translation :: get_lang('ToAdvancedSearch')).'</a></div>');
+		$this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Find'), 'size="20" class="search_query"');
+		$this->addElement('submit', 'search', Translation :: get('Ok'));
+		$this->addElement('static', '', '', '<div class="to_advanced_search" style="font-size:smaller;"><a href="'.$this->manager->get_url(array (self :: PARAM_ADVANCED_SEARCH => 1), false, true).'">'.htmlentities(Translation :: get('ToAdvancedSearch')).'</a></div>');
 	}
 	/**
 	 * Build the advanced search form.
@@ -144,18 +144,18 @@ class RepositorySearchForm extends FormValidator
 		$types = array ();
 		foreach ($this->manager->get_learning_object_types() as $type)
 		{
-			$types[$type] = Translation :: get_lang(LearningObject :: type_to_class($type).'TypeName');
+			$types[$type] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
 		}
 		asort($types);
-		$this->frozen_elements[] = $this->addElement('text', self :: PARAM_TITLE_SEARCH_QUERY, Translation :: get_lang('Title'), 'size="60" style="width: 100%"');
-		$this->frozen_elements[] = $this->addElement('text', self :: PARAM_DESCRIPTION_SEARCH_QUERY, Translation :: get_lang('Description'), 'size="60" style="width: 100%"');
-		$this->frozen_elements[] = $this->addElement('select', RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE, Translation :: get_lang('Type'), $types, 'multiple="multiple" size="5" style="width: 100%"');
+		$this->frozen_elements[] = $this->addElement('text', self :: PARAM_TITLE_SEARCH_QUERY, Translation :: get('Title'), 'size="60" style="width: 100%"');
+		$this->frozen_elements[] = $this->addElement('text', self :: PARAM_DESCRIPTION_SEARCH_QUERY, Translation :: get('Description'), 'size="60" style="width: 100%"');
+		$this->frozen_elements[] = $this->addElement('select', RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE, Translation :: get('Type'), $types, 'multiple="multiple" size="5" style="width: 100%"');
 		$scope_buttons = array ();
-		$scope_buttons[] = $this->createElement('radio', null, null, Translation :: get_lang('EntireRepository'), self :: SEARCH_SCOPE_REPOSITORY);
-		$scope_buttons[] = $this->createElement('radio', null, null, Translation :: get_lang('CurrentCategoryOnly'), self :: SEARCH_SCOPE_CATEGORY);
-		$scope_buttons[] = $this->createElement('radio', null, null, Translation :: get_lang('CurrentCategoryAndSubcategories'), self :: SEARCH_SCOPE_CATEGORY_AND_SUBCATEGORIES);
-		$this->frozen_elements[] = $this->addGroup($scope_buttons, self :: PARAM_SEARCH_SCOPE, Translation :: get_lang('SearchIn'));
-		$this->addElement('submit', 'search', Translation :: get_lang('Ok'));
+		$scope_buttons[] = $this->createElement('radio', null, null, Translation :: get('EntireRepository'), self :: SEARCH_SCOPE_REPOSITORY);
+		$scope_buttons[] = $this->createElement('radio', null, null, Translation :: get('CurrentCategoryOnly'), self :: SEARCH_SCOPE_CATEGORY);
+		$scope_buttons[] = $this->createElement('radio', null, null, Translation :: get('CurrentCategoryAndSubcategories'), self :: SEARCH_SCOPE_CATEGORY_AND_SUBCATEGORIES);
+		$this->frozen_elements[] = $this->addGroup($scope_buttons, self :: PARAM_SEARCH_SCOPE, Translation :: get('SearchIn'));
+		$this->addElement('submit', 'search', Translation :: get('Ok'));
 	}
 	/**
 	 * Display the form
@@ -166,7 +166,7 @@ class RepositorySearchForm extends FormValidator
 		if ($this->advanced)
 		{
 			$html[] = '<fieldset class="advanced_search" style="clear: both; padding: 1em; margin-bottom: 1em;">';
-			$html[] = '<legend>'.htmlentities(Translation :: get_lang('AdvancedSearch')).' [<a href="'.$this->manager->get_url(array (self :: PARAM_ADVANCED_SEARCH => 0), false, true).'">'.htmlentities(Translation :: get_lang('ToSimpleSearch')).'</a>]</legend>';
+			$html[] = '<legend>'.htmlentities(Translation :: get('AdvancedSearch')).' [<a href="'.$this->manager->get_url(array (self :: PARAM_ADVANCED_SEARCH => 0), false, true).'">'.htmlentities(Translation :: get('ToSimpleSearch')).'</a>]</legend>';
 		}
 		else
 		{

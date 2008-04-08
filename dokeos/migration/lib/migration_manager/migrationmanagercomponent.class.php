@@ -139,6 +139,22 @@ abstract class MigrationManagerComponent
 	}
 	
 	/**
+	 * @see MigarionManager::get_url()
+	 */
+	function get_url($additional_parameters = array(), $include_search = false, $encode_entities = false)
+	{
+		return $this->get_parent()->get_url($additional_parameters, $include_search, $encode_entities);
+	}
+	
+	/**
+	 * @see MigarionManager::get_user()
+	 */
+	function get_user()
+	{
+		return $this->get_parent()->get_user();
+	}
+	
+	/**
 	 * Factory pattern
 	 * Create a new migration manager component
 	 * @param string $type The type of the component to create.

@@ -12,46 +12,46 @@ class SettingsInstallWizardPage extends InstallWizardPage
 {
 	function get_title()
 	{
-		return Translation :: get_lang('CfgSetting');
+		return Translation :: get('CfgSetting');
 	}
 	function get_info()
 	{
-		return Translation :: get_lang('ConfigSettingsInfo');
+		return Translation :: get('ConfigSettingsInfo');
 	}
 	function buildForm()
 	{
 		$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
 		$this->_formBuilt = true;
-		$this->addElement('select', 'platform_language', Translation :: get_lang("MainLang"), $this->get_language_folder_list());
-		$this->addElement('text', 'platform_url', Translation :: get_lang("DokeosURL"), array ('size' => '40'));
-		$this->addRule('platform_url', Translation :: get_lang('ThisFieldIsRequired'), 'required');
+		$this->addElement('select', 'platform_language', Translation :: get("MainLang"), $this->get_language_folder_list());
+		$this->addElement('text', 'platform_url', Translation :: get("DokeosURL"), array ('size' => '40'));
+		$this->addRule('platform_url', Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->addRule('platform_url', 'AddTrailingSlash', 'regex', '/^.*\/$/');
-		$this->addElement('text', 'admin_email', Translation :: get_lang("AdminEmail"), array ('size' => '40'));
-		$this->addRule('admin_email', Translation :: get_lang('ThisFieldIsRequired'), 'required');
-		$this->addRule('admin_email', Translation :: get_lang('WrongEmail'), 'email');
-		$this->addElement('text', 'admin_surname', Translation :: get_lang("AdminLastName"), array ('size' => '40'));
-		$this->addRule('admin_surname', Translation :: get_lang('ThisFieldIsRequired'), 'required');
-		$this->addElement('text', 'admin_firstname', Translation :: get_lang("AdminFirstName"), array ('size' => '40'));
-		$this->addRule('admin_firstname', Translation :: get_lang('ThisFieldIsRequired'), 'required');
-		$this->addElement('text', 'admin_phone', Translation :: get_lang("AdminPhone"), array ('size' => '40'));
-		$this->addElement('text', 'admin_username', Translation :: get_lang("AdminLogin"), array ('size' => '40'));
-		$this->addRule('admin_username', Translation :: get_lang('ThisFieldIsRequired'), 'required');
-		$this->addElement('text', 'admin_password', Translation :: get_lang("AdminPass"), array ('size' => '40'));
-		$this->addRule('admin_password', Translation :: get_lang('ThisFieldIsRequired'), 'required');
-		$this->addElement('text', 'platform_name', Translation :: get_lang("CampusName"), array ('size' => '40'));
-		$this->addRule('platform_name', Translation :: get_lang('ThisFieldIsRequired'), 'required');
-		$this->addElement('text', 'organization_name', Translation :: get_lang("InstituteShortName"), array ('size' => '40'));
-		$this->addRule('organization_name', Translation :: get_lang('ThisFieldIsRequired'), 'required');
-		$this->addElement('text', 'organization_url', Translation :: get_lang("InstituteURL"), array ('size' => '40'));
-		$this->addRule('organization_url', Translation :: get_lang('ThisFieldIsRequired'), 'required');
-		$encrypt[] = $this->createElement('radio', 'encrypt_password', null, Translation :: get_lang('Yes'), 1);
-		$encrypt[] = $this->createElement('radio', 'encrypt_password', null, Translation :: get_lang('No'), 0);
-		$this->addGroup($encrypt, 'encrypt_password', Translation :: get_lang("EncryptUserPass"), '&nbsp;', false);
-		$self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get_lang('Yes'), 1);
-		$self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get_lang('No'), 0);
-		$this->addGroup($self_reg, 'self_reg', Translation :: get_lang("AllowSelfReg"), '&nbsp;', false);
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get_lang('Previous'));
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
+		$this->addElement('text', 'admin_email', Translation :: get("AdminEmail"), array ('size' => '40'));
+		$this->addRule('admin_email', Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addRule('admin_email', Translation :: get('WrongEmail'), 'email');
+		$this->addElement('text', 'admin_surname', Translation :: get("AdminLastName"), array ('size' => '40'));
+		$this->addRule('admin_surname', Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', 'admin_firstname', Translation :: get("AdminFirstName"), array ('size' => '40'));
+		$this->addRule('admin_firstname', Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', 'admin_phone', Translation :: get("AdminPhone"), array ('size' => '40'));
+		$this->addElement('text', 'admin_username', Translation :: get("AdminLogin"), array ('size' => '40'));
+		$this->addRule('admin_username', Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', 'admin_password', Translation :: get("AdminPass"), array ('size' => '40'));
+		$this->addRule('admin_password', Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', 'platform_name', Translation :: get("CampusName"), array ('size' => '40'));
+		$this->addRule('platform_name', Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', 'organization_name', Translation :: get("InstituteShortName"), array ('size' => '40'));
+		$this->addRule('organization_name', Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', 'organization_url', Translation :: get("InstituteURL"), array ('size' => '40'));
+		$this->addRule('organization_url', Translation :: get('ThisFieldIsRequired'), 'required');
+		$encrypt[] = $this->createElement('radio', 'encrypt_password', null, Translation :: get('Yes'), 1);
+		$encrypt[] = $this->createElement('radio', 'encrypt_password', null, Translation :: get('No'), 0);
+		$this->addGroup($encrypt, 'encrypt_password', Translation :: get("EncryptUserPass"), '&nbsp;', false);
+		$self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get('Yes'), 1);
+		$self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get('No'), 0);
+		$this->addGroup($self_reg, 'self_reg', Translation :: get("AllowSelfReg"), '&nbsp;', false);
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 		$this->set_form_defaults();
@@ -73,8 +73,8 @@ class SettingsInstallWizardPage extends InstallWizardPage
 		$defaults['admin_firstname'] = mt_rand(0,1)?'John':'Jane';
 		$defaults['admin_username'] = 'admin';
 		$defaults['admin_password'] = substr(md5(time()), 0, 8);
-		$defaults['platform_name'] = Translation :: get_lang('MyDokeos');
-		$defaults['organization_name'] = Translation :: get_lang('Dokeos');
+		$defaults['platform_name'] = Translation :: get('MyDokeos');
+		$defaults['organization_name'] = Translation :: get('Dokeos');
 		$defaults['organization_url'] = 'http://www.dokeos.com';
 		$defaults['self_reg'] = 0;
 		$defaults['encrypt_password'] = 1;

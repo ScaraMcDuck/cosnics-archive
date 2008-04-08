@@ -27,11 +27,13 @@ class MigrationManager
     * Constant defining an action of the repository manager.
  	*/
 	const ACTION_MIGRATE = 'migrate';
+	const ACTION_MIGRATOR = 'mig';
 	
 	/**#@+
     * Property of this repository manager.
  	*/
 	private $parameters;
+	private $user;
 	private $breadcrumbs;
 	
 	/**#@-*/
@@ -39,8 +41,9 @@ class MigrationManager
 	 * Constructor
 	 * @param int $user_id The user id of current user
 	 */
-	function MigrationManager()
+	function MigrationManager($user)
 	{
+		$this->user = $user;
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
 	}
@@ -56,6 +59,9 @@ class MigrationManager
 		{
 			case self :: ACTION_MIGRATE :
 				$component = MigrationManagerComponent :: factory('Migration', $this);
+				break;
+			case self :: ACTION_MIGRATOR :
+				$component = MigrationManagerComponent :: factory('Migrator', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_MIGRATE);
@@ -91,13 +97,13 @@ class MigrationManager
 	 */
 	function display_header($breadcrumbs = array ())
 	{
-		global $interbredcrump;
+		global $interbreadcrumb;
 		if (isset ($this->breadcrumbs) && is_array($this->breadcrumbs))
 		{
 			$breadcrumbs = array_merge($this->breadcrumbs, $breadcrumbs);
 		}
 		$current_crumb = array_pop($breadcrumbs);
-		$interbredcrump = $breadcrumbs;
+		$interbreadcrumb = $breadcrumbs;
 		$title = $current_crumb['name'];
 		$title_short = $title;
 		if (strlen($title_short) > 53)
@@ -121,7 +127,7 @@ class MigrationManager
 		echo '<link rel="stylesheet" href="../layout/css/default.css" type="text/css"/>'."\n";
 		echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'."\n";		
 		echo '</head>'."\n";
-		echo '<body dir="'. Translation :: get_lang('text_dir') .'">' . "\n";
+		echo '<body dir="'. Translation :: get('text_dir') .'">' . "\n";
 		
 		echo '<!-- #outerframe container to control some general layout of all pages -->'."\n";
 		echo '<div id="outerframe">'."\n";
@@ -249,5 +255,35 @@ class MigrationManager
 		Display :: display_not_allowed();
 	}
 	
+	/**
+	 * Gets an URL.
+	 * @param array $additional_parameters Additional parameters to add in the
+	 * query string (default = no additional parameters).
+	 * @param boolean $include_search Include the search parameters in the
+	 * query string of the URL? (default = false).
+	 * @param boolean $encode_entities Apply php function htmlentities to the
+	 * resulting URL ? (default = false).
+	 * @return string The requested URL.
+	 */
+	function get_url($additional_parameters = array (), $include_search = false, $encode_entities = false, $x = null)
+	{
+		$eventual_parameters = array_merge($this->get_parameters($include_search), $additional_parameters);
+		$url = $_SERVER['PHP_SELF'].'?'.http_build_query($eventual_parameters);
+		if ($encode_entities)
+		{
+			$url = htmlentities($url);
+		}
+
+		return $url;
+	}
+	
+	/**
+	 * Gets the user.
+	 * @return int The user.
+	 */
+	function get_user()
+	{
+		return $this->user;
+	}
 }
 ?>

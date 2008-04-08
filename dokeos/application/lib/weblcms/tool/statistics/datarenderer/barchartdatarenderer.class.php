@@ -29,10 +29,10 @@ class BarChartDataRenderer extends DataRenderer
 		}
 		$table = new SortableTableFromArray($table_data);
 		$table->set_additional_parameters($this->parent->get_parameters());
-		$table->set_header(0,Translation :: get_lang('Tool'));
+		$table->set_header(0,Translation :: get('Tool'));
 		$table->set_header(1,'',false);
-		$table->set_header(2,Translation :: get_lang('Amount'));
-		$table->set_header(3,Translation :: get_lang('Percentage'));
+		$table->set_header(2,Translation :: get('Amount'));
+		$table->set_header(3,Translation :: get('Percentage'));
 		$table->display();
     }
 }

@@ -22,9 +22,9 @@ class PlatformSession
 		{
 			if (empty ($_SESSION['checkDokeosURL']))
 			{
-				$_SESSION['checkDokeosURL'] = Path :: get_path(WEB_PATH);
+				$_SESSION['checkDokeosURL'] = Path :: get(WEB_PATH);
 			}
-			elseif ($_SESSION['checkDokeosURL'] != Path :: get_path(WEB_PATH))
+			elseif ($_SESSION['checkDokeosURL'] != Path :: get(WEB_PATH))
 			{
 				self :: platform_session_clear();
 			}

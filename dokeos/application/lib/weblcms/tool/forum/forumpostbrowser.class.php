@@ -74,14 +74,14 @@ class ForumPostBrowser extends LearningObjectPublicationBrowser
 				$post->set_parent_id($this->topic->get_id());
 				$post->set_parent_post_id($_GET[ForumPost :: PROPERTY_PARENT_POST]);
 				$post->update();
-				$html .= Display::display_normal_message(Translation :: get_lang('PostAdded'),true);
+				$html .= Display::display_normal_message(Translation :: get('PostAdded'),true);
 				$show_posts = true;
 			}
 		}
 		if($show_posts)
 		{
 			$toolbar_data = array ();
-			$toolbar_data[] = array ('href' => $this->get_url(array('forum_action'=>'newpost')), 'img' => $this->get_path(WEB_IMG_PATH).'forum.gif', 'label' => Translation :: get_lang('NewPost'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+			$toolbar_data[] = array ('href' => $this->get_url(array('forum_action'=>'newpost')), 'img' => $this->get_path(WEB_IMG_PATH).'forum.gif', 'label' => Translation :: get('NewPost'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 			$html .=  '<div style="margin-bottom: 1em;">'.RepositoryUtilities :: build_toolbar($toolbar_data).'</div>';
 			$html .= '<b><a href="'.$this->get_url(array('topic'=>null)).'">'.$forum->get_title().'</a> : '.$this->topic->get_title().'</b>';
 			$html .= $this->listRenderer->as_html();

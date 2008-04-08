@@ -63,7 +63,7 @@ class MonthCalendar extends CalendarTable
 	{
 		$first_day = mktime(0, 0, 0, date('m',  $this->get_display_time()), 1, date('Y',  $this->get_display_time()));
 		$first_day_nr = date('w', $first_day) == 0 ? 6 : date('w', $first_day) - 1;
-		$this->addRow(array (Translation :: get_lang('MondayLong'), Translation :: get_lang('TuesdayLong'), Translation :: get_lang('WednesdayLong'), Translation :: get_lang('ThursdayLong'), Translation :: get_lang('FridayLong'), Translation :: get_lang('SaturdayLong'), Translation :: get_lang('SundayLong')));
+		$this->addRow(array (Translation :: get('MondayLong'), Translation :: get('TuesdayLong'), Translation :: get('WednesdayLong'), Translation :: get('ThursdayLong'), Translation :: get('FridayLong'), Translation :: get('SaturdayLong'), Translation :: get('SundayLong')));
 		$this->setRowType(0, 'th');
 		$first_table_date = strtotime('Next Monday', strtotime('-1 Week', $first_day));
 		$table_date = $first_table_date;
@@ -137,9 +137,9 @@ class MonthCalendar extends CalendarTable
 		$navigation->updateCellAttributes(0, 0, 'style="text-align: left;"');
 		$navigation->updateCellAttributes(0, 1, 'style="text-align: center;"');
 		$navigation->updateCellAttributes(0, 2, 'style="text-align: right;"');
-		$navigation->setCellContents(0, 0, '<a href="'.str_replace('-TIME-', $prev, $url_format).'"><img src="'.Path :: get_path(WEB_IMG_PATH).'prev.png" style="vertical-align: middle;" alt="&lt;&lt;"/></a> ');
-		$navigation->setCellContents(0, 1, Translation :: get_lang(date('F',  $this->get_display_time()).'Long').' '.date('Y',  $this->get_display_time()));
-		$navigation->setCellContents(0, 2, ' <a href="'.str_replace('-TIME-', $next, $url_format).'"><img src="'.Path :: get_path(WEB_IMG_PATH).'next.png" style="vertical-align: middle;" alt="&gt;&gt;"/></a> ');
+		$navigation->setCellContents(0, 0, '<a href="'.str_replace('-TIME-', $prev, $url_format).'"><img src="'.Path :: get(WEB_IMG_PATH).'prev.png" style="vertical-align: middle;" alt="&lt;&lt;"/></a> ');
+		$navigation->setCellContents(0, 1, Translation :: get(date('F',  $this->get_display_time()).'Long').' '.date('Y',  $this->get_display_time()));
+		$navigation->setCellContents(0, 2, ' <a href="'.str_replace('-TIME-', $next, $url_format).'"><img src="'.Path :: get(WEB_IMG_PATH).'next.png" style="vertical-align: middle;" alt="&gt;&gt;"/></a> ');
 		$this->navigation_html = $navigation->toHtml();
 	}
 	/**

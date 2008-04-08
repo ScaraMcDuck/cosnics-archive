@@ -66,7 +66,7 @@ class CourseCategoryMenu extends HTML_Menu
 		}
 		
 		$home = array ();
-		$home['title'] = Translation :: get_lang('Home');
+		$home['title'] = Translation :: get('Home');
 		$home['url'] = $this->get_home_url();
 		$home['class'] = 'home';
 		$home_item[] = $home;

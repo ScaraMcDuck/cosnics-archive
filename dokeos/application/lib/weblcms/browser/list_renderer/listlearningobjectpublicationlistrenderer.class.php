@@ -19,7 +19,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		$publications = $this->get_publications();
 		if(count($publications) == 0)
 		{
-			$html[] = Display::display_normal_message(Translation :: get_lang('NoPublicationsAvailable'),true);
+			$html[] = Display::display_normal_message(Translation :: get('NoPublicationsAvailable'),true);
 		}
 		foreach ($publications as $index => $publication)
 		{
@@ -52,7 +52,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		{
 			$icon_suffix = '_new';
 		}
-		$html[] = '<div class="learning_object" style="background-image: url('. Path :: get_path(WEB_IMG_PATH).$publication->get_learning_object()->get_icon_name().$icon_suffix.'.gif);">';
+		$html[] = '<div class="learning_object" style="background-image: url('. Path :: get(WEB_IMG_PATH).$publication->get_learning_object()->get_icon_name().$icon_suffix.'.gif);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);
 		$html[] = '</div>';

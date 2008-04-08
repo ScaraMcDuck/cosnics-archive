@@ -24,7 +24,7 @@ class ClassGroupRelUserBrowserTable extends ClassGroupRelUserTable
 		parent :: __construct($data_provider, $name, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();
-		$actions[ClassGroupManager :: PARAM_UNSUBSCRIBE_SELECTED] = Translation :: get_lang('UnsubsribeSelected');
+		$actions[ClassGroupManager :: PARAM_UNSUBSCRIBE_SELECTED] = Translation :: get('UnsubsribeSelected');
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}

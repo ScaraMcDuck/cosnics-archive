@@ -61,7 +61,7 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
 	 */
 	private function render_personal_event($personal_event)
 	{
-		$html[] = '<br /><img src="'.Path :: get_path(WEB_IMG_PATH).'posticon.gif"/>';
+		$html[] = '<br /><img src="'.Path :: get(WEB_IMG_PATH).'posticon.gif"/>';
 		return implode("\n",$html);
 	}
 	/**
@@ -71,7 +71,7 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
 	 */
 	private function render_event($event)
 	{
-		$html[] = '<br /><img src="'.Path :: get_path(WEB_IMG_PATH).'posticon.gif"/>';
+		$html[] = '<br /><img src="'.Path :: get(WEB_IMG_PATH).'posticon.gif"/>';
 		return implode("\n",$html);
 	}
 }

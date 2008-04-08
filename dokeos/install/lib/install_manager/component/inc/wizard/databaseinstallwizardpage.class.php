@@ -15,28 +15,28 @@ class DatabaseInstallWizardPage extends InstallWizardPage
 {
 	function get_title()
 	{
-		return Translation :: get_lang('DBSetting');
+		return Translation :: get('DBSetting');
 	}
 	function get_info()
 	{
-		return Translation :: get_lang('DBSettingIntro');
+		return Translation :: get('DBSettingIntro');
 	}
 	function buildForm()
 	{
 		$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
 		$this->_formBuilt = true;
-		$this->addElement('text', 'database_host', Translation :: get_lang("DBHost"), array ('size' => '40'));
+		$this->addElement('text', 'database_host', Translation :: get("DBHost"), array ('size' => '40'));
 		$this->addRule('database_host', 'ThisFieldIsRequired', 'required');
-		$this->addElement('text', 'database_username', Translation :: get_lang("DBLogin"), array ('size' => '40'));
-		$this->addElement('password', 'database_password', Translation :: get_lang("DBPassword"), array ('size' => '40'));
-		$this->addRule(array('database_host','database_username','database_password'),Translation :: get_lang('CouldNotConnectToDatabase'), new ValidateDatabaseConnection());
+		$this->addElement('text', 'database_username', Translation :: get("DBLogin"), array ('size' => '40'));
+		$this->addElement('password', 'database_password', Translation :: get("DBPassword"), array ('size' => '40'));
+		$this->addRule(array('database_host','database_username','database_password'),Translation :: get('CouldNotConnectToDatabase'), new ValidateDatabaseConnection());
 
-		$this->addElement('text', 'database_name', Translation :: get_lang('DatabaseName'), array ('size' => '40'));
+		$this->addElement('text', 'database_name', Translation :: get('DatabaseName'), array ('size' => '40'));
 		$this->addRule('database_name', 'ThisFieldIsRequired', 'required');
 		$this->addRule('database_name', 'OnlyCharactersNumbersUnderscoresAndHyphens', 'regex', '/^[a-z][a-z0-9_-]+$/');
 		
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get_lang('Previous'));
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 		$this->set_form_defaults();

@@ -33,18 +33,18 @@ class MigrationWizardDisplay extends HTML_QuickForm_Action_Display
 	function _renderForm($current_page)
 	{
 		$renderer = $current_page->defaultRenderer();
-		$current_page->setRequiredNote('<font color="#FF0000">*</font> '.Translation :: get_lang('ThisFieldIsRequired'));
+		$current_page->setRequiredNote('<font color="#FF0000">*</font> '.Translation :: get('ThisFieldIsRequired'));
 		$element_template = "\n\t<tr>\n\t\t<td valign=\"top\"><!-- BEGIN required --><span style=\"color: #ff0000\">*</span> <!-- END required -->{label}</td>\n\t\t<td valign=\"top\" align=\"left\"><!-- BEGIN error --><span style=\"color: #ff0000;font-size:x-small;margin:2px;\">{error}</span><br /><!-- END error -->\t{element}</td>\n\t</tr>";
 		$renderer->setElementTemplate($element_template);
 		$header_template = "\n\t<tr>\n\t\t<td valign=\"top\" colspan=\"2\">{header}</td>\n\t</tr>";
 		$renderer->setHeaderTemplate($header_template);
-		HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>'.Translation :: get_lang('ThisFieldIsRequired').'</small>');
+		HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>'.Translation :: get('ThisFieldIsRequired').'</small>');
 		$current_page->accept($renderer);
 		
 		$this->parent->display_header();
 		
 		$rm = ResourceManager :: get_instance();
-		$html = $rm->get_resource_html(Path :: get_path(WEB_LIB_PATH).'javascript/migration.js');
+		$html = $rm->get_resource_html(Path :: get(WEB_LIB_PATH).'javascript/migration.js');
 		echo($html);
 		
 		
@@ -73,12 +73,12 @@ class MigrationWizardDisplay extends HTML_QuickForm_Action_Display
 		echo '</div>' . "\n";
 		
 		echo '<div style="margin: 10px;">';
-		echo '<h2>'.Translation :: get_lang('Step').' '.$current_page_number.' '.Translation :: get_lang('of').' '.$total_number_of_pages.' &ndash; '.$current_page->get_title().'</h2>';
+		echo '<h2>'.Translation :: get('Step').' '.$current_page_number.' '.Translation :: get('of').' '.$total_number_of_pages.' &ndash; '.$current_page->get_title().'</h2>';
 		echo '<div>';
 
 		echo '<div id="dynamic_div" style="display:block;margin-left:40%;margin-top:10px;height:50px;"></div>';
-		echo '<script language="javascript" src="'.Path :: get_path(WEB_LIB_PATH).'javascript/upload.js" type="text/javascript"></script>';
-		echo '<script type="text/javascript">var myUpload = new upload('.(abs(intval($delay))*1000).'); myUpload.start(\'dynamic_div\',\''.Path :: get_path(WEB_IMG_PATH).'progress_bar.gif\',\'' .Translation :: get_lang('PleaseStandBy').'\',\'\');</script>';
+		echo '<script language="javascript" src="'.Path :: get(WEB_LIB_PATH).'javascript/upload.js" type="text/javascript"></script>';
+		echo '<script type="text/javascript">var myUpload = new upload('.(abs(intval($delay))*1000).'); myUpload.start(\'dynamic_div\',\''.Path :: get(WEB_IMG_PATH).'progress_bar.gif\',\'' .Translation :: get('PleaseStandBy').'\',\'\');</script>';
 
 		flush();
 

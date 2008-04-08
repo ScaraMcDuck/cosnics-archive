@@ -26,10 +26,10 @@ class CourseSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 			}
 		}
 		
-		$this->addElement('select','course',Translation :: get_lang('Course'),$options,array('multiple'=>'multiple','size'=>'5'));
-		$this->addRule('course',Translation :: get_lang('ThisFieldIsRequired'),'required');
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get_lang('Previous'));
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
+		$this->addElement('select','course',Translation :: get('Course'),$options,array('multiple'=>'multiple','size'=>'5'));
+		$this->addRule('course',Translation :: get('ThisFieldIsRequired'),'required');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 		$this->_formBuilt = true;

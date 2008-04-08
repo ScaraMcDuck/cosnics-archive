@@ -16,7 +16,7 @@ class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 		$publications = $this->get_publications();
 		if(count($publications) == 0)
 		{
-			$html[] = Display::display_normal_message(Translation :: get_lang('NoPublicationsAvailable'),true);
+			$html[] = Display::display_normal_message(Translation :: get('NoPublicationsAvailable'),true);
 		}
 		foreach ($publications as $index => $publication)
 		{
@@ -31,7 +31,7 @@ class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 			if(date('Ym',$start_time) != $current_month)
 			{
 				$current_month = date('Ym',$start_time);
-				$html[] = '<h3>'.Translation :: get_lang(date('F',$start_time).'Long').' '.date('Y',$start_time).'</h3>';
+				$html[] = '<h3>'.Translation :: get(date('F',$start_time).'Long').' '.date('Y',$start_time).'</h3>';
 			}
 			$html[] = implode("\n",$rendered_publication_start_time);
 		}
@@ -45,10 +45,10 @@ class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 		$event = $publication->get_learning_object();
 		$html[] = '<em>';
 		//TODO: date formatting
-		$html[] = htmlentities(Translation :: get_lang('From')).': '.date('r',$event->get_start_date());
+		$html[] = htmlentities(Translation :: get('From')).': '.date('r',$event->get_start_date());
 		$html[] = '<br />';
 		//TODO: date formatting
-		$html[] = htmlentities(Translation :: get_lang('To')).': '.date('r',$event->get_end_date());
+		$html[] = htmlentities(Translation :: get('To')).': '.date('r',$event->get_end_date());
 		$html[] = '</em>';
 		$html[] = '<br />';
 		$html[] = $event->get_description();

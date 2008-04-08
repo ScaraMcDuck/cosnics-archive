@@ -76,21 +76,21 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 					$message = 'PartialUsersNotSubscribedToCourse';
 				}
 
-				$this->redirect(null, Translation :: get_lang($message), ($success ? false : true), array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $course_code, Weblcms :: PARAM_TOOL => 'user'));
+				$this->redirect(null, Translation :: get($message), ($success ? false : true), array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $course_code, Weblcms :: PARAM_TOOL => 'user'));
 			}
 			else
 			{
 				if ($this->get_course_subscription_url($course))
 				{
 					$success = $this->subscribe_user_to_course($course, '5', '0', $this->get_user_id());
-					$this->redirect(null, Translation :: get_lang($success ? 'UserSubscribedToCourse' : 'UserNotSubscribedToCourse'), ($success ? false : true));
+					$this->redirect(null, Translation :: get($success ? 'UserSubscribedToCourse' : 'UserNotSubscribedToCourse'), ($success ? false : true));
 				}
 			}
 		}
 
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(null, false, true, array(Weblcms :: PARAM_ACTION)), 'name' => Translation :: get_lang('MyCourses'));
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('CourseSubscribe'));
+		$breadcrumbs[] = array ('url' => $this->get_url(null, false, true, array(Weblcms :: PARAM_ACTION)), 'name' => Translation :: get('MyCourses'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('CourseSubscribe'));
 
 		$menu = $this->get_menu_html();
 		$output = $this->get_course_html();
@@ -121,7 +121,7 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 			// $search_url = $this->get_url();
 			$search_url = '#';
 			$search = array ();
-			$search['title'] = Translation :: get_lang('SearchResults');
+			$search['title'] = Translation :: get('SearchResults');
 			$search['url'] = $search_url;
 			$search['class'] = 'search_results';
 			$extra_items[] = $search;

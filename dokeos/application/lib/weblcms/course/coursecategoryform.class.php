@@ -35,8 +35,8 @@ class CourseCategoryForm extends FormValidator {
     
     function build_basic_form()
     {
-		$this->addElement('text', CourseCategory :: PROPERTY_NAME, Translation :: get_lang('CourseCategoryName'));
-		$this->addRule(CourseCategory :: PROPERTY_NAME, Translation :: get_lang('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', CourseCategory :: PROPERTY_NAME, Translation :: get('CourseCategoryName'));
+		$this->addRule(CourseCategory :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		$cat_options = array();
 		
@@ -49,25 +49,25 @@ class CourseCategoryForm extends FormValidator {
 		$wdm = WeblcmsDataManager :: get_instance();
 		$categories = $wdm->retrieve_course_categories($condition);
 		
-		$cat_options['0'] = Translation :: get_lang('NoCategory');
+		$cat_options['0'] = Translation :: get('NoCategory');
 		while ($category = $categories->next_result())
 		{
 			$cat_options[$category->get_id()] = $category->get_name();
 		}
 		
-		$this->addElement('select', CourseCategory :: PROPERTY_PARENT, Translation :: get_lang('Parent'), $cat_options);
+		$this->addElement('select', CourseCategory :: PROPERTY_PARENT, Translation :: get('Parent'), $cat_options);
 		
 		$child_allowed = array();
-		$child_allowed[] =& $this->createElement('radio', null, null, Translation :: get_lang('Yes'), 1);
-		$child_allowed[] =& $this->createElement('radio', null, null, Translation :: get_lang('No'), 0);
-		$this->addGroup($child_allowed, CourseCategory :: PROPERTY_AUTH_COURSE_CHILD, Translation :: get_lang('CourseCategoryChildAllowed'), '<br />');
+		$child_allowed[] =& $this->createElement('radio', null, null, Translation :: get('Yes'), 1);
+		$child_allowed[] =& $this->createElement('radio', null, null, Translation :: get('No'), 0);
+		$this->addGroup($child_allowed, CourseCategory :: PROPERTY_AUTH_COURSE_CHILD, Translation :: get('CourseCategoryChildAllowed'), '<br />');
 		
 		$cat_allowed = array();
-		$cat_allowed[] =& $this->createElement('radio', null, null, Translation :: get_lang('Yes'), 1);
-		$cat_allowed[] =& $this->createElement('radio', null, null, Translation :: get_lang('No'), 0);
-		$this->addGroup($cat_allowed, CourseCategory :: PROPERTY_AUTH_CAT_CHILD, Translation :: get_lang('CourseCategoryCatAllowed'), '<br />');
+		$cat_allowed[] =& $this->createElement('radio', null, null, Translation :: get('Yes'), 1);
+		$cat_allowed[] =& $this->createElement('radio', null, null, Translation :: get('No'), 0);
+		$this->addGroup($cat_allowed, CourseCategory :: PROPERTY_AUTH_CAT_CHILD, Translation :: get('CourseCategoryCatAllowed'), '<br />');
 				
-		$this->addElement('submit', 'course_settings', Translation :: get_lang('Ok'));
+		$this->addElement('submit', 'course_settings', Translation :: get('Ok'));
     }
     
     function build_editing_form()
@@ -78,8 +78,8 @@ class CourseCategoryForm extends FormValidator {
     
     function build_creation_form()
     {
-		$this->addElement('text', CourseCategory :: PROPERTY_CODE, Translation :: get_lang('CourseCategoryCode'));
-		$this->addRule(CourseCategory :: PROPERTY_CODE, Translation :: get_lang('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', CourseCategory :: PROPERTY_CODE, Translation :: get('CourseCategoryCode'));
+		$this->addRule(CourseCategory :: PROPERTY_CODE, Translation :: get('ThisFieldIsRequired'), 'required');
     	$this->build_basic_form();
     }
     

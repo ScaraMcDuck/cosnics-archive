@@ -83,7 +83,7 @@ abstract class LearningObjectPublicationListRenderer
 		}
 		if ($publication->is_for_everybody())
 		{
-			return htmlentities(Translation :: get_lang('Everybody')).$email_suffix;
+			return htmlentities(Translation :: get('Everybody')).$email_suffix;
 		}
 		else
 		{
@@ -131,9 +131,9 @@ abstract class LearningObjectPublicationListRenderer
 	{
 		if ($publication->is_forever())
 		{
-			return htmlentities(Translation :: get_lang('Forever'));
+			return htmlentities(Translation :: get('Forever'));
 		}
-		return htmlentities(Translation :: get_lang('From').' '.$this->format_date($publication->get_from_date()).' '.Translation :: get_lang('Until').' '.$this->format_date($publication->get_to_date()));
+		return htmlentities(Translation :: get('From').' '.$this->format_date($publication->get_from_date()).' '.Translation :: get('Until').' '.$this->format_date($publication->get_to_date()));
 	}
 
 	/**
@@ -145,9 +145,9 @@ abstract class LearningObjectPublicationListRenderer
 	{
 		$publisher = $this->browser->get_user_info($publication->get_publisher_id());
 		$html = array ();
-		$html[] = htmlentities(Translation :: get_lang('PublishedOn')).' '.$this->render_publication_date($publication);
-		$html[] = htmlentities(Translation :: get_lang('By')).' '.$this->render_publisher($publication);
-		$html[] = htmlentities(Translation :: get_lang('For')).' '.$this->render_publication_targets($publication);
+		$html[] = htmlentities(Translation :: get('PublishedOn')).' '.$this->render_publication_date($publication);
+		$html[] = htmlentities(Translation :: get('By')).' '.$this->render_publisher($publication);
+		$html[] = htmlentities(Translation :: get('For')).' '.$this->render_publication_targets($publication);
 		if (!$publication->is_forever())
 		{
 			$html[] = '('.$this->render_publication_period($publication).')';
@@ -243,7 +243,7 @@ abstract class LearningObjectPublicationListRenderer
 	function render_delete_action($publication)
 	{
 		$delete_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_DELETE, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get_lang('ConfirmYourChoice'))).'\');"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'delete.gif"  alt=""/></a>';
+		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'delete.gif"  alt=""/></a>';
 		return $delete_link;
 	}
 	
@@ -297,7 +297,7 @@ abstract class LearningObjectPublicationListRenderer
 				foreach ($attachments as $attachment)
 				{
 					$disp = LearningObjectDisplay :: factory($attachment);
-					$html[] = '<li><img src="'.$this->browser->get_path(WEB_IMG_PATH).'treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(Translation :: get_lang(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+					$html[] = '<li><img src="'.$this->browser->get_path(WEB_IMG_PATH).'treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 				}
 				$html[] = '</ul>';
 				return implode("\n",$html);
@@ -353,7 +353,7 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function format_date($date)
 	{
-		$date_format = Translation :: get_lang('dateTimeFormatLong');
+		$date_format = Translation :: get('dateTimeFormatLong');
 		return Text :: format_locale_date($date_format,$date);
 	}
 

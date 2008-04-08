@@ -31,12 +31,12 @@ class InstallWizardDisplay extends HTML_QuickForm_Action_Display
 	function _renderForm($current_page)
 	{
 		$renderer = $current_page->defaultRenderer();
-		$current_page->setRequiredNote('<font color="#FF0000">*</font> '.Translation :: get_lang('ThisFieldIsRequired'));
+		$current_page->setRequiredNote('<font color="#FF0000">*</font> '.Translation :: get('ThisFieldIsRequired'));
 		$element_template = "\n\t<tr>\n\t\t<td valign=\"top\"><!-- BEGIN required --><span style=\"color: #ff0000\">*</span> <!-- END required -->{label}</td>\n\t\t<td valign=\"top\" align=\"left\"><!-- BEGIN error --><span style=\"color: #ff0000;font-size:x-small;margin:2px;\">{error}</span><br /><!-- END error -->\t{element}</td>\n\t</tr>";
 		$renderer->setElementTemplate($element_template);
 		$header_template = "\n\t<tr>\n\t\t<td valign=\"top\" colspan=\"2\">{header}</td>\n\t</tr>";
 		$renderer->setHeaderTemplate($header_template);
-		HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>'.Translation :: get_lang('ThisFieldIsRequired').'</small>');
+		HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>'.Translation :: get('ThisFieldIsRequired').'</small>');
 		$current_page->accept($renderer);
 		
 		$this->parent->display_header();
@@ -65,7 +65,7 @@ class InstallWizardDisplay extends HTML_QuickForm_Action_Display
 		echo '</div>' . "\n";
 		
 		echo '<div style="margin: 10px;">';
-		echo '<h2>'.Translation :: get_lang('Step').' '.$current_page_number.' '.Translation :: get_lang('of').' '.$total_number_of_pages.' &ndash; '.$current_page->get_title().'</h2>';
+		echo '<h2>'.Translation :: get('Step').' '.$current_page_number.' '.Translation :: get('of').' '.$total_number_of_pages.' &ndash; '.$current_page->get_title().'</h2>';
 		echo '<div>';
 		echo $current_page->get_info();
 		echo '</div>';

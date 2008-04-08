@@ -41,9 +41,9 @@ class DisabledSectionToolListRenderer extends ToolListRenderer
 			}
 		}
 		$this->show_tools('basic',$tools);
-		echo '<h4>'.Translation :: get_lang('CourseAdministration').'</h4>';
+		echo '<h4>'.Translation :: get('CourseAdministration').'</h4>';
 		$this->show_tools('course_admin',$tools);
-		echo '<h4>'.Translation :: get_lang('DisabledTools').'</h4>';
+		echo '<h4>'.Translation :: get('DisabledTools').'</h4>';
 		$this->show_tools('disabled',$tools);
 	}
 	/**
@@ -79,7 +79,7 @@ class DisabledSectionToolListRenderer extends ToolListRenderer
 				$tool_image = $tool->name.'_tool_na.gif';
 				$link_class=' class="invisible"';
 			}
-			$title = htmlspecialchars(Translation :: get_lang(Tool :: type_to_class($tool->name).'Title'));
+			$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name).'Title'));
 			$row = $count/DisabledSectionToolListRenderer::NUMBER_OF_COLUMNS;
 			$col = $count%DisabledSectionToolListRenderer::NUMBER_OF_COLUMNS;
 			$html = array();

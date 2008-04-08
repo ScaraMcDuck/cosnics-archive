@@ -32,7 +32,7 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Users_title');
+		return Translation :: get('Users_title');
 	}
 	
 	/**
@@ -40,33 +40,33 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_info()
 	{
-		$message = $this->users_succes . ' ' . Translation :: get_lang('Users') . ' ' .
-			Translation :: get_lang('migrated');
+		$message = $this->users_succes . ' ' . Translation :: get('Users') . ' ' .
+			Translation :: get('migrated');
 		
 		if(count($this->failed_users) > 0)
 			$message = $message . '<br / >' . count($this->failed_users) . ' ' .
-			Translation :: get_lang('Users') . ' ' . Translation :: get_lang('failed') . '<br />';
+			Translation :: get('Users') . ' ' . Translation :: get('failed') . '<br />';
 			
 		foreach($this->failed_users as $fuser)
 		{
 			$message = $message . '<br />' . $fuser;
 		}
 		
-		$message = $message . '<br /><br />' . Translation :: get_lang('Dont_forget');
+		$message = $message . '<br /><br />' . Translation :: get('Dont_forget');
 		
 		return $message;
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('System_Settings_info');
+		return Translation :: get('System_Settings_info');
 	}
 	
 	
 	function buildForm()
 	{
 		$this->_formBuilt = true;
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 	}
@@ -77,8 +77,8 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('users'))
 		{
-			echo(Translation :: get_lang('Users') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Users') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			
 			$logger->close_file();
 			return false;
@@ -113,7 +113,7 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Users') . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Users') . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('users_skipped');
 			return false;
 		}

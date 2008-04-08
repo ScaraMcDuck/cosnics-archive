@@ -71,12 +71,12 @@ class SearchTool extends Tool
 				}
 				else
 				{
-					echo Translation :: get_lang('NoSearchResults');
+					echo Translation :: get('NoSearchResults');
 				}
 			}
 			else
 			{
-				echo Translation :: get_lang('NoSearchResults');
+				echo Translation :: get('NoSearchResults');
 			}
 		}
 		$this->display_footer();

@@ -16,7 +16,7 @@ class LearningObjectSoapSearchServer
 
 	function LearningObjectSoapSearchServer($encoding = 'iso-8859-1')
 	{
-		$wsdl_file = LearningObjectSoapSearchUtilities :: get_wsdl_file_path(Path :: get_path(WEB_PATH));
+		$wsdl_file = LearningObjectSoapSearchUtilities :: get_wsdl_file_path(Path :: get(WEB_PATH));
 		try
 		{
 			$this->server = new SoapServer($wsdl_file, array ('encoding' => $encoding));
@@ -55,7 +55,7 @@ class LearningObjectSoapSearchServer
 		}
 		
 		$site_name_setting = $adm->retrieve_setting_from_variable_name('site_name');
-		return array($site_name_setting->get_value(), Path :: get_path(WEB_PATH), $soap_objects, $object_count);
+		return array($site_name_setting->get_value(), Path :: get(WEB_PATH), $soap_objects, $object_count);
 	}
 }
 ?>

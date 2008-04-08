@@ -50,7 +50,7 @@ class AdminInstaller extends Installer
 		}
 		else
 		{
-			$this->add_message(Translation :: get_lang('DefaultLanguagesAdded'));
+			$this->add_message(Translation :: get('DefaultLanguagesAdded'));
 		}
 		
 		// Add the default settings to the database
@@ -60,10 +60,10 @@ class AdminInstaller extends Installer
 		}
 		else
 		{
-			$this->add_message(Translation :: get_lang('DefaultSettingsAdded'));
+			$this->add_message(Translation :: get('DefaultSettingsAdded'));
 		}
 		
-		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get_lang('ApplicationInstallSuccess') . '</span>';
+		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);
 		return array('success' => true, 'message' => $this->retrieve_message());
 	}
@@ -75,13 +75,13 @@ class AdminInstaller extends Installer
 	function create_storage_unit($path)
 	{
 		$storage_unit_info = parent::parse_xml_file($path);
-		$this->add_message(Translation :: get_lang('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
+		$this->add_message(Translation :: get('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
 		if (!$this->adm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
 		{
-			$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get_lang('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em></span>';
+			$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em></span>';
 			$this->add_message($error_message);
-			$this->add_message(Translation :: get_lang('ApplicationInstallFailed'));
-			$this->add_message(Translation :: get_lang('PlatformInstallFailed'));
+			$this->add_message(Translation :: get('ApplicationInstallFailed'));
+			$this->add_message(Translation :: get('PlatformInstallFailed'));
 			
 			return false;
 		}

@@ -32,7 +32,7 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('System_Settings_title');
+		return Translation :: get('System_Settings_title');
 	}
 	
 	/**
@@ -43,11 +43,11 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		for($i=0; $i<2; $i++)
 		{
 			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
-				Translation :: get_lang('migrated');
+				Translation :: get('migrated');
 			
 			if(count($this->failed_elements[$i]) > 0)
 				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
-					 $this->get_message($i) . ' ' . Translation :: get_lang('failed');
+					 $this->get_message($i) . ' ' . Translation :: get('failed');
 			
 			foreach($this->failed_elements[$i] as $felement)
 			{
@@ -57,30 +57,30 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 			$message = $message . '<br />';
 		}
 		
-		$message = $message . '<br />' . Translation :: get_lang('Dont_forget');
+		$message = $message . '<br />' . Translation :: get('Dont_forget');
 		
 		return $message;
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Classes_info');
+		return Translation :: get('Classes_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('System_Settings'); 
-			case 1: return Translation :: get_lang('System_Announcements'); 
-			default: return Translation :: get_lang('System_Settings'); 
+			case 0: return Translation :: get('System_Settings'); 
+			case 1: return Translation :: get('System_Announcements'); 
+			default: return Translation :: get('System_Settings'); 
 		}
 	}
 	
 	function buildForm()
 	{
 		$this->_formBuilt = true;
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 	}
@@ -91,8 +91,8 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('systemsettings'))
 		{
-			echo(Translation :: get_lang('System_Settings') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('System_Settings') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -125,11 +125,11 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('System_Announcements') . ' ' .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('System_Announcements') . ' ' .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('System announcements failed because users skipped');
 				$this->succes[1] = 0;
 			}
@@ -137,9 +137,9 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('System_Settings') . ' & ' .
-			     Translation :: get_lang('System_Announcements')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('System_Settings') . ' & ' .
+			     Translation :: get('System_Announcements')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('system settings & announcements skipped');
 			
 			return false;

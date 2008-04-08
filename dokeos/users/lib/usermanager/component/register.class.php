@@ -22,11 +22,11 @@ class UserManagerRegisterComponent extends UserManagerComponent
 		$user_id = $this->get_user_id();
 			
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('UserRegister'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('UserRegister'));
 		if (isset($user_id)) 
 		{
 			$this->display_header($breadcrumbs);
-			Display :: display_warning_message(Translation :: get_lang('AlreadyRegistered'));
+			Display :: display_warning_message(Translation :: get('AlreadyRegistered'));
 			$this->display_footer();
 			exit;
 		}
@@ -42,7 +42,7 @@ class UserManagerRegisterComponent extends UserManagerComponent
 		if($form->validate())
 		{
 			$success = $form->create_user();
-			$this->redirect('link', Translation :: get_lang($success ? 'UserRegistered' : 'UserNotRegistered'), ($success ? false : true));
+			$this->redirect('link', Translation :: get($success ? 'UserRegistered' : 'UserNotRegistered'), ($success ? false : true));
 		}
 		else
 		{

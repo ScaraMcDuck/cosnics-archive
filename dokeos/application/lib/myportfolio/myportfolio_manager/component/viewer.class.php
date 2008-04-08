@@ -19,7 +19,7 @@ class PortfolioViewerComponent extends PortfolioComponent
 	function run()
 	{
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('ViewProfile'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('ViewProfile'));
 		
 		//$id = $_GET[MyPortfolio :: PARAM_ITEM];
 		$item=$this->get_parent()->get_item_id();
@@ -29,7 +29,7 @@ class PortfolioViewerComponent extends PortfolioComponent
 			$this->publication = $this->retrieve_portfolio_publication_from_item($item);			
 			
 			$breadcrumbs = array();
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('ViewPortfolio') . ': ' . $this->publication->get_publication_publisher()->get_username());
+			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('ViewPortfolio') . ': ' . $this->publication->get_publication_publisher()->get_username());
 			
 			$this->display_header($breadcrumbs);
 
@@ -38,15 +38,15 @@ class PortfolioViewerComponent extends PortfolioComponent
 			{
 				$out .= '<li><a';
 				if ($this->get_parent()->get_action() == $action) $out .= ' class="current"';
-				$out .= ' href="'.$this->get_url(array (MyPortfolio :: PARAM_ACTION => $action), true).'">'.htmlentities(Translation :: get_lang(ucfirst($action).'Title')).'</a></li>';
+				$out .= ' href="'.$this->get_url(array (MyPortfolio :: PARAM_ACTION => $action), true).'">'.htmlentities(Translation :: get(ucfirst($action).'Title')).'</a></li>';
 			}
 			$out .= '</ul><div class="tabbed-pane-content">';
 
 
 
-//			print '<a href="'.$this->get_url(array (MyPortfolio :: PARAM_ACTION => MyPortfolio::ACTION_CREATE, MyPortfolio :: PARAM_ITEM => $item), true).'">'.Translation :: get_lang("pf_create_child").'</a>';
-//			print '<a href="'.$this->get_url(array (MyPortfolio :: PARAM_ACTION => MyPortfolio::ACTION_EDIT, MyPortfolio :: PARAM_ITEM => $item), true).'">'.Translation :: get_lang("pf_edit_item").'</a>';
-//			print '<a href="'.$this->get_url(array (MyPortfolio :: PARAM_ACTION => MyPortfolio::ACTION_DELETE, MyPortfolio :: PARAM_ITEM => $item), true).'">'.Translation :: get_lang("pf_delete_item").'</a><br /><br />';
+//			print '<a href="'.$this->get_url(array (MyPortfolio :: PARAM_ACTION => MyPortfolio::ACTION_CREATE, MyPortfolio :: PARAM_ITEM => $item), true).'">'.Translation :: get("pf_create_child").'</a>';
+//			print '<a href="'.$this->get_url(array (MyPortfolio :: PARAM_ACTION => MyPortfolio::ACTION_EDIT, MyPortfolio :: PARAM_ITEM => $item), true).'">'.Translation :: get("pf_edit_item").'</a>';
+//			print '<a href="'.$this->get_url(array (MyPortfolio :: PARAM_ACTION => MyPortfolio::ACTION_DELETE, MyPortfolio :: PARAM_ITEM => $item), true).'">'.Translation :: get("pf_delete_item").'</a><br /><br />';
 
 			$out.= $this->get_publication_as_html();
 
@@ -56,7 +56,7 @@ class PortfolioViewerComponent extends PortfolioComponent
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get_lang('NoPortfolioSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoPortfolioSelected')));
 		}
 	}
 	

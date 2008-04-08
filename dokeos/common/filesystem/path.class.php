@@ -53,7 +53,7 @@ define('SYS_CSS_PATH', 'SYS_CSS_PATH');
 
 class Path
 {
-    public static function get_path($path_type)
+    public static function get($path_type)
     {
 		switch ($path_type)
 		{
@@ -67,83 +67,83 @@ class Path
 				
 			// Platform-level paths
 			case WEB_LIB_PATH :
-				return self :: get_path(WEB_PATH) . 'common/';
+				return self :: get(WEB_PATH) . 'common/';
 			case SYS_LIB_PATH :
-				return self :: get_path(SYS_PATH) . 'common/';
+				return self :: get(SYS_PATH) . 'common/';
 			case WEB_PLUGIN_PATH :
-				return self :: get_path(WEB_PATH) . 'plugin/';
+				return self :: get(WEB_PATH) . 'plugin/';
 			case SYS_PLUGIN_PATH :
-				return self :: get_path(SYS_PATH) . 'plugin/';
+				return self :: get(SYS_PATH) . 'plugin/';
 			case WEB_FILE_PATH :
-				return self :: get_path(WEB_PATH) . 'files/';
+				return self :: get(WEB_PATH) . 'files/';
 			case SYS_FILE_PATH :
-				return self :: get_path(SYS_PATH) . 'files/';
+				return self :: get(SYS_PATH) . 'files/';
 			case REL_FILE_PATH :
-				return self :: get_path(REL_PATH) . 'files/';
+				return self :: get(REL_PATH) . 'files/';
 			case WEB_LAYOUT_PATH :
-				return self :: get_path(WEB_PATH) . 'layout/';
+				return self :: get(WEB_PATH) . 'layout/';
 			case SYS_LAYOUT_PATH :
-				return self :: get_path(SYS_PATH) . 'layout/';
+				return self :: get(SYS_PATH) . 'layout/';
 			case WEB_LANG_PATH :
-				return self :: get_path(WEB_PATH) . 'languages/';
+				return self :: get(WEB_PATH) . 'languages/';
 			case SYS_LANG_PATH :
-				return self :: get_path(SYS_PATH) . 'languages/';
+				return self :: get(SYS_PATH) . 'languages/';
 				
 			// Some paths for the LCMS applications
 			case SYS_APP_PATH :
-				return self :: get_path(SYS_PATH) . 'application/';
+				return self :: get(SYS_PATH) . 'application/';
 			case SYS_APP_ADMIN_PATH :
-				return self :: get_path(SYS_PATH) . 'admin/';
+				return self :: get(SYS_PATH) . 'admin/';
 			case SYS_APP_CLASSGROUP_PATH :
-				return self :: get_path(SYS_PATH) . 'classgroup/';
+				return self :: get(SYS_PATH) . 'classgroup/';
 			case SYS_APP_RIGHTS_PATH :
-				return self :: get_path(SYS_PATH) . 'rights/';
+				return self :: get(SYS_PATH) . 'rights/';
 			case SYS_APP_INSTALL_PATH :
-				return self :: get_path(SYS_PATH) . 'install/';
+				return self :: get(SYS_PATH) . 'install/';
 			case SYS_APP_MIGRATION_PATH :
-				return self :: get_path(SYS_PATH) . 'migration/';
+				return self :: get(SYS_PATH) . 'migration/';
 			case SYS_APP_REPOSITORY_PATH :
-				return self :: get_path(SYS_PATH) . 'repository/';
+				return self :: get(SYS_PATH) . 'repository/';
 			case SYS_APP_USER_PATH :
-				return self :: get_path(SYS_PATH) . 'users/';
+				return self :: get(SYS_PATH) . 'users/';
 			
 			// Application-paths
 			case SYS_APP_LIB_PATH :
-				return self :: get_path(SYS_APP_PATH) . 'common/';
+				return self :: get(SYS_APP_PATH) . 'common/';
 			
 			// Files-paths
 			case WEB_ARCHIVE_PATH :
-				return self :: get_path(WEB_FILE_PATH) . 'archive/';
+				return self :: get(WEB_FILE_PATH) . 'archive/';
 			case SYS_ARCHIVE_PATH :
-				return self :: get_path(SYS_FILE_PATH) . 'archive/';
+				return self :: get(SYS_FILE_PATH) . 'archive/';
 			case WEB_TEMP_PATH :
-				return self :: get_path(WEB_FILE_PATH) . 'temp/';
+				return self :: get(WEB_FILE_PATH) . 'temp/';
 			case SYS_TEMP_PATH :
-				return self :: get_path(SYS_FILE_PATH) . 'temp/';
+				return self :: get(SYS_FILE_PATH) . 'temp/';
 			case WEB_USER_PATH :
-				return self :: get_path(WEB_FILE_PATH) . 'userpictures/';
+				return self :: get(WEB_FILE_PATH) . 'userpictures/';
 			case SYS_USER_PATH :
-				return self :: get_path(SYS_FILE_PATH) . 'userpictures/';
+				return self :: get(SYS_FILE_PATH) . 'userpictures/';
 			case WEB_FCK_PATH :
-				return self :: get_path(WEB_FILE_PATH) . 'fckeditor/';
+				return self :: get(WEB_FILE_PATH) . 'fckeditor/';
 			case SYS_FCK_PATH :
-				return self :: get_path(SYS_FILE_PATH) . 'fckeditor/';
+				return self :: get(SYS_FILE_PATH) . 'fckeditor/';
 			case REL_FCK_PATH :
-				return self :: get_path(REL_FILE_PATH) . 'fckeditor/';
+				return self :: get(REL_FILE_PATH) . 'fckeditor/';
 			case WEB_REPO_PATH :
-				return self :: get_path(WEB_FILE_PATH) . 'repository/';
+				return self :: get(WEB_FILE_PATH) . 'repository/';
 			case SYS_REPO_PATH :
-				return self :: get_path(SYS_FILE_PATH) . 'repository/';
+				return self :: get(SYS_FILE_PATH) . 'repository/';
 				
 			// Layout-paths
 			case WEB_IMG_PATH :
-				return self :: get_path(WEB_LAYOUT_PATH) . 'img/';
+				return self :: get(WEB_LAYOUT_PATH) . 'img/';
 			case SYS_IMG_PATH :
-				return self :: get_path(SYS_LAYOUT_PATH) . 'img/';
+				return self :: get(SYS_LAYOUT_PATH) . 'img/';
 			case WEB_CSS_PATH :
-				return self :: get_path(WEB_LAYOUT_PATH) . 'css/';
+				return self :: get(WEB_LAYOUT_PATH) . 'css/';
 			case SYS_CSS_PATH :
-				return self :: get_path(SYS_LAYOUT_PATH) . 'css/';
+				return self :: get(SYS_LAYOUT_PATH) . 'css/';
 				
 			default :
 				return;
@@ -152,52 +152,52 @@ class Path
     
     public static function get_library_path()
     {
-    	return self :: get_path(SYS_LIB_PATH);
+    	return self :: get(SYS_LIB_PATH);
     }
     
     public static function get_repository_path()
     {
-    	return self :: get_path(SYS_APP_REPOSITORY_PATH);
+    	return self :: get(SYS_APP_REPOSITORY_PATH);
     }
     
     public static function get_user_path()
     {
-    	return self :: get_path(SYS_APP_USER_PATH);
+    	return self :: get(SYS_APP_USER_PATH);
     }
     
     public static function get_classgroup_path()
     {
-    	return self :: get_path(SYS_APP_CLASSGROUP_PATH);
+    	return self :: get(SYS_APP_CLASSGROUP_PATH);
     }
     
     public static function get_rights_path()
     {
-    	return self :: get_path(SYS_APP_RIGHTS_PATH);
+    	return self :: get(SYS_APP_RIGHTS_PATH);
     }
     
     public static function get_migration_path()
     {
-    	return self :: get_path(SYS_APP_MIGRATION_PATH);
+    	return self :: get(SYS_APP_MIGRATION_PATH);
     }
     
     public static function get_admin_path()
     {
-    	return self :: get_path(SYS_APP_ADMIN_PATH);
+    	return self :: get(SYS_APP_ADMIN_PATH);
     }
     
     public static function get_plugin_path()
     {
-    	return self :: get_path(SYS_PLUGIN_PATH);
+    	return self :: get(SYS_PLUGIN_PATH);
     }
     
     public static function get_language_path()
     {
-    	return self :: get_path(SYS_LANG_PATH);
+    	return self :: get(SYS_LANG_PATH);
     }
     
     public static function get_application_library_path()
     {
-    	return self :: get_path(SYS_APP_LIB_PATH);
+    	return self :: get(SYS_APP_LIB_PATH);
     }
 }
 ?>

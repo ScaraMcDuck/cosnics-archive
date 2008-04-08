@@ -18,7 +18,7 @@ class RepositoryManagerPublicationBrowserComponent extends RepositoryManagerComp
 	function run()
 	{
 		$output = $this->get_publications_html();
-		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => Translation :: get_lang('MyPublications')));
+		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => Translation :: get('MyPublications')));
 		$this->display_header($breadcrumbs);
 		echo $output;
 		$this->display_footer();

@@ -19,7 +19,7 @@ class Logger
 	 */
     function Logger($filename, $append = false)
     {
-    	$this->filename = Path :: get_path('SYS_PATH') . '/migration/logfiles/' . $filename;
+    	$this->filename = Path :: get('SYS_PATH') . '/migration/logfiles/' . $filename;
     	Filesystem::create_dir(dirname($filename));
     	$this->file = fopen($this->filename, $append?'a+':'w+');
     }
@@ -96,7 +96,7 @@ class Logger
      	$passedtime = (int)($this->get_microtime() - $this->begin);
      	$this->add_message('Passed Time: ' . $passedtime . ' s');
      	
-     	$timefile = fopen($this->filename = Path :: get_path('SYS_PATH') . '/migration/logfiles/time.txt', 'r');
+     	$timefile = fopen($this->filename = Path :: get('SYS_PATH') . '/migration/logfiles/time.txt', 'r');
      	if(!$timefile) { return; }
 
 		$totaltime = 0;
@@ -106,7 +106,7 @@ class Logger
     	
     	fclose($timefile);
     	
-    	$timefile = fopen($this->filename = Path :: get_path('SYS_PATH') . '/migration/logfiles/time.txt', 'w');
+    	$timefile = fopen($this->filename = Path :: get('SYS_PATH') . '/migration/logfiles/time.txt', 'w');
      	if(!$timefile) { return; }
     	
     	$totaltime += $passedtime;
@@ -119,7 +119,7 @@ class Logger
      
      static function get_total_time_passed()
      {
-     	$timefile = fopen(Path :: get_path('SYS_PATH') . '/migration/logfiles/time.txt', 'r');
+     	$timefile = fopen(Path :: get('SYS_PATH') . '/migration/logfiles/time.txt', 'r');
      	if(!$timefile) { return; }
 
 		$totaltime = 0;

@@ -25,25 +25,25 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Learning_paths_title');
+		return Translation :: get('Learning_paths_title');
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Learning_paths_info');
+		return Translation :: get('Learning_paths_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Learning_paths');
-			case 1: return Translation :: get_lang('Learning_path_items');
-			case 2: return Translation :: get_lang('Learning_path_item_views');
-			case 3: return Translation :: get_lang('Learning_path_iv_interactions');
-			case 4: return Translation :: get_lang('Learning_path_iv_objectives');
-			case 5: return Translation :: get_lang('Learning_path_views');
-			default: return Translation :: get_lang('Learning_paths'); 
+			case 0: return Translation :: get('Learning_paths');
+			case 1: return Translation :: get('Learning_path_items');
+			case 2: return Translation :: get('Learning_path_item_views');
+			case 3: return Translation :: get('Learning_path_iv_interactions');
+			case 4: return Translation :: get('Learning_path_iv_objectives');
+			case 5: return Translation :: get('Learning_path_views');
+			default: return Translation :: get('Learning_paths'); 
 		}
 	}
 
@@ -53,8 +53,8 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('learning_paths'))
 		{
-			echo(Translation :: get_lang('Learning_paths') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Learning_paths') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -106,11 +106,11 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Learning_paths') .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Learning_paths') .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Learning paths failed because users or courses skipped');
 				$this->succes = array(0,0,0,0,0,0);
 			}
@@ -118,8 +118,8 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Learning_paths')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Learning_paths')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Learning paths skipped');
 			
 			return false;

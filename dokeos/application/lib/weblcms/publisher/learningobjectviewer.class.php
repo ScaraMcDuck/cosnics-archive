@@ -27,13 +27,13 @@ class LearningObjectViewer extends LearningObjectPublisherComponent
 			$toolbar_data[] = array(
 				'href' => $this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator', LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id())),
 				'img' => $this->get_path(WEB_IMG_PATH).'publish.gif',
-				'label' => Translation :: get_lang('Publish'),
+				'label' => Translation :: get('Publish'),
 				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 			);
 			$toolbar_data[] = array(
 				'href' => $this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator', LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id(), LearningObjectPublisher :: PARAM_EDIT => 1)),
 				'img' => $this->get_path(WEB_IMG_PATH).'editpublish.gif',
-				'label' => Translation :: get_lang('EditAndPublish'),
+				'label' => Translation :: get('EditAndPublish'),
 				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 			);
 			$toolbar = RepositoryUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');

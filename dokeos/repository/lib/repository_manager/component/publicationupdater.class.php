@@ -29,11 +29,11 @@ class RepositoryManagerPublicationUpdaterComponent extends RepositoryManagerComp
 			$pub->set_publication_object_id($latest_version);
 			$success = $pub->update();
 			
-			$this->redirect(RepositoryManager :: ACTION_VIEW_MY_PUBLICATIONS, Translation :: get_lang($success ? 'PublicationUpdated' : 'PublicationUpdateFailed'));
+			$this->redirect(RepositoryManager :: ACTION_VIEW_MY_PUBLICATIONS, Translation :: get($success ? 'PublicationUpdated' : 'PublicationUpdateFailed'));
 		}
 		else
 		{
-			$this->display_warning_page(htmlentities(Translation :: get_lang('NoPublicationSelected')));
+			$this->display_warning_page(htmlentities(Translation :: get('NoPublicationSelected')));
 		}
 	}
 }

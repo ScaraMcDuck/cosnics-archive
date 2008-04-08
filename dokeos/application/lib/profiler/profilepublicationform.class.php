@@ -61,7 +61,7 @@ class ProfilePublicationForm extends FormValidator
     function build_form()
     {
 
-		$this->addElement('submit', 'submit', Translation :: get_lang('Ok'));
+		$this->addElement('submit', 'submit', Translation :: get('Ok'));
     }
 
 	/**

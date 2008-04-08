@@ -25,22 +25,22 @@ class QuizMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Quiz_title');
+		return Translation :: get('Quiz_title');
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Quiz_info');
+		return Translation :: get('Quiz_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Quizzes');
-			case 1: return Translation :: get_lang('Quiz_questions');
-			//case 2: return Translation :: get_lang('Quiz_answers');
-			default: return Translation :: get_lang('Quizzes'); 
+			case 0: return Translation :: get('Quizzes');
+			case 1: return Translation :: get('Quiz_questions');
+			//case 2: return Translation :: get('Quiz_answers');
+			default: return Translation :: get('Quizzes'); 
 		}
 	}
 
@@ -50,8 +50,8 @@ class QuizMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('quizzes'))
 		{
-			echo(Translation :: get_lang('Quizzes') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Quizzes') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -99,11 +99,11 @@ class QuizMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Quizzes') .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Quizzes') .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Quizzes failed because users or courses skipped');
 				$this->succes = array(0,0,0);
 			}
@@ -111,8 +111,8 @@ class QuizMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Quizzes')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Quizzes')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Quizzes skipped');
 			
 			return false;

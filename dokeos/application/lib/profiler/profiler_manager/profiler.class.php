@@ -119,13 +119,13 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	 */
 	function display_header($breadcrumbs = array (), $display_search = false)
 	{
-		global $interbredcrump;
+		global $interbreadcrumb;
 		if (isset ($this->breadcrumbs) && is_array($this->breadcrumbs))
 		{
 			$breadcrumbs = array_merge($this->breadcrumbs, $breadcrumbs);
 		}
 		$current_crumb = array_pop($breadcrumbs);
-		$interbredcrump = $breadcrumbs;
+		$interbreadcrumb = $breadcrumbs;
 
 		$title = $current_crumb['name'];
 		$title_short = $title;
@@ -161,7 +161,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	{
 		$extra_items = array ();
 		$create = array ();
-		$create['title'] = Translation :: get_lang('Publish');
+		$create['title'] = Translation :: get('Publish');
 		$create['url'] = $this->get_profile_creation_url();
 		$create['class'] = 'create';
 		$extra_items[] = $create;
@@ -171,7 +171,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 			// $search_url = $this->get_url();
 			$search_url = '#';
 			$search = array ();
-			$search['title'] = Translation :: get_lang('SearchResults');
+			$search['title'] = Translation :: get('SearchResults');
 			$search['url'] = $search_url;
 			$search['class'] = 'search_results';
 			$extra_items[] = $search;
@@ -225,10 +225,6 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		echo '<div class="clear">&nbsp;</div>';
 		echo '</div>';
 		echo '<div class="clear">&nbsp;</div>';
-		// TODO: Find out why we need to reconnect here.
-		global $dbHost, $dbLogin, $dbPass, $mainDbName;
-		mysql_connect($dbHost, $dbLogin, $dbPass);
-		mysql_select_db($mainDbName);
 		Display :: display_footer();
 	}
 
@@ -387,7 +383,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	 */
 	function get_path($path_type)
 	{
-		return Path :: get_path($path_type);
+		return Path :: get($path_type);
 	}
 	/**
 	 * Wrapper for Display :: display_not_allowed();.
@@ -404,7 +400,7 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => Translation :: get_lang('ProfileList'), 'action' => 'list', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PROFILES)));
+		$links[] = array('name' => Translation :: get('ProfileList'), 'action' => 'list', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PROFILES)));
 		return array ('application' => array ('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PROFILES)));
 	}
 

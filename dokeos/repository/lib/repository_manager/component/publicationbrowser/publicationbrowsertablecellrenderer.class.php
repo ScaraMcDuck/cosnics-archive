@@ -36,7 +36,7 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 		switch ($column->get_learning_object_property())
 		{
 			case LearningObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE:
-				return Text :: format_locale_date(Translation :: get_lang('dateFormatShort').', '.Translation :: get_lang('timeNoSecFormat'),$learning_object->get_publication_date());
+				return Text :: format_locale_date(Translation :: get('dateFormatShort').', '.Translation :: get('timeNoSecFormat'),$learning_object->get_publication_date());
 		}
 		return parent :: render_cell($column, $learning_object);
 	}
@@ -54,7 +54,7 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 			$update_url = $this->browser->get_publication_update_url($learning_object);
 			$toolbar_data[] = array(
 				'href' => $update_url,
-				'label' => Translation :: get_lang('Update'),
+				'label' => Translation :: get('Update'),
 				'confirm' => true,
 				'img' => $this->browser->get_path(WEB_IMG_PATH).'revert.gif'
 			);

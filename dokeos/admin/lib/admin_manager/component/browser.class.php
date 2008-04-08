@@ -19,12 +19,12 @@ class AdminBrowserComponent extends AdminComponent
 	function run()
 	{
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => '', 'name' => Translation :: get_lang('PlatformAdmin'));
+		$breadcrumbs[] = array ('url' => '', 'name' => Translation :: get('PlatformAdmin'));
 
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($breadcrumbs);
-			Display :: display_error_message(Translation :: get_lang('NotAllowed'));
+			Display :: display_error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
 		}

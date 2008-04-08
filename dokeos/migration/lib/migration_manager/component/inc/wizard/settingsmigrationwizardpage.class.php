@@ -17,7 +17,7 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Setting_title');
+		return Translation :: get('Setting_title');
 	}
 	
 	/**
@@ -25,55 +25,55 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_info()
 	{
-		return Translation :: get_lang('Setting_info') . ':';
+		return Translation :: get('Setting_info') . ':';
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Users_info');
+		return Translation :: get('Users_info');
 	}
 
 	function buildForm()
 	{
 		$exports = $this->controller->exportValues();
 		$this->_formBuilt = true;
-		$this->addElement('text', 'old_directory', Translation :: get_lang('old_directory'), array ('size' => '40'));
+		$this->addElement('text', 'old_directory', Translation :: get('old_directory'), array ('size' => '40'));
 		$this->addRule('old_directory', 'ThisFieldIsRequired', 'required');
 
-		$this->addElement('checkbox', 'migrate_users', '', Translation :: get_lang('migrate_users'), 'onclick=\'users_clicked()\' style=\'margin-top: 20px;\'');
-		$this->addElement('checkbox', 'migrate_personal_agendas', '', Translation :: get_lang('migrate_personal_agendas'), 'onclick=\'personal_agendas_clicked()\' style=\'margin-left: 20px;\'');
-		$this->addElement('checkbox', 'migrate_settings', '', Translation :: get_lang('migrate_settings'));
-		$this->addElement('checkbox', 'migrate_classes', '', Translation :: get_lang('migrate_classes'));
-		$this->addElement('checkbox', 'migrate_courses', '', Translation :: get_lang('migrate_courses'), 'onclick=\'courses_clicked()\'');
-		$this->addElement('checkbox', 'migrate_metadata', '', Translation :: get_lang('migrate_metadata'), 'onclick=\'metadata_clicked()\' style=\'margin-left: 20px;\'');
-		$this->addElement('checkbox', 'migrate_groups', '', Translation :: get_lang('migrate_groups'), 'onclick=\'groups_clicked()\' style=\'margin-left: 20px;\'');
-		$this->addElement('checkbox', 'migrate_announcements', '', Translation :: get_lang('migrate_announcements'), 'onclick=\'announcements_clicked()\' style=\'margin-left: 20px;\'');
-		$this->addElement('checkbox', 'migrate_calendar_events', '', Translation :: get_lang('migrate_calendar_events'), 'onclick=\'calendar_events_clicked()\' style=\'margin-left: 20px;\'');
-		$this->addElement('checkbox', 'migrate_documents', '', Translation :: get_lang('migrate_documents'), 'onclick=\'documents_clicked()\' style=\'margin-left: 20px;\'');
-		$this->addElement('checkbox', 'migrate_links', '', Translation :: get_lang('migrate_links'), 'onclick=\'links_clicked()\' style=\'margin-left: 20px;\'');
-		$this->addElement('checkbox', 'migrate_dropboxes', '', Translation :: get_lang('migrate_dropboxes'), 'onclick=\'dropboxes_clicked()\' style=\'margin-left: 20px;\'');
-		$this->addElement('checkbox', 'migrate_forums', '', Translation :: get_lang('migrate_forums'), 'onclick=\'forums_clicked()\' style=\'margin-left: 20px;\'');
-		$this->addElement('checkbox', 'migrate_learning_paths', '', Translation :: get_lang('migrate_learning_paths'), 'onclick=\'learning_paths_clicked()\' style=\'margin-left: 20px;\'');
-		$this->addElement('checkbox', 'migrate_quizzes', '', Translation :: get_lang('migrate_quizzes'), 'onclick=\'quizzes_clicked()\' style=\'margin-left: 20px;\'');
-		$this->addElement('checkbox', 'migrate_student_publications', '', Translation :: get_lang('migrate_student_publications'), 'onclick=\'student_publications_clicked()\' style=\'margin-left: 20px;\'');
-		$this->addElement('checkbox', 'migrate_surveys', '', Translation :: get_lang('migrate_surveys'), 'onclick=\'surveys_clicked()\' style=\'margin-left: 20px;\'');
-		$this->addElement('checkbox', 'migrate_scorms', '', Translation :: get_lang('migrate_scorms'), 'onclick=\'scorms_clicked()\' style=\'margin-left: 20px;\'');
-		$this->addElement('checkbox', 'migrate_assignments', '', Translation :: get_lang('migrate_assignments'), 'onclick=\'assignments_clicked()\' style=\'margin-left: 20px;\'');
-		$this->addElement('checkbox', 'migrate_userinfos', '', Translation :: get_lang('migrate_userinfos'), 'onclick=\'userinfos_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_users', '', Translation :: get('migrate_users'), 'onclick=\'users_clicked()\' style=\'margin-top: 20px;\'');
+		$this->addElement('checkbox', 'migrate_personal_agendas', '', Translation :: get('migrate_personal_agendas'), 'onclick=\'personal_agendas_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_settings', '', Translation :: get('migrate_settings'));
+		$this->addElement('checkbox', 'migrate_classes', '', Translation :: get('migrate_classes'));
+		$this->addElement('checkbox', 'migrate_courses', '', Translation :: get('migrate_courses'), 'onclick=\'courses_clicked()\'');
+		$this->addElement('checkbox', 'migrate_metadata', '', Translation :: get('migrate_metadata'), 'onclick=\'metadata_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_groups', '', Translation :: get('migrate_groups'), 'onclick=\'groups_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_announcements', '', Translation :: get('migrate_announcements'), 'onclick=\'announcements_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_calendar_events', '', Translation :: get('migrate_calendar_events'), 'onclick=\'calendar_events_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_documents', '', Translation :: get('migrate_documents'), 'onclick=\'documents_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_links', '', Translation :: get('migrate_links'), 'onclick=\'links_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_dropboxes', '', Translation :: get('migrate_dropboxes'), 'onclick=\'dropboxes_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_forums', '', Translation :: get('migrate_forums'), 'onclick=\'forums_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_learning_paths', '', Translation :: get('migrate_learning_paths'), 'onclick=\'learning_paths_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_quizzes', '', Translation :: get('migrate_quizzes'), 'onclick=\'quizzes_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_student_publications', '', Translation :: get('migrate_student_publications'), 'onclick=\'student_publications_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_surveys', '', Translation :: get('migrate_surveys'), 'onclick=\'surveys_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_scorms', '', Translation :: get('migrate_scorms'), 'onclick=\'scorms_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_assignments', '', Translation :: get('migrate_assignments'), 'onclick=\'assignments_clicked()\' style=\'margin-left: 20px;\'');
+		$this->addElement('checkbox', 'migrate_userinfos', '', Translation :: get('migrate_userinfos'), 'onclick=\'userinfos_clicked()\' style=\'margin-left: 20px;\'');
 		
 		$this->addElement('checkbox', 'migrate_deleted_files', '', 
-			Translation :: get_lang('migrate_deleted_files'), 'onclick=\'deleted_files_clicked("' . 
-			Translation :: get_lang('confirm_deleted_files'). '")\' style=\'margin-top: 20px;\'');
+			Translation :: get('migrate_deleted_files'), 'onclick=\'deleted_files_clicked("' . 
+			Translation :: get('confirm_deleted_files'). '")\' style=\'margin-top: 20px;\'');
 			
 		$this->addElement('checkbox', 'move_files', '', 
-			Translation :: get_lang('move_files'), 'onclick=\'move_files_clicked("' . 
-			Translation :: get_lang('confirm_move_files'). '")\'');
+			Translation :: get('move_files'), 'onclick=\'move_files_clicked("' . 
+			Translation :: get('confirm_move_files'). '")\'');
 
 		ValidateSettings :: set_old_system($exports['old_system']);
-		$this->addRule(array('old_directory'),Translation :: get_lang('CouldNotVerifySettings'), new ValidateSettings());
+		$this->addRule(array('old_directory'),Translation :: get('CouldNotVerifySettings'), new ValidateSettings());
 
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get_lang('Previous'));
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 		$this->set_form_defaults();

@@ -18,12 +18,12 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 	{
 		$this->firstletter = $_GET[UserManager :: PARAM_FIRSTLETTER];
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('UserList'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('UserList'));
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($breadcrumbs);
-			Display :: display_error_message(Translation :: get_lang("NotAllowed"));
+			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}
@@ -57,7 +57,7 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 			// $search_url = $this->get_url();
 			$search_url = '#';
 			$search = array ();
-			$search['title'] = Translation :: get_lang('SearchResults');
+			$search['title'] = Translation :: get('SearchResults');
 			$search['url'] = $search_url;
 			$search['class'] = 'search_results';
 			$extra_items[] = $search;

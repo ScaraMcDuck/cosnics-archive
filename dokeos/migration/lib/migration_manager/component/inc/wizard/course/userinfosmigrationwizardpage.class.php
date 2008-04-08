@@ -25,21 +25,21 @@ class UserinfosMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Userinfos_title');
+		return Translation :: get('Userinfos_title');
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Userinfos_info');
+		return Translation :: get('Userinfos_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Userinfo_definitions');
-			case 1: return Translation :: get_lang('Userinfo_contents');
-			default: return Translation :: get_lang('Userinfo_definitions'); 
+			case 0: return Translation :: get('Userinfo_definitions');
+			case 1: return Translation :: get('Userinfo_contents');
+			default: return Translation :: get('Userinfo_definitions'); 
 		}
 	}
 
@@ -49,8 +49,8 @@ class UserinfosMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('userinfos'))
 		{
-			echo(Translation :: get_lang('Userinfos') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Userinfos') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -98,11 +98,11 @@ class UserinfosMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Userinfos') .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Userinfos') .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Userinfos failed because users or courses skipped');
 				$this->succes = array(0,0,0);
 			}
@@ -110,8 +110,8 @@ class UserinfosMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Userinfos')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Userinfos')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Userinfos skipped');
 			
 			return false;

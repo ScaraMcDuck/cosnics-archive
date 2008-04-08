@@ -36,10 +36,10 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			$breadcrumbs = array();
 			if ($object->get_state() == LearningObject :: STATE_RECYCLED)
 			{
-				$breadcrumbs[] = array('url' => $this->get_recycle_bin_url(), 'name' => Translation :: get_lang('RecycleBin'));
+				$breadcrumbs[] = array('url' => $this->get_recycle_bin_url(), 'name' => Translation :: get('RecycleBin'));
 				$this->force_menu_url($this->get_recycle_bin_url());
 			}
-			$breadcrumbs[] = array('url' => $this->get_url(), 'name' => $object->get_title() . ($object->is_latest_version() ? '' : ' ('.Translation :: get_lang('OldVersion').')'));
+			$breadcrumbs[] = array('url' => $this->get_url(), 'name' => $object->get_title() . ($object->is_latest_version() ? '' : ' ('.Translation :: get('OldVersion').')'));
 
 			$version_data = array();
 			$versions = $object->get_learning_object_versions();
@@ -137,7 +137,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					$recycle_bin_button = array(
 						'href' => $recycle_url,
 						'img' => $this->get_path(WEB_IMG_PATH).'recycle_bin.gif',
-						'label' => Translation :: get_lang('Remove'),
+						'label' => Translation :: get('Remove'),
 						'confirm' => true,
 						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
@@ -150,7 +150,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 						$recycle_bin_button = array(
 							'href' => $delete_url,
 							'img' => $this->get_path(WEB_IMG_PATH).'delete.gif',
-							'label' => Translation :: get_lang('Delete'),
+							'label' => Translation :: get('Delete'),
 							'confirm' => true,
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
@@ -160,7 +160,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					{
 						$recycle_bin_button = array(
 							'img' => $this->get_path(WEB_IMG_PATH).'recycle_bin_na.gif',
-							'label' => Translation :: get_lang('Remove'),
+							'label' => Translation :: get('Remove'),
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
 					}
@@ -176,7 +176,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 						$force_delete_button = array(
 							'href' => $delete_link_url,
 							'img' => $this->get_path(WEB_IMG_PATH).'unlink.gif',
-							'label' => Translation :: get_lang('Unlink'),
+							'label' => Translation :: get('Unlink'),
 							'confirm' => true,
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
@@ -188,7 +188,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 						$toolbar_data[] = array(
 							'href' => $edit_url,
 							'img' => $this->get_path(WEB_IMG_PATH).'edit.gif',
-							'label' => Translation :: get_lang('Edit'),
+							'label' => Translation :: get('Edit'),
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
 					}
@@ -196,7 +196,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					{
 						$toolbar_data[] = array(
 							'img' => $this->get_path(WEB_IMG_PATH).'edit_na.gif',
-							'label' => Translation :: get_lang('Edit'),
+							'label' => Translation :: get('Edit'),
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
 					}
@@ -214,19 +214,19 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 						$toolbar_data[] = array(
 							'href' =>  $this->get_learning_object_moving_url($object),
 							'img' => $this->get_path(WEB_IMG_PATH).'move.gif',
-							'label' => Translation :: get_lang('Move'),
+							'label' => Translation :: get('Move'),
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
 					}
 					$toolbar_data[] = array(
 						'href' => $this->get_learning_object_metadata_editing_url($object),
-						'label' => Translation :: get_lang('Metadata'),
+						'label' => Translation :: get('Metadata'),
 						'img' => $this->get_path(WEB_IMG_PATH).'info_small.gif',
 						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
 					$toolbar_data[] = array(
 						'href' => $this->get_learning_object_rights_editing_url($object),
-						'label' => Translation :: get_lang('Rights'),
+						'label' => Translation :: get('Rights'),
 						'img' => $this->get_path(WEB_IMG_PATH).'group_small.gif',
 						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
@@ -235,7 +235,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				{
 					$toolbar_data[] = array(
 						'href' => $this->get_learning_object_restoring_url($object),
-						'label' => Translation :: get_lang('Restore'),
+						'label' => Translation :: get('Restore'),
 						'img' => $this->get_path(WEB_IMG_PATH).'restore.gif',
 						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
@@ -248,7 +248,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get_lang('NoObjectSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
 		}
 	}
 }

@@ -55,11 +55,11 @@ class ProfilerDeleterComponent extends ProfilerComponent
 				}
 			}
 			
-			$this->redirect(null, Translation :: get_lang($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES));
+			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES));
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get_lang('NoPublicationSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoPublicationSelected')));
 		}
 	}
 }

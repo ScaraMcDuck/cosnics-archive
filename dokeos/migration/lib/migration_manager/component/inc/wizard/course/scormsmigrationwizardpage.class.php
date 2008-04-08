@@ -25,20 +25,20 @@ class ScormsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Scorms_title');
+		return Translation :: get('Scorms_title');
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Scorms_info');
+		return Translation :: get('Scorms_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Scorm_documents');
-			default: return Translation :: get_lang('Scorm_documents'); 
+			case 0: return Translation :: get('Scorm_documents');
+			default: return Translation :: get('Scorm_documents'); 
 		}
 	}
 
@@ -48,8 +48,8 @@ class ScormsMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('scorms'))
 		{
-			echo(Translation :: get_lang('Scorms') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Scorms') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -100,11 +100,11 @@ class ScormsMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Scorms') .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Scorms') .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Scorms failed because users or courses skipped');
 				$this->succes = array(0);
 			}
@@ -112,8 +112,8 @@ class ScormsMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Scorms')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Scorms')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Scorms skipped');
 			
 			return false;

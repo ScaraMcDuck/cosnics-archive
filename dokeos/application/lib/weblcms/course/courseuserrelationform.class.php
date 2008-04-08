@@ -31,23 +31,23 @@ class CourseUserRelationForm extends FormValidator {
     
     function build_basic_form()
     {
-    	$this->addElement('static', Course :: PROPERTY_ID, Translation :: get_lang('CourseCode'));
+    	$this->addElement('static', Course :: PROPERTY_ID, Translation :: get('CourseCode'));
     	
 		$wdm = WeblcmsDataManager :: get_instance();
 		
 		$condition = new EqualityCondition(CourseUserCategory :: PROPERTY_USER, $this->user->get_user_id());
 		
 		$categories = $wdm->retrieve_course_user_categories($condition);
-		$cat_options['0'] = Translation :: get_lang('NoCategory');
+		$cat_options['0'] = Translation :: get('NoCategory');
 		
 		while ($category = $categories->next_result())
 		{
 			$cat_options[$category->get_id()] = $category->get_title();
 		}
 		
-		$this->addElement('select', CourseUserRelation :: PROPERTY_CATEGORY, Translation :: get_lang('Category'), $cat_options);
+		$this->addElement('select', CourseUserRelation :: PROPERTY_CATEGORY, Translation :: get('Category'), $cat_options);
 		
-		$this->addElement('submit', 'course_user_category', Translation :: get_lang('Ok'));
+		$this->addElement('submit', 'course_user_category', Translation :: get('Ok'));
     }
     
     function build_editing_form()

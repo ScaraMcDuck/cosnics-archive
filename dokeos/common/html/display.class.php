@@ -83,7 +83,7 @@ class Display
 		{
 			$out .= '<style type="text/css" media="screen, projection">
 /*<![CDATA[*/
-@import "' . Path :: get_path(WEB_CSS_PATH) . 'default.css";
+@import "' . Path :: get(WEB_CSS_PATH) . 'default.css";
 /*]]>*/
 </style>';
 		}
@@ -113,7 +113,7 @@ class Display
 		{
 			$out .= '<style type="text/css" media="screen, projection">
 /*<![CDATA[*/
-@import "' . Path :: get_path(WEB_CSS_PATH) . 'default.css";
+@import "' . Path :: get(WEB_CSS_PATH) . 'default.css";
 /*]]>*/
 </style>';
 		}
@@ -144,7 +144,7 @@ class Display
 		{
 			$out .= '<style type="text/css" media="screen, projection">
 /*<![CDATA[*/
-@import "' . Path :: get_path(WEB_CSS_PATH) . 'default.css";
+@import "' . Path :: get(WEB_CSS_PATH) . 'default.css";
 /*]]>*/
 </style>';
 		}
@@ -213,22 +213,22 @@ class Display
 	public static function display_header($tool_name, $help = NULL)
 	{
 		$nameTools = $tool_name;
-		global $language_interface, $adm, $httpHeadXtra, $htmlHeadXtra, $_course, $_user, $clarolineRepositoryWeb, $text_dir, $plugins, $_uid, $rootAdminWeb, $_cid, $interbredcrump, $charset, $noPHP_SELF;
-		include (Path :: get_path(SYS_LIB_PATH).'html/header.inc.php');
+		global $language_interface, $adm, $httpHeadXtra, $htmlHeadXtra, $text_dir, $plugins, $interbreadcrumb, $charset, $noPHP_SELF;
+		include (Path :: get(SYS_LIB_PATH).'html/header.inc.php');
 	}
 	/**
 	 * Display the page footer
 	 */
 	public static function display_footer()
 	{
-		global $adm, $dokeos_version; //necessary to have the value accessible in the footer
-		$footer = new Footer($adm, $dokeos_version);
+		global $adm; //necessary to have the value accessible in the footer
+		$footer = new Footer($adm);
 		$footer->display();
 	}
 	
 	public static function display_not_allowed()
 	{
-		$home_url = Path :: get_path(WEB_PATH);
+		$home_url = Path :: get(WEB_PATH);
 		self :: display_error_message("<p>Either you are not allowed here or your session has expired.<br><br>You may try <a href=\"$home_url\" target=\"_top\">reconnecting on the home page</a>.</p>");
 		$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
 		exit;

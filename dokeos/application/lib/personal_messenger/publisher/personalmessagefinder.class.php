@@ -33,8 +33,8 @@ class PersonalMessageFinder extends PersonalMessageBrowser
 		$this->form = new FormValidator('search', 'get','','',null,false);
 		$this->form->addElement('hidden', PersonalMessagePublisher :: PARAM_ACTION);
 		$this->form->addElement('hidden', PersonalMessenger :: PARAM_ACTION);
-		$this->form->addElement('text', 'query', Translation :: get_lang('Find'), 'size="40" class="search_query"');
-		$this->form->addElement('submit', 'submit', Translation :: get_lang('Ok'));
+		$this->form->addElement('text', 'query', Translation :: get('Find'), 'size="40" class="search_query"');
+		$this->form->addElement('submit', 'submit', Translation :: get('Ok'));
 		$this->renderer = clone $this->form->defaultRenderer();
 		$this->renderer->setElementTemplate('<span>{element}</span> ');
 		$this->form->accept($this->renderer);

@@ -45,7 +45,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 	}
 	function get_title()
 	{
-		return Translation :: get_lang("Requirements");
+		return Translation :: get("Requirements");
 	}
 	function get_info()
 	{
@@ -67,12 +67,12 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 		elseif (file_exists('../inc/conf/claro_main.conf.php'))
 		{
 			$info[] = '<div style="margin:20px;padding:10px;width: 50%;color:#FF6600;border:2px solid #FF6600;text-align:center;">';
-			$info[] = Translation :: get_lang("WarningExistingDokeosInstallationDetected");
+			$info[] = Translation :: get("WarningExistingDokeosInstallationDetected");
 			$info[] = '</div>';
 		}
-		$info[] = '<b>'.Translation :: get_lang("ReadThoroughly").'</b>';
+		$info[] = '<b>'.Translation :: get("ReadThoroughly").'</b>';
 		$info[] = '<br />';
-		$info[] = Translation :: get_lang("DokeosNeedFollowingOnServer");
+		$info[] = Translation :: get("DokeosNeedFollowingOnServer");
 		$info[] = "<ul>";
 		$info[] = "<li>Webserver with PHP 5.x";
 		$info[] = '<ul>';
@@ -85,20 +85,19 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 		$info[] = "<li>MySQL + login/password allowing to access and create at least one database</li>";
 		$info[] = "<li>Write access to web directory where Dokeos files have been put</li>";
 		$info[] = "</ul>";
-		$info[] = Translation :: get_lang('MoreDetails').", <a href=\"../../installation_guide.html\" target=\"blank\">read the installation guide</a>.";
+		$info[] = Translation :: get('MoreDetails').", <a href=\"../../installation_guide.html\" target=\"blank\">read the installation guide</a>.";
 		return implode("\n",$info);
 	}
 	function buildForm()
 	{
-		global $updateFromVersion;
 		$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
 		
 		$this->_formBuilt = true;
-		$this->addElement('radio', 'installation_type', Translation :: get_lang('InstallType'), Translation :: get_lang('NewInstall'), 'new');
+		$this->addElement('radio', 'installation_type', Translation :: get('InstallType'), Translation :: get('NewInstall'), 'new');
 		//$update_group[0] = HTML_QuickForm :: createElement('radio', 'installation_type', null, 'Update from Dokeos '.implode('|', $updateFromVersion).'', 'update');
 		//$this->addGroup($update_group, 'update_group', '', '&nbsp', false);
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get_lang('Previous'));
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$not_writable = $this->get_not_writable_folders();
 		if (count($not_writable) > 0)
 		{

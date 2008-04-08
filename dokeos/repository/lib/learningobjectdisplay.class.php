@@ -85,7 +85,7 @@ abstract class LearningObjectDisplay
 			$parent_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($parent_id);
 			if ($parent_object->get_type() != 'category')
 			{
-				$html[] = '<div class="parent_link" style="margin: 1em 0;"><a href="'.htmlentities($this->get_learning_object_url($parent_object)).'">'.htmlentities(Translation :: get_lang('ViewParent')).'</a></div>';
+				$html[] = '<div class="parent_link" style="margin: 1em 0;"><a href="'.htmlentities($this->get_learning_object_url($parent_object)).'">'.htmlentities(Translation :: get('ViewParent')).'</a></div>';
 			}
 		}
 		return implode("\n",$html);
@@ -123,13 +123,13 @@ abstract class LearningObjectDisplay
 			{
 				$html = array();
 				$html[] = '<div class="attachments" style="margin-top: 1em;">';
-				$html[] = '<div class="attachments_title">'.htmlentities(Translation :: get_lang('Attachments')).'</div>';
+				$html[] = '<div class="attachments_title">'.htmlentities(Translation :: get('Attachments')).'</div>';
 				$html[] = '<ul class="attachments_list">';
 				RepositoryUtilities :: order_learning_objects_by_title($attachments);
 				foreach ($attachments as $attachment)
 				{
 					$disp = self :: factory($attachment);
-					$html[] = '<li><img src="'.$this->get_path(WEB_IMG_PATH).'treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(Translation :: get_lang(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+					$html[] = '<li><img src="'.$this->get_path(WEB_IMG_PATH).'treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 				}
 				$html[] = '</ul>';
 				$html[] = '</div>';
@@ -158,20 +158,20 @@ abstract class LearningObjectDisplay
 		$html[] = $version_entry['date'] .'&nbsp;';
 		if (isset($version_entry['delete_link']))
 		{
-			$html[] = '<a href="'. $version_entry['delete_link'] .'" title="' .Translation :: get_lang('Delete'). '" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get_lang('ConfirmYourChoice'))).'\');"><img src="'.$this->get_path(WEB_IMG_PATH).'delete_version.gif" alt="'.htmlentities(Translation :: get_lang('Delete')).'"/></a>';
+			$html[] = '<a href="'. $version_entry['delete_link'] .'" title="' .Translation :: get('Delete'). '" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.$this->get_path(WEB_IMG_PATH).'delete_version.gif" alt="'.htmlentities(Translation :: get('Delete')).'"/></a>';
 		}
 		else
 		{
-			$html[] = '<img src="'.$this->get_path(WEB_IMG_PATH).'delete_version_na.gif" alt="'.htmlentities(Translation :: get_lang('Delete')).'"/>';
+			$html[] = '<img src="'.$this->get_path(WEB_IMG_PATH).'delete_version_na.gif" alt="'.htmlentities(Translation :: get('Delete')).'"/>';
 		}
 
 		if (isset($version_entry['revert_link']))
 		{
-			$html[] = '&nbsp;<a href="'. $version_entry['revert_link'] .'" title="' .Translation :: get_lang('Revert'). '" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get_lang('ConfirmYourChoice'))).'\');"><img src="'.$this->get_path(WEB_IMG_PATH).'revert.gif" alt="'.htmlentities(Translation :: get_lang('Revert')).'"/></a>';
+			$html[] = '&nbsp;<a href="'. $version_entry['revert_link'] .'" title="' .Translation :: get('Revert'). '" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.$this->get_path(WEB_IMG_PATH).'revert.gif" alt="'.htmlentities(Translation :: get('Revert')).'"/></a>';
 		}
 		else
 		{
-			$html[] = '&nbsp;<img src="'.$this->get_path(WEB_IMG_PATH).'revert_na.gif" alt="'.htmlentities(Translation :: get_lang('Revert')).'"/>';
+			$html[] = '&nbsp;<img src="'.$this->get_path(WEB_IMG_PATH).'revert_na.gif" alt="'.htmlentities(Translation :: get('Revert')).'"/>';
 		}
 
 //		if (isset($version_entry['comment']) && $version_entry['comment'] != '')
@@ -180,7 +180,7 @@ abstract class LearningObjectDisplay
 //		}
 //		else
 //		{
-//			$html[] = '&nbsp;<img src="'.$this->get_path(WEB_IMG_PATH).'empty.gif" alt="'. Translation :: get_lang('NoComment') .'"/>';
+//			$html[] = '&nbsp;<img src="'.$this->get_path(WEB_IMG_PATH).'empty.gif" alt="'. Translation :: get('NoComment') .'"/>';
 //		}
 
 		$html[] = '&nbsp;<a href="'.htmlentities($version_entry['viewing_link']).'">'.$version_entry['title'].'</a>';
@@ -214,7 +214,7 @@ abstract class LearningObjectDisplay
 		{
 			$html[] = '<div class="version_stats_na" style="margin-top: 1em;">';
 		}
-		$html[] = '<div class="version_stats_title">'.htmlentities(Translation :: get_lang('VersionQuota')).'</div>';
+		$html[] = '<div class="version_stats_title">'.htmlentities(Translation :: get('VersionQuota')).'</div>';
 
 		$percent = $object->get_version_count() / ($object->get_version_count() + $object->get_available_version_count())* 100 ;
 		$status = $object->get_version_count() . ' / ' . ($object->get_version_count() + $object->get_available_version_count());
@@ -299,7 +299,7 @@ abstract class LearningObjectDisplay
 	
 	function get_path($path_type)
 	{
-		return Path :: get_path($path_type);
+		return Path :: get($path_type);
 	}
 }
 ?>

@@ -79,7 +79,7 @@
 		if($migration->perform())
 		{
 			$info = newlines($migration->get_info());
-			$pos = strpos($info, Translation :: get_lang('Dont_forget') ) - 2;
+			$pos = strpos($info, Translation :: get('Dont_forget') ) - 2;
 			echo(substr($info, 0, $pos));
 		}
 		echo("\n");

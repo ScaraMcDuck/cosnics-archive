@@ -57,7 +57,7 @@ class PersonalCalendarDayRenderer extends PersonalCalendarRenderer
 		$html[] = '<a href="'.$this->get_url(array('pid'=>$personal_event->get_id())).'">';
 		$html[] = date('H:i', $start_date).' '.htmlspecialchars($learning_object->get_title());
 		$html[] = '</a>';
-		$html[] = '<a href="" style="position:absolute;right: 15px;"><img src="'.Path :: get_path(WEB_IMG_PATH).'delete.gif"/></a>';
+		$html[] = '<a href="" style="position:absolute;right: 15px;"><img src="'.Path :: get(WEB_IMG_PATH).'delete.gif"/></a>';
 		$html[] = '</div>';
 		return implode("\n", $html);
 	}

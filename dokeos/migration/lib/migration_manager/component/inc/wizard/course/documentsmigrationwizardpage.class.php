@@ -31,7 +31,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Documents_title');
+		return Translation :: get('Documents_title');
 	}
 	
 	/**
@@ -42,11 +42,11 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 		for($i=0; $i<1; $i++)
 		{
 			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
-				Translation :: get_lang('migrated');
+				Translation :: get('migrated');
 			
 			if(count($this->failed_elements[$i]) > 0)
 				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
-					 $this->get_message($i) . ' ' . Translation :: get_lang('failed');
+					 $this->get_message($i) . ' ' . Translation :: get('failed');
 			
 			foreach($this->failed_elements[$i] as $felement)
 			{
@@ -56,22 +56,22 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 			$message = $message . '<br />';
 		}
 		
-		$message = $message . '<br />' . Translation :: get_lang('Dont_forget');
+		$message = $message . '<br />' . Translation :: get('Dont_forget');
 		
 		return $message;
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Documents_info');
+		return Translation :: get('Documents_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Documents'); 
-			default: return Translation :: get_lang('Documents'); 
+			case 0: return Translation :: get('Documents'); 
+			default: return Translation :: get('Documents'); 
 		}
 	}
 	
@@ -79,7 +79,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 	function buildForm()
 	{
 		$this->_formBuilt = true;
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 	}
 	
@@ -89,8 +89,8 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('documents'))
 		{
-			echo(Translation :: get_lang('Documents') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Documents') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -146,11 +146,11 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Documents') . ' ' .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Documents') . ' ' .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Calendar events failed because users skipped');
 				$this->succes[1] = 0;
 			}
@@ -158,8 +158,8 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Documents')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Documents')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Documents skipped');
 			
 			return false;

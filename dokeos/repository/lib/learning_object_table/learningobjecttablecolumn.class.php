@@ -46,7 +46,7 @@ class LearningObjectTableColumn
 		if ($contains_learning_object_property)
 		{
 			$this->learning_object_property = $property_name_or_column_title;
-			$this->title = Translation :: get_lang(ucfirst($this->learning_object_property));
+			$this->title = Translation :: get(ucfirst($this->learning_object_property));
 			$this->sortable = true;
 		}
 		else

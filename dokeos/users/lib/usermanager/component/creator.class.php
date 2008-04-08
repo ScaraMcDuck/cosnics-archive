@@ -16,11 +16,11 @@ class UserManagerCreatorComponent extends UserManagerComponent
 	{		
 		$user_id = $this->get_user_id();
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('UserCreate'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('UserCreate'));
 		if (isset($user_id) && !$this->get_user()->is_platform_admin()) 
 		{
 			$this->display_header($breadcrumbs);
-			Display :: display_warning_message(Translation :: get_lang('AlreadyRegistered'));
+			Display :: display_warning_message(Translation :: get('AlreadyRegistered'));
 			$this->display_footer();
 			exit;
 		}
@@ -38,7 +38,7 @@ class UserManagerCreatorComponent extends UserManagerComponent
 		if($form->validate())
 		{
 			$success = $form->create_user();
-			$this->redirect('url', Translation :: get_lang($success ? 'UserCreated' : 'UserNotCreated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER));
+			$this->redirect('url', Translation :: get($success ? 'UserCreated' : 'UserNotCreated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER));
 		}
 		else
 		{

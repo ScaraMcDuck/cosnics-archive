@@ -50,8 +50,8 @@ class SearchPortal extends WebApplication
 	function run()
 	{
 		$supports_remote = WebServiceSearchSource :: is_supported();
-		Display :: display_header(Translation :: get_lang('SearchPortal'));
-		Display :: display_tool_title(Translation :: get_lang('SearchPortal'));
+		Display :: display_header(Translation :: get('SearchPortal'));
+		Display :: display_tool_title(Translation :: get('SearchPortal'));
 
 		echo <<<END
 <script type="text/javascript">
@@ -66,13 +66,13 @@ function expandRemoteSearch()
 END;
 		$form = new FormValidator('search_simple', 'get', $this->get_url(), '', null, false);
 		$form->addElement('text', self :: PARAM_QUERY, '', 'size="40" class="search_query"');
-		$form->addElement('submit', 'submit', Translation :: get_lang('Search'));
+		$form->addElement('submit', 'submit', Translation :: get('Search'));
 		$form->addElement('hidden','application');
 		if ($supports_remote)
 		{
-			$form->addElement('static', null, null, '<span id="url_expander" style="font-size: 90%;">[<a href="javascript:void(0);" onclick="expandRemoteSearch();">'.Translation :: get_lang('RemoteRepository').'</a>]</span>');
+			$form->addElement('static', null, null, '<span id="url_expander" style="font-size: 90%;">[<a href="javascript:void(0);" onclick="expandRemoteSearch();">'.Translation :: get('RemoteRepository').'</a>]</span>');
 			$form->addElement('static', null, null, '<div id="url_container" style="display: none; margin-top: 0.25em;">');
-			$form->addElement('text', self :: PARAM_URL, Translation :: get_lang('RepositoryURL'), 'size="50"');
+			$form->addElement('text', self :: PARAM_URL, Translation :: get('RepositoryURL'), 'size="50"');
 			$form->addElement('static', null, null, '</div>');
 		}
 		echo '<div style="text-align: center; margin: 0 0 2em 0;">';
@@ -133,13 +133,13 @@ END;
 					$offset = $pager->getOffsetByPageId();
 					$first = $offset[0] - 1;
 					$results->skip($first);
-					$str = htmlentities(str_ireplace(array('%first%', '%last%', '%total%'), array($offset[0], $offset[1], $count), Translation :: get_lang('Results_Through_Of_From_')));
+					$str = htmlentities(str_ireplace(array('%first%', '%last%', '%total%'), array($offset[0], $offset[1], $count), Translation :: get('Results_Through_Of_From_')));
 					$str = str_ireplace('%repository%', '<a href="'.htmlentities($repository_url).'">'.htmlspecialchars($repository_title).'</a>', $str);
 					echo '<h3>'.$str.'</h3>';
 					if ($result_count > $count)
 					{
-						$str = str_ireplace(array('%returned%', '%actual%'), array($count, $result_count), Translation :: get_lang('TheRepositoryReturnedOnly_Of_Results'));
-						echo '<p><strong>'.htmlentities(Translation :: get_lang('Notice')).':</strong> '.htmlentities($str).'</p>';
+						$str = str_ireplace(array('%returned%', '%actual%'), array($count, $result_count), Translation :: get('TheRepositoryReturnedOnly_Of_Results'));
+						echo '<p><strong>'.htmlentities(Translation :: get('Notice')).':</strong> '.htmlentities($str).'</p>';
 					}
 					echo $pager_links;
 					$i = 0;
@@ -153,7 +153,7 @@ END;
 				}
 				else
 				{
-					echo '<p>'.htmlentities(Translation :: get_lang('NoResultsFound')).'</p>';
+					echo '<p>'.htmlentities(Translation :: get('NoResultsFound')).'</p>';
 				}
 			}
 		}
@@ -161,7 +161,7 @@ END;
 
 	private static function report_exception ($exception)
 	{
-		echo '<p><strong>'.htmlentities(Translation :: get_lang('Error')).':</strong> '
+		echo '<p><strong>'.htmlentities(Translation :: get('Error')).':</strong> '
 			.htmlentities($exception->getMessage()).'</p>';
 	}
 
@@ -286,7 +286,7 @@ END;
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => Translation :: get_lang('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
+		$links[] = array('name' => Translation :: get('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
 		return array('application' => array('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links);
 	}
 
@@ -318,7 +318,7 @@ END;
 	
 	function get_path($path_type)
 	{
-		return Path :: get_path($path_type);
+		return Path :: get($path_type);
 	}
 }
 ?>

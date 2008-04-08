@@ -13,7 +13,7 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 		$publications = $this->get_publications();
 		if (count($publications) == 0)
 		{
-			$html[] = Display :: display_normal_message(Translation :: get_lang('NoPublicationsAvailable'), true);
+			$html[] = Display :: display_normal_message(Translation :: get('NoPublicationsAvailable'), true);
 			return implode("\n", $html);
 		}
 		if (!isset ($_GET['slideshow_index']))
@@ -28,7 +28,7 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 		{
 			$toolbar_data[] = array(
 				'img'=>$this->browser->get_path(WEB_IMG_PATH).'slideshow.gif',
-				'label'=>Translation :: get_lang('Slideshow'),
+				'label'=>Translation :: get('Slideshow'),
 				'href' => $this->get_url(array('thumbnails'=>null)),
 				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 			$html[] = RepositoryUtilities::build_toolbar($toolbar_data);
@@ -40,7 +40,7 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 			$last = ($slideshow_index == count($publications) - 1);
 			$toolbar_data[] = array(
 				'img'=>$this->browser->get_path(WEB_IMG_PATH).'slideshow_thumbnails.gif',
-				'label'=>Translation :: get_lang('Thumbnails'),
+				'label'=>Translation :: get('Thumbnails'),
 				'href' => $this->get_url(array('thumbnails'=>1)),
 				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 			$html[] = RepositoryUtilities::build_toolbar($toolbar_data);
@@ -49,25 +49,25 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 			$navigation[] = '<div style="width=30%;text-align:left;float:left;">';
 			if (!$first)
 			{
-				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => 0)).'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'first.png" alt="'.Translation :: get_lang('First').'"/></a>';
-				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => $slideshow_index -1)).'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'prev.png" alt="'.Translation :: get_lang('Previous').'"/></a>';
+				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => 0)).'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'first.png" alt="'.Translation :: get('First').'"/></a>';
+				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => $slideshow_index -1)).'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'prev.png" alt="'.Translation :: get('Previous').'"/></a>';
 			}
 			else
 			{
-				$navigation[] = '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'first_na.png" alt="'.Translation :: get_lang('First').'"/>';
-				$navigation[] = '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'prev_na.png" alt="'.Translation :: get_lang('Previous').'"/>';
+				$navigation[] = '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'first_na.png" alt="'.Translation :: get('First').'"/>';
+				$navigation[] = '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'prev_na.png" alt="'.Translation :: get('Previous').'"/>';
 			}
 			$navigation[] = '</div>';
 			$navigation[] = '<div style="width=30%;text-align:right;float:right;">';
 			if (!$last)
 			{
-				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => $slideshow_index +1)).'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'next.png" alt="'.Translation :: get_lang('Next').'"/></a>';
-				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => count($publications) - 1)).'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'last.png" alt="'.Translation :: get_lang('Last').'"/></a>';
+				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => $slideshow_index +1)).'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'next.png" alt="'.Translation :: get('Next').'"/></a>';
+				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => count($publications) - 1)).'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'last.png" alt="'.Translation :: get('Last').'"/></a>';
 			}
 			else
 			{
-				$navigation[] = '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'next_na.png" alt="'.Translation :: get_lang('Next').'"/>';
-				$navigation[] = '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'last_na.png" alt="'.Translation :: get_lang('Last').'"/>';
+				$navigation[] = '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'next_na.png" alt="'.Translation :: get('Next').'"/>';
+				$navigation[] = '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'last_na.png" alt="'.Translation :: get('Last').'"/>';
 
 			}
 			$navigation[] = '</div>';

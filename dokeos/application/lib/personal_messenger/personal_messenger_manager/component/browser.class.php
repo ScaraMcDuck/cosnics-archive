@@ -29,7 +29,7 @@ class PersonalMessengerBrowserComponent extends PersonalMessengerComponent
 		$output = $this->get_publications_html();
 		
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('MyPersonalMessenger'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('MyPersonalMessenger'));
 		
 		$this->display_header($breadcrumbs);
 		echo $output;

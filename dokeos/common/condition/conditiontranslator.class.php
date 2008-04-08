@@ -15,7 +15,8 @@ class ConditionTranslator
 	private $prefix_properties;
 	private $parameters;
 	private $strings;
-
+	
+	// TODO: Wouldn't it be more logical to use the tostring method of the conditions to do the actual translating ?
     function ConditionTranslator($data_manager, $parameters, $prefix_properties = false)
     {
     	$this->data_manager = $data_manager;

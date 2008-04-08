@@ -106,7 +106,7 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 	 */
 	function build_FCKeditor()
 	{
-		global $language_interface, $_uid;
+		global $language_interface;
 		if(! FCKeditor :: IsCompatible())
 		{
 			return parent::toHTML();
@@ -121,11 +121,11 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 			$editor_lang = 'en';
 		}
 		$name = $this->getAttribute('name');
-		$result []= ResourceManager :: get_instance()->get_resource_html(Path :: get_path(WEB_PLUGIN_PATH).'fckeditor/fckeditor.js');
+		$result []= ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH).'fckeditor/fckeditor.js');
 		$result []= '<script type="text/javascript">';
 		$result []= "\n/* <![CDATA[ */\n";
 		$result []= 'var oFCKeditor = new FCKeditor( \''.$name.'\' ) ;';
-		$result []= 'oFCKeditor.BasePath = "'.Path :: get_path(WEB_PATH).'plugin/fckeditor/";';
+		$result []= 'oFCKeditor.BasePath = "'.Path :: get(WEB_PATH).'plugin/fckeditor/";';
 		$result []= 'oFCKeditor.Width = 650;';
 		$result []= 'oFCKeditor.Height = '. ($this->fullPage ? '500' : '150').';';
 		$result []= 'oFCKeditor.Config[ "FullPage" ] = '. ($this->fullPage ? 'true' : 'false').';';
@@ -136,8 +136,8 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 		$result []= "\n/* ]]> */\n";
 		$result []= '</script>';
 		$result []= '<noscript>'.parent :: toHTML().'</noscript>';
-		$result []= '<small><a href="#" onclick="MyWindow=window.open('."'".Path :: get_path(WEB_LIB_PATH)."html/allowed_html_tags.php?fullpage=". ($this->fullPage ? '1' : '0')."','MyWindow','toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=500,height=600,left=200,top=20'".'); return false;">'.Translation :: get_lang('AllowedHTMLTags').'</a></small>';
-		@mkdir(Path :: get_path(SYS_PATH).'files/fckeditor/'.$_uid.'/');
+		$result []= '<small><a href="#" onclick="MyWindow=window.open('."'".Path :: get(WEB_LIB_PATH)."html/allowed_html_tags.php?fullpage=". ($this->fullPage ? '1' : '0')."','MyWindow','toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=500,height=600,left=200,top=20'".'); return false;">'.Translation :: get('AllowedHTMLTags').'</a></small>';
+		@mkdir(Path :: get(SYS_PATH).'files/fckeditor/'. PlatformSession :: get_user_id().'/');
 		return implode("\n",$result);
 	}
 }

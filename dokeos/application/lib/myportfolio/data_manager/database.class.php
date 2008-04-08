@@ -104,10 +104,10 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			$props = array ();
 			$props['userid']=$user->get_user_id();
 			//$props['userid']=$user;
-			$props['title']=Translation :: get_lang("my_portfolio");
+			$props['title']=Translation :: get("my_portfolio");
 			$this->connection->loadModule('Extended');
 			$this->connection->extended->autoExecute($this->get_table_name('treeitem'), $props, MDB2_AUTOQUERY_INSERT);
-			$query = 'SELECT * FROM '.$this->escape_table_name('treeitem').' WHERE '. $this->escape_column_name('title').' ="'.Translation :: get_lang("my_portfolio").'" AND '.$this->escape_column_name('userid').'=?';
+			$query = 'SELECT * FROM '.$this->escape_table_name('treeitem').' WHERE '. $this->escape_column_name('title').' ="'.Translation :: get("my_portfolio").'" AND '.$this->escape_column_name('userid').'=?';
 			$res = $this->limitQuery($query, 1,null, array ($user->get_user_id()));
 			//$res = $this->limitQuery($query, 1,null, array ($user));
 			$result=$res->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -359,7 +359,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (PortfolioPublication :: get_default_property_names() as $prop)
@@ -512,7 +512,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			$info->set_publication_date($publication->get_published());
 			$info->set_application('Portfolio');
 			//TODO: i8n location string
-			$info->set_location(Translation :: get_lang('List'));
+			$info->set_location(Translation :: get('List'));
 			$info->set_url('index_myportfolio.php?go=view&portfolio='.$publication->get_id());
 			$info->set_publication_object_id($publication->get_portfolio());
 
@@ -540,7 +540,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$info->set_publication_date($publication->get_published());
 		$info->set_application('Portfolio');
 		//TODO: i8n location string
-		$info->set_location(Translation :: get_lang('List'));
+		$info->set_location(Translation :: get('List'));
 		$info->set_url('index_myportfolio.php?go=view&portfolio='.$publication->get_id());
 		$info->set_publication_object_id($publication->get_portfolio());
 

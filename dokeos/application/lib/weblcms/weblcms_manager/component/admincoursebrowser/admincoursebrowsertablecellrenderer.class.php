@@ -51,19 +51,19 @@ class AdminCourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_course_viewing_url($course),
-			'label' => Translation :: get_lang('View'),
+			'label' => Translation :: get('View'),
 			'img' => $this->browser->get_path(WEB_IMG_PATH).'home_small.gif'
 		);
 		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_course_editing_url($course),
-			'label' => Translation :: get_lang('Edit'),
+			'label' => Translation :: get('Edit'),
 			'img' => $this->browser->get_path(WEB_IMG_PATH).'edit.gif'
 		);
 		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_course_maintenance_url($course),
-			'label' => Translation :: get_lang('Maintenance'),
+			'label' => Translation :: get('Maintenance'),
 			'img' => $this->browser->get_path(WEB_IMG_PATH).'maintenance_tool_small.gif'
 		);
 		

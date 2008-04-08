@@ -77,7 +77,7 @@ class WeekCalendar extends CalendarTable
 		for($day = 0; $day < 7; $day++)
 		{
 			$week_day = strtotime('+'.$day.' days',$first_day);
-			$this->setCellContents(0,$day+1,Translation :: get_lang(date('l',$week_day).'Long').'<br/>'.date('Y-m-d',$week_day));
+			$this->setCellContents(0,$day+1,Translation :: get(date('l',$week_day).'Long').'<br/>'.date('Y-m-d',$week_day));
 			for($hour = 0; $hour < 24; $hour += $this->hour_step)
 			{
 				$class = array();
@@ -139,9 +139,9 @@ class WeekCalendar extends CalendarTable
 		$navigation->updateCellAttributes(0,0,'style="text-align: left;"');
 		$navigation->updateCellAttributes(0,1,'style="text-align: center;"');
 		$navigation->updateCellAttributes(0,2,'style="text-align: right;"');
-		$navigation->setCellContents(0,0,'<a href="'.str_replace('-TIME-',$prev,$url_format).'"><img src="'.Path :: get_path(WEB_IMG_PATH).'prev.png" style="vertical-align: middle;" alt="&lt;&lt;"/></a> ');
-		$navigation->setCellContents(0,1,htmlentities(Translation :: get_lang('Week')).' '.$week_number.' : '.date('l d M Y',$this->get_start_time()).' - '.date('l d M Y',strtotime('+6 Days',$this->get_start_time())));
-		$navigation->setCellContents(0,2,' <a href="'.str_replace('-TIME-',$next,$url_format).'"><img src="'.Path :: get_path(WEB_IMG_PATH).'next.png" style="vertical-align: middle;" alt="&gt;&gt;"/></a> ');
+		$navigation->setCellContents(0,0,'<a href="'.str_replace('-TIME-',$prev,$url_format).'"><img src="'.Path :: get(WEB_IMG_PATH).'prev.png" style="vertical-align: middle;" alt="&lt;&lt;"/></a> ');
+		$navigation->setCellContents(0,1,htmlentities(Translation :: get('Week')).' '.$week_number.' : '.date('l d M Y',$this->get_start_time()).' - '.date('l d M Y',strtotime('+6 Days',$this->get_start_time())));
+		$navigation->setCellContents(0,2,' <a href="'.str_replace('-TIME-',$next,$url_format).'"><img src="'.Path :: get(WEB_IMG_PATH).'next.png" style="vertical-align: middle;" alt="&gt;&gt;"/></a> ');
 		$this->navigation_html = $navigation->toHtml();
 	}
 	/**

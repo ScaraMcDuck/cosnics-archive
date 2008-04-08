@@ -31,13 +31,13 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 			//creation publication feedback object
 			$publication_feedback= new LearningObjectPublicationFeedback(null, $feedback, $this->browser->get_course_id(), $publication->get_tool().'_feedback', $this->browser->get_publication_id(),$this->browser->get_user_id(), time(), 0, 0);
 			$publication_feedback->create();
-			$html[] = Display::display_normal_message(Translation :: get_lang('FeedbackAdded'),true);
+			$html[] = Display::display_normal_message(Translation :: get('FeedbackAdded'),true);
 		}
 		
-		$html[] = Translation :: get_lang('LearningObjectPublicationDetails');
+		$html[] = Translation :: get('LearningObjectPublicationDetails');
 		$html[] = $this->render_publication($publication);
 		$html[] = $this->render_publication_feedback($publication);
-		$html[] = '<div class="title">'.Translation :: get_lang('LearningObjectPublicationAddFeedback').'</div>';
+		$html[] = '<div class="title">'.Translation :: get('LearningObjectPublicationAddFeedback').'</div>';
 		$html[] = $form->toHtml();
 		//$html[] = $pub->as_html();
 		return implode("\n", $html);
@@ -61,7 +61,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		{
 			$icon_suffix = '_new';
 		}
-		$html[] = '<div class="learning_object" style="background-image: url(' . Path :: get_path(WEB_IMG_PATH).$publication->get_learning_object()->get_icon_name().$icon_suffix.'.gif);">';
+		$html[] = '<div class="learning_object" style="background-image: url(' . Path :: get(WEB_IMG_PATH).$publication->get_learning_object()->get_icon_name().$icon_suffix.'.gif);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);
 		$html[] = '</div>';
@@ -91,7 +91,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		
 		if(count($publication_feedback_array) > 0)
 		{
-			$html[] = Translation :: get_lang('LearningObjectPublicationListFeedback');
+			$html[] = Translation :: get('LearningObjectPublicationListFeedback');
 			$renderer = new ListPublicationFeedbackListRenderer($this->browser,$publication_feedback_array);
 			$html[] = $renderer->as_html();
 		}

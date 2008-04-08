@@ -15,7 +15,7 @@ class ProfilerPublisherComponent extends ProfilerComponent
 	{
 		
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('PublishProfile'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('PublishProfile'));
 		
 		$publisher = $this->get_publisher_html();
 		

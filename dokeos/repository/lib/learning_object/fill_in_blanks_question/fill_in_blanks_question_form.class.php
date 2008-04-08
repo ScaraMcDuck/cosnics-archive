@@ -19,8 +19,8 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 	}
 	private function build_fill_in_blanks_form()
 	{
-		$this->addElement('textarea',FillInBlanksQuestion :: PROPERTY_ANSWER, Translation :: get_lang('Answer'),'rows="5" cols="60"');
-		$this->addRule(FillInBlanksQuestion :: PROPERTY_ANSWER,Translation :: get_lang('ThisFieldIsRequired'),'required');
+		$this->addElement('textarea',FillInBlanksQuestion :: PROPERTY_ANSWER, Translation :: get('Answer'),'rows="5" cols="60"');
+		$this->addRule(FillInBlanksQuestion :: PROPERTY_ANSWER,Translation :: get('ThisFieldIsRequired'),'required');
 	}
 	function setDefaults($defaults = array ())
 	{

@@ -80,7 +80,7 @@ class GroupTool extends Tool
 							$user = $udm->retrieve_user($_GET[Weblcms :: PARAM_USERS]);
 							$group = $this->get_parent()->get_group();
 							$group->subscribe_users($user);
-							$html[] = Display::display_normal_message(Translation :: get_lang('UserSubscribed'),true);
+							$html[] = Display::display_normal_message(Translation :: get('UserSubscribed'),true);
 						}
 						$table = new GroupUnsubscribedUserBrowserTable($this->get_parent(), null, array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id()),$this->search_form->get_condition());
 						$html[] = $table->as_html();
@@ -92,14 +92,14 @@ class GroupTool extends Tool
 						$group = $this->get_parent()->get_group();
 						$group->unsubscribe_users($this->get_user());
 						$this->display_header();
-						Display::display_normal_message(Translation :: get_lang('UserUnSubscribed'));
+						Display::display_normal_message(Translation :: get('UserUnSubscribed'));
 						$this->display_footer();
 						break;
 					// User self registers in group
 					case self :: ACTION_USER_SELF_SUBSCRIBE :
 						$group = $this->get_parent()->get_group();
 						$group->subscribe_users($this->get_user());
-						$message = Display::display_normal_message(Translation :: get_lang('UserSubscribed'),true);
+						$message = Display::display_normal_message(Translation :: get('UserSubscribed'),true);
 					default :
 						$group = $this->get_parent()->get_group();
 						$html = array ();
@@ -108,7 +108,7 @@ class GroupTool extends Tool
 						{
 							$html[] = $message;
 						}
-						$html[] = Translation :: get_lang('Members').': '.$group->count_members().' / '.$group->get_max_number_of_members();
+						$html[] = Translation :: get('Members').': '.$group->count_members().' / '.$group->get_max_number_of_members();
 						$html[] = '<div style="clear: both;">&nbsp;</div>';
 						$html[] = $this->search_form->display();
 						if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
@@ -120,7 +120,7 @@ class GroupTool extends Tool
 							$udm = UsersDataManager :: get_instance();
 							$user = $udm->retrieve_user($_GET[Weblcms :: PARAM_USERS]);
 							$group->unsubscribe_users($user);
-							$html[] = Display::display_normal_message(Translation :: get_lang('UserUnsubscribed'),true);
+							$html[] = Display::display_normal_message(Translation :: get('UserUnsubscribed'),true);
 						}
 						$table = new GroupSubscribedUserBrowserTable($this->get_parent(), null, array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id()),$this->search_form->get_condition());
 						$html[] = $table->as_html();
@@ -142,7 +142,7 @@ class GroupTool extends Tool
 					if ($form->validate())
 					{
 						$form->create_group();
-						$this->get_parent()->redirect($this->get_url(), Translation :: get_lang('GroupCreated'));
+						$this->get_parent()->redirect($this->get_url(), Translation :: get('GroupCreated'));
 					}
 					else
 					{
@@ -153,7 +153,7 @@ class GroupTool extends Tool
 					break;
 				// Display all available groups
 				default :
-					$toolbar_data[] = array ('href' => $this->get_url($param_add_group), 'label' => Translation :: get_lang('Create'), 'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'group.gif', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+					$toolbar_data[] = array ('href' => $this->get_url($param_add_group), 'label' => Translation :: get('Create'), 'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'group.gif', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 					$this->display_header();
 					if($this->is_allowed(EDIT_RIGHT))
 					{
@@ -183,7 +183,7 @@ class GroupTool extends Tool
 	{
 		$toolbar_data = array ();
 
-		$toolbar_data[] = array ('href' => $this->get_parent()->get_url(array (GroupTool :: PARAM_GROUP_ACTION => GroupTool :: ACTION_SUBSCRIBE)), 'label' => Translation :: get_lang('SubscribeUsers'), 'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'user-subscribe.gif', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+		$toolbar_data[] = array ('href' => $this->get_parent()->get_url(array (GroupTool :: PARAM_GROUP_ACTION => GroupTool :: ACTION_SUBSCRIBE)), 'label' => Translation :: get('SubscribeUsers'), 'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'user-subscribe.gif', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
@@ -196,7 +196,7 @@ class GroupTool extends Tool
 	{
 		$toolbar_data = array ();
 
-		$toolbar_data[] = array ('href' => $this->get_parent()->get_url(array (GroupTool :: PARAM_GROUP_ACTION => GroupTool :: ACTION_UNSUBSCRIBE)), 'label' => Translation :: get_lang('UnsubscribeUsers'), 'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'user-unsubscribe.gif', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+		$toolbar_data[] = array ('href' => $this->get_parent()->get_url(array (GroupTool :: PARAM_GROUP_ACTION => GroupTool :: ACTION_UNSUBSCRIBE)), 'label' => Translation :: get('UnsubscribeUsers'), 'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'user-unsubscribe.gif', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}

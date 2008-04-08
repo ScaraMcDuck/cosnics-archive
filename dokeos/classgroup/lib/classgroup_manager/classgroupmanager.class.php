@@ -128,13 +128,13 @@ require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
 	 */
 	function display_header($breadcrumbs = array (), $display_search = false)
 	{
-		global $interbredcrump;
+		global $interbreadcrumb;
 		if (isset ($this->breadcrumbs) && is_array($this->breadcrumbs))
 		{
 			$breadcrumbs = array_merge($this->breadcrumbs, $breadcrumbs);
 		}
 		$current_crumb = array_pop($breadcrumbs);
-		$interbredcrump = $breadcrumbs;
+		$interbreadcrumb = $breadcrumbs;
 		$title = $current_crumb['name'];
 		$title_short = $title;
 		if (strlen($title_short) > 53)
@@ -180,10 +180,6 @@ require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
 	{
 		echo '</div>';
 		echo '<div class="clear">&nbsp;</div>';
-		// TODO: Find out why we need to reconnect here.
-		global $dbHost, $dbLogin, $dbPass, $mainDbName;
-		mysql_connect($dbHost, $dbLogin, $dbPass);
-		mysql_select_db($mainDbName);
 		Display :: display_footer();
 	}
 	
@@ -399,7 +395,7 @@ require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
 	 */
 	function get_web_code_path()
 	{
-		return Path :: get_path(WEB_IMG_PATH);
+		return Path :: get(WEB_IMG_PATH);
 	}
 	/**
 	 * Wrapper for api_not_allowed().
@@ -412,9 +408,9 @@ require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => Translation :: get_lang('ClassGroupList'), 'action' => 'list', 'url' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)));
-		$links[] = array('name' => Translation :: get_lang('ClassGroupCreate'), 'action' => 'add', 'url' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_CREATE_CLASSGROUP)));
-		return array('application' => array('name' => Translation :: get_lang('ClassGroups'), 'class' => 'classgroups'), 'links' => $links, 'search' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)));
+		$links[] = array('name' => Translation :: get('ClassGroupList'), 'action' => 'list', 'url' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)));
+		$links[] = array('name' => Translation :: get('ClassGroupCreate'), 'action' => 'add', 'url' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_CREATE_CLASSGROUP)));
+		return array('application' => array('name' => Translation :: get('ClassGroups'), 'class' => 'classgroups'), 'links' => $links, 'search' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)));
 	}
 	
 	public function get_link($parameters = array (), $encode = false)

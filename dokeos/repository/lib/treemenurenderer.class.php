@@ -74,7 +74,7 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 			return $html;
 		}
 		self :: $initialized = true;
-		return ResourceManager :: get_instance()->get_resource_html(Path :: get_path(WEB_LIB_PATH).'javascript/treemenu.js')
+		return ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH).'javascript/treemenu.js')
 			. $html;
 	}
 }

@@ -18,7 +18,7 @@ class UserManagerAccountComponent extends UserManagerComponent
 		$this_section='myaccount';
 
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('ModifyProfile'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('ModifyProfile'));
 
 		$user = $this->get_user();
 
@@ -27,7 +27,7 @@ class UserManagerAccountComponent extends UserManagerComponent
 		if($form->validate())
 		{
 			$success = $form->update_account();
-			$this->redirect('url', Translation :: get_lang($success ? 'UserProfileUpdated' : 'UserProfileNotUpdated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_ACCOUNT));
+			$this->redirect('url', Translation :: get($success ? 'UserProfileUpdated' : 'UserProfileNotUpdated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_ACCOUNT));
 		}
 		else
 		{

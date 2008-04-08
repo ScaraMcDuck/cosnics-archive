@@ -136,13 +136,13 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	 */
 	function display_header($breadcrumbs = array ())
 	{
-		global $interbredcrump;
+		global $interbreadcrumb;
 		if (isset ($this->breadcrumbs) && is_array($this->breadcrumbs))
 		{
 			$breadcrumbs = array_merge($this->breadcrumbs, $breadcrumbs);
 		}
 		$current_crumb = array_pop($breadcrumbs);
-		$interbredcrump = $breadcrumbs;
+		$interbreadcrumb = $breadcrumbs;
 
 		$title = $current_crumb['name'];
 		$title_short = $title;
@@ -174,7 +174,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	{
 		$extra_items = array ();
 		$create = array ();
-		$create['title'] = Translation :: get_lang('Send');
+		$create['title'] = Translation :: get('Send');
 		$create['url'] = $this->get_personal_message_creation_url();
 		$create['class'] = 'create';
 		$extra_items[] = $create;
@@ -215,10 +215,6 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		echo '<div class="clear">&nbsp;</div>';
 		echo '</div>';
 		echo '<div class="clear">&nbsp;</div>';
-		// TODO: Find out why we need to reconnect here.
-		global $dbHost, $dbLogin, $dbPass, $mainDbName;
-		mysql_connect($dbHost, $dbLogin, $dbPass);
-		mysql_select_db($mainDbName);
 		Display :: display_footer();
 	}
 
@@ -376,7 +372,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	 */
 	function get_path($path_type)
 	{
-		return Path :: get_path($path_type);
+		return Path :: get($path_type);
 	}
 	/**
 	 * Wrapper for Display :: display_not_allowed();.
@@ -393,7 +389,7 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array ('name' => Translation :: get_lang('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
+		$links[] = array ('name' => Translation :: get('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
 		return array ('application' => array ('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links);
 	}
 

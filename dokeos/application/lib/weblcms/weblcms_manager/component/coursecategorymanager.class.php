@@ -26,9 +26,9 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$breadcrumbs = array();
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('CourseCategoryManager'));
+			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('CourseCategoryManager'));
 			$this->display_header($breadcrumbs);
-			Display :: display_error_message(Translation :: get_lang("NotAllowed"));
+			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}
@@ -58,7 +58,7 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 	
 	function show_course_category_list()
 	{
-		$this->display_page_header(Translation :: get_lang('CourseCategoryManager'));
+		$this->display_page_header(Translation :: get('CourseCategoryManager'));
 		$this->display_course_categories();
 		$this->display_footer();
 	}
@@ -98,7 +98,7 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 			// $search_url = $this->get_url();
 			$search_url = '#';
 			$search = array ();
-			$search['title'] = Translation :: get_lang('SearchResults');
+			$search['title'] = Translation :: get('SearchResults');
 			$search['url'] = $search_url;
 			$search['class'] = 'search_results';
 			$extra_items[] = $search;
@@ -138,13 +138,13 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 		if($form->validate())
 		{
 			$success = $form->create_course_category();
-			$this->redirect(null, Translation :: get_lang($success ? 'CourseCategoryAdded' : 'CourseCategoryNotAdded'), ($success ? false : true));
+			$this->redirect(null, Translation :: get($success ? 'CourseCategoryAdded' : 'CourseCategoryNotAdded'), ($success ? false : true));
 		}
 		else
 		{
-			$this->display_page_header(Translation :: get_lang('CreateCourseCategory'));
+			$this->display_page_header(Translation :: get('CreateCourseCategory'));
 			$form->display();
-			echo '<h3>'. Translation :: get_lang('CourseCategoryList') .'</h3>';
+			echo '<h3>'. Translation :: get('CourseCategoryList') .'</h3>';
 			$this->display_course_categories();
 			$this->display_footer();
 		}
@@ -160,13 +160,13 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 		if($form->validate())
 		{
 			$success = $form->update_course_category();
-			$this->redirect(null, Translation :: get_lang($success ? 'CourseCategoryUpdated' : 'CourseCategoryNotUpdated'), ($success ? false : true), array(Weblcms :: PARAM_COURSE_CATEGORY_ID => $course_category_code));
+			$this->redirect(null, Translation :: get($success ? 'CourseCategoryUpdated' : 'CourseCategoryNotUpdated'), ($success ? false : true), array(Weblcms :: PARAM_COURSE_CATEGORY_ID => $course_category_code));
 		}
 		else
 		{
-			$this->display_page_header(Translation :: get_lang('UpdateCourseCategory'));
+			$this->display_page_header(Translation :: get('UpdateCourseCategory'));
 			$form->display();
-			echo '<h3>'. Translation :: get_lang('CourseCategoryList') .'</h3>';
+			echo '<h3>'. Translation :: get('CourseCategoryList') .'</h3>';
 			$this->display_course_categories();
 			$this->display_footer();
 		}
@@ -178,7 +178,7 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 		$coursecategory = $this->retrieve_course_category($course_category_id);
 		
 		$success = $coursecategory->delete();
-		$this->redirect(null, Translation :: get_lang($success ? 'CourseCategoryDeleted' : 'CourseCategoryNotDeleted'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'view'));
+		$this->redirect(null, Translation :: get($success ? 'CourseCategoryDeleted' : 'CourseCategoryNotDeleted'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'view'));
 	}
 	
 	function get_course_category_manager_modification_links()
@@ -187,7 +187,7 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 			
 		$toolbar_data[] = array(
 			'href' => $this->get_course_category_add_url(),
-			'label' => Translation :: get_lang('CreateCourseCategory'),
+			'label' => Translation :: get('CreateCourseCategory'),
 			'img' => $this->get_path(WEB_IMG_PATH).'folder.gif',
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);

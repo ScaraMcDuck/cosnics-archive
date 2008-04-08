@@ -16,9 +16,9 @@ class UserManagerImporterComponent extends UserManagerComponent
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$breadcrumbs = array();
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('UserCreateCsv'));
+			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('UserCreateCsv'));
 			$this->display_header($breadcrumbs);
-			Display :: display_error_message(Translation :: get_lang("NotAllowed"));
+			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}
@@ -26,12 +26,12 @@ class UserManagerImporterComponent extends UserManagerComponent
 		$form = new UserImportForm(UserImportForm :: TYPE_IMPORT, $this->get_url());
 		
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('UserCreateCsv'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('UserCreateCsv'));
 		
 		if($form->validate())
 		{
 			$success = $form->import_users();
-			$this->redirect('url', Translation :: get_lang($success ? 'UserCreatedCsv' : 'UserNotCreatedCsv'). '<br />' .$form->get_failed_csv(), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
+			$this->redirect('url', Translation :: get($success ? 'UserCreatedCsv' : 'UserNotCreatedCsv'). '<br />' .$form->get_failed_csv(), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
 		}
 		else
 		{
@@ -45,7 +45,7 @@ class UserManagerImporterComponent extends UserManagerComponent
 	function display_extra_information()
 	{
 		$html = array();
-		$html[] = '<p>'. Translation :: get_lang('CSVMustLookLike') .' ('. Translation :: get_lang('MandatoryFields') .')</p>';
+		$html[] = '<p>'. Translation :: get('CSVMustLookLike') .' ('. Translation :: get('MandatoryFields') .')</p>';
 		$html[] = '<blockquote>';
 		$html[] = '<pre>';
 		$html[] = '<b>LastName</b>;<b>FirstName</b>;<b>UserName</b>;<b>Password</b>;<b>Email</b>;<b>Language</b>;<b>Status</b>';
@@ -53,7 +53,7 @@ class UserManagerImporterComponent extends UserManagerComponent
 		$html[] = '</pre>';
 		$html[] = '</blockquote>';
 		
-		$html[] = '<p>'. Translation :: get_lang('XMLMustLookLike') .' ('. Translation :: get_lang('MandatoryFields') .')</p>';
+		$html[] = '<p>'. Translation :: get('XMLMustLookLike') .' ('. Translation :: get('MandatoryFields') .')</p>';
 		$html[] = '<blockquote>';
 		$html[] = '<pre>';
 		$html[] = '&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;';

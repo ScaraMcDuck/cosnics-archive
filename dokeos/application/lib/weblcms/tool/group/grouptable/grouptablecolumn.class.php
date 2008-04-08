@@ -31,7 +31,7 @@ class GroupTableColumn
 		if ($contains_group_property)
 		{
 			$this->group_property = $property_name_or_column_title;
-			$this->title = Translation :: get_lang(ucfirst($this->group_property));
+			$this->title = Translation :: get(ucfirst($this->group_property));
 			$this->sortable = true;
 		}
 		else

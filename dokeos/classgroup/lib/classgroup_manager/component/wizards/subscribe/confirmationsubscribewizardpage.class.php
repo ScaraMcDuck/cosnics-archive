@@ -35,10 +35,10 @@ class ConfirmationSubscribeWizardPage extends SubscribeWizardPage
 	function buildForm()
 	{
 		$this->addElement('static','','',$this->message);
-		$this->addElement('checkbox', 'confirm',' ', Translation :: get_lang('Confirm'));
-		$this->addRule('confirm',Translation :: get_lang('ThisFieldIsRequired'),'required');
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get_lang('Previous'));
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
+		$this->addElement('checkbox', 'confirm',' ', Translation :: get('Confirm'));
+		$this->addRule('confirm',Translation :: get('ThisFieldIsRequired'),'required');
+		$prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
+		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 		$this->_formBuilt = true;

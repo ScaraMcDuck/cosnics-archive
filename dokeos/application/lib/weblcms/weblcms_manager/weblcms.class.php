@@ -315,7 +315,7 @@ class Weblcms extends WebApplication
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		$cats = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($course, $tool);
 		$root = array ();
-		$root['obj'] = new LearningObjectPublicationCategory(0, Translation :: get_lang('RootCategory'), $course->get_code, $tool, 0);
+		$root['obj'] = new LearningObjectPublicationCategory(0, Translation :: get('RootCategory'), $course->get_code, $tool, 0);
 		$root['sub'] = $cats;
 		$tree = array ();
 		$tree[] = $root;
@@ -369,13 +369,13 @@ class Weblcms extends WebApplication
 	 */
 	function display_header($breadcrumbs = array (), $display_search = false)
 	{
-		global $interbredcrump, $htmlHeadXtra;
+		global $interbreadcrumb, $htmlHeadXtra;
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		$course = $this->get_parameter(self :: PARAM_COURSE);
 		$action = $this->get_parameter(self :: PARAM_ACTION);
 
 		$current_crumb = array_pop($breadcrumbs);
-		$interbredcrump = $breadcrumbs;
+		$interbreadcrumb = $breadcrumbs;
 		if (isset ($this->tool_class))
 		{
 			$tool = str_replace('_tool', '', Tool :: class_to_type($this->tool_class));
@@ -398,7 +398,7 @@ class Weblcms extends WebApplication
 			$tools = array ();
 			foreach ($this->get_registered_tools() as $t)
 			{
-				$tools[$t->name] = htmlentities(Translation :: get_lang(Tool :: type_to_class($t->name).'Title'));
+				$tools[$t->name] = htmlentities(Translation :: get(Tool :: type_to_class($t->name).'Title'));
 			}
 			asort($tools);
 			foreach ($tools as $tool => $title)
@@ -407,7 +407,7 @@ class Weblcms extends WebApplication
 				echo '<option value="'.$tool.'"'. ($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($title).'</option>';
 			}
 			echo '</select></form></div>';
-			Display :: display_tool_title(htmlentities(Translation :: get_lang($this->tool_class.'Title')));
+			Display :: display_tool_title(htmlentities(Translation :: get($this->tool_class.'Title')));
 		}
 		else
 		{
@@ -469,10 +469,6 @@ class Weblcms extends WebApplication
 	 */
 	function display_footer()
 	{
-		// TODO: Find out why we need to reconnect here.
-		global $dbHost, $dbLogin, $dbPass, $mainDbName;
-		mysql_connect($dbHost, $dbLogin, $dbPass);
-		mysql_select_db($mainDbName);
 		Display :: display_footer();
 	}
 
@@ -1057,7 +1053,7 @@ class Weblcms extends WebApplication
 	 */
 	function get_path($path_type)
 	{
-		return Path :: get_path($path_type);
+		return Path :: get($path_type);
 	}
 
 	/**
@@ -1171,11 +1167,11 @@ class Weblcms extends WebApplication
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => Translation :: get_lang('CourseCreate'), 'action' => 'add', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)));
-		$links[] = array('name' => Translation :: get_lang('CourseCreateCsv'), 'action' => 'import', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSES)));
-		$links[] = array('name' => Translation :: get_lang('CourseCategoryManagement'), 'action' => 'category', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_COURSE_CATEGORY_MANAGER)));
-		$links[] = array('name' => Translation :: get_lang('AddUserToCourseCsv'), 'action' => 'import', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSE_USERS)));
-		$links[] = array('name' => Translation :: get_lang('CourseList'), 'action' => 'list', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)));
+		$links[] = array('name' => Translation :: get('CourseCreate'), 'action' => 'add', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)));
+		$links[] = array('name' => Translation :: get('CourseCreateCsv'), 'action' => 'import', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSES)));
+		$links[] = array('name' => Translation :: get('CourseCategoryManagement'), 'action' => 'category', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_COURSE_CATEGORY_MANAGER)));
+		$links[] = array('name' => Translation :: get('AddUserToCourseCsv'), 'action' => 'import', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSE_USERS)));
+		$links[] = array('name' => Translation :: get('CourseList'), 'action' => 'list', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)));
 		return array('application' => array('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)));
 	}
 

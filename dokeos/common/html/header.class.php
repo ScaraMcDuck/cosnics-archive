@@ -41,8 +41,8 @@ class Header
 		$this->add_css_file_header($this->get_path(WEB_CSS_PATH) .'print.css','print');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery-1.2.1.min.js');
 		$this->add_link_header($this->get_path(WEB_PATH). 'index.php','top');
-		$this->add_link_header($this->get_path(WEB_PATH). 'index_weblcms.php','courses',htmlentities(Translation :: get_lang('OtherCourses')));
-		$this->add_link_header($this->get_path(WEB_PATH). 'index_user.php?go=account','account',htmlentities(Translation :: get_lang('ModifyProfile')));
+		$this->add_link_header($this->get_path(WEB_PATH). 'index_weblcms.php','courses',htmlentities(Translation :: get('OtherCourses')));
+		$this->add_link_header($this->get_path(WEB_PATH). 'index_user.php?go=account','account',htmlentities(Translation :: get('ModifyProfile')));
 		$this->add_link_header('http://www.dokeos.com/documentation.php','help');
 		$this->add_html_header('<link rel="shortcut icon" href="'. $this->get_path(WEB_PATH). 'favicon.ico" type="image/x-icon" />');
 		$this->add_html_header('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />');
@@ -127,7 +127,7 @@ class Header
 	
 	function get_path($path_type)
 	{
-		return Path :: get_path($path_type);
+		return Path :: get($path_type);
 	}
 }
 ?>

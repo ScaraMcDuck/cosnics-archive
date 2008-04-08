@@ -32,18 +32,18 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 			}
 			elseif (!$object->is_latest_version())
 			{
-				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get_lang('EditNotAllowed'), $object->get_parent_id(), true);
+				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get('EditNotAllowed'), $object->get_parent_id(), true);
 			}
 			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $object, 'edit', 'post', $this->get_url(array (RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $id)));
 			if ($form->validate())
 			{
 				$success = $form->update_learning_object();
 				$category_id = $object->get_parent_id();
-				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get_lang($success == LearningObjectForm :: RESULT_SUCCESS ? 'ObjectUpdated' : 'ObjectUpdateFailed'), $category_id);
+				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get($success == LearningObjectForm :: RESULT_SUCCESS ? 'ObjectUpdated' : 'ObjectUpdateFailed'), $category_id);
 			}
 			else
 			{
-				$breadcrumbs = array(array('url' => $this->get_url(), 'name' => Translation :: get_lang('Edit')));
+				$breadcrumbs = array(array('url' => $this->get_url(), 'name' => Translation :: get('Edit')));
 				$this->display_header($breadcrumbs);
 				$form->display();
 				$this->display_footer();
@@ -51,7 +51,7 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get_lang('NoObjectSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
 		}
 	}
 }

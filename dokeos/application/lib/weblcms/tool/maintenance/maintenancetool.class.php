@@ -19,7 +19,7 @@ class MaintenanceTool extends RepositoryTool
 		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
 		{
 			$this->display_header();
-			Display :: display_error_message(Translation :: get_lang("NotAllowed"));
+			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}
