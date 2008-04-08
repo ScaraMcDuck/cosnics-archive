@@ -138,7 +138,7 @@ class Dokeos185Class extends ImportClass
 	
 	function is_valid_class()
 	{
-		if(!$this->get_name() || !$this->get_code())
+		if(!$this->get_name())
 		{
 			self :: $mgdm->add_failed_element($this->get_id(),
 				'dokeos_main.class');
@@ -153,7 +153,12 @@ class Dokeos185Class extends ImportClass
 		$lcms_class = new ClassGroup();
 		
 		$lcms_class->set_name($this->get_name());
-		$lcms_class->set_description($this->get_code());
+		
+		if($this->get_code())
+			$lcms_class->set_description($this->get_code());
+		else
+			$lcms_class->set_description($this->get_name());
+			
 		$lcms_class->set_sort(self :: $mgdm->get_next_position('classgroup_classgroup', 'sort'));
 		
 		//create course in database
