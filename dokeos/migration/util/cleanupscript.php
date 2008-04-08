@@ -1,8 +1,8 @@
 <?php
 
-require_once(dirname(__FILE__) . '/../common/configuration/configuration.class.php');
-ini_set('include_path',realpath(dirname(__FILE__).'/../plugin/pear'));
-require_once dirname(__FILE__).'/../common/global.inc.php';
+require_once(dirname(__FILE__) . '/../../common/configuration/configuration.class.php');
+ini_set('include_path',realpath(dirname(__FILE__).'/../../plugin/pear'));
+require_once dirname(__FILE__).'/../../common/global.inc.php';
 
 $conf = Configuration :: get_instance();
 $dsn = $conf->get_parameter('database', 'connection_string');

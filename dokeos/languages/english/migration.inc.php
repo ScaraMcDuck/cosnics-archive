@@ -121,7 +121,7 @@ $lang['migration']['Course_meta_title'] = "Courses metadata migration";
 $lang['migration']['Course_meta_Tools'] = "tool(s)";
 $lang['migration']['Course_meta_Descriptions'] = "description(s)";
 $lang['migration']['Course_meta_Settings'] = "setting(s)";
-$lang['migration']['Course_tool_intros'] = "setting(s)";
+$lang['migration']['Course_tool_intros'] = "tool intro(s)";
 $lang['migration']['Course_metadata'] = "metadata";
 
 //Announcements page

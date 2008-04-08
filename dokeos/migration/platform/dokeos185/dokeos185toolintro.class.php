@@ -103,14 +103,22 @@ class Dokeos185ToolIntro extends ImportToolIntro
 	function is_valid($array)
 	{
 		$course = $array['course'];
+		
+		if(!$this->get_intro_text())
+		{		 
+			self :: $mgdm->add_failed_element($this->get_id(),
+				$course->get_db_name() . '.toolintro');
+			return false;
+		}
+		return true;
 	}
 	
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
-
+		
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
-		$user_id = self :: $mgdm->get_owner($course);
+		$user_id = self :: $mgdm->get_owner($new_course_code);
 		
 		$lcms_tool_intro = new Description();
 		$lcms_tool_intro->set_title($this->get_intro_text());
@@ -145,10 +153,10 @@ class Dokeos185ToolIntro extends ImportToolIntro
 		
 		$lcms_tool_intro->set_owner_id($user_id);
 		$lcms_tool_intro->create();
-		/*
-		$publication = new LearningObjectPublication();
+		
+	   $publication = new LearningObjectPublication();
 			
-		$publication->set_learning_object($lcms_content);
+		$publication->set_learning_object($lcms_tool_intro);
 		$publication->set_course_id($new_course_code);
 		$publication->set_publisher_id($user_id);
 		$publication->set_tool('description');
@@ -166,7 +174,7 @@ class Dokeos185ToolIntro extends ImportToolIntro
 		
 		//create publication in database
 		$publication->create();
-		*/
+		
 		return $lcms_tool_intro;
 		
 	}
@@ -175,7 +183,7 @@ class Dokeos185ToolIntro extends ImportToolIntro
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		
-		$db = $parameters['course'];
+		$db = $parameters['course']->get_db_name();
 		$tablename = 'tool_intro';
 		$classname = 'Dokeos185ToolIntro';
 			
