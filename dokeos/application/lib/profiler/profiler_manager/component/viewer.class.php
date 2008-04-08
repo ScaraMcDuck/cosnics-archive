@@ -17,19 +17,17 @@ class ProfilerViewerComponent extends ProfilerComponent
 	 */
 	function run()
 	{
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('ViewProfile'));
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewProfile')));
 		
 		$id = $_GET[Profiler :: PARAM_PROFILE_ID];
 		
 		if ($id)
 		{
 			$this->publication = $this->retrieve_profile_publication($id);			
+			$trail->add(new Breadcrumb($this->get_url(),  $this->publication->get_publication_publisher()->get_username()));
 			
-			$breadcrumbs = array();
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('ViewProfile') . ': ' . $this->publication->get_publication_publisher()->get_username());
-			
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			echo $this->get_publication_as_html();
 			
 			$this->display_footer();

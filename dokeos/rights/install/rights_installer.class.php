@@ -3,20 +3,19 @@
  * @package application.weblcms
  */
 require_once dirname(__FILE__).'/../lib/rightsdatamanager.class.php';
-require_once Path :: get_library_path().'installer.class.php';
 /**
  *	This installer can be used to create the storage structure for the
  * weblcms application.
  */
-class RightsInstaller extends Installer
+class RightsInstaller
 {
 	private $rdm;
 	/**
 	 * Constructor
 	 */
-    function RightsInstaller($values)
+    function RightsInstaller()
     {
-    	$this->values = $values;
+    	$this->rdm = RightsDataManager :: get_instance();
     }
 	/**
 	 * Runs the install-script.
@@ -25,48 +24,89 @@ class RightsInstaller extends Installer
 	 */
 	function install()
 	{
-		$dir = dirname(__FILE__);
-		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
+		echo '<div class="object" style="padding: 15px 15px 15px 60px; background-image: url(../img/block_rights.png);">';
+		echo '<div class="title">'. Translation :: get('Rights') .'</div>';
+		echo '<div class="description">';
 		
-		foreach($files as $file)
+		$sqlfiles = array();
+		$dir = dirname(__FILE__);
+		$handle = opendir($dir);		
+		while (false !== ($type = readdir($handle)))
 		{
-			if ((substr($file, -3) == 'xml'))
+			$path = $dir.'/'.$type;
+			if (file_exists($path) && (substr($path, -3) == 'xml'))
 			{
-				if (!$this->create_storage_unit($file))
-				{
-					return array('success' => false, 'message' => $this->retrieve_message());
-				}
+				$this->parse_xml_file($path);
+			}
+			elseif (file_exists($path) && (substr($path, -3) == 'sql'))
+			{
+				$sqlfiles[] = $type;
 			}
 		}
+		for ($i = 0; $i < count($sqlfiles); $i++)
+		{
+			$this->parse_sql_file($dir , $sqlfiles[$i]);
+		}
+		closedir($handle);
 		
-		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
-		$this->add_message($success_message);
-		return array('success' => true, 'message' => $this->retrieve_message());
+		echo '<br /><span style="color: #008000; font-weight: bold;">'. Translation :: get('ApplicationSuccess') .'</span>';
+		echo '</div>';
+		echo '</div>';
 	}
-
+	
 	/**
-	 * Parses an XML file and sends the request to the database manager
-	 * @param String $path
+	 * Parses an sql file and sends the request to the database manager
+	 * @param String $directory
+	 * @param String $filename
 	 */
-	function create_storage_unit($path)
+	function parse_sql_file($directory, $sqlfilename)
 	{
-		$storage_unit_info = parent::parse_xml_file($path);
-		$dm = RightsDataManager :: get_instance();
-		$this->add_message(Translation :: get('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
-		if (!$dm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
+		$rdm = $this->rdm;
+		$path = $directory.'/'.$sqlfilename;
+		$filecontent = fread(fopen($path, 'r'), filesize($path));
+		$sqlstring = explode("\n", $filecontent);
+		echo 'Executing additional Rights SQL statement(s)<br />';flush();
+		foreach($sqlstring as $sqlstatement)
 		{
-			$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em></span>';
-			$this->add_message($error_message);
-			$this->add_message( Translation :: get('ApplicationInstallFailed'));
-			$this->add_message(Translation :: get('PlatformInstallFailed'));
-			
-			return false;
+			$rdm->ExecuteQuery($sqlstatement);
 		}
-		else
+		
+	}
+	
+	function parse_xml_file($path)
+	{
+		$doc = new DOMDocument();
+		$doc->load($path);
+		$object = $doc->getElementsByTagname('object')->item(0);
+		$name = $object->getAttribute('name');
+		$xml_properties = $doc->getElementsByTagname('property');
+		foreach($xml_properties as $index => $property)
 		{
-			return true;
+			 $property_info = array();
+			 $property_info['type'] = $property->getAttribute('type');
+			 $property_info['length'] = $property->getAttribute('length');
+			 $property_info['unsigned'] = $property->getAttribute('unsigned');
+			 $property_info['notnull'] = $property->getAttribute('notnull');
+			 $property_info['default'] = $property->getAttribute('default');
+			 $property_info['autoincrement'] = $property->getAttribute('autoincrement');
+			 $property_info['fixed'] = $property->getAttribute('fixed');
+			 $properties[$property->getAttribute('name')] = $property_info;
 		}
-
+		$xml_indexes = $doc->getElementsByTagname('index');
+		foreach($xml_indexes as $key => $index)
+		{
+			 $index_info = array();
+			 $index_info['type'] = $index->getAttribute('type');
+			 $index_properties = $index->getElementsByTagname('indexproperty');
+			 foreach($index_properties as $subkey => $index_property)
+			 {
+			 	$index_info['fields'][$index_property->getAttribute('name')] = array();
+			 }
+			 $indexes[$index->getAttribute('name')] = $index_info;
+		}
+		$rdm = $this->rdm;
+		echo 'Creating Rights Storage Unit: '.$name.'<br />';flush();
+		$rdm->create_storage_unit($name,$properties,$indexes);
 	}
 }
 ?>

@@ -4,11 +4,11 @@
  */
 require_once dirname(__FILE__).'/rightsmanagercomponent.class.php';
 require_once dirname(__FILE__).'/../rightsdatamanager.class.php';
-require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidator.class.php';
+require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/equalitycondition.class.php';
-require_once dirname(__FILE__).'/../../../common/condition/likecondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/patternmatchcondition.class.php';
 
 /**
  * A user manager provides some functionalities to the admin to manage
@@ -26,7 +26,6 @@ require_once dirname(__FILE__).'/../../../common/condition/likecondition.class.p
 	const PARAM_COMPONENT_ACTION = 'action';
 	
 	const ACTION_EDIT_RIGHTS = 'edit';
-	const ACTION_TEST = 'test';
 	
 	const VIEW_RIGHT = '1';
 	const EDIT_RIGHT = '2';
@@ -78,9 +77,6 @@ require_once dirname(__FILE__).'/../../../common/condition/likecondition.class.p
 			case self :: ACTION_EDIT_RIGHTS :
 				$component = RightsManagerComponent :: factory('Editor', $this);
 				break;
-			case self :: ACTION_TEST :
-				$component = RightsManagerComponent :: factory('Tester', $this);
-				break;
 			default :
 				$this->set_action(self :: ACTION_EDIT_RIGHTS);
 				$component = RightsManagerComponent :: factory('Editor', $this);
@@ -110,22 +106,20 @@ require_once dirname(__FILE__).'/../../../common/condition/likecondition.class.p
 	 * @param boolean $display_search Should the header include a search form or
 	 * not?
 	 */
-	function display_header($breadcrumbs = array (), $display_search = false)
+	function display_header($breadcrumbtrail = array (), $display_search = false)
 	{
-		global $interbreadcrumb;
-		if (isset ($this->breadcrumbs) && is_array($this->breadcrumbs))
+		if (is_null($breadcrumbtrail))
 		{
-			$breadcrumbs = array_merge($this->breadcrumbs, $breadcrumbs);
+			$breadcrumbtrail = new BreadcrumbTrail();
 		}
-		$current_crumb = array_pop($breadcrumbs);
-		$interbreadcrumb = $breadcrumbs;
-		$title = $current_crumb['name'];
+		
+		$title = $breadcrumbtrail->get_last()->get_name();
 		$title_short = $title;
 		if (strlen($title_short) > 53)
 		{
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
-		Display :: display_header($title_short);
+		Display :: display_header($breadcrumbtrail);
 		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
 		echo '<div class="clear">&nbsp;</div>';
 		if ($msg = $_GET[self :: PARAM_MESSAGE])
@@ -348,16 +342,16 @@ require_once dirname(__FILE__).'/../../../common/condition/likecondition.class.p
 	/**
 	 * Gets the URL to the Dokeos claroline folder.
 	 */
-	function get_web_code_path()
+	function get_path($path_type)
 	{
-		return api_get_path(WEB_CODE_PATH);
+		return PAth :: get_path($path_type);
 	}
 	/**
-	 * Wrapper for api_not_allowed().
+	 * Wrapper for Display :: display_not_allowed().
 	 */
 	function not_allowed()
 	{
-		api_not_allowed();
+		Display :: display_not_allowed();
 	}
 	
 	public function get_application_platform_admin_links()

@@ -91,33 +91,7 @@ class InstallManager
 	 */
 	function display_header($breadcrumbs = array ())
 	{
-		global $interbreadcrumb;
-		if (isset ($this->breadcrumbs) && is_array($this->breadcrumbs))
-		{
-			$breadcrumbs = array_merge($this->breadcrumbs, $breadcrumbs);
-		}
-		$current_crumb = array_pop($breadcrumbs);
-		$interbreadcrumb = $breadcrumbs;
-		$title = $current_crumb['name'];
-		$title_short = $title;
-		if (strlen($title_short) > 53)
-		{
-			$title_short = substr($title_short, 0, 50).'&hellip;';
-		}
 		$this->display_header_content();
-//		echo '<div style="float: left; width: 100%;">';
-//		echo '<div>';
-//		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
-//		echo '</div>';
-//		echo '<div class="clear">&nbsp;</div>';
-//		if ($msg = $_GET[self :: PARAM_MESSAGE])
-//		{
-//			$this->display_message($msg);
-//		}
-//		if($msg = $_GET[self::PARAM_ERROR_MESSAGE])
-//		{
-//			$this->display_error_message($msg);
-//		}
 	}
 	
 	function display_header_content()

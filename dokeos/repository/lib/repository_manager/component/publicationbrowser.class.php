@@ -17,9 +17,12 @@ class RepositoryManagerPublicationBrowserComponent extends RepositoryManagerComp
 	 */
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		
 		$output = $this->get_publications_html();
-		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => Translation :: get('MyPublications')));
-		$this->display_header($breadcrumbs);
+		
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyPublications')));
+		$this->display_header($trail);
 		echo $output;
 		$this->display_footer();
 	}
@@ -41,8 +44,5 @@ class RepositoryManagerPublicationBrowserComponent extends RepositoryManagerComp
 		$table = new PublicationBrowserTable($this, null, $parameters, $condition);
 		return $table->as_html();
 	}
-	
-	
-	
 }
 ?>

@@ -17,8 +17,8 @@ class UserManagerAccountComponent extends UserManagerComponent
 		global $this_section;
 		$this_section='myaccount';
 
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('ModifyProfile'));
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ModifyProfile')));
 
 		$user = $this->get_user();
 
@@ -31,7 +31,7 @@ class UserManagerAccountComponent extends UserManagerComponent
 		}
 		else
 		{
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			$form->display();
 			$this->display_footer();
 		}

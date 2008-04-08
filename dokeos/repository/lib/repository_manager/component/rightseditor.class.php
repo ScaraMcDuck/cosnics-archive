@@ -15,8 +15,10 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => Translation :: get('EditRights')));
-		$this->display_header($breadcrumbs);
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('EditRights')));
+		
+		$this->display_header($trail);
 		//TODO: Implementation (connect to existing Roles&Rights stuff)
 		echo '<p>'.htmlentities(Translation :: get('NotAvailable')).'</p>';
 		$this->display_footer();

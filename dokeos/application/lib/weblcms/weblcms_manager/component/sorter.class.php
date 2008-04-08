@@ -232,10 +232,10 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	
 	function display_page_header($title)
 	{
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(null, false, true, array(Weblcms :: PARAM_ACTION)), 'name' => Translation :: get('MyCourses'));
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => $title);
-		$this->display_header($breadcrumbs);
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(null, false, true, array(Weblcms :: PARAM_ACTION)), Translation :: get('MyCourses')));
+		$trail->add(new Breadcrumb($this->get_url(), $title));
+		$this->display_header($trail);
 	}
 	
 	function display_courses()

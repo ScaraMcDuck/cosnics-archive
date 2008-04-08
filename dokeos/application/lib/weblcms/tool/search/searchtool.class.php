@@ -23,7 +23,9 @@ class SearchTool extends Tool
 	// Inherited
 	function run()
 	{
-		$this->display_header();
+		$trail = new BreadcrumbTrail();
+		
+		$this->display_header($trail);
 		// Display the search form
 		$form = new SearchForm($this);
 		echo '<div style="text-align:center">';

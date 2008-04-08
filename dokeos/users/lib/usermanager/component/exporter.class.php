@@ -14,21 +14,18 @@ class UserManagerExporterComponent extends UserManagerComponent
 	 */
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserCreateExport')));
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$breadcrumbs = array();
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('UserCreateExport'));
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}
 
 		$form = new UserExportForm(UserExportForm :: TYPE_EXPORT, $this->get_url());
-
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('UserCreateExport'));
 
 		if($form->validate())
 		{
@@ -53,7 +50,7 @@ class UserManagerExporterComponent extends UserManagerComponent
 		}
 		else
 		{
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			$form->display();
 			$this->display_footer();
 		}

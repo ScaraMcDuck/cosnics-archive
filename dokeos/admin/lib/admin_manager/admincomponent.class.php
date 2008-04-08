@@ -87,6 +87,14 @@ abstract class AdminComponent {
 		return $this->get_parent()->get_application_platform_admin_links();
 	}
 	
+	/**
+	 * @see Admin::get_url()
+	 */
+	function get_url($additional_parameters = array(), $include_search = false, $encode_entities = false)
+	{
+		return $this->get_parent()->get_url($additional_parameters, $include_search, $encode_entities);
+	}
+	
 	function get_user()
 	{
 		return $this->get_parent()->get_user();

@@ -11,6 +11,7 @@ require_once dirname(__FILE__).'/../role.class.php';
 require_once dirname(__FILE__).'/../right.class.php';
 require_once dirname(__FILE__).'/../location.class.php';
 require_once dirname(__FILE__).'/../rolerightlocation.class.php';
+require_once Path :: get_library_path().'condition/conditiontranslator.class.php';
 require_once 'MDB2.php';
 
 /**
@@ -42,7 +43,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 	{
 		$this->repoDM = & RepositoryDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
-		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseClassGroupDatamanager','debug')));
+		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('RightsDatamanager','debug')));
 		$this->prefix = 'rights_';
 		$this->connection->query('SET NAMES utf8');
 	}
@@ -259,32 +260,20 @@ class DatabaseRightsDataManager extends RightsDataManager
 		}
 		$options['charset'] = 'utf8';
 		$options['collate'] = 'utf8_unicode_ci';
-		if (!MDB2 :: isError($manager->createTable($name,$properties,$options)))
+		$manager->createTable($name,$properties,$options);
+		foreach($indexes as $index_name => $index_info)
 		{
-			foreach($indexes as $index_name => $index_info)
+			if($index_info['type'] == 'primary')
 			{
-				if($index_info['type'] == 'primary')
-				{
-					$index_info['primary'] = 1;
-					if (MDB2 :: isError($manager->createConstraint($name,$index_name,$index_info)))
-					{
-						return false;
-					}
-				}
-				else
-				{
-					if (MDB2 :: isError($manager->createIndex($name,$index_name,$index_info)))
-					{
-						return false;
-					}
-				}
+				$index_info['primary'] = 1;
+				$manager->createConstraint($name,$index_name,$index_info);
 			}
-			return true;
+			else
+			{
+				$manager->createIndex($name,$index_name,$index_info);
+			}
 		}
-		else
-		{
-			return false;
-		}
+
 	}
 	
 	/**
@@ -356,10 +345,16 @@ class DatabaseRightsDataManager extends RightsDataManager
 	function retrieve_location_id_from_location_string($location)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('location');
-		
+		$condition = new PatternMatchCondition(Location :: PROPERTY_NAME, $location);
+
 		$params = array ();
-		$condition = new LikeCondition('location', $location);
-		$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
 		
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
@@ -380,8 +375,6 @@ class DatabaseRightsDataManager extends RightsDataManager
 	function retrieve_role_right_location($right_id, $role_id, $location_id)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('role_right_location');
-		
-		$params = array ();
 		$conditions = array();
 		
 		$conditions[] = new EqualityCondition('right_id', $right_id);
@@ -389,7 +382,15 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$conditions[] = new EqualityCondition('location_id', $location_id);
 		
 		$condition = new AndCondition($conditions);
-		$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
 		
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
@@ -417,7 +418,10 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
 		$order = array ();
 		
@@ -480,7 +484,10 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
 		$order = array ();
 		
@@ -510,10 +517,13 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$query .= ' WHERE '.$this->translate_condition($condition, & $params, true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
 		
-		$orderBy[] = Location :: PROPERTY_LOCATION;
+		$orderBy[] = Location :: PROPERTY_NAME;
 		$orderDir[] = SORT_ASC;
 		$order = array ();
 		

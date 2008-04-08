@@ -15,8 +15,10 @@ class UserManagerQuotaComponent extends UserManagerComponent
 	function run()
 	{		
 		$user_id = $this->get_user_id();
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('UserQuota'));
+		
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserQuota')));
+		
 		if (!$this->get_user()->is_platform_admin()) 
 		{
 			Display :: display_not_allowed();
@@ -42,7 +44,7 @@ class UserManagerQuotaComponent extends UserManagerComponent
 			}
 			else
 			{
-				$this->display_header($breadcrumbs);
+				$this->display_header($trail);
 				$form->display();
 				$this->display_footer();
 			}

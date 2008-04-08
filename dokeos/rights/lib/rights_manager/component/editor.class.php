@@ -16,11 +16,6 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 	function run()
 	{
 		$this->location_id = $_GET['location_id'];
-		
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), 'name' => Translation :: get('Rights'));
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('EditRights'));
-		
 		$component_action = $_GET[RightsManager :: PARAM_COMPONENT_ACTION];
 		
 		switch($component_action)
@@ -59,10 +54,13 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 	
 	function show_rights_list()
 	{
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Repository')));
+		
 		$breadcrumbs = array();
 		$breadcrumbs[] = array ('url' => $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), 'name' => Translation :: get('Rights'));
 		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('EditRights'));
-		$this->display_header($breadcrumbs);
+		$this->display_header($trail);
 		
 		echo $this->get_locations_list_html();
 		
@@ -94,7 +92,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		
 		while ($location = $locations->next_result())
 		{
-			$array = explode('|', $location->get_location());
+			$array = explode('|', $location->get_name());
 			array_shift($array);
 			
 			$string =  ucwords(implode(' - ', $array));
@@ -146,7 +144,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 			{
 				$html[] = '<div style="float: left; width: 24%; text-align: center;">';
 				$value = $this->is_allowed($id, $role->get_id(), $location_id);
-				$html[] = '<a href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'role_id' => $role->get_id(), 'right_id' => $id, 'location_id' => $location_id)) .'">' . ($value == 1 ? '<img src="'. $this->get_web_code_path() .'img/setting_true.png" />' : '<img src="'. $this->get_web_code_path() .'img/setting_false.png" />') . '</a>';
+				$html[] = '<a href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'role_id' => $role->get_id(), 'right_id' => $id, 'location_id' => $location_id)) .'">' . ($value == 1 ? '<img src="'. $this->get_path(WEB_IMG_PATH) .'setting_true.png" />' : '<img src="'. $this->get_path(WEB_IMG_PATH) .'setting_false.png" />') . '</a>';
 				$html[] = '</div>';
 			}
 			

@@ -19,10 +19,10 @@ class PortfolioBrowserComponent extends PortfolioComponent
 		
 		$output = $this->get_publications_html();
 		
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('MyPortfolio'));
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyPortfolio')));
 		
-		$this->display_header($breadcrumbs, true);
+		$this->display_header($trail, true);
 		echo $output;
 		$this->display_footer();
 	}

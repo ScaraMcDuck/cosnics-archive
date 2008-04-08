@@ -97,8 +97,11 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 			}
 			else
 			{
+				$trail = new BreadcrumbTrail();
+				$trail->add(new Breadcrumb($this->get_url(), $this->get_course_id()));
+				
 				$wdm = WeblcmsDataManager :: get_instance();
-				$this->display_header();
+				$this->display_header($trail);
 				//Todo: Depending on settings, display menu and/or shortcut icons
 				//Display shortcut icons
 				//$renderer = ToolListRenderer::factory('Menu',$this);

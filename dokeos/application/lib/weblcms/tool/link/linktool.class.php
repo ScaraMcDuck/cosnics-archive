@@ -11,6 +11,8 @@ class LinkTool extends RepositoryTool
 {
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		
 		if (isset($_GET['linktoolmode']))
 		{
 			$_SESSION['linktoolmode'] = $_GET['linktoolmode'];
@@ -60,7 +62,7 @@ class LinkTool extends RepositoryTool
 				$browser = new LinkBrowser($this);
 				$html[] =  $browser->as_html();
 		}
-		$this->display_header();
+		$this->display_header($trail);
 		echo implode("\n",$html);
 		$this->display_footer();
 	}

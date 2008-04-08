@@ -10,12 +10,14 @@
 class Banner
 {
 	private $admindatamanager;
+	private $breadcrumbtrail;
 	
 	/**
 	 * Constructor
 	 */
-	function Banner($admindatamanager)
+	function Banner($breadcrumbtrail, $admindatamanager)
 	{
+		$this->breadcrumbtrail = $breadcrumbtrail;
 		$this->admindatamanager = $admindatamanager;
 	}
 	
@@ -159,47 +161,56 @@ class Banner
 
 			$output[] = '</div> <!-- end of header3 (user) section -->';
 		}
-		global $interbreadcrumb;
-		if (isset ($nameTools) || is_array($interbreadcrumb))
-		{
+		
+		$breadcrumbtrail = $this->breadcrumbtrail;
+		// TODO: Add this CSS to the css-files
+		$output[] = '<div id="breadcrumbtrail">';
+		$output[] = $breadcrumbtrail->render();
+		$output[] = '</div>';
+		
+		// TODO: Check whether we still need anything from the old breadcrumb-generating code
+		
+//		global $interbreadcrumb;
+//		if (isset ($nameTools) || is_array($interbreadcrumb))
+//		{
+////			if (!isset ($_SESSION['_uid']))
+////			{
+////				$output[] = " ";
+////			}
+////			else
+////			{
+//				$output[] = '&nbsp;&nbsp;<a href="'.$this->get_path(WEB_PATH).'index.php" target="_top">'.$this->get_setting('site_name', 'admin').'</a>';
+////			}
+//		}
+//
+//		// else we set the site name bold
+//		if (is_array($interbreadcrumb))
+//		{
+//			foreach ($interbreadcrumb as $breadcrumb_step)
+//			{
+//				$output[] = '&nbsp;&gt; <a href="'.$breadcrumb_step['url'].'" target="_top">'.$breadcrumb_step['name'].'</a>';
+//			}
+//		}
+//
+//		if (isset ($nameTools))
+//		{
 //			if (!isset ($_SESSION['_uid']))
 //			{
-//				$output[] = " ";
+//				$output[] = '&nbsp;';
 //			}
-//			else
+//			elseif (!defined('DOKEOS_HOMEPAGE') || !DOKEOS_HOMEPAGE)
 //			{
-				$output[] = '&nbsp;&nbsp;<a href="'.$this->get_path(WEB_PATH).'index.php" target="_top">'.$this->get_setting('site_name', 'admin').'</a>';
+//				global $noPHP_SELF;
+//				if ($noPHP_SELF)
+//				{
+//					$output[] = '&nbsp;&gt;&nbsp;'.$nameTools;
+//				}
+//				else
+//				{
+//					$output[] = ' &gt; <a href="'.htmlspecialchars($_SERVER['REQUEST_URI']).'" target="_top">'.$nameTools.'</a>';
+//				}
 //			}
-		}
-
-		// else we set the site name bold
-		if (is_array($interbreadcrumb))
-		{
-			foreach ($interbreadcrumb as $breadcrumb_step)
-			{
-				$output[] = '&nbsp;&gt; <a href="'.$breadcrumb_step['url'].'" target="_top">'.$breadcrumb_step['name'].'</a>';
-			}
-		}
-
-		if (isset ($nameTools))
-		{
-			if (!isset ($_SESSION['_uid']))
-			{
-				$output[] = '&nbsp;';
-			}
-			elseif (!defined('DOKEOS_HOMEPAGE') || !DOKEOS_HOMEPAGE)
-			{
-				global $noPHP_SELF;
-				if ($noPHP_SELF)
-				{
-					$output[] = '&nbsp;&gt;&nbsp;'.$nameTools;
-				}
-				else
-				{
-					$output[] = ' &gt; <a href="'.htmlspecialchars($_SERVER['REQUEST_URI']).'" target="_top">'.$nameTools.'</a>';
-				}
-			}
-		}
+//		}
 
 		$output[] = '<div class="clear">&nbsp;</div>';
 

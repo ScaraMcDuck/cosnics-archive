@@ -22,12 +22,13 @@ class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 		$this_section='platform_admin';
 		
 		$this->category = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('CourseList'));
+		
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseList')));
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -36,7 +37,7 @@ class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 		$menu = $this->get_menu_html();
 		$output = $this->get_course_html();
 		
-		$this->display_header($breadcrumbs, true);
+		$this->display_header($trail, true);
 		echo $menu;
 		echo $output;
 		$this->display_footer();

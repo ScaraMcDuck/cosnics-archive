@@ -58,6 +58,6 @@ echo '<!-- #outerframe container to control some general layout of all pages -->
 echo '<div id="outerframe">'."\n";
 
 //  Banner
-$banner = new Banner($adm);
+$banner = new Banner($breadcrumbtrail, $adm);
 $banner->display();
 ?>

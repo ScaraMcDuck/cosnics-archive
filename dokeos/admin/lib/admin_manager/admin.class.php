@@ -61,22 +61,20 @@ class Admin
 	 * @param boolean $display_search Should the header include a search form or
 	 * not?
 	 */
-	function display_header($breadcrumbs = array (), $display_search = false)
+	function display_header($breadcrumbtrail = array (), $display_search = false)
 	{
-		global $interbreadcrumb;
-		if (isset ($this->breadcrumbs) && is_array($this->breadcrumbs))
+		if (is_null($breadcrumbtrail))
 		{
-			$breadcrumbs = array_merge($this->breadcrumbs, $breadcrumbs);
+			$breadcrumbtrail = new BreadcrumbTrail();
 		}
-		$current_crumb = array_pop($breadcrumbs);
-		$interbreadcrumb = $breadcrumbs;
-		$title = $current_crumb['name'];
+		
+		$title = $breadcrumbtrail->get_last()->get_name();
 		$title_short = $title;
 		if (strlen($title_short) > 53)
 		{
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
-		Display :: display_header($title_short);
+		Display :: display_header($breadcrumbtrail, $title_short);
 		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
 		if ($display_search)
 		{
@@ -154,6 +152,17 @@ class Admin
 	{
 		Display :: display_normal_message($form_html);
 	}
+	
+	/**
+	 * Gets the parameter list
+	 * @param boolean $include_search Include the search parameters in the
+	 * returned list?
+	 * @return array The list of parameters.
+	 */
+	function get_parameters($include_search = false)
+	{
+		return $this->parameters;
+	}
 
 	/**
 	 * Gets the current action.
@@ -182,6 +191,42 @@ class Admin
 	function get_parameter($name)
 	{
 		return $this->parameters[$name];
+	}
+	
+	/**
+	 * Gets an URL.
+	 * @param array $additional_parameters Additional parameters to add in the
+	 * query string (default = no additional parameters).
+	 * @param boolean $include_search Include the search parameters in the
+	 * query string of the URL? (default = false).
+	 * @param boolean $encode_entities Apply php function htmlentities to the
+	 * resulting URL ? (default = false).
+	 * @return string The requested URL.
+	 */
+	function get_url($additional_parameters = array (), $include_search = false, $encode_entities = false, $x = null)
+	{
+		$eventual_parameters = array_merge($this->get_parameters($include_search), $additional_parameters);
+		$url = $_SERVER['PHP_SELF'].'?'.http_build_query($eventual_parameters);
+		if ($encode_entities)
+		{
+			$url = htmlentities($url);
+		}
+
+		return $url;
+	}
+	
+	public function get_link($parameters = array (), $encode = false)
+	{
+		$link = 'index_'. self :: APPLICATION_NAME;
+		if (count($parameters))
+		{
+			$link .= '?'.http_build_query($parameters);
+		}
+		if ($encode)
+		{
+			$link = htmlentities($link);
+		}
+		return $link;
 	}
 
 	function get_user()

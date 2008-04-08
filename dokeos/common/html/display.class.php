@@ -210,9 +210,8 @@ class Display
 	 * page title)
 	 * @param string $help
 	 */
-	public static function display_header($tool_name, $help = NULL)
+	public static function display_header($breadcrumbtrail, $help = NULL)
 	{
-		$nameTools = $tool_name;
 		global $language_interface, $adm, $httpHeadXtra, $htmlHeadXtra, $text_dir, $plugins, $interbreadcrumb, $charset, $noPHP_SELF;
 		include (Path :: get(SYS_LIB_PATH).'html/header.inc.php');
 	}

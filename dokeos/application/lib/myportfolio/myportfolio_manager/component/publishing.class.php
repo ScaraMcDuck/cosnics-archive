@@ -13,13 +13,12 @@ class PortfolioPublishingComponent extends PortfolioComponent
 	 */
 	function run()
 	{
-		
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('PublishPortfolio'));
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishPortfolio')));
 		
 		$publisher = $this->get_publisher_html();
 		
-		$this->display_header($breadcrumbs);
+		$this->display_header($trail);
 		
 		$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
 		foreach (array (MyPortfolio::ACTION_VIEW, MyPortfolio::ACTION_CREATE,MyPortfolio::ACTION_EDIT,MyPortfolio::ACTION_PROPS,MyPortfolio::ACTION_SHARING, MyPortfolio::ACTION_STATE) as $action)

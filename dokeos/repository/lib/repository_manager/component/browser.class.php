@@ -22,8 +22,11 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Repository')));
+		
 		$output = $this->get_learning_objects_html();
-		$this->display_header(array(), true);
+		$this->display_header($trail, true);
 		echo $output;
 		$this->display_footer();
 	}

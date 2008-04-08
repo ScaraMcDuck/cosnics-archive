@@ -127,7 +127,10 @@ class PersonalCalendar extends WebApplication
 			}
 			$out .=   '</div>';
 		}
-		Display :: display_header(Translation :: get('MyAgenda'));
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb(null, Translation :: get('MyAgenda')));
+		
+		Display :: display_header($trail);
 		Display :: display_tool_title(Translation :: get('MyAgenda'));
 		echo $out;
 		Display :: display_footer();

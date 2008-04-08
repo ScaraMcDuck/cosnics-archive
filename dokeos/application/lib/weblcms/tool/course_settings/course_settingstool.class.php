@@ -12,9 +12,11 @@ class CourseSettingsTool extends Tool
 {
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		
 		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
 		{
-			$this->display_header();
+			$this->display_header($trail);
 			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -29,7 +31,7 @@ class CourseSettingsTool extends Tool
 		}
 		else
 		{			
-			$this->display_header();
+			$this->display_header($trail);
 			$form->display();
 			$this->display_footer();
 		}

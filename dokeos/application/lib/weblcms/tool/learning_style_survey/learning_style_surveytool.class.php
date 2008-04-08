@@ -25,6 +25,8 @@ class LearningStyleSurveyTool extends RepositoryTool
 	
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		
 		if (!$this->is_allowed(VIEW_RIGHT))
 		{
 			$this->disallow();
@@ -61,7 +63,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 		{
 			if ($this->is_allowed(ADD_RIGHT))
 			{
-				$this->display_header();
+				$this->display_header($trail);
 				echo $toolbar;
 				require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
 				$pub = new LearningObjectPublisher($this, 'learning_style_survey_profile', true);
@@ -86,7 +88,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 					// TODO: is this the correct right?
 					if ($this->is_allowed(ADD_RIGHT))
 					{
-						$this->display_header();
+						$this->display_header($trail);
 						echo $toolbar;
 						// TODO: filter on users or groups somehow?
 						$condition = new EqualityCondition(LearningStyleSurveyResult :: PROPERTY_PROFILE_ID, $profile_id);
@@ -118,7 +120,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 					$results = $dm->retrieve_learning_objects('learning_style_survey_result', $condition);
 					if (!$results->is_empty())
 					{
-						$this->display_header();
+						$this->display_header($trail);
 						echo $toolbar;
 						$result = $results->next_result();
 						$this->review_result($result);
@@ -137,7 +139,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 							$this->redirect(null, Translation :: get('SurveyAnswersStored'), false, array(self :: PARAM_SURVEY_PROFILE_ID => $profile_id));
 						}
 						else {
-							$this->display_header();
+							$this->display_header($trail);
 							echo $toolbar;
 							$form->display();
 							$this->display_footer();
@@ -147,7 +149,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 			}
 			else
 			{
-				$this->display_header();
+				$this->display_header($trail);
 				echo $toolbar;
 				$browser = new LearningStyleSurveyBrowser($this);
 				echo $browser->as_html();

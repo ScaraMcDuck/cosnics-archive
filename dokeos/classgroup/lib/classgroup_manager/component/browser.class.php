@@ -19,13 +19,14 @@ class ClassGroupManagerBrowserComponent extends ClassGroupManagerComponent
 	function run()
 	{
 		$this->firstletter = $_GET[ClassGroupManager :: PARAM_FIRSTLETTER];
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), 'name' => Translation :: get('Groups'));
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('ClassGroupList'));
+
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ClassGroupList')));
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -34,7 +35,7 @@ class ClassGroupManagerBrowserComponent extends ClassGroupManagerComponent
 		$menu = $this->get_menu_html();
 		$output = $this->get_user_html();
 		
-		$this->display_header($breadcrumbs, true);
+		$this->display_header($trail, true);
 		echo $menu;
 		echo $output;
 		$this->display_footer();

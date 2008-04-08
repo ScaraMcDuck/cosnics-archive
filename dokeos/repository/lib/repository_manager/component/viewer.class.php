@@ -33,13 +33,13 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			}
 
 			$display = LearningObjectDisplay :: factory($object);
-			$breadcrumbs = array();
+			$trail = new BreadcrumbTrail();
 			if ($object->get_state() == LearningObject :: STATE_RECYCLED)
 			{
-				$breadcrumbs[] = array('url' => $this->get_recycle_bin_url(), 'name' => Translation :: get('RecycleBin'));
+				$trail->add(new Breadcrumb($this->get_recycle_bin_url(), Translation :: get('RecycleBin')));
 				$this->force_menu_url($this->get_recycle_bin_url());
 			}
-			$breadcrumbs[] = array('url' => $this->get_url(), 'name' => $object->get_title() . ($object->is_latest_version() ? '' : ' ('.Translation :: get('OldVersion').')'));
+			$trail->add(new Breadcrumb($this->get_url(), $object->get_title() . ($object->is_latest_version() ? '' : ' ('.Translation :: get('OldVersion').')')));
 
 			$version_data = array();
 			$versions = $object->get_learning_object_versions();
@@ -95,7 +95,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				}
 				else
 				{
-					$this->display_header($breadcrumbs);
+					$this->display_header($trail);
 					echo $display->get_full_html();
 					echo RepositoryUtilities :: build_block_hider('script');
 					echo RepositoryUtilities :: build_block_hider('begin', 'lox', 'LearningObjectExtras');
@@ -105,14 +105,14 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			}
 			elseif (count($publication_attr) > 0)
 			{
-				$this->display_header($breadcrumbs);
+				$this->display_header($trail);
 				echo $display->get_full_html();
 				echo RepositoryUtilities :: build_block_hider('script');
 				echo RepositoryUtilities :: build_block_hider('begin', 'lox', 'LearningObjectExtras');
 			}
 			else
 			{
-				$this->display_header($breadcrumbs);
+				$this->display_header($trail);
 				echo $display->get_full_html();
 			}
 

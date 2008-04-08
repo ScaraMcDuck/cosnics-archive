@@ -14,6 +14,8 @@ class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 	 */
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		
 		$id = $_GET[ClassGroupManager :: PARAM_CLASSGROUP_ID];
 		if ($id)
 		{
@@ -25,11 +27,10 @@ class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 				Display :: display_not_allowed();
 			}
 			
-			$breadcrumbs = array();
-			$breadcrumbs[] = array ('url' => $this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), 'name' => Translation :: get('ClassGroups'));
-			$breadcrumbs[] = array('url' => $this->get_url(), 'name' => $classgroup->get_name());
+			$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
+			$trail->add(new Breadcrumb($this->get_url(), $classgroup->get_name()));
 			
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			
 			echo '<div class="learning_object" style="background-image: url('. $this->get_web_code_path() .'group_small.gif);">';
 			echo '<div class="title">'. Translation :: get('Description') .'</div>';

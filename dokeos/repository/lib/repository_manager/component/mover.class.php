@@ -24,6 +24,8 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		
 		$ids = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
 		if (!empty ($ids))
 		{
@@ -97,8 +99,9 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 				$renderer = clone $form->defaultRenderer();
 				$renderer->setElementTemplate('{label} {element} ');
 				$form->accept($renderer);
-				$breadcrumbs = array(array('url' => $this->get_url(), 'name' => Translation :: get('Move')));
-				$this->display_header($breadcrumbs);
+				
+				$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move')));
+				$this->display_header($trail);
 				$this->display_popup_form($renderer->toHTML());
 				$this->display_footer();
 			}

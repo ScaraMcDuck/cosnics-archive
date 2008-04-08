@@ -44,7 +44,9 @@ $nameTools = $adm->retrieve_setting_from_variable_name('site_name', 'admin')->ge
 
 $help = "Clar";
 
-Display :: display_header($nameTools, $help);
+$trail = new BreadcrumbTrail();
+
+Display :: display_header($trail, $help);
 
 /*
 -----------------------------------------------------------

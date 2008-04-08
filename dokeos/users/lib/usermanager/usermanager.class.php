@@ -138,22 +138,20 @@ require_once Path :: get_library_path().'condition/likecondition.class.php';
 	 * @param boolean $display_search Should the header include a search form or
 	 * not?
 	 */
-	function display_header($breadcrumbs = array (), $display_search = false)
+	function display_header($breadcrumbtrail, $display_search = false)
 	{
-		global $interbreadcrumb;
-		if (isset ($this->breadcrumbs) && is_array($this->breadcrumbs))
+		if (is_null($breadcrumbtrail))
 		{
-			$breadcrumbs = array_merge($this->breadcrumbs, $breadcrumbs);
+			$breadcrumbtrail = new BreadcrumbTrail();
 		}
-		$current_crumb = array_pop($breadcrumbs);
-		$interbreadcrumb = $breadcrumbs;
-		$title = $current_crumb['name'];
+		
+		$title = $breadcrumbtrail->get_last()->get_name();
 		$title_short = $title;
 		if (strlen($title_short) > 53)
 		{
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
-		Display :: display_header($title_short);
+		Display :: display_header($breadcrumbtrail);
 		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
 		if ($display_search)
 		{

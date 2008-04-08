@@ -18,8 +18,8 @@ class PortfolioViewerComponent extends PortfolioComponent
 	 */
 	function run()
 	{
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('ViewProfile'));
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewPortfolio')));
 		
 		//$id = $_GET[MyPortfolio :: PARAM_ITEM];
 		$item=$this->get_parent()->get_item_id();
@@ -27,11 +27,7 @@ class PortfolioViewerComponent extends PortfolioComponent
 		if ($item)
 		{
 			$this->publication = $this->retrieve_portfolio_publication_from_item($item);			
-			
-			$breadcrumbs = array();
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('ViewPortfolio') . ': ' . $this->publication->get_publication_publisher()->get_username());
-			
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 
 			$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
 			foreach (array (MyPortfolio::ACTION_VIEW, MyPortfolio::ACTION_CREATE,MyPortfolio::ACTION_EDIT,MyPortfolio::ACTION_PROPS,MyPortfolio::ACTION_SHARING, MyPortfolio::ACTION_STATE) as $action)

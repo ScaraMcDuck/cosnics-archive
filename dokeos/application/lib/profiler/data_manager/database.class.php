@@ -49,7 +49,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 	 * Escapes a column name
 	 * @param string $name
 	 */
-	private function escape_column_name($name)
+	public function escape_column_name($name)
 	{
 		list($table, $column) = explode('.', $name, 2);
 		$prefix = '';

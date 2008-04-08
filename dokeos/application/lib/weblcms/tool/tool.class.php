@@ -62,33 +62,34 @@ abstract class Tool
 	/**
 	 * @see Application :: display_header()
 	 */
-	function display_header($breadcrumbs = array(), $append = array())
+	function display_header($breadcrumbtrail, $append = array())
 	{
-		$breadcrumbs[] = array ('url' => $this->get_url(null, false, true, array('tool')), 'name' => $_GET[Weblcms :: PARAM_COURSE]);
+		$breadcrumbtrail->add(new Breadcrumb($this->get_url(null, false, true, array('tool')), $_GET[Weblcms :: PARAM_COURSE]));
+		
 		if(!is_null($this->parent->get_group()))
 		{
 			$group = $this->parent->get_group();
-			$breadcrumbs[] = array( 'url' => $this->get_url(array(Weblcms::PARAM_GROUP=>null)), 'name' => Translation :: get('Groups'));
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => $group->get_name());
+			$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Weblcms::PARAM_GROUP=>null)),Translation :: get('Groups')));
+			$breadcrumbtrail->add(new Breadcrumb($this->get_url(), $group->get_name()));
 		}
 		// TODO: do this by overriding display_header in the group tool
 		elseif($this->get_tool_id() == 'group')
 		{
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get(Tool :: type_to_class($this->get_tool_id()).'Title'));
+			$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(Tool :: type_to_class($this->get_tool_id()).'Title')));
 		}
 		// TODO: make this the default
 		if($this->get_tool_id() != 'group')
 		{
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get(Tool :: type_to_class($this->get_tool_id()).'Title'));
+			$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(Tool :: type_to_class($this->get_tool_id()).'Title')));
 		}
 		if (count($append))
 		{
 			foreach ($append as $extra)
 			{
-				$breadcrumbs[] = $extra;
+				$breadcrumbtrail->add($extra);
 			}
 		}
-		$this->parent->display_header($breadcrumbs);
+		$this->parent->display_header($breadcrumbtrail);
 	}
 	/**
 	 * @see Application :: display_footer()

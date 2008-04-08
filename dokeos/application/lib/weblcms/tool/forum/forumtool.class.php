@@ -21,9 +21,11 @@ class ForumTool extends RepositoryTool
 	 */
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
-			$this->display_header();
+			$this->display_header($trail);
 			Display :: display_not_allowed();
 			$this->display_footer();
 			return;
@@ -38,13 +40,13 @@ class ForumTool extends RepositoryTool
 			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
 			$pub = new LearningObjectPublisher($this, 'forum');
 			$html[] =  $pub->as_html();
-			$this->display_header();
+			$this->display_header($trail);
 			echo implode("\n",$html);
 			$this->display_footer();
 		}
 		else
 		{
-			$this->display_header();
+			$this->display_header($trail);
 			if(isset($_GET['category_manager_action']))
 			{
 				echo '<a href="'.$this->get_url().'">Back</a>';

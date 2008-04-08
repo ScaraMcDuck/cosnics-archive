@@ -13,19 +13,21 @@ class UserManagerRegisterComponent extends UserManagerComponent
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{	
+	{
+		$trail = new BreadcrumbTrail();
+		
 		if ($this->get_platform_setting('allow_registration', 'admin')->get_value() == 'false')
 		{
 			Display :: display_not_allowed();
 		}
 		
 		$user_id = $this->get_user_id();
-			
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('UserRegister'));
+		
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserRegister')));
+		
 		if (isset($user_id)) 
 		{
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			Display :: display_warning_message(Translation :: get('AlreadyRegistered'));
 			$this->display_footer();
 			exit;
@@ -46,7 +48,7 @@ class UserManagerRegisterComponent extends UserManagerComponent
 		}
 		else
 		{
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			$form->display();
 			$this->display_footer();
 		}

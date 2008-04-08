@@ -25,6 +25,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
 		$type_form = new FormValidator('create_type', 'post', $this->get_url());
 		$type_options = array ();
 		$type_options[''] = '&nbsp;';
@@ -59,8 +60,8 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			}
 			else
 			{
-				$breadcrumbs = array(array('url' => $this->get_url(), 'name' => Translation :: get(LearningObject :: type_to_class($type).'CreationFormTitle')));
-				$this->display_header($breadcrumbs);
+				$trail->add(new Breadcrumb($this->get_url(), Translation :: get(LearningObject :: type_to_class($type).'CreationFormTitle')));
+				$this->display_header($trail);
 				$lo_form->display();
 				$this->display_footer();
 			}
@@ -97,7 +98,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 						$errormessage=$errormessage.' '.$temparray[$i];
 					}
 					
-					$this->display_header($breadcrumbs);							
+					$this->display_header($trail);							
 					Display :: display_warning_message($errormessage);			
 					$this->display_footer();
 				}
@@ -105,7 +106,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			//To much to be imported
 			else 
 			{	
-				$this->display_header($breadcrumbs);	
+				$this->display_header($trail);	
 				Display :: display_warning_message('Your quota would be exceeded by importing this CSV , aborted.');			
 				$this->display_footer();
 			}
@@ -113,8 +114,8 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		}
 		else
 		{
-			$breadcrumbs = array(array('url' => $this->get_url(), 'name' => Translation :: get('Create')));
-			$this->display_header($breadcrumbs);
+			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
+			$this->display_header($trail);
 			$quotamanager = new QuotaManager($this->get_user());
 			if ( $quotamanager->get_available_database_space() <= 0)
 			{
