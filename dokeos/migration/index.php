@@ -13,10 +13,10 @@ $language_interface = 'english';
 
 Translation :: set_application($this_section);
 
-if (!PlatformSession :: get_user_id())
+/**if (!PlatformSession :: get_user_id())
 {
 	Display :: display_not_allowed();
-}
+}*/
 
 $usermgr = new UserManager(PlatformSession :: get_user_id());
 $user = $usermgr->retrieve_user(PlatformSession :: get_user_id());

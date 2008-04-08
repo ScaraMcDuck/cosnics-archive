@@ -18,7 +18,7 @@ class DropBoxesMigrationWizardPage extends MigrationWizardPage
 	function DropBoxesMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent, $command_execute);
-		$this->succes = array(0,0,0);
+		$this->succes = array(0,0,0,0,0);
 	}
 	/**
 	 * @return string Title of the page
@@ -110,7 +110,7 @@ class DropBoxesMigrationWizardPage extends MigrationWizardPage
 				     Translation :: get('Users') . ' ' .
 				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Dropboxes failed because users or courses skipped');
-				$this->succes = array(0,0,0);
+				$this->succes = array(0,0,0,0,0);
 			}
 			
 		}

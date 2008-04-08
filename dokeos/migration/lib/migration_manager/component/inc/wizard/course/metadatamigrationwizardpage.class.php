@@ -23,6 +23,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent);
 		$this->command_execute = $command_execute;
+		$this->succes = array(0,0,0,0);
 	}
 	
 	/**
@@ -38,7 +39,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_info()
 	{		
-		for($i=0; $i<1; $i++)
+		for($i=0; $i<4; $i++)
 		{
 			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
 				Translation :: get('migrated');
@@ -69,11 +70,11 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get('Course_meta_Descriptions'); 
-			case 1: return Translation :: get('Course_meta_Tools');
-			case 2: return Translation :: get('Course_meta_Settings');  
-			case 2: return Translation :: get('Course_tool_intros');  
-			default: return Translation :: get('Course_meta_Descriptions'); 
+			case 0: return Translation :: get_lang('Course_meta_Descriptions'); 
+			case 1: return Translation :: get_lang('Course_meta_Tools');
+			case 2: return Translation :: get_lang('Course_meta_Settings');  
+			case 3: return Translation :: get_lang('Course_tool_intros');  
+			default: return Translation :: get_lang('Course_meta_Descriptions'); 
 		}
 	}
 	
@@ -136,7 +137,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 					$this->migrate_descriptions($course);
 					//$this->migrate_settings($course);
 					//$this->migrate_tools($course);
-					//$this->migrate('ToolIntro', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
+					$this->migrate('ToolIntro', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,3);
 					unset($courses[$i]);
 				}
 			}
@@ -149,7 +150,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 				     Translation :: get('Courses') . ' ' .
 				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Course metadata failed because users or courses skipped');
-				$this->succes[1] = 0;
+				$this->succes = array(0,0,0,0);;
 			}
 			
 		}
