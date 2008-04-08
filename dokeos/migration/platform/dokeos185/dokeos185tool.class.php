@@ -143,7 +143,7 @@ class Dokeos185Tool extends ImportTool
 		return $this;
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		

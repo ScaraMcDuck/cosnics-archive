@@ -188,7 +188,7 @@ class Dokeos185UserCourseCategory extends Import
 		return $lcms_user_course_category;
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		

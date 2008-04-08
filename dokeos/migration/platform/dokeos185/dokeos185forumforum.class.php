@@ -380,7 +380,7 @@ class Dokeos185ForumForum extends ImportForumForum
 		return $lcms_forum;
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 

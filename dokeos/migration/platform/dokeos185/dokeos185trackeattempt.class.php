@@ -177,7 +177,7 @@ class Dokeos185TrackEAttempt extends ImportTrackEAttempt
 		$course = $array['course'];
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		

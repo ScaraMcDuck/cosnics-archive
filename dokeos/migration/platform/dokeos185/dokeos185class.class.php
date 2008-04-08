@@ -138,7 +138,7 @@ class Dokeos185Class extends ImportClass
 	
 	function is_valid_class()
 	{
-		if(!$this->get_name())
+		if(!$this->get_name() || !$this->get_code())
 		{
 			self :: $mgdm->add_failed_element($this->get_id(),
 				'dokeos_main.class');
@@ -165,7 +165,7 @@ class Dokeos185Class extends ImportClass
 		return $lcms_class;
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		

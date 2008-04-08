@@ -167,7 +167,7 @@ class Dokeos185LpIvObjective extends ImportLpIvObjective
 		$course = $array['course'];
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		

@@ -177,7 +177,7 @@ class Dokeos185GradebookCategory extends ImportGradebookCategory
 		
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		

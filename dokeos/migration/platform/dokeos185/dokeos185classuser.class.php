@@ -155,7 +155,7 @@ class Dokeos185ClassUser extends ImportClassUser
 		return $lcms_class_user;
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		

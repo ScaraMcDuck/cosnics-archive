@@ -137,7 +137,7 @@ class Dokeos185TrackELinks extends ImportTrackELinks
 		$course = $array['course'];
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		

@@ -117,7 +117,7 @@ class Dokeos185ForumMailcue extends ImportForumMailcue
 		$course = $array['course'];
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		
