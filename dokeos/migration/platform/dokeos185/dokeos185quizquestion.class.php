@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/multi
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/open_question/open_question.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
-require_once dirname(__FILE__) . '/Dokeos185QuizAnswer.class.php';
+require_once dirname(__FILE__) . '/dokeos185quizanswer.class.php';
 
 /**
  * This class presents a Dokeos185 quiz_question
@@ -204,7 +204,7 @@ class Dokeos185QuizQuestion extends ImportQuizQuestion
 			case 2: $lcms_question = new MultipleChoiceQuestion();
 					break;
 			case 3: $lcms_question = new FillInBlanksQuestion();
-					$lcms_question = $answers[0];
+					//$lcms_question = $answers[0];
 					break;
 			case 4: $lcms_question = new MatchingQuestion();
 					break;

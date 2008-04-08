@@ -70,11 +70,11 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Course_meta_Descriptions'); 
-			case 1: return Translation :: get_lang('Course_meta_Tools');
-			case 2: return Translation :: get_lang('Course_meta_Settings');  
-			case 3: return Translation :: get_lang('Course_tool_intros');  
-			default: return Translation :: get_lang('Course_meta_Descriptions'); 
+			case 0: return Translation :: get('Course_meta_Descriptions'); 
+			case 1: return Translation :: get('Course_meta_Tools');
+			case 2: return Translation :: get('Course_meta_Settings');  
+			case 3: return Translation :: get('Course_tool_intros');  
+			default: return Translation :: get('Course_meta_Descriptions'); 
 		}
 	}
 	

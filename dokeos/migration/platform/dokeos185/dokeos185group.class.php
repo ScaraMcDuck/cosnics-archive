@@ -243,7 +243,7 @@ class Dokeos185Group extends ImportGroup
 		$lcms_group->set_self_unregistration_allowed($this->get_self_unregistration_allowed());
 		$lcms_group->create();
 		
-		self :: $mgdm->add_id_reference($old_id, $lcms_forum_category->get_id(), 'weblcms_group');
+		self :: $mgdm->add_id_reference($old_id, $lcms_group->get_id(), 'weblcms_group');
 		
 		return $lcms_group;
 	}

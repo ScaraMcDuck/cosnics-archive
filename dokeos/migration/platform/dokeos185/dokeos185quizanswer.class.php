@@ -3,14 +3,12 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importquizanswer.class.php';
-
 /**
  * This class presents a Dokeos185 quiz_answer
  *
  * @author Sven Vanpouckes
  */
-class Dokeos185QuizAnswer extends ImportQuizAnswer
+class Dokeos185QuizAnswer
 {
 	private static $mgdm;
 	
