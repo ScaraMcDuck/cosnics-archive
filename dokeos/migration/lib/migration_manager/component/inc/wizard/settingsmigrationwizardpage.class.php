@@ -68,8 +68,9 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$this->addElement('checkbox', 'move_files', '', 
 			Translation :: get_lang('move_files'), 'onclick=\'move_files_clicked("' . 
 			Translation :: get_lang('confirm_move_files'). '")\'');
-		
-		$this->addRule(array('old_directory', $exports['old_system']),Translation :: get_lang('CouldNotVerifySettings'), new ValidateSettings());
+
+		ValidateSettings :: set_old_system($exports['old_system']);
+		$this->addRule(array('old_directory'),Translation :: get_lang('CouldNotVerifySettings'), new ValidateSettings());
 
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get_lang('Previous'));
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
@@ -81,7 +82,7 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 	function set_form_defaults()
 	{
 		$defaults = array();
-		$defaults['old_directory'] = '/home/svennie/sites/dokeos/';
+		$defaults['old_directory'] = '/var/www/html/bron/';
 		$defaults['migrate_users'] = '1';
 		$defaults['migrate_personal_agendas'] = '1';
 		$defaults['migrate_settings'] = '1';
@@ -111,10 +112,17 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 
 class ValidateSettings extends HTML_QuickForm_Rule
 {
+	private static $old_system;
+	
 	public function validate($parameters)
-	{
-		$dmgr = MigrationDataManager :: getInstance($parameters[1], $parameters[0]);
+	{ 
+		$dmgr = MigrationDataManager :: getInstance(self :: $old_system, $parameters[0]);
 		return $dmgr->validate_settings();
+	}
+	
+	public static function set_old_system($old_system)
+	{
+		self :: $old_system = $old_system;
 	}
 }
 ?>

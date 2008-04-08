@@ -50,7 +50,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	 * @return true if settings are valid, otherwise false
 	 */
 	function validate_settings()
-	{		
+	{	
 		if(mysql_connect($this->_configuration['db_host'], $this->_configuration['db_user'], 
 						 $this->_configuration['db_password']	))
 		{
