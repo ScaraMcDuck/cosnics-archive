@@ -16,9 +16,11 @@ class MaintenanceTool extends RepositoryTool
 {
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		
 		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
 		{
-			$this->display_header();
+			$this->display_header($trail);
 			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;

@@ -30,7 +30,9 @@ class MaintenanceWizardDisplay extends HTML_QuickForm_Action_Display
 	 */
 	function _renderForm($current_page)
 	{
-		$this->parent->display_header();
+		$trail = new BreadcrumbTrail();
+		
+		$this->parent->display_header($trail);
 		if(isset($_SESSION['maintenance_message']))
 		{
 			Display::display_normal_message($_SESSION['maintenance_message']);

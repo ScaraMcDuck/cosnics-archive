@@ -14,8 +14,8 @@ class UserManagerUpdaterComponent extends UserManagerComponent
 	 */
 	function run()
 	{	
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('UserUpdate'));
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserUpdate')));
 		$id = $_GET[UserManager :: PARAM_USER_USER_ID];
 		if ($id)
 		{
@@ -38,7 +38,7 @@ class UserManagerUpdaterComponent extends UserManagerComponent
 			}
 			else
 			{
-				$this->display_header($breadcrumbs);
+				$this->display_header($trail);
 				$form->display();
 				$this->display_footer();
 			}

@@ -12,10 +12,11 @@ class AdminSystemannouncementsComponent extends AdminComponent
 {
     function run()
     {
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => 'index_admin.php', 'name' => Translation :: get('PlatformAdmin'));
-		$breadcrumbs[] = array ('url' => '', 'name' => Translation :: get('SystemAnnouncements'));
-		$this->display_header($breadcrumbs);
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PlatformAdmin')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SystemAnnouncements')));
+    	
+		$this->display_header($trail);
 		echo 'TODO';
 		$this->display_footer();
     }

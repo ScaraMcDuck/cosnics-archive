@@ -10,7 +10,8 @@
 class Location
 {
 	const PROPERTY_ID = 'id';
-	const PROPERTY_LOCATION = 'location';
+	const PROPERTY_NAME = 'name';
+	const PROPERTY_DESCRIPTION = 'description';
 	
 	/**#@-*/
 
@@ -74,7 +75,7 @@ class Location
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_LOCATION);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION);
 	}
 		
 	/**
@@ -104,19 +105,29 @@ class Location
 		return $this->id;
 	}
 	
-	function get_location()
+	function get_name()
 	{
-		return $this->get_default_property(self :: PROPERTY_LOCATION);
+		return $this->get_default_property(self :: PROPERTY_NAME);
 	}
 	
+	function get_description()
+	{
+		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
+	}
+		
 	function set_id($id)
 	{
 		$this->id = $id;
 	}	
 	
-	function set_location($location)
+	function set_name($name)
 	{
-		$this->set_default_property(self :: PROPERTY_LOCATION, $location);
+		$this->set_default_property(self :: PROPERTY_NAME, $name);
+	}
+	
+	function set_description($description)
+	{
+		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
 	}
 	
 	/**

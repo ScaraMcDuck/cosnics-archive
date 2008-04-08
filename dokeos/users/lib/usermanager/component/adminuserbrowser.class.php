@@ -10,6 +10,7 @@ require_once dirname(__FILE__).'/../../usermenu.class.php';
 class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 {
 	private $firstletter;
+	private $menu_breadcrumbs;
 	
 	/**
 	 * Runs this component and displays its output.
@@ -17,12 +18,12 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 	function run()
 	{
 		$this->firstletter = $_GET[UserManager :: PARAM_FIRSTLETTER];
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('UserList'));
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserList')));
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -31,7 +32,16 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 		$menu = $this->get_menu_html();
 		$output = $this->get_user_html();
 		
-		$this->display_header($breadcrumbs, true);
+		$categories = $this->menu_breadcrumbs;
+		if (count($categories) > 0)
+		{
+			foreach($categories as $category)
+			{
+				$trail->add(new Breadcrumb($category['url'], $category['title']));
+			}
+		}
+		
+		$this->display_header($trail, true);
 		echo $menu;
 		echo $output;
 		$this->display_footer();
@@ -71,6 +81,7 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 		$url_format = $this->get_url(array (UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS, UserManager :: PARAM_FIRSTLETTER => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$user_menu = new UserMenu($this->firstletter, $url_format, $extra_items);
+		$this->menu_breadcrumbs = $user_menu->get_breadcrumbs();
 		
 		if (isset ($search_url))
 		{
@@ -92,9 +103,9 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 		if (isset($this->firstletter))
 		{
 			$conditions = array();
-			$conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, $this->firstletter. '%');
-			$conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, chr(ord($this->firstletter)+1). '%');
-			$conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, chr(ord($this->firstletter)+2). '%');
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, $this->firstletter. '*');
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, chr(ord($this->firstletter)+1). '*');
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, chr(ord($this->firstletter)+2). '*');
 			$condition = new OrCondition($conditions);
 			if (count($search_conditions))
 			{

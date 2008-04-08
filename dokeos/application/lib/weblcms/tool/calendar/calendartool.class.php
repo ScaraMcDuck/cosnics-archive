@@ -25,6 +25,8 @@ class CalendarTool extends RepositoryTool
 	 */
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		
 		if (isset($_GET['admin']))
 		{
 			$_SESSION['calendaradmin'] = $_GET['admin'];
@@ -40,13 +42,13 @@ class CalendarTool extends RepositoryTool
 			$event->set_end_date(intval($_GET['default_end_date']));
 			$pub->set_default_learning_object('calendar_event',$event);
 			$html[]= $pub->as_html();
-			$this->display_header();
+			$this->display_header($trail);
 			echo implode("\n",$html);
 			$this->display_footer();
 		}
 		else
 		{
-			$this->display_header();
+			$this->display_header($trail);
 			if($this->is_allowed(ADD_RIGHT))
 			{
 				echo '<p><a href="' . $this->get_url(array('admin' => 1), true) . '"><img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).'publish.gif" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';

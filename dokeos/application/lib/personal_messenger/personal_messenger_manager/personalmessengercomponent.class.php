@@ -71,9 +71,9 @@ abstract class PersonalMessengerComponent {
 	/**
 	 * @see PersonalMessengerManager :: display_header()
 	 */	
-	function display_header($breadcrumbs = array ())
+	function display_header($breadcrumbtrail)
 	{
-		return $this->get_parent()->display_header($breadcrumbs);
+		return $this->get_parent()->display_header($breadcrumbtrail);
 	}
 	
 	/**

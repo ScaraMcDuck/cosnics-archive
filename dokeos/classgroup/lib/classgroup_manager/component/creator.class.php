@@ -14,12 +14,13 @@ class ClassGroupManagerCreatorComponent extends ClassGroupManagerComponent
 	 */
 	function run()
 	{		
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), 'name' => Translation :: get('Groups'));
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('GroupCreate'));
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ClassGroupCreate')));
+
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			Display :: display_warning_message(Translation :: get('AlreadyRegistered'));
 			$this->display_footer();
 			exit;
@@ -34,7 +35,7 @@ class ClassGroupManagerCreatorComponent extends ClassGroupManagerComponent
 		}
 		else
 		{
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			$form->display();
 			$this->display_footer();
 		}

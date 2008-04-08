@@ -20,8 +20,8 @@ class PersonalMessengerAttachmentViewerComponent extends PersonalMessengerCompon
 	 */
 	function run()
 	{
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('ViewPersonalMessageAttachments'));
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewPersonalMessageAttachments')));
 		
 		$id = $_GET[PersonalMessenger :: PARAM_PERSONAL_MESSAGE_ID];
 		
@@ -31,14 +31,14 @@ class PersonalMessengerAttachmentViewerComponent extends PersonalMessengerCompon
 			$publication = $this->publication;
 			if ($this->get_user_id() != $publication->get_user())
 			{
-				$this->display_header($breadcrumbs);
+				$this->display_header($trail);
 				Display :: display_error_message(Translation :: get("NotAllowed"));
 				$this->display_footer();
 				exit;
 			}
 			
 			
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			echo $this->get_publication_as_html();
 			$this->display_footer();
 		}

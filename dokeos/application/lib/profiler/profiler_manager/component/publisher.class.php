@@ -13,13 +13,12 @@ class ProfilerPublisherComponent extends ProfilerComponent
 	 */
 	function run()
 	{
-		
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('PublishProfile'));
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishProfile')));
 		
 		$publisher = $this->get_publisher_html();
 		
-		$this->display_header($breadcrumbs);
+		$this->display_header($trail);
 		echo $publisher;
 		echo '<div style="clear: both;"></div>';
 		$this->display_footer();

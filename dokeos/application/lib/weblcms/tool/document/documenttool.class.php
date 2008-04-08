@@ -19,6 +19,8 @@ class DocumentTool extends RepositoryTool
 	 */
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		
 		if (isset($_GET['documenttoolmode']))
 		{
 			$_SESSION['documenttoolmode'] = $_GET['documenttoolmode'];
@@ -88,7 +90,7 @@ class DocumentTool extends RepositoryTool
 				$browser = new DocumentBrowser($this);
 				$html[] =  $browser->as_html();
 		}
-		$this->display_header();
+		$this->display_header($trail);
 		echo implode("\n",$html);
 		$this->display_footer();
 	}

@@ -17,9 +17,11 @@ class AnnouncementTool extends RepositoryTool
 	 */
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
-			$this->display_header();
+			$this->display_header($trail);
 			Display :: display_not_allowed();
 			$this->display_footer();
 			return;
@@ -34,13 +36,13 @@ class AnnouncementTool extends RepositoryTool
 			$pub = new LearningObjectPublisher($this, 'announcement', true);
 			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), true) . '"><img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).'browser.gif" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $pub->as_html();
-			$this->display_header();
+			$this->display_header($trail);
 			echo implode("\n",$html);
 			$this->display_footer();
 		}
 		else
 		{
-			$this->display_header();
+			$this->display_header($trail);
 			if($this->is_allowed(ADD_RIGHT))
 			{
 				echo '<p><a href="' . $this->get_url(array('admin' => 1), true) . '"><img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).'publish.gif" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';

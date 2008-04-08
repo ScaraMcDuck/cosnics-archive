@@ -88,14 +88,14 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 			}
 		}
 
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(null, false, true, array(Weblcms :: PARAM_ACTION)), 'name' => Translation :: get('MyCourses'));
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('CourseSubscribe'));
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(null, false, true, array(Weblcms :: PARAM_ACTION)), Translation :: get('MyCourses')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseSubscribe')));
 
 		$menu = $this->get_menu_html();
 		$output = $this->get_course_html();
 
-		$this->display_header($breadcrumbs, true);
+		$this->display_header($trail, true);
 		echo $menu;
 		echo $output;
 		$this->display_footer();

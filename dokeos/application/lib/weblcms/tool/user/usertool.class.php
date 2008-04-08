@@ -19,9 +19,11 @@ class UserTool extends Tool
 
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		
 //		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
 //		{
-//			$this->display_header();
+//			$this->display_header($trail);
 //			Display :: display_error_message(Translation :: get("NotAllowed"));
 //			$this->display_footer();
 //			exit;
@@ -32,11 +34,10 @@ class UserTool extends Tool
 		{
 			$user_action = $_POST[Weblcms::PARAM_COMPONENT_ACTION];
 		}
-
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get($user_action == Weblcms :: ACTION_SUBSCRIBE ? 'SubscribeUsers' : 'UnsubscribeUsers'));
+		
+		$breadcrumb = new BreadCrumb($this->get_url(), Translation :: get($user_action == Weblcms :: ACTION_SUBSCRIBE ? 'SubscribeUsers' : 'UnsubscribeUsers'));
 		$this->set_parameter(Weblcms :: PARAM_USER_ACTION,$user_action);
-		$this->display_header(null, $breadcrumbs);
+		$this->display_header($trail, $breadcrumb);
 		$this->search_form = new UserToolSearchForm($this, $this->get_url());
 		echo '<div style="clear: both;">&nbsp;</div>';
 		echo $this->search_form->display();

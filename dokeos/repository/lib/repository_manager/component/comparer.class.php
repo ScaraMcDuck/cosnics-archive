@@ -18,24 +18,23 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		
 		$object_id = $_GET[RepositoryManager :: PARAM_COMPARE_OBJECT];
 		$version_id = $_GET[RepositoryManager :: PARAM_COMPARE_VERSION];
 		
 		if ($object_id && $version_id)
 		{
 			$object = $this->retrieve_learning_object($object_id);
-
-			$breadcrumbs = array();
-
-			$breadcrumbs = array();
+			
 			if ($object->get_state() == LearningObject :: STATE_RECYCLED)
 			{
-				$breadcrumbs[] = array('url' => $this->get_recycle_bin_url(), 'name' => Translation :: get('RecycleBin'));
+				$trail->add(new Breadcrumb($this->get_recycle_bin_url(), Translation :: get('RecycleBin')));
 				$this->force_menu_url($this->get_recycle_bin_url());
 			}
-			$breadcrumbs[] = array('name' => $object->get_title() . ($object->is_latest_version() ? '' : ' ('.Translation :: get('OldVersion').')'));
-			$breadcrumbs[] = array('url' => $this->get_url(), 'name' => Translation :: get('DifferenceBetweenTwoVersions'));
-			$this->display_header($breadcrumbs);
+			$trail->add(new Breadcrumb(null, $object->get_title() . ($object->is_latest_version() ? '' : ' ('.Translation :: get('OldVersion').')')));
+			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('DifferenceBetweenTwoVersions')));
+			$this->display_header($trail);
 			
 			$diff = $object->get_difference($version_id);
 			

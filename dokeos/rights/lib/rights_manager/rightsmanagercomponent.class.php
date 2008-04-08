@@ -301,11 +301,11 @@ abstract class RightsManagerComponent {
 	}
 	
 	/**
-	 * @see RightsManager::get_web_code_path()
+	 * @see RightsManager::get_path()
 	 */
-	function get_web_code_path()
+	function get_path($path_type)
 	{
-		return $this->get_parent()->get_web_code_path();
+		return $this->get_parent()->get_path($path_type);
 	}
 	/**
 	 * @see RightsManager::not_allowed()

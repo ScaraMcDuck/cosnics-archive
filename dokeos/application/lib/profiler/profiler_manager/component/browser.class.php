@@ -15,14 +15,14 @@ class ProfilerBrowserComponent extends ProfilerComponent
 	 */
 	function run()
 	{
+		$trail = new BreadcrumbTrail();		
 		$this->firstletter = $_GET[Profiler :: PARAM_FIRSTLETTER];
 		
 		$output = $this->get_publications_html();
 		
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('MyProfiler'));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyProfiler')));
 		
-		$this->display_header($breadcrumbs, true);
+		$this->display_header($trail, true);
 		echo $output;
 		$this->display_footer();
 	}
@@ -47,9 +47,9 @@ class ProfilerBrowserComponent extends ProfilerComponent
 		if (isset($this->firstletter))
 		{
 			$conditions = array();
-			$conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, $this->firstletter. '%');
-			$conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, chr(ord($this->firstletter)+1). '%');
-			$conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, chr(ord($this->firstletter)+2). '%');
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, $this->firstletter. '*');
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, chr(ord($this->firstletter)+1). '*');
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, chr(ord($this->firstletter)+2). '*');
 			$condition = new OrCondition($conditions);
 			if (count($search_conditions))
 			{

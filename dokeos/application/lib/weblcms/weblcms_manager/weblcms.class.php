@@ -367,15 +367,17 @@ class Weblcms extends WebApplication
 	 * Displays the header of this application
 	 * @param array $breadcrumbs The breadcrumbs which should be displayed
 	 */
-	function display_header($breadcrumbs = array (), $display_search = false)
+	function display_header($breadcrumbtrail, $display_search = false)
 	{
-		global $interbreadcrumb, $htmlHeadXtra;
+		if (is_null($breadcrumbtrail))
+		{
+			$breadcrumbtrail = new BreadcrumbTrail();
+		}
+		
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		$course = $this->get_parameter(self :: PARAM_COURSE);
 		$action = $this->get_parameter(self :: PARAM_ACTION);
-
-		$current_crumb = array_pop($breadcrumbs);
-		$interbreadcrumb = $breadcrumbs;
+		
 		if (isset ($this->tool_class))
 		{
 			$tool = str_replace('_tool', '', Tool :: class_to_type($this->tool_class));
@@ -385,8 +387,15 @@ class Weblcms extends WebApplication
 				$htmlHeadXtra[] = '<script type="text/javascript" src="application/lib/weblcms/tool/'.$tool.'/'.$tool.'.js"></script>';
 			}
 		}
-		$title = $current_crumb['name'];
-		Display :: display_header($title);
+		
+		$title = $breadcrumbtrail->get_last()->get_name();
+		$title_short = $title;
+		if (strlen($title_short) > 53)
+		{
+			$title_short = substr($title_short, 0, 50).'&hellip;';
+		}
+		Display :: display_header($breadcrumbtrail);
+		
 		if (isset ($this->tool_class))
 		{
 			echo '<div style="float: right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';

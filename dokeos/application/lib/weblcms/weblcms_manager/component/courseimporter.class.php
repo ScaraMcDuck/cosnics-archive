@@ -19,12 +19,12 @@ class WeblcmsCourseImporterComponent extends WeblcmsComponent
 		global $this_section;
 		$this_section='platform_admin';
 		
-			$breadcrumbs = array();
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('CourseCreateCsv'));
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseCreateCsv')));
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -39,7 +39,7 @@ class WeblcmsCourseImporterComponent extends WeblcmsComponent
 		}
 		else
 		{
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			$form->display();
 			$this->display_extra_information();
 			$this->display_footer();

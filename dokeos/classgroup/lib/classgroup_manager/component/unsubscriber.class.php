@@ -16,12 +16,12 @@ class ClassGroupManagerUnsubscriberComponent extends ClassGroupManagerComponent
 
 		if (!$user->is_platform_admin())
 		{
-			$breadcrumbs = array();
-			$breadcrumbs[] = array ('url' => $this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), 'name' => Translation :: get('ClassGroups'));
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('EmptyGroup'));
+			$trail = new BreadcrumbTrail();
+			$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
+			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UnsubscribeFromGroup')));
 			
-			$this->display_header($breadcrumbs);
-			Display :: display_error_message(Translation :: get("NotAllowed"));
+			$this->display_header($trail);
+			Display :: display_error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
 		}		

@@ -3,7 +3,7 @@
  * $Id: repositorydatamanager.class.php 11718 2007-03-27 09:52:32Z Scara84 $
  * @package repository
  */
-require_once dirname(__FILE__).'/../../common/configuration/configuration.class.php';
+require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../../repository/lib/repositorydatamanager.class.php';
 /**
  *	This is a skeleton for a data manager for the Rights table.

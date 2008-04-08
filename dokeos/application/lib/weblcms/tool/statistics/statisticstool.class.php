@@ -13,7 +13,9 @@ class StatisticsTool extends Tool
 {
 	function run()
 	{
-		$this->display_header();
+		$trail = new BreadcrumbTrail();
+		
+		$this->display_header($trail);
 		$dm = WeblcmsDataManager :: get_instance();
 		$parent = $this->get_parent();
 		foreach ($parent->get_registered_tools() as $tool)

@@ -225,15 +225,20 @@ class MyPortfolio extends WebApplication
 		$this->set_parameter(self :: PARAM_ITEM, $new_item);
 	}
 
-	function display_header($breadcrumbs = array ())
+	function display_header($breadcrumbtrail, $display_search = false)
 	{
-		global $interbreadcrumb;
-
-		$current_crumb = array_pop($breadcrumbs);
-		$interbreadcrumb = $breadcrumbs;
-
-		$title = $current_crumb['name'];
-		Display :: display_header($title);
+		if (is_null($breadcrumbtrail))
+		{
+			$breadcrumbtrail = new BreadcrumbTrail();
+		}
+		
+		$title = $breadcrumbtrail->get_last()->get_name();
+		$title_short = $title;
+		if (strlen($title_short) > 53)
+		{
+			$title_short = substr($title_short, 0, 50).'&hellip;';
+		}
+		Display :: display_header($breadcrumbtrail);
 		echo '<div style="float: left; width: 20%;">';
 		$this->display_treeview();
 		echo '</div>';

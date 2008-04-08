@@ -13,20 +13,18 @@ class UserManagerImporterComponent extends UserManagerComponent
 	 */
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserCreateCsv')));
+		
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$breadcrumbs = array();
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('UserCreateCsv'));
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}
 		
 		$form = new UserImportForm(UserImportForm :: TYPE_IMPORT, $this->get_url());
-		
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('UserCreateCsv'));
 		
 		if($form->validate())
 		{
@@ -35,7 +33,7 @@ class UserManagerImporterComponent extends UserManagerComponent
 		}
 		else
 		{
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			$form->display();
 			$this->display_extra_information();
 			$this->display_footer();

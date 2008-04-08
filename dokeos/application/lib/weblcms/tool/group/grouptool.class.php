@@ -35,9 +35,11 @@ class GroupTool extends Tool
 	 */
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		
 		//		if(!$this->is_allowed(VIEW_RIGHT))
 		//		{
-		//			$this->display_header();
+		//			$this->display_header($trail);
 		//			Display :: display_not_allowed();
 		//			$this->display_footer();
 		//			return;
@@ -57,7 +59,7 @@ class GroupTool extends Tool
 				$udm = UsersDataManager :: get_instance();
 				$user = $udm->retrieve_user($_GET[Weblcms :: PARAM_USERS]);
 				$details = new UserDetails($user);
-				$this->display_header();
+				$this->display_header($trail);
 				echo $details->toHtml();
 				$this->display_footer();
 			}
@@ -67,7 +69,7 @@ class GroupTool extends Tool
 				{
 					case self :: ACTION_SUBSCRIBE :
 						$html = array ();
-						$this->display_header();
+						$this->display_header($trail);
 						$html[] = '<div style="clear: both;">&nbsp;</div>';
 						$html[] = $this->search_form->display();
 						if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
@@ -91,7 +93,7 @@ class GroupTool extends Tool
 					case self :: ACTION_USER_SELF_UNSUBSCRIBE :
 						$group = $this->get_parent()->get_group();
 						$group->unsubscribe_users($this->get_user());
-						$this->display_header();
+						$this->display_header($trail);
 						Display::display_normal_message(Translation :: get('UserUnSubscribed'));
 						$this->display_footer();
 						break;
@@ -103,7 +105,7 @@ class GroupTool extends Tool
 					default :
 						$group = $this->get_parent()->get_group();
 						$html = array ();
-						$this->display_header();
+						$this->display_header($trail);
 						if(!is_null($message))
 						{
 							$html[] = $message;
@@ -146,7 +148,7 @@ class GroupTool extends Tool
 					}
 					else
 					{
-						$this->display_header();
+						$this->display_header($trail);
 						$form->display();
 						$this->display_footer();
 					}
@@ -154,7 +156,7 @@ class GroupTool extends Tool
 				// Display all available groups
 				default :
 					$toolbar_data[] = array ('href' => $this->get_url($param_add_group), 'label' => Translation :: get('Create'), 'img' => $this->get_parent()->get_path(WEB_IMG_PATH).'group.gif', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-					$this->display_header();
+					$this->display_header($trail);
 					if($this->is_allowed(EDIT_RIGHT))
 					{
 						echo RepositoryUtilities :: build_toolbar($toolbar_data, array (), 'margin-top: 1em;');

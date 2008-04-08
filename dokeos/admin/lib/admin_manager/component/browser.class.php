@@ -18,18 +18,18 @@ class AdminBrowserComponent extends AdminComponent
 	 */
 	function run()
 	{
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => '', 'name' => Translation :: get('PlatformAdmin'));
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PlatformAdmin')));
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			Display :: display_error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
 		}
 
-		$this->display_header($breadcrumbs);
+		$this->display_header($trail);
 		echo $this->get_application_platform_admin_sections();
 		$this->display_footer();
 	}
