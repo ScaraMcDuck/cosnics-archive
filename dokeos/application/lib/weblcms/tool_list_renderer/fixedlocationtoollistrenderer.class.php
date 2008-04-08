@@ -41,7 +41,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 
 		if ($this->is_course_admin)
 		{
-			echo '<h4>'.Translation :: get_lang('CourseAdministration').'</h4>';
+			echo '<h4>'.Translation :: get('CourseAdministration').'</h4>';
 			$this->show_tools('course_admin',$tools);
 		}
 	}
@@ -78,7 +78,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				$tool_image = $tool->name.'_tool_na.gif';
 				$link_class=' class="invisible"';
 			}
-			$title = htmlspecialchars(Translation :: get_lang(Tool :: type_to_class($tool->name).'Title'));
+			$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name).'Title'));
 			$row = $count/FixedLocationToolListRenderer::NUMBER_OF_COLUMNS;
 			$col = $count%FixedLocationToolListRenderer::NUMBER_OF_COLUMNS;
 			$html = array();

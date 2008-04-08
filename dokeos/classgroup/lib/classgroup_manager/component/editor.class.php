@@ -13,8 +13,8 @@ class ClassGroupManagerEditorComponent extends ClassGroupManagerComponent
 	function run()
 	{	
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), 'name' => Translation :: get_lang('ClassGroups'));
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('ClassGroupUpdate'));
+		$breadcrumbs[] = array ('url' => $this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), 'name' => Translation :: get('ClassGroups'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('ClassGroupUpdate'));
 		$id = $_GET[ClassGroupManager :: PARAM_CLASSGROUP_ID];
 		if ($id)
 		{
@@ -24,7 +24,7 @@ class ClassGroupManagerEditorComponent extends ClassGroupManagerComponent
 			if (!$this->get_user()->is_platform_admin())
 			{
 				$this->display_header();
-				Display :: display_error_message(Translation :: get_lang("NotAllowed"));
+				Display :: display_error_message(Translation :: get("NotAllowed"));
 				$this->display_footer();
 				exit;
 			}
@@ -34,7 +34,7 @@ class ClassGroupManagerEditorComponent extends ClassGroupManagerComponent
 			if($form->validate())
 			{
 				$success = $form->update_classgroup();
-				$this->redirect('url', Translation :: get_lang($success ? 'ClassGroupUpdated' : 'ClassGroupNotUpdated'), ($success ? false : true), array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS));
+				$this->redirect('url', Translation :: get($success ? 'ClassGroupUpdated' : 'ClassGroupNotUpdated'), ($success ? false : true), array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS));
 			}
 			else
 			{
@@ -45,7 +45,7 @@ class ClassGroupManagerEditorComponent extends ClassGroupManagerComponent
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get_lang('NoClassGroupSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoClassGroupSelected')));
 		}
 	}
 }

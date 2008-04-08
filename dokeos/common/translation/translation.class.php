@@ -51,7 +51,7 @@ class Translation
 	 * Returns the instance of this class.
 	 * @return Translation The instance.
 	 */
-	function get_lang($variable)
+	function get($variable)
 	{
 		$instance = self :: get_instance();
 		return $instance->translate($variable);

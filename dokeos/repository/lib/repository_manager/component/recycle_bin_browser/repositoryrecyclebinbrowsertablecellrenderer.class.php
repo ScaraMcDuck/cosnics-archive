@@ -52,7 +52,7 @@ class RepositoryRecycleBinBrowserTableCellRenderer extends DefaultLearningObject
 				$pid = $learning_object->get_parent_id();
 				if (!isset($this->parent_title_cache[$pid]))
 				{
-					$this->parent_title_cache[$pid] = '<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.htmlentities(Translation :: get_lang('BrowseThisCategory')).'">'.htmlentities($this->browser->retrieve_learning_object($pid)->get_title()).'</a>';
+					$this->parent_title_cache[$pid] = '<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.htmlentities(Translation :: get('BrowseThisCategory')).'">'.htmlentities($this->browser->retrieve_learning_object($pid)->get_title()).'</a>';
 				}
 				return $this->parent_title_cache[$pid];
 		}
@@ -70,12 +70,12 @@ class RepositoryRecycleBinBrowserTableCellRenderer extends DefaultLearningObject
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_restoring_url($learning_object),
 			'img' => $this->browser->get_path(WEB_IMG_PATH).'restore.gif',
-			'label' => Translation :: get_lang('Restore')
+			'label' => Translation :: get('Restore')
 		);
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_deletion_url($learning_object),
 			'img' => $this->browser->get_path(WEB_IMG_PATH).'delete.gif',
-			'label' => Translation :: get_lang('Delete'),
+			'label' => Translation :: get('Delete'),
 			'confirm' => true
 		);
 		return RepositoryUtilities :: build_toolbar($toolbar_data);

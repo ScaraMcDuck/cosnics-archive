@@ -30,7 +30,7 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Groups_title');
+		return Translation :: get('Groups_title');
 	}
 	
 	/**
@@ -41,11 +41,11 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 		for($i=0; $i<1; $i++)
 		{
 			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
-				Translation :: get_lang('migrated');
+				Translation :: get('migrated');
 			
 			if(count($this->failed_elements[$i]) > 0)
 				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
-					 $this->get_message($i) . ' ' . Translation :: get_lang('failed');
+					 $this->get_message($i) . ' ' . Translation :: get('failed');
 			
 			foreach($this->failed_elements[$i] as $felement)
 			{
@@ -55,25 +55,25 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 			$message = $message . '<br />';
 		}
 		
-		$message = $message . '<br />' . Translation :: get_lang('Dont_forget');
+		$message = $message . '<br />' . Translation :: get('Dont_forget');
 		
 		return $message;
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Course_meta_info');
+		return Translation :: get('Course_meta_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			//case 0: return Translation :: get_lang('Group categories');
-			case 0: return Translation :: get_lang('Groups'); 
-			case 1: return Translation :: get_lang('Group_rel_users');
-			case 2: return Translation :: get_lang('Group_rel_tutors');  
-			default: return Translation :: get_lang('Groups'); 
+			//case 0: return Translation :: get('Group categories');
+			case 0: return Translation :: get('Groups'); 
+			case 1: return Translation :: get('Group_rel_users');
+			case 2: return Translation :: get('Group_rel_tutors');  
+			default: return Translation :: get('Groups'); 
 		}
 	}
 	
@@ -81,7 +81,7 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 	function buildForm()
 	{
 		$this->_formBuilt = true;
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 	}
 	
@@ -91,8 +91,8 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('groups'))
 		{
-			echo(Translation :: get_lang('Groups') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Groups') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -143,12 +143,12 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Groups') . ' ' .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' OR ' .
-				     Translation :: get_lang('Courses') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Groups') . ' ' .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' OR ' .
+				     Translation :: get('Courses') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Groups failed because users or courses skipped');
 				$this->succes[1] = 0;
 			}
@@ -156,8 +156,8 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Groups')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Groups')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Groups kipped');
 			
 			return false;

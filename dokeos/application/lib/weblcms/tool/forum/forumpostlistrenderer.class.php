@@ -55,8 +55,8 @@ class ForumPostListRenderer extends ListLearningObjectPublicationListRenderer
 	function render_publication_information($publication)
 	{
 		$html = array ();
-		$html[] = htmlentities(Translation :: get_lang('PublishedOn')).' '.$this->render_publication_date($publication);
-		$html[] = htmlentities(Translation :: get_lang('By')).' '.$this->render_publisher($publication);
+		$html[] = htmlentities(Translation :: get('PublishedOn')).' '.$this->render_publication_date($publication);
+		$html[] = htmlentities(Translation :: get('By')).' '.$this->render_publisher($publication);
 		return implode("\n", $html);
 	}
 	/**

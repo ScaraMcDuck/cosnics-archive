@@ -31,7 +31,7 @@
 ==============================================================================
 */
 
-require_once(Path :: get_path(SYS_LIB_PATH) . 'translation/translation.class.php');
+require_once(Path :: get(SYS_LIB_PATH) . 'translation/translation.class.php');
 
 class Text
 {
@@ -82,13 +82,13 @@ class Text
 	public static function format_locale_date( $dateFormat, $timeStamp = -1)
 	{
 		// Defining the shorts for the days
-		$DaysShort = array (Translation :: get_lang("SundayShort"), Translation :: get_lang("MondayShort"), Translation :: get_lang("TuesdayShort"), Translation :: get_lang("WednesdayShort"), Translation :: get_lang("ThursdayShort"), Translation :: get_lang("FridayShort"), Translation :: get_lang("SaturdayShort"));
+		$DaysShort = array (Translation :: get("SundayShort"), Translation :: get("MondayShort"), Translation :: get("TuesdayShort"), Translation :: get("WednesdayShort"), Translation :: get("ThursdayShort"), Translation :: get("FridayShort"), Translation :: get("SaturdayShort"));
 		// Defining the days of the week to allow translation of the days
-		$DaysLong = array (Translation :: get_lang("SundayLong"), Translation :: get_lang("MondayLong"), Translation :: get_lang("TuesdayLong"), Translation :: get_lang("WednesdayLong"), Translation :: get_lang("ThursdayLong"), Translation :: get_lang("FridayLong"), Translation :: get_lang("SaturdayLong"));
+		$DaysLong = array (Translation :: get("SundayLong"), Translation :: get("MondayLong"), Translation :: get("TuesdayLong"), Translation :: get("WednesdayLong"), Translation :: get("ThursdayLong"), Translation :: get("FridayLong"), Translation :: get("SaturdayLong"));
 		// Defining the shorts for the months
-		$MonthsShort = array (Translation :: get_lang("JanuaryShort"), Translation :: get_lang("FebruaryShort"), Translation :: get_lang("MarchShort"), Translation :: get_lang("AprilShort"), Translation :: get_lang("MayShort"), Translation :: get_lang("JuneShort"), Translation :: get_lang("JulyShort"), Translation :: get_lang("AugustShort"), Translation :: get_lang("SeptemberShort"), Translation :: get_lang("OctoberShort"), Translation :: get_lang("NovemberShort"), Translation :: get_lang("DecemberShort"));
+		$MonthsShort = array (Translation :: get("JanuaryShort"), Translation :: get("FebruaryShort"), Translation :: get("MarchShort"), Translation :: get("AprilShort"), Translation :: get("MayShort"), Translation :: get("JuneShort"), Translation :: get("JulyShort"), Translation :: get("AugustShort"), Translation :: get("SeptemberShort"), Translation :: get("OctoberShort"), Translation :: get("NovemberShort"), Translation :: get("DecemberShort"));
 		// Defining the months of the year to allow translation of the months
-		$MonthsLong = array (Translation :: get_lang("JanuaryLong"), Translation :: get_lang("FebruaryLong"), Translation :: get_lang("MarchLong"), Translation :: get_lang("AprilLong"), Translation :: get_lang("MayLong"), Translation :: get_lang("JuneLong"), Translation :: get_lang("JulyLong"), Translation :: get_lang("AugustLong"), Translation :: get_lang("SeptemberLong"), Translation :: get_lang("OctoberLong"), Translation :: get_lang("NovemberLong"), Translation :: get_lang("DecemberLong"));
+		$MonthsLong = array (Translation :: get("JanuaryLong"), Translation :: get("FebruaryLong"), Translation :: get("MarchLong"), Translation :: get("AprilLong"), Translation :: get("MayLong"), Translation :: get("JuneLong"), Translation :: get("JulyLong"), Translation :: get("AugustLong"), Translation :: get("SeptemberLong"), Translation :: get("OctoberLong"), Translation :: get("NovemberLong"), Translation :: get("DecemberLong"));
 	
 		if ($timeStamp == -1) $timeStamp = time();
 	

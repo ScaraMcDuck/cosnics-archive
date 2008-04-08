@@ -20,9 +20,9 @@ class WeblcmsCourseDeleterComponent extends WeblcmsComponent
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$breadcrumbs = array();
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('DeleteCourse'));
+			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('DeleteCourse'));
 			$this->display_header($breadcrumbs);
-			Display :: display_error_message(Translation :: get_lang("NotAllowed"));
+			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}
@@ -67,11 +67,11 @@ class WeblcmsCourseDeleterComponent extends WeblcmsComponent
 				}
 			}
 			
-			$this->redirect(null, Translation :: get_lang($message), ($failures ? true : false), array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER));
+			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER));
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get_lang('NoCourseSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoCourseSelected')));
 		}
 	}
 }

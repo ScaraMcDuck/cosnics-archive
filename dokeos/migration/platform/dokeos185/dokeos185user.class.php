@@ -502,18 +502,18 @@ class Dokeos185User extends Import
 		
 		// Category for calendar events already exists?
 		$lcms_category_id = self :: $mgdm->get_parent_id($lcms_user->get_user_id(), 'category',
-			Translation :: get_lang('profiles'));
+			Translation :: get('profiles'));
 		if(!$lcms_category_id)
 		{
 			//Create category for tool in lcms
 			$lcms_repository_category = new Category();
 			$lcms_repository_category->set_owner_id($lcms_user->get_user_id());
-			$lcms_repository_category->set_title(Translation :: get_lang('profiles'));
+			$lcms_repository_category->set_title(Translation :: get('profiles'));
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from user
 			$repository_id = self :: $mgdm->get_parent_id($lcms_user->get_user_id(), 
-				'category', Translation :: get_lang('MyRepository'));
+				'category', Translation :: get('MyRepository'));
 	
 			$lcms_repository_category->set_parent_id($repository_id);
 			
@@ -551,7 +551,7 @@ class Dokeos185User extends Import
 				//Create category for user in lcms
 				$lcms_repository_category = new Category();
 				$lcms_repository_category->set_owner_id($lcms_user->get_user_id());
-				$lcms_repository_category->set_title(Translation :: get_lang('productions'));
+				$lcms_repository_category->set_title(Translation :: get('productions'));
 				$lcms_repository_category->set_description('...');
 		
 				//Retrieve repository id from user

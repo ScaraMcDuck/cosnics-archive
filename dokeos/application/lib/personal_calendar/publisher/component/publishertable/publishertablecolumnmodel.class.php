@@ -44,7 +44,7 @@ class PublisherTableColumnModel extends LearningObjectTableColumnModel {
 	{
 		if (!isset(self :: $action_column))
 		{
-			self :: $action_column = new LearningObjectTableColumn(Translation :: get_lang('Publish'));
+			self :: $action_column = new LearningObjectTableColumn(Translation :: get('Publish'));
 		}
 		return self :: $action_column;
 	}

@@ -31,7 +31,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Courses_title');
+		return Translation :: get('Courses_title');
 	}
 	
 	/**
@@ -42,11 +42,11 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		for($i=0; $i<4; $i++)
 		{
 			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
-				Translation :: get_lang('migrated');
+				Translation :: get('migrated');
 			
 			if(count($this->failed_elements[$i]) > 0)
 				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
-					 $this->get_message($i) . ' ' . Translation :: get_lang('failed');
+					 $this->get_message($i) . ' ' . Translation :: get('failed');
 			
 			foreach($this->failed_elements[$i] as $felement)
 			{
@@ -56,26 +56,26 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			$message = $message . '<br />';
 		}
 		
-		$message = $message . '<br />' . Translation :: get_lang('Dont_forget');
+		$message = $message . '<br />' . Translation :: get('Dont_forget');
 		
 		return $message;
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Personal_agenda_info');
+		return Translation :: get('Personal_agenda_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Course_Categories'); 
-			case 1: return Translation :: get_lang('Course_User_Categories'); 
-			case 2: return Translation :: get_lang('Courses'); 
-			case 3: return Translation :: get_lang('Course_User_Relations'); 
-			case 4: return Translation :: get_lang('Course_Class_Relations'); ;
-			default: return Translation :: get_lang('Courses'); 
+			case 0: return Translation :: get('Course_Categories'); 
+			case 1: return Translation :: get('Course_User_Categories'); 
+			case 2: return Translation :: get('Courses'); 
+			case 3: return Translation :: get('Course_User_Relations'); 
+			case 4: return Translation :: get('Course_Class_Relations'); ;
+			default: return Translation :: get('Courses'); 
 		}
 	}
 	
@@ -83,7 +83,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 	function buildForm()
 	{
 		$this->_formBuilt = true;
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 	}
@@ -94,8 +94,8 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('courses'))
 		{
-			echo(Translation :: get_lang('Courses') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Courses') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -135,12 +135,12 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Course_User_Categories') . ' & ' .
-					 Translation :: get_lang('Course_User_Relations') . ' ' .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Course_User_Categories') . ' & ' .
+					 Translation :: get('Course_User_Relations') . ' ' .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Course user categories and user relations failed because users skipped');
 				$this->succes[1] = 0;
 				$this->succes[3] = 0;
@@ -153,11 +153,11 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Course_Class_Relations') . ' ' .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Classes') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Course_Class_Relations') . ' ' .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Classes') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Course classes failed because users skipped');
 				$this->succes[4] = 0;
 			}
@@ -165,8 +165,8 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Courses')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Courses')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Courses skipped');
 			
 			return false;

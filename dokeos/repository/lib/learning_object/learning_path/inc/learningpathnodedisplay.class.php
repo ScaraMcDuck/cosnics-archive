@@ -16,13 +16,13 @@ class LearningPathNodeDisplay extends LearningObjectDisplay
 		$is_chapter = ($object->get_type() == 'learning_path_chapter');
 		$table = new LearningPathTable($object, $this->get_learning_object_url_format(), true);
 		$html[] = parent :: get_full_html();
-		$html[] = self :: intermediate_header(Translation :: get_lang('ChaptersIn' . ($is_chapter ? 'Chapter' : 'LearningPath')));
+		$html[] = self :: intermediate_header(Translation :: get('ChaptersIn' . ($is_chapter ? 'Chapter' : 'LearningPath')));
 		$html[] = $table->as_html();
 		if ($is_chapter)
 		{
 			$table = new LearningPathTable($object, $this->get_learning_object_url_format(), false);
 			$html[] = parent :: get_full_html();
-			$html[] = self :: intermediate_header(Translation :: get_lang('ItemsInChapter'));
+			$html[] = self :: intermediate_header(Translation :: get('ItemsInChapter'));
 			$html[] = $table->as_html();
 		}
 		return implode("\n", $html);

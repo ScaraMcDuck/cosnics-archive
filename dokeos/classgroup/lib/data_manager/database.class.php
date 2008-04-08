@@ -266,7 +266,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (ClassGroup :: get_default_property_names() as $prop)
@@ -280,7 +280,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 		return new ClassGroupRelUser($record[ClassGroupRelUser :: PROPERTY_CLASSGROUP_ID], $record[ClassGroupRelUser :: PROPERTY_USER_ID]);
 	}

@@ -116,7 +116,7 @@ require_once(dirname(__FILE__).'/session/platformsession.class.php');
 require_once(dirname(__FILE__).'/translation/translation.class.php');
 require_once dirname(__FILE__).'/html/text.class.php';
 require_once dirname(__FILE__).'/mail/mail.class.php';
-require_once(Path :: get_path(SYS_LIB_PATH) . 'html/display.class.php');
+require_once(Path :: get(SYS_LIB_PATH) . 'html/display.class.php');
 
 require_once(Path :: get_admin_path().'lib/admindatamanager.class.php');
 require_once 'MDB2.php';

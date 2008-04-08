@@ -25,20 +25,20 @@ class StudentPublicationsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Student_publications_title');
+		return Translation :: get('Student_publications_title');
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Student_publications_info');
+		return Translation :: get('Student_publications_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Student_publications');
-			default: return Translation :: get_lang('Student_publications'); 
+			case 0: return Translation :: get('Student_publications');
+			default: return Translation :: get('Student_publications'); 
 		}
 	}
 
@@ -48,8 +48,8 @@ class StudentPublicationsMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('student_publications'))
 		{
-			echo(Translation :: get_lang('Student_publications') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Student_publications') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -96,11 +96,11 @@ class StudentPublicationsMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Student_publications') .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Student_publications') .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Student publications failed because users or courses skipped');
 				$this->succes = array(0);
 			}
@@ -108,8 +108,8 @@ class StudentPublicationsMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Student_publications')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Student_publications')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Student publications skipped');
 			
 			return false;

@@ -18,9 +18,9 @@ class UserManagerExporterComponent extends UserManagerComponent
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$breadcrumbs = array();
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('UserCreateExport'));
+			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('UserCreateExport'));
 			$this->display_header($breadcrumbs);
-			Display :: display_error_message(Translation :: get_lang("NotAllowed"));
+			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}
@@ -28,7 +28,7 @@ class UserManagerExporterComponent extends UserManagerComponent
 		$form = new UserExportForm(UserExportForm :: TYPE_EXPORT, $this->get_url());
 
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('UserCreateExport'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('UserCreateExport'));
 
 		if($form->validate())
 		{

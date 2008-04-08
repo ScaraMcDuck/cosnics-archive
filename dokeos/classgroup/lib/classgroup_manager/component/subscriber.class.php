@@ -17,13 +17,13 @@ class ClassGroupManagerSubscriberComponent extends ClassGroupManagerComponent
 	function run()
 	{		
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), 'name' => Translation :: get_lang('ClassGroups'));
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('GroupRelUserCreate'));
+		$breadcrumbs[] = array ('url' => $this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), 'name' => Translation :: get('ClassGroups'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('GroupRelUserCreate'));
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($breadcrumbs);
-			Display :: display_error_message(Translation :: get_lang("NotAllowed"));
+			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}

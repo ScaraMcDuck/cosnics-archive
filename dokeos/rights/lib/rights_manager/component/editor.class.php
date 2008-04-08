@@ -18,8 +18,8 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		$this->location_id = $_GET['location_id'];
 		
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), 'name' => Translation :: get_lang('Rights'));
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('EditRights'));
+		$breadcrumbs[] = array ('url' => $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), 'name' => Translation :: get('Rights'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('EditRights'));
 		
 		$component_action = $_GET[RightsManager :: PARAM_COMPONENT_ACTION];
 		
@@ -53,15 +53,15 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 			}
 			$success = $rolerightlocation->update();
 			
-			$this->redirect('url', Translation :: get_lang($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, 'location_id' =>$location_id));
+			$this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, 'location_id' =>$location_id));
 		}
 	}
 	
 	function show_rights_list()
 	{
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), 'name' => Translation :: get_lang('Rights'));
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('EditRights'));
+		$breadcrumbs[] = array ('url' => $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), 'name' => Translation :: get('Rights'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('EditRights'));
 		$this->display_header($breadcrumbs);
 		
 		echo $this->get_locations_list_html();
@@ -72,7 +72,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		}
 		else
 		{
-			echo Translation :: get_lang('SelectLocationFull');
+			echo Translation :: get('SelectLocationFull');
 		}
 		
 		$this->display_footer();
@@ -87,10 +87,10 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		$html[] = '<div>';
 		$html[] = '<form method="get" action="'.$this->get_url().'" style="display: inline;">';
 		$html[] = '<input type="hidden" name="'.RightsManager :: PARAM_ACTION.'" value="'. RightsManager :: ACTION_EDIT_RIGHTS .'" />';
-		$html[] = Translation :: get_lang('Location') . ':&nbsp;<select name="location_id" onchange="submit();">';
+		$html[] = Translation :: get('Location') . ':&nbsp;<select name="location_id" onchange="submit();">';
 		
 		$locations = $this->retrieve_locations();
-		$html[] = '<option value=""'. ($location_id == null ? ' selected="selected"' : '').' disabled>'.Translation :: get_lang('SelectLocation').'</option>';
+		$html[] = '<option value=""'. ($location_id == null ? ' selected="selected"' : '').' disabled>'.Translation :: get('SelectLocation').'</option>';
 		
 		while ($location = $locations->next_result())
 		{
@@ -126,7 +126,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		
 		while ($right = $rights->next_result())
 		{
-			$html[] = '<div style="float: left; width: 24%; text-align: center;">'. Translation :: get_lang($right->get_name()) .'</div>';
+			$html[] = '<div style="float: left; width: 24%; text-align: center;">'. Translation :: get($right->get_name()) .'</div>';
 			$rights_array[$right->get_id()] = $right->get_name();
 		}
 		$html[] = '</div>';
@@ -139,7 +139,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		while ($role = $roles->next_result())
 		{
 			$html[] = '<div style="padding: 5px; border-bottom: 1px solid #DDDDDD;">';
-			$html[] = '<div style="float: left; width: 50%;">'. Translation :: get_lang($role->get_name()) .'</div>';
+			$html[] = '<div style="float: left; width: 50%;">'. Translation :: get($role->get_name()) .'</div>';
 			$html[] = '<div style="float: right; width: 40%;">';
 			
 			foreach ($rights_array as $id => $name)

@@ -40,7 +40,7 @@ class PmPublicationTableColumn
 		if ($contains_personal_message_property)
 		{
 			$this->personal_message_property = $property_name_or_column_title;
-			$this->title = Translation :: get_lang(ucfirst($this->personal_message_property));
+			$this->title = Translation :: get(ucfirst($this->personal_message_property));
 			$this->sortable = true;
 		}
 		else

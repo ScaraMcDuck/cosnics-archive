@@ -27,7 +27,7 @@ class PersonalMessengerPublisherComponent extends PersonalMessengerComponent
 		}
 		
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('SendPersonalMessage'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('SendPersonalMessage'));
 		
 		$publisher = $this->get_publisher_html();
 		

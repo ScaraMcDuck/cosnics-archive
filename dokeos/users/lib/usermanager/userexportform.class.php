@@ -33,8 +33,8 @@ class UserExportForm extends FormValidator {
 
     function build_exporting_form()
     {
-    	$this->addElement('select', 'file_type', Translation :: get_lang('OutputFileType'),Export::get_supported_filetypes());
-		$this->addElement('submit', 'user_export', Translation :: get_lang('Ok'));
+    	$this->addElement('select', 'file_type', Translation :: get('OutputFileType'),Export::get_supported_filetypes());
+		$this->addElement('submit', 'user_export', Translation :: get('Ok'));
 		$this->setDefaults(array('file_type'=>'csv'));
 
     }

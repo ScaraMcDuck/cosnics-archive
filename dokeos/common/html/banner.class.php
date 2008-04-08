@@ -80,7 +80,7 @@ class Banner
 			$output[] = '<input type="hidden" name="logout" value="true"/>';
 			$output[] = '<input type="hidden" name="uid" value="'.$_SESSION['_uid'].'"/>';
 			$output[] = '<div id="logout">';
-			$output[] = '<input type="submit" name="submit" value="'.Translation :: get_lang("Logout").'" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'" class="logout"/>';
+			$output[] = '<input type="submit" name="submit" value="'.Translation :: get("Logout").'" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'" class="logout"/>';
 			$output[] = '</div>';
 			$output[] = '</form>';
 
@@ -111,7 +111,7 @@ class Banner
 				}
 
 				$output[] = '<a '.$link_class.' href="'.$this->get_path(WEB_PATH).'run.php?application='.$application.'" target="_top">';
-				$output[] = Translation :: get_lang(Application::application_to_class($application));
+				$output[] = Translation :: get(Application::application_to_class($application));
 				$output[] = ($count > 0 ? '&nbsp;('.$count.')' : null);
 				$output[] = '</a>&nbsp;';
 			}
@@ -126,7 +126,7 @@ class Banner
 			}
 
 			$output[] = '<a '.$link_class.' href="'.$this->get_path(WEB_PATH).'index_repository_manager.php" target="_top">';
-			$output[] = Translation :: get_lang('MyRepository');
+			$output[] = Translation :: get('MyRepository');
 			$output[] = '</a>&nbsp;';
 
 			if ($GLOBALS['this_section'] == "myaccount")
@@ -139,7 +139,7 @@ class Banner
 			}
 
 			$output[] = '<a '.$link_class.' href="'.$this->get_path(WEB_PATH).'index_user.php?go=account" target="_top">';
-			$output[] = Translation :: get_lang('ModifyProfile');
+			$output[] = Translation :: get('ModifyProfile');
 			$output[] = '</a>&nbsp;';
 
 			if ($user->is_platform_admin())
@@ -153,29 +153,29 @@ class Banner
 					$link_class = '';
 				}
 				$output[] = '<a id="admin" '.$link_class.' href="'.$this->get_path(WEB_PATH).'index_admin.php" target="_top">';
-				$output[] = Translation :: get_lang('PlatformAdmin');
+				$output[] = Translation :: get('PlatformAdmin');
 				$output[] = '</a>&nbsp;';
 			}
 
 			$output[] = '</div> <!-- end of header3 (user) section -->';
 		}
-		global $interbredcrump;
-		if (isset ($nameTools) || is_array($interbredcrump))
+		global $interbreadcrumb;
+		if (isset ($nameTools) || is_array($interbreadcrumb))
 		{
-			if (!isset ($_SESSION['_uid']))
-			{
-				$output[] = " ";
-			}
-			else
-			{
+//			if (!isset ($_SESSION['_uid']))
+//			{
+//				$output[] = " ";
+//			}
+//			else
+//			{
 				$output[] = '&nbsp;&nbsp;<a href="'.$this->get_path(WEB_PATH).'index.php" target="_top">'.$this->get_setting('site_name', 'admin').'</a>';
-			}
+//			}
 		}
 
 		// else we set the site name bold
-		if (is_array($interbredcrump))
+		if (is_array($interbreadcrumb))
 		{
-			foreach ($interbredcrump as $breadcrumb_step)
+			foreach ($interbreadcrumb as $breadcrumb_step)
 			{
 				$output[] = '&nbsp;&gt; <a href="'.$breadcrumb_step['url'].'" target="_top">'.$breadcrumb_step['name'].'</a>';
 			}
@@ -212,7 +212,7 @@ class Banner
 	
 	function get_path($path_type)
 	{
-		return Path :: get_path($path_type);
+		return Path :: get($path_type);
 	}
 }
 ?>

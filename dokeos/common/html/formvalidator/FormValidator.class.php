@@ -101,7 +101,7 @@ EOT;
 
 EOT;
 		$renderer->setHeaderTemplate($header_template);
-		HTML_QuickForm :: setRequiredNote('<span class="form_required">*</span> <small>'.Translation :: get_lang('ThisFieldIsRequired').'</small>');
+		HTML_QuickForm :: setRequiredNote('<span class="form_required">*</span> <small>'.Translation :: get('ThisFieldIsRequired').'</small>');
 		$required_note_template = <<<EOT
 	<div class="row">
 		<div class="label"></div>
@@ -131,7 +131,7 @@ EOT;
 		$this->applyFilter($name,'trim');
 		if($required)
 		{
-			$this->addRule($name, Translation :: get_lang('ThisFieldIsRequired'), 'required');
+			$this->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
 		}
 		return $element;
 	}
@@ -151,7 +151,7 @@ EOT;
 		$element = $this->addElement('select', $name, $label, $values, $attributes);
 		if($required)
 		{
-			$this->addRule($name, Translation :: get_lang('ThisFieldIsRequired'), 'required');
+			$this->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
 		}
 		return $element;
 	}
@@ -184,7 +184,7 @@ EOT;
 		}
 		if($required)
 		{
-			$this->addRule($name, Translation :: get_lang('ThisFieldIsRequired'), 'required');
+			$this->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
 		}
 		if($full_page)
 		{
@@ -192,7 +192,7 @@ EOT;
 			$el->fullPage = true;
 		}
 		//Add rule to check not-allowed HTML
-		$this->addRule($name,Translation :: get_lang('SomeHTMLNotAllowed'),'html',$html_type);
+		$this->addRule($name,Translation :: get('SomeHTMLNotAllowed'),'html',$html_type);
 		return $element;
 	}
 
@@ -206,7 +206,7 @@ EOT;
 	function add_datepicker($name,$label)
 	{
 		$element = $this->addElement('datepicker', $name, $label, array ('form_name' => $this->getAttribute('name')));
-		$this->addRule($name, Translation :: get_lang('InvalidDate'), 'date');
+		$this->addRule($name, Translation :: get('InvalidDate'), 'date');
 		return $element;
 	}
 
@@ -221,16 +221,16 @@ EOT;
 	{
 		$this->add_datepicker($name_1, $label_1);
 		$this->add_datepicker( $name_2, $label_2);
-		$this->addRule(array ($name_1, $name_2), Translation :: get_lang('StartDateShouldBeBeforeEndDate'), 'date_compare', 'lte');
+		$this->addRule(array ($name_1, $name_2), Translation :: get('StartDateShouldBeBeforeEndDate'), 'date_compare', 'lte');
 	}
 	/**
 	 *
 	 */
 	function add_forever_or_timewindow()
 	{
-		$choices[] = $this->createElement('radio','forever','',Translation :: get_lang('Forever'),1,array ('onclick' => 'javascript:timewindow_hide(\'forever_timewindow\')'));
-		$choices[] = $this->createElement('radio','forever','',Translation :: get_lang('LimitedPeriod'),0,array ('onclick' => 'javascript:timewindow_show(\'forever_timewindow\')'));
-		$this->addGroup($choices,null,Translation :: get_lang('PublicationPeriod'),'<br />',false);
+		$choices[] = $this->createElement('radio','forever','',Translation :: get('Forever'),1,array ('onclick' => 'javascript:timewindow_hide(\'forever_timewindow\')'));
+		$choices[] = $this->createElement('radio','forever','',Translation :: get('LimitedPeriod'),0,array ('onclick' => 'javascript:timewindow_show(\'forever_timewindow\')'));
+		$this->addGroup($choices,null,Translation :: get('PublicationPeriod'),'<br />',false);
 		$this->addElement('html','<div style="margin-left:25px;display:block;" id="forever_timewindow">');
 		$this->add_timewindow('from_date','to_date','','');
 		$this->addElement('html','</div>');
@@ -253,8 +253,8 @@ EOT;
 	 */
 	function add_resource_button()
 	{
-		$group[] = $this->createElement('static','add_resource_img',null,'<img src="'.Path :: get_path(WEB_CODE_PATH).'img/attachment.gif" alt="'.Translation :: get_lang('Attachment').'"/>');
-		$group[] = $this->createElement('submit','add_resource',Translation :: get_lang('Attachment'),'class="link_alike"');
+		$group[] = $this->createElement('static','add_resource_img',null,'<img src="'.Path :: get(WEB_CODE_PATH).'img/attachment.gif" alt="'.Translation :: get('Attachment').'"/>');
+		$group[] = $this->createElement('submit','add_resource',Translation :: get('Attachment'),'class="link_alike"');
 		$this->addGroup($group);
 	}
 	/**
@@ -268,8 +268,8 @@ EOT;
 	function add_progress_bar($delay = 2)
 	{
 		$this->with_progress_bar = true;
-		$this->updateAttributes("onsubmit=\"myUpload.start('dynamic_div','".Path :: get_path(WEB_IMG_PATH)."progress_bar.gif','".Translation :: get_lang('PleaseStandBy')."','".$this->getAttribute('id')."')\"");
-		$this->addElement('html','<script language="javascript" src="'.Path :: get_path(WEB_LIB_PATH).'javascript/upload.js" type="text/javascript"></script>');
+		$this->updateAttributes("onsubmit=\"myUpload.start('dynamic_div','".Path :: get(WEB_IMG_PATH)."progress_bar.gif','".Translation :: get('PleaseStandBy')."','".$this->getAttribute('id')."')\"");
+		$this->addElement('html','<script language="javascript" src="'.Path :: get(WEB_LIB_PATH).'javascript/upload.js" type="text/javascript"></script>');
 		$this->addElement('html','<script type="text/javascript">var myUpload = new upload('.(abs(intval($delay))*1000).');</script>');
     }
 
@@ -456,7 +456,7 @@ EOT;
 		}
 		elseif($error)
 		{
-			$return_value .= Display::display_error_message(Translation :: get_lang('FormHasErrorsPleaseComplete'),true);
+			$return_value .= Display::display_error_message(Translation :: get('FormHasErrorsPleaseComplete'),true);
 		}
 		$return_value .= parent::toHtml();
 		// Add the div which will hold the progress bar

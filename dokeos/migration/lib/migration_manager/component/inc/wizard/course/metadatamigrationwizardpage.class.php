@@ -30,7 +30,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Course_meta_title');
+		return Translation :: get('Course_meta_title');
 	}
 	
 	/**
@@ -41,11 +41,11 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 		for($i=0; $i<1; $i++)
 		{
 			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
-				Translation :: get_lang('migrated');
+				Translation :: get('migrated');
 			
 			if(count($this->failed_elements[$i]) > 0)
 				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
-					 $this->get_message($i) . ' ' . Translation :: get_lang('failed');
+					 $this->get_message($i) . ' ' . Translation :: get('failed');
 			
 			foreach($this->failed_elements[$i] as $felement)
 			{
@@ -55,25 +55,25 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 			$message = $message . '<br />';
 		}
 		
-		$message = $message . '<br />' . Translation :: get_lang('Dont_forget');
+		$message = $message . '<br />' . Translation :: get('Dont_forget');
 		
 		return $message;
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Course_meta_info');
+		return Translation :: get('Course_meta_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Course_meta_Descriptions'); 
-			case 1: return Translation :: get_lang('Course_meta_Tools');
-			case 2: return Translation :: get_lang('Course_meta_Settings');  
-			case 2: return Translation :: get_lang('Course_tool_intros');  
-			default: return Translation :: get_lang('Course_meta_Descriptions'); 
+			case 0: return Translation :: get('Course_meta_Descriptions'); 
+			case 1: return Translation :: get('Course_meta_Tools');
+			case 2: return Translation :: get('Course_meta_Settings');  
+			case 2: return Translation :: get('Course_tool_intros');  
+			default: return Translation :: get('Course_meta_Descriptions'); 
 		}
 	}
 	
@@ -81,7 +81,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 	function buildForm()
 	{
 		$this->_formBuilt = true;
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 	}
 	
@@ -91,8 +91,8 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('metadata'))
 		{
-			echo(Translation :: get_lang('Course_metadata') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Course_metadata') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -142,12 +142,12 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Course_metadata') . ' ' .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' OR ' .
-				     Translation :: get_lang('Courses') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Course_metadata') . ' ' .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' OR ' .
+				     Translation :: get('Courses') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Course metadata failed because users or courses skipped');
 				$this->succes[1] = 0;
 			}
@@ -155,8 +155,8 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Course_metadata')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Course_metadata')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Course metadata kipped');
 			
 			return false;

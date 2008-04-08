@@ -37,6 +37,7 @@
 */
 
 // TODO: Not used right now ... do we want to implement this option ?
+// TODO: Rewrite to use MDB2 if used at some point
 
 class session_handler
 {
@@ -49,11 +50,10 @@ class session_handler
 
 	function session_handler()
 	{
-		global $dbHost, $dbLogin, $dbPass, $mainDbName;
 
 		$this->lifetime=60; // 60 minutes
 
-		$this->connexion=array('server' => $dbHost,'login' => $dbLogin,'password' => $dbPass,'base' => $mainDbName);
+		//$this->connexion=array('server' => $dbHost,'login' => $dbLogin,'password' => $dbPass,'base' => $mainDbName);
 
 		$this->idConnexion=false;
 	}

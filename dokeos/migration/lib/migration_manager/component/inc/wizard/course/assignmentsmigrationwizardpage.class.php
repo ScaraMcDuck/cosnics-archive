@@ -25,22 +25,22 @@ class AssignmentsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Assignments_title');
+		return Translation :: get('Assignments_title');
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Assignments_info');
+		return Translation :: get('Assignments_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Assignments');
-			case 1: return Translation :: get_lang('Assignment_files');
-			case 2: return Translation :: get_lang('Assignment_submissions');
-			default: return Translation :: get_lang('Assignments'); 
+			case 0: return Translation :: get('Assignments');
+			case 1: return Translation :: get('Assignment_files');
+			case 2: return Translation :: get('Assignment_submissions');
+			default: return Translation :: get('Assignments'); 
 		}
 	}
 
@@ -50,8 +50,8 @@ class AssignmentsMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('assignments'))
 		{
-			echo(Translation :: get_lang('Assignments') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Assignments') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -100,11 +100,11 @@ class AssignmentsMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Assignments') .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Assignments') .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Assignments failed because users or courses skipped');
 				$this->succes = array(0,0,0);
 			}
@@ -112,8 +112,8 @@ class AssignmentsMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Assignments')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Assignments')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Assignments skipped');
 			
 			return false;

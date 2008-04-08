@@ -14,11 +14,11 @@ class ClassGroupManagerTruncaterComponent extends ClassGroupManagerComponent
 		if (!$user->is_platform_admin())
 		{
 			$breadcrumbs = array();
-			$breadcrumbs[] = array ('url' => $this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), 'name' => Translation :: get_lang('ClassGroups'));
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('EmptyGroup'));
+			$breadcrumbs[] = array ('url' => $this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), 'name' => Translation :: get('ClassGroups'));
+			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('EmptyGroup'));
 			
 			$this->display_header($breadcrumbs);
-			Display :: display_error_message(Translation :: get_lang("NotAllowed"));
+			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}
@@ -66,11 +66,11 @@ class ClassGroupManagerTruncaterComponent extends ClassGroupManagerComponent
 				}
 			}
 			
-			$this->redirect('url', Translation :: get_lang($message), ($failures ? true : false), array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS));
+			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS));
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get_lang('NoClassGroupSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoClassGroupSelected')));
 		}
 	}
 }

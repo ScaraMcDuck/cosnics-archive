@@ -73,11 +73,11 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 		for($i=0; $i<count($this->succes); $i++)
 		{
 			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
-				Translation :: get_lang('migrated');
+				Translation :: get('migrated');
 			
 			if(count($this->failed_elements[$i]) > 0)
 				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
-					 $this->get_message($i) . ' ' . Translation :: get_lang('failed');
+					 $this->get_message($i) . ' ' . Translation :: get('failed');
 			
 			/*foreach($this->failed_elements[$i] as $felement)
 			{
@@ -87,7 +87,7 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 			$message = $message . '<br />';
 		}
 		
-		$message = $message . '<br />' . Translation :: get_lang('Dont_forget');
+		$message = $message . '<br />' . Translation :: get('Dont_forget');
 		
 		return $message;
 	}
@@ -156,7 +156,7 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 	function buildForm()
 	{
 		$this->_formBuilt = true;
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 	}
 	

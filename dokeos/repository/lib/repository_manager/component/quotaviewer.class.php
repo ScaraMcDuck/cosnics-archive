@@ -26,13 +26,13 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => Translation :: get_lang('Quota')));
+		$breadcrumbs = array(array('url' => $this->get_url(), 'name' => Translation :: get('Quota')));
 		$this->display_header($breadcrumbs);
 		$quotamanager = new QuotaManager($this->get_user());
-		echo '<h3>'.htmlentities(Translation :: get_lang('DiskSpace')).'</h3>';
+		echo '<h3>'.htmlentities(Translation :: get('DiskSpace')).'</h3>';
 		echo self :: get_bar($quotamanager->get_used_disk_space_percent(), Filesystem :: format_file_size($quotamanager->get_used_disk_space()).' / '. Filesystem :: format_file_size($quotamanager->get_max_disk_space()));
 		echo '<div style="clear: both;">&nbsp;</div>';
-		echo '<h3>'.htmlentities(Translation :: get_lang('NumberOfLearningObjects')).'</h3>';
+		echo '<h3>'.htmlentities(Translation :: get('NumberOfLearningObjects')).'</h3>';
 		echo self :: get_bar($quotamanager->get_used_database_space_percent(), $quotamanager->get_used_database_space().' / '.$quotamanager->get_max_database_space());
 		echo '<div style="clear: both;">&nbsp;</div>';
 		echo $this->get_version_quota();
@@ -89,13 +89,13 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 		$user_version_quota = $user->get_version_quota();
 		$html = array();
 
-		$html[] = '<h3>'.htmlentities(Translation :: get_lang('VersionQuota')).'</h3>';
+		$html[] = '<h3>'.htmlentities(Translation :: get('VersionQuota')).'</h3>';
 
 		$table = new SortableTable('version_quota', array ($this, 'get_registered_types_count'), array ($this, 'get_registered_types_data'), 1, 30, SORT_ASC);
 		$table->set_additional_parameters($this->get_parameters());
 		$table->set_header(0, null, false);
-		$table->set_header(1, Translation :: get_lang('Type'), false);
-		$table->set_header(2, Translation :: get_lang('Quota'), false);
+		$table->set_header(1, Translation :: get('Type'), false);
+		$table->set_header(2, Translation :: get('Quota'), false);
 		$html[] = $table->as_html();
 
 		return implode("\n", $html);
@@ -115,7 +115,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 
 		$quota_data_row = array();
 		$quota_data_row[] = '<img src="'. $this->get_path(WEB_IMG_PATH).'versions_large.gif" alt=""/>';
-		$quota_data_row[] = Translation :: get_lang('Default');
+		$quota_data_row[] = Translation :: get('Default');
 		$quota_data_row[] = $user->get_version_quota();
 
 		$quota_data[] = $quota_data_row;
@@ -125,7 +125,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 			$quota_data_row = array();
 
 			$quota_data_row[] = '<img src="'. $this->get_path(WEB_IMG_PATH). $type .'.gif" alt="'.$type.'"/>';
-			$quota_data_row[] = Translation :: get_lang(self :: type_to_class($type). 'TypeName');
+			$quota_data_row[] = Translation :: get(self :: type_to_class($type). 'TypeName');
 			$object = new AbstractLearningObject($type, $this->get_user_id());
 			if ($object->is_versionable())
 			{
@@ -133,7 +133,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 			}
 			else
 			{
-				$quota_data_row[] = Translation :: get_lang('NotVersionable');
+				$quota_data_row[] = Translation :: get('NotVersionable');
 			}
 
 			$quota_data[] = $quota_data_row;

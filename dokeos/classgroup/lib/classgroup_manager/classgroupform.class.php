@@ -35,10 +35,10 @@ class ClassGroupForm extends FormValidator {
     
     function build_basic_form()
     {
-		$this->addElement('text', ClassGroup :: PROPERTY_NAME, Translation :: get_lang('Name'));
-		$this->addRule(ClassGroup :: PROPERTY_NAME, Translation :: get_lang('ThisFieldIsRequired'), 'required');
-		$this->addElement('html_editor', ClassGroup :: PROPERTY_DESCRIPTION, Translation :: get_lang('Description'));
-		$this->addRule(ClassGroup :: PROPERTY_DESCRIPTION, Translation :: get_lang('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', ClassGroup :: PROPERTY_NAME, Translation :: get('Name'));
+		$this->addRule(ClassGroup :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('html_editor', ClassGroup :: PROPERTY_DESCRIPTION, Translation :: get('Description'));
+		$this->addRule(ClassGroup :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->addElement('submit', 'group_settings', 'OK');
     }
     

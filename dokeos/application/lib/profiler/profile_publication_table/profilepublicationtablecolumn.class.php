@@ -38,7 +38,7 @@ class ProfilePublicationTableColumn
 		if ($contains_profile_property)
 		{
 			$this->profile_property = $property_name_or_column_title;
-			$this->title = Translation :: get_lang(ucfirst($this->profile_property));
+			$this->title = Translation :: get(ucfirst($this->profile_property));
 			$this->sortable = true;
 		}
 		else

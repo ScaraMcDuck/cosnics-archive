@@ -48,11 +48,11 @@ header('Content-Type: text/html; charset='.$charset);
 <title>
 <?php echo get_lang('AllowedHTMLTags'); ?>
 </title>
-<link rel="stylesheet" type="text/css" href="<?php echo Path :: get_path(WEB_CSS_PATH); ?>default.css"/>
+<link rel="stylesheet" type="text/css" href="<?php echo Path :: get(WEB_CSS_PATH); ?>default.css"/>
 </head>
 <body>
 <div style="margin:10px;">
-<div style="text-align:right;"><a href="javascript:window.close();"><?php echo Translation :: get_lang('Close'); ?></a></div>
+<div style="text-align:right;"><a href="javascript:window.close();"><?php echo Translation :: get('Close'); ?></a></div>
 <h4>
 <?php echo get_lang('AllowedHTMLTags'); ?>
 </h4>

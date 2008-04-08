@@ -20,9 +20,6 @@ $configuration['general']['root_web']
 $configuration['general']['url_append']
 	= '{URL_APPEND}';
 	
-$configuration['general']['version']
-	= '{VERSION}';
-	
 $configuration['general']['security_key']
 	= '{SECURITY_KEY}';
 

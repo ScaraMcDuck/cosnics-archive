@@ -69,7 +69,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 		$form->addElement('hidden', 'tool');
 		$form->addElement('hidden', LearningObjectPublisher :: PARAM_ACTION);
 		$form->addElement('select', 'type', '', $types);
-		$form->addElement('submit', 'submit', Translation :: get_lang('Ok'));
+		$form->addElement('submit', 'submit', Translation :: get('Ok'));
 		$form->setDefaults(array ('tool' => $_GET['tool'], LearningObjectPublisher :: PARAM_ACTION => $_GET[LearningObjectPublisher :: PARAM_ACTION]));
 		return $form->toHtml();
 	}
@@ -118,7 +118,7 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 	 */
 	private function get_publication_form($objectID, $new = false)
 	{
-		$out = ($new ? Display :: display_normal_message(htmlentities(Translation :: get_lang('ObjectCreated')), true) : '');
+		$out = ($new ? Display :: display_normal_message(htmlentities(Translation :: get('ObjectCreated')), true) : '');
 		$tool = $this->get_parent()->get_parent();
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
 		$form = new LearningObjectPublicationForm($object, $tool, $this->get_parent()->with_mail_option(), $this->get_parent()->get_course());
@@ -127,14 +127,14 @@ class LearningObjectPublicationcreator extends LearningObjectPublisherComponent
 			$publication = $form->create_learning_object_publication();
 			// TODO: Use a function for this.
 			//$parameters['action'] = RepositoryTool::ACTION_SHOW_NORMAL_MESSAGE;
-			$parameters['message'] = Translation :: get_lang('ObjectPublished');
+			$parameters['message'] = Translation :: get('ObjectPublished');
 			$parameters['pcattree'] = $publication->get_category_id();
 			$parameters['admin'] = 0;
 			$url = $this->get_url($parameters);
 			// Redirect to location where the publication was made
 			header('Location: '.$url);
 			// In case headers were allready sent, we simply show the confirmation message here
-			$out .= Display::display_normal_message(Translation :: get_lang('ObjectPublished'),true);
+			$out .= Display::display_normal_message(Translation :: get('ObjectPublished'),true);
 		}
 		else
 		{

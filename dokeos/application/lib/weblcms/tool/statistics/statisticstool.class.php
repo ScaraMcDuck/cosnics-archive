@@ -19,7 +19,7 @@ class StatisticsTool extends Tool
 		foreach ($parent->get_registered_tools() as $tool)
 		{
 			$number_of_publications = $dm->count_learning_object_publications($this->get_course_id(),null,null,null,new EqualityCondition('tool',$tool->name));
-			$data[htmlspecialchars(Translation :: get_lang(Tool :: type_to_class($tool->name).'Title'))] = $number_of_publications;
+			$data[htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name).'Title'))] = $number_of_publications;
 		}
 		$renderer = new BarChartDataRenderer($this,$data);
 		$renderer->display();

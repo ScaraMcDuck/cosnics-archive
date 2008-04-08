@@ -91,13 +91,13 @@ class InstallManager
 	 */
 	function display_header($breadcrumbs = array ())
 	{
-		global $interbredcrump;
+		global $interbreadcrumb;
 		if (isset ($this->breadcrumbs) && is_array($this->breadcrumbs))
 		{
 			$breadcrumbs = array_merge($this->breadcrumbs, $breadcrumbs);
 		}
 		$current_crumb = array_pop($breadcrumbs);
-		$interbredcrump = $breadcrumbs;
+		$interbreadcrumb = $breadcrumbs;
 		$title = $current_crumb['name'];
 		$title_short = $title;
 		if (strlen($title_short) > 53)
@@ -133,7 +133,7 @@ class InstallManager
 		echo '<link rel="stylesheet" href="../layout/css/default.css" type="text/css"/>'."\n";
 		echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'."\n";		
 		echo '</head>'."\n";
-		echo '<body dir="'. Translation :: get_lang('text_dir') .'">' . "\n";
+		echo '<body dir="'. Translation :: get('text_dir') .'">' . "\n";
 		
 		echo '<!-- #outerframe container to control some general layout of all pages -->'."\n";
 		echo '<div id="outerframe">'."\n";
@@ -321,8 +321,8 @@ class InstallManager
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => Translation :: get_lang('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
-		return array('application' => array('name' => Translation :: get_lang('Repository'), 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS)));
+		$links[] = array('name' => Translation :: get('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
+		return array('application' => array('name' => Translation :: get('Repository'), 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS)));
 	}
 
 	public function get_link($parameters = array (), $encode = false)

@@ -60,11 +60,11 @@ class RepositoryManagerPublicationDeleterComponent extends RepositoryManagerComp
 			{
 				$message = 'SelectedObjectUnlinked';
 			}
-			$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get_lang($message));
+			$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get($message));
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get_lang('NoObjectSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
 		}
 	}
 }

@@ -20,12 +20,12 @@ class WeblcmsCourseUserImporterComponent extends WeblcmsComponent
 		$this_section='platform_admin';
 		
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('CourseUserCreateCsv'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('CourseUserCreateCsv'));
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($breadcrumbs);
-			Display :: display_error_message(Translation :: get_lang("NotAllowed"));
+			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}
@@ -35,7 +35,7 @@ class WeblcmsCourseUserImporterComponent extends WeblcmsComponent
 		if($form->validate())
 		{
 			$success = $form->import_course_users();
-			$this->redirect(null, Translation :: get_lang($success ? 'CourseUserCreatedCsv' : 'CourseUserNotCreatedCsv'). '<br />' .$form->get_failed_csv(), ($success ? false : true));
+			$this->redirect(null, Translation :: get($success ? 'CourseUserCreatedCsv' : 'CourseUserNotCreatedCsv'). '<br />' .$form->get_failed_csv(), ($success ? false : true));
 		}
 		else
 		{
@@ -49,15 +49,15 @@ class WeblcmsCourseUserImporterComponent extends WeblcmsComponent
 	function display_extra_information()
 	{
 		$html = array();
-		$html[] = '<p>'. Translation :: get_lang('CSVMustLookLike') .' ('. Translation :: get_lang('MandatoryFields') .')</p>';
+		$html[] = '<p>'. Translation :: get('CSVMustLookLike') .' ('. Translation :: get('MandatoryFields') .')</p>';
 		$html[] = '<blockquote>';
 		$html[] = '<pre>';
 		$html[] = '<b>UserName</b>;<b>CourseCode</b>;<b>Status</b>';
 		$html[] = 'jdoe;course01;'. COURSEMANAGER;
 		$html[] = 'a.dam;course01;'. STUDENT;
 		$html[] = '</pre>';
-		$html[] = COURSEMANAGER .': '. Translation :: get_lang('Teacher');
-		$html[] = STUDENT .': '. Translation :: get_lang('Student');
+		$html[] = COURSEMANAGER .': '. Translation :: get('Teacher');
+		$html[] = STUDENT .': '. Translation :: get('Student');
 		$html[] = '</blockquote>';
 		
 		echo implode($html, "\n");		

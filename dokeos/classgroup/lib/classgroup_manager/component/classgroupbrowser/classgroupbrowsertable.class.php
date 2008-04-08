@@ -24,8 +24,8 @@ class ClassGroupBrowserTable extends ClassGroupTable
 		parent :: __construct($data_provider, $name, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();
-		$actions[ClassGroupManager :: PARAM_REMOVE_SELECTED] = Translation :: get_lang('RemoveSelected');
-		$actions[ClassGroupManager :: PARAM_TRUNCATE_SELECTED] = Translation :: get_lang('TruncateSelected');
+		$actions[ClassGroupManager :: PARAM_REMOVE_SELECTED] = Translation :: get('RemoveSelected');
+		$actions[ClassGroupManager :: PARAM_TRUNCATE_SELECTED] = Translation :: get('TruncateSelected');
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}

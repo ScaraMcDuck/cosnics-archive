@@ -20,7 +20,7 @@ class ProfilerBrowserComponent extends ProfilerComponent
 		$output = $this->get_publications_html();
 		
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('MyProfiler'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('MyProfiler'));
 		
 		$this->display_header($breadcrumbs, true);
 		echo $output;

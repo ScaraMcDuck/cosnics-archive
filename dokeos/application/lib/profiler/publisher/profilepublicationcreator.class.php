@@ -67,7 +67,7 @@ class ProfilePublicationCreator extends ProfilePublisherComponent
 		$form->addElement('hidden', 'tool');
 		$form->addElement('hidden', ProfilePublisher :: PARAM_ACTION);
 		$form->addElement('select', 'type', '', $types);
-		$form->addElement('submit', 'submit', Translation :: get_lang('Ok'));
+		$form->addElement('submit', 'submit', Translation :: get('Ok'));
 		$form->setDefaults(array ('tool' => $_GET['tool'], ProfilePublisher :: PARAM_ACTION => $_GET[ProfilePublisher :: PARAM_ACTION]));
 		return $form->asHtml();
 	}
@@ -117,7 +117,7 @@ class ProfilePublicationCreator extends ProfilePublisherComponent
 	 */
 	private function get_publication_form($objectID, $new = false)
 	{
-		$out = ($new ? Display :: display_normal_message(htmlentities(Translation :: get_lang('ObjectCreated')), true) : '');
+		$out = ($new ? Display :: display_normal_message(htmlentities(Translation :: get('ObjectCreated')), true) : '');
 		$tool = $this->get_parent()->get_parent();
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
 
@@ -141,7 +141,7 @@ class ProfilePublicationCreator extends ProfilePublisherComponent
 				$failures++;
 				$message = 'ProfileNotPublished';
 			}
-			$this->redirect(null, Translation :: get_lang($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES));
+			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES));
 		}
 		else
 		{

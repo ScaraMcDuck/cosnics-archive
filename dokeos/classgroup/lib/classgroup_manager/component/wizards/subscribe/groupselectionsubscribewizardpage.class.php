@@ -30,10 +30,10 @@ class GroupSelectionSubscribeWizardPage extends SubscribeWizardPage
 			$group_options[$group->get_id()] = $group->get_name();
 		}
 		
-    	$this->addElement('select', 'Group', Translation :: get_lang('Group'), $group_options);
-		$this->addRule('Group', Translation :: get_lang('ThisFieldIsRequired'), 'required');
-		//$prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get_lang('Previous'));
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
+    	$this->addElement('select', 'Group', Translation :: get('Group'), $group_options);
+		$this->addRule('Group', Translation :: get('ThisFieldIsRequired'), 'required');
+		//$prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
+		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');		
 		$this->_formBuilt = true;

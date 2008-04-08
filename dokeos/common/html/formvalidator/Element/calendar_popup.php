@@ -25,11 +25,11 @@
 require ('../../../global.inc.php');
 // the variables for the days and the months
 // Defining the shorts for the days
-$DaysShort = array(Translation :: get_lang("SundayShort"), Translation :: get_lang("MondayShort"), Translation :: get_lang("TuesdayShort"), Translation :: get_lang("WednesdayShort"), Translation :: get_lang("ThursdayShort"), Translation :: get_lang("FridayShort"), Translation :: get_lang("SaturdayShort"));
+$DaysShort = array(Translation :: get("SundayShort"), Translation :: get("MondayShort"), Translation :: get("TuesdayShort"), Translation :: get("WednesdayShort"), Translation :: get("ThursdayShort"), Translation :: get("FridayShort"), Translation :: get("SaturdayShort"));
 // Defining the days of the week to allow translation of the days
-$DaysLong = array(Translation :: get_lang("SundayLong"), Translation :: get_lang("MondayLong"), Translation :: get_lang("TuesdayLong"), Translation :: get_lang("WednesdayLong"), Translation :: get_lang("ThursdayLong"), Translation :: get_lang("FridayLong"), Translation :: get_lang("SaturdayLong"));
+$DaysLong = array(Translation :: get("SundayLong"), Translation :: get("MondayLong"), Translation :: get("TuesdayLong"), Translation :: get("WednesdayLong"), Translation :: get("ThursdayLong"), Translation :: get("FridayLong"), Translation :: get("SaturdayLong"));
 // Defining the months of the year to allow translation of the months
-$MonthsLong = array(Translation :: get_lang("JanuaryLong"), Translation :: get_lang("FebruaryLong"), Translation :: get_lang("MarchLong"), Translation :: get_lang("AprilLong"), Translation :: get_lang("MayLong"), Translation :: get_lang("JuneLong"), Translation :: get_lang("JulyLong"), Translation :: get_lang("AugustLong"), Translation :: get_lang("SeptemberLong"), Translation :: get_lang("OctoberLong"), Translation :: get_lang("NovemberLong"), Translation :: get_lang("DecemberLong"));
+$MonthsLong = array(Translation :: get("JanuaryLong"), Translation :: get("FebruaryLong"), Translation :: get("MarchLong"), Translation :: get("AprilLong"), Translation :: get("MayLong"), Translation :: get("JuneLong"), Translation :: get("JulyLong"), Translation :: get("AugustLong"), Translation :: get("SeptemberLong"), Translation :: get("OctoberLong"), Translation :: get("NovemberLong"), Translation :: get("DecemberLong"));
 
 
 $iso_lang = $adm->retrieve_language_from_english_name($language_interface)->get_isocode();
@@ -45,7 +45,7 @@ if(empty($document_language))
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $iso_lang; ?>" lang="<?php echo $iso_lang; ?>">
 <head>
 <title>Calendar</title>
-<link rel="stylesheet" type="text/css" href="<?php echo Path :: get_path(WEB_CODE_PATH); ?>/css/default.css"/>
+<link rel="stylesheet" type="text/css" href="<?php echo Path :: get(WEB_CODE_PATH); ?>/css/default.css"/>
 <style type="text/css">
 /*<![CDATA[*/
 table.calendar

@@ -53,7 +53,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 		$step = 0;
 		$this->type_element = $this->add_select(
 			LearningStyleSurvey :: PROPERTY_SURVEY_TYPE,
-			Translation :: get_lang('SurveyType'),
+			Translation :: get('SurveyType'),
 			LearningStyleSurveyModel :: get_known_types()
 		);
 		// Entered default survey properties?
@@ -61,8 +61,8 @@ class LearningStyleSurveyForm extends LearningObjectForm
 		{
 			$step = 1;
 			$this->type_element->freeze();
-			$this->category_count_element = $this->add_textfield(self :: PARAM_CATEGORY_COUNT, Translation :: get_lang('SurveyCategoryCount'));
-			$this->section_count_element = $this->add_textfield(self :: PARAM_SECTION_COUNT, Translation :: get_lang('SurveySectionCount'));
+			$this->category_count_element = $this->add_textfield(self :: PARAM_CATEGORY_COUNT, Translation :: get('SurveyCategoryCount'));
+			$this->section_count_element = $this->add_textfield(self :: PARAM_SECTION_COUNT, Translation :: get('SurveySectionCount'));
 			// Entered category count and section count?
 			if ($this->validate())
 			{
@@ -74,8 +74,8 @@ class LearningStyleSurveyForm extends LearningObjectForm
 				$this->category_elements = array();
 				foreach (range(1, $category_count) as $i) {
 					$name = self :: PARAM_CATEGORY_NAME . $i;
-					$name_el = $this->add_textfield($name, Translation :: get_lang('SurveyCategoryName') . ' ' . $i);
-					$desc_el = $this->add_html_editor(self :: PARAM_CATEGORY_DESCRIPTION . $i, Translation :: get_lang('SurveyCategoryDescription') . ' ' . $i);
+					$name_el = $this->add_textfield($name, Translation :: get('SurveyCategoryName') . ' ' . $i);
+					$desc_el = $this->add_html_editor(self :: PARAM_CATEGORY_DESCRIPTION . $i, Translation :: get('SurveyCategoryDescription') . ' ' . $i);
 					$this->category_elements[$i] = array(
 						'name' => $name_el,
 						'description' => $desc_el
@@ -84,8 +84,8 @@ class LearningStyleSurveyForm extends LearningObjectForm
 				$this->section_elements = array();
 				foreach (range(1, $section_count) as $i) {
 					$name = self :: PARAM_SECTION_TITLE . $i;
-					$title_el = $this->add_textfield($name, Translation :: get_lang('SurveySectionTitle') . ' ' . $i);
-					$intro_el = $this->add_html_editor(self :: PARAM_SECTION_INTRODUCTION . $i, Translation :: get_lang('SurveySectionIntroduction') . ' ' . $i);
+					$title_el = $this->add_textfield($name, Translation :: get('SurveySectionTitle') . ' ' . $i);
+					$intro_el = $this->add_html_editor(self :: PARAM_SECTION_INTRODUCTION . $i, Translation :: get('SurveySectionIntroduction') . ' ' . $i);
 					$this->section_elements[$i] = array(
 						'title' => $title_el,
 						'introduction' => $intro_el
@@ -110,7 +110,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 							$el->freeze();
 						}
 						$name = self :: PARAM_QUESTION_COUNT . $section;
-						$this->question_count_elements[$section] = $this->add_textfield($name, Translation :: get_lang('SurveySectionQuestionCount') . ' ' . $section);
+						$this->question_count_elements[$section] = $this->add_textfield($name, Translation :: get('SurveySectionQuestionCount') . ' ' . $section);
 					}
 					// Entered question counts?
 					if ($this->validate())
@@ -133,17 +133,17 @@ class LearningStyleSurveyForm extends LearningObjectForm
 							foreach (range(1, intval($this->question_count_elements[$section]->exportValue())) as $question)
 							{
 								$name = self :: PARAM_QUESTION . $section . '_' . $question;
-								$this->question_elements[$section][$question]['text'] = $this->add_html_editor($name, Translation :: get_lang('SurveySectionQuestion') . ' ' . $section . '.' . $question);
+								$this->question_elements[$section][$question]['text'] = $this->add_html_editor($name, Translation :: get('SurveySectionQuestion') . ' ' . $section . '.' . $question);
 								// TODO: use model
 								if ($survey_type == LearningStyleSurveyModel :: TYPE_PROPOSITION_AGREEMENT)
 								{
 									$name = self :: PARAM_QUESTION_CATEGORY . $section . '_' . $question;
-									$this->question_elements[$section][$question]['categories'] = $this->add_select($name, Translation :: get_lang('SurveySectionQuestionCategories') . ' ' . $section . '.' . $question, $categories, false, array('size' => count($categories), 'multiple' => 'multiple'));
+									$this->question_elements[$section][$question]['categories'] = $this->add_select($name, Translation :: get('SurveySectionQuestionCategories') . ' ' . $section . '.' . $question, $categories, false, array('size' => count($categories), 'multiple' => 'multiple'));
 								}
 								elseif ($survey_type == LearningStyleSurveyModel :: TYPE_ANSWER_ORDERING)
 								{
 									$name = self :: PARAM_ANSWER_COUNT . $section . '_' . $question;
-									$this->question_elements[$section][$question]['answers'] = $this->add_textfield($name, Translation :: get_lang('SurveySectionQuestionAnswerCount') . ' ' . $section . '.' . $question);
+									$this->question_elements[$section][$question]['answers'] = $this->add_textfield($name, Translation :: get('SurveySectionQuestionAnswerCount') . ' ' . $section . '.' . $question);
 								}
 								else
 								{
@@ -168,9 +168,9 @@ class LearningStyleSurveyForm extends LearningObjectForm
 									foreach (range(1, intval($answer_count->exportValue())) as $answer)
 									{
 										$name = self :: PARAM_ANSWER . $section . '_' . $question . '_' . $answer;
-										$this->answer_elements[$section][$question][$answer]['text'] = $this->add_html_editor($name, Translation :: get_lang('SurveySectionQuestionAnswer') . ' ' . $section . '.' . $question . '.' . $answer);
+										$this->answer_elements[$section][$question][$answer]['text'] = $this->add_html_editor($name, Translation :: get('SurveySectionQuestionAnswer') . ' ' . $section . '.' . $question . '.' . $answer);
 										$name = self :: PARAM_ANSWER_CATEGORY . $section . '_' . $question . '_' . $answer;
-										$this->answer_elements[$section][$question][$answer]['categories'] = $this->add_select($name, Translation :: get_lang('SurveySectionAnswerCategories') . ' ' . $section . '.' . $question . '.' . $answer, $categories, false, array('size' => count($categories), 'multiple' => 'multiple'));
+										$this->answer_elements[$section][$question][$answer]['categories'] = $this->add_select($name, Translation :: get('SurveySectionAnswerCategories') . ' ' . $section . '.' . $question . '.' . $answer, $categories, false, array('size' => count($categories), 'multiple' => 'multiple'));
 									}
 								}
 							}
@@ -200,8 +200,8 @@ class LearningStyleSurveyForm extends LearningObjectForm
 		{
 			$i = $index + 1;
 			$name = self :: PARAM_CATEGORY_NAME . $i;
-			$name_el = $this->add_textfield($name, Translation :: get_lang('SurveyCategoryName') . ' ' . $i);
-			$desc_el = $this->add_html_editor(self :: PARAM_CATEGORY_DESCRIPTION . $i, Translation :: get_lang('SurveyCategoryDescription') . ' ' . $i);
+			$name_el = $this->add_textfield($name, Translation :: get('SurveyCategoryName') . ' ' . $i);
+			$desc_el = $this->add_html_editor(self :: PARAM_CATEGORY_DESCRIPTION . $i, Translation :: get('SurveyCategoryDescription') . ' ' . $i);
 			$this->category_elements[$category->get_id()] = array(
 				'name' => $name_el,
 				'description' => $desc_el
@@ -217,8 +217,8 @@ class LearningStyleSurveyForm extends LearningObjectForm
 		{
 			$i = $index + 1;
 			$name = self :: PARAM_SECTION_TITLE . $i;
-			$title_el = $this->add_textfield($name, Translation :: get_lang('SurveySectionTitle') . ' ' . $i);
-			$intro_el = $this->add_html_editor(self :: PARAM_SECTION_INTRODUCTION . $i, Translation :: get_lang('SurveySectionIntroduction') . ' ' . $i);
+			$title_el = $this->add_textfield($name, Translation :: get('SurveySectionTitle') . ' ' . $i);
+			$intro_el = $this->add_html_editor(self :: PARAM_SECTION_INTRODUCTION . $i, Translation :: get('SurveySectionIntroduction') . ' ' . $i);
 			$this->section_elements[$section->get_id()] = array(
 				'title' => $title_el,
 				'introduction' => $intro_el
@@ -229,14 +229,14 @@ class LearningStyleSurveyForm extends LearningObjectForm
 			{
 				$j = $qindex + 1;
 				$name = self :: PARAM_QUESTION . $i . '_' . $j;
-				$el = $this->add_html_editor($name, Translation :: get_lang('SurveySectionQuestion') . ' ' . $i . '.' . $j);
+				$el = $this->add_html_editor($name, Translation :: get('SurveySectionQuestion') . ' ' . $i . '.' . $j);
 				$this->question_elements[$question->get_id()]['text'] = $el;
 				$this->defaults[$el->getName()] = $question->get_description();
 				// TODO: use model
 				if ($survey_type == LearningStyleSurveyModel :: TYPE_PROPOSITION_AGREEMENT)
 				{
 					$name = self :: PARAM_QUESTION_CATEGORY . $i . '_' . $j;
-					$el = $this->add_select($name, Translation :: get_lang('SurveySectionQuestionCategories') . ' ' . $i . '.' . $j, $category_options, false, array('size' => count($category_options), 'multiple' => 'multiple'));
+					$el = $this->add_select($name, Translation :: get('SurveySectionQuestionCategories') . ' ' . $i . '.' . $j, $category_options, false, array('size' => count($category_options), 'multiple' => 'multiple'));
 					$this->question_elements[$question->get_id()]['categories'] = $el;
 					$this->defaults[$el->getName()] = $question->get_question_category_ids();
 				}
@@ -246,9 +246,9 @@ class LearningStyleSurveyForm extends LearningObjectForm
 					{
 						$k = $aindex + 1;
 						$name = self :: PARAM_ANSWER . $i . '_' . $j . '_' . $k;
-						$text_el = $this->add_html_editor($name, Translation :: get_lang('SurveySectionQuestionAnswer') . ' ' . $i . '.' . $j . '.' . $k);
+						$text_el = $this->add_html_editor($name, Translation :: get('SurveySectionQuestionAnswer') . ' ' . $i . '.' . $j . '.' . $k);
 						$name = self :: PARAM_ANSWER_CATEGORY . $i . '_' . $j . '_' . $k;
-						$cat_el = $this->add_select($name, Translation :: get_lang('SurveySectionAnswerCategories') . ' ' . $i . '.' . $j . '.' . $k, $category_options, false, array('size' => count($category_options), 'multiple' => 'multiple'));
+						$cat_el = $this->add_select($name, Translation :: get('SurveySectionAnswerCategories') . ' ' . $i . '.' . $j . '.' . $k, $category_options, false, array('size' => count($category_options), 'multiple' => 'multiple'));
 						$this->answer_elements[$answer->get_id()]['text'] = $text_el;
 						$this->answer_elements[$answer->get_id()]['categories'] = $cat_el;
 						$this->defaults[$text_el->getName()] = $answer->get_description();

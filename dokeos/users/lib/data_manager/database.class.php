@@ -312,7 +312,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (User :: get_default_property_names() as $prop)

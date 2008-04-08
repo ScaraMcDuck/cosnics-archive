@@ -140,13 +140,13 @@ require_once Path :: get_library_path().'condition/likecondition.class.php';
 	 */
 	function display_header($breadcrumbs = array (), $display_search = false)
 	{
-		global $interbredcrump;
+		global $interbreadcrumb;
 		if (isset ($this->breadcrumbs) && is_array($this->breadcrumbs))
 		{
 			$breadcrumbs = array_merge($this->breadcrumbs, $breadcrumbs);
 		}
 		$current_crumb = array_pop($breadcrumbs);
-		$interbredcrump = $breadcrumbs;
+		$interbreadcrumb = $breadcrumbs;
 		$title = $current_crumb['name'];
 		$title_short = $title;
 		if (strlen($title_short) > 53)
@@ -193,10 +193,6 @@ require_once Path :: get_library_path().'condition/likecondition.class.php';
 	{
 		echo '</div>';
 		echo '<div class="clear">&nbsp;</div>';
-		// TODO: Find out why we need to reconnect here.
-		global $dbHost, $dbLogin, $dbPass, $mainDbName;
-		mysql_connect($dbHost, $dbLogin, $dbPass);
-		mysql_select_db($mainDbName);
 		Display :: display_footer();
 	}
 
@@ -443,7 +439,7 @@ require_once Path :: get_library_path().'condition/likecondition.class.php';
 	 */
 	function get_path($path_type)
 	{
-		return Path :: get_path($path_type);
+		return Path :: get($path_type);
 	}
 	/**
 	 * Wrapper for Display :: display_not_allowed().
@@ -460,11 +456,11 @@ require_once Path :: get_library_path().'condition/likecondition.class.php';
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => Translation :: get_lang('UserList'), 'action' => 'list', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
-		$links[] = array('name' => Translation :: get_lang('UserCreate'), 'action' => 'add', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
-		$links[] = array('name' => Translation :: get_lang('UserExport'), 'action' => 'export', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
-		$links[] = array('name' => Translation :: get_lang('UserImport'), 'action' => 'import', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
-		return array('application' => array('name' => Translation :: get_lang('Users'), 'class' => 'users'), 'links' => $links, 'search' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
+		$links[] = array('name' => Translation :: get('UserList'), 'action' => 'list', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
+		$links[] = array('name' => Translation :: get('UserCreate'), 'action' => 'add', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
+		$links[] = array('name' => Translation :: get('UserExport'), 'action' => 'export', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
+		$links[] = array('name' => Translation :: get('UserImport'), 'action' => 'import', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
+		return array('application' => array('name' => Translation :: get('Users'), 'class' => 'users'), 'links' => $links, 'search' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
 	}
 
 	/**

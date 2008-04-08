@@ -44,24 +44,24 @@ class SubscribeWizard extends HTML_QuickForm_Controller
 		{
 //			case  ActionSelectionSubscribeWizardPage::ACTION_EMPTY:
 //				$this->addPage(new PublicationSelectionSubscribeWizardPage('publication_selection',$this->parent));
-//				$this->addPage(new ConfirmationSubscribeWizardPage('confirmation',$this->parent,Translation :: get_lang('EmptyConfirmationQuestion')));
+//				$this->addPage(new ConfirmationSubscribeWizardPage('confirmation',$this->parent,Translation :: get('EmptyConfirmationQuestion')));
 //				break;
 //			case  ActionSelectionSubscribeWizardPage::ACTION_COPY:
 //				$this->addPage(new PublicationSelectionSubscribeWizardPage('publication_selection',$this->parent));
 //				$this->addPage(new CourseSelectionSubscribeWizardPage('course_selection',$this->parent));
-//				$this->addPage(new ConfirmationSubscribeWizardPage('confirmation',$this->parent,Translation :: get_lang('CopyConfirmationQuestion')));
+//				$this->addPage(new ConfirmationSubscribeWizardPage('confirmation',$this->parent,Translation :: get('CopyConfirmationQuestion')));
 //				break;
 //			case  ActionSelectionSubscribeWizardPage::ACTION_BACKUP:
 //				$this->addPage(new PublicationSelectionSubscribeWizardPage('publication_selection',$this->parent));
-//				$this->addPage(new ConfirmationSubscribeWizardPage('confirmation',$this->parent,Translation :: get_lang('BackupConfirmationQuestion')));
+//				$this->addPage(new ConfirmationSubscribeWizardPage('confirmation',$this->parent,Translation :: get('BackupConfirmationQuestion')));
 //				break;
 //			case  ActionSelectionSubscribeWizardPage::ACTION_DELETE:
-//				$this->addPage(new ConfirmationSubscribeWizardPage('confirmation',$this->parent,Translation :: get_lang('DeleteConfirmationQuestion')));
+//				$this->addPage(new ConfirmationSubscribeWizardPage('confirmation',$this->parent,Translation :: get('DeleteConfirmationQuestion')));
 //				break;
 			case  ActionSelectionSubscribeWizardPage::ACTION_SUBSCRIBE:
 				$this->addPage(new GroupSelectionSubscribeWizardPage('group_selection',$this->parent, $this->parent->get_classgroup()));
 				$this->addPage(new UserSelectionSubscribeWizardPage('user_selection',$this->parent));
-				$this->addPage(new ConfirmationSubscribeWizardPage('confirmation',$this->parent,Translation :: get_lang('SubscribeConfirmationQuestion')));
+				$this->addPage(new ConfirmationSubscribeWizardPage('confirmation',$this->parent,Translation :: get('SubscribeConfirmationQuestion')));
 				break;
 		}
 	}

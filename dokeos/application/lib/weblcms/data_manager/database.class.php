@@ -1037,7 +1037,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (Course :: get_default_property_names() as $prop)
@@ -1052,7 +1052,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (CourseUserRelation :: get_default_property_names() as $prop)
@@ -1469,10 +1469,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$sql = 'DELETE FROM '.$this->escape_table_name('course').' WHERE code = ?';
 		$statement = $this->connection->prepare($sql);
 		$statement->execute($course_code);
-		unset($_SESSION['_course']);
-		global $_course,$_cid;
-		unset ($_course);
-		unset ($_cid);
 		return true;
 	}
 
@@ -1593,7 +1589,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (CourseCategory :: get_default_property_names() as $prop)
@@ -1607,7 +1603,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (CourseUserCategory :: get_default_property_names() as $prop)
@@ -1727,7 +1723,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (Group :: get_default_property_names() as $prop)

@@ -43,7 +43,7 @@ class ClassGroupRelUserTableColumn
 		if ($contains_classgroup_rel_user_property)
 		{
 			$this->classgroupreluser_property = $property_name_or_column_title;
-			$this->title = Translation :: get_lang(ucfirst($this->classgroupreluser_property));
+			$this->title = Translation :: get(ucfirst($this->classgroupreluser_property));
 			$this->sortable = true;
 		}
 		else

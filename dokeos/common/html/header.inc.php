@@ -31,7 +31,7 @@ if ( isset($httpHeadXtra) && $httpHeadXtra )
 
 if($adm->retrieve_setting_from_variable_name('stylesheets', 'admin')->get_value()<>'')
 {
-	$header->add_css_file_header(Path :: get_path(WEB_CSS_PATH) . $adm->retrieve_setting_from_variable_name('stylesheets', 'admin')->get_value() .'/default.css');
+	$header->add_css_file_header(Path :: get(WEB_CSS_PATH) . $adm->retrieve_setting_from_variable_name('stylesheets', 'admin')->get_value() .'/default.css');
 }
 if ( isset($htmlHeadXtra) && $htmlHeadXtra )
 {

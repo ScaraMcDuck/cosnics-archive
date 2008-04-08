@@ -152,18 +152,18 @@ class Dokeos185UserinfoDef extends ImportUserinfoDef
 
 		// Category for userinfo already exists?
 		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
-			Translation :: get_lang('userinfos'));
+			Translation :: get('userinfos'));
 		if(!$lcms_category_id)
 		{
 			//Create category for tool in lcms
 			$lcms_repository_category = new Category();
 			$lcms_repository_category->set_owner_id($new_user_id);
-			$lcms_repository_category->set_title(Translation :: get_lang('userinfos'));
+			$lcms_repository_category->set_title(Translation :: get('userinfos'));
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
 			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
-				'category', Translation :: get_lang('MyRepository'));
+				'category', Translation :: get('MyRepository'));
 			$lcms_repository_category->set_parent_id($repository_id);
 			
 			//Create category in database

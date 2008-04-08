@@ -23,12 +23,12 @@ class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 		
 		$this->category = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('CourseList'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('CourseList'));
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($breadcrumbs);
-			Display :: display_error_message(Translation :: get_lang("NotAllowed"));
+			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}
@@ -62,7 +62,7 @@ class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 			// $search_url = $this->get_url();
 			$search_url = '#';
 			$search = array ();
-			$search['title'] = Translation :: get_lang('SearchResults');
+			$search['title'] = Translation :: get('SearchResults');
 			$search['url'] = $search_url;
 			$search['class'] = 'search_results';
 			$extra_items[] = $search;

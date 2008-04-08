@@ -33,9 +33,9 @@ class ActionSelectionSubscribeWizardPage extends SubscribeWizardPage
 	
 	function buildForm()
 	{
-		$this->addElement('radio', 'action', Translation :: get_lang('SubscribeUsers'), Translation :: get_lang('Subscribe'),self::ACTION_SUBSCRIBE);
-		$this->addRule('action',Translation :: get_lang('ThisFieldIsRequired'),'required');
-		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
+		$this->addElement('radio', 'action', Translation :: get('SubscribeUsers'), Translation :: get('Subscribe'),self::ACTION_SUBSCRIBE);
+		$this->addRule('action',Translation :: get('ThisFieldIsRequired'),'required');
+		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 		$this->_formBuilt = true;

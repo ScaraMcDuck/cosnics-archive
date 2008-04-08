@@ -18,7 +18,7 @@ class ProfilerViewerComponent extends ProfilerComponent
 	function run()
 	{
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('ViewProfile'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('ViewProfile'));
 		
 		$id = $_GET[Profiler :: PARAM_PROFILE_ID];
 		
@@ -27,7 +27,7 @@ class ProfilerViewerComponent extends ProfilerComponent
 			$this->publication = $this->retrieve_profile_publication($id);			
 			
 			$breadcrumbs = array();
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('ViewProfile') . ': ' . $this->publication->get_publication_publisher()->get_username());
+			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('ViewProfile') . ': ' . $this->publication->get_publication_publisher()->get_username());
 			
 			$this->display_header($breadcrumbs);
 			echo $this->get_publication_as_html();
@@ -36,7 +36,7 @@ class ProfilerViewerComponent extends ProfilerComponent
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get_lang('NoProfileSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoProfileSelected')));
 		}
 	}
 	

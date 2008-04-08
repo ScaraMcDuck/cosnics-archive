@@ -31,7 +31,7 @@
 
 define('DOKEOS_HOMEPAGE', true);
 include_once ("./common/global.inc.php");
-include_once Path :: get_path(WEB_LIB_PATH)."html/formvalidator/FormValidator.class.php";
+include_once Path :: get(WEB_LIB_PATH)."html/formvalidator/FormValidator.class.php";
 Translation :: set_application('general');
 $nameTools = $adm->retrieve_setting_from_variable_name('site_name', 'admin')->get_value();
 
@@ -75,19 +75,19 @@ function display_anonymous_right_menu()
 			handle_login_failed();
 		if ($adm->retrieve_setting_from_variable_name('allow_password_retrieval')->get_value() == 'true' OR $adm->retrieve_setting_from_variable_name('allow_registration')->get_value() == 'true')
 		{
-			echo '<div class="menusection"><span class="menusectioncaption">'.Translation :: get_lang('MenuUser').'</span><ul class="menulist">';
+			echo '<div class="menusection"><span class="menusectioncaption">'.Translation :: get('MenuUser').'</span><ul class="menulist">';
 			if ($adm->retrieve_setting_from_variable_name('allow_registration')->get_value() == 'true')
 			{
-				echo '<li><a href="index_user.php?go=register">'.Translation :: get_lang('Reg').'</a></li>';
+				echo '<li><a href="index_user.php?go=register">'.Translation :: get('Reg').'</a></li>';
 			}
 			if ($adm->retrieve_setting_from_variable_name('allow_password_retrieval')->get_value() == 'true')
 			{
-				echo '<li><a href="index_user.php?go=reset_password">'.Translation :: get_lang('LostPassword').'</a></li>';
+				echo '<li><a href="index_user.php?go=reset_password">'.Translation :: get('LostPassword').'</a></li>';
 			}
 			echo '</ul></div>';
 		}
 	}
-	echo "<div class=\"menusection\">", "<span class=\"menusectioncaption\">".Translation :: get_lang("MenuGeneral")."</span>";
+	echo "<div class=\"menusection\">", "<span class=\"menusectioncaption\">".Translation :: get("MenuGeneral")."</span>";
 	 echo "<ul class=\"menulist\">";
 
 	$user_selected_language = $_SESSION["user_language_choice"];
@@ -129,10 +129,10 @@ function display_anonymous_right_menu()
 */
 function handle_login_failed()
 {
-	$message = Translation :: get_lang("InvalidId");
+	$message = Translation :: get("InvalidId");
 	// TODO: Replace this by setting from DB.
 	//if (api_is_self_registration_allowed())
-	//	$message = Translation :: get_lang("InvalidForSelfRegistration");
+	//	$message = Translation :: get("InvalidForSelfRegistration");
 	echo "<div id=\"login_fail\">".$message."</div>";
 }
 
@@ -146,9 +146,9 @@ function display_login_form()
 	$renderer =& $form->defaultRenderer();
 	$renderer->setElementTemplate('<div>{label}</div><div>{element}</div>');
 	$renderer->setElementTemplate('<div>{element}</div>','submitAuth');
-	$form->addElement('text','login',Translation :: get_lang('UserName'),array('size'=>15));
-	$form->addElement('password','password',Translation :: get_lang('Pass'),array('size'=>15));
-	$form->addElement('submit','submitAuth',Translation :: get_lang('Ok'));
+	$form->addElement('text','login',Translation :: get('UserName'),array('size'=>15));
+	$form->addElement('password','password',Translation :: get('Pass'),array('size'=>15));
+	$form->addElement('submit','submitAuth',Translation :: get('Ok'));
 	$form->display();
 }
 
@@ -166,27 +166,27 @@ function display_applications_list()
 	if (count($applications))
 	{
 		$html = array();
-		$html[] = '<h4 style="margin-top: 0px;">'.Translation :: get_lang('ApplicationList').'</h4>';
+		$html[] = '<h4 style="margin-top: 0px;">'.Translation :: get('ApplicationList').'</h4>';
 		$html[] = '<ul>';
 		foreach ($applications as $application)
 		{
 			if (isset($_uid))
 			{
-				$html[]= '<li><a href="run.php?application='. $application .'">'. Translation :: get_lang('App'.Application::application_to_class($application)) .'</a></li>';
+				$html[]= '<li><a href="run.php?application='. $application .'">'. Translation :: get('App'.Application::application_to_class($application)) .'</a></li>';
 			}
 			else
 			{
-				$html[]= '<li>'. Translation :: get_lang('App'.Application::application_to_class($application)) .'</li>';
+				$html[]= '<li>'. Translation :: get('App'.Application::application_to_class($application)) .'</li>';
 			}
 		}
 
 		if (isset($_uid))
 		{
-			$html[]= '<li><a href="index_repository_manager.php">'. Translation :: get_lang('AppRepositoryManager') .'</a></li>';
+			$html[]= '<li><a href="index_repository_manager.php">'. Translation :: get('AppRepositoryManager') .'</a></li>';
 		}
 		else
 		{
-			$html[]= '<li>'. Translation :: get_lang('AppRepositoryManager') .'</li>';
+			$html[]= '<li>'. Translation :: get('AppRepositoryManager') .'</li>';
 		}
 
 		$html[] = '</ul>';

@@ -52,10 +52,10 @@ class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
 	 */
 	function _createElements()
 	{
-		$this->_elements[0] = new HTML_QuickForm_Radio('choice', '', Translation :: get_lang('Upload'), '0', array ('onclick' => 'javascript:editor_hide(\'editor_html_content\')'));
+		$this->_elements[0] = new HTML_QuickForm_Radio('choice', '', Translation :: get('Upload'), '0', array ('onclick' => 'javascript:editor_hide(\'editor_html_content\')'));
 		$this->_elements[0]->setChecked(true);
 		$this->_elements[1] = new HTML_QuickForm_file('file','');
-		$this->_elements[2] = new HTML_QuickForm_Radio('choice', '', Translation :: get_lang('Create'), '1', array ('onclick' => 'javascript:editor_show(\'editor_html_content\')'));
+		$this->_elements[2] = new HTML_QuickForm_Radio('choice', '', Translation :: get('Create'), '1', array ('onclick' => 'javascript:editor_show(\'editor_html_content\')'));
 		$this->_elements[3] = new HTML_QuickForm_html_editor('html_content','');
 		$this->_elements[3]->fullPage = true;
 	}

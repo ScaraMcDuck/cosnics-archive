@@ -82,18 +82,18 @@ class PersonalMessagePublicationForm extends FormValidator
 			//print_r($recipients);
     	}
 
-		$url = Path :: get_path(WEB_PATH).'application/lib/personal_messenger/xml_feed.php';
+		$url = Path :: get(WEB_PATH).'application/lib/personal_messenger/xml_feed.php';
 		$locale = array ();
-		$locale['Display'] = Translation :: get_lang('SelectRecipients');
-		$locale['Searching'] = Translation :: get_lang('Searching');
-		$locale['NoResults'] = Translation :: get_lang('NoResults');
-		$locale['Error'] = Translation :: get_lang('Error');
+		$locale['Display'] = Translation :: get('SelectRecipients');
+		$locale['Searching'] = Translation :: get('Searching');
+		$locale['NoResults'] = Translation :: get('NoResults');
+		$locale['Error'] = Translation :: get('Error');
 		$hidden = false;
-		$elem = $this->addElement('element_finder', 'recipients', Translation :: get_lang('Recipients'), $url, $locale, $recipients);
+		$elem = $this->addElement('element_finder', 'recipients', Translation :: get('Recipients'), $url, $locale, $recipients);
 		$elem->excludeElements(array($this->form_user->get_user_id()));
 		$elem->setDefaultCollapsed(false);
 
-		$this->addElement('submit', 'submit', Translation :: get_lang('Ok'));
+		$this->addElement('submit', 'submit', Translation :: get('Ok'));
     }
 
 	/**

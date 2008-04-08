@@ -37,7 +37,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 		switch ($column->get_personal_message_property())
 		{
 			case PersonalMessagePublication :: PROPERTY_PUBLISHED:
-				return Text :: format_locale_date(Translation :: get_lang('dateFormatShort').', '.Translation :: get_lang('timeNoSecFormat'),$personal_message->get_published());
+				return Text :: format_locale_date(Translation :: get('dateFormatShort').', '.Translation :: get('timeNoSecFormat'),$personal_message->get_published());
 				break;
 			case PersonalMessagePublication :: PROPERTY_STATUS:
 				if ($personal_message->get_status() == 1)
@@ -74,7 +74,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 		$delete_url = $this->browser->get_publication_deleting_url($personal_message);
 		$toolbar_data[] = array(
 			'href' => $delete_url,
-			'label' => Translation :: get_lang('Delete'),
+			'label' => Translation :: get('Delete'),
 			'confirm' => true,
 			'img' => $this->browser->get_path(WEB_IMG_PATH).'delete.gif'
 		);
@@ -84,7 +84,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 			$reply_url = $this->browser->get_publication_reply_url($personal_message);
 			$toolbar_data[] = array(
 				'href' => $reply_url,
-				'label' => Translation :: get_lang('Reply'),
+				'label' => Translation :: get('Reply'),
 				'img' => $this->browser->get_path(WEB_IMG_PATH).'reply.gif'
 			);
 		}

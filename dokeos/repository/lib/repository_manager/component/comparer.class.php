@@ -30,11 +30,11 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 			$breadcrumbs = array();
 			if ($object->get_state() == LearningObject :: STATE_RECYCLED)
 			{
-				$breadcrumbs[] = array('url' => $this->get_recycle_bin_url(), 'name' => Translation :: get_lang('RecycleBin'));
+				$breadcrumbs[] = array('url' => $this->get_recycle_bin_url(), 'name' => Translation :: get('RecycleBin'));
 				$this->force_menu_url($this->get_recycle_bin_url());
 			}
-			$breadcrumbs[] = array('name' => $object->get_title() . ($object->is_latest_version() ? '' : ' ('.Translation :: get_lang('OldVersion').')'));
-			$breadcrumbs[] = array('url' => $this->get_url(), 'name' => Translation :: get_lang('DifferenceBetweenTwoVersions'));
+			$breadcrumbs[] = array('name' => $object->get_title() . ($object->is_latest_version() ? '' : ' ('.Translation :: get('OldVersion').')'));
+			$breadcrumbs[] = array('url' => $this->get_url(), 'name' => Translation :: get('DifferenceBetweenTwoVersions'));
 			$this->display_header($breadcrumbs);
 			
 			$diff = $object->get_difference($version_id);
@@ -51,7 +51,7 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 		}
 		else
 		{
-			$this->display_warning_page(htmlentities(Translation :: get_lang('NoObjectSelected')));
+			$this->display_warning_page(htmlentities(Translation :: get('NoObjectSelected')));
 		}
 	}
 	

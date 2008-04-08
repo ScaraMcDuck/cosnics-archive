@@ -182,7 +182,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	function append_full_path($is_new_system, $rel_path)
 	{
 		if($is_new_system)
-			$path = Path :: get_path(SYS_PATH).$rel_path;
+			$path = Path :: get(SYS_PATH).$rel_path;
 		else
 			$path = $this->_configuration['root_sys'].$rel_path;
 		

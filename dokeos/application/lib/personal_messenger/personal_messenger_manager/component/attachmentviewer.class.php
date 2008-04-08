@@ -21,7 +21,7 @@ class PersonalMessengerAttachmentViewerComponent extends PersonalMessengerCompon
 	function run()
 	{
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get_lang('ViewPersonalMessageAttachments'));
+		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('ViewPersonalMessageAttachments'));
 		
 		$id = $_GET[PersonalMessenger :: PARAM_PERSONAL_MESSAGE_ID];
 		
@@ -32,7 +32,7 @@ class PersonalMessengerAttachmentViewerComponent extends PersonalMessengerCompon
 			if ($this->get_user_id() != $publication->get_user())
 			{
 				$this->display_header($breadcrumbs);
-				Display :: display_error_message(Translation :: get_lang("NotAllowed"));
+				Display :: display_error_message(Translation :: get("NotAllowed"));
 				$this->display_footer();
 				exit;
 			}
@@ -44,7 +44,7 @@ class PersonalMessengerAttachmentViewerComponent extends PersonalMessengerCompon
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get_lang('NoPersonalMessageSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoPersonalMessageSelected')));
 		}
 	}
 	

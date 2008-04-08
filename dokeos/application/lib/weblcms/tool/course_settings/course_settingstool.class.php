@@ -15,7 +15,7 @@ class CourseSettingsTool extends Tool
 		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
 		{
 			$this->display_header();
-			Display :: display_error_message(Translation :: get_lang("NotAllowed"));
+			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}
@@ -25,7 +25,7 @@ class CourseSettingsTool extends Tool
 		if($form->validate())
 		{
 			$success = $form->update_course();
-			$this->redirect(Weblcms :: ACTION_VIEW_WEBLCMS_HOME, Translation :: get_lang($success ? 'CourseSettingsUpdated' : 'CourseSettingsUpdateFailed'), ($success ? false : true));
+			$this->redirect(Weblcms :: ACTION_VIEW_WEBLCMS_HOME, Translation :: get($success ? 'CourseSettingsUpdated' : 'CourseSettingsUpdateFailed'), ($success ? false : true));
 		}
 		else
 		{			

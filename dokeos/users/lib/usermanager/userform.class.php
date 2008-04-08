@@ -49,36 +49,36 @@ class UserForm extends FormValidator {
     function build_basic_form()
     {
     	// Lastname
-		$this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get_lang('LastName'));
-		$this->addRule(User :: PROPERTY_LASTNAME, Translation :: get_lang('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get('LastName'));
+		$this->addRule(User :: PROPERTY_LASTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		// Firstname
-		$this->addElement('text', User :: PROPERTY_FIRSTNAME, Translation :: get_lang('FirstName'));
-		$this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get_lang('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', User :: PROPERTY_FIRSTNAME, Translation :: get('FirstName'));
+		$this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		// Email
-		$this->addElement('text', User :: PROPERTY_EMAIL, Translation :: get_lang('Email'));
-		$this->addRule(User :: PROPERTY_EMAIL, Translation :: get_lang('ThisFieldIsRequired'), 'required');
-		$this->addRule(User :: PROPERTY_EMAIL, Translation :: get_lang('WrongEmail'), 'email');
+		$this->addElement('text', User :: PROPERTY_EMAIL, Translation :: get('Email'));
+		$this->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addRule(User :: PROPERTY_EMAIL, Translation :: get('WrongEmail'), 'email');
 		// Username
-		$this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get_lang('Username'));
-		$this->addRule(User :: PROPERTY_USERNAME, Translation :: get_lang('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get('Username'));
+		$this->addRule(User :: PROPERTY_USERNAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		//pw
 		$group = array();
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
-			$group[] =& $this->createElement('radio', 'pass', null,Translation :: get_lang('KeepPassword').'<br />',2);
+			$group[] =& $this->createElement('radio', 'pass', null,Translation :: get('KeepPassword').'<br />',2);
 		}
-		$group[] =& $this->createElement('radio', 'pass', null,Translation :: get_lang('AutoGeneratePassword').'<br />',1);
+		$group[] =& $this->createElement('radio', 'pass', null,Translation :: get('AutoGeneratePassword').'<br />',1);
 		$group[] =& $this->createElement('radio', 'pass', null,null,0);
 		$group[] =& $this->createElement('password', User :: PROPERTY_PASSWORD,null,null);
-		$this->addGroup($group, 'pw', Translation :: get_lang('Password'), '');
+		$this->addGroup($group, 'pw', Translation :: get('Password'), '');
 		// Official Code
-		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get_lang('OfficialCode'));
+		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'));
 		// Picture URI
-		$this->addElement('file', User :: PROPERTY_PICTURE_URI, Translation :: get_lang('AddPicture'));
+		$this->addElement('file', User :: PROPERTY_PICTURE_URI, Translation :: get('AddPicture'));
 		$allowed_picture_types = array ('jpg', 'jpeg', 'png', 'gif');
-		$this->addRule(User :: PROPERTY_PICTURE_URI, Translation :: get_lang('OnlyImagesAllowed'), 'filetype', $allowed_picture_types);
+		$this->addRule(User :: PROPERTY_PICTURE_URI, Translation :: get('OnlyImagesAllowed'), 'filetype', $allowed_picture_types);
 		// Phone Number
-		$this->addElement('text', User :: PROPERTY_PHONE, Translation :: get_lang('PhoneNumber'));
+		$this->addElement('text', User :: PROPERTY_PHONE, Translation :: get('PhoneNumber'));
 		// Language
 		$adm = AdminDataManager :: get_instance();
 		$languages = $adm->retrieve_languages();
@@ -88,36 +88,36 @@ class UserForm extends FormValidator {
 		{
 			$lang_options[$language->get_folder()] = $language->get_english_name();	
 		}
-		$this->addElement('select', User :: PROPERTY_LANGUAGE, Translation :: get_lang('Language'), $lang_options);
+		$this->addElement('select', User :: PROPERTY_LANGUAGE, Translation :: get('Language'), $lang_options);
 		// Disk Quota
-		$this->addElement('text', User :: PROPERTY_DISK_QUOTA, Translation :: get_lang('DiskQuota'));
-		$this->addRule(User :: PROPERTY_DISK_QUOTA, Translation :: get_lang('FieldMustBeNumeric'), 'numeric', null, 'server');
+		$this->addElement('text', User :: PROPERTY_DISK_QUOTA, Translation :: get('DiskQuota'));
+		$this->addRule(User :: PROPERTY_DISK_QUOTA, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
 		// Database Quota
-		$this->addElement('text', User :: PROPERTY_DATABASE_QUOTA, Translation :: get_lang('DatabaseQuota'));
-		$this->addRule(User :: PROPERTY_DATABASE_QUOTA, Translation :: get_lang('FieldMustBeNumeric'), 'numeric', null, 'server');
+		$this->addElement('text', User :: PROPERTY_DATABASE_QUOTA, Translation :: get('DatabaseQuota'));
+		$this->addRule(User :: PROPERTY_DATABASE_QUOTA, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
 		// Version quota
-		$this->addElement('text', User :: PROPERTY_VERSION_QUOTA, Translation :: get_lang('VersionQuota'));
-		$this->addRule(User :: PROPERTY_VERSION_QUOTA, Translation :: get_lang('FieldMustBeNumeric'), 'numeric', null, 'server');
+		$this->addElement('text', User :: PROPERTY_VERSION_QUOTA, Translation :: get('VersionQuota'));
+		$this->addRule(User :: PROPERTY_VERSION_QUOTA, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
 
 		// Status
 		$status = array();
-		$status[STUDENT] = Translation :: get_lang('Student');
-		$status[COURSEMANAGER]  = Translation :: get_lang('CourseAdmin');
-		$this->addElement('select',User :: PROPERTY_STATUS,Translation :: get_lang('Status'),$status);
+		$status[STUDENT] = Translation :: get('Student');
+		$status[COURSEMANAGER]  = Translation :: get('CourseAdmin');
+		$this->addElement('select',User :: PROPERTY_STATUS,Translation :: get('Status'),$status);
 		// Platform admin
 		if ($this->user->is_platform_admin() && $this->user->get_user_id() == $this->form_user->get_user_id() && $this->form_type == self :: TYPE_EDIT)
 		{
-		$this->add_warning_message(null, Translation :: get_lang('LockOutWarningMessage'));
+		$this->add_warning_message(null, Translation :: get('LockOutWarningMessage'));
 		}
 		$group = array();
-		$group[] =& $this->createElement('radio', User :: PROPERTY_PLATFORMADMIN,null,Translation :: get_lang('Yes'),1);
-		$group[] =& $this->createElement('radio', User :: PROPERTY_PLATFORMADMIN,null,Translation :: get_lang('No'),0);
-		$this->addGroup($group, 'admin', Translation :: get_lang('PlatformAdmin'), '&nbsp;');
+		$group[] =& $this->createElement('radio', User :: PROPERTY_PLATFORMADMIN,null,Translation :: get('Yes'),1);
+		$group[] =& $this->createElement('radio', User :: PROPERTY_PLATFORMADMIN,null,Translation :: get('No'),0);
+		$this->addGroup($group, 'admin', Translation :: get('PlatformAdmin'), '&nbsp;');
 		//  Send email
 		$group = array();
-		$group[] =& $this->createElement('radio', 'send_mail',null,Translation :: get_lang('Yes'),1);
-		$group[] =& $this->createElement('radio', 'send_mail',null,Translation :: get_lang('No'),0);
-		$this->addGroup($group, 'mail', Translation :: get_lang('SendMailToNewUser'), '&nbsp;');
+		$group[] =& $this->createElement('radio', 'send_mail',null,Translation :: get('Yes'),1);
+		$group[] =& $this->createElement('radio', 'send_mail',null,Translation :: get('No'),0);
+		$this->addGroup($group, 'mail', Translation :: get('SendMailToNewUser'), '&nbsp;');
 		// Submit button
 		$this->addElement('submit', 'user_settings', 'OK');
     }
@@ -278,8 +278,8 @@ class UserForm extends FormValidator {
 		$username = $user->get_username();
 		$password = $this->unencryptedpass;
 		
-		$subject = '['.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value().'] '.Translation :: get_lang('YourReg').' '.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value();
-		$body = Translation :: get_lang('Dear')." ".stripslashes("$firstname $lastname").",\n\n".Translation :: get_lang('YouAreReg')." ". $this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value() ." ".Translation :: get_lang('Settings')." ". $username ."\n". Translation :: get_lang('Password')." : ".stripslashes($password)."\n\n" .Translation :: get_lang('Address') ." ". $this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value() ." ". Translation :: get_lang('Is') ." : ". $rootWeb ."\n\n". Translation :: get_lang('Problem'). "\n\n". Translation :: get_lang('Formula').",\n\n".$this->adminDM->retrieve_setting_from_variable_name('administrator_firstname')->get_value()." ".$this->adminDM->retrieve_setting_from_variable_name('administrator_surname')->get_value()."\n". Translation :: get_lang('Manager'). " ".$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value()."\nT. ".$this->adminDM->retrieve_setting_from_variable_name('administrator_telephone')->get_value()."\n" .Translation :: get_lang('Email') ." : ".$this->adminDM->retrieve_setting_from_variable_name('administrator_email')->get_value();		
+		$subject = '['.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value().'] '.Translation :: get('YourReg').' '.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value();
+		$body = Translation :: get('Dear')." ".stripslashes("$firstname $lastname").",\n\n".Translation :: get('YouAreReg')." ". $this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value() ." ".Translation :: get('Settings')." ". $username ."\n". Translation :: get('Password')." : ".stripslashes($password)."\n\n" .Translation :: get('Address') ." ". $this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value() ." ". Translation :: get('Is') ." : ". $rootWeb ."\n\n". Translation :: get('Problem'). "\n\n". Translation :: get('Formula').",\n\n".$this->adminDM->retrieve_setting_from_variable_name('administrator_firstname')->get_value()." ".$this->adminDM->retrieve_setting_from_variable_name('administrator_surname')->get_value()."\n". Translation :: get('Manager'). " ".$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value()."\nT. ".$this->adminDM->retrieve_setting_from_variable_name('administrator_telephone')->get_value()."\n" .Translation :: get('Email') ." : ".$this->adminDM->retrieve_setting_from_variable_name('administrator_email')->get_value();		
 		
 		$mail = Mail :: factory($subject, $body, $user->get_email(), $this->adminDM->retrieve_setting_from_variable_name('administrator_email')->get_value());
 		$mail->send();

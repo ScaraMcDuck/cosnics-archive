@@ -251,7 +251,7 @@ function random_string($length)
 function create_random_file_content($path)
 {
 	$string = random_string(50);
-	$path = Path :: get_path(SYS_REPO_PATH).$path;
+	$path = Path :: get(SYS_REPO_PATH).$path;
 	$handle = fopen($path, 'w+');
 	fwrite($handle, $string);
 	fclose($handle);

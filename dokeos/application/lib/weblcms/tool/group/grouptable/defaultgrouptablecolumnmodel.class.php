@@ -69,7 +69,7 @@ class DefaultGroupTableColumnModel extends GroupTableColumnModel
 	{
 		if (!isset(self :: $number_of_members_column))
 		{
-			self :: $number_of_members_column = new GroupTableColumn(Translation :: get_lang('NumberOfMembers'), false);
+			self :: $number_of_members_column = new GroupTableColumn(Translation :: get('NumberOfMembers'), false);
 		}
 		return self :: $number_of_members_column;
 	}

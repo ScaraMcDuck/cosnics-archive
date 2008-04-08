@@ -63,13 +63,13 @@ class Admin
 	 */
 	function display_header($breadcrumbs = array (), $display_search = false)
 	{
-		global $interbredcrump;
+		global $interbreadcrumb;
 		if (isset ($this->breadcrumbs) && is_array($this->breadcrumbs))
 		{
 			$breadcrumbs = array_merge($this->breadcrumbs, $breadcrumbs);
 		}
 		$current_crumb = array_pop($breadcrumbs);
-		$interbredcrump = $breadcrumbs;
+		$interbreadcrumb = $breadcrumbs;
 		$title = $current_crumb['name'];
 		$title_short = $title;
 		if (strlen($title_short) > 53)
@@ -98,10 +98,6 @@ class Admin
 	function display_footer()
 	{
 		echo '<div class="clear">&nbsp;</div>';
-		// TODO: Find out why we need to reconnect here.
-		global $dbHost, $dbLogin, $dbPass, $mainDbName;
-		mysql_connect($dbHost, $dbLogin, $dbPass);
-		mysql_select_db($mainDbName);
 		Display :: display_footer();
 	}
 	/**
@@ -214,7 +210,7 @@ class Admin
 	 */
 	function get_path($path_type)
 	{
-		return Path :: get_path($path_type);
+		return Path :: get($path_type);
 	}
 }
 ?>

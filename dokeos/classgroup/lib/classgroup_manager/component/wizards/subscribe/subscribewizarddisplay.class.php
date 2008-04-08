@@ -31,8 +31,8 @@ class SubscribeWizardDisplay extends HTML_QuickForm_Action_Display
 	function _renderForm($current_page)
 	{
 		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->parent->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), 'name' => Translation :: get_lang('ClassGroups'));
-		$breadcrumbs[] = array ('url' => $this->parent->get_url(), 'name' => Translation :: get_lang('SubscribeUsersToGroup'));
+		$breadcrumbs[] = array ('url' => $this->parent->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), 'name' => Translation :: get('ClassGroups'));
+		$breadcrumbs[] = array ('url' => $this->parent->get_url(), 'name' => Translation :: get('SubscribeUsersToGroup'));
 		
 		$this->parent->display_header($breadcrumbs);
 		if(isset($_SESSION['subscribe_message']))

@@ -19,7 +19,7 @@ class HTML_QuickForm_option_orderer extends HTML_QuickForm_hidden
 	
 	function toHtml()
 	{
-		$html = ResourceManager :: get_instance()->get_resource_html(Path :: get_path(WEB_LIB_PATH).'javascript/option_orderer.js');
+		$html = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH).'javascript/option_orderer.js');
 		$html .= $this->getFrozenHtml();
 		return $html;
 	}

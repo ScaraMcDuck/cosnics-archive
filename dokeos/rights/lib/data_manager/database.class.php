@@ -296,7 +296,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (Role :: get_default_property_names() as $prop)
@@ -310,7 +310,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (RoleRightLocation :: get_default_property_names() as $prop)
@@ -329,7 +329,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (Right :: get_default_property_names() as $prop)
@@ -343,7 +343,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 	{
 		if (!is_array($record) || !count($record))
 		{
-			throw new Exception(Translation :: get_lang('InvalidDataRetrievedFromDatabase'));
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		foreach (Location :: get_default_property_names() as $prop)
@@ -373,7 +373,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		}
 		else
 		{
-			throw new Exception(Translation :: get_lang('NoSuchLocation'));
+			throw new Exception(Translation :: get('NoSuchLocation'));
 		}
 	}
 	

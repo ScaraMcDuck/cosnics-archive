@@ -22,18 +22,18 @@ class UserManagerDeleterComponent extends UserManagerComponent
 			if (!$this->get_user()->is_platform_admin())
 			{
 				$this->display_header();
-				Display :: display_error_message(Translation :: get_lang("NotAllowed"));
+				Display :: display_error_message(Translation :: get("NotAllowed"));
 				$this->display_footer();
 				exit;
 			}
 
 			$success = $user->delete();
-			$this->redirect('url', Translation :: get_lang($success ? 'UserDeleted' : 'UserNotDeleted'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
+			$this->redirect('url', Translation :: get($success ? 'UserDeleted' : 'UserNotDeleted'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
 
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get_lang('NoObjectSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
 		}
 	}
 }

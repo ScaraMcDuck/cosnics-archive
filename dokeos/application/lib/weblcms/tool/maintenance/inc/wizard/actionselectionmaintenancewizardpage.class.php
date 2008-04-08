@@ -31,14 +31,14 @@ class ActionSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 	function buildForm()
 	{
 		$available = $this->is_available(self::ACTION_EMPTY) ? null : 'disabled';
-		$this->addElement('radio', 'action', Translation :: get_lang('EmptyThisCourse'), Translation :: get_lang('EmptyThisCourseInformation'),self::ACTION_EMPTY,$available);
+		$this->addElement('radio', 'action', Translation :: get('EmptyThisCourse'), Translation :: get('EmptyThisCourseInformation'),self::ACTION_EMPTY,$available);
 		$available = $this->is_available(self::ACTION_COPY) ? null : 'disabled';
-		$this->addElement('radio', 'action', Translation :: get_lang('CopyThisCourse'), Translation :: get_lang('CopyThisCourseInformation'),self::ACTION_COPY,$available);
+		$this->addElement('radio', 'action', Translation :: get('CopyThisCourse'), Translation :: get('CopyThisCourseInformation'),self::ACTION_COPY,$available);
 		$available = $this->is_available(self::ACTION_BACKUP) ? null : 'disabled';
-		$this->addElement('radio', 'action', Translation :: get_lang('BackupThisCourse'), Translation :: get_lang('BackupThisCourseInformation'),self::ACTION_BACKUP,$available);
-		$this->addElement('radio', 'action', Translation :: get_lang('DeleteThisCourse'), Translation :: get_lang('DeleteThisCourseInformation'),self::ACTION_DELETE);
-		$this->addRule('action',Translation :: get_lang('ThisFieldIsRequired'),'required');
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
+		$this->addElement('radio', 'action', Translation :: get('BackupThisCourse'), Translation :: get('BackupThisCourseInformation'),self::ACTION_BACKUP,$available);
+		$this->addElement('radio', 'action', Translation :: get('DeleteThisCourse'), Translation :: get('DeleteThisCourseInformation'),self::ACTION_DELETE);
+		$this->addRule('action',Translation :: get('ThisFieldIsRequired'),'required');
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');
 		$this->_formBuilt = true;

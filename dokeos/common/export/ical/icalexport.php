@@ -27,9 +27,9 @@ class iCalExport extends Export
 		//define('ICAL_LANG',api_get_language_isocode());
 		
 		$ical = new vcalendar();
-		$ical->setConfig('unique_id', Path :: get_path(WEB_PATH));
+		$ical->setConfig('unique_id', Path :: get(WEB_PATH));
 		$ical->setProperty( 'method', 'PUBLISH' );
-		$ical->setConfig('url', Path :: get_path(WEB_PATH));
+		$ical->setConfig('url', Path :: get(WEB_PATH));
 		
 		foreach ($data as $index => $row)
 		{

@@ -23,7 +23,7 @@ class MatchingQuestionForm extends LearningObjectForm
 	private function build_options_and_matches()
 	{
 		$this->update_number_of_options_and_matches();
-		$this->addElement('html','<div class="row"><div class="label">'.Translation :: get_lang('Answers').'</div><div class="formw"><table style="width: 100%"><tr><td style="text-align:left; width: 50%; vertical-align: top;">');
+		$this->addElement('html','<div class="row"><div class="label">'.Translation :: get('Answers').'</div><div class="formw"><table style="width: 100%"><tr><td style="text-align:left; width: 50%; vertical-align: top;">');
 		$this->add_options();
 		$this->addElement('html','</td><td style="text-align:left; width: 50%; vertical-align: top;">');
 		$this->add_matches();
@@ -196,16 +196,16 @@ class MatchingQuestionForm extends LearningObjectForm
 						'option['.$option_number.']' =>
 							array(
 								array(
-									Translation :: get_lang('ThisFieldIsRequired'),'required'
+									Translation :: get('ThisFieldIsRequired'),'required'
 								)
 							),
 						'weight['.$option_number.']' =>
 							array(
 								array(
-									Translation :: get_lang('ThisFieldIsRequired'), 'required'
+									Translation :: get('ThisFieldIsRequired'), 'required'
 								),
 								array(
-									Translation :: get_lang('ValueShouldBeNumeric'),'numeric'
+									Translation :: get('ValueShouldBeNumeric'),'numeric'
 								)
 							)
 					)
@@ -239,7 +239,7 @@ class MatchingQuestionForm extends LearningObjectForm
 						'match['.$match_number.']' =>
 							array(
 								array(
-									Translation :: get_lang('ThisFieldIsRequired'),'required'
+									Translation :: get('ThisFieldIsRequired'),'required'
 								)
 							),
 					)

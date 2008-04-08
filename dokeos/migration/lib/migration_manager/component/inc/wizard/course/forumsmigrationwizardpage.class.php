@@ -25,24 +25,24 @@ class ForumsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Forums_title');
+		return Translation :: get('Forums_title');
 	}
 	
 	function next_step_info()
 	{
-		return Translation :: get_lang('Forums_info');
+		return Translation :: get('Forums_info');
 	}
 	
 	function get_message($index)
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Forum_categories');
-			case 1: return Translation :: get_lang('Forums');
-			case 2: return Translation :: get_lang('Forum_threads');
-			case 3: return Translation :: get_lang('Forum_posts');
-			case 4: return Translation :: get_lang('Forum_mailcues');
-			default: return Translation :: get_lang('Forum_categories'); 
+			case 0: return Translation :: get('Forum_categories');
+			case 1: return Translation :: get('Forums');
+			case 2: return Translation :: get('Forum_threads');
+			case 3: return Translation :: get('Forum_posts');
+			case 4: return Translation :: get('Forum_mailcues');
+			default: return Translation :: get('Forum_categories'); 
 		}
 	}
 
@@ -52,8 +52,8 @@ class ForumsMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('forums'))
 		{
-			echo(Translation :: get_lang('Forums') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Forums') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -104,11 +104,11 @@ class ForumsMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Forums') .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Forums') .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Forums failed because users or courses skipped');
 				$this->succes = array(0,0,0,0,0);
 			}
@@ -116,8 +116,8 @@ class ForumsMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Forums')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Forums')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Forums skipped');
 			
 			return false;

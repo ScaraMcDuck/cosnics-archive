@@ -16,7 +16,7 @@ class SystemMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('System_title');
+		return Translation :: get('System_title');
 	}
 	
 	/**
@@ -24,7 +24,7 @@ class SystemMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_info()
 	{
-		return Translation :: get_lang('System_info') . ':';
+		return Translation :: get('System_info') . ':';
 	}
 	
 	/**
@@ -33,8 +33,8 @@ class SystemMigrationWizardPage extends MigrationWizardPage
 	function buildForm()
 	{
 		$this->_formBuilt = true; 
-		$this->addElement('select', 'old_system', Translation :: get_lang('Old_system') . ':', $this->get_old_systems_list());
-		$buttons[0] = HTML_QuickForm :: createElement('submit', $this->getButtonName('next'), Translation :: get_lang('Next').' >>');
+		$this->addElement('select', 'old_system', Translation :: get('Old_system') . ':', $this->get_old_systems_list());
+		$buttons[0] = HTML_QuickForm :: createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($buttons, 'buttons', '', '&nbsp', false);
 		$this->setDefaultAction('next');
 		$this->set_form_defaults();
@@ -44,7 +44,7 @@ class SystemMigrationWizardPage extends MigrationWizardPage
 	{
 		$system_list = array();
 		
-		$path = Path :: get_path(SYS_APP_MIGRATION_PATH).'platform/';
+		$path = Path :: get(SYS_APP_MIGRATION_PATH).'platform/';
 		$directories = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
 		foreach($directories as $index => $directory)
 		{
