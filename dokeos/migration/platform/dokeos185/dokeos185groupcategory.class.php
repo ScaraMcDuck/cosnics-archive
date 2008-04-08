@@ -217,7 +217,7 @@ class Dokeos185GroupCategory extends ImportGroupCategory
 		
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		

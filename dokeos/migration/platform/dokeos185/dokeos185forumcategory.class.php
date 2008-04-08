@@ -175,7 +175,7 @@ class Dokeos185ForumCategory extends ImportForumCategory
 		return $lcms_forum_category;
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		

@@ -177,7 +177,7 @@ class Dokeos185GradebookLink extends ImportGradebookLink
 		
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		

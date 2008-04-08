@@ -95,7 +95,7 @@ class Dokeos185QuizRelQuestion extends ImportQuizRelQuestion
 		return $this->get_default_property(self :: PROPERTY_EXERCICE_ID);
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 

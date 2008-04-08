@@ -263,7 +263,7 @@ class Dokeos185CourseCategory extends ImportCourseCategory
 	 * Get all course categories from database
 	 * @param Migration Data Manager $mgdm the datamanager from where the courses should be retrieved;
 	 */
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		

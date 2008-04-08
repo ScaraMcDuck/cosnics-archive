@@ -13,6 +13,6 @@ abstract class ImportSettingCurrent extends Import
 {
 	abstract function is_valid_current_setting();
 	abstract function convert_to_new_admin_setting();
-	abstract static function get_all_current_settings();
+	abstract static function get_all_current_settings($mgdm);
 }
 ?>

@@ -387,7 +387,7 @@ class Dokeos185LpItem extends ImportLpItem
 		return $lcms_lp_item;
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 

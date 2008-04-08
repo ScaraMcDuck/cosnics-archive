@@ -143,7 +143,7 @@ class Dokeos185GroupRelUser extends ImportGroupRelUser
 		
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		

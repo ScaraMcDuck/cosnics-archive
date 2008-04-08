@@ -243,7 +243,7 @@ class Dokeos185CourseRelUser extends ImportCourseRelUser
 		return $lcms_course_rel_user;
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		

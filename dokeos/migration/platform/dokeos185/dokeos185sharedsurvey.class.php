@@ -197,7 +197,7 @@ class Dokeos185SharedSurvey extends ImportSharedSurvey
 		
 	}
 	
-	static function get_all($parameters = array())
+	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		
