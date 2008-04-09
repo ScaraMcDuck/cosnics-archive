@@ -1,4 +1,8 @@
 <?php
+/**
+ * Script to delete empty directories
+ */
+
 require_once(dirname(__FILE__) . '/../common/configuration/configuration.class.php');
 ini_set('include_path',realpath(dirname(__FILE__).'/../plugin/pear'));
 require_once dirname(__FILE__).'/../common/global.inc.php';
