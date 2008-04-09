@@ -28,11 +28,18 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		return Translation :: get('Setting_info') . ':';
 	}
 	
+	/**
+	 * Retrieves the next step info
+	 * @return string Info about the next step
+	 */
 	function next_step_info()
 	{
 		return Translation :: get('Users_info');
 	}
 
+	/**
+	 * Builds the settings form
+	 */
 	function buildForm()
 	{
 		$exports = $this->controller->exportValues();
@@ -79,6 +86,9 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$this->set_form_defaults();
 	}
 	
+	/**
+	 * Set the form default values
+	 */
 	function set_form_defaults()
 	{
 		$defaults = array();
@@ -110,10 +120,21 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 
 }
 
+/**
+ * Validator class for old directory
+ * @author Sven Vanpoucke
+ */
 class ValidateSettings extends HTML_QuickForm_Rule
 {
+	/**
+	 * Old system name for retrieval of datamanager
+	 */
 	private static $old_system;
 	
+	/**
+	 * Validate the old directory
+	 * @param array $parameters of parameters with old directory at parameter[0]
+	 */
 	public function validate($parameters)
 	{ 
 		$dmgr = MigrationDataManager :: getInstance(self :: $old_system, $parameters[0]);

@@ -15,6 +15,12 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 {
 	private $include_deleted_files;
 	
+	/**
+	 * Constructor creates a new LearningPathsMigrationWizardPage
+	 * @param string $page_name the page name
+	 * @param $parent the parent of the controller
+	 * @param bool $command_execute to see if the page is executed by commandline or webinterface
+	 */
 	function LearningPathsMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent, $command_execute);
@@ -28,11 +34,20 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 		return Translation :: get('Learning_paths_title');
 	}
 	
+	/**
+	 * Retrieves the next step info
+	 * @return string Info about the next step
+	 */
 	function next_step_info()
 	{
 		return Translation :: get('Learning_paths_info');
 	}
 	
+	/**
+	 * Retrieves the correct message for the correct index, this is used in cooperation with
+	 * $failed elements and the method getinfo 
+	 * @param int $index place in $failedelements for which the message must be retrieved
+	 */
 	function get_message($index)
 	{
 		switch($index)
@@ -47,6 +62,10 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 		}
 	}
 
+	/**
+	 * Execute the page
+	 * Starts migration for learning paths, learning path items, learning path item views, learning path views, learning path iv objectives and learning path iv interaction
+	 */
 	function perform()
 	{
 		$logger = new Logger('migration.txt', true);

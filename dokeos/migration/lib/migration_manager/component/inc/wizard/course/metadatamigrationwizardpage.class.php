@@ -19,6 +19,12 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 	//private $succes;
 	//private $command_execute;
 	
+	/**
+	 * Constructor creates a new MetaDataMigrationWizardPage
+	 * @param string $page_name the page name
+	 * @param $parent the parent of the controller
+	 * @param bool $command_execute to see if the page is executed by commandline or webinterface
+	 */
 	function MetaDataMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent);
@@ -61,11 +67,20 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 		return $message;
 	}
 	
+	/**
+	 * Retrieves the next step info
+	 * @return string Info about the next step
+	 */
 	function next_step_info()
 	{
 		return Translation :: get('Course_meta_info');
 	}
 	
+	/**
+	 * Retrieves the correct message for the correct index, this is used in cooperation with
+	 * $failed elements and the method getinfo 
+	 * @param int $index place in $failedelements for which the message must be retrieved
+	 */
 	function get_message($index)
 	{
 		switch($index)
@@ -78,7 +93,9 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 		}
 	}
 	
-	
+	/**
+	 * Builds the next button
+	 */
 	function buildForm()
 	{
 		$this->_formBuilt = true;
@@ -86,6 +103,10 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 	}
 	
+	/**
+	 * Execute the page
+	 * Starts migration for descriptions, settings, tools, tool intros
+	 */
 	function perform()
 	{
 		$logger = new Logger('migration.txt', true);

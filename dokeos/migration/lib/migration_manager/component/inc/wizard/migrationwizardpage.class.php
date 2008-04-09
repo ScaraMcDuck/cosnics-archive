@@ -160,6 +160,13 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 	}
 	
+	/**
+	 * Retrieves the message from an object that does not have the default get_id method to retrieve the id
+	 * @param object $item an object of which you want to retrieve the id
+	 * @param string $extra_message an extra message you want to add 
+	 * @param string $type the type of the item
+	 * @return a 'failed' message with the correct id
+	 */
 	function write_failed($item, $extra_message, $type)
 	{
 		switch(true)

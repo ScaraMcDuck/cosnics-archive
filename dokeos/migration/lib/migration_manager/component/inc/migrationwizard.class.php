@@ -59,6 +59,10 @@ class MigrationWizard extends HTML_QuickForm_Controller
 		$this->addAction('display', new MigrationWizardDisplay($this->parent));
 	}
 	
+	/**
+	 * Creates the pages that belong to a certain old system
+	 * This pages are defined in wizard.xml in the old system directory
+	 */
 	function addpages()
 	{
 		$exports = $this->exportValues();
@@ -73,6 +77,10 @@ class MigrationWizard extends HTML_QuickForm_Controller
 		}
 	}
 	
+	/**
+	 * Loads all pages from the wizard.xml file in the old system directory
+	 * @param string $old_system the old system directory
+	 */
 	function loadpages($old_system)
 	{
 		$file = realpath(Path :: get_migration_path() . 'platform/' . $old_system . '/wizards.xml');

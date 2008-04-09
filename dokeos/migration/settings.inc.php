@@ -1,4 +1,7 @@
 <?php
+/**
+ * Settings for commandline migration
+ */
 $exportvalues['old_system'] = 'dokeos185';
 $exportvalues['old_directory'] = '/home/svennie/sites/dokeos/';
 $exportvalues['migrate_users'] = '1';

@@ -21,6 +21,12 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 	private $users_succes = 0;
 	//private $command_execute;
 	
+	/**
+	 * Constructor creates a new UsersMigrationWizardPage
+	 * @param string $page_name the page name
+	 * @param $parent the parent of the controller
+	 * @param bool $command_execute to see if the page is executed by commandline or webinterface
+	 */
 	function UsersMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
 		parent :: MigrationWizardPage($page_name, $parent);
@@ -57,12 +63,18 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		return $message;
 	}
 	
+	/**
+	 * Retrieves the next step info
+	 * @return string Info about the next step
+	 */
 	function next_step_info()
 	{
 		return Translation :: get('System_Settings_info');
 	}
 	
-	
+	/**
+	 * Builds the next button
+	 */
 	function buildForm()
 	{
 		$this->_formBuilt = true;
@@ -71,6 +83,10 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		$this->setDefaultAction('next');
 	}
 	
+	/**
+	 * Execute the page
+	 * Starts migration for users
+	 */
 	function perform()
 	{
 		$logger = new Logger('migration.txt', true);
@@ -127,6 +143,9 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		return true;
 	}
 	
+	/**
+	 * Retrieve the users, validate and migrate
+	 */
 	function migrate_users()
 	{
 		$this->logfile->add_message('Starting migration users');

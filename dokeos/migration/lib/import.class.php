@@ -4,8 +4,17 @@
  * @package migration
  */
 
+/**
+ * Abstract import class
+ * @author Sven Vanpoucke
+ */
 abstract class Import
 {
+	/**
+	 * Factory to retrieve the correct class of an old system
+	 * @param string $old_system the old system
+	 * @param string $type the class type
+	 */
 	static function factory($old_system, $type)
 	{
 		$filename = dirname(__FILE__) . '/../platform/'.strtolower($old_system) . '/' . 
@@ -19,16 +28,6 @@ abstract class Import
 		require_once $filename;
 		return new $class();
 	}	
-	
-	function precheck()
-	{
-		
-	}	
-	
-	function postcheck()
-	{
-		
-	}
 }
 
 ?>

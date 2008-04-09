@@ -15,6 +15,12 @@ class SharedSurveysMigrationWizardPage extends MigrationWizardPage
 {
 	private $include_deleted_files;
 	
+	/**
+	 * Constructor creates a new SystemSettingsMigrationWizardPage
+	 * @param string $page_name the page name
+	 * @param $parent the parent of the controller
+	 * @param bool $command_execute to see if the page is executed by commandline or webinterface
+	 */
 	function SharedSurveysMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent, $command_execute);
@@ -28,11 +34,20 @@ class SharedSurveysMigrationWizardPage extends MigrationWizardPage
 		return Translation :: get_lang('Shared_surveys_title');
 	}
 	
+	/**
+	 * Retrieves the next step info
+	 * @return string Info about the next step
+	 */
 	function next_step_info()
 	{
 		return Translation :: get_lang('Shared_surveys_info');
 	}
 	
+	/**
+	 * Retrieves the correct message for the correct index, this is used in cooperation with
+	 * $failed elements and the method getinfo 
+	 * @param int $index place in $failedelements for which the message must be retrieved
+	 */
 	function get_message($index)
 	{
 		switch($index)
@@ -43,7 +58,21 @@ class SharedSurveysMigrationWizardPage extends MigrationWizardPage
 			default: return Translation :: get_lang('Shared_surveys'); 
 		}
 	}
+	
+	/**
+	 * Builds the next button
+	 */
+	function buildForm()
+	{
+		$this->_formBuilt = true;
+		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
+		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
+	}
 
+	/**
+	 * Execute the page
+	 * Starts migration for shared survey, shared survey question, shared survey question options
+	 */
 	function perform()
 	{
 		$logger = new Logger('migration.txt', true);

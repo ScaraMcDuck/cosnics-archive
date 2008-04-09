@@ -12,6 +12,10 @@ require_once(Path :: get(SYS_APP_MIGRATION_PATH) . '/lib/recoveryelement.class.p
 require_once dirname(__FILE__) . '/../../repository/lib/repositorydatamanager.class.php';
 require_once Path :: get_library_path().'installer.class.php';
 
+/**
+ * Abstract class from which the system datamanagers can extend
+ * also used for communication with LCMS databases
+ */
 abstract class MigrationDataManager
 {
 	abstract function validate_settings();
@@ -49,6 +53,9 @@ abstract class MigrationDataManager
 		return self :: $instance;
 	}
 	
+	/**
+	 * Constructor, connect to lcms database
+	 */
 	function MigrationDataManager()
 	{
 		$this->db_lcms_connect();
@@ -65,6 +72,9 @@ abstract class MigrationDataManager
 		$this->db_lcms->query('SET NAMES utf8');
 	}
 	
+	/**
+	 * Debug method
+	 */
 	function debug()
 	{
 		$args = func_get_args();
@@ -77,6 +87,12 @@ abstract class MigrationDataManager
 		}
 	}
 	
+	/**
+	 * Create a storage unit in the database
+	 * @param string $name name of the table
+	 * @param array $properties properties of the table
+	 * @param array $indexes indexes of the table
+	 */
 	function create_storage_unit($name,$properties,$indexes)
 	{
 		$this->db_lcms->loadModule('Manager');
@@ -242,6 +258,9 @@ abstract class MigrationDataManager
 		return NULL;
 	 }
 	 
+	 /**
+	  * Generic method to create a classobject from a record
+	  */
 	 function record_to_classobject($record, $classname)
 	 {
 		 if (!is_array($record) || !count($record))
@@ -410,6 +429,11 @@ abstract class MigrationDataManager
 		return $record['id'];
 	}
 	
+	/**
+	 * Retrieve the document id with give owner and document path
+	 * @param string $path path of the document
+	 * @param int $owner 
+	 */
 	function get_document_id($path,$owner_id)
 	{
 		$this->db_lcms_connect();
@@ -424,7 +448,7 @@ abstract class MigrationDataManager
 		return $record['id'];
 	}
 
-	function get_owner($course)
+	/*function get_owner($course)
 	{
 		$this->db_lcms_connect();
 		
@@ -478,7 +502,7 @@ abstract class MigrationDataManager
 				}
 				$result->free();
 				
-				if ($owner_id == -1)
+				if ($owner_id == -1 )
 				{
 					$query = 'SELECT user_id FROM user_user WHERE admin = 1';
 					$result = $this->db_lcms->query($query);
@@ -488,9 +512,13 @@ abstract class MigrationDataManager
 				return $owner_id;
 			}
 		}
-	}
+	}*/
 
-	/*function get_owner($course, $debug = false)
+	/**
+	 * Method to retrieve the best owner for an orphan
+	 * @param string $course course code
+	 */
+	function get_owner($course)
 	{
 		$this->db_lcms_connect();
 		
@@ -514,8 +542,6 @@ abstract class MigrationDataManager
 			$query = 'SELECT CRL.user_id FROM weblcms_course_rel_user CRL WHERE CRL.user_id IN (
 					  SELECT UU.user_id FROM user_user UU WHERE CONCAT(UU.lastname,\' \',UU.firstname) IN (
 					  SELECT C.tutor_name FROM weblcms_course C WHERE C.code = CRL.course_code)) AND CRL.status = 1 AND CRL.course_code = \'' . $course . '\';';
-			if($debug)
-				echo($query);
 			
 			$result = $this->db_lcms->query($query);
 			$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -528,9 +554,6 @@ abstract class MigrationDataManager
 						  SELECT CRL.user_id FROM weblcms_course_rel_user CRL WHERE CRL.course_code = \''. $course .'\' AND CRL.status = 1) AND
 						  LOP.course = \''. $course .'\' GROUP BY LOP.publisher;';
 				
-				if($debug)
-					echo($query);
-				
 				$result = $this->db_lcms->query($query);
 				$owner_id = -1;
 				$max_published = -1;
@@ -540,7 +563,7 @@ abstract class MigrationDataManager
 					if($record['count'] > $max_published) 
 					{
 						$max_published = $record['count'];
-						$owner_id = $record['user_id'];
+						$owner_id = $record['publisher'];
 					}
 					
 				}
@@ -556,8 +579,13 @@ abstract class MigrationDataManager
 				return $owner_id;
 			}
 		}
-	}*/
+	}
 	
+	/**
+	 * Retrieves a learning object 
+	 * @param int $lp_id learning object id
+	 * @param string $tool tool of where the learning object belongs
+	 */
 	function get_owner_learning_object($lp_id, $tool)
 	{
 		$datamanager = RepositoryDataManager::get_instance();
@@ -565,6 +593,10 @@ abstract class MigrationDataManager
 		return $result;
 	}
 	
+	/**
+	 * Retrieves a user by full name
+	 * @param string $fullname the fullname of the user
+	 */
 	function get_user_by_full_name($fullname)
 	{
 		$this->db_lcms_connect();
