@@ -15,6 +15,12 @@ class QuizMigrationWizardPage extends MigrationWizardPage
 {
 	private $include_deleted_files;
 	
+	/**
+	 * Constructor creates a new QuizMigrationWizardPage
+	 * @param string $page_name the page name
+	 * @param $parent the parent of the controller
+	 * @param bool $command_execute to see if the page is executed by commandline or webinterface
+	 */
 	function QuizMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent, $command_execute);
@@ -28,11 +34,20 @@ class QuizMigrationWizardPage extends MigrationWizardPage
 		return Translation :: get('Quiz_title');
 	}
 	
+	/**
+	 * Retrieves the next step info
+	 * @return string Info about the next step
+	 */
 	function next_step_info()
 	{
 		return Translation :: get('Quiz_info');
 	}
 	
+	/**
+	 * Retrieves the correct message for the correct index, this is used in cooperation with
+	 * $failed elements and the method getinfo 
+	 * @param int $index place in $failedelements for which the message must be retrieved
+	 */
 	function get_message($index)
 	{
 		switch($index)
@@ -44,6 +59,10 @@ class QuizMigrationWizardPage extends MigrationWizardPage
 		}
 	}
 
+	/**
+	 * Execute the page
+	 * Starts migration for quiz and quiz questions
+	 */
 	function perform()
 	{
 		$logger = new Logger('migration.txt', true);

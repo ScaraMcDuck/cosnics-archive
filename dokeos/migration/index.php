@@ -1,4 +1,8 @@
 <?php
+/**
+ * Start webinterface
+ */
+
 $cidReset = true;
 $this_section = 'migration';
 

@@ -40,6 +40,10 @@ class SystemMigrationWizardPage extends MigrationWizardPage
 		$this->set_form_defaults();
 	}
 	
+	/**
+	 * Retrieves the old system list 
+	 * @return array of strings with the old system list
+	 */
 	function get_old_systems_list()
 	{
 		$system_list = array();
@@ -57,11 +61,18 @@ class SystemMigrationWizardPage extends MigrationWizardPage
 		return $system_list;
 	}
 	
+	/**
+	 * Executes the page
+	 * Clean the main logger
+	 */
 	function perform()
 	{
 		new Logger('migration.txt', false);
 	}
 	
+	/**
+	 * Set form defaults
+	 */
 	function set_form_defaults()
 	{
 		$defaults = array();

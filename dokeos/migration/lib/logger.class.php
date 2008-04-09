@@ -5,8 +5,10 @@ require_once(Path :: get_library_path().'filesystem/path.class.php');
 
 /**
  * package migration.lib
+ * Logger used in migrationtool
  * 
  * @author Van Wayenbergh David
+ * @author Sven Vanpoucke
  */
 class Logger
 {
@@ -33,11 +35,20 @@ class Logger
     	fwrite($this->file, $this->get_timestamp() . $message . "\n");
     }
     
+    /**
+     * Write text without the use of a timestamp
+     * @param string $text the text you want to write
+     */
     function write_text($text)
     {
     	fwrite($this->file, $text . "\n");
     }
     
+    /**
+     * Method to check wether a certain piece of text is in the file
+     * @param string $text text to check for
+     * @return bool true if text is in file
+     */
     function is_text_in_file($text)
     {
  		if(!$this->file) { return; }
@@ -117,6 +128,9 @@ class Logger
     	
      }
      
+     /**
+      * Returns the total time passed from the time.txt file
+      */
      static function get_total_time_passed()
      {
      	$timefile = fopen(Path :: get('SYS_PATH') . '/migration/logfiles/time.txt', 'r');

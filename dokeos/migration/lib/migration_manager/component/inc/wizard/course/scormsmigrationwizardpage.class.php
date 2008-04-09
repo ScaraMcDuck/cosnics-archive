@@ -15,6 +15,12 @@ class ScormsMigrationWizardPage extends MigrationWizardPage
 {
 	private $include_deleted_files;
 	
+	/**
+	 * Constructor creates a new ScormsMigrationWizardPage
+	 * @param string $page_name the page name
+	 * @param $parent the parent of the controller
+	 * @param bool $command_execute to see if the page is executed by commandline or webinterface
+	 */
 	function ScormsMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent, $command_execute);
@@ -28,11 +34,20 @@ class ScormsMigrationWizardPage extends MigrationWizardPage
 		return Translation :: get('Scorms_title');
 	}
 	
+	/**
+	 * Retrieves the next step info
+	 * @return string Info about the next step
+	 */
 	function next_step_info()
 	{
 		return Translation :: get('Scorms_info');
 	}
 	
+	/**
+	 * Retrieves the correct message for the correct index, this is used in cooperation with
+	 * $failed elements and the method getinfo 
+	 * @param int $index place in $failedelements for which the message must be retrieved
+	 */
 	function get_message($index)
 	{
 		switch($index)
@@ -42,6 +57,10 @@ class ScormsMigrationWizardPage extends MigrationWizardPage
 		}
 	}
 
+	/**
+	 * Execute the page
+	 * Starts migration for scorm documents
+	 */
 	function perform()
 	{
 		$logger = new Logger('migration.txt', true);

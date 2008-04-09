@@ -15,6 +15,12 @@ class DropBoxesMigrationWizardPage extends MigrationWizardPage
 {
 	private $include_deleted_files;
 	
+	/**
+	 * Constructor creates a new DropBoxesMigrationWizardPage
+	 * @param string $page_name the page name
+	 * @param $parent the parent of the controller
+	 * @param bool $command_execute to see if the page is executed by commandline or webinterface
+	 */
 	function DropBoxesMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent, $command_execute);
@@ -28,11 +34,20 @@ class DropBoxesMigrationWizardPage extends MigrationWizardPage
 		return Translation :: get('Dropboxes_title');
 	}
 	
+	/**
+	 * Retrieves the next step info
+	 * @return string Info about the next step
+	 */
 	function next_step_info()
 	{
 		return Translation :: get('Dropboxes_info');
 	}
 	
+	/**
+	 * Retrieves the correct message for the correct index, this is used in cooperation with
+	 * $failed elements and the method getinfo 
+	 * @param int $index place in $failedelements for which the message must be retrieved
+	 */
 	function get_message($index)
 	{
 		switch($index)
@@ -46,6 +61,10 @@ class DropBoxesMigrationWizardPage extends MigrationWizardPage
 		}
 	}
 
+	/**
+	 * Execute the page
+	 * Starts migration for dropbox categories, dropbox files, dropbox persons, dropbox posts and dropbox feedbacks
+	 */
 	function perform()
 	{
 		$logger = new Logger('migration.txt', true);

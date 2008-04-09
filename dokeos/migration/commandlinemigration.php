@@ -1,5 +1,7 @@
 <?php
-
+ 	/**
+ 	 * Start commandline migration
+ 	 */
 	ini_set('include_path',realpath(dirname(__FILE__).'/../plugin/pear'));
 	ini_set("memory_limit"		,"3500M"	);	// Geen php-beperkingen voor geheugengebruik
 	ini_set("max_execution_time"	,"72000");	// Twee uur moet voldoende zijn...

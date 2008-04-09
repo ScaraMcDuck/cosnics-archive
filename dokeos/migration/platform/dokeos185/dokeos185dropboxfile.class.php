@@ -220,15 +220,19 @@ class Dokeos185DropboxFile extends ImportDropboxFile
 	
 	function convert_to_lcms($array)
 	{
-		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
+		if($this->get_uploader_id())
+			$new_user_id = self :: $mgdm->get_id_reference($this->get_uploader_id(),'user_user');	
+		else
+			$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
+		
 		$course = $array['course'];
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
 		
 		if(!$new_user_id)
 		{
 			$new_user_id = self :: $mgdm->get_owner($new_course_code);
+
 		}
-		
 		
 		$new_path = $new_user_id . '/';
 		$old_rel_path = 'courses/' . $course->get_directory() . '/dropbox/';
