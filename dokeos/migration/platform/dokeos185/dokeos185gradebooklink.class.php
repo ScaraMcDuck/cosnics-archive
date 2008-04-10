@@ -167,16 +167,31 @@ class Dokeos185GradebookLink extends ImportGradebookLink
 		return $this->get_default_property(self :: PROPERTY_VISIBLE);
 	}
 
+	/**
+	 * Check if the gradebook link is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the gradebook link is valid 
+	 */
 	function is_valid($array)
 	{
 		
 	}
 	
+	/**
+	 * Convert to new gradebook link
+	 * @param array $array the parameters for the conversion
+	 * @return the new gradebook link
+	 */
 	function convert_to_lcms($array)
 	{	
 		
 	}
 	
+	/**
+	 * Retrieve all gradebook links from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of gradebook links
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

@@ -122,16 +122,28 @@ class Dokeos185BlogTaskRelUser extends ImportBlogTaskRelUser
 		return $this->get_default_property(self :: PROPERTY_INTRO_TEXT);
 	}
 
+	/**
+	 * Check if the task user relation is valid
+	 * @param array $array the parameters for the validation
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Convert to new blog task user relation
+	 * @param array $array the parameters for the conversion
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Retrieve all blog task user relations from the database
+	 * @param array $parameters parameters for the retrieval
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

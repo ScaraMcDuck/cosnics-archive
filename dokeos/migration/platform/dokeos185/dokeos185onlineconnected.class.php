@@ -97,16 +97,31 @@ class Dokeos185OnlineConnected extends ImportOnlineConnected
 		return $this->get_default_property(self :: PROPERTY_LAST_CONNECTION);
 	}
 
+	/**
+	 * Check if the online connected is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the online connected is valid 
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Convert to new online connected
+	 * @param array $array the parameters for the conversion
+	 * @return the new online connected
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Retrieve all online connecteds from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of online connecteds
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

@@ -190,6 +190,10 @@ class Dokeos185CourseRelUser extends ImportCourseRelUser
 	return $this->get_default_property(self :: PROPERTY_USER_COURSE_CAT);
 	}
 	
+	/**
+	 * Check if the course user relation is valid
+	 * @return true if the course user relation is valid 
+	 */
 	function is_valid_course_user_relation()
 	{
 		if(!$this->get_course_code() || !$this->get_user_id() || $this->get_status() == NULL
@@ -208,7 +212,8 @@ class Dokeos185CourseRelUser extends ImportCourseRelUser
 	}
 	
 	/**
-	 * Migration course user relation
+	 * Convert to new course user relation
+	 * @return the new course user relation
 	 */
 	function convert_to_new_course_user_relation()
 	{
@@ -243,6 +248,11 @@ class Dokeos185CourseRelUser extends ImportCourseRelUser
 		return $lcms_course_rel_user;
 	}
 	
+	/**
+	 * Retrieve all course user relations from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of course user relations
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

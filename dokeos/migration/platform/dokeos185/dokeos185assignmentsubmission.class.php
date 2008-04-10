@@ -231,6 +231,11 @@ class Dokeos185AssignmentSubmission extends ImportAssignmentSubmission
 		return $this->get_default_property(self :: PROPERTY_SCORE);
 	}
 
+	/**
+	 * Check if the assignment submission is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the assignment submission is valid 
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];		
@@ -249,6 +254,12 @@ class Dokeos185AssignmentSubmission extends ImportAssignmentSubmission
 		return true;
 	}
 	
+	/**
+	 * Convert to new assignment submission
+	 * Create document
+	 * @param array $array the parameters for the conversion
+	 * @return the new assignment submission
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
@@ -420,6 +431,11 @@ class Dokeos185AssignmentSubmission extends ImportAssignmentSubmission
 		return $lcms_document; 
 	}
 	
+	/**
+	 * Retrieve all assignment submission from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of assignment submissions
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

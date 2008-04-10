@@ -107,16 +107,31 @@ class Dokeos185GradebookScoreDisplay extends ImportGradebookScoreDisplay
 		return $this->get_default_property(self :: PROPERTY_DISPLAY);
 	}
 
+	/**
+	 * Check if the gradebook score display is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the gradebook score display is valid 
+	 */
 	function is_valid($array)
 	{
 		
 	}
 	
+	/**
+	 * Convert to new gradebook score display
+	 * @param array $array the parameters for the conversion
+	 * @return the new gradebook score display
+	 */
 	function convert_to_lcms($array)
 	{	
 		
 	}
 	
+	/**
+	 * Retrieve all gradebook score displays from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of gradebook score displays
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

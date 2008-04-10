@@ -116,6 +116,11 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 		return $this->get_default_property(self :: PROPERTY_CONTENT);
 	}
 	
+	/**
+	 * Check if the course description is valid
+	 * @param Course $Course the course where the description belongs to
+	 * @return true if the course description is valid 
+	 */
 	function is_valid_course_description($course)
 	{	
 		if(!$this->get_id() || !($this->get_title() || $this->get_content()))
@@ -127,6 +132,11 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 		return true;
 	}
 	
+	/**
+	 * Convert to new course description
+	 * @param Course $Course the course where the description belongs to
+	 * @return the new course description
+	 */
 	function convert_to_new_course_description($course)
 	{	
 		$lcms_content = new Description();
@@ -198,6 +208,11 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 		
 	}
 	
+	/**
+	 * Retrieve all course descriptions from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of course descriptions
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

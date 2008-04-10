@@ -137,16 +137,31 @@ class Dokeos185LpView extends ImportLpView
 		return $this->get_default_property(self :: PROPERTY_PROGRESS);
 	}
 
+	/**
+	 * Check if the lp view is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the lp view is valid 
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Convert to new lp view
+	 * @param array $array the parameters for the conversion
+	 * @return the new lp view
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Retrieve all lp views from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of lp views
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

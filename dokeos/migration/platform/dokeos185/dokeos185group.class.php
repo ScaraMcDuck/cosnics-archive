@@ -208,6 +208,11 @@ class Dokeos185Group extends ImportGroup
 		return $this->get_default_property(self :: PROPERTY_self_UNREGISTRATION_ALLOWED);
 	}
 	
+	/**
+	 * Check if the group is valid
+	 * @param Course $course the course
+	 * @return true if the group is valid 
+	 */
 	function is_valid_group($course)
 	{
 		if(!$this->get_name() || $this->get_self_registration_allowed() == NULL
@@ -221,6 +226,11 @@ class Dokeos185Group extends ImportGroup
 		return true;
 	}
 	
+	/**
+	 * Convert to new group
+	 * @param Course $course the course
+	 * @return the new group
+	 */
 	function convert_to_new_group($course)
 	{
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
@@ -248,6 +258,11 @@ class Dokeos185Group extends ImportGroup
 		return $lcms_group;
 	}
 	
+	/**
+	 * Retrieve all groups from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of groups
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

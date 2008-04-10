@@ -157,16 +157,31 @@ class Dokeos185OpenidAssociation extends ImportOpenidAssociation
 		return $this->get_default_property(self :: PROPERTY_CREATED);
 	}
 
+	/**
+	 * Check if the open id association is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the open id association is valid 
+	 */
 	function is_valid($array)
 	{
 		
 	}
 	
+	/**
+	 * Convert to new open id association
+	 * @param array $array the parameters for the conversion
+	 * @return the new open id association
+	 */
 	function convert_to_lcms($array)
 	{	
 		
 	}
 	
+	/**
+	 * Retrieve all open id associations from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of open id associations
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

@@ -137,16 +137,28 @@ class Dokeos185BlogTask extends ImportBlogTask
 		return $this->get_default_property(self :: PROPERTY_SYSTEM_TASK);
 	}
 
+	/**
+	 * Check if the blog task is valid
+	 * @param array $array the parameters for the validation
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Convert to new blog task
+	 * @param array $array the parameters for the conversion
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Retrieve all blog tasks from the database
+	 * @param array $parameters parameters for the retrieval
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

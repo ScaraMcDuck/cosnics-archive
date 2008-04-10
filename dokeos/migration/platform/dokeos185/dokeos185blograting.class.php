@@ -135,18 +135,30 @@ class Dokeos185BlogRating extends ImportBlogRating
 	function get_rating()
 	{
 		return $this->get_default_property(self :: PROPERTY_RATING);
-	}
-
+	}	
+	
+	/**
+	 * Check if the blog rating is valid
+	 * @param array $array the parameters for the validation
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Convert to new blog rating
+	 * @param array $array the parameters for the conversion
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Retrieve all blog ratings from the database
+	 * @param array $parameters parameters for the retrieval
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

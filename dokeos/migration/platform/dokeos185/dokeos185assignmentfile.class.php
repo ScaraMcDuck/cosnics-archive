@@ -111,6 +111,11 @@ class Dokeos185AssignmentFile extends ImportAssignmentfile
 		return $this->get_default_property(self :: PROPERTY_DOC_PATH);
 	}
 
+	/**
+	 * Check if the assignment file is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the assignment file is valid 
+	 */
 	function is_valid($array)
 	{ 
 		$course = $array['course'];
@@ -129,6 +134,12 @@ class Dokeos185AssignmentFile extends ImportAssignmentfile
 		return true;
 	}
 	
+	/**
+	 * Convert to new assignment file
+	 * Create document
+	 * @param array $array the parameters for the conversion
+	 * @return the new assignment file
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
@@ -284,6 +295,11 @@ class Dokeos185AssignmentFile extends ImportAssignmentfile
 		return $lcms_document; 
 	}
 	
+	/**
+	 * Retrieve all assignment files from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of assignment files
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

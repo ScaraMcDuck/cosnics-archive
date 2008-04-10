@@ -130,7 +130,12 @@ class Dokeos185ForumCategory extends ImportForumCategory
 	{
 		return $this->get_default_property(self :: PROPERTY_LOCKED);
 	}
-
+	
+	/**
+	 * Check if the forum category is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the forum category is valid 
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
@@ -145,7 +150,9 @@ class Dokeos185ForumCategory extends ImportForumCategory
 	}
 	
 	/**
-	 * Migration forum category
+	 * Convert to new forum category
+	 * @param array $array the parameters for the conversion
+	 * @return the new forum category
 	 */
 	function convert_to_lcms($array)
 	{	
@@ -175,6 +182,11 @@ class Dokeos185ForumCategory extends ImportForumCategory
 		return $lcms_forum_category;
 	}
 	
+	/**
+	 * Retrieve all forum categories from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of forum categories
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

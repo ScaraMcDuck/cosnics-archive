@@ -127,16 +127,31 @@ class Dokeos185PhpSession extends ImportPhpSession
 		return $this->get_default_property(self :: PROPERTY_SESSION_VALUE);
 	}
 
+	/**
+	 * Check if the php session is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the php session is valid 
+	 */
 	function is_valid($array)
 	{
 		
 	}
 	
+	/**
+	 * Convert to new php session
+	 * @param array $array the parameters for the conversion
+	 * @return the new php session
+	 */
 	function convert_to_lcms($array)
 	{	
 		
 	}
 	
+	/**
+	 * Retrieve all php sessions from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of php sessions
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

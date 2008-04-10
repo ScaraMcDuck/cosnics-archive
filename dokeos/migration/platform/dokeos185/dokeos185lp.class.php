@@ -256,6 +256,11 @@ class Dokeos185Lp extends ImportLP
 		return $this->get_default_property(self :: PROPERTY_THEME);
 	}
 	
+	/**
+	 * Check if the learning path is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the learning path is valid 
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
@@ -271,6 +276,11 @@ class Dokeos185Lp extends ImportLP
 		return true;
 	}
 	
+	/**
+	 * Convert to new learning path
+	 * @param array $array the parameters for the conversion
+	 * @return the new learning path
+	 */
 	function convert_to_lcms($array)
 	{
 		$course = $array['course'];
@@ -364,6 +374,11 @@ class Dokeos185Lp extends ImportLP
 		return $lcms_lp;
 	}
 	
+	/**
+	 * Retrieve all learning paths from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of learning paths
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

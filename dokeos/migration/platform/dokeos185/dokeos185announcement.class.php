@@ -148,6 +148,11 @@ class Dokeos185Announcement extends ImportAnnouncement
 		return $this->get_default_property(self :: PROPERTY_EMAIL_SENT);
 	}
 	
+	/**
+	 * Check if the announcement is valid
+	 * @param Course $course the course to which the announcement belongs
+	 * @return true if the announcement is valid 
+	 */
 	function is_valid_announcement($course)
 	{
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'announcement',$this->get_id());	
@@ -162,6 +167,13 @@ class Dokeos185Announcement extends ImportAnnouncement
 		return true;
 	}
 	
+	/**
+	 * Convert to new announcement 
+	 * Create announcement
+	 * Create publication
+	 * @param Course $course the course to which the announcement belongs
+	 * @return the new announcement
+	 */
 	function convert_to_new_announcement($course)
 	{
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
@@ -255,6 +267,11 @@ class Dokeos185Announcement extends ImportAnnouncement
 		return $lcms_announcement;
 	}
 	
+	/**
+	 * Retrieve all announcements from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of announcements
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

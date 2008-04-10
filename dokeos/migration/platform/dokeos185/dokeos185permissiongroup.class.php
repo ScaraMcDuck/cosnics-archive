@@ -117,16 +117,31 @@ class Dokeos185PermissionGroup extends ImportPermissionGroup
 		return $this->get_default_property(self :: PROPERTY_ACTION);
 	}
 
+	/**
+	 * Check if the group permission is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the group permission is valid 
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Convert to new group permission
+	 * @param array $array the parameters for the conversion
+	 * @return the new group permission
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Retrieve all group permissions from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of blogs
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

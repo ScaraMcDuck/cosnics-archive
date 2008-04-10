@@ -266,6 +266,11 @@ class Dokeos185ForumForum extends ImportForumForum
 		return $this->get_default_property(self :: PROPERTY_SESSION_ID);
 	}
 
+	/**
+	 * Check if the forum is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the forum is valid 
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
@@ -281,6 +286,11 @@ class Dokeos185ForumForum extends ImportForumForum
 		return true;
 	}
 	
+	/**
+	 * Convert to new forum
+	 * @param array $array the parameters for the conversion
+	 * @return the new forum
+	 */
 	function convert_to_lcms($array)
 	{
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
@@ -380,6 +390,11 @@ class Dokeos185ForumForum extends ImportForumForum
 		return $lcms_forum;
 	}
 	
+	/**
+	 * Retrieve all forums from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of forums
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

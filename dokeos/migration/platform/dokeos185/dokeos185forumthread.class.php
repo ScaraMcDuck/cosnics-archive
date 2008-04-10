@@ -197,7 +197,11 @@ class Dokeos185ForumThread extends ImportForumThread
 		return $this->get_default_property(self :: PROPERTY_LOCKED);
 	}
 
-
+	/**
+	 * Check if the forum thread is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the forum thread is valid 
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
@@ -213,6 +217,11 @@ class Dokeos185ForumThread extends ImportForumThread
 		return true;
 	}
 	
+	/**
+	 * Convert to new forum thread
+	 * @param array $array the parameters for the conversion
+	 * @return the new forum thread
+	 */
 	function convert_to_lcms($array)
 	{
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
@@ -304,6 +313,12 @@ class Dokeos185ForumThread extends ImportForumThread
 		*/
 		return $lcms_forum_topic;
 	}
+	
+	/**
+	 * Retrieve all forum threads from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of forum threads
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

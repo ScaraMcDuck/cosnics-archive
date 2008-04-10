@@ -137,6 +137,11 @@ class Dokeos185DropboxCategory extends ImportDropboxCategory
 		$this->set_default_property(self :: PROPERTY_CAT_ID, $code);
 	}
 	
+	/**
+	 * Check if the dropbox category is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the dropbox category is valid
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
@@ -151,7 +156,9 @@ class Dokeos185DropboxCategory extends ImportDropboxCategory
 	}
 	
 	/**
-	 * Migration dropbox_category
+	 * Convert to new dropbox category
+	 * @param array $array the parameters for the conversion
+	 * @return the new dropbox category
 	 */
 	function convert_to_lcms($array)
 	{	
@@ -176,9 +183,10 @@ class Dokeos185DropboxCategory extends ImportDropboxCategory
 		return $lcms_dropbox_category;
 	}
 	
-	/** 
-	 * Get all course categories from database
-	 * @param Migration Data Manager $mgdm the datamanager from where the courses should be retrieved;
+	/**
+	 * Retrieve all dropbox categories from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of dropbox categories
 	 */
 	static function get_all($parameters)
 	{

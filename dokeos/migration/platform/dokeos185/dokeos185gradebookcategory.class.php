@@ -167,16 +167,32 @@ class Dokeos185GradebookCategory extends ImportGradebookCategory
 		return $this->get_default_property(self :: PROPERTY_CERTIF_MIN_SCORE);
 	}
 
+	/**
+	 * Check if the gradebook category is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the gradebook category is valid 
+	 */
 	function is_valid($array)
 	{
 		
 	}
+	
+	/**
+	 * Convert to new gradebook category
+	 * @param array $array the parameters for the conversion
+	 * @return the new gradebook category
+	 */
 	
 	function convert_to_lcms($array)
 	{	
 		
 	}
 	
+	/**
+	 * Retrieve all gradebook categories from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of gradebook categories
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

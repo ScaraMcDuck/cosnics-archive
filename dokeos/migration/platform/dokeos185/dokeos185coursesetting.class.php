@@ -240,16 +240,31 @@ class Dokeos185CourseSetting extends ImportCourseSetting
 		$this->set_default_property(self :: PROPERTY_SUBKEYTEXT, $subkeytext);
 	}
 
+	/**
+	 * Check if the course setting is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the course setting is valid 
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Convert to new course setting
+	 * @param array $array the parameters for the conversion
+	 * @return the new course setting
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Retrieve all course settings from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of course settings
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

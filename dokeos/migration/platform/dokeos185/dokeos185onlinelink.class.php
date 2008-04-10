@@ -107,16 +107,31 @@ class Dokeos185OnlineLink extends ImportOnlineLink
 		return $this->get_default_property(self :: PROPERTY_URL);
 	}
 
+	/**
+	 * Check if the online link is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the online link is valid 
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Convert to new online link
+	 * @param array $array the parameters for the conversion
+	 * @return the new online link
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Retrieve all online links from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of online links
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
