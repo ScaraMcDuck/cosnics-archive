@@ -1,3 +1,6 @@
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 
@@ -34,6 +37,7 @@ body
 .groupItem
 {
 	margin-bottom: 20px;
+	background-color: #F9F9F9;
 }
 .groupItem .itemHeader
 {
@@ -60,8 +64,9 @@ body
 }
 .sortHelper
 {
-	border: 3px dashed #666;
+	border: 1px dashed #666;
 	width: auto !important;
+	background-color: #F2F2F2;
 }
 .groupWrapper p
 {
@@ -76,7 +81,7 @@ body
 
 <div id="sort1" class="groupWrapper">
 	<div id="newsFeeder" class="groupItem">
-		<div class="itemHeader">Feeds<a href="#" class="closeEl">[-]</a></div>
+		<div class="itemHeader">newsFeeder<a href="#" class="closeEl">[-]</a></div>
 		<div class="itemContent">
 			<ul>
 				<li>orem ipsum dolor sit amet, consectetuer adipiscing elit</li>
@@ -88,7 +93,7 @@ body
 		</div>
 	</div>
 	<div id="news" class="groupItem">
-		<div class="itemHeader">News<a href="#" class="closeEl">[-]</a></div>
+		<div class="itemHeader">news<a href="#" class="closeEl">[-]</a></div>
 
 		<div class="itemContent">
 			<ul>
@@ -104,7 +109,7 @@ body
 </div>
 <div id="sort2" class="groupWrapper">
 	<div id="shop" class="groupItem">
-		<div class="itemHeader">Shopping<a href="#" class="closeEl">[-]</a></div>
+		<div class="itemHeader">shop<a href="#" class="closeEl">[-]</a></div>
 		<div class="itemContent">
 			<ul>
 
@@ -120,7 +125,7 @@ body
 </div>
 <div id="sort3" class="groupWrapper">
 	<div id="links" class="groupItem">
-		<div class="itemHeader">Links<a href="#" class="closeEl">[-]</a></div>
+		<div class="itemHeader">links<a href="#" class="closeEl">[-]</a></div>
 		<div class="itemContent">
 			<ul>
 				<li>orem ipsum dolor sit amet, consectetuer adipiscing elit</li>
@@ -133,7 +138,7 @@ body
 	</div>
 	<div id="images" class="groupItem">
 
-		<div class="itemHeader">Images<a href="#" class="closeEl">[-]</a></div>
+		<div class="itemHeader">images<a href="#" class="closeEl">[-]</a></div>
 		<div class="itemContent">
 			<ul>
 				<li>orem ipsum dolor sit amet, consectetuer adipiscing elit</li>
@@ -199,7 +204,5 @@ function serialize(s)
 <a href="#" onClick="serialize('sort3'); return false;" >serialize list 3</a>
 <a href="#" onClick="serialize(['sort1', 'sort3']); return false;" >serialize lists 2 and 3</a>
 </div>
-
 </body>
-
 </html>
