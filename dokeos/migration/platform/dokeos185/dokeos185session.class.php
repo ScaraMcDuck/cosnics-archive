@@ -156,17 +156,32 @@ class Dokeos185Session extends ImportSession
 	{
 		return $this->get_default_property(self :: PROPERTY_DATE_END);
 	}
-
+	
+	/**
+	 * Checks if a session is valid
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function is_valid($array)
 	{
 		
 	}
 	
+	/**
+	 * migrate session, sets category
+	 * @param Array $array
+	 * @return 
+	 */
 	function convert_to_lcms($array)
 	{	
 		
 	}
 	
+	/**
+	 * Gets all the sessions of a course
+	 * @param Array $array
+	 * @return Array of dokeos185session
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

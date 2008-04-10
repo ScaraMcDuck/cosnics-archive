@@ -129,7 +129,12 @@ class Dokeos185SurveyQuestionOption
 	{
 		return $this->get_default_property(self :: PROPERTY_SORT);
 	}
-
+	
+	/**
+	 * Gets all the survey question options of a course
+	 * @param Array $parameters
+	 * @return Array of dokeos185surveyquestionoption
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
@@ -144,6 +149,11 @@ class Dokeos185SurveyQuestionOption
 		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
 	
+	/**
+	 * Checks if surveyquestionoption is valid
+	 * @param Array $array
+	 * @return Boolean 
+	 */
 	function is_valid($array)
 	{
 		
@@ -158,6 +168,11 @@ class Dokeos185SurveyQuestionOption
 		return true;
 	}
 	
+	/**
+	 * Convert to LearningStyleSurveyAnswer, sets category
+	 * @param Array $array
+	 * @return LearningStyleSurveyAnswer
+	 */
 	function convert_to_lcms($array)
 	{
 		$course = $array['course'];	

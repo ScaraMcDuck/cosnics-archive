@@ -95,6 +95,11 @@ class Dokeos185QuizRelQuestion extends ImportQuizRelQuestion
 		return $this->get_default_property(self :: PROPERTY_EXERCICE_ID);
 	}
 	
+	/**
+	 * Gets all the quiz rel question of a course
+	 * @param Array $array
+	 * @return Array of dokeos185quizrelquestion
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
@@ -108,7 +113,8 @@ class Dokeos185QuizRelQuestion extends ImportQuizRelQuestion
 			
 		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
-
+	
+	
 
 }
 

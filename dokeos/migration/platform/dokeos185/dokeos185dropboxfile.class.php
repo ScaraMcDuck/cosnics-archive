@@ -311,7 +311,7 @@ class Dokeos185DropboxFile extends ImportDropboxFile
 				//create document in database
 				$lcms_document->create_all();
 				
-				self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(true,$new_rel_path . $file))] = $lcms_document->get_id();
+				//self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(true,$new_rel_path . $file))] = $lcms_document->get_id();
 			}
 			
 		//}

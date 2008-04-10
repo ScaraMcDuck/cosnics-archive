@@ -116,17 +116,32 @@ class Dokeos185SettingsOptions extends ImportSettingsOptions
 	{
 		return $this->get_default_property(self :: PROPERTY_DISPLAY_TEXT);
 	}
-
+	
+	/**
+	 * Checks if a settingsoptions is valid
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function is_valid($array)
 	{
 		
 	}
 	
+	/**
+	 * migrate settingsoption, sets category
+	 * @param Array $array
+	 * @return
+	 */
 	function convert_to_lcms($array)
 	{	
 		
 	}
 	
+	/**
+	 * Gets all the setting options of a course
+	 * @param Array $array
+	 * @return Array of dokeos185settingoption
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

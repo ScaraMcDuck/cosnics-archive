@@ -99,7 +99,12 @@ class Dokeos185ToolIntro extends ImportToolIntro
 	{
 		return $this->get_default_property(self :: PROPERTY_INTRO_TEXT);
 	}
-
+	
+	/**
+	 * Checks if a tool intro is valid
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
@@ -113,6 +118,11 @@ class Dokeos185ToolIntro extends ImportToolIntro
 		return true;
 	}
 	
+	/**
+	 * Convert to description, set category, make publication
+	 * @param Array $array
+	 * @return Description
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
@@ -179,6 +189,11 @@ class Dokeos185ToolIntro extends ImportToolIntro
 		
 	}
 	
+	/**
+	 * Get all the tool intro's of a course
+	 * @param Array $parameters
+	 * @return array of dokeos185toolintro
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

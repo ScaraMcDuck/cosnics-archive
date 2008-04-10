@@ -164,7 +164,12 @@ class Dokeos185QuizAnswer
 	{
 		return $this->get_default_property(self :: PROPERTY_HOTSPOT_TYPE);
 	}
-
+	
+	/**
+	 * Gets all the quizanswer of a course
+	 * @param Array $array
+	 * @return Array of dokeos185quizanswer
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

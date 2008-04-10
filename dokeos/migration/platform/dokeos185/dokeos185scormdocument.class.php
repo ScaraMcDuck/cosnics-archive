@@ -140,7 +140,12 @@ class Dokeos185Scormdocument
 	{
 		return $this->get_default_property(self :: PROPERTY_NAME);
 	}
-
+	
+	/**
+	 * Checks if a scorm document is valid
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function is_valid($courses)
 	{
 		$course = $courses['course'];
@@ -160,6 +165,11 @@ class Dokeos185Scormdocument
 		return true;
 	}
 	
+	/**
+	 * migrate scorm document, sets category
+	 * @param Array $array
+	 * @return Document
+	 */
 	function convert_to_lcms($array)
 	{
 		$course = $array['course'];
@@ -316,6 +326,11 @@ class Dokeos185Scormdocument
 		return $lcms_document;
 	}
 	
+	/**
+	 * Gets all the scorm documents of a course
+	 * @param Array $array
+	 * @return Array of dokeos185scormdocument
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

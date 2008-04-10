@@ -139,6 +139,11 @@ class Dokeos185SurveyAnswer extends ImportSurveyAnswer
 		return $this->get_default_property(self :: PROPERTY_USER);
 	}
 	
+	/**
+	 * Gets all the survey answers of a course
+	 * @param Array $array
+	 * @return Array of dokeos185surveyanswer
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
@@ -152,6 +157,12 @@ class Dokeos185SurveyAnswer extends ImportSurveyAnswer
 			
 		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
+	
+	/**
+	 * Checks if a surveyanswer is valid
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function is_valid($array)
 	{
 		
@@ -166,6 +177,11 @@ class Dokeos185SurveyAnswer extends ImportSurveyAnswer
 		return true;
 	}
 	
+	/**
+	 * migrate surveyanswer, sets category
+	 * @param Array $array
+	 * @return LearningStyleSurveyAnswer
+	 */
 	function convert_to_lcms($array)
 	{
 		$course = $array['course'];

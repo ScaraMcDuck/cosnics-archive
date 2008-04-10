@@ -166,17 +166,32 @@ class Dokeos185SharedSurveyQuestion extends ImportSharedSurveyQuestion
 	{
 		return $this->get_default_property(self :: PROPERTY_MAX_VALUE);
 	}
-
+	
+	/**
+	 * Checks if a shared survey question is valid
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function is_valid($array)
 	{
 		
 	}
 	
+	/**
+	 * migrate sharedsurveyquestion, sets category
+	 * @param Array $array
+	 * @return
+	 */
 	function convert_to_lcms($array)
 	{	
 		
 	}
 	
+	/**
+	 * Gets all the shared survey questions of a course
+	 * @param Array $array
+	 * @return Array of dokeos185sharedsurveyquestion
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

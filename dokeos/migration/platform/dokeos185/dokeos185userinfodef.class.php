@@ -125,7 +125,11 @@ class Dokeos185UserinfoDef extends ImportUserinfoDef
 	{
 		return $this->get_default_property(self :: PROPERTY_RANK);
 	}
-
+	
+	/**
+	 * Checks if the userinfo definition is valid
+	 * @return boolean
+	 */
 	function is_valid($parameters)
 	{ 
 		$course = $parameters['course'];
@@ -140,6 +144,12 @@ class Dokeos185UserinfoDef extends ImportUserinfoDef
 		return true;
 	}
 	
+	/**
+	 * Convert the userinfo definition to a lcms userinfo definition
+	 * Gets and sets the userinfo category
+	 * @param Array $parameters
+	 * @return UserinfoDef
+	 */
 	function convert_to_lcms($parameters)
 	{	
 		$course = $parameters['course'];
@@ -189,7 +199,12 @@ class Dokeos185UserinfoDef extends ImportUserinfoDef
 		
 		return $lcms_userinfodef;
 	}
-
+	
+	/**
+	 * Get all the userinfo definitions of a course
+	 * @param Array $parameters
+	 * @return Array dokeos185userinfodef
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

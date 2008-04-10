@@ -139,7 +139,12 @@ class Dokeos185UserinfoContent
 	{
 		return $this->get_default_property(self :: PROPERTY_CONTENT);
 	}
-
+	
+	/**
+	 * Gets all the userinfo content of a course
+	 * @param Array $parameters
+	 * @return Array with userinfo contents
+	 */
 	static function get_all($parameters)
 	{ 
 		self :: $mgdm = $parameters['mgdm'];
@@ -150,7 +155,12 @@ class Dokeos185UserinfoContent
 			
 		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
-
+	
+	/**
+	 * Checks if userinfo content is valid
+	 * @param Array $array
+	 * @return bool
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
@@ -163,6 +173,12 @@ class Dokeos185UserinfoContent
 		return true;
 	}
 	
+	/**
+	 * Convert userinfo content to new lcms userinfo content
+	 * Gets the category of the userinfo content
+	 * @param Array $array
+	 * @return UserinfoContent
+	 */
 	function convert_to_lcms($array)
 	{
 		$course = $array['course'];

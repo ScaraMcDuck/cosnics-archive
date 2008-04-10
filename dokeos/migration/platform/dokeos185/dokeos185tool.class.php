@@ -129,11 +129,18 @@ class Dokeos185Tool extends ImportTool
 		return $this->get_default_property(self :: PROPERTY_VISIBILITY);
 	}
 	
+	/**
+	 * Checks if tool is valid
+	 */
 	function is_valid_tool()
 	{
 		return isset($this->convert[$this->get_name()]);
 	}
-	
+	/**
+	 * migrate to new tool
+	 * @param String $course
+	 * @return dokeos185tool
+	 */
 	function convert_to_new_tool($course)
 	{		
 		$value = $this->convert[$this->get_name()];
@@ -143,6 +150,11 @@ class Dokeos185Tool extends ImportTool
 		return $this;
 	}
 	
+	/**
+	 * Get all the tools of a course
+	 * @param Array $parameters
+	 * @return Array of dokeos185tool
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

@@ -178,7 +178,12 @@ class Dokeos185StudentPublication extends ImportStudentPublication
 	{
 		return $this->get_default_property(self :: PROPERTY_SENT_DATE);
 	}
-
+	
+	/**
+	 * Checks if a student publication is valid
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
@@ -197,6 +202,11 @@ class Dokeos185StudentPublication extends ImportStudentPublication
 		return true;
 	}
 	
+	/**
+	 * migrate surveyanswer, sets category
+	 * @param Array $array
+	 * @return Document
+	 */
 	function convert_to_lcms($array)
 	{
 		if($this->item_property)
@@ -364,7 +374,12 @@ class Dokeos185StudentPublication extends ImportStudentPublication
 		*/
 		return $lcms_document;
 	}
-
+	
+	/**
+	 * Gets all the student publications of a course
+	 * @param Array $array
+	 * @return Array of dokeos185studentpublication
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
