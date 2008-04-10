@@ -186,17 +186,32 @@ class Dokeos185SharedSurvey extends ImportSharedSurvey
 	{
 		return $this->get_default_property(self :: PROPERTY_COURSE_CODE);
 	}
-
+	
+	/**
+	 * Checks if a shared survey is valid
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function is_valid($array)
 	{
 		
 	}
 	
+	/**
+	 * migrate shared survey, sets category
+	 * @param Array $array
+	 * @return
+	 */
 	function convert_to_lcms($array)
 	{	
 		
 	}
 	
+	/**
+	 * Gets all the shared surveys of a course
+	 * @param Array $array
+	 * @return
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

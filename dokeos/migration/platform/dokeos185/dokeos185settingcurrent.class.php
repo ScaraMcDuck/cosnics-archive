@@ -230,13 +230,20 @@ class Dokeos185SettingCurrent extends ImportSettingCurrent
 		$this->set_default_property(self :: PROPERTY_ID, $selected_value);
 	}
 	
+	/**
+	 * Checks if a settingcurrent is valid
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function is_valid_current_setting()
 	{
 		return isset($this->convert[$this->get_variable()]);
 	}
 	
 	/**
-	 * Migration course user relation
+	 * migrate settingcurrent, sets category
+	 * @param Array $array
+	 * @return null
 	 */
 	function convert_to_new_admin_setting()
 	{
@@ -278,7 +285,8 @@ class Dokeos185SettingCurrent extends ImportSettingCurrent
 	
 	/** 
 	 * Get all current settings from database
-	 * @param Migration Data Manager $mgdm the datamanager from where the settings should be retrieved;
+	 * @param Migration Data Manager $mgdm the datamanager from where the settings should be retrieved
+	 * @return Array of dokeos185settingcurrent
 	 */
 	static function get_all_current_settings($mgdm)
 	{

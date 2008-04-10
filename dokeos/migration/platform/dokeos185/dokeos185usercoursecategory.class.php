@@ -167,6 +167,7 @@ class Dokeos185UserCourseCategory extends Import
 	
 	/**
 	 * Migration user course category
+	 * @return CourseUserCategory
 	 */
 	function convert_to_new_user_course_category()
 	{
@@ -188,6 +189,11 @@ class Dokeos185UserCourseCategory extends Import
 		return $lcms_user_course_category;
 	}
 	
+	/**
+	 * Gets all the user course categories
+	 * @param array $parameters
+	 * @return Array with dokeos185usercoursecategory
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

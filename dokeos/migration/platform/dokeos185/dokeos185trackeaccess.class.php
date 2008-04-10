@@ -127,17 +127,29 @@ class Dokeos185TrackEAccess extends ImportTrackEAccess
 		return $this->get_default_property(self :: PROPERTY_ACCESS_TOOL);
 	}
 
-	
+	/**
+	 * Validation checks
+	 * @param Array $array
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Convertion
+	 * @param Array $array
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Gets all the trackers
+	 * @param Array $array
+	 * @return Array
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

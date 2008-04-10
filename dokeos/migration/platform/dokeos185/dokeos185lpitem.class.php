@@ -290,8 +290,19 @@ class Dokeos185LpItem extends ImportLpItem
 	function convert_to_lcms($array)
 	{
 		$id = self :: $mgdm->get_id_reference($this->get_lp_id(),'repository_learning_path');
+		$course = $array['course'];
+		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+
+		if($id)		
+		{
+			$lo = self :: $mgdm->get_owner_learning_object($id,'learning_path');
+			$new_user_id = $lo->get_owner_id();
+		}
+		else
+		{
+			$new_user_id = self :: $mgdm->get_owner($new_course_code);
+		}
 		
-		$lo = self :: $mgdm->get_owner_learning_object($id,'learning_path');
 		$new_user_id = $lo->get_owner_id();
 		$course = $array['course'];
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');

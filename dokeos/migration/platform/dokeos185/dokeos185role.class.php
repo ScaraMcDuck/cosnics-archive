@@ -116,17 +116,32 @@ class Dokeos185Role extends ImportRole
 	{
 		return $this->get_default_property(self :: PROPERTY_DEFAULT_ROLE);
 	}
-
+	
+	/**
+	 * Checks if a role is valid
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * migrate role, sets category
+	 * @param Array $array
+	 * @return
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Gets all the role of a course
+	 * @param Array $array
+	 * @return Array of dokeos185role
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

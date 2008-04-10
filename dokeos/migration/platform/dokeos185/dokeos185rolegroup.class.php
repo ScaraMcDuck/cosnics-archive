@@ -106,17 +106,32 @@ class Dokeos185RoleGroup extends ImportRoleGroup
 	{
 		return $this->get_default_property(self :: PROPERTY_GROUP_ID);
 	}
-
+	
+	/**
+	 * Checks if a role group is valid
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * migrate rolegroup, sets category
+	 * @param Array $array
+	 * @return
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Gets all the role group of a course
+	 * @param Array $array
+	 * @return Array of dokeos185rolegroup
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

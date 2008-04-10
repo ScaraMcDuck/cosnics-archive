@@ -157,6 +157,11 @@ class Dokeos185QuizQuestion extends ImportQuizQuestion
 		return $this->get_default_property(self :: PROPERTY_PICTURE);
 	}
 	
+	/**
+	 * Gets all the quizquestion of a course
+	 * @param Array $array
+	 * @return Array of dokeos185quizquestion
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
@@ -170,7 +175,12 @@ class Dokeos185QuizQuestion extends ImportQuizQuestion
 			
 		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
-
+	
+	/**
+	 * Checks if a quizquestion is valid
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
@@ -184,6 +194,11 @@ class Dokeos185QuizQuestion extends ImportQuizQuestion
 		return true;
 	}
 	
+	/**
+	 * migrate quizquestion, sets category
+	 * @param Array $array
+	 * @return 
+	 */
 	function convert_to_lcms($array)
 	{
 		$course = $array['course'];

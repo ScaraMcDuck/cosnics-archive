@@ -168,7 +168,12 @@ class Dokeos185SurveyQuestion
 	{
 		return $this->get_default_property(self :: PROPERTY_MAX_VALUE);
 	}
-
+	
+	/**
+	 * Gets all the survey questions of a course
+	 * @param Array $array
+	 * @return Array of dokeos185surveyquestion
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
@@ -182,6 +187,12 @@ class Dokeos185SurveyQuestion
 			
 		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
 	}
+	
+	/**
+	 * Checks if a surveyquestion is valid
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
@@ -195,6 +206,11 @@ class Dokeos185SurveyQuestion
 		return true;
 	}
 	
+	/**
+	 * migrate surveyquestion, sets category
+	 * @param Array $array
+	 * @return LearningStyleSurveyQuestion
+	 */
 	function convert_to_lcms($array)
 	{
 		$course = $array['course'];

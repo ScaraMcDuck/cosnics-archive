@@ -28,6 +28,10 @@ class Dokeos185DataManager extends MigrationDataManager
 		$this->get_configuration($old_directory);
 	}
 	
+	/**
+	 * Gets the configuration file of the old Dokeos 1.8.5
+	 * @param String $old_directory
+	 */
 	function get_configuration($old_directory)
 	{
 		$old_directory = 'file://' . $old_directory;
@@ -46,7 +50,6 @@ class Dokeos185DataManager extends MigrationDataManager
 	
 	/**
 	 * Function to validate the dokeos 185 settings given in the wizard
-	 * @param Array $parameters settings from the wizard
 	 * @return true if settings are valid, otherwise false
 	 */
 	function validate_settings()
@@ -143,6 +146,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	 * Built in checks for same filename
 	 * @param String $old_rel_path Relative path on the old system
 	 * @param String $new_rel_path Relative path on the LCMS system
+	 * @return String $new_filename
 	 */
 	function move_file($old_rel_path, $new_rel_path,$filename)
 	{
@@ -178,6 +182,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	 * Function to return the full path
 	 * @param boolean $is_new_system Which system the directory has to be created on (true = LCMS)
 	 * @param String $rel_path Relative path on the chosen system
+	 * @return String $path
 	 */
 	function append_full_path($is_new_system, $rel_path)
 	{
@@ -189,7 +194,8 @@ class Dokeos185DataManager extends MigrationDataManager
 		return $path;
 	}
 		
-	/** Get all the current settings from the dokeos185 database
+	/** 
+	 * Get all the current settings from the dokeos185 database
 	 * @return array of Dokeos185SettingCurrent
 	 */
 	function get_all_current_settings()
@@ -226,6 +232,13 @@ class Dokeos185DataManager extends MigrationDataManager
 		return $id;
 	}
 	
+	/**
+	 * Function that gets the item property of a record
+	 * @param String $db
+	 * @param String $tool
+	 * @param int $id
+	 * @return item_property item property of a record
+	 */
 	function get_item_property($db, $tool, $id)
 	{
 		$this->db_connect($db);
@@ -239,7 +252,9 @@ class Dokeos185DataManager extends MigrationDataManager
 		return $itemprops[0];
 	}
 	
-	/** Get all the documents from the dokeos185 database
+	/** Get all the documents from a course
+	 * @param String $course
+	 * @param int $include_deleted_files
 	 * @return array of Dokeos185Documents
 	 */
 	function get_all_documents($course, $include_deleted_files)
@@ -257,6 +272,14 @@ class Dokeos185DataManager extends MigrationDataManager
 		return $documents;
 	}
 	
+	/**
+	 * Generic method for getting all the records of a table
+	 * @param String $database
+	 * @param String $tablename
+	 * @param String $classname
+	 * @param String $tool_name
+	 * @return dokeos185 datatype Array of dokeos 185 datatype
+	 */
 	function get_all($database, $tablename, $classname, $tool_name = null)
 	{
 		$this->db_connect($database);
@@ -278,6 +301,10 @@ class Dokeos185DataManager extends MigrationDataManager
 		
 	}
 	
+	/**
+	 * sets a boolean for move or copy files
+	 * @param bool $move_file
+	 */
 	static function set_move_file($move_file)
 	{
 		self :: $move_file = $move_file;
@@ -285,6 +312,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	
 	/**
 	 * Returns the first available course category
+	 * @return int code of the first course category
 	 */
 	function get_first_course_category()
 	{
@@ -298,6 +326,12 @@ class Dokeos185DataManager extends MigrationDataManager
 		return null;
 	}
 	
+	/**
+	 * Maps the result of the generic get_all method
+	 * @param resultSet $result
+	 * @param String $class
+	 * @return Array with dokeos185 datatypes
+	 */
 	function mapper($result, $class)
 	{
 		$list = array();
@@ -310,7 +344,12 @@ class Dokeos185DataManager extends MigrationDataManager
 		return $list;
 	}
 	
-	
+	/**
+	 * Gets all the answer of a question
+	 * @param String $database
+	 * @param int $id 
+	 * @return Array of Dokeos185QuizAnswers
+	 */
 	function get_all_question_answer($database,$id)
 	{
 		$this->db_connect($database);

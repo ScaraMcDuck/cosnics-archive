@@ -136,17 +136,32 @@ class Dokeos185Templates extends ImportTemplates
 	{
 		return $this->get_default_property(self :: PROPERTY_REF_DOC);
 	}
-
+	
+	/**
+	 * Checks if template is valid
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Convert templates
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Gets the templates of a course
+	 * @param Array $array
+	 * @return dokeos185templates
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

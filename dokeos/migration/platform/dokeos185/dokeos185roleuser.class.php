@@ -106,17 +106,32 @@ class Dokeos185RoleUser extends ImportRoleUser
 	{
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
-
+	
+	/**
+	 * Checks if a role user is valid
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * migrate role user, sets category
+	 * @param Array $array
+	 * @return
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Gets all the role user of a course
+	 * @param Array $array
+	 * @return Array of dokeos185roleuser
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

@@ -193,6 +193,10 @@ class Dokeos185SystemAnnouncement extends Import
 		return $this->get_default_property(self :: PROPERTY_LANG);
 	}
 	
+	/**
+	 * Checks if valid system announcement()
+	 * @return Boolean
+	 */
 	function is_valid_system_announcement()
 	{
 		if(!($this->get_title() || $this->get_content()))
@@ -204,6 +208,11 @@ class Dokeos185SystemAnnouncement extends Import
 		return true;
 	}
 	
+	/**
+	 * migrate system announcement, set category, make publication
+	 * @param String $admin_id
+	 * @return Announcement
+	 */
 	function convert_to_new_system_announcement($admin_id)
 	{	
 		$lcms_repository_announcement = new Announcement();
@@ -252,6 +261,11 @@ class Dokeos185SystemAnnouncement extends Import
 		return $lcms_repository_announcement;
 	}
 	
+	/**
+	 * Gets all the system announcement
+	 * @param Array $parameters
+	 * @return Array of dokeos185systemannouncements
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

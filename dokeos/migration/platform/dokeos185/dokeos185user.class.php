@@ -432,6 +432,7 @@ class Dokeos185User extends Import
 	
 	/**
 	 * Migration users, create directories, copy user pictures, migrate user profiles
+	 * @return User
 	 */
 	function convert_to_new_user()
 	{	
@@ -594,6 +595,12 @@ class Dokeos185User extends Import
 		return $lcms_user;
 	}
 	
+	/**
+	 * Checks if the user is valid
+	 * Checks if username is valid
+	 * @param Array $lcms_users
+	 * @return Boolean
+	 */
 	function is_valid_user($lcms_users)
 	{
 		if(!$this->get_username() || !$this->get_password() || !$this->get_status())
@@ -630,12 +637,22 @@ class Dokeos185User extends Import
 		return true;
 	}
 	
+	/**
+	 * Gets all the user
+	 * @param migrationdatamanager $mgdm
+	 * @return Array
+	 */
 	static function get_all_users($mgdm)
 	{
 		self :: $mgdm = $mgdm;
 		return self :: $mgdm->get_all_users();	
 	}
 	
+	/**
+	 * Checks if username exists
+	 * @param Array $lcms_users
+	 * @param String $old_username
+	 */
 	function username_exists($lcms_users,$old_username)
 	{
 		foreach($lcms_users as $lcms_user)

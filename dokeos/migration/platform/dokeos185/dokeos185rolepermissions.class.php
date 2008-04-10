@@ -116,17 +116,32 @@ class Dokeos185RolePermissions extends ImportRolePermissions
 	{
 		return $this->get_default_property(self :: PROPERTY_DEFAULT_PERM);
 	}
-
+	
+	/**
+	 * Checks if a role permissions is valid
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * migrate role permissions, sets category
+	 * @param Array $array
+	 * @return
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Gets all the role permissions of a course
+	 * @param Array $array
+	 * @return Array of dokeos185rolepermissions
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

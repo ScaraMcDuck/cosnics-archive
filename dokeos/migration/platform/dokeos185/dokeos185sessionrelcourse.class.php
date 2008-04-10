@@ -116,17 +116,32 @@ class Dokeos185SessionRelCourse extends ImportSessionRelCourse
 	{
 		return $this->get_default_property(self :: PROPERTY_NBR_USERS);
 	}
-
+	
+	/**
+	 * Checks if a sessionrelcourse is valid
+	 * @param Array $array
+	 * @return Boolean
+	 */
 	function is_valid($array)
 	{
 		
 	}
 	
+	/**
+	 * migrate sessionrelcourse, sets category
+	 * @param Array $array
+	 * @return 
+	 */
 	function convert_to_lcms($array)
 	{	
 		
 	}
 	
+	/**
+	 * Gets all the sessionrelcourse of a course
+	 * @param Array $array
+	 * @return Array of dokeos185sessionrelcourse
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
