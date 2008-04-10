@@ -196,6 +196,10 @@ class Dokeos185DropboxFile extends ImportDropboxFile
 		return $this->get_default_property(self :: PROPERTY_SESSION_ID);
 	}
 
+	/**
+	 * Check if the dropboxfile is valid
+	 * @param array $courses the parameters for the validation
+	 */
 	function is_valid($courses)
 	{
 		$course = $courses['course'];
@@ -218,6 +222,11 @@ class Dokeos185DropboxFile extends ImportDropboxFile
 		return true;
 	}
 	
+	/**
+	 * Convert to new dropbox file
+	 * @param array $array the parameters for the conversion
+	 * @return the new dropbox file
+	 */
 	function convert_to_lcms($array)
 	{
 		if($this->get_uploader_id())
@@ -379,6 +388,11 @@ class Dokeos185DropboxFile extends ImportDropboxFile
 		return $lcms_document;
 	}
 	
+	/**
+	 * Retrieve all dropbox files from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of dropbox files
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

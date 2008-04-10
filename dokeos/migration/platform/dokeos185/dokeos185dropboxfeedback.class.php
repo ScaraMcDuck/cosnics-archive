@@ -129,6 +129,10 @@ class Dokeos185DropboxFeedback extends ImportDropboxFeedback
 		return $this->get_default_property(self :: PROPERTY_FEEDBACK_DATE);
 	}
 
+	/**
+	 * Check if the dropbox feedback is valid
+	 * @param array $array the parameters for the validation
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
@@ -143,7 +147,9 @@ class Dokeos185DropboxFeedback extends ImportDropboxFeedback
 	}
 	
 	/**
-	 * Migration dropbox_feedback
+	 * Convert to new dropbox feedback
+	 * @param array $courses the parameters for the conversion
+	 * @return the new dropbox feedback
 	 */
 	function convert_to_lcms($courses)
 	{	
@@ -199,9 +205,10 @@ class Dokeos185DropboxFeedback extends ImportDropboxFeedback
 		return $lcms_dropbox_feedback;
 	}
 	
-	/** 
-	 * Get all dropbox feedbacks from database
-	 * @param Migration Data Manager $mgdm the datamanager from where the dropbox feedback should be retrieved;
+	/**
+	 * Retrieve all dropbox feedbacks from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of dropbox feedbacks
 	 */
 	static function get_all($parameters)
 	{

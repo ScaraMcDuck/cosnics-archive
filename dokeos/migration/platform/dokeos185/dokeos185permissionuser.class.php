@@ -117,16 +117,31 @@ class Dokeos185PermissionUser extends ImportPermissionUser
 		return $this->get_default_property(self :: PROPERTY_ACTION);
 	}
 
+	/**
+	 * Check if the user permission is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the user permission is valid 
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Convert to new user permission
+	 * @param array $array the parameters for the conversion
+	 * @return the new user permission
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Retrieve all user permissions from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of user permissions
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

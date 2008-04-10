@@ -137,16 +137,31 @@ class Dokeos185DropboxPost extends ImportDropboxPost
 		return $this->get_default_property(self :: PROPERTY_SESSION_ID);
 	}
 
+	/**
+	 * Check if the dropbox post is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the dropbox post is valid 
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Convert to new dropbox post
+	 * @param array $array the parameters for the conversion
+	 * @return the new dropbox post
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Retrieve all dropbox posts from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of dropbox posts
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

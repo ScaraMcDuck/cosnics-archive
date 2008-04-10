@@ -170,7 +170,8 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 	}
 	
 	/**
-	 * Check if personal agenda is valid
+	 * Check if the personal agenda is valid
+	 * @return true if the personal agenda is valid 
 	 */
 	function is_valid_personal_agenda()
 	{
@@ -186,7 +187,8 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 	}
 	
 	/**
-	 * Migration to new personal agenda
+	 * Convert to new personal agenda
+	 * @return the new personal agenda
 	 */
 	function convert_to_new_personal_agenda()
 	{
@@ -254,9 +256,10 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 		
 	}
 	
-	/** 
-	 * Get all personal agendas from database
-	 * @param Migration Data Manager $mgdm the datamanager from where the settings should be retrieved;
+	/**
+	 * Retrieve all personal agendas from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of personal agendas
 	 */
 	static function get_all($parameters)
 	{

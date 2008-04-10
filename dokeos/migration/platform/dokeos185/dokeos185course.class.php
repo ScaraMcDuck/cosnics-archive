@@ -343,6 +343,10 @@ class Dokeos185Course extends ImportCourse
 		$this->set_default_property(self :: PROPERTY_CODE, $code);
 	}
 	
+	/**
+	 * Check if the course is valid
+	 * @return true if the blog is valid 
+	 */
 	function is_valid_course()
 	{
 		if(!$this->get_code() || $this->get_show_score() == NULL ||
@@ -357,7 +361,8 @@ class Dokeos185Course extends ImportCourse
 	}
 	
 	/**
-	 * Migration courses
+	 * Convert to new course
+	 * @return the new course
 	 */
 	function convert_to_new_course()
 	{		
@@ -408,7 +413,11 @@ class Dokeos185Course extends ImportCourse
 		
 		return $lcms_course;
 	}
-	
+	/**
+	 * Retrieve all courses from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of courses
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

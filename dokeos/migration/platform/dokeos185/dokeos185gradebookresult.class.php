@@ -127,16 +127,31 @@ class Dokeos185GradebookResult extends ImportGradebookResult
 		return $this->get_default_property(self :: PROPERTY_SCORE);
 	}
 
+	/**
+	 * Check if the gradebook result is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the gradebook result is valid 
+	 */
 	function is_valid($array)
 	{
 		
 	}
 	
+	/**
+	 * Convert to new gradebook result
+	 * @param array $array the parameters for the conversion
+	 * @return the new gradebook result
+	 */
 	function convert_to_lcms($array)
 	{	
 		
 	}
 	
+	/**
+	 * Retrieve all gradebook results from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of gradebook results
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

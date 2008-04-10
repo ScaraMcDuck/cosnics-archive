@@ -123,6 +123,11 @@ class Dokeos185ClassUser extends ImportClassUser
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 	
+	/**
+	 * Check if the class user is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the blog is valid 
+	 */
 	function is_valid_class_user()
 	{
 		if(!$this->get_class_id() || !$this->get_user_id() || 
@@ -138,6 +143,11 @@ class Dokeos185ClassUser extends ImportClassUser
 		return true;
 	}
 	
+	/**
+	 * Convert to new class user
+	 * @param array $array the parameters for the conversion
+	 * @return the new course
+	 */
 	function convert_to_new_class_user()
 	{
 		$lcms_class_user = new ClassGroupRelUser();
@@ -155,6 +165,11 @@ class Dokeos185ClassUser extends ImportClassUser
 		return $lcms_class_user;
 	}
 	
+	/**
+	 * Retrieve all class users from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of class users
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

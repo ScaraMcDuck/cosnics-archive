@@ -166,6 +166,11 @@ class Dokeos185Document extends ImportDocument
 		return self :: $counter;
 	}
 	
+	/**
+	 * Check if the document is valid
+	 * @param Course $course the course of the document
+	 * @return true if the dropbox category is valid
+	 */
 	function is_valid_document($course)
 	{
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'document',$this->get_id());	
@@ -196,6 +201,11 @@ class Dokeos185Document extends ImportDocument
 		return true;
 	}
 	
+	/**
+	 * Convert to new blog
+	 * @param Course $course the course of the document
+	 * @return the new document
+	 */
 	function convert_to_new_document($course)
 	{
 		$start_time = Logger :: get_microtime();
@@ -399,6 +409,13 @@ class Dokeos185Document extends ImportDocument
 					 'orphan_time' => $passedtime_orphan, 'doublefile_time' => $passedtime_doublefile); 
 	}
 	
+	/**
+	 * Retrieve all documents from the database
+	 * @param Course $course the course of the document
+	 * @param MigrationDataManager $mgdm the migration data manager
+	 * @param bool $include_deleted_files 
+	 * @return array of blogs
+	 */
 	static function get_all_documents($course, $mgdm, $include_deleted_files)
 	{
 		self :: $mgdm = $mgdm;

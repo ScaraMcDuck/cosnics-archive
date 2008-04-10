@@ -113,16 +113,31 @@ class Dokeos185GroupRelTutor extends ImportGroupRelTutor
 		return $this->get_default_property(self :: PROPERTY_GROUP_ID);
 	}
 	
+	/**
+	 * Check if the group tutor relation is valid
+	 * @param Course $course the course
+	 * @return true if the group tutor relation is valid 
+	 */
 	function is_valid_group_rel_tutor($course)
 	{	
 		
 	}
 	
+	/**
+	 * Convert to new group tutor relation
+	 * @param Course $course the course
+	 * @return the new group tutor relation
+	 */
 	function convert_to_new_group_rel_tutor($course)
 	{	
 		
 	}
 	
+	/**
+	 * Retrieve all group tutor relations from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of group tutor relations
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

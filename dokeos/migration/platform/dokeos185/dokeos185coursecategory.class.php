@@ -200,6 +200,11 @@ class Dokeos185CourseCategory extends ImportCourseCategory
 		$this->set_default_property(self :: PROPERTY_CODE, $code);
 	}
 	
+	/**
+	 * Check if the course category is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the course category is valid 
+	 */
 	function is_valid_course_category()
 	{
 		if(!$this->get_name() || !$this->get_code())
@@ -213,7 +218,8 @@ class Dokeos185CourseCategory extends ImportCourseCategory
 	}
 	
 	/**
-	 * Migration course_category
+	 * Convert to new course category
+	 * @return the new course category
 	 */
 	function convert_to_new_course_category()
 	{	
@@ -259,9 +265,10 @@ class Dokeos185CourseCategory extends ImportCourseCategory
 		return $lcms_course_category;
 	}
 	
-	/** 
-	 * Get all course categories from database
-	 * @param Migration Data Manager $mgdm the datamanager from where the courses should be retrieved;
+	/**
+	 * Retrieve all course categories from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of course categories
 	 */
 	static function get_all($parameters)
 	{

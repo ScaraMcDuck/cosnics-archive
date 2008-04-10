@@ -187,16 +187,31 @@ class Dokeos185LpIvInteraction extends ImportLpIvInteraction
 		return $this->get_default_property(self :: PROPERTY_LATENCY);
 	}
 
+	/**
+	 * Check if the lp iv interaction is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the lp iv interaction is valid 
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Convert to new lp iv interaction
+	 * @param array $array the parameters for the conversion
+	 * @return the new lp iv interaction
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Retrieve all lp iv interactions from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of lp iv interactions
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

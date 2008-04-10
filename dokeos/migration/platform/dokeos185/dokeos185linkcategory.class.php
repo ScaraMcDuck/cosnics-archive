@@ -114,6 +114,11 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
 	}
 	
+	/**
+	 * Check if the link category is valid
+	 * @param Course $course the course
+	 * @return true if the link category is valid 
+	 */
 	function is_valid_link_category($course)
 	{	
 		if(!$this->get_id() || !($this->get_category_title() || $this->get_description()))
@@ -125,6 +130,11 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 		return true;
 	}
 	
+	/**
+	 * Convert to new link category
+	 * @param Course $course the course
+	 * @return the new link category
+	 */
 	function convert_to_new_link_category($course)
 	{	
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
@@ -149,6 +159,11 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 		
 	}
 	
+	/**
+	 * Retrieve all link categories from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of link categories
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

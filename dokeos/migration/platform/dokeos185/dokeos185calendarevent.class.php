@@ -138,6 +138,11 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 		return $this->get_default_property(self :: PROPERTY_END_DATE);
 	}
 	
+	/**
+	 * Check if the calendar event is valid
+	 * @param Course $course the course where the calendar event belongs to
+	 * @return true if the blog is valid 
+	 */
 	function is_valid_calendar_event($course)
 	{
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'calendar_event',$this->get_id());	
@@ -153,6 +158,11 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 		return true;
 	}
 	
+	/**
+	 * Convert to new calendar event
+	 * @param Course $course the course where the calendar event belongs to
+	 * @return the new calendar event
+	 */
 	function convert_to_new_calendar_event($course)
 	{
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
@@ -249,6 +259,11 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 		return $lcms_calendar_event;
 	}
 	
+	/**
+	 * Retrieve all calendar events from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of calendar events
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

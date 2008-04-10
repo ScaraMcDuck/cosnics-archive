@@ -121,6 +121,10 @@ class Dokeos185CourseRelClass extends ImportCourseRelClass
 		return $this->get_default_property(self :: PROPERTY_CLASS_ID);
 	}
 	
+	/**
+	 * Check if the course class relation is valid
+	 * @return true if the course class relation is valid 
+	 */
 	function is_valid_course_class_relation()
 	{
 		if(!$this->get_course_code() || !$this->get_class_id() ||
@@ -138,7 +142,8 @@ class Dokeos185CourseRelClass extends ImportCourseRelClass
 	}
 	
 	/**
-	 * Migration course user relation
+	 * Convert to new course class relation
+	 * @return the new course class relation
 	 */
 	function convert_to_new_course_class_relation()
 	{
@@ -157,6 +162,11 @@ class Dokeos185CourseRelClass extends ImportCourseRelClass
 		return $lcms_course_class_relation;
 	}
 	
+	/**
+	 * Retrieve all course class relations from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of course class relations
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

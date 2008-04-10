@@ -159,6 +159,11 @@ class Dokeos185Link extends ImportLink
 		return $this->get_default_property(self :: PROPERTY_ON_HOMEPAGE);
 	}
 	
+	/**
+	 * Check if the link is valid
+	 * @param Course $course the course
+	 * @return true if the link is valid 
+	 */
 	function is_valid_link($course)
 	{
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'link',$this->get_id());
@@ -173,6 +178,11 @@ class Dokeos185Link extends ImportLink
 		return true;
 	}
 	
+	/**
+	 * Convert to new link
+	 * @param Course $course the course
+	 * @return the new link
+	 */
 	function convert_to_new_link($course)
 	{
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
@@ -268,6 +278,11 @@ class Dokeos185Link extends ImportLink
 		
 	}
 	
+	/**
+	 * Retrieve all links from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of links
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

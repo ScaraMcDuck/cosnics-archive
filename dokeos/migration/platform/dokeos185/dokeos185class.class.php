@@ -136,6 +136,10 @@ class Dokeos185Class extends ImportClass
 		return $this->get_default_property(self :: PROPERTY_NAME);
 	}
 	
+	/**
+	 * Check if the class is valid
+	 * @return true if the blog is valid 
+	 */
 	function is_valid_class()
 	{
 		if(!$this->get_name())
@@ -147,6 +151,10 @@ class Dokeos185Class extends ImportClass
 		return true;
 	}
 	
+	/**
+	 * Convert to new class
+	 * @return the new class
+	 */
 	function convert_to_new_class()
 	{
 		//class parameters
@@ -170,6 +178,11 @@ class Dokeos185Class extends ImportClass
 		return $lcms_class;
 	}
 	
+	/**
+	 * Retrieve all classes from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of classes
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

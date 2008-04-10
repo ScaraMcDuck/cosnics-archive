@@ -117,16 +117,31 @@ class Dokeos185PermissionTask extends ImportPermissionTask
 		return $this->get_default_property(self :: PROPERTY_ACTION);
 	}
 
+	/**
+	 * Check if the task permission is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the task permission is valid 
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Convert to new task permission
+	 * @param array $array the parameters for the conversion
+	 * @return the new task permission
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Retrieve all task permissions from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of task permissions
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

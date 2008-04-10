@@ -97,16 +97,28 @@ class Dokeos185BlogRelUser extends ImportBlogRelUser
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 
+	/**
+	 * Check if the blog user relation is valid
+	 * @param array $array the parameters for the validation
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Convert to new blog user relation
+	 * @param array $array the parameters for the conversion
+	 */
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
 	}
 	
+	/**
+	 * Retrieve all blog user relations from the database
+	 * @param array $parameters parameters for the retrieval
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

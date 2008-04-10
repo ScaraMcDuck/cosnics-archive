@@ -133,16 +133,31 @@ class Dokeos185GroupRelUser extends ImportGroupRelUser
 		return $this->get_default_property(self :: PROPERTY_ROLE);
 	}
 	
-	function is_valid_group_rel_tutor($course)
+	/**
+	 * Check if the group user relation is valid
+	 * @param Course $course the course
+	 * @return true if the group user relation is valid 
+	 */
+	function is_valid_group_rel_user($course)
 	{	
 		
 	}
 	
-	function convert_to_new_group_rel_tutor($course)
+	/**
+	 * Convert to new group user relation 
+	 * @param Course $course the course
+	 * @return the new group user relation
+	 */
+	function convert_to_new_group_rel_user($course)
 	{	
 		
 	}
 	
+	/**
+	 * Retrieve all group user relations from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of group user relations
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

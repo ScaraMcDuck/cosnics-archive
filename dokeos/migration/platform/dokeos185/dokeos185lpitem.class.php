@@ -264,6 +264,11 @@ class Dokeos185LpItem extends ImportLpItem
 		return $this->get_default_property(self :: PROPERTY_MAX_TIME_ALLOWED);
 	}
 	
+	/**
+	 * Check if the lp item is valid
+	 * @param array $array the parameters for the validation
+	 * @return true if the lp item is valid 
+	 */
 	function is_valid($array)
 	{
 		$course = $array['course'];	
@@ -277,6 +282,11 @@ class Dokeos185LpItem extends ImportLpItem
 		return true;
 	}
 	
+	/**
+	 * Convert to new lp item
+	 * @param array $array the parameters for the conversion
+	 * @return the new lp item
+	 */
 	function convert_to_lcms($array)
 	{
 		$id = self :: $mgdm->get_id_reference($this->get_lp_id(),'repository_learning_path');
@@ -387,6 +397,11 @@ class Dokeos185LpItem extends ImportLpItem
 		return $lcms_lp_item;
 	}
 	
+	/**
+	 * Retrieve all lp items from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of lp items
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];

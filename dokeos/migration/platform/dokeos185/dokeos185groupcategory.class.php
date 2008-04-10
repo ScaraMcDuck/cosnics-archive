@@ -207,16 +207,31 @@ class Dokeos185GroupCategory extends ImportGroupCategory
 		return $this->get_default_property(self :: PROPERTY_self_UNREG_ALLOWED);
 	}
 	
+	/**
+	 * Check if the group category is valid
+	 * @param Course $course the course
+	 * @return true if the group category is valid 
+	 */
 	function is_valid_group_category($course)
 	{
 		
 	}
 	
+	/**
+	 * Convert to new group category
+	 * @param Course $course the course
+	 * @return the new group category
+	 */
 	function convert_to_new_group_category($course)
 	{
 		
 	}
 	
+	/**
+	 * Retrieve all group categories from the database
+	 * @param array $parameters parameters for the retrieval
+	 * @return array of group categories
+	 */
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
