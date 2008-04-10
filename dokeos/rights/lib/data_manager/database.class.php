@@ -43,7 +43,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 	{
 		$this->repoDM = & RepositoryDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
-		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('RightsDatamanager','debug')));
+		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseRightsDatamanager','debug')));
 		$this->prefix = 'rights_';
 		$this->connection->query('SET NAMES utf8');
 	}
@@ -260,20 +260,32 @@ class DatabaseRightsDataManager extends RightsDataManager
 		}
 		$options['charset'] = 'utf8';
 		$options['collate'] = 'utf8_unicode_ci';
-		$manager->createTable($name,$properties,$options);
-		foreach($indexes as $index_name => $index_info)
+		if (!MDB2 :: isError($manager->createTable($name,$properties,$options)))
 		{
-			if($index_info['type'] == 'primary')
+			foreach($indexes as $index_name => $index_info)
 			{
-				$index_info['primary'] = 1;
-				$manager->createConstraint($name,$index_name,$index_info);
+				if($index_info['type'] == 'primary')
+				{
+					$index_info['primary'] = 1;
+					if (MDB2 :: isError($manager->createConstraint($name,$index_name,$index_info)))
+					{
+						return false;
+					}
+				}
+				else
+				{
+					if (MDB2 :: isError($manager->createIndex($name,$index_name,$index_info)))
+					{
+						return false;
+					}
+				}
 			}
-			else
-			{
-				$manager->createIndex($name,$index_name,$index_info);
-			}
+			return true;
 		}
-
+		else
+		{
+			return false;
+		}
 	}
 	
 	/**

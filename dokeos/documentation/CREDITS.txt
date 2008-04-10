@@ -1,5 +1,5 @@
 ========================================
- Dokeos LCMS Development - CREDITS
+ Dokeos 2.0 Development - CREDITS
 ========================================
 ---------------------------------
  Initial development
@@ -8,10 +8,12 @@ Bart Mollet (digitaal-leren@hogent.be)
 Tom Brutin
 Tim De Pauw
 Dieter De Neef
-Hans De Bisschop
+Hans De Bisschop (hans.de.bisschop@ehb.be)
+David Van Wayenbergh
+Sven Vanpoucke
 
 ========================================
- Dokeos 2.1 community release - CREDITS
+ Dokeos community release 2.1 - CREDITS
 ========================================
 ---------------------------------
  CSS for printing
@@ -19,7 +21,7 @@ Hans De Bisschop
 Jeroen Coupe
 
 ========================================
- Dokeos 2.0 community release - CREDITS
+ Dokeos community release 2.0 - CREDITS
 ========================================
 ---------------------------------
  Creator
@@ -27,7 +29,7 @@ Jeroen Coupe
 Thomas De Praetere (thomas.depraetere@dokeos.com)
 
 ---------------------------------
- Dokeos 2.0 main developers team
+ Dokeos main developers team
 ---------------------------------
 Olivier Brouckaert (oli.brouckaert@dokeos.com)
 Patrick Cool (patrick.cool@ugent.be)
@@ -448,5 +450,5 @@ Maria Jose Rodriges Malmierca
 
 =======================================================================
 Europe, Belgium
-December, 2005.
+April, 2008.
 ================================== END ================================

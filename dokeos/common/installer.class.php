@@ -53,7 +53,7 @@ class Installer
 			 $index_properties = $index->getElementsByTagname('indexproperty');
 			 foreach($index_properties as $subkey => $index_property)
 			 {
-			 	$index_info['fields'][$index_property->getAttribute('name')] = array();
+			 	$index_info['fields'][$index_property->getAttribute('name')] = array('length' => $index_property->getAttribute('length'));
 			 }
 			 $indexes[$index->getAttribute('name')] = $index_info;
 		}
@@ -61,6 +61,7 @@ class Installer
 		$result['name'] = $name;
 		$result['properties'] = $properties;
 		$result['indexes'] = $indexes;
+		
 		return $result;
     }
     
