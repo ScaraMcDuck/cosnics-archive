@@ -85,7 +85,15 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		unset($installer, $result);
 		flush();
 		
-		// 7. Install additional applications
+		// 7. Install the Home application
+		require_once('../home/install/home_installer.class.php');
+		$installer = new HomeInstaller($values);
+		$result = $installer->install();
+		$this->process_result('home', $result);
+		unset($installer, $result);
+		flush();
+		
+		// 8. Install additional applications
 		$path = dirname(__FILE__).'/../../../../../../application/lib/';
 		$applications = FileSystem :: get_directory_content($path, FileSystem :: LIST_DIRECTORIES, false);
 		flush();

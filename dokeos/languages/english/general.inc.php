@@ -772,5 +772,12 @@ $lang['general']['OpenIDDescription'] = 'OpenID eliminates the need for multiple
 For businesses, this means a lower cost of password and account management, while drawing new web traffic. OpenID lowers user frustration by letting users have control of their login.<br /><br /><a href="http://openid.net/what/">Read on...</a>';
 $lang['general']['FirstLogin'] = 'First connection';
 $lang['general']['NoManager'] = 'No manager';
-
+$lang['general']['Folder'] = 'Folder';
+$lang['general']['Finished'] = 'Finished';
+$lang['general']['Rights'] = 'Roles & Rights';
+$lang['general']['Classgroup'] = 'Class Group';
+$lang['general']['Users'] = 'Users';
+$lang['general']['Admin'] = 'Administration';
+$lang['general']['Config'] = 'Configuration';
+$lang['general']['Database'] = 'Database';
 ?>
