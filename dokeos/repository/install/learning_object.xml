@@ -38,6 +38,6 @@
  <index name="category">
    <indexproperty name="owner" />
    <indexproperty name="type" />
-   <indexproperty name="title" />
+   <indexproperty name="title(50)" />
  </index>
 </object>
