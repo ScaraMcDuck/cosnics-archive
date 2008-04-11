@@ -62,7 +62,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		$props[$this->escape_column_name('publisher')] = $personal_event->get_user_id();
 		$props[$this->escape_column_name('publication_date')] = $personal_event->get_publication_date();
 		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('personal_calendar'), $props, MDB2_AUTOQUERY_INSERT);
+		$this->connection->extended->autoExecute($this->get_table_name('publication'), $props, MDB2_AUTOQUERY_INSERT);
 		return true;
 	}
 	/**
@@ -70,7 +70,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	 */
 	function delete_personal_calendar_event($personal_event)
 	{
-		$query = 'DELETE FROM '.$this->get_table_name('personal_calendar').' WHERE id = ?';
+		$query = 'DELETE FROM '.$this->get_table_name('publication').' WHERE id = ?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute($personal_event->get_id());
 	}
@@ -79,7 +79,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	 */
 	function retrieve_personal_calendar_events($user_id)
 	{
-		$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('publisher').'=?';
+		$query = 'SELECT * FROM '.$this->get_table_name('publication').' WHERE '.$this->escape_column_name('publisher').'=?';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($user_id);
 		$events = array();
@@ -95,7 +95,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	 */
 	function load_personal_calendar_event($id)
 	{
-		$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('id').'=?';
+		$query = 'SELECT * FROM '.$this->get_table_name('publication').' WHERE '.$this->escape_column_name('id').'=?';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -116,7 +116,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	 * Escapes a column name
 	 * @param string $name
 	 */
-	private function escape_column_name($name)
+	function escape_column_name($name)
 	{
 		list($table, $column) = explode('.', $name, 2);
 		$prefix = '';
@@ -177,7 +177,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	 */
 	public function learning_object_is_published($object_id)
 	{
-		$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('id').'=?';
+		$query = 'SELECT * FROM '.$this->get_table_name('publication').' WHERE '.$this->escape_column_name('id').'=?';
 		$res = $this->limitQuery($query, 1,null, array ($object_id));
 		return $res->numRows() == 1;
 	}
@@ -186,7 +186,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	 */
 	public function any_learning_object_is_published($object_ids)
 	{
-		$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('learning_object').' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
+		$query = 'SELECT * FROM '.$this->get_table_name('publication').' WHERE '.$this->escape_column_name('learning_object').' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
 		$res = $this->limitQuery($query, 1, null,$object_ids);
 		return $res->numRows() == 1;
 	}
@@ -199,7 +199,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		{
 			if ($type == 'user')
 			{
-				$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('publisher').'=?';
+				$query = 'SELECT * FROM '.$this->get_table_name('publication').' WHERE '.$this->escape_column_name('publisher').'=?';
 
 				$order = array ();
 				for ($i = 0; $i < count($order_property); $i ++)
@@ -228,7 +228,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		}
 		else
 		{
-			$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('learning_object').'=?';
+			$query = 'SELECT * FROM '.$this->get_table_name('publication').' WHERE '.$this->escape_column_name('learning_object').'=?';
 			$statement = $this->connection->prepare($query);
 			$res = $statement->execute($object_id);
 		}
@@ -254,7 +254,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	 */
 	public function get_learning_object_publication_attribute($publication_id)
 	{
-		$query = 'SELECT * FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('id').'=?';
+		$query = 'SELECT * FROM '.$this->get_table_name('publication').' WHERE '.$this->escape_column_name('id').'=?';
 		$statement = $this->connection->prepare($query);
 		$this->connection->setLimit(0,1);
 		$res = $statement->execute($publication_id);
@@ -280,7 +280,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	public function count_publication_attributes($type = null, $condition = null)
 	{
 		$params = array ();
-		$query = 'SELECT COUNT('.$this->escape_column_name('id').') FROM '.$this->get_table_name('personal_calendar').' WHERE '.$this->escape_column_name('publisher').'=?';
+		$query = 'SELECT COUNT('.$this->escape_column_name('id').') FROM '.$this->get_table_name('publication').' WHERE '.$this->escape_column_name('publisher').'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute(PlatformSession :: get_user_id());
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -291,7 +291,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	 */
 	public function delete_learning_object_publications($object_id)
 	{
-		$query = 'DELETE FROM '.$this->get_table_name('personal_calendar').' WHERE learning_object = ?';
+		$query = 'DELETE FROM '.$this->get_table_name('publication').' WHERE learning_object = ?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute($object_id);
 	}
@@ -304,7 +304,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		$props = array();
 		$props[$this->escape_column_name('learning_object')] = $publication_attr->get_publication_object_id();
 		$this->connection->loadModule('Extended');
-		if ($this->connection->extended->autoExecute($this->get_table_name('personal_calendar'), $props, MDB2_AUTOQUERY_UPDATE, $where))
+		if ($this->connection->extended->autoExecute($this->get_table_name('publication'), $props, MDB2_AUTOQUERY_UPDATE, $where))
 		{
 			return true;
 		}

@@ -97,6 +97,15 @@ class HomeInstaller extends Installer
 			return false;
 		}
 		
+		$block_user = new HomeBlock();
+		$block_user->set_column($column_news->get_id());
+		$block_user->set_title(Translation :: get('PersonalCalendar'));
+		$block_user->set_component('PersonalCalendar.Month');
+		if (!$block_user->create())
+		{
+			return false;
+		}
+		
 		$column_varia = new HomeColumn();
 		$column_varia->set_row($row->get_id());
 		$column_varia->set_title(Translation :: get('Various'));

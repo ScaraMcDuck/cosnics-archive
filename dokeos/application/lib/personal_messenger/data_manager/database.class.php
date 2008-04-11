@@ -91,13 +91,13 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 	// Inherited.
 	function get_next_personal_message_publication_id()
 	{
-		return $this->connection->nextID($this->get_table_name('personal_messenger_publication'));
+		return $this->connection->nextID($this->get_table_name('publication'));
 	}
 
 	// Inherited.
     function count_personal_message_publications($condition = null)
     {
-		$query = 'SELECT COUNT('.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('personal_messenger_publication');
+		$query = 'SELECT COUNT('.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('publication');
 
 		$params = array ();
 		if (isset ($condition))
@@ -119,7 +119,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
     // Inherited.
     function count_unread_personal_message_publications($user)
     {
-		$query = 'SELECT COUNT('.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('personal_messenger_publication');
+		$query = 'SELECT COUNT('.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('publication');
 		$query .= ' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_USER) . '=? AND '. $this->escape_column_name(PersonalMessagePublication :: PROPERTY_STATUS) . '=?';
 
 		$sth = $this->connection->prepare($query);
@@ -133,7 +133,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
     function retrieve_personal_message_publication($id)
 	{
 
-		$query = 'SELECT * FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'=?';
+		$query = 'SELECT * FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'=?';
 
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
@@ -147,7 +147,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
     function retrieve_personal_message_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		$query = 'SELECT * FROM ';
-		$query .= $this->escape_table_name('personal_messenger_publication');
+		$query .= $this->escape_table_name('publication');
 
 		$params = array ();
 		if (isset ($condition))
@@ -215,14 +215,14 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('personal_messenger_publication'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+		$this->connection->extended->autoExecute($this->get_table_name('publication'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 		return true;
 	}
 
 	// Inherited.
 	function delete_personal_message_publication($personal_message_publication)
 	{
-		$query = 'DELETE FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		if ($statement->execute($personal_message_publication->get_id()))
 		{
@@ -259,7 +259,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$props = array();
 		$props[$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE)] = $publication_attr->get_publication_object_id();
 		$this->connection->loadModule('Extended');
-		if ($this->connection->extended->autoExecute($this->get_table_name('personal_messenger_publication'), $props, MDB2_AUTOQUERY_UPDATE, $where))
+		if ($this->connection->extended->autoExecute($this->get_table_name('publication'), $props, MDB2_AUTOQUERY_UPDATE, $where))
 		{
 			return true;
 		}
@@ -277,7 +277,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 	// Inherited.
 	function any_learning_object_is_published($object_ids)
 	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE).' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
+		$query = 'SELECT * FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE).' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
 		$res = $this->limitQuery($query, 1, null,$object_ids);
 		return $res->numRows() == 1;
 	}
@@ -285,7 +285,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 	// Inherited.
 	function learning_object_is_published($object_id)
 	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE).'=?';
+		$query = 'SELECT * FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE).'=?';
 		$res = $this->limitQuery($query, 1,null, array ($object_id));
 		return $res->numRows() == 1;
 	}
@@ -348,7 +348,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		{
 			if ($type == 'user')
 			{
-				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->escape_column_name('title') .' FROM '.$this->escape_table_name('personal_messenger_publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.$this->repoDM->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`personal_message` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
+				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->escape_column_name('title') .' FROM '.$this->escape_table_name('publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.$this->repoDM->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`personal_message` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
 				$query .= ' WHERE '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.'.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_USER).'=?';
 
 				$order = array ();
@@ -378,7 +378,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		}
 		else
 		{
-			$query = 'SELECT * FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE).'=?';
+			$query = 'SELECT * FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE).'=?';
 			$statement = $this->connection->prepare($query);
 			$param = $object_id;
 		}
@@ -426,7 +426,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 	function get_learning_object_publication_attribute($publication_id)
 	{
 
-		$query = 'SELECT * FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'=?';
+		$query = 'SELECT * FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		$this->connection->setLimit(0,1);
 		$res = $statement->execute($publication_id);
@@ -469,7 +469,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 	function count_publication_attributes($user, $type = null, $condition = null)
 	{
 		$params = array ();
-		$query = 'SELECT COUNT('.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('personal_messenger_publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_USER).'=?';;
+		$query = 'SELECT COUNT('.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_USER).'=?';;
 
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($user->get_user_id());
@@ -488,7 +488,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$props[$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID)] = $publication->get_id();
 
 		$this->connection->loadModule('Extended');
-		if ($this->connection->extended->autoExecute($this->get_table_name('personal_messenger_publication'), $props, MDB2_AUTOQUERY_INSERT))
+		if ($this->connection->extended->autoExecute($this->get_table_name('publication'), $props, MDB2_AUTOQUERY_INSERT))
 		{
 			return true;
 		}
