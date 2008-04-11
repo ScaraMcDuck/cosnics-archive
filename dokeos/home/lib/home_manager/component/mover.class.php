@@ -21,14 +21,14 @@ class HomeManagerMoverComponent extends HomeManagerComponent
 		$id = $_GET[HomeManager :: PARAM_HOME_ID];
 		$type = $_GET[HomeManager :: PARAM_HOME_TYPE];
 		$direction = $_GET[HomeManager :: PARAM_DIRECTION];
+		$trail = new BreadcrumbTrail();
 		
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), 'name' => Translation :: get('Home'));
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('HomeMover'));
+		$trail->add(new Breadcrumb($this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeMover')));
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($breadcrumbs);
+			$this->display_header($trail);
 			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;

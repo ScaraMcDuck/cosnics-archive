@@ -6,6 +6,7 @@
 require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
+require_once dirname(__FILE__).'/personalcalendarcomponent.class.php';
 require_once dirname(__FILE__).'/../renderer/personal_calendar_mini_month_renderer.class.php';
 require_once dirname(__FILE__).'/../renderer/personal_calendar_list_renderer.class.php';
 require_once dirname(__FILE__).'/../renderer/personal_calendar_month_renderer.class.php';
@@ -22,6 +23,10 @@ require_once dirname(__FILE__).'/../personalcalendardatamanager.class.php';
 class PersonalCalendar extends WebApplication
 {
 	const APPLICATION_NAME = 'personal_calendar';
+	
+	const PARAM_ACTION = 'go';
+	
+	const ACTION_RENDER_BLOCK = 'block';
 
 	/**
 	 * The owner of this personal calendar
@@ -34,6 +39,7 @@ class PersonalCalendar extends WebApplication
 	public function PersonalCalendar($user)
 	{
 		parent :: __construct();
+		$this->set_action($_GET[self :: PARAM_ACTION]);
 		$this->user = $user;
 	}
 	/**
@@ -135,6 +141,31 @@ class PersonalCalendar extends WebApplication
 		echo $out;
 		Display :: display_footer();
 	}
+	
+    /**
+	 * Renders the calendar block and returns it. 
+	 */
+	function render_block($type, $block_info)
+	{
+		/*
+		 * Only setting breadcrumbs here. Some stuff still calls
+		 * forceCurrentUrl(), but that should not affect the breadcrumbs.
+		 */
+		//$this->breadcrumbs = $this->get_category_menu()->get_breadcrumbs();
+		$action = $this->get_action();
+		$component = null;
+		switch ($action)
+		{
+			case self :: ACTION_RENDER_BLOCK :
+				$component = PersonalCalendarComponent :: factory('Blocker', $this);
+				break;
+			default :
+				$this->set_action(self :: ACTION_RENDER_BLOCK);
+				$component = PersonalCalendarComponent :: factory('Blocker', $this);
+		}
+		return $component->render_block($type, $block_info);
+	}
+	
 	/**
 	 * Gets the events
 	 * @param int $from_date
@@ -257,6 +288,53 @@ class PersonalCalendar extends WebApplication
 	function get_path($path_type)
 	{
 		return Path :: get($path_type);
+	}
+	
+	function get_action()
+	{
+		return $this->get_parameter(self :: PARAM_ACTION);
+	}
+	/**
+	 * Sets the current action.
+	 * @param string $action The new action.
+	 */
+	function set_action($action)
+	{
+		return $this->set_parameter(self :: PARAM_ACTION, $action);
+	}
+	
+	/**
+	 * Gets the parameter list
+	 * @param boolean $include_search Include the search parameters in the
+	 * returned list?
+	 * @return array The list of parameters.
+	 */
+	function get_parameters($include_search = false)
+	{
+		if ($include_search && isset ($this->search_parameters))
+		{
+			return array_merge($this->search_parameters, $this->parameters);
+		}
+		
+		return $this->parameters;
+	}
+	/**
+	 * Gets the value of a parameter.
+	 * @param string $name The parameter name.
+	 * @return string The parameter value.
+	 */
+	function get_parameter($name)
+	{
+		return $this->parameters[$name];
+	}
+	/**
+	 * Sets the value of a parameter.
+	 * @param string $name The parameter name.
+	 * @param mixed $value The parameter value.
+	 */
+	function set_parameter($name, $value)
+	{
+		$this->parameters[$name] = $value;
 	}
 }
 ?>

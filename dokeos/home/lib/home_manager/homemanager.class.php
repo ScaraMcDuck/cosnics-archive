@@ -125,22 +125,30 @@ require_once dirname(__FILE__).'/../../../common/condition/patternmatchcondition
 		return $this->set_parameter(self :: PARAM_ACTION, $action);
 	}
 	
-	function display_header($breadcrumbtrail, $display_search = false)
+	function display_header($breadcrumbtrail = null, $display_search = false)
 	{
-		if (is_null($breadcrumbtrail))
+		// TODO: Implement these small breadcrumbtrail-changes everywhere
+		if (is_null($breadcrumbtrail) || !is_object($breadcrumbtrail))
 		{
-			$breadcrumbtrail = new BreadcrumbTrail();
+			$trail = new BreadcrumbTrail();
+		}
+		else
+		{
+			$trail = $breadcrumbtrail;
 		}
 		
-		$title = $breadcrumbtrail->get_last()->get_name();
+		$title = $trail->get_last()->get_name();
 		$title_short = $title;
 		if (strlen($title_short) > 53)
 		{
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
-		Display :: display_header($breadcrumbtrail);
+		Display :: display_header($trail);
 		
-		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
+		if (!is_null($breadcrumbtrail))
+		{
+			echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
+		}
 		if ($display_search)
 		{
 			$this->display_search_form();

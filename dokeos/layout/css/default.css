@@ -1844,14 +1844,14 @@ div.block
 
 div.block div.title
 {
-	font-family: times new roman, serif;
+	font-family: verdana, sans-serif;
 	font-weight: bold;
 	font-size: 140%;
 	border-bottom: 1px dotted #D3D3D3;
 	width: 100%;
 	padding-bottom: 0.3em;
 	margin-bottom: 0.3em;
-	color: #CD0101;
+	color: #000066;
 	clear: both;
 }
 

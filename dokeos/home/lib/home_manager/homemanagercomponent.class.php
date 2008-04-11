@@ -32,7 +32,7 @@ abstract class HomeManagerComponent {
 		$this->id =  ++self :: $component_count;
     }
     
-	function display_header($breadcrumbtrail, $display_search = false)
+	function display_header($breadcrumbtrail = null, $display_search = false)
 	{
 		$this->get_parent()->display_header($breadcrumbtrail, $display_search);
 	}
