@@ -4,8 +4,8 @@
  */
 require_once dirname(__FILE__).'/../trackingmanager.class.php';
 require_once dirname(__FILE__).'/../trackingmanagercomponent.class.php';
-//require_once dirname(__FILE__).'/admincontentboxbrowser/admincontentboxbrowsercellrenderer.class.php';
-require_once Path :: get_path(SYS_LIB_PATH).'/html/table/simpletable.class.php';
+require_once dirname(__FILE__).'/admintrackingbrowser/admintrackingbrowsercellrenderer.class.php';
+require_once Path :: get(SYS_LIB_PATH).'/html/table/simpletable.class.php';
 
 /**
  * Component for viewing tracker events 
@@ -30,9 +30,29 @@ class TrackingManagerAdminTrackingBrowserComponent extends TrackingManagerCompon
 		
 		$this->display_header($trail);
 
-		echo("test");
+		$properties = $this->get_properties();
+		$cellrenderer = new AdminTrackingBrowserCellRenderer($this);
+		
+		/*echo('<div style="margin-bottom: 5px;"> ' . Translation :: get_lang('LeftContentboxes')  . '</div>');
+		$lefttable = new SimpleTable($properties, $this->retrieve_contentboxes('left'), $cellrenderer);
+		echo $lefttable->toHTML();
+		
+		echo('<br /><div style="margin-bottom: 5px;"> ' . Translation :: get_lang('RightContentboxes') . '</div>');
+		
+		$righttable = new SimpleTable($properties, $this->retrieve_contentboxes('right'), $cellrenderer);
+		echo $righttable->toHTML();*/
 		
 		$this->display_footer();
+	}
+	
+	function get_properties()
+	{
+		/*return array(
+					ContentBox :: PROPERTY_ID,
+					ContentBox :: PROPERTY_PATH,
+					ContentBox :: PROPERTY_NAME,
+					ContentBox :: PROPERTY_ORDER,
+						);*/
 	}
 
 }

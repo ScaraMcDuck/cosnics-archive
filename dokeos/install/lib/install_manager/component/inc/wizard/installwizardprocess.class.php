@@ -45,7 +45,15 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		
 		mysql_select_db($values['database_name']) or die('SELECT DB ERROR '.mysql_error());
 		
-		// 3. Install the Admin (global settings, languages, etc. etc.)
+		// 3. Install the tracker
+		require_once('../tracking/install/tracking_installer.class.php');
+		$installer = new TrackingInstaller($values);
+		$result = $installer->install();
+		$this->process_result('tracking', $result);
+		unset($installer);
+		flush();
+		
+		// 4. Install the Admin (global settings, languages, etc. etc.)
 		require_once('../admin/install/admin_installer.class.php');
 		$installer = new AdminInstaller($values);
 		$result = $installer->install();
@@ -53,7 +61,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		unset($installer);
 		flush();
 		
-		// 3. Install the Repository
+		// 5. Install the Repository
 		require_once('../repository/install/repository_installer.class.php');
 		$installer = new RepositoryInstaller();
 		$result = $installer->install();
@@ -61,7 +69,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		unset($installer);
 		flush();
 		
-		// 4. Install the Users
+		// 6. Install the Users
 		require_once('../users/install/users_installer.class.php');
 		$installer = new UsersInstaller($values);
 		$result = $installer->install();
@@ -69,7 +77,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		unset($installer, $result);
 		flush();
 		
-		// 5. Install the ClassGroup
+		// 7. Install the ClassGroup
 		require_once('../classgroup/install/classgroup_installer.class.php');
 		$installer = new ClassGroupInstaller($values);
 		$result = $installer->install();
@@ -77,7 +85,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		unset($installer, $result);
 		flush();
 		
-		// 6. Install the Roles'n'Rights
+		// 8. Install the Roles'n'Rights
 		require_once('../rights/install/rights_installer.class.php');
 		$installer = new RightsInstaller($values);
 		$result = $installer->install();
@@ -85,7 +93,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		unset($installer, $result);
 		flush();
 		
-		// 7. Install the Home application
+		// 9. Install the Home application
 		require_once('../home/install/home_installer.class.php');
 		$installer = new HomeInstaller($values);
 		$result = $installer->install();
@@ -93,7 +101,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		unset($installer, $result);
 		flush();
 		
-		// 8. Install additional applications
+		// 10. Install additional applications
 		$path = dirname(__FILE__).'/../../../../../../application/lib/';
 		$applications = FileSystem :: get_directory_content($path, FileSystem :: LIST_DIRECTORIES, false);
 		flush();
@@ -132,12 +140,12 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 			flush();
 		}
 		
-		// 8. Create additional folders
+		// 11. Create additional folders
 		$folder_creation = $this->create_folders();
 		$this->process_result('folder', $folder_creation);
 		flush();
 		
-		// 9. If all goes well we now show the link to the portal
+		// 12. If all goes well we now show the link to the portal
 		$message = '<a href="../index.php">' . Translation :: get('GoToYourNewlyCreatedPortal') . '</a>';
 		$this->process_result('Finished', array('success' => true, 'message' => $message));
 		flush();

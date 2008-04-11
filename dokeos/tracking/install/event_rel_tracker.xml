@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="event_rel_tracker">
+ <properties>
+  <property name="eventid" type="integer" unsigned="1" notnull="1" />
+  <property name="trackerid" type="integer" unsigned="1" notnull="1" />
+  <property name="active" type="integer" unsigned="1" notnull="1" default="1"/>
+ </properties>
+ <index name="id" type="primary">
+  <indexproperty name="eventid"/>
+  <indexproperty name="trackerid"/>
+ </index>
+ <index name="active">
+   <indexproperty name="active" />
+ </index>
+</object>

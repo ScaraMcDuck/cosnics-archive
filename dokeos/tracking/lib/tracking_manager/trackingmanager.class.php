@@ -262,7 +262,7 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 	{
 		$links = array();
 		$links[] = array('name' => Translation :: get('TrackersList'), 'action' => 'list', 'url' => $this->get_link(array(TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS)));
-		return array('application' => array('name' => Translation :: get('Tracker'), 'class' => 'tracker'), 'links' => $links);
+		return array('application' => array('name' => Translation :: get('Tracking'), 'class' => 'tracking'), 'links' => $links);
 	}
 	
 	/**

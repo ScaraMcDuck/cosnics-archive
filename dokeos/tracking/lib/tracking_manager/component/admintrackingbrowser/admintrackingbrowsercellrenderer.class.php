@@ -33,7 +33,7 @@ class AdminTrackingBrowserCellRenderer
 		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_change_active_url($contentbox),
-			'label' => ($contentbox->get_active() == 1)?Translation :: get_lang('Hide'):Translation :: get_lang('Visible'),
+			'label' => ($contentbox->get_active() == 1)?Translation :: get('Hide'):Translation :: get('Visible'),
 			'confirm' => false,
 			'img' => ($contentbox->get_active() == 1)?
 				Path :: get(WEB_LAYOUT_PATH).'img/visible.gif':
