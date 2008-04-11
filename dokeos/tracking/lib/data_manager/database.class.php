@@ -209,6 +209,126 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 		 
 		return $class;
 	}
+	
+	/**
+	 * Creates an event in the database
+	 * @param Event $event
+	 */
+	function create_event($event)
+	{
+		$props = array();
+		foreach ($event->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('event'), $props, MDB2_AUTOQUERY_INSERT);
+		
+		return true;
+	}
+	
+	/**
+	 * Registers a tracker in the database
+	 * @param Tracker $tracker
+	 */
+	function register_tracker($tracker)
+	{
+		$props = array();
+		foreach ($tracker->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('tracker'), $props, MDB2_AUTOQUERY_INSERT);
+		
+		return true;
+	}
+	
+	/**
+	 * Registers a tracker to an event
+	 * @param EventTrackerRelation $eventtrackerrelation
+	 */
+	function create_event_tracker_relation($eventtrackerrelation)
+	{
+		$props = array();
+		foreach ($eventtrackerrelation->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('event_rel_tracker'), $props, MDB2_AUTOQUERY_INSERT);
+		
+		return true;
+	}
+	
+	/**
+	 * Updates an event (needed for change of activity)
+	 * @param Event $event
+	 */
+	function update_event($event)
+	{
+		$condition = new EqualityCondition('id', $event->get_id());
+		
+		$props = array();
+		foreach ($event->get_default_properties() as $key => $value)
+		{
+			if($key == 'id') continue;
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('event'), $props, MDB2_AUTOQUERY_UPDATE, $condition);
+		
+		return true;
+	}
+	
+	/**
+	 * Updates an event tracker relation (needed for change of activity)
+	 * @param EventTrackerRelation $eventtrackerrelation
+	 */
+	function update_event_tracker_relation($eventtrackerrelation)
+	{
+		$conditions[] = new EqualityCondition('eventid', $eventtrackerrelation->get_event_id());
+		$conditions[] = new EqualityCondition('trackerid', $eventtrackerrelation->get_tracker_id());
+		$condition = new AndCondition($conditions);
+		
+		$props = array();
+		foreach ($event->get_default_properties() as $key => $value)
+		{
+			if($key == 'eventid' || $key == 'trackerid') continue;
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('event_rel_tracker'), $props, MDB2_AUTOQUERY_UPDATE, $condition);
+		
+		return true;
+	}
+	
+	/**
+	 * Retrieves the event with the given name
+	 * @param String $name
+	 */
+	function retrieve_event_by_name($eventname)
+	{
+		
+	}
+	
+	/**
+	 * Retrieve all trackers from an event
+	 * @param Event $event
+	 * @param Bool $active true if only the active ones should be shown (default true)
+	 */
+	function retrieve_trackers_from_event($event, $active = true)
+	{
+		
+	}
+	
+	/**
+	 * Retrieves all events 
+	 */
+	function retrieve_events()
+	{
+		
+	}
 
 }
 ?>
