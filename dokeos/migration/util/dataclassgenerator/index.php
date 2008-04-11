@@ -7,8 +7,8 @@
 include(dirname(__FILE__) . '/settings.inc.php');
 include(dirname(__FILE__) . '/dataclassgenerator.class.php');
 include(dirname(__FILE__) . '/mytemplate.php');
-ini_set('include_path',realpath(dirname(__FILE__).'/../../plugin/pear'));
-require_once dirname(__FILE__).'/../../common/global.inc.php';
+ini_set('include_path',realpath(dirname(__FILE__).'/../../../plugin/pear'));
+require_once dirname(__FILE__).'/../../../common/global.inc.php';
 
 $information_schema = $connectionstring . 'information_schema';
 
