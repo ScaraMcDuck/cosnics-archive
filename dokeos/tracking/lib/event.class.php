@@ -4,18 +4,18 @@
  */
 
 /**
- * This class presents a  tracker_event
+ * This class presents a event
  *
  * @author Sven Vanpoucke
  */
-class TrackerEvent
+class Event
 {
 	/**
-	 * TrackerEvent properties
+	 * Event properties
 	 */
 	const PROPERTY_ID = 'id';
 	const PROPERTY_NAME = 'name';
-	const PROPERTY_VISIBILITY = 'visibility';
+	const PROPERTY_ACTIVE = 'active';
 
 	/**
 	 * Default properties stored in an associative array.
@@ -23,10 +23,10 @@ class TrackerEvent
 	private $defaultProperties;
 
 	/**
-	 * Creates a new TrackerEvent object
+	 * Creates a new Event object
 	 * @param array $defaultProperties The default properties
 	 */
-	function TrackerEvent($defaultProperties = array ())
+	function Event($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
@@ -55,7 +55,7 @@ class TrackerEvent
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_VISIBILITY);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_ACTIVE);
 	}
 
 	/**
@@ -77,7 +77,7 @@ class TrackerEvent
 	}
 
 	/**
-	 * Returns the id of this TrackerEvent.
+	 * Returns the id of this Event.
 	 * @return the id.
 	 */
 	function get_id()
@@ -86,7 +86,7 @@ class TrackerEvent
 	}
 
 	/**
-	 * Sets the id of this TrackerEvent.
+	 * Sets the id of this Event.
 	 * @param id
 	 */
 	function set_id($id)
@@ -95,7 +95,7 @@ class TrackerEvent
 	}
 
 	/**
-	 * Returns the name of this TrackerEvent.
+	 * Returns the name of this Event.
 	 * @return the name.
 	 */
 	function get_name()
@@ -104,7 +104,7 @@ class TrackerEvent
 	}
 
 	/**
-	 * Sets the name of this TrackerEvent.
+	 * Sets the name of this Event.
 	 * @param name
 	 */
 	function set_name($name)
@@ -113,21 +113,40 @@ class TrackerEvent
 	}
 
 	/**
-	 * Returns the visibility of this TrackerEvent.
-	 * @return the visibility.
+	 * Returns the active of this Event.
+	 * @return the active.
 	 */
-	function get_visibility()
+	function get_active()
 	{
-		return $this->get_default_property(self :: PROPERTY_VISIBILITY);
+		return $this->get_default_property(self :: PROPERTY_ACTIVE);
 	}
 
 	/**
-	 * Sets the visibility of this TrackerEvent.
-	 * @param visibility
+	 * Sets the active of this Event.
+	 * @param active
 	 */
-	function set_visibility($visibility)
+	function set_active($active)
 	{
-		$this->set_default_property(self :: PROPERTY_VISIBILITY, $visibility);
+		$this->set_default_property(self :: PROPERTY_ACTIVE, $active);
+	}
+	
+	/**
+	 * Creates this event in the database
+	 */
+	function create()
+	{
+		$trkdmg = TrackingDataManager :: get_instance();
+		$this->set_id($trkdmg->get_next_id('event'));
+		$trkdmg->create_event($this);
+	}
+	
+	/**
+	 * Updates this event in the database
+	 */
+	function update()
+	{
+		$trkdmg = TrackingDataManager :: get_instance();
+		$trkdmg->update_event($this);
 	}
 
 

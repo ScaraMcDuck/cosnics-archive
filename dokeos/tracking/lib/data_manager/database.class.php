@@ -211,6 +211,16 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	}
 	
 	/**
+	 * Retrieves the next id from the given table
+	 * @param string $tablename the tablename
+	 */
+	function get_next_id($tablename)
+	{
+		$id = $this->connection->nextID($this->get_table_name($tablename));
+		return $id;
+	}
+	
+	/**
 	 * Creates an event in the database
 	 * @param Event $event
 	 */
@@ -228,10 +238,10 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	}
 	
 	/**
-	 * Registers a tracker in the database
+	 * Creates a tracker in the database
 	 * @param Tracker $tracker
 	 */
-	function register_tracker($tracker)
+	function create_tracker($tracker)
 	{
 		$props = array();
 		foreach ($tracker->get_default_properties() as $key => $value)
@@ -257,6 +267,23 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 		}
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('event_rel_tracker'), $props, MDB2_AUTOQUERY_INSERT);
+		
+		return true;
+	}
+	
+	/**
+	 * Creates a Tracker Setting in the database
+	 * @param TrackerSetting $trackersetting
+	 */
+	function create_tracker_setting($trackersetting)
+	{
+		$props = array();
+		foreach ($trackersetting->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('tracker_setting'), $props, MDB2_AUTOQUERY_INSERT);
 		
 		return true;
 	}
@@ -304,6 +331,26 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	}
 	
 	/**
+	 * Updates an tracker setting
+	 * @param TrackerSetting $trackersetting
+	 */
+	function update_tracker_setting($trackersetting)
+	{
+		$condition = new EqualityCondition('id', $trackersetting->get_id());
+		
+		$props = array();
+		foreach ($trackersetting->get_default_properties() as $key => $value)
+		{
+			if($key == 'id') continue;
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('tracker_setting'), $props, MDB2_AUTOQUERY_UPDATE, $condition);
+		
+		return true;
+	}
+	
+	/**
 	 * Retrieves the event with the given name
 	 * @param String $name
 	 */
@@ -327,7 +374,8 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	 */
 	function retrieve_events()
 	{
-		
+		$query = 'SELECT * FROM ' . $this->escape_table_name('contentbox') . ' AS ' . 
+				 self :: ALIAS_EVENTS_TABLE;
 	}
 
 }
