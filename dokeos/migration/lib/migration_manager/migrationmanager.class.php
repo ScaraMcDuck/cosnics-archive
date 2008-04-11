@@ -27,7 +27,6 @@ class MigrationManager
     * Constant defining an action of the repository manager.
  	*/
 	const ACTION_MIGRATE = 'migrate';
-	const ACTION_MIGRATOR = 'mig';
 	
 	/**#@+
     * Property of this repository manager.
@@ -59,9 +58,6 @@ class MigrationManager
 		{
 			case self :: ACTION_MIGRATE :
 				$component = MigrationManagerComponent :: factory('Migration', $this);
-				break;
-			case self :: ACTION_MIGRATOR :
-				$component = MigrationManagerComponent :: factory('Migrator', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_MIGRATE);

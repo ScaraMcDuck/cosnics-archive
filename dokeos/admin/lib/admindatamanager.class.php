@@ -8,6 +8,7 @@ require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_manager/repositorymanager.class.php';
 require_once Path :: get_user_path(). 'lib/usermanager/usermanager.class.php';
 require_once Path :: get_classgroup_path(). 'lib/classgroup_manager/classgroupmanager.class.php';
+require_once Path :: get_tracking_path(). 'lib/tracking_manager/trackingmanager.class.php';
 
 abstract class AdminDataManager
 {
@@ -66,6 +67,10 @@ abstract class AdminDataManager
 		// 5. Repository
 		$repository_manager = new RepositoryManager($user);
 		$info[] = $repository_manager->get_application_platform_admin_links();
+
+		// 6. Tracking
+		$tracking_manager = new TrackingManager($user);
+		$info[] = $tracking_manager->get_application_platform_admin_links();
 
 		// Secondly the links for the plugin applications running on top of the essential Dokeos components
 		$applications = Application :: load_all();
