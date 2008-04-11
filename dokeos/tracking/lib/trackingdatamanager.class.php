@@ -64,10 +64,10 @@ abstract class TrackingDataManager
 	 */
 	abstract function create_event($event);
 	/**
-	 * Registers a tracker in the database
+	 * Creates a tracker in the database
 	 * @param Tracker $tracker
 	 */
-	abstract function register_tracker($tracker);
+	abstract function create_tracker($tracker);
 	/**
 	 * Registers a tracker to an event
 	 * @param EventTrackerRelation $eventtrackerrelation
