@@ -7,5 +7,6 @@
  </properties>
   <index name="id" type="primary">
   <indexproperty name="block_id"/>
+  <indexproperty name="variable"/>
  </index>
 </object>
