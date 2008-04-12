@@ -112,3 +112,4 @@ class PersonalMessengerMenu extends HTML_Menu
 		return $renderer->toHTML();
 	}
 }
+?>
