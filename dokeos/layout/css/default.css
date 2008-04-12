@@ -1820,6 +1820,7 @@ div.row
 {
 	text-align: justify;
 	clear: both;
+	min-height: 5px;
 }
 
 div.column
@@ -1827,6 +1828,7 @@ div.column
 	/*padding:15px;*/
 	text-align: justify;
 	float: left;
+	min-height: 5px;
 }
 
 div.block
@@ -1853,6 +1855,7 @@ div.block div.title
 	margin-bottom: 0.3em;
 	color: #000066;
 	clear: both;
+	position: relative;
 }
 
 div.block div.description
@@ -1884,4 +1887,29 @@ div.block div.extra div.more
 div.block div.extra div.forum
 {
 	float: right;
+}
+
+/* 
+ * Class for jQuery Interface Sortables
+ */
+.sortHelper
+{
+	border: 1px dashed #666;
+	width: auto !important;
+	background-color: #F2F2F2;
+}
+
+/*
+ * Class for jQuery Interface Sortables
+ */
+
+div.block div.title a
+{
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	font-weight: normal;
+	font-size: 11px;
+	text-decoration: none;
+	color: #000066;
 }

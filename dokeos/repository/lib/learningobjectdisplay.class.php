@@ -208,11 +208,11 @@ abstract class LearningObjectDisplay
 		$html = array();
 		if ($object->is_latest_version())
 		{
-			$html[] = '<div class="version_stats" style="margin-top: 1em;">';
+			$html[] = '<div class="version_stats">';
 		}
 		else
 		{
-			$html[] = '<div class="version_stats_na" style="margin-top: 1em;">';
+			$html[] = '<div class="version_stats_na">';
 		}
 		$html[] = '<div class="version_stats_title">'.htmlentities(Translation :: get('VersionQuota')).'</div>';
 
