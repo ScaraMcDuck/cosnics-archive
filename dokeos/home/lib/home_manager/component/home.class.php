@@ -26,10 +26,10 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		while ($row = $rows->next_result())
 		{
 			$row_number++;
-			$html[] = '<div class="row" id="'. $row->get_title() .'" style="'.($row->get_height() > 10 ? 'height: '. $row->get_height() .'px; ' : '') . ($row_number < $rows->size() ? 'margin-bottom: 15px;' : '') .'">';
+			$html[] = '<div class="row" id="r'. $row->get_id() .'_'. $row->get_title() .'" style="'.($row->get_height() > 10 ? 'height: '. $row->get_height() .'px; ' : '') . ($row_number < $rows->size() ? 'margin-bottom: 15px;' : '') .'">';
 			
 			$condition = new EqualityCondition(HomeColumn :: PROPERTY_ROW, $row->get_id());
-		
+			
 			$columns = $this->retrieve_home_columns($condition);
 			$column_number = 0;
 			
@@ -70,6 +70,54 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		}
 		
 		$html[] = '<div style="clear: both;"></div>';
+		
+		
+		$html[] = '<script type="text/javascript">';
+		$html[] = '$(document).ready(';
+		$html[] = '	function () {';
+		$html[] = '		$(\'a.closeEl\').bind(\'click\', toggleContent);';
+		$html[] = '		$(\'div.column\').Sortable(';
+		$html[] = '			{';
+		$html[] = '				accept: \'block\',';
+		$html[] = '				helperclass: \'sortHelper\',';
+		$html[] = '				activeclass : 	\'sortableactive\',';
+		$html[] = '				hoverclass : 	\'sortablehover\',';
+		$html[] = '				handle: \'div.title\',';
+		$html[] = '				tolerance: \'pointer\',';
+		$html[] = '				onChange : function(ser)';
+		$html[] = '				{';
+		$html[] = '				},';
+		$html[] = '				onStart : function()';
+		$html[] = '				{';
+		$html[] = '					$.iAutoscroller.start(this, document.getElementsByTagName(\'body\'));';
+		$html[] = '				},';
+		$html[] = '				onStop : function()';
+		$html[] = '				{';
+		$html[] = '					$.iAutoscroller.stop();';
+		$html[] = '				}';
+		$html[] = '			}';
+		$html[] = '		);';
+		$html[] = '	}';
+		$html[] = ');';
+		$html[] = 'var toggleContent = function(e)';
+		$html[] = '{';
+		$html[] = '	var targetContent = $(\'div.description\', this.parentNode.parentNode);';
+		$html[] = '	if (targetContent.css(\'display\') == \'none\') {';
+		$html[] = '		targetContent.slideDown(300);';
+		$html[] = '		$(this).html(\'[-]\');';
+		$html[] = '	} else {';
+		$html[] = '		targetContent.slideUp(300);';
+		$html[] = '		$(this).html(\'[+]\');';
+		$html[] = '	}';
+		$html[] = '	return false;';
+		$html[] = '};';
+		$html[] = 'function serialize(s)';
+		$html[] = '{';
+		$html[] = '	serial = $.SortSerialize(s);';
+		$html[] = '	alert(serial.hash);';
+		$html[] = '};';
+		$html[] = '</script>';
+		
 		
 		return implode("\n", $html);
 	}

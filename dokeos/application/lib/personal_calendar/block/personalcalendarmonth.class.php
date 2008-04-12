@@ -27,7 +27,7 @@ class PersonalCalendarMonth extends PersonalCalendarBlockComponent
 		$html = array();
 		
 		$html[] = '<div class="block" style="background-image: url('.$this->get_path(WEB_IMG_PATH).'block_'.strtolower(PersonalCalendar :: APPLICATION_NAME).'.png);">';
-		$html[] = '<div class="title">'. $this->get_block_info()->get_title() .'</div>';
+		$html[] = '<div class="title">'. $this->get_block_info()->get_title() .'<a href="#" class="closeEl">[-]</a></div>';
 		$html[] = '<div class="description">';
 		
 		$time = isset ($_GET['time']) ? intval($_GET['time']) : time();
