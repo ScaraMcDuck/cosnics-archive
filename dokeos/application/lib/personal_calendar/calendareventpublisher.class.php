@@ -1,9 +1,9 @@
 <?php
 /**
- * $Id$
+ * $Id: personalcalendarpublisher.class.php 14780 2008-04-08 07:45:10Z Scara84 $
  * @package application.personal_calendar
  */
-class PersonalCalendarPublisher
+class CalendarEventPublisher
 {
 	const PARAM_ACTION = 'publish_action';
 	/**
@@ -14,7 +14,7 @@ class PersonalCalendarPublisher
 	 * Creates a new personal calendar publisher
 	 * @param PersonalCalendar $personal_calendar
 	 */
-	function PersonalCalendarPublisher($personal_calendar)
+	function CalendarEventPublisher($personal_calendar)
 	{
 		$this->personal_calendar = $personal_calendar;
 	}
@@ -30,13 +30,13 @@ class PersonalCalendarPublisher
 			$out .= '<li><a';
 			if ($this->get_action() == $action)
 				$out .= ' class="current"';
-			$out .= ' href="'.$this->get_url(array (PersonalCalendarPublisher :: PARAM_ACTION => $action), true).'">'.htmlentities(Translation :: get(ucfirst($action).'Title')).'</a></li>';
+			$out .= ' href="'.$this->get_url(array (CalendarEventPublisher :: PARAM_ACTION => $action), true).'">'.htmlentities(Translation :: get(ucfirst($action).'Title')).'</a></li>';
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
 
 		$action = $this->get_action();
-		require_once dirname(__FILE__).'/component/personalcalendar'.$action.'.class.php';
-		$class = 'PersonalCalendar'.ucfirst($action);
+		require_once dirname(__FILE__).'/publisher/calendarevent'.$action.'.class.php';
+		$class = 'CalendarEvent'.ucfirst($action);
 		$component = new $class ($this);
 		$out .= $component->as_html();
 		$out .= '</div></div>';
@@ -55,7 +55,7 @@ class PersonalCalendarPublisher
 	 */
 	function get_action()
 	{
-		return ($_GET[PersonalCalendarPublisher :: PARAM_ACTION] ? $_GET[PersonalCalendarPublisher :: PARAM_ACTION] : 'publicationcreator');
+		return ($_GET[CalendarEventPublisher :: PARAM_ACTION] ? $_GET[CalendarEventPublisher :: PARAM_ACTION] : 'publicationcreator');
 	}
 	/**
 	 * @see PersonalCalendar::get_user_id()

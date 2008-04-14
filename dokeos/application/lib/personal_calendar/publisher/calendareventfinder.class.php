@@ -1,15 +1,15 @@
 <?php
 /**
- * $Id$
+ * $Id: personalcalendarfinder.class.php 14780 2008-04-08 07:45:10Z Scara84 $
  * @package application.personal_calendar
  */
-require_once dirname(__FILE__).'/personalcalendarbrowser.class.php';
+require_once dirname(__FILE__).'/calendareventbrowser.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
  * Finder component of the personal calendar event publisher. This component can
  * be used to search in the repository.
  */
-class PersonalCalendarFinder extends PersonalCalendarBrowser
+class CalendarEventFinder extends CalendarEventBrowser
 {
 	/**
 	 * The search form
@@ -24,7 +24,7 @@ class PersonalCalendarFinder extends PersonalCalendarBrowser
 	 * @param PersonalCalendarPublisher $parent The publisher that created this
 	 * component
 	 */
-	function PersonalCalendarFinder($parent)
+	function CalendarEventFinder($parent)
 	{
 		parent :: __construct($parent);
 		$this->form = new FormValidator('search', 'get','','',null,false);

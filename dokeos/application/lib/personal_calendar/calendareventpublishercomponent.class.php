@@ -1,9 +1,9 @@
 <?php
 /**
- * $Id:$
+ * $Id: personalcalendarpublishercomponent.class.php 11968 2007-04-11 12:07:26Z bmol $
  * @package application.personal_calendar
  */
-abstract class PersonalCalendarPublisherComponent
+abstract class CalendarEventPublisherComponent
 {
 	/**
 	 * The PersonalCalendarPublisher instance that created this object.
@@ -13,7 +13,7 @@ abstract class PersonalCalendarPublisherComponent
 	 * Creates a new publisher component
 	 * @param PersonalCalendarPublisher $parent
 	 */
-	function PersonalCalendarPublisherComponent($parent)
+	function CalendarEventPublisherComponent($parent)
 	{
 		$this->parent = $parent;
 	}
