@@ -12,14 +12,8 @@ require_once dirname(__FILE__) . '/../../../../../import.class.php';
  */
 class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 {
-	//private $logfile;
-	//private $mgdm;
-	//private $old_system;
-	//private $failed_elements;
 	private $include_deleted_files;
-	//private $succes;
-	//private $command_execute;
-	
+
 	/**
 	 * Constructor creates a new CalendarEventsMigrationWizardPage
 	 * @param string $page_name the page name
@@ -30,6 +24,7 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent);
 		$this->command_execute = $command_execute;
+		$this->succes = array(0,0);
 	}
 	/**
 	 * @return string Title of the page
@@ -37,33 +32,6 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 	function get_title()
 	{
 		return Translation :: get('Calendar_events_title');
-	}
-	
-	/**
-	 * @return string Info of the page
-	 */
-	function get_info()
-	{		
-		for($i=0; $i<1; $i++)
-		{
-			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
-				Translation :: get('migrated');
-			
-			if(count($this->failed_elements[$i]) > 0)
-				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
-					 $this->get_message($i) . ' ' . Translation :: get('failed');
-			
-			foreach($this->failed_elements[$i] as $felement)
-			{
-				$message = $message . '<br />' . $felement ;
-			}
-			
-			$message = $message . '<br />';
-		}
-		
-		$message = $message . '<br />' . Translation :: get('Dont_forget');
-		
-		return $message;
 	}
 	
 	/**
@@ -152,9 +120,10 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 					{
 						continue;
 					}	
-			
-					$this->migrate_calendar_events($course);
+					
+					$this->migrate('CalendarEvent', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
 					//TODO: migrate resources
+					//$this->migrate('Resource', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
 					//$this->migrate_resources();
 					unset($courses[$i]);
 				}
@@ -182,77 +151,10 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 		}
 
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		return true;
 	}
-	
-	/**
-	 * Migrate the calendar events
-	 */
-	function migrate_calendar_events($course)
-	{
-		$this->logfile->add_message('Starting migration calendarevents for course ' . $course->get_code());
-		
-		$class_calendar_event = Import :: factory($this->old_system, 'calendarevent');
-		$calendar_events = array();
-		$calendar_events = $class_calendar_event->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name(), 'del_files' => $this->include_deleted_files));
-		
-		foreach($calendar_events as $j => $calendar_event)
-		{
-			if($calendar_event->is_valid_calendar_event($course))
-			{
-				$lcms_calendar_event = $calendar_event->convert_to_new_calendar_event($course);
-				$this->logfile->add_message('SUCCES: Calendar event added ( ID ' . $lcms_calendar_event->get_id() . ' )');
-				$this->succes[0]++;
-				unset($lcms_calendar_event);
-			}
-			else
-			{
-				$message = 'FAILED: Calendar event is not valid ( ID ' . $calendar_event->get_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[0][] = $message;
-			}
-			unset($calendar_events[$j]);
-		}
-		
-
-		$this->logfile->add_message('Calendar events migrated for course ' . $course->get_code());
-	}
-	
-	/**
-	 * Migrate the calendar resources
-	 */
-	function migrate_calendar_resources($course)
-	{
-		$this->logfile->add_message('Starting migration calendar resources for course' . $course->get_code());
-		
-		$resourceclass = Import :: factory($this->old_system, 'resource');
-		$resources = array();
-		$resources = $resourceclass->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name() ));
-		
-		foreach($resources as $resource)
-		{
-			if($resource->is_valid_resource($course))
-			{
-				$lcms_resource = $resource->convert_to_new_resource($course);
-				$this->logfile->add_message('SUCCES: Calendar resource added ( ID: ' .  
-						$lcms_resource->get_id() . ' )');
-				$this->succes[1]++;
-			}
-			else
-			{
-				$message = 'FAILED: Calendar resource is not valid ( ID: ' . 
-					$resource->get_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[1][] = $message;
-			}
-		}
-		
-
-		$this->logfile->add_message('Calendar resources migrated for course '. $course->get_code());
-	}
-
 }
 ?>

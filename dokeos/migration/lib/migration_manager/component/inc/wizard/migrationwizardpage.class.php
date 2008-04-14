@@ -16,7 +16,7 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 	protected $mgdm;
 	protected $old_system;
 	protected $command_execute;
-	
+	protected $passedtime;
 	/**
 	 * Constructor
 	 * @param string $name A unique name of this page in the wizard
@@ -78,17 +78,11 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 			if(count($this->failed_elements[$i]) > 0)
 				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
 					 $this->get_message($i) . ' ' . Translation :: get('failed');
-			
-			/*foreach($this->failed_elements[$i] as $felement)
-			{
-				$message = $message . '<br />' . $felement ;
-			}*/
-			
-			$message = $message . '<br />';
 		}
-		
+		$message = $message . '<br/><br/>Please check the <a href="' . Path :: get(WEB_PATH) . 'documentation/migration.html" target="about_blank">migration manual</a> for more information';
+		$message = $message . '<br />';
 		$message = $message . '<br />' . Translation :: get('Dont_forget');
-		
+		$message = $message . '<br/><br/>Time used: ' . $this->passedtime;
 		return $message;
 	}
 	
@@ -109,6 +103,7 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 		$class = Import :: factory($this->old_system, strtolower($type));
 		$items = array();
 		
+		
 		if($course)
 		{
 			$this->logfile->add_message('Starting migration ' . $type . ' for course ' . $course->get_code());
@@ -116,6 +111,7 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 			$convert_parms['course'] = $course;
 			$final_message = $type . ' migrated for course ' . $course->get_code();
 			$extra_message = ' COURSE: ' . $course->get_code();
+			
 		}
 		else
 		{
@@ -133,7 +129,8 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 				$lcms_item = $item->convert_to_lcms($convert_parms);
 				if($lcms_item)
 				{
-					$this->logfile->add_message('SUCCES: ' . $type . ' added ( ID: ' . $lcms_item->get_id() . $extra_message . ' )');
+					$message = $this->write_succes($lcms_item, $extra_message, $type);
+					$this->logfile->add_message($message);
 					$this->succes[$i]++;
 				}
 				unset($lcms_item);
@@ -198,9 +195,26 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 							
 			case ($item instanceof Dokeos185QuestionOption) :return 'FAILED: ' . $type . 
 							' is not valid ( ID: ' . $item->get_question_option_id() . $extra_message . ' )';	
+			
+			case ($item instanceof Dokeos185User) :return 'FAILED: ' . $type . 
+							' is not valid ( ID: ' . $item->get_user_id() . $extra_message . ' )';	
 							
 			default: return 'FAILED: ' . $type . 
 							' is not valid ( ID: ' . $item->get_id() . $extra_message . ' )';
+		}
+	}
+	
+	function write_succes($item, $extra_message, $type)
+	{
+		switch(true)
+		{
+			case ($item instanceof User) : return 'SUCCES: ' . $type . ' added ( ID: ' . $item->get_user_id() . $extra_message . ' )';
+			
+			case ($item instanceof CourseUserRelation) : return 'SUCCES: ' . $type . ' added ( Course: ' 
+					. $item->get_course() . ' UserID: ' .
+					  $item->get_user() . ' )';
+							
+			default: return 'SUCCES: ' . $type . ' added ( ID: ' . $item->get_id() . $extra_message . ' )';
 		}
 	}
 }

@@ -6,9 +6,6 @@
  * @author Vanpoucke Sven
  */
 require_once(Path :: get_library_path().'configuration/configuration.php');
-require_once(Path :: get(SYS_APP_MIGRATION_PATH) . '/lib/failedelement.class.php');
-require_once(Path :: get(SYS_APP_MIGRATION_PATH) . '/lib/idreference.class.php');
-require_once(Path :: get(SYS_APP_MIGRATION_PATH) . '/lib/recoveryelement.class.php');
 require_once dirname(__FILE__) . '/../../repository/lib/repositorydatamanager.class.php';
 require_once Path :: get_library_path().'installer.class.php';
 

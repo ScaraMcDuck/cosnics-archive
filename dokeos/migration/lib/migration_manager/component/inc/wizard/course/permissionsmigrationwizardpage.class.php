@@ -31,7 +31,7 @@ class PermissionsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Permissions_title');
+		return Translation :: get('Permissions_title');
 	}
 	
 	/**
@@ -40,7 +40,7 @@ class PermissionsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function next_step_info()
 	{
-		return Translation :: get_lang('Permissions_info');
+		return Translation :: get('Permissions_info');
 	}
 	
 	/**
@@ -52,10 +52,10 @@ class PermissionsMigrationWizardPage extends MigrationWizardPage
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Permission_groups');
-			case 1: return Translation :: get_lang('Permission_users');
-			case 2: return Translation :: get_lang('Permission_tasks');
-			default: return Translation :: get_lang('Permission_groups'); 
+			case 0: return Translation :: get('Permission_groups');
+			case 1: return Translation :: get('Permission_users');
+			case 2: return Translation :: get('Permission_tasks');
+			default: return Translation :: get('Permission_groups'); 
 		}
 	}
 
@@ -69,8 +69,8 @@ class PermissionsMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('permissions'))
 		{
-			echo(Translation :: get_lang('Permissions') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Permissions') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -119,11 +119,11 @@ class PermissionsMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Permissions') .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Permissions') .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Permissions failed because users or courses skipped');
 				$this->succes = array(0,0,0);
 			}
@@ -131,15 +131,15 @@ class PermissionsMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Permissions')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Permissions')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Permissions skipped');
 			
 			return false;
 		}
 
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		$logger->write_text('permissions');

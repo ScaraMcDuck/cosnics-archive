@@ -15,13 +15,7 @@ require_once dirname(__FILE__) . '/../../../../../../../repository/lib/learning_
  */
 class AnnouncementsMigrationWizardPage extends MigrationWizardPage
 {
-	//private $logfile;
-	//private $mgdm;
-	//private $old_system;
 	private $include_deleted_files;
-	//private $failed_announcements = array();
-	//private $succes;
-	//private $command_execute;
 	
 	/**
 	 * Constructor creates a new AnnouncementsMigrationWizardPage
@@ -33,6 +27,7 @@ class AnnouncementsMigrationWizardPage extends MigrationWizardPage
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent);
 		$this->command_execute = $command_execute;
+		$this->succes = array(0);
 	}
 	
 	/**
@@ -41,33 +36,6 @@ class AnnouncementsMigrationWizardPage extends MigrationWizardPage
 	function get_title()
 	{
 		return Translation :: get('Announcements_title');
-	}
-	
-	/**
-	 * @return string Info of the page
-	 */
-	function get_info()
-	{		
-		for($i=0; $i<1; $i++)
-		{
-			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
-				Translation :: get('migrated');
-			
-			if(count($this->failed_elements[$i]) > 0)
-				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
-					 $this->get_message($i) . ' ' . Translation :: get('failed');
-			
-			foreach($this->failed_elements[$i] as $felement)
-			{
-				$message = $message . '<br />' . $felement ;
-			}
-			
-			$message = $message . '<br />';
-		}
-		
-		$message = $message . '<br />' . Translation :: get('Dont_forget');
-		
-		return $message;
 	}
 	
 	/**
@@ -90,7 +58,7 @@ class AnnouncementsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function next_step_info()
 	{
-		return Translation :: get('Announcements_info');
+		return Translation :: get('Announcement_info');
 	}
 	
 	/**
@@ -141,11 +109,25 @@ class AnnouncementsMigrationWizardPage extends MigrationWizardPage
 		
 		if(isset($exportvalues['migrate_announcements']) && $exportvalues['migrate_announcements'] == 1)
 		{	
+			echo('test');
 			//Migrate the personal agendas
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
 					$exportvalues['migrate_courses'] == 1 && $exportvalues['migrate_users'] == 1)
 			{
-				$this->migrate_announcements();
+				$courseclass = Import :: factory($this->old_system, 'course');
+				$courses = array();
+				$courses = $courseclass->get_all(array('mgdm' => $this->mgdm));
+				
+				foreach($courses as $i => $course)
+				{
+					if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
+					{
+						continue;
+					}	
+			
+					$this->migrate('Announcement', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
+					unset($courses[$i]);
+				}
 			}
 			else
 			{
@@ -164,58 +146,14 @@ class AnnouncementsMigrationWizardPage extends MigrationWizardPage
 			echo(Translation :: get('Announcements')
 				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Annoucements skipped');
+			return false;
 		}
 	
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		return true;
-	}
-	
-	function migrate_announcements()
-	{
-		$this->logfile->add_message('Starting migration courses announcements');
-		
-		$announcementclass = Import :: factory($this->old_system, 'announcement');
-		$courseclass = Import :: factory($this->old_system, 'course');
-		
-		$announcements = array();
-		$courses = array();
-		
-		$courses = $courseclass->get_all(array('mgdm' => $this->mgdm));
-		
-		foreach($courses as $i => $course)
-		{
-			if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
-			{
-				continue;
-			}
-			
-			$announcements = $announcementclass->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name(), 'del_files' => $this->include_deleted_files));
-			
-			foreach($announcements as $j => $announcement)
-			{
-				if($announcement->is_valid_announcement($course))
-				{
-					$lcms_announcement = $announcement->convert_to_new_announcement($course);
-					$this->logfile->add_message('SUCCES: Announcement added ( ID:' . $lcms_announcement->get_id() . ' )');
-					$this->succes[0]++;
-					unset($lcms_announcement);
-				}
-				else
-				{
-					$message = 'FAILED: Announcement is not valid ( ID: ' . $announcement->get_id() . ')';
-					$this->logfile->add_message($message);
-					$this->failed_announcements[] = $message;
-				}
-				unset($announcements[$j]);
-			}
-			$this->logfile->add_message('Announcements ' . $course->get_code() . ' migrated');
-			unset($courses[$i]);
-		}
-
-		$this->logfile->add_message('Announcements courses migrated');
 	}
 
 }

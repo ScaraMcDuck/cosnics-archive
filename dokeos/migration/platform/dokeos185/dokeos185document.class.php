@@ -171,8 +171,9 @@ class Dokeos185Document extends ImportDocument
 	 * @param Course $course the course of the document
 	 * @return true if the dropbox category is valid
 	 */
-	function is_valid_document($course)
+	function is_valid($array)
 	{
+		$course = $array['course'];
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'document',$this->get_id());	
 		
 		$pos = strrpos($this->get_path(), '/');
@@ -206,8 +207,9 @@ class Dokeos185Document extends ImportDocument
 	 * @param Course $course the course of the document
 	 * @return the new document
 	 */
-	function convert_to_new_document($course)
+	function convert_to_lcms($array)
 	{
+		$course = $array['course'];
 		$start_time = Logger :: get_microtime();
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
@@ -416,10 +418,12 @@ class Dokeos185Document extends ImportDocument
 	 * @param bool $include_deleted_files 
 	 * @return array of blogs
 	 */
-	static function get_all_documents($course, $mgdm, $include_deleted_files)
+	static function get_all($parameters)
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_documents($course, $include_deleted_files);
+		
+		self :: $mgdm = $parameters['mgdm'];
+		$course = $parameters['course'];
+		return self :: $mgdm->get_all_documents($course, $parameters['del_files']);
 	}
 }
 ?>

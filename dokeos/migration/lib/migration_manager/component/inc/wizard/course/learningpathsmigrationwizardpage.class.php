@@ -145,7 +145,7 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 		}
 
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		$logger->write_text('learning_paths');

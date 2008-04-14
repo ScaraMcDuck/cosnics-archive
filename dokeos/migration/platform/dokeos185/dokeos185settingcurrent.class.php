@@ -235,7 +235,7 @@ class Dokeos185SettingCurrent extends ImportSettingCurrent
 	 * @param Array $array
 	 * @return Boolean
 	 */
-	function is_valid_current_setting()
+	function is_valid($parameters)
 	{
 		return isset($this->convert[$this->get_variable()]);
 	}
@@ -245,10 +245,9 @@ class Dokeos185SettingCurrent extends ImportSettingCurrent
 	 * @param Array $array
 	 * @return null
 	 */
-	function convert_to_new_admin_setting()
+	function convert_to_lcms($parameters)
 	{
 		//course_rel_user parameters
-		
 		$value = $this->convert[$this->get_variable()];
 		if ($value)
 		{
@@ -277,21 +276,26 @@ class Dokeos185SettingCurrent extends ImportSettingCurrent
 		
 			//return $lcms_admin_setting;
 			
-			return null;
+			return $lcms_admin_setting;
 		}
 		
 		return null;
 	}
 	
-	/** 
-	 * Get all current settings from database
-	 * @param Migration Data Manager $mgdm the datamanager from where the settings should be retrieved
-	 * @return Array of dokeos185settingcurrent
+	/**
+	 * Gets all the system announcement
+	 * @param Array $parameters
+	 * @return Array of dokeos185systemannouncements
 	 */
-	static function get_all_current_settings($mgdm)
+	static function get_all($parameters)
 	{
-		self :: $mgdm = $mgdm;
-		return self :: $mgdm->get_all_current_settings();	
+		self :: $mgdm = $parameters['mgdm'];
+		
+		$db = 'main_database';
+		$tablename = 'settings_current';
+		$classname = 'Dokeos185SettingCurrent';
+			
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
 	}
 }
 ?>

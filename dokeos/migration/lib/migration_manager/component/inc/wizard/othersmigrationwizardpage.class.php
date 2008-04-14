@@ -31,7 +31,7 @@ class OthersMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Others_title');
+		return Translation :: get('Others_title');
 	}
 	
 	/**
@@ -40,7 +40,7 @@ class OthersMigrationWizardPage extends MigrationWizardPage
 	 */
 	function next_step_info()
 	{
-		return Translation :: get_lang('Others_info');
+		return Translation :: get('Others_info');
 	}
 	
 	/**
@@ -52,9 +52,9 @@ class OthersMigrationWizardPage extends MigrationWizardPage
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Other_openid_associations');
-			case 1: return Translation :: get_lang('Other_templates');
-			default: return Translation :: get_lang('Other_openid_associations'); 
+			case 0: return Translation :: get('Other_openid_associations');
+			case 1: return Translation :: get('Other_templates');
+			default: return Translation :: get('Other_openid_associations'); 
 		}
 	}
 	
@@ -78,8 +78,8 @@ class OthersMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('others'))
 		{
-			echo(Translation :: get_lang('Others') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Others') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -112,11 +112,11 @@ class OthersMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Others') .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Others') .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Others failed because users or courses skipped');
 				$this->succes = array(0,0,0);
 			}
@@ -124,15 +124,15 @@ class OthersMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Others')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Others')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Others skipped');
 			
 			return false;
 		}
 
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		$logger->write_text('others');

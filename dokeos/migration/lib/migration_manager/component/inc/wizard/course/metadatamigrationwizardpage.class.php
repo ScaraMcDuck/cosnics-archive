@@ -12,12 +12,6 @@ require_once dirname(__FILE__) . '/../../../../../import.class.php';
  */
 class MetaDataMigrationWizardPage extends MigrationWizardPage
 {
-	//private $logfile;
-	//private $mgdm;
-	//private $old_system;
-	//private $failed_elements;
-	//private $succes;
-	//private $command_execute;
 	
 	/**
 	 * Constructor creates a new MetaDataMigrationWizardPage
@@ -38,33 +32,6 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 	function get_title()
 	{
 		return Translation :: get('Course_meta_title');
-	}
-	
-	/**
-	 * @return string Info of the page
-	 */
-	function get_info()
-	{		
-		for($i=0; $i<4; $i++)
-		{
-			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
-				Translation :: get('migrated');
-			
-			if(count($this->failed_elements[$i]) > 0)
-				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
-					 $this->get_message($i) . ' ' . Translation :: get('failed');
-			
-			foreach($this->failed_elements[$i] as $felement)
-			{
-				$message = $message . '<br />' . $felement ;
-			}
-			
-			$message = $message . '<br />';
-		}
-		
-		$message = $message . '<br />' . Translation :: get('Dont_forget');
-		
-		return $message;
 	}
 	
 	/**
@@ -154,10 +121,9 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 					{
 						continue;
 					}	
-			
-					$this->migrate_descriptions($course);
-					//$this->migrate_settings($course);
-					//$this->migrate_tools($course);
+					$this->migrate('CourseDescription', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
+					//$this->migrate('SettingCurrent', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
+					//$this->migrate('Tool', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,2);
 					$this->migrate('ToolIntro', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,3);
 					unset($courses[$i]);
 				}
@@ -185,108 +151,10 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 		}
 
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		return true;
 	}
-	
-	/**
-	 * Migrate the descriptions
-	 */
-	function migrate_descriptions($course)
-	{
-		$this->logfile->add_message('Starting migration descriptions for course ' . $course->get_code());
-		
-		$descriptions_class = Import :: factory($this->old_system, 'coursedescription');
-		$descriptions = array();
-		$descriptions = $descriptions_class->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name()));
-		
-		foreach($descriptions as $j => $description)
-		{
-			if($description->is_valid_course_description($course))
-			{
-				$lcms_description = $description->convert_to_new_course_description($course);
-				$this->logfile->add_message('SUCCES: Description added ( ID: ' . $lcms_description->get_id() . ' )');
-				$this->succes[0]++;
-				unset($lcms_description);
-			}
-			else
-			{
-				$message = 'FAILED: Description is not valid ( ID: ' . $description->get_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[0][] = $message;
-			}
-			unset($descriptions[$j]);
-		}
-		
-
-		$this->logfile->add_message('Descriptions migrated for course ' . $course->get_code());
-	}
-	
-	/**
-	 * Migrate the settings
-	 */
-	function migrate_settings($course)
-	{
-		$this->logfile->add_message('Starting migration settings for course' . $course->get_code());
-		
-		$settingsclass = Import :: factory($this->old_system, 'coursesetting');
-		$settings = array();
-		$settings = $settingsclass->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name()));
-		
-		foreach($settings as $setting)
-		{
-			if($setting->is_valid_setting($course))
-			{
-				$lcms_setting = $setting->convert_to_new_setting($course);
-				$this->logfile->add_message('SUCCES: Link added ( ID: ' .  
-						$lcms_setting->get_id() . ' )');
-				$this->succes[1]++;
-			}
-			else
-			{
-				$message = 'FAILED: Link is not valid ( ID: ' . 
-					$setting->get_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[1][] = $message;
-			}
-		}
-		
-
-		$this->logfile->add_message('Settings migrated for course '. $course->get_code());
-	}
-	
-	/**
-	 * migrate course tools
-	 */
-	function migrate_course_tools($course)
-	{
-		$this->logfile->add_message('Starting migration course tools for course: ' . $course->get_code());
-		
-		$tool_class = Import :: factory($this->old_system, 'tool');
-		$tools = array();
-		$tools = $tool_class->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name()));
-		
-		foreach($tools as $tool)
-		{
-			if($tool->is_valid_tool())
-			{
-				$lcms_tool = $tool->convert_to_new_tool();
-				$this->logfile->add_message('SUCCES: Course tool added ( ID: ' . 
-						$lcms_tool->get_id() . ' )');
-				$this->succes[2]++;
-			}
-			else
-			{
-				$message = 'FAILED: Course tool is not valid ( ID: ' . $tool->get_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[2][] = $message;
-			}
-		}
-
-		$this->logfile->add_message('Course tools migrated for course: ' . $course->get_code());
-	}
-
 }
 ?>

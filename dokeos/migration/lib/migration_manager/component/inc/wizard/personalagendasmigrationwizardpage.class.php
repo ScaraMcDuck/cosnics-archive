@@ -18,7 +18,7 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 	//private $failed_elements;
 	//private $succes;
 	//private $command_execute;
-	
+
 	/**
 	 * Constructor creates a new PersonalAgendasMigrationWizardPage
 	 * @param string $page_name the page name
@@ -29,6 +29,7 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent);
 		$this->command_execute = $command_execute;
+		$this->succes = array(0);
 	}
 	
 	/**
@@ -42,6 +43,7 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 	/**
 	 * @return string Info of the page
 	 */
+	 /*
 	function get_info()
 	{		
 		for($i=0; $i<1; $i++)
@@ -53,19 +55,15 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
 					 $this->get_message($i) . ' ' . Translation :: get('failed');
 			
-			foreach($this->failed_elements[$i] as $felement)
-			{
-				$message = $message . '<br />' . $felement ;
-			}
-			
+			$message = $message . '<br/><br/>Please check the <a href="' . Path :: get(WEB_PATH) . 'documentation/migration.html" target="about_blank">migration manual</a> for more information';
 			$message = $message . '<br />';
 		}
 		
 		$message = $message . '<br />' . Translation :: get('Dont_forget');
-		
+		$message = $message . '<br/><br/>Time used: ' . $this->passedtime;
 		return $message;
 	}
-	
+	*/
 	/**
 	 * Retrieves the correct message for the correct index, this is used in cooperation with
 	 * $failed elements and the method getinfo 
@@ -86,7 +84,7 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 	 */
 	function next_step_info()
 	{
-		return Translation :: get('Personal_agendas_info');
+		return Translation :: get('Personal_agenda_info');
 	}
 	
 	/**
@@ -136,7 +134,8 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 			//Migrate the personal agendas
 			if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 			{
-				$this->migrate_personal_agendas();
+				//$this->migrate_personal_agendas();
+				$this->migrate('PersonalAgenda', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,3);
 			}
 			else
 			{
@@ -160,7 +159,7 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 		}
 	
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		return true;
@@ -169,6 +168,7 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 	/**
 	 * Migrate the personal agendas
 	 */
+	 /*
 	function migrate_personal_agendas()
 	{
 		$this->logfile->add_message('Starting migration personal agendas');
@@ -199,6 +199,6 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 
 		$this->logfile->add_message('Personal agendas migrated');
 	}
-
+	*/
 }
 ?>

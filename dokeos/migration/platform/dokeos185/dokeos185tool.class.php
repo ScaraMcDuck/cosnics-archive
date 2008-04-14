@@ -132,7 +132,7 @@ class Dokeos185Tool extends ImportTool
 	/**
 	 * Checks if tool is valid
 	 */
-	function is_valid_tool()
+	function is_valid($array)
 	{
 		return isset($this->convert[$this->get_name()]);
 	}
@@ -141,8 +141,9 @@ class Dokeos185Tool extends ImportTool
 	 * @param String $course
 	 * @return dokeos185tool
 	 */
-	function convert_to_new_tool($course)
+	function convert_to_lcms($array)
 	{		
+		$course = $array['course'];
 		$value = $this->convert[$this->get_name()];
 		$db = WeblcmsDataManager :: get_instance();
 		$db->set_module_visible($course->get->get_title(),$value,$this->get_visibility);

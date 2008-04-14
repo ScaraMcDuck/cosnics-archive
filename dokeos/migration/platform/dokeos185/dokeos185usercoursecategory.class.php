@@ -151,7 +151,7 @@ class Dokeos185UserCourseCategory extends Import
 	 * checks if a user course category is valid to be written at the db
 	 * @return Boolean 
 	 */
-	function is_valid_user_course_category()
+	function is_valid($parameters)
 	{
 		if(!$this->get_id() || !$this->get_user_id() || !$this->get_title() || 
 			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()) ||
@@ -169,7 +169,7 @@ class Dokeos185UserCourseCategory extends Import
 	 * Migration user course category
 	 * @return CourseUserCategory
 	 */
-	function convert_to_new_user_course_category()
+	function convert_to_lcms($parameters)
 	{
 		//Course parameters
 		$lcms_user_course_category = new CourseUserCategory();

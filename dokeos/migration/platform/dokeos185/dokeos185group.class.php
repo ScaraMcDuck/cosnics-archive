@@ -213,8 +213,9 @@ class Dokeos185Group extends ImportGroup
 	 * @param Course $course the course
 	 * @return true if the group is valid 
 	 */
-	function is_valid_group($course)
+	function is_valid($array)
 	{
+		$course = $array['course'];
 		if(!$this->get_name() || $this->get_self_registration_allowed() == NULL
 			|| $this->get_self_unregistration_allowed() == NULL)
 		{
@@ -231,8 +232,9 @@ class Dokeos185Group extends ImportGroup
 	 * @param Course $course the course
 	 * @return the new group
 	 */
-	function convert_to_new_group($course)
+	function convert_to_lcms($array)
 	{
+		$course = $array['course'];
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
 		$lcms_group = new Group();

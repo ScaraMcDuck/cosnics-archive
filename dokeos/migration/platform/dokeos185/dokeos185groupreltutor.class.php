@@ -118,9 +118,9 @@ class Dokeos185GroupRelTutor extends ImportGroupRelTutor
 	 * @param Course $course the course
 	 * @return true if the group tutor relation is valid 
 	 */
-	function is_valid_group_rel_tutor($course)
+	function is_valid_group_rel_tutor($array)
 	{	
-		
+		$course = $array['course'];
 	}
 	
 	/**
@@ -128,9 +128,9 @@ class Dokeos185GroupRelTutor extends ImportGroupRelTutor
 	 * @param Course $course the course
 	 * @return the new group tutor relation
 	 */
-	function convert_to_new_group_rel_tutor($course)
+	function convert_to_new_group_rel_tutor($array)
 	{	
-		
+		$course = $array['course'];
 	}
 	
 	/**

@@ -194,7 +194,7 @@ class Dokeos185CourseRelUser extends ImportCourseRelUser
 	 * Check if the course user relation is valid
 	 * @return true if the course user relation is valid 
 	 */
-	function is_valid_course_user_relation()
+	function is_valid($parameters)
 	{
 		if(!$this->get_course_code() || !$this->get_user_id() || $this->get_status() == NULL
 			|| $this->get_group_id() == NULL || $this->get_tutor_id() == NULL ||
@@ -215,7 +215,7 @@ class Dokeos185CourseRelUser extends ImportCourseRelUser
 	 * Convert to new course user relation
 	 * @return the new course user relation
 	 */
-	function convert_to_new_course_user_relation()
+	function convert_to_lcms($parameters)
 	{
 		//course_rel_user parameters
 		$lcms_course_rel_user = new CourseUserRelation();

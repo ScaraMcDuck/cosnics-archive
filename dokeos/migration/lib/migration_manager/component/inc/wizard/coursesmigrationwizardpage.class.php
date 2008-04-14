@@ -12,14 +12,6 @@ require_once dirname(__FILE__) . '/../../../../import.class.php';
  */
 class CoursesMigrationWizardPage extends MigrationWizardPage
 {
-	//private $logfile;
-	//private $mgdm;
-	//private $old_system;
-	
-	//private $failed_elements;
-	//private $succes;
-	//private $command_execute;
-	
 	/**
 	 * Constructor creates a new CoursesMigrationWizardPage
 	 * @param string $page_name the page name
@@ -30,6 +22,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent);
 		$this->command_execute = $command_execute;
+		$this->succes = array(0,0,0,0,0);
 	}
 	
 	/**
@@ -42,7 +35,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 	
 	/**
 	 * @return string Info of the page
-	 */
+	 *//*
 	function get_info()
 	{		
 		for($i=0; $i<4; $i++)
@@ -54,18 +47,13 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
 					 $this->get_message($i) . ' ' . Translation :: get('failed');
 			
-			foreach($this->failed_elements[$i] as $felement)
-			{
-				$message = $message . '<br />' . $felement ;
-			}
-			
-			$message = $message . '<br />';
 		}
-		
+		$message = $message . '<br/><br/>Please check the <a href="' . Path :: get(WEB_PATH) . 'documentation/migration.html" target="about_blank">migration manual</a> for more information';
+		$message = $message . '<br />';
 		$message = $message . '<br />' . Translation :: get('Dont_forget');
-		
+		$message = $message . '<br/><br/>Time used: ' . $this->passedtime;
 		return $message;
-	}
+	}*/
 	
 	/**
 	 * Retrieves the next step info
@@ -86,8 +74,8 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		switch($index)
 		{
 			case 0: return Translation :: get('Course_Categories'); 
-			case 1: return Translation :: get('Course_User_Categories'); 
-			case 2: return Translation :: get('Courses'); 
+			case 1: return Translation :: get('Courses');
+			case 2: return Translation :: get('Course_User_Categories'); 
 			case 3: return Translation :: get('Course_User_Relations'); 
 			case 4: return Translation :: get('Course_Class_Relations'); ;
 			default: return Translation :: get('Courses'); 
@@ -140,19 +128,21 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['migrate_courses']) && $exportvalues['migrate_courses'] == 1)
 		{	
 			//Migrate course categories
-			$this->migrate_course_categories();
+			//$this->migrate_course_categories();
+			$this->migrate('CourseCategory', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
 			
 			//Migrate the courses
-			$this->migrate_courses();
+			//$this->migrate_courses();
+			$this->migrate('Course', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,1);
 			
 			//Migrate the class users
 			if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 			{
 				//Migrate the user course categories
-				$this->migrate_user_course_categories();
+				$this->migrate('UserCourseCategory', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,2);
 				
 				//Migrate course users
-				$this->migrate_course_users();
+				$this->migrate('CourseRelUser', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,3);
 			}
 			else
 			{
@@ -170,7 +160,8 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			if(isset($exportvalues['migrate_classes']) && $exportvalues['migrate_classes'] ==1)
 			{
 				//Migrate course classes
-				//$this->migrate_course_classes();
+				//$this->migrate('CourseRelClass', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,4);
+				
 			}
 			else
 			{
@@ -194,7 +185,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		}
 	
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		return true;
@@ -202,7 +193,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 	
 	/**
 	 * Migrate course categories
-	 */
+	 *//*
 	function migrate_course_categories()
 	{
 		$this->logfile->add_message('Starting migration course categories');
@@ -233,10 +224,10 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		
 		$this->logfile->add_message('Course categories migrated');
 	}
-	
+	*/
 	/**
 	 * Migrate user course categories
-	 */
+	 *//*
 	function migrate_user_course_categories()
 	{
 		$this->logfile->add_message('Starting migration user course categories');
@@ -266,11 +257,11 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		}
 		
 		$this->logfile->add_message('User course categories migrated');
-	}
+	}*/
 	
 	/**
 	 * Migrate the courses
-	 */
+	 *//*
 	function migrate_courses()
 	{		
 		$this->logfile->add_message('Starting migration courses');
@@ -300,11 +291,11 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		
 
 		$this->logfile->add_message('Courses migrated');
-	}
+	}*/
 	
 	/**
 	 * Migrate course users
-	 */
+	 *//*
 	function migrate_course_users()
 	{
 		$this->logfile->add_message('Starting migration course users relations');
@@ -337,11 +328,11 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		}
 
 		$this->logfile->add_message('Course user relations migrated');
-	}
+	}*/
 	
 	/**
 	 * Migrate course classes
-	 */
+	 *//*
 	function migrate_course_classes()
 	{
 		$this->logfile->add_message('Starting migration course class relations');
@@ -373,7 +364,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		}
 
 		$this->logfile->add_message('Course user relations migrated');
-	}
+	}*/
 
 }
 ?>

@@ -12,13 +12,7 @@ require_once dirname(__FILE__) . '/../../../../import.class.php';
  */
 class ClassesMigrationWizardPage extends MigrationWizardPage
 {
-	//private $logfile;
-	//private $mgdm;
-	//private $old_system;
-	//private $failed_elements;
-	//private $succes;
-	//private $command_execute;
-	
+
 	/**
 	 * Constructor creates a new ClassesMigrationWizardPage
 	 * @param string $page_name the page name
@@ -29,6 +23,7 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent);
 		$this->command_execute = $command_execute;
+		$this->succes = array(0,0);
 	}
 	
 	/**
@@ -41,7 +36,7 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 	
 	/**
 	 * @return string Info of the page
-	 */
+	 *//*
 	function get_info()
 	{		
 		for($i=0; $i<2; $i++)
@@ -52,19 +47,13 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 			if(count($this->failed_elements[$i]) > 0)
 				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
 					 $this->get_message($i) . ' ' . Translation :: get('failed');
-			
-			foreach($this->failed_elements[$i] as $felement)
-			{
-				$message = $message . '<br />' . $felement ;
-			}
-			
-			$message = $message . '<br />';
 		}
-		
+		$message = $message . '<br/><br/>Please check the <a href="' . Path :: get(WEB_PATH) . 'documentation/migration.html" target="about_blank">migration manual</a> for more information';
+		$message = $message . '<br />';		
 		$message = $message . '<br />' . Translation :: get('Dont_forget');
-		
+		$message = $message . '<br/><br/>Time used: ' . $this->passedtime;
 		return $message;
-	}
+	}*/
 	
 	/**
 	 * Retrieves the next step info
@@ -135,12 +124,13 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['migrate_classes']) && $exportvalues['migrate_classes'] == 1)
 		{	
 			//Migrate the classes
-			$this->migrate_classes();
-			
+			//$this->migrate_classes();
+			$this->migrate('Class', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
 			//Migrate the class users
 			if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 			{
-				$this->migrate_class_users();
+				//$this->migrate_class_users();
+				$this->migrate('ClassUser', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,1);
 			}
 			else
 			{
@@ -162,9 +152,9 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 			
 			return false;
 		}
-
+		
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		return true;
@@ -172,7 +162,7 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 	
 	/**
 	 * Migrate the classes
-	 */
+	 *//*
 	function migrate_classes()
 	{
 		$this->logfile->add_message('Starting migration classes');
@@ -200,11 +190,11 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 		}
 
 		$this->logfile->add_message('Classes migrated');
-	}
+	}*/
 	
 	/**
 	 * Migrate the class users
-	 */
+	 *//*
 	function migrate_class_users()
 	{
 		$this->logfile->add_message('Starting migration class users');
@@ -238,7 +228,7 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 		
 
 		$this->logfile->add_message('Classes migrated');
-	}
+	}*/
 
 }
 ?>

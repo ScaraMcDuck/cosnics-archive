@@ -347,7 +347,7 @@ class Dokeos185Course extends ImportCourse
 	 * Check if the course is valid
 	 * @return true if the blog is valid 
 	 */
-	function is_valid_course()
+	function is_valid($parameters)
 	{
 		if(!$this->get_code() || $this->get_show_score() == NULL ||
 			self :: $mgdm->get_failed_element('dokeos_main.course_category', $this->get_category_code()))
@@ -364,7 +364,7 @@ class Dokeos185Course extends ImportCourse
 	 * Convert to new course
 	 * @return the new course
 	 */
-	function convert_to_new_course()
+	function convert_to_lcms($parameters)
 	{		
 		//Course parameters
 		$lcms_course = new Course();

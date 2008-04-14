@@ -138,9 +138,9 @@ class Dokeos185GroupRelUser extends ImportGroupRelUser
 	 * @param Course $course the course
 	 * @return true if the group user relation is valid 
 	 */
-	function is_valid_group_rel_user($course)
+	function is_valid($array)
 	{	
-		
+		$course = $array['course'];
 	}
 	
 	/**
@@ -148,9 +148,9 @@ class Dokeos185GroupRelUser extends ImportGroupRelUser
 	 * @param Course $course the course
 	 * @return the new group user relation
 	 */
-	function convert_to_new_group_rel_user($course)
+	function convert_to_lcms($array)
 	{	
-		
+		$course = $array['course'];
 	}
 	
 	/**

@@ -31,7 +31,7 @@ class RolesMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Roles_title');
+		return Translation :: get('Roles_title');
 	}
 	
 	/**
@@ -40,7 +40,7 @@ class RolesMigrationWizardPage extends MigrationWizardPage
 	 */
 	function next_step_info()
 	{
-		return Translation :: get_lang('Roles_info');
+		return Translation :: get('Roles_info');
 	}
 	
 	/**
@@ -52,11 +52,11 @@ class RolesMigrationWizardPage extends MigrationWizardPage
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Roles');
-			case 1: return Translation :: get_lang('Role_groups');
-			case 2: return Translation :: get_lang('Role_permissions');
-			case 3: return Translation :: get_lang('Role_users');
-			default: return Translation :: get_lang('Roles'); 
+			case 0: return Translation :: get('Roles');
+			case 1: return Translation :: get('Role_groups');
+			case 2: return Translation :: get('Role_permissions');
+			case 3: return Translation :: get('Role_users');
+			default: return Translation :: get('Roles'); 
 		}
 	}
 
@@ -70,8 +70,8 @@ class RolesMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('roles'))
 		{
-			echo(Translation :: get_lang('Roles') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Roles') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -121,11 +121,11 @@ class RolesMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Roles') .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Roles') .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Roles failed because users or courses skipped');
 				$this->succes = array(0,0,0,0);
 			}
@@ -133,15 +133,15 @@ class RolesMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Roles')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Roles')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Roles skipped');
 			
 			return false;
 		}
 
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		$logger->write_text('roles');

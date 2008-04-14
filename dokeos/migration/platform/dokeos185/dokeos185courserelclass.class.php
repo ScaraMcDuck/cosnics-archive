@@ -125,7 +125,7 @@ class Dokeos185CourseRelClass extends ImportCourseRelClass
 	 * Check if the course class relation is valid
 	 * @return true if the course class relation is valid 
 	 */
-	function is_valid_course_class_relation()
+	function is_valid($array)
 	{
 		if(!$this->get_course_code() || !$this->get_class_id() ||
 			self :: $mgdm->get_failed_element('dokeos_main.course', $this->get_course_code()) ||
@@ -145,7 +145,7 @@ class Dokeos185CourseRelClass extends ImportCourseRelClass
 	 * Convert to new course class relation
 	 * @return the new course class relation
 	 */
-	function convert_to_new_course_class_relation()
+	function convert_to_lcms($array)
 	{
 		$lcms_course_class_relation = new CourseClassRelation();
 		

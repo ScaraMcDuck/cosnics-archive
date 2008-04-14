@@ -12,13 +12,7 @@ require_once dirname(__FILE__) . '/../../../../../import.class.php';
  */
 class DocumentsMigrationWizardPage extends MigrationWizardPage
 {
-	//private $logfile;
-	//private $mgdm;
-	//private $old_system;
-	//private $failed_elements;
 	private $include_deleted_files;
-	//private $succes;
-	//private $command_execute;
 	
 	/**
 	 * Constructor creates a new DocumentsMigrationWizardPage
@@ -30,6 +24,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent);
 		$this->command_execute = $command_execute;
+		$this->succes = array(0);
 	}
 	
 	/**
@@ -38,33 +33,6 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 	function get_title()
 	{
 		return Translation :: get('Documents_title');
-	}
-	
-	/**
-	 * @return string Info of the page
-	 */
-	function get_info()
-	{		
-		for($i=0; $i<1; $i++)
-		{
-			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
-				Translation :: get('migrated');
-			
-			if(count($this->failed_elements[$i]) > 0)
-				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
-					 $this->get_message($i) . ' ' . Translation :: get('failed');
-			
-			foreach($this->failed_elements[$i] as $felement)
-			{
-				$message = $message . '<br />' . $felement ;
-			}
-			
-			$message = $message . '<br />';
-		}
-		
-		$message = $message . '<br />' . Translation :: get('Dont_forget');
-		
-		return $message;
 	}
 	
 	/**
@@ -134,10 +102,10 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
 			$this->mgdm->set_move_file(true);
 		
-		$csvlogger = new Logger('doc.csv');
-		$csvlogger->write_text('oud document pad;filesize;total passed time;copytime;documenttime;categories_time;publication_time;' .
-			'idref_time;orphan_time;doublefile_time;totaltime (copy to pub);difference (passed - total)');
-		$csvlogger->close_file();
+		//$csvlogger = new Logger('doc.csv');
+		//$csvlogger->write_text('oud document pad;filesize;total passed time;copytime;documenttime;categories_time;publication_time;' .
+		//	'idref_time;orphan_time;doublefile_time;totaltime (copy to pub);difference (passed - total)');
+		//$csvlogger->close_file();
 		
 		if(isset($exportvalues['migrate_documents']) && $exportvalues['migrate_documents'] == 1)
 		{	
@@ -159,8 +127,9 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 					{
 						continue;
 					}	
-			
-					$this->migrate_documents($course);
+					
+					//$this->migrate_documents($course);
+					$this->migrate('Document', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
 					unset($courses[$i]);
 					flush();
 				}
@@ -187,7 +156,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 		}
 
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->add_message('Counter: ' . Dokeos185Document :: get_counter());
 		$this->logfile->close_file();
 		$logger->write_text('documents');
@@ -197,7 +166,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 	
 	/**
 	 * Migrate the documents
-	 */
+	 *//*
 	function migrate_documents($course)
 	{
 		$this->logfile->add_message('Starting migration documents for course ' . $course->get_code());
@@ -265,6 +234,6 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 
 		$this->logfile->add_message('Documents migrated for course ' . $course->get_code());
 	}
-
+*/
 }
 ?>
