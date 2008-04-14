@@ -238,18 +238,18 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	}
 	
 	/**
-	 * Creates a tracker in the database
-	 * @param Tracker $tracker
+	 * Creates a tracker registration in the database
+	 * @param TrackerRegistration $trackerregistration
 	 */
-	function create_tracker($tracker)
+	function create_tracker_registration($trackerregistration)
 	{
 		$props = array();
-		foreach ($tracker->get_default_properties() as $key => $value)
+		foreach ($trackerregistration->get_default_properties() as $key => $value)
 		{
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('tracker'), $props, MDB2_AUTOQUERY_INSERT);
+		$this->connection->extended->autoExecute($this->get_table_name('registration'), $props, MDB2_AUTOQUERY_INSERT);
 		
 		return true;
 	}
@@ -283,7 +283,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('tracker_setting'), $props, MDB2_AUTOQUERY_INSERT);
+		$this->connection->extended->autoExecute($this->get_table_name('setting'), $props, MDB2_AUTOQUERY_INSERT);
 		
 		return true;
 	}
@@ -376,6 +376,50 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	{
 		$query = 'SELECT * FROM ' . $this->escape_table_name('contentbox') . ' AS ' . 
 				 self :: ALIAS_EVENTS_TABLE;
+	}
+	
+	/** Creates a tracker item in the database
+	 * @param string $tablename the table name where the database has to be written to
+	 * @param MainTracker $tracker_item a subclass of MainTracker
+	 * @return true if creation is valid
+	 */
+	function create_tracker_item($tablename, $tracker_item)
+	{
+		
+	}
+	
+	/**
+	 * Retrieves all tracker items from the database
+	 * @param string $tablename the table name where the database has to be written to
+	 * @param string $classname the tracker's class name (needed to create the class when data is retrieved)
+	 * @return MainTracker $tracker a subclass of MainTracker
+	 */
+	function retrieve_tracker_items($tablename, $classname)
+	{
+		
+	}
+	
+	/**
+	 * Retrieves a tracker item from the database
+	 * @param string $tablename the table name where the database has to be written to
+	 * @param int $id the id of the tracker item
+	 * @param string $classname the tracker's class name (needed to create the class when data is retrieved)
+	 * @return MainTracker $tracker a subclass of MainTracker
+	 */
+	function retrieve_tracker_item($tablename, $id)
+	{
+		
+	}
+	
+	/**
+	 * Updates a tracker item in the database
+	 * @param string $tablename the table name where the database has to be written to
+	 * @param MainTracker $tracker_item a subclass of MainTracker
+	 * @return true if update is valid
+	 */
+	function update_tracker_item($tablename, $tracker_item)
+	{
+		
 	}
 
 }
