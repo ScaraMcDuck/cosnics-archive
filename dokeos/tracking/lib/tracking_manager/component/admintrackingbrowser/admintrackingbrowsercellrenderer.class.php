@@ -32,16 +32,36 @@ class AdminTrackingBrowserCellRenderer
 		$toolbar_data = array();
 		
 		$toolbar_data[] = array(
-			'href' => $this->browser->get_change_active_url($contentbox),
-			'label' => ($contentbox->get_active() == 1)?Translation :: get('Hide'):Translation :: get('Visible'),
+			'href' => $this->browser->get_change_active_url('event', $event),
+			'label' => ($event->get_active() == 1)?Translation :: get('Hide'):Translation :: get('Visible'),
 			'confirm' => false,
-			'img' => ($contentbox->get_active() == 1)?
+			'img' => ($event->get_active() == 1)?
 				Path :: get(WEB_LAYOUT_PATH).'img/visible.gif':
 				Path :: get(WEB_LAYOUT_PATH).'img/invisible.gif'
 		);
 		
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 
+	}
+	
+	function render_cell($property, $event)
+	{
+		switch($property)
+		{
+			case Event :: PROPERTY_NAME: return '<a href="' . 
+				$this->browser->get_event_viewer_url($event) . '">' . 
+				$event->get_default_property($property) . '</a>';
+		}
+		
+		return $event->get_default_property($property);
+	}
+	
+	function get_properties()
+	{
+		return array(
+					Event :: PROPERTY_ID,
+					Event :: PROPERTY_NAME,
+			);
 	}
 }
 ?>

@@ -18,7 +18,7 @@ class TrackingManagerAdminTrackingBrowserComponent extends TrackingManagerCompon
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('TrackersList')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('EventsList')));
 		
 		if (!$this->get_user() || !$this->get_user()->is_platform_admin())
 		{
@@ -30,29 +30,40 @@ class TrackingManagerAdminTrackingBrowserComponent extends TrackingManagerCompon
 		
 		$this->display_header($trail);
 
-		$properties = $this->get_properties();
 		$cellrenderer = new AdminTrackingBrowserCellRenderer($this);
 		
-		/*echo('<div style="margin-bottom: 5px;"> ' . Translation :: get_lang('LeftContentboxes')  . '</div>');
-		$lefttable = new SimpleTable($properties, $this->retrieve_contentboxes('left'), $cellrenderer);
-		echo $lefttable->toHTML();
+		$previous_events_block = null;
 		
-		echo('<br /><div style="margin-bottom: 5px;"> ' . Translation :: get_lang('RightContentboxes') . '</div>');
+		$events = $this->retrieve_events();
+		$blockevents = array();
 		
-		$righttable = new SimpleTable($properties, $this->retrieve_contentboxes('right'), $cellrenderer);
-		echo $righttable->toHTML();*/
+		foreach($events as $event)
+		{
+			if(($event->get_block() != $previous_events_block))
+			{
+				if($previous_events_block != null) 
+					$this->display_table($blockevents, $cellrenderer);
+					
+				$blockevents = array();
+			}
+
+			$blockevents[] = $event;
+			$previous_events_block = $event->get_block();
+		
+		}
+		
+		$this->display_table($blockevents, $cellrenderer);
 		
 		$this->display_footer();
 	}
 	
-	function get_properties()
+	function display_table($events, $cellrenderer)
 	{
-		/*return array(
-					ContentBox :: PROPERTY_ID,
-					ContentBox :: PROPERTY_PATH,
-					ContentBox :: PROPERTY_NAME,
-					ContentBox :: PROPERTY_ORDER,
-						);*/
+		if(count($events) == 0) return;
+		
+		echo('<div style="margin-bottom: 5px;"> ' . Translation :: get('Events_for_block') . ': ' . $events[0]->get_block()  . '</div>');
+		$eventtable = new SimpleTable($events, $cellrenderer);
+		echo $eventtable->toHTML() . '<br />';
 	}
 
 }

@@ -208,5 +208,32 @@ abstract class TrackingManagerComponent
 	{
 		return $this->get_parent()->get_browser_url();
 	}
+	
+	/**
+	 * Retrieves the change active url
+	 * @see TrackingManager :: get_change_active_url;
+	 */
+	function get_change_active_url($type, $object)
+	{
+		return $this->get_parent()->get_change_active_url($type, $object);
+	}
+	
+	/** 
+	 * Retrieves the event viewer url
+	 * @see TrackingManager :: get_event_viewer_url()
+	 */
+	function get_event_viewer_url($event)
+	{
+		return $this->get_parent()->get_event_viewer_url($event);
+	}
+	
+	/**
+	 * RDetrieves the events
+	 * @see TrackingManager :: retrieve_events();
+	 */
+	function retrieve_events()
+	{
+		return $this->get_parent()->retrieve_events();
+	}
 }
 ?>

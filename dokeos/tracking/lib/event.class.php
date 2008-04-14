@@ -16,6 +16,7 @@ class Event
 	const PROPERTY_ID = 'id';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_ACTIVE = 'active';
+	const PROPERTY_BLOCK = 'block';
 
 	/**
 	 * Default properties stored in an associative array.
@@ -55,7 +56,7 @@ class Event
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_ACTIVE);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_ACTIVE, self :: PROPERTY_BLOCK);
 	}
 
 	/**
@@ -128,6 +129,24 @@ class Event
 	function set_active($active)
 	{
 		$this->set_default_property(self :: PROPERTY_ACTIVE, $active);
+	}
+	
+	/**
+	 * Returns the block of this Event.
+	 * @return the block.
+	 */
+	function get_block()
+	{
+		return $this->get_default_property(self :: PROPERTY_BLOCK);
+	}
+
+	/**
+	 * Sets the block of this Event.
+	 * @param block
+	 */
+	function set_block($block)
+	{
+		$this->set_default_property(self :: PROPERTY_BLOCK, $block);
 	}
 	
 	/**

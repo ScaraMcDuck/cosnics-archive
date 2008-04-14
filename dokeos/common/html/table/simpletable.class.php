@@ -38,10 +38,10 @@ class SimpleTable extends HTML_Table
 	 * @param Array $data_array A list of data classes, the system will use this to extract the property values from it
 	 * @param CellRenderer $cellrenderer Used for actions on each row
 	 */
-	function SimpleTable($defaultproperties, $data_array, $cellrenderer)
+	function SimpleTable($data_array, $cellrenderer)
 	{
 		parent :: HTML_Table(array ('class' => 'data_table'));
-		$this->defaultproperties = $defaultproperties;
+		$this->defaultproperties = $cellrenderer->get_properties();
 		$this->data_array = $data_array;
 		$this->cellrenderer = $cellrenderer;
 		$this->build_table();
@@ -65,7 +65,7 @@ class SimpleTable extends HTML_Table
 		
 		foreach($this->defaultproperties as $defaultproperty)
 		{
-			$this->setHeaderContents(0, $counter, Translation::get_lang($defaultproperty));
+			$this->setHeaderContents(0, $counter, Translation::get($defaultproperty));
 			$counter++;
 		}
 		
@@ -88,7 +88,11 @@ class SimpleTable extends HTML_Table
 			$contents = array();
 			foreach($this->defaultproperties as $defaultproperty)
 			{
-				$contents[] = $data->get_default_property($defaultproperty);
+				if($this->cellrenderer)
+					$contents[] = $this->cellrenderer->render_cell($defaultproperty,
+						$data);
+				else
+					$contents[] = $data->get_default_property($defaultproperty);
 			}
 			
 			if($this->cellrenderer)
