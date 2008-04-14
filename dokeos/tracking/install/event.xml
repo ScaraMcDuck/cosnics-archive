@@ -4,6 +4,7 @@
   <property name="id" type="integer" unsigned="1" notnull="1" />
   <property name="name" type="text" length="50" notnull="1" />
   <property name="active" type="integer" unsigned="1" notnull="1" default="1"/>
+  <property name="block" type="text" length="50" notnull="1" />
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

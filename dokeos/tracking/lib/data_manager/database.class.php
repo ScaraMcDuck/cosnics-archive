@@ -18,7 +18,11 @@ require_once 'MDB2.php';
 
 class DatabaseTrackingDataManager extends TrackingDataManager
 {
-	const ALIAS_CONTENTBOX_TABLE = 'tracking';
+	const ALIAS_EVENTS_TABLE = 'ev';
+	const ALIAS_TRACKER_REGISTRATION_TABLE = 'tr';
+	const ALIAS_TRACKER_TABLE = 'trk';
+	const ALIAS_TRACKER_SETTINGS_TABLE = 'trs';
+	const ALIAS_TRACKER_EVENT_TABLE = 'tre';
 
 	/**
 	 * The database connection.
@@ -194,7 +198,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	{
 	    if (!is_array($record) || !count($record))
 		{
-		    throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		    throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
 		 
@@ -202,7 +206,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 		 
 		foreach ($class->get_default_property_names() as $prop)
 		{
-		    $defaultProp[$prop] = $record[$prop];
+		    $defaultProp[$prop] = $record[$prop]; 
 		}
 		
 		$class->set_default_properties($defaultProp);
@@ -371,11 +375,25 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	
 	/**
 	 * Retrieves all events 
+	 * @return array of events
 	 */
 	function retrieve_events()
 	{
-		$query = 'SELECT * FROM ' . $this->escape_table_name('contentbox') . ' AS ' . 
-				 self :: ALIAS_EVENTS_TABLE;
+		$query = 'SELECT * FROM ' . $this->escape_table_name('event') . ' AS ' . 
+				 self :: ALIAS_EVENTS_TABLE . ' ORDER BY block';
+		
+		$statement = $this->connection->prepare($query);
+		$result = $statement->execute();
+		
+		$events = array();
+		
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$events[] = $this->record_to_classobject($record, 'Event');
+		}
+		
+		return $events;
+		
 	}
 	
 	/** Creates a tracker item in the database

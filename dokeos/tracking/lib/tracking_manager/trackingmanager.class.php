@@ -25,12 +25,14 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
 	
-	const PARAM_EVENT_ID = 'eventid';
-	const PARAM_TRACKER_ID = 'trackid';
+	const PARAM_EVENT_ID = 'event_id';
+	const PARAM_TRACKER_ID = 'track_id';
+	const PARAM_REF_ID = 'ref_id';
+	const PARAM_TYPE = 'type';
 	
 	const ACTION_BROWSE_EVENTS = 'browse';
 	const ACTION_VIEW_EVENT = 'view';
-	const ACTION_CHANGE_VISIBLE = 'changevisible';
+	const ACTION_CHANGE_ACTIVE = 'changeactive';
 	
 	private $user;
 	private $tdm;
@@ -57,6 +59,9 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 		{
 			case self :: ACTION_BROWSE_EVENTS :
 				$component = TrackingManagerComponent :: factory('AdminTrackingBrowser', $this);
+				break;
+			case self :: ACTION_VIEW_EVENT :
+				$component = TrackingManagerComponent :: factory('AdminEventViewer', $this);
 				break;
 			default :
 				$component = TrackingManagerComponent :: factory('AdminTrackingBrowser', $this);
@@ -309,6 +314,36 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 	function get_browser_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_EVENTS));
+	}
+	
+	/**
+	 * Retrieves the change active url
+	 * @param string $type event or tracker
+	 * @param Object $object Event or Tracker Object
+	 * @return the change active component url
+	 */
+	function get_change_active_url($type, $object)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CHANGE_ACTIVE, self :: PARAM_REF_ID => $object->get_id(), self :: PARAM_TYPE => $type ));
+	}
+	
+	/** 
+	 * Retrieves the event viewer url
+	 * @param Event $event
+	 * @return the event viewer url for the given event
+	 */
+	function get_event_viewer_url($event)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_EVENT, self :: PARAM_EVENT_ID => $event->get_id()));
+	}
+	
+	/**
+	 * Retrieves the events 
+	 * @return the events
+	 */
+	function retrieve_events()
+	{
+		return $this->tdm->retrieve_events();
 	}
 	
 }

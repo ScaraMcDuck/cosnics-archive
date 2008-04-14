@@ -83,7 +83,7 @@ class UsersInstaller extends Installer
 			}
 		}
 		
-		$loginevent = Events :: create_event('login');
+		$loginevent = Events :: create_event('login', 'users');
 		
 		$path = '/users/lib/trackers/';
 		
