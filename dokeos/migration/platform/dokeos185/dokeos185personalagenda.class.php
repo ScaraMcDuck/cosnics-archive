@@ -173,7 +173,7 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 	 * Check if the personal agenda is valid
 	 * @return true if the personal agenda is valid 
 	 */
-	function is_valid_personal_agenda()
+	function is_valid($parameters)
 	{
 		if(!$this->get_user() || (!$this->get_title() && !$this->get_text()) || !$this->get_date() ||
 			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user()) ||
@@ -190,7 +190,7 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 	 * Convert to new personal agenda
 	 * @return the new personal agenda
 	 */
-	function convert_to_new_personal_agenda()
+	function convert_to_lcms($parameters)
 	{
 		// Create calendar event	
 		$lcms_calendar_event = new CalendarEvent();

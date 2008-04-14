@@ -12,12 +12,6 @@ require_once dirname(__FILE__) . '/../../../../../import.class.php';
  */
 class GroupsMigrationWizardPage extends MigrationWizardPage
 {
-	//private $logfile;
-	//private $mgdm;
-	//private $old_system;
-	//private $failed_elements;
-	//private $succes;
-	//private $command_execute;
 	
 	/**
 	 * Constructor creates a new GroupsMigrationWizardPage
@@ -29,6 +23,7 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent);
 		$this->command_execute = $command_execute;
+		$this->succes = array(0,0,0,0);
 	}
 	
 	/**
@@ -37,33 +32,6 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 	function get_title()
 	{
 		return Translation :: get('Groups_title');
-	}
-	
-	/**
-	 * @return string Info of the page
-	 */
-	function get_info()
-	{		
-		for($i=0; $i<1; $i++)
-		{
-			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
-				Translation :: get('migrated');
-			
-			if(count($this->failed_elements[$i]) > 0)
-				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
-					 $this->get_message($i) . ' ' . Translation :: get('failed');
-			
-			foreach($this->failed_elements[$i] as $felement)
-			{
-				$message = $message . '<br />' . $felement ;
-			}
-			
-			$message = $message . '<br />';
-		}
-		
-		$message = $message . '<br />' . Translation :: get('Dont_forget');
-		
-		return $message;
 	}
 	
 	/**
@@ -84,10 +52,10 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 	{
 		switch($index)
 		{
-			//case 0: return Translation :: get('Group categories');
-			case 0: return Translation :: get('Groups'); 
-			case 1: return Translation :: get('Group_rel_users');
-			case 2: return Translation :: get('Group_rel_tutors');  
+			case 0: return Translation :: get('Group_categories');
+			case 1: return Translation :: get('Groups'); 
+			case 2: return Translation :: get('Group_rel_users');
+			case 3: return Translation :: get('Group_rel_tutors');  
 			default: return Translation :: get('Groups'); 
 		}
 	}
@@ -154,10 +122,10 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 			
-					//$this->migrate_group_categories($course);
-					$this->migrate_groups($course);
-					//$this->migrate_group_rel_users($course);
-					//$this->migrate_group_rel_tutors($course);
+					//$this->migrate('GroupCategory', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
+					$this->migrate('Group', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
+					//$this->migrate('GroupRelUser', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,2);
+					//$this->migrate('GroupRelTutor', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,3);
 					//TODO: group categories, group rel users, group rel tutors;
 					unset($courses[$i]);
 				}
@@ -185,140 +153,10 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 		}
 
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		return true;
 	}
-	
-	/**
-	 * Migrate the group categories
-	 */
-	function migrate_group_categories($course)
-	{
-		$this->logfile->add_message('Starting migration group categories for course ' . $course->get_code());
-		
-		$groupcatclass = Import :: factory($this->old_system, 'groupcategory');
-		$groupcategories = array();
-		$groupcategories = $groupcatclass->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name()));
-		
-		foreach($groupcategories as $j => $groupcategory)
-		{
-			if($groupcategory->is_valid_group_category($course))
-			{
-				$lcms_groupcat = $groupcategory->convert_to_new_group_category($course);
-				$this->logfile->add_message('SUCCES: Group category added ( ID: ' . $lcms_groupcat->get_id() . ' )');
-				$this->succes[0]++;
-				unset($lcms_groupcat);
-			}
-			else
-			{
-				$message = 'FAILED: Group category is not valid ( ID: ' . $groupcategory->get_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[0][] = $message;
-			}
-		}
-		
-
-		$this->logfile->add_message('Group categories migrated for course ' . $course->get_code());
-	}
-	
-	/**
-	 * Migrate the groups
-	 */
-	function migrate_groups($course)
-	{
-		$this->logfile->add_message('Starting migration groups for course ' . $course->get_code());
-		
-		$groupclass = Import :: factory($this->old_system, 'group');
-		$groups = array();
-		$groups = $groupclass->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name()));
-		
-		foreach($groups as $j => $group)
-		{
-			if($group->is_valid_group($course))
-			{
-				$lcms_group = $group->convert_to_new_group($course);
-				$this->logfile->add_message('SUCCES: Group added ( ID: ' .  
-						$lcms_group->get_id() . ' )');
-				$this->succes[0]++;
-				unset($lcms_group);
-			}
-			else
-			{
-				$message = 'FAILED: Group is not valid ( ID: ' . 
-					$group->get_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[0][] = $message;
-			}
-			unset($groups[$j]);
-		}
-		
-
-		$this->logfile->add_message('Groups migrated for course '. $course->get_code());
-	}
-	
-	/**
-	 * migrate course group user relations
-	 */
-	function migrate_group_rel_users($course)
-	{
-		$this->logfile->add_message('Starting migration group user relations for course: ' . $course->get_code());
-		
-		$group_rel_user_class = Import :: factory($this->old_system, 'groupreluser');
-		$group_rel_users = array();
-		$group_rel_users = $group_rel_user_class->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name()));
-		
-		foreach($group_rel_users as $group_rel_user)
-		{
-			if($group_rel_user->is_valid_group_rel_user($course))
-			{
-				$lcms_group_rel_user = $group_rel_user->convert_to_new_group_rel_user($course);
-				$this->logfile->add_message('SUCCES: Group user relation added ( ID: ' . 
-						$lcms_group_rel_user->get_id() . ' )');
-				$this->succes[2]++;
-			}
-			else
-			{
-				$message = 'FAILED: Group user relation is not valid ( ID: ' . $group_rel_user->get_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[2][] = $message;
-			}
-		}
-
-		$this->logfile->add_message('Group user relations migrated for course: ' . $course->get_code());
-	}
-	
-	/**
-	 * migrate course group tutor relations
-	 */
-	function migrate_group_rel_tutors($course)
-	{
-		$this->logfile->add_message('Starting migration group tutor relations for course: ' . $course->get_code());
-		
-		$group_rel_tutor_class = Import :: factory($this->old_system, 'groupreltutor');
-		$group_rel_tutors = array();
-		$group_rel_tutors = $group_rel_tutor_class->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name()));
-		
-		foreach($group_rel_tutors as $group_rel_tutor)
-		{
-			if($group_rel_tutor->is_valid_group_rel_tutor($course))
-			{
-				$lcms_group_rel_tutor = $group_rel_tutor->convert_to_new_group_rel_tutor($course);
-				$this->logfile->add_message('SUCCES: Group tutor relation added ( ID: ' . 
-						$lcms_group_rel_tutor->get_id() . ' )');
-				$this->succes[3]++;
-			}
-			else
-			{
-				$message = 'FAILED: Group tutor relation is not valid ( ID: ' . $group_rel_tutor->get_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[3][] = $message;
-			}
-		}
-
-		$this->logfile->add_message('Group tutor relations migrated for course: ' . $course->get_code());
-	}
-
 }
 ?>

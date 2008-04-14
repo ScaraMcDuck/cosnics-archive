@@ -205,7 +205,7 @@ class Dokeos185CourseCategory extends ImportCourseCategory
 	 * @param array $array the parameters for the validation
 	 * @return true if the course category is valid 
 	 */
-	function is_valid_course_category()
+	function is_valid($parameters)
 	{
 		if(!$this->get_name() || !$this->get_code())
 		{
@@ -221,7 +221,7 @@ class Dokeos185CourseCategory extends ImportCourseCategory
 	 * Convert to new course category
 	 * @return the new course category
 	 */
-	function convert_to_new_course_category()
+	function convert_to_lcms($parameters)
 	{	
 		//Course category parameters
 		$lcms_course_category = new CourseCategory();

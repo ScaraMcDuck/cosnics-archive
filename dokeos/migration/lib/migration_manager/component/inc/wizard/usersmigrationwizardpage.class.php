@@ -14,12 +14,8 @@ require_once dirname(__FILE__) . '/../../../../../../users/lib/usersdatamanager.
  */
 class UsersMigrationWizardPage extends MigrationWizardPage
 {
-	//private $logfile;
-	//private $mgdm;
-	//private $old_system;
 	private $failed_users = array();
 	private $users_succes = 0;
-	//private $command_execute;
 	
 	/**
 	 * Constructor creates a new UsersMigrationWizardPage
@@ -31,6 +27,7 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 	{
 		parent :: MigrationWizardPage($page_name, $parent);
 		$this->command_execute = $command_execute;
+		$this->succes = array(0);
 	}
 	
 	/**
@@ -42,34 +39,26 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 	}
 	
 	/**
-	 * @return string Info of the page
-	 */
-	function get_info()
-	{
-		$message = $this->users_succes . ' ' . Translation :: get('Users') . ' ' .
-			Translation :: get('migrated');
-		
-		if(count($this->failed_users) > 0)
-			$message = $message . '<br / >' . count($this->failed_users) . ' ' .
-			Translation :: get('Users') . ' ' . Translation :: get('failed') . '<br />';
-			
-		foreach($this->failed_users as $fuser)
-		{
-			$message = $message . '<br />' . $fuser;
-		}
-		
-		$message = $message . '<br /><br />' . Translation :: get('Dont_forget');
-		
-		return $message;
-	}
-	
-	/**
 	 * Retrieves the next step info
 	 * @return string Info about the next step
 	 */
 	function next_step_info()
 	{
 		return Translation :: get('System_Settings_info');
+	}
+	
+	/**
+	 * Retrieves the correct message for the correct index, this is used in cooperation with
+	 * $failed elements and the method getinfo 
+	 * @param int $index place in $failedelements for which the message must be retrieved
+	 */
+	function get_message($index)
+	{
+		switch($index)
+		{
+			case 0: return Translation :: get('users');
+			default: return Translation :: get('users'); 
+		}
 	}
 	
 	/**
@@ -125,7 +114,14 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		//Migrate the users
 		if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 		{	
-			$this->migrate_users();
+			$lcms_users = array();
+			$resultset = UsersDataManager :: get_instance()->retrieve_users();
+		
+			while ($lcms_user = $resultset->next_result())
+			{
+				$lcms_users[] = $lcms_user;	
+			}
+			$this->migrate('User', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files,'lcms_users' => $lcms_users), array(), null,0);
 		}
 		else
 		{
@@ -135,54 +131,12 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		}
 		
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		$logger->close_file();
 		
 		return true;
 	}
-	
-	/**
-	 * Retrieve the users, validate and migrate
-	 */
-	function migrate_users()
-	{
-		$this->logfile->add_message('Starting migration users');
-		
-		$userclass = Import :: factory($this->old_system, 'user');
-		$users = array();
-		$users = $userclass->get_all_users($this->mgdm);
-
-		$lcms_users = array();
-		$resultset = UsersDataManager :: get_instance()->retrieve_users();
-	
-		while ($lcms_user = $resultset->next_result())
-		{
-			$lcms_users[] = $lcms_user;	
-		}
-
-		foreach($users as $i => $user)
-		{
-			if($user->is_valid_user($lcms_users))
-			{
-				$lcms_user = $user->convert_to_new_user();
-				$this->logfile->add_message('SUCCES: User added ( ID:' . $lcms_user->get_user_id() . ' )');
-				$this->users_succes++;
-				unset($lcms_user);
-			}
-			else
-			{
-				$message = 'FAILED: User is not valid ( ID: ' . $user->get_user_id() . ')';
-				$this->logfile->add_message($message);
-				$this->failed_users[] = $message;
-			}
-			
-			unset($users[$i]);
-		}
-		
-		$this->logfile->add_message('Users migrated');
-	}
-
 }
 ?>

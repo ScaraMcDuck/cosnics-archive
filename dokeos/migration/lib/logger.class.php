@@ -104,12 +104,15 @@ class Logger
       */
      function write_passed_time()
      {
-     	$passedtime = (int)($this->get_microtime() - $this->begin);
+     	$passedtime = 0;
+     	$passedtime = (int)($this->get_microtime() - $this->begin); 
+     	
      	$this->add_message('Passed Time: ' . $passedtime . ' s');
      	
      	$timefile = fopen($this->filename = Path :: get('SYS_PATH') . '/migration/logfiles/time.txt', 'r');
-     	if(!$timefile) { return; }
-
+     	
+     	if(!$timefile) { return $this->convert_passed_time($passedtime); }
+		
 		$totaltime = 0;
 		
     	if (!feof($timefile))
@@ -118,14 +121,15 @@ class Logger
     	fclose($timefile);
     	
     	$timefile = fopen($this->filename = Path :: get('SYS_PATH') . '/migration/logfiles/time.txt', 'w');
-     	if(!$timefile) { return; }
+     	if(!$timefile) { return $this->convert_passed_time($passedtime); }
     	
     	$totaltime += $passedtime;
     	
     	fwrite($timefile, $totaltime);
     	
     	fclose($timefile);
-    	
+ 
+    	return $this->convert_passed_time($passedtime);
      }
      
      /**
@@ -153,6 +157,37 @@ class Logger
      	setlocale ( LC_TIME, 0);
      	$timestamp = strftime("[%H:%M:%S] ", time());
      	return  $timestamp;
+     }
+     
+     /**
+      * Convert the passed time in seconds to h:m:s or m:s or s
+      * @param String $passedTime
+      * @return converted passed time
+      */
+     function convert_passed_time($passed_time)
+     {
+     	if ($passed_time / 3600 < 1 && $passed_time / 60 < 1)
+     	{
+     		$converted_time = $passed_time . 's';
+     	}
+     	else
+     	{
+     		if ($passed_time / 3600 < 1)
+     		{
+     			$min = $passed_time / 60;
+     			$sec = $passed_time % 60;
+     			$converted_time = $min . ':' . $sec;
+     		}
+     		else
+     		{
+     			$hour = $passed_time / 3600;
+     			$rest = $passed_time % 3600;
+     			$min = $rest / 60;
+     			$sec = $rest % 60;
+     			$converted_time = $hour . ':' . $min . ':' . $sec;
+     		}
+     	}
+     	return $converted_time;
      }
 }
 ?>

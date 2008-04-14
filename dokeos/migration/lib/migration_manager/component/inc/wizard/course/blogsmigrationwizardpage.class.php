@@ -31,7 +31,7 @@ class BlogsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Blogs_title');
+		return Translation :: get('Blogs_title');
 	}
 	
 	/**
@@ -40,7 +40,7 @@ class BlogsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function next_step_info()
 	{
-		return Translation :: get_lang('Blogs_info');
+		return Translation :: get('Blogs_info');
 	}
 	
 	/**
@@ -52,14 +52,14 @@ class BlogsMigrationWizardPage extends MigrationWizardPage
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Blogs');
-			case 1: return Translation :: get_lang('Blog_comments');
-			case 2: return Translation :: get_lang('Blog_posts');
-			case 3: return Translation :: get_lang('Blog_ratings');
-			case 4: return Translation :: get_lang('Blog_rel_users');
-			case 5: return Translation :: get_lang('Blog_tasks');
-			case 6: return Translation :: get_lang('Blog_task_rel_users');
-			default: return Translation :: get_lang('Blogs'); 
+			case 0: return Translation :: get('Blogs');
+			case 1: return Translation :: get('Blog_comments');
+			case 2: return Translation :: get('Blog_posts');
+			case 3: return Translation :: get('Blog_ratings');
+			case 4: return Translation :: get('Blog_rel_users');
+			case 5: return Translation :: get('Blog_tasks');
+			case 6: return Translation :: get('Blog_task_rel_users');
+			default: return Translation :: get('Blogs'); 
 		}
 	}
 
@@ -73,8 +73,8 @@ class BlogsMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('blogs'))
 		{
-			echo(Translation :: get_lang('Blogs') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Blogs') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -126,11 +126,11 @@ class BlogsMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Blogs') .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Blogs') .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Blogs failed because users or courses skipped');
 				$this->succes = array(0,0,0,0,0,0,0);
 			}
@@ -138,15 +138,15 @@ class BlogsMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Blogs')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Blogs')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Blogs skipped');
 			
 			return false;
 		}
 
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		$logger->write_text('blogs');

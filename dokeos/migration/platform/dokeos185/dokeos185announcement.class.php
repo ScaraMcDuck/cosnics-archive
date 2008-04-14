@@ -153,8 +153,9 @@ class Dokeos185Announcement extends ImportAnnouncement
 	 * @param Course $course the course to which the announcement belongs
 	 * @return true if the announcement is valid 
 	 */
-	function is_valid_announcement($course)
+	function is_valid($array)
 	{
+		$course = $array['course'];
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'announcement',$this->get_id());	
 
 		if(!$this->get_id() || !($this->get_title() || $this->get_content()) || !$this->item_property
@@ -174,8 +175,9 @@ class Dokeos185Announcement extends ImportAnnouncement
 	 * @param Course $course the course to which the announcement belongs
 	 * @return the new announcement
 	 */
-	function convert_to_new_announcement($course)
+	function convert_to_lcms($array)
 	{
+		$course = $array['course'];
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		

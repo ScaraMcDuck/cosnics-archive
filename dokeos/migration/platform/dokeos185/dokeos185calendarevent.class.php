@@ -143,8 +143,9 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 	 * @param Course $course the course where the calendar event belongs to
 	 * @return true if the blog is valid 
 	 */
-	function is_valid_calendar_event($course)
+	function is_valid($array)
 	{
+		$course = $array['course'];
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'calendar_event',$this->get_id());	
 	
 
@@ -163,8 +164,9 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 	 * @param Course $course the course where the calendar event belongs to
 	 * @return the new calendar event
 	 */
-	function convert_to_new_calendar_event($course)
+	function convert_to_lcms($array)
 	{
+		$course = $array['course'];
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
 	

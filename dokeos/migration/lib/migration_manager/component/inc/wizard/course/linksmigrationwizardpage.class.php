@@ -30,6 +30,7 @@ class LinksMigrationWizardPage extends MigrationWizardPage
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent);
 		$this->command_execute = $command_execute;
+		$this->succes = array(0,0);
 	}
 	
 	/**
@@ -38,33 +39,6 @@ class LinksMigrationWizardPage extends MigrationWizardPage
 	function get_title()
 	{
 		return Translation :: get('Links_title');
-	}
-	
-	/**
-	 * @return string Info of the page
-	 */
-	function get_info()
-	{		
-		for($i=0; $i<2; $i++)
-		{
-			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
-				Translation :: get('migrated');
-			
-			if(count($this->failed_elements[$i]) > 0)
-				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
-					 $this->get_message($i) . ' ' . Translation :: get('failed');
-			
-			foreach($this->failed_elements[$i] as $felement)
-			{
-				$message = $message . '<br />' . $felement ;
-			}
-			
-			$message = $message . '<br />';
-		}
-		
-		$message = $message . '<br />' . Translation :: get('Dont_forget');
-		
-		return $message;
 	}
 	
 	/**
@@ -152,8 +126,8 @@ class LinksMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 			
-					$this->migrate_link_categories($course);
-					$this->migrate_links($course);
+					$this->migrate('LinkCategory', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
+					$this->migrate('Link', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
 					unset($courses[$i]);
 				}
 			}
@@ -180,80 +154,12 @@ class LinksMigrationWizardPage extends MigrationWizardPage
 		}
 
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		$logger->write_text('links');
 
 		return true;
 	}
 	
-	/**
-	 * Migrate the link categories
-	 */
-	function migrate_link_categories($course)
-	{
-		$this->logfile->add_message('Starting migration link categories for course ' . $course->get_code());
-		
-		$class_link_categories = Import :: factory($this->old_system, 'linkcategory');
-		$link_categories = array();
-		$link_categories = $class_link_categories->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name()));
-		
-		foreach($link_categories as $j => $link_category)
-		{
-			if($link_category->is_valid_link_category($course))
-			{
-				$lcms_link_category = $link_category->convert_to_new_link_category($course);
-				$this->logfile->add_message('SUCCES: Link category added ( ID: ' . $lcms_link_category->get_id() . ' )');
-				$this->succes[0]++;
-				unset($lcms_link_category);
-			}
-			else
-			{
-				$message = 'FAILED: Link category is not valid ( ID: ' . $link_category->get_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[0][] = $message;
-			}
-			unset($link_categories[$j]);
-		}
-		
-
-		$this->logfile->add_message('Link categories migrated for course ' . $course->get_code());
-	}
-	
-	/**
-	 * Migrate the links
-	 */
-	function migrate_links($course)
-	{
-		$this->logfile->add_message('Starting migration links for course' . $course->get_code());
-		
-		$linkclass = Import :: factory($this->old_system, 'link');
-		$links = array();
-		$links = $linkclass->get_all(array('mgdm' => $this->mgdm, 'course' => $course->get_db_name(), 'del_files' => $this->include_deleted_files));
-		
-		foreach($links as $j => $link)
-		{
-			if($link->is_valid_link($course))
-			{				
-				$lcms_link = $link->convert_to_new_link($course);
-				$this->logfile->add_message('SUCCES: Link added ( ID: ' .  
-						$lcms_link->get_id() . ' )');
-				$this->succes[1]++;
-				unset($lcms_link);
-			}
-			else
-			{
-				$message = 'FAILED: Link is not valid ( ID: ' . 
-					$link->get_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[1][] = $message;
-			}
-			unset($links[$j]);
-		}
-		
-
-		$this->logfile->add_message('Links migrated for course '. $course->get_code());
-	}
-
 }
 ?>

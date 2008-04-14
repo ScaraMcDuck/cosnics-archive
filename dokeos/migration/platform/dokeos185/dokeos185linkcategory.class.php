@@ -119,8 +119,9 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 	 * @param Course $course the course
 	 * @return true if the link category is valid 
 	 */
-	function is_valid_link_category($course)
+	function is_valid($array)
 	{	
+		$course = $array['course'];
 		if(!$this->get_id() || !($this->get_category_title() || $this->get_description()))
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
@@ -135,8 +136,9 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 	 * @param Course $course the course
 	 * @return the new link category
 	 */
-	function convert_to_new_link_category($course)
+	function convert_to_lcms($array)
 	{	
+		$course = $array['course'];
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
 		$lcms_link_category = new LearningObjectPublicationCategory();

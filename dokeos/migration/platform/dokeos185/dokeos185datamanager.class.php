@@ -268,7 +268,6 @@ class Dokeos185DataManager extends MigrationDataManager
 		
 		$result = $this->db->query($query);
 		$documents = $this->mapper($result, 'Dokeos185Document');
-		
 		return $documents;
 	}
 	

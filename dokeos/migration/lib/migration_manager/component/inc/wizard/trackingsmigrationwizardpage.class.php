@@ -31,7 +31,7 @@ class TrackersMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Trackers_title');
+		return Translation :: get('Trackers_title');
 	}
 	
 	/**
@@ -40,7 +40,7 @@ class TrackersMigrationWizardPage extends MigrationWizardPage
 	 */
 	function next_step_info()
 	{
-		return Translation :: get_lang('Trackers_info');
+		return Translation :: get('Trackers_info');
 	}
 	
 	/**
@@ -52,26 +52,26 @@ class TrackersMigrationWizardPage extends MigrationWizardPage
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Tracker_c_os');
-			case 1: return Translation :: get_lang('Tracker_c_browsers');
-			case 2: return Translation :: get_lang('Tracker_c_countries');
-			case 3: return Translation :: get_lang('Tracker_c_providers');
-			case 4: return Translation :: get_lang('Tracker_c_referers');
-			case 5: return Translation :: get_lang('Tracker_e_access');
-			case 6: return Translation :: get_lang('Tracker_e_attempt');
-			case 7: return Translation :: get_lang('Tracker_e_courseaccess');
-			case 8: return Translation :: get_lang('Tracker_e_default');
-			case 9: return Translation :: get_lang('Tracker_e_downloads');
-			case 10: return Translation :: get_lang('Tracker_e_exercices');
-			case 11: return Translation :: get_lang('Tracker_e_hotpotatoes');
-			case 12: return Translation :: get_lang('Tracker_e_hotspot');
-			case 13: return Translation :: get_lang('Tracker_e_lastaccess');
-			case 14: return Translation :: get_lang('Tracker_e_links');
-			case 15: return Translation :: get_lang('Tracker_e_login');
-			case 16: return Translation :: get_lang('Tracker_e_online');
-			case 17: return Translation :: get_lang('Tracker_e_open');
-			case 18: return Translation :: get_lang('Tracker_e_uploads');
-			default: return Translation :: get_lang('Tracker_c_os'); 
+			case 0: return Translation :: get('Tracker_c_os');
+			case 1: return Translation :: get('Tracker_c_browsers');
+			case 2: return Translation :: get('Tracker_c_countries');
+			case 3: return Translation :: get('Tracker_c_providers');
+			case 4: return Translation :: get('Tracker_c_referers');
+			case 5: return Translation :: get('Tracker_e_access');
+			case 6: return Translation :: get('Tracker_e_attempt');
+			case 7: return Translation :: get('Tracker_e_courseaccess');
+			case 8: return Translation :: get('Tracker_e_default');
+			case 9: return Translation :: get('Tracker_e_downloads');
+			case 10: return Translation :: get('Tracker_e_exercices');
+			case 11: return Translation :: get('Tracker_e_hotpotatoes');
+			case 12: return Translation :: get('Tracker_e_hotspot');
+			case 13: return Translation :: get('Tracker_e_lastaccess');
+			case 14: return Translation :: get('Tracker_e_links');
+			case 15: return Translation :: get('Tracker_e_login');
+			case 16: return Translation :: get('Tracker_e_online');
+			case 17: return Translation :: get('Tracker_e_open');
+			case 18: return Translation :: get('Tracker_e_uploads');
+			default: return Translation :: get('Tracker_c_os'); 
 		}
 	}
 
@@ -95,8 +95,8 @@ class TrackersMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('trackers'))
 		{
-			echo(Translation :: get_lang('Trackers') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Trackers') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -146,11 +146,11 @@ class TrackersMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Trackers') .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Trackers') .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Trackers failed because users or courses skipped');
 				$this->succes = array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 			}
@@ -158,15 +158,15 @@ class TrackersMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Trackers')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Trackers')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Trackers skipped');
 			
 			return false;
 		}
 
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		$logger->write_text('trackers');

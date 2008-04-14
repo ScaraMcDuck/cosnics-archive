@@ -140,7 +140,7 @@ class Dokeos185Class extends ImportClass
 	 * Check if the class is valid
 	 * @return true if the blog is valid 
 	 */
-	function is_valid_class()
+	function is_valid($parameters)
 	{
 		if(!$this->get_name())
 		{
@@ -155,7 +155,7 @@ class Dokeos185Class extends ImportClass
 	 * Convert to new class
 	 * @return the new class
 	 */
-	function convert_to_new_class()
+	function convert_to_lcms($parameters)
 	{
 		//class parameters
 		$lcms_class = new ClassGroup();

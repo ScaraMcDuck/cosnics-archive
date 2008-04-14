@@ -197,7 +197,7 @@ class Dokeos185SystemAnnouncement extends Import
 	 * Checks if valid system announcement()
 	 * @return Boolean
 	 */
-	function is_valid_system_announcement()
+	function is_valid($parameters)
 	{
 		if(!($this->get_title() || $this->get_content()))
 		{
@@ -213,8 +213,9 @@ class Dokeos185SystemAnnouncement extends Import
 	 * @param String $admin_id
 	 * @return Announcement
 	 */
-	function convert_to_new_system_announcement($admin_id)
+	function convert_to_lcms($parameters)
 	{	
+		$admin_id = $parameters['admin_id'];
 		$lcms_repository_announcement = new Announcement();
 		$lcms_repository_announcement->set_owner_id($admin_id);
 		

@@ -9,8 +9,8 @@
  */
 abstract class ImportClassUser extends Import
 {
-	abstract function is_valid_class_user();
-	abstract function convert_to_new_class_user();
+	abstract function is_valid($array);
+	abstract function convert_to_lcms($array);
 	abstract static function get_all($array);
 }
 ?>

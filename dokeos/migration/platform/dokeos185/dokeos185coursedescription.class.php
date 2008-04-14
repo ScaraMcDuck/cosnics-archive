@@ -121,8 +121,9 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 	 * @param Course $Course the course where the description belongs to
 	 * @return true if the course description is valid 
 	 */
-	function is_valid_course_description($course)
+	function is_valid($array)
 	{	
+		$course = $array['course'];
 		if(!$this->get_id() || !($this->get_title() || $this->get_content()))
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
@@ -137,8 +138,9 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 	 * @param Course $Course the course where the description belongs to
 	 * @return the new course description
 	 */
-	function convert_to_new_course_description($course)
+	function convert_to_lcms($array)
 	{	
+		$course = $array['course'];
 		$lcms_content = new Description();
 		
 		if(!$this->get_title())

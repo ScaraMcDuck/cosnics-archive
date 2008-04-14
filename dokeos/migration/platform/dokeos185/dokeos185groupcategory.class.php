@@ -212,9 +212,9 @@ class Dokeos185GroupCategory extends ImportGroupCategory
 	 * @param Course $course the course
 	 * @return true if the group category is valid 
 	 */
-	function is_valid_group_category($course)
+	function is_valid_group_category($array)
 	{
-		
+		$course = $array['course'];
 	}
 	
 	/**
@@ -222,9 +222,9 @@ class Dokeos185GroupCategory extends ImportGroupCategory
 	 * @param Course $course the course
 	 * @return the new group category
 	 */
-	function convert_to_new_group_category($course)
+	function convert_to_new_group_category($array)
 	{
-		
+		$course = $array['course'];
 	}
 	
 	/**

@@ -10,8 +10,8 @@
  */
 abstract class ImportGroupRelUser extends Import
 {
-	abstract function is_valid_group_rel_user($course);
-	abstract function convert_to_new_group_rel_user($course);
+	abstract function is_valid($course);
+	abstract function convert_to_lcms($course);
 	abstract static function get_all($parameters);
 }
 ?>

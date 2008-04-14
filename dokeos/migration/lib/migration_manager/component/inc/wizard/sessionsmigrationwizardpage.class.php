@@ -31,7 +31,7 @@ class SessionsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Sessions_title');
+		return Translation :: get('Sessions_title');
 	}
 	
 	/**
@@ -40,7 +40,7 @@ class SessionsMigrationWizardPage extends MigrationWizardPage
 	 */
 	function next_step_info()
 	{
-		return Translation :: get_lang('Sessions_info');
+		return Translation :: get('Sessions_info');
 	}
 	
 	/**
@@ -52,12 +52,12 @@ class SessionsMigrationWizardPage extends MigrationWizardPage
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Sessions');
-			case 1: return Translation :: get_lang('Php_sessions');
-			case 2: return Translation :: get_lang('Session_rel_courses');
-			case 3: return Translation :: get_lang('Session_rel_course_rel_users');
-			case 4: return Translation :: get_lang('Session_rel_users');
-			default: return Translation :: get_lang('Sessions'); 
+			case 0: return Translation :: get('Sessions');
+			case 1: return Translation :: get('Php_sessions');
+			case 2: return Translation :: get('Session_rel_courses');
+			case 3: return Translation :: get('Session_rel_course_rel_users');
+			case 4: return Translation :: get('Session_rel_users');
+			default: return Translation :: get('Sessions'); 
 		}
 	}
 
@@ -81,8 +81,8 @@ class SessionsMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('sessions'))
 		{
-			echo(Translation :: get_lang('Sessions') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Sessions') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -119,11 +119,11 @@ class SessionsMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Sessions') .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Sessions') .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Sessions failed because users or courses skipped');
 				$this->succes = array(0,0,0,0,0);
 			}
@@ -131,15 +131,15 @@ class SessionsMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Sessions')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Sessions')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Sessions skipped');
 			
 			return false;
 		}
 
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		$logger->write_text('sessions');

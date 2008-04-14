@@ -31,7 +31,7 @@ class SharedSurveysMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Shared_surveys_title');
+		return Translation :: get('Shared_surveys_title');
 	}
 	
 	/**
@@ -40,7 +40,7 @@ class SharedSurveysMigrationWizardPage extends MigrationWizardPage
 	 */
 	function next_step_info()
 	{
-		return Translation :: get_lang('Shared_surveys_info');
+		return Translation :: get('Shared_surveys_info');
 	}
 	
 	/**
@@ -52,10 +52,10 @@ class SharedSurveysMigrationWizardPage extends MigrationWizardPage
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Shared_surveys');
-			case 1: return Translation :: get_lang('Shared_survey_questions');
-			case 2: return Translation :: get_lang('Shared_survey_question_options');
-			default: return Translation :: get_lang('Shared_surveys'); 
+			case 0: return Translation :: get('Shared_surveys');
+			case 1: return Translation :: get('Shared_survey_questions');
+			case 2: return Translation :: get('Shared_survey_question_options');
+			default: return Translation :: get('Shared_surveys'); 
 		}
 	}
 	
@@ -79,8 +79,8 @@ class SharedSurveysMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('sharedsurveys'))
 		{
-			echo(Translation :: get_lang('Shared_surveys') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Shared_surveys') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -115,11 +115,11 @@ class SharedSurveysMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Shared_surveys') .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Shared_surveys') .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Shared_surveys failed because users or courses skipped');
 				$this->succes = array(0,0,0);
 			}
@@ -127,15 +127,15 @@ class SharedSurveysMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Shared_surveys')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Shared_surveys')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Shared_surveys skipped');
 			
 			return false;
 		}
 
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		$logger->write_text('sharedsurveys');

@@ -6,7 +6,7 @@ $lang['migration']['Next'] = "Next";
 $lang['migration']['Previous'] = "Previous";
 
 $lang['migration']['migrating'] = "migrating";
-$lang['migration']['users'] = "users";
+$lang['migration']['users'] = "user(s)";
 $lang['migration']['done'] = "done";
 $lang['migration']['MyRepository'] = "My Repository";
 
@@ -205,7 +205,7 @@ $lang['migration']['Survey_answers'] = "Survey answer(s)";
 
 //Scorms page
 $lang['migration']['Scorms_title'] = "Course scorms migration";
-$lang['migration']['Surveys_info'] = "In the next step we will migrate the course Scorms";
+$lang['migration']['Scorms_info'] = "In the next step we will migrate the course Scorms";
 $lang['migration']['Scorms'] = "Scorms";
 $lang['migration']['Scorm_documents'] = "Scorm document(s)";
 

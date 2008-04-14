@@ -164,8 +164,9 @@ class Dokeos185Link extends ImportLink
 	 * @param Course $course the course
 	 * @return true if the link is valid 
 	 */
-	function is_valid_link($course)
+	function is_valid($array)
 	{
+		$course = $array['course'];
 		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'link',$this->get_id());
 		
 		if(!$this->get_url() || !$this->get_id() || !$this->get_title() || 
@@ -183,8 +184,9 @@ class Dokeos185Link extends ImportLink
 	 * @param Course $course the course
 	 * @return the new link
 	 */
-	function convert_to_new_link($course)
+	function convert_to_lcms($array)
 	{
+		$course = $array['course'];
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		

@@ -31,7 +31,7 @@ class GradebooksMigrationWizardPage extends MigrationWizardPage
 	 */
 	function get_title()
 	{
-		return Translation :: get_lang('Gradebooks_title');
+		return Translation :: get('Gradebooks_title');
 	}
 	
 	/**
@@ -40,7 +40,7 @@ class GradebooksMigrationWizardPage extends MigrationWizardPage
 	 */
 	function next_step_info()
 	{
-		return Translation :: get_lang('Gradebooks_info');
+		return Translation :: get('Gradebooks_info');
 	}
 	
 	/**
@@ -52,12 +52,12 @@ class GradebooksMigrationWizardPage extends MigrationWizardPage
 	{
 		switch($index)
 		{
-			case 0: return Translation :: get_lang('Gradebook_categories');
-			case 1: return Translation :: get_lang('Gradebook_evaluations');
-			case 2: return Translation :: get_lang('Gradebook_links');
-			case 3: return Translation :: get_lang('Gradebook_result');
-			case 4: return Translation :: get_lang('Gradebook_score_displays');
-			default: return Translation :: get_lang('Gradebook'); 
+			case 0: return Translation :: get('Gradebook_categories');
+			case 1: return Translation :: get('Gradebook_evaluations');
+			case 2: return Translation :: get('Gradebook_links');
+			case 3: return Translation :: get('Gradebook_result');
+			case 4: return Translation :: get('Gradebook_score_displays');
+			default: return Translation :: get('Gradebook'); 
 		}
 	}
 
@@ -81,8 +81,8 @@ class GradebooksMigrationWizardPage extends MigrationWizardPage
 		
 		if($logger->is_text_in_file('gradebooks'))
 		{
-			echo(Translation :: get_lang('Gradebooks') . ' ' .
-				 Translation :: get_lang('already_migrated') . '<br />');
+			echo(Translation :: get('Gradebooks') . ' ' .
+				 Translation :: get('already_migrated') . '<br />');
 			return false;
 		}
 		
@@ -119,11 +119,11 @@ class GradebooksMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				echo(Translation :: get_lang('Gradebooks') .
-				     Translation :: get_lang('failed') . ' ' .
-				     Translation :: get_lang('because') . ' ' . 
-				     Translation :: get_lang('Users') . ' ' .
-				     Translation :: get_lang('skipped') . '<br />');
+				echo(Translation :: get('Gradebooks') .
+				     Translation :: get('failed') . ' ' .
+				     Translation :: get('because') . ' ' . 
+				     Translation :: get('Users') . ' ' .
+				     Translation :: get('skipped') . '<br />');
 				$this->logfile->add_message('Gradebooks failed because users or courses skipped');
 				$this->succes = array(0,0,0,0,0);
 			}
@@ -131,15 +131,15 @@ class GradebooksMigrationWizardPage extends MigrationWizardPage
 		}
 		else
 		{
-			echo(Translation :: get_lang('Gradebooks')
-				 . ' ' . Translation :: get_lang('skipped') . '<br />');
+			echo(Translation :: get('Gradebooks')
+				 . ' ' . Translation :: get('skipped') . '<br />');
 			$this->logfile->add_message('Gradebooks skipped');
 			
 			return false;
 		}
 
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		$logger->write_text('gradebooks');

@@ -13,14 +13,7 @@ require_once dirname(__FILE__) . '/../../../../import.class.php';
  */
 class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 {
-	//private $logfile;
-	//private $mgdm;
-	//private $old_system;
-	
-	//private $failed_elements;
-	//private $succes;
-	//private $command_execute;
-	
+
 	/**
 	 * Constructor creates a new SystemSettingsMigrationWizardPage
 	 * @param string $page_name the page name
@@ -31,6 +24,7 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent);
 		$this->command_execute = $command_execute;
+		$this->succes = array(0,0);
 	}
 	
 	/**
@@ -43,7 +37,7 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 	
 	/**
 	 * @return string Info of the page
-	 */
+	 *//*
 	function get_info()
 	{		
 		for($i=0; $i<2; $i++)
@@ -54,19 +48,13 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 			if(count($this->failed_elements[$i]) > 0)
 				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
 					 $this->get_message($i) . ' ' . Translation :: get('failed');
-			
-			foreach($this->failed_elements[$i] as $felement)
-			{
-				$message = $message . '<br />' . $felement ;
-			}
-			
-			$message = $message . '<br />';
 		}
-		
+		$message = $message . '<br/><br/>Please check the <a href="' . Path :: get(WEB_PATH) . 'documentation/migration.html" target="about_blank">migration manual</a> for more information';
+		$message = $message . '<br />';
 		$message = $message . '<br />' . Translation :: get('Dont_forget');
-		
+		$message = $message . '<br/><br/>Time used: ' . $this->passedtime;
 		return $message;
-	}
+	}*/
 	
 	/**
 	 * Retrieves the next step info
@@ -138,12 +126,14 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['migrate_settings']) && $exportvalues['migrate_settings'] == 1)
 		{	
 			//Migrate system settings
-			$this->migrate_system_settings();
-			
+			//$this->migrate_system_settings();
+			$this->migrate('SettingCurrent', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
 			//Migrate system announcements
 			if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 			{
-				$this->migrate_system_announcements();
+				//$this->migrate_system_announcements();
+				$id = $this->mgdm->get_id_reference($this->mgdm->get_old_admin_id(), 'user_user');
+				$this->migrate('SystemAnnouncement', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files, 'admin_id' => $id), array(), null,1);
 			}
 			else
 			{
@@ -169,7 +159,7 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 
 		
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		return true;
@@ -179,7 +169,7 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 	
 	/**
 	 * Migrate course categories
-	 */
+	 *//*
 	function migrate_system_settings()
 	{
 		$this->logfile->add_message('Starting migration system settings');
@@ -201,9 +191,9 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 			}
 			else
 			{
-				/*$message = 'System setting is not valid ( ID: ' . $systemsetting->get_id() . ' )';
+				$message = 'System setting is not valid ( ID: ' . $systemsetting->get_id() . ' )';
 				$this->logfile->add_message($message);
-				$this->failed_elements[0][] = $message;*/
+				$this->failed_elements[0][] = $message;
 			}
 			
 			unset($systemsettings[$i]);
@@ -211,10 +201,11 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		
 		$this->logfile->add_message('System setting migrated');
 	}
-	
+	*/
 	/**
 	 * Migrate System Announcements
 	 */
+	 /*
 	function migrate_system_announcements()
 	{
 		$this->logfile->add_message('Starting migration system announcements');
@@ -246,6 +237,6 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		
 		$this->logfile->add_message('System announcements migrated');
 	}
-
+	*/
 }
 ?>

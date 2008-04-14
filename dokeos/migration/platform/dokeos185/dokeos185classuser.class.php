@@ -128,7 +128,7 @@ class Dokeos185ClassUser extends ImportClassUser
 	 * @param array $array the parameters for the validation
 	 * @return true if the blog is valid 
 	 */
-	function is_valid_class_user()
+	function is_valid($parameters)
 	{
 		if(!$this->get_class_id() || !$this->get_user_id() || 
 			self :: $mgdm->get_failed_element('dokeos_main.class', $this->get_class_id()) ||
@@ -148,7 +148,7 @@ class Dokeos185ClassUser extends ImportClassUser
 	 * @param array $array the parameters for the conversion
 	 * @return the new course
 	 */
-	function convert_to_new_class_user()
+	function convert_to_lcms($parameters)
 	{
 		$lcms_class_user = new ClassGroupRelUser();
 		

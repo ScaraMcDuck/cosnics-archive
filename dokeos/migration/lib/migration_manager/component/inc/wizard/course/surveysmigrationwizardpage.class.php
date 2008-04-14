@@ -24,7 +24,7 @@ class SurveysMigrationWizardPage extends MigrationWizardPage
 	function SurveysMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent, $command_execute);
-		$this->succes = array(0);
+		$this->succes = array(0,0,0,0);
 	}
 	/**
 	 * @return string Title of the page
@@ -141,7 +141,7 @@ class SurveysMigrationWizardPage extends MigrationWizardPage
 		}
 
 		//Close the logfile
-		$this->logfile->write_passed_time();
+		$this->passedtime = $this->logfile->write_passed_time();
 		$this->logfile->close_file();
 		
 		$logger->write_text('surveys');
