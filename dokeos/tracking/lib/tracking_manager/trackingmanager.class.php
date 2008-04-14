@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/trackingmanagercomponent.class.php';
 require_once dirname(__FILE__).'/../trackingdatamanager.class.php';
-require_once dirname(__FILE__).'/../tracker.class.php';
+require_once dirname(__FILE__).'/../trackerregistration.class.php';
 require_once dirname(__FILE__).'/../event.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_library_path().'condition/orcondition.class.php';
@@ -43,7 +43,7 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
     {
 		$this->set_action($_GET[self :: PARAM_ACTION]);
 		$this->user = $user;
-		//$this->tdm = TrackingDataManager :: get_instance();
+		$this->tdm = TrackingDataManager :: get_instance();
     }
 
     /**

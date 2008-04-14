@@ -5,6 +5,8 @@
  */
 require_once dirname(__FILE__).'/../lib/usersdatamanager.class.php';
 require_once dirname(__FILE__).'/../lib/user.class.php';
+require_once Path :: get_tracking_path() .'lib/events.class.php';
+require_once Path :: get_tracking_path() .'install/tracking_installer.class.php';
 require_once Path :: get_library_path().'installer.class.php';
 require_once Path :: get_library_path().'filesystem/filesystem.class.php';
 /**
@@ -49,9 +51,69 @@ class UsersInstaller extends Installer
 			$this->add_message(Translation :: get('AdminAccountCreated'));
 		}
 		
+		if(!$this->register_trackers())
+		{
+			return array('success' => false, 'message' => $this->retrieve_message());
+		}
+		
 		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);
+		
 		return array('success' => true, 'message' => $this->retrieve_message());
+	}
+	
+	/**
+	 * Registers the trackers, events and creates the storage units for the trackers
+	 */
+	function register_trackers()
+	{
+		$dir = dirname(__FILE__) . '/../lib/trackers/tracker_tables';
+		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
+		
+		$trkinstaller = new TrackingInstaller();
+		
+		foreach($files as $file)
+		{
+			if ((substr($file, -3) == 'xml'))
+			{
+				if (!$trkinstaller->create_storage_unit($file))
+				{
+					return false;
+				}
+			}
+		}
+		
+		$loginevent = Events :: create_event('login');
+		
+		$path = '/users/lib/trackers/';
+		
+		$dir = dirname(__FILE__) . '/../lib/trackers/';
+		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
+		
+		foreach($files as $file)
+		{
+			if ((substr($file, -3) == 'php'))
+			{
+				$filename = basename($file);
+				$filename = substr($filename, 0, strlen($filename) - strlen('.class.php'));
+				
+				if($filename == 'usertracker') continue;
+				
+				$tracker = $trkinstaller->register_tracker($path, $filename);
+				if (!$tracker)
+				{
+					return false;
+				}
+				else
+				{
+					if(!$trkinstaller->register_tracker_to_event($tracker, $loginevent)) return false;
+				}
+				
+				$this->add_message(Translation :: get('TrackersRegistered') . ': ' . $filename);
+			}
+		}
+		
+		return true;
 	}
 
 	/**

@@ -18,21 +18,23 @@ class Events
 	{
 		$event = new Event();
 		$event->set_name($event_name);
-		$event->set_active($true);
+		$event->set_active(true);
+		$event->create();
 		
-		$trkdmg = TrackingDataManager :: get_instance();
-		$trkdmg->create_event($event);
+		return $event;
 	}
 	
-	public static function trigger_event($event_name)
+	public static function trigger_event($event_name, $parameters = array())
 	{
 		$trkdmg = TrackingDataManager :: get_instance();
 		$event = $trkdmg->retrieve_event_by_name($event_name);
 		
+		if(!$event) return;
+		
 		$trackers = $trkdmg->retrieve_trackers_from_event($event);
 		foreach($trackers as $tracker)
 		{
-			$tracker->track();
+			$tracker->track($parameters);
 		}
 	}
 }

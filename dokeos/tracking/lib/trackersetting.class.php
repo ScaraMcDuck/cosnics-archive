@@ -14,7 +14,7 @@ class TrackerSetting
 	 * TrackerSetting properties
 	 */
 	const PROPERTY_ID = 'id';
-	const PROPERTY_TRACKERID = 'trackerid';
+	const PROPERTY_TRACKER_ID = 'tracker_id';
 	const PROPERTY_SETTING = 'setting';
 	const PROPERTY_VALUE = 'value';
 
@@ -56,7 +56,7 @@ class TrackerSetting
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_TRACKERID, self :: PROPERTY_SETTING, self :: PROPERTY_VALUE);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_TRACKER_ID, self :: PROPERTY_SETTING, self :: PROPERTY_VALUE);
 	}
 
 	/**
@@ -96,21 +96,21 @@ class TrackerSetting
 	}
 
 	/**
-	 * Returns the trackerid of this TrackerSetting.
-	 * @return the trackerid.
+	 * Returns the tracker_id of this TrackerSetting.
+	 * @return the tracker_id.
 	 */
-	function get_trackerid()
+	function get_tracker_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_TRACKERID);
+		return $this->get_default_property(self :: PROPERTY_TRACKER_ID);
 	}
 
 	/**
-	 * Sets the trackerid of this TrackerSetting.
-	 * @param trackerid
+	 * Sets the tracker_id of this TrackerSetting.
+	 * @param tracker_id
 	 */
-	function set_trackerid($trackerid)
+	function set_tracker_id($tracker_id)
 	{
-		$this->set_default_property(self :: PROPERTY_TRACKERID, $trackerid);
+		$this->set_default_property(self :: PROPERTY_TRACKER_ID, $tracker_id);
 	}
 
 	/**
@@ -155,7 +155,7 @@ class TrackerSetting
 	function create()
 	{
 		$trkdmg = TrackingDataManager :: get_instance();
-		$this->set_id($trkdmg->get_next_id('tracker_setting'));
+		$this->set_id($trkdmg->get_next_id('setting'));
 		$trkdmg->create_tracker_setting($this);
 	}
 	

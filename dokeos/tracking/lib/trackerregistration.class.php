@@ -4,11 +4,11 @@
  */
 
 /**
- * This class presents a tracker
+ * This class presents a tracker registration
  *
  * @author Sven Vanpoucke
  */
-class Tracker
+class TrackerRegistration
 {
 	/**
 	 * Tracker properties
@@ -26,7 +26,7 @@ class Tracker
 	 * Creates a new Tracker object
 	 * @param array $defaultProperties The default properties
 	 */
-	function Tracker($defaultProperties = array ())
+	function TrackerRegistration($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
@@ -136,8 +136,8 @@ class Tracker
 	function create()
 	{
 		$trkdmg = TrackingDataManager :: get_instance();
-		$this->set_id($trkdmg->get_next_id('tracker'));
-		$trkdmg->create_tracker($this);
+		$this->set_id($trkdmg->get_next_id('registration'));
+		$trkdmg->create_tracker_registration($this);
 	}
 
 }

@@ -4,6 +4,8 @@
  */
 require_once dirname(__FILE__).'/../lib/trackingdatamanager.class.php';
 require_once Path :: get_library_path().'installer.class.php';
+require_once Path :: get_tracking_path() .'lib/trackerregistration.class.php';
+require_once Path :: get_tracking_path() .'lib/eventreltracker.class.php';
 require_once Path :: get_library_path().'filesystem/filesystem.class.php';
 /**
  * This	 installer can be used to create the contentboxes structure
@@ -39,6 +41,34 @@ class TrackingInstaller extends Installer
 		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);
 		return array('success' => true, 'message' => $this->retrieve_message());
+	}
+	
+	/**
+	 * Function used by other installers to register a tracker
+	 */
+	function register_tracker($path, $class)
+	{	
+		$tracker = new TrackerRegistration();
+		$tracker->set_class($class);
+		$tracker->set_path($path);
+		
+		$tracker->create();
+		
+		return $tracker;
+	}
+	
+	/**
+	 * Function used by other installers to register a tracker to an event
+	 */
+	function register_tracker_to_event($tracker, $event)
+	{
+		$rel = new EventRelTracker();
+		$rel->set_tracker_id($tracker->get_id());
+		$rel->set_event_id($event->get_id());
+		$rel->set_active(true);
+		$rel->create();
+		
+		return $rel;
 	}
 	
 	function create_storage_unit($path)

@@ -13,8 +13,8 @@ class EventRelTracker
 	/**
 	 * EventRelTracker properties
 	 */
-	const PROPERTY_EVENTID = 'eventid';
-	const PROPERTY_TRACKERID = 'trackerid';
+	const PROPERTY_EVENT_ID = 'event_id';
+	const PROPERTY_TRACKER_ID = 'tracker_id';
 	const PROPERTY_ACTIVE = 'active';
 
 	/**
@@ -55,7 +55,7 @@ class EventRelTracker
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_EVENTID, self :: PROPERTY_TRACKERID, self :: PROPERTY_ACTIVE);
+		return array (self :: PROPERTY_EVENT_ID, self :: PROPERTY_TRACKER_ID, self :: PROPERTY_ACTIVE);
 	}
 
 	/**
@@ -77,39 +77,39 @@ class EventRelTracker
 	}
 
 	/**
-	 * Returns the eventid of this EventRelTracker.
-	 * @return the eventid.
+	 * Returns the event_id of this EventRelTracker.
+	 * @return the event_id.
 	 */
-	function get_eventid()
+	function get_event_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_EVENTID);
+		return $this->get_default_property(self :: PROPERTY_EVENT_ID);
 	}
 
 	/**
-	 * Sets the eventid of this EventRelTracker.
-	 * @param eventid
+	 * Sets the event_id of this EventRelTracker.
+	 * @param event_id
 	 */
-	function set_eventid($eventid)
+	function set_event_id($event_id)
 	{
-		$this->set_default_property(self :: PROPERTY_EVENTID, $eventid);
+		$this->set_default_property(self :: PROPERTY_EVENT_ID, $event_id);
 	}
 
 	/**
-	 * Returns the trackerid of this EventRelTracker.
-	 * @return the trackerid.
+	 * Returns the tracker_id of this EventRelTracker.
+	 * @return the tracker_id.
 	 */
-	function get_trackerid()
+	function get_tracker_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_TRACKERID);
+		return $this->get_default_property(self :: PROPERTY_TRACKER_ID);
 	}
 
 	/**
-	 * Sets the trackerid of this EventRelTracker.
-	 * @param trackerid
+	 * Sets the tracker_id of this EventRelTracker.
+	 * @param tracker_id
 	 */
-	function set_trackerid($trackerid)
+	function set_tracker_id($tracker_id)
 	{
-		$this->set_default_property(self :: PROPERTY_TRACKERID, $trackerid);
+		$this->set_default_property(self :: PROPERTY_TRACKER_ID, $tracker_id);
 	}
 
 	/**
@@ -136,7 +136,6 @@ class EventRelTracker
 	function create()
 	{
 		$trkdmg = TrackingDataManager :: get_instance();
-		$this->set_id($trkdmg->get_next_id('event_rel_tracker'));
 		$trkdmg->create_event_tracker_relation($this);
 	}
 	

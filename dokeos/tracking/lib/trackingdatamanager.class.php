@@ -3,7 +3,7 @@
  * @package repository
  */
 require_once Path :: get_library_path().'configuration/configuration.class.php';
-require_once dirname(__FILE__) . '/tracker.class.php';
+require_once dirname(__FILE__) . '/trackerregistration.class.php';
 require_once dirname(__FILE__) . '/event.class.php';
 require_once dirname(__FILE__) . '/trackersetting.class.php';
 
@@ -67,7 +67,7 @@ abstract class TrackingDataManager
 	 * Creates a tracker in the database
 	 * @param Tracker $tracker
 	 */
-	abstract function create_tracker($tracker);
+	abstract function create_tracker_registration($tracker);
 	/**
 	 * Registers a tracker to an event
 	 * @param EventTrackerRelation $eventtrackerrelation
@@ -98,5 +98,36 @@ abstract class TrackingDataManager
 	 * Retrieves all events 
 	 */
 	abstract function retrieve_events();
+	
+	/* Tracker specific methods */
+	/**
+	 * Creates a tracker item in the database
+	 * @param string $tablename the table name where the database has to be written to
+	 * @param MainTracker $tracker_item a subclass of MainTracker
+	 * @return true if creation is valid
+	 */
+	abstract function create_tracker_item($tablename, $tracker_item);
+	/**
+	 * Retrieves all tracker items from the database
+	 * @param string $tablename the table name where the database has to be written to
+	 * @param string $classname the tracker's class name (needed to create the class when data is retrieved)
+	 * @return MainTracker $tracker a subclass of MainTracker
+	 */
+	abstract function retrieve_tracker_items($tablename, $classname);
+	/**
+	 * Retrieves a tracker item from the database
+	 * @param string $tablename the table name where the database has to be written to
+	 * @param int $id the id of the tracker item
+	 * @param string $classname the tracker's class name (needed to create the class when data is retrieved)
+	 * @return MainTracker $tracker a subclass of MainTracker
+	 */
+	abstract function retrieve_tracker_item($tablename, $id);
+	/**
+	 * Updates a tracker item in the database
+	 * @param string $tablename the table name where the database has to be written to
+	 * @param MainTracker $tracker_item a subclass of MainTracker
+	 * @return true if update is valid
+	 */
+	abstract function update_tracker_item($tablename, $tracker_item);
 }
 ?>
