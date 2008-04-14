@@ -117,7 +117,7 @@ class DayCalendar extends CalendarTable
 		$navigation->updateCellAttributes(0, 0, 'style="text-align: left;"');
 		$navigation->updateCellAttributes(0, 1, 'style="text-align: center;"');
 		$navigation->updateCellAttributes(0, 2, 'style="text-align: right;"');
-		$navigation->setCellContents(0, 0, '<a href="'.str_replace('-TIME-', $prev, $url_format).'"><img src="'. Path ::  get_path(WEB_IMG_PATH).'prev.png" style="vertical-align: middle;" alt="&lt;&lt;"/></a> ');
+		$navigation->setCellContents(0, 0, '<a href="'.str_replace('-TIME-', $prev, $url_format).'"><img src="'. Path :: get(WEB_IMG_PATH).'prev.png" style="vertical-align: middle;" alt="&lt;&lt;"/></a> ');
 		$navigation->setCellContents(0, 1, date('l d F Y', $this->get_display_time()));
 		$navigation->setCellContents(0, 2, ' <a href="'.str_replace('-TIME-', $next, $url_format).'"><img src="'.Path :: get(WEB_IMG_PATH).'next.png" style="vertical-align: middle;" alt="&gt;&gt;"/></a> ');
 		$this->navigation_html = $navigation->toHtml();

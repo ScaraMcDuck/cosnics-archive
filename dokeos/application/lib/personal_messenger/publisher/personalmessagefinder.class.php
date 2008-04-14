@@ -29,6 +29,7 @@ class PersonalMessageFinder extends PersonalMessageBrowser
 	 */
 	function PersonalMessageFinder($parent)
 	{
+		// TODO: Fix this search form.
 		parent :: __construct($parent);
 		$this->form = new FormValidator('search', 'get','','',null,false);
 		$this->form->addElement('hidden', PersonalMessagePublisher :: PARAM_ACTION);
