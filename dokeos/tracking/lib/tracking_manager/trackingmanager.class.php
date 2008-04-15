@@ -30,8 +30,9 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 	const PARAM_REF_ID = 'ref_id';
 	const PARAM_TYPE = 'type';
 	
-	const ACTION_BROWSE_EVENTS = 'browse';
+	const ACTION_BROWSE_EVENTS = 'browse_events';
 	const ACTION_VIEW_EVENT = 'view';
+	const ACTION_VIEW_TRACKER = 'view_tracker';
 	const ACTION_CHANGE_ACTIVE = 'changeactive';
 	
 	private $user;
@@ -58,13 +59,13 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 		switch ($action)
 		{
 			case self :: ACTION_BROWSE_EVENTS :
-				$component = TrackingManagerComponent :: factory('AdminTrackingBrowser', $this);
+				$component = TrackingManagerComponent :: factory('AdminEventsBrowser', $this);
 				break;
 			case self :: ACTION_VIEW_EVENT :
 				$component = TrackingManagerComponent :: factory('AdminEventViewer', $this);
 				break;
 			default :
-				$component = TrackingManagerComponent :: factory('AdminTrackingBrowser', $this);
+				$component = TrackingManagerComponent :: factory('AdminEventsBrowser', $this);
 				break;
 		}
 		

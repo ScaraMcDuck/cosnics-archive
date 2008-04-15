@@ -4,13 +4,13 @@
  */
 require_once dirname(__FILE__).'/../trackingmanager.class.php';
 require_once dirname(__FILE__).'/../trackingmanagercomponent.class.php';
-require_once dirname(__FILE__).'/admintrackingbrowser/admintrackingbrowsercellrenderer.class.php';
+require_once dirname(__FILE__).'/admineventsbrowser/admineventsbrowsercellrenderer.class.php';
 require_once Path :: get(SYS_LIB_PATH).'/html/table/simpletable.class.php';
 
 /**
  * Component for viewing tracker events 
  */
-class TrackingManagerAdminTrackingBrowserComponent extends TrackingManagerComponent
+class TrackingManagerAdminEventsBrowserComponent extends TrackingManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -30,7 +30,7 @@ class TrackingManagerAdminTrackingBrowserComponent extends TrackingManagerCompon
 		
 		$this->display_header($trail);
 
-		$cellrenderer = new AdminTrackingBrowserCellRenderer($this);
+		$cellrenderer = new AdminEventsBrowserCellRenderer($this);
 		
 		$previous_events_block = null;
 		
