@@ -71,7 +71,7 @@ class HomeManagerUserComponent extends HomeManagerComponent
 	function handle_login_failed()
 	{
 		$message = Translation :: get("InvalidId");
-		if ($this->get_platform_setting('self_registration_allowed', 'admin')->get_value())
+		if ($this->get_platform_setting('allow_registration', 'admin')->get_value())
 			$message = Translation :: get("InvalidForSelfRegistration");
 		return "<div id=\"login_fail\">".$message."</div>";
 	}
@@ -80,10 +80,12 @@ class HomeManagerUserComponent extends HomeManagerComponent
 	{
 		$form = new FormValidator('formLogin');
 		$renderer =& $form->defaultRenderer();
-		$renderer->setElementTemplate('<div>{label}</div><div>{element}</div>');
+		$renderer->setElementTemplate('<div>{label}&nbsp;<!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required --></div><div>{element}</div>');
 		$renderer->setElementTemplate('<div>{element}</div>','submitAuth');
 		$form->addElement('text','login',Translation :: get('UserName'),array('size'=>15));
+		$form->addRule('login', Translation :: get('ThisFieldIsRequired'), 'required');
 		$form->addElement('password','password',Translation :: get('Pass'),array('size'=>15));
+		$form->addRule('password', Translation :: get('ThisFieldIsRequired'), 'required');
 		$form->addElement('submit','submitAuth',Translation :: get('Ok'));
 		return $form->toHtml();
 	}

@@ -232,8 +232,18 @@ class PersonalCalendar extends WebApplication
 				$events[] = $event;
 			}
 		}
-		$connector = new PersonalCalendarWeblcmsConnector();
-		$events = array_merge($events,$connector->get_events($this->user, $from_date, $to_date));
+		
+		// Get connectors and retrieve events from them.
+		$path = dirname(__FILE__) . '/../connector/';
+		$files = Filesystem :: get_directory_content($path, Filesystem::LIST_FILES, false);
+		foreach($files as $file)
+		{
+			$file_class = split('.class.php', $file); 
+			$class = RepositoryUtilities :: underscores_to_camelcase($file_class[0]);
+			
+			$connector = new $class;
+			$events = array_merge($events,$connector->get_events($this->user, $from_date, $to_date));
+		}
 		return $events;
 	}
 	/**

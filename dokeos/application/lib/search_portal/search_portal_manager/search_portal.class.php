@@ -49,8 +49,9 @@ class SearchPortal extends WebApplication
 	 */
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
 		$supports_remote = WebServiceSearchSource :: is_supported();
-		Display :: display_header(Translation :: get('SearchPortal'));
+		Display :: display_header($trail);
 		Display :: display_tool_title(Translation :: get('SearchPortal'));
 
 		echo <<<END
