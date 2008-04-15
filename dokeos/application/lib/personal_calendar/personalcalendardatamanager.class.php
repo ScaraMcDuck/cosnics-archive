@@ -41,31 +41,6 @@ abstract class PersonalCalendarDataManager
 	 */
 	abstract function initialize();
 	/**
-	 * Adds a calendar event to the personal calendar of a user
-	 */
-	abstract function create_personal_calendar_event($personal_event);
-	/**
-	 * Deletes a publication of an event from the personal calendar
-	 */
-	abstract function delete_personal_calendar_event($personal_event);
-	/**
-	 * Returns the next available ID for an event in the personal calendar.
-	 * @return int The ID.
-	 */
-	abstract function get_next_personal_calendar_event_id();
-	/**
-	 * Gets all personal calendar events published by a given user
-	 * @param int $user_id
-	 * @return array An array of PersonalCalendarEvent objects
-	 */
-	abstract function retrieve_personal_calendar_events($user_id);
-	/**
-	 * Gets a personal calendar event from the storage system
-	 * @param int $user_id
-	 * @return PersonalCalendarEvent
-	 */
-	abstract function load_personal_calendar_event($id);
-	/**
 	 * Creates a storage unit in the personal calendar storage system
 	 * @param string $name
 	 * @param array $properties
@@ -100,5 +75,56 @@ abstract class PersonalCalendarDataManager
 	 * @see Application::update_learning_object_publication_id()
 	 */
 	abstract function update_learning_object_publication_id($publication_attr);
+    /**
+     * Get the next available profile publication ID
+     * @return int
+     */
+    abstract function get_next_calendar_event_publication_id();
+	/**
+	 * Retrieve a profile publication
+	 * @param int $id
+	 * @return ProfilePublication
+	 */	
+	abstract function retrieve_calendar_event_publication($id);
+    /**
+	 * Retrieve a series of profile publications 
+	 * @param Condition $condition
+	 * @param array $orderBy
+	 * @param array $orderDir
+	 * @param int $offset
+	 * @param int $maxObjects
+	 * @return ProfilePublicationResultSet
+	 */	
+    abstract function retrieve_calendar_event_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+    /**
+	 * Update the publication
+	 * @param ProfilePublication $profile_publication
+	 * @return boolean
+	 */	
+    abstract function update_calendar_event_publication($publication);
+    /**
+	 * Delete the publication
+	 * @param ProfilePublication $profile_publication
+	 * @return boolean
+	 */	
+    abstract function delete_calendar_event_publication($publication);
+    /**
+	 * Delete the publications
+	 * @param Array $object_id An array of publication ids
+	 * @return boolean
+	 */	
+    abstract function delete_calendar_event_publications($object_id);
+    /**
+	 * Update the publication id
+	 * @param LearningObjectPublicationAttribure $publication_attr
+	 * @return boolean
+	 */	
+    abstract function update_calendar_event_publication_id($publication_attr);
+    /**
+	 * Create a publication
+	 * @param PersonalMessagePublication $publication
+	 * @return boolean
+	 */
+    abstract function create_calendar_event_publication($publication);
 }
 ?>

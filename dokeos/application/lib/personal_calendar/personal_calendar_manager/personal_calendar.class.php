@@ -26,10 +26,12 @@ class PersonalCalendar extends WebApplication
 	const APPLICATION_NAME = 'personal_calendar';
 	
 	const PARAM_ACTION = 'go';
+	const PARAM_CALENDAR_EVENT_ID = 'calendar_event';
 	
 	const ACTION_BROWSE_CALENDAR = 'browse';
 	const ACTION_VIEW_PUBLICATION = 'view';
 	const ACTION_CREATE_PUBLICATION = 'publish';
+	const ACTION_DELETE_PUBLICATION = 'delete';
 	
 	const ACTION_RENDER_BLOCK = 'block';
 
@@ -37,15 +39,18 @@ class PersonalCalendar extends WebApplication
 	 * The owner of this personal calendar
 	 */
 	private $user;
+	
+	private $parameters;
+	
 	/**
 	 * Constructor
 	 * @param int $user_id
 	 */
 	public function PersonalCalendar($user)
 	{
-		parent :: __construct();
+    	$this->user = $user;
+		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
-		$this->user = $user;
 	}
 	/**
 	 * Runs the personal calendar application
@@ -69,6 +74,9 @@ class PersonalCalendar extends WebApplication
 				break;
 			case self :: ACTION_CREATE_PUBLICATION :
 				$component = PersonalCalendarComponent :: factory('Publisher', $this);
+				break;
+			case self :: ACTION_DELETE_PUBLICATION :
+				$component = PersonalCalendarComponent :: factory('Deleter', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_CALENDAR);
@@ -202,14 +210,26 @@ class PersonalCalendar extends WebApplication
 	 */
 	public function get_events($from_date, $to_date)
 	{
+		$events = array();
+		
 		$dm = PersonalCalendarDatamanager::get_instance();
-		$events = $dm->retrieve_personal_calendar_events($this->get_user_id());
-		foreach($events as $index => $event)
+		$condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_PUBLISHER, $this->get_user_id());
+		$publications = $dm->retrieve_calendar_event_publications($condition);
+		while($publication = $publications->next_result())
 		{
-			$lo = $event->get_event();
-			if(! ($lo->get_start_date() >= $from_date && $lo->get_start_date() <= $to_date))
+			$object = $publication->get_publication_object();
+			
+			if($object->get_start_date() >= $from_date && $object->get_start_date() <= $to_date)
 			{
-				unset($events[$index]);
+				$event = new PersonalCalendarEvent();
+				$event->set_start_date($object->get_start_date());
+				$event->set_end_date($object->get_end_date());
+				$event->set_url($this->get_publication_viewing_url($publication));
+				$event->set_title($object->get_title());
+				$event->set_content($object->get_description());
+				$event->set_source(self :: APPLICATION_NAME);
+				
+				$events[] = $event;
 			}
 		}
 		$connector = new PersonalCalendarWeblcmsConnector();
@@ -329,6 +349,15 @@ class PersonalCalendar extends WebApplication
 	function get_user_id()
 	{
 		return $this->user->get_user_id();
+	}
+	
+	/**
+	 * Gets the user.
+	 * @return int The requested user.
+	 */
+	function get_user()
+	{
+		return $this->user;
 	}
 	
 	function get_platform_setting($variable, $application = self :: APPLICATION_NAME)
@@ -493,6 +522,36 @@ class PersonalCalendar extends WebApplication
 	function set_parameter($name, $value)
 	{
 		$this->parameters[$name] = $value;
+	}
+	
+	/**
+	 * Redirect the end user to another location.
+	 * @param string $action The action to take (default = browse learning
+	 * objects).
+	 * @param string $message The message to show (default = no message).
+	 * @param int $new_category_id The category to show (default = root
+	 * category).
+	 * @param boolean $error_message Is the passed message an error message?
+	 */
+	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
+	{
+		return parent :: redirect($action, $message, $error_message, $extra_params);
+	}
+	
+	function retrieve_calendar_event_publication($publication_id)
+	{
+		$pcdm = PersonalCalendarDataManager :: get_instance();
+		return $pcdm->retrieve_calendar_event_publication($publication_id);
+	}
+	
+	function get_publication_deleting_url($publication)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_CALENDAR_EVENT_ID => $publication->get_id()));
+	}
+	
+	function get_publication_viewing_url($publication)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_CALENDAR_EVENT_ID => $publication->get_id()));
 	}
 }
 ?>

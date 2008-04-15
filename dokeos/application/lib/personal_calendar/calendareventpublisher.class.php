@@ -1,54 +1,104 @@
 <?php
 /**
- * $Id: personalcalendarpublisher.class.php 14780 2008-04-08 07:45:10Z Scara84 $
- * @package application.personal_calendar
+ * @package application.lib.calendareventr
  */
+require_once Path :: get_repository_path(). 'lib/abstractlearningobject.class.php';
+
+/**
+==============================================================================
+ *	This class provides the means to publish a learning object.
+ *
+ *	@author Tim De Pauw
+==============================================================================
+ */
+
 class CalendarEventPublisher
 {
 	const PARAM_ACTION = 'publish_action';
+	const PARAM_EDIT = 'edit';
+	const PARAM_LEARNING_OBJECT_ID = 'object';
+
 	/**
-	 * The personal calendar in which this publisher runs
+	 * The types of learning object that this publisher is aware of and may
+	 * publish.
 	 */
-	private $personal_calendar;
+	private $types;
+
 	/**
-	 * Creates a new personal calendar publisher
-	 * @param PersonalCalendar $personal_calendar
+	 * The default learning objects, which are used for form defaults.
 	 */
-	function CalendarEventPublisher($personal_calendar)
+	private $default_learning_objects;
+	
+	private $parent;
+	
+	/**
+	 * Constructor.
+	 * @param array $types The learning object types that may be published.
+	 * @param  boolean $email_option If true the publisher has the option to
+	 * send the published learning object by email to the selecter target users.
+	 */
+	function CalendarEventPublisher($parent, $types, $mail_option = false)
 	{
-		$this->personal_calendar = $personal_calendar;
+		$this->parent = $parent;
+		$this->default_learning_objects = array();
+		$this->types = (is_array($types) ? $types : array ($types));
+		$this->mail_option = $mail_option;
+		$parent->set_parameter(CalendarEventPublisher :: PARAM_ACTION, $this->get_action());
 	}
+
 	/**
-	 * Gets the HTML-representation of this publisher
-	 * @return string
+	 * Returns the publisher's output in HTML format.
+	 * @return string The output.
 	 */
-	public function as_html()
+	function as_html()
 	{
 		$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-		foreach (array ('publicationcreator', 'browser', 'finder') as $action)
+		foreach (array ('publicationcreator','browser', 'finder') as $action)
 		{
 			$out .= '<li><a';
-			if ($this->get_action() == $action)
-				$out .= ' class="current"';
+			if ($this->get_action() == $action) $out .= ' class="current"';
 			$out .= ' href="'.$this->get_url(array (CalendarEventPublisher :: PARAM_ACTION => $action), true).'">'.htmlentities(Translation :: get(ucfirst($action).'Title')).'</a></li>';
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
-
 		$action = $this->get_action();
 		require_once dirname(__FILE__).'/publisher/calendarevent'.$action.'.class.php';
 		$class = 'CalendarEvent'.ucfirst($action);
 		$component = new $class ($this);
-		$out .= $component->as_html();
-		$out .= '</div></div>';
+		$out .= $component->as_html().'</div></div>';
 		return $out;
 	}
+
 	/**
-	 * @see PersonalCalendar::get_url()
+	 * Returns the tool which created this publisher.
+	 * @return RepositoryTool The tool.
 	 */
-	function get_url($parameters = array(), $encode = false)
+	function get_parent()
 	{
-		return $this->personal_calendar->get_url($parameters, $encode);
+		return $this->parent;
 	}
+
+	/**
+	 * @see RepositoryTool::get_user_id()
+	 */
+	function get_user_id()
+	{
+		return $this->parent->get_user_id();
+	}
+	
+	function get_user()
+	{
+		return $this->parent->get_user();
+	}
+
+	/**
+	 * Returns the types of learning object that this object may publish.
+	 * @return array The types.
+	 */
+	function get_types()
+	{
+		return $this->types;
+	}
+
 	/**
 	 * Returns the action that the user selected, or "publicationcreator" if none.
 	 * @return string The action.
@@ -57,12 +107,43 @@ class CalendarEventPublisher
 	{
 		return ($_GET[CalendarEventPublisher :: PARAM_ACTION] ? $_GET[CalendarEventPublisher :: PARAM_ACTION] : 'publicationcreator');
 	}
+
 	/**
-	 * @see PersonalCalendar::get_user_id()
+	 * @see RepositoryTool::get_url()
 	 */
-	function get_user_id()
+	function get_url($parameters = array(), $encode = false)
 	{
-		return $this->personal_calendar->get_user_id();
+		return $this->parent->get_url($parameters, $encode);
+	}
+
+	/**
+	 * @see RepositoryTool::get_parameters()
+	 */
+	function get_parameters()
+	{
+		return $this->parent->get_parameters();
+	}
+
+	/**
+	 * @see RepositoryTool::set_parameter()
+	 */
+	function set_parameter($name, $value)
+	{
+		$this->parent->set_parameter($name, $value);
+	}
+	
+	function get_default_learning_object($type)
+	{
+		if(isset($this->default_learning_objects[$type]))
+		{
+			return $this->default_learning_objects[$type];
+		}
+		return new AbstractLearningObject($type, $this->get_user_id());
+	}
+	
+	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
+	{
+		return $this->parent->redirect($action, $message, $error_message, $extra_params);
 	}
 }
 ?>

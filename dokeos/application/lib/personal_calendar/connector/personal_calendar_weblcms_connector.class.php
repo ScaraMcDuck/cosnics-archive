@@ -26,21 +26,32 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
 		$result = array ();
 		while ($publication = $publications->next_result())
 		{
-			$event = $publication->get_learning_object();
-			if($event->get_start_date() >= $from_date && $event->get_start_date() <= $to_date)
-			{
-				$info = new LearningObjectPublicationAttributes();
-				$info->set_id($publication->get_id());
-				$info->set_publisher_user_id($publication->get_publisher_id());
-				$info->set_publication_date($publication->set_publication_date());
-				$info->set_application('weblcms');
-				//TODO: i8n location string
-				$info->set_location($publication->get_course_id().' &gt; '.$publication->get_tool());
-				//TODO: set correct URL
-				$info->set_url('run.php?application=weblcms&amp;go=courseviewer&amp;course='.$publication->get_course_id().'&amp;tool='.$publication->get_tool().'&amp;pid='.$publication->get_id());
-				$info->set_publication_object_id($publication->get_learning_object()->get_id());
-				$result[] = $info;
-			}
+//			$event = $publication->get_learning_object();
+//			if($event->get_start_date() >= $from_date && $event->get_start_date() <= $to_date)
+//			{
+//				$info = new LearningObjectPublicationAttributes();
+//				$info->set_id($publication->get_id());
+//				$info->set_publisher_user_id($publication->get_publisher_id());
+//				$info->set_publication_date($publication->set_publication_date());
+//				$info->set_application('weblcms');
+//				//TODO: i8n location string
+//				$info->set_location($publication->get_course_id().' &gt; '.$publication->get_tool());
+//				//TODO: set correct URL
+//				$info->set_url('run.php?application=weblcms&amp;go=courseviewer&amp;course='.$publication->get_course_id().'&amp;tool='.$publication->get_tool().'&amp;pid='.$publication->get_id());
+//				$info->set_publication_object_id($publication->get_learning_object()->get_id());
+//				$result[] = $info;
+//			}
+			
+			$object = $publication->get_learning_object();
+			
+			$event = new PersonalCalendarEvent();
+			$event->set_start_date($publication->get_publication_date());
+			$event->set_url('run.php?application=weblcms&amp;go=courseviewer&amp;course='.$publication->get_course_id().'&amp;tool='.$publication->get_tool().'&amp;pid='.$publication->get_id());
+			$event->set_title($object->get_title());
+			$event->set_content($object->get_description());
+			$event->set_source('weblcms');
+			
+			$result[] = $event;
 		}
 		return $result;
 	}

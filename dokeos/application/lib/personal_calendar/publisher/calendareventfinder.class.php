@@ -1,17 +1,17 @@
 <?php
 /**
- * @package application.lib.profiler.publisher
+ * @package application.lib.calendareventr.publisher
  */
-require_once dirname(__FILE__).'/profilebrowser.class.php';
+require_once dirname(__FILE__).'/calendareventbrowser.class.php';
 require_once Path :: get_library_path().'condition/andcondition.class.php';
 require_once Path :: get_library_path().'condition/orcondition.class.php';
 require_once Path :: get_library_path().'condition/patternmatchcondition.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
- * This class represents a profiler publisher component which can be used
+ * This class represents a calendareventr publisher component which can be used
  * to search for a certain learning object.
  */
-class ProfileFinder extends ProfileBrowser
+class CalendarEventFinder extends CalendarEventBrowser
 {
 	/**
 	 * The search form
@@ -25,12 +25,12 @@ class ProfileFinder extends ProfileBrowser
 	 * Constructor.
 	 * @param LearningObjectPublisher $parent The creator of this object.
 	 */
-	function ProfileFinder($parent)
+	function CalendarEventFinder($parent)
 	{
 		parent :: __construct($parent);
 		$this->form = new FormValidator('search', 'get','','',null,false);
-		$this->form->addElement('hidden', ProfilePublisher :: PARAM_ACTION);
-		$this->form->addElement('hidden', Profiler :: PARAM_ACTION);
+		$this->form->addElement('hidden', CalendarEventPublisher :: PARAM_ACTION);
+		$this->form->addElement('hidden',PersonalCalendar :: PARAM_ACTION);
 		$this->form->addElement('text', 'query', Translation :: get('Find'), 'size="40" class="search_query"');
 		$this->form->addElement('submit', 'submit', Translation :: get('Ok'));
 		$this->renderer = clone $this->form->defaultRenderer();

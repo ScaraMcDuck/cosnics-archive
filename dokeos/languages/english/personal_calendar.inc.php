@@ -7,4 +7,8 @@
  */
  
  $lang['personal_calendar']['MyAgenda'] = 'My Agenda';
+ $lang['personal_calendar']['ListView'] = 'List view';
+ $lang['personal_calendar']['MonthView'] = 'Month view';
+ $lang['personal_calendar']['WeekView'] = 'Week view';
+ $lang['personal_calendar']['DayView'] = 'Day view';
 ?>

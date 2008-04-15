@@ -9,126 +9,75 @@
  */
 class PersonalCalendarEvent
 {
-	/**
-	 * A unique id for this personal calendar event
-	 */
-	private $id;
-	/**
-	 * The user to which this personal calendar events belongs
-	 */
-	private $user_id;
-	/**
-	 * The actual event
-	 */
-	private $event;
-	/**
-	 * The date on which the personal calendar event was published
-	 */
-	private $publication_date;
-	/**
-	 * Creates a new personal calendar event
-	 * @param int $id
-	 * @param int $user_id
-	 * @param CalendarEvent $event
-	 * @param int $publication_date;
-	 */
-	function PersonalCalendarEvent($id, $user_id, $event, $publication_date)
+	private $start_date;
+	private $end_date;
+	private $url;
+	private $title;
+	private $content;
+	private $source;
+	
+	function PersonalCalendarEvent()
 	{
-		$this->id = $id;
-		$this->user_id = $user_id;
-		$this->event = $event;
-		$this->publication_date = $publication_date;
-	}
-	/**
-	 * Creates a new PersonalCalendarEvent and stores it in the persistent
-	 * storage system.
-	 */
-	public function create()
-	{
-		$dm = PersonalCalendarDataManager :: get_instance();
-		$id = $dm->get_next_personal_calendar_event_id();
-		$this->set_id($id);
-		$this->set_publication_date(time());
-		return $dm->create_personal_calendar_event($this);
 	}
 	
-	/**
-	 * A create method with more freedom, does not set publication date automatically
-	 */
-	public function create_all()
+	function get_start_date()
 	{
-		$dm = PersonalCalendarDataManager :: get_instance();
-		$id = $dm->get_next_personal_calendar_event_id();
-		$this->set_id($id);
-		return $dm->create_personal_calendar_event($this);
+		return $this->start_date;
 	}
 	
-	/**
-	 * Deletes the publication of this event in the personal calendar.
-	 */
-	public function delete()
+	function get_end_date()
 	{
-		$dm = PersonalCalendarDataManager :: get_instance();
-		return $dm->delete_personal_calendar_event($this);
+		return $this->end_date;
 	}
-	/**
-	 * Loads a personal calendar event
-	 * @param int $id
-	 * @return PersonalCalendarEvent
-	 */
-	public function load($id)
+	
+	function get_url()
 	{
-		$dm = PersonalCalendarDataManager :: get_instance();
-		return $dm->load_personal_calendar_event($id);
+		return $this->url;
 	}
-	/**
-	 * Gets the id of this personal calendar event
-	 * @return int
-	 */
-	public function get_id()
+	
+	function get_title()
 	{
-		return $this->id;
+		return $this->title;
 	}
-	/**
-	 * Sets the id of this personal calendar event
-	 * @param int $id
-	 */
-	public function set_id($id)
+	
+	function get_content()
 	{
-		$this->id = $id;
+		return $this->content;
 	}
-	/**
-	 * Sets the publication date
-	 * @param int
-	 */
-	public function set_publication_date($publication_date)
+	
+	function get_source()
 	{
-		$this->publication_date = $publication_date;
-	}
-	/**
-	 * Gets the event related to this personal calendar event
-	 * @return CalendarEvent
-	 */
-	public function get_event()
+		return $this->source;
+	}	
+
+	function set_start_date($start_date)
 	{
-		return $this->event;
+		$this->start_date = $start_date;
 	}
-	/**
-	 * Gets the user id of the user to which this personal calendar event
-	 * belongs.
-	 * @return int
-	 */
-	public function get_user_id()
+	
+	function set_end_date($end_date)
 	{
-		return $this->user_id;
+		$this->end_date = $end_date;
 	}
-	/**
-	 * Gets the publication date
-	 * @return int
-	 */
-	public function get_publication_date()
+	
+	function set_url($url)
 	{
-		return $this->publication_date;
+		$this->url = $url;
 	}
+	
+	function set_title($title)
+	{
+		$this->title = $title;
+	}
+	
+	function set_content($content)
+	{
+		$this->content = $content;
+	}
+	
+	function set_source($source)
+	{
+		$this->source = $source;
+	}	
 }
 ?>

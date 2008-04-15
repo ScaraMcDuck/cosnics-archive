@@ -20,7 +20,7 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 	function run()
 	{		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyCalendar')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyAgenda')));
 		
 		$this->display_header($trail);
 		echo $this->get_calendar_html();
@@ -49,7 +49,7 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 		if(isset($_GET['pid']))
 		{
 			$pid = $_GET['pid'];
-			$event = PersonalCalendarEvent::load($pid);
+			$event = $this->retrieve_calendar_event_publication($pid);
 			if(isset($_GET['action']) && $_GET['action'] == 'delete')
 			{
 				$event->delete();
@@ -58,7 +58,7 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 			else
 			{
 				$show_calendar = false;
-				$learning_object = $event->get_event();
+				$learning_object = $event->get_publication_object();
 				$display = LearningObjectDisplay :: factory($learning_object);
 				$out .= '<h3>'.$learning_object->get_title().'</h3>';
 				$out  .= $display->get_full_html();
@@ -70,7 +70,7 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 					'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 				);
 				$toolbar_data[] = array(
-					'href' => $this->get_url(array('action'=>'delete','pid'=>$pid)),
+					'href' => $this->get_publication_deleting_url($event),
 					'label' => Translation :: get('Delete'),
 					'img' => $this->get_path(WEB_IMG_PATH).'delete.gif',
 					'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL

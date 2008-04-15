@@ -32,9 +32,7 @@ class CalendarEventForm extends LearningObjectForm
 		if (isset ($lo))
 		{
 			$defaults[CalendarEvent :: PROPERTY_START_DATE] = $lo->get_start_date();
-			echo '<br /><br />'.$lo->get_start_date();
 			$defaults[CalendarEvent :: PROPERTY_END_DATE] = $lo->get_end_date();
-			echo '<br /><br />'.$lo->get_end_date().'<br />';
 		}
 		parent :: setDefaults($defaults);
 	}
