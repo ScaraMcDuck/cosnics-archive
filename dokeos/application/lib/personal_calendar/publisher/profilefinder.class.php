@@ -1,15 +1,17 @@
 <?php
 /**
- * $Id: personalcalendarfinder.class.php 14780 2008-04-08 07:45:10Z Scara84 $
- * @package application.personal_calendar
+ * @package application.lib.profiler.publisher
  */
-require_once dirname(__FILE__).'/calendareventbrowser.class.php';
+require_once dirname(__FILE__).'/profilebrowser.class.php';
+require_once Path :: get_library_path().'condition/andcondition.class.php';
+require_once Path :: get_library_path().'condition/orcondition.class.php';
+require_once Path :: get_library_path().'condition/patternmatchcondition.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
- * Finder component of the personal calendar event publisher. This component can
- * be used to search in the repository.
+ * This class represents a profiler publisher component which can be used
+ * to search for a certain learning object.
  */
-class CalendarEventFinder extends CalendarEventBrowser
+class ProfileFinder extends ProfileBrowser
 {
 	/**
 	 * The search form
@@ -20,27 +22,26 @@ class CalendarEventFinder extends CalendarEventBrowser
 	 */
 	private $renderer;
 	/**
-	 * Constructor
-	 * @param PersonalCalendarPublisher $parent The publisher that created this
-	 * component
+	 * Constructor.
+	 * @param LearningObjectPublisher $parent The creator of this object.
 	 */
-	function CalendarEventFinder($parent)
+	function ProfileFinder($parent)
 	{
 		parent :: __construct($parent);
 		$this->form = new FormValidator('search', 'get','','',null,false);
-		$this->form->addElement('hidden', 'publish_action');
+		$this->form->addElement('hidden', ProfilePublisher :: PARAM_ACTION);
+		$this->form->addElement('hidden', Profiler :: PARAM_ACTION);
 		$this->form->addElement('text', 'query', Translation :: get('Find'), 'size="40" class="search_query"');
 		$this->form->addElement('submit', 'submit', Translation :: get('Ok'));
 		$this->renderer = clone $this->form->defaultRenderer();
 		$this->renderer->setElementTemplate('<span>{element}</span> ');
 		$this->form->accept($this->renderer);
 	}
-	/**
-	 * Gets a HTML representation of this component.
-	 * @return string
-	 * @todo Implmentation
+
+	/*
+	 * Inherited
 	 */
-	public function as_html()
+	function as_html()
 	{
 		$html = array();
 		$html[] = '<div class="lofinder_search_form" style="margin: 0 0 1em 0;">';
@@ -68,5 +69,4 @@ class CalendarEventFinder extends CalendarEventBrowser
 		return null;
 	}
 }
-
 ?>
