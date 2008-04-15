@@ -21,8 +21,7 @@ class ProfilePublication
 	const PROPERTY_ID = 'id';
 	const PROPERTY_PROFILE = 'profile';
 	const PROPERTY_PUBLISHER = 'publisher';
-	const PROPERTY_PUBLISHED = 'published';
-	
+	const PROPERTY_PUBLISHED = 'published';	
 	
 	private $id;
 	private $defaultProperties;

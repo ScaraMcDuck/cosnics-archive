@@ -785,7 +785,6 @@ div.metadata
 div.metadata div.title
 {
 	font-weight: bold;
-	//font-size: larger;
 	border-bottom: 1px solid #CCCCCC;
 	width: 60%;
 	margin-bottom: 1em;
@@ -803,7 +802,6 @@ div.learning_object
 div.learning_object div.title
 {
 	font-weight: bold;
-	//font-size: larger;
 	border-bottom: 1px solid #CCCCCC;
 	width: 60%;
 	margin-bottom: 1em;
@@ -907,7 +905,6 @@ div.difference div.titleleft
 	float:left;
 	background-repeat: no-repeat;
 	font-weight: bold;
-	//font-size: larger;
 	border-bottom: 1px solid #CCCCCC;
 	width: 47%;
 	margin-bottom: 1em;
@@ -918,7 +915,6 @@ div.difference div.titleright
 	float:left;
 	background-repeat: no-repeat;
 	font-weight: bold;
-	//font-size: larger;
 	border-bottom: 1px solid #CCCCCC;
 	width: 45%;
 	margin-bottom: 1em;
@@ -1842,6 +1838,7 @@ div.block
 	background-position: 15px 15px;
 	background-repeat: no-repeat;
 	clear: both;
+	-moz-border-radius: 10px;
 }
 
 div.block div.title
