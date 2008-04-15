@@ -109,7 +109,6 @@ class AnnouncementsMigrationWizardPage extends MigrationWizardPage
 		
 		if(isset($exportvalues['migrate_announcements']) && $exportvalues['migrate_announcements'] == 1)
 		{	
-			echo('test');
 			//Migrate the personal agendas
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
 					$exportvalues['migrate_courses'] == 1 && $exportvalues['migrate_users'] == 1)

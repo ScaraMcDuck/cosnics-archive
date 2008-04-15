@@ -269,7 +269,7 @@ class Dokeos185Group extends ImportGroup
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		
-		$coursedb = $parameters['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'group_info';
 		$classname = 'Dokeos185Group';
 			

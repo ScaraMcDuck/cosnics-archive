@@ -213,6 +213,8 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 			case ($item instanceof CourseUserRelation) : return 'SUCCES: ' . $type . ' added ( Course: ' 
 					. $item->get_course() . ' UserID: ' .
 					  $item->get_user() . ' )';
+			
+			case ($item instanceof ClassGroupRelUser) : return 'SUCCES: ' . $type . ' added ( ID: ' . $item->get_classgroup_id() . $extra_message . ' )'; 
 							
 			default: return 'SUCCES: ' . $type . ' added ( ID: ' . $item->get_id() . $extra_message . ' )';
 		}

@@ -273,7 +273,7 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 		if($parameters['del_files'] =! 1)
 			$tool_name = 'calendar_event';
 		
-		$coursedb = $parameters['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'calendar_event';
 		$classname = 'Dokeos185CalendarEvent';
 			

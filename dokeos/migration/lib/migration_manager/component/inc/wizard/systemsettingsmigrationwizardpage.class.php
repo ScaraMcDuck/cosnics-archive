@@ -133,7 +133,7 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 			{
 				//$this->migrate_system_announcements();
 				$id = $this->mgdm->get_id_reference($this->mgdm->get_old_admin_id(), 'user_user');
-				$this->migrate('SystemAnnouncement', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files, 'admin_id' => $id), array(), null,1);
+				$this->migrate('SystemAnnouncement', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array('admin_id' => $id), null,1);
 			}
 			else
 			{

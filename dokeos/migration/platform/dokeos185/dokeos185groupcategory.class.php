@@ -236,7 +236,7 @@ class Dokeos185GroupCategory extends ImportGroupCategory
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		
-		$coursedb = $parameters['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'group_category';
 		$classname = 'Dokeos185GroupCategory';
 			

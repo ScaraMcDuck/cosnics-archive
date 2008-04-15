@@ -174,17 +174,17 @@ class Logger
      	{
      		if ($passed_time / 3600 < 1)
      		{
-     			$min = $passed_time / 60;
+     			$min = (int)($passed_time / 60);
      			$sec = $passed_time % 60;
-     			$converted_time = $min . ':' . $sec;
+     			$converted_time = $min . 'm ' . $sec . 's';
      		}
      		else
      		{
-     			$hour = $passed_time / 3600;
+     			$hour = (int)($passed_time / 3600);
      			$rest = $passed_time % 3600;
-     			$min = $rest / 60;
+     			$min = (int)($rest / 60);
      			$sec = $rest % 60;
-     			$converted_time = $hour . ':' . $min . ':' . $sec;
+     			$converted_time = $hour . 'h ' . $min . 'm ' . $sec . 's';
      		}
      	}
      	return $converted_time;

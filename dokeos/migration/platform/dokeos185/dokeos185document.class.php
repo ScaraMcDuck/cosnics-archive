@@ -406,9 +406,7 @@ class Dokeos185Document extends ImportDocument
 		
 		flush();
 		
-		return array('document' => $lcms_document, 'copy_time' => $passedtime_copy, 'document_time' => $passedtime_document, 
-					 'categories_time' => $passedtime_categories, 'publication_time' => $passedtime_publication, 'idref_time' => $passedtime_idref,
-					 'orphan_time' => $passedtime_orphan, 'doublefile_time' => $passedtime_doublefile); 
+		return $lcms_document;
 	}
 	
 	/**

@@ -135,7 +135,7 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 			if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 			{
 				//$this->migrate_personal_agendas();
-				$this->migrate('PersonalAgenda', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,3);
+				$this->migrate('PersonalAgenda', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
 			}
 			else
 			{
