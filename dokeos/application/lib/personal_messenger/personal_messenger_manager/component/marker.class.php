@@ -18,6 +18,7 @@ class PersonalMessengerMarkerComponent extends PersonalMessengerComponent
 		$ids = $_GET[PersonalMessenger :: PARAM_PERSONAL_MESSAGE_ID];
 		$mark_type = $_GET[PersonalMessenger :: PARAM_MARK_TYPE];
 		$failures = 0;
+		$folder = $_GET[PersonalMessenger :: PARAM_FOLDER];
 		
 		if (!empty ($ids))
 		{
@@ -67,7 +68,7 @@ class PersonalMessengerMarkerComponent extends PersonalMessengerComponent
 				}
 			}
 			
-			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES, PersonalMessenger :: PARAM_FOLDER => PersonalMessenger :: ACTION_FOLDER_OUTBOX));
+			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES, PersonalMessenger :: PARAM_FOLDER => $folder));
 		}
 		else
 		{

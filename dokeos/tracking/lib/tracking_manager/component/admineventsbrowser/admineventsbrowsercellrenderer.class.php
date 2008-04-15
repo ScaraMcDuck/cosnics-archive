@@ -4,9 +4,9 @@
  */
 
 /**
- * Class used to retrieve the modification links for the admin tracking browser tables
+ * Class used to retrieve the modification links for the admin events browser tables
  */
-class AdminTrackingBrowserCellRenderer
+class AdminEventsBrowserCellRenderer
 {
 	/**
 	 * Browser where this cellrenderer belongs to
@@ -17,7 +17,7 @@ class AdminTrackingBrowserCellRenderer
 	 * Constructor
 	 * @param AdminTrackingBrowser $browser The browser where this renderer belongs to
 	 */
-	function AdminTrackingBrowserCellRenderer($browser)
+	function AdminEventsBrowserCellRenderer($browser)
 	{
 		$this->browser = $browser;
 	}
