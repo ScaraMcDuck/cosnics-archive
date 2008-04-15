@@ -219,7 +219,7 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		
-		$db = $parameters['course'];
+		$db = $parameters['course']->get_db_name();
 		$tablename = 'course_description';
 		$classname = 'Dokeos185CourseDescription';
 			

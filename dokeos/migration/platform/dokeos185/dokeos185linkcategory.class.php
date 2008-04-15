@@ -170,7 +170,7 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		
-		$coursedb = $parameters['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'link_category';
 		$classname = 'Dokeos185LinkCategory';
 			

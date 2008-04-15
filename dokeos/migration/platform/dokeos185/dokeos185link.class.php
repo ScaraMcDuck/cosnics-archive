@@ -292,7 +292,7 @@ class Dokeos185Link extends ImportLink
 		if($parameters['del_files'] =! 1)
 			$tool_name = 'link';
 		
-		$coursedb = $parameters['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'link';
 		$classname = 'Dokeos185Link';
 			

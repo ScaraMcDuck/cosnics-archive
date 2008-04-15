@@ -142,7 +142,7 @@ class Dokeos185GroupRelTutor extends ImportGroupRelTutor
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		
-		$coursedb = $parameters['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'group_rel_tutor';
 		$classname = 'Dokeos185GroupRelTutor';
 			

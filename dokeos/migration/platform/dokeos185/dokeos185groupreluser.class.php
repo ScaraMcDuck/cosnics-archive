@@ -162,7 +162,7 @@ class Dokeos185GroupRelUser extends ImportGroupRelUser
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		
-		$coursedb = $parameters['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'group_rel_user';
 		$classname = 'Dokeos185GroupRelUser';
 			

@@ -281,7 +281,7 @@ class Dokeos185Announcement extends ImportAnnouncement
 		if($parameters['del_files'] =! 1)
 			$tool_name = 'announcement';
 		
-		$coursedb = $parameters['course'];
+		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'announcement';
 		$classname = 'Dokeos185Announcement';
 			
