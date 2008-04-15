@@ -1,0 +1,132 @@
+<?php
+require_once dirname(__FILE__).'/../menumanager.class.php';
+require_once dirname(__FILE__).'/../menumanagercomponent.class.php';
+
+class MenuManagerBarComponent extends MenuManagerComponent
+{
+	/**
+	 * Runs this component and displays its output.
+	 */
+	function run()
+	{
+		$root_item_condition = new EqualityCondition(MenuItem :: PROPERTY_CATEGORY, 0);
+		$root_items = $this->retrieve_menu_items($root_item_condition);
+		
+		global $this_section;
+		$html = array();
+		
+		$html[] = '<div class="dropnav">';
+		
+		while ($root_item = $root_items->next_result())
+		{
+			$application = $root_item->get_application();
+			
+			if (isset($application))
+			{
+				$url = 'run.php?application='.$root_item->get_application().$root_item->get_extra();
+			}
+			else
+			{
+				$url = 'index.php';
+			}
+			
+			$subitem_condition = new EqualityCondition(MenuItem :: PROPERTY_CATEGORY, $root_item->get_id());
+			$subitems = $this->retrieve_menu_items($subitem_condition);
+			$count = $subitems->size();
+			if ($count > 0)
+			{
+				$is_current = false;
+				$html_sub = array();
+				
+				if ($count > 0)
+				{
+					$html_sub[] = '<ul>';
+					
+					while ($subitem = $subitems->next_result())
+					{
+						$application = $subitem->get_application();
+						
+						if (isset($application))
+						{
+							$url = 'run.php?application='.$root_item->get_application().$root_item->get_extra();
+						}
+						else
+						{
+							$url = 'index.php';
+						}
+						$html_sub[] = '<li><a href="'. $url .'">'. $subitem->get_title() .'</a></li>';
+						
+						if ($this_section == $subitem->get_section())
+						{
+							$is_current = true;
+						}
+					}
+					
+					$html_sub[] = '</ul>';
+				}
+				
+				$html[] = '<ul>';
+				$html[] = '<li><a href="#" '. ($is_current ? 'class="current"' : '') .'>'. $root_item->get_title() .'<!--[if IE 7]><!--></a><!--<![endif]-->';
+				$html[] = '<!--[if lte IE 6]><table><tr><td><![endif]-->';
+				
+				$html[] = implode("\n", $html_sub);
+				
+				$html[] = '<!--[if lte IE 6]></td></tr></table></a><![endif]-->';
+				$html[] = '</li>';
+				$html[] = '</ul>';
+			}
+			else
+			{
+				$html[] = '<ul>';
+				$html[] = '<li><a href="'.$url.'" '. ($this_section == $root_item->get_section() ? 'class="current"' : '') .'>'. $root_item->get_title() .'</a></li>';
+				$html[] = '</ul>';
+			}
+		}
+		
+		// Repository link for admins
+		$user = $this->get_user();
+		if (isset($user))
+		{
+			$html[] = '<ul class="admin">';
+			$html[] = '<li class="admin"><a href="index.php?logout=true">Logout</a></li>';
+//			$html[] = '<li class="admin"><a>';
+//			$html[] = '<form method="get" action="'. $this->get_path(WEB_PATH). 'index.php" target="_top">';
+//			$html[] = '<input type="hidden" name="logout" value="true"/>';
+//			$html[] = '<input type="hidden" name="uid" value="'.$user->get_user_id().'"/>';
+//			$html[] = '<input type="submit" name="submit" value="'. Translation :: get('Logout'). '" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'"/>';
+//			$html[] = '</form>';
+//			$html[] = '</a></li>';
+			$html[] = '</ul>';
+		}
+		
+		if (isset($user) && $user->get_platformadmin() == 1)
+		{
+			$html[] = '<ul class="admin">';
+			$html[] = '<li class="admin"><a href="index.php?visitorview=1">'. (isset($_SESSION['visitorview']) ? 'Admin' : 'Visitor') .'</a></li>';
+			$html[] = '</ul>';
+		}
+		
+		if (isset($user) && $user->is_platform_admin())
+		{
+			$html[] = '<ul class="admin">';
+			$html[] = '<li class="admin"><a href="#" '. (($this_section == 'repository_manager' || $this_section == 'rights' || $this_section == 'user' || $this_section == 'platform_admin') ? 'class="current"' : '') .'>Skorpiuz<!--[if IE 7]><!--></a><!--<![endif]-->';
+			$html[] = '<!--[if lte IE 6]><table><tr><td><![endif]-->';
+			$html[] = '<ul>';
+			$html[] = '<li><a href="index_repository_manager.php">Repository</a></li>';
+			$html[] = '<li><a href="index_admin.php">Admin</a></li>';
+			$html[] = '</ul>';
+			$html[] = '<!--[if lte IE 6]></td></tr></table></a><![endif]-->';
+			$html[] = '</li>';
+			$html[] = '</ul>';
+		}
+		
+//		$html[] = '<ul class="admin">';
+//		$html[] = '<li class="admin"><a href="/forum/">'.Translation :: get('Forum').'</a></li>';
+//		$html[] = '</ul>';
+		
+		$html[] = '</div>';
+		
+		return implode("\n", $html);
+	}
+}
+?>
