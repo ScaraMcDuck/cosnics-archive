@@ -1910,3 +1910,32 @@ div.block div.title a
 	text-decoration: none;
 	color: #000066;
 }
+
+.suggestionsBox {
+	z-index: 1;
+    position: relative;
+    left: 40%;
+    margin: 0;
+    padding: 5px;
+    width: 200px;
+    background-color: #E5EDF9;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    text-align: left;
+}
+
+.suggestionList {
+    margin: 0px;
+    padding: 0px;
+}
+
+.suggestionList li {
+    margin: 0px 0px 3px 3px;
+    padding: 3px;
+    cursor: pointer;
+    list-style-type: none;
+}
+
+.suggestionList li:hover {
+    color: red;
+}

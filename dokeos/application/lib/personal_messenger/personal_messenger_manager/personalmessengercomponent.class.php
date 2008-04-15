@@ -204,6 +204,11 @@ abstract class PersonalMessengerComponent {
 		return $this->get_parent()->get_publication_viewing_url($personal_message);
 	}
 	
+	function get_publication_viewing_link($personal_message)
+	{
+		return $this->get_parent()->get_publication_viewing_link($personal_message);
+	}
+	
 	/**
 	 * @see PersonalMessengerManager :: get_personal_message_creation_url()
 	 */	
