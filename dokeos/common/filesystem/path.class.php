@@ -28,6 +28,7 @@ define('SYS_APP_INSTALL_PATH', 'SYS_APP_INSTALL_PATH');
 define('SYS_APP_MIGRATION_PATH', 'SYS_APP_MIGRATION_PATH');
 define('SYS_APP_REPOSITORY_PATH', 'SYS_APP_REPOSITORY_PATH');
 define('SYS_APP_USER_PATH', 'SYS_APP_USER_PATH');
+define('SYS_APP_MENU_PATH', 'SYS_APP_MENU_PATH');
 define('SYS_APP_HOME_PATH', 'SYS_APP_HOME_PATH');
 define('SYS_APP_TRACKING_PATH', 'SYS_APP_TRACKING_PATH');
 
@@ -108,6 +109,8 @@ class Path
 				return self :: get(SYS_PATH) . 'repository/';
 			case SYS_APP_USER_PATH :
 				return self :: get(SYS_PATH) . 'users/';
+			case SYS_APP_MENU_PATH :
+				return self :: get(SYS_PATH) . 'menu/';
 			case SYS_APP_HOME_PATH :
 				return self :: get(SYS_PATH) . 'home/';
 			case SYS_APP_TRACKING_PATH :
@@ -174,6 +177,11 @@ class Path
     public static function get_home_path()
     {
     	return self :: get(SYS_APP_HOME_PATH);
+    }
+    
+    public static function get_menu_path()
+    {
+    	return self :: get(SYS_APP_MENU_PATH);
     }
     
     public static function get_classgroup_path()
