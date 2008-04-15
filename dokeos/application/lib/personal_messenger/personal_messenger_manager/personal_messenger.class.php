@@ -42,8 +42,9 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	const ACTION_VIEW_ATTACHMENTS = 'viewattachments';
 	const ACTION_MARK_PUBLICATION = 'mark';
 	const ACTION_CREATE_PUBLICATION = 'create';
-
 	const ACTION_BROWSE_MESSAGES = 'browse';
+	
+	const ACTION_RENDER_BLOCK = 'block';
 
 	private $parameters;
 	private $search_parameters;
@@ -111,6 +112,31 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 		}
 		$component->run();
 	}
+	
+    /**
+	 * Renders the calendar block and returns it. 
+	 */
+	function render_block($type, $block_info)
+	{
+		/*
+		 * Only setting breadcrumbs here. Some stuff still calls
+		 * forceCurrentUrl(), but that should not affect the breadcrumbs.
+		 */
+		//$this->breadcrumbs = $this->get_category_menu()->get_breadcrumbs();
+		$action = $this->get_action();
+		$component = null;
+		switch ($action)
+		{
+			case self :: ACTION_RENDER_BLOCK :
+				$component = PersonalMessengerComponent :: factory('Blocker', $this);
+				break;
+			default :
+				$this->set_action(self :: ACTION_RENDER_BLOCK);
+				$component = PersonalMessengerComponent :: factory('Blocker', $this);
+		}
+		return $component->render_block($type, $block_info);
+	}
+	
 	/**
 	 * Gets the current action.
 	 * @see get_parameter()
@@ -568,6 +594,11 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	function get_publication_viewing_url($personal_message)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id(), self :: PARAM_FOLDER => $this->get_folder()));
+	}
+	
+	function get_publication_viewing_link($personal_message)
+	{
+		return $this->get_link(array (self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id(), self :: PARAM_FOLDER => $this->get_folder()));
 	}
 
 	/**

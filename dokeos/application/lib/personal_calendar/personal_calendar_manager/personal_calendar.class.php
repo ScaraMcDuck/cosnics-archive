@@ -7,13 +7,7 @@ require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/personalcalendarcomponent.class.php';
-//require_once dirname(__FILE__).'/../renderer/personal_calendar_mini_month_renderer.class.php';
-//require_once dirname(__FILE__).'/../renderer/personal_calendar_list_renderer.class.php';
-//require_once dirname(__FILE__).'/../renderer/personal_calendar_month_renderer.class.php';
-//require_once dirname(__FILE__).'/../renderer/personal_calendar_week_renderer.class.php';
-//require_once dirname(__FILE__).'/../renderer/personal_calendar_day_renderer.class.php';
 require_once dirname(__FILE__).'/../connector/personal_calendar_weblcms_connector.class.php';
-//require_once dirname(__FILE__).'/../publisher/personalcalendarpublisher.class.php';
 require_once dirname(__FILE__).'/../personalcalendarevent.class.php';
 require_once dirname(__FILE__).'/../personalcalendardatamanager.class.php';
 /**
@@ -83,100 +77,6 @@ class PersonalCalendar extends WebApplication
 				$component = PersonalCalendarComponent :: factory('Browser', $this);
 		}
 		$component->run();
-		
-//		if (isset ($_GET['publish']) && $_GET['publish'] == 1)
-//		{
-//			$_SESSION['personal_calendar_publish'] = true;
-//		}
-//		elseif (isset ($_GET['publish']) && $_GET['publish'] == 0)
-//		{
-//			$_SESSION['personal_calendar_publish'] = false;
-//		}
-//		if ($_SESSION['personal_calendar_publish'])
-//		{
-//			$out = '<p><a href="'.$this->get_url(array ('publish' => 0), true).'"><img src="'.$this->get_path(WEB_IMG_PATH).'browser.gif" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
-//			$publisher = new PersonalCalendarPublisher($this);
-//			$out .=  $publisher->as_html();
-//		}
-//		else
-//		{
-//			$out =  '<p><a href="'.$this->get_url(array ('publish' => 1), true).'"><img src="'.$this->get_path(WEB_IMG_PATH).'publish.gif" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';
-//			$time = isset ($_GET['time']) ? intval($_GET['time']) : time();
-//			$view = isset ($_GET['view']) ? $_GET['view'] : 'month';
-//			$this->set_parameter('time', $time);
-//			$this->set_parameter('view', $view);
-//			$toolbar_data = array ();
-//			$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'list')), 'img' => $this->get_path(WEB_IMG_PATH).'calendar_down.gif', 'label' => Translation :: get('ListView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-//			$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'month')), 'img' => $this->get_path(WEB_IMG_PATH).'calendar_month.gif', 'label' => Translation :: get('MonthView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-//			$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'week')), 'img' => $this->get_path(WEB_IMG_PATH).'calendar_week.gif', 'label' => Translation :: get('WeekView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-//			$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'day')), 'img' => $this->get_path(WEB_IMG_PATH).'calendar_day.gif', 'label' => Translation :: get('DayView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-//			$out .=  '<div style="margin-bottom: 1em;">'.RepositoryUtilities :: build_toolbar($toolbar_data).'</div>';
-//			$minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $time);
-//			$out .=   '<div style="float: left; width: 20%;">';
-//			$out .=   $minimonthcalendar->render();
-//			$out .=   '</div>';
-//			$out .=   '<div style="float: left; width: 80%;">';
-//			$show_calendar = true;
-//			if(isset($_GET['pid']))
-//			{
-//				$pid = $_GET['pid'];
-//				$event = PersonalCalendarEvent::load($pid);
-//				if(isset($_GET['action']) && $_GET['action'] == 'delete')
-//				{
-//					$event->delete();
-//					$out .= Display::display_normal_message(Translation :: get('LearningObjectPublicationDeleted'),true);
-//				}
-//				else
-//				{
-//					$show_calendar = false;
-//					$learning_object = $event->get_event();
-//					$display = LearningObjectDisplay :: factory($learning_object);
-//					$out .= '<h3>'.$learning_object->get_title().'</h3>';
-//					$out  .= $display->get_full_html();
-//					$toolbar_data = array();
-//					$toolbar_data[] = array(
-//						'href' => $this->get_url(),
-//						'label' => Translation :: get('Back'),
-//						'img' => $this->get_path(WEB_IMG_PATH).'prev.png',
-//						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-//					);
-//					$toolbar_data[] = array(
-//						'href' => $this->get_url(array('action'=>'delete','pid'=>$pid)),
-//						'label' => Translation :: get('Delete'),
-//						'img' => $this->get_path(WEB_IMG_PATH).'delete.gif',
-//						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-//					);
-//					$out .= RepositoryUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
-//				}
-//			}
-//			if($show_calendar)
-//			{
-//				switch ($view)
-//				{
-//					case 'list' :
-//						$renderer = new PersonalCalendarListRenderer($this, $time);
-//						break;
-//					case 'day' :
-//						$renderer = new PersonalCalendarDayRenderer($this, $time);
-//						break;
-//					case 'week' :
-//						$renderer = new PersonalCalendarWeekRenderer($this, $time);
-//						break;
-//					default :
-//						$renderer = new PersonalCalendarMonthRenderer($this, $time);
-//						break;
-//				}
-//				$out .=   $renderer->render();
-//			}
-//			$out .=   '</div>';
-//		}
-//		$trail = new BreadcrumbTrail();
-//		$trail->add(new Breadcrumb(null, Translation :: get('MyAgenda')));
-//		
-//		Display :: display_header($trail);
-//		Display :: display_tool_title(Translation :: get('MyAgenda'));
-//		echo $out;
-//		Display :: display_footer();
 	}
 	
     /**

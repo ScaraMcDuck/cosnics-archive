@@ -66,7 +66,7 @@ function expandRemoteSearch()
 </script>
 END;
 		$form = new FormValidator('search_simple', 'get', $this->get_url(), '', null, false);
-		$form->addElement('text', self :: PARAM_QUERY, '', 'size="40" class="search_query"');
+		$form->addElement('text', self :: PARAM_QUERY, '', 'size="40" class="search_query" id="inputString" onkeyup="lookup(this.value);"');
 		$form->addElement('submit', 'submit', Translation :: get('Search'));
 		$form->addElement('hidden','application');
 		if ($supports_remote)
@@ -83,6 +83,13 @@ END;
 		$form->setDefaults(array('application'=>'search_portal'));
 		echo $renderer->toHTML();
 		echo '</div>';
+		
+		echo '<div class="suggestionsBox" id="suggestions" style="display: none;">';
+		echo '<img src="'. $this->get_path(WEB_IMG_PATH) . 'arrow.png' .'" style="position: relative; top: -15px; left: 20px" alt="upArrow" />';
+		echo '<div class="suggestionList" id="autoSuggestionsList">';
+		echo '</div>';
+		echo '</div>';
+		
 		if ($form->validate())
 		{
 			$form_values = $form->exportValues();
@@ -172,7 +179,7 @@ END;
 		 * This pretty much makes every GIF file accessible, which is evil.
 		 * Type GIFs should be in a separate directory.
 		 */
-		echo '<li class="portal_search_result" style="background-image: url(', $this->get_path(WEB_IMG_PATH).$object->get_type().'.gif);">';
+		echo '<li class="portal_search_result" style="background-image: url(', Path :: get(WEB_IMG_PATH).$object->get_type().'.gif);">';
 		//echo '<div class="portal_search_result_title"><a href="'.htmlentities($object->get_view_url()).'">'.htmlspecialchars($object->get_title()).'</a></div>';
 		echo '<div class="portal_search_result_title">'.htmlspecialchars($object->get_title()).'</div>';
 		/*
