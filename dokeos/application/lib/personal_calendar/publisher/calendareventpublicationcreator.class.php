@@ -1,31 +1,31 @@
 <?php
 /**
- * @package application.lib.profiler.publisher
+ * @package application.lib.calendareventr.publisher
  */
-require_once dirname(__FILE__).'/../profilepublisher.class.php';
-require_once dirname(__FILE__).'/../profilepublishercomponent.class.php';
-require_once dirname(__FILE__).'/../profilerdatamanager.class.php';
-require_once dirname(__FILE__).'/../profilepublicationform.class.php';
+require_once dirname(__FILE__).'/../calendareventpublisher.class.php';
+require_once dirname(__FILE__).'/../calendareventpublishercomponent.class.php';
+require_once dirname(__FILE__).'/../personalcalendardatamanager.class.php';
+require_once dirname(__FILE__).'/../calendareventpublicationform.class.php';
 require_once Path :: get_repository_path(). 'lib/repositorydatamanager.class.php';
 require_once Path :: get_repository_path(). 'lib/learningobjectdisplay.class.php';
 require_once Path :: get_repository_path(). 'lib/learningobjectform.class.php';
 require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
- * This class represents a profile publisher component which can be used
+ * This class represents a calendarevent publisher component which can be used
  * to create a new learning object before publishing it.
  */
-class ProfilePublicationCreator extends ProfilePublisherComponent
+class CalendarEventPublicationCreator extends CalendarEventPublisherComponent
 {
 	/*
 	 * Inherited
 	 */
 	function as_html()
 	{
-		$oid = $_GET[ProfilePublisher :: PARAM_LEARNING_OBJECT_ID];
+		$oid = $_GET[CalendarEventPublisher :: PARAM_LEARNING_OBJECT_ID];
 		if ($oid)
 		{
-			if ($_GET[ProfilePublisher :: PARAM_EDIT])
+			if ($_GET[CalendarEventPublisher :: PARAM_EDIT])
 			{
 				return $this->get_editing_form($oid);
 			}
@@ -65,10 +65,10 @@ class ProfilePublicationCreator extends ProfilePublisherComponent
 		}
 		$form = new FormValidator('selecttype', 'get');
 		$form->addElement('hidden', 'tool');
-		$form->addElement('hidden', ProfilePublisher :: PARAM_ACTION);
+		$form->addElement('hidden', CalendarEventPublisher :: PARAM_ACTION);
 		$form->addElement('select', 'type', '', $types);
 		$form->addElement('submit', 'submit', Translation :: get('Ok'));
-		$form->setDefaults(array ('tool' => $_GET['tool'], ProfilePublisher :: PARAM_ACTION => $_GET[ProfilePublisher :: PARAM_ACTION]));
+		$form->setDefaults(array ('tool' => $_GET['tool'], CalendarEventPublisher :: PARAM_ACTION => $_GET[CalendarEventPublisher :: PARAM_ACTION]));
 		return $form->asHtml();
 	}
 	/**
@@ -96,7 +96,7 @@ class ProfilePublicationCreator extends ProfilePublisherComponent
 	private function get_editing_form($objectID)
 	{
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
-		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_REPLY, $object, 'edit', 'post', $this->get_url(array (ProfilePublisher :: PARAM_LEARNING_OBJECT_ID => $objectID, ProfilePublisher :: PARAM_EDIT => 1)));
+		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $object, 'edit', 'post', $this->get_url(array (CalendarEventPublisher :: PARAM_LEARNING_OBJECT_ID => $objectID, CalendarEventPublisher :: PARAM_EDIT => 1)));
 		if ($form->validate())
 		{
 			$object = $form->create_learning_object();
@@ -125,23 +125,23 @@ class ProfilePublicationCreator extends ProfilePublisherComponent
 		$publication = null;
 		if (isset($pid))
 		{
-			$publication = ProfilerDataManager :: get_instance()->retrieve_personal_message_publication($pid);
+			$publication = PersonalCalendarDataManager :: get_instance()->retrieve_personal_message_publication($pid);
 		}
 
-		$form = new ProfilePublicationForm($object, $this->get_user(),$this->get_url(array (ProfilePublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id())));
+		$form = new CalendarEventPublicationForm($object, $this->get_user(),$this->get_url(array (CalendarEventPublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id())));
 		if ($form->validate())
 		{
 			$failures = 0;
 			if ($form->create_learning_object_publication())
 			{
-				$message = 'ProfilePublished';
+				$message = 'CalendarEventPublished';
 			}
 			else
 			{
 				$failures++;
-				$message = 'ProfileNotPublished';
+				$message = 'CalendarEventNotPublished';
 			}
-			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES));
+			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR));
 		}
 		else
 		{

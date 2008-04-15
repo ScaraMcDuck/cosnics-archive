@@ -30,7 +30,7 @@ class PersonalCalendarPublisherComponent extends PersonalCalendarComponent
 	private function get_publisher_html()
 	{
 		// TODO: Uniformize the PersonalCalendarPublisher cfr. other Publishers
-		$pub = new CalendarEventPublisher($this);
+		$pub = new CalendarEventPublisher($this, 'calendar_event', true);
 		$html[] =  $pub->as_html();
 		
 		return implode($html, "\n");

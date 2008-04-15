@@ -24,18 +24,8 @@ class PersonalCalendarDayRenderer extends PersonalCalendarRenderer
 		$html = array ();
 		foreach ($events as $index => $event)
 		{
-			switch (get_class($event))
-			{
-				case 'PersonalCalendarEvent' :
-					$content = $this->render_personal_event($event);
-					$calendar->add_event($event->get_event()->get_start_date(), $content);
-					break;
-				case 'LearningObjectPublicationAttributes' :
-					$learning_object = $dm->retrieve_learning_object($event->get_publication_object_id());
-					$content = $this->render_event($event);
-					$calendar->add_event($learning_object->get_start_date(), $content);
-					break;
-			}
+			$content = $this->render_event($event);
+			$calendar->add_event($event->get_start_date(), $content);		
 		}
 		$parameters['time'] = '-TIME-';
 		$calendar->add_calendar_navigation($this->get_parent()->get_url($parameters));
@@ -43,40 +33,17 @@ class PersonalCalendarDayRenderer extends PersonalCalendarRenderer
 		$html .= $this->build_legend();
 		return $html;
 	}
+	
 	/**
-	 * Renders a personal event
-	 * @param PersonalCalendarEvent $personal_event
-	 * @return string
-	 */
-	private function render_personal_event($personal_event)
-	{
-		$learning_object = $personal_event->get_event();
-		$start_date = $learning_object->get_start_date();
-		$end_date = $learning_object->get_end_date();
-		$html[] = '<div class="event" style="border-left: 5px solid '.$this->get_color().';">';
-		$html[] = '<a href="'.$this->get_url(array('pid'=>$personal_event->get_id())).'">';
-		$html[] = date('H:i', $start_date).' '.htmlspecialchars($learning_object->get_title());
-		$html[] = '</a>';
-		$html[] = '<a href="" style="position:absolute;right: 15px;"><img src="'.Path :: get(WEB_IMG_PATH).'delete.gif"/></a>';
-		$html[] = '</div>';
-		return implode("\n", $html);
-	}
-	/**
-	 * Renders an event.
-	 * This function is used to render an event which is retrieved from an other
-	 * application using a personal calendar connector.
-	 * @param LearningObjectPublicationAttributes $event
+	 * Gets a html representation of a calendar event
+	 * @param PersonalCalendarEvent $event
 	 * @return string
 	 */
 	private function render_event($event)
 	{
-		$dm = RepositoryDataManager :: get_instance();
-		$learning_object = $dm->retrieve_learning_object($event->get_publication_object_id());
-		$start_date = $learning_object->get_start_date();
-		$end_date = $learning_object->get_end_date();
-		$html[] = '<div class="event" style="border-left: 5px solid '.$this->get_color($event->get_location()).';">';
+		$html[] = '<div class="event" style="border-left: 5px solid '.$this->get_color(Translation :: get($event->get_source())).';">';
 		$html[] = '<a href="'.$event->get_url().'">';
-		$html[] = date('H:i', $start_date).' '.htmlspecialchars($learning_object->get_title());
+		$html[] = date('H:i', $event->get_start_date).' '.htmlspecialchars($event->get_title());
 		$html[] = '</a>';
 		$html[] = '</div>';
 		return implode("\n", $html);

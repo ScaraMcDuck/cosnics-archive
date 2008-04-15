@@ -156,28 +156,9 @@ abstract class PersonalCalendarComponent {
 		return $this->get_parent()->get_path($path_type);
 	}
 	
-	/**
-	 * @see CalendarManager :: count_calendar_publications
-	 */
-	function count_calendar_publications($condition = null)
+	function retrieve_calendar_event_publication($publication_id)
 	{
-		return $this->get_parent()->count_calendar_publications($condition);
-	}
-	
-	/**
-	 * @see CalendarManager :: retrieve_calendar_publication()
-	 */
-	function retrieve_calendar_publication($id)
-	{
-		return $this->get_parent()->retrieve_calendar_publication($id);
-	}
-	
-	/**
-	 * @see CalendarManager :: retrieve_calendar_publications()
-	 */
-	function retrieve_calendar_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
-	{
-		return $this->get_parent()->retrieve_calendar_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
+		return $this->get_parent()->retrieve_calendar_event_publication($publication_id);
 	}
 	
 	function get_events($from_date,$to_date)
@@ -212,9 +193,9 @@ abstract class PersonalCalendarComponent {
 	/**
 	 * @see CalendarManager :: get_publication_deleting_url() 
 	 */
-	function get_publication_deleting_url($calendar)
+	function get_publication_deleting_url($publication)
 	{
-		return $this->get_parent()->get_publication_deleting_url($calendar);
+		return $this->get_parent()->get_publication_deleting_url($publication);
 	}
 	
 	/**

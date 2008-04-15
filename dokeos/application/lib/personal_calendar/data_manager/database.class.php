@@ -4,6 +4,8 @@
  * @package application.personal_calendar
  */
 require_once dirname(__FILE__).'/../personalcalendardatamanager.class.php';
+require_once dirname(__FILE__).'/../calendareventpublication.class.php';
+require_once dirname(__FILE__).'/database/databasecalendareventpublicationresultset.class.php';
 require_once Path :: get_library_path().'condition/conditiontranslator.class.php';
 require_once 'MDB2.php';
 /**
@@ -43,65 +45,13 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		 	//echo '</pre>';
 		}
 	}
+	function escape_table_name($name)
+	{
+		$dsn = $this->connection->getDSN('array');
+		$database_name = $this->connection->quoteIdentifier($dsn['database']);
+		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
+	}
 	
-	/**
-	 * @see PersonalCalendarDatamanager
-	 */
-	function get_next_personal_calendar_event_id()
-	{
-		return $this->connection->nextID($this->get_table_name('personal_calendar_event'));
-	}
-	/**
-	 * @see PersonalCalendarDatamanager
-	 */
-	function create_personal_calendar_event($personal_event)
-	{
-		$props = array ();
-		$props[$this->escape_column_name('id')] = $personal_event->get_id();
-		$props[$this->escape_column_name('learning_object')] = $personal_event->get_event()->get_id();
-		$props[$this->escape_column_name('publisher')] = $personal_event->get_user_id();
-		$props[$this->escape_column_name('publication_date')] = $personal_event->get_publication_date();
-		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('publication'), $props, MDB2_AUTOQUERY_INSERT);
-		return true;
-	}
-	/**
-	 * @see PersonalCalendarDatamanager
-	 */
-	function delete_personal_calendar_event($personal_event)
-	{
-		$query = 'DELETE FROM '.$this->get_table_name('publication').' WHERE id = ?';
-		$statement = $this->connection->prepare($query);
-		$statement->execute($personal_event->get_id());
-	}
-	/**
-	 * @see PersonalCalendarDatamanager
-	 */
-	function retrieve_personal_calendar_events($user_id)
-	{
-		$query = 'SELECT * FROM '.$this->get_table_name('publication').' WHERE '.$this->escape_column_name('publisher').'=?';
-		$statement = $this->connection->prepare($query);
-		$res = $statement->execute($user_id);
-		$events = array();
-		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$event = $this->repoDM->retrieve_learning_object($record['learning_object'],'calendar_event');
-			$events[] = new PersonalCalendarEvent($record['id'],$record['publisher'],$event,$record['publication_date']);
-		}
-		return $events;
-	}
-	/**
-	 * @see PersonalCalendarDatamanager
-	 */
-	function load_personal_calendar_event($id)
-	{
-		$query = 'SELECT * FROM '.$this->get_table_name('publication').' WHERE '.$this->escape_column_name('id').'=?';
-		$statement = $this->connection->prepare($query);
-		$res = $statement->execute($id);
-		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-		$event = $this->repoDM->retrieve_learning_object($record['learning_object'],'calendar_event');
-		return new PersonalCalendarEvent($record['id'],$record['publisher'],$event,$record['publication_date']);
-	}
 	/**
 	 * Gets the full name of a given table (by adding the database name and a
 	 * prefix if required)
@@ -186,10 +136,17 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	 */
 	public function any_learning_object_is_published($object_ids)
 	{
-		$query = 'SELECT * FROM '.$this->get_table_name('publication').' WHERE '.$this->escape_column_name('learning_object').' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
+		$query = 'SELECT * FROM '.$this->get_table_name('publication').' WHERE '.$this->escape_column_name(CalendarEventPublication :: PROPERTY_CALENDAR_EVENT).' IN (?'.str_repeat(',?', count($object_ids) - 1).')';
 		$res = $this->limitQuery($query, 1, null,$object_ids);
 		return $res->numRows() == 1;
 	}
+	
+	//Inherited.
+	static function is_date_column($name)
+	{
+		return ($name == CalendarEventPublication :: PROPERTY_PUBLISHED);
+	}
+	
 	/**
 	 * @see Application::get_learning_object_publication_attributes()
 	 */
@@ -228,7 +185,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		}
 		else
 		{
-			$query = 'SELECT * FROM '.$this->get_table_name('publication').' WHERE '.$this->escape_column_name('learning_object').'=?';
+			$query = 'SELECT * FROM '.$this->get_table_name('publication').' WHERE '.$this->escape_column_name('calendar_event').'=?';
 			$statement = $this->connection->prepare($query);
 			$res = $statement->execute($object_id);
 		}
@@ -244,7 +201,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 			$info->set_location('');
 			//TODO: set correct URL
 			$info->set_url('index_personal_calendar.php?pid='. $record['id']);
-			$info->set_publication_object_id($record['learning_object']);
+			$info->set_publication_object_id($record['calendar_event']);
 			$publication_attr[] = $info;
 		}
 		return $publication_attr;
@@ -329,6 +286,162 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		$statement = $this->connection->prepare($query,null,($is_manip ? MDB2_PREPARE_MANIP : null));
 		$res = $statement->execute($params);
 		return $res;
+	}
+	
+	function get_next_calendar_event_publication_id()
+	{
+		return $this->connection->nextID($this->get_table_name('publication'));
+	}
+	
+    //Inherited
+    function retrieve_calendar_event_publication($id)
+	{
+
+		$query = 'SELECT * FROM '.$this->escape_table_name('publication');
+		$query .= ' WHERE '.$this->escape_column_name(CalendarEventPublication :: PROPERTY_ID).'=?';
+
+		$this->connection->setLimit(1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($id);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$res->free();
+		return self :: record_to_calendar_event_publication($record);
+	}
+	
+	//Inherited.
+	function record_to_calendar_event_publication($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (CalendarEventPublication :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new CalendarEventPublication($record[CalendarEventPublication :: PROPERTY_ID], $defaultProp);
+	}
+
+    //Inherited.
+    function retrieve_calendar_event_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+
+		$query = 'SELECT * FROM '.$this->escape_table_name('publication');
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$order = array ();
+
+		for ($i = 0; $i < count($orderBy); $i ++)
+		{
+			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+		}
+		if (count($order))
+		{
+			$query .= ' ORDER BY '.implode(', ', $order);
+		}
+		if ($maxObjects < 0)
+		{
+			$maxObjects = null;
+		}
+
+		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		return new DatabaseCalendarEventPublicationResultSet($this, $res);
+	}
+	
+	//Inherited.
+	function update_calendar_event_publication($calendar_event_publication)
+	{
+		$where = $this->escape_column_name(CalendarEventPublication :: PROPERTY_ID).'='.$calendar_event_publication->get_id();
+		$props = array();
+		foreach ($calendar_event_publication->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('publication'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+		return true;
+	}
+
+	//Inherited
+	function delete_calendar_event_publication($calendar_event_publication)
+	{
+		$query = 'DELETE FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(CalendarEventPublication :: PROPERTY_ID).'=?';
+		$statement = $this->connection->prepare($query);
+		if ($statement->execute($calendar_event_publication->get_id()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	//Inherited.
+	function delete_calendar_event_publications($object_id)
+	{
+		$condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_PROFILE, $object_id);
+		$publications = $this->retrieve_calendar_event_publications($condition, null, null, null, null, true, array (), array (), 0, -1, $object_id);
+		while ($publication = $publications->next_result())
+		{
+//			$subject = '['.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value().'] '.$publication->get_learning_object()->get_title();
+//			// TODO: SCARA - Add meaningfull publication removal message
+//			$body = 'message';
+//			$user = $this->userDM->retrieve_user($publication->get_publisher_id());
+//			$mail = Mail :: factory($subject, $body, $user->get_email());
+//			$mail->send();
+			$this->delete_calendar_event_publication($publication);
+		}
+		return true;
+	}
+
+
+	//Inherited.
+	function update_calendar_event_publication_id($publication_attr)
+	{
+		$where = $this->escape_column_name(CalendarEventPublication :: PROPERTY_ID).'='.$publication_attr->get_id();
+		$props = array();
+		$props[$this->escape_column_name(CalendarEventPublication :: PROPERTY_PROFILE)] = $publication_attr->get_publication_object_id();
+		$this->connection->loadModule('Extended');
+		if ($this->connection->extended->autoExecute($this->get_table_name('publication'), $props, MDB2_AUTOQUERY_UPDATE, $where))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	function create_calendar_event_publication($publication)
+	{
+		$props = array();
+		foreach ($publication->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$props[$this->escape_column_name(CalendarEventPublication :: PROPERTY_ID)] = $publication->get_id();
+
+		$this->connection->loadModule('Extended');
+		if ($this->connection->extended->autoExecute($this->get_table_name('publication'), $props, MDB2_AUTOQUERY_INSERT))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
 ?>

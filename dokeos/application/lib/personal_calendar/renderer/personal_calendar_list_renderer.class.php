@@ -21,19 +21,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 		$html = array ();
 		foreach ($events as $index => $event)
 		{
-			switch (get_class($event))
-			{
-				case 'PersonalCalendarEvent' :
-					$learning_object = $event->get_event();
-					$display = LearningObjectDisplay :: factory($learning_object);
-					$html[$learning_object->get_start_date()][] = $display->get_full_html();
-					break;
-				case 'LearningObjectPublicationAttributes' :
-					$learning_object = $dm->retrieve_learning_object($event->get_publication_object_id());
-					$display = LearningObjectDisplay :: factory($learning_object);
-					$html[$learning_object->get_start_date()][] = $display->get_full_html();
-					break;
-			}
+			$html[$event->get_start_date()][] = $this->render_event($event);
 		}
 		ksort($html);
 		$out = '';
@@ -42,6 +30,28 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 			$out .= implode("\n", $content);
 		}
 		return $out;
+	}
+	
+	function render_event($event)
+	{
+		$html = array();
+		$date_format = Translation :: get('dateTimeFormatLong');
+		
+		$html[] = '<div class="learning_object" style="background-image: url(' . Path :: get(WEB_IMG_PATH) . $event->get_source().'.gif);">';
+		$html[] = '<div class="title">'. htmlentities($event->get_title()) .'</div>';
+		
+		if ($event->get_end_date() != '')
+		{
+			$html[] = '<div class="calendar_event_range">'.htmlentities(Translation :: get('From').' '.Text :: format_locale_date($date_format, $event->get_start_date()).' '.Translation :: get('Until').' '.Text :: format_locale_date($date_format, $event->get_end_date())).'</div>';
+		}
+		else
+		{
+			$html[] = '<div class="calendar_event_range">'.Text :: format_locale_date($date_format, $event->get_start_date()).'</div>';
+		}
+		$html[] = $event->get_content();
+		$html[] = '</div>';
+		
+		return implode("\n", $html);
 	}
 }
 ?>
