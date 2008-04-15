@@ -191,9 +191,9 @@ abstract class PersonalMessengerComponent {
 	/**
 	 * @see PersonalMessengerManager :: get_publication_deleting_url()
 	 */	
-	function get_publication_deleting_url($personal_message)
+	function get_publication_deleting_url($personal_message, $folder)
 	{
-		return $this->get_parent()->get_publication_deleting_url($personal_message);
+		return $this->get_parent()->get_publication_deleting_url($personal_message, $folder);
 	}
 	
 	/**
