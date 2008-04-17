@@ -24,13 +24,13 @@ class CalendarEventViewer extends PesonalMessagePublisherComponent
 			$toolbar_data = array();
 			$toolbar_data[] = array(
 				'href' => $this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator', LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id())),
-				'img' => $this->get_path(WEB_IMG_PATH).'publish.gif',
+				'img' => Theme :: get_common_img_path().'publish.gif',
 				'label' => Translation :: get('Publish'),
 				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 			);
 //			$toolbar_data[] = array(
 //				'href' => $this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator', LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id(), LearningObjectPublisher :: PARAM_EDIT => 1)),
-//				'img' => $this->get_path(WEB_IMG_PATH).'editpublish.gif',
+//				'img' => Theme :: get_common_img_path().'editpublish.gif',
 //				'label' => Translation :: get('EditAndPublish'),
 //				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 //			);

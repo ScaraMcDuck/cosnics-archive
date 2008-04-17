@@ -85,7 +85,7 @@ END;
 		echo '</div>';
 		
 		echo '<div class="suggestionsBox" id="suggestions" style="display: none;">';
-		echo '<img src="'. $this->get_path(WEB_IMG_PATH) . 'arrow.png' .'" style="position: relative; top: -15px; left: 20px" alt="upArrow" />';
+		echo '<img src="'. Theme :: get_common_img_path() . 'arrow.png' .'" style="position: relative; top: -15px; left: 20px" alt="upArrow" />';
 		echo '<div class="suggestionList" id="autoSuggestionsList">';
 		echo '</div>';
 		echo '</div>';
@@ -179,7 +179,7 @@ END;
 		 * This pretty much makes every GIF file accessible, which is evil.
 		 * Type GIFs should be in a separate directory.
 		 */
-		echo '<li class="portal_search_result" style="background-image: url(', Path :: get(WEB_IMG_PATH).$object->get_type().'.gif);">';
+		echo '<li class="portal_search_result" style="background-image: url(', Theme :: get_common_img_path().$object->get_type().'.gif);">';
 		//echo '<div class="portal_search_result_title"><a href="'.htmlentities($object->get_view_url()).'">'.htmlspecialchars($object->get_title()).'</a></div>';
 		echo '<div class="portal_search_result_title">'.htmlspecialchars($object->get_title()).'</div>';
 		/*

@@ -84,12 +84,12 @@ class DisabledSectionToolListRenderer extends ToolListRenderer
 			$col = $count%DisabledSectionToolListRenderer::NUMBER_OF_COLUMNS;
 			$html = array();
 			$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
-			$html[] = '<img src="'.$parent->get_path(WEB_IMG_PATH).$tool_image.'" style="vertical-align: middle;"/>';
+			$html[] = '<img src="'.Theme :: get_common_img_path().$tool_image.'" style="vertical-align: middle;"/>';
 			$html[] = $title;
 			$html[] = '</a>';
 			if($section!= 'course_admin')
 			{
-				$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_ACTION=>$action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img src="'.$parent->get_path(WEB_IMG_PATH).$visible_image.'"/></a>';
+				$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_ACTION=>$action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img src="'.Theme :: get_common_img_path().$visible_image.'"/></a>';
 			}
 			$table->setCellContents($row,$col,implode("\n",$html));
 			$table->updateColAttributes($col,'style="width: '.floor(100/DisabledSectionToolListRenderer::NUMBER_OF_COLUMNS).'%;"');

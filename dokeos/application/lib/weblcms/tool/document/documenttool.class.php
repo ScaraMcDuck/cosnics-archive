@@ -46,7 +46,7 @@ class DocumentTool extends RepositoryTool
 				{
 					$html[] =   '<a href="' . $this->get_url(array('documenttoolmode' => $i), true) . '">';
 				}
-				$html[] = '<img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).$key.'.gif" alt="'.Translation :: get($title).'" style="vertical-align:middle;"/> ';
+				$html[] = '<img src="'.Theme :: get_common_img_path().$key.'.gif" alt="'.Translation :: get($title).'" style="vertical-align:middle;"/> ';
 				$html[] =   Translation :: get($title);
 				if (!$current)
 				{
@@ -60,7 +60,7 @@ class DocumentTool extends RepositoryTool
 				$download_parameters[RepositoryTool::PARAM_ACTION] = self::ACTION_ZIP_AND_DOWNLOAD;
 				$html[] =  '<li style="display: inline; margin: 0 1ex 0 0; padding: 0">';
 				$html[] =   '<a href="' . $this->get_url($download_parameters) . '">';
-				$html[] = '<img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).'save.png" alt="'.Translation :: get('Download').'" style="vertical-align:middle;"/> ';
+				$html[] = '<img src="'.Theme :: get_common_img_path().'save.png" alt="'.Translation :: get('Download').'" style="vertical-align:middle;"/> ';
 				$html[] =   Translation :: get('Download');
 				$html[] =  '</a>';
 				$html[] =  '</li>';

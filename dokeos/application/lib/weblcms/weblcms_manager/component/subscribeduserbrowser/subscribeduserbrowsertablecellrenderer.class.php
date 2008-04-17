@@ -78,7 +78,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 			$toolbar_data[] = array(
 				'href' => $subscribe_url,
 				'label' => Translation :: get('Subscribe'),
-				'img' => $this->browser->get_path(WEB_IMG_PATH).'user-subscribe.gif'
+				'img' => Theme :: get_common_img_path().'user-subscribe.gif'
 			);
 		}
 		else
@@ -92,7 +92,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 				$toolbar_data[] = array(
 					'href' => $unsubscribe_url,
 					'label' => Translation :: get('Unsubscribe'),
-					'img' => $this->browser->get_path(WEB_IMG_PATH).'user-unsubscribe.gif'
+					'img' => Theme :: get_common_img_path().'user-unsubscribe.gif'
 				);
 			}
 			$parameters = array();
@@ -102,7 +102,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 			$toolbar_data[] = array(
 				'href' => $unsubscribe_url,
 				'label' => Translation :: get('Details'),
-				'img' => $this->browser->get_path(WEB_IMG_PATH).'profile.gif'
+				'img' => Theme :: get_common_img_path().'profile.gif'
 			);
 		}
 		return RepositoryUtilities :: build_toolbar($toolbar_data);

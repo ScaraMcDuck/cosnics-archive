@@ -57,12 +57,12 @@ class PublicationCandidateTableCellRenderer extends DefaultLearningObjectTableCe
 		$toolbar_data = array();
 		$toolbar_data[] = array(
 			'href' => $publish_url,
-			'img' => Path :: get(WEB_IMG_PATH).'publish.gif',
+			'img' => Theme :: get_common_img_path().'publish.gif',
 			'label' => Translation :: get('Publish')
 		);
 		$toolbar_data[] = array(
 			'href' => $edit_and_publish_url,
-			'img' => Path :: get(WEB_IMG_PATH).'editpublish.gif',
+			'img' => Theme :: get_common_img_path().'editpublish.gif',
 			'label' => Translation :: get('EditAndPublish')
 		);
 		return RepositoryUtilities :: build_toolbar($toolbar_data);

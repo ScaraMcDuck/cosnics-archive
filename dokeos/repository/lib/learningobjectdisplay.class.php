@@ -74,7 +74,7 @@ abstract class LearningObjectDisplay
 	{
 		$object = $this->get_learning_object();
 		$html = array();
-		$html[] = '<div class="learning_object" style="background-image: url('.$this->get_path(WEB_IMG_PATH).$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.gif);">';
+		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path().$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.gif);">';
 		$html[] = '<div class="title">'. htmlentities($object->get_title()) .'</div>';
 		$html[] = $this->get_description();
 		$html[] = '</div>';
@@ -129,7 +129,7 @@ abstract class LearningObjectDisplay
 				foreach ($attachments as $attachment)
 				{
 					$disp = self :: factory($attachment);
-					$html[] = '<li><img src="'.$this->get_path(WEB_IMG_PATH).'treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+					$html[] = '<li><img src="'.Theme :: get_common_img_path().'treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 				}
 				$html[] = '</ul>';
 				$html[] = '</div>';
@@ -158,29 +158,29 @@ abstract class LearningObjectDisplay
 		$html[] = $version_entry['date'] .'&nbsp;';
 		if (isset($version_entry['delete_link']))
 		{
-			$html[] = '<a href="'. $version_entry['delete_link'] .'" title="' .Translation :: get('Delete'). '" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.$this->get_path(WEB_IMG_PATH).'delete_version.gif" alt="'.htmlentities(Translation :: get('Delete')).'"/></a>';
+			$html[] = '<a href="'. $version_entry['delete_link'] .'" title="' .Translation :: get('Delete'). '" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'delete_version.gif" alt="'.htmlentities(Translation :: get('Delete')).'"/></a>';
 		}
 		else
 		{
-			$html[] = '<img src="'.$this->get_path(WEB_IMG_PATH).'delete_version_na.gif" alt="'.htmlentities(Translation :: get('Delete')).'"/>';
+			$html[] = '<img src="'.Theme :: get_common_img_path().'delete_version_na.gif" alt="'.htmlentities(Translation :: get('Delete')).'"/>';
 		}
 
 		if (isset($version_entry['revert_link']))
 		{
-			$html[] = '&nbsp;<a href="'. $version_entry['revert_link'] .'" title="' .Translation :: get('Revert'). '" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.$this->get_path(WEB_IMG_PATH).'revert.gif" alt="'.htmlentities(Translation :: get('Revert')).'"/></a>';
+			$html[] = '&nbsp;<a href="'. $version_entry['revert_link'] .'" title="' .Translation :: get('Revert'). '" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'revert.gif" alt="'.htmlentities(Translation :: get('Revert')).'"/></a>';
 		}
 		else
 		{
-			$html[] = '&nbsp;<img src="'.$this->get_path(WEB_IMG_PATH).'revert_na.gif" alt="'.htmlentities(Translation :: get('Revert')).'"/>';
+			$html[] = '&nbsp;<img src="'.Theme :: get_common_img_path().'revert_na.gif" alt="'.htmlentities(Translation :: get('Revert')).'"/>';
 		}
 
 //		if (isset($version_entry['comment']) && $version_entry['comment'] != '')
 //		{
-//			$html[] = '&nbsp;<img src="'.$this->get_path(WEB_IMG_PATH).'comment_small.gif"  onmouseover="return escape(\''. str_replace(array("\n", "\r", "\r\n"), '', htmlentities($version_entry['comment'])) .'\')" />';
+//			$html[] = '&nbsp;<img src="'.Theme :: get_common_img_path().'comment_small.gif"  onmouseover="return escape(\''. str_replace(array("\n", "\r", "\r\n"), '', htmlentities($version_entry['comment'])) .'\')" />';
 //		}
 //		else
 //		{
-//			$html[] = '&nbsp;<img src="'.$this->get_path(WEB_IMG_PATH).'empty.gif" alt="'. Translation :: get('NoComment') .'"/>';
+//			$html[] = '&nbsp;<img src="'.Theme :: get_common_img_path().'empty.gif" alt="'. Translation :: get('NoComment') .'"/>';
 //		}
 
 		$html[] = '&nbsp;<a href="'.htmlentities($version_entry['viewing_link']).'">'.$version_entry['title'].'</a>';

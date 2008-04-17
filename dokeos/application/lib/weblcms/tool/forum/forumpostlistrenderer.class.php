@@ -48,7 +48,7 @@ class ForumPostListRenderer extends ListLearningObjectPublicationListRenderer
 	function render_reply_action($publication)
 	{
 		$url = $this->get_url(array ('forum_action' => 'newpost', ForumPost :: PROPERTY_PARENT_POST => $publication->get_learning_object()->get_id()), true);
-		$link = '<a href="'.$url.'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'treemenu_types/forum.gif"  alt=""/></a>';
+		$link = '<a href="'.$url.'"><img src="'.Theme :: get_common_img_path().'treemenu_types/forum.gif"  alt=""/></a>';
 		return $link;
 	}
 	// Inherited

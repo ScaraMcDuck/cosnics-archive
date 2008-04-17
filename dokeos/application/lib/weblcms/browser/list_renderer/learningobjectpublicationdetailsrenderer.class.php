@@ -61,7 +61,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		{
 			$icon_suffix = '_new';
 		}
-		$html[] = '<div class="learning_object" style="background-image: url(' . Path :: get(WEB_IMG_PATH).$publication->get_learning_object()->get_icon_name().$icon_suffix.'.gif);">';
+		$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_img_path().$publication->get_learning_object()->get_icon_name().$icon_suffix.'.gif);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);
 		$html[] = '</div>';

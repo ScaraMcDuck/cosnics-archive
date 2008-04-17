@@ -63,7 +63,7 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 		$sender = $publication->get_publication_sender();
 		$recipient = $publication->get_publication_recipient();
 
-		$html[] = '<div class="learning_object" style="background-image: url('.$this->get_path(WEB_IMG_PATH).'description.gif);">';
+		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path().'description.gif);">';
 		$html[] = '<div class="title">'. Translation :: get('Data') .'</div>';		
 		$html[] = '<div class="description">';
 		$html[] = '<b>'.Translation :: get('MessageFrom'). '</b>:&nbsp;'. $sender->get_firstname(). '&nbsp;' .$sender->get_lastname() . '<br />';
@@ -73,7 +73,7 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 		$html[] = '</div>';
 		$html[] = '</div>';
 		
-		$html[] = '<div class="learning_object" style="background-image: url('.$this->get_path(WEB_IMG_PATH).'personal_message.gif);">';
+		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path().'personal_message.gif);">';
 		$html[] = '<div class="title">'. Translation :: get('Message') .'</div>';
 		$html[] = '<div class="description">'.$message->get_description().'</div>';
 		$html[] = '</div>';
@@ -91,7 +91,7 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 				RepositoryUtilities :: order_learning_objects_by_title($attachments);
 				foreach ($attachments as $attachment)
 				{
-					$html[] = '<li class="personal_message_attachment"><div style="float: left;"><img src="'.$this->get_path(WEB_IMG_PATH).'treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/></div><div style="float: left;">&nbsp;'.$attachment->get_title().'&nbsp;</div>';
+					$html[] = '<li class="personal_message_attachment"><div style="float: left;"><img src="'.Theme :: get_common_img_path().'treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/></div><div style="float: left;">&nbsp;'.$attachment->get_title().'&nbsp;</div>';
 					$html[] = RepositoryUtilities :: build_block_hider('begin', $attachment->get_id(), 'Attachment');
 					
 					$display = LearningObjectDisplay :: factory($attachment);
@@ -122,7 +122,7 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 			$toolbar_data[] = array(
 				'href' => $this->get_publication_reply_url($publication),
 				'label' => Translation :: get('Reply'),
-				'img' => $this->get_path(WEB_IMG_PATH).'reply.gif',
+				'img' => Theme :: get_common_img_path().'reply.gif',
 				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 			);
 		}

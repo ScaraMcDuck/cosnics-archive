@@ -69,12 +69,12 @@ class RepositoryRecycleBinBrowserTableCellRenderer extends DefaultLearningObject
 		$toolbar_data = array();
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_restoring_url($learning_object),
-			'img' => $this->browser->get_path(WEB_IMG_PATH).'restore.gif',
+			'img' => Theme :: get_common_img_path().'restore.gif',
 			'label' => Translation :: get('Restore')
 		);
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_deletion_url($learning_object),
-			'img' => $this->browser->get_path(WEB_IMG_PATH).'delete.gif',
+			'img' => Theme :: get_common_img_path().'delete.gif',
 			'label' => Translation :: get('Delete'),
 			'confirm' => true
 		);

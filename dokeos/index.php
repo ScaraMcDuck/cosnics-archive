@@ -6,6 +6,8 @@ require_once Path :: get_user_path() . 'lib/usermanager/usermanager.class.php';
 require_once Path :: get_home_path() . 'lib/home_manager/homemanager.class.php';
 
 Translation :: set_application('home');
+Theme :: set_application('home');
+Theme :: set_theme(PlatformSetting :: get('theme'));
 
 if (PlatformSession :: get_user_id())
 {

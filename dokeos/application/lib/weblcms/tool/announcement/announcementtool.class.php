@@ -34,7 +34,7 @@ class AnnouncementTool extends RepositoryTool
 		{
 			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
 			$pub = new LearningObjectPublisher($this, 'announcement', true);
-			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), true) . '"><img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).'browser.gif" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
+			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), true) . '"><img src="'.Theme :: get_common_img_path().'browser.gif" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $pub->as_html();
 			$this->display_header($trail);
 			echo implode("\n",$html);
@@ -45,7 +45,7 @@ class AnnouncementTool extends RepositoryTool
 			$this->display_header($trail);
 			if($this->is_allowed(ADD_RIGHT))
 			{
-				echo '<p><a href="' . $this->get_url(array('admin' => 1), true) . '"><img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).'publish.gif" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';
+				echo '<p><a href="' . $this->get_url(array('admin' => 1), true) . '"><img src="'.Theme :: get_common_img_path().'publish.gif" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';
 			}
 			echo $this->perform_requested_actions();
 			$browser = new AnnouncementBrowser($this);

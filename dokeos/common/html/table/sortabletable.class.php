@@ -163,10 +163,10 @@ class SortableTable extends HTML_Table
 			$params['perPage'] = $this->per_page;
 			$params['totalItems'] = $total_number_of_items;
 			$params['urlVar'] = $this->param_prefix.'page_nr';
-			$params['prevImg'] = '<img src="'.Path :: get(WEB_IMG_PATH).'prev.png"  style="vertical-align: middle;"/>';
-			$params['nextImg'] = '<img src="'.Path :: get(WEB_IMG_PATH).'next.png"  style="vertical-align: middle;"/>';
-			$params['firstPageText'] = '<img src="'.Path :: get(WEB_IMG_PATH).'first.png"  style="vertical-align: middle;"/>';
-			$params['lastPageText'] = '<img src="'.Path :: get(WEB_IMG_PATH).'last.png"  style="vertical-align: middle;"/>';
+			$params['prevImg'] = '<img src="'.Theme :: get_common_img_path().'prev.png"  style="vertical-align: middle;"/>';
+			$params['nextImg'] = '<img src="'.Theme :: get_common_img_path().'next.png"  style="vertical-align: middle;"/>';
+			$params['firstPageText'] = '<img src="'.Theme :: get_common_img_path().'first.png"  style="vertical-align: middle;"/>';
+			$params['lastPageText'] = '<img src="'.Theme :: get_common_img_path().'last.png"  style="vertical-align: middle;"/>';
 			$params['firstPagePre'] = '';
 			$params['lastPagePre'] = '';
 			$params['firstPagePost'] = '';

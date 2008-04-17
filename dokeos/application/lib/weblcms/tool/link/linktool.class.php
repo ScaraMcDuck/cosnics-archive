@@ -34,7 +34,7 @@ class LinkTool extends RepositoryTool
 			{
 				$html[] =   '<a href="' . $this->get_url(array('linktoolmode' => $i), true) . '">';
 			}
-			$html[] = '<img src="'.$this->get_parent()->get_path(WEB_IMG_PATH).$key.'.gif" alt="'.Translation :: get($title).'" style="vertical-align:middle;"/> ';
+			$html[] = '<img src="'.Theme :: get_common_img_path().$key.'.gif" alt="'.Translation :: get($title).'" style="vertical-align:middle;"/> ';
 			$html[] =   Translation :: get($title);
 			if (!$current)
 			{

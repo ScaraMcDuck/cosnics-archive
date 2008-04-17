@@ -70,7 +70,7 @@ class MenuToolListRenderer extends ToolListRenderer
 					$html[] = '<li>';
 				}
 				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
-				$html[] = '<img src="'.$parent->get_path(WEB_IMG_PATH).$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/> ';
+				$html[] = '<img src="'.Theme :: get_common_img_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/> ';
 				$html[] = '</a>';
 				if( $this->type == MENU_TYPE_LIST_NAVIGATION)
 				{
