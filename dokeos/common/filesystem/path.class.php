@@ -48,12 +48,6 @@ define('SYS_USER_PATH', 'SYS_USER_PATH');
 define('WEB_FCK_PATH', 'WEB_FCK_PATH');
 define('SYS_FCK_PATH', 'SYS_FCK_PATH');
 
-// Layout-paths
-define('WEB_IMG_PATH', 'WEB_IMG_PATH');
-define('SYS_IMG_PATH', 'SYS_IMG_PATH');
-define('WEB_CSS_PATH', 'WEB_CSS_PATH');
-define('SYS_CSS_PATH', 'SYS_CSS_PATH');
-
 class Path
 {
     public static function get($path_type)
@@ -143,16 +137,6 @@ class Path
 				return self :: get(WEB_FILE_PATH) . 'repository/';
 			case SYS_REPO_PATH :
 				return self :: get(SYS_FILE_PATH) . 'repository/';
-				
-			// Layout-paths
-			case WEB_IMG_PATH :
-				return self :: get(WEB_LAYOUT_PATH) . 'img/';
-			case SYS_IMG_PATH :
-				return self :: get(SYS_LAYOUT_PATH) . 'img/';
-			case WEB_CSS_PATH :
-				return self :: get(WEB_LAYOUT_PATH) . 'css/';
-			case SYS_CSS_PATH :
-				return self :: get(SYS_LAYOUT_PATH) . 'css/';
 				
 			default :
 				return;

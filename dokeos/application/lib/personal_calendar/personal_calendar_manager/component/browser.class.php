@@ -29,16 +29,16 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 	
 	function get_calendar_html()
 	{
-		$out =  '<p><a href="'.$this->get_url(array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_CREATE_PUBLICATION), true).'"><img src="'.$this->get_path(WEB_IMG_PATH).'publish.gif" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';
+		$out =  '<p><a href="'.$this->get_url(array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_CREATE_PUBLICATION), true).'"><img src="'.Theme :: get_common_img_path().'publish.gif" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';
 		$time = isset ($_GET['time']) ? intval($_GET['time']) : time();
 		$view = isset ($_GET['view']) ? $_GET['view'] : 'month';
 		$this->set_parameter('time', $time);
 		$this->set_parameter('view', $view);
 		$toolbar_data = array ();
-		$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'list')), 'img' => $this->get_path(WEB_IMG_PATH).'calendar_down.gif', 'label' => Translation :: get('ListView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-		$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'month')), 'img' => $this->get_path(WEB_IMG_PATH).'calendar_month.gif', 'label' => Translation :: get('MonthView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-		$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'week')), 'img' => $this->get_path(WEB_IMG_PATH).'calendar_week.gif', 'label' => Translation :: get('WeekView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-		$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'day')), 'img' => $this->get_path(WEB_IMG_PATH).'calendar_day.gif', 'label' => Translation :: get('DayView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+		$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'list')), 'img' => Theme :: get_common_img_path().'calendar_down.gif', 'label' => Translation :: get('ListView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+		$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'month')), 'img' => Theme :: get_common_img_path().'calendar_month.gif', 'label' => Translation :: get('MonthView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+		$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'week')), 'img' => Theme :: get_common_img_path().'calendar_week.gif', 'label' => Translation :: get('WeekView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+		$toolbar_data[] = array ('href' => $this->get_url(array ('view' => 'day')), 'img' => Theme :: get_common_img_path().'calendar_day.gif', 'label' => Translation :: get('DayView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 		$out .=  '<div style="margin-bottom: 1em;">'.RepositoryUtilities :: build_toolbar($toolbar_data).'</div>';
 		$minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $time);
 		$out .=   '<div style="float: left; width: 20%;">';
@@ -66,13 +66,13 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 				$toolbar_data[] = array(
 					'href' => $this->get_url(),
 					'label' => Translation :: get('Back'),
-					'img' => $this->get_path(WEB_IMG_PATH).'prev.png',
+					'img' => Theme :: get_common_img_path().'prev.png',
 					'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 				);
 				$toolbar_data[] = array(
 					'href' => $this->get_publication_deleting_url($event),
 					'label' => Translation :: get('Delete'),
-					'img' => $this->get_path(WEB_IMG_PATH).'delete.gif',
+					'img' => Theme :: get_common_img_path().'delete.gif',
 					'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 				);
 				$out .= RepositoryUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');

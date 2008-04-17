@@ -400,9 +400,9 @@ require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
 	/**
 	 * Gets the URL to the Dokeos claroline folder.
 	 */
-	function get_web_code_path()
+	function get_path($path_type)
 	{
-		return Path :: get(WEB_IMG_PATH);
+		return Path :: get($path_type);
 	}
 	/**
 	 * Wrapper for api_not_allowed().

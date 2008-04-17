@@ -27,7 +27,7 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 		if (isset ($_GET['thumbnails']))
 		{
 			$toolbar_data[] = array(
-				'img'=>$this->browser->get_path(WEB_IMG_PATH).'slideshow.gif',
+				'img'=>Theme :: get_common_img_path().'slideshow.gif',
 				'label'=>Translation :: get('Slideshow'),
 				'href' => $this->get_url(array('thumbnails'=>null)),
 				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
@@ -39,7 +39,7 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 			$first = ($slideshow_index == 0);
 			$last = ($slideshow_index == count($publications) - 1);
 			$toolbar_data[] = array(
-				'img'=>$this->browser->get_path(WEB_IMG_PATH).'slideshow_thumbnails.gif',
+				'img'=>Theme :: get_common_img_path().'slideshow_thumbnails.gif',
 				'label'=>Translation :: get('Thumbnails'),
 				'href' => $this->get_url(array('thumbnails'=>1)),
 				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
@@ -49,25 +49,25 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 			$navigation[] = '<div style="width=30%;text-align:left;float:left;">';
 			if (!$first)
 			{
-				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => 0)).'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'first.png" alt="'.Translation :: get('First').'"/></a>';
-				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => $slideshow_index -1)).'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'prev.png" alt="'.Translation :: get('Previous').'"/></a>';
+				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => 0)).'"><img src="'.Theme :: get_common_img_path().'first.png" alt="'.Translation :: get('First').'"/></a>';
+				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => $slideshow_index -1)).'"><img src="'.Theme :: get_common_img_path().'prev.png" alt="'.Translation :: get('Previous').'"/></a>';
 			}
 			else
 			{
-				$navigation[] = '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'first_na.png" alt="'.Translation :: get('First').'"/>';
-				$navigation[] = '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'prev_na.png" alt="'.Translation :: get('Previous').'"/>';
+				$navigation[] = '<img src="'.Theme :: get_common_img_path().'first_na.png" alt="'.Translation :: get('First').'"/>';
+				$navigation[] = '<img src="'.Theme :: get_common_img_path().'prev_na.png" alt="'.Translation :: get('Previous').'"/>';
 			}
 			$navigation[] = '</div>';
 			$navigation[] = '<div style="width=30%;text-align:right;float:right;">';
 			if (!$last)
 			{
-				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => $slideshow_index +1)).'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'next.png" alt="'.Translation :: get('Next').'"/></a>';
-				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => count($publications) - 1)).'"><img src="'.$this->browser->get_path(WEB_IMG_PATH).'last.png" alt="'.Translation :: get('Last').'"/></a>';
+				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => $slideshow_index +1)).'"><img src="'.Theme :: get_common_img_path().'next.png" alt="'.Translation :: get('Next').'"/></a>';
+				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => count($publications) - 1)).'"><img src="'.Theme :: get_common_img_path().'last.png" alt="'.Translation :: get('Last').'"/></a>';
 			}
 			else
 			{
-				$navigation[] = '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'next_na.png" alt="'.Translation :: get('Next').'"/>';
-				$navigation[] = '<img src="'.$this->browser->get_path(WEB_IMG_PATH).'last_na.png" alt="'.Translation :: get('Last').'"/>';
+				$navigation[] = '<img src="'.Theme :: get_common_img_path().'next_na.png" alt="'.Translation :: get('Next').'"/>';
+				$navigation[] = '<img src="'.Theme :: get_common_img_path().'last_na.png" alt="'.Translation :: get('Last').'"/>';
 
 			}
 			$navigation[] = '</div>';

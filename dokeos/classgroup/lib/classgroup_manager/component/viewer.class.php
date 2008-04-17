@@ -32,12 +32,12 @@ class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 			
 			$this->display_header($trail);
 			
-			echo '<div class="learning_object" style="background-image: url('. $this->get_web_code_path() .'group_small.gif);">';
+			echo '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path() .'group_small.gif);">';
 			echo '<div class="title">'. Translation :: get('Description') .'</div>';
 			echo $classgroup->get_description();
 			echo '</div>';
 			
-			echo '<div class="learning_object" style="background-image: url('. $this->get_web_code_path() .'user_small.gif);">';
+			echo '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path() .'user_small.gif);">';
 			echo '<div class="title">'. Translation :: get('Users') .'</div>';
 			$table = new ClassGroupRelUserBrowserTable($this, null, array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_VIEW_CLASSGROUP, ClassGroupManager :: PARAM_CLASSGROUP_ID => $id), $this->get_condition());
 			echo $table->as_html();
@@ -70,14 +70,14 @@ class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 		$toolbar_data[] = array(
 			'href' => $this->get_classgroup_editing_url($classgroup),
 			'label' => Translation :: get('Edit'),
-			'img' => $this->get_web_code_path().'edit.gif',
+			'img' => Theme :: get_common_img_path().'edit.gif',
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
 		$toolbar_data[] = array(
 			'href' => $this->get_classgroup_rel_user_subscribing_url($classgroup),
 			'label' => Translation :: get('AddUsers'),
-			'img' => $this->get_web_code_path().'add.gif',
+			'img' => Theme :: get_common_img_path().'add.gif',
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
@@ -85,7 +85,7 @@ class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 		$toolbar_data[] = array(
 			'href' => $this->get_classgroup_emptying_url($classgroup),
 			'label' => Translation :: get('Truncate'),
-			'img' => $this->get_web_code_path().'recycle_bin.gif',
+			'img' => Theme :: get_common_img_path().'recycle_bin.gif',
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		

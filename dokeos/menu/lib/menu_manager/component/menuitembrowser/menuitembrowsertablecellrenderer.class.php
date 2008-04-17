@@ -45,14 +45,14 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 		$toolbar_data[] = array(
 			'href' => $edit_url,
 			'label' => Translation :: get('Edit'),
-			'img' => $this->browser->get_path(WEB_IMG_PATH).'edit.png'
+			'img' => Theme :: get_common_img_path().'edit.png'
 		);
 		
 		if ($index == 'first' || $index == 'single')
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('MoveUp'),
-				'img' => $this->browser->get_path(WEB_IMG_PATH).'up_na.png'
+				'img' => Theme :: get_common_img_path().'up_na.png'
 			);
 		}
 		else
@@ -61,7 +61,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 			$toolbar_data[] = array(
 				'href' => $move_url,
 				'label' => Translation :: get('MoveUp'),
-				'img' => $this->browser->get_path(WEB_IMG_PATH).'up.png'
+				'img' => Theme :: get_common_img_path().'up.png'
 			);
 		}
 		
@@ -69,7 +69,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('MoveDown'),
-				'img' => $this->browser->get_path(WEB_IMG_PATH).'down_na.png'
+				'img' => Theme :: get_common_img_path().'down_na.png'
 			);
 		}
 		else
@@ -78,7 +78,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 			$toolbar_data[] = array(
 				'href' => $move_url,
 				'label' => Translation :: get('MoveDown'),
-				'img' => $this->browser->get_path(WEB_IMG_PATH).'down.png'
+				'img' => Theme :: get_common_img_path().'down.png'
 			);
 		}
 
@@ -87,7 +87,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 			'href' => $delete_url,
 			'label' => Translation :: get('Delete'),
 			'confirm' => true,
-			'img' => $this->browser->get_path(WEB_IMG_PATH).'delete.png'
+			'img' => Theme :: get_common_img_path().'delete.png'
 		);
 	
 		return RepositoryUtilities :: build_toolbar($toolbar_data);

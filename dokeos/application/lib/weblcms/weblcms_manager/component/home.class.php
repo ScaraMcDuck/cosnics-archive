@@ -134,7 +134,7 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 						$params[Weblcms::PARAM_COURSE] = $course->get_id();
 						$params[Weblcms::PARAM_ACTION] = Weblcms::ACTION_VIEW_COURSE;
 						$url = $weblcms->get_url($params);
-						$html[] = '<a href="'.$url.'"><img src="'. $this->get_path(WEB_IMG_PATH).$tool->name.'_tool_new.gif" alt="'.Translation :: get('New').'"/></a>';
+						$html[] = '<a href="'.$url.'"><img src="'. Theme :: get_common_img_path().$tool->name.'_tool_new.gif" alt="'.Translation :: get('New').'"/></a>';
 					}
 				}
 				$html[] = '</li>';

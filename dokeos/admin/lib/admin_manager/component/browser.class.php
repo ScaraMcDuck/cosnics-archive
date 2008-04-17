@@ -46,13 +46,13 @@ class AdminBrowserComponent extends AdminComponent
 		{
 			$search_form_index++;
 			$html[] = '<div class="admin_section">';
-			$html[] = '<div class="main"><img src="'. $this->get_path(WEB_IMG_PATH) .'admin_'. $application_links['application']['class'] .'.gif" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />'. $application_links['application']['name'] .'</div>';
+			$html[] = '<div class="main"><img src="'. Theme :: get_common_img_path() .'admin_'. $application_links['application']['class'] .'.gif" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />'. $application_links['application']['name'] .'</div>';
 			$html[] = '<div class="actions">';
 			if (count($application_links['links']))
 			{
 				foreach ($application_links['links'] as $link)
 				{
-					$html[] = '<div class="action"><a href="'.$link['url'] .'"><img src="'. $this->get_path(WEB_IMG_PATH) .'admin_action_'. $link['action'] .'.gif" alt="'. $link['name'] .'" title="'. $link['name'] .'"/><br />'.$link['name'].'</a></div>';
+					$html[] = '<div class="action"><a href="'.$link['url'] .'"><img src="'. Theme :: get_common_img_path() .'admin_action_'. $link['action'] .'.gif" alt="'. $link['name'] .'" title="'. $link['name'] .'"/><br />'.$link['name'].'</a></div>';
 				}
 			}
 			$html[] = '</div>';

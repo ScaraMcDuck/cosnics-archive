@@ -56,13 +56,13 @@ class ClassGroupRelUserBrowserTableCellRenderer extends DefaultClassGroupRelUser
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_classgroup_rel_user_unsubscribing_url($classgroupreluser),
 			'label' => Translation :: get('Unsubscribe'),
-			'img' => $this->browser->get_web_code_path().'delete.gif'
+			'img' => Theme :: get_common_img_path().'delete.gif'
 		);
 //		
 //		$toolbar_data[] = array(
 //			'href' => $this->browser->get_classgroup_roles_url($classgroupreluser),
 //			'label' => Translation :: get('UserRoles'),
-//			'img' => $this->browser->get_web_code_path().'img/config.png'
+//			'img' => Theme :: get_common_img_path().'img/config.png'
 //		);
 		
 		return RepositoryUtilities :: build_toolbar($toolbar_data);

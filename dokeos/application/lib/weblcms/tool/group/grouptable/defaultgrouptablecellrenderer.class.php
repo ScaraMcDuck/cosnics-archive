@@ -81,13 +81,13 @@ class DefaultGroupTableCellRenderer implements GroupTableCellRenderer
 		$parameters = array ();
 		$parameters[Weblcms :: PARAM_GROUP] = $group->get_id();
 		$details_url = $this->group_tool->get_url($parameters);
-		$toolbar_data[] = array ('href' => $details_url, 'label' => Translation :: get('Details'), 'img' => $this->group_tool->get_parent()->get_path(WEB_IMG_PATH).'description.gif');
+		$toolbar_data[] = array ('href' => $details_url, 'label' => Translation :: get('Details'), 'img' => Theme :: get_common_img_path().'description.gif');
 		if($this->group_tool->is_allowed(EDIT_RIGHT))
 		{
 			$parameters = array ();
 			$parameters[Weblcms :: PARAM_GROUP] = $group->get_id();
 			$delete_url = $this->group_tool->get_url($parameters);
-			$toolbar_data[] = array ('href' => $details_url, 'label' => Translation :: get('Delete'), 'img' => $this->group_tool->get_parent()->get_path(WEB_IMG_PATH).'delete.gif');
+			$toolbar_data[] = array ('href' => $details_url, 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_img_path().'delete.gif');
 		}
 		if($group->is_self_registration_allowed() && !$group->is_member($this->group_tool->get_user()))
 		{
@@ -95,7 +95,7 @@ class DefaultGroupTableCellRenderer implements GroupTableCellRenderer
 			$parameters[Weblcms :: PARAM_GROUP] = $group->get_id();
 			$parameters[GroupTool::PARAM_GROUP_ACTION] = GroupTool::ACTION_USER_SELF_SUBSCRIBE;
 			$subscribe_url = $this->group_tool->get_url($parameters);
-			$toolbar_data[] = array ('href' => $subscribe_url, 'label' => Translation :: get('Subscribe'), 'img' => $this->group_tool->get_parent()->get_path(WEB_IMG_PATH).'user-subscribe.gif');
+			$toolbar_data[] = array ('href' => $subscribe_url, 'label' => Translation :: get('Subscribe'), 'img' => Theme :: get_common_img_path().'user-subscribe.gif');
 		}
 		if($group->is_self_unregistration_allowed() && $group->is_member($this->group_tool->get_user()))
 		{
@@ -103,7 +103,7 @@ class DefaultGroupTableCellRenderer implements GroupTableCellRenderer
 			$parameters[Weblcms :: PARAM_GROUP] = $group->get_id();
 			$parameters[GroupTool::PARAM_GROUP_ACTION] = GroupTool::ACTION_USER_SELF_UNSUBSCRIBE;
 			$unsubscribe_url = $this->group_tool->get_url($parameters);
-			$toolbar_data[] = array ('href' => $unsubscribe_url, 'label' => Translation :: get('Unsubscribe'), 'img' => $this->group_tool->get_parent()->get_path(WEB_IMG_PATH).'user-unsubscribe.gif');
+			$toolbar_data[] = array ('href' => $unsubscribe_url, 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_img_path().'user-unsubscribe.gif');
 		}
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}

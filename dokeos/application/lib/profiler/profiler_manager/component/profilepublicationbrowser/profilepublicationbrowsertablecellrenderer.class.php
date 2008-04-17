@@ -66,7 +66,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
 				'href' => $delete_url,
 				'label' => Translation :: get('Delete'),
 				'confirm' => true,
-				'img' => $this->browser->get_path(WEB_IMG_PATH).'delete.gif'
+				'img' => Theme :: get_common_img_path().'delete.gif'
 			);
 		}
 	

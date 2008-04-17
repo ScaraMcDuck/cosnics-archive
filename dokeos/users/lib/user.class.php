@@ -427,7 +427,7 @@ class User
 		}
 		else
 		{
-			return Path :: get(WEB_IMG_PATH).'unknown.jpg';
+			return Theme :: get_common_img_path().'unknown.jpg';
 		}
 	}
 	function get_full_picture_path()

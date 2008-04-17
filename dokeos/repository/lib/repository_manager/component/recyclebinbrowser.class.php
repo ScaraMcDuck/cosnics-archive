@@ -29,7 +29,7 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 			$toolbar_data = array();
 			$toolbar_data[] = array(
 				'href' => $this->get_url(array(RepositoryManager :: PARAM_EMPTY_RECYCLE_BIN => 1)),
-				'img' => $this->get_path(WEB_IMG_PATH).'treemenu/trash.gif',
+				'img' => Theme :: get_common_img_path().'treemenu/trash.gif',
 				'label' => Translation :: get('EmptyRecycleBin'),
 				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL,
 				'confirm' => true

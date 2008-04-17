@@ -117,6 +117,7 @@ require_once Path :: get_library_path().'session/platformsession.class.php';
 require_once Path :: get_library_path().'translation/translation.class.php';
 require_once Path :: get_library_path().'html/text.class.php';
 require_once Path :: get_library_path().'mail/mail.class.php';
+require_once Path :: get_library_path().'html/theme.class.php';
 require_once Path :: get_library_path().'html/breadcrumbtrail.class.php';
 require_once Path :: get_library_path().'html/breadcrumb.class.php';
 require_once Path :: get_library_path().'html/display.class.php';

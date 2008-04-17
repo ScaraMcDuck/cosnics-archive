@@ -70,13 +70,13 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_user_editing_url($user),
 			'label' => Translation :: get('Edit'),
-			'img' => $this->browser->get_path(WEB_IMG_PATH).'edit.gif'
+			'img' => Theme :: get_common_img_path().'edit.gif'
 		);
 
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_user_quota_url($user),
 			'label' => Translation :: get('VersionQuota'),
-			'img' => $this->browser->get_path(WEB_IMG_PATH).'versions.gif'
+			'img' => Theme :: get_common_img_path().'versions.gif'
 		);
 
 		if($user->get_user_id() != PlatformSession :: get_user_id())
@@ -84,7 +84,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_user_delete_url($user),
 				'label' => Translation :: get('Delete'),
-				'img' => $this->browser->get_path(WEB_IMG_PATH).'delete.gif'
+				'img' => Theme :: get_common_img_path().'delete.gif'
 			);
 		}
 

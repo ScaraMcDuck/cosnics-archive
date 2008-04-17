@@ -57,7 +57,7 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 				'href' => $course_subscription_url,
 				'label' => Translation :: get('Subscribe'),
 				'confirm' => true,
-				'img' => $this->browser->get_path(WEB_IMG_PATH).'enroll.gif'
+				'img' => Theme :: get_common_img_path().'enroll.gif'
 			);
 			
 			return RepositoryUtilities :: build_toolbar($toolbar_data);

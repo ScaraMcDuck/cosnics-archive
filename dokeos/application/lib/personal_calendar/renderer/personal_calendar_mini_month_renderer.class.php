@@ -52,7 +52,7 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
 	 */
 	private function render_event($event)
 	{
-		$html[] = '<br /><img src="'.Path :: get(WEB_IMG_PATH).'posticon.gif"/>';
+		$html[] = '<br /><img src="'.Theme :: get_common_img_path().'posticon.gif"/>';
 		return implode("\n",$html);
 	}
 }

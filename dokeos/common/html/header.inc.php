@@ -29,10 +29,6 @@ if ( isset($httpHeadXtra) && $httpHeadXtra )
 	}
 }
 
-if(PlatformSetting :: get('stylesheets')<>'')
-{
-	$header->add_css_file_header(Path :: get(WEB_CSS_PATH) . PlatformSetting :: get('stylesheets') .'/default.css');
-}
 if ( isset($htmlHeadXtra) && $htmlHeadXtra )
 {
 	foreach($htmlHeadXtra as $this_html_head)
