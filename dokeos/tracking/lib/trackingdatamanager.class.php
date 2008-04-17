@@ -90,14 +90,34 @@ abstract class TrackingDataManager
 	abstract function retrieve_event_by_name($eventname);
 	/**
 	 * Retrieve all trackers from an event
-	 * @param Event $event
+	 * @param Int $eventid
 	 * @param Bool $active true if only the active ones should be shown (default true)
 	 */
-	abstract function retrieve_trackers_from_event($event, $active = true);
+	abstract function retrieve_trackers_from_event($event_id, $active = true);
+	/**
+	 * Retrieves an event tracker relation by given id
+	 * @param int $event_id the event id
+	 * @param int $tracker_id the tracker id
+	 * @return EventTrackerRelation that belongs to the given id
+	 */
+	abstract function retrieve_event_tracker_relation($event_id, $tracker_id);
+	/**
+	 * Retrieves a tracker registration by the given id
+	 * @param int $trackerid the tracker id
+	 * @param bool $active, extra value used for views in tables
+	 * @return Tracker Registration
+	 */
+	abstract function retrieve_tracker_registration($trackerid, $active);
 	/**
 	 * Retrieves all events 
 	 */
 	abstract function retrieve_events();
+	/**
+	 * Retrieves an event by given id
+	 * @param int $event_id
+	 * @return Event $event
+	 */
+	abstract function retrieve_event($event_id);
 	
 	/* Tracker specific methods */
 	/**
@@ -111,9 +131,10 @@ abstract class TrackingDataManager
 	 * Retrieves all tracker items from the database
 	 * @param string $tablename the table name where the database has to be written to
 	 * @param string $classname the tracker's class name (needed to create the class when data is retrieved)
+	 * @param Condition $condition the condition applied to the retrieval
 	 * @return MainTracker $tracker a subclass of MainTracker
 	 */
-	abstract function retrieve_tracker_items($tablename, $classname);
+	abstract function retrieve_tracker_items($tablename, $classname, $condition);
 	/**
 	 * Retrieves a tracker item from the database
 	 * @param string $tablename the table name where the database has to be written to
@@ -121,7 +142,7 @@ abstract class TrackingDataManager
 	 * @param string $classname the tracker's class name (needed to create the class when data is retrieved)
 	 * @return MainTracker $tracker a subclass of MainTracker
 	 */
-	abstract function retrieve_tracker_item($tablename, $id);
+	abstract function retrieve_tracker_item($tablename, $classname, $id);
 	/**
 	 * Updates a tracker item in the database
 	 * @param string $tablename the table name where the database has to be written to

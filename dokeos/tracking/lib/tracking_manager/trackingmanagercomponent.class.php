@@ -213,9 +213,9 @@ abstract class TrackingManagerComponent
 	 * Retrieves the change active url
 	 * @see TrackingManager :: get_change_active_url;
 	 */
-	function get_change_active_url($type, $object)
+	function get_change_active_url($type, $event_id, $tracker_id = null)
 	{
-		return $this->get_parent()->get_change_active_url($type, $object);
+		return $this->get_parent()->get_change_active_url($type, $event_id, $tracker_id);
 	}
 	
 	/** 
@@ -228,12 +228,43 @@ abstract class TrackingManagerComponent
 	}
 	
 	/**
-	 * RDetrieves the events
+	 * Retrieves the events
 	 * @see TrackingManager :: retrieve_events();
 	 */
 	function retrieve_events()
 	{
 		return $this->get_parent()->retrieve_events();
+	}
+	
+	/**
+	 * Retrieves the trackers from a given event
+	 * @see TrackingManager :: retrieve_trackers_from_event
+	 */
+	function retrieve_trackers_from_event($event_id)
+	{
+		return $this->get_parent()->retrieve_trackers_from_event($event_id);
+	}
+	
+	/**
+	 * Retrieves an event by the given id
+	 * @param int $event_id
+	 * @return Event event
+	 */
+	function retrieve_event($event_id)
+	{
+		return $this->get_parent()->retrieve_event($event_id);
+	}
+	
+	/**
+	 * Retrieves the event tracker relation by given id's
+	 * @param int $event_id the event id
+	 * @param int $tracker_id the tracker id
+	 * @return EventTrackerRelation
+	 * @see TrackingManager :: retrieve_event_tracker_relation
+	 */
+	function retrieve_event_tracker_relation($event_id, $tracker_id)
+	{
+		return $this->get_parent()->retrieve_event_tracker_relation($event_id, $tracker_id);
 	}
 }
 ?>

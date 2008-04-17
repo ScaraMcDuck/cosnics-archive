@@ -11,7 +11,6 @@ require_once Path :: get_tracking_path() . 'lib/maintracker.class.php';
  */
 abstract class UserTracker extends MainTracker
 {
-	const PROPERTY_ID = 'id';
 	const PROPERTY_TYPE = 'type';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_VALUE = 'value';
@@ -34,26 +33,8 @@ abstract class UserTracker extends MainTracker
      */
     function get_property_names()
     {
-    	return array(self :: PROPERTY_ID, self :: PROPERTY_TYPE, 
-    				 self :: PROPERTY_NAME, self :: PROPERTY_VALUE);
-    }
-    
-    /**
-     * Get's the id of the user tracker
-     * @return int $id the id
-     */
-    function get_id()
-    {
-    	return $this->get_property(self :: PROPERTY_ID);
-    }
-    
-    /**
-     * Sets the id of the user tracker
-     * @param int $id the id
-     */
-    function set_id($id)
-    {
-    	$this->set_property(self :: PROPERTY_ID, $id);
+    	return array_merge(parent :: get_property_names(), array(self :: PROPERTY_TYPE, 
+    				 self :: PROPERTY_NAME, self :: PROPERTY_VALUE));
     }
     
     /**

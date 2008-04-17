@@ -136,7 +136,7 @@ class EventRelTracker
 	function create()
 	{
 		$trkdmg = TrackingDataManager :: get_instance();
-		$trkdmg->create_event_tracker_relation($this);
+		return $trkdmg->create_event_tracker_relation($this);
 	}
 	
 	/**
@@ -145,7 +145,7 @@ class EventRelTracker
 	function update()
 	{
 		$trkdmg = TrackingDataManager :: get_instance();
-		$trkdmg->update_event_tracker_relation($this);
+		return $trkdmg->update_event_tracker_relation($this);
 	}
 
 }

@@ -32,7 +32,7 @@ class AdminEventsBrowserCellRenderer
 		$toolbar_data = array();
 		
 		$toolbar_data[] = array(
-			'href' => $this->browser->get_change_active_url('event', $event),
+			'href' => $this->browser->get_change_active_url('event', $event->get_id()),
 			'label' => ($event->get_active() == 1)?Translation :: get('Hide'):Translation :: get('Visible'),
 			'confirm' => false,
 			'img' => ($event->get_active() == 1)?
@@ -44,6 +44,11 @@ class AdminEventsBrowserCellRenderer
 
 	}
 	
+	/**
+	 * Renders a cell
+	 * @param string $property the property name
+	 * @param Event $event the event
+	 */
 	function render_cell($property, $event)
 	{
 		switch($property)
@@ -56,6 +61,10 @@ class AdminEventsBrowserCellRenderer
 		return $event->get_default_property($property);
 	}
 	
+	/**
+	 * Returns the properties that will become the columns
+	 * @return array of properties
+	 */
 	function get_properties()
 	{
 		return array(
