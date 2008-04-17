@@ -31,7 +31,7 @@ class DatabaseLearningObjectResultSet extends ResultSet {
 	 * the learning objects (so when retrieving the learning objects, the
 	 * datamanager shouldn't perform additional queries)
 	 */
-    function DatabaseLocationResultSet($data_manager, $handle, $single_type)
+    function DatabaseLearningObjectResultSet($data_manager, $handle, $single_type)
     {
     	$this->data_manager = $data_manager;
     	$this->handle = $handle;
