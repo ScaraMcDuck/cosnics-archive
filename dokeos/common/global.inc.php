@@ -109,6 +109,7 @@ define('TOOL_COURSE_RIGHTS_OVERVIEW', 'course_rights');
 // Add the path to the pear packages to the include path
 require_once dirname(__FILE__).'/configuration/configuration.class.php';
 require_once dirname(__FILE__).'/filesystem/path.class.php';
+require_once dirname(__FILE__).'/configuration/platformsetting.class.php';
 ini_set('include_path',realpath(Path :: get_plugin_path().'pear'));
 
 // TODO: Move this to a common area since it's used everywhere.
@@ -145,9 +146,7 @@ unset($error_message);
 */
 
 $adm = AdminDataManager :: get_instance();
-
-$server_type = $adm->retrieve_setting_from_variable_name('server_type');
-if($server_type->get_value() == 'test')
+if(PlatformSetting :: get('server_type') == 'test')
 {
 	/*
 	--------------------------------------------
@@ -376,14 +375,14 @@ while ($language = $languages->next_result())
 
 if (!in_array($user_language,$valid_languages['folder']))
 {
-	$user_language=$adm->retrieve_setting_from_variable_name('platform_language', 'admin')->get_value();
+	$user_language = PlatformSetting :: get('platform_language');
 }
 
 
 if (in_array($user_language,$valid_languages['folder']) and (isset($_GET['language']) OR isset($_POST['language_list'])))
 {
 	$user_selected_language = $user_language; // $_GET["language"];
-	$_SESSION["user_language_choice"] = $user_selected_language;
+	$_SESSION['user_language_choice'] = $user_selected_language;
 	$platformLanguage = $user_selected_language;
 }
 
@@ -394,6 +393,6 @@ if (isset($_SESSION['_uid']))
 }
 else
 {
-	$language_interface = $adm->retrieve_setting_from_variable_name('platform_language', 'admin')->get_value();
+	$language_interface = PlatformSetting :: get('platform_language');
 }
 ?>

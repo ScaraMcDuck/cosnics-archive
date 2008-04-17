@@ -657,7 +657,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$publications = $this->retrieve_learning_object_publications(null, null, null, null, null, true, array (), array (), 0, -1, $object_id);
 		while ($publication = $publications->next_result())
 		{
-			$site_name_setting = $this->adminDM->retrieve_setting_from_variable_name('site_name');
+			$site_name_setting = PlatformSetting :: get('site_name');
 			$subject = '['.$site_name_setting->get_value().'] '.$publication->get_learning_object()->get_title();
 			// TODO: SCARA - Add meaningfull publication removal message
 			$body = 'message';

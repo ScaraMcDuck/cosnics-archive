@@ -4,12 +4,9 @@ class BreadcrumbTrail
 {
 	//
 	private $breadcrumbtrail;
-	
-	private $admindatamanager;
 
     function BreadcrumbTrail()
     {
-    	$this->admindatamanager = AdminDataManager :: get_instance();
     	$this->breadcrumbtrail = array();
     	$this->add(new BreadCrumb($this->get_path(WEB_PATH).'index.php', $this->get_setting('site_name', 'admin')));
     }
@@ -75,9 +72,7 @@ class BreadcrumbTrail
     
 	function get_setting($variable, $application)
 	{
-		$adm		= $this->admindatamanager;
-		$setting	= $adm->retrieve_setting_from_variable_name($variable, $application);
-		return $setting->get_value();
+		return PlatformSetting :: get($variable, $application);
 	}
 	
 	function get_path($path_type)

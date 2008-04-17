@@ -19,25 +19,16 @@ class DatabaseHomeColumnResultSet extends ResultSet {
 	
 	private $current;
 	/**
-	 * Flag to know if the $handle contains all properties of the course
-	 * category
-	 */
-	private $single_type;
-	/**
 	 * Create a new resultset for handling a set of learning objects
 	 * @param RepositoryDataManager $data_manager The datamanager used to
 	 * retrieve objects from the repository
 	 * @param DB_result $handle The handle to retrieve records from a database
 	 * resultset
-	 * @param boolean $single_type True if the handle holds all properties of
-	 * the learning objects (so when retrieving the learning objects, the
-	 * datamanager shouldn't perform additional queries)
 	 */
-    function DatabaseHomeColumnResultSet($data_manager, $handle, $single_type)
+    function DatabaseHomeColumnResultSet($data_manager, $handle)
     {
     	$this->data_manager = $data_manager;
     	$this->handle = $handle;
-    	$this->single_type = $single_type;
     }
  	/*
 	 * Inherited

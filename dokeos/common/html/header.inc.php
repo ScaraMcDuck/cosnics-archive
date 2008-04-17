@@ -20,7 +20,7 @@ if(empty($document_language))
 
 $header = new Header($document_language);
 $header->add_default_headers();
-$header->set_page_title((empty($nameTools) ? '' : $nameTools.' - ').$adm->retrieve_setting_from_variable_name('site_name', 'admin')->get_value());
+$header->set_page_title((empty($nameTools) ? '' : $nameTools.' - ').PlatformSetting :: get('site_name'));
 if ( isset($httpHeadXtra) && $httpHeadXtra )
 {
 	foreach($httpHeadXtra as $thisHttpHead)
@@ -29,9 +29,9 @@ if ( isset($httpHeadXtra) && $httpHeadXtra )
 	}
 }
 
-if($adm->retrieve_setting_from_variable_name('stylesheets', 'admin')->get_value()<>'')
+if(PlatformSetting :: get('stylesheets')<>'')
 {
-	$header->add_css_file_header(Path :: get(WEB_CSS_PATH) . $adm->retrieve_setting_from_variable_name('stylesheets', 'admin')->get_value() .'/default.css');
+	$header->add_css_file_header(Path :: get(WEB_CSS_PATH) . PlatformSetting :: get('stylesheets') .'/default.css');
 }
 if ( isset($htmlHeadXtra) && $htmlHeadXtra )
 {

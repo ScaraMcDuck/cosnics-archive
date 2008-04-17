@@ -254,7 +254,7 @@ class LearningObjectPublicationForm extends FormValidator
 			$display = LearningObjectDisplay::factory($learning_object);
 			
 			$adm = AdminDataManager :: get_instance();
-			$site_name_setting = $adm->retrieve_setting_from_variable_name('site_name');
+			$site_name_setting = PlatformSetting :: get('site_name');
 			
 			$subject = '['.$site_name_setting->get_value().'] '.$learning_object->get_title();
 			$body = new html2text($display->get_full_html());

@@ -17,24 +17,16 @@ class DatabaseGroupResultSet extends ResultSet {
 	 */
 	private $handle;
 	/**
-	 * Flag to know if the $handle contains all properties of the group category
-	 */
-	private $single_type;
-	/**
 	 * Create a new resultset for handling a set of groups
 	 * @param WeblcmsDataManager $data_manager The datamanager used to retrieve
 	 * groups
 	 * @param DB_result $handle The handle to retrieve records from a database
 	 * resultset
-	 * @param boolean $single_type True if the handle holds all properties of
-	 * the  groups (so when retrieving the groups, the datamanager shouldn't
-	 * perform additional queries)
 	 */
-    function DatabaseGroupResultSet($data_manager, $handle, $single_type)
+    function DatabaseGroupResultSet($data_manager, $handle)
     {
     	$this->data_manager = $data_manager;
     	$this->handle = $handle;
-    	$this->single_type = $single_type;
     }
  	/*
 	 * Inherited

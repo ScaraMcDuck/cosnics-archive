@@ -8,20 +8,16 @@
  */
 class Footer
 {
-	private $admindatamanager;
 	/**
 	 * Create a new Footer
 	 */
-	function Footer($admindatamanager)
+	function Footer()
 	{
-		$this->admindatamanager = $admindatamanager;
 	}
 	
 	function get_setting($variable, $application)
 	{
-		$adm		= $this->admindatamanager;
-		$setting	= $adm->retrieve_setting_from_variable_name($variable, $application);
-		return $setting->get_value();
+		return PlatformSetting :: get($variable, $application);
 	}
 	
 	/**
