@@ -21,6 +21,13 @@ class TrackerRegistration
 	 * Default properties stored in an associative array.
 	 */
 	private $defaultProperties;
+	
+	/**
+	 * Extra boolean to see if this tracker registration for a certain event is active
+	 * normally we could retrieve this in our relation but for use with simple table 
+	 * we place it here
+	 */
+	private $active;
 
 	/**
 	 * Creates a new Tracker object
@@ -137,7 +144,25 @@ class TrackerRegistration
 	{
 		$trkdmg = TrackingDataManager :: get_instance();
 		$this->set_id($trkdmg->get_next_id('registration'));
-		$trkdmg->create_tracker_registration($this);
+		return $trkdmg->create_tracker_registration($this);
+	}
+	
+	/**
+	 * Returns the activity of this tracker registration for an event
+	 * @return bool active
+	 */
+	function get_active()
+	{
+		return $this->active;
+	}
+	
+	/**
+	 * Sets the activity of this tracker registration for an event
+	 * @param bool active
+	 */
+	function set_active($active)
+	{
+		$this->active = $active;
 	}
 
 }

@@ -45,6 +45,7 @@ class SimpleTable extends HTML_Table
 		$this->data_array = $data_array;
 		$this->cellrenderer = $cellrenderer;
 		$this->build_table();
+		$this->altRowAttributes(0, array ('class' => 'row_odd'), array ('class' => 'row_even'), true);
 	}
 	
 	/**
@@ -69,7 +70,7 @@ class SimpleTable extends HTML_Table
 			$counter++;
 		}
 		
-		if($this->cellrenderer)
+		if(method_exists($this->cellrenderer, 'get_modification_links'))
 		{
 			$this->setHeaderContents(0, $counter, '');
 		}
@@ -88,15 +89,12 @@ class SimpleTable extends HTML_Table
 			$contents = array();
 			foreach($this->defaultproperties as $defaultproperty)
 			{
-				if($this->cellrenderer)
-					$contents[] = $this->cellrenderer->render_cell($defaultproperty,
-						$data);
-				else
-					$contents[] = $data->get_default_property($defaultproperty);
+				$contents[] = $this->cellrenderer->render_cell($defaultproperty, $data);
 			}
 			
-			if($this->cellrenderer)
+			if(method_exists($this->cellrenderer, 'get_modification_links'))
 				$contents[] = $this->cellrenderer->get_modification_links($data);
+				
 			$this->addRow($contents);
 			
 			$i++;

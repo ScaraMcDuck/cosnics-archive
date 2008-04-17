@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/trackingmanagercomponent.class.php';
 require_once dirname(__FILE__).'/../trackingdatamanager.class.php';
 require_once dirname(__FILE__).'/../trackerregistration.class.php';
 require_once dirname(__FILE__).'/../event.class.php';
+require_once dirname(__FILE__).'/../eventreltracker.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_library_path().'condition/orcondition.class.php';
 require_once Path :: get_library_path().'condition/andcondition.class.php';
@@ -31,8 +32,7 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 	const PARAM_TYPE = 'type';
 	
 	const ACTION_BROWSE_EVENTS = 'browse_events';
-	const ACTION_VIEW_EVENT = 'view';
-	const ACTION_VIEW_TRACKER = 'view_tracker';
+	const ACTION_VIEW_EVENT = 'view_event';
 	const ACTION_CHANGE_ACTIVE = 'changeactive';
 	
 	private $user;
@@ -63,6 +63,9 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 				break;
 			case self :: ACTION_VIEW_EVENT :
 				$component = TrackingManagerComponent :: factory('AdminEventViewer', $this);
+				break;
+			case self :: ACTION_CHANGE_ACTIVE :
+				$component = TrackingManagerComponent :: factory('ActivityChanger', $this);
 				break;
 			default :
 				$component = TrackingManagerComponent :: factory('AdminEventsBrowser', $this);
@@ -323,9 +326,16 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 	 * @param Object $object Event or Tracker Object
 	 * @return the change active component url
 	 */
-	function get_change_active_url($type, $object)
+	function get_change_active_url($type, $event_id, $tracker_id = null)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CHANGE_ACTIVE, self :: PARAM_REF_ID => $object->get_id(), self :: PARAM_TYPE => $type ));
+		$parameters = array();
+		$parameters[self :: PARAM_ACTION] = self :: ACTION_CHANGE_ACTIVE;
+		$parameters[self :: PARAM_TYPE] = $type;
+		$parameters[self :: PARAM_EVENT_ID] = $event_id;
+		if($tracker_id)
+			$parameters[self :: PARAM_TRACKER_ID] = $tracker_id;
+		
+		return $this->get_url($parameters);
 	}
 	
 	/** 
@@ -345,6 +355,37 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 	function retrieve_events()
 	{
 		return $this->tdm->retrieve_events();
+	}
+	
+	/**
+	 * Retrieves an event by the given id
+	 * @param int $event_id
+	 * @return Event event
+	 */
+	function retrieve_event($event_id)
+	{
+		return $this->tdm->retrieve_event($event_id);
+	}
+	
+	/**
+	 * Retrieves the trackers from a given event
+	 * @param int $event_id the event id
+	 * @return array of trackers
+	 */
+	function retrieve_trackers_from_event($event_id)
+	{
+		return $this->tdm->retrieve_trackers_from_event($event_id, $false);
+	}
+	
+	/**
+	 * Retrieves the event tracker relation by given id's
+	 * @param int $event_id the event id
+	 * @param int $tracker_id the tracker id
+	 * @return EventTrackerRelation
+	 */
+	function retrieve_event_tracker_relation($event_id, $tracker_id)
+	{
+		return $this->tdm->retrieve_event_tracker_relation($event_id, $tracker_id);
 	}
 	
 }

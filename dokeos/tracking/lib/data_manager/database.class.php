@@ -318,14 +318,14 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	 */
 	function update_event_tracker_relation($eventtrackerrelation)
 	{
-		$conditions[] = new EqualityCondition('eventid', $eventtrackerrelation->get_event_id());
-		$conditions[] = new EqualityCondition('trackerid', $eventtrackerrelation->get_tracker_id());
+		$conditions[] = new EqualityCondition(EventRelTracker :: PROPERTY_EVENT_ID, $eventtrackerrelation->get_event_id());
+		$conditions[] = new EqualityCondition(EventRelTracker :: PROPERTY_TRACKER_ID, $eventtrackerrelation->get_tracker_id());
 		$condition = new AndCondition($conditions);
 		
 		$props = array();
-		foreach ($event->get_default_properties() as $key => $value)
+		foreach ($eventtrackerrelation->get_default_properties() as $key => $value)
 		{
-			if($key == 'eventid' || $key == 'trackerid') continue;
+			if($key == EventRelTracker :: PROPERTY_EVENT_ID || $key == EventRelTracker :: PROPERTY_TRACKER_ID) continue;
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$this->connection->loadModule('Extended');
@@ -357,20 +357,140 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	/**
 	 * Retrieves the event with the given name
 	 * @param String $name
+	 * @return Event event
 	 */
 	function retrieve_event_by_name($eventname)
 	{
+		$query = 'SELECT * FROM ' . $this->escape_table_name('event') . ' AS ' . 
+				 self :: ALIAS_EVENTS_TABLE;
 		
+		$condition = new EqualityCondition('name', $eventname);
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$statement = $this->connection->prepare($query);
+		$result = $statement->execute();
+		
+		$event = $this->record_to_classobject($record, 'Event');
+		
+		return $event;
 	}
 	
 	/**
 	 * Retrieve all trackers from an event
-	 * @param Event $event
+	 * @param int $event_id
 	 * @param Bool $active true if only the active ones should be shown (default true)
+	 * @return array of Tracker Registrations
 	 */
-	function retrieve_trackers_from_event($event, $active = true)
+	function retrieve_trackers_from_event($event_id, $active = true)
 	{
+		$query = 'SELECT * FROM ' . $this->escape_table_name('event_rel_tracker') . ' AS ' . 
+				 self :: ALIAS_TRACKER_EVENT_TABLE;
 		
+		$conditions = array();
+		$conditions[] = new EqualityCondition('event_id', $event_id);
+		if($active)
+			$conditions[] = new EqualityCondition('active', 1);
+		
+		$condition = new AndCondition($conditions);
+		
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$statement = $this->connection->prepare($query);
+		$result = $statement->execute($params);
+		
+		$relations = array();
+		
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$relations[] = $this->record_to_classobject($record, 'EventRelTracker');
+		}
+		
+		$trackers = array();
+		
+		foreach($relations as $relation)
+		{
+			$trackers[] = $this->retrieve_tracker_registration($relation->get_tracker_id(), $relation->get_active());
+		}
+		
+		return $trackers;
+	}
+	
+	/**
+	 * Retrieves an event tracker relation by given id's
+	 * @param int $event_id the event id
+	 * @param int $tracker_id the tracker id
+	 * @return EventTrackerRelation that belongs to the given id's
+	 */
+	function retrieve_event_tracker_relation($event_id, $tracker_id)
+	{
+		$query = 'SELECT * FROM ' . $this->escape_table_name('event_rel_tracker') . ' AS ' . 
+				 self :: ALIAS_TRACKER_REGISTRATION_TABLE;
+		
+		$conditions = array();
+		$conditions[] = new EqualityCondition('tracker_id', $tracker_id);
+		$conditions[] = new EqualityCondition('event_id', $event_id);
+		$conditon = new AndCondition($conditions);
+		
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$statement = $this->connection->prepare($query);
+		$result = $statement->execute($params);
+		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		
+		$eventreltracker = $this->record_to_classobject($record, 'EventRelTracker');
+		
+		return $eventreltracker;
+	}
+	
+	/**
+	 * Retrieves a tracker registration by the given id
+	 * @param int $tracker_id the tracker id
+	 * @return Tracker Registration
+	 */
+	function retrieve_tracker_registration($tracker_id, $active)
+	{
+		$query = 'SELECT * FROM ' . $this->escape_table_name('registration') . ' AS ' . 
+				 self :: ALIAS_TRACKER_REGISTRATION_TABLE;
+		
+		$condition = new EqualityCondition('id', $tracker_id);
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$statement = $this->connection->prepare($query);
+		$result = $statement->execute($params);
+		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		
+		$tracker = $this->record_to_classobject($record, 'TrackerRegistration');
+		$tracker->set_active($active);
+		
+		return $tracker;
 	}
 	
 	/**
@@ -396,6 +516,35 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 		
 	}
 	
+	/**
+	 * Retrieves an event by given id
+	 * @param int $event_id
+	 * @return Event $event
+	 */
+	function retrieve_event($event_id)
+	{
+		$query = 'SELECT * FROM ' . $this->escape_table_name('event') . ' AS ' . 
+				 self :: ALIAS_EVENTS_TABLE;
+		
+		$condition = new EqualityCondition('id', $event_id);
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$statement = $this->connection->prepare($query);
+		$result = $statement->execute($params);
+		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		
+		$event = $this->record_to_classobject($record, 'Event');
+		
+		return $event;
+	}
+	
 	/** Creates a tracker item in the database
 	 * @param string $tablename the table name where the database has to be written to
 	 * @param MainTracker $tracker_item a subclass of MainTracker
@@ -403,18 +552,49 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	 */
 	function create_tracker_item($tablename, $tracker_item)
 	{
+		$props = array();
+		foreach ($tracker_item->get_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name($tablename), $props, MDB2_AUTOQUERY_INSERT);
 		
+		return true;
 	}
 	
 	/**
 	 * Retrieves all tracker items from the database
 	 * @param string $tablename the table name where the database has to be written to
 	 * @param string $classname the tracker's class name (needed to create the class when data is retrieved)
+	 * @param array $conditons a list of conditions
 	 * @return MainTracker $tracker a subclass of MainTracker
 	 */
-	function retrieve_tracker_items($tablename, $classname)
+	function retrieve_tracker_items($tablename, $classname, $condition)
 	{
+		$query = 'SELECT * FROM ' . $this->escape_table_name($tablename) . ' AS ' . 
+				 self :: ALIAS_TRACKER_TABLE . ' ORDER BY block';
 		
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$statement = $this->connection->prepare($query);
+		$result = $statement->execute($params);
+		
+		$trackeritems = array();
+		
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$trackeritems[] = $this->record_to_classobject($record, $classname);
+		}
+		
+		return $trackeritems;
 	}
 	
 	/**
@@ -424,9 +604,10 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	 * @param string $classname the tracker's class name (needed to create the class when data is retrieved)
 	 * @return MainTracker $tracker a subclass of MainTracker
 	 */
-	function retrieve_tracker_item($tablename, $id)
+	function retrieve_tracker_item($tablename, $classname, $id)
 	{
-		
+		$condition = new EqualityCondition('id', $id);
+		return $this->retrieve_tracker_items($tablename, $classname, $condition);
 	}
 	
 	/**
@@ -437,7 +618,18 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	 */
 	function update_tracker_item($tablename, $tracker_item)
 	{
+		$condition = new EqualityCondition('id', $tracker_item->get_id());
 		
+		$props = array();
+		foreach ($tracker_item->get_default_properties() as $key => $value)
+		{
+			if($key == 'id') continue;
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name($tablename), $props, MDB2_AUTOQUERY_UPDATE, $condition);
+		
+		return true;
 	}
 
 }

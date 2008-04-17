@@ -9,6 +9,8 @@
  */
 abstract class MainTracker
 {
+	const PROPERTY_ID = 'id';
+
 	/**
 	 * The table where the tracker should write to
 	 */
@@ -34,7 +36,9 @@ abstract class MainTracker
 	 */
 	function create()
 	{
-		
+		$trkdmg = TrackingDataManager :: get_instance();
+		$this->id = $trkdgm->get_next_id($this->table);
+		return $trkdmg->create_tracker_item($this->table, $this);
 	}
 	
 	/**
@@ -42,7 +46,8 @@ abstract class MainTracker
 	 */
 	function update()
 	{
-		
+		$trkdmg = TrackingDataManager :: get_instance();
+		return $trkdmg->update_tracker_item($this->table, $this);
 	}
 	
 	/**
@@ -104,7 +109,30 @@ abstract class MainTracker
 	/**
 	 * Returns the property names of the tracker
 	 */
-	abstract function get_property_names();
+	function get_property_names()
+	{
+		return array(self :: PROPERTY_ID);	
+	}
+	
+	    
+    /**
+     * Get's the id of the user tracker
+     * @return int $id the id
+     */
+    function get_id()
+    {
+    	return $this->get_property(self :: PROPERTY_ID);
+    }
+    
+    /**
+     * Sets the id of the user tracker
+     * @param int $id the id
+     */
+    function set_id($id)
+    {
+    	$this->set_property(self :: PROPERTY_ID, $id);
+    }
+	
 	/**
 	 * Method to start the actual tracking
 	 * @param array $parameters

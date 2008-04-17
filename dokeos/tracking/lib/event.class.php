@@ -156,7 +156,7 @@ class Event
 	{
 		$trkdmg = TrackingDataManager :: get_instance();
 		$this->set_id($trkdmg->get_next_id('event'));
-		$trkdmg->create_event($this);
+		return $trkdmg->create_event($this);
 	}
 	
 	/**
@@ -165,7 +165,7 @@ class Event
 	function update()
 	{
 		$trkdmg = TrackingDataManager :: get_instance();
-		$trkdmg->update_event($this);
+		return $trkdmg->update_event($this);
 	}
 
 

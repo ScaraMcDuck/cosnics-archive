@@ -12,7 +12,6 @@ require_once dirname(__FILE__). '/maintracker.class.php';
  */
 abstract class DefaultTracker extends MainTracker
 {
-	const PROPERTY_ID = 'id';
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_REFERENCE_ID = 'reference_id';
 	const PROPERTY_ACTION = 'action';
@@ -34,28 +33,10 @@ abstract class DefaultTracker extends MainTracker
     /**
      * Inherited
      */
-    function get_property_reference_ids()
+    function get_property_names()
     {
-    	return array(self :: PROPERTY_ID, self :: PROPERTY_USER_ID, 
-    				 self :: PROPERTY_REFERENCE_ID, self :: PROPERTY_ACTION);
-    }
-    
-    /**
-     * Get's the id of the user tracker
-     * @return int $id the id
-     */
-    function get_id()
-    {
-    	return $this->get_property(self :: PROPERTY_ID);
-    }
-    
-    /**
-     * Sets the id of the user tracker
-     * @param int $id the id
-     */
-    function set_id($id)
-    {
-    	$this->set_property(self :: PROPERTY_ID, $id);
+    	return array_merge(parent :: get_property_names(), array(self :: PROPERTY_USER_ID, 
+    				 self :: PROPERTY_REFERENCE_ID, self :: PROPERTY_ACTION));
     }
     
     /**
