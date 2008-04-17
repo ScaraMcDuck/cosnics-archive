@@ -9,23 +9,19 @@
  */
 class Banner
 {
-	private $admindatamanager;
 	private $breadcrumbtrail;
 	
 	/**
 	 * Constructor
 	 */
-	function Banner($breadcrumbtrail, $admindatamanager)
+	function Banner($breadcrumbtrail)
 	{
 		$this->breadcrumbtrail = $breadcrumbtrail;
-		$this->admindatamanager = $admindatamanager;
 	}
 	
 	function get_setting($variable, $application)
 	{
-		$adm		= $this->admindatamanager;
-		$setting	= $adm->retrieve_setting_from_variable_name($variable, $application);
-		return $setting->get_value();
+		return PlatformSetting :: get($variable, $application);
 	}
 	
 	/**

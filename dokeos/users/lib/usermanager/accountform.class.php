@@ -45,7 +45,7 @@ class AccountForm extends FormValidator {
     	// Name
 		$this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get('LastName'));
 		$this->addElement('text', User :: PROPERTY_FIRSTNAME, Translation :: get('FirstName'));
-		if ($this->adm->retrieve_setting_from_variable_name('profile_name')->get_value() !== 'true')
+		if (PlatformSetting :: get('profile_name') !== 'true')
 		{
 			$this->freeze(array(User :: PROPERTY_LASTNAME,User :: PROPERTY_FIRSTNAME));
 		}
@@ -55,32 +55,32 @@ class AccountForm extends FormValidator {
 		$this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		// Official Code
 		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'));
-		if ($this->adm->retrieve_setting_from_variable_name('profile_official_code')->get_value() !== 'true')
+		if (PlatformSetting :: get('profile_official_code') !== 'true')
 		{
 			$this->freeze(User :: PROPERTY_OFFICIAL_CODE);
 		}
 		$this->applyFilter(User :: PROPERTY_OFFICIAL_CODE, 'stripslashes');
 		$this->applyFilter(User :: PROPERTY_OFFICIAL_CODE, 'trim');
-		if ($this->adm->retrieve_setting_from_variable_name('registration_official_code')->get_value() == 'true')
+		if (PlatformSetting :: get('registration_official_code') == 'true')
 		{
 			$this->addRule(User :: PROPERTY_OFFICIAL_CODE, Translation :: get('ThisFieldIsRequired'), 'required');
 		}
 		// Email
 		$this->addElement('text', User :: PROPERTY_EMAIL, Translation :: get('Email'));
-		if ($this->adm->retrieve_setting_from_variable_name('profile_email')->get_value() !== 'true')
+		if (PlatformSetting :: get('profile_email') !== 'true')
 		{
 			$this->freeze(User :: PROPERTY_EMAIL);
 		}
 		$this->applyFilter(User :: PROPERTY_EMAIL, 'stripslashes');
 		$this->applyFilter(User :: PROPERTY_EMAIL, 'trim');
-		if ($this->adm->retrieve_setting_from_variable_name('registration_email')->get_value() == 'true')
+		if (PlatformSetting :: get('registration_email') == 'true')
 		{
 			$this->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
     	}
 		$this->addRule(User :: PROPERTY_EMAIL, Translation :: get('EmailWrong'), 'email');
 		// Username
 		$this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get('Username'));
-		if ($this->adm->retrieve_setting_from_variable_name('profile_login')->get_value() !== 'true')
+		if (PlatformSetting :: get('profile_login') !== 'true')
 		{
 			$this->freeze(User :: PROPERTY_USERNAME);
 		}
@@ -92,7 +92,7 @@ class AccountForm extends FormValidator {
 		//$this->addRule(User :: PROPERTY_USERNAME, Translation :: get('UserTaken'), 'username_available', $user_data['username']);
 
 		// Password
-		if ($this->adm->retrieve_setting_from_variable_name('profile_password')->get_value() == 'true')
+		if (PlatformSetting :: get('profile_password') == 'true')
 		{
 			$this->addElement('static', null, null, '<em>'.Translation :: get('Enter2passToChange').'</em>');
 			$this->addElement('password', User :: PROPERTY_PASSWORD, Translation :: get('Pass'),         array('size' => 40));
@@ -100,7 +100,7 @@ class AccountForm extends FormValidator {
 			$this->addRule(array(User :: PROPERTY_PASSWORD, 'password2'), Translation :: get('PassTwo'), 'compare');
 		}
 		// Picture
-		if ($this->adm->retrieve_setting_from_variable_name('profile_picture')->get_value() == 'true')
+		if (PlatformSetting :: get('profile_picture') == 'true')
 		{
 			$this->addElement('file', User::PROPERTY_PICTURE_URI, ($this->user->has_picture() ? Translation :: get('UpdateImage') : Translation :: get('AddImage')));
 			if($this->form_type == self :: TYPE_EDIT && $this->user->has_picture() )
@@ -119,7 +119,7 @@ class AccountForm extends FormValidator {
 			$lang_options[$language->get_folder()] = $language->get_english_name();	
 		}
 		$this->addElement('select', User :: PROPERTY_LANGUAGE, Translation :: get('Language'), $lang_options);
-		if ($this->adm->retrieve_setting_from_variable_name('profile_language')->get_value() !== 'true')
+		if (PlatformSetting :: get('profile_language') !== 'true')
 		{
 			$this->freeze(User :: PROPERTY_LANGUAGE);
 		}
@@ -144,28 +144,28 @@ class AccountForm extends FormValidator {
     {
     	$user = $this->user;
     	$values = $this->exportValues();
-		if ($this->adm->retrieve_setting_from_variable_name('profile_name')->get_value() === 'true')
+		if (PlatformSetting :: get('profile_name') === 'true')
 		{
 			$user->set_firstname($values[User::PROPERTY_FIRSTNAME]);
 			$user->set_lastname($values[User::PROPERTY_LASTNAME]);
 		}
-		if ($this->adm->retrieve_setting_from_variable_name('profile_official_code')->get_value() === 'true')
+		if (PlatformSetting :: get('profile_official_code') === 'true')
 		{
 			$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
 		}
-		if ($this->adm->retrieve_setting_from_variable_name('profile_email')->get_value() === 'true')
+		if (PlatformSetting :: get('profile_email') === 'true')
 		{
 			$user->set_email($values[User :: PROPERTY_EMAIL]);
 		}
-		if ($this->adm->retrieve_setting_from_variable_name('profile_login')->get_value() === 'true')
+		if (PlatformSetting :: get('profile_login') === 'true')
 		{
 			$user->set_username($values[User :: PROPERTY_USERNAME]);
 		}
-		if ($this->adm->retrieve_setting_from_variable_name('profile_password')->get_value() === 'true' && strlen($values[User :: PROPERTY_PASSWORD]))
+		if (PlatformSetting :: get('profile_password') === 'true' && strlen($values[User :: PROPERTY_PASSWORD]))
 		{
 			$user->set_password(md5($values[User::PROPERTY_PASSWORD]));
 		}
-		if($this->adm->retrieve_setting_from_variable_name('profile_picture')->get_value() === 'true')
+		if(PlatformSetting :: get('profile_picture') === 'true')
 		{
 			if(isset($_FILES['picture_uri']) && strlen($_FILES['picture_uri']['name']) > 0)
 			{
@@ -176,7 +176,7 @@ class AccountForm extends FormValidator {
 				$user->delete_picture();
 			}
 		}
-		if ($this->adm->retrieve_setting_from_variable_name('profile_language')->get_value() === 'true')
+		if (PlatformSetting :: get('profile_language') === 'true')
 		{
 	   		$user->set_language($values[User :: PROPERTY_LANGUAGE]);
 		}

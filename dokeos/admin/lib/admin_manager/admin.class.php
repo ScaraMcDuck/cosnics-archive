@@ -7,6 +7,11 @@
 require_once dirname(__FILE__).'/admincomponent.class.php';
 require_once dirname(__FILE__).'/../admindatamanager.class.php';
 
+require_once Path :: get_repository_path(). 'lib/repository_manager/repositorymanager.class.php';
+require_once Path :: get_user_path(). 'lib/usermanager/usermanager.class.php';
+require_once Path :: get_classgroup_path(). 'lib/classgroup_manager/classgroupmanager.class.php';
+require_once Path :: get_tracking_path(). 'lib/tracking_manager/trackingmanager.class.php';
+
 /**
  * The admin allows the platform admin to configure certain aspects of his platform
  */
@@ -246,8 +251,43 @@ class Admin
 
 	function get_application_platform_admin_links()
 	{
-		$adm = AdminDataManager :: get_instance();
-		return $adm->get_application_platform_admin_links($this->user);
+		$info = array();
+		$user = $this->get_user();
+
+		// First we get the links for the essential Dokeos components
+
+		// 1. UserManager
+		$user_manager = new UserManager($user->get_user_id());
+		$info[] = $user_manager->get_application_platform_admin_links();
+
+		// 2. UserRolesRights
+		// 3. Classes of Users
+		$classgroup_manager = new ClassGroupManager($user->get_user_id());
+		$info[] = $classgroup_manager->get_application_platform_admin_links();		
+		// 4. Platform
+		
+		// 5. Repository
+		$repository_manager = new RepositoryManager($user);
+		$info[] = $repository_manager->get_application_platform_admin_links();
+
+		// 6. Tracking
+		$tracking_manager = new TrackingManager($user);
+		$info[] = $tracking_manager->get_application_platform_admin_links();
+
+		// Secondly the links for the plugin applications running on top of the essential Dokeos components
+		$applications = Application :: load_all();
+		foreach($applications as $index => $application_name)
+		{
+			$application = Application::factory($application_name);
+			$links = $application->get_application_platform_admin_links();
+			if ($links['application']['name'])
+			{
+				$links['application']['name'] = Translation :: get(Application::application_to_class($links['application']['name']));
+				$info[] = $links;
+			}
+		}
+
+		return $info;
 	}
 
 	/**

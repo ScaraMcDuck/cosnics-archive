@@ -20,7 +20,7 @@ class LocalRepositorySearchSource implements SearchSource
 		$condition = RepositoryUtilities :: query_to_condition($query);
 		
 		$adm = AdminDataManager :: get_instance();
-		$site_name_setting = $adm->retrieve_setting_from_variable_name('site_name');
+		$site_name_setting = PlatformSetting :: get('site_name');
 		$repository_title = $site_name_setting->get_value();
 		
 		$repository_url = Path :: get(WEB_PATH);

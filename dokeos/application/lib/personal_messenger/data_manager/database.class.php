@@ -241,7 +241,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$publications = $this->retrieve_personal_message_publications($condition, null, null, null, null, true, array (), array (), 0, -1, $object_id);
 		while ($publication = $publications->next_result())
 		{
-//			$subject = '['.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value().'] '.$publication->get_learning_object()->get_title();
+//			$subject = '['.PlatformSetting :: get('site_name').'] '.$publication->get_learning_object()->get_title();
 //			// TODO: SCARA - Add meaningfull publication removal message
 //			$body = 'message';
 //			$user = $this->userDM->retrieve_user($publication->get_publisher_id());

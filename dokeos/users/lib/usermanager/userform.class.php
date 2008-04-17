@@ -278,10 +278,10 @@ class UserForm extends FormValidator {
 		$username = $user->get_username();
 		$password = $this->unencryptedpass;
 		
-		$subject = '['.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value().'] '.Translation :: get('YourReg').' '.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value();
-		$body = Translation :: get('Dear')." ".stripslashes("$firstname $lastname").",\n\n".Translation :: get('YouAreReg')." ". $this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value() ." ".Translation :: get('Settings')." ". $username ."\n". Translation :: get('Password')." : ".stripslashes($password)."\n\n" .Translation :: get('Address') ." ". $this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value() ." ". Translation :: get('Is') ." : ". $rootWeb ."\n\n". Translation :: get('Problem'). "\n\n". Translation :: get('Formula').",\n\n".$this->adminDM->retrieve_setting_from_variable_name('administrator_firstname')->get_value()." ".$this->adminDM->retrieve_setting_from_variable_name('administrator_surname')->get_value()."\n". Translation :: get('Manager'). " ".$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value()."\nT. ".$this->adminDM->retrieve_setting_from_variable_name('administrator_telephone')->get_value()."\n" .Translation :: get('Email') ." : ".$this->adminDM->retrieve_setting_from_variable_name('administrator_email')->get_value();		
+		$subject = '['.PlatformSetting :: get('site_name').'] '.Translation :: get('YourReg').' '.PlatformSetting :: get('site_name');
+		$body = Translation :: get('Dear')." ".stripslashes("$firstname $lastname").",\n\n".Translation :: get('YouAreReg')." ". PlatformSetting :: get('site_name') ." ".Translation :: get('Settings')." ". $username ."\n". Translation :: get('Password')." : ".stripslashes($password)."\n\n" .Translation :: get('Address') ." ". PlatformSetting :: get('site_name') ." ". Translation :: get('Is') ." : ". $rootWeb ."\n\n". Translation :: get('Problem'). "\n\n". Translation :: get('Formula').",\n\n".PlatformSetting :: get('administrator_firstname')." ".PlatformSetting :: get('administrator_surname')."\n". Translation :: get('Manager'). " ".PlatformSetting :: get('site_name')."\nT. ".PlatformSetting :: get('administrator_telephone')."\n" .Translation :: get('Email') ." : ".PlatformSetting :: get('administrator_email');		
 		
-		$mail = Mail :: factory($subject, $body, $user->get_email(), $this->adminDM->retrieve_setting_from_variable_name('administrator_email')->get_value());
+		$mail = Mail :: factory($subject, $body, $user->get_email(), PlatformSetting :: get('administrator_email'));
 		$mail->send();
 	}
 }

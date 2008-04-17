@@ -38,6 +38,7 @@ class Header
 	{
 		$this->add_http_header('Content-Type: text/html; charset=UTF-8');
 		$this->add_css_file_header($this->get_path(WEB_CSS_PATH) .'default.css');
+		$this->add_css_file_header($this->get_path(WEB_CSS_PATH) . $this->get_section() . '.css');
 		$this->add_css_file_header($this->get_path(WEB_CSS_PATH) .'print.css','print');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery-1.2.3.min.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/interface/interface.full.js');
@@ -77,7 +78,7 @@ class Header
 	{
 		$header[] = '<style type="text/css" media="'.$media.'">';
 		$header[] = '/*<![CDATA[*/';
-		$header[] = '@import "'. $this->get_path(WEB_CSS_PATH) .'default.css";';
+		$header[] = '@import "'. $file .'";';
 		$header[] = '/*]]>*/';
 		$header[] ='</style>';
 		$this->add_html_header(implode(' ',$header));
@@ -130,6 +131,17 @@ class Header
 	function get_path($path_type)
 	{
 		return Path :: get($path_type);
+	}
+	
+	function get_section()
+	{
+		global $this_section;
+		return $this_section;
+	}
+	
+	function get_setting($variable, $application)
+	{
+		return PlatformSetting :: get($variable, $application);
 	}
 }
 ?>

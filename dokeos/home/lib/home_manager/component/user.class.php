@@ -42,7 +42,7 @@ class HomeManagerUserComponent extends HomeManagerComponent
 			{
 				$html[] = $this->handle_login_failed();
 			}
-//			if (get_setting('allow_lostpassword') == 'true' OR $this->get_platform_setting('allow_registration') == 'true')
+//			if ($this->get_platform_setting('allow_lostpassword') == 'true' OR $this->get_platform_setting('allow_registration') == 'true')
 //			{
 //				$html[] = '<div class="menusection"><span class="menusectioncaption">'.Translation :: get('MenuUser').'</span><ul class="menulist">';
 //				if (get_setting('allow_registration') == 'true')
@@ -71,7 +71,7 @@ class HomeManagerUserComponent extends HomeManagerComponent
 	function handle_login_failed()
 	{
 		$message = Translation :: get("InvalidId");
-		if ($this->get_platform_setting('allow_registration', 'admin')->get_value())
+		if ($this->get_platform_setting('allow_registration', 'admin') == 'true')
 			$message = Translation :: get("InvalidForSelfRegistration");
 		return "<div id=\"login_fail\">".$message."</div>";
 	}

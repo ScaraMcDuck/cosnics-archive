@@ -459,7 +459,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function delete_learning_object_attachments($object)
 	{
 		// TODO: SCARA - Add notification for users who are using this object as an attachment
-//		$subject = '['.$this->adminDM->retrieve_setting_from_variable_name('site_name')->get_value().'] '.$publication->get_learning_object()->get_title();
+//		$subject = '['.PlatformSetting :: get('site_name').'] '.$publication->get_learning_object()->get_title();
 //		// TODO: SCARA - Add meaningfull attachment removal message
 //		$body = 'message';
 //		$user = $object->get_owner_id();

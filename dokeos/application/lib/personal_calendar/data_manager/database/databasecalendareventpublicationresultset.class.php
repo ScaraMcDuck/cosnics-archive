@@ -21,9 +21,6 @@ class DatabaseCalendarEventPublicationResultSet extends ResultSet {
 	 * retrieve objects from the repository
 	 * @param DB_result $handle The handle to retrieve records from a database
 	 * resultset
-	 * @param boolean $single_type True if the handle holds all properties of
-	 * the learning objects (so when retrieving the learning objects, the
-	 * datamanager shouldn't perform additional queries)
 	 */
     function DatabaseCalendarEventPublicationResultSet($data_manager, $handle)
     {

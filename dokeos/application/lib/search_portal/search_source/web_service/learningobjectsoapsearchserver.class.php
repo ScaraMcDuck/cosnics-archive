@@ -54,7 +54,7 @@ class LearningObjectSoapSearchServer
 			$soap_objects[] = new SoapLearningObject($lo->get_type(), $title, $description, $lo->get_creation_date(), $lo->get_modification_date(), $url);
 		}
 		
-		$site_name_setting = $adm->retrieve_setting_from_variable_name('site_name');
+		$site_name_setting = PlatformSetting :: get('site_name');
 		return array($site_name_setting->get_value(), Path :: get(WEB_PATH), $soap_objects, $object_count);
 	}
 }

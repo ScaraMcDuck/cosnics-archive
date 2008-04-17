@@ -17,8 +17,8 @@ class DatabaseLearningObjectResultSet extends ResultSet {
 	 */
 	private $handle;
 	/**
-	 * Flag to know if the $handle contains all properties of the learning
-	 * object
+	 * Flag to know if the $handle contains all properties of the course
+	 * category
 	 */
 	private $single_type;
 	/**
@@ -31,7 +31,7 @@ class DatabaseLearningObjectResultSet extends ResultSet {
 	 * the learning objects (so when retrieving the learning objects, the
 	 * datamanager shouldn't perform additional queries)
 	 */
-    function DatabaseLearningObjectResultSet($data_manager, $handle, $single_type)
+    function DatabaseLocationResultSet($data_manager, $handle, $single_type)
     {
     	$this->data_manager = $data_manager;
     	$this->handle = $handle;
