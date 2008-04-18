@@ -52,7 +52,7 @@ class MigrationWizard extends HTML_QuickForm_Controller
 		$this->parent = $parent;
 		parent :: HTML_QuickForm_Controller('MigrationWizard', true);
 		$this->addPage(new SystemMigrationWizardPage('page_system',$this->parent));
-		$this->addPage(new SettingsMigrationWizardPage('page_settings',$this->parent));
+		$this->addPage(new SettingsMigrationWizardPage('page_ssettings',$this->parent));
 		
 		$this->addpages();
 		
@@ -73,7 +73,15 @@ class MigrationWizard extends HTML_QuickForm_Controller
 		$pages = $this->loadpages($old_system);
 		foreach($pages as $name => $page)
 		{
-			$this->addPage(new $page($name,$this->parent));
+			if(isset($exports['settings']))
+			{
+				if (isset($exports['migrate' . substr($name,4)]) && $exports['migrate' . substr($name,4)] == 1)
+				{
+					$this->addPage(new $page($name,$this->parent));
+				}
+			}
+			else
+				$this->addPage(new $page($name,$this->parent));
 		}
 	}
 	

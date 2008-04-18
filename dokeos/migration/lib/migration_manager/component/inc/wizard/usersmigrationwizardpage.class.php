@@ -39,15 +39,6 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 	}
 	
 	/**
-	 * Retrieves the next step info
-	 * @return string Info about the next step
-	 */
-	function next_step_info()
-	{
-		return Translation :: get('System_Settings_info');
-	}
-	
-	/**
 	 * Retrieves the correct message for the correct index, this is used in cooperation with
 	 * $failed elements and the method getinfo 
 	 * @param int $index place in $failedelements for which the message must be retrieved
@@ -59,17 +50,6 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 			case 0: return Translation :: get('users');
 			default: return Translation :: get('users'); 
 		}
-	}
-	
-	/**
-	 * Builds the next button
-	 */
-	function buildForm()
-	{
-		$this->_formBuilt = true;
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
-		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
-		$this->setDefaultAction('next');
 	}
 	
 	/**

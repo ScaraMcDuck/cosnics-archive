@@ -35,15 +35,6 @@ class GradebooksMigrationWizardPage extends MigrationWizardPage
 	}
 	
 	/**
-	 * Retrieves the next step info
-	 * @return string Info about the next step
-	 */
-	function next_step_info()
-	{
-		return Translation :: get('Gradebooks_info');
-	}
-	
-	/**
 	 * Retrieves the correct message for the correct index, this is used in cooperation with
 	 * $failed elements and the method getinfo 
 	 * @param int $index place in $failedelements for which the message must be retrieved
@@ -59,16 +50,6 @@ class GradebooksMigrationWizardPage extends MigrationWizardPage
 			case 4: return Translation :: get('Gradebook_score_displays');
 			default: return Translation :: get('Gradebook'); 
 		}
-	}
-
-	/**
-	 * Builds the next button
-	 */
-	function buildForm()
-	{
-		$this->_formBuilt = true;
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
-		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 	}
 
 	/**
@@ -146,6 +127,5 @@ class GradebooksMigrationWizardPage extends MigrationWizardPage
 		
 		return true;
 	}
-
 }
 ?>

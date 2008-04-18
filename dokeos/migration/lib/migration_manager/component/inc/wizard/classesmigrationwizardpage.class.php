@@ -56,15 +56,6 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 	}*/
 	
 	/**
-	 * Retrieves the next step info
-	 * @return string Info about the next step
-	 */
-	function next_step_info()
-	{
-		return Translation :: get('Courses_info');
-	}
-	
-	/**
 	 * Retrieves the correct message for the correct index, this is used in cooperation with
 	 * $failed elements and the method getinfo 
 	 * @param int $index place in $failedelements for which the message must be retrieved
@@ -77,16 +68,6 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 			case 1: return Translation :: get('Class_users'); 
 			default: return Translation :: get('Classes'); 
 		}
-	}
-	
-	/**
-	 * Builds the next button
-	 */
-	function buildForm()
-	{
-		$this->_formBuilt = true;
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
-		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 	}
 	
 	/**
@@ -159,76 +140,5 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 		
 		return true;
 	}
-	
-	/**
-	 * Migrate the classes
-	 *//*
-	function migrate_classes()
-	{
-		$this->logfile->add_message('Starting migration classes');
-		
-		$class_class = Import :: factory($this->old_system, 'class');
-		$classes = array();
-		$classes = $class_class->get_all(array('mgdm' => $this->mgdm));
-		
-		foreach($classes as $i => $class)
-		{
-			if($class->is_valid_class())
-			{
-				$lcms_class = $class->convert_to_new_class();
-				$this->logfile->add_message('SUCCES: Class added ( ' . $lcms_class->get_id() . ' )');
-				$this->succes[0]++;
-				unset($lcms_class);
-			}
-			else
-			{
-				$message = 'FAILED: Class is not valid ( ID ' . $class->get_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[0][] = $message;
-			}
-			unset($classes[$i]);
-		}
-
-		$this->logfile->add_message('Classes migrated');
-	}*/
-	
-	/**
-	 * Migrate the class users
-	 *//*
-	function migrate_class_users()
-	{
-		$this->logfile->add_message('Starting migration class users');
-		
-		$classuser_class = Import :: factory($this->old_system, 'classuser');
-		$classusers = array();
-		$classusers = $classuser_class->get_all(array('mgdm' => $this->mgdm));
-		
-		foreach($classusers as $i => $classuser)
-		{
-			if($classuser->is_valid_class_user())
-			{
-				$lcms_classuser = $classuser->convert_to_new_class_user();
-				$this->logfile->add_message('SUCCES: Class user added ( Class: ' . 
-				$lcms_classuser->get_classgroup_id() . ' User: ' . 
-				$lcms_classuser->get_user_id() . ' )');
-				$this->succes[1]++;
-				unset($lcms_classuser);
-			}
-			else
-			{
-				$message = 'FAILED: Class user is not valid ( Class: ' . 
-				$classuser->get_class_id() . ' User: ' .
-				$classuser->get_user_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[1][] = $message;
-			}
-			
-			unset($classusers[$i]);
-		}
-		
-
-		$this->logfile->add_message('Classes migrated');
-	}*/
-
 }
 ?>

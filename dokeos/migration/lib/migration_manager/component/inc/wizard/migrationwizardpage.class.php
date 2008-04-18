@@ -17,6 +17,9 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 	protected $old_system;
 	protected $command_execute;
 	protected $passedtime;
+	protected $name;
+	protected $exportvalues;
+	
 	/**
 	 * Constructor
 	 * @param string $name A unique name of this page in the wizard
@@ -25,6 +28,7 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 	 */
 	public function MigrationWizardPage($name, $parent, $command_execute = false)
 	{
+		$this->name = $name;
 		$this->parent = $parent;
 		parent::HTML_QuickForm_Page($name,'post');
 		$this->command_execute = $command_execute;
@@ -62,7 +66,9 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 	 */
 	function next_step_info()
 	{
-		
+		$next_page = $this->get_next_page();
+		$ctitle = ucfirst(substr($next_page, 8)) . '_info';
+		return Translation :: get($ctitle);
 	}
 	
 	/**
@@ -137,9 +143,12 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 			}
 			else
 			{
-				$message = $this->write_failed($item, $extra_message, $type);
-				$this->logfile->add_message($message);
-				$this->failed_elements[$i][] = $message;
+				if (!($item instanceof Dokeos185SettingCurrent))	
+				{
+					$message = $this->write_failed($item, $extra_message, $type);
+					$this->logfile->add_message($message);
+					$this->failed_elements[$i][] = $message;
+				}
 			}
 			unset($items[$j]);
 		}
@@ -152,9 +161,12 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 	 */
 	function buildForm()
 	{
-		$this->_formBuilt = true;
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
-		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
+		if($this->get_next_page())
+		{
+			$this->_formBuilt = true;
+			$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
+			$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
+		}
 	}
 	
 	/**
@@ -218,6 +230,24 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 							
 			default: return 'SUCCES: ' . $type . ' added ( ID: ' . $item->get_id() . $extra_message . ' )';
 		}
+	}
+	function get_next_page()
+	{
+		$passed = false;
+		
+		foreach ($this->controller->exportValues() as $key => $value)
+		{	
+			if($passed == true)
+			{
+				return $key;
+			}
+			if(strcmp($key,'migrate' . substr($this->name,4)) == 0)
+			{ 
+				$passed = true;
+			}
+		}
+		
+		return null;	
 	}
 }
 
