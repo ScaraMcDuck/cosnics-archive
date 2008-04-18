@@ -105,18 +105,18 @@ $lang['migration']['Classes'] =  "class(es)";
 $lang['migration']['Class_users'] = "class user(s)";
 
 //System settings page
-$lang['migration']['System_Settings_info'] = "In the next step we will migrate the settings and the system announcements.";
+$lang['migration']['Settings_info'] = "In the next step we will migrate the settings and the system announcements.";
 $lang['migration']['System_Settings_title'] = "System settings migration";
 $lang['migration']['System_Settings'] = "system setting(s)";
 $lang['migration']['System_Announcements'] = "system announcement(s)";
 
 //Personal agendas page
-$lang['migration']['Personal_agenda_info'] = "In the next step we wil migrate the personal agenda's of the users.";
+$lang['migration']['Personal_agendas_info'] = "In the next step we wil migrate the personal agenda's of the users.";
 $lang['migration']['Personal_agenda_title'] = "Personal agenda migration";
 $lang['migration']['Personal_agendas'] = "agenda(s)";
 
 //Metadata page
-$lang['migration']['Course_meta_info'] = "In the next step we will migrate the course settings, descriptions and tools.";
+$lang['migration']['Metadata_info'] = "In the next step we will migrate the course settings, descriptions and tools.";
 $lang['migration']['Course_meta_title'] = "Courses metadata migration";
 $lang['migration']['Course_meta_Tools'] = "tool(s)";
 $lang['migration']['Course_meta_Descriptions'] = "description(s)";
@@ -125,7 +125,7 @@ $lang['migration']['Course_tool_intros'] = "tool intro(s)";
 $lang['migration']['Course_metadata'] = "metadata";
 
 //Announcements page
-$lang['migration']['Announcement_info'] = "In the next step we wil migrate the Announcements of the courses.";
+$lang['migration']['Announcements_info'] = "In the next step we wil migrate the Announcements of the courses.";
 $lang['migration']['Announcements_title'] = "Course announcement migration";
 $lang['migration']['Announcements'] = "Announcement(s)";
 
@@ -185,7 +185,7 @@ $lang['migration']['Learning_path_views'] = "Learning path view(s)";
 
 //Quizzes page
 $lang['migration']['Quiz_title'] = "Course quizzes migration";
-$lang['migration']['Quiz_info'] = "In the next step we will migrate the course quizzes";
+$lang['migration']['Quizzes_info'] = "In the next step we will migrate the course quizzes";
 $lang['migration']['Quizzes'] = "quiz(zes)";
 $lang['migration']['Quiz_questions'] = "Quiz question(s)";
 $lang['migration']['Quiz_answers'] = "Quiz answer(s)";

@@ -34,37 +34,6 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 	}
 	
 	/**
-	 * @return string Info of the page
-	 *//*
-	function get_info()
-	{		
-		for($i=0; $i<4; $i++)
-		{
-			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
-				Translation :: get('migrated');
-			
-			if(count($this->failed_elements[$i]) > 0)
-				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
-					 $this->get_message($i) . ' ' . Translation :: get('failed');
-			
-		}
-		$message = $message . '<br/><br/>Please check the <a href="' . Path :: get(WEB_PATH) . 'documentation/migration.html" target="about_blank">migration manual</a> for more information';
-		$message = $message . '<br />';
-		$message = $message . '<br />' . Translation :: get('Dont_forget');
-		$message = $message . '<br/><br/>Time used: ' . $this->passedtime;
-		return $message;
-	}*/
-	
-	/**
-	 * Retrieves the next step info
-	 * @return string Info about the next step
-	 */
-	function next_step_info()
-	{
-		return Translation :: get('Personal_agenda_info');
-	}
-	
-	/**
 	 * Retrieves the correct message for the correct index, this is used in cooperation with
 	 * $failed elements and the method getinfo 
 	 * @param int $index place in $failedelements for which the message must be retrieved
@@ -80,17 +49,6 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			case 4: return Translation :: get('Course_Class_Relations'); ;
 			default: return Translation :: get('Courses'); 
 		}
-	}
-	
-	/**
-	 * Builds the next button
-	 */
-	function buildForm()
-	{
-		$this->_formBuilt = true;
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
-		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
-		$this->setDefaultAction('next');
 	}
 	
 	/**
@@ -128,11 +86,9 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['migrate_courses']) && $exportvalues['migrate_courses'] == 1)
 		{	
 			//Migrate course categories
-			//$this->migrate_course_categories();
 			$this->migrate('CourseCategory', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
 			
 			//Migrate the courses
-			//$this->migrate_courses();
 			$this->migrate('Course', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,1);
 			
 			//Migrate the class users
@@ -190,181 +146,5 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		
 		return true;
 	}
-	
-	/**
-	 * Migrate course categories
-	 *//*
-	function migrate_course_categories()
-	{
-		$this->logfile->add_message('Starting migration course categories');
-		
-		$coursecategoryclass =  Import :: factory($this->old_system, 'coursecategory');
-		$coursecategories = array();
-		$coursecategories = $coursecategoryclass->get_all(array('mgdm' => $this->mgdm));
-		
-		foreach($coursecategories as $i => $coursecategory)
-		{
-			if($coursecategory->is_valid_course_category())
-			{
-				$lcms_coursecategory = $coursecategory->convert_to_new_course_category();
-				$this->logfile->add_message('SUCCES: Course category added ( CODE: ' . 
-					$lcms_coursecategory->get_code() . ' )');
-				$this->succes[0]++;
-				unset($lcms_coursecategory);
-			}
-			else
-			{
-				$message = 'FAILED: Course category is not valid ( ID: ' . $coursecategory->get_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[0][] = $message;
-			}
-			
-			unset($coursecategories[$i]);
-		}
-		
-		$this->logfile->add_message('Course categories migrated');
-	}
-	*/
-	/**
-	 * Migrate user course categories
-	 *//*
-	function migrate_user_course_categories()
-	{
-		$this->logfile->add_message('Starting migration user course categories');
-		
-		$usercoursecategoryclass =  Import :: factory($this->old_system, 'usercoursecategory');
-		$usercoursecategories = array();
-		$usercoursecategories = $usercoursecategoryclass->get_all(array('mgdm' => $this->mgdm));
-		
-		foreach($usercoursecategories as $i => $usercoursecategory)
-		{
-			if($usercoursecategory->is_valid_user_course_category())
-			{
-				$lcms_usercoursecategory = $usercoursecategory->convert_to_new_user_course_category();
-				$this->logfile->add_message('SUCCES: User course category added ( ID: ' . 
-					$lcms_usercoursecategory->get_id() . ' )');
-				$this->succes[1]++;
-				unset($lcms_usercoursecategory);
-			}
-			else
-			{
-				$message = 'FAILED: User course category is not valid ( ID: ' . $usercoursecategory->get_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[1][] = $message;
-			}
-			
-			unset($usercoursecategories[$i]);
-		}
-		
-		$this->logfile->add_message('User course categories migrated');
-	}*/
-	
-	/**
-	 * Migrate the courses
-	 *//*
-	function migrate_courses()
-	{		
-		$this->logfile->add_message('Starting migration courses');
-		
-		$courseclass = Import :: factory($this->old_system, 'course');
-		$courses = array();
-		$courses = $courseclass->get_all(array('mgdm' => $this->mgdm));
-		
-		foreach($courses as $i => $course)
-		{
-			if($course->is_valid_course())
-			{
-				$lcms_course = $course->convert_to_new_course();
-				$this->logfile->add_message('SUCCES: Course added ( Course: ' . $lcms_course->get_id() . ' )');
-				$this->succes[2]++;
-				unset($lcms_course);
-			}
-			else
-			{
-				$message = 'FAILED: Course is not valid ( Course: ' . $course->get_code() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[2][] = $message;
-			}
-			
-			unset($courses[$i]);
-		}
-		
-
-		$this->logfile->add_message('Courses migrated');
-	}*/
-	
-	/**
-	 * Migrate course users
-	 *//*
-	function migrate_course_users()
-	{
-		$this->logfile->add_message('Starting migration course users relations');
-		
-		$coursereluserclass = Import :: factory($this->old_system, 'coursereluser');
-		$courserelusers = array();
-		$courserelusers = $coursereluserclass->get_all(array('mgdm' => $this->mgdm));
-		
-		foreach($courserelusers as $i => $coursereluser)
-		{
-			if($coursereluser->is_valid_course_user_relation())
-			{
-				$lcms_coursereluser = $coursereluser->convert_to_new_course_user_relation();
-				$this->logfile->add_message('SUCCES: Course user relation added ( Course: ' 
-					. $lcms_coursereluser->get_course() . ' UserID: ' .
-					  $lcms_coursereluser->get_user() . ' )');
-				$this->succes[3]++;
-				unset($lcms_coursereluser);
-			}
-			else
-			{
-				$message = 'FAILED: Course user relation is not valid ( Course: '
-					. $coursereluser->get_course_code() . ' UserID: ' .
-					  $coursereluser->get_user_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[3][] = $message;
-			}
-			
-			unset($courserelusers[$i]);
-		}
-
-		$this->logfile->add_message('Course user relations migrated');
-	}*/
-	
-	/**
-	 * Migrate course classes
-	 *//*
-	function migrate_course_classes()
-	{
-		$this->logfile->add_message('Starting migration course class relations');
-		
-		$courserelclass_class = Import :: factory($this->old_system, 'courserelclass');
-		$courserelclasses = array();
-		$courserelclasses = $courserelclass_class->get_all(array('mgdm' => $this->mgdm));
-		
-		foreach($courserelclasses as $i => $courserelclass)
-		{
-			if($courserelclass->is_valid_course_class_relation())
-			{
-				$lcms_courserelclass = $courserelclass->convert_to_new_course_class_relation();
-				$this->logfile->add_message('SUCCES: Course class relation added ( Course: ' 
-					. $lcms_courserelclass->get_course() . ' UserID: ' .
-					  $lcms_courserelclass->get_user() . ' )');
-				$this->succes[4]++;
-				unset($lcms_courserelclass);
-			}
-			else
-			{
-				$message = 'FAILED: Course class relation is not valid ( Course: '
-					. $courserelclass->get_course_code() . ' ClassID: ' .
-					  $courserelclass->get_user_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[4][] = $message;
-			}
-			unset($courserelclass[$i]);
-		}
-
-		$this->logfile->add_message('Course user relations migrated');
-	}*/
-
 }
 ?>

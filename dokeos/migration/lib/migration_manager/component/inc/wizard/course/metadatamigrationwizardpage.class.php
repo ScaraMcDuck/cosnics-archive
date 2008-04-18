@@ -35,15 +35,6 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 	}
 	
 	/**
-	 * Retrieves the next step info
-	 * @return string Info about the next step
-	 */
-	function next_step_info()
-	{
-		return Translation :: get('Course_meta_info');
-	}
-	
-	/**
 	 * Retrieves the correct message for the correct index, this is used in cooperation with
 	 * $failed elements and the method getinfo 
 	 * @param int $index place in $failedelements for which the message must be retrieved
@@ -58,16 +49,6 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 			case 3: return Translation :: get('Course_tool_intros');  
 			default: return Translation :: get('Course_meta_Descriptions'); 
 		}
-	}
-	
-	/**
-	 * Builds the next button
-	 */
-	function buildForm()
-	{
-		$this->_formBuilt = true;
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
-		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 	}
 	
 	/**

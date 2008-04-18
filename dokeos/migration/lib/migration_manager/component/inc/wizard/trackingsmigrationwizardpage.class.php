@@ -35,15 +35,6 @@ class TrackersMigrationWizardPage extends MigrationWizardPage
 	}
 	
 	/**
-	 * Retrieves the next step info
-	 * @return string Info about the next step
-	 */
-	function next_step_info()
-	{
-		return Translation :: get('Trackers_info');
-	}
-	
-	/**
 	 * Retrieves the correct message for the correct index, this is used in cooperation with
 	 * $failed elements and the method getinfo 
 	 * @param int $index place in $failedelements for which the message must be retrieved
@@ -73,16 +64,6 @@ class TrackersMigrationWizardPage extends MigrationWizardPage
 			case 18: return Translation :: get('Tracker_e_uploads');
 			default: return Translation :: get('Tracker_c_os'); 
 		}
-	}
-
-	/**
-	 * Builds the next button
-	 */
-	function buildForm()
-	{
-		$this->_formBuilt = true;
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
-		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 	}
 
 	/**

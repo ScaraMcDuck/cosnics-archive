@@ -93,7 +93,8 @@ class MigrationWizardDisplay extends HTML_QuickForm_Action_Display
 		
 		echo '</div>';
 		
-		echo $current_page->next_step_info();
+		if($current_page->get_next_page())
+			echo $current_page->next_step_info();
 		
 		$this->parent->display_footer();
 	}

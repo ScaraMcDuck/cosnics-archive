@@ -36,36 +36,6 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 	}
 	
 	/**
-	 * @return string Info of the page
-	 *//*
-	function get_info()
-	{		
-		for($i=0; $i<2; $i++)
-		{
-			$message = $message . '<br />' . $this->succes[$i] . ' ' . $this->get_message($i) . ' ' .
-				Translation :: get('migrated');
-			
-			if(count($this->failed_elements[$i]) > 0)
-				$message = $message . '<br / >' . count($this->failed_elements[$i]) . ' ' .
-					 $this->get_message($i) . ' ' . Translation :: get('failed');
-		}
-		$message = $message . '<br/><br/>Please check the <a href="' . Path :: get(WEB_PATH) . 'documentation/migration.html" target="about_blank">migration manual</a> for more information';
-		$message = $message . '<br />';
-		$message = $message . '<br />' . Translation :: get('Dont_forget');
-		$message = $message . '<br/><br/>Time used: ' . $this->passedtime;
-		return $message;
-	}*/
-	
-	/**
-	 * Retrieves the next step info
-	 * @return string Info about the next step
-	 */
-	function next_step_info()
-	{
-		return Translation :: get('Classes_info');
-	}
-	
-	/**
 	 * Retrieves the correct message for the correct index, this is used in cooperation with
 	 * $failed elements and the method getinfo 
 	 * @param int $index place in $failedelements for which the message must be retrieved
@@ -78,17 +48,6 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 			case 1: return Translation :: get('System_Announcements'); 
 			default: return Translation :: get('System_Settings'); 
 		}
-	}
-	
-	/**
-	 * Builds the next button
-	 */
-	function buildForm()
-	{
-		$this->_formBuilt = true;
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
-		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
-		$this->setDefaultAction('next');
 	}
 	
 	/**
@@ -166,77 +125,5 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		
 		$logger->close_file();
 	}
-	
-	/**
-	 * Migrate course categories
-	 *//*
-	function migrate_system_settings()
-	{
-		$this->logfile->add_message('Starting migration system settings');
-		
-		$systemsettingsclass =  Import :: factory($this->old_system, 'settingcurrent');
-		$systemsettings = array();
-		$systemsettings = $systemsettingsclass->get_all_current_settings($this->mgdm);
-		
-		foreach($systemsettings as $i => $systemsetting)
-		{
-			if($systemsetting->is_valid_current_setting())
-			{
-				$lcms_admin_setting = $systemsetting->convert_to_new_admin_setting();
-				if($lcms_admin_setting)
-					$this->logfile->add_message('System setting added ( ID: ' . 
-						$lcms_admin_setting->get_id() . ' )');
-				$this->succes[0]++;
-				unset($lcms_admin_setting);
-			}
-			else
-			{
-				$message = 'System setting is not valid ( ID: ' . $systemsetting->get_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[0][] = $message;
-			}
-			
-			unset($systemsettings[$i]);
-		}
-		
-		$this->logfile->add_message('System setting migrated');
-	}
-	*/
-	/**
-	 * Migrate System Announcements
-	 */
-	 /*
-	function migrate_system_announcements()
-	{
-		$this->logfile->add_message('Starting migration system announcements');
-		
-		$systemannouncementsclass =  Import :: factory($this->old_system, 'systemannouncement');
-		$systemannouncements = array();
-		$systemannouncements = $systemannouncementsclass->get_all(array('mgdm' => $this->mgdm));
-		$id = $this->mgdm->get_id_reference($this->mgdm->get_old_admin_id(), 'user_user');
-		
-		foreach($systemannouncements as $i => $systemannouncement)
-		{
-			if($systemannouncement->is_valid_system_announcement())
-			{
-				$lcms_system_announcement = $systemannouncement->convert_to_new_system_announcement($id);
-				$this->logfile->add_message('System announcement added ( ID: ' . 
-					$lcms_system_announcement->get_id() . ' )');
-				$this->succes[1]++;
-				unset($lcms_system_announcement);
-			}
-			else
-			{
-				$message = 'System announcment is not valid ( ID: ' . $systemannouncement->get_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[1][] = $message;
-			}
-			
-			unset($systemannouncements[$i]);
-		}
-		
-		$this->logfile->add_message('System announcements migrated');
-	}
-	*/
 }
 ?>

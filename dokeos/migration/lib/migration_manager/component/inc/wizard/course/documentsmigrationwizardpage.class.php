@@ -36,15 +36,6 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 	}
 	
 	/**
-	 * Retrieves the next step info
-	 * @return string Info about the next step
-	 */
-	function next_step_info()
-	{
-		return Translation :: get('Documents_info');
-	}
-	
-	/**
 	 * Retrieves the correct message for the correct index, this is used in cooperation with
 	 * $failed elements and the method getinfo 
 	 * @param int $index place in $failedelements for which the message must be retrieved
@@ -56,16 +47,6 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 			case 0: return Translation :: get('Documents'); 
 			default: return Translation :: get('Documents'); 
 		}
-	}
-	
-	/**
-	 * Builds the next button
-	 */
-	function buildForm()
-	{
-		$this->_formBuilt = true;
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
-		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 	}
 	
 	/**
@@ -163,77 +144,5 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 		$logger->close_file();
 		return true;
 	}
-	
-	/**
-	 * Migrate the documents
-	 *//*
-	function migrate_documents($course)
-	{
-		$this->logfile->add_message('Starting migration documents for course ' . $course->get_code());
-		
-		$csvlogger = new Logger('doc.csv', true);
-		
-		$class_document = Import :: factory($this->old_system, 'document');
-		$documents = array();
-		$documents = $class_document->get_all_documents($course, $this->mgdm, $this->include_deleted_files);
-		
-		foreach($documents as $j => $document)
-		{
-			if($document->is_valid_document($course))
-			{
-				$begin_time = Logger :: get_microtime();		
-				$array = $document->convert_to_new_document($course);
-				$lcms_document = $array['document'];
-				
-				if($lcms_document and is_a($lcms_document, 'Document'))
-				{
-					$end_time = Logger :: get_microtime();
-					$passedtime = ($end_time - $begin_time);
-					
-					$this->logfile->add_message('SUCCES: document added ( ID: ' . $lcms_document->get_id() . ' )');
-					$copytime = $array['copy_time'];
-					$documenttime = $array['document_time'];
-					$categories_time = $array['categories_time'];
-					$publication_time = $array['publication_time'];
-					$idref_time = $array['idref_time'];
-					$orphan_time = $array['orphan_time'];
-					$doublefile_time = $array['doublefile_time'];
-					$total_time = $copytime + $documenttime + $publication_time + $idref_time + $orphan_time + $doublefile_time;
-					$difference = $passedtime - $total_time;
-					
-					$passedtime = number_format($passedtime, 3, ',', '');
-					$copytime = number_format($copytime, 3, ',', '');
-					$documenttime = number_format($documenttime, 3, ',', '');
-					$categories_time = number_format($categories_time, 3, ',', '');
-					$publication_time = number_format($publication_time, 3, ',', '');
-					$idref_time = number_format($idref_time, 3, ',', '');
-					$orphan_time = number_format($orphan_time, 3, ',', '');
-					$doublefile_time = number_format($doublefile_time, 3, ',', '');
-					$total_time = number_format($total_time, 3, ',', '');
-					$difference = number_format($difference, 3, ',', '');
-					
-					$csvlogger->write_text($document->get_path() . ';' . $lcms_document->get_filesize() .
-						';' . $passedtime . ';' . $copytime . ';' . $documenttime . ';' . $categories_time .
-						';' . $publication_time . ';' . $idref_time . ';' . $orphan_time . 
-						';' . $doublefile_time . ';' . $total_time . ';' . $difference);
-				}
-
-				$this->succes[0]++;
-				unset($lcms_document);
-			}
-			else
-			{
-				$message = 'FAILED: Document is not valid ( ID ' . $document->get_id() . ' )';
-				$this->logfile->add_message($message);
-				$this->failed_elements[0][] = $message;
-			}
-			unset($documents[$j]);
-		}
-		
-		$csvlogger->close_file();
-
-		$this->logfile->add_message('Documents migrated for course ' . $course->get_code());
-	}
-*/
 }
 ?>

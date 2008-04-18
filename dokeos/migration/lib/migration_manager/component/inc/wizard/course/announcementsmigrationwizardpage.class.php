@@ -53,25 +53,6 @@ class AnnouncementsMigrationWizardPage extends MigrationWizardPage
 	}
 	
 	/**
-	 * Retrieves the next step info
-	 * @return string Info about the next step
-	 */
-	function next_step_info()
-	{
-		return Translation :: get('Announcement_info');
-	}
-	
-	/**
-	 * Builds a form with a next button
-	 */
-	function buildForm()
-	{
-		$this->_formBuilt = true;
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
-		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
-	}
-	
-	/**
 	 * Execute the page
 	 * Starts migration for announcements
 	 */
@@ -154,6 +135,5 @@ class AnnouncementsMigrationWizardPage extends MigrationWizardPage
 		
 		return true;
 	}
-
 }
 ?>
