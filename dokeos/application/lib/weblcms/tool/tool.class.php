@@ -225,7 +225,7 @@ abstract class Tool
 		{
 			$this->rights[VIEW_RIGHT] = true;
 		}
-		if($relation->get_status() == 1 || $user->is_admin())
+		if($relation->get_status() == 1 || $user->is_platform_admin())
 		{
 			$this->rights[VIEW_RIGHT] = true;
 			$this->rights[EDIT_RIGHT] = true;

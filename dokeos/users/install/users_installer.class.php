@@ -147,7 +147,7 @@ class UsersInstaller extends Installer
 		
 		$user = new User();
 		
-		$user->set_lastname($values['admin_lastname']);
+		$user->set_lastname($values['admin_surname']);
 		$user->set_firstname($values['admin_firstname']);
 		$user->set_username($values['admin_username']);
 		$user->set_password(md5($values['admin_password']));

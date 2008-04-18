@@ -249,7 +249,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 	function display_install_block_header($application)
 	{
 		$html = array();
-		$html[] = '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(../layout/img/admin_'. $application .'.gif);">';
+		$html[] = '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(../layout/aqua/img/admin/'. $application .'.png);">';
 		$html[] = '<div class="title">'. Translation :: get(Application::application_to_class($application)) .'</div>';
 		$html[] = '<div class="description">';
 		return implode("\n", $html);

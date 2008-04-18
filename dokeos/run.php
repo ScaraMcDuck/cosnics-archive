@@ -26,6 +26,7 @@ if(!file_exists($application_path))
 require_once $application_path;
 
 Translation :: set_application($this_section);
+Theme :: set_application($this_section);
 
 if (!PlatformSession :: get_user_id())
 {

@@ -22,9 +22,9 @@ class Theme
 	 */
 	private $application;
 
-    function Theme($theme = 'aqua')
+    function Theme()
     {
-    	$this->theme = $theme;
+    	$this->theme = PlatformSetting :: get('theme');
     }
     
     function get_theme()
@@ -85,10 +85,11 @@ class Theme
 	/**
 	 * Get the web path to the application's image folder
 	 */
-    function get_img_path()
+    function get_img_path($application = null)
     {
     	$instance = self :: get_instance();
-		return $instance->get_path(WEB_IMG_PATH) . $instance->get_application() . '/';
+    	$application = (is_null($application) ? $instance->get_application() : $application);
+		return $instance->get_path(WEB_IMG_PATH) . $application . '/';
     }
     
 	/**
