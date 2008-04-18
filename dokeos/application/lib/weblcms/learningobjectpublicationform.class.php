@@ -210,6 +210,8 @@ class LearningObjectPublicationForm extends FormValidator
 	 */
     function create_learning_object_publication()
     {
+    	// TODO: Seems like the modified date isn't being written to the DB
+    	// TODO: Hidden is not being used correctly
 		$values = $this->exportValues();
 		if ($values[self :: PARAM_FOREVER] != 0)
 		{

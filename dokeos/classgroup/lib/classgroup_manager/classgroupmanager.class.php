@@ -417,7 +417,7 @@ require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
 		$links = array();
 		$links[] = array('name' => Translation :: get('ClassGroupList'), 'action' => 'list', 'url' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)));
 		$links[] = array('name' => Translation :: get('ClassGroupCreate'), 'action' => 'add', 'url' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_CREATE_CLASSGROUP)));
-		return array('application' => array('name' => Translation :: get('ClassGroups'), 'class' => 'classgroups'), 'links' => $links, 'search' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)));
+		return array('application' => array('name' => Translation :: get('ClassGroup'), 'class' => 'classgroup'), 'links' => $links, 'search' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)));
 	}
 	
 	public function get_link($parameters = array (), $encode = false)

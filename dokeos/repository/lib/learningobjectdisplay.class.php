@@ -74,7 +74,7 @@ abstract class LearningObjectDisplay
 	{
 		$object = $this->get_learning_object();
 		$html = array();
-		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path().$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.gif);">';
+		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path() . 'learning_object/' .$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.png);">';
 		$html[] = '<div class="title">'. htmlentities($object->get_title()) .'</div>';
 		$html[] = $this->get_description();
 		$html[] = '</div>';

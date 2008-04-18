@@ -69,14 +69,14 @@ class DisabledSectionToolListRenderer extends ToolListRenderer
 				{
 					$new = '_new';
 				}
-				$tool_image = $tool->name.'_tool'.$new.'.gif';
+				$tool_image = 'tool_' . $tool->name .  $new .'.png';
 				$link_class='';
 			}
 			else
 			{
 				$action = 'make_visible';
 				$visible_image = 'invisible.gif';
-				$tool_image = $tool->name.'_tool_na.gif';
+				$tool_image = 'tool_' . $tool->name.'_na.png';
 				$link_class=' class="invisible"';
 			}
 			$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name).'Title'));
@@ -84,7 +84,7 @@ class DisabledSectionToolListRenderer extends ToolListRenderer
 			$col = $count%DisabledSectionToolListRenderer::NUMBER_OF_COLUMNS;
 			$html = array();
 			$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
-			$html[] = '<img src="'.Theme :: get_common_img_path().$tool_image.'" style="vertical-align: middle;"/>';
+			$html[] = '<img src="'.Theme :: get_img_path().$tool_image.'" style="vertical-align: middle;"/>';
 			$html[] = $title;
 			$html[] = '</a>';
 			if($section!= 'course_admin')

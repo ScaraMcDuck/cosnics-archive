@@ -36,7 +36,7 @@ class LearningObjectDifferenceDisplay {
 		$diff = $this->get_difference();
 
 		$html = array();
-		$html[] = '<div class="difference" style="background-image: url('.Theme :: get_common_img_path() . $diff->get_object()->get_icon_name().'.gif);">';
+		$html[] = '<div class="difference" style="background-image: url('.Theme :: get_common_img_path() . 'learning_object/' . $diff->get_object()->get_icon_name().'.png);">';
 		$html[] = '<div class="titleleft">';
 		$html[] = $diff->get_object()->get_title();
 		$html[] = date(" (d M Y, H:i:s O)",$diff->get_object()->get_creation_date());

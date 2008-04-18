@@ -5,6 +5,7 @@ require_once Path :: get_admin_path().'lib/admin_manager/admin.class.php';
 require_once Path :: get_user_path().'lib/usermanager/usermanager.class.php';
 
 Translation :: set_application($this_section);
+Theme :: set_application($this_section);
 
 if (!PlatformSession :: get_user_id())
 {

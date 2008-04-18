@@ -104,7 +104,7 @@ class InstallManager
 		echo '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">'."\n";
 		echo '<head>'."\n";
 		echo '<title>-- ' .$dokeos_version . ' Installation --</title>'."\n";
-		echo '<link rel="stylesheet" href="../layout/aqua/css/general.css" type="text/css"/>'."\n";
+		echo '<link rel="stylesheet" href="../layout/aqua/css/common.css" type="text/css"/>'."\n";
 		echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'."\n";		
 		echo '</head>'."\n";
 		echo '<body dir="'. Translation :: get('text_dir') .'">' . "\n";
