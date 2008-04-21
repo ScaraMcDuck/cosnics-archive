@@ -31,6 +31,8 @@ class LearningObjectPublicationCategoryForm extends FormValidator
 	{
 		parent :: __construct($formName, $method, $action);
 		$this->parent = $parent;
+		// Initialize it with the root category (mostly to avoid any null value when no category is set later on)
+		$this->category = 0;
 	}
 	/**
 	 * Add the necessary elements to this form so it can be used to create a new
@@ -81,7 +83,11 @@ class LearningObjectPublicationCategoryForm extends FormValidator
 	 */
 	function get_category_parent()
 	{
-		return $this->exportValue(self :: PARAM_CATEGORY);
+		$cat = $this->exportValue(self :: PARAM_CATEGORY);
+		if (!isset($cat)) {
+			$cat = 0;
+		}
+		return $cat;
 	}
 }
 ?>
