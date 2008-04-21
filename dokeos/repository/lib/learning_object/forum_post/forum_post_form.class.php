@@ -13,5 +13,33 @@ class ForumPostForm extends LearningObjectForm
 		$this->set_learning_object($object);
 		return parent :: create_learning_object();
 	}
+	
+    function build_creation_form()
+    {
+    	parent :: build_creation_form();
+    	$this->build_form();
+    }
+	
+    function build_editing_form()
+    {
+		parent :: build_editing_form();
+    	$this->build_form();
+	}
+
+	/**
+	 * Override the regular form by adding a selection for email notifications
+	 * A new field has been added to the forum_topic table to store emails of users
+	 * who need to be notified when new messages are posted. 
+	 */
+	private function build_form()
+	{
+		$this->add_select(ForumPost :: PROPERTY_NOTIFICATION, "Notification? ", array(
+				ForumPost :: NOTIFY_NONE => 'None',
+				ForumPost :: NOTIFY_TOPIC => 'Notify me of any replies in this thread'),
+				false
+		);
+
+	}
+	
 }
 ?>

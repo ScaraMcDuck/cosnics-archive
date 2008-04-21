@@ -18,11 +18,13 @@ class ForumPostBrowser extends LearningObjectPublicationBrowser
 {
 	private $forum_publication;
 	private $topic;
+	private $forum;
+	
 	/**
 	 * Constructor
 	 */
 	function ForumPostBrowser($parent, $types)
-	{
+	{		
 		parent :: __construct($parent, 'forum_post');
 		$renderer = new ForumPostListRenderer($this);
 		$this->set_publication_list_renderer($renderer);
@@ -49,20 +51,87 @@ class ForumPostBrowser extends LearningObjectPublicationBrowser
 	{
 		return $this->topic->get_forum_posts()->size();
 	}
+
+	/**
+	 * Send a notification email to all the users who suscribed to this course
+	 *
+	 * @param boolean $error_notify   - display warning messages for emails that weren't sent properly 
+	 * @param boolean $success_notify - display messages for sucessfully sent emails
+	 * @return html code
+	 * @TODO messages in this method must be localized
+	 */
+	function send_notification_emails($success_notify = FALSE, $error_notify = TRUE)
+	{
+		$html = "";
+		
+		// Get the current course
+		$course = parent::get_parent()->get_course();
+		// Get all the users who subscribed to the current course
+		$users_relations = $course->get_subscribed_users();
+		// Get the current logged user and their email
+		$logged_user = $this->get_user_info($this->get_user_id());
+		$logged_user_email = $logged_user->get_email();
+		// Get the webmaster email
+		$adm = AdminDataManager :: get_instance();
+		$settings = $adm->retrieve_setting_from_variable_name('administrator_email', 'admin');
+		$webmaster_email = $settings->get_value();
+		// Retrieve a bunch of required stuff
+		$topic = $this->topic->get_title();
+		$topic_url = 'http://' . $_SERVER['SERVER_NAME'] . $this->get_url();
+		// @TODO localize this message
+		$subject = "[Dokeos] Topic reply notification: \"$topic\"";
+		// Grab the list of users who must be notified
+		$notification_emails = $this->topic->get_notification_emails();
+		foreach ($notification_emails as $email)
+		{
+			if ($email === $logged_user_email) { continue; }
+			// @TODO localize this message
+			$content = "Hello,\r\n\r\nThe topic \"$topic\" of the forum \""
+						. $this->forum->get_title() . "\" of the course \""
+						. $course->get_name() . "\" got a new post!\r\n\r\n";
+			$content .= $topic_url;
+			// Prepare the email
+			$mail = Mail :: factory($subject, $content, $email, $webmaster_email);
+			// Check whether it was sent successfully
+			if ($mail->send() === FALSE) {
+				if ($error_notify) {
+					// @TODO localize this message
+					$msg = "Failed to send notification email to $email!";
+					$html .= Display::display_warning_message($msg, true);
+				}
+			}
+			else {
+				if ($success_notify) {
+					// @TODO localize this message
+					$msg = "Successfully sent notification email to $email";
+					$html .= Display::display_normal_message($msg, true);
+				}
+			}
+		}
+		
+		return $html;
+	}
+	
 	function as_html()
 	{
 		$first_post = $this->get_publications(0,1);
 		$forum = $this->forum_publication->get_learning_object();
 		$show_posts = true;
+		
+		// Create a new post		
 		if($_GET['forum_action'] == 'newpost')
 		{
 			$new_post =  new AbstractLearningObject('forum_post', $this->get_user_id());
-			if(isset($_GET['parent_post']))
+			if (isset($_GET['parent_post']))
 			{
 				$parent_post = $forum->get_forum_post($_GET['parent_post']);
 				$new_post->set_description('<blockquote style="border-left:1px solid gray;padding: 5px;">'.$parent_post->get_description().'</blockquote><br />');
+				$title = $parent_post->get_title();
+				$new_post->set_title('re: '.$title);
 			}
-			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE,$new_post, 'create', 'post', $this->get_url(array('forum_action'=>'newpost',ForumPost :: PROPERTY_PARENT_POST => $_GET[ForumPost :: PROPERTY_PARENT_POST])));
+			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $new_post,
+						'create', 'post', $this->get_url(array('forum_action'=>'newpost',
+						ForumPost :: PROPERTY_PARENT_POST => $_GET[ForumPost :: PROPERTY_PARENT_POST])));
 			if (!$form->validate())
 			{
 				$html .=  $form->toHTML();
@@ -70,15 +139,34 @@ class ForumPostBrowser extends LearningObjectPublicationBrowser
 			}
 			else
 			{
+				// The new post was validated, create it
 				$post = $form->create_learning_object();
 				$post->set_parent_id($this->topic->get_id());
+				// The PROPERTY_PARENT_POST url parameter is not defined!
 				$post->set_parent_post_id($_GET[ForumPost :: PROPERTY_PARENT_POST]);
 				$post->update();
 				$html .= Display::display_normal_message(Translation :: get('PostAdded'),true);
 				$show_posts = true;
+
+				// Check whether the user must be added to the notification
+				// list for the given topic.
+				$notify = $form->exportValue(ForumPost :: PROPERTY_NOTIFICATION);
+				switch ($notify) {
+					case ForumPost :: NOTIFY_NONE:
+						break;
+					case ForumPost :: NOTIFY_TOPIC:
+						// Get email of the current user
+						$email = $this->get_user_info($this->get_user_id())->get_email();
+						$this->topic->add_notification_email($email);
+						$this->topic->update();
+						break;
+				}
+				
+				// Send the notificaion emails
+				$html .= $this->send_notification_emails();
 			}
 		}
-		if($show_posts)
+		if ($show_posts)
 		{
 			$toolbar_data = array ();
 			$toolbar_data[] = array ('href' => $this->get_url(array('forum_action'=>'newpost')), 'img' => Theme :: get_common_img_path().'forum.gif', 'label' => Translation :: get('NewPost'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
