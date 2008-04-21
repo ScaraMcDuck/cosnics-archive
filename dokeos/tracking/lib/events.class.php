@@ -3,6 +3,7 @@
  * @package tracking.lib
  */
 require_once dirname(__FILE__) . '/event.class.php';
+require_once dirname(__FILE__) . '/eventreltracker.class.php';
 require_once dirname(__FILE__) . '/trackingdatamanager.class.php';
 /**
  * Class to create and trigger tracker events
@@ -30,12 +31,21 @@ class Events
 		$trkdmg = TrackingDataManager :: get_instance();
 		$event = $trkdmg->retrieve_event_by_name($event_name);
 		
-		if(!$event) return;
+		if($event->get_active() == 0) return;
+	
+		$trackerregistrations = $trkdmg->retrieve_trackers_from_event($event->get_id());
 		
-		$trackers = $trkdmg->retrieve_trackers_from_event($event);
-		foreach($trackers as $tracker)
-		{
-			$tracker->track($parameters);
+		foreach($trackerregistrations as $trackerregistration)
+		{	
+			$classname = $trackerregistration->get_class();
+			$filename = RepositoryUtilities :: camelcase_to_underscores($classname);
+
+			$fullpath = Path :: get(SYS_PATH) . $trackerregistration->get_path() . 
+				strtolower($filename) . '.class.php';
+			require_once($fullpath);
+			
+			$object = new $classname;
+			$object->track($parameters);
 		}
 	}
 }

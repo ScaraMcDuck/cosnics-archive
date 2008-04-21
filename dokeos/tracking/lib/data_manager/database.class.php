@@ -373,10 +373,11 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+	
 		$statement = $this->connection->prepare($query);
-		$result = $statement->execute();
-		
+		$result = $statement->execute($params);
+		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+	
 		$event = $this->record_to_classobject($record, 'Event');
 		
 		return $event;
@@ -553,8 +554,8 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	function create_tracker_item($tablename, $tracker_item)
 	{
 		$props = array();
-		foreach ($tracker_item->get_properties() as $key => $value)
-		{
+		foreach ($tracker_item->get_default_properties() as $key => $value)
+		{ 
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$this->connection->loadModule('Extended');
@@ -573,7 +574,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	function retrieve_tracker_items($tablename, $classname, $condition)
 	{
 		$query = 'SELECT * FROM ' . $this->escape_table_name($tablename) . ' AS ' . 
-				 self :: ALIAS_TRACKER_TABLE . ' ORDER BY block';
+				 self :: ALIAS_TRACKER_TABLE;
 		
 		$params = array ();
 		if (isset ($condition))
@@ -630,6 +631,15 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 		$this->connection->extended->autoExecute($this->get_table_name($tablename), $props, MDB2_AUTOQUERY_UPDATE, $condition);
 		
 		return true;
+	}
+	
+	function to_db_date($date)
+	{
+		if (isset ($date))
+		{
+			return date('Y-m-d H:i:s', $date);
+		}
+		return null;
 	}
 
 }

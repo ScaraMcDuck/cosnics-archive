@@ -26,7 +26,14 @@ class LoginTracker extends MainTracker
     
     function track($parameters = array())
     {
+    	$user = $parameters['user'];
+    	$server = $parameters['server'];
     	
+    	$this->set_user_id($user->get_user_id());
+    	$this->set_date(time());
+    	$this->set_ip($server['REMOTE_ADDR']);
+    	
+    	$this->create();
     }
     
     /**
@@ -51,7 +58,7 @@ class LoginTracker extends MainTracker
      * Get's the userid of the login tracker
      * @return int $userid the userid
      */
-    function get_userid()
+    function get_user_id()
     {
     	return $this->get_property(self :: PROPERTY_USER_ID);
     }
@@ -60,26 +67,27 @@ class LoginTracker extends MainTracker
      * Sets the userid of the login tracker
      * @param int $userid the userid
      */
-    function set_userid($userid)
+    function set_user_id($userid)
     {
     	$this->set_property(self :: PROPERTY_USER_ID, $userid);
     }
     
     /**
-     * Get's the name of the login tracker
-     * @return int $name the name
+     * Get's the date of the login tracker
+     * @return int $date the date
      */
-    function get_name()
+    function get_date()
     {
     	return $this->get_property(self :: PROPERTY_DATE);
     }
     
     /**
-     * Sets the name of the login tracker
-     * @param int $name the name
+     * Sets the date of the login tracker
+     * @param int $date the date
      */
-    function set_name($name)
+    function set_date($date)
     {
+    	$date = $this->to_db_date($date);
     	$this->set_property(self :: PROPERTY_DATE, $date);
     }
     

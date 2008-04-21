@@ -9,4 +9,8 @@
  <index name="id" type="primary">
   <indexproperty name="id"/>
  </index>
+ <index name="typename">
+  <indexproperty name="name"/>
+  <indexproperty name="type"/>
+ </index>
 </object>
