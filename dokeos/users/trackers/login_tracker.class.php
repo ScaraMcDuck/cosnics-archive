@@ -11,10 +11,10 @@ require_once Path :: get_tracking_path() . 'lib/maintracker.class.php';
  */
 class LoginTracker extends MainTracker
 {
-	const PROPERTY_ID = 'id';
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_DATE = 'date';
 	const PROPERTY_IP = 'ip';
+	const PROPERTY_TYPE = 'type';
 	
 	/**
 	 * Constructor sets the default values
@@ -28,30 +28,14 @@ class LoginTracker extends MainTracker
     {
     	$user = $parameters['user'];
     	$server = $parameters['server'];
+    	$type = $parameters['event'];
     	
     	$this->set_user_id($user->get_user_id());
     	$this->set_date(time());
     	$this->set_ip($server['REMOTE_ADDR']);
+    	$this->set_type($type);
     	
     	$this->create();
-    }
-    
-    /**
-     * Get's the id of the login tracker
-     * @return int $id the id
-     */
-    function get_id()
-    {
-    	return $this->get_property(self :: PROPERTY_ID);
-    }
-    
-    /**
-     * Sets the id of the login tracker
-     * @param int $id the id
-     */
-    function set_id($id)
-    {
-    	$this->set_property(self :: PROPERTY_ID, $id);
     }
     
     /**
@@ -107,6 +91,24 @@ class LoginTracker extends MainTracker
     function set_ip($ip)
     {
     	$this->set_property(self :: PROPERTY_IP, $ip);
+    }
+    
+    /**
+     * Get's the type of the login tracker
+     * @return int $type the type
+     */
+    function get_type()
+    {
+    	return $this->get_property(self :: PROPERTY_TYPE);
+    }
+    
+    /**
+     * Sets the type of the login tracker
+     * @param int $type the type
+     */
+    function set_type($type)
+    {
+    	$this->set_property(self :: PROPERTY_TYPE, $type);
     }
 
 }

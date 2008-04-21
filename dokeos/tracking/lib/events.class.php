@@ -5,6 +5,8 @@
 require_once dirname(__FILE__) . '/event.class.php';
 require_once dirname(__FILE__) . '/eventreltracker.class.php';
 require_once dirname(__FILE__) . '/trackingdatamanager.class.php';
+require_once Path :: get_repository_path() . 'lib/repositoryutilities.class.php';
+
 /**
  * Class to create and trigger tracker events
  * @author Sven Vanpoucke
@@ -43,6 +45,8 @@ class Events
 			$fullpath = Path :: get(SYS_PATH) . $trackerregistration->get_path() . 
 				strtolower($filename) . '.class.php';
 			require_once($fullpath);
+			
+			$parameters['event'] = $event_name;
 			
 			$object = new $classname;
 			$object->track($parameters);

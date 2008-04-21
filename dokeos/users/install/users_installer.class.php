@@ -84,6 +84,7 @@ class UsersInstaller extends Installer
 		}
 		
 		$loginevent = Events :: create_event('login', 'users');
+		$logoutevent = Events :: create_event('logout', 'users');
 		
 		$path = '/users/trackers/';
 		
@@ -106,6 +107,9 @@ class UsersInstaller extends Installer
 				}
 				else
 				{
+					if($tracker->get_class() == 'LoginTracker')
+						if(!$trkinstaller->register_tracker_to_event($tracker, $logoutevent)) return false;
+					
 					if(!$trkinstaller->register_tracker_to_event($tracker, $loginevent)) return false;
 				}
 				

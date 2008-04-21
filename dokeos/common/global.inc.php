@@ -336,6 +336,11 @@ if ($_GET['logout'])
 	{
 		$query_string='?language='.$_SESSION['user_language_choice'];
 	}
+	
+	$udm = UsersDataManager::get_instance();
+	$user = $udm->retrieve_user(PlatformSession :: get_user_id());
+	
+	Events :: trigger_event('logout', array('server' => $_SERVER, 'user' => $user));
 	// TODO: Reimplement tracking
 	//LoginDelete($uid, $statsDbName);
 	$udm = UsersDataManager::get_instance();

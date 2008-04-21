@@ -10,7 +10,7 @@ require_once dirname(__FILE__). '/maintracker.class.php';
  * This class is an abstract class for several action trackers 
  * Has the default properties of user_id, reference_id, action and date
  */
-abstract class DefaultTracker extends MainTracker
+class DefaultTracker extends MainTracker
 {
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_REFERENCE_ID = 'reference_id';
@@ -20,15 +20,18 @@ abstract class DefaultTracker extends MainTracker
 	/**
 	 * Constructor sets the default actions
 	 */
-    function DefaultTracker($tablereference_id) 
+    function DefaultTracker($table) 
     {
-    	parent :: MainTracker($tablereference_id);
+    	parent :: MainTracker($table);
     }
     
     /**
      * Inherited
      */
-    abstract function track($parameters = array());
+    function track($parameters = array())
+    {
+    	
+    }
     
     /**
      * Inherited
@@ -40,7 +43,7 @@ abstract class DefaultTracker extends MainTracker
     }
     
     /**
-     * Get's the user_id of the user tracker
+     * Get's the user_id of the default tracker
      * @return int $user_id the user_id
      */
     function get_user_id()
@@ -49,7 +52,7 @@ abstract class DefaultTracker extends MainTracker
     }
     
     /**
-     * Sets the user_id of the user tracker
+     * Sets the user_id of the default tracker
      * @param int $user_id the user_id
      */
     function set_user_id($user_id)
@@ -58,7 +61,7 @@ abstract class DefaultTracker extends MainTracker
     }
     
     /**
-     * Get's the reference_id of the user tracker
+     * Get's the reference_id of the default tracker
      * @return int $reference_id the reference_id
      */
     function get_reference_id()
@@ -67,7 +70,7 @@ abstract class DefaultTracker extends MainTracker
     }
     
     /**
-     * Sets the reference_id of the user tracker
+     * Sets the reference_id of the default tracker
      * @param int $reference_id the reference_id
      */
     function set_reference_id($reference_id)
@@ -76,7 +79,7 @@ abstract class DefaultTracker extends MainTracker
     }
     
     /**
-     * Get's the action of the user tracker
+     * Get's the action of the default tracker
      * @return int $action the action
      */
     function get_action()
@@ -85,7 +88,7 @@ abstract class DefaultTracker extends MainTracker
     }
     
     /**
-     * Sets the action of the user tracker
+     * Sets the action of the default tracker
      * @param int $action the action
      */
     function set_action($action)
@@ -94,7 +97,7 @@ abstract class DefaultTracker extends MainTracker
     }
     
     /**
-     * Get's the date of the user tracker
+     * Get's the date of the default tracker
      * @return int $date the date
      */
     function get_date()
@@ -103,7 +106,7 @@ abstract class DefaultTracker extends MainTracker
     }
     
     /**
-     * Sets the date of the user tracker
+     * Sets the date of the default tracker
      * @param int $date the date
      */
     function set_date($date)
