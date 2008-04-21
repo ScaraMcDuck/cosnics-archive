@@ -189,6 +189,17 @@ class CalendarEventPublication
 	}
 	
 	/**
+	 * Create all needed for migration tool to set the published time manually
+	 */
+	function create_all()
+	{
+		$pmdm = PersonalCalendarDataManager :: get_instance();
+		$id = $pmdm->get_next_calendar_event_publication_id();
+		$this->set_id($id);
+		return $pmdm->create_calendar_event_publication($this);
+	}
+	
+	/**
 	 * Deletes this publication from persistent storage
 	 * @see PersonalCalendarDataManager::delete_calendar_event_publication()
 	 */
