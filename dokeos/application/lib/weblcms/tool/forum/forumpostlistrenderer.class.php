@@ -10,13 +10,16 @@ require_once dirname(__FILE__).'/../../browser/list_renderer/listlearningobjectp
 class ForumPostListRenderer extends ListLearningObjectPublicationListRenderer
 {
 	function as_html()
-	{
+	{		
 		$forum_posts = $this->get_publications();
 		foreach ($forum_posts as $index => $forum_post)
 		{
 			$first = ($index == 0);
 			$last = ($index == count($forum_posts) - 1);
-			$publication = new LearningObjectPublication(null,$forum_post);
+			// ctor: $id, $learningObject, $course, $tool, $category, $targetUsers, $targetGroups, $fromDate
+			//       $toDate, $publisher, $publicationDate, $modifiedDate, $hidden, $displayOrder, $emailSent
+			$id = $forum_post->get_id();
+			$publication = new LearningObjectPublication($id, $forum_post, $course);
 			$publication->set_publication_date($forum_post->get_creation_date());
 			$html[] = $this->render_publication($publication, $first, $last);
 		}

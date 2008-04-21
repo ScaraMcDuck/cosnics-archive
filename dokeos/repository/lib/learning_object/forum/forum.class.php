@@ -19,6 +19,7 @@ class Forum extends LearningObject
 		$count = $datamanager->count_learning_objects('forum_topic',new EqualityCondition(self::PROPERTY_PARENT_ID, $this->get_id()));
 		return $count;
 	}
+	
 	/**
 	 * Gets the number of posts in this forum
 	 * @return int The number of posts
@@ -34,6 +35,7 @@ class Forum extends LearningObject
 		}
 		return $count;
 	}
+	
 	/**
 	 * Gets the most recent post in this forum
 	 * @return null|ForumPost If no posts in this forum, null will be returned.
@@ -54,6 +56,7 @@ class Forum extends LearningObject
 		}
 		return $last_post;
 	}
+	
 	/**
 	 * Gets the list of topics in this forum
 	 * @return ResultSet The set of topics
@@ -64,6 +67,7 @@ class Forum extends LearningObject
 		$topics = $datamanager->retrieve_learning_objects('forum_topic',new EqualityCondition(self::PROPERTY_PARENT_ID, $this->get_id()));
 		return $topics;
 	}
+	
 	/**
 	 * Gets a topic in this forum
 	 * @param int $topic_id The id of the requested topic
@@ -75,6 +79,7 @@ class Forum extends LearningObject
 		$topic = $datamanager->retrieve_learning_object($topic_id,'forum_topic');
 		return $topic;
 	}
+	
 	function get_forum_post($post_id)
 	{
 		$datamanager = RepositoryDataManager::get_instance();
