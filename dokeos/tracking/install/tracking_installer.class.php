@@ -49,6 +49,9 @@ class TrackingInstaller extends Installer
 	function register_tracker($path, $class)
 	{	
 		$tracker = new TrackerRegistration();
+		
+		$class = RepositoryUtilities :: underscores_to_camelcase($class);
+		
 		$tracker->set_class($class);
 		$tracker->set_path($path);
 		

@@ -123,6 +123,7 @@ require_once Path :: get_library_path().'html/breadcrumb.class.php';
 require_once Path :: get_library_path().'html/display.class.php';
 
 require_once(Path :: get_admin_path().'lib/admindatamanager.class.php');
+require_once(Path :: get_tracking_path().'lib/events.class.php');
 require_once 'MDB2.php';
 
 // Start session
@@ -309,6 +310,7 @@ if($_POST['login'])
 	if(!is_null($user))
 	{
 		PlatformSession :: platform_session_register('_uid', $user->get_user_id());
+		Events :: trigger_event('login', array('server' => $_SERVER, 'user' => $user));
 		// TODO: Tracking framework
 		//loginCheck($_SESSION['_uid']);
 		//event_login();

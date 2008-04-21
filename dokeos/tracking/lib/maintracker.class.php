@@ -27,7 +27,7 @@ abstract class MainTracker
 	 */
 	function MainTracker($table)
 	{
-		$this->table = table;
+		$this->table = $table;
 	}
 	
 	/**
@@ -37,7 +37,7 @@ abstract class MainTracker
 	function create()
 	{
 		$trkdmg = TrackingDataManager :: get_instance();
-		$this->id = $trkdgm->get_next_id($this->table);
+		$this->set_id($trkdmg->get_next_id($this->table));
 		return $trkdmg->create_tracker_item($this->table, $this);
 	}
 	
@@ -51,12 +51,23 @@ abstract class MainTracker
 	}
 	
 	/**
+	 * Retrieves tracker items with a given condition
+	 * @param Condition condition on which we want to retrieve the trackers
+	 * @return array of tracker items
+	 */
+	function retrieve_tracker_items($condition)
+	{
+		$trkdmg = TrackingDataManager :: get_instance();
+		return $trkdmg->retrieve_tracker_items($this->table, get_class($this), $condition);
+	}
+	
+	/**
 	 * Returns the table of the tracker
 	 * @return string the tablename
 	 */
 	function get_table()
 	{
-		return $this->table();
+		return $this->table;
 	}
 	
 	/**
@@ -92,7 +103,7 @@ abstract class MainTracker
 	 * Returns all properties
 	 * @return array of properties
 	 */
-	function get_properties()
+	function get_default_properties()
 	{
 		return $this->properties;
 	}
@@ -101,7 +112,7 @@ abstract class MainTracker
 	 * Set the properties of the tracker
 	 * @param array $properties
 	 */
-	function set_properties($properties)
+	function set_default_properties($properties)
 	{
 		$this->properties = $properties;
 	}
@@ -109,12 +120,11 @@ abstract class MainTracker
 	/**
 	 * Returns the property names of the tracker
 	 */
-	function get_property_names()
-	{
+	function get_default_property_names()
+	{  
 		return array(self :: PROPERTY_ID);	
 	}
 	
-	    
     /**
      * Get's the id of the user tracker
      * @return int $id the id
@@ -138,6 +148,12 @@ abstract class MainTracker
 	 * @param array $parameters
 	 */
 	abstract function track($parameters = array());
+	
+	function to_db_date($date)
+	{
+		$trkdmg = TrackingDataManager :: get_instance();
+		return $trkdmg->to_db_date($date);
+	}
 }
 
 ?>

@@ -67,7 +67,7 @@ class UsersInstaller extends Installer
 	 */
 	function register_trackers()
 	{
-		$dir = dirname(__FILE__) . '/../lib/trackers/tracker_tables';
+		$dir = dirname(__FILE__) . '/../trackers/tracker_tables';
 		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
 		
 		$trkinstaller = new TrackingInstaller();
@@ -85,9 +85,9 @@ class UsersInstaller extends Installer
 		
 		$loginevent = Events :: create_event('login', 'users');
 		
-		$path = '/users/lib/trackers/';
+		$path = '/users/trackers/';
 		
-		$dir = dirname(__FILE__) . '/../lib/trackers/';
+		$dir = dirname(__FILE__) . '/../trackers/';
 		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
 		
 		foreach($files as $file)

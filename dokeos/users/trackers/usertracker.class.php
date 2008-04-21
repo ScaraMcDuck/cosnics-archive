@@ -9,7 +9,7 @@ require_once Path :: get_tracking_path() . 'lib/maintracker.class.php';
 /**
  * This class is a abstract class for user tracking
  */
-abstract class UserTracker extends MainTracker
+class UserTracker extends MainTracker
 {
 	const PROPERTY_TYPE = 'type';
 	const PROPERTY_NAME = 'name';
@@ -26,14 +26,17 @@ abstract class UserTracker extends MainTracker
     /**
      * Inherited
      */
-    abstract function track($parameters = array());
+    function track($parameters = array())
+    {
+    	
+    }
     
     /**
      * Inherited
      */
-    function get_property_names()
-    {
-    	return array_merge(parent :: get_property_names(), array(self :: PROPERTY_TYPE, 
+    function get_default_property_names()
+    { 
+    	return array_merge(MainTracker :: get_default_property_names(), array(self :: PROPERTY_TYPE, 
     				 self :: PROPERTY_NAME, self :: PROPERTY_VALUE));
     }
     
