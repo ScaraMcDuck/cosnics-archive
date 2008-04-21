@@ -27,7 +27,7 @@ class DefaultMail extends Mail
 			$headers[] = 'Reply-To: '.$this->get_from();
 		}
 		$headers = implode("\n",$headers);
-		mail(implode(',',$this->get_to()),$this->get_subject(),$this->get_message(),$headers);
+		return mail(implode(',',$this->get_to()),$this->get_subject(),$this->get_message(),$headers);
 	}
 }
 ?>

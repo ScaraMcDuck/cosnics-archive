@@ -4,7 +4,7 @@
  * @package mail
  */
 /**
- * An abstract class for sending emails. Impement new mail methods by creating a
+ * An abstract class for sending emails. Implement new mail methods by creating a
  * class which extends this abstract class.
  * @todo: Add functionality for extra headers, names of receivers & sender,
  * maybe HTML email and attachments?
