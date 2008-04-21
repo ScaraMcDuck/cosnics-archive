@@ -24,6 +24,10 @@ class LoginTracker extends MainTracker
     	parent :: MainTracker('login');
     }
     
+    /**
+     * Inherited
+     * @see MainTracker :: track()
+     */
     function track($parameters = array())
     {
     	$user = $parameters['user'];
