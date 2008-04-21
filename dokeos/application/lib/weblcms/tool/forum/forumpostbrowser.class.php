@@ -58,7 +58,6 @@ class ForumPostBrowser extends LearningObjectPublicationBrowser
 	 * @param boolean $error_notify   - display warning messages for emails that weren't sent properly 
 	 * @param boolean $success_notify - display messages for sucessfully sent emails
 	 * @return html code
-	 * @TODO messages in this method must be localized
 	 */
 	function send_notification_emails($success_notify = FALSE, $error_notify = TRUE)
 	{
@@ -78,32 +77,31 @@ class ForumPostBrowser extends LearningObjectPublicationBrowser
 		// Retrieve a bunch of required stuff
 		$topic = $this->topic->get_title();
 		$topic_url = 'http://' . $_SERVER['SERVER_NAME'] . $this->get_url();
-		// @TODO localize this message
-		$subject = "[Dokeos] Topic reply notification: \"$topic\"";
+		$subject = Translation :: get('ForumNotifyMsgHeader') . "\"$topic\"";
 		// Grab the list of users who must be notified
 		$notification_emails = $this->topic->get_notification_emails();
 		foreach ($notification_emails as $email)
 		{
-			if ($email === $logged_user_email) { continue; }
-			// @TODO localize this message
-			$content = "Hello,\r\n\r\nThe topic \"$topic\" of the forum \""
-						. $this->forum->get_title() . "\" of the course \""
-						. $course->get_name() . "\" got a new post!\r\n\r\n";
+			if ($email === $logged_user_email)
+			{
+				continue;
+			}
+			$inp = array('#TOPIC#', '#FORUM#', '#COURSE#');
+			$outp = array($topic, $this->forum->get_title(), $course->get_name());
+			$content = str_replace($inp, $outp, Translation :: get('ForumNotifyMsgContent'));
 			$content .= $topic_url;
 			// Prepare the email
 			$mail = Mail :: factory($subject, $content, $email, $webmaster_email);
 			// Check whether it was sent successfully
 			if ($mail->send() === FALSE) {
 				if ($error_notify) {
-					// @TODO localize this message
-					$msg = "Failed to send notification email to $email!";
+					$msg = Translation :: get('ForumNotifyError') . $email;
 					$html .= Display::display_warning_message($msg, true);
 				}
 			}
 			else {
 				if ($success_notify) {
-					// @TODO localize this message
-					$msg = "Successfully sent notification email to $email";
+					$msg = Translation :: get('ForumNotifySuccess') . $email;
 					$html .= Display::display_normal_message($msg, true);
 				}
 			}
@@ -113,7 +111,7 @@ class ForumPostBrowser extends LearningObjectPublicationBrowser
 	}
 	
 	function as_html()
-	{
+	{		
 		$first_post = $this->get_publications(0,1);
 		$forum = $this->forum_publication->get_learning_object();
 		$show_posts = true;

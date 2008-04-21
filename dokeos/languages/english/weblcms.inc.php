@@ -6,6 +6,10 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 
+$lang['weblcms']['ForumNotifyError'] = 'Failed to send notification email to ';
+$lang['weblcms']['ForumNotifySuccess'] = 'Successfully sent notification email to ';
+$lang['weblcms']['ForumNotifyMsgHeader'] = '[Dokeos] Topic reply notification: ';
+$lang['weblcms']['ForumNotifyMsgContent'] = "Hello,\r\n\r\nThe topic \"#TOPIC#\" of the forum \"#FORUM#\" of the course \"#COURSE#\" got a new post!\r\n\r\n";
 $lang['weblcms']['Tutor_name'] = 'Created by';
 $lang['weblcms']['MyCourses'] = 'My courses';
 $lang['weblcms']['PublishedBy'] = 'Published by';
