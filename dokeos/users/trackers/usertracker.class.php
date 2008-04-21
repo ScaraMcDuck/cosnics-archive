@@ -9,7 +9,7 @@ require_once Path :: get_tracking_path() . 'lib/maintracker.class.php';
 /**
  * This class is a abstract class for user tracking
  */
-class UserTracker extends MainTracker
+abstract class UserTracker extends MainTracker
 {
 	const PROPERTY_TYPE = 'type';
 	const PROPERTY_NAME = 'name';
@@ -21,14 +21,6 @@ class UserTracker extends MainTracker
     function UserTracker() 
     {
     	parent :: MainTracker('user');
-    }
-    
-    /**
-     * Inherited
-     */
-    function track($parameters = array())
-    {
-    	
     }
     
     /**

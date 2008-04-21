@@ -34,6 +34,7 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 	const ACTION_BROWSE_EVENTS = 'browse_events';
 	const ACTION_VIEW_EVENT = 'view_event';
 	const ACTION_CHANGE_ACTIVE = 'changeactive';
+	const ACTION_EMPTY_TRACKER = 'empty_tracker';
 	
 	private $user;
 	private $tdm;
@@ -66,6 +67,9 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 				break;
 			case self :: ACTION_CHANGE_ACTIVE :
 				$component = TrackingManagerComponent :: factory('ActivityChanger', $this);
+				break;
+			case self :: ACTION_EMPTY_TRACKER :
+				$component = TrackingManagerComponent :: factory('EmptyTracker', $this);
 				break;
 			default :
 				$component = TrackingManagerComponent :: factory('AdminEventsBrowser', $this);
@@ -345,7 +349,19 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 	 */
 	function get_event_viewer_url($event)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_EVENT, self :: PARAM_EVENT_ID => $event->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_EVENT, 
+			self :: PARAM_EVENT_ID => $event->get_id()));
+	}
+	
+	/** 
+	 * Retrieves the empty tracker url
+	 * @see TrackingManager :: get_empty_tracker_url()
+	 */
+	function get_empty_tracker_url($event_id, $tracker_id)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EMPTY_TRACKER, 
+			self :: PARAM_EVENT_ID => $event_id,
+			self :: PARAM_TRACKER_ID => $tracker_id));
 	}
 	
 	/**
@@ -386,6 +402,16 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 	function retrieve_event_tracker_relation($event_id, $tracker_id)
 	{
 		return $this->tdm->retrieve_event_tracker_relation($event_id, $tracker_id);
+	}
+	
+	/**
+	 * Retrieves the tracker for the given id
+	 * @param int $tracker_id the given tracker id
+	 * @return TrackerRegistration the tracker registration
+	 */
+	function retrieve_tracker_registration($tracker_id)
+	{
+		return $this->tdm->retrieve_tracker_registration($tracker_id);
 	}
 	
 }

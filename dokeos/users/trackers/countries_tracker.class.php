@@ -47,6 +47,16 @@ class CountriesTracker extends UserTracker
     }
     
     /**
+     * Inherited
+     * @see MainTracker :: empty_tracker
+     */
+    function empty_tracker($event)
+    {
+    	$condition = new EqualityCondition('type', 'country');
+    	return $this->remove($condition);
+    }
+    
+    /**
      * Extracts the country code from the remote host
      * @param Remote Host $remhost instance of $_SERVER['REMOTE_ADDR']
      * @return string country code

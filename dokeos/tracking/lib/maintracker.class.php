@@ -62,6 +62,15 @@ abstract class MainTracker
 	}
 	
 	/**
+	 * Removes tracker items with a given condition
+	 */
+	function remove($condition)
+	{
+		$trkdmg = TrackingDataManager :: get_instance();
+		return $trkdmg->remove_tracker_items($this->table, $condition);
+	}
+	
+	/**
 	 * Returns the table of the tracker
 	 * @return string the tablename
 	 */
@@ -148,6 +157,13 @@ abstract class MainTracker
 	 * @param array $parameters
 	 */
 	abstract function track($parameters = array());
+	
+	/**
+	 * Method to clear the tracker table for given event
+	 * @param Event $event
+	 * @return true if correctly cleared
+	 */
+	abstract function empty_tracker($event);
 	
 	function to_db_date($date)
 	{

@@ -150,5 +150,11 @@ abstract class TrackingDataManager
 	 * @return true if update is valid
 	 */
 	abstract function update_tracker_item($tablename, $tracker_item);
+	/**
+	 * Deletes tracker items in the database
+	 * @param Condition conditon which items should be removed
+	 * @return true if tracker items are removed
+	 */
+	abstract function remove_tracker_items($tablename, $condition);
 }
 ?>

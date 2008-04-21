@@ -44,5 +44,15 @@ class ReferrersTracker extends UserTracker
     		$this->create();
     	}
     }
+    
+    /**
+     * Inherited
+     * @see MainTracker :: empty_tracker
+     */
+    function empty_tracker($event)
+    {
+    	$condition = new EqualityCondition('type', 'referer');
+    	return $this->remove($condition);
+    }
 }
 ?>
