@@ -47,6 +47,16 @@ class ProvidersTracker extends UserTracker
     }
     
     /**
+     * Inherited
+     * @see MainTracker :: empty_tracker
+     */
+    function empty_tracker($event)
+    {
+    	$condition = new EqualityCondition('type', 'provider');
+    	return $this->remove($condition);
+    }
+    
+    /**
      * Extracts a provider from a given hostname
      * @param string $remhost The remote hostname
      * @return the provider

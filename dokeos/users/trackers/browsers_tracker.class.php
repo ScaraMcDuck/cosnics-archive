@@ -20,6 +20,10 @@ class BrowsersTracker extends UserTracker
     	$this->set_property(self :: PROPERTY_TYPE, 'browser');
     }
     
+    /**
+     * Inherited
+     * @see MainTracker :: track
+     */
     function track($parameters = array())
     {
     	$server = $parameters['server'];
@@ -45,6 +49,16 @@ class BrowsersTracker extends UserTracker
     		$this->create();
     	}
     	
+    }
+    
+    /**
+     * Inherited
+     * @see MainTracker :: empty_tracker
+     */
+    function empty_tracker($event)
+    {
+    	$condition = new EqualityCondition('type', 'browser');
+    	return $this->remove($condition);
     }
 	
 	/**

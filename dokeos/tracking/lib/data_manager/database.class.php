@@ -633,6 +633,34 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 		return true;
 	}
 	
+	/**
+	 * Deletes tracker items in the database
+	 * @param Condition conditon which items should be removed
+	 * @return true if tracker items are removed
+	 */
+	function remove_tracker_items($tablename, $condition)
+	{
+		$query = 'DELETE FROM '.$this->escape_table_name($tablename);
+		
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$statement = $this->connection->prepare($query);
+		$result = $statement->execute($params);
+
+		return true;
+	}
+	
+	/**
+	 * Convert unix time to DB date
+	 * @param int $date unix time
+	 */
 	function to_db_date($date)
 	{
 		if (isset ($date))

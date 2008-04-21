@@ -47,6 +47,16 @@ class OSTracker extends UserTracker
     }
     
     /**
+     * Inherited
+     * @see MainTracker :: empty_tracker
+     */
+    function empty_tracker($event)
+    {
+    	$condition = new EqualityCondition('type', 'os');
+    	return $this->remove($condition);
+    }
+    
+    /**
 	 * Extracts a os from the useragent
 	 * @param User Agent $user_agent
 	 * @return string The Os

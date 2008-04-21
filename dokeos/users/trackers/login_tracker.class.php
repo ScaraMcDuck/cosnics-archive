@@ -39,6 +39,16 @@ class LoginTracker extends MainTracker
     }
     
     /**
+     * Inherited
+     * @see MainTracker :: empty_tracker
+     */
+    function empty_tracker($event)
+    {
+    	$condition = new EqualityCondition('type', $event->get_name());
+    	return $this->remove($condition);
+    }
+    
+    /**
      * Get's the userid of the login tracker
      * @return int $userid the userid
      */

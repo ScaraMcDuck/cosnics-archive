@@ -227,6 +227,15 @@ abstract class TrackingManagerComponent
 		return $this->get_parent()->get_event_viewer_url($event);
 	}
 	
+	/** 
+	 * Retrieves the empty tracker url
+	 * @see TrackingManager :: get_empty_tracker_url()
+	 */
+	function get_empty_tracker_url($event_id, $tracker_id)
+	{
+		return $this->get_parent()->get_empty_tracker_url($event_id,$tracker_id);
+	}
+	
 	/**
 	 * Retrieves the events
 	 * @see TrackingManager :: retrieve_events();
@@ -265,6 +274,16 @@ abstract class TrackingManagerComponent
 	function retrieve_event_tracker_relation($event_id, $tracker_id)
 	{
 		return $this->get_parent()->retrieve_event_tracker_relation($event_id, $tracker_id);
+	}
+	
+	/**
+	 * Retrieves the tracker for the given id
+	 * @param int $tracker_id the given tracker id
+	 * @return TrackerRegistration the tracker registration
+	 */
+	function retrieve_tracker_registration($tracker_id)
+	{
+		return $this->get_parent()->retrieve_tracker_registration($tracker_id);
 	}
 }
 ?>

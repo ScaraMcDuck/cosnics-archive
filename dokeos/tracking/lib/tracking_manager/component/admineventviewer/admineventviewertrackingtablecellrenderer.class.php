@@ -42,6 +42,13 @@ class AdminEventViewerTrackingTableCellRenderer
 				Path :: get(WEB_LAYOUT_PATH).'img/invisible.gif'
 		);
 		
+		$toolbar_data[] = array(
+			'href' => $this->eventviewer->get_empty_tracker_url($this->event->get_id(), $tracker->get_id()),
+			'label' => Translation :: get('Empty_Tracker'),
+			'confirm' => true,
+			'img' => Path :: get(WEB_LAYOUT_PATH).'img/delete.gif'
+		);
+		
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 
 	}
