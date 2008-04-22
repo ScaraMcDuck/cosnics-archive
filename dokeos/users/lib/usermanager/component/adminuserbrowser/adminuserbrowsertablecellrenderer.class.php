@@ -70,7 +70,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_user_editing_url($user),
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'edit.gif'
+			'img' => Theme :: get_common_img_path().'edit.png'
 		);
 
 		$toolbar_data[] = array(
@@ -84,7 +84,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_user_delete_url($user),
 				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_common_img_path().'delete.gif'
+				'img' => Theme :: get_common_img_path().'delete.png'
 			);
 		}
 

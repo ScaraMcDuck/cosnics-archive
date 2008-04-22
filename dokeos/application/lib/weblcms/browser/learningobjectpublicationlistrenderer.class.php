@@ -231,7 +231,7 @@ abstract class LearningObjectPublicationListRenderer
 	function render_edit_action($publication)
 	{
 		$edit_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_EDIT, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-		$edit_link = '<a href="'.$edit_url.'"><img src="'.Theme :: get_common_img_path().'edit.gif"  alt=""/></a>';
+		$edit_link = '<a href="'.$edit_url.'"><img src="'.Theme :: get_common_img_path().'edit.png"  alt=""/></a>';
 		return $edit_link;
 	}
 
@@ -243,7 +243,7 @@ abstract class LearningObjectPublicationListRenderer
 	function render_delete_action($publication)
 	{
 		$delete_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_DELETE, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'delete.gif"  alt=""/></a>';
+		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'delete.png"  alt=""/></a>';
 		return $delete_link;
 	}
 	
@@ -255,7 +255,7 @@ abstract class LearningObjectPublicationListRenderer
 	function render_feedback_action($publication)
 	{
 		$feedback_url = $this->get_url(array (RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-		$feedback_link = '<a href="'.$feedback_url.'"><img src="'.Theme :: get_common_img_path().'browser.gif" alt=""/></a>';
+		$feedback_link = '<a href="'.$feedback_url.'"><img src="'.Theme :: get_common_img_path().'browser.png" alt=""/></a>';
 		return $feedback_link;
 	}
 

@@ -17,7 +17,10 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 	 */
 	function run()
 	{
-		$this->display_header(array(array('url' => $this->get_url(), 'name' => Translation :: get('RecycleBin'))));
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('RecycleBin')));
+		
+		$this->display_header($trail);
 		if ($_GET[RepositoryManager :: PARAM_EMPTY_RECYCLE_BIN])
 		{
 			$this->empty_recycle_bin();
@@ -29,7 +32,7 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 			$toolbar_data = array();
 			$toolbar_data[] = array(
 				'href' => $this->get_url(array(RepositoryManager :: PARAM_EMPTY_RECYCLE_BIN => 1)),
-				'img' => Theme :: get_common_img_path().'treemenu/trash.gif',
+				'img' => Theme :: get_common_img_path().'treemenu/trash.png',
 				'label' => Translation :: get('EmptyRecycleBin'),
 				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL,
 				'confirm' => true

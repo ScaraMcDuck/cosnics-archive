@@ -76,7 +76,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 			'href' => $delete_url,
 			'label' => Translation :: get('Delete'),
 			'confirm' => true,
-			'img' => Theme :: get_common_img_path().'delete.gif'
+			'img' => Theme :: get_common_img_path().'delete.png'
 		);
 		
 		if ($this->browser->get_folder() == PersonalMessenger :: ACTION_FOLDER_INBOX)

@@ -254,7 +254,7 @@ EOT;
 	 */
 	function add_resource_button()
 	{
-		$group[] = $this->createElement('static','add_resource_img',null,'<img src="'.Path :: get(WEB_CODE_PATH).'img/attachment.gif" alt="'.Translation :: get('Attachment').'"/>');
+		$group[] = $this->createElement('static','add_resource_img',null,'<img src="'. Theme :: get_common_img_path() . 'attachment.png" alt="'.Translation :: get('Attachment').'"/>');
 		$group[] = $this->createElement('submit','add_resource',Translation :: get('Attachment'),'class="link_alike"');
 		$this->addGroup($group);
 	}
