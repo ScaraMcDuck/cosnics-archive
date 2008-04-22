@@ -60,7 +60,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_editing_url($learning_object),
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'edit.gif'
+			'img' => Theme :: get_common_img_path().'edit.png'
 		);
 		$html = array ();
 		if ($url = $this->browser->get_learning_object_recycling_url($learning_object))
@@ -68,7 +68,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 			$toolbar_data[] = array(
 				'href' => $url,
 				'label' => Translation :: get('Remove'),
-				'img' => Theme :: get_common_img_path().'recycle_bin.gif',
+				'img' => Theme :: get_common_img_path().'recycle_bin.png',
 				'confirm' => true
 			);
 		}
@@ -76,7 +76,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('Remove'),
-				'img' => Theme :: get_common_img_path().'recycle_bin_na.gif'
+				'img' => Theme :: get_common_img_path().'recycle_bin_na.png'
 			);
 		}
 		if($this->browser->get_number_of_categories() > 1)
@@ -84,18 +84,18 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_learning_object_moving_url($learning_object),
 				'label' => Translation :: get('Move'),
-				'img' => Theme :: get_common_img_path().'move.gif'
+				'img' => Theme :: get_common_img_path().'move.png'
 			);
 		}
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_metadata_editing_url($learning_object),
 			'label' => Translation :: get('Metadata'),
-			'img' => Theme :: get_common_img_path().'info_small.gif'
+			'img' => Theme :: get_common_img_path().'metadata.png'
 		);
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_rights_editing_url($learning_object),
 			'label' => Translation :: get('Rights'),
-			'img' => Theme :: get_common_img_path().'group_small.gif'
+			'img' => Theme :: get_common_img_path().'right.png'
 		);
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}

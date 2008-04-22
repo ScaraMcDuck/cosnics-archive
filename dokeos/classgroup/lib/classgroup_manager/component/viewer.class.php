@@ -70,7 +70,7 @@ class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 		$toolbar_data[] = array(
 			'href' => $this->get_classgroup_editing_url($classgroup),
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'edit.gif',
+			'img' => Theme :: get_common_img_path().'edit.png',
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
@@ -85,7 +85,7 @@ class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 		$toolbar_data[] = array(
 			'href' => $this->get_classgroup_emptying_url($classgroup),
 			'label' => Translation :: get('Truncate'),
-			'img' => Theme :: get_common_img_path().'recycle_bin.gif',
+			'img' => Theme :: get_common_img_path().'recycle_bin.png',
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		

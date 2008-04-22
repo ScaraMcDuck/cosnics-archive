@@ -46,7 +46,7 @@ class DocumentTool extends RepositoryTool
 				{
 					$html[] =   '<a href="' . $this->get_url(array('documenttoolmode' => $i), true) . '">';
 				}
-				$html[] = '<img src="'.Theme :: get_common_img_path().$key.'.gif" alt="'.Translation :: get($title).'" style="vertical-align:middle;"/> ';
+				$html[] = '<img src="'.Theme :: get_common_img_path().$key.'.png" alt="'.Translation :: get($title).'" style="vertical-align:middle;"/> ';
 				$html[] =   Translation :: get($title);
 				if (!$current)
 				{

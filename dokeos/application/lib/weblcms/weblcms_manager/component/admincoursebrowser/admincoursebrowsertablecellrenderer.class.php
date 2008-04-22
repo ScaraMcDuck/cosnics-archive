@@ -58,7 +58,7 @@ class AdminCourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_course_editing_url($course),
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'edit.gif'
+			'img' => Theme :: get_common_img_path().'edit.png'
 		);
 		
 		$toolbar_data[] = array(

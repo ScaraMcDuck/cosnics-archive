@@ -241,7 +241,7 @@ img {
 
 /*** layout divs for course and tool pages (being tested in some pages) ****/
 #contentfloatholder {/* also makes the right "sliding" tab  */
-/*background: url(../pics/sidebar-r.gif) repeat-y 100% 0;
+/*background: url(../pics/sidebar-r.png) repeat-y 100% 0;
 background: url(../pics/bg_fountain.jpg) no-repeat 100% 0; */
 float: left;
 width: 100%;
@@ -850,7 +850,7 @@ div.attachments
 	border: 1px solid #F6F6F6;
 	margin: 0 0 1em 0;
 	padding: 10px 10px 10px 44px;
-	background: url(../img/common/attachment_large.gif) no-repeat 10px 10px;
+	background: url(../img/common/place_attachment.png) no-repeat 10px 10px;
 }
 div.attachments_title
 {
@@ -944,12 +944,12 @@ div.versions, div.versions_na
 
 div.versions
 {
-	background: url(../img/common/versions_large.gif) no-repeat 10px 10px;
+	background: url(../img/common/versions.png) no-repeat 10px 10px;
 }
 
 div.versions_na
 {
-	background: url(../img/common/versions_large_na.gif) no-repeat 10px 10px;
+	background: url(../img/common/versions_na.png) no-repeat 10px 10px;
 }
 
 div.versions_title
@@ -982,12 +982,12 @@ div.version_stats, div.version_stats_na
 
 div.version_stats
 {
-	background: url(../img/common/statistics.gif) no-repeat 10px 10px;
+	background: url(../img/common/version_quota.png) no-repeat 10px 10px;
 }
 
 div.version_stats_na
 {
-	background: url(../img/common/statistics_na.gif) no-repeat 10px 10px;
+	background: url(../img/common/version_quota_na.png) no-repeat 10px 10px;
 }
 
 div.version_stats_title
@@ -1057,7 +1057,7 @@ div.publications
 	border: 1px solid #F6F6F6;
 	margin: 0 0 1em 0;
 	padding: 10px 10px 10px 44px;
-	background: url(../img/common/publish.gif) no-repeat 10px 10px;
+	background: url(../img/common/publications.png) no-repeat 10px 10px;
 }
 div.publications_title
 {
@@ -1116,7 +1116,7 @@ input#attachments_expand_button
 {
 	border: 0;
 	background: transparent;
-	background-image: url(../img/common/attachment.gif);
+	background-image: url(../img/common/attachment.png);
 	background-position: 0 50%;
 	background-repeat: no-repeat;
 	padding: 0 0 0 18px;
@@ -1274,7 +1274,7 @@ ul.tree-menu li div a
 {
 	margin: 0;
 	padding: 0 0 0 18px;
-	background: url(../img/common/treemenu/tree-folder-open.gif) no-repeat 0 0;
+	background: url(../img/common/treemenu/tree-folder-open.png) no-repeat 0 0;
 	/*
 	 * Stretches links over the entire width of the menu
 	 * Also required for minimum height
@@ -1287,17 +1287,17 @@ ul.tree-menu li div a
 
 ul.tree-menu li.empty div a
 {
-	background-image: url(../img/common/treemenu/tree-folder.gif);
+	background-image: url(../img/common/treemenu/tree-folder-closed.png);
 }
 
 ul.tree-menu li.collapsed div a
 {
-	background-image: url(../img/common/treemenu/tree-folder.gif);
+	background-image: url(../img/common/treemenu/tree-folder-closed.png);
 }
 
 ul.tree-menu li.leaf div a
 {
-	background-image: url(../img/common/treemenu/tree-document.gif);
+	background-image: url(../img/common/treemenu/tree-document.png);
 }
 
 ul.tree-menu li.collapsed ul
@@ -1338,6 +1338,7 @@ ul.tree-menu li div
  */
 ul.tree-menu li div a
 {
+	background-position: 0px 1px;
 	padding-left: 21px;
 }
 
@@ -1346,11 +1347,11 @@ ul.tree-menu li div a
  */
 ul.tree-menu li div a.trash
 {
-	background-image: url(../img/common/treemenu/trash.gif);
+	background-image: url(../img/common/treemenu/trash.png);
 }
 ul.tree-menu li div a.trash_full
 {
-	background-image: url(../img/common/treemenu/trash-full.gif);
+	background-image: url(../img/common/treemenu/trash-full.png);
 }
 
 /*
@@ -1358,7 +1359,7 @@ ul.tree-menu li div a.trash_full
  */
 ul.tree-menu li div a.quota
 {
-	background-image: url(../img/common/treemenu/quota.gif);
+	background-image: url(../img/common/treemenu/quota.png);
 }
 
 /*
@@ -1366,7 +1367,7 @@ ul.tree-menu li div a.quota
  */
 ul.tree-menu li div a.publication
 {
-	background-image: url(../img/common/treemenu/publication.gif);
+	background-image: url(../img/common/treemenu/publication.png);
 }
 
 /*
@@ -1374,7 +1375,7 @@ ul.tree-menu li div a.publication
  */
 ul.tree-menu li div a.create
 {
-	background-image: url(../img/common/treemenu/create.gif);
+	background-image: url(../img/common/treemenu/create.png);
 }
 
 /*
@@ -1382,12 +1383,12 @@ ul.tree-menu li div a.create
  */
 ul.tree-menu li div a.search_results
 {
-	background-image: url(../img/common/search_icon.gif);
+	background-image: url(../img/common/search_icon.png);
 }
 
 ul.tree-menu li div a.home
 {
-	background-image: url(../img/common/home_small.gif);
+	background-image: url(../img/common/home.png);
 }
 
 /*
@@ -1445,93 +1446,93 @@ ul.tree-menu li div a.unlinked:active {
 ul.tree-menu li div a.type_category, ul.tree-menu li div a.type_category:hover,
 ul.tree-menu li div a.type_category:active
 {
-	background-image: url(../img/common/treemenu/tree-folder-open.gif);
+	background-image: url(../img/common/treemenu/tree-folder-open.png);
 	background-repeat: no-repeat;
 }
 
 ul.tree-menu li.collapsed div a.type_category, ul.tree-menu li.collapsed div a.type_category:hover,
 ul.tree-menu li.collapsed div a.type_category:active
 {
-	background-image: url(../img/common/treemenu/tree-folder.gif);
+	background-image: url(../img/common/treemenu/tree-folder-closed.png);
 	background-repeat: no-repeat;
 }
 
 ul.tree-menu li div.current a.type_category, ul.tree-menu li div.current a.type_category:hover,
 ul.tree-menu li div.current a.type_category:active
 {
-	background-image: url(../img/common/treemenu/tree-folder-open.gif);
+	background-image: url(../img/common/treemenu/tree-folder-open.png);
 	background-repeat: no-repeat;
 }
 
 ul.tree-menu li div a.type_announcement, .active_elements li.type_announcement a
 {
-	background-image: url(../img/common/treemenu_types/announcement.gif);
+	background-image: url(../img/common/treemenu_types/announcement.png);
 	background-repeat: no-repeat;
 }
 
 ul.tree-menu li div a.type_user, .active_elements li.type_user a
 {
-	background-image: url(../img/common/treemenu_types/user.gif);
+	background-image: url(../img/common/treemenu_types/user.png);
 	background-repeat: no-repeat;
 }
 
 ul.tree-menu li div a.type_calendar_event, .active_elements li.type_calendar_event a
 {
-	background-image: url(../img/common/treemenu_types/calendar_event.gif);
+	background-image: url(../img/common/treemenu_types/calendar_event.png);
 	background-repeat: no-repeat;
 }
 
 ul.tree-menu li div a.type_description, .active_elements li.type_description a
 {
-	background-image: url(../img/common/treemenu_types/description.gif);
+	background-image: url(../img/common/treemenu_types/description.png);
 	background-repeat: no-repeat;
 }
 
 ul.tree-menu li div a.type_document, .active_elements li.type_document a
 {
-	background-image: url(../img/common/treemenu_types/document.gif);
+	background-image: url(../img/common/treemenu_types/document.png);
 	background-repeat: no-repeat;
 }
 
 ul.tree-menu li div a.type_forum, .active_elements li.type_forum a
 {
-	background-image: url(../img/common/treemenu_types/forum.gif);
+	background-image: url(../img/common/treemenu_types/forum.png);
 	background-repeat: no-repeat;
 }
 
 ul.tree-menu li div a.type_forum_post, .active_elements li.type_forum_post a
 {
-	background-image: url(../img/common/treemenu_types/forum_post.gif);
+	background-image: url(../img/common/treemenu_types/forum_post.png);
 	background-repeat: no-repeat;
 }
 
 ul.tree-menu li div a.type_forum_topic, .active_elements li.type_forum_topic a
 {
-	background-image: url(../img/common/treemenu_types/forum_topic.gif);
+	background-image: url(../img/common/treemenu_types/forum_topic.png);
 	background-repeat: no-repeat;
 }
 
 ul.tree-menu li div a.type_learning_path, .active_elements li.type_learning_path a
 {
-	background-image: url(../img/common/treemenu_types/learning_path.gif);
+	background-image: url(../img/common/treemenu_types/learning_path.png);
 	background-repeat: no-repeat;
 }
 
 ul.tree-menu li div a.type_learning_path_chapter, .active_elements li.type_learning_path_chapter a
 {
-	background-image: url(../img/common/treemenu_types/learning_path_chapter.gif);
+	background-image: url(../img/common/treemenu_types/learning_path_chapter.png);
 	background-repeat: no-repeat;
 }
 
 ul.tree-menu li div a.type_learning_path_item, .active_elements li.type_learning_path_item a
 {
-	background-image: url(../img/common/treemenu_types/learning_path_item.gif);
+	background-image: url(../img/common/treemenu_types/learning_path_item.png);
 	background-repeat: no-repeat;
 }
 
 ul.tree-menu li div a.type_link, .active_elements li.type_link a
 {
-	background-image: url(../img/common/treemenu_types/link.gif);
+	background-image: url(../img/common/treemenu_types/link.png);
 	background-repeat: no-repeat;
 }
 
@@ -1614,7 +1615,7 @@ table.mini
 
 input.search_query
 {
-	background: url(../img/common/search_icon.gif) 1px 50% no-repeat;
+	background: url(../img/common/search_icon.png) 1px 50% no-repeat;
 	padding: 0 0 0 21px;
 }
 

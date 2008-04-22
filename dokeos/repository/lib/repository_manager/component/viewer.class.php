@@ -136,7 +136,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				{
 					$recycle_bin_button = array(
 						'href' => $recycle_url,
-						'img' => Theme :: get_common_img_path().'recycle_bin.gif',
+						'img' => Theme :: get_common_img_path().'recycle_bin.png',
 						'label' => Translation :: get('Remove'),
 						'confirm' => true,
 						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
@@ -149,7 +149,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					{
 						$recycle_bin_button = array(
 							'href' => $delete_url,
-							'img' => Theme :: get_common_img_path().'delete.gif',
+							'img' => Theme :: get_common_img_path().'delete.png',
 							'label' => Translation :: get('Delete'),
 							'confirm' => true,
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
@@ -159,7 +159,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					else
 					{
 						$recycle_bin_button = array(
-							'img' => Theme :: get_common_img_path().'recycle_bin_na.gif',
+							'img' => Theme :: get_common_img_path().'recycle_bin_na.png',
 							'label' => Translation :: get('Remove'),
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
@@ -175,7 +175,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					{
 						$force_delete_button = array(
 							'href' => $delete_link_url,
-							'img' => Theme :: get_common_img_path().'unlink.gif',
+							'img' => Theme :: get_common_img_path().'unlink.png',
 							'label' => Translation :: get('Unlink'),
 							'confirm' => true,
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
@@ -187,7 +187,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					{
 						$toolbar_data[] = array(
 							'href' => $edit_url,
-							'img' => Theme :: get_common_img_path().'edit.gif',
+							'img' => Theme :: get_common_img_path().'edit.png',
 							'label' => Translation :: get('Edit'),
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
@@ -195,7 +195,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					else
 					{
 						$toolbar_data[] = array(
-							'img' => Theme :: get_common_img_path().'edit_na.gif',
+							'img' => Theme :: get_common_img_path().'edit_na.png',
 							'label' => Translation :: get('Edit'),
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
@@ -213,7 +213,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					{
 						$toolbar_data[] = array(
 							'href' =>  $this->get_learning_object_moving_url($object),
-							'img' => Theme :: get_common_img_path().'move.gif',
+							'img' => Theme :: get_common_img_path().'move.png',
 							'label' => Translation :: get('Move'),
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
@@ -221,13 +221,13 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					$toolbar_data[] = array(
 						'href' => $this->get_learning_object_metadata_editing_url($object),
 						'label' => Translation :: get('Metadata'),
-						'img' => Theme :: get_common_img_path().'info_small.gif',
+						'img' => Theme :: get_common_img_path().'metadata.png',
 						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
 					$toolbar_data[] = array(
 						'href' => $this->get_learning_object_rights_editing_url($object),
 						'label' => Translation :: get('Rights'),
-						'img' => Theme :: get_common_img_path().'group_small.gif',
+						'img' => Theme :: get_common_img_path().'right.png',
 						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
 				}
@@ -236,7 +236,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					$toolbar_data[] = array(
 						'href' => $this->get_learning_object_restoring_url($object),
 						'label' => Translation :: get('Restore'),
-						'img' => Theme :: get_common_img_path().'restore.gif',
+						'img' => Theme :: get_common_img_path().'restore.png',
 						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
 					$toolbar_data[] = $recycle_bin_button;

@@ -2086,7 +2086,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	 */
 	static function is_date_column($name)
 	{
-		return ($name == LearningObject :: PROPERTY_CREATION_DATE || $name == LearningObject :: PROPERTY_MODIFICATION_DATE);
+		// TODO: Temporary bugfix, publication dates were recognized as LO-dates and wrongfully converted
+		return false;
+		//return ($name == LearningObject :: PROPERTY_CREATION_DATE || $name == LearningObject :: PROPERTY_MODIFICATION_DATE);
 	}
 
 	function record_to_learning_object_publication_feedback($record)

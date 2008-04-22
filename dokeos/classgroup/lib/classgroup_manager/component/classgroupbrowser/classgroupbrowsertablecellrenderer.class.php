@@ -67,7 +67,7 @@ class ClassGroupBrowserTableCellRenderer extends DefaultClassGroupTableCellRende
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_classgroup_editing_url($classgroup),
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'edit.gif'
+			'img' => Theme :: get_common_img_path().'edit.png'
 		);
 		
 		return RepositoryUtilities :: build_toolbar($toolbar_data);

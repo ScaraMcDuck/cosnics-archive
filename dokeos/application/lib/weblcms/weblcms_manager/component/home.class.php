@@ -127,7 +127,7 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 				$html[] = '<li><a href="'. $this->get_course_viewing_url($course) .'">'.$course->get_name().'</a>';
 				$html[] = '<br />'. $course->get_id() .' - '. $course->get_titular();
 				foreach($tools as $index => $tool)
-				{
+				{					  
 					if($tool->visible && $weblcms->tool_has_new_publications($tool->name))
 					{
 						$params[Weblcms::PARAM_TOOL] = $tool->name;
