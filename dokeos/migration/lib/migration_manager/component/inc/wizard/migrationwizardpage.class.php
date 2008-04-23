@@ -180,6 +180,9 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 	{
 		switch(true)
 		{
+			case ($item instanceof Dokeos185CourseRelUser) : return 'FAILED: ' . $type . 
+							' is not valid ( ID: ' . $item->get_user_id() . '-' . $item->get_course_code() . $extra_message . ' )';
+			
 			case ($item instanceof Dokeos185DropboxFeedback) : return 'FAILED: ' . $type . 
 							' is not valid ( ID: ' . $item->get_feedback_id() . $extra_message . ' )';	
 							
@@ -227,6 +230,9 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 					  $item->get_user() . ' )';
 			
 			case ($item instanceof ClassGroupRelUser) : return 'SUCCES: ' . $type . ' added ( ID: ' . $item->get_classgroup_id() . $extra_message . ' )'; 
+			
+			case ($item instanceof Dokeos185CourseRelUser) : return 'SUCCES: ' . $type . 
+							' added ( ID: ' . $item->get_user() . '-' . $item->get_course() . $extra_message . ' )';
 							
 			default: return 'SUCCES: ' . $type . ' added ( ID: ' . $item->get_id() . $extra_message . ' )';
 		}

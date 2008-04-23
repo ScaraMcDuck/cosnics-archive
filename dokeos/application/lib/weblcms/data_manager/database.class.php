@@ -1273,7 +1273,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			$props[$this->escape_column_name($key)] = $value;
 		}
-
+		
 		$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('course_category'), $props, MDB2_AUTOQUERY_INSERT))
 		{
@@ -1314,7 +1314,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		return $this->connection->nextID($this->get_table_name('course_user_category'));
 	}
-
+	
+	function get_next_course_category_id()
+	{
+		return $this->connection->nextID($this->get_table_name('course_category'));
+	}
+	
 	function delete_course_user_category($courseusercategory)
 	{
 		$query = 'DELETE FROM '.$this->escape_table_name('course_user_category').' WHERE '.$this->escape_column_name(CourseUserCategory :: PROPERTY_ID).'=?';

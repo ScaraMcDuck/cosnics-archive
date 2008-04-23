@@ -7,6 +7,7 @@
 require_once dirname(__FILE__).'/../../lib/import/importpersonalagenda.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object/calendar_event/calendar_event.class.php';
 require_once Path :: get(SYS_APP_PATH) . 'lib/personal_calendar/personalcalendarevent.class.php';
+require_once Path :: get(SYS_APP_PATH) . 'lib/personal_calendar/calendareventpublication.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
 
 /**
@@ -247,12 +248,14 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 		
 		//Create personal agenda publication
 		
-		$lcms_personal_calendar = new PersonalCalendarEvent(0, 
-			$owner_id, $lcms_calendar_event, self :: $mgdm->make_unix_time($this->get_date()));
+		$lcms_personal_calendar = new CalendarEventPublication();
+		$lcms_personal_calendar->set_calendar_event($lcms_calendar_event->get_id());
+		$lcms_personal_calendar->set_publisher($owner_id);
+		$lcms_personal_calendar->set_published(self :: $mgdm->make_unix_time($this->get_date()));
 		
 		$lcms_personal_calendar->create_all();
 		
-		return $lcms_personal_calendar;
+		return $lcms_calendar_event;
 		
 	}
 	

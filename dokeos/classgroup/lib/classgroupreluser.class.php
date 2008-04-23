@@ -1,4 +1,6 @@
 <?php
+
+require_once dirname(__FILE__).'/classgroupdatamanager.class.php';
 /**
  * @package users
  */
