@@ -57,6 +57,16 @@ class CountriesTracker extends UserTracker
     }
     
     /**
+     * Inherited
+     */
+    function export($start_date, $end_date, $event)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition('type', 'country');
+    	return parent :: export($start_date, $end_date, $conditions);
+    }
+    
+    /**
      * Extracts the country code from the remote host
      * @param Remote Host $remhost instance of $_SERVER['REMOTE_ADDR']
      * @return string country code

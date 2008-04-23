@@ -57,6 +57,16 @@ class ProvidersTracker extends UserTracker
     }
     
     /**
+     * Inherited
+     */
+    function export($start_date, $end_date, $event)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition('type', 'provider');
+    	return parent :: export($start_date, $end_date, $conditions);
+    }
+    
+    /**
      * Extracts a provider from a given hostname
      * @param string $remhost The remote hostname
      * @return the provider

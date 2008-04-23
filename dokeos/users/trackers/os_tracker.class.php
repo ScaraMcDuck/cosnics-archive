@@ -57,6 +57,16 @@ class OSTracker extends UserTracker
     }
     
     /**
+     * Inherited
+     */
+    function export($start_date, $end_date, $event)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition('type', 'os');
+    	return parent :: export($start_date, $end_date, $conditions);
+    }
+    
+    /**
 	 * Extracts a os from the useragent
 	 * @param User Agent $user_agent
 	 * @return string The Os

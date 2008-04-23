@@ -165,6 +165,27 @@ abstract class MainTracker
 	 */
 	abstract function empty_tracker($event);
 	
+	/**
+	 * Method to export
+	 * @param Date $start_date
+	 * @param Date $end_date
+	 * @param Array $optional_conditions
+	 */
+	function export($start_date, $end_date, $optional_conditions = null)
+	{
+		$db_start_date = $this->to_db_date($start_date);
+		$db_end_date = $this->to_db_date($end_date);
+		
+		$conditions = array();
+		$conditions = new InEqualityCondition('date', InEqualityCondition :: GREATER_THAN_OR_EQUAL, $db_start_date);
+		$conditions = new InEqualityCondition('date', InEqualityCondition :: LESS_THAN_OR_EQUAL, $db_end_date);
+		
+		$conditions = array_merge($optional_conditions, $conditions);
+		$condition = new AndCondition($conditions);
+		
+		return $this->retrieve_tracker_items($condition);
+	}
+	
 	function to_db_date($date)
 	{
 		$trkdmg = TrackingDataManager :: get_instance();
