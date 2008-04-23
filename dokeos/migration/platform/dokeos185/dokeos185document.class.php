@@ -327,6 +327,7 @@ class Dokeos185Document extends ImportDocument
 		else
 		{
 			$lcms_document = new LearningObject();
+			$lcms_document->set_id($document_id);
 			$filesize = filesize(self :: $mgdm->append_full_path(false,$old_rel_path . $filename));
 			self :: $counter += $filesize;
 			

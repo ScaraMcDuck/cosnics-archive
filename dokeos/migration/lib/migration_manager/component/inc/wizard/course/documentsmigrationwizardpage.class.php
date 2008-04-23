@@ -83,11 +83,6 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
 			$this->mgdm->set_move_file(true);
 		
-		//$csvlogger = new Logger('doc.csv');
-		//$csvlogger->write_text('oud document pad;filesize;total passed time;copytime;documenttime;categories_time;publication_time;' .
-		//	'idref_time;orphan_time;doublefile_time;totaltime (copy to pub);difference (passed - total)');
-		//$csvlogger->close_file();
-		
 		if(isset($exportvalues['migrate_documents']) && $exportvalues['migrate_documents'] == 1)
 		{	
 			//Migrate the calendar events and resources

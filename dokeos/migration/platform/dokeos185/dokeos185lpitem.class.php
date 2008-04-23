@@ -273,7 +273,8 @@ class Dokeos185LpItem extends ImportLpItem
 	{
 		$course = $array['course'];	
 		if(!$this->get_id() || !$this->get_item_type() || 
-		!($this->get_title() || $this->get_description()))
+		!($this->get_title() || $this->get_description())
+		|| !self :: $mgdm->get_id_reference($this->get_lp_id(),'repository_learning_path'))
 		{		 
 			self :: $mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.lp_item');

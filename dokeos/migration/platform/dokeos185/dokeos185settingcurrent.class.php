@@ -272,7 +272,7 @@ class Dokeos185SettingCurrent extends ImportSettingCurrent
 			$lcms_admin_setting->set_value($this->get_selected_value());
 		
 			// Update setting in database
-			//$lcms_admin_setting->update();
+			$lcms_admin_setting->update();
 		
 			//return $lcms_admin_setting;
 			

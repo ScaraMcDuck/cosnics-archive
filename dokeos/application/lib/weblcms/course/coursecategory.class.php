@@ -241,6 +241,7 @@ class CourseCategory {
 	function create()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
+		$this->set_id($wdm->get_next_course_category_id());
 		return $wdm->create_course_category($this);
 	}
 	
