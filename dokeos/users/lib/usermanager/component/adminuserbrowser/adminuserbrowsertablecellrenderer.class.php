@@ -76,7 +76,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_user_quota_url($user),
 			'label' => Translation :: get('VersionQuota'),
-			'img' => Theme :: get_common_img_path().'versions.gif'
+			'img' => Theme :: get_common_img_path().'statistics.png'
 		);
 
 		if($user->get_user_id() != PlatformSession :: get_user_id())

@@ -78,11 +78,21 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 			$toolbar_data[] = array(
 				'href' => $subscribe_url,
 				'label' => Translation :: get('Subscribe'),
-				'img' => Theme :: get_common_img_path().'user-subscribe.gif'
+				'img' => Theme :: get_common_img_path().'subscribe.png'
 			);
 		}
 		else
 		{
+			$parameters = array();
+			$parameters[Weblcms::PARAM_USER_ACTION] = UserTool::USER_DETAILS;
+			$parameters[Weblcms :: PARAM_USERS] = $user->get_user_id();
+			$unsubscribe_url = $this->browser->get_url($parameters);
+			$toolbar_data[] = array(
+				'href' => $unsubscribe_url,
+				'label' => Translation :: get('Details'),
+				'img' => Theme :: get_common_img_path().'details.png'
+			);
+			
 			if($user->get_user_id() != $this->browser->get_user()->get_user_id())
 			{
 				$parameters = array();
@@ -92,18 +102,9 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 				$toolbar_data[] = array(
 					'href' => $unsubscribe_url,
 					'label' => Translation :: get('Unsubscribe'),
-					'img' => Theme :: get_common_img_path().'user-unsubscribe.gif'
+					'img' => Theme :: get_common_img_path().'unsubscribe.png'
 				);
 			}
-			$parameters = array();
-			$parameters[Weblcms::PARAM_USER_ACTION] = UserTool::USER_DETAILS;
-			$parameters[Weblcms :: PARAM_USERS] = $user->get_user_id();
-			$unsubscribe_url = $this->browser->get_url($parameters);
-			$toolbar_data[] = array(
-				'href' => $unsubscribe_url,
-				'label' => Translation :: get('Details'),
-				'img' => Theme :: get_common_img_path().'profile.gif'
-			);
 		}
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}

@@ -197,7 +197,7 @@ class RepositoryUtilities
 	 *
 	 *   array(
 	 *     array(
-	 *       'img'     => '/path/to/icon.gif', # preferably absolute
+	 *       'img'     => '/path/to/icon.png', # preferably absolute
 	 *       'label'   => 'The Label', # no HTML
 	 *       'href'    => 'http://the.url.to.point.to/', # null for no link
 	 *       'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON,

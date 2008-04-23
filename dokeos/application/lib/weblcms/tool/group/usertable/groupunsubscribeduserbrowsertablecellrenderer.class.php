@@ -54,7 +54,7 @@ class GroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTableCell
 			$toolbar_data[] = array(
 				'href' => $unsubscribe_url,
 				'label' => Translation :: get('Details'),
-				'img' => Theme :: get_common_img_path().'profile.gif'
+				'img' => Theme :: get_common_img_path().'details.png'
 			);
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}

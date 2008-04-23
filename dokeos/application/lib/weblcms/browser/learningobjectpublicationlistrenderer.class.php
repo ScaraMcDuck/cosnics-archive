@@ -217,7 +217,7 @@ abstract class LearningObjectPublicationListRenderer
 		}
 		else
 		{
-			$visibility_img = 'visible_clock.gif';
+			$visibility_img = 'period.png';
 		}
 		$visibility_link = '<a href="'.$visibility_url.'"><img src="'.Theme :: get_common_img_path().$visibility_img.'"  alt=""/></a>';
 		return $visibility_link;

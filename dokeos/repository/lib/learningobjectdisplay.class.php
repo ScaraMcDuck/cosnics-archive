@@ -176,11 +176,11 @@ abstract class LearningObjectDisplay
 
 //		if (isset($version_entry['comment']) && $version_entry['comment'] != '')
 //		{
-//			$html[] = '&nbsp;<img src="'.Theme :: get_common_img_path().'comment_small.gif"  onmouseover="return escape(\''. str_replace(array("\n", "\r", "\r\n"), '', htmlentities($version_entry['comment'])) .'\')" />';
+//			$html[] = '&nbsp;<img src="'.Theme :: get_common_img_path().'comment_small.png"  onmouseover="return escape(\''. str_replace(array("\n", "\r", "\r\n"), '', htmlentities($version_entry['comment'])) .'\')" />';
 //		}
 //		else
 //		{
-//			$html[] = '&nbsp;<img src="'.Theme :: get_common_img_path().'empty.gif" alt="'. Translation :: get('NoComment') .'"/>';
+//			$html[] = '&nbsp;<img src="'.Theme :: get_common_img_path().'empty.png" alt="'. Translation :: get('NoComment') .'"/>';
 //		}
 
 		$html[] = '&nbsp;<a href="'.htmlentities($version_entry['viewing_link']).'">'.$version_entry['title'].'</a>';

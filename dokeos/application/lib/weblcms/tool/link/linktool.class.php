@@ -23,27 +23,30 @@ class LinkTool extends RepositoryTool
 		}
 		$html[] =  '<ul style="list-style: none; padding: 0; margin: 0 0 1em 0">';
 		$i = 0;
+		
+		$toolbar_data = array();
+		
 		$options['browser'] = 'BrowserTitle';
 		$options['publish'] = 'Publish';
 		$options['category'] = 'ManageCategories';
 		foreach ($options as $key => $title)
 		{
+			$option = array();
 			$current = ($_SESSION['linktoolmode'] == $i);
-			$html[] =   '<li style="display: inline; margin: 0 1ex 0 0; padding: 0">';
+			
+			$option['img'] =  Theme :: get_common_img_path().$key.'.png';
+			$option['label'] = Translation :: get($title);
+			$option['display'] = RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL;
 			if (!$current)
 			{
-				$html[] =   '<a href="' . $this->get_url(array('linktoolmode' => $i), true) . '">';
+				$option['href'] = $this->get_url(array('linktoolmode' => $i));
 			}
-			$html[] = '<img src="'.Theme :: get_common_img_path().$key.'.gif" alt="'.Translation :: get($title).'" style="vertical-align:middle;"/> ';
-			$html[] =   Translation :: get($title);
-			if (!$current)
-			{
-				$html[] =   '</a>';
-			}
-			$html[] =   '</li>';
+			$toolbar_data[] = $option;
 			$i++;
 		}
-		$html[] =   '</ul>';
+		
+		$html[] = RepositoryUtilities :: build_toolbar($toolbar_data, array (), 'margin-top: 1em; margin-bottom: 1em;');
+		
 		$html[] = $this->perform_requested_actions();
 		switch ($_SESSION['linktoolmode'])
 		{
