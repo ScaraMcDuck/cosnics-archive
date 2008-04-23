@@ -303,14 +303,14 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			$toolbar_data[] = array(
 				'href' => $this->get_course_user_move_url($course, 'up'),
 				'label' => Translation :: get('Up'),
-				'img' => Theme :: get_common_img_path().'up.gif'
+				'img' => Theme :: get_common_img_path().'up.png'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('Up'),
-				'img' => Theme :: get_common_img_path().'up_na.gif'
+				'img' => Theme :: get_common_img_path().'up_na.png'
 			);
 		}
 		
@@ -319,14 +319,14 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			$toolbar_data[] = array(
 				'href' => $this->get_course_user_move_url($course, 'down'),
 				'label' => Translation :: get('Down'),
-				'img' => Theme :: get_common_img_path().'down.gif'
+				'img' => Theme :: get_common_img_path().'down.png'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('Up'),
-				'img' => Theme :: get_common_img_path().'down_na.gif'
+				'img' => Theme :: get_common_img_path().'down_na.png'
 			);
 		}
 		

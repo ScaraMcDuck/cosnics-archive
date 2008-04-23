@@ -166,13 +166,13 @@ abstract class LearningObjectPublicationListRenderer
 	{
 		if (!$first)
 		{
-			$up_img = 'up.gif';
+			$up_img = 'up.png';
 			$up_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_UP, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 			$up_link = '<a href="'.$up_url.'"><img src="'.Theme :: get_common_img_path().$up_img.'" alt=""/></a>';
 		}
 		else
 		{
-			$up_link = '<img src="'.Theme :: get_common_img_path().'up_na.gif"  alt=""/>';
+			$up_link = '<img src="'.Theme :: get_common_img_path().'up_na.png"  alt=""/>';
 		}
 		return $up_link;
 	}
@@ -188,13 +188,13 @@ abstract class LearningObjectPublicationListRenderer
 	{
 		if (!$last)
 		{
-			$down_img = 'down.gif';
+			$down_img = 'down.png';
 			$down_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_DOWN, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 			$down_link = '<a href="'.$down_url.'"><img src="'.Theme :: get_common_img_path().$down_img.'"  alt=""/></a>';
 		}
 		else
 		{
-			$down_link = '<img src="'.Theme :: get_common_img_path().'down_na.gif"  alt=""/>';
+			$down_link = '<img src="'.Theme :: get_common_img_path().'down_na.png"  alt=""/>';
 		}
 		return $down_link;
 	}
@@ -209,11 +209,11 @@ abstract class LearningObjectPublicationListRenderer
 		$visibility_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_TOGGLE_VISIBILITY, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 		if($publication->is_hidden())
 		{
-			$visibility_img = 'invisible.gif';
+			$visibility_img = 'invisible.png';
 		}
 		elseif($publication->is_forever())
 		{
-			$visibility_img = 'visible.gif';
+			$visibility_img = 'visible.png';
 		}
 		else
 		{
@@ -270,11 +270,11 @@ abstract class LearningObjectPublicationListRenderer
 		if(count($categories) > 1)
 		{
 			$url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_TO_CATEGORY, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-			$link = '<a href="'.$url.'"><img src="'.Theme :: get_common_img_path().'move.gif"  alt=""/></a>';
+			$link = '<a href="'.$url.'"><img src="'.Theme :: get_common_img_path().'move.png"  alt=""/></a>';
 		}
 		else
 		{
-			$link = '<img src="'.Theme :: get_common_img_path().'move_na.gif"  alt=""/>';
+			$link = '<img src="'.Theme :: get_common_img_path().'move_na.png"  alt=""/>';
 		}
 		return $link;
 	}
@@ -297,7 +297,7 @@ abstract class LearningObjectPublicationListRenderer
 				foreach ($attachments as $attachment)
 				{
 					$disp = LearningObjectDisplay :: factory($attachment);
-					$html[] = '<li><img src="'.Theme :: get_common_img_path().'treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+					$html[] = '<li><img src="'.Theme :: get_common_img_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 				}
 				$html[] = '</ul>';
 				return implode("\n",$html);
@@ -318,20 +318,23 @@ abstract class LearningObjectPublicationListRenderer
 	function render_publication_actions($publication,$first,$last)
 	{
 		$html = array();
+		$icons = array();
+		
 		$html[] = '<span style="white-space: nowrap;">';
 		if ($this->is_allowed(DELETE_RIGHT))
 		{
-			$html[] = $this->render_delete_action($publication);
+			$icons[] = $this->render_delete_action($publication);
 		}
 		if ($this->is_allowed(EDIT_RIGHT))
 		{
-			$html[] = $this->render_edit_action($publication);
-			$html[] = $this->render_visibility_action($publication);
-			$html[] = $this->render_up_action($publication,$first);
-			$html[] = $this->render_down_action($publication,$last);
-			$html[] = $this->render_feedback_action($publication);
-			$html[] = $this->render_move_to_category_action($publication,$last);
+			$icons[] = $this->render_edit_action($publication);
+			$icons[] = $this->render_visibility_action($publication);
+			$icons[] = $this->render_up_action($publication,$first);
+			$icons[] = $this->render_down_action($publication,$last);
+			$icons[] = $this->render_feedback_action($publication);
+			$icons[] = $this->render_move_to_category_action($publication,$last);
 		}
+		$html[] = implode('&nbsp;', $icons);
 		$html[] = '</span>';
 		return implode($html);
 	}
@@ -344,7 +347,7 @@ abstract class LearningObjectPublicationListRenderer
 	function render_icon($publication)
 	{
 		$object = $publication->get_learning_object();
-		return '<img src="'.Theme :: get_common_img_path().$object->get_icon_name().'.gif" alt=""/>';
+		return '<img src="'.Theme :: get_common_img_path() . 'learning_object/' .$object->get_icon_name().'.png" alt=""/>';
 	}
 	/**
 	 * Formats the given date in a human-readable format.

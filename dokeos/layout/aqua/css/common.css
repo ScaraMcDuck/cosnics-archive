@@ -1052,13 +1052,23 @@ span.info_message
 }
 
 /* List of publications_attributes */
-div.publications
+div.publications, div.publications_na
 {
 	border: 1px solid #F6F6F6;
 	margin: 0 0 1em 0;
 	padding: 10px 10px 10px 44px;
+}
+
+div.publications
+{
 	background: url(../img/common/publications.png) no-repeat 10px 10px;
 }
+
+div.publications_na
+{
+	background: url(../img/common/publications_na.png) no-repeat 10px 10px;
+}
+
 div.publications_title
 {
 	font-weight: bold;
@@ -1615,7 +1625,7 @@ table.mini
 
 input.search_query
 {
-	background: url(../img/common/search_icon.png) 1px 50% no-repeat;
+	background: url(../img/common/search.png) 1px 50% no-repeat;
 	padding: 0 0 0 21px;
 }
 
@@ -1663,7 +1673,7 @@ ul.toolbar {
 }
 ul.toolbar li {
 	display: inline;
-	margin: 1px;
+	margin: 0px 2px 0px 2px;
 	padding: 0;
 	white-space: nowrap;
 }

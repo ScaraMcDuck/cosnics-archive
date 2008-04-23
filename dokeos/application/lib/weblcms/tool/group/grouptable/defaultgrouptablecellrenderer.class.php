@@ -95,7 +95,7 @@ class DefaultGroupTableCellRenderer implements GroupTableCellRenderer
 			$parameters[Weblcms :: PARAM_GROUP] = $group->get_id();
 			$parameters[GroupTool::PARAM_GROUP_ACTION] = GroupTool::ACTION_USER_SELF_SUBSCRIBE;
 			$subscribe_url = $this->group_tool->get_url($parameters);
-			$toolbar_data[] = array ('href' => $subscribe_url, 'label' => Translation :: get('Subscribe'), 'img' => Theme :: get_common_img_path().'user-subscribe.gif');
+			$toolbar_data[] = array ('href' => $subscribe_url, 'label' => Translation :: get('Subscribe'), 'img' => Theme :: get_common_img_path().'subscribe.png');
 		}
 		if($group->is_self_unregistration_allowed() && $group->is_member($this->group_tool->get_user()))
 		{
@@ -103,7 +103,7 @@ class DefaultGroupTableCellRenderer implements GroupTableCellRenderer
 			$parameters[Weblcms :: PARAM_GROUP] = $group->get_id();
 			$parameters[GroupTool::PARAM_GROUP_ACTION] = GroupTool::ACTION_USER_SELF_UNSUBSCRIBE;
 			$unsubscribe_url = $this->group_tool->get_url($parameters);
-			$toolbar_data[] = array ('href' => $unsubscribe_url, 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_img_path().'user-unsubscribe.gif');
+			$toolbar_data[] = array ('href' => $unsubscribe_url, 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_img_path().'unsubscribe.png');
 		}
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}

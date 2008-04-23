@@ -45,7 +45,7 @@ class GroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTableCell
 				$toolbar_data[] = array(
 					'href' => $unsubscribe_url,
 					'label' => Translation :: get('Subscribe'),
-					'img' => Theme :: get_common_img_path().'user-subscribe.gif'
+					'img' => Theme :: get_common_img_path().'subscribe.png'
 				);
 			$parameters = array();
 			$parameters[Weblcms::PARAM_USER_ACTION] = UserTool::USER_DETAILS;

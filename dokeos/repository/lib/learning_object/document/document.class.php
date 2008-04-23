@@ -71,7 +71,7 @@ class Document extends LearningObject
 		$filename = $this->get_filename();
 		$parts = explode('.', $filename);
 		$icon_name = $parts[count($parts) - 1];
-		if (!file_exists($this->get_path(SYS_IMG_PATH).$icon_name.'.gif'))
+		if (!file_exists(Theme :: get_img_path() . $icon_name . '.png'))
 		{
 			return 'document';
 		}
