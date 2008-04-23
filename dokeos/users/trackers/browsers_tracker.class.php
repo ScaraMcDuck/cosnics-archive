@@ -60,6 +60,16 @@ class BrowsersTracker extends UserTracker
     	$condition = new EqualityCondition('type', 'browser');
     	return $this->remove($condition);
     }
+    
+    /**
+     * Inherited
+     */
+    function export($start_date, $end_date, $event)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition('type', 'browser');
+    	return parent :: export($start_date, $end_date, $conditions);
+    }
 	
 	/**
 	 * Extracts a browser from the useragent

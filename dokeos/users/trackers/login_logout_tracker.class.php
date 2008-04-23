@@ -53,6 +53,16 @@ class LoginLogoutTracker extends MainTracker
     }
     
     /**
+     * Inherited
+     */
+    function export($start_date, $end_date, $event)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition('type', $event->get_name());
+    	return parent :: export($start_date, $end_date, $conditions);
+    }
+    
+    /**
      * Get's the userid of the login tracker
      * @return int $userid the userid
      */
