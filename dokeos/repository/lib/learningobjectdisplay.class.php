@@ -129,7 +129,7 @@ abstract class LearningObjectDisplay
 				foreach ($attachments as $attachment)
 				{
 					$disp = self :: factory($attachment);
-					$html[] = '<li><img src="'.Theme :: get_common_img_path().'treemenu_types/'.$attachment->get_type().'.gif" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+					$html[] = '<li><img src="'.Theme :: get_common_img_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 				}
 				$html[] = '</ul>';
 				$html[] = '</div>';
@@ -158,20 +158,20 @@ abstract class LearningObjectDisplay
 		$html[] = $version_entry['date'] .'&nbsp;';
 		if (isset($version_entry['delete_link']))
 		{
-			$html[] = '<a href="'. $version_entry['delete_link'] .'" title="' .Translation :: get('Delete'). '" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'delete_version.gif" alt="'.htmlentities(Translation :: get('Delete')).'"/></a>';
+			$html[] = '<a href="'. $version_entry['delete_link'] .'" title="' .Translation :: get('Delete'). '" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'remove.png" alt="'.htmlentities(Translation :: get('Delete')).'"/></a>';
 		}
 		else
 		{
-			$html[] = '<img src="'.Theme :: get_common_img_path().'delete_version_na.gif" alt="'.htmlentities(Translation :: get('Delete')).'"/>';
+			$html[] = '<img src="'.Theme :: get_common_img_path().'remove_na.png" alt="'.htmlentities(Translation :: get('Delete')).'"/>';
 		}
 
 		if (isset($version_entry['revert_link']))
 		{
-			$html[] = '&nbsp;<a href="'. $version_entry['revert_link'] .'" title="' .Translation :: get('Revert'). '" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'revert.gif" alt="'.htmlentities(Translation :: get('Revert')).'"/></a>';
+			$html[] = '&nbsp;<a href="'. $version_entry['revert_link'] .'" title="' .Translation :: get('Revert'). '" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'revert.png" alt="'.htmlentities(Translation :: get('Revert')).'"/></a>';
 		}
 		else
 		{
-			$html[] = '&nbsp;<img src="'.Theme :: get_common_img_path().'revert_na.gif" alt="'.htmlentities(Translation :: get('Revert')).'"/>';
+			$html[] = '&nbsp;<img src="'.Theme :: get_common_img_path().'revert_na.png" alt="'.htmlentities(Translation :: get('Revert')).'"/>';
 		}
 
 //		if (isset($version_entry['comment']) && $version_entry['comment'] != '')
@@ -220,6 +220,25 @@ abstract class LearningObjectDisplay
 		$status = $object->get_version_count() . ' / ' . ($object->get_version_count() + $object->get_available_version_count());
 
 		$html[] = self :: get_bar($percent, $status);
+		$html[] = '</div>';
+		return implode("\n", $html);
+	}
+	
+	function get_publications_as_html($publication_attributes)
+	{
+		$object = $this->get_learning_object();
+
+		$html = array();
+		if ($object->is_latest_version())
+		{
+			$html[] = '<div class="publications">';
+		}
+		else
+		{
+			$html[] = '<div class="publications_na">';
+		}
+		$html[] = '<div class="publications_title">'.htmlentities(Translation :: get('ThisObjectIsPublished')).'</div>';
+		$html[] = RepositoryUtilities :: build_uses($publication_attributes);
 		$html[] = '</div>';
 		return implode("\n", $html);
 	}

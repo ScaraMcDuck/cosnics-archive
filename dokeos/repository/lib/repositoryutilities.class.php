@@ -299,8 +299,6 @@ class RepositoryUtilities
 		$rdm = RepositoryDataManager :: get_instance();
 		$udm = UsersDataManager :: get_instance();
 		$html 	= array ();
-		$html[] = '<div class="publications">';
-		$html[] = '<div class="publications_title">'.htmlentities(Translation :: get('ThisObjectIsPublished')).'</div>';
 		$html[] = '<ul class="publications_list">';
 		foreach ($publication_attr as $info)
 		{
@@ -321,7 +319,6 @@ class RepositoryUtilities
 			$html[] = '</li>';
 		}
 		$html[] = '</ul>';
-		$html[] = '</div>';
 
 		return implode($html);
 	}

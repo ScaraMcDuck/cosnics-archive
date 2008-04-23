@@ -85,7 +85,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 			$toolbar_data[] = array(
 				'href' => $reply_url,
 				'label' => Translation :: get('Reply'),
-				'img' => Theme :: get_common_img_path().'reply.gif'
+				'img' => Theme :: get_common_img_path().'reply.png'
 			);
 		}
 	

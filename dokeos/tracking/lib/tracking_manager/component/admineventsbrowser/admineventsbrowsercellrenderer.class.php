@@ -36,8 +36,8 @@ class AdminEventsBrowserCellRenderer
 			'label' => ($event->get_active() == 1)?Translation :: get('Hide'):Translation :: get('Visible'),
 			'confirm' => false,
 			'img' => ($event->get_active() == 1)?
-				Path :: get(WEB_LAYOUT_PATH).'img/visible.gif':
-				Path :: get(WEB_LAYOUT_PATH).'img/invisible.gif'
+				Path :: get(WEB_LAYOUT_PATH).'img/visible.png':
+				Path :: get(WEB_LAYOUT_PATH).'img/invisible.png'
 		);
 		
 		return RepositoryUtilities :: build_toolbar($toolbar_data);

@@ -1,151 +1,151 @@
 <?php /*
 for more information: see languages.txt in the lang folder. 
 */
-$langHFor = "Ajuda Fóruns";
+$langHFor = "Ajuda Fï¿½runs";
 $langClose = "Fechar janela";
-$langForContent = "O fórum é uma ferramenta de discussão escrita e assíncrona.
- Da mesma forma que o e-mail permite o diálogo um-a-um, os fóruns permitem
- diálogos públicos ou semi-públicos (grupo).</p><p>Tecnicamente falando,
- os utilizadores precisam apenas dos seus navegadores (browsers) para usar os fóruns do
- Dokeos.</P><p>Para organizar fóruns, clique em \\\'Administração do Fórum\\\'.
- As discussões são organizadas em conjuntos e sub-conjuntos com a seguinte sequência:
- </p><p><b>Categoria > Fórum > Tópico > Respostas</b></p>Para estruturar as
- discussões dos seus utilizadores, é necessário organizar de antemão as categorias e fóruns, deixando para eles a criação de tópicos e respostas. Por defeito,
- o fórum do Dokeos contém apenas a categoria \\\'Público\\\', um fórum e um tópico
- como exemplo.</p><p>A primeira coisa que deve fazer é apagar o tópico
- de exemplo e modificar o primeiro nome do fórum. Então, pode criar, na
- categoria \\\'público\\\', outros fóruns, divididos por temas, para preencher o
- os requisitos do seu ccontexto de aprendizagem.</p><p>Não misture categorias e
- fóruns, e não se esqueça de que uma categoria vazia (sem fóruns) não aparece
- na visão do aluno.</p><p>A descrição de um fórum pode ser a lista dos seus
- membros, a definição de um objectivo, uma tarefa, um tema...</p>
- <p>Fóruns de grupo não devem ser criados através da ferramenta Fórum mas
- através da ferramenta Grupos. Lá poderá decidir se quer que os fóruns
- dos seus grupos sejam públicos ou privados.</p>
- <b>Utilização pedagógica avançada</b>
- <p>Alguns professores utilizam o fórum para publicar correcções. Um estudante publica um artigo. O professor corrige-o utilizando o botão de edição (lápis amarelo) executando o editor WYSYWIG para corrigi-lo (utilizando cores e sublinhados para mostrar erros e correcções, por exemplo), beneficiando os outros estudantes com essa mesma correcção.";
+$langForContent = "O fï¿½rum ï¿½ uma ferramenta de discussï¿½o escrita e assï¿½ncrona.
+ Da mesma forma que o e-mail permite o diï¿½logo um-a-um, os fï¿½runs permitem
+ diï¿½logos pï¿½blicos ou semi-pï¿½blicos (grupo).</p><p>Tecnicamente falando,
+ os utilizadores precisam apenas dos seus navegadores (browsers) para usar os fï¿½runs do
+ Dokeos.</P><p>Para organizar fï¿½runs, clique em \\\'Administraï¿½ï¿½o do Fï¿½rum\\\'.
+ As discussï¿½es sï¿½o organizadas em conjuntos e sub-conjuntos com a seguinte sequï¿½ncia:
+ </p><p><b>Categoria > Fï¿½rum > Tï¿½pico > Respostas</b></p>Para estruturar as
+ discussï¿½es dos seus utilizadores, ï¿½ necessï¿½rio organizar de antemï¿½o as categorias e fï¿½runs, deixando para eles a criaï¿½ï¿½o de tï¿½picos e respostas. Por defeito,
+ o fï¿½rum do Dokeos contï¿½m apenas a categoria \\\'Pï¿½blico\\\', um fï¿½rum e um tï¿½pico
+ como exemplo.</p><p>A primeira coisa que deve fazer ï¿½ apagar o tï¿½pico
+ de exemplo e modificar o primeiro nome do fï¿½rum. Entï¿½o, pode criar, na
+ categoria \\\'pï¿½blico\\\', outros fï¿½runs, divididos por temas, para preencher o
+ os requisitos do seu ccontexto de aprendizagem.</p><p>Nï¿½o misture categorias e
+ fï¿½runs, e nï¿½o se esqueï¿½a de que uma categoria vazia (sem fï¿½runs) nï¿½o aparece
+ na visï¿½o do aluno.</p><p>A descriï¿½ï¿½o de um fï¿½rum pode ser a lista dos seus
+ membros, a definiï¿½ï¿½o de um objectivo, uma tarefa, um tema...</p>
+ <p>Fï¿½runs de grupo nï¿½o devem ser criados atravï¿½s da ferramenta Fï¿½rum mas
+ atravï¿½s da ferramenta Grupos. Lï¿½ poderï¿½ decidir se quer que os fï¿½runs
+ dos seus grupos sejam pï¿½blicos ou privados.</p>
+ <b>Utilizaï¿½ï¿½o pedagï¿½gica avanï¿½ada</b>
+ <p>Alguns professores utilizam o fï¿½rum para publicar correcï¿½ï¿½es. Um estudante publica um artigo. O professor corrige-o utilizando o botï¿½o de ediï¿½ï¿½o (lï¿½pis amarelo) executando o editor WYSYWIG para corrigi-lo (utilizando cores e sublinhados para mostrar erros e correcï¿½ï¿½es, por exemplo), beneficiando os outros estudantes com essa mesma correcï¿½ï¿½o.";
 $langHDropbox = "Dropbox";
-$langDropboxContent = "<p>Dropbox é uma ferramenta de gestão de conteúdos dedicada à troca e partilha de dados entre pares (alunos). Qualquer tipo de ficheiros é aceite: Word, Excel, PDF, etc. Gere diferentes versões do mesmo ficheiro no sentido em que evitará a destruição de um documento por outro documento com o mesmo nome.</p> <p>Drpbox mostra os ficheiros que foram enviados (na pasta Recebidos) e os ficheiros enviados para os outros membros do curso (na pasta Enviados). </p><p>Se a lista dos ficheiros enviados ou recebidos ficar demasiado extensa, pode apagar todos ou apenas alguns nomes da lista. O ficheiro, enquanto tal, não é apagado desde que a outra pessoa o possa ver.</p> <p>Para enviar um documento a mais de uma pessoa, necessita usar CTRL+clique na caixa de opções múltiplas. A caixa de opções múltiplas é aquela que mostra a lista de membros.</p>";
-$langHHome = "Ajuda Página Principal do Curso";
-$langHomeContent = "<p>A página principal do curso mostra uma série de ferramentas: um texto de introdução, uma descrição do curso, um gestor de Documentos, etc. Essa página é modular: isso significa que pode ocultar / mostrar qualquer ferramenta com um só clique. Ferramentas ocultas podem ser reativadas a qualquer momento.</p>
-<b>Navegação</b>
-<p>Para navegar no seu curso, pode usar 2 ferramentas de navegação. Uma no topo esquerdo mostrando onde está e o quão adentrado está no curso. No topo direito, pode aceder uma ferramenta através do seu ícone com um simples clique. Se seleccionar o código do seu curso à esquerda (sempre em CAIXA ALTA) ou o ícone da casa à sua direita, será conduzido para a página principal do curso. </p>
-<b>Melhores práticas</b>
-<p>Para motivar os estudantes, é importante que a área do curso seja uma área dinâmica. Isso irá mostrar que existe \\\'alguém por trás da tela\\\'. Uma maneira rápida de transmitir esse sentimento é através da edição do texto de introdução (clique no lápis amarelo). Pelo menos uma vez por semana, conte as últimas notícias, dificuldades que estão para vir e tudo mais.</p>
-<p>Ao construir seu curso, irá achar relevante seguir esses passos:
-<ol><li>Nas Configurações do Curso, marque Acesso ao Curso : Privado e Inscrição : Negada. Dessa forma, ninguém poderá entrar no curso durante o processo de construção,</li>
-<li>Mostre todas as ferramentas clicando no ícone (olho);</li>
-<li>Use as ferramentas que precisar para \\\'preencher\\\' sua área com conteúdo, eventos, guias, exercícios, etc.;</li>
-<li>Esconda todas as ferramentas: a página principal do curso estará vazia na visão do Aluno;</li>
-<li>Use a ferramenta Sequência de Aprendizagem para estruturar a forma como os seus estudantes irão visitá-la e aprender com ela. Dessa forma,  pode usar outras ferramentas, mas não irá mostrá-las numa primeira etapa;</li>
-<li>Clique no ícone do olho ao lado da sequência que  criou: essa sequência irá ser então mostrada na página principal;</li>
-<li>A preparação da área do curso está terminada. A página principal mostra um texto de introdução seguido por uma ligação apenas e essa ligação guia o aluno através do curso. Clique em Visão do Aluno (topo direito) para ver as coisas do ponto de vista de um estudante.<I></I></li></ol>";
-$langHOnline = "Ajuda Conferência em directo";
-$langOnlineContent = "<br><span style=\\\"font-weight: bold;\\\">Introdução </span><br>  <br>  <div style=\\\"margin-left: 40px;\\\">Dokeos conferência em directo permite-lhe ensinar, informar ou reunir até 500 pessoas de uma forma simples e rápida.<br>  </div>  <ul>  <ul>  <li><b>aúdio em directo :</b> a voz do conferencista é difundida em directo para todos os participantes,<br>  </li>  <li><b>diapositivos :</b> os participantes seguem a apresentação em PowerPoint ou PDF,<br>  </li>  <li><b>interacção :</b> os participantes fazem perguntas através do chat.</li>  </ul>  </ul>  <span style=\\\"font-weight: bold;\\\"></span><span style=\\\"font-weight: bold;\\\"><br> Estudante / Participante</span><br>  <br>  <div style=\\\"margin-left: 40px;\\\">Para participar numa conferência em directo, necessita:<br>  </div>  <br>  <div style=\\\"margin-left: 40px;\\\">1. Altifalantes (ou auscultadores) ligados ao computador<br>  <br>  <a href=\\\"http://www.logitech.com\\\"><img style=\\\"border: 0px solid ; width: 87px; height: 58px;\\\" alt=\\\"altifalantes\\\" src=\\\"../img/speaker.gif\\\"></a><br>  <br> 2. Winamp Media player<br>  <br>  <a href=\\\"http://www.winamp.com\\\"><img style=\\\"border: 0px solid ; width: 87px; height: 27px;\\\" alt=\\\"Winamp\\\" src=\\\"../img/winamp.gif\\\"></a><br>  <br> Mac : use <a href=\\\"http://www.quicktime.com\\\">Quicktime</a><br> Linux : use <a href=\\\"http://www.xmms.org/\\\">XMMS</a> <br>  <br>   3. Leitor de Acrobat PDF ou Word ou PowerPoint, dependendo do formato dos diapositivos  que o professor está a usar.<br>  <br>  <a href=\\\"http://www.acrobat.com\\\"><img style=\\\"border: 0px solid ; width: 87px; height: 31px;\\\" alt=\\\"acrobat reader\\\" src=\\\"../img/acroread.gif\\\"></a><br>  </div>  <br>  <span style=\\\"font-weight: bold;\\\"><br> Professor / conferencista</span><br>  <br>  <div style=\\\"margin-left: 40px;\\\">Para pronunciar uma comunicação, necessita :<br>  </div>  <br>  <div style=\\\"margin-left: 40px;\\\">1. Um microfone<br>  <br>  <a href=\\\"http://www.logitech.com\\\"><img style=\\\"border: 0px solid ; width: 87px; height: 87px;\\\" alt=\\\"Auscultadores\\\" src=\\\"../img/headset.gif\\\"></a><br> Por exemplo: <a href=\\\"http://www.logitech.com/\\\">Logitech</a> USB para uma difusão de áudio com qualidade.<br>  <br> 2. Winamp<br>  <br>  <a href=\\\"http://www.winamp.com\\\"><img style=\\\"border: 0px solid ; width: 87px; height: 27px;\\\" alt=\\\"Winamp\\\" src=\\\"../img/winamp.gif\\\"></a><br>  <br> 3. SHOUTcast DSP Plug-In for Winamp 2.x <br>  <br>  <a href=\\\"http://www.shoutcast.com\\\"><img style=\\\"border: 0px solid ; width: 87px; height: 24px;\\\" alt=\\\"Shoutcast\\\" src=\\\"../img/shoutcast.gif\\\"></a><br>  <br> Seguir instruções em <a href=\\\"http://www.shoutcast.com\\\">www.shoutcast.com</a> acerca de como instalar e configurar Shoutcast Winamp DSP Plug-In. <br>  </div>  <br>  <span style=\\\"font-weight: bold;\\\"><br>
+$langDropboxContent = "<p>Dropbox ï¿½ uma ferramenta de gestï¿½o de conteï¿½dos dedicada ï¿½ troca e partilha de dados entre pares (alunos). Qualquer tipo de ficheiros ï¿½ aceite: Word, Excel, PDF, etc. Gere diferentes versï¿½es do mesmo ficheiro no sentido em que evitarï¿½ a destruiï¿½ï¿½o de um documento por outro documento com o mesmo nome.</p> <p>Drpbox mostra os ficheiros que foram enviados (na pasta Recebidos) e os ficheiros enviados para os outros membros do curso (na pasta Enviados). </p><p>Se a lista dos ficheiros enviados ou recebidos ficar demasiado extensa, pode apagar todos ou apenas alguns nomes da lista. O ficheiro, enquanto tal, nï¿½o ï¿½ apagado desde que a outra pessoa o possa ver.</p> <p>Para enviar um documento a mais de uma pessoa, necessita usar CTRL+clique na caixa de opï¿½ï¿½es mï¿½ltiplas. A caixa de opï¿½ï¿½es mï¿½ltiplas ï¿½ aquela que mostra a lista de membros.</p>";
+$langHHome = "Ajuda Pï¿½gina Principal do Curso";
+$langHomeContent = "<p>A pï¿½gina principal do curso mostra uma sï¿½rie de ferramentas: um texto de introduï¿½ï¿½o, uma descriï¿½ï¿½o do curso, um gestor de Documentos, etc. Essa pï¿½gina ï¿½ modular: isso significa que pode ocultar / mostrar qualquer ferramenta com um sï¿½ clique. Ferramentas ocultas podem ser reativadas a qualquer momento.</p>
+<b>Navegaï¿½ï¿½o</b>
+<p>Para navegar no seu curso, pode usar 2 ferramentas de navegaï¿½ï¿½o. Uma no topo esquerdo mostrando onde estï¿½ e o quï¿½o adentrado estï¿½ no curso. No topo direito, pode aceder uma ferramenta atravï¿½s do seu ï¿½cone com um simples clique. Se seleccionar o cï¿½digo do seu curso ï¿½ esquerda (sempre em CAIXA ALTA) ou o ï¿½cone da casa ï¿½ sua direita, serï¿½ conduzido para a pï¿½gina principal do curso. </p>
+<b>Melhores prï¿½ticas</b>
+<p>Para motivar os estudantes, ï¿½ importante que a ï¿½rea do curso seja uma ï¿½rea dinï¿½mica. Isso irï¿½ mostrar que existe \\\'alguï¿½m por trï¿½s da tela\\\'. Uma maneira rï¿½pida de transmitir esse sentimento ï¿½ atravï¿½s da ediï¿½ï¿½o do texto de introduï¿½ï¿½o (clique no lï¿½pis amarelo). Pelo menos uma vez por semana, conte as ï¿½ltimas notï¿½cias, dificuldades que estï¿½o para vir e tudo mais.</p>
+<p>Ao construir seu curso, irï¿½ achar relevante seguir esses passos:
+<ol><li>Nas Configuraï¿½ï¿½es do Curso, marque Acesso ao Curso : Privado e Inscriï¿½ï¿½o : Negada. Dessa forma, ninguï¿½m poderï¿½ entrar no curso durante o processo de construï¿½ï¿½o,</li>
+<li>Mostre todas as ferramentas clicando no ï¿½cone (olho);</li>
+<li>Use as ferramentas que precisar para \\\'preencher\\\' sua ï¿½rea com conteï¿½do, eventos, guias, exercï¿½cios, etc.;</li>
+<li>Esconda todas as ferramentas: a pï¿½gina principal do curso estarï¿½ vazia na visï¿½o do Aluno;</li>
+<li>Use a ferramenta Sequï¿½ncia de Aprendizagem para estruturar a forma como os seus estudantes irï¿½o visitï¿½-la e aprender com ela. Dessa forma,  pode usar outras ferramentas, mas nï¿½o irï¿½ mostrï¿½-las numa primeira etapa;</li>
+<li>Clique no ï¿½cone do olho ao lado da sequï¿½ncia que  criou: essa sequï¿½ncia irï¿½ ser entï¿½o mostrada na pï¿½gina principal;</li>
+<li>A preparaï¿½ï¿½o da ï¿½rea do curso estï¿½ terminada. A pï¿½gina principal mostra um texto de introduï¿½ï¿½o seguido por uma ligaï¿½ï¿½o apenas e essa ligaï¿½ï¿½o guia o aluno atravï¿½s do curso. Clique em Visï¿½o do Aluno (topo direito) para ver as coisas do ponto de vista de um estudante.<I></I></li></ol>";
+$langHOnline = "Ajuda Conferï¿½ncia em directo";
+$langOnlineContent = "<br><span style=\\\"font-weight: bold;\\\">Introduï¿½ï¿½o </span><br>  <br>  <div style=\\\"margin-left: 40px;\\\">Dokeos conferï¿½ncia em directo permite-lhe ensinar, informar ou reunir atï¿½ 500 pessoas de uma forma simples e rï¿½pida.<br>  </div>  <ul>  <ul>  <li><b>aï¿½dio em directo :</b> a voz do conferencista ï¿½ difundida em directo para todos os participantes,<br>  </li>  <li><b>diapositivos :</b> os participantes seguem a apresentaï¿½ï¿½o em PowerPoint ou PDF,<br>  </li>  <li><b>interacï¿½ï¿½o :</b> os participantes fazem perguntas atravï¿½s do chat.</li>  </ul>  </ul>  <span style=\\\"font-weight: bold;\\\"></span><span style=\\\"font-weight: bold;\\\"><br> Estudante / Participante</span><br>  <br>  <div style=\\\"margin-left: 40px;\\\">Para participar numa conferï¿½ncia em directo, necessita:<br>  </div>  <br>  <div style=\\\"margin-left: 40px;\\\">1. Altifalantes (ou auscultadores) ligados ao computador<br>  <br>  <a href=\\\"http://www.logitech.com\\\"><img style=\\\"border: 0px solid ; width: 87px; height: 58px;\\\" alt=\\\"altifalantes\\\" src=\\\"../img/speaker.gif\\\"></a><br>  <br> 2. Winamp Media player<br>  <br>  <a href=\\\"http://www.winamp.com\\\"><img style=\\\"border: 0px solid ; width: 87px; height: 27px;\\\" alt=\\\"Winamp\\\" src=\\\"../img/winamp.gif\\\"></a><br>  <br> Mac : use <a href=\\\"http://www.quicktime.com\\\">Quicktime</a><br> Linux : use <a href=\\\"http://www.xmms.org/\\\">XMMS</a> <br>  <br> ï¿½ 3. Leitor de Acrobat PDF ou Word ou PowerPoint, dependendo do formato dos diapositivos  que o professor estï¿½ a usar.<br>  <br>  <a href=\\\"http://www.acrobat.com\\\"><img style=\\\"border: 0px solid ; width: 87px; height: 31px;\\\" alt=\\\"acrobat reader\\\" src=\\\"../img/acroread.gif\\\"></a><br>  </div>  <br>  <span style=\\\"font-weight: bold;\\\"><br> Professor / conferencista</span><br>  <br>  <div style=\\\"margin-left: 40px;\\\">Para pronunciar uma comunicaï¿½ï¿½o, necessita :<br>  </div>  <br>  <div style=\\\"margin-left: 40px;\\\">1. Um microfone<br>  <br>  <a href=\\\"http://www.logitech.com\\\"><img style=\\\"border: 0px solid ; width: 87px; height: 87px;\\\" alt=\\\"Auscultadores\\\" src=\\\"../img/headset.gif\\\"></a><br> Por exemplo: <a href=\\\"http://www.logitech.com/\\\">Logitech</a> USB para uma difusï¿½o de ï¿½udio com qualidade.<br>  <br> 2. Winamp<br>  <br>  <a href=\\\"http://www.winamp.com\\\"><img style=\\\"border: 0px solid ; width: 87px; height: 27px;\\\" alt=\\\"Winamp\\\" src=\\\"../img/winamp.gif\\\"></a><br>  <br> 3. SHOUTcast DSP Plug-In for Winamp 2.x <br>  <br>  <a href=\\\"http://www.shoutcast.com\\\"><img style=\\\"border: 0px solid ; width: 87px; height: 24px;\\\" alt=\\\"Shoutcast\\\" src=\\\"../img/shoutcast.gif\\\"></a><br>  <br> Seguir instruï¿½ï¿½es em <a href=\\\"http://www.shoutcast.com\\\">www.shoutcast.com</a> acerca de como instalar e configurar Shoutcast Winamp DSP Plug-In. <br>  </div>  <br>  <span style=\\\"font-weight: bold;\\\"><br>
       <span style=\\\\\\\"font-weight: bold;\\\\\\\"><br>
-Como fazer uma conferência?<br>
+Como fazer uma conferï¿½ncia?<br>
       <br>
       </span>
       <div style=\\\\\\\"margin-left: 40px;\\\\\\\">Crie um curso Dokeos > Acesse-o >
-Mostre a ferramenta Conferência > Edite (ícone do lápis no topo esquerdo) as 
-configurações > envie seus slides (PDF, PowerPoint ou o que for) > digite
-um texto de introdução> digite a URL do seu streaming ao vivo de acordo com
-as informações que lhe forem repassadas pelo seu administrador técnico.
+Mostre a ferramenta Conferï¿½ncia > Edite (ï¿½cone do lï¿½pis no topo esquerdo) as 
+configuraï¿½ï¿½es > envie seus slides (PDF, PowerPoint ou o que for) > digite
+um texto de introduï¿½ï¿½o> digite a URL do seu streaming ao vivo de acordo com
+as informaï¿½ï¿½es que lhe forem repassadas pelo seu administrador tï¿½cnico.
 <span style=\\\\\\\"font-weight: bold;\\\\\\\"></span><br>
       <span style=\\\\\\\"font-weight: bold;\\\\\\\"></span></div>
       <div style=\\\\\\\"margin-left: 40px;\\\\\\\"><img
  style=\\\\\\\"width: 256px; height: 182px;\\\\\\\" alt=\\\\\\\"conference config\\\\\\\"
  src=\\\\\\\"../img/conf_screen_conf.gif\\\\\\\"><br>
-Não se esqueça de definir de forma clara a data da conferência, hora e outros
-detalhes junto aos participantes de antemão. <br>
+Nï¿½o se esqueï¿½a de definir de forma clara a data da conferï¿½ncia, hora e outros
+detalhes junto aos participantes de antemï¿½o. <br>
       <br>
       <span style=\\\\\\\"font-weight: bold;\\\\\\\">Dica</span> : 10 minutos antes da 
-hora da conferência, digite uma mensagem curta no chat para informar aos
-participantes que você está ali para ajudar pessoas que estejam com problemas
-de áudio. <br>
+hora da conferï¿½ncia, digite uma mensagem curta no chat para informar aos
+participantes que vocï¿½ estï¿½ ali para ajudar pessoas que estejam com problemas
+de ï¿½udio. <br>
       </div>
       <br>
       <br>
       <span style=\\\\\\\"font-weight: bold;\\\\\\\">Servidor de Streaming</span><br>
       <br>
       <div style=\\\\\\\"margin-left: 40px;\\\\\\\">Para fazer um streaming ao vivo em
-uma conferência, você precisa de um servidor de streaming e provávelmente 
-um administrador técnico irá ajudar a utilizá-lo. Essa pessoa irá dar a você
-uma URL que você terá que digitar no formulário de streaming quando você
-editar as configurações da sua conferência.<br>
+uma conferï¿½ncia, vocï¿½ precisa de um servidor de streaming e provï¿½velmente 
+um administrador tï¿½cnico irï¿½ ajudar a utilizï¿½-lo. Essa pessoa irï¿½ dar a vocï¿½
+uma URL que vocï¿½ terï¿½ que digitar no formulï¿½rio de streaming quando vocï¿½
+editar as configuraï¿½ï¿½es da sua conferï¿½ncia.<br>
       <br>
       <small><a href=\\\\\\\"http://www.dokeos.com/hosting.php#streaming\\\\\\\"><img
  style=\\\\\\\"border: 0px solid ; width: 258px; height: 103px;\\\\\\\"
  alt=\\\\\\\"dokeos streaming\\\\\\\" src=\\\\\\\"../img/streaming.jpg\\\\\\\"><br>
 streaming do dokeos</a></small><br>
       <br>
-Faça você mesmo : instale, configure e administre o <a
+Faï¿½a vocï¿½ mesmo : instale, configure e administre o <a
  href=\\\\\\\"http://www.shoutcast.com\\\\\\\">Shoutcast</a> ou <a
  href=\\\\\\\"http://developer.apple.com/darwin/projects/streaming/\\\\\\\">Apple
 Darwin</a>. <br>
       <br>
-Ou entre em contato com a Dokeos. Nós podemos ajudá-lo a organiar sua conferência, 
-ajudar o seu ministrante ou alugar para você um espaço de baixo custo para streaming 
+Ou entre em contato com a Dokeos. Nï¿½s podemos ajudï¿½-lo a organiar sua conferï¿½ncia, 
+ajudar o seu ministrante ou alugar para vocï¿½ um espaï¿½o de baixo custo para streaming 
 em nossos servidores : <a
  href=\\\\\\\"http://www.dokeos.com/hosting.php#streaming\\\\\\\">http://www.dokeos.com/hosting.php</a><br>
       <br>";
 $langHClar = "Ajuda Dokeos";
 $langClarContent = "<p><b>Professor</b></p>
-<p>O Dokeos é um Sistema de Gestão do Conhecimento e Aprendizagem. Ele permite ao professor organizar materiais de aprendizagem, rotas de aprendizagem e gerenciar a interação com seus estudantes. Tudo isso é feito através de um navegador de internet.</p>
-<p>Para usar o Dokeos como um professor, você precisa de um login e uma senha. Dependendo das configurações de segurança do seu portal, você pode conseguir isso por meio do processo de auto-cadastramento (menu do lado direito) ou a partir da administração central de sua organização. Note que um login e uma senha nunca devem possuir espaços ou acentos e que eles são sensíveis ao contexto. Digite seu login/senha, então crie um curso (topo direito) ou utilize o curso que foi criado para você pela administração central de sua organização.</p>
+<p>O Dokeos ï¿½ um Sistema de Gestï¿½o do Conhecimento e Aprendizagem. Ele permite ao professor organizar materiais de aprendizagem, rotas de aprendizagem e gerenciar a interaï¿½ï¿½o com seus estudantes. Tudo isso ï¿½ feito atravï¿½s de um navegador de internet.</p>
+<p>Para usar o Dokeos como um professor, vocï¿½ precisa de um login e uma senha. Dependendo das configuraï¿½ï¿½es de seguranï¿½a do seu portal, vocï¿½ pode conseguir isso por meio do processo de auto-cadastramento (menu do lado direito) ou a partir da administraï¿½ï¿½o central de sua organizaï¿½ï¿½o. Note que um login e uma senha nunca devem possuir espaï¿½os ou acentos e que eles sï¿½o sensï¿½veis ao contexto. Digite seu login/senha, entï¿½o crie um curso (topo direito) ou utilize o curso que foi criado para vocï¿½ pela administraï¿½ï¿½o central de sua organizaï¿½ï¿½o.</p>
 <p>Para adicionar um colega como co-administrador de seu curso:
-<ol><li>Se ele/ela ainda não estiver registrado no sistema, registre-o e selecione \\\'Professor\\\' como perfil;</li>
-<li>Se ele/ela já estiver inscrito(a) no sistema, abra temporáriamente a inscrição nas configurações do Curso e peça a ele/ela para que se inscreva em seu curso. Então edite o perfil dele(a) para dar a ele(a) direitos de Professor.</li></ol></p>
+<ol><li>Se ele/ela ainda nï¿½o estiver registrado no sistema, registre-o e selecione \\\'Professor\\\' como perfil;</li>
+<li>Se ele/ela jï¿½ estiver inscrito(a) no sistema, abra temporï¿½riamente a inscriï¿½ï¿½o nas configuraï¿½ï¿½es do Curso e peï¿½a a ele/ela para que se inscreva em seu curso. Entï¿½o edite o perfil dele(a) para dar a ele(a) direitos de Professor.</li></ol></p>
 <p>
-Todas as ferramentas Dokeos contém uma ajuda contextual representada por uma bóia vermelha. Se você não encontrar nela as informações que precisa, considere verificar a página de documentação do Dokeos: <a href=\\\\\\\"http://www.dokeos.com/documentation.php\\\\\\\">http://www.dokeos.com/documentation.php</a> e faça o download do manual do professor na sua língua ou em Inglês</p>
+Todas as ferramentas Dokeos contï¿½m uma ajuda contextual representada por uma bï¿½ia vermelha. Se vocï¿½ nï¿½o encontrar nela as informaï¿½ï¿½es que precisa, considere verificar a pï¿½gina de documentaï¿½ï¿½o do Dokeos: <a href=\\\\\\\"http://www.dokeos.com/documentation.php\\\\\\\">http://www.dokeos.com/documentation.php</a> e faï¿½a o download do manual do professor na sua lï¿½ngua ou em Inglï¿½s</p>
 <p><b>Estudante</b></p>
-<p>Esse portal permite a você seguir e participar de cursos, treinamentos, workshops colaborativos, etc. Ele foi crido para promover o aprendizado ativo: baseado em projetos, baseado em problemas, aprendizado baseado em casos, pesquisa colaborativa, etc.
-Seus professores podem construir áreas de aprendizagem que podem se aprensentar como simples pastas de documentos ou atividades de auto-aprendizado ou de aprendizado em grupo.</p>
-<p>O processo de inscrição pode variar de organização para organização. Em alguns casos, a auto-inscrição é permitida. Em outros, você deve conseguir da administração central um login e uma senha.</p>";
+<p>Esse portal permite a vocï¿½ seguir e participar de cursos, treinamentos, workshops colaborativos, etc. Ele foi crido para promover o aprendizado ativo: baseado em projetos, baseado em problemas, aprendizado baseado em casos, pesquisa colaborativa, etc.
+Seus professores podem construir ï¿½reas de aprendizagem que podem se aprensentar como simples pastas de documentos ou atividades de auto-aprendizado ou de aprendizado em grupo.</p>
+<p>O processo de inscriï¿½ï¿½o pode variar de organizaï¿½ï¿½o para organizaï¿½ï¿½o. Em alguns casos, a auto-inscriï¿½ï¿½o ï¿½ permitida. Em outros, vocï¿½ deve conseguir da administraï¿½ï¿½o central um login e uma senha.</p>";
 $langHDoc = "Ajuda Documentos";
-$langDocContent = "<p>A ferramenta Documentos é similar ao Gerenciador de Arquivos do
- seu computador desktop.</p><p>Você pode criar páginas web simples (\\\'Criar um documento\\\') ou enviar arquivos de qualquer
- tipo (HTML, Word, Powerpoint, Excel, Acrobat, Flash, Quicktime, etc.). Sua única precaução é que os seus usuários tenham
- os softwares correspondentes para lê-los. Alguns tipos de arquivos podem conter vírus, e é sua responsabilidade não enviar
- arquivos contaminados com vírus, a não ser que o administrador do seu portal tenha instalado um software anti-vírus
+$langDocContent = "<p>A ferramenta Documentos ï¿½ similar ao Gerenciador de Arquivos do
+ seu computador desktop.</p><p>Vocï¿½ pode criar pï¿½ginas web simples (\\\'Criar um documento\\\') ou enviar arquivos de qualquer
+ tipo (HTML, Word, Powerpoint, Excel, Acrobat, Flash, Quicktime, etc.). Sua ï¿½nica precauï¿½ï¿½o ï¿½ que os seus usuï¿½rios tenham
+ os softwares correspondentes para lï¿½-los. Alguns tipos de arquivos podem conter vï¿½rus, e ï¿½ sua responsabilidade nï¿½o enviar
+ arquivos contaminados com vï¿½rus, a nï¿½o ser que o administrador do seu portal tenha instalado um software anti-vï¿½rus
  no servidor. 
- Isto é, de qualquer forma, uma precaução constante verificar seus documentos com um software anti-vírus antes de
- enviá-los.</p>
-<p>Os documentos são aprensentados em ordem alfabética.<br><br><b>Dica : </b>Se
- você quiser apresentá-los em uma ordem diferente, enumere-os: 01, 02,
- 03... Ou utilize a Rota de Aprendizado para apresentar uma sofisticada Tabela de Conteúdos. Note que, uma vez que seus
- documentos tenham sido enviados, você pode decidir por esconder a área de documentos e mostrar apenas uma página na 
- Home page (Ferramenta laranja de adição de links na home page) ou uma Rota de Aprendizado contendo alguns documentos da
- sua área de Documentos.</p>
-<p>Você pode :</p>
+ Isto ï¿½, de qualquer forma, uma precauï¿½ï¿½o constante verificar seus documentos com um software anti-vï¿½rus antes de
+ enviï¿½-los.</p>
+<p>Os documentos sï¿½o aprensentados em ordem alfabï¿½tica.<br><br><b>Dica : </b>Se
+ vocï¿½ quiser apresentï¿½-los em uma ordem diferente, enumere-os: 01, 02,
+ 03... Ou utilize a Rota de Aprendizado para apresentar uma sofisticada Tabela de Conteï¿½dos. Note que, uma vez que seus
+ documentos tenham sido enviados, vocï¿½ pode decidir por esconder a ï¿½rea de documentos e mostrar apenas uma pï¿½gina na 
+ Home page (Ferramenta laranja de adiï¿½ï¿½o de links na home page) ou uma Rota de Aprendizado contendo alguns documentos da
+ sua ï¿½rea de Documentos.</p>
+<p>Vocï¿½ pode :</p>
 <H4>Criar um documento</H4>
-<p>Selecione Criar um documento > Dê a ele um título (sem espaços, sem acentos) > digite o seu texto > Use os botões do editor Wysiwyg (What You See Is What You Get) para estruturar as informações, criar tabelas, estilos, etc. Para criar páginas web, você irá precisar se familiarizar com 3 conceitos : Links, Imagens e Tabelas. Perceba que páginas web oferecem menos possibilidades de layout do que páginas Ms-Word. Perceba também que ao invés de criar um documento no editor você pode copiar e colar conteúdo existente em uma página web ou documento do Word. Essa é uma forma fácil e rápida de migrar conteúdos para seu curso no Dokeos.
+<p>Selecione Criar um documento > Dï¿½ a ele um tï¿½tulo (sem espaï¿½os, sem acentos) > digite o seu texto > Use os botï¿½es do editor Wysiwyg (What You See Is What You Get) para estruturar as informaï¿½ï¿½es, criar tabelas, estilos, etc. Para criar pï¿½ginas web, vocï¿½ irï¿½ precisar se familiarizar com 3 conceitos : Links, Imagens e Tabelas. Perceba que pï¿½ginas web oferecem menos possibilidades de layout do que pï¿½ginas Ms-Word. Perceba tambï¿½m que ao invï¿½s de criar um documento no editor vocï¿½ pode copiar e colar conteï¿½do existente em uma pï¿½gina web ou documento do Word. Essa ï¿½ uma forma fï¿½cil e rï¿½pida de migrar conteï¿½dos para seu curso no Dokeos.
 </p>
-<ul><li><b>Para adicionar um link</b>, você precisa copiar a URL de destino de algum lugar. Nós sugerimos que você abra 2 janelas simultâneamente, uma com o seu curso dokeos e outra para navegar na web. Uma vez que você tenha encontrado a página pela qual está procurando (note que essa página pode estar dentro do seu curso dokeos), copie sua URL (CTRL+C ou APPLE+C), volte para o editor de página, selecione a palavra que irá ser o link, clique no pequeno ícone de corrente, cole a URL do seu destino e confirme. Assim que a sua página for salva, teste o link para ver se ele abre o alvo. Note que você pode decidir no menu popup de Link se ele irá abrir a página em uma nova janela ou se ele irá substituir a sua página dokeos nmesma janela.</li>
-<li><b>Para adicionar uma imagem</b>, o principio é similar ao recurso de link : navegue na web com um segundo browser, encontre a imagem (se a imagem estiver dentro da área de documentos do seu curso, selecione \\\'Sem frames\\\' para pegar apenas a imagem e não o contexto), copie sua URL (CTRL+C ou APPLE+C na barra da URL depois de selecionar todo o seu conteúdo) então vá para seu editor de página web, posicione o seu mouse no local onde quer que a imagem apareça, então clique no pequeno ícone de árvore e copie a URL da imagem alvo pra dentro do campo URL, Visualize-a e confirme. Note que em páginas web, você não pode redimensionar suas imagens como em uma apresentação do PowerPoint, nem realocar a imagem para qualuer lugar da página.</li>
-<li><b>Para adicionar uma tabela</b>, posicione seu cursor no local onde deseja que a tabela apareça, então selecione o ícone da tabela no menu do editor Wysiwyg, decida qual número de colunas e linhas e confirme. Para conseguir tabelas mais bonitas, nós sugerimos que você escolha os seguintes valores : border=1, cellspacing=0, cellpadding=4. Note que você não será capaz de redimensionar sua tabela ou adicionar linhas ou colunas depois de sua criação (desculpe por isso, mas é apenas um editor on-line, e não um processador de texto como o word ainda).</li>
+<ul><li><b>Para adicionar um link</b>, vocï¿½ precisa copiar a URL de destino de algum lugar. Nï¿½s sugerimos que vocï¿½ abra 2 janelas simultï¿½neamente, uma com o seu curso dokeos e outra para navegar na web. Uma vez que vocï¿½ tenha encontrado a pï¿½gina pela qual estï¿½ procurando (note que essa pï¿½gina pode estar dentro do seu curso dokeos), copie sua URL (CTRL+C ou APPLE+C), volte para o editor de pï¿½gina, selecione a palavra que irï¿½ ser o link, clique no pequeno ï¿½cone de corrente, cole a URL do seu destino e confirme. Assim que a sua pï¿½gina for salva, teste o link para ver se ele abre o alvo. Note que vocï¿½ pode decidir no menu popup de Link se ele irï¿½ abrir a pï¿½gina em uma nova janela ou se ele irï¿½ substituir a sua pï¿½gina dokeos nmesma janela.</li>
+<li><b>Para adicionar uma imagem</b>, o principio ï¿½ similar ao recurso de link : navegue na web com um segundo browser, encontre a imagem (se a imagem estiver dentro da ï¿½rea de documentos do seu curso, selecione \\\'Sem frames\\\' para pegar apenas a imagem e nï¿½o o contexto), copie sua URL (CTRL+C ou APPLE+C na barra da URL depois de selecionar todo o seu conteï¿½do) entï¿½o vï¿½ para seu editor de pï¿½gina web, posicione o seu mouse no local onde quer que a imagem apareï¿½a, entï¿½o clique no pequeno ï¿½cone de ï¿½rvore e copie a URL da imagem alvo pra dentro do campo URL, Visualize-a e confirme. Note que em pï¿½ginas web, vocï¿½ nï¿½o pode redimensionar suas imagens como em uma apresentaï¿½ï¿½o do PowerPoint, nem realocar a imagem para qualuer lugar da pï¿½gina.</li>
+<li><b>Para adicionar uma tabela</b>, posicione seu cursor no local onde deseja que a tabela apareï¿½a, entï¿½o selecione o ï¿½cone da tabela no menu do editor Wysiwyg, decida qual nï¿½mero de colunas e linhas e confirme. Para conseguir tabelas mais bonitas, nï¿½s sugerimos que vocï¿½ escolha os seguintes valores : border=1, cellspacing=0, cellpadding=4. Note que vocï¿½ nï¿½o serï¿½ capaz de redimensionar sua tabela ou adicionar linhas ou colunas depois de sua criaï¿½ï¿½o (desculpe por isso, mas ï¿½ apenas um editor on-line, e nï¿½o um processador de texto como o word ainda).</li>
 </ul>
 
 
 
 <h4>Enviar um documento</h4>
 <ul>
-  <li>Selecione o arquivo em seu computador usando o botão Navegar <input
+  <li>Selecione o arquivo em seu computador usando o botï¿½o Navegar <input
  type=submit value=Navegar name=submit2>
-	à direita de sua tela.</li>
+	ï¿½ direita de sua tela.</li>
 		<li>
-			Inicie o upload com o Botão Enviar <input type=submit value=Enviar name=submit2>.
+			Inicie o upload com o Botï¿½o Enviar <input type=submit value=Enviar name=submit2>.
 		</li>
 		<li>
-			Marque a caixa de seleção abaixo do botão Enviar se seu documento for um arquivo zip ou um ora chamado <b>Conteúdo scorm</b>. Conteúdos scorm são tutoriais especiais que são desenhados através de normas internacionais : <b>Scorm</b>. É um formato especial para conteúdos de aprendizagem que habilita a liberdade de troca desses materiais entre diferentes Sistemas de Gestão de Aprendizagem. Em outras palavras, materiais <b>Scorm</b> são independentes de plataforma, sua importação e exportação são simples.
+			Marque a caixa de seleï¿½ï¿½o abaixo do botï¿½o Enviar se seu documento for um arquivo zip ou um ora chamado <b>Conteï¿½do scorm</b>. Conteï¿½dos scorm sï¿½o tutoriais especiais que sï¿½o desenhados atravï¿½s de normas internacionais : <b>Scorm</b>. ï¿½ um formato especial para conteï¿½dos de aprendizagem que habilita a liberdade de troca desses materiais entre diferentes Sistemas de Gestï¿½o de Aprendizagem. Em outras palavras, materiais <b>Scorm</b> sï¿½o independentes de plataforma, sua importaï¿½ï¿½o e exportaï¿½ï¿½o sï¿½o simples.
 		</li>
 	</ul>
 	<h4>
-		Renomear um documento (ou um diretório)
+		Renomear um documento (ou um diretï¿½rio)
 	</h4>
 	<ul>
 		<li>
-			clique sobre o botão <img src=../img/renommer.gif width=20 height=20 align=baseline>
+			clique sobre o botï¿½o <img src=../img/renommer.gif width=20 height=20 align=baseline>
 			na coluna Renomear
 		</li>
 		<li>
@@ -156,7 +156,7 @@ $langDocContent = "<p>A ferramenta Documentos é similar ao Gerenciador de Arquiv
 		</li>
 	</ul>
 		<h4>
-			Delete um documento (ou um diretório)
+			Delete um documento (ou um diretï¿½rio)
 		</h4>
 		<ul>
 			<li>
@@ -165,72 +165,72 @@ $langDocContent = "<p>A ferramenta Documentos é similar ao Gerenciador de Arquiv
 			</li>
 		</ul>
 		<h4>
-			Torne um documento (ou diretório) invisível para os usuários
+			Torne um documento (ou diretï¿½rio) invisï¿½vel para os usuï¿½rios
 		</h4>
 		<ul>
 			<li>
 				Clique no <img src=../img/visible.gif width=20 height=20>
-				na coluna \\\'Visível/invisível\\\'.
+				na coluna \\\'Visï¿½vel/invisï¿½vel\\\'.
 			</li>
 			<li>
-				O documento (ou diretório) continua existindo mas não está mais visível para os usuários.
+				O documento (ou diretï¿½rio) continua existindo mas nï¿½o estï¿½ mais visï¿½vel para os usuï¿½rios.
 			</li>
 			<li>
-				Para torná-lo invisível novamente, clique em
-				<img src=../document/../img/invisible.gif width=24 height=20>
-				na coluna \\\'Visível/invisível\\\'
+				Para tornï¿½-lo invisï¿½vel novamente, clique em
+				<img src=../document/../img/invisible.png width=24 height=20>
+				na coluna \\\'Visï¿½vel/invisï¿½vel\\\'
 			</li>
 		</ul>
 		<h4>
-			Adicionar ou modificar um comentário para o documento (ou diretório)
+			Adicionar ou modificar um comentï¿½rio para o documento (ou diretï¿½rio)
 		</h4>
 		<ul>
 			<li>
-				Clique em <img src=../document/../img/comment.gif width=20 height=20> na coluna \\\'Comentário\\\'
+				Clique em <img src=../document/../img/comment.gif width=20 height=20> na coluna \\\'Comentï¿½rio\\\'
 			</li>
 			<li>
-				Digite um novo comentário no campo correspondente (superior direito).
+				Digite um novo comentï¿½rio no campo correspondente (superior direito).
 			</li>
 			<li>
 				Confirme clicando no <input type=submit value=OK name=submit2>
 			.</li>
 		</ul>
 		<p>
-		Para deletar um comentário, clique em <img src=../document/../img/comment.gif width=20 height=20>,
-		delete o comentário anterior presente no campo e clique em
+		Para deletar um comentï¿½rio, clique em <img src=../document/../img/comment.gif width=20 height=20>,
+		delete o comentï¿½rio anterior presente no campo e clique em
 		<input type=submit value=OK name=submit22>.
 		<hr>
 		<p>
-			Você pode organizar seus conteúdos com técnicas de arquivamento. Para isso:
+			Vocï¿½ pode organizar seus conteï¿½dos com tï¿½cnicas de arquivamento. Para isso:
 		</p>
 		<h4>
 			<b>
-				Crie um diretório
+				Crie um diretï¿½rio
 			</b>
 		</h4>
 		<ul>
 			<li>
 				Clique em
 				<img src=../document/../img/dossier.gif width=20 height=20>
-				\\\'Criar um diretório\\\' (topo esquerdo)
+				\\\'Criar um diretï¿½rio\\\' (topo esquerdo)
 			</li>
 			<li>
-				Digite o nome do seu novo diretório no campo correspondente (topo esquerdo)
+				Digite o nome do seu novo diretï¿½rio no campo correspondente (topo esquerdo)
 			</li>
 			<li>
 				Confirme clicando no <input type=submit value=OK name=submit23>.
 			</li>
 		</ul>
 		<h4>
-			Mover um documento (ou diretório)
+			Mover um documento (ou diretï¿½rio)
 		</h4>
 		<ul>
 			<li>
-				Clique no botão <img src=../document/../img/deplacer.gif width=34 height=16>
+				Clique no botï¿½o <img src=../document/../img/deplacer.gif width=34 height=16>
 				na coluna \\\'Mover\\\'
 			</li>
 			<li>
-				Escolha um diretório para o qual você deseja mover o documento (ou diretório) no menu de rolagem correspondente (topo esquerdo) (nota: a palavra \\\'root\\\' significa que você não pode ir mais para cima do que o nível indicado na árvore de documentos do servidor).
+				Escolha um diretï¿½rio para o qual vocï¿½ deseja mover o documento (ou diretï¿½rio) no menu de rolagem correspondente (topo esquerdo) (nota: a palavra \\\'root\\\' significa que vocï¿½ nï¿½o pode ir mais para cima do que o nï¿½vel indicado na ï¿½rvore de documentos do servidor).
 			</li>
 			<li>
 				Confirme clicando em <input type=submit value=OK name=submit232>.
@@ -240,285 +240,285 @@ $langDocContent = "<p>A ferramenta Documentos é similar ao Gerenciador de Arquiv
 			<b>
 				Crie uma Rota de Aprendizado
 			</b>
-		</h4>Essa rota de aprendizado irá parecer com uma Tabela de Conteúdos e poderá ser usada como uma Tabela de Conteúdos, mas ela irá oferecer a você muito mais que isso. Ver Rota de Apredizado.";
+		</h4>Essa rota de aprendizado irï¿½ parecer com uma Tabela de Conteï¿½dos e poderï¿½ ser usada como uma Tabela de Conteï¿½dos, mas ela irï¿½ oferecer a vocï¿½ muito mais que isso. Ver Rota de Apredizado.";
 $langHUser = "Ajuda Utilizadores";
-$langUserContent = "<p><b>Adicionando usuários</b></p>
- <p>Você pode adicionar estudantes um a um no seu curso. Não se esqueça de que se eles já estiverem registrados no sistema receberão 2 logins. Por isso é mais prático optar entre o auto-cadastramento feito pelos estudantes ou pelo cadastramento realizado pela administração central, e então prevenir sistemáticamente qualquer cadastramento feito pelo professor. Isso se deve ao fato de que o professor controla apenas seu curso enquanto o aluno tem um perfil formado por diferentes cursos.</p>
- <p><b>Descrição</b></p>
- <p>A descrição não tem nenhuma função relacionada com o sistema.
- Ela não dá direitos no sistema. Ela apenas indica aos
- Humanos, quem é quem. Você pode modificá-la clicando no lápis, e então digitando o que quiser: professor, assistente, estudante,
+$langUserContent = "<p><b>Adicionando usuï¿½rios</b></p>
+ <p>Vocï¿½ pode adicionar estudantes um a um no seu curso. Nï¿½o se esqueï¿½a de que se eles jï¿½ estiverem registrados no sistema receberï¿½o 2 logins. Por isso ï¿½ mais prï¿½tico optar entre o auto-cadastramento feito pelos estudantes ou pelo cadastramento realizado pela administraï¿½ï¿½o central, e entï¿½o prevenir sistemï¿½ticamente qualquer cadastramento feito pelo professor. Isso se deve ao fato de que o professor controla apenas seu curso enquanto o aluno tem um perfil formado por diferentes cursos.</p>
+ <p><b>Descriï¿½ï¿½o</b></p>
+ <p>A descriï¿½ï¿½o nï¿½o tem nenhuma funï¿½ï¿½o relacionada com o sistema.
+ Ela nï¿½o dï¿½ direitos no sistema. Ela apenas indica aos
+ Humanos, quem ï¿½ quem. Vocï¿½ pode modificï¿½-la clicando no lï¿½pis, e entï¿½o digitando o que quiser: professor, assistente, estudante,
  visitante, expert...</P>
 <p><b>Direitos de Administrador</b></p>
-<p>Os direitos de administrador, por outro lado, correspondem à autorização
- técnica para modificar o conteúdo e a organização da área. Você pode apenas escolher entre dar todos os direitos
- de administrador ou não dar nenhum deles.</P>
-<p>Para permitir um assistente, por exemplo, para co-administrar a área, você precisa ter certeza de que ele/ela já
- está cadastrado, clicar no lápis, e então escolher \\\'Professor\\\', seguido por \\\'Ok\\\'.</P>
+<p>Os direitos de administrador, por outro lado, correspondem ï¿½ autorizaï¿½ï¿½o
+ tï¿½cnica para modificar o conteï¿½do e a organizaï¿½ï¿½o da ï¿½rea. Vocï¿½ pode apenas escolher entre dar todos os direitos
+ de administrador ou nï¿½o dar nenhum deles.</P>
+<p>Para permitir um assistente, por exemplo, para co-administrar a ï¿½rea, vocï¿½ precisa ter certeza de que ele/ela jï¿½
+ estï¿½ cadastrado, clicar no lï¿½pis, e entï¿½o escolher \\\'Professor\\\', seguido por \\\'Ok\\\'.</P>
 <p><b>Co-professores</b></p>
-<p>Para mencionar no cabeçalho da área o nome de um co-professor,
- (co-diretor, etc.), use a ferramenta \\\'Configurações do curso\\\'. Essa
- modificação não cadastra o seu colaborador como um usuário do curso.
- O campo \\\'Professores\\\' é completamente independente da lista de Usuários.</p>
+<p>Para mencionar no cabeï¿½alho da ï¿½rea o nome de um co-professor,
+ (co-diretor, etc.), use a ferramenta \\\'Configuraï¿½ï¿½es do curso\\\'. Essa
+ modificaï¿½ï¿½o nï¿½o cadastra o seu colaborador como um usuï¿½rio do curso.
+ O campo \\\'Professores\\\' ï¿½ completamente independente da lista de Usuï¿½rios.</p>
  <p><b>Acompanhamento e Home Pages Pessoais</b></p>
- <p>Em complemento à exibição d lista de usuários e modificação de seus direitos, a ferramenta Usuários também exibe o acompanhamento individual e permite ao professor definir cabeçalhos para páginas pessoais que podem ser preencidas pelos estudantes.</p>";
+ <p>Em complemento ï¿½ exibiï¿½ï¿½o d lista de usuï¿½rios e modificaï¿½ï¿½o de seus direitos, a ferramenta Usuï¿½rios tambï¿½m exibe o acompanhamento individual e permite ao professor definir cabeï¿½alhos para pï¿½ginas pessoais que podem ser preencidas pelos estudantes.</p>";
 $langGroupManagement = "Ajuda de grupos";
-$langGroupContent = "<p><b>Introdução</b></p>
-<p>Essa ferramenta permite a criação e gerenciamento de grupos de trabalho.
-Na criação (Criar grupos), os grupos estão vazios. Existem várias formas
-de preenchê-los:
-<ul><li>automaticamente (\\\'Preencher grupos (aleatóriamente)\\\'),</li>
+$langGroupContent = "<p><b>Introduï¿½ï¿½o</b></p>
+<p>Essa ferramenta permite a criaï¿½ï¿½o e gerenciamento de grupos de trabalho.
+Na criaï¿½ï¿½o (Criar grupos), os grupos estï¿½o vazios. Existem vï¿½rias formas
+de preenchï¿½-los:
+<ul><li>automaticamente (\\\'Preencher grupos (aleatï¿½riamente)\\\'),</li>
 <li>manualmente (\\\'Editar\\\'),</li>
-<li>auto-inscrição pelos usuários (Configurações dos grupos: \\\'Auto-inscrição permitida...\\\').</li>
+<li>auto-inscriï¿½ï¿½o pelos usuï¿½rios (Configuraï¿½ï¿½es dos grupos: \\\'Auto-inscriï¿½ï¿½o permitida...\\\').</li>
 </ul>
-Essas três maneiras podem ser combinadas. Você pode, por exemplo, pedir aos usuários para que se auto-inscrevam primeiro.
-Então descubra se alguns deles não se inscreveram e decida se quer preencher os grupos automaticamente (aleatório) de
-forma a completá-los. Você também pode editar cada grupo e definir sua composição usuário por usuário antes ou depois da auto-inscrição e/ou do preenchimento automático.</p>
-<p>O preenchimento dos grupos, podendo ser automático ou manual, funciona apenas se já existem usuários
-registrados na área. A lista de usuários está visível na ferramenta <b>Usuários</b>. </p><hr noshade size=1>
+Essas trï¿½s maneiras podem ser combinadas. Vocï¿½ pode, por exemplo, pedir aos usuï¿½rios para que se auto-inscrevam primeiro.
+Entï¿½o descubra se alguns deles nï¿½o se inscreveram e decida se quer preencher os grupos automaticamente (aleatï¿½rio) de
+forma a completï¿½-los. Vocï¿½ tambï¿½m pode editar cada grupo e definir sua composiï¿½ï¿½o usuï¿½rio por usuï¿½rio antes ou depois da auto-inscriï¿½ï¿½o e/ou do preenchimento automï¿½tico.</p>
+<p>O preenchimento dos grupos, podendo ser automï¿½tico ou manual, funciona apenas se jï¿½ existem usuï¿½rios
+registrados na ï¿½rea. A lista de usuï¿½rios estï¿½ visï¿½vel na ferramenta <b>Usuï¿½rios</b>. </p><hr noshade size=1>
 <p><b>Criar grupos</b></p>
-<p>Para criar novos grupos, clique em \\\'Criar novo(s) grupo(s)\\\' e defina o número de grupos a ser
+<p>Para criar novos grupos, clique em \\\'Criar novo(s) grupo(s)\\\' e defina o nï¿½mero de grupos a ser
 criado.</p><hr noshade size=1>
-<p><b>Configurações de Grupo</b></p>
-<p>Você pode definir configurações de Grupo globalmente (para todos os grupos).
-<b>Os usuários tem permissão para se auto-inscreverem nos grupos</b>:
-<p>Você cria grupos vazios, os usuários se inscrevem.
-Se você definiu um número máximo, grupos cheios não irão aceitar novos membros.
-Esse método é bom para professores que não conhecem a lista de usuários quando estão
+<p><b>Configuraï¿½ï¿½es de Grupo</b></p>
+<p>Vocï¿½ pode definir configuraï¿½ï¿½es de Grupo globalmente (para todos os grupos).
+<b>Os usuï¿½rios tem permissï¿½o para se auto-inscreverem nos grupos</b>:
+<p>Vocï¿½ cria grupos vazios, os usuï¿½rios se inscrevem.
+Se vocï¿½ definiu um nï¿½mero mï¿½ximo, grupos cheios nï¿½o irï¿½o aceitar novos membros.
+Esse mï¿½todo ï¿½ bom para professores que nï¿½o conhecem a lista de usuï¿½rios quando estï¿½o
 criando os grupos.</p>
 <b>Ferramentas</b>:</p>
-<p>Cada grupo possue pelo menos um fórum (privado ou público) ou uma área de Documentos
+<p>Cada grupo possue pelo menos um fï¿½rum (privado ou pï¿½blico) ou uma ï¿½rea de Documentos
 (um gerenciador de arquivos compartilhado) ou (na maioria dos casos) ambos.</p>
 <hr noshade size=1>
-<p><b>Edição manual</b></p>
-<p>Uma vez que os grupos estejam criados (Criar grupos), você verá no rodapé da página, uma lista de grupos
-com uma sério de informações e funções 
-<ul><li><b>Editar</b> para modificar manualmente o nome do Grupo, descrição, tutor,
+<p><b>Ediï¿½ï¿½o manual</b></p>
+<p>Uma vez que os grupos estejam criados (Criar grupos), vocï¿½ verï¿½ no rodapï¿½ da pï¿½gina, uma lista de grupos
+com uma sï¿½rio de informaï¿½ï¿½es e funï¿½ï¿½es 
+<ul><li><b>Editar</b> para modificar manualmente o nome do Grupo, descriï¿½ï¿½o, tutor,
 lista de membros.</li>
 <li><b>Deletar</b> deleta um grupo.</li></ul>
 <hr noshade size=1>";
-$langHExercise = "Ajuda Exercícios";
-$langExerciseContent = "<p>A ferramenta Exercícios permite a você criar exercícios que poderão conter quantas questões você quiser.<br><br>
-Existem vários tipos de respostas disponíveis para a criação das suas questões :<br><br>
+$langHExercise = "Ajuda Exercï¿½cios";
+$langExerciseContent = "<p>A ferramenta Exercï¿½cios permite a vocï¿½ criar exercï¿½cios que poderï¿½o conter quantas questï¿½es vocï¿½ quiser.<br><br>
+Existem vï¿½rios tipos de respostas disponï¿½veis para a criaï¿½ï¿½o das suas questï¿½es :<br><br>
 <ul>
-  <li>Múltipla escolha (Resposta única)</li>
-  <li>Múltipla escolha (Respostas múltiplas)</li>
+  <li>Mï¿½ltipla escolha (Resposta ï¿½nica)</li>
+  <li>Mï¿½ltipla escolha (Respostas mï¿½ltiplas)</li>
   <li>Correspondentes</li>
-  <li>Preencha os espaços</li>
+  <li>Preencha os espaï¿½os</li>
 </ul>
-Um exercício possui um certo número de questões.</p>
+Um exercï¿½cio possui um certo nï¿½mero de questï¿½es.</p>
 <hr>
-<b>Criação do exercício</b>
-<p>Para criar um exercício, clique no link \\\"Novo exercício\\\".<br><br>
-Digite o nome do exercício, assim como uma descrição opcional para ele.<br><br>
-Você pode adicionar um arquivo de áudio ou vídeo, para melhor compreensão do texto, etc. É interessante que você escolha os arquivos mais leves possíveis e então eles poderão ser descarregados facilmente através da web. Prefira arquivos .mp3 ao invés de arquivos .wav por exemplo, por motivos de melhor compreensão e do menor tamanho do arquivo.
+<b>Criaï¿½ï¿½o do exercï¿½cio</b>
+<p>Para criar um exercï¿½cio, clique no link \\\"Novo exercï¿½cio\\\".<br><br>
+Digite o nome do exercï¿½cio, assim como uma descriï¿½ï¿½o opcional para ele.<br><br>
+Vocï¿½ pode adicionar um arquivo de ï¿½udio ou vï¿½deo, para melhor compreensï¿½o do texto, etc. ï¿½ interessante que vocï¿½ escolha os arquivos mais leves possï¿½veis e entï¿½o eles poderï¿½o ser descarregados facilmente atravï¿½s da web. Prefira arquivos .mp3 ao invï¿½s de arquivos .wav por exemplo, por motivos de melhor compreensï¿½o e do menor tamanho do arquivo.
 <br>
 <br>
-Você também pode escolher entre 2 tipos de exercícios :<br><br>
+Vocï¿½ tambï¿½m pode escolher entre 2 tipos de exercï¿½cios :<br><br>
 <ul>
-  <li>Questões em uma única página</li>
-  <li>Uma questão por página (seqüencial)</li>
+  <li>Questï¿½es em uma ï¿½nica pï¿½gina</li>
+  <li>Uma questï¿½o por pï¿½gina (seqï¿½encial)</li>
 </ul>
-e dizer se você quer que as questões sejam sorteadas aleatóriamente na hora que o exercício estiver sendo realizado.<br><br>
-Então, salve seu exercício. Você será levado até a administração das questões.</p>
+e dizer se vocï¿½ quer que as questï¿½es sejam sorteadas aleatï¿½riamente na hora que o exercï¿½cio estiver sendo realizado.<br><br>
+Entï¿½o, salve seu exercï¿½cio. Vocï¿½ serï¿½ levado atï¿½ a administraï¿½ï¿½o das questï¿½es.</p>
 <hr>
-<b>Adicionando uma questão</b>
-<p>Você agora pode adicionar uma questão ao exercício préviamente criado. A descrição é opcional, assim como a figura que você tem a possibilidade de associar à sua questão.</p>
+<b>Adicionando uma questï¿½o</b>
+<p>Vocï¿½ agora pode adicionar uma questï¿½o ao exercï¿½cio prï¿½viamente criado. A descriï¿½ï¿½o ï¿½ opcional, assim como a figura que vocï¿½ tem a possibilidade de associar ï¿½ sua questï¿½o.</p>
 <hr>
-<b>Múltipla escolha</b>
+<b>Mï¿½ltipla escolha</b>
 <p>De forma a criar uma QMR / QRU :<br><br>
 <ul>
-  <li>Defina as respostas para a sua questão. Você pode adicionar ou apagar uma resposta clicando no botão da direita</li>
+  <li>Defina as respostas para a sua questï¿½o. Vocï¿½ pode adicionar ou apagar uma resposta clicando no botï¿½o da direita</li>
   <li>Marque a caixa da esquerda pra a(s) resposta(s) correta(s)</li>
-  <li>Adicionar um comentário opcional. Esse comentário não será mostrado para o usuário antes que ele/ela tenha respondido a questão</li>
-  <li>Atribua um peso para cada resposta. A pontuação pode ser um inteiro positivo ou negativo, ou zero</li>
+  <li>Adicionar um comentï¿½rio opcional. Esse comentï¿½rio nï¿½o serï¿½ mostrado para o usuï¿½rio antes que ele/ela tenha respondido a questï¿½o</li>
+  <li>Atribua um peso para cada resposta. A pontuaï¿½ï¿½o pode ser um inteiro positivo ou negativo, ou zero</li>
   <li>Salve suas respostas</li>
 </ul></p>
 <hr>
-<b>Preencha os espaços</b>
-<p>Isso permite a você criar um texto com espaços. O objetivo é fazer com que o usuário procure as palavras que você removeu do texto.<br><br>
-Para remover uma palavra do texto, e também criar um espaço em branco, coloque a palavra entre colchetes [assim].<br><br>
-Uma vez que o texto tenha sido digitado e os espaços tenham sido definidos, você pode adicionar um comentário que será mostrado ao estudante quando ele responder a questão.<br><br>
-Salve seu texto, e você irá passar para o próximo passo que permite a você definir o peso para cada espaço preenchido. Por exemplo, se a pergunta possuir 10 pontos e você tiver 5 espaços, você pode dar um peso de 2 pontos para cada espaço em branco.</p>
+<b>Preencha os espaï¿½os</b>
+<p>Isso permite a vocï¿½ criar um texto com espaï¿½os. O objetivo ï¿½ fazer com que o usuï¿½rio procure as palavras que vocï¿½ removeu do texto.<br><br>
+Para remover uma palavra do texto, e tambï¿½m criar um espaï¿½o em branco, coloque a palavra entre colchetes [assim].<br><br>
+Uma vez que o texto tenha sido digitado e os espaï¿½os tenham sido definidos, vocï¿½ pode adicionar um comentï¿½rio que serï¿½ mostrado ao estudante quando ele responder a questï¿½o.<br><br>
+Salve seu texto, e vocï¿½ irï¿½ passar para o prï¿½ximo passo que permite a vocï¿½ definir o peso para cada espaï¿½o preenchido. Por exemplo, se a pergunta possuir 10 pontos e vocï¿½ tiver 5 espaï¿½os, vocï¿½ pode dar um peso de 2 pontos para cada espaï¿½o em branco.</p>
 <hr>
 <b>Correspondentes</b>
-<p>Esse tipo de resposta pode ser escolhido para criar uma questão onde o usuário deverá conectar elementos de uma unidade U1 com os elementos de uma unidade U2.<br><br>
-Isso também pode ser usado para pedir ao usuário para que ele ordene elementos seguindo uma determinada ordem.<br><br>
-Primeiro defina as opções entre as quais o usuário poderá escolher uma resposta correta. Então, defina as questões que precisam ser ligadas a uma das opções préviamente definidas. Finalmente, conecte através dos elementos do menu drop-down os elementos da primeira unidade com os da segunda unidade.<br><br>
-Aviso : Vários elementos da primeira unidade podem apontar para o mesmo elemento na segunda unidade.<br><br>
-Atribua um peso para cada correspondência correta, e salve a sua resposta.</p>
+<p>Esse tipo de resposta pode ser escolhido para criar uma questï¿½o onde o usuï¿½rio deverï¿½ conectar elementos de uma unidade U1 com os elementos de uma unidade U2.<br><br>
+Isso tambï¿½m pode ser usado para pedir ao usuï¿½rio para que ele ordene elementos seguindo uma determinada ordem.<br><br>
+Primeiro defina as opï¿½ï¿½es entre as quais o usuï¿½rio poderï¿½ escolher uma resposta correta. Entï¿½o, defina as questï¿½es que precisam ser ligadas a uma das opï¿½ï¿½es prï¿½viamente definidas. Finalmente, conecte atravï¿½s dos elementos do menu drop-down os elementos da primeira unidade com os da segunda unidade.<br><br>
+Aviso : Vï¿½rios elementos da primeira unidade podem apontar para o mesmo elemento na segunda unidade.<br><br>
+Atribua um peso para cada correspondï¿½ncia correta, e salve a sua resposta.</p>
 <hr>
-<b>Modificação de exercícios</b>
-<p>Para se modificar um exercício, o princípio é o mesmo utilizado na sua criação. Basta clicar na figura <img src=\\\\\\\"../img/edit.gif\\\\\\\" border=\\\\\\\"0\\\\\\\" align=\\\\\\\"absmiddle\\\\\\\"> ao lado do exercício para modificá-lo, e seguir as instruções abaixo.</p>
+<b>Modificaï¿½ï¿½o de exercï¿½cios</b>
+<p>Para se modificar um exercï¿½cio, o princï¿½pio ï¿½ o mesmo utilizado na sua criaï¿½ï¿½o. Basta clicar na figura <img src=\\\\\\\"../img/edit.gif\\\\\\\" border=\\\\\\\"0\\\\\\\" align=\\\\\\\"absmiddle\\\\\\\"> ao lado do exercï¿½cio para modificï¿½-lo, e seguir as instruï¿½ï¿½es abaixo.</p>
 <hr>
-<b>Remoção de exercícios</b>
-<p>Para deletar um exercício, clique na figura <img src=\\\\\\\"../img/delete.gif\\\\\\\" border=\\\\\\\"0\\\\\\\" align=\\\\\\\"absmiddle\\\\\\\"> ao lado do exercício e delete-a.</p>
+<b>Remoï¿½ï¿½o de exercï¿½cios</b>
+<p>Para deletar um exercï¿½cio, clique na figura <img src=\\\\\\\"../img/delete.gif\\\\\\\" border=\\\\\\\"0\\\\\\\" align=\\\\\\\"absmiddle\\\\\\\"> ao lado do exercï¿½cio e delete-a.</p>
 <hr>
-<b>Habilitando um Exercício</b>
-<p>Para que um exercício possa ser utilizado, você tem que habilitá-lo clicando na figura <img src=\\\\\\\"../img/invisible.gif\\\\\\\" border=\\\\\\\"0\\\\\\\" align=\\\\\\\"absmiddle\\\\\\\"> ao lado do nome do exercício.</p>
+<b>Habilitando um Exercï¿½cio</b>
+<p>Para que um exercï¿½cio possa ser utilizado, vocï¿½ tem que habilitï¿½-lo clicando na figura <img src=\\\\\\\"../img/invisible.gif\\\\\\\" border=\\\\\\\"0\\\\\\\" align=\\\\\\\"absmiddle\\\\\\\"> ao lado do nome do exercï¿½cio.</p>
 <hr>
-<b>Executando o exercício</b>
-<p>Você pode testar seu exercício clicando em seu nome na lista de exercícios.</p>
+<b>Executando o exercï¿½cio</b>
+<p>Vocï¿½ pode testar seu exercï¿½cio clicando em seu nome na lista de exercï¿½cios.</p>
 <hr>
-<b>Questões aleatórias</b>
-<p>No momento da criação / modificação do exercício, você pode informar se você quer que as questões sejam dispostas em ordem aleatória envolvendo todas as questões do exercício.<br><br>
-Ao habilitar essa opção, as questões serão dispostas em uma ordem diferente a cada vez que os usuários realizarem o exercício.<br><br>
-Se você tiver um número grande de questões, você também pode escolher tornar aleatória a exibição de X questões ao invés de fazê-lo com todas as questões disponíveis no exercício.</p>
+<b>Questï¿½es aleatï¿½rias</b>
+<p>No momento da criaï¿½ï¿½o / modificaï¿½ï¿½o do exercï¿½cio, vocï¿½ pode informar se vocï¿½ quer que as questï¿½es sejam dispostas em ordem aleatï¿½ria envolvendo todas as questï¿½es do exercï¿½cio.<br><br>
+Ao habilitar essa opï¿½ï¿½o, as questï¿½es serï¿½o dispostas em uma ordem diferente a cada vez que os usuï¿½rios realizarem o exercï¿½cio.<br><br>
+Se vocï¿½ tiver um nï¿½mero grande de questï¿½es, vocï¿½ tambï¿½m pode escolher tornar aleatï¿½ria a exibiï¿½ï¿½o de X questï¿½es ao invï¿½s de fazï¿½-lo com todas as questï¿½es disponï¿½veis no exercï¿½cio.</p>
 <hr>
-<b>Relação de Questões</b>
-<p>Quando você deletar um exercício, suas questões não são removidas da base de dados, e elas podem ser reutilizados em um novo exercício, através da relação de questões.<br><br>
-A relação de questões também permite reutilizar as mesmas questões em vários exercícios.<br><br>
-Por padrão,todas as questões do seu curso são escondidas. Você pode mostrar as questões relacionando-as com um exercício, escolhendo-as a partir de um menu drop-down de \\\"Filtragem\\\".<br><br>
-Questões órfãs são questões que não pertencem a nenhum exercício.</p>";
-$langHPath = "Ajuda Sequência de Aprendizagem";
-$langPathContent = "A ferramenta Rotas de Aprendizado tem duas funções :
+<b>Relaï¿½ï¿½o de Questï¿½es</b>
+<p>Quando vocï¿½ deletar um exercï¿½cio, suas questï¿½es nï¿½o sï¿½o removidas da base de dados, e elas podem ser reutilizados em um novo exercï¿½cio, atravï¿½s da relaï¿½ï¿½o de questï¿½es.<br><br>
+A relaï¿½ï¿½o de questï¿½es tambï¿½m permite reutilizar as mesmas questï¿½es em vï¿½rios exercï¿½cios.<br><br>
+Por padrï¿½o,todas as questï¿½es do seu curso sï¿½o escondidas. Vocï¿½ pode mostrar as questï¿½es relacionando-as com um exercï¿½cio, escolhendo-as a partir de um menu drop-down de \\\"Filtragem\\\".<br><br>
+Questï¿½es ï¿½rfï¿½s sï¿½o questï¿½es que nï¿½o pertencem a nenhum exercï¿½cio.</p>";
+$langHPath = "Ajuda Sequï¿½ncia de Aprendizagem";
+$langPathContent = "A ferramenta Rotas de Aprendizado tem duas funï¿½ï¿½es :
 <ul><li>Criar uma Rota de aprendizado</li>
 <li>Enviar uma Rota de Aprendizado no formato Scorm ou IMS</li></ul>
 <img src=\\\\\\\"../img/path_help.gif\\\\\\\">
 <p><b>
-O que é uma Rota de Aprendizado ?</b>
-</p><p>Uma Rota de Aprendizado é uma seqüência de etapas de aprendizado dispostas em módulos. Ela pode ser baseada em conteúdos (parecendo-se com uma tabela de conteúdos) ou baseada em atividades, parecendo-se com uma agenda ou um programa que você precisa cumprir para entender e praticar um certo conhecimento ou know-how.</p><p>Em complemento à estruturação, uma rota de aprendizado pode ser seqüenciada. Isso significa que alguns passos podem ser constituídos como pré-requisitos para outros (\\\'você não pode ir para o passo 2 antes do passo 1\\\'). Sua seqüência pode ser sugestiva (você mostra as etapas uma após a outra) ou imperativa (você adicion pré-requisitos para que as pessoas sejam forçadas a seguir a seqüência).
+O que ï¿½ uma Rota de Aprendizado ?</b>
+</p><p>Uma Rota de Aprendizado ï¿½ uma seqï¿½ï¿½ncia de etapas de aprendizado dispostas em mï¿½dulos. Ela pode ser baseada em conteï¿½dos (parecendo-se com uma tabela de conteï¿½dos) ou baseada em atividades, parecendo-se com uma agenda ou um programa que vocï¿½ precisa cumprir para entender e praticar um certo conhecimento ou know-how.</p><p>Em complemento ï¿½ estruturaï¿½ï¿½o, uma rota de aprendizado pode ser seqï¿½enciada. Isso significa que alguns passos podem ser constituï¿½dos como prï¿½-requisitos para outros (\\\'vocï¿½ nï¿½o pode ir para o passo 2 antes do passo 1\\\'). Sua seqï¿½ï¿½ncia pode ser sugestiva (vocï¿½ mostra as etapas uma apï¿½s a outra) ou imperativa (vocï¿½ adicion prï¿½-requisitos para que as pessoas sejam forï¿½adas a seguir a seqï¿½ï¿½ncia).
 </p>
-<p><b>Como criar sua própria Rota de Aprendizado ?</b></p>
+<p><b>Como criar sua prï¿½pria Rota de Aprendizado ?</b></p>
 <p>
-O primeiro passo é dirigir-se até o Construtor de Rotas de Aprendizagem. Na 
-tela Rotas de Aprendizado, há um link para ele. Lá você poderá criar muitas
-rotas clicando em <i>Adicionar uma nova rota de aprendizado</i>. Mas elas estarão
-vazias, até que você adicione módulos e etapas à elas.<br>Se você criar uma rota
-visível, ela irá aparecer como uma nova ferramenta na homepage do curso. Dessa
-forma o seu acesso será facilitado.</p>
+O primeiro passo ï¿½ dirigir-se atï¿½ o Construtor de Rotas de Aprendizagem. Na 
+tela Rotas de Aprendizado, hï¿½ um link para ele. Lï¿½ vocï¿½ poderï¿½ criar muitas
+rotas clicando em <i>Adicionar uma nova rota de aprendizado</i>. Mas elas estarï¿½o
+vazias, atï¿½ que vocï¿½ adicione mï¿½dulos e etapas ï¿½ elas.<br>Se vocï¿½ criar uma rota
+visï¿½vel, ela irï¿½ aparecer como uma nova ferramenta na homepage do curso. Dessa
+forma o seu acesso serï¿½ facilitado.</p>
 <p>
-<b>O que são as etapas para essas rotas ? (O que são os ítens que podem ser adicionados?)</b></p>
-<p>Todas as ferramentas do Dokeos, atividades e conteúdos que você considerar como sendo úteis quando conectados à sua rota podem ser adicionados :<br><ul>
-<li>Ítens da agenda</li>
+<b>O que sï¿½o as etapas para essas rotas ? (O que sï¿½o os ï¿½tens que podem ser adicionados?)</b></p>
+<p>Todas as ferramentas do Dokeos, atividades e conteï¿½dos que vocï¿½ considerar como sendo ï¿½teis quando conectados ï¿½ sua rota podem ser adicionados :<br><ul>
+<li>ï¿½tens da agenda</li>
 <li>Documentos separados (textos, imagens, Documentos do Office, ...)</li>
 <li>Comunicados</li>
-<li>Fóruns como um todo</li>
-<li>Tópicos</li>
-<li>Mensagens individuais de um tópico</li>
+<li>Fï¿½runs como um todo</li>
+<li>Tï¿½picos</li>
+<li>Mensagens individuais de um tï¿½pico</li>
 <li>Links</li>
-<li>Exercícios do Dokeos (você tem que tornar esses exercícios visíveis na ferramenta Exercícios, quando você quiser
-apresentá-los aos estudantes nas rotas)</li>
-<li>Página de trabalhos</li>
-<li>Página da dropbox</li>
+<li>Exercï¿½cios do Dokeos (vocï¿½ tem que tornar esses exercï¿½cios visï¿½veis na ferramenta Exercï¿½cios, quando vocï¿½ quiser
+apresentï¿½-los aos estudantes nas rotas)</li>
+<li>Pï¿½gina de trabalhos</li>
+<li>Pï¿½gina da dropbox</li>
 <li>Links externos, que apontam para fora do sistema Dokeos</li></ul>
 </p>
 <p><b>
 Outros recursos da Rota de Aprendizado</b>
 </p>
 <p>
-Os estudantes podem ser convidados a seguir (ler) sua rota em uma ordem pré-definida,
-assim como você pode definir <u>pré-requisitos</u> na rota. Isso significa que, por
-exemplo, estudantes não podem ir para o Quiz 2 antes de ler o Documento 1. Todos os ítens tem um status :
-completo ou incompleto, então o progresso dos estudantes está disponível claramente.
+Os estudantes podem ser convidados a seguir (ler) sua rota em uma ordem prï¿½-definida,
+assim como vocï¿½ pode definir <u>prï¿½-requisitos</u> na rota. Isso significa que, por
+exemplo, estudantes nï¿½o podem ir para o Quiz 2 antes de ler o Documento 1. Todos os ï¿½tens tem um status :
+completo ou incompleto, entï¿½o o progresso dos estudantes estï¿½ disponï¿½vel claramente.
 </p><p>
-Se você alterar o título original de uma etapa, o novo título irá aparecer na
-rota, mas o título original não será deletado. Então, se você quiser que o 
-teste8.doc apareça como \\\'Prova Final\\\' na rota, você tem que renomear
-o arquivo, você pode usar o novo título na rota. Também é útil
-dar novos títulos para links quando eles forem muito longos.
+Se vocï¿½ alterar o tï¿½tulo original de uma etapa, o novo tï¿½tulo irï¿½ aparecer na
+rota, mas o tï¿½tulo original nï¿½o serï¿½ deletado. Entï¿½o, se vocï¿½ quiser que o 
+teste8.doc apareï¿½a como \\\'Prova Final\\\' na rota, vocï¿½ tem que renomear
+o arquivo, vocï¿½ pode usar o novo tï¿½tulo na rota. Tambï¿½m ï¿½ ï¿½til
+dar novos tï¿½tulos para links quando eles forem muito longos.
 </p><p>
-Quando concluído, não se esqueça de verificar a visão do estudante, onde a tabela de
-conteúdos deverá aparecer na esquerda e as etapas da rota usualmente aparecem à direita,
+Quando concluï¿½do, nï¿½o se esqueï¿½a de verificar a visï¿½o do estudante, onde a tabela de
+conteï¿½dos deverï¿½ aparecer na esquerda e as etapas da rota usualmente aparecem ï¿½ direita,
 uma por uma.
 </p><br><p><b>
-O que é uma Rota de Aprendizado no formato Scorm ou IMS e como enviá-la (importá-la)?</b>
+O que ï¿½ uma Rota de Aprendizado no formato Scorm ou IMS e como enviï¿½-la (importï¿½-la)?</b>
 </p>
-<p>A ferramenta rota de aprendizado permite a você enviar conteúdos de curso compatíveis com SCORM e IMS.</p>
-<p>O SCORM  (<i>Modelo de Referência para Objetos de Conteúdos Compartilháveis</i>) é um padrão público seguido
-por grandes empresas de e-Learning como NETg, Macromedia, Microsoft, Skillsoft, etc. e atua em três níveis:
+<p>A ferramenta rota de aprendizado permite a vocï¿½ enviar conteï¿½dos de curso compatï¿½veis com SCORM e IMS.</p>
+<p>O SCORM  (<i>Modelo de Referï¿½ncia para Objetos de Conteï¿½dos Compartilhï¿½veis</i>) ï¿½ um padrï¿½o pï¿½blico seguido
+por grandes empresas de e-Learning como NETg, Macromedia, Microsoft, Skillsoft, etc. e atua em trï¿½s nï¿½veis:
 </p>
 <ul>
-<li><b>Economia</b> : O Scorm permite que cursos inteiros ou pequenos conteúdos
-seja reutilizáveis em diferentes Sistemas de Gestão de Aprendizado (LMS)
-através da separação de conteúdo do contexto,</li>
-<li><b>Pedagogia</b> : O Scorm integra a noção de
-pré-requisitos com <i>seqüênciamento</i> (<i>ex. </i>\\\\\\\"Você
-não pode ir para o capítulo 2 antes de passar pelo Quiz 1\\\\\\\"),</li>
-<li><b>Tecnologia</b> : O Scorm gera uma tabela de conteúdos como uma
-camada de abstração situada fora do conteúdo e fora do LMS. Ela
-auxilia a comunicação entre conteúdo e LMS. 
-O que é transmitido são principalmente <i>marcadores
-</i>(\\\\\\\"Onde John está no curso?\\\\\\\"), <i>pontuação</i> 
-(\\\\\\\"Como John passou pelo exercício?\\\\\\\") e <i>tempo</i> (\\\\\\\"Quanto
-tempo John gastou no capítulo 1?\\\\\\\").</li>
+<li><b>Economia</b> : O Scorm permite que cursos inteiros ou pequenos conteï¿½dos
+seja reutilizï¿½veis em diferentes Sistemas de Gestï¿½o de Aprendizado (LMS)
+atravï¿½s da separaï¿½ï¿½o de conteï¿½do do contexto,</li>
+<li><b>Pedagogia</b> : O Scorm integra a noï¿½ï¿½o de
+prï¿½-requisitos com <i>seqï¿½ï¿½nciamento</i> (<i>ex. </i>\\\\\\\"Vocï¿½
+nï¿½o pode ir para o capï¿½tulo 2 antes de passar pelo Quiz 1\\\\\\\"),</li>
+<li><b>Tecnologia</b> : O Scorm gera uma tabela de conteï¿½dos como uma
+camada de abstraï¿½ï¿½o situada fora do conteï¿½do e fora do LMS. Ela
+auxilia a comunicaï¿½ï¿½o entre conteï¿½do e LMS. 
+O que ï¿½ transmitido sï¿½o principalmente <i>marcadores
+</i>(\\\\\\\"Onde John estï¿½ no curso?\\\\\\\"), <i>pontuaï¿½ï¿½o</i> 
+(\\\\\\\"Como John passou pelo exercï¿½cio?\\\\\\\") e <i>tempo</i> (\\\\\\\"Quanto
+tempo John gastou no capï¿½tulo 1?\\\\\\\").</li>
 </ul>
-<b>Como criar uma rota de aprendizado compatível com o SCORM?</b><br>
+<b>Como criar uma rota de aprendizado compatï¿½vel com o SCORM?</b><br>
 <br>
-A forma mais natural é utilizar o Construtor de Rotas de Aprendizado do Dokeos. Entretanto, você pode querer criar sites completamente compatíveis com Scorm localmente em seu computador para depois enviá-los para sua plataforma dokeos. Nesse caso, nós recomendamos o uso de uma ferramenta sofisticada como o Lectora® ou o Reload®
+A forma mais natural ï¿½ utilizar o Construtor de Rotas de Aprendizado do Dokeos. Entretanto, vocï¿½ pode querer criar sites completamente compatï¿½veis com Scorm localmente em seu computador para depois enviï¿½-los para sua plataforma dokeos. Nesse caso, nï¿½s recomendamos o uso de uma ferramenta sofisticada como o Lectoraï¿½ ou o Reloadï¿½
 <br></p><p>
-<b>Links úteis</b><br>
+<b>Links ï¿½teis</b><br>
 <ul>
-<li>Adlnet : autoridade responsável pela normatização do Scorm, <a
+<li>Adlnet : autoridade responsï¿½vel pela normatizaï¿½ï¿½o do Scorm, <a
 href=\\\\\\\"http://www.adlnet.org/\\\\\\\">http://www.adlnet.org</a></li>
-<li>Reload : Player e editor Scorm livre e de Código Aberto, <a
+<li>Reload : Player e editor Scorm livre e de Cï¿½digo Aberto, <a
 href=\\\\\\\"http://www.reload.ac.uk/\\\\\\\">http://www.reload.ac.uk</a></li>
-<li>Lectora : Software de autoria e publicação Scorm, <a
+<li>Lectora : Software de autoria e publicaï¿½ï¿½o Scorm, <a
 href=\\\\\\\"http://www.trivantis.com/\\\\\\\">http://www.trivantis.com</a><br>
 </li>
 </ul>
 <p><b>
 Nota :</b></p><p>
-Todas as listas da seção Rota de Aprendizado são <i>Rotas de Aprendizado auto-construídas</i>
-assim como todas as <i>Rotas de Aprendizado em formato Scorm</i> enviadas, também. É recomendado
-colocar cada rota Scorm enviada em diretórios separados.
+Todas as listas da seï¿½ï¿½o Rota de Aprendizado sï¿½o <i>Rotas de Aprendizado auto-construï¿½das</i>
+assim como todas as <i>Rotas de Aprendizado em formato Scorm</i> enviadas, tambï¿½m. ï¿½ recomendado
+colocar cada rota Scorm enviada em diretï¿½rios separados.
 </p>";
-$langHDescription = "Ajuda Descrição do Curso";
-$langDescriptionContent = "<p>Esta ferramenta irá ajudá-lo a descrever o seu curso de uma forma organizada e estéticamente estruturada. Ela irá ajudar os  futuros estudantes a terem uma visão clara do que podem esperar deste curso. Dará, igualmente,  a oportunidade para repensar o cenário do seu curso.</p>Os ítens são dispostos aqui como proposta. Se quiser criar uma descrição de curso com os seus próprios ítens, basta utilizar o ítem \\\'Outro\\\' e decidir qual será o seu título.</p>
+$langHDescription = "Ajuda Descriï¿½ï¿½o do Curso";
+$langDescriptionContent = "<p>Esta ferramenta irï¿½ ajudï¿½-lo a descrever o seu curso de uma forma organizada e estï¿½ticamente estruturada. Ela irï¿½ ajudar os  futuros estudantes a terem uma visï¿½o clara do que podem esperar deste curso. Darï¿½, igualmente,  a oportunidade para repensar o cenï¿½rio do seu curso.</p>Os ï¿½tens sï¿½o dispostos aqui como proposta. Se quiser criar uma descriï¿½ï¿½o de curso com os seus prï¿½prios ï¿½tens, basta utilizar o ï¿½tem \\\'Outro\\\' e decidir qual serï¿½ o seu tï¿½tulo.</p>
 <p>
-Para preencher a descrição do curso, selecione Criar e editar uma descrição de curso > Abra o menu e seleccione um ítem à sua escolha > preencha o formulário > Confirme. Poderá editar ou remover o conteúdo de qualquer ítem a qualquer momento clicando nos ícones do lápis ou no da cruz vermelha.</p>";
-$langHLinks = "Ajuda Ligações";
-$langLinksContent = "<p>A ferramenta Ligações permite criar uma biblioteca de recursos para os seus estudantes. Especialmente recursos que não foram criados por si.</p>
-<p>Quando a lista crescer, será útil organizá-la em categorias para ajudar os estudantes a encontrar a informação certa no lugar certo. Pode editar todas as ligações e re-atribuí-las para uma nova categoria (necessita criar essa categoria primeiro).</p>
-<p>O campo descrição pode ser utilizado para dar uma informação prévia sobre a página alvo e também descrever o que se espera que o aluno faça com o conteúdo da ligação. Se, por exemplo, apontar para um website sobre Aristóteles, o campo descrição pode pedir ao estudantes para estudarem a diferença entre síntese e análise.";
-$langHMycourses = "Ajuda Página Principal do Curso";
-$langMycoursesContent = "<p>Uma vez logado no sistema, você é levado até a <i>sua</i> página. Nela você vê:
-<ul><li><b>Minha lista de cursos</b> no centro da página, e também (dependendo das configurações de segurança do seu portal) a possibilidade de criar novos cursos (menu lateral direito);</li>
-<li>Na faixa superior, <b>Meu Perfil</b>: utilize isso para modificar a sua senha, seu codinome, enviar sua foto para o sistema e verificar seu próprio acompanhamento;</li>
-<li><b>Minha agenda</b>: ela contém todos os eventos dos cursos nos quais você está inscrito;</li>
+Para preencher a descriï¿½ï¿½o do curso, selecione Criar e editar uma descriï¿½ï¿½o de curso > Abra o menu e seleccione um ï¿½tem ï¿½ sua escolha > preencha o formulï¿½rio > Confirme. Poderï¿½ editar ou remover o conteï¿½do de qualquer ï¿½tem a qualquer momento clicando nos ï¿½cones do lï¿½pis ou no da cruz vermelha.</p>";
+$langHLinks = "Ajuda Ligaï¿½ï¿½es";
+$langLinksContent = "<p>A ferramenta Ligaï¿½ï¿½es permite criar uma biblioteca de recursos para os seus estudantes. Especialmente recursos que nï¿½o foram criados por si.</p>
+<p>Quando a lista crescer, serï¿½ ï¿½til organizï¿½-la em categorias para ajudar os estudantes a encontrar a informaï¿½ï¿½o certa no lugar certo. Pode editar todas as ligaï¿½ï¿½es e re-atribuï¿½-las para uma nova categoria (necessita criar essa categoria primeiro).</p>
+<p>O campo descriï¿½ï¿½o pode ser utilizado para dar uma informaï¿½ï¿½o prï¿½via sobre a pï¿½gina alvo e tambï¿½m descrever o que se espera que o aluno faï¿½a com o conteï¿½do da ligaï¿½ï¿½o. Se, por exemplo, apontar para um website sobre Aristï¿½teles, o campo descriï¿½ï¿½o pode pedir ao estudantes para estudarem a diferenï¿½a entre sï¿½ntese e anï¿½lise.";
+$langHMycourses = "Ajuda Pï¿½gina Principal do Curso";
+$langMycoursesContent = "<p>Uma vez logado no sistema, vocï¿½ ï¿½ levado atï¿½ a <i>sua</i> pï¿½gina. Nela vocï¿½ vï¿½:
+<ul><li><b>Minha lista de cursos</b> no centro da pï¿½gina, e tambï¿½m (dependendo das configuraï¿½ï¿½es de seguranï¿½a do seu portal) a possibilidade de criar novos cursos (menu lateral direito);</li>
+<li>Na faixa superior, <b>Meu Perfil</b>: utilize isso para modificar a sua senha, seu codinome, enviar sua foto para o sistema e verificar seu prï¿½prio acompanhamento;</li>
+<li><b>Minha agenda</b>: ela contï¿½m todos os eventos dos cursos nos quais vocï¿½ estï¿½ inscrito;</li>
 
-<li>No menu lateral direito: <b>Editar minha lista de cursos</b> que permite que você se inscreva em novos cursos dependendo de como o professor ou a organização deixaram esses cursos abertos para inscrições. Utilize isso para se desinscrever de cursos também;
+<li>No menu lateral direito: <b>Editar minha lista de cursos</b> que permite que vocï¿½ se inscreva em novos cursos dependendo de como o professor ou a organizaï¿½ï¿½o deixaram esses cursos abertos para inscriï¿½ï¿½es. Utilize isso para se desinscrever de cursos tambï¿½m;
 </li>
-<li>Os links  <b>Fórum de Suporte</b> e <b>Documentação</b> apontam para o website do Dokeos, onde você pode sanar dúvidas técnicas e pedagógicas, encontrar mais informações.</li></ul>
-Para entrar em um curso (área central da página), clique no seu nome. Seu perfil pode variar de curso para curso. É possível que você seja professor em um curso e estudante em outro. 
+<li>Os links  <b>Fï¿½rum de Suporte</b> e <b>Documentaï¿½ï¿½o</b> apontam para o website do Dokeos, onde vocï¿½ pode sanar dï¿½vidas tï¿½cnicas e pedagï¿½gicas, encontrar mais informaï¿½ï¿½es.</li></ul>
+Para entrar em um curso (ï¿½rea central da pï¿½gina), clique no seu nome. Seu perfil pode variar de curso para curso. ï¿½ possï¿½vel que vocï¿½ seja professor em um curso e estudante em outro. 
 </p>";
 $langHAgenda = "Ajuda Agenda";
-$langAgendaContent = "<p>A agenda aparece tanto na área do curso quanto como uma ferramenta resumida para o estudante (\\\'Minha agenda\\\' na faixa superior).</p>
-<p>No curso, a agenda aparece como uma lista de eventos. Você pode atribuir documentos ou atividades para uma data determinada e a agenda se transforma em um programa cronológico das suas atividades de aprendizado.</p>
-<p>Em complemento ao dados apresentados na agenda, os novos eventos são apresentados ao estudante quando ele/ela faz login novamente. O sistema diz o que foi adicionado na Agenda (e nos Comunicados) desde a sua última visita : ícones aparecem na home page do portal ao lado dos cursos onde os eventos estão sendo anunciados.</p>
-<p>Se você deseja se aprofundar na lógica da estruturação de atividades umas após as outras, nós sugerimos para que utilize preferívelmente a Rota de Aprendizado que oferece os mesmos princípios com recursos mais avançados. A Rota de Aprendizado pode ser considerada como uma síntese de uma ferramenta de Tabela de Conteúdos + uma Agenda + seqüenciamento (imposição de ordem) e acompanhamento.</p>";
-$langHAnnouncements = "Ajuda Anúncios";
-$langAnnouncementsContent = "<p>A ferramenta Anúncios permite enviar um email para todos ou alguns estudantes, assim como para grupos de estudantes. Pode ser eficiente para relembrar os alunos ou enviar-lhes alguma informação.</p><p> Para enviar uma mensagem para alguns estudantes e/ou alguns grupos, seleccione - Enviar este anúncio por email aos estudantes registados - e de seguida use CTRL+C para seleccionar mais de um no menu à esquerda, clique na seta direita para mover os alunos seleccionados. Depois, escreva a mensagem na caixa em baixo.</p>";
+$langAgendaContent = "<p>A agenda aparece tanto na ï¿½rea do curso quanto como uma ferramenta resumida para o estudante (\\\'Minha agenda\\\' na faixa superior).</p>
+<p>No curso, a agenda aparece como uma lista de eventos. Vocï¿½ pode atribuir documentos ou atividades para uma data determinada e a agenda se transforma em um programa cronolï¿½gico das suas atividades de aprendizado.</p>
+<p>Em complemento ao dados apresentados na agenda, os novos eventos sï¿½o apresentados ao estudante quando ele/ela faz login novamente. O sistema diz o que foi adicionado na Agenda (e nos Comunicados) desde a sua ï¿½ltima visita : ï¿½cones aparecem na home page do portal ao lado dos cursos onde os eventos estï¿½o sendo anunciados.</p>
+<p>Se vocï¿½ deseja se aprofundar na lï¿½gica da estruturaï¿½ï¿½o de atividades umas apï¿½s as outras, nï¿½s sugerimos para que utilize preferï¿½velmente a Rota de Aprendizado que oferece os mesmos princï¿½pios com recursos mais avanï¿½ados. A Rota de Aprendizado pode ser considerada como uma sï¿½ntese de uma ferramenta de Tabela de Conteï¿½dos + uma Agenda + seqï¿½enciamento (imposiï¿½ï¿½o de ordem) e acompanhamento.</p>";
+$langHAnnouncements = "Ajuda Anï¿½ncios";
+$langAnnouncementsContent = "<p>A ferramenta Anï¿½ncios permite enviar um email para todos ou alguns estudantes, assim como para grupos de estudantes. Pode ser eficiente para relembrar os alunos ou enviar-lhes alguma informaï¿½ï¿½o.</p><p> Para enviar uma mensagem para alguns estudantes e/ou alguns grupos, seleccione - Enviar este anï¿½ncio por email aos estudantes registados - e de seguida use CTRL+C para seleccionar mais de um no menu ï¿½ esquerda, clique na seta direita para mover os alunos seleccionados. Depois, escreva a mensagem na caixa em baixo.</p>";
 $langHChat = "Ajuda Chat";
-$langChatContent = "<p>A ferramenta Chat permite a você realizar discussões ao vivo com seus estudantes.</p>
-<p>Esse chat não é igual aos seus similares, como o MSN® ou o Yahoo Messenger® porque é baseado na web. A desvantagem é que ele é atualizado apenas a cada 10 segundos e não imediatamente. A vantagem é que ele é integrado ao seu curso, ele grava suas discussões na ferramenta Documentos e não é necessário que os estudantes façam o download de nenhum plugin para utilizá-lo.</p>
-<p>Se os usuários enviarem suas fotos em \\\'Meu Perfil\\\' (faixa superior), então essa foto irá aparecer na discussão para ajudar a identificar quem está falando.</p>
-<p>Apenas o professor tem permissão para deletar a discussão quando ele/ela achar que deve.</p>
-<p><b>Relevância pedagógica</b></p>
-<p>Adicionar um chat ao seu curso não é necessáriamente uma boa idéia. Entretanto, se ele fizer parte do seu cenário, o chat poderá ser de grande ajuda. Você pode planejar, por exemplo, manter o chat sempre escondido exceto em certas ocasiões nas quais você queira ter uma conversa dedicada a responder as perguntas de seus estudantes em tempo real. Dessa forma ela passa a ser uma ferramenta de discussão menos \\\'livre\\\', mas você dá aos seus estudantes a garantia de que eles poderão se beneficiar com esses encontros em tempo real.</p>.";
+$langChatContent = "<p>A ferramenta Chat permite a vocï¿½ realizar discussï¿½es ao vivo com seus estudantes.</p>
+<p>Esse chat nï¿½o ï¿½ igual aos seus similares, como o MSNï¿½ ou o Yahoo Messengerï¿½ porque ï¿½ baseado na web. A desvantagem ï¿½ que ele ï¿½ atualizado apenas a cada 10 segundos e nï¿½o imediatamente. A vantagem ï¿½ que ele ï¿½ integrado ao seu curso, ele grava suas discussï¿½es na ferramenta Documentos e nï¿½o ï¿½ necessï¿½rio que os estudantes faï¿½am o download de nenhum plugin para utilizï¿½-lo.</p>
+<p>Se os usuï¿½rios enviarem suas fotos em \\\'Meu Perfil\\\' (faixa superior), entï¿½o essa foto irï¿½ aparecer na discussï¿½o para ajudar a identificar quem estï¿½ falando.</p>
+<p>Apenas o professor tem permissï¿½o para deletar a discussï¿½o quando ele/ela achar que deve.</p>
+<p><b>Relevï¿½ncia pedagï¿½gica</b></p>
+<p>Adicionar um chat ao seu curso nï¿½o ï¿½ necessï¿½riamente uma boa idï¿½ia. Entretanto, se ele fizer parte do seu cenï¿½rio, o chat poderï¿½ ser de grande ajuda. Vocï¿½ pode planejar, por exemplo, manter o chat sempre escondido exceto em certas ocasiï¿½es nas quais vocï¿½ queira ter uma conversa dedicada a responder as perguntas de seus estudantes em tempo real. Dessa forma ela passa a ser uma ferramenta de discussï¿½o menos \\\'livre\\\', mas vocï¿½ dï¿½ aos seus estudantes a garantia de que eles poderï¿½o se beneficiar com esses encontros em tempo real.</p>.";
 $langHWork = "Ajuda Trabalhos dos Estudantes";
-$langWorkContent = "<p>A ferramenta Trabalhos é muito simples. Ela permite aos seus estudantes enviar quaisquer documentos para a área do curso.</p>
-<p>Dependendo do cenário do seu curso, você pode escolher se você quer que todos os estudantes vejam todos os documentos (se, por exemplo, você quiser perguntar a eles as suas opiniões sobre os artigos do demais) ou se você quiser você pode ser o único a visualizar os documentos (se, por exemplo, você pediu a mesma coisa a todos e quer evitar que os trabalhos sejam copiados).</p>
-<p>Essa ferramenta possui uma área para texto de Introdução que permite a você propor trabalhos ou detalhar aspectos ou lembrar de uma determinada particularidade ou o que mais achar relevante.</p>";
-$langHTracking = "Ajuda Estatísticas";
-$langTrackingContent = "<p>O acompanhamento permite que você acompanhe seus estudantes : se eles estão se conectando ao sistema, quando, quantas vezes? Qual pontuação obtiveram nos exercícios? Se eles já enviaram seus trabalhos? Quando? Se eles utilizam cursos Scorm, você também pode saber quanto tempo um estudande gastou em um determinado capítulo ou módulo. O acompnhamento fornece informações em 2 níveis:
-<ul><li><b>Globalmente</b>: Quantos estudantes acessaram o curso? Quais são as páginas e links mais visitados?</i>
-<li><b>Individualmente</b>: Quais páginas John Doe visitou? Qual a pontuação que ele obteve nos exercícios? Quando ele acesso o sistema pela última vez?</li></ul>";
-$langHSettings = "Ajuda Configuração dos Cursos";
-$langSettingsContent = "<p>As Configurações do curso permitem a você gerenciar parâmetros globais do seu curso : Título, código, língua, nome dos professores, etc.</p>
-<p>As opções situadas ao centro da página lidam com as configurações de confidencialidade : o curso é público ou privado? Os estudantes podem se inscrever nele? Você pode utilizar essas configurações dinâmicamente : abrindo as inscrições durante uma semana > pedindo aos estudantes para se cadastrarem > fechando o acesso às inscrições > removendo possíveis intrusos através da lista de Usuários. Dessa forma você mantém o controle de quem está inscrito mas não tem a carga administrativa de registrar a todos você mesmo.</p>
-<p>No rodapé da página, você pode fazer Backup do curso e deletá-lo. O Backup irá criar um arquivo no servidor e permitir a sua cópia para o seu próprio Disco Rígido local. Assim existirão 2 backups em locais diferentes. Se você fizer backup de um curso e então deletá-lo você não terá permissões para restaurá-lo sozinho, mas o administrador do sistema poderá fazer isso por você se você der a ele/ela o seu código de curso. Fazer backup do curso também é uma boa forma de ter seus documentos em seu computador. Você irá precisar de uma ferramenta como o Winzip® para DESCOMPACTAR o arquivo. Note que fazer backup de um curso não implica em sua remoção de forma alguma.</p>";
+$langWorkContent = "<p>A ferramenta Trabalhos ï¿½ muito simples. Ela permite aos seus estudantes enviar quaisquer documentos para a ï¿½rea do curso.</p>
+<p>Dependendo do cenï¿½rio do seu curso, vocï¿½ pode escolher se vocï¿½ quer que todos os estudantes vejam todos os documentos (se, por exemplo, vocï¿½ quiser perguntar a eles as suas opiniï¿½es sobre os artigos do demais) ou se vocï¿½ quiser vocï¿½ pode ser o ï¿½nico a visualizar os documentos (se, por exemplo, vocï¿½ pediu a mesma coisa a todos e quer evitar que os trabalhos sejam copiados).</p>
+<p>Essa ferramenta possui uma ï¿½rea para texto de Introduï¿½ï¿½o que permite a vocï¿½ propor trabalhos ou detalhar aspectos ou lembrar de uma determinada particularidade ou o que mais achar relevante.</p>";
+$langHTracking = "Ajuda Estatï¿½sticas";
+$langTrackingContent = "<p>O acompanhamento permite que vocï¿½ acompanhe seus estudantes : se eles estï¿½o se conectando ao sistema, quando, quantas vezes? Qual pontuaï¿½ï¿½o obtiveram nos exercï¿½cios? Se eles jï¿½ enviaram seus trabalhos? Quando? Se eles utilizam cursos Scorm, vocï¿½ tambï¿½m pode saber quanto tempo um estudande gastou em um determinado capï¿½tulo ou mï¿½dulo. O acompnhamento fornece informaï¿½ï¿½es em 2 nï¿½veis:
+<ul><li><b>Globalmente</b>: Quantos estudantes acessaram o curso? Quais sï¿½o as pï¿½ginas e links mais visitados?</i>
+<li><b>Individualmente</b>: Quais pï¿½ginas John Doe visitou? Qual a pontuaï¿½ï¿½o que ele obteve nos exercï¿½cios? Quando ele acesso o sistema pela ï¿½ltima vez?</li></ul>";
+$langHSettings = "Ajuda Configuraï¿½ï¿½o dos Cursos";
+$langSettingsContent = "<p>As Configuraï¿½ï¿½es do curso permitem a vocï¿½ gerenciar parï¿½metros globais do seu curso : Tï¿½tulo, cï¿½digo, lï¿½ngua, nome dos professores, etc.</p>
+<p>As opï¿½ï¿½es situadas ao centro da pï¿½gina lidam com as configuraï¿½ï¿½es de confidencialidade : o curso ï¿½ pï¿½blico ou privado? Os estudantes podem se inscrever nele? Vocï¿½ pode utilizar essas configuraï¿½ï¿½es dinï¿½micamente : abrindo as inscriï¿½ï¿½es durante uma semana > pedindo aos estudantes para se cadastrarem > fechando o acesso ï¿½s inscriï¿½ï¿½es > removendo possï¿½veis intrusos atravï¿½s da lista de Usuï¿½rios. Dessa forma vocï¿½ mantï¿½m o controle de quem estï¿½ inscrito mas nï¿½o tem a carga administrativa de registrar a todos vocï¿½ mesmo.</p>
+<p>No rodapï¿½ da pï¿½gina, vocï¿½ pode fazer Backup do curso e deletï¿½-lo. O Backup irï¿½ criar um arquivo no servidor e permitir a sua cï¿½pia para o seu prï¿½prio Disco Rï¿½gido local. Assim existirï¿½o 2 backups em locais diferentes. Se vocï¿½ fizer backup de um curso e entï¿½o deletï¿½-lo vocï¿½ nï¿½o terï¿½ permissï¿½es para restaurï¿½-lo sozinho, mas o administrador do sistema poderï¿½ fazer isso por vocï¿½ se vocï¿½ der a ele/ela o seu cï¿½digo de curso. Fazer backup do curso tambï¿½m ï¿½ uma boa forma de ter seus documentos em seu computador. Vocï¿½ irï¿½ precisar de uma ferramenta como o Winzipï¿½ para DESCOMPACTAR o arquivo. Note que fazer backup de um curso nï¿½o implica em sua remoï¿½ï¿½o de forma alguma.</p>";
 $langHExternal = "Ajuda sobre Adicionar um Link";
-$langExternalContent = "<p>O Dokeos é uma ferramenta modular. Você pode ocultar e exibir ferramentas quando você quiser, de acordo com o seu projeto ou com suas diferentes fases cronológicas. Mas você também pode adicionar à sua home page ferramentas e páginas que você mesmo criou ou que encontram-se fora do seu portal Dokeos. Dessa forma, você irá transformar a home page do seu curso na SUA página.</p>
-<p>Para tomar posse da sua página dessa forma, você deverá Adicionar links a ela. Esses links podem ser de 2 tipos:
-<ul><li><b>Link externo</b>: você cria em sua home page um link para um website situado fora da sua área de curso. Nesse caso, você irá selecionar o Destino=Nova janela porque você não irá querer que a página substitua o seu ambiente Dokeos.</li>
-<li><b>Link interno</b>: você cria um link para uma página ou ferramenta de dentro do seu próprio curso Dokeos. Para fazer isso, você primeiro deve ir para a página, documento ou ferramenta e copiar a sua URL a partir da barra de endereços do seu navegador (CTRL+C), e então ir em Adicionar um link onde você deve colar essa URL no campo URL e dar a ela o nome que desejar. Nesse caso, você deverá selecionar Destino=Mesma janela porque você deverá manter a faixa superior do Dokeos e o restante em um mesmo ambiente.</li></ul>
-Uma vez criados, esses links não podem ser editados. Para modificá-los, a única solução é desativá-los e então deletá-los, iniciando assim do zero.</p>";
+$langExternalContent = "<p>O Dokeos ï¿½ uma ferramenta modular. Vocï¿½ pode ocultar e exibir ferramentas quando vocï¿½ quiser, de acordo com o seu projeto ou com suas diferentes fases cronolï¿½gicas. Mas vocï¿½ tambï¿½m pode adicionar ï¿½ sua home page ferramentas e pï¿½ginas que vocï¿½ mesmo criou ou que encontram-se fora do seu portal Dokeos. Dessa forma, vocï¿½ irï¿½ transformar a home page do seu curso na SUA pï¿½gina.</p>
+<p>Para tomar posse da sua pï¿½gina dessa forma, vocï¿½ deverï¿½ Adicionar links a ela. Esses links podem ser de 2 tipos:
+<ul><li><b>Link externo</b>: vocï¿½ cria em sua home page um link para um website situado fora da sua ï¿½rea de curso. Nesse caso, vocï¿½ irï¿½ selecionar o Destino=Nova janela porque vocï¿½ nï¿½o irï¿½ querer que a pï¿½gina substitua o seu ambiente Dokeos.</li>
+<li><b>Link interno</b>: vocï¿½ cria um link para uma pï¿½gina ou ferramenta de dentro do seu prï¿½prio curso Dokeos. Para fazer isso, vocï¿½ primeiro deve ir para a pï¿½gina, documento ou ferramenta e copiar a sua URL a partir da barra de endereï¿½os do seu navegador (CTRL+C), e entï¿½o ir em Adicionar um link onde vocï¿½ deve colar essa URL no campo URL e dar a ela o nome que desejar. Nesse caso, vocï¿½ deverï¿½ selecionar Destino=Mesma janela porque vocï¿½ deverï¿½ manter a faixa superior do Dokeos e o restante em um mesmo ambiente.</li></ul>
+Uma vez criados, esses links nï¿½o podem ser editados. Para modificï¿½-los, a ï¿½nica soluï¿½ï¿½o ï¿½ desativï¿½-los e entï¿½o deletï¿½-los, iniciando assim do zero.</p>";
 $langClarContent3 = "Clear content";
-$langClarContent4 = "Apagar conteúdo";
-$langClarContent1 = "Apagar conteúdo";
-$langClarContent2 = "Apagar conteúdo";
+$langClarContent4 = "Apagar conteï¿½do";
+$langClarContent1 = "Apagar conteï¿½do";
+$langClarContent2 = "Apagar conteï¿½do";
 $langHGroups = "Grupos";
-$langGroupsContent = "Conteúdo dos grupos";
+$langGroupsContent = "Conteï¿½do dos grupos";
 $langGuide = "Manual";
 ?>

@@ -118,7 +118,8 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 
 			if (count($publication_attr) > 0)
 			{
-				echo RepositoryUtilities :: build_uses($publication_attr);
+				echo $display->get_publications_as_html($publication_attr);
+				//echo RepositoryUtilities :: build_uses($publication_attr);
 			}
 
 			if (count($versions) >= 2 || count($publication_attr) > 0)

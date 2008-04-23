@@ -30,7 +30,7 @@ class Feedback extends LearningObject {
 		$icons['thumbs_down'] = Translation :: get('thumbs_down');
 		$icons['wrong'] = Translation :: get('wrong');
 		$icons['right'] = Translation :: get('right');
-		$icons['description'] = Translation :: get('informative');
+		$icons['informative'] = Translation :: get('informative');
 		return $icons;
 	}
 }

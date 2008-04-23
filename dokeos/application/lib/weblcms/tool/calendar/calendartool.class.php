@@ -72,25 +72,25 @@ class CalendarTool extends RepositoryTool
 		$toolbar_data = array();
 		$toolbar_data[] = array(
 			'href' => $this->get_url(array('view'=>'list')),
-			'img' => Theme :: get_common_img_path().'calendar_down.gif',
+			'img' => Theme :: get_img_path().'calendar_down.png',
 			'label' => Translation :: get('ListView'),
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		$toolbar_data[] = array(
 			'href' => $this->get_url(array('view'=>'month')),
-			'img' => Theme :: get_common_img_path().'calendar_month.gif',
+			'img' => Theme :: get_img_path().'calendar_month.png',
 			'label' => Translation :: get('MonthView'),
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		$toolbar_data[] = array(
 			'href' => $this->get_url(array('view'=>'week')),
-			'img' => Theme :: get_common_img_path().'calendar_week.gif',
+			'img' => Theme :: get_img_path().'calendar_week.png',
 			'label' => Translation :: get('WeekView'),
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		$toolbar_data[] = array(
 			'href' => $this->get_url(array('view'=>'day')),
-			'img' => Theme :: get_common_img_path().'calendar_day.gif',
+			'img' => Theme :: get_img_path().'calendar_day.png',
 			'label' => Translation :: get('DayView'),
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);

@@ -56,7 +56,7 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 				'href' => $update_url,
 				'label' => Translation :: get('Update'),
 				'confirm' => true,
-				'img' => Theme :: get_common_img_path().'revert.gif'
+				'img' => Theme :: get_common_img_path().'revert.png'
 			);
 			return RepositoryUtilities :: build_toolbar($toolbar_data);
 		}

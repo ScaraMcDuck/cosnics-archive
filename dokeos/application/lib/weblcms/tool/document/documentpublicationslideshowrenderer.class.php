@@ -27,7 +27,7 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 		if (isset ($_GET['thumbnails']))
 		{
 			$toolbar_data[] = array(
-				'img'=>Theme :: get_common_img_path().'slideshow.gif',
+				'img'=>Theme :: get_common_img_path().'slideshow.png',
 				'label'=>Translation :: get('Slideshow'),
 				'href' => $this->get_url(array('thumbnails'=>null)),
 				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
@@ -39,7 +39,7 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 			$first = ($slideshow_index == 0);
 			$last = ($slideshow_index == count($publications) - 1);
 			$toolbar_data[] = array(
-				'img'=>Theme :: get_common_img_path().'slideshow_thumbnails.gif',
+				'img'=>Theme :: get_common_img_path().'slideshow_thumbnails.png',
 				'label'=>Translation :: get('Thumbnails'),
 				'href' => $this->get_url(array('thumbnails'=>1)),
 				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
