@@ -437,14 +437,14 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	 * @return EventTrackerRelation that belongs to the given id's
 	 */
 	function retrieve_event_tracker_relation($event_id, $tracker_id)
-	{
+	{ 
 		$query = 'SELECT * FROM ' . $this->escape_table_name('event_rel_tracker') . ' AS ' . 
 				 self :: ALIAS_TRACKER_REGISTRATION_TABLE;
 		
 		$conditions = array();
 		$conditions[] = new EqualityCondition('tracker_id', $tracker_id);
 		$conditions[] = new EqualityCondition('event_id', $event_id);
-		$conditon = new AndCondition($conditions);
+		$condition = new AndCondition($conditions);
 		
 		$params = array ();
 		if (isset ($condition))

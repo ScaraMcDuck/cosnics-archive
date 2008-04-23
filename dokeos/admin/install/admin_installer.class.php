@@ -144,6 +144,8 @@ class AdminInstaller extends Installer
 		$settings[] = array('admin', 'allow_password_retrieval', $values['encrypt_password']);
 		$settings[] = array('admin', 'allow_registration', $values['self_reg']);
 		
+		$settings[] = array('tracker', 'enable_tracking', '1');
+		
 		foreach ($settings as $setting)
 		{
 			$setting_object = new Setting();

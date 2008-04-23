@@ -33,11 +33,18 @@ class AdminEventsBrowserCellRenderer
 		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_change_active_url('event', $event->get_id()),
-			'label' => ($event->get_active() == 1)?Translation :: get('Hide'):Translation :: get('Visible'),
+			'label' => ($event->get_active() == 1)?Translation :: get('Deactivate_event'):Translation :: get('Activate_event'),
 			'confirm' => false,
 			'img' => ($event->get_active() == 1)?
-				Path :: get(WEB_LAYOUT_PATH).'img/visible.png':
-				Path :: get(WEB_LAYOUT_PATH).'img/invisible.png'
+				Path :: get(WEB_LAYOUT_PATH).'img/visible.gif':
+				Path :: get(WEB_LAYOUT_PATH).'img/invisible.gif'
+		);
+		
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_empty_tracker_url('event', $event->get_id()),
+			'label' => Translation :: get('Empty_event'),
+			'confirm' => true,
+			'img' => Path :: get(WEB_LAYOUT_PATH).'img/recycle_bin.gif'
 		);
 		
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
@@ -53,9 +60,9 @@ class AdminEventsBrowserCellRenderer
 	{
 		switch($property)
 		{
-			case Event :: PROPERTY_NAME: return '<a href="' . 
+			case Event :: PROPERTY_NAME: if($event->get_active() == 1) return '<a href="' . 
 				$this->browser->get_event_viewer_url($event) . '">' . 
-				$event->get_default_property($property) . '</a>';
+				$event->get_default_property($property) . '</a>'; break;
 		}
 		
 		return $event->get_default_property($property);
@@ -68,7 +75,6 @@ class AdminEventsBrowserCellRenderer
 	function get_properties()
 	{
 		return array(
-					Event :: PROPERTY_ID,
 					Event :: PROPERTY_NAME,
 			);
 	}

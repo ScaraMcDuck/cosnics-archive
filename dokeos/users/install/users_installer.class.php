@@ -107,7 +107,7 @@ class UsersInstaller extends Installer
 				}
 				else
 				{
-					if($tracker->get_class() == 'LoginTracker')
+					if($tracker->get_class() == 'LoginLogoutTracker')
 						if(!$trkinstaller->register_tracker_to_event($tracker, $logoutevent)) return false;
 					
 					if(!$trkinstaller->register_tracker_to_event($tracker, $loginevent)) return false;

@@ -547,7 +547,7 @@ abstract class MigrationDataManager
 				return $record['user_id'];
 			else
 			{
-				$query = 'SELECT COUNT(LOP.publisher) as count, LOP.publisher FROM weblcms_learning_object_publication LOP WHERE LOP.publisher = (
+				$query = 'SELECT COUNT(LOP.publisher) as count, LOP.publisher FROM weblcms_learning_object_publication LOP WHERE LOP.publisher IN (
 						  SELECT CRL.user_id FROM weblcms_course_rel_user CRL WHERE CRL.course_code = \''. $course .'\' AND CRL.status = 1) AND
 						  LOP.course = \''. $course .'\' GROUP BY LOP.publisher;';
 				
