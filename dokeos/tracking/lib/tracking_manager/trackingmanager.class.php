@@ -357,11 +357,12 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 	 * Retrieves the empty tracker url
 	 * @see TrackingManager :: get_empty_tracker_url()
 	 */
-	function get_empty_tracker_url($event_id, $tracker_id)
+	function get_empty_tracker_url($type, $event_id, $tracker_id = null)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EMPTY_TRACKER, 
 			self :: PARAM_EVENT_ID => $event_id,
-			self :: PARAM_TRACKER_ID => $tracker_id));
+			self :: PARAM_TRACKER_ID => $tracker_id,
+			self :: PARAM_TYPE => $type));
 	}
 	
 	/**

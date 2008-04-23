@@ -15,37 +15,29 @@ class TrackingManagerActivityChangerComponent extends TrackingManagerComponent
 	 */
 	function run()
 	{
-		$tracker_id = $_GET[TrackingManager :: PARAM_TRACKER_ID];
+		$tracker_ids = $_GET[TrackingManager :: PARAM_TRACKER_ID];
 		$type = $_GET[TrackingManager :: PARAM_TYPE];
-		$event_id = $_GET[TrackingManager :: PARAM_EVENT_ID];
+		$event_ids = $_GET[TrackingManager :: PARAM_EVENT_ID];
 		
-		if(($type == 'event' && $event_id) || ($type == 'tracker' && $event_id && $tracker_id))
+		if (!$this->get_user() || !$this->get_user()->is_platform_admin())
 		{
-			if (!$this->get_user() || !$this->get_user()->is_platform_admin())
-			{
-				$this->display_header($trail);
-				Display :: display_error_message(Translation :: get("NotAllowed"));
-				$this->display_footer();
-				exit;
-			}
-			
+			$this->display_header($trail);
+			Display :: display_error_message(Translation :: get("NotAllowed"));
+			$this->display_footer();
+			exit;
+		}
+		
+		if(($type == 'event' && $event_ids) || ($type == 'tracker' && $event_ids && $tracker_ids) || ($type == 'all'))
+		{
 			switch($type)
 			{
 				case 'event' :
-					$object = $this->retrieve_event($event_id); break;
-				case 'tracker':
-					$object = $this->retrieve_event_tracker_relation($event_id, $tracker_id); break;
+					$this->change_event_activity($event_ids); break;
+				case 'tracker' :
+					$this->change_tracker_activity($event_ids, $tracker_ids); break;
+				case 'all' :
+					$this->change_tracking_activity(); break;
 			}
-			
-			$object->set_active(!$object->get_active());
-			$success = $object->update();
-
-			switch($type)
-			{
-				case 'event' : $this->redirect('url', Translation :: get($success ? 'ActivityUpdated' : 'ActivityNotUpdated'), ($success ? false : true), array(TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS)); break;
-				case 'tracker' : $this->redirect('url', Translation :: get($success ? 'ActivityUpdated' : 'ActivityNotUpdated'), ($success ? false : true), array(TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_VIEW_EVENT, TrackingManager :: PARAM_EVENT_ID => $event_id)); break;
-			}
-			
 		}
 		else
 		{
@@ -53,6 +45,77 @@ class TrackingManagerActivityChangerComponent extends TrackingManagerComponent
 			$this->display_error_message(Translation :: get("NoObjectSelected"));
 			$this->display_footer();
 		}
+	}
+	
+	/**
+	 * Function to change the activity of events
+	 * @param Array of event ids
+	 */
+	function change_event_activity($event_ids)
+	{
+		if($event_ids)
+		{
+			if (!is_array($event_ids))
+			{
+				$event_ids = array ($event_ids);
+			}
+			
+			$success = true;
+			
+			foreach ($event_ids as $event_id)
+			{
+				$event = $this->retrieve_event($event_id);
+				$event->set_active(!$event->get_active());
+				if(!$event->update()) $success = false;
+			}
+			
+			$this->redirect('url', Translation :: get($success ? 'ActivityUpdated' : 'ActivityNotUpdated'), ($success ? false : true), array(
+				TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS));
+		}
+	}
+	
+	/**
+	 * Function to change the activity of trackers
+	 * @param int event_id the event_id
+	 * @param array of tracker ids
+	 */
+	function change_tracker_activity($event_id, $tracker_ids)
+	{
+		if($tracker_ids)
+		{
+			if (!is_array($tracker_ids))
+			{
+				$tracker_ids = array ($tracker_ids);
+			}
+			
+			$success = true;
+			
+			foreach ($tracker_ids as $tracker_id)
+			{ 
+				$relation = $this->retrieve_event_tracker_relation($event_id, $tracker_id);
+				$relation->set_active(!$relation->get_active());
+				if(!$relation->update()) $success = false;
+			}
+			
+			$this->redirect('url', Translation :: get($success ? 'ActivityUpdated' : 'ActivityNotUpdated'), ($success ? false : true), array(
+				TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_VIEW_EVENT, 
+				TrackingManager :: PARAM_EVENT_ID => $event_id));
+			
+		}
+	}
+	
+	/**
+	 * Enables / Disables all events and trackers
+	 */
+	function change_tracking_activity()
+	{
+		$adm = AdminDataManager :: get_instance();
+		$setting = $adm->retrieve_setting_from_variable_name('enable_tracking', 'tracker');
+		$setting->set_value($setting->get_value() == 1?0:1);
+		$success = $setting->update();
+		
+		$this->redirect('url', Translation :: get($success ? 'ActivityUpdated' : 'ActivityNotUpdated'), ($success ? false : true), array(
+				TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS));
 	}
 
 }

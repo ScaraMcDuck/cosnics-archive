@@ -6,7 +6,7 @@
 /**
  * Class used to retrieve the modification links for the admin events viewer tables
  */
-class AdminEventViewerTrackingTableCellRenderer
+class AdminEventViewerCellRenderer
 {
 	/**
 	 * Eventviewer where this cellrenderer belongs to
@@ -18,7 +18,7 @@ class AdminEventViewerTrackingTableCellRenderer
 	 * Constructor
 	 * @param AdminTrackingBrowser $browser The browser where this renderer belongs to
 	 */
-	function AdminEventViewerTrackingTableCellRenderer($eventviewer, $event)
+	function AdminEventViewerCellRenderer($eventviewer, $event)
 	{
 		$this->eventviewer = $eventviewer;
 		$this->event = $event;
@@ -35,18 +35,18 @@ class AdminEventViewerTrackingTableCellRenderer
 		
 		$toolbar_data[] = array(
 			'href' => $this->eventviewer->get_change_active_url('tracker', $this->event->get_id(), $tracker->get_id()),
-			'label' => ($tracker->get_active() == 1)?Translation :: get('Hide'):Translation :: get('Visible'),
+			'label' => ($tracker->get_active() == 1)?Translation :: get('Deactivate'):Translation :: get('Activate'),
 			'confirm' => false,
 			'img' => ($tracker->get_active() == 1)?
-				Path :: get(WEB_LAYOUT_PATH).'img/visible.png':
-				Path :: get(WEB_LAYOUT_PATH).'img/invisible.png'
+				Path :: get(WEB_LAYOUT_PATH).'img/visible.gif':
+				Path :: get(WEB_LAYOUT_PATH).'img/invisible.gif'
 		);
 		
 		$toolbar_data[] = array(
-			'href' => $this->eventviewer->get_empty_tracker_url($this->event->get_id(), $tracker->get_id()),
+			'href' => $this->eventviewer->get_empty_tracker_url('tracker', $this->event->get_id(), $tracker->get_id()),
 			'label' => Translation :: get('Empty_Tracker'),
 			'confirm' => true,
-			'img' => Path :: get(WEB_LAYOUT_PATH).'img/delete.png'
+			'img' => Path :: get(WEB_LAYOUT_PATH).'img/recycle_bin.gif'
 		);
 		
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
@@ -62,9 +62,7 @@ class AdminEventViewerTrackingTableCellRenderer
 	{
 		switch($property)
 		{
-			/*case Event :: PROPERTY_NAME: return '<a href="' . 
-				$this->browser->get_event_viewer_url($event) . '">' . 
-				$event->get_default_property($property) . '</a>';*/
+	
 		}
 		
 		return $tracker->get_default_property($property);
@@ -77,7 +75,6 @@ class AdminEventViewerTrackingTableCellRenderer
 	function get_properties()
 	{
 		return array(
-					TrackerRegistration :: PROPERTY_ID,
 					TrackerRegistration :: PROPERTY_CLASS,
 					TrackerRegistration :: PROPERTY_PATH
 			);

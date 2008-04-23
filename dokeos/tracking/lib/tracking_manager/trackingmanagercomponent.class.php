@@ -231,9 +231,9 @@ abstract class TrackingManagerComponent
 	 * Retrieves the empty tracker url
 	 * @see TrackingManager :: get_empty_tracker_url()
 	 */
-	function get_empty_tracker_url($event_id, $tracker_id)
+	function get_empty_tracker_url($type, $event_id, $tracker_id = null)
 	{
-		return $this->get_parent()->get_empty_tracker_url($event_id,$tracker_id);
+		return $this->get_parent()->get_empty_tracker_url($type, $event_id,$tracker_id);
 	}
 	
 	/**

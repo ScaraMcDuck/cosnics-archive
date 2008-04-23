@@ -9,7 +9,7 @@ require_once Path :: get_tracking_path() . 'lib/maintracker.class.php';
 /**
  * This class tracks the login that a user uses
  */
-class LoginTracker extends MainTracker
+class LoginLogoutTracker extends MainTracker
 {
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_DATE = 'date';
@@ -19,7 +19,7 @@ class LoginTracker extends MainTracker
 	/**
 	 * Constructor sets the default values
 	 */
-    function LoginTracker() 
+    function LoginLogoutTracker() 
     {
     	parent :: MainTracker('login');
     }
