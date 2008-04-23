@@ -71,8 +71,10 @@ class ForumTool extends RepositoryTool
 			{
 				if($this->is_allowed(ADD_RIGHT))
 				{
-					echo '<a href="' . $this->get_url(array('admin' => 1), true) . '"><img src="'.Theme :: get_common_img_path().'publish.png" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a> ';
-					echo '<a href="' . $this->get_url(array('category_manager_action' => 1), true) . '"><img src="'.Theme :: get_common_img_path().'category.gif" alt="'.Translation :: get('ManageCategories').'" style="vertical-align:middle;"/> '.Translation :: get('ManageCategories').'</a></p>';
+					$toolbar_data = array();
+					$toolbar_data[] = array ('href' => $this->get_url(array('admin' => 1), true), 'label' => Translation :: get('Publish'), 'img' => Theme :: get_common_img_path().'publish.png', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+					$toolbar_data[] = array ('href' => $this->get_url(array('category_manager_action' => 1), true), 'label' => Translation :: get('ManageCategories'), 'img' => Theme :: get_common_img_path().'category.png', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+					echo RepositoryUtilities :: build_toolbar($toolbar_data, array (), 'margin-top: 1em; margin-bottom: 1em;');
 				}
 				echo $this->perform_requested_actions();
 				$browser = new ForumBrowser($this);

@@ -37,12 +37,12 @@ class ForumTopicListRenderer extends TableLearningObjectPublicationListRenderer
 		if($topic->is_locked())
 		{
 			$action = 'unlock';
-			$img = 'lockthread.gif';
+			$img = 'lock.png';
 		}
 		else
 		{
 			$action = 'lock';
-			$img = 'unlock.gif';
+			$img = 'unlock.png';
 		}
 		$url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => $action, 'topic_id' => $topic->get_id()), true);
 		$link = '<a href="'.$url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().$img.'"  alt=""/></a>';

@@ -81,7 +81,8 @@ class DefaultGroupTableCellRenderer implements GroupTableCellRenderer
 		$parameters = array ();
 		$parameters[Weblcms :: PARAM_GROUP] = $group->get_id();
 		$details_url = $this->group_tool->get_url($parameters);
-		$toolbar_data[] = array ('href' => $details_url, 'label' => Translation :: get('Details'), 'img' => Theme :: get_common_img_path().'description.gif');
+		// Default functionity achieved by clicking the group name, why add it as an icon ?
+		//$toolbar_data[] = array ('href' => $details_url, 'label' => Translation :: get('Details'), 'img' => Theme :: get_common_img_path().'description.png');
 		if($this->group_tool->is_allowed(EDIT_RIGHT))
 		{
 			$parameters = array ();
