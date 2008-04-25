@@ -29,7 +29,7 @@ class ForumTopicListRenderer extends TableLearningObjectPublicationListRenderer
     function render_delete_action($topic)
 	{
 		$delete_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_DELETE, 'topic' => $topic->get_id()), true);
-		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'delete.png"  alt=""/></a>';
+		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'action-delete.png"  alt=""/></a>';
 		return $delete_link;
 	}
     function render_lock_action($topic)
@@ -37,12 +37,12 @@ class ForumTopicListRenderer extends TableLearningObjectPublicationListRenderer
 		if($topic->is_locked())
 		{
 			$action = 'unlock';
-			$img = 'lock.png';
+			$img = 'action-lock.png';
 		}
 		else
 		{
 			$action = 'lock';
-			$img = 'unlock.png';
+			$img = 'action-unlock.png';
 		}
 		$url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => $action, 'topic_id' => $topic->get_id()), true);
 		$link = '<a href="'.$url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().$img.'"  alt=""/></a>';

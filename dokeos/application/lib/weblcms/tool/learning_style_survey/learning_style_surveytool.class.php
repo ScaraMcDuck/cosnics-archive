@@ -39,7 +39,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 		$toolbar = RepositoryUtilities::build_toolbar(
 			array(
 				array(
-					'img' => Theme :: get_common_img_path().'browser.png',
+					'img' => Theme :: get_common_img_path().'action-browser.png',
 					'label' => Translation :: get('Browse'),
 					'href' => ($_SESSION[get_class()]['mode'] != 0
 						? $this->get_url(array('mode' => 0))

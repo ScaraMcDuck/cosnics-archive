@@ -60,7 +60,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_editing_url($learning_object),
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'edit.png'
+			'img' => Theme :: get_common_img_path().'action-edit.png'
 		);
 		$html = array ();
 		if ($url = $this->browser->get_learning_object_recycling_url($learning_object))
@@ -90,7 +90,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_metadata_editing_url($learning_object),
 			'label' => Translation :: get('Metadata'),
-			'img' => Theme :: get_common_img_path().'metadata.png'
+			'img' => Theme :: get_common_img_path().'action-metadata.png'
 		);
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_rights_editing_url($learning_object),

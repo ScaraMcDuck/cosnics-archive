@@ -32,7 +32,7 @@ class PersonalMessageViewer extends PesonalMessagePublisherComponent
 			);
 //			$toolbar_data[] = array(
 //				'href' => $this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator', LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id(), LearningObjectPublisher :: PARAM_EDIT => 1)),
-//				'img' => Theme :: get_common_img_path().'editpublish.png',
+//				'img' => Theme :: get_common_img_path().'action-editpublish.png',
 //				'label' => Translation :: get('EditAndPublish'),
 //				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 //			);

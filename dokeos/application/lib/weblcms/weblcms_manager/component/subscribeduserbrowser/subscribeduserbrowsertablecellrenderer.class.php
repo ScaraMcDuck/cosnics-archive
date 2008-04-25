@@ -90,7 +90,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 			$toolbar_data[] = array(
 				'href' => $unsubscribe_url,
 				'label' => Translation :: get('Details'),
-				'img' => Theme :: get_common_img_path().'details.png'
+				'img' => Theme :: get_common_img_path().'action-details.png'
 			);
 			
 			if($user->get_user_id() != $this->browser->get_user()->get_user_id())

@@ -126,6 +126,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 				}
 				else
 				{
+					// TODO: Does this work ?
 					$application_path = dirname(__FILE__).'/../../application/lib/' . $application . '/';
 					if (!FileSystem::remove($application_path))
 					{

@@ -52,14 +52,14 @@ class CourseCategoryBrowserTableCellRenderer extends DefaultCourseCategoryTableC
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_course_category_edit_url($coursecategory),
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'edit.png'
+			'img' => Theme :: get_common_img_path().'action-edit.png'
 		);
 		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_course_category_delete_url($coursecategory),
 			'label' => Translation :: get('Delete'),
 			'confirm' => true,
-			'img' => Theme :: get_common_img_path().'delete.png'
+			'img' => Theme :: get_common_img_path().'action-delete.png'
 		);
 
 		return RepositoryUtilities :: build_toolbar($toolbar_data);		
