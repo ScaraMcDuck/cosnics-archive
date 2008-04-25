@@ -56,7 +56,7 @@ class ClassGroupRelUserBrowserTableCellRenderer extends DefaultClassGroupRelUser
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_classgroup_rel_user_unsubscribing_url($classgroupreluser),
 			'label' => Translation :: get('Unsubscribe'),
-			'img' => Theme :: get_common_img_path().'delete.png'
+			'img' => Theme :: get_common_img_path().'action-delete.png'
 		);
 //		
 //		$toolbar_data[] = array(

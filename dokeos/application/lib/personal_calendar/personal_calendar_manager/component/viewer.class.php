@@ -76,7 +76,7 @@ class PersonalCalendarViewerComponent extends PersonalCalendarComponent
 		$toolbar_data[] = array(
 			'href' => $this->get_publication_deleting_url($event),
 			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_img_path().'delete.png',
+			'img' => Theme :: get_common_img_path().'action-delete.png',
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		$html[] = RepositoryUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');

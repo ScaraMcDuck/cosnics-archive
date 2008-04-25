@@ -46,7 +46,7 @@ class AdminEventViewerTrackingTableCellRenderer
 			'href' => $this->eventviewer->get_empty_tracker_url($this->event->get_id(), $tracker->get_id()),
 			'label' => Translation :: get('Empty_Tracker'),
 			'confirm' => true,
-			'img' => Path :: get(WEB_LAYOUT_PATH).'img/delete.png'
+			'img' => Path :: get(WEB_LAYOUT_PATH).'img/action-delete.png'
 		);
 		
 		return RepositoryUtilities :: build_toolbar($toolbar_data);

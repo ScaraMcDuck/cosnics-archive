@@ -98,19 +98,8 @@ class Banner
 					$link_class = '';
 				}
 
-				if ($application == 'personal_messenger')
-				{
-					$pmmgr = PersonalMessengerDataManager :: get_instance();
-					$count = $pmmgr->count_unread_personal_message_publications($user);
-				}
-				else
-				{
-					$count = 0;
-				}
-
 				$output[] = '<a '.$link_class.' href="'.$this->get_path(WEB_PATH).'run.php?application='.$application.'" target="_top">';
 				$output[] = Translation :: get(Application::application_to_class($application));
-				$output[] = ($count > 0 ? '&nbsp;('.$count.')' : null);
 				$output[] = '</a>&nbsp;';
 			}
 

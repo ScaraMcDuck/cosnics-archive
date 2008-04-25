@@ -49,12 +49,12 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 			$navigation[] = '<div style="width=30%;text-align:left;float:left;">';
 			if (!$first)
 			{
-				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => 0)).'"><img src="'.Theme :: get_common_img_path().'first.png" alt="'.Translation :: get('First').'"/></a>';
+				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => 0)).'"><img src="'.Theme :: get_common_img_path().'action-first.png" alt="'.Translation :: get('First').'"/></a>';
 				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => $slideshow_index -1)).'"><img src="'.Theme :: get_common_img_path().'prev.png" alt="'.Translation :: get('Previous').'"/></a>';
 			}
 			else
 			{
-				$navigation[] = '<img src="'.Theme :: get_common_img_path().'first_na.png" alt="'.Translation :: get('First').'"/>';
+				$navigation[] = '<img src="'.Theme :: get_common_img_path().'action-first-na.png" alt="'.Translation :: get('First').'"/>';
 				$navigation[] = '<img src="'.Theme :: get_common_img_path().'prev_na.png" alt="'.Translation :: get('Previous').'"/>';
 			}
 			$navigation[] = '</div>';
@@ -62,12 +62,12 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 			if (!$last)
 			{
 				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => $slideshow_index +1)).'"><img src="'.Theme :: get_common_img_path().'next.png" alt="'.Translation :: get('Next').'"/></a>';
-				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => count($publications) - 1)).'"><img src="'.Theme :: get_common_img_path().'last.png" alt="'.Translation :: get('Last').'"/></a>';
+				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => count($publications) - 1)).'"><img src="'.Theme :: get_common_img_path().'action-last.png" alt="'.Translation :: get('Last').'"/></a>';
 			}
 			else
 			{
 				$navigation[] = '<img src="'.Theme :: get_common_img_path().'next_na.png" alt="'.Translation :: get('Next').'"/>';
-				$navigation[] = '<img src="'.Theme :: get_common_img_path().'last_na.png" alt="'.Translation :: get('Last').'"/>';
+				$navigation[] = '<img src="'.Theme :: get_common_img_path().'action-last-na.png" alt="'.Translation :: get('Last').'"/>';
 
 			}
 			$navigation[] = '</div>';

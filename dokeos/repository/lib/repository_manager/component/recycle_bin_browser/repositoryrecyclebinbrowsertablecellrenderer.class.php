@@ -74,7 +74,7 @@ class RepositoryRecycleBinBrowserTableCellRenderer extends DefaultLearningObject
 		);
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_deletion_url($learning_object),
-			'img' => Theme :: get_common_img_path().'delete.png',
+			'img' => Theme :: get_common_img_path().'action-delete.png',
 			'label' => Translation :: get('Delete'),
 			'confirm' => true
 		);

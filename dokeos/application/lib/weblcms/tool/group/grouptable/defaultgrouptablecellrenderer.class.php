@@ -88,7 +88,7 @@ class DefaultGroupTableCellRenderer implements GroupTableCellRenderer
 			$parameters = array ();
 			$parameters[Weblcms :: PARAM_GROUP] = $group->get_id();
 			$delete_url = $this->group_tool->get_url($parameters);
-			$toolbar_data[] = array ('href' => $details_url, 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_img_path().'delete.png');
+			$toolbar_data[] = array ('href' => $details_url, 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_img_path().'action-delete.png');
 		}
 		if($group->is_self_registration_allowed() && !$group->is_member($this->group_tool->get_user()))
 		{

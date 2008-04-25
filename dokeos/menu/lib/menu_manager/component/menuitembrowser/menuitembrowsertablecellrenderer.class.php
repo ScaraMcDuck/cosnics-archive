@@ -45,7 +45,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 		$toolbar_data[] = array(
 			'href' => $edit_url,
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'edit.png'
+			'img' => Theme :: get_common_img_path().'action-edit.png'
 		);
 		
 		if ($index == 'first' || $index == 'single')
@@ -69,7 +69,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('MoveDown'),
-				'img' => Theme :: get_common_img_path().'down_na.png'
+				'img' => Theme :: get_common_img_path().'action-down-na.png'
 			);
 		}
 		else
@@ -78,7 +78,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 			$toolbar_data[] = array(
 				'href' => $move_url,
 				'label' => Translation :: get('MoveDown'),
-				'img' => Theme :: get_common_img_path().'down.png'
+				'img' => Theme :: get_common_img_path().'action-down.png'
 			);
 		}
 
@@ -87,7 +87,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 			'href' => $delete_url,
 			'label' => Translation :: get('Delete'),
 			'confirm' => true,
-			'img' => Theme :: get_common_img_path().'delete.png'
+			'img' => Theme :: get_common_img_path().'action-delete.png'
 		);
 	
 		return RepositoryUtilities :: build_toolbar($toolbar_data);

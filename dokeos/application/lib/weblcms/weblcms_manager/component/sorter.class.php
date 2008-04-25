@@ -319,21 +319,21 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			$toolbar_data[] = array(
 				'href' => $this->get_course_user_move_url($course, 'down'),
 				'label' => Translation :: get('Down'),
-				'img' => Theme :: get_common_img_path().'down.png'
+				'img' => Theme :: get_common_img_path().'action-down.png'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('Up'),
-				'img' => Theme :: get_common_img_path().'down_na.png'
+				'img' => Theme :: get_common_img_path().'action-down-na.png'
 			);
 		}
 		
 		$toolbar_data[] = array(
 			'href' => $this->get_course_user_edit_url($course),
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'edit.png'
+			'img' => Theme :: get_common_img_path().'action-edit.png'
 		);
 		
 		$toolbar_data[] = array(
@@ -368,28 +368,28 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			$toolbar_data[] = array(
 				'href' => $this->get_course_user_category_move_url($courseusercategory, 'down'),
 				'label' => Translation :: get('Down'),
-				'img' => Theme :: get_common_img_path().'down.png'
+				'img' => Theme :: get_common_img_path().'action-down.png'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('Up'),
-				'img' => Theme :: get_common_img_path().'down_na.png'
+				'img' => Theme :: get_common_img_path().'action-down-na.png'
 			);
 		}
 		
 		$toolbar_data[] = array(
 			'href' => $this->get_course_user_category_edit_url($courseusercategory),
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'edit.png'
+			'img' => Theme :: get_common_img_path().'action-edit.png'
 		);
 			
 		$toolbar_data[] = array(
 			'href' => $this->get_course_user_category_delete_url($courseusercategory),
 			'label' => Translation :: get('Delete'),
 			'confirm' => true,
-			'img' => Theme :: get_common_img_path().'delete.png'
+			'img' => Theme :: get_common_img_path().'action-delete.png'
 		);
 		
 		return RepositoryUtilities :: build_toolbar($toolbar_data);

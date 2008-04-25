@@ -150,7 +150,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					{
 						$recycle_bin_button = array(
 							'href' => $delete_url,
-							'img' => Theme :: get_common_img_path().'delete.png',
+							'img' => Theme :: get_common_img_path().'action-delete.png',
 							'label' => Translation :: get('Delete'),
 							'confirm' => true,
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
@@ -188,7 +188,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					{
 						$toolbar_data[] = array(
 							'href' => $edit_url,
-							'img' => Theme :: get_common_img_path().'edit.png',
+							'img' => Theme :: get_common_img_path().'action-edit.png',
 							'label' => Translation :: get('Edit'),
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
@@ -196,7 +196,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					else
 					{
 						$toolbar_data[] = array(
-							'img' => Theme :: get_common_img_path().'edit_na.png',
+							'img' => Theme :: get_common_img_path().'action-edit-na.png',
 							'label' => Translation :: get('Edit'),
 							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
@@ -222,7 +222,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					$toolbar_data[] = array(
 						'href' => $this->get_learning_object_metadata_editing_url($object),
 						'label' => Translation :: get('Metadata'),
-						'img' => Theme :: get_common_img_path().'metadata.png',
+						'img' => Theme :: get_common_img_path().'action-metadata.png',
 						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
 					$toolbar_data[] = array(

@@ -155,7 +155,7 @@ class GroupTool extends Tool
 					break;
 				// Display all available groups
 				default :
-					$toolbar_data[] = array ('href' => $this->get_url($param_add_group), 'label' => Translation :: get('Create'), 'img' => Theme :: get_common_img_path().'create.png', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+					$toolbar_data[] = array ('href' => $this->get_url($param_add_group), 'label' => Translation :: get('Create'), 'img' => Theme :: get_common_img_path().'action-create.png', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 					$this->display_header($trail);
 					if($this->is_allowed(EDIT_RIGHT))
 					{

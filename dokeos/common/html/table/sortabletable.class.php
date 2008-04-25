@@ -165,8 +165,8 @@ class SortableTable extends HTML_Table
 			$params['urlVar'] = $this->param_prefix.'page_nr';
 			$params['prevImg'] = '<img src="'.Theme :: get_common_img_path().'prev.png"  style="vertical-align: middle;"/>';
 			$params['nextImg'] = '<img src="'.Theme :: get_common_img_path().'next.png"  style="vertical-align: middle;"/>';
-			$params['firstPageText'] = '<img src="'.Theme :: get_common_img_path().'first.png"  style="vertical-align: middle;"/>';
-			$params['lastPageText'] = '<img src="'.Theme :: get_common_img_path().'last.png"  style="vertical-align: middle;"/>';
+			$params['firstPageText'] = '<img src="'.Theme :: get_common_img_path().'action-first.png"  style="vertical-align: middle;"/>';
+			$params['lastPageText'] = '<img src="'.Theme :: get_common_img_path().'action-last.png"  style="vertical-align: middle;"/>';
 			$params['firstPagePre'] = '';
 			$params['lastPagePre'] = '';
 			$params['firstPagePost'] = '';
