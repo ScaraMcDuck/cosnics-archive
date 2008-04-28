@@ -1,7 +1,5 @@
 <?php
 /**
- * $Id: course_settingstool.class.php 9222 2006-09-15 09:19:38Z bmol $
- * Course maintenance tool
  * @package tracking.lib.tracking_manager
  * @subpackage component.archiver.wizard
  */
@@ -50,8 +48,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 		$startdate = RepositoryUtilities :: time_from_datepicker_without_timepicker($startdate);
 
 		$ed = $exports['end_date'];
-		$enddate = $ed['Y'] . '-' . $ed['M'] .'-' . $ed['d'];
-		$enddate = RepositoryUtilities :: time_from_datepicker_without_timepicker($enddate);
+		$enddate = mktime(23, 59, 59, $ed['M'], $ed['d'], $ed['Y']);
 		
 		$period = $exports['period'];
 		
@@ -91,7 +88,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 						{ 
 							$storage_units[] = $tracker->get_table() . '_' . $startdate;
 							if($this->create_storage_unit($path, '_' . $startdate))
-								$this->create_archive_controller_item($tracker->get_table(), $startdate, $period);
+								$this->create_archive_controller_item($tracker->get_table(), $startdate, $period, $enddate);
 						}
 						else
 						{
@@ -106,13 +103,13 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 								$date = mktime (0, 0, 0, date("m", $startdate), date("d", $startdate) + $added_days, date("Y", $startdate));
 								$storage_units[$date] = $tracker->get_table() . '_' . $date;
 								if($this->create_storage_unit($path, '_' . $date))
-									$this->create_archive_controller_item($tracker->get_table(), $date, $period);
+									$this->create_archive_controller_item($tracker->get_table(), $date, $period, $enddate);
 							}
 							
 						}
 
 						$resultset = $tracker->export($startdate, $enddate, $event);
-						
+			
 						foreach($resultset as $result)
 						{
 							if($tracker->is_summary_tracker())
@@ -122,12 +119,11 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 							else
 							{
 								$date = RepositoryUtilities :: time_from_datepicker($result->get_date());
-
+								
 								foreach($storage_units as $start_time => $storage_unit)
 								{
-									$end_time = mktime (0, 0, 0, date("m", $start_time), date("d", $start_time) + $period, date("Y", $start_time));
-									
-									if(($date >= $start_time) && ($date < $end_time))
+									$end_time = mktime (23, 59, 59, date("m", $start_time), date("d", $start_time) + $period, date("Y", $start_time));
+									if(($date >= $start_time) && ($date <= $end_time))
 									{
 										$this->tdm->create_tracker_item($storage_unit, $result);
 										break;
@@ -156,13 +152,15 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 	/**
 	 * Creates a new item in the archive controller table
 	 * @param string $tablename the original tablename
-	 * @param Date startdate the startdate
+	 * @param int startdate the startdate
 	 * @param int period the amount of days for 1 table
+	 * @param int total_end_date the end date of the archiving process
 	 * @return true if creation is valid
 	 */
-	function create_archive_controller_item($tablename, $startdate, $period)
+	function create_archive_controller_item($tablename, $startdate, $period, $total_end_date)
 	{
 		$enddate = mktime (0, 0, 0, date("m", $startdate), date("d", $startdate) + $period, date("Y", $startdate));
+		if($enddate > $total_end_date) $enddate = $total_end_date;
 		$new_tablename = $tablename . '_' . $startdate;
 		
 		$controller_item = new ArchiveControllerItem();
