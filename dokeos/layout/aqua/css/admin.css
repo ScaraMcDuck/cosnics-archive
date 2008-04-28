@@ -13,7 +13,7 @@ div.admin_section {
 div.admin_section div.main
 {
 	float: left;
-	width: 100px;
+	width: 80px;
 	text-align: center;
 	padding: 5px;
 	border-right: 1px solid #c0c0c0;
@@ -33,14 +33,16 @@ div.admin_section div.actions div.action
 	float: left;
 	height: 100%;
 	text-align: center;
-	padding: 13px 18px 5px 18px;
+	padding: 5px 10px 5px 10px;
 	margin: 0;
 	border-right: 1px solid #ebebeb;
+	width: 70px;
+	height: 60px;
 }
 
 div.admin_section div.actions div.action img
 {
-	margin-bottom: 8px;
+	margin: 8px 15px 8px 15px;
 }
 
 div.admin_section div.admin_search
@@ -48,4 +50,16 @@ div.admin_section div.admin_search
 	clear: both;
 	border-top: 1px solid #c0c0c0;
 	padding: 5px;
+}
+
+form
+{
+	margin: 0;
+	padding: 0;
+}
+
+form input
+{
+	border: 1px solid #C0C0C0;
+	height: 17px;
 }

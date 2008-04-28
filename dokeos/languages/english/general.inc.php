@@ -519,7 +519,7 @@ $lang['general']['Quiz'] = 'Tests';
 $lang['general']['langChat'] = 'Chat';
 $lang['general']['Conference'] = 'Conference';
 $lang['general']['Student_publication'] = 'Assignments';
-$lang['general']['Tracking'] = 'Reporting';
+$lang['general']['Tracking'] = 'Tracking';
 $lang['general']['langhomepage_link'] = 'Add link to this page';
 $lang['general']['Course_setting'] = 'Course settings';
 $lang['general']['langbackup'] = 'Course Backup';
@@ -792,4 +792,5 @@ $lang['general']['Users'] = 'Users';
 $lang['general']['Admin'] = 'Administration';
 $lang['general']['Config'] = 'Configuration';
 $lang['general']['Database'] = 'Database';
+$lang['general']['ClassGroup'] = 'Classgroup';
 ?>
