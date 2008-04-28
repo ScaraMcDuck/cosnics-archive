@@ -444,7 +444,15 @@ class Dokeos185AssignmentSubmission extends ImportAssignmentSubmission
 		$tablename = 'assignment_submission';
 		$classname = 'Dokeos185AssignmentSubmission';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+	}
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = $parameters['course']->get_db_name();
+		$array['table'] = 'assignment_submission';
+		return $array;
 	}
 }
 

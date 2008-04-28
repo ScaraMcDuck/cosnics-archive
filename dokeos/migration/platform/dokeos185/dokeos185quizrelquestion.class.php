@@ -107,14 +107,20 @@ class Dokeos185QuizRelQuestion extends ImportQuizRelQuestion
 		if($array['del_files'] =! 1)
 			$tool_name = 'quiz_rel_question';
 		
-		$coursedb = $array['course'];
+		$coursedb = $array['course']->get_db_name();
 		$tablename = 'quiz_rel_question';
 		$classname = 'Dokeos185QuizRelQuestion';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
-	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = $parameters['course']->get_db_name();
+		$array['table'] = 'quiz_rel_question';
+		return $array;
+	}
 
 }
 

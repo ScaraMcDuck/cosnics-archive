@@ -93,10 +93,12 @@ class Dokeos185DataManager extends MigrationDataManager
 	 * Get all the users from the dokeos185 database
 	 * @return array of Dokeos185User
 	 */
-	function get_all_users()
+	function get_all_users($offset = null, $limit = null)
 	{
 		$this->db_connect('main_database');
 		$query = 'SELECT * FROM user';
+		if ($limit != null)
+			$this->db->setLimit($limit, $offset);
 		$result = $this->db->query($query);
 		$users = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
@@ -198,10 +200,14 @@ class Dokeos185DataManager extends MigrationDataManager
 	 * Get all the current settings from the dokeos185 database
 	 * @return array of Dokeos185SettingCurrent
 	 */
-	function get_all_current_settings()
+	function get_all_current_settings($offset = null, $limit = null)
 	{
 		$this->db_connect('main_database');
 		$query = 'SELECT * FROM settings_current WHERE category = \'Platform\'';
+		
+		if ($limit != null)
+			$this->db->setLimit($limit, $offset);
+		
 		$result = $this->db->query($query);
 		$settings_current = array();
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
@@ -257,7 +263,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	 * @param int $include_deleted_files
 	 * @return array of Dokeos185Documents
 	 */
-	function get_all_documents($course, $include_deleted_files)
+	function get_all_documents($course, $include_deleted_files, $offset = null, $limit = null)
 	{
 		$this->db_connect($course->get_db_name());
 		$query = 'SELECT * FROM document WHERE filetype <> \'folder\'';
@@ -265,7 +271,8 @@ class Dokeos185DataManager extends MigrationDataManager
 		if($include_deleted_files != 1)
 			$query = $query . ' AND id IN (SELECT ref FROM item_property WHERE tool=\'document\'' .
 					' AND visibility <> 2);';
-		
+		if ($limit != null)
+			$this->db->setLimit($limit, $offset);
 		$result = $this->db->query($query);
 		$documents = $this->mapper($result, 'Dokeos185Document');
 		return $documents;
@@ -279,16 +286,17 @@ class Dokeos185DataManager extends MigrationDataManager
 	 * @param String $tool_name
 	 * @return dokeos185 datatype Array of dokeos 185 datatype
 	 */
-	function get_all($database, $tablename, $classname, $tool_name = null)
+	function get_all($database, $tablename, $classname, $tool_name = null, $offset = null, $limit = null)
 	{
 		$this->db_connect($database);
-		
 		$querycheck = 'SHOW table status like \'' . $tablename . '\'';
 		$result = $this->db->query($querycheck);
 		if(MDB2 :: isError($result) || $result->numRows() == 0) return false;
 
 		$query = 'SELECT * FROM ' . $tablename;
-
+		if ($limit != null)
+			$this->db->setLimit($limit, $offset);
+			
 		if($tool_name)
 			$query = $query . ' WHERE id IN (SELECT ref FROM item_property WHERE ' .
 					'tool=\''. $tool_name . '\' AND visibility <> 2);';
@@ -352,11 +360,59 @@ class Dokeos185DataManager extends MigrationDataManager
 	function get_all_question_answer($database,$id)
 	{
 		$this->db_connect($database);
+		
 		$query = 'SELECT * FROM quiz_answer WHERE question_id = ' . $id;
 		$result = $this->db->query($query);
 		
 		return $this->mapper($result, 'Dokeos185QuizAnswer');
 		
+	}
+	
+	function count_records($database, $table, $condition = null)
+	{
+		$this->db_connect($database);
+		
+		$querycheck = 'SHOW table status like \'' . $table . '\'';
+		$result = $this->db->query($querycheck);
+		if(MDB2 :: isError($result) || $result->numRows() == 0) return 0;
+		
+		$query = 'SELECT COUNT(*) as number FROM ' . $table;
+		
+		$params = array ();
+		
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$statement = $this->db->prepare($query);
+		
+		$result = $statement->execute($params);
+		
+		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$result->free();
+		return $record['number'];
+	}
+	
+	static function is_date_column($name)
+	{
+		return false;
+	}
+	
+	function escape_column_name($name, $prefix_learning_object_properties = false)
+	{
+		list($table, $column) = explode('.', $name, 2);
+		$prefix = '';
+
+		if (isset($column))
+		{
+			$prefix = $table.'.';
+			$name = $column;
+		}
+		return $prefix.$this->db->quoteIdentifier($name);
 	}
 }
 

@@ -21,5 +21,6 @@
   <wizard name="page_scorms" wizardpage="ScormsMigrationWizardPage"/>
   <wizard name="page_assignments" wizardpage="AssignmentsMigrationWizardPage"/>
   <wizard name="page_userinfos" wizardpage="UserinfosMigrationWizardPage"/>
+  <wizard name="page_trackers" wizardpage="TrackersMigrationWizardPage"/>
  </wizards>
 </platform>

@@ -188,9 +188,16 @@ class Dokeos185TrackEHotspot extends ImportTrackEHotspot
 		$tablename = 'track_e_hotspot';
 		$classname = 'Dokeos185TrackEHotspot';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
-
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'statistics_database';
+		$array['table'] = 'track_e_hotspot';
+		return $array;
+	}
 }
 
 ?>

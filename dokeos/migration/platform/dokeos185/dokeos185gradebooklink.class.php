@@ -200,9 +200,16 @@ class Dokeos185GradebookLink extends ImportGradebookLink
 		$tablename = 'gradebook_link';
 		$classname = 'Dokeos185GradebookLink';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
-
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'main_database';
+		$array['table'] = 'gradebook_link';
+		return $array;
+	}
 }
 
 ?>

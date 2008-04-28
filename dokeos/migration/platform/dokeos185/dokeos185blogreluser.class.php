@@ -123,13 +123,20 @@ class Dokeos185BlogRelUser extends ImportBlogRelUser
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		
-		$db = $parameters['course'];
+		$db = $parameters['course']->get_db_name();
 		$tablename = 'blog_post_rel_user';
 		$classname = 'Dokeos185BlogPostRelUser';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
-
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = $parameters['course']->get_db_name();
+		$array['table'] = 'blog_post_rel_user';
+		return $array;
+	}
 }
 
 ?>

@@ -175,7 +175,15 @@ class Dokeos185CourseRelClass extends ImportCourseRelClass
 		$tablename = 'course_rel_class';
 		$classname = 'Dokeos185CourseRelClass';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+	}
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'main_database';
+		$array['table'] = 'course_rel_class';
+		return $array;
 	}
 }
 ?>

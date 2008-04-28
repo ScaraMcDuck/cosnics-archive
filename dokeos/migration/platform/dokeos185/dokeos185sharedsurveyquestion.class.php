@@ -200,9 +200,16 @@ class Dokeos185SharedSurveyQuestion extends ImportSharedSurveyQuestion
 		$tablename = 'shared_survey_question';
 		$classname = 'Dokeos185SharedSurveyQuestion';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
-
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'main_database';
+		$array['table'] = 'shared_survey_question';
+		return $array;
+	}
 }
 
 ?>

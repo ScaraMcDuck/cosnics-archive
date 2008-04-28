@@ -178,9 +178,16 @@ class Dokeos185TrackEExercices extends ImportTrackEExercices
 		$tablename = 'track_e_exercices';
 		$classname = 'Dokeos185TrackEExercices';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
-
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'statistics_database';
+		$array['table'] = 'track_e_exercices';
+		return $array;
+	}
 }
 
 ?>

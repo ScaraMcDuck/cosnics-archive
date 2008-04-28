@@ -190,9 +190,16 @@ class Dokeos185OpenidAssociation extends ImportOpenidAssociation
 		$tablename = 'openid_association';
 		$classname = 'Dokeos185OpenidAssociation';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
-
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'main_database';
+		$array['table'] = 'openid_association';
+		return $array;
+	}
 }
 
 ?>

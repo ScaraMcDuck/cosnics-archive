@@ -130,9 +130,16 @@ class Dokeos185SessionRelUser extends ImportSessionRelUser
 		$tablename = 'session_rel_user';
 		$classname = 'Dokeos185SessionRelUser';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
-
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'main_database';
+		$array['table'] = 'session_rel_user';
+		return $array;
+	}
 }
 
 ?>

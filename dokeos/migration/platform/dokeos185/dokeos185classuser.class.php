@@ -178,7 +178,15 @@ class Dokeos185ClassUser extends ImportClassUser
 		$tablename = 'class_user';
 		$classname = 'Dokeos185ClassUser';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+	}
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'main_database';
+		$array['table'] = 'class_user';
+		return $array;
 	}
 }
 ?>

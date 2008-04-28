@@ -2,10 +2,10 @@
 /**
  * @package migration.lib.migration_manager.component.inc.wizard
  */
-require_once dirname(__FILE__) . '/../migrationwizardpage.class.php';
-require_once dirname(__FILE__) . '/../../../../../migrationdatamanager.class.php'; 
-require_once dirname(__FILE__) . '/../../../../../logger.class.php'; 
-require_once dirname(__FILE__) . '/../../../../../import.class.php'; 
+require_once dirname(__FILE__) . '/migrationwizardpage.class.php';
+require_once dirname(__FILE__) . '/../../../../migrationdatamanager.class.php'; 
+require_once dirname(__FILE__) . '/../../../../logger.class.php'; 
+require_once dirname(__FILE__) . '/../../../../import.class.php'; 
 
 /**
  * Class for shared surveys migration
@@ -105,11 +105,11 @@ class TrackersMigrationWizardPage extends MigrationWizardPage
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
 				$exportvalues['migrate_courses'] == 1 && $exportvalues['migrate_users'] == 1)
 			{
-				//$this->migrate('TrackerCOs', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
-				//$this->migrate('TrackerCBrowsers', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
-				//$this->migrate('TrackerCCountries', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,2);
-				//$this->migrate('TrackerCProviders', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,3);
-				//$this->migrate('TrackerCReferers', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,4);
+				$this->migrate('TrackCOs', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
+				$this->migrate('TrackCBrowsers', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,1);
+				$this->migrate('TrackCCountries', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,2);
+				$this->migrate('TrackCProviders', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,3);
+				$this->migrate('TrackCReferers', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,4);
 				//$this->migrate('TrackerEAccess', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,5);
 				//$this->migrate('TrackerEAttempt', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,6);
 				//$this->migrate('TrackerECourseaccess', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,7);
@@ -120,7 +120,7 @@ class TrackersMigrationWizardPage extends MigrationWizardPage
 				//$this->migrate('TrackerEHotspot', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,12);
 				//$this->migrate('TrackerELastaccess', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,13);
 				//$this->migrate('TrackerELinks', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,14);
-				//$this->migrate('TrackerELogin', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,15);
+				$this->migrate('TrackELogin', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,15);
 				//$this->migrate('TrackerEOnline', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,16);
 				//$this->migrate('TrackerEOpen', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,17);
 				//$this->migrate('TrackerEUploads', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,18);

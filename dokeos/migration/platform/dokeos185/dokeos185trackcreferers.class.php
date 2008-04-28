@@ -4,6 +4,7 @@
  */
 
 require_once dirname(__FILE__) . '/../../lib/import/importtrackcreferers.class.php';
+require_once dirname(__FILE__) . '/../../../users/trackers/referrers_tracker.class.php';
 
 /**
  * This class presents a Dokeos185 track_c_referers
@@ -113,7 +114,12 @@ class Dokeos185TrackCReferers extends ImportTrackCReferers
 	 */
 	function is_valid($array)
 	{
-		$course = $array['course'];
+		if(!$this->get_referer() || $this->get_counter()==null)
+		{		 
+			self :: $mgdm->add_failed_element($this->get_id(),'track_c_referers');
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -122,7 +128,27 @@ class Dokeos185TrackCReferers extends ImportTrackCReferers
 	 */
 	function convert_to_lcms($array)
 	{	
-		$course = $array['course'];
+		$conditions = array();
+    	$conditions[] = new EqualityCondition('type', 'referer');
+    	$conditions[] = new EqualityCondition('name', $this->get_referer());
+    	$condtion = new AndCondition($conditions);
+		$referertracker = new OSTracker();
+		$trackeritems = $referertracker->retrieve_tracker_items($condtion);
+    	
+    	if(count($trackeritems) != 0)
+    	{
+    		$referertracker = $trackeritems[0];
+    		$referertracker->set_value($referertracker->get_value() + $this->get_counter());
+    		$referertracker->update();
+    	}
+    	else
+    	{
+    		
+    		$referertracker->set_name($this->get_referer());
+    		$referertracker->set_value($this->get_counter());
+    		$referertracker->create();
+    	}
+    	return $referertracker;
 	}
 	
 	/**
@@ -138,9 +164,16 @@ class Dokeos185TrackCReferers extends ImportTrackCReferers
 		$tablename = 'track_c_referers';
 		$classname = 'Dokeos185TrackCReferers';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
-
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'statistics_database';
+		$array['table'] = 'track_c_referers';
+		return $array;
+	}
 }
 
 ?>

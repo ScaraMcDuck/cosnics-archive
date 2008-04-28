@@ -422,7 +422,15 @@ class Dokeos185Document extends ImportDocument
 		
 		self :: $mgdm = $parameters['mgdm'];
 		$course = $parameters['course'];
-		return self :: $mgdm->get_all_documents($course, $parameters['del_files']);
+		return self :: $mgdm->get_all_documents($course, $parameters['del_files'],$parameters['offset'],$parameters['limit']);
+	}
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = $parameters['course']->get_db_name();
+		$array['table'] = 'document';
+		return $array;
 	}
 }
 ?>

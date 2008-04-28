@@ -29,6 +29,7 @@ require_once dirname(__FILE__).'/wizard/course/surveysmigrationwizardpage.class.
 require_once dirname(__FILE__).'/wizard/course/scormsmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/course/assignmentsmigrationwizardpage.class.php';
 require_once dirname(__FILE__).'/wizard/course/userinfosmigrationwizardpage.class.php';
+require_once dirname(__FILE__).'/wizard/trackingsmigrationwizardpage.class.php';
 
 /**
  * A wizard which guides the user through several steps to perform the migration

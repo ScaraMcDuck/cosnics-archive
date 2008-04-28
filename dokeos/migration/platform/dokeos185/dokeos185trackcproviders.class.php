@@ -4,6 +4,7 @@
  */
 
 require_once dirname(__FILE__) . '/../../lib/import/importtrackcproviders.class.php';
+require_once dirname(__FILE__) . '/../../../users/trackers/providers_tracker.class.php';
 
 /**
  * This class presents a Dokeos185 track_c_providers
@@ -113,7 +114,12 @@ class Dokeos185TrackCProviders extends ImportTrackCProviders
 	 */
 	function is_valid($array)
 	{
-		$course = $array['course'];
+		if(!$this->get_provider() || $this->get_counter()==null)
+		{		 
+			self :: $mgdm->add_failed_element($this->get_id(),'track_c_providers');
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -122,7 +128,27 @@ class Dokeos185TrackCProviders extends ImportTrackCProviders
 	 */
 	function convert_to_lcms($array)
 	{	
-		$course = $array['course'];
+		$conditions = array();
+    	$conditions[] = new EqualityCondition('type', 'provider');
+    	$conditions[] = new EqualityCondition('name', $this->get_provider());
+    	$condtion = new AndCondition($conditions);
+		$providertracker = new ProvidersTracker();
+		$trackeritems = $providertracker->retrieve_tracker_items($condtion);
+    	
+    	if(count($trackeritems) != 0)
+    	{
+    		$providertracker = $trackeritems[0];
+    		$providertracker->set_value($providertracker->get_value() + $this->get_counter());
+    		$providertracker->update();
+    	}
+    	else
+    	{
+    		
+    		$providertracker->set_name($this->get_provider());
+    		$providertracker->set_value($this->get_counter());
+    		$providertracker->create();
+    	}
+    	return $providertracker;
 	}
 	
 	/**
@@ -138,7 +164,15 @@ class Dokeos185TrackCProviders extends ImportTrackCProviders
 		$tablename = 'track_c_providers';
 		$classname = 'Dokeos185TrackCProviders';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+	}
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'statistics_database';
+		$array['table'] = 'track_c_providers';
+		return $array;
 	}
 }
 

@@ -7,7 +7,7 @@
  * Abstract class that defines a blog
  * @author Sven Vanpoucke
  */
-abstract class ImportCCountries extends Import
+abstract class ImportTrackCCountries extends Import
 {
 	abstract function is_valid($array);
 	abstract function convert_to_lcms($array);

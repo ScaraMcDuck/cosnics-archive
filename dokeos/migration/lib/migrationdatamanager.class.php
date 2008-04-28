@@ -201,6 +201,15 @@ abstract class MigrationDataManager
 	function add_recovery_element($old_path,$new_path)
 	{
 		$this->db_lcms_connect();
+		
+		$pos = strpos($old_path,'\'');
+		if (pos != -1)
+			$old_path = substr($old_path,0,$pos-1) . '\\' . substr($old_path,$pos);
+		
+		$pos = strpos($new_path,'\'');
+		if (pos != -1)
+			$new_path = substr($new_path,0,$pos-1) . '\\' . substr($new_path,$pos);
+			
 		$query = 'INSERT INTO ' . self :: TEMP_RECOVERY_TABLE .
 				 '(old_path, new_path) VALUES (\''.
 					$old_path . '\',\''.$new_path .'\')';
@@ -265,7 +274,7 @@ abstract class MigrationDataManager
 		 	throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
 		 }
 		 $defaultProp = array ();
-
+			
 		 $class = new $classname($defaultProp);
 		 
 		 foreach ($class->get_default_property_names() as $prop)
@@ -597,6 +606,9 @@ abstract class MigrationDataManager
 	function get_user_by_full_name($fullname)
 	{
 		$this->db_lcms_connect();
+		
+		$fullname = str_replace('\'', '\\\'', $fullname);
+		
 	 	$query = 'SELECT user_id FROM user_user WHERE ' .
 	 			 'CONCAT(firstname, \' \', lastname) = \'' . $fullname . '\' OR ' .
 	 			 'CONCAT(lastname, \' \', firstname) = \'' . $fullname . '\'';

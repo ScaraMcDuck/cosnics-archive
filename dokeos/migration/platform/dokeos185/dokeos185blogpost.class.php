@@ -163,13 +163,20 @@ class Dokeos185BlogPost extends ImportBlogPost
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		
-		$db = $parameters['course'];
+		$db = $parameters['course']->get_db_name();
 		$tablename = 'blog_post';
 		$classname = 'Dokeos185BlogPost';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = $parameters['course']->get_db_name();
+		$array['table'] = 'blog_post';
+		return $array;
+	}
 }
 
 ?>

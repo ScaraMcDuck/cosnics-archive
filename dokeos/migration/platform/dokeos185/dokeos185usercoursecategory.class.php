@@ -202,7 +202,15 @@ class Dokeos185UserCourseCategory extends Import
 		$tablename = 'user_course_category';
 		$classname = 'Dokeos185UserCourseCategory';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+	}
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'user_personal_database';
+		$array['table'] = 'user_course_category';
+		return $array;
 	}
 }
 ?>
