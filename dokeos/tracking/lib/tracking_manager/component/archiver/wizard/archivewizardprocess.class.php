@@ -43,12 +43,13 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 	
 		$this->parent->display_header($trail);
 		
-		$sd = $exports['start_date'];
-		$startdate = $sd['Y'] . '-' . $sd['M'] .'-' . $sd['d']; 
+		$startdate = $exports['start_date']; 
+		list ($syear, $smonth, $sday) = split('-', $startdate); 
+		$enddate = $exports['end_date'];
+		list ($eyear, $emonth, $eday) = split('-', $enddate); 
+		
 		$startdate = RepositoryUtilities :: time_from_datepicker_without_timepicker($startdate);
-
-		$ed = $exports['end_date'];
-		$enddate = mktime(23, 59, 59, $ed['M'], $ed['d'], $ed['Y']);
+		$enddate = RepositoryUtilities :: time_from_datepicker_without_timepicker($enddate, 23, 59, 59);
 		
 		$period = $exports['period'];
 		
@@ -60,7 +61,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 		
 				$event = $this->parent->retrieve_event_by_name($eventname);
 				
-				echo(Translation :: get('Archiving_event') . ': ' . $eventname . '<br />');
+				$this->display_event_header($eventname);
 				
 				foreach($exports as $key2 => $export2)
 				{
@@ -70,7 +71,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 						$trackerregistration = $this->parent->retrieve_tracker_registration($id);
 
 						$classname = $trackerregistration->get_class();
-						echo(' &nbsp; &nbsp; ' . Translation :: get('Archiving_tracker') . ': ' . $classname . '...');
+						echo(' &nbsp; &nbsp; ' . Translation :: get('Archiving_tracker') . ': ' . $classname . '<br />');
 						
 						$filename = RepositoryUtilities :: camelcase_to_underscores($classname);
 			
@@ -92,8 +93,10 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 						}
 						else
 						{
-							$difference = gregoriantojd($ed['M'],$ed['d'], $ed['Y']) - 
-								gregoriantojd($sd['M'],$sd['d'], $sd['Y']);
+							$difference = gregoriantojd($emonth,$eday, $eyear) - 
+								gregoriantojd($smonth,$sday, $syear);
+						
+							if($difference == 0) $difference = 1;
 							
 							$amount_of_tables = ceil($difference / $period);
 							
@@ -132,10 +135,9 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 							}
 							$result->delete();
 						}
-						echo(Translation :: get('Done') . '<br />');
 					}
 				}
-				echo(Translation :: get('Done') . '<br />');
+				$this->display_event_footer();
 			}
 		}
 		
@@ -144,6 +146,8 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 		$setting = $adm->retrieve_setting_from_variable_name('last_time_archived', 'tracker');
 		$setting->set_value($time);
 		$setting->update();
+		
+		echo '<a href="' . $this->parent->get_platform_administration_link() . '">' . Translation :: get('Go_to_administration') .'</a>';
 		
 		// Display the page footer
 		$this->parent->display_footer();
@@ -191,5 +195,23 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 			$storage_unit_info['properties'],$storage_unit_info['indexes']);
 
 	}
+	
+	function display_event_header($eventname)
+	{
+		$html = array();
+		$html[] = '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(layout/aqua/img/admin/action_archive.png);">';
+		$html[] = '<div class="title">'. Translation :: get('Event') . ' ' . $eventname .'</div>';
+		$html[] = '<div class="description">';
+		echo implode("\n", $html);
+	}
+	
+	function display_event_footer()
+	{
+		$html = array();
+		$html[] = '</div>';
+		$html[] = '</div>';
+		echo implode("\n", $html);
+	}
+
 }
 ?>

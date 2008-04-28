@@ -46,7 +46,8 @@ $GLOBALS['HTML_QUICKFORM_ELEMENT_TYPES'] =
             'html'          =>array('HTML/QuickForm/html.php', 'HTML_QuickForm_html'),
             'hierselect'    =>array('HTML/QuickForm/hierselect.php', 'HTML_QuickForm_hierselect'),
             'autocomplete'  =>array('HTML/QuickForm/autocomplete.php', 'HTML_QuickForm_autocomplete'),
-            'xbutton'       =>array('HTML/QuickForm/xbutton.php','HTML_QuickForm_xbutton')
+            'xbutton'       =>array('HTML/QuickForm/xbutton.php','HTML_QuickForm_xbutton'),
+            'datepicker'	=>array(Path :: get(SYS_LIB_PATH) . 'html/formvalidator/Element/datepicker.php', 'HTML_QuickForm_datepicker')
         );
 
 $GLOBALS['_HTML_QuickForm_registered_rules'] = array(

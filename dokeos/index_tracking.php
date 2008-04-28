@@ -4,7 +4,7 @@
  */
 
 $cidReset = true;
-$this_section = 'tracker';
+$this_section = 'tracking';
 
 require_once dirname(__FILE__) . '/common/global.inc.php';
 require_once Path :: get_tracking_path() . '/lib/tracking_manager/trackingmanager.class.php';

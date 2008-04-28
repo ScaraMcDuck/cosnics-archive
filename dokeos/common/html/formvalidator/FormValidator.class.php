@@ -206,7 +206,7 @@ EOT;
 	 */
 	function add_datepicker($name,$label)
 	{
-		$element = $this->addElement('datepicker', $name, $label, array ('form_name' => $this->getAttribute('name')));
+		$element = $this->addElement('datepicker', $name, $label, array ('form_name' => $this->getAttribute('name')), true);
 		$this->addRule($name, Translation :: get('InvalidDate'), 'date');
 		return $element;
 	}
