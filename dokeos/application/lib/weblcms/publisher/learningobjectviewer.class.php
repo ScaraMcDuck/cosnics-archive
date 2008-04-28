@@ -26,7 +26,7 @@ class LearningObjectViewer extends LearningObjectPublisherComponent
 			$toolbar_data = array();
 			$toolbar_data[] = array(
 				'href' => $this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator', LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id())),
-				'img' => Theme :: get_common_img_path().'publish.png',
+				'img' => Theme :: get_common_img_path().'action-publish.png',
 				'label' => Translation :: get('Publish'),
 				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 			);

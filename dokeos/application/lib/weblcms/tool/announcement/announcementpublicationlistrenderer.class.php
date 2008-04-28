@@ -24,13 +24,13 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		 */
 		if (!$first)
 		{
-			$up_img = 'up.png';
+			$up_img = 'action-up.png';
 			$up_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_DOWN, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 			$up_link = '<a href="'.$up_url.'"><img src="'.Theme :: get_common_img_path().$up_img.'" alt=""/></a>';
 		}
 		else
 		{
-			$up_link = '<img src="'.Theme :: get_common_img_path().'up_na.png"  alt=""/>';
+			$up_link = '<img src="'.Theme :: get_common_img_path().'action-up-na.png"  alt=""/>';
 		}
 		return $up_link;
 	}

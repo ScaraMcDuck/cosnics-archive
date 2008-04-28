@@ -68,7 +68,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 			$toolbar_data[] = array(
 				'href' => $url,
 				'label' => Translation :: get('Remove'),
-				'img' => Theme :: get_common_img_path().'recycle_bin.png',
+				'img' => Theme :: get_common_img_path().'action-recycle-bin.png',
 				'confirm' => true
 			);
 		}
@@ -76,7 +76,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('Remove'),
-				'img' => Theme :: get_common_img_path().'recycle_bin_na.png'
+				'img' => Theme :: get_common_img_path().'action-recycle-bin-na.png'
 			);
 		}
 		if($this->browser->get_number_of_categories() > 1)
@@ -84,7 +84,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_learning_object_moving_url($learning_object),
 				'label' => Translation :: get('Move'),
-				'img' => Theme :: get_common_img_path().'move.png'
+				'img' => Theme :: get_common_img_path().'action-move.png'
 			);
 		}
 		$toolbar_data[] = array(
@@ -95,7 +95,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_rights_editing_url($learning_object),
 			'label' => Translation :: get('Rights'),
-			'img' => Theme :: get_common_img_path().'right.png'
+			'img' => Theme :: get_common_img_path().'action-right.png'
 		);
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}

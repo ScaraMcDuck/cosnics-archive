@@ -63,7 +63,7 @@ class DisabledSectionToolListRenderer extends ToolListRenderer
 			if($tool->visible || $section == 'course_admin')
 			{
 				$action = 'make_invisible';
-				$visible_image = 'visible.png';
+				$visible_image = 'action-visible.png';
 				$new = '';
 				if($parent->tool_has_new_publications($tool->name))
 				{
@@ -75,7 +75,7 @@ class DisabledSectionToolListRenderer extends ToolListRenderer
 			else
 			{
 				$action = 'make_visible';
-				$visible_image = 'invisible.png';
+				$visible_image = 'action-invisible.png';
 				$tool_image = 'tool_' . $tool->name.'_na.png';
 				$link_class=' class="invisible"';
 			}

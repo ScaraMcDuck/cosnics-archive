@@ -78,7 +78,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 			$toolbar_data[] = array(
 				'href' => $subscribe_url,
 				'label' => Translation :: get('Subscribe'),
-				'img' => Theme :: get_common_img_path().'subscribe.png'
+				'img' => Theme :: get_common_img_path().'action-subscribe.png'
 			);
 		}
 		else
@@ -102,7 +102,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 				$toolbar_data[] = array(
 					'href' => $unsubscribe_url,
 					'label' => Translation :: get('Unsubscribe'),
-					'img' => Theme :: get_common_img_path().'unsubscribe.png'
+					'img' => Theme :: get_common_img_path().'action-unsubscribe.png'
 				);
 			}
 		}

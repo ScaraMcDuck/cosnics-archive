@@ -52,7 +52,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('MoveUp'),
-				'img' => Theme :: get_common_img_path().'up_na.png'
+				'img' => Theme :: get_common_img_path().'action-up-na.png'
 			);
 		}
 		else
@@ -61,7 +61,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 			$toolbar_data[] = array(
 				'href' => $move_url,
 				'label' => Translation :: get('MoveUp'),
-				'img' => Theme :: get_common_img_path().'up.png'
+				'img' => Theme :: get_common_img_path().'action-up.png'
 			);
 		}
 		
