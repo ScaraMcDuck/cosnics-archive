@@ -16,6 +16,12 @@ abstract class ArchiveWizardPage extends HTML_QuickForm_Page
 	 * The Component which the wizard runs.
 	 */
 	private $parent;
+	
+	/**
+	 * The name of the page
+	 */
+	private $name;
+	
 	/**
 	 * Constructor
 	 * @param string $name A unique name of this page in the wizard
@@ -24,6 +30,7 @@ abstract class ArchiveWizardPage extends HTML_QuickForm_Page
 	public function ArchiveWizardPage($name,$parent)
 	{
 		$this->parent = $parent;
+		$this->name = $name;
 		parent::HTML_QuickForm_Page($name,'post');
 	}
 	/**
@@ -33,6 +40,14 @@ abstract class ArchiveWizardPage extends HTML_QuickForm_Page
 	function get_parent()
 	{
 		return $this->parent;
+	}
+	
+	/**
+	 * Returns the name of the page
+	 */
+	function get_name()
+	{
+		return $this->name;
 	}
 }
 ?>

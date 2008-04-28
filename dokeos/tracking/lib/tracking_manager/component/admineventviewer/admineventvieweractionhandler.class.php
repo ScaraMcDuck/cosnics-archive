@@ -33,7 +33,7 @@ class AdminEventViewerActionHandler
 	 {
 	 	return array('enable' => Translation :: get('Enable_selected_trackers'),
 	 				 'disable' => Translation :: get('Disable_selected_trackers'),
-	 				 TrackingManager :: ACTION_EMPTY_TRACKER => Translation :: get('Empty_selected_tracker'));
+	 				 TrackingManager :: ACTION_EMPTY_TRACKER => Translation :: get('Empty_selected_trackers'));
 	 }
 	 
 	 /**

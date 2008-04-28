@@ -27,10 +27,12 @@ require_once ('HTML/QuickForm/date.php');
  */
 class HTML_QuickForm_datepicker extends HTML_QuickForm_date
 {
+	private $include_time_picker;
+	
 	/**
 	 * Constructor
 	 */
-	function HTML_QuickForm_datepicker($elementName = null, $elementLabel = null, $attributes = null)
+	function HTML_QuickForm_datepicker($elementName = null, $elementLabel = null, $attributes = null, $include_time_picker = true)
 	{
 		global $language_interface;
 		if(!isset($attributes['form_name']))
@@ -38,7 +40,7 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
 			return;
 		}
 		$js_form_name = $attributes['form_name'];
-		unset($attributes['form_name']);
+		//unset($attributes['form_name']);
 		HTML_QuickForm_element :: HTML_QuickForm_element($elementName, $elementLabel, $attributes);
 		$this->_persistantFreeze = true;
 		$this->_appendName = true;
@@ -63,7 +65,14 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
 		{
 			$this->_locale[$editor_lang]['months_long'] = array (Translation :: get("JanuaryLong"), Translation :: get("FebruaryLong"), Translation :: get("MarchLong"), Translation :: get("AprilLong"), Translation :: get("MayLong"), Translation :: get("JuneLong"), Translation :: get("JulyLong"), Translation :: get("AugustLong"), Translation :: get("SeptemberLong"), Translation :: get("OctoberLong"), Translation :: get("NovemberLong"), Translation :: get("DecemberLong"));
 		}
-		$this->_options['format'] = 'dFY '.$popup_link.'   H '.$hour_minute_devider.' i';
+		
+		$this->include_time_picker = $include_time_picker;
+		
+		if($include_time_picker)
+			$this->_options['format'] = 'dFY '.$popup_link.'   H '.$hour_minute_devider.' i';
+		else
+			$this->_options['format'] = 'dFY '.$popup_link;
+			
 		$this->_options['minYear'] = date('Y')-1;
 		$this->_options['maxYear'] = date('Y')+5;
 		$this->_options['language'] = $editor_lang;
@@ -83,9 +92,9 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
 	function getElementJS()
 	{
 		$js = '';
-		if(!defined('DATEPICKER_JAVASCRIPT_INCLUDED'))
-		{
-			define('DATEPICKER_JAVASCRIPT_INCLUDED',1);
+		//if(!defined('DATEPICKER_JAVASCRIPT_INCLUDED'))
+		{	
+			//define('DATEPICKER_JAVASCRIPT_INCLUDED',1);
 			$js = "\n";
 			$js .= '<script src="';
 			$js .= Path :: get(WEB_LIB_PATH).'html/formvalidator/Element/';
@@ -110,7 +119,12 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
 		$d = $d < 10 ? '0'.$d : $d;
 		$h = $h < 10 ? '0'.$h : $h;
 		$i = $i < 10 ? '0'.$i : $i;
-		$datetime = $y.'-'.$m.'-'.$d.' '.$h.':'.$i.':00';
+		
+		if($this->include_time_picker)
+			$datetime = $y.'-'.$m.'-'.$d.' '.$h.':'.$i.':00';
+		else
+			$datetime = $y.'-'.$m.'-'.$d;
+			
 		$result[$this->getName()]= $datetime;
 		return $result;
 	}

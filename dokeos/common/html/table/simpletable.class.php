@@ -85,7 +85,7 @@ class SimpleTable extends HTML_Table
 		if($this->actionhandler)
 		{
 			$this->tableform->addElement('select', 'action', Translation :: get('Actions'), $this->actionhandler->get_actions());
-			$this->tableform->addElement('submit','actionbutton',Translation :: get('OK'), 'class="submit"');
+			$this->tableform->addElement('submit','actionbutton',Translation :: get('Ok'), 'class="submit"');
 		}
 	}
 	

@@ -36,11 +36,13 @@ class ConfirmationArchiveWizardPage extends ArchiveWizardPage
 		$this->_formBuilt = true;
 		$exports = $this->controller->exportValues();
 		
+		$this->addElement('html', '<div style="margin-top: 10px;">' . Translation :: get('You_have_chosen_following_events_and_trackers') . ':</div>');
+		
 		foreach($exports as $key => $export)
 		{	
 			if(substr($key, strlen($key) - strlen('event'), strlen($key)) == 'event')
 			{
-				$this->addElement('html', '<div style="margin-top: 3px;">' . $key . '</div>');
+				$this->addElement('html', '<div style="left: 20px; position: relative; margin-top: 5px;">' . $key . '</div>');
 				$eventname = substr($key, 0, strlen($key) - strlen('event'));
 				
 				foreach($exports as $key2 => $export2)
@@ -49,21 +51,20 @@ class ConfirmationArchiveWizardPage extends ArchiveWizardPage
 					{
 						$id = substr($key2, strlen($eventname . 'event'));
 						$tracker = $this->get_parent()->retrieve_tracker_registration($id);
-						$this->addElement('html', '<div style="margin-top: 3px; left: 20px; position: relative;">' . $tracker->get_class() . '</div>');
+						$this->addElement('html', '<div style="margin-top: 3px; left: 40px; position: relative;">' . $tracker->get_class() . '</div>');
 					}
 				}
 			}
 		}
 		
-		$sd = $exports['start_date'];
-		$ed = $exports['end_date'];
-		$startdate = $sd['Y'] . '-' . $sd['M'] .'-' . $sd['d'];
-		$enddate = $ed['Y'] . '-' . $ed['M'] .'-' . $ed['d'];
+		$startdate = $exports['start_date']; 
+		$enddate = $exports['end_date'];
+		
 		$period = $exports['period'];
 		
-		$this->addElement('html', '<div style="margin-top: 13px">' . Translation :: get('Start_date') . ' ' . $startdate . '</div>');
-		$this->addElement('html', '<div style="margin-top: 3px">' . Translation :: get('End_date') . ' ' . $enddate . '</div>');
-		$this->addElement('html', '<div style="margin-top: 3px">' . Translation :: get('Period') . ' ' . $period . ' ' . Translation :: get('Days') . '</div>');
+		$this->addElement('html', '<div style="margin-top: 13px">' . Translation :: get('Start_date') . ': ' . $startdate . ' 00:00:00</div>');
+		$this->addElement('html', '<div style="margin-top: 3px">' . Translation :: get('End_date') . ': ' . $enddate . ' 23:59:59</div>');
+		$this->addElement('html', '<div style="margin-top: 3px">' . Translation :: get('Period') . ': ' . $period . ' ' . Translation :: get('Days') . '</div>');
 		
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'), 'style=\'margin-top: 20px;\'');
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Confirm').' >>', 'style=\'margin-top: 20px;\'');

@@ -372,6 +372,14 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 	}
 	
 	/**
+	 * Retrieves the platform administration link
+	 */
+	function get_platform_administration_link()
+	{
+		return Path :: get(WEB_PATH) . 'index_admin.php';
+	}
+	
+	/**
 	 * Retrieves the events 
 	 * @return the events
 	 */

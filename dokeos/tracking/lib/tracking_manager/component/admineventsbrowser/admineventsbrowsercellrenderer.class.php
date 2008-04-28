@@ -33,7 +33,7 @@ class AdminEventsBrowserCellRenderer
 		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_change_active_url('event', $event->get_id()),
-			'label' => ($event->get_active() == 1)?Translation :: get('Deactivate_event'):Translation :: get('Activate_event'),
+			'label' => ($event->get_active() == 1)?Translation :: get('Deactivate'):Translation :: get('Activate'),
 			'confirm' => false,
 			'img' => ($event->get_active() == 1)?
 				Path :: get(WEB_LAYOUT_PATH).'img/visible.gif':

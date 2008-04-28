@@ -8,4 +8,5 @@ $lang['admin']['NoOptionsAvailable'] = 'No options';
 $lang['admin']['Archive'] = 'Archive';
 $lang['admin']['CourseCategoryManagement'] = 'Categories';
 $lang['admin']['UserImport'] = 'Subscriptions';
+$lang['admin']['Archive'] = 'Archive';
 ?>

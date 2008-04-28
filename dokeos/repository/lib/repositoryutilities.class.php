@@ -119,10 +119,10 @@ class RepositoryUtilities
 	 * @param string $string The date/time value.
 	 * @return int The UNIX timestamp.
 	 */
-	static function time_from_datepicker_without_timepicker($string)
+	static function time_from_datepicker_without_timepicker($string, $h = 0, $m = 0, $s = 0)
 	{
 		list ($year, $month, $day) = split('-', $string);
-		return mktime(0, 0, 0, $month, $day, $year);
+		return mktime($h, $m, $s, $month, $day, $year);
 	}
 
 	/**

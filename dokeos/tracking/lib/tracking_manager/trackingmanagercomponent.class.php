@@ -237,6 +237,14 @@ abstract class TrackingManagerComponent
 	}
 	
 	/**
+	 * Retrieves the platform administration link
+	 */
+	function get_platform_administration_link()
+	{
+		return $this->get_parent()->get_platform_administration_link();
+	}
+	
+	/**
 	 * Retrieves the events
 	 * @see TrackingManager :: retrieve_events();
 	 */

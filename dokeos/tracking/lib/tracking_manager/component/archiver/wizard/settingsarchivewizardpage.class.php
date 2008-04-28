@@ -37,25 +37,20 @@ class SettingsArchiveWizardPage extends ArchiveWizardPage
 		
 		$exports = $this->exportValues();
 		
-		$_options = array(
-        'language'         => 'en',
-        'format'           => 'Y M d',
-        'minYear'          => date(Y) - 120,
-        'maxYear'          => date(Y),
-    	);
-    	
-		$this->addElement('date', 'start_date', Translation :: get('Start_date'), $_options);
+		$this->addElement('html', '<div style="margin-top: 10px;"></div>');
+		
+		$this->addElement('datepicker', 'start_date', Translation :: get('Start_date') . ' (00:00:00)', array ('form_name' => $this->getAttribute('name')), false);
 		$this->addRule(array('start_date'),Translation :: get('Start_date_must_be_larger_then_last_archive_date'), new ValidateSettings($exports['start_date']));
-		$this->addElement('date', 'end_date', Translation :: get('End_date'), $_options);
+		$this->addElement('datepicker', 'end_date', Translation :: get('End_date') . ' (23:59:59)', array ('form_name' => $this->getAttribute('name')), false);
 		$this->addRule(array('end_date'),Translation :: get('End_date_must_be_larger_then_start_date'), new ValidateSettings());
 		
 		$numbers = array();
-		for($i = 1; $i < 301; $i++)
+		for($i = 1; $i < 1001; $i++)
 		{
 			$numbers[$i] = $i;
 		}
 		
-		$this->addElement('select', 'period', Translation :: get('period'), $numbers);
+		$this->addElement('select', 'period', Translation :: get('Period') . ' (' . Translation :: get('Days') . ')', $numbers);
 		
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
@@ -74,8 +69,8 @@ class SettingsArchiveWizardPage extends ArchiveWizardPage
 		$adm = AdminDataManager :: get_instance();
 		$setting = $adm->retrieve_setting_from_variable_name('last_time_archived', 'tracker');
 		
-		$defaults['start_date'] = $setting?$setting->get_value() : date('Y-M-d');
-		$defaults['end_date'] = date('Y-M-d');
+		$defaults['start_date'] = $setting?$setting->get_value() : date('d-F-Y');
+		$defaults['end_date'] = date('d-F-Y');
 		$this->setDefaults($defaults);
 	}
 }
@@ -102,7 +97,7 @@ class ValidateSettings extends HTML_QuickForm_Rule
 	public function validate($parameters)
 	{ 
 		$sd = $parameters[0];
-		$date = $sd['Y'] . '-' . $sd['M'] .'-' . $sd['d'];
+		$date = $sd['Y'] . '-' . $sd['F'] .'-' . $sd['d'];
 		$date = RepositoryUtilities :: time_from_datepicker_without_timepicker($date);
 			
 		if($start_date == 0)
