@@ -654,51 +654,6 @@ form br { clear: both; }
 
 .required { color: #f00; font-weight: bold;}
 
-/* Admin section */
-div.admin_section {
-	width: 90%;
-	float: left;
-	margin: 10px 20px;
-	border: 1px solid #c0c0c0;
-	font-size: 75%;
-	clear: both;
-}
-
-div.admin_section div.main
-{
-	float: left;
-	width: 100px;
-	text-align: center;
-	padding: 5px;
-	border-right: 1px solid #c0c0c0;
-	height: 100%;
-	background: #ebebeb;
-}
-
-div.admin_section div.actions
-{
-	float: left;
-	text-align: center;
-	height: 100%;
-}
-
-div.admin_section div.actions div.action
-{
-	float: left;
-	height: 100%;
-	text-align: center;
-	padding: 5px 10px 5px 10px;
-	margin: 0;
-	border-right: 1px solid #ebebeb;
-}
-
-div.admin_section div.admin_search
-{
-	clear: both;
-	border-top: 1px solid #c0c0c0;
-	padding: 5px;
-}
-
 .user_course_category {
 	background-color: #efefef;
 	border: 1px solid #666;
