@@ -166,13 +166,13 @@ abstract class LearningObjectPublicationListRenderer
 	{
 		if (!$first)
 		{
-			$up_img = 'up.png';
+			$up_img = 'action-up.png';
 			$up_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_UP, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 			$up_link = '<a href="'.$up_url.'"><img src="'.Theme :: get_common_img_path().$up_img.'" alt=""/></a>';
 		}
 		else
 		{
-			$up_link = '<img src="'.Theme :: get_common_img_path().'up_na.png"  alt=""/>';
+			$up_link = '<img src="'.Theme :: get_common_img_path().'action-up-na.png"  alt=""/>';
 		}
 		return $up_link;
 	}
@@ -209,15 +209,15 @@ abstract class LearningObjectPublicationListRenderer
 		$visibility_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_TOGGLE_VISIBILITY, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 		if($publication->is_hidden())
 		{
-			$visibility_img = 'invisible.png';
+			$visibility_img = 'action-invisible.png';
 		}
 		elseif($publication->is_forever())
 		{
-			$visibility_img = 'visible.png';
+			$visibility_img = 'action-visible.png';
 		}
 		else
 		{
-			$visibility_img = 'period.png';
+			$visibility_img = 'action-period.png';
 		}
 		$visibility_link = '<a href="'.$visibility_url.'"><img src="'.Theme :: get_common_img_path().$visibility_img.'"  alt=""/></a>';
 		return $visibility_link;

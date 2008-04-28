@@ -213,7 +213,7 @@ class MatchingQuestionForm extends LearningObjectForm
 			}
 		}
 		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
-		$this->addElement('image','add_option[]',Theme :: get_common_img_path().'list-action-add.png');
+		$this->addElement('image','add_option[]',Theme :: get_common_img_path().'action-list-add.png');
 	}
 	/**
 	 * Adds the form-fields to the form to provide the possible matches for this

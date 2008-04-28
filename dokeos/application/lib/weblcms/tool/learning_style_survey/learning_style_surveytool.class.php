@@ -47,7 +47,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 					'display' => RepositoryUtilities::TOOLBAR_DISPLAY_ICON_AND_LABEL
 				),
 				array(
-					'img' => Theme :: get_common_img_path().'publish.png',
+					'img' => Theme :: get_common_img_path().'action-publish.png',
 					'label' => Translation :: get('Publish'),
 					'href' => ($_SESSION[get_class()]['mode'] != 1
 						? $this->get_url(array('mode' => 1))

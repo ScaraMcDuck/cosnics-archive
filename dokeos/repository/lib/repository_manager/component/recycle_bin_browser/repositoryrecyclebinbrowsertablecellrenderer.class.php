@@ -69,7 +69,7 @@ class RepositoryRecycleBinBrowserTableCellRenderer extends DefaultLearningObject
 		$toolbar_data = array();
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_restoring_url($learning_object),
-			'img' => Theme :: get_common_img_path().'restore.png',
+			'img' => Theme :: get_common_img_path().'action-restore.png',
 			'label' => Translation :: get('Restore')
 		);
 		$toolbar_data[] = array(

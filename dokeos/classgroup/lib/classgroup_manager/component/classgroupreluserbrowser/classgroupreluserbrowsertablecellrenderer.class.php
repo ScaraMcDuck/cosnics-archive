@@ -62,7 +62,7 @@ class ClassGroupRelUserBrowserTableCellRenderer extends DefaultClassGroupRelUser
 //		$toolbar_data[] = array(
 //			'href' => $this->browser->get_classgroup_roles_url($classgroupreluser),
 //			'label' => Translation :: get('UserRoles'),
-//			'img' => Theme :: get_common_img_path().'img/config.png'
+//			'img' => Theme :: get_common_img_path().'action-config.png'
 //		);
 		
 		return RepositoryUtilities :: build_toolbar($toolbar_data);

@@ -29,7 +29,7 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 	
 	function get_calendar_html()
 	{
-		$out =  '<p><a href="'.$this->get_url(array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_CREATE_PUBLICATION), true).'"><img src="'.Theme :: get_common_img_path().'publish.png" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';
+		$out =  '<p><a href="'.$this->get_url(array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_CREATE_PUBLICATION), true).'"><img src="'.Theme :: get_common_img_path().'action-publish.png" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';
 		$time = isset ($_GET['time']) ? intval($_GET['time']) : time();
 		$view = isset ($_GET['view']) ? $_GET['view'] : 'month';
 		$this->set_parameter('time', $time);
@@ -66,7 +66,7 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 				$toolbar_data[] = array(
 					'href' => $this->get_url(),
 					'label' => Translation :: get('Back'),
-					'img' => Theme :: get_common_img_path().'prev.png',
+					'img' => Theme :: get_common_img_path().'action-prev.png',
 					'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 				);
 				$toolbar_data[] = array(

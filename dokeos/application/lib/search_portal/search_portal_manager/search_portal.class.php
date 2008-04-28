@@ -53,18 +53,7 @@ class SearchPortal extends WebApplication
 		$supports_remote = WebServiceSearchSource :: is_supported();
 		Display :: display_header($trail);
 		Display :: display_tool_title(Translation :: get('SearchPortal'));
-
-		echo <<<END
-<script type="text/javascript">
-/* <![CDATA[ */
-function expandRemoteSearch()
-{
-	document.getElementById('url_container').style.display='block';
-	document.getElementById('url_expander').style.display='none';
-}
-/* ]]> */
-</script>
-END;
+		
 		$form = new FormValidator('search_simple', 'get', $this->get_url(), '', null, false);
 		$form->addElement('text', self :: PARAM_QUERY, '', 'size="40" class="search_query" id="inputString" onkeyup="lookup(this.value);"');
 		$form->addElement('submit', 'submit', Translation :: get('Search'));
@@ -82,12 +71,6 @@ END;
 		$form->accept($renderer);
 		$form->setDefaults(array('application'=>'search_portal'));
 		echo $renderer->toHTML();
-		echo '</div>';
-		
-		echo '<div class="suggestionsBox" id="suggestions" style="display: none;">';
-		echo '<img src="'. Theme :: get_common_img_path() . 'arrow.png' .'" style="position: relative; top: -15px; left: 20px" alt="upArrow" />';
-		echo '<div class="suggestionList" id="autoSuggestionsList">';
-		echo '</div>';
 		echo '</div>';
 		
 		if ($form->validate())

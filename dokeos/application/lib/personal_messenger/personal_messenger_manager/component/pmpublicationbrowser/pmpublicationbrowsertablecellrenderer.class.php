@@ -42,11 +42,11 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 			case PersonalMessagePublication :: PROPERTY_STATUS:
 				if ($personal_message->get_status() == 1)
 				{
-					return '<img src="'.Theme :: get_common_img_path().'personal_message_new.png" />';
+					return '<img src="'.Theme :: get_common_img_path().'learning_object/personal_message_new.png" />';
 				}
 				else
 				{
-					return '<img src="'.Theme :: get_common_img_path().'personal_message.png" />';
+					return '<img src="'.Theme :: get_common_img_path().'learning_object/personal_message.png" />';
 				}
 				break;
 			case PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE:
@@ -85,7 +85,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 			$toolbar_data[] = array(
 				'href' => $reply_url,
 				'label' => Translation :: get('Reply'),
-				'img' => Theme :: get_common_img_path().'reply.png'
+				'img' => Theme :: get_common_img_path().'action-reply.png'
 			);
 		}
 	
