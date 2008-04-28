@@ -1116,7 +1116,7 @@ input#attachments_expand_button
 {
 	border: 0;
 	background: transparent;
-	background-image: url(../img/common/action-attachment.png);
+	background-image: url(../img/common/action_attachment.png);
 	background-position: 0 50%;
 	background-repeat: no-repeat;
 	padding: 0 0 0 18px;

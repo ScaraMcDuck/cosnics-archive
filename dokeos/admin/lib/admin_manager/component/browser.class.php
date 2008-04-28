@@ -46,7 +46,7 @@ class AdminBrowserComponent extends AdminComponent
 		{
 			$search_form_index++;
 			$html[] = '<div class="admin_section">';
-			$html[] = '<div class="main"><img src="'. Theme :: get_img_path() . $application_links['application']['class'] .'.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />'. $application_links['application']['name'] .'</div>';
+			$html[] = '<div class="main"><img src="'. Theme :: get_img_path() . 'place_' . $application_links['application']['class'] .'.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />'. $application_links['application']['name'] .'</div>';
 			$html[] = '<div class="actions">';
 			if (count($application_links['links']))
 			{
