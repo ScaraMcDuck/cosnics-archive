@@ -72,13 +72,13 @@ class CalendarTool extends RepositoryTool
 		$toolbar_data = array();
 		$toolbar_data[] = array(
 			'href' => $this->get_url(array('view'=>'list')),
-			'img' => Theme :: get_img_path().'calendar_down.png',
+			'img' => Theme :: get_img_path().'tool_calendar_down.png',
 			'label' => Translation :: get('ListView'),
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		$toolbar_data[] = array(
 			'href' => $this->get_url(array('view'=>'month')),
-			'img' => Theme :: get_img_path().'calendar_month.png',
+			'img' => Theme :: get_img_path().'tool_calendar_month.png',
 			'label' => Translation :: get('MonthView'),
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
@@ -90,7 +90,7 @@ class CalendarTool extends RepositoryTool
 		);
 		$toolbar_data[] = array(
 			'href' => $this->get_url(array('view'=>'day')),
-			'img' => Theme :: get_img_path().'calendar_day.png',
+			'img' => Theme :: get_img_path().'tool_calendar_day.png',
 			'label' => Translation :: get('DayView'),
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
