@@ -34,7 +34,7 @@ class LinkTool extends RepositoryTool
 			$option = array();
 			$current = ($_SESSION['linktoolmode'] == $i);
 			
-			$option['img'] =  Theme :: get_common_img_path().'action-'.$key.'.png';
+			$option['img'] =  Theme :: get_common_img_path().'action_'.$key.'.png';
 			$option['label'] = Translation :: get($title);
 			$option['display'] = RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL;
 			if (!$current)

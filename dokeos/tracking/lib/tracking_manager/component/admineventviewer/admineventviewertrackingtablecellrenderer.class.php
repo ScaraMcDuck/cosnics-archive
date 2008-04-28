@@ -38,15 +38,15 @@ class AdminEventViewerTrackingTableCellRenderer
 			'label' => ($tracker->get_active() == 1)?Translation :: get('Hide'):Translation :: get('Visible'),
 			'confirm' => false,
 			'img' => ($tracker->get_active() == 1)?
-				(Theme :: get_common_img_path().'action-visible.png'):
-				(Theme :: get_common_img_path().'action-invisible.png')
+				(Theme :: get_common_img_path().'action_visible.png'):
+				(Theme :: get_common_img_path().'action_invisible.png')
 		);
 		
 		$toolbar_data[] = array(
 			'href' => $this->eventviewer->get_empty_tracker_url($this->event->get_id(), $tracker->get_id()),
 			'label' => Translation :: get('Empty_Tracker'),
 			'confirm' => true,
-			'img' => Theme :: get_common_img_path().'action-delete.png'
+			'img' => Theme :: get_common_img_path().'action_delete.png'
 		);
 		
 		return RepositoryUtilities :: build_toolbar($toolbar_data);

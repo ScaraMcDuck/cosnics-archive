@@ -120,7 +120,7 @@ class Theme
     	}
     	else
     	{
-    		return $instance->get_common_img_path() . $img_size . '/status-missing.png';
+    		return $instance->get_common_img_path() . $img_size . '/status_missing.png';
     	}
     }
     

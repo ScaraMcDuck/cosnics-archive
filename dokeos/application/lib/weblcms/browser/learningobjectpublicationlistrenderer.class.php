@@ -79,7 +79,7 @@ abstract class LearningObjectPublicationListRenderer
 	{
 		if($publication->is_email_sent())
 		{
-			$email_suffix = ' - <img src="'.Theme :: get_common_img_path().'action-email.png" alt="" style="vertical-align: middle;"/>';
+			$email_suffix = ' - <img src="'.Theme :: get_common_img_path().'action_email.png" alt="" style="vertical-align: middle;"/>';
 		}
 		if ($publication->is_for_everybody())
 		{
@@ -166,13 +166,13 @@ abstract class LearningObjectPublicationListRenderer
 	{
 		if (!$first)
 		{
-			$up_img = 'action-up.png';
+			$up_img = 'action_up.png';
 			$up_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_UP, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 			$up_link = '<a href="'.$up_url.'"><img src="'.Theme :: get_common_img_path().$up_img.'" alt=""/></a>';
 		}
 		else
 		{
-			$up_link = '<img src="'.Theme :: get_common_img_path().'action-up-na.png"  alt=""/>';
+			$up_link = '<img src="'.Theme :: get_common_img_path().'action_up_na.png"  alt=""/>';
 		}
 		return $up_link;
 	}
@@ -188,13 +188,13 @@ abstract class LearningObjectPublicationListRenderer
 	{
 		if (!$last)
 		{
-			$down_img = 'action-down.png';
+			$down_img = 'action_down.png';
 			$down_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_DOWN, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 			$down_link = '<a href="'.$down_url.'"><img src="'.Theme :: get_common_img_path().$down_img.'"  alt=""/></a>';
 		}
 		else
 		{
-			$down_link = '<img src="'.Theme :: get_common_img_path().'action-down-na.png"  alt=""/>';
+			$down_link = '<img src="'.Theme :: get_common_img_path().'action_down_na.png"  alt=""/>';
 		}
 		return $down_link;
 	}
@@ -209,15 +209,15 @@ abstract class LearningObjectPublicationListRenderer
 		$visibility_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_TOGGLE_VISIBILITY, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 		if($publication->is_hidden())
 		{
-			$visibility_img = 'action-invisible.png';
+			$visibility_img = 'action_invisible.png';
 		}
 		elseif($publication->is_forever())
 		{
-			$visibility_img = 'action-visible.png';
+			$visibility_img = 'action_visible.png';
 		}
 		else
 		{
-			$visibility_img = 'action-period.png';
+			$visibility_img = 'action_period.png';
 		}
 		$visibility_link = '<a href="'.$visibility_url.'"><img src="'.Theme :: get_common_img_path().$visibility_img.'"  alt=""/></a>';
 		return $visibility_link;
@@ -231,7 +231,7 @@ abstract class LearningObjectPublicationListRenderer
 	function render_edit_action($publication)
 	{
 		$edit_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_EDIT, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-		$edit_link = '<a href="'.$edit_url.'"><img src="'.Theme :: get_common_img_path().'action-edit.png"  alt=""/></a>';
+		$edit_link = '<a href="'.$edit_url.'"><img src="'.Theme :: get_common_img_path().'action_edit.png"  alt=""/></a>';
 		return $edit_link;
 	}
 
@@ -243,7 +243,7 @@ abstract class LearningObjectPublicationListRenderer
 	function render_delete_action($publication)
 	{
 		$delete_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_DELETE, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'action-delete.png"  alt=""/></a>';
+		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'action_delete.png"  alt=""/></a>';
 		return $delete_link;
 	}
 	
@@ -255,7 +255,7 @@ abstract class LearningObjectPublicationListRenderer
 	function render_feedback_action($publication)
 	{
 		$feedback_url = $this->get_url(array (RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-		$feedback_link = '<a href="'.$feedback_url.'"><img src="'.Theme :: get_common_img_path().'action-browser.png" alt=""/></a>';
+		$feedback_link = '<a href="'.$feedback_url.'"><img src="'.Theme :: get_common_img_path().'action_browser.png" alt=""/></a>';
 		return $feedback_link;
 	}
 
@@ -270,11 +270,11 @@ abstract class LearningObjectPublicationListRenderer
 		if(count($categories) > 1)
 		{
 			$url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_TO_CATEGORY, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-			$link = '<a href="'.$url.'"><img src="'.Theme :: get_common_img_path().'action-move.png"  alt=""/></a>';
+			$link = '<a href="'.$url.'"><img src="'.Theme :: get_common_img_path().'action_move.png"  alt=""/></a>';
 		}
 		else
 		{
-			$link = '<img src="'.Theme :: get_common_img_path().'action-move-na.png"  alt=""/>';
+			$link = '<img src="'.Theme :: get_common_img_path().'action_move_na.png"  alt=""/>';
 		}
 		return $link;
 	}

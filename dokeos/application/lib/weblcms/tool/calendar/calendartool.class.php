@@ -33,7 +33,7 @@ class CalendarTool extends RepositoryTool
 		}
 		if ($_SESSION['calendaradmin'])
 		{
-			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), true) . '"><img src="'.Theme :: get_common_img_path().'action-browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
+			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), true) . '"><img src="'.Theme :: get_common_img_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
 			$pub = new LearningObjectPublisher($this, 'calendar_event');
 			$event = new CalendarEvent();
@@ -51,7 +51,7 @@ class CalendarTool extends RepositoryTool
 			$this->display_header($trail);
 			if($this->is_allowed(ADD_RIGHT))
 			{
-				echo '<p><a href="' . $this->get_url(array('admin' => 1), true) . '"><img src="'.Theme :: get_common_img_path().'action-publish.png" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';
+				echo '<p><a href="' . $this->get_url(array('admin' => 1), true) . '"><img src="'.Theme :: get_common_img_path().'action_publish.png" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';
 			}
 			echo $this->perform_requested_actions();
 			if($_GET[self :: PARAM_ACTION] == self :: ACTION_DELETE || $_GET['view'] == 'list')
@@ -138,7 +138,7 @@ class CalendarTool extends RepositoryTool
 		$publication = $datamanager->retrieve_learning_object_publication($publication_id);
 		$html = array();
 		$html[] = $renderer->render_publication($publication);
-		$html[] = '<div id="back_link" style="margin-top: 1em;"><a href="'.$this->get_url(array(), true).'"><img src="'.Theme :: get_common_img_path().'action-prev.png"/> '.htmlentities(Translation :: get('Back')).'</a></div>';
+		$html[] = '<div id="back_link" style="margin-top: 1em;"><a href="'.$this->get_url(array(), true).'"><img src="'.Theme :: get_common_img_path().'action_prev.png"/> '.htmlentities(Translation :: get('Back')).'</a></div>';
 		echo implode("\n",$html);
 	}
 	/**

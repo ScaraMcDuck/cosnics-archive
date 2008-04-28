@@ -188,7 +188,7 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 		$toolbar_data[] = array(
 			'href' => $this->get_course_category_add_url(),
 			'label' => Translation :: get('CreateCourseCategory'),
-			'img' => Theme :: get_common_img_path().'action-create.png',
+			'img' => Theme :: get_common_img_path().'action_create.png',
 			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		

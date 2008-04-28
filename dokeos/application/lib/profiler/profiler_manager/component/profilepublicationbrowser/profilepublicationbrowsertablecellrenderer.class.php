@@ -66,7 +66,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
 				'href' => $delete_url,
 				'label' => Translation :: get('Delete'),
 				'confirm' => true,
-				'img' => Theme :: get_common_img_path().'action-delete.png'
+				'img' => Theme :: get_common_img_path().'action_delete.png'
 			);
 		}
 	

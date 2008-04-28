@@ -443,18 +443,18 @@ a.personal_agenda:hover, a.personal_agenda:hover {color: #666666; }
 	padding-left: 50px;
 }
 .normal-message {
-	background-image: url('../img/common/status-confirmation.png');
+	background-image: url('../img/common/status_confirmation.png');
 	background-color: #E5EDF9;
 	border-color: #4171B5;
 }
 .error-message {
-	background-image: url('../img/common/status-error.png');
+	background-image: url('../img/common/status_error.png');
 	background-color: #FFD1D1;
 	border-color: red;
 }
 
 .warning-message {
-	background-image: url('../img/common/status-warning.png');
+	background-image: url('../img/common/status_warning.png');
 	background-color: #ffedd1;
 	border-color: #ff9900;
 }
@@ -944,12 +944,12 @@ div.versions, div.versions_na
 
 div.versions
 {
-	background: url(../img/common/versions.png) no-repeat 10px 10px;
+	background: url(../img/common/place_versions.png) no-repeat 10px 10px;
 }
 
 div.versions_na
 {
-	background: url(../img/common/versions_na.png) no-repeat 10px 10px;
+	background: url(../img/common/place_versions_na.png) no-repeat 10px 10px;
 }
 
 div.versions_title
@@ -982,12 +982,12 @@ div.version_stats, div.version_stats_na
 
 div.version_stats
 {
-	background: url(../img/common/version_quota.png) no-repeat 10px 10px;
+	background: url(../img/common/place_version_quota.png) no-repeat 10px 10px;
 }
 
 div.version_stats_na
 {
-	background: url(../img/common/version_quota_na.png) no-repeat 10px 10px;
+	background: url(../img/common/place_version_quota_na.png) no-repeat 10px 10px;
 }
 
 div.version_stats_title
@@ -1061,12 +1061,12 @@ div.publications, div.publications_na
 
 div.publications
 {
-	background: url(../img/common/publications.png) no-repeat 10px 10px;
+	background: url(../img/common/place_publications.png) no-repeat 10px 10px;
 }
 
 div.publications_na
 {
-	background: url(../img/common/publications_na.png) no-repeat 10px 10px;
+	background: url(../img/common/place_publications_na.png) no-repeat 10px 10px;
 }
 
 div.publications_title
@@ -1126,7 +1126,7 @@ input#attachments_expand_button
 {
 	border: 0;
 	background: transparent;
-	background-image: url(../img/common/action-attachment.png);
+	background-image: url(../img/common/action_attachment.png);
 	background-position: 0 50%;
 	background-repeat: no-repeat;
 	padding: 0 0 0 18px;
@@ -1625,7 +1625,7 @@ table.mini
 
 input.search_query
 {
-	background: url(../img/common/action-search.png) 1px 50% no-repeat;
+	background: url(../img/common/action_search.png) 1px 50% no-repeat;
 	padding: 0 0 0 21px;
 }
 
