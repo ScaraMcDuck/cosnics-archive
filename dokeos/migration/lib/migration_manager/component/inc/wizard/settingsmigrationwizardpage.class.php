@@ -69,6 +69,7 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$this->addElement('checkbox', 'migrate_scorms', '', Translation :: get('migrate_scorms'), 'onclick=\'scorms_clicked()\' style=\'margin-left: 40px;\'');
 		$this->addElement('checkbox', 'migrate_assignments', '', Translation :: get('migrate_assignments'), 'onclick=\'assignments_clicked()\' style=\'margin-left: 40px;\'');
 		$this->addElement('checkbox', 'migrate_userinfos', '', Translation :: get('migrate_userinfos'), 'onclick=\'userinfos_clicked()\' style=\'margin-left: 40px;\'');
+		$this->addElement('checkbox', 'migrate_trackers', '', Translation :: get('migrate_trackers'), 'onclick=\'trackers_clicked()\' style=\'margin-left: 40px;\'');
 		
 		$this->addElement('checkbox', 'migrate_deleted_files', '', 
 			Translation :: get('migrate_deleted_files'), 'onclick=\'deleted_files_clicked("' . 
@@ -115,6 +116,7 @@ class SettingsMigrationWizardPage extends MigrationWizardPage
 		$defaults['migrate_scorms'] = '1';
 		$defaults['migrate_assignments'] = '1';
 		$defaults['migrate_userinfos'] = '1';
+		$defaults['migrate_trackers'] = '1';
 		$defaults['migrate_deleted_files'] = '0';
 		$defaults['move_files'] = '0';
 		$this->setDefaults($defaults);

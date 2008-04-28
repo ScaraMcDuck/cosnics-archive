@@ -275,7 +275,15 @@ class Dokeos185SystemAnnouncement extends Import
 		$tablename = 'sys_announcement';
 		$classname = 'Dokeos185SystemAnnouncement';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+	}
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'main_database';
+		$array['table'] = 'sys_announcement';
+		return $array;
 	}
 }
 ?>

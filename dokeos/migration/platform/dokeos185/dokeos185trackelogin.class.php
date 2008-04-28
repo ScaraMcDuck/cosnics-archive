@@ -4,6 +4,7 @@
  */
 
 require_once dirname(__FILE__) . '/../../lib/import/importtrackelogin.class.php';
+require_once dirname(__FILE__) . '/../../../users/trackers/login_logout_tracker.class.php';
 
 /**
  * This class presents a Dokeos185 track_e_login
@@ -133,7 +134,14 @@ class Dokeos185TrackELogin extends ImportTrackELogin
 	 */
 	function is_valid($array)
 	{
-		$course = $array['course'];
+		if(!$this->get_login_user_id() || !$this->get_login_date()
+			|| !$this->get_login_ip() ||
+			self :: $mgdm->get_failed_element($this->get_login_user_id(),'dokeos_main.user'))
+		{		 
+			self :: $mgdm->add_failed_element($this->get_id(),'track_e_login');
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -142,7 +150,26 @@ class Dokeos185TrackELogin extends ImportTrackELogin
 	 */
 	function convert_to_lcms($array)
 	{	
-		$course = $array['course'];
+		$login = new LoginLogoutTracker();
+		$new_user_id = self :: $mgdm->get_id_reference($this->get_login_user_id(),'user_user');
+		echo
+		$login->set_user_id($new_user_id);
+		$login->set_ip($this->get_login_ip());
+		$login->set_date($this->get_login_date());
+		$login->set_type('login');
+		
+		$login->create();
+		
+		if ($this->get_logout_date() != null)
+		{
+			$login = new LoginLogoutTracker();
+			$login->set_user_id($new_user_id);
+			$login->set_ip($this->get_login_ip());
+			$login->set_date($this->get_logout_date());
+			$login->set_type('logout');
+			$login->create();
+		}
+		return $login;
 	}
 	
 	/**
@@ -158,7 +185,15 @@ class Dokeos185TrackELogin extends ImportTrackELogin
 		$tablename = 'track_e_login';
 		$classname = 'Dokeos185TrackELogin';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+	}
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'statistics_database';
+		$array['table'] = 'track_e_login';
+		return $array;
 	}
 }
 

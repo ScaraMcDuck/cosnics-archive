@@ -146,13 +146,20 @@ class Dokeos185Role extends ImportRole
 	{
 		self :: $mgdm = $parameters['mgdm'];
 		
-		$db = $parameters['course'];
+		$db = $parameters['course']->get_db_name();
 		$tablename = 'role';
 		$classname = 'Dokeos185Role';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
-
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = $parameters['course']->get_db_name();
+		$array['table'] = 'role';
+		return $array;
+	}
 }
 
 ?>

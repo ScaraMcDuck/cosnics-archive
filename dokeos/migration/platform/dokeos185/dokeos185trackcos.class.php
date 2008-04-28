@@ -4,13 +4,14 @@
  */
 
 require_once dirname(__FILE__) . '/../../lib/import/importtrackcos.class.php';
+require_once dirname(__FILE__) . '/../../../users/trackers/os_tracker.class.php';
 
 /**
  * This class presents a Dokeos185 track_c_os
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackCOs extends ImportTrackC0s
+class Dokeos185TrackCOs extends ImportTrackCOs
 {
 	private static $mgdm;
 	
@@ -113,7 +114,12 @@ class Dokeos185TrackCOs extends ImportTrackC0s
 	 */
 	function is_valid($array)
 	{
-		$course = $array['course'];
+		if(!$this->get_os() || $this->get_counter()==null)
+		{		 
+			self :: $mgdm->add_failed_element($this->get_id(),'track_c_os');
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -122,7 +128,27 @@ class Dokeos185TrackCOs extends ImportTrackC0s
 	 */
 	function convert_to_lcms($array)
 	{	
-		$course = $array['course'];
+		$conditions = array();
+    	$conditions[] = new EqualityCondition('type', 'os');
+    	$conditions[] = new EqualityCondition('name', $this->get_os());
+    	$condtion = new AndCondition($conditions);
+		$ostracker = new OSTracker();
+		$trackeritems = $ostracker->retrieve_tracker_items($condtion);
+    	
+    	if(count($trackeritems) != 0)
+    	{
+    		$ostracker = $trackeritems[0];
+    		$ostracker->set_value($ostracker->get_value() + $this->get_counter());
+    		$ostracker->update();
+    	}
+    	else
+    	{
+    		
+    		$ostracker->set_name($this->get_os());
+    		$ostracker->set_value($this->get_counter());
+    		$ostracker->create();
+    	}
+    	return $ostracker;
 	}
 	
 	/**
@@ -136,9 +162,17 @@ class Dokeos185TrackCOs extends ImportTrackC0s
 		
 		$db = 'statistics_database';
 		$tablename = 'track_c_os';
-		$classname = 'Dokeos185TrackC0s';
+		$classname = 'Dokeos185TrackCOs';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+	}
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'statistics_database';
+		$array['table'] = 'track_c_os';
+		return $array;
 	}
 }
 

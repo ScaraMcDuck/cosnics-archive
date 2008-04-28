@@ -150,9 +150,16 @@ class Dokeos185SettingsOptions extends ImportSettingsOptions
 		$tablename = 'settings_options';
 		$classname = 'Dokeos185SettingsOptions';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
-
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'main_database';
+		$array['table'] = 'settings_options';
+		return $array;
+	}
 }
 
 ?>

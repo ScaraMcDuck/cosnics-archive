@@ -85,6 +85,7 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['migrate_settings']) && $exportvalues['migrate_settings'] == 1)
 		{	
 			//Migrate system settings
+			$condition = new EqualityCondition('category', 'Platform');
 			//$this->migrate_system_settings();
 			$this->migrate('SettingCurrent', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
 			//Migrate system announcements

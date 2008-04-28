@@ -104,8 +104,10 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 						continue;
 					}	
 					
+					$condition = new EqualityCondition('filetype', 'file');
+					
 					//$this->migrate_documents($course);
-					$this->migrate('Document', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
+					$this->migrate('Document', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files, 'condition' => $condition), array(), $course,0);
 					unset($courses[$i]);
 					flush();
 				}

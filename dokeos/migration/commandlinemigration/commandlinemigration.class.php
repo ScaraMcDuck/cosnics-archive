@@ -18,7 +18,7 @@
 			if($migration->perform())
 			{
 				
-				$info = newlines($migration->get_info());
+				$info = $this->newlines($migration->get_info());
 				$pos = strpos($info, Translation :: get('Dont_forget') ) - 2;
 				echo(substr($info, 0, $pos));
 			}

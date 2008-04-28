@@ -261,6 +261,14 @@ class Dokeos185CourseRelUser extends ImportCourseRelUser
 		$tablename = 'course_rel_user';
 		$classname = 'Dokeos185CourseRelUser';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+	}
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'main_database';
+		$array['table'] = 'course_rel_user';
+		return $array;
 	}
 }

@@ -210,9 +210,16 @@ class Dokeos185GradebookEvaluation extends ImportGradebookEvaluation
 		$tablename = 'gradebook_evaluation';
 		$classname = 'Dokeos185GradebookEvaluation';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
-
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'main_database';
+		$array['table'] = 'gradebook_evaluation';
+		return $array;
+	}
 }
 
 ?>

@@ -196,7 +196,15 @@ class Dokeos185DropboxCategory extends ImportDropboxCategory
 		$tablename = 'dropbox_category';
 		$classname = 'Dokeos185DropboxCategory';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+	}
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = $parameters['course']->get_db_name();
+		$array['table'] = 'dropbox_category';
+		return $array;
 	}
 }
 

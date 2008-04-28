@@ -646,7 +646,7 @@ class Dokeos185User extends Import
 	static function get_all($parameters)
 	{
 		self :: $mgdm = $parameters['mgdm'];
-		return self :: $mgdm->get_all_users();	
+		return self :: $mgdm->get_all_users($parameters['offset'], $parameters['limit']);	
 	}
 	
 	/**
@@ -664,6 +664,14 @@ class Dokeos185User extends Import
 			}
 		}
 		return null;
+	}
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'main_database';
+		$array['table'] = 'user';
+		return $array;
 	}
 }
 ?>

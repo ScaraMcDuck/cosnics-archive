@@ -140,9 +140,16 @@ class Dokeos185GradebookScoreDisplay extends ImportGradebookScoreDisplay
 		$tablename = 'gradebook_score_display';
 		$classname = 'Dokeos185GradebookScoreDisplay';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
-
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'main_database';
+		$array['table'] = 'gradebook_score_display';
+		return $array;
+	}
 }
 
 ?>

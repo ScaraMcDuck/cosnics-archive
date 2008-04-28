@@ -168,9 +168,16 @@ class Dokeos185TrackEHotpotatoes extends ImportTrackEHotpotatoes
 		$tablename = 'track_e_hotpotatoes';
 		$classname = 'Dokeos185TrackEHotpotatoes';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
-
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = 'statistics_database';
+		$array['table'] = 'track_e_hotpotatoes';
+		return $array;
+	}
 }
 
 ?>

@@ -202,9 +202,16 @@ class Dokeos185ToolIntro extends ImportToolIntro
 		$tablename = 'tool_intro';
 		$classname = 'Dokeos185ToolIntro';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name);	
+		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
-
+	
+	static function get_database_table($parameters)
+	{
+		$array = array();
+		$array['database'] = $parameters['course']->get_db_name();
+		$array['table'] = 'tool_intro';
+		return $array;
+	}
 }
 
 ?>

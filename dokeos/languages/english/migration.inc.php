@@ -56,6 +56,7 @@ $lang['migration']['migrate_userinfos'] = "Migrate userinfos";
 $lang['migration']['migrate_blogs'] = "Migrate blogs";
 $lang['migration']['migrate_gradebooks'] = "Migrate gradebooks";
 $lang['migration']['migrate_permissions'] = "Migrate permissions";
+$lang['migration']['migrate_trackers'] = "Migrate trackers";
 
 $lang['migration']['migrate_deleted_files'] = "Migrate deleted files - When you select this option all deleted files from the old system will be migrated to the recycle bin";
 $lang['migration']['confirm_deleted_files'] = "Are you sure you wish to migrate the deleted files";
@@ -286,7 +287,7 @@ $lang['migration']['Shared_survey_question_options'] = "Userinfo content(s)";
 
 //Tracker page
 $lang['migration']['Trackers'] = "Tracker(s)";
-$lang['migration']['Trackers_title'] = "Tracker(s) migration";
+$lang['migration']['Trackers_title'] = "Trackers migration";
 $lang['migration']['Trackers_info'] = "In the next step we will migrate the trackers";
 $lang['migration']['Tracker_c_os'] = "Operating System Tracker(s)";
 $lang['migration']['Tracker_c_browsers'] = "Browser Tracker(s)";

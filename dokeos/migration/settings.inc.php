@@ -3,7 +3,7 @@
  * Settings for commandline migration
  */
 $exportvalues['old_system'] = 'dokeos185';
-$exportvalues['old_directory'] = '/var/www/html/bron/';
+$exportvalues['old_directory'] = 'c:/documents and settings/eigenaar/workspace/dokeos';
 $exportvalues['migrate_users'] = '1';
 $exportvalues['migrate_personal_agendas'] = '1';
 $exportvalues['migrate_settings'] = '1';
@@ -14,9 +14,10 @@ $exportvalues['migrate_groups'] = '1';
 $exportvalues['migrate_announcements'] = '1';
 $exportvalues['migrate_calendar_events'] = '1';
 $exportvalues['migrate_documents'] = '1';
+$exportvalues['migrate_links'] = '1';
 $exportvalues['migrate_dropboxes'] = '1';
 $exportvalues['migrate_forums'] = '1';
-$exportvalues['migrate_learningpaths'] = '1';
+$exportvalues['migrate_learning_paths'] = '1';
 $exportvalues['migrate_quizzes'] = '1';
 $exportvalues['migrate_student_publications'] = '1';
 $exportvalues['migrate_surveys'] = '1';

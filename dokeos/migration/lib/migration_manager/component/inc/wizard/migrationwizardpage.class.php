@@ -125,34 +125,56 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 			$final_message = $type . ' migrated';
 		}
 		
-		$items = $class->get_all($retrieve_parms);
+		$database_table = $class->get_database_table($retrieve_parms);
 
-		foreach($items as $j => $item)
-		{
-			
-			if($item->is_valid($convert_parms))
+		$max_records = $this->mgdm->count_records($database_table['database'],$database_table['table'], $retrieve_parms['condition']);
+		$current_record = 0;
+		
+		while ($max_records > 0)
+		{	
+			if ($max_records - 1000 > 0)
 			{
-				$lcms_item = $item->convert_to_lcms($convert_parms);
-				if($lcms_item)
-				{
-					$message = $this->write_succes($lcms_item, $extra_message, $type);
-					$this->logfile->add_message($message);
-					$this->succes[$i]++;
-				}
-				unset($lcms_item);
+				$retrieve_parms['offset'] = $current_record;
+				$retrieve_parms['limit'] = 1000;
 			}
 			else
 			{
-				if (!($item instanceof Dokeos185SettingCurrent))	
+				$retrieve_parms['offset'] = $current_record;
+				$retrieve_parms['limit'] = $max_records;
+			} 
+			
+			$items = array();
+			$items = $class->get_all($retrieve_parms);
+			
+			foreach($items as $j => $item)
+			{
+				
+				if($item->is_valid($convert_parms))
 				{
-					$message = $this->write_failed($item, $extra_message, $type);
-					$this->logfile->add_message($message);
-					$this->failed_elements[$i][] = $message;
+					$lcms_item = $item->convert_to_lcms($convert_parms);
+					if($lcms_item)
+					{
+						$message = $this->write_succes($lcms_item, $extra_message, $type);
+						$this->logfile->add_message($message);
+						$this->succes[$i]++;
+					}
+					unset($lcms_item);
 				}
+				else
+				{
+					if (!($item instanceof Dokeos185SettingCurrent))	
+					{
+						$message = $this->write_failed($item, $extra_message, $type);
+						$this->logfile->add_message($message);
+						$this->failed_elements[$i][] = $message;
+					}
+				}
+				unset($items[$j]);
 			}
-			unset($items[$j]);
+			$this->logfile->add_message($retrieve_parms['limit']  . ' records done');
+			$current_record += $retrieve_parms['limit'];
+				$max_records -= $retrieve_parms['limit'];
 		}
-		
 		$this->logfile->add_message($final_message);
 	}
 	
@@ -181,7 +203,7 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 		switch(true)
 		{
 			case ($item instanceof Dokeos185CourseRelUser) : return 'FAILED: ' . $type . 
-							' is not valid ( ID: ' . $item->get_user_id() . '-' . $item->get_course_code() . $extra_message . ' )';
+							' is not valid ( User: ' . $item->get_user_id() . ' Course:' . $item->get_course_code() . $extra_message . ' )';
 			
 			case ($item instanceof Dokeos185DropboxFeedback) : return 'FAILED: ' . $type . 
 							' is not valid ( ID: ' . $item->get_feedback_id() . $extra_message . ' )';	
@@ -226,13 +248,13 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 			case ($item instanceof User) : return 'SUCCES: ' . $type . ' added ( ID: ' . $item->get_user_id() . $extra_message . ' )';
 			
 			case ($item instanceof CourseUserRelation) : return 'SUCCES: ' . $type . ' added ( Course: ' 
-					. $item->get_course() . ' UserID: ' .
+					. $item->get_course() . ' User: ' .
 					  $item->get_user() . ' )';
 			
-			case ($item instanceof ClassGroupRelUser) : return 'SUCCES: ' . $type . ' added ( ID: ' . $item->get_classgroup_id() . $extra_message . ' )'; 
+			case ($item instanceof ClassGroupRelUser) : return 'SUCCES: ' . $type . ' added ( Class: ' . $item->get_classgroup_id() . ' UserID:' . $item->get_user_id() . $extra_message . ' )'; 
 			
 			case ($item instanceof Dokeos185CourseRelUser) : return 'SUCCES: ' . $type . 
-							' added ( ID: ' . $item->get_user() . '-' . $item->get_course() . $extra_message . ' )';
+							' added ( Course: ' . $item->get_course() . ' User:' . $item->get_user() . $extra_message . ' )';
 							
 			default: return 'SUCCES: ' . $type . ' added ( ID: ' . $item->get_id() . $extra_message . ' )';
 		}

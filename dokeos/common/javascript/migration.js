@@ -217,6 +217,15 @@ function userinfos_clicked()
 	}
 }
 
+function trackers_clicked()
+{
+	if(document.page_ssettings.migrate_trackers.checked == true)
+	{
+		document.page_ssettings.migrate_courses.checked = true;
+		document.page_ssettings.migrate_users.checked = true;
+	}
+}
+
 function deleted_files_clicked(message)
 {
 	if(document.page_ssettings.migrate_deleted_files.checked == true)
