@@ -134,6 +134,24 @@ class LoginLogoutTracker extends MainTracker
     {
     	$this->set_property(self :: PROPERTY_TYPE, $type);
     }
+    
+    /**
+     * Inherited
+     */
+    function get_default_property_names()
+    { 
+    	return array_merge(MainTracker :: get_default_property_names(), array(self :: PROPERTY_TYPE, 
+    				 self :: PROPERTY_USER_ID, self :: PROPERTY_DATE, self :: PROPERTY_IP));
+    }
+    
+    /**
+     * Inherited
+     * @see MainTracker :: is_summary_tracker
+     */
+    function is_summary_tracker()
+    {
+    	return false;
+    }
 
 }
 ?>

@@ -61,9 +61,8 @@ class CountriesTracker extends UserTracker
      */
     function export($start_date, $end_date, $event)
     {
-    	$conditions = array();
-    	$conditions[] = new EqualityCondition('type', 'country');
-    	return parent :: export($start_date, $end_date, $conditions);
+    	$condition = new EqualityCondition('type', 'country');
+    	return $this->retrieve_tracker_items($condition);
     }
     
     /**

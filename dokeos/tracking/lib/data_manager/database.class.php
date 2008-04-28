@@ -84,11 +84,12 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 		// If table allready exists -> drop it
 		// @todo This should change: no automatic table drop but warning to user
 		$tables = $manager->listTables();
-
+		
 		if( in_array($name,$tables))
 		{
 			$manager->dropTable($name);
 		}
+		
 		$options['charset'] = 'utf8';
 		$options['collate'] = 'utf8_unicode_ci';
 		if (!MDB2 :: isError($manager->createTable($name,$properties,$options)))
@@ -118,6 +119,16 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 			return false;
 		}
 
+	}
+	
+	/**
+	 * Retrieves the tables of this database
+	 */
+	function get_tables()
+	{
+		$this->connection->loadModule('Manager');
+		$manager = $this->connection->manager;
+		return $manager->listTables();
 	}
 	
 	
@@ -575,7 +586,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	{
 		$query = 'SELECT * FROM ' . $this->escape_table_name($tablename) . ' AS ' . 
 				 self :: ALIAS_TRACKER_TABLE;
-		
+
 		$params = array ();
 		if (isset ($condition))
 		{
@@ -654,6 +665,24 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 		$statement = $this->connection->prepare($query);
 		$result = $statement->execute($params);
 
+		return true;
+	}
+	
+	/**
+	 * Creates a archive controller item in the database
+	 * @param ArchiveControllerItem
+	 * @return true if creation is valid
+	 */
+	function create_archive_controller_item($archive_controller_item)
+	{
+		$props = array();
+		foreach ($archive_controller_item->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('archive_controller'), $props, MDB2_AUTOQUERY_INSERT);
+		
 		return true;
 	}
 	

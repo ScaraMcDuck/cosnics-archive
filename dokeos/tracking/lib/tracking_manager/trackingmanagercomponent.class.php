@@ -285,5 +285,17 @@ abstract class TrackingManagerComponent
 	{
 		return $this->get_parent()->retrieve_tracker_registration($tracker_id);
 	}
+	
+	/**
+	 * Retrieves an event by name
+	 * @param string $eventname 
+	 * @return Event event
+	 * @see TrackingManager :: retrieve_event_by_name
+	 */
+	function retrieve_event_by_name($eventname)
+	{
+		return $this->get_parent()->retrieve_event_by_name($eventname);
+	}
+	
 }
 ?>

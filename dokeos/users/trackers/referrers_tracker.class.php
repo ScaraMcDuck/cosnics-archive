@@ -60,9 +60,8 @@ class ReferrersTracker extends UserTracker
      */
     function export($start_date, $end_date)
     {
-    	$conditions = array();
-    	$conditions[] = new EqualityCondition('type', 'referer');
-    	return parent :: export($start_date, $end_date, $conditions);
+    	$condition = new EqualityCondition('type', 'referer');
+    	return $this->retrieve_tracker_items($condition);
     }
 }
 ?>

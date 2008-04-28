@@ -85,6 +85,15 @@ abstract class UserTracker extends MainTracker
     {
     	$this->set_property(self :: PROPERTY_VALUE, $value);
     }
+    
+    /**
+     * Inherited
+     * @see MainTracker :: is_summary_tracker
+     */
+    function is_summary_tracker()
+    {
+    	return true;
+    }
 
 }
 ?>
