@@ -415,8 +415,8 @@ require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => Translation :: get('ClassGroupList'), 'action' => 'list', 'url' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)));
-		$links[] = array('name' => Translation :: get('ClassGroupCreate'), 'action' => 'add', 'url' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_CREATE_CLASSGROUP)));
+		$links[] = array('name' => Translation :: get('List'), 'action' => 'list', 'url' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)));
+		$links[] = array('name' => Translation :: get('Create'), 'action' => 'add', 'url' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_CREATE_CLASSGROUP)));
 		return array('application' => array('name' => Translation :: get('ClassGroup'), 'class' => 'classgroup'), 'links' => $links, 'search' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)));
 	}
 	

@@ -72,7 +72,7 @@ class AdminSearchForm extends FormValidator
 	 */
 	function AdminSearchForm($manager, $url, $form_id = '')
 	{
-		parent :: __construct(self :: FORM_NAME, 'post', $url);
+		parent :: __construct(self :: FORM_NAME . $form_id, 'post', $url);
 		$this->updateAttributes(array('id'=>self :: FORM_NAME.$form_id));
 		$this->renderer = clone $this->defaultRenderer();
 		$this->manager = $manager;

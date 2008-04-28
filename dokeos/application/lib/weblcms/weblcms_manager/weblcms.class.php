@@ -1176,11 +1176,11 @@ class Weblcms extends WebApplication
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => Translation :: get('CourseCreate'), 'action' => 'add', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)));
-		$links[] = array('name' => Translation :: get('CourseCreateCsv'), 'action' => 'import', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSES)));
+		$links[] = array('name' => Translation :: get('List'), 'action' => 'list', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)));
+		$links[] = array('name' => Translation :: get('Create'), 'action' => 'add', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)));
+		$links[] = array('name' => Translation :: get('Import'), 'action' => 'import', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSES)));
 		$links[] = array('name' => Translation :: get('CourseCategoryManagement'), 'action' => 'category', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_COURSE_CATEGORY_MANAGER)));
-		$links[] = array('name' => Translation :: get('AddUserToCourseCsv'), 'action' => 'import', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSE_USERS)));
-		$links[] = array('name' => Translation :: get('CourseList'), 'action' => 'list', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)));
+		$links[] = array('name' => Translation :: get('UserImport'), 'action' => 'import', 'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSE_USERS)));
 		return array('application' => array('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)));
 	}
 
