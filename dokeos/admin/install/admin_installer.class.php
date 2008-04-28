@@ -145,6 +145,9 @@ class AdminInstaller extends Installer
 		$settings[] = array('admin', 'allow_registration', $values['self_reg']);
 		
 		$settings[] = array('tracker', 'enable_tracking', '1');
+		$tdm = TrackingDataManager :: get_instance();
+		$time = $tdm->to_db_date(time());
+		$settings[] = array('tracker', 'last_time_archived', $time);
 		
 		foreach ($settings as $setting)
 		{

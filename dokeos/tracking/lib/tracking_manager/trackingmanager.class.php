@@ -30,11 +30,13 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 	const PARAM_TRACKER_ID = 'track_id';
 	const PARAM_REF_ID = 'ref_id';
 	const PARAM_TYPE = 'type';
+	const PARAM_EXTRA = 'extra';
 	
 	const ACTION_BROWSE_EVENTS = 'browse_events';
 	const ACTION_VIEW_EVENT = 'view_event';
 	const ACTION_CHANGE_ACTIVE = 'changeactive';
 	const ACTION_EMPTY_TRACKER = 'empty_tracker';
+	const ACTION_ARCHIVE = 'archive';
 	
 	private $user;
 	private $tdm;
@@ -71,8 +73,11 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 			case self :: ACTION_EMPTY_TRACKER :
 				$component = TrackingManagerComponent :: factory('EmptyTracker', $this);
 				break;
+			case self :: ACTION_ARCHIVE :
+				$component = TrackingManagerComponent :: factory('Archiver', $this);
+				break;
 			default :
-				$component = TrackingManagerComponent :: factory('AdminEventsBrowser', $this);
+				$component = TrackingManagerComponent :: factory('Archiver', $this);
 				break;
 		}
 		
@@ -275,6 +280,7 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 	{
 		$links = array();
 		$links[] = array('name' => Translation :: get('TrackersList'), 'action' => 'list', 'url' => $this->get_link(array(TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS)));
+		$links[] = array('name' => Translation :: get('Archive'), 'action' => 'archive', 'url' => $this->get_link(array(TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)));
 		return array('application' => array('name' => Translation :: get('Tracking'), 'class' => 'tracking'), 'links' => $links);
 	}
 	
@@ -413,6 +419,16 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 	function retrieve_tracker_registration($tracker_id)
 	{
 		return $this->tdm->retrieve_tracker_registration($tracker_id);
+	}
+	
+	/**
+	 * Retrieves an event by name
+	 * @param string $eventname 
+	 * @return Event event
+	 */
+	function retrieve_event_by_name($eventname)
+	{
+		return $this->tdm->retrieve_event_by_name($eventname);
 	}
 	
 }

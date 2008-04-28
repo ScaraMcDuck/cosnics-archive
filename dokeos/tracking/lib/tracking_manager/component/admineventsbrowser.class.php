@@ -80,7 +80,7 @@ class TrackingManagerAdminEventsBrowserComponent extends TrackingManagerComponen
 			'img' => Path :: get(WEB_LAYOUT_PATH).'img/recycle_bin.gif'
 		);
 		
-		echo '<div style="width: 100%; text-align: right"><div>Entire tracking options: </div>' . 
+		echo '<div style="width: 100%; text-align: right"><div>' . Translation :: get('Entire_tracking_options') . ': </div>' . 
 			RepositoryUtilities :: build_toolbar($toolbar_data) . '</div><br />';
 		
 		if($isactive)

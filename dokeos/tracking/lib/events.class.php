@@ -30,6 +30,11 @@ class Events
 	
 	public static function trigger_event($event_name, $parameters = array())
 	{
+		$adm = AdminDataManager :: get_instance();
+		$setting = $adm->retrieve_setting_from_variable_name('enable_tracking', 'tracker');
+		
+		if($setting->get_value() != 1) return;
+		
 		$trkdmg = TrackingDataManager :: get_instance();
 		$event = $trkdmg->retrieve_event_by_name($event_name);
 		

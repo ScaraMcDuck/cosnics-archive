@@ -70,6 +70,13 @@ abstract class MainTracker
 		return $trkdmg->remove_tracker_items($this->table, $condition);
 	}
 	
+	function delete()
+	{
+		$condition = new EqualityCondition('id', $this->get_id());
+		$trkdmg = TrackingDataManager :: get_instance();
+		return $trkdmg->remove_tracker_items($this->table, $condition);
+	}
+	
 	/**
 	 * Returns the table of the tracker
 	 * @return string the tablename
@@ -166,6 +173,11 @@ abstract class MainTracker
 	abstract function empty_tracker($event);
 	
 	/**
+	 * Returns wether the tracker is a summary tracker or not, used for archiving
+	 */
+	abstract function is_summary_tracker();
+	
+	/**
 	 * Method to export
 	 * @param Date $start_date
 	 * @param Date $end_date
@@ -177,11 +189,11 @@ abstract class MainTracker
 		$db_end_date = $this->to_db_date($end_date);
 		
 		$conditions = array();
-		$conditions = new InEqualityCondition('date', InEqualityCondition :: GREATER_THAN_OR_EQUAL, $db_start_date);
-		$conditions = new InEqualityCondition('date', InEqualityCondition :: LESS_THAN_OR_EQUAL, $db_end_date);
+		$conditions[] = new InEqualityCondition('date', InEqualityCondition :: GREATER_THAN_OR_EQUAL, $db_start_date);
+		$conditions[] = new InEqualityCondition('date', InEqualityCondition :: LESS_THAN_OR_EQUAL, $db_end_date);
 		
-		$conditions = array_merge($optional_conditions, $conditions);
-		$condition = new AndCondition($conditions);
+		$conditions2 = array_merge($optional_conditions, $conditions);
+		$condition = new AndCondition($conditions2);
 		
 		return $this->retrieve_tracker_items($condition);
 	}

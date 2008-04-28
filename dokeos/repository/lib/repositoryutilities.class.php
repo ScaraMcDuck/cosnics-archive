@@ -112,6 +112,18 @@ class RepositoryUtilities
 		list ($hours, $minutes, $seconds) = split(':', $time);
 		return mktime($hours, $minutes, $seconds, $month, $day, $year);
 	}
+	
+	/**
+	 * Converts a date/time value retrieved from a FormValidator datepicker without timepicker
+	 * element to the corresponding UNIX itmestamp.
+	 * @param string $string The date/time value.
+	 * @return int The UNIX timestamp.
+	 */
+	static function time_from_datepicker_without_timepicker($string)
+	{
+		list ($year, $month, $day) = split('-', $string);
+		return mktime(0, 0, 0, $month, $day, $year);
+	}
 
 	/**
 	 * Orders the given learning objects by their title. Note that the

@@ -6,6 +6,7 @@ require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once dirname(__FILE__) . '/trackerregistration.class.php';
 require_once dirname(__FILE__) . '/event.class.php';
 require_once dirname(__FILE__) . '/trackersetting.class.php';
+require_once dirname(__FILE__) . '/archivecontrolleritem.class.php';
 
 /**
  *	This is a skeleton for a data manager for tracking manager
@@ -156,5 +157,11 @@ abstract class TrackingDataManager
 	 * @return true if tracker items are removed
 	 */
 	abstract function remove_tracker_items($tablename, $condition);
+	/**
+	 * Creates a archive controller item in the database
+	 * @param ArchiveControllerItem
+	 * @return true if creation is valid
+	 */
+	abstract function create_archive_controller_item($archive_controller_item);
 }
 ?>

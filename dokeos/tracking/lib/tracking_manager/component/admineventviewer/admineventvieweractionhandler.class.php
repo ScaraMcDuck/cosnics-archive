@@ -31,8 +31,9 @@ class AdminEventViewerActionHandler
 	 */
 	 function get_actions()
 	 {
-	 	return array(TrackingManager :: ACTION_CHANGE_ACTIVE => Translation :: get('Change_active'),
-	 				 TrackingManager :: ACTION_EMPTY_TRACKER => Translation :: get('Empty_tracker'));
+	 	return array('enable' => Translation :: get('Enable_selected_trackers'),
+	 				 'disable' => Translation :: get('Disable_selected_trackers'),
+	 				 TrackingManager :: ACTION_EMPTY_TRACKER => Translation :: get('Empty_selected_tracker'));
 	 }
 	 
 	 /**
@@ -42,8 +43,6 @@ class AdminEventViewerActionHandler
 	 function handle_action($parameters)
 	 {
 	 	$action = $parameters['action'];
-	 	$type = $_GET[TrackingManager :: PARAM_ACTION] == TrackingManager :: ACTION_VIEW_EVENT?
-	 		'tracker':'event';
 
 	 	$ids = array();
 	 	
@@ -54,11 +53,23 @@ class AdminEventViewerActionHandler
 	 			$ids[] = substr($key, 2);
 	 		}
 	 		
-	 		$this->eventviewer->redirect('url', null, null, array(
+	 		if($action == 'enable' || $action == 'disable')
+	 		{
+	 			$this->eventviewer->redirect('url', null, null, array(
+		 				TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_CHANGE_ACTIVE, 
+		 				TrackingManager :: PARAM_EVENT_ID => $this->event->get_id(), 
+		 				TrackingManager :: PARAM_TRACKER_ID => $ids,
+		 				TrackingManager :: PARAM_TYPE => 'tracker',
+		 				TrackingManager :: PARAM_EXTRA => $action));
+	 		}
+	 		else
+	 		{
+	 			$this->eventviewer->redirect('url', null, null, array(
 	 				TrackingManager :: PARAM_ACTION => $action, 
 	 				TrackingManager :: PARAM_EVENT_ID => $this->event->get_id(), 
 	 				TrackingManager :: PARAM_TRACKER_ID => $ids,
-	 				TrackingManager :: PARAM_TYPE => $type));
+	 				TrackingManager :: PARAM_TYPE => 'tracker'));
+	 		}
 	 	}
 	 }
 

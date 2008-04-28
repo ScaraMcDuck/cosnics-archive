@@ -28,8 +28,9 @@ class AdminEventsBrowserActionHandler
 	 */
 	 function get_actions()
 	 {
-	 	return array(TrackingManager :: ACTION_CHANGE_ACTIVE => Translation :: get('Change_active'),
-	 				 TrackingManager :: ACTION_EMPTY_TRACKER => Translation :: get('Empty_tracker'));
+	 	return array('enable' => Translation :: get('Enable_selected_events'),
+	 				 'disable' => Translation :: get('Disable_selected_events'),
+	 				 TrackingManager :: ACTION_EMPTY_TRACKER => Translation :: get('Empty_selected_events'));
 	 }
 	 
 	 /**
@@ -49,10 +50,21 @@ class AdminEventsBrowserActionHandler
 	 			$ids[] = substr($key, 2);
 	 		}
 	 		
-	 		$this->eventsbrowser->redirect('url', null, null, array(
-	 				TrackingManager :: PARAM_ACTION => $action, 
-	 				TrackingManager :: PARAM_EVENT_ID => $ids, 
-	 				TrackingManager :: PARAM_TYPE => 'event'));
+	 		if($action == 'enable' || $action == 'disable')
+	 		{
+	 			$this->eventsbrowser->redirect('url', null, null, array(
+		 				TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_CHANGE_ACTIVE, 
+		 				TrackingManager :: PARAM_EVENT_ID => $ids, 
+		 				TrackingManager :: PARAM_TYPE => 'event',
+		 				TrackingManager :: PARAM_EXTRA => $action));
+	 		}
+	 		else
+	 		{
+		 		$this->eventsbrowser->redirect('url', null, null, array(
+		 				TrackingManager :: PARAM_ACTION => $action, 
+		 				TrackingManager :: PARAM_EVENT_ID => $ids, 
+		 				TrackingManager :: PARAM_TYPE => 'event'));
+	 		}
 	 	}
 	 }
 

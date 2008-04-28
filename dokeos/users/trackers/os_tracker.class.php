@@ -61,9 +61,8 @@ class OSTracker extends UserTracker
      */
     function export($start_date, $end_date, $event)
     {
-    	$conditions = array();
-    	$conditions[] = new EqualityCondition('type', 'os');
-    	return parent :: export($start_date, $end_date, $conditions);
+    	$condition = new EqualityCondition('type', 'os');
+    	return $this->retrieve_tracker_items($condition);
     }
     
     /**

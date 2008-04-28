@@ -65,7 +65,13 @@ class TrackingManagerActivityChangerComponent extends TrackingManagerComponent
 			foreach ($event_ids as $event_id)
 			{
 				$event = $this->retrieve_event($event_id);
-				$event->set_active(!$event->get_active());
+				if(isset($_GET['extra']))
+				{
+					$event->set_active($_GET['extra'] == 'enable'?1:0);
+				}
+				else
+					$event->set_active(!$event->get_active());
+				
 				if(!$event->update()) $success = false;
 			}
 			
@@ -93,7 +99,14 @@ class TrackingManagerActivityChangerComponent extends TrackingManagerComponent
 			foreach ($tracker_ids as $tracker_id)
 			{ 
 				$relation = $this->retrieve_event_tracker_relation($event_id, $tracker_id);
-				$relation->set_active(!$relation->get_active());
+				
+				if(isset($_GET['extra']))
+				{
+					$relation->set_active($_GET['extra'] == 'enable'?1:0);
+				}
+				else
+					$relation->set_active(!$relation->get_active());
+					
 				if(!$relation->update()) $success = false;
 			}
 			
