@@ -62,7 +62,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			if($tool->visible || $section == 'course_admin')
 			{
 				$lcms_action = 'make_invisible';
-				$visible_image = 'action-visible.png';
+				$visible_image = 'action_visible.png';
 				$new = '';
 				if($parent->tool_has_new_publications($tool->name))
 				{
@@ -74,7 +74,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			else
 			{
 				$lcms_action = 'make_visible';
-				$visible_image = 'action-invisible.png';
+				$visible_image = 'action_invisible.png';
 				$tool_image = 'tool_' . $tool->name.'_na.png';
 				$link_class=' class="invisible"';
 			}

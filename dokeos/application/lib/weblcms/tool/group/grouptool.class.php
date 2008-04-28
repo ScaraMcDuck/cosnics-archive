@@ -155,7 +155,7 @@ class GroupTool extends Tool
 					break;
 				// Display all available groups
 				default :
-					$toolbar_data[] = array ('href' => $this->get_url($param_add_group), 'label' => Translation :: get('Create'), 'img' => Theme :: get_common_img_path().'action-create.png', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+					$toolbar_data[] = array ('href' => $this->get_url($param_add_group), 'label' => Translation :: get('Create'), 'img' => Theme :: get_common_img_path().'action_create.png', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 					$this->display_header($trail);
 					if($this->is_allowed(EDIT_RIGHT))
 					{
@@ -185,7 +185,7 @@ class GroupTool extends Tool
 	{
 		$toolbar_data = array ();
 
-		$toolbar_data[] = array ('href' => $this->get_parent()->get_url(array (GroupTool :: PARAM_GROUP_ACTION => GroupTool :: ACTION_SUBSCRIBE)), 'label' => Translation :: get('SubscribeUsers'), 'img' => Theme :: get_common_img_path().'action-subscribe.png', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+		$toolbar_data[] = array ('href' => $this->get_parent()->get_url(array (GroupTool :: PARAM_GROUP_ACTION => GroupTool :: ACTION_SUBSCRIBE)), 'label' => Translation :: get('SubscribeUsers'), 'img' => Theme :: get_common_img_path().'action_subscribe.png', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}
@@ -198,7 +198,7 @@ class GroupTool extends Tool
 	{
 		$toolbar_data = array ();
 
-		$toolbar_data[] = array ('href' => $this->get_parent()->get_url(array (GroupTool :: PARAM_GROUP_ACTION => GroupTool :: ACTION_UNSUBSCRIBE)), 'label' => Translation :: get('UnsubscribeUsers'), 'img' => Theme :: get_common_img_path().'action-unsubscribe.png', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+		$toolbar_data[] = array ('href' => $this->get_parent()->get_url(array (GroupTool :: PARAM_GROUP_ACTION => GroupTool :: ACTION_UNSUBSCRIBE)), 'label' => Translation :: get('UnsubscribeUsers'), 'img' => Theme :: get_common_img_path().'action_unsubscribe.png', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}

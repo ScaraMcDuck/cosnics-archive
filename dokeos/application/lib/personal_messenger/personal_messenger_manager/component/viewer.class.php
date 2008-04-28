@@ -122,7 +122,7 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 			$toolbar_data[] = array(
 				'href' => $this->get_publication_reply_url($publication),
 				'label' => Translation :: get('Reply'),
-				'img' => Theme :: get_common_img_path().'action-reply.png',
+				'img' => Theme :: get_common_img_path().'action_reply.png',
 				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 			);
 		}

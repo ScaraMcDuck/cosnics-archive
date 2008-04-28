@@ -103,7 +103,7 @@ class LearningObjectDifferenceDisplay {
 	function get_legend()
 	{
 		$html = array();
-		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path().'legend.png);">';
+		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path().'place_legend.png);">';
 		$html[] = '<div class="title">'. Translation :: get('Legend') .'</div>';
 		$html[] = '<span class="compare_delete">'. Translation :: get('CompareExample') .'</span>: '. Translation :: get('CompareDeleteInfo') .'<br />';
 		$html[] = '<span class="compare_add">'. Translation :: get('CompareExample') .'</span>: '. Translation :: get('CompareAddInfo') .'<br />';

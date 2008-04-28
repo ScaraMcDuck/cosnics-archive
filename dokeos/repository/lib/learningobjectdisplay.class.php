@@ -158,20 +158,20 @@ abstract class LearningObjectDisplay
 		$html[] = $version_entry['date'] .'&nbsp;';
 		if (isset($version_entry['delete_link']))
 		{
-			$html[] = '<a href="'. $version_entry['delete_link'] .'" title="' .Translation :: get('Delete'). '" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'action-remove.png" alt="'.htmlentities(Translation :: get('Delete')).'"/></a>';
+			$html[] = '<a href="'. $version_entry['delete_link'] .'" title="' .Translation :: get('Delete'). '" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'action_remove.png" alt="'.htmlentities(Translation :: get('Delete')).'"/></a>';
 		}
 		else
 		{
-			$html[] = '<img src="'.Theme :: get_common_img_path().'action-remove-na.png" alt="'.htmlentities(Translation :: get('Delete')).'"/>';
+			$html[] = '<img src="'.Theme :: get_common_img_path().'action_remove_na.png" alt="'.htmlentities(Translation :: get('Delete')).'"/>';
 		}
 
 		if (isset($version_entry['revert_link']))
 		{
-			$html[] = '&nbsp;<a href="'. $version_entry['revert_link'] .'" title="' .Translation :: get('Revert'). '" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'action-revert.png" alt="'.htmlentities(Translation :: get('Revert')).'"/></a>';
+			$html[] = '&nbsp;<a href="'. $version_entry['revert_link'] .'" title="' .Translation :: get('Revert'). '" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'action_revert.png" alt="'.htmlentities(Translation :: get('Revert')).'"/></a>';
 		}
 		else
 		{
-			$html[] = '&nbsp;<img src="'.Theme :: get_common_img_path().'action-revert-na.png" alt="'.htmlentities(Translation :: get('Revert')).'"/>';
+			$html[] = '&nbsp;<img src="'.Theme :: get_common_img_path().'action_revert_na.png" alt="'.htmlentities(Translation :: get('Revert')).'"/>';
 		}
 
 //		if (isset($version_entry['comment']) && $version_entry['comment'] != '')

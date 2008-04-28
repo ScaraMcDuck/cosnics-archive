@@ -115,7 +115,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 		$quota_data = array();
 
 		$quota_data_row = array();
-		$quota_data_row[] = '<img src="'. Theme :: get_common_img_path().'versions.png" alt=""/>';
+		$quota_data_row[] = '<img src="'. Theme :: get_common_img_path().'place_versions.png" alt=""/>';
 		$quota_data_row[] = Translation :: get('Default');
 		$quota_data_row[] = $user->get_version_quota();
 
