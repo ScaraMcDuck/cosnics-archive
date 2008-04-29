@@ -5,6 +5,7 @@
 require_once dirname(__FILE__).'/../trackingdatamanager.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_library_path().'condition/conditiontranslator.class.php';
+require_once dirname(__FILE__).'/database/databaseeventresultset.class.php';
 
 require_once 'MDB2.php';
 
@@ -509,23 +510,66 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	 * Retrieves all events 
 	 * @return array of events
 	 */
-	function retrieve_events()
+	function retrieve_events($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM ' . $this->escape_table_name('event') . ' AS ' . 
-				 self :: ALIAS_EVENTS_TABLE . ' ORDER BY block';
+				 self :: ALIAS_EVENTS_TABLE;
 		
-		$statement = $this->connection->prepare($query);
-		$result = $statement->execute();
-		
-		$events = array();
-		
-		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		$params = array ();
+		if (isset ($condition))
 		{
-			$events[] = $this->record_to_classobject($record, 'Event');
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
 		}
 		
-		return $events;
+		$orderBy[] = Event :: PROPERTY_BLOCK;
+		$orderDir[] = SORT_ASC;
+		$order = array ();
 		
+		for ($i = 0; $i < count($orderBy); $i ++)
+		{
+			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+		}
+		if (count($order))
+		{
+			$query .= ' ORDER BY '.implode(', ', $order);
+		}
+		if ($maxObjects < 0)
+		{
+			$maxObjects = null;
+		}
+		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		
+		return new DatabaseEventResultSet($this, $res);
+		
+	}
+	
+	/**
+	 * Count events for a given condition
+	 * @param Condition $condition
+	 * @return Int event count
+	 */
+	function count_events($condition = null)
+	{
+		$params = array ();
+		$query = 'SELECT COUNT('.$this->escape_column_name(Event :: PROPERTY_ID).') FROM '.$this->escape_table_name('event');
+		
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $record[0];
 	}
 	
 	/**
