@@ -1,5 +1,6 @@
 <?php
 $lang['tracking']['Event'] = 'Event';
+$lang['tracking']['Block'] = 'Block';
 $lang['tracking']['EventsList'] = 'Events list';
 $lang['tracking']['Events_for_block'] = 'Events for block';
 $lang['tracking']['Event_name'] = 'Event name';
@@ -43,4 +44,5 @@ $lang['tracking']['End_date_must_be_larger_then_start_date'] = 'End date must be
 $lang['tracking']['You_have_chosen_following_events_and_trackers'] = 'You have chosen following events and trackers';
 $lang['tracking']['Archiving_event'] = 'Archiving event';
 $lang['tracking']['Archiving_tracker'] = 'Archiving tracker';
+$lang['tracking']['Tracking_is_disabled'] = 'Tracking is disabled, please go to the administrator panel to enable tracking tracker';
 ?>

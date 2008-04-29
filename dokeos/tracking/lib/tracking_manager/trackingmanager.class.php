@@ -13,6 +13,7 @@ require_once Path :: get_library_path().'condition/andcondition.class.php';
 require_once Path :: get_library_path().'condition/equalitycondition.class.php';
 require_once Path :: get_library_path().'condition/likecondition.class.php';
 require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
+require_once dirname(__FILE__).'/../event_table/eventtable.class.php';
 
 /**
  * A tracking manager provides some functionalities to the admin to manage
@@ -50,6 +51,7 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 		$this->set_action($_GET[self :: PARAM_ACTION]);
 		$this->user = $user;
 		$this->tdm = TrackingDataManager :: get_instance();
+		$this->parse_input_from_table();
     }
 
     /**
@@ -380,12 +382,25 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 	}
 	
 	/**
-	 * Retrieves the events 
-	 * @return the events
+	 * Retrieves the events
+	 * @param Condition $condition
+	 * @param int $offset
+	 * @param int $count
+	 * @param String $order_property
+	 * @param String $order_direction
 	 */
-	function retrieve_events()
+	function retrieve_events($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->tdm->retrieve_events();
+		return $this->tdm->retrieve_events($condition, $offset, $count, $order_property, $order_direction);
+	}
+	
+	/**
+	 * Count the events from a given condition
+	 * @param Condition $conditions
+	 */
+	function count_events($conditions = null)
+	{
+		return $this->tdm->count_events($conditions);
 	}
 	
 	/**
@@ -437,6 +452,40 @@ require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 	function retrieve_event_by_name($eventname)
 	{
 		return $this->tdm->retrieve_event_by_name($eventname);
+	}
+	
+	private function parse_input_from_table()
+	{
+		if (isset ($_POST['action']))
+		{
+			$action = $_POST['action'];
+
+			$selected_ids = $_POST[EventTable :: DEFAULT_NAME.EventTable :: CHECKBOX_NAME_SUFFIX];
+				
+			if (empty ($selected_ids))
+			{
+				$selected_ids = array ();
+			}
+			elseif (!is_array($selected_ids))
+			{
+				$selected_ids = array ($selected_ids);
+			}
+			if($action == 'enable' || $action == 'disable')
+	 		{
+	 			$this->redirect('url', null, null, array(
+		 				TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_CHANGE_ACTIVE, 
+		 				TrackingManager :: PARAM_EVENT_ID => $selected_ids, 
+		 				TrackingManager :: PARAM_TYPE => 'event',
+		 				TrackingManager :: PARAM_EXTRA => $action));
+	 		}
+	 		else
+	 		{
+		 		$this->redirect('url', null, null, array(
+		 				TrackingManager :: PARAM_ACTION => $action, 
+		 				TrackingManager :: PARAM_EVENT_ID => $selected_ids, 
+		 				TrackingManager :: PARAM_TYPE => 'event'));
+	 		}
+		}
 	}
 	
 }

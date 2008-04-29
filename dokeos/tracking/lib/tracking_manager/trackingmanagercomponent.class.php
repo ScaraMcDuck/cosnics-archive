@@ -246,11 +246,25 @@ abstract class TrackingManagerComponent
 	
 	/**
 	 * Retrieves the events
+	 * @param Condition $condition
+	 * @param int $offset
+	 * @param int $count
+	 * @param String $order_property
+	 * @param String $order_direction
 	 * @see TrackingManager :: retrieve_events();
 	 */
-	function retrieve_events()
+	function retrieve_events($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->get_parent()->retrieve_events();
+		return $this->get_parent()->retrieve_events($condition, $offset, $count, $order_property, $order_direction);
+	}
+	
+	/**
+	 * Count the events from a given condition
+	 * @param Condition $conditions
+	 */
+	function count_events($conditions = null)
+	{
+		return $this->get_parent()->count_events($conditions);
 	}
 	
 	/**
