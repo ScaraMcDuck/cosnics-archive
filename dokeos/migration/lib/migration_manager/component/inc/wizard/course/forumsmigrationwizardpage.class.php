@@ -81,10 +81,11 @@ class ForumsMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->set_start_time();
 		
 		//Create migrationdatamanager
-		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
+		$this->old_mgdm = OldMigrationDataManager :: getInstance($this->old_system, $old_directory);
+		$mgdm = MigrationDataManager :: get_instance();
 		
 		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
-			$this->mgdm->set_move_file(true);
+			$this->old_mgdm->set_move_file(true);
 		
 		if(isset($exportvalues['migrate_forums']) && $exportvalues['migrate_forums'] == 1)
 		{	
@@ -94,20 +95,20 @@ class ForumsMigrationWizardPage extends MigrationWizardPage
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
 				$courses = array();
-				$courses = $courseclass->get_all(array('mgdm' => $this->mgdm));
+				$courses = $courseclass->get_all(array('mgdm' => $this->old_mgdm));
 				
 				foreach($courses as $i => $course)
 				{
-					if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
+					if ($mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
 					{
 						continue;
 					}	
 					
-					$this->migrate('ForumCategory', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
-					$this->migrate('ForumForum', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
-					$this->migrate('ForumThread', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,2);
-					$this->migrate('ForumPost', array('mgdm' => $this->mgdm), array(), $course,3);
-					//$this->migrate('ForumMailcue', array('mgdm' => $this->mgdm), array(), $course,4);
+					$this->migrate('ForumCategory', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
+					$this->migrate('ForumForum', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
+					$this->migrate('ForumThread', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,2);
+					$this->migrate('ForumPost', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,3);
+					//$this->migrate('ForumMailcue', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,4);
 					
 					unset($courses[$i]);
 				}

@@ -4,7 +4,7 @@
  * @package migration.lib.migration_manager.component.inc.wizard
  */
 require_once dirname(__FILE__) . '/migrationwizardpage.class.php';
-require_once dirname(__FILE__) . '/../../../../migrationdatamanager.class.php'; 
+require_once dirname(__FILE__) . '/../../../../oldmigrationdatamanager.class.php'; 
 require_once dirname(__FILE__) . '/../../../../logger.class.php'; 
 require_once dirname(__FILE__) . '/../../../../import.class.php'; 
 /**
@@ -80,20 +80,21 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->set_start_time();
 		
 		//Create temporary tables, create migrationdatamanager
-		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
+		$this->old_mgdm = OldMigrationDataManager :: getInstance($this->old_system, $old_directory);
+		$new_mgdm = MigrationDataManager :: get_instance();
 		
 		if(isset($exportvalues['migrate_settings']) && $exportvalues['migrate_settings'] == 1)
 		{	
 			//Migrate system settings
 			$condition = new EqualityCondition('category', 'Platform');
 			//$this->migrate_system_settings();
-			$this->migrate('SettingCurrent', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
+			$this->migrate('SettingCurrent', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
 			//Migrate system announcements
 			if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 			{
 				//$this->migrate_system_announcements();
-				$id = $this->mgdm->get_id_reference($this->mgdm->get_old_admin_id(), 'user_user');
-				$this->migrate('SystemAnnouncement', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array('admin_id' => $id), null,1);
+				$id = $new_mgdm->get_id_reference($this->old_mgdm->get_old_admin_id(), 'user_user');
+				$this->migrate('SystemAnnouncement', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('admin_id' => $id), null,1);
 			}
 			else
 			{

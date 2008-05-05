@@ -95,35 +95,35 @@ class TrackersMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->set_start_time();
 		
 		//Create migrationdatamanager
-		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
+		$this->old_mgdm = OldMigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
 		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
-			$this->mgdm->set_move_file(true);
+			$this->old_mgdm->set_move_file(true);
 		
 		if(isset($exportvalues['migrate_trackers']) && $exportvalues['migrate_trackers'] == 1)
 		{	
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
 				$exportvalues['migrate_courses'] == 1 && $exportvalues['migrate_users'] == 1)
 			{
-				$this->migrate('TrackCOs', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
-				$this->migrate('TrackCBrowsers', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,1);
-				$this->migrate('TrackCCountries', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,2);
-				$this->migrate('TrackCProviders', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,3);
-				$this->migrate('TrackCReferers', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,4);
-				//$this->migrate('TrackerEAccess', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,5);
-				//$this->migrate('TrackerEAttempt', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,6);
-				//$this->migrate('TrackerECourseaccess', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,7);
-				//$this->migrate('TrackerEDefault', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,8);
-				//$this->migrate('TrackerEDownloads', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,9);
-				//$this->migrate('TrackerEExercices', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,10);
-				//$this->migrate('TrackerEHotpotatoes', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,11);
-				//$this->migrate('TrackerEHotspot', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,12);
-				//$this->migrate('TrackerELastaccess', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,13);
-				//$this->migrate('TrackerELinks', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,14);
-				$this->migrate('TrackELogin', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,15);
-				//$this->migrate('TrackerEOnline', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,16);
-				//$this->migrate('TrackerEOpen', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,17);
-				//$this->migrate('TrackerEUploads', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,18);
+				$this->migrate('TrackCOs', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm()), null,0);
+				$this->migrate('TrackCBrowsers', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), null,1);
+				$this->migrate('TrackCCountries', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), null,2);
+				$this->migrate('TrackCProviders', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), null,3);
+				$this->migrate('TrackCReferers', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), null,4);
+				//$this->migrate('TrackerEAccess', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,5);
+				//$this->migrate('TrackerEAttempt', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,6);
+				//$this->migrate('TrackerECourseaccess', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,7);
+				//$this->migrate('TrackerEDefault', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,8);
+				//$this->migrate('TrackerEDownloads', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,9);
+				//$this->migrate('TrackerEExercices', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,10);
+				//$this->migrate('TrackerEHotpotatoes', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,11);
+				//$this->migrate('TrackerEHotspot', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,12);
+				//$this->migrate('TrackerELastaccess', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,13);
+				//$this->migrate('TrackerELinks', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,14);
+				$this->migrate('TrackELogin', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), null,15);
+				//$this->migrate('TrackerEOnline', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,16);
+				//$this->migrate('TrackerEOpen', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,17);
+				//$this->migrate('TrackerEUploads', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,18);
 			}
 			else
 			{

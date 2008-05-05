@@ -78,18 +78,18 @@ class OthersMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->set_start_time();
 		
 		//Create migrationdatamanager
-		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
+		$this->old_mgdm = OldMigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
 		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
-			$this->mgdm->set_move_file(true);
+			$this->old_mgdm->set_move_file(true);
 		
 		if(isset($exportvalues['migrate_others']) && $exportvalues['migrate_others'] == 1)
 		{	
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
 				$exportvalues['migrate_courses'] == 1 && $exportvalues['migrate_users'] == 1)
 			{
-				//$this->migrate('OpenidAssociation', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
-				//$this->migrate('Templates', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
+				//$this->migrate('OpenidAssociation', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
+				//$this->migrate('Templates', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
 			}
 			else
 			{
