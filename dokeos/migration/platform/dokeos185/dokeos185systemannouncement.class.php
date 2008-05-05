@@ -16,10 +16,6 @@ require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/categ
  
 class Dokeos185SystemAnnouncement extends Import
 {
-	/**
-	 * Migration data manager
-	 */
-	private static $mgdm;
 
 	/**
 	 * course relation user properties
@@ -199,9 +195,11 @@ class Dokeos185SystemAnnouncement extends Import
 	 */
 	function is_valid($parameters)
 	{
+		
 		if(!($this->get_title() || $this->get_content()))
 		{
-			self :: $mgdm->add_failed_element($this->get_id(), 'dokeos_main.sys_announcement');
+			$mgdm = MigrationDataManager :: get_instance();
+			$mgdm->add_failed_element($this->get_id(), 'dokeos_main.sys_announcement');
 			return false;
 		}
 		
@@ -216,6 +214,9 @@ class Dokeos185SystemAnnouncement extends Import
 	function convert_to_lcms($parameters)
 	{	
 		$admin_id = $parameters['admin_id'];
+		
+		$new_mgdm = MigrationDataManager :: get_instance();
+		print('Used memory before all: ' . memory_get_usage() . "<br>\n");
 		$lcms_repository_announcement = new Announcement();
 		$lcms_repository_announcement->set_owner_id($admin_id);
 		
@@ -230,7 +231,7 @@ class Dokeos185SystemAnnouncement extends Import
 			$lcms_repository_announcement->set_description($this->get_content());
 		
 		// Category for announcements already exists?
-		$lcms_category_id = self :: $mgdm->get_parent_id($admin_id, 'category',
+		$lcms_category_id = $new_mgdm->get_parent_id($admin_id, 'category',
 			Translation :: get('system_announcements'));
 		if(!$lcms_category_id)
 		{
@@ -241,7 +242,7 @@ class Dokeos185SystemAnnouncement extends Import
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from user
-			$repository_id = self :: $mgdm->get_parent_id($admin_id, 
+			$repository_id = $new_mgdm->get_parent_id($admin_id, 
 				'category', Translation :: get('MyRepository'));
 	
 			$lcms_repository_category->set_parent_id($repository_id);
@@ -250,15 +251,18 @@ class Dokeos185SystemAnnouncement extends Import
 			$lcms_repository_category->create();
 			
 			$lcms_repository_announcement->set_parent_id($lcms_repository_category->get_id());
+			unset($lcms_repository_category);
 		}
 		else
 		{
 			$lcms_repository_announcement->set_parent_id($lcms_category_id);
+			unset($lcms_category_id);
 		}
 		
 		//Create announcement in database
 		$lcms_repository_announcement->create();
-		
+
+		print('Used memory after all: ' . memory_get_usage() . "<br>\n");
 		return $lcms_repository_announcement;
 	}
 	
@@ -269,13 +273,13 @@ class Dokeos185SystemAnnouncement extends Import
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$mgdm = $parameters['old_mgdm'];
 		
 		$db = 'main_database';
 		$tablename = 'sys_announcement';
 		$classname = 'Dokeos185SystemAnnouncement';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

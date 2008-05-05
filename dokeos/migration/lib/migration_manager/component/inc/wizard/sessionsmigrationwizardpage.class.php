@@ -81,10 +81,10 @@ class SessionsMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->set_start_time();
 		
 		//Create migrationdatamanager
-		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
+		$this->old_mgdm = OldMigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
 		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
-			$this->mgdm->set_move_file(true);
+			$this->old_mgdm->set_move_file(true);
 		
 		if(isset($exportvalues['migrate_sessions']) && $exportvalues['migrate_sessions'] == 1)
 		{	
@@ -92,11 +92,11 @@ class SessionsMigrationWizardPage extends MigrationWizardPage
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
 				$exportvalues['migrate_courses'] == 1 && $exportvalues['migrate_users'] == 1)
 			{
-				//$this->migrate('PhpSession', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
-				//$this->migrate('Session', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
-				//$this->migrate('SessionRelCourse', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,2);
-				//$this->migrate('SessionRelCourseRelUser', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,3);
-				//$this->migrate('SessionRelUser', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,4);
+				//$this->migrate('PhpSession', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
+				//$this->migrate('Session', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
+				//$this->migrate('SessionRelCourse', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,2);
+				//$this->migrate('SessionRelCourseRelUser', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,3);
+				//$this->migrate('SessionRelUser', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,4);
 			}
 			else
 			{

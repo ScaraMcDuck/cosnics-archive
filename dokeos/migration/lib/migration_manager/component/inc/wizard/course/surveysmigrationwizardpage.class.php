@@ -80,10 +80,11 @@ class SurveysMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->set_start_time();
 		
 		//Create migrationdatamanager
-		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
+		$this->old_mgdm = OldMigrationDataManager :: getInstance($this->old_system, $old_directory);
+		$mgdm = MigrationDataManager :: get_instance();
 		
 		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
-			$this->mgdm->set_move_file(true);
+			$this->old_mgdm->set_move_file(true);
 		
 		if(isset($exportvalues['migrate_surveys']) && $exportvalues['migrate_surveys'] == 1)
 		{	
@@ -93,19 +94,19 @@ class SurveysMigrationWizardPage extends MigrationWizardPage
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
 				$courses = array();
-				$courses = $courseclass->get_all(array('mgdm' => $this->mgdm));
+				$courses = $courseclass->get_all(array('old_mgdm' => $this->old_mgdm));
 				
 				foreach($courses as $i => $course)
 				{
-					if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
+					if ($mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
 					{
 						continue;
 					}	
 					
-					$this->migrate('Survey', array('mgdm' => $this->mgdm), array(), $course,0);
-					$this->migrate('SurveyQuestion', array('mgdm' => $this->mgdm), array(), $course,1);
-					$this->migrate('SurveyQuestionOption', array('mgdm' => $this->mgdm), array(), $course,2);
-					$this->migrate('SurveyAnswer', array('mgdm' => $this->mgdm), array(), $course,3);
+					$this->migrate('Survey', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,0);
+					$this->migrate('SurveyQuestion', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,1);
+					$this->migrate('SurveyQuestionOption', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,2);
+					$this->migrate('SurveyAnswer', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,3);
 					
 					unset($courses[$i]);
 				}

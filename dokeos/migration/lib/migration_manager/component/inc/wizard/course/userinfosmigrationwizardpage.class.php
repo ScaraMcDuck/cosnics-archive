@@ -78,10 +78,11 @@ class UserinfosMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->set_start_time();
 		
 		//Create migrationdatamanager
-		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
+		$this->old_mgdm = OldMigrationDataManager :: getInstance($this->old_system, $old_directory);
+		$mgdm = MigrationDataManager :: get_instance();
 		
 		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
-			$this->mgdm->set_move_file(true);
+			$this->old_mgdm->set_move_file(true);
 		
 		if(isset($exportvalues['migrate_userinfos']) && $exportvalues['migrate_userinfos'] == 1)
 		{	
@@ -91,17 +92,17 @@ class UserinfosMigrationWizardPage extends MigrationWizardPage
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
 				$courses = array();
-				$courses = $courseclass->get_all(array('mgdm' => $this->mgdm));
+				$courses = $courseclass->get_all(array('old_mgdm' => $this->old_mgdm));
 				
 				foreach($courses as $i => $course)
 				{
-					if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
+					if ($mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
 					{
 						continue;
 					}	
 					
-					$this->migrate('UserinfoDef', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
-					$this->migrate('UserinfoContent', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,1);
+					$this->migrate('UserinfoDef', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
+					$this->migrate('UserinfoContent', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
 					
 					unset($courses[$i]);
 				}
