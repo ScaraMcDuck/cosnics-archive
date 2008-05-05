@@ -5,7 +5,4 @@
   <property name="old_path" type="text" length="200" notnull="1" />
   <property name="new_path" type="text" length="200" notnull="1" />
  </properties>
- <index name="id" type="primary">
-  <indexproperty name="id"/>
- </index>
 </object>

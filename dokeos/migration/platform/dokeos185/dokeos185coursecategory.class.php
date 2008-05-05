@@ -207,9 +207,10 @@ class Dokeos185CourseCategory extends ImportCourseCategory
 	 */
 	function is_valid($parameters)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		if(!$this->get_name() || !$this->get_code())
 		{
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm->add_failed_element($this->get_id(),
 				'dokeos_main.course_category');
 			return false;
 		}
@@ -223,6 +224,7 @@ class Dokeos185CourseCategory extends ImportCourseCategory
 	 */
 	function convert_to_lcms($parameters)
 	{	
+		$mgdm = MigrationDataManager :: get_instance();
 		//Course category parameters
 		$lcms_course_category = new CourseCategory();
 		
@@ -230,26 +232,27 @@ class Dokeos185CourseCategory extends ImportCourseCategory
 		
 		$old_code = $this->get_code();
 		$index = 0;
-		while(self :: $mgdm->code_available('weblcms_course_category',$this->get_code()))
+		while($mgdm->code_available('weblcms_course_category',$this->get_code()))
 		{
 			$this->set_code($this->get_code() . ($index ++));
 		}
-		
+		unset($index);
 		$lcms_course_category->set_code($this->get_code());
 		
 		//Add id references to temp table
-		self :: $mgdm->add_id_reference($old_code, $lcms_course_category->get_code(), 'weblcms_course_category');
-		
+		$mgdm->add_id_reference($old_code, $lcms_course_category->get_code(), 'weblcms_course_category');
+		unset($old_code);
 		if($this->get_parent_id())
 		{
-			$parent_id = self :: $mgdm->get_id_reference($this->get_parent_id(), 'weblcms_course_category');
+			$parent_id = $mgdm->get_id_reference($this->get_parent_id(), 'weblcms_course_category');
 			if($parent_id)
 				$lcms_course_category->set_parent($parent_id);
+			unset($parent_id);
 		}
 		else
 			$lcms_course_category->set_parent(0);
 		
-		$lcms_course_category->set_tree_pos(self::$mgdm->get_next_position('weblcms_course_category','tree_pos'));
+		$lcms_course_category->set_tree_pos($mgdm->get_next_position('weblcms_course_category','tree_pos'));
 		
 		if($this->get_children_count())
 			$lcms_course_category->set_children_count($this->get_children_count());
@@ -261,7 +264,7 @@ class Dokeos185CourseCategory extends ImportCourseCategory
 
 		//create course_category in database
 		$lcms_course_category->create();
-		
+		unset($mgdm);
 		return $lcms_course_category;
 	}
 	
@@ -272,13 +275,13 @@ class Dokeos185CourseCategory extends ImportCourseCategory
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$db = 'main_database';
 		$tablename = 'course_category';
 		$classname = 'Dokeos185CourseCategory';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

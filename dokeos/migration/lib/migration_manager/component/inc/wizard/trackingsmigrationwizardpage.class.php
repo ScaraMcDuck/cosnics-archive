@@ -82,7 +82,7 @@ class TrackersMigrationWizardPage extends MigrationWizardPage
 		}
 		
 		if($this->command_execute)
-			require(dirname(__FILE__) . '/../../../../../../settings.inc.php');
+			require(dirname(__FILE__) . '/../../../../../settings.inc.php');
 		else
 			$exportvalues = $this->controller->exportValues();
 			

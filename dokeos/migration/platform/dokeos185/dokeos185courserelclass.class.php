@@ -127,13 +127,14 @@ class Dokeos185CourseRelClass extends ImportCourseRelClass
 	 */
 	function is_valid($array)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		if(!$this->get_course_code() || !$this->get_class_id() ||
-			self :: $mgdm->get_failed_element('dokeos_main.course', $this->get_course_code()) ||
-			self :: $mgdm->get_failed_element('dokeos_main.class', $this->get_class_id()) ||
-			!self :: $mgdm->get_id_reference($this->get_course_code(), 'weblcms_course') ||
-			!self :: $mgdm->get_id_reference($this->get_class_id(), 'classgroup_classgroup'))
+			$mgdm->get_failed_element('dokeos_main.course', $this->get_course_code()) ||
+			$mgdm->get_failed_element('dokeos_main.class', $this->get_class_id()) ||
+			!$mgdm->get_id_reference($this->get_course_code(), 'weblcms_course') ||
+			!$mgdm->get_id_reference($this->get_class_id(), 'classgroup_classgroup'))
 		{
-			self :: $mgdm->add_failed_element($this->get_course_id() . '-' . $this->get_class_code(),
+			$mgdm->add_failed_element($this->get_course_id() . '-' . $this->get_class_code(),
 				'dokeos_main.course_rel_class');
 			return false;
 		}
@@ -149,16 +150,16 @@ class Dokeos185CourseRelClass extends ImportCourseRelClass
 	{
 		$lcms_course_class_relation = new CourseClassRelation();
 		
-		$course_id = self :: $mgdm->get_id_reference($this->get_user_id(), 'weblcms_course');
+		$course_id = $mgdm->get_id_reference($this->get_user_id(), 'weblcms_course');
 		if($course_id)
 			$lcms_course_class_relation->set_user_id($course_id);
 		
-		$class_id = self :: $mgdm->get_id_reference($this->get_class_id(), 'classgroup_classgroup');
+		$class_id = $mgdm->get_id_reference($this->get_class_id(), 'classgroup_classgroup');
 		if($class_id)
 			$lcms_course_class_relation->set_classgroup_id($class_id);
 		
 		$lcms_course_class_relation->create();
-		
+		unset($mgdm);
 		return $lcms_course_class_relation;
 	}
 	
@@ -169,13 +170,13 @@ class Dokeos185CourseRelClass extends ImportCourseRelClass
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$mgdm = $parameters['old_mgdm'];
 		
 		$db = 'main_database';
 		$tablename = 'course_rel_class';
 		$classname = 'Dokeos185CourseRelClass';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

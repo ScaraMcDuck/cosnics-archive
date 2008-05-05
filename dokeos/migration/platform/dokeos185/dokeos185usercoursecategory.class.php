@@ -153,11 +153,12 @@ class Dokeos185UserCourseCategory extends Import
 	 */
 	function is_valid($parameters)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		if(!$this->get_id() || !$this->get_user_id() || !$this->get_title() || 
-			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()) ||
-			!self :: $mgdm->get_id_reference($this->get_user_id(), 'user_user') )
+			$mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()) ||
+			!$mgdm->get_id_reference($this->get_user_id(), 'user_user') )
 		{
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm->add_failed_element($this->get_id(),
 				'dokeos_user.user_course_category');
 			return false;
 		}
@@ -171,21 +172,23 @@ class Dokeos185UserCourseCategory extends Import
 	 */
 	function convert_to_lcms($parameters)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		//Course parameters
 		$lcms_user_course_category = new CourseUserCategory();
 		
-		$user_id = self :: $mgdm->get_id_reference($this->get_user_id(), 'user_user');
+		$user_id = $mgdm->get_id_reference($this->get_user_id(), 'user_user');
 		if($user_id)
 			$lcms_user_course_category->set_user($user_id);
-			
+		unset($user_id);
 		$lcms_user_course_category->set_title($this->get_title());
 		
 		//create course in database
 		$lcms_user_course_category->create();
 		
-		//Add id references to temp table
-		self :: $mgdm->add_id_reference($this->get_id(), $lcms_user_course_category->get_id(), 'weblcms_course_user_category');
 		
+		//Add id references to temp table
+		$mgdm->add_id_reference($this->get_id(), $lcms_user_course_category->get_id(), 'weblcms_course_user_category');
+		unset($mgdm);
 		return $lcms_user_course_category;
 	}
 	
@@ -196,13 +199,13 @@ class Dokeos185UserCourseCategory extends Import
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$db = 'user_personal_database';
 		$tablename = 'user_course_category';
 		$classname = 'Dokeos185UserCourseCategory';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

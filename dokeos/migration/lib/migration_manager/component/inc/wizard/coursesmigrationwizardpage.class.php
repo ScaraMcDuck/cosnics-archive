@@ -81,24 +81,24 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->set_start_time();
 		
 		//Create temporary tables, create migrationdatamanager
-		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
+		$this->old_mgdm = OldMigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
 		if(isset($exportvalues['migrate_courses']) && $exportvalues['migrate_courses'] == 1)
 		{	
 			//Migrate course categories
-			$this->migrate('CourseCategory', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
+			$this->migrate('CourseCategory', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
 			
 			//Migrate the courses
-			$this->migrate('Course', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,1);
+			$this->migrate('Course', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,1);
 			
 			//Migrate the class users
 			if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 			{
 				//Migrate the user course categories
-				$this->migrate('UserCourseCategory', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,2);
+				$this->migrate('UserCourseCategory', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,2);
 				
 				//Migrate course users
-				$this->migrate('CourseRelUser', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,3);
+				$this->migrate('CourseRelUser', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,3);
 			}
 			else
 			{
@@ -116,7 +116,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 			if(isset($exportvalues['migrate_classes']) && $exportvalues['migrate_classes'] ==1)
 			{
 				//Migrate course classes
-				//$this->migrate('CourseRelClass', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,4);
+				//$this->migrate('CourseRelClass', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,4);
 				
 			}
 			else

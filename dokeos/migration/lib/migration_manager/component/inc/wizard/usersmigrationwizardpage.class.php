@@ -3,7 +3,8 @@
  * @package migration.lib.migration_manager.component.inc.wizard
  */
 require_once dirname(__FILE__) . '/migrationwizardpage.class.php';
-require_once dirname(__FILE__) . '/../../../../migrationdatamanager.class.php'; 
+require_once dirname(__FILE__) . '/../../../../migrationdatamanager.class.php';
+require_once dirname(__FILE__) . '/../../../../oldmigrationdatamanager.class.php'; 
 require_once dirname(__FILE__) . '/../../../../logger.class.php'; 
 require_once dirname(__FILE__) . '/../../../../import.class.php'; 
 require_once dirname(__FILE__) . '/../../../../../../users/lib/usersdatamanager.class.php'; 
@@ -84,12 +85,14 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->set_start_time();
 			
 		//Create temporary tables, create migrationdatamanager
-		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
-	
+		$this->old_mgdm = OldMigrationDataManager :: getInstance($this->old_system, $old_directory);
+		
+		
 		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
-			$this->mgdm->set_move_file(true);
-			
-		$this->mgdm->create_temporary_tables();
+			$this->old_mgdm->set_move_file(true);
+		
+		$mgdm = MigrationDataManager :: get_instance();
+		$mgdm->create_temporary_tables();
 	
 		//Migrate the users
 		if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
@@ -101,7 +104,7 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 			{
 				$lcms_users[] = $lcms_user;	
 			}
-			$this->migrate('User', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files,'lcms_users' => $lcms_users), array(), null,0);
+			$this->migrate('User', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files,'lcms_users' => $lcms_users), array('old_mgdm' => $this->old_mgdm), null,0);
 		}
 		else
 		{

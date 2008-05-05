@@ -196,14 +196,15 @@ class Dokeos185CourseRelUser extends ImportCourseRelUser
 	 */
 	function is_valid($parameters)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		if(!$this->get_course_code() || !$this->get_user_id() || $this->get_status() == NULL
 			|| $this->get_group_id() == NULL || $this->get_tutor_id() == NULL ||
-			self :: $mgdm->get_failed_element('dokeos_main.course', $this->get_course_code()) ||
-			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()) ||
-			!self :: $mgdm->get_id_reference($this->get_course_code(), 'weblcms_course') ||
-			!self :: $mgdm->get_id_reference($this->get_user_id(), 'user_user'))
+			$mgdm->get_failed_element('dokeos_main.course', $this->get_course_code()) ||
+			$mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()) ||
+			!$mgdm->get_id_reference($this->get_course_code(), 'weblcms_course') ||
+			!$mgdm->get_id_reference($this->get_user_id(), 'user_user'))
 		{
-			self :: $mgdm->add_failed_element($this->get_user_id() . '-' . $this->get_course_code(),
+			$mgdm->add_failed_element($this->get_user_id() . '-' . $this->get_course_code(),
 				'dokeos_main.course_rel_user');
 			return false;
 		}
@@ -217,17 +218,19 @@ class Dokeos185CourseRelUser extends ImportCourseRelUser
 	 */
 	function convert_to_lcms($parameters)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
+		print('Used memory before: ' . memory_get_usage() . "\n");
 		//course_rel_user parameters
 		$lcms_course_rel_user = new CourseUserRelation();
 		
-		$course_code = self :: $mgdm->get_id_reference($this->get_course_code(), 'weblcms_course');
+		$course_code = $mgdm->get_id_reference($this->get_course_code(), 'weblcms_course');
 		if($course_code)
 			$lcms_course_rel_user->set_course($course_code);
-		
-		$user_id = self :: $mgdm->get_id_reference($this->get_user_id(), 'user_user');
+		unset($course_code);
+		$user_id = $mgdm->get_id_reference($this->get_user_id(), 'user_user');
 		if($user_id)
 			$lcms_course_rel_user->set_user($user_id);
-		
+		unset($user_id);
 		$lcms_course_rel_user->set_status($this->get_status());
 		$lcms_course_rel_user->set_role($this->get_role());
 		$lcms_course_rel_user->set_group($this->get_group_id());
@@ -236,15 +239,17 @@ class Dokeos185CourseRelUser extends ImportCourseRelUser
 		
 		$lcms_course_rel_user->set_sort($this->get_sort());
 		
-		$category_code = self :: $mgdm->get_id_reference($this->get_user_course_cat(), 'weblcms_course_user_category');
+		$category_code = $mgdm->get_id_reference($this->get_user_course_cat(), 'weblcms_course_user_category');
 		if($category_code)
 			$lcms_course_rel_user->set_category($category_code);
 		else
 			$lcms_course_rel_user->set_category(0);
-		
+		unset($category_code);
 		//create user in database
 		$lcms_course_rel_user->create();
 		
+		unset($mgdm);
+		print('Used memory after all: ' . memory_get_usage() . "\n");
 		return $lcms_course_rel_user;
 	}
 	
@@ -255,13 +260,13 @@ class Dokeos185CourseRelUser extends ImportCourseRelUser
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$mgdm = $parameters['old_mgdm'];
 		
 		$db = 'main_database';
 		$tablename = 'course_rel_user';
 		$classname = 'Dokeos185CourseRelUser';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

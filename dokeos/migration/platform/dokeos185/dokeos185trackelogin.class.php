@@ -136,9 +136,10 @@ class Dokeos185TrackELogin extends ImportTrackELogin
 	{
 		if(!$this->get_login_user_id() || !$this->get_login_date()
 			|| !$this->get_login_ip() ||
-			self :: $mgdm->get_failed_element($this->get_login_user_id(),'dokeos_main.user'))
+			self :: $mgdm->get_failed_element($this->get_login_user_id(),'dokeos_main.user') ||
+			!self :: $mgdm->get_id_reference($this->get_login_user_id(),'user_user'))
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),'track_e_login');
+			self :: $mgdm->add_failed_element($this->get_login_id(),'track_e_login');
 			return false;
 		}
 		return true;
@@ -152,12 +153,10 @@ class Dokeos185TrackELogin extends ImportTrackELogin
 	{	
 		$login = new LoginLogoutTracker();
 		$new_user_id = self :: $mgdm->get_id_reference($this->get_login_user_id(),'user_user');
-		echo
 		$login->set_user_id($new_user_id);
 		$login->set_ip($this->get_login_ip());
-		$login->set_date($this->get_login_date());
+		$login->set_date(self :: $mgdm->make_unix_time($this->get_login_date()));
 		$login->set_type('login');
-		
 		$login->create();
 		
 		if ($this->get_logout_date() != null)
@@ -165,7 +164,7 @@ class Dokeos185TrackELogin extends ImportTrackELogin
 			$login = new LoginLogoutTracker();
 			$login->set_user_id($new_user_id);
 			$login->set_ip($this->get_login_ip());
-			$login->set_date($this->get_logout_date());
+			$login->set_date(self :: $mgdm->make_unix_time($this->get_logout_date()));
 			$login->set_type('logout');
 			$login->create();
 		}

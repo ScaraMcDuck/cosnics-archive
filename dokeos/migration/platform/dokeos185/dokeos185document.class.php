@@ -179,12 +179,12 @@ class Dokeos185Document extends ImportDocument
 		$pos = strrpos($this->get_path(), '/');
 		$filename = substr($this->get_path(), $pos);
 		$old_path = substr($this->get_path(), 0, $pos);
-		
+		unset($pos);
 		$old_rel_path = 'courses/' . $course->get_directory() . '/document/'  . $old_path;
-
+		unset($old_path);
 		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
-
+		
 		if(!$this->get_id() || !$this->get_path() || !$this->get_filetype() || !$this->item_property || !$this->item_property->get_ref()
 			|| !$this->item_property->get_insert_date() || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)) )
 		{		 
@@ -196,9 +196,15 @@ class Dokeos185Document extends ImportDocument
 				$filesize = filesize(self :: $mgdm->append_full_path(false,$old_rel_path . $filename));
 				self :: $counter += $filesize;
 			}
-			
+			unset($old_rel_path);
+			unset($filename);
+			unset($course);
+			unset($old_rel_path);
 			return false;
 		}
+		unset($old_rel_path);
+		unset($filename);
+		unset($course);
 		return true;
 	}
 	
@@ -210,27 +216,24 @@ class Dokeos185Document extends ImportDocument
 	function convert_to_lcms($array)
 	{
 		$course = $array['course'];
-		$start_time = Logger :: get_microtime();
 		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
 		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
-		$end_time = Logger :: get_microtime();
-		$passedtime_idref = $end_time - $start_time;
 		
 		$pos = strrpos($this->get_path(), '/');
 		$filename = substr($this->get_path(), $pos);
 		$old_path = substr($this->get_path(), 0, $pos);
+		unset($pos);
 		
 		if(!$new_user_id)
 		{
-			$start_time = Logger :: get_microtime();
 			$new_user_id = self :: $mgdm->get_owner($new_course_code);
-			$end_time = Logger :: get_microtime();
-			$passedtime_orphan = $end_time - $start_time;
 		}
 		
 		$new_path = $new_user_id . '/';
 		$old_rel_path = 'courses/' . $course->get_directory() . '/document/'  . $old_path;
-
+		
+		unset($course);
+		
 		$new_rel_path = 'files/repository/' . $new_path;
 		
 		$lcms_document = null;
@@ -243,20 +246,15 @@ class Dokeos185Document extends ImportDocument
 		
 		if(!$document_id)
 		{
-			
-			$start_time = Logger :: get_microtime();
 			$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
 				$filename);
-			$end_time = Logger :: get_microtime();
-			$passedtime_copy = $end_time - $start_time;
 
 			if($file)
 			{
-				$start_time = Logger :: get_microtime();
 				//document parameters
 				$lcms_document = new Document();
-	
-				$lcms_document->set_filesize($this->get_size());
+				
+				$lcms_document->set_filesize(self :: $mgdm->append_full_path(false,$old_rel_path . $filename));
 				if($this->get_title())
 					$lcms_document->set_title($this->get_title());
 				else
@@ -269,6 +267,7 @@ class Dokeos185Document extends ImportDocument
 				$lcms_document->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
 				$lcms_document->set_path($new_path . $file);
 				$lcms_document->set_filename($file);
+				
 				
 				// Category for announcements already exists?
 				$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
@@ -290,12 +289,13 @@ class Dokeos185Document extends ImportDocument
 					$lcms_repository_category->create();
 					
 					$lcms_document->set_parent_id($lcms_repository_category->get_id());
+					unset($lcms_repository_category);
 				}
 				else
 				{
 					$lcms_document->set_parent_id($lcms_category_id);	
 				}
-			
+				
 				if($this->item_property->get_visibility() == 2)
 					$lcms_document->set_state(1);
 				
@@ -304,23 +304,17 @@ class Dokeos185Document extends ImportDocument
 				
 				//Add id references to temp table
 				self :: $mgdm->add_id_reference($this->get_id(), $lcms_document->get_id(), 'repository_document');
-				
-				$end_time = Logger :: get_microtime();
-				$passedtime_document = $end_time - $start_time;
 			
 				self :: $mgdm->add_file_md5($new_user_id, $lcms_document->get_id(), $document_md5);
 			}
 			else
 			{ 
-				$start_time = Logger :: get_microtime();
 				$document_id = self :: $mgdm->get_document_id($new_rel_path . $filename, $new_user_id);
 				if($document_id)
 				{
 					$lcms_document = new LearningObject();
 					$lcms_document->set_id($document_id);
 				}
-				$end_time = Logger :: get_microtime();
-				$passedtime_doublefile = $end_time - $start_time;
 			}
 			
 		}
@@ -328,19 +322,18 @@ class Dokeos185Document extends ImportDocument
 		{
 			$lcms_document = new LearningObject();
 			$lcms_document->set_id($document_id);
-			$filesize = filesize(self :: $mgdm->append_full_path(false,$old_rel_path . $filename));
-			self :: $counter += $filesize;
-			
 		}
-			
-		//publication
-		$start_time = Logger :: get_microtime();
 		
+		unset($new_path);
+		unset($file);
+		unset($document_id);
+		unset($document_md5);
+		unset($new_rel_path);
+		unset($old_rel_path);
+		unset($filename);
+		//publication
 		if($this->item_property->get_visibility() <= 1 && $lcms_document) 
 		{
-			
-			$start_time_cat = Logger :: get_microtime();
-			
 			// Categories already exists?
 			$file_split = array();
 			$file_split = split('/', $old_path);
@@ -372,17 +365,16 @@ class Dokeos185Document extends ImportDocument
 				{
 					$parent = $lcms_category_id;
 				}
-				
 			}	
 			
-			$end_time_cat = Logger :: get_microtime();
-			$passedtime_categories = $end_time_cat - $start_time_cat;
-		
+			
 			$publication = new LearningObjectPublication();
 			
 			$publication->set_learning_object($lcms_document);
 			$publication->set_course_id($new_course_code);
+			unset($new_course_code);
 			$publication->set_publisher_id($new_user_id);
+			unset($new_user_id);
 			$publication->set_tool('document');
 			$publication->set_category_id($parent);
 			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
@@ -401,11 +393,11 @@ class Dokeos185Document extends ImportDocument
 			//create publication in database
 			$publication->create();		
 		}
-		
-		$end_time = Logger :: get_microtime();
-		$passedtime_publication = $end_time - $start_time;
-		
-		flush();
+		unset($old_path);
+		unset($lcms_category);
+		unset($lcms_category_id);
+		unset($parent);
+		unset($publication);
 		
 		return $lcms_document;
 	}

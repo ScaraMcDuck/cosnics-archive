@@ -13,12 +13,12 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 	protected $failed_elements;
 	protected $succes;
 	protected $logfile;
-	protected $mgdm;
 	protected $old_system;
 	protected $command_execute;
 	protected $passedtime;
 	protected $name;
 	protected $exportvalues;
+	protected $old_mgdm;
 	
 	/**
 	 * Constructor
@@ -107,7 +107,6 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 	function migrate($type, $retrieve_parms = array(), $convert_parms = array(), $course = null,$i)
 	{
 		$class = Import :: factory($this->old_system, strtolower($type));
-		$items = array();
 		
 		
 		if($course)
@@ -127,7 +126,7 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 		
 		$database_table = $class->get_database_table($retrieve_parms);
 
-		$max_records = $this->mgdm->count_records($database_table['database'],$database_table['table'], $retrieve_parms['condition']);
+		$max_records = $this->old_mgdm->count_records($database_table['database'],$database_table['table'], $retrieve_parms['condition']);
 		$current_record = 0;
 		
 		while ($max_records > 0)
@@ -155,10 +154,15 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 					if($lcms_item)
 					{
 						$message = $this->write_succes($lcms_item, $extra_message, $type);
+						//$message ='SUCCES: user added ( ID: ' . $lcms_item . $extra_message . ' )';
 						$this->logfile->add_message($message);
 						$this->succes[$i]++;
 					}
+					//print('Used memory before unset: ' . memory_get_usage() . "\n");
 					unset($lcms_item);
+					//print('Used memory after unset: ' . memory_get_usage() . "\n");
+					unset($message);
+					
 				}
 				else
 				{
@@ -168,9 +172,16 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 						$this->logfile->add_message($message);
 						$this->failed_elements[$i][] = $message;
 					}
+					unset($message);
 				}
-				unset($items[$j]);
+				
+				unset($item);
+				unset($items[$j]);	
 			}
+			print('Used memory after ' . $retrieve_parms['limit'] . ': ' . memory_get_usage() . "\n");
+			$items = array();
+			unset($items);
+			array_values($items);
 			$this->logfile->add_message($retrieve_parms['limit']  . ' records done');
 			$current_record += $retrieve_parms['limit'];
 				$max_records -= $retrieve_parms['limit'];
@@ -236,6 +247,9 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 			case ($item instanceof Dokeos185User) :return 'FAILED: ' . $type . 
 							' is not valid ( ID: ' . $item->get_user_id() . $extra_message . ' )';	
 							
+			case ($item instanceof Dokeos185trackelogin) :return 'FAILED: ' . $type . 
+							' is not valid ( ID: ' . $item->get_login_id() . $extra_message . ' )';
+			
 			default: return 'FAILED: ' . $type . 
 							' is not valid ( ID: ' . $item->get_id() . $extra_message . ' )';
 		}

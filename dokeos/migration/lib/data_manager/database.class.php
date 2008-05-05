@@ -117,7 +117,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function get_parent_id($owner,$type,$title,$parent = null)
 	{
-		$query = 'SELECT id FROM ' . get_table_name(repository_learning_object). ' WHERE owner=\'' . $owner . '\' AND type=\'' . $type .
+		$query = 'SELECT id FROM ' . $this->get_table_name(repository_learning_object). ' WHERE owner=\'' . $owner . '\' AND type=\'' . $type .
 		 		'\' AND title=\'' . $title . '\'';
 		
 		if($parent)
@@ -156,7 +156,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function add_failed_element($failed_id,$table)
 	{
-		$query = 'INSERT INTO ' . get_table_name(self :: TEMP_FAILED_ELEMENTS_TABLE) . 
+		$query = 'INSERT INTO ' . $this->get_table_name(self :: TEMP_FAILED_ELEMENTS_TABLE) . 
 				 ' (failed_id, table_name) VALUES (\''.
 					$failed_id . '\',\'' . $table.'\')';
 		$this->connection->query($query);
@@ -302,7 +302,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	  */
 	 function is_language_available($language)
 	 {
-	 	$query = 'SELECT id FROM ' . get_table_name('admin_language'). ' WHERE folder=\'' . $language . '\';';
+	 	$query = 'SELECT id FROM ' . $this->get_table_name('admin_language'). ' WHERE folder=\'' . $language . '\';';
 
 	 	$result = $this->connection->query($query);
 	 	return ($result->numRows() > 0);
