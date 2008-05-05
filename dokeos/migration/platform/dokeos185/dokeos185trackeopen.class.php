@@ -12,7 +12,6 @@ require_once dirname(__FILE__) . '/../../lib/import/importtrackeopen.class.php';
  */
 class Dokeos185TrackEOpen extends ImportTrackEOpen
 {
-	private static $mgdm;
 	
 	/**
 	 * Dokeos185TrackEOpen properties
@@ -152,13 +151,13 @@ class Dokeos185TrackEOpen extends ImportTrackEOpen
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$db = 'statistics_database';
 		$tablename = 'track_e_open';
 		$classname = 'Dokeos185TrackEOpen';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

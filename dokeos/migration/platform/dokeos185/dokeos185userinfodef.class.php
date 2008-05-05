@@ -4,6 +4,8 @@
  */
 require_once dirname(__FILE__) . '/../../lib/import/importuserinfodef.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/userinfo_def/userinfo_def.class.php';
+require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
+
 /**
  * This class presents a Dokeos185 userinfo_def
  *
@@ -19,8 +21,6 @@ class Dokeos185UserinfoDef extends ImportUserinfoDef
 	const PROPERTY_COMMENT = 'comment';
 	const PROPERTY_LINE_COUNT = 'line_count';
 	const PROPERTY_RANK = 'rank';
-	
-	private static $mgdm;
 
 	/**
 	 * Default properties stored in an associative array.
@@ -136,7 +136,8 @@ class Dokeos185UserinfoDef extends ImportUserinfoDef
 		
 		if(!$this->get_title())
 		{
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm = MigrationDataManager :: get_instance();
+			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.userinfodef');
 			return false;		
 		}
@@ -153,15 +154,16 @@ class Dokeos185UserinfoDef extends ImportUserinfoDef
 	function convert_to_lcms($parameters)
 	{	
 		$course = $parameters['course'];
-
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
-		$new_user_id = self :: $mgdm->get_owner($new_course_code);
+		$mgdm = MigrationDataManager :: get_instance();
+		
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$new_user_id = $mgdm->get_owner($new_course_code);
 	
 		//userinfodef parameters
 		$lcms_userinfodef = new UserinfoDef();
 
 		// Category for userinfo already exists?
-		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+		$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category',
 			Translation :: get('userinfos'));
 		if(!$lcms_category_id)
 		{
@@ -172,7 +174,7 @@ class Dokeos185UserinfoDef extends ImportUserinfoDef
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
-			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+			$repository_id = $mgdm->get_parent_id($new_user_id, 
 				'category', Translation :: get('MyRepository'));
 			$lcms_repository_category->set_parent_id($repository_id);
 			
@@ -207,13 +209,13 @@ class Dokeos185UserinfoDef extends ImportUserinfoDef
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'userinfo_def';
 		$classname = 'Dokeos185UserinfoDef';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

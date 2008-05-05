@@ -152,13 +152,13 @@ class Dokeos185TrackELinks extends ImportTrackELinks
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$db = 'statistics_database';
 		$tablename = 'track_e_links';
 		$classname = 'Dokeos185TrackELinks';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

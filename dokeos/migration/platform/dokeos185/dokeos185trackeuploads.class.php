@@ -12,7 +12,6 @@ require_once dirname(__FILE__) . '/../../lib/import/importtrackeuploads.class.ph
  */
 class Dokeos185TrackEUploads extends ImportTrackEUploads
 {
-	private static $mgdm;
 	
 	/**
 	 * Dokeos185TrackEUploads properties
@@ -152,13 +151,13 @@ class Dokeos185TrackEUploads extends ImportTrackEUploads
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$db = 'statistics_database';
 		$tablename = 'track_e_uploads';
 		$classname = 'Dokeos185TrackEUploads';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

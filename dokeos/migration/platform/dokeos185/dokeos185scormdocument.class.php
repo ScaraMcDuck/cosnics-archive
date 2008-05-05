@@ -148,6 +148,8 @@ class Dokeos185Scormdocument
 	 */
 	function is_valid($courses)
 	{
+		$old_mgdm = $courses['old_mgdm'];
+		
 		$course = $courses['course'];
 		
 		$filename = basename($this->get_path());
@@ -156,9 +158,10 @@ class Dokeos185Scormdocument
 		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 		
-		if(!$this->get_path() || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)))
+		if(!$this->get_path() || !file_exists($old_mgdm->append_full_path(false,$old_rel_path . $filename)))
 		{	
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm = MigrationDataManager :: get_instance();
+			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.scorm_file');
 			return false;
 		}
@@ -173,9 +176,12 @@ class Dokeos185Scormdocument
 	function convert_to_lcms($array)
 	{
 		$course = $array['course'];
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
+		$old_mgdm = $array['old_mgdm'];
+		$mgdm = MigrationDataManager :: get_instance();
 		
-		$new_user_id = self :: $mgdm->get_owner($new_course_code);
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
+		
+		$new_user_id = $mgdm->get_owner($new_course_code);
 		
 		$new_path = $new_user_id . '/';
 		$old_rel_path = 'courses/' . $course->get_directory() . '/scorm/' . dirname($this->get_path()) . '/';
@@ -188,12 +194,12 @@ class Dokeos185Scormdocument
 		$filename = iconv("UTF-8", "ISO-8859-1", basename($filename));
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 			
-		//if(!self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $this->get_filename()))])
+		//if(!self :: $files[$new_user_id][md5_file($old_mgdm->append_full_path(false,$old_rel_path . $this->get_filename()))])
 		//{
 			// Move file to correct directory
 			//echo($old_rel_path . "\t" . $new_rel_path . "\t" . $filename . "\n");
 
-			$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
+			$file = $old_mgdm->move_file($old_rel_path, $new_rel_path, 
 				$filename);
 
 			if($file)
@@ -216,7 +222,7 @@ class Dokeos185Scormdocument
 				$lcms_document->set_filename($file);
 				
 				// Category for announcements already exists?
-				$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+				$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category',
 					Translation :: get('scorms'));
 				if(!$lcms_category_id)
 				{
@@ -227,7 +233,7 @@ class Dokeos185Scormdocument
 					$lcms_repository_category->set_description('...');
 			
 					//Retrieve repository id from dropbox
-					$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+					$repository_id = $mgdm->get_parent_id($new_user_id, 
 						'category', Translation :: get('MyRepository'));
 					$lcms_repository_category->set_parent_id($repository_id);
 					
@@ -247,7 +253,7 @@ class Dokeos185Scormdocument
 				//create document in database
 				$lcms_document->create();
 				
-				//self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(true,$new_rel_path . $file))] = $lcms_document->get_id();
+				//self :: $files[$new_user_id][md5_file($old_mgdm->append_full_path(true,$new_rel_path . $file))] = $lcms_document->get_id();
 			}
 			
 		//}
@@ -255,7 +261,7 @@ class Dokeos185Scormdocument
 		
 		//{
 		//	$lcms_document = new LearningObject();
-		//	$id = self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $this->get_filename()))];
+		//	$id = self :: $files[$new_user_id][md5_file($old_mgdm->append_full_path(false,$old_rel_path . $this->get_filename()))];
 		//	$lcms_document->set_id($id);
 		//}
 		/*	
@@ -273,7 +279,7 @@ class Dokeos185Scormdocument
 			
 			foreach($file_split as $cat)
 			{
-				$lcms_category_id = self :: $mgdm->publication_category_exist($cat, $new_course_code,
+				$lcms_category_id = $mgdm->publication_category_exist($cat, $new_course_code,
 					'document',$parent);
 				
 				if(!$lcms_category_id)
@@ -303,12 +309,12 @@ class Dokeos185Scormdocument
 			$publication->set_publisher_id($new_user_id);
 			$publication->set_tool('document');
 			$publication->set_category_id($parent);
-			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
-			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
+			//$publication->set_from_date($mgdm->make_unix_time($this->item_property->get_start_visible()));
+			//$publication->set_to_date($mgdm->make_unix_time($this->item_property->get_end_visible()));
 			$publication->set_from_date(0);
 			$publication->set_to_date(0);
-			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+			$publication->set_publication_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
+			$publication->set_modified_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
 			//$publication->set_modified_date(0);
 			//$publication->set_display_order_index($this->get_display_order());
 			$publication->set_display_order_index(0);
@@ -333,13 +339,13 @@ class Dokeos185Scormdocument
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'scormdocument';
 		$classname = 'Dokeos185Scormdocument';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

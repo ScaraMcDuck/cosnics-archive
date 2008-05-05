@@ -154,13 +154,13 @@ class Dokeos185PhpSession extends ImportPhpSession
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['mgdm'];
 		
 		$db = 'main_database';
 		$tablename = 'php_session';
 		$classname = 'Dokeos185PhpSession';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)
