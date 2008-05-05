@@ -82,6 +82,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 		
 		//Create migrationdatamanager
 		$this->old_mgdm = OldMigrationDataManager :: getInstance($this->old_system, $old_directory);
+		$mgdm = MigrationDataManager :: get_instance();
 		
 		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
 			$this->old_mgdm->set_move_file(true);
@@ -93,20 +94,50 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 					 $exportvalues['migrate_courses'] == 1 &&  $exportvalues['migrate_users'] == 1)
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
-				$courses = array();
-				$courses = $courseclass->get_all(array('old_mgdm' => $this->old_mgdm));
-				$mgdm = MigrationDataManager :: get_instance();
-				foreach($courses as $i => $course)
-				{
-					if ($mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
+				
+				$database_table = $courseclass->get_database_table(null);
+				
+				$max_records = $this->old_mgdm->count_records($database_table['database'],$database_table['table']);
+				$retrieve_parms = array();
+				$retrieve_parms['old_mgdm']= $this->old_mgdm;
+				
+				$current_record = 0;
+		
+				while ($max_records > 0)
+				{	
+					if ($max_records - 1000 > 0)
 					{
-						continue;
-					}	
-					$this->migrate('CourseDescription', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
-					//$this->migrate('CourseSetting', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
-					//$this->migrate('Tool', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,2);
-					$this->migrate('ToolIntro', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,3);
-					unset($courses[$i]);
+						$retrieve_parms['offset'] = $current_record;
+						$retrieve_parms['limit'] = 1000;
+					}
+					else
+					{
+						$retrieve_parms['offset'] = $current_record;
+						$retrieve_parms['limit'] = $max_records;
+					} 
+				
+					$courses = array();
+					$courses = $courseclass->get_all($retrieve_parms);
+					
+					foreach($courses as $i => $course)
+					{
+						if ($mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
+						{
+							continue;
+						}	
+						$this->migrate('CourseDescription', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
+						//$this->migrate('CourseSetting', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
+						//$this->migrate('Tool', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,2);
+						$this->migrate('ToolIntro', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,3);
+						unset($course);
+						unset($courses[$i]);
+					}
+					
+					$courses = array();
+					unset($courses);
+					
+					$current_record += $retrieve_parms['limit'];
+					$max_records -= $retrieve_parms['limit'];
 				}
 			}
 			else

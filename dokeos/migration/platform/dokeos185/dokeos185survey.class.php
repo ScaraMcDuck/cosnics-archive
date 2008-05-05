@@ -375,12 +375,12 @@ class Dokeos185Survey extends ImportSurvey
 			$publication->set_publisher_id($new_user_id);
 			$publication->set_tool('announcement');
 			$publication->set_category_id(0);
-			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
-			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
+			//$publication->set_from_date($mgdm->make_unix_time($this->item_property->get_start_visible()));
+			//$publication->set_to_date($mgdm->make_unix_time($this->item_property->get_end_visible()));
 			$publication->set_from_date(0);
 			$publication->set_to_date(0);
-			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+			$publication->set_publication_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
+			$publication->set_modified_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
 			//$publication->set_modified_date(0);
 			//$publication->set_display_order_index($this->get_display_order());
 			$publication->set_display_order_index(0);
