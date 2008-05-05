@@ -93,10 +93,6 @@ abstract class MigrationDataManager
 	 * @return database-record failed migration record
 	 */
 	abstract function get_failed_element($table_name, $old_id);
-	/**
-	 * Generic method to create a classobject from a record
-	 */
-	abstract function record_to_classobject($record, $classname);
 	 /**
 	 * select a recovery element from table recovery by id
 	 * @param int $id ID of  an recovery element

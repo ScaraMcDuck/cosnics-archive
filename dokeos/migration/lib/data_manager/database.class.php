@@ -36,6 +36,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
    		 die($this->connection->getMessage());
 		}
 		$this->connection->query('SET NAMES utf8');
+		
 	}
 
 	/**
@@ -116,7 +117,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function get_parent_id($owner,$type,$title,$parent = null)
 	{
-		$query = 'SELECT id FROM repository_learning_object WHERE owner=\'' . $owner . '\' AND type=\'' . $type .
+		$query = 'SELECT id FROM ' . get_table_name(repository_learning_object). ' WHERE owner=\'' . $owner . '\' AND type=\'' . $type .
 		 		'\' AND title=\'' . $title . '\'';
 		
 		if($parent)
@@ -155,7 +156,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function add_failed_element($failed_id,$table)
 	{
-		$query = 'INSERT INTO ' . self :: TEMP_FAILED_ELEMENTS_TABLE . 
+		$query = 'INSERT INTO ' . get_table_name(self :: TEMP_FAILED_ELEMENTS_TABLE) . 
 				 ' (failed_id, table_name) VALUES (\''.
 					$failed_id . '\',\'' . $table.'\')';
 		$this->connection->query($query);
@@ -177,7 +178,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 		if (pos != -1)
 			$new_path = substr($new_path,0,$pos-1) . '\\' . substr($new_path,$pos);
 			
-		$query = 'INSERT INTO ' . self :: TEMP_RECOVERY_TABLE .
+		$query = 'INSERT INTO ' . $this->get_table_name(self :: TEMP_RECOVERY_TABLE) .
 				 '(old_path, new_path) VALUES (\''.
 					$old_path . '\',\''.$new_path .'\')';
 		$this->connection->query($query);
@@ -191,7 +192,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function add_id_reference($old_id,$new_id,$table_name)
 	{	
-		$query = 'INSERT INTO ' . self :: TEMP_ID_REFERENCE_TABLE . 
+		$query = 'INSERT INTO ' . $this->get_table_name(self :: TEMP_ID_REFERENCE_TABLE) . 
 				 ' (old_id, new_id, table_name) VALUES (\'' .
 					$old_id . '\',\'' . $new_id . '\',\'' . $table_name . '\')';
 		$this->connection->query($query);
@@ -202,7 +203,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function add_file_md5($user_id, $document_id, $md5)
 	{
-		$query = 'INSERT INTO ' . self :: TEMP_FILES_M5_TABLE . 
+		$query = 'INSERT INTO ' . $this->get_table_name(elf :: TEMP_FILES_M5_TABLE) . 
 				 ' (user_id, document_id, file_md5) VALUES (\'' .
 					$user_id . '\',\'' . $document_id . '\',\'' . $md5 . '\')';
 		$this->connection->query($query);
@@ -215,7 +216,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	 function get_failed_element($table_name, $old_id)
 	 {	
-	 	$query = 'SELECT * FROM ' . self :: TEMP_FAILED_ELEMENTS_TABLE . 
+	 	$query = 'SELECT * FROM ' . $this->get_table_name(self :: TEMP_FAILED_ELEMENTS_TABLE) . 
 				 ' WHERE table_name=\'' . $table_name . '\' AND failed_id=\'' . $old_id . '\'';
 		$result = $this->connection->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -229,36 +230,13 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 }
 	 
 	 /**
-	  * Generic method to create a classobject from a record
-	  */
-	 function record_to_classobject($record, $classname)
-	 {
-		 if (!is_array($record) || !count($record))
-		 {
-		 	throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
-		 }
-		 $defaultProp = array ();
-			
-		 $class = new $classname($defaultProp);
-		 
-		 foreach ($class->get_default_property_names() as $prop)
-		 {
-		 	 $defaultProp[$prop] = $record[$prop];
-		 }
-		 
-		 $class->set_default_properties($defaultProp);
-		 
-		 return $class;
-	 }
-	 
-	 /**
 	 * select a recovery element from table recovery by id
 	 * @param int $id ID of  an recovery element
 	 * @return database-record recovery record
 	 */
 	 function get_recovery_element($id)
 	 {	
-	 	$query = 'SELECT * FROM ' . self :: TEMP_RECOVERY_TABLE . 
+	 	$query = 'SELECT * FROM ' . $this->get_table_name(self :: TEMP_RECOVERY_TABLE) . 
 				 ' WHERE id = \'' . $id . '\'';
 		$result = $this->connection->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -277,7 +255,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	 function get_id_reference($old_id, $table_name)
 	 {
-	 	$query = 'SELECT new_id FROM ' . self :: TEMP_ID_REFERENCE_TABLE . 
+	 	$query = 'SELECT new_id FROM ' . $this->get_table_name(self :: TEMP_ID_REFERENCE_TABLE) . 
 				 ' WHERE old_id = \'' . $old_id . '\' AND table_name=\'' . $table_name . '\'';
 		$result = $this->connection->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -294,7 +272,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	  */
 	 function get_document_from_md5($user_id, $md5)
 	 {
-	 	$query = 'SELECT document_id FROM ' . self :: TEMP_FILES_M5_TABLE . 
+	 	$query = 'SELECT document_id FROM ' . $this->get_table_name(self :: TEMP_FILES_M5_TABLE) . 
 				 ' WHERE user_id = \'' . $user_id . '\' AND file_md5=\'' . $md5 . '\'';
 		$result = $this->connection->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -324,7 +302,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	  */
 	 function is_language_available($language)
 	 {
-	 	$query = 'SELECT id FROM admin_language WHERE folder=\'' . $language . '\';';
+	 	$query = 'SELECT id FROM ' . get_table_name('admin_language'). ' WHERE folder=\'' . $language . '\';';
 
 	 	$result = $this->connection->query($query);
 	 	return ($result->numRows() > 0);
@@ -337,7 +315,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	  */
 	 function get_next_position($table_name,$field_name)
 	 {
-	 	$query = 'SELECT MAX(' . $field_name . ') AS \'highest\' FROM ' . $table_name;
+	 	$query = 'SELECT MAX(' . $field_name . ') AS \'highest\' FROM ' . $this->get_table_name($table_name);
 	 	
 	 	$result = $this->connection->query($query);
 	 	$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -352,7 +330,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	  */
 	 function code_available($table_name, $code)
 	 {
-	 	$query = 'SELECT * FROM ' . $table_name . ' WHERE ';
+	 	$query = 'SELECT * FROM ' . $this->get_table_name($table_name) . ' WHERE ';
 	 	if ($table_name == 'weblcms_course')
 	 		$query = $query . 'code=\'' . $code . '\'';
 	 	else
@@ -378,7 +356,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function publication_category_exist($title,$course_code,$tool,$parent = null)
 	{
-		$query = 'SELECT id FROM weblcms_learning_object_publication_category WHERE title=\'' . $title . '\' AND course=\'' . $course_code .
+		$query = 'SELECT id FROM ' . $this->get_table_name('weblcms_learning_object_publication_category'). ' WHERE title=\'' . $title . '\' AND course=\'' . $course_code .
 		 		'\' AND tool=\'' . $tool . '\'';
 		
 		if($parent)
@@ -397,8 +375,8 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function get_document_id($path,$owner_id)
 	{
-		$query = 'SELECT id FROM repository_document WHERE path=\'' . $path . '\' AND id IN ' .
-						'(SELECT id FROM repository_learning_object WHERE owner = ' . $owner_id . ')';
+		$query = 'SELECT id FROM ' . $this->get_table_name('repository_document'). ' WHERE path=\'' . $path . '\' AND id IN ' .
+						'(SELECT id FROM ' . $this->get_table_name('repository_learning_object'). ' WHERE owner = ' . $owner_id . ')';
 		
 		$result = $this->connection->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -413,7 +391,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function get_owner($course)
 	{
-		$query = 'SELECT user_id FROM weblcms_course_rel_user WHERE course_code = \'' . $course . '\' AND status=1;';
+		$query = 'SELECT user_id FROM ' . $this->get_table_name('weblcms_course_rel_user'). ' WHERE course_code = \'' . $course . '\' AND status=1;';
 		
 		$result = $this->connection->query($query);
 		$owners = array();
@@ -430,9 +408,9 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 		}
 		else
 		{
-			$query = 'SELECT CRL.user_id FROM weblcms_course_rel_user CRL WHERE CRL.user_id IN (
-					  SELECT UU.user_id FROM user_user UU WHERE CONCAT(UU.lastname,\' \',UU.firstname) IN (
-					  SELECT C.tutor_name FROM weblcms_course C WHERE C.code = CRL.course_code)) AND CRL.status = 1 AND CRL.course_code = \'' . $course . '\';';
+			$query = 'SELECT CRL.user_id FROM ' . $this->get_table_name('weblcms_course_rel_user'). ' CRL WHERE CRL.user_id IN (
+					  SELECT UU.user_id FROM ' . $this->get_table_name('user_user'). ' UU WHERE CONCAT(UU.lastname,\' \',UU.firstname) IN (
+					  SELECT C.tutor_name FROM ' . $this->get_table_name('weblcms_course'). ' C WHERE C.code = CRL.course_code)) AND CRL.status = 1 AND CRL.course_code = \'' . $course . '\';';
 			
 			$result = $this->connection->query($query);
 			$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -441,8 +419,8 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 				return $record['user_id'];
 			else
 			{
-				$query = 'SELECT COUNT(LOP.publisher) as count, LOP.publisher FROM weblcms_learning_object_publication LOP WHERE LOP.publisher IN (
-						  SELECT CRL.user_id FROM weblcms_course_rel_user CRL WHERE CRL.course_code = \''. $course .'\' AND CRL.status = 1) AND
+				$query = 'SELECT COUNT(LOP.publisher) as count, LOP.publisher FROM ' . $this->get_table_name('weblcms_learning_object_publication'). ' LOP WHERE LOP.publisher IN (
+						  SELECT CRL.user_id FROM ' . $this->get_table_name('weblcms_course_rel_user'). ' CRL WHERE CRL.course_code = \''. $course .'\' AND CRL.status = 1) AND
 						  LOP.course = \''. $course .'\' GROUP BY LOP.publisher;';
 				
 				$result = $this->connection->query($query);
@@ -462,7 +440,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 				
 				if ($owner_id == -1)
 				{
-					$query = 'SELECT user_id FROM user_user WHERE admin = 1';
+					$query = 'SELECT user_id FROM ' . $this->get_table_name('user_user'). ' WHERE admin = 1';
 					$result = $this->connection->query($query);
 					$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 					$owner_id = $record['user_id'];
@@ -492,7 +470,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	{
 		$fullname = str_replace('\'', '\\\'', $fullname);
 		
-	 	$query = 'SELECT user_id FROM user_user WHERE ' .
+	 	$query = 'SELECT user_id FROM ' . $this->get_table_name('user_user'). ' WHERE ' .
 	 			 'CONCAT(firstname, \' \', lastname) = \'' . $fullname . '\' OR ' .
 	 			 'CONCAT(lastname, \' \', firstname) = \'' . $fullname . '\'';
 
