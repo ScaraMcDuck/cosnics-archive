@@ -187,7 +187,7 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 			array_values($items);
 			$this->logfile->add_message($retrieve_parms['limit']  . ' records done');
 			$current_record += $retrieve_parms['limit'];
-				$max_records -= $retrieve_parms['limit'];
+			$max_records -= $retrieve_parms['limit'];
 		}
 		$this->logfile->add_message($final_message);
 	}
