@@ -167,12 +167,14 @@ class Dokeos185Link extends ImportLink
 	function is_valid($array)
 	{
 		$course = $array['course'];
-		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'link',$this->get_id());
+		$mgdm = MigrationDataManager :: get_instance();
+		$old_mgdm = $array['old_mgdm'];
+		$this->item_property = $old_mgdm->get_item_property($course->get_db_name(),'link',$this->get_id());
 		
 		if(!$this->get_url() || !$this->get_id() || !$this->get_title() || 
 			!$this->item_property || !$this->item_property->get_ref() || !$this->item_property->get_insert_date() )
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.link');
 			return false;
 		}
@@ -187,18 +189,19 @@ class Dokeos185Link extends ImportLink
 	function convert_to_lcms($array)
 	{
 		$course = $array['course'];
-		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$mgdm = MigrationDataManager :: get_instance();
+		$new_user_id = $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
 		if(!$new_user_id)
 		{
-			$new_user_id = self :: $mgdm->get_owner($new_course_code);
+			$new_user_id = $mgdm->get_owner($new_course_code);
 		}
 		
 		$lcms_link = new Link();
 		
 		// Category for links already exists?
-		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+		$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category',
 			Translation :: get('links'));
 		if(!$lcms_category_id)
 		{
@@ -209,7 +212,7 @@ class Dokeos185Link extends ImportLink
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
-			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+			$repository_id = $mgdm->get_parent_id($new_user_id, 
 				'category', Translation :: get('MyRepository'));
 			$lcms_repository_category->set_parent_id($repository_id);
 			
@@ -231,8 +234,8 @@ class Dokeos185Link extends ImportLink
 			$lcms_link->set_description($this->get_title());
 		
 		$lcms_link->set_owner_id($new_user_id);
-		$lcms_link->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-		$lcms_link->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+		$lcms_link->set_creation_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
+		$lcms_link->set_modification_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
 		
 		if($this->item_property->get_visibility() == 2)
 			$lcms_link->set_state(1);
@@ -241,7 +244,7 @@ class Dokeos185Link extends ImportLink
 		$lcms_link->create_all();
 		
 		//Add id references to temp table
-		self :: $mgdm->add_id_reference($this->get_id(), $lcms_link->get_id(), 'repository_link');
+		$mgdm->add_id_reference($this->get_id(), $lcms_link->get_id(), 'repository_link');
 		
 		//publication
 		if($this->item_property->get_visibility() <= 1) 
@@ -253,18 +256,18 @@ class Dokeos185Link extends ImportLink
 			$publication->set_publisher_id($new_user_id);
 			$publication->set_tool('link');
 			
-			$category_id =  self :: $mgdm->get_id_reference($this->get_category_id(), $new_course_code . '.link_category');
+			$category_id =  $mgdm->get_id_reference($this->get_category_id(), $new_course_code . '.link_category');
 			if($category_id)
 				$publication->set_category_id($category_id);
 			else
 				$publication->set_category_id(0);
 				
-			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
-			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
+			//$publication->set_from_date($mgdm->make_unix_time($this->item_property->get_start_visible()));
+			//$publication->set_to_date($mgdm->make_unix_time($this->item_property->get_end_visible()));
 			$publication->set_from_date(0);
 			$publication->set_to_date(0);
-			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+			$publication->set_publication_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
+			$publication->set_modified_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
 			//$publication->set_modified_date(0);
 			//$publication->set_display_order_index($this->get_display_order());
 			$publication->set_display_order_index(0);
@@ -287,7 +290,7 @@ class Dokeos185Link extends ImportLink
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		if($parameters['del_files'] =! 1)
 			$tool_name = 'link';
@@ -296,7 +299,7 @@ class Dokeos185Link extends ImportLink
 		$tablename = 'link';
 		$classname = 'Dokeos185Link';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

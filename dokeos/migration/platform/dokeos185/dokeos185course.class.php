@@ -19,7 +19,7 @@ class Dokeos185Course extends ImportCourse
 	/**
 	 * Migration data manager
 	 */
-	private static $mgdm;
+
 	
 	/**
 	 * course properties

@@ -78,10 +78,10 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->set_start_time();
 		
 		//Create migrationdatamanager
-		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
+		$this->old_mgdm = OldMigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
 		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
-			$this->mgdm->set_move_file(true);
+			$this->old_mgdm->set_move_file(true);
 		
 		if(isset($exportvalues['migrate_documents']) && $exportvalues['migrate_documents'] == 1)
 		{	
@@ -91,15 +91,15 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
 				$courses = array();
-				$courses = $courseclass->get_all(array('mgdm' => $this->mgdm));
-				
+				$courses = $courseclass->get_all(array('old_mgdm' => $this->old_mgdm));
+				$mgdm = MigrationDataManager :: get_instance();
 				foreach($courses as $i => $course)
 				{
 					$old_rel_path = 'courses/' . $course->get_directory() . '/document/';
 					$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
-					$full_path = $this->mgdm->append_full_path(false,$old_rel_path);
+					$full_path = $this->old_mgdm->append_full_path(false,$old_rel_path);
 					
-					if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()) || !is_dir($full_path))
+					if ($mgdm->get_failed_element('dokeos_main.course', $course->get_code()) || !is_dir($full_path))
 					{
 						continue;
 					}	
@@ -107,7 +107,7 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 					$condition = new EqualityCondition('filetype', 'file');
 					
 					//$this->migrate_documents($course);
-					$this->migrate('Document', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files, 'condition' => $condition), array(), $course,0);
+					$this->migrate('Document', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files, 'condition' => $condition), array('old_mgdm' => $this->old_mgdm), $course,0);
 					unset($courses[$i]);
 					flush();
 				}
@@ -135,7 +135,6 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 
 		//Close the logfile
 		$this->passedtime = $this->logfile->write_passed_time();
-		$this->logfile->add_message('Counter: ' . Dokeos185Document :: get_counter());
 		$this->logfile->close_file();
 		$logger->write_text('documents');
 		$logger->close_file();

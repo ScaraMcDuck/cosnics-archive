@@ -108,10 +108,10 @@ class Dokeos185ToolIntro extends ImportToolIntro
 	function is_valid($array)
 	{
 		$course = $array['course'];
-		
+		$mgdm = MigrationDataManager :: get_instance();
 		if(!$this->get_intro_text())
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.toolintro');
 			return false;
 		}
@@ -126,9 +126,10 @@ class Dokeos185ToolIntro extends ImportToolIntro
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
+		$mgdm = MigrationDataManager :: get_instance();
 		
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
-		$user_id = self :: $mgdm->get_owner($new_course_code);
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$user_id = $mgdm->get_owner($new_course_code);
 		
 		$lcms_tool_intro = new Description();
 		$lcms_tool_intro->set_title($this->get_intro_text());
@@ -136,7 +137,7 @@ class Dokeos185ToolIntro extends ImportToolIntro
 		$lcms_tool_intro->set_description($this->get_intro_text());
 		
 		// Category for contents already exists?
-		$lcms_category_id = self :: $mgdm->get_parent_id($user_id, 'category',
+		$lcms_category_id = $mgdm->get_parent_id($user_id, 'category',
 			Translation :: get('descriptions'));
 		if(!$lcms_category_id)
 		{
@@ -147,7 +148,7 @@ class Dokeos185ToolIntro extends ImportToolIntro
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
-			$repository_id = self :: $mgdm->get_parent_id($user_id, 
+			$repository_id = $mgdm->get_parent_id($user_id, 
 				'category', Translation :: get('MyRepository'));
 			$lcms_repository_category->set_parent_id($repository_id);
 			
@@ -196,13 +197,13 @@ class Dokeos185ToolIntro extends ImportToolIntro
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$db = $parameters['course']->get_db_name();
 		$tablename = 'tool_intro';
 		$classname = 'Dokeos185ToolIntro';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

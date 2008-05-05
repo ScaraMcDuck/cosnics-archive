@@ -4,6 +4,9 @@
  * 
  * This abstract class defines a page which is used in a migration wizard.
  */
+require_once dirname(__FILE__) . '/../../../../migrationdatamanager.class.php';
+require_once dirname(__FILE__) . '/../../../../oldmigrationdatamanager.class.php';
+
 abstract class MigrationWizardPage extends HTML_QuickForm_Page
 {
 	/**

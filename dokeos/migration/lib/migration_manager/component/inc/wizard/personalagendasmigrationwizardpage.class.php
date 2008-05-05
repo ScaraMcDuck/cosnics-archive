@@ -87,7 +87,7 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->set_start_time();
 		
 		//Create temporary tables, create migrationdatamanager
-		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
+		$this->old_mgdm = OldMigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
 		if(isset($exportvalues['migrate_personal_agendas']) && $exportvalues['migrate_personal_agendas'] == 1)
 		{	
@@ -95,7 +95,7 @@ class PersonalAgendasMigrationWizardPage extends MigrationWizardPage
 			if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 			{
 				//$this->migrate_personal_agendas();
-				$this->migrate('PersonalAgenda', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
+				$this->migrate('PersonalAgenda', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
 			}
 			else
 			{

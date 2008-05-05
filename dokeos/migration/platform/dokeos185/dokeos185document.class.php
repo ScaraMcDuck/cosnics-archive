@@ -21,7 +21,6 @@ class Dokeos185Document extends ImportDocument
 {
 	private static $mgdm;
 	private $item_property;
-	private static $counter = 0;
 
 	/**
 	 * document properties
@@ -161,11 +160,6 @@ class Dokeos185Document extends ImportDocument
 		return $this->get_default_property(self :: PROPERTY_FILETYPE);
 	}
 
-	static function get_counter()
-	{
-		return self :: $counter;
-	}
-	
 	/**
 	 * Check if the document is valid
 	 * @param Course $course the course of the document
@@ -174,7 +168,9 @@ class Dokeos185Document extends ImportDocument
 	function is_valid($array)
 	{
 		$course = $array['course'];
-		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'document',$this->get_id());	
+		$old_mgdm = $array['old_mgdm'];
+		$this->item_property = $old_mgdm->get_item_property($course->get_db_name(),'document',$this->get_id());	
+		$mgdm = MigrationDataManager :: get_instance();
 		
 		$pos = strrpos($this->get_path(), '/');
 		$filename = substr($this->get_path(), $pos);
@@ -186,15 +182,14 @@ class Dokeos185Document extends ImportDocument
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 		
 		if(!$this->get_id() || !$this->get_path() || !$this->get_filetype() || !$this->item_property || !$this->item_property->get_ref()
-			|| !$this->item_property->get_insert_date() || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)) )
+			|| !$this->item_property->get_insert_date() || !file_exists($old_mgdm->append_full_path(false,$old_rel_path . $filename)) )
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.document');
 			
-			if(	file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)) )
+			if(	file_exists($old_mgdm->append_full_path(false,$old_rel_path . $filename)) )
 			{
-				$filesize = filesize(self :: $mgdm->append_full_path(false,$old_rel_path . $filename));
-				self :: $counter += $filesize;
+				$filesize = filesize($old_mgdm->append_full_path(false,$old_rel_path . $filename));
 			}
 			unset($old_rel_path);
 			unset($filename);
@@ -216,8 +211,11 @@ class Dokeos185Document extends ImportDocument
 	function convert_to_lcms($array)
 	{
 		$course = $array['course'];
-		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
+		$mgdm = MigrationDataManager :: get_instance();
+		$old_mgdm = $array['old_mgdm'];
+		
+		$new_user_id = $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
 		
 		$pos = strrpos($this->get_path(), '/');
 		$filename = substr($this->get_path(), $pos);
@@ -226,7 +224,7 @@ class Dokeos185Document extends ImportDocument
 		
 		if(!$new_user_id)
 		{
-			$new_user_id = self :: $mgdm->get_owner($new_course_code);
+			$new_user_id = $mgdm->get_owner($new_course_code);
 		}
 		
 		$new_path = $new_user_id . '/';
@@ -241,12 +239,12 @@ class Dokeos185Document extends ImportDocument
 		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 
-		$document_md5 = md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)); 
-		$document_id = self :: $mgdm->get_document_from_md5($new_user_id,$document_md5);
+		$document_md5 = md5_file($old_mgdm->append_full_path(false,$old_rel_path . $filename)); 
+		$document_id = $mgdm->get_document_from_md5($new_user_id,$document_md5);
 		
 		if(!$document_id)
 		{
-			$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
+			$file = $old_mgdm->move_file($old_rel_path, $new_rel_path, 
 				$filename);
 
 			if($file)
@@ -254,7 +252,7 @@ class Dokeos185Document extends ImportDocument
 				//document parameters
 				$lcms_document = new Document();
 				
-				$lcms_document->set_filesize(self :: $mgdm->append_full_path(false,$old_rel_path . $filename));
+				$lcms_document->set_filesize($old_mgdm->append_full_path(false,$old_rel_path . $filename));
 				if($this->get_title())
 					$lcms_document->set_title($this->get_title());
 				else
@@ -263,14 +261,14 @@ class Dokeos185Document extends ImportDocument
 				$lcms_document->set_comment($this->get_comment());
 				
 				$lcms_document->set_owner_id($new_user_id);
-				$lcms_document->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-				$lcms_document->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+				$lcms_document->set_creation_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
+				$lcms_document->set_modification_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
 				$lcms_document->set_path($new_path . $file);
 				$lcms_document->set_filename($file);
 				
 				
 				// Category for announcements already exists?
-				$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+				$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category',
 					Translation :: get('documents'));
 				if(!$lcms_category_id)
 				{
@@ -281,7 +279,7 @@ class Dokeos185Document extends ImportDocument
 					$lcms_repository_category->set_description('...');
 			
 					//Retrieve repository id from course
-					$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+					$repository_id = $mgdm->get_parent_id($new_user_id, 
 						'category', Translation :: get('MyRepository'));
 					$lcms_repository_category->set_parent_id($repository_id);
 					
@@ -303,13 +301,13 @@ class Dokeos185Document extends ImportDocument
 				$lcms_document->create_all();
 				
 				//Add id references to temp table
-				self :: $mgdm->add_id_reference($this->get_id(), $lcms_document->get_id(), 'repository_document');
+				$mgdm->add_id_reference($this->get_id(), $lcms_document->get_id(), 'repository_document');
 			
-				self :: $mgdm->add_file_md5($new_user_id, $lcms_document->get_id(), $document_md5);
+				$mgdm->add_file_md5($new_user_id, $lcms_document->get_id(), $document_md5);
 			}
 			else
 			{ 
-				$document_id = self :: $mgdm->get_document_id($new_rel_path . $filename, $new_user_id);
+				$document_id = $mgdm->get_document_id($new_rel_path . $filename, $new_user_id);
 				if($document_id)
 				{
 					$lcms_document = new LearningObject();
@@ -345,7 +343,7 @@ class Dokeos185Document extends ImportDocument
 			
 			foreach($file_split as $cat)
 			{
-				$lcms_category_id = self :: $mgdm->publication_category_exist($cat, $new_course_code,
+				$lcms_category_id = $mgdm->publication_category_exist($cat, $new_course_code,
 					'document',$parent);
 				
 				if(!$lcms_category_id)
@@ -377,12 +375,12 @@ class Dokeos185Document extends ImportDocument
 			unset($new_user_id);
 			$publication->set_tool('document');
 			$publication->set_category_id($parent);
-			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
-			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
+			//$publication->set_from_date($mgdm->make_unix_time($this->item_property->get_start_visible()));
+			//$publication->set_to_date($mgdm->make_unix_time($this->item_property->get_end_visible()));
 			$publication->set_from_date(0);
 			$publication->set_to_date(0);
-			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+			$publication->set_publication_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
+			$publication->set_modified_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
 			//$publication->set_modified_date(0);
 			//$publication->set_display_order_index($this->get_display_order());
 			$publication->set_display_order_index(0);
@@ -412,9 +410,9 @@ class Dokeos185Document extends ImportDocument
 	static function get_all($parameters)
 	{
 		
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		$course = $parameters['course'];
-		return self :: $mgdm->get_all_documents($course, $parameters['del_files'],$parameters['offset'],$parameters['limit']);
+		return $old_mgdm->get_all_documents($course, $parameters['del_files'],$parameters['offset'],$parameters['limit']);
 	}
 	
 	static function get_database_table($parameters)

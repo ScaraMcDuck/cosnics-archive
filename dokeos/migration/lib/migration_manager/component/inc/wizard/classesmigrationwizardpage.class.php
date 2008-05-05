@@ -100,18 +100,18 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->set_start_time();
 		
 		//Create temporary tables, create migrationdatamanager
-		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
+		$this->old_mgdm = OldMigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
 		if(isset($exportvalues['migrate_classes']) && $exportvalues['migrate_classes'] == 1)
 		{	
 			//Migrate the classes
 			//$this->migrate_classes();
-			$this->migrate('Class', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
+			$this->migrate('Class', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
 			//Migrate the class users
 			if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 			{
 				//$this->migrate_class_users();
-				$this->migrate('ClassUser', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), null,1);
+				$this->migrate('ClassUser', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,1);
 			}
 			else
 			{

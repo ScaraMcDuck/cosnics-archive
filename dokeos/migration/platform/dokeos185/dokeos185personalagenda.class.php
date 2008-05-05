@@ -176,11 +176,12 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 	 */
 	function is_valid($parameters)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		if(!$this->get_user() || (!$this->get_title() && !$this->get_text()) || !$this->get_date() ||
-			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user()) ||
-			!self :: $mgdm->get_id_reference($this->get_user(), 'user_user'))
+			$mgdm->get_failed_element('dokeos_main.user', $this->get_user()) ||
+			!$mgdm->get_id_reference($this->get_user(), 'user_user'))
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm->add_failed_element($this->get_id(),
 				'dokeos_main.personal_agenda');
 			return false;
 		}
@@ -193,14 +194,15 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 	 */
 	function convert_to_lcms($parameters)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		// Create calendar event	
 		$lcms_calendar_event = new CalendarEvent();
-		$lcms_calendar_event->set_start_date(self :: $mgdm->make_unix_time($this->get_date()));
+		$lcms_calendar_event->set_start_date($mgdm->make_unix_time($this->get_date()));
 		
 		if(!$this->get_enddate())
-			$lcms_calendar_event->set_end_date(self :: $mgdm->make_unix_time($this->get_date()));
+			$lcms_calendar_event->set_end_date($mgdm->make_unix_time($this->get_date()));
 		else
-			$lcms_calendar_event->set_end_date(self :: $mgdm->make_unix_time($this->get_enddate()));
+			$lcms_calendar_event->set_end_date($mgdm->make_unix_time($this->get_enddate()));
 			
 		if(!$this->get_title())
 			$lcms_calendar_event->set_title(substr($this->get_text(),0,20));
@@ -213,12 +215,12 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 			$lcms_calendar_event->set_description($this->get_text());
 		
 		//Get owner_ID from
-		$owner_id = self :: $mgdm->get_id_reference($this->get_user(), 'user_user');
+		$owner_id = $mgdm->get_id_reference($this->get_user(), 'user_user');
 		if($owner_id)
 			$lcms_calendar_event->set_owner_id($owner_id);
 		
 		// Category for calendar events already exists?
-		$lcms_category_id = self :: $mgdm->get_parent_id($owner_id, 'category',
+		$lcms_category_id = $mgdm->get_parent_id($owner_id, 'category',
 			Translation :: get('calendar_events'));
 		if(!$lcms_category_id)
 		{
@@ -229,7 +231,7 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from user
-			$repository_id = self :: $mgdm->get_parent_id($owner_id, 
+			$repository_id = $mgdm->get_parent_id($owner_id, 
 				'category', Translation :: get('MyRepository'));
 	
 			$lcms_repository_category->set_parent_id($repository_id);
@@ -251,7 +253,7 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 		$lcms_personal_calendar = new CalendarEventPublication();
 		$lcms_personal_calendar->set_calendar_event($lcms_calendar_event->get_id());
 		$lcms_personal_calendar->set_publisher($owner_id);
-		$lcms_personal_calendar->set_published(self :: $mgdm->make_unix_time($this->get_date()));
+		$lcms_personal_calendar->set_published($mgdm->make_unix_time($this->get_date()));
 		
 		$lcms_personal_calendar->create_all();
 		
@@ -266,13 +268,13 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$db = 'user_personal_database';
 		$tablename = 'personal_agenda';
 		$classname = 'Dokeos185PersonalAgenda';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	static function get_database_table($parameters)
 	{
