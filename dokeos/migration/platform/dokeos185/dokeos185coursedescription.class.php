@@ -17,7 +17,6 @@ require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobje
 
 class Dokeos185CourseDescription extends ImportCourseDescription
 {
-	private static $mgdm;
 	
 	/**
 	 * course description properties
@@ -123,10 +122,11 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 	 */
 	function is_valid($array)
 	{	
+		$mgdm = MigrationDataManager :: get_instance();
 		$course = $array['course'];
 		if(!$this->get_id() || !($this->get_title() || $this->get_content()))
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.description');
 			return false;
 		}
@@ -140,6 +140,8 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 	 */
 	function convert_to_lcms($array)
 	{	
+		$old_mgdm = $array['old_mgdm'];
+		$mgdm = MigrationDataManager :: get_instance();
 		$course = $array['course'];
 		$lcms_content = new Description();
 		
@@ -153,11 +155,11 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 		else
 			$lcms_content->set_description($this->get_content());
 		
-		$user_id = self :: $mgdm->get_id_reference(self :: $mgdm->get_old_admin_id(), 'user_user');
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$user_id = $mgdm->get_id_reference($old_mgdm->get_old_admin_id(), 'user_user');
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
 		// Category for contents already exists?
-		$lcms_category_id = self :: $mgdm->get_parent_id($user_id, 'category',
+		$lcms_category_id = $mgdm->get_parent_id($user_id, 'category',
 			Translation :: get('descriptions'));
 		if(!$lcms_category_id)
 		{
@@ -168,7 +170,7 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
-			$repository_id = self :: $mgdm->get_parent_id($user_id, 
+			$repository_id = $mgdm->get_parent_id($user_id, 
 				'category', Translation :: get('MyRepository'));
 			$lcms_repository_category->set_parent_id($repository_id);
 			
@@ -217,13 +219,13 @@ class Dokeos185CourseDescription extends ImportCourseDescription
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$db = $parameters['course']->get_db_name();
 		$tablename = 'course_description';
 		$classname = 'Dokeos185CourseDescription';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

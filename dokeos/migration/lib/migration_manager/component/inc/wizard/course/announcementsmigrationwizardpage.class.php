@@ -83,10 +83,10 @@ class AnnouncementsMigrationWizardPage extends MigrationWizardPage
 		$this->logfile->set_start_time();
 		
 		//Create temporary tables, create migrationdatamanager
-		$this->mgdm = MigrationDataManager :: getInstance($this->old_system, $old_directory);
+		$this->old_mgdm = OldMigrationDataManager :: getInstance($this->old_system, $old_directory);
 		
 		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
-			$this->mgdm->set_move_file(true);
+			$this->old_mgdm->set_move_file(true);
 		
 		if(isset($exportvalues['migrate_announcements']) && $exportvalues['migrate_announcements'] == 1)
 		{	
@@ -96,16 +96,16 @@ class AnnouncementsMigrationWizardPage extends MigrationWizardPage
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
 				$courses = array();
-				$courses = $courseclass->get_all(array('mgdm' => $this->mgdm));
-				
+				$courses = $courseclass->get_all(array('old_mgdm' => $this->old_mgdm));
+				$mgdm = MigrationDataManager :: get_instance();
 				foreach($courses as $i => $course)
 				{
-					if ($this->mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
+					if ($mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
 					{
 						continue;
 					}	
 			
-					$this->migrate('Announcement', array('mgdm' => $this->mgdm, 'del_files' => $this->include_deleted_files), array(), $course,0);
+					$this->migrate('Announcement', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
 					unset($courses[$i]);
 				}
 			}

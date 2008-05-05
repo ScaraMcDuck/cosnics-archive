@@ -19,7 +19,7 @@ class Dokeos185CourseRelUser extends ImportCourseRelUser
 	/**
 	 * Migration data manager
 	 */
-	private static $mgdm;
+
 
 	/**
 	 * course relation user properties

@@ -21,7 +21,7 @@ class Dokeos185CourseCategory extends ImportCourseCategory
 	/**
 	 * Migration data manager
 	 */
-	private static $mgdm;
+
 	
 	/**
 	 * course category properties

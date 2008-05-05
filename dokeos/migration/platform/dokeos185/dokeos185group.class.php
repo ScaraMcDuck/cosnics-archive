@@ -215,11 +215,12 @@ class Dokeos185Group extends ImportGroup
 	 */
 	function is_valid($array)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		$course = $array['course'];
 		if(!$this->get_name() || $this->get_self_registration_allowed() == NULL
 			|| $this->get_self_unregistration_allowed() == NULL)
 		{
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.group');
 			return false;		
 		}
@@ -234,8 +235,9 @@ class Dokeos185Group extends ImportGroup
 	 */
 	function convert_to_lcms($array)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		$course = $array['course'];
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
 		$lcms_group = new Group();
 		$lcms_group->set_course_code($new_course_code);
@@ -255,7 +257,7 @@ class Dokeos185Group extends ImportGroup
 		$lcms_group->set_self_unregistration_allowed($this->get_self_unregistration_allowed());
 		$lcms_group->create();
 		
-		self :: $mgdm->add_id_reference($old_id, $lcms_group->get_id(), 'weblcms_group');
+		$mgdm->add_id_reference($old_id, $lcms_group->get_id(), 'weblcms_group');
 		
 		return $lcms_group;
 	}
@@ -267,13 +269,13 @@ class Dokeos185Group extends ImportGroup
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'group_info';
 		$classname = 'Dokeos185Group';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

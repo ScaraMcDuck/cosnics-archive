@@ -15,10 +15,6 @@ require_once dirname(__FILE__).'/../../../classgroup/lib/classgroupreluser.class
  
 class Dokeos185ClassUser extends ImportClassUser
 {
-	/**
-	 * Migration data manager
-	 */
-	private static $mgdm;
 
 	/**
 	 * class relation user properties
@@ -130,12 +126,13 @@ class Dokeos185ClassUser extends ImportClassUser
 	 */
 	function is_valid($parameters)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		if(!$this->get_class_id() || !$this->get_user_id() || 
-			self :: $mgdm->get_failed_element('dokeos_main.class', $this->get_class_id()) ||
-			self :: $mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()) ||
-			!self :: $mgdm->get_id_reference($this->get_user_id(), 'user_user'))
+			$mgdm->get_failed_element('dokeos_main.class', $this->get_class_id()) ||
+			$mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()) ||
+			!$mgdm->get_id_reference($this->get_user_id(), 'user_user'))
 		{
-			self :: $mgdm->add_failed_element($this->get_class_id() . '-' . $this->get_user_id(),
+			$mgdm->add_failed_element($this->get_class_id() . '-' . $this->get_user_id(),
 				'dokeos_main.class_user');
 			return false;
 		}
@@ -150,13 +147,14 @@ class Dokeos185ClassUser extends ImportClassUser
 	 */
 	function convert_to_lcms($parameters)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		$lcms_class_user = new ClassGroupRelUser();
 		
-		$class_id = self :: $mgdm->get_id_reference($this->get_class_id(), 'classgroup_classgroup');
+		$class_id = $mgdm->get_id_reference($this->get_class_id(), 'classgroup_classgroup');
 		if($class_id)
 			$lcms_class_user->set_classgroup_id($class_id);
 		
-		$user_id = self :: $mgdm->get_id_reference($this->get_user_id(), 'user_user');
+		$user_id = $mgdm->get_id_reference($this->get_user_id(), 'user_user');
 		if($user_id)
 			$lcms_class_user->set_user_id($user_id);
 		
@@ -172,13 +170,13 @@ class Dokeos185ClassUser extends ImportClassUser
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$db = 'main_database';
 		$tablename = 'class_user';
 		$classname = 'Dokeos185ClassUser';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

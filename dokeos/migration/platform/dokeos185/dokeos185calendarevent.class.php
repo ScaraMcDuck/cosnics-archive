@@ -146,13 +146,15 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 	function is_valid($array)
 	{
 		$course = $array['course'];
-		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'calendar_event',$this->get_id());	
+		$mgdm = MigrationDataManager :: get_instance();
+		$old_mgdm = $array['old_mgdm'];
+		$this->item_property = $old_mgdm->get_item_property($course->get_db_name(),'calendar_event',$this->get_id());	
 	
 
 		if(!$this->get_id() || !($this->get_title() || $this->get_content()) || !$this->item_property
 			|| !$this->item_property->get_ref() || !$this->item_property->get_insert_date())
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.calendar_event');
 			return false;
 		}
@@ -166,24 +168,25 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 	 */
 	function convert_to_lcms($array)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		$course = $array['course'];
-		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
+		$new_user_id = $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
 	
 		if(!$new_user_id)
 		{
-			$new_user_id = self :: $mgdm->get_owner($new_course_code);
+			$new_user_id = $mgdm->get_owner($new_course_code);
 		}
 	
 		//calendar event parameters
 		$lcms_calendar_event = new CalendarEvent();
 		
-		$lcms_calendar_event->set_start_date(self :: $mgdm->make_unix_time($this->get_start_date()));
-		$lcms_calendar_event->set_end_date(self :: $mgdm->make_unix_time($this->get_end_date()));
+		$lcms_calendar_event->set_start_date($mgdm->make_unix_time($this->get_start_date()));
+		$lcms_calendar_event->set_end_date($mgdm->make_unix_time($this->get_end_date()));
 			
 		
 		// Category for calendar_events already exists?
-		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+		$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category',
 			Translation :: get('calendar_events'));
 		if(!$lcms_category_id)
 		{
@@ -194,7 +197,7 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from user
-			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+			$repository_id = $mgdm->get_parent_id($new_user_id, 
 				'category', Translation :: get('MyRepository'));
 	
 			$lcms_repository_category->set_parent_id($repository_id);
@@ -221,8 +224,8 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 			$lcms_calendar_event->set_description($this->get_content());
 		
 		$lcms_calendar_event->set_owner_id($new_user_id);
-		$lcms_calendar_event->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-		$lcms_calendar_event->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+		$lcms_calendar_event->set_creation_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
+		$lcms_calendar_event->set_modification_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
 		
 		if($this->item_property->get_visibility() == 2)
 			$lcms_calendar_event->set_state(1);
@@ -241,12 +244,12 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 			$publication->set_publisher_id($new_user_id);
 			$publication->set_tool('calendar_event');
 			$publication->set_category_id(0);
-			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
-			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
+			//$publication->set_from_date($mgdm->make_unix_time($this->item_property->get_start_visible()));
+			//$publication->set_to_date($mgdm->make_unix_time($this->item_property->get_end_visible()));
 			$publication->set_from_date(0);
 			$publication->set_to_date(0);
-			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+			$publication->set_publication_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
+			$publication->set_modified_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
 			//$publication->set_modified_date(0);
 			//$publication->set_display_order_index($this->get_display_order());
 			$publication->set_display_order_index(0);
@@ -268,7 +271,7 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		if($parameters['del_files'] =! 1)
 			$tool_name = 'calendar_event';
@@ -277,7 +280,7 @@ class Dokeos185CalendarEvent extends ImportCalendarEvent
 		$tablename = 'calendar_event';
 		$classname = 'Dokeos185CalendarEvent';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

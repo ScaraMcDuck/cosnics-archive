@@ -16,10 +16,6 @@ require_once dirname(__FILE__).'/../../../classgroup/lib/classgroup.class.php';
 
 class Dokeos185Class extends ImportClass
 {
-	/**
-	 * Migration data manager
-	 */
-	private static $mgdm;
 
 	/**
 	 * course relation user properties
@@ -142,9 +138,10 @@ class Dokeos185Class extends ImportClass
 	 */
 	function is_valid($parameters)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		if(!$this->get_name())
 		{
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm->add_failed_element($this->get_id(),
 				'dokeos_main.class');
 			return false;
 		}
@@ -157,6 +154,7 @@ class Dokeos185Class extends ImportClass
 	 */
 	function convert_to_lcms($parameters)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		//class parameters
 		$lcms_class = new ClassGroup();
 		
@@ -167,13 +165,13 @@ class Dokeos185Class extends ImportClass
 		else
 			$lcms_class->set_description($this->get_name());
 			
-		$lcms_class->set_sort(self :: $mgdm->get_next_position('classgroup_classgroup', 'sort'));
+		$lcms_class->set_sort($mgdm->get_next_position('classgroup_classgroup', 'sort'));
 		
 		//create course in database
 		$lcms_class->create();
 		
 		//Add id references to temp table
-		self :: $mgdm->add_id_reference($this->get_id(), $lcms_class->get_id(), 'classgroup_classgroup');
+		$mgdm->add_id_reference($this->get_id(), $lcms_class->get_id(), 'classgroup_classgroup');
 		
 		return $lcms_class;
 	}
@@ -185,13 +183,13 @@ class Dokeos185Class extends ImportClass
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$db = 'main_database';
 		$tablename = 'class';
 		$classname = 'Dokeos185Class';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	static function get_database_table($parameters)
 	{

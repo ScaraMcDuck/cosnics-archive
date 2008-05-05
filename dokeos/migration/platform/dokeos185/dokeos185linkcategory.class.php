@@ -122,9 +122,10 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 	function is_valid($array)
 	{	
 		$course = $array['course'];
+		$mgdm = MigrationDataManager :: get_instance();
 		if(!$this->get_id() || !($this->get_category_title() || $this->get_description()))
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.link');
 			return false;
 		}
@@ -139,7 +140,8 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$mgdm = MigrationDataManager :: get_instance();
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
 		$lcms_link_category = new LearningObjectPublicationCategory();
 		
@@ -155,7 +157,7 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 		
 		$lcms_link_category->create();
 		
-		self :: $mgdm->add_id_reference($this->get_id(), $lcms_link_category->get_id(), $new_course_code . '.link_category');
+		$mgdm->add_id_reference($this->get_id(), $lcms_link_category->get_id(), $new_course_code . '.link_category');
 		
 		return $lcms_link_category;
 		
@@ -168,13 +170,13 @@ class Dokeos185LinkCategory extends ImportLinkCategory
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'link_category';
 		$classname = 'Dokeos185LinkCategory';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

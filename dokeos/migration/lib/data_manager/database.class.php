@@ -203,7 +203,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function add_file_md5($user_id, $document_id, $md5)
 	{
-		$query = 'INSERT INTO ' . $this->get_table_name(elf :: TEMP_FILES_M5_TABLE) . 
+		$query = 'INSERT INTO ' . $this->get_table_name(self :: TEMP_FILES_M5_TABLE) . 
 				 ' (user_id, document_id, file_md5) VALUES (\'' .
 					$user_id . '\',\'' . $document_id . '\',\'' . $md5 . '\')';
 		$this->connection->query($query);
