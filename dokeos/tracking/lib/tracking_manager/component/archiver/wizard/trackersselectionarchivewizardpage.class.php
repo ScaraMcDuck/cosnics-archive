@@ -37,10 +37,21 @@ class TrackersSelectionArchiveWizardPage extends ArchiveWizardPage
 		$defaults = array();
 		
 		$events = $this->get_parent()->retrieve_events();
+		$previousblock = '';
 		
-		foreach($events as $event)
+		$this->addElement('html', '<div style="margin-top: 10px;">&nbsp;</div>');
+		
+		while($event = $events->next_result())
 		{
-			$this->addElement('checkbox', $event->get_name() . 'event', '', $event->get_name(), 'onclick=\'event_clicked("' . $event->get_name() . 'event", this.form)\' style=\'margin-top: 20px;\'');
+			if($event->get_block() != $previousblock)
+			{
+				$message = '<div style="float:left;"><img src="' . Path :: get(WEB_LAYOUT_PATH) . 'aqua/img/admin/place_' . $event->get_block() . '.png" alt="' . $event->get_block() . '"></div>';
+				$previousblock = $event->get_block();
+			}
+			else
+				$message = "";
+			
+			$this->addElement('checkbox', $event->get_name() . 'event', $message, $event->get_name(), 'onclick=\'event_clicked("' . $event->get_name() . 'event", this.form)\' style=\'margin-top: 20px;\'');
 			$defaults[$event->get_name() . 'event'] = 1;
 			
 			$trackers = $this->get_parent()->retrieve_trackers_from_event($event->get_id());
