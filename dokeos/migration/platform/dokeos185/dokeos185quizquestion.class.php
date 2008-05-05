@@ -164,7 +164,7 @@ class Dokeos185QuizQuestion extends ImportQuizQuestion
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 
 		if($parameters['del_files'] =! 1)
 			$tool_name = 'quiz_question';
@@ -173,7 +173,7 @@ class Dokeos185QuizQuestion extends ImportQuizQuestion
 		$tablename = 'quiz_question';
 		$classname = 'Dokeos185QuizQuestion';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)
@@ -192,10 +192,11 @@ class Dokeos185QuizQuestion extends ImportQuizQuestion
 	function is_valid($array)
 	{
 		$course = $array['course'];
+		$mgdm = MigrationDataManager :: get_instance();
 		if(!$this->get_id() || !$this->get_type() || !$this->get_question()
 			|| !$this->get_position())
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.quiz_question');
 			return false;
 		}
@@ -209,12 +210,14 @@ class Dokeos185QuizQuestion extends ImportQuizQuestion
 	 */
 	function convert_to_lcms($array)
 	{
+		$old_mgdm = $array['old_mgdm'];
+		$mgdm = MigrationDataManager :: get_instance();
 		$course = $array['course'];
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
 		$answers = array();
-		$answers = self :: $mgdm -> get_all_question_answer($course->get_db_name(),$this->get_id());
-		$new_user_id = self :: $mgdm->get_owner($course->get_code());
+		$answers = $old_mgdm -> get_all_question_answer($course->get_db_name(),$this->get_id());
+		$new_user_id = $mgdm->get_owner($course->get_code());
 		
 		
 		//sort of quiz question
@@ -237,7 +240,7 @@ class Dokeos185QuizQuestion extends ImportQuizQuestion
 		
 		
 		// Category for quiz questions already exists?
-		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+		$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category',
 			Translation :: get('quizzes'));
 		if(!$lcms_category_id)
 		{
@@ -248,7 +251,7 @@ class Dokeos185QuizQuestion extends ImportQuizQuestion
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
-			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+			$repository_id = $mgdm->get_parent_id($new_user_id, 
 				'category', Translation :: get('MyRepository'));
 			$lcms_repository_category->set_parent_id($repository_id);
 			

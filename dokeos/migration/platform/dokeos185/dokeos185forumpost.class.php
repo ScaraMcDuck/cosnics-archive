@@ -200,7 +200,7 @@ class Dokeos185ForumPost extends ImportForumPost
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		if($parameters['del_files'] =! 1)
 			$tool_name = 'forum_post';
@@ -209,7 +209,7 @@ class Dokeos185ForumPost extends ImportForumPost
 		$tablename = 'forum_post';
 		$classname = 'Dokeos185ForumPost';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)
@@ -228,10 +228,10 @@ class Dokeos185ForumPost extends ImportForumPost
 	function is_valid($array)
 	{
 		$course = $array['course'];	
-
+		$mgdm = MigrationDataManager :: get_instance();
 		if(!$this->get_post_id() || !($this->get_post_title() || $this->get_post_text()))
 		{		 
-			self :: $mgdm->add_failed_element($this->get_post_id(),
+			$mgdm->add_failed_element($this->get_post_id(),
 				$course->get_db_name() . '.forum_post');
 			return false;
 		}
@@ -245,20 +245,21 @@ class Dokeos185ForumPost extends ImportForumPost
 	 */
 	function convert_to_lcms($array)
 	{
-		$new_user_id = self :: $mgdm->get_id_reference($this->get_poster_id(),'user_user');	
+		$mgdm = MigrationDataManager :: get_instance();
+		$new_user_id = $mgdm->get_id_reference($this->get_poster_id(),'user_user');	
 		$course = $array['course'];
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
 		if(!$new_user_id)
 		{
-			$new_user_id = self :: $mgdm->get_owner($new_course_code);
+			$new_user_id = $mgdm->get_owner($new_course_code);
 		}
 		
 		//forum parameters
 		$lcms_forum_post = new ForumPost();
 		
 		// Category for forum_post already exists?
-		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+		$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category',
 			Translation :: get('forums'));
 		if(!$lcms_category_id)
 		{
@@ -269,7 +270,7 @@ class Dokeos185ForumPost extends ImportForumPost
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
-			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+			$repository_id = $mgdm->get_parent_id($new_user_id, 
 				'category', Translation :: get('MyRepository'));
 			$lcms_repository_category->set_parent_id($repository_id);
 			
@@ -294,10 +295,10 @@ class Dokeos185ForumPost extends ImportForumPost
 			$lcms_forum_post->set_description($this->get_post_text());
 		
 		$lcms_forum_post->set_owner_id($new_user_id);
-		$lcms_forum_post->set_creation_date(self :: $mgdm->make_unix_time($this->get_post_date()));
-		$lcms_forum_post->set_modification_date(self :: $mgdm->make_unix_time($this->get_post_date()));
+		$lcms_forum_post->set_creation_date($mgdm->make_unix_time($this->get_post_date()));
+		$lcms_forum_post->set_modification_date($mgdm->make_unix_time($this->get_post_date()));
 		
-		$parentpost = self :: $mgdm->get_id_reference($this->get_post_parent_id(),'repository_forum_forum');
+		$parentpost = $mgdm->get_id_reference($this->get_post_parent_id(),'repository_forum_forum');
 		
 		if($parentpost)
 			$lcms_forum_post->set_parent_post_id($parentpost);
@@ -310,7 +311,7 @@ class Dokeos185ForumPost extends ImportForumPost
 		//create announcement in database
 		$lcms_forum_post->create_all();
 		
-		self :: $mgdm->add_id_reference($this->get_post_id, $lcms_forum_post->get_id(), 'repository_forum_forum');
+		$mgdm->add_id_reference($this->get_post_id, $lcms_forum_post->get_id(), 'repository_forum_forum');
 		
 		/*
 		//publication

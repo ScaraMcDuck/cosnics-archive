@@ -205,12 +205,14 @@ class Dokeos185ForumThread extends ImportForumThread
 	function is_valid($array)
 	{
 		$course = $array['course'];
-		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'forum_thread',$this->get_thread_id());	
+		$old_mgdm = $array['old_mgdm'];
+		$mgdm = MigrationDataManager :: get_instance();
+		$this->item_property = $old_mgdm->get_item_property($course->get_db_name(),'forum_thread',$this->get_thread_id());	
 
 		if(!$this->get_thread_id() || !$this->get_thread_title() || !$this->item_property
 			|| !$this->item_property->get_ref() || !$this->item_property->get_insert_date())
 		{		 
-			self :: $mgdm->add_failed_element($this->get_thread_id(),
+			$mgdm->add_failed_element($this->get_thread_id(),
 				$course->get_db_name() . '.forum_thread');
 			return false;
 		}
@@ -224,20 +226,21 @@ class Dokeos185ForumThread extends ImportForumThread
 	 */
 	function convert_to_lcms($array)
 	{
-		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
+		$mgdm = MigrationDataManager :: get_instance();
+		$new_user_id = $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
 		$course = $array['course'];
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
 		if(!$new_user_id)
 		{
-			$new_user_id = self :: $mgdm->get_owner($new_course_code);
+			$new_user_id = $mgdm->get_owner($new_course_code);
 		}
 		
 		//forum parameters
 		$lcms_forum_topic = new ForumTopic();
 		
 		// Category for announcements already exists?
-		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+		$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category',
 			Translation :: get('forums'));
 		if(!$lcms_category_id)
 		{
@@ -248,7 +251,7 @@ class Dokeos185ForumThread extends ImportForumThread
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
-			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+			$repository_id = $mgdm->get_parent_id($new_user_id, 
 				'category', Translation :: get('MyRepository'));
 			$lcms_repository_category->set_parent_id($repository_id);
 			
@@ -267,8 +270,8 @@ class Dokeos185ForumThread extends ImportForumThread
 		$lcms_forum_topic->set_description('...');
 		
 		$lcms_forum_topic->set_owner_id($new_user_id);
-		$lcms_forum_topic->set_creation_date(self :: $mgdm->make_unix_time($this->get_thread_date()));
-		$lcms_forum_topic->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+		$lcms_forum_topic->set_creation_date($mgdm->make_unix_time($this->get_thread_date()));
+		$lcms_forum_topic->set_modification_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
 		
 		if($this->item_property->get_visibility() == 2)
 			$lcms_forum_topic->set_state(1);
@@ -277,7 +280,7 @@ class Dokeos185ForumThread extends ImportForumThread
 		$lcms_forum_topic->create_all();
 		
 		//Add id references to temp table
-		self :: $mgdm->add_id_reference($this->get_thread_id(), $lcms_forum_topic->get_id(), 'repository_forum_thread');
+		$mgdm->add_id_reference($this->get_thread_id(), $lcms_forum_topic->get_id(), 'repository_forum_thread');
 		
 		/*
 		//publication
@@ -321,7 +324,7 @@ class Dokeos185ForumThread extends ImportForumThread
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		if($parameters['del_files'] =! 1)
 			$tool_name = 'forum_thread';
@@ -330,7 +333,7 @@ class Dokeos185ForumThread extends ImportForumThread
 		$tablename = 'forum_thread';
 		$classname = 'Dokeos185ForumThread';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

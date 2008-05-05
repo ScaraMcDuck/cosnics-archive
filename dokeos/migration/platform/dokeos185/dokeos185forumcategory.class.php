@@ -139,9 +139,10 @@ class Dokeos185ForumCategory extends ImportForumCategory
 	function is_valid($array)
 	{
 		$course = $array['course'];
+		$mgdm = MigrationDataManager :: get_instance();
 		if(!($this->get_cat_title() || $this->get_cat_comment()))
 		{
-			self :: $mgdm->add_failed_element($this->get_cat_id(),
+			$mgdm->add_failed_element($this->get_cat_id(),
 				$course->get_db_name() . '.forum_category');
 			return false;
 		}
@@ -157,6 +158,7 @@ class Dokeos185ForumCategory extends ImportForumCategory
 	function convert_to_lcms($array)
 	{	
 		//Course category parameters
+		$mgdm = MigrationDataManager :: get_instance();
 		$lcms_forum_category = new LearningObjectPublicationCategory();
 		$course = $array['course'];
 		
@@ -169,7 +171,7 @@ class Dokeos185ForumCategory extends ImportForumCategory
 		
 		
 		
-		$lcms_forum_category->set_course(self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course'));
+		$lcms_forum_category->set_course($mgdm->get_id_reference($course->get_code(),'weblcms_course'));
 		
 		$lcms_forum_category->set_tool('forum');
 		
@@ -177,7 +179,7 @@ class Dokeos185ForumCategory extends ImportForumCategory
 		$lcms_forum_category->create();
 		
 		//Add id references to temp table
-		self :: $mgdm->add_id_reference($old_id, $lcms_forum_category->get_id(), 'weblcms_learning_object_publication_category');
+		$mgdm->add_id_reference($old_id, $lcms_forum_category->get_id(), 'weblcms_learning_object_publication_category');
 		
 		return $lcms_forum_category;
 	}
@@ -189,7 +191,7 @@ class Dokeos185ForumCategory extends ImportForumCategory
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		if($parameters['del_files'] =! 1)
 			$tool_name = 'forum_category';
@@ -198,7 +200,7 @@ class Dokeos185ForumCategory extends ImportForumCategory
 		$tablename = 'forum_category';
 		$classname = 'Dokeos185ForumCategory';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)
