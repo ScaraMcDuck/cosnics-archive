@@ -174,13 +174,13 @@ class Dokeos185SurveyInvitation extends ImportSurveyInvitation
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'survey_invitation';
 		$classname = 'Dokeos185SurveyInvitation';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

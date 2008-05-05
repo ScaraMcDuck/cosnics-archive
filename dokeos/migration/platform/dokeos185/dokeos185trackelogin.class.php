@@ -134,12 +134,14 @@ class Dokeos185TrackELogin extends ImportTrackELogin
 	 */
 	function is_valid($array)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
+		
 		if(!$this->get_login_user_id() || !$this->get_login_date()
 			|| !$this->get_login_ip() ||
-			self :: $mgdm->get_failed_element($this->get_login_user_id(),'dokeos_main.user') ||
-			!self :: $mgdm->get_id_reference($this->get_login_user_id(),'user_user'))
+			$mgdm->get_failed_element($this->get_login_user_id(),'dokeos_main.user') ||
+			!$mgdm->get_id_reference($this->get_login_user_id(),'user_user'))
 		{		 
-			self :: $mgdm->add_failed_element($this->get_login_id(),'track_e_login');
+			$mgdm->add_failed_element($this->get_login_id(),'track_e_login');
 			return false;
 		}
 		return true;
@@ -152,10 +154,12 @@ class Dokeos185TrackELogin extends ImportTrackELogin
 	function convert_to_lcms($array)
 	{	
 		$login = new LoginLogoutTracker();
-		$new_user_id = self :: $mgdm->get_id_reference($this->get_login_user_id(),'user_user');
+		$mgdm = MigrationDataManager :: get_instance();
+		
+		$new_user_id = $mgdm->get_id_reference($this->get_login_user_id(),'user_user');
 		$login->set_user_id($new_user_id);
 		$login->set_ip($this->get_login_ip());
-		$login->set_date(self :: $mgdm->make_unix_time($this->get_login_date()));
+		$login->set_date($mgdm->make_unix_time($this->get_login_date()));
 		$login->set_type('login');
 		$login->create();
 		
@@ -164,7 +168,7 @@ class Dokeos185TrackELogin extends ImportTrackELogin
 			$login = new LoginLogoutTracker();
 			$login->set_user_id($new_user_id);
 			$login->set_ip($this->get_login_ip());
-			$login->set_date(self :: $mgdm->make_unix_time($this->get_logout_date()));
+			$login->set_date($mgdm->make_unix_time($this->get_logout_date()));
 			$login->set_type('logout');
 			$login->create();
 		}
@@ -178,13 +182,13 @@ class Dokeos185TrackELogin extends ImportTrackELogin
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$db = 'statistics_database';
 		$tablename = 'track_e_login';
 		$classname = 'Dokeos185TrackELogin';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

@@ -118,6 +118,8 @@ class Dokeos185AssignmentFile extends ImportAssignmentfile
 	 */
 	function is_valid($array)
 	{ 
+		$old_mgdm = $array['old_mgdm'];
+		
 		$course = $array['course'];
 		$filename = $this->get_doc_path(); 
 		$old_rel_path = 'courses/' . $course->get_directory() . '/assignment/assig_'  . $this->get_assignment_id() . '/';
@@ -125,9 +127,10 @@ class Dokeos185AssignmentFile extends ImportAssignmentfile
 		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 
-		if(!$this->get_assignment_id() || !$this->get_doc_path()|| !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)) )
+		if(!$this->get_assignment_id() || !$this->get_doc_path()|| !file_exists($old_mgdm->append_full_path(false,$old_rel_path . $filename)) )
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm = MigrationDataManager :: get_instance();
+			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.assignment_file');
 			return false;
 		}
@@ -143,9 +146,11 @@ class Dokeos185AssignmentFile extends ImportAssignmentfile
 	function convert_to_lcms($array)
 	{	
 		$course = $array['course'];
-
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
-		$new_user_id = self :: $mgdm->get_owner($new_course_code);
+		$old_mgdm = $array['old_mgdm'];
+		$mgdm = MigrationDataManager :: get_instance();
+		
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
+		$new_user_id = $mgdm->get_owner($new_course_code);
 		
 		$filename = $this->get_doc_path();
 		$new_path = $new_user_id . '/';
@@ -158,12 +163,12 @@ class Dokeos185AssignmentFile extends ImportAssignmentfile
 		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path); 
 
-		$document_md5 = md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $filename));
-		$document_id = self :: $mgdm->get_document_from_md5($new_user_id,$document_md5);
+		$document_md5 = md5_file($old_mgdm->append_full_path(false,$old_rel_path . $filename));
+		$document_id = $mgdm->get_document_from_md5($new_user_id,$document_md5);
 		
 		if(!$document_id)
 		{
-			$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
+			$file = $old_mgdm->move_file($old_rel_path, $new_rel_path, 
 				$filename);
 
 			if($file)
@@ -179,7 +184,7 @@ class Dokeos185AssignmentFile extends ImportAssignmentfile
 				$lcms_document->set_filename($file);
 				
 				// Category for announcements already exists?
-				$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+				$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category',
 					Translation :: get('assignment'));
 				if(!$lcms_category_id)
 				{
@@ -190,7 +195,7 @@ class Dokeos185AssignmentFile extends ImportAssignmentfile
 					$lcms_repository_category->set_description('...');
 			
 					//Retrieve repository id from course
-					$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+					$repository_id = $mgdm->get_parent_id($new_user_id, 
 						'category', Translation :: get('MyRepository'));
 					$lcms_repository_category->set_parent_id($repository_id);
 					
@@ -207,11 +212,11 @@ class Dokeos185AssignmentFile extends ImportAssignmentfile
 				//create document in database
 				$lcms_document->create();
 			
-				self :: $mgdm->add_file_md5($new_user_id, $lcms_document->get_id(), $document_md5);
+				$mgdm->add_file_md5($new_user_id, $lcms_document->get_id(), $document_md5);
 			}
 			else
 			{ 
-				$document_id = self :: $mgdm->get_document_id($new_rel_path . $filename, $new_user_id);
+				$document_id = $mgdm->get_document_id($new_rel_path . $filename, $new_user_id);
 				if($document_id)
 				{
 					$lcms_document = new LearningObject();
@@ -302,13 +307,13 @@ class Dokeos185AssignmentFile extends ImportAssignmentfile
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'assignment_file';
 		$classname = 'Dokeos185AssignmentFile';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return self :: $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

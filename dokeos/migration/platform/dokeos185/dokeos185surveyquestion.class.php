@@ -176,7 +176,7 @@ class Dokeos185SurveyQuestion
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 
 		if($parameters['del_files'] =! 1)
 			$tool_name = 'survey_question';
@@ -185,7 +185,7 @@ class Dokeos185SurveyQuestion
 		$tablename = 'survey_question';
 		$classname = 'Dokeos185SurveyQuestion';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)
@@ -207,7 +207,8 @@ class Dokeos185SurveyQuestion
 
 		if(!$this->get_survey_question())
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm = MigrationDataManager :: get_instance();
+			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.survey');
 			return false;
 		}
@@ -222,14 +223,16 @@ class Dokeos185SurveyQuestion
 	function convert_to_lcms($array)
 	{
 		$course = $array['course'];
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
-		$new_user_id = self :: $mgdm->get_owner($new_course_code);
+		$mgdm = MigrationDataManager :: get_instance();
+		
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$new_user_id = $mgdm->get_owner($new_course_code);
 		
 		//survey question parameters
 		$lcms_survey_question = new LearningStyleSurveyQuestion();
 		
 		// Category for surveys already exists?
-		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+		$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category',
 			Translation :: get('surveys'));
 		if(!$lcms_category_id)
 		{
@@ -240,7 +243,7 @@ class Dokeos185SurveyQuestion
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
-			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+			$repository_id = $mgdm->get_parent_id($new_user_id, 
 				'category', Translation :: get('MyRepository'));
 			$lcms_repository_category->set_parent_id($repository_id);
 			
@@ -277,12 +280,12 @@ class Dokeos185SurveyQuestion
 			$publication->set_publisher_id($new_user_id);
 			$publication->set_tool('announcement');
 			$publication->set_category_id(0);
-			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
-			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
+			//$publication->set_from_date($mgdm->make_unix_time($this->item_property->get_start_visible()));
+			//$publication->set_to_date($mgdm->make_unix_time($this->item_property->get_end_visible()));
 			$publication->set_from_date(0);
 			$publication->set_to_date(0);
-			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+			$publication->set_publication_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
+			$publication->set_modified_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
 			//$publication->set_modified_date(0);
 			//$publication->set_display_order_index($this->get_display_order());
 			$publication->set_display_order_index(0);

@@ -137,7 +137,7 @@ class Dokeos185SurveyQuestionOption
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 
 		if($parameters['del_files'] =! 1)
 			$tool_name = 'survey_question_option';
@@ -146,7 +146,7 @@ class Dokeos185SurveyQuestionOption
 		$tablename = 'survey_question_option';
 		$classname = 'Dokeos185SurveyQuestionOption';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)
@@ -164,12 +164,12 @@ class Dokeos185SurveyQuestionOption
 	 */
 	function is_valid($array)
 	{
-		
 		$course = $array['course'];
 
 		if(!$this->get_option_text())
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm = MigrationDataManager :: get_instance();
+			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.survey_question_option');
 			return false;
 		}
@@ -184,15 +184,17 @@ class Dokeos185SurveyQuestionOption
 	function convert_to_lcms($array)
 	{
 		$course = $array['course'];	
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
-		$new_user_id = self :: $mgdm->get_owner($new_course_code);
+		$mgdm = MigrationDataManager :: get_instance();
+		
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$new_user_id = $mgdm->get_owner($new_course_code);
 		
 		
 		//survey parameters
 		$lcms_survey_answer = new LearningStyleSurveyAnswer();
 		
 		// Category for surveys already exists?
-		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+		$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category',
 			Translation :: get('surveys'));
 		if(!$lcms_category_id)
 		{
@@ -203,7 +205,7 @@ class Dokeos185SurveyQuestionOption
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
-			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+			$repository_id = $mgdm->get_parent_id($new_user_id, 
 				'category', Translation :: get('MyRepository'));
 			$lcms_repository_category->set_parent_id($repository_id);
 			
