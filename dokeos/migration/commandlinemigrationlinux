@@ -21,4 +21,5 @@ cd commandlinemigration
 ./scormscommandlinemigration.php
 ./assignmentscommandlinemigration.php
 ./userinfoscommandlinemigration.php
+./trackerscommandlinemigration.php
 cd ..

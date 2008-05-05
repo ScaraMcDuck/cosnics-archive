@@ -29,6 +29,7 @@ function users_clicked()
 		document.page_ssettings.migrate_scorms.checked = false
 		document.page_ssettings.migrate_assignments.checked = false
 		document.page_ssettings.migrate_userinfos.checked = false
+		document.page_ssettings.migrate_trackers.checked = false
 	}
 }
 
@@ -75,6 +76,7 @@ function courses_clicked()
 		document.page_ssettings.migrate_scorms.checked = false
 		document.page_ssettings.migrate_assignments.checked = false
 		document.page_ssettings.migrate_userinfos.checked = false
+		document.page_ssettings.migrate_trackers.checked = false
 	}
 	else
 	{

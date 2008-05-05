@@ -6,9 +6,6 @@
   <property name="document_id" type="integer" unsigned="1" notnull="1"/>
   <property name="file_md5" type="text" length="50" notnull="1" />
  </properties>
- <index name="id" type="primary">
-  <indexproperty name="id"/>
- </index>
  <index name="file_md5">
   <indexproperty name="user_id"/>
   <indexproperty name="file_md5"/>

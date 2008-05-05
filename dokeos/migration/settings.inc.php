@@ -24,6 +24,7 @@ $exportvalues['migrate_surveys'] = '1';
 $exportvalues['migrate_scorms'] = '1';
 $exportvalues['migrate_assignments'] = '1';
 $exportvalues['migrate_userinfos'] = '1';
+$exportvalues['migrate_trackers'] = '1';
 
 $exportvalues['migrate_deleted_files'] = '0';
 $exportvalues['move_files'] = '0';

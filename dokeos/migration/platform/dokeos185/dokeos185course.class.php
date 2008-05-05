@@ -349,10 +349,11 @@ class Dokeos185Course extends ImportCourse
 	 */
 	function is_valid($parameters)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		if(!$this->get_code() || $this->get_show_score() == NULL ||
-			self :: $mgdm->get_failed_element('dokeos_main.course_category', $this->get_category_code()))
+			$mgdm->get_failed_element('dokeos_main.course_category', $this->get_category_code()))
 		{
-			self :: $mgdm->add_failed_element($this->get_code(),
+			$mgdm->add_failed_element($this->get_code(),
 				'dokeos_main.course');
 			return false;
 		}
@@ -367,33 +368,34 @@ class Dokeos185Course extends ImportCourse
 	function convert_to_lcms($parameters)
 	{		
 		//Course parameters
+		$mgdm = MigrationDataManager :: get_instance();
 		$lcms_course = new Course();
 		
 		$old_code = $this->get_code();
 		$index = 0;
-		while(self :: $mgdm->code_available('weblcms_course',$this->get_code()))
+		while($mgdm->code_available('weblcms_course',$this->get_code()))
 		{
 			$this->set_code($this->get_code() . ($index ++));
 		}
-		
+		unset($index);
 		$lcms_course->set_id($this->get_code());
 		
 		//$lcms_course->set_db($this->get_db_name());
 		//$lcms_course->set_path($this->get_directory());
 		
-		if(self :: $mgdm->is_language_available($this->get_course_language()))
+		if($mgdm->is_language_available($this->get_course_language()))
 			$lcms_course->set_language($this->get_course_language());
 		else
 			$lcms_course->set_language('english');
 		
 		$lcms_course->set_name($this->get_title());
 		
-		$category_code = self :: $mgdm->get_id_reference($this->get_category_code(), 'weblcms_course_category');
+		$category_code = $mgdm->get_id_reference($this->get_category_code(), 'weblcms_course_category');
 		if($category_code)
 			$lcms_course->set_category_code($category_code);
 		else
-			$lcms_course->set_category_code(self :: $mgdm->get_first_course_category());		
-		
+			$lcms_course->set_category_code($mgdm->get_first_course_category());		
+		unset($category_code);
 		$lcms_course->set_visibility($this->get_visibility());
 		$lcms_course->set_titular($this->get_tutor_name());
 		$lcms_course->set_visual($this->get_visual_code());
@@ -409,7 +411,9 @@ class Dokeos185Course extends ImportCourse
 		$lcms_course->create_all();
 		
 		//Add id references to temp table
-		self :: $mgdm->add_id_reference($old_code, $lcms_course->get_id(), 'weblcms_course');
+		$mgdm->add_id_reference($old_code, $lcms_course->get_id(), 'weblcms_course');
+		unset($old_code);
+		unset($mgdm);
 		
 		return $lcms_course;
 	}
@@ -420,13 +424,13 @@ class Dokeos185Course extends ImportCourse
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$db = 'main_database';
 		$tablename = 'course';
 		$classname = 'Dokeos185Course';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

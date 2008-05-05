@@ -20,4 +20,5 @@ cd commandlinemigration
 @C:\wamp\bin\php\php5.2.5\php.exe scormscommandlinemigration.php
 @C:\wamp\bin\php\php5.2.5\php.exe assignmentscommandlinemigration.php
 @C:\wamp\bin\php\php5.2.5\php.exe userinfoscommandlinemigration.php
+@C:\wamp\bin\php\php5.2.5\php.exe trackerscommandlinemigration.php
 cd ..

@@ -3,7 +3,7 @@
 /**
  * package migration.platform.dokeos185
  */
-require_once(dirname(__FILE__) . '/../../lib/migrationdatamanager.class.php');
+require_once(dirname(__FILE__) . '/../../lib/oldmigrationdatamanager.class.php');
 require_once(Path :: get_admin_path().'lib/admindatamanager.class.php');
 require_once 'MDB2.php';
 
@@ -13,7 +13,7 @@ require_once 'MDB2.php';
  * @author Sven Vanpoucke
  * @author David Van Wayenbergh
  */
-class Dokeos185DataManager extends MigrationDataManager
+class Dokeos185DataManager extends OldMigrationDataManager
 {	
 	/**
 	 * MDB2 instance 
@@ -24,7 +24,6 @@ class Dokeos185DataManager extends MigrationDataManager
 	
 	function Dokeos185DataManager($old_directory)
 	{	
-		parent :: MigrationDataManager();
 		$this->get_configuration($old_directory);
 	}
 	
@@ -73,6 +72,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	 */
 	function db_connect($dbname)
 	{	
+		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
 		$param = isset($this->_configuration[$dbname])?$this->_configuration[$dbname]:$dbname;
 		$host = $this->_configuration['db_host'];
 		$pos = strpos($host, ':');		
@@ -86,7 +86,32 @@ class Dokeos185DataManager extends MigrationDataManager
 		
 		$dsn = 'mysql://'.$this->_configuration['db_user'].':'.$this->_configuration['db_password'].'@'.
 				$host.'/'.$param;
-		$this->db = MDB2 :: connect($dsn, array('debug'=>3,'debug_handler'=>array('MigrationDataManager','debug')) );
+		$this->db = MDB2 :: connect($dsn, array('debug'=>3,'debug_handler'=>array('Dokeos185DataManager','debug')) );
+	}
+	
+	/** 
+	 * This function can be used to handle some debug info from MDB2
+	 */
+	function debug()
+	{
+		$args = func_get_args();
+		// Do something with the arguments
+		if($args[1] == 'query')
+		{
+			//echo '<pre>';
+		 	//echo($args[2]);
+		 	//echo '</pre>';
+		}
+	}
+		
+	/**
+	 * Handles pear errors
+	 */
+	static function handle_error($error)
+	{
+		die(__FILE__.':'.__LINE__.': '.$error->getMessage()
+		// For debugging only. May create a security hazard.
+		.' ('.$error->getDebugInfo().')');
 	}
 	
 	/**
@@ -96,7 +121,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	function get_all_users($offset = null, $limit = null)
 	{
 		$this->db_connect('main_database');
-		$query = 'SELECT * FROM user';
+		$query = 'SELECT * FROM ' . $this->get_table_name('user');
 		if ($limit != null)
 			$this->db->setLimit($limit, $offset);
 		$result = $this->db->query($query);
@@ -110,7 +135,7 @@ class Dokeos185DataManager extends MigrationDataManager
 		
 		foreach($users as $user)
 		{
-			$query_admin = 'SELECT * FROM admin WHERE user_id=' . $user->get_user_id();
+			$query_admin = 'SELECT * FROM ' . $this->get_table_name('admin') . ' WHERE user_id=' . $user->get_user_id();
 			$result_admin = $this->db->query($query_admin);
 			
 			if($result_admin->numRows() == 1)
@@ -142,6 +167,29 @@ class Dokeos185DataManager extends MigrationDataManager
 		}
 		return new Dokeos185User($defaultProp);
 	}
+		 
+	 /**
+	  * Generic method to create a classobject from a record
+	  */
+	 function record_to_classobject($record, $classname)
+	 {
+		 if (!is_array($record) || !count($record))
+		 {
+		 	throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
+		 }
+		 $defaultProp = array ();
+			
+		 $class = new $classname($defaultProp);
+		 
+		 foreach ($class->get_default_property_names() as $prop)
+		 {
+		 	 $defaultProp[$prop] = $record[$prop];
+		 }
+		 
+		 $class->set_default_properties($defaultProp);
+		 
+		 return $class;
+	 }
 	
 	/**
 	 * Move a file to a new place, makes use of FileSystem class
@@ -162,8 +210,8 @@ class Dokeos185DataManager extends MigrationDataManager
 		
 		$new_filename = FileSystem :: copy_file_with_double_files_protection($old_path,
 			$filename, $new_path, $filename, self:: $move_file);
-		
-		$this->add_recovery_element($old_file, $new_file);
+		$mgdm = MigrationDataManager :: get_instance();
+		$mgdm->add_recovery_element($old_file, $new_file);
 			
 		return($new_filename);
 			
@@ -203,7 +251,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	function get_all_current_settings($offset = null, $limit = null)
 	{
 		$this->db_connect('main_database');
-		$query = 'SELECT * FROM settings_current WHERE category = \'Platform\'';
+		$query = 'SELECT * FROM ' . $this->get_table_name('settings_current') . ' WHERE category = \'Platform\'';
 		
 		if ($limit != null)
 			$this->db->setLimit($limit, $offset);
@@ -227,8 +275,8 @@ class Dokeos185DataManager extends MigrationDataManager
 	function get_old_admin_id()
 	{
 		$this->db_connect('main_database');
-		$query = 'SELECT * FROM user WHERE EXISTS
-	(SELECT user_id FROM admin WHERE user.user_id = admin.user_id)';
+		$query = 'SELECT * FROM ' . $this->get_table_name('user') . ' WHERE EXISTS
+	(SELECT user_id FROM ' . $this->get_table_name('admin') . ' WHERE user.user_id = admin.user_id)';
 		$result = $this->db->query($query);
 		$personal_agendas = array();
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -249,12 +297,12 @@ class Dokeos185DataManager extends MigrationDataManager
 	{
 		$this->db_connect($db);
 		
-		$query = 'SELECT * FROM item_property WHERE tool = \'' . $tool . 
+		$query = 'SELECT * FROM ' . $this->get_table_name('item_property') . ' WHERE tool = \'' . $tool . 
 		'\' AND ref = ' . $id;
 		
 		$result = $this->db->query($query);
 		$itemprops = $this->mapper($result, 'Dokeos185ItemProperty');
-		
+		$result->free();
 		return $itemprops[0];
 	}
 	
@@ -266,15 +314,16 @@ class Dokeos185DataManager extends MigrationDataManager
 	function get_all_documents($course, $include_deleted_files, $offset = null, $limit = null)
 	{
 		$this->db_connect($course->get_db_name());
-		$query = 'SELECT * FROM document WHERE filetype <> \'folder\'';
+		$query = 'SELECT * FROM ' . $this->get_table_name(document) . ' WHERE filetype <> \'folder\'';
 		
 		if($include_deleted_files != 1)
-			$query = $query . ' AND id IN (SELECT ref FROM item_property WHERE tool=\'document\'' .
+			$query = $query . ' AND id IN (SELECT ref FROM ' . $this->get_table_name('item_property') . ' WHERE tool=\'document\'' .
 					' AND visibility <> 2);';
 		if ($limit != null)
 			$this->db->setLimit($limit, $offset);
 		$result = $this->db->query($query);
 		$documents = $this->mapper($result, 'Dokeos185Document');
+
 		return $documents;
 	}
 	
@@ -287,23 +336,23 @@ class Dokeos185DataManager extends MigrationDataManager
 	 * @return dokeos185 datatype Array of dokeos 185 datatype
 	 */
 	function get_all($database, $tablename, $classname, $tool_name = null, $offset = null, $limit = null)
-	{
+	{ 
 		$this->db_connect($database);
 		$querycheck = 'SHOW table status like \'' . $tablename . '\'';
 		$result = $this->db->query($querycheck);
 		if(MDB2 :: isError($result) || $result->numRows() == 0) return false;
 
-		$query = 'SELECT * FROM ' . $tablename;
+		$query = 'SELECT * FROM ' . $this->get_table_name($tablename);
 		if ($limit != null)
 			$this->db->setLimit($limit, $offset);
 			
 		if($tool_name)
-			$query = $query . ' WHERE id IN (SELECT ref FROM item_property WHERE ' .
+			$query = $query . ' WHERE id IN (SELECT ref FROM ' . $this->get_table_name('item_property') . ' WHERE ' .
 					'tool=\''. $tool_name . '\' AND visibility <> 2);';
 
 		$result = $this->db->query($query);
 		if(MDB2 :: isError($result)) return false;
-
+		
 		return $this->mapper($result, $classname);
 		
 	}
@@ -324,9 +373,10 @@ class Dokeos185DataManager extends MigrationDataManager
 	function get_first_course_category()
 	{
 		$this->db_lcms_connect();
-	 	$query = 'SELECT code FROM weblcms_course_category';
+	 	$query = 'SELECT code FROM ' . $this->get_table_name('weblcms_course_category');
 	 	$result = $this->db->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$result->free();
 		if($record)
 			return $record['code'];
 			
@@ -361,7 +411,7 @@ class Dokeos185DataManager extends MigrationDataManager
 	{
 		$this->db_connect($database);
 		
-		$query = 'SELECT * FROM quiz_answer WHERE question_id = ' . $id;
+		$query = 'SELECT * FROM ' . $this->get_table_name('quiz_answer') . ' WHERE question_id = ' . $id;
 		$result = $this->db->query($query);
 		
 		return $this->mapper($result, 'Dokeos185QuizAnswer');
@@ -376,7 +426,7 @@ class Dokeos185DataManager extends MigrationDataManager
 		$result = $this->db->query($querycheck);
 		if(MDB2 :: isError($result) || $result->numRows() == 0) return 0;
 		
-		$query = 'SELECT COUNT(*) as number FROM ' . $table;
+		$query = 'SELECT COUNT(*) as number FROM ' . $this->get_table_name($table);
 		
 		$params = array ();
 		
@@ -413,6 +463,19 @@ class Dokeos185DataManager extends MigrationDataManager
 			$name = $column;
 		}
 		return $prefix.$this->db->quoteIdentifier($name);
+	}
+	
+	
+	/**
+	 * Expands a table identifier to the real table name. Currently, this
+	 * method prefixes the given table name.
+	 * @param string $name The table identifier.
+	 * @return string The actual table name.
+	 */
+	function get_table_name($name)
+	{
+		$dsn = $this->db->getDSN('array');
+		return $dsn['database'].'.'.$name;
 	}
 }
 

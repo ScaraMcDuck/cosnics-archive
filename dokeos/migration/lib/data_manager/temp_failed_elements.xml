@@ -5,9 +5,6 @@
   <property name="failed_id" type="text" length="50" notnull="1" />
   <property name="table_name" type="text" length="50" notnull="1" />
  </properties>
- <index name="id" type="primary">
-  <indexproperty name="id"/>
- </index>
  <index name="failed_id">
   <indexproperty name="failed_id"/>
   <indexproperty name="table_name"/>

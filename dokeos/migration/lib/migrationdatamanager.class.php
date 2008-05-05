@@ -38,7 +38,7 @@ abstract class MigrationDataManager
 		{
 			$type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
 			require_once dirname(__FILE__).'/data_manager/'.strtolower($type).'.class.php';
-			$class = $type.'TrackingDataManager';
+			$class = $type.'MigrationDataManager';
 			self :: $instance = new $class ();
 		}
 		return self :: $instance;
