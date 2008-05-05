@@ -264,12 +264,15 @@ class Dokeos185Lp extends ImportLP
 	function is_valid($array)
 	{
 		$course = $array['course'];
-		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'learnpath',$this->get_id());	
+		$old_mgdm = $array['old_mgdm'];
+		$mgdm = MigrationDataManager :: get_instance();
+		
+		$this->item_property = $old_mgdm->get_item_property($course->get_db_name(),'learnpath',$this->get_id());	
 		
 		if(!$this->get_id() || !$this->get_lp_type() || !$this->get_name()
 			|| !$this->item_property || !$this->item_property->get_ref() || !$this->item_property->get_insert_date())
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.lp');
 			return false;
 		}
@@ -283,14 +286,15 @@ class Dokeos185Lp extends ImportLP
 	 */
 	function convert_to_lcms($array)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		$course = $array['course'];
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
-		$new_user_id = self :: $mgdm->get_owner($new_course_code);
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$new_user_id = $mgdm->get_owner($new_course_code);
 		//forum parameters
 		$lcms_lp = new LearningPath();
 		
 		// Category for announcements already exists?
-		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+		$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category',
 			Translation :: get('learning_paths'));
 		if(!$lcms_category_id)
 		{
@@ -301,7 +305,7 @@ class Dokeos185Lp extends ImportLP
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
-			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+			$repository_id = $mgdm->get_parent_id($new_user_id, 
 				'category', Translation :: get('MyRepository'));
 			$lcms_repository_category->set_parent_id($repository_id);
 			
@@ -326,8 +330,8 @@ class Dokeos185Lp extends ImportLP
 			$lcms_lp->set_description($this->get_description());
 		
 		$lcms_lp->set_owner_id($new_user_id);
-		$lcms_lp->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-		$lcms_lp->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+		$lcms_lp->set_creation_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
+		$lcms_lp->set_modification_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
 		$lcms_lp->set_display_order_index($this->get_display_order());
 		
 		if($this->item_property->get_visibility() == 2)
@@ -337,7 +341,7 @@ class Dokeos185Lp extends ImportLP
 		$lcms_lp->create_all();
 		
 		//Add id references to temp table
-		self :: $mgdm->add_id_reference($this->get_id(), $lcms_lp->get_id(), 'repository_learning_path');
+		$mgdm->add_id_reference($this->get_id(), $lcms_lp->get_id(), 'repository_learning_path');
 		
 		/*
 		//publication
@@ -381,7 +385,7 @@ class Dokeos185Lp extends ImportLP
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 
 		if($parameters['del_files'] =! 1)
 			$tool_name = 'learnpath';
@@ -390,7 +394,7 @@ class Dokeos185Lp extends ImportLP
 		$tablename = 'lp';
 		$classname = 'Dokeos185Lp';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

@@ -114,9 +114,10 @@ class Dokeos185TrackCOs extends ImportTrackCOs
 	 */
 	function is_valid($array)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		if(!$this->get_os() || $this->get_counter()==null)
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),'track_c_os');
+			$mgdm->add_failed_element($this->get_id(),'track_c_os');
 			return false;
 		}
 		return true;
@@ -158,13 +159,13 @@ class Dokeos185TrackCOs extends ImportTrackCOs
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$db = 'statistics_database';
 		$tablename = 'track_c_os';
 		$classname = 'Dokeos185TrackCOs';
 			
-		return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

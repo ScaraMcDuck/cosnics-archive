@@ -203,7 +203,9 @@ class Dokeos185DropboxFile extends ImportDropboxFile
 	function is_valid($courses)
 	{
 		$course = $courses['course'];
-		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'dropbox',$this->get_id());	
+		$mgdm = MigrationDataManager :: get_instance();
+		$old_mgdm = $courses['old_mgdm'];
+		$this->item_property = $old_mgdm->get_item_property($course->get_db_name(),'dropbox',$this->get_id());	
 		
 		
 		$filename = $this->get_filename();
@@ -213,9 +215,9 @@ class Dokeos185DropboxFile extends ImportDropboxFile
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 		
 		if(!$this->get_id() || !$this->item_property || !$this->item_property->get_ref() ||
-			!$this->item_property->get_insert_date() || !file_exists(self :: $mgdm->append_full_path(false,$old_rel_path . $filename)))
+			!$this->item_property->get_insert_date() || !file_exists($old_mgdm->append_full_path(false,$old_rel_path . $filename)))
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.dropbox_file');
 			return false;
 		}
@@ -229,17 +231,19 @@ class Dokeos185DropboxFile extends ImportDropboxFile
 	 */
 	function convert_to_lcms($array)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
+		$old_mgdm = $array['old_mgdm'];
 		if($this->get_uploader_id())
-			$new_user_id = self :: $mgdm->get_id_reference($this->get_uploader_id(),'user_user');	
+			$new_user_id = $mgdm->get_id_reference($this->get_uploader_id(),'user_user');	
 		else
-			$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
+			$new_user_id = $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
 		
 		$course = $array['course'];
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');	
+		$new_course_code =$mgdm->get_id_reference($course->get_code(),'weblcms_course');	
 		
 		if(!$new_user_id)
 		{
-			$new_user_id = self :: $mgdm->get_owner($new_course_code);
+			$new_user_id = $mgdm->get_owner($new_course_code);
 
 		}
 		
@@ -252,13 +256,13 @@ class Dokeos185DropboxFile extends ImportDropboxFile
 		
 		$filename = iconv("UTF-8", "ISO-8859-1", $this->get_filename());
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
-			
-		//if(!self :: $files[$new_user_id][md5_file(self :: $mgdm->append_full_path(false,$old_rel_path . $this->get_filename()))])
+		//TODO	
+		//if(!self :: $files[$new_user_id][md5_file($old_mgdm->append_full_path(false,$old_rel_path . $this->get_filename()))])
 		//{
 			// Move file to correct directory
 			//echo($old_rel_path . "\t" . $new_rel_path . "\t" . $filename . "\n");
 
-			$file = self :: $mgdm->move_file($old_rel_path, $new_rel_path, 
+			$file = $old_mgdm->move_file($old_rel_path, $new_rel_path, 
 				$filename);
 
 			if($file)
@@ -274,13 +278,13 @@ class Dokeos185DropboxFile extends ImportDropboxFile
 				$lcms_document->set_description('...');
 				
 				$lcms_document->set_owner_id($new_user_id);
-				$lcms_document->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-				$lcms_document->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+				$lcms_document->set_creation_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
+				$lcms_document->set_modification_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
 				$lcms_document->set_path($new_path . $file);
 				$lcms_document->set_filename($file);
 				
 				// Category for announcements already exists?
-				$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+				$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category',
 					Translation :: get('dropboxes'));
 				if(!$lcms_category_id)
 				{
@@ -291,7 +295,7 @@ class Dokeos185DropboxFile extends ImportDropboxFile
 					$lcms_repository_category->set_description('...');
 			
 					//Retrieve repository id from dropbox
-					$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+					$repository_id = $mgdm->get_parent_id($new_user_id, 
 						'category', Translation :: get('MyRepository'));
 					$lcms_repository_category->set_parent_id($repository_id);
 					
@@ -395,7 +399,7 @@ class Dokeos185DropboxFile extends ImportDropboxFile
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		if($parameters['del_files'] =! 1)
 			$tool_name = 'dropbox';
@@ -404,7 +408,7 @@ class Dokeos185DropboxFile extends ImportDropboxFile
 		$tablename = 'dropbox_file';
 		$classname = 'Dokeos185DropboxFile';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

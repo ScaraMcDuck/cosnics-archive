@@ -271,12 +271,13 @@ class Dokeos185LpItem extends ImportLpItem
 	 */
 	function is_valid($array)
 	{
-		$course = $array['course'];	
+		$course = $array['course'];
+		$mgdm = MigrationDataManager :: get_instance();
 		if(!$this->get_id() || !$this->get_item_type() || 
 		!($this->get_title() || $this->get_description())
-		|| !self :: $mgdm->get_id_reference($this->get_lp_id(),'repository_learning_path'))
+		|| !$mgdm->get_id_reference($this->get_lp_id(),'repository_learning_path'))
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.lp_item');
 			return false;
 		}
@@ -290,23 +291,24 @@ class Dokeos185LpItem extends ImportLpItem
 	 */
 	function convert_to_lcms($array)
 	{
-		$id = self :: $mgdm->get_id_reference($this->get_lp_id(),'repository_learning_path');
+		$mgdm = MigrationDataManager :: get_instance();
+		$id = $mgdm->get_id_reference($this->get_lp_id(),'repository_learning_path');
 		$course = $array['course'];
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 
 		if($id)		
 		{
-			$lo = self :: $mgdm->get_owner_learning_object($id,'learning_path');
+			$lo = $mgdm->get_owner_learning_object($id,'learning_path');
 			$new_user_id = $lo->get_owner_id();
 		}
 		else
 		{
-			$new_user_id = self :: $mgdm->get_owner($new_course_code);
+			$new_user_id = $mgdm->get_owner($new_course_code);
 		}
 		
 		$new_user_id = $lo->get_owner_id();
 		$course = $array['course'];
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
 		if($this->get_item_type() == 'dokeos_chapter')
 		{
@@ -319,17 +321,17 @@ class Dokeos185LpItem extends ImportLpItem
 			//forum parameters
 			switch($this->get_item_type())
 			{
-				case 'document': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_document'); break;
-				case 'quiz': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'exercice'); break;
-				case 'link': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_link'); break;
-				case 'student_publication': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_work'); break;
-				case 'forum': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_forum'); break;
-				case 'thread': $referentie = self :: $mgdm->get_id_reference($this->get_path(),'repository_forum_thread'); break;
+				case 'document': $referentie = $mgdm->get_id_reference($this->get_path(),'repository_document'); break;
+				case 'quiz': $referentie = $mgdm->get_id_reference($this->get_path(),'exercice'); break;
+				case 'link': $referentie = $mgdm->get_id_reference($this->get_path(),'repository_link'); break;
+				case 'student_publication': $referentie = $mgdm->get_id_reference($this->get_path(),'repository_work'); break;
+				case 'forum': $referentie = $mgdm->get_id_reference($this->get_path(),'repository_forum'); break;
+				case 'thread': $referentie = $mgdm->get_id_reference($this->get_path(),'repository_forum_thread'); break;
 			}
 		}
 		
 		// Category for lp item/chapter already exists?
-		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+		$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category',
 			Translation :: get('learning_paths'));
 		if(!$lcms_category_id)
 		{
@@ -340,7 +342,7 @@ class Dokeos185LpItem extends ImportLpItem
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
-			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+			$repository_id = $mgdm->get_parent_id($new_user_id, 
 				'category', Translation :: get('MyRepository'));
 			$lcms_repository_category->set_parent_id($repository_id);
 			
@@ -372,7 +374,7 @@ class Dokeos185LpItem extends ImportLpItem
 		$lcms_lp_item->create_all();
 		
 		//Add id references to temp table
-		self :: $mgdm->add_id_reference($this->get_id(), $lcms_lp_item->get_id(), 'lp_item');
+		$mgdm->add_id_reference($this->get_id(), $lcms_lp_item->get_id(), 'lp_item');
 		
 		/*
 		//publication
@@ -416,7 +418,7 @@ class Dokeos185LpItem extends ImportLpItem
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 
 		if($parameters['del_files'] =! 1)
 			$tool_name = 'lp_item';
@@ -425,7 +427,7 @@ class Dokeos185LpItem extends ImportLpItem
 		$tablename = 'lp_item';
 		$classname = 'Dokeos185LpItem';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 
 	static function get_database_table($parameters)

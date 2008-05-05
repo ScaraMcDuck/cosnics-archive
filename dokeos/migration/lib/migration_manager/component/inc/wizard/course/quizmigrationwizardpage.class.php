@@ -24,7 +24,7 @@ class QuizMigrationWizardPage extends MigrationWizardPage
 	function QuizMigrationWizardPage($page_name, $parent, $command_execute = false)
 	{
 		MigrationWizardPage :: MigrationWizardPage($page_name, $parent, $command_execute);
-		$this->succes = array(0,0,0);
+		$this->succes = array(0,0);
 	}
 	/**
 	 * @return string Title of the page

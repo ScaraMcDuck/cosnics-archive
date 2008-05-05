@@ -160,7 +160,7 @@ class Dokeos185Quiz extends ImportQuiz
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 
 		if($parameters['del_files'] =! 1)
 			$tool_name = 'quiz';
@@ -169,7 +169,7 @@ class Dokeos185Quiz extends ImportQuiz
 		$tablename = 'quiz';
 		$classname = 'Dokeos185Quiz';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)
@@ -188,9 +188,10 @@ class Dokeos185Quiz extends ImportQuiz
 	function is_valid($array)
 	{
 		$course = $array['course'];
+		$mgdm = MigrationDataManager :: get_instance();
 		if(!$this->get_id() || !($this->get_title() || $this->get_description()))
 		{		 
-			self :: $mgdm->add_failed_element($this->get_id(),
+			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.quiz');
 			return false;
 		}
@@ -204,16 +205,17 @@ class Dokeos185Quiz extends ImportQuiz
 	 */
 	function convert_to_lcms($array)
 	{
+		$mgdm = MigrationDataManager :: get_instance();
 		$course = $array['course'];
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
-		$new_user_id = self :: $mgdm->get_owner($new_course_code);
+		$new_user_id = $mgdm->get_owner($new_course_code);
 		
 		//forum parameters
 		$lcms_exercise = new Exercise();
 		
 		// Category for announcements already exists?
-		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+		$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category',
 			Translation :: get('quizzes'));
 		if(!$lcms_category_id)
 		{
@@ -224,7 +226,7 @@ class Dokeos185Quiz extends ImportQuiz
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
-			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+			$repository_id = $mgdm->get_parent_id($new_user_id, 
 				'category', Translation :: get('MyRepository'));
 			$lcms_repository_category->set_parent_id($repository_id);
 			
@@ -254,7 +256,7 @@ class Dokeos185Quiz extends ImportQuiz
 		$lcms_exercise->create();
 		
 		//Add id references to temp table
-		self :: $mgdm->add_id_reference($this->get_id(), $lcms_exercise->get_id(), 'exercice');
+		$mgdm->add_id_reference($this->get_id(), $lcms_exercise->get_id(), 'exercice');
 		
 		/*
 		//publication

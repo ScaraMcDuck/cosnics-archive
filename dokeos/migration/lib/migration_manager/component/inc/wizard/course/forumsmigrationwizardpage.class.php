@@ -95,7 +95,7 @@ class ForumsMigrationWizardPage extends MigrationWizardPage
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
 				$courses = array();
-				$courses = $courseclass->get_all(array('mgdm' => $this->old_mgdm));
+				$courses = $courseclass->get_all(array('old_mgdm' => $this->old_mgdm));
 				
 				foreach($courses as $i => $course)
 				{

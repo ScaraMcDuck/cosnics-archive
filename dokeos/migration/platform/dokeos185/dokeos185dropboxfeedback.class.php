@@ -136,10 +136,11 @@ class Dokeos185DropboxFeedback extends ImportDropboxFeedback
 	function is_valid($array)
 	{
 		$course = $array['course'];
+		$mgdm = MigrationDataManager :: get_instance();
 		if(!$this->get_feedback_id() || !$this->get_feedback()
 			|| !$this->get_feedback_date())
 		{		 
-			self :: $mgdm->add_failed_element($this->get_feedback_id(),
+			$mgdm->add_failed_element($this->get_feedback_id(),
 				$course->get_db_name() . '.dropbox_feedback');
 			return false;
 		}
@@ -154,19 +155,20 @@ class Dokeos185DropboxFeedback extends ImportDropboxFeedback
 	function convert_to_lcms($courses)
 	{	
 		$course = $courses['course'];
-		$new_user_id = self :: $mgdm->get_id_reference($this->get_author_user_id(),'user_user');	
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$mgdm = MigrationDataManager :: get_instance();
+		$new_user_id = $mgdm->get_id_reference($this->get_author_user_id(),'user_user');	
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
 		if(!$new_user_id)
 		{
-			$new_user_id = self :: $mgdm->get_owner($new_course_code);
+			$new_user_id = $mgdm->get_owner($new_course_code);
 		}
 		
 		//dropbox_feedback parameters
 		$lcms_dropbox_feedback = new Feedback();
 		
 		// Category for dropbox already exists?
-		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'dropbox',
+		$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'dropbox',
 			Translation :: get('dropboxes'));
 		if(!$lcms_category_id)
 		{
@@ -177,7 +179,7 @@ class Dokeos185DropboxFeedback extends ImportDropboxFeedback
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
-			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+			$repository_id = $mgdm->get_parent_id($new_user_id, 
 				'category', Translation :: get('MyRepository'));
 			$lcms_repository_category->set_parent_id($repository_id);
 			
@@ -196,8 +198,8 @@ class Dokeos185DropboxFeedback extends ImportDropboxFeedback
 		$lcms_dropbox_feedback->set_description($this->get_feedback());
 		
 		$lcms_dropbox_feedback->set_owner_id($new_user_id);
-		$lcms_dropbox_feedback->set_creation_date(self :: $mgdm->make_unix_time($this->get_feedback_date()));
-		$lcms_dropbox_feedback->set_modification_date(self :: $mgdm->make_unix_time($this->get_feedback_date()));
+		$lcms_dropbox_feedback->set_creation_date($mgdm->make_unix_time($this->get_feedback_date()));
+		$lcms_dropbox_feedback->set_modification_date($mgdm->make_unix_time($this->get_feedback_date()));
 		
 		//create announcement in database
 		$lcms_dropbox_feedback->create_all();
@@ -212,13 +214,13 @@ class Dokeos185DropboxFeedback extends ImportDropboxFeedback
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 		
 		$coursedb = $parameters['course']->get_db_name();
 		$tablename = 'dropbox_feedback';
 		$classname = 'Dokeos185DropboxFeedback';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)

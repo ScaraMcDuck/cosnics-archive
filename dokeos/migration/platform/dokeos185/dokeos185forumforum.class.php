@@ -274,12 +274,14 @@ class Dokeos185ForumForum extends ImportForumForum
 	function is_valid($array)
 	{
 		$course = $array['course'];
-		$this->item_property = self :: $mgdm->get_item_property($course->get_db_name(),'forum',$this->get_forum_id());	
+		$old_mgdm = $array['old_mgdm'];
+		$mgdm = MigrationDataManager :: get_instance();
+		$this->item_property = $old_mgdm->get_item_property($course->get_db_name(),'forum',$this->get_forum_id());	
 		
 		if(!$this->get_forum_id() || !($this->get_forum_title() || $this->get_forum_comment())
 			|| !$this->item_property || !$this->item_property->get_ref() || !$this->item_property->get_insert_date())
 		{		 
-			self :: $mgdm->add_failed_element($this->get_forum_id(),
+			$mgdm->add_failed_element($this->get_forum_id(),
 				$course->get_db_name() . '.forum_forum');
 			return false;
 		}
@@ -293,20 +295,21 @@ class Dokeos185ForumForum extends ImportForumForum
 	 */
 	function convert_to_lcms($array)
 	{
-		$new_user_id = self :: $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
+		$mgdm = MigrationDataManager :: get_instance();
+		$new_user_id = $mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
 		$course = $array['course'];
-		$new_course_code = self :: $mgdm->get_id_reference($course->get_code(),'weblcms_course');
+		$new_course_code = $mgdm->get_id_reference($course->get_code(),'weblcms_course');
 		
 		if(!$new_user_id)
 		{
-			$new_user_id = self :: $mgdm->get_owner($new_course_code);
+			$new_user_id = $mgdm->get_owner($new_course_code);
 		}
 		
 		//forum parameters
 		$lcms_forum = new Forum();
 		
 		// Category for announcements already exists?
-		$lcms_category_id = self :: $mgdm->get_parent_id($new_user_id, 'category',
+		$lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category',
 			Translation :: get('forums'));
 		if(!$lcms_category_id)
 		{
@@ -317,7 +320,7 @@ class Dokeos185ForumForum extends ImportForumForum
 			$lcms_repository_category->set_description('...');
 	
 			//Retrieve repository id from course
-			$repository_id = self :: $mgdm->get_parent_id($new_user_id, 
+			$repository_id = $mgdm->get_parent_id($new_user_id, 
 				'category', Translation :: get('MyRepository'));
 			$lcms_repository_category->set_parent_id($repository_id);
 			
@@ -342,8 +345,8 @@ class Dokeos185ForumForum extends ImportForumForum
 			$lcms_forum->set_description($this->get_forum_comment());
 		
 		$lcms_forum->set_owner_id($new_user_id);
-		$lcms_forum->set_creation_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-		$lcms_forum->set_modification_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+		$lcms_forum->set_creation_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
+		$lcms_forum->set_modification_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
 		
 		if($this->item_property->get_visibility() == 2)
 			$lcms_forum->set_state(1);
@@ -352,7 +355,7 @@ class Dokeos185ForumForum extends ImportForumForum
 		$lcms_forum->create_all();
 		
 		//Add id references to temp table
-		self :: $mgdm->add_id_reference($this->get_forum_id(), $lcms_forum->get_id(), 'repository_forum');
+		$mgdm->add_id_reference($this->get_forum_id(), $lcms_forum->get_id(), 'repository_forum');
 		
 		/*
 		//publication
@@ -397,7 +400,7 @@ class Dokeos185ForumForum extends ImportForumForum
 	 */
 	static function get_all($parameters)
 	{
-		self :: $mgdm = $parameters['mgdm'];
+		$old_mgdm = $parameters['old_mgdm'];
 
 		if($parameters['del_files'] =! 1)
 			$tool_name = 'forum_forum';
@@ -406,7 +409,7 @@ class Dokeos185ForumForum extends ImportForumForum
 		$tablename = 'forum_forum';
 		$classname = 'Dokeos185ForumForum';
 			
-		return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)
