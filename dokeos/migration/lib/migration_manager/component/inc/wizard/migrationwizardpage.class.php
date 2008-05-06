@@ -128,12 +128,14 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 		}
 		
 		$database_table = $class->get_database_table($retrieve_parms);
-
+		
 		$max_records = $this->old_mgdm->count_records($database_table['database'],$database_table['table'], $retrieve_parms['condition']);
+		
 		$current_record = 0;
 		
 		while ($max_records > 0)
 		{	
+			print('memory usage before mwpage: ' . memory_get_usage() . "\n");
 			if ($max_records - 1000 > 0)
 			{
 				$retrieve_parms['offset'] = $current_record;
@@ -150,10 +152,11 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 			
 			foreach($items as $j => $item)
 			{
-				
 				if($item->is_valid($convert_parms))
-				{
+				{	
 					$lcms_item = $item->convert_to_lcms($convert_parms);
+					
+					//print('memory usage after: ' . memory_get_usage() . "\n");
 					if($lcms_item)
 					{
 						$message = $this->write_succes($lcms_item, $extra_message, $type);
@@ -163,7 +166,6 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 					}
 					//print('Used memory before unset: ' . memory_get_usage() . "\n");
 					unset($lcms_item);
-					//print('Used memory after unset: ' . memory_get_usage() . "\n");
 					unset($message);
 					
 				}
@@ -177,18 +179,22 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 					}
 					unset($message);
 				}
-				
 				unset($item);
 				unset($items[$j]);	
 			}
-			print('Used memory after ' . $retrieve_parms['limit'] . ': ' . memory_get_usage() . "\n");
+			
+			//print('Used memory after ' . $retrieve_parms['limit'] . ': ' . memory_get_usage() . "\n");
 			$items = array();
 			unset($items);
 			array_values($items);
 			$this->logfile->add_message($retrieve_parms['limit']  . ' records done');
+			print('memory usage after 1000: ' . memory_get_usage() . "\n");
 			$current_record += $retrieve_parms['limit'];
 			$max_records -= $retrieve_parms['limit'];
 		}
+		
+		unset($class);
+		unset($course);
 		$this->logfile->add_message($final_message);
 	}
 	
@@ -216,6 +222,9 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 	{
 		switch(true)
 		{
+			case ($item instanceof Dokeos185ClassUser) : return 'FAILED: ' . $type . ' added ( Class: ' . $item->get_class_id() . ' UserID:' . 
+					$item->get_user_id() . $extra_message . ' )';
+			
 			case ($item instanceof Dokeos185CourseRelUser) : return 'FAILED: ' . $type . 
 							' is not valid ( User: ' . $item->get_user_id() . ' Course:' . $item->get_course_code() . $extra_message . ' )';
 			

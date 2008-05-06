@@ -259,6 +259,8 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 				 ' WHERE old_id = \'' . $old_id . '\' AND table_name=\'' . $table_name . '\'';
 		$result = $this->connection->query($query);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		unset($old_id);
+		unset($table_name);
 		$result->free();
 		
 		if($record)

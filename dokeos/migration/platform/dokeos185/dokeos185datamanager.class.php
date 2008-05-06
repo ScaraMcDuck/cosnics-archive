@@ -25,6 +25,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
 	function Dokeos185DataManager($old_directory)
 	{	
 		$this->get_configuration($old_directory);
+		$this->initialize();
 	}
 	
 	/**
@@ -70,9 +71,10 @@ class Dokeos185DataManager extends OldMigrationDataManager
 	 * Connect to the dokeos185 database with login data from the $$this->_configuration
 	 * @param String $dbname with databasename 
 	 */
-	function db_connect($dbname)
+	function initialize()
 	{	
 		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
+		$dbname = 'dokeos_main';
 		$param = isset($this->_configuration[$dbname])?$this->_configuration[$dbname]:$dbname;
 		$host = $this->_configuration['db_host'];
 		$pos = strpos($host, ':');		
@@ -87,6 +89,17 @@ class Dokeos185DataManager extends OldMigrationDataManager
 		$dsn = 'mysql://'.$this->_configuration['db_user'].':'.$this->_configuration['db_password'].'@'.
 				$host.'/'.$param;
 		$this->db = MDB2 :: connect($dsn, array('debug'=>3,'debug_handler'=>array('Dokeos185DataManager','debug')) );
+		
+		if (PEAR::isError($this->db)) {
+   		 die($this->db->getMessage());
+		}
+		$this->db->query('SET NAMES utf8');
+	}
+	
+	function set_database($dbname)
+	{
+		$param = isset($this->_configuration[$dbname])?$this->_configuration[$dbname]:$dbname;
+		$this->db->setDatabase($param);
 	}
 	
 	/** 
@@ -120,7 +133,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
 	 */
 	function get_all_users($offset = null, $limit = null)
 	{
-		$this->db_connect('main_database');
+		$this->set_database('main_database');
 		$query = 'SELECT * FROM ' . $this->get_table_name('user');
 		if ($limit != null)
 			$this->db->setLimit($limit, $offset);
@@ -250,7 +263,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
 	 */
 	function get_all_current_settings($offset = null, $limit = null)
 	{
-		$this->db_connect('main_database');
+		$this->set_database('main_database');
 		$query = 'SELECT * FROM ' . $this->get_table_name('settings_current') . ' WHERE category = \'Platform\'';
 		
 		if ($limit != null)
@@ -274,11 +287,11 @@ class Dokeos185DataManager extends OldMigrationDataManager
 	 */
 	function get_old_admin_id()
 	{
-		$this->db_connect('main_database');
+		$this->set_database('main_database');
 		$query = 'SELECT * FROM ' . $this->get_table_name('user') . ' WHERE EXISTS
 	(SELECT user_id FROM ' . $this->get_table_name('admin') . ' WHERE user.user_id = admin.user_id)';
 		$result = $this->db->query($query);
-		$personal_agendas = array();
+		
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$id = $record['user_id'];
 		$result->free();
@@ -295,7 +308,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
 	 */
 	function get_item_property($db, $tool, $id)
 	{
-		$this->db_connect($db);
+		$this->set_database($db);
 		
 		$query = 'SELECT * FROM ' . $this->get_table_name('item_property') . ' WHERE tool = \'' . $tool . 
 		'\' AND ref = ' . $id;
@@ -313,7 +326,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
 	 */
 	function get_all_documents($course, $include_deleted_files, $offset = null, $limit = null)
 	{
-		$this->db_connect($course->get_db_name());
+		$this->set_database($course->get_db_name());
 		$query = 'SELECT * FROM ' . $this->get_table_name(document) . ' WHERE filetype <> \'folder\'';
 		
 		if($include_deleted_files != 1)
@@ -337,11 +350,15 @@ class Dokeos185DataManager extends OldMigrationDataManager
 	 */
 	function get_all($database, $tablename, $classname, $tool_name = null, $offset = null, $limit = null)
 	{ 
-		$this->db_connect($database);
+		$this->set_database($database);
 		$querycheck = 'SHOW table status like \'' . $tablename . '\'';
 		$result = $this->db->query($querycheck);
-		if(MDB2 :: isError($result) || $result->numRows() == 0) return false;
-
+		if(MDB2 :: isError($result) || $result->numRows() == 0)
+		{
+			$result->free();
+			return false;
+		}
+		$result->free();
 		$query = 'SELECT * FROM ' . $this->get_table_name($tablename);
 		if ($limit != null)
 			$this->db->setLimit($limit, $offset);
@@ -353,8 +370,9 @@ class Dokeos185DataManager extends OldMigrationDataManager
 		$result = $this->db->query($query);
 		if(MDB2 :: isError($result)) return false;
 		
-		return $this->mapper($result, $classname);
-		
+		$list = $this->mapper($result, $classname);
+		$result -> free();
+		return $list;
 	}
 	
 	/**
@@ -409,7 +427,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
 	 */
 	function get_all_question_answer($database,$id)
 	{
-		$this->db_connect($database);
+		$this->set_database($database);
 		
 		$query = 'SELECT * FROM ' . $this->get_table_name('quiz_answer') . ' WHERE question_id = ' . $id;
 		$result = $this->db->query($query);
@@ -420,11 +438,15 @@ class Dokeos185DataManager extends OldMigrationDataManager
 	
 	function count_records($database, $table, $condition = null)
 	{
-		$this->db_connect($database);
-		
+		$this->set_database($database);
 		$querycheck = 'SHOW table status like \'' . $table . '\'';
 		$result = $this->db->query($querycheck);
-		if(MDB2 :: isError($result) || $result->numRows() == 0) return 0;
+		if(MDB2 :: isError($result) || $result->numRows() == 0)
+		{
+			$result->free();
+			return 0;	
+		}
+		$result->free();
 		
 		$query = 'SELECT COUNT(*) as number FROM ' . $this->get_table_name($table);
 		
@@ -436,12 +458,16 @@ class Dokeos185DataManager extends OldMigrationDataManager
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
+			unset($translator);
 		}
 		
 		$statement = $this->db->prepare($query);
 		
 		$result = $statement->execute($params);
-		
+		unset($query);
+		unset($statement);
+		$params = array();
+		unset($params);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$result->free();
 		return $record['number'];

@@ -113,8 +113,16 @@ class Dokeos185ToolIntro extends ImportToolIntro
 		{		 
 			$mgdm->add_failed_element($this->get_id(),
 				$course->get_db_name() . '.toolintro');
+			unset($mgdm);
+			unset($course);
+			$array = array();
+			unset($array);
 			return false;
 		}
+		unset($mgdm);
+		unset($course);
+		$array = array();
+		unset($array);
 		return true;
 	}
 	
@@ -186,6 +194,17 @@ class Dokeos185ToolIntro extends ImportToolIntro
 		//create publication in database
 		$publication->create();
 		
+		unset($course);
+		unset($mgdm);
+		unset($new_course_code);
+		unset($user_id);
+		unset($lcms_category_id);
+		unset($lcms_repository_category);
+		unset($repository_id);
+		unset($publication);
+		unset($now);
+		$array = array();
+		unset($array);
 		return $lcms_tool_intro;
 		
 	}
@@ -197,13 +216,8 @@ class Dokeos185ToolIntro extends ImportToolIntro
 	 */
 	static function get_all($parameters)
 	{
-		$old_mgdm = $parameters['old_mgdm'];
-		
-		$db = $parameters['course']->get_db_name();
-		$tablename = 'tool_intro';
-		$classname = 'Dokeos185ToolIntro';
-			
-		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		$old_mgdm = $parameters['old_mgdm'];		
+		return $old_mgdm->get_all($parameters['course']->get_db_name(), 'tool_intro', 'Dokeos185ToolIntro', $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)
@@ -211,6 +225,8 @@ class Dokeos185ToolIntro extends ImportToolIntro
 		$array = array();
 		$array['database'] = $parameters['course']->get_db_name();
 		$array['table'] = 'tool_intro';
+		$parameters = array();
+		unset($parameters);
 		return $array;
 	}
 }

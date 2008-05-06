@@ -13,7 +13,7 @@
 	require_once 'HTML/QuickForm/Action/Display.php';
 	
 	require_once(dirname(__FILE__) . '/commandlinemigration.class.php');
-	require_once(dirname(__FILE__) . '/../lib/migration_manager/component/inc/wizard/course/LearningPathsmigrationwizardpage.class.php');
+	require_once(dirname(__FILE__) . '/../lib/migration_manager/component/inc/wizard/course/learningpathsmigrationwizardpage.class.php');
 	
 	require_once(dirname(__FILE__) . '/../lib/logger.class.php');
 	

@@ -212,6 +212,7 @@ class Dokeos185StudentPublication extends ImportStudentPublication
 	function convert_to_lcms($array)
 	{
 		$mgdm = MigrationDataManager :: get_instance();
+		$old_mgdm = $array['old_mgdm'];
 		if($this->item_property)
 			$new_user_id =$mgdm->get_id_reference($this->item_property->get_insert_user_id(),'user_user');	
 		else
