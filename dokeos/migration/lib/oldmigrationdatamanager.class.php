@@ -11,6 +11,14 @@ abstract class OldMigrationDataManager
 	private static $instance;
 	
 	/**
+	 * Constructor.
+	 */
+	protected function OldMigrationDataManager()
+	{
+		$this->initialize();
+	}
+	
+	/**
 	 * Singleton and factory pattern in one
 	 */
 	static function getInstance($platform, $old_directory)

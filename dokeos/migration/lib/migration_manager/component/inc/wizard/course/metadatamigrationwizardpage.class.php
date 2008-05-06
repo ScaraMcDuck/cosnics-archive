@@ -82,7 +82,7 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 		
 		//Create migrationdatamanager
 		$this->old_mgdm = OldMigrationDataManager :: getInstance($this->old_system, $old_directory);
-		$mgdm = MigrationDataManager :: get_instance();
+		
 		
 		if(isset($exportvalues['move_files']) && $exportvalues['move_files'] == 1)
 			$this->old_mgdm->set_move_file(true);
@@ -102,9 +102,11 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 				$retrieve_parms['old_mgdm']= $this->old_mgdm;
 				
 				$current_record = 0;
-		
+				$mgdm = MigrationDataManager :: get_instance();
+				
 				while ($max_records > 0)
 				{	
+					print('memory usage before 1000 mmw: ' . memory_get_usage() . "\n");
 					if ($max_records - 1000 > 0)
 					{
 						$retrieve_parms['offset'] = $current_record;
@@ -128,14 +130,16 @@ class MetaDataMigrationWizardPage extends MigrationWizardPage
 						$this->migrate('CourseDescription', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
 						//$this->migrate('CourseSetting', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
 						//$this->migrate('Tool', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,2);
+						
 						$this->migrate('ToolIntro', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,3);
+						
 						unset($course);
 						unset($courses[$i]);
 					}
 					
 					$courses = array();
 					unset($courses);
-					
+					print('memory usage after 1000: ' . memory_get_usage() . "\n");
 					$current_record += $retrieve_parms['limit'];
 					$max_records -= $retrieve_parms['limit'];
 				}

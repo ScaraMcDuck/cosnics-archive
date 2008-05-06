@@ -429,8 +429,12 @@ class Dokeos185Course extends ImportCourse
 		$db = 'main_database';
 		$tablename = 'course';
 		$classname = 'Dokeos185Course';
-			
-		return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		$test = $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		unset($db);
+		unset($tablename);
+		unset($classname);
+		unset($old_mgdm);
+		return $test;	
 	}
 	
 	static function get_database_table($parameters)
