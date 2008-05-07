@@ -298,12 +298,10 @@ class Dokeos185ForumPost extends ImportForumPost
 		$lcms_forum_post->set_creation_date($mgdm->make_unix_time($this->get_post_date()));
 		$lcms_forum_post->set_modification_date($mgdm->make_unix_time($this->get_post_date()));
 		
-		$parentpost = $mgdm->get_id_reference($this->get_post_parent_id(),'repository_forum_forum');
+		/*$parentpost = $mgdm->get_id_reference($this->get_post_parent_id(),'repository_forum_forum');
 		
 		if($parentpost)
-			$lcms_forum_post->set_parent_post_id($parentpost);
-		else
-			$lcms_forum_post->set_parent_post_id(0);
+			$lcms_forum_post->set_parent_post_id($parentpost);*/
 				
 		//if($this->get_visible() == 2)
 			//$lcms_forum_post->set_state(1);
