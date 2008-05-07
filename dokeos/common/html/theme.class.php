@@ -5,12 +5,6 @@ define('SYS_IMG_PATH', 'SYS_IMG_PATH');
 define('WEB_CSS_PATH', 'WEB_CSS_PATH');
 define('SYS_CSS_PATH', 'SYS_CSS_PATH');
 
-define('IMG_SIZE_XS', '16');
-define('IMG_SIZE_SM', '22');
-define('IMG_SIZE_ME', '32');
-define('IMG_SIZE_LA', '48');
-define('IMG_SIZE_HS', 'ex');
-
 class Theme
 {
 	/**
@@ -105,23 +99,6 @@ class Theme
     {
     	$instance = self :: get_instance();
 		return $instance->get_path(WEB_IMG_PATH) . 'common/';
-    }
-    
-    function get_common_img($img_name, $img_size = IMG_SIZE_SM, $img_extension = 'png')
-    {
-    	$instance = self :: get_instance();
-    	$file = $img_name . '.' . $img_extension;
-    	
-    	$sys_icon_path = $instance->get_common_img_path(SYS_IMG_PATH) . $img_size . '/' . $file;
-    	
-    	if (file_exists($sys_icon_path))
-    	{
-    		return $instance->get_common_img_path() . $img_size . '/' . $file;
-    	}
-    	else
-    	{
-    		return $instance->get_common_img_path() . $img_size . '/status_missing.png';
-    	}
     }
     
 	static function get_instance()
