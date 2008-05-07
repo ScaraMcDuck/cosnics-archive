@@ -14,7 +14,7 @@ require_once Path :: get_library_path().'condition/andcondition.class.php';
 require_once Path :: get_library_path().'condition/orcondition.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 
-if (PlatformSession :: get_user_id())
+if (Authentication :: is_valid())
 {
 	$conditions = array ();
 
