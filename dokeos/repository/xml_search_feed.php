@@ -23,7 +23,7 @@ if (Authentication :: is_valid())
 		$conditions[] = $query_condition;
 	}
 
-	$owner_condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, PlatformSession :: get_user_id());
+	$owner_condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
 	$conditions[] = $owner_condition;
 
 	$category_type_condition = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'category');

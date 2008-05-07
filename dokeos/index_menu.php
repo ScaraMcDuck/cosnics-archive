@@ -7,9 +7,9 @@ require_once Path :: get_user_path() . 'lib/usermanager/usermanager.class.php';
 
 Translation :: set_application('menu');
 
-if (PlatformSession :: get_user_id())
+if (Session :: get_user_id())
 {
-	$usermgr = new UserManager(PlatformSession :: get_user_id());
+	$usermgr = new UserManager(Session :: get_user_id());
 	$user = $usermgr->get_user();
 }
 else

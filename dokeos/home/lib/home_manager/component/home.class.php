@@ -49,7 +49,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 					
 					// TODO: Move code to seperate blocks for more freedom
 					
-					if ($component[0] != 'User' && PlatformSession :: get_user_id())
+					if ($component[0] != 'User' && Session :: get_user_id())
 					{
 						$app = new $component[0]($this->get_user());
 						$html[] = $app->render_block(strtolower($component[1]), $block);

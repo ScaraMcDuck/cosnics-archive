@@ -33,8 +33,8 @@ if (!Authentication :: is_valid())
 	Display :: display_not_allowed();
 }
 // Load the current user
-$usermgr = new UserManager(PlatformSession :: get_user_id());
-$user = $usermgr->retrieve_user(PlatformSession :: get_user_id());
+$usermgr = new UserManager(Session :: get_user_id());
+$user = $usermgr->retrieve_user(Session :: get_user_id());
 // Load & run the application
 $app = new $application_class($user);
 $app->set_parameter('application',$application_key);

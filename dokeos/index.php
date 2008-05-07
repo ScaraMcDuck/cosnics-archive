@@ -8,7 +8,7 @@ require_once Path :: get_home_path() . 'lib/home_manager/homemanager.class.php';
 Translation :: set_application('home');
 Theme :: set_application('home');
 
-if (PlatformSession :: get_user_id())
+if (Session :: get_user_id())
 {
 	$usermgr = new UserManager($_SESSION['_uid']);
 	$user = $usermgr->get_user();

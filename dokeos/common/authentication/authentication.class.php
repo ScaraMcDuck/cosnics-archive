@@ -55,13 +55,13 @@ abstract class Authentication {
      */
     function logout($user)
     {
-    	PlatformSession :: platform_session_destroy();
+    	Session :: destroy();
     }
     
     function is_valid()
     {
     	// TODO: Add system here to allow authentication via encrypted user key ?
-    	if (!PlatformSession :: get_user_id())
+    	if (!Session :: get_user_id())
     	{
     		return false;
     	}

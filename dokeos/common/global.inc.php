@@ -113,7 +113,9 @@ require_once dirname(__FILE__).'/configuration/platformsetting.class.php';
 ini_set('include_path',realpath(Path :: get_plugin_path().'pear'));
 
 // TODO: Move this to a common area since it's used everywhere.
-require_once Path :: get_library_path().'session/platformsession.class.php';
+require_once Path :: get_library_path().'session/request.class.php';
+require_once Path :: get_library_path().'session/session.class.php';
+require_once Path :: get_library_path().'session/cookie.class.php';
 require_once Path :: get_library_path().'translation/translation.class.php';
 require_once Path :: get_library_path().'html/text.class.php';
 require_once Path :: get_library_path().'mail/mail.class.php';
@@ -128,7 +130,7 @@ require_once 'MDB2.php';
 
 // Start session
 
-PlatformSession :: platform_session_start($already_installed);
+Session :: start($already_installed);
 
 // Test database connection
 $conf = Configuration :: get_instance();
@@ -309,7 +311,7 @@ if($_POST['login'])
 	$user = $udm->login($_POST['login'],$_POST['password']);
 	if(!is_null($user))
 	{
-		PlatformSession :: platform_session_register('_uid', $user->get_user_id());
+		Session :: register('_uid', $user->get_user_id());
 		Events :: trigger_event('login', array('server' => $_SERVER, 'user' => $user));
 		// TODO: Tracking framework
 		//loginCheck($_SESSION['_uid']);
@@ -323,7 +325,7 @@ if($_POST['login'])
 	}
 	else
 	{
-		PlatformSession :: platform_session_unregister('_uid');
+		Session :: unregister('_uid');
 		header('Location: index.php?loginFailed=1');
 		exit;
 	}
@@ -338,7 +340,7 @@ if ($_GET['logout'])
 	}
 	
 	$udm = UsersDataManager::get_instance();
-	$user = $udm->retrieve_user(PlatformSession :: get_user_id());
+	$user = $udm->retrieve_user(Session :: get_user_id());
 	
 	Events :: trigger_event('logout', array('server' => $_SERVER, 'user' => $user));
 	// TODO: Reimplement tracking
@@ -397,7 +399,7 @@ if (in_array($user_language,$valid_languages['folder']) and (isset($_GET['langua
 if (isset($_SESSION['_uid']))
 {
 	require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
-	$language_interface = UsersDataManager :: get_instance()->retrieve_user(PlatformSession :: get_user_id())->get_language();
+	$language_interface = UsersDataManager :: get_instance()->retrieve_user(Session :: get_user_id())->get_language();
 }
 else
 {

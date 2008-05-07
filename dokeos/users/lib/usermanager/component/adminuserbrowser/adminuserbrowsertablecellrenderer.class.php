@@ -79,7 +79,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 			'img' => Theme :: get_common_img_path().'action_statistics.png'
 		);
 
-		if($user->get_user_id() != PlatformSession :: get_user_id())
+		if($user->get_user_id() != Session :: get_user_id())
 		{
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_user_delete_url($user),

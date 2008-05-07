@@ -21,8 +21,8 @@ Translation :: set_application($this_section);
 	Display :: display_not_allowed();
 }*/
 
-//$usermgr = new UserManager(PlatformSession :: get_user_id());
-//$user = $usermgr->retrieve_user(PlatformSession :: get_user_id());
+//$usermgr = new UserManager(Session :: get_user_id());
+//$user = $usermgr->retrieve_user(Session :: get_user_id());
 
 $migmgr = new MigrationManager($user);
 try

@@ -31,13 +31,13 @@ $Config['Enabled'] = true ;
 require_once(dirname(__FILE__).'/../../../../../../../../common/global.inc.php');
 
 // Path to user files relative to the document root.
-$Config['UserFilesPath'] = Path :: get(REL_FCK_PATH).PlatformSession :: get_user_id().'/'; ;
+$Config['UserFilesPath'] = Path :: get(REL_FCK_PATH).Session :: get_user_id().'/'; ;
 
 // Fill the following value it you prefer to specify the absolute path for the
 // user files directory. Usefull if you are using a virtual directory, symbolic
 // link or alias. Examples: 'C:\\MySite\\userfiles\\' or '/root/mysite/userfiles/'.
 // Attention: The above 'UserFilesPath' must point to the same directory.
-$Config['UserFilesAbsolutePath'] = Path :: get(SYS_FCK_PATH).PlatformSession :: get_user_id().'/';
+$Config['UserFilesAbsolutePath'] = Path :: get(SYS_FCK_PATH).Session :: get_user_id().'/';
 
 // Due to security issues with Apache modules, it is reccomended to leave the
 // following setting enabled.
