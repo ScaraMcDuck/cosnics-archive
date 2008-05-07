@@ -1,0 +1,10 @@
+@CHARSET "ISO-8859-1";
+
+/* for content section in weblcms home course list file */
+.maincontent
+{
+	float: left;
+	width: 78%;
+	padding: 4px;
+	background-color: #fff;
+}

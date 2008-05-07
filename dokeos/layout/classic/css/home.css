@@ -1,0 +1,90 @@
+@CHARSET "ISO-8859-1";
+
+/*****************************************************
+ *  HOME STYLES                                      *
+ *****************************************************/
+
+div.row
+{
+	text-align: justify;
+	clear: both;
+	min-height: 5px;
+}
+
+div.column
+{
+	/*padding:15px;*/
+	text-align: justify;
+	float: left;
+	min-height: 5px;
+}
+
+div.block
+{
+	background-color: #F9F9F9;
+	text-align: justify;
+	/*margin-bottom: 35px;*/
+	
+	margin: 0 0 1em 0;
+	padding: 15px 15px 15px 60px;
+	background-position: 15px 15px;
+	background-repeat: no-repeat;
+	clear: both;
+	-moz-border-radius: 10px;
+}
+
+div.block div.title
+{
+	font-family: verdana, sans-serif;
+	font-weight: bold;
+	font-size: 140%;
+	border-bottom: 1px dotted #D3D3D3;
+	width: 100%;
+	padding-bottom: 0.3em;
+	margin-bottom: 0.3em;
+	color: #000066;
+	clear: both;
+	position: relative;
+}
+
+div.block div.title a
+{
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	font-weight: normal;
+	font-size: 11px;
+	text-decoration: none;
+	color: #000066;
+}
+
+div.block div.description
+{
+	width: 100%;
+	clear: both;
+}
+
+div.block div.description_contains
+{
+	width: 100%;
+	border-bottom: 1px dotted #D3D3D3;
+	padding-bottom: 0.3em;
+	margin-bottom: 0.3em;
+	clear: both;
+}
+
+div.block div.extra
+{
+	width: 100%;
+	clear: both;
+}
+
+div.block div.extra div.more
+{
+	float: left;
+}
+
+div.block div.extra div.forum
+{
+	float: right;
+}
