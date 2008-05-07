@@ -219,7 +219,7 @@ class Dokeos185CourseRelUser extends ImportCourseRelUser
 	function convert_to_lcms($parameters)
 	{
 		$mgdm = MigrationDataManager :: get_instance();
-		print('Used memory before: ' . memory_get_usage() . "\n");
+
 		//course_rel_user parameters
 		$lcms_course_rel_user = new CourseUserRelation();
 		
@@ -249,7 +249,6 @@ class Dokeos185CourseRelUser extends ImportCourseRelUser
 		$lcms_course_rel_user->create();
 		
 		unset($mgdm);
-		print('Used memory after all: ' . memory_get_usage() . "\n");
 		return $lcms_course_rel_user;
 	}
 	

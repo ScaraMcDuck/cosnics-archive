@@ -95,24 +95,53 @@ class LearningPathsMigrationWizardPage extends MigrationWizardPage
 				$exportvalues['migrate_courses'] == 1 && $exportvalues['migrate_users'] == 1)
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
-				$courses = array();
-				$courses = $courseclass->get_all(array('old_mgdm' => $this->old_mgdm));
+				$database_table = $courseclass->get_database_table(null);
 				
-				foreach($courses as $i => $course)
-				{
-					if ($mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
+				$max_records = $this->old_mgdm->count_records($database_table['database'],$database_table['table']);
+				$retrieve_parms = array();
+				$retrieve_parms['old_mgdm']= $this->old_mgdm;
+				
+				$current_record = 0;
+				$mgdm = MigrationDataManager :: get_instance();
+				
+				while ($max_records > 0)
+				{	
+					if ($max_records - 1000 > 0)
 					{
-						continue;
-					}	
+						$retrieve_parms['offset'] = $current_record;
+						$retrieve_parms['limit'] = 1000;
+					}
+					else
+					{
+						$retrieve_parms['offset'] = $current_record;
+						$retrieve_parms['limit'] = $max_records;
+					} 
+				
+					$courses = array();
+					$courses = $courseclass->get_all($retrieve_parms);
+				
+					foreach($courses as $i => $course)
+					{
+						if ($mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
+						{
+							continue;
+						}	
+						
+						$this->migrate('Lp', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,0);
+						$this->migrate('LpItem', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,1);
+						//$this->migrate('LpItemView', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,2);
+						//$this->migrate('LpIvInteraction', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,3);
+						//$this->migrate('LpIvObjective', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,4);
+						//$this->migrate('LpView', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,5);
+						
+						unset($course);
+						unset($courses[$i]);
+					}
 					
-					$this->migrate('Lp', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,0);
-					$this->migrate('LpItem', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,1);
-					//$this->migrate('LpItemView', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,2);
-					//$this->migrate('LpIvInteraction', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,3);
-					//$this->migrate('LpIvObjective', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,4);
-					//$this->migrate('LpView', array('old_mgdm' => $this->old_mgdm), array('old_mgdm' => $this->old_mgdm), $course,5);
-					
-					unset($courses[$i]);
+					$courses = array();
+					unset($courses);
+					$current_record += $retrieve_parms['limit'];
+					$max_records -= $retrieve_parms['limit'];
 				}
 			}
 			else

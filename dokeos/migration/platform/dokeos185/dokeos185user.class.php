@@ -437,7 +437,7 @@ class Dokeos185User extends Import
 	{	
 		$mgdm = MigrationDataManager :: get_instance();
 		$old_mgdm = $parameters['old_mgdm'];
-		print('Used memory before: ' . memory_get_usage() . "\n");
+		
 		//User parameters
 		$lcms_user = new User();
 		
@@ -458,7 +458,6 @@ class Dokeos185User extends Import
 		$lcms_user->set_platformadmin($this->get_platformadmin());
 		$lcms_user->set_official_code($this->get_official_code());
 		$lcms_user->set_phone($this->get_phone());
-		print('Used memory after user: ' . memory_get_usage() . "\n");
 		// Move picture to correct directory
 		$old_rel_path_picture = '/main/upload/users/';
 		
@@ -474,13 +473,9 @@ class Dokeos185User extends Import
 				$lcms_user->set_picture_uri($this->get_picture_uri());
 			
 			unset($new_rel_path_picture);
-			//print('Used memory after unset new rel: ' . memory_get_usage() . "\n");
 			unset($old_rel_path_picture);
-			//print('Used memory after unset old rel: ' . memory_get_usage() . "\n");
 			unset($picture_uri);
-			//print('Used memory after unset picture: ' . memory_get_usage() . "\n");
 		}
-		print('Used memory after picture: ' . memory_get_usage() . "\n");
 		// Get new id from temporary table for references
 		
 		$creator_id = $mgdm->get_id_reference($this->get_creator_id(), 'user_user');
@@ -496,8 +491,6 @@ class Dokeos185User extends Import
 		
 		//create user in database
 		$lcms_user->create();
-		print('Used memory after user creation: ' . memory_get_usage() . "\n");
-		//print('Used memory after user creation: ' . memory_get_usage() . "\n");
 		
 		//Add id references to temp table
 		$mgdm->add_id_reference($this->get_user_id(), $lcms_user->get_user_id(), 'user_user');
@@ -517,7 +510,7 @@ class Dokeos185User extends Import
 		$lcms_repository_profile->set_owner_id($lcms_user->get_user_id());
 		$lcms_repository_profile->set_title($lcms_user->get_fullname());
 		$lcms_repository_profile->set_description('...');
-		print('Used memory after profile: ' . memory_get_usage() . "\n");
+		
 		// Category for calendar events already exists?
 		$lcms_category_id = $mgdm->get_parent_id($lcms_user->get_user_id(), 'category',
 			Translation :: get('profiles'));
@@ -538,7 +531,6 @@ class Dokeos185User extends Import
 			//Create category in database
 			$lcms_repository_category->create();
 			unset($repository_id);
-			//print('Used memory after rep category creation: ' . memory_get_usage() . "\n");
 			
 			$lcms_repository_profile->set_parent_id($lcms_repository_category->get_id());
 		}
@@ -546,15 +538,13 @@ class Dokeos185User extends Import
 		{
 			$lcms_repository_profile->set_parent_id($lcms_category_id);
 		}
-		print('Used memory after repository category: ' . memory_get_usage() . "\n");
+		
 		unset($lcms_category_id);
 		unset($lcms_repository_category);
-		//print('Used memory after unset category: ' . memory_get_usage() . "\n");
+		
 		
 		//Create profile in database
 		$lcms_repository_profile->create();
-		
-		//print('Used memory after profile creation: ' . memory_get_usage() . "\n");
 		
 		//Publish Profile
 		$lcms_profile_publication = new ProfilePublication();
@@ -563,12 +553,9 @@ class Dokeos185User extends Import
 		
 		//Create profile publication in database
 		$lcms_profile_publication->create();
-		print('Used memory after profile publication: ' . memory_get_usage() . "\n");
-		//print('Used memory after publication creation: ' . memory_get_usage() . "\n");
+		
 		unset($lcms_repository_profile);
-		//print('Used memory after unset profile: ' . memory_get_usage() . "\n");
 		unset($lcms_profile_publication);
-		//print('Used memory after unset publication: ' . memory_get_usage() . "\n");
 		
 		//Copy productions -> learning objects
 		$old_path = $old_rel_path_picture . $this->get_user_id() . '/' . $this->get_user_id() . '/';
@@ -592,7 +579,6 @@ class Dokeos185User extends Import
 				//Create category in database
 				$lcms_repository_category->create();
 				
-				//print('Used memory after file category creation: ' . memory_get_usage() . "\n");
 				
 				foreach($files_list as $file)
 				{
@@ -621,7 +607,6 @@ class Dokeos185User extends Import
 						$lcms_repository_document->create();
 						
 						unset($lcms_repository_document);
-						//print('Used memory after unset document: ' . memory_get_usage() . "\n");
 					}
 					
 					unset($file_split);
@@ -630,30 +615,17 @@ class Dokeos185User extends Import
 					unset($new_path);
 				}
 				
-				//print('Used memory after unset new_path: ' . memory_get_usage() . "\n");
 				$files_list = array();
 				unset($files_list);
-				//print('Used memory after convert: ' . memory_get_usage() . "\n");
 			}
 		}
 
-		print('Used memory after produtions: ' . memory_get_usage() . "\n");
-		
-		//print('Used memory after unset old rel: ' . memory_get_usage() . "\n");
-		
-		//print('Used memory after unset creator: ' . memory_get_usage() . "\n");
-		
-		//print('Used memory after unset lcms  category: ' . memory_get_usage() . "\n");
 		unset($repository_id);
-		//print('Used memory after unset rep id: ' . memory_get_usage() . "\n");
 		unset($old_path);
-		//print('Used memory after unset old path: ' . memory_get_usage() . "\n");
 		unset($directory);
-		//print('Used memory after unset dir: ' . memory_get_usage() . "\n");
 		
 		$parameters = array();
 		unset($parameters);
-		//print('Used memory after parameters unset: ' . memory_get_usage() . "\n");
 		
 		$this->default_user_properties = array();
 		unset($this->default_user_properties);
@@ -662,8 +634,6 @@ class Dokeos185User extends Import
 		unset($mgdm);
 		unset($old_mgdm);
 		
-		//print('Used memory after all unset: ' . memory_get_usage() . "\n");
-		print('Used memory after all: ' . memory_get_usage() . "\n");
 		return $lcms_user;
 	}
 	
