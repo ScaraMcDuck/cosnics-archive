@@ -237,14 +237,11 @@ class Dokeos185StudentPublication extends ImportStudentPublication
 		$filename = iconv("UTF-8", "ISO-8859-1", $filename);
 		$old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 		
-		//$document_md5 = md5_file($old_mgdm->append_full_path(false,$old_rel_path . $filename)); 
-		//$document_id = $mgdm->get_document_from_md5($new_user_id,$document_md5);
-			
-		//if(!self :: $files[$new_user_id][md5_file($old_mgdm->append_full_path(false,$old_rel_path . $filename))])
-		//{
-			
-			
-
+		$document_md5 = md5_file($old_mgdm->append_full_path(false,$old_rel_path . $filename)); 
+		$document_id = $mgdm->get_document_from_md5($new_user_id,$document_md5);
+		
+		if(!$document_id)
+		{
 			// Move file to correct directory
 			//echo($old_rel_path . "\t" . $new_rel_path . "\t" . $filename . "\n");
 			$file = $old_mgdm->move_file($old_rel_path, $new_rel_path, 
@@ -305,15 +302,24 @@ class Dokeos185StudentPublication extends ImportStudentPublication
 				//Add id references to temp table
 				$mgdm->add_id_reference($this->get_id(), $lcms_document->get_id(), 'repository_work');
 				
-				//self :: $files[$new_user_id][md5_file($old_mgdm->append_full_path(true,$new_rel_path . $file))] = $lcms_document->get_id();
+				$mgdm->add_file_md5($new_user_id, $lcms_document->get_id(), $document_md5);
 			}
-		//}
-		//else
-		//{
-		//	$lcms_document = new LearningObject();
-		//	$id = self :: $files[$new_user_id][md5_file($old_mgdm->append_full_path(false,$old_rel_path . $this->get_filename()))];
-		//	$lcms_document->set_id($id);
-		//}
+			else
+			{ 
+				$document_id = $mgdm->get_document_id($new_rel_path . $filename, $new_user_id);
+				if($document_id)
+				{
+					$lcms_document = new LearningObject();
+					$lcms_document->set_id($document_id);
+				}
+			}
+			
+		}
+		else
+		{
+			$lcms_document = new LearningObject();
+			$lcms_document->set_id($document_id);
+		}
 		/*	
 		//publication
 		if($this->item_property->get_visibility() <= 1 && $lcms_document) 

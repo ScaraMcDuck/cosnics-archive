@@ -170,13 +170,8 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function add_recovery_element($old_path,$new_path)
 	{
-		$pos = strpos($old_path,'\'');
-		if (pos != -1)
-			$old_path = substr($old_path,0,$pos-1) . '\\' . substr($old_path,$pos);
-		
-		$pos = strpos($new_path,'\'');
-		if (pos != -1)
-			$new_path = substr($new_path,0,$pos-1) . '\\' . substr($new_path,$pos);
+		$old_path = str_replace('\'', '\\\'', $old_path);
+		$new_path = str_replace('\'', '\\\'', $new_path);
 			
 		$query = 'INSERT INTO ' . $this->get_table_name(self :: TEMP_RECOVERY_TABLE) .
 				 '(old_path, new_path) VALUES (\''.
