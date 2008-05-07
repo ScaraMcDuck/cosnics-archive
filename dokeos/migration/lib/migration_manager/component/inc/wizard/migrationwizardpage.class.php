@@ -135,7 +135,6 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 		
 		while ($max_records > 0)
 		{	
-			print('memory usage before mwpage: ' . memory_get_usage() . "\n");
 			if ($max_records - 1000 > 0)
 			{
 				$retrieve_parms['offset'] = $current_record;
@@ -156,7 +155,6 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 				{	
 					$lcms_item = $item->convert_to_lcms($convert_parms);
 					
-					//print('memory usage after: ' . memory_get_usage() . "\n");
 					if($lcms_item)
 					{
 						$message = $this->write_succes($lcms_item, $extra_message, $type);
@@ -164,10 +162,8 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 						$this->logfile->add_message($message);
 						$this->succes[$i]++;
 					}
-					//print('Used memory before unset: ' . memory_get_usage() . "\n");
 					unset($lcms_item);
-					unset($message);
-					
+					unset($message);				
 				}
 				else
 				{
@@ -183,12 +179,10 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 				unset($items[$j]);	
 			}
 			
-			//print('Used memory after ' . $retrieve_parms['limit'] . ': ' . memory_get_usage() . "\n");
 			$items = array();
 			unset($items);
 			array_values($items);
 			$this->logfile->add_message($retrieve_parms['limit']  . ' records done');
-			print('memory usage after 1000: ' . memory_get_usage() . "\n");
 			$current_record += $retrieve_parms['limit'];
 			$max_records -= $retrieve_parms['limit'];
 		}

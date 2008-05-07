@@ -216,7 +216,6 @@ class Dokeos185SystemAnnouncement extends Import
 		$admin_id = $parameters['admin_id'];
 		
 		$new_mgdm = MigrationDataManager :: get_instance();
-		print('Used memory before all: ' . memory_get_usage() . "<br>\n");
 		$lcms_repository_announcement = new Announcement();
 		$lcms_repository_announcement->set_owner_id($admin_id);
 		
@@ -262,7 +261,6 @@ class Dokeos185SystemAnnouncement extends Import
 		//Create announcement in database
 		$lcms_repository_announcement->create();
 
-		print('Used memory after all: ' . memory_get_usage() . "<br>\n");
 		return $lcms_repository_announcement;
 	}
 	

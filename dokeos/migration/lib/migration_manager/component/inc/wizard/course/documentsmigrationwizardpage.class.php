@@ -102,7 +102,6 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 				
 				while ($max_records > 0)
 				{	
-					print('memory usage before 1000 mmw: ' . memory_get_usage() . "\n");
 					if ($max_records - 1000 > 0)
 					{
 						$retrieve_parms['offset'] = $current_record;
@@ -137,7 +136,6 @@ class DocumentsMigrationWizardPage extends MigrationWizardPage
 					}
 					$courses = array();
 					unset($courses);
-					print('memory usage after 1000: ' . memory_get_usage() . "\n");
 					$current_record += $retrieve_parms['limit'];
 					$max_records -= $retrieve_parms['limit'];
 				}

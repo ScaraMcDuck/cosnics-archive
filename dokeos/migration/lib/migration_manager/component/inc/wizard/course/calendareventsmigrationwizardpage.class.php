@@ -92,21 +92,49 @@ class CalendarEventsMigrationWizardPage extends MigrationWizardPage
 				$exportvalues['migrate_courses'] == 1 && $exportvalues['migrate_users'] == 1)
 			{
 				$courseclass = Import :: factory($this->old_system, 'course');
-				$courses = array();
-				$courses = $courseclass->get_all(array('old_mgdm' => $this->old_mgdm));
+				$database_table = $courseclass->get_database_table(null);
+				
+				$max_records = $this->old_mgdm->count_records($database_table['database'],$database_table['table']);
+				$retrieve_parms = array();
+				$retrieve_parms['old_mgdm']= $this->old_mgdm;
+				
+				$current_record = 0;
 				$mgdm = MigrationDataManager :: get_instance();
-				foreach($courses as $i => $course)
-				{
-					if ($mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
+				
+				while ($max_records > 0)
+				{	
+					if ($max_records - 1000 > 0)
 					{
-						continue;
-					}	
+						$retrieve_parms['offset'] = $current_record;
+						$retrieve_parms['limit'] = 1000;
+					}
+					else
+					{
+						$retrieve_parms['offset'] = $current_record;
+						$retrieve_parms['limit'] = $max_records;
+					} 
+				
+					$courses = array();
+					$courses = $courseclass->get_all($retrieve_parms);
+					foreach($courses as $i => $course)
+					{
+						if ($mgdm->get_failed_element('dokeos_main.course', $course->get_code()))
+						{
+							continue;
+						}	
+						
+						$this->migrate('CalendarEvent', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
+						//TODO: migrate resources
+						//$this->migrate('Resource', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
+						//$this->migrate_resources();
+						unset($course);
+						unset($courses[$i]);
+					}
 					
-					$this->migrate('CalendarEvent', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
-					//TODO: migrate resources
-					//$this->migrate('Resource', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
-					//$this->migrate_resources();
-					unset($courses[$i]);
+					$courses = array();
+					unset($courses);
+					$current_record += $retrieve_parms['limit'];
+					$max_records -= $retrieve_parms['limit'];
 				}
 			}
 			else
