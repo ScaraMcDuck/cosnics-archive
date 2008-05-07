@@ -13,7 +13,7 @@ require_once Path :: get_library_path().'condition/orcondition.class.php';
 
 Translation :: set_application('repository');
 
-if (PlatformSession :: get_user_id())
+if (Authentication :: is_valid())
 {
 	$conditions = array ();
 

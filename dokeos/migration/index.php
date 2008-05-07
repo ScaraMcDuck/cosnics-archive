@@ -16,7 +16,7 @@ $language_interface = 'english';
 
 Translation :: set_application($this_section);
 
-/**if (!PlatformSession :: get_user_id())
+/**if (!Authentication :: is_valid())
 {
 	Display :: display_not_allowed();
 }*/

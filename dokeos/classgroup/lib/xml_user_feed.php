@@ -15,7 +15,7 @@ require_once dirname(__FILE__).'/../../common/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../../common/condition/orcondition.class.php';
 require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
 
-if (PlatformSession :: get_user_id())
+if (Authentication :: is_valid())
 {
 	$conditions = array ();
 

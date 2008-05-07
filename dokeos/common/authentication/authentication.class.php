@@ -57,6 +57,20 @@ abstract class Authentication {
     {
     	PlatformSession :: platform_session_destroy();
     }
+    
+    function is_valid()
+    {
+    	// TODO: Add system here to allow authentication via encrypted user key ?
+    	if (!PlatformSession :: get_user_id())
+    	{
+    		return false;
+    	}
+    	else
+    	{
+			return true;
+    	}
+    }
+    
     /**
      * Creates an instance of an authentication class
      * @param string $authentication_method

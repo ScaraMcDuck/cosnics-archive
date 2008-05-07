@@ -32,7 +32,7 @@ class HomeManagerUserComponent extends HomeManagerComponent
 		global $loginFailed, $plugins;
 		$html = array();
 	
-		if (!PlatformSession :: get_user_id())
+		if (!Authentication :: is_valid())
 		{
 			// TODO: New languageform
 			//api_display_language_form();
