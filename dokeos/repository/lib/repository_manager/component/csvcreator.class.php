@@ -48,7 +48,7 @@ class CSVCreator extends RepositoryManagerComponent
 				$type = $csvarray[$i][0];	
 				//retrieve the root category (this is for now , can be modded later on so users can include
 				// the category where they want everything to be added
-				$user = PlatformSession :: get_user_id();
+				$user = Session :: get_user_id();
 				$categorystring= $dataManager->retrieve_root_category($user);
 				$category= $this->parent_split($categorystring);
 				//create the abstract learning object			

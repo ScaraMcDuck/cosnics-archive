@@ -1,8 +1,8 @@
 <?php
 
-class PlatformSession
+class Session
 {
-	public static function platform_session_start($already_installed = true)
+	function start($already_installed = true)
 	{
 		// TODO: This is not configurable during install, so why include it ?
 		//global $storeSessionInDb;
@@ -26,46 +26,46 @@ class PlatformSession
 			}
 			elseif ($_SESSION['checkDokeosURL'] != Path :: get(WEB_PATH))
 			{
-				self :: platform_session_clear();
+				self :: clear();
 			}
 		}
 	}
 	
-	public static function platform_session_register($variable, $value)
+	function register($variable, $value)
 	{
 		session_register($variable);
 		$_SESSION[$variable] = $value;
 	}
 	
-	public static function platform_session_unregister($variable)
+	function unregister($variable)
 	{
 		session_unregister($variable);
 		$_SESSION[$variable] = null;
 		unset ($GLOBALS[$variable]);
 	}
 	
-	public static function platform_session_clear()
+	function clear()
 	{
 		session_regenerate_id();
 		session_unset();
 		$_SESSION = array ();
 	}
 	
-	public static function platform_session_destroy()
+	function destroy()
 	{
 		session_unset();
 		$_SESSION = array ();
 		session_destroy();
 	}
 	
-	public static function platform_session_retrieve($variable)
+	function retrieve($variable)
 	{
 		return $_SESSION[$variable];
 	}
 	
-	public static function get_user_id()
+	function get_user_id()
 	{
-		return self :: platform_session_retrieve('_uid');
+		return self :: retrieve('_uid');
 	}
 }
 ?>

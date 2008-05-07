@@ -35,12 +35,12 @@ else
 	$dataManager->delete_all_learning_objects();
 	title('Er wordt een nieuwe Category gemaakt (vroegere zijn gewist)');
 	
-		create_category(PlatformSession :: get_user_id());
+		create_category(Session :: get_user_id());
 	
 	title('5 willekeurige Announcements worden aangemaakt : ');
 	for ($i = 0; $i < 5; $i ++)
 	{
-		$user = PlatformSession :: get_user_id();
+		$user = Session :: get_user_id();
 		$parent= $dataManager->retrieve_root_category($user);
 		//echo $parent;
 		$test= parent_split($parent);
@@ -56,7 +56,7 @@ else
 	title('Kalender Evenementen worden aangemaakt ');
 	for ($i = 0; $i < 5; $i ++)
 	{
-		$user = PlatformSession :: get_user_id();
+		$user = Session :: get_user_id();
 		$event = new CalendarEvent();
 		$event->set_owner_id($user);
 		$event->set_title('Titel'.$i);

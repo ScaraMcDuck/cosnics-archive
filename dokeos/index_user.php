@@ -5,17 +5,17 @@ require_once Path :: get_user_path(). 'lib/usermanager/usermanager.class.php';
 
 Translation :: set_application($this_section);
 
-if (!PlatformSession :: get_user_id() && !($_GET['go'] == 'register' || $_GET['go'] == 'reset_password'))
+if (!Session :: get_user_id() && !($_GET['go'] == 'register' || $_GET['go'] == 'reset_password'))
 {
 	Display :: display_not_allowed();
 }
-if(!PlatformSession :: get_user_id())
+if(!Session :: get_user_id())
 {
 	$umgr = new UserManager();
 }
 else
 {
-	$umgr = new UserManager(PlatformSession :: get_user_id());
+	$umgr = new UserManager(Session :: get_user_id());
 }
 try
 {

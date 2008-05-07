@@ -180,7 +180,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 				}
 
 				$statement = $this->connection->prepare($query);
-				$res = $statement->execute(PlatformSession :: get_user_id());
+				$res = $statement->execute(Session :: get_user_id());
 			}
 		}
 		else
@@ -239,7 +239,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		$params = array ();
 		$query = 'SELECT COUNT('.$this->escape_column_name('id').') FROM '.$this->get_table_name('publication').' WHERE '.$this->escape_column_name('publisher').'=?';
 		$sth = $this->connection->prepare($query);
-		$res = $sth->execute(PlatformSession :: get_user_id());
+		$res = $sth->execute(Session :: get_user_id());
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
