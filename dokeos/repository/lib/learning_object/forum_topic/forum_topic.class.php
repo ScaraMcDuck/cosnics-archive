@@ -54,21 +54,6 @@ class ForumTopic extends LearningObject
 		$post_count = $datamanager->count_learning_objects('forum_post',new EqualityCondition(self::PROPERTY_PARENT_ID, $this->get_id()));
 		return $post_count;
 	}
-	/**
-	 * Determines if this forum topic is locked
-	 */
-	function is_locked()
-	{
-		return $this->get_additional_property(self :: PROPERTY_LOCKED);
-	}
-	/**
-	 * Locks this forum topic
-	 * @param boolean $locked
-	 */
-	function set_locked($locked)
-	{
-		return $this->set_additional_property(self :: PROPERTY_LOCKED, $locked);
-	}
 
 	/**
 	 * Return an associative array containing the list of email addresses who need
