@@ -120,6 +120,8 @@ class UsersInstaller extends Installer
 					if($tracker->get_class() == 'LoginLogoutTracker')
 					{
 						if(!$trkinstaller->register_tracker_to_event($tracker, $logoutevent)) return false;
+						if(!$trkinstaller->register_tracker_to_event($tracker, $loginevent)) return false;
+						$this->add_message(Translation :: get('TrackersRegistered') . ': ' . $filename);
 						continue;
 					}
 					
@@ -129,6 +131,7 @@ class UsersInstaller extends Installer
 						{
 							if(!$trkinstaller->register_tracker_to_event($tracker, $event)) return false;
 						}
+						$this->add_message(Translation :: get('TrackersRegistered') . ': ' . $filename);
 						continue;
 					}
 					

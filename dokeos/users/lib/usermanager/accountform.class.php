@@ -183,7 +183,7 @@ class AccountForm extends FormValidator {
    		$value = $user->update();
    		
    		if($value)
-   			Events :: trigger_event('update', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $user->get_user_id()));
+   			Events :: trigger_event('update', 'users', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $user->get_user_id()));
    
    		return $value;
     }

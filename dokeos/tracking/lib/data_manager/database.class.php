@@ -371,12 +371,19 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	 * @param String $name
 	 * @return Event event
 	 */
-	function retrieve_event_by_name($eventname)
+	function retrieve_event_by_name($eventname, $block = null)
 	{
 		$query = 'SELECT * FROM ' . $this->escape_table_name('event') . ' AS ' . 
 				 self :: ALIAS_EVENTS_TABLE;
 		
-		$condition = new EqualityCondition('name', $eventname);
+		$conditions = array();
+		$conditions[] = new EqualityCondition('name', $eventname);
+		
+		if($block)
+			$conditions[] = new EqualityCondition('block', $block);
+		
+		$condition = new AndCondition($conditions);
+		
 		$params = array ();
 		if (isset ($condition))
 		{

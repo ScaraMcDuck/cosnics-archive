@@ -8,7 +8,7 @@ class ClassGroupManagerTruncaterComponent extends ClassGroupManagerComponent
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{
+	{ 
 		$user = $this->get_user();
 		
 		if (!$user->is_platform_admin())
@@ -41,6 +41,10 @@ class ClassGroupManagerTruncaterComponent extends ClassGroupManagerComponent
 				{
 					$failures++;
 				}
+				else
+				{
+					Events :: trigger_event('empty', 'classgroup', array('target_classgroup_id' => $classgroup->get_id(), 'action_user_id' => $user->get_user_id()));
+				}
 			}
 			
 			if ($failures)
@@ -64,6 +68,7 @@ class ClassGroupManagerTruncaterComponent extends ClassGroupManagerComponent
 				{
 					$message = 'SelectedClassGroupsEmptied';
 				}
+				
 			}
 			
 			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS));

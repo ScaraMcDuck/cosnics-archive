@@ -14,12 +14,13 @@ class ClassGroupForm extends FormValidator {
 	private $parent;
 	private $classgroup;
 	private $unencryptedpass;
+	private $user;
 
-    function ClassGroupForm($form_type, $classgroup, $action) {
+    function ClassGroupForm($form_type, $classgroup, $action, $user) {
     	parent :: __construct('classgroups_settings', 'post', $action);
     	
     	$this->classgroup = $classgroup;
-    	
+    	$this->user = $user;
 		$this->form_type = $form_type;
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
@@ -65,7 +66,12 @@ class ClassGroupForm extends FormValidator {
     	$classgroup->set_name($values[ClassGroup :: PROPERTY_NAME]);
     	$classgroup->set_description($values[ClassGroup :: PROPERTY_DESCRIPTION]);
     	
-   		return $classgroup->update();
+   		$value = $classgroup->update();
+   		
+   		if($value)
+   			Events :: trigger_event('update', 'classgroup', array('target_classgroup_id' => $classgroup->get_id(), 'action_user_id' => $this->user->get_user_id()));
+   		
+   		return $value;
     }
     
     
@@ -78,7 +84,13 @@ class ClassGroupForm extends FormValidator {
     	$classgroup->set_name($values[ClassGroup :: PROPERTY_NAME]);
     	$classgroup->set_description($values[ClassGroup :: PROPERTY_DESCRIPTION]);
     	
-   		return $classgroup->create();
+   		$value = $classgroup->create();
+   		
+   		if($value)
+   			Events :: trigger_event('create', 'classgroup', array('target_classgroup_id' => $classgroup->get_id(), 'action_user_id' => $this->user->get_user_id()));
+   			
+   		
+   		return $value;
     }
     
 	/**

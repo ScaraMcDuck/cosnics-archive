@@ -88,7 +88,7 @@ abstract class TrackingDataManager
 	 * Retrieves the event with the given name
 	 * @param String $name
 	 */
-	abstract function retrieve_event_by_name($eventname);
+	abstract function retrieve_event_by_name($eventname, $block = null);
 	/**
 	 * Retrieve all trackers from an event
 	 * @param Int $eventid

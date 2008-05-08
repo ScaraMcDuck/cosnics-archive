@@ -48,7 +48,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 			if($this->get_user_key($user) == $request_key)
 			{
 				$this->create_new_password($user);
-				Events :: trigger_event('reset_password', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $user->get_user_id()));
+				Events :: trigger_event('reset_password', 'users', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $user->get_user_id()));
 				Display::display_normal_message('lang_your_password_has_been_emailed_to_you');
 			}
 			else

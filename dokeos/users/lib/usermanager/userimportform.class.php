@@ -76,7 +76,7 @@ class UserImportForm extends FormValidator {
     			}
     			else
     			{
-    				Events :: trigger_event('import', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $this->form_user->get_user_id()));
+    				Events :: trigger_event('import', 'users', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $this->form_user->get_user_id()));
     			}
     		}
     		else
