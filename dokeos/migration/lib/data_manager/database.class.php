@@ -473,11 +473,12 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 	$query = 'SELECT user_id FROM ' . $this->get_table_name('user_user'). ' WHERE ' .
 	 			 'CONCAT(firstname, \' \', lastname) = ' . $fullname . ' OR ' .
 	 			 'CONCAT(lastname, \' \', firstname) = ' . $fullname;
-
 	 	$result = $this->connection->query($query);
 	 	$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 	 	if($record)
+	 	{
 	 		return $record['user_id'];
+	 	}
 	}
 }
 ?>

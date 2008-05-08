@@ -313,7 +313,7 @@ class Dokeos185AssignmentFile extends ImportAssignmentfile
 		$tablename = 'assignment_file';
 		$classname = 'Dokeos185AssignmentFile';
 			
-		return self :: $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
+		return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);	
 	}
 	
 	static function get_database_table($parameters)
