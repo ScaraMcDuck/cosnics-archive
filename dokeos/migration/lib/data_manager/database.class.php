@@ -119,7 +119,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 		$title = $this->connection->quote($title, "text", true);
 		
 		$query = 'SELECT id FROM ' . $this->get_table_name(repository_learning_object). ' WHERE owner=\'' . $owner . '\' AND type=\'' . $type .
-		 		'\' AND title=\'' . $title . '\'';
+		 		'\' AND title=' . $title . '';
 		
 		if($parent)
 			$query = $query . ' AND parent=' . $parent;
@@ -175,8 +175,8 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 		$new_path = $this->connection->quote($new_path, "text", true);//str_replace('\'', '\\\'', $new_path);
 			
 		$query = 'INSERT INTO ' . $this->get_table_name(self :: TEMP_RECOVERY_TABLE) .
-				 '(old_path, new_path) VALUES (\''.
-					$old_path . '\',\''.$new_path .'\')';
+				 '(old_path, new_path) VALUES ('.
+					$old_path . ','.$new_path .')';
 		$this->connection->query($query);
 	}
 	
@@ -355,7 +355,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	function publication_category_exist($title,$course_code,$tool,$parent = null)
 	{
 		$title = $this->connection->quote($title, "text", true);
-		$query = 'SELECT id FROM ' . $this->get_table_name('weblcms_learning_object_publication_category'). ' WHERE title=\'' . $title . '\' AND course=\'' . $course_code .
+		$query = 'SELECT id FROM ' . $this->get_table_name('weblcms_learning_object_publication_category'). ' WHERE title=' . $title . ' AND course=\'' . $course_code .
 		 		'\' AND tool=\'' . $tool . '\'';
 		
 		if($parent)
@@ -375,7 +375,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	function get_document_id($path,$owner_id)
 	{
 		$path = $this->connection->quote($path, "text", true);
-		$query = 'SELECT id FROM ' . $this->get_table_name('repository_document'). ' WHERE path=\'' . $path . '\' AND id IN ' .
+		$query = 'SELECT id FROM ' . $this->get_table_name('repository_document'). ' WHERE path=' . $path . ' AND id IN ' .
 						'(SELECT id FROM ' . $this->get_table_name('repository_learning_object'). ' WHERE owner = ' . $owner_id . ')';
 		
 		$result = $this->connection->query($query);
@@ -471,8 +471,8 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 		$fullname = $this->connection->quote($fullname, "text", true);
 		
 	 	$query = 'SELECT user_id FROM ' . $this->get_table_name('user_user'). ' WHERE ' .
-	 			 'CONCAT(firstname, \' \', lastname) = \'' . $fullname . '\' OR ' .
-	 			 'CONCAT(lastname, \' \', firstname) = \'' . $fullname . '\'';
+	 			 'CONCAT(firstname, \' \', lastname) = ' . $fullname . ' OR ' .
+	 			 'CONCAT(lastname, \' \', firstname) = ' . $fullname;
 
 	 	$result = $this->connection->query($query);
 	 	$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
