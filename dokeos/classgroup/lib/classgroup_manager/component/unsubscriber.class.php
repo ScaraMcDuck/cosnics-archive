@@ -47,6 +47,10 @@ class ClassGroupManagerUnsubscriberComponent extends ClassGroupManagerComponent
 					{
 						$failures++;
 					}
+					else
+					{
+						Events :: trigger_event('unsubscribe', 'classgroup', array('target_classgroup_id' => $classgroupreluser->get_classgroup_id(), 'target_user_id' => $classgroupreluser->get_user_id(), 'action_user_id' => $user->get_user_id()));
+					}
 				}
 				else
 				{

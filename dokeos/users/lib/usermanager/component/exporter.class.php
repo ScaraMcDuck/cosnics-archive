@@ -44,7 +44,7 @@ class UserManagerExporterComponent extends UserManagerComponent
      			$user_array[User::PROPERTY_PHONE] = $user->get_phone();
      			$user_array[User::PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
      			$user_array[User::PROPERTY_LANGUAGE] = $user->get_language();
-     			 Events :: trigger_event('export', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $this->get_user()->get_user_id()));
+     			 Events :: trigger_event('export', 'users', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $this->get_user()->get_user_id()));
      			$data[] = $user_array; 
  	        } 
 			$this->export_users($file_type,$data);

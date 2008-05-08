@@ -30,7 +30,7 @@ class ClassGroupManagerEditorComponent extends ClassGroupManagerComponent
 				exit;
 			}
 			
-			$form = new ClassGroupForm(ClassGroupForm :: TYPE_EDIT, $classgroup, $this->get_url(array(ClassGroupManager :: PARAM_CLASSGROUP_ID => $id)));
+			$form = new ClassGroupForm(ClassGroupForm :: TYPE_EDIT, $classgroup, $this->get_url(array(ClassGroupManager :: PARAM_CLASSGROUP_ID => $id)), $this->get_user());
 
 			if($form->validate())
 			{

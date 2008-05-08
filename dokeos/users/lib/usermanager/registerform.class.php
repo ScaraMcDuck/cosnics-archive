@@ -142,7 +142,7 @@ class RegisterForm extends FormValidator {
 			if ($user->create())
 			{
 				Session :: register('_uid', intval($user->get_user_id()));
-				Events :: trigger_event('register', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $user->get_user_id()));
+				Events :: trigger_event('register', 'users', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $user->get_user_id()));
 				return true;
 			}
 			else

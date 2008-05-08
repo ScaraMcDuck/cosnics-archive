@@ -28,7 +28,7 @@ class Events
 		return $event;
 	}
 	
-	public static function trigger_event($event_name, $parameters = array())
+	public static function trigger_event($event_name, $block, $parameters = array())
 	{
 		$adm = AdminDataManager :: get_instance();
 		$setting = $adm->retrieve_setting_from_variable_name('enable_tracking', 'tracker');
@@ -36,7 +36,7 @@ class Events
 		if($setting->get_value() != 1) return;
 		
 		$trkdmg = TrackingDataManager :: get_instance();
-		$event = $trkdmg->retrieve_event_by_name($event_name);
+		$event = $trkdmg->retrieve_event_by_name($event_name, $block);
 		
 		if($event->get_active() == 0) return;
 	

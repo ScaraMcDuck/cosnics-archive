@@ -26,7 +26,7 @@ class ClassGroupManagerCreatorComponent extends ClassGroupManagerComponent
 			exit;
 		}
 		$classgroup = new ClassGroup();
-		$form = new ClassGroupForm(ClassGroupForm :: TYPE_CREATE, $classgroup, $this->get_url());
+		$form = new ClassGroupForm(ClassGroupForm :: TYPE_CREATE, $classgroup, $this->get_url(), $this->get_user());
 		
 		if($form->validate())
 		{

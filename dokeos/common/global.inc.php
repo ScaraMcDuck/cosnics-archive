@@ -312,7 +312,7 @@ if($_POST['login'])
 	if(!is_null($user))
 	{
 		Session :: register('_uid', $user->get_user_id());
-		Events :: trigger_event('login', array('server' => $_SERVER, 'user' => $user));
+		Events :: trigger_event('login', 'users', array('server' => $_SERVER, 'user' => $user));
 		// TODO: Tracking framework
 		//loginCheck($_SESSION['_uid']);
 		//event_login();
