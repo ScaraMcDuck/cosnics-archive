@@ -21,9 +21,7 @@ class DropboxTool extends RepositoryTool
 		
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
-			$this->display_header($trail);
 			Display :: display_not_allowed();
-			$this->display_footer();
 			return;
 		}
 		if (isset($_GET['admin']))
