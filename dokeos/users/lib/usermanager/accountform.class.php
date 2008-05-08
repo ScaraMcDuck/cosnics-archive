@@ -180,7 +180,12 @@ class AccountForm extends FormValidator {
 		{
 	   		$user->set_language($values[User :: PROPERTY_LANGUAGE]);
 		}
-   		return $user->update();
+   		$value = $user->update();
+   		
+   		if($value)
+   			Events :: trigger_event('update', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $user->get_user_id()));
+   
+   		return $value;
     }
 
 	/**

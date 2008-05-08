@@ -24,7 +24,7 @@ class UserManagerImporterComponent extends UserManagerComponent
 			exit;
 		}
 		
-		$form = new UserImportForm(UserImportForm :: TYPE_IMPORT, $this->get_url());
+		$form = new UserImportForm(UserImportForm :: TYPE_IMPORT, $this->get_url(), $this->get_user());
 		
 		if($form->validate())
 		{

@@ -248,7 +248,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	 */
 	public function delete_learning_object_publications($object_id)
 	{
-		$query = 'DELETE FROM '.$this->get_table_name('publication').' WHERE learning_object = ?';
+		$query = 'DELETE FROM '.$this->get_table_name('publication').' WHERE calendar_event = ?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute($object_id);
 	}

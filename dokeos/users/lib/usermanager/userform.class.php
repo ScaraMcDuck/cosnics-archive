@@ -176,7 +176,12 @@ class UserForm extends FormValidator {
     			$this->send_email($user);
     		}
 
-    		return $user->update();
+    		$value = $user->update();
+    		
+    		if($value)
+    			Events :: trigger_event('update', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $this->form_user->get_user_id()));
+    		
+    		return $value;
     	}
     	else
     	{
@@ -226,7 +231,12 @@ class UserForm extends FormValidator {
     			$this->send_email($user);
     		}
 
-    		return $user->create();
+    		$value = $user->create();
+    		
+    		if($value)
+    			Events :: trigger_event('create', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $this->form_user->get_user_id()));
+    		
+    		return $value;
     	}
     	else
     	{

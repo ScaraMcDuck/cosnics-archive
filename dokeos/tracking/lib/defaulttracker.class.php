@@ -10,7 +10,7 @@ require_once dirname(__FILE__). '/maintracker.class.php';
  * This class is an abstract class for several action trackers 
  * Has the default properties of user_id, reference_id, action and date
  */
-class DefaultTracker extends MainTracker
+abstract class DefaultTracker extends MainTracker
 {
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_REFERENCE_ID = 'reference_id';
@@ -23,14 +23,6 @@ class DefaultTracker extends MainTracker
     function DefaultTracker($table) 
     {
     	parent :: MainTracker($table);
-    }
-    
-    /**
-     * Inherited
-     */
-    function track($parameters = array())
-    {
-    	
     }
     
     /**
@@ -111,6 +103,7 @@ class DefaultTracker extends MainTracker
      */
     function set_date($date)
     {
+    	$date = $this->to_db_date($date);
     	$this->set_property(self :: PROPERTY_DATE, $date);
     }
 

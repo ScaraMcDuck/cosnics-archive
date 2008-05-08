@@ -15,6 +15,7 @@ class UserImportForm extends FormValidator {
 	private $current_tag;
 	private $current_value;
 	private $user;
+	private $form_user;
 	private $users;
 	private $udm;
 
@@ -22,9 +23,11 @@ class UserImportForm extends FormValidator {
 	 * Creates a new UserImportForm 
 	 * Used to import users from a file
 	 */
-    function UserImportForm($form_type, $action) {
+    function UserImportForm($form_type, $action, $form_user) 
+    {
     	parent :: __construct('user_import', 'post', $action);
     	
+    	$this->form_user = $form_user;
 		$this->form_type = $form_type;
 		$this->failedcsv = array();
 		if ($this->form_type == self :: TYPE_IMPORT)
@@ -70,6 +73,10 @@ class UserImportForm extends FormValidator {
     			{
     				$failures++;
     				$this->failedcsv[] = implode($csvuser, ';');
+    			}
+    			else
+    			{
+    				Events :: trigger_event('import', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $this->form_user->get_user_id()));
     			}
     		}
     		else
@@ -123,9 +130,9 @@ class UserImportForm extends FormValidator {
     
     function parse_file($file_name, $file_type)
     {
-		$this->users = array ();
-		if ($file_type == 'text/x-csv' || $file_type == 'application/vnd.ms-excel')
-		{
+		$this->users = array (); 
+		if ($file_type == 'text/csv' || $file_type == 'application/vnd.ms-excel')
+		{ 
 			$this->users = Import :: csv_to_array($file_name);
 		}
 		elseif($file_type == 'text/xml')
