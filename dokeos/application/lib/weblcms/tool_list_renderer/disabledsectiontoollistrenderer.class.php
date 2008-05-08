@@ -17,12 +17,17 @@ class DisabledSectionToolListRenderer extends ToolListRenderer
 	 */
 	const NUMBER_OF_COLUMNS = 4;
 	/**
+	 *
+	 */
+	private $is_course_admin;
+	/**
 	 * Constructor
 	 * @param  WebLcms $parent The parent application
 	 */
 	function DisabledSectionToolListRenderer($parent)
 	{
 		parent::ToolListRenderer($parent);
+		$this->is_course_admin = $this->get_parent()->get_course()->is_course_admin($this->get_parent()->get_user());
 	}
 	// Inherited
 	function display()
@@ -41,10 +46,14 @@ class DisabledSectionToolListRenderer extends ToolListRenderer
 			}
 		}
 		$this->show_tools('basic',$tools);
-		echo '<h4>'.Translation :: get('CourseAdministration').'</h4>';
-		$this->show_tools('course_admin',$tools);
-		echo '<h4>'.Translation :: get('DisabledTools').'</h4>';
-		$this->show_tools('disabled',$tools);
+		
+		if($this->is_course_admin)
+		{
+			echo '<h4>'.Translation :: get('CourseAdministration').'</h4>';
+			$this->show_tools('course_admin',$tools);
+			echo '<h4>'.Translation :: get('DisabledTools').'</h4>';
+			$this->show_tools('disabled',$tools);
+		}
 	}
 	/**
 	 * Show the tools of a given section
@@ -83,17 +92,39 @@ class DisabledSectionToolListRenderer extends ToolListRenderer
 			$row = $count/DisabledSectionToolListRenderer::NUMBER_OF_COLUMNS;
 			$col = $count%DisabledSectionToolListRenderer::NUMBER_OF_COLUMNS;
 			$html = array();
-			$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
-			$html[] = '<img src="'.Theme :: get_img_path().$tool_image.'" style="vertical-align: middle;"/>';
-			$html[] = $title;
-			$html[] = '</a>';
-			if($section!= 'course_admin')
+			
+			
+			if($this->is_course_admin || $tool->visible)
 			{
-				$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_ACTION=>$action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img src="'.Theme :: get_common_img_path().$visible_image.'"/></a>';
+				// Show tool-icon + name
+				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_COMPONENT_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
+				$html[] = '<img src="'.Theme :: get_img_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
+				$html[] = $title;
+				$html[] = '</a>';
+				
+				// Show visibility-icon
+				if ($this->is_course_admin && $section!= 'course_admin')
+				{
+					$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_COMPONENT_ACTION=>$action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img src="'.Theme :: get_common_img_path().$visible_image.'" alt=""/></a>';
+				}
+				
+				$table->setCellContents($row,$col,implode("\n",$html));
+				$table->updateColAttributes($col,'style="width: '.floor(100/DisabledSectionToolListRenderer::NUMBER_OF_COLUMNS).'%;"');
+				$count++;
 			}
-			$table->setCellContents($row,$col,implode("\n",$html));
-			$table->updateColAttributes($col,'style="width: '.floor(100/DisabledSectionToolListRenderer::NUMBER_OF_COLUMNS).'%;"');
-			$count++;
+			
+			
+//			$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
+//			$html[] = '<img src="'.Theme :: get_img_path().$tool_image.'" style="vertical-align: middle;"/>';
+//			$html[] = $title;
+//			$html[] = '</a>';
+//			if($section!= 'course_admin')
+//			{
+//				$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_ACTION=>$action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img src="'.Theme :: get_common_img_path().$visible_image.'"/></a>';
+//			}
+//			$table->setCellContents($row,$col,implode("\n",$html));
+//			$table->updateColAttributes($col,'style="width: '.floor(100/DisabledSectionToolListRenderer::NUMBER_OF_COLUMNS).'%;"');
+//			$count++;
 		}
 		$table->display();
 	}

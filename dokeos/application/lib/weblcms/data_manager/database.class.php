@@ -869,7 +869,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$modules = array();
 		$module = null;
 		while ($module = $res->fetchRow(MDB2_FETCHMODE_OBJECT)) {
-		    $modules[] = $module;
+		    $modules[$module->name] = $module;
 		}
 		return $modules;
 	}

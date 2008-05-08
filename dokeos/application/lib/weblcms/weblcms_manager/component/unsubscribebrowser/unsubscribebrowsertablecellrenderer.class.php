@@ -64,7 +64,7 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 		}
 		else
 		{
-			if ($course->is_course_admin($this->browser->get_user_id()))
+			if ($course->is_course_admin($this->browser->get_user()))
 			{
 				return '<span class="info_message">'.Translation :: get('UnsubscriptionAdmin').'</span>';
 			}

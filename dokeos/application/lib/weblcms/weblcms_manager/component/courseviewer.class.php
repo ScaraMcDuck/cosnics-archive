@@ -102,7 +102,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 				
 				$wdm = WeblcmsDataManager :: get_instance();
 				$this->display_header($trail);
-				//Todo: Depending on settings, display menu and/or shortcut icons
+				//TODO: Depending on settings, display menu and/or shortcut icons
 				//Display shortcut icons
 				//$renderer = ToolListRenderer::factory('Menu',$this);
 				//$renderer->set_type(MenuToolListRenderer::MENU_TYPE_TOP_NAVIGATION);
@@ -110,7 +110,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 				//Display menu
 				//$renderer = ToolListRenderer::factory('Menu',$this);
 				//$renderer->display();
-				$renderer = ToolListRenderer::factory('FixedLocation',$this);
+				$renderer = ToolListRenderer::factory('Fixedlocation',$this);
 				$renderer->display();
 				$this->display_footer();
 				$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),null);

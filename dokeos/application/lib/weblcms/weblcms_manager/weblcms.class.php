@@ -407,13 +407,18 @@ class Weblcms extends WebApplication
 			$tools = array ();
 			foreach ($this->get_registered_tools() as $t)
 			{
-				$tools[$t->name] = htmlentities(Translation :: get(Tool :: type_to_class($t->name).'Title'));
+				$tools[$t->name]['title']	= htmlentities(Translation :: get(Tool :: type_to_class($t->name).'Title'));
+				$tools[$t->name]['visible']	= $t->visible;
+				$tools[$t->name]['section']	= $t->section;
 			}
 			asort($tools);
-			foreach ($tools as $tool => $title)
+			foreach ($tools as $tool => $properties)
 			{
-				$class = Tool :: type_to_class($tool);
-				echo '<option value="'.$tool.'"'. ($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($title).'</option>';
+				if (($properties['visible'] && $properties['section'] != 'course_admin') || $this->get_course()->is_course_admin($this->get_user()))
+				{
+					$class = Tool :: type_to_class($tool);
+					echo '<option value="'.$tool.'"'. ($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($properties['title']).'</option>';
+				}
 			}
 			echo '</select></form></div>';
 			Display :: display_tool_title(htmlentities(Translation :: get($this->tool_class.'Title')));
@@ -488,6 +493,11 @@ class Weblcms extends WebApplication
 	function get_registered_tools()
 	{
 		return $this->tools;
+	}
+	
+	function get_tool_properties($tool)
+	{
+		return $this->tools[$tool];
 	}
 
 	/**
@@ -825,7 +835,7 @@ class Weblcms extends WebApplication
 			$conditions = array();
 			$conditions[] = new EqualityCondition('tool',$tool);
 			$conditions[] = new InequalityCondition('modified',InequalityCondition::GREATER_THAN,$last_visit_date);
-			if (!$this->get_course()->is_course_admin($this->get_user_id()) && !$this->user->is_platform_admin())
+			if (!$this->get_course()->is_course_admin($this->get_user()) && !$this->user->is_platform_admin())
 			{
 				// Only select visible publications
 				$conditions[] = new EqualityCondition('hidden',0);
@@ -1016,7 +1026,7 @@ class Weblcms extends WebApplication
 	function course_unsubscription_allowed($course)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		return $wdm->course_unsubscription_allowed($course, $this->get_user_id());
+		return $wdm->course_unsubscription_allowed($course, $this->get_user());
 	}
 
     /**

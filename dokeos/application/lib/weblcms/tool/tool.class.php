@@ -35,6 +35,7 @@ abstract class Tool
 	function Tool($parent)
 	{
 		$this->parent = $parent;
+		$this->properties = $parent->get_tool_properties($this->get_tool_id());
 		$this->load_rights();
 	}
 
@@ -51,6 +52,15 @@ abstract class Tool
 	{
 		return $this->parent;
 	}
+	
+	/**
+	 * Returns the properties of this tool within the specified course.
+	 * @return Tool The tool.
+	 */
+	function get_properties()
+	{
+		return $this->properties;
+	}	
 
 	/**
 	 * @see Application :: get_tool_id()
@@ -221,7 +231,7 @@ abstract class Tool
 		$this->rights[EDIT_RIGHT] = false;
 		$this->rights[ADD_RIGHT] = false;
 		$this->rights[DELETE_RIGHT] = false;
-		if($relation->get_status() == 5)
+		if($relation->get_status() == 5 && $this->properties->visible == 1)
 		{
 			$this->rights[VIEW_RIGHT] = true;
 		}
@@ -234,30 +244,14 @@ abstract class Tool
 		}
 		return;
 		$tool_id = $this->get_tool_id();
-		//TODO: phase out, because hardcoding tool names is hardly modular
-		switch ($tool_id) {
-			case 'description': $tool_name = TOOL_COURSE_DESCRIPTION; break;
-			case 'announcement': $tool_name = TOOL_ANNOUNCEMENT; break;
-			case 'calendar': $tool_name = TOOL_CALENDAR_EVENT; break;
-			case 'link': $tool_name = TOOL_LINK; break;
-			case 'document': $tool_name = TOOL_DOCUMENT; break;
-			case 'forum': $tool_name = TOOL_FORUM; break;
-			case 'dropbox': $tool_name = TOOL_DROPBOX; break;
-			case 'wiki': $tool_name = TOOL_WIKI; break;
-			case 'chat': $tool_name = TOOL_CHAT; break;
-			case 'learning_path': $tool_name = TOOL_LEARNING_PATH; break;
-			case 'exercise': $tool_name = TOOL_EXERCISE; break;
-			case 'group': $tool_name = TOOL_GROUP; break;
-			// The proper way. We should only keep this, eventually.
-			default: $tool_name = $tool_id;
-		}
+		
 		// Roles and rights system
 		$user_id = $this->get_user_id();
 		$course_id = $this->get_course_id();
 		
 		// TODO: New Roles & Rights system
 //		$role_id = RolesRights::get_local_user_role_id($user_id, $course_id);
-//		$location_id = RolesRights::get_course_tool_location_id($course_id, $tool_name);
+//		$location_id = RolesRights::get_course_tool_location_id($course_id, $tool_id);
 //		$this->rights = RolesRights::is_allowed_which_rights($role_id, $location_id);
 	}
 
