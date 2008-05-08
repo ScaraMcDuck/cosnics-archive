@@ -54,7 +54,6 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 		}
 	}
 	
-    
 	/**
 	 * Create a storage unit in the database
 	 * @param string $name name of the table
@@ -117,6 +116,8 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function get_parent_id($owner,$type,$title,$parent = null)
 	{
+		$title = $this->connection->quote($title, "text", true);
+		
 		$query = 'SELECT id FROM ' . $this->get_table_name(repository_learning_object). ' WHERE owner=\'' . $owner . '\' AND type=\'' . $type .
 		 		'\' AND title=\'' . $title . '\'';
 		
@@ -170,8 +171,8 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function add_recovery_element($old_path,$new_path)
 	{
-		$old_path = str_replace('\'', '\\\'', $old_path);
-		$new_path = str_replace('\'', '\\\'', $new_path);
+		$old_path = $this->connection->quote($old_path, "text", true);//str_replace('\'', '\\\'', $old_path);
+		$new_path = $this->connection->quote($new_path, "text", true);//str_replace('\'', '\\\'', $new_path);
 			
 		$query = 'INSERT INTO ' . $this->get_table_name(self :: TEMP_RECOVERY_TABLE) .
 				 '(old_path, new_path) VALUES (\''.
@@ -353,6 +354,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function publication_category_exist($title,$course_code,$tool,$parent = null)
 	{
+		$title = $this->connection->quote($title, "text", true);
 		$query = 'SELECT id FROM ' . $this->get_table_name('weblcms_learning_object_publication_category'). ' WHERE title=\'' . $title . '\' AND course=\'' . $course_code .
 		 		'\' AND tool=\'' . $tool . '\'';
 		
@@ -372,6 +374,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function get_document_id($path,$owner_id)
 	{
+		$path = $this->connection->quote($path, "text", true);
 		$query = 'SELECT id FROM ' . $this->get_table_name('repository_document'). ' WHERE path=\'' . $path . '\' AND id IN ' .
 						'(SELECT id FROM ' . $this->get_table_name('repository_learning_object'). ' WHERE owner = ' . $owner_id . ')';
 		
@@ -465,7 +468,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	 */
 	function get_user_by_full_name($fullname)
 	{
-		$fullname = str_replace('\'', '\\\'', $fullname);
+		$fullname = $this->connection->quote($fullname, "text", true);
 		
 	 	$query = 'SELECT user_id FROM ' . $this->get_table_name('user_user'). ' WHERE ' .
 	 			 'CONCAT(firstname, \' \', lastname) = \'' . $fullname . '\' OR ' .
