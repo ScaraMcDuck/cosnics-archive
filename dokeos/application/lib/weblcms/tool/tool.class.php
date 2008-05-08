@@ -114,9 +114,7 @@ abstract class Tool
 	 */
 	function disallow()
 	{
-		$this->display_header();
 		Display :: display_not_allowed();
-		$this->display_footer();
 	}
 
 	/**

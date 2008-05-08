@@ -37,13 +37,11 @@ class GroupTool extends Tool
 	{
 		$trail = new BreadcrumbTrail();
 		
-		//		if(!$this->is_allowed(VIEW_RIGHT))
-		//		{
-		//			$this->display_header($trail);
-		//			Display :: display_not_allowed();
-		//			$this->display_footer();
-		//			return;
-		//		}
+		if(!$this->is_allowed(VIEW_RIGHT))
+		{
+			Display :: display_not_allowed();
+			return;
+		}
 		$dm = WeblcmsDataManager :: get_instance();
 		$course = $this->get_parent()->get_course();
 		$groups = $dm->retrieve_groups($course->get_id());
