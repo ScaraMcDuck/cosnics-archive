@@ -44,8 +44,9 @@ class UserManagerExporterComponent extends UserManagerComponent
      			$user_array[User::PROPERTY_PHONE] = $user->get_phone();
      			$user_array[User::PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
      			$user_array[User::PROPERTY_LANGUAGE] = $user->get_language();
+     			 Events :: trigger_event('export', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $this->get_user()->get_user_id()));
      			$data[] = $user_array; 
- 	        }
+ 	        } 
 			$this->export_users($file_type,$data);
 		}
 		else
@@ -57,10 +58,10 @@ class UserManagerExporterComponent extends UserManagerComponent
 	}
 
 	function export_users($file_type, $data)
-    {
+    {  
     	$filename = 'export_users_'.date('Y-m-d_H-i-s');
-    	$export = Export::factory($file_type,$filename);
-    	$export->write_to_file($data);
+    	$export = Export::factory($file_type,$filename); 
+    	$export->write_to_file($data);  
     	return;
     }
 }

@@ -71,7 +71,7 @@ abstract class Export
 		}
 	}
 	
-	private function get_path($path_type)
+	protected function get_path($path_type)
 	{
 		return Path :: get($path_type);
 	}

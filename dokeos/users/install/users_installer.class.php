@@ -86,6 +86,16 @@ class UsersInstaller extends Installer
 		$loginevent = Events :: create_event('login', 'users');
 		$logoutevent = Events :: create_event('logout', 'users');
 		
+		$userchangesevents = array();
+		$userchangesevents[] = Events :: create_event('create', 'users');
+		$userchangesevents[] = Events :: create_event('update', 'users');
+		$userchangesevents[] = Events :: create_event('delete', 'users');
+		$userchangesevents[] = Events :: create_event('register', 'users');
+		$userchangesevents[] = Events :: create_event('import', 'users');
+		$userchangesevents[] = Events :: create_event('export', 'users');
+		$userchangesevents[] = Events :: create_event('reset_password', 'users');
+		$userchangesevents[] = Events :: create_event('quota', 'users');
+		
 		$path = '/users/trackers/';
 		
 		$dir = dirname(__FILE__) . '/../trackers/';
@@ -108,7 +118,19 @@ class UsersInstaller extends Installer
 				else
 				{
 					if($tracker->get_class() == 'LoginLogoutTracker')
+					{
 						if(!$trkinstaller->register_tracker_to_event($tracker, $logoutevent)) return false;
+						continue;
+					}
+					
+					if($tracker->get_class() == 'UserChangesTracker')
+					{
+						foreach($userchangesevents as $event)
+						{
+							if(!$trkinstaller->register_tracker_to_event($tracker, $event)) return false;
+						}
+						continue;
+					}
 					
 					if(!$trkinstaller->register_tracker_to_event($tracker, $loginevent)) return false;
 				}
