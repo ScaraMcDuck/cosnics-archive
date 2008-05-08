@@ -1,3 +1,4 @@
+#!/usr/local/bin/php5
 <?php
 /**
  	 * Start commandline migration
