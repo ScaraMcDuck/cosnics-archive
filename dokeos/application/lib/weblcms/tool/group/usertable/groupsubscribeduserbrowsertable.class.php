@@ -32,7 +32,7 @@ class GroupSubscribedUserBrowserTable extends UserTable
 			//$actions[Weblcms :: PARAM_SUBSCRIBE_SELECTED_AS_ADMIN] = Translation :: get('SubscribeSelectedAsAdmin');
 		}
 
-		if ($browser->get_course()->is_course_admin($browser->get_user_id()))
+		if ($browser->get_course()->is_course_admin($browser->get_user()))
 		{
 			$this->set_form_actions($actions);
 		}

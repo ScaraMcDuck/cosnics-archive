@@ -387,10 +387,14 @@ class Course {
 	 * @param int $user_id
 	 * @return boolean
 	 */
-	function is_course_admin($user_id)
+	function is_course_admin($user)
 	{
+		if ($user->is_platform_admin())
+		{
+			return true;
+		}
 		$wdm = WeblcmsDataManager :: get_instance();
-		return $wdm->is_course_admin($this, $user_id);
+		return $wdm->is_course_admin($this, $user->get_user_id());
 	}
 	/**
 	 * Gets the subscribed users of this course

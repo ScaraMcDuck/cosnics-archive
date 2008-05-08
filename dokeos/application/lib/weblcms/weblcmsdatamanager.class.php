@@ -255,14 +255,14 @@ abstract class WeblcmsDataManager
 	 * @param int $user_id
 	 * @return boolean
 	 */
-	function course_unsubscription_allowed($course, $user_id)
+	function course_unsubscription_allowed($course, $user)
 	{
-		if ($course->is_course_admin($user_id))
+		if ($course->is_course_admin($user))
 		{
 			return false;
 		}
 
-		$already_subscribed = $this->is_subscribed($course, $user_id);
+		$already_subscribed = $this->is_subscribed($course, $user->get_user_id());
 		$unsubscription_allowed = ($course->get_unsubscribe_allowed() == 1 ? true : false);
 		if ($already_subscribed && $unsubscription_allowed)
 		{

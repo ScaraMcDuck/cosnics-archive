@@ -230,6 +230,14 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
+	 * @see Weblcms::get_registered_tools()
+	 */	
+	function get_tool_properties($module)
+	{
+		return $this->get_parent()->get_tool_properties($module);
+	}
+	
+	/**
 	 * @see Weblcms::load_course()
 	 */	
 	function load_course()

@@ -21,7 +21,7 @@ class UserTool extends Tool
 	{
 		$trail = new BreadcrumbTrail();
 		
-//		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
+//		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user()))
 //		{
 //			$this->display_header($trail);
 //			Display :: display_error_message(Translation :: get("NotAllowed"));
@@ -63,21 +63,21 @@ class UserTool extends Tool
 				}
 				break;
 			case Weblcms :: ACTION_SUBSCRIBE :
-				if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
+				if ($this->get_course()->is_course_admin($this->get_parent()->get_user()))
 				{
 					echo $this->get_usertool_subscribe_modification_links();
 					echo $this->get_user_subscribe_html();
 				}
 				break;
 			case Weblcms :: ACTION_UNSUBSCRIBE :
-				if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
+				if ($this->get_course()->is_course_admin($this->get_parent()->get_user()))
 				{
 					echo $this->get_usertool_unsubscribe_modification_links();
 				}
 				echo $this->get_user_unsubscribe_html();
 				break;
 			default :
-				if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
+				if ($this->get_course()->is_course_admin($this->get_parent()->get_user()))
 				{
 					echo $this->get_usertool_unsubscribe_modification_links();
 				}

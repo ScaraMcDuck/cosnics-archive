@@ -72,7 +72,7 @@ class GroupTool extends Tool
 						$this->display_header($trail);
 						$html[] = '<div style="clear: both;">&nbsp;</div>';
 						$html[] = $this->search_form->display();
-						if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
+						if ($this->get_course()->is_course_admin($this->get_parent()->get_user()))
 						{
 							$html[] = $this->get_grouptool_subscribe_modification_links();
 						}
@@ -113,7 +113,7 @@ class GroupTool extends Tool
 						$html[] = Translation :: get('Members').': '.$group->count_members().' / '.$group->get_max_number_of_members();
 						$html[] = '<div style="clear: both;">&nbsp;</div>';
 						$html[] = $this->search_form->display();
-						if ($this->get_course()->is_course_admin($this->get_parent()->get_user_id()))
+						if ($this->get_course()->is_course_admin($this->get_parent()->get_user()))
 						{
 							$html[] =  $this->get_grouptool_unsubscribe_modification_links();
 						}

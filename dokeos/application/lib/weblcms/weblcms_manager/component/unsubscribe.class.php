@@ -28,7 +28,7 @@ class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 		if (isset($course_code))
 		{
 			$course = $this->retrieve_course($course_code);
-			if (isset($users) && $this->get_course()->is_course_admin($this->get_user_id()))
+			if (isset($users) && $this->get_course()->is_course_admin($this->get_user()))
 			{
 				$failures = 0;
 

@@ -225,9 +225,12 @@ class Display
 		$footer->display();
 	}
 	
-	public static function display_not_allowed()
+	public static function display_not_allowed($trail = null)
 	{
-		$trail = new BreadcrumbTrail();
+		if (is_null($trail))
+		{
+			$trail = new BreadcrumbTrail();
+		}
 		self :: display_header($trail);
 		$home_url = Path :: get(WEB_PATH);
 		self :: display_error_message("<p>Either you are not allowed here or your session has expired.<br><br>You may try <a href=\"$home_url\" target=\"_top\">reconnecting on the home page</a>.</p>");

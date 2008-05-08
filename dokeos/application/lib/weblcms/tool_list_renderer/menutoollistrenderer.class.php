@@ -18,6 +18,10 @@ class MenuToolListRenderer extends ToolListRenderer
 	/**
 	 *
 	 */
+	private $is_course_admin;
+	/**
+	 *
+	 */
 	private $type;
 	/**
 	 * Constructor
@@ -26,6 +30,7 @@ class MenuToolListRenderer extends ToolListRenderer
 	function MenuToolListRenderer($parent, $type = MENU_TYPE_LIST_NAVIGATION)
 	{
 		parent::ToolListRenderer($parent);
+		$this->is_course_admin = $this->get_parent()->get_course()->is_course_admin($this->get_parent()->get_user());
 		$this->type = $type;
 	}
 	/**
@@ -54,9 +59,10 @@ class MenuToolListRenderer extends ToolListRenderer
 		{
 			$html[] = '<ul>';
 		}
+		
 		foreach ($tools as $index => $tool)
 		{
-			if($tool->visible )
+			if(($tool->visible && $tool->section != 'course_admin') || $this->is_course_admin)
 			{
 				$new = '';
 				if($parent->tool_has_new_publications($tool->name))
