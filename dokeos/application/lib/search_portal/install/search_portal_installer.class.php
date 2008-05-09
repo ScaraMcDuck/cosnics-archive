@@ -1,45 +1,33 @@
 <?php
 /**
- * @package application.lib.profiler.install
+ * $Id:$
+ * @package application.portfolio
  */
-require_once dirname(__FILE__).'/../profilerdatamanager.class.php';
 require_once Path :: get_library_path().'installer.class.php';
 require_once Path :: get_library_path().'filesystem/filesystem.class.php';
 require_once Path :: get_tracking_path() .'lib/events.class.php';
 require_once Path :: get_tracking_path() .'install/tracking_installer.class.php';
 /**
- * This installer can be used to create the storage structure for the
- * profiler application.
+ *	This installer can be used to create the storage structure for the
+ *      search portal application.
  */
-class ProfilerInstaller extends Installer {
-
-	private $pdm;
+class SearchPortalInstaller extends Installer
+{
+	private $mpdm;
 	/**
 	 * Constructor
 	 */
-    function ProfilerInstaller()
+    function SearchPortalInstaller()
     {
-    	$this->pdm = ProfilerDataManager :: get_instance();
+    	$this->mpdm = PortfolioDataManager :: get_instance();
     }
 	/**
 	 * Runs the install-script.
+	 * @todo This function now uses the function of the RepositoryInstaller
+	 * class. These shared functions should be available in a common base class.
 	 */
 	function install()
 	{
-		$dir = dirname(__FILE__);
-		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
-		
-		foreach($files as $file)
-		{
-			if ((substr($file, -3) == 'xml'))
-			{
-				if (!$this->create_storage_unit($file))
-				{
-					return array('success' => false, 'message' => $this->retrieve_message());
-				}
-			}
-		}
-		
 		if(!$this->register_trackers())
 		{
 			return array('success' => false, 'message' => $this->retrieve_message());
@@ -49,7 +37,6 @@ class ProfilerInstaller extends Installer {
 		$this->add_message($success_message);
 		return array('success' => true, 'message' => $this->retrieve_message());
 	}
-	
 	
 	/**
 	 * Registers the trackers, events and creates the storage units for the trackers
@@ -72,10 +59,10 @@ class ProfilerInstaller extends Installer {
 			}
 		}
 		
-		$profiler_events = array();
-		$profiler_events[] = Events :: create_event('create_publication', 'profiler');
-		$profiler_events[] = Events :: create_event('update_publication', 'profiler');
-		$profiler_events[] = Events :: create_event('delete_publication', 'profiler');
+		$search_portal_events = array();
+		$search_portal_events[] = Events :: create_event('create_publication', 'search_portal');
+		$search_portal_events[] = Events :: create_event('update_publication', 'search_portal');
+		$search_portal_events[] = Events :: create_event('delete_publication', 'search_portal');
 		
 		$path = '/classgroup/trackers/';
 		
@@ -96,9 +83,9 @@ class ProfilerInstaller extends Installer {
 				}
 				else
 				{
-					if($tracker->get_class() == 'ProfilerPublicationChangesTracker')
+					if($tracker->get_class() == 'SearchPortalPublicationChangesTracker')
 					{
-						foreach($profiler_events as $event)
+						foreach($search_portal_events as $event)
 						{
 							if(!$trkinstaller->register_tracker_to_event($tracker, $event)) return false;
 						}
@@ -116,28 +103,6 @@ class ProfilerInstaller extends Installer {
 		
 		return true;
 	}
-	
-	/**
-	 * Parses an XML file and sends the request to the database manager
-	 * @param String $path
-	 */
-	function create_storage_unit($path)
-	{
-		$storage_unit_info = parent::parse_xml_file($path);
-		$this->add_message(Translation :: get('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
-		if (!$this->pdm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
-		{
-			$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em></span>';
-			$this->add_message($error_message);
-			$this->add_message(Translation :: get('ApplicationInstallFailed'));
-			$this->add_message(Translation :: get('PlatformInstallFailed'));
-			
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
+
 }
 ?>
