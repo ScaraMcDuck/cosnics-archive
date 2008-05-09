@@ -88,7 +88,7 @@ class Difference_Engine {
     function isEmpty()
     {
         foreach ($this->_edits as $edit) {
-            if (!is_a($edit, 'Difference_Engine_Op_copy')) {
+            if (!($edit instanceof Difference_Engine_Op_copy)) {
                 return false;
             }
         }
@@ -106,7 +106,7 @@ class Difference_Engine {
     {
         $lcs = 0;
         foreach ($this->_edits as $edit) {
-            if (is_a($edit, 'Difference_Engine_Op_copy')) {
+            if (($edit instanceof Difference_Engine_Op_copy)) {
                 $lcs += count($edit->orig);
             }
         }
