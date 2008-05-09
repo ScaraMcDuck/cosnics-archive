@@ -95,7 +95,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_rights_editing_url($learning_object),
 			'label' => Translation :: get('Rights'),
-			'img' => Theme :: get_common_img_path().'action_right.png'
+			'img' => Theme :: get_common_img_path().'action_rights.png'
 		);
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}

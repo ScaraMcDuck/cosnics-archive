@@ -228,7 +228,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					$toolbar_data[] = array(
 						'href' => $this->get_learning_object_rights_editing_url($object),
 						'label' => Translation :: get('Rights'),
-						'img' => Theme :: get_common_img_path().'action_right.png',
+						'img' => Theme :: get_common_img_path().'action_rights.png',
 						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
 				}
