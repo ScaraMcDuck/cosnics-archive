@@ -6,6 +6,8 @@
 require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
 require_once Path :: get_library_path().'installer.class.php';
 require_once Path :: get_library_path().'filesystem/filesystem.class.php';
+require_once Path :: get_tracking_path() .'lib/events.class.php';
+require_once Path :: get_tracking_path() .'install/tracking_installer.class.php';
 /**
  * This	 installer can be used to create the storage structure for the
  * repository.
@@ -45,9 +47,88 @@ class RepositoryInstaller extends Installer
 			}
 		}
 		
+		if(!$this->register_trackers())
+		{
+			return array('success' => false, 'message' => $this->retrieve_message());
+		}
+		
 		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);
 		return array('success' => true, 'message' => $this->retrieve_message());
+	}
+
+	
+	/**
+	 * Registers the trackers, events and creates the storage units for the trackers
+	 */
+	function register_trackers()
+	{
+		$dir = dirname(__FILE__) . '/../trackers/tracker_tables';
+		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
+		
+		$trkinstaller = new TrackingInstaller();
+		
+		foreach($files as $file)
+		{
+			if ((substr($file, -3) == 'xml'))
+			{
+				if (!$trkinstaller->create_storage_unit($file))
+				{
+					return false;
+				}
+			}
+		}
+		
+		$repository_events = array();
+		$repository_events[] = Events :: create_event('create', 'repository');
+		$repository_events[] = Events :: create_event('update', 'repository');
+		$repository_events[] = Events :: create_event('delete', 'repository');
+		$repository_events[] = Events :: create_event('move', 'repository');
+		$repository_events[] = Events :: create_event('metadata', 'repository');
+		$repository_events[] = Events :: create_event('publication_delete', 'repository');
+		$repository_events[] = Events :: create_event('publication_update', 'repository');
+		$repository_events[] = Events :: create_event('version', 'repository');
+		$repository_events[] = Events :: create_event('restore', 'repository');
+		$repository_events[] = Events :: create_event('reverte', 'repository');
+		
+		$path = '/classgroup/trackers/';
+		
+		$dir = dirname(__FILE__) . '/../trackers/';
+		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
+		
+		foreach($files as $file)
+		{
+			if ((substr($file, -3) == 'php'))
+			{
+				$filename = basename($file);
+				$filename = substr($filename, 0, strlen($filename) - strlen('.class.php'));
+				
+				$tracker = $trkinstaller->register_tracker($path, $filename);
+				if (!$tracker)
+				{
+					return false;
+				}
+				else
+				{
+					if($tracker->get_class() == 'RepositoryChangesTracker')
+					{
+						foreach($repository_events as $event)
+						{
+							if(!$trkinstaller->register_tracker_to_event($tracker, $event)) return false;
+						}
+						
+						$this->add_message(Translation :: get('TrackersRegistered') . ': ' . $filename);
+						continue;
+					}
+					else
+						echo($tracker->get_class());
+				}
+				
+				
+			}
+		}
+		
+		return true;
 	}
 
 	/**
