@@ -11,6 +11,10 @@ require_once Path :: get_repository_path(). 'lib/repository_manager/repositoryma
 require_once Path :: get_user_path(). 'lib/usermanager/usermanager.class.php';
 require_once Path :: get_classgroup_path(). 'lib/classgroup_manager/classgroupmanager.class.php';
 require_once Path :: get_tracking_path(). 'lib/tracking_manager/trackingmanager.class.php';
+require_once Path :: get_rights_path(). 'lib/rights_manager/rightsmanager.class.php';
+require_once Path :: get_home_path(). 'lib/home_manager/homemanager.class.php';
+require_once Path :: get_menu_path(). 'lib/menu_manager/menumanager.class.php';
+require_once Path :: get_migration_path(). 'lib/migration_manager/migrationmanager.class.php';
 
 /**
  * The admin allows the platform admin to configure certain aspects of his platform
@@ -20,13 +24,14 @@ class Admin
 	const APPLICATION_NAME = 'admin';
 
 	const PARAM_ACTION = 'go';
+	const PARAM_APPLICATION = 'application';
 	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
 
 	const ACTION_ADMIN_BROWSER = 'browse';
 	const ACTION_SYSTEM_ANNOUNCEMENTS = 'systemannouncements';
 	const ACTION_LANGUAGES = 'languages';
-	const ACTION_SETTINGS = 'settings';
+	const ACTION_CONFIGURE_PLATFORM = 'configure';
 
 	private $parameters;
 
@@ -51,6 +56,9 @@ class Admin
 		$component = null;
 		switch ($action)
 		{
+			case self :: ACTION_CONFIGURE_PLATFORM :
+				$component = AdminComponent :: factory('Configurer', $this);
+				break;
 			case self :: ACTION_SYSTEM_ANNOUNCEMENTS :
 				$component = AdminComponent :: factory('Systemannouncements', $this);
 				break;
@@ -254,27 +262,45 @@ class Admin
 		$info = array();
 		$user = $this->get_user();
 
-		// First we get the links for the essential Dokeos components
-
-		// 1. UserManager
-		$user_manager = new UserManager($user->get_user_id());
-		$info[] = $user_manager->get_application_platform_admin_links();
-
-		// 2. UserRolesRights
-		// 3. Classes of Users
-		$classgroup_manager = new ClassGroupManager($user->get_user_id());
-		$info[] = $classgroup_manager->get_application_platform_admin_links();		
-		// 4. Platform
+		// 1. Admin-core components
+		$links		= array();
+		$links[]	= array('name' => Translation :: get('Settings'), action => 'manage', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM)));
+		$links[]	= array('name' => Translation :: get('SystemAnnouncements'), action => 'announce', 'url' => $this->get_link());
+		$info[]		= array('application' => array('name' => Translation :: get('Admin'), 'class' => self :: APPLICATION_NAME), 'links' => $links);
 		
-		// 5. Repository
+		// 2. Repository
 		$repository_manager = new RepositoryManager($user);
 		$info[] = $repository_manager->get_application_platform_admin_links();
-
+		
+		// 3. UserManager
+		$user_manager = new UserManager($user->get_user_id());
+		$info[] = $user_manager->get_application_platform_admin_links();
+		
+		// 4. Roles'n'Rights
+		$rights_manager = new RightsManager($user->get_user_id());
+		$info[] = $rights_manager->get_application_platform_admin_links();
+		
+		// 5. Classgroups
+		$classgroup_manager = new ClassGroupManager($user->get_user_id());
+		$info[] = $classgroup_manager->get_application_platform_admin_links();
+		
 		// 6. Tracking
 		$tracking_manager = new TrackingManager($user);
 		$info[] = $tracking_manager->get_application_platform_admin_links();
+		
+		// 7. Home
+		$home_manager = new HomeManager($user->get_user_id());
+		$info[] = $home_manager->get_application_platform_admin_links();		
+		
+		// 8. Menu
+		$menu_manager = new MenuManager($user->get_user_id());
+		$info[] = $menu_manager->get_application_platform_admin_links();		
+		
+		// 9. Migration
+		$migration_manager = new MigrationManager($user->get_user_id());
+		$info[] = $migration_manager->get_application_platform_admin_links();	
 
-		// Secondly the links for the plugin applications running on top of the essential Dokeos components
+		// 10.The links for the plugin applications running on top of the essential Dokeos components
 		$applications = Application :: load_all();
 		foreach($applications as $index => $application_name)
 		{

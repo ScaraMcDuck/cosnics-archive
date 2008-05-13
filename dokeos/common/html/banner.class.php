@@ -50,11 +50,11 @@ class Banner
 		$output[] = '</div> <!-- end of #header1 -->';
 		$output[] = '<div id="header2">';
 		$output[] = '<div id="Header2Right">';
-		$output[] = '<ul>';
+		//$output[] = '<ul>';
 		
 		// TODO: Reimplement "Who is online ?" 
 
-		$output[] = '</ul>';
+		//$output[] = '</ul>';
 		$output[] = '</div>';
 		$output[] = '<!-- link to campus home (not logged in)';
 		$output[] = '<a href="'.$this->get_path(WEB_PATH).'index.php" target="_top">' . $this->get_setting('site_name', 'admin') . '</a>';

@@ -13,7 +13,7 @@ require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.
  */
 class MigrationManager 
 {
-	const APPLICATION_NAME = 'migrate';
+	const APPLICATION_NAME = 'migration';
 	
 	/**#@+
     * Constant defining a parameter of the repository manager.
@@ -251,6 +251,13 @@ class MigrationManager
 		Display :: display_not_allowed();
 	}
 	
+	public function get_application_platform_admin_links()
+	{
+		$links = array();
+		$links[] = array('name' => Translation :: get('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
+		return array('application' => array('name' => Translation :: get('Migration'), 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => null);
+	}
+	
 	/**
 	 * Gets an URL.
 	 * @param array $additional_parameters Additional parameters to add in the
@@ -271,6 +278,20 @@ class MigrationManager
 		}
 
 		return $url;
+	}
+	
+	public function get_link($parameters = array (), $encode = false)
+	{
+		$link = 'index_'. self :: APPLICATION_NAME .'_manager.php';
+		if (count($parameters))
+		{
+			$link .= '?'.http_build_query($parameters);
+		}
+		if ($encode)
+		{
+			$link = htmlentities($link);
+		}
+		return $link;
 	}
 	
 	/**

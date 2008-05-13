@@ -2,17 +2,14 @@
 /**
  * Start webinterface
  */
-
-$cidReset = true;
 $this_section = 'tracking';
 
 require_once dirname(__FILE__) . '/common/global.inc.php';
 require_once Path :: get_tracking_path() . '/lib/tracking_manager/trackingmanager.class.php';
 require_once Path :: get_user_path() . 'lib/usermanager/usermanager.class.php';
 
-$language_interface = 'english';
-
 Translation :: set_application($this_section);
+Theme :: set_application($this_section);
 
 if (!Authentication :: is_valid())
 {

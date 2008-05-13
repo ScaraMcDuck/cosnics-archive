@@ -786,11 +786,13 @@ $lang['general']['FirstLogin'] = 'First connection';
 $lang['general']['NoManager'] = 'No manager';
 $lang['general']['Folder'] = 'Folder';
 $lang['general']['Finished'] = 'Finished';
-$lang['general']['Rights'] = 'Roles & Rights';
+$lang['general']['Rights'] = 'Roles &amp; Rights';
 $lang['general']['Classgroup'] = 'Class Group';
 $lang['general']['Users'] = 'Users';
 $lang['general']['Admin'] = 'Administration';
 $lang['general']['Config'] = 'Configuration';
 $lang['general']['Database'] = 'Database';
 $lang['general']['ClassGroup'] = 'Classgroup';
+$lang['general']['Menu'] = 'Menu';
+$lang['general']['Migration'] = 'Migration';
 ?>

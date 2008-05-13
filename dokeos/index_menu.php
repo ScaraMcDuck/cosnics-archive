@@ -6,6 +6,7 @@ require_once Path :: get_menu_path() . 'lib/menu_manager/menumanager.class.php';
 require_once Path :: get_user_path() . 'lib/usermanager/usermanager.class.php';
 
 Translation :: set_application('menu');
+Theme :: set_application($this_section);
 
 if (Session :: get_user_id())
 {

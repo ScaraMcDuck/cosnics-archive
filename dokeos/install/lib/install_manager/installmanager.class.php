@@ -296,7 +296,7 @@ class InstallManager
 	{
 		$links = array();
 		$links[] = array('name' => Translation :: get('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
-		return array('application' => array('name' => Translation :: get('Repository'), 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS)));
+		return array('application' => array('name' => Translation :: get('Install'), 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => null);
 	}
 
 	public function get_link($parameters = array (), $encode = false)

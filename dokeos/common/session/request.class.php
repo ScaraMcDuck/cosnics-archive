@@ -1,4 +1,6 @@
 <?php
+require_once Path :: get_library_path() . 'security/security.class.php';
+
 class Request
 {
 	function get($variable)
