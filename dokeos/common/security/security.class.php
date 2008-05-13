@@ -26,8 +26,8 @@ class Security
 	 */
 	function get_ua()
 	{
-		Session :: register('sec_ua_seed') = uniqid(rand(), true);
-		Session :: register('sec_ua') = Request :: server('HTTP_USER_AGENT') . Session :: retrieve('sec_ua_seed');
+		Session :: register('sec_ua_seed', uniqid(rand(), true));
+		Session :: register('sec_ua', Request :: server('HTTP_USER_AGENT') . Session :: retrieve('sec_ua_seed'));
 	}
 	
 	/**
@@ -59,7 +59,7 @@ class Security
 	function get_token()
 	{
 		$token = md5(uniqid(rand(), true));
-		Session :: register('sec_token') = $token;
+		Session :: register('sec_token', $token);
 		return $token;
 	}
 	

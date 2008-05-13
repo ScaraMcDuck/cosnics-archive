@@ -67,7 +67,7 @@ class SettingsArchiveWizardPage extends ArchiveWizardPage
 		$defaults = array();
 		
 		$adm = AdminDataManager :: get_instance();
-		$setting = $adm->retrieve_setting_from_variable_name('last_time_archived', 'tracker');
+		$setting = $adm->retrieve_setting_from_variable_name('last_time_archived', 'tracking');
 		
 		$defaults['start_date'] = $setting?$setting->get_value() : date('d-F-Y');
 		$defaults['end_date'] = date('d-F-Y');

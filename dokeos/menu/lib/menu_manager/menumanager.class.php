@@ -387,7 +387,7 @@ require_once dirname(__FILE__).'/../../../common/condition/patternmatchcondition
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => Translation :: get('MenuSort'), 'action' => 'sort', 'url' => $this->get_link(array(MenuManager :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)));
+		$links[] = array('name' => Translation :: get('Sort'), 'action' => 'sort', 'url' => $this->get_link(array(MenuManager :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)));
 		return array('application' => array('name' => Translation :: get('Menu'), 'class' => 'menu'), 'links' => $links, 'search' => null);
 	}
 	

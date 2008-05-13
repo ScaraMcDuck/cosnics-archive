@@ -3,7 +3,8 @@
 /*****************************************************
  *  ADMIN STYLES                                     *
  *****************************************************/
- 
+
+/* Platform admin overview */
 div.admin_section {
 	width: 90%;
 	float: left;
@@ -65,4 +66,40 @@ form input
 {
 	border: 1px solid #C0C0C0;
 	height: 17px;
+}
+
+/* Platform settings application icons */
+div.configure {
+	clear: both;
+	text-align: center;
+	font-size: 75%;
+}
+
+div.configure div.application
+{
+	float: left;
+	width: 80px;
+	height: 65px;
+	text-align: center;
+	padding: 5px;
+	margin: 2px;
+	border: 1px solid #ebebeb;
+}
+
+div.configure div.application_current
+{
+	float: left;
+	width: 80px;
+	height: 65px;
+	text-align: center;
+	padding: 5px;
+	margin: 2px;
+	border: 1px solid #c0c0c0;
+	background: #ebebeb;
+}
+
+div.configuration_form {
+	clear: both;
+	margin: 2px;
+	border: 1px solid #ebebeb;
 }

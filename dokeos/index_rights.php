@@ -5,6 +5,7 @@ require_once Path :: get_rights_path(). 'lib/rights_manager/rightsmanager.class.
 require_once Path :: get_user_path(). 'lib/usermanager/usermanager.class.php';
 
 Translation :: set_application($this_section);
+Theme :: set_application($this_section);
 
 if (!Authentication :: is_valid())
 {

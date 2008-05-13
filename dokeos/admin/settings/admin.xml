@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="admin">
+	<settings>
+		<setting name="site_name" type="text" default="LCMS" />
+		<setting name="server_type" type="radio" default="production">
+			<options type="static">
+				<option name="production" value="production" />
+				<option name="test" value="test" />
+			</options>
+		</setting>
+		<setting name="platform_language" type="select" default="english">
+			<options type="dynamic" source="get_languages" />
+		</setting>
+		<setting name="version" type="text" default="2.0" />
+		<setting name="theme" type="select" default="aqua">
+			<options type="dynamic" source="get_themes" />
+		</setting>
+		<setting name="institution" type="text" default="Dokeos" />
+		<setting name="institution_url" type="text" default="http://www.dokeos.com" />
+		<setting name="show_administrator_data" type="radio" default="true">
+			<options type="static">
+				<option name="true" value="true" />
+				<option name="false" value="false" />
+			</options>
+		</setting>
+		<setting name="administrator_firstname" type="text" default="Dokeos" />
+		<setting name="administrator_surname" type="text" default="Administrator" />
+		<setting name="administrator_email" type="text" default="dokeos.admin@mydokeos.com" />
+		<setting name="administrator_telephone" type="text" default="000/1234567" />
+		<setting name="allow_password_retrieval" type="radio" default="0">
+			<options type="static">
+				<option name="true" value="1" />
+				<option name="false" value="0" />
+			</options>
+		</setting>
+		<setting name="allow_registration" type="radio" default="0">
+			<options type="static">
+				<option name="true" value="1" />
+				<option name="false" value="0" />
+			</options>
+		</setting>
+	</settings>
+</application>

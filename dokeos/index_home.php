@@ -6,6 +6,7 @@ require_once Path :: get_home_path() . 'lib/home_manager/homemanager.class.php';
 require_once Path :: get_user_path() . 'lib/usermanager/usermanager.class.php';
 
 Translation :: set_application('home');
+Theme :: set_application($this_section);
 
 if (Session :: get_user_id())
 {

@@ -357,7 +357,7 @@ require_once dirname(__FILE__).'/../../../common/condition/patternmatchcondition
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => Translation :: get('RightsEdit'), 'action' => 'manage', 'url' => $this->get_link(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)));
+		$links[] = array('name' => Translation :: get('Edit'), 'action' => 'manage', 'url' => $this->get_link(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)));
 		return array('application' => array('name' => Translation :: get('Rights'), 'class' => 'rights'), 'links' => $links, 'search' => null);
 	}
 	
