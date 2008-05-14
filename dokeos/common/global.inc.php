@@ -296,6 +296,8 @@ else
 	}
 }
 
+//error_reporting(E_ALL);
+
 /*
  * Handle login and logout
  * (Previously in local.inc.php)
@@ -305,7 +307,7 @@ else
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
  
 // Login
-if($_POST['login'])
+if(isset($_POST['login']))
 {
 	$udm = UsersDataManager::get_instance();
 	$user = $udm->login($_POST['login'],$_POST['password']);
@@ -331,7 +333,7 @@ if($_POST['login'])
 	}
 }
 // Log out
-if ($_GET['logout'])
+if (isset($_GET['logout']))
 {
 	$query_string='';
 	if(!empty($_SESSION['user_language_choice']))
@@ -353,7 +355,7 @@ if ($_GET['logout'])
 
 // ===== "who is logged in?" module section =====
 
-include_once($includePath."/lib/online.inc.php");
+//include_once($includePath."/lib/online.inc.php");
 // TODO: Tracking framework
 // check and modify the date of user in the track.e.online table
 //if (!$x=strpos($_SERVER['PHP_SELF'],'whoisonline.php')) { LoginCheck(isset($_uid) ? $_uid : '',$statsDbName); }
@@ -366,35 +368,36 @@ include_once($includePath."/lib/online.inc.php");
 -----------------------------------------------------------
 */
 
-// if we use the javascript version (without go button) we receive a get
-// if we use the non-javascript version (with the go button) we receive a post
-$user_language = $_GET["language"];
-
-if ($_POST["language_list"])
-	{
-	$user_language = str_replace("index.php?language=","",$_POST["language_list"]);
-	}
-
-// Checking if we have a valid language. If not we set it to the platform language.
-$languages = $adm->retrieve_languages();
-$valid_languages = array();
-while ($language = $languages->next_result())
-{
-	$valid_languages[] = $language->get_english_name();	
-}
-
-if (!in_array($user_language,$valid_languages['folder']))
-{
-	$user_language = PlatformSetting :: get('platform_language');
-}
-
-
-if (in_array($user_language,$valid_languages['folder']) and (isset($_GET['language']) OR isset($_POST['language_list'])))
-{
-	$user_selected_language = $user_language; // $_GET["language"];
-	$_SESSION['user_language_choice'] = $user_selected_language;
-	$platformLanguage = $user_selected_language;
-}
+//// if we use the javascript version (without go button) we receive a get
+//// if we use the non-javascript version (with the go button) we receive a post
+//$user_language = Request :: get('language');
+//
+//if (isset($_POST["language_list"]))
+//{
+//	$user_language = str_replace("index.php?language=", "", $_POST['language_list']);
+//}
+//
+//// Checking if we have a valid language. If not we set it to the platform language.
+//$languages = $adm->retrieve_languages();
+//$valid_languages = array();
+//while ($language = $languages->next_result())
+//{
+//	$valid_languages[] = $language->get_folder();	
+//}
+//
+//if (!in_array($user_language, $valid_languages))
+//{
+//	$user_language = PlatformSetting :: get('platform_language');
+//}
+//
+//
+//if (in_array($user_language, $valid_languages) and (isset($_GET['language']) OR isset($_POST['language_list'])))
+//{
+//		echo $user_language;
+//	$user_selected_language = $user_language; // $_GET["language"];
+//	$_SESSION['user_language_choice'] = $user_selected_language;
+//	$platformLanguage = $user_selected_language;
+//}
 
 if (isset($_SESSION['_uid']))
 {

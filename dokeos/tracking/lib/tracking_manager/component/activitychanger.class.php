@@ -123,7 +123,7 @@ class TrackingManagerActivityChangerComponent extends TrackingManagerComponent
 	function change_tracking_activity()
 	{
 		$adm = AdminDataManager :: get_instance();
-		$setting = $adm->retrieve_setting_from_variable_name('enable_tracking', 'tracker');
+		$setting = $adm->retrieve_setting_from_variable_name('enable_tracking', 'tracking');
 		$setting->set_value($setting->get_value() == 1?0:1);
 		$success = $setting->update();
 		

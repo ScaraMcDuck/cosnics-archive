@@ -5,10 +5,17 @@ class Request
 {
 	function get($variable)
 	{
-		$value = $_GET[$variable];
-		// TODO: Add the necessary security filters if and where necessary
-		$value = Security :: remove_XSS($value);
-		return $value;
+		if (isset($_GET[$variable]))
+		{
+			$value = $_GET[$variable];
+			// TODO: Add the necessary security filters if and where necessary
+			$value = Security :: remove_XSS($value);
+			return $value;
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
 	function post($variable)

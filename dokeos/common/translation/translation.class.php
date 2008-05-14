@@ -90,26 +90,34 @@ class Translation
 	 */
 	function translate($variable)
 	{
-		$language = $this->language;
+		$instance = self :: get_instance();
 		
-		if (!is_array($this->strings[$language]['general']))
+		$language = $instance->language;
+		$strings = $instance->strings;
+		
+		if (!isset($strings[$language]))
 		{
-			$this->add_language_file_to_array($language, 'general');
+			$instance->add_language_file_to_array($language, 'general');
+		}
+		elseif(!isset($strings[$language]['general']))
+		{
+			$instance->add_language_file_to_array($language, 'general');
 		}
 		
-		$application = $this->get_application();
+		$application = $instance->get_application();
 		
 		if (!isset($application))
 		{
 			$application = 'general';
 		}
 				
-		if (!is_array($this->strings[$language][$application]))
+		if (!isset($strings[$language][$application]))
 		{
-			$this->add_language_file_to_array($language, $application);
+			$instance->add_language_file_to_array($language, $application);
 		}
 		
-		$strings = $this->strings;		
+		$strings = $instance->strings;
+		
 		if (isset($strings[$language][$application][$variable]))
 		{
 			return $strings[$language][$application][$variable];
@@ -129,7 +137,8 @@ class Translation
 		$lang = array();
 		$path = Path :: get_language_path() . $language . '/' . $application . '.inc.php';
 		include_once($path);
-		$this->strings[$language][$application] = $lang[$application];
+		$instance = self :: get_instance();
+		$instance->strings[$language][$application] = $lang[$application];
 	}
 	
 	static function application_to_class($application)

@@ -70,7 +70,18 @@ class DatabaseUsersDataManager extends UsersDataManager
 	 */
 	function escape_column_name($name, $prefix_user_object_properties = false)
 	{
-		list($table, $column) = explode('.', $name, 2);
+		// Check whether the name contains a seperator, avoids notices.
+		$contains_table_name = strpos($name, '.');
+		if ($contains_table_name === false)
+		{
+			$table = $name;
+			$column = null;
+		}
+		else
+		{
+			list($table, $column) = explode('.', $name, 2);
+		}
+		
 		$prefix = '';
 		if (isset($column))
 		{
@@ -81,7 +92,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		{
 			$prefix = self :: ALIAS_USER_TABLE.'.';
 		}
-		return $prefix.$this->connection->quoteIdentifier($name);
+		return $prefix . $this->connection->quoteIdentifier($name);
 	}
 
 	/**

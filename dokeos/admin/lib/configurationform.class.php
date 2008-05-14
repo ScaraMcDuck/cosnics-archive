@@ -4,7 +4,6 @@
  */
 
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-//require_once dirname(__FILE__).'/../../../settings/connectors/settings_admin_connector.php';
 /**
  * A form to configure platform settings.
  */
@@ -35,11 +34,48 @@ class ConfigurationForm extends FormValidator
 	 */
 	private function build_form()
 	{
-		$this->add_textfield('test', Translation :: get('Title'), true);
+		$application = $this->application;
+		$configuration = $this->parse_application_settings();
+		
+		require_once Path :: get_admin_path() . 'settings/connectors/settings_' . $application . '_connector.class.php';
+		
+		foreach($configuration['settings'] as $name => $setting)
+		{
+			if ($setting['field'] == 'text')
+			{
+				$this->add_textfield($name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), true);
+			}
+			else
+			{
+				$options_type = $setting['options']['type'];
+				if ($options_type == 'dynamic')
+				{
+					$options_source = $setting['options']['source'];
+					$class = 'Settings' . Application :: application_to_class($application) . 'Connector';
+					$options = call_user_func(array($class, $options_source));					
+				}
+				else
+				{
+					$options = $setting['options']['values'];
+				}
+				
+				if ($setting['field'] == 'radio' || $setting['field'] == 'checkbox')
+				{
+					$group = array();
+					foreach ($options as $option_value => $option_name)
+					{
+						$group[] =& $this->createElement($setting['field'], $name, null,Translation :: get(RepositoryUtilities :: underscores_to_camelcase($option_name)),$option_value);
+					}
+					$this->addGroup($group, $name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), '<br/>');
+				}
+				elseif($setting['field'] == 'select')
+				{
+					$this->addElement('select', $name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), $options);
+				}
+			}
+		}
+		
 		$this->addElement('submit', 'submit', Translation :: get('Ok'));
-		echo '<pre>';
-		print_r($this->parse_application_settings());
-		echo '</pre>';
 	}
 	
 	function parse_application_settings()
@@ -53,7 +89,7 @@ class ConfigurationForm extends FormValidator
 		$object = $doc->getElementsByTagname('application')->item(0);
 		$name = $object->getAttribute('name');
 		$xml_properties = $doc->getElementsByTagname('setting');
-		$attributes = array('name', 'type', 'default');
+		$attributes = array('field', 'default');
 		
 		foreach($xml_properties as $index => $property)
 		{
@@ -69,14 +105,25 @@ class ConfigurationForm extends FormValidator
 			
 			if ($property->hasChildNodes())
 			{
-				$options = $property->getElementsByTagname('options')->item(0);
-				$options_attributes = array('type', 'source');
-				foreach($options_attributes as $index => $options_attribute)
+				$property_options = $property->getElementsByTagname('options')->item(0);
+				$property_options_attributes = array('type', 'source');
+				foreach($property_options_attributes as $index => $options_attribute)
 				{
-					if($options->hasAttribute($options_attribute))
+					if($property_options->hasAttribute($options_attribute))
 				 	{
-				 		$property_info['options'][$options_attribute] = $options->getAttribute($options_attribute);
+				 		$property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
 				 	}
+				}
+				
+				if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
+				{
+					$options = $property_options->getElementsByTagname('option');
+					$options_info = array();
+					foreach($options as $option)
+					{
+						$options_info[$option->getAttribute('value')] = $option->getAttribute('name');
+					}
+					$property_info['options']['values'] = $options_info;
 				}
 			}
 			
