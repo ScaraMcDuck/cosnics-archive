@@ -16,6 +16,9 @@ require_once dirname(__FILE__).'/quotamanager.class.php';
  */
 abstract class LearningObjectDisplay
 {
+	const TITLE_MARKER = '<!-- /title -->';
+	const DESCRIPTION_MARKER = '<!-- /description -->';
+	
 	/**
 	 * The learning object.
 	 */
@@ -72,14 +75,16 @@ abstract class LearningObjectDisplay
 	 */
 	function get_full_html()
 	{
+		// TODO: split this into several methods, don't use marker
 		$object = $this->get_learning_object();
 		$html = array();
 		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path() . 'learning_object/' .$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.png);">';
 		$html[] = '<div class="title">'. htmlentities($object->get_title()) .'</div>';
+		$html[] = self::TITLE_MARKER;
 		$html[] = $this->get_description();
-		$html[] = '</div>';
+		$html[] = self::DESCRIPTION_MARKER;
 		$html[] = $this->get_attached_learning_objects_as_html();
-
+		$html[] = '</div>';
 		if ($parent_id = $object->get_parent_id())
 		{
 			$parent_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($parent_id);

@@ -2,7 +2,7 @@
 
 /**
  * Manages resources, ensuring that they are only loaded when necessary.
- * Currently only relevant for JavaScript files.
+ * Currently only relevant for JavaScript and CSS files.
  * @author Tim De Pauw
  */
 class ResourceManager
@@ -18,7 +18,7 @@ class ResourceManager
 	
 	function resource_loaded($path)
 	{
-		return ($this->resources[$path] ? true : false);
+		return array_key_exists($path, $this->resources);
 	}
 	
 	function get_resource_html($path)
@@ -34,6 +34,8 @@ class ResourceManager
 		$extension = $matches[0];
 		switch (strtolower($extension))
 		{
+			case 'css':
+				return '<link rel="stylesheet" type="text/css" href="' . htmlspecialchars($path) . '"/>';
 			case 'js':
 				return '<script type="text/javascript" src="' . htmlspecialchars($path) . '"></script>';
 			default:
@@ -45,7 +47,7 @@ class ResourceManager
 	{
 		if (!self::$instance)
 		{
-			self::$instance = new ResourceManager();
+			self::$instance = new self();
 		}
 		return self::$instance;
 	}
