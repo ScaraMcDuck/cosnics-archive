@@ -41,6 +41,8 @@ abstract class LearningObjectForm extends FormValidator
 	 * Any extra information passed to the form.
 	 */
 	private $extra;
+	
+	protected $form_type;
 
 	/**
 	 * Constructor.
@@ -120,6 +122,10 @@ abstract class LearningObjectForm extends FormValidator
 	protected function set_learning_object($learning_object)
 	{
 		$this->learning_object = $learning_object;
+	}
+	
+	protected function get_form_type() {
+		return $this->form_type;
 	}
 
 	/**
@@ -256,7 +262,7 @@ EOT;
 	/**
 	 * Adds a footer to the form, including a submit button.
 	 */
-	private function add_footer()
+	protected function add_footer()
 	{
 		if ($this->supports_attachments())
 		{

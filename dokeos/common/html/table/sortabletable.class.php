@@ -23,6 +23,7 @@
 */
 require_once "HTML/Table.php"; //See http://pear.php.net/package/HTML_Table
 require_once "Pager/Pager.php"; //See http://pear.php.net/package/Pager
+require_once "Pager/Sliding.php";
 require_once 'tablesort.class.php';
 /**
  * This class allows you to display a sortable data-table. It is possible to

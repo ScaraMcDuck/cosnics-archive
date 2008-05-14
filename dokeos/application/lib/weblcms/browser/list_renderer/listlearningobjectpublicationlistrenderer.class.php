@@ -41,6 +41,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 	 */
 	function render_publication($publication, $first = false, $last = false)
 	{
+		// TODO: split into separate overrideable methods
 		$html = array ();
 		$last_visit_date = $this->browser->get_last_visit_date();
 		$icon_suffix = '';
