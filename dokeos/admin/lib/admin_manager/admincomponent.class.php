@@ -95,6 +95,11 @@ abstract class AdminComponent {
 		return $this->get_parent()->get_url($additional_parameters, $include_search, $encode_entities);
 	}
 	
+	function redirect($type = 'url', $message = null, $error_message = false, $extra_params = null)
+	{
+		return $this->get_parent()->redirect($type, $message, $error_message, $extra_params);
+	}
+	
 	function get_user()
 	{
 		return $this->get_parent()->get_user();

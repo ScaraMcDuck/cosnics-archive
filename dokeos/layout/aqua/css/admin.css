@@ -72,35 +72,47 @@ form input
 div.configure {
 	clear: both;
 	text-align: center;
-	font-size: 75%;
+	height: 80px;
 }
 
 div.configure div.application
 {
 	float: left;
-	width: 80px;
-	height: 65px;
+	width: 40px;
+	height: 32px;
 	text-align: center;
-	padding: 5px;
-	margin: 2px;
+	padding: 5px 5px 5px 5px;
+	margin: 19px 2px 19px 2px;
 	border: 1px solid #ebebeb;
+	font-size: 35%;
 }
 
 div.configure div.application_current
 {
 	float: left;
-	width: 80px;
-	height: 65px;
+	width: 40px;
+	height: 32px;
 	text-align: center;
-	padding: 5px;
-	margin: 2px;
+	padding: 5px 5px 5px 5px;
+	margin: 19px 2px 19px 2px;
 	border: 1px solid #c0c0c0;
 	background: #ebebeb;
+	font-size: 35%;
+}
+
+div.configure div.application img
+{
+	width: 60%;
+}
+
+div.configure div.application_current img
+{
+	width: 60%;
 }
 
 div.configuration_form {
 	clear: both;
-	margin: 2px;
+	margin: 15px 2px 2px 2px;
 	padding: 5px;
 	border: 1px solid #ebebeb;
 }

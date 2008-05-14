@@ -244,6 +244,40 @@ class Admin
 		}
 		return $link;
 	}
+	
+	/**
+	 * Redirect the end user to another location.
+	 * @param string $action The action to take (default = browse learning
+	 * objects).
+	 * @param string $message The message to show (default = no message).
+	 * @param int $new_category_id The category to show (default = root
+	 * category).
+	 * @param boolean $error_message Is the passed message an error message?
+	 */
+	function redirect($type = 'url', $message = null, $error_message = false, $extra_params = null)
+	{
+		$params = array ();
+		if (isset ($message))
+		{
+			$params[$error_message ? self :: PARAM_ERROR_MESSAGE :  self :: PARAM_MESSAGE] = $message;
+		}
+		if (isset($extra_params))
+		{
+			foreach($extra_params as $key => $extra)
+			{
+				$params[$key] = $extra;
+			}
+		}
+		if ($type == 'url')
+		{
+			$url = $this->get_url($params);
+		}
+		elseif ($type == 'link')
+		{
+			$url = 'index.php';
+		}
+		header('Location: '.$url);
+	}
 
 	function get_user()
 	{
