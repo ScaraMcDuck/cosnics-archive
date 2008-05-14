@@ -3,14 +3,14 @@
 /*****************************************************
  *  ADMIN STYLES                                     *
  *****************************************************/
- 
+
+/* Platform admin overview */
 div.admin_section {
-	width: 90%;
+	width: 45%;
 	float: left;
 	margin: 10px 20px;
 	border: 1px solid #c0c0c0;
 	font-size: 75%;
-	clear: both;
 }
 
 div.admin_section div.main
@@ -53,6 +53,7 @@ div.admin_section div.admin_search
 	clear: both;
 	border-top: 1px solid #c0c0c0;
 	padding: 5px;
+	height: 20px;
 }
 
 form
@@ -65,4 +66,53 @@ form input
 {
 	border: 1px solid #C0C0C0;
 	height: 17px;
+}
+
+/* Platform settings application icons */
+div.configure {
+	clear: both;
+	text-align: center;
+	height: 80px;
+}
+
+div.configure div.application
+{
+	float: left;
+	width: 80px;
+	height: 68px;
+	text-align: center;
+	padding: 5px 5px 5px 5px;
+	margin: 2px 2px 2px 2px;
+	border: 1px solid #ebebeb;
+	font-size: 75%;
+}
+
+div.configure div.application_current
+{
+	float: left;
+	width: 80px;
+	height: 68px;
+	text-align: center;
+	padding: 5px 5px 5px 5px;
+	margin: 2px 2px 2px 2px;
+	border: 1px solid #c0c0c0;
+	background: #ebebeb;
+	font-size: 75%;
+}
+
+div.configure div.application img
+{
+	width: 60%;
+}
+
+div.configure div.application_current img
+{
+	width: 60%;
+}
+
+div.configuration_form {
+	clear: both;
+	margin: 15px 2px 2px 2px;
+	padding: 5px;
+	border: 1px solid #ebebeb;
 }

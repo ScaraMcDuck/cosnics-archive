@@ -10,6 +10,8 @@ require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.
 class ConfigurationForm extends FormValidator
 {
 	private $application;
+	
+	private $configuration;
 	/**
 	 * Constructor.
 	 * @param string $application The name of the application.
@@ -22,6 +24,7 @@ class ConfigurationForm extends FormValidator
 		parent :: __construct($form_name, $method, $action);
 		
 		$this->application = $application;
+		$this->configuration = $this->parse_application_settings();
 		$this->build_form();
 		$this->setDefaults();
 	}
@@ -35,47 +38,54 @@ class ConfigurationForm extends FormValidator
 	private function build_form()
 	{
 		$application = $this->application;
-		$configuration = $this->parse_application_settings();
+		$configuration = $this->configuration;
 		
-		require_once Path :: get_admin_path() . 'settings/connectors/settings_' . $application . '_connector.class.php';
-		
-		foreach($configuration['settings'] as $name => $setting)
+		if (count($configuration['settings']) > 0)
 		{
-			if ($setting['field'] == 'text')
+			require_once Path :: get_admin_path() . 'settings/connectors/settings_' . $application . '_connector.class.php';
+			
+			foreach($configuration['settings'] as $name => $setting)
 			{
-				$this->add_textfield($name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), true);
-			}
-			else
-			{
-				$options_type = $setting['options']['type'];
-				if ($options_type == 'dynamic')
+				if ($setting['field'] == 'text')
 				{
-					$options_source = $setting['options']['source'];
-					$class = 'Settings' . Application :: application_to_class($application) . 'Connector';
-					$options = call_user_func(array($class, $options_source));					
+					$this->add_textfield($name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), true);
 				}
 				else
 				{
-					$options = $setting['options']['values'];
-				}
-				
-				if ($setting['field'] == 'radio' || $setting['field'] == 'checkbox')
-				{
-					$group = array();
-					foreach ($options as $option_value => $option_name)
+					$options_type = $setting['options']['type'];
+					if ($options_type == 'dynamic')
 					{
-						$group[] =& $this->createElement($setting['field'], $name, null,Translation :: get(RepositoryUtilities :: underscores_to_camelcase($option_name)),$option_value);
+						$options_source = $setting['options']['source'];
+						$class = 'Settings' . Application :: application_to_class($application) . 'Connector';
+						$options = call_user_func(array($class, $options_source));					
 					}
-					$this->addGroup($group, $name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), '<br/>');
-				}
-				elseif($setting['field'] == 'select')
-				{
-					$this->addElement('select', $name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), $options);
+					else
+					{
+						$options = $setting['options']['values'];
+					}
+					
+					if ($setting['field'] == 'radio' || $setting['field'] == 'checkbox')
+					{
+						$group = array();
+						foreach ($options as $option_value => $option_name)
+						{
+							$group[] =& $this->createElement($setting['field'], $name, null,Translation :: get(RepositoryUtilities :: underscores_to_camelcase($option_name)),$option_value);
+						}
+						$this->addGroup($group, $name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), '<br/>', false);
+					}
+					elseif($setting['field'] == 'select')
+					{
+						$this->addElement('select', $name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), $options);
+					}
 				}
 			}
+			
+			$this->addElement('submit', 'submit', Translation :: get('Ok'));
 		}
-		
-		$this->addElement('submit', 'submit', Translation :: get('Ok'));
+		else
+		{
+			$this->addElement('html', Translation :: get('NoConfigurableSettings'));
+		}
 	}
 	
 	function parse_application_settings()
@@ -145,6 +155,22 @@ class ConfigurationForm extends FormValidator
 	 */
 	function setDefaults($defaults = array ())
 	{
+		$application = $this->application;
+		$configuration = $this->configuration;
+		
+		foreach($configuration['settings'] as $name => $setting)
+		{
+			$configuration_value = PlatformSetting :: get($name, $application);
+			if (isset($configuration_value))
+			{
+				$defaults[$name] = $configuration_value;
+			}
+			else
+			{
+				$defaults[$name] = $setting['default'];
+			} 
+		}
+		
 		parent :: setDefaults($defaults);
 	}
 
@@ -154,7 +180,30 @@ class ConfigurationForm extends FormValidator
 	 */
 	function update_configuration()
 	{
-		return true;
+		$values = $this->exportValues();
+		$configuration = $this->configuration;
+		$application = $this->application;
+		$problems = 0;
+		
+		foreach($configuration['settings'] as $name => $setting)
+		{
+			$adm = AdminDataManager :: get_instance();
+			$setting = $adm->retrieve_setting_from_variable_name($name, $application);
+			$setting->set_value($values[$name]);
+			if (!$setting->update())
+			{
+				$problems++;
+			}
+		}
+		
+		if ($problems > 0)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 }
 ?>

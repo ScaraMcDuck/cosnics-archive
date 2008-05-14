@@ -64,8 +64,15 @@ class AdminConfigurerComponent extends AdminComponent
 		
 		$html[] = '
 <script type="text/javascript">jQuery(document).ready(function($){
+
+$(\'div.application, div.application_current\').css(\'fontSize\', \'35%\');
+$(\'div.application, div.application_current\').css(\'width\', \'40px\');
+$(\'div.application, div.application_current\').css(\'height\', \'32px\');
+$(\'div.application, div.application_current\').css(\'margin-top\', \'19px\');
+$(\'div.application, div.application_current\').css(\'margin-bottom\', \'19px\');
+
 $(\'div.application, div.application_current\').mouseover(function(){
-	$(this).css(\'fontSize\', \'90%\');
+	$(this).css(\'fontSize\', \'75%\');
 	$(this).css(\'width\', \'80px\');
 	$(this).css(\'height\', \'68px\');
 	$(this).css(\'margin-top\', \'0px\');
@@ -84,7 +91,7 @@ $(\'div.application, div.application_current\').mouseout(function(){
 	$(this).css(\'border\', \'1px solid #EBEBEB\');
 })
 
-}) // ready</script>';
+})</script>';
 		
 		$html[] = '<div class="configure">';
 			

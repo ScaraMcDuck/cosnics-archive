@@ -61,6 +61,11 @@ class AdminBrowserComponent extends AdminComponent
 				$search_form = new AdminSearchForm($this, $application_links['search'], $search_form_index);
 				$html[] = $search_form->display();
 			}
+			else
+			{
+				$html[] = '<div class="admin_search">';
+				$html[] = '</div>';
+			}
 			$html[] = '</div>';
 		}
 
