@@ -13,4 +13,8 @@ $lang['admin']['Archive'] = 'Archive';
 $lang['admin']['Manage'] = 'Manage';
 $lang['admin']['Build'] = 'Build';
 $lang['admin']['Sort'] = 'Sort';
+$lang['admin']['Settings'] = 'Settings';
+$lang['admin']['SystemAnnouncements'] = 'Announcements';
+$lang['admin']['ConfigurePlatformSettings'] = 'Configure Platform Settings';
+$lang['admin']['PleaseSelectAnApplication'] = 'Please select an application to configure.';
 ?>

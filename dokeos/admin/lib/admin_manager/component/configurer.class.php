@@ -14,13 +14,18 @@ require_once dirname(__FILE__).'/../../configurationform.class.php';
  */
 class AdminConfigurerComponent extends AdminComponent
 {
+	private $application;
+	
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
+		$application = $this->application = Request :: get('application');
+		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PlatformAdmin')));
+		$trail->add(new Breadcrumb($this->get_url(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ConfigurePlatformSettings')));
 
 		if (!$this->get_user()->is_platform_admin())
 		{
@@ -32,17 +37,24 @@ class AdminConfigurerComponent extends AdminComponent
 		
 		echo $this->get_applications();
 		
-		echo '<div class="configuration_form">';
-		$form = new ConfigurationForm(Request :: get('application'), 'config', 'post', $this->get_url());
-		$form->display();
-		echo '</div>';
+		if (isset($application))
+		{
+			echo '<div class="configuration_form">';
+			$form = new ConfigurationForm(Request :: get('application'), 'config', 'post', $this->get_url(array(Admin :: PARAM_APPLICATION => $application)));
+			$form->display();
+			echo '</div>';
+		}
+		else
+		{
+			Display :: display_warning_message(Translation :: get('PleaseSelectAnApplication'));
+		}
 		
 		$this->display_footer();
 	}
 	
 	function get_applications()
 	{
-		$application = Request :: get('application');
+		$application = $this->application;
 		
 		$html = array();
 		$html[] = '<div class="configure">';

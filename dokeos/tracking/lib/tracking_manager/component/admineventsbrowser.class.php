@@ -30,7 +30,7 @@ class TrackingManagerAdminEventsBrowserComponent extends TrackingManagerComponen
 		
 		$this->display_header($trail);
 		
-		$isactive = (PlatformSetting :: get('enable_tracking', 'tracker') == 1);
+		$isactive = (PlatformSetting :: get('enable_tracking', 'tracking') == 1);
 		
 		if($isactive)
 		{

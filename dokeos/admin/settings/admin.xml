@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application name="admin">
 	<settings>
-		<setting name="site_name" type="text" default="LCMS" />
-		<setting name="server_type" type="radio" default="production">
+		<setting name="site_name" field="text" default="LCMS" />
+		<setting name="server_type" field="radio" default="production">
 			<options type="static">
 				<option name="production" value="production" />
 				<option name="test" value="test" />
 			</options>
 		</setting>
-		<setting name="platform_language" type="select" default="english">
+		<setting name="platform_language" field="select" default="english">
 			<options type="dynamic" source="get_languages" />
 		</setting>
-		<setting name="version" type="text" default="2.0" />
-		<setting name="theme" type="select" default="aqua">
+		<setting name="version" field="text" default="2.0" />
+		<setting name="theme" field="select" default="aqua">
 			<options type="dynamic" source="get_themes" />
 		</setting>
-		<setting name="institution" type="text" default="Dokeos" />
-		<setting name="institution_url" type="text" default="http://www.dokeos.com" />
-		<setting name="show_administrator_data" type="radio" default="true">
+		<setting name="institution" field="text" default="Dokeos" />
+		<setting name="institution_url" field="text" default="http://www.dokeos.com" />
+		<setting name="show_administrator_data" field="radio" default="true">
 			<options type="static">
 				<option name="true" value="true" />
 				<option name="false" value="false" />
 			</options>
 		</setting>
-		<setting name="administrator_firstname" type="text" default="Dokeos" />
-		<setting name="administrator_surname" type="text" default="Administrator" />
-		<setting name="administrator_email" type="text" default="dokeos.admin@mydokeos.com" />
-		<setting name="administrator_telephone" type="text" default="000/1234567" />
-		<setting name="allow_password_retrieval" type="radio" default="0">
+		<setting name="administrator_firstname" field="text" default="Dokeos" />
+		<setting name="administrator_surname" field="text" default="Administrator" />
+		<setting name="administrator_email" field="text" default="dokeos.admin@mydokeos.com" />
+		<setting name="administrator_telephone" field="text" default="000/1234567" />
+		<setting name="allow_password_retrieval" field="radio" default="0">
 			<options type="static">
 				<option name="true" value="1" />
 				<option name="false" value="0" />
 			</options>
 		</setting>
-		<setting name="allow_registration" type="radio" default="0">
+		<setting name="allow_registration" field="radio" default="0">
 			<options type="static">
 				<option name="true" value="1" />
 				<option name="false" value="0" />

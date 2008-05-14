@@ -103,7 +103,7 @@ class ValidateSettings extends HTML_QuickForm_Rule
 		if($start_date == 0)
 		{
 			$adm = AdminDataManager :: get_instance();
-			$setting = $adm->retrieve_setting_from_variable_name('last_time_archived', 'tracker');
+			$setting = $adm->retrieve_setting_from_variable_name('last_time_archived', 'tracking');
 			
 			$setting_date = RepositoryUtilities :: time_from_datepicker_without_timepicker($setting->get_value());
 			return $date >= $setting_date;

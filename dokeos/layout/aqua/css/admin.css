@@ -101,5 +101,6 @@ div.configure div.application_current
 div.configuration_form {
 	clear: both;
 	margin: 2px;
+	padding: 5px;
 	border: 1px solid #ebebeb;
 }

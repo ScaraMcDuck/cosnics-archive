@@ -94,13 +94,16 @@ class Admin
 			$this->display_search_form();
 		}
 		echo '<div class="clear">&nbsp;</div>';
-		if ($msg = $_GET[self :: PARAM_MESSAGE])
+		
+		$message = Request :: get(self :: PARAM_MESSAGE);
+		if (isset($message))
 		{
-			$this->display_message($msg);
+			$this->display_message($message);
 		}
-		if($msg = $_GET[self::PARAM_ERROR_MESSAGE])
+		$message = Request :: get(self :: PARAM_ERROR_MESSAGE);
+		if(isset($message))
 		{
-			$this->display_error_message($msg);
+			$this->display_error_message($message);
 		}
 	}
 	/**
@@ -264,8 +267,8 @@ class Admin
 
 		// 1. Admin-core components
 		$links		= array();
-		$links[]	= array('name' => Translation :: get('Settings'), action => 'manage', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM)));
-		$links[]	= array('name' => Translation :: get('SystemAnnouncements'), action => 'announce', 'url' => $this->get_link());
+		$links[]	= array('name' => Translation :: get('Settings'), 'action' => 'manage', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM)));
+		$links[]	= array('name' => Translation :: get('SystemAnnouncements'), 'action' => 'announce', 'url' => $this->get_link());
 		$info[]		= array('application' => array('name' => Translation :: get('Admin'), 'class' => self :: APPLICATION_NAME), 'links' => $links);
 		
 		// 2. Repository

@@ -143,7 +143,18 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	 */
 	function escape_column_name($name, $prefix_user_object_properties = false)
 	{
-		list($table, $column) = explode('.', $name, 2);
+		// Check whether the name contains a seperator, avoids notices.
+		$contains_table_name = strpos($name, '.');
+		if ($contains_table_name === false)
+		{
+			$table = $name;
+			$column = null;
+		}
+		else
+		{
+			list($table, $column) = explode('.', $name, 2);
+		}
+		
 		$prefix = '';
 		if (isset($column))
 		{
