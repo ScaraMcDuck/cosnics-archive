@@ -90,9 +90,9 @@ abstract class Application
 			{
 				require_once($directory.'/'.$application_name.'_manager/'.$application_name.'.class.php');
 				if (!in_array($application_name, $applications))
-					{
-						$applications[] = $application_name;
-					}
+				{
+					$applications[] = $application_name;
+				}
 			}
 		}
 		return $applications;
@@ -107,6 +107,26 @@ abstract class Application
 	{
 		return (preg_match('/^[a-z][a-z_]+$/', $name) > 0);
 	}
+	
+	/**
+	 * Determines if a given application exists
+	 * @param string $name
+	 * @return boolean
+	 */
+	public static function is_application($name)
+	{
+		$path = dirname(__FILE__);
+		$application_path = $path . '/' . $name;
+		if (file_exists($application_path) && is_dir($application_path))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	/**
 	 * Converts an application name to the corresponding class name.
 	 * @param string $application The application name.

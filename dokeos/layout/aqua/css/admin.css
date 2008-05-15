@@ -112,7 +112,15 @@ div.configure div.application_current img
 
 div.configuration_form {
 	clear: both;
-	margin: 15px 2px 2px 2px;
-	padding: 5px;
+	margin: 20px 2px 2px 2px;
+	padding: 10px;
 	border: 1px solid #ebebeb;
+}
+
+div.configuration_form span.category
+{
+	position: relative;
+	top: -20px;
+	background-color: #FFFFFF;
+	font-weight: bold;
 }

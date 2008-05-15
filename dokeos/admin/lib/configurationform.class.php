@@ -11,6 +11,8 @@ class ConfigurationForm extends FormValidator
 {
 	private $application;
 	
+	private $base_path;
+	
 	private $configuration;
 	/**
 	 * Constructor.
@@ -24,6 +26,7 @@ class ConfigurationForm extends FormValidator
 		parent :: __construct($form_name, $method, $action);
 		
 		$this->application = $application;
+		$this->base_path = (Application :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
 		$this->configuration = $this->parse_application_settings();
 		$this->build_form();
 		$this->setDefaults();
@@ -38,46 +41,60 @@ class ConfigurationForm extends FormValidator
 	private function build_form()
 	{
 		$application = $this->application;
+		$base_path = $this->base_path;
 		$configuration = $this->configuration;
 		
 		if (count($configuration['settings']) > 0)
 		{
-			require_once Path :: get_admin_path() . 'settings/connectors/settings_' . $application . '_connector.class.php';
+			require_once $base_path . $application . '/settings/settings_' . $application . '_connector.class.php';
 			
-			foreach($configuration['settings'] as $name => $setting)
+			foreach($configuration['settings'] as $category_name => $settings)
 			{
-				if ($setting['field'] == 'text')
+				$this->addElement('html', '<div class="configuration_form">');
+				$this->addElement('html', '<span class="category">'. Translation :: get(RepositoryUtilities :: underscores_to_camelcase($category_name)) .'</span>');
+				
+				foreach($settings as $name => $setting)
 				{
-					$this->add_textfield($name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), true);
-				}
-				else
-				{
-					$options_type = $setting['options']['type'];
-					if ($options_type == 'dynamic')
+					if ($setting['locked'] == 'true')
 					{
-						$options_source = $setting['options']['source'];
-						$class = 'Settings' . Application :: application_to_class($application) . 'Connector';
-						$options = call_user_func(array($class, $options_source));					
+						$this->addElement('static', $name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)));
+					}
+					elseif ($setting['field'] == 'text')
+					{
+						$this->add_textfield($name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), true);
 					}
 					else
 					{
-						$options = $setting['options']['values'];
-					}
-					
-					if ($setting['field'] == 'radio' || $setting['field'] == 'checkbox')
-					{
-						$group = array();
-						foreach ($options as $option_value => $option_name)
+						$options_type = $setting['options']['type'];
+						if ($options_type == 'dynamic')
 						{
-							$group[] =& $this->createElement($setting['field'], $name, null,Translation :: get(RepositoryUtilities :: underscores_to_camelcase($option_name)),$option_value);
+							$options_source = $setting['options']['source'];
+							$class = 'Settings' . Application :: application_to_class($application) . 'Connector';
+							$options = call_user_func(array($class, $options_source));					
 						}
-						$this->addGroup($group, $name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), '<br/>', false);
-					}
-					elseif($setting['field'] == 'select')
-					{
-						$this->addElement('select', $name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), $options);
+						else
+						{
+							$options = $setting['options']['values'];
+						}
+						
+						if ($setting['field'] == 'radio' || $setting['field'] == 'checkbox')
+						{
+							$group = array();
+							foreach ($options as $option_value => $option_name)
+							{
+								$group[] =& $this->createElement($setting['field'], $name, null,Translation :: get(RepositoryUtilities :: underscores_to_camelcase($option_name)),$option_value);
+							}
+							$this->addGroup($group, $name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), '<br/>', false);
+						}
+						elseif($setting['field'] == 'select')
+						{
+							$this->addElement('select', $name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), $options);
+						}
 					}
 				}
+				
+				$this->addElement('html', '<div style="clear: both;"></div>');
+				$this->addElement('html', '</div>');
 			}
 			
 			$this->addElement('submit', 'submit', Translation :: get('Ok'));
@@ -91,58 +108,72 @@ class ConfigurationForm extends FormValidator
 	function parse_application_settings()
 	{
 		$application = $this->application;
+		$base_path = $this->base_path;
 		
-		$file = Path :: get_admin_path() . 'settings/' . $application . '.xml';
+		$file = $base_path . $application . '/settings/settings_' . $application . '.xml';
 
 		$doc = new DOMDocument();
 		$doc->load($file);
 		$object = $doc->getElementsByTagname('application')->item(0);
 		$name = $object->getAttribute('name');
-		$xml_properties = $doc->getElementsByTagname('setting');
-		$attributes = array('field', 'default');
 		
-		foreach($xml_properties as $index => $property)
+		// Get categories
+		$categories = $doc->getElementsByTagname('category');
+		$settings = array();
+		
+		foreach($categories as $index => $category)
 		{
-			$property_info = array();
+			$category_name = $category->getAttribute('name');
+			$category_properties = array();
 			
-			foreach($attributes as $index => $attribute)
-			{
-				if($property->hasAttribute($attribute))
-			 	{
-			 		$property_info[$attribute] = $property->getAttribute($attribute);
-			 	}
-			}
+			// Get settings in category
+			$properties = $category->getElementsByTagname('setting');
+			$attributes = array('field', 'default', 'locked');
 			
-			if ($property->hasChildNodes())
+			foreach($properties as $index => $property)
 			{
-				$property_options = $property->getElementsByTagname('options')->item(0);
-				$property_options_attributes = array('type', 'source');
-				foreach($property_options_attributes as $index => $options_attribute)
+				$property_info = array();
+				
+				foreach($attributes as $index => $attribute)
 				{
-					if($property_options->hasAttribute($options_attribute))
+					if($property->hasAttribute($attribute))
 				 	{
-				 		$property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
+				 		$property_info[$attribute] = $property->getAttribute($attribute);
 				 	}
 				}
 				
-				if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
+				if ($property->hasChildNodes())
 				{
-					$options = $property_options->getElementsByTagname('option');
-					$options_info = array();
-					foreach($options as $option)
+					$property_options = $property->getElementsByTagname('options')->item(0);
+					$property_options_attributes = array('type', 'source');
+					foreach($property_options_attributes as $index => $options_attribute)
 					{
-						$options_info[$option->getAttribute('value')] = $option->getAttribute('name');
+						if($property_options->hasAttribute($options_attribute))
+					 	{
+					 		$property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
+					 	}
 					}
-					$property_info['options']['values'] = $options_info;
+					
+					if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
+					{
+						$options = $property_options->getElementsByTagname('option');
+						$options_info = array();
+						foreach($options as $option)
+						{
+							$options_info[$option->getAttribute('value')] = $option->getAttribute('name');
+						}
+						$property_info['options']['values'] = $options_info;
+					}
 				}
+				$category_properties[$property->getAttribute('name')] = $property_info;
 			}
 			
-			$properties[$property->getAttribute('name')] = $property_info;
+			$settings[$category_name] = $category_properties;
 		}
 		
 		$result = array();
 		$result['name'] = $name;
-		$result['settings'] = $properties;
+		$result['settings'] = $settings;
 		
 		return $result;
 	}
@@ -158,17 +189,20 @@ class ConfigurationForm extends FormValidator
 		$application = $this->application;
 		$configuration = $this->configuration;
 		
-		foreach($configuration['settings'] as $name => $setting)
+		foreach($configuration['settings'] as $category_name => $settings)
 		{
-			$configuration_value = PlatformSetting :: get($name, $application);
-			if (isset($configuration_value))
+			foreach($settings as $name => $setting)
 			{
-				$defaults[$name] = $configuration_value;
+				$configuration_value = PlatformSetting :: get($name, $application);
+				if (isset($configuration_value))
+				{
+					$defaults[$name] = $configuration_value;
+				}
+				else
+				{
+					$defaults[$name] = $setting['default'];
+				} 
 			}
-			else
-			{
-				$defaults[$name] = $setting['default'];
-			} 
 		}
 		
 		parent :: setDefaults($defaults);
@@ -185,14 +219,20 @@ class ConfigurationForm extends FormValidator
 		$application = $this->application;
 		$problems = 0;
 		
-		foreach($configuration['settings'] as $name => $setting)
+		foreach($configuration['settings'] as $category_name => $settings)
 		{
-			$adm = AdminDataManager :: get_instance();
-			$setting = $adm->retrieve_setting_from_variable_name($name, $application);
-			$setting->set_value($values[$name]);
-			if (!$setting->update())
+			foreach($settings as $name => $setting)
 			{
-				$problems++;
+				if ($setting['locked'] != 'true')
+				{
+					$adm = AdminDataManager :: get_instance();
+					$setting = $adm->retrieve_setting_from_variable_name($name, $application);
+					$setting->set_value($values[$name]);
+					if (!$setting->update())
+					{
+						$problems++;
+					}
+				}
 			}
 		}
 		

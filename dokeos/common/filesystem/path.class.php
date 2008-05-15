@@ -207,5 +207,10 @@ class Path
     {
     	return self :: get(SYS_APP_TRACKING_PATH);
     }
+    
+    public static function get_application_path()
+    {
+    	return self :: get(SYS_APP_PATH);
+    }
 }
 ?>

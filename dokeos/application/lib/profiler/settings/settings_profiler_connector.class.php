@@ -1,5 +1,5 @@
 <?php
-require_once Path :: get_admin_path() . 'lib/admindatamanager.class.php';
+require_once Path :: get_application_path() . 'lib/profiler/profilerdatamanager.class.php';
 require_once Path :: get_library_path() . 'dokeosutilities.class.php';
 require_once Path :: get_library_path() . 'filesystem/path.class.php';
 require_once Path :: get_library_path() . 'filesystem/filesystem.class.php';
@@ -10,7 +10,7 @@ require_once Path :: get_library_path() . 'filesystem/filesystem.class.php';
  * @author Hans De Bisschop
  */
 
-class SettingsUsersConnector
+class SettingsProfilerConnector
 {
 }
 ?>

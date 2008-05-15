@@ -795,4 +795,6 @@ $lang['general']['Database'] = 'Database';
 $lang['general']['ClassGroup'] = 'Classgroup';
 $lang['general']['Menu'] = 'Menu';
 $lang['general']['Migration'] = 'Migration';
+$lang['general']['True'] = 'True';
+$lang['general']['False'] = 'False';
 ?>
