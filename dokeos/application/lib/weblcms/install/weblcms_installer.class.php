@@ -11,14 +11,14 @@ require_once Path :: get_tracking_path() .'install/tracking_installer.class.php'
  *	This installer can be used to create the storage structure for the
  * weblcms application.
  */
-class WeblcmsInstaller extends Installer {
-
-	private $wdm;
+class WeblcmsInstaller extends Installer
+{
 	/**
 	 * Constructor
 	 */
-    function WeblcmsInstaller() {
-    	$this->wdm = WeblcmsDataManager :: get_instance();
+    function WeblcmsInstaller()
+    {
+    	parent :: __construct(WeblcmsDataManager :: get_instance());
     }
 	/**
 	 * Runs the install-script.
@@ -151,29 +151,6 @@ class WeblcmsInstaller extends Installer {
 		}
 		
 		return true;
-	}
-	
-	/**
-	 * Parses an XML file and sends the request to the database manager
-	 * @param String $path
-	 */
-	function create_storage_unit($path)
-	{
-		$storage_unit_info = parent::parse_xml_file($path);
-		$this->add_message(Translation :: get('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
-		if (!$this->wdm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
-		{
-			$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em></span>';
-			$this->add_message($error_message);
-			$this->add_message(Translation :: get('ApplicationInstallFailed'));
-			$this->add_message(Translation :: get('PlatformInstallFailed'));
-			
-			return false;
-		}
-		else
-		{
-			return true;
-		}
 	}
 	
 	function create_default_categories_in_weblcms()

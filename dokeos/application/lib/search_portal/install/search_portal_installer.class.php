@@ -13,13 +13,11 @@ require_once Path :: get_tracking_path() .'install/tracking_installer.class.php'
  */
 class SearchPortalInstaller extends Installer
 {
-	private $mpdm;
 	/**
 	 * Constructor
 	 */
     function SearchPortalInstaller()
     {
-    	$this->mpdm = PortfolioDataManager :: get_instance();
     }
 	/**
 	 * Runs the install-script.

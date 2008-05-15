@@ -17,6 +17,7 @@ class ClassGroupInstaller extends Installer
     function ClassGroupInstaller($values)
     {
     	$this->values = $values;
+    	parent :: __construct(ClassGroupDataManager :: get_instance());
     }
 	/**
 	 * Runs the install-script.
@@ -115,31 +116,6 @@ class ClassGroupInstaller extends Installer
 		}
 		
 		return true;
-	}
-
-	/**
-	 * Parses an XML file and sends the request to the database manager
-	 * @param String $path
-	 */
-	function create_storage_unit($path)
-	{
-		$storage_unit_info = parent::parse_xml_file($path);
-		$dm = ClassGroupDataManager :: get_instance();
-		$this->add_message(Translation :: get('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
-		if (!$dm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
-		{
-			$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em></span>';
-			$this->add_message($error_message);
-			$this->add_message(Translation :: get('ApplicationInstallFailed'));
-			$this->add_message(Translation :: get('PlatformInstallFailed'));
-			
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-
 	}
 }
 ?>

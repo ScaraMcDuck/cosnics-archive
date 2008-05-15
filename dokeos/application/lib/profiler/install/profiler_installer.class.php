@@ -11,15 +11,14 @@ require_once Path :: get_tracking_path() .'install/tracking_installer.class.php'
  * This installer can be used to create the storage structure for the
  * profiler application.
  */
-class ProfilerInstaller extends Installer {
-
-	private $pdm;
+class ProfilerInstaller extends Installer
+{
 	/**
 	 * Constructor
 	 */
     function ProfilerInstaller()
     {
-    	$this->pdm = ProfilerDataManager :: get_instance();
+    	parent :: __construct(ProfilerDataManager :: get_instance());
     }
 	/**
 	 * Runs the install-script.
@@ -115,29 +114,6 @@ class ProfilerInstaller extends Installer {
 		}
 		
 		return true;
-	}
-	
-	/**
-	 * Parses an XML file and sends the request to the database manager
-	 * @param String $path
-	 */
-	function create_storage_unit($path)
-	{
-		$storage_unit_info = parent::parse_xml_file($path);
-		$this->add_message(Translation :: get('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
-		if (!$this->pdm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
-		{
-			$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em></span>';
-			$this->add_message($error_message);
-			$this->add_message(Translation :: get('ApplicationInstallFailed'));
-			$this->add_message(Translation :: get('PlatformInstallFailed'));
-			
-			return false;
-		}
-		else
-		{
-			return true;
-		}
 	}
 }
 ?>
