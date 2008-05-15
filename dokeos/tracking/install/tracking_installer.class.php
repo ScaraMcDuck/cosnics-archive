@@ -17,6 +17,7 @@ class TrackingInstaller extends Installer
 	 */
 	function TrackingInstaller()
 	{
+		parent :: __construct(TrackingDataManager :: get_instance());
 	}
 	
 	/**
@@ -72,25 +73,6 @@ class TrackingInstaller extends Installer
 		$rel->create();
 		
 		return $rel;
-	}
-	
-	function create_storage_unit($path)
-	{
-		$storage_unit_info = parent::parse_xml_file($path);
-		$dm = TrackingDataManager :: get_instance();
-		$this->add_message(Translation :: get('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
-		if (!$dm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
-		{
-			$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em></span>';
-			$this->add_message($error_message);
-			
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-
 	}
 }
 ?>

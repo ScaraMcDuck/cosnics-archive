@@ -19,6 +19,7 @@ class RepositoryInstaller extends Installer
 	 */
 	function RepositoryInstaller()
 	{
+		parent :: __construct(RepositoryDataManager :: get_instance());
 	}
 	/**
 	 * Runs the install-script. After creating the necessary tables to store the
@@ -129,34 +130,6 @@ class RepositoryInstaller extends Installer
 		}
 		
 		return true;
-	}
-
-	/**
-	 * Parses an XML-file in which a storage unit is described. After parsing,
-	 * the create_storage_unit function of the RepositoryDataManager is used to
-	 * create the actual storage unit depending on the implementation of the
-	 * datamanager.
-	 * @param string $path The path to the XML-file to parse
-	 */
-	function create_storage_unit($path)
-	{
-		$storage_unit_info = parent::parse_xml_file($path);
-		$dm = RepositoryDataManager :: get_instance();
-		$this->add_message(Translation :: get('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
-		if (!$dm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
-		{
-			$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em></span>';
-			$this->add_message($error_message);
-			$this->add_message(Translation :: get('ApplicationInstallFailed'));
-			$this->add_message(Translation :: get('PlatformInstallFailed'));
-			
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-
 	}
 }
 ?>

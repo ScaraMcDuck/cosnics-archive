@@ -14,15 +14,13 @@ require_once Path :: get_library_path().'filesystem/filesystem.class.php';
  */
 class AdminInstaller extends Installer
 {
-	private $adm;
-	private $values;
 	/**
 	 * Constructor
 	 */
     function AdminInstaller($values)
     {
     	$this->values = $values;
-    	$this->adm = AdminDataManager :: get_instance();
+    	parent :: __construct(AdminDataManager :: get_instance());
     }
 	/**
 	 * Runs the install-script.
@@ -66,30 +64,6 @@ class AdminInstaller extends Installer
 		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);
 		return array('success' => true, 'message' => $this->retrieve_message());
-	}
-
-	/**
-	 * Parses an XML file and sends the request to the database manager
-	 * @param String $path
-	 */
-	function create_storage_unit($path)
-	{
-		$storage_unit_info = parent::parse_xml_file($path);
-		$this->add_message(Translation :: get('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
-		if (!$this->adm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
-		{
-			$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em></span>';
-			$this->add_message($error_message);
-			$this->add_message(Translation :: get('ApplicationInstallFailed'));
-			$this->add_message(Translation :: get('PlatformInstallFailed'));
-			
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-
 	}
 	
 	function create_languages()
