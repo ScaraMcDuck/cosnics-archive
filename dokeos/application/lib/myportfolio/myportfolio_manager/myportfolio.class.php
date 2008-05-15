@@ -21,7 +21,7 @@ class MyPortfolio extends WebApplication
 	const PARAM_ACTION = 'portfolio_action';
 	const PARAM_ITEM = 'item';
 	const PARAM_TITLE = 'title';
-	const APPLICATION_NAME = 'portfolio';
+	const APPLICATION_NAME = 'myportfolio';
 
 	const ACTION_CREATE = 'pf_create_child';
 	const ACTION_EDIT = 'pf_edit_child';
@@ -362,6 +362,29 @@ class MyPortfolio extends WebApplication
 	}
 	function get_application_platform_admin_links()
 	{
+		$links = array();
+		$links[] = array('name' => Translation :: get('NoOptionsAvailable'), action => 'empty', 'url' => $this->get_link());
+		return array('application' => array('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links);
+	}
+	
+	/**
+	 * Return a link to a certain action of this application
+	 * @param array $paramaters The parameters to be added to the url
+	 * @param boolean $encode Should the url be encoded ?
+	 */
+	public function get_link($parameters = array (), $encode = false)
+	{
+		$link = 'run.php';
+		$parameters['application'] = self :: APPLICATION_NAME;
+		if (count($parameters))
+		{
+			$link .= '?'.http_build_query($parameters);
+		}
+		if ($encode)
+		{
+			$link = htmlentities($link);
+		}
+		return $link;
 	}
 
 	/**

@@ -29,7 +29,7 @@ class AdminConfigurerComponent extends AdminComponent
 		
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ConfigurePlatformSettings')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get(Application :: application_to_class($application)) . '&nbsp;' . Translation :: get('Settings')));
 
 		if (!$this->get_user()->is_platform_admin())
 		{
@@ -48,10 +48,7 @@ class AdminConfigurerComponent extends AdminComponent
 		{
 			$this->display_header($trail);
 			echo $this->get_applications();
-			echo '<div class="configuration_form">';
-			Display :: display_tool_title(Application :: application_to_class($application));
 			$form->display();
-			echo '</div>';
 			$this->display_footer();
 		}
 	}
@@ -65,7 +62,7 @@ class AdminConfigurerComponent extends AdminComponent
 		$html[] = '
 <script type="text/javascript">jQuery(document).ready(function($){
 
-$(\'div.application, div.application_current\').css(\'fontSize\', \'35%\');
+$(\'div.application, div.application_current\').css(\'fontSize\', \'37%\');
 $(\'div.application, div.application_current\').css(\'width\', \'40px\');
 $(\'div.application, div.application_current\').css(\'height\', \'32px\');
 $(\'div.application, div.application_current\').css(\'margin-top\', \'19px\');
@@ -81,14 +78,24 @@ $(\'div.application, div.application_current\').mouseover(function(){
 	$(this).css(\'border\', \'1px solid #c0c0c0\');
 })
 
-$(\'div.application, div.application_current\').mouseout(function(){
-	$(this).css(\'fontSize\', \'35%\');
+$(\'div.application\').mouseout(function(){
+	$(this).css(\'fontSize\', \'37%\');
 	$(this).css(\'width\', \'40px\');
 	$(this).css(\'height\', \'32px\');
 	$(this).css(\'margin-top\', \'19px\');
 	$(this).css(\'margin-bottom\', \'19px\');
 	$(this).css(\'background-color\', \'#FFFFFF\');
 	$(this).css(\'border\', \'1px solid #EBEBEB\');
+})
+
+$(\'div.application_current\').mouseout(function(){
+	$(this).css(\'fontSize\', \'37%\');
+	$(this).css(\'width\', \'40px\');
+	$(this).css(\'height\', \'32px\');
+	$(this).css(\'margin-top\', \'19px\');
+	$(this).css(\'margin-bottom\', \'19px\');
+	$(this).css(\'background-color\', \'#EBEBEB\');
+	$(this).css(\'border\', \'1px solid #c0c0c0\');
 })
 
 })</script>';
@@ -111,8 +118,8 @@ $(\'div.application, div.application_current\').mouseout(function(){
 			$html[] = '</div>';
 		}
 		
-		$html[] = '<div style="clear: both;"></div>';
 		$html[] = '</div>';
+		$html[] = '<div style="clear: both;"></div>';
 
 		return implode("\n", $html);
 	}
