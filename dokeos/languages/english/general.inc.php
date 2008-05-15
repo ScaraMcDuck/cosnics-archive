@@ -797,4 +797,5 @@ $lang['general']['Menu'] = 'Menu';
 $lang['general']['Migration'] = 'Migration';
 $lang['general']['True'] = 'True';
 $lang['general']['False'] = 'False';
+$lang['general']['Dokeos'] = 'Dokeos';
 ?>

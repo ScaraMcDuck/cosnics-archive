@@ -40,11 +40,11 @@ class MenuManagerTreeComponent extends MenuManagerComponent
 				
 				if ($count > 0)
 				{
-					$html_sub[] = '<a href="#">'. $category->get_title() .'</a><br />';
+					$html_sub[] = '<a href="#">'. $root_item->get_title() .'</a><br />';
 					
 					while ($subitem = $subitems->next_result())
 					{
-						$html_sub[] = '--- <a href="index_'.$item->get_application().'.php">'. $item->get_title() .'</a><br />';
+						$html_sub[] = '--- <a href="index_'.$subitem->get_application().'.php">'. $subitem->get_title() .'</a><br />';
 					}
 				}
 				$html[] = implode("\n", $html_sub);
