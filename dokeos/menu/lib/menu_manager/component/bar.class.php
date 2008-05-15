@@ -48,7 +48,7 @@ class MenuManagerBarComponent extends MenuManagerComponent
 						
 						if (isset($application))
 						{
-							$url = 'run.php?application='.$root_item->get_application().$root_item->get_extra();
+							$url = 'run.php?application='.$subitem->get_application().$subitem->get_extra();
 						}
 						else
 						{
@@ -83,37 +83,25 @@ class MenuManagerBarComponent extends MenuManagerComponent
 			}
 		}
 		
-		// Repository link for admins
 		$user = $this->get_user();
 		if (isset($user))
 		{
 			$html[] = '<ul class="admin">';
 			$html[] = '<li class="admin"><a href="index.php?logout=true">Logout</a></li>';
-//			$html[] = '<li class="admin"><a>';
-//			$html[] = '<form method="get" action="'. $this->get_path(WEB_PATH). 'index.php" target="_top">';
-//			$html[] = '<input type="hidden" name="logout" value="true"/>';
-//			$html[] = '<input type="hidden" name="uid" value="'.$user->get_user_id().'"/>';
-//			$html[] = '<input type="submit" name="submit" value="'. Translation :: get('Logout'). '" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'"/>';
-//			$html[] = '</form>';
-//			$html[] = '</a></li>';
 			$html[] = '</ul>';
 		}
 		
-		if (isset($user) && $user->get_platformadmin() == 1)
+		if (isset($user))
 		{
 			$html[] = '<ul class="admin">';
-			$html[] = '<li class="admin"><a href="index.php?visitorview=1">'. (isset($_SESSION['visitorview']) ? 'Admin' : 'Visitor') .'</a></li>';
-			$html[] = '</ul>';
-		}
-		
-		if (isset($user) && $user->is_platform_admin())
-		{
-			$html[] = '<ul class="admin">';
-			$html[] = '<li class="admin"><a href="#" '. (($this_section == 'repository_manager' || $this_section == 'rights' || $this_section == 'user' || $this_section == 'platform_admin') ? 'class="current"' : '') .'>Skorpiuz<!--[if IE 7]><!--></a><!--<![endif]-->';
+			$html[] = '<li class="admin"><a href="#" '. (($this_section == 'repository_manager' || $this_section == 'rights' || $this_section == 'user' || $this_section == 'platform_admin') ? 'class="current"' : '') .'>'. Translation :: get('Dokeos') .'<!--[if IE 7]><!--></a><!--<![endif]-->';
 			$html[] = '<!--[if lte IE 6]><table><tr><td><![endif]-->';
 			$html[] = '<ul>';
 			$html[] = '<li><a href="index_repository_manager.php">Repository</a></li>';
-			$html[] = '<li><a href="index_admin.php">Admin</a></li>';
+			if ($user->is_platform_admin())
+			{
+				$html[] = '<li><a href="index_admin.php">Admin</a></li>';
+			}
 			$html[] = '</ul>';
 			$html[] = '<!--[if lte IE 6]></td></tr></table></a><![endif]-->';
 			$html[] = '</li>';

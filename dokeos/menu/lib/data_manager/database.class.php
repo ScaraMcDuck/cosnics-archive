@@ -277,7 +277,7 @@ class DatabaseMenuDataManager extends MenuDataManager
 	
 	function update_menu_item($menu_item)
 	{
-		$where = $this->escape_column_name(GutenbergCategory :: PROPERTY_ID).'='.$menu_item->get_id();
+		$where = $this->escape_column_name(MenuItem :: PROPERTY_ID).'='.$menu_item->get_id();
 		$props = array();
 		foreach ($menu_item->get_default_properties() as $key => $value)
 		{

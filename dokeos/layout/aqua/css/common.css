@@ -80,22 +80,10 @@ img
 {
 	position: relative; /* to avoid the IE peekabo bug*/
 	font-size: 1.0em;
-	font-weight: normal;
-	padding:  0.2em 0.5em;
-   padding-bottom: 0.2em;
+	padding: 0;
 	background: #4271b5;
 	color: #fff;
-	border-bottom: 1px solid #666;
-}
-#header2 a
-{
-	color: #fff;
-	text-decoration: none;
-	font-weight:normal;
-}
-#header2 a:hover
-{
-	text-decoration: underline;
+	/* border-bottom: 1px solid #666; */
 }
 /* Header2Right: online users, student/teacher view, help */
 #Header2Right ul
@@ -1660,4 +1648,219 @@ ul.toolbar li.last span {
 	border: 1px dashed #666;
 	width: auto !important;
 	background-color: #F2F2F2;
+}
+
+/*************************************************************/
+/*   Design:   Multiflex-3 Update-7 / Drop-Down Menu         */
+/*-----------------------------------------------------------*/
+/*   Author:   Wolfgang, based on Stu Nichols ingenious      */
+/*             designs over at www.cssplay.co.uk             */
+/*   Date:     January 15, 2007                              */
+/*   Homepage: wwww.1-2-3-4.info                             */
+/*-----------------------------------------------------------*/
+/*   License:  Public domain.                                */
+/*************************************************************/
+
+/*Basic Setup*/
+
+/*Color navigation bar normal mode*/
+.dropnav *
+{
+	padding: 0;
+	margin: 0;
+}
+
+.dropnav
+{
+	float:left;
+	width: 100%;
+	border:none;
+	background-color: #4271B5;
+	background: ;
+	color: #FFFFFF;;
+	font-size:130%;
+	text-decoration: none;
+}
+
+.dropnav ul
+{
+	list-style-type: none;
+}
+
+.dropnav ul.admin
+{
+	list-style-type: none;
+	float: right;
+}
+
+.dropnav ul li
+{
+	float:left;
+	position:relative;
+	z-index:auto !important /*Non-IE6*/;
+	z-index:1000 /*IE6*/;
+	border-right:solid 1px rgb(255,255,255);
+}
+
+.dropnav ul li.admin
+{
+	float:left;
+	position:relative;
+	z-index:auto !important /*Non-IE6*/;
+	z-index:1000 /*IE6*/;
+	border-right: 0px;
+	border-left: solid 1px rgb(255,255,255);
+}
+
+.dropnav ul li.admin form
+{
+	float: left;
+	height: 24px;
+	line-height:30px;
+	text-decoration:none;
+}
+
+.dropnav ul li.admin input
+{
+	float:left;
+	margin: 0;
+	padding: 0;
+	height: 24px;
+	padding:0px;
+	text-decoration: none;
+	font-weight: bold;
+	color:  #FFFFFF;;
+	background-color: transparent;
+	border: 0px;
+	
+	font-family: arial, verdana, helvetica, sans-serif;
+	font-size: 12px;
+}
+
+.dropnav ul li a
+{
+	float:none !important /*Non-IE6*/;
+	float:left /*IE-6*/;
+	display:block;
+	height: 24px;
+	line-height: 24px;
+	padding:0 10px 0 10px;
+	text-decoration: none;
+	font-weight: bold;
+	color:  #FFFFFF;;
+}
+
+.dropnav ul li ul
+{
+	display: none;
+	border: none;
+}
+
+/*Non-IE6 hovering*/
+/*Color main cells hovering mode*/
+.dropnav ul li:hover a
+{
+	color: #000066;
+	background-color: #FFFFFF;
+	text-decoration: none;
+}
+
+.dropnav ul li a.current
+{
+	color: #000066;
+	background-color: #FFFFFF;
+	text-decoration: none;
+}
+
+.dropnav ul li:hover a.current
+{
+	color: #000066;
+	background-color: #FFFFFF;
+	text-decoration: none;
+}
+
+.dropnav ul li:hover ul
+{
+	display: block;
+	width: 10.0em;
+	position: absolute;
+	z-index: 999;
+	top: 23px;
+	margin-top: 1px;
+	left: 0;
+}
+
+/*Color subcells normal mode*/
+.dropnav ul li:hover ul li a
+{
+	display:block;
+	width:10.0em;
+	height:auto;
+	line-height:1.3em;
+	margin-left:-1px;
+	padding:4px 10px 4px 10px;
+	border-left:solid 1px rgb(255,255,255);
+	border-bottom: solid 1px rgb(255,255,255);
+	background-color:rgb(243,243,243);
+	background-image: none;
+	font-weight:normal;
+	color:rgb(50,50,50);
+}
+
+/*Color subcells hovering mode*/
+.dropnav ul li:hover ul li a:hover
+{
+	background-color:rgb(227,227,227);
+	text-decoration:none;
+}
+
+/*IE6 hovering*/
+.dropnav table
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-collapse: collapse;
+}
+
+/*Color main cells hovering mode*/
+.dropnav ul li a:hover
+{
+	color: #000066;
+	background-color: #FFFFFF;
+	text-decoration: none;
+}
+
+.dropnav ul li a:hover ul
+{
+	display:block;
+	width:10.0em;
+	position:absolute;
+	z-index:999;
+	top: 24px;
+	t\op: 23px;
+	left:0;
+	marg\in-top:0.1em;
+}
+
+/*Color subcells normal mode*/
+.dropnav ul li a:hover ul li a
+{
+	display:block;
+	w\idth:10.0em;
+	height:1px;
+	line-height:1.3em;
+	padding:4px 10px 4px 10px;
+	border-left:solid 1px rgb(255,255,255);
+	border-bottom: solid 1px rgb(255,255,255);
+	background-color:rgb(243,243,243);
+	background-image: none;
+	font-weight:normal; color:rgb(50,50,50);
+}
+
+/*Color subcells hovering mode*/
+.dropnav ul li a:hover ul li a:hover
+{
+	background-color:rgb(227,227,227);
+	text-decoration:none;
 }

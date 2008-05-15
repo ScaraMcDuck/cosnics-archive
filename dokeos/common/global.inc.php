@@ -344,7 +344,7 @@ if (isset($_GET['logout']))
 	$udm = UsersDataManager::get_instance();
 	$user = $udm->retrieve_user(Session :: get_user_id());
 	
-	Events :: trigger_event('logout', array('server' => $_SERVER, 'user' => $user));
+	Events :: trigger_event('logout', 'users', array('server' => $_SERVER, 'user' => $user));
 	// TODO: Reimplement tracking
 	//LoginDelete($uid, $statsDbName);
 	$udm = UsersDataManager::get_instance();
