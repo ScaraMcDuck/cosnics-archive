@@ -101,7 +101,15 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		unset($installer, $result);
 		flush();
 		
-		// 10. Install additional applications
+		// 10. Install the Menu application
+		require_once('../menu/install/menu_installer.class.php');
+		$installer = new MenuInstaller($values);
+		$result = $installer->install();
+		$this->process_result('menu', $result);
+		unset($installer, $result);
+		flush();
+		
+		// 11. Install additional applications
 		$path = dirname(__FILE__).'/../../../../../../application/lib/';
 		$applications = FileSystem :: get_directory_content($path, FileSystem :: LIST_DIRECTORIES, false);
 		flush();
@@ -250,7 +258,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 	function display_install_block_header($application)
 	{
 		$html = array();
-		$html[] = '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(../layout/aqua/img/admin/'. $application .'.png);">';
+		$html[] = '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(../layout/aqua/img/admin/place_'. $application .'.png);">';
 		$html[] = '<div class="title">'. Translation :: get(Application::application_to_class($application)) .'</div>';
 		$html[] = '<div class="description">';
 		return implode("\n", $html);
