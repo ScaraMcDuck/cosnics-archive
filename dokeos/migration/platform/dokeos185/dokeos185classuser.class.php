@@ -148,7 +148,7 @@ class Dokeos185ClassUser extends ImportClassUser
 	function convert_to_lcms($parameters)
 	{
 		$mgdm = MigrationDataManager :: get_instance();
-		$lcms_class_user = new ClassGroupRelUser();
+		$lcms_class_user = new ClassgroupRelUser();
 		
 		$class_id = $mgdm->get_id_reference($this->get_class_id(), 'classgroup_classgroup');
 		if($class_id)

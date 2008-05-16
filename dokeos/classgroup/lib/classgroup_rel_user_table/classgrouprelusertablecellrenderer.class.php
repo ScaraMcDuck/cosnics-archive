@@ -7,7 +7,7 @@
  * TODO: Add comment
  * 
  */
-interface ClassGroupRelUserTableCellRenderer
+interface ClassgroupRelUserTableCellRenderer
 {
 	/**
 	 * TODO: Add comment

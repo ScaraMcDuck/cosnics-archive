@@ -18,7 +18,7 @@ require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
  * A user manager provides some functionalities to the admin to manage
  * his users. For each functionality a component is available.
  */
- class ClassGroupManager {
+ class ClassgroupManager {
  	
  	const APPLICATION_NAME = 'classgroup';
  	
@@ -54,7 +54,7 @@ require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
 	private $recycle_bin_url;
 	private $breadcrumbs;
 	
-    function ClassGroupManager($user = null) {
+    function ClassgroupManager($user = null) {
     	$this->user = $user;
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
@@ -77,29 +77,29 @@ require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
 		switch ($action)
 		{
 			case self :: ACTION_CREATE_CLASSGROUP :
-				$component = ClassGroupManagerComponent :: factory('Creator', $this);
+				$component = ClassgroupManagerComponent :: factory('Creator', $this);
 				break;
 			case self :: ACTION_EDIT_CLASSGROUP :
-				$component = ClassGroupManagerComponent :: factory('Editor', $this);
+				$component = ClassgroupManagerComponent :: factory('Editor', $this);
 				break;
 			case self :: ACTION_TRUNCATE_CLASSGROUP :
-				$component = ClassGroupManagerComponent :: factory('Truncater', $this);
+				$component = ClassgroupManagerComponent :: factory('Truncater', $this);
 				break;
 			case self :: ACTION_VIEW_CLASSGROUP :
-				$component = ClassGroupManagerComponent :: factory('Viewer', $this);
+				$component = ClassgroupManagerComponent :: factory('Viewer', $this);
 				break;
 			case self :: ACTION_BROWSE_CLASSGROUPS :
-				$component = ClassGroupManagerComponent :: factory('Browser', $this);
+				$component = ClassgroupManagerComponent :: factory('Browser', $this);
 				break;
 			case self :: ACTION_UNSUBSCRIBE_USER_FROM_CLASSGROUP :
-				$component = ClassGroupManagerComponent :: factory('Unsubscriber', $this);
+				$component = ClassgroupManagerComponent :: factory('Unsubscriber', $this);
 				break;
 			case self :: ACTION_SUBSCRIBE_USER_TO_CLASSGROUP :
-				$component = ClassGroupManagerComponent :: factory('Subscriber', $this);
+				$component = ClassgroupManagerComponent :: factory('Subscriber', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_CLASSGROUPS);
-				$component = ClassGroupManagerComponent :: factory('Browser', $this);
+				$component = ClassgroupManagerComponent :: factory('Browser', $this);
 		}
 		$component->run();
 	}
@@ -172,12 +172,12 @@ require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
 	
 	function count_classgroups($condition = null)
 	{
-		return ClassGroupDataManager :: get_instance()->count_classgroups($condition);
+		return ClassgroupDataManager :: get_instance()->count_classgroups($condition);
 	}
 	
 	function count_classgroup_rel_users($condition = null)
 	{
-		return ClassGroupDataManager :: get_instance()->count_classgroup_rel_users($condition);
+		return ClassgroupDataManager :: get_instance()->count_classgroup_rel_users($condition);
 	}
 	
 	/**
@@ -254,7 +254,7 @@ require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
 	{
 		if (!isset ($this->search_form))
 		{
-			$this->search_form = new ClassGroupSearchForm($this, $this->get_url());
+			$this->search_form = new ClassgroupSearchForm($this, $this->get_url());
 		}
 		return $this->search_form;
 	}
@@ -300,17 +300,17 @@ require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
 	
 	function retrieve_classgroups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return ClassGroupDataManager :: get_instance()->retrieve_classgroups($condition, $offset, $count, $order_property, $order_direction);
+		return ClassgroupDataManager :: get_instance()->retrieve_classgroups($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
 	function retrieve_classgroup_rel_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return ClassGroupDataManager :: get_instance()->retrieve_classgroup_rel_users($condition, $offset, $count, $order_property, $order_direction);
+		return ClassgroupDataManager :: get_instance()->retrieve_classgroup_rel_users($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
 	function retrieve_classgroup_rel_user($user_id)
 	{
-		return ClassGroupDataManager :: get_instance()->retrieve_classgroup_rel_user($user_id);
+		return ClassgroupDataManager :: get_instance()->retrieve_classgroup_rel_user($user_id);
 	}
 	
 	/**
@@ -393,7 +393,7 @@ require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
 	
 	function retrieve_classgroup($id)
 	{
-		$gdm = ClassGroupDataManager :: get_instance();
+		$gdm = ClassgroupDataManager :: get_instance();
 		return $gdm->retrieve_classgroup($id);
 	}
 	
@@ -415,9 +415,9 @@ require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => Translation :: get('List'), 'action' => 'list', 'url' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)));
-		$links[] = array('name' => Translation :: get('Create'), 'action' => 'add', 'url' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_CREATE_CLASSGROUP)));
-		return array('application' => array('name' => Translation :: get('ClassGroup'), 'class' => 'classgroup'), 'links' => $links, 'search' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)));
+		$links[] = array('name' => Translation :: get('List'), 'action' => 'list', 'url' => $this->get_link(array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_BROWSE_CLASSGROUPS)));
+		$links[] = array('name' => Translation :: get('Create'), 'action' => 'add', 'url' => $this->get_link(array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_CREATE_CLASSGROUP)));
+		return array('application' => array('name' => Translation :: get('Classgroup'), 'class' => 'classgroup'), 'links' => $links, 'search' => $this->get_link(array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_BROWSE_CLASSGROUPS)));
 	}
 	
 	public function get_link($parameters = array (), $encode = false)
@@ -465,7 +465,7 @@ require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
 		{
 			if (isset($_POST['table']) && $_POST['table'] == 'classgroupreluser')
 			{
-				$selected_ids = $_POST[ClassGroupRelUserTable :: DEFAULT_NAME.ClassGroupRelUserTable :: CHECKBOX_NAME_SUFFIX];
+				$selected_ids = $_POST[ClassgroupRelUserTable :: DEFAULT_NAME.ClassgroupRelUserTable :: CHECKBOX_NAME_SUFFIX];
 				
 				if (empty ($selected_ids))
 				{
@@ -485,7 +485,7 @@ require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
 			}
 			elseif(isset($_POST['table']) && $_POST['table'] == 'classgroup')
 			{
-				$selected_ids = $_POST[ClassGroupTable :: DEFAULT_NAME.ClassGroupTable :: CHECKBOX_NAME_SUFFIX];
+				$selected_ids = $_POST[ClassgroupTable :: DEFAULT_NAME.ClassgroupTable :: CHECKBOX_NAME_SUFFIX];
 				if (empty ($selected_ids))
 				{
 					$selected_ids = array ();

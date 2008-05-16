@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/../../repository/lib/treemenurenderer.class.php
  * categories of courses.
  * @author Bart Mollet
  */
-class ClassGroupMenu extends HTML_Menu
+class ClassgroupMenu extends HTML_Menu
 {
 	/**
 	 * The string passed to sprintf() to format category URLs
@@ -31,7 +31,7 @@ class ClassGroupMenu extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function ClassGroupMenu($current_category, $url_format = '?firstletter=%s' , $extra_items = array())
+	function ClassgroupMenu($current_category, $url_format = '?firstletter=%s' , $extra_items = array())
 	{
 		$this->urlFmt = $url_format;
 		$menu = $this->get_menu_items($extra_items);

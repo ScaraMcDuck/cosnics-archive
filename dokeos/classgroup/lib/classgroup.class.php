@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/classgroupdatamanager.class.php';
  *	@author Dieter De Neef
  */
 
-class ClassGroup
+class Classgroup
 {
 	const PROPERTY_ID = 'id';
 	const PROPERTY_NAME = 'name';
@@ -35,7 +35,7 @@ class ClassGroup
 	 * @param array $defaultProperties The default properties of the group
 	 *                                 object. Associative array.
 	 */
-	function ClassGroup($id = 0, $defaultProperties = array ())
+	function Classgroup($id = 0, $defaultProperties = array ())
 	{
 		$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
@@ -160,24 +160,24 @@ class ClassGroup
 	 */
 	function delete()
 	{
-		return ClassGroupDataManager :: get_instance()->delete_classgroup($this);
+		return ClassgroupDataManager :: get_instance()->delete_classgroup($this);
 	}
 	
 	function truncate()
 	{
-		return ClassGroupDataManager :: get_instance()->truncate_classgroup($this);
+		return ClassgroupDataManager :: get_instance()->truncate_classgroup($this);
 	}
 	
 	function create()
 	{
-		$gdm = ClassGroupDataManager :: get_instance();
+		$gdm = ClassgroupDataManager :: get_instance();
 		$this->set_id($gdm->get_next_classgroup_id());
 		return $gdm->create_classgroup($this);
 	}
 	
 	function update() 
 	{
-		$gdm = ClassGroupDataManager :: get_instance();
+		$gdm = ClassgroupDataManager :: get_instance();
 		$success = $gdm->update_classgroup($this);
 		if (!$success)
 		{

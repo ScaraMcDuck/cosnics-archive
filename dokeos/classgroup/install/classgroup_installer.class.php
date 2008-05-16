@@ -15,7 +15,7 @@ class ClassgroupInstaller extends Installer
 	 */
     function ClassgroupInstaller($values)
     {
-    	parent :: __construct($values, ClassGroupDataManager :: get_instance());
+    	parent :: __construct($values, ClassgroupDataManager :: get_instance());
     }
 	/**
 	 * Runs the install-script.

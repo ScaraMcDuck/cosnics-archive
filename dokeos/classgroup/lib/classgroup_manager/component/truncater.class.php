@@ -2,7 +2,7 @@
 require_once dirname(__FILE__).'/../classgroupmanager.class.php';
 require_once dirname(__FILE__).'/../classgroupmanagercomponent.class.php';
 
-class ClassGroupManagerTruncaterComponent extends ClassGroupManagerComponent
+class ClassgroupManagerTruncaterComponent extends ClassgroupManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -14,7 +14,7 @@ class ClassGroupManagerTruncaterComponent extends ClassGroupManagerComponent
 		if (!$user->is_platform_admin())
 		{
 			$trail = new BreadcrumbTrail();
-			$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
+			$trail->add(new Breadcrumb($this->get_url(array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('EmptyGroup')));
 			
 			$this->display_header($trail);
@@ -24,7 +24,7 @@ class ClassGroupManagerTruncaterComponent extends ClassGroupManagerComponent
 		}
 		
 		
-		$ids = $_GET[ClassGroupManager :: PARAM_CLASSGROUP_ID];
+		$ids = $_GET[ClassgroupManager :: PARAM_CLASSGROUP_ID];
 		$failures = 0;
 		
 		if (!empty ($ids))
@@ -51,31 +51,31 @@ class ClassGroupManagerTruncaterComponent extends ClassGroupManagerComponent
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedClassGroupNotEmptied';
+					$message = 'SelectedClassgroupNotEmptied';
 				}
 				else
 				{
-					$message = 'SelectedClassGroupsNotEmptied';
+					$message = 'SelectedClassgroupsNotEmptied';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedClassGroupEmptied';
+					$message = 'SelectedClassgroupEmptied';
 				}
 				else
 				{
-					$message = 'SelectedClassGroupsEmptied';
+					$message = 'SelectedClassgroupsEmptied';
 				}
 				
 			}
 			
-			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS));
+			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_BROWSE_CLASSGROUPS));
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoClassGroupSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoClassgroupSelected')));
 		}
 	}
 }

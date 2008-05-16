@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/../../repository/lib/repositorydatamanager.clas
  *	@author Hans De Bisschop
  *	@author Dieter De Neef
  */
-abstract class ClassGroupDataManager
+abstract class ClassgroupDataManager
 {
 	/**
 	 * Instance of this class for the singleton pattern.
@@ -34,7 +34,7 @@ abstract class ClassGroupDataManager
 	/**
 	 * Constructor.
 	 */
-	protected function ClassGroupDataManager()
+	protected function ClassgroupDataManager()
 	{
 		$this->initialize();
 	}
@@ -58,7 +58,7 @@ abstract class ClassGroupDataManager
 		{
 			$type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
 			require_once dirname(__FILE__).'/data_manager/'.strtolower($type).'.class.php';
-			$class = $type.'ClassGroupDataManager';
+			$class = $type.'ClassgroupDataManager';
 			self :: $instance = new $class ();
 		}
 		return self :: $instance;

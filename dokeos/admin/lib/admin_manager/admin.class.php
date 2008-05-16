@@ -318,7 +318,7 @@ class Admin
 		$info[] = $rights_manager->get_application_platform_admin_links();
 		
 		// 5. Classgroups
-		$classgroup_manager = new ClassGroupManager($user->get_user_id());
+		$classgroup_manager = new ClassgroupManager($user->get_user_id());
 		$info[] = $classgroup_manager->get_application_platform_admin_links();
 		
 		// 6. Tracking

@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../classgroupmanager.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
-class ClassGroupRelUserBrowserTableCellRenderer extends DefaultClassGroupRelUserTableCellRenderer
+class ClassgroupRelUserBrowserTableCellRenderer extends DefaultClassgroupRelUserTableCellRenderer
 {
 	/**
 	 * The repository browser component
@@ -19,7 +19,7 @@ class ClassGroupRelUserBrowserTableCellRenderer extends DefaultClassGroupRelUser
 	 * Constructor
 	 * @param RepositoryManagerBrowserComponent $browser
 	 */
-	function ClassGroupRelUserBrowserTableCellRenderer($browser)
+	function ClassgroupRelUserBrowserTableCellRenderer($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;
@@ -27,7 +27,7 @@ class ClassGroupRelUserBrowserTableCellRenderer extends DefaultClassGroupRelUser
 	// Inherited
 	function render_cell($column, $classgroupreluser)
 	{
-		if ($column === ClassGroupRelUserBrowserTableColumnModel :: get_modification_column())
+		if ($column === ClassgroupRelUserBrowserTableColumnModel :: get_modification_column())
 		{
 			return $this->get_modification_links($classgroupreluser);
 		}

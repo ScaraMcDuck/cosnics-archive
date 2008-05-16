@@ -31,7 +31,7 @@ class SubscribeWizardDisplay extends HTML_QuickForm_Action_Display
 	function _renderForm($current_page)
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->parent->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('ClassGroups')));
+		$trail->add(new Breadcrumb($this->parent->get_url(array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Classgroups')));
 		$trail->add(new Breadcrumb($this->parent->get_url(), Translation :: get('SubscribeUsersToGroup')));
 		
 		$this->parent->display_header($trail);

@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../../classgroup_table/classgrouptabledatapr
  * This class implements some functions to allow repository browser tables to
  * retrieve information about the learning objects to display.
  */
-class ClassGroupBrowserTableDataProvider implements ClassGroupTableDataProvider
+class ClassgroupBrowserTableDataProvider implements ClassgroupTableDataProvider
 {
   /**
    * The repository manager component in which the table will be displayed
@@ -24,7 +24,7 @@ class ClassGroupBrowserTableDataProvider implements ClassGroupTableDataProvider
    * @param RepositoryManagerComponent $browser
    * @param Condition $condition
    */
-  function ClassGroupBrowserTableDataProvider($browser, $condition)
+  function ClassgroupBrowserTableDataProvider($browser, $condition)
   {
     $this->browser = $browser;
     $this->condition = $condition;

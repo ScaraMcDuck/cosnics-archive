@@ -8,7 +8,7 @@
  * represented by a user manager component and should extend this class.
  */
 
-abstract class ClassGroupManagerComponent {
+abstract class ClassgroupManagerComponent {
 	/**
 	 * The number of components already instantiated
 	 */
@@ -27,7 +27,7 @@ abstract class ClassGroupManagerComponent {
 	 * @param GroupsManager $groups_manager The user manager which
 	 * provides this component
 	 */
-    function ClassGroupManagerComponent($classgroup_manager) {
+    function ClassgroupManagerComponent($classgroup_manager) {
     	$this->classgroup_manager = $classgroup_manager;
 		$this->id =  ++self :: $component_count;
     }
@@ -268,7 +268,7 @@ abstract class ClassGroupManagerComponent {
 		{
 			die('Failed to load "'.$type.'" component');
 		}
-		$class = 'ClassGroupManager'.$type.'Component';
+		$class = 'ClassgroupManager'.$type.'Component';
 		require_once $filename;
 		return new $class($classgroup_manager);
 	}

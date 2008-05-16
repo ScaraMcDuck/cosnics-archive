@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidato
 require_once dirname(__FILE__).'/classgroupmanager.class.php';
 require_once dirname(__FILE__).'/../classgroupdatamanager.class.php';
 
-class ClassGroupSearchForm extends FormValidator
+class ClassgroupSearchForm extends FormValidator
 {
 	/**#@+
 	 * Search parameter
@@ -55,7 +55,7 @@ class ClassGroupSearchForm extends FormValidator
 	 * @param string $url The location to which the search request should be
 	 * posted.
 	 */
-	function ClassGroupSearchForm($manager, $url)
+	function ClassgroupSearchForm($manager, $url)
 	{
 		parent :: __construct(self :: FORM_NAME, 'post', $url);
 		$this->renderer = clone $this->defaultRenderer();
@@ -135,7 +135,7 @@ class ClassGroupSearchForm extends FormValidator
 		if (isset($query) && $query != '')
 		{
 			$conditions = array ();
-			$conditions[] = new LikeCondition(ClassGroup :: PROPERTY_NAME, '%'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'%');
+			$conditions[] = new LikeCondition(Classgroup :: PROPERTY_NAME, '%'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'%');
 		
 			return new OrCondition($conditions);
 		}

@@ -9,12 +9,12 @@ require_once dirname(__FILE__).'/../classgroup.class.php';
 /**
  * TODO: Add comment
  */
-class DefaultClassGroupTableColumnModel extends ClassGroupTableColumnModel
+class DefaultClassgroupTableColumnModel extends ClassgroupTableColumnModel
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultClassGroupTableColumnModel()
+	function DefaultClassgroupTableColumnModel()
 	{
 		parent :: __construct(self :: get_default_columns(), 1);
 	}
@@ -25,8 +25,8 @@ class DefaultClassGroupTableColumnModel extends ClassGroupTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ClassGroupTableColumn(ClassGroup :: PROPERTY_NAME, true);
-		$columns[] = new ClassGroupTableColumn(ClassGroup :: PROPERTY_DESCRIPTION, true);
+		$columns[] = new ClassgroupTableColumn(Classgroup :: PROPERTY_NAME, true);
+		$columns[] = new ClassgroupTableColumn(Classgroup :: PROPERTY_DESCRIPTION, true);
 		return $columns;
 	}
 }
