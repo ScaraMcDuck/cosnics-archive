@@ -23,7 +23,10 @@ class Events
 		$event->set_name($event_name);
 		$event->set_active(true);
 		$event->set_block($block);
-		$event->create();
+		if (!$event->create())
+		{
+			return false;
+		}
 		
 		return $event;
 	}

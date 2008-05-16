@@ -50,82 +50,14 @@ class HomeInstaller extends Installer
 			$this->add_message(Translation :: get('HomeCreated'));
 		}
 		
-//		if(!$this->register_trackers())
-//		{
-//			return array('success' => false, 'message' => $this->retrieve_message());
-//		}
+		if(!$this->register_trackers())
+		{
+			return array('success' => false, 'message' => $this->retrieve_message());
+		}
 		
 		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);
 		return array('success' => true, 'message' => $this->retrieve_message());
-	}
-	
-	
-	/**
-	 * Registers the trackers, events and creates the storage units for the trackers
-	 */
-	function register_trackers()
-	{
-		$dir = dirname(__FILE__) . '/../trackers/tracker_tables';
-		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
-		
-		$trkinstaller = new TrackingInstaller();
-		
-		foreach($files as $file)
-		{
-			if ((substr($file, -3) == 'xml'))
-			{
-				if (!$trkinstaller->create_storage_unit($file))
-				{
-					return false;
-				}
-			}
-		}
-		
-		$home_events = array();
-		$home_events[] = Events :: create_event('create', 'home');
-		$home_events[] = Events :: create_event('update', 'home');
-		$home_events[] = Events :: create_event('delete', 'home');
-		$home_events[] = Events :: create_event('move', 'home');
-		
-		$path = '/classgroup/trackers/';
-		
-		$dir = dirname(__FILE__) . '/../trackers/';
-		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
-		
-		foreach($files as $file)
-		{
-			if ((substr($file, -3) == 'php'))
-			{
-				$filename = basename($file);
-				$filename = substr($filename, 0, strlen($filename) - strlen('.class.php'));
-				
-				$tracker = $trkinstaller->register_tracker($path, $filename);
-				if (!$tracker)
-				{
-					return false;
-				}
-				else
-				{
-					if($tracker->get_class() == 'HomeChangesTracker')
-					{
-						foreach($home_events as $event)
-						{
-							if(!$trkinstaller->register_tracker_to_event($tracker, $event)) return false;
-						}
-						
-						$this->add_message(Translation :: get('TrackersRegistered') . ': ' . $filename);
-						continue;
-					}
-					else
-						echo($tracker->get_class());
-				}
-				
-				
-			}
-		}
-		
-		return true;
 	}
 	
 	function create_basic_home()

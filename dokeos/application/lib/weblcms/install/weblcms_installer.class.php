@@ -48,109 +48,14 @@ class WeblcmsInstaller extends Installer
 			$this->add_message(Translation :: get('DefaultWeblcmsCategoriesCreated'));
 		}
 		
-//		if(!$this->register_trackers())
-//		{
-//			return array('success' => false, 'message' => $this->retrieve_message());
-//		}
+		if(!$this->register_trackers())
+		{
+			return array('success' => false, 'message' => $this->retrieve_message());
+		}
 		
 		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);
 		return array('success' => true, 'message' => $this->retrieve_message());
-	}
-	
-	
-	/**
-	 * Registers the trackers, events and creates the storage units for the trackers
-	 */
-	function register_trackers()
-	{
-		$dir = dirname(__FILE__) . '/../trackers/tracker_tables';
-		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
-		
-		$trkinstaller = new TrackingInstaller();
-		
-		foreach($files as $file)
-		{
-			if ((substr($file, -3) == 'xml'))
-			{
-				if (!$trkinstaller->create_storage_unit($file))
-				{
-					return false;
-				}
-			}
-		}
-		
-		$weblcms_publication_events = array();
-		$weblcms_publication_events[] = Events :: create_event('create_publication', 'weblcms');
-		$weblcms_publication_events[] = Events :: create_event('update_publication', 'weblcms');
-		$weblcms_publication_events[] = Events :: create_event('delete_publication', 'weblcms');
-		$weblcms_publication_events[] = Events :: create_event('create_publication_category', 'weblcms');
-		$weblcms_publication_events[] = Events :: create_event('update_publication_category', 'weblcms');
-		$weblcms_publication_events[] = Events :: create_event('delete_publication_category', 'weblcms');
-		
-		$weblcms_course_events = array();
-		$weblcms_course_events[] = Events :: create_event('create_course', 'weblcms');
-		$weblcms_course_events[] = Events :: create_event('update_course', 'weblcms');
-		$weblcms_course_events[] = Events :: create_event('delete_course', 'weblcms');
-		$weblcms_course_events[] = Events :: create_event('subscribe_user_to_course', 'weblcms');
-		$weblcms_course_events[] = Events :: create_event('subscribe_class_to_course', 'weblcms');
-		$weblcms_course_events[] = Events :: create_event('unsubscribe_user_to_course', 'weblcms');
-		$weblcms_course_events[] = Events :: create_event('unsubscribe_class_to_course', 'weblcms');
-		$weblcms_course_events[] = Events :: create_event('create_course_category', 'weblcms');
-		$weblcms_course_events[] = Events :: create_event('update_course_category', 'weblcms');
-		$weblcms_course_events[] = Events :: create_event('delete_course_category', 'weblcms');
-		$weblcms_course_events[] = Events :: create_event('create_course_user_category', 'weblcms');
-		$weblcms_course_events[] = Events :: create_event('update_course_user_category', 'weblcms');
-		$weblcms_course_events[] = Events :: create_event('delete_course_user_category', 'weblcms');
-		
-		$path = '/classgroup/trackers/';
-		
-		$dir = dirname(__FILE__) . '/../trackers/';
-		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
-		
-		foreach($files as $file)
-		{
-			if ((substr($file, -3) == 'php'))
-			{
-				$filename = basename($file);
-				$filename = substr($filename, 0, strlen($filename) - strlen('.class.php'));
-				
-				$tracker = $trkinstaller->register_tracker($path, $filename);
-				if (!$tracker)
-				{
-					return false;
-				}
-				else
-				{
-					if($tracker->get_class() == 'WeblcmsPublicationChangesTracker')
-					{
-						foreach($weblcms_publication_events as $event)
-						{
-							if(!$trkinstaller->register_tracker_to_event($tracker, $event)) return false;
-						}
-						
-						$this->add_message(Translation :: get('TrackersRegistered') . ': ' . $filename);
-						continue;
-					}
-					if($tracker->get_class() == 'WeblcmsCourseChangesTracker')
-					{
-						foreach($weblcms_course_events as $event)
-						{
-							if(!$trkinstaller->register_tracker_to_event($tracker, $event)) return false;
-						}
-						
-						$this->add_message(Translation :: get('TrackersRegistered') . ': ' . $filename);
-						continue;
-					}
-					else
-						echo($tracker->get_class());
-				}
-				
-				
-			}
-		}
-		
-		return true;
 	}
 	
 	function create_default_categories_in_weblcms()

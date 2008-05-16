@@ -4,12 +4,12 @@
  * @package users.lib.trackers
  */
  
-require_once Path :: get_tracking_path() . 'lib/maintracker.class.php';
+require_once Path :: get_tracking_path() . 'lib/defaulttracker.class.php';
  
 /**
  * This class tracks the login that a user uses
  */
-class LoginLogoutTracker extends MainTracker
+class LoginLogoutTracker extends DefaultTracker
 {
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_DATE = 'date';

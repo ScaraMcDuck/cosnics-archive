@@ -147,19 +147,62 @@ class Installer
 		}
 	}
 	
+	function parse_application_events($file)
+	{
+		$doc = new DOMDocument();
+		$result = array();
+		
+		$doc->load($file);
+		$object = $doc->getElementsByTagname('application')->item(0);
+		$result['name'] = $object->getAttribute('name');
+		
+		// Get events
+		$events = $doc->getElementsByTagname('event');
+		$trackers = array();
+		
+		foreach($events as $index => $event)
+		{
+			$event_name = $event->getAttribute('name');
+			$trackers = array();
+			
+			// Get trackers in event
+			$event_trackers = $event->getElementsByTagname('tracker');
+			$attributes = array('name', 'active');
+			
+			foreach($event_trackers as $index => $event_tracker)
+			{
+				$property_info = array();
+				
+				foreach($attributes as $index => $attribute)
+				{
+					if($event_tracker->hasAttribute($attribute))
+				 	{
+				 		$property_info[$attribute] = $event_tracker->getAttribute($attribute);
+				 	}
+				}
+				$trackers[$event_tracker->getAttribute('name')] = $property_info;
+			}
+			
+			$result['events'][$event_name]['name'] = $event_name;
+			$result['events'][$event_name]['trackers'] = $trackers;
+		}
+		
+		return $result;
+	}
+	
 	/**
 	 * Function used by other installers to register a tracker
 	 */
 	function register_tracker($path, $class)
 	{	
 		$tracker = new TrackerRegistration();
-		
 		$class = RepositoryUtilities :: underscores_to_camelcase($class);
-		
 		$tracker->set_class($class);
 		$tracker->set_path($path);
-		
-		$tracker->create();
+		if (!$tracker->create())
+		{
+			return false;
+		}
 		
 		return $tracker;
 	}
@@ -173,9 +216,14 @@ class Installer
 		$rel->set_tracker_id($tracker->get_id());
 		$rel->set_event_id($event->get_id());
 		$rel->set_active(true);
-		$rel->create();
-		
-		return $rel;
+		if ($rel->create())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	/**
@@ -197,70 +245,76 @@ class Installer
 		{
 			if ((substr($file, -3) == 'xml'))
 			{
-				if (!$this->create_storage_unit($file))
-				{
-					return false;
-				}
+				$this->create_storage_unit($file);
 			}
 		}
 		
-		$loginevent = Events :: create_event('login', 'users');
-		$logoutevent = Events :: create_event('logout', 'users');
-		
-		$userchangesevents = array();
-		$userchangesevents[] = Events :: create_event('create', 'users');
-		$userchangesevents[] = Events :: create_event('update', 'users');
-		$userchangesevents[] = Events :: create_event('delete', 'users');
-		$userchangesevents[] = Events :: create_event('register', 'users');
-		$userchangesevents[] = Events :: create_event('import', 'users');
-		$userchangesevents[] = Events :: create_event('export', 'users');
-		$userchangesevents[] = Events :: create_event('reset_password', 'users');
-		$userchangesevents[] = Events :: create_event('quota', 'users');
-		
 		$path = '/' . $application . '/trackers/';
 		
-		$dir = $base_path . $application . '/trackers/';
-		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
+		$trackers_file = $base_path . $application . '/trackers/trackers_users.xml';
 		
-		foreach($files as $file)
+		if (file_exists($trackers_file))
 		{
-			if ((substr($file, -3) == 'php'))
+			$xml = $this->parse_application_events($trackers_file);
+			
+			$registered_trackers = array();
+			
+			foreach($xml['events'] as $event_name => $event_properties)
 			{
-				$filename = basename($file);
-				$filename = substr($filename, 0, strlen($filename) - strlen('.class.php'));
-				
-				if($filename == 'usertracker') continue;
-				
-				$tracker = $this->register_tracker($path, $filename);
-				if (!$tracker)
+				$the_event = Events :: create_event($event_properties['name'], $xml['name']);
+				if (!$the_event)
 				{
+					$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get('EventCreationFailed') . ': <em>'.$event_properties['name'] . '</em></span>';
+					$this->add_message($error_message);
+					$this->add_message(Translation :: get('ApplicationInstallFailed'));
+					$this->add_message(Translation :: get('PlatformInstallFailed'));
 					return false;
 				}
 				else
 				{
-					if($tracker->get_class() == 'LoginLogoutTracker')
-					{
-						if(!$this->register_tracker_to_event($tracker, $logoutevent)) return false;
-						if(!$this->register_tracker_to_event($tracker, $loginevent)) return false;
-						$this->add_message(Translation :: get('TrackersRegistered') . ': ' . $filename);
-						continue;
-					}
-					
-					if($tracker->get_class() == 'UserChangesTracker')
-					{
-						foreach($userchangesevents as $event)
-						{
-							if(!$this->register_tracker_to_event($tracker, $event)) return false;
-						}
-						$this->add_message(Translation :: get('TrackersRegistered') . ': ' . $filename);
-						continue;
-					}
-					
-					if(!$this->register_tracker_to_event($tracker, $loginevent)) return false;
+					$this->add_message(Translation :: get('EventCreated') . ': ' . $event_properties['name']);
 				}
 				
-				$this->add_message(Translation :: get('TrackersRegistered') . ': ' . $filename);
+				foreach ($event_properties['trackers'] as $tracker_name => $tracker_properties)
+				{
+					if (!array_key_exists($tracker_properties['name'], $registered_trackers))
+					{
+						$the_tracker = $this->register_tracker($path, $tracker_properties['name'] . '_tracker');
+						if (!$the_tracker)
+						{
+							$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get('TrackerRegistrationFailed') . ': <em>'.$event_properties['name'] . '</em></span>';
+							$this->add_message($error_message);
+							$this->add_message(Translation :: get('ApplicationInstallFailed'));
+							$this->add_message(Translation :: get('PlatformInstallFailed'));
+							return false;
+						}
+						else
+						{
+							$this->add_message(Translation :: get('TrackersRegistered') . ': ' . $tracker_properties['name']);
+						}
+						$registered_trackers[$tracker_properties['name']] = $the_tracker;
+					}
+					
+					$success = $this->register_tracker_to_event($registered_trackers[$tracker_properties['name']], $the_event);
+					if ($success)
+					{
+						$this->add_message(Translation :: get('TrackersRegisteredToEvent') . ': ' . $event_properties['name'] . ' + ' . $tracker_properties['name']);
+					}				
+					else
+					{
+						$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get('TrackerRegistrationToEventFailed') . ': <em>'.$event_properties['name'] . '</em></span>';
+						$this->add_message($error_message);
+						$this->add_message(Translation :: get('ApplicationInstallFailed'));
+						$this->add_message(Translation :: get('PlatformInstallFailed'));
+						return false;
+					}
+				}
 			}
+		}
+		elseif (count($files) > 0)
+		{
+			$warning_message = '<span style="color: orange; font-weight: bold;">' . Translation :: get('UnlinkedTrackers') . ': <em>'. Translation :: get('Check') . ' ' . $path . '</em></span>';
+			$this->add_message($warning_message);
 		}
 		
 		return true;
