@@ -16,9 +16,9 @@ class HomeInstaller extends Installer
 	/**
 	 * Constructor
 	 */
-    function HomeInstaller()
+    function HomeInstaller($values)
     {
-    	parent :: __construct(HomeDataManager :: get_instance());
+    	parent :: __construct($values, HomeDataManager :: get_instance());
     }
 	/**
 	 * Runs the install-script.
@@ -50,10 +50,10 @@ class HomeInstaller extends Installer
 			$this->add_message(Translation :: get('HomeCreated'));
 		}
 		
-		if(!$this->register_trackers())
-		{
-			return array('success' => false, 'message' => $this->retrieve_message());
-		}
+//		if(!$this->register_trackers())
+//		{
+//			return array('success' => false, 'message' => $this->retrieve_message());
+//		}
 		
 		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);

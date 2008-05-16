@@ -26,6 +26,7 @@ class ConfigurationForm extends FormValidator
 		parent :: __construct($form_name, $method, $action);
 		
 		$this->application = $application;
+		// TODO: It might be better to move this functionality to the Path-class
 		$this->base_path = (Application :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
 		$this->configuration = $this->parse_application_settings();
 		$this->build_form();

@@ -10,14 +10,12 @@ require_once Path :: get_library_path().'installer.class.php';
  */
 class ClassGroupInstaller extends Installer
 {
-	private $values;
 	/**
 	 * Constructor
 	 */
     function ClassGroupInstaller($values)
     {
-    	$this->values = $values;
-    	parent :: __construct(ClassGroupDataManager :: get_instance());
+    	parent :: __construct($values, ClassGroupDataManager :: get_instance());
     }
 	/**
 	 * Runs the install-script.
@@ -38,10 +36,10 @@ class ClassGroupInstaller extends Installer
 			}
 		}
 		
-		if(!$this->register_trackers())
-		{
-			return array('success' => false, 'message' => $this->retrieve_message());
-		}
+//		if(!$this->register_trackers())
+//		{
+//			return array('success' => false, 'message' => $this->retrieve_message());
+//		}
 		
 		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);

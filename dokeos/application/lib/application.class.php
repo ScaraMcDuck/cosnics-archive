@@ -115,6 +115,7 @@ abstract class Application
 	 */
 	public static function is_application($name)
 	{
+		// TODO: Should "active" applications be registered in the DB to avoid conflicts ?
 		$path = dirname(__FILE__);
 		$application_path = $path . '/' . $name;
 		if (file_exists($application_path) && is_dir($application_path))

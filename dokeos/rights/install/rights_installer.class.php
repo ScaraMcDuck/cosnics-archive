@@ -16,9 +16,9 @@ class RightsInstaller extends Installer
 	/**
 	 * Constructor
 	 */
-    function RightsInstaller()
+    function RightsInstaller($values)
     {
-    	parent :: __construct(RightsDataManager :: get_instance());
+    	parent :: __construct($values, RightsDataManager :: get_instance());
     }
 	/**
 	 * Runs the install-script.
@@ -41,10 +41,10 @@ class RightsInstaller extends Installer
 			}
 		}
 		
-		if(!$this->register_trackers())
-		{
-			return array('success' => false, 'message' => $this->retrieve_message());
-		}
+//		if(!$this->register_trackers())
+//		{
+//			return array('success' => false, 'message' => $this->retrieve_message());
+//		}
 		
 		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);
