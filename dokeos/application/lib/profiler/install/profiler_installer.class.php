@@ -16,9 +16,9 @@ class ProfilerInstaller extends Installer
 	/**
 	 * Constructor
 	 */
-    function ProfilerInstaller()
+    function ProfilerInstaller($values)
     {
-    	parent :: __construct(ProfilerDataManager :: get_instance());
+    	parent :: __construct($values, ProfilerDataManager :: get_instance());
     }
 	/**
 	 * Runs the install-script.
@@ -39,10 +39,10 @@ class ProfilerInstaller extends Installer
 			}
 		}
 		
-		if(!$this->register_trackers())
-		{
-			return array('success' => false, 'message' => $this->retrieve_message());
-		}
+//		if(!$this->register_trackers())
+//		{
+//			return array('success' => false, 'message' => $this->retrieve_message());
+//		}
 		
 		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);

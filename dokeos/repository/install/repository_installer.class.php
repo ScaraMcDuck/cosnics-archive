@@ -17,9 +17,9 @@ class RepositoryInstaller extends Installer
 	/**
 	 * Constructor
 	 */
-	function RepositoryInstaller()
+	function RepositoryInstaller($values)
 	{
-		parent :: __construct(RepositoryDataManager :: get_instance());
+		parent :: __construct($values, RepositoryDataManager :: get_instance());
 	}
 	/**
 	 * Runs the install-script. After creating the necessary tables to store the
@@ -48,10 +48,10 @@ class RepositoryInstaller extends Installer
 			}
 		}
 		
-		if(!$this->register_trackers())
-		{
-			return array('success' => false, 'message' => $this->retrieve_message());
-		}
+//		if(!$this->register_trackers())
+//		{
+//			return array('success' => false, 'message' => $this->retrieve_message());
+//		}
 		
 		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);

@@ -19,8 +19,7 @@ class AdminInstaller extends Installer
 	 */
     function AdminInstaller($values)
     {
-    	$this->values = $values;
-    	parent :: __construct(AdminDataManager :: get_instance());
+    	parent :: __construct($values, AdminDataManager :: get_instance());
     }
 	/**
 	 * Runs the install-script.
@@ -97,7 +96,7 @@ class AdminInstaller extends Installer
 	
 	function create_settings()
 	{
-		$values = $this->values;
+		$values = $this->get_form_values();
 		
 		$settings = array();
 		$settings[] = array('admin', 'site_name', $values['platform_name']);

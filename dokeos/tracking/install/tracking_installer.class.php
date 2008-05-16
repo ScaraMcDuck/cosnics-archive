@@ -15,9 +15,9 @@ class TrackingInstaller extends Installer
 	/**
 	 * Constructor
 	 */
-	function TrackingInstaller()
+	function TrackingInstaller($values)
 	{
-		parent :: __construct(TrackingDataManager :: get_instance());
+		parent :: __construct($values, TrackingDataManager :: get_instance());
 	}
 	
 	/**

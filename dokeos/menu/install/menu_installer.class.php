@@ -17,9 +17,9 @@ class MenuInstaller extends Installer
 	/**
 	 * Constructor
 	 */
-    function MenuInstaller()
+    function MenuInstaller($values)
     {
-    	parent :: __construct(MenuDataManager :: get_instance());
+    	parent :: __construct($values, MenuDataManager :: get_instance());
     }
 	/**
 	 * Runs the install-script.
@@ -51,10 +51,10 @@ class MenuInstaller extends Installer
 			$this->add_message(Translation :: get('MenuCreated'));
 		}
 		
-		if(!$this->register_trackers())
-		{
-			return array('success' => false, 'message' => $this->retrieve_message());
-		}
+//		if(!$this->register_trackers())
+//		{
+//			return array('success' => false, 'message' => $this->retrieve_message());
+//		}
 		
 		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);

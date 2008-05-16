@@ -17,9 +17,9 @@ class PersonalCalendarInstaller extends Installer
 	/**
 	 * Constructor
 	 */
-    function PersonalCalendarInstaller()
+    function PersonalCalendarInstaller($values)
     {
-		parent :: __construct(PersonalCalendarDataManager :: get_instance());
+		parent :: __construct($values, PersonalCalendarDataManager :: get_instance());
     }
 	/**
 	 * Runs the install-script.
@@ -40,10 +40,10 @@ class PersonalCalendarInstaller extends Installer
 			}
 		}
 		
-		if(!$this->register_trackers())
-		{
-			return array('success' => false, 'message' => $this->retrieve_message());
-		}
+//		if(!$this->register_trackers())
+//		{
+//			return array('success' => false, 'message' => $this->retrieve_message());
+//		}
 		
 		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);

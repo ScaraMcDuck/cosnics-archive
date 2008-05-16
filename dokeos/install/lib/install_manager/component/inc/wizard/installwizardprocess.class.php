@@ -6,7 +6,8 @@
  * @subpackage maintenance
  */
  require_once Path :: get_library_path().'filesystem/filesystem.class.php';
- require_once dirname(__FILE__).'/../../../../../../application/lib/application.class.php';
+ require_once Path :: get_application_path().'lib/application.class.php';
+ require_once Path :: get_library_path().'installer.class.php';
 /**
  * This class implements the action to take after the user has completed a
  * course maintenance wizard
@@ -45,72 +46,20 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		
 		mysql_select_db($values['database_name']) or die('SELECT DB ERROR '.mysql_error());
 		
-		// 3. Install the tracker
-		require_once('../tracking/install/tracking_installer.class.php');
-		$installer = new TrackingInstaller($values);
-		$result = $installer->install();
-		$this->process_result('tracking', $result);
-		unset($installer);
-		flush();
+		// 3. Installing the core-applications
+		$core_applications = array('tracking', 'admin', 'repository', 'users', 'classgroup', 'rights', 'home', 'menu');
 		
-		// 4. Install the Admin (global settings, languages, etc. etc.)
-		require_once('../admin/install/admin_installer.class.php');
-		$installer = new AdminInstaller($values);
-		$result = $installer->install();
-		$this->process_result('admin', $result);
-		unset($installer);
-		flush();
+		foreach ($core_applications as $core_application)
+		{
+			$installer = Installer :: factory($core_application, $values);
+			$result = $installer->install();
+			$this->process_result($core_application, $result);
+			unset($installer);
+			flush();
+		}
 		
-		// 5. Install the Repository
-		require_once('../repository/install/repository_installer.class.php');
-		$installer = new RepositoryInstaller();
-		$result = $installer->install();
-		$this->process_result('repository', $result);
-		unset($installer);
-		flush();
-		
-		// 6. Install the Users
-		require_once('../users/install/users_installer.class.php');
-		$installer = new UsersInstaller($values);
-		$result = $installer->install();
-		$this->process_result('users', $result);
-		unset($installer, $result);
-		flush();
-		
-		// 7. Install the ClassGroup
-		require_once('../classgroup/install/classgroup_installer.class.php');
-		$installer = new ClassGroupInstaller($values);
-		$result = $installer->install();
-		$this->process_result('classgroup', $result);
-		unset($installer, $result);
-		flush();
-		
-		// 8. Install the Roles'n'Rights
-		require_once('../rights/install/rights_installer.class.php');
-		$installer = new RightsInstaller($values);
-		$result = $installer->install();
-		$this->process_result('rights', $result);
-		unset($installer, $result);
-		flush();
-		
-		// 9. Install the Home application
-		require_once('../home/install/home_installer.class.php');
-		$installer = new HomeInstaller($values);
-		$result = $installer->install();
-		$this->process_result('home', $result);
-		unset($installer, $result);
-		flush();
-		
-		// 10. Install the Menu application
-		require_once('../menu/install/menu_installer.class.php');
-		$installer = new MenuInstaller($values);
-		$result = $installer->install();
-		$this->process_result('menu', $result);
-		unset($installer, $result);
-		flush();
-		
-		// 11. Install additional applications
-		$path = dirname(__FILE__).'/../../../../../../application/lib/';
+		// 4. Install additional applications
+		$path = Path :: get_application_path() . 'lib/';
 		$applications = FileSystem :: get_directory_content($path, FileSystem :: LIST_DIRECTORIES, false);
 		flush();
 		
@@ -122,11 +71,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 				$check_name = 'install_' . $application;
 				if (isset($values[$check_name]) && $values[$check_name] == '1')
 				{
-					require_once('../application/lib/'. $application .'/install/'. $application .'_installer.class.php');
-					
-					$application_class = Application :: application_to_class ($application) . 'Installer';
-					
-					$installer = new $application_class;
+					$installer = Installer :: factory($application, $values);
 					$result = $installer->install();
 					$this->process_result($application, $result);
 					unset($installer, $result);

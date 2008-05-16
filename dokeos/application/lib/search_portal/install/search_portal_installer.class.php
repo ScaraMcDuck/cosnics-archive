@@ -16,8 +16,9 @@ class SearchPortalInstaller extends Installer
 	/**
 	 * Constructor
 	 */
-    function SearchPortalInstaller()
+    function SearchPortalInstaller($values)
     {
+    	parent :: __construct($values);
     }
 	/**
 	 * Runs the install-script.
@@ -26,10 +27,10 @@ class SearchPortalInstaller extends Installer
 	 */
 	function install()
 	{
-		if(!$this->register_trackers())
-		{
-			return array('success' => false, 'message' => $this->retrieve_message());
-		}
+//		if(!$this->register_trackers())
+//		{
+//			return array('success' => false, 'message' => $this->retrieve_message());
+//		}
 		
 		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);

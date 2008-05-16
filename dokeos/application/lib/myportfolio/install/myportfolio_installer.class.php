@@ -17,9 +17,9 @@ class MyportfolioInstaller extends Installer
 	/**
 	 * Constructor
 	 */
-    function MyportfolioInstaller()
+    function MyportfolioInstaller($values)
     {
-    	parent :: __construct(PortfolioDataManager :: get_instance());
+    	parent :: __construct($values, PortfolioDataManager :: get_instance());
     }
 	/**
 	 * Runs the install-script.
@@ -42,10 +42,10 @@ class MyportfolioInstaller extends Installer
 			}
 		}
 		
-		if(!$this->register_trackers())
-		{
-			return array('success' => false, 'message' => $this->retrieve_message());
-		}
+//		if(!$this->register_trackers())
+//		{
+//			return array('success' => false, 'message' => $this->retrieve_message());
+//		}
 		
 		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
 		$this->add_message($success_message);

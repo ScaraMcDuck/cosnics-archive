@@ -15,14 +15,12 @@ require_once Path :: get_library_path().'filesystem/filesystem.class.php';
  */
 class UsersInstaller extends Installer
 {
-	private $values;
 	/**
 	 * Constructor
 	 */
     function UsersInstaller($values)
     {
-    	$this->values = $values;
-    	parent :: __construct(UsersDataManager :: get_instance());
+    	parent :: __construct($values, UsersDataManager :: get_instance());
     }
 	/**
 	 * Runs the install-script.
@@ -63,92 +61,9 @@ class UsersInstaller extends Installer
 		return array('success' => true, 'message' => $this->retrieve_message());
 	}
 	
-	/**
-	 * Registers the trackers, events and creates the storage units for the trackers
-	 */
-	function register_trackers()
-	{
-		$dir = dirname(__FILE__) . '/../trackers/tracker_tables';
-		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
-		
-		$trkinstaller = new TrackingInstaller();
-		
-		foreach($files as $file)
-		{
-			if ((substr($file, -3) == 'xml'))
-			{
-				if (!$trkinstaller->create_storage_unit($file))
-				{
-					return false;
-				}
-			}
-		}
-		
-		$loginevent = Events :: create_event('login', 'users');
-		$logoutevent = Events :: create_event('logout', 'users');
-		
-		$userchangesevents = array();
-		$userchangesevents[] = Events :: create_event('create', 'users');
-		$userchangesevents[] = Events :: create_event('update', 'users');
-		$userchangesevents[] = Events :: create_event('delete', 'users');
-		$userchangesevents[] = Events :: create_event('register', 'users');
-		$userchangesevents[] = Events :: create_event('import', 'users');
-		$userchangesevents[] = Events :: create_event('export', 'users');
-		$userchangesevents[] = Events :: create_event('reset_password', 'users');
-		$userchangesevents[] = Events :: create_event('quota', 'users');
-		
-		$path = '/users/trackers/';
-		
-		$dir = dirname(__FILE__) . '/../trackers/';
-		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
-		
-		foreach($files as $file)
-		{
-			if ((substr($file, -3) == 'php'))
-			{
-				$filename = basename($file);
-				$filename = substr($filename, 0, strlen($filename) - strlen('.class.php'));
-				
-				if($filename == 'usertracker') continue;
-				
-				$tracker = $trkinstaller->register_tracker($path, $filename);
-				if (!$tracker)
-				{
-					return false;
-				}
-				else
-				{
-					if($tracker->get_class() == 'LoginLogoutTracker')
-					{
-						if(!$trkinstaller->register_tracker_to_event($tracker, $logoutevent)) return false;
-						if(!$trkinstaller->register_tracker_to_event($tracker, $loginevent)) return false;
-						$this->add_message(Translation :: get('TrackersRegistered') . ': ' . $filename);
-						continue;
-					}
-					
-					if($tracker->get_class() == 'UserChangesTracker')
-					{
-						foreach($userchangesevents as $event)
-						{
-							if(!$trkinstaller->register_tracker_to_event($tracker, $event)) return false;
-						}
-						$this->add_message(Translation :: get('TrackersRegistered') . ': ' . $filename);
-						continue;
-					}
-					
-					if(!$trkinstaller->register_tracker_to_event($tracker, $loginevent)) return false;
-				}
-				
-				$this->add_message(Translation :: get('TrackersRegistered') . ': ' . $filename);
-			}
-		}
-		
-		return true;
-	}
-	
 	function create_admin_account()
 	{
-		$values = $this->values;
+		$values = $this->get_form_values();
 		
 		$user = new User();
 		
