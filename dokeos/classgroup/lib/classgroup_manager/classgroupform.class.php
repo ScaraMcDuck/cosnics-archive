@@ -4,19 +4,19 @@ require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidato
 require_once dirname(__FILE__).'/../classgroup.class.php';
 require_once dirname(__FILE__).'/../classgroupdatamanager.class.php';
 
-class ClassGroupForm extends FormValidator {
+class ClassgroupForm extends FormValidator {
 	
 	const TYPE_CREATE = 1;
 	const TYPE_EDIT = 2;
-	const RESULT_SUCCESS = 'ClassGroupUpdated';
-	const RESULT_ERROR = 'ClassGroupUpdateFailed';
+	const RESULT_SUCCESS = 'ClassgroupUpdated';
+	const RESULT_ERROR = 'ClassgroupUpdateFailed';
 	
 	private $parent;
 	private $classgroup;
 	private $unencryptedpass;
 	private $user;
 
-    function ClassGroupForm($form_type, $classgroup, $action, $user) {
+    function ClassgroupForm($form_type, $classgroup, $action, $user) {
     	parent :: __construct('classgroups_settings', 'post', $action);
     	
     	$this->classgroup = $classgroup;
@@ -36,10 +36,10 @@ class ClassGroupForm extends FormValidator {
     
     function build_basic_form()
     {
-		$this->addElement('text', ClassGroup :: PROPERTY_NAME, Translation :: get('Name'));
-		$this->addRule(ClassGroup :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
-		$this->addElement('html_editor', ClassGroup :: PROPERTY_DESCRIPTION, Translation :: get('Description'));
-		$this->addRule(ClassGroup :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', Classgroup :: PROPERTY_NAME, Translation :: get('Name'));
+		$this->addRule(Classgroup :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('html_editor', Classgroup :: PROPERTY_DESCRIPTION, Translation :: get('Description'));
+		$this->addRule(Classgroup :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->addElement('submit', 'group_settings', 'OK');
     }
     
@@ -50,7 +50,7 @@ class ClassGroupForm extends FormValidator {
     	
     	$this->build_basic_form();
     	
-    	$this->addElement('hidden', ClassGroup :: PROPERTY_ID);
+    	$this->addElement('hidden', Classgroup :: PROPERTY_ID);
     }
     
     function build_creation_form()
@@ -63,8 +63,8 @@ class ClassGroupForm extends FormValidator {
     	$classgroup = $this->classgroup;
     	$values = $this->exportValues();
     	
-    	$classgroup->set_name($values[ClassGroup :: PROPERTY_NAME]);
-    	$classgroup->set_description($values[ClassGroup :: PROPERTY_DESCRIPTION]);
+    	$classgroup->set_name($values[Classgroup :: PROPERTY_NAME]);
+    	$classgroup->set_description($values[Classgroup :: PROPERTY_DESCRIPTION]);
     	
    		$value = $classgroup->update();
    		
@@ -81,8 +81,8 @@ class ClassGroupForm extends FormValidator {
     	$classgroup = $this->classgroup;
     	$values = $this->exportValues();
     	
-    	$classgroup->set_name($values[ClassGroup :: PROPERTY_NAME]);
-    	$classgroup->set_description($values[ClassGroup :: PROPERTY_DESCRIPTION]);
+    	$classgroup->set_name($values[Classgroup :: PROPERTY_NAME]);
+    	$classgroup->set_description($values[Classgroup :: PROPERTY_DESCRIPTION]);
     	
    		$value = $classgroup->create();
    		
@@ -100,9 +100,9 @@ class ClassGroupForm extends FormValidator {
 	function setDefaults($defaults = array ())
 	{
 		$classgroup = $this->classgroup;
-		$defaults[ClassGroup :: PROPERTY_ID] = $classgroup->get_id();
-		$defaults[ClassGroup :: PROPERTY_NAME] = $classgroup->get_name();
-		$defaults[ClassGroup :: PROPERTY_DESCRIPTION] = $classgroup->get_description();
+		$defaults[Classgroup :: PROPERTY_ID] = $classgroup->get_id();
+		$defaults[Classgroup :: PROPERTY_NAME] = $classgroup->get_name();
+		$defaults[Classgroup :: PROPERTY_DESCRIPTION] = $classgroup->get_description();
 		parent :: setDefaults($defaults);
 	}
 }

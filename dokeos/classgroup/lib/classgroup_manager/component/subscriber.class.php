@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../classgroupmanagercomponent.class.php';
 require_once dirname(__FILE__).'/../../classgroupdatamanager.class.php';
 require_once dirname(__FILE__).'/wizards/subscribewizard.class.php';
 
-class ClassGroupManagerSubscriberComponent extends ClassGroupManagerComponent
+class ClassgroupManagerSubscriberComponent extends ClassgroupManagerComponent
 {
 	private $classgroup;
 	
@@ -17,7 +17,7 @@ class ClassGroupManagerSubscriberComponent extends ClassGroupManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
+		$trail->add(new Breadcrumb($this->get_url(array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('GroupRelUserCreate')));
 		
 		if (!$this->get_user()->is_platform_admin())
@@ -28,7 +28,7 @@ class ClassGroupManagerSubscriberComponent extends ClassGroupManagerComponent
 			exit;
 		}
 		
-		$this->classgroup = $_GET[ClassGroupManager :: PARAM_CLASSGROUP_ID];
+		$this->classgroup = $_GET[ClassgroupManager :: PARAM_CLASSGROUP_ID];
 		
 		$sw = new SubscribeWizard($this);
 		$sw->run(); 

@@ -15,7 +15,7 @@ if (!Authentication :: is_valid())
 $usermgr = new UserManager(Session :: get_user_id());
 $user = $usermgr->retrieve_user(Session :: get_user_id());
 
-$cgmgr = new ClassGroupManager($user);
+$cgmgr = new ClassgroupManager($user);
 try
 {
 	$cgmgr->run();

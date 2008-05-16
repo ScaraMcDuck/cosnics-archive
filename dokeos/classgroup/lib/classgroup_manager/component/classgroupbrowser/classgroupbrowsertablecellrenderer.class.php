@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../classgroupmanager.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
-class ClassGroupBrowserTableCellRenderer extends DefaultClassGroupTableCellRenderer
+class ClassgroupBrowserTableCellRenderer extends DefaultClassgroupTableCellRenderer
 {
 	/**
 	 * The repository browser component
@@ -19,7 +19,7 @@ class ClassGroupBrowserTableCellRenderer extends DefaultClassGroupTableCellRende
 	 * Constructor
 	 * @param RepositoryManagerBrowserComponent $browser
 	 */
-	function ClassGroupBrowserTableCellRenderer($browser)
+	function ClassgroupBrowserTableCellRenderer($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;
@@ -27,7 +27,7 @@ class ClassGroupBrowserTableCellRenderer extends DefaultClassGroupTableCellRende
 	// Inherited
 	function render_cell($column, $classgroup)
 	{
-		if ($column === ClassGroupBrowserTableColumnModel :: get_modification_column())
+		if ($column === ClassgroupBrowserTableColumnModel :: get_modification_column())
 		{
 			return $this->get_modification_links($classgroup);
 		}
@@ -36,7 +36,7 @@ class ClassGroupBrowserTableCellRenderer extends DefaultClassGroupTableCellRende
 		switch ($column->get_classgroup_property())
 		{
 			// Exceptions that need post-processing go here ...
-			case ClassGroup :: PROPERTY_NAME :
+			case Classgroup :: PROPERTY_NAME :
 				$title = parent :: render_cell($column, $classgroup);
 				$title_short = $title;
 				if(strlen($title_short) > 53)
@@ -44,7 +44,7 @@ class ClassGroupBrowserTableCellRenderer extends DefaultClassGroupTableCellRende
 					$title_short = mb_substr($title_short,0,50).'&hellip;';
 				}
 				return '<a href="'.htmlentities($this->browser->get_classgroup_viewing_url($classgroup)).'" title="'.$title.'">'.$title_short.'</a>';
-			case ClassGroup :: PROPERTY_DESCRIPTION :
+			case Classgroup :: PROPERTY_DESCRIPTION :
 				$description = strip_tags(parent :: render_cell($column, $classgroup));
 				if(strlen($description) > 175)
 				{

@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../classgroupmanagercomponent.class.php';
 require_once dirname(__FILE__).'/../classgroupform.class.php';
 require_once dirname(__FILE__).'/../../classgroupdatamanager.class.php';
 
-class ClassGroupManagerCreatorComponent extends ClassGroupManagerComponent
+class ClassgroupManagerCreatorComponent extends ClassgroupManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -15,8 +15,8 @@ class ClassGroupManagerCreatorComponent extends ClassGroupManagerComponent
 	function run()
 	{		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ClassGroupCreate')));
+		$trail->add(new Breadcrumb($this->get_url(array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ClassgroupCreate')));
 
 		if (!$this->get_user()->is_platform_admin())
 		{
@@ -25,13 +25,13 @@ class ClassGroupManagerCreatorComponent extends ClassGroupManagerComponent
 			$this->display_footer();
 			exit;
 		}
-		$classgroup = new ClassGroup();
-		$form = new ClassGroupForm(ClassGroupForm :: TYPE_CREATE, $classgroup, $this->get_url(), $this->get_user());
+		$classgroup = new Classgroup();
+		$form = new ClassgroupForm(ClassgroupForm :: TYPE_CREATE, $classgroup, $this->get_url(), $this->get_user());
 		
 		if($form->validate())
 		{
 			$success = $form->create_classgroup();
-			$this->redirect('url', Translation :: get($success ? 'ClassGroupCreated' : 'ClassGroupNotCreated'), ($success ? false : true), array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS));
+			$this->redirect('url', Translation :: get($success ? 'ClassgroupCreated' : 'ClassgroupNotCreated'), ($success ? false : true), array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_BROWSE_CLASSGROUPS));
 		}
 		else
 		{

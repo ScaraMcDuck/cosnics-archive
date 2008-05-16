@@ -8,12 +8,12 @@ require_once dirname(__FILE__).'/../classgroupreluser.class.php';
 /**
  * TODO: Add comment
  */
-class DefaultClassGroupRelUserTableCellRenderer implements ClassGroupRelUserTableCellRenderer
+class DefaultClassgroupRelUserTableCellRenderer implements ClassgroupRelUserTableCellRenderer
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultClassGroupRelUserTableCellRenderer()
+	function DefaultClassgroupRelUserTableCellRenderer()
 	{
 	}
 	/**

@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/classgroupdatamanager.class.php';
  *	@author Dieter De Neef
  */
 
-class ClassGroupRelUser
+class ClassgroupRelUser
 {
 	const PROPERTY_CLASSGROUP_ID = 'classgroup_id';
 	const PROPERTY_USER_ID = 'user_id';
@@ -17,7 +17,7 @@ class ClassGroupRelUser
 	private $classgroup_id;
 	private $user_id;
 
-	function ClassGroupRelUser($classgroup_id = 0, $user_id = 0)
+	function ClassgroupRelUser($classgroup_id = 0, $user_id = 0)
 	{
 		$this->classgroup_id = $classgroup_id;
 		$this->user_id = $user_id;
@@ -49,12 +49,12 @@ class ClassGroupRelUser
 	 */
 	function delete()
 	{
-		return ClassGroupDataManager :: get_instance()->delete_classgroup_rel_user($this);
+		return ClassgroupDataManager :: get_instance()->delete_classgroup_rel_user($this);
 	}
 	
 	function create()
 	{
-		$gdm = ClassGroupDataManager :: get_instance();
+		$gdm = ClassgroupDataManager :: get_instance();
 		return $gdm->create_classgroup_rel_user($this);
 	}
 }

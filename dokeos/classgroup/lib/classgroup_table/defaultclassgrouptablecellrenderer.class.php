@@ -8,12 +8,12 @@ require_once dirname(__FILE__).'/../classgroup.class.php';
 /**
  * TODO: Add comment
  */
-class DefaultClassGroupTableCellRenderer implements ClassGroupTableCellRenderer
+class DefaultClassgroupTableCellRenderer implements ClassgroupTableCellRenderer
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultClassGroupTableCellRenderer()
+	function DefaultClassgroupTableCellRenderer()
 	{
 	}
 	/**
@@ -29,11 +29,11 @@ class DefaultClassGroupTableCellRenderer implements ClassGroupTableCellRenderer
 		{
 			switch ($property)
 			{
-				case ClassGroup :: PROPERTY_ID :
+				case Classgroup :: PROPERTY_ID :
 					return $classgroup->get_id();
-				case ClassGroup :: PROPERTY_NAME :
+				case Classgroup :: PROPERTY_NAME :
 					return $classgroup->get_name();
-				case ClassGroup :: PROPERTY_DESCRIPTION :
+				case Classgroup :: PROPERTY_DESCRIPTION :
 					return $classgroup->get_description();
 			}
 		}

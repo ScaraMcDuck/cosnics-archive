@@ -7,7 +7,7 @@ require_once Path :: get_library_path(). 'database/resultset.class.php';
 /**
  * This class represents a resultset which represents a set of courses.
  */
-class DatabaseClassGroupRelUserResultSet extends ResultSet {
+class DatabaseClassgroupRelUserResultSet extends ResultSet {
 	/**
 	 * The datamanager used to retrieve objects from the repository
 	 */
@@ -23,7 +23,7 @@ class DatabaseClassGroupRelUserResultSet extends ResultSet {
 	 * @param DB_result $handle The handle to retrieve records from a database
 	 * resultset
 	 */
-    function DatabaseClassGroupRelUserResultSet($data_manager, $handle)
+    function DatabaseClassgroupRelUserResultSet($data_manager, $handle)
     {
     	$this->data_manager = $data_manager;
     	$this->handle = $handle;

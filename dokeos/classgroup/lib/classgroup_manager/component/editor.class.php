@@ -5,7 +5,7 @@ require_once dirname(__FILE__).'/../classgroupmanagercomponent.class.php';
 require_once dirname(__FILE__).'/../classgroupform.class.php';
 require_once dirname(__FILE__).'/../../classgroupdatamanager.class.php';
 
-class ClassGroupManagerEditorComponent extends ClassGroupManagerComponent
+class ClassgroupManagerEditorComponent extends ClassgroupManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -13,10 +13,10 @@ class ClassGroupManagerEditorComponent extends ClassGroupManagerComponent
 	function run()
 	{	
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ClassGroupUpdate')));
+		$trail->add(new Breadcrumb($this->get_url(array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ClassgroupUpdate')));
 		
-		$id = $_GET[ClassGroupManager :: PARAM_CLASSGROUP_ID];
+		$id = $_GET[ClassgroupManager :: PARAM_CLASSGROUP_ID];
 		if ($id)
 		{
 			$classgroup = $this->retrieve_classgroup($id);
@@ -30,12 +30,12 @@ class ClassGroupManagerEditorComponent extends ClassGroupManagerComponent
 				exit;
 			}
 			
-			$form = new ClassGroupForm(ClassGroupForm :: TYPE_EDIT, $classgroup, $this->get_url(array(ClassGroupManager :: PARAM_CLASSGROUP_ID => $id)), $this->get_user());
+			$form = new ClassgroupForm(ClassgroupForm :: TYPE_EDIT, $classgroup, $this->get_url(array(ClassgroupManager :: PARAM_CLASSGROUP_ID => $id)), $this->get_user());
 
 			if($form->validate())
 			{
 				$success = $form->update_classgroup();
-				$this->redirect('url', Translation :: get($success ? 'ClassGroupUpdated' : 'ClassGroupNotUpdated'), ($success ? false : true), array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS));
+				$this->redirect('url', Translation :: get($success ? 'ClassgroupUpdated' : 'ClassgroupNotUpdated'), ($success ? false : true), array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_BROWSE_CLASSGROUPS));
 			}
 			else
 			{
@@ -46,7 +46,7 @@ class ClassGroupManagerEditorComponent extends ClassGroupManagerComponent
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoClassGroupSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoClassgroupSelected')));
 		}
 	}
 }

@@ -7,7 +7,7 @@
  * TODO: Add comment
  * 
  */
-class ClassGroupRelUserTableColumnModel
+class ClassgroupRelUserTableColumnModel
 {
 	/**
 	 * The columns in the table.
@@ -33,7 +33,7 @@ class ClassGroupRelUserTableColumnModel
 	 *                                        Either the PHP constant SORT_ASC
 	 *                                        or SORT_DESC.
 	 */
-	function ClassGroupRelUserTableColumnModel($columns, $default_order_column = 0, $default_order_direction = SORT_ASC)
+	function ClassgroupRelUserTableColumnModel($columns, $default_order_column = 0, $default_order_direction = SORT_ASC)
 	{
 		$this->columns = $columns;
 		$this->order_column = $default_order_column;

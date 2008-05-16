@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../../../classgroup.class.php';
 /**
  * Table column model for the user browser table
  */
-class ClassGroupBrowserTableColumnModel extends DefaultClassGroupTableColumnModel
+class ClassgroupBrowserTableColumnModel extends DefaultClassgroupTableColumnModel
 {
 	/**
 	 * The tables modification column
@@ -16,7 +16,7 @@ class ClassGroupBrowserTableColumnModel extends DefaultClassGroupTableColumnMode
 	/**
 	 * Constructor
 	 */
-	function ClassGroupBrowserTableColumnModel()
+	function ClassgroupBrowserTableColumnModel()
 	{
 		parent :: __construct();
 		$this->set_default_order_column(1);
@@ -30,7 +30,7 @@ class ClassGroupBrowserTableColumnModel extends DefaultClassGroupTableColumnMode
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new ClassGroupTableColumn('');
+			self :: $modification_column = new ClassgroupTableColumn('');
 		}
 		return self :: $modification_column;
 	}

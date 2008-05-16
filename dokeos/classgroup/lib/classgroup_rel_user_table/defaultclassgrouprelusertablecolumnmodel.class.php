@@ -9,12 +9,12 @@ require_once dirname(__FILE__).'/../classgroupreluser.class.php';
 /**
  * TODO: Add comment
  */
-class DefaultClassGroupRelUserTableColumnModel extends ClassGroupRelUserTableColumnModel
+class DefaultClassgroupRelUserTableColumnModel extends ClassgroupRelUserTableColumnModel
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultClassGroupRelUserTableColumnModel()
+	function DefaultClassgroupRelUserTableColumnModel()
 	{
 		parent :: __construct(self :: get_default_columns(), 1);
 	}
@@ -25,8 +25,8 @@ class DefaultClassGroupRelUserTableColumnModel extends ClassGroupRelUserTableCol
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ClassGroupRelUserTableColumn('User', true);
-		$columns[] = new ClassGroupRelUserTableColumn('Location', true);
+		$columns[] = new ClassgroupRelUserTableColumn('User', true);
+		$columns[] = new ClassgroupRelUserTableColumn('Location', true);
 		return $columns;
 	}
 }

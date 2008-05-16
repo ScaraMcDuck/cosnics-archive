@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../classgroupmanager.class.php';
 require_once dirname(__FILE__).'/../classgroupmanagercomponent.class.php';
 
-class ClassGroupManagerUnsubscriberComponent extends ClassGroupManagerComponent
+class ClassgroupManagerUnsubscriberComponent extends ClassgroupManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -17,7 +17,7 @@ class ClassGroupManagerUnsubscriberComponent extends ClassGroupManagerComponent
 		if (!$user->is_platform_admin())
 		{
 			$trail = new BreadcrumbTrail();
-			$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
+			$trail->add(new Breadcrumb($this->get_url(array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UnsubscribeFromGroup')));
 			
 			$this->display_header($trail);
@@ -26,7 +26,7 @@ class ClassGroupManagerUnsubscriberComponent extends ClassGroupManagerComponent
 			exit;
 		}		
 		
-		$ids = $_GET[ClassGroupManager :: PARAM_CLASSGROUP_REL_USER_ID];
+		$ids = $_GET[ClassgroupManager :: PARAM_CLASSGROUP_REL_USER_ID];
 		$failures = 0;
 		
 		if (!empty ($ids))
@@ -62,30 +62,30 @@ class ClassGroupManagerUnsubscriberComponent extends ClassGroupManagerComponent
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedClassGroupRelUserNotDeleted';
+					$message = 'SelectedClassgroupRelUserNotDeleted';
 				}
 				else
 				{
-					$message = 'SelectedClassGroupRelUsersNotDeleted';
+					$message = 'SelectedClassgroupRelUsersNotDeleted';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedClassGroupRelUserDeleted';
+					$message = 'SelectedClassgroupRelUserDeleted';
 				}
 				else
 				{
-					$message = 'SelectedClassGroupRelUsersDeleted';
+					$message = 'SelectedClassgroupRelUsersDeleted';
 				}
 			}
 			
-			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_VIEW_CLASSGROUP, ClassGroupManager :: PARAM_CLASSGROUP_ID => $classgroupreluser_ids[0]));
+			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_VIEW_CLASSGROUP, ClassgroupManager :: PARAM_CLASSGROUP_ID => $classgroupreluser_ids[0]));
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoClassGroupRelUserSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoClassgroupRelUserSelected')));
 		}
 	}
 }

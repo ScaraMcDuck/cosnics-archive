@@ -156,7 +156,7 @@ class Dokeos185Class extends ImportClass
 	{
 		$mgdm = MigrationDataManager :: get_instance();
 		//class parameters
-		$lcms_class = new ClassGroup();
+		$lcms_class = new Classgroup();
 		
 		$lcms_class->set_name($this->get_name());
 		
