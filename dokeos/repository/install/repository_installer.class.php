@@ -55,5 +55,10 @@ class RepositoryInstaller extends Installer
 		
 		return $this->installation_successful();
 	}
+	
+	function get_path()
+	{
+		return dirname(__FILE__);
+	}
 }
 ?>

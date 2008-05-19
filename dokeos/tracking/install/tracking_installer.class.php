@@ -20,26 +20,9 @@ class TrackingInstaller extends Installer
 		parent :: __construct($values, TrackingDataManager :: get_instance());
 	}
 	
-	/**
-	 * Runs the install-script. Creates the necessary tables for contentbox storage
-	 */
-	function install()
+	function get_path()
 	{
-		$dir	= dirname(__FILE__);
-		$files	= FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
-		
-		foreach($files as $file)
-		{
-			if ((substr($file, -3) == 'xml'))
-			{
-				if (!$this->create_storage_unit($file))
-				{
-					return false;
-				}
-			}
-		}
-		
-		return $this->installation_successful();
+		return dirname(__FILE__);
 	}
 }
 ?>
