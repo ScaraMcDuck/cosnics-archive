@@ -36,12 +36,12 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		
 		// 1. Connection to mySQL and creating the database
 		$db_creation = $this->create_database($values);
-		$this->process_result('database', $db_creation);
+		$this->process_result('database', $db_creation['success'], $db_creation['message']);
 		flush();
 		
 		// 2. Write the config files
 		$config_file = $this->write_config_file($values);
-		$this->process_result('config', $config_file);
+		$this->process_result('config', $config_file['success'], $config_file['message']);
 		flush();
 		
 		mysql_select_db($values['database_name']) or die('SELECT DB ERROR '.mysql_error());
@@ -53,7 +53,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		{
 			$installer = Installer :: factory($core_application, $values);
 			$result = $installer->install();
-			$this->process_result($core_application, $result);
+			$this->process_result($core_application, $result, $installer->retrieve_message());
 			unset($installer);
 			flush();
 		}
@@ -73,7 +73,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 				{
 					$installer = Installer :: factory($application, $values);
 					$result = $installer->install();
-					$this->process_result($application, $result);
+					$this->process_result($application, $result, $installer->retrieve_message());
 					unset($installer, $result);
 					flush();
 				}
@@ -94,14 +94,14 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 			flush();
 		}
 		
-		// 11. Create additional folders
+		// 5. Create additional folders
 		$folder_creation = $this->create_folders();
-		$this->process_result('folder', $folder_creation);
+		$this->process_result('folder', $folder_creation['success'], $folder_creation['message']);
 		flush();
 		
-		// 12. If all goes well we now show the link to the portal
+		// 6. If all goes well we now show the link to the portal
 		$message = '<a href="../index.php">' . Translation :: get('GoToYourNewlyCreatedPortal') . '</a>';
-		$this->process_result('Finished', array('success' => true, 'message' => $message));
+		$this->process_result('Finished', true, $message);
 		flush();
 		
 		// Display the page footer
@@ -217,12 +217,12 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		return implode("\n", $html);
 	}
 	
-	function process_result($application, $result)
+	function process_result($application, $result, $message)
 	{
 		echo $this->display_install_block_header($application);
-		echo $result['message'];
+		echo $message;
 		echo $this->display_install_block_footer();
-		if (!$result['success']) 
+		if (!$result) 
 		{
 			$this->parent->display_footer();
 			exit;

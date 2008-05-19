@@ -11,6 +11,11 @@ require_once Path :: get_tracking_path() .'lib/eventreltracker.class.php';
  
 class Installer
 {
+	const TYPE_NORMAL = '1';
+	const TYPE_CONFIRM = '2';
+	const TYPE_WARNING = '3';
+	const TYPE_ERROR = '4';
+	
 	/**
 	 * The datamanager which can be used by the installer of the application
 	 */
@@ -84,9 +89,26 @@ class Installer
 		return $result;
     }
     
-    function add_message($message)
+    function add_message($type = self :: TYPE_NORMAL, $message)
     {
-    	$this->message[] = $message;
+    	switch ($type)
+    	{
+    		case self :: TYPE_NORMAL :
+    			$this->message[] = $message;
+    			break;
+    		case self :: TYPE_CONFIRM :
+    			$this->message[] = '<span style="color: green; font-weight: bold;">' . $message . '</span>';
+    			break;
+    		case self :: TYPE_WARNING :
+    			$this->message[] = '<span style="color: orange; font-weight: bold;">' . $message . '</span>';
+    			break;
+    		case self :: TYPE_ERROR :
+    			$this->message[] = '<span style="color: red; font-weight: bold;">' . $message . '</span>';
+    			break;
+    		default :
+    			$this->message[] = $message;
+    			break;
+    	}
     }
     
     function set_message($message)
@@ -131,15 +153,10 @@ class Installer
 	function create_storage_unit($path)
 	{
 		$storage_unit_info = self :: parse_xml_file($path);
-		$this->add_message(Translation :: get('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
+		$this->add_message(self :: TYPE_NORMAL, Translation :: get('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
 		if (!$this->datamanager->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
 		{
-			$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em></span>';
-			$this->add_message($error_message);
-			$this->add_message(Translation :: get('ApplicationInstallFailed'));
-			$this->add_message(Translation :: get('PlatformInstallFailed'));
-			
-			return false;
+			return $this->installation_failed(Translation :: get('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em>');
 		}
 		else
 		{
@@ -264,15 +281,11 @@ class Installer
 				$the_event = Events :: create_event($event_properties['name'], $xml['name']);
 				if (!$the_event)
 				{
-					$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get('EventCreationFailed') . ': <em>'.$event_properties['name'] . '</em></span>';
-					$this->add_message($error_message);
-					$this->add_message(Translation :: get('ApplicationInstallFailed'));
-					$this->add_message(Translation :: get('PlatformInstallFailed'));
-					return false;
+					$this->installation_failed(Translation :: get('EventCreationFailed') . ': <em>'.$event_properties['name'] . '</em>');
 				}
 				else
 				{
-					$this->add_message(Translation :: get('EventCreated') . ': ' . $event_properties['name']);
+					$this->add_message(self :: TYPE_NORMAL, Translation :: get('EventCreated') . ': ' . $event_properties['name']);
 				}
 				
 				foreach ($event_properties['trackers'] as $tracker_name => $tracker_properties)
@@ -282,15 +295,11 @@ class Installer
 						$the_tracker = $this->register_tracker($path, $tracker_properties['name'] . '_tracker');
 						if (!$the_tracker)
 						{
-							$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get('TrackerRegistrationFailed') . ': <em>'.$event_properties['name'] . '</em></span>';
-							$this->add_message($error_message);
-							$this->add_message(Translation :: get('ApplicationInstallFailed'));
-							$this->add_message(Translation :: get('PlatformInstallFailed'));
-							return false;
+							$this->installation_failed(Translation :: get('TrackerRegistrationFailed') . ': <em>'.$tracker_properties['name'] . '</em>');
 						}
 						else
 						{
-							$this->add_message(Translation :: get('TrackersRegistered') . ': ' . $tracker_properties['name']);
+							$this->add_message(self :: TYPE_NORMAL, Translation :: get('TrackersRegistered') . ': ' . $tracker_properties['name']);
 						}
 						$registered_trackers[$tracker_properties['name']] = $the_tracker;
 					}
@@ -298,25 +307,35 @@ class Installer
 					$success = $this->register_tracker_to_event($registered_trackers[$tracker_properties['name']], $the_event);
 					if ($success)
 					{
-						$this->add_message(Translation :: get('TrackersRegisteredToEvent') . ': ' . $event_properties['name'] . ' + ' . $tracker_properties['name']);
+						$this->add_message(self :: TYPE_NORMAL, Translation :: get('TrackersRegisteredToEvent') . ': ' . $event_properties['name'] . ' + ' . $tracker_properties['name']);
 					}				
 					else
 					{
-						$error_message = '<span style="color: red; font-weight: bold;">' . Translation :: get('TrackerRegistrationToEventFailed') . ': <em>'.$event_properties['name'] . '</em></span>';
-						$this->add_message($error_message);
-						$this->add_message(Translation :: get('ApplicationInstallFailed'));
-						$this->add_message(Translation :: get('PlatformInstallFailed'));
-						return false;
+						$this->installation_failed(Translation :: get('TrackerRegistrationToEventFailed') . ': <em>'.$event_properties['name'] . '</em>');
 					}
 				}
 			}
 		}
 		elseif (count($files) > 0)
 		{
-			$warning_message = '<span style="color: orange; font-weight: bold;">' . Translation :: get('UnlinkedTrackers') . ': <em>'. Translation :: get('Check') . ' ' . $path . '</em></span>';
-			$this->add_message($warning_message);
+			$warning_message = Translation :: get('UnlinkedTrackers') . ': <em>'. Translation :: get('Check') . ' ' . $path . '</em>';
+			$this->add_message(self :: TYPE_WARNING, $warning_message);
 		}
 		
+		return true;
+	}
+	
+	function installation_failed($error_message)
+	{
+		$this->add_message(self :: TYPE_ERROR, $error_message);
+		$this->add_message(self :: TYPE_ERROR, Translation :: get('ApplicationInstallFailed'));
+		$this->add_message(self :: TYPE_ERROR, Translation :: get('PlatformInstallFailed'));
+		return false;
+	}
+	
+	function installation_successful()
+	{
+		$this->add_message(self :: TYPE_CONFIRM, Translation :: get('ApplicationInstallSuccess'));
 		return true;
 	}
 	
