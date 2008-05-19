@@ -26,22 +26,8 @@ class MenuInstaller extends Installer
 	 * @todo This function now uses the function of the RepositoryInstaller
 	 * class. These shared functions should be available in a common base class.
 	 */
-	function install()
+	function install_extra()
 	{
-		$dir = dirname(__FILE__);
-		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
-		
-		foreach($files as $file)
-		{
-			if ((substr($file, -3) == 'xml'))
-			{
-				if (!$this->create_storage_unit($file))
-				{
-					return false;
-				}
-			}
-		}
-		
 		if (!$this->create_basic_menu())
 		{
 			return false;
@@ -51,12 +37,7 @@ class MenuInstaller extends Installer
 			$this->add_message(self :: TYPE_NORMAL, Translation :: get('MenuCreated'));
 		}
 		
-		if(!$this->register_trackers())
-		{
-			return false;
-		}
-		
-		return $this->installation_successful();
+		return true;
 	}
 	
 	function create_basic_menu()
@@ -107,6 +88,11 @@ class MenuInstaller extends Installer
 		$menu_item->create();		
 		
 		return true;
+	}
+	
+	function get_path()
+	{
+		return dirname(__FILE__);
 	}
 }
 ?>

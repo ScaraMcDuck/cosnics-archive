@@ -8,8 +8,9 @@
 
 require_once Path :: get_tracking_path() .'lib/trackerregistration.class.php';
 require_once Path :: get_tracking_path() .'lib/eventreltracker.class.php';
+require_once Path :: get_repository_path() .'lib/repositoryutilities.class.php';
  
-class Installer
+abstract class Installer
 {
 	const TYPE_NORMAL = '1';
 	const TYPE_CONFIRM = '2';
@@ -39,6 +40,39 @@ class Installer
     	$this->datamanager = $datamanager;
     	$this->message = array();
     }
+    
+    function install()
+    {
+		$dir = $this->get_path();
+		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
+		
+		foreach($files as $file)
+		{
+			if ((substr($file, -3) == 'xml'))
+			{
+				if (!$this->create_storage_unit($file))
+				{
+					return false;
+				}
+			}
+		}
+		
+		if(!$this->register_trackers())
+		{
+			return false;
+		}
+		
+		if (method_exists($this, 'install_extra'))
+		{
+			if (!$this->install_extra())
+			{
+				return false;
+			}
+		}
+		
+		return $this->installation_successful();
+    }
+    
     /**
      * Parses an XML file describing a storage unit.
      * For defining the 'type' of the field, the same definition is used as the
@@ -246,7 +280,7 @@ class Installer
 	/**
 	 * Registers the trackers, events and creates the storage units for the trackers
 	 */
-	function register_trackers($tracker_event_matrix = array())
+	function register_trackers()
 	{
 		$application_class = str_replace('Installer', '', get_class($this));
 		$application = RepositoryUtilities :: camelcase_to_underscores($application_class);
@@ -254,15 +288,19 @@ class Installer
 		$base_path = (Application :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
 		
 		$dir = $base_path . $application . '/trackers/tracker_tables/';
-		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
 		
-		$this->set_datamanager(TrackingDataManager :: get_instance());
-		
-		foreach($files as $file)
+		if (is_dir($dir))
 		{
-			if ((substr($file, -3) == 'xml'))
+			$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
+			
+			$this->set_datamanager(TrackingDataManager :: get_instance());
+			
+			foreach($files as $file)
 			{
-				$this->create_storage_unit($file);
+				if ((substr($file, -3) == 'xml'))
+				{
+					$this->create_storage_unit($file);
+				}
 			}
 		}
 		
@@ -352,5 +390,7 @@ class Installer
 		require_once($base_path . $application . '/install/'. $application .'_installer.class.php');
 		return new $class ($values);
 	}
+	
+	abstract function get_path();
 }
 ?>

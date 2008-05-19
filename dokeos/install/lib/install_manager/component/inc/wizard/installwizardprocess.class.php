@@ -58,6 +58,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 			flush();
 		}
 		
+		exit;
+		
 		// 4. Install additional applications
 		$path = Path :: get_application_path() . 'lib/';
 		$applications = FileSystem :: get_directory_content($path, FileSystem :: LIST_DIRECTORIES, false);

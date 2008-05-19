@@ -24,21 +24,8 @@ class AdminInstaller extends Installer
 	/**
 	 * Runs the install-script.
 	 */
-	function install()
+	function install_extra()
 	{
-		$dir = dirname(__FILE__);
-		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
-		
-		foreach($files as $file)
-		{
-			if ((substr($file, -3) == 'xml'))
-			{
-				if (!$this->create_storage_unit($file))
-				{
-					return false;
-				}
-			}
-		}
 		
 		// Add the default language entries in the database
 		if (!$this->create_languages())
@@ -60,7 +47,7 @@ class AdminInstaller extends Installer
 			$this->add_message(self :: TYPE_NORMAL, Translation :: get('DefaultSettingsAdded'));
 		}
 		
-		return $this->installation_successful();
+		return true;
 	}
 	
 	function create_languages()
@@ -135,5 +122,10 @@ class AdminInstaller extends Installer
 		
 		return true;
 	}
+	
+	function get_path()
+	{
+		return dirname(__FILE__);
+	}	
 }
 ?>
