@@ -35,7 +35,7 @@ class AdminInstaller extends Installer
 			{
 				if (!$this->create_storage_unit($file))
 				{
-					return array('success' => false, 'message' => $this->retrieve_message());
+					return false;
 				}
 			}
 		}
@@ -43,26 +43,24 @@ class AdminInstaller extends Installer
 		// Add the default language entries in the database
 		if (!$this->create_languages())
 		{
-			return array('success' => false, 'message' => $this->retrieve_message());
+			return false;
 		}
 		else
 		{
-			$this->add_message(Translation :: get('DefaultLanguagesAdded'));
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('DefaultLanguagesAdded'));
 		}
 		
 		// Add the default settings to the database
 		if (!$this->create_settings())
 		{
-			return array('success' => false, 'message' => $this->retrieve_message());
+			return false;
 		}
 		else
 		{
-			$this->add_message(Translation :: get('DefaultSettingsAdded'));
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('DefaultSettingsAdded'));
 		}
 		
-		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
-		$this->add_message($success_message);
-		return array('success' => true, 'message' => $this->retrieve_message());
+		return $this->installation_successful();
 	}
 	
 	function create_languages()

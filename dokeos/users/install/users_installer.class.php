@@ -36,29 +36,26 @@ class UsersInstaller extends Installer
 			{
 				if (!$this->create_storage_unit($file))
 				{
-					return array('success' => false, 'message' => $this->retrieve_message());
+					return false;
 				}
 			}
 		}
 		
 		if (!$this->create_admin_account())
 		{
-			return array('success' => false, 'message' => $this->retrieve_message());
+			return false;
 		}
 		else
 		{
-			$this->add_message(Translation :: get('AdminAccountCreated'));
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('AdminAccountCreated'));
 		}
 		
 		if(!$this->register_trackers())
 		{
-			return array('success' => false, 'message' => $this->retrieve_message());
+			return false;
 		}
 		
-		$success_message = '<span style="color: green; font-weight: bold;">' . Translation :: get('ApplicationInstallSuccess') . '</span>';
-		$this->add_message($success_message);
-		
-		return array('success' => true, 'message' => $this->retrieve_message());
+		return $this->installation_successful();
 	}
 	
 	function create_admin_account()

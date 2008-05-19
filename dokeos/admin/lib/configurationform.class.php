@@ -112,69 +112,72 @@ class ConfigurationForm extends FormValidator
 		$base_path = $this->base_path;
 		
 		$file = $base_path . $application . '/settings/settings_' . $application . '.xml';
-
-		$doc = new DOMDocument();
-		$doc->load($file);
-		$object = $doc->getElementsByTagname('application')->item(0);
-		$name = $object->getAttribute('name');
+		$result = array();
 		
-		// Get categories
-		$categories = $doc->getElementsByTagname('category');
-		$settings = array();
-		
-		foreach($categories as $index => $category)
+		if (file_exists($file))
 		{
-			$category_name = $category->getAttribute('name');
-			$category_properties = array();
+			$doc = new DOMDocument();
+			$doc->load($file);
+			$object = $doc->getElementsByTagname('application')->item(0);
+			$name = $object->getAttribute('name');
 			
-			// Get settings in category
-			$properties = $category->getElementsByTagname('setting');
-			$attributes = array('field', 'default', 'locked');
+			// Get categories
+			$categories = $doc->getElementsByTagname('category');
+			$settings = array();
 			
-			foreach($properties as $index => $property)
+			foreach($categories as $index => $category)
 			{
-				$property_info = array();
+				$category_name = $category->getAttribute('name');
+				$category_properties = array();
 				
-				foreach($attributes as $index => $attribute)
-				{
-					if($property->hasAttribute($attribute))
-				 	{
-				 		$property_info[$attribute] = $property->getAttribute($attribute);
-				 	}
-				}
+				// Get settings in category
+				$properties = $category->getElementsByTagname('setting');
+				$attributes = array('field', 'default', 'locked');
 				
-				if ($property->hasChildNodes())
+				foreach($properties as $index => $property)
 				{
-					$property_options = $property->getElementsByTagname('options')->item(0);
-					$property_options_attributes = array('type', 'source');
-					foreach($property_options_attributes as $index => $options_attribute)
+					$property_info = array();
+					
+					foreach($attributes as $index => $attribute)
 					{
-						if($property_options->hasAttribute($options_attribute))
+						if($property->hasAttribute($attribute))
 					 	{
-					 		$property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
+					 		$property_info[$attribute] = $property->getAttribute($attribute);
 					 	}
 					}
 					
-					if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
+					if ($property->hasChildNodes())
 					{
-						$options = $property_options->getElementsByTagname('option');
-						$options_info = array();
-						foreach($options as $option)
+						$property_options = $property->getElementsByTagname('options')->item(0);
+						$property_options_attributes = array('type', 'source');
+						foreach($property_options_attributes as $index => $options_attribute)
 						{
-							$options_info[$option->getAttribute('value')] = $option->getAttribute('name');
+							if($property_options->hasAttribute($options_attribute))
+						 	{
+						 		$property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
+						 	}
 						}
-						$property_info['options']['values'] = $options_info;
+						
+						if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
+						{
+							$options = $property_options->getElementsByTagname('option');
+							$options_info = array();
+							foreach($options as $option)
+							{
+								$options_info[$option->getAttribute('value')] = $option->getAttribute('name');
+							}
+							$property_info['options']['values'] = $options_info;
+						}
 					}
+					$category_properties[$property->getAttribute('name')] = $property_info;
 				}
-				$category_properties[$property->getAttribute('name')] = $property_info;
+				
+				$settings[$category_name] = $category_properties;
 			}
 			
-			$settings[$category_name] = $category_properties;
+			$result['name'] = $name;
+			$result['settings'] = $settings;
 		}
-		
-		$result = array();
-		$result['name'] = $name;
-		$result['settings'] = $settings;
 		
 		return $result;
 	}
