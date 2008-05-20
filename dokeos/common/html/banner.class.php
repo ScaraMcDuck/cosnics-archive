@@ -60,14 +60,14 @@ class Banner
 			$output[] = $menumanager->render_menu('render_bar');
 		}
 		
-		$output[] = '<div id="Header2Right">';
-		//$output[] = '<ul>';		
-		// TODO: Reimplement "Who is online ?" 
-		//$output[] = '</ul>';
-		$output[] = '</div>';
-		$output[] = '<!-- link to campus home (not logged in)';
-		$output[] = '<a href="'.$this->get_path(WEB_PATH).'index.php" target="_top">' . $this->get_setting('site_name', 'admin') . '</a>';
-		$output[] = '-->';
+//		$output[] = '<div id="Header2Right">';
+//		//$output[] = '<ul>';		
+//		// TODO: Reimplement "Who is online ?" 
+//		//$output[] = '</ul>';
+//		$output[] = '</div>';
+//		$output[] = '<!-- link to campus home (not logged in)';
+//		$output[] = '<a href="'.$this->get_path(WEB_PATH).'index.php" target="_top">' . $this->get_setting('site_name', 'admin') . '</a>';
+//		$output[] = '-->';
 		//not to let the empty header disappear and ensure help pic is inside the header
 		$output[] = '<div class="clear">&nbsp;</div>';
 
@@ -207,10 +207,7 @@ class Banner
 //		}
 
 		$output[] = '<div class="clear">&nbsp;</div>';
-
 		$output[] = '</div> <!-- end of the whole #header section -->';
-		$output[] = '<div id="main"> <!-- start of #main wrapper for #content and #menu divs -->';
-		$output[] = '<!--   Begin Of script Output   -->';
 
 		return implode("\n", $output);
 	}

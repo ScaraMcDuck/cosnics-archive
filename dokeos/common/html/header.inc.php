@@ -56,4 +56,7 @@ echo '<div id="outerframe">'."\n";
 //  Banner
 $banner = new Banner($breadcrumbtrail, $adm);
 $banner->display();
+
+echo '<div id="main"> <!-- start of #main wrapper for #content and #menu divs -->';
+echo '<!--   Begin Of script Output   -->';
 ?>

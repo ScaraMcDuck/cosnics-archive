@@ -13,6 +13,7 @@ body
 	padding: 0;
 	background-color: #fff;
 }
+
 img
 {
 	border: none;
@@ -47,17 +48,18 @@ img
 	font-size: 12px;
 	padding: 4px;
 	background-color: #264269;
-	color: #fff;
+	color: #ffffff;
 	border-bottom: 1px solid white;
 }
 #header1 a
 {
-	color: #fff;
+	color: #ffffff;
 	text-decoration: none;
 }
 #header1 a:hover
 {
-	text-decoration: underline;
+	color: #ffffff;
+	text-decoration: none;
 }
 #sitename
 {
@@ -78,95 +80,11 @@ img
 /* Header 2: Containing online users, student/teacher view, help */
 #header2
 {
-	position: relative; /* to avoid the IE peekabo bug*/
 	font-size: 1.0em;
-	padding: 0;
-	background: #4271b5;
-	color: #fff;
+	padding: 0px 0px 0px 0px;
+	background-color: #4271b5;
+	color: #ffffff;
 	/* border-bottom: 1px solid #666; */
-}
-/* Header2Right: online users, student/teacher view, help */
-#Header2Right ul
-{
-	position: relative; /* to avoid the IE peekabo bug*/
-	float: right;
-	width: 70%;
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
-	text-align: right;
-}
-#Header2Right ul li
-{
-	display: inline;
-}
-#Header2Right ul li a
-{
-	padding: 4px 6px 4px 4px;
-	color:#fff;
-}
-
-/* Header 3: Containing My Courses, My Profile,... */
-#header3
-{
-	font-size: 1.0em;
-	padding: 0.8em 0.5em 0.4em 0.5em;
-	background: #E5EDF9;
-	color: #006;
-	border-bottom: 1px solid #4171b5;
-}
-#header3 .banner_links
-{
-	margin: 0;
-}
-#header3 a, #header3 a:link
-{
-	display: inline;
-	/*margin: 0.2em -0.1em 0 -0.1em;*/
-	padding: 0.2em 0.8em 0.4em 0.8em;
-	border: 1px solid #4171b5;
-	background: #E5EDF9;
-	font-weight: bold;
-	text-decoration: none;
-	color: #006;
-}
-#header3 a:hover
-{
-	color: #006;
-	background: #fff; /**/
-	border-bottom: 1px solid #fff;
-}
-
-#header3 a.here
-{
-	margin: 0;
-	color: #006;
-	background: #fff; /**/
-	border: 1px solid #4171b5;
-	border-bottom: 1px solid #fff;
-}
-
-#header3 input.logout
-{
- 	/* makes an input appear like a link in this header */
-	margin: 0 0 0.2em 0;
-	padding: 0;
-	background-color: transparent;
-	border: none;
-	color: #006;
-   font-size: 1.0em;
-   font-weight:normal;
-	font-family: verdana, arial, helvetica, sans-serif;
-}
-#header3 input.logout:hover
-{
-	border-bottom: 1px solid #009;
-}
-#logout
-{
-	float: right;
-	width: auto;
-	text-align: right;
 }
 
 #breadcrumbtrail
@@ -331,7 +249,8 @@ a.invisible:link, a.invisible:visited
 {
 	clear: both;
 	line-height: 0px;
-	height: 0;
+	height: 0px;
+	font-size: 0px;
 }
 
 p,blockquote,ol,ul
@@ -384,14 +303,14 @@ a:hover
 {
 	text-decoration: none;
 	color: red;
-	font-weight: bold
+	font-weight: bold;
 }
 
 a:active
 {
 	text-decoration: none;
 	font-weight: bold;
-	color: #f00;
+	color: #FA8500;
 }
 
 input.link_alike
@@ -1664,36 +1583,37 @@ ul.toolbar li.last span {
 /*Basic Setup*/
 
 /*Color navigation bar normal mode*/
-.dropnav *
+#header2 .dropnav *
 {
 	padding: 0;
 	margin: 0;
+	background-color: #4271B5;
+	color: #FFFFFF;
 }
 
-.dropnav
+#header2 .dropnav
 {
 	float:left;
 	width: 100%;
 	border:none;
 	background-color: #4271B5;
-	background: ;
-	color: #FFFFFF;;
+	color: #FFFFFF;
 	font-size:130%;
 	text-decoration: none;
 }
 
-.dropnav ul
+#header2 .dropnav ul
 {
 	list-style-type: none;
 }
 
-.dropnav ul.admin
+#header2 .dropnav ul.admin
 {
 	list-style-type: none;
 	float: right;
 }
 
-.dropnav ul li
+#header2 .dropnav ul li
 {
 	float:left;
 	position:relative;
@@ -1702,7 +1622,7 @@ ul.toolbar li.last span {
 	border-right:solid 1px rgb(255,255,255);
 }
 
-.dropnav ul li.admin
+#header2 .dropnav ul li.admin
 {
 	float:left;
 	position:relative;
@@ -1712,7 +1632,7 @@ ul.toolbar li.last span {
 	border-left: solid 1px rgb(255,255,255);
 }
 
-.dropnav ul li.admin form
+#header2 .dropnav ul li.admin form
 {
 	float: left;
 	height: 24px;
@@ -1720,7 +1640,7 @@ ul.toolbar li.last span {
 	text-decoration:none;
 }
 
-.dropnav ul li.admin input
+#header2 .dropnav ul li.admin input
 {
 	float:left;
 	margin: 0;
@@ -1729,7 +1649,7 @@ ul.toolbar li.last span {
 	padding:0px;
 	text-decoration: none;
 	font-weight: bold;
-	color:  #FFFFFF;;
+	color: #FFFFFF;
 	background-color: transparent;
 	border: 0px;
 	
@@ -1737,20 +1657,20 @@ ul.toolbar li.last span {
 	font-size: 12px;
 }
 
-.dropnav ul li a
+#header2 .dropnav ul li a
 {
-	float:none !important /*Non-IE6*/;
-	float:left /*IE-6*/;
-	display:block;
+	float: none !important /*Non-IE6*/;
+	float: left /*IE-6*/;
+	display: block;
 	height: 24px;
 	line-height: 24px;
-	padding:0 10px 0 10px;
+	padding: 0px 10px 0px 10px;
 	text-decoration: none;
 	font-weight: bold;
-	color:  #FFFFFF;;
+	color: #FFFFFF;
 }
 
-.dropnav ul li ul
+#header2 .dropnav ul li ul
 {
 	display: none;
 	border: none;
@@ -1758,28 +1678,28 @@ ul.toolbar li.last span {
 
 /*Non-IE6 hovering*/
 /*Color main cells hovering mode*/
-.dropnav ul li:hover a
+#header2 .dropnav ul li:hover a
 {
 	color: #000066;
 	background-color: #FFFFFF;
 	text-decoration: none;
 }
 
-.dropnav ul li a.current
+#header2 .dropnav ul li a.current
 {
 	color: #000066;
 	background-color: #FFFFFF;
 	text-decoration: none;
 }
 
-.dropnav ul li:hover a.current
+#header2 .dropnav ul li:hover a.current
 {
 	color: #000066;
 	background-color: #FFFFFF;
 	text-decoration: none;
 }
 
-.dropnav ul li:hover ul
+#header2 .dropnav ul li:hover ul
 {
 	display: block;
 	width: 10.0em;
@@ -1791,7 +1711,7 @@ ul.toolbar li.last span {
 }
 
 /*Color subcells normal mode*/
-.dropnav ul li:hover ul li a
+#header2 .dropnav ul li:hover ul li a
 {
 	display:block;
 	width:10.0em;
@@ -1808,14 +1728,14 @@ ul.toolbar li.last span {
 }
 
 /*Color subcells hovering mode*/
-.dropnav ul li:hover ul li a:hover
+#header2 .dropnav ul li:hover ul li a:hover
 {
 	background-color:rgb(227,227,227);
 	text-decoration:none;
 }
 
 /*IE6 hovering*/
-.dropnav table
+#header2 .dropnav table
 {
 	position: absolute;
 	top: 0;
@@ -1824,14 +1744,14 @@ ul.toolbar li.last span {
 }
 
 /*Color main cells hovering mode*/
-.dropnav ul li a:hover
+#header2 .dropnav ul li a:hover
 {
 	color: #000066;
 	background-color: #FFFFFF;
 	text-decoration: none;
 }
 
-.dropnav ul li a:hover ul
+#header2 .dropnav ul li a:hover ul
 {
 	display:block;
 	width:10.0em;
@@ -1840,27 +1760,28 @@ ul.toolbar li.last span {
 	top: 24px;
 	t\op: 23px;
 	left:0;
-	marg\in-top:0.1em;
+	marg\in-top: 0.1em;
 }
 
 /*Color subcells normal mode*/
-.dropnav ul li a:hover ul li a
+#header2 .dropnav ul li a:hover ul li a
 {
-	display:block;
-	w\idth:10.0em;
-	height:1px;
-	line-height:1.3em;
+	display: block;
+	w\idth: 10.0em;
+	height: 1px;
+	line-height: 1.3em;
 	padding:4px 10px 4px 10px;
-	border-left:solid 1px rgb(255,255,255);
+	border-left: solid 1px rgb(255,255,255);
 	border-bottom: solid 1px rgb(255,255,255);
-	background-color:rgb(243,243,243);
+	background-color: rgb(243,243,243);
 	background-image: none;
-	font-weight:normal; color:rgb(50,50,50);
+	font-weight: normal;
+	color: rgb(50,50,50);
 }
 
 /*Color subcells hovering mode*/
-.dropnav ul li a:hover ul li a:hover
+#header2 .dropnav ul li a:hover ul li a:hover
 {
-	background-color:rgb(227,227,227);
-	text-decoration:none;
+	background-color: rgb(227,227,227);
+	text-decoration: none;
 }
