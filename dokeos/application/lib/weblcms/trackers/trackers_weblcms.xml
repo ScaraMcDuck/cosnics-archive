@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="weblcms">
+	<event name="create_publication">
+		<tracker name="weblcms_publication_changes" />
+	</event>
+	<event name="update_publication">
+		<tracker name="weblcms_publication_changes" />
+	</event>
+	<event name="delete_publication">
+		<tracker name="weblcms_publication_changes" />
+	</event>
+	<event name="create_publication_category">
+		<tracker name="weblcms_publication_changes" />
+	</event>
+	<event name="update_publication_category">
+		<tracker name="weblcms_publication_changes" />
+	</event>
+	<event name="delete_publication_category">
+		<tracker name="weblcms_publication_changes" />
+	</event>
+	<event name="create_course">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="update_course">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="delete_course">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="subscribe_user_to_course">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="subscribe_class_to_course">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="unsubscribe_user_to_course">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="unsubscribe_class_to_course">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="create_course_category">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="update_course_category">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="delete_course_category">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="create_course_user_category">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="update_course_user_category">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="delete_course_user_category">
+		<tracker name="weblcms_course_changes" />
+	</event>
+</application>

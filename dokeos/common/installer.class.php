@@ -58,17 +58,17 @@ abstract class Installer
 			}
 		}
 		
-		if(!$this->register_trackers())
-		{
-			return false;
-		}
-		
 		if (method_exists($this, 'install_extra'))
 		{
 			if (!$this->install_extra())
 			{
 				return false;
 			}
+		}
+		
+		if(!$this->register_trackers())
+		{
+			return false;
 		}
 		
 		return $this->installation_successful();
@@ -307,52 +307,52 @@ abstract class Installer
 		
 		$path = '/' . $application . '/trackers/';
 		
-		$trackers_file = $base_path . $application . '/trackers/trackers_users.xml';
+		$trackers_file = $base_path . $application . '/trackers/trackers_'. $application .'.xml';
 		
 		if (file_exists($trackers_file))
 		{
 			$xml = $this->parse_application_events($trackers_file);
 			
-			$registered_trackers = array();
-			
-			foreach($xml['events'] as $event_name => $event_properties)
+			if (isset($xml['events']))
 			{
-				$the_event = Events :: create_event($event_properties['name'], $xml['name']);
-				if (!$the_event)
-				{
-					$this->installation_failed(Translation :: get('EventCreationFailed') . ': <em>'.$event_properties['name'] . '</em>');
-				}
-				else
-				{
-					$this->add_message(self :: TYPE_NORMAL, Translation :: get('EventCreated') . ': ' . $event_properties['name']);
-				}
+				$registered_trackers = array();
 				
-				foreach ($event_properties['trackers'] as $tracker_name => $tracker_properties)
+				foreach($xml['events'] as $event_name => $event_properties)
 				{
-					if (!array_key_exists($tracker_properties['name'], $registered_trackers))
+					$the_event = Events :: create_event($event_properties['name'], $xml['name']);
+					if (!$the_event)
 					{
-						$the_tracker = $this->register_tracker($path, $tracker_properties['name'] . '_tracker');
-						if (!$the_tracker)
-						{
-							$this->installation_failed(Translation :: get('TrackerRegistrationFailed') . ': <em>'.$tracker_properties['name'] . '</em>');
-						}
-						else
-						{
-							$this->add_message(self :: TYPE_NORMAL, Translation :: get('TrackersRegistered') . ': ' . $tracker_properties['name']);
-						}
-						$registered_trackers[$tracker_properties['name']] = $the_tracker;
+						$this->installation_failed(Translation :: get('EventCreationFailed') . ': <em>'.$event_properties['name'] . '</em>');
 					}
 					
-					$success = $this->register_tracker_to_event($registered_trackers[$tracker_properties['name']], $the_event);
-					if ($success)
+					foreach ($event_properties['trackers'] as $tracker_name => $tracker_properties)
 					{
-						$this->add_message(self :: TYPE_NORMAL, Translation :: get('TrackersRegisteredToEvent') . ': ' . $event_properties['name'] . ' + ' . $tracker_properties['name']);
-					}				
-					else
-					{
-						$this->installation_failed(Translation :: get('TrackerRegistrationToEventFailed') . ': <em>'.$event_properties['name'] . '</em>');
+						if (!array_key_exists($tracker_properties['name'], $registered_trackers))
+						{
+							$the_tracker = $this->register_tracker($path, $tracker_properties['name'] . '_tracker');
+							if (!$the_tracker)
+							{
+								$this->installation_failed(Translation :: get('TrackerRegistrationFailed') . ': <em>'.$tracker_properties['name'] . '</em>');
+							}
+							$registered_trackers[$tracker_properties['name']] = $the_tracker;
+						}
+						
+						$success = $this->register_tracker_to_event($registered_trackers[$tracker_properties['name']], $the_event);
+						if ($success)
+						{
+							$this->add_message(self :: TYPE_NORMAL, Translation :: get('TrackersRegisteredToEvent') . ': ' . $event_properties['name'] . ' + ' . $tracker_properties['name']);
+						}				
+						else
+						{
+							$this->installation_failed(Translation :: get('TrackerRegistrationToEventFailed') . ': <em>'.$event_properties['name'] . '</em>');
+						}
 					}
 				}
+			}
+			elseif (count($files) > 0)
+			{
+				$warning_message = Translation :: get('UnlinkedTrackers') . ': <em>'. Translation :: get('Check') . ' ' . $path . '</em>';
+				$this->add_message(self :: TYPE_WARNING, $warning_message);
 			}
 		}
 		elseif (count($files) > 0)
