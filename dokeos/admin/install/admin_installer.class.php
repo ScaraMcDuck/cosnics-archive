@@ -37,8 +37,8 @@ class AdminInstaller extends Installer
 			$this->add_message(self :: TYPE_NORMAL, Translation :: get('DefaultLanguagesAdded'));
 		}
 		
-		// Add the default settings to the database
-		if (!$this->create_settings())
+		// Update the default settings to the database
+		if (!$this->update_settings())
 		{
 			return false;
 		}
@@ -79,7 +79,7 @@ class AdminInstaller extends Installer
 		return true;
 	}
 	
-	function create_settings()
+	function update_settings()
 	{
 		$values = $this->get_form_values();
 		
@@ -102,19 +102,14 @@ class AdminInstaller extends Installer
 		$settings[] = array('admin', 'allow_password_retrieval', $values['encrypt_password']);
 		$settings[] = array('admin', 'allow_registration', $values['self_reg']);
 		
-		$settings[] = array('tracking', 'enable_tracking', '1');
-		$tdm = TrackingDataManager :: get_instance();
-		$time = $tdm->to_db_date(time());
-		$settings[] = array('tracking', 'last_time_archived', $time);
-		
 		foreach ($settings as $setting)
 		{
-			$setting_object = new Setting();
+			$setting_object = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name($setting[1], $setting[0]);
 			$setting_object->set_application($setting[0]);
 			$setting_object->set_variable($setting[1]);
 			$setting_object->set_value($setting[2]);
 			
-			if (!$setting_object->create())
+			if (!$setting_object->update())
 			{
 				return false;
 			}
