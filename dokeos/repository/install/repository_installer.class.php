@@ -28,14 +28,10 @@ class RepositoryInstaller extends Installer
 	 * storage unit is found, this function will parse the file and create the
 	 * storage unit.
 	 */
-	function install()
+	function install_extra()
 	{
-		$dir_lo		= dirname(__FILE__) . '/../lib/learning_object';
-		$dir_app	= dirname(__FILE__);
-		$files_lo	= FileSystem :: get_directory_content($dir_lo, FileSystem :: LIST_FILES);
-		$files_app	= FileSystem :: get_directory_content($dir_app, FileSystem :: LIST_FILES);
-		
-		$files = array_merge($files_app, $files_lo);
+		$dir	= dirname(__FILE__) . '/../lib/learning_object';
+		$files	= FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
 		
 		foreach($files as $file)
 		{
@@ -48,12 +44,7 @@ class RepositoryInstaller extends Installer
 			}
 		}
 		
-		if(!$this->register_trackers())
-		{
-			return false;
-		}
-		
-		return $this->installation_successful();
+		return true;
 	}
 	
 	function get_path()
