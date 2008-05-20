@@ -47,7 +47,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		mysql_select_db($values['database_name']) or die('SELECT DB ERROR '.mysql_error());
 		
 		// 3. Installing the core-applications
-		$core_applications = array('tracking', 'admin', 'repository', 'users', 'classgroup', 'rights', 'home', 'menu');
+		$core_applications = array('admin', 'tracking', 'repository', 'users', 'classgroup', 'rights', 'home', 'menu');
 		
 		foreach ($core_applications as $core_application)
 		{

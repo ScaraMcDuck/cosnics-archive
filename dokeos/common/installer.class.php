@@ -9,6 +9,8 @@
 require_once Path :: get_tracking_path() .'lib/trackingdatamanager.class.php';
 require_once Path :: get_tracking_path() .'lib/trackerregistration.class.php';
 require_once Path :: get_tracking_path() .'lib/eventreltracker.class.php';
+require_once Path :: get_admin_path() .'lib/admindatamanager.class.php';
+require_once Path :: get_admin_path() .'lib/setting.class.php';
 require_once Path :: get_repository_path() .'lib/repositoryutilities.class.php';
  
 abstract class Installer
@@ -56,6 +58,11 @@ abstract class Installer
 					return false;
 				}
 			}
+		}
+		
+		if (!$this->configure_application())
+		{
+			return false;
 		}
 		
 		if (method_exists($this, 'install_extra'))
@@ -199,6 +206,8 @@ abstract class Installer
 		}
 	}
 	
+	// TODO: It's probably a good idea to write some kind of XML-parsing class that automatically converts the entire thing to a uniform array or object.
+	
 	function parse_application_events($file)
 	{
 		$doc = new DOMDocument();
@@ -242,8 +251,27 @@ abstract class Installer
 		return $result;
 	}
 	
+	function parse_application_settings($file)
+	{
+		$doc = new DOMDocument();
+		
+		$doc->load($file);
+		$object = $doc->getElementsByTagname('application')->item(0);
+		
+		// Get events
+		$events = $doc->getElementsByTagname('setting');
+		$settings = array();
+		
+		foreach($events as $index => $event)
+		{
+			$settings[$event->getAttribute('name')] = $event->getAttribute('default');
+		}
+		
+		return $settings;
+	}
+	
 	/**
-	 * Function used by other installers to register a tracker
+	 * Function used to register a tracker
 	 */
 	function register_tracker($path, $class)
 	{	
@@ -260,7 +288,7 @@ abstract class Installer
 	}
 	
 	/**
-	 * Function used by other installers to register a tracker to an event
+	 * Function used to register a tracker to an event
 	 */
 	function register_tracker_to_event($tracker, $event)
 	{
@@ -359,6 +387,37 @@ abstract class Installer
 		{
 			$warning_message = Translation :: get('UnlinkedTrackers') . ': <em>'. Translation :: get('Check') . ' ' . $path . '</em>';
 			$this->add_message(self :: TYPE_WARNING, $warning_message);
+		}
+		
+		return true;
+	}
+	
+	function configure_application()
+	{
+		$application_class = str_replace('Installer', '', get_class($this));
+		$application = RepositoryUtilities :: camelcase_to_underscores($application_class);
+		
+		$base_path = (Application :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
+		
+		$settings_file = $base_path . $application . '/settings/settings_'. $application .'.xml';
+		
+		if (file_exists($settings_file))
+		{
+			$xml = $this->parse_application_settings($settings_file);
+			
+			foreach($xml as $name => $value)
+			{
+				$setting = new Setting();
+				$setting->set_application($application);
+				$setting->set_variable($name);
+				$setting->set_value($value);
+				
+				if (!$setting->create())
+				{
+					$message = Translation :: get('ApplicationConfigurationFailed');
+					$this->installation_failed($message);
+				}
+			}
 		}
 		
 		return true;
