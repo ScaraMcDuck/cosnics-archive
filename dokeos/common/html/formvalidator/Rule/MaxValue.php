@@ -22,8 +22,8 @@ class HTML_QuickForm_Rule_MaxValue extends HTML_QuickForm_Rule
 		
 		$columns_amount = $columns->size();
 		
-		$total_width += ($columns_amount * 15);
-		$max_width = 870 - $total_width;
+		$total_width += $columns_amount;
+		$max_width = 100 - $total_width;
 		
 		if ($width > $max_width || $max_width <= 0)
 		{

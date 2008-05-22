@@ -26,7 +26,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		while ($row = $rows->next_result())
 		{
 			$row_number++;
-			$html[] = '<div class="row" id="r'. $row->get_id() .'_'. $row->get_title() .'" style="'.($row->get_height() > 10 ? 'height: '. $row->get_height() .'px; ' : '') . ($row_number < $rows->size() ? 'margin-bottom: 15px;' : '') .'">';
+			$html[] = '<div class="row" id="r'. $row->get_id() .'_'. $row->get_title() .'" style="'.($row->get_height() > 10 ? 'height: '. $row->get_height() .'%; ' : '') . ($row_number < $rows->size() ? 'margin-bottom: 1%;' : '') .'">';
 			
 			$condition = new EqualityCondition(HomeColumn :: PROPERTY_ROW, $row->get_id());
 			
@@ -36,7 +36,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 			while ($column = $columns->next_result())
 			{
 				$column_number++;
-				$html[] = '<div class="column" id="'. $column->get_title() .'" style="width: '. $column->get_width() .'px;'. ($column_number < $columns->size() ? 'margin-right: 15px;' : '') .'">';
+				$html[] = '<div class="column" id="'. $column->get_title() .'" style="width: '. $column->get_width() .'%;'. ($column_number < $columns->size() ? 'margin-right: 1%;' : '') .'">';
 				
 				$condition = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $column->get_id());
 				
