@@ -43,6 +43,9 @@ class ColumnsConfigBuildWizardPage extends BuildWizardPage
 				$this->addElement('text', 'row'. $i .'[column'. $j .'][blocksamount]', Translation :: get('BlockAmount'));
 				$this->addRule('row'. $i .'[column'. $j .'][width]', Translation :: get('FieldMustBeNumeric'), 'numeric');
 				$this->addRule('row'. $i .'[column'. $j .'][blocksamount]', Translation :: get('FieldMustBeNumeric'), 'numeric');
+				$this->addRule('row'. $i .'[column'. $j .'][title]', Translation :: get('ThisFieldIsRequired'), 'required');
+				$this->addRule('row'. $i .'[column'. $j .'][width]', Translation :: get('ThisFieldIsRequired'), 'required');
+				$this->addRule('row'. $i .'[column'. $j .'][blocksamount]', Translation :: get('ThisFieldIsRequired'), 'required');
 				
 				if ($j != $column_amount)
 				{
