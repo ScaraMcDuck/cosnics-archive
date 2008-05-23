@@ -851,6 +851,25 @@ class DatabaseHomeDataManager extends HomeDataManager
 		return new DatabaseHomeBlockConfigResultSet($this, $res);
 	}
 	
+	function count_home_block_config($condition = null)
+	{
+		$query = 'SELECT COUNT('.$this->escape_column_name(HomeBlockConfig :: PROPERTY_BLOCK_ID).') FROM '.$this->escape_table_name('block_config').' AS '. self :: ALIAS_BLOCK_CONFIG_TABLE;
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $record[0];
+	}
+	
 	function retrieve_max_sort_value($table, $column, $condition = null)
 	{
 		$query .= 'SELECT MAX('. $this->escape_column_name($column) .') as '. self :: ALIAS_MAX_SORT .' FROM'. $this->escape_table_name($table);

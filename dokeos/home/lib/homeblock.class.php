@@ -150,5 +150,13 @@ class HomeBlock {
 		}
 		return $configuration;
 	}
+	
+	function is_configurable()
+	{
+		$hdm = HomeDataManager :: get_instance();
+		$condition = new EqualityCondition(HomeBlockConfig :: PROPERTY_BLOCK_ID, $this->get_id());
+		$count = $hdm->count_home_block_config($condition);
+		return ($count > 0);
+	}
 }
 ?>
