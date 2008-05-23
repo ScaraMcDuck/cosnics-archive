@@ -212,6 +212,8 @@ abstract class HomeDataManager
 	
 	abstract function retrieve_home_block_config($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
+	abstract function count_home_block_config($condition = null);
+	
 	function retrieve_block_properties($component)
 	{
 		$application = explode('.', strtolower($component), 2);

@@ -23,7 +23,6 @@ class HomeManagerConfigurerComponent extends HomeManagerComponent
 		$trail = new BreadcrumbTrail();
 		
 		$trail->add(new Breadcrumb($this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeBlockConfigurer')));
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
@@ -38,18 +37,28 @@ class HomeManagerConfigurerComponent extends HomeManagerComponent
 			$url = $this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_CONFIGURE_HOME, HomeManager :: PARAM_HOME_ID => $id));
 			
 			$object = $this->retrieve_home_block($id);
-			$form = new HomeBlockConfigForm($object, $url);
+			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Configure') . '&nbsp;' . $object->get_title()));
 			
-			if ($form->validate())
+			if ($object->is_configurable())
 			{
-				$success = $form->update_block_config();
-				$this->redirect('url', Translation :: get($success ? 'BlockConfigUpdated' : 'BlockConfigNotUpdated'), ($success ? false : true), array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
+				$form = new HomeBlockConfigForm($object, $url);
+				
+				if ($form->validate())
+				{
+					$success = $form->update_block_config();
+					$this->redirect('url', Translation :: get($success ? 'BlockConfigUpdated' : 'BlockConfigNotUpdated'), ($success ? false : true), array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
+				}
+				else
+				{
+					$this->display_header($trail);
+					$form->display();
+					$this->display_footer();
+				}
 			}
 			else
 			{
-				$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Configure') . '&nbsp;' . $object->get_title()));
 				$this->display_header($trail);
-				$form->display();
+				$this->display_warning_message(Translation :: get('NothingToConfigure'));
 				$this->display_footer();
 			}
 		}

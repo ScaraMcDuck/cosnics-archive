@@ -57,6 +57,11 @@ abstract class HomeManagerComponent {
 		$this->get_parent()->display_error_page($message);
 	}
 	
+	function display_warning_message($message)
+	{
+		$this->get_parent()->display_warning_message($message);
+	}
+	
 	function display_warning_page($message)
 	{
 		$this->get_parent()->display_warning_page($message);
