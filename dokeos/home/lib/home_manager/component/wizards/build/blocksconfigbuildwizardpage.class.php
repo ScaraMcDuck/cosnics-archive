@@ -42,8 +42,8 @@ class BlocksConfigBuildWizardPage extends BuildWizardPage
 				{
 					$this->addElement('static','','','<b>'. Translation :: get('Row') . '&nbsp;' . $i .'&nbsp;-&nbsp;'. Translation :: get('Column') . '&nbsp;' . $j .'&nbsp;-&nbsp;'. Translation :: get('Block') . '&nbsp;' . $k .'</b>');
 					$this->addElement('text', 'row'. $i .'[column'. $j .'][block'. $k .'][title]', Translation :: get('Title'));
+					$this->addRule('row'. $i .'[column'. $j .'][block'. $k .'][title]', Translation :: get('ThisFieldIsRequired'), 'required');
 					$this->addElement('select', 'row'. $i .'[column'. $j .'][block'. $k .'][component]', Translation :: get('Component'), $this->components);
-					$this->addElement('checkbox', 'row'. $i .'[column'. $j .'][block'. $k .'][contains_blocks]', Translation :: get('ContainsBlocks'));
 					
 					if ($j != $block_amount)
 					{

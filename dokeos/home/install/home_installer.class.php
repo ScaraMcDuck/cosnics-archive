@@ -52,17 +52,17 @@ class HomeInstaller extends Installer
 		$column_news->set_row($row->get_id());
 		$column_news->set_title(Translation :: get('News'));
 		$column_news->set_sort('1');
-		$column_news->set_width('505');
+		$column_news->set_width('50');
 		if (!$column_news->create())
 		{
 			return false;
 		}
 		
-		$block_user = new HomeBlock();
-		$block_user->set_column($column_news->get_id());
-		$block_user->set_title(Translation :: get('PersonalCalendar'));
-		$block_user->set_component('PersonalCalendar.Month');
-		if (!$block_user->create())
+		$block_test = new HomeBlock();
+		$block_test->set_column($column_news->get_id());
+		$block_test->set_title('Extra');
+		$block_test->set_component('PersonalCalendar.Extra');
+		if (!$block_test->create())
 		{
 			return false;
 		}
@@ -71,7 +71,7 @@ class HomeInstaller extends Installer
 		$column_varia->set_row($row->get_id());
 		$column_varia->set_title(Translation :: get('Various'));
 		$column_varia->set_sort('2');
-		$column_varia->set_width('350');
+		$column_varia->set_width('23');
 		if (!$column_varia->create())
 		{
 			return false;
@@ -85,6 +85,25 @@ class HomeInstaller extends Installer
 		{
 			return false;
 		}
+		
+		$column_extra = new HomeColumn();
+		$column_extra->set_row($row->get_id());
+		$column_extra->set_title(Translation :: get('Extra'));
+		$column_extra->set_sort('3');
+		$column_extra->set_width('25');
+		if (!$column_extra->create())
+		{
+			return false;
+		}
+		
+		$block_user = new HomeBlock();
+		$block_user->set_column($column_extra->get_id());
+		$block_user->set_title(Translation :: get('PersonalCalendar'));
+		$block_user->set_component('PersonalCalendar.Month');
+		if (!$block_user->create())
+		{
+			return false;
+		}	
 		
 		return true;
 	}
