@@ -3,7 +3,7 @@
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/publication_browser_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../publication_table/defaultpublication_table_cell_renderer.class.php';
+require_once dirname(__FILE__).'/../../../publication_table/default_publication_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../../../learning_object.class.php';
 require_once dirname(__FILE__).'/../../repository_manager.class.php';
 /**

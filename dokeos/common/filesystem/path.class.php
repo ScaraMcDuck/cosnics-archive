@@ -22,7 +22,7 @@ define('SYS_LANG_PATH', 'SYS_LANG_PATH');
 define('SYS_APP_PATH', 'SYS_APP_PATH');
 define('SYS_APP_LIB_PATH', 'SYS_APP_LIB_PATH');
 define('SYS_APP_ADMIN_PATH', 'SYS_APP_ADMIN_PATH');
-define('SYS_APP_CLASSGROUP_PATH', 'SYS_APP_CLASSGROUP_PATH');
+define('SYS_APP_CLASS_GROUP_PATH', 'SYS_APP_CLASS_GROUP_PATH');
 define('SYS_APP_RIGHTS_PATH', 'SYS_APP_RIGHTS_PATH');
 define('SYS_APP_INSTALL_PATH', 'SYS_APP_INSTALL_PATH');
 define('SYS_APP_MIGRATION_PATH', 'SYS_APP_MIGRATION_PATH');
@@ -91,8 +91,8 @@ class Path
 				return self :: get(SYS_PATH) . 'application/';
 			case SYS_APP_ADMIN_PATH :
 				return self :: get(SYS_PATH) . 'admin/';
-			case SYS_APP_CLASSGROUP_PATH :
-				return self :: get(SYS_PATH) . 'classgroup/';
+			case SYS_APP_CLASS_GROUP_PATH :
+				return self :: get(SYS_PATH) . 'class_group/';
 			case SYS_APP_RIGHTS_PATH :
 				return self :: get(SYS_PATH) . 'rights/';
 			case SYS_APP_INSTALL_PATH :
@@ -168,9 +168,9 @@ class Path
     	return self :: get(SYS_APP_MENU_PATH);
     }
     
-    public static function get_classgroup_path()
+    public static function get_class_group_path()
     {
-    	return self :: get(SYS_APP_CLASSGROUP_PATH);
+    	return self :: get(SYS_APP_CLASS_GROUP_PATH);
     }
     
     public static function get_rights_path()
