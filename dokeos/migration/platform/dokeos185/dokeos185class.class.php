@@ -5,7 +5,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/importclass.class.php';
-require_once dirname(__FILE__).'/../../../classgroup/lib/class_group.class.php';
+require_once dirname(__FILE__).'/../../../class_group/lib/class_group.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 class

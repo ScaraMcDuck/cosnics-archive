@@ -11,8 +11,7 @@ require_once dirname(__FILE__).'/../../../common/condition/orcondition.class.php
 require_once dirname(__FILE__).'/../../../common/condition/andcondition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/likecondition.class.php';
-//require_once dirname(__FILE__).'/../classgroup_rel_user_table/classgrouprelusertable.class.php';
-require_once dirname(__FILE__).'/../classgroup_table/classgrouptable.class.php';
+require_once dirname(__FILE__).'/../class_group_table/class_group_table.class.php';
 
 /**
  * A user manager provides some functionalities to the admin to manage
