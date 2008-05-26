@@ -86,6 +86,24 @@ class HomeInstaller extends Installer
 			return false;
 		}
 		
+		$block_weblcms = new HomeBlock();
+		$block_weblcms->set_column($column_varia->get_id());
+		$block_weblcms->set_title(Translation :: get('Weblcms'));
+		$block_weblcms->set_component('Weblcms.Extra');
+		if (!$block_weblcms->create())
+		{
+			return false;
+		}
+		
+		$block_search = new HomeBlock();
+		$block_search->set_column($column_varia->get_id());
+		$block_search->set_title(Translation :: get('Search'));
+		$block_search->set_component('SearchPortal.Extra');
+		if (!$block_search->create())
+		{
+			return false;
+		}
+		
 		$column_extra = new HomeColumn();
 		$column_extra->set_row($row->get_id());
 		$column_extra->set_title(Translation :: get('Extra'));

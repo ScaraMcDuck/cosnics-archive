@@ -9,6 +9,7 @@ require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_repository_path(). 'lib/repositorydatamanager.class.php';
 require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../searchportalblock.class.php';
 require_once 'Pager/Pager.php';
 
 /**
@@ -94,6 +95,15 @@ END;
 			}
 		}
 		Display :: display_footer();
+	}
+	
+    /**
+	 * Renders the search portal block and returns it. 
+	 */
+	function render_block($type, $block_info)
+	{
+		$block = SearchPortalBlock :: factory($type, $this, $block_info);
+		return $block->run();
 	}
 
 	private static function search($query, $url)
