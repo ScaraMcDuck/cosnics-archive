@@ -3,8 +3,8 @@
  * @package application.lib.profiler.profiler_manager
  */
 require_once dirname(__FILE__).'/../profiler.class.php';
-require_once dirname(__FILE__).'/../profilercomponent.class.php';
-require_once dirname(__FILE__).'/profilepublicationbrowser/profilepublicationbrowsertable.class.php';
+require_once dirname(__FILE__).'/../profiler_component.class.php';
+require_once dirname(__FILE__).'/profile_publication_browser/profile_publication_browser_table.class.php';
 
 class ProfilerBrowserComponent extends ProfilerComponent
 {	

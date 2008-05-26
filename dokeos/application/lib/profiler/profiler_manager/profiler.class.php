@@ -2,9 +2,9 @@
 /**
  * @package application.lib.profiler.profiler_manager
  */
-require_once dirname(__FILE__).'/profilercomponent.class.php';
-require_once dirname(__FILE__).'/profilersearchform.class.php';
-require_once dirname(__FILE__).'/../profilerdatamanager.class.php';
+require_once dirname(__FILE__).'/profiler_component.class.php';
+require_once dirname(__FILE__).'/profiler_search_form.class.php';
+require_once dirname(__FILE__).'/../profiler_data_manager.class.php';
 require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_library_path().'condition/orcondition.class.php';
@@ -13,10 +13,10 @@ require_once Path :: get_library_path().'condition/notcondition.class.php';
 require_once Path :: get_library_path().'condition/equalitycondition.class.php';
 require_once Path :: get_library_path().'condition/likecondition.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
-require_once dirname(__FILE__).'/../profile_publication_table/profilepublicationtable.class.php';
-require_once dirname(__FILE__).'/../profilepublisher.class.php';
-require_once dirname(__FILE__).'/../profilermenu.class.php';
-require_once dirname(__FILE__).'/../profilerblock.class.php';
+require_once dirname(__FILE__).'/../profile_publication_table/profile_publication_table.class.php';
+require_once dirname(__FILE__).'/../profile_publisher.class.php';
+require_once dirname(__FILE__).'/../profiler_menu.class.php';
+require_once dirname(__FILE__).'/../profiler_block.class.php';
 
 /**
  * A profiler manager provides some functionalities to the admin to manage

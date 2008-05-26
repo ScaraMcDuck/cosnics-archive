@@ -2,7 +2,7 @@
 /**
  * @package application.lib.profiler.profiler_manager.component.profilepublicationbrowser
  */
-require_once dirname(__FILE__).'/../../../profile_publication_table/profilepublicationtabledataprovider.class.php';
+require_once dirname(__FILE__).'/../../../profile_publication_table/profile_publication_table_data_provider.class.php';
 /**
  * Data provider for a profile browser table.
  *

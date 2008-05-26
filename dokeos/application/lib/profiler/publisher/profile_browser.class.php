@@ -2,9 +2,9 @@
 /**
  * @package application.lib.profiler.publisher
  */
-require_once dirname(__FILE__).'/../profilepublisher.class.php';
-require_once dirname(__FILE__).'/../profilepublishercomponent.class.php';
-require_once dirname(__FILE__).'/publication_candidate_table/publicationcandidatetable.class.php';
+require_once dirname(__FILE__).'/../profile_publisher.class.php';
+require_once dirname(__FILE__).'/../profile_publisher_component.class.php';
+require_once dirname(__FILE__).'/publication_candidate_table/publication_candidate_table.class.php';
 /**
  * This class represents a profile publisher component which can be used
  * to browse through the possible learning objects to publish.

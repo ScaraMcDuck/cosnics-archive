@@ -2,11 +2,11 @@
 /**
  * @package application.lib.profiler.profile_publication_table
  */
-require_once dirname(__FILE__).'/profilepublicationtablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/profilepublicationtablecolumn.class.php';
-require_once Path :: get_repository_path(). 'lib/learningobject.class.php';
+require_once dirname(__FILE__).'/profile_publication_table_column_model.class.php';
+require_once dirname(__FILE__).'/profile_publication_table_column.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 require_once Path :: get_user_path(). 'lib/user.class.php';
-require_once dirname(__FILE__).'/../profilepublication.class.php';
+require_once dirname(__FILE__).'/../profile_publication.class.php';
 
 class DefaultProfilePublicationTableColumnModel extends ProfilePublicationTableColumnModel
 {
