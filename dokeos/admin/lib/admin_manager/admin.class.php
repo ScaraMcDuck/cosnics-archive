@@ -4,8 +4,8 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/admincomponent.class.php';
-require_once dirname(__FILE__).'/../admindatamanager.class.php';
+require_once dirname(__FILE__).'/admin_component.class.php';
+require_once dirname(__FILE__).'/../admin_datamanager.class.php';
 
 require_once Path :: get_repository_path(). 'lib/repository_manager/repositorymanager.class.php';
 require_once Path :: get_user_path(). 'lib/usermanager/usermanager.class.php';
@@ -60,7 +60,7 @@ class Admin
 				$component = AdminComponent :: factory('Configurer', $this);
 				break;
 			case self :: ACTION_SYSTEM_ANNOUNCEMENTS :
-				$component = AdminComponent :: factory('Systemannouncements', $this);
+				$component = AdminComponent :: factory('SystemAnnouncements', $this);
 				break;
 			default :
 				$component = AdminComponent :: factory('Browser', $this);
