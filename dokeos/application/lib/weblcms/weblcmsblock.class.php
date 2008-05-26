@@ -1,17 +1,17 @@
 <?php
 /**
- * @package application.lib.personal_calendar
+ * @package application.lib.weblcms
  */
 
 /**
 ==============================================================================
- *	This class represents a general Personal Calendar Block.
+ *	This class represents a general Weblcms Block.
  *
  *	@author Hans De bisschop
 ==============================================================================
  */
 
-class PersonalCalendarBlock
+class WeblcmsBlock
 {
 	const PARAM_ACTION = 'block_action';
 		
@@ -26,7 +26,7 @@ class PersonalCalendarBlock
 	 * @param  boolean $email_option If true the publisher has the option to
 	 * send the published learning object by email to the selecter target users.
 	 */
-	function PersonalCalendarBlock($parent, $block_info)
+	function WeblcmsBlock($parent, $block_info)
 	{
 		$this->parent = $parent;
 		$this->block_info = $block_info;
@@ -34,21 +34,21 @@ class PersonalCalendarBlock
 	}
 	
 	/**
-	 * Create a new personal calendar component
+	 * Create a new weblcms component
 	 * @param string $type The type of the component to create.
 	 * @param Weblcms $weblcms The weblcms in
 	 * which the created component will be used
 	 */
-	static function factory($type, $personal_calendar, $block_info)
+	static function factory($type, $weblcms, $block_info)
 	{
-		$filename = dirname(__FILE__).'/block/personalcalendar'.$type.'.class.php';
+		$filename = dirname(__FILE__).'/block/weblcms'.$type.'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
 			die('Failed to load "'.$type.'" block');
 		}
-		$class = 'PersonalCalendar'.ucfirst($type);
+		$class = 'Weblcms'.ucfirst($type);
 		require_once $filename;
-		return new $class($personal_calendar, $block_info);
+		return new $class($weblcms, $block_info);
 	}
 
 	/**

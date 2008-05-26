@@ -3,13 +3,12 @@
  * @package application.lib.calendar.publisher
  */
 require_once dirname(__FILE__).'/../personalmessengerblock.class.php';
-require_once dirname(__FILE__).'/../personalmessengerblockcomponent.class.php';
 require_once Path :: get_repository_path() . 'lib/repositoryutilities.class.php';
 /**
  * This class represents a calendar publisher component which can be used
  * to browse through the possible learning objects to publish.
  */
-class PersonalMessengerMostRecent extends PersonalMessengerBlockComponent
+class PersonalMessengerMostRecent extends PersonalMessengerBlock
 {
 	function run()
 	{
@@ -23,11 +22,13 @@ class PersonalMessengerMostRecent extends PersonalMessengerBlockComponent
 	{
 		$html = array();
 		
+		$personal_messenger = $this->get_parent();
+		
 		$html[] = '<div class="block" style="background-image: url('.Theme :: get_common_img_path().'block_'.strtolower(PersonalMessenger :: APPLICATION_NAME).'.png);">';
 		$html[] = '<div class="title">'. $this->get_block_info()->get_title() .'<a href="#" class="closeEl">[-]</a></div>';
 		$html[] = '<div class="description">';
 		
-		$publications = $this->retrieve_personal_message_publications($this->get_condition(), array (), array (), 5);
+		$publications = $personal_messenger->retrieve_personal_message_publications($this->get_condition(), array (), array (), 5);
 		
 		if ($publications->size() > 0)
 		{
@@ -35,7 +36,7 @@ class PersonalMessengerMostRecent extends PersonalMessengerBlockComponent
 			while ($publication = $publications->next_result())
 			{
 				$html[] = '<li>';
-				$html[] = '<a href="'. $this->get_publication_viewing_link($publication) .'">' . $publication->get_publication_object()->get_title() . '</a>';
+				$html[] = '<a href="'. $personal_messenger->get_publication_viewing_link($publication) .'">' . $publication->get_publication_object()->get_title() . '</a>';
 				$html[] = '</li>';
 			}
 			$html[] = '</ul>';

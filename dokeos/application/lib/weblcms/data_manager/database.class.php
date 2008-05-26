@@ -930,6 +930,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			}
 			$this->connection->setLimit(intval($maxObjects),intval($offset));
 		}
+		
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseCourseResultSet($this, $res);

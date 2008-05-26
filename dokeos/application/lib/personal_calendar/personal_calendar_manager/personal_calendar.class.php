@@ -10,6 +10,7 @@ require_once dirname(__FILE__).'/personalcalendarcomponent.class.php';
 require_once dirname(__FILE__).'/../connector/personal_calendar_weblcms_connector.class.php';
 require_once dirname(__FILE__).'/../personalcalendarevent.class.php';
 require_once dirname(__FILE__).'/../personalcalendardatamanager.class.php';
+require_once dirname(__FILE__).'/../personalcalendarblock.class.php';
 /**
  * This application gives each user the possibility to maintain a personal
  * calendar.
@@ -80,27 +81,12 @@ class PersonalCalendar extends WebApplication
 	}
 	
     /**
-	 * Renders the calendar block and returns it. 
+	 * Renders the weblcms block and returns it. 
 	 */
 	function render_block($type, $block_info)
 	{
-		/*
-		 * Only setting breadcrumbs here. Some stuff still calls
-		 * forceCurrentUrl(), but that should not affect the breadcrumbs.
-		 */
-		//$this->breadcrumbs = $this->get_category_menu()->get_breadcrumbs();
-		$action = $this->get_action();
-		$component = null;
-		switch ($action)
-		{
-			case self :: ACTION_RENDER_BLOCK :
-				$component = PersonalCalendarComponent :: factory('Blocker', $this);
-				break;
-			default :
-				$this->set_action(self :: ACTION_RENDER_BLOCK);
-				$component = PersonalCalendarComponent :: factory('Blocker', $this);
-		}
-		return $component->render_block($type, $block_info);
+		$block = PersonalCalendarBlock :: factory($type, $this, $block_info);
+		return $block->run();
 	}
 	
 	/**

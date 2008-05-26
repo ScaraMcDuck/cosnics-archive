@@ -138,7 +138,7 @@ class HomeBlock {
 	}
 	
 	function get_configuration()
-	{
+	{		
 		$hdm = HomeDataManager :: get_instance();
 		$condition = new EqualityCondition(HomeBlockConfig :: PROPERTY_BLOCK_ID, $this->get_id());
 		$configs = $hdm->retrieve_home_block_config($condition);
