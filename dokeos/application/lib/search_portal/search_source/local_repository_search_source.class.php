@@ -2,9 +2,9 @@
 /**
  * @package application.searchportal
  */
-require_once dirname(__FILE__).'/../searchsource.class.php';
+require_once dirname(__FILE__).'/../search_source.class.php';
 require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
-require_once dirname(__FILE__).'/../repositorysearchresult.class.php';
+require_once dirname(__FILE__).'/../repository_search_result.class.php';
 
 class LocalRepositorySearchSource implements SearchSource
 {

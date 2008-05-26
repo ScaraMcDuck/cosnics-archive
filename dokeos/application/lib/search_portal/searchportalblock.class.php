@@ -41,7 +41,7 @@ class SearchPortalBlock
 	 */
 	static function factory($type, $profiler, $block_info)
 	{
-		$filename = dirname(__FILE__).'/block/searchportal'.$type.'.class.php';
+		$filename = dirname(__FILE__).'/block/search_portal'.$type.'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
 			die('Failed to load "'.$type.'" block');

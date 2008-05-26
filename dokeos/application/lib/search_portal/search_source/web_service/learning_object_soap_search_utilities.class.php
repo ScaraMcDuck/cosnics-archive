@@ -13,7 +13,7 @@ class LearningObjectSoapSearchUtilities
 	static function get_wsdl_file_path($url)
 	{
 		$file = tempnam(null, 'wsdl');
-		$template = file_get_contents(dirname(__FILE__).'/learningobjectsearch.template.wsdl');
+		$template = file_get_contents(dirname(__FILE__).'/learning_object_search.template.wsdl');
 		$url = preg_replace('|/+$|', '', $url);
 		$contents = str_replace('%url%', $url, $template);
 		file_put_contents($file, $contents);

@@ -2,7 +2,7 @@
 /**
  * @package application.lib.calendar.publisher
  */
-require_once dirname(__FILE__).'/../searchportalblock.class.php';
+require_once dirname(__FILE__).'/../search_portal_block.class.php';
 
 /**
  * This class represents a calendar publisher component which can be used
