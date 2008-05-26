@@ -94,6 +94,16 @@ require_once dirname(__FILE__).'/../profilermenu.class.php';
 		}
 		$component->run();
 	}
+	
+    /**
+	 * Renders the profiler block and returns it. 
+	 */
+	function render_block($type, $block_info)
+	{
+		$block = ProfilerBlock :: factory($type, $this, $block_info);
+		return $block->run();
+	}
+	
 	/**
 	 * Gets the current action.
 	 * @see get_parameter()

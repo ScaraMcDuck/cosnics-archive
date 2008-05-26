@@ -1,18 +1,17 @@
 <?php
 /**
- * @package application.lib.calendar
+ * @package application.lib.profiler
  */
-require_once dirname(__FILE__).'/../../../repository/lib/abstractlearningobject.class.php';
 
 /**
 ==============================================================================
- *	This class provides the means to publish a learning object.
+ *	This class represents a general Weblcms Block.
  *
- *	@author Tim De Pauw
+ *	@author Hans De bisschop
 ==============================================================================
  */
 
-class PersonalMessengerBlock
+class ProfilerBlock
 {
 	const PARAM_ACTION = 'block_action';
 		
@@ -27,7 +26,7 @@ class PersonalMessengerBlock
 	 * @param  boolean $email_option If true the publisher has the option to
 	 * send the published learning object by email to the selecter target users.
 	 */
-	function PersonalMessengerBlock($parent, $block_info)
+	function ProfilerBlock($parent, $block_info)
 	{
 		$this->parent = $parent;
 		$this->block_info = $block_info;
@@ -35,21 +34,21 @@ class PersonalMessengerBlock
 	}
 	
 	/**
-	 * Create a new weblcms component
+	 * Create a new profiler component
 	 * @param string $type The type of the component to create.
 	 * @param Weblcms $weblcms The weblcms in
 	 * which the created component will be used
 	 */
-	static function factory($type, $personal_messenger, $block_info)
+	static function factory($type, $profiler, $block_info)
 	{
-		$filename = dirname(__FILE__).'/block/personalmessenger'.$type.'.class.php';
+		$filename = dirname(__FILE__).'/block/profiler'.$type.'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
 			die('Failed to load "'.$type.'" block');
 		}
-		$class = 'PersonalMessenger'.ucfirst($type);
+		$class = 'Profiler'.ucfirst($type);
 		require_once $filename;
-		return new $class($personal_messenger, $block_info);
+		return new $class($profiler, $block_info);
 	}
 
 	/**
