@@ -2,7 +2,7 @@
 require_once dirname(__FILE__).'/../class_group_manager.class.php';
 require_once dirname(__FILE__).'/../class_group_manager_component.class.php';
 require_once dirname(__FILE__).'/../../class_group_data_manager.class.php';
-require_once dirname(__FILE__).'/classgroupreluserbrowser/classgroupreluserbrowsertable.class.php';
+require_once dirname(__FILE__).'/class_group_rel_user_browser/class_group_rel_user_browser_table.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repository_utilities.class.php';
 
 class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent

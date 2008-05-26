@@ -2,14 +2,14 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../../../classgroup_rel_user_table/classgrouprelusertabledataprovider.class.php';
+require_once dirname(__FILE__).'/../../../class_group_table/class_group_table_data_provider.class.php';
 /**
  * Data provider for a repository browser table.
  *
  * This class implements some functions to allow repository browser tables to
  * retrieve information about the learning objects to display.
  */
-class ClassGroupRelUserBrowserTableDataProvider implements ClassGroupRelUserTableDataProvider
+class ClassGroupBrowserTableDataProvider implements ClassGroupTableDataProvider
 {
   /**
    * The repository manager component in which the table will be displayed
@@ -24,7 +24,7 @@ class ClassGroupRelUserBrowserTableDataProvider implements ClassGroupRelUserTabl
    * @param RepositoryManagerComponent $browser
    * @param Condition $condition
    */
-  function ClassGroupRelUserBrowserTableDataProvider($browser, $condition)
+  function ClassGroupBrowserTableDataProvider($browser, $condition)
   {
     $this->browser = $browser;
     $this->condition = $condition;
@@ -37,21 +37,21 @@ class ClassGroupRelUserBrowserTableDataProvider implements ClassGroupRelUserTabl
    * @param int $order_direction (SORT_ASC or SORT_DESC)
    * @return ResultSet A set of matching learning objects.
    */
-    function get_classgroup_rel_users($classgroup = null, $category = null, $offset, $count, $order_property, $order_direction)
+    function get_classgroups($group = null, $category = null, $offset, $count, $order_property, $order_direction)
     {
       // We always use title as second sorting parameter
       $order_property = array($order_property);
       $order_direction = array($order_direction);
        
-      return $this->browser->retrieve_classgroup_rel_users($this->get_condition(), $offset, $count, $order_property, $order_direction);
+      return $this->browser->retrieve_classgroups($this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
   /**
    * Gets the number of learning objects in the table
    * @return int
    */
-    function get_classgroup_rel_user_count()
+    function get_classgroup_count()
     {
-      return $this->browser->count_classgroup_rel_users($this->get_condition());
+      return $this->browser->count_classgroups($this->get_condition());
     }
   /**
    * Gets the condition

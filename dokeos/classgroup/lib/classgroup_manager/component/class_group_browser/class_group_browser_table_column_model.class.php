@@ -2,12 +2,12 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../../../classgroup_rel_user_table/defaultclassgrouprelusertablecolumnmodel.class.php';
+require_once dirname(__FILE__).'/../../../class_group_table/default_class_group_table_column_model.class.php';
 require_once dirname(__FILE__).'/../../../class_group.class.php';
 /**
  * Table column model for the user browser table
  */
-class ClassGroupRelUserBrowserTableColumnModel extends DefaultClassGroupRelUserTableColumnModel
+class ClassGroupBrowserTableColumnModel extends DefaultClassGroupTableColumnModel
 {
 	/**
 	 * The tables modification column
@@ -16,7 +16,7 @@ class ClassGroupRelUserBrowserTableColumnModel extends DefaultClassGroupRelUserT
 	/**
 	 * Constructor
 	 */
-	function ClassGroupRelUserBrowserTableColumnModel()
+	function ClassGroupBrowserTableColumnModel()
 	{
 		parent :: __construct();
 		$this->set_default_order_column(1);
@@ -30,7 +30,7 @@ class ClassGroupRelUserBrowserTableColumnModel extends DefaultClassGroupRelUserT
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new ClassGroupRelUserTableColumn('');
+			self :: $modification_column = new ClassGroupTableColumn('');
 		}
 		return self :: $modification_column;
 	}
