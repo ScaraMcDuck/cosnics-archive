@@ -41,7 +41,7 @@ class ProfilerBlock
 	 */
 	static function factory($type, $profiler, $block_info)
 	{
-		$filename = dirname(__FILE__).'/block/profiler'.$type.'.class.php';
+		$filename = dirname(__FILE__).'/block/profiler_'.$type.'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
 			die('Failed to load "'.$type.'" block');

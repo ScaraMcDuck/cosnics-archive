@@ -121,7 +121,7 @@ class LearningObjectDifferenceDisplay {
 	{
 		$type = $difference->get_object()->get_type();
 		$class = LearningObject :: type_to_class($type).'DifferenceDisplay';
-		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_differencedisplay.class.php';
+		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_difference_display.class.php';
 		return new $class($difference);
 	}
 	

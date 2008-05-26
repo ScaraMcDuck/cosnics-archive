@@ -3,9 +3,9 @@
  * @package application.lib.profiler.profile_publication_table
  */
 
-require_once dirname(__FILE__).'/profilepublicationtablecellrenderer.class.php';
-require_once Path :: get_repository_path(). 'lib/learningobject.class.php';
-require_once dirname(__FILE__).'/../profilepublication.class.php';
+require_once dirname(__FILE__).'/profile_publication_table_cell_renderer.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
+require_once dirname(__FILE__).'/../profile_publication.class.php';
 require_once Path :: get_user_path(). 'lib/user.class.php';
 
 class DefaultProfilePublicationTableCellRenderer implements ProfilePublicationTableCellRenderer
