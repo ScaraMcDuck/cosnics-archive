@@ -96,7 +96,7 @@ class ClassGroupManagerBrowserComponent extends ClassGroupManagerComponent
 		if (isset($this->firstletter))
 		{
 			$conditions = array();
-			$conditions[] = new LikeCondition(ClassGroup :: PROPERTY_NAME, $this->firstletter. '%');
+			$conditions[] = new PatternMatchCondition(ClassGroup :: PROPERTY_NAME, $this->firstletter. '*');
 			$condition = new OrCondition($conditions);
 			if (count($search_conditions))
 			{

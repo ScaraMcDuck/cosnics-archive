@@ -9,10 +9,10 @@ require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once dirname(__FILE__).'/class_group_data_manager.class.php';
 require_once dirname(__FILE__).'/../../repository/lib/repository_utilities.class.php';
 require_once dirname(__FILE__).'/../../users/lib/user.class.php';
-require_once dirname(__FILE__).'/../../common/condition/equalitycondition.class.php';
-require_once dirname(__FILE__).'/../../common/condition/notcondition.class.php';
-require_once dirname(__FILE__).'/../../common/condition/andcondition.class.php';
-require_once dirname(__FILE__).'/../../common/condition/orcondition.class.php';
+require_once dirname(__FILE__).'/../../common/condition/equality_condition.class.php';
+require_once dirname(__FILE__).'/../../common/condition/not_condition.class.php';
+require_once dirname(__FILE__).'/../../common/condition/and_condition.class.php';
+require_once dirname(__FILE__).'/../../common/condition/or_condition.class.php';
 require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
 
 if (Authentication :: is_valid())
@@ -21,7 +21,7 @@ if (Authentication :: is_valid())
 
 	if (isset($_GET['query']))
 	{
-		$query_condition = new LikeCondition(User :: PROPERTY_USERNAME, '%'. $_GET['query'] .'%');
+		$query_condition = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*'. $_GET['query'] .'*');
 
 		if (isset ($query_condition))
 		{

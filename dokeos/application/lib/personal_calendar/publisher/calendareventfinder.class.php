@@ -3,9 +3,9 @@
  * @package application.lib.calendareventr.publisher
  */
 require_once dirname(__FILE__).'/calendareventbrowser.class.php';
-require_once Path :: get_library_path().'condition/andcondition.class.php';
-require_once Path :: get_library_path().'condition/orcondition.class.php';
-require_once Path :: get_library_path().'condition/patternmatchcondition.class.php';
+require_once Path :: get_library_path().'condition/and_condition.class.php';
+require_once Path :: get_library_path().'condition/or_condition.class.php';
+require_once Path :: get_library_path().'condition/pattern_match_condition.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
  * This class represents a calendareventr publisher component which can be used

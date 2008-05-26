@@ -4,7 +4,7 @@
  * @subpackage webservice
  */
 require_once dirname(__FILE__).'/soap_learning_object.class.php';
-require_once Path :: get_library_path(). 'database/arrayresultset.class.php';
+require_once Path :: get_library_path(). 'database/array_result_set.class.php';
 
 class LearningObjectSoapSearchResultSet extends ArrayResultSet {
 	function next_result()

@@ -6,7 +6,7 @@
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
-require_once Path :: get_library_path().'condition/equalitycondition.class.php';
+require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once dirname(__FILE__).'/tree_menu_renderer.class.php';
 require_once dirname(__FILE__).'/options_menu_renderer.class.php';
 /**

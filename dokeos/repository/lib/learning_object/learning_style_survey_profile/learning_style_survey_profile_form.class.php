@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/learning_style_survey_profile.class.php';
 require_once dirname(__FILE__) . '/../../learning_object_form.class.php';
 require_once dirname(__FILE__) . '/../../repository_data_manager.class.php';
-require_once Path :: get_library_path().'condition/equalitycondition.class.php';
+require_once Path :: get_library_path().'condition/equality_condition.class.php';
 
 /**
  * @author Tim De Pauw

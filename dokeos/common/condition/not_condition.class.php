@@ -3,7 +3,7 @@
  * $Id$
  * @package repository.condition
  */
-require_once dirname(__FILE__).'/aggregatecondition.class.php';
+require_once dirname(__FILE__).'/aggregate_condition.class.php';
 /**
  *	This type of aggregate condition negates a single condition, thus
  *	requiring that that condition not be met.

@@ -4,9 +4,9 @@
  * @package repository
  */
 
-require_once Path :: get_library_path().'condition/andcondition.class.php';
-require_once Path :: get_library_path().'condition/orcondition.class.php';
-require_once Path :: get_library_path().'condition/patternmatchcondition.class.php';
+require_once Path :: get_library_path().'condition/and_condition.class.php';
+require_once Path :: get_library_path().'condition/or_condition.class.php';
+require_once Path :: get_library_path().'condition/pattern_match_condition.class.php';
 require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 

@@ -6,7 +6,7 @@
 require_once dirname(__FILE__).'/database/databasemenuitemresultset.class.php';
 require_once dirname(__FILE__).'/../menudatamanager.class.php';
 require_once dirname(__FILE__).'/../menuitem.class.php';
-require_once Path :: get_library_path().'condition/conditiontranslator.class.php';
+require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once 'MDB2.php';
 
 /**

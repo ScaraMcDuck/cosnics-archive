@@ -2,7 +2,7 @@
 /**
  * @package repository.usertable
  */
-require_once dirname(__FILE__).'/../../../common/html/table/sortabletable.class.php';
+require_once dirname(__FILE__).'/../../../common/html/table/sortable_table.class.php';
 require_once dirname(__FILE__).'/default_class_group_rel_user_table_column_model.class.php';
 require_once dirname(__FILE__).'/default_class_group_rel_user_table_cell_renderer.class.php';
 

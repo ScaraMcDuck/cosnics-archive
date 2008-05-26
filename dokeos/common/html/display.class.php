@@ -60,7 +60,7 @@ define("HTML_WHITE", "white");
 *	@version 1.0.4
 *	@package dokeos.library
 */
-require_once(dirname(__FILE__).'/table/sortabletable.class.php');
+require_once(dirname(__FILE__).'/table/sortable_table.class.php');
 require_once(dirname(__FILE__).'/footer.class.php');
 
 class Display

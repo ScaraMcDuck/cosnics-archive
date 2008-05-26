@@ -79,8 +79,8 @@ abstract class Authentication {
      */
     function factory($authentication_method)
     {
-		$authentication_class_file = dirname(__FILE__).'/'.$authentication_method.'/'.$authentication_method.'authentication.class.php';
-		$authentication_class = ucfirst($authentication_method).'Authentication';
+		$authentication_class_file = dirname(__FILE__).'/'.$authentication_method.'/'.$authentication_method.'_authentication.class.php';
+		$authentication_class = RepositoryUtilities :: underscores_to_camelcase($authentication_method).'Authentication';
 		require_once $authentication_class_file;
 		return new $authentication_class;
     }

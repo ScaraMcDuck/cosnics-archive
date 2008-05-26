@@ -62,8 +62,8 @@ abstract class Export
 	 */
 	public static function factory($type, $filename = 'export')
 	{
-		$file = dirname(__FILE__).'/'.$type.'/'.$type.'export.class.php';
-		$class = ucfirst($type).'Export';
+		$file = dirname(__FILE__).'/'.$type.'/'.$type.'_export.class.php';
+		$class = RepositoryUtilities :: underscores_to_camelcase($type).'Export';
 		if(file_exists($file))
 		{
 			require_once($file);

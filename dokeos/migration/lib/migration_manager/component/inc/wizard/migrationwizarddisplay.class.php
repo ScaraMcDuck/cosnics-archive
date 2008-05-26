@@ -3,7 +3,7 @@
  * @package migration.lib.migration_manager.component.inc.wizard
  */
 
-require_once Path :: get_library_path().'resourcemanager.class.php';
+require_once Path :: get_library_path().'resource_manager.class.php';
 
 /**
  * This class provides the needed functionality to show a page in a migration

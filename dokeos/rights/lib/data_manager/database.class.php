@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../role.class.php';
 require_once dirname(__FILE__).'/../right.class.php';
 require_once dirname(__FILE__).'/../location.class.php';
 require_once dirname(__FILE__).'/../rolerightlocation.class.php';
-require_once Path :: get_library_path().'condition/conditiontranslator.class.php';
+require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once 'MDB2.php';
 
 /**

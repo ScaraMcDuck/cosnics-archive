@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/database/database_language_result_set.class.php
 require_once dirname(__FILE__).'/../admin_data_manager.class.php';
 require_once dirname(__FILE__).'/../language.class.php';
 require_once dirname(__FILE__).'/../setting.class.php';
-require_once Path :: get_library_path().'condition/conditiontranslator.class.php';
+require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once 'MDB2.php';
 
 class DatabaseAdminDataManager extends AdminDataManager

@@ -3,7 +3,7 @@
  * @package application.weblcms
  * @subpackage datamanager.database
  */
-require_once dirname(__FILE__).'/../../../../common/database/resultset.class.php';
+require_once dirname(__FILE__).'/../../../../common/database/result_set.class.php';
 /**
  * This class represents a resultset which represents a set of courses.
  */

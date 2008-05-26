@@ -23,7 +23,7 @@ class LdapAuthentication extends Authentication
     }
     public function check_login($user,$username,$password = null)
     {
-		include dirname(__FILE__).'/ldapauthenticationconfig.inc.php';
+		include dirname(__FILE__).'/ldap_authentication_config.inc.php';
 		$ldap_connect=ldap_connect($ldap_host,$ldap_port);
 		if ($ldap_connect){
 			ldap_set_option($ldap_connect,LDAP_OPT_PROTOCOL_VERSION, 3);

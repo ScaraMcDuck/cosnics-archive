@@ -1,13 +1,13 @@
 <?php
 require_once dirname(__FILE__).'/condition.class.php';
-require_once dirname(__FILE__).'/equalitycondition.class.php';
-require_once dirname(__FILE__).'/inequalitycondition.class.php';
-require_once dirname(__FILE__).'/patternmatchcondition.class.php';
-require_once dirname(__FILE__).'/aggregatecondition.class.php';
-require_once dirname(__FILE__).'/andcondition.class.php';
-require_once dirname(__FILE__).'/orcondition.class.php';
-require_once dirname(__FILE__).'/notcondition.class.php';
-require_once dirname(__FILE__).'/incondition.class.php';
+require_once dirname(__FILE__).'/equality_condition.class.php';
+require_once dirname(__FILE__).'/inequality_condition.class.php';
+require_once dirname(__FILE__).'/pattern_match_condition.class.php';
+require_once dirname(__FILE__).'/aggregate_condition.class.php';
+require_once dirname(__FILE__).'/and_condition.class.php';
+require_once dirname(__FILE__).'/or_condition.class.php';
+require_once dirname(__FILE__).'/not_condition.class.php';
+require_once dirname(__FILE__).'/in_condition.class.php';
 
 class ConditionTranslator
 {

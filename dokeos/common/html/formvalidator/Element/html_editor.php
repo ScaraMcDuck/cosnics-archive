@@ -23,7 +23,7 @@
 */
 require_once ('HTML/QuickForm/textarea.php');
 require_once (Path :: get_plugin_path().'fckeditor/fckeditor.php');
-require_once (Path :: get_library_path().'resourcemanager.class.php');
+require_once (Path :: get_library_path().'resource_manager.class.php');
 require_once (Path :: get_admin_path().'lib/admin_data_manager.class.php');
 /**
 * A html editor field to use with QuickForm

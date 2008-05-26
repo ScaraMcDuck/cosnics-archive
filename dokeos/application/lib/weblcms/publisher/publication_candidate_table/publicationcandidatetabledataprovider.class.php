@@ -7,9 +7,9 @@
 require_once Path :: get_repository_path(). 'lib/learning_object_table/learning_object_table_data_provider.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
-require_once Path :: get_library_path().'condition/equalitycondition.class.php';
-require_once Path :: get_library_path().'condition/andcondition.class.php';
-require_once Path :: get_library_path().'condition/orcondition.class.php';
+require_once Path :: get_library_path().'condition/equality_condition.class.php';
+require_once Path :: get_library_path().'condition/and_condition.class.php';
+require_once Path :: get_library_path().'condition/or_condition.class.php';
 /**
  * This class represents a data provider for a publication candidate table
  */

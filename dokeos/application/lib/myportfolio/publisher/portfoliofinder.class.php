@@ -3,9 +3,9 @@
  * @package application.lib.portfolio.publisher
  */
 require_once dirname(__FILE__).'/portfoliobrowser.class.php';
-require_once Path :: get_repository_path(). 'lib/condition/andcondition.class.php';
-require_once Path :: get_repository_path(). 'lib/condition/orcondition.class.php';
-require_once Path :: get_repository_path(). 'lib/condition/patternmatchcondition.class.php';
+require_once Path :: get_repository_path(). 'lib/condition/and_condition.class.php';
+require_once Path :: get_repository_path(). 'lib/condition/or_condition.class.php';
+require_once Path :: get_repository_path(). 'lib/condition/pattern_match_condition.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
  * This class represents a profiler publisher component which can be used

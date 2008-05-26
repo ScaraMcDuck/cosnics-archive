@@ -7,10 +7,9 @@ require_once dirname(__FILE__).'/class_group_search_form.class.php';
 require_once dirname(__FILE__).'/../class_group_data_manager.class.php';
 require_once dirname(__FILE__).'/../class_group.class.php';
 require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/../../../common/condition/orcondition.class.php';
-require_once dirname(__FILE__).'/../../../common/condition/andcondition.class.php';
-require_once dirname(__FILE__).'/../../../common/condition/equalitycondition.class.php';
-require_once dirname(__FILE__).'/../../../common/condition/likecondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/or_condition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/and_condition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/equality_condition.class.php';
 require_once dirname(__FILE__).'/../class_group_table/class_group_table.class.php';
 
 /**

@@ -9,7 +9,7 @@
 require_once dirname(__FILE__).'/../portfoliodatamanager.class.php';
 require_once dirname(__FILE__).'/../portfoliopublication.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
-require_once Path :: get_library_path().'condition/conditiontranslator.class.php';
+require_once Path :: get_library_path().'condition/condition_translator.class.php';
 
 
 class DatabasePortfolioDataManager extends PortfolioDataManager

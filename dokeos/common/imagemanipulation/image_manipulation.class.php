@@ -130,7 +130,7 @@ abstract class ImageManipulation
 	 */
 	public static function factory($source_file)
 	{
-		require_once dirname(__FILE__).'/gd/gdimagemanipulation.class.php';
+		require_once dirname(__FILE__).'/gd/gd_image_manipulation.class.php';
 		return new GdImageManipulation($source_file);
 	}
 	/**
