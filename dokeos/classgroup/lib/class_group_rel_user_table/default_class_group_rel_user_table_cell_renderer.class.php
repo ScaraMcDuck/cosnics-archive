@@ -3,7 +3,7 @@
  * @package repository.usertable
  */
 
-require_once dirname(__FILE__).'/classgrouprelusertablecellrenderer.class.php';
+require_once dirname(__FILE__).'/class_group_rel_user_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../class_group_rel_user.class.php';
 /**
  * TODO: Add comment

@@ -3,20 +3,20 @@
  * @package repository.usertable
  */
 require_once dirname(__FILE__).'/../../../common/html/table/sortabletable.class.php';
-require_once dirname(__FILE__).'/defaultclassgrouprelusertablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/defaultclassgrouprelusertablecellrenderer.class.php';
+require_once dirname(__FILE__).'/default_class_group_table_column_model.class.php';
+require_once dirname(__FILE__).'/default_class_group_table_cell_renderer.class.php';
 
 /**
  * 
  * TODO: Add comment
  * 
  */
-class ClassGroupRelUserTable
+class ClassGroupTable
 {
 	/**
 	 * Default table name
 	 */
-	const DEFAULT_NAME = 'classgroupreluser';
+	const DEFAULT_NAME = 'classgroup';
 	/**
 	 * Suffix for checkbox name when using actions on selected learning objects.
 	 */
@@ -66,12 +66,12 @@ class ClassGroupRelUserTable
 	 *                                                       Omit to use the
 	 *                                                       default renderer.
 	 */
-	function ClassGroupRelUserTable($data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
+	function ClassGroupTable($data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
 	{
 		$this->set_data_provider($data_provider);
 		$this->set_name(isset($table_name) ? $table_name : self :: DEFAULT_NAME);
-		$this->set_column_model(isset ($column_model) ? $column_model : new DefaultClassGroupRelUserTableColumnModel());
-		$this->set_cell_renderer(isset ($cell_renderer) ? $cell_renderer : new DefaultClassGroupRelUserTableCellRenderer());
+		$this->set_column_model(isset ($column_model) ? $column_model : new DefaultClassGroupTableColumnModel());
+		$this->set_cell_renderer(isset ($cell_renderer) ? $cell_renderer : new DefaultClassGroupTableCellRenderer());
 		$this->set_default_row_count(10);
 		$this->set_additional_parameters($this->determine_additional_parameters());
 	}
@@ -100,7 +100,7 @@ class ClassGroupRelUserTable
 	 */
 	function as_html()
 	{
-		$table = new SortableTable($this->get_name(), array ($this, 'get_classgroup_rel_user_count'), array ($this, 'get_classgroup_rel_users'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction());
+		$table = new SortableTable($this->get_name(), array ($this, 'get_classgroup_count'), array ($this, 'get_classgroups'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction());
 		$table->set_additional_parameters($this->get_additional_parameters());
 		if ($this->has_form_actions())
 		{
@@ -267,21 +267,21 @@ class ClassGroupRelUserTable
 	 * You should not be concerned with this method. It is only public because
 	 * of technical limitations.
 	 */
-	function get_classgroup_rel_users($offset, $count, $order_column, $order_direction)
+	function get_classgroups($offset, $count, $order_column, $order_direction)
 	{
-		$classgrouprelusers = $this->get_data_provider()->get_classgroup_rel_users(null, null, $offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_classgroup_rel_user_property(), $order_direction);
+		$classgroups = $this->get_data_provider()->get_classgroups(null, null, $offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_classgroup_property(), $order_direction);
 		$table_data = array ();
 		$column_count = $this->get_column_model()->get_column_count();
-		while ($classgroupreluser = $classgrouprelusers->next_result())
+		while ($classgroup = $classgroups->next_result())
 		{
 			$row = array ();
 			if ($this->has_form_actions())
 			{
-				$row[] = $classgroupreluser->get_classgroup_id() . '|' . $classgroupreluser->get_user_id();
+				$row[] = $classgroup->get_id();
 			}
 			for ($i = 0; $i < $column_count; $i ++)
 			{
-				$row[] = $this->get_cell_renderer()->render_cell($this->get_column_model()->get_column($i), $classgroupreluser);
+				$row[] = $this->get_cell_renderer()->render_cell($this->get_column_model()->get_column($i), $classgroup);
 			}
 			$table_data[] = $row;
 		}
@@ -292,9 +292,9 @@ class ClassGroupRelUserTable
 	 * You should not be concerned with this method. It is only public because
 	 * of technical limitations.
 	 */
-	function get_classgroup_rel_user_count()
+	function get_classgroup_count()
 	{
-		return $this->get_data_provider()->get_classgroup_rel_user_count();
+		return $this->get_data_provider()->get_classgroup_count();
 	}
 }
 ?>

@@ -2,8 +2,8 @@
 /**
  * @package repository.usertable
  */
-require_once dirname(__FILE__).'/classgrouptablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/classgrouptablecolumn.class.php';
+require_once dirname(__FILE__).'/class_group_table_column_model.class.php';
+require_once dirname(__FILE__).'/class_group_table_column.class.php';
 require_once dirname(__FILE__).'/../class_group.class.php';
 
 /**
