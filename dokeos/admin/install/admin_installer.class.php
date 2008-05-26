@@ -3,7 +3,7 @@
  * $Id: personal_calendar_installer.class.php 12686 2007-07-03 11:32:57Z bmol $
  * @package users.install
  */
-require_once dirname(__FILE__).'/../lib/admindatamanager.class.php';
+require_once dirname(__FILE__).'/../lib/admin_datamanager.class.php';
 require_once dirname(__FILE__).'/../lib/language.class.php';
 require_once dirname(__FILE__).'/../lib/setting.class.php';
 require_once Path :: get_library_path().'installer.class.php';

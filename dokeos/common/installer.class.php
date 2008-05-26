@@ -9,7 +9,7 @@
 require_once Path :: get_tracking_path() .'lib/trackingdatamanager.class.php';
 require_once Path :: get_tracking_path() .'lib/trackerregistration.class.php';
 require_once Path :: get_tracking_path() .'lib/eventreltracker.class.php';
-require_once Path :: get_admin_path() .'lib/admindatamanager.class.php';
+require_once Path :: get_admin_path() .'lib/admin_datamanager.class.php';
 require_once Path :: get_admin_path() .'lib/setting.class.php';
 require_once Path :: get_repository_path() .'lib/repositoryutilities.class.php';
  

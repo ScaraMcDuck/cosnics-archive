@@ -3,9 +3,9 @@
  * @package admin
  * @subpackage datamanager
  */
-require_once dirname(__FILE__).'/database/databasesettingresultset.class.php';
-require_once dirname(__FILE__).'/database/databaselanguageresultset.class.php';
-require_once dirname(__FILE__).'/../admindatamanager.class.php';
+require_once dirname(__FILE__).'/database/database_setting_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_language_result_set.class.php';
+require_once dirname(__FILE__).'/../admin_datamanager.class.php';
 require_once dirname(__FILE__).'/../language.class.php';
 require_once dirname(__FILE__).'/../setting.class.php';
 require_once Path :: get_library_path().'condition/conditiontranslator.class.php';
