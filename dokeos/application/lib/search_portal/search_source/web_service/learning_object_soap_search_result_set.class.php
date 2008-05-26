@@ -3,7 +3,7 @@
  * @package application.searchportal
  * @subpackage webservice
  */
-require_once dirname(__FILE__).'/soaplearningobject.class.php';
+require_once dirname(__FILE__).'/soap_learning_object.class.php';
 require_once Path :: get_library_path(). 'database/arrayresultset.class.php';
 
 class LearningObjectSoapSearchResultSet extends ArrayResultSet {

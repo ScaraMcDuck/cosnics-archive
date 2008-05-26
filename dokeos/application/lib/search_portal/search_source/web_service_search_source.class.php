@@ -2,11 +2,11 @@
 /**
  * @package application.searchportal
  */
-require_once dirname(__FILE__).'/../searchsource.class.php';
-require_once dirname(__FILE__).'/web_service/learningobjectsoapsearchclient.class.php';
-require_once dirname(__FILE__).'/web_service/learningobjectsoapsearchutilities.class.php';
-require_once dirname(__FILE__).'/web_service/learningobjectsoapsearchresultset.class.php';
-require_once dirname(__FILE__).'/../repositorysearchresult.class.php';
+require_once dirname(__FILE__).'/../search_source.class.php';
+require_once dirname(__FILE__).'/web_service/learning_object_soap_search_client.class.php';
+require_once dirname(__FILE__).'/web_service/learning_object_soap_search_utilities.class.php';
+require_once dirname(__FILE__).'/web_service/learning_object_soap_search_result_set.class.php';
+require_once dirname(__FILE__).'/../repository_search_result.class.php';
 
 class WebServiceSearchSource implements SearchSource
 {

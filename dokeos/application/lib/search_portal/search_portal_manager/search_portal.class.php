@@ -2,14 +2,14 @@
 /**
  * @package application.searchportal
  */
-require_once dirname(__FILE__).'/../search_source/localrepositorysearchsource.class.php';
-require_once dirname(__FILE__).'/../search_source/webservicesearchsource.class.php';
+require_once dirname(__FILE__).'/../search_source/local_repository_search_source.class.php';
+require_once dirname(__FILE__).'/../search_source/web_service_search_source.class.php';
 require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_repository_path(). 'lib/repositorydatamanager.class.php';
 require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/../searchportalblock.class.php';
+require_once dirname(__FILE__).'/../search_portal_block.class.php';
 require_once 'Pager/Pager.php';
 
 /**
