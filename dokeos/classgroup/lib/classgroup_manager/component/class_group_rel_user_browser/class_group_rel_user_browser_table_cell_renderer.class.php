@@ -2,8 +2,8 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/classgroupreluserbrowsertablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/../../../classgroup_rel_user_table/defaultclassgrouprelusertablecellrenderer.class.php';
+require_once dirname(__FILE__).'/class_group_rel_user_browser_table_column_model.class.php';
+require_once dirname(__FILE__).'/../../../class_group_rel_user_table/default_class_group_rel_user_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../../../class_group.class.php';
 require_once dirname(__FILE__).'/../../class_group_manager.class.php';
 /**

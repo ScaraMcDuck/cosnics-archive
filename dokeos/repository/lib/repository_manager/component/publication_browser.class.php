@@ -3,7 +3,7 @@
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
-require_once dirname(__FILE__).'/publicationbrowser/publication_browser_table.class.php';
+require_once dirname(__FILE__).'/publication_browser/publication_browser_table.class.php';
 /**
  * Repository manager component which displays user's publications.
  * 

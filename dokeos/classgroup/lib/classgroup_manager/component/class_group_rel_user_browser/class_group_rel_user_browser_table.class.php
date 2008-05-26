@@ -2,10 +2,10 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../../../classgroup_rel_user_table/classgrouprelusertable.class.php';
-require_once dirname(__FILE__).'/classgroupreluserbrowsertabledataprovider.class.php';
-require_once dirname(__FILE__).'/classgroupreluserbrowsertablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/classgroupreluserbrowsertablecellrenderer.class.php';
+require_once dirname(__FILE__).'/../../../class_group_rel_user_table/class_group_rel_user_table.class.php';
+require_once dirname(__FILE__).'/class_group_rel_user_browser_table_data_provider.class.php';
+require_once dirname(__FILE__).'/class_group_rel_user_browser_table_column_model.class.php';
+require_once dirname(__FILE__).'/class_group_rel_user_browser_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../../class_group_manager.class.php';
 /**
  * Table to display a set of learning objects.

@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../class_group_manager.class.php';
 require_once dirname(__FILE__).'/../class_group_manager_component.class.php';
-require_once dirname(__FILE__).'/classgroupbrowser/classgroupbrowsertable.class.php';
+require_once dirname(__FILE__).'/class_group_browser/class_group_browser_table.class.php';
 require_once dirname(__FILE__).'/../../class_group_menu.class.php';
 /**
  * Weblcms component which allows the user to manage his or her user subscriptions
