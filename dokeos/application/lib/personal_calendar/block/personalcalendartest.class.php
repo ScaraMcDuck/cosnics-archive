@@ -3,7 +3,6 @@
  * @package application.lib.calendar.publisher
  */
 require_once dirname(__FILE__).'/../personalcalendarblock.class.php';
-require_once dirname(__FILE__).'/../personalcalendarblockcomponent.class.php';
 
 require_once dirname(__FILE__).'/../../../../repository/lib/repositoryutilities.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/learningobjectdisplay.class.php';
@@ -12,7 +11,7 @@ require_once dirname(__FILE__).'/../renderer/personal_calendar_mini_month_render
  * This class represents a calendar publisher component which can be used
  * to browse through the possible learning objects to publish.
  */
-class PersonalCalendarTest extends PersonalCalendarBlockComponent
+class PersonalCalendarTest extends PersonalCalendarBlock
 {
 	function run()
 	{

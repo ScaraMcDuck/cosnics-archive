@@ -21,6 +21,7 @@ require_once Path :: get_library_path().'condition/likecondition.class.php';
 require_once dirname(__FILE__).'/../course/course_table/coursetable.class.php';
 require_once Path :: get_user_path(). 'lib/user_table/usertable.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
+require_once dirname(__FILE__).'/../weblcmsblock.class.php';
 
 /**
 ==============================================================================
@@ -70,6 +71,8 @@ class Weblcms extends WebApplication
 	const ACTION_COURSE_CATEGORY_MANAGER = 'catmanager';
 	const ACTION_ADMIN_COURSE_BROWSER = 'adminbrowser';
 	const ACTION_DELETE_COURSE = 'coursedeleter';
+	
+	const ACTION_RENDER_BLOCK = 'block';
 
 	/**
 	 * The tools that this application offers.
@@ -168,6 +171,15 @@ class Weblcms extends WebApplication
 				$component = WeblcmsComponent :: factory('Home', $this);
 		}
 		$component->run();
+	}
+	
+    /**
+	 * Renders the weblcms block and returns it. 
+	 */
+	function render_block($type, $block_info)
+	{
+		$block = WeblcmsBlock :: factory($type, $this, $block_info);
+		return $block->run();
 	}
 
 	/**
@@ -865,6 +877,16 @@ class Weblcms extends WebApplication
 	function get_course_viewing_url($course)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id()));
+	}
+	
+    /**
+     * Returns the link to the course's page
+     * @param Course $course
+     * @return String
+     */
+	function get_course_viewing_link($course)
+	{
+		return $this->get_link(array (self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id()));
 	}
 
     /**

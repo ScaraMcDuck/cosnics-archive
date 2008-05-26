@@ -114,27 +114,12 @@ require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
 	}
 	
     /**
-	 * Renders the calendar block and returns it. 
+	 * Renders the personal messenger block and returns it. 
 	 */
 	function render_block($type, $block_info)
 	{
-		/*
-		 * Only setting breadcrumbs here. Some stuff still calls
-		 * forceCurrentUrl(), but that should not affect the breadcrumbs.
-		 */
-		//$this->breadcrumbs = $this->get_category_menu()->get_breadcrumbs();
-		$action = $this->get_action();
-		$component = null;
-		switch ($action)
-		{
-			case self :: ACTION_RENDER_BLOCK :
-				$component = PersonalMessengerComponent :: factory('Blocker', $this);
-				break;
-			default :
-				$this->set_action(self :: ACTION_RENDER_BLOCK);
-				$component = PersonalMessengerComponent :: factory('Blocker', $this);
-		}
-		return $component->render_block($type, $block_info);
+		$block = PersonalMessengerBlock :: factory($type, $this, $block_info);
+		return $block->run();
 	}
 	
 	/**
