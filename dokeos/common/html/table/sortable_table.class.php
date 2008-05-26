@@ -1,5 +1,5 @@
 <?php
-//$Id: sortabletable.class.php 14277 2008-02-08 21:13:49Z Scara84 $
+//$Id: sortable_table.class.php 14277 2008-02-08 21:13:49Z Scara84 $
 /*
 ==============================================================================
 	Dokeos - elearning and course management software
@@ -24,7 +24,7 @@
 require_once "HTML/Table.php"; //See http://pear.php.net/package/HTML_Table
 require_once "Pager/Pager.php"; //See http://pear.php.net/package/Pager
 require_once "Pager/Sliding.php";
-require_once 'tablesort.class.php';
+require_once 'table_sort.class.php';
 /**
  * This class allows you to display a sortable data-table. It is possible to
  * split the data in several pages.

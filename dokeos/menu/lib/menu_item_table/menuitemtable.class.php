@@ -2,7 +2,7 @@
 /**
  * @package application.lib.menu.menu_publication_table
  */
-require_once Path :: get_library_path().'html/table/sortabletable.class.php';
+require_once Path :: get_library_path().'html/table/sortable_table.class.php';
 require_once dirname(__FILE__).'/defaultmenuitemtablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/defaultmenuitemtablecellrenderer.class.php';
 

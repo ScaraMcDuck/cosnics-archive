@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/../homerow.class.php';
 require_once dirname(__FILE__).'/../homecolumn.class.php';
 require_once dirname(__FILE__).'/../homeblock.class.php';
 require_once dirname(__FILE__).'/../homeblockconfig.class.php';
-require_once Path :: get_library_path().'condition/conditiontranslator.class.php';
+require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once 'MDB2.php';
 
 /**

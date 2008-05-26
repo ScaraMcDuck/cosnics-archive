@@ -17,7 +17,7 @@ require_once Path :: get_plugin_path() . 'icalcreator/iCalcreator.class.php';
  * $row['mail']
  * 
  */
-class iCalExport extends Export
+class IcalExport extends Export
 {
 	public function write_to_file($data)
 	{

@@ -1,6 +1,6 @@
 <?php
 require_once Path :: get_rights_path() . 'lib/rightsdatamanager.class.php';
-require_once Path :: get_library_path() . 'dokeosutilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_library_path() . 'filesystem/path.class.php';
 require_once Path :: get_library_path() . 'filesystem/filesystem.class.php';
 

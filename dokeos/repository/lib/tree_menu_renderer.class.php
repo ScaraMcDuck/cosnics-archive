@@ -4,7 +4,7 @@
  * @package repository
  */
 require_once 'HTML/Menu/DirectTreeRenderer.php';
-require_once Path :: get_library_path().'resourcemanager.class.php';
+require_once Path :: get_library_path().'resource_manager.class.php';
 
 /**
  * Renderer which can be used to include a tree menu on your page.

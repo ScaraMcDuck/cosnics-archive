@@ -4,7 +4,7 @@
  * @package application.weblcms
  * @subpackage datamanager.database
  */
-require_once Path :: get_library_path(). 'database/resultset.class.php';
+require_once Path :: get_library_path(). 'database/result_set.class.php';
 /**
  * This class represents a resultset which represents a set of learning object
  * publications.

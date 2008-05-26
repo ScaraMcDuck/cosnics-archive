@@ -63,7 +63,7 @@ abstract class Filecompression
      */
     public static function factory()
     {
-		require_once dirname(__FILE__).'/pclzip/pclzipfilecompression.class.php';
+		require_once dirname(__FILE__).'/pclzip/pclzip_filecompression.class.php';
 		return new PclzipFilecompression();
     }
     

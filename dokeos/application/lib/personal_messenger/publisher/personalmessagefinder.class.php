@@ -5,9 +5,9 @@
  * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/personalmessagebrowser.class.php';
-require_once Path :: get_library_path().'condition/andcondition.class.php';
-require_once Path :: get_library_path().'condition/orcondition.class.php';
-require_once Path :: get_library_path().'condition/patternmatchcondition.class.php';
+require_once Path :: get_library_path().'condition/and_condition.class.php';
+require_once Path :: get_library_path().'condition/or_condition.class.php';
+require_once Path :: get_library_path().'condition/pattern_match_condition.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
  * This class represents a personal message publisher component which can be used

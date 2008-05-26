@@ -3,7 +3,7 @@
  * $Id$
  * @package repository.condition
  */
-require_once dirname(__FILE__).'/aggregatecondition.class.php';
+require_once dirname(__FILE__).'/aggregate_condition.class.php';
 /**
  *	This class represents a condition that consists of multiple aggregated
  *	conditions. Thus, it is used to model a single relationship (AND, OR

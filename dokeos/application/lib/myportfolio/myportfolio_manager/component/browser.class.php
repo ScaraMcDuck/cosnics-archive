@@ -47,9 +47,9 @@ class PortfolioBrowserComponent extends PortfolioComponent
 		if (isset($this->firstletter))
 		{
 			$conditions = array();
-			$conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, $this->firstletter. '%');
-			$conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, chr(ord($this->firstletter)+1). '%');
-			$conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, chr(ord($this->firstletter)+2). '%');
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, $this->firstletter. '*');
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, chr(ord($this->firstletter)+1). '*');
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, chr(ord($this->firstletter)+2). '*');
 			$condition = new OrCondition($conditions);
 			if (count($search_conditions))
 			{

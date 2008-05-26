@@ -5,7 +5,7 @@
 
 require_once dirname(__FILE__).'/usertablecellrenderer.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
-require_once Path :: get_library_path().'imagemanipulation/imagemanipulation.class.php';
+require_once Path :: get_library_path().'imagemanipulation/image_manipulation.class.php';
 
 class DefaultUserTableCellRenderer implements UserTableCellRenderer
 {

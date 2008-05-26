@@ -3,7 +3,7 @@
  * $Id$
  * @package repository.learningobjecttable
  */
-require_once Path :: get_library_path().'html/table/sortabletable.class.php';
+require_once Path :: get_library_path().'html/table/sortable_table.class.php';
 require_once dirname(__FILE__).'/default_learning_object_table_column_model.class.php';
 require_once dirname(__FILE__).'/default_learning_object_table_cell_renderer.class.php';
 

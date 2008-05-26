@@ -3,7 +3,7 @@
  * @package repository
  * @subpackage datamanager
  */
-require_once Path :: get_library_path(). 'database/resultset.class.php';
+require_once Path :: get_library_path(). 'database/result_set.class.php';
 /**
  * Resultset to hold a set of learning objects
  */

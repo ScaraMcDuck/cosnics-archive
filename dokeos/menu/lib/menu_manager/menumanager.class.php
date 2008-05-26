@@ -6,10 +6,10 @@ require_once dirname(__FILE__).'/menumanagercomponent.class.php';
 require_once dirname(__FILE__).'/../menudatamanager.class.php';
 require_once dirname(__FILE__).'/../menuitem.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/../../../common/condition/orcondition.class.php';
-require_once dirname(__FILE__).'/../../../common/condition/andcondition.class.php';
-require_once dirname(__FILE__).'/../../../common/condition/equalitycondition.class.php';
-require_once dirname(__FILE__).'/../../../common/condition/patternmatchcondition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/or_condition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/and_condition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/equality_condition.class.php';
+require_once dirname(__FILE__).'/../../../common/condition/pattern_match_condition.class.php';
 
 /**
  * A user manager provides some functionalities to the admin to manage

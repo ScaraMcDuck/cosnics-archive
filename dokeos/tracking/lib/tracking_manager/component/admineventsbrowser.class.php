@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../trackingmanager.class.php';
 require_once dirname(__FILE__).'/../trackingmanagercomponent.class.php';
 require_once dirname(__FILE__).'/admineventsbrowser/eventbrowsertable.class.php';
-require_once Path :: get(SYS_LIB_PATH).'/html/table/simpletable.class.php';
+require_once Path :: get(SYS_LIB_PATH).'/html/table/simple_table.class.php';
 
 /**
  * Component for viewing tracker events 

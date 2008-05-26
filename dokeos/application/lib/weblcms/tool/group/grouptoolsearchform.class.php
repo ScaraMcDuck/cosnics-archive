@@ -115,9 +115,9 @@ class GroupToolSearchForm extends FormValidator
 		if (isset($query) && $query != '')
 		{
 			$conditions = array ();
-			$conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, '%'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'%');
-			$conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, '%'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'%');
-			$conditions[] = new LikeCondition(User :: PROPERTY_FIRSTNAME, '%'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'%');
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'*');
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'*');
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'*');
 			return new OrCondition($conditions);
 		}
 		else

@@ -8,10 +8,9 @@ require_once dirname(__FILE__).'/../trackerregistration.class.php';
 require_once dirname(__FILE__).'/../event.class.php';
 require_once dirname(__FILE__).'/../eventreltracker.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-require_once Path :: get_library_path().'condition/orcondition.class.php';
-require_once Path :: get_library_path().'condition/andcondition.class.php';
-require_once Path :: get_library_path().'condition/equalitycondition.class.php';
-require_once Path :: get_library_path().'condition/likecondition.class.php';
+require_once Path :: get_library_path().'condition/or_condition.class.php';
+require_once Path :: get_library_path().'condition/and_condition.class.php';
+require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
 require_once dirname(__FILE__).'/../event_table/eventtable.class.php';
 

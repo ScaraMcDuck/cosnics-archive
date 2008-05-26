@@ -2,7 +2,7 @@
 /**
  * @package users.lib.user_table
  */
-require_once Path :: get_library_path().'html/table/sortabletable.class.php';
+require_once Path :: get_library_path().'html/table/sortable_table.class.php';
 require_once dirname(__FILE__).'/defaultusertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/defaultusertablecellrenderer.class.php';
 

@@ -148,9 +148,9 @@ class WeblcmsSearchForm extends FormValidator
 		if (isset($query) && $query != '')
 		{
 			$conditions = array ();
-			$conditions[] = new LikeCondition(Course :: PROPERTY_ID, '%'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'%');
-			$conditions[] = new LikeCondition(Course :: PROPERTY_NAME, '%'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'%');
-			$conditions[] = new LikeCondition(Course :: PROPERTY_LANGUAGE, '%'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'%');
+			$conditions[] = new PatternMatchCondition(Course :: PROPERTY_ID, '*'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'*');
+			$conditions[] = new PatternMatchCondition(Course :: PROPERTY_NAME, '*'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'*');
+			$conditions[] = new PatternMatchCondition(Course :: PROPERTY_LANGUAGE, '*'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'*');
 		
 			return new OrCondition($conditions);
 		}

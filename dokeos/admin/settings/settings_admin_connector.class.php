@@ -1,6 +1,6 @@
 <?php
 require_once Path :: get_admin_path() . 'lib/admin_data_manager.class.php';
-require_once Path :: get_library_path() . 'dokeosutilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_library_path() . 'filesystem/path.class.php';
 require_once Path :: get_library_path() . 'filesystem/filesystem.class.php';
 

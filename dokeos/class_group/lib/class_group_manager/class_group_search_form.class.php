@@ -135,7 +135,7 @@ class ClassGroupSearchForm extends FormValidator
 		if (isset($query) && $query != '')
 		{
 			$conditions = array ();
-			$conditions[] = new LikeCondition(ClassGroup :: PROPERTY_NAME, '%'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'%');
+			$conditions[] = new PatternMatchCondition(ClassGroup :: PROPERTY_NAME, '*'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'*');
 		
 			return new OrCondition($conditions);
 		}

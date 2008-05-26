@@ -3,12 +3,14 @@
  * $Id$
  * @package repository.condition
  */
-require_once dirname(__FILE__).'/multipleaggregatecondition.class.php';
+require_once dirname(__FILE__).'/multiple_aggregate_condition.class.php';
 /**
- * This type of condition requires that all of its aggregated conditions be met.
- * @author Tim De Pauw
+ *	This type of condition requires that one or more of its aggregated
+ *	conditions be met.
+ *
+ *	@author Tim De Pauw
  */
-class AndCondition extends MultipleAggregateCondition
+class OrCondition extends MultipleAggregateCondition
 {
 	/**
 	 * Gets a string representation of this condition
@@ -21,7 +23,7 @@ class AndCondition extends MultipleAggregateCondition
 		{
 			$cond_string[] = '('.$condition->__toString().')';
 		}
-		return implode(' AND ',$cond_string);
+		return implode(' OR ',$cond_string);
 	}
 }
 ?>
