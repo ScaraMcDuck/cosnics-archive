@@ -1,9 +1,9 @@
 <?php
 /**
- * $Id: repositorydatamanager.class.php 9176 2006-08-30 09:08:17Z bmol $
+ * $Id: repository_data_manager.class.php 9176 2006-08-30 09:08:17Z bmol $
  * @package repository
  */
-require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/../lib/repository_data_manager.class.php';
 require_once Path :: get_library_path().'installer.class.php';
 require_once Path :: get_library_path().'filesystem/filesystem.class.php';
 require_once Path :: get_tracking_path() .'lib/events.class.php';

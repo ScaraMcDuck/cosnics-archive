@@ -5,8 +5,8 @@
 require_once dirname(__FILE__).'/../personal_calendar.class.php';
 require_once dirname(__FILE__).'/../personalcalendarcomponent.class.php';
 require_once dirname(__FILE__).'/../../renderer/personal_calendar_mini_month_renderer.class.php';
-require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
-require_once Path :: get_repository_path(). 'lib/learningobjectdisplay.class.php';
+require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object_display.class.php';
 
 class PersonalCalendarViewerComponent extends PersonalCalendarComponent
 {	

@@ -3,7 +3,7 @@
  * $Id: configuration.class.php 14277 2008-02-08 21:13:49Z Scara84 $
  * @package repository
  */
-require_once(Path :: get_admin_path().'lib/admin_datamanager.class.php');
+require_once(Path :: get_admin_path().'lib/admin_data_manager.class.php');
 /**
  *	This class represents the current configurable settings.
  *	They are retrieved from the DB via the AdminDataManager

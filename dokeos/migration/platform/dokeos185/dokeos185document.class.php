@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../../repository/lib/learning_object/documen
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
 require_once 'dokeos185itemproperty.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublicationcategory.class.php';
-require_once dirname(__FILE__).'/../../../repository/lib/learningobject.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/learning_object.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 document

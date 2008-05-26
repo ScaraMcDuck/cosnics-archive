@@ -5,8 +5,8 @@
  */
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/repositorymanager.class.php';
-require_once dirname(__FILE__).'/../repositoryutilities.class.php';
-require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/../repository_utilities.class.php';
+require_once dirname(__FILE__).'/../repository_data_manager.class.php';
 require_once Path :: get_library_path().'condition/andcondition.class.php';
 require_once Path :: get_library_path().'condition/orcondition.class.php';
 require_once Path :: get_library_path().'condition/equalitycondition.class.php';

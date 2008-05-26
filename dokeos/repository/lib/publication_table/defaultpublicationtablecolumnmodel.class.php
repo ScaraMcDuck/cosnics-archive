@@ -4,8 +4,8 @@
  */
 require_once dirname(__FILE__).'/publicationtablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/publicationtablecolumn.class.php';
-require_once dirname(__FILE__).'/../learningobject.class.php';
-require_once dirname(__FILE__).'/../learningobjectpublicationattributes.class.php';
+require_once dirname(__FILE__).'/../learning_object.class.php';
+require_once dirname(__FILE__).'/../learning_object_publication_attributes.class.php';
 
 /**
  * TODO: Add comment

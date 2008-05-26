@@ -6,7 +6,7 @@
  */
 require_once Path :: get_repository_path(). 'lib/learning_object_table/learningobjecttablecolumnmodel.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object_table/learningobjecttablecolumn.class.php';
-require_once Path :: get_repository_path(). 'lib/learningobject.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 /**
  * This class represents a column model for a publication candidate table
  */

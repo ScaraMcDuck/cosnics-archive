@@ -7,7 +7,7 @@
 $langFile = 'classgroup';
 require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once dirname(__FILE__).'/classgroupdatamanager.class.php';
-require_once dirname(__FILE__).'/../../repository/lib/repositoryutilities.class.php';
+require_once dirname(__FILE__).'/../../repository/lib/repository_utilities.class.php';
 require_once dirname(__FILE__).'/../../users/lib/user.class.php';
 require_once dirname(__FILE__).'/../../common/condition/equalitycondition.class.php';
 require_once dirname(__FILE__).'/../../common/condition/notcondition.class.php';

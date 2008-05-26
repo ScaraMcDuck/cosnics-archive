@@ -6,9 +6,9 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/repositoryutilities.class.php';
-require_once dirname(__FILE__).'/repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/differenceengine.class.php';
+require_once dirname(__FILE__).'/repository_utilities.class.php';
+require_once dirname(__FILE__).'/repository_data_manager.class.php';
+require_once dirname(__FILE__).'/difference_engine.class.php';
 /**
  * A class to display a LearningObject.
  */

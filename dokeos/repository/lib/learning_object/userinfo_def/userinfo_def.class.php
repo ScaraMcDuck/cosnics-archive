@@ -4,7 +4,7 @@
  * @subpackage userinfo_def
  * @author Sven Vanpoucke
  */
-require_once dirname(__FILE__) . '/../../learningobject.class.php';
+require_once dirname(__FILE__) . '/../../learning_object.class.php';
 /**
  * This class represents a userinfo definition
  */

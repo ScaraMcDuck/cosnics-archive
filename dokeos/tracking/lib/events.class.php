@@ -5,7 +5,7 @@
 require_once dirname(__FILE__) . '/event.class.php';
 require_once dirname(__FILE__) . '/eventreltracker.class.php';
 require_once dirname(__FILE__) . '/trackingdatamanager.class.php';
-require_once Path :: get_repository_path() . 'lib/repositoryutilities.class.php';
+require_once Path :: get_repository_path() . 'lib/repository_utilities.class.php';
 
 /**
  * Class to create and trigger tracker events

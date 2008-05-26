@@ -5,8 +5,8 @@
  * @author Dieter De Neef
  */
 require_once Path :: get_repository_path(). 'lib/learning_object_table/learningobjecttabledataprovider.class.php';
-require_once Path :: get_repository_path(). 'lib/learningobject.class.php';
-require_once Path :: get_repository_path(). 'lib/repositorydatamanager.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_library_path().'condition/equalitycondition.class.php';
 require_once Path :: get_library_path().'condition/andcondition.class.php';
 require_once Path :: get_library_path().'condition/orcondition.class.php';

@@ -4,7 +4,7 @@
  * @package repository.learningobject
  * @subpackage document
  */
-require_once dirname(__FILE__).'/../../learningobjectform.class.php';
+require_once dirname(__FILE__).'/../../learning_object_form.class.php';
 require_once dirname(__FILE__).'/document.class.php';
 require_once Path :: get_library_path().'html/formvalidator/Rule/DiskQuota.php';
 require_once Path :: get_library_path().'filecompression/filecompression.class.php';

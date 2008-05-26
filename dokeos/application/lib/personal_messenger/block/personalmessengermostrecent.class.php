@@ -3,7 +3,7 @@
  * @package application.lib.calendar.publisher
  */
 require_once dirname(__FILE__).'/../personalmessengerblock.class.php';
-require_once Path :: get_repository_path() . 'lib/repositoryutilities.class.php';
+require_once Path :: get_repository_path() . 'lib/repository_utilities.class.php';
 /**
  * This class represents a calendar publisher component which can be used
  * to browse through the possible learning objects to publish.

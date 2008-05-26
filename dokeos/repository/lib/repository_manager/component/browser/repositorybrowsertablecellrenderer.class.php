@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__).'/repositorybrowsertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/../../../learning_object_table/defaultlearningobjecttablecellrenderer.class.php';
-require_once dirname(__FILE__).'/../../../learningobject.class.php';
+require_once dirname(__FILE__).'/../../../learning_object.class.php';
 /**
  * Cell rendere for the learning object browser table
  */

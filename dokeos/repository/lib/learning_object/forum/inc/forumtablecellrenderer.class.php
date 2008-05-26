@@ -4,7 +4,7 @@
  * @subpackage forum
  */
 require_once dirname(__FILE__).'/../../../learning_object_table/defaultlearningobjecttablecellrenderer.class.php';
-require_once dirname(__FILE__).'/../../../learningobject.class.php';
+require_once dirname(__FILE__).'/../../../learning_object.class.php';
 
 class ForumTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 {

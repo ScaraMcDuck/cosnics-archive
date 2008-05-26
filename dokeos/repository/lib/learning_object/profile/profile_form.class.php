@@ -6,7 +6,7 @@
  *  @author Hans De Bisschop
  *  @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../learningobjectform.class.php';
+require_once dirname(__FILE__).'/../../learning_object_form.class.php';
 require_once dirname(__FILE__).'/profile.class.php';
 
 class ProfileForm extends LearningObjectForm

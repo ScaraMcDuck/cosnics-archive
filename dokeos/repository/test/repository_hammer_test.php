@@ -3,8 +3,8 @@
  * @package repository
  */
 require_once dirname(__FILE__).'/../../common/global.inc.php';
-require_once dirname(__FILE__).'/../lib/learningobject.class.php';
-require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/../lib/learning_object.class.php';
+require_once dirname(__FILE__).'/../lib/repository_data_manager.class.php';
 
 header('Content-Type: text/plain');
 

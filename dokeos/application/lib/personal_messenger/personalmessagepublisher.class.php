@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once Path :: get_repository_path(). 'lib/abstractlearningobject.class.php';
+require_once Path :: get_repository_path(). 'lib/abstract_learning_object.class.php';
 
 /**
 ==============================================================================

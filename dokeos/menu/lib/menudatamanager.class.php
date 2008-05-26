@@ -1,10 +1,10 @@
 <?php
 /**
- * $Id: repositorydatamanager.class.php 11718 2007-03-27 09:52:32Z Scara84 $
+ * $Id: repository_data_manager.class.php 11718 2007-03-27 09:52:32Z Scara84 $
  * @package repository
  */
 require_once Path :: get_library_path().'configuration/configuration.class.php';
-require_once dirname(__FILE__).'/../../repository/lib/repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/../../repository/lib/repository_data_manager.class.php';
 /**
  *	This is a skeleton for a data manager for the Users table.
  *	Data managers must extend this class and implement its abstract methods.

@@ -4,7 +4,7 @@
  * @package users.lib
  */
 require_once Path :: get_library_path().'configuration/configuration.class.php';
-require_once Path :: get_repository_path(). 'lib/repositorydatamanager.class.php';
+require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_library_path().'authentication/authentication.class.php';
 /**
  *	This is a skeleton for a data manager for the Users table.

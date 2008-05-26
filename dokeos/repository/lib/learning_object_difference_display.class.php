@@ -6,7 +6,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
- require_once dirname(__FILE__).'/differenceengine.class.php';
+ require_once dirname(__FILE__).'/difference_engine.class.php';
 /**
  * This class can be used to display the differences between two versions of a
  * learning object.

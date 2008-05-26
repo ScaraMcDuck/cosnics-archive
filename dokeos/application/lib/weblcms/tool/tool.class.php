@@ -5,7 +5,7 @@
  * @package application.weblcms.tool
  */
 
-require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
+require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
 
 /**
 ==============================================================================

@@ -4,7 +4,7 @@
  * @package application.weblcms
  */
 require_once Path :: get_library_path().'configuration/configuration.class.php';
-require_once Path :: get_repository_path(). 'lib/repositorydatamanager.class.php';
+require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 /**
 ==============================================================================

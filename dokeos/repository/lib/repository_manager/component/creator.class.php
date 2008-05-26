@@ -5,11 +5,11 @@
  */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
-require_once dirname(__FILE__).'/../../learningobjectform.class.php';
-require_once dirname(__FILE__).'/../../abstractlearningobject.class.php';
-require_once dirname(__FILE__).'/../../repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/../../learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../abstract_learning_object.class.php';
+require_once dirname(__FILE__).'/../../repository_data_manager.class.php';
 require_once Path :: get_library_path().'import/import.class.php';
-require_once dirname(__FILE__).'/../../quotamanager.class.php';
+require_once dirname(__FILE__).'/../../quota_manager.class.php';
 require_once dirname(__FILE__).'/csvcreator.class.php';
 /**
  * Repository manager component which gives the user the possibility to create a

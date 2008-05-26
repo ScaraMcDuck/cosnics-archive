@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__).'/learningobjecttablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/learningobjecttablecolumn.class.php';
-require_once dirname(__FILE__).'/../learningobject.class.php';
+require_once dirname(__FILE__).'/../learning_object.class.php';
 
 /**
  * This is the default column model, used when a LearningObjectTable does not

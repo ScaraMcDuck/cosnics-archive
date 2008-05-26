@@ -3,7 +3,7 @@
  * @package repository.learningobject
  * @subpackage feedback
  */
-require_once dirname(__FILE__) . '/../../learningobject.class.php';
+require_once dirname(__FILE__) . '/../../learning_object.class.php';
 /**
  * A feedback
  */
