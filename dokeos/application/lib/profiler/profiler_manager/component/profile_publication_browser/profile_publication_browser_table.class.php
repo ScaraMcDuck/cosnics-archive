@@ -2,10 +2,10 @@
 /**
  * @package application.lib.profiler.profiler_manager.component.profilepublicationbrowser
  */
-require_once dirname(__FILE__).'/../../../profile_publication_table/profilepublicationtable.class.php';
-require_once dirname(__FILE__).'/profilepublicationbrowsertabledataprovider.class.php';
-require_once dirname(__FILE__).'/profilepublicationbrowsertablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/profilepublicationbrowsertablecellrenderer.class.php';
+require_once dirname(__FILE__).'/../../../profile_publication_table/profile_publication_table.class.php';
+require_once dirname(__FILE__).'/profile_publication_browser_table_data_provider.class.php';
+require_once dirname(__FILE__).'/profile_publication_browser_table_column_model.class.php';
+require_once dirname(__FILE__).'/profile_publication_browser_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../../profiler.class.php';
 /**
  * Table to display a set of learning objects.
