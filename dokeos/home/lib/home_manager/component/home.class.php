@@ -68,7 +68,6 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		$html[] = '<div style="clear: both;"></div>';
 		
 		}
-		
 		$html[] = '<div style="clear: both;"></div>';
 		
 		
@@ -113,10 +112,12 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		$html[] = '};';
 		$html[] = 'function serialize(s)';
 		$html[] = '{';
-		$html[] = '	serial = $.SortSerialize(s);';
+		$html[] = '	serial = $.SortSerialize(\'Various\');';
 		$html[] = '	alert(serial.hash);';
 		$html[] = '};';
 		$html[] = '</script>';
+		
+		$html[] = '<a href="#" onClick="serialize(); return false;" >serialize all lists</a>';
 		
 		
 		return implode("\n", $html);
