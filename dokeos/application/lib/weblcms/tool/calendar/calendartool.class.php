@@ -6,7 +6,7 @@
  * @subpackage calendar
  */
 require_once Path :: get_repository_path(). 'lib/learning_object/calendar_event/calendar_event.class.php';
-require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
+require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
 require_once dirname(__FILE__).'/../repositorytool.class.php';
 require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
 require_once dirname(__FILE__).'/calendarbrowser.class.php';

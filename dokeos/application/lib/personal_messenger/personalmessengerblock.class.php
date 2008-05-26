@@ -2,7 +2,7 @@
 /**
  * @package application.lib.calendar
  */
-require_once dirname(__FILE__).'/../../../repository/lib/abstractlearningobject.class.php';
+require_once dirname(__FILE__).'/../../../repository/lib/abstract_learning_object.class.php';
 
 /**
 ==============================================================================

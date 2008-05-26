@@ -7,7 +7,7 @@
 require_once Path :: get_library_path().'condition/andcondition.class.php';
 require_once Path :: get_library_path().'condition/orcondition.class.php';
 require_once Path :: get_library_path().'condition/patternmatchcondition.class.php';
-require_once dirname(__FILE__).'/repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/repository_data_manager.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 
 /**

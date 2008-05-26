@@ -4,7 +4,7 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-require_once dirname(__FILE__) . '/../../learningobject.class.php';
+require_once dirname(__FILE__) . '/../../learning_object.class.php';
 /**
  * This class represents an open question
  */

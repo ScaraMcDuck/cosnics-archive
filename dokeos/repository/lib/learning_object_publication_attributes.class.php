@@ -3,7 +3,7 @@
  * $Id$
  * @package repository
  */
-require_once dirname(__FILE__).'/repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/repository_data_manager.class.php';
 /**
  * Instances of this class group generic information about a publication of
  * a learning object within an application.

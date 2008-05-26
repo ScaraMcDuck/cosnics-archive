@@ -5,7 +5,7 @@
  */
 
 require_once dirname(__FILE__).'/learningobjecttablecellrenderer.class.php';
-require_once dirname(__FILE__).'/../learningobject.class.php';
+require_once dirname(__FILE__).'/../learning_object.class.php';
 /**
  * This is the default cell renderer, used when a LearningObjectTable does not
  * provide its own renderer.

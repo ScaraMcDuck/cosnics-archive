@@ -11,13 +11,13 @@
 
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
-require_once dirname(__FILE__).'/repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/quotamanager.class.php';
-require_once dirname(__FILE__).'/learningobjectcategorymenu.class.php';
-require_once dirname(__FILE__).'/learningobject.class.php';
-require_once dirname(__FILE__).'/abstractlearningobject.class.php';
-require_once dirname(__FILE__).'/repositoryutilities.class.php';
-require_once dirname(__FILE__).'/optionsmenurenderer.class.php';
+require_once dirname(__FILE__).'/repository_data_manager.class.php';
+require_once dirname(__FILE__).'/quota_manager.class.php';
+require_once dirname(__FILE__).'/learning_object_category_menu.class.php';
+require_once dirname(__FILE__).'/learning_object.class.php';
+require_once dirname(__FILE__).'/abstract_learning_object.class.php';
+require_once dirname(__FILE__).'/repository_utilities.class.php';
+require_once dirname(__FILE__).'/options_menu_renderer.class.php';
 /**
  * A form to create and edit a LearningObject.
  */

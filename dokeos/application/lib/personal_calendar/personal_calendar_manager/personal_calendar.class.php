@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
-require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
+require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
 require_once dirname(__FILE__).'/personalcalendarcomponent.class.php';
 require_once dirname(__FILE__).'/../connector/personal_calendar_weblcms_connector.class.php';
 require_once dirname(__FILE__).'/../personalcalendarevent.class.php';

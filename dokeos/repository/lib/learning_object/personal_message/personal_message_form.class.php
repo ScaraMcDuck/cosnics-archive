@@ -6,7 +6,7 @@
  *  @author Hans De Bisschop
  *  @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../learningobjectform.class.php';
+require_once dirname(__FILE__).'/../../learning_object_form.class.php';
 require_once dirname(__FILE__).'/personal_message.class.php';
 /**
  * This class represents a form to create or update personal messages

@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  */
 
-require_once dirname(__FILE__).'/admin_datamanager.class.php';
+require_once dirname(__FILE__).'/admin_data_manager.class.php';
 
 class Setting
 {

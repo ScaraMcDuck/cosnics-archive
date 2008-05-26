@@ -6,7 +6,7 @@
  * @author Vanpoucke Sven
  */
 require_once(Path :: get_library_path().'configuration/configuration.php');
-require_once dirname(__FILE__) . '/../../repository/lib/repositorydatamanager.class.php';
+require_once dirname(__FILE__) . '/../../repository/lib/repository_data_manager.class.php';
 require_once Path :: get_library_path().'installer.class.php';
 
 /**

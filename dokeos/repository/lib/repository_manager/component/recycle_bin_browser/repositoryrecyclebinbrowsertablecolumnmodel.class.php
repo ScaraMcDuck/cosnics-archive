@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__).'/../../../learning_object_table/defaultlearningobjecttablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/../../../learning_object_table/learningobjecttablecolumn.class.php';
-require_once dirname(__FILE__).'/../../../learningobject.class.php';
+require_once dirname(__FILE__).'/../../../learning_object.class.php';
 /**
  * Table column model for the recycle bin browser table
  */

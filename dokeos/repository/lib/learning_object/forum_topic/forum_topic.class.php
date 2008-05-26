@@ -3,7 +3,7 @@
  * @package repository.learningobject
  * @subpackage forum
  */
-require_once dirname(__FILE__) . '/../../learningobject.class.php';
+require_once dirname(__FILE__) . '/../../learning_object.class.php';
 /**
  * This class represents a topic in a discussion forum.
  */

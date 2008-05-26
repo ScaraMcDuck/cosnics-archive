@@ -16,9 +16,9 @@
  * @package repository
 ==============================================================================
  */
-require_once dirname(__FILE__).'/../lib/repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/../lib/repository_data_manager.class.php';
 
-define(HEADER, "<?php\nrequire_once dirname(__FILE__) . '/../../learningobject.class.php';\n\n");
+define(HEADER, "<?php\nrequire_once dirname(__FILE__) . '/../../learning_object.class.php';\n\n");
 define(FOOTER, "}\n?".">");
 
 $path = dirname(__FILE__).'/../lib/learning_object';

@@ -2,7 +2,7 @@
 /**
  * @package application.lib.portfolio
  */
-require_once Path :: get_repository_path(). 'lib/repositorydatamanager.class.php';
+require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 
 /**

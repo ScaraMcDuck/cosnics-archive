@@ -3,12 +3,12 @@
  * @package repository
  * @subpackage datamanager
  */
-require_once dirname(__FILE__).'/database/databaselearningobjectresultset.class.php';
-require_once dirname(__FILE__).'/../repositorydatamanager.class.php';
+require_once dirname(__FILE__).'/database/database_learning_object_result_set.class.php';
+require_once dirname(__FILE__).'/../repository_data_manager.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
-require_once dirname(__FILE__).'/../learningobject.class.php';
+require_once dirname(__FILE__).'/../learning_object.class.php';
 require_once Path :: get_library_path().'condition/conditiontranslator.class.php';
-require_once Path :: get_admin_path().'lib/admin_datamanager.class.php';
+require_once Path :: get_admin_path().'lib/admin_data_manager.class.php';
 
 require_once 'MDB2.php';
 

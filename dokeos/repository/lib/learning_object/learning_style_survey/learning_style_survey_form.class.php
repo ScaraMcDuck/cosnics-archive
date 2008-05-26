@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../learningobjectform.class.php';
+require_once dirname(__FILE__) . '/../../learning_object_form.class.php';
 require_once dirname(__FILE__) . '/learning_style_survey.class.php';
 require_once dirname(__FILE__) . '/../learning_style_survey_answer/learning_style_survey_answer.class.php';
 require_once dirname(__FILE__) . '/../learning_style_survey_category/learning_style_survey_category.class.php';

@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../repositoryutilities.class.php';
+require_once dirname(__FILE__) . '/../../../repository_utilities.class.php';
 
 /**
  * @author Tim De Pauw

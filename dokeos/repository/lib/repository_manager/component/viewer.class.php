@@ -10,8 +10,8 @@
  */
 require_once dirname(__FILE__).'/../repositorymanager.class.php';
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
-require_once dirname(__FILE__).'/../../learningobjectdisplay.class.php';
-require_once dirname(__FILE__).'/../../learningobjectform.class.php';
+require_once dirname(__FILE__).'/../../learning_object_display.class.php';
+require_once dirname(__FILE__).'/../../learning_object_form.class.php';
 /**
  * Repository manager component which can be used to view a learning object.
  */

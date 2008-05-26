@@ -3,9 +3,9 @@
  * @package repository
  */
 require_once dirname(__FILE__).'/../common/global.inc.php';
-require_once dirname(__FILE__).'/lib/repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/lib/repositoryutilities.class.php';
-require_once dirname(__FILE__).'/lib/learningobject.class.php';
+require_once dirname(__FILE__).'/lib/repository_data_manager.class.php';
+require_once dirname(__FILE__).'/lib/repository_utilities.class.php';
+require_once dirname(__FILE__).'/lib/learning_object.class.php';
 require_once Path :: get_library_path().'condition/equalitycondition.class.php';
 require_once Path :: get_library_path().'condition/notcondition.class.php';
 require_once Path :: get_library_path().'condition/andcondition.class.php';

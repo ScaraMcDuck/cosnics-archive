@@ -3,7 +3,7 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-require_once dirname(__FILE__).'/../../learningobjectform.class.php';
+require_once dirname(__FILE__).'/../../learning_object_form.class.php';
 require_once dirname(__FILE__).'/multiple_choice_question.class.php';
 class MultipleChoiceQuestionForm extends LearningObjectForm
 {

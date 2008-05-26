@@ -8,9 +8,9 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/repositoryutilities.class.php';
-require_once dirname(__FILE__).'/repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/quotamanager.class.php';
+require_once dirname(__FILE__).'/repository_utilities.class.php';
+require_once dirname(__FILE__).'/repository_data_manager.class.php';
+require_once dirname(__FILE__).'/quota_manager.class.php';
 /**
  * A class to display a LearningObject.
  */

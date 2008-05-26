@@ -3,9 +3,9 @@
  * @package application.lib.calendareventr.publisher
  */
 require_once dirname(__FILE__).'/../calendareventpublishercomponent.class.php';
-require_once Path :: get_repository_path(). 'lib/repositorydatamanager.class.php';
-require_once Path :: get_repository_path(). 'lib/learningobjectdisplay.class.php';
-require_once Path :: get_repository_path(). 'lib/repositoryutilities.class.php';
+require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object_display.class.php';
+require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
 
 /**
  * This class represents a calendarevent publisher component which can be used

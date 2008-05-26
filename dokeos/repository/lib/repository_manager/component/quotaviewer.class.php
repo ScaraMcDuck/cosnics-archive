@@ -4,8 +4,8 @@
  * @package repository.repositorymanager
  */
 require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
-require_once dirname(__FILE__).'/../../quotamanager.class.php';
-require_once dirname(__FILE__).'/../../abstractlearningobject.class.php';
+require_once dirname(__FILE__).'/../../quota_manager.class.php';
+require_once dirname(__FILE__).'/../../abstract_learning_object.class.php';
 require_once Path :: get_library_path().'filesystem/filesystem.class.php';
 /**
  * Repository manager component which displays the quota to the user.

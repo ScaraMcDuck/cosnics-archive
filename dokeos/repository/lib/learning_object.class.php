@@ -3,12 +3,12 @@
  * $Id$
  * @package repository
  */
-require_once dirname(__FILE__).'/accessiblelearningobject.class.php';
-require_once dirname(__FILE__).'/repositorydatamanager.class.php';
-require_once dirname(__FILE__).'/repositoryutilities.class.php';
+require_once dirname(__FILE__).'/accessible_learning_object.class.php';
+require_once dirname(__FILE__).'/repository_data_manager.class.php';
+require_once dirname(__FILE__).'/repository_utilities.class.php';
 require_once Path :: get_library_path().'condition/equalitycondition.class.php';
-require_once dirname(__FILE__).'/learningobjectdifference.class.php';
-require_once dirname(__FILE__).'/learningobjectdisplay.class.php';
+require_once dirname(__FILE__).'/learning_object_difference.class.php';
+require_once dirname(__FILE__).'/learning_object_display.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 /**
  *	This class represents a learning object in the repository. Every object

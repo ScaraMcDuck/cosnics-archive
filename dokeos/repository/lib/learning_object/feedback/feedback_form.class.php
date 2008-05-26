@@ -3,7 +3,7 @@
  * @package repository.learningobject
  * @subpackage feedback
  */
-require_once dirname(__FILE__).'/../../learningobjectform.class.php';
+require_once dirname(__FILE__).'/../../learning_object_form.class.php';
 require_once dirname(__FILE__).'/feedback.class.php';
 /**
  * A form to create/update a feedback

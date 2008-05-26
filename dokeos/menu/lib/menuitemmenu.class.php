@@ -4,8 +4,8 @@
  */
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
-require_once dirname(__FILE__).'/../../repository/lib/treemenurenderer.class.php';
-require_once dirname(__FILE__).'/../../repository/lib/optionsmenurenderer.class.php';
+require_once dirname(__FILE__).'/../../repository/lib/tree_menu_renderer.class.php';
+require_once dirname(__FILE__).'/../../repository/lib/options_menu_renderer.class.php';
 require_once dirname(__FILE__).'/menuitem.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through

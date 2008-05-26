@@ -5,8 +5,8 @@
  */
 require_once dirname(__FILE__).'/repositoryrecyclebinbrowsertablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/../../../learning_object_table/defaultlearningobjecttablecellrenderer.class.php';
-require_once dirname(__FILE__).'/../../../learningobject.class.php';
-require_once dirname(__FILE__).'/../../../repositoryutilities.class.php';
+require_once dirname(__FILE__).'/../../../learning_object.class.php';
+require_once dirname(__FILE__).'/../../../repository_utilities.class.php';
 /**
  * Cell renderer for the recycle bin browser table
  */

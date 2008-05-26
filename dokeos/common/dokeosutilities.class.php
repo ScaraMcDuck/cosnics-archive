@@ -1,13 +1,13 @@
 <?php
 /**
- * $Id: repositoryutilities.class.php 15163 2008-04-28 13:50:20Z vanpouckesven $
+ * $Id: repository_utilities.class.php 15163 2008-04-28 13:50:20Z vanpouckesven $
  * @package repository
  */
 
 require_once Path :: get_library_path().'condition/andcondition.class.php';
 require_once Path :: get_library_path().'condition/orcondition.class.php';
 require_once Path :: get_library_path().'condition/patternmatchcondition.class.php';
-require_once Path :: get_repository_path().'lib/repositorydatamanager.class.php';
+require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 
 /**
