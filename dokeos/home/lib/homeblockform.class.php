@@ -146,10 +146,10 @@ class HomeBlockForm extends FormValidator {
 					if (!is_dir($file) && stripos($file, '.class.php') !== false)
 					{
 						$component = str_replace('.class.php', '', $file);
-						$component = str_replace($application, '', $component);
+						$component = str_replace(strtolower(Application :: application_to_class($application)), '', $component);
 						
-						$item = ucfirst($application) . '.' . ucfirst($component);
-						$display = ucfirst($application) . '&nbsp;>&nbsp;' . ucfirst($component);
+						$item = Application :: application_to_class($application) . '.' . ucfirst($component);
+						$display = Translation :: get(Application :: application_to_class($application)) . '&nbsp;>&nbsp;' . ucfirst($component);
 						$application_components[$item] = $display;
 					}
 				}

@@ -17,6 +17,7 @@ require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 require_once dirname(__FILE__).'/../pm_publication_table/pmpublicationtable.class.php';
 require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
 require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
+require_once dirname(__FILE__).'/../personalmessengerblock.class.php';
 
 /**
  * A personal messenger manager allows a user to send/receive personal messages.
