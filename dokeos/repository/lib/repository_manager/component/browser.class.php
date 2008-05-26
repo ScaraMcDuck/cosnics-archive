@@ -8,9 +8,9 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../repositorymanager.class.php';
-require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
-require_once dirname(__FILE__).'/browser/repositorybrowsertable.class.php';
+require_once dirname(__FILE__).'/../repository_manager.class.php';
+require_once dirname(__FILE__).'/../repository_manager_component.class.php';
+require_once dirname(__FILE__).'/browser/repository_browser_table.class.php';
 /**
  * Default repository manager component which allows the user to browse through
  * the different categories and learning objects in the repository.

@@ -4,16 +4,16 @@
  */
 
 require_once dirname(__FILE__).'/classgrouptablecellrenderer.class.php';
-require_once dirname(__FILE__).'/../classgroup.class.php';
+require_once dirname(__FILE__).'/../class_group.class.php';
 /**
  * TODO: Add comment
  */
-class DefaultClassgroupTableCellRenderer implements ClassgroupTableCellRenderer
+class DefaultClassGroupTableCellRenderer implements ClassGroupTableCellRenderer
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultClassgroupTableCellRenderer()
+	function DefaultClassGroupTableCellRenderer()
 	{
 	}
 	/**
@@ -29,11 +29,11 @@ class DefaultClassgroupTableCellRenderer implements ClassgroupTableCellRenderer
 		{
 			switch ($property)
 			{
-				case Classgroup :: PROPERTY_ID :
+				case ClassGroup :: PROPERTY_ID :
 					return $classgroup->get_id();
-				case Classgroup :: PROPERTY_NAME :
+				case ClassGroup :: PROPERTY_NAME :
 					return $classgroup->get_name();
-				case Classgroup :: PROPERTY_DESCRIPTION :
+				case ClassGroup :: PROPERTY_DESCRIPTION :
 					return $classgroup->get_description();
 			}
 		}

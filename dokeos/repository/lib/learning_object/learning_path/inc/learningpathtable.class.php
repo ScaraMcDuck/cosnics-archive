@@ -6,7 +6,7 @@
 require_once dirname(__FILE__).'/learningpathtabledataprovider.class.php';
 require_once dirname(__FILE__).'/learningpathtablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/learningpathtablecellrenderer.class.php';
-require_once dirname(__FILE__).'/../../../learning_object_table/learningobjecttable.class.php';
+require_once dirname(__FILE__).'/../../../learning_object_table/learning_object_table.class.php';
 
 class LearningPathTable extends LearningObjectTable
 {

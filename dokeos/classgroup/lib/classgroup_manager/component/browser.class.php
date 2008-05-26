@@ -2,14 +2,14 @@
 /**
  * @package application.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__).'/../classgroupmanager.class.php';
-require_once dirname(__FILE__).'/../classgroupmanagercomponent.class.php';
+require_once dirname(__FILE__).'/../class_group_manager.class.php';
+require_once dirname(__FILE__).'/../class_group_manager_component.class.php';
 require_once dirname(__FILE__).'/classgroupbrowser/classgroupbrowsertable.class.php';
-require_once dirname(__FILE__).'/../../classgroupmenu.class.php';
+require_once dirname(__FILE__).'/../../class_group_menu.class.php';
 /**
  * Weblcms component which allows the user to manage his or her user subscriptions
  */
-class ClassgroupManagerBrowserComponent extends ClassgroupManagerComponent
+class ClassGroupManagerBrowserComponent extends ClassGroupManagerComponent
 {
 	private $firstletter;
 	
@@ -18,11 +18,11 @@ class ClassgroupManagerBrowserComponent extends ClassgroupManagerComponent
 	 */
 	function run()
 	{
-		$this->firstletter = $_GET[ClassgroupManager :: PARAM_FIRSTLETTER];
+		$this->firstletter = $_GET[ClassGroupManager :: PARAM_FIRSTLETTER];
 
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ClassgroupList')));
+		$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ClassGroupList')));
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
@@ -43,7 +43,7 @@ class ClassgroupManagerBrowserComponent extends ClassgroupManagerComponent
 	
 	function get_user_html()
 	{		
-		$table = new ClassgroupBrowserTable($this, null, array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_BROWSE_CLASSGROUPS), $this->get_condition());
+		$table = new ClassGroupBrowserTable($this, null, array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS), $this->get_condition());
 		
 		$html = array();
 		$html[] = '<div style="float: right; width: 80%;">';
@@ -72,9 +72,9 @@ class ClassgroupManagerBrowserComponent extends ClassgroupManagerComponent
 		}
 		
 		$temp_replacement = '__FIRSTLETTER__';
-		$url_format = $this->get_url(array (ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_BROWSE_CLASSGROUPS, ClassgroupManager :: PARAM_FIRSTLETTER => $temp_replacement));
+		$url_format = $this->get_url(array (ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS, ClassGroupManager :: PARAM_FIRSTLETTER => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
-		$group_menu = new ClassgroupMenu($this->firstletter, $url_format, & $extra_items);
+		$group_menu = new ClassGroupMenu($this->firstletter, $url_format, & $extra_items);
 		
 		if (isset ($search_url))
 		{
@@ -96,7 +96,7 @@ class ClassgroupManagerBrowserComponent extends ClassgroupManagerComponent
 		if (isset($this->firstletter))
 		{
 			$conditions = array();
-			$conditions[] = new LikeCondition(Classgroup :: PROPERTY_NAME, $this->firstletter. '%');
+			$conditions[] = new LikeCondition(ClassGroup :: PROPERTY_NAME, $this->firstletter. '%');
 			$condition = new OrCondition($conditions);
 			if (count($search_conditions))
 			{

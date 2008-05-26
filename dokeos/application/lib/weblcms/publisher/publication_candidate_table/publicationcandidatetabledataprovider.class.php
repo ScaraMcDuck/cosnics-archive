@@ -4,7 +4,7 @@
  * @package application.weblcms
  * @subpackage publisher
  */
-require_once Path :: get_repository_path(). 'lib/learning_object_table/learningobjecttabledataprovider.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object_table/learning_object_table_data_provider.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_library_path().'condition/equalitycondition.class.php';

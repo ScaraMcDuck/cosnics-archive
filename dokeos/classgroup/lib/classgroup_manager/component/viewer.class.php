@@ -1,11 +1,11 @@
 <?php
-require_once dirname(__FILE__).'/../classgroupmanager.class.php';
-require_once dirname(__FILE__).'/../classgroupmanagercomponent.class.php';
-require_once dirname(__FILE__).'/../../classgroupdatamanager.class.php';
+require_once dirname(__FILE__).'/../class_group_manager.class.php';
+require_once dirname(__FILE__).'/../class_group_manager_component.class.php';
+require_once dirname(__FILE__).'/../../class_group_data_manager.class.php';
 require_once dirname(__FILE__).'/classgroupreluserbrowser/classgroupreluserbrowsertable.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repository_utilities.class.php';
 
-class ClassgroupManagerViewerComponent extends ClassgroupManagerComponent
+class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 {
 	private $group;
 	
@@ -16,7 +16,7 @@ class ClassgroupManagerViewerComponent extends ClassgroupManagerComponent
 	{
 		$trail = new BreadcrumbTrail();
 		
-		$id = $_GET[ClassgroupManager :: PARAM_CLASSGROUP_ID];
+		$id = $_GET[ClassGroupManager :: PARAM_CLASSGROUP_ID];
 		if ($id)
 		{
 			$this->classgroup = $this->retrieve_classgroup($id);
@@ -27,7 +27,7 @@ class ClassgroupManagerViewerComponent extends ClassgroupManagerComponent
 				Display :: display_not_allowed();
 			}
 			
-			$trail->add(new Breadcrumb($this->get_url(array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
+			$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
 			$trail->add(new Breadcrumb($this->get_url(), $classgroup->get_name()));
 			
 			$this->display_header($trail);
@@ -39,7 +39,7 @@ class ClassgroupManagerViewerComponent extends ClassgroupManagerComponent
 			
 			echo '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path() .'place_users.png);">';
 			echo '<div class="title">'. Translation :: get('Users') .'</div>';
-			$table = new ClassgroupRelUserBrowserTable($this, null, array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_VIEW_CLASSGROUP, ClassgroupManager :: PARAM_CLASSGROUP_ID => $id), $this->get_condition());
+			$table = new ClassGroupRelUserBrowserTable($this, null, array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_VIEW_CLASSGROUP, ClassGroupManager :: PARAM_CLASSGROUP_ID => $id), $this->get_condition());
 			echo $table->as_html();
 			echo '</div>';
 			
@@ -56,7 +56,7 @@ class ClassgroupManagerViewerComponent extends ClassgroupManagerComponent
 	function get_condition()
 	{
 		$conditions = array();
-		$conditions[] = new EqualityCondition(ClassgroupRelUser :: PROPERTY_CLASSGROUP_ID, $_GET[ClassgroupManager :: PARAM_CLASSGROUP_ID]);
+		$conditions[] = new EqualityCondition(ClassGroupRelUser :: PROPERTY_CLASSGROUP_ID, $_GET[ClassGroupManager :: PARAM_CLASSGROUP_ID]);
 		$condition = new OrCondition($conditions);
 		
 		return $condition;

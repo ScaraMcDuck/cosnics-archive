@@ -7,7 +7,7 @@
  * TODO: Add comment
  * 
  */
-class ClassgroupTableColumnModel
+class ClassGroupTableColumnModel
 {
 	/**
 	 * The columns in the table.
@@ -33,7 +33,7 @@ class ClassgroupTableColumnModel
 	 *                                        Either the PHP constant SORT_ASC
 	 *                                        or SORT_DESC.
 	 */
-	function ClassgroupTableColumnModel($columns, $default_order_column = 0, $default_order_direction = SORT_ASC)
+	function ClassGroupTableColumnModel($columns, $default_order_column = 0, $default_order_direction = SORT_ASC)
 	{
 		$this->columns = $columns;
 		$this->order_column = $default_order_column;

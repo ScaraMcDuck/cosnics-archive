@@ -7,7 +7,7 @@
  * TODO: Add comment
  * 
  */
-class ClassgroupRelUserTableColumn
+class ClassGroupRelUserTableColumn
 {
 	/**
 	 * The property of the user which will be displayed in this
@@ -38,7 +38,7 @@ class ClassgroupRelUserTableColumn
 	 *                                                   object property, false
 	 *                                                   otherwise.
 	 */
-	function ClassgroupRelUserTableColumn($property_name_or_column_title, $contains_classgroup_rel_user_property = false)
+	function ClassGroupRelUserTableColumn($property_name_or_column_title, $contains_classgroup_rel_user_property = false)
 	{
 		if ($contains_classgroup_rel_user_property)
 		{

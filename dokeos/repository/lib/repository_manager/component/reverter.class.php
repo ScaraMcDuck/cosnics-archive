@@ -2,8 +2,8 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../repositorymanager.class.php';
-require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
+require_once dirname(__FILE__).'/../repository_manager.class.php';
+require_once dirname(__FILE__).'/../repository_manager_component.class.php';
 /**
  * Repository manager component which provides functionality to revert a
  * learning object from the users repository to a previous state.

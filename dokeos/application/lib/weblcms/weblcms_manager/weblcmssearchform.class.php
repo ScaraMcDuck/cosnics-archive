@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: repositorysearchform.class.php 11509 2007-03-09 14:58:12Z Scara84 $
+ * $Id: repository_search_form.class.php 11509 2007-03-09 14:58:12Z Scara84 $
  * @package repository.repositorymanager
  */
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';

@@ -3,14 +3,14 @@
  * $Id$
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../repositorymanager.class.php';
-require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
+require_once dirname(__FILE__).'/../repository_manager.class.php';
+require_once dirname(__FILE__).'/../repository_manager_component.class.php';
 require_once dirname(__FILE__).'/../../learning_object_form.class.php';
 require_once dirname(__FILE__).'/../../abstract_learning_object.class.php';
 require_once dirname(__FILE__).'/../../repository_data_manager.class.php';
 require_once Path :: get_library_path().'import/import.class.php';
 require_once dirname(__FILE__).'/../../quota_manager.class.php';
-require_once dirname(__FILE__).'/csvcreator.class.php';
+require_once dirname(__FILE__).'/csv_creator.class.php';
 /**
  * Repository manager component which gives the user the possibility to create a
  * new learning object in his repository. When no type is passed to this

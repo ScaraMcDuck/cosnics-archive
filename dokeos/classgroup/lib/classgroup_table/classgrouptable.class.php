@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/defaultclassgrouptablecellrenderer.class.php';
  * TODO: Add comment
  * 
  */
-class ClassgroupTable
+class ClassGroupTable
 {
 	/**
 	 * Default table name
@@ -66,12 +66,12 @@ class ClassgroupTable
 	 *                                                       Omit to use the
 	 *                                                       default renderer.
 	 */
-	function ClassgroupTable($data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
+	function ClassGroupTable($data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
 	{
 		$this->set_data_provider($data_provider);
 		$this->set_name(isset($table_name) ? $table_name : self :: DEFAULT_NAME);
-		$this->set_column_model(isset ($column_model) ? $column_model : new DefaultClassgroupTableColumnModel());
-		$this->set_cell_renderer(isset ($cell_renderer) ? $cell_renderer : new DefaultClassgroupTableCellRenderer());
+		$this->set_column_model(isset ($column_model) ? $column_model : new DefaultClassGroupTableColumnModel());
+		$this->set_cell_renderer(isset ($cell_renderer) ? $cell_renderer : new DefaultClassGroupTableCellRenderer());
 		$this->set_default_row_count(10);
 		$this->set_additional_parameters($this->determine_additional_parameters());
 	}
