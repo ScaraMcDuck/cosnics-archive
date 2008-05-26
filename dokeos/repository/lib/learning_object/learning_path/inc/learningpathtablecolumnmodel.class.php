@@ -3,8 +3,8 @@
  * @package repository.learningobject
  * @subpackage learning_path
  */
-require_once dirname(__FILE__).'/../../../learning_object_table/learningobjecttablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/../../../learning_object_table/learningobjecttablecolumn.class.php';
+require_once dirname(__FILE__).'/../../../learning_object_table/learning_object_table_column_model.class.php';
+require_once dirname(__FILE__).'/../../../learning_object_table/learning_object_table_column.class.php';
 require_once dirname(__FILE__).'/../../../learning_object.class.php';
 
 class LearningPathTableColumnModel extends LearningObjectTableColumnModel {

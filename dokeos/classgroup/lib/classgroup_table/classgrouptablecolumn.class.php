@@ -7,7 +7,7 @@
  * TODO: Add comment
  * 
  */
-class ClassgroupTableColumn
+class ClassGroupTableColumn
 {
 	/**
 	 * The property of the user which will be displayed in this
@@ -38,7 +38,7 @@ class ClassgroupTableColumn
 	 *                                                   object property, false
 	 *                                                   otherwise.
 	 */
-	function ClassgroupTableColumn($property_name_or_column_title, $contains_classgroup_property = false)
+	function ClassGroupTableColumn($property_name_or_column_title, $contains_classgroup_property = false)
 	{
 		if ($contains_classgroup_property)
 		{

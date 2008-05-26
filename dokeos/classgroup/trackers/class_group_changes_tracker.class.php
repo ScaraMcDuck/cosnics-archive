@@ -9,14 +9,14 @@ require_once Path :: get_tracking_path() . 'lib/defaulttracker.class.php';
 /**
  * This class tracks the login that a user uses
  */
-class ClassgroupChangesTracker extends DefaultTracker
+class ClassGroupChangesTracker extends DefaultTracker
 {
 	const PROPERTY_TARGET_USER_ID = 'target_user_id';
 	
 	/**
 	 * Constructor sets the default values
 	 */
-    function ClassgroupChangesTracker() 
+    function ClassGroupChangesTracker() 
     {
     	parent :: MainTracker('classgroup_changes');
     }

@@ -3,8 +3,8 @@
  * $Id$
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../repositorymanager.class.php';
-require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
+require_once dirname(__FILE__).'/../repository_manager.class.php';
+require_once dirname(__FILE__).'/../repository_manager_component.class.php';
 /**
  * Repository manager component to restore learning objects. This means movig
  * learning objects from the recycle bin to there original location.

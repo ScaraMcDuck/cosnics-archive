@@ -7,7 +7,7 @@
  * TODO: Add comment
  * 
  */
-interface ClassgroupTableCellRenderer
+interface ClassGroupTableCellRenderer
 {
 	/**
 	 * TODO: Add comment

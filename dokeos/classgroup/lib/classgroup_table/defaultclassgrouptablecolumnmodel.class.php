@@ -4,17 +4,17 @@
  */
 require_once dirname(__FILE__).'/classgrouptablecolumnmodel.class.php';
 require_once dirname(__FILE__).'/classgrouptablecolumn.class.php';
-require_once dirname(__FILE__).'/../classgroup.class.php';
+require_once dirname(__FILE__).'/../class_group.class.php';
 
 /**
  * TODO: Add comment
  */
-class DefaultClassgroupTableColumnModel extends ClassgroupTableColumnModel
+class DefaultClassGroupTableColumnModel extends ClassGroupTableColumnModel
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultClassgroupTableColumnModel()
+	function DefaultClassGroupTableColumnModel()
 	{
 		parent :: __construct(self :: get_default_columns(), 1);
 	}
@@ -25,8 +25,8 @@ class DefaultClassgroupTableColumnModel extends ClassgroupTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ClassgroupTableColumn(Classgroup :: PROPERTY_NAME, true);
-		$columns[] = new ClassgroupTableColumn(Classgroup :: PROPERTY_DESCRIPTION, true);
+		$columns[] = new ClassGroupTableColumn(ClassGroup :: PROPERTY_NAME, true);
+		$columns[] = new ClassGroupTableColumn(ClassGroup :: PROPERTY_DESCRIPTION, true);
 		return $columns;
 	}
 }

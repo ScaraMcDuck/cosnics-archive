@@ -8,8 +8,8 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../repositorymanager.class.php';
-require_once dirname(__FILE__).'/../repositorymanagercomponent.class.php';
+require_once dirname(__FILE__).'/../repository_manager.class.php';
+require_once dirname(__FILE__).'/../repository_manager_component.class.php';
 require_once dirname(__FILE__).'/../../learning_object_form.class.php';
 /**
  * Repository manager component to edit an existing learning object.

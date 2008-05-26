@@ -1,8 +1,8 @@
 <?php
-require_once dirname(__FILE__).'/../classgroupmanager.class.php';
-require_once dirname(__FILE__).'/../classgroupmanagercomponent.class.php';
+require_once dirname(__FILE__).'/../class_group_manager.class.php';
+require_once dirname(__FILE__).'/../class_group_manager_component.class.php';
 
-class ClassgroupManagerTruncaterComponent extends ClassgroupManagerComponent
+class ClassGroupManagerTruncaterComponent extends ClassGroupManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -14,7 +14,7 @@ class ClassgroupManagerTruncaterComponent extends ClassgroupManagerComponent
 		if (!$user->is_platform_admin())
 		{
 			$trail = new BreadcrumbTrail();
-			$trail->add(new Breadcrumb($this->get_url(array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
+			$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('EmptyGroup')));
 			
 			$this->display_header($trail);
@@ -24,7 +24,7 @@ class ClassgroupManagerTruncaterComponent extends ClassgroupManagerComponent
 		}
 		
 		
-		$ids = $_GET[ClassgroupManager :: PARAM_CLASSGROUP_ID];
+		$ids = $_GET[ClassGroupManager :: PARAM_CLASSGROUP_ID];
 		$failures = 0;
 		
 		if (!empty ($ids))
@@ -51,31 +51,31 @@ class ClassgroupManagerTruncaterComponent extends ClassgroupManagerComponent
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedClassgroupNotEmptied';
+					$message = 'SelectedClassGroupNotEmptied';
 				}
 				else
 				{
-					$message = 'SelectedClassgroupsNotEmptied';
+					$message = 'SelectedClassGroupsNotEmptied';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedClassgroupEmptied';
+					$message = 'SelectedClassGroupEmptied';
 				}
 				else
 				{
-					$message = 'SelectedClassgroupsEmptied';
+					$message = 'SelectedClassGroupsEmptied';
 				}
 				
 			}
 			
-			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(ClassgroupManager :: PARAM_ACTION => ClassgroupManager :: ACTION_BROWSE_CLASSGROUPS));
+			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS));
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoClassgroupSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoClassGroupSelected')));
 		}
 	}
 }

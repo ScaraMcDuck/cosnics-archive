@@ -2,8 +2,8 @@
 /**
  * @package application.lib.profiler.publisher.publication_candidate_table
  */
-require_once Path :: get_repository_path(). 'lib/learning_object_table/learningobjecttablecolumnmodel.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object_table/learningobjecttablecolumn.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object_table/learning_object_table_column_model.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object_table/learning_object_table_column.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 /**
  * This class represents a column model for a publication candidate table

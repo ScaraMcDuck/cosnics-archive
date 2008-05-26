@@ -4,16 +4,16 @@
  */
 
 require_once dirname(__FILE__).'/classgrouprelusertablecellrenderer.class.php';
-require_once dirname(__FILE__).'/../classgroupreluser.class.php';
+require_once dirname(__FILE__).'/../class_group_rel_user.class.php';
 /**
  * TODO: Add comment
  */
-class DefaultClassgroupRelUserTableCellRenderer implements ClassgroupRelUserTableCellRenderer
+class DefaultClassGroupRelUserTableCellRenderer implements ClassGroupRelUserTableCellRenderer
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultClassgroupRelUserTableCellRenderer()
+	function DefaultClassGroupRelUserTableCellRenderer()
 	{
 	}
 	/**

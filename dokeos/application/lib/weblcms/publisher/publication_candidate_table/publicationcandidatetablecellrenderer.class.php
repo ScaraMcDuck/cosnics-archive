@@ -4,7 +4,7 @@
  * @package application.weblcms
  * @subpackage publisher
  */
-require_once Path :: get_repository_path(). 'lib/learning_object_table/defaultlearningobjecttablecellrenderer.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object_table/default_learning_object_table_cell_renderer.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
 require_once dirname(__FILE__).'/publicationcandidatetablecolumnmodel.class.php';

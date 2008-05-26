@@ -4,7 +4,7 @@
  * @package application.personal_calendar
  */
 require_once (dirname(__FILE__).'/../personal_calendar_renderer.class.php');
-require_once (Path :: get_application_library_path().'weekcalendar.class.php');
+require_once (Path :: get_application_library_path().'week_calendar.class.php');
 /**
  * This personal calendar renderer provides a tabular week view of the events in
  * the calendar.

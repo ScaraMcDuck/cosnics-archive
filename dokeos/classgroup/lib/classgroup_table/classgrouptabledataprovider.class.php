@@ -5,7 +5,7 @@
 /**
  * todo: add comment
  */
-interface ClassgroupTableDataProvider
+interface ClassGroupTableDataProvider
 {
     function get_classgroups($group = null, $category = null, $offset, $count, $order_property, $order_direction);
 

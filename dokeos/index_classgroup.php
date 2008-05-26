@@ -1,7 +1,7 @@
 <?php
 $this_section='classgroup';
 require_once dirname(__FILE__).'/common/global.inc.php';
-require_once Path :: get_classgroup_path(). 'lib/classgroup_manager/classgroupmanager.class.php';
+require_once Path :: get_classgroup_path(). 'lib/classgroup_manager/class_group_manager.class.php';
 require_once Path :: get_user_path(). 'lib/usermanager/usermanager.class.php';
 
 Translation :: set_application($this_section);

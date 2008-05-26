@@ -3,7 +3,7 @@
  * @package repository.learningobject
  * @subpackage forum
  */
-require_once dirname(__FILE__).'/../../../learning_object_table/learningobjecttabledataprovider.class.php';
+require_once dirname(__FILE__).'/../../../learning_object_table/learning_object_table_data_provider.class.php';
 require_once dirname(__FILE__).'/../../../learning_object.class.php';
 require_once dirname(__FILE__).'/../../../repository_data_manager.class.php';
 
