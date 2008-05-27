@@ -6,7 +6,7 @@
  * @author Dieter De Neef
  */
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/admin.class.php';
+require_once dirname(__FILE__).'/admin_manager.class.php';
 require_once dirname(__FILE__).'/../admin_data_manager.class.php';
 /**
  * A form to search in the repository.

@@ -1,5 +1,5 @@
 <?php
-require_once Path :: get_menu_path().'lib/menu_manager/menumanager.class.php';
+require_once Path :: get_menu_path().'lib/menu_manager/menu_manager.class.php';
 
 /**
  * $Id$

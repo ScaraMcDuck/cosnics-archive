@@ -2,7 +2,7 @@
 $this_section = 'home';
 
 require_once dirname(__FILE__).'/common/global.inc.php';
-require_once Path :: get_home_path() . 'lib/home_manager/homemanager.class.php';
+require_once Path :: get_home_path() . 'lib/home_manager/home_manager.class.php';
 require_once Path :: get_user_path() . 'lib/usermanager/usermanager.class.php';
 
 Translation :: set_application('home');

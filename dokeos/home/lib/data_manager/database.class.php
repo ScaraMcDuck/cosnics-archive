@@ -3,15 +3,15 @@
  * @package users
  * @subpackage datamanager
  */
-require_once dirname(__FILE__).'/database/databasehomerowresultset.class.php';
-require_once dirname(__FILE__).'/database/databasehomecolumnresultset.class.php';
-require_once dirname(__FILE__).'/database/databasehomeblockresultset.class.php';
-require_once dirname(__FILE__).'/database/databasehomeblockconfigresultset.class.php';
-require_once dirname(__FILE__).'/../homedatamanager.class.php';
-require_once dirname(__FILE__).'/../homerow.class.php';
-require_once dirname(__FILE__).'/../homecolumn.class.php';
-require_once dirname(__FILE__).'/../homeblock.class.php';
-require_once dirname(__FILE__).'/../homeblockconfig.class.php';
+require_once dirname(__FILE__).'/database/database_home_row_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_home_column_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_home_block_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_home_block_config_result_set.class.php';
+require_once dirname(__FILE__).'/../home_data_manager.class.php';
+require_once dirname(__FILE__).'/../home_row.class.php';
+require_once dirname(__FILE__).'/../home_column.class.php';
+require_once dirname(__FILE__).'/../home_block.class.php';
+require_once dirname(__FILE__).'/../home_block_config.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once 'MDB2.php';
 

@@ -1,6 +1,6 @@
 <?php
 require_once ('HTML/QuickForm/Rule.php');
-require_once dirname(__FILE__).'/../../../../home/lib/home_manager/homemanager.class.php';
+require_once dirname(__FILE__).'/../../../../home/lib/home_manager/home_manager.class.php';
 
 class HTML_QuickForm_Rule_MaxValue extends HTML_QuickForm_Rule
 {

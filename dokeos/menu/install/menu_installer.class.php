@@ -2,8 +2,8 @@
 /**
  * @package application.menu
  */
-require_once dirname(__FILE__).'/../lib/menudatamanager.class.php';
-require_once dirname(__FILE__).'/../lib/menuitem.class.php';
+require_once dirname(__FILE__).'/../lib/menu_data_manager.class.php';
+require_once dirname(__FILE__).'/../lib/menu_item.class.php';
 require_once Path :: get_library_path().'installer.class.php';
 require_once Path :: get_library_path().'filesystem/filesystem.class.php';
 require_once Path :: get_tracking_path() .'lib/events.class.php';

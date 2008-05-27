@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/../homemanager.class.php';
-require_once dirname(__FILE__).'/../homemanagercomponent.class.php';
+require_once dirname(__FILE__).'/../home_manager.class.php';
+require_once dirname(__FILE__).'/../home_manager_component.class.php';
 
 class HomeManagerHomeComponent extends HomeManagerComponent
 {

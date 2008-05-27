@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/../menumanager.class.php';
-require_once dirname(__FILE__).'/../menumanagercomponent.class.php';
+require_once dirname(__FILE__).'/../menu_manager.class.php';
+require_once dirname(__FILE__).'/../menu_manager_component.class.php';
 
 class MenuManagerBarComponent extends MenuManagerComponent
 {
