@@ -4,8 +4,8 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/personalmessengercomponent.class.php';
-require_once dirname(__FILE__).'/../personalmessengerdatamanager.class.php';
+require_once dirname(__FILE__).'/personal_messenger_component.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_data_manager.class.php';
 require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_library_path().'condition/or_condition.class.php';
@@ -13,10 +13,10 @@ require_once Path :: get_library_path().'condition/and_condition.class.php';
 require_once Path :: get_library_path().'condition/not_condition.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
-require_once dirname(__FILE__).'/../pm_publication_table/pmpublicationtable.class.php';
-require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
-require_once dirname(__FILE__).'/../personalmessengermenu.class.php';
-require_once dirname(__FILE__).'/../personalmessengerblock.class.php';
+require_once dirname(__FILE__).'/../pm_publication_table/pmµ_publication_table.class.php';
+require_once dirname(__FILE__).'/../personal_message_publisher.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_menu.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 
 /**
  * A personal messenger manager allows a user to send/receive personal messages.

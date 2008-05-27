@@ -4,10 +4,10 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
-require_once dirname(__FILE__).'/../personalmessagepublishercomponent.class.php';
-require_once dirname(__FILE__).'/../personalmessengerdatamanager.class.php';
-require_once dirname(__FILE__).'/../personalmessagepublicationform.class.php';
+require_once dirname(__FILE__).'/../personal_message_publisher.class.php';
+require_once dirname(__FILE__).'/../personal_message_publisher_component.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_datamanager.class.php';
+require_once dirname(__FILE__).'/../personal_message_publication_form.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object_display.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object_form.class.php';

@@ -63,7 +63,7 @@ class PersonalMessagePublisher
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
 		$action = $this->get_action();
-		require_once dirname(__FILE__).'/publisher/personalmessage'.$action.'.class.php';
+		require_once dirname(__FILE__).'/publisher/personal_message_'.$action.'.class.php';
 		$class = 'PersonalMessage'.ucfirst($action);
 		$component = new $class ($this);
 		$out .= $component->as_html().'</div></div>';

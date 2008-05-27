@@ -4,9 +4,9 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../personalmessengerdatamanager.class.php';
-require_once dirname(__FILE__).'/../personalmessagepublication.class.php';
-require_once dirname(__FILE__).'/database/databasepersonalmessagepublicationresultset.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_data_manager.class.php';
+require_once dirname(__FILE__).'/../personal_message_publication.class.php';
+require_once dirname(__FILE__).'/database/database_personal_message_publication_result_set.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 
 require_once 'MDB2.php';

@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../../pm_publication_table/pmpublicationtabledataprovider.class.php';
+require_once dirname(__FILE__).'/../../../pm_publication_table/pm_publication_table_data_provider.class.php';
 /**
  * Data provider for a personal messenger browser table.
  *

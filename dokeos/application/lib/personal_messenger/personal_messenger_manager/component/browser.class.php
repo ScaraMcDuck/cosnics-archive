@@ -5,8 +5,8 @@
  * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../personal_messenger.class.php';
-require_once dirname(__FILE__).'/../personalmessengercomponent.class.php';
-require_once dirname(__FILE__).'/pmpublicationbrowser/pmpublicationbrowsertable.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_component.class.php';
+require_once dirname(__FILE__).'/pm_publication_browser/pm_publication_browser_table.class.php';
 
 class PersonalMessengerBrowserComponent extends PersonalMessengerComponent
 {	
