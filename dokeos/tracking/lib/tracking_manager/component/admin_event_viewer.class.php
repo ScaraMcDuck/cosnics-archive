@@ -4,8 +4,8 @@
  */
 require_once dirname(__FILE__).'/../tracking_manager.class.php';
 require_once dirname(__FILE__).'/../tracking_manager_component.class.php';
-require_once dirname(__FILE__).'/admineventviewer/admineventviewercellrenderer.class.php';
-require_once dirname(__FILE__).'/admineventviewer/admineventvieweractionhandler.class.php';
+require_once dirname(__FILE__).'/admin_event_viewer/admin_event_viewer_cell_renderer.class.php';
+require_once dirname(__FILE__).'/admin_event_viewer/admin_event_viewer_action_handler.class.php';
 require_once Path :: get(SYS_LIB_PATH).'/html/table/simple_table.class.php';
 
 /**
