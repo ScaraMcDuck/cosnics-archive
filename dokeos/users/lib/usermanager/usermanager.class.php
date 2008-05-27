@@ -10,6 +10,7 @@ require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.
 require_once Path :: get_library_path().'condition/or_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
+require_once dirname(__FILE__).'/../users_block.class.php';
 
 /**
  * A user manager provides some functionalities to the admin to manage
@@ -51,11 +52,26 @@ require_once Path :: get_library_path().'condition/equality_condition.class.php'
 	private $breadcrumbs;
 
 
-    function UserManager($user_id = null) {
-    	if (isset($user_id))
+    function UserManager($user = null) {
+    	if (isset($user))
     	{
-   			$this->user_id = $user_id;
-	    	$this->user = $this->retrieve_user($this->user_id);
+    		if (is_object($user))
+    		{
+   				$this->user_id = $user->get_user_id();
+	    		$this->user = $user;
+    		}
+    		else
+    		{
+   				$this->user_id = $user;
+   				if (!is_null($user))
+   				{
+	    			$this->user = $this->retrieve_user($this->user_id);
+   				}
+   				else
+   				{
+   					$this->user = null;
+   				}
+    		}
     	}
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
@@ -114,6 +130,16 @@ require_once Path :: get_library_path().'condition/equality_condition.class.php'
 		}
 		$component->run();
 	}
+	
+    /**
+	 * Renders the users block and returns it. 
+	 */
+	function render_block($block)
+	{
+		$weblcms_block = UsersBlock :: factory($this, $block);
+		return $weblcms_block->run();
+	}
+	
 	/**
 	 * Gets the current action.
 	 * @see get_parameter()

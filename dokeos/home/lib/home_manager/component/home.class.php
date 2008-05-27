@@ -36,7 +36,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 			while ($column = $columns->next_result())
 			{
 				$column_number++;
-				$html[] = '<div class="column" id="'. $column->get_title() .'" style="width: '. $column->get_width() .'%;'. ($column_number < $columns->size() ? 'margin-right: 1%;' : '') .'">';
+				$html[] = '<div class="column" id="c'. $column->get_id() .'" style="width: '. $column->get_width() .'%;'. ($column_number < $columns->size() ? 'margin-right: 1%;' : '') .'">';
 				
 				$condition = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $column->get_id());
 				
@@ -47,8 +47,21 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 					$application = $block->get_application();
 					$application_class = Application :: application_to_class($application);
 					
-					$app = new $application_class($this->get_user());
-					$html[] = $app->render_block($block);
+					if(!Application :: is_application($application))
+					{
+						$application_class .= 'Manager';
+					}
+					
+					if (!is_null($this->get_user()))
+					{
+						$app = new $application_class($this->get_user());
+						$html[] = $app->render_block($block);
+					}
+					elseif($application == 'user' && $block->get_component() == 'login')
+					{
+						$app = new $application_class($this->get_user());
+						$html[] = $app->render_block($block);
+					}
 				}
 						
 				$html[] = '</div>';

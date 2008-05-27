@@ -61,7 +61,8 @@ class HomeInstaller extends Installer
 		$block_test = new HomeBlock();
 		$block_test->set_column($column_news->get_id());
 		$block_test->set_title('Extra');
-		$block_test->set_component('PersonalCalendar.Extra');
+		$block_test->set_application('personal_calendar');
+		$block_test->set_component('extra');
 		if (!$block_test->create())
 		{
 			return false;
@@ -80,7 +81,8 @@ class HomeInstaller extends Installer
 		$block_user = new HomeBlock();
 		$block_user->set_column($column_varia->get_id());
 		$block_user->set_title(Translation :: get('User'));
-		$block_user->set_component('User');
+		$block_user->set_application('user');
+		$block_user->set_component('login');
 		if (!$block_user->create())
 		{
 			return false;
@@ -89,7 +91,8 @@ class HomeInstaller extends Installer
 		$block_weblcms = new HomeBlock();
 		$block_weblcms->set_column($column_varia->get_id());
 		$block_weblcms->set_title(Translation :: get('Weblcms'));
-		$block_weblcms->set_component('Weblcms.Extra');
+		$block_weblcms->set_application('weblcms');
+		$block_weblcms->set_component('extra');
 		if (!$block_weblcms->create())
 		{
 			return false;
@@ -98,7 +101,8 @@ class HomeInstaller extends Installer
 		$block_search = new HomeBlock();
 		$block_search->set_column($column_varia->get_id());
 		$block_search->set_title(Translation :: get('Search'));
-		$block_search->set_component('SearchPortal.Extra');
+		$block_search->set_application('search_portal');
+		$block_search->set_component('extra');
 		if (!$block_search->create())
 		{
 			return false;
@@ -117,7 +121,8 @@ class HomeInstaller extends Installer
 		$block_user = new HomeBlock();
 		$block_user->set_column($column_extra->get_id());
 		$block_user->set_title(Translation :: get('PersonalCalendar'));
-		$block_user->set_component('PersonalCalendar.Month');
+		$block_user->set_application('personal_calendar');
+		$block_user->set_component('month');
 		if (!$block_user->create())
 		{
 			return false;

@@ -165,7 +165,7 @@ abstract class UsersDataManager
 	{
 		$user = $this->retrieve_user(Session :: get_user_id());
 		$authentication_method = $user->get_auth_source();
-		$authentication_class_file = Path :: get_library_path().'authentication/'.$authentication_method.'/'.$authentication_method.'authentication.class.php';
+		$authentication_class_file = Path :: get_library_path().'authentication/'.$authentication_method.'/'.$authentication_method.'_authentication.class.php';
 		$authentication_class = ucfirst($authentication_method).'Authentication';
 		require_once $authentication_class_file;
 		$authentication = new $authentication_class;
