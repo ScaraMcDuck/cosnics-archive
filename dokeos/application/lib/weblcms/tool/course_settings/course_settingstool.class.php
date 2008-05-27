@@ -6,7 +6,7 @@
  * @subpackage course_settings
  */
 require_once dirname(__FILE__).'/../tool.class.php';
-require_once dirname(__FILE__).'/../../course/courseform.class.php';
+require_once dirname(__FILE__).'/../../course/course_form.class.php';
 
 class CourseSettingsTool extends Tool
 {

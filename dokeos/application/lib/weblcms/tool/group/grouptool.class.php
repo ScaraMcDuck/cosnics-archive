@@ -6,7 +6,7 @@
  * @subpackage group
  */
 require_once dirname(__FILE__).'/../tool.class.php';
-require_once dirname(__FILE__).'/../../group/groupform.class.php';
+require_once dirname(__FILE__).'/../../group/group_form.class.php';
 require_once dirname(__FILE__).'/usertable/groupsubscribeduserbrowsertable.class.php';
 require_once dirname(__FILE__).'/usertable/groupunsubscribeduserbrowsertable.class.php';
 require_once dirname(__FILE__).'/grouptoolsearchform.class.php';

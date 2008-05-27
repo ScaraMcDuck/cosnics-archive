@@ -3,7 +3,7 @@
  * @package application.lib.calendar.publisher
  */
 require_once dirname(__FILE__).'/../weblcms_block.class.php';
-require_once dirname(__FILE__).'/../course/courseusercategory.class.php';
+require_once dirname(__FILE__).'/../course/course_user_category.class.php';
 /**
  * This class represents a calendar publisher component which can be used
  * to browse through the possible learning objects to publish.

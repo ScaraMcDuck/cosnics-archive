@@ -3,8 +3,8 @@
  * @package application.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__).'/../weblcms.class.php';
-require_once dirname(__FILE__).'/../weblcmscomponent.class.php';
-require_once dirname(__FILE__).'/../../course/courseusercategory.class.php';
+require_once dirname(__FILE__).'/../weblcms_component.class.php';
+require_once dirname(__FILE__).'/../../course/course_user_category.class.php';
 /**
  * Weblcms component which provides the user with a list
  * of all courses he or she has subscribed to.

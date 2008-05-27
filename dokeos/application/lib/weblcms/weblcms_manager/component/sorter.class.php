@@ -3,9 +3,9 @@
  * @package application.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__).'/../weblcms.class.php';
-require_once dirname(__FILE__).'/../weblcmscomponent.class.php';
-require_once dirname(__FILE__).'/../../course/courseuserrelationform.class.php';
-require_once dirname(__FILE__).'/../../course/courseusercategoryform.class.php';
+require_once dirname(__FILE__).'/../weblcms_component.class.php';
+require_once dirname(__FILE__).'/../../course/course_user_relation_form.class.php';
+require_once dirname(__FILE__).'/../../course/course_user_category_form.class.php';
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
