@@ -30,7 +30,7 @@ class RepositoryBrowserTableColumnModel extends DefaultLearningObjectTableColumn
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new LearningObjectTableColumn('');
+			self :: $modification_column = new ObjectTableColumn('');
 		}
 		return self :: $modification_column;
 	}

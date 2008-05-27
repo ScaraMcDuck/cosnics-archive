@@ -19,23 +19,34 @@ class RecycleBinBrowserTableDataProvider extends RepositoryBrowserTableDataProvi
 		parent :: __construct($browser, $condition);
 	}
 	// Inherited
-    function get_learning_objects($offset, $count, $order_property, $order_direction)
+    function get_objects($offset, $count, $order_property = null, $order_direction = null)
     {
-    	// We always use title as second sorting parameter
-    	if ($order_property != LearningObject :: PROPERTY_TITLE)
+    	if (is_null($order_property))
     	{
-	    	$order_property = array($order_property, LearningObject :: PROPERTY_TITLE);
-	    	$order_direction = array($order_direction, SORT_ASC);
+    		$order_property = array();
     	}
-    	else
+    	elseif(!is_array($order_property))
     	{
     		$order_property = array($order_property);
-    		$order_direction = array($order_direction);
     	}
+    	
+    	if (is_null($order_direction))
+    	{
+    		$order_direction = array();
+    	}
+    	elseif(!is_array($order_direction))
+    	{
+    		$order_direction = array($order_direction);
+    	}	
+    	
+      	// We always use title as second sorting parameter
+		$order_property[] = LearningObject :: PROPERTY_TITLE;
+		$order_direction[] = SORT_ASC;
+		
     	return $this->get_browser()->retrieve_learning_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count, LearningObject :: STATE_RECYCLED, true);
     }
 	// Inherited
-    function get_learning_object_count()
+    function get_object_count()
     {
     	return $this->get_browser()->count_learning_objects(null, $this->get_condition(), LearningObject :: STATE_RECYCLED, true);
     }

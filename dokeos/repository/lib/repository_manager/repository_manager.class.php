@@ -12,7 +12,8 @@ require_once dirname(__FILE__).'/../learning_object_publication_attributes.class
 require_once dirname(__FILE__).'/../options_menu_renderer.class.php';
 require_once Path :: get_library_path().'condition/or_condition.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
-require_once dirname(__FILE__).'/../learning_object_table/learning_object_table.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
+require_once dirname(__FILE__).'/component/browser/repository_browser_table.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 /**
@@ -184,7 +185,7 @@ class RepositoryManager
 	{
 		if (isset ($_POST['action']))
 		{
-			$selected_ids = $_POST[LearningObjectTable :: DEFAULT_NAME.LearningObjectTable :: CHECKBOX_NAME_SUFFIX];
+			$selected_ids = $_POST[RepositoryBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty ($selected_ids))
 			{
 				$selected_ids = array ();

@@ -1,11 +1,9 @@
 <?php
 /**
- * $Id$
+ * $Id: learning_object_table.class.php 15426 2008-05-26 19:37:50Z Scara84 $
  * @package repository.learningobjecttable
  */
 require_once Path :: get_library_path().'html/table/sortable_table.class.php';
-require_once dirname(__FILE__).'/default_learning_object_table_column_model.class.php';
-require_once dirname(__FILE__).'/default_learning_object_table_cell_renderer.class.php';
 
 /**
  * A learning object table allows you to display a set of learning objects
@@ -45,12 +43,8 @@ require_once dirname(__FILE__).'/default_learning_object_table_cell_renderer.cla
  * @see LearningObjectTableCellRenderer
  * @author Tim De Pauw
  */
-class LearningObjectTable
+class ObjectTable
 {
-	/**
-	 * Default table name
-	 */
-	const DEFAULT_NAME = 'learning_objects';
 	/**
 	 * Suffix for checkbox name when using actions on selected learning objects.
 	 */
@@ -100,12 +94,12 @@ class LearningObjectTable
 	 *                                                       Omit to use the
 	 *                                                       default renderer.
 	 */
-	function LearningObjectTable($data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
+	function ObjectTable($data_provider, $table_name, $column_model, $cell_renderer)
 	{
 		$this->set_data_provider($data_provider);
-		$this->set_name(isset($table_name) ? $table_name : self :: DEFAULT_NAME);
-		$this->set_column_model(isset ($column_model) ? $column_model : new DefaultLearningObjectTableColumnModel());
-		$this->set_cell_renderer(isset ($cell_renderer) ? $cell_renderer : new DefaultLearningObjectTableCellRenderer());
+		$this->set_name($table_name);
+		$this->set_column_model($column_model);
+		$this->set_cell_renderer($cell_renderer);
 		$this->set_default_row_count(10);
 		$this->set_additional_parameters($this->determine_additional_parameters());
 	}
@@ -134,7 +128,7 @@ class LearningObjectTable
 	 */
 	function as_html()
 	{
-		$table = new SortableTable($this->get_name(), array ($this, 'get_learning_object_count'), array ($this, 'get_learning_objects'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction());
+		$table = new SortableTable($this->get_name(), array ($this, 'get_object_count'), array ($this, 'get_objects'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction());
 		$table->set_additional_parameters($this->get_additional_parameters());
 		if ($this->has_form_actions())
 		{
@@ -301,9 +295,9 @@ class LearningObjectTable
 	 * You should not be concerned with this method. It is only public because
 	 * of technical limitations.
 	 */
-	function get_learning_objects($offset, $count, $order_column, $order_direction)
+	function get_objects($offset, $count, $order_column, $order_direction)
 	{
-		$objects = $this->get_data_provider()->get_learning_objects($offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_learning_object_property(), $order_direction);
+		$objects = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_object_property(), $order_direction);
 		$table_data = array ();
 		$column_count = $this->get_column_model()->get_column_count();
 		while ($object = $objects->next_result())
@@ -326,9 +320,9 @@ class LearningObjectTable
 	 * You should not be concerned with this method. It is only public because
 	 * of technical limitations.
 	 */
-	function get_learning_object_count()
+	function get_object_count()
 	{
-		return $this->get_data_provider()->get_learning_object_count();
+		return $this->get_data_provider()->get_object_count();
 	}
 }
 ?>
