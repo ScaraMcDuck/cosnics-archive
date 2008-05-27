@@ -3,7 +3,7 @@
  * $Id: learning_object_publication_category_manager.class.php 15155 2008-04-28 09:34:46Z Scara84 $
  * @package application.weblcms.tool
  */
-require_once dirname(__FILE__).'/category_manager/learningobjectpublicationcategoryform.class.php';
+require_once dirname(__FILE__).'/category_manager/learning_object_publication_category_form.class.php';
 /**
  * This class provides the means to manage the learning object publication
  * categories in a tool.

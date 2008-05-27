@@ -4,7 +4,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/importusercoursecategory.class.php';
-require_once dirname(__FILE__).'/../../../application/lib/weblcms/course/courseusercategory.class.php';
+require_once dirname(__FILE__).'/../../../application/lib/weblcms/course/course_user_category.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 user course category

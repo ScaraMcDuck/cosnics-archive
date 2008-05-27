@@ -4,20 +4,20 @@
  * @package application.weblcms
  * @subpackage datamanager
  */
-require_once dirname(__FILE__).'/database/databasecourseresultset.class.php';
-require_once dirname(__FILE__).'/database/databasegroupresultset.class.php';
-require_once dirname(__FILE__).'/database/databasecoursecategoryresultset.class.php';
-require_once dirname(__FILE__).'/database/databasecourseusercategoryresultset.class.php';
-require_once dirname(__FILE__).'/database/databasecourseuserrelationresultset.class.php';
-require_once dirname(__FILE__).'/database/databaselearningobjectpublicationresultset.class.php';
+require_once dirname(__FILE__).'/database/database_course_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_group_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_course_category_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_course_user_category_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_course_user_relation_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_learning_object_publication_result_set.class.php';
 require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
 require_once dirname(__FILE__).'/../learning_object_publication.class.php';
 require_once dirname(__FILE__).'/../learning_object_publication_category.class.php';
 require_once dirname(__FILE__).'/../learning_object_publication_feedback.class.php';
 require_once dirname(__FILE__).'/../course/course.class.php';
-require_once dirname(__FILE__).'/../course/coursecategory.class.php';
-require_once dirname(__FILE__).'/../course/courseusercategory.class.php';
-require_once dirname(__FILE__).'/../course/courseuserrelation.class.php';
+require_once dirname(__FILE__).'/../course/course_category.class.php';
+require_once dirname(__FILE__).'/../course/course_user_category.class.php';
+require_once dirname(__FILE__).'/../course/course_user_relation.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 
 class DatabaseWeblcmsDataManager extends WeblcmsDataManager

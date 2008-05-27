@@ -3,8 +3,8 @@
  * $Id: weblcms.class.php 11676 2007-03-23 14:54:03Z Scara84 $
  * @package application.weblcms
  */
-require_once dirname(__FILE__).'/weblcmscomponent.class.php';
-require_once dirname(__FILE__).'/weblcmssearchform.class.php';
+require_once dirname(__FILE__).'/weblcms_component.class.php';
+require_once dirname(__FILE__).'/weblcms_search_form.class.php';
 require_once dirname(__FILE__).'/../../webapplication.class.php';
 require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
 require_once dirname(__FILE__).'/../learning_object_publication_category.class.php';

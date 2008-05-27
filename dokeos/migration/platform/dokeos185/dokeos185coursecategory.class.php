@@ -6,7 +6,7 @@
 
 
 require_once dirname(__FILE__).'/../../lib/import/importcoursecategory.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/course/coursecategory.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/course/course_category.class.php';
 
 
 /**
