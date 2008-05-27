@@ -6,7 +6,7 @@
  * @package application.weblcms.tool
  * @subpackage group
  */
-require_once dirname(__FILE__).'/grouptablecellrenderer.class.php';
+require_once dirname(__FILE__).'/group_table_cell_renderer.class.php';
 
 class DefaultGroupTableCellRenderer implements GroupTableCellRenderer
 {

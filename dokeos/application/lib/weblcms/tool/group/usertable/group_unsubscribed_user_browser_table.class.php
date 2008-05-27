@@ -5,20 +5,20 @@
  * @package application.weblcms.tool
  * @subpackage group
  */
-require_once Path :: get_user_path(). 'lib/user_table/usertable.class.php';
-require_once dirname(__FILE__).'/groupsubscribeduserbrowsertabledataprovider.class.php';
-require_once dirname(__FILE__).'/groupsubscribeduserbrowsertablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/groupsubscribeduserbrowsertablecellrenderer.class.php';
-class GroupSubscribedUserBrowserTable extends UserTable
+require_once Path :: get_user_path(). 'lib/user_table/user_table.class.php';
+require_once dirname(__FILE__).'/group_unsubscribed_user_browser_table_data_provider.class.php';
+require_once dirname(__FILE__).'/group_unsubscribed_user_browser_table_column_model.class.php';
+require_once dirname(__FILE__).'/group_unsubscribed_user_browser_table_cell_renderer.class.php';
+class GroupUnsubscribedUserBrowserTable extends UserTable
 {
 	/**
 	 * Constructor
 	 */
-	function GroupSubscribedUserBrowserTable($browser, $name, $parameters, $condition)
+	function GroupUnsubscribedUserBrowserTable($browser, $name, $parameters, $condition)
 	{
-		$model = new GroupSubscribedUserBrowserTableColumnModel();
-		$renderer = new GroupSubscribedUserBrowserTableCellRenderer($browser);
-		$data_provider = new GroupSubscribedUserBrowserTableDataProvider($browser, $condition);
+		$model = new GroupUnsubscribedUserBrowserTableColumnModel();
+		$renderer = new GroupUnsubscribedUserBrowserTableCellRenderer($browser);
+		$data_provider = new GroupUnsubscribedUserBrowserTableDataProvider($browser, $condition);
 		parent :: __construct($data_provider, $name, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();

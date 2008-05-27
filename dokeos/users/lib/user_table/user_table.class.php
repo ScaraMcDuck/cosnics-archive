@@ -3,8 +3,8 @@
  * @package users.lib.user_table
  */
 require_once Path :: get_library_path().'html/table/sortable_table.class.php';
-require_once dirname(__FILE__).'/defaultusertablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/defaultusertablecellrenderer.class.php';
+require_once dirname(__FILE__).'/default_user_table_column_model.class.php';
+require_once dirname(__FILE__).'/default_user_table_cell_renderer.class.php';
 
 class UserTable
 {

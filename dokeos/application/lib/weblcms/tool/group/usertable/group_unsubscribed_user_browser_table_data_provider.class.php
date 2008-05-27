@@ -5,8 +5,8 @@
  * @package application.weblcms.tool
  * @subpackage group
  */
-require_once Path :: get_user_path(). 'lib/user_table/usertabledataprovider.class.php';
-class GroupSubscribedUserBrowserTableDataprovider  implements UserTableDataProvider
+require_once Path :: get_user_path(). 'lib/user_table/user_table_data_provider.class.php';
+class GroupUnsubscribedUserBrowserTableDataprovider  implements UserTableDataProvider
 {
   /**
    * The weblcms component in which the table will be displayed
@@ -24,7 +24,7 @@ class GroupSubscribedUserBrowserTableDataprovider  implements UserTableDataProvi
    * @param WeblcmsComponent $browser
    * @param Condition $condition
    */
-  function GroupSubscribedUserBrowserTableDataprovider($browser, $condition)
+  function GroupUnsubscribedUserBrowserTableDataprovider($browser, $condition)
   {
     $this->browser = $browser;
     $this->condition = $condition;
@@ -44,7 +44,7 @@ class GroupSubscribedUserBrowserTableDataprovider  implements UserTableDataProvi
       $order_property = array($order_property);
       $order_direction = array($order_direction);
 
-      return $this->wdm->retrieve_group_users($this->browser->get_group(),$this->get_condition(), $offset, $count, $order_property, $order_direction);
+      return $this->wdm->retrieve_possible_group_users($this->browser->get_group(),$this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
   /**
    * Gets the number of users in the table
@@ -52,7 +52,7 @@ class GroupSubscribedUserBrowserTableDataprovider  implements UserTableDataProvi
    */
     function get_user_count()
     {
-      return $this->wdm->count_group_users($this->browser->get_group(),$this->get_condition());
+      return $this->wdm->count_possible_group_users($this->browser->get_group(),$this->get_condition());
     }
   /**
    * Gets the condition
