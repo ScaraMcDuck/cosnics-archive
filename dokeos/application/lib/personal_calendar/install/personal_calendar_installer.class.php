@@ -3,7 +3,7 @@
  * $Id$
  * @package application.personal_calendar
  */
-require_once dirname(__FILE__).'/../personalcalendardatamanager.class.php';
+require_once dirname(__FILE__).'/../personal_calendar_data_manager.class.php';
 require_once Path :: get_library_path().'installer.class.php';
 /**
  *	This installer can be used to create the storage structure for the
