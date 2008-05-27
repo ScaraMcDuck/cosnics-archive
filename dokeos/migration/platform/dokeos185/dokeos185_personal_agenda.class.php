@@ -4,10 +4,10 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/importpersonalagenda.class.php';
+require_once dirname(__FILE__).'/../../lib/import/import_personal_agenda.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object/calendar_event/calendar_event.class.php';
-require_once Path :: get(SYS_APP_PATH) . 'lib/personal_calendar/personalcalendarevent.class.php';
-require_once Path :: get(SYS_APP_PATH) . 'lib/personal_calendar/calendareventpublication.class.php';
+require_once Path :: get(SYS_APP_PATH) . 'lib/personal_calendar/personal_calendar_event.class.php';
+require_once Path :: get(SYS_APP_PATH) . 'lib/personal_calendar/calendar_event_publication.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
 
 /**

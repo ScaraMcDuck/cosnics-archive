@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importlpivobjective.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_lp_iv_objective.class.php';
 
 /**
  * This class presents a Dokeos185 lp_iv_objective

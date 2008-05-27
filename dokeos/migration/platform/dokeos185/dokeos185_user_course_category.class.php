@@ -3,7 +3,7 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/importusercoursecategory.class.php';
+require_once dirname(__FILE__).'/../../lib/import/import_user_course_category.class.php';
 require_once dirname(__FILE__).'/../../../application/lib/weblcms/course/course_user_category.class.php';
 
 /**

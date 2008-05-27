@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importlpitem.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_lp_item.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/learning_path_chapter/learning_path_chapter.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/learning_path_item/learning_path_item.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';

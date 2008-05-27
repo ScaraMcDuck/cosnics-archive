@@ -2,7 +2,7 @@
 /**
  * @package migration.migrationmanager
  */
-require_once dirname(__FILE__).'/migrationmanagercomponent.class.php';
+require_once dirname(__FILE__).'/migration_manager_component.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 
 /**

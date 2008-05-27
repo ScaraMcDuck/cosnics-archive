@@ -3,10 +3,10 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importforumthread.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_forum_thread.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/forum_topic/forum_topic.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
-require_once 'dokeos185itemproperty.class.php';
+require_once 'dokeos185_item_property.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
 
 /**

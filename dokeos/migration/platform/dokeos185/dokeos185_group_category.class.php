@@ -4,7 +4,7 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/importgroup.class.php';
+require_once dirname(__FILE__).'/../../lib/import/import_group.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 Group category

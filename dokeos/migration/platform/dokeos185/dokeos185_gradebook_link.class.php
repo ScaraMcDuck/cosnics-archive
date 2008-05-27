@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importgradebooklink.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_gradebook_link.class.php';
 
 /**
  * This class presents a Dokeos185 gradebook_link

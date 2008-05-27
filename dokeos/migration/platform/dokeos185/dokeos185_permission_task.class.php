@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importpermissiontask.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_permission_task.class.php';
 
 /**
  * This class presents a Dokeos185 permission_task

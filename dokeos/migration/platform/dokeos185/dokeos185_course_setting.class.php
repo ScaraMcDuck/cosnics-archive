@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importcoursesetting.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_course_setting.class.php';
 
 /**
  * This class presents a dokeos185 course_setting

@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__).'/../migrationdatamanager.class.php';
+require_once dirname(__FILE__).'/../migration_data_manager.class.php';
 require_once 'MDB2.php';
 
 /**

@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importsessionreluser.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_session_rel_user.class.php';
 
 /**
  * This class presents a Dokeos185 session_rel_user

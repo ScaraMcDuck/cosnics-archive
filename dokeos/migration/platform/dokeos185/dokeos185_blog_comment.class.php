@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importblogcomment.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_blog_comment.class.php';
 
 /**
  * This class presents a Dokeos185 blog_comment

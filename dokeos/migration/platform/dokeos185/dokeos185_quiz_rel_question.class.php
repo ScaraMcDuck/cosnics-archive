@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importquizrelquestion.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_quiz_rel_question.class.php';
 
 /**
  * This class presents a Dokeos185 quiz_rel_question

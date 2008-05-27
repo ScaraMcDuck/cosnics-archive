@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importroleuser.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_role_user.class.php';
 
 /**
  * This class presents a Dokeos185 role_user

@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importtrackcproviders.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_track_cproviders.class.php';
 require_once dirname(__FILE__) . '/../../../users/trackers/providers_tracker.class.php';
 
 /**

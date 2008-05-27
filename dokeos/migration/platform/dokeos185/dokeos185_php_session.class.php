@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importphpsession.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_php_session.class.php';
 
 /**
  * This class presents a Dokeos185 php_session

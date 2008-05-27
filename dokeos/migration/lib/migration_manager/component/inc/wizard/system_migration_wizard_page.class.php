@@ -2,7 +2,7 @@
 /**
  * @package migration.lib.migration_manager.component.inc.wizard
  */
-require_once dirname(__FILE__).'/migrationwizardpage.class.php';
+require_once dirname(__FILE__).'/migration_wizard_page.class.php';
 
 /**
  * This form can be used to let the user select the settings
