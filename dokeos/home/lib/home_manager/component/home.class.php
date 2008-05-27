@@ -115,7 +115,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		$html[] = '};';
 		$html[] = 'function serialize(s)';
 		$html[] = '{';
-		$html[] = '	serial = $.SortSerialize(\'Various\');';
+		$html[] = '	serial = $.SortSerialize(s);';
 		$html[] = '	alert(serial.hash);';
 		$html[] = '};';
 		$html[] = '</script>';
