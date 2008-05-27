@@ -2,7 +2,7 @@
 /**
  * @package application.lib.profiler.publisher.publication_candidate_table
  */
-require_once dirname(__FILE__).'/publication_candidate_table_dataprovider.class.php';
+require_once dirname(__FILE__).'/publication_candidate_table_data_provider.class.php';
 require_once dirname(__FILE__).'/publication_candidate_table_column_model.class.php';
 require_once dirname(__FILE__).'/publication_candidate_table_cell_renderer.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object_table/learning_object_table.class.php';

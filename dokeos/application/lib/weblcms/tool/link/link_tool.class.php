@@ -5,7 +5,7 @@
  * @package application.weblcms.tool
  * @subpackage link
  */
-require_once dirname(__FILE__).'/../repositorytool.class.php';
+require_once dirname(__FILE__).'/../repository_tool.class.php';
 
 class LinkTool extends RepositoryTool
 {

@@ -7,7 +7,7 @@
  */
 require_once Path :: get_repository_path(). 'lib/learning_object/calendar_event/calendar_event.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
-require_once dirname(__FILE__).'/../repositorytool.class.php';
+require_once dirname(__FILE__).'/../repository_tool.class.php';
 require_once dirname(__FILE__).'/../../learning_object_publisher.class.php';
 require_once dirname(__FILE__).'/calendar_browser.class.php';
 /**

@@ -1,10 +1,10 @@
 <?php
 /**
- * $Id: monthcalendarlearningobjectpublicationlistrenderer.class.php 11910 2007-04-06 12:50:22Z bmol $
+ * $Id: monthcalendarlearning_object_publication_list_renderer.class.php 11910 2007-04-06 12:50:22Z bmol $
  * @package application.weblcms
  * @subpackage browser.listrenderer
  */
-require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/../learning_object_publication_list_renderer.class.php';
 require_once Path :: get_application_library_path().'mini_month_calendar.class.php';
 require_once Path :: get_application_library_path().'month_calendar.class.php';
 /**

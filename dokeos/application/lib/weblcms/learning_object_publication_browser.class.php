@@ -3,7 +3,7 @@
  * $Id$
  * @package application.weblcms
  */
-require_once dirname(__FILE__).'/browser/learningobjectpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/browser/learning_object_publication_list_renderer.class.php';
 require_once dirname(__FILE__).'/browser/learningobjectpublicationcategorytree.class.php';
 
 /**
