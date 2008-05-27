@@ -8,7 +8,7 @@
 require_once dirname(__FILE__).'/../tool.class.php';
 require_once dirname(__FILE__).'/usertoolsearchform.class.php';
 require_once Path :: get_application_library_path().'user_details.class.php';
-require_once dirname(__FILE__).'/../../weblcms_manager/component/subscribeduserbrowser/subscribeduserbrowsertable.class.php';
+require_once dirname(__FILE__).'/../../weblcms_manager/component/subscribed_user_browser/subscribed_user_browser_table.class.php';
 /**
  * Tool to manage users in the course.
  */
