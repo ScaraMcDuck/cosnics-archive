@@ -69,7 +69,7 @@ class LearningObjectPublisher
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
 		$action = $this->get_action();
-		require_once dirname(__FILE__).'/publisher/learningobject'.$action.'.class.php';
+		require_once dirname(__FILE__).'/publisher/learning_object_'.$action.'.class.php';
 		$class = 'LearningObject'.ucfirst($action);
 		$component = new $class ($this);
 		$out .= $component->as_html().'</div></div>';

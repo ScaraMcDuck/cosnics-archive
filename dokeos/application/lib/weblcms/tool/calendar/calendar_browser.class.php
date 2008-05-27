@@ -8,11 +8,11 @@
 require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
 require_once dirname(__FILE__).'/../../learning_object_publication_browser.class.php';
 require_once dirname(__FILE__).'/calendar_list_renderer.class.php';
-require_once dirname(__FILE__).'/../../browser/list_renderer/minimonthcalendarlearningobjectpublicationlistrenderer.class.php';
-require_once dirname(__FILE__).'/../../browser/list_renderer/monthcalendarlearningobjectpublicationlistrenderer.class.php';
-require_once dirname(__FILE__).'/../../browser/list_renderer/weekcalendarlearningobjectpublicationlistrenderer.class.php';
-require_once dirname(__FILE__).'/../../browser/list_renderer/daycalendarlearningobjectpublicationlistrenderer.class.php';
-require_once dirname(__FILE__).'/../../browser/list_renderer/learningobjectpublicationdetailsrenderer.class.php';
+require_once dirname(__FILE__).'/../../browser/list_renderer/mini_month_calendar_learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../browser/list_renderer/month_calendar_learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../browser/list_renderer/week_calendar_learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../browser/list_renderer/day_calendar_learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../browser/list_renderer/learning_object_publication_details_renderer.class.php';
 
 class CalendarBrowser extends LearningObjectPublicationBrowser
 {

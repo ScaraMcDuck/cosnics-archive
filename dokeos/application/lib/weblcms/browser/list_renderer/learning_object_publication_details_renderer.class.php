@@ -3,8 +3,8 @@
  * @package application.weblcms
  * @subpackage browser.detailrenderer
  */
-require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
-require_once dirname(__FILE__).'/listpublicationfeedbacklistrenderer.class.php';
+require_once dirname(__FILE__).'/../learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/list_publication_feedback_list_renderer.class.php';
 require_once dirname(__FILE__).'../../../learning_object_publisher.class.php';
 /**
  * Renderer to display all details of learning object publication

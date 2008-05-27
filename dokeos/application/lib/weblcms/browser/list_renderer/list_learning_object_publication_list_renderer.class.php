@@ -4,7 +4,7 @@
  * @package application.weblcms
  * @subpackage browser.listrenderer
  */
-require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/../learning_object_publication_list_renderer.class.php';
 /**
  * Renderer to display a list of learning object publications
  */

@@ -3,7 +3,7 @@
  * Feedback list renderer
  * @package application.weblcms.list_renderer
  */
-require_once dirname(__FILE__).'/listlearningobjectpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/list_learning_object_publication_list_renderer.class.php';
 /**
  * Renderer to display a list of feedback publications.
  */

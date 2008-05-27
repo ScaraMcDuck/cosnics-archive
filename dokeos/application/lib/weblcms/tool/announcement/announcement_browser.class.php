@@ -8,7 +8,7 @@
 require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
 require_once dirname(__FILE__).'/../../learning_object_publication_browser.class.php';
 require_once dirname(__FILE__).'/announcement_publication_list_renderer.class.php';
-require_once dirname(__FILE__).'/../../browser/list_renderer/learningobjectpublicationdetailsrenderer.class.php';
+require_once dirname(__FILE__).'/../../browser/list_renderer/learning_object_publication_details_renderer.class.php';
 /**
  * Browser to allow the user to view the published announcements
  */

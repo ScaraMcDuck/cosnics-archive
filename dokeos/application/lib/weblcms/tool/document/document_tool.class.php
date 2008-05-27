@@ -5,7 +5,7 @@
  * @package application.weblcms.tool
  * @subpackage document
  */
-require_once dirname(__FILE__).'/../repositorytool.class.php';
+require_once dirname(__FILE__).'/../repository_tool.class.php';
 require_once Path :: get_library_path().'filecompression/filecompression.class.php';
 /**
  * This tool allows a user to publish documents in his or her course.

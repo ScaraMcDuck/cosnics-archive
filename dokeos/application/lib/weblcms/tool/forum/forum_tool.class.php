@@ -5,7 +5,7 @@
  * @package application.weblcms.tool
  * @subpackage forum
  */
-require_once dirname(__FILE__).'/../repositorytool.class.php';
+require_once dirname(__FILE__).'/../repository_tool.class.php';
 require_once dirname(__FILE__).'/forum_browser.class.php';
 require_once dirname(__FILE__).'/forum_topic_browser.class.php';
 require_once dirname(__FILE__).'/forum_post_browser.class.php';

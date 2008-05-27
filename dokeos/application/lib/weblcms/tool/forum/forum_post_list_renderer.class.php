@@ -5,7 +5,7 @@
  * @package application.weblcms.tool
  * @subpackage forum
  */
-require_once dirname(__FILE__).'/../../browser/list_renderer/listlearningobjectpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/../../browser/list_renderer/list_learning_object_publication_list_renderer.class.php';
 
 class ForumPostListRenderer extends ListLearningObjectPublicationListRenderer
 {
