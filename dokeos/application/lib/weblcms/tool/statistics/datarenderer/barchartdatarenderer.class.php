@@ -5,7 +5,7 @@
  * @package application.weblcms.tool
  * @subpackage statistics
  */
-require_once dirname(__FILE__).'/../datarenderer.class.php';
+require_once dirname(__FILE__).'/../data_renderer.class.php';
 class BarChartDataRenderer extends DataRenderer
 {
 	function BarChartDataRenderer($parent,$data)

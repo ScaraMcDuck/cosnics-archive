@@ -8,7 +8,7 @@
 require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
 require_once dirname(__FILE__).'/../../learning_object_publication_browser.class.php';
 require_once dirname(__FILE__).'/../../browser/learningobjectpublicationcategorytree.class.php';
-require_once dirname(__FILE__).'/documentpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/document_publication_list_renderer.class.php';
 require_once dirname(__FILE__).'/../../browser/list_renderer/learningobjectpublicationdetailsrenderer.class.php';
 
 class DocumentBrowser extends LearningObjectPublicationBrowser

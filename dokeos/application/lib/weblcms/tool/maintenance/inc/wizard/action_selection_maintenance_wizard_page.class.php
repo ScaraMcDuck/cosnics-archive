@@ -5,7 +5,7 @@
  * @package application.weblcms.tool
  * @subpackage maintenance
  */
-require_once dirname(__FILE__).'/maintenancewizardpage.class.php';
+require_once dirname(__FILE__).'/maintenance_wizard_page.class.php';
 /**
  * This form can be used to let the user select the action.
  */

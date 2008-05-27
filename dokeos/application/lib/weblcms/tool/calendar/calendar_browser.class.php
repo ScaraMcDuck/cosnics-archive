@@ -7,7 +7,7 @@
  */
 require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
 require_once dirname(__FILE__).'/../../learning_object_publication_browser.class.php';
-require_once dirname(__FILE__).'/calendarlistrenderer.class.php';
+require_once dirname(__FILE__).'/calendar_list_renderer.class.php';
 require_once dirname(__FILE__).'/../../browser/list_renderer/minimonthcalendarlearningobjectpublicationlistrenderer.class.php';
 require_once dirname(__FILE__).'/../../browser/list_renderer/monthcalendarlearningobjectpublicationlistrenderer.class.php';
 require_once dirname(__FILE__).'/../../browser/list_renderer/weekcalendarlearningobjectpublicationlistrenderer.class.php';

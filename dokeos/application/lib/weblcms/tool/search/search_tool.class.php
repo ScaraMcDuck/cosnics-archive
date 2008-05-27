@@ -6,7 +6,7 @@
  * @subpackage search
  */
 require_once dirname(__FILE__).'/../tool.class.php';
-require_once dirname(__FILE__).'/searchform.class.php';
+require_once dirname(__FILE__).'/search_form.class.php';
 require_once 'Pager/Pager.php';
 /**
  * Tool to search in the course.

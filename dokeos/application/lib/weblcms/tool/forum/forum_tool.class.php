@@ -6,9 +6,9 @@
  * @subpackage forum
  */
 require_once dirname(__FILE__).'/../repositorytool.class.php';
-require_once dirname(__FILE__).'/forumbrowser.class.php';
-require_once dirname(__FILE__).'/forumtopicbrowser.class.php';
-require_once dirname(__FILE__).'/forumpostbrowser.class.php';
+require_once dirname(__FILE__).'/forum_browser.class.php';
+require_once dirname(__FILE__).'/forum_topic_browser.class.php';
+require_once dirname(__FILE__).'/forum_post_browser.class.php';
 require_once dirname(__FILE__).'/../../learning_object_publication_category_manager.class.php';
 
 /**

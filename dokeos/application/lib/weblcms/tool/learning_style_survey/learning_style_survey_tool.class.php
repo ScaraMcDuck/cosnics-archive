@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../repositorytool.class.php';
-require_once dirname(__FILE__).'/learning_style_surveybrowser.class.php';
+require_once dirname(__FILE__).'/learning_style_survey_browser.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object_form.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object_display.class.php';

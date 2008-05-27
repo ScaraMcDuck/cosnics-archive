@@ -71,7 +71,7 @@ class DocumentTool extends RepositoryTool
 		switch ($_SESSION['documenttoolmode'])
 		{
 			case 3:
-				require_once dirname(__FILE__).'/documentslideshow.class.php';
+				require_once dirname(__FILE__).'/document_slideshow.class.php';
 				$browser = new DocumentSlideshow($this);
 				$html[] =  $browser->as_html();
 				break;
@@ -86,7 +86,7 @@ class DocumentTool extends RepositoryTool
 				$html[] =  $pub->as_html();
 				break;
 			default:
-				require_once dirname(__FILE__).'/documentbrowser.class.php';
+				require_once dirname(__FILE__).'/document_browser.class.php';
 				$browser = new DocumentBrowser($this);
 				$html[] =  $browser->as_html();
 		}

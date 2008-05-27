@@ -6,7 +6,7 @@
  * @subpackage maintenance
  */
 require_once dirname(__FILE__).'/../repositorytool.class.php';
-require_once dirname(__FILE__).'/inc/maintenancewizard.class.php';
+require_once dirname(__FILE__).'/inc/maintenance_wizard.class.php';
 /**
  * This tool implements some maintenance tools for a course.
  * It gives a course administrator the possibilities to copy course content,

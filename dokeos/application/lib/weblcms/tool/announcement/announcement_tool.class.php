@@ -6,7 +6,7 @@
  * @subpackage announcement
  */
 require_once dirname(__FILE__).'/../repositorytool.class.php';
-require_once dirname(__FILE__).'/announcementbrowser.class.php';
+require_once dirname(__FILE__).'/announcement_browser.class.php';
 /**
  * This tool allows a user to publish announcements in his or her course.
  */

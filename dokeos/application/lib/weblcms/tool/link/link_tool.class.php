@@ -61,7 +61,7 @@ class LinkTool extends RepositoryTool
 				$html[] =  $pub->as_html();
 				break;
 			default:
-				require_once dirname(__FILE__).'/linkbrowser.class.php';
+				require_once dirname(__FILE__).'/link_browser.class.php';
 				$browser = new LinkBrowser($this);
 				$html[] =  $browser->as_html();
 		}
