@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importrolepermissions.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_role_permissions.class.php';
 
 /**
  * This class presents a Dokeos185 role_permissions

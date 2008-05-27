@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importsettingsoptions.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_settings_options.class.php';
 
 /**
  * This class presents a Dokeos185 settings_options

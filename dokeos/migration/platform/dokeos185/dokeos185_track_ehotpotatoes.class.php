@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importtrackehotpotatoes.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_track_ehotpotatoes.class.php';
 
 /**
  * This class presents a Dokeos185 track_e_hotpotatoes

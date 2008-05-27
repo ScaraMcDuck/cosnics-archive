@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importtrackcbrowsers.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_track_cbrowsers.class.php';
 require_once dirname(__FILE__) . '/../../../users/trackers/browsers_tracker.class.php';
 
 /**

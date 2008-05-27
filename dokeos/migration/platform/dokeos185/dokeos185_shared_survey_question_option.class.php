@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importsharedsurveyquestionoption.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_shared_survey_question_option.class.php';
 
 /**
  * This class presents a Dokeos185 shared_survey_question_option

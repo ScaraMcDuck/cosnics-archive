@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importrolegroup.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_role_group.class.php';
 
 /**
  * This class presents a Dokeos185 role_group

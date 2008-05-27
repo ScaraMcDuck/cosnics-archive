@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/importdropboxcategory.class.php';
+require_once dirname(__FILE__).'/../../lib/import/import_dropbox_category.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication_category.class.php';
 
 /**

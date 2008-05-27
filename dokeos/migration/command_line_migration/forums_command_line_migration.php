@@ -12,15 +12,15 @@
 	require_once 'HTML/QuickForm/Rule.php';
 	require_once 'HTML/QuickForm/Action/Display.php';
 	
-	require_once(dirname(__FILE__) . '/commandlinemigration.class.php');
-	require_once(dirname(__FILE__) . '/../lib/migration_manager/component/inc/wizard/course/dropboxesmigrationwizardpage.class.php');
+	require_once(dirname(__FILE__) . '/command_line_migration.class.php');
+	require_once(dirname(__FILE__) . '/../lib/migration_manager/component/inc/wizard/course/forums_migration_wizard_page.class.php');
 	
 	require_once(dirname(__FILE__) . '/../lib/logger.class.php');
 	
 	Translation :: set_application("migration");
 		
 	$clm = new CommandLineMigration();
-	$wizardpage = new DropboxesMigrationWizardPage(null, null, true);
+	$wizardpage = new ForumsMigrationWizardPage(null, null, true);
 	$clm->migrate($wizardpage);
 
 	unset($wizardpage);

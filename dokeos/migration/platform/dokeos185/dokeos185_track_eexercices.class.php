@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importtrackeexercices.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_track_eexercices.class.php';
 
 /**
  * This class presents a Dokeos185 track_e_exercices

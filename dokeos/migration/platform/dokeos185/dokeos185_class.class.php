@@ -4,7 +4,7 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/importclass.class.php';
+require_once dirname(__FILE__).'/../../lib/import/import_class.class.php';
 require_once dirname(__FILE__).'/../../../class_group/lib/class_group.class.php';
 
 /**

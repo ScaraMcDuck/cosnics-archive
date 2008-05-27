@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importtrackelogin.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_track_elogin.class.php';
 require_once dirname(__FILE__) . '/../../../users/trackers/login_logout_tracker.class.php';
 
 /**

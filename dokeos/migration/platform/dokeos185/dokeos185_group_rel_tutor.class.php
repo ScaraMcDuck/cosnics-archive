@@ -4,7 +4,7 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/importgroupreltutor.class.php';
+require_once dirname(__FILE__).'/../../lib/import/import_group_rel_tutor.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 Group Tutor Relation

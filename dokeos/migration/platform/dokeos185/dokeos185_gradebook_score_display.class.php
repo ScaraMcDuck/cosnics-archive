@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importgradebookscoredisplay.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_gradebook_score_display.class.php';
 
 /**
  * This class presents a Dokeos185 gradebook_score_display

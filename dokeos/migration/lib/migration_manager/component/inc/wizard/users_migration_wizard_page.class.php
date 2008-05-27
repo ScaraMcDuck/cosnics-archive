@@ -2,9 +2,9 @@
 /**
  * @package migration.lib.migration_manager.component.inc.wizard
  */
-require_once dirname(__FILE__) . '/migrationwizardpage.class.php';
-require_once dirname(__FILE__) . '/../../../../migrationdatamanager.class.php';
-require_once dirname(__FILE__) . '/../../../../oldmigrationdatamanager.class.php'; 
+require_once dirname(__FILE__) . '/migration_wizard_page.class.php';
+require_once dirname(__FILE__) . '/../../../../migration_data_manager.class.php';
+require_once dirname(__FILE__) . '/../../../../old_migration_data_manager.class.php'; 
 require_once dirname(__FILE__) . '/../../../../logger.class.php'; 
 require_once dirname(__FILE__) . '/../../../../import.class.php'; 
 require_once dirname(__FILE__) . '/../../../../../../users/lib/usersdatamanager.class.php'; 

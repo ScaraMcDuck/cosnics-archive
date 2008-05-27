@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importblogpost.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_blog_post.class.php';
 
 /**
  * This class presents a Dokeos185 blog_post

@@ -10,17 +10,17 @@
 	require_once 'HTML/QuickForm/Controller.php';
 	require_once 'HTML/QuickForm/Rule.php';
 	require_once 'HTML/QuickForm/Action/Display.php';
-	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/usersmigrationwizardpage.class.php');
-	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/systemsettingsmigrationwizardpage.class.php');
-	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/personalagendasmigrationwizardpage.class.php');
-	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/classesmigrationwizardpage.class.php');
-	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/coursesmigrationwizardpage.class.php');
-	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/metadatamigrationwizardpage.class.php');
-	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/groupsmigrationwizardpage.class.php');
-	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/announcementsmigrationwizardpage.class.php');
-	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/calendareventsmigrationwizardpage.class.php');
-	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/documentsmigrationwizardpage.class.php');
-	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/linksmigrationwizardpage.class.php');
+	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/users_migration_wizard_page.class.php');
+	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/system_settings_migration_wizard_page.class.php');
+	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/personal_agendas_migration_wizard_page.class.php');
+	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/classes_migration_wizard_page.class.php');
+	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/courses_migration_wizard_page.class.php');
+	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/meta_data_migration_wizard_page.class.php');
+	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/groups_migration_wizard_page.class.php');
+	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/announcements_migration_wizard_page.class.php');
+	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/calendar_eventd_smigration_wizard_page.class.php');
+	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/documents_migration_wizard_page.class.php');
+	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/links_migration_wizard_page.class.php');
 	require_once(dirname(__FILE__) . '/lib/logger.class.php');
 	
 	Translation :: set_application("migration");

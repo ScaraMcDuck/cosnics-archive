@@ -3,7 +3,7 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__).'/../../lib/import/importclassuser.class.php';
+require_once dirname(__FILE__).'/../../lib/import/import_class_user.class.php';
 require_once dirname(__FILE__).'/../../../class_group/lib/class_group_rel_user.class.php';
 
 /**

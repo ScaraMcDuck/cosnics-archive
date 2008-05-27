@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importlpview.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_lp_view.class.php';
 
 /**
  * This class presents a Dokeos185 lp_view

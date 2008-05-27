@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importdropboxpost.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_dropbox_post.class.php';
 
 /**
  * This class presents a Dokeos185 dropbox_post

@@ -3,7 +3,7 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importlpivinteraction.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_lp_iv_interaction.class.php';
 
 /**
  * This class presents a Dokeos185 lp_iv_interaction

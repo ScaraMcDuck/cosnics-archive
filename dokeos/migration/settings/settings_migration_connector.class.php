@@ -1,5 +1,5 @@
 <?php
-require_once Path :: get_migration_path() . 'lib/migrationdatamanager.class.php';
+require_once Path :: get_migration_path() . 'lib/migration_data_manager.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_library_path() . 'filesystem/path.class.php';
 require_once Path :: get_library_path() . 'filesystem/filesystem.class.php';

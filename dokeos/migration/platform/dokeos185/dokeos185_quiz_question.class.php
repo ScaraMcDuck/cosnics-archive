@@ -3,14 +3,14 @@
  * migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/importquizquestion.class.php';
+require_once dirname(__FILE__) . '/../../lib/import/import_quiz_question.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/fill_in_blanks_question/fill_in_blanks_question.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/matching_question/matching_question.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/multiple_choice_question/multiple_choice_question.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/open_question/open_question.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
-require_once dirname(__FILE__) . '/dokeos185quizanswer.class.php';
+require_once dirname(__FILE__) . '/dokeos185_quizanswer.class.php';
 
 /**
  * This class presents a Dokeos185 quiz_question
