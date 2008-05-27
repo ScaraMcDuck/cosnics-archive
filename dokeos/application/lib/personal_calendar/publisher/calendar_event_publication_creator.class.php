@@ -2,10 +2,10 @@
 /**
  * @package application.lib.calendareventr.publisher
  */
-require_once dirname(__FILE__).'/../calendareventpublisher.class.php';
-require_once dirname(__FILE__).'/../calendareventpublishercomponent.class.php';
-require_once dirname(__FILE__).'/../personalcalendardatamanager.class.php';
-require_once dirname(__FILE__).'/../calendareventpublicationform.class.php';
+require_once dirname(__FILE__).'/../calendar_event_publisher.class.php';
+require_once dirname(__FILE__).'/../calendar_event_publisher_component.class.php';
+require_once dirname(__FILE__).'/../personal_calendar_data_manager.class.php';
+require_once dirname(__FILE__).'/../calendar_event_publication_form.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object_display.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object_form.class.php';

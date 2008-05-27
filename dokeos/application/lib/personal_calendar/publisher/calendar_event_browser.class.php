@@ -2,9 +2,9 @@
 /**
  * @package application.lib.calendareventr.publisher
  */
-require_once dirname(__FILE__).'/../calendareventpublisher.class.php';
-require_once dirname(__FILE__).'/../calendareventpublishercomponent.class.php';
-require_once dirname(__FILE__).'/publication_candidate_table/publicationcandidatetable.class.php';
+require_once dirname(__FILE__).'/../calendar_event_publisher.class.php';
+require_once dirname(__FILE__).'/../calendar_event_publisher_component.class.php';
+require_once dirname(__FILE__).'/publication_candidate_table/publication_candidate_table.class.php';
 /**
  * This class represents a calendarevent publisher component which can be used
  * to browse through the possible learning objects to publish.

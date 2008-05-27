@@ -41,7 +41,7 @@ class PersonalCalendarBlock
 	 */
 	static function factory($type, $personal_calendar, $block_info)
 	{
-		$filename = dirname(__FILE__).'/block/personalcalendar'.$type.'.class.php';
+		$filename = dirname(__FILE__).'/block/personal_calendar'.$type.'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
 			die('Failed to load "'.$type.'" block');

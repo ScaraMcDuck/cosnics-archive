@@ -5,8 +5,8 @@
  * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../personal_calendar.class.php';
-require_once dirname(__FILE__).'/../personalcalendarcomponent.class.php';
-require_once dirname(__FILE__).'/../../calendareventpublisher.class.php';
+require_once dirname(__FILE__).'/../personal_calendar_component.class.php';
+require_once dirname(__FILE__).'/../../calendar_event_publisher.class.php';
 
 class PersonalCalendarPublisherComponent extends PersonalCalendarComponent
 {

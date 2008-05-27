@@ -61,7 +61,7 @@ class CalendarEventPublisher
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
 		$action = $this->get_action();
-		require_once dirname(__FILE__).'/publisher/calendarevent'.$action.'.class.php';
+		require_once dirname(__FILE__).'/publisher/calendar_event_'.$action.'.class.php';
 		$class = 'CalendarEvent'.ucfirst($action);
 		$component = new $class ($this);
 		$out .= $component->as_html().'</div></div>';

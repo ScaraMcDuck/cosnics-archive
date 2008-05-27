@@ -5,7 +5,7 @@
  * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../personal_calendar.class.php';
-require_once dirname(__FILE__).'/../personalcalendarcomponent.class.php';
+require_once dirname(__FILE__).'/../personal_calendar_component.class.php';
 require_once dirname(__FILE__).'/../../renderer/personal_calendar_mini_month_renderer.class.php';
 require_once dirname(__FILE__).'/../../renderer/personal_calendar_list_renderer.class.php';
 require_once dirname(__FILE__).'/../../renderer/personal_calendar_month_renderer.class.php';

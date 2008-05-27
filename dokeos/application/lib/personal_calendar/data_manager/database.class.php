@@ -3,9 +3,9 @@
  * $Id$
  * @package application.personal_calendar
  */
-require_once dirname(__FILE__).'/../personalcalendardatamanager.class.php';
-require_once dirname(__FILE__).'/../calendareventpublication.class.php';
-require_once dirname(__FILE__).'/database/databasecalendareventpublicationresultset.class.php';
+require_once dirname(__FILE__).'/../personal_calendar_data_manager.class.php';
+require_once dirname(__FILE__).'/../calendar_event_publication.class.php';
+require_once dirname(__FILE__).'/database/database_calendar_event_publication_result_set.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once 'MDB2.php';
 /**
