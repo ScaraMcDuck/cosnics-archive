@@ -2,7 +2,7 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../../../event_table/defaulteventtablecolumnmodel.class.php';
+require_once dirname(__FILE__).'/../../../event_table/default_event_table_column_model.class.php';
 require_once dirname(__FILE__).'/../../../event.class.php';
 /**
  * Table column model for the user browser table

@@ -2,9 +2,9 @@
 /**
  * @package tracking.lib.tracking_manager.component
  */
-require_once dirname(__FILE__).'/../trackingmanager.class.php';
-require_once dirname(__FILE__).'/../trackingmanagercomponent.class.php';
-require_once dirname(__FILE__).'/admineventsbrowser/eventbrowsertable.class.php';
+require_once dirname(__FILE__).'/../tracking_manager.class.php';
+require_once dirname(__FILE__).'/../tracking_manager_component.class.php';
+require_once dirname(__FILE__).'/admin_event_browser/event_browser_table.class.php';
 require_once Path :: get(SYS_LIB_PATH).'/html/table/simple_table.class.php';
 
 /**

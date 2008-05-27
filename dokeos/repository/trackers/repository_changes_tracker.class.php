@@ -4,7 +4,7 @@
  * @package users.lib.trackers
  */
  
-require_once Path :: get_tracking_path() . 'lib/defaulttracker.class.php';
+require_once Path :: get_tracking_path() . 'lib/default_tracker.class.php';
  
 /**
  * This class tracks the login that a user uses

@@ -2,8 +2,8 @@
 /**
  * @package user.usermanager
  */
-require_once dirname(__FILE__).'/rightsmanagercomponent.class.php';
-require_once dirname(__FILE__).'/../rightsdatamanager.class.php';
+require_once dirname(__FILE__).'/rights_manager_component.class.php';
+require_once dirname(__FILE__).'/../rights_data_manager.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/or_condition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/and_condition.class.php';

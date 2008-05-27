@@ -2,11 +2,11 @@
 /**
  * @package tracking.lib.trackingmanager
  */
-require_once dirname(__FILE__).'/trackingmanagercomponent.class.php';
-require_once dirname(__FILE__).'/../trackingdatamanager.class.php';
-require_once dirname(__FILE__).'/../trackerregistration.class.php';
+require_once dirname(__FILE__).'/tracking_manager_component.class.php';
+require_once dirname(__FILE__).'/../tracking_data_manager.class.php';
+require_once dirname(__FILE__).'/../tracker_registration.class.php';
 require_once dirname(__FILE__).'/../event.class.php';
-require_once dirname(__FILE__).'/../eventreltracker.class.php';
+require_once dirname(__FILE__).'/../event_rel_tracker.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_library_path().'condition/or_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';

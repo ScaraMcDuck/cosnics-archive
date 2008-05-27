@@ -3,8 +3,8 @@
  * @package tracking.lib
  */
 require_once dirname(__FILE__) . '/event.class.php';
-require_once dirname(__FILE__) . '/eventreltracker.class.php';
-require_once dirname(__FILE__) . '/trackingdatamanager.class.php';
+require_once dirname(__FILE__) . '/event_rel_tracker.class.php';
+require_once dirname(__FILE__) . '/tracking_data_manager.class.php';
 require_once Path :: get_repository_path() . 'lib/repository_utilities.class.php';
 
 /**

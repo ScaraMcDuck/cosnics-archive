@@ -2,11 +2,11 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../../../event_table/eventtable.class.php';
-require_once dirname(__FILE__).'/eventbrowsertabledataprovider.class.php';
-require_once dirname(__FILE__).'/eventbrowsertablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/eventbrowsertablecellrenderer.class.php';
-require_once dirname(__FILE__).'/../../trackingmanager.class.php';
+require_once dirname(__FILE__).'/../../../event_table/event_table.class.php';
+require_once dirname(__FILE__).'/event_browser_table_data_provider.class.php';
+require_once dirname(__FILE__).'/event_browser_table_column_model.class.php';
+require_once dirname(__FILE__).'/event_browser_table_cell_renderer.class.php';
+require_once dirname(__FILE__).'/../../tracking_manager.class.php';
 /**
  * Table to display a set of learning objects.
  */

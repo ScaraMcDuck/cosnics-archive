@@ -2,7 +2,7 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../../../event_table/eventtabledataprovider.class.php';
+require_once dirname(__FILE__).'/../../../event_table/event_table_data_provider.class.php';
 /**
  * Data provider for a repository browser table.
  *

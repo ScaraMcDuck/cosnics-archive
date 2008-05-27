@@ -3,7 +3,7 @@
  * @package repository.usertable
  */
 
-require_once dirname(__FILE__).'/eventtablecellrenderer.class.php';
+require_once dirname(__FILE__).'/event_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../event.class.php';
 /**
  * TODO: Add comment

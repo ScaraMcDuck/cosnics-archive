@@ -4,9 +4,9 @@
  * @package migration.migrationmanager
  */
  
-require_once dirname(__FILE__).'/../trackingmanager.class.php';
-require_once dirname(__FILE__).'/../trackingmanagercomponent.class.php';
-require_once dirname(__FILE__).'/archiver/archivewizard.class.php';
+require_once dirname(__FILE__).'/../tracking_manager.class.php';
+require_once dirname(__FILE__).'/../tracking_manager_component.class.php';
+require_once dirname(__FILE__).'/wizards/archive_wizard.class.php';
 
 /**
  * Tracking Manager Archiver component which allows the administrator to archive the trackers

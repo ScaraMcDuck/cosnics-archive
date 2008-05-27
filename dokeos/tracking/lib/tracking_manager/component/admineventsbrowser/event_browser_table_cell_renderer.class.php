@@ -2,10 +2,10 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/eventbrowsertablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/../../../event_table/defaulteventtablecellrenderer.class.php';
+require_once dirname(__FILE__).'/event_browser_table_column_model.class.php';
+require_once dirname(__FILE__).'/../../../event_table/default_event_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../../../event.class.php';
-require_once dirname(__FILE__).'/../../trackingmanager.class.php';
+require_once dirname(__FILE__).'/../../tracking_manager.class.php';
 /**
  * Cell rendere for the learning object browser table
  */

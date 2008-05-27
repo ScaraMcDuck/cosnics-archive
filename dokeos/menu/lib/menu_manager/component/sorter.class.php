@@ -2,7 +2,7 @@
 /**
  * @package application.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__).'/menuitembrowser/menu_item_browser_table.class.php';
+require_once dirname(__FILE__).'/menu_item_browser/menu_item_browser_table.class.php';
 require_once dirname(__FILE__).'/../menu_manager.class.php';
 require_once dirname(__FILE__).'/../menu_manager_component.class.php';
 require_once dirname(__FILE__).'/../../menu_item_form.class.php';

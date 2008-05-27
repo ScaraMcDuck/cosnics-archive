@@ -2,9 +2,9 @@
 /**
  * @package user.usermanager
  */
-require_once dirname(__FILE__).'/../rightsmanager.class.php';
-require_once dirname(__FILE__).'/../rightsmanagercomponent.class.php';
-require_once dirname(__FILE__).'/../../rightsdatamanager.class.php';
+require_once dirname(__FILE__).'/../rights_manager.class.php';
+require_once dirname(__FILE__).'/../rights_manager_component.class.php';
+require_once dirname(__FILE__).'/../../rights_data_manager.class.php';
 
 class RightsManagerEditorComponent extends RightsManagerComponent
 {
