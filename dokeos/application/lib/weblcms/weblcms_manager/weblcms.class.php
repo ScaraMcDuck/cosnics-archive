@@ -18,7 +18,7 @@ require_once Path :: get_library_path().'condition/and_condition.class.php';
 require_once Path :: get_library_path().'condition/not_condition.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once dirname(__FILE__).'/../course/course_table/course_table.class.php';
-require_once Path :: get_user_path(). 'lib/user_table/usertable.class.php';
+require_once Path :: get_user_path(). 'lib/user_table/user_table.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 require_once dirname(__FILE__).'/../weblcms_block.class.php';
 
@@ -522,7 +522,7 @@ class Weblcms extends WebApplication
 			$this->tools = $wdm->get_course_modules($this->get_course_id());
 			foreach($this->tools as $index => $tool)
 			{
-				require_once dirname(__FILE__).'/../tool/'.$tool->name.'/'.$tool->name.'tool.class.php';
+				require_once dirname(__FILE__).'/../tool/'.$tool->name.'/'.$tool->name.'_tool.class.php';
 			}
 		}
 	}

@@ -5,8 +5,8 @@
  * @package application.weblcms.tool
  * @subpackage group
  */
-require_once dirname(__FILE__).'/grouptablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/grouptablecolumn.class.php';
+require_once dirname(__FILE__).'/group_table_column_model.class.php';
+require_once dirname(__FILE__).'/group_table_column.class.php';
 
 class DefaultGroupTableColumnModel extends GroupTableColumnModel
 {

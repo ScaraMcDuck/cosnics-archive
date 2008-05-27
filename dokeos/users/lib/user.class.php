@@ -3,7 +3,7 @@
  * @package users.lib
  */
 require_once Path :: get_library_path().'filesystem/filesystem.class.php';
-require_once Path :: get_library_path().'imagemanipulation/image_manipulation.class.php';
+require_once Path :: get_library_path().'image_manipulation/image_manipulation.class.php';
 /**
  *	This class represents a user.
  *

@@ -5,7 +5,7 @@
  * @package application.weblcms.tool
  * @subpackage document
  */
-require_once(Path :: get_library_path().'imagemanipulation/image_manipulation.class.php');
+require_once(Path :: get_library_path().'image_manipulation/image_manipulation.class.php');
 class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublicationListRenderer
 {
 	function as_html()

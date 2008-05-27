@@ -2,8 +2,8 @@
 /**
  * @package users.lib.user_table
  */
-require_once dirname(__FILE__).'/usertablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/usertablecolumn.class.php';
+require_once dirname(__FILE__).'/user_table_column_model.class.php';
+require_once dirname(__FILE__).'/user_table_column.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 
 class DefaultUserTableColumnModel extends UserTableColumnModel
