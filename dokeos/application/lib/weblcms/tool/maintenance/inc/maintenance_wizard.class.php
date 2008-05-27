@@ -8,12 +8,12 @@
 require_once 'HTML/QuickForm/Controller.php';
 require_once 'HTML/QuickForm/Rule.php';
 require_once 'HTML/QuickForm/Action/Display.php';
-require_once dirname(__FILE__).'/wizard/publicationselectionmaintenancewizardpage.class.php';
-require_once dirname(__FILE__).'/wizard/actionselectionmaintenancewizardpage.class.php';
-require_once dirname(__FILE__).'/wizard/courseselectionmaintenancewizardpage.class.php';
-require_once dirname(__FILE__).'/wizard/confirmationmaintenancewizardpage.class.php';
-require_once dirname(__FILE__).'/wizard/maintenancewizardprocess.class.php';
-require_once dirname(__FILE__).'/wizard/maintenancewizarddisplay.class.php';
+require_once dirname(__FILE__).'/wizard/publication_selection_maintenance_wizard_page.class.php';
+require_once dirname(__FILE__).'/wizard/action_selection_maintenance_wizard_page.class.php';
+require_once dirname(__FILE__).'/wizard/course_selection_maintenance_wizard_page.class.php';
+require_once dirname(__FILE__).'/wizard/confirmation_maintenance_wizard_page.class.php';
+require_once dirname(__FILE__).'/wizard/maintenance_wizard_process.class.php';
+require_once dirname(__FILE__).'/wizard/maintenance_wizard_display.class.php';
 /**
  * A wizard which guides the user to several steps to complete a maintenance
  * action on a course.
