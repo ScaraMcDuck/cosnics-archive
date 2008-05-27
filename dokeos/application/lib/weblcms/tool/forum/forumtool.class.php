@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../repositorytool.class.php';
 require_once dirname(__FILE__).'/forumbrowser.class.php';
 require_once dirname(__FILE__).'/forumtopicbrowser.class.php';
 require_once dirname(__FILE__).'/forumpostbrowser.class.php';
-require_once dirname(__FILE__).'/../../learningobjectpublicationcategorymanager.class.php';
+require_once dirname(__FILE__).'/../../learning_object_publication_category_manager.class.php';
 
 /**
  * This tool allows a user to publish forums in his or her course.
@@ -35,7 +35,7 @@ class ForumTool extends RepositoryTool
 		if ($_SESSION['forumadmin'] && $this->is_allowed(ADD_RIGHT))
 		{
 			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), true) . '"><img src="'.Theme :: get_common_img_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
-			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
+			require_once dirname(__FILE__).'/../../learning_object_publisher.class.php';
 			$pub = new LearningObjectPublisher($this, 'forum');
 			$html[] =  $pub->as_html();
 			$this->display_header($trail);

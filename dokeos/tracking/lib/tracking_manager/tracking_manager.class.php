@@ -12,7 +12,7 @@ require_once Path :: get_library_path().'condition/or_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
-require_once dirname(__FILE__).'/../event_table/eventtable.class.php';
+require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 
 /**
  * A tracking manager provides some functionalities to the admin to manage

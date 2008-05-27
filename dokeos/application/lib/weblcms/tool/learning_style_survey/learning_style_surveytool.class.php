@@ -65,7 +65,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 			{
 				$this->display_header($trail);
 				echo $toolbar;
-				require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
+				require_once dirname(__FILE__).'/../../learning_object_publisher.class.php';
 				$pub = new LearningObjectPublisher($this, 'learning_style_survey_profile', true);
 				echo $pub->as_html();
 				$this->display_footer();

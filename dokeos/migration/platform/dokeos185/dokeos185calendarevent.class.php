@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__) . '/../../lib/import/importcalendarevent.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/calendar_event/calendar_event.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
 require_once 'dokeos185itemproperty.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
 

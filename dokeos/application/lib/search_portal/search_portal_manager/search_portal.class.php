@@ -100,10 +100,10 @@ END;
     /**
 	 * Renders the search portal block and returns it. 
 	 */
-	function render_block($type, $block_info)
+	function render_block($block)
 	{
-		$block = SearchPortalBlock :: factory($type, $this, $block_info);
-		return $block->run();
+		$search_portal_block = SearchPortalBlock :: factory($this, $block);
+		return $search_portal_block->run();
 	}
 
 	private static function search($query, $url)

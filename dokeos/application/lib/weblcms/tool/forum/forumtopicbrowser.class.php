@@ -5,8 +5,8 @@
  * @package application.weblcms.tool
  * @subpackage forum
  */
-require_once dirname(__FILE__).'/../../weblcmsdatamanager.class.php';
-require_once dirname(__FILE__).'/../../learningobjectpublicationbrowser.class.php';
+require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
+require_once dirname(__FILE__).'/../../learning_object_publication_browser.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object_form.class.php';
 require_once dirname(__FILE__).'/forumpublicationlistrenderer.class.php';
 require_once dirname(__FILE__).'/forumtopiclistrenderer.class.php';

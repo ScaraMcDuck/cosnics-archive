@@ -4,7 +4,7 @@
  * @package application.weblcms
  * @subpackage publisher
  */
-require_once dirname(__FILE__).'/../learningobjectpublishercomponent.class.php';
+require_once dirname(__FILE__).'/../learning_object_publisher_component.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object_display.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';

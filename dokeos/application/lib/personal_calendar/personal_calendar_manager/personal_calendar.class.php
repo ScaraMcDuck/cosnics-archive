@@ -83,10 +83,10 @@ class PersonalCalendar extends WebApplication
     /**
 	 * Renders the weblcms block and returns it. 
 	 */
-	function render_block($type, $block_info)
+	function render_block($block)
 	{
-		$block = PersonalCalendarBlock :: factory($type, $this, $block_info);
-		return $block->run();
+		$personal_calendar_block = PersonalCalendarBlock :: factory($this, $block);
+		return $personal_calendar_block->run();
 	}
 	
 	/**

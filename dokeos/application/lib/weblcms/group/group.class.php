@@ -4,7 +4,7 @@
  * @package application.lib.weblcms.group
  * @author Bart Mollet
  */
-require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
+require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
 /**
  * This class represents a group of users in a course in the weblcms.
  *

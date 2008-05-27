@@ -116,10 +116,10 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
     /**
 	 * Renders the personal messenger block and returns it. 
 	 */
-	function render_block($type, $block_info)
+	function render_block($block)
 	{
-		$block = PersonalMessengerBlock :: factory($type, $this, $block_info);
-		return $block->run();
+		$personal_messenger_block = PersonalMessengerBlock :: factory($this, $block);
+		return $personal_messenger_block->run();
 	}
 	
 	/**

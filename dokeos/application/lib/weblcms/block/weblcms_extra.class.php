@@ -2,7 +2,7 @@
 /**
  * @package application.lib.calendar.publisher
  */
-require_once dirname(__FILE__).'/../weblcmsblock.class.php';
+require_once dirname(__FILE__).'/../weblcms_block.class.php';
 require_once dirname(__FILE__).'/../course/courseusercategory.class.php';
 /**
  * This class represents a calendar publisher component which can be used

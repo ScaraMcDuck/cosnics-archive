@@ -44,21 +44,11 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 				
 				while ($block = $blocks->next_result())
 				{
-					$component = explode('.', $block->get_component());
-					//$app = new $component[0]($this->get_user());
+					$application = $block->get_application();
+					$application_class = Application :: application_to_class($application);
 					
-					// TODO: Move code to seperate blocks for more freedom
-					
-					if ($component[0] != 'User' && Session :: get_user_id())
-					{
-						$app = new $component[0]($this->get_user());
-						$html[] = $app->render_block(strtolower($component[1]), $block);
-					}
-					elseif ($component[0] == 'User')
-					{
-						$component = HomeManagerComponent :: factory($block->get_component(), $this->get_parent());
-						$html[] = $component->render_as_html();
-					}
+					$app = new $application_class($this->get_user());
+					$html[] = $app->render_block($block);
 				}
 						
 				$html[] = '</div>';

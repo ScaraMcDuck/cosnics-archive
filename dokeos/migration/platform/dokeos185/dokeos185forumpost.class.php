@@ -5,7 +5,7 @@
 
 require_once dirname(__FILE__) . '/../../lib/import/importforumpost.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/forum_post/forum_post.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
 
 /**

@@ -171,7 +171,7 @@ class MyPortfolio extends WebApplication
 		$title=$pdm->get_item_title($item);
 		print '<h3 style="float: left;" title="'.Translation :: get("pf_title_new_page_for").' '.$title.'">'.Translation :: get("pf_title_new_page_for").' '.$title.'</h3>';
 
-		require_once dirname(__FILE__).'/../weblcms/learningobjectpublisher.class.php';
+		require_once dirname(__FILE__).'/../weblcms/learning_object_publisher.class.php';
 		$pub = new LearningObjectPublisher($this, 'document');
 		print  $pub->as_html();
 

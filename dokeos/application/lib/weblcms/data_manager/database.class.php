@@ -10,10 +10,10 @@ require_once dirname(__FILE__).'/database/databasecoursecategoryresultset.class.
 require_once dirname(__FILE__).'/database/databasecourseusercategoryresultset.class.php';
 require_once dirname(__FILE__).'/database/databasecourseuserrelationresultset.class.php';
 require_once dirname(__FILE__).'/database/databaselearningobjectpublicationresultset.class.php';
-require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
-require_once dirname(__FILE__).'/../learningobjectpublication.class.php';
-require_once dirname(__FILE__).'/../learningobjectpublicationcategory.class.php';
-require_once dirname(__FILE__).'/../learningobjectpublicationfeedback.class.php';
+require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
+require_once dirname(__FILE__).'/../learning_object_publication.class.php';
+require_once dirname(__FILE__).'/../learning_object_publication_category.class.php';
+require_once dirname(__FILE__).'/../learning_object_publication_feedback.class.php';
 require_once dirname(__FILE__).'/../course/course.class.php';
 require_once dirname(__FILE__).'/../course/coursecategory.class.php';
 require_once dirname(__FILE__).'/../course/courseusercategory.class.php';

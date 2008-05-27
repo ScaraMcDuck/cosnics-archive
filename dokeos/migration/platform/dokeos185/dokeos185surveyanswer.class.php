@@ -5,7 +5,7 @@
 
 require_once dirname(__FILE__) . '/../../lib/import/importsurveyanswer.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/learning_style_survey_user_answer/learning_style_survey_user_answer.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
 
 /**

@@ -5,8 +5,8 @@
  * @package application.weblcms.tool
  * @subpackage announcement
  */
-require_once dirname(__FILE__).'/../../weblcmsdatamanager.class.php';
-require_once dirname(__FILE__).'/../../learningobjectpublicationbrowser.class.php';
+require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
+require_once dirname(__FILE__).'/../../learning_object_publication_browser.class.php';
 require_once dirname(__FILE__).'/announcementpublicationlistrenderer.class.php';
 require_once dirname(__FILE__).'/../../browser/list_renderer/learningobjectpublicationdetailsrenderer.class.php';
 /**

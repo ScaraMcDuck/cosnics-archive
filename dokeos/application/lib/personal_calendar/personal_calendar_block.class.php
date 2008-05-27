@@ -39,16 +39,17 @@ class PersonalCalendarBlock
 	 * @param Weblcms $weblcms The weblcms in
 	 * which the created component will be used
 	 */
-	static function factory($type, $personal_calendar, $block_info)
+	static function factory($personal_calendar, $block)
 	{
-		$filename = dirname(__FILE__).'/block/personal_calendar'.$type.'.class.php';
+		$type = $block->get_component();
+		$filename = dirname(__FILE__).'/block/personal_calendar_'.$type.'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
 			die('Failed to load "'.$type.'" block');
 		}
-		$class = 'PersonalCalendar'.ucfirst($type);
+		$class = 'PersonalCalendar'.RepositoryUtilities :: underscores_to_camelcase($type);
 		require_once $filename;
-		return new $class($personal_calendar, $block_info);
+		return new $class($personal_calendar, $block);
 	}
 
 	/**

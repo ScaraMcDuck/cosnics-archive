@@ -44,11 +44,6 @@ class HomeBlockForm extends FormValidator {
 		
 		$this->addElement('select', HomeBlock :: PROPERTY_COMPONENT, Translation :: get('HomeBlockComponent'), $this->get_application_components());
 		$this->addRule(HomeBlock :: PROPERTY_COMPONENT, Translation :: get('ThisFieldIsRequired'), 'required');
-		
-//		$contains_blocks = array();
-//		$contains_blocks[] =& $this->createElement('radio', null, null, Translation :: get('Yes'), 1);
-//		$contains_blocks[] =& $this->createElement('radio', null, null, Translation :: get('No'), 0);
-//		$this->addGroup($contains_blocks, HomeBlock :: PROPERTY_CONTAINS_BLOCKS, Translation :: get('HomeBlockContainsBlocks'), '<br />');
 				
 		$this->addElement('submit', 'home_block', Translation :: get('Ok'));
     }
@@ -69,10 +64,12 @@ class HomeBlockForm extends FormValidator {
     	$homeblock = $this->homeblock;
     	$values = $this->exportValues();
     	
+    	    	$component = explode('.', $values[HomeBlock :: PROPERTY_COMPONENT]);
+    	
     	$homeblock->set_title($values[HomeBlock :: PROPERTY_TITLE]);
     	$homeblock->set_column($values[HomeBlock :: PROPERTY_COLUMN]);
-    	$homeblock->set_component($values[HomeBlock :: PROPERTY_COMPONENT]);
-//    	$homeblock->set_contains_blocks($values[HomeBlock :: PROPERTY_CONTAINS_BLOCKS]);
+    	$homeblock->set_application($component[0]);
+    	$homeblock->set_component($component[1]);
     	
     	return $homeblock->update();
     }
@@ -83,10 +80,12 @@ class HomeBlockForm extends FormValidator {
     	$values = $this->exportValues();
     	$failures = 0;
     	
+    	$component = explode('.', $values[HomeBlock :: PROPERTY_COMPONENT]);
+    	
     	$homeblock->set_title($values[HomeBlock :: PROPERTY_TITLE]);
     	$homeblock->set_column($values[HomeBlock :: PROPERTY_COLUMN]);
-    	$homeblock->set_component($values[HomeBlock :: PROPERTY_COMPONENT]);
-//    	$homeblock->set_contains_blocks($values[HomeBlock :: PROPERTY_CONTAINS_BLOCKS]);
+    	$homeblock->set_application($component[0]);
+    	$homeblock->set_component($component[1]);
     	
     	if (!$homeblock->create())
     	{
@@ -145,12 +144,12 @@ class HomeBlockForm extends FormValidator {
 				{
 					if (!is_dir($file) && stripos($file, '.class.php') !== false)
 					{
-						$component = str_replace('.class.php', '', $file);
-						$component = str_replace(strtolower(Application :: application_to_class($application)), '', $component);
 						
-						$item = Application :: application_to_class($application) . '.' . ucfirst($component);
-						$display = Translation :: get(Application :: application_to_class($application)) . '&nbsp;>&nbsp;' . ucfirst($component);
-						$application_components[$item] = $display;
+						$component = str_replace('.class.php', '', $file);
+						$component = str_replace($application . '_', '', $component);
+						$value = $application . '.' . $component;
+						$display = Translation :: get(Application :: application_to_class($application)) . '&nbsp;>&nbsp;' . RepositoryUtilities :: underscores_to_camelcase($component);
+						$application_components[$component] = $display;
 					}
 				}
 				closedir($handle);
@@ -176,7 +175,6 @@ class HomeBlockForm extends FormValidator {
 		$defaults[HomeBlock :: PROPERTY_TITLE] = $homeblock->get_title();
 		$defaults[HomeBlock :: PROPERTY_COLUMN] = $homeblock->get_column();
 		$defaults[HomeBlock :: PROPERTY_COMPONENT] = $homeblock->get_component();
-//		$defaults[HomeBlock :: PROPERTY_CONTAINS_BLOCKS] = $homeblock->get_contains_blocks();
 		parent :: setDefaults($defaults);
 	}
 }

@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../../lib/import/importtoolintro.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/description/description.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
 
 /**
  * This class presents a Dokeos185 tool_intro

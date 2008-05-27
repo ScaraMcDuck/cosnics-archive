@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
+require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
 
 /**
  *	This class represents a course user category in the weblcms.
