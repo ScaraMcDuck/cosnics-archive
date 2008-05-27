@@ -8,9 +8,9 @@
 require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
 require_once dirname(__FILE__).'/../../learning_object_publication_browser.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object_form.class.php';
-require_once dirname(__FILE__).'/forumpublicationlistrenderer.class.php';
-require_once dirname(__FILE__).'/forumtopiclistrenderer.class.php';
-require_once dirname(__FILE__).'/forumpostlistrenderer.class.php';
+require_once dirname(__FILE__).'/forum_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/forum_topic_list_renderer.class.php';
+require_once dirname(__FILE__).'/forum_post_list_renderer.class.php';
 /**
  * Browser to show the forum posts to the end user
  */

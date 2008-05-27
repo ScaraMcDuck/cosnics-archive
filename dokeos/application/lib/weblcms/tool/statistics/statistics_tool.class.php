@@ -7,7 +7,7 @@
  */
 require_once dirname(__FILE__).'/../tool.class.php';
 require_once 'HTML/Table.php';
-require_once 'datarenderer/barchartdatarenderer.class.php';
+require_once 'data_renderer/bar_chart_data_renderer.class.php';
 
 class StatisticsTool extends Tool
 {

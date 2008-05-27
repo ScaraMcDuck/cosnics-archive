@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/../../group/group_form.class.php';
 require_once dirname(__FILE__).'/user_table/group_subscribed_user_browser_table.class.php';
 require_once dirname(__FILE__).'/user_table/group_unsubscribed_user_browser_table.class.php';
 require_once dirname(__FILE__).'/group_tool_search_form.class.php';
-require_once dirname(__FILE__).'/group_table/grouptable.class.php';
+require_once dirname(__FILE__).'/group_table/group_table.class.php';
 require_once dirname(__FILE__).'/group_table/default_group_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/group_table/default_group_table_column_model.class.php';
 require_once dirname(__FILE__).'/group_table/group_table_data_provider.class.php';

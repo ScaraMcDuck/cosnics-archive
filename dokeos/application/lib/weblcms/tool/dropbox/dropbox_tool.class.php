@@ -6,7 +6,7 @@
  * @subpackage dropbox
  */
 require_once dirname(__FILE__).'/../repositorytool.class.php';
-require_once dirname(__FILE__).'/dropboxbrowser.class.php';
+require_once dirname(__FILE__).'/dropbox_browser.class.php';
 /**
  * Dropbox tool.
  */

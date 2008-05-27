@@ -6,7 +6,7 @@
  * @subpackage exercise
  */
 require_once dirname(__FILE__).'/../repositorytool.class.php';
-require_once dirname(__FILE__).'/exercisebrowser.class.php';
+require_once dirname(__FILE__).'/exercise_browser.class.php';
 /**
  * This tool allows a user to publish exercises in his or her course.
  */

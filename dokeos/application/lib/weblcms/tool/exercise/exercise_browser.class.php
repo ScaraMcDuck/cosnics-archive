@@ -7,7 +7,7 @@
  */
 require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
 require_once dirname(__FILE__).'/../../learning_object_publication_browser.class.php';
-require_once dirname(__FILE__).'/exercisepublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/exercise_publication_list_renderer.class.php';
 
 class ExerciseBrowser extends LearningObjectPublicationBrowser
 {

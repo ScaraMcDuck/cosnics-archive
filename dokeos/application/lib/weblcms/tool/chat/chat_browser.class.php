@@ -7,7 +7,7 @@
  */
 require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
 require_once dirname(__FILE__).'/../../learning_object_publication_browser.class.php';
-require_once dirname(__FILE__).'/chatpublicationlistrenderer.class.php';
+require_once dirname(__FILE__).'/chat_publication_list_renderer.class.php';
 /**
  * This class allows the end user to browse through published chatboxes.
  */
