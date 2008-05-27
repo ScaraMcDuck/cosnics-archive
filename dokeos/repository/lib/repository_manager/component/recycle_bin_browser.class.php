@@ -49,9 +49,9 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 	{
 		$condition = $this->get_search_condition();
 		$parameters = $this->get_parameters(true);
-		$table = new RecycleBinBrowserTable($this, null, $parameters, $condition);
+		$table = new RecycleBinBrowserTable($this, $parameters, $condition);
 		echo $table->as_html();
-		return $table->get_learning_object_count();
+		return $table->get_object_count();
 	}
 	/**
 	 * Empty the recycle bin.
