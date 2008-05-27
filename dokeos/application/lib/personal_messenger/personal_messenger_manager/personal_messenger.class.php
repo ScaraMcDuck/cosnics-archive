@@ -13,7 +13,7 @@ require_once Path :: get_library_path().'condition/and_condition.class.php';
 require_once Path :: get_library_path().'condition/not_condition.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
-require_once dirname(__FILE__).'/../pm_publication_table/pmµ_publication_table.class.php';
+require_once dirname(__FILE__).'/../pm_publication_table/pm_publication_table.class.php';
 require_once dirname(__FILE__).'/../personal_message_publisher.class.php';
 require_once dirname(__FILE__).'/../personal_messenger_menu.class.php';
 require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
