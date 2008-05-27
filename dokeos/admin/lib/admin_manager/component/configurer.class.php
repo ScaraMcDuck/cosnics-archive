@@ -5,8 +5,8 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../admin.class.php';
-require_once dirname(__FILE__).'/../admin_component.class.php';
+require_once dirname(__FILE__).'/../admin_manager.class.php';
+require_once dirname(__FILE__).'/../admin_manager_component.class.php';
 require_once dirname(__FILE__).'/../admin_search_form.class.php';
 require_once dirname(__FILE__).'/../../configuration_form.class.php';
 /**

@@ -3,9 +3,9 @@
  * @package users
  * @subpackage datamanager
  */
-require_once dirname(__FILE__).'/database/databasemenuitemresultset.class.php';
-require_once dirname(__FILE__).'/../menudatamanager.class.php';
-require_once dirname(__FILE__).'/../menuitem.class.php';
+require_once dirname(__FILE__).'/database/database_menu_item_result_set.class.php';
+require_once dirname(__FILE__).'/../menu_data_manager.class.php';
+require_once dirname(__FILE__).'/../menu_item.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once 'MDB2.php';
 

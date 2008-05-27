@@ -2,8 +2,8 @@
 /**
  * @package admin.lib.admin_manager.component
  */
-require_once dirname(__FILE__).'/../admin.class.php';
-require_once dirname(__FILE__).'/../admin_component.class.php';
+require_once dirname(__FILE__).'/../admin_manager.class.php';
+require_once dirname(__FILE__).'/../admin_manager_component.class.php';
 require_once dirname(__FILE__).'/../admin_search_form.class.php';
 /**
  * Admin component to manage system announcements

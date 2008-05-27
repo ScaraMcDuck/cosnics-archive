@@ -2,11 +2,11 @@
 /**
  * @package application.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__).'/menuitembrowser/menuitembrowsertable.class.php';
-require_once dirname(__FILE__).'/../menumanager.class.php';
-require_once dirname(__FILE__).'/../menumanagercomponent.class.php';
-require_once dirname(__FILE__).'/../../menuitemform.class.php';
-require_once dirname(__FILE__).'/../../menuitemmenu.class.php';
+require_once dirname(__FILE__).'/menuitembrowser/menu_item_browser_table.class.php';
+require_once dirname(__FILE__).'/../menu_manager.class.php';
+require_once dirname(__FILE__).'/../menu_manager_component.class.php';
+require_once dirname(__FILE__).'/../../menu_item_form.class.php';
+require_once dirname(__FILE__).'/../../menu_item_menu.class.php';
 
 /**
  * Weblcms component allows the user to manage course categories

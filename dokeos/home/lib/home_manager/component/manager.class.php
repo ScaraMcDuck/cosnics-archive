@@ -2,10 +2,10 @@
 /**
  * @package groups.groupsmanager
  */
-require_once dirname(__FILE__).'/../homemanager.class.php';
-require_once dirname(__FILE__).'/../homemanagercomponent.class.php';
-require_once dirname(__FILE__).'/../../homedatamanager.class.php';
-require_once dirname(__FILE__).'/wizards/buildwizard.class.php';
+require_once dirname(__FILE__).'/../home_manager.class.php';
+require_once dirname(__FILE__).'/../home_manager_component.class.php';
+require_once dirname(__FILE__).'/../../home_data_manager.class.php';
+require_once dirname(__FILE__).'/wizards/build_wizard.class.php';
 
 class HomeManagerManagerComponent extends HomeManagerComponent
 {

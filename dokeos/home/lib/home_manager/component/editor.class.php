@@ -3,11 +3,11 @@
  * $Id: editor.class.php 11337 2007-03-02 13:29:08Z Scara84 $
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../homemanager.class.php';
-require_once dirname(__FILE__).'/../homemanagercomponent.class.php';
-require_once dirname(__FILE__).'/../../homeblockform.class.php';
-require_once dirname(__FILE__).'/../../homerowform.class.php';
-require_once dirname(__FILE__).'/../../homecolumnform.class.php';
+require_once dirname(__FILE__).'/../home_manager.class.php';
+require_once dirname(__FILE__).'/../home_manager_component.class.php';
+require_once dirname(__FILE__).'/../../home_block_form.class.php';
+require_once dirname(__FILE__).'/../../home_row_form.class.php';
+require_once dirname(__FILE__).'/../../home_column_form.class.php';
 /**
  * Repository manager component to edit an existing learning object.
  */
