@@ -4,9 +4,9 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../personalmessagepublisher.class.php';
-require_once dirname(__FILE__).'/../personalmessagepublishercomponent.class.php';
-require_once dirname(__FILE__).'/publication_candidate_table/publicationcandidatetable.class.php';
+require_once dirname(__FILE__).'/../personal_message_publisher.class.php';
+require_once dirname(__FILE__).'/../personal_message_publisher_component.class.php';
+require_once dirname(__FILE__).'/publication_candidate_table/publication_candidate_table.class.php';
 /**
  * This class represents a personal message publisher component which can be used
  * to browse through the possible personal messages to publish.

@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/personalmessagepublication.class.php';
+require_once dirname(__FILE__).'/personal_message_publication.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_plugin_path().'html2text/class.html2text.inc';

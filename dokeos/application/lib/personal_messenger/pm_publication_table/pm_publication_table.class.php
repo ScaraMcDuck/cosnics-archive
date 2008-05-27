@@ -5,8 +5,8 @@
  * @author Dieter De Neef
  */
 require_once Path :: get_library_path().'html/table/sortable_table.class.php';
-require_once dirname(__FILE__).'/defaultpmpublicationtablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/defaultpmpublicationtablecellrenderer.class.php';
+require_once dirname(__FILE__).'/default_pm_publication_table_column_model.class.php';
+require_once dirname(__FILE__).'/default_pm_publication_table_cell_renderer.class.php';
 
 /**
  * 

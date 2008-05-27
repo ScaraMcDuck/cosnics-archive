@@ -4,10 +4,10 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../../pm_publication_table/pmpublicationtable.class.php';
-require_once dirname(__FILE__).'/pmpublicationbrowsertabledataprovider.class.php';
-require_once dirname(__FILE__).'/pmpublicationbrowsertablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/pmpublicationbrowsertablecellrenderer.class.php';
+require_once dirname(__FILE__).'/../../../pm_publication_table/pm_publication_table.class.php';
+require_once dirname(__FILE__).'/pm_publication_browser_table_data_provider.class.php';
+require_once dirname(__FILE__).'/pm_publication_browser_table_column_model.class.php';
+require_once dirname(__FILE__).'/pm_publication_browser_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../../personal_messenger.class.php';
 /**
  * Table to display a set of pm publications.

@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../../pm_publication_table/defaultpmpublicationtablecolumnmodel.class.php';
+require_once dirname(__FILE__).'/../../../pm_publication_table/default_pm_publication_table_column_model.class.php';
 /**
  * Table column model for the publication browser table
  */

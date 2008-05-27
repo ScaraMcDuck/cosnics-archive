@@ -42,7 +42,7 @@ class PersonalMessengerBlock
 	 */
 	static function factory($type, $personal_messenger, $block_info)
 	{
-		$filename = dirname(__FILE__).'/block/personalmessenger'.$type.'.class.php';
+		$filename = dirname(__FILE__).'/block/personal_messenger_'.$type.'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
 			die('Failed to load "'.$type.'" block');
