@@ -3,7 +3,7 @@
  * $Id$
  * @package application.weblcms
  */
-require_once dirname(__FILE__).'/learningobjectpublication.class.php';
+require_once dirname(__FILE__).'/learning_object_publication.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_plugin_path().'html2text/class.html2text.inc';
 /**

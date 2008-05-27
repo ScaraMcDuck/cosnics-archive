@@ -7,7 +7,7 @@
 require_once dirname(__FILE__).'/../../lib/import/importcoursedescription.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/description/description.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 Course Description

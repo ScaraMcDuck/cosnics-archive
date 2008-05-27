@@ -40,16 +40,17 @@ class PersonalMessengerBlock
 	 * @param Weblcms $weblcms The weblcms in
 	 * which the created component will be used
 	 */
-	static function factory($type, $personal_messenger, $block_info)
+	static function factory($personal_messenger, $block)
 	{
+		$type = $block->get_component();
 		$filename = dirname(__FILE__).'/block/personal_messenger_'.$type.'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
 			die('Failed to load "'.$type.'" block');
 		}
-		$class = 'PersonalMessenger'.ucfirst($type);
+		$class = 'PersonalMessenger'.RepositoryUtilities :: underscores_to_camelcase($type);
 		require_once $filename;
-		return new $class($personal_messenger, $block_info);
+		return new $class($personal_messenger, $block);
 	}
 
 	/**

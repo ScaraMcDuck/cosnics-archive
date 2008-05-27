@@ -5,7 +5,7 @@
  */
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/weblcms.class.php';
-require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
+require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
 /**
  * A form to search in the repository.
  * This form can have two representations

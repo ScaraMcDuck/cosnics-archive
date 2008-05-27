@@ -51,12 +51,12 @@ class LinkTool extends RepositoryTool
 		switch ($_SESSION['linktoolmode'])
 		{
 			case 2:
-				require_once dirname(__FILE__).'/../../learningobjectpublicationcategorymanager.class.php';
+				require_once dirname(__FILE__).'/../../learning_object_publication_category_manager.class.php';
 				$catman = new LearningObjectPublicationCategoryManager($this, 'link');
 				$html[] = $catman->as_html();
 				break;
 			case 1:
-				require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
+				require_once dirname(__FILE__).'/../../learning_object_publisher.class.php';
 				$pub = new LearningObjectPublisher($this, 'link');
 				$html[] =  $pub->as_html();
 				break;

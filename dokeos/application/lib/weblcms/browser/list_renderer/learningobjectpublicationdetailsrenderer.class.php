@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__).'/../learningobjectpublicationlistrenderer.class.php';
 require_once dirname(__FILE__).'/listpublicationfeedbacklistrenderer.class.php';
-require_once dirname(__FILE__).'../../../learningobjectpublisher.class.php';
+require_once dirname(__FILE__).'../../../learning_object_publisher.class.php';
 /**
  * Renderer to display all details of learning object publication
  */

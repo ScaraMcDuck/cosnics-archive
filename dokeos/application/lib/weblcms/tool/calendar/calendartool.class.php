@@ -8,7 +8,7 @@
 require_once Path :: get_repository_path(). 'lib/learning_object/calendar_event/calendar_event.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
 require_once dirname(__FILE__).'/../repositorytool.class.php';
-require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
+require_once dirname(__FILE__).'/../../learning_object_publisher.class.php';
 require_once dirname(__FILE__).'/calendarbrowser.class.php';
 /**
  * This tool allows a user to publish events in his or her course.
@@ -34,7 +34,7 @@ class CalendarTool extends RepositoryTool
 		if ($_SESSION['calendaradmin'])
 		{
 			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), true) . '"><img src="'.Theme :: get_common_img_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
-			require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
+			require_once dirname(__FILE__).'/../../learning_object_publisher.class.php';
 			$pub = new LearningObjectPublisher($this, 'calendar_event');
 			$event = new CalendarEvent();
 			$event->set_owner_id($this->get_user_id());

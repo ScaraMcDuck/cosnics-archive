@@ -76,12 +76,12 @@ class DocumentTool extends RepositoryTool
 				$html[] =  $browser->as_html();
 				break;
 			case 2:
-				require_once dirname(__FILE__).'/../../learningobjectpublicationcategorymanager.class.php';
+				require_once dirname(__FILE__).'/../../learning_object_publication_category_manager.class.php';
 				$catman = new LearningObjectPublicationCategoryManager($this, 'document');
 				$html[] =  $catman->as_html();
 				break;
 			case 1:
-				require_once dirname(__FILE__).'/../../learningobjectpublisher.class.php';
+				require_once dirname(__FILE__).'/../../learning_object_publisher.class.php';
 				$pub = new LearningObjectPublisher($this, 'document');
 				$html[] =  $pub->as_html();
 				break;

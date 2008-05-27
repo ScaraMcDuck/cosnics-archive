@@ -5,7 +5,7 @@
 
 require_once dirname(__FILE__) . '/../../lib/import/importforumthread.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/forum_topic/forum_topic.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
 require_once 'dokeos185itemproperty.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
 

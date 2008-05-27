@@ -39,16 +39,17 @@ class WeblcmsBlock
 	 * @param Weblcms $weblcms The weblcms in
 	 * which the created component will be used
 	 */
-	static function factory($type, $weblcms, $block_info)
+	static function factory($weblcms, $block)
 	{
-		$filename = dirname(__FILE__).'/block/weblcms'.$type.'.class.php';
+		$type = $block->get_component();
+		$filename = dirname(__FILE__).'/block/weblcms_'.$type.'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
 			die('Failed to load "'.$type.'" block');
 		}
-		$class = 'Weblcms'.ucfirst($type);
+		$class = 'Weblcms'.RepositoryUtilities :: underscores_to_camelcase($type);
 		require_once $filename;
-		return new $class($weblcms, $block_info);
+		return new $class($weblcms, $block);
 	}
 
 	/**

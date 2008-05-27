@@ -4,7 +4,7 @@
  * @package application.personal_calendar
  */
 require_once (dirname(__FILE__).'/../personal_calendar_connector.class.php');
-require_once (dirname(__FILE__).'/../../weblcms/weblcmsdatamanager.class.php');
+require_once (dirname(__FILE__).'/../../weblcms/weblcms_data_manager.class.php');
 /**
  * This personal calendar connector allows the personal calendar to retrieve the
  * published calendar events in the WebLcms application.

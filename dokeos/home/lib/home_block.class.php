@@ -7,6 +7,7 @@ class HomeBlock {
 	const PROPERTY_COLUMN = 'column';
 	const PROPERTY_TITLE = 'title';
 	const PROPERTY_SORT = 'sort';
+	const PROPERTY_APPLICATION = 'application';
 	const PROPERTY_COMPONENT = 'component';
 	
 	private $id;
@@ -39,7 +40,7 @@ class HomeBlock {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_COLUMN, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_COMPONENT);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_COLUMN, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_APPLICATION, self :: PROPERTY_COMPONENT);
 	}
 	
 	static function is_default_property_name($name)
@@ -85,6 +86,16 @@ class HomeBlock {
 	function set_title($title)
 	{
 		$this->set_default_property(self :: PROPERTY_TITLE, $title);
+	}
+	
+    function get_application()
+    {
+    	return $this->get_default_property(self :: PROPERTY_APPLICATION);
+    }
+	
+	function set_application($application)
+	{
+		$this->set_default_property(self :: PROPERTY_APPLICATION, $application);
 	}
 	
     function get_component()

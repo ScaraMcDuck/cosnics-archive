@@ -5,7 +5,7 @@
  * @package application.weblcms.tool
  */
 require_once dirname(__FILE__) . '/tool.class.php';
-require_once dirname(__FILE__) . '/../learningobjectpublicationform.class.php';
+require_once dirname(__FILE__) . '/../learning_object_publication_form.class.php';
 
 /**
 ==============================================================================

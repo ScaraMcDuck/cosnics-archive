@@ -4,7 +4,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/importdropboxcategory.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublicationcategory.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication_category.class.php';
 
 /**
  * This class presents a Dokeos185 dropbox_category

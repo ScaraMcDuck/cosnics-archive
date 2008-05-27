@@ -39,16 +39,17 @@ class SearchPortalBlock
 	 * @param Weblcms $weblcms The weblcms in
 	 * which the created component will be used
 	 */
-	static function factory($type, $profiler, $block_info)
+	static function factory($search_portal, $block)
 	{
+		$type = $block->get_component();
 		$filename = dirname(__FILE__).'/block/search_portal_'.$type.'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
 			die('Failed to load "'.$type.'" block');
 		}
-		$class = 'SearchPortal'.ucfirst($type);
+		$class = 'SearchPortal'.RepositoryUtilities :: underscores_to_camelcase($type);
 		require_once $filename;
-		return new $class($profiler, $block_info);
+		return new $class($search_portal, $block);
 	}
 
 	/**

@@ -4,7 +4,7 @@
  */
 
 require_once dirname(__FILE__) . '/../../lib/import/importtool.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/weblcmsdatamanager.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/weblcms_data_manager.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 Tool

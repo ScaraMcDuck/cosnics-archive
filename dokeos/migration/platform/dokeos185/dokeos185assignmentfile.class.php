@@ -5,8 +5,8 @@
 
 require_once dirname(__FILE__).'/../../lib/import/importassignmentfile.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/learning_object/document/document.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublicationcategory.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication_category.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/learning_object.class.php';
 
 /**

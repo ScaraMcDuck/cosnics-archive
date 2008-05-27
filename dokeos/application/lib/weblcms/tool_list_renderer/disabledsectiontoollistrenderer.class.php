@@ -3,7 +3,7 @@
  * $Id$
  * @package application.weblcms
  */
-require_once(dirname(__FILE__).'/../toollistrenderer.class.php');
+require_once(dirname(__FILE__).'/../tool_list_renderer.class.php');
 require_once('HTML/Table.php');
 /**
  * Tool list renderer which displays all course tools in different sections. One

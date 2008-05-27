@@ -6,11 +6,11 @@
 require_once dirname(__FILE__).'/weblcmscomponent.class.php';
 require_once dirname(__FILE__).'/weblcmssearchform.class.php';
 require_once dirname(__FILE__).'/../../webapplication.class.php';
-require_once dirname(__FILE__).'/../weblcmsdatamanager.class.php';
-require_once dirname(__FILE__).'/../learningobjectpublicationcategory.class.php';
+require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
+require_once dirname(__FILE__).'/../learning_object_publication_category.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../tool/tool.class.php';
-require_once dirname(__FILE__).'/../toollistrenderer.class.php';
+require_once dirname(__FILE__).'/../tool_list_renderer.class.php';
 require_once dirname(__FILE__).'/../course/course.class.php';
 require_once dirname(__FILE__).'/../group/group.class.php';
 require_once Path :: get_library_path().'condition/or_condition.class.php';
@@ -20,7 +20,7 @@ require_once Path :: get_library_path().'condition/equality_condition.class.php'
 require_once dirname(__FILE__).'/../course/course_table/coursetable.class.php';
 require_once Path :: get_user_path(). 'lib/user_table/usertable.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
-require_once dirname(__FILE__).'/../weblcmsblock.class.php';
+require_once dirname(__FILE__).'/../weblcms_block.class.php';
 
 /**
 ==============================================================================
@@ -175,10 +175,10 @@ class Weblcms extends WebApplication
     /**
 	 * Renders the weblcms block and returns it. 
 	 */
-	function render_block($type, $block_info)
+	function render_block($block)
 	{
-		$block = WeblcmsBlock :: factory($type, $this, $block_info);
-		return $block->run();
+		$weblcms_block = WeblcmsBlock :: factory($this, $block);
+		return $weblcms_block->run();
 	}
 
 	/**

@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/fill_
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/matching_question/matching_question.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/multiple_choice_question/multiple_choice_question.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/open_question/open_question.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learningobjectpublication.class.php';
+require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
 require_once dirname(__FILE__) . '/dokeos185quizanswer.class.php';
 
