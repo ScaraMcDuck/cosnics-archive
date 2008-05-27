@@ -1,7 +1,7 @@
 <?php
 $this_section = 'rights';
 require_once dirname(__FILE__).'/common/global.inc.php';
-require_once Path :: get_rights_path(). 'lib/rights_manager/rightsmanager.class.php';
+require_once Path :: get_rights_path(). 'lib/rights_manager/rights_manager.class.php';
 require_once Path :: get_user_path(). 'lib/usermanager/usermanager.class.php';
 
 Translation :: set_application($this_section);

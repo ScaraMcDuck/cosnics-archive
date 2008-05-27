@@ -3,14 +3,14 @@
  * @package users
  * @subpackage datamanager
  */
-require_once dirname(__FILE__).'/database/databaseroleresultset.class.php';
-require_once dirname(__FILE__).'/database/databaserightresultset.class.php';
-require_once dirname(__FILE__).'/database/databaselocationresultset.class.php';
-require_once dirname(__FILE__).'/../rightsdatamanager.class.php';
+require_once dirname(__FILE__).'/database/database_role_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_right_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_location_result_set.class.php';
+require_once dirname(__FILE__).'/../rights_data_manager.class.php';
 require_once dirname(__FILE__).'/../role.class.php';
 require_once dirname(__FILE__).'/../right.class.php';
 require_once dirname(__FILE__).'/../location.class.php';
-require_once dirname(__FILE__).'/../rolerightlocation.class.php';
+require_once dirname(__FILE__).'/../role_right_location.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once 'MDB2.php';
 

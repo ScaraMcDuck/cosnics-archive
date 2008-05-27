@@ -3,8 +3,8 @@
  * @package repository.usertable
  */
 require_once dirname(__FILE__).'/../../../common/html/table/sortable_table.class.php';
-require_once dirname(__FILE__).'/defaulteventtablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/defaulteventtablecellrenderer.class.php';
+require_once dirname(__FILE__).'/default_event_table_column_model.class.php';
+require_once dirname(__FILE__).'/default_event_table_cell_renderer.class.php';
 
 /**
  * 

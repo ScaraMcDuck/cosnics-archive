@@ -6,9 +6,9 @@
  * function which returns the list of xml-files from a given directory.
  */
 
-require_once Path :: get_tracking_path() .'lib/trackingdatamanager.class.php';
-require_once Path :: get_tracking_path() .'lib/trackerregistration.class.php';
-require_once Path :: get_tracking_path() .'lib/eventreltracker.class.php';
+require_once Path :: get_tracking_path() .'lib/tracking_data_manager.class.php';
+require_once Path :: get_tracking_path() .'lib/tracker_registration.class.php';
+require_once Path :: get_tracking_path() .'lib/event_rel_tracker.class.php';
 require_once Path :: get_admin_path() .'lib/admin_data_manager.class.php';
 require_once Path :: get_admin_path() .'lib/setting.class.php';
 require_once Path :: get_repository_path() .'lib/repository_utilities.class.php';

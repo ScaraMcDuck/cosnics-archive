@@ -4,7 +4,7 @@
  * @package tracking.lib
  */
  
-require_once dirname(__FILE__). '/maintracker.class.php';
+require_once dirname(__FILE__). '/main_tracker.class.php';
  
 /**
  * This class is an abstract class for several action trackers 

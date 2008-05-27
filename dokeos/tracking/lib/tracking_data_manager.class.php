@@ -3,10 +3,10 @@
  * @package repository
  */
 require_once Path :: get_library_path().'configuration/configuration.class.php';
-require_once dirname(__FILE__) . '/trackerregistration.class.php';
+require_once dirname(__FILE__) . '/tracker_registration.class.php';
 require_once dirname(__FILE__) . '/event.class.php';
-require_once dirname(__FILE__) . '/trackersetting.class.php';
-require_once dirname(__FILE__) . '/archivecontrolleritem.class.php';
+require_once dirname(__FILE__) . '/tracker_setting.class.php';
+require_once dirname(__FILE__) . '/archive_controller_item.class.php';
 
 /**
  *	This is a skeleton for a data manager for tracking manager

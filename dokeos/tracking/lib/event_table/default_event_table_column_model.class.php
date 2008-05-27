@@ -2,8 +2,8 @@
 /**
  * @package repository.usertable
  */
-require_once dirname(__FILE__).'/eventtablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/eventtablecolumn.class.php';
+require_once dirname(__FILE__).'/event_table_column_model.class.php';
+require_once dirname(__FILE__).'/event_table_column.class.php';
 require_once dirname(__FILE__).'/../event.class.php';
 
 /**

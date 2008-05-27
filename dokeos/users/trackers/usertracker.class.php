@@ -4,7 +4,7 @@
  * @package users.lib.trackers
  */
  
-require_once Path :: get_tracking_path() . 'lib/maintracker.class.php';
+require_once Path :: get_tracking_path() . 'lib/main_tracker.class.php';
  
 /**
  * This class is a abstract class for user tracking

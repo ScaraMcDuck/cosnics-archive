@@ -2,10 +2,10 @@
 /**
  * @package contentboxes.install
  */
-require_once dirname(__FILE__).'/../lib/trackingdatamanager.class.php';
+require_once dirname(__FILE__).'/../lib/tracking_data_manager.class.php';
 require_once Path :: get_library_path().'installer.class.php';
-require_once Path :: get_tracking_path() .'lib/trackerregistration.class.php';
-require_once Path :: get_tracking_path() .'lib/eventreltracker.class.php';
+require_once Path :: get_tracking_path() .'lib/tracker_registration.class.php';
+require_once Path :: get_tracking_path() .'lib/event_rel_tracker.class.php';
 require_once Path :: get_library_path().'filesystem/filesystem.class.php';
 /**
  * This	 installer can be used to create the contentboxes structure

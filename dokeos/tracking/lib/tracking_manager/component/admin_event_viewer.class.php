@@ -2,8 +2,8 @@
 /**
  * @package tracking.lib.tracking_manager.component
  */
-require_once dirname(__FILE__).'/../trackingmanager.class.php';
-require_once dirname(__FILE__).'/../trackingmanagercomponent.class.php';
+require_once dirname(__FILE__).'/../tracking_manager.class.php';
+require_once dirname(__FILE__).'/../tracking_manager_component.class.php';
 require_once dirname(__FILE__).'/admineventviewer/admineventviewercellrenderer.class.php';
 require_once dirname(__FILE__).'/admineventviewer/admineventvieweractionhandler.class.php';
 require_once Path :: get(SYS_LIB_PATH).'/html/table/simple_table.class.php';

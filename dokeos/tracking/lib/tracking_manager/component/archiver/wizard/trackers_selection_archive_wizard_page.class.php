@@ -3,7 +3,7 @@
  * @package main
  * @subpackage tracking
  */
-require_once dirname(__FILE__).'/archivewizardpage.class.php';
+require_once dirname(__FILE__).'/archive_wizard_page.class.php';
 /**
  * Page in the archive wizard in which some config settings are asked to the
  * user.

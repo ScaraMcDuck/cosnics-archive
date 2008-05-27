@@ -191,8 +191,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 			return false;
 		}
 		
-		return $this->tdm->create_storage_unit($name, 
-			$storage_unit_info['properties'],$storage_unit_info['indexes']);
+		return $this->tdm->create_storage_unit($name, $storage_unit_info['properties'],$storage_unit_info['indexes']);
 
 	}
 	
