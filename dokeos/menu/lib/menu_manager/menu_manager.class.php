@@ -10,7 +10,8 @@ require_once dirname(__FILE__).'/../../../common/condition/or_condition.class.ph
 require_once dirname(__FILE__).'/../../../common/condition/and_condition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/equality_condition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/pattern_match_condition.class.php';
-
+require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
+require_once dirname(__FILE__).'/component/menu_item_browser/menu_item_browser_table.class.php';
 /**
  * A user manager provides some functionalities to the admin to manage
  * his users. For each functionality a component is available.
@@ -431,7 +432,7 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 		{
 			if(isset($_POST['table']) && $_POST['table'] == 'menu_item')
 			{
-				$selected_ids = $_POST[MenuItemTable :: DEFAULT_NAME.MenuItemTable :: CHECKBOX_NAME_SUFFIX];
+				$selected_ids = $_POST[MenuItemBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 				if (empty ($selected_ids))
 				{
 					$selected_ids = array ();

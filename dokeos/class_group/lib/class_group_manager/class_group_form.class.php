@@ -69,7 +69,7 @@ class ClassGroupForm extends FormValidator {
    		$value = $classgroup->update();
    		
    		if($value)
-   			Events :: trigger_event('update', 'classgroup', array('target_classgroup_id' => $classgroup->get_id(), 'action_user_id' => $this->user->get_user_id()));
+   			Events :: trigger_event('update', 'class_group', array('target_class_group_id' => $classgroup->get_id(), 'action_user_id' => $this->user->get_user_id()));
    		
    		return $value;
     }
@@ -87,7 +87,7 @@ class ClassGroupForm extends FormValidator {
    		$value = $classgroup->create();
    		
    		if($value)
-   			Events :: trigger_event('create', 'classgroup', array('target_classgroup_id' => $classgroup->get_id(), 'action_user_id' => $this->user->get_user_id()));
+   			Events :: trigger_event('create', 'class_group', array('target_class_group_id' => $classgroup->get_id(), 'action_user_id' => $this->user->get_user_id()));
    			
    		
    		return $value;

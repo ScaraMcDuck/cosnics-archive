@@ -10,7 +10,7 @@ require_once 'HTML/QuickForm/Rule.php';
 require_once 'HTML/QuickForm/Action/Display.php';
 require_once dirname(__FILE__).'/subscribe/group_selection_subscribe_wizard_page.class.php';
 require_once dirname(__FILE__).'/subscribe/user_selection_subscribe_wizard_page.class.php';
-require_once dirname(__FILE__).'/subscribe/action_selectionsubscribe_wizard_page.class.php';
+require_once dirname(__FILE__).'/subscribe/action_selection_subscribe_wizard_page.class.php';
 require_once dirname(__FILE__).'/subscribe/confirmation_subscribe_wizard_page.class.php';
 require_once dirname(__FILE__).'/subscribe/subscribe_wizard_process.class.php';
 require_once dirname(__FILE__).'/subscribe/subscribe_wizard_display.class.php';

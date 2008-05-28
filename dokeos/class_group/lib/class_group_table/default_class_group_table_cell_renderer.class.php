@@ -3,12 +3,12 @@
  * @package repository.usertable
  */
 
-require_once dirname(__FILE__).'/class_group_table_cell_renderer.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../class_group.class.php';
 /**
  * TODO: Add comment
  */
-class DefaultClassGroupTableCellRenderer implements ClassGroupTableCellRenderer
+class DefaultClassGroupTableCellRenderer implements ObjectTableCellRenderer
 {
 	/**
 	 * Constructor
@@ -25,7 +25,7 @@ class DefaultClassGroupTableCellRenderer implements ClassGroupTableCellRenderer
 	 */
 	function render_cell($column, $classgroup)
 	{
-		if ($property = $column->get_classgroup_property())
+		if ($property = $column->get_object_property())
 		{
 			switch ($property)
 			{

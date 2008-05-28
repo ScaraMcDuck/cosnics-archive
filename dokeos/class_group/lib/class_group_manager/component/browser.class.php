@@ -43,7 +43,7 @@ class ClassGroupManagerBrowserComponent extends ClassGroupManagerComponent
 	
 	function get_user_html()
 	{		
-		$table = new ClassGroupBrowserTable($this, null, array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS), $this->get_condition());
+		$table = new ClassGroupBrowserTable($this, array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS), $this->get_condition());
 		
 		$html = array();
 		$html[] = '<div style="float: right; width: 80%;">';

@@ -33,7 +33,7 @@ class ClassGroupBrowserTableCellRenderer extends DefaultClassGroupTableCellRende
 		}
 		
 		// Add special features here
-		switch ($column->get_classgroup_property())
+		switch ($column->get_object_property())
 		{
 			// Exceptions that need post-processing go here ...
 			case ClassGroup :: PROPERTY_NAME :

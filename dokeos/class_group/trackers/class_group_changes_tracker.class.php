@@ -18,7 +18,7 @@ class ClassGroupChangesTracker extends DefaultTracker
 	 */
     function ClassGroupChangesTracker() 
     {
-    	parent :: MainTracker('classgroup_changes');
+    	parent :: MainTracker('class_group_changes');
     }
     
     /**
@@ -27,7 +27,7 @@ class ClassGroupChangesTracker extends DefaultTracker
      */
     function track($parameters = array())
     {
-    	$target = $parameters['target_classgroup_id'];
+    	$target = $parameters['target_class_group_id'];
     	$target_user = $parameters['target_user_id'];
     	$action_user = $parameters['action_user_id'];
     	$action = $parameters['event'];
