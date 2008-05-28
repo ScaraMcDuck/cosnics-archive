@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__).'/weblcms_component.class.php';
 require_once dirname(__FILE__).'/weblcms_search_form.class.php';
-require_once dirname(__FILE__).'/../../webapplication.class.php';
+require_once dirname(__FILE__).'/../../web_application.class.php';
 require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
 require_once dirname(__FILE__).'/../learning_object_publication_category.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';

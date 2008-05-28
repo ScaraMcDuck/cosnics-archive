@@ -6,7 +6,7 @@
  */
 require_once dirname(__FILE__).'/personal_messenger_component.class.php';
 require_once dirname(__FILE__).'/../personal_messenger_data_manager.class.php';
-require_once dirname(__FILE__).'/../../webapplication.class.php';
+require_once dirname(__FILE__).'/../../web_application.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_library_path().'condition/or_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';

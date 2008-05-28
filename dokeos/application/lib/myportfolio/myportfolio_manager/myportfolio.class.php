@@ -3,7 +3,7 @@
  * $Id:$
  * @package application.portfolio
  */
-require_once dirname(__FILE__).'/../../webapplication.class.php';
+require_once dirname(__FILE__).'/../../web_application.class.php';
 require_once dirname(__FILE__).'/../myportfolio_manager/portfoliocomponent.class.php';
 require_once dirname(__FILE__).'/../pftreemanager.class.php';
 require_once dirname(__FILE__).'/../portfoliodatamanager.class.php';

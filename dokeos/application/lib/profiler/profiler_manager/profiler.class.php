@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/profiler_component.class.php';
 require_once dirname(__FILE__).'/profiler_search_form.class.php';
 require_once dirname(__FILE__).'/../profiler_data_manager.class.php';
-require_once dirname(__FILE__).'/../../webapplication.class.php';
+require_once dirname(__FILE__).'/../../web_application.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_library_path().'condition/or_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
@@ -24,7 +24,6 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
  */
  class Profiler extends WebApplication
  {
-
  	const APPLICATION_NAME = 'profiler';
 
  	const PARAM_ACTION = 'go';
