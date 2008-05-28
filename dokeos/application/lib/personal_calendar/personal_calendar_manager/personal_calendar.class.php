@@ -3,7 +3,7 @@
  * $Id$
  * @package application.personal_calendar
  */
-require_once dirname(__FILE__).'/../../webapplication.class.php';
+require_once dirname(__FILE__).'/../../web_application.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
 require_once dirname(__FILE__).'/personal_calendar_component.class.php';

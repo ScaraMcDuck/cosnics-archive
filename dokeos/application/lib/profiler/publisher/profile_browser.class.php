@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../profile_publisher.class.php';
 require_once dirname(__FILE__).'/../profile_publisher_component.class.php';
-require_once dirname(__FILE__).'/publication_candidate_table/publication_candidate_table.class.php';
+require_once Path :: get_application_library_path() . 'publisher/publication_candidate_table/publication_candidate_table.class.php';
 /**
  * This class represents a profile publisher component which can be used
  * to browse through the possible learning objects to publish.

@@ -6,7 +6,7 @@
  */
 require_once dirname(__FILE__).'/../personal_message_publisher.class.php';
 require_once dirname(__FILE__).'/../personal_message_publisher_component.class.php';
-require_once dirname(__FILE__).'/publication_candidate_table/publication_candidate_table.class.php';
+require_once Path :: get_application_library_path() . 'publisher/publication_candidate_table/publication_candidate_table.class.php';
 /**
  * This class represents a personal message publisher component which can be used
  * to browse through the possible personal messages to publish.
