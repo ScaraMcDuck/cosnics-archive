@@ -35,7 +35,7 @@ class CourseUserRelationForm extends FormValidator {
     	
 		$wdm = WeblcmsDataManager :: get_instance();
 		
-		$condition = new EqualityCondition(CourseUserCategory :: PROPERTY_USER, $this->user->get_user_id());
+		$condition = new EqualityCondition(CourseUserCategory :: PROPERTY_USER, $this->user->get_id());
 		
 		$categories = $wdm->retrieve_course_user_categories($condition);
 		$cat_options['0'] = Translation :: get('NoCategory');
@@ -65,7 +65,7 @@ class CourseUserRelationForm extends FormValidator {
     	$values = $this->exportValues();
     	
 		$conditions = array();
-		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->user->get_user_id());
+		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->user->get_id());
 		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $values[CourseUserRelation :: PROPERTY_CATEGORY]);		
 		$condition = new AndCondition($conditions);
 		

@@ -57,7 +57,7 @@ require_once dirname(__FILE__).'/../users_block.class.php';
     	{
     		if (is_object($user))
     		{
-   				$this->user_id = $user->get_user_id();
+   				$this->user_id = $user->get_id();
 	    		$this->user = $user;
     		}
     		else
@@ -510,7 +510,7 @@ require_once dirname(__FILE__).'/../users_block.class.php';
 	 */
 	function get_user_editing_url($user)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UPDATE_USER, self :: PARAM_USER_USER_ID => $user->get_user_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UPDATE_USER, self :: PARAM_USER_USER_ID => $user->get_id()));
 	}
 
 	/**
@@ -519,7 +519,7 @@ require_once dirname(__FILE__).'/../users_block.class.php';
 	 */
 	function get_user_quota_url($user)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_USER_QUOTA, self :: PARAM_USER_USER_ID => $user->get_user_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_USER_QUOTA, self :: PARAM_USER_USER_ID => $user->get_id()));
 	}
 	/**
 	 * gets the user delete url
@@ -527,7 +527,7 @@ require_once dirname(__FILE__).'/../users_block.class.php';
 	 */
 	function get_user_delete_url($user)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_USER, self :: PARAM_USER_USER_ID => $user->get_user_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_USER, self :: PARAM_USER_USER_ID => $user->get_id()));
 	}
 	
 	function get_platform_setting($variable, $application = self :: APPLICATION_NAME)

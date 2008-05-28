@@ -383,7 +383,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	 */
 	function get_user_id()
 	{
-		return $this->user->get_user_id();
+		return $this->user->get_id();
 	}
 
 	/**

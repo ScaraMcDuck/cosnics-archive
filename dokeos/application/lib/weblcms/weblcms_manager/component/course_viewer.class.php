@@ -45,7 +45,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 
 		$user = $this->get_user();
 		$course = $this->get_course();
-		$relation = $this->retrieve_course_user_relation($course->get_id(),$user->get_user_id());
+		$relation = $this->retrieve_course_user_relation($course->get_id(),$user->get_id());
 		
 		if($relation->get_status() != 5 && $relation->get_status() != 1 && !$user->is_platform_admin())
 		//TODO: Roles & Rights

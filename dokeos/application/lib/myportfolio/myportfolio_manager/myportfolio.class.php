@@ -406,7 +406,7 @@ class MyPortfolio extends WebApplication
 
 	function get_user_id()
 	{
-		return $this->user->get_user_id();
+		return $this->user->get_id();
 	}
 
 	function get_user()

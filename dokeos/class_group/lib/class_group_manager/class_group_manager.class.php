@@ -384,7 +384,7 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	 */
 	function get_user_id()
 	{
-		return $this->user->get_user_id();
+		return $this->user->get_id();
 	}
 	
 	function get_user()

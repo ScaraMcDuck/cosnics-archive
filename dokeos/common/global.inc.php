@@ -313,7 +313,7 @@ if(isset($_POST['login']))
 	$user = $udm->login($_POST['login'],$_POST['password']);
 	if(!is_null($user))
 	{
-		Session :: register('_uid', $user->get_user_id());
+		Session :: register('_uid', $user->get_id());
 		Events :: trigger_event('login', 'users', array('server' => $_SERVER, 'user' => $user));
 		// TODO: Tracking framework
 		//loginCheck($_SESSION['_uid']);

@@ -74,7 +74,7 @@ class CalendarEventPublicationForm extends FormValidator
 
 		$pub = new CalendarEventPublication();
 		$pub->set_calendar_event($this->learning_object->get_id());
-		$pub->set_publisher($this->form_user->get_user_id());
+		$pub->set_publisher($this->form_user->get_id());
 		$pub->set_published(time());
 
 		if ($pub->create())

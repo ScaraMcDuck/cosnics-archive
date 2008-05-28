@@ -183,7 +183,7 @@ class AccountForm extends FormValidator {
    		$value = $user->update();
    		
    		if($value)
-   			Events :: trigger_event('update', 'users', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $user->get_user_id()));
+   			Events :: trigger_event('update', 'users', array('target_user_id' => $user->get_id(), 'action_user_id' => $user->get_id()));
    
    		return $value;
     }
@@ -195,7 +195,7 @@ class AccountForm extends FormValidator {
 	function setDefaults($defaults = array ())
 	{
 		$user = $this->user;
-		$defaults[User :: PROPERTY_USER_ID] = $user->get_user_id();
+		$defaults[User :: PROPERTY_USER_ID] = $user->get_id();
 		$defaults[User :: PROPERTY_LASTNAME] = $user->get_lastname();
 		$defaults[User :: PROPERTY_FIRSTNAME] = $user->get_firstname();
 		$defaults[User :: PROPERTY_EMAIL] = $user->get_email();

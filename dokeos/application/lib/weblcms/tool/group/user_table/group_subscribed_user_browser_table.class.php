@@ -5,21 +5,24 @@
  * @package application.weblcms.tool
  * @subpackage group
  */
-require_once Path :: get_user_path(). 'lib/user_table/user_table.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
 require_once dirname(__FILE__).'/group_subscribed_user_browser_table_data_provider.class.php';
 require_once dirname(__FILE__).'/group_subscribed_user_browser_table_column_model.class.php';
 require_once dirname(__FILE__).'/group_subscribed_user_browser_table_cell_renderer.class.php';
-class GroupSubscribedUserBrowserTable extends UserTable
+
+class GroupSubscribedUserBrowserTable extends ObjectTable
 {
+	const DEFAULT_NAME = 'group_subscribed_user_browser_table';
+	
 	/**
 	 * Constructor
 	 */
-	function GroupSubscribedUserBrowserTable($browser, $name, $parameters, $condition)
+	function GroupSubscribedUserBrowserTable($browser, $parameters, $condition)
 	{
 		$model = new GroupSubscribedUserBrowserTableColumnModel();
 		$renderer = new GroupSubscribedUserBrowserTableCellRenderer($browser);
 		$data_provider = new GroupSubscribedUserBrowserTableDataProvider($browser, $condition);
-		parent :: __construct($data_provider, $name, $model, $renderer);
+		parent :: __construct($data_provider, GroupSubscribedUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();
 		if ($_GET[Weblcms :: PARAM_USER_ACTION] != Weblcms :: ACTION_SUBSCRIBE)

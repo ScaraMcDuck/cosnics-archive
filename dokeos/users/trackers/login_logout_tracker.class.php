@@ -34,7 +34,7 @@ class LoginLogoutTracker extends DefaultTracker
     	$server = $parameters['server'];
     	$type = $parameters['event'];
     	
-    	$this->set_user_id($user->get_user_id());
+    	$this->set_user_id($user->get_id());
     	$this->set_date(time());
     	$this->set_ip($server['REMOTE_ADDR']);
     	$this->set_type($type);

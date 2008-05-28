@@ -75,7 +75,7 @@ class CourseUserCategoryForm extends FormValidator {
     	
     	$courseusercategory->set_id($values[CourseUserCategory :: PROPERTY_ID]);
     	$courseusercategory->set_title($values[CourseUserCategory :: PROPERTY_TITLE]);
-    	$courseusercategory->set_user($this->user->get_user_id());
+    	$courseusercategory->set_user($this->user->get_id());
     	
     	return $courseusercategory->create();
     }

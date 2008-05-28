@@ -144,7 +144,7 @@ class User
 	 * Returns the user_id of this user.
 	 * @return int The user_id.
 	 */
-	function get_user_id()
+	function get_id()
 	{
 		return $this->user_id;
 	}

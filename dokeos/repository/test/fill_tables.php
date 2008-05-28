@@ -76,7 +76,7 @@ else
 		$user->set_status(5);
 		$user->set_creator_id(Session :: get_user_id());
 		$user->create();
-		$user_ids[$user_nr] = $user->get_user_id();
+		$user_ids[$user_nr] = $user->get_id();
 		progress();
 	}
 	//exit;

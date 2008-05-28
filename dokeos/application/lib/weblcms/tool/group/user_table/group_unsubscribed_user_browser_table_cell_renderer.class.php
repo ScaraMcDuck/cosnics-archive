@@ -5,6 +5,8 @@
  * @package application.weblcms.tool
  * @subpackage group
  */
+require_once Path :: get_user_path(). 'lib/user_table/default_user_table_cell_renderer.class.php';
+ 
 class GroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 {
 		private $browser;
@@ -21,7 +23,7 @@ class GroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTableCell
 		}
 
 		// Add special features here
-		switch ($column->get_user_property())
+		switch ($column->get_object_property())
 		{
 			// Exceptions that need post-processing go here ...
 			case User :: PROPERTY_EMAIL:
@@ -39,7 +41,7 @@ class GroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTableCell
 	{
 		$toolbar_data = array();
 		$parameters = array();
-				$parameters[Weblcms :: PARAM_USERS] = $user->get_user_id();
+				$parameters[Weblcms :: PARAM_USERS] = $user->get_id();
 				$parameters[GroupTool :: PARAM_GROUP_ACTION] = GroupTool::ACTION_SUBSCRIBE;
 				$unsubscribe_url = $this->browser->get_url($parameters);
 				$toolbar_data[] = array(
@@ -49,7 +51,7 @@ class GroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTableCell
 				);
 			$parameters = array();
 			$parameters[Weblcms::PARAM_USER_ACTION] = UserTool::USER_DETAILS;
-			$parameters[Weblcms :: PARAM_USERS] = $user->get_user_id();
+			$parameters[Weblcms :: PARAM_USERS] = $user->get_id();
 			$unsubscribe_url = $this->browser->get_url($parameters);
 			$toolbar_data[] = array(
 				'href' => $unsubscribe_url,

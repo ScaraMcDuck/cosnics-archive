@@ -49,7 +49,7 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 	
 	function get_user_html()
 	{		
-		$table = new AdminUserBrowserTable($this, null, null, $this->get_condition());
+		$table = new AdminUserBrowserTable($this, null, $this->get_condition());
 		
 		$html = array();
 		$html[] = '<div style="float: right; width: 80%;">';

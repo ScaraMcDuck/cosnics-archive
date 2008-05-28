@@ -74,7 +74,7 @@ class ProfilePublicationForm extends FormValidator
 
 		$pub = new ProfilePublication();
 		$pub->set_profile($this->learning_object->get_id());
-		$pub->set_publisher($this->form_user->get_user_id());
+		$pub->set_publisher($this->form_user->get_id());
 		$pub->set_published(time());
 
 		if ($pub->create())

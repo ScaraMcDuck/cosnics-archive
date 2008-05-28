@@ -3,11 +3,11 @@
  * @package users.lib.user_table
  */
 
-require_once dirname(__FILE__).'/user_table_cell_renderer.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 require_once Path :: get_library_path().'image_manipulation/image_manipulation.class.php';
 
-class DefaultUserTableCellRenderer implements UserTableCellRenderer
+class DefaultUserTableCellRenderer implements ObjectTableCellRenderer
 {
 	/**
 	 * Constructor
@@ -24,12 +24,12 @@ class DefaultUserTableCellRenderer implements UserTableCellRenderer
 	 */
 	function render_cell($column, $user)
 	{
-		if ($property = $column->get_user_property())
+		if ($property = $column->get_object_property())
 		{
 			switch ($property)
 			{
 				case User :: PROPERTY_USER_ID :
-					return $user->get_user_id();
+					return $user->get_id();
 				case User :: PROPERTY_LASTNAME :
 					return $user->get_lastname();
 				case User :: PROPERTY_FIRSTNAME :
@@ -73,7 +73,7 @@ class DefaultUserTableCellRenderer implements UserTableCellRenderer
 		$thumbnail_path = Path :: get(WEB_TEMP_PATH).md5($image_path).basename($image_path);
 		if(!is_file($thumbnail_path))
 		{
-			$thumbnail_creator = ImageManipulation::factory($image_path);
+			$thumbnail_creator = ImageManipulation :: factory($image_path);
 			$thumbnail_creator->create_thumbnail(20);
 			$thumbnail_creator->write_to_file($thumbnail_path);
 		}

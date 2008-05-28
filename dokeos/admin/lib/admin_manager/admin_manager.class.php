@@ -310,15 +310,15 @@ class Admin
 		$info[] = $repository_manager->get_application_platform_admin_links();
 		
 		// 3. UserManager
-		$user_manager = new UserManager($user->get_user_id());
+		$user_manager = new UserManager($user->get_id());
 		$info[] = $user_manager->get_application_platform_admin_links();
 		
 		// 4. Roles'n'Rights
-		$rights_manager = new RightsManager($user->get_user_id());
+		$rights_manager = new RightsManager($user->get_id());
 		$info[] = $rights_manager->get_application_platform_admin_links();
 		
 		// 5. Classgroups
-		$class_group_manager = new ClassgroupManager($user->get_user_id());
+		$class_group_manager = new ClassgroupManager($user->get_id());
 		$info[] = $class_group_manager->get_application_platform_admin_links();
 		
 		// 6. Tracking
@@ -326,15 +326,15 @@ class Admin
 		$info[] = $tracking_manager->get_application_platform_admin_links();
 		
 		// 7. Home
-		$home_manager = new HomeManager($user->get_user_id());
+		$home_manager = new HomeManager($user->get_id());
 		$info[] = $home_manager->get_application_platform_admin_links();		
 		
 		// 8. Menu
-		$menu_manager = new MenuManager($user->get_user_id());
+		$menu_manager = new MenuManager($user->get_id());
 		$info[] = $menu_manager->get_application_platform_admin_links();		
 		
 		// 9. Migration
-		$migration_manager = new MigrationManager($user->get_user_id());
+		$migration_manager = new MigrationManager($user->get_id());
 		$info[] = $migration_manager->get_application_platform_admin_links();	
 
 		// 10.The links for the plugin applications running on top of the essential Dokeos components

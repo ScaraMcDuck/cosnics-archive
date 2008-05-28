@@ -2,11 +2,11 @@
 /**
  * @package users.lib.user_table
  */
-require_once dirname(__FILE__).'/user_table_column_model.class.php';
-require_once dirname(__FILE__).'/user_table_column.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_column.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 
-class DefaultUserTableColumnModel extends UserTableColumnModel
+class DefaultUserTableColumnModel extends ObjectTableColumnModel
 {
 	/**
 	 * Constructor
@@ -22,9 +22,9 @@ class DefaultUserTableColumnModel extends UserTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new UserTableColumn(User :: PROPERTY_PICTURE_URI, true);
-		$columns[] = new UserTableColumn(User :: PROPERTY_LASTNAME, true);
-		$columns[] = new UserTableColumn(User :: PROPERTY_FIRSTNAME, true);
+		$columns[] = new ObjectTableColumn(User :: PROPERTY_PICTURE_URI, true);
+		$columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME, true);
+		$columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, true);
 		return $columns;
 	}
 }
