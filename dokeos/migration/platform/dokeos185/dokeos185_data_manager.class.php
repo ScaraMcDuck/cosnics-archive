@@ -327,7 +327,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
 	function get_all_documents($course, $include_deleted_files, $offset = null, $limit = null)
 	{
 		$this->set_database($course->get_db_name());
-		$query = 'SELECT * FROM ' . $this->get_table_name(document) . ' WHERE filetype <> \'folder\'';
+		$query = 'SELECT * FROM ' . $this->get_table_name('document') . ' WHERE filetype <> \'folder\'';
 		
 		if($include_deleted_files != 1)
 			$query = $query . ' AND id IN (SELECT ref FROM ' . $this->get_table_name('item_property') . ' WHERE tool=\'document\'' .
