@@ -119,7 +119,7 @@ class RegisterForm extends FormValidator {
 		$udm = UsersDataManager :: get_instance();
     	if ($udm->is_username_available($values[User :: PROPERTY_USERNAME], $values[User :: PROPERTY_USER_ID]))
     	{
-    		$user->set_user_id($values[User :: PROPERTY_USER_ID]);
+    		$user->set_id($values[User :: PROPERTY_USER_ID]);
     		$user->set_lastname($values[User :: PROPERTY_LASTNAME]);
     		$user->set_firstname($values[User :: PROPERTY_FIRSTNAME]);
     		$user->set_email($values[User :: PROPERTY_EMAIL]);

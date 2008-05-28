@@ -19,7 +19,7 @@ class CourseBrowserTableColumnModel extends DefaultCourseTableColumnModel
 	{
 		parent :: __construct();
 		$this->set_default_order_column(0);
-		$this->add_column(new CourseTableColumn(Course :: PROPERTY_TITULAR, true));
+		$this->add_column(new ObjectTableColumn(Course :: PROPERTY_TITULAR, true));
 		$this->add_column(self :: get_modification_column());
 	}
 	/**
@@ -30,7 +30,7 @@ class CourseBrowserTableColumnModel extends DefaultCourseTableColumnModel
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new CourseTableColumn('');
+			self :: $modification_column = new ObjectTableColumn('');
 		}
 		return self :: $modification_column;
 	}

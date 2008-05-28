@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../weblcms.class.php';
 require_once dirname(__FILE__).'/../weblcms_component.class.php';
 require_once dirname(__FILE__).'/../../course/course_category_menu.class.php';
-require_once dirname(__FILE__).'/unsubscribebrowser/unsubscribebrowsertable.class.php';
+require_once dirname(__FILE__).'/unsubscribe_browser/unsubscribe_browser_table.class.php';
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
@@ -115,7 +115,7 @@ class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 
 		$condition = new AndCondition($conditions);
 
-		$table = new UnsubscribeBrowserTable($this, null, null, $condition);
+		$table = new UnsubscribeBrowserTable($this, null, $condition);
 
 		$html = array();
 		$html[] = '<div style="float: right; width: 80%;">';

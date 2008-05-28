@@ -3,10 +3,10 @@
  * @package application.lib.weblcms.course.course_table
  */
 
-require_once dirname(__FILE__).'/course_table_cell_renderer.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../course.class.php';
 
-class DefaultCourseTableCellRenderer implements CourseTableCellRenderer
+class DefaultCourseTableCellRenderer implements ObjectTableCellRenderer
 {
 	/**
 	 * Constructor
@@ -23,7 +23,7 @@ class DefaultCourseTableCellRenderer implements CourseTableCellRenderer
 	 */
 	function render_cell($column, $course)
 	{
-		if ($property = $column->get_course_property())
+		if ($property = $column->get_object_property())
 		{
 			switch ($property)
 			{
