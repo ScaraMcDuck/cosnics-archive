@@ -41,7 +41,7 @@ class RepositoryManagerPublicationBrowserComponent extends RepositoryManagerComp
 			$parameters[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE] = $types;
 		}
 		
-		$table = new PublicationBrowserTable($this, null, $parameters, $condition);
+		$table = new PublicationBrowserTable($this, $parameters, $condition);
 		return $table->as_html();
 	}
 }

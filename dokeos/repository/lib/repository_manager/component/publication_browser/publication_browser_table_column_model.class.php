@@ -29,7 +29,7 @@ class PublicationBrowserTableColumnModel extends DefaultPublicationTableColumnMo
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new PublicationTableColumn('');
+			self :: $modification_column = new ObjectTableColumn('');
 		}
 		return self :: $modification_column;
 	}
