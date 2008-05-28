@@ -122,19 +122,18 @@ class BlocksConfigBuildWizardPage extends BuildWizardPage
 		
 		foreach ($applications as $application)
 		{
-			$path = dirname(__FILE__).'/../../application/lib/'.$application.'/block';
+			$path = dirname(__FILE__).'/../../../../../../application/lib/'.$application.'/block';
 			if ($handle = opendir($path))
 			{
 				while (false !== ($file = readdir($handle)))
 				{
 					if (!is_dir($file) && stripos($file, '.class.php') !== false)
 					{
-						
 						$component = str_replace('.class.php', '', $file);
 						$component = str_replace($application . '_', '', $component);
 						$value = $application . '.' . $component;
 						$display = Translation :: get(Application :: application_to_class($application)) . '&nbsp;>&nbsp;' . RepositoryUtilities :: underscores_to_camelcase($component);
-						$application_components[$component] = $display;
+						$application_components[$value] = $display;
 					}
 				}
 				closedir($handle);

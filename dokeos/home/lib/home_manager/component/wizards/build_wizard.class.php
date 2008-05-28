@@ -36,26 +36,17 @@ class BuildWizard extends HTML_QuickForm_Controller
 	{
 		$this->parent = $parent;
 		parent :: HTML_QuickForm_Controller('BuildWizard', true);
-		$this->addPage(new ActionSelectionBuildWizardPage('action_selection', $this->parent));
+		
+		$values = $this->exportValues();
+		$this->addPage(new IntroductionBuildWizardPage('introduction', $this->parent, Translation :: get('BuildIntroductionMessage')));
+		$this->addPage(new RowsAmountBuildWizardPage('rows_amount', $this->parent));
+		$this->addPage(new RowsConfigBuildWizardPage('rows_config', $this->parent, $values));
+		$this->addPage(new ColumnsConfigBuildWizardPage('columns_config', $this->parent, $values));
+		$this->addPage(new BlocksConfigBuildWizardPage('blocks_config', $this->parent, $values));
+		$this->addPage(new ConfirmationBuildWizardPage('confirmation', $this->parent, Translation :: get('BuildConfirmationQuestion'), $values));
+		
 		$this->addAction('process', new BuildWizardProcess($this->parent));
 		$this->addAction('display', new BuildWizardDisplay($this->parent));
-		$values = $this->exportValues();
-		//print_r($values);
-		$action = null;
-		$action = isset($values['action']) ? $values['action'] : null;
-		$action = is_null($action) ? $_POST['action']  : $action;
-
-		switch($action)
-		{
-			case  ActionSelectionBuildWizardPage::ACTION_BUILD:
-				$this->addPage(new IntroductionBuildWizardPage('introduction', $this->parent, Translation :: get('BuildIntroductionMessage')));
-				$this->addPage(new RowsAmountBuildWizardPage('rows_amount', $this->parent));
-				$this->addPage(new RowsConfigBuildWizardPage('rows_config', $this->parent, $values));
-				$this->addPage(new ColumnsConfigBuildWizardPage('columns_config', $this->parent, $values));
-				$this->addPage(new BlocksConfigBuildWizardPage('blocks_config', $this->parent, $values));
-				$this->addPage(new ConfirmationBuildWizardPage('confirmation', $this->parent, Translation :: get('BuildConfirmationQuestion'), $values));
-				break;
-		}
 	}
 }
 ?>
