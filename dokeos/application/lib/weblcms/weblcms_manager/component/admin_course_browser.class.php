@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../weblcms.class.php';
 require_once dirname(__FILE__).'/../weblcms_component.class.php';
 require_once dirname(__FILE__).'/../../course/course_category_menu.class.php';
-require_once dirname(__FILE__).'/admincoursebrowser/admincoursebrowsertable.class.php';
+require_once dirname(__FILE__).'/admin_course_browser/admin_course_browser_table.class.php';
 /**
  * Weblcms component which allows the the platform admin to browse the courses
  */
@@ -45,7 +45,7 @@ class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 	
 	function get_course_html()
 	{		
-		$table = new AdminCourseBrowserTable($this, null, null, $this->get_condition());
+		$table = new AdminCourseBrowserTable($this, null, $this->get_condition());
 		
 		$html = array();
 		$html[] = '<div style="float: right; width: 80%;">';

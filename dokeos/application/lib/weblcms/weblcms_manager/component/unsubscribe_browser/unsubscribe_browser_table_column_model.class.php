@@ -29,7 +29,7 @@ class UnsubscribeBrowserTableColumnModel extends DefaultCourseTableColumnModel
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new CourseTableColumn('');
+			self :: $modification_column = new ObjectTableColumn('');
 		}
 		return self :: $modification_column;
 	}

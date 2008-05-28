@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../weblcms.class.php';
 require_once dirname(__FILE__).'/../weblcms_component.class.php';
 require_once dirname(__FILE__).'/../../course/course_category_menu.class.php';
-require_once dirname(__FILE__).'/coursebrowser/coursebrowsertable.class.php';
+require_once dirname(__FILE__).'/course_browser/course_browser_table.class.php';
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
@@ -103,7 +103,7 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 
 	function get_course_html()
 	{
-		$table = new CourseBrowserTable($this, null, null, $this->get_condition());
+		$table = new CourseBrowserTable($this, null, $this->get_condition());
 
 		$html = array();
 		$html[] = '<div style="float: right; width: 80%;">';
