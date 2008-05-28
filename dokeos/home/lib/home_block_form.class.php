@@ -130,6 +130,8 @@ class HomeBlockForm extends FormValidator {
 		return $column_options;
 	}
 	
+	
+	// TODO: Put this in some kind of general class ?
 	function get_application_components()
 	{
 		$application_components = array();
