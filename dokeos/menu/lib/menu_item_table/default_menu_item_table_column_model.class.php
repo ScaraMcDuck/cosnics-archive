@@ -2,11 +2,11 @@
 /**
  * @package application.lib.menu.menu_publication_table
  */
-require_once dirname(__FILE__).'/menu_item_table_column_model.class.php';
-require_once dirname(__FILE__).'/menu_item_table_column.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_column.class.php';
 require_once dirname(__FILE__).'/../menu_item.class.php';
 
-class DefaultMenuItemTableColumnModel extends MenuItemTableColumnModel
+class DefaultMenuItemTableColumnModel extends ObjectTableColumnModel
 {
 	/**
 	 * Constructor
@@ -22,7 +22,7 @@ class DefaultMenuItemTableColumnModel extends MenuItemTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new MenuItemTableColumn(MenuItem :: PROPERTY_TITLE, true, false);
+		$columns[] = new ObjectTableColumn(MenuItem :: PROPERTY_TITLE, true, false);
 		return $columns;
 	}
 }

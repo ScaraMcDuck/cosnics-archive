@@ -24,13 +24,13 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 		$this->browser = $browser;
 	}
 	// Inherited
-	function render_cell($column, $menu, $index)
+	function render_cell($column, $menu)
 	{
 		if ($column === MenuItemBrowserTableColumnModel :: get_modification_column())
 		{
-			return $this->get_modification_links($menu, $index);
+			return $this->get_modification_links($menu);
 		}
-		return parent :: render_cell($column, $menu, $index);
+		return parent :: render_cell($column, $menu);
 	}
 	/**
 	 * Gets the action links to display
@@ -38,8 +38,11 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 	 * action links should be returned
 	 * @return string A HTML representation of the action links
 	 */
-	private function get_modification_links($menu, $index)
+	private function get_modification_links($menu)
 	{
+		// TODO: Add functionality to menu item so it "knows" whether it's the first or the last item
+		$index = 'middle';
+		
 		$toolbar_data = array();
 		$edit_url = $this->browser->get_menu_item_editing_url($menu);
 		$toolbar_data[] = array(

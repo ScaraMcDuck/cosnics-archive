@@ -30,7 +30,7 @@ class ClassGroupBrowserTableColumnModel extends DefaultClassGroupTableColumnMode
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new ClassGroupTableColumn('');
+			self :: $modification_column = new ObjectTableColumn('');
 		}
 		return self :: $modification_column;
 	}

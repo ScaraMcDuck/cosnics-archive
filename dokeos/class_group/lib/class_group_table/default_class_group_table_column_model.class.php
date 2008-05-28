@@ -2,14 +2,14 @@
 /**
  * @package repository.usertable
  */
-require_once dirname(__FILE__).'/class_group_table_column_model.class.php';
-require_once dirname(__FILE__).'/class_group_table_column.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_column.class.php';
 require_once dirname(__FILE__).'/../class_group.class.php';
 
 /**
  * TODO: Add comment
  */
-class DefaultClassGroupTableColumnModel extends ClassGroupTableColumnModel
+class DefaultClassGroupTableColumnModel extends ObjectTableColumnModel
 {
 	/**
 	 * Constructor
@@ -25,8 +25,8 @@ class DefaultClassGroupTableColumnModel extends ClassGroupTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ClassGroupTableColumn(ClassGroup :: PROPERTY_NAME, true);
-		$columns[] = new ClassGroupTableColumn(ClassGroup :: PROPERTY_DESCRIPTION, true);
+		$columns[] = new ObjectTableColumn(ClassGroup :: PROPERTY_NAME, true);
+		$columns[] = new ObjectTableColumn(ClassGroup :: PROPERTY_DESCRIPTION, true);
 		return $columns;
 	}
 }

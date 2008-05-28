@@ -62,7 +62,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 	{
 		$parameters = $this->get_parameters(true);
 		
-		$table = new MenuItemBrowserTable($this, null, $parameters, $this->get_condition());
+		$table = new MenuItemBrowserTable($this, $parameters, $this->get_condition());
 		
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(MenuManager :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)), Translation :: get('Menu')));

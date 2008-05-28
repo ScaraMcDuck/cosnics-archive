@@ -71,7 +71,7 @@ class UsersLogin extends UsersBlock
 	function handle_login_failed()
 	{
 		$message = Translation :: get("InvalidId");
-		if ($this->get_platform_setting('allow_registration', 'admin') == 'true')
+		if (PlatformSetting :: get('allow_registration', 'admin') == 'true')
 			$message = Translation :: get("InvalidForSelfRegistration");
 		return "<div id=\"login_fail\">".$message."</div>";
 	}

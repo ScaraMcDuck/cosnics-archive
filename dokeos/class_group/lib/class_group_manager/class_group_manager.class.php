@@ -10,7 +10,8 @@ require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidato
 require_once dirname(__FILE__).'/../../../common/condition/or_condition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/and_condition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/equality_condition.class.php';
-require_once dirname(__FILE__).'/../class_group_table/class_group_table.class.php';
+require_once dirname(__FILE__).'/component/class_group_browser/class_group_browser_table.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
 
 /**
  * A user manager provides some functionalities to the admin to manage
@@ -415,7 +416,7 @@ require_once dirname(__FILE__).'/../class_group_table/class_group_table.class.ph
 		$links = array();
 		$links[] = array('name' => Translation :: get('List'), 'action' => 'list', 'url' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)));
 		$links[] = array('name' => Translation :: get('Create'), 'action' => 'add', 'url' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_CREATE_CLASSGROUP)));
-		return array('application' => array('name' => Translation :: get('ClassGroup'), 'class' => 'classgroup'), 'links' => $links, 'search' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)));
+		return array('application' => array('name' => Translation :: get('ClassGroup'), 'class' => 'class_group'), 'links' => $links, 'search' => $this->get_link(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)));
 	}
 	
 	public function get_link($parameters = array (), $encode = false)
@@ -463,7 +464,7 @@ require_once dirname(__FILE__).'/../class_group_table/class_group_table.class.ph
 		{
 			if (isset($_POST['table']) && $_POST['table'] == 'classgroupreluser')
 			{
-				$selected_ids = $_POST[ClassGroupRelUserTable :: DEFAULT_NAME.ClassGroupRelUserTable :: CHECKBOX_NAME_SUFFIX];
+				$selected_ids = $_POST[ClassGroupRelUserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 				
 				if (empty ($selected_ids))
 				{
@@ -481,9 +482,9 @@ require_once dirname(__FILE__).'/../class_group_table/class_group_table.class.ph
 						break;
 				}
 			}
-			elseif(isset($_POST['table']) && $_POST['table'] == 'classgroup')
+			elseif(isset($_POST['table']) && $_POST['table'] == ClassGroupBrowserTable :: DEFAULT_NAME)
 			{
-				$selected_ids = $_POST[ClassGroupTable :: DEFAULT_NAME.ClassGroupTable :: CHECKBOX_NAME_SUFFIX];
+				$selected_ids = $_POST[ClassGroupBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 				if (empty ($selected_ids))
 				{
 					$selected_ids = array ();

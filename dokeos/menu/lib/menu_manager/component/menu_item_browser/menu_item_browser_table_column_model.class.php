@@ -31,7 +31,7 @@ class MenuItemBrowserTableColumnModel extends DefaultMenuItemTableColumnModel
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new MenuItemTableColumn('');
+			self :: $modification_column = new ObjectTableColumn('');
 		}
 		return self :: $modification_column;
 	}

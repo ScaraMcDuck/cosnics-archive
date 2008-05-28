@@ -140,7 +140,7 @@ abstract class UsersDataManager
 			{
 				if(strpos($authentication_method,'.') === false && is_dir($authentication_dir->path.'/'.$authentication_method))
 				{
-					$authentication_class_file = $authentication_dir->path.'/'.$authentication_method.'/'.$authentication_method.'authentication.class.php';
+					$authentication_class_file = $authentication_dir->path.'/'.$authentication_method.'/'.$authentication_method.'_authentication.class.php';
 					$authentication_class = ucfirst($authentication_method).'Authentication';
 					require_once $authentication_class_file;
 					$authentication = new $authentication_class;

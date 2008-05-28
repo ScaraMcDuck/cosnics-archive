@@ -14,7 +14,7 @@ require_once Path :: get_tracking_path(). 'lib/tracking_manager/tracking_manager
 require_once Path :: get_rights_path(). 'lib/rights_manager/rights_manager.class.php';
 require_once Path :: get_home_path(). 'lib/home_manager/home_manager.class.php';
 require_once Path :: get_menu_path(). 'lib/menu_manager/menu_manager.class.php';
-require_once Path :: get_migration_path(). 'lib/migration_manager/migrationmanager.class.php';
+require_once Path :: get_migration_path(). 'lib/migration_manager/migration_manager.class.php';
 
 /**
  * The admin allows the platform admin to configure certain aspects of his platform

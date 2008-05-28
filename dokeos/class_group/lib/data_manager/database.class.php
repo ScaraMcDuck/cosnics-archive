@@ -40,7 +40,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 		$this->repoDM = & RepositoryDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseClassGroupDatamanager','debug')));
-		$this->prefix = 'classgroup_';
+		$this->prefix = 'class_group_';
 		$this->connection->query('SET NAMES utf8');
 	}
 	
@@ -142,20 +142,20 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('classgroup'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+		$this->connection->extended->autoExecute($this->get_table_name('class_group'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 
 		return true;
 	}
 	
 	function get_next_classgroup_id()
 	{
-		$id = $this->connection->nextID($this->get_table_name('classgroup'));
+		$id = $this->connection->nextID($this->get_table_name('class_group'));
 		return $id;
 	}
 	
 	function delete_classgroup($classgroup)
 	{
-		$query = 'DELETE FROM '.$this->escape_table_name('classgroup').' WHERE '.$this->escape_column_name(ClassGroup :: PROPERTY_ID).'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('class_group').' WHERE '.$this->escape_column_name(ClassGroup :: PROPERTY_ID).'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute(array($classgroup->get_id()));
 		
@@ -164,7 +164,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	
 	function truncate_classgroup($classgroup)
 	{
-		$query = 'DELETE FROM '.$this->escape_table_name('classgroup_rel_user').' WHERE '.$this->escape_column_name(ClassGroupRelUser :: PROPERTY_CLASSGROUP_ID).'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('class_group_rel_user').' WHERE '.$this->escape_column_name(ClassGroupRelUser :: PROPERTY_CLASSGROUP_ID).'=?';
 		$sth = $this->connection->prepare($query);
 		if($sth->execute(array($classgroup->get_id())))
 		{
@@ -178,7 +178,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	
 	function delete_classgroup_rel_user($classgroupreluser)
 	{
-		$query = 'DELETE FROM '.$this->escape_table_name('classgroup_rel_user').' WHERE '.$this->escape_column_name(ClassGroupRelUser :: PROPERTY_CLASSGROUP_ID).'=? AND '.$this->escape_column_name(ClassGroupRelUser :: PROPERTY_USER_ID).'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('class_group_rel_user').' WHERE '.$this->escape_column_name(ClassGroupRelUser :: PROPERTY_CLASSGROUP_ID).'=? AND '.$this->escape_column_name(ClassGroupRelUser :: PROPERTY_USER_ID).'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute(array($classgroupreluser->get_classgroup_id(), $classgroupreluser->get_user_id()));
 		
@@ -194,7 +194,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 		}
 		$props[$this->escape_column_name(ClassGroup :: PROPERTY_ID)] = $classgroup->get_id();
 		$this->connection->loadModule('Extended');
-		if ($this->connection->extended->autoExecute($this->get_table_name('classgroup'), $props, MDB2_AUTOQUERY_INSERT))
+		if ($this->connection->extended->autoExecute($this->get_table_name('class_group'), $props, MDB2_AUTOQUERY_INSERT))
 		{
 			return true;
 		}
@@ -210,7 +210,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 		$props[$this->escape_column_name(ClassGroupRelUser :: PROPERTY_CLASSGROUP_ID)] = $classgroupreluser->get_classgroup_id();
 		$props[$this->escape_column_name(ClassGroupRelUser :: PROPERTY_USER_ID)] = $classgroupreluser->get_user_id();
 		$this->connection->loadModule('Extended');
-		if ($this->connection->extended->autoExecute($this->get_table_name('classgroup_rel_user'), $props, MDB2_AUTOQUERY_INSERT))
+		if ($this->connection->extended->autoExecute($this->get_table_name('class_group_rel_user'), $props, MDB2_AUTOQUERY_INSERT))
 		{
 			return true;
 		}
@@ -264,7 +264,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	
 	function retrieve_classgroup($id)
 	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('classgroup').' WHERE '.$this->escape_column_name(ClassGroup :: PROPERTY_ID).'=?';
+		$query = 'SELECT * FROM '.$this->escape_table_name('class_group').' WHERE '.$this->escape_column_name(ClassGroup :: PROPERTY_ID).'=?';
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);
@@ -299,7 +299,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	function count_classgroups($condition = null)
 	{
 		$params = array ();
-		$query = 'SELECT COUNT('.$this->escape_column_name(ClassGroup :: PROPERTY_ID).') FROM '.$this->escape_table_name('classgroup');
+		$query = 'SELECT COUNT('.$this->escape_column_name(ClassGroup :: PROPERTY_ID).') FROM '.$this->escape_table_name('class_group');
 		
 		if (isset ($condition))
 		{
@@ -318,7 +318,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	function count_classgroup_rel_users($condition = null)
 	{
 		$params = array ();
-		$query = 'SELECT COUNT(*) FROM '.$this->escape_table_name('classgroup_rel_user');
+		$query = 'SELECT COUNT(*) FROM '.$this->escape_table_name('class_group_rel_user');
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
@@ -334,7 +334,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	
 	function retrieve_classgroups($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
-		$query = 'SELECT * FROM '. $this->escape_table_name('classgroup'). ' AS '. self :: ALIAS_CLASSGROUP_TABLE;
+		$query = 'SELECT * FROM '. $this->escape_table_name('class_group'). ' AS '. self :: ALIAS_CLASSGROUP_TABLE;
 
 		$params = array ();
 		if (isset ($condition))
@@ -371,7 +371,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	
 	function retrieve_classgroup_rel_users($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
-		$query = 'SELECT * FROM '. $this->escape_table_name('classgroup_rel_user');
+		$query = 'SELECT * FROM '. $this->escape_table_name('class_group_rel_user');
 
 		$params = array ();
 		if (isset ($condition))
@@ -407,7 +407,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	
 	function retrieve_classgroup_rel_user($user_id)
 	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('classgroup_rel_user');
+		$query = 'SELECT * FROM '.$this->escape_table_name('class_group_rel_user');
 		
 		$params = array ();		
 		$condition = new EqualityCondition(ClassGroupRelUser :: PROPERTY_USER_ID, $user_id);
