@@ -5,11 +5,11 @@
  * @author Dieter De Neef
  */
 
-require_once dirname(__FILE__).'/pm_publication_table_cell_renderer.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 require_once dirname(__FILE__).'/../personal_message_publication.class.php';
 
-class DefaultPmPublicationTableCellRenderer implements PmPublicationTableCellRenderer
+class DefaultPmPublicationTableCellRenderer implements ObjectTableCellRenderer
 {
 	/**
 	 * Constructor
@@ -26,7 +26,7 @@ class DefaultPmPublicationTableCellRenderer implements PmPublicationTableCellRen
 	 */
 	function render_cell($column, $personal_message_publication)
 	{
-		if ($property = $column->get_personal_message_property())
+		if ($property = $column->get_object_property())
 		{
 			switch ($property)
 			{

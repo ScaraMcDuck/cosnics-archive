@@ -1,8 +1,6 @@
 <?php
 /**
- * @package application.lib.personal_messenger.publisher.publication_candidate_table
- * @author Hans De Bisschop
- * @author Dieter De Neef
+ * @package application.lib.profiler.publisher.publication_candidate_table
  */
 require_once Path :: get_repository_path(). 'lib/learning_object_table/default_learning_object_table_cell_renderer.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
@@ -53,12 +51,11 @@ class PublicationCandidateTableCellRenderer extends DefaultLearningObjectTableCe
 	private function get_publish_links($learning_object)
 	{
 		$publish_url = sprintf($this->publish_link_format, $learning_object->get_id());
-		$edit_and_publish_url = sprintf($this->edit_and_publish_link_format, $learning_object->get_id());
 		$toolbar_data = array();
 		$toolbar_data[] = array(
 			'href' => $publish_url,
 			'img' => Theme :: get_common_img_path().'action_publish.png',
-			'label' => Translation :: get('Send')
+			'label' => Translation :: get('Publish')
 		);
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}

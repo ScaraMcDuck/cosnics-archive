@@ -12,7 +12,8 @@ require_once Path :: get_library_path().'condition/and_condition.class.php';
 require_once Path :: get_library_path().'condition/not_condition.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
-require_once dirname(__FILE__).'/../profile_publication_table/profile_publication_table.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
+require_once dirname(__FILE__).'/component/profile_publication_browser/profile_publication_browser_table.class.php';
 require_once dirname(__FILE__).'/../profile_publisher.class.php';
 require_once dirname(__FILE__).'/../profiler_menu.class.php';
 require_once dirname(__FILE__).'/../profiler_block.class.php';
@@ -654,7 +655,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	{
 		if (isset ($_POST['action']))
 		{
-			$selected_ids = $_POST[ProfilePublicationTable :: DEFAULT_NAME.ProfilePublicationTable :: CHECKBOX_NAME_SUFFIX];
+			$selected_ids = $_POST[ProfilePublicationBrowser :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty ($selected_ids))
 			{
 				$selected_ids = array ();

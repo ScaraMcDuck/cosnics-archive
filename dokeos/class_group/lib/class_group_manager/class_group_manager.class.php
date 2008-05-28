@@ -10,7 +10,9 @@ require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidato
 require_once dirname(__FILE__).'/../../../common/condition/or_condition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/and_condition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/equality_condition.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
 require_once dirname(__FILE__).'/component/class_group_browser/class_group_browser_table.class.php';
+require_once dirname(__FILE__).'/component/class_group_rel_user_browser/class_group_rel_user_browser_table.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
 
 /**
@@ -462,9 +464,9 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	{
 		if (isset ($_POST['action']))
 		{
-			if (isset($_POST['table']) && $_POST['table'] == 'classgroupreluser')
+			if (isset($_POST['table']) && $_POST['table'] == ClassGroupRelUserBrowserTable :: DEFAULT_NAME)
 			{
-				$selected_ids = $_POST[ClassGroupRelUserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+				$selected_ids = $_POST[ClassGroupRelUserBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 				
 				if (empty ($selected_ids))
 				{

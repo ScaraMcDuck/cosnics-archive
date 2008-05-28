@@ -39,7 +39,7 @@ class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 			
 			echo '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path() .'place_users.png);">';
 			echo '<div class="title">'. Translation :: get('Users') .'</div>';
-			$table = new ClassGroupRelUserBrowserTable($this, null, array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_VIEW_CLASSGROUP, ClassGroupManager :: PARAM_CLASSGROUP_ID => $id), $this->get_condition());
+			$table = new ClassGroupRelUserBrowserTable($this, array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_VIEW_CLASSGROUP, ClassGroupManager :: PARAM_CLASSGROUP_ID => $id), $this->get_condition());
 			echo $table->as_html();
 			echo '</div>';
 			

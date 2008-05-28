@@ -33,7 +33,7 @@ class ClassGroupRelUserBrowserTableCellRenderer extends DefaultClassGroupRelUser
 		}
 		
 		// Add special features here
-		switch ($column->get_classgroup_rel_user_property())
+		switch ($column->get_object_property())
 		{
 			// Exceptions that need post-processing go here ...
 			case 'User' :
@@ -58,12 +58,6 @@ class ClassGroupRelUserBrowserTableCellRenderer extends DefaultClassGroupRelUser
 			'label' => Translation :: get('Unsubscribe'),
 			'img' => Theme :: get_common_img_path().'action_delete.png'
 		);
-//		
-//		$toolbar_data[] = array(
-//			'href' => $this->browser->get_classgroup_roles_url($classgroupreluser),
-//			'label' => Translation :: get('UserRoles'),
-//			'img' => Theme :: get_common_img_path().'action_config.png'
-//		);
 		
 		return RepositoryUtilities :: build_toolbar($toolbar_data);
 	}

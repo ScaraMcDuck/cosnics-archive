@@ -2,13 +2,13 @@
 /**
  * @package application.lib.profiler.profile_publication_table
  */
-require_once dirname(__FILE__).'/profile_publication_table_column_model.class.php';
-require_once dirname(__FILE__).'/profile_publication_table_column.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_column.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 require_once Path :: get_user_path(). 'lib/user.class.php';
 require_once dirname(__FILE__).'/../profile_publication.class.php';
 
-class DefaultProfilePublicationTableColumnModel extends ProfilePublicationTableColumnModel
+class DefaultProfilePublicationTableColumnModel extends ObjectTableColumnModel
 {
 	/**
 	 * Constructor
@@ -24,10 +24,10 @@ class DefaultProfilePublicationTableColumnModel extends ProfilePublicationTableC
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ProfilePublicationTableColumn(User :: PROPERTY_USERNAME, true);
-		$columns[] = new ProfilePublicationTableColumn(User :: PROPERTY_LASTNAME, true);
-		$columns[] = new ProfilePublicationTableColumn(User :: PROPERTY_FIRSTNAME, true);
-		$columns[] = new ProfilePublicationTableColumn(ProfilePublication :: PROPERTY_PROFILE, true);
+		$columns[] = new ObjectTableColumn(User :: PROPERTY_USERNAME, true);
+		$columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME, true);
+		$columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, true);
+		$columns[] = new ObjectTableColumn(ProfilePublication :: PROPERTY_PROFILE, true);
 		return $columns;
 	}
 }
