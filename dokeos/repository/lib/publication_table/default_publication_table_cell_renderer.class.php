@@ -3,13 +3,13 @@
  * @package repository.publicationtable
  */
 
-require_once dirname(__FILE__).'/publication_table_cell_renderer.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../learning_object.class.php';
 require_once dirname(__FILE__).'/../learning_object_publication_attributes.class.php';
 /**
  * TODO: Add comment
  */
-class DefaultPublicationTableCellRenderer implements PublicationTableCellRenderer
+class DefaultPublicationTableCellRenderer implements ObjectTableCellRenderer
 {
 	/**
 	 * Constructor
@@ -26,7 +26,7 @@ class DefaultPublicationTableCellRenderer implements PublicationTableCellRendere
 	 */
 	function render_cell($column, $learning_object_publication)
 	{
-		if ($property = $column->get_learning_object_property())
+		if ($property = $column->get_object_property())
 		{
 			switch ($property)
 			{

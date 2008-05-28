@@ -2,14 +2,14 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../../../publication_table/publication_table_data_provider.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_data_provider.class.php';
 /**
  * Data provider for a repository browser table.
  *
  * This class implements some functions to allow repository browser tables to
  * retrieve information about the learning objects to display.
  */
-class PublicationBrowserTableDataProvider implements PublicationTableDataProvider
+class PublicationBrowserTableDataProvider implements ObjectTableDataProvider
 {
   /**
    * The repository manager component in which the table will be displayed
@@ -37,11 +37,25 @@ class PublicationBrowserTableDataProvider implements PublicationTableDataProvide
    * @param int $order_direction (SORT_ASC or SORT_DESC)
    * @return ResultSet A set of matching learning objects.
    */
-    function get_learning_object_publication_attributes($offset, $count, $order_property, $order_direction)
+    function get_objects($offset, $count, $order_property = null, $order_direction = null)
     {
-      // We always use title as second sorting parameter
-      $order_property = array($order_property);
-      $order_direction = array($order_direction);
+    	if (is_null($order_property))
+    	{
+    		$order_property = array();
+    	}
+    	elseif(!is_array($order_property))
+    	{
+    		$order_property = array($order_property);
+    	}
+    	
+    	if (is_null($order_direction))
+    	{
+    		$order_direction = array();
+    	}
+    	elseif(!is_array($order_direction))
+    	{
+    		$order_direction = array($order_direction);
+    	}
 
       $publication_attributes = $this->browser->get_learning_object_publication_attributes($this->browser->get_user(), null, 'user', $offset, $count, $order_property, $order_direction);
       return $publication_attributes = array_splice($publication_attributes, $offset, $count);
@@ -50,7 +64,7 @@ class PublicationBrowserTableDataProvider implements PublicationTableDataProvide
    * Gets the number of learning objects in the table
    * @return int
    */
-    function get_learning_object_publication_count()
+    function get_object_count()
     {
 		return $this->browser->count_publication_attributes($this->browser->get_user(), null, $this->get_condition());
     }
