@@ -2,7 +2,7 @@
 /**
  * @package application.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__).'/coursecategorybrowser/coursecategorybrowsertable.class.php';
+require_once dirname(__FILE__).'/course_category_browser/course_category_browser_table.class.php';
 require_once dirname(__FILE__).'/../weblcms.class.php';
 require_once dirname(__FILE__).'/../weblcms_component.class.php';
 require_once dirname(__FILE__).'/../../course/course_category_form.class.php';
