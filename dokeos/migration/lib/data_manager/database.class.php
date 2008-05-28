@@ -118,7 +118,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 	{
 		$title = $this->connection->quote($title, "text", true);
 		
-		$query = 'SELECT id FROM ' . $this->get_table_name(repository_learning_object). ' WHERE owner=\'' . $owner . '\' AND type=\'' . $type .
+		$query = 'SELECT id FROM ' . $this->get_table_name('repository_learning_object'). ' WHERE owner=\'' . $owner . '\' AND type=\'' . $type .
 		 		'\' AND title=' . $title . '';
 		
 		if($parent)

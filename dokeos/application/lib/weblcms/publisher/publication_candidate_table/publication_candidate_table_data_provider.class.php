@@ -11,7 +11,7 @@ require_once Path :: get_library_path().'condition/or_condition.class.php';
 /**
  * This class represents a data provider for a publication candidate table
  */
-class PublicationCandidateTableDataProvider implements ObjectTableDataProvider
+class PublicationCandidateTableDataProvider extends ObjectTableDataProvider
 {
 	/**
 	 * The user id of the current active user.
@@ -58,7 +58,7 @@ class PublicationCandidateTableDataProvider implements ObjectTableDataProvider
 	 * Gets the condition by which the learning objects should be selected.
 	 * @return Condition The condition.
 	 */
-    private function get_condition()
+    function get_condition()
     {
     	$conds = array();
     	$conds[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->owner);

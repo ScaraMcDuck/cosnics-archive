@@ -44,7 +44,7 @@ class EventBrowserTableDataProvider implements EventTableDataProvider
       $order_property = array($order_property);
       $order_direction = array($order_direction);
        
-      return $this->browser->retrieve_events($this->get_condition(), $offset, $count, $order_property, $order_direction);
+      return $this->get_browser()->retrieve_events($this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
   
    /**
@@ -53,7 +53,7 @@ class EventBrowserTableDataProvider implements EventTableDataProvider
     */
     function get_event_count()
     {
-      return $this->browser->count_events($this->get_condition());
+      return $this->get_browser()->count_events($this->get_condition());
     }
   
    /**
