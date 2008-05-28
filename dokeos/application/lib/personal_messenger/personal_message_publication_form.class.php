@@ -73,7 +73,7 @@ class PersonalMessagePublicationForm extends FormValidator
 			$publication = $this->publication;
 			$recip = $publication->get_publication_sender();
 			$recipient = array ();
-			$recipient['id'] = $recip->get_user_id();
+			$recipient['id'] = $recip->get_id();
 			$recipient['class'] = 'type type_user';
 			$recipient['title'] = $recip->get_username();
 			$recipient['description'] = $recip->get_lastname() . ' ' . $recip->get_firstname();
@@ -90,7 +90,7 @@ class PersonalMessagePublicationForm extends FormValidator
 		$locale['Error'] = Translation :: get('Error');
 		$hidden = false;
 		$elem = $this->addElement('element_finder', 'recipients', Translation :: get('Recipients'), $url, $locale, $recipients);
-		$elem->excludeElements(array($this->form_user->get_user_id()));
+		$elem->excludeElements(array($this->form_user->get_id()));
 		$elem->setDefaultCollapsed(false);
 
 		$this->addElement('submit', 'submit', Translation :: get('Ok'));
@@ -109,14 +109,14 @@ class PersonalMessagePublicationForm extends FormValidator
 
 		foreach ($values['recipients'] as $recip)
 		{
-			if ($recip != $this->form_user->get_user_id())
+			if ($recip != $this->form_user->get_id())
 			{
 				$sender_pub = new PersonalMessagePublication();
 				$sender_pub->set_personal_message($this->learning_object->get_id());
 				$sender_pub->set_recipient($recip);
 				$sender_pub->set_published(time());
-				$sender_pub->set_user($this->form_user->get_user_id());
-				$sender_pub->set_sender($this->form_user->get_user_id());
+				$sender_pub->set_user($this->form_user->get_id());
+				$sender_pub->set_sender($this->form_user->get_id());
 				$sender_pub->set_status('0');
 
 				if ($sender_pub->create())
@@ -126,7 +126,7 @@ class PersonalMessagePublicationForm extends FormValidator
 					$recipient_pub->set_recipient($recip);
 					$recipient_pub->set_published(time());
 					$recipient_pub->set_user($recip);
-					$recipient_pub->set_sender($this->form_user->get_user_id());
+					$recipient_pub->set_sender($this->form_user->get_id());
 					$recipient_pub->set_status('1');
 					if ($recipient_pub->create())
 					{

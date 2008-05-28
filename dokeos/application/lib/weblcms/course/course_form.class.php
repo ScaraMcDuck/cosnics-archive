@@ -60,7 +60,7 @@ class CourseForm extends FormValidator {
 
 			while ($user = $users->next_result())
 			{
-				$user_options[$user->get_user_id()] = $user->get_lastname() . '&nbsp;' . $user->get_firstname();
+				$user_options[$user->get_id()] = $user->get_lastname() . '&nbsp;' . $user->get_firstname();
 			}
 
 			$this->addElement('select', Course :: PROPERTY_TITULAR, Translation :: get('Teacher'), $user_options);
@@ -192,7 +192,7 @@ class CourseForm extends FormValidator {
     		$wdm = WeblcmsDataManager :: get_instance();
 			if (!$this->user->is_platform_admin())
 			{
-				$user_id = $this->user->get_user_id();
+				$user_id = $this->user->get_id();
 			}
 			else
 			{

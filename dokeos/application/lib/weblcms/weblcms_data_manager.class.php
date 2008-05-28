@@ -262,7 +262,7 @@ abstract class WeblcmsDataManager
 			return false;
 		}
 
-		$already_subscribed = $this->is_subscribed($course, $user->get_user_id());
+		$already_subscribed = $this->is_subscribed($course, $user->get_id());
 		$unsubscription_allowed = ($course->get_unsubscribe_allowed() == 1 ? true : false);
 		if ($already_subscribed && $unsubscription_allowed)
 		{

@@ -49,7 +49,7 @@ class ClassGroupManagerUnsubscriberComponent extends ClassGroupManagerComponent
 					}
 					else
 					{
-						Events :: trigger_event('unsubscribe', 'class_group', array('target_class_group_id' => $classgroupreluser->get_classgroup_id(), 'target_user_id' => $classgroupreluser->get_user_id(), 'action_user_id' => $user->get_user_id()));
+						Events :: trigger_event('unsubscribe', 'class_group', array('target_class_group_id' => $classgroupreluser->get_classgroup_id(), 'target_user_id' => $classgroupreluser->get_user_id(), 'action_user_id' => $user->get_id()));
 					}
 				}
 				else

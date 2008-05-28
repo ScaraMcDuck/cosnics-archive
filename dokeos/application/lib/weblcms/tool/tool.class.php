@@ -224,7 +224,7 @@ abstract class Tool
 		 */
 		$user = $this->get_user();
 		$course = $this->get_course();
-		$relation = $this->parent->retrieve_course_user_relation($course->get_id(),$user->get_user_id());
+		$relation = $this->parent->retrieve_course_user_relation($course->get_id(),$user->get_id());
 		$this->rights[VIEW_RIGHT] = false;
 		$this->rights[EDIT_RIGHT] = false;
 		$this->rights[ADD_RIGHT] = false;

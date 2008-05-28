@@ -74,7 +74,7 @@ class UserQuotaForm extends FormValidator {
     		$userquota = new Userquota();
     		$userquota->set_learning_object_type($type);
     		$userquota->set_user_quota($values[$type]);
-    		$userquota->set_user_id($user->get_user_id());
+    		$userquota->set_user_id($user->get_id());
     		if ($values[$type] != '')
     		{
     			if (!$userquota->update())
@@ -89,7 +89,7 @@ class UserQuotaForm extends FormValidator {
 		}
 		else 
 		{
-			Events :: trigger_event('quota', 'users', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $user->get_user_id()));
+			Events :: trigger_event('quota', 'users', array('target_user_id' => $user->get_id(), 'action_user_id' => $user->get_id()));
 			return true;
 		}
     
@@ -102,7 +102,7 @@ class UserQuotaForm extends FormValidator {
 	function setDefaults($defaults = array ())
 	{
 		$user = $this->user;
-		$defaults[User :: PROPERTY_USER_ID] = $user->get_user_id();
+		$defaults[User :: PROPERTY_USER_ID] = $user->get_id();
 		foreach ($this->learning_object_types as $type)
 		{
 			$defaults[$type] = $this->user->get_version_type_quota($type);
@@ -122,7 +122,7 @@ class UserQuotaForm extends FormValidator {
     	
 		foreach ($learning_object_types as $type)
 		{
-			$object = new AbstractLearningObject($type, $user->get_user_id());
+			$object = new AbstractLearningObject($type, $user->get_id());
 			if ($object->is_versionable())
 			{
 				$filtered_object_types[] = $type;

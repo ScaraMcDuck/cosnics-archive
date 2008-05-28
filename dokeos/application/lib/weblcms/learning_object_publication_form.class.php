@@ -137,7 +137,7 @@ class LearningObjectPublicationForm extends FormValidator
 		foreach($user_relations as $index => $user_relation)
 		{
 			$user = $user_relation->get_user_object();
-			$receiver_choices[self :: PARAM_TARGET_USER_PREFIX.'-'.$user->get_user_id()] = $user->get_fullname();
+			$receiver_choices[self :: PARAM_TARGET_USER_PREFIX.'-'.$user->get_id()] = $user->get_fullname();
 		}
 
 		$groups = $this->course->get_groups();

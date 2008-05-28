@@ -34,7 +34,7 @@ class UserManagerExporterComponent extends UserManagerComponent
 			$result = parent :: retrieve_users();
 			while($user = $result->next_result())
      		{
-     			$user_array[User::PROPERTY_USER_ID] = $user->get_user_id();
+     			$user_array[User::PROPERTY_USER_ID] = $user->get_id();
      			$user_array[User::PROPERTY_LASTNAME] = $user->get_lastname();
      			$user_array[User::PROPERTY_FIRSTNAME] = $user->get_firstname();
      			$user_array[User::PROPERTY_USERNAME] = $user->get_username();
@@ -44,7 +44,7 @@ class UserManagerExporterComponent extends UserManagerComponent
      			$user_array[User::PROPERTY_PHONE] = $user->get_phone();
      			$user_array[User::PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
      			$user_array[User::PROPERTY_LANGUAGE] = $user->get_language();
-     			 Events :: trigger_event('export', 'users', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $this->get_user()->get_user_id()));
+     			 Events :: trigger_event('export', 'users', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
      			$data[] = $user_array; 
  	        } 
 			$this->export_users($file_type,$data);

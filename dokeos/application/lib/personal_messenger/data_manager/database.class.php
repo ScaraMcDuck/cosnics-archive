@@ -134,7 +134,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$query .= ' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_USER) . '=? AND '. $this->escape_column_name(PersonalMessagePublication :: PROPERTY_STATUS) . '=?';
 
 		$sth = $this->connection->prepare($query);
-		$res = $sth->execute(array($user->get_user_id(), 1));
+		$res = $sth->execute(array($user->get_id(), 1));
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();
 		return $record[0];
@@ -384,7 +384,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 				}
 
 				$statement = $this->connection->prepare($query);
-				$param = $user->get_user_id();
+				$param = $user->get_id();
 			}
 		}
 		else
@@ -422,7 +422,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 				$info->set_location(Translation :: get('UnknownLocation'));
 			}
 
-			if ($publication->get_user() == $user->get_user_id())
+			if ($publication->get_user() == $user->get_id())
 			{
 				$info->set_url('index_personal_messenger.php?go=view&pm='.$publication->get_id());
 			}
@@ -467,7 +467,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 			$info->set_location(Translation :: get('UnknownLocation'));
 		}
 
-		if ($publication->get_user() == $user->get_user_id())
+		if ($publication->get_user() == $user->get_id())
 		{
 			$info->set_url('index_personal_messenger.php?go=view&pm='.$publication->get_id());
 		}
@@ -483,7 +483,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager 
 		$query = 'SELECT COUNT('.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PersonalMessagePublication :: PROPERTY_USER).'=?';;
 
 		$sth = $this->connection->prepare($query);
-		$res = $sth->execute($user->get_user_id());
+		$res = $sth->execute($user->get_id());
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}

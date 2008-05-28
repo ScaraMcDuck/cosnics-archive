@@ -365,7 +365,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 				}
 
 				$statement = $this->connection->prepare($query);
-				$param = $user->get_user_id();
+				$param = $user->get_id();
 			}
 		}
 		else
@@ -430,7 +430,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		$query = 'SELECT COUNT('.$this->escape_column_name(ProfilePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER).'=?';;
 
 		$sth = $this->connection->prepare($query);
-		$res = $sth->execute($user->get_user_id());
+		$res = $sth->execute($user->get_id());
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}

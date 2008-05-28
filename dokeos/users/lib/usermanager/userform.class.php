@@ -105,7 +105,7 @@ class UserForm extends FormValidator {
 		$status[COURSEMANAGER]  = Translation :: get('CourseAdmin');
 		$this->addElement('select',User :: PROPERTY_STATUS,Translation :: get('Status'),$status);
 		// Platform admin
-		if ($this->user->is_platform_admin() && $this->user->get_user_id() == $this->form_user->get_user_id() && $this->form_type == self :: TYPE_EDIT)
+		if ($this->user->is_platform_admin() && $this->user->get_id() == $this->form_user->get_id() && $this->form_type == self :: TYPE_EDIT)
 		{
 		$this->add_warning_message(null, Translation :: get('LockOutWarningMessage'));
 		}
@@ -179,7 +179,7 @@ class UserForm extends FormValidator {
     		$value = $user->update();
     		
     		if($value)
-    			Events :: trigger_event('update', 'users', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $this->form_user->get_user_id()));
+    			Events :: trigger_event('update', 'users', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
     		
     		return $value;
     	}
@@ -234,7 +234,7 @@ class UserForm extends FormValidator {
     		$value = $user->create();
     		
     		if($value)
-    			Events :: trigger_event('create', 'users', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $this->form_user->get_user_id()));
+    			Events :: trigger_event('create', 'users', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
     		
     		return $value;
     	}
@@ -265,7 +265,7 @@ class UserForm extends FormValidator {
 		}
 		$defaults['admin'][User :: PROPERTY_PLATFORMADMIN] = $user->get_platformadmin();
 		$defaults['mail']['send_mail'] = 1;
-		$defaults[User :: PROPERTY_USER_ID] = $user->get_user_id();
+		$defaults[User :: PROPERTY_USER_ID] = $user->get_id();
 		$defaults[User :: PROPERTY_LASTNAME] = $user->get_lastname();
 		$defaults[User :: PROPERTY_FIRSTNAME] = $user->get_firstname();
 		$defaults[User :: PROPERTY_EMAIL] = $user->get_email();

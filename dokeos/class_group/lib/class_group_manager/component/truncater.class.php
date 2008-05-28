@@ -43,7 +43,7 @@ class ClassGroupManagerTruncaterComponent extends ClassGroupManagerComponent
 				}
 				else
 				{
-					Events :: trigger_event('empty', 'class_group', array('target_class_group_id' => $classgroup->get_id(), 'action_user_id' => $user->get_user_id()));
+					Events :: trigger_event('empty', 'class_group', array('target_class_group_id' => $classgroup->get_id(), 'action_user_id' => $user->get_id()));
 				}
 			}
 			

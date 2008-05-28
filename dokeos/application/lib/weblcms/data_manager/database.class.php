@@ -178,7 +178,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 					$query .= ' ORDER BY '.implode(', ', $order);
 				}
 				$statement = $this->connection->prepare($query);
-				$param = $user->get_user_id();
+				$param = $user->get_id();
 			}
 		}
 		else
@@ -238,7 +238,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$query = 'SELECT COUNT('.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLISHER_ID).'=?';;
 
 		$sth = $this->connection->prepare($query);
-		$res = $sth->execute($user->get_user_id());
+		$res = $sth->execute($user->get_id());
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
@@ -1831,13 +1831,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$query = 'SELECT g.* FROM '. $this->escape_table_name('group').' g, '. $this->escape_table_name('group_rel_user').' u';
 			$query .= ' WHERE g.id = u.group_id AND g.'.$this->escape_column_name('course_code').'=? AND u.user_id = ?';
 			$params[] = $course->get_id();
-			$params[] = $user->get_user_id();
+			$params[] = $user->get_id();
 		}
 		else
 		{
 			$query = 'SELECT g.* FROM '. $this->escape_table_name('group').' g, '. $this->escape_table_name('group_rel_user').' u';
 			$query .= ' WHERE g.id = u.group_id AND u.user_id = ?';
-			$params[] = $user->get_user_id();
+			$params[] = $user->get_id();
 		}
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
@@ -1957,7 +1957,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		foreach($users as $index => $user)
 		{
 			$props = array();
-			$props[User :: PROPERTY_USER_ID] = $user->get_user_id();
+			$props[User :: PROPERTY_USER_ID] = $user->get_id();
 			foreach($groups as $index => $group)
 			{
 				$props['group_id'] = $group->get_id();
@@ -1983,7 +1983,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			{
 				$sql = 'DELETE FROM '.$this->escape_table_name('group_rel_user').' WHERE group_id = ? AND user_id = ?';
 				$statement = $this->connection->prepare($sql);
-				$statement->execute(array($group->get_id(),$user->get_user_id()));
+				$statement->execute(array($group->get_id(),$user->get_id()));
 			}
 		}
 	}
@@ -1992,7 +1992,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$sql = 'SELECT * FROM '.$this->escape_table_name('group_rel_user').' WHERE group_id = ? AND user_id = ?';
 		$statement = $this->connection->prepare($sql);
-		$res = $statement->execute(array($group->get_id(),$user->get_user_id()));
+		$res = $statement->execute(array($group->get_id(),$user->get_id()));
 		return $res->numRows() > 0;
 	}
 

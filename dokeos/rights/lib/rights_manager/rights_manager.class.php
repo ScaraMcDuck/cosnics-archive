@@ -331,7 +331,7 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 	 */
 	function get_user_id()
 	{
-		return $this->user->get_user_id();
+		return $this->user->get_id();
 	}
 	
 	function get_user()

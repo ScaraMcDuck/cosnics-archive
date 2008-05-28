@@ -59,7 +59,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
 	{
 		$toolbar_data = array();
 		
-		if ($this->browser->get_user()->is_platform_admin() || $profile->get_publisher() == $this->browser->get_user()->get_user_id())
+		if ($this->browser->get_user()->is_platform_admin() || $profile->get_publisher() == $this->browser->get_user()->get_id())
 		{
 			$delete_url = $this->browser->get_publication_deleting_url($profile);
 			$toolbar_data[] = array(

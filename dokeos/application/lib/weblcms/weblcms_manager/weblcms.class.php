@@ -18,7 +18,7 @@ require_once Path :: get_library_path().'condition/and_condition.class.php';
 require_once Path :: get_library_path().'condition/not_condition.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once dirname(__FILE__).'/../course/course_table/course_table.class.php';
-require_once Path :: get_user_path(). 'lib/user_table/user_table.class.php';
+//require_once dirname(__FILE__).'/component/subscribed_user_browser/subscribed_user_browser_table.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 require_once dirname(__FILE__).'/../weblcms_block.class.php';
 
@@ -230,7 +230,7 @@ class Weblcms extends WebApplication
 	 */
 	function get_user_id()
 	{
-		return $this->user->get_user_id();
+		return $this->user->get_id();
 	}
 
 	/**
@@ -1103,7 +1103,7 @@ class Weblcms extends WebApplication
 	{
 		if (isset ($_POST['action']))
 		{
-			$selected_course_ids = $_POST[CourseTable :: DEFAULT_NAME.CourseTable :: CHECKBOX_NAME_SUFFIX];
+			$selected_course_ids = $_POST[CourseTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty ($selected_course_ids))
 			{
 				$selected_course_ids = array ();
@@ -1113,15 +1113,15 @@ class Weblcms extends WebApplication
 				$selected_course_ids = array ($selected_course_ids);
 			}
 
-			$selected_user_ids = $_POST[UserTable :: DEFAULT_NAME.UserTable :: CHECKBOX_NAME_SUFFIX];
-			if (empty ($selected_user_ids))
-			{
-				$selected_user_ids = array ();
-			}
-			elseif (!is_array($selected_user_ids))
-			{
-				$selected_user_ids = array ($selected_user_ids);
-			}
+//			$selected_user_ids = $_POST[SubscribedUserBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+//			if (empty ($selected_user_ids))
+//			{
+//				$selected_user_ids = array ();
+//			}
+//			elseif (!is_array($selected_user_ids))
+//			{
+//				$selected_user_ids = array ($selected_user_ids);
+//			}
 
 			switch ($_POST['action'])
 			{

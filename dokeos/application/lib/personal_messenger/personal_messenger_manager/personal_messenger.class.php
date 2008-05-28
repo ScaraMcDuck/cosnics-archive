@@ -373,7 +373,7 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 	 */
 	function get_user_id()
 	{
-		return $this->user->get_user_id();
+		return $this->user->get_id();
 	}
 
 	/**

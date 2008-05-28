@@ -82,7 +82,7 @@ class GroupTool extends Tool
 							$group->subscribe_users($user);
 							$html[] = Display::display_normal_message(Translation :: get('UserSubscribed'),true);
 						}
-						$table = new GroupUnsubscribedUserBrowserTable($this->get_parent(), null, array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id()),$this->search_form->get_condition());
+						$table = new GroupUnsubscribedUserBrowserTable($this->get_parent(), array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id()),$this->search_form->get_condition());
 						$html[] = $table->as_html();
 						echo implode($html, "\n");
 						$this->display_footer();
@@ -122,7 +122,7 @@ class GroupTool extends Tool
 							$group->unsubscribe_users($user);
 							$html[] = Display::display_normal_message(Translation :: get('UserUnsubscribed'),true);
 						}
-						$table = new GroupSubscribedUserBrowserTable($this->get_parent(), null, array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id()),$this->search_form->get_condition());
+						$table = new GroupSubscribedUserBrowserTable($this->get_parent(), array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id()),$this->search_form->get_condition());
 						$html[] = $table->as_html();
 						echo implode($html, "\n");
 						$this->display_footer();

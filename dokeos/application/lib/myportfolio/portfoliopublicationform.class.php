@@ -74,7 +74,7 @@ class PortfolioPublicationForm extends FormValidator
 
 		$pub = new PortfolioPublication();
 		$pub->set_portfolio_item($this->learning_object->get_id());
-		$pub->set_publisher($this->form_user->get_user_id());
+		$pub->set_publisher($this->form_user->get_id());
 		$pub->set_published(time());
 
 		if ($pub->create())

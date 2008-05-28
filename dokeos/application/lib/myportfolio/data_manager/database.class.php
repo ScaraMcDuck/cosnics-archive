@@ -103,7 +103,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	function get_root_element($user)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('tree_relation').' WHERE '. $this->escape_column_name('treeitem').' ="-1" AND '.$this->escape_column_name('userid').'=?';
-		$res = $this->limitQuery($query, 1,null, array ($user->get_user_id()));
+		$res = $this->limitQuery($query, 1,null, array ($user->get_id()));
 		//$res = $this->limitQuery($query, 1,null, array ($user));
 		if($res->numRows() == 1)
 		{
@@ -113,17 +113,17 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		else
 		{
 			$props = array ();
-			$props['userid']=$user->get_user_id();
+			$props['userid']=$user->get_id();
 			//$props['userid']=$user;
 			$props['title']=Translation :: get("my_portfolio");
 			$this->connection->loadModule('Extended');
 			$this->connection->extended->autoExecute($this->get_table_name('treeitem'), $props, MDB2_AUTOQUERY_INSERT);
 			$query = 'SELECT * FROM '.$this->escape_table_name('treeitem').' WHERE '. $this->escape_column_name('title').' ="'.Translation :: get("my_portfolio").'" AND '.$this->escape_column_name('userid').'=?';
-			$res = $this->limitQuery($query, 1,null, array ($user->get_user_id()));
+			$res = $this->limitQuery($query, 1,null, array ($user->get_id()));
 			//$res = $this->limitQuery($query, 1,null, array ($user));
 			$result=$res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$props = array ();
-			$props['userid']=$user->get_user_id();
+			$props['userid']=$user->get_id();
 			//$props['userid']=$user;
 			$props['treeitem']=-1;
 			$props['child']=$result['treeitem'];
@@ -500,7 +500,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 				}
 
 				$statement = $this->connection->prepare($query);
-				$param = $user->get_user_id();
+				$param = $user->get_id();
 			}
 		}
 		else
@@ -565,7 +565,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$query = 'SELECT COUNT('.$this->escape_column_name(PortfolioPublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER).'=?';;
 
 		$sth = $this->connection->prepare($query);
-		$res = $sth->execute($user->get_user_id());
+		$res = $sth->execute($user->get_id());
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}

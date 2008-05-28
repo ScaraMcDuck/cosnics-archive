@@ -48,7 +48,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 			if($this->get_user_key($user) == $request_key)
 			{
 				$this->create_new_password($user);
-				Events :: trigger_event('reset_password', 'users', array('target_user_id' => $user->get_user_id(), 'action_user_id' => $user->get_user_id()));
+				Events :: trigger_event('reset_password', 'users', array('target_user_id' => $user->get_id(), 'action_user_id' => $user->get_id()));
 				Display::display_normal_message('lang_your_password_has_been_emailed_to_you');
 			}
 			else
@@ -126,7 +126,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 	private function send_reset_link($user)
 	{
 		$url_params[self::PARAM_RESET_KEY]  = $this->get_user_key($user);
-		$url_params[User::PROPERTY_USER_ID] = $user->get_user_id();
+		$url_params[User::PROPERTY_USER_ID] = $user->get_id();
 		$url = $this->get_url($url_params);
 		$mail_subject = Translation :: get('LoginRequest');
 		$mail_body[] = $user->get_fullname().',';

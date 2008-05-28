@@ -21,7 +21,7 @@ class UserSelectionSubscribeWizardPage extends SubscribeWizardPage
 		$locale['Error'] = Translation :: get('Error');
 		$hidden = false;
 		$elem = $this->addElement('element_finder', 'users', Translation :: get('Users'), $url, $locale, null);
-		//$elem->excludeElements(array($this->form_user->get_user_id()));
+		//$elem->excludeElements(array($this->form_user->get_id()));
 		//$elem->setDefaultCollapsed(false);
 		//$this->addFormRule(array('UserSelectionSubscribeWizardPage','count_selected_users'));
 		$prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));

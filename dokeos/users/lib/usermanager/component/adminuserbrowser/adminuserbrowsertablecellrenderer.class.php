@@ -3,7 +3,7 @@
  * @package users.lib.usermanager.component.adminuserbrowser
  */
 require_once dirname(__FILE__).'/adminuserbrowsertablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/../../../user_table/defaultusertablecellrenderer.class.php';
+require_once dirname(__FILE__).'/../../../user_table/default_user_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../../../user.class.php';
 require_once dirname(__FILE__).'/../../usermanager.class.php';
 /**
@@ -33,7 +33,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 		}
 
 		// Add special features here
-		switch ($column->get_user_property())
+		switch ($column->get_object_property())
 		{
 			// Exceptions that need post-processing go here ...
 			case User :: PROPERTY_STATUS :
@@ -79,7 +79,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 			'img' => Theme :: get_common_img_path().'action_statistics.png'
 		);
 
-		if($user->get_user_id() != Session :: get_user_id())
+		if($user->get_id() != Session :: get_user_id())
 		{
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_user_delete_url($user),

@@ -130,7 +130,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 	// Inherited.
 	function update_user($user)
 	{
-		$where = $this->escape_column_name(User :: PROPERTY_USER_ID).'='.$user->get_user_id();
+		$where = $this->escape_column_name(User :: PROPERTY_USER_ID).'='.$user->get_id();
 		$props = array();
 		foreach ($user->get_default_properties() as $key => $value)
 		{
@@ -181,11 +181,11 @@ class DatabaseUsersDataManager extends UsersDataManager
 			return false;
 		}
 
-		$this->repoDM->delete_learning_object_by_user($user->get_user_id());
+		$this->repoDM->delete_learning_object_by_user($user->get_id());
 		// Delete the user from the database
 		$query = 'DELETE FROM '.$this->escape_table_name('user').' WHERE '.$this->escape_column_name('user_id').'=?';
 		$sth = $this->connection->prepare($query);
-		$res = $sth->execute($user->get_user_id());
+		$res = $sth->execute($user->get_id());
 
 		return true;
 	}
@@ -208,12 +208,12 @@ class DatabaseUsersDataManager extends UsersDataManager
 		{
 			$props[$this->escape_column_name($key)] = $value;
 		}
-		$props[$this->escape_column_name(User :: PROPERTY_USER_ID)] = $user->get_user_id();
+		$props[$this->escape_column_name(User :: PROPERTY_USER_ID)] = $user->get_id();
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('user'), $props, MDB2_AUTOQUERY_INSERT);
 
 		// Create the user's root category for the repository
-		$this->repoDM->create_root_category($user->get_user_id());
+		$this->repoDM->create_root_category($user->get_id());
 		return true;
 	}
 
@@ -422,7 +422,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$query = 'SELECT * FROM '.$this->escape_table_name('user_quota').' WHERE '.$this->escape_column_name(User :: PROPERTY_USER_ID).'=? AND '.$this->escape_column_name('learning_object_type').'=?';
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
-		$res = $statement->execute(array($user->get_user_id(), $type));
+		$res = $statement->execute(array($user->get_id(), $type));
 
 		if ($res->numRows() >= 1)
 		{

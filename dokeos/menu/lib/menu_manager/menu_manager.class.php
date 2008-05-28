@@ -323,7 +323,7 @@ require_once dirname(__FILE__).'/component/menu_item_browser/menu_item_browser_t
 	 */
 	function get_user_id()
 	{
-		return $this->user->get_user_id();
+		return $this->user->get_id();
 	}
 	
 	function get_user()
@@ -367,7 +367,7 @@ require_once dirname(__FILE__).'/component/menu_item_browser/menu_item_browser_t
 		
 		if (is_object($user))
 		{
-			if ($groupreluser = GroupsManager :: retrieve_group_rel_user($user->get_user_id(), $location->get_id()))
+			if ($groupreluser = GroupsManager :: retrieve_group_rel_user($user->get_id(), $location->get_id()))
 			{
 				$grouprole = GroupsManager :: retrieve_group_role($groupreluser->get_group_id(), $location->get_id());
 				$role_id = $grouprole->get_role_id();
