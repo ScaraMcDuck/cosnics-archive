@@ -76,7 +76,9 @@ class BuildWizardProcess extends HTML_QuickForm_Action
 							$block->set_column($column->get_id());
 							$block->set_title($values['row'.$i]['column'. $j]['block'. $k]['title']);
 							$block->set_sort($k);
-							$block->set_component($values['row'.$i]['column'. $j]['block'. $k]['component']);
+							$component = explode('.', $values['row'.$i]['column'. $j]['block'. $k]['component']);
+							$block->set_application($component[0]);
+							$block->set_component($component[1]);
 							
 							if (!$block->create())
 							{
