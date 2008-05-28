@@ -29,7 +29,7 @@ class CourseCategoryBrowserTableColumnModel extends DefaultCourseCategoryTableCo
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new CourseCategoryTableColumn('');
+			self :: $modification_column = new ObjectTableColumn('');
 		}
 		return self :: $modification_column;
 	}

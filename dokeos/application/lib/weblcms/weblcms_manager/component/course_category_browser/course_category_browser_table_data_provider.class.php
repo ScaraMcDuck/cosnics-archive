@@ -2,14 +2,14 @@
 /**
  * @package application.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__).'/../../../course/course_category_table/course_category_table_data_provider.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_data_provider.class.php';
 /**
  * Data provider for a repository browser table.
  *
  * This class implements some functions to allow repository browser tables to
  * retrieve information about the learning objects to display.
  */
-class CourseCategoryBrowserTableDataProvider implements CourseCategoryTableDataProvider
+class CourseCategoryBrowserTableDataProvider implements ObjectTableDataProvider
 {
   /**
    * The weblcms component in which the table will be displayed
@@ -37,11 +37,25 @@ class CourseCategoryBrowserTableDataProvider implements CourseCategoryTableDataP
    * @param int $order_direction (SORT_ASC or SORT_DESC)
    * @return ResultSet A set of matching course categories.
    */
-    function get_course_categories($offset, $count, $order_property, $order_direction)
+    function get_objects($offset, $count, $order_property = null, $order_direction = null)
     {
-      // We always use title as second sorting parameter
-      $order_property = array($order_property);
-      $order_direction = array($order_direction);
+    	if (is_null($order_property))
+    	{
+    		$order_property = array();
+    	}
+    	elseif(!is_array($order_property))
+    	{
+    		$order_property = array($order_property);
+    	}
+    	
+    	if (is_null($order_direction))
+    	{
+    		$order_direction = array();
+    	}
+    	elseif(!is_array($order_direction))
+    	{
+    		$order_direction = array($order_direction);
+    	}	
        
       return $this->browser->retrieve_course_categories($this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
@@ -49,7 +63,7 @@ class CourseCategoryBrowserTableDataProvider implements CourseCategoryTableDataP
    * Gets the number of course categories in the table
    * @return int
    */
-    function get_course_category_count()
+    function get_object_count()
     {
       return $this->browser->count_course_categories($this->get_condition());
     }

@@ -33,7 +33,7 @@ class CourseCategoryBrowserTableCellRenderer extends DefaultCourseCategoryTableC
 		}
 		
 		// Add special features here
-		switch ($column->get_course_category_property())
+		switch ($column->get_object_property())
 		{
 			// Exceptions that need post-processing go here ...
 		}
