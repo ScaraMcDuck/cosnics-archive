@@ -1,10 +1,8 @@
 <?php
 /**
- * @package application.lib.personal_messenger.publisher.publication_candidate_table
- * @author Hans De Bisschop
- * @author Dieter De Neef
+ * @package application.lib.profiler.publisher.publication_candidate_table
  */
-require_once Path :: get_repository_path(). 'lib/learning_object_table/learning_object_table_data_provider.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_data_provider.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
@@ -13,7 +11,7 @@ require_once Path :: get_library_path().'condition/or_condition.class.php';
 /**
  * This class represents a data provider for a publication candidate table
  */
-class PublicationCandidateTableDataProvider implements LearningObjectTableDataProvider
+class PublicationCandidateTableDataProvider implements ObjectTableDataProvider
 {
 	/**
 	 * The user id of the current active user.
@@ -43,7 +41,7 @@ class PublicationCandidateTableDataProvider implements LearningObjectTableDataPr
 	/*
 	 * Inherited
 	 */
-    function get_learning_objects($offset, $count, $order_property, $order_direction)
+    function get_objects($offset, $count, $order_property = null, $order_direction = null)
     {
     	$dm = RepositoryDataManager :: get_instance();
     	return $dm->retrieve_learning_objects(null, $this->get_condition(), array($order_property), array($order_direction), $offset, $count);
@@ -51,7 +49,7 @@ class PublicationCandidateTableDataProvider implements LearningObjectTableDataPr
 	/*
 	 * Inherited
 	 */
-    function get_learning_object_count()
+    function get_object_count()
     {
     	$dm = RepositoryDataManager :: get_instance();
     	return $dm->count_learning_objects(null, $this->get_condition());

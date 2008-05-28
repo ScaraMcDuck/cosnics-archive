@@ -3,12 +3,12 @@
  * @package application.lib.profiler.profile_publication_table
  */
 
-require_once dirname(__FILE__).'/profile_publication_table_cell_renderer.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 require_once dirname(__FILE__).'/../profile_publication.class.php';
 require_once Path :: get_user_path(). 'lib/user.class.php';
 
-class DefaultProfilePublicationTableCellRenderer implements ProfilePublicationTableCellRenderer
+class DefaultProfilePublicationTableCellRenderer implements ObjectTableCellRenderer
 {
 	/**
 	 * Constructor
@@ -25,7 +25,7 @@ class DefaultProfilePublicationTableCellRenderer implements ProfilePublicationTa
 	 */
 	function render_cell($column, $profile_publication)
 	{
-		if ($property = $column->get_profile_property())
+		if ($property = $column->get_property())
 		{
 			$user = $profile_publication->get_publication_publisher();
 			switch ($property)

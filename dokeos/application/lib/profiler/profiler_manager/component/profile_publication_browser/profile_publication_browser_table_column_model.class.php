@@ -30,7 +30,7 @@ class ProfilePublicationBrowserTableColumnModel extends DefaultProfilePublicatio
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new ProfilePublicationTableColumn('');
+			self :: $modification_column = new ObjectTableColumn('');
 		}
 		return self :: $modification_column;
 	}

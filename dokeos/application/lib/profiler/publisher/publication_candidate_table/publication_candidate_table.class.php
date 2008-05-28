@@ -2,16 +2,18 @@
 /**
  * @package application.lib.profiler.publisher.publication_candidate_table
  */
-require_once dirname(__FILE__).'/publication_candidate_table_dataprovider.class.php';
+require_once dirname(__FILE__).'/publication_candidate_table_data_provider.class.php';
 require_once dirname(__FILE__).'/publication_candidate_table_column_model.class.php';
 require_once dirname(__FILE__).'/publication_candidate_table_cell_renderer.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object_table/learning_object_table.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
 /**
  * This class represents a table with learning objects which are candidates for
  * publication.
  */
-class PublicationCandidateTable extends LearningObjectTable
+class PublicationCandidateTable extends ObjectTable
 {
+	const DEFAULT_NAME = 'publication_candidate_table';
+	
 	/**
 	 * Constructor.
 	 * @param int $owner The id of the current user.
@@ -26,11 +28,10 @@ class PublicationCandidateTable extends LearningObjectTable
 	 */
 	function PublicationCandidateTable($owner, $types, $query, $publish_url_format, $edit_and_publish_url_format)
 	{
-		$name = 'pubcand';
 		$data_provider = new PublicationCandidateTableDataProvider($owner, $types, $query);
 		$column_model = new PublicationCandidateTableColumnModel();
 		$cell_renderer = new PublicationCandidateTableCellRenderer($publish_url_format, $edit_and_publish_url_format);
-		parent :: __construct($data_provider, $name, $column_model, $cell_renderer);
+		parent :: __construct($data_provider, PublicationCandidateTable :: DEFAULT_NAME, $column_model, $cell_renderer);
 	}
 }
 ?>

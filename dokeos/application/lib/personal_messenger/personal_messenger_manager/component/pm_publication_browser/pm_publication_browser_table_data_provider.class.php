@@ -4,14 +4,14 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../../../pm_publication_table/pm_publication_table_data_provider.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_data_provider.class.php';
 /**
  * Data provider for a personal messenger browser table.
  *
  * This class implements some functions to allow personal messenger browser tables to
  * retrieve information about the personal messages to display.
  */
-class PmPublicationBrowserTableDataProvider implements PmPublicationTableDataProvider
+class PmPublicationBrowserTableDataProvider implements ObjectTableDataProvider
 {
   /**
    * The personal messenger manager component in which the table will be displayed
@@ -39,17 +39,33 @@ class PmPublicationBrowserTableDataProvider implements PmPublicationTableDataPro
    * @param int $order_direction (SORT_ASC or SORT_DESC)
    * @return ResultSet A set of matching personal message publications.
    */
-    function get_personal_message_publications($offset, $count, $order_property, $order_direction)
+    function get_objects($offset, $count, $order_property = null, $order_direction = null)
     {
-      $order_property = array($order_property);
-      $order_direction = array($order_direction);
+    	if (is_null($order_property))
+    	{
+    		$order_property = array();
+    	}
+    	elseif(!is_array($order_property))
+    	{
+    		$order_property = array($order_property);
+    	}
+    	
+    	if (is_null($order_direction))
+    	{
+    		$order_direction = array();
+    	}
+    	elseif(!is_array($order_direction))
+    	{
+    		$order_direction = array($order_direction);
+    	}	
+    	
       return $this->browser->retrieve_personal_message_publications($this->get_condition(), $order_property, $order_direction, $offset, $count);
     }
   /**
    * Gets the number of personal message publications in the table
    * @return int
    */
-    function get_personal_message_publication_count()
+    function get_object_count()
     {
       return $this->browser->count_personal_message_publications($this->get_condition());
     }

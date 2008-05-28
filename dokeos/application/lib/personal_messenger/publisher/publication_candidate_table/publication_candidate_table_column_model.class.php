@@ -1,16 +1,14 @@
 <?php
 /**
- * @package application.lib.personal_messenger.publisher.publication_candidate_table
- * @author Hans De Bisschop
- * @author Dieter De Neef
+ * @package application.lib.profiler.publisher.publication_candidate_table
  */
-require_once Path :: get_repository_path(). 'lib/learning_object_table/learning_object_table_column_model.class.php';
-require_once Path :: get_repository_path(). 'lib/learning_object_table/learning_object_table_column.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
+require_once Path :: get_library_path() . 'html/table/object_table/object_table_column.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 /**
  * This class represents a column model for a publication candidate table
  */
-class PublicationCandidateTableColumnModel extends LearningObjectTableColumnModel {
+class PublicationCandidateTableColumnModel extends ObjectTableColumnModel {
 	/**
 	 * The column with the action buttons.
 	 */
@@ -30,9 +28,8 @@ class PublicationCandidateTableColumnModel extends LearningObjectTableColumnMode
 	private static function get_columns()
 	{
 		$columns = array();
-		//$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_TYPE, true);
-		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
-		$columns[] = new LearningObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true);
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true);
 		$columns[] = self :: get_action_column();
 		return $columns;
 	}
@@ -44,7 +41,7 @@ class PublicationCandidateTableColumnModel extends LearningObjectTableColumnMode
 	{
 		if (!isset(self :: $action_column))
 		{
-			self :: $action_column = new LearningObjectTableColumn(Translation :: get('Send'));
+			self :: $action_column = new ObjectTableColumn(Translation :: get('Publish'));
 		}
 		return self :: $action_column;
 	}
