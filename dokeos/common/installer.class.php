@@ -11,7 +11,7 @@ require_once Path :: get_tracking_path() .'lib/tracker_registration.class.php';
 require_once Path :: get_tracking_path() .'lib/event_rel_tracker.class.php';
 require_once Path :: get_admin_path() .'lib/admin_data_manager.class.php';
 require_once Path :: get_admin_path() .'lib/setting.class.php';
-require_once Path :: get_repository_path() .'lib/repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
  
 abstract class Installer
 {
@@ -276,7 +276,7 @@ abstract class Installer
 	function register_tracker($path, $class)
 	{	
 		$tracker = new TrackerRegistration();
-		$class = RepositoryUtilities :: underscores_to_camelcase($class);
+		$class = DokeosUtilities :: underscores_to_camelcase($class);
 		$tracker->set_class($class);
 		$tracker->set_path($path);
 		if (!$tracker->create())
@@ -312,7 +312,7 @@ abstract class Installer
 	function register_trackers()
 	{
 		$application_class = str_replace('Installer', '', get_class($this));
-		$application = RepositoryUtilities :: camelcase_to_underscores($application_class);
+		$application = DokeosUtilities :: camelcase_to_underscores($application_class);
 		
 		$base_path = (Application :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
 		
@@ -395,7 +395,7 @@ abstract class Installer
 	function configure_application()
 	{
 		$application_class = str_replace('Installer', '', get_class($this));
-		$application = RepositoryUtilities :: camelcase_to_underscores($application_class);
+		$application = DokeosUtilities :: camelcase_to_underscores($application_class);
 		
 		$base_path = (Application :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
 		

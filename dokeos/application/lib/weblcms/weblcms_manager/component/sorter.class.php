@@ -340,7 +340,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			'img' => Theme :: get_common_img_path().'spacer.png'
 		);
 
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 	
 	function get_category_modification_links($courseusercategory, $key, $total)
@@ -392,7 +392,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			'img' => Theme :: get_common_img_path().'action_delete.png'
 		);
 		
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 	
 	function get_sort_modification_links()
@@ -403,10 +403,10 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			'href' => $this->get_course_user_category_add_url(),
 			'label' => Translation :: get('CreateCourseUserCategory'),
 			'img' => Theme :: get_common_img_path().'action_create.png',
-			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

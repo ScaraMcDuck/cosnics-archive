@@ -28,7 +28,7 @@ class DocumentForm extends LearningObjectForm
 	{
 		parent :: build_editing_form();
 		$object = $this->get_learning_object();
-		if (RepositoryUtilities :: is_html_document($object->get_path()))
+		if (DokeosUtilities :: is_html_document($object->get_path()))
 		{
 			$this->add_html_editor('html_content', Translation :: get('HtmlDocument'),false,true);
 			$this->addRule('html_content', Translation :: get('DiskQuotaExceeded'), 'disk_quota');
@@ -44,7 +44,7 @@ class DocumentForm extends LearningObjectForm
 	function setDefaults($defaults = array ())
 	{
 		$object = $this->get_learning_object();
-		if (isset ($object) && RepositoryUtilities :: is_html_document($object->get_path()))
+		if (isset ($object) && DokeosUtilities :: is_html_document($object->get_path()))
 		{
 			$defaults['html_content'] = file_get_contents($this->get_upload_path().$object->get_path());
 		}

@@ -150,7 +150,7 @@ class HomeBlockForm extends FormValidator {
 						$component = str_replace('.class.php', '', $file);
 						$component = str_replace($application . '_', '', $component);
 						$value = $application . '.' . $component;
-						$display = Translation :: get(Application :: application_to_class($application)) . '&nbsp;>&nbsp;' . RepositoryUtilities :: underscores_to_camelcase($component);
+						$display = Translation :: get(Application :: application_to_class($application)) . '&nbsp;>&nbsp;' . DokeosUtilities :: underscores_to_camelcase($component);
 						$application_components[$value] = $display;
 					}
 				}

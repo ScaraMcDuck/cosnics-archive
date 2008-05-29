@@ -30,8 +30,8 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 				'img'=>Theme :: get_common_img_path().'action_slideshow.png',
 				'label'=>Translation :: get('Slideshow'),
 				'href' => $this->get_url(array('thumbnails'=>null)),
-				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-			$html[] = RepositoryUtilities::build_toolbar($toolbar_data);
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+			$html[] = DokeosUtilities::build_toolbar($toolbar_data);
 			$html[] = $this->render_thumbnails($publications);
 		}
 		else
@@ -42,8 +42,8 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 				'img'=>Theme :: get_common_img_path().'action_slideshow_thumbnails.png',
 				'label'=>Translation :: get('Thumbnails'),
 				'href' => $this->get_url(array('thumbnails'=>1)),
-				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-			$html[] = RepositoryUtilities::build_toolbar($toolbar_data);
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+			$html[] = DokeosUtilities::build_toolbar($toolbar_data);
 			$navigation[] = '<div style="text-align: center;">';
 			$navigation[] = ($slideshow_index +1).' / '.count($publications);
 			$navigation[] = '<div style="width=30%;text-align:left;float:left;">';

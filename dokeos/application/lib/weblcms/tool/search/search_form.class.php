@@ -42,7 +42,7 @@ class SearchForm extends FormValidator
    {
    		$values = $this->exportValues();
    		$query = $values['query'];
-   		$condition = RepositoryUtilities::query_to_condition($query);
+   		$condition = DokeosUtilities::query_to_condition($query);
    		return $condition;
    }
 }

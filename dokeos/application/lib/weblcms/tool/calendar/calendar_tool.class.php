@@ -6,7 +6,7 @@
  * @subpackage calendar
  */
 require_once Path :: get_repository_path(). 'lib/learning_object/calendar_event/calendar_event.class.php';
-require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once dirname(__FILE__).'/../repository_tool.class.php';
 require_once dirname(__FILE__).'/../../learning_object_publisher.class.php';
 require_once dirname(__FILE__).'/calendar_browser.class.php';
@@ -74,27 +74,27 @@ class CalendarTool extends RepositoryTool
 			'href' => $this->get_url(array('view'=>'list')),
 			'img' => Theme :: get_img_path().'tool_calendar_down.png',
 			'label' => Translation :: get('ListView'),
-			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		$toolbar_data[] = array(
 			'href' => $this->get_url(array('view'=>'month')),
 			'img' => Theme :: get_img_path().'tool_calendar_month.png',
 			'label' => Translation :: get('MonthView'),
-			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		$toolbar_data[] = array(
 			'href' => $this->get_url(array('view'=>'week')),
 			'img' => Theme :: get_img_path().'calendar_week.png',
 			'label' => Translation :: get('WeekView'),
-			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		$toolbar_data[] = array(
 			'href' => $this->get_url(array('view'=>'day')),
 			'img' => Theme :: get_img_path().'tool_calendar_day.png',
 			'label' => Translation :: get('DayView'),
-			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
-		echo '<div style="margin-bottom: 1em;">'.RepositoryUtilities :: build_toolbar($toolbar_data).'</div>';
+		echo '<div style="margin-bottom: 1em;">'.DokeosUtilities :: build_toolbar($toolbar_data).'</div>';
 		$show_calendar = true;
 		if(isset($_GET['pid']))
 		{

@@ -28,7 +28,7 @@ abstract class ToolListRenderer
 	static function factory($class,$parent)
 	{
 		$class .= 'ToolListRenderer';
-		require_once(dirname(__FILE__).'/tool_list_renderer/'.RepositoryUtilities :: camelcase_to_underscores($class).'.class.php');
+		require_once(dirname(__FILE__).'/tool_list_renderer/'.DokeosUtilities :: camelcase_to_underscores($class).'.class.php');
 		return new $class($parent);
 	}
 	/**

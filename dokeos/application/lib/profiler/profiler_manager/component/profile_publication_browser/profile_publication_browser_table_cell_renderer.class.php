@@ -70,7 +70,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
 			);
 		}
 	
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

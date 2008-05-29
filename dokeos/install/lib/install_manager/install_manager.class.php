@@ -2,7 +2,7 @@
 /**
  * @package install.installmanager
  */
-require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once dirname(__FILE__).'/install_manager_component.class.php';
 require_once dirname(__FILE__).'/../install_data_manager.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';

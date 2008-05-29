@@ -6,7 +6,7 @@
 require_once dirname(__FILE__).'/recycle_bin_browser_table_column_model.class.php';
 require_once dirname(__FILE__).'/../../../learning_object_table/default_learning_object_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../../../learning_object.class.php';
-require_once dirname(__FILE__).'/../../../repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 /**
  * Cell renderer for the recycle bin browser table
  */
@@ -78,7 +78,7 @@ class RecycleBinBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 			'label' => Translation :: get('Delete'),
 			'confirm' => true
 		);
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

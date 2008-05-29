@@ -8,7 +8,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once dirname(__FILE__).'/repository_data_manager.class.php';
 require_once dirname(__FILE__).'/quota_manager.class.php';
 /**
@@ -130,7 +130,7 @@ abstract class LearningObjectDisplay
 				$html[] = '<div class="attachments" style="margin-top: 1em;">';
 				$html[] = '<div class="attachments_title">'.htmlentities(Translation :: get('Attachments')).'</div>';
 				$html[] = '<ul class="attachments_list">';
-				RepositoryUtilities :: order_learning_objects_by_title($attachments);
+				DokeosUtilities :: order_learning_objects_by_title($attachments);
 				foreach ($attachments as $attachment)
 				{
 					$disp = self :: factory($attachment);
@@ -243,7 +243,7 @@ abstract class LearningObjectDisplay
 			$html[] = '<div class="publications_na">';
 		}
 		$html[] = '<div class="publications_title">'.htmlentities(Translation :: get('ThisObjectIsPublished')).'</div>';
-		$html[] = RepositoryUtilities :: build_uses($publication_attributes);
+		$html[] = DokeosUtilities :: build_uses($publication_attributes);
 		$html[] = '</div>';
 		return implode("\n", $html);
 	}

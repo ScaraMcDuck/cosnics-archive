@@ -60,7 +60,7 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 				'img' => Theme :: get_common_img_path().'action_subscribe.png'
 			);
 			
-			return RepositoryUtilities :: build_toolbar($toolbar_data);
+			return DokeosUtilities :: build_toolbar($toolbar_data);
 		}
 		elseif ($this->browser->is_subscribed($course, $this->browser->get_user_id()))
 		{

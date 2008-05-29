@@ -35,11 +35,11 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 		$this->set_parameter('time', $time);
 		$this->set_parameter('view', $view);
 		$toolbar_data = array ();
-		$toolbar_data[] = array ('href' => $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'list')), 'img' => Theme :: get_img_path().'tool_calendar_down.png', 'label' => Translation :: get('ListView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-		$toolbar_data[] = array ('href' => $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'month')), 'img' => Theme :: get_img_path().'tool_calendar_month.png', 'label' => Translation :: get('MonthView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-		$toolbar_data[] = array ('href' => $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'week')), 'img' => Theme :: get_img_path().'tool_calendar_week.png', 'label' => Translation :: get('WeekView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-		$toolbar_data[] = array ('href' => $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'day')), 'img' => Theme :: get_img_path().'tool_calendar_day.png', 'label' => Translation :: get('DayView'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-		$out .=  '<div style="margin-bottom: 1em;">'.RepositoryUtilities :: build_toolbar($toolbar_data).'</div>';
+		$toolbar_data[] = array ('href' => $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'list')), 'img' => Theme :: get_img_path().'tool_calendar_down.png', 'label' => Translation :: get('ListView'), 'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+		$toolbar_data[] = array ('href' => $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'month')), 'img' => Theme :: get_img_path().'tool_calendar_month.png', 'label' => Translation :: get('MonthView'), 'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+		$toolbar_data[] = array ('href' => $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'week')), 'img' => Theme :: get_img_path().'tool_calendar_week.png', 'label' => Translation :: get('WeekView'), 'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+		$toolbar_data[] = array ('href' => $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'day')), 'img' => Theme :: get_img_path().'tool_calendar_day.png', 'label' => Translation :: get('DayView'), 'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+		$out .=  '<div style="margin-bottom: 1em;">'.DokeosUtilities :: build_toolbar($toolbar_data).'</div>';
 		$minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $time);
 		$out .=   '<div style="float: left; width: 20%;">';
 		$out .=   $minimonthcalendar->render();
@@ -67,15 +67,15 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 					'href' => $this->get_url(),
 					'label' => Translation :: get('Back'),
 					'img' => Theme :: get_common_img_path().'action_prev.png',
-					'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+					'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 				);
 				$toolbar_data[] = array(
 					'href' => $this->get_publication_deleting_url($event),
 					'label' => Translation :: get('Delete'),
 					'img' => Theme :: get_common_img_path().'action_delete.png',
-					'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+					'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 				);
-				$out .= RepositoryUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
+				$out .= DokeosUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
 			}
 		}
 		if($show_calendar)

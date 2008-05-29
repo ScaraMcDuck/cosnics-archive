@@ -55,7 +55,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 
 			if (count($versions) >= 2)
 			{
-				RepositoryUtilities :: order_learning_objects_by_id_desc($versions);
+				DokeosUtilities :: order_learning_objects_by_id_desc($versions);
 				foreach ($versions as $version)
 				{
 					$version_entry = array();
@@ -97,8 +97,8 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				{
 					$this->display_header($trail);
 					echo $display->get_full_html();
-					echo RepositoryUtilities :: build_block_hider('script');
-					echo RepositoryUtilities :: build_block_hider('begin', 'lox', 'LearningObjectExtras');
+					echo DokeosUtilities :: build_block_hider('script');
+					echo DokeosUtilities :: build_block_hider('begin', 'lox', 'LearningObjectExtras');
 					$form->display();
 				}
 				echo $display->get_version_quota_as_html($version_data);
@@ -107,8 +107,8 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			{
 				$this->display_header($trail);
 				echo $display->get_full_html();
-				echo RepositoryUtilities :: build_block_hider('script');
-				echo RepositoryUtilities :: build_block_hider('begin', 'lox', 'LearningObjectExtras');
+				echo DokeosUtilities :: build_block_hider('script');
+				echo DokeosUtilities :: build_block_hider('begin', 'lox', 'LearningObjectExtras');
 			}
 			else
 			{
@@ -119,12 +119,12 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			if (count($publication_attr) > 0)
 			{
 				echo $display->get_publications_as_html($publication_attr);
-				//echo RepositoryUtilities :: build_uses($publication_attr);
+				//echo DokeosUtilities :: build_uses($publication_attr);
 			}
 
 			if (count($versions) >= 2 || count($publication_attr) > 0)
 			{
-				echo RepositoryUtilities :: build_block_hider('end', 'lox');
+				echo DokeosUtilities :: build_block_hider('end', 'lox');
 			}
 
 			$edit_url = $this->get_learning_object_editing_url($object);
@@ -140,7 +140,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 						'img' => Theme :: get_common_img_path().'action_recycle_bin.png',
 						'label' => Translation :: get('Remove'),
 						'confirm' => true,
-						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+						'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
 				}
 				else
@@ -153,7 +153,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 							'img' => Theme :: get_common_img_path().'action_delete.png',
 							'label' => Translation :: get('Delete'),
 							'confirm' => true,
-							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+							'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
 						$in_recycle_bin = true;
 					}
@@ -162,7 +162,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 						$recycle_bin_button = array(
 							'img' => Theme :: get_common_img_path().'action_recycle_bin_na.png',
 							'label' => Translation :: get('Remove'),
-							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+							'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
 					}
 				}
@@ -179,7 +179,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 							'img' => Theme :: get_common_img_path().'action_unlink.png',
 							'label' => Translation :: get('Unlink'),
 							'confirm' => true,
-							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+							'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
 					}
 
@@ -190,7 +190,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 							'href' => $edit_url,
 							'img' => Theme :: get_common_img_path().'action_edit.png',
 							'label' => Translation :: get('Edit'),
-							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+							'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
 					}
 					else
@@ -198,7 +198,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 						$toolbar_data[] = array(
 							'img' => Theme :: get_common_img_path().'action_edit_na.png',
 							'label' => Translation :: get('Edit'),
-							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+							'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
 					}
 
@@ -216,20 +216,20 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 							'href' =>  $this->get_learning_object_moving_url($object),
 							'img' => Theme :: get_common_img_path().'action_move.png',
 							'label' => Translation :: get('Move'),
-							'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+							'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
 					}
 					$toolbar_data[] = array(
 						'href' => $this->get_learning_object_metadata_editing_url($object),
 						'label' => Translation :: get('Metadata'),
 						'img' => Theme :: get_common_img_path().'action_metadata.png',
-						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+						'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
 					$toolbar_data[] = array(
 						'href' => $this->get_learning_object_rights_editing_url($object),
 						'label' => Translation :: get('Rights'),
 						'img' => Theme :: get_common_img_path().'action_rights.png',
-						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+						'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
 				}
 				else
@@ -238,12 +238,12 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 						'href' => $this->get_learning_object_restoring_url($object),
 						'label' => Translation :: get('Restore'),
 						'img' => Theme :: get_common_img_path().'action_restore.png',
-						'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+						'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
 					$toolbar_data[] = $recycle_bin_button;
 				}
 
-				echo RepositoryUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
+				echo DokeosUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
 			}
 			$this->display_footer();
 		}

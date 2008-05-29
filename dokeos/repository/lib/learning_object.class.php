@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__).'/accessible_learning_object.class.php';
 require_once dirname(__FILE__).'/repository_data_manager.class.php';
-require_once dirname(__FILE__).'/repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once dirname(__FILE__).'/learning_object_difference.class.php';
 require_once dirname(__FILE__).'/learning_object_display.class.php';
@@ -876,7 +876,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	static function type_to_class($type)
 	{
-		return RepositoryUtilities :: underscores_to_camelcase($type);
+		return DokeosUtilities :: underscores_to_camelcase($type);
 	}
 
 	/**
@@ -886,7 +886,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	static function class_to_type($class)
 	{
-		return RepositoryUtilities :: camelcase_to_underscores($class);
+		return DokeosUtilities :: camelcase_to_underscores($class);
 	}
 
 	/**

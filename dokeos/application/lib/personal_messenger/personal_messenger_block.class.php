@@ -48,7 +48,7 @@ class PersonalMessengerBlock
 		{
 			die('Failed to load "'.$type.'" block');
 		}
-		$class = 'PersonalMessenger'.RepositoryUtilities :: underscores_to_camelcase($type);
+		$class = 'PersonalMessenger'.DokeosUtilities :: underscores_to_camelcase($type);
 		require_once $filename;
 		return new $class($personal_messenger, $block);
 	}

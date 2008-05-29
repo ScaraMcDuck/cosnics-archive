@@ -48,8 +48,8 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 		$enddate = $exports['end_date'];
 		list ($eyear, $emonth, $eday) = split('-', $enddate); 
 		
-		$startdate = RepositoryUtilities :: time_from_datepicker_without_timepicker($startdate);
-		$enddate = RepositoryUtilities :: time_from_datepicker_without_timepicker($enddate, 23, 59, 59);
+		$startdate = DokeosUtilities :: time_from_datepicker_without_timepicker($startdate);
+		$enddate = DokeosUtilities :: time_from_datepicker_without_timepicker($enddate, 23, 59, 59);
 		
 		$period = $exports['period'];
 		
@@ -73,7 +73,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 						$classname = $trackerregistration->get_class();
 						echo(' &nbsp; &nbsp; ' . Translation :: get('Archiving_tracker') . ': ' . $classname . '<br />');
 						
-						$filename = RepositoryUtilities :: camelcase_to_underscores($classname);
+						$filename = DokeosUtilities :: camelcase_to_underscores($classname);
 			
 						$fullpath = Path :: get(SYS_PATH) . $trackerregistration->get_path() . 
 							strtolower($filename) . '.class.php';
@@ -121,7 +121,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 							}
 							else
 							{
-								$date = RepositoryUtilities :: time_from_datepicker($result->get_date());
+								$date = DokeosUtilities :: time_from_datepicker($result->get_date());
 								
 								foreach($storage_units as $start_time => $storage_unit)
 								{

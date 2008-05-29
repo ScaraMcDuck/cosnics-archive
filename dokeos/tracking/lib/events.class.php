@@ -5,7 +5,7 @@
 require_once dirname(__FILE__) . '/event.class.php';
 require_once dirname(__FILE__) . '/event_rel_tracker.class.php';
 require_once dirname(__FILE__) . '/tracking_data_manager.class.php';
-require_once Path :: get_repository_path() . 'lib/repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 
 /**
  * Class to create and trigger tracker events
@@ -48,7 +48,7 @@ class Events
 		foreach($trackerregistrations as $trackerregistration)
 		{	
 			$classname = $trackerregistration->get_class();
-			$filename = RepositoryUtilities :: camelcase_to_underscores($classname);
+			$filename = DokeosUtilities :: camelcase_to_underscores($classname);
 
 			$fullpath = Path :: get(SYS_PATH) . $trackerregistration->get_path() . 
 				strtolower($filename) . '.class.php';

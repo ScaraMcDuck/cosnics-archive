@@ -6,7 +6,7 @@
  */
 require_once dirname(__FILE__).'/../personal_messenger.class.php';
 require_once dirname(__FILE__).'/../personal_messenger_component.class.php';
-require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 
 class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 {	
@@ -84,20 +84,20 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 			$attachments = $message->get_attached_learning_objects();
 			if (count($attachments))
 			{
-				$html[] = RepositoryUtilities :: build_block_hider('script');
+				$html[] = DokeosUtilities :: build_block_hider('script');
 				$html[] = '<div class="attachments" style="margin-top: 1em;">';
 				$html[] = '<div class="attachments_title">'.htmlentities(Translation :: get('Attachments')).'</div>';
 				$html[] = '<ul class="attachments_list">';
-				RepositoryUtilities :: order_learning_objects_by_title($attachments);
+				DokeosUtilities :: order_learning_objects_by_title($attachments);
 				foreach ($attachments as $attachment)
 				{
 					$html[] = '<li class="personal_message_attachment"><div style="float: left;"><img src="'.Theme :: get_common_img_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/></div><div style="float: left;">&nbsp;'.$attachment->get_title().'&nbsp;</div>';
-					$html[] = RepositoryUtilities :: build_block_hider('begin', $attachment->get_id(), 'Attachment');
+					$html[] = DokeosUtilities :: build_block_hider('begin', $attachment->get_id(), 'Attachment');
 					
 					$display = LearningObjectDisplay :: factory($attachment);
 					$html[] = $display->get_full_html();
 										
-					$html[] = RepositoryUtilities :: build_block_hider('end', $attachment->get_id());
+					$html[] = DokeosUtilities :: build_block_hider('end', $attachment->get_id());
 					//$html[] = '<div style="clear: both;">&nbsp;</div>';
 					$html[] = '</li>';
 				}
@@ -123,11 +123,11 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 				'href' => $this->get_publication_reply_url($publication),
 				'label' => Translation :: get('Reply'),
 				'img' => Theme :: get_common_img_path().'action_reply.png',
-				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 			);
 		}
 		
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

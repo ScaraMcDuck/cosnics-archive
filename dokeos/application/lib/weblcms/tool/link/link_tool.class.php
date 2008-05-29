@@ -36,7 +36,7 @@ class LinkTool extends RepositoryTool
 			
 			$option['img'] =  Theme :: get_common_img_path().'action_'.$key.'.png';
 			$option['label'] = Translation :: get($title);
-			$option['display'] = RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL;
+			$option['display'] = DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL;
 			if (!$current)
 			{
 				$option['href'] = $this->get_url(array('linktoolmode' => $i));
@@ -45,7 +45,7 @@ class LinkTool extends RepositoryTool
 			$i++;
 		}
 		
-		$html[] = RepositoryUtilities :: build_toolbar($toolbar_data, array (), 'margin-top: 1em; margin-bottom: 1em;');
+		$html[] = DokeosUtilities :: build_toolbar($toolbar_data, array (), 'margin-top: 1em; margin-bottom: 1em;');
 		
 		$html[] = $this->perform_requested_actions();
 		switch ($_SESSION['linktoolmode'])

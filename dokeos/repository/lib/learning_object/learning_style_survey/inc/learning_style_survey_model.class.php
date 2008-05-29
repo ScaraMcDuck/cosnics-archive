@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 
 /**
  * @author Tim De Pauw
@@ -65,7 +65,7 @@ abstract class LearningStyleSurveyModel
 				if (preg_match($pattern, $file, $matches))
 				{
 					$type = $matches[1];
-					$cctype = RepositoryUtilities :: underscores_to_camelcase($type);
+					$cctype = DokeosUtilities :: underscores_to_camelcase($type);
 					$const = constant(get_class() . '::TYPE_' . strtoupper($type));
 					self :: $types[$const] = Translation :: get($cctype . 'Survey');
 					self :: $type2class[$const] = $cctype . get_class();
@@ -82,7 +82,7 @@ abstract class LearningStyleSurveyModel
 		{
 			$file = dirname(__FILE__) . DIRECTORY_SEPARATOR
 				. 'model' . DIRECTORY_SEPARATOR
-				. RepositoryUtilities :: camelcase_to_underscores($class)
+				. DokeosUtilities :: camelcase_to_underscores($class)
 				. '.class.php';
 			require_once $file;
 			return new $class();

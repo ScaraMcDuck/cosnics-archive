@@ -47,7 +47,7 @@ class PersonalCalendarBlock
 		{
 			die('Failed to load "'.$type.'" block');
 		}
-		$class = 'PersonalCalendar'.RepositoryUtilities :: underscores_to_camelcase($type);
+		$class = 'PersonalCalendar'.DokeosUtilities :: underscores_to_camelcase($type);
 		require_once $filename;
 		return new $class($personal_calendar, $block);
 	}

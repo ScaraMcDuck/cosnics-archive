@@ -3,7 +3,7 @@
  * @package application.searchportal
  */
 require_once dirname(__FILE__).'/../search_source.class.php';
-require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once dirname(__FILE__).'/../repository_search_result.class.php';
 
 class LocalRepositorySearchSource implements SearchSource
@@ -17,7 +17,7 @@ class LocalRepositorySearchSource implements SearchSource
 	
 	function search ($query)
 	{
-		$condition = RepositoryUtilities :: query_to_condition($query);
+		$condition = DokeosUtilities :: query_to_condition($query);
 		
 		$adm = AdminDataManager :: get_instance();
 		$repository_title = PlatformSetting :: get('site_name');

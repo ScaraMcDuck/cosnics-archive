@@ -70,10 +70,10 @@ class ForumTool extends RepositoryTool
 				if($this->is_allowed(ADD_RIGHT))
 				{
 					$toolbar_data = array();
-					$toolbar_data[] = array ('href' => $this->get_url(array('admin' => 1)), 'label' => Translation :: get('Publish'), 'img' => Theme :: get_common_img_path().'action_publish.png', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-					$toolbar_data[] = array ('href' => $this->get_url(array('category_manager_action' => 1)), 'label' => Translation :: get('ManageCategories'), 'img' => Theme :: get_common_img_path().'action_category.png', 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+					$toolbar_data[] = array ('href' => $this->get_url(array('admin' => 1)), 'label' => Translation :: get('Publish'), 'img' => Theme :: get_common_img_path().'action_publish.png', 'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+					$toolbar_data[] = array ('href' => $this->get_url(array('category_manager_action' => 1)), 'label' => Translation :: get('ManageCategories'), 'img' => Theme :: get_common_img_path().'action_category.png', 'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 					
-					echo RepositoryUtilities :: build_toolbar($toolbar_data, array (), 'margin-top: 1em; margin-bottom: 1em;');
+					echo DokeosUtilities :: build_toolbar($toolbar_data, array (), 'margin-top: 1em; margin-bottom: 1em;');
 				}
 				echo $this->perform_requested_actions();
 				$browser = new ForumBrowser($this);

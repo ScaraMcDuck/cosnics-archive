@@ -61,7 +61,7 @@ abstract class Mail
 		// TODO: This value should come from configuration and can be one of the available mail-implementations
 		$mail_file = 'default';
 		require_once dirname(__FILE__).'/'.$mail_file.'/'.$mail_file.'_mail.class.php';
-		$mail_class = RepositoryUtilities :: underscores_to_camelcase($mail_file).'Mail';
+		$mail_class = DokeosUtilities :: underscores_to_camelcase($mail_file).'Mail';
 		return new $mail_class($subject,$message,$to,$from,$cc,$bcc);
 	}
 	/**

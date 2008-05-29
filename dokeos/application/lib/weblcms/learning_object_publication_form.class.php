@@ -171,8 +171,8 @@ class LearningObjectPublicationForm extends FormValidator
 		}
 		else
 		{
-			$from = RepositoryUtilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]);
-			$to = RepositoryUtilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
+			$from = DokeosUtilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]);
+			$to = DokeosUtilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
 		}
 		$hidden = ($values[self :: PARAM_HIDDEN] ? 1 : 0);
 		$category = $values[self :: PARAM_CATEGORY_ID];
@@ -219,8 +219,8 @@ class LearningObjectPublicationForm extends FormValidator
 		}
 		else
 		{
-			$from = RepositoryUtilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]);
-			$to = RepositoryUtilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
+			$from = DokeosUtilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]);
+			$to = DokeosUtilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
 		}
 		$hidden = ($values[self :: PARAM_HIDDEN] ? 1 : 0);
 		$category = $values[self :: PARAM_CATEGORY_ID];

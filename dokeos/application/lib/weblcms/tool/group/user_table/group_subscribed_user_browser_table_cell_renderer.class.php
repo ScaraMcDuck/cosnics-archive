@@ -61,7 +61,7 @@ class GroupSubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRe
 				'label' => Translation :: get('Details'),
 				'img' => Theme :: get_common_img_path().'action_details.png'
 			);
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

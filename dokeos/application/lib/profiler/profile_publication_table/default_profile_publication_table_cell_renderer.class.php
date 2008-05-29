@@ -25,7 +25,7 @@ class DefaultProfilePublicationTableCellRenderer implements ObjectTableCellRende
 	 */
 	function render_cell($column, $profile_publication)
 	{
-		if ($property = $column->get_property())
+		if ($property = $column->get_object_property())
 		{
 			$user = $profile_publication->get_publication_publisher();
 			switch ($property)

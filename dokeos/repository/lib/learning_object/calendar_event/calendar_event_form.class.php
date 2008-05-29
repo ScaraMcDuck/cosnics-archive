@@ -5,7 +5,7 @@
  * @subpackage calendar_event
  */
 require_once dirname(__FILE__) . '/../../learning_object_form.class.php';
-require_once dirname(__FILE__) . '/../../repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once dirname(__FILE__) . '/calendar_event.class.php';
 /**
  * This class represents a form to create or update calendar events
@@ -54,8 +54,8 @@ class CalendarEventForm extends LearningObjectForm
 	{
 		$object = new CalendarEvent();
 		$values = $this->exportValues();
-		$object->set_start_date(RepositoryUtilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_START_DATE]));
-		$object->set_end_date(RepositoryUtilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_END_DATE]));
+		$object->set_start_date(DokeosUtilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_START_DATE]));
+		$object->set_end_date(DokeosUtilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_END_DATE]));
 		$this->set_learning_object($object);
 		return parent :: create_learning_object();
 	}
@@ -64,8 +64,8 @@ class CalendarEventForm extends LearningObjectForm
 	{
 		$object = $this->get_learning_object();
 		$values = $this->exportValues();
-		$object->set_start_date(RepositoryUtilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_START_DATE]));
-		$object->set_end_date(RepositoryUtilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_END_DATE]));
+		$object->set_start_date(DokeosUtilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_START_DATE]));
+		$object->set_end_date(DokeosUtilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_END_DATE]));
 		return parent :: update_learning_object();
 	}
 }
