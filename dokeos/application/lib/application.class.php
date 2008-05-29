@@ -11,6 +11,8 @@ require_once(Path :: get_library_path().'filesystem/filesystem.class.php');
  */
 abstract class Application
 {
+	const PARAM_APPLICATION = 'application';
+	
 	/**
 	 * Runs the application.
 	 */
