@@ -78,8 +78,6 @@ class PersonalMessagePublicationForm extends FormValidator
 			$recipient['title'] = $recip->get_username();
 			$recipient['description'] = $recip->get_lastname() . ' ' . $recip->get_firstname();
 			$recipients[$recipient['id']] = $recipient;
-
-			//print_r($recipients);
     	}
 
 		$url = Path :: get(WEB_PATH).'application/lib/personal_messenger/xml_feed.php';
