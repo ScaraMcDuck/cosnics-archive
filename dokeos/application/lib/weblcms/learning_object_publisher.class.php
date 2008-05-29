@@ -1,8 +1,8 @@
 <?php
 /**
- * $Id$
- * @package application.weblcms
+ * @package application.lib.profiler
  */
+require_once Path :: get_application_library_path(). 'publisher/publisher.class.php';
 require_once Path :: get_repository_path(). 'lib/abstract_learning_object.class.php';
 
 /**
@@ -13,45 +13,16 @@ require_once Path :: get_repository_path(). 'lib/abstract_learning_object.class.
 ==============================================================================
  */
 
-class LearningObjectPublisher
+class LearningObjectPublisher extends Publisher
 {
-	const PARAM_ACTION = 'publish_action';
-	const PARAM_EDIT = 'edit';
-	const PARAM_LEARNING_OBJECT_ID = 'object';
-
-	/**
-	 * The types of learning object that this publisher is aware of and may
-	 * publish.
-	 */
-	private $types;
-
-	/**
-	 * The RepositoryTool instance from which this publisher was created.
-	 */
-	private $parent;
-
 	/**
 	 * The default learning objects, which are used for form defaults.
 	 */
-	private $default_learning_objects;
-	/**
-	 * Is a 'send by email' option available?
-	 */
-	private $mail_option;
-	/**
-	 * Constructor.
-	 * @param RepositoryTool $parent The tool that is creating this object.
-	 * @param array $types The learning object types that may be published.
-	 * @param  boolean $email_option If true the publisher has the option to
-	 * send the published learning object by email to the selecter target users.
-	 */
+	
 	function LearningObjectPublisher($parent, $types, $mail_option = false)
 	{
-		$this->parent = $parent;
-		$this->default_learning_objects = array();
-		$this->types = (is_array($types) ? $types : array ($types));
-		$this->mail_option = $mail_option;
-		$parent->set_parameter(LearningObjectPublisher :: PARAM_ACTION, $this->get_action());
+		parent :: __construct($parent, $types, $mail_option = false);
+		$this->set_publisher_actions(array ('publicationcreator','browser', 'finder'));
 	}
 
 	/**
@@ -61,36 +32,21 @@ class LearningObjectPublisher
 	function as_html()
 	{
 		$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-		foreach (array ('publicationcreator','browser', 'finder') as $action)
+		$publisher_actions = $this->get_publisher_actions();
+		foreach ($publisher_actions as $action)
 		{
 			$out .= '<li><a';
 			if ($this->get_action() == $action) $out .= ' class="current"';
-			$out .= ' href="'.$this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => $action), true).'">'.htmlentities(Translation :: get(ucfirst($action).'Title')).'</a></li>';
+			$out .= ' href="'.$this->get_url(array (Publisher :: PARAM_ACTION => $action), true).'">'.htmlentities(Translation :: get(ucfirst($action).'Title')).'</a></li>';
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
 		$action = $this->get_action();
+		
 		require_once dirname(__FILE__).'/publisher/learning_object_'.$action.'.class.php';
-		$class = 'LearningObject'.ucfirst($action);
+		$class = 'LearningObjectPublisher'.ucfirst($action).'Component';
 		$component = new $class ($this);
 		$out .= $component->as_html().'</div></div>';
 		return $out;
-	}
-
-	/**
-	 * Returns the tool which created this publisher.
-	 * @return RepositoryTool The tool.
-	 */
-	function get_parent()
-	{
-		return $this->parent;
-	}
-
-	/**
-	 * @see RepositoryTool::get_user_id()
-	 */
-	function get_user_id()
-	{
-		return $this->parent->get_user_id();
 	}
 	
 	/**
@@ -98,108 +54,15 @@ class LearningObjectPublisher
 	 */
 	function get_course()
 	{
-		return $this->parent->get_course();
+		return $this->get_parent()->get_course();
 	}
-
+	
 	/**
 	 * @see RepositoryTool::get_course_id()
 	 */
 	function get_course_id()
 	{
-		return $this->parent->get_course_id();
-	}
-
-	/**
-	 * Returns the types of learning object that this object may publish.
-	 * @return array The types.
-	 */
-	function get_types()
-	{
-		return $this->types;
-	}
-
-	/**
-	 * Returns the action that the user selected, or "publicationcreator" if none.
-	 * @return string The action.
-	 */
-	function get_action()
-	{
-		return ($_GET[LearningObjectPublisher :: PARAM_ACTION] ? $_GET[LearningObjectPublisher :: PARAM_ACTION] : 'publicationcreator');
-	}
-
-	/**
-	 * @see RepositoryTool::get_url()
-	 */
-	function get_url($parameters = array(), $encode = false)
-	{
-		return $this->parent->get_url($parameters, $encode);
-	}
-
-	/**
-	 * @see RepositoryTool::get_parameters()
-	 */
-	function get_parameters()
-	{
-		return $this->parent->get_parameters();
-	}
-
-	/**
-	 * @see RepositoryTool::set_parameter()
-	 */
-	function set_parameter($name, $value)
-	{
-		$this->parent->set_parameter($name, $value);
-	}
-
-	/**
-	 * @see RepositoryTool::get_categories()
-	 */
-	function get_categories($list = false)
-	{
-		return $this->parent->get_categories($list);
-	}
-
-	/**
-	 * Sets a default learning object. When the creator component of this
-	 * publisher is displayed, the properties of the given learning object will
-	 * be used as the default form values.
-	 * @param string $type The learning object type.
-	 * @param LearningObject $learning_object The learning object to use as the
-	 *                                        default for the given type.
-	 */
-	function set_default_learning_object($type, $learning_object)
-	{
-		$this->default_learning_objects[$type] = $learning_object;
-	}
-
-	/**
-	 * Returns the default learning object, of which the properties can be used
-	 * as default form values.
-	 * @param string $type The learning object type.
-	 * @return LearningObject The object, or null if it is unavailable.
-	 */
-	function get_default_learning_object($type)
-	{
-		if(isset($this->default_learning_objects[$type]))
-		{
-			return $this->default_learning_objects[$type];
-		}
-		return new AbstractLearningObject($type, $this->get_user_id());
-	}
-
-	/**
-	 * Determines if this learning object publisher supports the option to send
-	 * published learning objects by email.
-	 * @return boolean
-	 */
-	function with_mail_option()
-	{
-		return $this->mail_option;
-	}
-	
-	function get_path($path_type)
-	{
-		return $this->parent->get_path($path_type);
+		return $this->get_parent()->get_course_id();
 	}
 }
 ?>

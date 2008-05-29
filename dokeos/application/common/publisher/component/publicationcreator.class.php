@@ -85,7 +85,7 @@ abstract class PublisherPublicationcreatorComponent extends PublisherComponent
 	 */
 	private function get_creation_form($type)
 	{
-		$default_lo = $this->get_default_object($type);
+		$default_lo = $this->get_default_learning_object($type);
 		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $default_lo, 'create', 'post', $this->get_url(array ('type' => $type)));
 		if ($form->validate())
 		{

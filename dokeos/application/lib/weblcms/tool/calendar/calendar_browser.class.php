@@ -109,6 +109,7 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 	function get_calendar_events($from_time,$to_time)
 	{
 		$publications = $this->get_publications();
+		
 		$events = array();
 		foreach($publications as $index => $publication)
 		{
@@ -120,6 +121,7 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 				$events[] = $publication;
 			}
 		}
+		
 		return $events;
 	}
 	public function as_html()

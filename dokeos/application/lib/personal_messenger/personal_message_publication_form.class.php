@@ -31,7 +31,7 @@ class PersonalMessagePublicationForm extends FormValidator
 	 */
 	private $form_user;
 
-	private $publication;
+	//private $publication;
 
 	/**
 	 * Creates a new learning object publication form.
@@ -40,11 +40,12 @@ class PersonalMessagePublicationForm extends FormValidator
 	 * @param boolean $email_option Add option in form to send the learning
 	 * object by email to the receivers
 	 */
-    function PersonalMessagePublicationForm($learning_object, $publication = null, $form_user, $action)
+	//function PersonalMessagePublicationForm($learning_object, $publication = null, $form_user, $action)
+    function PersonalMessagePublicationForm($learning_object, $form_user, $action)
     {
 		parent :: __construct('publish', 'post', $action);
 		$this->learning_object = $learning_object;
-		$this->publication = $publication;
+		//$this->publication = $publication;
 		$this->form_user = $form_user;
 		$this->build_form();
 		$this->setDefaults();
@@ -66,19 +67,19 @@ class PersonalMessagePublicationForm extends FormValidator
 	 */
     function build_form()
     {
-    	$publication = $this->publication;
+//    	$publication = $this->publication;
     	$recipients = array ();
-    	if ($publication)
-    	{
-			$publication = $this->publication;
-			$recip = $publication->get_publication_sender();
-			$recipient = array ();
-			$recipient['id'] = $recip->get_id();
-			$recipient['class'] = 'type type_user';
-			$recipient['title'] = $recip->get_username();
-			$recipient['description'] = $recip->get_lastname() . ' ' . $recip->get_firstname();
-			$recipients[$recipient['id']] = $recipient;
-    	}
+//    	if ($publication)
+//    	{
+//			$publication = $this->publication;
+//			$recip = $publication->get_publication_sender();
+//			$recipient = array ();
+//			$recipient['id'] = $recip->get_id();
+//			$recipient['class'] = 'type type_user';
+//			$recipient['title'] = $recip->get_username();
+//			$recipient['description'] = $recip->get_lastname() . ' ' . $recip->get_firstname();
+//			$recipients[$recipient['id']] = $recipient;
+//    	}
 
 		$url = Path :: get(WEB_PATH).'application/lib/personal_messenger/xml_feed.php';
 		$locale = array ();

@@ -5,7 +5,7 @@
  * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../../../common/global.inc.php';
-require_once dirname(__FILE__).'/personalmessengerdatamanager.class.php';
+require_once dirname(__FILE__).'/personal_messenger_data_manager.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_user_path(). 'lib/user.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
@@ -71,7 +71,7 @@ function dump_tree($objects)
 		echo '<node id="user" class="type_category unlinked" title="Users">', "\n";
 		foreach ($objects as $lo)
 		{
-			echo '<leaf id="'. $lo->get_user_id(). '" class="'. 'type type_user'. '" title="'. htmlentities($lo->get_username()). '" description="'. htmlentities($lo->get_firstname()) . ' ' . htmlentities($lo->get_lastname()) . '"/>'. "\n";
+			echo '<leaf id="'. $lo->get_id(). '" class="'. 'type type_user'. '" title="'. htmlentities($lo->get_username()). '" description="'. htmlentities($lo->get_firstname()) . ' ' . htmlentities($lo->get_lastname()) . '"/>'. "\n";
 		}
 		echo '</node>', "\n";
 	}
