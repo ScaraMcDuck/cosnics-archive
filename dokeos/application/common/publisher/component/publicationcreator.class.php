@@ -13,7 +13,7 @@ require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.
  * This class represents a encyclopedia publisher component which can be used
  * to create a new learning object before publishing it.
  */
-abstract class PublisherPublicationCreatorComponent extends PublisherComponent
+abstract class PublisherPublicationcreatorComponent extends PublisherComponent
 {
 	/*
 	 * Inherited
