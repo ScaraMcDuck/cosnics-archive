@@ -52,17 +52,17 @@ class ConfigurationForm extends FormValidator
 			foreach($configuration['settings'] as $category_name => $settings)
 			{
 				$this->addElement('html', '<div class="configuration_form">');
-				$this->addElement('html', '<span class="category">'. Translation :: get(RepositoryUtilities :: underscores_to_camelcase($category_name)) .'</span>');
+				$this->addElement('html', '<span class="category">'. Translation :: get(DokeosUtilities :: underscores_to_camelcase($category_name)) .'</span>');
 				
 				foreach($settings as $name => $setting)
 				{
 					if ($setting['locked'] == 'true')
 					{
-						$this->addElement('static', $name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)));
+						$this->addElement('static', $name, Translation :: get(DokeosUtilities :: underscores_to_camelcase($name)));
 					}
 					elseif ($setting['field'] == 'text')
 					{
-						$this->add_textfield($name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), true);
+						$this->add_textfield($name, Translation :: get(DokeosUtilities :: underscores_to_camelcase($name)), true);
 					}
 					else
 					{
@@ -83,13 +83,13 @@ class ConfigurationForm extends FormValidator
 							$group = array();
 							foreach ($options as $option_value => $option_name)
 							{
-								$group[] =& $this->createElement($setting['field'], $name, null,Translation :: get(RepositoryUtilities :: underscores_to_camelcase($option_name)),$option_value);
+								$group[] =& $this->createElement($setting['field'], $name, null,Translation :: get(DokeosUtilities :: underscores_to_camelcase($option_name)),$option_value);
 							}
-							$this->addGroup($group, $name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), '<br/>', false);
+							$this->addGroup($group, $name, Translation :: get(DokeosUtilities :: underscores_to_camelcase($name)), '<br/>', false);
 						}
 						elseif($setting['field'] == 'select')
 						{
-							$this->addElement('select', $name, Translation :: get(RepositoryUtilities :: underscores_to_camelcase($name)), $options);
+							$this->addElement('select', $name, Translation :: get(DokeosUtilities :: underscores_to_camelcase($name)), $options);
 						}
 					}
 				}

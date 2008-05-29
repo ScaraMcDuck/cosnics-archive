@@ -26,7 +26,10 @@ class ProfilerPublisherComponent extends ProfilerComponent
 	
 	private function get_publisher_html()
 	{
-		$pub = new ProfilePublisher($this, 'profile', true);
+		$types = array();
+		$types[] = 'profile';
+		
+		$pub = new ProfilePublisher($this, $types, true);
 		$html[] =  $pub->as_html();
 		
 		return implode($html, "\n");

@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../myportfolio.class.php';
 require_once dirname(__FILE__).'/../portfoliocomponent.class.php';
-require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object_display.class.php';
 
 class PortfolioViewerComponent extends PortfolioComponent

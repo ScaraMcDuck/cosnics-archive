@@ -43,8 +43,11 @@ class PublicationCandidateTableDataProvider extends ObjectTableDataProvider
 	 */
     function get_objects($offset, $count, $order_property = null, $order_direction = null)
     {
+    	$order_property = $this->get_order_property($order_property);
+    	$order_direction = $this->get_order_direction($order_direction);
     	$dm = RepositoryDataManager :: get_instance();
-    	return $dm->retrieve_learning_objects(null, $this->get_condition(), array($order_property), array($order_direction), $offset, $count);
+    	
+    	return $dm->retrieve_learning_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count);
     }
 	/*
 	 * Inherited
@@ -60,15 +63,18 @@ class PublicationCandidateTableDataProvider extends ObjectTableDataProvider
 	 */
     function get_condition()
     {
+    	$owner = $this->owner;
+    	
     	$conds = array();
-    	$conds[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->owner);
+    	$conds[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $owner->get_id());
     	$type_cond = array();
-    	foreach ($this->types as $type)
+    	$types = $this->types;
+    	foreach ($types as $type)
     	{
     		$type_cond[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
     	}
     	$conds[] = new OrCondition($type_cond);
-		$c = RepositoryUtilities :: query_to_condition($this->query);
+		$c = DokeosUtilities :: query_to_condition($this->query);
 		if (!is_null($c))
 		{
 			$conds[] = $c;

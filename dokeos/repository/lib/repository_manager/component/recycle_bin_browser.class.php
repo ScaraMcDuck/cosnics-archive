@@ -34,10 +34,10 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 				'href' => $this->get_url(array(RepositoryManager :: PARAM_EMPTY_RECYCLE_BIN => 1)),
 				'img' => Theme :: get_common_img_path().'treemenu/trash.png',
 				'label' => Translation :: get('EmptyRecycleBin'),
-				'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL,
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL,
 				'confirm' => true
 			);
-			echo '<div style="text-align: right; margin-top: 1em;">'.RepositoryUtilities :: build_toolbar($toolbar_data).'</div>';
+			echo '<div style="text-align: right; margin-top: 1em;">'.DokeosUtilities :: build_toolbar($toolbar_data).'</div>';
 		}
 		$this->display_footer();
 	}

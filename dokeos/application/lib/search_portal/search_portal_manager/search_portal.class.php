@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../search_source/web_service_search_source.clas
 require_once dirname(__FILE__).'/../../web_application.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
-require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../search_portal_block.class.php';
 require_once 'Pager/Pager.php';

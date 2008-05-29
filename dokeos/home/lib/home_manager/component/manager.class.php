@@ -142,7 +142,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 			);
 		}
 	
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 	
 	private function get_column_modification_links($home_column, $index)
@@ -199,7 +199,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 			);
 		}
 	
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 	
 	private function get_block_modification_links($home_block, $index)
@@ -262,7 +262,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 			);
 		}
 	
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 	
 	function get_manager_modification_links()
@@ -273,24 +273,24 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 			'href' => $this->get_home_row_creation_url(),
 			'label' => Translation :: get('AddRow'),
 			'img' => Theme :: get_common_img_path().'action_add.png',
-			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
 		$toolbar_data[] = array(
 			'href' => $this->get_home_column_creation_url(),
 			'label' => Translation :: get('AddColumn'),
 			'img' => Theme :: get_common_img_path().'action_add.png',
-			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
 		$toolbar_data[] = array(
 			'href' => $this->get_home_block_creation_url(),
 			'label' => Translation :: get('AddBlock'),
 			'img' => Theme :: get_common_img_path().'action_add.png',
-			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

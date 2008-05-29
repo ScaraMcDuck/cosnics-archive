@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../repository_tool.class.php';
 require_once dirname(__FILE__).'/learning_style_survey_browser.class.php';
-require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object_form.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object_display.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object/learning_style_survey_result/learning_style_survey_result_form.class.php';
@@ -36,7 +36,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 		{
 			$_SESSION[get_class()]['mode'] = $_GET['mode'];
 		}
-		$toolbar = RepositoryUtilities::build_toolbar(
+		$toolbar = DokeosUtilities::build_toolbar(
 			array(
 				array(
 					'img' => Theme :: get_common_img_path().'action_browser.png',
@@ -44,7 +44,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 					'href' => ($_SESSION[get_class()]['mode'] != 0
 						? $this->get_url(array('mode' => 0))
 						: null),
-					'display' => RepositoryUtilities::TOOLBAR_DISPLAY_ICON_AND_LABEL
+					'display' => DokeosUtilities::TOOLBAR_DISPLAY_ICON_AND_LABEL
 				),
 				array(
 					'img' => Theme :: get_common_img_path().'action_publish.png',
@@ -52,7 +52,7 @@ class LearningStyleSurveyTool extends RepositoryTool
 					'href' => ($_SESSION[get_class()]['mode'] != 1
 						? $this->get_url(array('mode' => 1))
 						: null),
-					'display' => RepositoryUtilities::TOOLBAR_DISPLAY_ICON_AND_LABEL
+					'display' => DokeosUtilities::TOOLBAR_DISPLAY_ICON_AND_LABEL
 				)
 			),
 			null,

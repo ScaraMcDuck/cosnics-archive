@@ -98,19 +98,19 @@ class ValidateSettings extends HTML_QuickForm_Rule
 	{ 
 		$sd = $parameters[0];
 		$date = $sd['Y'] . '-' . $sd['F'] .'-' . $sd['d'];
-		$date = RepositoryUtilities :: time_from_datepicker_without_timepicker($date);
+		$date = DokeosUtilities :: time_from_datepicker_without_timepicker($date);
 			
 		if($start_date == 0)
 		{
 			$adm = AdminDataManager :: get_instance();
 			$setting = $adm->retrieve_setting_from_variable_name('last_time_archived', 'tracking');
 			
-			$setting_date = RepositoryUtilities :: time_from_datepicker_without_timepicker($setting->get_value());
+			$setting_date = DokeosUtilities :: time_from_datepicker_without_timepicker($setting->get_value());
 			return $date >= $setting_date;
 		}
 		else
 		{
-			$startdate = RepositoryUtilities :: time_from_datepicker_without_timepicker($startdate);
+			$startdate = DokeosUtilities :: time_from_datepicker_without_timepicker($startdate);
 			return $start_date < $date;
 		}
 	}

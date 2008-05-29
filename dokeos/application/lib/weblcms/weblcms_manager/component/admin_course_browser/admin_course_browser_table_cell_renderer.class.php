@@ -67,7 +67,7 @@ class AdminCourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 			'img' => Theme :: get_common_img_path().'action_maintenance.png'
 		);
 		
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

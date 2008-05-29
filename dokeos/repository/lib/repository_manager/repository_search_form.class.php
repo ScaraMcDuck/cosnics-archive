@@ -5,7 +5,7 @@
  */
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/repository_manager.class.php';
-require_once dirname(__FILE__).'/../repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once dirname(__FILE__).'/../repository_data_manager.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
 require_once Path :: get_library_path().'condition/or_condition.class.php';
@@ -233,11 +233,11 @@ class RepositorySearchForm extends FormValidator
 			$description_query = $this->frozen_elements[1]->getValue();
 			if (!empty ($title_query))
 			{
-				$conditions[] = RepositoryUtilities :: query_to_condition($title_query, LearningObject :: PROPERTY_TITLE);
+				$conditions[] = DokeosUtilities :: query_to_condition($title_query, LearningObject :: PROPERTY_TITLE);
 			}
 			if (!empty ($description_query))
 			{
-				$conditions[] = RepositoryUtilities :: query_to_condition($description_query, LearningObject :: PROPERTY_DESCRIPTION);
+				$conditions[] = DokeosUtilities :: query_to_condition($description_query, LearningObject :: PROPERTY_DESCRIPTION);
 			}
 			$scope = $this->frozen_elements[3]->getValue();
 			if (isset ($scope))
@@ -262,7 +262,7 @@ class RepositorySearchForm extends FormValidator
 			$query = $this->frozen_elements[0]->getValue();
 			if (!empty ($query))
 			{
-				$c = RepositoryUtilities :: query_to_condition($query);
+				$c = DokeosUtilities :: query_to_condition($query);
 				if (isset($c))
 				{
 					$conditions[] = $c;

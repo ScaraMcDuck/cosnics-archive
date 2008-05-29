@@ -89,7 +89,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 			);
 		}
 	
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

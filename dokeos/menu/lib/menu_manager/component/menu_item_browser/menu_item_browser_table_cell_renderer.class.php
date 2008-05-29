@@ -93,7 +93,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 			'img' => Theme :: get_common_img_path().'action_delete.png'
 		);
 	
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

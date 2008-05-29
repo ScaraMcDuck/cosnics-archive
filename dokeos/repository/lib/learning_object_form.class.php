@@ -16,7 +16,7 @@ require_once dirname(__FILE__).'/quota_manager.class.php';
 require_once dirname(__FILE__).'/learning_object_category_menu.class.php';
 require_once dirname(__FILE__).'/learning_object.class.php';
 require_once dirname(__FILE__).'/abstract_learning_object.class.php';
-require_once dirname(__FILE__).'/repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once dirname(__FILE__).'/options_menu_renderer.class.php';
 /**
  * A form to create and edit a LearningObject.
@@ -270,7 +270,7 @@ EOT;
 			if ($this->form_type != self :: TYPE_REPLY)
 			{
 				$attached_objects = $object->get_attached_learning_objects();
-				$attachments = RepositoryUtilities :: learning_objects_for_element_finder($attached_objects);
+				$attachments = DokeosUtilities :: learning_objects_for_element_finder($attached_objects);
 			}
 			else
 			{

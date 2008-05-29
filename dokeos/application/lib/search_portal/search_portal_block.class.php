@@ -47,7 +47,7 @@ class SearchPortalBlock
 		{
 			die('Failed to load "'.$type.'" block');
 		}
-		$class = 'SearchPortal'.RepositoryUtilities :: underscores_to_camelcase($type);
+		$class = 'SearchPortal'.DokeosUtilities :: underscores_to_camelcase($type);
 		require_once $filename;
 		return new $class($search_portal, $block);
 	}

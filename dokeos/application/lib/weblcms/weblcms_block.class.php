@@ -47,7 +47,7 @@ class WeblcmsBlock
 		{
 			die('Failed to load "'.$type.'" block');
 		}
-		$class = 'Weblcms'.RepositoryUtilities :: underscores_to_camelcase($type);
+		$class = 'Weblcms'.DokeosUtilities :: underscores_to_camelcase($type);
 		require_once $filename;
 		return new $class($weblcms, $block);
 	}

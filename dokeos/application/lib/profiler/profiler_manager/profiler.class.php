@@ -654,7 +654,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	{
 		if (isset ($_POST['action']))
 		{
-			$selected_ids = $_POST[ProfilePublicationBrowser :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			$selected_ids = $_POST[ProfilePublicationBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty ($selected_ids))
 			{
 				$selected_ids = array ();

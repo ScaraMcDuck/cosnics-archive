@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../personal_messenger.class.php';
 require_once dirname(__FILE__).'/../personal_messenger_component.class.php';
 require_once dirname(__FILE__).'/publication_browser/publication_browser_table.class.php';
 require_once dirname(__FILE__).'/../../personal_messenger_menu.class.php';
-require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 
 class PersonalMessengerAttachmentViewerComponent extends PersonalMessengerComponent
 {	
@@ -59,7 +59,7 @@ class PersonalMessengerAttachmentViewerComponent extends PersonalMessengerCompon
 			$attachments = $message->get_attached_learning_objects();
 			if (count($attachments))
 			{
-				RepositoryUtilities :: order_learning_objects_by_title($attachments);
+				DokeosUtilities :: order_learning_objects_by_title($attachments);
 				foreach ($attachments as $attachment)
 				{
 					$display = LearningObjectDisplay :: factory($attachment);

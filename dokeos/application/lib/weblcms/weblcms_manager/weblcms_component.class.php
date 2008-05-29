@@ -626,7 +626,7 @@ abstract class WeblcmsComponent
 	 */
 	static function factory($type, $weblcms)
 	{
-		$filename = dirname(__FILE__).'/component/'.RepositoryUtilities :: camelcase_to_underscores($type).'.class.php';
+		$filename = dirname(__FILE__).'/component/'.DokeosUtilities :: camelcase_to_underscores($type).'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
 			die('Failed to load "'.$type.'" component');

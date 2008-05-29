@@ -49,7 +49,7 @@ class AdminEventViewerCellRenderer
 			'img' => Theme :: get_common_img_path().'action_recycle_bin.png'
 		);
 		
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 
 	}
 	

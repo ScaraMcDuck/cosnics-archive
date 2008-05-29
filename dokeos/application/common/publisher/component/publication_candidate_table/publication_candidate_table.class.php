@@ -26,11 +26,11 @@ class PublicationCandidateTable extends ObjectTable
 	 * the selected learning object.
 	 * @see PublicationCandidateTableCellRenderer::PublicationCandidateTableCellRenderer()
 	 */
-	function PublicationCandidateTable($owner, $types, $query, $publish_url_format, $edit_and_publish_url_format)
+	function PublicationCandidateTable($owner, $types, $query, $table_actions)
 	{
 		$data_provider = new PublicationCandidateTableDataProvider($owner, $types, $query);
 		$column_model = new PublicationCandidateTableColumnModel();
-		$cell_renderer = new PublicationCandidateTableCellRenderer($publish_url_format, $edit_and_publish_url_format);
+		$cell_renderer = new PublicationCandidateTableCellRenderer($table_actions);
 		parent :: __construct($data_provider, PublicationCandidateTable :: DEFAULT_NAME, $column_model, $cell_renderer);
 	}
 }

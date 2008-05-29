@@ -97,7 +97,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 			'label' => Translation :: get('Rights'),
 			'img' => Theme :: get_common_img_path().'action_rights.png'
 		);
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

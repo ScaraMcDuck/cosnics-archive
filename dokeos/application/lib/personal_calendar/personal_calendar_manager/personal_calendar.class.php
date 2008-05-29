@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__).'/../../web_application.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
-require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once dirname(__FILE__).'/personal_calendar_component.class.php';
 require_once dirname(__FILE__).'/../connector/personal_calendar_weblcms_connector.class.php';
 require_once dirname(__FILE__).'/../personal_calendar_event.class.php';
@@ -125,7 +125,7 @@ class PersonalCalendar extends WebApplication
 		foreach($files as $file)
 		{
 			$file_class = split('.class.php', $file); 
-			$class = RepositoryUtilities :: underscores_to_camelcase($file_class[0]);
+			$class = DokeosUtilities :: underscores_to_camelcase($file_class[0]);
 			
 			$connector = new $class;
 			$events = array_merge($events,$connector->get_events($this->user, $from_date, $to_date));

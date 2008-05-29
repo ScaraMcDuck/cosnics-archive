@@ -5,7 +5,7 @@
  * @package application.weblcms.tool
  */
 
-require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 
 /**
 ==============================================================================
@@ -260,7 +260,7 @@ abstract class Tool
 	 */
 	static function type_to_class($tool)
 	{
-		return RepositoryUtilities :: underscores_to_camelcase($tool).'Tool';
+		return DokeosUtilities :: underscores_to_camelcase($tool).'Tool';
 	}
 
 	/**
@@ -270,7 +270,7 @@ abstract class Tool
 	 */
 	static function class_to_type($class)
 	{
-		return str_replace('/Tool$/', '', RepositoryUtilities :: camelcase_to_underscores($class));
+		return str_replace('/Tool$/', '', DokeosUtilities :: camelcase_to_underscores($class));
 	}
 	/**
 	 * @see WebLcms::get_last_visit_date()

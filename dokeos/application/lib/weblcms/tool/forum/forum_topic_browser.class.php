@@ -86,8 +86,8 @@ class ForumTopicBrowser extends LearningObjectPublicationBrowser
 		if($display_topics)
 		{
 			$toolbar_data = array ();
-			$toolbar_data[] = array ('href' => $this->get_url(array('forum_action'=>'newtopic')), 'img' => Theme :: get_common_img_path().'action_create.png', 'label' => Translation :: get('NewTopic'), 'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-			$html .=  '<div style="margin-bottom: 1em;">'.RepositoryUtilities :: build_toolbar($toolbar_data).'</div>';
+			$toolbar_data[] = array ('href' => $this->get_url(array('forum_action'=>'newtopic')), 'img' => Theme :: get_common_img_path().'action_create.png', 'label' => Translation :: get('NewTopic'), 'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+			$html .=  '<div style="margin-bottom: 1em;">'.DokeosUtilities :: build_toolbar($toolbar_data).'</div>';
 			$html .= '<b>'.$forum->get_title().'</b>';
 			$html .= $this->listRenderer->as_html();
 		}

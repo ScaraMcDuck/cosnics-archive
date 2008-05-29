@@ -293,7 +293,7 @@ abstract class LearningObjectPublicationListRenderer
 			if(count($attachments)>0)
 			{
 				$html[] = '<ul class="attachments_list">';
-				RepositoryUtilities :: order_learning_objects_by_title($attachments);
+				DokeosUtilities :: order_learning_objects_by_title($attachments);
 				foreach ($attachments as $attachment)
 				{
 					$disp = LearningObjectDisplay :: factory($attachment);

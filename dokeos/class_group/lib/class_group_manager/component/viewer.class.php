@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'/../class_group_manager.class.php';
 require_once dirname(__FILE__).'/../class_group_manager_component.class.php';
 require_once dirname(__FILE__).'/../../class_group_data_manager.class.php';
 require_once dirname(__FILE__).'/class_group_rel_user_browser/class_group_rel_user_browser_table.class.php';
-require_once dirname(__FILE__).'/../../../../repository/lib/repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 
 class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 {
@@ -71,14 +71,14 @@ class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 			'href' => $this->get_classgroup_editing_url($classgroup),
 			'label' => Translation :: get('Edit'),
 			'img' => Theme :: get_common_img_path().'action_edit.png',
-			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
 		$toolbar_data[] = array(
 			'href' => $this->get_classgroup_rel_user_subscribing_url($classgroup),
 			'label' => Translation :: get('AddUsers'),
 			'img' => Theme :: get_common_img_path().'action_subscribe.png',
-			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
 		// TODO: Make this invisible if there aren't any relations
@@ -86,10 +86,10 @@ class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 			'href' => $this->get_classgroup_emptying_url($classgroup),
 			'label' => Translation :: get('Truncate'),
 			'img' => Theme :: get_common_img_path().'action_recycle_bin.png',
-			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
-		return RepositoryUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
+		return DokeosUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
 	}
 }
 ?>

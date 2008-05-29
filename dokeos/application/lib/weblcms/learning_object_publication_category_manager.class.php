@@ -139,7 +139,7 @@ class LearningObjectPublicationCategoryManager
 			$options = array ();
 			if ($id != 0)
 			{
-				// TODO: Use RepositoryUtilities :: build_toolbar(). But this UI needs to change anyway.
+				// TODO: Use DokeosUtilities :: build_toolbar(). But this UI needs to change anyway.
 				$options[] = '<a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT, self :: PARAM_ID => $id), true).'"><img src="'.Theme :: get_common_img_path().'action_edit.png"  alt=""/></a>';
 				$options[] = '<a href="'.$this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE, self :: PARAM_ID => $id), true).'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'action_delete.png"  alt=""/></a>';
 			}

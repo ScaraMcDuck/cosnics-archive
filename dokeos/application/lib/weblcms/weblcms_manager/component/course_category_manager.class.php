@@ -189,10 +189,10 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 			'href' => $this->get_course_category_add_url(),
 			'label' => Translation :: get('CreateCourseCategory'),
 			'img' => Theme :: get_common_img_path().'action_create.png',
-			'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 	
 	function get_condition()

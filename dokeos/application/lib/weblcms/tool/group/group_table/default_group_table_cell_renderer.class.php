@@ -106,7 +106,7 @@ class DefaultGroupTableCellRenderer implements GroupTableCellRenderer
 			$unsubscribe_url = $this->group_tool->get_url($parameters);
 			$toolbar_data[] = array ('href' => $unsubscribe_url, 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_img_path().'action_unsubscribe.png');
 		}
-		return RepositoryUtilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

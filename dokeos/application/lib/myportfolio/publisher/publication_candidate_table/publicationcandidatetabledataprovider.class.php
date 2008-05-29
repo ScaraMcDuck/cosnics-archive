@@ -68,7 +68,7 @@ class PublicationCandidateTableDataProvider implements LearningObjectTableDataPr
     		$type_cond[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
     	}
     	$conds[] = new OrCondition($type_cond);
-		$c = RepositoryUtilities :: query_to_condition($this->query);
+		$c = DokeosUtilities :: query_to_condition($this->query);
 		if (!is_null($c))
 		{
 			$conds[] = $c;

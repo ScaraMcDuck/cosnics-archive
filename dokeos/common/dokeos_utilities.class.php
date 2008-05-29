@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: repository_utilities.class.php 15163 2008-04-28 13:50:20Z vanpouckesven $
+ * $Id: dokeos_utilities.class.php 15163 2008-04-28 13:50:20Z vanpouckesven $
  * @package repository
  */
 
@@ -12,7 +12,7 @@ require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 
 /**
  * This class provides some common methods that are used throughout the
- * repository and sometimes outside it.
+ * platform.
  *
  *  @author Tim De Pauw
  *  @author Hans De Bisschop
@@ -212,7 +212,7 @@ class DokeosUtilities
 	 *       'img'     => '/path/to/icon.png', # preferably absolute
 	 *       'label'   => 'The Label', # no HTML
 	 *       'href'    => 'http://the.url.to.point.to/', # null for no link
-	 *       'display' => RepositoryUtilities :: TOOLBAR_DISPLAY_ICON,
+	 *       'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON,
 	 *                      # ... or another constant
 	 *       'confirm' => true  # requests confirmation upon clicking
 	 *     ),
@@ -300,7 +300,7 @@ class DokeosUtilities
 	/**
 	 * Checks if a file is an HTML document.
 	 */
-	// TODO: SCARA - MOVED / FROM: document_form_class / TO: RepositoryUtilities or some other relevant class.
+	// TODO: SCARA - MOVED / FROM: document_form_class / TO: DokeosUtilities or some other relevant class.
 	function is_html_document($path)
 	{
 		return (preg_match('/\.x?html?$/', $path) === 1);

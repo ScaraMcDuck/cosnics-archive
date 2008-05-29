@@ -68,7 +68,7 @@ class TrackingManagerEmptyTrackerComponent extends TrackingManagerComponent
 			$trackerregistration = $this->retrieve_tracker_registration($tracker_id);
 			
 			$classname = $trackerregistration->get_class();
-			$filename = RepositoryUtilities :: camelcase_to_underscores($classname);
+			$filename = DokeosUtilities :: camelcase_to_underscores($classname);
 
 			$fullpath = Path :: get(SYS_PATH) . $trackerregistration->get_path() . 
 				strtolower($filename) . '.class.php';
@@ -115,7 +115,7 @@ class TrackingManagerEmptyTrackerComponent extends TrackingManagerComponent
 		foreach($trackerregistrations as $trackerregistration)
 		{	
 			$classname = $trackerregistration->get_class();
-			$filename = RepositoryUtilities :: camelcase_to_underscores($classname);
+			$filename = DokeosUtilities :: camelcase_to_underscores($classname);
 
 			$fullpath = Path :: get(SYS_PATH) . $trackerregistration->get_path() . 
 				strtolower($filename) . '.class.php';

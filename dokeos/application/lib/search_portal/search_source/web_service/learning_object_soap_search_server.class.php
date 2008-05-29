@@ -6,7 +6,7 @@
 require_once dirname(__FILE__).'/soap_learning_object.class.php';
 require_once dirname(__FILE__).'/learning_object_soap_search_utilities.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
-require_once Path :: get_repository_path(). 'lib/repository_utilities.class.php';
+require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 
 class LearningObjectSoapSearchServer
 {
@@ -42,7 +42,7 @@ class LearningObjectSoapSearchServer
 	{
 		$dm = RepositoryDataManager :: get_instance();
 		$adm = AdminDataManager :: get_instance();
-		$condition = RepositoryUtilities :: query_to_condition($query);
+		$condition = DokeosUtilities :: query_to_condition($query);
 		$objects = $dm->retrieve_learning_objects(null, $condition, array (LearningObject :: PROPERTY_TITLE), array (SORT_ASC), 0, self :: MAX_RESULTS);
 		$object_count = $dm->count_learning_objects(null, $condition);
 		$soap_objects = array ();

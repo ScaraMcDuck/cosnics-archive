@@ -58,7 +58,7 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 				'confirm' => true,
 				'img' => Theme :: get_common_img_path().'action_revert.png'
 			);
-			return RepositoryUtilities :: build_toolbar($toolbar_data);
+			return DokeosUtilities :: build_toolbar($toolbar_data);
 		}
 		return '';
 	}
