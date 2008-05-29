@@ -22,12 +22,32 @@ class PersonalCalendarMonthRenderer extends PersonalCalendarRenderer
 		$to_date = strtotime('-1 Second', strtotime('Next Month', $from_date));
 		$events = $this->get_events($from_date, $to_date);
 
-		$html = array ();
-		foreach ($events as $index => $event)
+		$html = array ();	
+		
+		$start_time = $calendar->get_start_time();
+		$end_time = $calendar->get_end_time();
+		$table_date = $start_time;
+		
+		while($table_date <= $end_time)
 		{
-			$content = $this->render_event($event);
-			$calendar->add_event($event->get_start_date(), $content);
+			$next_table_date = strtotime('+1 Day',$table_date);
+			
+			foreach ($events as $index => $event)
+			{
+				$start_date = $event->get_start_date();
+				$end_date = $event->get_end_date();
+				
+				if ($table_date <= $start_date && $start_date <= $next_table_date || $table_date <= $end_date && $end_date <= $next_table_date || $start_date <= $table_date && $next_table_date <= $end_date)
+				{
+					$content = $this->render_event($event, $table_date);
+					$calendar->add_event($table_date, $content);
+				}
+			}
+			$table_date = $next_table_date;
 		}
+		
+		
+		
 		$parameters['time'] = '-TIME-';
 		$calendar->add_calendar_navigation($this->get_parent()->get_url($parameters));
 		$html = $calendar->toHtml();
@@ -40,12 +60,38 @@ class PersonalCalendarMonthRenderer extends PersonalCalendarRenderer
 	 * @param PersonalCalendarEvent $event
 	 * @return string
 	 */
-	private function render_event($event)
+	private function render_event($event, $table_date)
 	{
-		$html[] = '<div class="event" style="border-left: 5px solid '.$this->get_color(Translation :: get($event->get_source())).';">';
+		$start_date = $event->get_start_date();
+		$end_date = $event->get_end_date();
+		
+		$html[] = '<div class="event" style="border-left: 5px solid '.$this->get_color(Translation :: get(Application :: application_to_class($event->get_source()))).';">';
+		
+		if($start_date > $table_date && $start_date <= strtotime('+1 Day',$table_date))
+		{
+			$html[] = date('H:i',$start_date);
+		}
+		else
+		{
+			$html[] = '&rarr;';
+		}
+		
 		$html[] = '<a href="'.$event->get_url().'">';
-		$html[] = date('H:i', $event->get_start_date()).' '.htmlspecialchars($event->get_title());
+		$html[] = htmlspecialchars($event->get_title());
 		$html[] = '</a>';
+		
+		if ($start_date != $end_date && $end_date >= strtotime('+1 Day', $start_date))
+		{
+			if($end_date >= $table_date && $end_date < strtotime('+1 Day', $table_date))
+			{
+				$html[] = date('H:i',$end_date);
+			}
+			else
+			{
+				$html[] = '&rarr;';
+			}
+		}
+		
 		$html[] = '</div>';
 		return implode("\n", $html);
 	}

@@ -37,9 +37,10 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 		{
 			$next_table_date = strtotime('+1 Day',$table_date);
 			$publications = $this->browser->get_calendar_events($table_date,$next_table_date);
+			
 			foreach($publications as $index => $publication)
 			{
-				$cell_contents = $this->render_publication($publication,$table_date);
+				$cell_contents = $this->render_publication($publication, $table_date);
 				$calendar_table->add_event($table_date,$cell_contents );
 			}
 			$table_date = $next_table_date;

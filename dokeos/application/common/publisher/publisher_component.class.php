@@ -92,13 +92,18 @@ abstract class PublisherComponent
 	{
 		$this->parent->set_parameter($name, $value);
 	}
+	
+	function set_default_learning_object($type, $learning_object)
+	{
+		$this->parent->set_default_learning_object($type, $learning_object);
+	}
 
 	/**
 	 * @see ObjectPublisher::get_default_object()
 	 */
-	function get_default_object($type)
+	function get_default_learning_object($type)
 	{
-		return $this->parent->get_default_object($type);
+		return $this->parent->get_default_learning_object($type);
 	}
 	
 	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())

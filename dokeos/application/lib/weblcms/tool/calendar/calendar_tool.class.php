@@ -150,6 +150,7 @@ class CalendarTool extends RepositoryTool
 	function get_calendar_events($from_time,$to_time)
 	{
 		$publications = $this->get_publications();
+		
 		$events = array();
 		foreach($publications as $index => $publication)
 		{

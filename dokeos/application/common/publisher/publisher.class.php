@@ -27,7 +27,7 @@ class Publisher
 	/**
 	 * The default learning objects, which are used for form defaults.
 	 */
-	private $default_objects;
+	private $default_learning_objects;
 	
 	private $parent;
 	
@@ -42,7 +42,7 @@ class Publisher
 	function Publisher($parent, $types, $mail_option = false)
 	{
 		$this->parent = $parent;
-		$this->default_objects = array();
+		$this->default_learning_objects = array();
 		$this->types = (is_array($types) ? $types : array ($types));
 		$this->mail_option = $mail_option;
 		$this->set_publisher_actions(array ('publicationcreator','browser', 'finder'));
@@ -104,11 +104,24 @@ class Publisher
 		$this->parent->set_parameter($name, $value);
 	}
 	
-	function get_default_object($type)
+	/**
+	 * Sets a default learning object. When the creator component of this
+	 * publisher is displayed, the properties of the given learning object will
+	 * be used as the default form values.
+	 * @param string $type The learning object type.
+	 * @param LearningObject $learning_object The learning object to use as the
+	 *                                        default for the given type.
+	 */
+	function set_default_learning_object($type, $learning_object)
 	{
-		if(isset($this->default_objects[$type]))
+		$this->default_learning_objects[$type] = $learning_object;
+	}
+	
+	function get_default_learning_object($type)
+	{
+		if(isset($this->default_learning_objects[$type]))
 		{
-			return $this->default_objects[$type];
+			return $this->default_learning_objects[$type];
 		}
 		return new AbstractLearningObject($type, $this->get_user_id());
 	}
@@ -126,6 +139,16 @@ class Publisher
 	function set_publisher_actions($publisher_actions)
 	{
 		$this->publisher_actions = $publisher_actions;
+	}
+	
+	/**
+	 * Determines if this learning object publisher supports the option to send
+	 * published learning objects by email.
+	 * @return boolean
+	 */
+	function with_mail_option()
+	{
+		return $this->mail_option;
 	}
 }
 ?>

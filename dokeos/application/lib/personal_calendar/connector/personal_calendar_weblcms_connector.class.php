@@ -29,7 +29,8 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
 			$object = $publication->get_learning_object();
 			
 			$event = new PersonalCalendarEvent();
-			$event->set_start_date($publication->get_publication_date());
+			$event->set_start_date($object->get_start_date());
+			$event->set_end_date($object->get_end_date());
 			$event->set_url('run.php?application=weblcms&amp;go=courseviewer&amp;course='.$publication->get_course_id().'&amp;tool='.$publication->get_tool().'&amp;pid='.$publication->get_id());
 			$event->set_title($object->get_title());
 			$event->set_content($object->get_description());
