@@ -28,8 +28,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	const ALIAS_MAX_SORT = 'max_sort';
 
 	private $connection;
-	private $repoDM;
-	private $userDM;
 	/**
 	 * The table name prefix, if any.
 	 */
@@ -37,8 +35,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function initialize()
 	{
-		$this->repoDM = RepositoryDataManager :: get_instance();
-		$this->userDM = UsersDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseWeblcmsDataManager','debug')));
 		$this->prefix = 'weblcms_';
@@ -146,7 +142,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			if ($type == 'user')
 			{
-				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->escape_column_name('title') .' FROM '.$this->escape_table_name('learning_object_publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.$this->repoDM->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`learning_object` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
+				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->escape_column_name('title') .' FROM '.$this->escape_table_name('learning_object_publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.RepositoryDataManager :: get_instance()->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`learning_object` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
 				$query .= ' WHERE '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_PUBLISHER_ID).'=?';
 
 				$order = array ();
@@ -657,10 +653,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$site_name_setting = PlatformSetting :: get('site_name');
 			$subject = '['.$site_name_setting->get_value().'] '.$publication->get_learning_object()->get_title();
 			// TODO: SCARA - Add meaningfull publication removal message
-			$body = 'message';
-			$user = $this->userDM->retrieve_user($publication->get_publisher_id());
-			$mail = Mail :: factory($subject, $body, $user->get_email());
-			$mail->send();
+//			$body = 'message';
+//			$user = $this->userDM->retrieve_user($publication->get_publisher_id());
+//			$mail = Mail :: factory($subject, $body, $user->get_email());
+//			$mail->send();
 			$this->delete_learning_object_publication($publication);
 		}
 		return true;
@@ -1703,7 +1699,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function record_to_publication($record)
 	{
-		$obj = $this->repoDM->retrieve_learning_object($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
+		$obj = RepositoryDataManager :: get_instance()->retrieve_learning_object($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_group').' WHERE publication = ?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($record[LearningObjectPublication :: PROPERTY_ID]);
@@ -2107,7 +2103,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function record_to_learning_object_publication_feedback($record)
 	{
-		$obj = $this->repoDM->retrieve_learning_object($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
+		$obj = RepositoryDataManager :: get_instance()->retrieve_learning_object($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_group').' WHERE publication = ?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($record[LearningObjectPublication :: PROPERTY_ID]);

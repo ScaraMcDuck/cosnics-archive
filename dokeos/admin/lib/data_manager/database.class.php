@@ -22,7 +22,6 @@ class DatabaseAdminDataManager extends AdminDataManager
 	 * The table name prefix, if any.
 	 */
 	private $prefix;
-	private $repoDM;
 	
 	function initialize()
 	{
