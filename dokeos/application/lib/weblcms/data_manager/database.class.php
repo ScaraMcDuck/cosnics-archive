@@ -30,18 +30,15 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	private $connection;
 	private $repoDM;
 	private $userDM;
-	private $adminDM;
 	/**
 	 * The table name prefix, if any.
 	 */
 	private $prefix;
 
-
 	function initialize()
 	{
 		$this->repoDM = RepositoryDataManager :: get_instance();
 		$this->userDM = UsersDataManager :: get_instance();
-		$this->adminDM = AdminDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseWeblcmsDataManager','debug')));
 		$this->prefix = 'weblcms_';

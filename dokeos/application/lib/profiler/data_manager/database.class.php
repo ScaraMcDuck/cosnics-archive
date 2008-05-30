@@ -11,9 +11,7 @@ require_once 'MDB2.php';
 class DatabaseProfilerDataManager extends ProfilerDataManager {
 
 	private $prefix;
-	private $repoDM;
 	private $userDM;
-	private $adminDM;
 
 	const ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE = 'pmb';
 	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
@@ -21,9 +19,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 	function initialize()
 	{
 		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
-		$this->repoDM = RepositoryDataManager :: get_instance();
 		$this->userDM = UsersDataManager :: get_instance();
-		$this->adminDM = AdminDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseProfilerDatamanager','debug')));
 		if (PEAR::isError($this)) {
@@ -340,7 +336,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		{
 			if ($type == 'user')
 			{
-				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->escape_column_name('title') .' FROM '.$this->escape_table_name('publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.$this->repoDM->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`profile` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
+				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->escape_column_name('title') .' FROM '.$this->escape_table_name('publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.RepositoryDataManager :: get_instance()->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`profile` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
 				$query .= ' WHERE '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.'.$this->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER).'=?';
 
 				$order = array ();

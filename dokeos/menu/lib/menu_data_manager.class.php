@@ -103,7 +103,7 @@ abstract class MenuDataManager
 				$toolPath = $path.'/'. $file .'/'.$file.'_manager';
 				if (is_dir($toolPath) && self :: is_application_name($file))
 				{
-					require_once $toolPath.'/'.$file.'.class.php';
+					//require_once $toolPath.'/'.$file.'.class.php';
 					$this->register_application($file);
 				}
 			}
