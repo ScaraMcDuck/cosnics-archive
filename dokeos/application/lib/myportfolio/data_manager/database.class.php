@@ -20,16 +20,12 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	 * The table name prefix, if any.
 	 */
 	private $prefix;
-
-	private $repoDM;
+	
 	private $userDM;
-	private $adminDM;
 
 	function initialize()
 	{
-		$this->repoDM = RepositoryDataManager :: get_instance();
 		$this->userDM = UsersDataManager :: get_instance();
-		$this->adminDM = AdminDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabasePortfolioDataManager','debug')));
 		$this->prefix = 'myportfolio_';
@@ -475,7 +471,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		{
 			if ($type == 'user')
 			{
-				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->escape_column_name('title') .' FROM '.$this->escape_table_name('publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.$this->repoDM->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`profile` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
+				$query  = 'SELECT '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE.'.*, '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.'. $this->escape_column_name('title') .' FROM '.$this->escape_table_name('publication').' AS '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .' JOIN '.RepositoryDataManager :: get_instance()->escape_table_name('learning_object').' AS '. self :: ALIAS_LEARNING_OBJECT_TABLE .' ON '. self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE .'.`profile` = '. self :: ALIAS_LEARNING_OBJECT_TABLE .'.`id`';
 				$query .= ' WHERE '.self :: ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE. '.'.$this->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER).'=?';
 
 				$order = array ();

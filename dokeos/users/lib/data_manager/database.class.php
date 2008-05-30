@@ -33,14 +33,12 @@ class DatabaseUsersDataManager extends UsersDataManager
 	 * The table name prefix, if any.
 	 */
 	private $prefix;
-	private $repoDM;
 
 	/**
 	 * Initializes the connection
 	 */
 	function initialize()
 	{
-		$this->repoDM = RepositoryDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseUsersDatamanager','debug')));
 		$this->prefix = 'user_';
@@ -181,7 +179,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 			return false;
 		}
 
-		$this->repoDM->delete_learning_object_by_user($user->get_id());
+		RepositoryDataManager :: get_instance()->delete_learning_object_by_user($user->get_id());
 		// Delete the user from the database
 		$query = 'DELETE FROM '.$this->escape_table_name('user').' WHERE '.$this->escape_column_name('user_id').'=?';
 		$sth = $this->connection->prepare($query);
@@ -213,7 +211,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$this->connection->extended->autoExecute($this->get_table_name('user'), $props, MDB2_AUTOQUERY_INSERT);
 
 		// Create the user's root category for the repository
-		$this->repoDM->create_root_category($user->get_id());
+		RepositoryDataManager :: get_instance()->create_root_category($user->get_id());
 		return true;
 	}
 

@@ -41,14 +41,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * The table name prefix, if any.
 	 */
 	private $prefix;
-	
-	private $adminDM;
 
 	// Inherited.
 	function initialize()
 	{
 		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
-		$this->adminDM = AdminDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseRepositoryDataManager','debug')));
 		if (PEAR::isError($this)) {

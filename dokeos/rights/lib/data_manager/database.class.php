@@ -37,11 +37,9 @@ class DatabaseRightsDataManager extends RightsDataManager
 	 * The table name prefix, if any.
 	 */
 	private $prefix;
-	private $repoDM;
 
 	function initialize()
 	{
-		$this->repoDM = & RepositoryDataManager :: get_instance();
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseRightsDatamanager','debug')));
 		$this->prefix = 'rights_';
