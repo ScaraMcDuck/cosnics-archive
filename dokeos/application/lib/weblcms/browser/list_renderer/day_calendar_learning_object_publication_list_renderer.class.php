@@ -39,7 +39,7 @@ class DayCalendarLearningObjectPublicationListRenderer extends LearningObjectPub
 			$publications = $this->browser->get_calendar_events($table_date,$next_table_date);
 			foreach($publications as $index => $publication)
 			{
-				$cell_contents = $this->render_publication($publication,$table_date);
+				$cell_contents = $this->render_publication($publication,$table_date, $calendar_table->get_hour_step());
 				$calendar_table->add_event($table_date,$cell_contents );
 			}
 			$table_date = $next_table_date;
@@ -54,10 +54,10 @@ class DayCalendarLearningObjectPublicationListRenderer extends LearningObjectPub
 	 * @param LearningObjectPublication $publication The publication to render
 	 * @param int $table_start_date The current date displayed in the table.
 	 */
-	function render_publication($publication,$table_start_date)
+	function render_publication($publication,$table_start_date, $calendar_table_hour_step)
 	{
 		static $color_cache;
-		$table_end_date = strtotime('+'.HOUR_STEP.' hours',$table_start_date);
+		$table_end_date = strtotime('+'.$calendar_table_hour_step.' hours',$table_start_date);
 		$event = $publication->get_learning_object();
 		$event_url = $this->get_url(array('pid'=>$publication->get_id()), true);
 		$start_date = $event->get_start_date();
