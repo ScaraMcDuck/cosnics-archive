@@ -37,7 +37,7 @@ class PersonalCalendarMonthRenderer extends PersonalCalendarRenderer
 				$start_date = $event->get_start_date();
 				$end_date = $event->get_end_date();
 				
-				if ($table_date <= $start_date && $start_date <= $next_table_date || $table_date <= $end_date && $end_date <= $next_table_date || $start_date <= $table_date && $next_table_date <= $end_date)
+				if ($table_date < $start_date && $start_date < $next_table_date || $table_date <= $end_date && $end_date <= $next_table_date || $start_date <= $table_date && $next_table_date <= $end_date)
 				{
 					$content = $this->render_event($event, $table_date);
 					$calendar->add_event($table_date, $content);
@@ -45,8 +45,6 @@ class PersonalCalendarMonthRenderer extends PersonalCalendarRenderer
 			}
 			$table_date = $next_table_date;
 		}
-		
-		
 		
 		$parameters['time'] = '-TIME-';
 		$calendar->add_calendar_navigation($this->get_parent()->get_url($parameters));
@@ -80,7 +78,7 @@ class PersonalCalendarMonthRenderer extends PersonalCalendarRenderer
 		$html[] = htmlspecialchars($event->get_title());
 		$html[] = '</a>';
 		
-		if ($start_date != $end_date && $end_date >= strtotime('+1 Day', $start_date))
+		if ($start_date != $end_date && $end_date > strtotime('+1 Day', $start_date))
 		{
 			if($end_date >= $table_date && $end_date < strtotime('+1 Day', $table_date))
 			{
