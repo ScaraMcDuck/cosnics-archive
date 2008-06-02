@@ -18,6 +18,7 @@ require_once dirname(__FILE__).'/../course/course.class.php';
 require_once dirname(__FILE__).'/../course/course_category.class.php';
 require_once dirname(__FILE__).'/../course/course_user_category.class.php';
 require_once dirname(__FILE__).'/../course/course_user_relation.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/data_manager/database.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 
 class DatabaseWeblcmsDataManager extends WeblcmsDataManager
