@@ -2,8 +2,8 @@
 /**
  * @package migration.lib.migration_manager.component.inc.wizard
  */
-require_once dirname(__FILE__) . '/../migrationwizardpage.class.php';
-require_once dirname(__FILE__) . '/../../../../../migrationdatamanager.class.php'; 
+require_once dirname(__FILE__) . '/../migration_wizard_page.class.php';
+require_once dirname(__FILE__) . '/../../../../../migration_data_manager.class.php'; 
 require_once dirname(__FILE__) . '/../../../../../logger.class.php'; 
 require_once dirname(__FILE__) . '/../../../../../import.class.php'; 
 
@@ -95,7 +95,7 @@ class BlogsMigrationWizardPage extends MigrationWizardPage
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
 				$exportvalues['migrate_courses'] == 1 && $exportvalues['migrate_users'] == 1)
 			{
-				$courseclass = Import :: factory($this->old_system, 'course');
+				$courseclass = Import :: factory($this->old_system, '_course');
 				$database_table = $courseclass->get_database_table(null);
 				
 				$max_records = $this->old_mgdm->count_records($database_table['database'],$database_table['table']);
@@ -127,13 +127,13 @@ class BlogsMigrationWizardPage extends MigrationWizardPage
 							continue;
 						}	
 						
-						//$this->migrate('Blog', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
-						//$this->migrate('BlogComment', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
-						//$this->migrate('BlogPost', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,2);
-						//$this->migrate('BlogRating', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,3);
-						//$this->migrate('BlogRelUser', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,4);
-						//$this->migrate('BlogTask', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,5);
-						//$this->migrate('BlogTaskRelUser', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,6);
+						//$this->migrate('_Blog', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
+						//$this->migrate('_BlogComment', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
+						//$this->migrate('_BlogPost', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,2);
+						//$this->migrate('_BlogRating', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,3);
+						//$this->migrate('_BlogRelUser', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,4);
+						//$this->migrate('_BlogTask', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,5);
+						//$this->migrate('_BlogTaskRelUser', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,6);
 						unset($course);
 						unset($courses[$i]);
 					}

@@ -165,7 +165,7 @@ class Dokeos185Class extends ImportClass
 		else
 			$lcms_class->set_description($this->get_name());
 			
-		$lcms_class->set_sort($mgdm->get_next_position('classgroup_classgroup', 'sort'));
+		$lcms_class->set_sort($mgdm->get_next_position('class_group_class_group', 'sort'));
 		
 		//create course in database
 		$lcms_class->create();

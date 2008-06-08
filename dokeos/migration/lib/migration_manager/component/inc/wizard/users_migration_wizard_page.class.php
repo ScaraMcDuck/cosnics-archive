@@ -104,7 +104,7 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 			{
 				$lcms_users[] = $lcms_user;	
 			}
-			$this->migrate('User', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm,'lcms_users' => $lcms_users), null,0);
+			$this->migrate('_User', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm,'lcms_users' => $lcms_users), null,0);
 		}
 		else
 		{

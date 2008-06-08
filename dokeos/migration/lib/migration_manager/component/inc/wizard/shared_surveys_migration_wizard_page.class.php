@@ -90,9 +90,9 @@ class SharedSurveysMigrationWizardPage extends MigrationWizardPage
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
 				$exportvalues['migrate_courses'] == 1 && $exportvalues['migrate_users'] == 1)
 			{
-				//$this->migrate('SharedSurvey', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
-				//$this->migrate('SharedSurveyQuestion', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
-				//$this->migrate('SharedSurveyQuestionOption', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,2);
+				//$this->migrate('_Shared_Survey', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
+				//$this->migrate('_Shared_Survey_Question', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
+				//$this->migrate('_Shared_Survey_Question_Option', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,2);
 			}
 			else
 			{

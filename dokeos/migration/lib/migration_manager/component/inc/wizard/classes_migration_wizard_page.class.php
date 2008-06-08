@@ -106,12 +106,12 @@ class ClassesMigrationWizardPage extends MigrationWizardPage
 		{	
 			//Migrate the classes
 			//$this->migrate_classes();
-			$this->migrate('Class', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
+			$this->migrate('_Class', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
 			//Migrate the class users
 			if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 			{
 				//$this->migrate_class_users();
-				$this->migrate('ClassUser', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,1);
+				$this->migrate('_Class_User', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,1);
 			}
 			else
 			{

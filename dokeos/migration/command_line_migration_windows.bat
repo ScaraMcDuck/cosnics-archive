@@ -1,4 +1,4 @@
-cd commandlinemigration
+cd command_line_migration
 
 @C:\wamp\bin\php\php5.2.5\php.exe users_command_line_migration.php
 @C:\wamp\bin\php\php5.2.5\php.exe personal_agendas_command_line_migration.php

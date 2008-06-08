@@ -88,8 +88,8 @@ class OthersMigrationWizardPage extends MigrationWizardPage
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
 				$exportvalues['migrate_courses'] == 1 && $exportvalues['migrate_users'] == 1)
 			{
-				//$this->migrate('OpenidAssociation', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
-				//$this->migrate('Templates', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
+				//$this->migrate('_Open_id_Association', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
+				//$this->migrate('_Templates', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
 			}
 			else
 			{

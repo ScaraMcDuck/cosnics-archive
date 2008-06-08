@@ -88,13 +88,13 @@ class SystemSettingsMigrationWizardPage extends MigrationWizardPage
 			//Migrate system settings
 			$condition = new EqualityCondition('category', 'Platform');
 			//$this->migrate_system_settings();
-			$this->migrate('SettingCurrent', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
+			$this->migrate('_Setting_Current', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
 			//Migrate system announcements
 			if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 			{
 				//$this->migrate_system_announcements();
 				$id = $new_mgdm->get_id_reference($this->old_mgdm->get_old_admin_id(), 'user_user');
-				$this->migrate('SystemAnnouncement', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('admin_id' => $id), null,1);
+				$this->migrate('_System_Announcement', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('admin_id' => $id), null,1);
 			}
 			else
 			{
