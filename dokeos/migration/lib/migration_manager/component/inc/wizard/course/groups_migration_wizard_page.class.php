@@ -2,8 +2,8 @@
 /**
  * @package migration.lib.migration_manager.component.inc.wizard
  */
-require_once dirname(__FILE__) . '/../migrationwizardpage.class.php';
-require_once dirname(__FILE__) . '/../../../../../migrationdatamanager.class.php'; 
+require_once dirname(__FILE__) . '/../migration_wizard_page.class.php';
+require_once dirname(__FILE__) . '/../../../../../migration_data_manager.class.php'; 
 require_once dirname(__FILE__) . '/../../../../../logger.class.php'; 
 require_once dirname(__FILE__) . '/../../../../../import.class.php'; 
 /**
@@ -92,7 +92,7 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
 				     $exportvalues['migrate_courses'] == 1 && $exportvalues['migrate_users'] == 1)
 			{
-				$courseclass = Import :: factory($this->old_system, 'course');
+				$courseclass = Import :: factory($this->old_system, '_course');
 				$database_table = $courseclass->get_database_table(null);
 				
 				$max_records = $this->old_mgdm->count_records($database_table['database'],$database_table['table']);
@@ -124,10 +124,10 @@ class GroupsMigrationWizardPage extends MigrationWizardPage
 							continue;
 						}	
 				
-						//$this->migrate('GroupCategory', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
-						$this->migrate('Group', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
-						//$this->migrate('GroupRelUser', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,2);
-						//$this->migrate('GroupRelTutor', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,3);
+						//$this->migrate('_Group_Category', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
+						$this->migrate('_Group', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
+						//$this->migrate('_Group_Rel_User', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,2);
+						//$this->migrate('_Group_Rel_Tutor', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,3);
 						//TODO: group categories, group rel users, group rel tutors;
 						unset($course);
 						unset($courses[$i]);

@@ -163,6 +163,7 @@ abstract class MigrationManagerComponent
 	 */
 	static function factory($type, $migration_manager)
 	{
+		
 		$filename = dirname(__FILE__).'/component/'.strtolower($type).'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{

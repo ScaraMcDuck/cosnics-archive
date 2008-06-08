@@ -9,7 +9,7 @@ ini_set("memory_limit"		,"3500M"	);	// Geen php-beperkingen voor geheugengebruik
 	ini_set("max_execution_time"	,"72000");	// Twee uur moet voldoende zijn...
 
 require_once dirname(__FILE__).'/../common/global.inc.php';
-require_once dirname(__FILE__).'/lib/migration_manager/migrationmanager.class.php';
+require_once dirname(__FILE__).'/lib/migration_manager/migration_manager.class.php';
 require_once Path :: get_user_path(). 'lib/usermanager/usermanager.class.php';
 
 $language_interface = 'english';

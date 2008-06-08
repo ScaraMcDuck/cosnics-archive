@@ -2,8 +2,8 @@
 /**
  * @package migration.lib.migration_manager.component.inc.wizard
  */
-require_once dirname(__FILE__) . '/../migrationwizardpage.class.php';
-require_once dirname(__FILE__) . '/../../../../../migrationdatamanager.class.php'; 
+require_once dirname(__FILE__) . '/../migration_wizard_page.class.php';
+require_once dirname(__FILE__) . '/../../../../../migration_data_manager.class.php'; 
 require_once dirname(__FILE__) . '/../../../../../logger.class.php'; 
 require_once dirname(__FILE__) . '/../../../../../import.class.php'; 
 
@@ -92,7 +92,7 @@ class RolesMigrationWizardPage extends MigrationWizardPage
 			if(isset($exportvalues['migrate_courses']) && isset($exportvalues['migrate_users']) &&
 				$exportvalues['migrate_courses'] == 1 && $exportvalues['migrate_users'] == 1)
 			{
-				$courseclass = Import :: factory($this->old_system, 'course');
+				$courseclass = Import :: factory($this->old_system, '_course');
 				$database_table = $courseclass->get_database_table(null);
 				
 				$max_records = $this->old_mgdm->count_records($database_table['database'],$database_table['table']);
@@ -125,10 +125,10 @@ class RolesMigrationWizardPage extends MigrationWizardPage
 							continue;
 						}	
 						
-						//$this->migrate('Roles', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
-						//$this->migrate('RoleGroup', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
-						//$this->migrate('RolePermissions', old_mgdm('mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,2);
-						//$this->migrate('RoleUser', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,3);
+						//$this->migrate('_Roles', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,0);
+						//$this->migrate('_Role_Group', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,1);
+						//$this->migrate('_Role_Permissions', old_mgdm('mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,2);
+						//$this->migrate('_Role_User', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array('old_mgdm' => $this->old_mgdm), $course,3);
 						
 						unset($course);
 						unset($courses[$i]);

@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/multi
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/open_question/open_question.class.php';
 require_once dirname(__FILE__) . '/../../../application/lib/weblcms/learning_object_publication.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/learning_object/category/category.class.php';
-require_once dirname(__FILE__) . '/dokeos185_quizanswer.class.php';
+require_once dirname(__FILE__) . '/dokeos185_quiz_answer.class.php';
 
 /**
  * This class presents a Dokeos185 quiz_question

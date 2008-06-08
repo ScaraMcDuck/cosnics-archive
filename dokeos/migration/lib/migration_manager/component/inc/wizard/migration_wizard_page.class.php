@@ -111,7 +111,6 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 	{
 		$class = Import :: factory($this->old_system, strtolower($type));
 		
-		
 		if($course)
 		{
 			$this->logfile->add_message('Starting migration ' . $type . ' for course ' . $course->get_code());
@@ -265,7 +264,7 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 	{
 		switch(true)
 		{
-			case ($item instanceof User) : return 'SUCCES: ' . $type . ' added ( ID: ' . $item->get_user_id() . $extra_message . ' )';
+			case ($item instanceof User) : return 'SUCCES: ' . $type . ' added ( ID: ' . $item->get_id() . $extra_message . ' )';
 			
 			case ($item instanceof CourseUserRelation) : return 'SUCCES: ' . $type . ' added ( Course: ' 
 					. $item->get_course() . ' User: ' .

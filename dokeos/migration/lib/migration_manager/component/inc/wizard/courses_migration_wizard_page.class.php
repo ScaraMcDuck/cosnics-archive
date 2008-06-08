@@ -86,19 +86,19 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['migrate_courses']) && $exportvalues['migrate_courses'] == 1)
 		{	
 			//Migrate course categories
-			$this->migrate('CourseCategory', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
+			$this->migrate('_Course_Category', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,0);
 			
 			//Migrate the courses
-			$this->migrate('Course', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,1);
+			$this->migrate('_Course', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,1);
 			
 			//Migrate the class users
 			if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 			{
 				//Migrate the user course categories
-				$this->migrate('UserCourseCategory', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,2);
+				$this->migrate('_User_Course_Category', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,2);
 				
 				//Migrate course users
-				$this->migrate('CourseRelUser', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,3);
+				$this->migrate('_Course_Rel_User', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,3);
 			}
 			else
 			{

@@ -26,14 +26,15 @@ abstract class OldMigrationDataManager
 		if(!isset(self :: $instance))
 		{
 			$filename = dirname(__FILE__) . '/../platform/' . strtolower($platform) . '/' . 
-				strtolower($platform) . 'datamanager.class.php';
+				strtolower($platform) . '_data_manager.class.php';
 			if (!file_exists($filename) || !is_file($filename))
 			{
 				echo($filename);
-				die('Failed to load ' . $platform . 'datamanager.class.php');
+				die('Failed to load ' . $platform . '_data_manager.class.php');
 			}
 			$class = $platform . 'DataManager';
 			require_once $filename;
+			
 			self :: $instance = new $class($old_directory);
 		}
 		

@@ -148,7 +148,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
 		
 		foreach($users as $user)
 		{
-			$query_admin = 'SELECT * FROM ' . $this->get_table_name('admin') . ' WHERE user_id=' . $user->get_id();
+			$query_admin = 'SELECT * FROM ' . $this->get_table_name('admin') . ' WHERE user_id=' . $user->get_user_id();
 			$result_admin = $this->db->query($query_admin);
 			
 			if($result_admin->numRows() == 1)
