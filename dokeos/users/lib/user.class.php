@@ -47,6 +47,7 @@ class User
 	const PROPERTY_DISK_QUOTA = 'disk_quota';
 	const PROPERTY_DATABASE_QUOTA = 'database_quota';
 	const PROPERTY_VERSION_QUOTA = 'version_quota';
+	const PROPERTY_THEME = 'theme';
 
 	const ACTION_CREATE_USER = 'create';
 
@@ -115,7 +116,7 @@ class User
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self ::PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA);
+		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self ::PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_THEME);
 	}
 
 	/**
@@ -302,6 +303,15 @@ class User
 	{
 		return $this->get_default_property(self :: PROPERTY_VERSION_QUOTA);
 	}
+	
+	/**
+	 * Returns the default theme for this user.
+	 * @return string the theme
+	 */
+	function get_theme()
+	{
+		return $this->get_default_property(self :: PROPERTY_THEME);
+	}	
 
 	/**
 	 * Sets the user_id of this user.
@@ -419,6 +429,7 @@ class User
 	{
 		return strlen($this->get_picture_uri()) > 0;
 	}
+	
 	function get_full_picture_url()
 	{
 		if($this->has_picture())
@@ -430,6 +441,7 @@ class User
 			return Theme :: get_common_img_path().'unknown.jpg';
 		}
 	}
+	
 	function get_full_picture_path()
 	{
 		if($this->has_picture())
@@ -440,6 +452,15 @@ class User
 		{
 			return Path :: get(SYS_IMG_PATH).'img/unknown.jpg';
 		}
+	}
+	
+	/**
+	 * Determines if this user has set a theme
+	 * @return boolean
+	 */
+	function has_theme()
+	{
+		return (!is_null($this->get_theme()) ? true : false);
 	}
 	/**
 	 * Sets the picture file
@@ -515,6 +536,15 @@ class User
 	function set_version_quota($version_quota)
 	{
 		$this->set_default_property(self :: PROPERTY_VERSION_QUOTA, $version_quota);
+	}
+	
+	/**
+	 * Sets the default theme for this user.
+	 * @param string $theme The theme.
+	 */
+	function set_theme($theme)
+	{
+		$this->set_default_property(self :: PROPERTY_THEME, $theme);
 	}
 
 	/**

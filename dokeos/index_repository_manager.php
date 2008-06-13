@@ -13,7 +13,7 @@ if (!Authentication :: is_valid())
 }
 
 $usermgr = new UserManager(Session :: get_user_id());
-$user = $usermgr->retrieve_user(Session :: get_user_id());
+$user = $usermgr->get_user();
 
 $repmgr = new RepositoryManager($user);
 try

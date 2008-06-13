@@ -52,7 +52,36 @@ require_once dirname(__FILE__).'/../users_block.class.php';
 	private $breadcrumbs;
 
 
-    function UserManager($user = null) {
+    function UserManager($user = null)
+    {
+    	$this->load_user($user);
+    	$this->load_user_theme();
+    	
+    	// Can users set their own theme and if they
+    	// can, do they have one set ? If so apply it
+    	$user = $this->get_user();
+    	
+    	if (is_object($user))
+    	{
+    		$user_can_set_theme = $this->get_platform_setting('allow_user_theme_selection');
+    		
+    		if ($user_can_set_theme && $user->has_theme())
+    		{
+    			Theme :: set_theme($user->get_theme());
+    		}
+    	}
+    	
+		$this->parameters = array ();
+		$this->set_action($_GET[self :: PARAM_ACTION]);
+		$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_USER));
+    }
+    
+	/**
+	 * Sets the current user based on the input passed on to the UserManager.
+	 * @param mixed $user The user.
+	 */
+    function load_user($user)
+    {
     	if (isset($user))
     	{
     		if (is_object($user))
@@ -73,9 +102,25 @@ require_once dirname(__FILE__).'/../users_block.class.php';
    				}
     		}
     	}
-		$this->parameters = array ();
-		$this->set_action($_GET[self :: PARAM_ACTION]);
-		$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_USER));
+    }
+    
+	/**
+	 * Sets the platform theme to the user's selection if allowed.
+	 */
+    function load_user_theme()
+    {
+    	// TODO: Add theme to userforms.
+    	$user = $this->get_user();
+    	
+    	if (is_object($user))
+    	{
+    		$user_can_set_theme = $this->get_platform_setting('allow_user_theme_selection');
+    		
+    		if ($user_can_set_theme && $user->has_theme())
+    		{
+    			Theme :: set_theme($user->get_theme());
+    		}
+    	}
     }
 
     /**

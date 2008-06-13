@@ -43,6 +43,7 @@ class Course {
 	const PROPERTY_VISIBILITY = 'visibility';
 	const PROPERTY_SUBSCRIBE_ALLOWED = 'subscribe';
 	const PROPERTY_UNSUBSCRIBE_ALLOWED = 'unsubscribe';
+	const PROPERTY_THEME = 'theme';
 
 	// Remnants from the old Dokeos system
 	const PROPERTY_LAST_VISIT = 'last_visit';
@@ -102,7 +103,7 @@ class Course {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_CATEGORY_CODE, self :: PROPERTY_DB, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_CATEGORY_CODE, self :: PROPERTY_DB, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED, self :: PROPERTY_THEME);
 	}
 
 	/**
@@ -220,6 +221,15 @@ class Course {
     function get_unsubscribe_allowed()
     {
     	return $this->get_default_property(self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
+    }
+    
+    /**
+     * Returns the course theme
+     * @return string The theme
+     */
+    function get_theme()
+    {
+    	return $this->get_default_property(self :: PROPERTY_THEME);
     }
 
     /**
@@ -339,6 +349,15 @@ class Course {
 	{
 		$this->set_default_property(self :: PROPERTY_UNSUBSCRIBE_ALLOWED, $subscribe);
 	}
+	
+	/**
+	 * Sets the theme of this course object
+	 * @param String $theme The theme of this course object
+	 */
+	function set_theme($theme)
+	{
+		$this->set_default_property(self :: PROPERTY_THEME, $theme);
+	}
 
 	/**
 	 * Deletes the course object from persistent storage
@@ -396,6 +415,16 @@ class Course {
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->is_course_admin($this, $user->get_id());
 	}
+	
+	/**
+	 * Determines if this course has a theme
+	 * @return boolean
+	 */
+	function has_theme()
+	{
+		return (!is_null($this->get_theme()) ? true : false);
+	}
+	
 	/**
 	 * Gets the subscribed users of this course
 	 * @return array An array of CourseUserRelation objects

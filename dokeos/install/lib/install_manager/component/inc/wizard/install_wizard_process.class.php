@@ -44,8 +44,6 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		$this->process_result('config', $config_file['success'], $config_file['message']);
 		flush();
 		
-		mysql_select_db($values['database_name']) or die('SELECT DB ERROR '.mysql_error());
-		
 		// 3. Installing the core-applications
 		$core_applications = array('admin', 'tracking', 'repository', 'users', 'class_group', 'rights', 'home', 'menu');
 		
@@ -112,34 +110,54 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 	
 	function create_database($values)
 	{
-		mysql_connect($values['database_host'], $values['database_username'], $values['database_password']);
 		
-		if(mysql_errno() > 0)
+		$connection_string = $values['database_driver'] . '://'. $values['database_username'] .':'. $values['database_password'] .'@'. $values['database_host'];
+		$connection = MDB2 :: connect($connection_string);
+		
+		if (MDB2 :: isError($connection))
 		{
-			$no		= mysql_errno();
-			$msg	= mysql_error();
-			
-			return array('success' => false, 'message' => ('['.$no.'] &ndash; '.$msg));
+			return array('success' => false, 'message' => (Translation :: get('DBConnectError') . $connection->getMessage()));
 		}
 		else
 		{
-			if (mysql_query('DROP DATABASE IF EXISTS ' . $values['database_name']))
-			{
-				if (mysql_query('CREATE DATABASE IF NOT EXISTS '. $values['database_name'] . ' DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci'))
-				{
-					return array('success' => true, 'message' => Translation :: get('DBCreated'));
-				}
-				else
-				{
-					return array('success' => false, 'message' => (Translation :: get('DBCreateError') . ' ' . mysql_error()));
-				}
-			}
-			else
-			{
-				return array('success' => false, 'message' => (Translation :: get('DBDropError') . ' ' . mysql_error()));
-			}
+			$drop_query = 'DROP DATABASE IF EXISTS ' . $values['database_name'];
+			$connection->exec($drop_query);
+			
+			$create_query = 'CREATE DATABASE IF NOT EXISTS '. $values['database_name'] . ' DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci';
+			$connection->exec($create_query);
+			
+			return array('success' => true, 'message' => Translation :: get('DBCreated'));
 		}
-		$this->add_message(Translation :: get('ApplicationInstallFailed'));
+		
+		
+//		mysql_connect($values['database_host'], $values['database_username'], $values['database_password']);
+//		
+//		if(mysql_errno() > 0)
+//		{
+//			$no		= mysql_errno();
+//			$msg	= mysql_error();
+//			
+//			return array('success' => false, 'message' => ('['.$no.'] &ndash; '.$msg));
+//		}
+//		else
+//		{
+//			if (mysql_query('DROP DATABASE IF EXISTS ' . $values['database_name']))
+//			{
+//				if (mysql_query('CREATE DATABASE IF NOT EXISTS '. $values['database_name'] . ' DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci'))
+//				{
+//					return array('success' => true, 'message' => Translation :: get('DBCreated'));
+//				}
+//				else
+//				{
+//					return array('success' => false, 'message' => (Translation :: get('DBCreateError') . ' ' . mysql_error()));
+//				}
+//			}
+//			else
+//			{
+//				return array('success' => false, 'message' => (Translation :: get('DBDropError') . ' ' . mysql_error()));
+//			}
+//		}
+//		$this->add_message(Translation :: get('ApplicationInstallFailed'));
 	}
 	
 	function create_folders()
@@ -166,6 +184,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 			return array('success' => false, 'message' => Translation :: get('ConfigWriteFailed'));
 		}
 		
+		$config['{DATABASE_DRIVER}']	= $values['database_driver'];
 		$config['{DATABASE_HOST}']		= $values['database_host'];
 		$config['{DATABASE_USER}']		= $values['database_username'];
 		$config['{DATABASE_PASSWORD}']	= $values['database_password'];

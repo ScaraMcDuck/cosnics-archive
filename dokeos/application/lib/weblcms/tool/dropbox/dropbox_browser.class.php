@@ -34,7 +34,7 @@ class DropboxBrowser extends LearningObjectPublicationBrowser
 		$condition = $tool_condition;
 		$user_id = $this->get_user_id();
 		$groups = $this->get_groups();
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups, $condition, false, array (Announcement :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC));
+		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups, $condition, false, array (LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC));
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
 		{
