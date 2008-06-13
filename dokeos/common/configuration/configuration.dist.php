@@ -12,7 +12,7 @@ $configuration['general']['data_manager']
 	= 'Database';
 
 $configuration['database']['connection_string']
-	= 'mysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_NAME}';
+	= '{DATABASE_DRIVER}://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_NAME}';
 
 $configuration['general']['root_web']
 	= '{ROOT_WEB}';

@@ -36,6 +36,8 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 			$this->display_footer();
 			exit;
 		}
+		
+		$this->load_course_theme();
 
 		/**
 		 * Here we set the rights depending on the user status in the course.
@@ -138,6 +140,17 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 	function is_course()
 	{
 		return ($this->get_course()->get_id() != null ? true : false);
+	}
+	
+	function load_course_theme()
+	{
+		$course_can_have_theme = $this->get_platform_setting('allow_course_theme_selection');
+		$course = $this->get_course();
+		
+		if ($course_can_have_theme && $course->has_theme())
+		{
+			Theme :: set_theme($course->get_theme());
+		}
 	}
 }
 ?>

@@ -22,6 +22,7 @@
   <property name="target_course_code" type="text" length="40"/>
   <property name="subscribe" type="integer" length="1" default="1"/>
   <property name="unsubscribe" type="integer" length="1" default="1"/>
+  <property name="theme" type="text" length="50"/>
  </properties>
  <index name="code" type="primary">
   <indexproperty name="code"/>

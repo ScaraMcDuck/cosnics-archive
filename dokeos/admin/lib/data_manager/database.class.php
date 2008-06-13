@@ -27,6 +27,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 	{
 		$conf = Configuration :: get_instance();
 		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseAdminDatamanager','debug')));
+		
 		$this->prefix = 'admin_';
 		$this->connection->query('SET NAMES utf8');
 	}

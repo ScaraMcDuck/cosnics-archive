@@ -25,11 +25,13 @@ class DatabaseInstallWizardPage extends InstallWizardPage
 	{
 		$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
 		$this->_formBuilt = true;
-		$this->addElement('text', 'database_host', Translation :: get("DBHost"), array ('size' => '40'));
+		$this->addElement('text', 'database_driver', Translation :: get('DBDriver'), array ('size' => '40'));
+		$this->addRule('database_driver', 'ThisFieldIsRequired', 'required');
+		$this->addElement('text', 'database_host', Translation :: get('DBHost'), array ('size' => '40'));
 		$this->addRule('database_host', 'ThisFieldIsRequired', 'required');
-		$this->addElement('text', 'database_username', Translation :: get("DBLogin"), array ('size' => '40'));
-		$this->addElement('password', 'database_password', Translation :: get("DBPassword"), array ('size' => '40'));
-		$this->addRule(array('database_host','database_username','database_password'),Translation :: get('CouldNotConnectToDatabase'), new ValidateDatabaseConnection());
+		$this->addElement('text', 'database_username', Translation :: get('DBLogin'), array ('size' => '40'));
+		$this->addElement('password', 'database_password', Translation :: get('DBPassword'), array ('size' => '40'));
+		$this->addRule(array('database_driver', 'database_host', 'database_username', 'database_password'),Translation :: get('CouldNotConnectToDatabase'), new ValidateDatabaseConnection());
 
 		$this->addElement('text', 'database_name', Translation :: get('DatabaseName'), array ('size' => '40'));
 		$this->addRule('database_name', 'ThisFieldIsRequired', 'required');
@@ -45,6 +47,7 @@ class DatabaseInstallWizardPage extends InstallWizardPage
 	function set_form_defaults()
 	{
 		$defaults = array();
+		$defaults['database_driver'] = 'mysql';
 		$defaults['database_host'] = 'localhost';
 		$defaults['database_name'] = 'lcms';
 		//$defaults['enable_tracking'] = 1;
@@ -56,11 +59,12 @@ class ValidateDatabaseConnection extends HTML_QuickForm_Rule
 {
 	public function validate($parameters)
 	{
-		$db_host = $parameters[0];
-		$db_user = $parameters[1];
-		$db_password = $parameters[2];
+		$db_driver = $parameters[0];
+		$db_host = $parameters[1];
+		$db_user = $parameters[2];
+		$db_password = $parameters[3];
 		
-		$connection_string = 'mysql://'. $db_user .':'. $db_password .'@'. $db_host;
+		$connection_string = $db_driver . '://'. $db_user .':'. $db_password .'@'. $db_host;
 		$connection = MDB2 :: connect($connection_string);
 		
 		if (MDB2 :: isError($connection))
