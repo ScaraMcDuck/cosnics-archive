@@ -40,8 +40,31 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 	 */
 	private function get_modification_links($menu)
 	{
-		// TODO: Add functionality to menu item so it "knows" whether it's the first or the last item
-		$index = 'middle';
+		$order = $menu->get_sort();
+		$max = $this->browser->count_menu_items($this->browser->get_condition());
+		
+		if($max == 1)
+		{
+			$index = 'single';
+		}
+		else
+		{
+			if($order == 1)
+			{
+				$index = 'first';
+			}
+			else
+			{
+				if($order == $max)
+				{
+					$index = 'last';
+				}
+				else
+				{
+					$index = 'middle';
+				}
+			}
+		}
 		
 		$toolbar_data = array();
 		$edit_url = $this->browser->get_menu_item_editing_url($menu);
